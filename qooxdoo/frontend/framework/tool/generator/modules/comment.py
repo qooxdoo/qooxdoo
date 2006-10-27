@@ -76,6 +76,12 @@ VARNAMES = {
   "str" : "string"
 }
 
+VARDESC = {
+  "propValue" : "New value of this property",
+  "propOldValue" : "Previous value of this property",
+  "propData" : "Configuration map of this property"
+}
+
 
 
 
@@ -138,6 +144,9 @@ def getFormat(source):
 
 
 
+
+
+
 def hasThrows(node):
   if node.type == "throw":
     return True
@@ -150,22 +159,16 @@ def hasThrows(node):
   return False
 
 
-
-
-
-
-def getReturns(node):
-  l = []
-  _iterReturns(node.getChild("body"), l)
-  return l
-
-
-def _iterReturns(node, found):
+def getReturns(node, found):
   if node.type == "function":
-    return
+    pass
 
   elif node.type == "return":
-    val = "variable"
+    if node.getChildrenLength(True) > 0:
+      val = "variable"
+    else:
+      val = "undefined"
+
     if node.hasChild("expression"):
       expr = node.getChild("expression")
       if expr.hasChild("variable"):
@@ -181,12 +184,29 @@ def _iterReturns(node, found):
         if val == "number":
           val = expr.getChild("constant").get("detail")
 
+      elif expr.hasChild("array"):
+        val = "array"
+
+      elif expr.hasChild("map"):
+        val = "map"
+
+      elif expr.hasChild("function"):
+        val = "function"
+
+      elif expr.hasChild("call"):
+        val = "call"
+
     if not val in found:
       found.append(val)
 
   elif node.hasChildren():
     for child in node.children:
-      _iterReturns(child, found)
+      getReturns(child, found)
+
+  return found
+
+
+
 
 
 
@@ -206,8 +226,18 @@ def nameToType(name):
 
 
 
+def nameToDescription(name):
+  desc = "TODOC"
 
-def fromFunction(func, name, alternative):
+  if name in VARDESC:
+    desc = VARDESC[name]
+
+  return desc
+
+
+
+
+def fromFunction(func, member, name, alternative):
   s = "/**\n"
 
   #
@@ -218,10 +248,25 @@ def fromFunction(func, name, alternative):
 
 
   #
+  # add @membership
+  ##############################################################
+  if member != None:
+    s += " * @membership %s\n" % member
+  else:
+    s += " * @membership unknown TODOC\n"
+
+
+  #
   # add @name
   ##############################################################
   if name != None:
     s += " * @name %s\n" % name
+
+    if name.startswith("_"):
+      s += " * @mode protected\n"
+    else:
+      s += " * @mode public\n"
+
 
   #
   # add @alternative
@@ -240,12 +285,12 @@ def fromFunction(func, name, alternative):
         pname = child.getChild("identifier").get("name")
         ptype = nameToType(pname)
 
-        s += " * @param %s {%s} TODOC\n" % (pname, ptype)
+        s += " * @param %s {%s} %s\n" % (pname, ptype, nameToDescription(pname))
 
   #
   # add @return
   ##############################################################
-  returns = getReturns(func)
+  returns = getReturns(func.getChild("body"), [])
   retval = "undefined"
 
   if len(returns) > 0:
@@ -283,6 +328,7 @@ def enhance(node):
     target = node
     name = node.get("name", False)
     alternative = False
+    member = None
 
     # move to hook operation
     while target.parent.type in [ "first", "second", "third" ] and target.parent.parent.type == "operation" and target.parent.parent.get("operator") == "HOOK":
@@ -295,12 +341,23 @@ def enhance(node):
       if target.hasChild("left"):
         left = target.getChild("left")
         if left and left.hasChild("variable"):
-          last = left.getChild("variable").getLastChild(False, True)
+          var = left.getChild("variable")
+          last = var.getLastChild(False, True)
           if last and last.type == "identifier":
             name = last.get("name")
+            member = "object"
+
+          for child in var.children:
+            if child.type == "identifier":
+              if child.get("name") in [ "prototype", "Proto" ]:
+                member = "instance"
+              elif child.get("name") in [ "class", "base", "Class" ]:
+                member = "static"
+
 
       elif target.parent.type == "definition":
         name = target.parent.get("identifier")
+        member = "definition"
 
 
     # move to definition
@@ -312,28 +369,36 @@ def enhance(node):
     if target.parent.type == "value" and target.parent.parent.type == "keyvalue":
       target = target.parent.parent
       name = target.get("key")
+      member = "map"
 
-
-    # create commentsBefore
-    if target.hasChild("commentsBefore"):
-      commentsBefore = target.getChild("commentsBefore")
-    else:
-      commentsBefore = tree.Node("commentsBefore")
-      target.addChild(commentsBefore)
 
 
     ignore = False
 
-    if commentsBefore.hasChild("comment"):
-      for child in commentsBefore.children:
-        if child.get("detail") in [ "javadoc", "qtdoc" ]:
-          ignore = True
+    if target.parent.type == "params":
+      ignore = True
+
+
+    if not ignore:
+      # create commentsBefore
+      if target.hasChild("commentsBefore"):
+        commentsBefore = target.getChild("commentsBefore")
+
+        if commentsBefore.hasChild("comment"):
+          for child in commentsBefore.children:
+            if child.get("detail") in [ "javadoc", "qtdoc" ]:
+              ignore = True
+
+      else:
+        commentsBefore = tree.Node("commentsBefore")
+        target.addChild(commentsBefore)
+
 
 
     # create comment node
     if not ignore:
       commentNode = tree.Node("comment")
-      commentNode.set("text", fromFunction(node, name, alternative))
+      commentNode.set("text", fromFunction(node, member, name, alternative))
       commentNode.set("detail", "javadoc")
       commentNode.set("multiline", True)
 
