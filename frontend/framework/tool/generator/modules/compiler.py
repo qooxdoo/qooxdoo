@@ -219,6 +219,7 @@ def compile(node, enablePretty=True, enableBreaks=False, enableDebug=False):
 
   if enablePretty:
     comment.enhance(node)
+    pass
     #print tree.nodeToXmlString(node)
 
   compileNode(node)
@@ -273,7 +274,7 @@ def compileNode(node):
       else:
         inCase = False
 
-      inHook = node.parent.type in [ "second", "third" ] and node.parent.parent.type == "operation" and node.parent.parent.get("operator") == "HOOK"
+      inOperation = node.parent.type in [ "first", "second", "third" ] and node.parent.parent.type == "operation"
 
       for child in commentsBefore.children:
         docComment = child.get("detail") in [ "javadoc", "qtdoc" ]
@@ -300,7 +301,7 @@ def compileNode(node):
         elif not isFirst:
           sep()
 
-        elif inHook:
+        elif inOperation:
           sep()
 
         elif not headComment:
@@ -856,10 +857,12 @@ def compileNode(node):
     if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
       write("(")
 
-    # operation (var a = -1)
+    # operation
     elif node.parent.type == "operation":
+      # operation (var a = -1)
       if node.parent.get("left", False) == True:
         compileToken(node.parent.get("operator"), True)
+
 
 
   #
@@ -871,6 +874,18 @@ def compileNode(node):
     if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
       if not node.parent.hasChild("first"):
         write("(;")
+
+    # operation
+    elif node.parent.type == "operation":
+      if node.isComplex():
+        # (?: hook operation)
+        if node.parent.get("operator") == "HOOK":
+          sep()
+        else:
+          line()
+
+
+
 
 
   #
@@ -886,6 +901,13 @@ def compileNode(node):
           space(False)
         else:
           write("(;;")
+
+    # operation
+    elif node.parent.type == "operation":
+      # (?: hook operation)
+      if node.parent.get("operator") == "HOOK":
+        if node.isComplex():
+          sep()
 
 
   #
@@ -1266,12 +1288,14 @@ def compileNode(node):
       if node.parent.hasChild("third"):
         space(False)
 
-    # (?: operation)
-    elif node.parent.type == "operation" and node.parent.get("operator") == "HOOK":
-      noline()
-      space(False)
-      write(":")
-      space(False)
+    # operation
+    elif node.parent.type == "operation":
+      # (?: hook operation)
+      if node.parent.get("operator") == "HOOK":
+        noline()
+        space(False)
+        write(":")
+        space(False)
 
 
 
