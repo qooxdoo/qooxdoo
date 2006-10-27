@@ -207,7 +207,7 @@ def nameToType(name):
 
 
 
-def fromFunction(func, name):
+def fromFunction(func, name, alternative):
   s = "/**\n"
 
   #
@@ -215,6 +215,19 @@ def fromFunction(func, name):
   ##############################################################
   s += " * TODOC\n"
   s += " *\n"
+
+
+  #
+  # add @name
+  ##############################################################
+  if name != None:
+    s += " * @name %s\n" % name
+
+  #
+  # add @alternative
+  ##############################################################
+  if alternative:
+    s += " * @alternative TODOC\n"
 
 
   #
@@ -269,6 +282,12 @@ def enhance(node):
   if node.type == "function":
     target = node
     name = node.get("name", False)
+    alternative = False
+
+    # move to hook operation
+    while target.parent.type in [ "first", "second", "third" ] and target.parent.parent.type == "operation" and target.parent.parent.get("operator") == "HOOK":
+      alternative = True
+      target = target.parent.parent
 
     # move comment to assignment
     while target.parent.type == "right" and target.parent.parent.type == "assignment":
@@ -295,11 +314,13 @@ def enhance(node):
       name = target.get("key")
 
 
+    # create commentsBefore
     if target.hasChild("commentsBefore"):
       commentsBefore = target.getChild("commentsBefore")
     else:
       commentsBefore = tree.Node("commentsBefore")
       target.addChild(commentsBefore)
+
 
     ignore = False
 
@@ -308,10 +329,11 @@ def enhance(node):
         if child.get("detail") in [ "javadoc", "qtdoc" ]:
           ignore = True
 
+
     # create comment node
     if not ignore:
       commentNode = tree.Node("comment")
-      commentNode.set("text", fromFunction(node, name))
+      commentNode.set("text", fromFunction(node, name, alternative))
       commentNode.set("detail", "javadoc")
       commentNode.set("multiline", True)
 
