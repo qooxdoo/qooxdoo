@@ -1,6 +1,6 @@
 package net.sf.qooxdoo.rpc;
 
-import org.json.JSONArray;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * An RPC servlet that logs errors to System.err
@@ -8,20 +8,14 @@ import org.json.JSONArray;
 public class LoggingRpcServlet extends RpcServlet {
 
   // overridden
-  protected RemoteCallUtils getRemoteCallUtils() {
-    return new RemoteCallUtils() {
-      protected Object callCompatibleMethod(Object instance,
-          String methodName, JSONArray parameters)
-          throws Exception
-      {
-        try {
-          return super.callCompatibleMethod(instance, methodName, parameters);
-        } catch (Exception exc) {
-          exc.printStackTrace();
-          throw exc;
-        }
-      }
-    };
+  protected String handleRPC(HttpServletRequest request,
+                             String requestString) throws Exception {
+    try {
+      return super.handleRPC(request, requestString);
+    } catch (Exception exc) {
+      exc.printStackTrace();
+      throw exc;
+    }
   }
 
 }
