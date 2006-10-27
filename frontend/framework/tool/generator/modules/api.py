@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys, os, re, optparse
-import tree, treegenerator, tokenizer
+import tree, treegenerator, tokenizer, comment
 
 
 # contains 4 groups (1:type, 2:array dimensions, 5:default value)
@@ -184,12 +184,12 @@ def handleClassDefinition(docTree, item):
       if attrNode.get("name") == "event":
         # This is a @event attribute
         attributesNode.removeChild(attrNode)
-  
+
         match = COMMENT_PARAM_ATTR_RE.search(attrText)
         if not match:
           addError(classNode, "doc comment has malformed attribute 'event': " + attrText, item)
           continue
-  
+
         # Add the event
         addEventNode(classNode, item, match.group(1), match.group(3), attrText[match.end(0):]);
 
@@ -551,62 +551,7 @@ def getType(item):
 
 
 def parseDocComment(item):
-  """Takes the last doc comment from the commentsBefore child, parses it and
-  returns a Node representing the doc comment"""
-
-  # Find the last doc comment
-  lastDoc = None
-  commentsBefore = item.getChild("commentsBefore", False)
-  if commentsBefore:
-    for comment in commentsBefore.children:
-      text = comment.get("text")
-      if text.startswith("/**") or text.startswith("/*!"):
-        # This is a doc comment
-        lastDoc = text
-
-  # Parse the doc comment
-  if lastDoc:
-    # Strip "/**" and "*/"
-    lastDoc = lastDoc[3:-2]
-
-    # Strip leading stars in every line
-    lines = lastDoc.split("\n")
-    lastDoc = ""
-    for line in lines:
-      lastDoc += re.sub(r'^\s*\*', '', line) + "\n"
-
-    # Create the doc Node
-    descNode = tree.Node("desc")
-
-    # Search for attributes
-    attrRe = re.compile(r'[^{]@(\w+)\s*')
-    lastAttribNode = None
-    pos = 0
-    match = attrRe.search(lastDoc, pos) # TODO: Do this smarter (not twice)
-    while match != None:
-      textBefore = lastDoc[pos:match.start(0)].strip()
-      if lastAttribNode == None:
-        descNode.set("text", textBefore)
-      else:
-        lastAttribNode.set("text", textBefore)
-
-      lastAttribNode = tree.Node("attribute")
-      lastAttribNode.set("name", match.group(1))
-      descNode.addListChild("attributes", lastAttribNode)
-
-      pos = match.end(0)
-      match = attrRe.search(lastDoc, pos) # TODO: Do this smarter (not twice)
-
-    # Add the text after the last attribute
-    lastText = lastDoc[pos:].strip()
-    if lastAttribNode == None:
-      descNode.set("text", lastText)
-    else:
-      lastAttribNode.set("text", lastText)
-
-    #print "### found desc:"+tree.nodeToXmlString(descNode)
-
-    return descNode
+  return comment.searchAndParse(item)
 
 
 

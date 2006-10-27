@@ -236,6 +236,66 @@ def nameToDescription(name):
 
 
 
+def searchAndParse(item):
+  """Takes the last doc comment from the commentsBefore child, parses it and
+  returns a Node representing the doc comment"""
+
+  # Find the last doc comment
+  commentsBefore = item.getChild("commentsBefore", False)
+  if commentsBefore and commentsBefore.hasChildren():
+    for child in commentsBefore.children:
+      if child.type == "comment" and child.get("detail") in [ "javadoc", "qtdoc" ]:
+        return parse(child.get("text"))
+
+
+
+
+def parse(text):
+  # Strip "/**" and "*/"
+  text = text[3:-2]
+
+  # Strip leading stars in every line
+  lines = text.split("\n")
+  text = ""
+  for line in lines:
+    text += re.sub(r'^\s*\*', '', line) + "\n"
+
+  # Create the doc text
+  descNode = tree.Node("desc")
+
+  # Search for attributes
+  attrRe = re.compile(r'[^{]@(\w+)\s*')
+  lastAttribNode = None
+  pos = 0
+  match = attrRe.search(text, pos) # TODO: Do this smarter (not twice)
+  while match != None:
+    textBefore = text[pos:match.start(0)].strip()
+    if lastAttribNode == None:
+      descNode.set("text", textBefore)
+    else:
+      lastAttribNode.set("text", textBefore)
+
+    lastAttribNode = tree.Node("attribute")
+    lastAttribNode.set("name", match.group(1))
+    descNode.addListChild("attributes", lastAttribNode)
+
+    pos = match.end(0)
+    match = attrRe.search(text, pos) # TODO: Do this smarter (not twice)
+
+  # Add the text after the last attribute
+  lastText = text[pos:].strip()
+  if lastAttribNode == None:
+    descNode.set("text", lastText)
+  else:
+    lastAttribNode.set("text", lastText)
+
+  #print "### found desc:"+tree.nodeToXmlString(descNode)
+
+  return descNode
+
+
+
+
 
 def fromFunction(func, member, name, alternative):
   s = "/**\n"
