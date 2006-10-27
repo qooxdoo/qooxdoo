@@ -371,6 +371,18 @@ def enhance(node):
       name = target.get("key")
       member = "map"
 
+      if name == "init":
+        member = "constructor"
+
+      if target.parent.type == "map" and target.parent.parent.type == "value" and target.parent.parent.parent.type == "keyvalue":
+        paname = target.parent.parent.parent.get("key")
+
+        if paname == "members":
+          member = "instance"
+
+        elif paname == "statics":
+          member = "static"
+
 
 
     ignore = False
