@@ -285,6 +285,11 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
 
       item.addListChild("left", variable)
       item.addListChild("right", readExpression(stream))
+    elif stream.currIsType("token", "COLON") and not expressionMode:
+      # This is a label
+      item = variable
+      item.type = "label"
+      stream.next(variable)
     else:
       # Something else comes after the variable -> It's a sole variable
       item = variable
@@ -470,10 +475,6 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
     if stream.currIsType("token", "SEMICOLON") and not expressionMode:
       # This is an empty statement
       item = createItemNode("emptyStatement", stream)
-      stream.next(item)
-    elif stream.currIsType("token", "COLON"):
-      # The previous identifier was a label
-      item = createItemNode("labelTerminator", stream)
       stream.next(item)
     else:
       if expressionMode:
