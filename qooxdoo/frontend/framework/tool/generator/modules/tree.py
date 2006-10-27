@@ -161,6 +161,9 @@ class Node:
     elif self.type in [ "loop", "switch" ]:
       makeComplex = True
 
+    elif self.hasChild("commentsBefore"):
+      makeComplex = True
+
 
 
     # Final test: Ask the children (slower)
