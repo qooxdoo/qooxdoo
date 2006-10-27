@@ -283,6 +283,12 @@ def enhance(node):
       elif target.parent.type == "definition":
         name = target.parent.get("identifier")
 
+
+    # move to definition
+    if target.parent.type == "assignment" and target.parent.parent.type == "definition" and target.parent.parent.parent.getChildrenLength(True) == 1:
+      target = target.parent.parent.parent
+
+
     # move comment to keyvalue
     if target.parent.type == "value" and target.parent.parent.type == "keyvalue":
       target = target.parent.parent
