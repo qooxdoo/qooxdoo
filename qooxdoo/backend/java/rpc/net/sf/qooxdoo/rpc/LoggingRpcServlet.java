@@ -1,7 +1,5 @@
 package net.sf.qooxdoo.rpc;
 
-import java.lang.reflect.InvocationTargetException;
-
 import org.json.JSONArray;
 
 /**
@@ -14,12 +12,11 @@ public class LoggingRpcServlet extends RpcServlet {
     return new RemoteCallUtils() {
       protected Object callCompatibleMethod(Object instance,
           String methodName, JSONArray parameters)
-          throws NoSuchMethodException, IllegalAccessException,
-              InvocationTargetException
+          throws Exception
       {
         try {
           return super.callCompatibleMethod(instance, methodName, parameters);
-        } catch (InvocationTargetException exc) {
+        } catch (Exception exc) {
           exc.printStackTrace();
           throw exc;
         }
