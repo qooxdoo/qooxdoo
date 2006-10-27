@@ -689,6 +689,7 @@ def readMap(stream):
   #       and not item.hasChildren(), because item.hasChildren() is also true
   #       when there are comments before the array
   hasEntries = False
+  hasComplex = False
   maxKeyLength = 0
   while not stream.currIsType("token", "RC"):
     if hasEntries:
@@ -717,10 +718,15 @@ def readMap(stream):
 
     item.addChild(keyvalue)
 
+    if not hasComplex:
+      if keyvalue.getChild("value").isComplex():
+        hasComplex = True
+
     hasEntries = True
 
   # Store max key length
   item.set("maxKeyLength", maxKeyLength)
+  item.set("hasComplexChildren", hasComplex)
 
   # Has an end defined by the loop above
   # This means that all comments following are after item

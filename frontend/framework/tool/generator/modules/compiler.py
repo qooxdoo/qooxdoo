@@ -273,6 +273,8 @@ def compileNode(node):
       else:
         inCase = False
 
+      inHook = node.parent.type in [ "second", "third" ] and node.parent.parent.type == "operation" and node.parent.parent.get("operator") == "HOOK"
+
       for child in commentsBefore.children:
         docComment = child.get("detail") in [ "javadoc", "qtdoc" ]
         headComment = child.get("detail") == "header"
@@ -296,6 +298,9 @@ def compileNode(node):
           divide()
 
         elif not isFirst:
+          sep()
+
+        elif inHook:
           sep()
 
         elif not headComment:
@@ -709,7 +714,7 @@ def compileNode(node):
     # Fill with spaces
     # Do this only if the parent is complex (many entries)
     # But not if the value itself is complex
-    if pretty and node.parent.isComplex() and not node.getChild("value").isComplex():
+    if pretty and node.parent.isComplex() and not node.getChild("value").isComplex() and not node.parent.hasComplexChildren():
       write(" " * (node.parent.get("maxKeyLength") - len(keyString)))
 
     write(":")
@@ -959,6 +964,7 @@ def compileNode(node):
 
   elif node.type == "keyvalue":
     if node.hasParent() and node.parent.type == "map" and not node.isLastChild(True):
+      noline()
       write(",")
 
       if pretty:
@@ -1262,6 +1268,7 @@ def compileNode(node):
 
     # (?: operation)
     elif node.parent.type == "operation" and node.parent.get("operator") == "HOOK":
+      noline()
       space(False)
       write(":")
       space(False)
