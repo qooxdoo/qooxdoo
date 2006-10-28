@@ -103,7 +103,7 @@ qx.Proto.openWindow = function() {
   //     (at least in Firefox, but maybe in IE, too)
   logDocument.open();
   logDocument.write("<html><head><title>" + this._name + "</title></head>"
-    + '<body onload="qx = opener.qx;" onunload="qx.dev.log.WindowAppender._registeredAppenders[' + this._id + '].closeWindow()">'
+    + '<body onload="qx = opener.qx;" onunload="try{qx.dev.log.WindowAppender._registeredAppenders[' + this._id + '].closeWindow()}catch(e){}">'
     + '<pre id="log" wrap="wrap" style="font-size:11"></pre></body></html>');
   logDocument.close();
 
