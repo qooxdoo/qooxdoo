@@ -329,10 +329,10 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
     item = readObjectOperation(stream, item)
   elif stream.currIsType("token", "LP"):
     igroup = createItemNode("group", stream)
-    stream.next(item)
+    stream.next(igroup)
     igroup.addChild(readStatement(stream, expressionMode))
     stream.expectCurrType("token", "RP")
-    stream.next(item, True)
+    stream.next(igroup, True)
     oper = readObjectOperation(stream, igroup)
 
     # supports e.g. (this.editor.object || this.editor.iframe).style.marginTop = null;
@@ -524,6 +524,7 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
 
       # return parent item
       item = paritem
+      
 
 
   # check whether this is a combined statement, e.g. "bla(), i++"
