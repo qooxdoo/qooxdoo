@@ -273,13 +273,13 @@ def parseToTree(intext):
 
 
 def parse(intext):
-  # Strip "/**" and "*/"
+  # Strip "/**", "/*!" and "*/"
   intext = intext[3:-2]
 
   # Strip leading stars in every line
   text = ""
   for line in intext.split("\n"):
-    text += R_JAVADOC_STARS.sub('', line) + "\n"
+    text += R_JAVADOC_STARS.sub("", line) + "\n"
     
   # Search for attributes
   attribs = []
