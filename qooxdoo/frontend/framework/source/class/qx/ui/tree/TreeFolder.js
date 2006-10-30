@@ -289,7 +289,7 @@ qx.Proto.getLastVisibleChildOfFolder = function()
   }
 }
 
-qx.Proto.getItems = function()
+qx.Proto.getItems = function(recursive)
 {
   var a = [this];
 
@@ -297,8 +297,15 @@ qx.Proto.getItems = function()
   {
     var ch = this._containerObject.getVisibleChildren();
 
-    for (var i=0, chl=ch.length; i<chl; i++) {
-      a = a.concat(ch[i].getItems());
+    if (recursive == false)
+    {
+      a = a.concat(ch);
+    }
+    else
+    {
+      for (var i=0, chl=ch.length; i<chl; i++) {
+        a = a.concat(ch[i].getItems());
+      }
     }
   }
 
