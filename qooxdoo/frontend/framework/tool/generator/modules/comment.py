@@ -26,6 +26,8 @@ R_BLOCK_COMMENT_TIGHT_END = re.compile("\S+\*/$")
 R_BLOCK_COMMENT_PURE_START = re.compile("^/\*")
 R_BLOCK_COMMENT_PURE_END = re.compile("\*/$")
 
+R_ATTRIBUTE = re.compile(r'[^{]@(\w+)\s*')
+R_JAVADOC_STARS = re.compile(r'^\s*\*')
 
 VARPREFIXES = {
   "a" : "array",
@@ -236,7 +238,7 @@ def nameToDescription(name):
 
 
 
-def searchAndParse(item):
+def searchAndParseToTree(item):
   """Takes the last doc comment from the commentsBefore child, parses it and
   returns a Node representing the doc comment"""
 
@@ -245,53 +247,74 @@ def searchAndParse(item):
   if commentsBefore and commentsBefore.hasChildren():
     for child in commentsBefore.children:
       if child.type == "comment" and child.get("detail") in [ "javadoc", "qtdoc" ]:
-        return parse(child.get("text"))
+        return parseToTree(child.get("text"))
 
 
 
-
-def parse(text):
-  # Strip "/**" and "*/"
-  text = text[3:-2]
-
-  # Strip leading stars in every line
-  lines = text.split("\n")
-  text = ""
-  for line in lines:
-    text += re.sub(r'^\s*\*', '', line) + "\n"
-
-  # Create the doc text
+def parseToTree(intext):
+  (desc, attribs) = parse(intext)
+  
   descNode = tree.Node("desc")
-
-  # Search for attributes
-  attrRe = re.compile(r'[^{]@(\w+)\s*')
-  lastAttribNode = None
-  pos = 0
-  match = attrRe.search(text, pos) # TODO: Do this smarter (not twice)
-  while match != None:
-    textBefore = text[pos:match.start(0)].strip()
-    if lastAttribNode == None:
-      descNode.set("text", textBefore)
-    else:
-      lastAttribNode.set("text", textBefore)
-
-    lastAttribNode = tree.Node("attribute")
-    lastAttribNode.set("name", match.group(1))
-    descNode.addListChild("attributes", lastAttribNode)
-
-    pos = match.end(0)
-    match = attrRe.search(text, pos) # TODO: Do this smarter (not twice)
-
-  # Add the text after the last attribute
-  lastText = text[pos:].strip()
-  if lastAttribNode == None:
-    descNode.set("text", lastText)
-  else:
-    lastAttribNode.set("text", lastText)
-
-  #print "### found desc:"+tree.nodeToXmlString(descNode)
+  descNode.set("text", desc)
+  
+  for attrib in attribs:
+    attribNode = tree.Node("attribute")
+    attribNode.set("name", attrib["name"])
+    attribNode.set("text", attrib["text"])
+    descNode.addListChild("attributes", attribNode)
+  
+  # Debug
+  # print "== Comment ====================================================="
+  # print tree.nodeToXmlString(descNode)
+  # print "================================================================"
 
   return descNode
+  
+
+
+def parse(intext):
+  # Strip "/**" and "*/"
+  intext = intext[3:-2]
+
+  # Strip leading stars in every line
+  text = ""
+  for line in intext.split("\n"):
+    text += R_JAVADOC_STARS.sub('', line) + "\n"
+    
+  # Search for attributes
+  attribs = []
+  pos = 0
+  desc = ""
+
+  while True:
+    mtch = R_ATTRIBUTE.search(text, pos)
+
+    if mtch == None:
+      prevText = text[pos:].strip()
+        
+      if len(attribs) == 0:
+        desc = prevText
+      else:
+        attribs[-1]["text"] = prevText
+      
+      break
+    
+    prevText = text[pos:mtch.start(0)].strip()
+    pos = mtch.end(0)
+
+    if len(attribs) == 0:
+      desc = prevText
+    else:
+      attribs[-1]["text"] = prevText
+
+    attribs.append({ "name" : mtch.group(1) })
+
+  return desc, attribs
+
+    
+
+
+  
 
 
 
