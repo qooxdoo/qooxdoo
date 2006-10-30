@@ -551,7 +551,7 @@ def getType(item):
 
 
 def parseDocComment(item):
-  return comment.searchAndParse(item)
+  return comment.searchAndParseToTree(item)
 
 
 
