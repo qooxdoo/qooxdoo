@@ -153,3 +153,6 @@ generate-pretty:
 	  --script-input source/class \
 	  --pretty-print \
 	  --cache-directory $(CACHE)
+
+revision-bump:
+	@sed --in-place 's/Rev:\s.*\s/Rev:/g' source/class/qx/core/Version.js 
