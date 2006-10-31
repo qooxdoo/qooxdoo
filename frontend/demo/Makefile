@@ -35,7 +35,7 @@ all: build
 
 source: generate-script-source update-layout-source
 build: generate-script-build update-layout-build fix-build-rights
-sync: build sync-qooxdoo-org
+sync: revision-bump build sync-qooxdoo-org
 
 
 
@@ -163,6 +163,9 @@ fix-build-rights:
 ###################################################################################
 # ONLINE TARGETS
 ###################################################################################
+
+revision-bump:
+	@$(MAKE) -C ../framework revision-bump
 
 sync-qooxdoo-org:
 	@echo
