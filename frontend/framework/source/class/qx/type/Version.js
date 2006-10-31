@@ -22,20 +22,16 @@
 ************************************************************************ */
 
 /*!
-  qx.type.Version contains a version string and can extract
+  This class contains a version string and can extract
   major, minor and revision flags from this string. It can also
   compare a incoming version object with the stored version string
   and checks if this version is smaller or identical than the stored
   one.
 
-  Original non qooxdoo Version by Geoff Stearns
-    Flash detection and embed - http://blog.deconcept.com/flashobject/
-    FlashObject is (c) 2005 Geoff Stearns and is released under the MIT License
-    http://www.opensource.org/licenses/mit-license.php
+  Flash detection and embed (http://blog.deconcept.com/flashobject) (non qooxdoo Version by Geoff Stearns)
+  Copyright 2005 Geoff Stearns. Released under the MIT License (http://www.opensource.org/licenses/mit-license.php).
 
-  Modified for qooxdoo by Sebastian Werner
-    Based on version 1.2.3
-    Relicensed under LGPL in assent of Geoff Stearns
+  Modified for qooxdoo by Sebastian Werner. Based on version 1.2.3. Relicensed under LGPL in assent of Geoff Stearns.
 */
 
 qx.OO.defineClass("qx.type.Version", qx.core.Object,
