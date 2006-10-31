@@ -19,6 +19,17 @@ function() {
 });
 
 
+qx.Proto._fixLinks = function(el) 
+{
+  var a = el.getElementsByTagName("a");
+  for (var i=0; i<a.length; i++) 
+  {
+    if (typeof a[i].href == "string" && a[i].href.indexOf("http://") == 0) {
+      a[i].target = "_blank"; 
+    } 
+  } 
+}
+
 /**
  * Initializes the content of the embedding DIV. Will be called by the
  * HtmlEmbed element initialization routine.
@@ -82,6 +93,7 @@ qx.Proto._syncHtml = function() {
   // Set the html
   // doc.body.innerHTML = html;
   this.getElement().innerHTML = html;
+  this._fixLinks(this.getElement());
 
   // Extract the main elements
   var divArr = this.getElement().childNodes;
@@ -268,6 +280,7 @@ qx.Proto.showClass = function(classNode) {
   }
 
   this._classDescElem.innerHTML = classHtml;
+  this._fixLinks(this._classDescElem);
 
   // Refresh the info viewers
   for (var nodeType in this._infoPanelHash) {
@@ -453,6 +466,7 @@ qx.Proto._updateInfoPanel = function(nodeType) {
     html += '</table>';
 
     typeInfo.infoBodyElem.innerHTML = html;
+    this._fixLinks(typeInfo.infoBodyElem);
     typeInfo.infoBodyElem.style.display = "";
   }
   else
@@ -511,6 +525,7 @@ qx.Proto._onShowItemDetailClicked = function(nodeType, name, fromClassName) {
     // Update content
     var info = typeInfo.infoFactory.call(this, node, nodeType, fromClassNode, showDetails);
     textDiv.innerHTML = info.textHtml;
+    this._fixLinks(textDiv);
   } catch (exc) {
     this.error("Toggling item details failed", exc);
   }
@@ -1045,9 +1060,13 @@ qx.Proto._extractFirstSentence = function(text) {
   // a point two chars before, like in "e.g. "
   var hit = api.ClassViewer.SENTENCE_END_REGEX.exec(text);
   if (hit != null) {
-    return text.substring(0, hit.index + hit[0].length);
-  } else {
-    return text;
+    return text.substring(0, hit.index + hit[0].length - 1);
+  } 
+  else 
+  {
+    // Extract first block
+    pos = text.indexOf("&lt;/p&gt;");
+    return pos != -1 ? text.substr(0, pos+len("&lt;/p&gt;")) : text;
   }
 }
 
@@ -1143,11 +1162,12 @@ qx.Proto._createErrorHtml = function(node, fromClassNode) {
     var html = ClassViewer.DIV_START_ERROR_HEADLINE + "Documentation errors:" + ClassViewer.DIV_END;
     var errArr = errorNode.children;
     for (var i = 0; i < errArr.length; i++) {
-      html += ClassViewer.DIV_START_DETAIL_TEXT + errArr[i].attributes.msg + " (";
+      html += ClassViewer.DIV_START_DETAIL_TEXT + errArr[i].attributes.msg + " <br/>";
+      html += "("
       if (fromClassNode && fromClassNode != this._currentClassDocNode) {
-        html += fromClassNode.attributes.fullName + " ";
+        html += fromClassNode.attributes.fullName + "; ";
       }
-      html += "line " + errArr[i].attributes.line + ")" + ClassViewer.DIV_END;
+      html += "Line: " + errArr[i].attributes.line + ", Column:" + errArr[i].attributes.column + ")" + ClassViewer.DIV_END;
     }
     return html;
   } else {
@@ -1399,7 +1419,7 @@ qx.Class.PRIMITIVES = { "object":true, "boolean":true, "string":true,
 qx.Class.ITEM_SPEC_REGEX = /^(([\w\.]+)?(#\w+(\([^\)]*\))?)?)(\s+(.*))?$/;
 
 /** {regexp} The regexp that finds the end of a sentence. */
-qx.Class.SENTENCE_END_REGEX = /[^\.].\.\s/;
+qx.Class.SENTENCE_END_REGEX = /[^\.].\.(\s|<)/;
 
 
 /** {int} The node type of a constructor. */
