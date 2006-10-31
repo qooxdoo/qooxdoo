@@ -89,7 +89,7 @@ qx.Proto._modifySelectionMode = function(selectionMode) {
  * 
  * @param batchMode {boolean} true to activate batch mode, false to deactivate
  * @return {boolean} true if batch mode is active, false otherwise
- * @throw Error if batch mode is turned off once more than it has been turned on
+ * @throws Error if batch mode is turned off once more than it has been turned on
  */
 qx.Proto.setBatchMode = function(batchMode) {
   if (batchMode){
