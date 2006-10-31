@@ -107,7 +107,7 @@ qx.OO.addProperty({ name:"mergeEvents", type:qx.constant.Type.BOOLEAN, defaultVa
 
 // property checker
 qx.Proto._checkValue = function(propValue, propData) {
-  var innerSize = (this.getTopLevelWidget() == null) ? 0 :
+  var innerSize = !this.getElement() ? 0 :
     (this._horizontal ? this.getInnerWidth() : this.getInnerHeight());
 
   // NOTE: We can't use Number.limit here because our maximum may get negative
