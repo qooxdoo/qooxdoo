@@ -22,7 +22,6 @@
 ************************************************************************ */
 
 /**
- * @brief
  * The structure of a tree row.
  *
  * This is a singleton class.  The constructor is not accessed by users;

@@ -25,7 +25,6 @@
 ************************************************************************ */
 
 /**
- * @brief
  * qx.ui.treefullcontrol.TreeFile objects are terminal tree rows (i.e. no
  * sub-trees)
  *
