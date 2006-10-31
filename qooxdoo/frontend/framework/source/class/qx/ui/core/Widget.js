@@ -282,18 +282,16 @@ qx.OO.addProperty({ name : "cursor", type : qx.constant.Type.STRING });
 */
 qx.OO.addProperty({ name : "backgroundImage", type : qx.constant.Type.STRING });
 
-/*!
-Describes how to handle content that is too large to fit inside the widget.
-
-Overflow modes:
-* hidden: The content is clipped
-* auto: Scroll bars are shown as needed
-* scroll: Scroll bars are always shown. Even if there is enough room for the content inside the widget.
-* scrollX: Scroll bars for the X-Axis are always shown.
-    Even if there is enough room for the content inside the widget.
-* scrollY: Scroll bars for the Y-Axis are always shown.
-    Even if there is enough room for the content inside the widget.
-*/
+/**
+ * Describes how to handle content that is too large to fit inside the widget.
+ *  
+ * Overflow modes:
+ * * hidden: The content is clipped
+ * * auto: Scroll bars are shown as needed
+ * * scroll: Scroll bars are always shown. Even if there is enough room for the content inside the widget.
+ * * scrollX: Scroll bars for the X-Axis are always shown. Even if there is enough room for the content inside the widget.
+ * * scrollY: Scroll bars for the Y-Axis are always shown. Even if there is enough room for the content inside the widget.
+ */
 qx.OO.addProperty({ name : "overflow", type : qx.constant.Type.STRING, addToQueue : true });
 
 /*!
@@ -1567,13 +1565,13 @@ qx.Proto._afterDisappear = function()
 
 qx.Proto._isSeeable = false;
 
-/*!
-  If the widget is currently seeable
-  which means that it:
-   - has a also seeable parent
-   - visibility is true
-   - display is true
-*/
+/**
+ * If the widget is currently seeable which means that it:
+ *
+ *   * has a also seeable parent
+ *   * visibility is true
+ *   * display is true
+ */
 qx.Proto.isSeeable = function() {
   return this._isSeeable;
 }
