@@ -245,7 +245,6 @@ qx.Proto.getLabelObject = function() {
 }
 
 /**
- * @brief
  * Obtain the entire hierarchy of labels from the root down to the current
  * node.
  *
