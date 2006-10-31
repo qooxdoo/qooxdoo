@@ -94,6 +94,7 @@
 
   -moz-border-radius: 5px;
   padding: 12px;
+  padding-top: 4px;
 
   width: 450px;
 }
@@ -226,7 +227,11 @@
 }
 
 #ClassViewer div.item-detail-text {
-  padding-left: 20px;
+  padding-left: 12px;
+}
+
+#ClassViewer div.item-detail-text p{
+  display: inline;
 }
 
 #ClassViewer div.item-detail-error {
@@ -238,8 +243,13 @@
   font-style: italic;
 }
 
+#ClassViewer code,
 #ClassViewer span.item-detail-param-name {
   font-family: Consolas, "Bitstream Vera Sans Mono", "Courier New", monospace;
   background: #E9F2FB;
   padding: 1px;
+}
+
+#ClassViewer span.caps{
+  color: #134275;
 }
