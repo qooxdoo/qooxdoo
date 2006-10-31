@@ -497,7 +497,7 @@ def fromFunction(func, member, name, alternative, previousDesc=None, previousAtt
   if alternative:
     adesc = "TODOC"
     
-    if oldAlternative and oldAlternative.has_key("description") and not oldAlternative["description"] in [ "", Null ]:
+    if oldAlternative and oldAlternative.has_key("description") and not oldAlternative["description"] in [ "", None ]:
       adesc = oldAlternative["description"]
       
     s += " * @alternative"
@@ -667,7 +667,7 @@ def fromFunction(func, member, name, alternative, previousDesc=None, previousAtt
           
     elif not cat in [ "name", "mode", "membership", "alternative", "param", "return", "throws" ]:
       print
-      print " * Could not handle attribute category %s" % cat
+      print " * Found unallowed attribute %s in %s" % (cat, name)
       
       
   
