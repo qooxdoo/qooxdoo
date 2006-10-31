@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys, string, re
-import config, tree
+import config, tree, textile
 
 
 
@@ -28,6 +28,23 @@ R_BLOCK_COMMENT_PURE_END = re.compile("\*/$")
 
 R_ATTRIBUTE = re.compile(r'[^{]@(\w+)\s*')
 R_JAVADOC_STARS = re.compile(r'^\s*\*')
+
+
+
+
+
+# contains 4 groups (1:type, 2:array dimensions, 5:default value)
+S_TYPE = r'\{([^@][\w\.]*)((\[\])*)(,\s*([^\},]+)\s*)?\}'
+
+# contains same groups as S_TYPE
+R_TYPE_ATTR = re.compile(r'^\s*' + S_TYPE + r'\s*')
+
+# contains 6 groups (1: param name, 3:type, 4:array dimensions, 7:default value)
+R_PARAM_ATTR = re.compile(r'^\s*(\w+)\s+(' + S_TYPE + r')?\s*')
+
+
+
+
 
 VARPREFIXES = {
   "a" : "array",
@@ -250,18 +267,23 @@ def searchAndParseToTree(item):
         return parseToTree(child.get("text"))
 
 
+def createNode(typ, data):
+  node = tree.Node(typ)
+  
+  for key in data.keys():
+    if data[key] != None:
+      node.set(key, data[key])
+      
+  return node
+
 
 def parseToTree(intext):
   (desc, attribs) = parse(intext)
   
-  descNode = tree.Node("desc")
-  descNode.set("text", desc)
+  descNode = createNode("desc", desc)
   
   for attrib in attribs:
-    attribNode = tree.Node("attribute")
-    attribNode.set("name", attrib["name"])
-    attribNode.set("text", attrib["text"])
-    descNode.addListChild("attributes", attribNode)
+    descNode.addListChild("attributes", createNode("attribute", attrib))
   
   # Debug
   # print "== Comment ====================================================="
@@ -272,6 +294,69 @@ def parseToTree(intext):
   
 
 
+def classifyItem(itemConf):
+  text = itemConf["text"]
+  del itemConf["text"]
+
+  mtch1 = R_PARAM_ATTR.search(text)
+  mtch2 = R_TYPE_ATTR.search(text)
+
+  if mtch1 and itemConf.has_key("category") and itemConf["category"] in [ "param", "event" ]:
+    itemConf["classified"] = True
+    itemConf["name"] = mtch1.group(1)
+    itemConf["type"] = mtch1.group(3)
+    itemConf["array"] = mtch1.group(4)
+    itemConf["default"] = mtch1.group(7)
+    text = text[mtch1.end(0):]
+      
+  elif mtch2:
+    itemConf["classified"] = True
+    itemConf["type"] = mtch2.group(1)
+    itemConf["array"] = mtch2.group(2)
+    itemConf["default"] = mtch2.group(5)
+    text = text[mtch2.end(0):]
+        
+  else:
+    itemConf["classified"] = False
+    
+  #print "============= INTEXT ========================="
+  #print text
+    
+  # cleanup HTML
+  text = text.replace("<p>", "\n");
+  text = text.replace("<br/>", "\n");
+  text = text.replace("<br>", "\n");
+  text = text.replace("</p>", " ");
+  
+  # cleanup wraps
+  text = text.replace("\n\n", "----BREAK----")
+  text = text.replace("\n*", "----UL----")
+  text = text.replace("\n#", "----OL----")
+  text = text.replace("\n", " ")
+  text = text.replace("----BREAK----", "\n\n")
+  text = text.replace("----UL----", "\n*")
+  text = text.replace("----OL----", "\n#")
+  
+  # textilize
+  #print "============= OUTTEXT ========================="
+  #print text
+  
+  text = textile.textile(unicode(text).encode('utf-8'))
+
+  #print "============= TEXTILE ========================="
+  #print text
+  #print
+  #print
+  
+  # textile convertion for description
+  itemConf["description"] = text
+
+
+    
+
+
+
+
 def parse(intext):
   # Strip "/**", "/*!" and "*/"
   intext = intext[3:-2]
@@ -279,12 +364,12 @@ def parse(intext):
   # Strip leading stars in every line
   text = ""
   for line in intext.split("\n"):
-    text += R_JAVADOC_STARS.sub("", line) + "\n"
+    text += R_JAVADOC_STARS.sub("", line).strip() + "\n"
     
   # Search for attributes
+  desc = { "text" : "" }
   attribs = []
   pos = 0
-  desc = ""
 
   while True:
     mtch = R_ATTRIBUTE.search(text, pos)
@@ -293,7 +378,7 @@ def parse(intext):
       prevText = text[pos:].strip()
         
       if len(attribs) == 0:
-        desc = prevText
+        desc["text"] = prevText
       else:
         attribs[-1]["text"] = prevText
       
@@ -303,11 +388,17 @@ def parse(intext):
     pos = mtch.end(0)
 
     if len(attribs) == 0:
-      desc = prevText
+      desc["text"] = prevText
     else:
       attribs[-1]["text"] = prevText
 
-    attribs.append({ "name" : mtch.group(1) })
+    attribs.append({ "category" : mtch.group(1), "text" : "" })
+      
+  # classify
+  classifyItem(desc)
+  
+  for attrib in attribs:
+    classifyItem(attrib)  
 
   return desc, attribs
 
