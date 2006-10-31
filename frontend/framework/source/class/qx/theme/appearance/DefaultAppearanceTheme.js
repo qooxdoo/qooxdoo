@@ -638,6 +638,14 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
     }
   },
 
+  "resizer": {
+  	initial: function(vTheme) {
+      return {
+        border : qx.renderer.border.BorderPresets.getInstance().outset
+      }
+  	}
+  },
+
   "window-resize-frame" : {
     initial : function(vTheme) {
       return {
