@@ -311,7 +311,9 @@ def compileNode(node):
         write(comment.indent(child.get("text"), INDENTSPACES * indent))
 
         if singleLineBlock:
-          if child.get("end"):
+          if child.get("detail") in [ "javadoc", "qtdoc" ]:
+            line()
+          elif child.get("end"):
             sep()
           else:
             space()
