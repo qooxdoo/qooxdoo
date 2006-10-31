@@ -30,7 +30,7 @@ qx.OO.defineClass("qx.core.Version",
   revision : 2,
   state : "pre",
 
-  svn : Number("$Rev Foo$".match(/[0-9]+/)[0]),
+  svn : Number("$Rev$".match(/[0-9]+/)[0]),
 
   toString: function()
   {
