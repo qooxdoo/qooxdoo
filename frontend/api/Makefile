@@ -50,6 +50,7 @@ clean:
 	@echo "  * Deleting files..."
 	@rm -f source/script/api.js source/script/data.js
 	@rm -f build/script/api.js build/script/data.js
+	@rm -rf build/xml source/xml
 
 realclean: clean
 	@echo
@@ -115,7 +116,19 @@ generate-data-build:
 	  --api-documentation-json-file build/script/data.js \
 	  --cache-directory $(CACHE)
 
+generate-data-source-xml:
+	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
+	  --script-input $(FRAMEWORK)/source/class \
+	  --generate-api-documentation \
+	  --api-documentation-xml-file source/xml/data.xml \
+	  --cache-directory $(CACHE)
 
+generate-data-build-xml:
+	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
+	  --script-input $(FRAMEWORK)/source/class \
+	  --generate-api-documentation \
+	  --api-documentation-xml-file build/xml/data.xml \
+	  --cache-directory $(CACHE)
 
 
 
