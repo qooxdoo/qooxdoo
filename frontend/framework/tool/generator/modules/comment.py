@@ -271,7 +271,7 @@ def createNode(typ, data):
   node = tree.Node(typ)
   
   for key in data.keys():
-    if data[key] != None:
+    if not data[key] in [ "", None ]:
       node.set(key, data[key])
       
   return node
@@ -294,7 +294,7 @@ def parseToTree(intext):
   
 
 
-def classifyItem(itemConf):
+def classifyItem(itemConf, format=True):
   text = itemConf["text"]
   del itemConf["text"]
 
@@ -319,14 +319,46 @@ def classifyItem(itemConf):
   else:
     itemConf["classified"] = False
     
+  if format:
+    itemConf["description"] = formatDescription(text)
+  else:
+    itemConf["description"] = cleanupDescription(text)
+    
+
+
+    
+def cleanupDescription(text):
   #print "============= INTEXT ========================="
   #print text
+  
+  text = text.replace("<p>", "\n")
+  text = text.replace("<br/>", "\n")
+  text = text.replace("<br>", "\n")
+  text = text.replace("</p>", " ")
+  
+  while True:
+    temp = text
+    text = temp.replace("\n\n\n", "\n\n")
     
+    if text == temp:
+      break
+  
+  #print "============= OUTTEXT ========================="
+  #print text
+
+  return text
+  
+    
+
+def formatDescription(text):
+  #print "============= FORMAT:1 ========================="
+  #print text
+
   # cleanup HTML
-  text = text.replace("<p>", "\n");
-  text = text.replace("<br/>", "\n");
-  text = text.replace("<br>", "\n");
-  text = text.replace("</p>", " ");
+  text = text.replace("<p>", "\n")
+  text = text.replace("<br/>", "\n")
+  text = text.replace("<br>", "\n")
+  text = text.replace("</p>", " ")
   
   # cleanup wraps
   text = text.replace("\n\n", "----BREAK----")
@@ -336,28 +368,20 @@ def classifyItem(itemConf):
   text = text.replace("----BREAK----", "\n\n")
   text = text.replace("----UL----", "\n*")
   text = text.replace("----OL----", "\n#")
-  
-  # textilize
-  #print "============= OUTTEXT ========================="
+    
+  #print "============= FORMAT:2 ========================="
   #print text
-  
+ 
   text = textile.textile(unicode(text).encode('utf-8'))
 
-  #print "============= TEXTILE ========================="
+  #print "============= FORMAT:3 ========================="
   #print text
-  #print
-  #print
-  
-  # textile convertion for description
-  itemConf["description"] = text
 
-
-    
+  return text  
 
 
 
-
-def parse(intext):
+def parse(intext, format=True):
   # Strip "/**", "/*!" and "*/"
   intext = intext[3:-2]
 
@@ -395,10 +419,10 @@ def parse(intext):
     attribs.append({ "category" : mtch.group(1), "text" : "" })
       
   # classify
-  classifyItem(desc)
+  classifyItem(desc, format)
   
   for attrib in attribs:
-    classifyItem(attrib)  
+    classifyItem(attrib, format)
 
   return desc, attribs
 
@@ -407,27 +431,38 @@ def parse(intext):
 
   
 
+def getAttrib(attribList, category, name=None):
+  if attribList == None:
+    return None
+  
+  for attrib in attribList:
+    if attrib["category"] == category:
+      if name == None or attrib.has_key("name") and attrib["name"] == name:
+        return attrib
 
 
 
-
-def fromFunction(func, member, name, alternative):
-  s = "/**\n"
-
+def fromFunction(func, member, name, alternative, previousDesc=None, previousAttribs=None):
   #
   # open comment
-  ##############################################################
-  s += " * TODOC\n"
-  s += " *\n"
+  ##############################################################  
+  s = "/**\n"
 
 
   #
-  # add @membership
+  # description
   ##############################################################
-  if member != None:
-    s += " * @membership %s\n" % member
-  else:
-    s += " * @membership unknown TODOC\n"
+  cdesc = "TODOC"
+  
+  if previousDesc != None and previousDesc.has_key("description") and not previousDesc["description"] in [ "", None ]:
+    cdesc = previousDesc["description"]
+
+  for line in cdesc.split("\n"):
+    s += " * %s\n" % line
+          
+  s += " *\n"
+  
+  
 
 
   #
@@ -440,13 +475,49 @@ def fromFunction(func, member, name, alternative):
       s += " * @mode protected\n"
     else:
       s += " * @mode public\n"
+      
+      
+      
+  #
+  # add @membership
+  ##############################################################
+  if member != None:
+    s += " * @membership %s\n" % member
+  else:
+    s += " * @membership unknown TODOC\n"
+
+
 
 
   #
   # add @alternative
   ##############################################################
+  oldAlternative = getAttrib(previousAttribs, "alternative")
+  
   if alternative:
-    s += " * @alternative TODOC\n"
+    adesc = "TODOC"
+    
+    if oldAlternative and oldAlternative.has_key("description") and not oldAlternative["description"] in [ "", Null ]:
+      adesc = oldAlternative["description"]
+      
+    s += " * @alternative"
+    
+    first = True
+    for line in adesc.split("\n"):
+      if first:
+        s += " %s\n" % line
+      else:
+        s += " *   %s\n" % line
+        
+      first = False
+
+    if not s.endswith("\n"):
+      s += "\n"     
+      
+  elif oldAlternative:
+    print " * Removing old @alternative for %s" % name
+    
+  
 
 
   #
@@ -458,31 +529,148 @@ def fromFunction(func, member, name, alternative):
       if child.type == "variable":
         pname = child.getChild("identifier").get("name")
         ptype = nameToType(pname)
+        pdesc = nameToDescription(pname)
+        
+        oldParam = getAttrib(previousAttribs, "param", pname)
+        
+        # use old values instead
+        if oldParam: 
+          if oldParam.has_key("type") and not oldParam["type"] in [ "", None ]:
+            ptype = oldParam["type"]
+            
+          if oldParam.has_key("description") and not oldParam["description"] in [ "", None ]:
+            pdesc = oldParam["description"]
+            
+        s += " * @param %s {%s}" % (pname, ptype)
+        
+        first = True
+        for line in pdesc.split("\n"):
+          if first:
+            s += " %s\n" % line
+          else:
+            s += " *   %s\n" % line
+            
+          first = False
 
-        s += " * @param %s {%s} %s\n" % (pname, ptype, nameToDescription(pname))
+        if not s.endswith("\n"):
+          s += "\n"       
+          
+
+
+  
 
   #
   # add @return
   ##############################################################
-  returns = getReturns(func.getChild("body"), [])
-  retval = "undefined"
+  rtype = "undefined"
+  rdesc = None
 
-  if len(returns) > 0:
-    retval = ",".join(returns)
-  elif name != None and name.startswith("is") and name[3].isupper():
-    retval = "boolean"
+  oldReturn = getAttrib(previousAttribs, "return")
 
-  if retval == "undefined":
-    s += " * @return {%s}\n" % retval
+  if oldReturn:
+    if oldReturn.has_key("type") and not oldReturn["type"] in [ "", None ]:
+      rtype = oldReturn["type"]
+      
+    if oldReturn.has_key("description") and not oldReturn["description"] in [ "", None ]:
+      rdesc = oldReturn["description"]
+
+  if rtype == "undefined":
+    returns = getReturns(func.getChild("body"), [])
+    
+    if len(returns) > 0:
+      rtype = ",".join(returns)
+    elif name != None and name.startswith("is") and name[3].isupper():
+      rtype = "boolean"
+
+  if rtype != "undefined" and rdesc == None:
+    rdesc = "TODOC"  
+    
+  s += " * @return {%s}" % rtype
+  
+  if rdesc == None:
+    s += "\n"
+    
   else:
-    s += " * @return {%s} TODOC\n" % retval
+    first = True
+    for line in rdesc.split("\n"):
+      if first:
+        s += " %s\n" % line
+      else:
+        s += " *   %s\n" % line
+        
+      first = False
+
+    if not s.endswith("\n"):
+      s += "\n"        
+    
+  
+
+
 
 
   #
   # add @throws
   ##############################################################
+  oldThrow = getAttrib(previousAttribs, "throws")
+  
   if hasThrows(func):
-    s += " * @throws TODOC\n"
+    tdesc = "TODOC"
+    
+    if oldThrow:
+      if oldThrow.has_key("description") and not oldThrow["description"] in [ "", None ]:
+        tdesc = oldThrow["description"]
+    
+    s += " * @throws"
+    
+    first = True
+    for line in tdesc.split("\n"):
+      if first:
+        s += " %s\n" % line
+      else:
+        s += " *   %s\n" % line
+        
+      first = False
+
+    if not s.endswith("\n"):
+      s += "\n"      
+    
+  elif oldThrow:
+    print " * Removing old @throw for %s" % name
+
+
+
+
+  #
+  # other @attributes
+  ##############################################################
+  
+  for attrib in previousAttribs:
+    cat = attrib["category"]
+
+    if cat in [ "see", "author", "deprecated", "exception", "since", "version" ]:
+      s += " * @%s" % cat
+
+      if attrib.has_key("description") and not attrib["description"] in [ "", None ]:
+        odesc = attrib["description"]
+        
+        first = True
+        for line in odesc.split("\n"):
+          if first:
+            s += " %s\n" % line
+          else:
+            s += " *   %s\n" % line
+            
+          first = False
+
+      if not s.endswith("\n"):
+        s += "\n"  
+          
+    elif not cat in [ "name", "mode", "membership", "alternative", "param", "return", "throws" ]:
+      print
+      print " * Could not handle attribute category %s" % cat
+      
+      
+  
 
 
   #
@@ -563,13 +751,10 @@ def enhance(node):
 
 
 
-    ignore = False
-
-    if target.parent.type == "params":
-      ignore = True
-
-
-    if not ignore:
+    if not hasattr(target, "documentationAdded") and target.parent.type != "params":
+      previousDesc = None
+      previousAttribs = []
+      
       # create commentsBefore
       if target.hasChild("commentsBefore"):
         commentsBefore = target.getChild("commentsBefore")
@@ -577,22 +762,24 @@ def enhance(node):
         if commentsBefore.hasChild("comment"):
           for child in commentsBefore.children:
             if child.get("detail") in [ "javadoc", "qtdoc" ]:
-              ignore = True
-
+              (previousDesc, previousAttribs) = parse(child.get("text"), False)
+              commentsBefore.removeChild(child)
+              break
+              
       else:
         commentsBefore = tree.Node("commentsBefore")
         target.addChild(commentsBefore)
 
-
-
-    # create comment node
-    if not ignore:
+      # create comment node
       commentNode = tree.Node("comment")
-      commentNode.set("text", fromFunction(node, member, name, alternative))
+      commentNode.set("text", fromFunction(node, member, name, alternative, previousDesc, previousAttribs))
       commentNode.set("detail", "javadoc")
       commentNode.set("multiline", True)
 
       commentsBefore.addChild(commentNode)
+      
+      # in case of alternative methods, use the first one, ignore the others
+      target.documentationAdded = True
 
 
   if node.hasChildren():

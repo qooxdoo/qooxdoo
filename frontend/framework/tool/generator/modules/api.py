@@ -446,14 +446,16 @@ def addTypeInfo(node, commentNode=None, item=None):
     dataType = commentNode.get("type", False)
     arrayDims = commentNode.get("array", False)
     defaultValue = commentNode.get("default", False)
-
+    
     if dataType:
       node.set("type", dataType)
   
     if arrayDims:
+      print "arrayDimensions: %s" % arrayDims
       node.set("arrayDimensions", len(arrayDims) / 2)
   
     if defaultValue:
+      print "defaultValue: %s" % defaultValue
       node.set("defaultValue", defaultValue)
     
   
