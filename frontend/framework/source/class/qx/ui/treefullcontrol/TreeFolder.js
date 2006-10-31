@@ -25,7 +25,6 @@
 ************************************************************************ */
 
 /**
- * @brief
  * qx.ui.treefullcontrol.TreeFolder objects are tree rows which may contain
  * sub-trees
  *

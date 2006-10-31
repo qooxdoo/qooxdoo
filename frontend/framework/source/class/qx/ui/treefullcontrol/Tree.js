@@ -25,14 +25,11 @@
 ************************************************************************ */
 
 /**
- * @brief
  * qx.ui.treefullcontrol.Tree objects are tree root nodes but act like
  * TreeFolder.
  *
- * @param
- * treeRowStructure -
- *   An instance of qx.ui.treefullcontrol.TreeRowStructure, defining the
- *   structure of this tree row.
+ * @param treeRowStructure An instance of qx.ui.treefullcontrol.TreeRowStructure, 
+ *   defining the structure of this tree row.
  */
 qx.OO.defineClass("qx.ui.treefullcontrol.Tree", qx.ui.treefullcontrol.TreeFolder,
 function(treeRowStructure)
