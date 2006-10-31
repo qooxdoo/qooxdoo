@@ -289,13 +289,13 @@ qx.Proto.getLastVisibleChildOfFolder = function()
   }
 }
 
-qx.Proto.getItems = function(recursive)
+qx.Proto.getItems = function(recursive, invisible)
 {
   var a = [this];
 
   if (this._containerObject)
   {
-    var ch = this._containerObject.getVisibleChildren();
+    var ch = invisible == true ? this._containerObject.getChildren() : this._containerObject.getVisibleChildren();
 
     if (recursive == false)
     {
@@ -304,7 +304,7 @@ qx.Proto.getItems = function(recursive)
     else
     {
       for (var i=0, chl=ch.length; i<chl; i++) {
-        a = a.concat(ch[i].getItems());
+        a = a.concat(ch[i].getItems(recursive, invisible));
       }
     }
   }
