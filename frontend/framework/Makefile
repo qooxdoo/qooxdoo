@@ -155,4 +155,9 @@ generate-pretty:
 	  --cache-directory $(CACHE)
 
 revision-bump:
+	@echo
+	@echo "  REVISION BUMP"
+	@echo "----------------------------------------------------------------------------"
+	@echo "  * Updating version file"
 	@sed --in-place 's/Rev:\s.*\s/Rev:/g' source/class/qx/core/Version.js 
+	@svn ci -m "Revision bump" source/class/qx/core/Version.js
