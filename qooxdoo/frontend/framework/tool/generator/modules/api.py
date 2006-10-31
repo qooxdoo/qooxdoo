@@ -4,16 +4,6 @@ import sys, os, re, optparse
 import tree, treegenerator, tokenizer, comment
 
 
-# contains 4 groups (1:type, 2:array dimensions, 5:default value)
-TYPE_REGEX = r'\{([^@][\w\.]*)((\[\])*)(,\s*([^\},]+)\s*)?\}'
-
-# contains 6 groups (1: param name, 3:type, 4:array dimensions, 7:default value)
-COMMENT_PARAM_ATTR_RE = re.compile(r'^\s*(\w+)\s+(' + TYPE_REGEX + r')?\s*')
-
-# contains same groups as TYPE_REGEX
-LEADING_TYPE_RE = re.compile(r'^\s*' + TYPE_REGEX + r'\s*')
-
-
 
 class DocException (Exception):
   def __init__ (self, msg, syntaxItem):
@@ -75,10 +65,10 @@ def createDoc(syntaxTree, docTree = None):
     msg = "Create documentation failed: " + str(exc)
 
     if hasattr(exc, "node"):
-      line = getLineFromSyntaxItem(exc.node)
+      (line, column) = getLineAndColumnFromSyntaxItem(exc.node)
       file = getFileFromSyntaxItem(exc.node)
       if line != None or file != None:
-        msg += " -  " + str(file) + " line " + str(line)
+        msg += " -  " + str(file) + "; Line: " + str(line) + ", Column: " + str(column)
 
     raise Exception, msg, sys.exc_info()[2]
 
@@ -171,7 +161,7 @@ def handleClassDefinition(docTree, item):
 
     classNode.set("superClass", superClassName)
 
-  commentNode = parseDocComment(item)
+  commentNode = comment.searchAndParseToTree(item)
 
   # Read all @event attributes
   if commentNode and commentNode.hasChildren():
@@ -180,18 +170,16 @@ def handleClassDefinition(docTree, item):
     attributesCount = len(attributesNode.children)
     for i in range(attributesCount):
       attrNode = attributesNode.children[attributesCount - i - 1]
-      attrText = attrNode.get("text")
-      if attrNode.get("name") == "event":
+      
+      if attrNode.get("category") == "event":      
         # This is a @event attribute
         attributesNode.removeChild(attrNode)
 
-        match = COMMENT_PARAM_ATTR_RE.search(attrText)
-        if not match:
-          addError(classNode, "doc comment has malformed attribute 'event': " + attrText, item)
-          continue
-
         # Add the event
-        addEventNode(classNode, item, match.group(1), match.group(3), attrText[match.end(0):]);
+        if attrNode.get("classified"):
+          addEventNode(classNode, item, attrNode);
+        else:
+          addError(classNode, "Documentation contains malformed event attribute.", item)
 
     # remove the attributes node from the comment if it has no children any more
     if not attributesNode.hasChildren():
@@ -228,19 +216,7 @@ def handleClassDefinition(docTree, item):
 
 
 
-def addEventNode(classNode, classItem, eventName, eventType, description):
-  node = tree.Node("event")
 
-  node.set("name", eventName);
-
-  if eventType:
-    node.set("type", eventType);
-  else:
-    addError(node, "Event '" + eventName + "' has no type", classItem)
-
-  node.addChild(tree.Node("desc").set("text", description))
-
-  classNode.addListChild("events", node)
 
 
 
@@ -292,19 +268,10 @@ def handlePropertyDefinition(item, classNode):
       values += getValue(arrayItem)
     node.set("possibleValues", values)
 
-  commentNode = parseDocComment(item)
-  if not commentNode:
-    addError(node, "doc comment is missing", item)
-  else:
-    # If the description has a type specified then take this type
-    # (and not the one extracted from the paramsMap)
-    desc = commentNode.get("text")
-    match = LEADING_TYPE_RE.search(desc)
-    if match:
-      addTypeInfo(node, match.group(1), match.group(2), match.group(5))
-      commentNode.set("text", desc[match.end(0):])
-
-    node.addChild(commentNode)
+  # If the description has a type specified then take this type
+  # (and not the one extracted from the paramsMap)
+  commentNode = comment.searchAndParseToTree(item)
+  addTypeInfo(node, commentNode, item)
 
   classNode.addListChild("properties", node)
 
@@ -340,7 +307,7 @@ def handleMethodDefinition(item, isStatic, classNode):
     name = item.get("key")
     functionItem = item.getFirstListChild("value")
 
-  commentNode = parseDocComment(item)
+  commentNode = comment.searchAndParseToTree(item)
 
   node = handleFunction(functionItem, commentNode, classNode)
   node.set("name", name)
@@ -371,18 +338,9 @@ def handleConstantDefinition(item, classNode):
   node = tree.Node("constant")
   node.set("name", name)
 
-  commentNode = parseDocComment(item)
-  if not commentNode:
-    addError(node, "doc comment is missing", item)
-  else:
-    desc = commentNode.get("text")
-    match = LEADING_TYPE_RE.search(desc)
-    if match:
-      addTypeInfo(node, match.group(1), match.group(2), match.group(5))
-      commentNode.set("text", desc[match.end(0):])
-
-    node.addChild(commentNode)
-
+  commentNode = comment.searchAndParseToTree(item)
+  addTypeInfo(node, commentNode, item)
+  
   classNode.addListChild("constants", node)
 
 
@@ -410,8 +368,15 @@ def handleFunction(funcItem, commentNode, classNode):
       # -> The function is abstract
       node.set("isAbstract", True)
 
+  if not commentNode:
+    addError(node, "Documentation is missing.", funcItem)
+    return node
+
+  # Add description
+  node.addChild(tree.Node("desc").set("text", commentNode.get("description")))
+
   # Read the doc comment
-  if commentNode and commentNode.hasChildren():
+  if commentNode.hasChild("attributes"):
     attributesNode = commentNode.getChild("attributes")
     attributesCount = len(attributesNode.children)
 
@@ -419,102 +384,131 @@ def handleFunction(funcItem, commentNode, classNode):
     # NOTE: We have to go backwards, because we'll remove children
     for i in range(attributesCount):
       attrNode = attributesNode.children[attributesCount - i - 1]
-      attrName = attrNode.get("name")
-      attrText = attrNode.get("text")
-      if attrName == "param":
+      attrCategory = attrNode.get("category")
+
+      if attrCategory == "param":
         # This is a @param attribute
         attributesNode.removeChild(attrNode)
 
-        match = COMMENT_PARAM_ATTR_RE.search(attrText)
-        if not match:
-          addError(node, "doc comment has malformed attribute 'param': " + attrText, funcItem)
-          continue
-
         # Find the matching param node
-        paramName = match.group(1)
+        paramName = attrNode.get("name")
         paramNode = node.getListChildByAttribute("params", "name", paramName, False)
+        
         if not paramNode:
-          addError(node, "doc comment has attribute 'param' for non-existing parameter: '" + paramName + "'", funcItem)
+          addError(node, "Contains information for a non-existing parameter <code>%s</code>." % paramName, funcItem)
           continue
 
-        # Add the type infos
-        if match.group(3):
-          addTypeInfo(paramNode, match.group(3), match.group(4), match.group(7))
-        else:
-          addError(node, "documentation of parameter: '" + paramName + "' has no type", funcItem)
-
-        # Add the description
-        paramNode.addChild(tree.Node("desc").set("text", attrText[match.end(0):]))
-      elif attrName == "return":
+        addTypeInfo(paramNode, attrNode, funcItem)
+      
+      elif attrCategory == "return":
         # This is a @return attribute
         attributesNode.removeChild(attrNode)
 
         returnNode = tree.Node("return")
         node.addChild(returnNode)
 
-        match = LEADING_TYPE_RE.search(attrText)
-        desc = attrText
-        if match:
-          addTypeInfo(returnNode, match.group(1), match.group(2), match.group(5))
-          desc = attrText[match.end(0):]
-
-        returnNode.addChild(tree.Node("desc").set("text", desc))
+        addTypeInfo(returnNode, attrNode, funcItem)
 
     # remove the attributes node from the comment if it has no children any more
     if not attributesNode.hasChildren():
       commentNode.removeChild(attributesNode)
 
   # Check for documentation errors
-  if not commentNode:
-    addError(node, "doc comment is missing", funcItem)
-  else:
-    # Check whether all parameters have been documented
-    paramsListNode = node.getChild("params", False);
-    if paramsListNode:
-      for paramNode in paramsListNode.children:
-        if not paramNode.getChild("desc", False):
-          addError(node, "parameter '" + paramNode.get("name") + "' is not documented", funcItem)
-
-  node.addChild(commentNode)
+  # Check whether all parameters have been documented
+  if node.hasChild("params"):
+    paramsListNode = node.getChild("params");
+    for paramNode in paramsListNode.children:
+      if not paramNode.getChild("desc", False):
+        addError(node, "Parameter %s is not documented." % paramNode.get("name"), funcItem)
 
   return node
 
 
 
-def addTypeInfo(node, dataType, arrayDims, defaultValue):
-  if dataType:
-    node.set("type", dataType)
+def addTypeInfo(node, commentNode=None, item=None):
+  if commentNode == None:
+    if node.type == "param":
+      addError(node, "Parameter <code>%s</code> in not documented." % commentNode.get("name"), item)
 
-  if arrayDims:
-    node.set("arrayDimensions", str(len(arrayDims) / 2))
+    elif node.type == "return":
+      addError(node, "Return value is not documented.", item)
 
-  if defaultValue:
-    node.set("defaultValue", defaultValue)
+    else:
+      addError(node, "Documentation is missing.", item)
+
+    return
+  
+  # add description
+  node.addChild(tree.Node("desc").set("text", commentNode.get("description")))
+  
+  # add classified type etc.
+  if commentNode.get("classified"):
+    dataType = commentNode.get("type", False)
+    arrayDims = commentNode.get("array", False)
+    defaultValue = commentNode.get("default", False)
+
+    if dataType:
+      node.set("type", dataType)
+  
+    if arrayDims:
+      node.set("arrayDimensions", len(arrayDims) / 2)
+  
+    if defaultValue:
+      node.set("defaultValue", defaultValue)
+    
+  
+  
 
 
+def addEventNode(classNode, classItem, attrNode):
+  node = tree.Node("event")
 
+  node.set("name", attrNode.get("name"))
+  node.addChild(tree.Node("desc").set("text", attrNode.get("description")))
+
+  eventType = attrNode.get("type")
+  if eventType:
+    node.set("type", eventType);
+  else:
+    addError(node, "Event <code>" + eventName + "</code> has no type.", classItem)
+
+  classNode.addListChild("events", node)
+  
+  
+  
+  
 def addError(node, msg, syntaxItem):
+  # print ">>> %s" % msg
+  
   errorNode = tree.Node("error")
   errorNode.set("msg", msg)
 
-  line = getLineFromSyntaxItem(syntaxItem)
+  (line, column) = getLineAndColumnFromSyntaxItem(syntaxItem)
   if line:
     errorNode.set("line", line)
+    
+    if column:
+      errorNode.set("column", column)
 
   node.addListChild("errors", errorNode)
   node.set("hasError", True)
 
 
 
-def getLineFromSyntaxItem(syntaxItem):
+def getLineAndColumnFromSyntaxItem(syntaxItem):
   line = None
-  while line == None and syntaxItem:
+  column = None
+  
+  while line == None and column == None and syntaxItem:
     line = syntaxItem.get("line", False)
-    if hasattr(syntaxItem, "parent"):
+    column = syntaxItem.get("column", False)
+    
+    if syntaxItem.hasParent():
       syntaxItem = syntaxItem.parent
     else:
       syntaxItem = None
-  return line
+  
+  return line, column
 
 
 def getFileFromSyntaxItem(syntaxItem):
@@ -547,12 +541,6 @@ def getType(item):
       raise DocException("Unknown data type: " + assembled, item)
   else:
     raise DocException("Can't gess type. type is neither string nor variable: " + item.type, item)
-
-
-
-def parseDocComment(item):
-  return comment.searchAndParseToTree(item)
-
 
 
 def getClassNode(docTree, className):
