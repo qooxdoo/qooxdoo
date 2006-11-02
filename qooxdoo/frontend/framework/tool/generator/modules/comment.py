@@ -186,7 +186,7 @@ def getReturns(node, found):
     if node.getChildrenLength(True) > 0:
       val = "variable"
     else:
-      val = "undefined"
+      val = "void"
 
     if node.hasChild("expression"):
       expr = node.getChild("expression")
@@ -562,7 +562,7 @@ def fromFunction(func, member, name, alternative, previousDesc=None, previousAtt
   #
   # add @return
   ##############################################################
-  rtype = "undefined"
+  rtype = "void"
   rdesc = None
 
   oldReturn = getAttrib(previousAttribs, "return")
@@ -574,7 +574,7 @@ def fromFunction(func, member, name, alternative, previousDesc=None, previousAtt
     if oldReturn.has_key("description") and not oldReturn["description"] in [ "", None ]:
       rdesc = oldReturn["description"]
 
-  if rtype == "undefined":
+  if rtype == "void":
     returns = getReturns(func.getChild("body"), [])
     
     if len(returns) > 0:
@@ -582,7 +582,7 @@ def fromFunction(func, member, name, alternative, previousDesc=None, previousAtt
     elif name != None and name.startswith("is") and name[3].isupper():
       rtype = "boolean"
 
-  if rtype != "undefined" and rdesc == None:
+  if rtype != "void" and rdesc == None:
     rdesc = "TODOC"  
     
   s += " * @return {%s}" % rtype
