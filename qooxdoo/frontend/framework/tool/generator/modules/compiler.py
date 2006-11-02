@@ -218,9 +218,7 @@ def compile(node, enablePretty=True, enableBreaks=False, enableDebug=False):
   afterDivider = False
 
   if enablePretty:
-    comment.enhance(node)
-    pass
-    #print tree.nodeToXmlString(node)
+    comment.fill(node)
 
   compileNode(node)
 
