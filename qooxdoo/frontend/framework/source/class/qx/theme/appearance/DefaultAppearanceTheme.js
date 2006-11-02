@@ -961,7 +961,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
     initial : function(vTheme) {
       return {
         hideFocus : true,
-        border : qx.renderer.border.BorderPresets.getInstance().thinInset,
+        border : qx.renderer.border.BorderPresets.getInstance().inset,
         paddingTop : 1,
         paddingRight : 3,
         paddingBottom : 1,
