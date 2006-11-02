@@ -126,7 +126,7 @@ generate-data-source-xml:
 generate-data-build-xml:
 	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
 	  --script-input $(FRAMEWORK)/source/class \
-	  --generate-api-documentation --add-new-lines \
+	  --generate-api-documentation \
 	  --api-documentation-xml-file build/xml/data.xml \
 	  --cache-directory $(CACHE)
 
