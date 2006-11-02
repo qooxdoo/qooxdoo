@@ -94,27 +94,6 @@ def variableIsClassName(varItem):
 
 
 
-def variableHasOnlyIdentifiers(varItem):
-  for varChild in varItem:
-    varChild = varItem.children[i]
-    if not varChild.type == "identifier":
-      return False
-  return True
-
-
-
-def variableIs(var, nameArr):
-  if len(var.children) != len(nameArr):
-    return False
-
-  i = 0
-  for child in var.children:
-    if child.type != "identifier" or child.get("name") != nameArr[i]:
-      return False
-    i += 1
-
-  return True
-
 
 
 def assembleVariable(variableItem):
@@ -161,33 +140,19 @@ def handleClassDefinition(docTree, item):
 
     classNode.set("superClass", superClassName)
 
-  commentNode = comment.searchAndParseToTree(item)
+  commentAttributes = comment.parseNode(item)
 
-  # Read all @event attributes
-  if commentNode and commentNode.hasChildren():
-    # NOTE: We have to go backwards, because we'll remove children
-    attributesNode = commentNode.getChild("attributes")
-    attributesCount = len(attributesNode.children)
-    for i in range(attributesCount):
-      attrNode = attributesNode.children[attributesCount - i - 1]
-      
-      if attrNode.get("category") == "event":      
-        # This is a @event attribute
-        attributesNode.removeChild(attrNode)
-
-        # Add the event
-        if attrNode.get("details"):
-          addEventNode(classNode, item, attrNode);
-        else:
-          addError(classNode, "Documentation contains malformed event attribute.", item)
-
-    # remove the attributes node from the comment if it has no children any more
-    if not attributesNode.hasChildren():
-      commentNode.removeChild(attributesNode)
-
+  for attrib in commentAttributes:
+    if attrib["category"] == "event":
+      # Add the event
+      if attrib.get("details"):
+        addEventNode(classNode, item, attrib);
+      else:
+        addError(classNode, "Documentation contains malformed event attribute.", item)      
+ 
   # Add the constructor
   if ctorItem and ctorItem.type == "function":
-    ctor = handleFunction(ctorItem, commentNode, classNode)
+    ctor = handleFunction(ctorItem, commentAttributes, classNode)
     ctor.set("isCtor", True)
     classNode.addListChild("constructor", ctor)
 
@@ -200,8 +165,9 @@ def handleClassDefinition(docTree, item):
         if item.type == "assignment":
           leftItem = item.getFirstListChild("left")
           rightItem = item.getFirstListChild("right")
+          
+          # It's a method definition
           if leftItem.type == "variable" and len(leftItem.children) == 2 and (leftItem.children[0].get("name") == "this" or leftItem.children[0].get("name") == "self") and rightItem.type == "function":
-            # It's a method definition
             handleMethodDefinition(item, False, classNode)
 
   elif ctorItem and ctorItem.type == "map":
@@ -270,8 +236,8 @@ def handlePropertyDefinition(item, classNode):
 
   # If the description has a type specified then take this type
   # (and not the one extracted from the paramsMap)
-  commentNode = comment.searchAndParseToTree(item)
-  addTypeInfo(node, commentNode, item)
+  commentAttributes = comment.parseNode(item)
+  addTypeInfo(node, comment.getAttrib(commentAttributes, "description"), item)
 
   classNode.addListChild("properties", node)
 
@@ -297,19 +263,19 @@ def getValue(item):
 
 
 def handleMethodDefinition(item, isStatic, classNode):
-  if (item.type == "assignment"):
+  if item.type == "assignment":
     # This is a "normal" method definition
     leftItem = item.getFirstListChild("left")
     name = leftItem.children[len(leftItem.children) - 1].get("name")
     functionItem = item.getFirstListChild("right")
-  elif (item.type == "keyvalue"):
+  elif item.type == "keyvalue":
     # This is a method definition of a map-style class (like qx.Const)
     name = item.get("key")
     functionItem = item.getFirstListChild("value")
 
-  commentNode = comment.searchAndParseToTree(item)
+  commentAttributes = comment.parseNode(item)
 
-  node = handleFunction(functionItem, commentNode, classNode)
+  node = handleFunction(functionItem, commentAttributes, classNode)
   node.set("name", name)
 
   isPublic = name[0] != "_"
@@ -338,14 +304,14 @@ def handleConstantDefinition(item, classNode):
   node = tree.Node("constant")
   node.set("name", name)
 
-  commentNode = comment.searchAndParseToTree(item)
-  addTypeInfo(node, commentNode, item)
+  commentAttributes = comment.parseNode(item)
+  addTypeInfo(node, comment.getAttrib(commentAttributes, "description"), item)
   
   classNode.addListChild("constants", node)
 
 
 
-def handleFunction(funcItem, commentNode, classNode):
+def handleFunction(funcItem, commentAttributes, classNode):
   if funcItem.type != "function":
     raise DocException("'funcItem' is no function", funcItem)
 
@@ -368,50 +334,33 @@ def handleFunction(funcItem, commentNode, classNode):
       # -> The function is abstract
       node.set("isAbstract", True)
 
-  if not commentNode:
+  if len(commentAttributes) == 0:
     addError(node, "Documentation is missing.", funcItem)
     return node
-
-  # Add description
-  node.addChild(tree.Node("desc").set("text", commentNode.get("description")))
-
-  # Read the doc comment
-  if commentNode.hasChild("attributes"):
-    attributesNode = commentNode.getChild("attributes")
-    attributesCount = len(attributesNode.children)
-
-    # Read all @param and @return attributes
-    # NOTE: We have to go backwards, because we'll remove children
-    for i in range(attributesCount):
-      attrNode = attributesNode.children[attributesCount - i - 1]
-      attrCategory = attrNode.get("category")
-
-      if attrCategory == "param":
-        # This is a @param attribute
-        attributesNode.removeChild(attrNode)
-
-        # Find the matching param node
-        paramName = attrNode.get("name")
-        paramNode = node.getListChildByAttribute("params", "name", paramName, False)
-        
-        if not paramNode:
-          addError(node, "Contains information for a non-existing parameter <code>%s</code>." % paramName, funcItem)
-          continue
-
-        addTypeInfo(paramNode, attrNode, funcItem)
+  
+  # Read all description, param and return attributes
+  for attrib in commentAttributes:
+    # Add description
+    if attrib["category"] == "description":
+      descNode = tree.Node("desc").set("text", attrib["text"])
+      node.addChild(descNode)
       
-      elif attrCategory == "return":
-        # This is a @return attribute
-        attributesNode.removeChild(attrNode)
+    elif attrib["category"] == "param":
+      # Find the matching param node
+      paramName = attrib["name"]
+      paramNode = node.getListChildByAttribute("params", "name", paramName, False)
+      
+      if not paramNode:
+        addError(node, "Contains information for a non-existing parameter <code>%s</code>." % paramName, funcItem)
+        continue
 
-        returnNode = tree.Node("return")
-        node.addChild(returnNode)
+      addTypeInfo(paramNode, attrib, funcItem)
+    
+    elif attrib["category"] == "return":
+      returnNode = tree.Node("return")
+      node.addChild(returnNode)
 
-        addTypeInfo(returnNode, attrNode, funcItem)
-
-    # remove the attributes node from the comment if it has no children any more
-    if not attributesNode.hasChildren():
-      commentNode.removeChild(attributesNode)
+      addTypeInfo(returnNode, attrib, funcItem)
 
   # Check for documentation errors
   # Check whether all parameters have been documented
@@ -425,10 +374,10 @@ def handleFunction(funcItem, commentNode, classNode):
 
 
 
-def addTypeInfo(node, commentNode=None, item=None):
-  if commentNode == None:
+def addTypeInfo(node, commentAttrib=None, item=None):
+  if commentAttrib == None:
     if node.type == "param":
-      addError(node, "Parameter <code>%s</code> in not documented." % commentNode.get("name"), item)
+      addError(node, "Parameter <code>%s</code> in not documented." % commentAttrib.get("name"), item)
 
     elif node.type == "return":
       addError(node, "Return value is not documented.", item)
@@ -439,36 +388,39 @@ def addTypeInfo(node, commentNode=None, item=None):
     return
   
   # add description
-  node.addChild(tree.Node("desc").set("text", commentNode.get("description")))
+  node.addChild(tree.Node("desc").set("text", commentAttrib["text"]))
   
   # add details type etc.
-  if commentNode.get("details"):
-    dataType = commentNode.get("type", False)
-    arrayDims = commentNode.get("array", False)
-    defaultValue = commentNode.get("default", False)
-    
-    if dataType:
-      node.set("type", dataType)
+  if commentAttrib["details"]:
+    if commentAttrib.has_key("type"):
+      dataType = commentAttrib["type"]
+      if dataType != None:
+        # print "type: %s" % dataType
+        node.set("type", dataType)
   
-    if arrayDims:
-      print "arrayDimensions: %s" % arrayDims
-      node.set("arrayDimensions", len(arrayDims) / 2)
+    if commentAttrib.has_key("array"):
+      arrayDims = commentAttrib["array"]
+      if arrayDims != 0:
+        # print "arrayDimensions: %s" % arrayDims
+        node.set("arrayDimensions", arrayDims)
   
-    if defaultValue:
-      print "defaultValue: %s" % defaultValue
-      node.set("defaultValue", defaultValue)
+    if commentAttrib.has_key("default"):
+      defaultValue = commentAttrib["default"]
+      if defaultValue != None:
+        # print "defaultValue: %s" % defaultValue
+        node.set("defaultValue", defaultValue)
     
   
   
 
 
-def addEventNode(classNode, classItem, attrNode):
+def addEventNode(classNode, classItem, attrib):
   node = tree.Node("event")
 
-  node.set("name", attrNode.get("name"))
-  node.addChild(tree.Node("desc").set("text", attrNode.get("description")))
+  node.set("name", attrib["name"])
+  node.addChild(tree.Node("desc").set("text", attrib["text"]))
 
-  eventType = attrNode.get("type")
+  eventType = attrib["type"]
   if eventType:
     node.set("type", eventType);
   else:
