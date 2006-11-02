@@ -432,6 +432,10 @@ qx.Proto._updateInfoPanel = function(nodeType) {
             + ((fromClassNode != this._currentClassDocNode) ? ",'" + fromClassNode.attributes.fullName + "'" : "")
             + ")\"/>";
         }
+        else
+        {
+          html += "&#160;";
+        }
         html += '</td>';
 
         html += '<td class="text">';
