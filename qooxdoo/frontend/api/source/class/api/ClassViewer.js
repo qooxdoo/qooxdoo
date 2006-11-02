@@ -19,15 +19,15 @@ function() {
 });
 
 
-qx.Proto._fixLinks = function(el) 
+qx.Proto._fixLinks = function(el)
 {
   var a = el.getElementsByTagName("a");
-  for (var i=0; i<a.length; i++) 
+  for (var i=0; i<a.length; i++)
   {
     if (typeof a[i].href == "string" && a[i].href.indexOf("http://") == 0) {
-      a[i].target = "_blank"; 
-    } 
-  } 
+      a[i].target = "_blank";
+    }
+  }
 }
 
 /**
@@ -1012,12 +1012,7 @@ qx.Proto._descHasDetails = function(node) {
   var descNode = api.TreeUtil.getChild(node, "desc");
   if (descNode) {
     var desc = descNode.attributes.text;
-    var hit = api.ClassViewer.SENTENCE_END_REGEX.exec(desc);
-    if (hit != null) {
-      return desc.length != hit.index + hit[0].length;
-    } else {
-      return false;
-    }
+    return this._extractFirstSentence(desc) != desc;
   } else {
     return false;
   }
@@ -1055,19 +1050,23 @@ qx.Proto._createDescHtml = function(node, fromClassNode, showDetails) {
  * @param text {string} the text.
  * @return {string} the first sentence from the text.
  */
-qx.Proto._extractFirstSentence = function(text) {
-  // Look for a point followed by white space, but don't match if there is
-  // a point two chars before, like in "e.g. "
-  var hit = api.ClassViewer.SENTENCE_END_REGEX.exec(text);
-  if (hit != null) {
-    return text.substring(0, hit.index + hit[0].length - 1);
-  } 
-  else 
+qx.Proto._extractFirstSentence = function(text)
+{
+  var ret = text;
+
+  // Extract first block
+  var pos = ret.indexOf("</p>");
+  if (pos != -1)
   {
-    // Extract first block
-    pos = text.indexOf("&lt;/p&gt;");
-    return pos != -1 ? text.substr(0, pos+len("&lt;/p&gt;")) : text;
+    ret = ret.substr(0, pos+4);
+
+    var hit = api.ClassViewer.SENTENCE_END_REGEX.exec(ret);
+    if (hit != null) {
+      ret = text.substring(0, hit.index + hit[0].length - 1) + "</p>";
+    }
   }
+
+  return ret;
 }
 
 
