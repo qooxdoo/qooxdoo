@@ -176,7 +176,7 @@ def handleClassDefinition(docTree, item):
         attributesNode.removeChild(attrNode)
 
         # Add the event
-        if attrNode.get("classified"):
+        if attrNode.get("details"):
           addEventNode(classNode, item, attrNode);
         else:
           addError(classNode, "Documentation contains malformed event attribute.", item)
@@ -441,8 +441,8 @@ def addTypeInfo(node, commentNode=None, item=None):
   # add description
   node.addChild(tree.Node("desc").set("text", commentNode.get("description")))
   
-  # add classified type etc.
-  if commentNode.get("classified"):
+  # add details type etc.
+  if commentNode.get("details"):
     dataType = commentNode.get("type", False)
     arrayDims = commentNode.get("array", False)
     defaultValue = commentNode.get("default", False)

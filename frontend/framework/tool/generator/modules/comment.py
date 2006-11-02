@@ -97,7 +97,7 @@ VARNAMES = {
 
 VARDESC = {
   "propValue" : "New value of this property",
-  "propOldValue" : "Previous value of this property",
+  "propOldValue" : "old value of this property",
   "propData" : "Configuration map of this property"
 }
 
@@ -255,79 +255,107 @@ def nameToDescription(name):
 
 
 
-def searchAndParseToTree(item):
+
+
+
+
+
+
+
+def parseNode(node):
   """Takes the last doc comment from the commentsBefore child, parses it and
   returns a Node representing the doc comment"""
 
   # Find the last doc comment
-  commentsBefore = item.getChild("commentsBefore", False)
+  commentsBefore = node.getChild("commentsBefore", False)
   if commentsBefore and commentsBefore.hasChildren():
     for child in commentsBefore.children:
       if child.type == "comment" and child.get("detail") in [ "javadoc", "qtdoc" ]:
-        return parseToTree(child.get("text"))
+        return parseText(child.get("text"))
+        
 
 
-def createNode(typ, data):
-  node = tree.Node(typ)
-  
-  for key in data.keys():
-    if not data[key] in [ "", None ]:
-      node.set(key, data[key])
+
+def parseText(intext, format=True):
+  # Strip "/**", "/*!" and "*/"
+  intext = intext[3:-2]
+
+  # Strip leading stars in every line
+  text = ""
+  for line in intext.split("\n"):
+    text += R_JAVADOC_STARS.sub("", line).strip() + "\n"
+    
+  # Search for attributes
+  desc = { "category" : "description", "text" : "" }
+  attribs = [ desc ]
+  pos = 0
+
+  while True:
+    mtch = R_ATTRIBUTE.search(text, pos)
+
+    if mtch == None:
+      prevText = text[pos:].strip()
+        
+      if len(attribs) == 0:
+        desc["text"] = prevText
+      else:
+        attribs[-1]["text"] = prevText
       
-  return node
+      break
+    
+    prevText = text[pos:mtch.start(0)].strip()
+    pos = mtch.end(0)
 
+    if len(attribs) == 0:
+      desc["text"] = prevText
+    else:
+      attribs[-1]["text"] = prevText
 
-def parseToTree(intext):
-  (desc, attribs) = parse(intext)
-  
-  descNode = createNode("desc", desc)
-  
+    attribs.append({ "category" : mtch.group(1), "text" : "" })
+      
+  # parse details
   for attrib in attribs:
-    descNode.addListChild("attributes", createNode("attribute", attrib))
+    parseDetail(attrib, format)
+    
+  return attribs
+
+    
+
+
+
+def parseDetail(attrib, format=True):
+  text = attrib["text"]
   
-  # Debug
-  # print "== Comment ====================================================="
-  # print tree.nodeToXmlString(descNode)
-  # print "================================================================"
-
-  return descNode
-  
-
-
-def classifyItem(itemConf, format=True):
-  text = itemConf["text"]
-  del itemConf["text"]
-
   mtch1 = R_PARAM_ATTR.search(text)
   mtch2 = R_TYPE_ATTR.search(text)
 
-  if mtch1 and itemConf.has_key("category") and itemConf["category"] in [ "param", "event" ]:
-    itemConf["classified"] = True
-    itemConf["name"] = mtch1.group(1)
-    itemConf["type"] = mtch1.group(3)
-    itemConf["array"] = mtch1.group(4)
-    itemConf["default"] = mtch1.group(7)
+  if mtch1 and attrib.has_key("category") and attrib["category"] in [ "param", "event" ]:
+    attrib["details"] = True
+    attrib["name"] = mtch1.group(1)
+    attrib["type"] = mtch1.group(3)
+    attrib["array"] = mtch1.group(4)
+    attrib["default"] = mtch1.group(7)
     text = text[mtch1.end(0):]
       
   elif mtch2:
-    itemConf["classified"] = True
-    itemConf["type"] = mtch2.group(1)
-    itemConf["array"] = mtch2.group(2)
-    itemConf["default"] = mtch2.group(5)
+    attrib["details"] = True
+    attrib["type"] = mtch2.group(1)
+    attrib["array"] = mtch2.group(2)
+    attrib["default"] = mtch2.group(5)
     text = text[mtch2.end(0):]
         
   else:
-    itemConf["classified"] = False
+    attrib["details"] = False
     
   if format:
-    itemConf["description"] = formatDescription(text)
+    attrib["text"] = formatText(text)
   else:
-    itemConf["description"] = cleanupDescription(text)
+    attrib["text"] = cleanupText(text)
     
 
 
     
-def cleanupDescription(text):
+def cleanupText(text):
   #print "============= INTEXT ========================="
   #print text
   
@@ -350,7 +378,7 @@ def cleanupDescription(text):
   
     
 
-def formatDescription(text):
+def formatText(text):
   #print "============= FORMAT:1 ========================="
   #print text
 
@@ -378,71 +406,63 @@ def formatDescription(text):
   #print text
 
   return text  
-
-
-
-def parse(intext, format=True):
-  # Strip "/**", "/*!" and "*/"
-  intext = intext[3:-2]
-
-  # Strip leading stars in every line
-  text = ""
-  for line in intext.split("\n"):
-    text += R_JAVADOC_STARS.sub("", line).strip() + "\n"
-    
-  # Search for attributes
-  desc = { "text" : "" }
-  attribs = []
-  pos = 0
-
-  while True:
-    mtch = R_ATTRIBUTE.search(text, pos)
-
-    if mtch == None:
-      prevText = text[pos:].strip()
-        
-      if len(attribs) == 0:
-        desc["text"] = prevText
-      else:
-        attribs[-1]["text"] = prevText
-      
-      break
-    
-    prevText = text[pos:mtch.start(0)].strip()
-    pos = mtch.end(0)
-
-    if len(attribs) == 0:
-      desc["text"] = prevText
-    else:
-      attribs[-1]["text"] = prevText
-
-    attribs.append({ "category" : mtch.group(1), "text" : "" })
-      
-  # classify
-  classifyItem(desc, format)
   
-  for attrib in attribs:
-    classifyItem(attrib, format)
-
-  return desc, attribs
-
-    
+  
+  
+  
 
 
   
 
-def getAttrib(attribList, category, name=None):
-  if attribList == None:
-    return None
-  
+def getAttrib(attribList, category):
   for attrib in attribList:
     if attrib["category"] == category:
-      if name == None or attrib.has_key("name") and attrib["name"] == name:
-        return attrib
+      return attrib
+        
+        
+        
+def getParam(attribList, name):
+  for attrib in attribList:
+    if attrib["category"] == "param":
+      if attrib.has_key("name") and attrib["name"] == name:
+        return attrib          
+        
+        
+
+
+def attribHas(attrib, key):
+  if attrib != None and attrib.has_key(key) and not attrib[key] in [ "", None ]:
+    return True
+  
+  return False
 
 
 
-def fromFunction(func, member, name, alternative, previousDesc=None, previousAttribs=None):
+def splitText(orig, attrib=True):
+  res = ""
+  first = True
+  
+  for line in orig.split("\n"):
+    if attrib:
+      if first:
+        res += " %s\n" % line
+      else:
+        res += " *   %s\n" % line
+      
+    else:  
+      res += " * %s\n" % line
+      
+    first = False
+    
+  if not res.endswith("\n"):
+    res += "\n"  
+
+  return res
+     
+
+
+
+def fromFunction(func, member, name, alternative, old=[]):
   #
   # open comment
   ##############################################################  
@@ -452,14 +472,14 @@ def fromFunction(func, member, name, alternative, previousDesc=None, previousAtt
   #
   # description
   ##############################################################
-  cdesc = "TODOC"
+  oldDesc = getAttrib(old, "description")
   
-  if previousDesc != None and previousDesc.has_key("description") and not previousDesc["description"] in [ "", None ]:
-    cdesc = previousDesc["description"]
-
-  for line in cdesc.split("\n"):
-    s += " * %s\n" % line
-          
+  if attribHas(oldDesc, "text"):
+    newText = oldDesc["text"]
+  else:
+    newText = "TODOC"
+    
+  s += splitText(newText, False)
   s += " *\n"
   
   
@@ -492,28 +512,19 @@ def fromFunction(func, member, name, alternative, previousDesc=None, previousAtt
   #
   # add @alternative
   ##############################################################
-  oldAlternative = getAttrib(previousAttribs, "alternative")
+  oldAlternative = getAttrib(old, "alternative")
   
   if alternative:
-    adesc = "TODOC"
-    
-    if oldAlternative and oldAlternative.has_key("description") and not oldAlternative["description"] in [ "", None ]:
-      adesc = oldAlternative["description"]
-      
-    s += " * @alternative"
-    
-    first = True
-    for line in adesc.split("\n"):
-      if first:
-        s += " %s\n" % line
-      else:
-        s += " *   %s\n" % line
-        
-      first = False
+    if attribHas(oldAlternative, "text"):
+      newText = oldDesc["text"]
+    else:
+      newText = "TODOC"
+          
+    s += " * @alternative%s" % splitText(newText)
 
     if not s.endswith("\n"):
-      s += "\n"     
-      
+      s += "\n"
+    
   elif oldAlternative:
     print " * Removing old @alternative for %s" % name
     
@@ -527,82 +538,63 @@ def fromFunction(func, member, name, alternative, previousDesc=None, previousAtt
   if params.hasChildren():
     for child in params.children:
       if child.type == "variable":
-        pname = child.getChild("identifier").get("name")
-        ptype = nameToType(pname)
-        pdesc = nameToDescription(pname)
+        newName = child.getChild("identifier").get("name")
+        newType = nameToType(newName)
+        newText = nameToDescription(newName)
         
-        oldParam = getAttrib(previousAttribs, "param", pname)
+        oldParam = getParam(old, newName)
         
-        # use old values instead
+        # Get type and text from old content
         if oldParam: 
-          if oldParam.has_key("type") and not oldParam["type"] in [ "", None ]:
-            ptype = oldParam["type"]
+          if attribHas(oldParam, "type"):
+            newType = oldParam["type"]
+          
+          if attribHas(oldParam, "text"):  
+            newText = oldParam["text"]
             
-          if oldParam.has_key("description") and not oldParam["description"] in [ "", None ]:
-            pdesc = oldParam["description"]
-            
-        s += " * @param %s {%s}" % (pname, ptype)
-        
-        first = True
-        for line in pdesc.split("\n"):
-          if first:
-            s += " %s\n" % line
-          else:
-            s += " *   %s\n" % line
-            
-          first = False
+        s += " * @param %s {%s}%s" % (newName, newType, splitText(newText))
 
         if not s.endswith("\n"):
-          s += "\n"       
-          
+          s += "\n"
 
-
+  
+  
   
 
   #
   # add @return
   ##############################################################
-  rtype = "void"
-  rdesc = None
+  oldReturn = getAttrib(old, "return")
 
-  oldReturn = getAttrib(previousAttribs, "return")
+  newType = "void"
+  newText = ""
 
+  # Get type and text from old content
   if oldReturn:
-    if oldReturn.has_key("type") and not oldReturn["type"] in [ "", None ]:
-      rtype = oldReturn["type"]
+    if attribHas(oldReturn, "type"):
+      newType = oldReturn["type"]
       
-    if oldReturn.has_key("description") and not oldReturn["description"] in [ "", None ]:
-      rdesc = oldReturn["description"]
+    if attribHas(oldReturn, "text"):
+      newText = oldReturn["text"]
 
-  if rtype == "void":
+  # Try to autodetect the type
+  if newType == "void":
     returns = getReturns(func.getChild("body"), [])
     
     if len(returns) > 0:
-      rtype = ",".join(returns)
+      newType = ",".join(returns)
     elif name != None and name.startswith("is") and name[3].isupper():
-      rtype = "boolean"
+      newType = "boolean"
 
-  if rtype != "void" and rdesc == None:
-    rdesc = "TODOC"  
+  # Add documentation hint in non void cases
+  if newType != "void" and newText == "":
+    newText = "TODOC"  
     
-  s += " * @return {%s}" % rtype
+  s += " * @return {%s}%s" % (newType, splitText(newText))
   
-  if rdesc == None:
+  if not s.endswith("\n"):
     s += "\n"
-    
-  else:
-    first = True
-    for line in rdesc.split("\n"):
-      if first:
-        s += " %s\n" % line
-      else:
-        s += " *   %s\n" % line
-        
-      first = False
-
-    if not s.endswith("\n"):
-      s += "\n"        
-    
+  
   
 
 
@@ -611,30 +603,20 @@ def fromFunction(func, member, name, alternative, previousDesc=None, previousAtt
   #
   # add @throws
   ##############################################################
-  oldThrow = getAttrib(previousAttribs, "throws")
+  oldThrows = getAttrib(old, "throws")
   
   if hasThrows(func):
-    tdesc = "TODOC"
+    if oldThrows and attribHas(oldThrows, "text"):
+      newText = oldThrows["text"]
+    else:
+      newText = "TODOC"
     
-    if oldThrow:
-      if oldThrow.has_key("description") and not oldThrow["description"] in [ "", None ]:
-        tdesc = oldThrow["description"]
-    
-    s += " * @throws"
-    
-    first = True
-    for line in tdesc.split("\n"):
-      if first:
-        s += " %s\n" % line
-      else:
-        s += " *   %s\n" % line
-        
-      first = False
+    s += " * @throws%s" % splitText(newText)
 
     if not s.endswith("\n"):
-      s += "\n"      
+      s += "\n"
     
-  elif oldThrow:
+  elif oldThrows:
     print " * Removing old @throw for %s" % name
 
 
@@ -644,28 +626,20 @@ def fromFunction(func, member, name, alternative, previousDesc=None, previousAtt
   # other @attributes
   ##############################################################
   
-  for attrib in previousAttribs:
+  for attrib in old:
     cat = attrib["category"]
 
-    if cat in [ "see", "author", "deprecated", "exception", "since", "version" ]:
+    if cat in [ "see", "author", "deprecated", "exception", "since", "version", "abstract" ]:
       s += " * @%s" % cat
 
-      if attrib.has_key("description") and not attrib["description"] in [ "", None ]:
-        odesc = attrib["description"]
-        
-        first = True
-        for line in odesc.split("\n"):
-          if first:
-            s += " %s\n" % line
-          else:
-            s += " *   %s\n" % line
-            
-          first = False
-
+      if attribHas(attrib, "text"):
+        s += splitText(attrib["text"])
+      
       if not s.endswith("\n"):
-        s += "\n"  
+        s += "\n"
+
           
-    elif not cat in [ "name", "mode", "membership", "alternative", "param", "return", "throws" ]:
+    elif not cat in [ "name", "mode", "membership", "alternative", "param", "return", "throws", "description" ]:
       print
       print " * Found unallowed attribute %s in %s" % (cat, name)
       
@@ -682,7 +656,7 @@ def fromFunction(func, member, name, alternative, previousDesc=None, previousAtt
 
 
 
-def enhance(node):
+def fill(node):
   if node.type in [ "comment", "commentsBefore", "commentsAfter" ]:
     return
 
@@ -752,8 +726,7 @@ def enhance(node):
 
 
     if not hasattr(target, "documentationAdded") and target.parent.type != "params":
-      previousDesc = None
-      previousAttribs = []
+      old = []
       
       # create commentsBefore
       if target.hasChild("commentsBefore"):
@@ -762,7 +735,7 @@ def enhance(node):
         if commentsBefore.hasChild("comment"):
           for child in commentsBefore.children:
             if child.get("detail") in [ "javadoc", "qtdoc" ]:
-              (previousDesc, previousAttribs) = parse(child.get("text"), False)
+              old = parseText(child.get("text"), False)
               commentsBefore.removeChild(child)
               break
               
@@ -772,7 +745,7 @@ def enhance(node):
 
       # create comment node
       commentNode = tree.Node("comment")
-      commentNode.set("text", fromFunction(node, member, name, alternative, previousDesc, previousAttribs))
+      commentNode.set("text", fromFunction(node, member, name, alternative, old))
       commentNode.set("detail", "javadoc")
       commentNode.set("multiline", True)
 
@@ -784,5 +757,4 @@ def enhance(node):
 
   if node.hasChildren():
     for child in node.children:
-      enhance(child)
-
+      fill(child)
