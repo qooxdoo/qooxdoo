@@ -273,6 +273,7 @@ def parseNode(node):
       if child.type == "comment" and child.get("detail") in [ "javadoc", "qtdoc" ]:
         return parseText(child.get("text"))
         
+  return []
 
 
 
@@ -333,14 +334,24 @@ def parseDetail(attrib, format=True):
     attrib["details"] = True
     attrib["name"] = mtch1.group(1)
     attrib["type"] = mtch1.group(3)
-    attrib["array"] = mtch1.group(4)
+
+    if mtch1.group(4) == None:
+      attrib["array"] = 0
+    else:
+      attrib["array"] = len(mtch1.group(4)) / 2
+      
     attrib["default"] = mtch1.group(7)
     text = text[mtch1.end(0):]
       
   elif mtch2:
     attrib["details"] = True
     attrib["type"] = mtch2.group(1)
-    attrib["array"] = mtch2.group(2)
+    
+    if mtch2.group(2) == None:
+      attrib["array"] = 0
+    else:
+      attrib["array"] = len(mtch2.group(2)) / 2
+
     attrib["default"] = mtch2.group(5)
     text = text[mtch2.end(0):]
         
