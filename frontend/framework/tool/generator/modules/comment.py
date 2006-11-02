@@ -637,7 +637,6 @@ def fromFunction(func, member, name, alternative, old=[]):
       
       if not s.endswith("\n"):
         s += "\n"
-
           
     elif not cat in [ "name", "mode", "membership", "alternative", "param", "return", "throws", "description" ]:
       print
