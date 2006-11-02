@@ -145,11 +145,11 @@ def handleClassDefinition(docTree, item):
   for attrib in commentAttributes:
     if attrib["category"] == "event":
       # Add the event
-      if attrib.get("details"):
+      if comment.attribHas("type"):
         addEventNode(classNode, item, attrib);
       else:
-        addError(classNode, "Documentation contains malformed event attribute.", item)      
- 
+        addError(classNode, "Documentation contains malformed event attribute.", item)
+
   # Add the constructor
   if ctorItem and ctorItem.type == "function":
     ctor = handleFunction(ctorItem, commentAttributes, classNode)
@@ -165,7 +165,7 @@ def handleClassDefinition(docTree, item):
         if item.type == "assignment":
           leftItem = item.getFirstListChild("left")
           rightItem = item.getFirstListChild("right")
-          
+
           # It's a method definition
           if leftItem.type == "variable" and len(leftItem.children) == 2 and (leftItem.children[0].get("name") == "this" or leftItem.children[0].get("name") == "self") and rightItem.type == "function":
             handleMethodDefinition(item, False, classNode)
@@ -306,7 +306,7 @@ def handleConstantDefinition(item, classNode):
 
   commentAttributes = comment.parseNode(item)
   addTypeInfo(node, comment.getAttrib(commentAttributes, "description"), item)
-  
+
   classNode.addListChild("constants", node)
 
 
@@ -337,25 +337,25 @@ def handleFunction(funcItem, commentAttributes, classNode):
   if len(commentAttributes) == 0:
     addError(node, "Documentation is missing.", funcItem)
     return node
-  
+
   # Read all description, param and return attributes
   for attrib in commentAttributes:
     # Add description
     if attrib["category"] == "description":
       descNode = tree.Node("desc").set("text", attrib["text"])
       node.addChild(descNode)
-      
+
     elif attrib["category"] == "param":
       # Find the matching param node
       paramName = attrib["name"]
       paramNode = node.getListChildByAttribute("params", "name", paramName, False)
-      
+
       if not paramNode:
         addError(node, "Contains information for a non-existing parameter <code>%s</code>." % paramName, funcItem)
         continue
 
       addTypeInfo(paramNode, attrib, funcItem)
-    
+
     elif attrib["category"] == "return":
       returnNode = tree.Node("return")
       node.addChild(returnNode)
@@ -386,32 +386,31 @@ def addTypeInfo(node, commentAttrib=None, item=None):
       addError(node, "Documentation is missing.", item)
 
     return
-  
+
   # add description
   node.addChild(tree.Node("desc").set("text", commentAttrib["text"]))
-  
+
   # add details type etc.
-  if commentAttrib["details"]:
-    if commentAttrib.has_key("type"):
-      dataType = commentAttrib["type"]
-      if dataType != None:
-        # print "type: %s" % dataType
-        node.set("type", dataType)
-  
-    if commentAttrib.has_key("array"):
-      arrayDims = commentAttrib["array"]
-      if arrayDims != 0:
-        # print "arrayDimensions: %s" % arrayDims
-        node.set("arrayDimensions", arrayDims)
-  
-    if commentAttrib.has_key("default"):
-      defaultValue = commentAttrib["default"]
-      if defaultValue != None:
-        # print "defaultValue: %s" % defaultValue
-        node.set("defaultValue", defaultValue)
-    
-  
-  
+  if commentAttrib.has_key("type"):
+    dataType = commentAttrib["type"]
+    if dataType != None:
+      # print "type: %s" % dataType
+      node.set("type", dataType)
+
+  if commentAttrib.has_key("array"):
+    arrayDims = commentAttrib["array"]
+    if arrayDims != 0:
+      # print "arrayDimensions: %s" % arrayDims
+      node.set("arrayDimensions", arrayDims)
+
+  if commentAttrib.has_key("default"):
+    defaultValue = commentAttrib["default"]
+    if defaultValue != None:
+      # print "defaultValue: %s" % defaultValue
+      node.set("defaultValue", defaultValue)
+
+
+
 
 
 def addEventNode(classNode, classItem, attrib):
@@ -427,20 +426,20 @@ def addEventNode(classNode, classItem, attrib):
     addError(node, "Event <code>" + eventName + "</code> has no type.", classItem)
 
   classNode.addListChild("events", node)
-  
-  
-  
-  
+
+
+
+
 def addError(node, msg, syntaxItem):
   # print ">>> %s" % msg
-  
+
   errorNode = tree.Node("error")
   errorNode.set("msg", msg)
 
   (line, column) = getLineAndColumnFromSyntaxItem(syntaxItem)
   if line:
     errorNode.set("line", line)
-    
+
     if column:
       errorNode.set("column", column)
 
@@ -452,16 +451,16 @@ def addError(node, msg, syntaxItem):
 def getLineAndColumnFromSyntaxItem(syntaxItem):
   line = None
   column = None
-  
+
   while line == None and column == None and syntaxItem:
     line = syntaxItem.get("line", False)
     column = syntaxItem.get("column", False)
-    
+
     if syntaxItem.hasParent():
       syntaxItem = syntaxItem.parent
     else:
       syntaxItem = None
-  
+
   return line, column
 
 

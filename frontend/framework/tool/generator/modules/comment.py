@@ -47,49 +47,49 @@ R_PARAM_ATTR = re.compile(r'^\s*(\w+)\s+(' + S_TYPE + r')?\s*')
 
 
 VARPREFIXES = {
-  "a" : "array",
+  "a" : "Array",
   "b" : "boolean",
-  "d" : "date",
-  "f" : "function",
+  "d" : "Date",
+  "f" : "Function",
   "i" : "int",
-  "h" : "map",
-  "m" : "map",
+  "h" : "Map",
+  "m" : "Map",
   "n" : "number",
-  "o" : "object",
+  "o" : "Object",
   "s" : "string",
-  "v" : "variable",
-  "w" : "widget"
+  "v" : "var",
+  "w" : "Widget"
 }
 
 VARNAMES = {
-  "a" : "array",
-  "arr" : "array",
+  "a" : "Array",
+  "arr" : "Array",
 
   "e" : "event",
   "ev" : "event",
   "evt" : "event",
 
-  "el" : "element",
-  "elem" : "element",
-  "elm" : "element",
+  "el" : "Element",
+  "elem" : "Element",
+  "elm" : "Element",
 
-  "ex" : "exception",
-  "exc" : "exception",
+  "ex" : "Exception",
+  "exc" : "Exception",
 
-  "f" : "function",
-  "func" : "function",
+  "f" : "Function",
+  "func" : "Function",
 
-  "h" : "map",
-  "hash" : "map",
-  "map" : "map",
+  "h" : "Map",
+  "hash" : "Map",
+  "map" : "Map",
 
-  "node" : "node",
+  "node" : "Node",
 
   "n" : "number",
   "num" : "number",
 
-  "o" : "object",
-  "obj" : "object",
+  "o" : "Object",
+  "obj" : "Object",
 
   "s" : "string",
   "str" : "string"
@@ -184,7 +184,7 @@ def getReturns(node, found):
 
   elif node.type == "return":
     if node.getChildrenLength(True) > 0:
-      val = "variable"
+      val = "var"
     else:
       val = "void"
 
@@ -195,7 +195,7 @@ def getReturns(node, found):
         if var.getChildrenLength(True) == 1 and var.hasChild("identifier"):
           val = nameToType(var.getChild("identifier").get("name"))
         else:
-          val = "variable"
+          val = "var"
 
       elif expr.hasChild("constant"):
         val = expr.getChild("constant").get("constantType")
@@ -204,13 +204,13 @@ def getReturns(node, found):
           val = expr.getChild("constant").get("detail")
 
       elif expr.hasChild("array"):
-        val = "array"
+        val = "Array"
 
       elif expr.hasChild("map"):
-        val = "map"
+        val = "Map"
 
       elif expr.hasChild("function"):
-        val = "function"
+        val = "Function"
 
       elif expr.hasChild("call"):
         val = "call"
@@ -326,7 +326,6 @@ def parseDetail(attrib, format=True):
   mtch2 = R_TYPE_ATTR.search(text)
 
   if mtch1 and attrib.has_key("category") and attrib["category"] in [ "param", "event" ]:
-    attrib["details"] = True
     attrib["name"] = mtch1.group(1)
     attrib["type"] = mtch1.group(3)
 
@@ -339,7 +338,6 @@ def parseDetail(attrib, format=True):
     text = text[mtch1.end(0):]
 
   elif mtch2:
-    attrib["details"] = True
     attrib["type"] = mtch2.group(1)
 
     if mtch2.group(2) == None:
@@ -350,13 +348,13 @@ def parseDetail(attrib, format=True):
     attrib["default"] = mtch2.group(5)
     text = text[mtch2.end(0):]
 
-  else:
-    attrib["details"] = False
-
   if format:
     attrib["text"] = formatText(text)
   else:
     attrib["text"] = cleanupText(text)
+
+  if attrib.has_key("default") and attrib["default"] != None:
+    print "DEFAULT: %s" % attrib["default"]
 
 
 
@@ -580,6 +578,9 @@ def fromFunction(func, member, name, alternative, old=[]):
           if attribHas(oldParam, "type"):
             newType = oldParam["type"]
 
+            if attribHas(oldParam, "array"):
+              newType += "[]" * oldParam["array"]
+
           if attribHas(oldParam, "text"):
             newText = oldParam["text"]
 
@@ -604,6 +605,9 @@ def fromFunction(func, member, name, alternative, old=[]):
   if oldReturn:
     if attribHas(oldReturn, "type"):
       newType = oldReturn["type"]
+
+      if attribHas(oldReturn, "array"):
+        newType += "[]" * oldReturn["array"]
 
     if attribHas(oldReturn, "text"):
       newText = oldReturn["text"]
@@ -662,7 +666,7 @@ def fromFunction(func, member, name, alternative, old=[]):
   for attrib in old:
     cat = attrib["category"]
 
-    if cat in [ "see", "author", "deprecated", "exception", "since", "version", "abstract" ]:
+    if cat in [ "see", "author", "deprecated", "exception", "since", "version", "abstract", "overridden" ]:
       s += " * @%s" % cat
 
       if attribHas(attrib, "text"):
