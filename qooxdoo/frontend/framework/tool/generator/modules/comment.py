@@ -108,11 +108,9 @@ def outdent(source, indent):
   return re.compile("\n\s{%s}" % indent).sub("\n", source)
 
 
+
 def indent(source, indent):
   return re.compile("\n").sub("\n" + (" " * indent), source)
-
-
-
 
 
 
@@ -121,6 +119,7 @@ def correctInline(source):
     return R_INLINE_COMMENT_PURE.sub("// ", source)
 
   return source
+
 
 
 def correctBlock(source):
@@ -134,6 +133,7 @@ def correctBlock(source):
   return source
 
 
+
 def correct(source):
   if source.startswith("//"):
     return correctInline(source)
@@ -142,11 +142,9 @@ def correct(source):
 
 
 
-
-
-
 def isMultiLine(source):
   return source.find("\n") != -1
+
 
 
 def getFormat(source):
@@ -160,6 +158,8 @@ def getFormat(source):
     return "header"
 
   return "block"
+
+
 
 
 
@@ -226,9 +226,6 @@ def getReturns(node, found):
 
 
 
-
-
-
 def nameToType(name):
   typ = "variable"
 
@@ -272,7 +269,7 @@ def parseNode(node):
     for child in commentsBefore.children:
       if child.type == "comment" and child.get("detail") in [ "javadoc", "qtdoc" ]:
         return parseText(child.get("text"))
-        
+
   return []
 
 
@@ -285,7 +282,7 @@ def parseText(intext, format=True):
   text = ""
   for line in intext.split("\n"):
     text += R_JAVADOC_STARS.sub("", line).strip() + "\n"
-    
+
   # Search for attributes
   desc = { "category" : "description", "text" : "" }
   attribs = [ desc ]
@@ -296,14 +293,14 @@ def parseText(intext, format=True):
 
     if mtch == None:
       prevText = text[pos:].strip()
-        
+
       if len(attribs) == 0:
         desc["text"] = prevText
       else:
         attribs[-1]["text"] = prevText
-      
+
       break
-    
+
     prevText = text[pos:mtch.start(0)].strip()
     pos = mtch.end(0)
 
@@ -313,20 +310,18 @@ def parseText(intext, format=True):
       attribs[-1]["text"] = prevText
 
     attribs.append({ "category" : mtch.group(1), "text" : "" })
-      
+
   # parse details
   for attrib in attribs:
     parseDetail(attrib, format)
-    
-  return attribs
 
-    
+  return attribs
 
 
 
 def parseDetail(attrib, format=True):
   text = attrib["text"]
-  
+
   mtch1 = R_PARAM_ATTR.search(text)
   mtch2 = R_TYPE_ATTR.search(text)
 
@@ -339,14 +334,14 @@ def parseDetail(attrib, format=True):
       attrib["array"] = 0
     else:
       attrib["array"] = len(mtch1.group(4)) / 2
-      
+
     attrib["default"] = mtch1.group(7)
     text = text[mtch1.end(0):]
-      
+
   elif mtch2:
     attrib["details"] = True
     attrib["type"] = mtch2.group(1)
-    
+
     if mtch2.group(2) == None:
       attrib["array"] = 0
     else:
@@ -354,40 +349,39 @@ def parseDetail(attrib, format=True):
 
     attrib["default"] = mtch2.group(5)
     text = text[mtch2.end(0):]
-        
+
   else:
     attrib["details"] = False
-    
+
   if format:
     attrib["text"] = formatText(text)
   else:
     attrib["text"] = cleanupText(text)
-    
 
 
-    
+
 def cleanupText(text):
   #print "============= INTEXT ========================="
   #print text
-  
+
   text = text.replace("<p>", "\n")
   text = text.replace("<br/>", "\n")
   text = text.replace("<br>", "\n")
   text = text.replace("</p>", " ")
-  
+
   while True:
     temp = text
     text = temp.replace("\n\n\n", "\n\n")
-    
+
     if text == temp:
       break
-  
+
   #print "============= OUTTEXT ========================="
   #print text
 
   return text
-  
-    
+
+
 
 def formatText(text):
   #print "============= FORMAT:1 ========================="
@@ -398,7 +392,7 @@ def formatText(text):
   text = text.replace("<br/>", "\n")
   text = text.replace("<br>", "\n")
   text = text.replace("</p>", " ")
-  
+
   # cleanup wraps
   text = text.replace("\n\n", "----BREAK----")
   text = text.replace("\n*", "----UL----")
@@ -407,44 +401,43 @@ def formatText(text):
   text = text.replace("----BREAK----", "\n\n")
   text = text.replace("----UL----", "\n*")
   text = text.replace("----OL----", "\n#")
-    
+
   #print "============= FORMAT:2 ========================="
   #print text
- 
+
   text = textile.textile(unicode(text).encode('utf-8'))
 
   #print "============= FORMAT:3 ========================="
   #print text
 
-  return text  
-  
-  
-  
-  
+  return text
 
 
-  
+
+
+
+
+
 
 def getAttrib(attribList, category):
   for attrib in attribList:
     if attrib["category"] == category:
       return attrib
-        
-        
-        
+
+
+
 def getParam(attribList, name):
   for attrib in attribList:
     if attrib["category"] == "param":
       if attrib.has_key("name") and attrib["name"] == name:
-        return attrib          
-        
-        
+        return attrib
+
 
 
 def attribHas(attrib, key):
   if attrib != None and attrib.has_key(key) and not attrib[key] in [ "", None ]:
     return True
-  
+
   return False
 
 
@@ -452,31 +445,31 @@ def attribHas(attrib, key):
 def splitText(orig, attrib=True):
   res = ""
   first = True
-  
+
   for line in orig.split("\n"):
     if attrib:
       if first:
         res += " %s\n" % line
       else:
         res += " *   %s\n" % line
-      
-    else:  
+
+    else:
       res += " * %s\n" % line
-      
+
     first = False
-    
+
   if not res.endswith("\n"):
-    res += "\n"  
+    res += "\n"
 
   return res
-     
+
 
 
 
 def fromFunction(func, member, name, alternative, old=[]):
   #
   # open comment
-  ##############################################################  
+  ##############################################################
   s = "/**\n"
 
 
@@ -484,16 +477,16 @@ def fromFunction(func, member, name, alternative, old=[]):
   # description
   ##############################################################
   oldDesc = getAttrib(old, "description")
-  
+
   if attribHas(oldDesc, "text"):
     newText = oldDesc["text"]
   else:
     newText = "TODOC"
-    
+
   s += splitText(newText, False)
   s += " *\n"
-  
-  
+
+
 
 
   #
@@ -506,9 +499,9 @@ def fromFunction(func, member, name, alternative, old=[]):
       s += " * @mode protected\n"
     else:
       s += " * @mode public\n"
-      
-      
-      
+
+
+
   #
   # add @membership
   ##############################################################
@@ -524,22 +517,22 @@ def fromFunction(func, member, name, alternative, old=[]):
   # add @alternative
   ##############################################################
   oldAlternative = getAttrib(old, "alternative")
-  
+
   if alternative:
     if attribHas(oldAlternative, "text"):
       newText = oldDesc["text"]
     else:
       newText = "TODOC"
-          
+
     s += " * @alternative%s" % splitText(newText)
 
     if not s.endswith("\n"):
       s += "\n"
-    
+
   elif oldAlternative:
     print " * Removing old @alternative for %s" % name
-    
-  
+
+
 
 
   #
@@ -552,25 +545,25 @@ def fromFunction(func, member, name, alternative, old=[]):
         newName = child.getChild("identifier").get("name")
         newType = nameToType(newName)
         newText = nameToDescription(newName)
-        
+
         oldParam = getParam(old, newName)
-        
+
         # Get type and text from old content
-        if oldParam: 
+        if oldParam:
           if attribHas(oldParam, "type"):
             newType = oldParam["type"]
-          
-          if attribHas(oldParam, "text"):  
+
+          if attribHas(oldParam, "text"):
             newText = oldParam["text"]
-            
+
         s += " * @param %s {%s}%s" % (newName, newType, splitText(newText))
 
         if not s.endswith("\n"):
           s += "\n"
 
-  
-  
-  
+
+
+
 
   #
   # add @return
@@ -584,14 +577,14 @@ def fromFunction(func, member, name, alternative, old=[]):
   if oldReturn:
     if attribHas(oldReturn, "type"):
       newType = oldReturn["type"]
-      
+
     if attribHas(oldReturn, "text"):
       newText = oldReturn["text"]
 
   # Try to autodetect the type
   if newType == "void":
     returns = getReturns(func.getChild("body"), [])
-    
+
     if len(returns) > 0:
       newType = ",".join(returns)
     elif name != None and name.startswith("is") and name[3].isupper():
@@ -599,14 +592,14 @@ def fromFunction(func, member, name, alternative, old=[]):
 
   # Add documentation hint in non void cases
   if newType != "void" and newText == "":
-    newText = "TODOC"  
-    
+    newText = "TODOC"
+
   s += " * @return {%s}%s" % (newType, splitText(newText))
-  
+
   if not s.endswith("\n"):
     s += "\n"
-  
-  
+
+
 
 
 
@@ -615,18 +608,18 @@ def fromFunction(func, member, name, alternative, old=[]):
   # add @throws
   ##############################################################
   oldThrows = getAttrib(old, "throws")
-  
+
   if hasThrows(func):
     if oldThrows and attribHas(oldThrows, "text"):
       newText = oldThrows["text"]
     else:
       newText = "TODOC"
-    
+
     s += " * @throws%s" % splitText(newText)
 
     if not s.endswith("\n"):
       s += "\n"
-    
+
   elif oldThrows:
     print " * Removing old @throw for %s" % name
 
@@ -636,7 +629,7 @@ def fromFunction(func, member, name, alternative, old=[]):
   #
   # other @attributes
   ##############################################################
-  
+
   for attrib in old:
     cat = attrib["category"]
 
@@ -645,16 +638,16 @@ def fromFunction(func, member, name, alternative, old=[]):
 
       if attribHas(attrib, "text"):
         s += splitText(attrib["text"])
-      
+
       if not s.endswith("\n"):
         s += "\n"
-          
+
     elif not cat in [ "name", "mode", "membership", "alternative", "param", "return", "throws", "description" ]:
       print
       print " * Found unallowed attribute %s in %s" % (cat, name)
-      
-      
-  
+
+
+
 
 
   #
@@ -737,7 +730,7 @@ def fill(node):
 
     if not hasattr(target, "documentationAdded") and target.parent.type != "params":
       old = []
-      
+
       # create commentsBefore
       if target.hasChild("commentsBefore"):
         commentsBefore = target.getChild("commentsBefore")
@@ -748,7 +741,7 @@ def fill(node):
               old = parseText(child.get("text"), False)
               commentsBefore.removeChild(child)
               break
-              
+
       else:
         commentsBefore = tree.Node("commentsBefore")
         target.addChild(commentsBefore)
@@ -760,7 +753,7 @@ def fill(node):
       commentNode.set("multiline", True)
 
       commentsBefore.addChild(commentNode)
-      
+
       # in case of alternative methods, use the first one, ignore the others
       target.documentationAdded = True
 
