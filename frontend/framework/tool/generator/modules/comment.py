@@ -536,6 +536,33 @@ def fromFunction(func, member, name, alternative, old=[]):
 
 
   #
+  # add @abstract
+  ##############################################################
+  oldAbstract = getAttrib(old, "abstract")
+
+  first = func.getChild("body").getChild("block").getFirstChild(False, True)
+  abstract = first and first.type == "throw"
+
+  if abstract:
+    if attribHas(oldAbstract, "text"):
+      newText = oldDesc["text"]
+    else:
+      newText = ""
+
+    s += " * @abstract%s" % splitText(newText)
+
+    if not s.endswith("\n"):
+      s += "\n"
+
+  elif oldAbstract:
+    print " * Removing old @abstract for %s" % name
+
+
+
+
+
+
+  #
   # add @param
   ##############################################################
   params = func.getChild("params")
@@ -612,6 +639,8 @@ def fromFunction(func, member, name, alternative, old=[]):
   if hasThrows(func):
     if oldThrows and attribHas(oldThrows, "text"):
       newText = oldThrows["text"]
+    elif abstract:
+      newText = "the abstract function warning."
     else:
       newText = "TODOC"
 
