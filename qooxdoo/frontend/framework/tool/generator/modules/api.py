@@ -145,7 +145,7 @@ def handleClassDefinition(docTree, item):
   for attrib in commentAttributes:
     if attrib["category"] == "event":
       # Add the event
-      if comment.attribHas("type"):
+      if comment.attribHas(attrib, "type"):
         addEventNode(classNode, item, attrib);
       else:
         addError(classNode, "Documentation contains malformed event attribute.", item)
