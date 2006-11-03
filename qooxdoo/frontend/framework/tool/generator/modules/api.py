@@ -145,7 +145,7 @@ def handleClassDefinition(docTree, item):
   for attrib in commentAttributes:
     if attrib["category"] == "event":
       # Add the event
-      if comment.attribHas(attrib, "type"):
+      if comment.attribHas(attrib, "name") and comment.attribHas(attrib, "type"):
         addEventNode(classNode, item, attrib);
       else:
         addError(classNode, "Documentation contains malformed event attribute.", item)
@@ -392,17 +392,18 @@ def addTypeInfo(node, commentAttrib=None, item=None):
 
   # add details type etc.
   if commentAttrib.has_key("type"):
-    dataType = commentAttrib["type"]
-    if dataType != None:
-      # print "type: %s" % dataType
-      node.set("type", dataType)
-
-  if commentAttrib.has_key("array"):
-    arrayDims = commentAttrib["array"]
-    if arrayDims != 0:
-      # print "arrayDimensions: %s" % arrayDims
-      node.set("arrayDimensions", arrayDims)
-
+    typeNode = tree.Node("types")
+    node.addChild(typeNode)
+    
+    for item in commentAttrib["type"]:
+      itemNode = tree.Node("entry")
+      typeNode.addChild(itemNode)
+      
+      itemNode.set("type", item["type"])
+      
+      if item["dimensions"] != 0:
+        itemNode.set("dimensions", item["dimensions"])
+        
   if commentAttrib.has_key("default"):
     defaultValue = commentAttrib["default"]
     if defaultValue != None:
@@ -413,17 +414,14 @@ def addTypeInfo(node, commentAttrib=None, item=None):
 
 
 
-def addEventNode(classNode, classItem, attrib):
+def addEventNode(classNode, classItem, commentAttrib):
   node = tree.Node("event")
 
-  node.set("name", attrib["name"])
-  node.addChild(tree.Node("desc").set("text", attrib["text"]))
+  node.set("name", commentAttrib["name"])
+  node.addChild(tree.Node("desc").set("text", commentAttrib["text"]))
 
-  eventType = attrib["type"]
-  if eventType:
-    node.set("type", eventType);
-  else:
-    addError(node, "Event <code>" + eventName + "</code> has no type.", classItem)
+  eventType = commentAttrib["type"]
+  node.set("type", eventType[0]["type"])
 
   classNode.addListChild("events", node)
 
