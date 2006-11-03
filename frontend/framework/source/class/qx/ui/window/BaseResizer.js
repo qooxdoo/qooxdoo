@@ -40,11 +40,20 @@ qx.Class._inheritFrom = function(object) {
 }
 
 /*!
-  If the window is resizeable in each direction
+  If the window is resizeable in the left direction.
 */
 qx.OO.addProperty({ name : "resizeableWest", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+/*!
+  If the window is resizeable in the top direction.
+*/
 qx.OO.addProperty({ name : "resizeableNorth", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+/*!
+  If the window is resizeable in the right direction.
+*/
 qx.OO.addProperty({ name : "resizeableEast", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+/*!
+  If the window is resizeable in the bottom direction.
+*/
 qx.OO.addProperty({ name : "resizeableSouth", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 /*!
