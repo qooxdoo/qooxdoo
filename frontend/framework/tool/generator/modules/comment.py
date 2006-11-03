@@ -37,47 +37,6 @@ R_SIMPLE_TYPE = re.compile(r'^\s*(\(([^\)]+)\))?')
 
 
 
-
-
-# contains 4 groups (1:type, 2:array dimensions, 5:default value)
-# S_TYPE = r'\{([^@][\w\.]*)((\[\])*)(,\s*([^\},]+)\s*)?\}'
-
-# AE1
-# S_TYPE = r'\(\s*  ([\w\.]*)((\[\])*\s*\|\s*?)+        (\s*\?\s*([^\)\|]+)\s*)?   \s*\)'
-# S_TYPE = r'\(\s*([\w\.]*)((\[\])*\s*\|\s*?)+(\s*\?\s*([^\)\|]+)\s*)?\s*\)'
-
-# LIGHT
-# S_TYPE = r'\(([\w\.]*)((\[\])*\|?)(\?\s*([^\)\|]+)\s*)?\)'
-
-S_TYPE = r'\(\w+?\)'
-
-
-# S_TYPE = r'\(   (   ([^@][\w\.]*)((\[\])*){1}    (\s*,\s*([^@][\w\.]*)((\[\])*))*  )   (\?\s*([^\},]+)\s*)?   \)'
-# S_TYPE = r'\((([^@][\w\.]*)((\[\])*){1}(\s*,\s*([^@][\w\.]*)((\[\])*))*)(\?\s*([^\},]+)\s*)?\)'
-
-
-
-
-"""
-1: type
-2: type1
-3: array1
-4: other types
-"""
-  
-
-
-
-# contains same groups as S_TYPE
-R_TYPE_ATTR = re.compile(r'^\s*' + S_TYPE + r'\s*')
-
-# contains 6 groups (1: param name, 3:type, 4:array dimensions, 7:default value)
-R_PARAM_ATTR = re.compile(r'^\s*(\w+)\s+(' + S_TYPE + r')?\s*')
-
-
-
-
-
 VARPREFIXES = {
   "a" : "Array",
   "b" : "boolean",
@@ -377,7 +336,7 @@ def parseDetail(attrib, format=True):
         # print ">>> DEFAULT: %s" % attrib["default"]
         
       typValues = []
-      for typ in remain.split(","):
+      for typ in remain.split("|"):
         typValue = typ.strip()
         arrayIndex = typValue.find("[")
         

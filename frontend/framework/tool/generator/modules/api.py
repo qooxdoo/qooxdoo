@@ -390,20 +390,21 @@ def addTypeInfo(node, commentAttrib=None, item=None):
   # add description
   node.addChild(tree.Node("desc").set("text", commentAttrib["text"]))
 
-  # add details type etc.
+  # add types
   if commentAttrib.has_key("type"):
-    typeNode = tree.Node("types")
-    node.addChild(typeNode)
+    typesNode = tree.Node("types")
+    node.addChild(typesNode)
     
     for item in commentAttrib["type"]:
       itemNode = tree.Node("entry")
-      typeNode.addChild(itemNode)
+      typesNode.addChild(itemNode)
       
       itemNode.set("type", item["type"])
       
       if item["dimensions"] != 0:
         itemNode.set("dimensions", item["dimensions"])
         
+  # add default value
   if commentAttrib.has_key("default"):
     defaultValue = commentAttrib["default"]
     if defaultValue != None:
@@ -420,8 +421,19 @@ def addEventNode(classNode, classItem, commentAttrib):
   node.set("name", commentAttrib["name"])
   node.addChild(tree.Node("desc").set("text", commentAttrib["text"]))
 
-  eventType = commentAttrib["type"]
-  node.set("type", eventType[0]["type"])
+  # add types
+  if commentAttrib.has_key("type"):
+    typesNode = tree.Node("types")
+    node.addChild(typesNode)
+    
+    for item in commentAttrib["type"]:
+      itemNode = tree.Node("entry")
+      typesNode.addChild(itemNode)
+      
+      itemNode.set("type", item["type"])
+      
+      if item["dimensions"] != 0:
+        itemNode.set("dimensions", item["dimensions"])
 
   classNode.addListChild("events", node)
 
