@@ -61,6 +61,14 @@ qx.OO.addProperty({ name : "resizeableSouth", type : qx.constant.Type.BOOLEAN, d
 */
 qx.OO.addPropertyGroup({ name : "resizeable", members : [ "west", "north", "east", "south" ], mode : "shorthand" });
 
+/**
+ * Adjust so that it returns a boolean instead of an array.
+ * @return {boolean}
+ */
+qx.Proto.isResizeable = qx.Proto.getResizeable = function() {
+  return this.getResizeableWest() || this.getResizeableEast() || this.getResizeableNorth() || this.getResizeableSouth();
+}
+
 /*!
   The resize method to use
 */
