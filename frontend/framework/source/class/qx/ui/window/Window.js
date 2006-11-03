@@ -19,15 +19,13 @@
 /* ************************************************************************
 
 #module(ui_window)
-#require(qx.ui.window.BaseResizer)
-*
+
 ************************************************************************ */
 
 qx.OO.defineClass("qx.ui.window.Window", qx.ui.popup.Popup,
 function(vCaption, vIcon, vWindowManager)
 {
   qx.ui.popup.Popup.call(this);
-  qx.ui.window.BaseResizer._inheritFrom(this);
 
   // ************************************************************************
   //   FUNCTIONAL STYLE
@@ -208,15 +206,10 @@ function(vCaption, vIcon, vWindowManager)
   //   EVENTS: WINDOW
   // ************************************************************************
 
-  this.addEventListener(qx.constant.Event.MOUSEDOWN, this.focus);
+  this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onwindowmousedown, this);
+  this.addEventListener(qx.constant.Event.MOUSEUP, this._onwindowmouseup, this);
+  this.addEventListener(qx.constant.Event.MOUSEMOVE, this._onwindowmousemove, this);
   this.addEventListener(qx.constant.Event.CLICK, this._onwindowclick, this);
-  this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedownResizer);
-  this.addEventListener(qx.constant.Event.MOUSEUP, this._onmouseupResizer);
-  this.addEventListener(qx.constant.Event.MOUSEMOVE, function() {
-  	if (this.getMode() == null) {
-      this._onmousemoveResizer.apply(this, arguments);
-  	}
-  });
 
 
   // ************************************************************************
@@ -341,18 +334,24 @@ qx.OO.addProperty({ name : "showCaption", type : qx.constant.Type.BOOLEAN, defau
 qx.OO.addProperty({ name : "showIcon", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 /*!
+  If the window is resizeable
+*/
+qx.OO.addProperty({ name : "resizeable", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+
+/*!
   If the window is moveable
 */
 qx.OO.addProperty({ name : "moveable", type : qx.constant.Type.BOOLEAN, defaultValue : true });
 
 /*!
+  The resize method to use
+*/
+qx.OO.addProperty({ name : "resizeMethod", type : qx.constant.Type.STRING, defaultValue : "frame", possibleValues : [ "opaque", "lazyopaque", "frame", "translucent" ] });
+
+/*!
   The move method to use
 */
 qx.OO.addProperty({ name : "moveMethod", type : qx.constant.Type.STRING, defaultValue : "opaque", possibleValues : [ "opaque", "frame", "translucent" ] });
-
-
-
-
 
 
 
@@ -482,10 +481,10 @@ qx.Proto._beforeDisappear = function()
   // Intentionally bypass superclass and call super.super._beforeDisappear
   qx.ui.layout.CanvasLayout.prototype._beforeDisappear.call(this);
 
-  // Reset focus root to document
+  // Reset focus root
   var vFocusRoot = qx.event.handler.EventHandler.getInstance().getFocusRoot();
   if (vFocusRoot == this || this.contains(vFocusRoot)) {
-    qx.event.handler.EventHandler.getInstance().setFocusRoot(qx.ui.core.ClientDocument.getInstance());
+    qx.event.handler.EventHandler.getInstance().setFocusRoot(null);
   }
 
   // Be sure to disable any capturing inside invisible parts
@@ -866,9 +865,292 @@ qx.Proto._maximize = function()
 
 /*
 ---------------------------------------------------------------------------
-  EVENTS: WINDOW (resizing)
+  EVENTS: WINDOW
 ---------------------------------------------------------------------------
 */
+
+qx.Proto._onwindowmousedown = function(e)
+{
+  this.focus();
+
+  if (this._resizeNorth || this._resizeSouth || this._resizeWest || this._resizeEast)
+  {
+    // enable capturing
+    this.setCapture(true);
+
+    // activate global cursor
+    this.getTopLevelWidget().setGlobalCursor(this.getCursor());
+
+    // caching element
+    var el = this.getElement();
+
+    // measuring and caching of values for resize session
+    var pa = this.getParent();
+    var pl = pa.getElement();
+
+    var l = qx.dom.DomLocation.getPageAreaLeft(pl);
+    var t = qx.dom.DomLocation.getPageAreaTop(pl);
+    var r = qx.dom.DomLocation.getPageAreaRight(pl);
+    var b = qx.dom.DomLocation.getPageAreaBottom(pl);
+
+    // handle frame and translucently
+    switch(this.getResizeMethod())
+    {
+      case qx.ui.window.Window.MODE_TRANSLUCENT:
+        this.setOpacity(0.5);
+        break;
+
+      case qx.ui.window.Window.MODE_FRAME:
+        var f = this._frame;
+
+        if (f.getParent() != this.getParent())
+        {
+          f.setParent(this.getParent());
+          qx.ui.core.Widget.flushGlobalQueues();
+        }
+
+        f._applyRuntimeLeft(qx.dom.DomLocation.getPageBoxLeft(el) - l);
+        f._applyRuntimeTop(qx.dom.DomLocation.getPageBoxTop(el) - t);
+
+        f._applyRuntimeWidth(qx.dom.DomDimension.getBoxWidth(el));
+        f._applyRuntimeHeight(qx.dom.DomDimension.getBoxHeight(el));
+
+        f.setZIndex(this.getZIndex() + 1);
+
+        break;
+    }
+
+    // create resize session
+    var s = this._resizeSession = {};
+
+    if (this._resizeWest)
+    {
+      s.boxWidth = qx.dom.DomDimension.getBoxWidth(el);
+      s.boxRight = qx.dom.DomLocation.getPageBoxRight(el);
+    }
+
+    if (this._resizeWest || this._resizeEast)
+    {
+      s.boxLeft = qx.dom.DomLocation.getPageBoxLeft(el);
+
+      s.parentAreaOffsetLeft = l;
+      s.parentAreaOffsetRight = r;
+
+      s.minWidth = this.getMinWidthValue();
+      s.maxWidth = this.getMaxWidthValue();
+    }
+
+    if (this._resizeNorth)
+    {
+      s.boxHeight = qx.dom.DomDimension.getBoxHeight(el);
+      s.boxBottom = qx.dom.DomLocation.getPageBoxBottom(el);
+    }
+
+    if (this._resizeNorth || this._resizeSouth)
+    {
+      s.boxTop = qx.dom.DomLocation.getPageBoxTop(el);
+
+      s.parentAreaOffsetTop = t;
+      s.parentAreaOffsetBottom = b;
+
+      s.minHeight = this.getMinHeightValue();
+      s.maxHeight = this.getMaxHeightValue();
+    }
+  }
+  else
+  {
+    // cleanup resize session
+    delete this._resizeSession;
+  }
+
+  // stop event
+  e.stopPropagation();
+}
+
+qx.Proto._onwindowmouseup = function(e)
+{
+  var s = this._resizeSession;
+
+  if (s)
+  {
+    // disable capturing
+    this.setCapture(false);
+
+    // deactivate global cursor
+    this.getTopLevelWidget().setGlobalCursor(null);
+
+    // sync sizes to frame
+    switch(this.getResizeMethod())
+    {
+      case qx.ui.window.Window.MODE_FRAME:
+        var o = this._frame;
+        if (!(o && o.getParent())) {
+          break;
+        }
+        // no break here
+
+      case qx.ui.window.Window.MODE_LAZYOPAQUE:
+        if (qx.util.Validation.isValidNumber(s.lastLeft)) {
+          this.setLeft(s.lastLeft);
+        }
+
+        if (qx.util.Validation.isValidNumber(s.lastTop)) {
+          this.setTop(s.lastTop);
+        }
+
+        if (qx.util.Validation.isValidNumber(s.lastWidth)) {
+          this.setWidth(s.lastWidth);
+        }
+
+        if (qx.util.Validation.isValidNumber(s.lastHeight)) {
+          this.setHeight(s.lastHeight);
+        }
+
+        if (this.getResizeMethod() == qx.ui.window.Window.MODE_FRAME) {
+          this._frame.setParent(null);
+        }
+        break;
+
+      case qx.ui.window.Window.MODE_TRANSLUCENT:
+        this.setOpacity(null);
+        break;
+    }
+
+    // cleanup session
+    delete this._resizeNorth;
+    delete this._resizeEast;
+    delete this._resizeSouth;
+    delete this._resizeWest;
+
+    delete this._resizeSession;
+  }
+
+  // stop event
+  e.stopPropagation();
+}
+
+qx.Proto._near = function(p, e) {
+  return e > (p - 5) && e < (p + 5);
+}
+
+qx.Proto._onwindowmousemove = function(e)
+{
+  if (!this.getResizeable() || this.getMode() != null) {
+    return;
+  }
+
+  var s = this._resizeSession;
+
+  if (s)
+  {
+    if (this._resizeWest)
+    {
+      s.lastWidth = qx.lang.Number.limit(s.boxWidth + s.boxLeft - Math.max(e.getPageX(), s.parentAreaOffsetLeft), s.minWidth, s.maxWidth);
+      s.lastLeft = s.boxRight - s.lastWidth - s.parentAreaOffsetLeft;
+    }
+    else if (this._resizeEast)
+    {
+      s.lastWidth = qx.lang.Number.limit(Math.min(e.getPageX(), s.parentAreaOffsetRight) - s.boxLeft, s.minWidth, s.maxWidth);
+    }
+
+    if (this._resizeNorth)
+    {
+      s.lastHeight = qx.lang.Number.limit(s.boxHeight + s.boxTop - Math.max(e.getPageY(), s.parentAreaOffsetTop), s.minHeight, s.maxHeight);
+      s.lastTop = s.boxBottom - s.lastHeight - s.parentAreaOffsetTop;
+    }
+    else if (this._resizeSouth)
+    {
+      s.lastHeight = qx.lang.Number.limit(Math.min(e.getPageY(), s.parentAreaOffsetBottom) - s.boxTop, s.minHeight, s.maxHeight);
+    }
+
+    switch(this.getResizeMethod())
+    {
+      case qx.ui.window.Window.MODE_OPAQUE:
+      case qx.ui.window.Window.MODE_TRANSLUCENT:
+        if (this._resizeWest || this._resizeEast)
+        {
+          this.setWidth(s.lastWidth);
+
+          if (this._resizeWest) {
+            this.setLeft(s.lastLeft);
+          }
+        }
+
+        if (this._resizeNorth || this._resizeSouth)
+        {
+          this.setHeight(s.lastHeight);
+
+          if (this._resizeNorth) {
+            this.setTop(s.lastTop);
+          }
+        }
+
+        break;
+
+      default:
+        var o = this.getResizeMethod() == qx.ui.window.Window.MODE_FRAME ? this._frame : this;
+
+        if (this._resizeWest || this._resizeEast)
+        {
+          o._applyRuntimeWidth(s.lastWidth);
+
+          if (this._resizeWest) {
+            o._applyRuntimeLeft(s.lastLeft);
+          }
+        }
+
+        if (this._resizeNorth || this._resizeSouth)
+        {
+          o._applyRuntimeHeight(s.lastHeight);
+
+          if (this._resizeNorth) {
+            o._applyRuntimeTop(s.lastTop);
+          }
+        }
+    }
+  }
+  else
+  {
+    var resizeMode = qx.constant.Core.EMPTY;
+    var el = this.getElement();
+
+    this._resizeNorth = this._resizeSouth = this._resizeWest = this._resizeEast = false;
+
+    if (this._near(qx.dom.DomLocation.getPageBoxTop(el), e.getPageY()))
+    {
+      resizeMode = "n";
+      this._resizeNorth = true;
+    }
+    else if (this._near(qx.dom.DomLocation.getPageBoxBottom(el), e.getPageY()))
+    {
+      resizeMode = "s";
+      this._resizeSouth = true;
+    }
+
+    if (this._near(qx.dom.DomLocation.getPageBoxLeft(el), e.getPageX()))
+    {
+      resizeMode += "w";
+      this._resizeWest = true;
+    }
+    else if (this._near(qx.dom.DomLocation.getPageBoxRight(el), e.getPageX()))
+    {
+      resizeMode += "e";
+      this._resizeEast = true;
+    }
+
+    if (this._resizeNorth || this._resizeSouth || this._resizeWest || this._resizeEast)
+    {
+      this.setCursor(resizeMode + "-resize");
+    }
+    else
+    {
+      this.setCursor(null);
+    }
+  }
+
+  // stop event
+  e.stopPropagation();
+}
 
 qx.Proto._onwindowclick = function(e)
 {
@@ -876,33 +1158,6 @@ qx.Proto._onwindowclick = function(e)
   e.stopPropagation();
 };
 
-/**
- * Overriden from qx.ui.window.BaseResizer
- */
-qx.Proto._changeWidth = function(value) {
-  this.setWidth(value);
-}
-
-/**
- * Overriden from qx.ui.window.BaseResizer
- */
-qx.Proto._changeHeight = function(value) {
-  this.setHeight(value);
-}
-
-/**
- * Overridden from qx.ui.window.BaseResizer
- */
-qx.Proto._getResizeParent = function() {
-  return this.getParent();
-}
-
-/**
- * Overridden from qx.ui.window.BaseResizer
- */
-qx.Proto._getMinSizeReference = function() {
-  return this;
-}
 
 
 
