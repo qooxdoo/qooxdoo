@@ -56,9 +56,9 @@ VARNAMES = {
   "a" : "Array",
   "arr" : "Array",
 
-  "e" : "event",
-  "ev" : "event",
-  "evt" : "event",
+  "e" : "Event",
+  "ev" : "Event",
+  "evt" : "Event",
 
   "el" : "Element",
   "elem" : "Element",
@@ -66,6 +66,9 @@ VARNAMES = {
 
   "ex" : "Exception",
   "exc" : "Exception",
+    
+  "flag" : "boolean",
+  "force" : "boolean",
 
   "f" : "Function",
   "func" : "Function",
@@ -574,7 +577,8 @@ def fromFunction(func, member, name, alternative, old=[]):
     for child in params.children:
       if child.type == "variable":
         newName = child.getChild("identifier").get("name")
-        newType = nameToType(newName)
+        newType = newTypeText = nameToType(newName)
+        newDefault = ""
         newText = nameToDescription(newName)
 
         oldParam = getParam(old, newName)
@@ -583,14 +587,27 @@ def fromFunction(func, member, name, alternative, old=[]):
         if oldParam:
           if attribHas(oldParam, "type"):
             newType = oldParam["type"]
+            newTypeText = ""
+            
+            firstType = True
+            for entry in newType:
+              if not firstType:
+                newTypeText += " | "
 
-            if attribHas(oldParam, "array"):
-              newType += "[]" * oldParam["array"]
+              newTypeText += entry["type"]
+
+              if entry.has_key("dimensions") and entry["dimensions"] > 0:
+                newTypeText += "[]" * entry["dimensions"]
+
+              firstType = False
+              
+          if attribHas(oldParam, "defaultValue"):
+            newDefault = oldParam["defaultValue"]
 
           if attribHas(oldParam, "text"):
             newText = oldParam["text"]
 
-        s += " * @param %s {%s}%s" % (newName, newType, splitText(newText))
+        s += " * @param %s (%s%s)%s" % (newName, newTypeText, newDefault, splitText(newText))
 
         if not s.endswith("\n"):
           s += "\n"
@@ -631,7 +648,7 @@ def fromFunction(func, member, name, alternative, old=[]):
   if newType != "void" and newText == "":
     newText = "TODOC"
 
-  s += " * @return {%s}%s" % (newType, splitText(newText))
+  s += " * @return (%s)%s" % (newType, splitText(newText))
 
   if not s.endswith("\n"):
     s += "\n"
