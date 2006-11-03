@@ -23,10 +23,10 @@
 *
 ************************************************************************ */
 
-/*
+/**
  * This class acts as a wrapper for other child, and allows it to be resized (not moved), normally in
  * the right and/or bottom directions.  Child can be e.g. a qx.ui.form.TextArea,
- * qx.ui.table.Table or qx.ui.form.List.
+ * qx.ui.table.Table or qx.ui.form.List.  It is an alternative to splitters.
  */
 qx.OO.defineClass('qx.ui.window.Resizer', qx.ui.layout.CanvasLayout, function(child) {
   qx.ui.layout.CanvasLayout.call(this);
