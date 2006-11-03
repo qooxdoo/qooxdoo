@@ -41,7 +41,7 @@ function() {
  * <li>xPos (int): the x position of the cell in the table pane.</li>
  * </ul>
  *
- * @param cellInfo {Map} A map containing the information about the cell to
+ * @param cellInfo (Map) A map containing the information about the cell to
  *    create.
  * @return {qx.ui.core.Widget} the widget that should be used as cell editor.
  */
@@ -53,7 +53,7 @@ qx.Proto.createCellEditor = function(cellInfo) {
 /**
  * Returns the current value of a cell editor.
  *
- * @param cellEditor {qx.ui.core.Widget} The cell editor formally created by
+ * @param cellEditor (qx.ui.core.Widget) The cell editor formally created by
  *    {@link #createCellEditor}.
  * @return {var} the current value from the editor.
  */

@@ -28,8 +28,8 @@
  * new qx.ui.splitpane.VerticalSplitPane()<br />
  * new qx.ui.splitpane.VerticalSplitPane(firstSize, secondSize)
  *
- * @param firstSize {string} The size of the top pane. Allowed values are any by {@see qx.ui.core.Widget} supported unit.
- * @param secondSize {string} The size of the bottom pane. Allowed values are any by {@see qx.ui.core.Widget} supported unit.
+ * @param firstSize (string) The size of the top pane. Allowed values are any by {@see qx.ui.core.Widget} supported unit.
+ * @param secondSize (string) The size of the bottom pane. Allowed values are any by {@see qx.ui.core.Widget} supported unit.
  */
 qx.OO.defineClass("qx.ui.splitpane.VerticalSplitPane", qx.ui.splitpane.SplitPane,
 function(firstSize, secondSize) {

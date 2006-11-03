@@ -23,7 +23,7 @@
 /**
  * A scroll bar.
  *
- * @param horizontal {boolean ? false} whether the scroll bar should be
+ * @param horizontal (boolean ? false) whether the scroll bar should be
  *    horizontal. If false it will be vertical.
  */
 qx.OO.defineClass("qx.ui.core.ScrollBar", qx.ui.layout.BoxLayout,
@@ -191,7 +191,7 @@ qx.Proto._getScrollBarWidth = function() {
 /**
  * Event handler. Called when the user scrolled.
  *
- * @param evt {Map} the event.
+ * @param evt (Map) the event.
  */
 qx.Proto._onscroll = function(evt) {
   var value = this._horizontal ? this._scrollBar.getScrollLeft() : this._scrollBar.getScrollTop();
@@ -217,7 +217,7 @@ qx.Proto._onscroll = function(evt) {
 /**
  * Positions the scroll bar knob at a certain value.
  *
- * @param value {int} The value where to postion the scroll bar.
+ * @param value (int) The value where to postion the scroll bar.
  */
 qx.Proto._positionKnob = function(value) {
   if (this._horizontal) {

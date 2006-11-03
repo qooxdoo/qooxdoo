@@ -27,7 +27,7 @@
  * This class does not depend on qooxdoo widgets, so it also works when there
  * are problems with widgets or when the widgets are not yet initialized.
  *
- * @param divId {string ? "qx_log"} the ID of the div element to write the
+ * @param divId (string ? "qx_log") the ID of the div element to write the
  *        messages to.
  */
 qx.OO.defineClass("qx.dev.log.DivAppender", qx.dev.log.Appender,
@@ -73,8 +73,8 @@ qx.OO.addProperty({ name:"errorClassName", type:qx.constant.Type.STRING, default
  * Creates an onclick handler that clears a div element. This method is used to
  * create a minimum closure.
  *
- * @param logElem {Element} the element to clear when the handler is called.
- * @return {function} the handler.
+ * @param logElem (Element) the element to clear when the handler is called.
+ * @return (function) the handler.
  */
 qx.Proto._createClearButtonHandler = function(logElem) {
   return function(evt) {

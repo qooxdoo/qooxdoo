@@ -46,7 +46,7 @@ qx.Proto.handleLogEvent = function(evt) {
 /**
  * Appends a log event to the log.
  *
- * @param evt {Map} The event to append.
+ * @param evt (Map) The event to append.
  */
 qx.Proto.appendLogEvent = function(evt) {
   throw new Error("appendLogEvent is abstract");
@@ -56,8 +56,8 @@ qx.Proto.appendLogEvent = function(evt) {
 /**
  * Formats a log event.
  *
- * @param evt {Map} The log event to format.
- * @return {string} The formatted event.
+ * @param evt (Map) The log event to format.
+ * @return (string) The formatted event.
  */
 qx.Proto.formatLogEvent = function(evt) {
   var Logger = qx.dev.log.Logger;
@@ -159,8 +159,8 @@ qx.Proto.formatLogEvent = function(evt) {
 /**
  * Beautifies a stack trace.
  *
- * @param stack {string} the stack trace to beautify.
- * @return {string} the beautified stack trace.
+ * @param stack (string) the stack trace to beautify.
+ * @return (string) the beautified stack trace.
  */
 qx.Proto._beautyStackTrace = function(stack) {
   // e.g. "()@http://localhost:8080/webcomponent-test-SNAPSHOT/webcomponent/js/com/ptvag/webcomponent/common/log/Logger:253"

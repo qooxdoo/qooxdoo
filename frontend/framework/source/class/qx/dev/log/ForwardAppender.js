@@ -24,7 +24,7 @@
 /**
  * An appender that forwards all log events to a log event processor.
  *
- * @param targetProcessor {LogEventProcessor} The log event processor Where to
+ * @param targetProcessor (LogEventProcessor) The log event processor Where to
  *    pass the log events.
  */
 qx.OO.defineClass("qx.dev.log.ForwardAppender", qx.dev.log.Appender,

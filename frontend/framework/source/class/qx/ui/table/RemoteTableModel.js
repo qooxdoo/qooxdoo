@@ -87,7 +87,7 @@ qx.Proto._loadRowCount = function() {
  * <p>
  * Has to be called by {@link _loadRowCount()}.
  *
- * @param rowCount {int} the number of rows in this model or null if loading.
+ * @param rowCount (int) the number of rows in this model or null if loading.
  */
 qx.Proto._onRowCountLoaded = function(rowCount) {
   this.debug("row count loaded: " + rowCount);
@@ -185,8 +185,8 @@ qx.Proto.prefetchRows = function(firstRowIndex, lastRowIndex) {
  * Implementing classes have to call {@link _onRowDataLoaded()} when the server
  * response arrived. That method has to be called! Even when there was an error.
  *
- * @param firstRow {int} The index of the first row to load.
- * @param lastRow {int} The index of the last row to load.
+ * @param firstRow (int) The index of the first row to load.
+ * @param lastRow (int) The index of the last row to load.
  */
 qx.Proto._loadRowData = function(firstRow, lastRow) {
   throw new Error("_loadRowCount is abstract");
@@ -198,7 +198,7 @@ qx.Proto._loadRowData = function(firstRow, lastRow) {
  * <p>
  * Has to be called by {@link _loadRowData()}.
  *
- * @param rowDataArr {Map[]} the loaded row data or null if there was an error.
+ * @param rowDataArr (Map[]) the loaded row data or null if there was an error.
  */
 qx.Proto._onRowDataLoaded = function(rowDataArr) {
   if (rowDataArr != null && ! this._ignoreCurrentRequest) {
@@ -246,8 +246,8 @@ qx.Proto._onRowDataLoaded = function(rowDataArr) {
 /**
  * Sets the data of one block.
  *
- * @param block {int} the index of the block.
- * @param rowDataArr {var[][]} the data to set.
+ * @param block (int) the index of the block.
+ * @param rowDataArr (var[][]) the data to set.
  */
 qx.Proto._setRowBlockData = function(block, rowDataArr) {
   if (this._rowBlockCache[block] == null) {
@@ -281,7 +281,7 @@ qx.Proto._setRowBlockData = function(block, rowDataArr) {
 /**
  * <p>See overridden method for details.</p>
  *
- * @param rowIndex {int} the model index of the row.
+ * @param rowIndex (int) the model index of the row.
  * @return {Object} Map containing a value for each column.
  */
 qx.Proto.getRowData = function(rowIndex) {
@@ -319,8 +319,8 @@ qx.Proto.getValue = function(columnIndex, rowIndex) {
 /**
  * Sets whether a column is sortable.
  *
- * @param columnIndex {int} the column of which to set the sortable state.
- * @param sortable {boolean} whether the column should be sortable.
+ * @param columnIndex (int) the column of which to set the sortable state.
+ * @param sortable (boolean) whether the column should be sortable.
  */
 qx.Proto.setColumnSortable = function(columnIndex, sortable) {
   if (sortable != this.isColumnSortable(columnIndex)) {
