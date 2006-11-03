@@ -868,13 +868,13 @@ qx.Proto._createMethodInfo = function(node, nodeType, fromClassNode, showDetails
   }
 
   // Add the title (the method signature)
-  info.titleHtml += '<span class="methodSignature"> (';
+  info.titleHtml += '<span class="methodSignature"> <span class="parenthesis">(</span>';
   var paramsNode = TreeUtil.getChild(docNode, "params");
   if (paramsNode) {
     for (var i = 0; i < paramsNode.children.length; i++) {
       var param = paramsNode.children[i];
       if (i != 0) {
-        info.titleHtml += ", ";
+        info.titleHtml += '<span class="separator">,</span> ';
       }
       info.titleHtml += '<span class="parameterType">' + this._createTypeHtml(param, fromClassNode, "var") + "</span> "
         + param.attributes.name;
@@ -883,7 +883,7 @@ qx.Proto._createMethodInfo = function(node, nodeType, fromClassNode, showDetails
       }
     }
   }
-  info.titleHtml += ")</span>";
+  info.titleHtml += '<span class="parenthesis">)</span></span>';
 
   // Add the description
   if (node.attributes.isCtor) {
@@ -1239,10 +1239,14 @@ qx.Proto._createTypeHtml = function(typeNode, packageBaseClass, defaultType, use
   {
     typeHtml = "";
     
+    if (types.length > 1) {
+      typeHtml += "(" 
+    }
+    
     for (var j=0; j<types.length; j++)
     {
       if (j>0) {
-        typeHtml += " or "; 
+        typeHtml += " | "; 
       }
       
       typeName = types[j].type;
@@ -1271,6 +1275,10 @@ qx.Proto._createTypeHtml = function(typeNode, packageBaseClass, defaultType, use
           typeHtml += "[]";
         }
       }
+    }
+    
+    if (types.length > 1) {
+      typeHtml += ")" 
     }
   }
 
