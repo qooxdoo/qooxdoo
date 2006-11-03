@@ -215,7 +215,15 @@
   font-style: italic;
 }
 
+#ClassViewer span.methodSignature span.separator{
+  color: #134275;
+  font-weight: bold;
+}
 
+#ClassViewer span.methodSignature span.parenthesis{
+  color: #134275;
+  font-weight: bold;
+}
 
 
 
