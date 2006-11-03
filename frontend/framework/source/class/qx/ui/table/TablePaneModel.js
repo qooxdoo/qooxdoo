@@ -29,7 +29,7 @@
  * @param tableColumnModel (TableColumnModel) The TableColumnModel of which this
  *    model is the proxy.
  *
- * @event modelChanged {qx.event.type.Event} Fired when the model changed.
+ * @event modelChanged (qx.event.type.Event) Fired when the model changed.
  */
 qx.OO.defineClass("qx.ui.table.TablePaneModel", qx.core.Target,
 function(tableColumnModel) {

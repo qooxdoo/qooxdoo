@@ -26,8 +26,8 @@
  *
  * Includes support for RGB and HSB color areas.
  *
- * @event dialogok {qx.event.type.Event}
- * @event dialogcancel {qx.event.type.Event}
+ * @event dialogok (qx.event.type.Event)
+ * @event dialogcancel (qx.event.type.Event)
  */
 qx.OO.defineClass("qx.ui.component.ColorSelector", qx.ui.layout.VerticalBoxLayout,
 function(vPreviousRed, vPreviousGreen, vPreviousBlue)

@@ -27,7 +27,7 @@
  * @param date (Date ? null) The initial date to show. If <code>null</code>
  *        the current day (today) is shown.
  *
- * @event select {qx.event.type.DataEvent} Fired when a date was selected. The
+ * @event select (qx.event.type.DataEvent) Fired when a date was selected. The
  *        event holds the new selected date in its data property.
  */
 qx.OO.defineClass("qx.ui.component.DateChooser", qx.ui.layout.BoxLayout,

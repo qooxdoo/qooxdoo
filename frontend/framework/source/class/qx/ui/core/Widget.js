@@ -37,33 +37,33 @@
 /**
  * This is the main widget, all visible objects in the application extend this.
  *
- * @event beforeAppear {qx.event.type.Event}
- * @event appear {qx.event.type.Event}
- * @event beforeDisappear {qx.event.type.Event}
- * @event disappear {qx.event.type.Event}
- * @event beforeInsertDom {qx.event.type.Event}
- * @event insertDom {qx.event.type.Event}
- * @event beforeRemoveDom {qx.event.type.Event}
- * @event removeDom {qx.event.type.Event}
- * @event create {qx.event.type.Event}
- * @event execute {qx.event.type.Event}
- * @event FADE_FINISHED {qx.event.type.DataEvent}
- * @event mouseover {qx.event.type.MouseEvent} (Fired by {@link qx.event.handler.EventHandler})
- * @event mousemove {qx.event.type.MouseEvent} (Fired by {@link qx.event.handler.EventHandler})
- * @event mouseout {qx.event.type.MouseEvent} (Fired by {@link qx.event.handler.EventHandler})
- * @event mousedown {qx.event.type.MouseEvent} (Fired by {@link qx.event.handler.EventHandler})
- * @event mouseup {qx.event.type.MouseEvent} (Fired by {@link qx.event.handler.EventHandler})
- * @event mousewheel {qx.event.type.MouseEvent} (Fired by {@link qx.event.handler.EventHandler})
- * @event click {qx.event.type.MouseEvent} (Fired by {@link qx.event.handler.EventHandler})
- * @event dblclick {qx.event.type.MouseEvent} (Fired by {@link qx.event.handler.EventHandler})
- * @event contextmenu {qx.event.type.MouseEvent} (Fired by {@link qx.event.handler.EventHandler})
- * @event keydown {qx.event.type.KeyEvent} (Fired by {@link qx.event.handler.EventHandler})
- * @event keypress {qx.event.type.KeyEvent} (Fired by {@link qx.event.handler.EventHandler})
- * @event keyup {qx.event.type.KeyEvent} (Fired by {@link qx.event.handler.EventHandler})
- * @event focusout {qx.event.type.FocusEvent} (Fired by {@link qx.ui.core.Parent})
- * @event focusin {qx.event.type.FocusEvent} (Fired by {@link qx.ui.core.Parent})
- * @event blur {qx.event.type.FocusEvent} (Fired by {@link qx.ui.core.Parent})
- * @event focus {qx.event.type.FocusEvent} (Fired by {@link qx.ui.core.Parent})
+ * @event beforeAppear (qx.event.type.Event)
+ * @event appear (qx.event.type.Event)
+ * @event beforeDisappear (qx.event.type.Event)
+ * @event disappear (qx.event.type.Event)
+ * @event beforeInsertDom (qx.event.type.Event)
+ * @event insertDom (qx.event.type.Event)
+ * @event beforeRemoveDom (qx.event.type.Event)
+ * @event removeDom (qx.event.type.Event)
+ * @event create (qx.event.type.Event)
+ * @event execute (qx.event.type.Event)
+ * @event FADE_FINISHED (qx.event.type.DataEvent)
+ * @event mouseover (qx.event.type.MouseEvent) (Fired by {@link qx.event.handler.EventHandler})
+ * @event mousemove (qx.event.type.MouseEvent) (Fired by {@link qx.event.handler.EventHandler})
+ * @event mouseout (qx.event.type.MouseEvent) (Fired by {@link qx.event.handler.EventHandler})
+ * @event mousedown (qx.event.type.MouseEvent) (Fired by {@link qx.event.handler.EventHandler})
+ * @event mouseup (qx.event.type.MouseEvent) (Fired by {@link qx.event.handler.EventHandler})
+ * @event mousewheel (qx.event.type.MouseEvent) (Fired by {@link qx.event.handler.EventHandler})
+ * @event click (qx.event.type.MouseEvent) (Fired by {@link qx.event.handler.EventHandler})
+ * @event dblclick (qx.event.type.MouseEvent) (Fired by {@link qx.event.handler.EventHandler})
+ * @event contextmenu (qx.event.type.MouseEvent) (Fired by {@link qx.event.handler.EventHandler})
+ * @event keydown (qx.event.type.KeyEvent) (Fired by {@link qx.event.handler.EventHandler})
+ * @event keypress (qx.event.type.KeyEvent) (Fired by {@link qx.event.handler.EventHandler})
+ * @event keyup (qx.event.type.KeyEvent) (Fired by {@link qx.event.handler.EventHandler})
+ * @event focusout (qx.event.type.FocusEvent) (Fired by {@link qx.ui.core.Parent})
+ * @event focusin (qx.event.type.FocusEvent) (Fired by {@link qx.ui.core.Parent})
+ * @event blur (qx.event.type.FocusEvent) (Fired by {@link qx.ui.core.Parent})
+ * @event focus (qx.event.type.FocusEvent) (Fired by {@link qx.ui.core.Parent})
  */
 qx.OO.defineClass("qx.ui.core.Widget", qx.core.Target,
 function()
