@@ -24,7 +24,7 @@
 /**
  * Shows calendar and allows choosing a date.
  *
- * @param date {Date ? null} The initial date to show. If <code>null</code>
+ * @param date (Date ? null) The initial date to show. If <code>null</code>
  *        the current day (today) is shown.
  *
  * @event select {qx.event.type.DataEvent} Fired when a date was selected. The
@@ -209,7 +209,7 @@ qx.Proto._modifyDate = function(propValue, propOldValue, propData) {
 /**
  * Event handler. Called when a navigation button has been clicked.
  *
- * @param evt {Map} the event.
+ * @param evt (Map) the event.
  */
 qx.Proto._onNavButtonClicked = function(evt) {
   var year = this.getShownYear();
@@ -245,7 +245,7 @@ qx.Proto._onNavButtonClicked = function(evt) {
 /**
  * Event handler. Called when a day has been clicked.
  *
- * @param evt {Map} the event.
+ * @param evt (Map) the event.
  */
 qx.Proto._onDayClicked = function(evt) {
   var time = evt.getCurrentTarget().dateTime;
@@ -259,7 +259,7 @@ qx.Proto._onDayDblClicked = function() {
 /**
  * Event handler. Called when a key was pressed.
  *
- * @param evt {Map} the event.
+ * @param evt (Map) the event.
  */
 qx.Proto._onkeydown = function(evt) {
   var dayIncrement = null;
@@ -333,7 +333,7 @@ qx.Proto._onkeydown = function(evt) {
 /**
  * Returns whether a certain day of week belongs to the week end.
  *
- * @param dayOfWeek {int} the day to check. (0 = sunday, 1 = monday, ...,
+ * @param dayOfWeek (int) the day to check. (0 = sunday, 1 = monday, ...,
  *    6 = saturday)
  * @return {boolean} whether the day belongs to the week end.
  */
@@ -345,9 +345,9 @@ qx.Proto._isWeekend = function(dayOfWeek) {
 /**
  * Shows a certain month.
  *
- * @param month {int ? null} the month to show (0 = january). If not set the month
+ * @param month (int ? null) the month to show (0 = january). If not set the month
  *    will remain the same.
- * @param year {int ? null} the year to show. If not set the year will remain the
+ * @param year (int ? null) the year to show. If not set the year will remain the
  *    same.
  */
 qx.Proto.showMonth = function(month, year) {

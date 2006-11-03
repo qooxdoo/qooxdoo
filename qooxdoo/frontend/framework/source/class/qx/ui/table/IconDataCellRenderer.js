@@ -35,7 +35,7 @@ function() {
 /**
  * Identifies the Image to show.
  *
- * @param cellInfo {Map} The information about the cell.
+ * @param cellInfo (Map) The information about the cell.
  *        See {@link #createDataCellHtml}.
  * @return {Map} A map having the following attributes:
  *         <ul>
@@ -53,7 +53,7 @@ qx.Proto._identifyImage = function(cellInfo) {
 /**
  * Retrieves the image infos. 
  *
- * @param cellInfo {Map} The information about the cell.
+ * @param cellInfo (Map) The information about the cell.
  *        See {@link #createDataCellHtml}.
  * @return {Map} Map with an "url" attribute (type string) 
  *               holding the URL of the image to show 

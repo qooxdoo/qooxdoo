@@ -202,7 +202,7 @@ qx.Proto.getSetting = function(vKey) {
 /**
  * Returns the logger of this class.
  *
- * @return {qx.dev.log.Logger} the logger of this class.
+ * @return (qx.dev.log.Logger) the logger of this class.
  */
 qx.Proto.getLogger = function() {
   return qx.dev.log.Logger.getClassLogger(this.constructor);
@@ -212,9 +212,9 @@ qx.Proto.getLogger = function() {
 /**
  * Logs a debug message.
  *
- * @param msg {var} the message to log. If this is not a string, the
+ * @param msg (var) the message to log. If this is not a string, the
  *        object dump will be logged.
- * @param exc {var ? null} the exception to log.
+ * @param exc (var ? null) the exception to log.
  */
 qx.Proto.debug = function(msg, exc) {
   this.getLogger().debug(msg, this._hashCode, exc);
@@ -224,9 +224,9 @@ qx.Proto.debug = function(msg, exc) {
 /**
  * Logs an info message.
  *
- * @param msg {var} the message to log. If this is not a string, the
+ * @param msg (var) the message to log. If this is not a string, the
  *    object dump will be logged.
- * @param exc {var ? null} the exception to log.
+ * @param exc (var ? null) the exception to log.
  */
 qx.Proto.info = function(msg, exc) {
   this.getLogger().info(msg, this._hashCode, exc);
@@ -236,9 +236,9 @@ qx.Proto.info = function(msg, exc) {
 /**
  * Logs a warning message.
  *
- * @param msg {var} the message to log. If this is not a string, the
+ * @param msg (var) the message to log. If this is not a string, the
  *    object dump will be logged.
- * @param exc {var ? null} the exception to log.
+ * @param exc (var ? null) the exception to log.
  */
 qx.Proto.warn = function(msg, exc) {
   this.getLogger().warn(msg, this._hashCode, exc);
@@ -248,9 +248,9 @@ qx.Proto.warn = function(msg, exc) {
 /**
  * Logs an error message.
  *
- * @param msg {var} the message to log. If this is not a string, the
+ * @param msg (var) the message to log. If this is not a string, the
  *    object dump will be logged.
- * @param exc {var ? null} the exception to log.
+ * @param exc (var ? null) the exception to log.
  */
 qx.Proto.error = function(msg, exc) {
   this.getLogger().error(msg, this._hashCode, exc);

@@ -52,7 +52,7 @@ function() {
  *   element.</li>
  * </ul>
  *
- * @param cellInfo {Map} A map containing the information about the cell to
+ * @param cellInfo (Map) A map containing the information about the cell to
  *    create.
  * @return {string} the HTML of the data cell.
  */
@@ -64,9 +64,9 @@ qx.Proto.createDataCellHtml = function(cellInfo) {
 /**
  * Updates a data cell.
  *
- * @param cellInfo {Map} A map containing the information about the cell to
+ * @param cellInfo (Map) A map containing the information about the cell to
  *    create. This map has the same structure as in {@link #createDataCell}.
- * @param cellElement {element} the DOM element that renders the data cell. This
+ * @param cellElement (element) the DOM element that renders the data cell. This
  *    is the same element formally created by the HTML from {@link #createDataCell}.
  */
 qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
