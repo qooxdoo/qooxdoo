@@ -37,7 +37,7 @@ function() {
  *
  * @param cellInfo (Map) The information about the cell.
  *        See {@link #createDataCellHtml}.
- * @return {Map} A map having the following attributes:
+ * @return (Map) A map having the following attributes:
  *         <ul>
  *         <li>"url": (type string) must be the URL of the image to show.</li>
  *         <li>"imageWidth": (type int) the width of the image in pixels.</li>
@@ -55,7 +55,7 @@ qx.Proto._identifyImage = function(cellInfo) {
  *
  * @param cellInfo (Map) The information about the cell.
  *        See {@link #createDataCellHtml}.
- * @return {Map} Map with an "url" attribute (type string) 
+ * @return (Map) Map with an "url" attribute (type string) 
  *               holding the URL of the image to show 
  *               and a "tooltip" attribute 
  *               (type string) being the tooltip text (or null if none was specified) 

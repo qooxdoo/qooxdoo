@@ -85,7 +85,7 @@ qx.Proto._onColVisibilityChanged = function(evt) {
 /**
  * Returns the number of columns in this model.
  *
- * @return {int} the number of columns in this model.
+ * @return (int) the number of columns in this model.
  */
 qx.Proto.getColumnCount = function() {
   if (this._columnCount == null) {
@@ -107,7 +107,7 @@ qx.Proto.getColumnCount = function() {
  * Returns the model index of the column at the position <code>xPos</code>.
  *
  * @param xPos (int) the x postion in the table pane of the column.
- * @return {int} the model index of the column.
+ * @return (int) the model index of the column.
  */
 qx.Proto.getColumnAtX = function(xPos) {
   var firstX = this.getFirstColumnX();
@@ -119,7 +119,7 @@ qx.Proto.getColumnAtX = function(xPos) {
  * Returns the x position of the column <code>col</code>.
  *
  * @param col (int) the model index of the column.
- * @return {int} the x postion in the table pane of the column.
+ * @return (int) the x postion in the table pane of the column.
  */
 qx.Proto.getX = function(col) {
   var firstX = this.getFirstColumnX();
@@ -162,7 +162,7 @@ qx.Proto.getColumnLeft = function(col) {
 /**
  * Returns the total width of all columns in the model.
  *
- * @return {int} the total width of all columns in the model.
+ * @return (int) the total width of all columns in the model.
  */
 qx.Proto.getTotalWidth = function() {
   var totalWidth = 0;
@@ -175,5 +175,5 @@ qx.Proto.getTotalWidth = function() {
 }
 
 
-/** {string} The type of the event fired when the model changed. */
+/** (string) The type of the event fired when the model changed. */
 qx.Class.EVENT_TYPE_MODEL_CHANGED = "modelChanged";

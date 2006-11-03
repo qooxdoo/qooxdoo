@@ -41,11 +41,11 @@ qx.Proto.decide = function(evt) {
 }
 
 
-/** {int} Specifies that the log event is accepted. */
+/** (int) Specifies that the log event is accepted. */
 qx.Class.ACCEPT = 1;
 
-/** {int} Specifies that the log event is denied. */
+/** (int) Specifies that the log event is denied. */
 qx.Class.DENY = 2;
 
-/** {int} Specifies that the filter is neutral to the log event. */
+/** (int) Specifies that the filter is neutral to the log event. */
 qx.Class.NEUTRAL = 3;

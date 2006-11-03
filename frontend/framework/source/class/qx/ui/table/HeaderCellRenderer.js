@@ -45,7 +45,7 @@ function() {
  *
  * @param cellInfo (Map) A map containing the information about the cell to
  *    create.
- * @return {qx.ui.core.Widget} the widget that renders the header cell.
+ * @return (qx.ui.core.Widget) the widget that renders the header cell.
  */
 qx.Proto.createHeaderCell = function(cellInfo) {
   throw new Error("createHeaderCell is abstract");

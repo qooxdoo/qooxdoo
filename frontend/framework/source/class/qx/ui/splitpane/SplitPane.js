@@ -249,7 +249,7 @@ qx.Proto.addBottom = function() {
 /**
  * Returns the left area (CanvasLayout)
  *
- * @return {qx.ui.layout.CanvasLayout}
+ * @return (qx.ui.layout.CanvasLayout)
  */
 qx.Proto.getLeftArea = function() {
   return this.getFirstArea();
@@ -258,7 +258,7 @@ qx.Proto.getLeftArea = function() {
 /**
  * Returns the top area (CanvasLayout)
  *
- * @return {qx.ui.layout.CanvasLayout}
+ * @return (qx.ui.layout.CanvasLayout)
  */
 qx.Proto.getTopArea = function() {
   return this.getFirstArea();
@@ -267,7 +267,7 @@ qx.Proto.getTopArea = function() {
 /**
  * Returns the right area (CanvasLayout)
  *
- * @return {qx.ui.layout.CanvasLayout}
+ * @return (qx.ui.layout.CanvasLayout)
  */
 qx.Proto.getRightArea = function() {
   return this.getSecondArea();
@@ -276,7 +276,7 @@ qx.Proto.getRightArea = function() {
 /**
  * Returns the bottom area (CanvasLayout)
  *
- * @return {qx.ui.layout.CanvasLayout}
+ * @return (qx.ui.layout.CanvasLayout)
  */
 qx.Proto.getBottomArea = function() {
   return this.getSecondArea();
@@ -285,7 +285,7 @@ qx.Proto.getBottomArea = function() {
 /**
  * Returns the first area (CanvasLayout)
  *
- * @return {qx.ui.layout.CanvasLayout}
+ * @return (qx.ui.layout.CanvasLayout)
  */
 qx.Proto.getFirstArea = function() {
   return this._firstArea;
@@ -294,7 +294,7 @@ qx.Proto.getFirstArea = function() {
 /**
  * Returns the second area (CanvasLayout)
  *
- * @return {qx.ui.layout.CanvasLayout}
+ * @return (qx.ui.layout.CanvasLayout)
  */
 qx.Proto.getSecondArea = function() {
   return this._secondArea;

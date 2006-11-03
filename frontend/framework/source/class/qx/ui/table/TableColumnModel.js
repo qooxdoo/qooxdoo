@@ -113,7 +113,7 @@ qx.Proto.setColumnWidth = function(col, width) {
  * Returns the width of a column.
  *
  * @param col (int) the model index of the column.
- * @return {int} the width of the column in pixels.
+ * @return (int) the width of the column in pixels.
  */
 qx.Proto.getColumnWidth = function(col) {
   return this._columnDataArr[col].width;
@@ -136,7 +136,7 @@ qx.Proto.setHeaderCellRenderer = function(col, renderer) {
  * Returns the header renderer of a column.
  *
  * @param col (int) the model index of the column.
- * @return {HeaderCellRenderer} the header renderer of the column.
+ * @return (HeaderCellRenderer) the header renderer of the column.
  */
 qx.Proto.getHeaderCellRenderer = function(col) {
   return this._columnDataArr[col].headerRenderer;
@@ -158,7 +158,7 @@ qx.Proto.setDataCellRenderer = function(col, renderer) {
  * Returns the data renderer of a column.
  *
  * @param col (int) the model index of the column.
- * @return {DataCellRenderer} the data renderer of the column.
+ * @return (DataCellRenderer) the data renderer of the column.
  */
 qx.Proto.getDataCellRenderer = function(col) {
   return this._columnDataArr[col].dataRenderer;
@@ -180,7 +180,7 @@ qx.Proto.setCellEditorFactory = function(col, factory) {
  * Returns the cell editor factory of a column.
  *
  * @param col (int) the model index of the column.
- * @return {CellEditorFactory} the cell editor factory of the column.
+ * @return (CellEditorFactory) the cell editor factory of the column.
  */
 qx.Proto.getCellEditorFactory = function(col) {
   return this._columnDataArr[col].editorFactory;
@@ -216,7 +216,7 @@ qx.Proto._getColToXPosMap = function() {
 /**
  * Returns the number of visible columns.
  *
- * @return {int} the number of visible columns.
+ * @return (int) the number of visible columns.
  */
 qx.Proto.getVisibleColumnCount = function() {
   return this._visibleColumnArr.length;
@@ -227,7 +227,7 @@ qx.Proto.getVisibleColumnCount = function() {
  * Returns the model index of a column at a certain visible x position.
  *
  * @param visXPos (int) the visible x position of the column.
- * @return {int} the model index of the column.
+ * @return (int) the model index of the column.
  */
 qx.Proto.getVisibleColumnAtX = function(visXPos) {
   return this._visibleColumnArr[visXPos];
@@ -238,7 +238,7 @@ qx.Proto.getVisibleColumnAtX = function(visXPos) {
  * Returns the visible x position of a column.
  *
  * @param col (int) the model index of the column.
- * @return {int} the visible x position of the column.
+ * @return (int) the visible x position of the column.
  */
 qx.Proto.getVisibleX = function(col) {
   return this._getColToXPosMap()[col].visX;
@@ -248,7 +248,7 @@ qx.Proto.getVisibleX = function(col) {
 /**
  * Returns the overall number of columns (including hidden columns).
  *
- * @return {int} the overall number of columns.
+ * @return (int) the overall number of columns.
  */
 qx.Proto.getOverallColumnCount = function() {
   return this._overallColumnArr.length;
@@ -259,7 +259,7 @@ qx.Proto.getOverallColumnCount = function() {
  * Returns the model index of a column at a certain overall x position.
  *
  * @param overXPos (int) the overall x position of the column.
- * @return {int} the model index of the column.
+ * @return (int) the model index of the column.
  */
 qx.Proto.getOverallColumnAtX = function(overXPos) {
   return this._overallColumnArr[overXPos];
@@ -270,7 +270,7 @@ qx.Proto.getOverallColumnAtX = function(overXPos) {
  * Returns the overall x position of a column.
  *
  * @param col (int) the model index of the column.
- * @return {int} the overall x position of the column.
+ * @return (int) the overall x position of the column.
  */
 qx.Proto.getOverallX = function(col) {
   return this._getColToXPosMap()[col].overX;
@@ -281,7 +281,7 @@ qx.Proto.getOverallX = function(col) {
  * Returns whether a certain column is visible.
  *
  * @param col (int) the model index of the column.
- * @return {boolean} whether the column is visible.
+ * @return (boolean) whether the column is visible.
  */
 qx.Proto.isColumnVisible = function(col) {
   return (this._getColToXPosMap()[col].visX != null);
@@ -386,14 +386,14 @@ qx.Proto.moveColumn = function(fromOverXPos, toOverXPos) {
 }
 
 
-/** {int} the default width of a column in pixels. */
+/** (int) the default width of a column in pixels. */
 qx.Class.DEFAULT_WIDTH = 100;
 
-/** {DefaultDataCellRenderer} the default header cell renderer. */
+/** (DefaultDataCellRenderer) the default header cell renderer. */
 qx.Class.DEFAULT_HEADER_RENDERER = new qx.ui.table.DefaultHeaderCellRenderer;
 
-/** {DefaultDataCellRenderer} the default data cell renderer. */
+/** (DefaultDataCellRenderer) the default data cell renderer. */
 qx.Class.DEFAULT_DATA_RENDERER = new qx.ui.table.DefaultDataCellRenderer;
 
-/** {TextFieldCellEditorFactory} the default editor factory. */
+/** (TextFieldCellEditorFactory) the default editor factory. */
 qx.Class.DEFAULT_EDITOR_FACTORY = new qx.ui.table.TextFieldCellEditorFactory;

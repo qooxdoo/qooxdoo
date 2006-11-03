@@ -67,7 +67,7 @@ qx.OO.addProperty({ name:"postfix", type:qx.constant.Type.STRING, defaultValue:"
  * Formats a number.
  *
  * @param num (number) the number to format.
- * @return {string} the formatted number as a string.
+ * @return (string) the formatted number as a string.
  */
 qx.Proto.format = function(num) {
   var NumberFormat = qx.util.format.NumberFormat;
@@ -138,7 +138,7 @@ qx.Proto.format = function(num) {
  *
  * @param str (string) the string to parse.
  *
- * @return {double} the number.
+ * @return (double) the number.
  */
 qx.Proto.parse = function(str) {
   var NumberFormat = qx.util.format.NumberFormat;
@@ -172,7 +172,7 @@ qx.Proto.parse = function(str) {
 /**
  * Returns the default number format.
  *
- * @return {NumberFormat} the default number format.
+ * @return (NumberFormat) the default number format.
  */
 qx.Class.getInstance = function() {
   var NumberFormat = qx.util.format.NumberFormat;
@@ -186,7 +186,7 @@ qx.Class.getInstance = function() {
 /**
  * Returns an integer number format.
  *
- * @return {NumberFormat} an integer number format.
+ * @return (NumberFormat) an integer number format.
  */
 qx.Class.getIntegerInstance = function() {
   var NumberFormat = qx.util.format.NumberFormat;
@@ -198,8 +198,8 @@ qx.Class.getIntegerInstance = function() {
 }
 
 
-/** {string} The decimal separator. */
+/** (string) The decimal separator. */
 qx.Class.DECIMAL_SEPARATOR = ".";
 
-/** {string} The thousand grouping separator. */
+/** (string) The thousand grouping separator. */
 qx.Class.GROUPING_SEPARATOR = ",";

@@ -202,7 +202,7 @@ qx.Proto._modifyScrollY = function(propValue, propOldValue, propData) {
 /**
  * Returns the table this scroller belongs to.
  *
- * @return {Table} the table.
+ * @return (Table) the table.
  */
 qx.Proto.getTable = function() {
   return this._table;
@@ -716,7 +716,7 @@ qx.Proto._hideResizeLine = function() {
  * Shows the feedback shown while a column is moved by the user.
  *
  * @param pageX (int) the x position of the mouse in the page (in pixels).
- * @return {int} the visible x position of the column in the whole table.
+ * @return (int) the visible x position of the column in the whole table.
  */
 qx.Proto.showColumnMoveFeedback = function(pageX) {
   var paneModel = this.getTablePaneModel();
@@ -806,7 +806,7 @@ qx.Proto.setFocusedCell = function(col, row) {
 /**
  * Returns the column of currently focused cell.
  *
- * @return {int} the model index of the focused cell's column.
+ * @return (int) the model index of the focused cell's column.
  */
 qx.Proto.getFocusedColumn = function() {
   return this._focusedCol;
@@ -816,7 +816,7 @@ qx.Proto.getFocusedColumn = function() {
 /**
  * Returns the row of currently focused cell.
  *
- * @return {int} the model index of the focused cell's column.
+ * @return (int) the model index of the focused cell's column.
  */
 qx.Proto.getFocusedRow = function() {
   return this._focusedRow;
@@ -875,7 +875,7 @@ qx.Proto.isEditing = function() {
  * Starts editing the currently focused cell. Does nothing if already editing
  * or if the column is not editable.
  *
- * @return {boolean} whether editing was started
+ * @return (boolean) whether editing was started
  */
 qx.Proto.startEditing = function() {
   var tableModel = this.getTable().getTableModel();
@@ -964,7 +964,7 @@ qx.Proto._onCellEditorFocusChanged = function(evt) {
  * is not over a column.
  *
  * @param pageX (int) the x position of the mouse in the page (in pixels).
- * @return {int} the model index of the column the mouse is over.
+ * @return (int) the model index of the column the mouse is over.
  */
 qx.Proto._getColumnForPageX = function(pageX) {
   var headerLeftX = qx.dom.DomLocation.getClientBoxLeft(this._header.getElement());
@@ -992,7 +992,7 @@ qx.Proto._getColumnForPageX = function(pageX) {
  * starts here. Returns -1 if the mouse is in no resize region of any column.
  *
  * @param pageX (int) the x position of the mouse in the page (in pixels).
- * @return {int} the column index.
+ * @return (int) the column index.
  */
 qx.Proto._getResizeColumnForPageX = function(pageX) {
   var headerLeftX = qx.dom.DomLocation.getClientBoxLeft(this._header.getElement());
@@ -1023,7 +1023,7 @@ qx.Proto._getResizeColumnForPageX = function(pageX) {
  *
  * @param pageX (int) the mouse x position in the page.
  * @param pageY (int) the mouse y position in the page.
- * @return {int} the model index of the row the mouse is currently over.
+ * @return (int) the model index of the row the mouse is currently over.
  */
 qx.Proto._getRowForPagePos = function(pageX, pageY) {
   var paneClipperElem = this._paneClipper.getElement();
@@ -1093,7 +1093,7 @@ qx.Proto.setTopRightWidget = function(widget) {
 /**
  * Returns the header.
  *
- * @return {TablePaneHeader} the header.
+ * @return (TablePaneHeader) the header.
  */
 qx.Proto.getHeader = function() {
   return this._header;
@@ -1103,7 +1103,7 @@ qx.Proto.getHeader = function() {
 /**
  * Returns the table pane.
  *
- * @return {TablePane} the table pane.
+ * @return (TablePane) the table pane.
  */
 qx.Proto.getTablePane = function() {
   return this._tablePane;
@@ -1117,7 +1117,7 @@ qx.Proto.getTablePane = function() {
  *    scrollbar always.
  * @param preventVertical (boolean ? false) Whether tp show the vertical scrollbar
  *    never.
- * @return {int} which scrollbars are needed. This may be any combination of
+ * @return (int) which scrollbars are needed. This may be any combination of
  *    {@link #HORIZONTAL_SCROLLBAR} or {@link #VERTICAL_SCROLLBAR}
  *    (combined by OR).
  */
@@ -1288,20 +1288,20 @@ qx.Proto.dispose = function() {
 }
 
 
-/** {int} The minimum width a colum could get in pixels. */
+/** (int) The minimum width a colum could get in pixels. */
 qx.Class.MIN_COLUMN_WIDTH = 10;
 
-/** {int} The radius of the resize region in pixels. */
+/** (int) The radius of the resize region in pixels. */
 qx.Class.RESIZE_REGION_RADIUS = 5;
 
 /**
- * {int} The number of pixels the mouse may move between mouse down and mouse up
+ * (int) The number of pixels the mouse may move between mouse down and mouse up
  * in order to count as a click.
  */
 qx.Class.CLICK_TOLERANCE = 5;
 
 /**
- * {int} The mask for the horizontal scroll bar.
+ * (int) The mask for the horizontal scroll bar.
  * May be combined with {@link #VERTICAL_SCROLLBAR}.
  *
  * @see #getNeededScrollBars
@@ -1309,7 +1309,7 @@ qx.Class.CLICK_TOLERANCE = 5;
 qx.Class.HORIZONTAL_SCROLLBAR = 1;
 
 /**
- * {int} The mask for the vertical scroll bar.
+ * (int) The mask for the vertical scroll bar.
  * May be combined with {@link #HORIZONTAL_SCROLLBAR}.
  *
  * @see #getNeededScrollBars
@@ -1317,7 +1317,7 @@ qx.Class.HORIZONTAL_SCROLLBAR = 1;
 qx.Class.VERTICAL_SCROLLBAR = 2;
 
 /**
- * {string} The correct value for the CSS style attribute "cursor" for the
+ * (string) The correct value for the CSS style attribute "cursor" for the
  * horizontal resize cursor.
  */
 qx.Class.CURSOR_RESIZE_HORIZONTAL = (qx.sys.Client.getInstance().isGecko() && (qx.sys.Client.getInstance().getMajor() > 1 || qx.sys.Client.getInstance().getMinor() >= 8)) ? "ew-resize" : "e-resize";

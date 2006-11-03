@@ -322,9 +322,9 @@ qx.Proto._callInternal = function(args, async, refreshSession) {
  * Helper method to rewrite a URL with a stale session id (so that it includes
  * the correct session id afterwards).
  * 
- * @param   url (string)        the URL to examine.
+ * @param url (string)        the URL to examine.
  * 
- * @return  {string}            the (possibly re-written) URL.
+ * @return (string)            the (possibly re-written) URL.
  */
 
 qx.Proto.fixUrl = function(url) {
@@ -362,7 +362,7 @@ qx.Proto.fixUrl = function(url) {
  *
  * @param       methodName (string)   the name of the method to call.
  *
- * @return      {var}                 the result returned by the server.
+ * @return      (var)                 the result returned by the server.
  */
 
 qx.Proto.callSync = function(methodName) {
@@ -401,7 +401,7 @@ qx.Proto.callSync = function(methodName) {
  *
  * @param       methodName (string)   the name of the method to call.
  *
- * @return      {var}                 the method call reference.
+ * @return      (var)                 the method call reference.
  */
 
 qx.Proto.callAsync = function(handler, methodName) {
@@ -473,7 +473,7 @@ qx.Proto.abort = function(opaqueCallRef) {
  *                                          data for the service instantiation
  *                                          on the server.
  *
- * @return      {string}                    the url.
+ * @return      (string)                    the url.
  */
 
 qx.Class.makeServerURL = function(instanceId) {

@@ -55,7 +55,7 @@ qx.Proto.clearFilters = function() {
 /**
  * Returns the head filter from the chain. Returns null if there are no filters.
  *
- * @return {Filter} the head filter from the chain.
+ * @return (Filter) the head filter from the chain.
  */
 qx.Proto.getHeadFilter = function() {
   return (this._filterArr == null || this._filterArr.length == 0) ? null : this._filterArr[0];
@@ -66,7 +66,7 @@ qx.Proto.getHeadFilter = function() {
  * Returns the default filter from the chain. If the head filter is no default
  * filter, the chain will be cleared and a default filter will be created.
  *
- * @return {Filter} the default filter.
+ * @return (Filter) the default filter.
  */
 qx.Proto._getDefaultFilter = function() {
   var headFilter = this.getHeadFilter();

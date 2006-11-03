@@ -274,7 +274,7 @@ qx.io.Json = function ()
      * @param v (var) the object to serialize.
      * @param beautify (boolean ? false) whether to beautify the serialized string
      *        by adding some white space that indents objects and arrays.
-     * @return {string} the serialized object.
+     * @return (string) the serialized object.
      */
     stringify: function (v, beautify) {
       this._beautify = beautify;
