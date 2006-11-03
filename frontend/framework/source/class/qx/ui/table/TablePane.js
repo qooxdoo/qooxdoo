@@ -102,7 +102,7 @@ qx.Proto.getTable = function() {
  *
  * @param col {int} the model index of the focused cell's column.
  * @param row {int} the model index of the focused cell's row.
- * @param massUpdate {boolean,false} Whether other updates are planned as well.
+ * @param massUpdate {boolean ? false} Whether other updates are planned as well.
  *        If true, no repaint will be done.
  */
 qx.Proto.setFocusedCell = function(col, row, massUpdate) {
@@ -194,10 +194,10 @@ qx.Proto._onTableModelMetaDataChanged = function(evt) {
 /**
  * Updates the content of the pane.
  *
- * @param completeUpdate {boolean,false} if true a complete update is performed.
+ * @param completeUpdate {boolean ? false} if true a complete update is performed.
  *    On a complete update all cell widgets are recreated.
- * @param onlyRow {int,null} if set only the specified row will be updated.
- * @param onlySelectionOrFocusChanged {boolean,false} if true, cell values won't
+ * @param onlyRow {int ? null} if set only the specified row will be updated.
+ * @param onlySelectionOrFocusChanged {boolean ? false} if true, cell values won't
  *        be updated. Only the row background will.
  */
 qx.Proto._updateContent = function(completeUpdate, onlyRow,

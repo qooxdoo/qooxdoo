@@ -26,18 +26,16 @@
 
 /**
  * Provides a Remote Procedure Call (RPC) implementation.
- * <p>
+ * 
  * Each instance of this class represents a "Service". These services can
  * correspond to various concepts on the server side (depending on the
  * programming language/environment being used), but usually, a service means
  * a class on the server.
- * </p>
- * <p>
+ *
  * In case multiple instances of the same service are needed, they can be
  * distinguished by ids. If such an id is specified, the server routes all
  * calls to a service that have the same id to the same server-side instance.
- * </p>
- * <p>
+ * 
  * When calling a server-side method, the parameters and return values are
  * converted automatically. Supported types are int (and Integer), double
  * (and Double), String, Date, Map, and JavaBeans. Beans must habe a default
@@ -46,7 +44,6 @@
  * the server-side properties). Beans can also be nested, but be careful to not
  * create circular references! There are no checks to detect these (which would
  * be expensive), so you as the user are responsible for avoiding them.
- * </p>
  *
  * @param       url {string}            identifies the url where the service
  *                                      is found.  Note that if the url is to
@@ -466,7 +463,7 @@ qx.Proto.abort = function(opaqueCallRef) {
  * lives in the same application as the page calling the service. For backends
  * that don't support this auto-generation, this method returns null.
  *
- * @param       instanceId {string,null}    an optional identifier for the
+ * @param       instanceId {string ? null}    an optional identifier for the
  *                                          server side instance that should be
  *                                          used. All calls to the same service
  *                                          with the same instance id are

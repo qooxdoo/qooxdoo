@@ -1113,9 +1113,9 @@ qx.Proto.getTablePane = function() {
 /**
  * Returns which scrollbars are needed.
  *
- * @param forceHorizontal {boolean,false} Whether to show the horizontal
+ * @param forceHorizontal {boolean ? false} Whether to show the horizontal
  *    scrollbar always.
- * @param preventVertical {boolean,false} Whether tp show the vertical scrollbar
+ * @param preventVertical {boolean ? false} Whether tp show the vertical scrollbar
  *    never.
  * @return {int} which scrollbars are needed. This may be any combination of
  *    {@link #HORIZONTAL_SCROLLBAR} or {@link #VERTICAL_SCROLLBAR}

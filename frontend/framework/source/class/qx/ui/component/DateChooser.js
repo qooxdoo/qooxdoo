@@ -24,7 +24,7 @@
 /**
  * Shows calendar and allows choosing a date.
  *
- * @param date {Date,null} The initial date to show. If <code>null</code>
+ * @param date {Date ? null} The initial date to show. If <code>null</code>
  *        the current day (today) is shown.
  *
  * @event select {qx.event.type.DataEvent} Fired when a date was selected. The
@@ -345,9 +345,9 @@ qx.Proto._isWeekend = function(dayOfWeek) {
 /**
  * Shows a certain month.
  *
- * @param month {int,null} the month to show (0 = january). If not set the month
+ * @param month {int ? null} the month to show (0 = january). If not set the month
  *    will remain the same.
- * @param year {int,null} the year to show. If not set the year will remain the
+ * @param year {int ? null} the year to show. If not set the year will remain the
  *    same.
  */
 qx.Proto.showMonth = function(month, year) {

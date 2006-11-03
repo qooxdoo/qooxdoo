@@ -23,7 +23,7 @@
 /**
  * A scroll bar.
  *
- * @param horizontal {boolean,false} whether the scroll bar should be
+ * @param horizontal {boolean ? false} whether the scroll bar should be
  *    horizontal. If false it will be vertical.
  */
 qx.OO.defineClass("qx.ui.core.ScrollBar", qx.ui.layout.BoxLayout,

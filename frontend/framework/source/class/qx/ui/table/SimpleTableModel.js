@@ -250,7 +250,7 @@ qx.Proto.setDataAsMapArray = function(mapArr) {
  * @param rowArr {var[][]} An array containing an array for each row. Each
  *        row-array contains the values in that row in the order of the columns
  *        in this model.
- * @param startIndex {int,null} The index where to insert the new rows. If null,
+ * @param startIndex {int ? null} The index where to insert the new rows. If null,
  *        the rows are appended to the end.
  */
 qx.Proto.addRows = function(rowArr, startIndex) {
@@ -281,7 +281,7 @@ qx.Proto.addRows = function(rowArr, startIndex) {
  *
  * @param mapArr {Map[]} An array containing a map for each row. Each
  *        row-map contains the column IDs as key and the cell values as value.
- * @param startIndex {int,null} The index where to insert the new rows. If null,
+ * @param startIndex {int ? null} The index where to insert the new rows. If null,
  *        the rows are appended to the end.
  */
 qx.Proto.addRowsAsMapArray = function(mapArr, startIndex) {

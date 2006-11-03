@@ -27,7 +27,7 @@
  * with text.
  *
  * @param iconUrl {string} URL to the icon to show
- * @param tooltip {string, ""} Text of the tooltip to show if the mouse hovers over the
+ * @param tooltip {string ? ""} Text of the tooltip to show if the mouse hovers over the
  *                             icon
  *
  */

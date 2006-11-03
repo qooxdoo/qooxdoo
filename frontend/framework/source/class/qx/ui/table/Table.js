@@ -24,7 +24,7 @@
 /**
  * A table.
  *
- * @param tableModel {com.ptvag.webcomponent.ui.table.TableModel} The table
+ * @param tableModel {qx.ui.table.TableModel} The table
  *    model to read the data from.
  *
  * @implements TablePaneScroller
@@ -557,7 +557,7 @@ qx.Proto.getTablePaneScrollerAtPageX = function(pageX) {
  *
  * @param col {int} the model index of the focused cell's column.
  * @param row {int} the model index of the focused cell's row.
- * @param scrollVisible {boolean,false} whether to scroll the new focused cell
+ * @param scrollVisible {boolean ? false} whether to scroll the new focused cell
  *        visible.
  *
  * @see TablePaneScrollerPool

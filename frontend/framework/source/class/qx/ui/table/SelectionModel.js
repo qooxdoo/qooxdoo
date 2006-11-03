@@ -227,7 +227,7 @@ qx.Proto.getSelectedRanges = function() {
  *
  * @param iterator {function} the function to call for each selected index.
  *        Gets the current index as parameter.
- * @param object {var,null} the object to use when calling the handler.
+ * @param object {var ? null} the object to use when calling the handler.
  *        (this object will be available via "this" in the iterator)
  */
 qx.Proto.iterateSelection = function(iterator, object) {
