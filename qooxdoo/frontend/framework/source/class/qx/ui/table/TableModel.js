@@ -24,7 +24,7 @@
 /**
  * The data model of a table.
  *
- * @event dataChanged {qx.event.type.DataEvent} Fired when the table data changed
+ * @event dataChanged (qx.event.type.DataEvent) Fired when the table data changed
  *        (the stuff shown in the table body). The data property of the event
  *        may be null or a map having the following attributes:
  *        <ul>
@@ -33,7 +33,7 @@
  *        <li>firstColumn: The model index of the first column that has changed.</li>
  *        <li>lastColumn: The model index of the last column that has changed.</li>
  *        </ul>
- * @event metaDataChanged {qx.event.type.Event} Fired when the meta data changed
+ * @event metaDataChanged (qx.event.type.Event) Fired when the meta data changed
  *        (the stuff shown in the table header).
  */
 qx.OO.defineClass("qx.ui.table.TableModel", qx.core.Target,
