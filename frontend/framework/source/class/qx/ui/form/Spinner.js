@@ -23,7 +23,7 @@
 ************************************************************************ */
 
 /**
- * @event change {qx.event.type.Event}
+ * @event change (qx.event.type.Event)
  */
 qx.OO.defineClass("qx.ui.form.Spinner", qx.ui.layout.HorizontalBoxLayout,
 function(vMin, vValue, vMax)

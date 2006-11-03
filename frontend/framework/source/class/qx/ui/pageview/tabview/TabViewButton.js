@@ -23,7 +23,7 @@
 ************************************************************************ */
 
 /**
- * @event closetab {qx.event.type.DataEvent}
+ * @event closetab (qx.event.type.DataEvent)
  */
 qx.OO.defineClass("qx.ui.pageview.tabview.TabViewButton", qx.ui.pageview.AbstractPageViewButton,
 function(vText, vIcon, vIconWidth, vIconHeight, vFlash) {

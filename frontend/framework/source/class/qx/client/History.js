@@ -31,7 +31,7 @@
  * the entries was requested by the user (e.g. by clicking on the back button).
  * </p>
  *
- * @event request {qx.event.type.DataEvent} Fired when the user moved in the
+ * @event request (qx.event.type.DataEvent) Fired when the user moved in the
  *        history. The data property of the event holds the command, which was
  *        passed to {@link #addToHistory}.
  */
