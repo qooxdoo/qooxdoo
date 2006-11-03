@@ -299,7 +299,7 @@ qx.Proto.usesDefaultLocale = function() {
 /**
  * Returns the CSS attribute name for box-sizing if supported.
  *
- * @return {string} the attribute name.
+ * @return (string) the attribute name.
  */
 qx.Proto.getEngineBoxSizingAttribute = function() {
   return this._engineBoxSizingAttribute;
@@ -313,7 +313,7 @@ qx.Proto.getPlatform = function() {
 /**
  * Returns whether the client platform is a Windows machine.
  *
- * @return {boolean} whether the client platform is a Windows.
+ * @return (boolean) whether the client platform is a Windows.
  */
 qx.Proto.runsOnWindows = function() {
   return this._browserPlatformWindows;
@@ -322,7 +322,7 @@ qx.Proto.runsOnWindows = function() {
 /**
  * Returns whether the client platform is a Macintosh machine.
  *
- * @return {boolean} whether the client platform is a Macintosh.
+ * @return (boolean) whether the client platform is a Macintosh.
  */
 qx.Proto.runsOnMacintosh = function() {
   return this._browserPlatformMacintosh;
@@ -331,7 +331,7 @@ qx.Proto.runsOnMacintosh = function() {
 /**
  * Returns whether the client platform is a X11 powered machine.
  *
- * @return {boolean} whether the client platform is a X11 powered machine.
+ * @return (boolean) whether the client platform is a X11 powered machine.
  */
 qx.Proto.runsOnUnix = function() {
   return this._browserPlatformUnix;

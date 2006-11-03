@@ -39,7 +39,7 @@ function(format) {
  *
  * @param number (int) the number to fill.
  * @param minSize (int) the minimum size the returned string should have.
- * @return {string} the filled number as string.
+ * @return (string) the filled number as string.
  */
 qx.Proto._fillNumber = function(number, minSize) {
   var str = "" + number;
@@ -54,7 +54,7 @@ qx.Proto._fillNumber = function(number, minSize) {
  * Returns the day in year of a date.
  *
  * @param date (Date) the date.
- * @return {int} the day in year.
+ * @return (int) the day in year.
  */
 qx.Proto._getDayInYear = function(date) {
   var helpDate = new Date(date.getTime());
@@ -72,7 +72,7 @@ qx.Proto._getDayInYear = function(date) {
  * Returns the thursday in the same week as the date.
  *
  * @param date (Date) the date to get the thursday of.
- * @return {Date} the thursday in the same week as the date.
+ * @return (Date) the thursday in the same week as the date.
  */
 qx.Proto._thursdayOfSameWeek = function(date) {
   return new Date(date.getTime() + (3 - ((date.getDay() + 6) % 7)) * 86400000);
@@ -83,7 +83,7 @@ qx.Proto._thursdayOfSameWeek = function(date) {
  * Returns the week in year of a date.
  *
  * @param date (Date) the date to get the week in year of.
- * @return {int} the week in year.
+ * @return (int) the week in year.
  */
 qx.Proto._getWeekInYear = function(date) {
   // This algorithm gets the correct calendar week after ISO 8601.
@@ -113,7 +113,7 @@ qx.Proto._getWeekInYear = function(date) {
  * the SimpleDateFormat class in Java</a>.
  *
  * @param date (Date) The date to format.
- * @return {string} the formatted date.
+ * @return (string) the formatted date.
  */
 qx.Proto.format = function(date) {
   var DateFormat = qx.util.format.DateFormat;
@@ -224,7 +224,7 @@ qx.Proto.format = function(date) {
  * the SimpleDateFormat class in Java</a>.
  *
  * @param dateStr (string) the date to parse.
- * @return {Date} the parsed date.
+ * @return (Date) the parsed date.
  * @throws If the format is not well formed or if the date string does not
  *     match to the format.
  */
@@ -333,7 +333,7 @@ qx.Proto._initFormatTree = function() {
  * The parse contains everything needed for parsing: The regular expression
  * (in compiled and uncompiled form) and the used rules.
  *
- * @return {Map} the parse feed.
+ * @return (Map) the parse feed.
  */
 qx.Proto._initParseFeed = function() {
   if (this._parseFeed != null) {
@@ -480,7 +480,7 @@ qx.Proto._initParseRules = function() {
  * Returns a <code>DateFomat</code> instance that uses the
  * {@link #DEFAULT_DATE_TIME_FORMAT}.
  *
- * @return {string} the date/time instance.
+ * @return (string) the date/time instance.
  */
 qx.Class.getDateTimeInstance = function() {
   var DateFormat = qx.util.format.DateFormat;
@@ -496,7 +496,7 @@ qx.Class.getDateTimeInstance = function() {
  * Returns a <code>DateFomat</code> instance that uses the
  * {@link #DEFAULT_DATE_FORMAT}.
  *
- * @return {string} the date instance.
+ * @return (string) the date instance.
  */
 qx.Class.getDateInstance = function() {
   var DateFormat = qx.util.format.DateFormat;
@@ -509,106 +509,106 @@ qx.Class.getDateInstance = function() {
 
 
 /**
- * {int} The threshold until when a year should be assumed to belong to the
+ * (int) The threshold until when a year should be assumed to belong to the
  * 21st century (e.g. 12 -> 2012). Years over this threshold but below 100 will be
  * assumed to belong to the 20th century (e.g. 88 -> 1988). Years over 100 will be
  * used unchanged (e.g. 1792 -> 1792).
  */
 qx.Class.ASSUME_YEAR_2000_THRESHOLD = 30;
 
-/** {string} The short date format. */
+/** (string) The short date format. */
 qx.Class.SHORT_DATE_FORMAT = "MM/dd/yyyy";
 
-/** {string} The medium date format. */
+/** (string) The medium date format. */
 qx.Class.MEDIUM_DATE_FORMAT = "MMM dd, yyyy";
 
-/** {string} The long date format. */
+/** (string) The long date format. */
 qx.Class.LONG_DATE_FORMAT = "MMMM dd, yyyy";
 
-/** {string} The full date format. */
+/** (string) The full date format. */
 qx.Class.FULL_DATE_FORMAT = "EEEE, MMMM dd, yyyy";
 
-/** {string} The short time format. */
+/** (string) The short time format. */
 qx.Class.SHORT_TIME_FORMAT = "HH:mm";
 
-/** {string} The medium time format. */
+/** (string) The medium time format. */
 qx.Class.MEDIUM_TIME_FORMAT = qx.util.format.DateFormat.SHORT_TIME_FORMAT;
 
-/** {string} The long time format. */
+/** (string) The long time format. */
 qx.Class.LONG_TIME_FORMAT = "HH:mm:ss";
 
-/** {string} The full time format. */
+/** (string) The full time format. */
 qx.Class.FULL_TIME_FORMAT = "HH:mm:ss zz";
 
-/** {string} The short date-time format. */
+/** (string) The short date-time format. */
 qx.Class.SHORT_DATE_TIME_FORMAT
   = qx.util.format.DateFormat.SHORT_DATE_FORMAT + " "
   + qx.util.format.DateFormat.SHORT_TIME_FORMAT;
 
-/** {string} The medium date-time format. */
+/** (string) The medium date-time format. */
 qx.Class.MEDIUM_DATE_TIME_FORMAT
   = qx.util.format.DateFormat.MEDIUM_DATE_FORMAT + " "
   + qx.util.format.DateFormat.MEDIUM_TIME_FORMAT;
 
-/** {string} The long date-time format. */
+/** (string) The long date-time format. */
 qx.Class.LONG_DATE_TIME_FORMAT
   = qx.util.format.DateFormat.LONG_DATE_FORMAT + " "
   + qx.util.format.DateFormat.LONG_TIME_FORMAT;
 
-/** {string} The full date-time format. */
+/** (string) The full date-time format. */
 qx.Class.FULL_DATE_TIME_FORMAT
   = qx.util.format.DateFormat.FULL_DATE_FORMAT + " "
   + qx.util.format.DateFormat.FULL_TIME_FORMAT;
 
 
-/** {string} The date format used for logging. */
+/** (string) The date format used for logging. */
 qx.Class.LOGGING_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
-/** {string}  The default date/time format. */
+/** (string)  The default date/time format. */
 qx.Class.DEFAULT_DATE_TIME_FORMAT = qx.util.format.DateFormat.LOGGING_DATE_TIME_FORMAT;
 
-/** {string}  The default date format. */
+/** (string)  The default date format. */
 qx.Class.DEFAULT_DATE_FORMAT = qx.util.format.DateFormat.SHORT_DATE_FORMAT;
 
-/** {string} The am marker. */
+/** (string) The am marker. */
 qx.Class.AM_MARKER = "am";
 
-/** {string} The pm marker. */
+/** (string) The pm marker. */
 qx.Class.PM_MARKER = "pm";
 
-/** {string[]} The full month names. */
+/** (string[]) The full month names. */
 qx.Class.FULL_MONTH_NAMES = [
   "January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
 
-/** {string[]} The short month names. */
+/** (string[]) The short month names. */
 qx.Class.SHORT_MONTH_NAMES = [
   "Jan", "Feb", "Mar", "Apr", "Mai", "Jun",
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 ];
 
-/** {string[]} The short (two letter) day of week names. */
+/** (string[]) The short (two letter) day of week names. */
 qx.Class.SHORT_DAY_OF_WEEK_NAMES = [
   "Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"
 ];
 
-/** {string[]} The medium (three letter) day of week names. */
+/** (string[]) The medium (three letter) day of week names. */
 qx.Class.MEDIUM_DAY_OF_WEEK_NAMES = [
   "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
 ];
 
-/** {string[]} The full day of week names. */
+/** (string[]) The full day of week names. */
 qx.Class.FULL_DAY_OF_WEEK_NAMES = [
   "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
 ];
 
-/** {string[]} The medium (three letter) timezone names. */
+/** (string[]) The medium (three letter) timezone names. */
 qx.Class.MEDIUM_TIMEZONE_NAMES = [
   "GMT" // TODO: fill up
 ];
 
-/** {string[]} The full timezone names. */
+/** (string[]) The full timezone names. */
 qx.Class.FULL_TIMEZONE_NAMES = [
   "Greenwich Mean Time" // TODO: fill up
 ];

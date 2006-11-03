@@ -253,7 +253,7 @@ qx.Proto._modifyKeepFirstVisibleRowComplete = function(propValue, propOldValue, 
 /**
  * Returns the selection manager.
  *
- * @return {SelectionManager} the selection manager.
+ * @return (SelectionManager) the selection manager.
  */
 qx.Proto._getSelectionManager = function() {
   return this._selectionManager;
@@ -263,7 +263,7 @@ qx.Proto._getSelectionManager = function() {
 /**
  * Returns an array containing all TablePaneScrollers in this table.
  *
- * @return {TablePaneScroller[]} all TablePaneScrollers in this table.
+ * @return (TablePaneScroller[]) all TablePaneScrollers in this table.
  */
 qx.Proto._getPaneScrollerArr = function() {
   return this._scrollerParent.getChildren();
@@ -274,7 +274,7 @@ qx.Proto._getPaneScrollerArr = function() {
  * Returns a TablePaneScroller of this table.
  *
  * @param metaColumn (int) the meta column to get the TablePaneScroller for.
- * @return {TablePaneScroller} the TablePaneScroller.
+ * @return (TablePaneScroller) the TablePaneScroller.
  */
 qx.Proto.getPaneScroller = function(metaColumn) {
   return this._getPaneScrollerArr()[metaColumn];
@@ -542,7 +542,7 @@ qx.Proto._onColOrderChanged = function(evt) {
  * no TablePaneScroller at this postion, null is returned.
  *
  * @param pageX (int) the position in the page to check (in pixels).
- * @return {TablePaneScroller} the TablePaneScroller or null.
+ * @return (TablePaneScroller) the TablePaneScroller or null.
  *
  * @see TablePaneScrollerPool
  */
@@ -582,7 +582,7 @@ qx.Proto.setFocusedCell = function(col, row, scrollVisible) {
 /**
  * Returns the column of the currently focused cell.
  *
- * @return {int} the model index of the focused cell's column.
+ * @return (int) the model index of the focused cell's column.
  */
 qx.Proto.getFocusedColumn = function() {
   return this._focusedCol;
@@ -592,7 +592,7 @@ qx.Proto.getFocusedColumn = function() {
 /**
  * Returns the row of the currently focused cell.
  *
- * @return {int} the model index of the focused cell's column.
+ * @return (int) the model index of the focused cell's column.
  */
 qx.Proto.getFocusedRow = function() {
   return this._focusedRow;
@@ -661,7 +661,7 @@ qx.Proto.isEditing = function() {
  * Starts editing the currently focused cell. Does nothing if already editing
  * or if the column is not editable.
  *
- * @return {boolean} whether editing was started
+ * @return (boolean) whether editing was started
  */
 qx.Proto.startEditing = function() {
   if (this._focusedCol != null) {
@@ -702,7 +702,7 @@ qx.Proto.cancelEditing = function() {
  * meta column at this postion, -1 is returned.
  *
  * @param pageX (int) the position in the page to check (in pixels).
- * @return {int} the index of the meta column or -1.
+ * @return (int) the index of the meta column or -1.
  */
 qx.Proto._getMetaColumnAtPageX = function(pageX) {
   var scrollerArr = this._getPaneScrollerArr();
@@ -724,7 +724,7 @@ qx.Proto._getMetaColumnAtPageX = function(pageX) {
  * all, -1 is returned.
  *
  * @param visXPos (int) the visible x position of the column.
- * @return {int} the meta column the column is shown in.
+ * @return (int) the meta column the column is shown in.
  */
 qx.Proto._getMetaColumnAtColumnX = function(visXPos) {
   var metaColumnCounts = this.getMetaColumnCounts();

@@ -170,7 +170,7 @@ qx.Proto._computePreferredInnerHeight = function() {
 /**
  * Gets the width of vertical scroll bar.
  *
- * @return {int} the width in pixels.
+ * @return (int) the width in pixels.
  */
 qx.Proto._getScrollBarWidth = function() {
   // Auto-detect the scrollbar width

@@ -40,7 +40,7 @@ function() {
  * <p>See overridden method for details.</p>
  *
  * @param rowIndex (int) the model index of the row.
- * @return {Array} Array containing a value for each column.
+ * @return (Array) Array containing a value for each column.
  */
 qx.Proto.getRowData = function(rowIndex) {
   return this._rowArr[rowIndex];
@@ -52,7 +52,7 @@ qx.Proto.getRowData = function(rowIndex) {
  * cell values as value.
  *
  * @param rowIndex (int) the model index of the row.
- * @return {Map} a Map containing the column values.
+ * @return (Map) a Map containing the column values.
  */
 qx.Proto.getRowDataAsMap = function(rowIndex) {
   var columnArr = this._rowArr[rowIndex];
@@ -222,7 +222,7 @@ qx.Proto.setData = function(rowArr) {
  * Warning: Do not alter this array! If you want to change the data use
  * {@link #setData}, {@link #setDataAsMapArray} or {@link #setValue} instead.
  *
- * @return {var[][]} An array containing an array for each row. Each
+ * @return (var[][]) An array containing an array for each row. Each
  *         row-array contains the values in that row in the order of the columns
  *         in this model.
  */
@@ -313,7 +313,7 @@ qx.Proto.removeRows = function(startIndex, howMany) {
  *
  * @param mapArr (Map[]) An array containing a map for each row. Each
  *        row-map contains the column IDs as key and the cell values as value.
- * @return {var[][]} An array containing an array for each row. Each
+ * @return (var[][]) An array containing an array for each row. Each
  *         row-array contains the values in that row in the order of the columns
  *         in this model.
  */

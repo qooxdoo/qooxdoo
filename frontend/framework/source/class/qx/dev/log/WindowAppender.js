@@ -201,7 +201,7 @@ qx.Class._registeredAppenders = {};
  * You don't have to call this.
  *
  * @param appender (WindowAppender) the WindowAppender to register.
- * @return {int} the ID.
+ * @return (int) the ID.
  */
 qx.Class.register = function(appender) {
   var WindowAppender = qx.dev.log.WindowAppender;
@@ -217,7 +217,7 @@ qx.Class.register = function(appender) {
  * Returns a prviously registered WindowAppender.
  *
  * @param id (int) the ID of the wanted WindowAppender.
- * @return {WindowAppender} the WindowAppender or null if no
+ * @return (WindowAppender) the WindowAppender or null if no
  *     WindowAppender with this ID is registered.
  */
 qx.Class.getAppender = function(id) {

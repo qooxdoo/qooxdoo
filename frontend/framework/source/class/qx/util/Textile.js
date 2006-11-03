@@ -31,7 +31,7 @@ qx.OO.defineClass("qx.util.Textile");
  * http://www.creatimation.net/journal/textile-live-preview
  * 
  * @param s (string) Text to be textilized.
- * @return {string} The textilized text.
+ * @return (string) The textilized text.
  */
 qx.util.Textile.textilize = function(s)
 {

@@ -80,7 +80,7 @@ qx.Proto._afterAppear = function() {
 /**
  * Returns the TablePaneScroller this pane belongs to.
  *
- * @return {TablePaneScroller} the TablePaneScroller.
+ * @return (TablePaneScroller) the TablePaneScroller.
  */
 qx.Proto.getPaneScroller = function() {
   return this._paneScroller;
@@ -90,7 +90,7 @@ qx.Proto.getPaneScroller = function() {
 /**
  * Returns the table this pane belongs to.
  *
- * @return {Table} the table.
+ * @return (Table) the table.
  */
 qx.Proto.getTable = function() {
   return this._paneScroller.getTable();

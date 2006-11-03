@@ -39,27 +39,27 @@ function() {
 });
 
 
-/** {int} The selection mode "none". Nothing can ever be selected. */
+/** (int) The selection mode "none". Nothing can ever be selected. */
 qx.Class.NO_SELECTION = 1;
 
-/** {int} The selection mode "single". This mode only allows one selected item. */
+/** (int) The selection mode "single". This mode only allows one selected item. */
 qx.Class.SINGLE_SELECTION = 2;
 
 /**
- * {int} The selection mode "single interval". This mode only allows one
+ * (int) The selection mode "single interval". This mode only allows one
  * continuous interval of selected items.
  */
 qx.Class.SINGLE_INTERVAL_SELECTION = 3;
 
 /**
- * {int} The selection mode "multiple interval". This mode only allows any
+ * (int) The selection mode "multiple interval". This mode only allows any
  * selection.
  */
 qx.Class.MULTIPLE_INTERVAL_SELECTION = 4;
 
 
 /**
- * {int} the selection mode.
+ * (int) the selection mode.
  */
 qx.OO.addProperty({ name:"selectionMode", type:qx.constant.Type.NUMBER,
   defaultValue:qx.Class.SINGLE_SELECTION,
@@ -88,7 +88,7 @@ qx.Proto._modifySelectionMode = function(selectionMode) {
  * turning on.</p>
  * 
  * @param batchMode (boolean) true to activate batch mode, false to deactivate
- * @return {boolean} true if batch mode is active, false otherwise
+ * @return (boolean) true if batch mode is active, false otherwise
  * @throws Error if batch mode is turned off once more than it has been turned on
  */
 qx.Proto.setBatchMode = function(batchMode) {
@@ -111,7 +111,7 @@ qx.Proto.setBatchMode = function(batchMode) {
 /**
  * <p>Returns whether batch mode is active. See setter for a description of batch mode.</p>
  * 
- * @return {boolean} true if batch mode is active, false otherwise
+ * @return (boolean) true if batch mode is active, false otherwise
  */
 qx.Proto.hasBatchMode = function() {
   return this.hasBatchModeRefCount > 0;
@@ -122,7 +122,7 @@ qx.Proto.hasBatchMode = function() {
  * Returns the first argument of the last call to {@link #setSelectionInterval()},
  * {@link #addSelectionInterval()} or {@link #removeSelectionInterval()}.
  *
- * @return {int} the ancor selection index.
+ * @return (int) the ancor selection index.
  */
 qx.Proto.getAnchorSelectionIndex = function() {
   return this._anchorSelectionIndex;
@@ -133,7 +133,7 @@ qx.Proto.getAnchorSelectionIndex = function() {
  * Returns the second argument of the last call to {@link #setSelectionInterval()},
  * {@link #addSelectionInterval()} or {@link #removeSelectionInterval()}.
  *
- * @return {int} the lead selection index.
+ * @return (int) the lead selection index.
  */
 qx.Proto.getLeadSelectionIndex = function() {
   return this._leadSelectionIndex;
@@ -154,7 +154,7 @@ qx.Proto.clearSelection = function() {
 /**
  * Returns whether the selection is empty.
  *
- * @return {boolean} whether the selection is empty.
+ * @return (boolean) whether the selection is empty.
  */
 qx.Proto.isSelectionEmpty = function() {
   return this._selectedRangeArr.length == 0;
@@ -164,7 +164,7 @@ qx.Proto.isSelectionEmpty = function() {
 /**
  * Returns the number of selected items.
  *
- * @return {int} the number of selected items.
+ * @return (int) the number of selected items.
  */
 qx.Proto.getSelectedCount = function() {
   var selectedCount = 0;
@@ -181,7 +181,7 @@ qx.Proto.getSelectedCount = function() {
  * Returns whether a index is selected.
  *
  * @param index (int) the index to check.
- * @return {boolean} whether the index is selected.
+ * @return (boolean) whether the index is selected.
  */
 qx.Proto.isSelectedIndex = function(index) {
   for (var i = 0; i < this._selectedRangeArr.length; i++) {
@@ -200,7 +200,7 @@ qx.Proto.isSelectedIndex = function(index) {
  * Returns the selected ranges as an array. Each array element has a
  * <code>minIndex</code> and a <code>maxIndex</code> property.
  * 
- * @return {Map[]} the selected ranges.
+ * @return (Map[]) the selected ranges.
  */
 qx.Proto.getSelectedRanges = function() {
   // clone the selection array and the individual elements - this prevents the
