@@ -1237,10 +1237,12 @@ qx.Proto._createTypeHtml = function(typeNode, packageBaseClass, defaultType, use
   } 
   else 
   {
+    typeHtml = "";
+    
     for (var j=0; j<types.length; j++)
     {
       if (j>0) {
-        typeHtml += ", "; 
+        typeHtml += " or "; 
       }
       
       typeName = types[j].type;
@@ -1248,7 +1250,7 @@ qx.Proto._createTypeHtml = function(typeNode, packageBaseClass, defaultType, use
       
       if (api.ClassViewer.PRIMITIVES[typeName]) 
       {
-        typeHtml = typeName;
+        typeHtml += typeName;
       } 
       else
       {
@@ -1260,7 +1262,7 @@ qx.Proto._createTypeHtml = function(typeNode, packageBaseClass, defaultType, use
             linkText += " " + typeName.substring(lastDot + 1);
           }
         }
-        typeHtml = this._createItemLinkHtml(linkText, packageBaseClass, false, true);
+        typeHtml += this._createItemLinkHtml(linkText, packageBaseClass, false, true);
       }
   
       if (typeDimensions) 
