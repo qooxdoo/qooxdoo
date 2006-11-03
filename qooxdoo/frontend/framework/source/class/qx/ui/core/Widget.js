@@ -3783,7 +3783,7 @@ qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
  * Returns whether a state is set.
  *
  * @param vState (string) the state to check.
- * @return {boolean} whether the state is set.
+ * @return (boolean) whether the state is set.
  */
 qx.Proto.hasState = function(vState) {
   return this._states[vState] ? true : false;

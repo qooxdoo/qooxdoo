@@ -63,7 +63,7 @@ qx.Proto._getCellStyle = function(cellInfo) {
  *
  * @param cellInfo (Map) The information about the cell.
  *        See {@link #createDataCellHtml}.
- * @return {string} the inner HTML of the main div.
+ * @return (string) the inner HTML of the main div.
  */
 qx.Proto._getContentHtml = function(cellInfo) {
   return cellInfo.value;

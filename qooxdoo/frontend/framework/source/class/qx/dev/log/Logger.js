@@ -42,7 +42,7 @@ function(name, parentLogger) {
 /**
  * Returns the name of this logger. (Normally a class or package name)
  *
- * @return {string} the name.
+ * @return (string) the name.
  */
 qx.Proto.getName = function() {
   return this._name;
@@ -52,7 +52,7 @@ qx.Proto.getName = function() {
 /**
  * Returns the parent logger.
  *
- * @return {Logger} the parent logger.
+ * @return (Logger) the parent logger.
  */
 qx.Proto.getParentLogger = function() {
   return this._parentLogger;
@@ -319,44 +319,44 @@ qx.Class.getClassLogger = function(clazz) {
 }
 
 
-/** {int} The current indent. */
+/** (int) The current indent. */
 qx.Class._indent = 0;
 
 /**
- * {int} The ALL level has the lowest possible rank and is intended to turn on
+ * (int) The ALL level has the lowest possible rank and is intended to turn on
  * all logging.
  */
 qx.Class.LEVEL_ALL = 0;
 
 /**
- * {int} The DEBUG Level designates fine-grained informational events that are
+ * (int) The DEBUG Level designates fine-grained informational events that are
  * most useful to debug an application.
  */
 qx.Class.LEVEL_DEBUG = 200;
 
 /**
- * {int} The INFO level designates informational messages that highlight the
+ * (int) The INFO level designates informational messages that highlight the
  * progress of the application at coarse-grained level.
  */
 qx.Class.LEVEL_INFO = 500;
 
-/** {int} The WARN level designates potentially harmful situations. */
+/** (int) The WARN level designates potentially harmful situations. */
 qx.Class.LEVEL_WARN = 600;
 
 /**
- * {int} The ERROR level designates error events that might still allow the
+ * (int) The ERROR level designates error events that might still allow the
  * application to continue running.
  */
 qx.Class.LEVEL_ERROR = 700;
 
 /**
- * {int} The FATAL level designates very severe error events that will
+ * (int) The FATAL level designates very severe error events that will
  * presumably lead the application to abort.
  */
 qx.Class.LEVEL_FATAL = 800;
 
 /**
- * {int} The OFF has the highest possible rank and is intended to turn off
+ * (int) The OFF has the highest possible rank and is intended to turn off
  * logging.
  */
 qx.Class.LEVEL_OFF = 1000;

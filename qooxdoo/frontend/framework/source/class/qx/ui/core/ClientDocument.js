@@ -169,7 +169,7 @@ qx.Proto._initialLayoutDone = true;
 /**
  * Returns the blocker widget if already created; otherwise create it first
  *
- * @return {ClientDocumentBlocker} the blocker widget.
+ * @return (ClientDocumentBlocker) the blocker widget.
  */
 qx.Proto._getBlocker = function()
 {

@@ -45,7 +45,7 @@ function() {
 /**
  * Returns the number of rows in the model.
  *
- * @return {int} the number of rows.
+ * @return (int) the number of rows.
  */
 qx.Proto.getRowCount = function() {
   throw new Error("getRowCount is abstract");
@@ -61,7 +61,7 @@ qx.Proto.getRowCount = function() {
  * may return null.</p>
  *
  * @param rowIndex (int) the model index of the row.
- * @return {Object} the row data as an object or null if the model does not support row data 
+ * @return (Object) the row data as an object or null if the model does not support row data 
  *                  objects. The details on the object returned are determined by the model 
  *                  implementation only.
  */
@@ -73,7 +73,7 @@ qx.Proto.getRowData = function(rowIndex) {
 /**
  * Returns the number of columns in the model.
  *
- * @return {int} the number of columns.
+ * @return (int) the number of columns.
  */
 qx.Proto.getColumnCount = function() {
   throw new Error("getColumnCount is abstract");
@@ -86,7 +86,7 @@ qx.Proto.getColumnCount = function() {
  * columns when saving the width of a column.
  *
  * @param columnIndex (int) the index of the column.
- * @return {string} the ID of the column.
+ * @return (string) the ID of the column.
  */
 qx.Proto.getColumnId = function(columnIndex) {
   throw new Error("getColumnId is abstract");
@@ -97,7 +97,7 @@ qx.Proto.getColumnId = function(columnIndex) {
  * Returns the index of a column.
  *
  * @param columnId (string) the ID of the column.
- * @return {int} the index of the column.
+ * @return (int) the index of the column.
  */
 qx.Proto.getColumnIndexById = function(columnId) {
   throw new Error("getColumnIndexById is abstract");
@@ -109,7 +109,7 @@ qx.Proto.getColumnIndexById = function(columnId) {
  * table header.
  *
  * @param columnIndex (int) the index of the column.
- * @return {string} the name of the column.
+ * @return (string) the name of the column.
  */
 qx.Proto.getColumnName = function(columnIndex) {
   throw new Error("getColumnName is abstract");
@@ -120,7 +120,7 @@ qx.Proto.getColumnName = function(columnIndex) {
  * Returns whether a column is editable.
  *
  * @param columnIndex (int) the column to check.
- * @return {boolean} whether the column is editable.
+ * @return (boolean) whether the column is editable.
  */
 qx.Proto.isColumnEditable = function(columnIndex) {
   return false;
@@ -131,7 +131,7 @@ qx.Proto.isColumnEditable = function(columnIndex) {
  * Returns whether a column is sortable.
  *
  * @param columnIndex (int) the column to check.
- * @return {boolean} whether the column is sortable.
+ * @return (boolean) whether the column is sortable.
  */
 qx.Proto.isColumnSortable = function(columnIndex) {
   return false;
@@ -152,7 +152,7 @@ qx.Proto.sortByColumn = function(columnIndex, ascending) {
  * Returns the column index the model is sorted by. If the model is not sorted
  * -1 is returned.
  *
- * @return {int} the column index the model is sorted by.
+ * @return (int) the column index the model is sorted by.
  */
 qx.Proto.getSortColumnIndex = function() {
   return -1;
@@ -162,7 +162,7 @@ qx.Proto.getSortColumnIndex = function() {
 /**
  * Returns whether the model is sorted ascending.
  *
- * @return {boolean} whether the model is sorted ascending.
+ * @return (boolean) whether the model is sorted ascending.
  */
 qx.Proto.isSortAscending = function() {
   return true;
@@ -185,7 +185,7 @@ qx.Proto.prefetchRows = function(firstRowIndex, lastRowIndex) {
  *
  * @param columnIndex (int) the index of the column.
  * @param rowIndex (int) the index of the row.
- * @return {var} The value of the cell.
+ * @return (var) The value of the cell.
  * @see #getValueById()
  */
 qx.Proto.getValue = function(columnIndex, rowIndex) {
@@ -201,7 +201,7 @@ qx.Proto.getValue = function(columnIndex, rowIndex) {
  *
  * @param columnId (string) the ID of the column.
  * @param rowIndex (int) the index of the row.
- * @return {var} the value of the cell.
+ * @return (var) the value of the cell.
  */
 qx.Proto.getValueById = function(columnId, rowIndex) {
   return this.getValue(this.getColumnIndexById(columnId), rowIndex);
@@ -236,8 +236,8 @@ qx.Proto.setValueById = function(columnId, rowIndex, value) {
 }
 
 
-/** {string} The type of the event fired when the data changed. */
+/** (string) The type of the event fired when the data changed. */
 qx.Class.EVENT_TYPE_DATA_CHANGED = "dataChanged";
 
-/** {string} The type of the event fired when the meta data changed. */
+/** (string) The type of the event fired when the meta data changed. */
 qx.Class.EVENT_TYPE_META_DATA_CHANGED = "metaDataChanged";
