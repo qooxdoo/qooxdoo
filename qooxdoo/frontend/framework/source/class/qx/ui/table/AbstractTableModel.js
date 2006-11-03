@@ -129,7 +129,7 @@ qx.Proto.setColumnNamesById = function(columnNameMap) {
  *
  * @param columnNameArr {string[]} The column names. These names will be shown to
  *        the user.
- * @param columnIdArr {string[],null} The column IDs. These IDs may be used
+ * @param columnIdArr {string[] ? null} The column IDs. These IDs may be used
  *        internally to identify a column. If null, the column names are used as
  *        IDs.
  */

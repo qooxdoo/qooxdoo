@@ -28,7 +28,7 @@
  * This class does not depend on qooxdoo widgets, so it also works when there
  * are problems with widgets or when the widgets are not yet initialized.
  *
- * @param name {string,"qx_log"} the name of the log window.
+ * @param name {string ? "qx_log"} the name of the log window.
  */
 qx.OO.defineClass("qx.dev.log.WindowAppender", qx.dev.log.Appender,
 function(name) {
