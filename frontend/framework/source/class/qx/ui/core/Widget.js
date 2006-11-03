@@ -3782,7 +3782,7 @@ qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
 /**
  * Returns whether a state is set.
  *
- * @param vState {string} the state to check.
+ * @param vState (string) the state to check.
  * @return {boolean} whether the state is set.
  */
 qx.Proto.hasState = function(vState) {
@@ -3792,7 +3792,7 @@ qx.Proto.hasState = function(vState) {
 /**
  * Sets a state.
  *
- * @param state {string} the state to set.
+ * @param state (string) the state to set.
  */
 qx.Proto.addState = function(vState)
 {
@@ -3808,7 +3808,7 @@ qx.Proto.addState = function(vState)
 /**
  * Clears a state.
  *
- * @param vState {string} the state to clear.
+ * @param vState (string) the state to clear.
  */
 qx.Proto.removeState = function(vState)
 {
@@ -3824,8 +3824,8 @@ qx.Proto.removeState = function(vState)
 /**
  * Sets or clears a state.
  *
- * @param state {string} the state to set or clear.
- * @param enabled {boolean} whether the state should be set.
+ * @param state (string) the state to set or clear.
+ * @param enabled (boolean) whether the state should be set.
  *        If false it will be cleared.
  */
 qx.Proto.setState = function(state, enabled) {

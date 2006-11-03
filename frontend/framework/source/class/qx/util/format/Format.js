@@ -32,7 +32,7 @@ function() {
 /**
  * Formats an object.
  *
- * @param obj {var} The object to format.
+ * @param obj (var) The object to format.
  * @return {string} the formatted object.
  */
 qx.Proto.format = function(obj) {
@@ -43,7 +43,7 @@ qx.Proto.format = function(obj) {
 /**
  * Parses an object.
  *
- * @param str {string} the string to parse.
+ * @param str (string) the string to parse.
  * @return {var} the parsed object.
  */
 qx.Proto.parse = function(str) {

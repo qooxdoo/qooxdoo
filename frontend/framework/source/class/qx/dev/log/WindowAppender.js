@@ -28,7 +28,7 @@
  * This class does not depend on qooxdoo widgets, so it also works when there
  * are problems with widgets or when the widgets are not yet initialized.
  *
- * @param name {string ? "qx_log"} the name of the log window.
+ * @param name (string ? "qx_log") the name of the log window.
  */
 qx.OO.defineClass("qx.dev.log.WindowAppender", qx.dev.log.Appender,
 function(name) {
@@ -200,7 +200,7 @@ qx.Class._registeredAppenders = {};
  * Registers a WindowAppender. This is used by the WindowAppender internally.
  * You don't have to call this.
  *
- * @param appender {WindowAppender} the WindowAppender to register.
+ * @param appender (WindowAppender) the WindowAppender to register.
  * @return {int} the ID.
  */
 qx.Class.register = function(appender) {
@@ -216,7 +216,7 @@ qx.Class.register = function(appender) {
 /**
  * Returns a prviously registered WindowAppender.
  *
- * @param id {int} the ID of the wanted WindowAppender.
+ * @param id (int) the ID of the wanted WindowAppender.
  * @return {WindowAppender} the WindowAppender or null if no
  *     WindowAppender with this ID is registered.
  */

@@ -62,7 +62,7 @@ qx.Proto._getCellStyle = function(cellInfo) {
 /** 
  * Determines the styles to apply to the cell
  * 
- * @param cellInfo {Object} cellInfo of the cell
+ * @param cellInfo (Object) cellInfo of the cell
  * @return the sum of any of the STYLEFLAGS defined below
  */
 qx.Proto._getStyleFlags = function(cellInfo) {
@@ -115,7 +115,7 @@ qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
 /**
  * Formats a value.
  *
- * @param cellInfo {Map} A map containing the information about the cell to
+ * @param cellInfo (Map) A map containing the information about the cell to
  *        create. This map has the same structure as in
  *        {@link DataCellRenderer#createDataCell}.
  * @return {string} the formatted value.
@@ -158,7 +158,7 @@ qx.Proto._createContentHtml_array_join = function(cellInfo, htmlArr) {
 /**
  * Escapes special HTML characters by their entities.
  *
- * @param html {string} The HTML to escape.
+ * @param html (string) The HTML to escape.
  * @return {string} The escaped string showing HTML code as plain text.
  */
 qx.Class.escapeHtml = function(html) {

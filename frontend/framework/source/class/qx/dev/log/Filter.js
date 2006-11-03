@@ -33,8 +33,8 @@ function() {
 /**
  * Decidies whether a log event is accepted.
  *
- * @param evt {Map} The event to check.
- * @return {int} {@link #ACCEPT}, {@link #DENY} or {@link #NEUTRAL}.
+ * @param evt (Map) The event to check.
+ * @return (int) {@link #ACCEPT}, {@link #DENY} or {@link #NEUTRAL}.
  */
 qx.Proto.decide = function(evt) {
   throw new Error("decide is abstract");

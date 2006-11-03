@@ -34,7 +34,7 @@ function() {
 /**
  * Appends a filter to the filter chain.
  *
- * @param filter {Filter} The filter to append.
+ * @param filter (Filter) The filter to append.
  */
 qx.Proto.addFilter = function(filter) {
   if (this._filterArr == null) {
@@ -88,7 +88,7 @@ qx.Proto._getDefaultFilter = function() {
  * <p>
  * Note: This will clear all custom filters.
  *
- * @param enabled {boolean} whether event processing should be enabled.
+ * @param enabled (boolean) whether event processing should be enabled.
  */
 qx.Proto.setEnabled = function(enabled) {
   this._getDefaultFilter().setEnabled(enabled);
@@ -100,7 +100,7 @@ qx.Proto.setEnabled = function(enabled) {
  * <p>
  * Note: This will clear all custom filters.
  *
- * @param minLevel {int} the new min level.
+ * @param minLevel (int) the new min level.
  */
 qx.Proto.setMinLevel = function(minLevel) {
   this._getDefaultFilter().setMinLevel(minLevel);
@@ -110,8 +110,8 @@ qx.Proto.setMinLevel = function(minLevel) {
 /**
  * Decides whether a log event is processed.
  *
- * @param evt {Map} the event to check.
- * @return {int} {@link Filter#ACCEPT}, {@link Filter#DENY} or
+ * @param evt (Map) the event to check.
+ * @return (int) {@link Filter#ACCEPT}, {@link Filter#DENY} or
  *     {@link Filter#NEUTRAL}.
  */
 qx.Proto.decideLogEvent = function(evt) {
@@ -134,7 +134,7 @@ qx.Proto.decideLogEvent = function(evt) {
 /**
  * Processes a log event.
  *
- * @param evt {Map} The log event to process.
+ * @param evt (Map) The log event to process.
  */
 qx.Proto.handleLogEvent = function(evt) {
   throw new Error("handleLogEvent is abstract");

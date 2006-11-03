@@ -26,7 +26,7 @@
  * the display of the data part of a table and is therefore the base for virtual
  * scrolling.
  *
- * @param paneScroller {TablePaneScroller} the TablePaneScroller the header belongs to.
+ * @param paneScroller (TablePaneScroller) the TablePaneScroller the header belongs to.
  */
 qx.OO.defineClass("qx.ui.table.TablePane", qx.ui.basic.Terminator,
 function(paneScroller) {
@@ -100,9 +100,9 @@ qx.Proto.getTable = function() {
 /**
  * Sets the currently focused cell.
  *
- * @param col {int} the model index of the focused cell's column.
- * @param row {int} the model index of the focused cell's row.
- * @param massUpdate {boolean ? false} Whether other updates are planned as well.
+ * @param col (int) the model index of the focused cell's column.
+ * @param row (int) the model index of the focused cell's row.
+ * @param massUpdate (boolean ? false) Whether other updates are planned as well.
  *        If true, no repaint will be done.
  */
 qx.Proto.setFocusedCell = function(col, row, massUpdate) {
@@ -125,7 +125,7 @@ qx.Proto.setFocusedCell = function(col, row, massUpdate) {
 /**
  * Event handler. Called when the selection has changed.
  *
- * @param evt {Map} the event.
+ * @param evt (Map) the event.
  */
 qx.Proto._onSelectionChanged = function(evt) {
   this._updateContent(false, null, true);
@@ -135,7 +135,7 @@ qx.Proto._onSelectionChanged = function(evt) {
 /**
  * Event handler. Called when the width of a column has changed.
  *
- * @param evt {Map} the event.
+ * @param evt (Map) the event.
  */
 qx.Proto._onColWidthChanged = function(evt) {
   this._updateContent(true);
@@ -145,7 +145,7 @@ qx.Proto._onColWidthChanged = function(evt) {
 /**
  * Event handler. Called the column order has changed.
  *
- * @param evt {Map} the event.
+ * @param evt (Map) the event.
  */
 qx.Proto._onColOrderChanged = function(evt) {
   this._updateContent(true);
@@ -155,7 +155,7 @@ qx.Proto._onColOrderChanged = function(evt) {
 /**
  * Event handler. Called when the pane model has changed.
  *
- * @param evt {Map} the event.
+ * @param evt (Map) the event.
  */
 qx.Proto._onPaneModelChanged = function(evt) {
   this._updateContent(true);
@@ -165,7 +165,7 @@ qx.Proto._onPaneModelChanged = function(evt) {
 /**
  * Event handler. Called when the table model data has changed.
  *
- * @param evt {Map} the event.
+ * @param evt (Map) the event.
  */
 qx.Proto._onTableModelDataChanged = function(evt) {
   var data = evt.getData ? evt.getData() : null;
@@ -184,7 +184,7 @@ qx.Proto._onTableModelDataChanged = function(evt) {
 /**
  * Event handler. Called when the table model meta data has changed.
  *
- * @param evt {Map} the event.
+ * @param evt (Map) the event.
  */
 qx.Proto._onTableModelMetaDataChanged = function(evt) {
   this._updateContent();
@@ -194,10 +194,10 @@ qx.Proto._onTableModelMetaDataChanged = function(evt) {
 /**
  * Updates the content of the pane.
  *
- * @param completeUpdate {boolean ? false} if true a complete update is performed.
+ * @param completeUpdate (boolean ? false) if true a complete update is performed.
  *    On a complete update all cell widgets are recreated.
- * @param onlyRow {int ? null} if set only the specified row will be updated.
- * @param onlySelectionOrFocusChanged {boolean ? false} if true, cell values won't
+ * @param onlyRow (int ? null) if set only the specified row will be updated.
+ * @param onlySelectionOrFocusChanged (boolean ? false) if true, cell values won't
  *        be updated. Only the row background will.
  */
 qx.Proto._updateContent = function(completeUpdate, onlyRow,
@@ -447,7 +447,7 @@ qx.Proto._updateContent_orig = function(completeUpdate, onlyRow,
 /**
  * Cleans up the row widgets.
  *
- * @param firstRowToRemove {int} the visible index of the first row to clean up.
+ * @param firstRowToRemove (int) the visible index of the first row to clean up.
  *    All following rows will be cleaned up, too.
  */
 qx.Proto._cleanUpRows = function(firstRowToRemove) {

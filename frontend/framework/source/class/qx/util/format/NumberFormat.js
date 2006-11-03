@@ -66,7 +66,7 @@ qx.OO.addProperty({ name:"postfix", type:qx.constant.Type.STRING, defaultValue:"
 /**
  * Formats a number.
  *
- * @param num {number} the number to format.
+ * @param num (number) the number to format.
  * @return {string} the formatted number as a string.
  */
 qx.Proto.format = function(num) {
@@ -136,7 +136,7 @@ qx.Proto.format = function(num) {
 /**
  * Parses a number.
  *
- * @param str {string} the string to parse.
+ * @param str (string) the string to parse.
  *
  * @return {double} the number.
  */
