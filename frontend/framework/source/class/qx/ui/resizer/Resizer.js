@@ -19,7 +19,7 @@
 
 /* ************************************************************************
 
-#module(ui_window)
+#module(ui_resizer)
 
 ************************************************************************ */
 
@@ -28,11 +28,13 @@
  * the right and/or bottom directions.  Child can be e.g. a qx.ui.form.TextArea,
  * qx.ui.table.Table or qx.ui.form.List.  It is an alternative to splitters.
  */
-qx.OO.defineClass('qx.ui.window.Resizer', qx.ui.layout.CanvasLayout, function(child) {
+qx.OO.defineClass('qx.ui.resizer.Resizer', qx.ui.layout.CanvasLayout, 
+function(child) 
+{
   qx.ui.layout.CanvasLayout.call(this);
 
   this._frame = new qx.ui.basic.Terminator;
-  this._frame.setAppearance("window-resize-frame");
+  this._frame.setAppearance("resizer-frame");
   
   this._registerResizeEvents();
 
@@ -44,7 +46,8 @@ qx.OO.defineClass('qx.ui.window.Resizer', qx.ui.layout.CanvasLayout, function(ch
   this.setMinHeight(qx.constant.Core.AUTO);
   this.auto();
 
-  if (child) {
+  if (child) 
+  {
   	// Remove child border, as the resizer has already its own border.
     child.setBorder(new qx.renderer.border.Border(0));
   	this.add(this._child = child);
@@ -101,12 +104,12 @@ qx.Proto.isResizeable = qx.Proto.getResizeable = function() {
 }
 
 qx.Proto._registerResizeEvents = function() {
-  this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedownResizer);
-  this.addEventListener(qx.constant.Event.MOUSEUP, this._onmouseupResizer);
-  this.addEventListener(qx.constant.Event.MOUSEMOVE, this._onmousemoveResizer);
+  this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
+  this.addEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
+  this.addEventListener(qx.constant.Event.MOUSEMOVE, this._onmousemove);
 }
 
-qx.Proto._onmousedownResizer = function(e)
+qx.Proto._onmousedown = function(e)
 {
   if (this._resizeNorth || this._resizeSouth || this._resizeWest || this._resizeEast)
   {
@@ -120,7 +123,7 @@ qx.Proto._onmousedownResizer = function(e)
     var el = this.getElement();
 
     // measuring and caching of values for resize session
-    var pa = this._getResizeParent();
+    var pa = this.getTopLevelWidget();
     var pl = pa.getElement();
 
     var l = qx.dom.DomLocation.getPageAreaLeft(pl);
@@ -157,7 +160,7 @@ qx.Proto._onmousedownResizer = function(e)
 
     // create resize session
     var s = this._resizeSession = {};
-    var minRef = this._getMinSizeReference();
+    var minRef = this._child;
 
     if (this._resizeWest)
     {
@@ -203,7 +206,7 @@ qx.Proto._onmousedownResizer = function(e)
   e.stopPropagation();
 }
 
-qx.Proto._onmouseupResizer = function(e)
+qx.Proto._onmouseup = function(e)
 {
   var s = this._resizeSession;
 
@@ -235,11 +238,17 @@ qx.Proto._onmouseupResizer = function(e)
         }
 
         if (qx.util.Validation.isValidNumber(s.lastWidth)) {
-          this._changeWidth(s.lastWidth);
+          var child = this.getChildren()[0];
+          if (child) {
+            child.setWidth(s.lastWidth);
+          }
         }
 
         if (qx.util.Validation.isValidNumber(s.lastHeight)) {
-          this._changeHeight(s.lastHeight);
+          var child = this.getChildren()[0];
+          if (child) {
+            child.setHeight(s.lastHeight);
+          }
         }
 
         if (this.getResizeMethod() == qx.ui.window.Window.MODE_FRAME) {
@@ -269,7 +278,7 @@ qx.Proto._near = function(p, e) {
   return e > (p - 5) && e < (p + 5);
 }
 
-qx.Proto._onmousemoveResizer = function(e)
+qx.Proto._onmousemove = function(e)
 {
   var s = this._resizeSession;
 
@@ -390,41 +399,6 @@ qx.Proto._onmousemoveResizer = function(e)
 
   // stop event
   e.stopPropagation();
-}
-
-
-/**
- * Overriden from qx.ui.window.BaseResizer
- */
-qx.Proto._changeWidth = function(value) {
-  var child = this.getChildren()[0];
-  if (child) {
-    child.setWidth(value);
-  }
-}
-
-/**
- * Overriden from qx.ui.window.BaseResizer
- */
-qx.Proto._changeHeight = function(value) {
-  var child = this.getChildren()[0];
-  if (child) {
-    child.setHeight(value);
-  }
-}
-
-/**
- * Overriden from qx.ui.window.BaseResizer
- */
-qx.Proto._getResizeParent = function() {
-  return this.getTopLevelWidget();
-}
-
-/**
- * Overriden from qx.ui.window.BaseResizer
- */
-qx.Proto._getMinSizeReference = function() {
-  return this._child;
 }
 
 qx.Proto.dispose = function()
