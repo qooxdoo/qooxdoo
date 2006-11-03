@@ -31,10 +31,42 @@ R_JAVADOC_STARS = re.compile(r'^\s*\*')
 
 
 
+R_NAMED_TYPE = re.compile(r'^\s*(\w+)\s*(\(([^\)]+)\))?')
+R_SIMPLE_TYPE = re.compile(r'^\s*(\(([^\)]+)\))?')
+
+
+
+
 
 
 # contains 4 groups (1:type, 2:array dimensions, 5:default value)
-S_TYPE = r'\{([^@][\w\.]*)((\[\])*)(,\s*([^\},]+)\s*)?\}'
+# S_TYPE = r'\{([^@][\w\.]*)((\[\])*)(,\s*([^\},]+)\s*)?\}'
+
+# AE1
+# S_TYPE = r'\(\s*  ([\w\.]*)((\[\])*\s*\|\s*?)+        (\s*\?\s*([^\)\|]+)\s*)?   \s*\)'
+# S_TYPE = r'\(\s*([\w\.]*)((\[\])*\s*\|\s*?)+(\s*\?\s*([^\)\|]+)\s*)?\s*\)'
+
+# LIGHT
+# S_TYPE = r'\(([\w\.]*)((\[\])*\|?)(\?\s*([^\)\|]+)\s*)?\)'
+
+S_TYPE = r'\(\w+?\)'
+
+
+# S_TYPE = r'\(   (   ([^@][\w\.]*)((\[\])*){1}    (\s*,\s*([^@][\w\.]*)((\[\])*))*  )   (\?\s*([^\},]+)\s*)?   \)'
+# S_TYPE = r'\((([^@][\w\.]*)((\[\])*){1}(\s*,\s*([^@][\w\.]*)((\[\])*))*)(\?\s*([^\},]+)\s*)?\)'
+
+
+
+
+"""
+1: type
+2: type1
+3: array1
+4: other types
+"""
+  
+
+
 
 # contains same groups as S_TYPE
 R_TYPE_ATTR = re.compile(r'^\s*' + S_TYPE + r'\s*')
@@ -321,40 +353,55 @@ def parseText(intext, format=True):
 
 def parseDetail(attrib, format=True):
   text = attrib["text"]
-
-  mtch1 = R_PARAM_ATTR.search(text)
-  mtch2 = R_TYPE_ATTR.search(text)
-
-  if mtch1 and attrib.has_key("category") and attrib["category"] in [ "param", "event" ]:
-    attrib["name"] = mtch1.group(1)
-    attrib["type"] = mtch1.group(3)
-
-    if mtch1.group(4) == None:
-      attrib["array"] = 0
+  
+  if attrib["category"] in [ "param", "event" ]:
+    mtch = R_NAMED_TYPE.search(text)
+  else:
+    mtch = R_SIMPLE_TYPE.search(text)
+  
+  if mtch:
+    text = text[mtch.end(0):]
+      
+    if attrib["category"] in [ "param", "event" ]:
+      attrib["name"] = mtch.group(1)
+      # print ">>> NAME: %s" % mtch.group(1)
+      remain = mtch.group(3)
     else:
-      attrib["array"] = len(mtch1.group(4)) / 2
-
-    attrib["default"] = mtch1.group(7)
-    text = text[mtch1.end(0):]
-
-  elif mtch2:
-    attrib["type"] = mtch2.group(1)
-
-    if mtch2.group(2) == None:
-      attrib["array"] = 0
-    else:
-      attrib["array"] = len(mtch2.group(2)) / 2
-
-    attrib["default"] = mtch2.group(5)
-    text = text[mtch2.end(0):]
-
+      remain = mtch.group(2)    
+    
+    if remain != None:    
+      defIndex = remain.rfind("?")
+      if defIndex != -1:
+        attrib["default"] = remain[defIndex+1:].strip()
+        remain = remain[0:defIndex].strip()
+        # print ">>> DEFAULT: %s" % attrib["default"]
+        
+      typValues = []
+      for typ in remain.split(","):
+        typValue = typ.strip()
+        arrayIndex = typValue.find("[")
+        
+        if arrayIndex != -1:
+          arrayValue = (len(typValue) - arrayIndex) / 2
+          typValue = typValue[0:arrayIndex]
+        else:
+          arrayValue = 0
+          
+        typValues.append({ "type" : typValue, "dimensions" : arrayValue })
+      
+      if len(typValues) > 0:
+        attrib["type"] = typValues
+        # print ">>> TYPE: %s" % attrib["type"]
+        
   if format:
     attrib["text"] = formatText(text)
   else:
     attrib["text"] = cleanupText(text)
-
-  if attrib.has_key("default") and attrib["default"] != None:
-    print "DEFAULT: %s" % attrib["default"]
+  
+  
+  
+  
+  
 
 
 
