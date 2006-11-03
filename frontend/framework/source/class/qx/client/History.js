@@ -62,7 +62,7 @@ qx.Proto.init = function() {
  * @param command {string} a string representing the old state of the
  *        application. This command will be delivered in the data property of
  *        the "request" event.
- * @param newTitle {string,null} the page title to set after the history entry
+ * @param newTitle {string ? null} the page title to set after the history entry
  *        is done. This title should represent the new state of the application.
  */
 qx.Proto.addToHistory = function(command, newTitle) {

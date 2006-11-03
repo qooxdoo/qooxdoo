@@ -157,8 +157,8 @@ qx.Proto.appendLogEvent = function(evt) {
  * @param level {int} the log level.
  * @param msg {var} the message to log. If this is not a string, the
  *    object dump will be logged.
- * @param instanceId {var,null} the ID of the instance the log message comes from.
- * @param exc {var,null} the exception to log.
+ * @param instanceId {var ? null} the ID of the instance the log message comes from.
+ * @param exc {var ? null} the exception to log.
  */
 qx.Proto.log = function(level, msg, instanceId, exc) {
   var evt = { logger:this, level:level, message:msg, throwable:exc,
@@ -172,8 +172,8 @@ qx.Proto.log = function(level, msg, instanceId, exc) {
  *
  * @param msg {var} the message to log. If this is not a string, the
  *    object dump will be logged.
- * @param instanceId {var,null} the ID of the instance the log message comes from.
- * @param exc {var,null} the exception to log.
+ * @param instanceId {var ? null} the ID of the instance the log message comes from.
+ * @param exc {var ? null} the exception to log.
  */
 qx.Proto.debug = function(msg, instanceId, exc) {
   this.log(qx.dev.log.Logger.LEVEL_DEBUG, msg, instanceId, exc);
@@ -185,8 +185,8 @@ qx.Proto.debug = function(msg, instanceId, exc) {
  *
  * @param msg {var} the message to log. If this is not a string, the
  *    object dump will be logged.
- * @param instanceId {var,null} the ID of the instance the log message comes from.
- * @param exc {var,null} the exception to log.
+ * @param instanceId {var ? null} the ID of the instance the log message comes from.
+ * @param exc {var ? null} the exception to log.
  */
 qx.Proto.info = function(msg, instanceId, exc) {
   this.log(qx.dev.log.Logger.LEVEL_INFO, msg, instanceId, exc);
@@ -198,8 +198,8 @@ qx.Proto.info = function(msg, instanceId, exc) {
  *
  * @param msg {var} the message to log. If this is not a string, the
  *    object dump will be logged.
- * @param instanceId {var,null} the ID of the instance the log message comes from.
- * @param exc {var,null} the exception to log.
+ * @param instanceId {var ? null} the ID of the instance the log message comes from.
+ * @param exc {var ? null} the exception to log.
  */
 qx.Proto.warn = function(msg, instanceId, exc) {
   this.log(qx.dev.log.Logger.LEVEL_WARN, msg, instanceId, exc);
@@ -211,8 +211,8 @@ qx.Proto.warn = function(msg, instanceId, exc) {
  *
  * @param msg {var} the message to log. If this is not a string, the
  *    object dump will be logged.
- * @param instanceId {var,null} the ID of the instance the log message comes from.
- * @param exc {var,null} the exception to log.
+ * @param instanceId {var ? null} the ID of the instance the log message comes from.
+ * @param exc {var ? null} the exception to log.
  */
 qx.Proto.error = function(msg, instanceId, exc) {
   this.log(qx.dev.log.Logger.LEVEL_ERROR, msg, instanceId, exc);
@@ -224,8 +224,8 @@ qx.Proto.error = function(msg, instanceId, exc) {
  *
  * @param msg {var} the message to log. If this is not a string, its
  *    object dump will be logged.
- * @param instanceId {var,null} the ID of the instance the log message comes from.
- * @param exc {var,null} the exception to log.
+ * @param instanceId {var ? null} the ID of the instance the log message comes from.
+ * @param exc {var ? null} the exception to log.
  */
 qx.Proto.fatal = function(msg, instanceId, exc) {
   this.log(qx.dev.log.Logger.LEVEL_FATAL, msg, instanceId, exc);
@@ -251,8 +251,8 @@ qx.Proto.measureReset = function() {
  * Logs a debug message and measures the time since the last call of measure.
  *
  * @param msg {string} the message to log.
- * @param instanceId {var,null} the ID of the instance the log message comes from.
- * @param exc {var,null} the exception to log.
+ * @param instanceId {var ? null} the ID of the instance the log message comes from.
+ * @param exc {var ? null} the exception to log.
  */
 qx.Proto.measure = function(msg, instanceId, exc) {
   if (this._lastMeasureTime == null) {

@@ -214,7 +214,7 @@ qx.Proto.getLogger = function() {
  *
  * @param msg {var} the message to log. If this is not a string, the
  *        object dump will be logged.
- * @param exc {var,null} the exception to log.
+ * @param exc {var ? null} the exception to log.
  */
 qx.Proto.debug = function(msg, exc) {
   this.getLogger().debug(msg, this._hashCode, exc);
@@ -226,7 +226,7 @@ qx.Proto.debug = function(msg, exc) {
  *
  * @param msg {var} the message to log. If this is not a string, the
  *    object dump will be logged.
- * @param exc {var,null} the exception to log.
+ * @param exc {var ? null} the exception to log.
  */
 qx.Proto.info = function(msg, exc) {
   this.getLogger().info(msg, this._hashCode, exc);
@@ -238,7 +238,7 @@ qx.Proto.info = function(msg, exc) {
  *
  * @param msg {var} the message to log. If this is not a string, the
  *    object dump will be logged.
- * @param exc {var,null} the exception to log.
+ * @param exc {var ? null} the exception to log.
  */
 qx.Proto.warn = function(msg, exc) {
   this.getLogger().warn(msg, this._hashCode, exc);
@@ -250,7 +250,7 @@ qx.Proto.warn = function(msg, exc) {
  *
  * @param msg {var} the message to log. If this is not a string, the
  *    object dump will be logged.
- * @param exc {var,null} the exception to log.
+ * @param exc {var ? null} the exception to log.
  */
 qx.Proto.error = function(msg, exc) {
   this.getLogger().error(msg, this._hashCode, exc);
