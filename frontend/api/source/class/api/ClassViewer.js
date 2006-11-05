@@ -1198,7 +1198,7 @@ qx.Proto._createTypeHtml = function(typeNode, packageBaseClass, defaultType, use
 
   var types = [];
   var typeHtml, typeDimensions, typeName, linkText, dims;
-  
+
   if (typeNode)
   {
     // read in children
@@ -1208,20 +1208,20 @@ qx.Proto._createTypeHtml = function(typeNode, packageBaseClass, defaultType, use
       {
         if (a[i].type == "entry")
         {
-          types.push(a[i].attributes);          
+          types.push(a[i].attributes);
         }
       }
     }
 
     // read from attributes (alternative)
-    if (types.length == 0 && typeNode.attributes) 
+    if (types.length == 0 && typeNode.attributes)
     {
       typeName = typeNode.attributes.instance ? typeNode.attributes.instance : typeNode.attributes.type;
-      
-      if (typeName != undefined) 
+
+      if (typeName != undefined)
       {
         dims = typeNode.attributes.dimensions;
-        
+
         if (typeof dims == "number" && dims > 0) {
           types.push({ "type" : typeName, "dimensions" : dims });
         } else {
@@ -1231,35 +1231,35 @@ qx.Proto._createTypeHtml = function(typeNode, packageBaseClass, defaultType, use
     }
   }
 
-  if (types.length == 0) 
+  if (types.length == 0)
   {
     typeHtml = defaultType;
-  } 
-  else 
+  }
+  else
   {
     typeHtml = "";
-    
+
     if (types.length > 1) {
-      typeHtml += "(" 
+      typeHtml += "("
     }
-    
+
     for (var j=0; j<types.length; j++)
     {
       if (j>0) {
-        typeHtml += " | "; 
+        typeHtml += " | ";
       }
-      
+
       typeName = types[j].type;
       typeDimensions = types[j].dimensions;
-      
-      if (api.ClassViewer.PRIMITIVES[typeName]) 
+
+      if (api.ClassViewer.PRIMITIVES[typeName])
       {
         typeHtml += typeName;
-      } 
+      }
       else
       {
         linkText = typeName;
-        if (useShortName) 
+        if (useShortName)
         {
           var lastDot = typeName.lastIndexOf(".");
           if (lastDot != -1) {
@@ -1268,17 +1268,17 @@ qx.Proto._createTypeHtml = function(typeNode, packageBaseClass, defaultType, use
         }
         typeHtml += this._createItemLinkHtml(linkText, packageBaseClass, false, true);
       }
-  
-      if (typeDimensions) 
+
+      if (typeDimensions)
       {
         for (var i = 0; i < parseInt(typeDimensions); i++) {
           typeHtml += "[]";
         }
       }
     }
-    
+
     if (types.length > 1) {
-      typeHtml += ")" 
+      typeHtml += ")"
     }
   }
 
@@ -1465,9 +1465,10 @@ qx.Proto.dispose = function() {
 
 
 /** {Map} The primitive types. These types will not be shown with links. */
-qx.Class.PRIMITIVES = { "object":true, "boolean":true, "string":true,
-  "number":true, "int":true, "double":true, "var":true, "regexp":true,
-  "function":true, "Array":true, "Map":true, "Date":true, "Element":true, "Node":true }
+qx.Class.PRIMITIVES = { "boolean":true, "string":true, "float":true,
+  "number":true, "int":true, "double":true, "var":true, "void":true,
+  "RegExp":true, "Array":true, "Map":true, "Date":true, "Element":true,
+  "Node":true, "Function":true, "Object":true, "Event":true };
 
 /**
  * {regexp} The regexp for parsing a item name
