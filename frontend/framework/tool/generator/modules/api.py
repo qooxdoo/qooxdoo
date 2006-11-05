@@ -394,16 +394,16 @@ def addTypeInfo(node, commentAttrib=None, item=None):
   if commentAttrib.has_key("type"):
     typesNode = tree.Node("types")
     node.addChild(typesNode)
-    
+
     for item in commentAttrib["type"]:
       itemNode = tree.Node("entry")
       typesNode.addChild(itemNode)
-      
+
       itemNode.set("type", item["type"])
-      
+
       if item["dimensions"] != 0:
         itemNode.set("dimensions", item["dimensions"])
-        
+
   # add default value
   if commentAttrib.has_key("default"):
     defaultValue = commentAttrib["default"]
@@ -425,13 +425,13 @@ def addEventNode(classNode, classItem, commentAttrib):
   if commentAttrib.has_key("type"):
     typesNode = tree.Node("types")
     node.addChild(typesNode)
-    
+
     for item in commentAttrib["type"]:
       itemNode = tree.Node("entry")
       typesNode.addChild(itemNode)
-      
+
       itemNode.set("type", item["type"])
-      
+
       if item["dimensions"] != 0:
         itemNode.set("dimensions", item["dimensions"])
 
@@ -497,9 +497,9 @@ def getType(item):
     elif assembled == "qx.constant.Type.STRING":
       return "string"
     elif assembled == "qx.constant.Type.OBJECT":
-      return "object"
+      return "Object"
     elif assembled == "qx.constant.Type.FUNCTION":
-      return "function"
+      return "Function"
     else:
       raise DocException("Unknown data type: " + assembled, item)
   else:
