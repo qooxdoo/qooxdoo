@@ -47,6 +47,7 @@ VARPREFIXES = {
   "m" : "Map",
   "n" : "number",
   "o" : "Object",
+  "r" : "RegExp",
   "s" : "string",
   "v" : "var",
   "w" : "Widget"
@@ -66,7 +67,7 @@ VARNAMES = {
 
   "ex" : "Exception",
   "exc" : "Exception",
-    
+
   "flag" : "boolean",
   "force" : "boolean",
 
@@ -84,6 +85,8 @@ VARNAMES = {
 
   "o" : "Object",
   "obj" : "Object",
+
+  "reg" : "RegExp",
 
   "s" : "string",
   "str" : "string"
@@ -315,55 +318,55 @@ def parseText(intext, format=True):
 
 def parseDetail(attrib, format=True):
   text = attrib["text"]
-  
+
   if attrib["category"] in [ "param", "event" ]:
     mtch = R_NAMED_TYPE.search(text)
   else:
     mtch = R_SIMPLE_TYPE.search(text)
-  
+
   if mtch:
     text = text[mtch.end(0):]
-      
+
     if attrib["category"] in [ "param", "event" ]:
       attrib["name"] = mtch.group(1)
       # print ">>> NAME: %s" % mtch.group(1)
       remain = mtch.group(3)
     else:
-      remain = mtch.group(2)    
-    
-    if remain != None:    
+      remain = mtch.group(2)
+
+    if remain != None:
       defIndex = remain.rfind("?")
       if defIndex != -1:
         attrib["default"] = remain[defIndex+1:].strip()
         remain = remain[0:defIndex].strip()
         # print ">>> DEFAULT: %s" % attrib["default"]
-        
+
       typValues = []
       for typ in remain.split("|"):
         typValue = typ.strip()
         arrayIndex = typValue.find("[")
-        
+
         if arrayIndex != -1:
           arrayValue = (len(typValue) - arrayIndex) / 2
           typValue = typValue[0:arrayIndex]
         else:
           arrayValue = 0
-          
+
         typValues.append({ "type" : typValue, "dimensions" : arrayValue })
-      
+
       if len(typValues) > 0:
         attrib["type"] = typValues
         # print ">>> TYPE: %s" % attrib["type"]
-        
+
   if format:
     attrib["text"] = formatText(text)
   else:
     attrib["text"] = cleanupText(text)
-  
-  
-  
-  
-  
+
+
+
+
+
 
 
 
@@ -588,7 +591,7 @@ def fromFunction(func, member, name, alternative, old=[]):
           if attribHas(oldParam, "type"):
             newType = oldParam["type"]
             newTypeText = ""
-            
+
             firstType = True
             for entry in newType:
               if not firstType:
@@ -600,7 +603,7 @@ def fromFunction(func, member, name, alternative, old=[]):
                 newTypeText += "[]" * entry["dimensions"]
 
               firstType = False
-              
+
           if attribHas(oldParam, "defaultValue"):
             newDefault = oldParam["defaultValue"]
 
