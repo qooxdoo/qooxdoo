@@ -27,29 +27,20 @@ public class RpcServlet extends HttpServlet {
 
     /** The size for the read buffer. */
     private static final int BUFFER_SIZE = 8192;
-   
-    
-    /**
-     * Version UID. 
-     */
-    
+
+    /** Version UID. */
     private static final long serialVersionUID = 1L;
-    
 
-    /**
-     * Stores the current request as a ThreadLocal.
-     */
+    /** Stores the current servlet instance as a ThreadLocal. */
+    static ThreadLocal _currentInstance = new ThreadLocal();
 
+    /** Stores the current request as a ThreadLocal. */
     static ThreadLocal _currentRequest = new ThreadLocal();
 
-    
-    /**
-     * The RemoteCallUtils instance that is used by this servlet.
-     */
-    
+    /** The RemoteCallUtils instance that is used by this servlet. */
     protected RemoteCallUtils _remoteCallUtils;
-    
-    
+
+
     /**
      * Looks up an instance of a service and creates one if necessary.
      *
@@ -249,6 +240,7 @@ public class RpcServlet extends HttpServlet {
     
     protected String handleRPC(HttpServletRequest request,
                                String requestString) throws Exception {
+        _currentInstance.set(this);
         _currentRequest.set(request);
         String instanceId = request.getParameter("instanceId");
         JSONObject req = new JSONObject(requestString);
