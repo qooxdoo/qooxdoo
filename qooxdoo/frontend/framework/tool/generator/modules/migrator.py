@@ -219,6 +219,11 @@ def handle(fileList, fileDb, options):
     patchedContent = fileContent
     patchedContent = regtool(patchedContent, compiledPatches, True, options)
     patchedContent = regtool(patchedContent, compiledInfos, False, options)
+    
+    if importedModule and False:
+      tree = treegenerator.createSyntaxTree(tokenizer.parseStream(patchedContent))
+      patch.patch(tree)
+      patchedContent = treecompiler.compile(tree)
 
     # Write file
     if patchedContent != fileContent:
