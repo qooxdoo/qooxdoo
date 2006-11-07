@@ -3,11 +3,6 @@
 import sys, re, os, codecs
 import config, filetool
 
-
-DIRIGNORE = [ ".svn", "CVS" ]
-EXTINCLUDE = [ ".php", ".asp", ".jsp", ".html", ".htm", ".js" ]
-
-
 def entryCompiler(line):
   # protect escaped equal symbols
   line = line.replace("\=", "----EQUAL----")
@@ -68,46 +63,46 @@ def regtool(content, regs, patch, options):
 
 def handle(fileList, fileDb, options):
   confPath = os.path.join(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "data"), options.migrationTarget)
-  
+
   infoPath = os.path.join(confPath, "info")
   patchPath = os.path.join(confPath, "patches")
 
   importedModule = False
   infoList = []
   patchList = []
-  
+
 
 
   print "  * Number of input files: %s" % len(fileList)
   print "  * Update to version: %s" % options.migrationTarget
-  
+
 
 
   print "  * Searching for patch module..."
-  
+
   for root, dirs, files in os.walk(confPath):
 
     # Filter ignored directories
-    for ignoredDir in DIRIGNORE:
+    for ignoredDir in config.DIRIGNORE:
       if ignoredDir in dirs:
         dirs.remove(ignoredDir)
 
     # Searching for files
     for fileName in files:
       filePath = os.path.join(root, fileName)
-      
+
       if os.path.splitext(fileName)[1] != config.PYEXT:
         continue
-        
+
       if fileName == "patch.py":
         print "    - Found => Importing"
-        
+
         if not root in sys.path:
           sys.path.insert(0, root)
 
         import patch
         importedModule = True
-     
+
 
 
 
@@ -115,7 +110,7 @@ def handle(fileList, fileDb, options):
 
 
   emptyLine = re.compile("^\s*$")
-  
+
 
 
   print "  * Searching for info expression data..."
@@ -123,7 +118,7 @@ def handle(fileList, fileDb, options):
   for root, dirs, files in os.walk(infoPath):
 
     # Filter ignored directories
-    for ignoredDir in DIRIGNORE:
+    for ignoredDir in config.DIRIGNORE:
       if ignoredDir in dirs:
         dirs.remove(ignoredDir)
 
@@ -140,9 +135,9 @@ def handle(fileList, fileDb, options):
   print "    - Number of info files: %s" % len(infoList)
 
   print "    - Compiling expressions..."
-  
+
   compiledInfos = []
-  
+
   for infoFile in infoList:
     print "    - %s" % os.path.basename(infoFile["path"])
     for line in infoFile["content"]:
@@ -150,18 +145,18 @@ def handle(fileList, fileDb, options):
         continue
 
       compiledInfos.append(entryCompiler(line))
-      
+
   print "    - Number of infos: %s" % len(compiledInfos)
-  
-      
-      
+
+
+
 
   print "  * Searching for patch expression data..."
 
   for root, dirs, files in os.walk(patchPath):
 
     # Filter ignored directories
-    for ignoredDir in DIRIGNORE:
+    for ignoredDir in config.DIRIGNORE:
       if ignoredDir in dirs:
         dirs.remove(ignoredDir)
 
@@ -178,9 +173,9 @@ def handle(fileList, fileDb, options):
   print "    - Number of patch files: %s" % len(patchList)
 
   print "    - Compiling expressions..."
-  
+
   compiledPatches = []
-  
+
   for patchFile in patchList:
     print "    - %s" % os.path.basename(patchFile["path"])
     for line in patchFile["content"]:
@@ -191,12 +186,12 @@ def handle(fileList, fileDb, options):
 
   print "    - Number of patches: %s" % len(compiledPatches)
 
-  
 
-  
 
- 
-  
+
+
+
+
 
   print
   print "  FILE PROCESSING:"
@@ -206,11 +201,11 @@ def handle(fileList, fileDb, options):
 
   for fileId in fileList:
     fileEntry = fileDb[fileId]
-    
+
     filePath = fileEntry["path"]
     fileEncoding = fileEntry["encoding"]
-    
-    print "    * %s" % fileEntry["path"]
+
+    print "    - %s" % fileEntry["path"]
 
     # Read in original content
     fileContent = filetool.read(filePath, fileEncoding)
@@ -219,7 +214,7 @@ def handle(fileList, fileDb, options):
     patchedContent = fileContent
     patchedContent = regtool(patchedContent, compiledPatches, True, options)
     patchedContent = regtool(patchedContent, compiledInfos, False, options)
-    
+
     if importedModule and False:
       tree = treegenerator.createSyntaxTree(tokenizer.parseStream(patchedContent))
       patch.patch(tree)
