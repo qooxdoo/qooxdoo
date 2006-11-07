@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys, re, os, codecs
-import config, filetool
+import config, filetool, treegenerator, tokenizer, treecompiler
 
 def entryCompiler(line):
   # protect escaped equal symbols
@@ -209,16 +209,18 @@ def handle(fileList, fileDb, options):
 
     # Read in original content
     fileContent = filetool.read(filePath, fileEncoding)
+    patchedContent = fileContent
 
     # Apply patches
-    patchedContent = fileContent
+    if importedModule:
+      tree = treegenerator.createSyntaxTree(tokenizer.parseStream(patchedContent))
+
+      # If there were any changes, compile the result
+      if patch.patch(tree):
+        patchedContent = compiler.compile(tree, True)
+
     patchedContent = regtool(patchedContent, compiledPatches, True, options)
     patchedContent = regtool(patchedContent, compiledInfos, False, options)
-
-    if importedModule and False:
-      tree = treegenerator.createSyntaxTree(tokenizer.parseStream(patchedContent))
-      patch.patch(tree)
-      patchedContent = treecompiler.compile(tree)
 
     # Write file
     if patchedContent != fileContent:
