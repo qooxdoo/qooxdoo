@@ -5,7 +5,7 @@ import sys, re, os, optparse
 # reconfigure path to import own modules from modules subfolder
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "modules"))
 
-import config, tokenizer, loader, tokencompiler, api, tree, treegenerator, settings, resources, filetool, stringoptimizer, extendedoption, treecompiler, variableoptimizer, obfuscator, compiler
+import config, tokenizer, loader, tokencompiler, api, tree, treegenerator, settings, resources, filetool, stringoptimizer, extendedoption, treecompiler, variableoptimizer, obfuscator, compiler, migrator
 
 
 
@@ -37,6 +37,7 @@ def getparser():
   parser.add_option("--generate-api-documentation", action="store_true", dest="generateApiDocumentation", default=False, help="Generate API documentation.")
   parser.add_option("--copy-resources", action="store_true", dest="copyResources", default=False, help="Copy resource files.")
   parser.add_option("--pretty-print", action="store_true", dest="prettyPrint", default=False, help="Pretty print source code.")
+  parser.add_option("--migrate-source", action="store_true", dest="migrateSource", default=False, help="Migrate existing code to new version.")
 
   # Debug Actions
   parser.add_option("--store-tokens", action="store_true", dest="storeTokens", default=False, help="Store tokenized content of source files. (Debugging)")
@@ -69,6 +70,7 @@ def getparser():
   parser.add_option("-v", "--verbose", action="store_true", dest="verbose", help="Verbose output mode.")
   parser.add_option("-d", "--debug", action="store_true", dest="enableDebug", help="Enable debug mode.")
   parser.add_option("--package-id", dest="packageId", default="", metavar="ID", help="Defines a package ID (required for string optimization etc.)")
+  parser.add_option("--disable-internal-check", action="store_true", dest="disableInternalCheck", default=False, help="Disable check of modifications to internal files.")
 
   # Options for source and compiled version
   parser.add_option("--define-runtime-setting", action="append", dest="defineRuntimeSetting", metavar="NAMESPACE.KEY:VALUE", default=[], help="Define a setting.")
@@ -91,6 +93,9 @@ def getparser():
 
   # Cache Directory
   parser.add_option("--cache-directory", dest="cacheDirectory", metavar="DIRECTORY", help="If this is defined the loader trys to use cache to optimize the performance.")
+  
+  # Options for migration support
+  parser.add_option("--migration-target", dest="migrationTarget", metavar="VERSION", help="Define the target for migration of source code.")
 
 
 
@@ -320,9 +325,6 @@ def load(options):
 
 
 
-
-
-
   ######################################################################
   #  DEBUG OUTPUT JOBS
   ######################################################################
@@ -478,6 +480,28 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
 
 
+
+  ######################################################################
+  #  SOURCE MIGRATION
+  ######################################################################
+
+  if options.migrateSource:
+    print
+    print "  SOURCE MIGRATION:"
+    print "----------------------------------------------------------------------------"
+    
+    print "  * Migrate Source Code..."
+    
+    migrator.handle(sortedIncludeList, fileDb, options)
+    
+    # Return after migration: Ignore other jobs
+    return
+  
+  
+  
+  
+  
+
   ######################################################################
   #  GENERATION OF PRETTY PRINTED CODE
   ######################################################################
@@ -509,7 +533,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     if not options.verbose:
       print
 
-    # ignore other jobs
+    # Return after pretty print: Ignore other jobs
     return
 
 
