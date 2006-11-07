@@ -99,6 +99,13 @@ qx.OO.addProperty({ name:"focusCellOnMouseMove", type:qx.constant.Type.BOOLEAN, 
  */
 qx.OO.addProperty({ name:"keepFirstVisibleRowComplete", type:qx.constant.Type.BOOLEAN, defaultValue:true });
 
+/**
+ * Whether the table cells should be updated when only the selection or the
+ * focus changed. This slows down the table update but allows to react on a
+ * changed selection or a changed focus in a cell renderer.
+ */
+qx.OO.addProperty({ name:"alwaysUpdateCells", type:qx.constant.Type.BOOLEAN, defaultValue:false });
+
 
 // property modifier
 qx.Proto._modifySelectionModel = function(propValue, propOldValue, propData) {
