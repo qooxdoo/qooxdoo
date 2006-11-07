@@ -41,11 +41,11 @@ def validateFiles():
 
 
 
-def getInternalModTime():
+def getInternalModTime(options):
 
   global internalModTime
 
-  if internalModTime == 0:
+  if internalModTime == 0 and not options.disableInternalCheck:
     validateFiles()
 
   return internalModTime
@@ -190,7 +190,7 @@ def getTokens(fileDb, fileId, options):
       cachePath = os.path.join(filetool.normalize(options.cacheDirectory), fileId + "-tokens.pcl")
       useCache = True
 
-      if not filetool.checkCache(filePath, cachePath, getInternalModTime()):
+      if not filetool.checkCache(filePath, cachePath, getInternalModTime(options)):
         loadCache = True
 
     if loadCache:
@@ -227,7 +227,7 @@ def getTree(fileDb, fileId, options):
       cachePath = os.path.join(filetool.normalize(options.cacheDirectory), fileId + "-tree.pcl")
       useCache = True
 
-      if not filetool.checkCache(filePath, cachePath, getInternalModTime()):
+      if not filetool.checkCache(filePath, cachePath, getInternalModTime(options)):
         loadCache = True
 
     if loadCache:
@@ -264,7 +264,7 @@ def getStrings(fileDb, fileId, options):
       cachePath = os.path.join(filetool.normalize(options.cacheDirectory), fileId + "-strings.pcl")
       useCache = True
 
-      if not filetool.checkCache(filePath, cachePath, getInternalModTime()):
+      if not filetool.checkCache(filePath, cachePath, getInternalModTime(options)):
         loadCache = True
 
     if loadCache:
@@ -429,7 +429,7 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sour
     cachePath = os.path.join(filetool.normalize(options.cacheDirectory), filePathId + "-entry.pcl")
     useCache = True
 
-    if not filetool.checkCache(filePath, cachePath, getInternalModTime()):
+    if not filetool.checkCache(filePath, cachePath, getInternalModTime(options)):
       loadCache = True
 
 
