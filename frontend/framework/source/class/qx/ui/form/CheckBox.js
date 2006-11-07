@@ -42,6 +42,8 @@ function(vText, vValue, vName, vChecked)
 
   if (qx.util.Validation.isValidBoolean(vChecked)) {
     this.setChecked(vChecked);
+  } else {
+  	this.setChecked(false);
   }
 
   this.addEventListener(qx.constant.Event.CLICK, this._onclick);
@@ -71,7 +73,7 @@ qx.OO.addProperty({ name : "value", type : qx.constant.Type.STRING });
 /*!
   If the widget is checked
 */
-qx.OO.addProperty({ name : "checked", type : qx.constant.Type.BOOLEAN, defaultValue : false, getAlias : "isChecked" });
+qx.OO.addProperty({ name : "checked", type : qx.constant.Type.BOOLEAN, getAlias : "isChecked" });
 
 
 
