@@ -170,7 +170,7 @@ def hasLeadingContent(tokens):
 
 
 
-def parseStream(content, uniqueId):
+def parseStream(content, uniqueId=""):
   # make global variables available
   global parseLine
   global parseColumn
