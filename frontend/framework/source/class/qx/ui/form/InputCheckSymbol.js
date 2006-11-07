@@ -45,12 +45,13 @@ function()
   // we need to be sure that the dom protection of this is added
   this.forceTabIndex(1);
   this.setTabIndex(-1);
+	this.setChecked(false);
 });
 
 qx.OO.addProperty({ name : "name", type : qx.constant.Type.STRING, impl : "apply" });
 qx.OO.addProperty({ name : "value", impl : "apply" });
 qx.OO.addProperty({ name : "type", impl : "apply" });
-qx.OO.addProperty({ name : "checked", type : qx.constant.Type.BOOLEAN, defaultValue : false, impl : "apply", getAlias : "isChecked" });
+qx.OO.addProperty({ name : "checked", type : qx.constant.Type.BOOLEAN, impl : "apply", getAlias : "isChecked" });
 
 qx.Proto._modifyApply = function(propValue, propOldValue, propData) {
   return this.setHtmlProperty(propData.name, propValue);

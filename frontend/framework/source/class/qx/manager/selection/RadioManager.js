@@ -96,7 +96,7 @@ qx.Proto.handleItemChecked = function(vItem, vChecked)
 ---------------------------------------------------------------------------
 */
 
-qx.Proto.add = function()
+qx.Proto.add = function(varargs)
 {
   var vItems = arguments;
   var vLength = vItems.length;
