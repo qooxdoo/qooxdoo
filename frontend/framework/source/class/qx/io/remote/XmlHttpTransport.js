@@ -596,13 +596,14 @@ qx.Proto.getResponseText = function()
   var vResponseText = null;
 
   var vStatus = this.getStatusCode();
-  if ((vStatus == 0) || (vStatus>=200 && vStatus<300))
+  var vReadyState = this.getReadyState();
+  if (qx.io.remote.RemoteExchange.wasSuccessful(vStatus, vReadyState, this._localRequest))
   {
     try {
       vResponseText = this.getRequest().responseText;
     } catch(ex) {}
   }
-
+  
   return vResponseText;
 }
 
@@ -616,7 +617,8 @@ qx.Proto.getResponseXml = function()
   var vResponseXML = null;
 
   var vStatus = this.getStatusCode();
-  if ((vStatus == 0) || (vStatus>=200 && vStatus<300))
+  var vReadyState = this.getReadyState();
+  if (qx.io.remote.RemoteExchange.wasSuccessful(vStatus, vReadyState, this._localRequest))
   {
     try {
       vResponseXML = this.getRequest().responseXML;
