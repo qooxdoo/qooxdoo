@@ -44,3 +44,20 @@ qx.dom.DomElement.cleanWhitespace = function(vElement)
 qx.dom.DomElement.isEmpty = function(vElement) {
   return vElement.innerHTML.match(/^\s*$/);
 }
+
+/*!
+  sets the textValue of the given DOM element
+*/
+if (qx.sys.Client.getInstance().supportsTextContent()) {
+	qx.dom.DomElement.setTextContent = function(vElement, sValue) {
+		vElement.textContent = sValue;
+	};
+} else if (qx.sys.Client.getInstance().supportsInnerText()) {
+	qx.dom.DomElement.setTextContent = function(vElement, sValue) {
+		vElement.innerText = sValue;
+	};			
+} else {
+	qx.dom.DomElement.setTextContent = function(vElement, sValue) {
+		vElement.innerHTML = sValue;
+	};				
+}
