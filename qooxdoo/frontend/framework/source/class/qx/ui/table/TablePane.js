@@ -337,13 +337,17 @@ qx.Proto._updateContent_orig = function(completeUpdate, onlyRow,
 {
   var TablePane = qx.ui.table.TablePane;
 
-  var selectionModel = this.getTable().getSelectionModel();
-  var tableModel = this.getTable().getTableModel();
-  var columnModel = this.getTable().getTableColumnModel();
+  var table = this.getTable();
+
+  var alwaysUpdateCells = table.getAlwaysUpdateCells();
+
+  var selectionModel = table.getSelectionModel();
+  var tableModel = table.getTableModel();
+  var columnModel = table.getTableColumnModel();
   var paneModel = this.getPaneScroller().getTablePaneModel();
 
   var colCount = paneModel.getColumnCount();
-  var rowHeight = this.getTable().getRowHeight();
+  var rowHeight = table.getRowHeight();
 
   var firstRow = this.getFirstVisibleRow();
   var rowCount = this.getVisibleRowCount();
@@ -405,7 +409,7 @@ qx.Proto._updateContent_orig = function(completeUpdate, onlyRow,
     }
     rowElem.style.color = cellInfo.selected ? TablePane.CONTENT_COL_SELECTED : TablePane.CONTENT_COL;
 
-    if (!recyleRowElem || !onlySelectionOrFocusChanged) {
+    if (alwaysUpdateCells || !recyleRowElem || !onlySelectionOrFocusChanged) {
       var html = "";
       var left = 0;
       for (var x = 0; x < colCount; x++) {
