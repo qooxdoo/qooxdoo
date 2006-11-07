@@ -228,12 +228,25 @@ qx.Proto.isRightButtonPressed = function() {
   return this.getButton() === qx.event.type.MouseEvent.C_BUTTON_RIGHT;
 }
 
-if (qx.sys.Client.getInstance().isMshtml())
-{
-  qx.Proto._computeButton = function()
-  {
-    switch(this.getDomEvent().button)
-    {
+qx.Proto._computeButton = function() {
+	var e = this.getDomEvent();
+	if (e.which) {
+		switch (e.which) {
+      case 1:
+        return qx.event.type.MouseEvent.C_BUTTON_LEFT;
+
+      case 3:
+        return qx.event.type.MouseEvent.C_BUTTON_RIGHT;
+
+      case 2:
+        return qx.event.type.MouseEvent.C_BUTTON_MIDDLE;
+
+      default:
+        return qx.event.type.MouseEvent.C_BUTTON_NONE;
+			
+		}
+	} else {
+		switch(e.button) {
       case 1:
         return qx.event.type.MouseEvent.C_BUTTON_LEFT;
 
@@ -245,33 +258,9 @@ if (qx.sys.Client.getInstance().isMshtml())
 
       default:
         return qx.event.type.MouseEvent.C_BUTTON_NONE;
-    }
-  }
+		}	
+	}
 }
-else
-{
-  qx.Proto._computeButton = function()
-  {
-    switch(this.getDomEvent().button)
-    {
-      case 0:
-        return qx.event.type.MouseEvent.C_BUTTON_LEFT;
-
-      case 1:
-        return qx.event.type.MouseEvent.C_BUTTON_MIDDLE;
-
-      case 2:
-        return qx.event.type.MouseEvent.C_BUTTON_RIGHT;
-
-      default:
-        return qx.event.type.MouseEvent.C_BUTTON_NONE;
-    }
-  }
-}
-
-
-
-
 
 
 

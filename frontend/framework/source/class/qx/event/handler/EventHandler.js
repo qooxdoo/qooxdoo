@@ -307,9 +307,28 @@ qx.Class.getOriginalTargetObject = function(vNode)
   return vNode ? vNode.qx_Widget : null;
 }
 
+/**
+ * extract the target node from a DOM event
+ * http://www.quirksmode.org/js/events_properties.html
+ * 
+ * @param vDomEvent (object) 
+ * @return (object) the target node
+ */
+qx.Class.getDomTarget = function(vDomEvent) {
+	var vNode = vDomEvent.target || vDomEvent.srcElement;
+	
+	// Safari takes text nodes as targets for events
+	if (vNode.nodeType == qx.constant.Node.TEXT) {
+		vNode = vNode.parentNode;
+	}
+	
+	return vNode;
+};
+
+
 qx.Class.getOriginalTargetObjectFromEvent = function(vDomEvent, vWindow)
 {
-  var vNode = vDomEvent.target || vDomEvent.srcElement;
+  var vNode = qx.event.handler.EventHandler.getDomTarget(vDomEvent);
 
   // Especially to fix key events.
   // 'vWindow' is the window reference then
@@ -369,7 +388,7 @@ qx.Class.getTargetObject = function(vNode, vObject)
 }
 
 qx.Class.getTargetObjectFromEvent = function(vDomEvent) {
-  return qx.event.handler.EventHandler.getTargetObject(vDomEvent.target || vDomEvent.srcElement);
+  return qx.event.handler.EventHandler.getTargetObject(qx.event.handler.EventHandler.getDomTarget(vDomEvent));
 }
 
 qx.Class.getRelatedTargetObjectFromEvent = function(vDomEvent) {
@@ -427,7 +446,7 @@ qx.Proto._onkeyevent = function(vDomEvent)
 
 qx.Proto._onkeyevent_post = function(vDomEvent, vType)
 {
-  var vDomTarget = vDomEvent.target || vDomEvent.srcElement;
+  var vDomTarget = qx.event.handler.EventHandler.getDomTarget(vDomEvent);
   var vKeyCode = vDomEvent.keyCode || vDomEvent.charCode;
 
 
@@ -543,7 +562,7 @@ if(qx.sys.Client.getInstance().isMshtml())
       vDomEvent = window.event;
     }
 
-    var vDomTarget = vDomEvent.target || vDomEvent.srcElement;
+    var vDomTarget = qx.event.handler.EventHandler.getDomTarget(vDomEvent);
     var vType = vDomEvent.type;
 
     if(vType == qx.constant.Event.MOUSEMOVE)
@@ -598,7 +617,7 @@ else
   {
     qx.core.Init.getInstance().getComponent().preload();
 
-    var vDomTarget = vDomEvent.target;
+    var vDomTarget = qx.event.handler.EventHandler.getDomTarget(vDomEvent);
     var vType = vDomEvent.type;
 
     switch(vType)
@@ -611,7 +630,7 @@ else
       case qx.constant.Event.CLICK:
       case qx.constant.Event.DBLCLICK:
         // ignore click or dblclick events with other then the left mouse button
-        if (vDomEvent.button !== qx.event.type.MouseEvent.buttons.left) {
+				if (vDomEvent.which !== 1) {
           return;
         }
     }
