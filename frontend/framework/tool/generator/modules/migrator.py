@@ -76,7 +76,6 @@ def handle(fileList, fileDb, options):
   infoList = []
   patchList = []
   
-  options.verbose=True
 
 
   print "  * Number of input files: %s" % len(fileList)
@@ -86,8 +85,6 @@ def handle(fileList, fileDb, options):
 
   print "  * Searching for patch module..."
   
-  patch = None
-
   for root, dirs, files in os.walk(confPath):
 
     # Filter ignored directories
@@ -109,14 +106,19 @@ def handle(fileList, fileDb, options):
           sys.path.insert(0, root)
 
         import patch
-        
         importedModule = True
      
 
 
 
 
-  print "  * Searching for info regexp data..."
+
+
+  emptyLine = re.compile("^\s*$")
+  
+
+
+  print "  * Searching for info expression data..."
 
   for root, dirs, files in os.walk(infoPath):
 
@@ -137,8 +139,24 @@ def handle(fileList, fileDb, options):
 
   print "    - Number of info files: %s" % len(infoList)
 
+  print "    - Compiling expressions..."
+  
+  compiledInfos = []
+  
+  for infoFile in infoList:
+    print "    - %s" % os.path.basename(infoFile["path"])
+    for line in infoFile["content"]:
+      if emptyLine.match(line) or line.startswith("#") or line.startswith("//"):
+        continue
 
-  print "  * Searching for patch regexp data..."
+      compiledInfos.append(entryCompiler(line))
+      
+  print "    - Number of infos: %s" % len(compiledInfos)
+  
+      
+      
+
+  print "  * Searching for patch expression data..."
 
   for root, dirs, files in os.walk(patchPath):
 
@@ -159,26 +177,10 @@ def handle(fileList, fileDb, options):
 
   print "    - Number of patch files: %s" % len(patchList)
 
-
-
-
-
-  print "  * Compiling expressions..."
-
-  emptyLine = re.compile("^\s*$")
-
-  compiledInfos = []
+  print "    - Compiling expressions..."
+  
   compiledPatches = []
-
-  for infoFile in infoList:
-    print "    - %s" % os.path.basename(infoFile["path"])
-    for line in infoFile["content"]:
-      if emptyLine.match(line) or line.startswith("#") or line.startswith("//"):
-        continue
-
-      compiledInfos.append(entryCompiler(line))
-
-
+  
   for patchFile in patchList:
     print "    - %s" % os.path.basename(patchFile["path"])
     for line in patchFile["content"]:
@@ -187,10 +189,14 @@ def handle(fileList, fileDb, options):
 
       compiledPatches.append(entryCompiler(line))
 
-
-  print "  * Expression statistics"
-  print "    - Number of infos: %s" % len(compiledInfos)
   print "    - Number of patches: %s" % len(compiledPatches)
+
+  
+
+  
+
+ 
+  
 
   print
   print "  FILE PROCESSING:"
