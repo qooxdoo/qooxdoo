@@ -26,8 +26,6 @@
  *
  * @param tableModel (qx.ui.table.TableModel) The table
  *    model to read the data from.
- *
- * @implements TablePaneScroller
  */
 qx.OO.defineClass("qx.ui.table.Table", qx.ui.layout.VerticalBoxLayout,
 function(tableModel) {
