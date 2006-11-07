@@ -43,50 +43,53 @@ statics_val.addChild(statics_map)
 def patch(node):
   global counter
 
-  iterNode(node)
+  patchNode(node)
 
-  print tree.nodeToXmlString(class_map)
+  #print tree.nodeToXmlString(class_map)
   print compiler.compile(class_map)
 
   return counter > 0
-
-
-def iterNode(node):
-  patchNode(node)
-
-  if node.hasChildren():
-    for child in node.children:
-      iterNode(child)
 
 
 def patchNode(node):
   global counter
 
   if node.type == "function":
-    if node.parent.type == "right" and node.parent.parent.type == "assignment":
-      ass = node.parent.parent
+    if node.parent.type != "right":
+      return
 
-      if ass.hasChild("left"):
-        left = ass.getChild("left")
+    if node.parent.parent.type != "assignment":
+      return
 
-        if left.hasChild("variable"):
-          var = left.getChild("variable")
+    if node.parent.parent.parent.type != "file":
+      return
 
-          # find last identifier
-          last = var.getLastChild(True, False)
+    ass = node.parent.parent
 
-          if last.type == "identifier":
-            print "Found: %s" % last.get("name")
+    if ass.hasChild("left"):
+      left = ass.getChild("left")
 
-            key = tree.Node("keyvalue")
-            val = tree.Node("value")
+      if left.hasChild("variable"):
+        var = left.getChild("variable")
 
-            key.set("key", last.get("name"))
-            key.addChild(val)
+        # find last identifier
+        last = var.getLastChild(True, False)
 
-            node.parent.removeChild(node)
-            val.addChild(node)
+        if last.type == "identifier":
+          print "Found: %s" % last.get("name")
 
-            members_map.addChild(key)
+          key = tree.Node("keyvalue")
+          val = tree.Node("value")
+
+          key.set("key", last.get("name"))
+          key.addChild(val)
+
+          node.parent.removeChild(node)
+          val.addChild(node)
+
+          members_map.addChild(key)
 
 
+  elif node.hasChildren():
+    for child in node.children:
+      patchNode(child)
