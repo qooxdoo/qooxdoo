@@ -426,15 +426,6 @@ qx.Proto._postApply = function()
 
         if (vInner < vNeeded)
         {
-          // test innerText support
-          var vUseInnerText = true;
-
-          try {
-            vElement.innerText = qx.constant.Core.DEFAULT;
-          } catch(ex) {
-            vUseInnerText = false;
-          }
-
           vElement.style.overflow = qx.ui.basic.Label.OVERFLOW_HIDDEN;
 
           if (qx.ui.basic.Label.SUPPORT_NATIVE_ELLIPSIS)
@@ -454,7 +445,8 @@ qx.Proto._postApply = function()
 
             var vPost = qx.ui.basic.Label.SYMBOL_ELLIPSIS;
 
-            if (vMnemonicMode == 2)
+            var vUseInnerText = true;
+						if (vMnemonicMode == 2)
             {
               var vPost = this._mnemonicHtml + vPost;
               vUseInnerText = false;
@@ -469,7 +461,12 @@ qx.Proto._postApply = function()
               {
                 vSplitTemp.push(vSplitString[vWordIterator]);
 
-                vMeasureNode[vUseInnerText ? qx.ui.basic.Label.INNER_TEXT : qx.ui.basic.Label.INNER_HTML] = vSplitTemp.join(qx.constant.Core.SPACE) + vPost;
+                var vLabelText = vSplitTemp.join(qx.constant.Core.SPACE) + vPost;
+								if (vUseInnerText) {
+									qx.dom.DomElement.setTextContent(vMeasureNode, vLabelText);
+								} else {
+									vMeasureNode.innerHTML = vLabelText;
+								}
 
                 if ((vMeasureNode.scrollWidth > vInner)
                   /* carstenl: The following code (truncate the text to fit in the available
@@ -508,8 +505,14 @@ qx.Proto._postApply = function()
             {
               vSplitTemp.push(vCharaterString.charAt(vCharaterIterator));
 
-              vMeasureNode[vUseInnerText ? qx.ui.basic.Label.INNER_TEXT : qx.ui.basic.Label.INNER_HTML] = vSplitTemp.join(qx.constant.Core.EMPTY) + vPost;
-              if (vMeasureNode.scrollWidth > vInner) {
+              var vLabelText = vSplitTemp.join(qx.constant.Core.EMPTY) + vPost;
+							if (vUseInnerText) {
+								qx.dom.DomElement.setTextContent(vMeasureNode, vLabelText);
+							} else {
+								vMeasureNode.innerHTML = vLabelText;
+							}
+							
+							if (vMeasureNode.scrollWidth > vInner) {
                 break;
               }
             }
@@ -553,40 +556,18 @@ qx.Proto._postApply = function()
 }
 
 
-if (qx.sys.Client.getInstance().isMshtml() || qx.sys.Client.getInstance().isOpera())
+qx.Proto._postApplyHtml = function(vElement, vHtml, vMnemonicMode)
 {
-  qx.Proto._postApplyHtml = function(vElement, vHtml, vMnemonicMode)
+  if (this._htmlMode || vMnemonicMode > 0)
   {
-    if (this._htmlMode || vMnemonicMode > 0)
-    {
-      vElement.innerHTML = vHtml;
-    }
-    else
-    {
-      try {
-        vElement.textContent = vHtml;
-        vElement.innerText = vHtml;
-      } catch(ex) {
-        vElement.innerHTML = vHtml;
-      }
-    }
+    vElement.innerHTML = vHtml;
   }
-}
-else
-{
-  qx.Proto._postApplyHtml = function(vElement, vHtml, vMnemonicMode)
+  else
   {
-    if (this._htmlMode || vMnemonicMode > 0)
-    {
+    try {
+      qx.dom.DomElement.setTextContent(vElement, vHtml);
+    } catch(ex) {
       vElement.innerHTML = vHtml;
-    }
-    else
-    {
-      try {
-        vElement.textContent = vHtml;
-      } catch(ex) {
-        vElement.innerHTML = vHtml;
-      }
     }
   }
 }

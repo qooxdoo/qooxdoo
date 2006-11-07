@@ -210,6 +210,9 @@ function()
   this._gfxSvg = vGfxSvg;
   this._gfxSvgBuiltin = vGfxSvgBuiltin;
   this._gfxSvgPlugin = vGfxSvgPlugin;
+	
+	this._supportsTextContent = (document.documentElement.textContent !== undefined);
+	this._supportsInnerText = (document.documentElement.innerText !== undefined);
 });
 
 
@@ -354,7 +357,24 @@ qx.Proto.usesSvgPlugin = function() {
 }
 
 
+/**
+ * Returns whether the client supports the W3C property textContent of DOM element nodes.
+ * 
+ * @return (boolean) whether the client supports textContent.
+ */
+qx.Proto.supportsTextContent = function() {
+	return this._supportsTextContent;
+}
 
+
+/**
+ * Returns whether the client supports the W3C property innerText of DOM element nodes.
+ * 
+ * @return (boolean) whether the client supports innerText.
+ */
+qx.Proto.supportsInnerText = function() {
+	return this._supportsInnerText;
+}
 
 
 
