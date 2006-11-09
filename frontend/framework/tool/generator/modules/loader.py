@@ -590,10 +590,12 @@ def addIdWithDepsToSortedList(sortedList, fileDb, fileId):
 
     # Including loadtime dependencies
     for loadtimeDepId in fileDb[fileId]["loadtimeDeps"]:
+      if loadtimeDepId == fileId: break;
       addIdWithDepsToSortedList(sortedList, fileDb, loadtimeDepId)
 
     # Including after dependencies
     for afterDepId in fileDb[fileId]["afterDeps"]:
+      if afterDepId == fileId: break;
       addIdWithDepsToSortedList(sortedList, fileDb, afterDepId)
 
     # Add myself
