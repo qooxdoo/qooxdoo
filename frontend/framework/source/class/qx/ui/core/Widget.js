@@ -295,11 +295,23 @@ qx.OO.addProperty({ name : "backgroundImage", type : qx.constant.Type.STRING });
 qx.OO.addProperty({ name : "overflow", type : qx.constant.Type.STRING, addToQueue : true });
 
 /*!
-  Clipping of the widget
+  Clipping of the widget (left)
 */
 qx.OO.addProperty({ name : "clipLeft", type : qx.constant.Type.NUMBER, impl : "clip" });
+
+/*!
+  Clipping of the widget (top)
+*/
 qx.OO.addProperty({ name : "clipTop", type : qx.constant.Type.NUMBER, impl : "clip" });
+
+/*!
+  Clipping of the widget (width)
+*/
 qx.OO.addProperty({ name : "clipWidth", type : qx.constant.Type.NUMBER, impl : "clip" });
+
+/*!
+  Clipping of the widget (height)
+*/
 qx.OO.addProperty({ name : "clipHeight", type : qx.constant.Type.NUMBER, impl : "clip" });
 
 
@@ -389,14 +401,45 @@ qx.OO.addProperty({ name : "appearance", type : qx.constant.Type.STRING });
 ---------------------------------------------------------------------------
 */
 
+/*!
+  Margin of the widget (top)
+*/
 qx.OO.addProperty({ name : "marginTop", type : qx.constant.Type.NUMBER, addToQueue : true, impl : "marginY" });
+
+/*!
+  Margin of the widget (right)
+*/
 qx.OO.addProperty({ name : "marginRight", type : qx.constant.Type.NUMBER, addToQueue : true, impl : "marginX" });
+
+/*!
+  Margin of the widget (bottom)
+*/
 qx.OO.addProperty({ name : "marginBottom", type : qx.constant.Type.NUMBER, addToQueue : true, impl : "marginY" });
+
+/*!
+  Margin of the widget (left)
+*/
 qx.OO.addProperty({ name : "marginLeft", type : qx.constant.Type.NUMBER, addToQueue : true, impl : "marginX" });
 
+
+/*!
+  Padding of the widget (top)
+*/
 qx.OO.addProperty({ name : "paddingTop", type : qx.constant.Type.NUMBER, addToQueue : true, impl : "paddingY" });
+
+/*!
+  Padding of the widget (right)
+*/
 qx.OO.addProperty({ name : "paddingRight", type : qx.constant.Type.NUMBER, addToQueue : true, impl : "paddingX" });
+
+/*!
+  Padding of the widget (bottom)
+*/
 qx.OO.addProperty({ name : "paddingBottom", type : qx.constant.Type.NUMBER, addToQueue : true, impl : "paddingY" });
+
+/*!
+  Padding of the widget (left)
+*/
 qx.OO.addProperty({ name : "paddingLeft", type : qx.constant.Type.NUMBER, addToQueue : true, impl : "paddingX" });
 
 
