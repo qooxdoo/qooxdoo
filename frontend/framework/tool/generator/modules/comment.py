@@ -521,7 +521,7 @@ def fromFunction(func, member, name, alternative, old=[]):
   # add @name
   ##############################################################
   if name != None:
-    s += " * @name %s\n" % name
+    # s += " * @name %s\n" % name
 
     if name.startswith("_"):
       s += " * @mode protected\n"
@@ -613,7 +613,7 @@ def fromFunction(func, member, name, alternative, old=[]):
             newDefault = oldParam["defaultValue"]
 
           if attribHas(oldParam, "text"):
-            newText = oldParam["text"]
+            newText = oldParam["text"].strip()
 
         s += " * @param %s (%s%s)%s" % (newName, newTypeText, newDefault, splitText(newText))
 
@@ -638,7 +638,7 @@ def fromFunction(func, member, name, alternative, old=[]):
       newType = parseType(oldReturn["type"])
 
     if attribHas(oldReturn, "text"):
-      newText = oldReturn["text"]
+      newText = oldReturn["text"].strip()
 
   # Try to autodetect the type
   if newType == "void":
