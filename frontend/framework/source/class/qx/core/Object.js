@@ -70,8 +70,8 @@ qx.Class._db = [];
  * Generate an unique key for the given object and return it.
  * Sets object._hashCode to the generated key.
  * 
- * @param o (object)
- * @return (number) unique key for the given object
+ * @param o (Object)
+ * @return (int) unique key for the given object
  */
 qx.Class.toHashCode = function(o)
 {
@@ -200,7 +200,7 @@ qx.Proto.toString = function()
 /**
  * Return unique hash code of object
  *
- * @return (number) unique hash code of the object
+ * @return (int) unique hash code of the object
  */
 qx.Proto.toHashCode = function() {
   return this._hashCode;
