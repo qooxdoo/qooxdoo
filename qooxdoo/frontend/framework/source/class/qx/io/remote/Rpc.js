@@ -309,7 +309,9 @@ qx.Proto._callInternal = function(args, async, refreshSession) {
 
   if (!async) {
       if (ex != null) {
-        throw ex;
+        var error = new Error(ex.toString());
+        error.rpcdetails = ex;
+        throw error;
       }
       return result;
   } else {
