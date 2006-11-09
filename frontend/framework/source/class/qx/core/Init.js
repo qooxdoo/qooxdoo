@@ -41,21 +41,21 @@ function()
   // Object Wrapper to Events (Needed for DOM-Events)
   var o = this;
   
-	/**
-	 * private
-	 * @param e {Object}
-	 */
-	this.__onload = function(e) { return o._onload(e); }
-	/**
-	 * private
-	 * @param e {Object}
-	 */
-	this.__onbeforeunload = function(e) { return o._onbeforeunload(e); }
   /**
-	 * private
-	 * @param e {Object}
-	 */
-	this.__onunload = function(e) { return o._onunload(e); }
+   * private
+   * @param e {Object}
+   */
+  this.__onload = function(e) { return o._onload(e); }
+  /**
+   * private
+   * @param e {Object}
+   */
+  this.__onbeforeunload = function(e) { return o._onbeforeunload(e); }
+  /**
+   * private
+   * @param e {Object}
+   */
+  this.__onunload = function(e) { return o._onunload(e); }
 
   // Attach events
   qx.dom.DomEventRegistration.addEventListener(window, "load", this.__onload);

@@ -769,11 +769,11 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
   */
 
   "resizer": {
-  	initial: function(vTheme) {
+    initial: function(vTheme) {
       return {
         border : qx.renderer.border.BorderPresets.getInstance().outset
       }
-  	}
+    }
   },
   
   "resizer-frame" : {
@@ -1076,10 +1076,10 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
   "combo-box-ex-list" : {
     initial : function(vTheme) {
       return qx.lang.Object.mergeWith(vTheme.initialFrom("list"), {
-		statusBarVisible: false,
-		columnVisibilityButtonVisible: false,
-		height: 'auto',
-		maxHeight: 150,
+    statusBarVisible: false,
+    columnVisibilityButtonVisible: false,
+    height: 'auto',
+    maxHeight: 150,
         top : 0,
         left : 0,
         border : null

@@ -31,18 +31,18 @@ qx.OO.defineClass("qx.core.Version",
   /**
    * qooxdoo major version number
    */
-	major : 0,
-	
+  major : 0,
+  
   /**
    * qooxdoo minor version number
    */
   minor : 6,
-	
+  
   /**
    * qooxdoo revision number
    */
   revision : 2,
-	
+  
   /**
    * qooxdoo revision state
    */
@@ -51,7 +51,7 @@ qx.OO.defineClass("qx.core.Version",
   /**
    * qooxdoo subversion revision number
    */
-	svn : Number("$Rev$".match(/[0-9]+/)[0]),
+  svn : Number("$Rev$".match(/[0-9]+/)[0]),
 
   /**
    * returns the qooxdoo version string

@@ -48,9 +48,9 @@ function(child)
 
   if (child) 
   {
-  	// Remove child border, as the resizer has already its own border.
+    // Remove child border, as the resizer has already its own border.
     child.setBorder(new qx.renderer.border.Border(0));
-  	this.add(this._child = child);
+    this.add(this._child = child);
   }
 });
 

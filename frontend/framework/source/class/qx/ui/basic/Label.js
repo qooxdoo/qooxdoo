@@ -446,7 +446,7 @@ qx.Proto._postApply = function()
             var vPost = qx.ui.basic.Label.SYMBOL_ELLIPSIS;
 
             var vUseInnerText = true;
-						if (vMnemonicMode == 2)
+            if (vMnemonicMode == 2)
             {
               var vPost = this._mnemonicHtml + vPost;
               vUseInnerText = false;
@@ -462,11 +462,11 @@ qx.Proto._postApply = function()
                 vSplitTemp.push(vSplitString[vWordIterator]);
 
                 var vLabelText = vSplitTemp.join(qx.constant.Core.SPACE) + vPost;
-								if (vUseInnerText) {
-									qx.dom.DomElement.setTextContent(vMeasureNode, vLabelText);
-								} else {
-									vMeasureNode.innerHTML = vLabelText;
-								}
+                if (vUseInnerText) {
+                  qx.dom.DomElement.setTextContent(vMeasureNode, vLabelText);
+                } else {
+                  vMeasureNode.innerHTML = vLabelText;
+                }
 
                 if ((vMeasureNode.scrollWidth > vInner)
                   /* carstenl: The following code (truncate the text to fit in the available
@@ -506,13 +506,13 @@ qx.Proto._postApply = function()
               vSplitTemp.push(vCharaterString.charAt(vCharaterIterator));
 
               var vLabelText = vSplitTemp.join(qx.constant.Core.EMPTY) + vPost;
-							if (vUseInnerText) {
-								qx.dom.DomElement.setTextContent(vMeasureNode, vLabelText);
-							} else {
-								vMeasureNode.innerHTML = vLabelText;
-							}
-							
-							if (vMeasureNode.scrollWidth > vInner) {
+              if (vUseInnerText) {
+                qx.dom.DomElement.setTextContent(vMeasureNode, vLabelText);
+              } else {
+                vMeasureNode.innerHTML = vLabelText;
+              }
+              
+              if (vMeasureNode.scrollWidth > vInner) {
                 break;
               }
             }

@@ -35,8 +35,8 @@ qx.OO.defineClass("qx.dom.DomStyleSheet");
  */
 qx.dom.DomStyleSheet.createElement = function(vCssText) {};  
 if (document.createStyleSheet) // IE 4+
-{	
-	qx.dom.DomStyleSheet.createElement = function(vCssText)
+{  
+  qx.dom.DomStyleSheet.createElement = function(vCssText)
   {
     var vSheet = document.createStyleSheet();
 
@@ -54,33 +54,33 @@ else // FF, Opera, Safari
     var vElement = document.createElement("STYLE");
     vElement.type = "text/css";
 
-		// Safari doesn't like empty stylesheets
+    // Safari doesn't like empty stylesheets
     vElement.appendChild(document.createTextNode(vCssText || "body {}"));
     
     document.getElementsByTagName("HEAD")[0].appendChild(vElement);
 
-		if (vElement.sheet) {
-			return vElement.sheet;
-		} else {
-			// Safari 2.0 doesn't support element.sheet so we neet a workaround
-			var styles = document.styleSheets;
-			for (var i=styles.length-1; i>=0; i--) {
-				if (styles[i].ownerNode == vElement) {
-					return styles[i];
-				}
-			}
-		}
-		throw "Error: Could not get a reference to the sheet object";
-  }	
+    if (vElement.sheet) {
+      return vElement.sheet;
+    } else {
+      // Safari 2.0 doesn't support element.sheet so we neet a workaround
+      var styles = document.styleSheets;
+      for (var i=styles.length-1; i>=0; i--) {
+        if (styles[i].ownerNode == vElement) {
+          return styles[i];
+        }
+      }
+    }
+    throw "Error: Could not get a reference to the sheet object";
+  }  
 }
 
 
 /**
  * insert a new CSS rule into a given Stylesheet
  * 
- * @param vSheet 		(Object) the target Stylesheet object
+ * @param vSheet     (Object) the target Stylesheet object
  * @param vSelector (string) 
- * @param vStyle 		(string) 
+ * @param vStyle     (string) 
  */
 qx.dom.DomStyleSheet.addRule = function(vSheet, vSelector, vStyle) {};
 if (document.createStyleSheet) // IE 4+
@@ -92,21 +92,21 @@ if (document.createStyleSheet) // IE 4+
 else if (qx.sys.Client.getInstance().isWebkit()) // insertRule in Safari 2 doesn't work 
 {
   qx.dom.DomStyleSheet.addRule = function(vSheet, vSelector, vStyle) {
-		vSheet.ownerNode.appendChild(document.createTextNode(vSelector + "{" + vStyle + "}"));
+    vSheet.ownerNode.appendChild(document.createTextNode(vSelector + "{" + vStyle + "}"));
   };
 }
 else // FF, Opera 
 {
   qx.dom.DomStyleSheet.addRule = function(vSheet, vSelector, vStyle) {
-		vSheet.insertRule(vSelector + "{" + vStyle + "}", vSheet.cssRules.length);
-  };		
+    vSheet.insertRule(vSelector + "{" + vStyle + "}", vSheet.cssRules.length);
+  };    
 }
 
 
 /**
  * remove a CSS rule from a stylesheet
  * 
- * @param vSheet 		(Object) the Stylesheet
+ * @param vSheet     (Object) the Stylesheet
  * @param vSelector (string) the Selector of the rule to remove
  */
 qx.dom.DomStyleSheet.removeRule = function(vSheet, vSelector) {};
@@ -127,7 +127,7 @@ if (document.createStyleSheet) // IE 4+
 }
 else
 {
-	qx.dom.DomStyleSheet.removeRule = function(vSheet, vSelector)
+  qx.dom.DomStyleSheet.removeRule = function(vSheet, vSelector)
   {
     var vRules = vSheet.cssRules;
     var vLength = vRules.length;
@@ -164,7 +164,7 @@ else // FF, etc
 {
   qx.dom.DomStyleSheet.removeAllRules = function(vSheet)
   {
-		var vRules = vSheet.cssRules;
+    var vRules = vSheet.cssRules;
     var vLength = vRules.length;
 
     for (var i=vLength-1; i>=0; i--) {
@@ -177,7 +177,7 @@ else // FF, etc
 /**
  * add an import of an external CSS file to a stylesheet
  * @param vSheet (Object) 
- * @param vUrl	 (string) 
+ * @param vUrl   (string) 
  */
 qx.dom.DomStyleSheet.addImport = function(vSheet, vUrl) {};
 if (document.createStyleSheet) // IE 4+
@@ -190,7 +190,7 @@ else  if (qx.sys.Client.getInstance().isWebkit()) // insertRule in Safari 2 does
 {
   qx.dom.DomStyleSheet.addImport = function(vSheet, vUrl) {
     alert("Webkit");
-	  vSheet.ownerNode.appendChild(document.createTextNode('@import "' + vUrl + '";'));
+    vSheet.ownerNode.appendChild(document.createTextNode('@import "' + vUrl + '";'));
   }
 }
 else // FF, etc
@@ -205,7 +205,7 @@ else // FF, etc
  * removes an import from a stylesheet
  * 
  * @param vSheet (Object) 
- * @param vUrl 	 (string)  URL of the importet CSS file
+ * @param vUrl    (string)  URL of the importet CSS file
  */
 qx.dom.DomStyleSheet.removeImport = function(vSheet, vUrl) {};
 if (document.createStyleSheet) // IE 4+
@@ -232,7 +232,7 @@ else // FF, etc
         vSheet.deleteRule(i);
       }
     }
-	}
+  }
 }
 
 
