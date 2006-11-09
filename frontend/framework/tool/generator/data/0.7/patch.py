@@ -85,9 +85,13 @@ def patch(node):
   if not node.hasChildren():
     return False
 
-  base, membersMap, staticsMap = createBase()
+  classDefine, membersMap, staticsMap = createClassDefine()
+
+  pos = 0    
   
-  for child in node.children:
+  while pos < len(node.children):
+    child = node.children[pos]
+    
     # Add instance and static methods
     if child.type == "assignment":
       if child.hasChild("right") and child.getChild("right").hasChild("function"):
@@ -96,29 +100,33 @@ def patch(node):
         name = getFunctionName(func)
         mode = getMode(func)
         
-        if mode == "members":
-          membersMap.addChild(createPair(name, func))        
-        elif mode == "statics":
-          staticsMap.addChild(createPair(name, func))
+        if mode in [ "members", "statics" ]:
+          if mode == "members":
+            membersMap.addChild(createPair(name, func))        
+          elif mode == "statics":
+            staticsMap.addChild(createPair(name, func))
+            
         else:
           print " * Could not move function: %s" % name
+          continue
           
+        node.removeChild(child)
+        pos -= 1
+          
+    pos += 1        
         
         
         
-        
-       
-  
-  
-  
+  # Add new class definition
+  node.addChild(classDefine) 
 
-  #print tree.nodeToXmlString(class_map)
-  print compiler.compile(base)
+  # Debug
+  print compiler.compile(node)
 
   return counter > 0
 
 
-def createClassDefineBase(name):
+def createClassDefineCore(name):
   call = tree.Node("call")
   oper = tree.Node("operand")
   var = tree.Node("variable")
@@ -152,10 +160,8 @@ def createClassDefineBase(name):
 
 
 
-def createBase():
-  fileItem = tree.Node("file")
-  
-  classDefine, classMap = createClassDefineBase("newClassName")  
+def createClassDefine():
+  classDefine, classMap = createClassDefineCore("newClassName")  
   
   membersMap = tree.Node("map")
   membersPair = createPair("members", membersMap)
@@ -165,6 +171,5 @@ def createBase():
   
   classMap.addChild(membersPair)
   classMap.addChild(staticsPair)
-  fileItem.addChild(classDefine)    
   
-  return fileItem, membersMap, staticsMap
+  return classDefine, membersMap, staticsMap
