@@ -16,16 +16,17 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-
-************************************************************************ */
-
+/**
+ * Crossbrowser operations on DOM Nodes
+ */
 qx.OO.defineClass("qx.dom.DomElement");
 
-/*!
-  Removes whitespace-only text node children
-*/
+
+/**
+ * Removes whitespace-only text node children
+ * 
+ * @param vElement (object) DOM node
+ */
 qx.dom.DomElement.cleanWhitespace = function(vElement)
 {
   for (var i=0; i<vElement.childNodes.length; i++)
@@ -38,16 +39,26 @@ qx.dom.DomElement.cleanWhitespace = function(vElement)
   }
 }
 
-/*!
-  Checks if a element has no content
-*/
+
+/**
+ * Checks if a element has no content
+ * 
+ * @param vElement (object) DOM node
+ */
 qx.dom.DomElement.isEmpty = function(vElement) {
   return vElement.innerHTML.match(/^\s*$/);
 }
 
-/*!
-  sets the textValue of the given DOM element
-*/
+
+/**
+ * Sets the textValue of the given DOM element.
+ * Wrapper for element.innerText and element.textContent.
+ * 
+ * @param vElement (element) DOM node
+ * @param sValue (string) 
+ */
+qx.dom.DomElement.setTextContent = function(vElement, sValue) {};
+
 if (qx.sys.Client.getInstance().supportsTextContent()) {
 	qx.dom.DomElement.setTextContent = function(vElement, sValue) {
 		vElement.textContent = sValue;
