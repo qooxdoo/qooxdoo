@@ -46,73 +46,73 @@
  * @event beforeInitialOpen {qx.event.type.Event}
  */
 qx.OO.defineClass('qx.ui.form.ComboBoxEx', qx.ui.layout.HorizontalBoxLayout, function() {
-	qx.ui.layout.HorizontalBoxLayout.call(this);
+  qx.ui.layout.HorizontalBoxLayout.call(this);
 
-	// ************************************************************************
-	//   POPUP
-	// ************************************************************************
-	var p = this._popup = new qx.ui.popup.Popup;
-	p.setAppearance('combo-box-ex-popup');
+  // ************************************************************************
+  //   POPUP
+  // ************************************************************************
+  var p = this._popup = new qx.ui.popup.Popup;
+  p.setAppearance('combo-box-ex-popup');
 
-	// ************************************************************************
-	//   LIST
-	// ************************************************************************
-	this._createList([ 'Value', 'Description' ]);
-	
-	// ************************************************************************
-	//   FIELD
-	// ************************************************************************
-	var f = this._field = new qx.ui.form.TextField;
-	f.setAppearance('combo-box-ex-text-field');
-	f.addEventListener(qx.constant.Event.INPUT, this._oninput, this);
-	this.add(f);
-	this.setEditable(false);
-	
-	// ************************************************************************
-	//   BUTTON
-	// ************************************************************************
-	
-	// Use qx.ui.basic.Atom instead of qx.ui.form.Button here to omit the registration
-	// of the unneeded and complex button events.
-	var b = this._button = new qx.ui.basic.Atom(null, "widget/arrows/down.gif");
-	b.set({
-		appearance: "combo-box-button",
-		tabIndex: -1
-	});
-	this.add(b);
-	
-	// ************************************************************************
-	//   BEHAVIOR
-	// ************************************************************************
-	this.setTabIndex(1);
+  // ************************************************************************
+  //   LIST
+  // ************************************************************************
+  this._createList([ 'Value', 'Description' ]);
+  
+  // ************************************************************************
+  //   FIELD
+  // ************************************************************************
+  var f = this._field = new qx.ui.form.TextField;
+  f.setAppearance('combo-box-ex-text-field');
+  f.addEventListener(qx.constant.Event.INPUT, this._oninput, this);
+  this.add(f);
+  this.setEditable(false);
+  
+  // ************************************************************************
+  //   BUTTON
+  // ************************************************************************
+  
+  // Use qx.ui.basic.Atom instead of qx.ui.form.Button here to omit the registration
+  // of the unneeded and complex button events.
+  var b = this._button = new qx.ui.basic.Atom(null, "widget/arrows/down.gif");
+  b.set({
+    appearance: "combo-box-button",
+    tabIndex: -1
+  });
+  this.add(b);
+  
+  // ************************************************************************
+  //   BEHAVIOR
+  // ************************************************************************
+  this.setTabIndex(1);
 
-	// ************************************************************************
-	//   WIDGET MOUSE EVENTS
-	// ************************************************************************
-	this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
-	this.addEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
-	this.addEventListener(qx.constant.Event.MOUSEWHEEL, this._onmousewheel);
+  // ************************************************************************
+  //   WIDGET MOUSE EVENTS
+  // ************************************************************************
+  this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
+  this.addEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
+  this.addEventListener(qx.constant.Event.MOUSEWHEEL, this._onmousewheel);
 
-	// ************************************************************************
-	//   WIDGET KEY EVENTS
-	// ************************************************************************
-	this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
-	this.addEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
+  // ************************************************************************
+  //   WIDGET KEY EVENTS
+  // ************************************************************************
+  this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
+  this.addEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
 
-	// ************************************************************************
-	//   WIDGET STATE EVENTS
-	// ************************************************************************
-	this.addEventListener(qx.constant.Event.BEFOREDISAPPEAR, this._testClosePopup);
+  // ************************************************************************
+  //   WIDGET STATE EVENTS
+  // ************************************************************************
+  this.addEventListener(qx.constant.Event.BEFOREDISAPPEAR, this._testClosePopup);
 
-	// ************************************************************************
-	//   CHILDREN EVENTS
-	// ************************************************************************
-	this._popup.addEventListener(qx.constant.Event.APPEAR, this._onpopupappear, this);
+  // ************************************************************************
+  //   CHILDREN EVENTS
+  // ************************************************************************
+  this._popup.addEventListener(qx.constant.Event.APPEAR, this._onpopupappear, this);
 });
 
 /*
 ---------------------------------------------------------------------------
-	PROPERTIES
+  PROPERTIES
 ---------------------------------------------------------------------------
 */
 
@@ -142,104 +142,104 @@ qx.OO.addProperty({ name: 'ensureSomethingSelected', type: qx.constant.Type.BOOL
 
 /*
 ---------------------------------------------------------------------------
-	UTILITIES
+  UTILITIES
 ---------------------------------------------------------------------------
 */
 
 qx.Proto.getPopup = function() {
-	return this._popup;
+  return this._popup;
 }
 
 qx.Proto.getList = function() {
-	return this._list;
+  return this._list;
 }
 
 qx.Proto.getField = function() {
-	return this._field;
+  return this._field;
 }
 
 qx.Proto.getButton = function() {
-	return this._button;
+  return this._button;
 }
 
 /**Gets the current selected row of the selection.
  * @return null if nothing selected or an array*/
 qx.Proto.getSelectedRow = function() {
-	var ind = this.getSelectedIndex();
-	return ind < 0 ? null : this._model.getData()[ind];
+  var ind = this.getSelectedIndex();
+  return ind < 0 ? null : this._model.getData()[ind];
 }
 
 /**Creates the list component.*/
 qx.Proto._createList = function(columns) {
-	this._model = new qx.ui.table.SimpleTableModel;
-	// Default column titles
-	this._model.setColumns(columns);
-	var l = this._list = new qx.ui.table.Table(this._model);
-	l.setFocusedCell = function() {}
-	l.setAppearance('combo-box-ex-list');
-	try {
-		l.setKeepFirstVisibleRowComplete(false);
-	} catch (ex) {
-		// We receive this: Modification of property "keepFirstVisibleRowComplete" failed with exception: TypeError - vCurrentChild has no properties or
-		// this: Modification of property "keepFirstVisibleRowComplete" failed with exception: TypeError - this.getParent() has no properties
-		// It seems not to be harmful
-	}
-	var selMan = l._getSelectionManager();
-	var oldHandle = selMan.handleMouseUp, me = this;
-	selMan.handleMouseUp = function(vItem, e) {
-		oldHandle.apply(selMan, arguments);
-		if (e.isLeftButtonPressed()) {
-			me._testClosePopup();
-		}
-	}
-	this._manager = l.getSelectionModel();
-	this._manager.addEventListener('changeSelection', this._onChangeSelection, this);
-	// Avoid deselection from user
-	this._manager.removeSelectionInterval = function() {};
-	this._manager.setSelectionMode(qx.ui.table.SelectionModel.SINGLE_SELECTION);
-	this._popup.add(this._list);
-	// Invalidate calculation of column widths
-	delete this._calcDimensions;
+  this._model = new qx.ui.table.SimpleTableModel;
+  // Default column titles
+  this._model.setColumns(columns);
+  var l = this._list = new qx.ui.table.Table(this._model);
+  l.setFocusedCell = function() {}
+  l.setAppearance('combo-box-ex-list');
+  try {
+    l.setKeepFirstVisibleRowComplete(false);
+  } catch (ex) {
+    // We receive this: Modification of property "keepFirstVisibleRowComplete" failed with exception: TypeError - vCurrentChild has no properties or
+    // this: Modification of property "keepFirstVisibleRowComplete" failed with exception: TypeError - this.getParent() has no properties
+    // It seems not to be harmful
+  }
+  var selMan = l._getSelectionManager();
+  var oldHandle = selMan.handleMouseUp, me = this;
+  selMan.handleMouseUp = function(vItem, e) {
+    oldHandle.apply(selMan, arguments);
+    if (e.isLeftButtonPressed()) {
+      me._testClosePopup();
+    }
+  }
+  this._manager = l.getSelectionModel();
+  this._manager.addEventListener('changeSelection', this._onChangeSelection, this);
+  // Avoid deselection from user
+  this._manager.removeSelectionInterval = function() {};
+  this._manager.setSelectionMode(qx.ui.table.SelectionModel.SINGLE_SELECTION);
+  this._popup.add(this._list);
+  // Invalidate calculation of column widths
+  delete this._calcDimensions;
 }
 
 
 /*
 ---------------------------------------------------------------------------
-	PSEUDO-PROPERTIES
+  PSEUDO-PROPERTIES
 ---------------------------------------------------------------------------
 */
 
 /**Sets the header for each column.
  * @param columns {String[]}*/
 qx.Proto.setColumnHeaders = function(columns) {
-	if (!this._list || columns.length != this._model.getColumnCount()) {
-		if (this._list) {
-			var data = this._model.getData();
-			this._list.setParent(null);
-			this._list.dispose();
-			this._list = null;
-		}
-		this._createList(columns);
-		if (data && data.length) {
-			this._model.setData(data);
-		}
-	} else {
-		this._model.setColumns(columns);
-		this._list.getTableColumnModel().init(columns.length);
-		delete this._calcDimensions;
-	}
-	this._modifyIdColumnVisible(this.getIdColumnVisible());
+  if (!this._list || columns.length != this._model.getColumnCount()) {
+    if (this._list) {
+      var data = this._model.getData();
+      this._list.setParent(null);
+      this._list.dispose();
+      this._list = null;
+    }
+    this._createList(columns);
+    if (data && data.length) {
+      this._model.setData(data);
+    }
+  } else {
+    this._model.setColumns(columns);
+    this._list.getTableColumnModel().init(columns.length);
+    delete this._calcDimensions;
+  }
+  this._modifyIdColumnVisible(this.getIdColumnVisible());
 }
 
 /**Getter for {@link #setColumnHeaders}.
  * @return {String[]}*/
 qx.Proto.getColumnHeaders = function(propVal) {
-	var cols = [];
-	cols.length = this._model.getColumnCount();
-	for (var col = 0; col < cols.length; col++) {
-		cols[col] = this._model.getColumnName(col);
-	}
-	return cols;
+  var cols = [];
+  cols.length = this._model.getColumnCount();
+  for (var col = 0; col < cols.length; col++) {
+    cols[col] = this._model.getColumnName(col);
+  }
+  return cols;
 }
 
 /**Sets the list of selectable items.
@@ -249,524 +249,524 @@ qx.Proto.getColumnHeaders = function(propVal) {
  * <li>Column > 1 will also be shown in the popup list, it you have set the appropiate column headers with {@link #setColumnHeaders}.</li>
  * </ul>*/
 qx.Proto.setSelection = function(data) {
-	// Invalidate calculation of column widths
-	delete this._calcDimensions;
-	this._model.setData(data);
-	// Try to preserve currently selected value
-	this._modifyValue(this.getValue());
+  // Invalidate calculation of column widths
+  delete this._calcDimensions;
+  this._model.setData(data);
+  // Try to preserve currently selected value
+  this._modifyValue(this.getValue());
 }
 
 /**Getter for {@link #setSelection}.
  * @return {Array}*/
 qx.Proto.getSelection = function() {
-	return this._model.getData();
+  return this._model.getData();
 }
 
 /**Sets the index of the currently selected item in the list.
  * @param index {Number} -1 means no selected index*/
 qx.Proto.setSelectedIndex = function(index) {
-	var items = this.getSelection().length;
-	if (items >= 0) {
-		if (index < 0 && !this.getEditable() && this.getEnsureSomethingSelected()) {
-			index = 0;
-		}
-		if (index >= 0) {
-			index = qx.lang.Number.limit(index, 0, items-1);
-			this._manager.setSelectionInterval(index, index);
-			if (this._popup.isSeeable()) {
-				this._list.scrollCellVisible(0, index);
-			}
-		} else {
-			this._manager.clearSelection();
-		}
-	}
-	return true;
+  var items = this.getSelection().length;
+  if (items >= 0) {
+    if (index < 0 && !this.getEditable() && this.getEnsureSomethingSelected()) {
+      index = 0;
+    }
+    if (index >= 0) {
+      index = qx.lang.Number.limit(index, 0, items-1);
+      this._manager.setSelectionInterval(index, index);
+      if (this._popup.isSeeable()) {
+        this._list.scrollCellVisible(0, index);
+      }
+    } else {
+      this._manager.clearSelection();
+    }
+  }
+  return true;
 }
 
 /**Getter for {@link #setSelectedIndex}.*/
 qx.Proto.getSelectedIndex = function() {
-	var index = this._manager.getAnchorSelectionIndex();
-	return this._manager.isSelectedIndex(index) ? index:-1;
+  var index = this._manager.getAnchorSelectionIndex();
+  return this._manager.isSelectedIndex(index) ? index:-1;
 }
 
 
 /*
 ---------------------------------------------------------------------------
-	MODIFIER
+  MODIFIER
 ---------------------------------------------------------------------------
 */
 
 qx.Proto._modifyShowOnTextField = function(propVal) {
-	if (!this.getEditable()) {
-		this.setSelectedIndex(this.getSelectedIndex());
-		delete this._calcDimensions;	// Invalidate this._neededTextFieldWidth
-	}
-	return true;	
+  if (!this.getEditable()) {
+    this.setSelectedIndex(this.getSelectedIndex());
+    delete this._calcDimensions;  // Invalidate this._neededTextFieldWidth
+  }
+  return true;  
 }
 
 qx.Proto._checkIdDescriptionSeparator = function(propVal) {
-	// For measuring widths, it is better to replace spaces with non-breakable spaces
-	return String(propVal).replace(/ /g, '\u00A0')
+  // For measuring widths, it is better to replace spaces with non-breakable spaces
+  return String(propVal).replace(/ /g, '\u00A0')
 }
 
 qx.Proto._modifyIdDescriptionSeparator = function(propVal) {
-	if (!this.getEditable() && this.getShowOnTextField() == 'idAndDescription') {
-		this.setSelectedIndex(this.getSelectedIndex());
-		delete this._calcDimensions;	// Invalidate this._neededTextFieldWidth
-	}
-	return true;	
+  if (!this.getEditable() && this.getShowOnTextField() == 'idAndDescription') {
+    this.setSelectedIndex(this.getSelectedIndex());
+    delete this._calcDimensions;  // Invalidate this._neededTextFieldWidth
+  }
+  return true;  
 }
 
 qx.Proto._modifyIdColumnVisible = function(propVal) {
-	this._list.getTableColumnModel().setColumnVisible(0, propVal);
-	delete this._calcDimensions;
-	return true;
+  this._list.getTableColumnModel().setColumnVisible(0, propVal);
+  delete this._calcDimensions;
+  return true;
 }
 
 qx.Proto._modifyEditable = function(propValue/*, propOldValue, propData*/) {
-	var f = this._field;
-	f.setReadOnly(!propValue);
-	f.setCursor(propValue ? null : qx.constant.Core.DEFAULT);
-	f.setSelectable(propValue);
-	return true;
+  var f = this._field;
+  f.setReadOnly(!propValue);
+  f.setCursor(propValue ? null : qx.constant.Core.DEFAULT);
+  f.setSelectable(propValue);
+  return true;
 }
 
 qx.Proto._modifyValue = function(propValue/*, propOldValue, propData*/) {
-	this._fromValue = true;
+  this._fromValue = true;
 
-	var values = this._model.getData();
-	var i = -1;
-	if (propValue != null) {
-		for (var i = 0; i < values.length; i++) {
-			if (propValue == values[i][0]) {
-				break;
-			}
-		}
-		if (i == values.length) {
-			i = -1;
-		}
-	}
-	if (this.getEditable()) {
-		this._field.setValue(propValue);
-	}
-	// only do this if we called setValue separately
-	// and not from the property "selected".
-	if (!this._fromSelected) {
-		this.setSelectedIndex(i);
-	}
-	// reset hint
-	delete this._fromValue;
-	return true;
+  var values = this._model.getData();
+  var i = -1;
+  if (propValue != null) {
+    for (var i = 0; i < values.length; i++) {
+      if (propValue == values[i][0]) {
+        break;
+      }
+    }
+    if (i == values.length) {
+      i = -1;
+    }
+  }
+  if (this.getEditable()) {
+    this._field.setValue(propValue);
+  }
+  // only do this if we called setValue separately
+  // and not from the property "selected".
+  if (!this._fromSelected) {
+    this.setSelectedIndex(i);
+  }
+  // reset hint
+  delete this._fromValue;
+  return true;
 }
 
 qx.Proto._modifyEnabled = function(propValue/*, propOldValue, propData*/) {
-	if (this._button) {
-		this._button.setEnabled(propValue);
-	}
-	if (this._field) {
-		this._field.setEnabled(propValue);
-	}
-	return qx.ui.layout.HorizontalBoxLayout.prototype._modifyEnabled.apply(this, arguments);
+  if (this._button) {
+    this._button.setEnabled(propValue);
+  }
+  if (this._field) {
+    this._field.setEnabled(propValue);
+  }
+  return qx.ui.layout.HorizontalBoxLayout.prototype._modifyEnabled.apply(this, arguments);
 }
 
 
 /*
 ---------------------------------------------------------------------------
-	POPUP HELPER
+  POPUP HELPER
 ---------------------------------------------------------------------------
 */
 
 qx.Proto._oldSelected = null;
 
 qx.Proto._openPopup = function() {
-	var p = this._popup;
-	p.setAutoHide(false);
-	var el = this.getElement();
-	if (!p.isCreated()) {
-		this.createDispatchEvent("beforeInitialOpen");
-	}
-	if (!this.getSelection().length) {
-		return;
-	}
-	p.positionRelativeTo(el, 1, qx.dom.DomDimension.getBoxHeight(el));
-	this._calculateDimensions();
-	p.setParent(this.getTopLevelWidget());
-	p.auto();
-	p.show();
-	this._oldSelected = this.getSelectedIndex();
-	window.setInterval(function() {
-		p.setAutoHide(true);
-	}, 0);
+  var p = this._popup;
+  p.setAutoHide(false);
+  var el = this.getElement();
+  if (!p.isCreated()) {
+    this.createDispatchEvent("beforeInitialOpen");
+  }
+  if (!this.getSelection().length) {
+    return;
+  }
+  p.positionRelativeTo(el, 1, qx.dom.DomDimension.getBoxHeight(el));
+  this._calculateDimensions();
+  p.setParent(this.getTopLevelWidget());
+  p.auto();
+  p.show();
+  this._oldSelected = this.getSelectedIndex();
+  window.setInterval(function() {
+    p.setAutoHide(true);
+  }, 0);
 }
 
 qx.Proto._closePopup = function() {
-	this._popup.hide();
+  this._popup.hide();
 }
 
 qx.Proto._testClosePopup = function() {
-	if (this._popup.isSeeable()) {
-		this._closePopup();
-	}
+  if (this._popup.isSeeable()) {
+    this._closePopup();
+  }
 }
 
 qx.Proto._togglePopup = function() {
-	this._popup.isSeeable() ? this._closePopup() : this._openPopup();
+  this._popup.isSeeable() ? this._closePopup() : this._openPopup();
 }
 
 /*
 ---------------------------------------------------------------------------
-	DIMENSIONING
+  DIMENSIONING
 ---------------------------------------------------------------------------
 */
 
 /**Sizes the width of the text field component to the needed value to show any selection item.*/
 qx.Proto.sizeTextFieldToContent = function() {
-	this._calculateDimensions();
-	this._field.setWidth(this._neededTextFieldWidth);
+  this._calculateDimensions();
+  this._field.setWidth(this._neededTextFieldWidth);
 }
 
 /**Calculates the needed dimensions for the text field and list components*/
 qx.Proto._calculateDimensions = function() {
-	if (this._calcDimensions) {
-		// Already calculated
-		return;
-	}
-	var data = this.getSelection();
-	var cols = this.getColumnHeaders(), nCols = cols.length;
-	var columnWidths = [];
-	this._neededTextFieldWidth = 0;
-	columnWidths.length = cols.length;
-	for (var col = 0; col < cols.length; col++) {
-		columnWidths[col] = this._getTextWidth(cols[col]);
-	}
-	for (var row = 0, rows = Math.min(data.length, 50); row < rows; row++) {
-		var r = data[row], wi0, wi1;
-		for (col = 0; col < nCols; col++) {
-			var wi = this._getTextWidth(r[col]); 
-			if (col == 0) {
-				wi0 = wi;
-			} else if (col == 1) {
-				wi1 = wi;
-			}
-			columnWidths[col] = Math.max(wi, columnWidths[col]);
-		}
-		this._neededTextFieldWidth = Math.max(this._neededTextFieldWidth, 
-			wi1+(this.getShowOnTextField() == 'idAndDescription' ? wi0:0));
-	}
-	if (this.getShowOnTextField() == 'idAndDescription') {
-		this._neededTextFieldWidth += this._getTextWidth(this.getIdDescriptionSeparator());
-	}
-	this._neededTextFieldWidth += 8;	/*Extra margins*/
-	var width = 12/*vertical scroll bar width*/;
-	var colModel = this._list.getTableColumnModel();
-	var countVisible = 0;
-	for (col = 0; col < nCols; col++) {
-		if (colModel.isColumnVisible(col)) {
-			var w = 6+columnWidths[col];
-			this._list.setColumnWidth(col, w);
-			width += w;
-			countVisible++;
-		}
-	}
-	// Only show headers if we have more than 1 column visible
-	this._list.getPaneScroller(0).getHeader().setHeight(countVisible > 1 ? 'auto' : 1);
-	this._list.set({
-		width: width,
-		height: this._list.getRowHeight()*
-			Math.min(10, (countVisible > 1 ? 1:0)/*Header row*/+data.length)+2
-	});
-	// This denotes dimensions already calculated
-	this._calcDimensions = true;
+  if (this._calcDimensions) {
+    // Already calculated
+    return;
+  }
+  var data = this.getSelection();
+  var cols = this.getColumnHeaders(), nCols = cols.length;
+  var columnWidths = [];
+  this._neededTextFieldWidth = 0;
+  columnWidths.length = cols.length;
+  for (var col = 0; col < cols.length; col++) {
+    columnWidths[col] = this._getTextWidth(cols[col]);
+  }
+  for (var row = 0, rows = Math.min(data.length, 50); row < rows; row++) {
+    var r = data[row], wi0, wi1;
+    for (col = 0; col < nCols; col++) {
+      var wi = this._getTextWidth(r[col]); 
+      if (col == 0) {
+        wi0 = wi;
+      } else if (col == 1) {
+        wi1 = wi;
+      }
+      columnWidths[col] = Math.max(wi, columnWidths[col]);
+    }
+    this._neededTextFieldWidth = Math.max(this._neededTextFieldWidth, 
+      wi1+(this.getShowOnTextField() == 'idAndDescription' ? wi0:0));
+  }
+  if (this.getShowOnTextField() == 'idAndDescription') {
+    this._neededTextFieldWidth += this._getTextWidth(this.getIdDescriptionSeparator());
+  }
+  this._neededTextFieldWidth += 8;  /*Extra margins*/
+  var width = 12/*vertical scroll bar width*/;
+  var colModel = this._list.getTableColumnModel();
+  var countVisible = 0;
+  for (col = 0; col < nCols; col++) {
+    if (colModel.isColumnVisible(col)) {
+      var w = 6+columnWidths[col];
+      this._list.setColumnWidth(col, w);
+      width += w;
+      countVisible++;
+    }
+  }
+  // Only show headers if we have more than 1 column visible
+  this._list.getPaneScroller(0).getHeader().setHeight(countVisible > 1 ? 'auto' : 1);
+  this._list.set({
+    width: width,
+    height: this._list.getRowHeight()*
+      Math.min(10, (countVisible > 1 ? 1:0)/*Header row*/+data.length)+2
+  });
+  // This denotes dimensions already calculated
+  this._calcDimensions = true;
 }
 
 /**Calculates the width of the given text.
  * The default font is used.
  * @return {integer}*/
 qx.Proto._getTextWidth = function(text) {
-	var lab = new qx.ui.basic.Label(text);
-	var res = lab.getPreferredBoxWidth();
-	lab.dispose();
-	return res;
+  var lab = new qx.ui.basic.Label(text);
+  var res = lab.getPreferredBoxWidth();
+  lab.dispose();
+  return res;
 }
 
 
 /*
 ---------------------------------------------------------------------------
-	OTHER EVENT HANDLER
+  OTHER EVENT HANDLER
 ---------------------------------------------------------------------------
 */
 
 qx.Proto._onChangeSelection = function(e) {
-	this._fromSelected = true;
+  this._fromSelected = true;
 
-	// only do this if we called setValue separately
-	// and not from the event qx.constant.Event.INPUT.
-	if (!this._fromInput) {
-		var index = this.getSelectedIndex();
-		if (index >= 0) {
-			var row = this._model.getData()[index];
-		}
-		if (row || !this.getEditable()) {
-			this.setValue(row && row[0]);
-		}
-		// In case of editable, this.setValue() already calls this._field.setValue()
-		if (!this.getEditable()) {
-			var val = qx.constant.Core.EMPTY;
-			if (row) {
-				val = this.getShowOnTextField() == 'description' ? 
-					row[1] : 
-					row[0] + this.getIdDescriptionSeparator() + row[1];
-			}
-			this._field.setValue(val);
-		}
-	}
-	// reset hint
-	delete this._fromSelected;
+  // only do this if we called setValue separately
+  // and not from the event qx.constant.Event.INPUT.
+  if (!this._fromInput) {
+    var index = this.getSelectedIndex();
+    if (index >= 0) {
+      var row = this._model.getData()[index];
+    }
+    if (row || !this.getEditable()) {
+      this.setValue(row && row[0]);
+    }
+    // In case of editable, this.setValue() already calls this._field.setValue()
+    if (!this.getEditable()) {
+      var val = qx.constant.Core.EMPTY;
+      if (row) {
+        val = this.getShowOnTextField() == 'description' ? 
+          row[1] : 
+          row[0] + this.getIdDescriptionSeparator() + row[1];
+      }
+      this._field.setValue(val);
+    }
+  }
+  // reset hint
+  delete this._fromSelected;
 }
 
 qx.Proto._onpopupappear = function(e) {
-	var index = this.getSelectedIndex();
-	if (index >= 0) {
-		this._list.scrollCellVisible(0, index);
-	}
+  var index = this.getSelectedIndex();
+  if (index >= 0) {
+    this._list.scrollCellVisible(0, index);
+  }
 }
 
 qx.Proto._oninput = function(e) {
-	// Hint for modifier
-	this._fromInput = true;
-	this.setValue(this._field.getComputedValue());
-	delete this._fromInput;
+  // Hint for modifier
+  this._fromInput = true;
+  this.setValue(this._field.getComputedValue());
+  delete this._fromInput;
 }
 
 
 /*
 ---------------------------------------------------------------------------
-	MOUSE EVENT HANDLER
+  MOUSE EVENT HANDLER
 ---------------------------------------------------------------------------
 */
 
 qx.Proto._onmousedown = function(e) {
-	switch(e.getTarget()) {
-		case this._field:
-			if (this.getEditable()) {
-				break;
-			}
-			// no break here
-		case this._button:
-			this._button.addState(qx.ui.form.Button.STATE_PRESSED);
-			this._togglePopup();
-			// Assure we receive the mouse up event
-			this.setCapture(true);
-			break;
-	}
+  switch(e.getTarget()) {
+    case this._field:
+      if (this.getEditable()) {
+        break;
+      }
+      // no break here
+    case this._button:
+      this._button.addState(qx.ui.form.Button.STATE_PRESSED);
+      this._togglePopup();
+      // Assure we receive the mouse up event
+      this.setCapture(true);
+      break;
+  }
 }
 
 qx.Proto._onmouseup = function(e) {
-	switch(e.getTarget()) {
-		case this._field:
-			if (this.getEditable()) {
-				break;
-			}
-			// no break here
-		default:
-			this._button.removeState(qx.ui.form.Button.STATE_PRESSED);
-			break;
-	}
-	this.setCapture(false);
+  switch(e.getTarget()) {
+    case this._field:
+      if (this.getEditable()) {
+        break;
+      }
+      // no break here
+    default:
+      this._button.removeState(qx.ui.form.Button.STATE_PRESSED);
+      break;
+  }
+  this.setCapture(false);
 }
 
 qx.Proto._onmousewheel = function(e) {
-	if (!this._popup.isSeeable()) {
-		this.setSelectedIndex(Math.max(0, this.getSelectedIndex()+(e.getWheelDelta() < 0 ? -1:1)));
-	}
+  if (!this._popup.isSeeable()) {
+    this.setSelectedIndex(Math.max(0, this.getSelectedIndex()+(e.getWheelDelta() < 0 ? -1:1)));
+  }
 }
 
 
 /*
 ---------------------------------------------------------------------------
-	KEY EVENT HANDLER
+  KEY EVENT HANDLER
 ---------------------------------------------------------------------------
 */
 
 qx.Proto._onkeydown = function(e) {
-	var vManager = this._manager;
-	var vKeyCode = e.getKeyCode();
-	var vKeys = qx.event.type.KeyEvent.keys;
-	var vVisible = this._popup.isSeeable();
+  var vManager = this._manager;
+  var vKeyCode = e.getKeyCode();
+  var vKeys = qx.event.type.KeyEvent.keys;
+  var vVisible = this._popup.isSeeable();
 
-	switch(vKeyCode) {
-		case vKeys.enter:
-			if (vVisible) {
-				this._closePopup();
-				this.setFocused(true);
-			} else {
-				this._openPopup();
-			}
-			break;
+  switch(vKeyCode) {
+    case vKeys.enter:
+      if (vVisible) {
+        this._closePopup();
+        this.setFocused(true);
+      } else {
+        this._openPopup();
+      }
+      break;
 
-		case vKeys.esc:
-			if (vVisible) {
-				this.setSelectedIndex(this._oldSelected);
-				this._closePopup();
-				this.setFocused(true);
-			}
-			break;
+    case vKeys.esc:
+      if (vVisible) {
+        this.setSelectedIndex(this._oldSelected);
+        this._closePopup();
+        this.setFocused(true);
+      }
+      break;
 
-		case vKeys.up:
-			this.setSelectedIndex(Math.max(0, this.getSelectedIndex()-1));
-			break;
-		
-		case vKeys.pageup:
-			this.setSelectedIndex(Math.max(0, this.getSelectedIndex()-this.getPagingInterval()));
-			break;
+    case vKeys.up:
+      this.setSelectedIndex(Math.max(0, this.getSelectedIndex()-1));
+      break;
+    
+    case vKeys.pageup:
+      this.setSelectedIndex(Math.max(0, this.getSelectedIndex()-this.getPagingInterval()));
+      break;
 
-		case vKeys.down:
-			if (e.getAltKey()) {
-				this._togglePopup();
-			} else {
-				this.setSelectedIndex(this.getSelectedIndex()+1);
-			}
-			break;
-			
-		case vKeys.pagedown:
-			this.setSelectedIndex(this.getSelectedIndex()+this.getPagingInterval());
-			break;
+    case vKeys.down:
+      if (e.getAltKey()) {
+        this._togglePopup();
+      } else {
+        this.setSelectedIndex(this.getSelectedIndex()+1);
+      }
+      break;
+      
+    case vKeys.pagedown:
+      this.setSelectedIndex(this.getSelectedIndex()+this.getPagingInterval());
+      break;
 
-		case vKeys.home:
-			this.setSelectedIndex(0);
-			break;
+    case vKeys.home:
+      this.setSelectedIndex(0);
+      break;
 
-		case vKeys.end:
-			var items = this.getSelection().length;
-			if (items) {
-				this.setSelectedIndex(items-1);
-			}
-			break;
+    case vKeys.end:
+      var items = this.getSelection().length;
+      if (items) {
+        this.setSelectedIndex(items-1);
+      }
+      break;
 
-		default:
-			if (vVisible) {
-				this._list.dispatchEvent(e);
-			}
-	}
+    default:
+      if (vVisible) {
+        this._list.dispatchEvent(e);
+      }
+  }
 }
 
 qx.Proto._onkeypress = function(e) {
-	if (!this.isEditable() && this._list.isSeeable()) {
-		this._list.dispatchEvent(e);
-	}
+  if (!this.isEditable() && this._list.isSeeable()) {
+    this._list.dispatchEvent(e);
+  }
 }
 
 
 /*
 ---------------------------------------------------------------------------
-	FOCUS HANDLING
+  FOCUS HANDLING
 ---------------------------------------------------------------------------
 */
 
 qx.Proto._visualizeBlur = function() {
-	// Force blur, even if mouseFocus is not active because we
-	// need to be sure that the previous focus rect gets removed.
-	// But this only needs to be done, if there is no new focused element.
-	if (qx.sys.Client.getInstance().isMshtml()) {
-		if (this.getEnableElementFocus() && !this.getFocusRoot().getFocusedChild()) {
-			try {
-				if (this.getEditable())	{
-					this.getField().getElement().blur();
-				} else {
-					this.getElement().blur();
-				}
-			}
-			catch(ex) {};
-		}
-	} else {
-		if (this.getEnableElementFocus()) {
-			try {
-				if (this.getEditable()) {
-					this.getField().getElement().blur();
-				} else if (!this.getFocusRoot().getFocusedChild()) {
-					this.getElement().blur();
-				}
-			}
-			catch(ex) {};
-		}
-	}
-	this.removeState(qx.ui.core.Widget.STATE_FOCUSED);
-	return true;
+  // Force blur, even if mouseFocus is not active because we
+  // need to be sure that the previous focus rect gets removed.
+  // But this only needs to be done, if there is no new focused element.
+  if (qx.sys.Client.getInstance().isMshtml()) {
+    if (this.getEnableElementFocus() && !this.getFocusRoot().getFocusedChild()) {
+      try {
+        if (this.getEditable())  {
+          this.getField().getElement().blur();
+        } else {
+          this.getElement().blur();
+        }
+      }
+      catch(ex) {};
+    }
+  } else {
+    if (this.getEnableElementFocus()) {
+      try {
+        if (this.getEditable()) {
+          this.getField().getElement().blur();
+        } else if (!this.getFocusRoot().getFocusedChild()) {
+          this.getElement().blur();
+        }
+      }
+      catch(ex) {};
+    }
+  }
+  this.removeState(qx.ui.core.Widget.STATE_FOCUSED);
+  return true;
 }
 
 qx.Proto._visualizeFocus = function()
 {
-	if (!qx.event.handler.FocusHandler.mouseFocus && this.getEnableElementFocus())
-	{
-		try
-		{
-			if (this.getEditable())
-			{
-				this.getField().getElement().focus();
-				this.getField()._ontabfocus();
-			}
-			else
-			{
-				this.getElement().focus();
-			}
-		}
-		catch(ex) {};
-	}
+  if (!qx.event.handler.FocusHandler.mouseFocus && this.getEnableElementFocus())
+  {
+    try
+    {
+      if (this.getEditable())
+      {
+        this.getField().getElement().focus();
+        this.getField()._ontabfocus();
+      }
+      else
+      {
+        this.getElement().focus();
+      }
+    }
+    catch(ex) {};
+  }
 
-	this.addState(qx.ui.core.Widget.STATE_FOCUSED);
-	return true;
+  this.addState(qx.ui.core.Widget.STATE_FOCUSED);
+  return true;
 }
 
 /*
 ---------------------------------------------------------------------------
-	DISPOSE
+  DISPOSE
 ---------------------------------------------------------------------------
 */
 
 qx.Proto.dispose = function() {
-	if (this.getDisposed()) {
-		return;
-	}
+  if (this.getDisposed()) {
+    return;
+  }
 
-	// ************************************************************************
-	//	 WIDGET MOUSE EVENTS
-	// ************************************************************************
-	this.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
-	this.removeEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
-	this.removeEventListener(qx.constant.Event.MOUSEWHEEL, this._onmousewheel);
-
-
-	// ************************************************************************
-	//	 WIDGET KEY EVENTS
-	// ************************************************************************
-	this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
-	this.removeEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
+  // ************************************************************************
+  //   WIDGET MOUSE EVENTS
+  // ************************************************************************
+  this.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
+  this.removeEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
+  this.removeEventListener(qx.constant.Event.MOUSEWHEEL, this._onmousewheel);
 
 
-	this._model = null;
-	if (this._manager) {
-		this._manager.removeEventListener('changeSelection', this._onChangeSelection);
-		this._manager = null;
-	}
-	if (this._list) {
-		this._list.dispose();
-		this._list = null;
-	}
-	if (this._popup) {
-		this._popup.removeEventListener(qx.constant.Event.APPEAR, this._onpopupappear, this);
-		this._popup.dispose();
-		this._popup = null;
-	}
-	if (this._field) {
-		if (this.getEditable()) {
-			this._field.removeEventListener(qx.constant.Event.INPUT, this._oninput, this);
-		}
-		this._field.dispose();
-		this._field = null;
-	}
-	if (this._button) {
-		this._button.dispose();
-		this._button = null;
-	}
-	return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
+  // ************************************************************************
+  //   WIDGET KEY EVENTS
+  // ************************************************************************
+  this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
+  this.removeEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
+
+
+  this._model = null;
+  if (this._manager) {
+    this._manager.removeEventListener('changeSelection', this._onChangeSelection);
+    this._manager = null;
+  }
+  if (this._list) {
+    this._list.dispose();
+    this._list = null;
+  }
+  if (this._popup) {
+    this._popup.removeEventListener(qx.constant.Event.APPEAR, this._onpopupappear, this);
+    this._popup.dispose();
+    this._popup = null;
+  }
+  if (this._field) {
+    if (this.getEditable()) {
+      this._field.removeEventListener(qx.constant.Event.INPUT, this._oninput, this);
+    }
+    this._field.dispose();
+    this._field = null;
+  }
+  if (this._button) {
+    this._button.dispose();
+    this._button = null;
+  }
+  return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
 }

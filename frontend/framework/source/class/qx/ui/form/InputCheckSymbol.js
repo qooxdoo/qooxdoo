@@ -45,7 +45,7 @@ function()
   // we need to be sure that the dom protection of this is added
   this.forceTabIndex(1);
   this.setTabIndex(-1);
-	this.setChecked(false);
+  this.setChecked(false);
 });
 
 qx.OO.addProperty({ name : "name", type : qx.constant.Type.STRING, impl : "apply" });
