@@ -21,11 +21,8 @@ def getFunctionAssignment(func):
   return None  
 
 
-def getFunctionName(func):
-  if func.get("name", False) != None:
-    return func.get("name")
-
-  ass = getFunctionAssignment(func)
+def getAssignedName(elem):
+  ass = getFunctionAssignment(elem)
    
   if ass and ass.hasChild("left"):
     left = ass.getChild("left")
@@ -95,20 +92,21 @@ def patch(node):
     
     # Add instance and static methods
     if child.type == "assignment":
-      if child.hasChild("right") and child.getChild("right").hasChild("function"):
-        func = child.getChild("right").getChild("function")
+      if child.hasChild("right"):
+        right = child.getChild("right")
+        elem = right.getFirstChild(True, True)
         
-        name = getFunctionName(func)
-        mode = getMode(func)
+        name = getAssignedName(elem)
+        mode = getMode(elem)
         
-        if mode in [ "members", "statics" ]:
-          if mode == "members":
-            membersMap.addChild(createPair(name, func))        
-          elif mode == "statics":
-            staticsMap.addChild(createPair(name, func))
+        if mode == "members":
+          membersMap.addChild(createPair(name, elem))        
+
+        elif mode == "statics":
+          staticsMap.addChild(createPair(name, elem))
             
         else:
-          print " * Could not move function: %s" % name
+          print " * Could not move element: %s" % name
           continue
           
         node.removeChild(child)
