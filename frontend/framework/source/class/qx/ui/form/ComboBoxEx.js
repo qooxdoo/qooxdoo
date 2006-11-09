@@ -136,6 +136,9 @@ qx.OO.addProperty({ name: "showOnTextField", type: qx.constant.Type.STRING, defa
 /*!Only used when editable is false and showOnTextField=='idAndDescription'.*/
 qx.OO.addProperty({ name: "idDescriptionSeparator", type: qx.constant.Type.STRING, defaultValue: '- ' });
 
+/*!Ensures that always an item is selected (in case the selection isn't empty). Only used when editable is false.*/
+qx.OO.addProperty({ name: 'ensureSomethingSelected', type: qx.constant.Type.BOOLEAN, defaultValue: true });
+
 
 /*
 ---------------------------------------------------------------------------
@@ -264,6 +267,9 @@ qx.Proto.getSelection = function() {
 qx.Proto.setSelectedIndex = function(index) {
 	var items = this.getSelection().length;
 	if (items >= 0) {
+		if (index < 0 && !this.getEditable() && this.getEnsureSomethingSelected()) {
+			index = 0;
+		}
 		if (index >= 0) {
 			index = qx.lang.Number.limit(index, 0, items-1);
 			this._manager.setSelectionInterval(index, index);
@@ -322,7 +328,8 @@ qx.Proto._modifyEditable = function(propValue/*, propOldValue, propData*/) {
 	f.setReadOnly(!propValue);
 	f.setCursor(propValue ? null : qx.constant.Core.DEFAULT);
 	f.setSelectable(propValue);
-	return true;}
+	return true;
+}
 
 qx.Proto._modifyValue = function(propValue/*, propOldValue, propData*/) {
 	this._fromValue = true;
@@ -548,6 +555,8 @@ qx.Proto._onmousedown = function(e) {
 		case this._button:
 			this._button.addState(qx.ui.form.Button.STATE_PRESSED);
 			this._togglePopup();
+			// Assure we receive the mouse up event
+			this.setCapture(true);
 			break;
 	}
 }
@@ -563,6 +572,7 @@ qx.Proto._onmouseup = function(e) {
 			this._button.removeState(qx.ui.form.Button.STATE_PRESSED);
 			break;
 	}
+	this.setCapture(false);
 }
 
 qx.Proto._onmousewheel = function(e) {
