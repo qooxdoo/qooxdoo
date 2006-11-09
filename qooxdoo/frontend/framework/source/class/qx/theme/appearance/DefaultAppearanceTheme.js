@@ -1044,6 +1044,22 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
     }
   },
 
+  "combo-box-ex" : {
+    setup : function() {
+      this.bgcolor = new qx.renderer.color.Color("white");
+    },
+
+    initial : function(vTheme) {
+      return {
+        width : qx.constant.Core.AUTO,
+        height : qx.constant.Core.AUTO,
+        border : qx.renderer.border.BorderPresets.getInstance().inset,
+        backgroundColor : this.bgcolor,
+        allowStretchY : false
+      }
+    }
+  },
+
   "combo-box-list" : {
     initial : function(vTheme) {
       return qx.lang.Object.mergeWith(vTheme.initialFrom("list"), {
@@ -1057,11 +1073,35 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
     }
   },
 
+  "combo-box-ex-list" : {
+    initial : function(vTheme) {
+      return qx.lang.Object.mergeWith(vTheme.initialFrom("list"), {
+		statusBarVisible: false,
+		columnVisibilityButtonVisible: false,
+		height: 'auto',
+		maxHeight: 150,
+        top : 0,
+        left : 0,
+        border : null
+      });
+    }
+  },
+
   "combo-box-popup" : {
     initial : function(vTheme) {
       return qx.lang.Object.mergeWith(vTheme.initialFrom("list"), {
         height : qx.constant.Core.AUTO,
         maxHeight : 150,
+        border : qx.renderer.border.BorderPresets.getInstance().shadow
+      });
+    }
+  },
+
+  "combo-box-ex-popup" : {
+    initial : function(vTheme) {
+      return qx.lang.Object.mergeWith(vTheme.initialFrom("list"), {
+        width: qx.constant.Core.AUTO,
+        height : qx.constant.Core.AUTO,
         border : qx.renderer.border.BorderPresets.getInstance().shadow
       });
     }
@@ -1081,6 +1121,22 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
     }
   },
 
+  "combo-box-ex-text-field" : {
+    setup : function() {
+      this.bgcolor = new qx.renderer.color.Color("transparent");
+    },
+
+    initial : function(vTheme) {
+      return qx.lang.Object.mergeWith(vTheme.initialFrom("text-field"), {
+        border : qx.renderer.border.BorderPresets.getInstance().none,
+        minWidth : 30,
+        width : 100,
+        backgroundColor : this.bgcolor
+      });
+    }
+  },
+
+  // Used both for ComboBox and ComboBoxEx
   "combo-box-button" : {
     initial : function(vTheme) {
       return qx.lang.Object.mergeWith(vTheme.initialFrom("button"), {
