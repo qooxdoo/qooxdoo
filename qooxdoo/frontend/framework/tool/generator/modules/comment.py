@@ -475,6 +475,24 @@ def splitText(orig, attrib=True):
 
 
 
+def parseType(vtype):
+  typeText = ""
+
+  firstType = True
+  for entry in vtype:
+    if not firstType:
+      typeText += " | "
+
+    typeText += entry["type"]
+
+    if entry.has_key("dimensions") and entry["dimensions"] > 0:
+      typeText += "[]" * entry["dimensions"]
+
+    firstType = False
+    
+  return typeText
+  
+
 
 def fromFunction(func, member, name, alternative, old=[]):
   #
@@ -589,20 +607,7 @@ def fromFunction(func, member, name, alternative, old=[]):
         # Get type and text from old content
         if oldParam:
           if attribHas(oldParam, "type"):
-            newType = oldParam["type"]
-            newTypeText = ""
-
-            firstType = True
-            for entry in newType:
-              if not firstType:
-                newTypeText += " | "
-
-              newTypeText += entry["type"]
-
-              if entry.has_key("dimensions") and entry["dimensions"] > 0:
-                newTypeText += "[]" * entry["dimensions"]
-
-              firstType = False
+            newTypeText = parseType(oldParam["type"])
 
           if attribHas(oldParam, "defaultValue"):
             newDefault = oldParam["defaultValue"]
@@ -630,10 +635,7 @@ def fromFunction(func, member, name, alternative, old=[]):
   # Get type and text from old content
   if oldReturn:
     if attribHas(oldReturn, "type"):
-      newType = oldReturn["type"]
-
-      if attribHas(oldReturn, "array"):
-        newType += "[]" * oldReturn["array"]
+      newType = parseType(oldReturn["type"])
 
     if attribHas(oldReturn, "text"):
       newText = oldReturn["text"]
@@ -643,7 +645,7 @@ def fromFunction(func, member, name, alternative, old=[]):
     returns = getReturns(func.getChild("body"), [])
 
     if len(returns) > 0:
-      newType = ",".join(returns)
+      newType = " | ".join(returns)
     elif name != None and name.startswith("is") and name[3].isupper():
       newType = "boolean"
 
