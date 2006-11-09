@@ -70,7 +70,7 @@ qx.Class._db = [];
  * Generate an unique key for the given object and return it.
  * Sets object._hashCode to the generated key.
  * 
- * @param o (Object)
+ * @param o (object)
  * @return (number) unique key for the given object
  */
 qx.Class.toHashCode = function(o)
