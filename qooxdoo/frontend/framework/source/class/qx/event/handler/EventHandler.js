@@ -315,14 +315,14 @@ qx.Class.getOriginalTargetObject = function(vNode)
  * @return (Element) the target node
  */
 qx.Class.getDomTarget = function(vDomEvent) {
-	var vNode = vDomEvent.target || vDomEvent.srcElement;
-	
-	// Safari takes text nodes as targets for events
-	if (vNode && (vNode.nodeType == qx.constant.Node.TEXT) ) {
-		vNode = vNode.parentNode;
-	}
-	
-	return vNode;
+  var vNode = vDomEvent.target || vDomEvent.srcElement;
+  
+  // Safari takes text nodes as targets for events
+  if (vNode && (vNode.nodeType == qx.constant.Node.TEXT) ) {
+    vNode = vNode.parentNode;
+  }
+  
+  return vNode;
 };
 
 
@@ -631,7 +631,7 @@ else
       case qx.constant.Event.CLICK:
       case qx.constant.Event.DBLCLICK:
         // ignore click or dblclick events with other then the left mouse button
-				if (vDomEvent.which !== 1) {
+        if (vDomEvent.which !== 1) {
           return;
         }
     }

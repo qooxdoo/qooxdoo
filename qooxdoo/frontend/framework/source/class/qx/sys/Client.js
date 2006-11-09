@@ -210,9 +210,9 @@ function()
   this._gfxSvg = vGfxSvg;
   this._gfxSvgBuiltin = vGfxSvgBuiltin;
   this._gfxSvgPlugin = vGfxSvgPlugin;
-	
-	this._supportsTextContent = (document.documentElement.textContent !== undefined);
-	this._supportsInnerText = (document.documentElement.innerText !== undefined);
+  
+  this._supportsTextContent = (document.documentElement.textContent !== undefined);
+  this._supportsInnerText = (document.documentElement.innerText !== undefined);
 });
 
 
@@ -363,7 +363,7 @@ qx.Proto.usesSvgPlugin = function() {
  * @return (boolean) whether the client supports textContent.
  */
 qx.Proto.supportsTextContent = function() {
-	return this._supportsTextContent;
+  return this._supportsTextContent;
 }
 
 
@@ -373,7 +373,7 @@ qx.Proto.supportsTextContent = function() {
  * @return (boolean) whether the client supports innerText.
  */
 qx.Proto.supportsInnerText = function() {
-	return this._supportsInnerText;
+  return this._supportsInnerText;
 }
 
 

@@ -229,9 +229,9 @@ qx.Proto.isRightButtonPressed = function() {
 }
 
 qx.Proto._computeButton = function() {
-	var e = this.getDomEvent();
-	if (e.which) {
-		switch (e.which) {
+  var e = this.getDomEvent();
+  if (e.which) {
+    switch (e.which) {
       case 1:
         return qx.event.type.MouseEvent.C_BUTTON_LEFT;
 
@@ -243,10 +243,10 @@ qx.Proto._computeButton = function() {
 
       default:
         return qx.event.type.MouseEvent.C_BUTTON_NONE;
-			
-		}
-	} else {
-		switch(e.button) {
+      
+    }
+  } else {
+    switch(e.button) {
       case 1:
         return qx.event.type.MouseEvent.C_BUTTON_LEFT;
 
@@ -258,8 +258,8 @@ qx.Proto._computeButton = function() {
 
       default:
         return qx.event.type.MouseEvent.C_BUTTON_NONE;
-		}	
-	}
+    }  
+  }
 }
 
 

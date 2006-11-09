@@ -43,7 +43,7 @@ function(vText, vValue, vName, vChecked)
   if (qx.util.Validation.isValidBoolean(vChecked)) {
     this.setChecked(vChecked);
   } else {
-  	this.setChecked(false);
+    this.setChecked(false);
   }
 
   this.addEventListener(qx.constant.Event.CLICK, this._onclick);
