@@ -95,8 +95,8 @@ qx.Class.C_MODIFY = "_modify";
  * All classes should be defined in this way.
  * 
  * @param vClassName (string) fully qualified class name (e.g. "qx.ui.form.Button")
- * @param vSuper (object) super class
- * @param vConstructor (function) the constructor of the new class 
+ * @param vSuper (Object) super class
+ * @param vConstructor (Function) the constructor of the new class 
  */
 qx.Class.defineClass = function(vClassName, vSuper, vConstructor)
 {
