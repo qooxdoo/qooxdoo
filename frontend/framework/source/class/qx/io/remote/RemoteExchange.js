@@ -181,6 +181,7 @@ qx.io.remote.RemoteExchange.wasSuccessful = function(vStatusCode, vReadyState, v
         return vReadyState < 4;
 
       default:
+        // at least older versions of Safari don't set the status code for local file access
         return typeof vStatusCode === qx.constant.Type.UNDEFINED;
     }
   }
