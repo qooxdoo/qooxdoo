@@ -224,7 +224,7 @@ def getReturns(node, found):
 
 
 def nameToType(name):
-  typ = "variable"
+  typ = "var"
 
   # Evaluate type from name
   if name in VARNAMES:
@@ -680,7 +680,7 @@ def fromFunction(func, member, name, alternative, old=[]):
       s += "\n"
 
   elif oldThrows:
-    print " * Removing old @throw for %s" % name
+    print " * Removing old @throw attribute in comment for %s" % name
 
 
 
@@ -703,7 +703,7 @@ def fromFunction(func, member, name, alternative, old=[]):
 
     elif not cat in [ "name", "mode", "membership", "alternative", "param", "return", "throws", "description" ]:
       print
-      print " * Found unallowed attribute %s in %s" % (cat, name)
+      print " * Found unallowed attribute %s in comment for %s" % (cat, name)
 
 
 
