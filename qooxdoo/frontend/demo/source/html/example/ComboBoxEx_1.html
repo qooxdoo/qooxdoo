@@ -43,8 +43,14 @@ qx.core.Init.getInstance().defineMain(function() {
 		combo.sizeTextFieldToContent();
 	});
 	var cEd = new form.CheckBox('Editable');
+	cEd.setChecked(combo.getEditable());
 	cEd.addEventListener('changeChecked', function() {
-		combo.toggleEditable();
+		combo.setEditable(cEd.isChecked());
+	});
+	var cEnsure = new form.CheckBox('Ensure something selected');
+	cEnsure.setChecked(combo.getEditable());
+	cEnsure.addEventListener('changeChecked', function() {
+		combo.setEnsureSomethingSelected(cEnsure.isChecked());
 	});
 	var cIdCol = new form.CheckBox('ID column visible');
 	cIdCol.addEventListener('changeChecked', function() {
@@ -63,7 +69,7 @@ qx.core.Init.getInstance().defineMain(function() {
 	with (box) {
 		auto();
 		setSpacing(10);
-		add(combo, butSize, cEd, cIdCol, new Label('Number of items in list'), fieldItems);
+		add(combo, butSize, cEd, cEnsure, cIdCol, new Label('Number of items in list'), fieldItems);
 	}
 
 	//###Test of headers
