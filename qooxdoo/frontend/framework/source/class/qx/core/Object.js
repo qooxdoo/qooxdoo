@@ -23,9 +23,19 @@
 
 ************************************************************************ */
 
-/*!
-  The qooxdoo basic object. All qooxdoo classes extends this one
-*/
+/**
+ * The qooxdoo base object. All qooxdoo classes extend this one
+ * 
+ * This class contains functions for:
+ * <ul>
+ *   <li> logging </li>
+ *   <li> common getter/setter </li>
+ *   <li> user data </li>
+ *   <li> object destruction </li>
+ * </ul>
+ *
+ * @param vAutoDispose (boolean ? true) wether the object should be disposed automatically by qooxdoo
+ */
 qx.OO.defineClass("qx.core.Object", Object,
 function(vAutoDispose)
 {
@@ -56,6 +66,13 @@ qx.Settings.setDefault("enableDisposerDebug", false);
 qx.Class._counter = 0;
 qx.Class._db = [];
 
+/**
+ * Generate an unique key for the given object and return it.
+ * Sets object._hashCode to the generated key.
+ * 
+ * @param o (Object)
+ * @return (number) unique key for the given object
+ */
 qx.Class.toHashCode = function(o)
 {
   if(o._hashCode != null) {
@@ -65,6 +82,13 @@ qx.Class.toHashCode = function(o)
   return o._hashCode = qx.core.Object._counter++;
 }
 
+
+/**
+ * Destructor. This method is called by qooxdoo on object destruction.
+ * 
+ * Any class that holds ressources like links to DOM nodes must overwrite 
+ * this method and free theese ressources. 
+ */
 qx.Class.dispose = function()
 {
   // var logger = qx.dev.log.Logger.getClassLogger(qx.core.Object);
@@ -87,6 +111,12 @@ qx.Class.dispose = function()
   // logger.debug("Done in: " + ((new Date).valueOf() - vStart) + "ms");
 }
 
+
+/**
+ * Summary of allocated objects
+ * 
+ * @return (string) summary of allocated objects.
+ */
 qx.Class.summary = function()
 {
   var vData = {};
@@ -130,8 +160,11 @@ qx.Class.summary = function()
   alert(vMsg);
 }
 
-
-
+/**
+ * Enable or disable the Object.
+ * 
+ * The actual semantic of this property depends on concrete subclass of qx.core.Object. 
+ */
 qx.OO.addProperty({ name : "enabled", type : qx.constant.Type.BOOLEAN, defaultValue : true, getAlias : "isEnabled" });
 
 
@@ -149,9 +182,11 @@ qx.OO.addProperty({ name : "enabled", type : qx.constant.Type.BOOLEAN, defaultVa
 ---------------------------------------------------------------------------
 */
 
-/*!
-  Returns a string represantation of the qooxdoo object.
-*/
+/**
+ * Returns a string represantation of the qooxdoo object.
+ *
+ * @returns (string) string representation of the object
+ */
 qx.Proto.toString = function()
 {
   if(this.classname) {
@@ -161,35 +196,46 @@ qx.Proto.toString = function()
   return "[object Object]";
 }
 
-/*!
-  Return unique hash code of object
-*/
+
+/**
+ * Return unique hash code of object
+ *
+ * @return (number) unique hash code of the object
+ */
 qx.Proto.toHashCode = function() {
   return this._hashCode;
 }
 
-/*!
-  Returns true if the object is disposed.
-*/
+
+/**
+ * Returns true if the object is disposed.
+ *
+ * @return (boolean) wether the object has been disposed
+ */
 qx.Proto.getDisposed = function() {
   return this._disposed;
 }
 
-/*!
-  Returns true if the object is disposed.
-*/
+
+/**
+ * Returns true if the object is disposed.
+ * 
+ * @return (boolean) wether the object has been disposed
+ */
 qx.Proto.isDisposed = function() {
   return this._disposed;
 }
 
-/*!
-  Returns a settings from global setting definition
-*/
+
+/**
+ * Returns a settings from global setting definition
+ * 
+ * @param vKey (string)
+ * @return (Object) value of the global setting 
+ */
 qx.Proto.getSetting = function(vKey) {
   return qx.Settings.getValueOfClass(this.classname, vKey);
 }
-
-
 
 
 /*
@@ -197,7 +243,6 @@ qx.Proto.getSetting = function(vKey) {
   LOGGING INTERFACE
 ---------------------------------------------------------------------------
 */
-
 
 /**
  * Returns the logger of this class.
@@ -265,11 +310,11 @@ qx.Proto.error = function(msg, exc) {
 ---------------------------------------------------------------------------
 */
 
-/*!
-Sets multiple properties at once by using a property list
-
-#param propertyValues[Property List]: A hash of key-value pairs.
-*/
+/**
+ * Sets multiple properties at once by using a property list
+ *
+ * @param propertyValues (Object) A hash of key-value pairs.
+ */
 qx.Proto.set = function(propertyValues)
 {
   if (typeof propertyValues !== qx.constant.Type.OBJECT) {
@@ -291,8 +336,11 @@ qx.Proto.set = function(propertyValues)
   return this;
 }
 
-/*!
-
+/**
+ * Gets multiple properties at once by using a property list
+ *
+ * @param propertyNames (string | array | hash) list of the properties to get
+ * @param outputHint (string ? "array") how should the values be returned. Possible values are "hash" and "array". 
 */
 qx.Proto.get = function(propertyNames, outputHint)
 {
@@ -363,6 +411,12 @@ qx.Proto.get = function(propertyNames, outputHint)
 ---------------------------------------------------------------------------
 */
 
+/**
+ * Store user defined data inside the object.
+ *
+ * @param vKey {string}
+ * @param vValue {Object}
+ */
 qx.Proto.setUserData = function(vKey, vValue)
 {
   if (!this._userData) {
@@ -372,6 +426,13 @@ qx.Proto.setUserData = function(vKey, vValue)
   this._userData[vKey] = vValue;
 }
 
+
+/**
+ * Load user defined data from the object
+ * 
+ * @param vKey {string}
+ * @return {Object} the user data 
+ */
 qx.Proto.getUserData = function(vKey)
 {
   if (!this._userData) {
@@ -394,9 +455,9 @@ qx.Proto.getUserData = function(vKey)
 
 qx.Proto._disposed = false;
 
-/*!
-  Dispose this object
-*/
+/**
+ * Dispose this object
+ */
 qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
