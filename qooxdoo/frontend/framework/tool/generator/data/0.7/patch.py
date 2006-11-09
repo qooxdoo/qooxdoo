@@ -91,6 +91,7 @@ def patch(node):
   
   while pos < len(node.children):
     child = node.children[pos]
+    pos += 1
     
     # Add instance and static methods
     if child.type == "assignment":
@@ -112,8 +113,6 @@ def patch(node):
           
         node.removeChild(child)
         pos -= 1
-          
-    pos += 1        
         
         
         
