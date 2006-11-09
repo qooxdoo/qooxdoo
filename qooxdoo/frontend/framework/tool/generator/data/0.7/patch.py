@@ -65,13 +65,16 @@ def getMode(func):
   
   
     
-def createPair(key, value):
+def createPair(key, value, commentParent=None):
   par = tree.Node("keyvalue")
   sub = tree.Node("value")
   
   par.set("key", key)
   par.addChild(sub)
   sub.addChild(value)
+
+  if commentParent and commentParent.hasChild("commentsBefore"):
+    par.addChild(commentParent.getChild("commentsBefore"))
   
   return par
 
@@ -100,10 +103,10 @@ def patch(node):
         mode = getMode(elem)
         
         if mode == "members":
-          membersMap.addChild(createPair(name, elem))        
+          membersMap.addChild(createPair(name, elem, child))        
 
         elif mode == "statics":
-          staticsMap.addChild(createPair(name, elem))
+          staticsMap.addChild(createPair(name, elem, child))
             
         else:
           print " * Could not move element: %s" % name
