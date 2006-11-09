@@ -78,7 +78,7 @@ else // FF, Opera, Safari
 /**
  * insert a new CSS rule into a given Stylesheet
  * 
- * @param vSheet 		(object) the target Stylesheet object
+ * @param vSheet 		(Object) the target Stylesheet object
  * @param vSelector (string) 
  * @param vStyle 		(string) 
  */
@@ -106,7 +106,7 @@ else // FF, Opera
 /**
  * remove a CSS rule from a stylesheet
  * 
- * @param vSheet 		(object) the Stylesheet
+ * @param vSheet 		(Object) the Stylesheet
  * @param vSelector (string) the Selector of the rule to remove
  */
 qx.dom.DomStyleSheet.removeRule = function(vSheet, vSelector) {};
@@ -145,7 +145,7 @@ else
 /**
  * remove all CSS rules from a stylesheet
  * 
- * @param vSheet (object) 
+ * @param vSheet (Object) 
  */
 qx.dom.DomStyleSheet.removeAllRules = function(vSheet) {};
 if (document.createStyleSheet) // IE 4+
@@ -176,7 +176,7 @@ else // FF, etc
 
 /**
  * add an import of an external CSS file to a stylesheet
- * @param vSheet (object) 
+ * @param vSheet (Object) 
  * @param vUrl	 (string) 
  */
 qx.dom.DomStyleSheet.addImport = function(vSheet, vUrl) {};
@@ -184,6 +184,13 @@ if (document.createStyleSheet) // IE 4+
 {
   qx.dom.DomStyleSheet.addImport = function(vSheet, vUrl) {
     vSheet.addImport(vUrl);
+  }
+}
+else  if (qx.sys.Client.getInstance().isWebkit()) // insertRule in Safari 2 doesn't work 
+{
+  qx.dom.DomStyleSheet.addImport = function(vSheet, vUrl) {
+    alert("Webkit");
+	  vSheet.ownerNode.appendChild(document.createTextNode('@import "' + vUrl + '";'));
   }
 }
 else // FF, etc
@@ -197,7 +204,7 @@ else // FF, etc
 /**
  * removes an import from a stylesheet
  * 
- * @param vSheet (object) 
+ * @param vSheet (Object) 
  * @param vUrl 	 (string)  URL of the importet CSS file
  */
 qx.dom.DomStyleSheet.removeImport = function(vSheet, vUrl) {};
@@ -232,7 +239,7 @@ else // FF, etc
 /**
  * remove all imports from a stylesheet
  * 
- * @param vSheet (object) 
+ * @param vSheet (Object) 
  */
 qx.dom.DomStyleSheet.removeAllImports = function(vSheet) {};
 if (document.createStyleSheet) // IE 4+

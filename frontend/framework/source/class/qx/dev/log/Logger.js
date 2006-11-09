@@ -289,7 +289,7 @@ qx.Proto.printStackTrace = function() {
 /**
  * Returns the logger of a class.
  *
- * @param clazz (function) The class of which to return the logger.
+ * @param clazz (Function) The class of which to return the logger.
  */
 qx.Class.getClassLogger = function(clazz) {
   var logger = clazz._logger;

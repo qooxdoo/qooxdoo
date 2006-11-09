@@ -74,7 +74,7 @@ qx.OO.addProperty({ name:"errorClassName", type:qx.constant.Type.STRING, default
  * create a minimum closure.
  *
  * @param logElem (Element) the element to clear when the handler is called.
- * @return (function) the handler.
+ * @return (Function) the handler.
  */
 qx.Proto._createClearButtonHandler = function(logElem) {
   return function(evt) {
