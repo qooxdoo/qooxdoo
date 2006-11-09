@@ -30,55 +30,57 @@
 
 qx.OO = {};
 
-qx.OO.classes = {};
-qx.OO.setter = {};
-qx.OO.getter = {};
-qx.OO.resetter = {};
-qx.OO.values = {};
-qx.OO.propertyNumber = 0;
-
-qx.OO.C_SET = "set";
-qx.OO.C_GET = "get";
-qx.OO.C_APPLY = "apply";
-qx.OO.C_RESET = "reset";
-qx.OO.C_FORCE = "force";
-qx.OO.C_TOGGLE = "toggle";
-qx.OO.C_CHANGE = "change";
-qx.OO.C_STORE = "store";
-qx.OO.C_RETRIEVE = "retrieve";
-qx.OO.C_PRIVATECHANGE = "_change";
-qx.OO.C_INVALIDATE = "_invalidate";
-qx.OO.C_INVALIDATED = "_invalidated";
-qx.OO.C_RECOMPUTE = "_recompute";
-qx.OO.C_CACHED = "_cached";
-qx.OO.C_COMPUTE = "_compute";
-qx.OO.C_COMPUTED = "_computed";
-qx.OO.C_UNITDETECTION = "_unitDetection";
-
-qx.OO.C_GLOBALPROPERTYREF = "PROPERTY_";
-
-qx.OO.C_UNIT_VALUE = "Value";
-qx.OO.C_UNIT_PARSED = "Parsed";
-qx.OO.C_UNIT_TYPE = "Type";
-qx.OO.C_UNIT_TYPE_NULL = "TypeNull";
-qx.OO.C_UNIT_TYPE_PIXEL = "TypePixel";
-qx.OO.C_UNIT_TYPE_PERCENT = "TypePercent";
-qx.OO.C_UNIT_TYPE_AUTO = "TypeAuto";
-qx.OO.C_UNIT_TYPE_FLEX = "TypeFlex";
-
-qx.OO.C_GETDEFAULT = "getDefault";
-qx.OO.C_SETDEFAULT = "setDefault";
-qx.OO.C_RETRIEVEDEFAULT = "retrieveDefault";
-qx.OO.C_STOREDEFAULT = "storeDefault";
-
-qx.OO.C_VALUE = "_value";
-qx.OO.C_NULL = "_null";
-qx.OO.C_EVAL = "_eval";
-qx.OO.C_CHECK = "_check";
-qx.OO.C_MODIFY = "_modify";
+qx.OO.defineClass = function() {};
+qx.Class = qx.OO;
+qx.OO.defineClass("qx.OO");
 
 
+qx.Class.classes = {};
+qx.Class.setter = {};
+qx.Class.getter = {};
+qx.Class.resetter = {};
+qx.Class.values = {};
+qx.Class.propertyNumber = 0;
 
+qx.Class.C_SET = "set";
+qx.Class.C_GET = "get";
+qx.Class.C_APPLY = "apply";
+qx.Class.C_RESET = "reset";
+qx.Class.C_FORCE = "force";
+qx.Class.C_TOGGLE = "toggle";
+qx.Class.C_CHANGE = "change";
+qx.Class.C_STORE = "store";
+qx.Class.C_RETRIEVE = "retrieve";
+qx.Class.C_PRIVATECHANGE = "_change";
+qx.Class.C_INVALIDATE = "_invalidate";
+qx.Class.C_INVALIDATED = "_invalidated";
+qx.Class.C_RECOMPUTE = "_recompute";
+qx.Class.C_CACHED = "_cached";
+qx.Class.C_COMPUTE = "_compute";
+qx.Class.C_COMPUTED = "_computed";
+qx.Class.C_UNITDETECTION = "_unitDetection";
+
+qx.Class.C_GLOBALPROPERTYREF = "PROPERTY_";
+
+qx.Class.C_UNIT_VALUE = "Value";
+qx.Class.C_UNIT_PARSED = "Parsed";
+qx.Class.C_UNIT_TYPE = "Type";
+qx.Class.C_UNIT_TYPE_NULL = "TypeNull";
+qx.Class.C_UNIT_TYPE_PIXEL = "TypePixel";
+qx.Class.C_UNIT_TYPE_PERCENT = "TypePercent";
+qx.Class.C_UNIT_TYPE_AUTO = "TypeAuto";
+qx.Class.C_UNIT_TYPE_FLEX = "TypeFlex";
+
+qx.Class.C_GETDEFAULT = "getDefault";
+qx.Class.C_SETDEFAULT = "setDefault";
+qx.Class.C_RETRIEVEDEFAULT = "retrieveDefault";
+qx.Class.C_STOREDEFAULT = "storeDefault";
+
+qx.Class.C_VALUE = "_value";
+qx.Class.C_NULL = "_null";
+qx.Class.C_EVAL = "_eval";
+qx.Class.C_CHECK = "_check";
+qx.Class.C_MODIFY = "_modify";
 
 
 
@@ -88,19 +90,24 @@ qx.OO.C_MODIFY = "_modify";
 ---------------------------------------------------------------------------
 */
 
-qx.OO.C_NAMESPACE_SEP = ".";
-qx.OO.C_UNDEFINED = "undefined";
-
-qx.OO.defineClass = function(vClassName, vSuper, vConstructor)
+/**
+ * define a new qooxdoo class
+ * All classes should be defined in this way.
+ * 
+ * @param vClassName (string) fully qualified class name (e.g. "qx.ui.form.Button")
+ * @param vSuper {object} super class
+ * @param vConstructor {function} the constructor of the new class 
+ */
+qx.Class.defineClass = function(vClassName, vSuper, vConstructor)
 {
-  var vSplitName = vClassName.split(qx.OO.C_NAMESPACE_SEP);
+  var vSplitName = vClassName.split(".");
   var vNameLength = vSplitName.length-1;
   var vTempObject = window;
 
   // Setting up namespace
   for (var i=0; i<vNameLength; i++)
   {
-    if (typeof vTempObject[vSplitName[i]] === qx.OO.C_UNDEFINED) {
+    if (typeof vTempObject[vSplitName[i]] === "undefined") {
       vTempObject[vSplitName[i]] = {};
     }
 
@@ -108,9 +115,9 @@ qx.OO.defineClass = function(vClassName, vSuper, vConstructor)
   }
 
   // Instantiate objects/inheritance
-  if (typeof vSuper === qx.OO.C_UNDEFINED)
+  if (typeof vSuper === "undefined")
   {
-    if (typeof vConstructor !== qx.OO.C_UNDEFINED) {
+    if (typeof vConstructor !== "undefined") {
       throw new Error("SuperClass is undefined, but constructor was given for class: " + vClassName);
     }
 
@@ -118,7 +125,7 @@ qx.OO.defineClass = function(vClassName, vSuper, vConstructor)
     qx.Proto = null;
     qx.Super = null;
   }
-  else if (typeof vConstructor === qx.OO.C_UNDEFINED)
+  else if (typeof vConstructor === "undefined")
   {
     qx.Class = vTempObject[vSplitName[i]] = vSuper;
     qx.Proto = null;
@@ -155,7 +162,7 @@ qx.OO.defineClass = function(vClassName, vSuper, vConstructor)
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addFastProperty = function(vConfig)
+qx.Class.addFastProperty = function(vConfig)
 {
   var vName = vConfig.name;
   var vUpName = qx.lang.String.toFirstUp(vName);
@@ -165,7 +172,7 @@ qx.OO.addFastProperty = function(vConfig)
   var vSetterName = qx.OO.C_SET + vUpName;
   var vComputerName = qx.OO.C_COMPUTE + vUpName;
 
-  qx.Proto[vStorageField] = typeof vConfig.defaultValue !== qx.constant.Type.UNDEFINED ? vConfig.defaultValue : null;
+  qx.Proto[vStorageField] = typeof vConfig.defaultValue !== "undefined" ? vConfig.defaultValue : null;
 
   if (vConfig.noCompute)
   {
@@ -214,7 +221,7 @@ qx.OO.addCachedProperty = function(p)
   var vComputerName = qx.OO.C_COMPUTE + vUpName;
   var vChangeName = qx.OO.C_PRIVATECHANGE + vUpName;
 
-  if (typeof p.defaultValue !== qx.constant.Type.UNDEFINED) {
+  if (typeof p.defaultValue !== "undefined") {
     qx.Proto[vStorageField] = p.defaultValue;
   }
 
@@ -259,7 +266,7 @@ qx.OO.addCachedProperty = function(p)
   qx.Proto[vComputerName] = function() { return null; };
 }
 
-qx.OO.addPropertyGroup = function(p)
+qx.Class.addPropertyGroup = function(p)
 {
   /* --------------------------------------------------------------------------------
       PRE-CHECKS
@@ -357,7 +364,7 @@ qx.OO.addPropertyGroup = function(p)
   }
 }
 
-qx.OO.removeProperty = function(p)
+qx.Class.removeProperty = function(p)
 {
   if (typeof qx.Proto._properties !== qx.constant.Type.STRING) {
     throw new Error("Has no properties!");
@@ -395,7 +402,7 @@ qx.OO.removeProperty = function(p)
   pp[qx.OO.C_SETDEFAULT + p.method] = null;
 }
 
-qx.OO._createProperty = function(p)
+qx.Class._createProperty = function(p)
 {
   if(typeof p !== qx.constant.Type.OBJECT) {
     throw new Error("AddProperty: Param should be an object!");
@@ -431,7 +438,7 @@ qx.OO._createProperty = function(p)
   if (typeof p.type === qx.constant.Type.STRING) {
     p.hasType = true;
   }
-  else if (typeof p.type !== qx.constant.Type.UNDEFINED) {
+  else if (typeof p.type !== "undefined") {
     throw new Error("AddProperty: Invalid type definition for property " + p.name + ": " + p.type);
   }
   else {
@@ -441,7 +448,7 @@ qx.OO._createProperty = function(p)
   if (typeof p.instance === qx.constant.Type.STRING) {
     p.hasInstance = true;
   }
-  else if (typeof p.instance !== qx.constant.Type.UNDEFINED) {
+  else if (typeof p.instance !== "undefined") {
     throw new Error("AddProperty: Invalid instance definition for property " + p.name + ": " + p.instance);
   }
   else {
@@ -451,7 +458,7 @@ qx.OO._createProperty = function(p)
   if (typeof p.classname === qx.constant.Type.STRING) {
     p.hasClassName = true;
   }
-  else if (typeof p.classname !== qx.constant.Type.UNDEFINED) {
+  else if (typeof p.classname !== "undefined") {
     throw new Error("AddProperty: Invalid classname definition for property " + p.name + ": " + p.classname);
   }
   else {
@@ -741,9 +748,10 @@ qx.OO._createProperty = function(p)
   }
 }
 
-qx.OO.changeProperty = qx.OO._createProperty;
+qx.Class.changeProperty = function(p) {};
+qx.Class.changeProperty = qx.OO._createProperty;
 
-qx.OO.addProperty = function(p)
+qx.Class.addProperty = function(p)
 {
   qx.OO.propertyNumber++;
 
@@ -770,12 +778,12 @@ qx.OO.addProperty = function(p)
   }
 }
 
-qx.OO.inheritField = function(vField, vData)
+qx.Class.inheritField = function(vField, vData)
 {
   qx.lang.Object.carefullyMergeWith(vData, qx.Super.prototype[vField]);
   qx.Proto[vField] = vData;
 }
 
-qx.OO.isAvailable = function(vClassName) {
-  return typeof qx.OO.classes[vClassName] !== qx.constant.Type.UNDEFINED;
+qx.Class.isAvailable = function(vClassName) {
+  return typeof qx.OO.classes[vClassName] !== "undefined";
 }

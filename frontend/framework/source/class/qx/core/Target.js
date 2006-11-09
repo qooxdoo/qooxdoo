@@ -22,20 +22,24 @@
 
 ************************************************************************ */
 
-
-/*!
-This is the main constructor for all objects that need to be connected to qx.event.type.Event objects.
-
-In objects created with this constructor, you find functions to addEventListener or
-removeEventListener to or from the created object. Each event to connect to has a type in
-form of an identification string. This type could be the name of a regular dom event like qx.constant.Event.CLICK or
-something self-defined like "ready".
-*/
+/**
+ * This is the main constructor for all objects that need to be connected to qx.event.type.Event objects.
+ *
+ * In objects created with this constructor, you find functions to addEventListener or
+ * removeEventListener to or from the created object. Each event to connect to has a type in
+ * form of an identification string. This type could be the name of a regular dom event like qx.constant.Event.CLICK or
+ * something self-defined like "ready".
+ *
+ * @param vAutoDispose (boolean ? true) wether the object should be disposed automatically by qooxdoo
+ */
 qx.OO.defineClass("qx.core.Target", qx.core.Object,
 function(vAutoDispose) {
   qx.core.Object.call(this, vAutoDispose);
 });
 
+/**
+ * @private
+ */
 qx.Class.EVENTPREFIX = "evt";
 
 
@@ -47,9 +51,13 @@ qx.Class.EVENTPREFIX = "evt";
 ---------------------------------------------------------------------------
 */
 
-/*!
-  Add event listener to object
-*/
+/**
+ * Add event listener to an object.
+ * 
+ * @param vType (string) name of the event type 
+ * @param vFunction (function) event callback function
+ * @param vObject (object ? window) reference to the 'this' variable inside the callback 
+ */
 qx.Proto.addEventListener = function(vType, vFunction, vObject)
 {
   if(this._disposed) {
@@ -83,9 +91,14 @@ qx.Proto.addEventListener = function(vType, vFunction, vObject)
   }
 }
 
-/*!
-  Remove event listener from object
-*/
+
+/**
+ * Remove event listener from object
+ * 
+ * @param vType (string) name of the event type 
+ * @param vFunction (function) event callback function
+ * @param vObject (object ? window) reference to the 'this' variable inside the callback 
+ */
 qx.Proto.removeEventListener = function(vType, vFunction, vObject)
 {
   if(this._disposed) {
@@ -110,27 +123,27 @@ qx.Proto.removeEventListener = function(vType, vFunction, vObject)
 
 
 
-
-
-
-
-
 /*
 ---------------------------------------------------------------------------
   EVENT CONNECTION UTILITIES
 ---------------------------------------------------------------------------
 */
 
-/*!
-  Check if there are one or more listeners for an event type
-*/
+/**
+ * Check if there are one or more listeners for an event type.
+ * 
+ * @param vType (string) name of the event type 
+ */
 qx.Proto.hasEventListeners = function(vType) {
   return this._listeners && typeof this._listeners[vType] !== qx.constant.Type.UNDEFINED && !qx.lang.Object.isEmpty(this._listeners[vType]);
 }
 
-/*!
-  Checks if the event is registered. If so it creates a event object and dispatch it.
-*/
+
+/**
+ * Checks if the event is registered. If so it creates an event object and dispatches it.
+ * 
+ * @param vType (string) name of the event type 
+ */
 qx.Proto.createDispatchEvent = function(vType)
 {
   if (this.hasEventListeners(vType)) {
@@ -138,9 +151,13 @@ qx.Proto.createDispatchEvent = function(vType)
   }
 }
 
-/*!
-  Checks if the event is registered. If so it creates a data event object and dispatch it.
-*/
+
+/**
+ * Checks if the event is registered. If so it creates an event object and dispatches it.
+ * 
+ * @param vType (string) name of the event type
+ * @param vData (Object) user defined data attached to the event object 
+ */
 qx.Proto.createDispatchDataEvent = function(vType, vData)
 {
   if (this.hasEventListeners(vType)) {
@@ -150,20 +167,18 @@ qx.Proto.createDispatchDataEvent = function(vType, vData)
 
 
 
-
-
-
-
-
 /*
 ---------------------------------------------------------------------------
   EVENT DISPATCH
 ---------------------------------------------------------------------------
 */
 
-/*!
-  Public dispatch implementation
-*/
+/**
+ * Dispatch an event
+ * 
+ * @param vEvent {qx.event.type.Event} event to dispatch  
+ * @param vEnableDispose {boolean} wether the event object should be disposed after all event handlers run.
+ */
 qx.Proto.dispatchEvent = function(vEvent, vEnableDispose)
 {
   // Ignore event if eventTarget is disposed
@@ -185,9 +200,13 @@ qx.Proto.dispatchEvent = function(vEvent, vEnableDispose)
   return !vEvent._defaultPrevented;
 }
 
-/*!
-  Internal dispatch implementation
-*/
+
+/**
+ * Internal event dispatch method
+ * 
+ * @param vEvent {qx.event.type.Event} event to dispatch  
+ * @param vEnableDispose {boolean} wether the event object should be disposed after all event handlers run.
+ */
 qx.Proto._dispatchEvent = function(vEvent, vEnableDispose)
 {
   if(this.getDisposed()) {
@@ -239,15 +258,13 @@ qx.Proto._dispatchEvent = function(vEvent, vEnableDispose)
   vEnableDispose && vEvent.dispose();
 }
 
-/*!
-  Internal placeholder for bubbling phase of an event.
-*/
+
+/** 
+ * Internal placeholder for bubbling phase of an event.
+ */
 qx.Proto.getParent = function() {
   return null;
 }
-
-
-
 
 
 
@@ -257,6 +274,9 @@ qx.Proto.getParent = function() {
 ---------------------------------------------------------------------------
 */
 
+/**
+ * Destructor.
+ */
 qx.Proto.dispose = function()
 {
   if(this.getDisposed()) {

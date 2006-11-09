@@ -23,15 +23,41 @@
 
 ************************************************************************ */
 
+/**
+ * qooxdoo version number information
+ */
 qx.OO.defineClass("qx.core.Version",
 {
-  major : 0,
+  /**
+   * qooxdoo major version number
+   */
+	major : 0,
+	
+	/**
+	 * qooxdoo minor version number
+	 */
   minor : 6,
+	
+	/**
+	 * qooxdoo revision number
+	 */
   revision : 2,
+	
+	/**
+	 * qooxdoo revision state
+	 */
   state : "pre",
 
-  svn : Number("$Rev$".match(/[0-9]+/)[0]),
+  /**
+   * qooxdoo subversion revision number
+   */
+	svn : Number("$Rev$".match(/[0-9]+/)[0]),
 
+	/**
+	 * returns the qooxdoo version string
+	 * 
+	 * @return (string) qooxdoo version string
+	 */
   toString: function()
   {
     with(qx.core.Version) {
