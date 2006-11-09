@@ -10,6 +10,10 @@ class Node:
   def __init__ (self, type):
     self.type = type
 
+
+
+
+
   def hasAttributes(self):
     return hasattr(self, "attributes")
 
@@ -37,12 +41,18 @@ class Node:
     if len(self.attributes) == 0:
       del self.attributes
 
+
+
+
+
+
+
   def hasParent(self):
-    return hasattr(self, "parent")
+    return hasattr(self, "parent") and self.parent != None
 
   def hasChildren(self, ignoreComments = False):
     if not ignoreComments:
-      return hasattr(self, "children")
+      return hasattr(self, "children") and len(self.children) > 0
     else:
       if not hasattr(self, "children"):
         return False
@@ -55,6 +65,10 @@ class Node:
     if childNode:
       if not self.hasChildren():
         self.children = []
+      
+      if childNode.hasParent():
+        childNode.parent.removeChild(childNode)
+        
       if index != None:
         self.children.insert(index, childNode)
       else:
@@ -71,9 +85,17 @@ class Node:
 
   def replaceChild(self, oldChild, newChild):
     if self.hasChildren():
+      if newChild.hasParent():
+        newChild.parent.removeChild(newChild)
+              
       self.children.insert(self.children.index(oldChild), newChild)
       newChild.parent = self
       self.children.remove(oldChild)
+
+
+
+
+
 
   def getChild(self, type, mandatory = True):
     if self.hasChildren():
