@@ -26,28 +26,3 @@ qx.OO.defineClass("qx.component.AbstractApplication", qx.component.AbstractCompo
 function() {
   qx.component.AbstractComponent.call(this);
 });
-
-/*!
-  Run initialisation part of component creation.
-*/
-qx.Proto.initialize = function() {};
-
-/*!
-  Run main  part of component creation.
-*/
-qx.Proto.main = function() {};
-
-/*!
-  Run finalization part of component creation.
-*/
-qx.Proto.finalize = function() {};
-
-/*!
-  Terminate this component.
-*/
-qx.Proto.close = function() {};
-
-/*!
-  Terminate this component.
-*/
-qx.Proto.terminate = function() {};
