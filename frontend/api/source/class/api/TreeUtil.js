@@ -205,19 +205,25 @@ qx.Class.ICON_PACKAGE_WARN = "api/package_warning18.gif";
 
 
 /** {string} The icon URL of a class. */
-qx.Class.ICON_CLASS      = "api/class18.gif";
+qx.Class.ICON_CLASS       = "api/class18.gif";
 /** {string} The icon URL of a class with warning. */
-qx.Class.ICON_CLASS_WARN = "api/class_warning18.gif";
+qx.Class.ICON_CLASS_WARN  = "api/class_warning18.gif";
+/** {string} The icon URL of a class with error. */
+qx.Class.ICON_CLASS_ERROR = "api/class_warning18.gif";
 
 /** {string} The icon URL of a static class. */
-qx.Class.ICON_CLASS_STATIC      = "api/class_static18.gif";
+qx.Class.ICON_CLASS_STATIC       = "api/class_static18.gif";
 /** {string} The icon URL of a static class with warning. */
-qx.Class.ICON_CLASS_STATIC_WARN = "api/class_static_warning18.gif";
+qx.Class.ICON_CLASS_STATIC_WARN  = "api/class_static_warning18.gif";
+/** {string} The icon URL of a static class with error. */
+qx.Class.ICON_CLASS_STATIC_ERROR = "api/class_static_warning18.gif";
 
 /** {string} The icon URL of an abstract class. */
-qx.Class.ICON_CLASS_ABSTRACT      = "api/class_abstract18.gif";
+qx.Class.ICON_CLASS_ABSTRACT       = "api/class_abstract18.gif";
 /** {string} The icon URL of an abstract class with warning. */
-qx.Class.ICON_CLASS_ABSTRACT_WARN = "api/class_abstract_warning18.gif";
+qx.Class.ICON_CLASS_ABSTRACT_WARN  = "api/class_abstract_warning18.gif";
+/** {string} The icon URL of an abstract class with error. */
+qx.Class.ICON_CLASS_ABSTRACT_ERROR = "api/class_abstract_warning18.gif";
 
 
 /** {string} The icon URL of a property. */
