@@ -12,84 +12,159 @@ import tree, compiler
 
 counter = 0
 
-virt = tree.Node("file")
-
-class_map = tree.Node("map")
-
-virt.addChild(class_map)
-
-members_key = tree.Node("keyvalue")
-members_val = tree.Node("value")
-members_map = tree.Node("map")
-
-statics_key = tree.Node("keyvalue")
-statics_val = tree.Node("value")
-statics_map = tree.Node("map")
-
-class_map.addChild(members_key)
-class_map.addChild(statics_key)
-
-members_key.set("key", "members")
-members_key.addChild(members_val)
-members_val.addChild(members_map)
-
-statics_key.set("key", "statics")
-statics_key.addChild(statics_val)
-statics_val.addChild(statics_map)
 
 
+def getFunctionAssignment(func):
+  if func.parent.type == "right" and func.parent.parent.type == "assignment":
+    return func.parent.parent
+    
+  return None  
+
+
+def getFunctionName(func):
+  if func.get("name", False) != None:
+    return func.get("name")
+
+  ass = getFunctionAssignment(func)
+   
+  if ass and ass.hasChild("left"):
+    left = ass.getChild("left")
+
+    if left.hasChild("variable"):
+      var = left.getChild("variable")
+
+      # find last identifier
+      last = var.getLastChild(False, True)
+
+      if last.type == "identifier":
+        return last.get("name")
+
+  return None    
+  
+  
+  
+def getMode(func):
+  ass = getFunctionAssignment(func)
+    
+  if ass and ass.hasChild("left"):
+    left = ass.getChild("left")
+
+    if left.hasChild("variable"):
+      var = left.getChild("variable")
+
+      # find last identifier
+      last = var.getLastChild(False, True)
+      prev = last.getPreviousSibling(False, True)
+
+      if prev.type == "identifier":
+        mode = prev.get("name")
+        
+        if mode == "Proto":
+          return "members"
+        elif mode == "Class":
+          return "statics"
+
+  return None 
+  
+  
+    
+def createPair(key, value):
+  par = tree.Node("keyvalue")
+  sub = tree.Node("value")
+  
+  par.set("key", key)
+  par.addChild(sub)
+  sub.addChild(value)
+  
+  return par
 
 
 def patch(node):
   global counter
+  
+  if not node.hasChildren():
+    return False
 
-  patchNode(node)
+  base, membersMap, staticsMap = createBase()
+  
+  for child in node.children:
+    # Add instance and static methods
+    if child.type == "assignment":
+      if child.hasChild("right") and child.getChild("right").hasChild("function"):
+        func = child.getChild("right").getChild("function")
+        
+        name = getFunctionName(func)
+        mode = getMode(func)
+        
+        if mode == "members":
+          membersMap.addChild(createPair(name, func))        
+        elif mode == "statics":
+          staticsMap.addChild(createPair(name, func))
+        else:
+          print " * Could not move function: %s" % name
+          
+        
+        
+        
+        
+       
+  
+  
+  
 
   #print tree.nodeToXmlString(class_map)
-  print compiler.compile(class_map)
+  print compiler.compile(base)
 
   return counter > 0
 
 
-def patchNode(node):
-  global counter
-
-  if node.type == "function":
-    if node.parent.type != "right":
-      return
-
-    if node.parent.parent.type != "assignment":
-      return
-
-    if node.parent.parent.parent.type != "file":
-      return
-
-    ass = node.parent.parent
-
-    if ass.hasChild("left"):
-      left = ass.getChild("left")
-
-      if left.hasChild("variable"):
-        var = left.getChild("variable")
-
-        # find last identifier
-        last = var.getLastChild(True, False)
-
-        if last.type == "identifier":
-          print "Found: %s" % last.get("name")
-
-          key = tree.Node("keyvalue")
-          val = tree.Node("value")
-
-          key.set("key", last.get("name"))
-          key.addChild(val)
-
-          node.parent.removeChild(node)
-          val.addChild(node)
-
-          members_map.addChild(key)
+def createClassDefineBase(name):
+  call = tree.Node("call")
+  oper = tree.Node("operand")
+  var = tree.Node("variable")
+  id1 = tree.Node("identifier")
+  id2 = tree.Node("identifier")
+  id3 = tree.Node("identifier")
+  para = tree.Node("params")
+  con = tree.Node("constant")
+  args = tree.Node("map")
+  
+  id1.set("name", "qx")
+  id2.set("name", "Clazz")
+  id3.set("name", "define")
+  
+  con.set("detail", "doublequotes")
+  con.set("value", name)
+  con.set("constantType", "string")
+  
+  call.addChild(oper)
+  call.addChild(para)
+  
+  oper.addChild(var)
+  var.addChild(id1)
+  var.addChild(id2)
+  var.addChild(id3)
+  
+  para.addChild(con)
+  para.addChild(args)
+  
+  return call, args
 
 
-  elif node.hasChildren():
-    for child in node.children:
-      patchNode(child)
+
+def createBase():
+  fileItem = tree.Node("file")
+  
+  classDefine, classMap = createClassDefineBase("newClassName")  
+  
+  membersMap = tree.Node("map")
+  membersPair = createPair("members", membersMap)
+  
+  staticsMap = tree.Node("map")
+  staticsPair = createPair("statics", staticsMap)
+  
+  classMap.addChild(membersPair)
+  classMap.addChild(staticsPair)
+  fileItem.addChild(classDefine)    
+  
+  return fileItem, membersMap, staticsMap
