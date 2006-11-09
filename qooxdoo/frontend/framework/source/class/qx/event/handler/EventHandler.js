@@ -453,7 +453,8 @@ qx.Proto._onkeyevent_post = function(vDomEvent, vType)
 
 
   // Find current active qooxdoo object
-  var vTarget = this.getCaptureWidget() || this.getFocusRoot().getActiveChild();
+  var vFocusRoot = this.getFocusRoot();
+  var vTarget = this.getCaptureWidget() || (vFocusRoot == null ? null : vFocusRoot.getActiveChild());
 
   if (vTarget == null || !vTarget.getEnabled()) {
     return false;
