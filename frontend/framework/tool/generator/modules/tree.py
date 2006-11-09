@@ -307,6 +307,15 @@ class Node:
     if mandatory:
       raise NodeAccessException("Node " + self.type + " has no child with attribute " + key + " = " + value, self)
 
+  def getChildByTypeAndAttribute(self, type, key, value, mandatory = True):
+    if self.hasChildren():
+      for child in self.children:
+        if child.type == type and child.get(key) == value:
+          return child
+
+    if mandatory:
+      raise NodeAccessException("Node " + self.type + " has no child with attribute " + key + " = " + value, self)
+
   def getFirstChild(self, mandatory = True, ignoreComments = False):
     if self.hasChildren():
       for child in self.children:
