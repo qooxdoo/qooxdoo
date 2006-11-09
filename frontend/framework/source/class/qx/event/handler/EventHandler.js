@@ -318,7 +318,7 @@ qx.Class.getDomTarget = function(vDomEvent) {
 	var vNode = vDomEvent.target || vDomEvent.srcElement;
 	
 	// Safari takes text nodes as targets for events
-	if (vNode.nodeType == qx.constant.Node.TEXT) {
+	if (vNode && (vNode.nodeType == qx.constant.Node.TEXT) ) {
 		vNode = vNode.parentNode;
 	}
 	
