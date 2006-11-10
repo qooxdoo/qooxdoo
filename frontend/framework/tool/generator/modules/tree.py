@@ -65,10 +65,10 @@ class Node:
     if childNode:
       if not self.hasChildren():
         self.children = []
-      
+
       if childNode.hasParent():
         childNode.parent.removeChild(childNode)
-        
+
       if index != None:
         self.children.insert(index, childNode)
       else:
@@ -87,7 +87,7 @@ class Node:
     if self.hasChildren():
       if newChild.hasParent():
         newChild.parent.removeChild(newChild)
-              
+
       self.children.insert(self.children.index(oldChild), newChild)
       newChild.parent = self
       self.children.remove(oldChild)
@@ -523,6 +523,8 @@ def escapeXmlChars(text, inAttribute):
     text = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
     if inAttribute:
       text = text.replace("\"", "&quot;")
+  elif isinstance(text, bool):
+    text = str(text).lower()
   else:
     text = str(text)
 

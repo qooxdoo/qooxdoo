@@ -5,7 +5,7 @@ import sys, re, os, optparse
 # reconfigure path to import own modules from modules subfolder
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "modules"))
 
-import config, tokenizer, loader, tokencompiler, api, tree, treegenerator, settings, resources, filetool, stringoptimizer, extendedoption, treecompiler, variableoptimizer, obfuscator, compiler, migrator
+import config, tokenizer, loader, api, tree, treegenerator, settings, resources, filetool, stringoptimizer, extendedoption, variableoptimizer, obfuscator, compiler, migrator, util
 
 
 
@@ -36,6 +36,7 @@ def getparser():
   parser.add_option("--generate-source-script", action="store_true", dest="generateSourceScript", default=False, help="Generate source version.")
   parser.add_option("--generate-api-documentation", action="store_true", dest="generateApiDocumentation", default=False, help="Generate API documentation.")
   parser.add_option("--copy-resources", action="store_true", dest="copyResources", default=False, help="Copy resource files.")
+  parser.add_option("--fix-source", action="store_true", dest="fixSource", default=False, help="Fix source files")
   parser.add_option("--pretty-print", action="store_true", dest="prettyPrint", default=False, help="Pretty print source code.")
   parser.add_option("--migrate-source", action="store_true", dest="migrateSource", default=False, help="Migrate existing code to new version.")
 
@@ -81,8 +82,6 @@ def getparser():
   parser.add_option("--optimize-strings", action="store_true", dest="optimizeStrings", default=False, help="Optimize strings. Increase mshtml performance.")
   parser.add_option("--optimize-variables", action="store_true", dest="optimizeVariables", default=False, help="Optimize variables. Reducing size.")
   parser.add_option("--obfuscate-identifiers", action="store_true", dest="obfuscateIdentifiers", default=False, help="Obfuscate public names like function names. (ALPHA!)")
-  parser.add_option("--use-token-compiler", action="store_true", dest="useTokenCompiler", default=False, help="Use old token compiler instead of new compiler (not recommended).")
-  parser.add_option("--use-tree-compiler", action="store_true", dest="useTreeCompiler", default=False, help="Use old tree compiler instead of new compiler (not recommended).")
 
   # Options for resource copying
   parser.add_option("--override-resource-output", action="append", dest="overrideResourceOutput", metavar="CLASSNAME.ID:DIRECTORY", default=[], help="Define a resource input directory.")
@@ -93,7 +92,7 @@ def getparser():
 
   # Cache Directory
   parser.add_option("--cache-directory", dest="cacheDirectory", metavar="DIRECTORY", help="If this is defined the loader trys to use cache to optimize the performance.")
-  
+
   # Options for migration support
   parser.add_option("--migration-target", dest="migrationTarget", metavar="VERSION", help="Define the target for migration of source code.")
 
@@ -489,18 +488,61 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     print
     print "  SOURCE MIGRATION:"
     print "----------------------------------------------------------------------------"
-    
+
     print "  * Migrate Source Code..."
-    
+
     migrator.handle(sortedIncludeList, fileDb, options)
-    
+
     # Return after migration: Ignore other jobs
     return
-  
-  
-  
-  
-  
+
+
+  ######################################################################
+  #  GENERATION OF PRETTY PRINTED CODE
+  ######################################################################
+
+  if options.fixSource:
+    print
+    print "  FIX SOURCE CODE:"
+    print "----------------------------------------------------------------------------"
+
+    if options.verbose:
+      print "  * Fixing code..."
+    else:
+      print "  * Fixing code: ",
+
+    for fileId in sortedIncludeList:
+      if options.verbose:
+        print "    - Reading %s" % fileId
+
+      fileEntry = fileDb[fileId]
+
+      filePath = fileEntry["path"]
+      fileEncoding = fileEntry["encoding"]
+
+      fileContent = filetool.read(filePath, fileEncoding)
+      fixedContent = util.removeTrailingSpaces(util.tab2Space(util.any2Unix(fileContent), 2))
+
+      if fixedContent != fileContent:
+        if options.verbose:
+          print "      - Storing modifications..."
+        else:
+          sys.stdout.write("!")
+          sys.stdout.flush()
+
+        filetool.save(filePath, fixedContent, fileEncoding)
+
+      elif not options.verbose:
+        sys.stdout.write(".")
+        sys.stdout.flush()
+
+    if not options.verbose:
+      print
+
+    # Return after fixing: Ignore other jobs
+    return
+
+
 
   ######################################################################
   #  GENERATION OF PRETTY PRINTED CODE
@@ -909,21 +951,10 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
       print "  * You must define the compiled script file!"
       sys.exit(1)
 
-    if options.useTokenCompiler:
-      if options.verbose:
-        print "  * Compiling tokens..."
-      else:
-        print "  * Compiling tokens: ",
-    elif options.useTreeCompiler:
-      if options.verbose:
-        print "  * Compiling tree..."
-      else:
-        print "  * Compiling tree: ",
+    if options.verbose:
+      print "  * Compiling..."
     else:
-      if options.verbose:
-        print "  * Compiling..."
-      else:
-        print "  * Compiling: ",
+      print "  * Compiling: ",
 
     for fileId in sortedIncludeList:
       if options.verbose:
@@ -932,12 +963,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
         sys.stdout.write(".")
         sys.stdout.flush()
 
-      if options.useTokenCompiler:
-        compiledFileContent = tokencompiler.compile(loader.getTokens(fileDb, fileId, options), options.addNewLines, options.enableDebug)
-      elif options.useTreeCompiler:
-        compiledFileContent = treecompiler.compile(loader.getTree(fileDb, fileId, options), options.addNewLines, options.enableDebug)
-      else:
-        compiledFileContent = compiler.compile(loader.getTree(fileDb, fileId, options), False, options.addNewLines, options.enableDebug)
+      compiledFileContent = compiler.compile(loader.getTree(fileDb, fileId, options), False, options.addNewLines, options.enableDebug)
 
       if options.addFileIds:
         compiledOutput += "\n\n\n/* ID: " + fileId + " */\n" + compiledFileContent + "\n"
