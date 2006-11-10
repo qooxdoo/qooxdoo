@@ -52,12 +52,15 @@ qx.core.Init.getInstance().defineMain(function() {
 		combo.sizeTextFieldToContent();
 	});
 	
-	var boxCombo = new qx.ui.layout.BoxLayout;
-	with (boxCombo) {
+	var boxCombo2 = new qx.ui.layout.BoxLayout;
+	with (boxCombo2) {
 		auto();
 		setSpacing(10);
 		add(combo, butSize);
 	}
+	var boxCombo = new qx.ui.groupbox.GroupBox('This is the ComboBoxEx under test');
+	boxCombo.auto();
+	boxCombo.add(boxCombo2);
 
 	//###2nd row: Test of simple properties
 	var cEd = new form.CheckBox('Editable');
@@ -194,6 +197,13 @@ qx.core.Init.getInstance().defineMain(function() {
 </head>
 <body>
   <script type="text/javascript" src="../../script/layout.js"></script>
+  <script type="text/javascript">
+with (qx.dev.log.Logger.ROOT_LOGGER) {
+	removeAllAppenders();
+	addAppender(new qx.dev.log.FireBugAppender);
+	setMinLevel(qx.dev.log.Logger.LEVEL_WARN);
+}
+  </script>
   <div id="demoDescription">
     <p>ComboBoxEx is an enhanced version of ComboBox</p>
   </div>
