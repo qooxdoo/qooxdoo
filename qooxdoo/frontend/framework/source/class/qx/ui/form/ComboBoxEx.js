@@ -36,12 +36,12 @@
  * <li>Automatically calculating needed width</li>
  * <li>Popup list always shows full contents, and can be wider than text field</li>
  * <li>Search values through popup dialog</li>
+ * <li>Internationalization support of messages (through custom settings)</li>
  * </ul>
  * <p>Pending features:</p>
  * <ul>
  * <li>Images inside the list</li>
  * <li>Autocomplete on key input</li>
- * <li>Internationalization support</li>
  * </ul>
  *
  * @event beforeInitialOpen {qx.event.type.Event}
@@ -111,6 +111,16 @@ qx.OO.defineClass('qx.ui.form.ComboBoxEx', qx.ui.layout.HorizontalBoxLayout, fun
   // ************************************************************************
   this._popup.addEventListener(qx.constant.Event.APPEAR, this._onpopupappear, this);
 });
+
+/*
+---------------------------------------------------------------------------
+  LOCALIZATION SUPPORT
+---------------------------------------------------------------------------
+*/
+
+qx.Settings.setDefault('titleSearch', 'Search items in list');
+qx.Settings.setDefault('toolTipSearchNext', 'Search next occurrence');
+
 
 /*
 ---------------------------------------------------------------------------
@@ -590,7 +600,7 @@ qx.Proto.openSearchDialog = function() {
   //###buttons
   var butNext = new qx.ui.form.Button('', 'icon/16/find.png');
   butNext.set({
-    toolTip: new qx.ui.popup.ToolTip('Search next occurrence')
+    toolTip: new qx.ui.popup.ToolTip(this.getSetting('toolTipSearchNext'))
   });
   butNext.addEventListener(qx.constant.Event.EXECUTE, function() {
     startIndex = (this.getSelectedIndex()+1) % sel.length;
@@ -627,7 +637,7 @@ qx.Proto.openSearchDialog = function() {
   hbox.add(vbox, butBox);
 
   //###Window  
-  var win = new qx.ui.window.Window('Search items in list', 'icon/16/find.png');
+  var win = new qx.ui.window.Window(this.getSetting('titleSearch'), 'icon/16/find.png');
   win.add(hbox);
   win.positionRelativeTo(this);
   win.set({
