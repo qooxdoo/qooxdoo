@@ -45,23 +45,23 @@ qx.OO.addProperty({ name:"useAutoAlign", type:qx.constant.Type.BOOLEAN, defaultV
 qx.Proto._getCellStyle = function(cellInfo) {
   var style = qx.ui.table.AbstractDataCellRenderer.prototype._getCellStyle(cellInfo);
 
-  var stylesToApply = this._getStyleFlags(cellInfo);
+  var stylesToApply = this._getStyleFlags(cellInfo);  
   if (stylesToApply & qx.ui.table.DefaultDataCellRenderer.STYLEFLAG_ALIGN_RIGHT){
-    style += qx.ui.table.DefaultDataCellRenderer.INTERNAL_STYLE_ALIGN_RIGHT;
+    style += qx.ui.table.DefaultDataCellRenderer.INTERNAL_STYLE_ALIGN_RIGHT;    
   }
   if (stylesToApply & qx.ui.table.DefaultDataCellRenderer.STYLEFLAG_BOLD){
-    style += qx.ui.table.DefaultDataCellRenderer.INTERNAL_STYLE_BOLD;
+    style += qx.ui.table.DefaultDataCellRenderer.INTERNAL_STYLE_BOLD;    
   }
   if (stylesToApply & qx.ui.table.DefaultDataCellRenderer.STYLEFLAG_ITALIC){
-    style += qx.ui.table.DefaultDataCellRenderer.INTERNAL_STYLE_ITALIC;
+    style += qx.ui.table.DefaultDataCellRenderer.INTERNAL_STYLE_ITALIC;    
   }
 
   return style;
 }
 
-/**
+/** 
  * Determines the styles to apply to the cell
- *
+ * 
  * @param cellInfo (Object) cellInfo of the cell
  * @return the sum of any of the STYLEFLAGS defined below
  */
@@ -84,23 +84,23 @@ qx.Proto._getContentHtml = function(cellInfo) {
 qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
   var style = qx.ui.table.AbstractDataCellRenderer.prototype._getCellStyle(cellInfo);
 
-  var stylesToApply = this._getStyleFlags(cellInfo);
+  var stylesToApply = this._getStyleFlags(cellInfo);  
   if (stylesToApply & qx.ui.table.DefaultDataCellRenderer.STYLEFLAG_ALIGN_RIGHT){
     cellElement.style.textAlign = "right";
   } else {
-    cellElement.style.textAlign = "";
+    cellElement.style.textAlign = "";    
   }
-
+  
   if (stylesToApply & qx.ui.table.DefaultDataCellRenderer.STYLEFLAG_BOLD){
     cellElement.style.fontWeight = "bold";
   } else {
-    cellElement.style.fontWeight = "";
+    cellElement.style.fontWeight = "";    
   }
-
+  
   if (stylesToApply & qx.ui.table.DefaultDataCellRenderer.STYLEFLAG_ITALIC){
     cellElement.style.fontStyle = "ital";
   } else {
-    cellElement.style.fontStyle = "";
+    cellElement.style.fontStyle = "";    
   }
 
   var textNode = cellElement.firstChild;
@@ -137,7 +137,7 @@ qx.Proto._formatValue = function(cellInfo) {
 qx.Proto._createCellStyle_array_join = function(cellInfo, htmlArr) {
   qx.ui.table.AbstractDataCellRenderer.prototype._createCellStyle_array_join(cellInfo, htmlArr);
 
-  var stylesToApply = this._getStyleFlags(cellInfo);
+  var stylesToApply = this._getStyleFlags(cellInfo);  
   if (stylesToApply & qx.ui.table.DefaultDataCellRenderer.STYLEFLAG_ALIGN_RIGHT){
     htmlArr.push(qx.ui.table.DefaultDataCellRenderer.INTERNAL_STYLE_ALIGN_RIGHT);
   }

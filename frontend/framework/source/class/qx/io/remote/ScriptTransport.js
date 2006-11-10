@@ -37,7 +37,7 @@ qx.OO.defineClass("qx.io.remote.ScriptTransport", qx.io.remote.AbstractRemoteTra
 function()
 {
   qx.io.remote.AbstractRemoteTransport.call(this);
-
+  
   var vUniqueId = ++qx.io.remote.ScriptTransport._uniqueId;
   if (vUniqueId >= 2000000000) {
     qx.io.remote.ScriptTransport._uniqueId = vUniqueId = 1;
@@ -137,14 +137,14 @@ qx.Proto.send = function()
   if (vData != null) {
     vUrl += qx.constant.Core.AMPERSAND + qx.io.remote.ScriptTransport.ScriptTransport_DATA_PARAM + qx.constant.Core.EQUAL + encodeURIComponent(vData);
   }
-
+  
   qx.io.remote.ScriptTransport._instanceRegistry[this._uniqueId] = this;
   this._element = document.createElement("script");
   this._element.charset = "utf-8";  // IE needs this (it ignores the
                                     // encoding from the header sent by the
                                     // server for dynamic script tags)
   this._element.src = vUrl;
-
+  
   document.body.appendChild(this._element);
 }
 
