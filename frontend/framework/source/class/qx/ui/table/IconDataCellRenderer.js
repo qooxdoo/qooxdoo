@@ -51,30 +51,30 @@ qx.Proto._identifyImage = function(cellInfo) {
 
 
 /**
- * Retrieves the image infos. 
+ * Retrieves the image infos.
  *
  * @param cellInfo (Map) The information about the cell.
  *        See {@link #createDataCellHtml}.
- * @return (Map) Map with an "url" attribute (type string) 
- *               holding the URL of the image to show 
- *               and a "tooltip" attribute 
- *               (type string) being the tooltip text (or null if none was specified) 
- * 
+ * @return (Map) Map with an "url" attribute (type string)
+ *               holding the URL of the image to show
+ *               and a "tooltip" attribute
+ *               (type string) being the tooltip text (or null if none was specified)
+ *
  */
 qx.Proto._getImageInfos= function(cellInfo) {
   // Query the subclass about image and tooltip
   var urlAndTooltipMap = this._identifyImage(cellInfo);
-  
+
   // If subclass refuses to give map, construct it
   if (urlAndTooltipMap == null || typeof urlAndTooltipMap == "string"){
     urlAndTooltipMap = {url:urlAndTooltipMap, tooltip:null};
   }
-  
+
   // If subclass gave null as url, replace with url to empty image
   if (urlAndTooltipMap.url == null){
-    urlAndTooltipMap.url = this.IMG_BLANK_URL;      
+    urlAndTooltipMap.url = this.IMG_BLANK_URL;
   }
-  
+
   return urlAndTooltipMap;
 }
 
@@ -115,7 +115,7 @@ qx.Proto._getContentHtml = function(cellInfo) {
 
 // overridden
 qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
-  // Set image and tooltip text  
+  // Set image and tooltip text
   var urlAndToolTip = this._getImageInfos(cellInfo);
   var img = cellElement.firstChild;
   if (qx.sys.Client.getInstance().isMshtml()) {
@@ -163,7 +163,7 @@ qx.Proto._createContentHtml_array_join = function(cellInfo, htmlArr) {
   var tooltip = urlAndToolTip.tooltip;
   if (tooltip != null){
     IconDataCellRenderer.IMG_TITLE_START;
-    htmlArr.push(tooltip);    
+    htmlArr.push(tooltip);
   }
   htmlArr.push(IconDataCellRenderer.IMG_END);
 

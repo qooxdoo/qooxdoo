@@ -310,18 +310,18 @@ qx.Class.getOriginalTargetObject = function(vNode)
 /**
  * extract the target node from a DOM event
  * http://www.quirksmode.org/js/events_properties.html
- * 
- * @param vDomEvent (Object) 
+ *
+ * @param vDomEvent (Object)
  * @return (Element) the target node
  */
 qx.Class.getDomTarget = function(vDomEvent) {
   var vNode = vDomEvent.target || vDomEvent.srcElement;
-  
+
   // Safari takes text nodes as targets for events
   if (vNode && (vNode.nodeType == qx.constant.Node.TEXT) ) {
     vNode = vNode.parentNode;
   }
-  
+
   return vNode;
 };
 

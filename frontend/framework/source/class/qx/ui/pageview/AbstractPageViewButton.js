@@ -1,39 +1,39 @@
 /* ************************************************************************
- 
+
    qooxdoo - the new era of web development
- 
+
    http://qooxdoo.org
- 
+
    Copyright:
      2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
- 
+
    License:
      LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
- 
+
    Authors:
  * Sebastian Werner (wpbasti)
  * Andreas Ecker (ecker)
- 
+
  ************************************************************************ */
 
 /* ************************************************************************
- 
- 
+
+
  ************************************************************************ */
 
 qx.OO.defineClass("qx.ui.pageview.AbstractPageViewButton", qx.ui.basic.Atom,
 function(vText, vIcon, vIconWidth, vIconHeight, vFlash) {
   qx.ui.basic.Atom.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
-  
+
   this.setTabIndex(1);
-  
+
   // ************************************************************************
   //   MOUSE EVENTS
   // ************************************************************************
   this.addEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover);
   this.addEventListener(qx.constant.Event.MOUSEOUT, this._onmouseout);
   this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
-  
+
   // ************************************************************************
   //   KEY EVENTS
   // ************************************************************************
@@ -98,11 +98,11 @@ qx.Proto._modifyManager = function(propValue, propOldValue, propData) {
   if (propOldValue) {
     propOldValue.remove(this);
   }
-  
+
   if (propValue) {
     propValue.add(this);
   }
-  
+
   return true;
 }
 
@@ -110,11 +110,11 @@ qx.Proto._modifyParent = function(propValue, propOldValue, propData) {
   if (propOldValue) {
     propOldValue.getManager().remove(this);
   }
-  
+
   if (propValue) {
     propValue.getManager().add(this);
   }
-  
+
   return qx.ui.basic.Atom.prototype._modifyParent.call(this, propValue, propOldValue, propData);
 }
 
@@ -122,12 +122,12 @@ qx.Proto._modifyPage = function(propValue, propOldValue, propData) {
   if (propOldValue) {
     propOldValue.setButton(null);
   }
-  
+
   if (propValue) {
     propValue.setButton(this);
     this.getChecked() ? propValue.show() : propValue.hide();
   }
-  
+
   return true;
 }
 
@@ -138,14 +138,14 @@ qx.Proto._modifyChecked = function(propValue, propOldValue, propData) {
       vManager.handleItemChecked(this, propValue);
     }
   }
-  
+
   propValue ? this.addState(qx.ui.form.Button.STATE_CHECKED) : this.removeState(qx.ui.form.Button.STATE_CHECKED);
-  
+
   var vPage = this.getPage();
   if (vPage) {
     this.getChecked() ? vPage.show() : vPage.hide();
   }
-  
+
   return true;
 }
 
@@ -153,7 +153,7 @@ qx.Proto._modifyName = function(propValue, propOldValue, propData) {
   if (this.getManager()) {
     this.getManager().setName(propValue);
   }
-  
+
   return true;
 }
 
@@ -196,21 +196,21 @@ qx.Proto.dispose = function() {
   if (this.getDisposed()) {
     return;
   }
-  
-  
+
+
   // ************************************************************************
   //   MOUSE EVENTS
   // ************************************************************************
   this.removeEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover);
   this.removeEventListener(qx.constant.Event.MOUSEOUT, this._onmouseout);
   this.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
-  
-  
+
+
   // ************************************************************************
   //   KEY EVENTS
   // ************************************************************************
   this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
-  
-  
+
+
   return qx.ui.basic.Atom.prototype.dispose.call(this);
 }

@@ -243,7 +243,7 @@ qx.Proto._computeButton = function() {
 
       default:
         return qx.event.type.MouseEvent.C_BUTTON_NONE;
-      
+
     }
   } else {
     switch(e.button) {
@@ -258,7 +258,7 @@ qx.Proto._computeButton = function() {
 
       default:
         return qx.event.type.MouseEvent.C_BUTTON_NONE;
-    }  
+    }
   }
 }
 

@@ -25,7 +25,7 @@
 
 /**
  * The qooxdoo base object. All qooxdoo classes extend this one
- * 
+ *
  * This class contains functions for:
  * <ul>
  *   <li> logging </li>
@@ -69,7 +69,7 @@ qx.Class._db = [];
 /**
  * Generate an unique key for the given object and return it.
  * Sets object._hashCode to the generated key.
- * 
+ *
  * @param o (Object)
  * @return (int) unique key for the given object
  */
@@ -85,9 +85,9 @@ qx.Class.toHashCode = function(o)
 
 /**
  * Destructor. This method is called by qooxdoo on object destruction.
- * 
- * Any class that holds ressources like links to DOM nodes must overwrite 
- * this method and free theese ressources. 
+ *
+ * Any class that holds ressources like links to DOM nodes must overwrite
+ * this method and free theese ressources.
  */
 qx.Class.dispose = function()
 {
@@ -114,7 +114,7 @@ qx.Class.dispose = function()
 
 /**
  * Summary of allocated objects
- * 
+ *
  * @return (string) summary of allocated objects.
  */
 qx.Class.summary = function()
@@ -162,8 +162,8 @@ qx.Class.summary = function()
 
 /**
  * Enable or disable the Object.
- * 
- * The actual semantic of this property depends on concrete subclass of qx.core.Object. 
+ *
+ * The actual semantic of this property depends on concrete subclass of qx.core.Object.
  */
 qx.OO.addProperty({ name : "enabled", type : qx.constant.Type.BOOLEAN, defaultValue : true, getAlias : "isEnabled" });
 
@@ -219,7 +219,7 @@ qx.Proto.getDisposed = function() {
 
 /**
  * Returns true if the object is disposed.
- * 
+ *
  * @return (boolean) wether the object has been disposed
  */
 qx.Proto.isDisposed = function() {
@@ -229,9 +229,9 @@ qx.Proto.isDisposed = function() {
 
 /**
  * Returns a settings from global setting definition
- * 
+ *
  * @param vKey (string)
- * @return (Object) value of the global setting 
+ * @return (Object) value of the global setting
  */
 qx.Proto.getSetting = function(vKey) {
   return qx.Settings.getValueOfClass(this.classname, vKey);
@@ -340,7 +340,7 @@ qx.Proto.set = function(propertyValues)
  * Gets multiple properties at once by using a property list
  *
  * @param propertyNames (string | array | hash) list of the properties to get
- * @param outputHint (string ? "array") how should the values be returned. Possible values are "hash" and "array". 
+ * @param outputHint (string ? "array") how should the values be returned. Possible values are "hash" and "array".
 */
 qx.Proto.get = function(propertyNames, outputHint)
 {
@@ -429,9 +429,9 @@ qx.Proto.setUserData = function(vKey, vValue)
 
 /**
  * Load user defined data from the object
- * 
+ *
  * @param vKey {string}
- * @return {Object} the user data 
+ * @return {Object} the user data
  */
 qx.Proto.getUserData = function(vKey)
 {

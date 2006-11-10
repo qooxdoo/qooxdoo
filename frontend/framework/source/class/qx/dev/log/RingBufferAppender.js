@@ -25,12 +25,12 @@
  * An appender that writes all messages to a memory container. The messages
  * can be retrieved later, f. i. when an error dialog pops up and the question
  * arises what actions have caused the error.
- * 
+ *
  */
 qx.OO.defineClass("qx.dev.log.RingBufferAppender", qx.dev.log.Appender,
 function() {
   qx.dev.log.Appender.call(this);
-  
+
   this._history = [];
   this._nextIndexToStoreTo = 0;
   this._appenderToFormatStrings = null;
@@ -45,7 +45,7 @@ qx.OO.addProperty({ name:"maxMessages", type:qx.constant.Type.NUMBER, defaultVal
 
 qx.Proto._modifyMaxMessages = function(propValue, propOldValue, propData){
   this._history = [];
-  this._nextIndexToStoreTo = 0;  
+  this._nextIndexToStoreTo = 0;
 };
 
 // overridden
@@ -56,15 +56,15 @@ qx.Proto.appendLogEvent = function(evt) {
   } else {
     this._history[this._nextIndexToStoreTo++] = evt;
     if (this._nextIndexToStoreTo >= maxMessages){
-      this._nextIndexToStoreTo = 0;      
+      this._nextIndexToStoreTo = 0;
     }
   }
 };
 
 /**
  * Returns log events which have been logged previously.
- * 
- * @param count (int) The number of events to retreive. If there are more events than the 
+ *
+ * @param count (int) The number of events to retreive. If there are more events than the
  *                    given count, the oldest ones will not be returned.
  * @return (array) array of stored log events
  */
@@ -72,9 +72,9 @@ qx.Proto.retrieveLogEvents = function(count) {
   if (count > this._history.length){
     count = this._history.length;
   }
-  
-  var indexOfYoungestElementInHistory 
-    = this._history.length == this.getMaxMessages() ? this._nextIndexToStoreTo - 1 
+
+  var indexOfYoungestElementInHistory
+    = this._history.length == this.getMaxMessages() ? this._nextIndexToStoreTo - 1
                                                     : this._history.length - 1;
   var startIndex = indexOfYoungestElementInHistory - count + 1;
   if (startIndex < 0){
@@ -94,8 +94,8 @@ qx.Proto.retrieveLogEvents = function(count) {
 
 /**
  * Returns a string holding the information of log events which have been logged previously.
- * 
- * @param count (int) The number of events to retreive. If there are more events than the 
+ *
+ * @param count (int) The number of events to retreive. If there are more events than the
  *                    given count, the oldest ones will not be returned.
  * @return (string) string
  */
@@ -103,9 +103,9 @@ qx.Proto.formatLogEvents = function(count) {
   if (this._appenderToFormatStrings == null){
     this._appenderToFormatStrings = new qx.dev.log.Appender();
   }
-    
+
   var events = this.retrieveLogEvents(count);
-  var string = "";  
+  var string = "";
   for(var idx=0; idx < events.length; idx++) {
     string += this._appenderToFormatStrings.formatLogEvent(events[idx]) + "\n";
   }
@@ -117,6 +117,6 @@ qx.Proto.dispose = function() {
   if (this.getDisposed()) {
     return true;
   }
-  
+
   return qx.dev.log.Appender.prototype.dispose.call(this);
 };

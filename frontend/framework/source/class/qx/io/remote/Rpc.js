@@ -26,7 +26,7 @@
 
 /**
  * Provides a Remote Procedure Call (RPC) implementation.
- * 
+ *
  * Each instance of this class represents a "Service". These services can
  * correspond to various concepts on the server side (depending on the
  * programming language/environment being used), but usually, a service means
@@ -35,7 +35,7 @@
  * In case multiple instances of the same service are needed, they can be
  * distinguished by ids. If such an id is specified, the server routes all
  * calls to a service that have the same id to the same server-side instance.
- * 
+ *
  * When calling a server-side method, the parameters and return values are
  * converted automatically. Supported types are int (and Integer), double
  * (and Double), String, Date, Map, and JavaBeans. Beans must habe a default
@@ -235,7 +235,7 @@ qx.Proto._callInternal = function(args, async, refreshSession) {
       }
     }
   }
-  
+
   var makeException = function(origin, code, message) {
     var ex = new Object();
 
@@ -323,9 +323,9 @@ qx.Proto._callInternal = function(args, async, refreshSession) {
 /**
  * Helper method to rewrite a URL with a stale session id (so that it includes
  * the correct session id afterwards).
- * 
+ *
  * @param url (string)        the URL to examine.
- * 
+ *
  * @return (string)            the (possibly re-written) URL.
  */
 
@@ -343,7 +343,7 @@ qx.Proto.fixUrl = function(url) {
          url.substring(index + this._previousServerSuffix.length);
 };
 
-    
+
 /**
  * Makes a synchronous server call. The method arguments (if any) follow
  * after the method name (as normal JavaScript arguments, separated by commas,
@@ -423,7 +423,7 @@ qx.Proto.callAsync = function(handler, methodName) {
  * second parameter, it's an exception indicating that there was an error when
  * refreshing the session.
  * </p>
- * 
+ *
  * @param   handler (Function)      a callback function that is called when the
  *                                  refresh is complete (or failed).
  */

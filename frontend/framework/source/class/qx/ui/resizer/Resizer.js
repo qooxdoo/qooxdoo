@@ -28,14 +28,14 @@
  * the right and/or bottom directions.  Child can be e.g. a qx.ui.form.TextArea,
  * qx.ui.table.Table or qx.ui.form.List.  It is an alternative to splitters.
  */
-qx.OO.defineClass('qx.ui.resizer.Resizer', qx.ui.layout.CanvasLayout, 
-function(child) 
+qx.OO.defineClass('qx.ui.resizer.Resizer', qx.ui.layout.CanvasLayout,
+function(child)
 {
   qx.ui.layout.CanvasLayout.call(this);
 
   this._frame = new qx.ui.basic.Terminator;
   this._frame.setAppearance("resizer-frame");
-  
+
   this._registerResizeEvents();
 
   this.setAppearance('resizer');
@@ -46,7 +46,7 @@ function(child)
   this.setMinHeight(qx.constant.Core.AUTO);
   this.auto();
 
-  if (child) 
+  if (child)
   {
     // Remove child border, as the resizer has already its own border.
     child.setBorder(new qx.renderer.border.Border(0));
@@ -412,6 +412,6 @@ qx.Proto.dispose = function()
     this._frame.dispose();
     this._frame = null;
   }
-  
+
   return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
 }

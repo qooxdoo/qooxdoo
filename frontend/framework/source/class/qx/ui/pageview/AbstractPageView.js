@@ -21,7 +21,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.pageview.AbstractPageView", qx.ui.layout.BoxLayout, 
+qx.OO.defineClass("qx.ui.pageview.AbstractPageView", qx.ui.layout.BoxLayout,
 function(vBarClass, vPaneClass)
 {
   qx.ui.layout.BoxLayout.call(this);
