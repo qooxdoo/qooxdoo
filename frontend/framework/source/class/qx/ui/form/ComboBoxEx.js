@@ -58,7 +58,7 @@ qx.OO.defineClass('qx.ui.form.ComboBoxEx', qx.ui.layout.HorizontalBoxLayout, fun
   // ************************************************************************
   //   LIST
   // ************************************************************************
-  this._createList([ 'ID', 'Description' ]);
+  this._createList([ this.getSetting('idHeader'), this.getSetting('descriptionHeader') ]);
   
   // ************************************************************************
   //   FIELD
@@ -93,7 +93,11 @@ qx.OO.defineClass('qx.ui.form.ComboBoxEx', qx.ui.layout.HorizontalBoxLayout, fun
   this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
   this.addEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
   this.addEventListener(qx.constant.Event.MOUSEWHEEL, this._onmousewheel);
-  this.addEventListener(qx.constant.Event.DBLCLICK, this.openSearchDialog);
+  this.addEventListener(qx.constant.Event.DBLCLICK, function() {
+    if (this.getAllowSearch()) {
+      this.openSearchDialog();
+    }
+  });
 
   // ************************************************************************
   //   WIDGET KEY EVENTS
@@ -120,6 +124,8 @@ qx.OO.defineClass('qx.ui.form.ComboBoxEx', qx.ui.layout.HorizontalBoxLayout, fun
 
 qx.Settings.setDefault('titleSearch', 'Search items in list');
 qx.Settings.setDefault('toolTipSearchNext', 'Search next occurrence');
+qx.Settings.setDefault('idHeader', 'ID');
+qx.Settings.setDefault('descriptionHeader', 'Description');
 
 
 /*
@@ -150,6 +156,9 @@ qx.OO.addProperty({ name: "idDescriptionSeparator", type: qx.constant.Type.STRIN
 
 /*!Ensures that always an item is selected (in case the selection isn't empty). Only used when editable is false.*/
 qx.OO.addProperty({ name: 'ensureSomethingSelected', type: qx.constant.Type.BOOLEAN, defaultValue: true });
+
+/*!Allow the search dialog when double clicking the combo, or pressing special keys?.*/
+qx.OO.addProperty({ name: 'allowSearch', type: qx.constant.Type.BOOLEAN, defaultValue: true });
 
 
 /*
@@ -585,7 +594,8 @@ qx.Proto.openSearchDialog = function() {
   var vbox = new qx.ui.layout.VerticalBoxLayout;
   vbox.set({
     spacing: 6,
-    horizontalChildrenAlign: 'center'
+    horizontalChildrenAlign: 'center',
+    height: '100%'
   });
   vbox.auto();
   vbox.add(searchField, checkCase);
@@ -840,12 +850,16 @@ qx.Proto._onkeydown = function(e) {
       break;
 
     case vKeys.f3:
-      this.openSearchDialog();
+      if (this.getAllowSearch()) {
+        this.openSearchDialog();
+      }
       break;
       
     case 70 /*F*/:
       if (e.getCtrlKey()) {
-        this.openSearchDialog();
+        if (this.getAllowSearch()) {
+          this.openSearchDialog();
+        }
         break;
       }
       return;
