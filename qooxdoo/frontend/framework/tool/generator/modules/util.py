@@ -9,7 +9,7 @@ def convertMac2Dos(content):
   return content.replace("\r", "\r\n")
 
 def convertDos2Unix(content):
-  return content.replace("\r", "\n")
+  return content.replace("\r\n", "\n")
 
 def convertDos2Mac(content):
   return content.replace("\r\n", "\r")
