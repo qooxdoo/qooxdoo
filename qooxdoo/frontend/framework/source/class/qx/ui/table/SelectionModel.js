@@ -82,11 +82,11 @@ qx.Proto._modifySelectionMode = function(selectionMode) {
  * <p>Activates / Deactivates batch mode. In batch mode, no change events will be thrown but
  * will be collected instead. When batch mode is turned off again and any events have
  * been collected, one event is thrown to inform the listeners.</p>
- *
- * <p>This method supports nested calling, i. e. batch mode can be turned more than once.
- * In this case, batch mode will not end until it has been turned off once for each
+ * 
+ * <p>This method supports nested calling, i. e. batch mode can be turned more than once. 
+ * In this case, batch mode will not end until it has been turned off once for each 
  * turning on.</p>
- *
+ * 
  * @param batchMode (boolean) true to activate batch mode, false to deactivate
  * @return (boolean) true if batch mode is active, false otherwise
  * @throws Error if batch mode is turned off once more than it has been turned on
@@ -110,7 +110,7 @@ qx.Proto.setBatchMode = function(batchMode) {
 
 /**
  * <p>Returns whether batch mode is active. See setter for a description of batch mode.</p>
- *
+ * 
  * @return (boolean) true if batch mode is active, false otherwise
  */
 qx.Proto.hasBatchMode = function() {
@@ -199,7 +199,7 @@ qx.Proto.isSelectedIndex = function(index) {
 /**
  * Returns the selected ranges as an array. Each array element has a
  * <code>minIndex</code> and a <code>maxIndex</code> property.
- *
+ * 
  * @return (Map[]) the selected ranges.
  */
 qx.Proto.getSelectedRanges = function() {
@@ -419,7 +419,7 @@ qx.Proto._fireChangeSelection = function() {
   //In batch mode, remember event but do not throw (yet)
   if (this.hasBatchMode()){
     this._hadChangeEventInBatchMode = true;
-
+  
   //If not in batch mode, throw event
   } else if (this.hasEventListeners("changeSelection")) {
     this.dispatchEvent(new qx.event.type.Event("changeSelection"), true);
