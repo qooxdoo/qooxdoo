@@ -135,6 +135,7 @@ qx.Class.JOB_PREFERREDINNERWIDTH = "preferredInnerWidth";
 qx.Class.JOB_PREFERREDINNERHEIGHT = "preferredInnerHeight";
 
 qx.Class.FOCUS_OUTLINE = "1px dotted invert";
+qx.Class.FOCUS_NONE = "0px none";
 
 
 
@@ -3995,7 +3996,7 @@ else
     }
     else
     {
-      this.removeStyleProperty("outline");
+      this.setStyleProperty("outline", qx.ui.core.Widget.FOCUS_NONE);
     }
   }
 }

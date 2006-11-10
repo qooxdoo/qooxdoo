@@ -64,7 +64,7 @@ qx.Proto.handleStateChange = function()
   else
   {
     this.removeStyleProperty("MozOutline");
-    this.removeStyleProperty("outline");
+		this.setStyleProperty("outline", qx.ui.core.Widget.FOCUS_NONE);
   }
 }
 
