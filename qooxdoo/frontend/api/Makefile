@@ -1,23 +1,11 @@
 ###################################################################################
-# PUBLIC VARIABLES
+# VARIABLES
 ###################################################################################
 
 FRAMEWORK=../framework
 GENERATOR=$(FRAMEWORK)/tool/generator/generator.py
-CACHE=../.cache
-OLDCOMPILER = false
+CACHE=$(FRAMEWORK)/.cache
 NICE=10
-
-
-###################################################################################
-# PRIVATE VARIABLES
-###################################################################################
-
-ifeq ($(OLDCOMPILER),false)
-  COMPILER =
-else
-  COMPILER = --use-token-compiler
-endif
 
 
 
@@ -36,6 +24,8 @@ all: build
 source: generate-script-source generate-data-source
 build: generate-script-build generate-data-build copy-index-file fix-build-rights
 sync: build sync-qooxdoo-org
+pretty: generate-pretty
+fix: generate-fix
 
 
 
@@ -97,7 +87,6 @@ generate-script-build:
 	  --compiled-script-file build/script/api.js \
 	  --optimize-strings \
 	  --optimize-variables \
-	  $(COMPILER) \
 	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:resource/qooxdoo \
 	  --copy-resources \
 	  --cache-directory $(CACHE)
@@ -128,6 +117,22 @@ generate-data-build-xml:
 	  --script-input $(FRAMEWORK)/source/class \
 	  --generate-api-documentation \
 	  --api-documentation-xml-file build/xml/data.xml \
+	  --cache-directory $(CACHE)
+
+generate-pretty:
+	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
+	  --script-input source/class \
+	  --script-input $(FRAMEWORK)/source/class \
+	  --include-without-dependencies api.* \
+	  --pretty-print \
+	  --cache-directory $(CACHE)
+
+generate-fix:
+	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
+	  --script-input source/class \
+	  --script-input $(FRAMEWORK)/source/class \
+	  --include-without-dependencies api.* \
+	  --fix-source \
 	  --cache-directory $(CACHE)
 
 

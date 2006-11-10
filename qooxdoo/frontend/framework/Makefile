@@ -1,23 +1,11 @@
 ###################################################################################
-# PUBLIC VARIABLES
+# VARIABLES
 ###################################################################################
 
-GENERATOR=./tool/generator/generator.py
-CACHE=../.cache
-OLDCOMPILER = false
+FRAMEWORK=.
+GENERATOR=$(FRAMEWORK)/tool/generator/generator.py
+CACHE=$(FRAMEWORK)/.cache
 NICE=10
-
-
-###################################################################################
-# PRIVATE VARIABLES
-###################################################################################
-
-ifeq ($(OLDCOMPILER),false)
-  COMPILER =
-else
-  COMPILER = --use-token-compiler
-endif
-
 TIMEFLAG = `date +'%s'`
 
 
@@ -38,6 +26,7 @@ source: generate-source
 build: generate-build
 debug: generate-debug
 pretty: generate-pretty
+fix: generate-fix
 
 
 ###################################################################################
@@ -95,7 +84,6 @@ generate-compile:
 	  --compiled-script-file build/script/qx.js \
 	  --optimize-strings \
 	  --optimize-variables \
-	  $(COMPILER) \
 	  --cache-directory $(CACHE)
 
 generate-resource:
@@ -113,7 +101,6 @@ generate-build:
 	  --compiled-script-file build/script/qx.js \
 	  --optimize-strings \
 	  --optimize-variables \
-	  $(COMPILER) \
 	  --copy-resources \
 	  --resource-input source/resource \
 	  --resource-output build/resource \
@@ -156,10 +143,16 @@ generate-pretty:
 	  --pretty-print \
 	  --cache-directory $(CACHE)
 
+generate-fix:
+	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
+	  --script-input source/class \
+	  --fix-source \
+	  --cache-directory $(CACHE)
+
 revision-bump:
 	@echo
 	@echo "  REVISION BUMP"
 	@echo "----------------------------------------------------------------------------"
 	@echo "  * Updating version file"
-	@sed --in-place "s/date\(.*\)/date($(TIMEFLAG))/g" source/class/qx/core/Version.js 
+	@sed --in-place "s/date\(.*\)/date($(TIMEFLAG))/g" source/class/qx/core/Version.js
 	@svn commit -m 'Revision bump: demo section update' source/class/qx/core/Version.js
