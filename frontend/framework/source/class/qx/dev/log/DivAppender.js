@@ -23,7 +23,7 @@
 
 /**
  * An appender that writes all messages to a div element.
- * 
+ *
  * This class does not depend on qooxdoo widgets, so it also works when there
  * are problems with widgets or when the widgets are not yet initialized.
  *
