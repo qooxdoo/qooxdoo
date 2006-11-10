@@ -56,13 +56,13 @@ qx.Proto.getRowCount = function() {
  * <p>Returns the data of one row. This function may be overriden by models which hold
  * all data of a row in one object. By using this function, clients have a way of
  * quickly retrieving the entire row data.</p>
- *
+ * 
  * <p><b>Important:</b>Models which do not have their row data accessible in one object
  * may return null.</p>
  *
  * @param rowIndex (int) the model index of the row.
- * @return (Object) the row data as an object or null if the model does not support row data
- *                  objects. The details on the object returned are determined by the model
+ * @return (Object) the row data as an object or null if the model does not support row data 
+ *                  objects. The details on the object returned are determined by the model 
  *                  implementation only.
  */
 qx.Proto.getRowData = function(rowIndex) {
