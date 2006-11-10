@@ -32,17 +32,17 @@ qx.OO.defineClass("qx.core.Version",
    * qooxdoo major version number
    */
   major : 0,
-  
+
   /**
    * qooxdoo minor version number
    */
   minor : 6,
-  
+
   /**
    * qooxdoo revision number
    */
   revision : 2,
-  
+
   /**
    * qooxdoo revision state
    */
@@ -55,7 +55,7 @@ qx.OO.defineClass("qx.core.Version",
 
   /**
    * returns the qooxdoo version string
-   * 
+   *
    * @return (string) qooxdoo version string
    */
   toString: function()
