@@ -387,6 +387,9 @@ qx.Proto._modifyEnabled = function(propValue/*, propOldValue, propData*/) {
 qx.Proto._oldSelected = null;
 
 qx.Proto._openPopup = function() {
+  if (this.isSearchInProgress()) {
+    return;
+  }
   var p = this._popup;
   p.setAutoHide(false);
   var el = this.getElement();
@@ -504,6 +507,10 @@ qx.Proto._getTextWidth = function(text) {
 ---------------------------------------------------------------------------
 */
 
+qx.Proto.isSearchInProgress = function() {
+  return !this._popup.contains(this._list);
+}
+
 /**Searches the given text.  Called from the search dialog.
  * @param startIndex  {Number} Start index, 0 based
  * @param txt      {String} Text to find
@@ -541,10 +548,11 @@ qx.Proto._search = function(startIndex, txt, caseSens) {
   }
 }
 
-/**Opens a popup search dialog, useful when the combo has a lot of items.*/
+/**Opens a popup search dialog, useful when the combo has a lot of items.
+ * This dialog is triggered by double clicking the combo, pressing F3 or Ctrl+F.*/
 qx.Proto.openSearchDialog = function() {
   var sel = this.getSelection();
-  if (!sel || !sel.length) {
+  if (!sel || !sel.length || this.isSearchInProgress()) {
     return;
   }
   this._testClosePopup();
@@ -670,7 +678,10 @@ qx.Proto.openSearchDialog = function() {
       case vKeys.f3:
         butNext.createDispatchEvent('execute');
         break;
+      default:
+        return;
     }
+    e.preventDefault();
   }, this);
   win.auto();
   win.addToDocument();
@@ -776,12 +787,10 @@ qx.Proto._onmousewheel = function(e) {
 */
 
 qx.Proto._onkeydown = function(e) {
-  var vManager = this._manager;
-  var vKeyCode = e.getKeyCode();
   var vKeys = qx.event.type.KeyEvent.keys;
   var vVisible = this._popup.isSeeable();
 
-  switch(vKeyCode) {
+  switch (e.getKeyCode()) {
     case vKeys.enter:
       if (vVisible) {
         this._closePopup();
@@ -830,17 +839,24 @@ qx.Proto._onkeydown = function(e) {
       }
       break;
 
+    case vKeys.f3:
+      this.openSearchDialog();
+      break;
+      
     case 70 /*F*/:
       if (e.getCtrlKey()) {
         this.openSearchDialog();
+        break;
       }
-      break;
+      return;
 
     default:
       if (vVisible) {
         this._list.dispatchEvent(e);
       }
+      return;
   }
+  e.preventDefault();
 }
 
 qx.Proto._onkeypress = function(e) {
