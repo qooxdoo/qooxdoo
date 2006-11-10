@@ -417,7 +417,7 @@ qx.Proto._postApply = function()
     {
       case qx.ui.core.Widget.TYPE_PIXEL:
       case qx.ui.core.Widget.TYPE_PERCENT:
-      
+
       //carstenl: enabled truncation code for flex sizing, too. Appears to work except for the
       //          truncation code (gecko version), which I have disabled (see below).
       case qx.ui.core.Widget.TYPE_FLEX:
@@ -473,10 +473,10 @@ qx.Proto._postApply = function()
                    *           space, append ellipsis to indicate truncation) did not reliably
                    *           work in my tests. Problem was that sometimes the measurer returned
                    *           insanely high values for short texts, like "I..." requiring 738 px.
-                   * 
-                   *           I don't have time to examine this code in detail. Since all of my 
-                   *           tests used flex width and the truncation code never was intended 
-                   *           for this, I am disabling truncation if flex is active. 
+                   *
+                   *           I don't have time to examine this code in detail. Since all of my
+                   *           tests used flex width and the truncation code never was intended
+                   *           for this, I am disabling truncation if flex is active.
                    */
                     && (this._computedWidthType != qx.ui.core.Widget.TYPE_FLEX)){
                   break;
@@ -511,7 +511,7 @@ qx.Proto._postApply = function()
               } else {
                 vMeasureNode.innerHTML = vLabelText;
               }
-              
+
               if (vMeasureNode.scrollWidth > vInner) {
                 break;
               }

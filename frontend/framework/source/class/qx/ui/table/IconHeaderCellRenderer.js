@@ -69,16 +69,16 @@ qx.Proto.updateHeaderCell = function(cellInfo, cellWidget) {
   if (this.getToolTip() != null){
 
     //Create tooltip if necessary
-    if (true || widgetToolTip == null ){    
+    if (true || widgetToolTip == null ){
       widgetToolTip = new qx.ui.popup.ToolTip(this.getToolTip());
       cellWidget.setToolTip(widgetToolTip);
       //this.debug("Creating tooltip");
     }
-    
-    //Set tooltip text    
+
+    //Set tooltip text
     widgetToolTip.getAtom().setLabel(this.getToolTip());
     //this.debug("Setting tooltip text " + this.getToolTip());
-  }  
+  }
 
 }
 

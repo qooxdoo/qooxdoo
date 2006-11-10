@@ -285,7 +285,7 @@ qx.OO.addProperty({ name : "backgroundImage", type : qx.constant.Type.STRING });
 
 /**
  * Describes how to handle content that is too large to fit inside the widget.
- *  
+ *
  * Overflow modes:
  * * hidden: The content is clipped
  * * auto: Scroll bars are shown as needed

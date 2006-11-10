@@ -433,7 +433,7 @@ qx.Proto.send = function()
         this.setImplementation(vTransport);
 
         vTransport.setUseBasicHttpAuth(vRequest.getUseBasicHttpAuth());
-        
+
         vTransport.send();
         return true;
       }

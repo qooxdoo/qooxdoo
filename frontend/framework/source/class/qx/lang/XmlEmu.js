@@ -46,14 +46,14 @@ if (qx.sys.Client.getInstance().isMshtml())
     parseFromString: function(str, contentType)
     {
       /*
-       According to information on the Microsoft XML Team's WebLog 
+       According to information on the Microsoft XML Team's WebLog
        it is recommended to check for availability of MSXML versions 6.0 and 3.0.
-       Other versions are included for completeness, 5.0 is excluded as it is 
+       Other versions are included for completeness, 5.0 is excluded as it is
        "off-by-default" in IE7 (which could trigger a goldbar).
-  
+
        http://blogs.msdn.com/xmlteam/archive/2006/10/23/using-the-right-version-of-msxml-in-internet-explorer.aspx
        http://msdn.microsoft.com/library/default.asp?url=/library/en-us/xmlsdk/html/aabe29a2-bad2-4cea-8387-314174252a74.asp
-       
+
        See similar code in qx.lang.Xml, qx.io.remote.XmlHttpTransport
       */
       var vServers =
@@ -70,7 +70,7 @@ if (qx.sys.Client.getInstance().isMshtml())
 
       for (var i=0, l=vServers.length; i<l; i++)
       {
-  
+
         try
         {
           xmlDocument = new ActiveXObject(vServers[i]);

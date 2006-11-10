@@ -59,7 +59,7 @@ qx.OO.defineClass('qx.ui.form.ComboBoxEx', qx.ui.layout.HorizontalBoxLayout, fun
   //   LIST
   // ************************************************************************
   this._createList([ this.getSetting('idHeader'), this.getSetting('descriptionHeader') ]);
-  
+
   // ************************************************************************
   //   FIELD
   // ************************************************************************
@@ -68,11 +68,11 @@ qx.OO.defineClass('qx.ui.form.ComboBoxEx', qx.ui.layout.HorizontalBoxLayout, fun
   f.addEventListener(qx.constant.Event.INPUT, this._oninput, this);
   this.add(f);
   this.setEditable(false);
-  
+
   // ************************************************************************
   //   BUTTON
   // ************************************************************************
-  
+
   // Use qx.ui.basic.Atom instead of qx.ui.form.Button here to omit the registration
   // of the unneeded and complex button events.
   var b = this._button = new qx.ui.basic.Atom(null, "widget/arrows/down.gif");
@@ -81,7 +81,7 @@ qx.OO.defineClass('qx.ui.form.ComboBoxEx', qx.ui.layout.HorizontalBoxLayout, fun
     tabIndex: -1
   });
   this.add(b);
-  
+
   // ************************************************************************
   //   BEHAVIOR
   // ************************************************************************
@@ -260,7 +260,7 @@ qx.Proto.getColumnHeaders = function(propVal) {
 }
 
 /**Sets the list of selectable items.
- * @param data (var[][]) Array of values.  Its value is an array, with the following info:<ul>.  
+ * @param data (var[][]) Array of values.  Its value is an array, with the following info:<ul>.
  * <li>Column 0 represents the ID, i.e. the value that is stored internally and used by the app.</li>
  * <li>Column 1 represents the description, the text that the end user normally sees.</li>
  * <li>Column > 1 will also be shown in the popup list, it you have set the appropiate column headers with {@link #setColumnHeaders}.</li>
@@ -318,7 +318,7 @@ qx.Proto._modifyShowOnTextField = function(propVal) {
     this.setSelectedIndex(this.getSelectedIndex());
     delete this._calcDimensions;  // Invalidate this._neededTextFieldWidth
   }
-  return true;  
+  return true;
 }
 
 qx.Proto._checkIdDescriptionSeparator = function(propVal) {
@@ -331,7 +331,7 @@ qx.Proto._modifyIdDescriptionSeparator = function(propVal) {
     this.setSelectedIndex(this.getSelectedIndex());
     delete this._calcDimensions;  // Invalidate this._neededTextFieldWidth
   }
-  return true;  
+  return true;
 }
 
 qx.Proto._modifyIdColumnVisible = function(propVal) {
@@ -462,7 +462,7 @@ qx.Proto._calculateDimensions = function() {
   for (var row = 0, rows = Math.min(data.length, 50); row < rows; row++) {
     var r = data[row], wi0, wi1;
     for (col = 0; col < nCols; col++) {
-      var wi = this._getTextWidth(r[col]); 
+      var wi = this._getTextWidth(r[col]);
       if (col == 0) {
         wi0 = wi;
       } else if (col == 1) {
@@ -470,7 +470,7 @@ qx.Proto._calculateDimensions = function() {
       }
       columnWidths[col] = Math.max(wi, columnWidths[col]);
     }
-    this._neededTextFieldWidth = Math.max(this._neededTextFieldWidth, 
+    this._neededTextFieldWidth = Math.max(this._neededTextFieldWidth,
       wi1+(this.getShowOnTextField() == 'idAndDescription' ? wi0:0));
   }
   if (this.getShowOnTextField() == 'idAndDescription') {
@@ -589,7 +589,7 @@ qx.Proto.openSearchDialog = function() {
     horizontalAlign: 'center',
     marginBottom: 4
   });
-  
+
   //###vbox
   var vbox = new qx.ui.layout.VerticalBoxLayout;
   vbox.set({
@@ -599,7 +599,7 @@ qx.Proto.openSearchDialog = function() {
   });
   vbox.auto();
   vbox.add(searchField, checkCase);
-  
+
   //###list, we reuse the same list in the popup
   this._calculateDimensions();
   var newListSettings = {
@@ -614,7 +614,7 @@ qx.Proto.openSearchDialog = function() {
     oldListSettings[prop] = this._list[qx.OO.getter[prop]]();
   }
   this._list.set(newListSettings);
-  
+
   //###buttons
   var butNext = new qx.ui.form.Button('', 'icon/16/find.png');
   butNext.set({
@@ -624,25 +624,25 @@ qx.Proto.openSearchDialog = function() {
     startIndex = (this.getSelectedIndex()+1) % sel.length;
     search();
   }, this);
-  
+
   var butOk = new qx.ui.form.Button('', 'icon/16/button-ok.png');
   butOk.addEventListener('execute', function() {
     oldSelectedIndex = null;
     win.close();
   }, this);
-  
+
   var butCancel = new qx.ui.form.Button('', 'icon/16/button-cancel.png');
   butCancel.addEventListener('execute', function() {
     win.close();
   }, this);
-  
+
   var butBox = new qx.ui.layout.VerticalBoxLayout;
   butBox.auto();
   butBox.set({
     spacing: 10
   });
   butBox.add(butNext, butOk, butCancel);
-  
+
   //###hbox
   var hbox = new qx.ui.layout.BoxLayout;
   hbox.auto();
@@ -654,7 +654,7 @@ qx.Proto.openSearchDialog = function() {
   });
   hbox.add(vbox, butBox);
 
-  //###Window  
+  //###Window
   var win = new qx.ui.window.Window(this.getSetting('titleSearch'), 'icon/16/find.png');
   win.add(hbox);
   win.positionRelativeTo(this);
@@ -721,8 +721,8 @@ qx.Proto._onChangeSelection = function(e) {
     if (!this.getEditable()) {
       var val = qx.constant.Core.EMPTY;
       if (row) {
-        val = this.getShowOnTextField() == 'description' ? 
-          row[1] : 
+        val = this.getShowOnTextField() == 'description' ?
+          row[1] :
           row[0] + this.getIdDescriptionSeparator() + row[1];
       }
       this._field.setValue(val);
@@ -821,7 +821,7 @@ qx.Proto._onkeydown = function(e) {
     case vKeys.up:
       this.setSelectedIndex(Math.max(0, this.getSelectedIndex()-1));
       break;
-    
+
     case vKeys.pageup:
       this.setSelectedIndex(Math.max(0, this.getSelectedIndex()-this.getPagingInterval()));
       break;
@@ -833,7 +833,7 @@ qx.Proto._onkeydown = function(e) {
         this.setSelectedIndex(this.getSelectedIndex()+1);
       }
       break;
-      
+
     case vKeys.pagedown:
       this.setSelectedIndex(this.getSelectedIndex()+this.getPagingInterval());
       break;
@@ -854,7 +854,7 @@ qx.Proto._onkeydown = function(e) {
         this.openSearchDialog();
       }
       break;
-      
+
     case 70 /*F*/:
       if (e.getCtrlKey()) {
         if (this.getAllowSearch()) {

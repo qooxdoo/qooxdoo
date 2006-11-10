@@ -21,7 +21,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.embed.LinkEmbed", qx.ui.embed.HtmlEmbed, 
+qx.OO.defineClass("qx.ui.embed.LinkEmbed", qx.ui.embed.HtmlEmbed,
 function(vHtml, vUri, vTarget)
 {
   qx.ui.embed.HtmlEmbed.call(this, vHtml);

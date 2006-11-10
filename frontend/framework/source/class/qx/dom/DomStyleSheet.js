@@ -30,12 +30,12 @@ qx.OO.defineClass("qx.dom.DomStyleSheet");
 
 /**
  * create a new Stylesheet node and append it to the document
- * 
+ *
  * @param vCssText (string) optional string of css rules
  */
-qx.dom.DomStyleSheet.createElement = function(vCssText) {};  
+qx.dom.DomStyleSheet.createElement = function(vCssText) {};
 if (document.createStyleSheet) // IE 4+
-{  
+{
   qx.dom.DomStyleSheet.createElement = function(vCssText)
   {
     var vSheet = document.createStyleSheet();
@@ -48,7 +48,7 @@ if (document.createStyleSheet) // IE 4+
   }
 }
 else // FF, Opera, Safari
-{ 
+{
   qx.dom.DomStyleSheet.createElement = function(vCssText)
   {
     var vElement = document.createElement("STYLE");
@@ -56,7 +56,7 @@ else // FF, Opera, Safari
 
     // Safari doesn't like empty stylesheets
     vElement.appendChild(document.createTextNode(vCssText || "body {}"));
-    
+
     document.getElementsByTagName("HEAD")[0].appendChild(vElement);
 
     if (vElement.sheet) {
@@ -71,16 +71,16 @@ else // FF, Opera, Safari
       }
     }
     throw "Error: Could not get a reference to the sheet object";
-  }  
+  }
 }
 
 
 /**
  * insert a new CSS rule into a given Stylesheet
- * 
+ *
  * @param vSheet     (Object) the target Stylesheet object
- * @param vSelector (string) 
- * @param vStyle     (string) 
+ * @param vSelector (string)
+ * @param vStyle     (string)
  */
 qx.dom.DomStyleSheet.addRule = function(vSheet, vSelector, vStyle) {};
 if (document.createStyleSheet) // IE 4+
@@ -89,23 +89,23 @@ if (document.createStyleSheet) // IE 4+
     vSheet.addRule(vSelector, vStyle);
   };
 }
-else if (qx.sys.Client.getInstance().isWebkit()) // insertRule in Safari 2 doesn't work 
+else if (qx.sys.Client.getInstance().isWebkit()) // insertRule in Safari 2 doesn't work
 {
   qx.dom.DomStyleSheet.addRule = function(vSheet, vSelector, vStyle) {
     vSheet.ownerNode.appendChild(document.createTextNode(vSelector + "{" + vStyle + "}"));
   };
 }
-else // FF, Opera 
+else // FF, Opera
 {
   qx.dom.DomStyleSheet.addRule = function(vSheet, vSelector, vStyle) {
     vSheet.insertRule(vSelector + "{" + vStyle + "}", vSheet.cssRules.length);
-  };    
+  };
 }
 
 
 /**
  * remove a CSS rule from a stylesheet
- * 
+ *
  * @param vSheet     (Object) the Stylesheet
  * @param vSelector (string) the Selector of the rule to remove
  */
@@ -144,8 +144,8 @@ else
 
 /**
  * remove all CSS rules from a stylesheet
- * 
- * @param vSheet (Object) 
+ *
+ * @param vSheet (Object)
  */
 qx.dom.DomStyleSheet.removeAllRules = function(vSheet) {};
 if (document.createStyleSheet) // IE 4+
@@ -176,8 +176,8 @@ else // FF, etc
 
 /**
  * add an import of an external CSS file to a stylesheet
- * @param vSheet (Object) 
- * @param vUrl   (string) 
+ * @param vSheet (Object)
+ * @param vUrl   (string)
  */
 qx.dom.DomStyleSheet.addImport = function(vSheet, vUrl) {};
 if (document.createStyleSheet) // IE 4+
@@ -186,7 +186,7 @@ if (document.createStyleSheet) // IE 4+
     vSheet.addImport(vUrl);
   }
 }
-else  if (qx.sys.Client.getInstance().isWebkit()) // insertRule in Safari 2 doesn't work 
+else  if (qx.sys.Client.getInstance().isWebkit()) // insertRule in Safari 2 doesn't work
 {
   qx.dom.DomStyleSheet.addImport = function(vSheet, vUrl) {
     alert("Webkit");
@@ -203,17 +203,17 @@ else // FF, etc
 
 /**
  * removes an import from a stylesheet
- * 
- * @param vSheet (Object) 
+ *
+ * @param vSheet (Object)
  * @param vUrl    (string)  URL of the importet CSS file
  */
 qx.dom.DomStyleSheet.removeImport = function(vSheet, vUrl) {};
 if (document.createStyleSheet) // IE 4+
-{  
+{
   qx.dom.DomStyleSheet.removeImport = function(vSheet, vUrl) {
     var vImports = vSheet.imports;
     var vLength = vImports.length;
-    
+
     for (var i=vLength-1; i>=0; i--) {
       if (vImports[i].href == vUrl) {
         vSheet.removeImport(i);
@@ -226,7 +226,7 @@ else // FF, etc
   qx.dom.DomStyleSheet.removeImport = function(vSheet, vUrl) {
     var vRules = vSheet.cssRules;
     var vLength = vRules.length;
-    
+
     for (var i=vLength-1; i>=0; i--) {
       if (vRules[i].href == vUrl) {
         vSheet.deleteRule(i);
@@ -238,16 +238,16 @@ else // FF, etc
 
 /**
  * remove all imports from a stylesheet
- * 
- * @param vSheet (Object) 
+ *
+ * @param vSheet (Object)
  */
 qx.dom.DomStyleSheet.removeAllImports = function(vSheet) {};
 if (document.createStyleSheet) // IE 4+
-{ 
+{
   qx.dom.DomStyleSheet.removeAllImports = function(vSheet) {
     var vImports = vSheet.imports;
     var vLength = vImports.length;
-    
+
     for (var i=vLength-1; i>=0; i--) {
       vSheet.removeImport(i);
     }
@@ -258,7 +258,7 @@ else // FF, etc
   qx.dom.DomStyleSheet.removeAllImports = function(vSheet) {
     var vRules = vSheet.cssRules;
     var vLength = vRules.length;
-    
+
     for (var i=vLength-1; i>=0; i--) {
       if (vRules[i].type == vRules[i].IMPORT_RULE) {
         vSheet.deleteRule(i);

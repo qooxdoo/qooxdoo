@@ -280,7 +280,7 @@ qx.Proto.positionRelativeTo = function(el, offsetX, offsetY)
     this.setLocation(loc.getClientAreaLeft(el) - (gecko ? qx.dom.DomStyle.getBorderLeft(el):0) + (offsetX || 0),
       loc.getClientAreaTop(el) - (gecko ? qx.dom.DomStyle.getBorderTop(el):0) + (offsetY || 0));
   } else {
-    this.warn('Missing reference element');    
+    this.warn('Missing reference element');
   }
 }
 

@@ -128,7 +128,7 @@ qx.Proto._modifyShowCloseButton = function(propValue, propOldValue, propData) {
   if (propValue) {
     this._closeButtonImage.addEventListener(qx.constant.Event.CLICK, this._ontabclose, this);
     this.add(this._closeButtonImage);
-    
+
   } else {
      this.remove(this._closeButtonImage);
      this._closeButtonImage.removeEventListener(qx.constant.Event.CLICK, this._ontabclose);
@@ -140,19 +140,19 @@ qx.Proto._modifyShowCloseButton = function(propValue, propOldValue, propData) {
 qx.Proto._modifyCloseButtonImage = function(propValue, propOldValue, propData) {
 
   if (qx.util.Validation.isValidString(propValue)){
-    
+
     // cleanly remove the former closeButtonImage
     if (this._closeButtonImage) {
       var oldCloseButtonImage = this._closeButtonImage;
       oldCloseButtonImage.removeEventListener(qx.constant.Event.CLICK, this._ontabclose);
-      this.remove(oldCloseButtonImage); 
+      this.remove(oldCloseButtonImage);
       oldCloseButtonImage.dispose();
     }
 
     // assign the new closeButtonImage
     var newCloseButtonImage = this._closeButtonImage = new qx.ui.basic.Image(propValue);
     newCloseButtonImage.addEventListener(qx.constant.Event.CLICK, this._ontabclose, this);
-    
+
     // if the close button is enabled, then add the new image immediatelly
     if(this.getShowCloseButton()){
       this.add(newCloseButtonImage);
@@ -192,11 +192,11 @@ qx.Proto.dispose = function() {
   if (this.getDisposed()) {
     return;
   }
-  
+
   if(this._closeButtonImage){
     this._closeButtonImage.dispose();
     this._closeButtonImage = null;
   }
-  
+
   return qx.ui.pageview.AbstractPageViewButton.prototype.dispose.call(this);
 }
