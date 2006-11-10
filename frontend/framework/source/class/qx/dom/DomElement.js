@@ -25,7 +25,7 @@ qx.OO.defineClass("qx.dom.DomElement");
 /**
  * Removes whitespace-only text node children
  * 
- * @param vElement (object) DOM node
+ * @param vElement (Element) DOM element
  */
 qx.dom.DomElement.cleanWhitespace = function(vElement)
 {
@@ -43,7 +43,7 @@ qx.dom.DomElement.cleanWhitespace = function(vElement)
 /**
  * Checks if a element has no content
  * 
- * @param vElement (object) DOM node
+ * @param vElement (Element) DOM element
  */
 qx.dom.DomElement.isEmpty = function(vElement) {
   return vElement.innerHTML.match(/^\s*$/);
@@ -54,7 +54,7 @@ qx.dom.DomElement.isEmpty = function(vElement) {
  * Sets the textValue of the given DOM element.
  * Wrapper for element.innerText and element.textContent.
  * 
- * @param vElement (element) DOM node
+ * @param vElement (Element) DOM node
  * @param sValue (string) 
  */
 qx.dom.DomElement.setTextContent = function(vElement, sValue) {};
