@@ -2140,6 +2140,38 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
         backgroundColor: vStates.dragging ? "threeddarkshadow" : "threedface"
       }
     }
+  },
+  
+  "splitpane-knob" :
+  {
+    initial : function(vTheme) {
+      return {
+      }
+    },
+
+    state : function(vTheme, vStates) {
+      var vReturn = {
+        opacity: vStates.dragging ? 0.5 : 1.0
+      }
+
+      if (vStates.horizontal) {
+        vReturn.height = 20,
+        vReturn.width = 13,
+        vReturn.top = "33%",
+        vReturn.left = "auto",
+        vReturn.source = "widget/splitpane/knob-horizontal.png"
+
+
+      } else if (vStates.vertical) {
+        vReturn.height = 13,
+        vReturn.width = 20,
+        vReturn.top = "auto",
+        vReturn.left = "33%",
+        vReturn.source = "widget/splitpane/knob-vertical.png"
+      }
+
+      return vReturn;
+    }
   }
 
 

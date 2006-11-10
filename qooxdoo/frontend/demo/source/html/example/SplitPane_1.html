@@ -12,7 +12,7 @@
   <script type="text/javascript" src="../../script/layout.js"></script>
 
   <div id="demoDescription">
-    <p>Test for Splitpane functionality.</p>
+    <p>Test for extra slim Splitpane, with holding knobs.</p>
   </div>
 
   <script type="text/javascript">
@@ -30,6 +30,8 @@
     // the splitpane itself
     var splitpane = new qx.ui.splitpane.HorizontalSplitPane("1*", "2*");
     splitpane.setEdge(0);
+    splitpane.setSplitterSize(1);
+    splitpane.setAppearanceKnob("splitpane-knob");
     frame.add(splitpane);
 
     // left Widget
@@ -43,6 +45,9 @@
     var rightWidget = new qx.ui.splitpane.VerticalSplitPane;
     rightWidget.setHeight("100%");
     rightWidget.setWidth("100%");
+    rightWidget.setSplitterSize(1);
+    rightWidget.setAppearanceKnob("splitpane-knob");
+
 
     // add widgets to splitpane
     splitpane.addLeft(leftWidget);
