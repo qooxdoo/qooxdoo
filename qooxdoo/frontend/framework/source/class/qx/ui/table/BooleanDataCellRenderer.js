@@ -35,7 +35,7 @@ function() {
 
 });
 
-//overridden 
+//overridden
 qx.Proto._identifyImage = function(cellInfo) {
   var IconDataCellRenderer = qx.ui.table.IconDataCellRenderer;
   var imageHints = { imageWidth:11, imageHeight:11 };

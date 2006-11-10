@@ -53,10 +53,10 @@ qx.Class.EVENTPREFIX = "evt";
 
 /**
  * Add event listener to an object.
- * 
- * @param vType (string) name of the event type 
+ *
+ * @param vType (string) name of the event type
  * @param vFunction (Function) event callback function
- * @param vObject (object ? window) reference to the 'this' variable inside the callback 
+ * @param vObject (object ? window) reference to the 'this' variable inside the callback
  */
 qx.Proto.addEventListener = function(vType, vFunction, vObject)
 {
@@ -94,10 +94,10 @@ qx.Proto.addEventListener = function(vType, vFunction, vObject)
 
 /**
  * Remove event listener from object
- * 
- * @param vType (string) name of the event type 
+ *
+ * @param vType (string) name of the event type
  * @param vFunction (Function) event callback function
- * @param vObject (object ? window) reference to the 'this' variable inside the callback 
+ * @param vObject (object ? window) reference to the 'this' variable inside the callback
  */
 qx.Proto.removeEventListener = function(vType, vFunction, vObject)
 {
@@ -131,8 +131,8 @@ qx.Proto.removeEventListener = function(vType, vFunction, vObject)
 
 /**
  * Check if there are one or more listeners for an event type.
- * 
- * @param vType (string) name of the event type 
+ *
+ * @param vType (string) name of the event type
  */
 qx.Proto.hasEventListeners = function(vType) {
   return this._listeners && typeof this._listeners[vType] !== qx.constant.Type.UNDEFINED && !qx.lang.Object.isEmpty(this._listeners[vType]);
@@ -141,8 +141,8 @@ qx.Proto.hasEventListeners = function(vType) {
 
 /**
  * Checks if the event is registered. If so it creates an event object and dispatches it.
- * 
- * @param vType (string) name of the event type 
+ *
+ * @param vType (string) name of the event type
  */
 qx.Proto.createDispatchEvent = function(vType)
 {
@@ -154,9 +154,9 @@ qx.Proto.createDispatchEvent = function(vType)
 
 /**
  * Checks if the event is registered. If so it creates an event object and dispatches it.
- * 
+ *
  * @param vType (string) name of the event type
- * @param vData (Object) user defined data attached to the event object 
+ * @param vData (Object) user defined data attached to the event object
  */
 qx.Proto.createDispatchDataEvent = function(vType, vData)
 {
@@ -175,8 +175,8 @@ qx.Proto.createDispatchDataEvent = function(vType, vData)
 
 /**
  * Dispatch an event
- * 
- * @param vEvent {qx.event.type.Event} event to dispatch  
+ *
+ * @param vEvent {qx.event.type.Event} event to dispatch
  * @param vEnableDispose {boolean} wether the event object should be disposed after all event handlers run.
  */
 qx.Proto.dispatchEvent = function(vEvent, vEnableDispose)
@@ -203,8 +203,8 @@ qx.Proto.dispatchEvent = function(vEvent, vEnableDispose)
 
 /**
  * Internal event dispatch method
- * 
- * @param vEvent {qx.event.type.Event} event to dispatch  
+ *
+ * @param vEvent {qx.event.type.Event} event to dispatch
  * @param vEnableDispose {boolean} wether the event object should be disposed after all event handlers run.
  */
 qx.Proto._dispatchEvent = function(vEvent, vEnableDispose)
@@ -259,7 +259,7 @@ qx.Proto._dispatchEvent = function(vEvent, vEnableDispose)
 }
 
 
-/** 
+/**
  * Internal placeholder for bubbling phase of an event.
  */
 qx.Proto.getParent = function() {

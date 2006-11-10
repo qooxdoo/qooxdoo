@@ -775,7 +775,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
       }
     }
   },
-  
+
   "resizer-frame" : {
     initial : function(vTheme) {
       return {
@@ -2141,7 +2141,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
       }
     }
   },
-  
+
   "splitpane-knob" :
   {
     initial : function(vTheme) {
