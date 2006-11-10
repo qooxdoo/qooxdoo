@@ -308,7 +308,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
 
       this.border_pressed = qx.renderer.border.BorderPresets.getInstance().thinInset;
       this.border_over = qx.renderer.border.BorderPresets.getInstance().thinOutset;
-      this.border_default = null;
+      this.border_default = qx.renderer.border.BorderPresets.getInstance().none;
 
       this.checked_background = "static/image/dotted_white.gif";
     },
@@ -550,7 +550,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
         }
       }
       else {
-        vReturn.border = null;
+        vReturn.border = qx.renderer.border.BorderPresets.getInstance().none;
         vReturn.paddingTop = vReturn.paddingBottom = 4;
         vReturn.paddingRight = vReturn.paddingLeft = 7;
       }

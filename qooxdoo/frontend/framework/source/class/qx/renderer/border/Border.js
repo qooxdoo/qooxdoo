@@ -64,6 +64,8 @@ qx.Class.POSITION_RIGHT = "right";
 qx.Class.POSITION_BOTTOM = "bottom";
 qx.Class.POSITION_LEFT = "left";
 
+qx.Class.BORDER_NONE = "0px none";
+
 qx.Class.enhancedCrossBrowserMode = true;
 qx.Class.baseColor = "threedlightshadow";
 qx.Class.stylePart = "Style";
@@ -644,7 +646,7 @@ qx.Proto._evalUseEnhancedCrossBrowserMode = function()
 
 qx.Proto._applyWidget = function(o)
 {
-  this._applyWidgetX(o);
+	this._applyWidgetX(o);
   this._applyWidgetY(o);
 }
 
@@ -803,7 +805,7 @@ if (qx.sys.Client.getInstance().isGecko())
 }
 else
 {
-  qx.Proto._applyWidgetX = function(vObject)
+	qx.Proto._applyWidgetX = function(vObject)
   {
     this._applyWidgetXCommon(vObject);
 
@@ -1090,13 +1092,13 @@ else
   qx.renderer.border.Border._resetBorderX = function(o)
   {
     var s = o._style;
-    s.borderLeft = s.borderRight = qx.constant.Core.EMPTY;
+    s.borderLeft = s.borderRight = qx.renderer.border.Border.BORDER_NONE;
 
     if (qx.renderer.border.Border.enhancedCrossBrowserMode)
     {
       s = o._borderStyle;
       if (s) {
-        s.borderLeft = s.borderRight = qx.constant.Core.EMPTY;
+        s.borderLeft = s.borderRight = qx.renderer.border.Border.BORDER_NONE;
       }
     }
   }
@@ -1104,13 +1106,13 @@ else
   qx.renderer.border.Border._resetBorderY = function(o)
   {
     var s = o._style;
-    s.borderTop = s.borderBottom = qx.constant.Core.EMPTY;
+    s.borderTop = s.borderBottom = qx.renderer.border.Border.BORDER_NONE;
 
     if (qx.renderer.border.Border.enhancedCrossBrowserMode)
     {
       s = o._borderStyle;
       if (s) {
-        s.borderTop = s.borderBottom = qx.constant.Core.EMPTY;
+        s.borderTop = s.borderBottom = qx.renderer.border.Border.BORDER_NONE;
       }
     }
   }
