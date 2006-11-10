@@ -6,7 +6,6 @@ QOOXDOO = PATH_TO_QOOXDOO
 SCRIPTNAME = custom.js
 APPCLASS = custom.Application
 INCLUDEALL = true
-OLDCOMPILER = false
 OPTIMIZESTRINGS = true
 OPTIMIZEVARIABLES = true
 NICE=10
@@ -16,9 +15,10 @@ NICE=10
 # PRIVATE VARIABLES
 ###################################################################################
 
-FRAMEWORK = $(QOOXDOO)/frontend/framework
-API = $(QOOXDOO)/frontend/api
-CACHE = $(QOOXDOO)/frontend/.cache
+FRONTEND = $(QOOXDOO)/frontend
+FRAMEWORK = $(FRONTEND)/framework
+API = $(FRONTEND)/api
+CACHE = $(FRAMEWORK)/.cache
 GENERATOR = $(FRAMEWORK)/tool/generator/generator.py
 
 
@@ -26,12 +26,6 @@ ifeq ($(INCLUDEALL),false)
   INCLUDE = --include $(APPCLASS)
 else
   INCLUDE =
-endif
-
-ifeq ($(OLDCOMPILER),false)
-  COMPILER =
-else
-  COMPILER = --use-token-compiler
 endif
 
 ifeq ($(OPTIMIZESTRINGS),true)
@@ -69,6 +63,9 @@ api: generate-api-build generate-api-data
 	@echo "----------------------------------------------------------------------------"
 	@echo "  * Copying file..."
 	@cp -f $(API)/source/index.html api/index.html
+
+pretty: generate-pretty
+fix: generate-fix
 
 
 
@@ -121,7 +118,7 @@ generate-script-build:
 	  --script-input $(FRAMEWORK)/source/class \
 	  --script-input source/class \
 	  --generate-compiled-script \
-	  $(INCLUDE) $(COMPILER) $(OPTIMIZESTR) $(OPTIMIZEVAR) \
+	  $(INCLUDE) $(OPTIMIZESTR) $(OPTIMIZEVAR) \
 	  --compiled-script-file build/script/$(SCRIPTNAME) \
 	  --copy-resources \
 	  --resource-input $(FRAMEWORK)/source/resource \
@@ -138,6 +135,7 @@ generate-api-build:
 	  --resource-input $(API)/source/resource \
 	  --resource-output api/resource \
 	  --include api \
+	  $(OPTIMIZESTR) $(OPTIMIZEVAR) \
 	  --generate-compiled-script \
 	  --compiled-script-file api/script/api.js \
 	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:resource/qooxdoo \
@@ -156,7 +154,17 @@ generate-api-data:
 generate-pretty:
 	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
 	  --script-input source/class \
+	  --script-input $(FRAMEWORK)/source/class \
+	  --include-without-dependencies api.* \
 	  --pretty-print \
+	  --cache-directory $(CACHE)
+
+generate-fix:
+	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
+	  --script-input source/class \
+	  --script-input $(FRAMEWORK)/source/class \
+	  --include-without-dependencies api.* \
+	  --fix-source \
 	  --cache-directory $(CACHE)
 
 

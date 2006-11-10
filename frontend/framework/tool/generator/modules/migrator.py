@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-import sys, re, os, codecs
-import config, filetool, treegenerator, tokenizer, treecompiler
+import sys, re, os
+import config, filetool, treegenerator, tokenizer, compiler
 
 def entryCompiler(line):
   # protect escaped equal symbols
@@ -126,8 +126,8 @@ def handle(fileList, fileDb, options):
     for fileName in files:
       filePath = os.path.join(root, fileName)
 
-      fileObject = codecs.open(filePath, "r", "utf-8")
-      infoList.append({"path":filePath, "content":fileObject.read().split("\n")})
+      fileContent = util.any2Unix(filetool.read(filePath, "utf-8"))
+      infoList.append({"path":filePath, "content":fileContent.split("\n")})
 
       if options.verbose:
         print "    - %s" % filePath
@@ -164,8 +164,8 @@ def handle(fileList, fileDb, options):
     for fileName in files:
       filePath = os.path.join(root, fileName)
 
-      fileObject = codecs.open(filePath, "r", "utf-8")
-      patchList.append({"path":filePath, "content":fileObject.read().split("\n")})
+      fileContent = util.any2Unix(filetool.read(filePath, "utf-8"))
+      patchList.append({"path":filePath, "content":fileContent.split("\n")})
 
       if options.verbose:
         print "    - %s" % filePath

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os, codecs, cPickle, sys
+import util
 
 def save(filePath, content="", encoding="utf_8"):
   # Normalize
@@ -42,22 +43,20 @@ def normalize(filename):
 
 def read(filePath, encoding="utf_8"):
   try:
-    content = unicode(codecs.open(filePath, encoding=encoding, mode="r").read())
+    ref = codecs.open(filePath, encoding=encoding, mode="r")
+    content = ref.read()
+    ref.close()
 
-    # dos2unix
-    content = content.replace("\r\n", "\n")
-
-    # mac2unix
-    content = content.replace("\r", "\n")
-
-    return content
+    return util.any2Unix(unicode(content).encode('utf-8'))
 
   except IOError, (errno, strerror):
     print "  * I/O error(%s): %s" % (errno, strerror)
     sys.exit(1)
+
   except ValueError:
     print "  * Invalid Encoding. Required encoding %s in %s" % (encoding, filePath)
     sys.exit(1)
+
   except:
     print "  * Unexpected error:", sys.exc_info()[0]
     sys.exit(1)

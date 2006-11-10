@@ -370,7 +370,7 @@ def resolveAutoDeps(fileDb, options):
     for dep in fileDeps:
       if not dep in runtimeDeps and not dep in loadtimeDeps:
         if options.verbose:
-          print "      - Add dependency: %s" % dep
+          print "      - Adding dependency: %s" % dep
 
         runtimeDeps.append(dep)
         depCounter += 1
