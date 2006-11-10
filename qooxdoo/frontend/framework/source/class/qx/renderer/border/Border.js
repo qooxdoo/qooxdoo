@@ -646,7 +646,7 @@ qx.Proto._evalUseEnhancedCrossBrowserMode = function()
 
 qx.Proto._applyWidget = function(o)
 {
-	this._applyWidgetX(o);
+  this._applyWidgetX(o);
   this._applyWidgetY(o);
 }
 
@@ -805,7 +805,7 @@ if (qx.sys.Client.getInstance().isGecko())
 }
 else
 {
-	qx.Proto._applyWidgetX = function(vObject)
+  qx.Proto._applyWidgetX = function(vObject)
   {
     this._applyWidgetXCommon(vObject);
 
