@@ -35,12 +35,13 @@
  * <li>Can show the ID and/or description of each list item</li>
  * <li>Automatically calculating needed width</li>
  * <li>Popup list always shows full contents, and can be wider than text field</li>
+ * <li>Search values through popup dialog</li>
  * </ul>
  * <p>Pending features:</p>
  * <ul>
  * <li>Images inside the list</li>
  * <li>Autocomplete on key input</li>
- * <li>Search values</li>
+ * <li>Internationalization support</li>
  * </ul>
  *
  * @event beforeInitialOpen {qx.event.type.Event}
@@ -57,7 +58,7 @@ qx.OO.defineClass('qx.ui.form.ComboBoxEx', qx.ui.layout.HorizontalBoxLayout, fun
   // ************************************************************************
   //   LIST
   // ************************************************************************
-  this._createList([ 'Value', 'Description' ]);
+  this._createList([ 'ID', 'Description' ]);
   
   // ************************************************************************
   //   FIELD
@@ -92,6 +93,7 @@ qx.OO.defineClass('qx.ui.form.ComboBoxEx', qx.ui.layout.HorizontalBoxLayout, fun
   this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
   this.addEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
   this.addEventListener(qx.constant.Event.MOUSEWHEEL, this._onmousewheel);
+  this.addEventListener(qx.constant.Event.DBLCLICK, this.openSearchDialog);
 
   // ************************************************************************
   //   WIDGET KEY EVENTS
@@ -177,13 +179,9 @@ qx.Proto._createList = function(columns) {
   var l = this._list = new qx.ui.table.Table(this._model);
   l.setFocusedCell = function() {}
   l.setAppearance('combo-box-ex-list');
-  try {
-    l.setKeepFirstVisibleRowComplete(false);
-  } catch (ex) {
-    // We receive this: Modification of property "keepFirstVisibleRowComplete" failed with exception: TypeError - vCurrentChild has no properties or
-    // this: Modification of property "keepFirstVisibleRowComplete" failed with exception: TypeError - this.getParent() has no properties
-    // It seems not to be harmful
-  }
+  // We receive this: Modification of property "keepFirstVisibleRowComplete" failed with exception: TypeError - vCurrentChild has no properties or
+  // this: Modification of property "keepFirstVisibleRowComplete" failed with exception: TypeError - this.getParent() has no properties
+  l.forceKeepFirstVisibleRowComplete(false);
   var selMan = l._getSelectionManager();
   var oldHandle = selMan.handleMouseUp, me = this;
   selMan.handleMouseUp = function(vItem, e) {
@@ -197,7 +195,7 @@ qx.Proto._createList = function(columns) {
   // Avoid deselection from user
   this._manager.removeSelectionInterval = function() {};
   this._manager.setSelectionMode(qx.ui.table.SelectionModel.SINGLE_SELECTION);
-  this._popup.add(this._list);
+  this._popup.add(l);
   // Invalidate calculation of column widths
   delete this._calcDimensions;
 }
@@ -492,6 +490,185 @@ qx.Proto._getTextWidth = function(text) {
 
 /*
 ---------------------------------------------------------------------------
+  SEARCHING
+---------------------------------------------------------------------------
+*/
+
+/**Searches the given text.  Called from the search dialog.
+ * @param startIndex  {Number} Start index, 0 based
+ * @param txt      {String} Text to find
+ * @param caseSens    {Boolean} Case sensivity flag.*/
+qx.Proto._search = function(startIndex, txt, caseSens) {
+  if (txt == null || !txt.length) {
+    return;
+  }
+  var row = startIndex,
+    nCols = this._model.getColumnCount(),
+    nRows = this.getSelection().length,
+    data = this._model.getData();
+  if (!caseSens) {
+    txt = txt.toLowerCase();
+  }
+  while (true) {
+    var dataRow = data[row];
+    for (var col = 0; col < nCols; col++) {
+      if (this._list.getTableColumnModel().isColumnVisible(col)) {
+        var txtCol = dataRow[col];
+        if (!caseSens) {
+          txtCol = txtCol.toLowerCase();
+        }
+        if (txtCol.indexOf(txt) >= 0) {
+          this._manager.setSelectionInterval(row, row);
+          this._list.scrollCellVisible(0, row);
+          return;
+        }
+      }
+    }
+    row = (row+1)% nRows;
+    if (row == startIndex) {
+      break;
+    }
+  }
+}
+
+/**Opens a popup search dialog, useful when the combo has a lot of items.*/
+qx.Proto.openSearchDialog = function() {
+  var sel = this.getSelection();
+  if (!sel || !sel.length) {
+    return;
+  }
+  this._testClosePopup();
+
+  var me = this,
+    oldSelectedIndex = this.getSelectedIndex(),
+    startIndex = oldSelectedIndex;
+
+  //###searchField
+  function search() {
+    me._search(startIndex, searchField.getComputedValue(), checkCase.isChecked());
+  }
+  var searchField = new qx.ui.form.TextField;
+  searchField.set({
+    minWidth: this._field.getWidth(),
+    width: '100%'
+  })
+  searchField.addEventListener(qx.constant.Event.INPUT, function() {
+    search();
+  });
+
+  //###checkCase
+  var checkCase = new qx.ui.form.CheckBox('Case sensitive');
+  checkCase.set({
+    horizontalAlign: 'center',
+    marginBottom: 4
+  });
+  
+  //###vbox
+  var vbox = new qx.ui.layout.VerticalBoxLayout;
+  vbox.set({
+    spacing: 6,
+    horizontalChildrenAlign: 'center'
+  });
+  vbox.auto();
+  vbox.add(searchField, checkCase);
+  
+  //###list, we reuse the same list in the popup
+  this._calculateDimensions();
+  var newListSettings = {
+    minHeight: this._list.getHeight(),
+    height: '1*',
+    border: qx.renderer.border.BorderPresets.getInstance().inset,
+    parent: vbox
+  };
+  // Save old list settings
+  var oldListSettings = {};
+  for (var prop in newListSettings) {
+    oldListSettings[prop] = this._list[qx.OO.getter[prop]]();
+  }
+  this._list.set(newListSettings);
+  
+  //###buttons
+  var butNext = new qx.ui.form.Button('', 'icon/16/find.png');
+  butNext.set({
+    toolTip: new qx.ui.popup.ToolTip('Search next occurrence')
+  });
+  butNext.addEventListener(qx.constant.Event.EXECUTE, function() {
+    startIndex = (this.getSelectedIndex()+1) % sel.length;
+    search();
+  }, this);
+  
+  var butOk = new qx.ui.form.Button('', 'icon/16/button-ok.png');
+  butOk.addEventListener('execute', function() {
+    oldSelectedIndex = null;
+    win.close();
+  }, this);
+  
+  var butCancel = new qx.ui.form.Button('', 'icon/16/button-cancel.png');
+  butCancel.addEventListener('execute', function() {
+    win.close();
+  }, this);
+  
+  var butBox = new qx.ui.layout.VerticalBoxLayout;
+  butBox.auto();
+  butBox.set({
+    spacing: 10
+  });
+  butBox.add(butNext, butOk, butCancel);
+  
+  //###hbox
+  var hbox = new qx.ui.layout.BoxLayout;
+  hbox.auto();
+  hbox.setPadding(10);
+  hbox.set({
+    spacing: 8,
+    minHeight: 'auto',
+    height: '100%'
+  });
+  hbox.add(vbox, butBox);
+
+  //###Window  
+  var win = new qx.ui.window.Window('Search items in list', 'icon/16/find.png');
+  win.add(hbox);
+  win.positionRelativeTo(this);
+  win.set({
+    autoHide: true,
+    allowMaximize: false,
+    showMaximize: false,
+    allowMinimize: false,
+    showMinimize: false
+  });
+  win.addEventListener(qx.constant.Event.APPEAR, function() {
+    searchField.focus();
+  });
+  win.addEventListener(qx.constant.Event.DISAPPEAR, function() {
+    if (oldSelectedIndex != null) {
+      // Hit Cancel button
+      this.setSelectedIndex(oldSelectedIndex);
+    }
+    this._list.set(oldListSettings);
+    this.focus();
+  }, this);
+  win.addEventListener(qx.constant.Event.KEYDOWN, function(e) {
+    var vKeys = qx.event.type.KeyEvent.keys;
+    switch (e.getKeyCode()) {
+      case vKeys.enter:
+        butOk.createDispatchEvent('execute');
+        break;
+      case vKeys.esc:
+        butCancel.createDispatchEvent('execute');
+        break;
+      case vKeys.f3:
+        butNext.createDispatchEvent('execute');
+        break;
+    }
+  }, this);
+  win.auto();
+  win.addToDocument();
+  win.open();
+}
+
+/*
+---------------------------------------------------------------------------
   OTHER EVENT HANDLER
 ---------------------------------------------------------------------------
 */
@@ -643,6 +820,12 @@ qx.Proto._onkeydown = function(e) {
       }
       break;
 
+    case 70 /*F*/:
+      if (e.getCtrlKey()) {
+        this.openSearchDialog();
+      }
+      break;
+
     default:
       if (vVisible) {
         this._list.dispatchEvent(e);
@@ -694,25 +877,18 @@ qx.Proto._visualizeBlur = function() {
   return true;
 }
 
-qx.Proto._visualizeFocus = function()
-{
-  if (!qx.event.handler.FocusHandler.mouseFocus && this.getEnableElementFocus())
-  {
-    try
-    {
-      if (this.getEditable())
-      {
+qx.Proto._visualizeFocus = function() {
+  if (!qx.event.handler.FocusHandler.mouseFocus && this.getEnableElementFocus()) {
+    try {
+      if (this.getEditable()) {
         this.getField().getElement().focus();
         this.getField()._ontabfocus();
-      }
-      else
-      {
+      } else {
         this.getElement().focus();
       }
+    } catch(ex) {
     }
-    catch(ex) {};
   }
-
   this.addState(qx.ui.core.Widget.STATE_FOCUSED);
   return true;
 }
