@@ -70,14 +70,21 @@ qx.core.Init.getInstance().defineMain(function() {
 	});
 	
 	var cEnsure = new form.CheckBox('Ensure something selected');
-	cEnsure.setChecked(combo.getEditable());
+	cEnsure.setChecked(combo.getEnsureSomethingSelected());
 	cEnsure.addEventListener('changeChecked', function() {
 		combo.setEnsureSomethingSelected(cEnsure.isChecked());
 	});
 	
+	var cAllowSearch = new form.CheckBox('Allow searching');
+	cAllowSearch.setChecked(combo.getAllowSearch());
+	cAllowSearch.addEventListener('changeChecked', function() {
+		combo.setAllowSearch(cAllowSearch.isChecked());
+	});
+	
 	var cIdCol = new form.CheckBox('ID column visible');
+	cIdCol.setChecked(combo.isIdColumnVisible());
 	cIdCol.addEventListener('changeChecked', function() {
-		combo.toggleIdColumnVisible();
+		combo.setIdColumnVisible(cIdCol.isChecked());
 	});
 	
 	var fieldItems = new form.Spinner(0, 0, testData.length);
@@ -94,7 +101,7 @@ qx.core.Init.getInstance().defineMain(function() {
 	with (boxProp2) {
 		auto();
 		setSpacing(10);
-		add(cEd, cEnsure, cIdCol, new Label('Number of items in list'), fieldItems);
+		add(cEd, cEnsure, cAllowSearch, cIdCol, new Label('Number of items in list'), fieldItems);
 	}
 	var boxProp = new qx.ui.groupbox.GroupBox('Test of simple properties');
 	boxProp.auto();
@@ -192,16 +199,19 @@ qx.core.Init.getInstance().defineMain(function() {
 		add(boxCombo, boxProp, boxHeaders, boxShowOn, boxVal);
 		addToDocument();
 	}
+	combo.focus();
 });
   </script>
 </head>
 <body>
   <script type="text/javascript" src="../../script/layout.js"></script>
   <script type="text/javascript">
-with (qx.dev.log.Logger.ROOT_LOGGER) {
-	removeAllAppenders();
-	addAppender(new qx.dev.log.FireBugAppender);
-	setMinLevel(qx.dev.log.Logger.LEVEL_WARN);
+if (console.debug) {
+	with (qx.dev.log.Logger.ROOT_LOGGER) {
+		removeAllAppenders();
+		addAppender(new qx.dev.log.FireBugAppender);
+		setMinLevel(qx.dev.log.Logger.LEVEL_WARN);
+	}
 }
   </script>
   <div id="demoDescription">
