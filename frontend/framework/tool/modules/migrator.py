@@ -62,7 +62,7 @@ def regtool(content, regs, patch, options):
 
 
 def handle(fileList, fileDb, options):
-  confPath = os.path.join(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "data"), options.migrationTarget)
+  confPath = os.path.join(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "migration"), options.migrationTarget)
 
   infoPath = os.path.join(confPath, "info")
   patchPath = os.path.join(confPath, "patches")
