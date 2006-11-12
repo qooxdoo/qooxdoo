@@ -351,7 +351,7 @@ qx.Proto.getIframeTextContent = function()
 
   // Mshtml returns the content inside a PRE
   // element if we use plain text
-  if (vBody.firstChild.tagName == "PRE")
+  if (vBody.firstChild.tagName.toLowerCase() == "pre")
   {
     return vBody.firstChild.innerHTML;
   }

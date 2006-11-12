@@ -144,11 +144,11 @@ qx.Proto._onkeydown = function(e) {
 
 qx.Proto.getListItemTarget = function(dt)
 {
-  while(dt.className.indexOf("galleryCell") == -1 && dt.tagName != "BODY") {
+  while(dt.className.indexOf("galleryCell") == -1 && dt.tagName.toLowerCase() != "body") {
     dt = dt.parentNode;
   }
 
-  if (dt.tagName == "BODY") {
+  if (dt.tagName.toLowerCase() == "body") {
     return null;
   }
 
