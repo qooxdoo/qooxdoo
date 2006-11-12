@@ -51,13 +51,13 @@ else // FF, Opera, Safari
 {
   qx.dom.DomStyleSheet.createElement = function(vCssText)
   {
-    var vElement = document.createElement("STYLE");
+    var vElement = document.createElement("style");
     vElement.type = "text/css";
 
     // Safari doesn't like empty stylesheets
     vElement.appendChild(document.createTextNode(vCssText || "body {}"));
 
-    document.getElementsByTagName("HEAD")[0].appendChild(vElement);
+    document.getElementsByTagName("head")[0].appendChild(vElement);
 
     if (vElement.sheet) {
       return vElement.sheet;

@@ -5,8 +5,14 @@
 FRAMEWORK=../framework
 GENERATOR=$(FRAMEWORK)/tool/generator/generator.py
 CACHE=$(FRAMEWORK)/.cache
+SOURCELOADER=
 NICE=10
 
+ifneq ($(SOURCELOADER),)
+  SOURCELDR = --source-loader-type $(SOURCELOADER)
+else
+  SOURCELDR =
+endif
 
 
 ###################################################################################
@@ -62,7 +68,7 @@ generate-script-source:
 	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
 	  --script-input $(FRAMEWORK)/source/class \
 	  --source-script-path ../../../$(FRAMEWORK)/source/class \
-	  --generate-source-script \
+	  --generate-source-script $(SOURCELDR) \
 	  --source-script-file source/script/qx.js \
 	  --define-runtime-setting qx.theme.icon.CrystalSvgIconTheme.imageUri:../../../$(FRAMEWORK)/source/resource/icon/crystalsvg \
 	  --define-runtime-setting qx.theme.icon.NuvolaIconTheme.imageUri:../../../$(FRAMEWORK)/source/resource/icon/nuvola \

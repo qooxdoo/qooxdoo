@@ -27,7 +27,7 @@ function()
 {
   qx.ui.basic.Terminator.call(this);
 
-  this.setTagName("INPUT");
+  this.setTagName("input");
   this.setSelectable(false);
 
   if (qx.sys.Client.getInstance().isMshtml())

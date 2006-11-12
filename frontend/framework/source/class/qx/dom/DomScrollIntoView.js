@@ -30,7 +30,7 @@ qx.OO.defineClass("qx.dom.DomScrollIntoView");
 // Safari does not support scrollIntoView (but it can be found in Webkit since May 2005)
 // Opera does not support scrollIntoView
 
-qx.dom.BODY_TAG_NAME = "BODY";
+qx.dom.BODY_TAG_NAME = "body";
 
 qx.dom.DomScrollIntoView.scrollX = function(vElement, vAlignLeft)
 {
@@ -93,7 +93,7 @@ qx.dom.DomScrollIntoView.scrollX = function(vElement, vAlignLeft)
       vOffset += vParent.offsetLeft;
     }
 
-    if (vParent.tagName == qx.dom.BODY_TAG_NAME) {
+    if (vParent.tagName.toLowerCase() == qx.dom.BODY_TAG_NAME) {
       break;
     }
 
@@ -164,7 +164,7 @@ qx.dom.DomScrollIntoView.scrollY = function(vElement, vAlignTop)
       vOffset += vParent.offsetTop;
     }
 
-    if (vParent.tagName == qx.dom.BODY_TAG_NAME) {
+    if (vParent.tagName.toLowerCase() == qx.dom.BODY_TAG_NAME) {
       break;
     }
 

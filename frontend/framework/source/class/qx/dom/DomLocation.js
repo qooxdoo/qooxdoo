@@ -57,7 +57,7 @@ else
   qx.dom.DomLocation.getPageBoxLeft = function(el)
   {
     var sum = el.offsetLeft;
-    while (el.tagName != "BODY")
+    while (el.tagName.toLowerCase() != "body")
     {
       el = el.offsetParent;
       sum += el.offsetLeft;
@@ -69,7 +69,7 @@ else
   qx.dom.DomLocation.getPageBoxTop = function(el)
   {
     var sum = el.offsetTop;
-    while (el.tagName != "BODY")
+    while (el.tagName.toLowerCase() != "body")
     {
       el = el.offsetParent;
       sum += el.offsetTop;
@@ -81,7 +81,7 @@ else
   qx.dom.DomLocation.getClientBoxLeft = function(el)
   {
     var sum = el.offsetLeft;
-    while (el.tagName != "BODY")
+    while (el.tagName.toLowerCase() != "body")
     {
       el = el.offsetParent;
       sum += el.offsetLeft - el.scrollLeft;
@@ -93,7 +93,7 @@ else
   qx.dom.DomLocation.getClientBoxTop = function(el)
   {
     var sum = el.offsetTop;
-    while (el.tagName != "BODY")
+    while (el.tagName.toLowerCase() != "body")
     {
       el = el.offsetParent;
       sum += el.offsetTop - el.scrollTop;

@@ -5,9 +5,15 @@
 FRAMEWORK=.
 GENERATOR=$(FRAMEWORK)/tool/generator/generator.py
 CACHE=$(FRAMEWORK)/.cache
+SOURCELOADER=
 NICE=10
 TIMEFLAG = `date +'%s'`
 
+ifneq ($(SOURCELOADER),)
+  SOURCELDR = --source-loader-type $(SOURCELOADER)
+else
+  SOURCELDR =
+endif
 
 
 ###################################################################################
@@ -73,7 +79,7 @@ generate-all:
 	  --resource-input source/resource \
 	  --resource-output build/resource \
 	  --source-script-path ../class \
-	  --generate-source-script \
+	  --generate-source-script $(SOURCELDR) \
 	  --source-script-file source/script/qx.js \
 	  --cache-directory $(CACHE)
 
@@ -110,7 +116,7 @@ generate-source:
 	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
 	  --script-input source/class \
 	  --source-script-path ../class \
-	  --generate-source-script \
+	  --generate-source-script $(SOURCELDR) \
 	  --source-script-file source/script/qx.js \
 	  --cache-directory $(CACHE)
 

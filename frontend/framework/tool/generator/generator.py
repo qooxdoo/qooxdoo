@@ -77,6 +77,9 @@ def getparser():
   parser.add_option("--define-runtime-setting", action="append", dest="defineRuntimeSetting", metavar="NAMESPACE.KEY:VALUE", default=[], help="Define a setting.")
   parser.add_option("--add-new-lines", action="store_true", dest="addNewLines", default=False, help="Keep newlines in compiled files.")
 
+  # Options for source version
+  parser.add_option("--source-loader-type", action="store", dest="sourceLoaderType", metavar="TYPE", choices=("auto", "docwrite", "domappend"), default="auto", help="Generated source loader type: auto, docwrite, domappend [default: %default].")
+
   # Options for compiled version
   parser.add_option("--add-file-ids", action="store_true", dest="addFileIds", default=False, help="Add file IDs to compiled output.")
   parser.add_option("--optimize-strings", action="store_true", dest="optimizeStrings", default=False, help="Optimize strings. Increase mshtml performance.")
@@ -908,26 +911,85 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
     sourceOutput = settingsStr
 
-    if sourceOutput != "" and options.addNewLines:
-      settingsStr += "\n"
-
+    srcEol = "";
     if options.addNewLines:
-      for fileId in sortedIncludeList:
-        if fileDb[fileId]["sourceScriptPath"] == None:
-          print "  * Missing source path definition for script input %s. Could not create source script file!" % fileDb[fileId]["scriptInput"]
-          sys.exit(1)
+      srcEol = "\n";
 
-        sourceOutput += 'document.write(\'<script type="text/javascript" src="%s%s"></script>\');\n' % (os.path.join(fileDb[fileId]["sourceScriptPath"], fileDb[fileId]["pathId"].replace(".", os.sep)), config.JSEXT)
+    if sourceOutput != "":
+      settingsStr += srcEol
 
+    # Define javascript loaders
+    jsLoaders = {}
+
+    # HTML-only: create <script> tags using document.write()
+    jsLoaders["docwrite"] = """var includeJs=function(src){document.write('<script type="text/javascript" src="'+src+'"></script>')};""" 
+
+    # XHTML-compatible: create and append DOM script nodes 
+    jsLoaders["domappend"] = """if(document.createElementNS&&parentNode.namespaceURI)""" + srcEol + """var includeJs=function(src){var js=document.createElementNS(parentNode.namespaceURI,"script");js.type="text/javascript";js.src=src;parentNode.appendChild(js)};""" + srcEol + """else """ + srcEol + """var includeJs=function(src){var js=document.createElement("script");js.type="text/javascript";js.src=src;parentNode.appendChild(js)};"""
+
+    # Source loader function
+    sourceOutput += """qx._loadSources=function(sources){""" + srcEol
+
+    # Detect the node we are being called from
+    sourceOutput += """var parentNode=document.getElementsByTagName('body')[0]||document.getElementsByTagName('head')[0];""" + srcEol
+
+    # Autoselect a loader based on client engine
+    if options.sourceLoaderType == "auto":
+      sourceOutput += """var clientEngine=null;""" + srcEol
+
+      # Opera
+      sourceOutput += """if(window.opera&&/Opera[\s\/]([0-9\.]*)/.test(navigator.userAgent))clientEngine="opera";else """ + srcEol
+
+      # Khtml
+      sourceOutput += """if(typeof navigator.vendor==="string"&&navigator.vendor==="KDE"&&/KHTML\/([0-9-\.]*)/.test(navigator.userAgent))clientEngine="khtml";else """ + srcEol
+
+      # Webkit
+      sourceOutput += """if(navigator.userAgent.indexOf("AppleWebKit")!=-1&&/AppleWebKit\/([0-9-\.]*)/.test(navigator.userAgent))clientEngine="webkit";else """ + srcEol
+
+      # Gecko
+      sourceOutput += """if(window.controllers&&typeof navigator.product==="string"&&navigator.product==="Gecko"&&/rv\:([^\);]+)(\)|;)/.test(navigator.userAgent))clientEngine="gecko";else """ + srcEol
+
+      # MShtml
+      sourceOutput += """if(/MSIE\s+([^\);]+)(\)|;)/.test(navigator.userAgent))clientEngine="mshtml";""" + srcEol
+
+      # Select the loader based on the engine
+      sourceOutput += """switch(clientEngine){""" + srcEol
+
+      # Use DOM
+      sourceOutput += """case "opera": case "gecko":""" + srcEol
+      sourceOutput += jsLoaders["domappend"] + srcEol
+      sourceOutput += """break;""" + srcEol
+
+      # Use document.write()
+      sourceOutput += """case "webkit": case "khtml": case "mshtml": default:""" + srcEol
+      sourceOutput += jsLoaders["docwrite"] + srcEol
+      sourceOutput += """break;""" + srcEol
+
+      sourceOutput += """}""" + srcEol
+
+    # Use a fixed loader
     else:
-      includeCode = ""
-      for fileId in sortedIncludeList:
-        if fileDb[fileId]["sourceScriptPath"] == None:
-          print "  * Missing source path definition for script input %s. Could not create source script file!" % fileDb[fileId]["scriptInput"]
-          sys.exit(1)
+      sourceOutput += jsLoaders[options.sourceLoaderType] + srcEol
 
-        includeCode += '<script type="text/javascript" src="%s%s"></script>' % (os.path.join(fileDb[fileId]["sourceScriptPath"], fileDb[fileId]["pathId"].replace(".", os.sep)), config.JSEXT)
-      sourceOutput += "document.write('%s');" % includeCode
+    # Loading loop
+    sourceOutput += """for(var i=0;i<sources.length;++i)includeJs(sources[i])};""" + srcEol
+
+    sources = ""
+    for fileId in sortedIncludeList:
+      if fileDb[fileId]["sourceScriptPath"] == None:
+        print "  * Missing source path definition for script input %s. Could not create source script file!" % fileDb[fileId]["scriptInput"]
+        sys.exit(1)
+
+      sources += srcEol + '"%s%s",' % (os.path.join(fileDb[fileId]["sourceScriptPath"], fileDb[fileId]["pathId"].replace(".", os.sep)), config.JSEXT) 
+
+    # Array with source files to include
+    sourceOutput += "qx._sources=[" + sources[:-1] + srcEol + "];" + srcEol
+
+    # Load sources
+    sourceOutput += """qx._loadSources(qx._sources);""" + srcEol
+
+    # Cleanup qx namespace
+    sourceOutput += "delete qx._sources;delete qx._loadSources;" + srcEol
 
     print "  * Storing output as %s..." % options.sourceScriptFile
     filetool.save(options.sourceScriptFile, sourceOutput, options.scriptOutputEncoding)
