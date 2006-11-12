@@ -47,7 +47,7 @@ def read(filePath, encoding="utf_8"):
     content = ref.read()
     ref.close()
 
-    return util.any2Unix(unicode(content).encode('utf-8'))
+    return util.any2Unix(unicode(content))
 
   except IOError, (errno, strerror):
     print "  * I/O error(%s): %s" % (errno, strerror)
