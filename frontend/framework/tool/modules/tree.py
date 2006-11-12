@@ -260,10 +260,9 @@ class Node:
         isComplex = True
 
     elif self.type == "map" :
-      if self.getChildrenLength(True) > 2:
+      ml = self.getChildrenLength(True)
+      if ml > 1:
         isComplex = True
-
-
 
     # Final test: Ask the children (slower)
     if not (self.type == "elseStatement" and self.hasChild("loop")):
@@ -320,6 +319,23 @@ class Node:
 
 
 
+  def getChildByPosition(self, pos, mandatory = True, ignoreComments = False):
+    if self.hasChildren():
+      i = 0
+      for child in self.children:
+        if ignoreComments and child.type in [ "comment", "commentsBefore", "commentsAfter" ]:
+          continue
+
+        if i == pos:
+          return child
+
+        i += 1
+
+    if mandatory:
+      raise NodeAccessException("Node " + self.type + " has no child as position %s" % pos, self)
+
+
+
   def getChildByAttribute(self, key, value, mandatory = True):
     if self.hasChildren():
       for child in self.children:
@@ -336,13 +352,15 @@ class Node:
           return child
 
     if mandatory:
-      raise NodeAccessException("Node " + self.type + " has no child with attribute " + key + " = " + value, self)
+      raise NodeAccessException("Node " + self.type + " has no child with type " + type + " and attribute " + key + " = " + value, self)
 
   def getFirstChild(self, mandatory = True, ignoreComments = False):
     if self.hasChildren():
       for child in self.children:
-        if not ignoreComments or (child.type != "comment" and child.type != "commentsBefore" and child.type != "commentsAfter"):
-          return child
+        if ignoreComments and child.type in [ "comment", "commentsBefore", "commentsAfter" ]:
+          continue
+
+        return child
 
     if mandatory:
       raise NodeAccessException("Node " + self.type + " has no children", self)
@@ -356,10 +374,11 @@ class Node:
         while pos >= 0:
           child = self.children[pos]
 
-          if child.type != "comment" and child.type != "commentsBefore" and child.type != "commentsAfter":
-            return child
+          if ignoreComments and child.type in [ "comment", "commentsBefore", "commentsAfter" ]:
+            pos -= 1
+            continue
 
-          pos -= 1
+          return child
 
     if mandatory:
       raise NodeAccessException("Node " + self.type + " has no children", self)
@@ -368,7 +387,8 @@ class Node:
     if self.hasParent():
       prev = None
       for child in self.parent.children:
-        if ignoreComments and (child.type == "comment" or child.type == "commentsBefore" or child.type == "commentsAfter"):
+
+        if ignoreComments and child.type in [ "comment", "commentsBefore", "commentsAfter" ]:
           continue
 
         if child == self:
@@ -387,7 +407,7 @@ class Node:
       prev = None
 
       for child in self.parent.children:
-        if ignoreComments and (child.type == "comment" or child.type == "commentsBefore" or child.type == "commentsAfter"):
+        if ignoreComments and child.type in [ "comment", "commentsBefore", "commentsAfter" ]:
           continue
 
         if prev != None:
