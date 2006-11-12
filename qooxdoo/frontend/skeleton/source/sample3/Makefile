@@ -20,7 +20,7 @@ FRONTEND = $(QOOXDOO)/frontend
 FRAMEWORK = $(FRONTEND)/framework
 API = $(FRONTEND)/api
 CACHE = $(FRAMEWORK)/.cache
-GENERATOR = $(FRAMEWORK)/tool/generator/generator.py
+GENERATOR = $(FRAMEWORK)/tool/generator.py
 
 
 ifeq ($(INCLUDEALL),false)

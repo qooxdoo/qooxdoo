@@ -193,6 +193,31 @@ def commentNode(node):
 
 
 
+def postProcessMap(m):
+  if m.get("maxKeyLength", False) != None:
+    return
+
+  maxKeyLength = 0
+  alignValues = True
+
+  if m.hasChildren():
+    for keyvalue in m.children:
+      if keyvalue.type != "keyvalue":
+        continue
+
+      currKeyLength = len(keyvalue.get("key"))
+
+      if keyvalue.get("quote", False) != None:
+        currKeyLength += 2
+
+      if currKeyLength > maxKeyLength:
+        maxKeyLength = currKeyLength
+
+      if alignValues and keyvalue.getChild("value").isComplex():
+        alignValues = False
+
+  m.set("maxKeyLength", maxKeyLength)
+  m.set("alignValues", alignValues)
 
 
 
@@ -293,7 +318,7 @@ def compileNode(node):
           else:
             space()
 
-        elif divComment:
+        elif divComment and not isFirst:
           divide()
 
         elif not isFirst:
@@ -306,7 +331,12 @@ def compileNode(node):
           line()
 
         # reindenting first
-        write(comment.indent(child.get("text"), INDENTSPACES * indent))
+        text = child.get("text")
+
+        if child.get("detail") == "qtdoc":
+          text = comment.qt2javadoc(text)
+
+        write(comment.indent(text, INDENTSPACES * indent))
 
         if singleLineBlock:
           if child.get("detail") in [ "javadoc", "qtdoc" ]:
@@ -661,6 +691,9 @@ def compileNode(node):
     par = node.parent
 
     if pretty:
+      postProcessMap(node)
+
+    if pretty:
       # No break before return statement
       if node.hasParent() and node.parent.type == "expression" and node.parent.parent.type == "return":
         pass
@@ -707,7 +740,7 @@ def compileNode(node):
     # Fill with spaces
     # Do this only if the parent is complex (many entries)
     # But not if the value itself is complex
-    if pretty and node.parent.isComplex() and not node.getChild("value").isComplex() and not node.parent.hasComplexChildren():
+    if pretty and node.parent.isComplex() and node.parent.get("alignValues"):
       write(" " * (node.parent.get("maxKeyLength") - len(keyString)))
 
     write(":")

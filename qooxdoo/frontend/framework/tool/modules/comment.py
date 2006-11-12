@@ -93,9 +93,9 @@ VARNAMES = {
 }
 
 VARDESC = {
-  "propValue" : "New value of this property",
-  "propOldValue" : "old value of this property",
-  "propData" : "Configuration map of this property"
+  "propValue" : "Current value",
+  "propOldValue" : "Previous value",
+  "propData" : "Property configuration map"
 }
 
 
@@ -250,10 +250,27 @@ def nameToDescription(name):
 
 
 
+def qt2javadoc(text):
+  return rebuild(text)
 
+def rebuild(text):
+  attribList = parseText(text, False)
+  res = "/**"
 
+  desc = getAttrib(attribList, "description")["text"]
 
+  if "\n" in desc:
+    res += "\n"
 
+    for line in desc.split("\n"):
+      res += " * %s\n" % line
+
+  else:
+    res += " %s " % desc
+
+  res += "*/"
+
+  return res
 
 
 def parseNode(node):
@@ -489,9 +506,9 @@ def parseType(vtype):
       typeText += "[]" * entry["dimensions"]
 
     firstType = False
-    
+
   return typeText
-  
+
 
 
 def fromFunction(func, member, name, alternative, old=[]):
