@@ -436,7 +436,7 @@ qx.Proto._setProperties = function(widget, name, value) {
 3. <div qxtype="qx.ui.basic.Atom"/>
 */
 qx.Proto._extractClassName = function(node) {
-  if (node.nodeName.toUpperCase() == "DIV") {
+  if (node.nodeName.toLowerCase() == "div") {
     if (!node.attributes['qxtype'])
       return null;
     return node.attributes['qxtype'].value;

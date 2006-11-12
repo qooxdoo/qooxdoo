@@ -487,11 +487,11 @@ qx.Proto._onkeyevent_post = function(vDomEvent, vType)
   {
     if (vDomEvent.ctrlKey && (vKeyCode == 65 || vKeyCode == 97))
     {
-      switch(vDomTarget.tagName)
+      switch(vDomTarget.tagName.toLowerCase())
       {
-        case "INPUT":
-        case "TEXTAREA":
-        case "IFRAME":
+        case "input":
+        case "textarea":
+        case "iframe":
           break;
 
         default:

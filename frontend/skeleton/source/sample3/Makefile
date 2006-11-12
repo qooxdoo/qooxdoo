@@ -8,6 +8,7 @@ APPCLASS = custom.Application
 INCLUDEALL = true
 OPTIMIZESTRINGS = true
 OPTIMIZEVARIABLES = true
+SOURCELOADER=
 NICE=10
 
 
@@ -40,6 +41,11 @@ else
   OPTIMIZEVAR =
 endif
 
+ifneq ($(SOURCELOADER),)
+  SOURCELDR = --source-loader-type $(SOURCELOADER)
+else
+  SOURCELDR =
+endif
 
 
 ###################################################################################
@@ -107,7 +113,7 @@ generate-script-source:
 	  --source-script-path ../$(FRAMEWORK)/source/class \
 	  --script-input source/class \
 	  --source-script-path class \
-	  --generate-source-script \
+	  --generate-source-script $(SOURCELDR) \
 	  $(INCLUDE) \
 	  --source-script-file source/script/custom.js \
 	  --define-runtime-setting qx.core.Init.component:qx.component.init.BasicInitComponent \

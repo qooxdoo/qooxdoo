@@ -40,7 +40,7 @@ function(vValue)
   // ************************************************************************
   //   BEHAVIOR
   // ************************************************************************
-  this.setTagName("INPUT");
+  this.setTagName("input");
   this.setHtmlProperty("type", "text");
   this.setHtmlAttribute("autocomplete", "OFF");
   this.setTabIndex(1);

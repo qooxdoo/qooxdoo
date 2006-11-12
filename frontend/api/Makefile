@@ -5,8 +5,14 @@
 FRAMEWORK=../framework
 GENERATOR=$(FRAMEWORK)/tool/generator/generator.py
 CACHE=$(FRAMEWORK)/.cache
+SOURCELOADER=
 NICE=10
 
+ifneq ($(SOURCELOADER),)
+  SOURCELDR = --source-loader-type $(SOURCELOADER)
+else
+  SOURCELDR =
+endif
 
 
 ###################################################################################
@@ -69,7 +75,7 @@ generate-script-source:
 	  --script-input source/class \
 	  --source-script-path class \
 	  --include api \
-	  --generate-source-script \
+	  --generate-source-script $(SOURCELDR) \
 	  --source-script-file source/script/api.js \
 	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:../$(FRAMEWORK)/source/resource \
 	  --cache-directory $(CACHE)
