@@ -3,7 +3,7 @@
 ###################################################################################
 
 FRAMEWORK=../framework
-GENERATOR=$(FRAMEWORK)/tool/generator/generator.py
+GENERATOR=$(FRAMEWORK)/tool/generator.py
 CACHE=$(FRAMEWORK)/.cache
 SOURCELOADER=
 NICE=10
