@@ -209,6 +209,7 @@ qx.Proto._createList = function(columns) {
       me._testClosePopup();
     }
   }
+  this._modifyIdColumnVisible(this.getIdColumnVisible());
   this._manager = l.getSelectionModel();
   this._manager.addEventListener('changeSelection', this._onChangeSelection, this);
   // Avoid deselection from user
