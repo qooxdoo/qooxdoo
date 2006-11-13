@@ -292,7 +292,5 @@ qx.Proto.dispose = function() {
     return true;
   }
 
-  this._cleanUpCells();
-
   return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
 }
