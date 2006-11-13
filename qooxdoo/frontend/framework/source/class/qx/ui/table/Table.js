@@ -897,13 +897,6 @@ qx.Proto._toggleColumnVisibilityMenu = function() {
  */
 qx.Proto._cleanupColumnVisibilityMenu = function() {
   if (this._columnVisibilityMenu != null && ! this._columnVisibilityMenu.getDisposed()) {
-    var checkBoxArr = this._columnVisibilityMenu.getChildren();
-    for (var i = checkBoxArr.length - 1; i >= 0; i++) {
-      var checkBox = checkBoxArr[i];
-      this._columnVisibilityMenu.remove(checkBox);
-      checkBox.dispose();
-    }
-
     this._columnVisibilityMenu.dispose();
     this._columnVisibilityMenu = null;
   }
