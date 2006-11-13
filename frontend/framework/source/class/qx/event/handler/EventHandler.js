@@ -19,6 +19,7 @@
 /* ************************************************************************
 
 #module(ui_core)
+#require(qx.event.type.KeyEvent)
 #optional(qx.event.handler.DragAndDropHandler)
 #optional(qx.manager.object.MenuManager)
 #optional(qx.event.handler.FocusHandler)
@@ -49,6 +50,8 @@ function()
 
   // Init Command Interface
   this._commands = {};
+	
+	this._lastCharCodeForEvent = {};
 });
 
 qx.OO.addProperty({ name : "allowClientContextMenu", type : qx.constant.Type.BOOLEAN, defaultValue : false });
@@ -422,6 +425,35 @@ else
 ---------------------------------------------------------------------------
 */
 
+// Safari has some wired keycodes for special keys.
+// If one of theese keys is pressed, keydown, keypress and keyup events
+// are generated twice
+qx.Class._safariKeyCodeMapping = {
+  63289: qx.event.type.KeyEvent.keys.numlock,
+  63276: qx.event.type.KeyEvent.keys.pageup, 
+  63276: qx.event.type.KeyEvent.keys.pagedown,
+  63275: qx.event.type.KeyEvent.keys.end,
+  63273: qx.event.type.KeyEvent.keys.home,
+  63234: qx.event.type.KeyEvent.keys.left,
+  63232: qx.event.type.KeyEvent.keys.up,
+  63235: qx.event.type.KeyEvent.keys.right,
+  63233: qx.event.type.KeyEvent.keys.down,
+  63272: qx.event.type.KeyEvent.keys.del,
+  63236: qx.event.type.KeyEvent.keys.f1,
+  63237: qx.event.type.KeyEvent.keys.f2,
+  63238: qx.event.type.KeyEvent.keys.f3,
+  63239: qx.event.type.KeyEvent.keys.f4,        
+  63240: qx.event.type.KeyEvent.keys.f5,        
+  63241: qx.event.type.KeyEvent.keys.f6,        
+  63242: qx.event.type.KeyEvent.keys.f7,        
+  63243: qx.event.type.KeyEvent.keys.f8,        
+  63244: qx.event.type.KeyEvent.keys.f9,        
+  63245: qx.event.type.KeyEvent.keys.f10,        
+  63246: qx.event.type.KeyEvent.keys.f11,
+  63247: qx.event.type.KeyEvent.keys.f12,
+  63248: qx.event.type.KeyEvent.keys.print
+};
+	
 qx.Proto._onkeyevent = function(vDomEvent)
 {
   if (this.getDisposed() || typeof qx.event.type.KeyEvent != qx.constant.Type.FUNCTION) {
@@ -433,24 +465,40 @@ qx.Proto._onkeyevent = function(vDomEvent)
   }
 
   var vType = vDomEvent.type;
-
-  // MSHTML sometimes does not include a keypress event type
-  if (this._lastKeyEventType === qx.constant.Event.KEYDOWN && vType === qx.constant.Event.KEYUP) {
-    this._onkeyevent_post(vDomEvent, qx.constant.Event.KEYPRESS);
+  var vKeyCode = vDomEvent.keyCode;
+  var vCharCode = vDomEvent.charCode;
+	
+  if (qx.sys.Client.getInstance().isWebkit()) // Safari 
+  {
+    // normalize keyCodes
+    vKeyCode = qx.event.handler.EventHandler._safariKeyCodeMapping[vKeyCode] || vKeyCode;
+		
+    // prevent Safari from sending key signals twice
+    // http://trac.mochikit.com/ticket/182
+    if (qx.event.handler.EventHandler._safariKeyCodeMapping[this._lastCharCodeForEvent[vType]]) {
+      this._lastCharCodeForEvent[vType] = null;
+      return false;         
+    }
   }
 
+  if (qx.sys.Client.getInstance().isMshtml()) // IE 
+  {
+    // MSHTML sometimes does not include a keypress event type
+    if (this._lastKeyEventType === qx.constant.Event.KEYDOWN && vType === qx.constant.Event.KEYUP) {
+      this._onkeyevent_post(vDomEvent, qx.constant.Event.KEYPRESS, vKeyCode);
+    }
+  }
+
+  this._lastCharCodeForEvent[vType] = vCharCode;
   this._lastKeyEventType = vType;
 
-  this._onkeyevent_post(vDomEvent, vType);
+  this._onkeyevent_post(vDomEvent, vType, vKeyCode);
 }
 
-qx.Proto._onkeyevent_post = function(vDomEvent, vType)
+qx.Proto._onkeyevent_post = function(vDomEvent, vType, vKeyCode)
 {
   var vDomTarget = qx.event.handler.EventHandler.getDomTarget(vDomEvent);
-  var vKeyCode = vDomEvent.keyCode || vDomEvent.charCode;
-
-
-
+ 
 
   // Find current active qooxdoo object
   var vFocusRoot = this.getFocusRoot();
