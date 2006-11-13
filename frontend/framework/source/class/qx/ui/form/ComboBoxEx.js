@@ -480,7 +480,7 @@ qx.Proto._calculateDimensions = function() {
     this._neededTextFieldWidth += this._getTextWidth(this.getIdDescriptionSeparator());
   }
   this._neededTextFieldWidth += 8;  /*Extra margins*/
-  var width = 12/*vertical scroll bar width*/;
+  var width = (new qx.ui.core.ScrollBar)._getScrollBarWidth();
   var colModel = this._list.getTableColumnModel();
   var countVisible = 0;
   for (col = 0; col < nCols; col++) {
@@ -605,10 +605,12 @@ qx.Proto.openSearchDialog = function() {
 
   //###list, we reuse the same list in the popup
   this._calculateDimensions();
+  var border = qx.renderer.border.BorderPresets.getInstance().inset;
   var newListSettings = {
     minHeight: this._list.getHeight(),
     height: '1*',
-    border: qx.renderer.border.BorderPresets.getInstance().inset,
+    width: border.getLeftWidth()+this._list.getWidth()+border.getRightWidth(),
+    border: border,
     parent: vbox
   };
   // Save old list settings
