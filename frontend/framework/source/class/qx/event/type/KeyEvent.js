@@ -78,6 +78,8 @@ qx.event.type.KeyEvent.keys =
   f10 : 121,
   f11 : 122,
   f12 : 123,
+	
+	print : 124,
 
   del : 46,
   backspace : 8,
