@@ -1257,8 +1257,6 @@ qx.Proto.dispose = function() {
     this.getElement().onselectstart = null;
   }
 
-  this.cancelEditing();
-
   this._verScrollBar.dispose();
   this._horScrollBar.dispose();
   this._header.dispose();
