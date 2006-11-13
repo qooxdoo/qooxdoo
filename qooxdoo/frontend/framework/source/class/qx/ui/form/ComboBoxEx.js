@@ -264,14 +264,16 @@ qx.Proto.getColumnHeaders = function(propVal) {
  * @param data (var[][]) Array of values.  Its value is an array, with the following info:<ul>.
  * <li>Column 0 represents the ID, i.e. the value that is stored internally and used by the app.</li>
  * <li>Column 1 represents the description, the text that the end user normally sees.</li>
- * <li>Column > 1 will also be shown in the popup list, it you have set the appropiate column headers with {@link #setColumnHeaders}.</li>
+ * <li>Columns > 1 will also be shown in the popup list, it you have set the appropiate column headers with {@link #setColumnHeaders}.</li>
  * </ul>*/
 qx.Proto.setSelection = function(data) {
   // Invalidate calculation of column widths
   delete this._calcDimensions;
   this._model.setData(data);
   // Try to preserve currently selected value
-  this._modifyValue(this.getValue());
+  if (!this.getEditable()) {
+    this._modifyValue(this.getValue());
+  }
 }
 
 /**Getter for {@link #setSelection}.
@@ -579,7 +581,7 @@ qx.Proto.openSearchDialog = function() {
   searchField.set({
     minWidth: this._field.getWidth(),
     width: '100%'
-  })
+  });
   searchField.addEventListener(qx.constant.Event.INPUT, function() {
     search();
   });
