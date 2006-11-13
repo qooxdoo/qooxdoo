@@ -126,6 +126,7 @@ qx.Settings.setDefault('titleSearch', 'Search items in list');
 qx.Settings.setDefault('toolTipSearchNext', 'Search next occurrence');
 qx.Settings.setDefault('idHeader', 'ID');
 qx.Settings.setDefault('descriptionHeader', 'Description');
+qx.Settings.setDefault('caseSensitiveCaption', 'Case sensitive');
 
 
 /*
@@ -159,6 +160,9 @@ qx.OO.addProperty({ name: 'ensureSomethingSelected', type: qx.constant.Type.BOOL
 
 /*!Allow the search dialog when double clicking the combo, or pressing special keys?.*/
 qx.OO.addProperty({ name: 'allowSearch', type: qx.constant.Type.BOOLEAN, defaultValue: true });
+
+/*!Maximum number of visible rows in the popup list.*/
+qx.OO.addProperty({ name: 'maxVisibleRows', type: qx.constant.Type.NUMBER, defaultValue: 10 });
 
 
 /*
@@ -324,6 +328,11 @@ qx.Proto._modifyShowOnTextField = function(propVal) {
   return true;
 }
 
+qx.Proto._modifyMaxVisibleRows = function() {
+  delete this._calcDimensions;  // Invalidate this._list.height
+  return true;
+}
+
 qx.Proto._checkIdDescriptionSeparator = function(propVal) {
   // For measuring widths, it is better to replace spaces with non-breakable spaces
   return String(propVal).replace(/ /g, '\u00A0')
@@ -462,6 +471,7 @@ qx.Proto._calculateDimensions = function() {
   for (var col = 0; col < cols.length; col++) {
     columnWidths[col] = this._getTextWidth(cols[col]);
   }
+  var withDescript = this.getShowOnTextField() == 'idAndDescription';
   for (var row = 0, rows = Math.min(data.length, 50); row < rows; row++) {
     var r = data[row], wi0, wi1;
     for (col = 0; col < nCols; col++) {
@@ -474,15 +484,17 @@ qx.Proto._calculateDimensions = function() {
       columnWidths[col] = Math.max(wi, columnWidths[col]);
     }
     this._neededTextFieldWidth = Math.max(this._neededTextFieldWidth,
-      wi1+(this.getShowOnTextField() == 'idAndDescription' ? wi0:0));
+      wi1+(withDescript ? wi0:0));
   }
   if (this.getShowOnTextField() == 'idAndDescription') {
     this._neededTextFieldWidth += this._getTextWidth(this.getIdDescriptionSeparator());
   }
   this._neededTextFieldWidth += 8;  /*Extra margins*/
-  var width = (new qx.ui.core.ScrollBar)._getScrollBarWidth();
-  var colModel = this._list.getTableColumnModel();
-  var countVisible = 0;
+  var maxRows = this.getMaxVisibleRows(),
+  	// Only assign room for the vertical scrollbar when needed
+  	width = data.length > maxRows ? (new qx.ui.core.ScrollBar)._getScrollBarWidth():0,
+  	colModel = this._list.getTableColumnModel(),
+  	countVisible = 0;
   for (col = 0; col < nCols; col++) {
     if (colModel.isColumnVisible(col)) {
       var w = 6+columnWidths[col];
@@ -496,9 +508,9 @@ qx.Proto._calculateDimensions = function() {
   this._list.set({
     width: width,
     height: this._list.getRowHeight()*
-      Math.min(10, (countVisible > 1 ? 1:0)/*Header row*/+data.length)+2
+      Math.min(maxRows, (countVisible > 1 ? 1:0)/*Header row*/+data.length)+2
   });
-  // This denotes dimensions already calculated
+  // This denotes dimensions are already calculated
   this._calcDimensions = true;
 }
 
@@ -587,7 +599,7 @@ qx.Proto.openSearchDialog = function() {
   });
 
   //###checkCase
-  var checkCase = new qx.ui.form.CheckBox('Case sensitive');
+  var checkCase = new qx.ui.form.CheckBox(this.getSetting('caseSensitiveCaption'));
   checkCase.set({
     horizontalAlign: 'center',
     marginBottom: 4
@@ -728,7 +740,7 @@ qx.Proto._onChangeSelection = function(e) {
       if (row) {
         val = this.getShowOnTextField() == 'description' ?
           row[1] :
-          row[0] + this.getIdDescriptionSeparator() + row[1];
+          (row[0] != null && row[0] != '' ? row[0] + this.getIdDescriptionSeparator() + row[1]:row[1]);
       }
       this._field.setValue(val);
     }
