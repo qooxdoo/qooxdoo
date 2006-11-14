@@ -337,6 +337,7 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
 qx.Proto._postApply = function()
 {
   if (!this.getLoaded()) {
+    this._updateContent(qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif"));
     return;
   }
 
@@ -388,16 +389,6 @@ if (qx.sys.Client.getInstance().isMshtml())
 }
 else
 {
-  qx.Proto._postApply = function()
-  {
-    if (!this.getLoaded()) {
-      return;
-    }
-
-    this._postApplyDimensions();
-    this._updateContent();
-  }
-
   qx.Proto._updateContent = function(vSource) {
     this._image.src = vSource || this.getPreloader().getSource();
   }
