@@ -491,10 +491,10 @@ qx.Proto._calculateDimensions = function() {
   }
   this._neededTextFieldWidth += 8;  /*Extra margins*/
   var maxRows = this.getMaxVisibleRows(),
-  	// Only assign room for the vertical scrollbar when needed
-  	width = data.length > maxRows ? (new qx.ui.core.ScrollBar)._getScrollBarWidth():0,
-  	colModel = this._list.getTableColumnModel(),
-  	countVisible = 0;
+    // Only assign room for the vertical scrollbar when needed
+    width = data.length > maxRows ? (new qx.ui.core.ScrollBar)._getScrollBarWidth():0,
+    colModel = this._list.getTableColumnModel(),
+    countVisible = 0;
   for (col = 0; col < nCols; col++) {
     if (colModel.isColumnVisible(col)) {
       var w = 6+columnWidths[col];
