@@ -214,7 +214,7 @@ qx.Proto._createList = function(columns) {
   selMan.handleMouseUp = function(vItem, e) {
     oldHandle.apply(selMan, arguments);
     if (e.isLeftButtonPressed()) {
-	  me._testClosePopup();
+    me._testClosePopup();
     }
   }
   this._modifyIdColumnVisible(this.getIdColumnVisible());
@@ -517,7 +517,7 @@ qx.Proto._calculateDimensions = function() {
     if (colModel.isColumnVisible(col)) {
       var w = columnWidths[col];
       if (hasHeaders) {
-      	w = Math.max(w, this._getTextWidth(cols[col]));
+        w = Math.max(w, this._getTextWidth(cols[col]));
       }
       w += 8;
       this._list.setColumnWidth(col, w);
@@ -576,19 +576,19 @@ qx.Proto._search = function(startIndex, txt, caseSens) {
   while (true) {
     var dataRow = data[row];
     if (dataRow) {
-	  for (var col = 0; col < nCols; col++) {
-	    if (colModel.isColumnVisible(col)) {
-	      var txtCol = dataRow[col];
-	      if (!caseSens) {
-	        txtCol = txtCol.toLowerCase();
-	      }
-	      if (txtCol.indexOf(txt) >= 0) {
-	        this._manager.setSelectionInterval(row, row);
-	        this._list.scrollCellVisible(1, row);
-	        return;
-	      }
-	    }
-	  }
+    for (var col = 0; col < nCols; col++) {
+      if (colModel.isColumnVisible(col)) {
+        var txtCol = dataRow[col];
+        if (!caseSens) {
+          txtCol = txtCol.toLowerCase();
+        }
+        if (txtCol.indexOf(txt) >= 0) {
+          this._manager.setSelectionInterval(row, row);
+          this._list.scrollCellVisible(1, row);
+          return;
+        }
+      }
+    }
     }
     row = (row+1)% nRows;
     if (row == startIndex) {
