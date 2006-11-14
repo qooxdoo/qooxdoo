@@ -58,7 +58,7 @@ qx.OO.defineClass('qx.ui.form.ComboBoxEx', qx.ui.layout.HorizontalBoxLayout, fun
   // ************************************************************************
   //   LIST
   // ************************************************************************
-  this._createList([ this.getSetting('idHeader'), this.getSetting('descriptionHeader') ]);
+  this._createList([ this._getComboSetting('idHeader'), this._getComboSetting('descriptionHeader') ]);
 
   // ************************************************************************
   //   FIELD
@@ -187,6 +187,10 @@ qx.Proto.getButton = function() {
   return this._button;
 }
 
+qx.Proto._getComboSetting = function(key) {
+  return qx.Settings.getValueOfClass('qx.ui.form.ComboBoxEx', key);
+}
+
 /**Gets the current selected row of the selection.
  * @return null if nothing selected or an array*/
 qx.Proto.getSelectedRow = function() {
@@ -210,7 +214,7 @@ qx.Proto._createList = function(columns) {
   selMan.handleMouseUp = function(vItem, e) {
     oldHandle.apply(selMan, arguments);
     if (e.isLeftButtonPressed()) {
-      me._testClosePopup();
+	  me._testClosePopup();
     }
   }
   this._modifyIdColumnVisible(this.getIdColumnVisible());
@@ -431,16 +435,19 @@ qx.Proto._openPopup = function() {
   }, 0);
 }
 
+/**Hide the popup list.*/
 qx.Proto._closePopup = function() {
   this._popup.hide();
 }
 
+/**Hide the popup list only when needed.*/
 qx.Proto._testClosePopup = function() {
   if (this._popup.isSeeable()) {
     this._closePopup();
   }
 }
 
+/**Toggle the visibility of the popup list.*/
 qx.Proto._togglePopup = function() {
   this._popup.isSeeable() ? this._closePopup() : this._openPopup();
 }
@@ -469,7 +476,7 @@ qx.Proto._calculateDimensions = function() {
   this._neededTextFieldWidth = 0;
   columnWidths.length = cols.length;
   for (var col = 0; col < cols.length; col++) {
-    columnWidths[col] = this._getTextWidth(cols[col]);
+    columnWidths[col] = 0;
   }
   var withDescript = this.getShowOnTextField() == 'idAndDescription';
   for (var row = 0, rows = Math.min(data.length, 50); row < rows; row++) {
@@ -495,20 +502,34 @@ qx.Proto._calculateDimensions = function() {
     width = data.length > maxRows ? (new qx.ui.core.ScrollBar)._getScrollBarWidth():0,
     colModel = this._list.getTableColumnModel(),
     countVisible = 0;
+
+  // ##Only show headers if we have more than 1 column visible
   for (col = 0; col < nCols; col++) {
     if (colModel.isColumnVisible(col)) {
-      var w = 6+columnWidths[col];
-      this._list.setColumnWidth(col, w);
-      width += w;
       countVisible++;
     }
   }
-  // Only show headers if we have more than 1 column visible
-  this._list.getPaneScroller(0).getHeader().setHeight(countVisible > 1 ? 'auto' : 1);
+  var hasHeaders = countVisible > 1;
+  this._list.getPaneScroller(0).getHeader().setHeight(hasHeaders ? 'auto' : 1);
+
+  // ##Size each column
+  for (col = 0; col < nCols; col++) {
+    if (colModel.isColumnVisible(col)) {
+      var w = columnWidths[col];
+      if (hasHeaders) {
+      	w = Math.max(w, this._getTextWidth(cols[col]));
+      }
+      w += 8;
+      this._list.setColumnWidth(col, w);
+      width += w;
+    }
+  }
+
+  // ##Final width and height
   this._list.set({
     width: width,
     height: this._list.getRowHeight()*
-      Math.min(maxRows, (countVisible > 1 ? 1:0)/*Header row*/+data.length)+2
+      Math.min(maxRows, (hasHeaders ? 1:0)+data.length)+2+(hasHeaders ? 2:0)
   });
   // This denotes dimensions are already calculated
   this._calcDimensions = true;
@@ -531,6 +552,7 @@ qx.Proto._getTextWidth = function(text) {
 ---------------------------------------------------------------------------
 */
 
+/**Does this combo have the searched dialog open?*/
 qx.Proto.isSearchInProgress = function() {
   return !this._popup.contains(this._list);
 }
@@ -550,20 +572,23 @@ qx.Proto._search = function(startIndex, txt, caseSens) {
   if (!caseSens) {
     txt = txt.toLowerCase();
   }
+  var colModel = this._list.getTableColumnModel();
   while (true) {
     var dataRow = data[row];
-    for (var col = 0; col < nCols; col++) {
-      if (this._list.getTableColumnModel().isColumnVisible(col)) {
-        var txtCol = dataRow[col];
-        if (!caseSens) {
-          txtCol = txtCol.toLowerCase();
-        }
-        if (txtCol.indexOf(txt) >= 0) {
-          this._manager.setSelectionInterval(row, row);
-          this._list.scrollCellVisible(0, row);
-          return;
-        }
-      }
+    if (dataRow) {
+	  for (var col = 0; col < nCols; col++) {
+	    if (colModel.isColumnVisible(col)) {
+	      var txtCol = dataRow[col];
+	      if (!caseSens) {
+	        txtCol = txtCol.toLowerCase();
+	      }
+	      if (txtCol.indexOf(txt) >= 0) {
+	        this._manager.setSelectionInterval(row, row);
+	        this._list.scrollCellVisible(1, row);
+	        return;
+	      }
+	    }
+	  }
     }
     row = (row+1)% nRows;
     if (row == startIndex) {
@@ -599,7 +624,7 @@ qx.Proto.openSearchDialog = function() {
   });
 
   //###checkCase
-  var checkCase = new qx.ui.form.CheckBox(this.getSetting('caseSensitiveCaption'));
+  var checkCase = new qx.ui.form.CheckBox(this._getComboSetting('caseSensitiveCaption'));
   checkCase.set({
     horizontalAlign: 'center',
     marginBottom: 4
@@ -619,8 +644,9 @@ qx.Proto.openSearchDialog = function() {
   this._calculateDimensions();
   var border = qx.renderer.border.BorderPresets.getInstance().inset;
   var newListSettings = {
-    minHeight: this._list.getHeight(),
-    height: '1*',
+    /*minHeight: border.getTopWidth()+this._list.getHeight()+border.getBottomWidth(),
+    height: '1*',*/
+    height: border.getTopWidth()+this._list.getHeight()+border.getBottomWidth(),
     width: border.getLeftWidth()+this._list.getWidth()+border.getRightWidth(),
     border: border,
     parent: vbox
@@ -635,7 +661,7 @@ qx.Proto.openSearchDialog = function() {
   //###buttons
   var butNext = new qx.ui.form.Button('', 'icon/16/find.png');
   butNext.set({
-    toolTip: new qx.ui.popup.ToolTip(this.getSetting('toolTipSearchNext'))
+    toolTip: new qx.ui.popup.ToolTip(this._getComboSetting('toolTipSearchNext'))
   });
   butNext.addEventListener(qx.constant.Event.EXECUTE, function() {
     startIndex = (this.getSelectedIndex()+1) % sel.length;
@@ -672,7 +698,7 @@ qx.Proto.openSearchDialog = function() {
   hbox.add(vbox, butBox);
 
   //###Window
-  var win = new qx.ui.window.Window(this.getSetting('titleSearch'), 'icon/16/find.png');
+  var win = new qx.ui.window.Window(this._getComboSetting('titleSearch'), 'icon/16/find.png');
   win.add(hbox);
   win.positionRelativeTo(this);
   win.set({
