@@ -2090,7 +2090,8 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
 
   "splitpane" :
   {
-    initial : function(vTheme) {
+    initial : function(vTheme) 
+    {
       return {
         overflow : "hidden"
       }
@@ -2103,7 +2104,8 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
       this.background = new qx.renderer.color.ColorObject("threedshadow");
     },
 
-    initial : function(vTheme) {
+    initial : function(vTheme) 
+    {
       return {
         zIndex : 1e7,
         backgroundColor : this.background
@@ -2123,19 +2125,28 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
       return {
         backgroundColor : "threedface"
       }
+    },
+    
+    state : function(vTheme, vStates) 
+    {
+      return {
+        cursor : vStates.horizontal ? "col-resize" : "row-resize"
+      };
     }
   },
 
   "splitpane-slider" :
   {
-    initial : function(vTheme) {
+    initial : function(vTheme) 
+    {
       return {
         opacity: 0.5,
         zIndex : 1e8
       }
     },
 
-    state : function(vTheme, vStates) {
+    state : function(vTheme, vStates) 
+    {
       return {
         backgroundColor: vStates.dragging ? "threeddarkshadow" : "threedface"
       }
@@ -2144,32 +2155,29 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
 
   "splitpane-knob" :
   {
-    initial : function(vTheme) {
-      return {
-      }
-    },
-
-    state : function(vTheme, vStates) {
+    state : function(vTheme, vStates) 
+    {
       var vReturn = {
         opacity: vStates.dragging ? 0.5 : 1.0
       }
 
-      if (vStates.horizontal) {
-        vReturn.height = 20,
-        vReturn.width = 13,
-        vReturn.top = "33%",
-        vReturn.left = "auto",
-        vReturn.source = "widget/splitpane/knob-horizontal.png"
-
-
-      } else if (vStates.vertical) {
-        vReturn.height = 13,
-        vReturn.width = 20,
-        vReturn.top = "auto",
-        vReturn.left = "33%",
-        vReturn.source = "widget/splitpane/knob-vertical.png"
+      if (vStates.horizontal) 
+      {
+        vReturn.top = "33%";
+        vReturn.left = null;
+        vReturn.marginLeft = -6;
+        vReturn.marginTop = 0;
+        vReturn.cursor = "col-resize";
       }
-
+      else if (vStates.vertical) 
+      {
+        vReturn.top = null;
+        vReturn.left = "33%";
+        vReturn.marginTop = -6;
+        vReturn.marginLeft = 0;
+        vReturn.cursor = "row-resize";
+      }
+      
       return vReturn;
     }
   }
