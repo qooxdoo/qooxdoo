@@ -36,11 +36,9 @@
  * @param secondSize (string) The size of the right (bottom) pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
  */
 qx.OO.defineClass("qx.ui.splitpane.SplitPane", qx.ui.layout.CanvasLayout,
-function(orientation, firstSize, secondSize) {
-
+function(orientation, firstSize, secondSize) 
+{
   qx.ui.layout.CanvasLayout.call(this);
-
-  var self = this;
 
   // CREATE INNER BOX LAYOUT
   var box = this._box = new qx.ui.layout.BoxLayout;
@@ -49,61 +47,29 @@ function(orientation, firstSize, secondSize) {
 
   /*
 
-   the splitpane itself is a boxlayout resides on top of a canvas for easier computing of positional values
-
-    ---------------------------------------------------------------------------------------
-   |  canvas                                                                               |
-   |  -----------------------------------------------------------------------------------  |
-   | | box                                                                               | |
-   | | ---------------------------  ---  ----------------------------------------------- | |
-   | | |                         |  | |  |                                             | | |
-   | | | firstArea               |  |s|  | secondArea                                  | | |
-   | | |                         |  |p|  |                                             | | |
-   | | |                         |  |l|  |                                             | | |
-   | | |                         |  |i|  |                                             | | |
-   | | |                         |  |t|  |                                             | | |
-   | | |                         |  |t|  |                                             | | |
-   | | |                         |  |e|  |                                             | | |
-   | | |                         |  |r|  |                                             | | |
-   | | |                         |  | |  |                                             | | |
-   | | ---------------------------  ---  ----------------------------------------------- | |
-   |  -----------------------------------------------------------------------------------  |
-   |                                                                                       |
-    ---------------------------------------------------------------------------------------
-
-   in front of the splitpane is a glasspane which contains a dragable copy of the splitter. The glasspane and the copy of the splitter
-   only appears if a mousedown event is captured on the original splitter and will disappear on mouseup. This helps us to use every
-   widget inside the areas without paying attention on the special mouseevent handling of the used widget. In particular the iframe
-   interupts the event queue, so the splitter stands still in case of moving about the iframe.
-
-    ---------------------------------------------------------------------------------------
-   |  canvas (glasspane)                                                                   |
-   |                               ---                                                     |
-   |                               | |                                                     |
-   |                               |s|                                                     |
-   |                               |p|                                                     |
-   |                               |l|                                                     |
-   |                               |i|                                                     |
-   |                               |t|                                                     |
-   |                               |t|                                                     |
-   |                               |e|                                                     |
-   |                               |r|                                                     |
-   |                               | |                                                     |
-   |                               ---                                                     |
-   |                                                                                       |
-    ---------------------------------------------------------------------------------------
-
-   */
-
-
-
-  // CREATE GLASS PANE
-  // Protect iframes, ...
-  var glass = this._glass = new qx.ui.layout.CanvasLayout;
-  glass.setEdge(0);
-  glass.setAppearance("splitpane-glasspane");
-  glass.hide();
-  this.add(glass);
+  the splitpane itself is a boxlayout resides on top of a canvas for easier computing of positional values
+  
+  ---------------------------------------------------------------------------------------
+  |  canvas                                                                               |
+  |  -----------------------------------------------------------------------------------  |
+  | | box                                                                               | |
+  | | ---------------------------  ---  ----------------------------------------------- | |
+  | | |                         |  | |  |                                             | | |
+  | | | firstArea               |  |s|  | secondArea                                  | | |
+  | | |                         |  |p|  |                                             | | |
+  | | |                         |  |l|  |                                             | | |
+  | | |                         |  |i|  |                                             | | |
+  | | |                         |  |t|  |                                             | | |
+  | | |                         |  |t|  |                                             | | |
+  | | |                         |  |e|  |                                             | | |
+  | | |                         |  |r|  |                                             | | |
+  | | |                         |  | |  |                                             | | |
+  | | ---------------------------  ---  ----------------------------------------------- | |
+  |  -----------------------------------------------------------------------------------  |
+  |                                                                                       |
+  ---------------------------------------------------------------------------------------
+  
+  */
 
   // CREATE SLIDER
   this._slider = new qx.ui.layout.CanvasLayout;
@@ -111,6 +77,7 @@ function(orientation, firstSize, secondSize) {
   this._slider.setStyleProperty("fontSize", "0px");
   this._slider.setStyleProperty("lineHeight", "0px");
   this._slider.hide();
+  this._slider._pane = this;
   this.add(this._slider);
 
   // CREATE SPLITTER
@@ -118,46 +85,17 @@ function(orientation, firstSize, secondSize) {
   this._splitter.setStyleProperty("fontSize", "0px");
   this._splitter.setStyleProperty("lineHeight", "0px");
   this._splitter.setAppearance("splitpane-splitter");
+  this._splitter._pane = this;
+  
+  // PATCH METHODS
+  this._slider._applyRuntimeLeft = this._splitter._applyRuntimeLeft = this._applyRuntimeLeftWrapper;
+  this._slider._applyRuntimeTop = this._splitter._applyRuntimeTop = this._applyRuntimeTopWrapper;
 
-  // SET UP KNOB POSITIONING
-
-  // Sync knob and slider knob left to splitter left
-  this._splitter._superApplyRuntimeLeft = this._splitter._applyRuntimeLeft;
-  this._splitter._applyRuntimeLeft = function(value){
-    if (self._knob != null && (self.getOrientation() == qx.constant.Layout.ORIENTATION_HORIZONTAL)){
-      self._knob.setLeft(value - ((self._knob.getWidth() - self.getSplitterSize()) / 2));
-      self._sliderKnob._applyRuntimeLeft(self._knob.getLeft());
-    }
-    self._splitter._superApplyRuntimeLeft(value);
-  }
-
-  // Sync slider knob left to slider left
-  this._slider._superApplyRuntimeLeft = this._slider._applyRuntimeLeft;
-  this._slider._applyRuntimeLeft = function(value){
-    if (self._knob != null && (self.getOrientation() == qx.constant.Layout.ORIENTATION_HORIZONTAL)){
-      self._sliderKnob._applyRuntimeLeft(value - ((self._sliderKnob.getWidth() - self.getSplitterSize()) / 2));
-    }
-    self._slider._superApplyRuntimeLeft(value);
-  }
-
-  // Sync knob and slider knob top to splitter top
-  this._splitter._superApplyRuntimeTop = this._splitter._applyRuntimeTop;
-  this._splitter._applyRuntimeTop = function(value){
-    if (self._knob != null && (self.getOrientation() == qx.constant.Layout.ORIENTATION_VERTICAL)){
-      self._knob._applyRuntimeTop(value - ((self._knob.getHeight() - self.getSplitterSize()) / 2));
-      self._sliderKnob._applyRuntimeTop(self._knob.getTop());
-    }
-    self._splitter._superApplyRuntimeTop(value);
-  }
-
-  // Sync slider knob top to slider top
-  this._slider._superApplyRuntimeTop = this._slider._applyRuntimeTop;
-  this._slider._applyRuntimeTop = function(value){
-    if (self._knob != null && (self.getOrientation() == qx.constant.Layout.ORIENTATION_VERTICAL)){
-      self._sliderKnob._applyRuntimeTop(value - ((self._sliderKnob.getHeight() - self.getSplitterSize()) / 2));
-    }
-    self._slider._superApplyRuntimeTop(value);
-  }
+  // CREATE KNOB
+  this._knob = new qx.ui.basic.Image;
+  this._knob.setAppearance("splitpane-knob");
+  this._knob.setVisibility(false);
+  this.add(this._knob);
 
   // CREATE AREAS
   this._firstArea = new qx.ui.layout.CanvasLayout;
@@ -165,8 +103,6 @@ function(orientation, firstSize, secondSize) {
 
   // FILL BOX
   box.add(this._firstArea, this._splitter, this._secondArea);
-
-
 
   // APPLY DIMENSIONS
   this.setFirstSize(firstSize || qx.constant.Core.FLEX);
@@ -197,23 +133,14 @@ function(orientation, firstSize, secondSize) {
 qx.OO.changeProperty({ name : "appearance", defaultValue : "splitpane" });
 
 /**
- * Appearance to use for the holding knob. If null, no holding knob will be shown, otherwise
- * the given appearance will be set. The appearance may set all properties supported by
- * qx.ui.basic.Image and should support the states "horizontal" (knob setup for horizontal splitpane),
- * "vertical" (knob setup for vertical splitpane) and "dragging" (knob which is being dragged).
- * See appearance "splitpane-knob" in qx.theme.appearance.DefaultAppearanceTheme for an example.
+ * Show the knob
  */
-qx.OO.addProperty({ name : "appearanceKnob", allowNull : true, defaultValue : null });
+qx.OO.addProperty({ name : "showKnob", type : qx.constant.Type.BOOLEAN, allowNull : false, defaultValue : false });
 
 /**
  * The layout method for the splitpane. If true, the content will updated immediatly.
  */
 qx.OO.addProperty({ name : "liveResize", type : qx.constant.Type.BOOLEAN, allowNull : false, defaultValue : false, getAlias : "isLiveResize"});
-
-/**
- * if the glasspane should be visible, set this to true.
- */
-qx.OO.addProperty({ name : "visibleGlassPane", type : qx.constant.Type.BOOLEAN, allowNull : false, defaultValue : false, getAlias : "isVisibleGlassPane" });
 
 /**
  * The orientation of the splitpane control. Allowed values are qx.constant.Layout.ORIENTATION_HORIZONTAL (default) and qx.constant.Layout.ORIENTATION_VERTICAL.
@@ -233,7 +160,7 @@ qx.OO.addProperty({ name : "secondSize" });
 /**
  * Size of the splitter
  */
-qx.OO.addProperty({ name : "splitterSize", defaultValue : 5 });
+qx.OO.addProperty({ name : "splitterSize", defaultValue : 4 });
 
 
 
@@ -361,6 +288,12 @@ qx.Proto.getSecondArea = function() {
 ---------------------------------------------------------------------------
 */
 
+qx.Proto._modifyShowKnob = function(propValue, propOldValue, propData) 
+{
+  this._knob.setVisibility(propValue);
+  return true; 
+}
+
 qx.Proto._modifyOrientation = function(propValue, propOldValue, propData)
 {
   // sync orientation to layout
@@ -373,6 +306,13 @@ qx.Proto._modifyOrientation = function(propValue, propOldValue, propData)
       this._splitter.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onSplitterMouseDownX, this);
       this._splitter.removeEventListener(qx.constant.Event.MOUSEMOVE, this._onSplitterMouseMoveX, this);
       this._splitter.removeEventListener(qx.constant.Event.MOUSEUP, this._onSplitterMouseUpX, this);
+      this._knob.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onSplitterMouseDownX, this);
+      this._knob.removeEventListener(qx.constant.Event.MOUSEMOVE, this._onSplitterMouseMoveX, this);
+      this._knob.removeEventListener(qx.constant.Event.MOUSEUP, this._onSplitterMouseUpX, this);
+
+      // reconfigure states
+      this._splitter.removeState("horizontal");
+      this._knob.removeState("horizontal");
 
       // reset old dimensions
       this._firstArea.setWidth(null);
@@ -386,6 +326,13 @@ qx.Proto._modifyOrientation = function(propValue, propOldValue, propData)
       this._splitter.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onSplitterMouseDownY, this);
       this._splitter.removeEventListener(qx.constant.Event.MOUSEMOVE, this._onSplitterMouseMoveY, this);
       this._splitter.removeEventListener(qx.constant.Event.MOUSEUP, this._onSplitterMouseUpY, this);
+      this._knob.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onSplitterMouseDownY, this);
+      this._knob.removeEventListener(qx.constant.Event.MOUSEMOVE, this._onSplitterMouseMoveY, this);
+      this._knob.removeEventListener(qx.constant.Event.MOUSEUP, this._onSplitterMouseUpY, this);
+
+      // reconfigure states
+      this._splitter.removeState("vertical");
+      this._knob.removeState("vertical");
 
       // reset old dimensions
       this._firstArea.setHeight(null);
@@ -402,9 +349,17 @@ qx.Proto._modifyOrientation = function(propValue, propOldValue, propData)
       this._splitter.addEventListener(qx.constant.Event.MOUSEMOVE, this._onSplitterMouseMoveX, this);
       this._splitter.addEventListener(qx.constant.Event.MOUSEDOWN, this._onSplitterMouseDownX, this);
       this._splitter.addEventListener(qx.constant.Event.MOUSEUP, this._onSplitterMouseUpX, this);
+      this._knob.addEventListener(qx.constant.Event.MOUSEMOVE, this._onSplitterMouseMoveX, this);
+      this._knob.addEventListener(qx.constant.Event.MOUSEDOWN, this._onSplitterMouseDownX, this);
+      this._knob.addEventListener(qx.constant.Event.MOUSEUP, this._onSplitterMouseUpX, this);
 
-      // apply cursor
-      this._splitter.setCursor("col-resize");
+      // reconfigure states
+      this._splitter.addState("horizontal");
+      this._knob.addState("horizontal");
+      
+      // apply images
+      this._knob.setSource("widget/splitpane/knob-horizontal.png");
+
       break;
 
     case qx.constant.Layout.ORIENTATION_VERTICAL:
@@ -412,13 +367,19 @@ qx.Proto._modifyOrientation = function(propValue, propOldValue, propData)
       this._splitter.addEventListener(qx.constant.Event.MOUSEDOWN, this._onSplitterMouseDownY, this);
       this._splitter.addEventListener(qx.constant.Event.MOUSEMOVE, this._onSplitterMouseMoveY, this);
       this._splitter.addEventListener(qx.constant.Event.MOUSEUP, this._onSplitterMouseUpY, this);
+      this._knob.addEventListener(qx.constant.Event.MOUSEDOWN, this._onSplitterMouseDownY, this);
+      this._knob.addEventListener(qx.constant.Event.MOUSEMOVE, this._onSplitterMouseMoveY, this);
+      this._knob.addEventListener(qx.constant.Event.MOUSEUP, this._onSplitterMouseUpY, this);
 
-      // apply cursor
-      this._splitter.setCursor("row-resize");
+      // reconfigure states
+      this._splitter.addState("vertical");
+      this._knob.addState("vertical");
+
+      // apply images
+      this._knob.setSource("widget/splitpane/knob-vertical.png");
+
       break;
   }
-
-  this._setupKnobsForOrientation(propOldValue, propValue);
 
   // apply new dimensions
   this._syncFirstSize();
@@ -427,13 +388,6 @@ qx.Proto._modifyOrientation = function(propValue, propOldValue, propData)
 
   return true;
 };
-
-
-qx.Proto._modifyVisibleGlassPane = function(propValue, propOldValue, propData)
-{
-  this._glass.setState("visible", propValue);
-  return true;
-}
 
 qx.Proto._modifyFirstSize = function(propValue, propOldValue, propData)
 {
@@ -452,75 +406,6 @@ qx.Proto._modifySplitterSize = function(propValue, propOldValue, propData)
   this._syncSplitterSize();
   return true;
 }
-
-qx.Proto._modifyAppearanceKnob = function(propValue, propOldValue, propData) {
-  if ((propValue == null) && (propOldValue != null)){
-
-    this._setupKnobsForOrientation(this.getOrientation(), null);
-    this._knob.dispose();
-    this._sliderKnob.dispose();
-
-    this._knob = null;
-    this._sliderKnob = null;
-
-  } else if ((propValue != null) && (propOldValue == null)){
-
-    //CREATE HOLDING KNOB
-    var orientation = this.getOrientation();
-    this._knob = new qx.ui.basic.Image();
-    this._knob.setAppearance(propValue);
-    this._knob.addState(orientation);
-    this._knob.setZIndex(this._splitter.getZIndex() + 1);
-    this.add(this._knob);
-
-    this._sliderKnob = new qx.ui.basic.Image();
-    this._sliderKnob.setAppearance(propValue);
-    this._sliderKnob.addState(orientation);
-    this._sliderKnob.setZIndex(this._slider.getZIndex() + 1);
-    this._sliderKnob.hide();
-    this.add(this._sliderKnob);
-
-    this._setupKnobsForOrientation(null, this.getOrientation());
-  }
-  return true;
-}
-
-
-qx.Proto._setupKnobsForOrientation = function(oldOrientation, newOrientation){
-  if (this._knob != null){
-
-    this._knob.removeState(oldOrientation);
-    this._sliderKnob.removeState(oldOrientation);
-    this._knob.addState(newOrientation);
-    this._sliderKnob.addState(newOrientation);
-
-
-    if (oldOrientation == qx.constant.Layout.ORIENTATION_HORIZONTAL){
-      this._knob.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onSplitterMouseDownY, this);
-      this._knob.removeEventListener(qx.constant.Event.MOUSEMOVE, this._onSplitterMouseMoveY, this);
-      this._knob.removeEventListener(qx.constant.Event.MOUSEUP, this._onSplitterMouseUpY, this);
-    } else {
-      this._knob.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onSplitterMouseDownX, this);
-      this._knob.removeEventListener(qx.constant.Event.MOUSEMOVE, this._onSplitterMouseMoveX, this);
-      this._knob.removeEventListener(qx.constant.Event.MOUSEUP, this._onSplitterMouseUpX, this);
-    }
-
-    if (newOrientation != null) {
-      if (newOrientation == qx.constant.Layout.ORIENTATION_HORIZONTAL){
-        this._knob.setCursor("col-resize");
-        this._knob.addEventListener(qx.constant.Event.MOUSEMOVE, this._onSplitterMouseMoveX, this);
-        this._knob.addEventListener(qx.constant.Event.MOUSEDOWN, this._onSplitterMouseDownX, this);
-        this._knob.addEventListener(qx.constant.Event.MOUSEUP, this._onSplitterMouseUpX, this);
-      } else {
-        this._knob.setCursor("row-resize");
-        this._knob.addEventListener(qx.constant.Event.MOUSEMOVE, this._onSplitterMouseMoveY, this);
-        this._knob.addEventListener(qx.constant.Event.MOUSEDOWN, this._onSplitterMouseDownY, this);
-        this._knob.addEventListener(qx.constant.Event.MOUSEUP, this._onSplitterMouseUpY, this);
-      }
-    }
-  }
-}
-
 
 qx.Proto._syncFirstSize = function()
 {
@@ -556,22 +441,13 @@ qx.Proto._syncSplitterSize = function()
   {
     case qx.constant.Layout.ORIENTATION_HORIZONTAL:
       this._splitter.setWidth(this.getSplitterSize());
-      if (this.knob != null){
-        this._knob.setTop(this.getFirstSize() - (this._knob.getHeight() / 2));
-      }
       break;
 
     case qx.constant.Layout.ORIENTATION_VERTICAL:
       this._splitter.setHeight(this.getSplitterSize());
-      if (this.knob != null){
-        this._knob.setLeft(this.getFirstSize() - (this._knob.getWidth() / 2));
-      }
       break;
   }
 }
-
-
-
 
 
 
@@ -601,9 +477,7 @@ qx.Proto._onSplitterMouseDownX = function(e)
   // activate global cursor
   this.getTopLevelWidget().setGlobalCursor("col-resize");
   this._slider.addState("dragging");
-  if (this._knob != null){
-    this._sliderKnob.addState("dragging");
-  }
+  this._knob.addState("dragging");
 
   // initialize the drag session
   this._dragMin = qx.dom.DomLocation.getPageInnerLeft(this._box.getElement());
@@ -627,9 +501,7 @@ qx.Proto._onSplitterMouseDownY = function(e)
   // activate global cursor
   this.getTopLevelWidget().setGlobalCursor("row-resize");
   this._slider.addState("dragging");
-  if (this._knob != null){
-    this._sliderKnob.addState("dragging");
-  }
+  this._knob.addState("dragging");
 
   // initialize the drag session
   // dragStart = position of layout + mouse offset on splitter
@@ -643,9 +515,6 @@ qx.Proto._commonMouseDown = function()
   // enable capturing
   this._splitter.setCapture(true);
 
-  // protect content
-  this._glass.show();
-
   // initialize the slider
   if(!this.isLiveResize())
   {
@@ -655,9 +524,6 @@ qx.Proto._commonMouseDown = function()
     this._slider.setHeight(this._splitter.getBoxHeight());
 
     this._slider.show();
-    if (this._knob != null){
-      this._sliderKnob.show();
-    }
   }
 }
 
@@ -743,12 +609,7 @@ qx.Proto._onSplitterMouseUpY = function(e)
 qx.Proto._commonMouseUp = function()
 {
   // hide helpers
-  this._glass.hide();
   this._slider.hide();
-  if (this._knob != null){
-    this._sliderKnob.hide();
-  }
-
 
   // disable capturing
   this._splitter.setCapture(false);
@@ -758,9 +619,7 @@ qx.Proto._commonMouseUp = function()
 
   // cleanup dragsession
   this._slider.removeState("dragging");
-  if (this._knob != null){
-    this._sliderKnob.removeState("dragging");
-  }
+  this._knob.removeState("dragging");
 }
 
 qx.Proto._syncX = function(e)
@@ -793,7 +652,23 @@ qx.Proto._normalizeY = function(e) {
   return qx.lang.Number.limit(e.getPageY() - this._dragOffset, this._dragMin, this._dragMax) - this._dragMin;
 }
 
+qx.Proto._applyRuntimeLeftWrapper = function(v)
+{
+  if (this._pane.getOrientation() == "horizontal") {
+    this._pane._knob._applyRuntimeLeft(v);
+  }
 
+  return this.constructor.prototype._applyRuntimeLeft.call(this, v);
+}
+
+qx.Proto._applyRuntimeTopWrapper = function(v)
+{
+  if (this._pane.getOrientation() == "vertical") {
+    this._pane._knob._applyRuntimeTop(v);
+  }
+
+  return this.constructor.prototype._applyRuntimeTop.call(this, v);
+}
 
 
 
@@ -808,22 +683,26 @@ qx.Proto._normalizeY = function(e) {
 /**
  * Garbage collection
  */
-qx.Proto.dispose = function() {
+qx.Proto.dispose = function() 
+{
   if (this.getDisposed()) {
     return true;
   }
 
-  if(this._firstArea) {
+  if(this._firstArea) 
+  {
     this._firstArea.dispose();
     this._firstArea = null;
   }
 
-  if(this._secondArea) {
+  if(this._secondArea) 
+  {
     this._secondArea.dispose();
     this._secondArea = null;
   }
 
-  if (this._splitter) {
+  if (this._splitter) 
+  {
     this._splitter.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onSplitterMouseDownX, this);
     this._splitter.removeEventListener(qx.constant.Event.MOUSEUP, this._onSplitterMouseMoveX, this);
     this._splitter.removeEventListener(qx.constant.Event.MOUSEMOVE, this._onSplitterMouseUpX, this);
@@ -833,22 +712,30 @@ qx.Proto.dispose = function() {
     this._splitter.removeEventListener(qx.constant.Event.MOUSEMOVE, this._onSplitterMouseUpY, this);
 
     this._splitter.dispose();
+    this._splitter._pane = null;
     this._splitter = null;
   }
-
-  if (this._slider) {
+  
+  if (this._slider) 
+  {
     this._slider.dispose();
+    this._slider._pane = null;
     this._slider = null;
+  }  
+
+  if (this._knob) 
+  {
+    this._knob.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onSplitterMouseDownX, this);
+    this._knob.removeEventListener(qx.constant.Event.MOUSEUP, this._onSplitterMouseMoveX, this);
+    this._knob.removeEventListener(qx.constant.Event.MOUSEMOVE, this._onSplitterMouseUpX, this);
+
+    this._knob.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onSplitterMouseDownY, this);
+    this._knob.removeEventListener(qx.constant.Event.MOUSEUP, this._onSplitterMouseMoveY, this);
+    this._knob.removeEventListener(qx.constant.Event.MOUSEMOVE, this._onSplitterMouseUpY, this);
+
+    this._knob.dispose();
+    this._knob = null;
   }
-
-  //Disposal of knobs will be done by AppearanceKnob mobifier
-  this.setAppearanceKnob(null);
-
-  if(this._glass) {
-    this._glass.dispose();
-    this._glass = null;
-  }
-
 
   return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
 }

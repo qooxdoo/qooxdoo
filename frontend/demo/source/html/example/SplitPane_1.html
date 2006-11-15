@@ -12,7 +12,7 @@
   <script type="text/javascript" src="../../script/layout.js"></script>
 
   <div id="demoDescription">
-    <p>Test for extra slim Splitpane, with holding knobs.</p>
+    <p>Test for normal width Splitpane, no holding knobs, live resize enabled.</p>
   </div>
 
   <script type="text/javascript">
@@ -30,8 +30,7 @@
     // the splitpane itself
     var splitpane = new qx.ui.splitpane.HorizontalSplitPane("1*", "2*");
     splitpane.setEdge(0);
-    splitpane.setSplitterSize(1);
-    splitpane.setAppearanceKnob("splitpane-knob");
+    splitpane.setLiveResize(true);
     frame.add(splitpane);
 
     // left Widget
@@ -45,9 +44,7 @@
     var rightWidget = new qx.ui.splitpane.VerticalSplitPane;
     rightWidget.setHeight("100%");
     rightWidget.setWidth("100%");
-    rightWidget.setSplitterSize(1);
-    rightWidget.setAppearanceKnob("splitpane-knob");
-
+    rightWidget.setLiveResize(true);
 
     // add widgets to splitpane
     splitpane.addLeft(leftWidget);
