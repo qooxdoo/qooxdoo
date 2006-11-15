@@ -160,6 +160,7 @@ Function.prototype.bind = function() {
 */
 
 // Add all JavaScript 1.5 Features if they are missing
+// Mozilla 1.8 has support for indexOf, lastIndexOf, forEach, filter, map, some, every
 
 // Some of them from Erik Arvidsson <http://erik.eae.net/>
 // More documentation could be found here:
@@ -167,7 +168,6 @@ Function.prototype.bind = function() {
 // An alternative implementation can be found here:
 // http://www.nczonline.net/archive/2005/7/231
 
-// Mozilla 1.8 has support for indexOf, lastIndexOf, forEach, filter, map, some, every
 // http://developer-test.mozilla.org/docs/Core_JavaScript_1.5_Reference:Objects:Array:lastIndexOf
 if (!Array.prototype.indexOf)
 {

@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.com
+     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
      2006 by STZ-IDA, Germany, http://www.stz-ida.de
      2006 by Derrell Lipman
 
