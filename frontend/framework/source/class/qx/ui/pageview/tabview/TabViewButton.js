@@ -122,42 +122,25 @@ qx.Proto._ontabclose = function(e){
 qx.Proto._modifyShowCloseButton = function(propValue, propOldValue, propData) {
 
   // if no image exists, then create one
-  if(!this._closeButtonImage){
-      this._closeButtonImage = new qx.ui.basic.Image(this.getCloseButtonImage());
+  if (!this._closeButtonImage) {
+    this._closeButtonImage = new qx.ui.basic.Image(this.getCloseButtonImage());
   }
   if (propValue) {
     this._closeButtonImage.addEventListener(qx.constant.Event.CLICK, this._ontabclose, this);
     this.add(this._closeButtonImage);
-
   } else {
-     this.remove(this._closeButtonImage);
-     this._closeButtonImage.removeEventListener(qx.constant.Event.CLICK, this._ontabclose);
+    this.remove(this._closeButtonImage);
+    this._closeButtonImage.removeEventListener(qx.constant.Event.CLICK, this._ontabclose);
   }
 
   return true;
 }
 
 qx.Proto._modifyCloseButtonImage = function(propValue, propOldValue, propData) {
-
-  if (qx.util.Validation.isValidString(propValue)){
-
-    // cleanly remove the former closeButtonImage
-    if (this._closeButtonImage) {
-      var oldCloseButtonImage = this._closeButtonImage;
-      oldCloseButtonImage.removeEventListener(qx.constant.Event.CLICK, this._ontabclose);
-      this.remove(oldCloseButtonImage);
-      oldCloseButtonImage.dispose();
-    }
-
-    // assign the new closeButtonImage
-    var newCloseButtonImage = this._closeButtonImage = new qx.ui.basic.Image(propValue);
-    newCloseButtonImage.addEventListener(qx.constant.Event.CLICK, this._ontabclose, this);
-
-    // if the close button is enabled, then add the new image immediatelly
-    if(this.getShowCloseButton()){
-      this.add(newCloseButtonImage);
-    }
+  if (this._closeButtonImage) {
+    this._closeButtonImage.setSource(propValue);
   }
+
   return true;
 }
 
