@@ -22,8 +22,8 @@
 ************************************************************************ */
 
 /**
- * @event beforeToolTipAppear (qx.event.type.Event)
- * @event loadComplete (qx.event.type.Event)
+ * @event beforeToolTipAppear {qx.event.type.Event}
+ * @event loadComplete {qx.event.type.Event}
  */
 qx.OO.defineClass("qx.ui.embed.Gallery", qx.ui.basic.Terminator,
 function(vGalleryList)

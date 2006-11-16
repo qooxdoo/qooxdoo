@@ -27,14 +27,14 @@
 ************************************************************************ */
 
 /**
- * @event created (qx.event.type.Event)
- * @event configured (qx.event.type.Event)
- * @event sending (qx.event.type.Event)
- * @event receiving (qx.event.type.Event)
- * @event completed (qx.event.type.Event)
- * @event failed (qx.event.type.Event)
- * @event aborted (qx.event.type.Event)
- * @event timeout (qx.event.type.Event)
+ * @event created {qx.event.type.Event}
+ * @event configured {qx.event.type.Event}
+ * @event sending {qx.event.type.Event}
+ * @event receiving {qx.event.type.Event}
+ * @event completed {qx.event.type.Event}
+ * @event failed {qx.event.type.Event}
+ * @event aborted {qx.event.type.Event}
+ * @event timeout {qx.event.type.Event}
  */
 qx.OO.defineClass("qx.io.remote.XmlHttpTransport",
                   qx.io.remote.AbstractRemoteTransport,

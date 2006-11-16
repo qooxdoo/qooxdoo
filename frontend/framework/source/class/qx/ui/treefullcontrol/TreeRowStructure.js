@@ -156,9 +156,9 @@ qx.Proto.newRow = function()
  * The icon parameters may be omitted in which case the defaults will be
  * used.  If the label parameter is omitted, no label will appear.
  *
- * @param vLabel        (string) The label text
- * @param vIcon         (string) Relative path to the 'non-selected' icon
- * @param vIconSelected (string) Relative path to the 'selected' icon
+ * @param vLabel        {string} The label text
+ * @param vIcon         {string} Relative path to the 'non-selected' icon
+ * @param vIconSelected {string} Relative path to the 'selected' icon
  *
  * @return The singleton itself, purely for convenience.
  */

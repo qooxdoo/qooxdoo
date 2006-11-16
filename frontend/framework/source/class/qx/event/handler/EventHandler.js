@@ -314,8 +314,8 @@ qx.Class.getOriginalTargetObject = function(vNode)
  * extract the target node from a DOM event
  * http://www.quirksmode.org/js/events_properties.html
  *
- * @param vDomEvent (Object)
- * @return (Element) the target node
+ * @param vDomEvent {Object}
+ * @return {Element} the target node
  */
 qx.Class.getDomTarget = function(vDomEvent) {
   var vNode = vDomEvent.target || vDomEvent.srcElement;

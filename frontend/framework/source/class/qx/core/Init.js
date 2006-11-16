@@ -133,7 +133,7 @@ qx.Proto._modifyApplication = function(propValue, propOldValue, propData)
 /**
  * Rreturns an instance of the current qooxdoo Application
  *
- * @return (qx.component.AbstractApplication) instance of the current qooxdoo application
+ * @return {qx.component.AbstractApplication} instance of the current qooxdoo application
  */
 qx.Proto.getApplicationInstance = function()
 {
@@ -159,7 +159,7 @@ qx.Proto.getApplicationInstance = function()
  * define the initialisation function
  * Don't use this method directly. Use setApplication instead!
  *
- * @param vFunc (Function) callback function
+ * @param vFunc {Function} callback function
  */
 qx.Proto.defineInitialize = function(vFunc) {
   this.getApplicationInstance().initialize = vFunc;
@@ -169,7 +169,7 @@ qx.Proto.defineInitialize = function(vFunc) {
  * define the main function
  * Don't use this method directly. Use setApplication instead!
  *
- * @param vFunc (Function) callback function
+ * @param vFunc {Function} callback function
  */
 qx.Proto.defineMain = function(vFunc) {
   this.getApplicationInstance().main = vFunc;
@@ -179,7 +179,7 @@ qx.Proto.defineMain = function(vFunc) {
  * define the finalize function
  * Don't use this method directly. Use setApplication instead!
  *
- * @param vFunc (Function) callback function
+ * @param vFunc {Function} callback function
  */
 qx.Proto.defineFinalize = function(vFunc) {
   this.getApplicationInstance().finalize = vFunc;
@@ -189,7 +189,7 @@ qx.Proto.defineFinalize = function(vFunc) {
  * define the close function
  * Don't use this method directly. Use setApplication instead!
  *
- * @param vFunc (Function) callback function
+ * @param vFunc {Function} callback function
  */
 qx.Proto.defineClose = function(vFunc) {
   this.getApplicationInstance().close = vFunc;
@@ -199,7 +199,7 @@ qx.Proto.defineClose = function(vFunc) {
  * define the terminate function
  * Don't use this method directly. Use setApplication instead!
  *
- * @param vFunc (Function) callback function
+ * @param vFunc {Function} callback function
  */
 qx.Proto.defineTerminate = function(vFunc) {
   this.getApplicationInstance().terminate = vFunc;
@@ -220,7 +220,7 @@ qx.Proto.defineTerminate = function(vFunc) {
 /**
  * load event handler
  *
- * @param e (Object)
+ * @param e {Object}
  */
 qx.Proto._onload = function(e)
 {
@@ -249,7 +249,7 @@ qx.Proto._onload = function(e)
 /**
  * beforeunload event handler
  *
- * @param e (Object)
+ * @param e {Object}
  */
 qx.Proto._onbeforeunload = function(e)
 {
@@ -261,7 +261,7 @@ qx.Proto._onbeforeunload = function(e)
 /**
  * unload event handler
  *
- * @param e (Object)
+ * @param e {Object}
  */
 qx.Proto._onunload = function(e)
 {

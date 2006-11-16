@@ -33,11 +33,11 @@
  * qx.ui.core.ClientDocument is the parent of all children inside your application. It
  * also handles their resizing and focus navigation.
  *
- * @event windowblur (qx.event.type.Event) Fired when the window looses the
+ * @event windowblur {qx.event.type.Event} Fired when the window looses the
  *        focus. (Fired by {@link qx.event.handler.EventHandler})
- * @event windowfocus (qx.event.type.Event) Fired when the window gets the
+ * @event windowfocus {qx.event.type.Event} Fired when the window gets the
  *        focus. (Fired by {@link qx.event.handler.EventHandler})
- * @event windowresize (qx.event.type.Event) Fired when the window has been
+ * @event windowresize {qx.event.type.Event} Fired when the window has been
  *        resized. (Fired by {@link qx.event.handler.EventHandler})
  */
 qx.OO.defineClass("qx.ui.core.ClientDocument", qx.ui.layout.CanvasLayout,
@@ -169,7 +169,7 @@ qx.Proto._initialLayoutDone = true;
 /**
  * Returns the blocker widget if already created; otherwise create it first
  *
- * @return (ClientDocumentBlocker) the blocker widget.
+ * @return {ClientDocumentBlocker} the blocker widget.
  */
 qx.Proto._getBlocker = function()
 {

@@ -24,7 +24,7 @@
 /**
  * A selection model.
  *
- * @event changeSelection (qx.event.type.Event) Fired when the selection has
+ * @event changeSelection {qx.event.type.Event} Fired when the selection has
  *        changed.
  */
 qx.OO.defineClass("qx.ui.table.SelectionModel", qx.core.Target,
@@ -39,10 +39,10 @@ function() {
 });
 
 
-/** (int) The selection mode "none". Nothing can ever be selected. */
+/** {int} The selection mode "none". Nothing can ever be selected. */
 qx.Class.NO_SELECTION = 1;
 
-/** (int) The selection mode "single". This mode only allows one selected item. */
+/** {int} The selection mode "single". This mode only allows one selected item. */
 qx.Class.SINGLE_SELECTION = 2;
 
 /**
@@ -87,8 +87,8 @@ qx.Proto._modifySelectionMode = function(selectionMode) {
  * In this case, batch mode will not end until it has been turned off once for each
  * turning on.</p>
  *
- * @param batchMode (boolean) true to activate batch mode, false to deactivate
- * @return (boolean) true if batch mode is active, false otherwise
+ * @param batchMode {boolean} true to activate batch mode, false to deactivate
+ * @return {boolean} true if batch mode is active, false otherwise
  * @throws Error if batch mode is turned off once more than it has been turned on
  */
 qx.Proto.setBatchMode = function(batchMode) {
@@ -111,7 +111,7 @@ qx.Proto.setBatchMode = function(batchMode) {
 /**
  * <p>Returns whether batch mode is active. See setter for a description of batch mode.</p>
  *
- * @return (boolean) true if batch mode is active, false otherwise
+ * @return {boolean} true if batch mode is active, false otherwise
  */
 qx.Proto.hasBatchMode = function() {
   return this.hasBatchModeRefCount > 0;
@@ -122,7 +122,7 @@ qx.Proto.hasBatchMode = function() {
  * Returns the first argument of the last call to {@link #setSelectionInterval()},
  * {@link #addSelectionInterval()} or {@link #removeSelectionInterval()}.
  *
- * @return (int) the ancor selection index.
+ * @return {int} the ancor selection index.
  */
 qx.Proto.getAnchorSelectionIndex = function() {
   return this._anchorSelectionIndex;
@@ -133,7 +133,7 @@ qx.Proto.getAnchorSelectionIndex = function() {
  * Returns the second argument of the last call to {@link #setSelectionInterval()},
  * {@link #addSelectionInterval()} or {@link #removeSelectionInterval()}.
  *
- * @return (int) the lead selection index.
+ * @return {int} the lead selection index.
  */
 qx.Proto.getLeadSelectionIndex = function() {
   return this._leadSelectionIndex;
@@ -154,7 +154,7 @@ qx.Proto.clearSelection = function() {
 /**
  * Returns whether the selection is empty.
  *
- * @return (boolean) whether the selection is empty.
+ * @return {boolean} whether the selection is empty.
  */
 qx.Proto.isSelectionEmpty = function() {
   return this._selectedRangeArr.length == 0;
@@ -164,7 +164,7 @@ qx.Proto.isSelectionEmpty = function() {
 /**
  * Returns the number of selected items.
  *
- * @return (int) the number of selected items.
+ * @return {int} the number of selected items.
  */
 qx.Proto.getSelectedCount = function() {
   var selectedCount = 0;
@@ -180,8 +180,8 @@ qx.Proto.getSelectedCount = function() {
 /**
  * Returns whether a index is selected.
  *
- * @param index (int) the index to check.
- * @return (boolean) whether the index is selected.
+ * @param index {int} the index to check.
+ * @return {boolean} whether the index is selected.
  */
 qx.Proto.isSelectedIndex = function(index) {
   for (var i = 0; i < this._selectedRangeArr.length; i++) {
@@ -200,7 +200,7 @@ qx.Proto.isSelectedIndex = function(index) {
  * Returns the selected ranges as an array. Each array element has a
  * <code>minIndex</code> and a <code>maxIndex</code> property.
  *
- * @return (Map[]) the selected ranges.
+ * @return {Map[]} the selected ranges.
  */
 qx.Proto.getSelectedRanges = function() {
   // clone the selection array and the individual elements - this prevents the
@@ -225,9 +225,9 @@ qx.Proto.getSelectedRanges = function() {
  * });
  * </pre>
  *
- * @param iterator (Function) the function to call for each selected index.
+ * @param iterator {Function} the function to call for each selected index.
  *        Gets the current index as parameter.
- * @param object (var ? null) the object to use when calling the handler.
+ * @param object {var ? null} the object to use when calling the handler.
  *        (this object will be available via "this" in the iterator)
  */
 qx.Proto.iterateSelection = function(iterator, object) {
@@ -242,8 +242,8 @@ qx.Proto.iterateSelection = function(iterator, object) {
 /**
  * Sets the selected interval. This will clear the former selection.
  *
- * @param fromIndex (int) the first index of the selection (including).
- * @param toIndex (int) the last index of the selection (including).
+ * @param fromIndex {int} the first index of the selection (including).
+ * @param toIndex {int} the last index of the selection (including).
  */
 qx.Proto.setSelectionInterval = function(fromIndex, toIndex) {
   var SelectionModel = qx.ui.table.SelectionModel;
@@ -266,8 +266,8 @@ qx.Proto.setSelectionInterval = function(fromIndex, toIndex) {
 /**
  * Adds a selection interval to the current selection.
  *
- * @param fromIndex (int) the first index of the selection (including).
- * @param toIndex (int) the last index of the selection (including).
+ * @param fromIndex {int} the first index of the selection (including).
+ * @param toIndex {int} the last index of the selection (including).
  */
 qx.Proto.addSelectionInterval = function(fromIndex, toIndex) {
   var SelectionModel = qx.ui.table.SelectionModel;
@@ -288,8 +288,8 @@ qx.Proto.addSelectionInterval = function(fromIndex, toIndex) {
 /**
  * Removes a interval from the current selection.
  *
- * @param fromIndex (int) the first index of the interval (including).
- * @param toIndex (int) the last index of the interval (including).
+ * @param fromIndex {int} the first index of the interval (including).
+ * @param toIndex {int} the last index of the interval (including).
  */
 qx.Proto.removeSelectionInterval = function(fromIndex, toIndex) {
   this._anchorSelectionIndex = fromIndex;
@@ -353,8 +353,8 @@ qx.Proto._clearSelection = function() {
  * Adds a selection interval to the current selection, but doesn't inform
  * the listeners.
  *
- * @param fromIndex (int) the first index of the selection (including).
- * @param toIndex (int) the last index of the selection (including).
+ * @param fromIndex {int} the first index of the selection (including).
+ * @param toIndex {int} the last index of the selection (including).
  */
 qx.Proto._addSelectionInterval = function(fromIndex, toIndex) {
   this._anchorSelectionIndex = fromIndex;

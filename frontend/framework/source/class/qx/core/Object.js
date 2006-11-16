@@ -34,7 +34,7 @@
  *   <li> object destruction </li>
  * </ul>
  *
- * @param vAutoDispose (boolean ? true) wether the object should be disposed automatically by qooxdoo
+ * @param vAutoDispose {boolean ? true} wether the object should be disposed automatically by qooxdoo
  */
 qx.OO.defineClass("qx.core.Object", Object,
 function(vAutoDispose)
@@ -70,8 +70,8 @@ qx.Class._db = [];
  * Generate an unique key for the given object and return it.
  * Sets object._hashCode to the generated key.
  *
- * @param o (Object)
- * @return (int) unique key for the given object
+ * @param o {Object}
+ * @return {int} unique key for the given object
  */
 qx.Class.toHashCode = function(o)
 {
@@ -115,7 +115,7 @@ qx.Class.dispose = function()
 /**
  * Summary of allocated objects
  *
- * @return (string) summary of allocated objects.
+ * @return {string} summary of allocated objects.
  */
 qx.Class.summary = function()
 {
@@ -185,7 +185,7 @@ qx.OO.addProperty({ name : "enabled", type : qx.constant.Type.BOOLEAN, defaultVa
 /**
  * Returns a string represantation of the qooxdoo object.
  *
- * @returns (string) string representation of the object
+ * @returns {string} string representation of the object
  */
 qx.Proto.toString = function()
 {
@@ -200,7 +200,7 @@ qx.Proto.toString = function()
 /**
  * Return unique hash code of object
  *
- * @return (int) unique hash code of the object
+ * @return {int} unique hash code of the object
  */
 qx.Proto.toHashCode = function() {
   return this._hashCode;
@@ -210,7 +210,7 @@ qx.Proto.toHashCode = function() {
 /**
  * Returns true if the object is disposed.
  *
- * @return (boolean) wether the object has been disposed
+ * @return {boolean} wether the object has been disposed
  */
 qx.Proto.getDisposed = function() {
   return this._disposed;
@@ -220,7 +220,7 @@ qx.Proto.getDisposed = function() {
 /**
  * Returns true if the object is disposed.
  *
- * @return (boolean) wether the object has been disposed
+ * @return {boolean} wether the object has been disposed
  */
 qx.Proto.isDisposed = function() {
   return this._disposed;
@@ -230,8 +230,8 @@ qx.Proto.isDisposed = function() {
 /**
  * Returns a settings from global setting definition
  *
- * @param vKey (string)
- * @return (Object) value of the global setting
+ * @param vKey {string}
+ * @return {Object} value of the global setting
  */
 qx.Proto.getSetting = function(vKey) {
   return qx.Settings.getValueOfClass(this.classname, vKey);
@@ -247,7 +247,7 @@ qx.Proto.getSetting = function(vKey) {
 /**
  * Returns the logger of this class.
  *
- * @return (qx.dev.log.Logger) the logger of this class.
+ * @return {qx.dev.log.Logger} the logger of this class.
  */
 qx.Proto.getLogger = function() {
   return qx.dev.log.Logger.getClassLogger(this.constructor);
@@ -257,9 +257,9 @@ qx.Proto.getLogger = function() {
 /**
  * Logs a debug message.
  *
- * @param msg (var) the message to log. If this is not a string, the
+ * @param msg {var} the message to log. If this is not a string, the
  *        object dump will be logged.
- * @param exc (var ? null) the exception to log.
+ * @param exc {var ? null} the exception to log.
  */
 qx.Proto.debug = function(msg, exc) {
   this.getLogger().debug(msg, this._hashCode, exc);
@@ -269,9 +269,9 @@ qx.Proto.debug = function(msg, exc) {
 /**
  * Logs an info message.
  *
- * @param msg (var) the message to log. If this is not a string, the
+ * @param msg {var} the message to log. If this is not a string, the
  *    object dump will be logged.
- * @param exc (var ? null) the exception to log.
+ * @param exc {var ? null} the exception to log.
  */
 qx.Proto.info = function(msg, exc) {
   this.getLogger().info(msg, this._hashCode, exc);
@@ -281,9 +281,9 @@ qx.Proto.info = function(msg, exc) {
 /**
  * Logs a warning message.
  *
- * @param msg (var) the message to log. If this is not a string, the
+ * @param msg {var} the message to log. If this is not a string, the
  *    object dump will be logged.
- * @param exc (var ? null) the exception to log.
+ * @param exc {var ? null} the exception to log.
  */
 qx.Proto.warn = function(msg, exc) {
   this.getLogger().warn(msg, this._hashCode, exc);
@@ -293,9 +293,9 @@ qx.Proto.warn = function(msg, exc) {
 /**
  * Logs an error message.
  *
- * @param msg (var) the message to log. If this is not a string, the
+ * @param msg {var} the message to log. If this is not a string, the
  *    object dump will be logged.
- * @param exc (var ? null) the exception to log.
+ * @param exc {var ? null} the exception to log.
  */
 qx.Proto.error = function(msg, exc) {
   this.getLogger().error(msg, this._hashCode, exc);
@@ -313,7 +313,7 @@ qx.Proto.error = function(msg, exc) {
 /**
  * Sets multiple properties at once by using a property list
  *
- * @param propertyValues (Object) A hash of key-value pairs.
+ * @param propertyValues {Object} A hash of key-value pairs.
  */
 qx.Proto.set = function(propertyValues)
 {
@@ -339,8 +339,8 @@ qx.Proto.set = function(propertyValues)
 /**
  * Gets multiple properties at once by using a property list
  *
- * @param propertyNames (string | array | hash) list of the properties to get
- * @param outputHint (string ? "array") how should the values be returned. Possible values are "hash" and "array".
+ * @param propertyNames {string | array | hash} list of the properties to get
+ * @param outputHint {string ? "array"} how should the values be returned. Possible values are "hash" and "array".
 */
 qx.Proto.get = function(propertyNames, outputHint)
 {

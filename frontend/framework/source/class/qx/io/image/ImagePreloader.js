@@ -25,8 +25,8 @@
 /**
  * This is the preloader used from qx.ui.basic.Image instances.
  *
- * @event load (qx.event.type.Event)
- * @event error (qx.event.type.Event)
+ * @event load {qx.event.type.Event}
+ * @event error {qx.event.type.Event}
  */
 qx.OO.defineClass("qx.io.image.ImagePreloader", qx.core.Target,
 function(vSource)

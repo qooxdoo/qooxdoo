@@ -26,7 +26,7 @@
  * a {@link TablePane} and the needed scroll bars. This class handles the
  * virtual scrolling and does all the mouse event handling.
  *
- * @param table (Table) the table the scroller belongs to.
+ * @param table {Table} the table the scroller belongs to.
  */
 qx.OO.defineClass("qx.ui.table.TablePaneScroller", qx.ui.layout.VerticalBoxLayout,
 function(table) {
@@ -202,7 +202,7 @@ qx.Proto._modifyScrollY = function(propValue, propOldValue, propData) {
 /**
  * Returns the table this scroller belongs to.
  *
- * @return (Table) the table.
+ * @return {Table} the table.
  */
 qx.Proto.getTable = function() {
   return this._table;
@@ -212,7 +212,7 @@ qx.Proto.getTable = function() {
 /**
  * Event handler. Called when the visibility of a column has changed.
  *
- * @param evt (Map) the event.
+ * @param evt {Map} the event.
  */
 qx.Proto._onColVisibilityChanged = function(evt) {
   this._updateHorScrollBarMaximum();
@@ -223,7 +223,7 @@ qx.Proto._onColVisibilityChanged = function(evt) {
 /**
  * Event handler. Called when the width of a column has changed.
  *
- * @param evt (Map) the event.
+ * @param evt {Map} the event.
  */
 qx.Proto._onColWidthChanged = function(evt) {
   this._header._onColWidthChanged(evt);
@@ -243,7 +243,7 @@ qx.Proto._onColWidthChanged = function(evt) {
 /**
  * Event handler. Called when the column order has changed.
  *
- * @param evt (Map) the event.
+ * @param evt {Map} the event.
  */
 qx.Proto._onColOrderChanged = function(evt) {
   this._header._onColOrderChanged(evt);
@@ -256,7 +256,7 @@ qx.Proto._onColOrderChanged = function(evt) {
 /**
  * Event handler. Called when the table model has changed.
  *
- * @param evt (Map) the event.
+ * @param evt {Map} the event.
  */
 qx.Proto._onTableModelDataChanged = function(evt) {
   this._tablePane._onTableModelDataChanged(evt);
@@ -280,7 +280,7 @@ qx.Proto._onTableModelDataChanged = function(evt) {
 /**
  * Event handler. Called when the selection has changed.
  *
- * @param evt (Map) the event.
+ * @param evt {Map} the event.
  */
 qx.Proto._onSelectionChanged = function(evt) {
   this._tablePane._onSelectionChanged(evt);
@@ -290,7 +290,7 @@ qx.Proto._onSelectionChanged = function(evt) {
 /**
  * Event handler. Called when the table model meta data has changed.
  *
- * @param evt (Map) the event.
+ * @param evt {Map} the event.
  */
 qx.Proto._onTableModelMetaDataChanged = function(evt) {
   this._header._onTableModelMetaDataChanged(evt);
@@ -301,7 +301,7 @@ qx.Proto._onTableModelMetaDataChanged = function(evt) {
 /**
  * Event handler. Called when the pane model has changed.
  *
- * @param evt (Map) the event.
+ * @param evt {Map} the event.
  */
 qx.Proto._onPaneModelChanged = function(evt) {
   this._header._onPaneModelChanged(evt);
@@ -370,7 +370,7 @@ qx.Proto._afterAppear = function() {
 /**
  * Event handler. Called when the horizontal scroll bar moved.
  *
- * @param evt (Map) the event.
+ * @param evt {Map} the event.
  */
 qx.Proto._onScrollX = function(evt) {
   // Workaround: See _updateContent
@@ -384,7 +384,7 @@ qx.Proto._onScrollX = function(evt) {
 /**
  * Event handler. Called when the vertical scroll bar moved.
  *
- * @param evt (Map) the event.
+ * @param evt {Map} the event.
  */
 qx.Proto._onScrollY = function(evt) {
   this._postponedUpdateContent();
@@ -395,7 +395,7 @@ qx.Proto._onScrollY = function(evt) {
 /**
  * Event handler. Called when the user moved the mouse wheel.
  *
- * @param evt (Map) the event.
+ * @param evt {Map} the event.
  */
 qx.Proto._onmousewheel = function(evt) {
   this._verScrollBar.setValue(this._verScrollBar.getValue()
@@ -411,7 +411,7 @@ qx.Proto._onmousewheel = function(evt) {
 /**
  * Event handler. Called when the user moved the mouse.
  *
- * @param evt (Map) the event.
+ * @param evt {Map} the event.
  */
 qx.Proto._onmousemove = function(evt) {
   var tableModel = this.getTable().getTableModel();
@@ -508,7 +508,7 @@ qx.Proto._onmousemove = function(evt) {
 /**
  * Event handler. Called when the user pressed a mouse button.
  *
- * @param evt (Map) the event.
+ * @param evt {Map} the event.
  */
 qx.Proto._onmousedown = function(evt) {
   var tableModel = this.getTable().getTableModel();
@@ -551,7 +551,7 @@ qx.Proto._onmousedown = function(evt) {
 /**
  * Event handler. Called when the user released a mouse button.
  *
- * @param evt (Map) the event.
+ * @param evt {Map} the event.
  */
 qx.Proto._onmouseup = function(evt) {
   var columnModel = this.getTable().getTableColumnModel();
@@ -614,7 +614,7 @@ qx.Proto._onmouseup = function(evt) {
 /**
  * Event handler. Called when the user clicked a mouse button.
  *
- * @param evt (Map) the event.
+ * @param evt {Map} the event.
  */
 qx.Proto._onclick = function(evt) {
   var tableModel = this.getTable().getTableModel();
@@ -646,7 +646,7 @@ qx.Proto._onclick = function(evt) {
 /**
  * Event handler. Called when the user double clicked a mouse button.
  *
- * @param evt (Map) the event.
+ * @param evt {Map} the event.
  */
 qx.Proto._ondblclick = function(evt) {
   if (! this.isEditing()) {
@@ -659,7 +659,7 @@ qx.Proto._ondblclick = function(evt) {
 /**
  * Event handler. Called when the mouse moved out.
  *
- * @param evt (Map) the event.
+ * @param evt {Map} the event.
  */
 qx.Proto._onmouseout = function(evt) {
   /*
@@ -682,7 +682,7 @@ qx.Proto._onmouseout = function(evt) {
 /**
  * Shows the resize line.
  *
- * @param x (int) the position where to show the line (in pixels, relative to
+ * @param x {int} the position where to show the line (in pixels, relative to
  *    the left side of the pane).
  */
 qx.Proto._showResizeLine = function(x) {
@@ -715,8 +715,8 @@ qx.Proto._hideResizeLine = function() {
 /**
  * Shows the feedback shown while a column is moved by the user.
  *
- * @param pageX (int) the x position of the mouse in the page (in pixels).
- * @return (int) the visible x position of the column in the whole table.
+ * @param pageX {int} the x position of the mouse in the page (in pixels).
+ * @return {int} the visible x position of the column in the whole table.
  */
 qx.Proto.showColumnMoveFeedback = function(pageX) {
   var paneModel = this.getTablePaneModel();
@@ -767,8 +767,8 @@ qx.Proto.hideColumnMoveFeedback = function() {
  * <code>pageX</code>/<code>pageY</code>. If there is no cell at that position,
  * nothing happens.
  *
- * @param pageX (int) the x position in the page (in pixels).
- * @param pageY (int) the y position in the page (in pixels).
+ * @param pageX {int} the x position in the page (in pixels).
+ * @param pageY {int} the y position in the page (in pixels).
  */
 qx.Proto._focusCellAtPagePos = function(pageX, pageY) {
   var row = this._getRowForPagePos(pageX, pageY);
@@ -785,8 +785,8 @@ qx.Proto._focusCellAtPagePos = function(pageX, pageY) {
 /**
  * Sets the currently focused cell.
  *
- * @param col (int) the model index of the focused cell's column.
- * @param row (int) the model index of the focused cell's row.
+ * @param col {int} the model index of the focused cell's column.
+ * @param row {int} the model index of the focused cell's row.
  */
 qx.Proto.setFocusedCell = function(col, row) {
   if (!this.isEditing()) {
@@ -806,7 +806,7 @@ qx.Proto.setFocusedCell = function(col, row) {
 /**
  * Returns the column of currently focused cell.
  *
- * @return (int) the model index of the focused cell's column.
+ * @return {int} the model index of the focused cell's column.
  */
 qx.Proto.getFocusedColumn = function() {
   return this._focusedCol;
@@ -816,7 +816,7 @@ qx.Proto.getFocusedColumn = function() {
 /**
  * Returns the row of currently focused cell.
  *
- * @return (int) the model index of the focused cell's column.
+ * @return {int} the model index of the focused cell's column.
  */
 qx.Proto.getFocusedRow = function() {
   return this._focusedRow;
@@ -826,8 +826,8 @@ qx.Proto.getFocusedRow = function() {
 /**
  * Scrolls a cell visible.
  *
- * @param col (int) the model index of the column the cell belongs to.
- * @param row (int) the model index of the row the cell belongs to.
+ * @param col {int} the model index of the column the cell belongs to.
+ * @param row {int} the model index of the row the cell belongs to.
  */
 qx.Proto.scrollCellVisible = function(col, row) {
   var paneModel = this.getTablePaneModel();
@@ -875,7 +875,7 @@ qx.Proto.isEditing = function() {
  * Starts editing the currently focused cell. Does nothing if already editing
  * or if the column is not editable.
  *
- * @return (boolean) whether editing was started
+ * @return {boolean} whether editing was started
  */
 qx.Proto.startEditing = function() {
   var tableModel = this.getTable().getTableModel();
@@ -950,7 +950,7 @@ qx.Proto.cancelEditing = function() {
 /**
  * Event handler. Called when the focused state of the cell editor changed.
  *
- * @param evt (Map) the event.
+ * @param evt {Map} the event.
  */
 qx.Proto._onCellEditorFocusChanged = function(evt) {
   if (!this._cellEditor.getFocused()) {
@@ -963,8 +963,8 @@ qx.Proto._onCellEditorFocusChanged = function(evt) {
  * Returns the model index of the column the mouse is over or null if the mouse
  * is not over a column.
  *
- * @param pageX (int) the x position of the mouse in the page (in pixels).
- * @return (int) the model index of the column the mouse is over.
+ * @param pageX {int} the x position of the mouse in the page (in pixels).
+ * @return {int} the model index of the column the mouse is over.
  */
 qx.Proto._getColumnForPageX = function(pageX) {
   var headerLeftX = qx.dom.DomLocation.getClientBoxLeft(this._header.getElement());
@@ -991,8 +991,8 @@ qx.Proto._getColumnForPageX = function(pageX) {
  * Returns the model index of the column that should be resized when dragging
  * starts here. Returns -1 if the mouse is in no resize region of any column.
  *
- * @param pageX (int) the x position of the mouse in the page (in pixels).
- * @return (int) the column index.
+ * @param pageX {int} the x position of the mouse in the page (in pixels).
+ * @return {int} the column index.
  */
 qx.Proto._getResizeColumnForPageX = function(pageX) {
   var headerLeftX = qx.dom.DomLocation.getClientBoxLeft(this._header.getElement());
@@ -1021,9 +1021,9 @@ qx.Proto._getResizeColumnForPageX = function(pageX) {
  * the mouse is over the header. Returns null if the mouse is not over any
  * column.
  *
- * @param pageX (int) the mouse x position in the page.
- * @param pageY (int) the mouse y position in the page.
- * @return (int) the model index of the row the mouse is currently over.
+ * @param pageX {int} the mouse x position in the page.
+ * @param pageY {int} the mouse y position in the page.
+ * @return {int} the model index of the row the mouse is currently over.
  */
 qx.Proto._getRowForPagePos = function(pageX, pageY) {
   var paneClipperElem = this._paneClipper.getElement();
@@ -1071,7 +1071,7 @@ qx.Proto._getRowForPagePos = function(pageX, pageY) {
  * The widget will not be disposed, when this table scroller is disposed. So the
  * caller has to dispose it.
  *
- * @param widget (qx.ui.core.Widget) The widget to set. May be null.
+ * @param widget {qx.ui.core.Widget} The widget to set. May be null.
  */
 qx.Proto.setTopRightWidget = function(widget) {
   var oldWidget = this._topRightWidget;
@@ -1093,7 +1093,7 @@ qx.Proto.setTopRightWidget = function(widget) {
 /**
  * Returns the header.
  *
- * @return (TablePaneHeader) the header.
+ * @return {TablePaneHeader} the header.
  */
 qx.Proto.getHeader = function() {
   return this._header;
@@ -1103,7 +1103,7 @@ qx.Proto.getHeader = function() {
 /**
  * Returns the table pane.
  *
- * @return (TablePane) the table pane.
+ * @return {TablePane} the table pane.
  */
 qx.Proto.getTablePane = function() {
   return this._tablePane;
@@ -1113,11 +1113,11 @@ qx.Proto.getTablePane = function() {
 /**
  * Returns which scrollbars are needed.
  *
- * @param forceHorizontal (boolean ? false) Whether to show the horizontal
+ * @param forceHorizontal {boolean ? false} Whether to show the horizontal
  *    scrollbar always.
- * @param preventVertical (boolean ? false) Whether tp show the vertical scrollbar
+ * @param preventVertical {boolean ? false} Whether tp show the vertical scrollbar
  *    never.
- * @return (int) which scrollbars are needed. This may be any combination of
+ * @return {int} which scrollbars are needed. This may be any combination of
  *    {@link #HORIZONTAL_SCROLLBAR} or {@link #VERTICAL_SCROLLBAR}
  *    (combined by OR).
  */
@@ -1286,10 +1286,10 @@ qx.Proto.dispose = function() {
 }
 
 
-/** (int) The minimum width a colum could get in pixels. */
+/** {int} The minimum width a colum could get in pixels. */
 qx.Class.MIN_COLUMN_WIDTH = 10;
 
-/** (int) The radius of the resize region in pixels. */
+/** {int} The radius of the resize region in pixels. */
 qx.Class.RESIZE_REGION_RADIUS = 5;
 
 /**
