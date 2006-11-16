@@ -63,3 +63,7 @@ qx.Proto.createHeaderCell = function(cellInfo) {
 qx.Proto.updateHeaderCell = function(cellInfo, cellWidget) {
   throw new Error("updateHeaderCell is abstract");
 }
+
+
+/** The preferred height of cells created by this header renderer. */
+qx.OO.addProperty({ name:"prefferedCellHeight", type:qx.constant.Type.NUMBER, defaultValue:16, allowNull:false });
