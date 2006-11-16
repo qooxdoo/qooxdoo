@@ -104,7 +104,9 @@ qx.OO.addProperty({ name:"keepFirstVisibleRowComplete", type:qx.constant.Type.BO
  * focus changed. This slows down the table update but allows to react on a
  * changed selection or a changed focus in a cell renderer.
  */
-qx.OO.addProperty({ name:"alwaysUpdateCells", type:qx.constant.Type.BOOLEAN, defaultValue:false });
+
+/** The height of the header cells. */
+qx.OO.addProperty({ name:"headerCellHeight", type:qx.constant.Type.NUMBER, defaultValue:16, allowNull:false });
 
 
 // property modifier
@@ -209,20 +211,13 @@ qx.Proto._modifyMetaColumnCounts = function(propValue, propOldValue, propData) {
     }
   }
 
-  // calculate the new header height
-  var maxHeaderHeight = 0;
-  for (var i = 0; i < scrollerArr.length; i++) {
-    var headerHeight = scrollerArr[i].getHeader().calculateHeaderHeight();
-    maxHeaderHeight = Math.max(headerHeight, maxHeaderHeight);
-  }
-
   // Update all meta columns
   for (var i = 0; i < scrollerArr.length; i++) {
     var paneScroller = scrollerArr[i];
     var isLast = (i == (scrollerArr.length - 1));
 
     // Set the right header height
-    paneScroller.getHeader().setHeight(maxHeaderHeight);
+    paneScroller.getHeader().setHeight(this.getHeaderCellHeight());
 
     // Put the _columnVisibilityBt in the top right corner of the last meta column
     paneScroller.setTopRightWidget(isLast ? this._columnVisibilityBt : null);
@@ -250,6 +245,16 @@ qx.Proto._modifyKeepFirstVisibleRowComplete = function(propValue, propOldValue, 
   var scrollerArr = this._getPaneScrollerArr();
   for (var i = 0; i < scrollerArr.length; i++) {
     scrollerArr[i]._onKeepFirstVisibleRowCompleteChanged();
+  }
+  return true;
+};
+
+
+// property modifier
+qx.Proto._modifyHeaderCellHeight = function(propValue, propOldValue, propData) {
+  var scrollerArr = this._getPaneScrollerArr();
+  for (var i = 0; i < scrollerArr.length; i++) {
+    scrollerArr[i].getHeader().setHeight(propValue);
   }
   return true;
 };
