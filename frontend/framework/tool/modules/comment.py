@@ -396,12 +396,23 @@ def cleanupText(text):
   text = text.replace("<br>", "\n")
   text = text.replace("</p>", " ")
 
-  while True:
-    temp = text
-    text = temp.replace("\n\n\n", "\n\n")
-
-    if text == temp:
-      break
+  newline = False
+  lines = text.split("\n")
+  text = ""
+  
+  for line in lines:
+    line = line.strip()
+    
+    if line == "":
+      if not newline:
+        newline = True
+      
+    else:
+      if newline:
+        text += "\n"
+        newline = False
+  
+      text += line + "\n"
 
   #print "============= OUTTEXT ========================="
   #print text
@@ -529,7 +540,6 @@ def fromFunction(func, member, name, alternative, old=[]):
     newText = "TODOC"
 
   s += splitText(newText, False)
-  s += " *\n"
 
 
 
