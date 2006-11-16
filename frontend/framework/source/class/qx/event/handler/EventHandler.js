@@ -492,6 +492,8 @@ qx.Proto._onkeyevent = function(vDomEvent)
   this._lastCharCodeForEvent[vType] = vCharCode;
   this._lastKeyEventType = vType;
 
+  var vKeyCode = vKeyCode || vCharCode;
+
   this._onkeyevent_post(vDomEvent, vType, vKeyCode);
 }
 
