@@ -538,7 +538,7 @@ def fromFunction(func, member, name, alternative, old=[]):
   # add @name
   ##############################################################
   if name != None:
-    # s += " * @name %s\n" % name
+    s += " * @name %s\n" % name
 
     if name.startswith("_"):
       s += " * @mode protected\n"
