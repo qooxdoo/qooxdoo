@@ -632,7 +632,7 @@ def fromFunction(func, member, name, alternative, old=[]):
           if attribHas(oldParam, "text"):
             newText = oldParam["text"].strip()
 
-        s += " * @param %s (%s%s)%s" % (newName, newTypeText, newDefault, splitText(newText))
+        s += " * @param %s {%s%s}%s" % (newName, newTypeText, newDefault, splitText(newText))
 
         if not s.endswith("\n"):
           s += "\n"
