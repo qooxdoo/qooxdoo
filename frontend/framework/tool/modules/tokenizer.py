@@ -12,8 +12,8 @@ R_NEWLINE = re.compile(r"(\n)")
 # Multicomment RegExp inspired by: http://ostermiller.org/findcomment.html
 
 # builds regexp strings
-S_STRING_A = "'[^'\\\n]*(\\.[^'\\\n]*)*'"
-S_STRING_B = '"[^"\\\n]*(\\.[^"\\\n]*)*"'
+S_STRING_A = "'[^'\\\n]*(\\.|\n[^'\\\n]*)*'"
+S_STRING_B = '"[^"\\\n]*(\\.|\n[^"\\\n]*)*"'
 
 S_FLOAT = "([0-9]+\.[0-9]+)"
 
@@ -246,12 +246,12 @@ def parseStream(content, uniqueId=""):
     elif R_STRING_A.match(fragment):
       # print "Type:StringA: %s" % fragment
       content = parseFragmentLead(content, fragment, tokens)
-      tokens.append({ "type" : "string", "detail" : "singlequotes", "source" : recoverEscape(fragment)[1:-1], "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn })
+      tokens.append({ "type" : "string", "detail" : "singlequotes", "source" : recoverEscape(fragment)[1:-1].replace("\\\n",""), "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn })
 
     elif R_STRING_B.match(fragment):
       # print "Type:StringB: %s" % fragment
       content = parseFragmentLead(content, fragment, tokens)
-      tokens.append({ "type" : "string", "detail" : "doublequotes", "source" : recoverEscape(fragment)[1:-1], "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn })
+      tokens.append({ "type" : "string", "detail" : "doublequotes", "source" : recoverEscape(fragment)[1:-1].replace("\\\n",""), "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn })
 
     elif R_FLOAT.match(fragment):
       # print "Type:Float: %s" % fragment
