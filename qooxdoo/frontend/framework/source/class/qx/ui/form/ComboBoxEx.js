@@ -269,7 +269,7 @@ qx.Proto.getColumnHeaders = function(propVal) {
 }
 
 /**Sets the list of selectable items.
- * @param data (var[][]) Array of values.  Its value is an array, with the following info:<ul>.
+ * @param data {var[][]} Array of values.  Its value is an array, with the following info:<ul>.
  * <li>Column 0 represents the ID, i.e. the value that is stored internally and used by the app.</li>
  * <li>Column 1 represents the description, the text that the end user normally sees.</li>
  * <li>Columns > 1 will also be shown in the popup list, it you have set the appropiate column headers with {@link #setColumnHeaders}.</li>

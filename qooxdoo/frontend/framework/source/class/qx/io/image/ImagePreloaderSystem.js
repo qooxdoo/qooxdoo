@@ -23,7 +23,7 @@
 ************************************************************************ */
 
 /**
- * @event completed (qx.event.type.Event)
+ * @event completed {qx.event.type.Event}
  */
 qx.OO.defineClass("qx.io.image.ImagePreloaderSystem", qx.core.Target,
 function(vPreloadList, vCallBack, vCallBackScope)

@@ -36,7 +36,7 @@
  * <li>Images and text inside the list</li>
  * </ul>
  *
- * @event beforeInitialOpen (qx.event.type.Event)
+ * @event beforeInitialOpen {qx.event.type.Event}
  */
 qx.OO.defineClass("qx.ui.form.ComboBox", qx.ui.layout.HorizontalBoxLayout,
 function()

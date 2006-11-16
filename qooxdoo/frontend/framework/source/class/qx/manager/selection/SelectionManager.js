@@ -26,7 +26,7 @@
  * This class represents a selection and manage incoming events for widgets
  * which need selection support.
  *
- * @event changeSelection (qx.event.type.DataEvent)
+ * @event changeSelection {qx.event.type.DataEvent}
  */
 qx.OO.defineClass("qx.manager.selection.SelectionManager", qx.core.Target,
 function(vBoundedWidget)

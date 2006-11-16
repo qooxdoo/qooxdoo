@@ -24,7 +24,7 @@
 /**
  * Shows the header of a table.
  *
- * @param paneScroller (TablePaneScroller) the TablePaneScroller the header belongs to.
+ * @param paneScroller {TablePaneScroller} the TablePaneScroller the header belongs to.
  */
 qx.OO.defineClass("qx.ui.table.TablePaneHeader", qx.ui.layout.HorizontalBoxLayout,
 function(paneScroller) {
@@ -37,7 +37,7 @@ function(paneScroller) {
 /**
  * Returns the TablePaneScroller this header belongs to.
  *
- * @return (TablePaneScroller) the TablePaneScroller.
+ * @return {TablePaneScroller} the TablePaneScroller.
  */
 qx.Proto.getPaneScroller = function() {
   return this._paneScroller;
@@ -47,7 +47,7 @@ qx.Proto.getPaneScroller = function() {
 /**
  * Returns the table this header belongs to.
  *
- * @return (Table) the table.
+ * @return {Table} the table.
  */
 qx.Proto.getTable = function() {
   return this._paneScroller.getTable();
@@ -57,7 +57,7 @@ qx.Proto.getTable = function() {
 /**
  * Event handler. Called when the width of a column has changed.
  *
- * @param evt (Map) the event.
+ * @param evt {Map} the event.
  */
 qx.Proto._onColWidthChanged = function(evt) {
   var data = evt.getData();
@@ -68,7 +68,7 @@ qx.Proto._onColWidthChanged = function(evt) {
 /**
  * Event handler. Called the column order has changed.
  *
- * @param evt (Map) the event.
+ * @param evt {Map} the event.
  */
 qx.Proto._onColOrderChanged = function(evt) {
   this._updateContent(true);
@@ -78,7 +78,7 @@ qx.Proto._onColOrderChanged = function(evt) {
 /**
  * Event handler. Called when the pane model has changed.
  *
- * @param evt (Map) the event.
+ * @param evt {Map} the event.
  */
 qx.Proto._onPaneModelChanged = function(evt) {
   this._updateContent(true);
@@ -88,7 +88,7 @@ qx.Proto._onPaneModelChanged = function(evt) {
 /**
  * Event handler. Called when the table model meta data has changed.
  *
- * @param evt (Map) the event.
+ * @param evt {Map} the event.
  */
 qx.Proto._onTableModelMetaDataChanged = function(evt) {
   this._updateContent();
@@ -98,8 +98,8 @@ qx.Proto._onTableModelMetaDataChanged = function(evt) {
 /**
  * Sets the column width. This overrides the width from the column model.
  *
- * @param col (int) the column to change the width for.
- * @param width (int) the new width.
+ * @param col {int} the column to change the width for.
+ * @param width {int} the new width.
  */
 qx.Proto.setColumnWidth = function(col, width) {
   var x = this.getPaneScroller().getTablePaneModel().getX(col);
@@ -113,7 +113,7 @@ qx.Proto.setColumnWidth = function(col, width) {
 /**
  * Sets the column the mouse is currently over.
  *
- * @param col (int) the model index of the column the mouse is currently over or
+ * @param col {int} the model index of the column the mouse is currently over or
  *    null if the mouse is over no column.
  */
 qx.Proto.setMouseOverColumn = function(col) {
@@ -139,8 +139,8 @@ qx.Proto.setMouseOverColumn = function(col) {
 /**
  * Shows the feedback shown while a column is moved by the user.
  *
- * @param col (int) the model index of the column to show the move feedback for.
- * @param x (int) the x position the left side of the feeback should have
+ * @param col {int} the model index of the column to show the move feedback for.
+ * @param x {int} the x position the left side of the feeback should have
  *    (in pixels, relative to the left side of the header).
  */
 qx.Proto.showColumnMoveFeedback = function(col, x) {
@@ -198,7 +198,7 @@ qx.Proto.isShowingColumnMoveFeedback = function() {
 /**
  * Updates the content of the header.
  *
- * @param completeUpdate (boolean) if true a complete update is performed. On a
+ * @param completeUpdate {boolean} if true a complete update is performed. On a
  *    complete update all header widgets are recreated.
  */
 qx.Proto._updateContent = function(completeUpdate) {

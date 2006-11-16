@@ -150,8 +150,8 @@ qx.Class.contains = function(str, s) {
 /**
  * Escapes all chars that have a special meaning in regular expressions
  *
- * @param str (string) the string where to escape the chars.
- * @return (string) the string with the escaped chars.
+ * @param str {string} the string where to escape the chars.
+ * @return {string} the string with the escaped chars.
  */
 qx.Class.escapeRegexpChars = function(str) {
     return str.replace(/([\\\.\(\)\[\]\{\}\^\$\?\+\*])/g, "\\$1");

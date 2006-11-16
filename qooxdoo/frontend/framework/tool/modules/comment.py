@@ -31,8 +31,8 @@ R_JAVADOC_STARS = re.compile(r'^\s*\*')
 
 
 
-R_NAMED_TYPE = re.compile(r'^\s*(\w+)\s*(\(([^\)]+)\))?')
-R_SIMPLE_TYPE = re.compile(r'^\s*(\(([^\)]+)\))?')
+R_NAMED_TYPE = re.compile(r'^\s*(\w+)\s*({([^\)]+)\})?')
+R_SIMPLE_TYPE = re.compile(r'^\s*({([^\)]+)})?')
 
 
 
@@ -670,7 +670,7 @@ def fromFunction(func, member, name, alternative, old=[]):
   if newType != "void" and newText == "":
     newText = "TODOC"
 
-  s += " * @return (%s)%s" % (newType, splitText(newText))
+  s += " * @return {%s}%s" % (newType, splitText(newText))
 
   if not s.endswith("\n"):
     s += "\n"
@@ -721,7 +721,6 @@ def fromFunction(func, member, name, alternative, old=[]):
         s += "\n"
 
     elif not cat in [ "name", "mode", "membership", "alternative", "param", "return", "throws", "description" ]:
-      print
       print " * Found unallowed attribute %s in comment for %s" % (cat, name)
 
 

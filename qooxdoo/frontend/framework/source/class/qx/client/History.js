@@ -31,7 +31,7 @@
  * the entries was requested by the user (e.g. by clicking on the back button).
  * </p>
  *
- * @event request (qx.event.type.DataEvent) Fired when the user moved in the
+ * @event request {qx.event.type.DataEvent} Fired when the user moved in the
  *        history. The data property of the event holds the command, which was
  *        passed to {@link #addToHistory}.
  */
@@ -59,10 +59,10 @@ qx.Proto.init = function() {
 /**
  * Adds an entry to the browser history.
  *
- * @param command (string) a string representing the old state of the
+ * @param command {string} a string representing the old state of the
  *        application. This command will be delivered in the data property of
  *        the "request" event.
- * @param newTitle (string ? null) the page title to set after the history entry
+ * @param newTitle {string ? null} the page title to set after the history entry
  *        is done. This title should represent the new state of the application.
  */
 qx.Proto.addToHistory = function(command, newTitle) {
@@ -90,7 +90,7 @@ qx.Proto.addToHistory = function(command, newTitle) {
 /**
  * Event handler. Called when the history helper page was loaded.
  *
- * @param location (Map) the location property of the window object of the
+ * @param location {Map} the location property of the window object of the
  *        helper page.
  */
 qx.Proto._onHistoryLoad = function(location)
