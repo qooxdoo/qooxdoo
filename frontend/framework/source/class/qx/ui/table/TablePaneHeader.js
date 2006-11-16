@@ -196,26 +196,6 @@ qx.Proto.isShowingColumnMoveFeedback = function() {
 
 
 /**
- * Calculates the preferred height of the header cells.
- */
-qx.Proto.calculateHeaderHeight = function() {
-  // TODO: The following code works with qx.ui.basic.Label, but it fails with qx.ui.basic.Atom....
-  return 16;
-
-  this._updateContent();
-
-  var maxHeight = 0;
-  var children = this.getChildren();
-  for (var i = 0; i < children.length; i++) {
-    var height = children[i].getPreferredBoxHeight();
-    maxHeight = Math.max(height, maxHeight);
-  }
-
-  return maxHeight;
-}
-
-
-/**
  * Updates the content of the header.
  *
  * @param completeUpdate (boolean) if true a complete update is performed. On a
