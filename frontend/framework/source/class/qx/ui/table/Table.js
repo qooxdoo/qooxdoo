@@ -104,6 +104,7 @@ qx.OO.addProperty({ name:"keepFirstVisibleRowComplete", type:qx.constant.Type.BO
  * focus changed. This slows down the table update but allows to react on a
  * changed selection or a changed focus in a cell renderer.
  */
+qx.OO.addProperty({ name:"alwaysUpdateCells", type:qx.constant.Type.BOOLEAN, defaultValue:false });
 
 /** The height of the header cells. */
 qx.OO.addProperty({ name:"headerCellHeight", type:qx.constant.Type.NUMBER, defaultValue:16, allowNull:false });
