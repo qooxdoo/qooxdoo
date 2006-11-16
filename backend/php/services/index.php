@@ -32,6 +32,7 @@ require "JSON.phps";
 define("servicePathPrefix",                "");
 
 
+
 /*
  * JSON-RPC error origins
  */
@@ -225,7 +226,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     {
     case "text/json":
         /* We found literal POSTed json-rpc data (we hope) */
-        $input = file_get_contents('php://input', 1000000);
+        $input = file_get_contents('php://input');
         $jsonInput = $json->decode($input);
         break;
     
@@ -237,7 +238,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         if (count($_POST) == 1 && isset($_POST["_data_"]))
         {
             /* $_POST["_data_"] has quotes escaped.  php://input doesn't. */
-            $input = file_get_contents('php://input', 1000000);
+            $input = file_get_contents('php://input');
             $inputFields = explode("=", $input);
             $jsonInput = $json->decode(urldecode($inputFields[1]));
             break;
