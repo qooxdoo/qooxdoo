@@ -46,8 +46,8 @@ qx.OO.addProperty({ name:"selectionModel", type:qx.constant.Type.OBJECT, instanc
 /**
  * Handles the mouse down event.
  *
- * @param index (int) the index the mouse is pointing at.
- * @param evt (Map) the mouse event.
+ * @param index {int} the index the mouse is pointing at.
+ * @param evt {Map} the mouse event.
  */
 qx.Proto.handleMouseDown = function(index, evt) {
   if (evt.isLeftButtonPressed()) {
@@ -73,8 +73,8 @@ qx.Proto.handleMouseDown = function(index, evt) {
 /**
  * Handles the mouse up event.
  *
- * @param index (int) the index the mouse is pointing at.
- * @param evt (Map) the mouse event.
+ * @param index {int} the index the mouse is pointing at.
+ * @param evt {Map} the mouse event.
  */
 qx.Proto.handleMouseUp = function(index, evt) {
   if (evt.isLeftButtonPressed() && !this._lastMouseDownHandled) {
@@ -86,8 +86,8 @@ qx.Proto.handleMouseUp = function(index, evt) {
 /**
  * Handles the mouse click event.
  *
- * @param index (int) the index the mouse is pointing at.
- * @param evt (Map) the mouse event.
+ * @param index {int} the index the mouse is pointing at.
+ * @param evt {Map} the mouse event.
  */
 qx.Proto.handleClick = function(index, evt) {
 }
@@ -97,8 +97,8 @@ qx.Proto.handleClick = function(index, evt) {
  * Handles the key down event that is used as replacement for mouse clicks
  * (Normally space).
  *
- * @param index (int) the index that is currently focused.
- * @param evt (Map) the key event.
+ * @param index {int} the index that is currently focused.
+ * @param evt {Map} the key event.
  */
 qx.Proto.handleSelectKeyDown = function(index, evt) {
   this._handleSelectEvent(index, evt);
@@ -108,8 +108,8 @@ qx.Proto.handleSelectKeyDown = function(index, evt) {
 /**
  * Handles a key down event that moved the focus (E.g. up, down, home, end, ...).
  *
- * @param index (int) the index that is currently focused.
- * @param evt (Map) the key event.
+ * @param index {int} the index that is currently focused.
+ * @param evt {Map} the key event.
  */
 qx.Proto.handleMoveKeyDown = function(index, evt) {
   var selectionModel = this.getSelectionModel();
@@ -132,8 +132,8 @@ qx.Proto.handleMoveKeyDown = function(index, evt) {
 /**
  * Handles a select event.
  *
- * @param index (int) the index the event is pointing at.
- * @param evt (Map) the mouse event.
+ * @param index {int} the index the event is pointing at.
+ * @param evt {Map} the mouse event.
  */
 qx.Proto._handleSelectEvent = function(index, evt) {
   var selectionModel = this.getSelectionModel();

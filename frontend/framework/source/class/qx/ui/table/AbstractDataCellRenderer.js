@@ -49,7 +49,7 @@ qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
 /**
  * Returns the CSS styles that should be applied to the main div of this cell.
  *
- * @param cellInfo (Map) The information about the cell.
+ * @param cellInfo {Map} The information about the cell.
  *        See {@link #createDataCellHtml}.
  * @return the CSS styles of the main div.
  */
@@ -61,9 +61,9 @@ qx.Proto._getCellStyle = function(cellInfo) {
 /**
  * Returns the HTML that should be used inside the main div of this cell.
  *
- * @param cellInfo (Map) The information about the cell.
+ * @param cellInfo {Map} The information about the cell.
  *        See {@link #createDataCellHtml}.
- * @return (string) the inner HTML of the main div.
+ * @return {string} the inner HTML of the main div.
  */
 qx.Proto._getContentHtml = function(cellInfo) {
   return cellInfo.value;

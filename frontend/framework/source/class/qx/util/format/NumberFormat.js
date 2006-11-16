@@ -53,21 +53,21 @@ qx.OO.addProperty({ name:"minimumFractionDigits", type:qx.constant.Type.NUMBER, 
  */
 qx.OO.addProperty({ name:"maximumFractionDigits", type:qx.constant.Type.NUMBER, defaultValue:null });
 
-/** Whether thousand groupings should be used (e.g. "1,432,234.65"). */
+/** Whether thousand groupings should be used {e.g. "1,432,234.65"}. */
 qx.OO.addProperty({ name:"groupingUsed", type:qx.constant.Type.BOOLEAN, defaultValue:true, allowNull:false });
 
-/** The prefix to put before the number ("EUR " -> "EUR 12.31"). */
+/** The prefix to put before the number {"EUR " -> "EUR 12.31"}. */
 qx.OO.addProperty({ name:"prefix", type:qx.constant.Type.STRING, defaultValue:"", allowNull:false });
 
-/** Sets the postfix to put after the number (" %" -> "56.13 %"). */
+/** Sets the postfix to put after the number {" %" -> "56.13 %"}. */
 qx.OO.addProperty({ name:"postfix", type:qx.constant.Type.STRING, defaultValue:"", allowNull:false });
 
 
 /**
  * Formats a number.
  *
- * @param num (number) the number to format.
- * @return (string) the formatted number as a string.
+ * @param num {number} the number to format.
+ * @return {string} the formatted number as a string.
  */
 qx.Proto.format = function(num) {
   var NumberFormat = qx.util.format.NumberFormat;
@@ -136,9 +136,9 @@ qx.Proto.format = function(num) {
 /**
  * Parses a number.
  *
- * @param str (string) the string to parse.
+ * @param str {string} the string to parse.
  *
- * @return (double) the number.
+ * @return {double} the number.
  */
 qx.Proto.parse = function(str) {
   var NumberFormat = qx.util.format.NumberFormat;
@@ -172,7 +172,7 @@ qx.Proto.parse = function(str) {
 /**
  * Returns the default number format.
  *
- * @return (NumberFormat) the default number format.
+ * @return {NumberFormat} the default number format.
  */
 qx.Class.getInstance = function() {
   var NumberFormat = qx.util.format.NumberFormat;
@@ -186,7 +186,7 @@ qx.Class.getInstance = function() {
 /**
  * Returns an integer number format.
  *
- * @return (NumberFormat) an integer number format.
+ * @return {NumberFormat} an integer number format.
  */
 qx.Class.getIntegerInstance = function() {
   var NumberFormat = qx.util.format.NumberFormat;
@@ -198,8 +198,8 @@ qx.Class.getIntegerInstance = function() {
 }
 
 
-/** (string) The decimal separator. */
+/** {string} The decimal separator. */
 qx.Class.DECIMAL_SEPARATOR = ".";
 
-/** (string) The thousand grouping separator. */
+/** {string} The thousand grouping separator. */
 qx.Class.GROUPING_SEPARATOR = ",";

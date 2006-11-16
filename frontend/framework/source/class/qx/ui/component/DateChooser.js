@@ -24,10 +24,10 @@
 /**
  * Shows calendar and allows choosing a date.
  *
- * @param date (Date ? null) The initial date to show. If <code>null</code>
+ * @param date {Date ? null} The initial date to show. If <code>null</code>
  *        the current day (today) is shown.
  *
- * @event select (qx.event.type.DataEvent) Fired when a date was selected. The
+ * @event select {qx.event.type.DataEvent} Fired when a date was selected. The
  *        event holds the new selected date in its data property.
  */
 qx.OO.defineClass("qx.ui.component.DateChooser", qx.ui.layout.BoxLayout,
@@ -161,7 +161,7 @@ qx.OO.addProperty({ name:"startOfWeek", type:qx.constant.Type.NUMBER, defaultVal
 qx.OO.addProperty({ name:"shownMonth", type:qx.constant.Type.NUMBER, defaultValue:null });
 /** The currently shown year. */
 qx.OO.addProperty({ name:"shownYear", type:qx.constant.Type.NUMBER, defaultValue:null });
-/** (Date) The currently selected date. */
+/** {Date} The currently selected date. */
 qx.OO.addProperty({ name:"date", type:qx.constant.Type.OBJECT, defaultValue:null });
 
 
@@ -209,7 +209,7 @@ qx.Proto._modifyDate = function(propValue, propOldValue, propData) {
 /**
  * Event handler. Called when a navigation button has been clicked.
  *
- * @param evt (Map) the event.
+ * @param evt {Map} the event.
  */
 qx.Proto._onNavButtonClicked = function(evt) {
   var year = this.getShownYear();
@@ -245,7 +245,7 @@ qx.Proto._onNavButtonClicked = function(evt) {
 /**
  * Event handler. Called when a day has been clicked.
  *
- * @param evt (Map) the event.
+ * @param evt {Map} the event.
  */
 qx.Proto._onDayClicked = function(evt) {
   var time = evt.getCurrentTarget().dateTime;
@@ -259,7 +259,7 @@ qx.Proto._onDayDblClicked = function() {
 /**
  * Event handler. Called when a key was pressed.
  *
- * @param evt (Map) the event.
+ * @param evt {Map} the event.
  */
 qx.Proto._onkeydown = function(evt) {
   var dayIncrement = null;
@@ -333,9 +333,9 @@ qx.Proto._onkeydown = function(evt) {
 /**
  * Returns whether a certain day of week belongs to the week end.
  *
- * @param dayOfWeek (int) the day to check. (0 = sunday, 1 = monday, ...,
+ * @param dayOfWeek {int} the day to check. (0 = sunday, 1 = monday, ...,
  *    6 = saturday)
- * @return (boolean) whether the day belongs to the week end.
+ * @return {boolean} whether the day belongs to the week end.
  */
 qx.Proto._isWeekend = function(dayOfWeek) {
   return (dayOfWeek == 0) || (dayOfWeek == 6);
@@ -345,9 +345,9 @@ qx.Proto._isWeekend = function(dayOfWeek) {
 /**
  * Shows a certain month.
  *
- * @param month (int ? null) the month to show (0 = january). If not set the month
+ * @param month {int ? null} the month to show (0 = january). If not set the month
  *    will remain the same.
- * @param year (int ? null) the year to show. If not set the year will remain the
+ * @param year {int ? null} the year to show. If not set the year will remain the
  *    same.
  */
 qx.Proto.showMonth = function(month, year) {
@@ -454,19 +454,19 @@ qx.Proto._updateDatePane = function() {
 }
 
 
-/** (string) The state of a week label when it is the header label. */
+/** {string} The state of a week label when it is the header label. */
 qx.Class.STATE_HEADER = "header";
 
-/** (string) The state of a week day label when it belongs to the weekend. */
+/** {string} The state of a week day label when it belongs to the weekend. */
 qx.Class.STATE_WEEKEND = "weekend";
 
-/** (string) The state of a day label when it doesn't belong to the currently shown month. */
+/** {string} The state of a day label when it doesn't belong to the currently shown month. */
 qx.Class.STATE_OTHER_MONTH = "otherMonth";
 
-/** (string) The state of a day label when it's currently selected. */
+/** {string} The state of a day label when it's currently selected. */
 qx.Class.STATE_SELECTED = "selected";
 
-/** (string) The state of a day label when it's today. */
+/** {string} The state of a day label when it's today. */
 qx.Class.STATE_TODAY = "today";
 
 

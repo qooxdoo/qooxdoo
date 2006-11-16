@@ -33,9 +33,9 @@
  *   An instance of qx.ui.treefullcontrol.TreeRowStructure, defining the
  *   structure of this tree row.
  *
- * @event treeOpenWithContent (qx.event.type.DataEvent)
- * @event treeOpenWhileEmpty (qx.event.type.DataEvent)
- * @event treeClose (qx.event.type.DataEvent)
+ * @event treeOpenWithContent {qx.event.type.DataEvent}
+ * @event treeOpenWhileEmpty {qx.event.type.DataEvent}
+ * @event treeClose {qx.event.type.DataEvent}
  */
 qx.OO.defineClass("qx.ui.treefullcontrol.TreeFolder", qx.ui.treefullcontrol.AbstractTreeElement,
 function(treeRowStructure)

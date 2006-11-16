@@ -31,7 +31,7 @@ qx.OO.defineClass("qx.dom.DomStyleSheet");
 /**
  * create a new Stylesheet node and append it to the document
  *
- * @param vCssText (string) optional string of css rules
+ * @param vCssText {string} optional string of css rules
  */
 qx.dom.DomStyleSheet.createElement = function(vCssText) {};
 if (document.createStyleSheet) // IE 4+
@@ -78,9 +78,9 @@ else // FF, Opera, Safari
 /**
  * insert a new CSS rule into a given Stylesheet
  *
- * @param vSheet     (Object) the target Stylesheet object
- * @param vSelector (string)
- * @param vStyle     (string)
+ * @param vSheet     {Object} the target Stylesheet object
+ * @param vSelector {string}
+ * @param vStyle     {string}
  */
 qx.dom.DomStyleSheet.addRule = function(vSheet, vSelector, vStyle) {};
 if (document.createStyleSheet) // IE 4+
@@ -106,8 +106,8 @@ else // FF, Opera
 /**
  * remove a CSS rule from a stylesheet
  *
- * @param vSheet     (Object) the Stylesheet
- * @param vSelector (string) the Selector of the rule to remove
+ * @param vSheet     {Object} the Stylesheet
+ * @param vSelector {string} the Selector of the rule to remove
  */
 qx.dom.DomStyleSheet.removeRule = function(vSheet, vSelector) {};
 if (document.createStyleSheet) // IE 4+
@@ -145,7 +145,7 @@ else
 /**
  * remove all CSS rules from a stylesheet
  *
- * @param vSheet (Object)
+ * @param vSheet {Object}
  */
 qx.dom.DomStyleSheet.removeAllRules = function(vSheet) {};
 if (document.createStyleSheet) // IE 4+
@@ -176,8 +176,8 @@ else // FF, etc
 
 /**
  * add an import of an external CSS file to a stylesheet
- * @param vSheet (Object)
- * @param vUrl   (string)
+ * @param vSheet {Object}
+ * @param vUrl   {string}
  */
 qx.dom.DomStyleSheet.addImport = function(vSheet, vUrl) {};
 if (document.createStyleSheet) // IE 4+
@@ -204,8 +204,8 @@ else // FF, etc
 /**
  * removes an import from a stylesheet
  *
- * @param vSheet (Object)
- * @param vUrl    (string)  URL of the importet CSS file
+ * @param vSheet {Object}
+ * @param vUrl    {string}  URL of the importet CSS file
  */
 qx.dom.DomStyleSheet.removeImport = function(vSheet, vUrl) {};
 if (document.createStyleSheet) // IE 4+
@@ -239,7 +239,7 @@ else // FF, etc
 /**
  * remove all imports from a stylesheet
  *
- * @param vSheet (Object)
+ * @param vSheet {Object}
  */
 qx.dom.DomStyleSheet.removeAllImports = function(vSheet) {};
 if (document.createStyleSheet) // IE 4+

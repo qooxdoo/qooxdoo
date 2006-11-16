@@ -65,7 +65,7 @@ qx.Proto.getColumnName = function(columnIndex) {
  * Note: This will clear previously set column names.
  * </p>
  *
- * @param columnIdArr (string[]) the IDs of the columns.
+ * @param columnIdArr {string[]} the IDs of the columns.
  * @see #setColumns
  */
 qx.Proto.setColumnIds = function(columnIdArr) {
@@ -91,7 +91,7 @@ qx.Proto.setColumnIds = function(columnIdArr) {
  * Note: The column IDs have to be defined before.
  * </p>
  *
- * @param columnNameArr (string[]) the names of the columns.
+ * @param columnNameArr {string[]} the names of the columns.
  * @see #setColumnIds
  */
 qx.Proto.setColumnNamesByIndex = function(columnNameArr) {
@@ -112,7 +112,7 @@ qx.Proto.setColumnNamesByIndex = function(columnNameArr) {
  * Note: The column IDs have to be defined before.
  * </p>
  *
- * @param columnNameMap (Map) a map containing the column IDs as keys and the
+ * @param columnNameMap {Map} a map containing the column IDs as keys and the
  *        column name as values.
  * @see #setColumnIds
  */
@@ -127,9 +127,9 @@ qx.Proto.setColumnNamesById = function(columnNameMap) {
 /**
  * Sets the columns.
  *
- * @param columnNameArr (string[]) The column names. These names will be shown to
+ * @param columnNameArr {string[]} The column names. These names will be shown to
  *        the user.
- * @param columnIdArr (string[] ? null) The column IDs. These IDs may be used
+ * @param columnIdArr {string[] ? null} The column IDs. These IDs may be used
  *        internally to identify a column. If null, the column names are used as
  *        IDs.
  */

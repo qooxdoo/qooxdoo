@@ -43,9 +43,9 @@ function() {
  * <li>sortedAscending (boolean): whether sorting is ascending.</li>
  * </ul>
  *
- * @param cellInfo (Map) A map containing the information about the cell to
+ * @param cellInfo {Map} A map containing the information about the cell to
  *    create.
- * @return (qx.ui.core.Widget) the widget that renders the header cell.
+ * @return {qx.ui.core.Widget} the widget that renders the header cell.
  */
 qx.Proto.createHeaderCell = function(cellInfo) {
   throw new Error("createHeaderCell is abstract");
@@ -55,9 +55,9 @@ qx.Proto.createHeaderCell = function(cellInfo) {
 /**
  * Updates a header cell.
  *
- * @param cellInfo (Map) A map containing the information about the cell to
+ * @param cellInfo {Map} A map containing the information about the cell to
  *    create. This map has the same structure as in {@link #createHeaderCell}.
- * @param cellWidget (qx.ui.core.Widget) the widget that renders the header cell. This is
+ * @param cellWidget {qx.ui.core.Widget} the widget that renders the header cell. This is
  *    the same widget formally created by {@link #createHeaderCell}.
  */
 qx.Proto.updateHeaderCell = function(cellInfo, cellWidget) {

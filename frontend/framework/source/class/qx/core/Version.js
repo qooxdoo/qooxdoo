@@ -56,7 +56,7 @@ qx.OO.defineClass("qx.core.Version",
   /**
    * returns the qooxdoo version string
    *
-   * @return (string) qooxdoo version string
+   * @return {string} qooxdoo version string
    */
   toString: function()
   {
