@@ -43,6 +43,7 @@ if (!qx.Settings._customSettings) {
   qx.Settings._customSettings = {};
 }
 
+/** the default settings */
 qx.Settings._defaultSettings = {};
 
 
