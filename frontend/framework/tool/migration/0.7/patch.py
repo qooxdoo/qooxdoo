@@ -212,10 +212,10 @@ def patch(node):
   node.addChild(classDefine)
 
   # Debug
-  print compiler.compile(node)
+  # print compiler.compile(node)
 
-  # Test
-  return False
+  # Return Modification
+  return True
 
 
 def createConstant(type, value):
