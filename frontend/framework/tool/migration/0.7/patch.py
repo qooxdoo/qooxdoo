@@ -199,9 +199,9 @@ def patch(id, node):
 
             elif childrenLength == 3:
               ext = params.getChildByPosition(1, True, True)
-              init = params.getChildByPosition(2, True, True)
+              construct = params.getChildByPosition(2, True, True)
               classMap.addChild(createPair("extend", ext), 0)
-              classMap.addChild(createPair("init", init), 1)
+              classMap.addChild(createPair("construct", construct), 1)
 
               node.removeChild(child)
               pos -= 1
