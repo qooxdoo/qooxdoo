@@ -99,6 +99,7 @@ qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defa
 */
 
 qx.Settings.setDefault("enableApplicationLayout", true);
+qx.Settings.setDefault("boxModelCorrection", true);
 
 
 
@@ -296,7 +297,7 @@ qx.Proto.removeAllCssRules = function(vSheet) {
   CSS FIX
 ---------------------------------------------------------------------------
 */
-if (qx.Settings.getValueOfClass("qx.ui.core.ClientDocument", "boxmodel") != "standard") {
+if (qx.Settings.getValueOfClass("qx.ui.core.ClientDocument", "boxModelCorrection")) {  
   qx.dom.DomStyleSheet.createElement("html,body{margin:0;border:0;padding:0;}" +
     " html{border:0 none;} *{" + qx.sys.Client.getInstance().getEngineBoxSizingAttribute() +
     ":border-box;} img{" + qx.sys.Client.getInstance().getEngineBoxSizingAttribute() +
