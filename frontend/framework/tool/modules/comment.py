@@ -528,7 +528,7 @@ def parseType(vtype):
 
 
 
-def fromNode(node, member, name, alternative, old=[]):
+def fromNode(node, assignType, name, alternative, old=[]):
   #
   # description
   ##############################################################
@@ -560,7 +560,7 @@ def fromNode(node, member, name, alternative, old=[]):
 
 
 
-def fromFunction(func, member, name, alternative, old=[]):
+def fromFunction(func, assignType, name, alternative, old=[]):
   #
   # open comment
   ##############################################################
@@ -586,23 +586,25 @@ def fromFunction(func, member, name, alternative, old=[]):
   #
   # add @name
   ##############################################################
-  if name != None:
+  if name != None and name != "construct":
     s += " * @name %s\n" % name
 
-    if name.startswith("_"):
-      s += " * @mode protected\n"
+    if name.startswith("__"):
+      s += " * @access private\n"
+    elif name.startswith("_"):
+      s += " * @access protected\n"
     else:
-      s += " * @mode public\n"
+      s += " * @access public\n"
 
 
 
   #
-  # add @membership
+  # add @type
   ##############################################################
-  if member != None:
-    s += " * @membership %s\n" % member
+  if assignType != None:
+    s += " * @type %s\n" % assignType
   else:
-    s += " * @membership unknown TODOC\n"
+    s += " * @type unknown TODOC\n"
 
 
 
@@ -693,36 +695,37 @@ def fromFunction(func, member, name, alternative, old=[]):
   #
   # add @return
   ##############################################################
-  oldReturn = getAttrib(old, "return")
-
-  newType = "void"
-  newText = ""
-
-  # Get type and text from old content
-  if oldReturn:
-    if attribHas(oldReturn, "type"):
-      newType = parseType(oldReturn["type"])
-
-    if attribHas(oldReturn, "text"):
-      newText = oldReturn["text"].strip()
-
-  # Try to autodetect the type
-  if newType == "void":
-    returns = getReturns(func.getChild("body"), [])
-
-    if len(returns) > 0:
-      newType = " | ".join(returns)
-    elif name != None and name.startswith("is") and name[3].isupper():
-      newType = "boolean"
-
-  # Add documentation hint in non void cases
-  if newType != "void" and newText == "":
-    newText = "TODOC"
-
-  s += " * @return {%s}%s" % (newType, splitText(newText))
-
-  if not s.endswith("\n"):
-    s += "\n"
+  if name != "construct":
+    oldReturn = getAttrib(old, "return")
+  
+    newType = "void"
+    newText = ""
+  
+    # Get type and text from old content
+    if oldReturn:
+      if attribHas(oldReturn, "type"):
+        newType = parseType(oldReturn["type"])
+  
+      if attribHas(oldReturn, "text"):
+        newText = oldReturn["text"].strip()
+  
+    # Try to autodetect the type
+    if newType == "void":
+      returns = getReturns(func.getChild("body"), [])
+  
+      if len(returns) > 0:
+        newType = " | ".join(returns)
+      elif name != None and name.startswith("is") and name[3].isupper():
+        newType = "boolean"
+  
+    # Add documentation hint in non void cases
+    if newType != "void" and newText == "":
+      newText = "TODOC"
+  
+    s += " * @return {%s}%s" % (newType, splitText(newText))
+  
+    if not s.endswith("\n"):
+      s += "\n"
 
 
 
@@ -769,7 +772,7 @@ def fromFunction(func, member, name, alternative, old=[]):
       if not s.endswith("\n"):
         s += "\n"
 
-    elif not cat in [ "name", "mode", "membership", "alternative", "param", "return", "throws", "description" ]:
+    elif not cat in [ "name", "access", "membership", "alternative", "param", "return", "throws", "description" ]:
       print " * Found unallowed attribute %s in comment for %s" % (cat, name)
 
 
@@ -798,10 +801,10 @@ def fill(node):
       name = ""
       
     alternative = False
-    member = None
+    assignType = None
   
     if name != None:
-      member = "scope"
+      assignType = "function"
   
     # move to hook operation
     while target.parent.type in [ "first", "second", "third" ] and target.parent.parent.type == "operation" and target.parent.parent.get("operator") == "HOOK":
@@ -818,45 +821,45 @@ def fill(node):
           last = var.getLastChild(False, True)
           if last and last.type == "identifier":
             name = last.get("name")
-            member = "object"
+            assignType = "object"
   
           for child in var.children:
             if child.type == "identifier":
               if child.get("name") in [ "prototype", "Proto" ]:
-                member = "instance"
+                assignType = "member"
               elif child.get("name") in [ "class", "base", "Class" ]:
-                member = "static"
+                assignType = "static"
   
       elif target.parent.type == "definition":
         name = target.parent.get("identifier")
-        member = "definition"
+        assignType = "definition"
   
     # move to definition
     if target.parent.type == "assignment" and target.parent.parent.type == "definition" and target.parent.parent.parent.getChildrenLength(True) == 1:
       target = target.parent.parent.parent
-      member = "scope"
+      assignType = "function"
   
   
     # move comment to keyvalue
     if target.parent.type == "value" and target.parent.parent.type == "keyvalue":
       target = target.parent.parent
       name = target.get("key")
-      member = "map"
+      assignType = "map"
   
-      if name == "init":
-        member = "constructor"
+      if name == "construct":
+        assignType = "constructor"
   
       if target.parent.type == "map" and target.parent.parent.type == "value" and target.parent.parent.parent.type == "keyvalue":
         paname = target.parent.parent.parent.get("key")
   
         if paname == "members":
-          member = "instance"
+          assignType = "member"
   
         elif paname == "statics":
-          member = "static"
+          assignType = "static"
   
-    # filter stuff, only add comments to instance and static values and to all functions
-    if member in [ "instance", "static" ] or node.type == "function":
+    # filter stuff, only add comments to member and static values and to all functions
+    if assignType in [ "member", "static" ] or node.type == "function":
       
       if not hasattr(target, "documentationAdded") and target.parent.type != "params":
         old = []
@@ -880,9 +883,9 @@ def fill(node):
         commentNode = tree.Node("comment")
         
         if node.type == "function":
-          commentNode.set("text", fromFunction(node, member, name, alternative, old))
+          commentNode.set("text", fromFunction(node, assignType, name, alternative, old))
         else:
-          commentNode.set("text", fromNode(node, member, name, alternative, old))
+          commentNode.set("text", fromNode(node, assignType, name, alternative, old))
           
         commentNode.set("detail", "javadoc")
         commentNode.set("multiline", True)
