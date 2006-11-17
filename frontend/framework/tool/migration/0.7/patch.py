@@ -111,7 +111,6 @@ def patch(id, node):
     return False
 
   classDefine, className, classMap, propertiesMap, membersMap, staticsMap = createClassDefine(id)
-  classNameString = ""
   errorCounter = 0
   pos = 0
 
@@ -127,7 +126,7 @@ def patch(id, node):
         elem = right.getFirstChild(True, True)
 
         name = getNameOfAssignment(child)
-        mode = getModeOfAssignment(child, classNameString)
+        mode = getModeOfAssignment(child, id)
 
         if mode in [ "members", "statics" ]:
           if mode == "members":
@@ -180,9 +179,9 @@ def patch(id, node):
               pos -= 1
 
           elif name == "defineClass":
-            classNameString = params.getFirstChild(False, True).get("value")
-            className.set("value", classNameString)
-
+            if params.getFirstChild(False, True).get("value") != id:
+              print "    - The class seems to have a wrong definition!"
+              
             # 3 params = name, superclass, constructor
             # 2 params = name, map
             # 1 param = name

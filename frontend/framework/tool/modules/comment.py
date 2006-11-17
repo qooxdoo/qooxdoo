@@ -175,6 +175,8 @@ def hasThrows(node):
   return False
 
 
+ 
+
 def getReturns(node, found):
   if node.type == "function":
     pass
@@ -408,11 +410,14 @@ def cleanupText(text):
         newline = True
       
     else:
+      if text != "":
+        text += "\n"
+      
       if newline:
         text += "\n"
         newline = False
   
-      text += line + "\n"
+      text += line
 
   #print "============= OUTTEXT ========================="
   #print text
@@ -522,6 +527,39 @@ def parseType(vtype):
 
 
 
+
+def fromNode(node, member, name, alternative, old=[]):
+  #
+  # description
+  ##############################################################
+  oldDesc = getAttrib(old, "description")
+
+  if attribHas(oldDesc, "text"):
+    newText = oldDesc["text"]
+  else:
+    newText = "{var} TODOC"
+
+  if "\n" in newText:
+    s = "/**\n%s\n */" % splitText(newText, False)
+  else:
+    s = "/** %s */" % newText
+  
+
+  #
+  # other @attributes
+  ##############################################################
+
+  for attrib in old:
+    cat = attrib["category"]
+
+    if cat != "description":
+      print " * Found unallowed attribute %s in comment for %s" % (cat, name)
+  
+  return s  
+      
+
+
+
 def fromFunction(func, member, name, alternative, old=[]):
   #
   # open comment
@@ -538,9 +576,10 @@ def fromFunction(func, member, name, alternative, old=[]):
     newText = oldDesc["text"]
   else:
     newText = "TODOC"
-
+    
   s += splitText(newText, False)
-
+  s += " *\n"
+  
 
 
 
@@ -749,21 +788,26 @@ def fromFunction(func, member, name, alternative, old=[]):
 def fill(node):
   if node.type in [ "comment", "commentsBefore", "commentsAfter" ]:
     return
-
-  if node.type == "function":
+    
+  if node.hasParent():
     target = node
-    name = node.get("name", False)
+    
+    if node.type == "function":
+      name = node.get("name", False)
+    else:
+      name = ""
+      
     alternative = False
     member = None
-
+  
     if name != None:
       member = "scope"
-
+  
     # move to hook operation
     while target.parent.type in [ "first", "second", "third" ] and target.parent.parent.type == "operation" and target.parent.parent.get("operator") == "HOOK":
       alternative = True
       target = target.parent.parent
-
+  
     # move comment to assignment
     while target.parent.type == "right" and target.parent.parent.type == "assignment":
       target = target.parent.parent
@@ -775,75 +819,82 @@ def fill(node):
           if last and last.type == "identifier":
             name = last.get("name")
             member = "object"
-
+  
           for child in var.children:
             if child.type == "identifier":
-              if child.get("name") in [ "prototype", "Proto", "this" ]:
+              if child.get("name") in [ "prototype", "Proto" ]:
                 member = "instance"
               elif child.get("name") in [ "class", "base", "Class" ]:
                 member = "static"
-
-
+  
       elif target.parent.type == "definition":
         name = target.parent.get("identifier")
         member = "definition"
-
-
+  
     # move to definition
     if target.parent.type == "assignment" and target.parent.parent.type == "definition" and target.parent.parent.parent.getChildrenLength(True) == 1:
       target = target.parent.parent.parent
       member = "scope"
-
-
+  
+  
     # move comment to keyvalue
     if target.parent.type == "value" and target.parent.parent.type == "keyvalue":
       target = target.parent.parent
       name = target.get("key")
       member = "map"
-
+  
       if name == "init":
         member = "constructor"
-
+  
       if target.parent.type == "map" and target.parent.parent.type == "value" and target.parent.parent.parent.type == "keyvalue":
         paname = target.parent.parent.parent.get("key")
-
+  
         if paname == "members":
           member = "instance"
-
+  
         elif paname == "statics":
           member = "static"
+  
+    # filter stuff, only add comments to instance and static values and to all functions
+    if member in [ "instance", "static" ] or node.type == "function":
+      
+      if not hasattr(target, "documentationAdded") and target.parent.type != "params":
+        old = []
+    
+        # create commentsBefore
+        if target.hasChild("commentsBefore"):
+          commentsBefore = target.getChild("commentsBefore")
+    
+          if commentsBefore.hasChild("comment"):
+            for child in commentsBefore.children:
+              if child.get("detail") in [ "javadoc", "qtdoc" ]:
+                old = parseText(child.get("text"), False)
+                commentsBefore.removeChild(child)
+                break
+    
+        else:
+          commentsBefore = tree.Node("commentsBefore")
+          target.addChild(commentsBefore)
+    
+        # create comment node
+        commentNode = tree.Node("comment")
+        
+        if node.type == "function":
+          commentNode.set("text", fromFunction(node, member, name, alternative, old))
+        else:
+          commentNode.set("text", fromNode(node, member, name, alternative, old))
+          
+        commentNode.set("detail", "javadoc")
+        commentNode.set("multiline", True)
+    
+        commentsBefore.addChild(commentNode)
+    
+        # in case of alternative methods, use the first one, ignore the others
+        target.documentationAdded = True
 
 
-
-    if not hasattr(target, "documentationAdded") and target.parent.type != "params":
-      old = []
-
-      # create commentsBefore
-      if target.hasChild("commentsBefore"):
-        commentsBefore = target.getChild("commentsBefore")
-
-        if commentsBefore.hasChild("comment"):
-          for child in commentsBefore.children:
-            if child.get("detail") in [ "javadoc", "qtdoc" ]:
-              old = parseText(child.get("text"), False)
-              commentsBefore.removeChild(child)
-              break
-
-      else:
-        commentsBefore = tree.Node("commentsBefore")
-        target.addChild(commentsBefore)
-
-      # create comment node
-      commentNode = tree.Node("comment")
-      commentNode.set("text", fromFunction(node, member, name, alternative, old))
-      commentNode.set("detail", "javadoc")
-      commentNode.set("multiline", True)
-
-      commentsBefore.addChild(commentNode)
-
-      # in case of alternative methods, use the first one, ignore the others
-      target.documentationAdded = True
-
+    
+    
 
   if node.hasChildren():
     for child in node.children:

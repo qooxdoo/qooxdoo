@@ -95,7 +95,7 @@ def handle(fileList, fileDb, options):
         continue
 
       if fileName == "patch.py":
-        print "    - Found => Importing"
+        print "    - Importing..."
 
         if not root in sys.path:
           sys.path.insert(0, root)
