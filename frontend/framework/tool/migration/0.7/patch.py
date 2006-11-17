@@ -106,16 +106,18 @@ def createPair(key, value, commentParent=None):
   return par
 
 
-def patch(node):
+def patch(id, node):
   if not node.hasChildren():
     return False
 
-  classDefine, className, classMap, propertiesMap, membersMap, staticsMap = createClassDefine()
+  classDefine, className, classMap, propertiesMap, membersMap, staticsMap = createClassDefine(id)
   classNameString = ""
+  errorCounter = 0
   pos = 0
 
   while node.hasChildren() and pos < len(node.children):
     child = node.children[pos]
+    breakBefore = child.get("breakBefore")
     pos += 1
 
     # Add instance and static methods
@@ -129,10 +131,20 @@ def patch(node):
 
         if mode in [ "members", "statics" ]:
           if mode == "members":
-            membersMap.addChild(createPair(name, elem, child))
+            pair = createPair(name, elem, child)
+            
+            if breakBefore:
+              pair.set("breakBefore", True)
+              
+            membersMap.addChild(pair)
 
           elif mode == "statics":
-            staticsMap.addChild(createPair(name, elem, child))
+            pair = createPair(name, elem, child)
+
+            if breakBefore:
+              pair.set("breakBefore", True)
+
+            staticsMap.addChild(pair)
 
           node.removeChild(child)
           pos -= 1
@@ -157,8 +169,13 @@ def patch(node):
                 definition.addChild(createPair("cached", createConstant("boolean", "true")))
 
               name = getAndRemovePropertyName(definition)
-              propertiesMap.addChild(createPair(name, definition, child))
-
+              pair = createPair(name, definition, child)
+              
+              if breakBefore:
+                pair.set("breakBefore", True)
+                            
+              propertiesMap.addChild(pair)
+    
               node.removeChild(child)
               pos -= 1
 
@@ -189,10 +206,15 @@ def patch(node):
 
               node.removeChild(child)
               pos -= 1
+              
+          elif name == "define":
+            print "      - Class is already up-to-date."
+            return False
 
     # Post-Check
     if child.parent == node:
-      print "      - Could not move element %s at line %s" % (child.type, child.get("line"))
+      # print "      - Could not move element %s at line %s" % (child.type, child.get("line"))
+      errorCounter += 1
 
 
   # Remove empty maps
@@ -209,7 +231,13 @@ def patch(node):
     classMap.removeChild(keyvalue)
 
   # Add new class definition
-  node.addChild(classDefine)
+  node.addChild(classDefine, 0)
+  
+  
+  
+  
+  if errorCounter > 0:
+    print "      - Could not convert %s elements." % errorCounter
 
   # Debug
   # print compiler.compile(node)
@@ -240,11 +268,11 @@ def createVariable(l):
 
   return var
 
-def createClassDefineCore():
+def createClassDefineCore(id):
   call = tree.Node("call")
   oper = tree.Node("operand")
   para = tree.Node("params")
-  con = createConstant("string", "DUMMY")
+  con = createConstant("string", id)
   args = tree.Node("map")
 
   call.addChild(oper)
@@ -258,8 +286,8 @@ def createClassDefineCore():
   return call, con, args
 
 
-def createClassDefine():
-  classDefine, className, classMap = createClassDefineCore()
+def createClassDefine(id):
+  classDefine, className, classMap = createClassDefineCore(id)
 
   propertiesMap = tree.Node("map")
   propertiesPair = createPair("properties", propertiesMap)
