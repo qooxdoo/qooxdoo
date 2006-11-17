@@ -205,7 +205,7 @@ def handle(fileList, fileDb, options):
     filePath = fileEntry["path"]
     fileEncoding = fileEntry["encoding"]
 
-    print "    - %s" % fileEntry["path"]
+    print "    - %s" % fileId
 
     # Read in original content
     fileContent = filetool.read(filePath, fileEncoding)
@@ -216,7 +216,7 @@ def handle(fileList, fileDb, options):
       tree = treegenerator.createSyntaxTree(tokenizer.parseStream(patchedContent))
 
       # If there were any changes, compile the result
-      if patch.patch(tree):
+      if patch.patch(fileId, tree):
         patchedContent = compiler.compile(tree, True)
 
     patchedContent = regtool(patchedContent, compiledPatches, True, options)
