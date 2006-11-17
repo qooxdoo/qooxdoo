@@ -748,7 +748,6 @@ qx.Class._createProperty = function(p)
   }
 }
 
-qx.Class.changeProperty = function(p) {};
 qx.Class.changeProperty = qx.OO._createProperty;
 
 qx.Class.addProperty = function(p)
