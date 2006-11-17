@@ -28,12 +28,11 @@
 
 ************************************************************************ */
 
+// Usage of this hacky construct to make qx.OO available inside the API viewer
 qx.OO = {};
-
 qx.OO.defineClass = function() {};
 qx.Class = qx.OO;
 qx.OO.defineClass("qx.OO");
-
 
 qx.Class.classes = {};
 qx.Class.setter = {};
