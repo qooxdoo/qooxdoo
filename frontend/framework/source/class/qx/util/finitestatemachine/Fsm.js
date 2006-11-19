@@ -17,7 +17,7 @@
 
 /* ************************************************************************
 
-#module(util_finitestatemachine)
+#module(util_fsm)
 
 ************************************************************************ */
 
@@ -36,7 +36,7 @@
  * @param machineName {string} The name of this finite state machine
  *
  */
-qx.OO.defineClass("qx.util.finitestatemachine.Fsm", qx.core.Target,
+qx.OO.defineClass("qx.util.fsm.FiniteStateMachine", qx.core.Target,
 function(machineName)
 {
   // Call our superclass' constructor
@@ -162,17 +162,17 @@ qx.OO.addProperty(
 /**
  * Add a state to the finite state machine.
  *
- * @param state {qx.util.finitestatemachine.State}
- *   An object of class qx.util.finitestatemachine.State representing a state
+ * @param state {qx.util.fsm.State}
+ *   An object of class qx.util.fsm.State representing a state
  *   which is to be a part of this finite state machine.
  */
 qx.Proto.addState = function(state)
 {
   // Ensure that we got valid state info
-  if (! state instanceof qx.util.finitestatemachine.State)
+  if (! state instanceof qx.util.fsm.State)
   {
     throw new Error("Invalid state: not an instance of " +
-                    "qx.util.finitestatemachine.State");
+                    "qx.util.fsm.State");
   }
 
   // Retrieve the name of this state
@@ -360,9 +360,9 @@ qx.Proto.start = function()
   }
 
   var debugFunctions =
-    (qx.Settings.getValueOfClass("qx.util.finitestatemachine.Fsm",
+    (qx.Settings.getValueOfClass("qx.util.fsm.FiniteStateMachine",
                                  "debugFlags") &
-     qx.util.finitestatemachine.Fsm.DebugFlags.FUNCTION_DETAIL);
+     qx.util.fsm.FiniteStateMachine.DebugFlags.FUNCTION_DETAIL);
 
   // Run the actionsBeforeOnentry actions for the initial state
   if (debugFunctions)
@@ -392,7 +392,7 @@ qx.Proto.start = function()
  * Save the current state on the saved-state stack.  A future transition can
  * then provide, as its nextState value, the class constant:
  *
- *   qx.util.finitestatemachine.Fsm.StateChange.POP_STATE_STACK
+ *   qx.util.fsm.FiniteStateMachine.StateChange.POP_STATE_STACK
  *
  * which will cause the next state to be whatever is at the top of the
  * saved-state stack, and remove that top element from the saved-state stack.
@@ -449,9 +449,9 @@ qx.Proto.eventListener = function(e)
   // Add the event to the event queue
   this._eventQueue.unshift(e);
 
-  if (qx.Settings.getValueOfClass("qx.util.finitestatemachine.Fsm",
+  if (qx.Settings.getValueOfClass("qx.util.fsm.FiniteStateMachine",
                                   "debugFlags") &
-      qx.util.finitestatemachine.Fsm.DebugFlags.EVENTS)
+      qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS)
   {
     this.debug(this.getName() + ": Queued event: " + e.getType());
   }
@@ -528,18 +528,18 @@ qx.Proto._run = function(event)
 
   // Get the debug flags
   var debugFlags =
-    (qx.Settings.getValueOfClass("qx.util.finitestatemachine.Fsm",
+    (qx.Settings.getValueOfClass("qx.util.fsm.FiniteStateMachine",
                                  "debugFlags"));
 
   // Allow slightly faster access to determine if debug is enableda
   var debugEvents =
-     debugFlags & qx.util.finitestatemachine.Fsm.DebugFlags.EVENTS;
+     debugFlags & qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS;
   var debugTransitions =
-    debugFlags & qx.util.finitestatemachine.Fsm.DebugFlags.TRANSITIONS;
+    debugFlags & qx.util.fsm.FiniteStateMachine.DebugFlags.TRANSITIONS;
   var debugFunctions =
-     debugFlags & qx.util.finitestatemachine.Fsm.DebugFlags.FUNCTION_DETAIL;
+     debugFlags & qx.util.fsm.FiniteStateMachine.DebugFlags.FUNCTION_DETAIL;
   var debugObjectNotFound =
-     debugFlags & qx.util.finitestatemachine.Fsm.DebugFlags.OBJECT_NOT_FOUND;
+     debugFlags & qx.util.fsm.FiniteStateMachine.DebugFlags.OBJECT_NOT_FOUND;
 
   if (debugEvents)
   {
@@ -597,11 +597,11 @@ qx.Proto._run = function(event)
 
   switch(action)
   {
-    case qx.util.finitestatemachine.Fsm.EventHandling.PREDICATE:
+    case qx.util.fsm.FiniteStateMachine.EventHandling.PREDICATE:
       // Process this event.  One of the transitions should handle it.
       break;
 
-    case qx.util.finitestatemachine.Fsm.EventHandling.BLOCKED:
+    case qx.util.fsm.FiniteStateMachine.EventHandling.BLOCKED:
       // This event is blocked.  Enqueue it for later, and get outta here.
       if (event.getAutoDispose())
       {
@@ -679,13 +679,13 @@ qx.Proto._run = function(event)
       // If it's not a string, nextState must be a StateChange constant
       switch(nextState)
       {
-      case qx.util.finitestatemachine.Fsm.StateChange.CURRENT_STATE:
+      case qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE:
         // They want to remain in the same state.
         nextState = thisState;
         this.setNextState(nextState)
         break;
 
-      case qx.util.finitestatemachine.Fsm.StateChange.POP_STATE_STACK:
+      case qx.util.fsm.FiniteStateMachine.StateChange.POP_STATE_STACK:
         // Switch to the state at the top of the state stack.
         if (this._stateStack.length == 0)
         {
@@ -867,12 +867,12 @@ qx.Class.EventHandling =
  * together bits, akin to this:
  *
  *   qx.Settings.setCustomOfClass(
- *     "qx.util.finitestatemachine.Fsm",
+ *     "qx.util.fsm.FiniteStateMachine",
  *     "debugFlags",
- *     (qx.util.finitestatemachine.Fsm.DebugFlags.EVENTS |
- *      qx.util.finitestatemachine.Fsm.DebugFlags.TRANSITIONS |
- *      qx.util.finitestatemachine.Fsm.DebugFlags.FUNCTION_DETAIL |
- *      qx.util.finitestatemachine.Fsm.DebugFlags.OBJECT_NOT_FOUND));
+ *     (qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS |
+ *      qx.util.fsm.FiniteStateMachine.DebugFlags.TRANSITIONS |
+ *      qx.util.fsm.FiniteStateMachine.DebugFlags.FUNCTION_DETAIL |
+ *      qx.util.fsm.FiniteStateMachine.DebugFlags.OBJECT_NOT_FOUND));
  */
 qx.Class.DebugFlags =
 {
@@ -901,9 +901,9 @@ qx.Class.DebugFlags =
  */
 qx.Settings.setDefault(
   "debugFlags",
-  (qx.util.finitestatemachine.Fsm.DebugFlags.EVENTS |
-   qx.util.finitestatemachine.Fsm.DebugFlags.TRANSITIONS |
-   qx.util.finitestatemachine.Fsm.DebugFlags.OBJECT_NOT_FOUND));
+  (qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS |
+   qx.util.fsm.FiniteStateMachine.DebugFlags.TRANSITIONS |
+   qx.util.fsm.FiniteStateMachine.DebugFlags.OBJECT_NOT_FOUND));
 
 
 /*
@@ -913,8 +913,8 @@ qx.Settings.setDefault(
 */
 
 /**
- * Common function used by {qx.util.finitestatemachine.State} and
- * {qx.util.finitestatemachine.Transition} for checking the value provided for
+ * Common function used by {qx.util.fsm.State} and
+ * {qx.util.fsm.Transition} for checking the value provided for
  * auto actions.
  *
  * Auto-action property values passed to us look akin to:

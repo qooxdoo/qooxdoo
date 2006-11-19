@@ -17,8 +17,8 @@
 
 /* ************************************************************************
 
-#module(util_finitestatemachine)
-#require(qx.util.finitestatemachine.Fsm)
+#module(util_fsm)
+#require(qx.util.fsm.FiniteStateMachine)
 
 ************************************************************************ */
 
@@ -33,7 +33,7 @@
  * @param
  * stateName -
  *   The name of this state.  This is the name which may be referenced in
- *   objects of class qx.util.finitestatemachine.Transition, when passing of
+ *   objects of class qx.util.fsm.Transition, when passing of
  *   the the transition's predicate means transition to this state.
  *
  * @param
@@ -125,9 +125,9 @@
  *       blocked.  The property name should be the event name.  The property
  *       value should be one of:
  *
- *         (a) qx.util.finitestatemachine.Fsm.EventHandling.PREDICATE
+ *         (a) qx.util.fsm.FiniteStateMachine.EventHandling.PREDICATE
  *
- *         (b) qx.util.finitestatemachine.Fsm.EventHandling.BLOCKED
+ *         (b) qx.util.fsm.FiniteStateMachine.EventHandling.BLOCKED
  *
  *         (c) a string containing the name of an explicit Transition to use
  *
@@ -143,7 +143,7 @@
  *     this.getUserData("<propertyName>") during the state's onentry and
  *     onexit functions.
  */
-qx.OO.defineClass("qx.util.finitestatemachine.State", qx.core.Object,
+qx.OO.defineClass("qx.util.fsm.State", qx.core.Object,
 function(stateName, stateInfo)
 {
   // Call our superclass' constructor
@@ -468,9 +468,9 @@ qx.Proto._checkEvents = function(propValue, propData)
   // Confirm that each property is a valid value
   // The property value should be one of:
   //
-  // (a) qx.util.finitestatemachine.Fsm.EventHandling.PREDICATE
+  // (a) qx.util.fsm.FiniteStateMachine.EventHandling.PREDICATE
   //
-  // (b) qx.util.finitestatemachine.Fsm.EventHandling.BLOCKED
+  // (b) qx.util.fsm.FiniteStateMachine.EventHandling.BLOCKED
   //
   // (c) a string containing the name of an explicit Transition to use
   //
@@ -482,8 +482,8 @@ qx.Proto._checkEvents = function(propValue, propData)
   {
     var action = propValue[e];
     if (typeof(action) == "number" &&
-        action != qx.util.finitestatemachine.Fsm.EventHandling.PREDICATE &&
-        action != qx.util.finitestatemachine.Fsm.EventHandling.BLOCKED)
+        action != qx.util.fsm.FiniteStateMachine.EventHandling.PREDICATE &&
+        action != qx.util.fsm.FiniteStateMachine.EventHandling.BLOCKED)
     {
       throw new Error("Invalid numeric value in events object: " +
                       e + ": " + action);
@@ -493,8 +493,8 @@ qx.Proto._checkEvents = function(propValue, propData)
       for (action_e in action)
       {
         if (typeof(action[action_e]) == "number" &&
-            action != qx.util.finitestatemachine.Fsm.EventHandling.PREDICATE &&
-            action != qx.util.finitestatemachine.Fsm.EventHandling.BLOCKED)
+            action != qx.util.fsm.FiniteStateMachine.EventHandling.PREDICATE &&
+            action != qx.util.fsm.FiniteStateMachine.EventHandling.BLOCKED)
         {
           throw new Error("Invalid numeric value in events object " +
                           "(" + e + "): " +
@@ -521,7 +521,7 @@ qx.Proto._checkEvents = function(propValue, propData)
 
 qx.Proto._checkAutoActionsBeforeOnentry = function(propValue, propData)
 {
-  return qx.util.finitestatemachine.Fsm._commonCheckAutoActions(
+  return qx.util.fsm.FiniteStateMachine._commonCheckAutoActions(
     "autoActionsBeforeOnentry",
     propValue,
     propData);
@@ -529,7 +529,7 @@ qx.Proto._checkAutoActionsBeforeOnentry = function(propValue, propData)
 
 qx.Proto._checkAutoActionsAfterOnentry = function(propValue, propData)
 {
-  return qx.util.finitestatemachine.Fsm._commonCheckAutoActions(
+  return qx.util.fsm.FiniteStateMachine._commonCheckAutoActions(
     "autoActionsAfterOnentry",
     propValue,
     propData);
@@ -537,7 +537,7 @@ qx.Proto._checkAutoActionsAfterOnentry = function(propValue, propData)
 
 qx.Proto._checkAutoActionsBeforeOnexit = function(propValue, propData)
 {
-  return qx.util.finitestatemachine.Fsm._commonCheckAutoActions(
+  return qx.util.fsm.FiniteStateMachine._commonCheckAutoActions(
     "autoActionsBeforeOnexit",
     propValue,
     propData);
@@ -545,7 +545,7 @@ qx.Proto._checkAutoActionsBeforeOnexit = function(propValue, propData)
 
 qx.Proto._checkAutoActionsAfterOnexit = function(propValue, propData)
 {
-  return qx.util.finitestatemachine.Fsm._commonCheckAutoActions(
+  return qx.util.fsm.FiniteStateMachine._commonCheckAutoActions(
     "autoActionsAfterOnexit",
     propValue,
     propData);
@@ -561,17 +561,17 @@ qx.Proto._checkAutoActionsAfterOnexit = function(propValue, propData)
 /**
  * Add a transition to a state
  *
- * @param trans {qx.util.finitestatemachine.Transition}
- *   An object of class qx.util.finitestatemachine.Transition representing a
+ * @param trans {qx.util.fsm.Transition}
+ *   An object of class qx.util.fsm.Transition representing a
  *   transition which is to be a part of this state.
  */
 qx.Proto.addTransition = function(trans)
 {
   // Ensure that we got valid transition info
-  if (! trans instanceof qx.util.finitestatemachine.Transition)
+  if (! trans instanceof qx.util.fsm.Transition)
   {
     throw new Error("Invalid transition: not an instance of " +
-                    "qx.util.finitestatemachine.Transition");
+                    "qx.util.fsm.Transition");
   }
 
   // Add the new transition object to the state
