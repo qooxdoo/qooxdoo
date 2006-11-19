@@ -221,7 +221,7 @@ qx.Proto.addObject = function(friendlyName, obj, groupNames)
   {
     groupNames = [ groupNames ];
   }
-  
+
   // For each group that this friendly name is to be a member of...
   for (var i = 0; i < groupNames.length; i++)
   {
@@ -422,7 +422,7 @@ qx.Proto.postponeEvent = function(event)
 {
   // Add this event to the blocked event queue, so it will be passed to the
   // next state upon transition.
-  event.setAllowDispatcherDispose(false);
+  event.setAutoDispose(false);
   this._blockedEvents.unshift(event);
 };
 
@@ -436,7 +436,7 @@ qx.Proto.postponeEvent = function(event)
 qx.Proto.eventListener = function(e)
 {
   // We're going to enqueue the event, so don't allow it to be disposed now.
-  e.setAllowDispatcherDispose(false);
+  e.setAutoDispose(false);
 
   // Add the event to the event queue
   this._eventQueue.unshift(e);
@@ -477,8 +477,8 @@ qx.Proto._processEvents = function()
     // Run the finite state machine with this event
     this._run(event);
 
-    // The event can be disposed now, if the dispatcher wanted it disposed.
-    event.getDispatcherWantsDispose() && event.dispose();
+    // The event can be disposed now
+    event.dispose();
   }
 
   // We're no longer processing events
@@ -593,7 +593,7 @@ qx.Proto._run = function(event)
 
     case qx.util.finitestatemachine.Fsm.EventHandling.BLOCKED:
       // This event is blocked.  Enqueue it for later, and get outta here.
-      event.setAllowDispatcherDispose(false);
+      event.setAutoDispose(false);
       this._blockedEvents.unshift(event);
       return;
 
@@ -655,7 +655,7 @@ qx.Proto._run = function(event)
         throw new Error("Attempt to transition to nonexistent state " +
                         nextState);
       }
-      
+
       // It exists.  Track it being the next state.
       this.setNextState(nextState);
     }
@@ -669,7 +669,7 @@ qx.Proto._run = function(event)
         nextState = thisState;
         this.setNextState(nextState)
         break;
-        
+
       case qx.util.finitestatemachine.Fsm.StateChange.POP_STATE_STACK:
         // Switch to the state at the top of the state stack.
         if (this._stateStack.length == 0)
@@ -677,7 +677,7 @@ qx.Proto._run = function(event)
           throw new Error("Attempt to transition to POP_STATE_STACK " +
                           "while state stack is empty.");
         }
-        
+
         // Pop the state stack to retrieve the state to transition to
         nextState = this._stateStack.pop();
         this.setNextState(nextState);
@@ -773,7 +773,7 @@ qx.Proto._run = function(event)
     {
       this._eventQueue.unshift(this._blockedEvents);
     }
-    
+
     // The blocked event list is now empty
     this._blockedEvents = [ ];
 
@@ -1081,7 +1081,7 @@ qx.Class._commonCheckAutoActions = function(actionType, propValue, propData)
         {
           throw new Error("Invalid friendly name in 'objects' list: " + a[j]);
         }
-        
+
         func += " fsm.getObject('" + a[j] + "')." + funcFragment + ";";
       }
 
@@ -1163,7 +1163,7 @@ qx.Proto.dispose = function()
     e = null;
   }
   this._eventQueue = null;
-  
+
   while (this._blockedEvents.length > 0)
   {
     e = this._blockedEvents.pop();
