@@ -17,8 +17,8 @@
 
 /* ************************************************************************
 
-#module(util_finitestatemachine)
-#require(qx.util.finitestatemachine.Fsm)
+#module(util_fsm)
+#require(qx.util.fsm.FiniteStateMachine)
 
 ************************************************************************ */
 
@@ -84,15 +84,15 @@
  *         - a string, the state name of the state to transition to
  *
  *         - One of the constants:
- *           - qx.util.finitestatemachine.Fsm.StateChange.CURRENT_STATE:
+ *           - qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE:
  *               Remain in whatever is the current state
- *           - qx.util.finitestatemachine.Fsm.StateChange.PREVIOUS_STATE:
+ *           - qx.util.fsm.FiniteStateMachine.StateChange.PREVIOUS_STATE:
  *               Transition to the state at the top of the saved-state stack,
  *               and remove the top element from the saved-state stack.
  *               Elements are added to the saved-state stack using
  *               fsm.pushState().  It is an error if no state exists on the
  *               saved-state stack.
- *           - qx.util.finitestatemachine.Fsm.StateChange.TERMINATE:
+ *           - qx.util.fsm.FiniteStateMachine.StateChange.TERMINATE:
  *               TBD
  *
  *     autoActionsBeforeOntransition -
@@ -105,8 +105,7 @@
  *       describes some number of functions to invoke on a set of specified
  *       objects (typically widgets).
  *
- *       See {@see qx.util.finitestatemachine.State} for an example of
- *       autoActions. 
+ *       See {@see qx.util.fsm.State} for an example of autoActions. 
  *       
  *     ontransition -
  *       A function which is called if the predicate function for this
@@ -125,7 +124,7 @@
  *     this.getUserData("<propertyName>") during the transition's predicate
  *     and ontransition functions.
  */
-qx.OO.defineClass("qx.util.finitestatemachine.Transition", qx.core.Object,
+qx.OO.defineClass("qx.util.fsm.Transition", qx.core.Object,
 function(transitionName, transitionInfo)
 {
   // Call our superclass' constructor
@@ -212,7 +211,7 @@ qx.OO.addProperty(
 qx.OO.addProperty(
   {
     name         : "nextState",
-    defaultValue : qx.util.finitestatemachine.Fsm.StateChange.CURRENT_STATE
+    defaultValue : qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE
   });
 
 /**
@@ -308,8 +307,8 @@ qx.Proto._checkNextState = function(propValue, propData)
     // Ensure that it's one of the possible state-change constants
     switch(propValue)
     {
-    case qx.util.finitestatemachine.Fsm.StateChange.CURRENT_STATE:
-    case qx.util.finitestatemachine.Fsm.StateChange.PREVIOUS_STATE:
+    case qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE:
+    case qx.util.fsm.FiniteStateMachine.StateChange.PREVIOUS_STATE:
       return propValue;
 
     default:
