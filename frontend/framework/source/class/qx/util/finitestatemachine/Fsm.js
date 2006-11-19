@@ -440,10 +440,10 @@ qx.Proto.postponeEvent = function(event)
 qx.Proto.eventListener = function(e)
 {
   // We're going to enqueue the event, so don't allow it to be disposed now.
-  if (event.getAutoDispose())
+  if (e.getAutoDispose())
   {
-    event._movedAutoDispose = true;
-    event.setAutoDispose(false);
+    e._movedAutoDispose = true;
+    e.setAutoDispose(false);
   }
 
   // Add the event to the event queue
