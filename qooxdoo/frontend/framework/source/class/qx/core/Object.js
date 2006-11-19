@@ -92,7 +92,7 @@ qx.Class.toHashCode = function(o)
  */
 qx.Class.fromHashCode = function(hash)
 {
-  return qx.core.Object._db[hash]  
+  return qx.core.Object._db[hash]
 }
 
 

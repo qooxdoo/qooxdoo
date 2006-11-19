@@ -109,13 +109,13 @@
  *             "parameters" : [ false ],
  *
  *             // The function would be called on each object and group, as
- *             // described above. 
+ *             // described above.
  *             "objects" : [ "obj3", "obj4" ],
  *             "groups"  : [ "group3", "group4" ]
  *           }
  *         ]
  *       };
- *       
+ *
  *
  *     events (required) -
  *       A description to the finite state machine of how to handle a

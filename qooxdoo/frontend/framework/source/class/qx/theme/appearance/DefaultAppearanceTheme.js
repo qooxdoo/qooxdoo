@@ -2090,7 +2090,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
 
   "splitpane" :
   {
-    initial : function(vTheme) 
+    initial : function(vTheme)
     {
       return {
         overflow : "hidden"
@@ -2104,7 +2104,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
       this.background = new qx.renderer.color.ColorObject("threedshadow");
     },
 
-    initial : function(vTheme) 
+    initial : function(vTheme)
     {
       return {
         zIndex : 1e7,
@@ -2126,8 +2126,8 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
         backgroundColor : "threedface"
       }
     },
-    
-    state : function(vTheme, vStates) 
+
+    state : function(vTheme, vStates)
     {
       return {
         cursor : vStates.horizontal ? "col-resize" : "row-resize"
@@ -2137,7 +2137,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
 
   "splitpane-slider" :
   {
-    initial : function(vTheme) 
+    initial : function(vTheme)
     {
       return {
         opacity: 0.5,
@@ -2145,7 +2145,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
       }
     },
 
-    state : function(vTheme, vStates) 
+    state : function(vTheme, vStates)
     {
       return {
         backgroundColor: vStates.dragging ? "threeddarkshadow" : "threedface"
@@ -2155,13 +2155,13 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
 
   "splitpane-knob" :
   {
-    state : function(vTheme, vStates) 
+    state : function(vTheme, vStates)
     {
       var vReturn = {
         opacity: vStates.dragging ? 0.5 : 1.0
       }
 
-      if (vStates.horizontal) 
+      if (vStates.horizontal)
       {
         vReturn.top = "33%";
         vReturn.left = null;
@@ -2169,7 +2169,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
         vReturn.marginTop = 0;
         vReturn.cursor = "col-resize";
       }
-      else if (vStates.vertical) 
+      else if (vStates.vertical)
       {
         vReturn.top = null;
         vReturn.left = "33%";
@@ -2177,7 +2177,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
         vReturn.marginLeft = 0;
         vReturn.cursor = "row-resize";
       }
-      
+
       return vReturn;
     }
   }
