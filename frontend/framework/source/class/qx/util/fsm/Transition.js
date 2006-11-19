@@ -56,11 +56,11 @@
  *       values:
  *
  *         - true means the transition is acceptable
- *           
+ *
  *         - false means the transition is not acceptable, and the next
  *           transition (if one exists) should be tried to determine if it is
  *           acceptable
- *           
+ *
  *         - null means that the transition determined that no further
  *           transitions should be tried.  This might be used when the
  *           transition ascertained that the event is for a target that is not
@@ -105,8 +105,8 @@
  *       describes some number of functions to invoke on a set of specified
  *       objects (typically widgets).
  *
- *       See {@see qx.util.fsm.State} for an example of autoActions. 
- *       
+ *       See {@see qx.util.fsm.State} for an example of autoActions.
+ *
  *     ontransition -
  *       A function which is called if the predicate function for this
  *       transition returns true.  Its signature is function(fsm, event) and
