@@ -84,6 +84,19 @@ qx.Class.toHashCode = function(o)
 
 
 /**
+ * Class function which returns an object given its hash code
+ *
+ * @param hash {string} hash code of an object
+ *
+ * @returns {Object} the object whose hash is specified
+ */
+qx.Class.fromHashCode = function(hash)
+{
+  return qx.core.Object._db[hash]  
+}
+
+
+/**
  * Destructor. This method is called by qooxdoo on object destruction.
  *
  * Any class that holds ressources like links to DOM nodes must overwrite
