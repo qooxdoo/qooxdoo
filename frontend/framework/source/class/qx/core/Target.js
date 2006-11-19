@@ -177,27 +177,41 @@ qx.Proto.createDispatchDataEvent = function(vType, vData)
  * Dispatch an event
  *
  * @param vEvent {qx.event.type.Event} event to dispatch
- * @param vEnableDispose {boolean} wether the event object should be disposed after all event handlers run.
+ * @param vAutoDisposeEvent {boolean} wether the event object should be disposed after all event handlers run.
  */
-qx.Proto.dispatchEvent = function(vEvent, vEnableDispose)
+qx.Proto.dispatchEvent = function(vEvent, vAutoDisposeEvent)
 {
-  // Ignore event if eventTarget is disposed
-  if(this.getDisposed()) {
+  // Ignore event if dispatch target is disposed or disabled
+  if(this.getDisposed() || !this.getEnabled()) {
     return;
   }
 
-  if (vEvent.getTarget() == null) {
+  // Apply auto dispose setting
+  if (vAutoDisposeEvent != undefined) {
+    vEvent.setAutoDispose(vAutoDisposeEvent);
+  }
+
+  // If undefined fix target and currentTarget
+  if (!vEvent.getTarget()) {
     vEvent.setTarget(this);
   }
 
-  if (vEvent.getCurrentTarget() == null) {
+  if (!vEvent.getCurrentTarget()) {
     vEvent.setCurrentTarget(this);
   }
 
-  // Dispatch Event
-  this._dispatchEvent(vEvent, vEnableDispose);
+  // Really dispatch Event
+  this._dispatchEvent(vEvent);
 
-  return !vEvent._defaultPrevented;
+  // Read out event prevention default first
+  var defaultPrevented = vEvent._defaultPrevented;
+
+  // Auto dispose event?
+  if (vEvent.getAutoDispose()) {
+    vEvent.dispose();
+  }
+
+  return !defaultPrevented;
 }
 
 
@@ -207,15 +221,8 @@ qx.Proto.dispatchEvent = function(vEvent, vEnableDispose)
  * @param vEvent {qx.event.type.Event} event to dispatch
  * @param vEnableDispose {boolean} wether the event object should be disposed after all event handlers run.
  */
-qx.Proto._dispatchEvent = function(vEvent, vEnableDispose)
+qx.Proto._dispatchEvent = function(vEvent)
 {
-  if(this.getDisposed()) {
-    return;
-  }
-
-  if (! vEnableDispose)
-    vEvent.setDispatcherWantsDispose(false);
-
   var vListeners = this._listeners;
   if (vListeners)
   {
@@ -251,27 +258,15 @@ qx.Proto._dispatchEvent = function(vEvent, vEnableDispose)
     }
   }
 
+  // TODO: Move this to Widget or Parent?
   // Bubble event to parents
-  var vParent = this.getParent();
-  if(vEvent.getBubbles() &&
-     ! vEvent.getPropagationStopped() &&
-     vParent &&
-     ! vParent.getDisposed() &&
-     vParent.getEnabled())
+  if(vEvent.getBubbles() && !vEvent.getPropagationStopped() && this.getParent)
   {
-    vParent._dispatchEvent(vEvent, false);
+    var vParent = this.getParent();
+    if (vParent && !vParent.getDisposed() && vParent.getEnabled()) {
+      vParent._dispatchEvent(vEvent);
+    }
   }
-
-  // vEnableDispose event?
-  vEnableDispose && vEvent.getAllowDispatcherDispose() && vEvent.dispose();
-}
-
-
-/**
- * Internal placeholder for bubbling phase of an event.
- */
-qx.Proto.getParent = function() {
-  return null;
 }
 
 
