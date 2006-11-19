@@ -422,7 +422,11 @@ qx.Proto.postponeEvent = function(event)
 {
   // Add this event to the blocked event queue, so it will be passed to the
   // next state upon transition.
-  event.setAutoDispose(false);
+  if (event.getAutoDispose())
+  {
+    event._movedAutoDispose = true;
+    event.setAutoDispose(false);
+  }
   this._blockedEvents.unshift(event);
 };
 
@@ -436,7 +440,11 @@ qx.Proto.postponeEvent = function(event)
 qx.Proto.eventListener = function(e)
 {
   // We're going to enqueue the event, so don't allow it to be disposed now.
-  e.setAutoDispose(false);
+  if (event.getAutoDispose())
+  {
+    event._movedAutoDispose = true;
+    event.setAutoDispose(false);
+  }
 
   // Add the event to the event queue
   this._eventQueue.unshift(e);
@@ -478,7 +486,9 @@ qx.Proto._processEvents = function()
     this._run(event);
 
     // The event can be disposed now
-    event.dispose();
+    if (event._movedAutoDispose) {
+      event.dispose();
+    }
   }
 
   // We're no longer processing events
@@ -593,7 +603,12 @@ qx.Proto._run = function(event)
 
     case qx.util.finitestatemachine.Fsm.EventHandling.BLOCKED:
       // This event is blocked.  Enqueue it for later, and get outta here.
-      event.setAutoDispose(false);
+      if (event.getAutoDispose())
+      {
+        event._movedAutoDispose = true;
+        event.setAutoDispose(false);
+      }
+
       this._blockedEvents.unshift(event);
       return;
 
