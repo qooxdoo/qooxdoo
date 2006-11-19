@@ -123,7 +123,7 @@
  *     Additional properties may be provided in transInfo.  They will not be
  *     used by the finite state machine, but will be available via
  *     this.getUserData("<propertyName>") during the transition's predicate
- *     and ontransition and functions.
+ *     and ontransition functions.
  */
 qx.OO.defineClass("qx.util.finitestatemachine.Transition", qx.core.Object,
 function(transitionName, transitionInfo)

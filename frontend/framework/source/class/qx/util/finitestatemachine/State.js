@@ -205,10 +205,7 @@ function(stateName, stateInfo)
   }
 
 
-  // Force setter errors for required but missing properties
-
-  var undef;                    // a variable with an undefined value
-
+  // Check for required but missing properties
   if (! this.getEvents())
   {
     throw new Error("The events object must be provided in new state info");
@@ -564,8 +561,7 @@ qx.Proto._checkAutoActionsAfterOnexit = function(propValue, propData)
 /**
  * Add a transition to a state
  *
- * @param
- * trans -
+ * @param trans {qx.util.finitestatemachine.Transition}
  *   An object of class qx.util.finitestatemachine.Transition representing a
  *   transition which is to be a part of this state.
  */

@@ -121,8 +121,8 @@ qx.OO.addProperty(
 
 /**
  * The state to which we will be transitioning.  This property is valid only
- * during transition action and state onexit functions.  At all other times,
- * it is null.
+ * during a Transition's ontransition function and a State's onexit function.
+ * At all other times, it is null.
  */
 qx.OO.addProperty(
   {
@@ -704,7 +704,7 @@ qx.Proto._run = function(event)
     }
     trans.getOntransition()(this, event);
 
-    // Run the actionsAfterOntransition actions for this transition
+    // Run the autoActionsAfterOntransition actions for this transition
     if (debugFunctions)
     {
       this.debug(this.getName() + "#" + thisState + "#" + t +
@@ -718,7 +718,7 @@ qx.Proto._run = function(event)
       this.debug(this.getName() + "#" + thisState +
                  "#autoActionsBeforeOnexit");
     }
-    currentState.getAutoActionsBeforeOnentry()(this);
+    currentState.getAutoActionsBeforeOnexit()(this);
 
     // Run the exit function for the old state
     if (debugFunctions)
@@ -1126,9 +1126,9 @@ qx.Class._commonCheckAutoActions = function(actionType, propValue, propData)
 //  o = new qx.core.Object();
 //  o.debug("Dynamically created " + actionType + "(fsm) { " + func + " }");
 
-  // We've now built the entire body of a function that implements set...()
-  // calls for each of the requested automatic actions.  Create and return the
-  // function, which will become the property value.
+  // We've now built the entire body of a function that implements calls to
+  // each of the requested automatic actions.  Create and return the function,
+  // which will become the property value.
   return new Function("fsm", func);
 };
 
