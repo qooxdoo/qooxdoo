@@ -63,7 +63,7 @@ function initFsm()
           }
         ],
 
-        // The name of a function.  This will become "setBackgroundColor"
+        // The name of a function.
         "setBackgroundColor" :
         [
           {
@@ -167,7 +167,7 @@ function initFsm()
           }
         ],
 
-        // The name of a function.  This will become "setBackgroundColor"
+        // The name of a function.
         "setBackgroundColor" :
         [
           {
