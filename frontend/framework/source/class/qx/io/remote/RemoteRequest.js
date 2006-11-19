@@ -154,6 +154,15 @@ qx.OO.addProperty({ name : "prohibitCaching", type : qx.constant.Type.BOOLEAN })
 */
 qx.OO.addProperty({ name : "crossDomain", type : qx.constant.Type.BOOLEAN, defaultValue : false });
 /*!
+  Indicate that the request will be used for a file upload.
+
+  The request will be used for a file upload.  This switches the concrete
+  implementation that is used for sending the request from
+  qx.io.remote.XmlHttpTransport to qx.io.remote.IFrameTransport, because only
+  the latter can handle file uploads.
+*/
+qx.OO.addProperty({ name : "fileUpload", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+/*!
   The transport instance used for the request.
 
   This is necessary to be able to abort an asynchronous request.
