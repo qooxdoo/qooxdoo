@@ -56,7 +56,7 @@ qx.Class.EVENTPREFIX = "evt";
  *
  * @param vType {string} name of the event type
  * @param vFunction {Function} event callback function
- * @param vObject {object ? window} reference to the 'this' variable inside the callback
+ * @param vObject {Object ? window} reference to the 'this' variable inside the callback
  */
 qx.Proto.addEventListener = function(vType, vFunction, vObject)
 {
@@ -97,7 +97,7 @@ qx.Proto.addEventListener = function(vType, vFunction, vObject)
  *
  * @param vType {string} name of the event type
  * @param vFunction {Function} event callback function
- * @param vObject {object ? window} reference to the 'this' variable inside the callback
+ * @param vObject {Object ? window} reference to the 'this' variable inside the callback
  */
 qx.Proto.removeEventListener = function(vType, vFunction, vObject)
 {
