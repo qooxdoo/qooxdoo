@@ -60,6 +60,11 @@
  *                                      qualified name of the class that offers
  *                                      the service methods
  *                                      (e.g. "my.pkg.MyService").
+ *
+ * @event completed (qx.event.type.DataEvent)
+ * @event failed (qx.event.type.DataEvent)
+ * @event timeout (qx.event.type.DataEvent)
+ * @event aborted (qx.event.type.DataEvent)
  */
 
 qx.OO.defineClass("qx.io.remote.Rpc", qx.core.Target,
@@ -169,15 +174,15 @@ qx.io.remote.Rpc.localError =
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._callInternal = function(args, async, refreshSession) {
+/* callType: 0 = sync, 1 = async with handler, 2 = async event listeners */
+qx.Proto._callInternal = function(args, callType, refreshSession) {
   var self = this;
-  var offset = 0;
-  var handler = args[0];
-  if (async) {
-    offset = 1;
-  }
+  var offset = (callType == 0 ? 0 : 1)
   var whichMethod = (refreshSession ? "refreshSession" : args[offset]);
+  var handler = args[0];
   var argsArray = [];
+  var eventTarget = this;
+
   for (var i = offset + 1; i < args.length; ++i) {
     argsArray.push(args[i]);
   }
@@ -212,9 +217,32 @@ qx.Proto._callInternal = function(args, async, refreshSession) {
   var id = null;
   var result = null;
 
-  var handleRequestFinished = function() {
-    if (async) {
+  var handleRequestFinished = function(eventType, eventTarget) {
+    switch(callType)
+    {
+    case 0:                     // sync
+      break;
+
+    case 1:                     // async with handler function
       handler(result, ex, id);
+      break;
+
+    case 2:                     // async with event listeners
+      // Dispatch the event to our listeners.
+      if (! ex) {
+        eventTarget.createDispatchDataEvent(eventType, result);
+      } else {
+        // Add the id to the exception
+        ex.id = id;
+
+        if (args[0]) {          // coalesce
+          // They requested that we coalesce all failure types to "failed"
+          eventTarget.createDispatchDataEvent("failed", ex);
+        } else {
+          // No coalese so use original event type
+          eventTarget.createDispatchDataEvent(eventType, ex);
+        }
+      }
     }
   }
 
@@ -253,27 +281,27 @@ qx.Proto._callInternal = function(args, async, refreshSession) {
                        code,
                        qx.io.remote.RemoteExchange.statusCodeToString(code));
     id = this.getSequenceNumber();
-    handleRequestFinished();
+    handleRequestFinished("failed", eventTarget);
   });
   req.addEventListener("timeout", function(evt) {
     ex = makeException(qx.io.remote.Rpc.origin.local,
                        qx.io.remote.Rpc.localError.timeout,
                        "Local time-out expired");
     id = this.getSequenceNumber();
-    handleRequestFinished();
+    handleRequestFinished("timeout", eventTarget);
   });
   req.addEventListener("aborted", function(evt) {
     ex = makeException(qx.io.remote.Rpc.origin.local,
                        qx.io.remote.Rpc.localError.abort,
                        "Aborted");
     id = this.getSequenceNumber();
-    handleRequestFinished();
+    handleRequestFinished("aborted", eventTarget);
   });
   req.addEventListener("completed", function(evt) {
     result = evt.getData().getContent();
     id = result["id"];
     if (id != this.getSequenceNumber()) {
-      this.warn("Received id (" + id + ") does not match requested id (" + this.getSequenceNumber + ")!");
+      this.warn("Received id (" + id + ") does not match requested id (" + this.getSequenceNumber() + ")!");
     }
     var exTest = result["error"];
     if (exTest != null) {
@@ -292,10 +320,10 @@ qx.Proto._callInternal = function(args, async, refreshSession) {
         self.setUrl(self.fixUrl(self.getUrl()));
       }
     }
-    handleRequestFinished();
+    handleRequestFinished("completed", eventTarget);
   });
   req.setData(qx.io.Json.stringify(requestObject));
-  req.setAsynchronous(async);
+  req.setAsynchronous(callType > 0);
 
   if (req.getCrossDomain()) {
     // Our choice here has no effect anyway.  This is purely informational.
@@ -307,7 +335,7 @@ qx.Proto._callInternal = function(args, async, refreshSession) {
 
   req.send();
 
-  if (!async) {
+  if (callType == 0) {
       if (ex != null) {
         var error = new Error(ex.toString());
         error.rpcdetails = ex;
@@ -368,7 +396,7 @@ qx.Proto.fixUrl = function(url) {
  */
 
 qx.Proto.callSync = function(methodName) {
-  return this._callInternal(arguments, false);
+  return this._callInternal(arguments, 0);
 }
 
 
@@ -407,7 +435,58 @@ qx.Proto.callSync = function(methodName) {
  */
 
 qx.Proto.callAsync = function(handler, methodName) {
-  return this._callInternal(arguments, true);
+  return this._callInternal(arguments, 1);
+}
+
+
+/**
+ * Makes an asynchronous server call and dispatch an event upon completion or
+ * failure. The method arguments (if any) follow after the method name (as
+ * normal JavaScript arguments, separated by commas, not as an array).
+ * <p>
+ * When an answer from the server arrives (or fails to arrive on time), if an
+ * exception occurred, a "failed", "timeout" or "aborted" event, as
+ * appropriate, is dispatched to any waiting event listeners.  If no exception
+ * occurred, a "completed" event is dispatched.
+ * </p>
+ * <p>
+ * When a "failed", "timeout" or "aborted" event is dispatched, the event data
+ * contains an object with the properties 'origin', 'code', 'message' and
+ * 'id'.  The object has a toString() function which may be called to convert
+ * the exception to a string.
+ * </p>
+ * <p>
+ * When a "completed" event is dispatched, the event data contains the
+ * JSON-RPC result.
+ * </p>
+ * <p>
+ * The return value of this method is a call reference that you can store if
+ * you want to abort the request later on. This value should be treated as
+ * opaque and can change completely in the future! The only thing you can rely
+ * on is that the <code>abort</code> method will accept this reference and
+ * that you can retrieve the sequence number of the request by invoking the
+ * getSequenceNumber() method (see below).
+ * </p>
+ * <p>
+ * If a specific method is being called, asynchronously, a number of times in
+ * succession, the getSequenceNumber() method may be used to disambiguate
+ * which request a response corresponds to.  The sequence number value is a
+ * value which increments with each request.)
+ * </p>
+ *
+ * @param       coalesce (boolean)    coalesce all failure types ("failed",
+ *                                    "timeout", and "aborted") to "failed".
+ *                                    This is reasonable in many cases, as
+ *                                    the provided exception contains adequate
+ *                                    disambiguating information.
+ *
+ * @param       methodName (string)   the name of the method to call.
+ *
+ * @return      (var)                 the method call reference.
+ */
+
+qx.Proto.callAsyncListeners = function(coalesce, methodName) {
+  return this._callInternal(arguments, 2);
 }
 
 
@@ -434,7 +513,7 @@ qx.Proto.refreshSession = function(handler) {
       var timeDiff = (new Date()).getTime() - qx.core.ServerSettings.lastSessionRefresh;
       if (timeDiff/1000 > (qx.core.ServerSettings.sessionTimeoutInSeconds - 30)) {
         //this.info("refreshing session");
-        this._callInternal([handler], true, true);
+        this._callInternal([handler], 1, true);
       } else {
         handler(true);    // session refresh was OK (in this case: not needed)
       }
@@ -449,10 +528,12 @@ qx.Proto.refreshSession = function(handler) {
 
 /**
  * Aborts an asynchronous server call. Consequently, the callback function
- * provided to <code>callAsync</code> will be called with an exception.
+ * provided to <code>callAsync</code> or <code>callAsyncListeners</code> will
+ * be called with an exception.
  *
  * @param       opaqueCallRef {var}     the call reference as returned by
- *                                      <code>callAsync</code>.
+ *                                      <code>callAsync</code> or
+ *                                      <code>callAsyncListeners</code>
  */
 
 qx.Proto.abort = function(opaqueCallRef) {
