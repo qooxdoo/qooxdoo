@@ -213,6 +213,9 @@ qx.Proto._dispatchEvent = function(vEvent, vEnableDispose)
     return;
   }
 
+  if (! vEnableDispose)
+    vEvent.setDispatcherWantsDispose(false);
+
   var vListeners = this._listeners;
   if (vListeners)
   {
@@ -250,12 +253,17 @@ qx.Proto._dispatchEvent = function(vEvent, vEnableDispose)
 
   // Bubble event to parents
   var vParent = this.getParent();
-  if(vEvent.getBubbles() && !vEvent.getPropagationStopped() && vParent && !vParent.getDisposed() && vParent.getEnabled()) {
+  if(vEvent.getBubbles() &&
+     ! vEvent.getPropagationStopped() &&
+     vParent &&
+     ! vParent.getDisposed() &&
+     vParent.getEnabled())
+  {
     vParent._dispatchEvent(vEvent, false);
   }
 
   // vEnableDispose event?
-  vEnableDispose && vEvent.dispose();
+  vEnableDispose && vEvent.getAllowDispatcherDispose() && vEvent.dispose();
 }
 
 
