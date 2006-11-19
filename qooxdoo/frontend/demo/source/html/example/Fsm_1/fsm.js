@@ -16,16 +16,16 @@
 function initFsm()
 {
   // Create a new finite state machine
-  var fsm = new qx.util.finitestatemachine.Fsm("Fsm_1");
+  var fsm = new qx.util.fsm.FiniteStateMachine("Fsm_1");
 
   // For this simple example application, show all debug messages.
   qx.Settings.setCustomOfClass(
-    "qx.util.finitestatemachine.Fsm",
+    "qx.util.fsm.FiniteStateMachine",
     "debugFlags",
-    (qx.util.finitestatemachine.Fsm.DebugFlags.EVENTS |
-     qx.util.finitestatemachine.Fsm.DebugFlags.TRANSITIONS |
-     qx.util.finitestatemachine.Fsm.DebugFlags.FUNCTION_DETAIL |
-     qx.util.finitestatemachine.Fsm.DebugFlags.OBJECT_NOT_FOUND));
+    (qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS |
+     qx.util.fsm.FiniteStateMachine.DebugFlags.TRANSITIONS |
+     qx.util.fsm.FiniteStateMachine.DebugFlags.FUNCTION_DETAIL |
+     qx.util.fsm.FiniteStateMachine.DebugFlags.OBJECT_NOT_FOUND));
 
   /*
    * State: Idle
@@ -38,7 +38,7 @@ function initFsm()
    * Transition on:
    *  "execute" on button_send
    */
-  var state = new qx.util.finitestatemachine.State(
+  var state = new qx.util.fsm.State(
     "State_Idle",
     {
       "autoActionsBeforeOnentry" :
@@ -105,7 +105,7 @@ function initFsm()
    * Action:
    *  Issue RPC request with coalesced failure events
    */
-  var trans = new qx.util.finitestatemachine.Transition(
+  var trans = new qx.util.fsm.Transition(
     "Transition_Idle_to_AwaitRpcResult_via_button_send",
     {
       "nextState" :
@@ -142,7 +142,7 @@ function initFsm()
    *  "failed" (on RPC)
    *  "execute on button_abort
    */
-  var state = new qx.util.finitestatemachine.State(
+  var state = new qx.util.fsm.State(
     "State_AwaitRpcResult",
     {
       "autoActionsBeforeOnentry" :
@@ -217,7 +217,7 @@ function initFsm()
    *
    * Cause: "execute" on button_abort
    */
-  var trans = new qx.util.finitestatemachine.Transition(
+  var trans = new qx.util.fsm.Transition(
     "Transition_AwaitRpcResult_to_AwaitRpcResult_via_button_abort",
     {
       "nextState" :
@@ -243,7 +243,7 @@ function initFsm()
    *
    * Cause: "complete" (on RPC)
    */
-  var trans = new qx.util.finitestatemachine.Transition(
+  var trans = new qx.util.fsm.Transition(
     "Transition_AwaitRpcResult_to_Idle_via_complete",
     {
       "nextState" :
@@ -266,7 +266,7 @@ function initFsm()
    *
    * Cause: "failed" (on RPC)
    */
-  var trans = new qx.util.finitestatemachine.Transition(
+  var trans = new qx.util.fsm.Transition(
     "Transition_AwaitRpcResult_to_Idle_via_failed",
     {
       "nextState" :
