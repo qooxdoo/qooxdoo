@@ -297,13 +297,13 @@ qx.Proto.removeAllCssRules = function(vSheet) {
   CSS FIX
 ---------------------------------------------------------------------------
 */
-if (qx.Settings.getValueOfClass("qx.ui.core.ClientDocument", "boxModelCorrection")) {  
+if (qx.Settings.getValueOfClass("qx.ui.core.ClientDocument", "boxModelCorrection")) {
   qx.dom.DomStyleSheet.createElement("html,body{margin:0;border:0;padding:0;}" +
     " html{border:0 none;} *{" + qx.sys.Client.getInstance().getEngineBoxSizingAttribute() +
     ":border-box;} img{" + qx.sys.Client.getInstance().getEngineBoxSizingAttribute() +
     ":content-box;}");
 }
-if (qx.Settings.getValueOfClass("qx.ui.core.ClientDocument", "enableApplicationLayout")) {  
+if (qx.Settings.getValueOfClass("qx.ui.core.ClientDocument", "enableApplicationLayout")) {
   qx.dom.DomStyleSheet.createElement("html,body{width:100%;height:100%;overflow:hidden;}");
 }
 

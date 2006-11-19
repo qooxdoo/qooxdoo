@@ -36,7 +36,7 @@
  * @param secondSize {string} The size of the right (bottom) pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
  */
 qx.OO.defineClass("qx.ui.splitpane.SplitPane", qx.ui.layout.CanvasLayout,
-function(orientation, firstSize, secondSize) 
+function(orientation, firstSize, secondSize)
 {
   qx.ui.layout.CanvasLayout.call(this);
 
@@ -48,7 +48,7 @@ function(orientation, firstSize, secondSize)
   /*
 
   the splitpane itself is a boxlayout resides on top of a canvas for easier computing of positional values
-  
+
   ---------------------------------------------------------------------------------------
   |  canvas                                                                               |
   |  -----------------------------------------------------------------------------------  |
@@ -68,7 +68,7 @@ function(orientation, firstSize, secondSize)
   |  -----------------------------------------------------------------------------------  |
   |                                                                                       |
   ---------------------------------------------------------------------------------------
-  
+
   */
 
   // CREATE SLIDER
@@ -86,7 +86,7 @@ function(orientation, firstSize, secondSize)
   this._splitter.setStyleProperty("lineHeight", "0px");
   this._splitter.setAppearance("splitpane-splitter");
   this._splitter._pane = this;
-  
+
   // PATCH METHODS
   this._slider._applyRuntimeLeft = this._splitter._applyRuntimeLeft = this._applyRuntimeLeftWrapper;
   this._slider._applyRuntimeTop = this._splitter._applyRuntimeTop = this._applyRuntimeTopWrapper;
@@ -288,10 +288,10 @@ qx.Proto.getSecondArea = function() {
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._modifyShowKnob = function(propValue, propOldValue, propData) 
+qx.Proto._modifyShowKnob = function(propValue, propOldValue, propData)
 {
   this._knob.setVisibility(propValue);
-  return true; 
+  return true;
 }
 
 qx.Proto._modifyOrientation = function(propValue, propOldValue, propData)
@@ -356,7 +356,7 @@ qx.Proto._modifyOrientation = function(propValue, propOldValue, propData)
       // reconfigure states
       this._splitter.addState("horizontal");
       this._knob.addState("horizontal");
-      
+
       // apply images
       this._knob.setSource("widget/splitpane/knob-horizontal.png");
 
@@ -683,25 +683,25 @@ qx.Proto._applyRuntimeTopWrapper = function(v)
 /**
  * Garbage collection
  */
-qx.Proto.dispose = function() 
+qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
     return true;
   }
 
-  if(this._firstArea) 
+  if(this._firstArea)
   {
     this._firstArea.dispose();
     this._firstArea = null;
   }
 
-  if(this._secondArea) 
+  if(this._secondArea)
   {
     this._secondArea.dispose();
     this._secondArea = null;
   }
 
-  if (this._splitter) 
+  if (this._splitter)
   {
     this._splitter.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onSplitterMouseDownX, this);
     this._splitter.removeEventListener(qx.constant.Event.MOUSEUP, this._onSplitterMouseMoveX, this);
@@ -715,15 +715,15 @@ qx.Proto.dispose = function()
     this._splitter._pane = null;
     this._splitter = null;
   }
-  
-  if (this._slider) 
+
+  if (this._slider)
   {
     this._slider.dispose();
     this._slider._pane = null;
     this._slider = null;
-  }  
+  }
 
-  if (this._knob) 
+  if (this._knob)
   {
     this._knob.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onSplitterMouseDownX, this);
     this._knob.removeEventListener(qx.constant.Event.MOUSEUP, this._onSplitterMouseMoveX, this);
