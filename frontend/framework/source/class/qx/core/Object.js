@@ -90,9 +90,8 @@ qx.Class.toHashCode = function(o)
  *
  * @returns {Object} the object whose hash is specified
  */
-qx.Class.fromHashCode = function(hash)
-{
-  return qx.core.Object._db[hash]
+qx.Class.fromHashCode = function(hash) {
+  return qx.core.Object._db[hash];
 }
 
 
