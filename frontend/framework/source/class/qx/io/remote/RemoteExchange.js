@@ -412,6 +412,10 @@ qx.Proto.send = function()
     vNeeds.crossDomain = true;
   }
 
+  if (vRequest.getFileUpload()) {
+    vNeeds.fileUpload = true;
+  }
+
   var vTransportImpl, vTransport;
   for (var i=0, l=vUsage.length; i<l; i++)
   {
