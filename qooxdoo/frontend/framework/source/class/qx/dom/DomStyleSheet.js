@@ -92,12 +92,14 @@ if (document.createStyleSheet) // IE 4+
 else if (qx.sys.Client.getInstance().isWebkit()) // insertRule in Safari 2 doesn't work
 {
   qx.dom.DomStyleSheet.addRule = function(vSheet, vSelector, vStyle) {
-    var ruleNode = document.createTextNode(vSelector + "{" + vStyle + "}");
-    vSheet.ownerNode.appendChild(ruleNode);
     if (!vSheet._qxRules) {
       vSheet._qxRules = {};
     }
-    vSheet._qxRules[vSelector] = ruleNode;
+    if (!vSheet._qxRules[vSelector]) {
+      var ruleNode = document.createTextNode(vSelector + "{" + vStyle + "}");
+      vSheet.ownerNode.appendChild(ruleNode);
+      vSheet._qxRules[vSelector] = ruleNode;
+    }
   };
 }
 else // FF, Opera
@@ -143,6 +145,7 @@ if (qx.sys.Client.getInstance().isWebkit()) // removeRule in Safari 2 doesn't wo
     var ruleNode = vSheet._qxRules[vSelector];
     if (ruleNode) {
       vSheet.ownerNode.removeChild(ruleNode);
+      vSheet._qxRules[vSelector] = null;
     } else {
       warn();
     }
