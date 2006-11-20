@@ -92,7 +92,12 @@ if (document.createStyleSheet) // IE 4+
 else if (qx.sys.Client.getInstance().isWebkit()) // insertRule in Safari 2 doesn't work
 {
   qx.dom.DomStyleSheet.addRule = function(vSheet, vSelector, vStyle) {
-    vSheet.ownerNode.appendChild(document.createTextNode(vSelector + "{" + vStyle + "}"));
+    var ruleNode = document.createTextNode(vSelector + "{" + vStyle + "}");
+    vSheet.ownerNode.appendChild(ruleNode);
+    if (!vSheet._qxRules) {
+      vSheet._qxRules = {};
+    }
+    vSheet._qxRules[vSelector] = ruleNode;
   };
 }
 else // FF, Opera
@@ -122,6 +127,24 @@ if (document.createStyleSheet) // IE 4+
       if (vRules[i].selectorText == vSelector) {
         vSheet.removeRule(i);
       }
+    }
+  }
+}
+if (qx.sys.Client.getInstance().isWebkit()) // removeRule in Safari 2 doesn't work
+{
+  qx.dom.DomStyleSheet.removeRule = function(vSheet, vSelector)
+  {
+    var warn = function() {
+      qx.dev.log.Logger.ROOT_LOGGER.warn("In Safari/Webkit you can only remove rules that are created using qx.dom.DomStyleSheet.addRule");
+    }
+    if (!vSheet._qxRules) {
+      warn();
+    }
+    var ruleNode = vSheet._qxRules[vSelector];
+    if (ruleNode) {
+      vSheet.ownerNode.removeChild(ruleNode);
+    } else {
+      warn();
     }
   }
 }
@@ -160,6 +183,17 @@ if (document.createStyleSheet) // IE 4+
     }
   }
 }
+if (qx.sys.Client.getInstance().isWebkit()) // removeRule in Safari 2 doesn't work
+{
+  qx.dom.DomStyleSheet.removeAllRules = function(vSheet)
+  {
+    var node = vSheet.ownerNode;
+    var rules = node.childNodes;
+    while (rules.length > 0) {
+      node.removeChild(rules[0]);
+    }
+  }
+}
 else // FF, etc
 {
   qx.dom.DomStyleSheet.removeAllRules = function(vSheet)
@@ -173,6 +207,10 @@ else // FF, etc
   }
 }
 
+
+
+// TODO import functions are not working crossbrowser (Safari) !!
+// see CSS_1.html test
 
 /**
  * add an import of an external CSS file to a stylesheet
