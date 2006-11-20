@@ -842,9 +842,6 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
           vRoot.setFocusedChild(vFocusTarget);
         }
 
-        // the more intelli method, ignore blur after mousedown event
-        this._ignoreBlur = true;
-
         break;
     }
 
@@ -955,6 +952,10 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 
         break;
     }
+
+
+
+    this._ignoreWindowBlur = vType === qx.constant.Event.MOUSEDOWN; 
 
 
 
@@ -1096,17 +1097,19 @@ qx.Proto._onselectevent = function(e)
 ---------------------------------------------------------------------------
 */
 
+qx.Proto._focused = false;
+
 qx.Proto._onwindowblur = function(e)
 {
-  if (this._ignoreBlur)
-  {
-    delete this._ignoreBlur;
-    return;
+  this.debug("Try Window blur...");
+  
+  if (!this._focused || this._ignoreWindowBlur) {
+    return; 
   }
+  
+  this._focused = false;
 
-  this._allowFocus = true;
-
-  // this.debug("Window blur...");
+  this.debug("Window blur...");
 
   // Disable capturing
   this.setCaptureWidget(null);
@@ -1132,15 +1135,15 @@ qx.Proto._onwindowblur = function(e)
 
 qx.Proto._onwindowfocus = function(e)
 {
-  // Make focus more intelligent and only allow focus if
-  // a previous blur occured
-  if (!this._allowFocus) {
-    return;
+  this.debug("Try Window focus...");
+  
+  if (this._focused) {
+    return; 
   }
+  
+  this._focused = true;
 
-  delete this._allowFocus;
-
-  // this.debug("Window focus...");
+  this.debug("Window focus...");
 
   // Send focus event to client document
   qx.ui.core.ClientDocument.getInstance().createDispatchEvent("windowfocus");
