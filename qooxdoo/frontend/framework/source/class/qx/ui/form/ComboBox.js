@@ -486,6 +486,17 @@ qx.Proto._onmousewheel = function(e)
       this.setSelected(toSelect);
     }
   }
+  /* close the popup if the event target is not the combobox or
+   * not one of the list items of the popup list
+   */
+  else {
+    var vTarget = e.getTarget();
+
+    if (vTarget!=this && vTarget.getParent()!=this._list) {
+      this._popup.hide();
+      this.setCapture(false);
+    }  
+  }
 }
 
 
