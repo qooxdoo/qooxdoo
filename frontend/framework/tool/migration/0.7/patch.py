@@ -110,7 +110,7 @@ def patch(id, node):
   if not node.hasChildren():
     return False
 
-  classDefine, className, classMap, propertiesMap, membersMap, staticsMap = createClassDefine(id)
+  classDefine, className, classMap, settingsMap, propertiesMap, membersMap, staticsMap = createClassDefine(id)
   errorCounter = 0
   pos = 0
 
@@ -177,6 +177,25 @@ def patch(id, node):
     
               node.removeChild(child)
               pos -= 1
+              
+          elif name == "setDefault":
+            nameNode = params.getChildByPosition(0, True)
+            valueNode = params.getChildByPosition(1, True)
+            
+            name = nameNode.get("value")
+            
+            print "NAME: %s" % nameNode.type
+            print "VALUE: %s" % valueNode.type
+            
+            pair = createPair(name, valueNode, child)
+            
+            if breakBefore:
+              pair.set("breakBefore", True)
+
+            settingsMap.addChild(pair)
+
+            node.removeChild(child)
+            pos -= 1            
 
           elif name == "defineClass":
             if params.getFirstChild(False, True).get("value") != id:
@@ -288,6 +307,9 @@ def createClassDefineCore(id):
 def createClassDefine(id):
   classDefine, className, classMap = createClassDefineCore(id)
 
+  settingsMap = tree.Node("map")
+  settingsPair = createPair("settings", settingsMap)
+
   propertiesMap = tree.Node("map")
   propertiesPair = createPair("properties", propertiesMap)
 
@@ -297,8 +319,9 @@ def createClassDefine(id):
   staticsMap = tree.Node("map")
   staticsPair = createPair("statics", staticsMap)
 
+  classMap.addChild(settingsPair)
   classMap.addChild(propertiesPair)
   classMap.addChild(membersPair)
   classMap.addChild(staticsPair)
 
-  return classDefine, className, classMap, propertiesMap, membersMap, staticsMap
+  return classDefine, className, classMap, settingsMap, propertiesMap, membersMap, staticsMap
