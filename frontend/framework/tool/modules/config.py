@@ -23,7 +23,13 @@ DIRIGNORE = [ ".svn", "CVS" ]
 #
 
 QXHEAD = {
+  # TODO: Obsolete with 0.7
   "defineClass" : re.compile('qx.OO.defineClass\(\s*["\']([\.a-zA-Z0-9_-]+)["\'](\s*\,\s*([\.a-zA-Z0-9_-]+))?', re.M),
+    
+  # 0.7 API
+  "classDefine" : re.compile('qx.Clazz.define\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M),
+  "superClass" : re.compile('extend\s*:\s*([\.a-zA-Z0-9_-]+)', re.M),
+    
   "id" : re.compile("#id\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
   "module" : re.compile("#module\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
   "require" : re.compile("#require\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
