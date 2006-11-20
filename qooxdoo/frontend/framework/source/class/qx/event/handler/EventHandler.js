@@ -316,7 +316,7 @@ if (qx.sys.Client.getInstance().isWebkit())
    * extract the target node from a DOM event
    * http://www.quirksmode.org/js/events_properties.html
    *
-   * @param vDomEvent {Object}
+   * @param vDomEvent {Event}
    * @return {Element} the target node
    */
   qx.Class.getDomTarget = function(vDomEvent) 
@@ -337,7 +337,7 @@ else if (qx.sys.Client.getInstance().isMshtml())
    * extract the target node from a DOM event
    * http://www.quirksmode.org/js/events_properties.html
    *
-   * @param vDomEvent {Object}
+   * @param vDomEvent {Event}
    * @return {Element} the target node
    */
   qx.Class.getDomTarget = function(vDomEvent) {
@@ -350,7 +350,7 @@ else
    * extract the target node from a DOM event
    * http://www.quirksmode.org/js/events_properties.html
    *
-   * @param vDomEvent {Object}
+   * @param vDomEvent {Event}
    * @return {Element} the target node
    */
   qx.Class.getDomTarget = function(vDomEvent) {
