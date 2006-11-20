@@ -74,10 +74,13 @@ qx.Proto.addEventListener = function(vType, vFunction, vObject)
   {
     this._listeners = {};
     this._listeners[vType] = {};
+    this._numListeners = {};
+    this._numListeners[vType] = 1;
   }
   else if(typeof this._listeners[vType] === qx.constant.Type.UNDEFINED)
   {
     this._listeners[vType] = {};
+    this._numListeners[vType] = 1;
   }
 
   // Create a special vKey string to allow identification of each bound action
@@ -119,6 +122,9 @@ qx.Proto.removeEventListener = function(vType, vFunction, vObject)
 
   // Delete object entry for this action
   delete this._listeners[vType][vKey];
+
+  // There's one fewer event listener for this type now.
+  --this._numListeners[vType];
 }
 
 
@@ -186,9 +192,10 @@ qx.Proto.dispatchEvent = function(vEvent, vAutoDisposeEvent)
     return;
   }
 
-  // Apply auto dispose setting
-  if (vAutoDisposeEvent != undefined) {
-    vEvent.setAutoDispose(vAutoDisposeEvent);
+  // Apply auto dispose setting.  If they don't want the event auto-disposed,
+  // we'll increment the reference count to prevent such from occurring.
+  if (! vAutoDisposeEvent) {
+    vEvent.incrementReferenceCount();
   }
 
   // If undefined fix target and currentTarget
@@ -207,7 +214,7 @@ qx.Proto.dispatchEvent = function(vEvent, vAutoDisposeEvent)
   var defaultPrevented = vEvent._defaultPrevented;
 
   // Auto dispose event?
-  if (vEvent.getAutoDispose()) {
+  if (vEvent.getReferenceCount() == 0) {
     vEvent.dispose();
   }
 
@@ -219,7 +226,6 @@ qx.Proto.dispatchEvent = function(vEvent, vAutoDisposeEvent)
  * Internal event dispatch method
  *
  * @param vEvent {qx.event.type.Event} event to dispatch
- * @param vEnableDispose {boolean} wether the event object should be disposed after all event handlers run.
  */
 qx.Proto._dispatchEvent = function(vEvent)
 {
@@ -235,6 +241,9 @@ qx.Proto._dispatchEvent = function(vEvent)
     if(vTypeListeners)
     {
       var vFunction, vObject;
+
+      // Set the initial refcount value as the count of listeners
+      vEvent.incrementReferenceCount(this._numListeners[vEvent.getType()]);
 
       // Handle all events for the specified type
       for (var vHashCode in vTypeListeners)
@@ -254,6 +263,8 @@ qx.Proto._dispatchEvent = function(vEvent)
         {
           this.error("Could not dispatch event of type \"" + vEvent.getType() + "\"", ex);
         }
+
+        vEvent.decrementReferenceCount();
       }
     }
   }
