@@ -2159,7 +2159,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
     {
       var vReturn = {
         opacity: vStates.dragging ? 0.5 : 1.0
-      };
+      }
 
       if (vStates.horizontal)
       {
@@ -2168,7 +2168,6 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
         vReturn.marginLeft = -6;
         vReturn.marginTop = 0;
         vReturn.cursor = "col-resize";
-        vReturn.source = "widget/splitpane/knob-horizontal.png";
       }
       else if (vStates.vertical)
       {
@@ -2177,7 +2176,6 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
         vReturn.marginTop = -6;
         vReturn.marginLeft = 0;
         vReturn.cursor = "row-resize";
-        vReturn.source = "widget/splitpane/knob-vertical.png";
       }
 
       return vReturn;

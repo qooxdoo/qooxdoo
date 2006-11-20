@@ -366,6 +366,9 @@ qx.Proto._modifyOrientation = function(propValue, propOldValue, propData)
       this._splitter.addState("horizontal");
       this._knob.addState("horizontal");
 
+      // apply images
+      this._knob.setSource("widget/splitpane/knob-horizontal.png");
+
       break;
 
     case qx.constant.Layout.ORIENTATION_VERTICAL:
@@ -380,6 +383,9 @@ qx.Proto._modifyOrientation = function(propValue, propOldValue, propData)
       // reconfigure states
       this._splitter.addState("vertical");
       this._knob.addState("vertical");
+
+      // apply images
+      this._knob.setSource("widget/splitpane/knob-vertical.png");
 
       break;
   }
