@@ -44,8 +44,10 @@ qx.OO.addFastProperty({ name : "bubbles", defaultValue : false, noCompute : true
 qx.OO.addFastProperty({ name : "propagationStopped", defaultValue : true, noCompute : true });
 qx.OO.addFastProperty({ name : "defaultPrevented", defaultValue : false, noCompute : true });
 
-/** Reference count of users of this event.  Only autoDispose if zero. */
-qx.OO.addFastProperty({ name : "referenceCount", defaultValue: 0 });
+/** If the event object should automatically be disposed by the dispatcher */
+qx.OO.addFastProperty({ name : "autoDispose", defaultValue : false });
+
+
 
 
 /*
@@ -62,21 +64,7 @@ qx.Proto.stopPropagation = function() {
   this.setPropagationStopped(true);
 }
 
-qx.Proto.incrementReferenceCount = function(howMuch) {
-  if (howMuch === undefined)
-  {
-    howMuch = 1;
-  }
-  this.setReferenceCount(this.getReferenceCount() + howMuch);
-}
 
-qx.Proto.decrementReferenceCount = function(howMuch) {
-  if (howMuch === undefined)
-  {
-    howMuch = 1;
-  }
-  this.setReferenceCount(this.getReferenceCount() - howMuch);
-}
 
 
 /*
