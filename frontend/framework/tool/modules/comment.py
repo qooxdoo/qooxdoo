@@ -253,9 +253,6 @@ def nameToDescription(name):
 
 
 def qt2javadoc(text):
-  return rebuild(text)
-
-def rebuild(text):
   attribList = parseText(text, False)
   res = "/**"
 
@@ -270,7 +267,7 @@ def rebuild(text):
   else:
     res += " %s " % desc
 
-  res += "*/"
+  res += " */"
 
   return res
 
@@ -538,9 +535,9 @@ def fromNode(node, assignType, name, alternative, old=[]):
     newText = oldDesc["text"]
   else:
     newText = "{var} TODOC"
-
+    
   if "\n" in newText:
-    s = "/**\n%s\n */" % splitText(newText, False)
+    s = "/**\n%s\n-*/" % splitText(newText, False)
   else:
     s = "/** %s */" % newText
   
