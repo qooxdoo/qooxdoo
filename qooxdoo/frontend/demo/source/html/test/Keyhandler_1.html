@@ -43,18 +43,23 @@
 
   
 	<div id="keylogger">
-		<table>
-			<tr><th>Event</th><th>key identifier</th><th>key code</th><th>char code</th><th>Shift</th><th>Ctrl</th><th>Alt</th></tr>
-		</table>
 	</div>
 	
 	<script type="text/javascript">
 
+	qx.core.Init.getInstance().defineMain(function()
+	{
+		var tableHead = "<table><tr><th>Event</th><th>key identifier</th><th>key code</th><th>char code</th><th>Shift</th><th>Ctrl</th><th>Alt</th></tr>";
 		var keyEvents = [];
 		var maxLogSize = 50;
-		var d = qx.ui.core.ClientDocument.getInstance();
-			
-		function logKeyEvent2(keyEvent) {
+		var logDiv = document.getElementById("keylogger");
+		
+		function initializeLogger() {
+			logDiv.innerHTML = tableHead + "</table>";
+			keyEvents = [];
+		}
+		
+		function logKeyEvent(keyEvent) {
 			var eventCopy = {
 				type: keyEvent.getType(),
 				iden: keyEvent.getKeyIdentifier(),
@@ -66,8 +71,7 @@
 			}
 			keyEvents.unshift(eventCopy);
 			keyEvents = keyEvents.slice(0, maxLogSize);
-			str = ["<table>"];
-			str.push("<tr><th>Event</th><th>key identifier</th><th>key code</th><th>char code</th><th>Shift</th><th>Ctrl</th><th>Alt</th></tr>");
+			str = [tableHead];
 			for (var i=0; i<keyEvents.length; i++) {
 				var e = keyEvents[i];
 				str.push("<tr><td>");
@@ -87,14 +91,27 @@
 				str.push("</td></tr>");
 			}
 			str.push("</table>");
-			document.getElementById("keylogger").innerHTML = str.join("");
-			document.getElementById("keylogger").scrollTop = 0;
+			logDiv.innerHTML = str.join("");
+			logDiv.scrollTop = 0;
 		}
-				
-		d.addEventListener(qx.constant.Event.KEYDOWN, logKeyEvent2);
-		d.addEventListener(qx.constant.Event.KEYPRESS, logKeyEvent2);
-		d.addEventListener("keyinput", logKeyEvent2);
-		d.addEventListener(qx.constant.Event.KEYUP, logKeyEvent2);
+		
+		initializeLogger();
+		
+		var d = qx.ui.core.ClientDocument.getInstance();
+		d.addEventListener(qx.constant.Event.KEYDOWN, logKeyEvent);
+		d.addEventListener(qx.constant.Event.KEYPRESS, logKeyEvent);
+		d.addEventListener("keyinput", logKeyEvent);
+		d.addEventListener(qx.constant.Event.KEYUP, logKeyEvent);
+		
+		var button = new qx.ui.form.Button("clear");
+		button.set({
+			left: 550,
+			top: 40,
+		});
+		button.addEventListener("execute", initializeLogger);
+		button.addToDocument();
+		 
+  });
 		</script>
 </body>
 </html>
