@@ -230,7 +230,6 @@ if (document.createStyleSheet) // IE 4+
 else  if (qx.sys.Client.getInstance().isWebkit()) // insertRule in Safari 2 doesn't work
 {
   qx.dom.DomStyleSheet.addImport = function(vSheet, vUrl) {
-    alert("Webkit");
     vSheet.ownerNode.appendChild(document.createTextNode('@import "' + vUrl + '";'));
   }
 }
