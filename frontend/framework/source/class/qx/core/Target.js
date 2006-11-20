@@ -242,7 +242,7 @@ qx.Proto._dispatchEvent = function(vEvent)
     {
       var vFunction, vObject;
 
-      // Set the initial refcount value as the count of listeners
+      // Increment the initial refcount value by the count of listeners
       vEvent.incrementReferenceCount(this._numListeners[vEvent.getType()]);
 
       // Handle all events for the specified type
