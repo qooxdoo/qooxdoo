@@ -138,7 +138,6 @@ function()
   // ************************************************************************
   var vDoc = qx.ui.core.ClientDocument.getInstance();
   vDoc.addEventListener("windowblur", this._onwindowblur, this);
-  vDoc.addEventListener("windowfocus", this._onwindowfocus, this);
 
 
   // ************************************************************************
@@ -658,7 +657,6 @@ qx.Proto._onkeypress = function(e)
 */
 
 qx.Proto._onwindowblur = qx.Proto._testClosePopup;
-qx.Proto._onwindowfocus = qx.Proto._testClosePopup;
 
 
 
@@ -778,7 +776,6 @@ qx.Proto.dispose = function()
   // ************************************************************************
   var vDoc = qx.ui.core.ClientDocument.getInstance();
   vDoc.removeEventListener("windowblur", this._onwindowblur, this);
-  vDoc.removeEventListener("windowfocus", this._onwindowfocus, this);
 
   if (this._list)
   {
