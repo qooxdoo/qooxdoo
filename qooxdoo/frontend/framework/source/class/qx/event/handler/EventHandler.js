@@ -1101,7 +1101,7 @@ qx.Proto._focused = false;
 
 qx.Proto._onwindowblur = function(e)
 {
-  this.debug("Try Window blur...");
+  // this.debug("Try Window blur...");
   
   if (!this._focused || this._ignoreWindowBlur) {
     return; 
@@ -1109,7 +1109,7 @@ qx.Proto._onwindowblur = function(e)
   
   this._focused = false;
 
-  this.debug("Window blur...");
+  // this.debug("Window blur...");
 
   // Disable capturing
   this.setCaptureWidget(null);
@@ -1135,7 +1135,7 @@ qx.Proto._onwindowblur = function(e)
 
 qx.Proto._onwindowfocus = function(e)
 {
-  this.debug("Try Window focus...");
+  // this.debug("Try Window focus...");
   
   if (this._focused) {
     return; 
@@ -1143,7 +1143,7 @@ qx.Proto._onwindowfocus = function(e)
   
   this._focused = true;
 
-  this.debug("Window focus...");
+  // this.debug("Window focus...");
 
   // Send focus event to client document
   qx.ui.core.ClientDocument.getInstance().createDispatchEvent("windowfocus");
