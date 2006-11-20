@@ -56,6 +56,10 @@ def extractFileContentId(data):
   for item in config.QXHEAD["id"].findall(data):
     return item
 
+  for item in config.QXHEAD["classDefine"].findall(data):
+    return item
+
+  # TODO: Obsolete with 0.7
   for item in config.QXHEAD["defineClass"].findall(data):
     return item[0]
 
@@ -63,6 +67,10 @@ def extractFileContentId(data):
 
 
 def extractSuperClass(data):
+  for item in config.QXHEAD["superClass"].findall(data):
+    return item
+
+  # TODO: Obsolete with 0.7
   for item in config.QXHEAD["defineClass"].findall(data):
     return item[2]
 
