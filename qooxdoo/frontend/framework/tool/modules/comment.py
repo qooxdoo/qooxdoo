@@ -263,11 +263,13 @@ def qt2javadoc(text):
 
     for line in desc.split("\n"):
       res += " * %s\n" % line
+      
+    res += " "
 
   else:
     res += " %s " % desc
 
-  res += " */"
+  res += "*/"
 
   return res
 
@@ -581,6 +583,17 @@ def fromFunction(func, assignType, name, alternative, old=[]):
 
 
   #
+  # add @type
+  ##############################################################
+  if assignType != None:
+    s += " * @type %s\n" % assignType
+  else:
+    s += " * @type unknown TODOC\n"
+    
+    
+    
+
+  #
   # add @name
   ##############################################################
   if name != None and name != "construct":
@@ -592,17 +605,6 @@ def fromFunction(func, assignType, name, alternative, old=[]):
       s += " * @access protected\n"
     else:
       s += " * @access public\n"
-
-
-
-  #
-  # add @type
-  ##############################################################
-  if assignType != None:
-    s += " * @type %s\n" % assignType
-  else:
-    s += " * @type unknown TODOC\n"
-
 
 
 
