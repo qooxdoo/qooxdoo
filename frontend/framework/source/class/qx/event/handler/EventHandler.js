@@ -310,23 +310,53 @@ qx.Class.getOriginalTargetObject = function(vNode)
   return vNode ? vNode.qx_Widget : null;
 }
 
-/**
- * extract the target node from a DOM event
- * http://www.quirksmode.org/js/events_properties.html
- *
- * @param vDomEvent {Object}
- * @return {Element} the target node
- */
-qx.Class.getDomTarget = function(vDomEvent) {
-  var vNode = vDomEvent.target || vDomEvent.srcElement;
-
-  // Safari takes text nodes as targets for events
-  if (vNode && (vNode.nodeType == qx.constant.Node.TEXT) ) {
-    vNode = vNode.parentNode;
-  }
-
-  return vNode;
-};
+if (qx.sys.Client.getInstance().isWebkit())
+{
+  /**
+   * extract the target node from a DOM event
+   * http://www.quirksmode.org/js/events_properties.html
+   *
+   * @param vDomEvent {Object}
+   * @return {Element} the target node
+   */
+  qx.Class.getDomTarget = function(vDomEvent) 
+  {
+    var vNode = vDomEvent.target || vDomEvent.srcElement;
+  
+    // Safari takes text nodes as targets for events
+    if (vNode && (vNode.nodeType == qx.constant.Node.TEXT)) {
+      vNode = vNode.parentNode;
+    }
+  
+    return vNode;
+  };
+}
+else if (qx.sys.Client.getInstance().isMshtml())
+{
+  /**
+   * extract the target node from a DOM event
+   * http://www.quirksmode.org/js/events_properties.html
+   *
+   * @param vDomEvent {Object}
+   * @return {Element} the target node
+   */
+  qx.Class.getDomTarget = function(vDomEvent) {
+    return vDomEvent.target || vDomEvent.srcElement;
+  };  
+}
+else
+{
+  /**
+   * extract the target node from a DOM event
+   * http://www.quirksmode.org/js/events_properties.html
+   *
+   * @param vDomEvent {Object}
+   * @return {Element} the target node
+   */
+  qx.Class.getDomTarget = function(vDomEvent) {
+    return vDomEvent.target;
+  };  
+}
 
 
 qx.Class.getOriginalTargetObjectFromEvent = function(vDomEvent, vWindow)
