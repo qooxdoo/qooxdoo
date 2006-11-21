@@ -81,7 +81,13 @@ qx.Proto.format = function(num) {
     var mover = Math.pow(10, this.getMaximumFractionDigits());
     num = Math.round(num * mover) / mover;
   }
-  var integerDigits = Math.max(parseInt(Math.log(num) / Math.LN10) + 1, 1);
+  
+  if (num != 0) { // Math.log(0) = -Infinity
+    var integerDigits = Math.max(parseInt(Math.log(num) / Math.LN10) + 1, 1);
+  } else {
+    integerDigits = 1;
+  }
+
   var numStr = "" + num;
 
   // Prepare the integer part
