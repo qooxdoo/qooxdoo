@@ -39,7 +39,8 @@ function()
 
   this._totalRequests = 0;
 
-  this._timer = new qx.client.Timer(50);
+	// timeout handling
+  this._timer = new qx.client.Timer(500);
   this._timer.addEventListener(qx.constant.Event.INTERVAL, this._oninterval, this);
 });
 
