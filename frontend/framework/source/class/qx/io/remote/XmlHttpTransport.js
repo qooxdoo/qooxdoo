@@ -406,8 +406,13 @@ qx.Proto._onreadystatechange = function(e)
 
   // Checking status code
   var vReadyState = this.getReadyState();
-  if (!qx.io.remote.RemoteExchange.wasSuccessful(this.getStatusCode(), vReadyState, this._localRequest)) {
-    return this.failed();
+  if (vReadyState == 4) {
+    // The status code is only meaningful when we reach ready state 4.
+    // (Important for Opera since it goes through other states before
+    // reaching 4, and the status code is not valid before 4 is reached.)
+    if (!qx.io.remote.RemoteExchange.wasSuccessful(this.getStatusCode(), vReadyState, this._localRequest)) {
+      return this.failed();
+    }
   }
 
   // Updating internal state
