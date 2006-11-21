@@ -250,9 +250,7 @@ qx.Proto.send = function()
 
   if (vParametersList.length > 0) {
     vUrl += (vUrl.indexOf(qx.constant.Core.QUESTIONMARK) >= 0
-             ? qx.constant.Core.AMPERSAND
-             : (qx.constant.Core.QUESTIONMARK) +
-                vParametersList.join(qx.constant.Core.AMPERSAND));
+      ? qx.constant.Core.AMPERSAND : qx.constant.Core.QUESTIONMARK) + vParametersList.join(qx.constant.Core.AMPERSAND);
   }
 
 
