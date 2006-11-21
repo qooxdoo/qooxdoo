@@ -216,8 +216,22 @@ qx.OO.addFastProperty({ name : "clientY", readOnly : true });
 
 qx.OO.addFastProperty({ name : "button", readOnly : true });
 
-qx.Proto.isLeftButtonPressed = function() {
-  return this.getButton() === qx.event.type.MouseEvent.C_BUTTON_LEFT;
+// IE does not set e.button in click events
+if (qx.sys.Client.getInstance().isMshtml()) 
+{
+  qx.Proto.isLeftButtonPressed = function() {
+    if (this.getType() == "click") {
+			return true;
+		} else {
+		  return this.getButton() === qx.event.type.MouseEvent.C_BUTTON_LEFT;
+		}
+  }
+}
+else
+{
+  qx.Proto.isLeftButtonPressed = function() {
+    return this.getButton() === qx.event.type.MouseEvent.C_BUTTON_LEFT;
+  }
 }
 
 qx.Proto.isMiddleButtonPressed = function() {
