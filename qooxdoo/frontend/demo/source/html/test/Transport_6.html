@@ -98,7 +98,7 @@
     hlay.add(checken);
 
     checken.addEventListener("changeChecked", function(e) {
-      qx.io.remote.RemoteRequestQueue.setEnabled(e.getData());
+      qx.io.remote.RemoteRequestQueue.getInstance().setEnabled(e.getData());
     });
 
 
