@@ -47,6 +47,8 @@ function(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)
   // Apply constructor arguments
   if (qx.util.Validation.isValidString(vLabel)) {
     this.setLabel(vLabel);
+  } else {
+    this.setLabel("");
   }
 
   // Simple flash wrapper
