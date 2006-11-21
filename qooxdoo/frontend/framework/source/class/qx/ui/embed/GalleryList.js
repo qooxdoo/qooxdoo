@@ -36,7 +36,7 @@ function(galleryList)
 
   this.setOverflow("auto");
 
-  this.setHtmlProperty("className", "qx.ui.embed.GalleryList");
+  this.setHtmlProperty("className", "qx_ui_embed_GalleryList");
 
   this._manager = new qx.manager.selection.DomSelectionManager(this);
 
