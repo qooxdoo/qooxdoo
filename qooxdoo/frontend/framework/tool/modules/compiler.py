@@ -70,15 +70,18 @@ def write(txt=""):
   global afterLine
   global afterBreak
   global afterDivider
+  global afterArea
 
   # strip remaining whitespaces
-  if (afterLine or afterBreak or afterDivider) and result.endswith(" "):
+  if (afterLine or afterBreak or afterDivider or afterArea) and result.endswith(" "):
     result = result.rstrip()
 
   if pretty:
     # handle new line wishes
-    if afterDivider:
-      nr = 6
+    if afterArea:
+      nr = 9
+    elif afterDivider:
+      nr = 5
     elif afterBreak:
       nr = 2
     elif afterLine:
@@ -90,13 +93,14 @@ def write(txt=""):
       result += "\n"
 
   elif breaks and not result.endswith("\n"):
-    if afterDivider or afterBreak or afterLine:
+    if afterArea or afterDivider or afterBreak or afterLine:
       result += "\n"
 
   # reset
   afterLine = False
   afterBreak = False
   afterDivider = False
+  afterArea = False
 
   # add indent (if needed)
   if pretty and result.endswith("\n"):
@@ -104,6 +108,11 @@ def write(txt=""):
 
   # append given text
   result += txt
+
+
+def area():
+  global afterArea
+  afterArea = True
 
 
 def divide():
@@ -130,10 +139,12 @@ def noline():
   global afterLine
   global afterBreak
   global afterDivider
+  global afterArea
 
   afterLine = False
   afterBreak = False
   afterDivider = False
+  afterArea = False
 
 
 def plus():
@@ -168,10 +179,10 @@ def commentNode(node):
   commentText = ""
   commentIsInline = False
 
-  afterDivider = node.getChild("commentsAfter", False)
+  comment = node.getChild("commentsAfter", False)
 
-  if afterDivider and not afterDivider.get("inserted", False):
-    for child in afterDivider.children:
+  if comment and not comment.get("inserted", False):
+    for child in comment.children:
       if not child.isFirstChild():
         commentText += " "
 
@@ -189,7 +200,7 @@ def commentNode(node):
       else:
         space()
 
-      afterDivider.set("inserted", True)
+      comment.set("inserted", True)
 
 
 
@@ -232,6 +243,7 @@ def compile(node, enablePretty=True, enableBreaks=False, enableDebug=False):
   global afterLine
   global afterBreak
   global afterDivider
+  global afterArea
 
   indent = 0
   result = u""
@@ -241,6 +253,7 @@ def compile(node, enablePretty=True, enableBreaks=False, enableDebug=False):
   afterLine = False
   afterBreak = False
   afterDivider = False
+  afterArea = False
 
   if enablePretty:
     comment.fill(node)
@@ -302,6 +315,7 @@ def compileNode(node):
       for child in commentsBefore.children:
         docComment = child.get("detail") in [ "javadoc", "qtdoc" ]
         headComment = child.get("detail") == "header"
+        areaComment = child.get("detail") == "area"
         divComment = child.get("detail") == "divider"
         blockComment = child.get("detail") ==  "block"
         singleLineBlock = child.get("detail") != "inline" and child.get("multiline") == False
@@ -317,6 +331,9 @@ def compileNode(node):
             sep()
           else:
             space()
+
+        elif areaComment and not isFirst:
+          area()
 
         elif divComment and not isFirst:
           divide()
@@ -347,7 +364,7 @@ def compileNode(node):
             space()
 
         # separator after divider/head comments and after block comments which are not for documentation
-        elif headComment or divComment or blockComment:
+        elif headComment or areaComment or divComment or blockComment:
           sep()
 
         else:

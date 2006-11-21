@@ -18,6 +18,7 @@ R_BLOCK_COMMENT = re.compile("^" + S_BLOCK_COMMENT + "$")
 
 R_BLOCK_COMMENT_JAVADOC = re.compile("^/\*\*")
 R_BLOCK_COMMENT_QTDOC = re.compile("^/\*!")
+R_BLOCK_COMMENT_AREA = re.compile("^/\*\n\s*\*\*\*\*\*")
 R_BLOCK_COMMENT_DIVIDER = re.compile("^/\*\n\s*----")
 R_BLOCK_COMMENT_HEADER = re.compile("^/\* \*\*\*\*")
 
@@ -149,6 +150,8 @@ def getFormat(source):
     return "javadoc"
   elif R_BLOCK_COMMENT_QTDOC.search(source):
     return "qtdoc"
+  elif R_BLOCK_COMMENT_AREA.search(source):
+    return "area"
   elif R_BLOCK_COMMENT_DIVIDER.search(source):
     return "divider"
   elif R_BLOCK_COMMENT_HEADER.search(source):
