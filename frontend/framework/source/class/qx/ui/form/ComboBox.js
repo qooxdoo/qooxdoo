@@ -495,7 +495,7 @@ qx.Proto._onmousewheel = function(e)
     if (vTarget!=this && vTarget.getParent()!=this._list) {
       this._popup.hide();
       this.setCapture(false);
-    }  
+    }
   }
 }
 
@@ -651,7 +651,7 @@ qx.Proto._onkeydown = function(e)
 }
 
 qx.Proto._onkeypress = function(e)
-{  
+{
   var vVisible = this._popup.isSeeable();
   if (!this.isEditable() || vVisible)
   {

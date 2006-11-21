@@ -319,15 +319,15 @@ if (qx.sys.Client.getInstance().isWebkit())
    * @param vDomEvent {Event}
    * @return {Element} the target node
    */
-  qx.Class.getDomTarget = function(vDomEvent) 
+  qx.Class.getDomTarget = function(vDomEvent)
   {
     var vNode = vDomEvent.target || vDomEvent.srcElement;
-  
+
     // Safari takes text nodes as targets for events
     if (vNode && (vNode.nodeType == qx.constant.Node.TEXT)) {
       vNode = vNode.parentNode;
     }
-  
+
     return vNode;
   };
 }
@@ -342,7 +342,7 @@ else if (qx.sys.Client.getInstance().isMshtml())
    */
   qx.Class.getDomTarget = function(vDomEvent) {
     return vDomEvent.target || vDomEvent.srcElement;
-  };  
+  };
 }
 else
 {
@@ -355,7 +355,7 @@ else
    */
   qx.Class.getDomTarget = function(vDomEvent) {
     return vDomEvent.target;
-  };  
+  };
 }
 
 
@@ -955,7 +955,7 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 
 
 
-    this._ignoreWindowBlur = vType === qx.constant.Event.MOUSEDOWN; 
+    this._ignoreWindowBlur = vType === qx.constant.Event.MOUSEDOWN;
 
 
 
@@ -1102,11 +1102,11 @@ qx.Proto._focused = false;
 qx.Proto._onwindowblur = function(e)
 {
   // this.debug("Try Window blur...");
-  
+
   if (!this._focused || this._ignoreWindowBlur) {
-    return; 
+    return;
   }
-  
+
   this._focused = false;
 
   // this.debug("Window blur...");
@@ -1136,11 +1136,11 @@ qx.Proto._onwindowblur = function(e)
 qx.Proto._onwindowfocus = function(e)
 {
   // this.debug("Try Window focus...");
-  
+
   if (this._focused) {
-    return; 
+    return;
   }
-  
+
   this._focused = true;
 
   // this.debug("Window focus...");
