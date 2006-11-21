@@ -178,11 +178,12 @@ qx.Proto.createDispatchDataEvent = function(vType, vData)
  *
  * @param vEvent {qx.event.type.Event} event to dispatch
  * @param vEnableDispose {boolean} wether the event object should be disposed after all event handlers run.
+ * @return {boolean} wether the event default was prevented or not. Returns true, when the event was NOT prevented.
  */
 qx.Proto.dispatchEvent = function(vEvent, vEnableDispose)
 {
   // Ignore event if eventTarget is disposed
-  if(this.getDisposed()) {
+  if(this.getDisposed() && this.getEnabled()) {
     return;
   }
 
@@ -196,8 +197,14 @@ qx.Proto.dispatchEvent = function(vEvent, vEnableDispose)
 
   // Dispatch Event
   this._dispatchEvent(vEvent, vEnableDispose);
+  
+  // Read default prevented
+  var defaultPrevented = vEvent._defaultPrevented;
 
-  return !vEvent._defaultPrevented;
+  // enable dispose for event?
+  vEnableDispose && vEvent.dispose();
+
+  return !defaultPrevented;
 }
 
 
@@ -207,12 +214,8 @@ qx.Proto.dispatchEvent = function(vEvent, vEnableDispose)
  * @param vEvent {qx.event.type.Event} event to dispatch
  * @param vEnableDispose {boolean} wether the event object should be disposed after all event handlers run.
  */
-qx.Proto._dispatchEvent = function(vEvent, vEnableDispose)
+qx.Proto._dispatchEvent = function(vEvent)
 {
-  if(this.getDisposed()) {
-    return;
-  }
-
   var vListeners = this._listeners;
   if (vListeners)
   {
@@ -249,22 +252,16 @@ qx.Proto._dispatchEvent = function(vEvent, vEnableDispose)
   }
 
   // Bubble event to parents
-  var vParent = this.getParent();
-  if(vEvent.getBubbles() && !vEvent.getPropagationStopped() && vParent && !vParent.getDisposed() && vParent.getEnabled()) {
-    vParent._dispatchEvent(vEvent, false);
+  // TODO: Move this to Parent or Widget?
+  if(vEvent.getBubbles() && !vEvent.getPropagationStopped() && this.getParent)
+  {
+    var vParent = this.getParent();
+    if (vParent && !vParent.getDisposed() && vParent.getEnabled()) {
+      vParent._dispatchEvent(vEvent);
+    }
   }
-
-  // vEnableDispose event?
-  vEnableDispose && vEvent.dispose();
 }
 
-
-/**
- * Internal placeholder for bubbling phase of an event.
- */
-qx.Proto.getParent = function() {
-  return null;
-}
 
 
 
