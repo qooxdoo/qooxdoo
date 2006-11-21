@@ -61,6 +61,9 @@ function(tableModel) {
   // Make focusable
   this.setTabIndex(1);
   this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
+	
+  this._focusedCol = 0;
+  this._focusedRow = 0;
 });
 
 /** The selection model. */
