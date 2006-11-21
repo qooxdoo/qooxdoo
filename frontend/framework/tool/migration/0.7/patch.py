@@ -5,7 +5,7 @@ import sys, os
 # reconfigure path to import modules from modules subfolder
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "../../modules"))
 
-import tree, compiler
+import tree, compiler, comment
 
 
 
@@ -138,12 +138,23 @@ def patch(id, node):
             membersMap.addChild(pair)
 
           elif mode == "statics":
-            pair = createPair(name, elem, child)
+            # Special Handling of old singleton definition
+            if name == "getInstance":
+              pair = createPair("singleton", createConstant("boolean", "true"))
+              pair.addChild(createBlockComment("singleton"))
 
-            if breakBefore:
-              pair.set("breakBefore", True)
+              if breakBefore:
+                pair.set("breakBefore", True)
 
-            staticsMap.addChild(pair)
+              classMap.addChild(pair, 1)
+              
+            else:
+              pair = createPair(name, elem, child)
+  
+              if breakBefore:
+                pair.set("breakBefore", True)
+  
+              staticsMap.addChild(pair)
 
           node.removeChild(child)
           pos -= 1
@@ -184,9 +195,6 @@ def patch(id, node):
             
             name = nameNode.get("value")
             
-            print "NAME: %s" % nameNode.type
-            print "VALUE: %s" % valueNode.type
-            
             pair = createPair(name, valueNode, child)
             
             if breakBefore:
@@ -204,6 +212,10 @@ def patch(id, node):
             # 3 params = name, superclass, constructor
             # 2 params = name, map
             # 1 param = name
+            
+            # Move class comment
+            if child.hasChild("commentsBefore"):
+              classDefine.addChild(child.getChild("commentsBefore"))
 
             childrenLength = params.getChildrenLength(True)
 
@@ -219,8 +231,15 @@ def patch(id, node):
             elif childrenLength == 3:
               ext = params.getChildByPosition(1, True, True)
               construct = params.getChildByPosition(2, True, True)
-              classMap.addChild(createPair("extend", ext), 0)
-              classMap.addChild(createPair("construct", construct), 1)
+
+              extendPair = createPair("extend", ext)
+              constructPair = createPair("construct", construct)
+              
+              extendPair.addChild(createBlockComment("superclass"))
+              constructPair.addChild(createBlockComment("constructor"))              
+              
+              classMap.addChild(extendPair, 0)
+              classMap.addChild(constructPair, 1)
 
               node.removeChild(child)
               pos -= 1
@@ -236,6 +255,10 @@ def patch(id, node):
 
 
   # Remove empty maps
+  if settingsMap.getChildrenLength() == 0:
+    keyvalue = settingsMap.parent.parent
+    classMap.removeChild(keyvalue)
+      
   if propertiesMap.getChildrenLength() == 0:
     keyvalue = propertiesMap.parent.parent
     classMap.removeChild(keyvalue)
@@ -259,6 +282,7 @@ def patch(id, node):
 
   # Debug
   # print compiler.compile(node)
+  # print tree.nodeToXmlString(node)
 
   # Return Modification
   return True
@@ -318,6 +342,11 @@ def createClassDefine(id):
 
   staticsMap = tree.Node("map")
   staticsPair = createPair("statics", staticsMap)
+  
+  settingsPair.addChild(createBlockComment("settings"))
+  propertiesPair.addChild(createBlockComment("properties"))
+  membersPair.addChild(createBlockComment("members"))
+  staticsPair.addChild(createBlockComment("statics"))
 
   classMap.addChild(settingsPair)
   classMap.addChild(propertiesPair)
@@ -325,3 +354,28 @@ def createClassDefine(id):
   classMap.addChild(staticsPair)
 
   return classDefine, className, classMap, settingsMap, propertiesMap, membersMap, staticsMap
+
+
+def createBlockComment(txt):
+  l = "*****************************************************************************"
+  
+  s = ""
+  s += "/*\n"
+  s += "%s\n" % l
+  s += "**** %s %s\n" % (txt.upper(), "*" * (len(l) - len(txt) - 6))
+  s += "%s\n" % l
+  s += "*/"
+  
+  bef = tree.Node("commentsBefore")
+  com = tree.Node("comment")
+  
+  bef.addChild(com)
+  
+  com.set("multiline", True)
+  com.set("connection", "before")
+  com.set("text", s)
+  com.set("detail", comment.getFormat(s))
+  
+  return bef
+
+  
