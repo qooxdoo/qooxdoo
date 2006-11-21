@@ -651,9 +651,22 @@ qx.Proto._onkeydown = function(e)
 }
 
 qx.Proto._onkeypress = function(e)
-{
-  if (!this.isEditable()) {
+{  
+  var vVisible = this._popup.isSeeable();
+  if (!this.isEditable() || vVisible)
+  {
     this._list._onkeypress(e);
+
+    var vSelected = this._manager.getSelectedItem();
+
+    if (!vVisible)
+    {
+      this.setSelected(vSelected);
+    }
+    else if (vSelected)
+    {
+      this._field.setValue(vSelected.getLabel());
+    }
   }
 }
 
