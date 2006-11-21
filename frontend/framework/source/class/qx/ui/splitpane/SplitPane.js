@@ -216,6 +216,15 @@ qx.Proto.addBottom = function() {
 }
 
 /**
+ * Returns the splitter.
+ *
+ * @return {qx.ui.core.Widget} The splitter.
+ */
+qx.Proto.getSplitter = function() {
+  return this._splitter;
+}
+
+/**
  * Returns the knob.
  *
  * @return {qx.ui.core.Widget} The knob.
