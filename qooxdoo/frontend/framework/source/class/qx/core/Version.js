@@ -36,17 +36,17 @@ qx.OO.defineClass("qx.core.Version",
   /**
    * qooxdoo minor version number
    */
-  minor : 6,
+  minor : 7,
 
   /**
    * qooxdoo revision number
    */
-  revision : 2,
+  revision : 0,
 
   /**
    * qooxdoo revision state
    */
-  state : "",
+  state : "pre",
 
   /**
    * qooxdoo subversion revision number
