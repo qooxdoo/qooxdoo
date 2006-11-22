@@ -197,7 +197,7 @@ qx.Proto.dispatchEvent = function(vEvent, vEnableDispose)
 
   // Dispatch Event
   this._dispatchEvent(vEvent, vEnableDispose);
-  
+
   // Read default prevented
   var defaultPrevented = vEvent._defaultPrevented;
 
