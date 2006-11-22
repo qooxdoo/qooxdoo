@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys, re, os
-import config, filetool, treegenerator, tokenizer, compiler
+import config, filetool, treegenerator, tokenizer, compiler, util
 
 def entryCompiler(line):
   # protect escaped equal symbols
