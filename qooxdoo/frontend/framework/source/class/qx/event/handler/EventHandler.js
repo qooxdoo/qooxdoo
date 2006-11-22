@@ -504,10 +504,14 @@ qx.Proto._onkeyevent = function(vDomEvent)
     vKeyCode = qx.event.handler.EventHandler._safariKeyCodeMapping[vKeyCode] || vKeyCode;
 
     // prevent Safari from sending key signals twice
-    // http://trac.mochikit.com/ticket/182
-    if (qx.event.handler.EventHandler._safariKeyCodeMapping[this._lastCharCodeForEvent[vType]]) {
-      this._lastCharCodeForEvent[vType] = null;
-      return false;
+    // This bug is fixed in recent Webkit builds so we need a revision check
+    // see http://trac.mochikit.com/ticket/182 for details
+    if (qx.sys.Client.getInstance().getVersion() < 420)
+		{
+      if (qx.event.handler.EventHandler._safariKeyCodeMapping[this._lastCharCodeForEvent[vType]]) {
+        this._lastCharCodeForEvent[vType] = null;
+        return false;
+      }
     }
   }
 
