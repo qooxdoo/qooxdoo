@@ -10,7 +10,7 @@ NICE_CALL = nice -n $(NICE)
 RELEASE_UNIX = release/temp/unix/qooxdoo-$(VERSION)-backend
 RELEASE_DOS = release/temp/dos/qooxdoo-$(VERSION)-backend
 
-FIX_FILES = -name SERVER_WRITER_GUIDE -o -name *.java -o -name *.xml -o -name *.sample -o -name *.php -o -name *.phps -o -name AUTHORS -o -name LICENSE -o -name README -o -name RELEASENOTES -o -name TODO
+FIX_FILES = -name "*.py" -o -name "*.sh" -o -name SERVER_WRITER_GUIDE -o -name *.java -o -name *.xml -o -name *.sample -o -name *.php -o -name *.phps -o -name AUTHORS -o -name LICENSE -o -name README -o -name RELEASENOTES -o -name TODO
 
 RSYNC = --recursive --archive --delete --exclude .svn
 RSYNC_EXEC = @$(NICE_CALL) rsync $(RSYNC)

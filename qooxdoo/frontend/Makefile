@@ -13,7 +13,7 @@ RELEASE_BUILD_DOS = release/temp/build/dos/qooxdoo-$(VERSION)-build
 RELEASE_SDK_UNIX = release/temp/sdk/unix/qooxdoo-$(VERSION)-sdk
 RELEASE_SDK_DOS = release/temp/sdk/dos/qooxdoo-$(VERSION)-sdk
 
-FIX_FILES = -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile -o -name AUTHORS -o -name LICENSE -o -name README -o -name RELEASENOTES -o -name TODO
+FIX_FILES = -name "*.py" -o -name "*.sh" -o -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile -o -name AUTHORS -o -name LICENSE -o -name README -o -name RELEASENOTES -o -name TODO
 
 RSYNC_BUILD_OPT = --recursive --archive --delete
 RSYNC_SDK_OPT = $(RSYNC_BUILD_OPT) --exclude script --exclude .svn
