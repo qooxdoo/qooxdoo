@@ -57,6 +57,7 @@ distclean: realclean
 	@echo "----------------------------------------------------------------------------"
 	@echo "  * Deleting files..."
 	@nice -n $(NICE) find . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
+	@nice -n $(NICE) rm -rf $(CACHE)
 
 
 
