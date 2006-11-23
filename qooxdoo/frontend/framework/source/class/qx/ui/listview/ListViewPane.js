@@ -59,7 +59,7 @@ function(vData, vColumns)
   // ************************************************************************
   //   KEY EVENT LISTENER
   // ************************************************************************
-  this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
+  this.addEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
 });
 
 qx.OO.changeProperty({ name : "appearance",
@@ -373,9 +373,9 @@ qx.Proto._ondblclick = function(e)
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._onkeydown = function(e)
+qx.Proto._onkeypress = function(e)
 {
-  this._manager.handleKeyDown(e);
+  this._manager.handleKeyPress(e);
   e.preventDefault();
 }
 
@@ -533,7 +533,7 @@ qx.Proto.dispose = function()
   // ************************************************************************
   //   KEY EVENT LISTENER
   // ************************************************************************
-  this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
+  this.removeEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
 
 
   // ************************************************************************

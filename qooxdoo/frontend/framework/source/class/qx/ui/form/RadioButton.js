@@ -25,6 +25,8 @@
 qx.OO.defineClass("qx.ui.form.RadioButton", qx.ui.form.CheckBox,
 function(vText, vValue, vName, vChecked) {
   qx.ui.form.CheckBox.call(this, vText, vValue, vName, vChecked);
+
+  this.addEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
 });
 
 
@@ -123,31 +125,33 @@ qx.Proto._modifyValue = function(propValue, propOldValue, propData)
 
 qx.Proto._onkeydown = function(e)
 {
-  switch(e.getKeyCode())
+  if (e.getKeyIdentifier() == "Enter" && !e.getAltKey()) {
+    this.setChecked(true);
+  }
+};
+
+
+qx.Proto._onkeypress = function(e)
+{
+ switch(e.getKeyIdentifier())
   {
-    case qx.event.type.KeyEvent.keys.enter:
-      if (!e.getAltKey()) {
-        this.setChecked(true);
-      }
-
-      break;
-
-    case qx.event.type.KeyEvent.keys.left:
-    case qx.event.type.KeyEvent.keys.up:
+    case "Left":
+    case "Up":
       qx.event.handler.FocusHandler.mouseFocus = false;
       // we want to have a focus border when using arrows to select
       qx.event.handler.FocusHandler.mouseFocus = false;
 
       return this.getManager() ? this.getManager().selectPrevious(this) : true;
 
-    case qx.event.type.KeyEvent.keys.right:
-    case qx.event.type.KeyEvent.keys.down:
+    case "Right":
+    case "Down":
       // we want to have a focus border when using arrows to select
       qx.event.handler.FocusHandler.mouseFocus = false;
 
       return this.getManager() ? this.getManager().selectNext(this) : true;
   }
-}
+};
+
 
 qx.Proto._onclick = function(e) {
   this.setChecked(true);
@@ -155,7 +159,7 @@ qx.Proto._onclick = function(e) {
 
 qx.Proto._onkeyup = function(e)
 {
-  if(e.getKeyCode() == qx.event.type.KeyEvent.keys.space) {
+  if(e.getKeyIdentifier() == "Space") {
     this.setChecked(true);
   }
 }
@@ -176,5 +180,6 @@ qx.Proto.dispose = function()
     return;
   }
 
+  this.removeEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
   return qx.ui.form.CheckBox.prototype.dispose.call(this);
 }

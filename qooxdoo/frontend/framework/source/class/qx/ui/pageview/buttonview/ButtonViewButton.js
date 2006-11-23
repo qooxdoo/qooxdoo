@@ -40,19 +40,19 @@ qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defa
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._onkeydown = function(e)
+qx.Proto._onkeypress = function(e)
 {
   switch(this.getView().getBarPosition())
   {
     case qx.constant.Layout.ALIGN_TOP:
     case qx.constant.Layout.ALIGN_BOTTOM:
-      switch(e.getKeyCode())
+      switch(e.getKeyIdentifier())
       {
-        case qx.event.type.KeyEvent.keys.left:
+        case "Left":
           var vPrevious = true;
           break;
 
-        case qx.event.type.KeyEvent.keys.right:
+        case "Right":
           var vPrevious = false;
           break;
 
@@ -64,13 +64,13 @@ qx.Proto._onkeydown = function(e)
 
     case qx.constant.Layout.ALIGN_LEFT:
     case qx.constant.Layout.ALIGN_RIGHT:
-      switch(e.getKeyCode())
+      switch(e.getKeyIdentifier())
       {
-        case qx.event.type.KeyEvent.keys.up:
+        case "Up":
           var vPrevious = true;
           break;
 
-        case qx.event.type.KeyEvent.keys.down:
+        case "Down":
           var vPrevious = false;
           break;
 

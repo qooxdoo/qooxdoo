@@ -51,6 +51,7 @@ function(vLabel, vIcon, vIconSelected)
   //   KEY EVENT LISTENER
   // ************************************************************************
   this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
+  this.addEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
   this.addEventListener(qx.constant.Event.KEYUP, this._onkeyup);
 });
 
@@ -208,11 +209,11 @@ qx.Proto.getLevel = function() {
 
 qx.ui.tree.Tree.isTreeFolder = function(vObject) {
   return vObject && vObject instanceof qx.ui.tree.TreeFolder && !(vObject instanceof qx.ui.tree.Tree);
-}
+};
 
 qx.ui.tree.Tree.isOpenTreeFolder = function(vObject) {
   return vObject instanceof qx.ui.tree.TreeFolder && vObject.getOpen() && vObject.hasContent();
-}
+};
 
 
 
@@ -228,12 +229,26 @@ qx.ui.tree.Tree.isOpenTreeFolder = function(vObject) {
 
 qx.Proto._onkeydown = function(e)
 {
+  var vSelectedItem = this.getManager().getSelectedItem();
+
+  if (e.getKeyIdentifier() == "Enter") {
+    e.preventDefault();
+
+    if (qx.ui.tree.Tree.isTreeFolder(vSelectedItem)) {
+      return vSelectedItem.toggle();
+    }
+  }
+};
+
+
+qx.Proto._onkeypress = function(e)
+{
   var vManager = this.getManager();
   var vSelectedItem = vManager.getSelectedItem();
 
-  switch(e.getKeyCode())
+  switch(e.getKeyIdentifier())
   {
-    case qx.event.type.KeyEvent.keys.left:
+    case "Left":
       e.preventDefault();
 
       if (qx.ui.tree.Tree.isTreeFolder(vSelectedItem))
@@ -268,7 +283,7 @@ qx.Proto._onkeydown = function(e)
 
       break;
 
-    case qx.event.type.KeyEvent.keys.right:
+    case "Right":
       e.preventDefault();
 
       if (qx.ui.tree.Tree.isTreeFolder(vSelectedItem))
@@ -292,15 +307,6 @@ qx.Proto._onkeydown = function(e)
 
       break;
 
-    case qx.event.type.KeyEvent.keys.enter:
-      e.preventDefault();
-
-      if (qx.ui.tree.Tree.isTreeFolder(vSelectedItem)) {
-        return vSelectedItem.toggle();
-      }
-
-      break;
-
     default:
       if (!this._fastUpdate)
       {
@@ -308,9 +314,10 @@ qx.Proto._onkeydown = function(e)
         this._oldItem = vSelectedItem;
       }
 
-      vManager.handleKeyDown(e);
+      vManager.handleKeyPress(e);
   }
-}
+};
+
 
 qx.Proto._onkeyup = function(e)
 {
@@ -324,7 +331,8 @@ qx.Proto._onkeyup = function(e)
     delete this._fastUpdate;
     delete this._oldItem;
   }
-}
+};
+
 
 qx.Proto.getLastTreeChild = function()
 {
@@ -340,11 +348,13 @@ qx.Proto.getLastTreeChild = function()
   }
 
   return null;
-}
+};
+
 
 qx.Proto.getFirstTreeChild = function() {
   return this;
-}
+};
+
 
 qx.Proto.setSelectedElement = function(vElement)
 {
@@ -352,7 +362,7 @@ qx.Proto.setSelectedElement = function(vElement)
 
   vManager.setSelectedItem(vElement);
   vManager.setLeadItem(vElement);
-}
+};
 
 
 
@@ -371,6 +381,10 @@ qx.Proto.dispose = function()
   if (this.getDisposed()) {
     return;
   }
+
+  this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
+  this.removeEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
+  this.removeEventListener(qx.constant.Event.KEYUP, this._onkeyup);
 
   if (this._manager)
   {

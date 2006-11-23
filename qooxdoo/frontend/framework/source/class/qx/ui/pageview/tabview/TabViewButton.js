@@ -64,15 +64,19 @@ qx.OO.addProperty({ name : "closeButtonImage", type : qx.constant.Type.STRING, d
 
 qx.Proto._onkeydown = function(e)
 {
-  switch(e.getKeyCode())
-  {
-    case qx.event.type.KeyEvent.keys.enter:
-    case qx.event.type.KeyEvent.keys.space:
+  var identifier = e.getKeyIdentifier();
+  if (identifier == "Enter" || identifier == "Space") {
       // there is no toggeling, just make it checked
       this.setChecked(true);
-      break;
+  }
+};
 
-    case qx.event.type.KeyEvent.keys.left:
+
+qx.Proto._onkeypress = function(e)
+{
+  switch(e.getKeyIdentifier())
+  {
+    case "Left":
       var vPrev = this.getPreviousSibling() || this.getParent().getLastChild();
       if (vPrev && vPrev != this)
       {
@@ -88,7 +92,7 @@ qx.Proto._onkeydown = function(e)
       }
       break;
 
-    case qx.event.type.KeyEvent.keys.right:
+    case "Right":
       var vNext = this.getNextSibling() || this.getParent().getFirstVisibleChild();
       if (vNext && vNext != this)
       {
@@ -104,7 +108,7 @@ qx.Proto._onkeydown = function(e)
       }
       break;
   }
-}
+};
 
 
 qx.Proto._ontabclose = function(e){

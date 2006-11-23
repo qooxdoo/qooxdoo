@@ -50,7 +50,7 @@ function(vGalleryList)
   this.addEventListener("click", this._onclick);
   this.addEventListener("dblclick", this._ondblclick);
 
-  this.addEventListener("keydown", this._onkeydown);
+  this.addEventListener("keypress", this._onkeypress);
 });
 
 
@@ -316,8 +316,8 @@ qx.Proto._ondblclick = function(e)
   }
 }
 
-qx.Proto._onkeydown = function(e) {
-  this._manager.handleKeyDown(e);
+qx.Proto._onkeypress = function(e) {
+  this._manager.handleKeyPress(e);
 }
 
 qx.Proto.getListItemTarget = function(dt)
@@ -550,7 +550,7 @@ qx.Proto.dispose = function()
   this.removeEventListener("click", this._onclick);
   this.removeEventListener("dblclick", this._ondblclick);
 
-  this.removeEventListener("keydown", this._onkeydown);
+  this.removeEventListener("keypress", this._onkeypress);
 
   return qx.ui.basic.Terminator.prototype.dispose.call(this);
 }

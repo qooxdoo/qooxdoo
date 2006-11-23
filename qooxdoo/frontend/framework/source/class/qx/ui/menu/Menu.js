@@ -55,6 +55,7 @@ function()
   this.addEventListener(qx.constant.Event.MOUSEOUT, this._onmouseout);
 
   this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
+  this.addEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
 
 
   // ************************************************************************
@@ -688,26 +689,31 @@ qx.Proto._onclosetimer = function(e)
 */
 qx.Proto._onkeydown = function(e)
 {
-  switch(e.getKeyCode())
+  if (e.getKeyIdentifier() == "Enter") {
+    this._onkeydown_enter(e);
+  }
+  e.preventDefault();
+};
+
+
+qx.Proto._onkeypress = function(e)
+{
+  switch(e.getKeyIdentifier())
   {
-    case qx.event.type.KeyEvent.keys.up:
-      this._onkeydown_up(e);
+    case "Up":
+      this._onkeypress_up(e);
       break;
 
-    case qx.event.type.KeyEvent.keys.down:
-      this._onkeydown_down(e);
+    case "Down":
+      this._onkeypress_down(e);
       break;
 
-    case qx.event.type.KeyEvent.keys.left:
-      this._onkeydown_left(e);
+    case "Left":
+      this._onkeypress_left(e);
       break;
 
-    case qx.event.type.KeyEvent.keys.right:
-      this._onkeydown_right(e);
-      break;
-
-    case qx.event.type.KeyEvent.keys.enter:
-      this._onkeydown_enter(e);
+    case "Right":
+      this._onkeypress_right(e);
       break;
 
     default:
@@ -716,9 +722,10 @@ qx.Proto._onkeydown = function(e)
 
   // Stop all matching events
   e.preventDefault();
-}
+};
 
-qx.Proto._onkeydown_up = function(e)
+
+qx.Proto._onkeypress_up = function(e)
 {
   var vHover = this.getHoverItem();
   var vPrev = vHover ? vHover.isFirstChild() ? this.getLastActiveChild() : vHover.getPreviousActiveSibling([qx.ui.menu.MenuSeparator]) : this.getLastActiveChild();
@@ -726,7 +733,7 @@ qx.Proto._onkeydown_up = function(e)
   this.setHoverItem(vPrev);
 }
 
-qx.Proto._onkeydown_down = function(e)
+qx.Proto._onkeypress_down = function(e)
 {
   var vHover = this.getHoverItem();
   var vNext = vHover ? vHover.isLastChild() ? this.getFirstActiveChild() : vHover.getNextActiveSibling([qx.ui.menu.MenuSeparator]) : this.getFirstActiveChild();
@@ -734,7 +741,7 @@ qx.Proto._onkeydown_down = function(e)
   this.setHoverItem(vNext);
 }
 
-qx.Proto._onkeydown_left = function(e)
+qx.Proto._onkeypress_left = function(e)
 {
   var vOpener = this.getOpener();
 
@@ -762,7 +769,7 @@ qx.Proto._onkeydown_left = function(e)
   }
 }
 
-qx.Proto._onkeydown_right = function(e)
+qx.Proto._onkeypress_right = function(e)
 {
   var vHover = this.getHoverItem();
 
@@ -891,6 +898,8 @@ qx.Proto.dispose = function()
   this.removeEventListener(qx.constant.Event.MOUSEOUT, this._onmouseout);
 
   this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
+  this.removeEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
+
 
   return qx.ui.popup.Popup.prototype.dispose.call(this);
 }

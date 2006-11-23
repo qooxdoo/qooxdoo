@@ -38,6 +38,7 @@ function(vText, vIcon, vIconWidth, vIconHeight, vFlash) {
   //   KEY EVENTS
   // ************************************************************************
   this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
+  this.addEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
 });
 
 
@@ -180,6 +181,7 @@ qx.Proto._onmouseout = function(e) {
 }
 
 qx.Proto._onkeydown = function(e) {}
+qx.Proto._onkeypress = function(e) {}
 
 
 
@@ -210,6 +212,7 @@ qx.Proto.dispose = function() {
   //   KEY EVENTS
   // ************************************************************************
   this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
+  this.removeEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
 
 
   return qx.ui.basic.Atom.prototype.dispose.call(this);
