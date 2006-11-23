@@ -100,9 +100,8 @@
 		var d = qx.ui.core.ClientDocument.getInstance();
 		d.addEventListener(qx.constant.Event.KEYDOWN, logKeyEvent);
 		d.addEventListener(qx.constant.Event.KEYPRESS, logKeyEvent);
-		d.addEventListener(qx.constant.Event.KEYPRESS.KEYINPUT, logKeyEvent);
+		d.addEventListener(qx.constant.Event.KEYINPUT, logKeyEvent);
 		d.addEventListener(qx.constant.Event.KEYUP, logKeyEvent);
-		
 		
 		var button = new qx.ui.form.Button("clear");
 		button.set({
