@@ -362,7 +362,6 @@ qx.Proto._geckoKeyHandler = function(domEvent)
       this._idealKeyHandler(keyCode, charCode, domEvent.type, domEvent);
     }
     // Store last type
-    this.debug(keyHash + " " + domEvent.type + " " + this._last_updown[keyHash]);
     this._last_updown[keyHash] = domEvent.type;
   } else {  // all other OSes
     this._idealKeyHandler(keyCode, charCode, domEvent.type, domEvent);
@@ -393,7 +392,7 @@ qx.Proto._mshtmlKeyUpDownHandler = function(domEvent)
   this._last_updown[keyCode] = type;
 
   // On non print-able character be sure to add a keypress event
-  if (this._isNonPrintablekeyCode(keyCode) && type == "keydown") {
+  if (this._isNonPrintableKeyCode(keyCode) && type == "keydown") {
     this._idealKeyHandler(keyCode, charcode, "keypress", domEvent);
   }
 
