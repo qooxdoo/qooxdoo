@@ -71,7 +71,7 @@ qx.event.handler.FocusHandler.tabEventType = qx.sys.Client.getInstance().isMshtm
 
 qx.Proto._onkeyevent = function(vContainer, vEvent)
 {
-  if (vEvent.getKeyCode() != qx.event.type.KeyEvent.keys.tab) {
+  if (vEvent.getKeyIdentifier() != "Tab") {
     return;
   }
 

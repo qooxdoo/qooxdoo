@@ -118,7 +118,8 @@ function()
   // ************************************************************************
   this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
   this.addEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
-
+  this.addEventListener(qx.constant.Event.KEYINPUT, this._onkeyinput);
+  
 
   // ************************************************************************
   //   WIDGET STATE EVENTS
@@ -510,14 +511,12 @@ qx.Proto._onmousewheel = function(e)
 qx.Proto._onkeydown = function(e)
 {
   var vManager = this._manager;
-  var vKeyCode = e.getKeyCode();
-  var vKeys = qx.event.type.KeyEvent.keys;
   var vVisible = this._popup.isSeeable();
 
-  switch(vKeyCode)
+  switch(e.getKeyIdentifier())
   {
     // Handle <ENTER>
-    case vKeys.enter:
+    case "Enter":
       if (vVisible)
       {
         this.setSelected(this._manager.getSelectedItem());
@@ -532,7 +531,7 @@ qx.Proto._onkeydown = function(e)
       return;
 
     // Handle <ESC>
-    case vKeys.esc:
+    case "Escape":
       if (vVisible)
       {
         vManager.setLeadItem(this._oldSelected);
@@ -548,8 +547,28 @@ qx.Proto._onkeydown = function(e)
 
       return;
 
+    // Handle Alt+Down
+    case "Down":
+      if (e.getAltKey())
+      {
+        this._togglePopup();
+        return;
+      }
+
+      break;
+  }
+};
+
+
+qx.Proto._onkeypress = function(e)
+{
+  var vVisible = this._popup.isSeeable();
+  var vManager = this._manager;
+    
+  switch(e.getKeyIdentifier())
+  {
     // Handle <PAGEUP>
-    case vKeys.pageup:
+    case "PageUp":
       if (!vVisible)
       {
         var vPrevious;
@@ -576,7 +595,7 @@ qx.Proto._onkeydown = function(e)
       break;
 
     // Handle <PAGEDOWN>
-    case vKeys.pagedown:
+    case "PageDown":
       if (!vVisible)
       {
         var vNext;
@@ -601,58 +620,9 @@ qx.Proto._onkeydown = function(e)
       }
 
       break;
-
-    // Handle Alt+Down
-    case vKeys.down:
-      if (e.getAltKey())
-      {
-        this._togglePopup();
-        return;
-      }
-
-      break;
   }
-
+  
   // Default Handling
-  if (!this.isEditable() || vVisible)
-  {
-    this._list._onkeydown(e);
-
-    var vSelected = this._manager.getSelectedItem();
-
-    if (!vVisible)
-    {
-      this.setSelected(vSelected);
-    }
-    else if (vSelected)
-    {
-      this._field.setValue(vSelected.getLabel());
-    }
-
-    return;
-  }
-
-  switch(vKeyCode)
-  {
-    case vKeys.pageup:
-    case vKeys.pagedown:
-      if (!this._popup.isCreated()) {
-        return;
-      }
-
-      // no break here
-
-    case vKeys.up:
-    case vKeys.down:
-      this._list._onkeydown(e);
-      this.setSelected(this._manager.getSelectedItem());
-      break;
-  }
-}
-
-qx.Proto._onkeypress = function(e)
-{
-  var vVisible = this._popup.isSeeable();
   if (!this.isEditable() || vVisible)
   {
     this._list._onkeypress(e);
@@ -668,9 +638,28 @@ qx.Proto._onkeypress = function(e)
       this._field.setValue(vSelected.getLabel());
     }
   }
-}
+};
 
 
+qx.Proto._onkeyinput = function(e)
+{
+  var vVisible = this._popup.isSeeable();
+  if (!this.isEditable() || vVisible)
+  {
+    this._list._onkeyinput(e);
+
+    var vSelected = this._manager.getSelectedItem();
+
+    if (!vVisible)
+    {
+      this.setSelected(vSelected);
+    }
+    else if (vSelected)
+    {
+      this._field.setValue(vSelected.getLabel());
+    }
+  }
+};
 
 
 
@@ -793,7 +782,7 @@ qx.Proto.dispose = function()
   // ************************************************************************
   this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
   this.removeEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
-
+  this.removeEventListener(qx.constant.Event.KEYINPUT, this._onkeyinput);
 
   // ************************************************************************
   //   DOCUMENT EVENTS
