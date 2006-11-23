@@ -4,7 +4,7 @@
 \bqx\.constant\.Core\.DOT\b="."
 \bqx\.constant\.Core\.ZERO\b="0"
 \bqx\.constant\.Core\.QUOTE='"'
-\bqx\.constant\.Core\.NEWLINE\b="\n"
+\bqx\.constant\.Core\.NEWLINE\b="\\n"
 \bqx\.constant\.Core\.SINGLEQUOTE\b="'"
 \bqx\.constant\.Core\.STAR\b="*"
 \bqx\.constant\.Core\.PLUS\b="+"
