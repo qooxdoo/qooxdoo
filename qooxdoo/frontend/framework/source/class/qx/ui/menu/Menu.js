@@ -731,7 +731,7 @@ qx.Proto._onkeypress_up = function(e)
   var vPrev = vHover ? vHover.isFirstChild() ? this.getLastActiveChild() : vHover.getPreviousActiveSibling([qx.ui.menu.MenuSeparator]) : this.getLastActiveChild();
 
   this.setHoverItem(vPrev);
-}
+};
 
 qx.Proto._onkeypress_down = function(e)
 {
@@ -739,7 +739,8 @@ qx.Proto._onkeypress_down = function(e)
   var vNext = vHover ? vHover.isLastChild() ? this.getFirstActiveChild() : vHover.getNextActiveSibling([qx.ui.menu.MenuSeparator]) : this.getFirstActiveChild();
 
   this.setHoverItem(vNext);
-}
+};
+
 
 qx.Proto._onkeypress_left = function(e)
 {
@@ -765,9 +766,10 @@ qx.Proto._onkeypress_left = function(e)
     this.getFocusRoot().setActiveChild(vToolBar);
 
     // execute toolbars keydown implementation
-    vToolBar._onkeydown(e);
+    vToolBar._onkeypress(e);
   }
-}
+};
+
 
 qx.Proto._onkeypress_right = function(e)
 {
@@ -807,7 +809,7 @@ qx.Proto._onkeypress_right = function(e)
     this.getFocusRoot().setActiveChild(vToolBar);
 
     // execute toolbars keydown implementation
-    vToolBar._onkeydown(e);
+    vToolBar._onkeypress(e);
   }
   else if (vOpener instanceof qx.ui.menu.MenuButton && vHover)
   {
@@ -842,7 +844,7 @@ qx.Proto._onkeypress_right = function(e)
     {
       // jump to next menubarbutton
       this.getFocusRoot().setActiveChild(vOpenerParent);
-      vOpenerParent._onkeydown(e);
+      vOpenerParent._onkeypress(e);
     }
   }
 }
