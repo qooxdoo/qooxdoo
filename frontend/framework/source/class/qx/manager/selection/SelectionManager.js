@@ -1010,7 +1010,21 @@ qx.Proto._onmouseevent = function(oItem, e, bOver)
 ---------------------------------------------------------------------------
 */
 
-qx.Proto.handleKeyDown = function(e)
+qx.Proto.handleKeyDown = function(vDomEvent) {
+  this.warn(
+    "qx.manager.selection.SelectionManager.handleKeyDown is deprecated! " +
+    "Use keypress insted and bind it to the onkeypress event."
+  );
+  this.handleKeyPress(vDomEvent);
+}
+
+
+/**
+ * Handles key event to perform selection and navigation
+ *
+ * @param vDomEvent (Element) DOM event object
+ */
+qx.Proto.handleKeyPress = function(vDomEvent)
 {
   var oldVal = this._getChangeValue();
 
@@ -1018,10 +1032,8 @@ qx.Proto.handleKeyDown = function(e)
   var oldFireChange = this.getFireChange();
   this.setFireChange(false);
 
-  // this.debug("KeyCode: " + e.getKeyCode());
-
   // Ctrl+A: Select all
-  if (e.getKeyCode() == 65 && e.getCtrlKey())
+  if (vDomEvent.getKeyIdentifier() == "A" && vDomEvent.getCtrlKey())
   {
     if (this.getMultiSelection())
     {
@@ -1037,7 +1049,7 @@ qx.Proto.handleKeyDown = function(e)
   else
   {
     var aIndex = this.getAnchorItem();
-    var itemToSelect = this.getItemToSelect(e);
+    var itemToSelect = this.getItemToSelect(vDomEvent);
 
     // this.debug("Anchor: " + (aIndex ? aIndex.getLabel() : "null"));
     // this.debug("ToSelect: " + (itemToSelect ? itemToSelect.getLabel() : "null"));
@@ -1051,10 +1063,10 @@ qx.Proto.handleKeyDown = function(e)
       this.scrollItemIntoView(itemToSelect);
 
       // Stop event handling
-      e.preventDefault();
+      vDomEvent.preventDefault();
 
       // Select a range
-      if (e.getShiftKey() && this.getMultiSelection())
+      if (vDomEvent.getShiftKey() && this.getMultiSelection())
       {
         // Make it a little bit more failsafe:
         // Set anchor if not given already. Allows us to select
@@ -1066,7 +1078,7 @@ qx.Proto.handleKeyDown = function(e)
         // Select new range (and clear up current selection first)
         this._selectItemRange(this.getAnchorItem(), itemToSelect, true);
       }
-      else if (!e.getCtrlKey())
+      else if (!vDomEvent.getCtrlKey())
       {
         // Clear current selection
         this._deselectAll();
@@ -1081,7 +1093,7 @@ qx.Proto.handleKeyDown = function(e)
         // (allows following shift range selection)
         this.setAnchorItem(itemToSelect);
       }
-      else if (e.getKeyCode() == qx.event.type.KeyEvent.keys.space)
+      else if (vDomEvent.getKeyIdentifier() == "Space")
       {
         if (this._selectedItems.contains(itemToSelect))
         {
@@ -1097,7 +1109,7 @@ qx.Proto.handleKeyDown = function(e)
         else
         {
           // Clear current selection
-          if (!e.getCtrlKey() || !this.getMultiSelection()) {
+          if (!vDomEvent.getCtrlKey() || !this.getMultiSelection()) {
             this._deselectAll();
           }
 
@@ -1132,37 +1144,37 @@ qx.Proto.getItemToSelect = function(vKeyboardEvent)
   }
 
   // Handle event by keycode
-  switch (vKeyboardEvent.getKeyCode())
+  switch (vKeyboardEvent.getKeyIdentifier())
   {
-    case qx.event.type.KeyEvent.keys.home:
+    case "Home":
       return this.getHome(this.getLeadItem());
 
-    case qx.event.type.KeyEvent.keys.end:
+    case "End":
       return this.getEnd(this.getLeadItem());
 
 
-    case qx.event.type.KeyEvent.keys.down:
+    case "Down":
       return this.getDown(this.getLeadItem());
 
-    case qx.event.type.KeyEvent.keys.up:
+    case "Up":
       return this.getUp(this.getLeadItem());
 
 
-    case qx.event.type.KeyEvent.keys.left:
+    case "Left":
       return this.getLeft(this.getLeadItem());
 
-    case qx.event.type.KeyEvent.keys.right:
+    case "Right":
       return this.getRight(this.getLeadItem());
 
 
-    case qx.event.type.KeyEvent.keys.pageup:
+    case "PageUp":
       return this.getPageUp(this.getLeadItem()) || this.getHome(this.getLeadItem());
 
-    case qx.event.type.KeyEvent.keys.pagedown:
+    case "PageDown":
       return this.getPageDown(this.getLeadItem()) || this.getEnd(this.getLeadItem());
 
 
-    case qx.event.type.KeyEvent.keys.space:
+    case "Space":
       if (vKeyboardEvent.getCtrlKey()) {
         return this.getLeadItem();
       }

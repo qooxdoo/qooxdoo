@@ -720,15 +720,14 @@ qx.Proto.openSearchDialog = function() {
     this.focus();
   }, this);
   win.addEventListener(qx.constant.Event.KEYDOWN, function(e) {
-    var vKeys = qx.event.type.KeyEvent.keys;
-    switch (e.getKeyCode()) {
-      case vKeys.enter:
+    switch (e.getKeyIdentifier()) {
+      case "Enter":
         butOk.createDispatchEvent('execute');
         break;
-      case vKeys.esc:
+      case "Escape":
         butCancel.createDispatchEvent('execute');
         break;
-      case vKeys.f3:
+      case "F3":
         butNext.createDispatchEvent('execute');
         break;
       default:

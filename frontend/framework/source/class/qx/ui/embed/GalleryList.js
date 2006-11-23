@@ -44,7 +44,7 @@ function(galleryList)
   this.addEventListener("mouseup", this._onmouseup);
   this.addEventListener("click", this._onclick);
   this.addEventListener("dblclick", this._ondblclick);
-  this.addEventListener("keydown", this._onkeydown);
+  this.addEventListener("keypress", this._onkeypress);
 });
 
 qx.OO.addProperty({ name : "thumbMaxWidth", type : qx.constant.Type.NUMBER, defaultValue : 60 });
@@ -138,8 +138,8 @@ qx.Proto._ondblclick = function(e)
   }
 }
 
-qx.Proto._onkeydown = function(e) {
-  this._manager.handleKeyDown(e);
+qx.Proto._onkeypress = function(e) {
+  this._manager.handleKeyPress(e);
 }
 
 qx.Proto.getListItemTarget = function(dt)
