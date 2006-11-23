@@ -113,17 +113,28 @@ qx.Proto._onmouseup = function(e)
 {
   this.setCapture(false);
 
-  if (!this.hasState(qx.ui.form.Button.STATE_ABANDONED))
+  // We must remove the states before executing the command 
+  // because in cases were the window lost the focus while
+  // executing we get the capture phase back (mouseout).
+  var hasPressed = this.hasState(qx.ui.form.Button.STATE_PRESSED);
+  var hasAbandoned = this.hasState(qx.ui.form.Button.STATE_ABANDONED);
+  
+  if (hasPressed) {
+    this.removeState(qx.ui.form.Button.STATE_PRESSED);
+  }
+  
+  if (hasAbandoned) {
+    this.removeState(qx.ui.form.Button.STATE_ABANDONED);
+  }
+
+  if (!hasAbandoned)
   {
     this.addState(qx.ui.core.Widget.STATE_OVER);
 
-    if (this.hasState(qx.ui.form.Button.STATE_PRESSED)) {
+    if (hasPressed) {
       this.execute();
     }
   }
-
-  this.removeState(qx.ui.form.Button.STATE_ABANDONED);
-  this.removeState(qx.ui.form.Button.STATE_PRESSED);
 }
 
 qx.Proto._onkeydown = function(e)
