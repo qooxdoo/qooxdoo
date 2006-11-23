@@ -20,6 +20,7 @@ def entryCompiler(line):
 
   # recover protected equal symbols
   orig = orig.replace("----EQUAL----", "=")
+  repl = repl.replace("----EQUAL----", "=")
 
   return {"expr":re.compile(orig), "orig":orig, "repl":repl}
 
