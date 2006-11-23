@@ -15,3 +15,7 @@
 \bqx\.ui\.basic\.Label\.MNEMONIC_TEST4\b="])*)("
 \bqx\.ui\.basic\.Label\.MNEMONIC_TEST5\b=")"
 \bqx\.ui\.basic\.Label\.MNEMONIC_REGMODE\b="i"
+\bqx\.ui\.basic\.Label\.BR\b="<br/>"
+\bqx\.ui\.basic\.Label\.CODE1\b="&#x"
+\bqx\.ui\.basic\.Label\.CODE2\b="&#"
+\bqx\.ui\.basic\.Label\.TOSTRHELPER\b="0x"
