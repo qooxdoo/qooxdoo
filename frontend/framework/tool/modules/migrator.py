@@ -61,9 +61,23 @@ def regtool(content, regs, patch, options):
 
 
 
+def getHtmlList(options):
+  htmlList = []
+  
+  for htmlDir in options.migrationInput:
+    for root, dirs, files in os.walk(htmlDir):
+  
+      # Filter ignored directories
+      for ignoredDir in config.DIRIGNORE:
+        if ignoredDir in dirs:
+          dirs.remove(ignoredDir)
+  
+      # Searching for files
+      for fileName in files:
+        if os.path.splitext(fileName)[1] in [ ".js", ".html", ".htm", ".php", ".asp", ".jsp" ]:  
+          htmlList.append(os.path.join(root, fileName))
 
-
-
+  return htmlList
 
 
 
@@ -76,10 +90,13 @@ def handle(fileList, fileDb, options):
   importedModule = False
   infoList = []
   patchList = []
+  htmlList = getHtmlList(options)
+  
+  
 
 
-
-  print "  * Number of input files: %s" % len(fileList)
+  print "  * Number of script input files: %s" % len(fileList)
+  print "  * Number of HTML input files: %s" % len(htmlList)
   print "  * Update to version: %s" % options.migrationTarget
 
 
@@ -207,41 +224,60 @@ def handle(fileList, fileDb, options):
   print "  FILE PROCESSING:"
   print "----------------------------------------------------------------------------"
 
-  print "  * Processing:"
+  if len(fileList) > 0:
+    print "  * Processing script files:"
+  
+    for fileId in fileList:
+      fileEntry = fileDb[fileId]
+  
+      filePath = fileEntry["path"]
+      fileEncoding = fileEntry["encoding"]
+  
+      print "    - %s" % fileId
+  
+      # Read in original content
+      fileContent = filetool.read(filePath, fileEncoding)
+      patchedContent = fileContent
+  
+      # Apply patches
+      if importedModule:
+        tree = treegenerator.createSyntaxTree(tokenizer.parseStream(patchedContent))
+  
+        # If there were any changes, compile the result
+        if patch.patch(fileId, tree):
+          patchedContent = compiler.compile(tree, True)
+  
+      patchedContent = regtool(patchedContent, compiledPatches, True, options)
+      patchedContent = regtool(patchedContent, compiledInfos, False, options)
+  
+      # Write file
+      if patchedContent != fileContent:
+        print "      - Store modifications..."
+        filetool.save(filePath, patchedContent, fileEncoding)
+  
+    print "  * Done"
 
-  for fileId in fileList:
-    fileEntry = fileDb[fileId]
-
-    filePath = fileEntry["path"]
-    fileEncoding = fileEntry["encoding"]
-
-    print "    - %s" % fileId
-
-    # Read in original content
-    fileContent = filetool.read(filePath, fileEncoding)
-    patchedContent = fileContent
-
-    # Apply patches
-    if importedModule:
-      tree = treegenerator.createSyntaxTree(tokenizer.parseStream(patchedContent))
-
-      # If there were any changes, compile the result
-      if patch.patch(fileId, tree):
-        patchedContent = compiler.compile(tree, True)
-
-    patchedContent = regtool(patchedContent, compiledPatches, True, options)
-    patchedContent = regtool(patchedContent, compiledInfos, False, options)
-
-    # Write file
-    if patchedContent != fileContent:
-      print "      - Store modifications..."
-      filetool.save(filePath, patchedContent, fileEncoding)
-
-  print "  * Done"
 
 
-
-
+  if len(htmlList) > 0:
+    print "  * Processing HTML files:"
+  
+    for filePath in htmlList:
+      print "    - %s" % filePath
+  
+      # Read in original content
+      fileContent = filetool.read(filePath)
+      
+      patchedContent = fileContent
+      patchedContent = regtool(patchedContent, compiledPatches, True, options)
+      patchedContent = regtool(patchedContent, compiledInfos, False, options)
+  
+      # Write file
+      if patchedContent != fileContent:
+        print "      - Store modifications..."
+        filetool.save(filePath, patchedContent)
+  
+    print "  * Done"
 
 
 
