@@ -10,7 +10,7 @@ def entryCompiler(line):
   splitLine = line.split("=")
   
   if len(splitLine) != 2:
-    print "      - Malformed entry: %s" % line
+    print "        - Malformed entry: %s" % line
     return
     
   orig = splitLine[0].strip()
@@ -51,10 +51,10 @@ def regtool(content, regs, patch, options):
       # Replacing
       if patch:
         content = patchEntry["expr"].sub(patchEntry["repl"], content, 1)
+        
       else:
         print "      - line %s : (%s)" % (line, patchEntry["orig"])
         print "        %s" % patchEntry["repl"]
-
 
   return content
 
@@ -145,7 +145,7 @@ def handle(fileList, fileDb, options):
   compiledInfos = []
 
   for infoFile in infoList:
-    print "    - %s" % os.path.basename(infoFile["path"])
+    print "      - %s" % os.path.basename(infoFile["path"])
     for line in infoFile["content"]:
       if emptyLine.match(line) or line.startswith("#") or line.startswith("//"):
         continue
@@ -185,7 +185,7 @@ def handle(fileList, fileDb, options):
   compiledPatches = []
 
   for patchFile in patchList:
-    print "    - %s" % os.path.basename(patchFile["path"])
+    print "      - %s" % os.path.basename(patchFile["path"])
     for line in patchFile["content"]:
       if emptyLine.match(line) or line.startswith("#") or line.startswith("//"):
         continue
