@@ -397,7 +397,7 @@ qx.Proto.handleKeyEvent = function(e)
 qx.Proto._handleKeyDown = function(e)
 {
   // Stop Drag on Escape
-  if (e.getKeyCode() == qx.event.type.KeyEvent.keys.esc)
+  if (e.getKeyIdentifier() == "Escape")
   {
     this.cancelDrag(e);
   }
@@ -405,11 +405,12 @@ qx.Proto._handleKeyDown = function(e)
   // Update cursor and action on press of modifier keys
   else if (this.getCurrentAction() != null)
   {
-    switch(e.getKeyCode())
+    // TODO this doesn't work in WebKit because WebKit doesn't fire keyevents for modifier keys
+    switch(e.getKeyIdentifier())
     {
-      case qx.event.type.KeyEvent.keys.shift:
-      case qx.event.type.KeyEvent.keys.ctrl:
-      case qx.event.type.KeyEvent.keys.alt:
+      case "Shift":
+      case "Control":
+      case "Alt":
         this.setAction(this._evalNewAction(e.getShiftKey(), e.getCtrlKey(), e.getAltKey()));
         this._renderCursor();
 
@@ -420,9 +421,10 @@ qx.Proto._handleKeyDown = function(e)
 
 qx.Proto._handleKeyUp = function(e)
 {
-  var bShiftPressed = e.getKeyCode() == qx.event.type.KeyEvent.keys.shift;
-  var bCtrlPressed = e.getKeyCode() == qx.event.type.KeyEvent.keys.ctrl;
-  var bAltPressed = e.getKeyCode() == qx.event.type.KeyEvent.keys.alt;
+  // TODO this doesn't work in WebKit because WebKit doesn't fire keyevents for modifier keys
+  var bShiftPressed = e.getKeyIdentifier() == "Shift";
+  var bCtrlPressed = e.getKeyIdentifier() == "Control";
+  var bAltPressed = e.getKeyIdentifier() == "Alt";
 
   if (bShiftPressed || bCtrlPressed || bAltPressed)
   {

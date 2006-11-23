@@ -528,7 +528,7 @@ qx.Proto.dispose = function() {
   }
   this._weekLabelArr = null;
 
-  this.removeEventListener(qx.constant.Event.KEYPRESS, this._onkeydpress);
+  this.removeEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
 
   return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
 }
