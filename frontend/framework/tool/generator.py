@@ -98,7 +98,8 @@ def getparser():
 
   # Options for migration support
   parser.add_option("--migration-target", dest="migrationTarget", metavar="VERSION", help="Define the target for migration of source code.")
-
+  parser.add_option("--migration-input", action="extend", dest="migrationInput", metavar="DIRECTORY", type="string", default=[], help="Define additional directories for to directories to migrate e.g. HTML files, ...")
+  
 
 
 
@@ -315,11 +316,12 @@ def load(options):
   print "----------------------------------------------------------------------------"
 
   if options.scriptInput == None or len(options.scriptInput) == 0:
-    basename = os.path.basename(sys.argv[0])
-    print "You must define at least one script input directory!"
-    print "usage: %s [options]" % basename
-    print "Try '%s -h' or '%s --help' to show the help message." % (basename, basename)
-    sys.exit(1)
+    if len(options.migrationInput) == 0:
+      basename = os.path.basename(sys.argv[0])
+      print "You must define at least one script input directory!"
+      print "usage: %s [options]" % basename
+      print "Try '%s -h' or '%s --help' to show the help message." % (basename, basename)
+      sys.exit(1)
 
   (fileDb, moduleDb) = loader.indexScriptInput(options)
 
