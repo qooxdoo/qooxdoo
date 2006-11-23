@@ -37,6 +37,7 @@ qx.OO.defineClass("qx.constant.Event",
 
   KEYDOWN : "keydown",
   KEYPRESS : "keypress",
+  KEYINPUT : "keyinput",
   KEYUP : "keyup",
 
   // advanced ui interaction
