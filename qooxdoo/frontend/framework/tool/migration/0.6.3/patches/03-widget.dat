@@ -34,9 +34,9 @@
 \bqx\.ui\.core\.Widget\.SEL_PROPERTY_USERSELECT\b="userSelect"
 \bqx\.ui\.core\.Widget\.SEL_PROPERTY_MOZUSERSELECT\b="MozUserSelect"
 \bqx\.ui\.core\.Widget\.SEL_PROPERTY_KHTMLUSERSELECT\b="KhtmlUserSelect"
-\bqx\.ui\.core\.Widget\.OPACITY_FILTER_START\b="Alpha(Opacity="
+\bqx\.ui\.core\.Widget\.OPACITY_FILTER_START\b="Alpha(Opacity\="
 \bqx\.ui\.core\.Widget\.OPACITY_FILTER_STOP\b=")"
-\bqx\.ui\.core\.Widget\.OPACITY_FILTER_REGEXP = /Alpha\(Opacity=([0-9]{1,3})\)/
+\bqx\.ui\.core\.Widget\.OPACITY_FILTER_REGEXP = /Alpha\(Opacity\=([0-9]{1,3})\)/
 \bqx\.ui\.core\.Widget\.OPACITY_PROPERTY_CSS3\b="opacity"
 \bqx\.ui\.core\.Widget\.OPACITY_PROPERTY_MOZ\b="MozOpacity"
 \bqx\.ui\.core\.Widget\.OPACITY_PROPERTY_KHTML\b="KhtmlOpacity"
