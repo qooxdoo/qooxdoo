@@ -839,11 +839,10 @@ qx.Proto._onmousewheel = function(e) {
 */
 
 qx.Proto._onkeydown = function(e) {
-  var vKeys = qx.event.type.KeyEvent.keys;
   var vVisible = this._popup.isSeeable();
 
-  switch (e.getKeyCode()) {
-    case vKeys.enter:
+  switch (e.getKeyIdentifier()) {
+    case "Enter":
       if (vVisible) {
         this._closePopup();
         this.setFocused(true);
@@ -852,7 +851,7 @@ qx.Proto._onkeydown = function(e) {
       }
       break;
 
-    case vKeys.esc:
+    case "Escape":
       if (vVisible) {
         this.setSelectedIndex(this._oldSelected);
         this._closePopup();
@@ -860,44 +859,30 @@ qx.Proto._onkeydown = function(e) {
       }
       break;
 
-    case vKeys.up:
-      this.setSelectedIndex(Math.max(0, this.getSelectedIndex()-1));
-      break;
-
-    case vKeys.pageup:
-      this.setSelectedIndex(Math.max(0, this.getSelectedIndex()-this.getPagingInterval()));
-      break;
-
-    case vKeys.down:
-      if (e.getAltKey()) {
-        this._togglePopup();
-      } else {
-        this.setSelectedIndex(this.getSelectedIndex()+1);
-      }
-      break;
-
-    case vKeys.pagedown:
-      this.setSelectedIndex(this.getSelectedIndex()+this.getPagingInterval());
-      break;
-
-    case vKeys.home:
+    case "Home":
       this.setSelectedIndex(0);
       break;
 
-    case vKeys.end:
+    case "End":
       var items = this.getSelection().length;
       if (items) {
         this.setSelectedIndex(items-1);
       }
       break;
 
-    case vKeys.f3:
+    case "Down":
+      if (e.getAltKey()) {
+        this._togglePopup();
+      }
+      break;
+      
+    case "F3":
       if (this.getAllowSearch()) {
         this.openSearchDialog();
       }
       break;
 
-    case 70 /*F*/:
+    case "F":
       if (e.getCtrlKey()) {
         if (this.getAllowSearch()) {
           this.openSearchDialog();
@@ -915,10 +900,39 @@ qx.Proto._onkeydown = function(e) {
   e.preventDefault();
 }
 
+
 qx.Proto._onkeypress = function(e) {
+  var vVisible = this._popup.isSeeable();
+
+  switch (e.getKeyIdentifier()) {
+    case "Up":
+      this.setSelectedIndex(Math.max(0, this.getSelectedIndex()-1));
+      break;
+
+    case "Down":
+      this.setSelectedIndex(Math.max(0, this.getSelectedIndex()+1));
+      break;
+      
+    case "PageUp":
+      this.setSelectedIndex(Math.max(0, this.getSelectedIndex()-this.getPagingInterval()));
+      break;
+
+    case "PageDown":
+      this.setSelectedIndex(this.getSelectedIndex()+this.getPagingInterval());
+      break;
+
+    default:
+      if (vVisible) {
+        this._list.dispatchEvent(e);
+      }
+      return;
+  }
+  e.preventDefault();
+  
   if (!this.isEditable() && this._list.isSeeable()) {
     this._list.dispatchEvent(e);
   }
+  
 }
 
 
