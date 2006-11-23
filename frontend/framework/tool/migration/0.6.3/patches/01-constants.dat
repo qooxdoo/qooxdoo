@@ -14,7 +14,7 @@
 \bqx\.constant\.Core\.UNDERLINE\b="_"
 \bqx\.constant\.Core\.SEMICOLON\b=";"
 \bqx\.constant\.Core\.COLON\b=":"
-\bqx\.constant\.Core\.EQUAL\b="\\b="
+\bqx\.constant\.Core\.EQUAL\b="\="
 \bqx\.constant\.Core\.AMPERSAND\b="&"
 \bqx\.constant\.Core\.QUESTIONMARK\b="?"
 \bqx\.constant\.Core\.HASH\b="#"
