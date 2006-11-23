@@ -8,6 +8,11 @@ def entryCompiler(line):
   line = line.replace("\=", "----EQUAL----")
 
   splitLine = line.split("=")
+  
+  if len(splitLine) != 2:
+    print "      - Malformed entry: %s" % line
+    return
+    
   orig = splitLine[0].strip()
   repl = splitLine[1].strip()
 
@@ -144,7 +149,9 @@ def handle(fileList, fileDb, options):
       if emptyLine.match(line) or line.startswith("#") or line.startswith("//"):
         continue
 
-      compiledInfos.append(entryCompiler(line))
+      compiled = entryCompiler(line)
+      if compiled != None:
+        compiledInfos.append(compiled)
 
   print "    - Number of infos: %s" % len(compiledInfos)
 
@@ -182,7 +189,9 @@ def handle(fileList, fileDb, options):
       if emptyLine.match(line) or line.startswith("#") or line.startswith("//"):
         continue
 
-      compiledPatches.append(entryCompiler(line))
+      compiled = entryCompiler(line)
+      if compiled != None:
+        compiledPatches.append(compiled)
 
   print "    - Number of patches: %s" % len(compiledPatches)
 
@@ -224,6 +233,7 @@ def handle(fileList, fileDb, options):
 
     # Write file
     if patchedContent != fileContent:
+      print "      - Store modifications..."
       filetool.save(filePath, patchedContent, fileEncoding)
 
   print "  * Done"
