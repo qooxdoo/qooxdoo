@@ -20,6 +20,7 @@
 
 #module(ui_core)
 #require(qx.event.type.KeyEvent)
+#require(qx.event.handler.KeyEventHandler)
 #optional(qx.event.handler.DragAndDropHandler)
 #optional(qx.manager.object.MenuManager)
 #optional(qx.event.handler.FocusHandler)
@@ -38,8 +39,13 @@ function()
 
   // Object Wrapper to Events (Needed for DOM-Events)
   var o = this;
+
+  this._keyEventHandler = qx.event.handler.KeyEventHandler.getInstance();
+  this.__onkeyevent = function(vDomEvent, vType, vKeyCode, vCharCode, vKeyIdentifier) {
+      o._onkeyevent_post(vDomEvent, vType, vKeyCode || vCharCode, vCharCode, vKeyIdentifier);
+  };
+
   this.__onmouseevent = function(e) { return o._onmouseevent(e); }
-  this.__onkeyevent = function(e) { return o._onkeyevent(e); }
   this.__ondragevent = function(e) { return o._ondragevent(e); }
   this.__onselectevent = function(e) { return o._onselectevent(e); }
 
@@ -195,8 +201,10 @@ qx.Proto.attachEvents = function()
 {
   // Register dom events
   this.attachEventTypes(qx.event.handler.EventHandler.mouseEventTypes, this.__onmouseevent);
-  this.attachEventTypes(qx.event.handler.EventHandler.keyEventTypes, this.__onkeyevent);
   this.attachEventTypes(qx.event.handler.EventHandler.dragEventTypes, this.__ondragevent);
+
+  this._keyEventHandler.attachEvents();
+  this._keyEventHandler.setCallback(this.__onkeyevent);
 
   // Register window events
   qx.dom.DomEventRegistration.addEventListener(window, qx.constant.Event.BLUR, this.__onwindowblur);
@@ -211,8 +219,8 @@ qx.Proto.detachEvents = function()
 {
   // Unregister dom events
   this.detachEventTypes(qx.event.handler.EventHandler.mouseEventTypes, this.__onmouseevent);
-  this.detachEventTypes(qx.event.handler.EventHandler.keyEventTypes, this.__onkeyevent);
   this.detachEventTypes(qx.event.handler.EventHandler.dragEventTypes, this.__ondragevent);
+  this._keyEventHandler.detachEvents();
 
   // Unregister window events
   qx.dom.DomEventRegistration.removeEventListener(window, qx.constant.Event.BLUR, this.__onwindowblur);
@@ -418,16 +426,33 @@ qx.Class.getTargetObject = function(vNode, vObject)
   }
 
   return vObject;
-}
+};
+
 
 qx.Class.getTargetObjectFromEvent = function(vDomEvent) {
   return qx.event.handler.EventHandler.getTargetObject(qx.event.handler.EventHandler.getDomTarget(vDomEvent));
-}
+};
+
 
 qx.Class.getRelatedTargetObjectFromEvent = function(vDomEvent) {
-  return qx.event.handler.EventHandler.getTargetObject(vDomEvent.relatedTarget || (vDomEvent.type == qx.constant.Event.MOUSEOVER ? vDomEvent.fromElement : vDomEvent.toElement));
-}
+  var target = vDomEvent.relatedTarget;
+  if (!target) {
+    if (vDomEvent.type == qx.constant.Event.MOUSEOVER) {
+      target = vDomEvent.fromElement
+    } else {
+      target = vDomEvent.toElement
+    }
+  }
+  return qx.event.handler.EventHandler.getTargetObject(target);
+};
 
+
+/**
+ * stops further propagation of the event
+ * 
+ * @param vDomEvent (Element) DOM event object
+ */
+qx.Class.stopDomEvent = function(vDomEvent) {};
 if (qx.sys.Client.getInstance().isMshtml())
 {
   qx.Class.stopDomEvent = function(vDomEvent) {
@@ -441,7 +466,7 @@ else
     vDomEvent.preventDefault();
     vDomEvent.returnValue = false;
   }
-}
+};
 
 
 
@@ -455,79 +480,7 @@ else
 ---------------------------------------------------------------------------
 */
 
-// Safari has some wired keycodes for special keys.
-// If one of theese keys is pressed, keydown, keypress and keyup events
-// are generated twice
-qx.Class._safariKeyCodeMapping = {
-  63289: qx.event.type.KeyEvent.keys.numlock,
-  63276: qx.event.type.KeyEvent.keys.pageup,
-  63276: qx.event.type.KeyEvent.keys.pagedown,
-  63275: qx.event.type.KeyEvent.keys.end,
-  63273: qx.event.type.KeyEvent.keys.home,
-  63234: qx.event.type.KeyEvent.keys.left,
-  63232: qx.event.type.KeyEvent.keys.up,
-  63235: qx.event.type.KeyEvent.keys.right,
-  63233: qx.event.type.KeyEvent.keys.down,
-  63272: qx.event.type.KeyEvent.keys.del,
-  63236: qx.event.type.KeyEvent.keys.f1,
-  63237: qx.event.type.KeyEvent.keys.f2,
-  63238: qx.event.type.KeyEvent.keys.f3,
-  63239: qx.event.type.KeyEvent.keys.f4,
-  63240: qx.event.type.KeyEvent.keys.f5,
-  63241: qx.event.type.KeyEvent.keys.f6,
-  63242: qx.event.type.KeyEvent.keys.f7,
-  63243: qx.event.type.KeyEvent.keys.f8,
-  63244: qx.event.type.KeyEvent.keys.f9,
-  63245: qx.event.type.KeyEvent.keys.f10,
-  63246: qx.event.type.KeyEvent.keys.f11,
-  63247: qx.event.type.KeyEvent.keys.f12,
-  63248: qx.event.type.KeyEvent.keys.print
-};
-
-qx.Proto._onkeyevent = function(vDomEvent)
-{
-  if (this.getDisposed() || typeof qx.event.type.KeyEvent != qx.constant.Type.FUNCTION) {
-    return;
-  }
-
-  if(!vDomEvent) {
-    vDomEvent = window.event;
-  }
-
-  var vType = vDomEvent.type;
-  var vKeyCode = vDomEvent.keyCode;
-  var vCharCode = vDomEvent.charCode;
-
-  if (qx.sys.Client.getInstance().isWebkit()) // Safari
-  {
-    // normalize keyCodes
-    vKeyCode = qx.event.handler.EventHandler._safariKeyCodeMapping[vKeyCode] || vKeyCode;
-
-    // prevent Safari from sending key signals twice
-    // http://trac.mochikit.com/ticket/182
-    if (qx.event.handler.EventHandler._safariKeyCodeMapping[this._lastCharCodeForEvent[vType]]) {
-      this._lastCharCodeForEvent[vType] = null;
-      return false;
-    }
-  }
-
-  if (qx.sys.Client.getInstance().isMshtml()) // IE
-  {
-    // MSHTML sometimes does not include a keypress event type
-    if (this._lastKeyEventType === qx.constant.Event.KEYDOWN && vType === qx.constant.Event.KEYUP) {
-      this._onkeyevent_post(vDomEvent, qx.constant.Event.KEYPRESS, vKeyCode);
-    }
-  }
-
-  this._lastCharCodeForEvent[vType] = vCharCode;
-  this._lastKeyEventType = vType;
-
-  var vKeyCode = vKeyCode || vCharCode;
-
-  this._onkeyevent_post(vDomEvent, vType, vKeyCode);
-}
-
-qx.Proto._onkeyevent_post = function(vDomEvent, vType, vKeyCode)
+qx.Proto._onkeyevent_post = function(vDomEvent, vType, vKeyCode, vCharCode, vKeyIdentifier)
 {
   var vDomTarget = qx.event.handler.EventHandler.getDomTarget(vDomEvent);
 
@@ -582,9 +535,8 @@ qx.Proto._onkeyevent_post = function(vDomEvent, vType, vKeyCode)
 
 
 
-
   // Create Event Object
-  var vKeyEventObject = new qx.event.type.KeyEvent(vType, vDomEvent, vDomTarget, vTarget, null, vKeyCode);
+  var vKeyEventObject = new qx.event.type.KeyEvent(vType, vDomEvent, vDomTarget, vTarget, null, vKeyCode, vCharCode, vKeyIdentifier);
 
   // Check for commands
   if (vDomEvent.type == qx.constant.Event.KEYDOWN) {
@@ -802,7 +754,7 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 
 
 
-    // If there is no target, we have nothing TODO
+    // If there is no target, we have nothing to do
     if (!vTarget) {
       return false;
     }

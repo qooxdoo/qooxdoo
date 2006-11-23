@@ -13,6 +13,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
+     * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
 
@@ -26,18 +27,28 @@
   A key event instance contains all data for each occured key event
 */
 qx.OO.defineClass("qx.event.type.KeyEvent", qx.event.type.DomEvent,
-function(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vKeyCode)
+function(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vKeyCode, vCharCode, vKeyIdentifier)
 {
   qx.event.type.DomEvent.call(this, vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget);
 
   this.setKeyCode(vKeyCode);
+  this.setCharCode(vCharCode);
+  this.setKeyIdentifier(vKeyIdentifier);
 });
 
-qx.OO.addFastProperty({ name : "keyCode", setOnlyOnce : true, noCompute : true });
+//qx.OO.addFastProperty({ name : "keyCode", setOnlyOnce : true, noCompute : true });
+qx.OO.addFastProperty({ name : "charCode", setOnlyOnce : true, noCompute : true });
+qx.OO.addFastProperty({ name : "keyIdentifier", setOnlyOnce : true, noCompute : true });
 
 
+qx.Proto.setKeyCode = function(keyCode) {
+  this._keyCode = keyCode;
+}
 
-
+qx.Proto.getKeyCode = function() {
+  // this.warn("qx.event.type.KeyEvent is deprecated. Use getKeyIdentifier instead.");
+  return this._keyCode;
+}
 
 
 /* ************************************************************************
