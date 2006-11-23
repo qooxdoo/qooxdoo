@@ -99,6 +99,19 @@ qx.Proto._beforeAppear = function()
 {
   qx.ui.layout.CanvasLayout.prototype._beforeAppear.call(this);
 
+  if (this.getRestrictToPageOnOpen()) {
+    this._wantedLeft = this.getLeft();
+
+    // Move the popup out of the view so its size could be calculated before
+    // it is positioned.
+    this.setLeft(10000);
+    if (this.getElement() != null) {
+      // The popup was already visible once before
+      // -> Move it immediately before it gets visible again
+      this.getElement().style.left = 10000;
+    }
+  }
+
   qx.manager.object.PopupManager.getInstance().add(this);
   qx.manager.object.PopupManager.getInstance().update(this);
 
@@ -126,7 +139,7 @@ qx.Proto._afterAppear = function() {
     var restrictToPageRight  = parseInt(qx.Settings.getValueOfClass("qx.ui.popup.Popup", "restrictToPageRight"));
     var restrictToPageTop    = parseInt(qx.Settings.getValueOfClass("qx.ui.popup.Popup", "restrictToPageTop"));
     var restrictToPageBottom = parseInt(qx.Settings.getValueOfClass("qx.ui.popup.Popup", "restrictToPageBottom"));
-    var left   = this.getLeft();
+    var left   = this._wantedLeft;
     var top    = this.getTop();
     var width  = this.getBoxWidth();
     var height = this.getBoxHeight();
@@ -149,16 +162,12 @@ qx.Proto._afterAppear = function() {
       top = restrictToPageTop;
     }
 
-    if (left != oldLeft || top != oldTop) {
-      var self = this;
-      self.getElement().style.visibility = "hidden";
-      window.setTimeout(function() {
-        self.getElement().style.visibility = "";
-        self.setLeft(left);
-        self.setTop(top);
-        qx.ui.core.Widget.flushGlobalQueues();
-      }, 0);
-    }
+    var self = this;
+    window.setTimeout(function() {
+      self.setLeft(left);
+      self.setTop(top);
+      qx.ui.core.Widget.flushGlobalQueues();
+    }, 0);
   }
 };
 
