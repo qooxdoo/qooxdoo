@@ -349,24 +349,24 @@ qx.Proto._geckoKeyHandler = function(domEvent)
     12: this._identifierToKeyCode("NumLock")
   };
   var keyCode = geckoFixKeyCode[domEvent.keyCode] || domEvent.keyCode;
-	var charCode = domEvent.charCode;
-	
-	// FF repeats under windows keydown events like IE
-	if (qx.sys.Client.getInstance().runsOnWindows()) {
-	  // Ignore the down in such sequences dp dp dp
+  var charCode = domEvent.charCode;
+
+  // FF repeats under windows keydown events like IE
+  if (qx.sys.Client.getInstance().runsOnWindows()) {
+    // Ignore the down in such sequences dp dp dp
     if (!this._last_updown) {
       this._last_updown = {};
     }
-		var keyHash = keyCode ? this._keyCodeToIdentifier(keyCode) : this._charCodeToIdentifier(charCode)
-		if (!(this._last_updown[keyHash] == "keypress" && domEvent.type == "keydown")) {
+    var keyHash = keyCode ? this._keyCodeToIdentifier(keyCode) : this._charCodeToIdentifier(charCode)
+    if (!(this._last_updown[keyHash] == "keypress" && domEvent.type == "keydown")) {
       this._idealKeyHandler(keyCode, charCode, domEvent.type, domEvent);
     }
-	  // Store last type
+    // Store last type
     this.debug(keyHash + " " + domEvent.type + " " + this._last_updown[keyHash]);
-		this._last_updown[keyHash] = domEvent.type;
-  } else {	// all other OSes
+    this._last_updown[keyHash] = domEvent.type;
+  } else {  // all other OSes
     this._idealKeyHandler(keyCode, charCode, domEvent.type, domEvent);
-  } 
+  }
 }
 
 
@@ -389,7 +389,7 @@ qx.Proto._mshtmlKeyUpDownHandler = function(domEvent)
   if (!(this._last_updown[keyCode] == "keydown" && type == "keydown")) {
     this._idealKeyHandler(keyCode, charcode, type, domEvent);
   }
-	// Store last type
+  // Store last type
   this._last_updown[keyCode] = type;
 
   // On non print-able character be sure to add a keypress event
