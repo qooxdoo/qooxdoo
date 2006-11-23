@@ -102,13 +102,15 @@ qx.Proto._beforeAppear = function()
   if (this.getRestrictToPageOnOpen()) {
     this._wantedLeft = this.getLeft();
 
-    // Move the popup out of the view so its size could be calculated before
-    // it is positioned.
-    this.setLeft(10000);
-    if (this.getElement() != null) {
-      // The popup was already visible once before
-      // -> Move it immediately before it gets visible again
-      this.getElement().style.left = 10000;
+    if (this._wantedLeft != null) {
+      // Move the popup out of the view so its size could be calculated before
+      // it is positioned.
+      this.setLeft(10000);
+      if (this.getElement() != null) {
+        // The popup was already visible once before
+        // -> Move it immediately before it gets visible again
+        this.getElement().style.left = 10000;
+      }
     }
   }
 
@@ -139,7 +141,7 @@ qx.Proto._afterAppear = function() {
     var restrictToPageRight  = parseInt(qx.Settings.getValueOfClass("qx.ui.popup.Popup", "restrictToPageRight"));
     var restrictToPageTop    = parseInt(qx.Settings.getValueOfClass("qx.ui.popup.Popup", "restrictToPageTop"));
     var restrictToPageBottom = parseInt(qx.Settings.getValueOfClass("qx.ui.popup.Popup", "restrictToPageBottom"));
-    var left   = this._wantedLeft;
+    var left   = (this._wantedLeft == null) ? this.getLeft() : this._wantedLeft;
     var top    = this.getTop();
     var width  = this.getBoxWidth();
     var height = this.getBoxHeight();
@@ -162,12 +164,14 @@ qx.Proto._afterAppear = function() {
       top = restrictToPageTop;
     }
 
-    var self = this;
-    window.setTimeout(function() {
-      self.setLeft(left);
-      self.setTop(top);
-      qx.ui.core.Widget.flushGlobalQueues();
-    }, 0);
+    if (left != oldLeft || top != oldTop) {
+      var self = this;
+      window.setTimeout(function() {
+        self.setLeft(left);
+        self.setTop(top);
+        qx.ui.core.Widget.flushGlobalQueues();
+      }, 0);
+    }
   }
 };
 
