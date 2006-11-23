@@ -127,11 +127,15 @@ qx.Proto._modifyBoundToWidget = function(propValue, propOldValue, propData)
 
 qx.Proto._beforeAppear = function()
 {
+  qx.ui.popup.PopupAtom.prototype._beforeAppear.call(this);
+
   this._stopShowTimer();
   this._startHideTimer();
 }
 
 qx.Proto._beforeDisappear = function() {
+  qx.ui.popup.PopupAtom.prototype._beforeDisappear.call(this);
+
   this._stopHideTimer();
 }
 
