@@ -421,7 +421,7 @@ qx.Proto._handleKeyDown = function(e)
 qx.Proto._handleKeyUp = function(e)
 {
   var bShiftPressed = e.getKeyCode() == qx.event.type.KeyEvent.keys.shift;
-  var bCtrlPressed = e.getKeyCode() == qx.event.type.KeyEvent.keys.strl;
+  var bCtrlPressed = e.getKeyCode() == qx.event.type.KeyEvent.keys.ctrl;
   var bAltPressed = e.getKeyCode() == qx.event.type.KeyEvent.keys.alt;
 
   if (bShiftPressed || bCtrlPressed || bAltPressed)
