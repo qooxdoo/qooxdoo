@@ -140,7 +140,7 @@ function(date) {
 
   // Make focusable
   this.setTabIndex(1);
-  this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
+  this.addEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
 
   // Show the right date
   var shownDate = (date != null) ? date : new Date();
@@ -261,50 +261,49 @@ qx.Proto._onDayDblClicked = function() {
  *
  * @param evt {Map} the event.
  */
-qx.Proto._onkeydown = function(evt) {
+qx.Proto._onkeypress = function(evt) {
   var dayIncrement = null;
   var monthIncrement = null;
   var yearIncrement = null;
-  var vKey = qx.event.type.KeyEvent.keys;
   if (evt.getModifiers() == 0) {
-    switch(evt.getKeyCode()) {
-      case vKey.left:
+    switch(evt.getKeyIdentifier()) {
+      case "Left":
         dayIncrement = -1;
         break;
-      case vKey.right:
+      case "Right":
         dayIncrement = 1;
         break;
-      case vKey.up:
+      case "Up":
         dayIncrement = -7;
         break;
-      case vKey.down:
+      case "Down":
         dayIncrement = 7;
         break;
-      case vKey.pageup:
+      case "PageUp":
         monthIncrement = -1;
         break;
-      case vKey.pagedown:
+      case "PageDown":
         monthIncrement = 1;
         break;
-      case vKey.esc:
+      case "Escape":
         if (this.getDate() != null) {
           this.setDate(null);
           return true;
         }
         break;
-      case vKey.enter:
-      case vKey.space:
+      case "Enter":
+      case "Space":
         if (this.getDate() != null) {
           this.createDispatchDataEvent(qx.constant.Event.SELECT, this.getDate());
         }
         return;
     }
-  } else if (evt.getModifiers() == qx.event.type.DomEvent.SHIFT_MASK) {
-    switch(evt.getKeyCode()) {
-      case vKey.pageup:
+  } else if (evt.getShiftKey()) {
+    switch(evt.getKeyIdentifier()) {
+      case "PageUp":
         yearIncrement = -1;
         break;
-      case vKey.pagedown:
+      case "PageDown":
         yearIncrement = 1;
         break;
     }
@@ -529,7 +528,7 @@ qx.Proto.dispose = function() {
   }
   this._weekLabelArr = null;
 
-  this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
+  this.removeEventListener(qx.constant.Event.KEYPRESS, this._onkeydpress);
 
   return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
 }

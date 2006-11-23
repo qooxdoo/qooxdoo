@@ -170,23 +170,23 @@ qx.Proto._handleIcon = function()
 
 qx.Proto._onclick = function(e) {
   this.toggleChecked();
-}
+};
+
 
 qx.Proto._onkeydown = function(e)
 {
-  if(e.getKeyCode() == qx.event.type.KeyEvent.keys.enter && !e.getAltKey()) {
+  if(e.getKeyIdentifier() == "Enter" && !e.getAltKey()) {
     this.toggleChecked();
   }
-}
+};
+
 
 qx.Proto._onkeyup = function(e)
 {
-  if(e.getKeyCode() == qx.event.type.KeyEvent.keys.space) {
+  if(e.getKeyIdentifier() == "Space") {
     this.toggleChecked();
   }
-}
-
-
+};
 
 
 

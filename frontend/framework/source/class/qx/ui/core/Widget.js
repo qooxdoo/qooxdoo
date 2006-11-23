@@ -59,6 +59,7 @@
  * @event contextmenu {qx.event.type.MouseEvent} (Fired by {@link qx.event.handler.EventHandler})
  * @event keydown {qx.event.type.KeyEvent} (Fired by {@link qx.event.handler.EventHandler})
  * @event keypress {qx.event.type.KeyEvent} (Fired by {@link qx.event.handler.EventHandler})
+ * @event keyinput {qx.event.type.KeyEvent} (Fired by {@link qx.event.handler.EventHandler})
  * @event keyup {qx.event.type.KeyEvent} (Fired by {@link qx.event.handler.EventHandler})
  * @event focusout {qx.event.type.FocusEvent} (Fired by {@link qx.ui.core.Parent})
  * @event focusin {qx.event.type.FocusEvent} (Fired by {@link qx.ui.core.Parent})

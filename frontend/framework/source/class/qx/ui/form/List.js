@@ -56,6 +56,7 @@ function()
   // ************************************************************************
   this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
   this.addEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
+  this.addEventListener(qx.constant.Event.KEYINPUT, this._onkeyinput);
 });
 
 qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "list" });
@@ -160,10 +161,8 @@ qx.Proto._ondblclick = function(e)
 
 qx.Proto._onkeydown = function(e)
 {
-  var kc = e.getKeyCode();
-
   // Execute action on press <ENTER>
-  if (kc == qx.event.type.KeyEvent.keys.enter && !e.getAltKey())
+  if (e.getKeyIdentifier() == "Enter" && !e.getAltKey())
   {
     var items = this.getSelectedItems();
     var currentItem;
@@ -172,16 +171,19 @@ qx.Proto._onkeydown = function(e)
       items[i].createDispatchEvent("action");
     }
   }
-  else
-  {
-    // Give control to selectionManager
-    this._manager.handleKeyDown(e);
-  }
-}
+};
+
+
+qx.Proto._onkeypress = function(e)
+{
+  // Give control to selectionManager
+  this._manager.handleKeyPress(e);
+};
+
 
 qx.Proto._lastKeyPress = 0;
 
-qx.Proto._onkeypress = function(e)
+qx.Proto._onkeyinput = function(e)
 {
   if (!this.getEnableInlineFind()) {
     return;
@@ -193,7 +195,7 @@ qx.Proto._onkeypress = function(e)
   }
 
   // Combine keys the user pressed to a string
-  this._pressedString += String.fromCharCode(e.getKeyCode());
+  this._pressedString += String.fromCharCode(e.getCharCode());
 
   // Find matching item
   var matchedItem = this.findString(this._pressedString, null);
@@ -375,6 +377,7 @@ qx.Proto.dispose = function()
   this.removeEventListener(qx.constant.Event.DBLCLICK, this._ondblclick);
   this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
   this.removeEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
+  this.removeEventListener(qx.constant.Event.KEYINPUT, this._onkeyinput);
 
   return qx.ui.layout.VerticalBoxLayout.prototype.dispose.call(this);
 }

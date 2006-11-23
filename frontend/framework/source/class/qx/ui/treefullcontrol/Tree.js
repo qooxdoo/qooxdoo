@@ -60,6 +60,7 @@ function(treeRowStructure)
   //   KEY EVENT LISTENER
   // ************************************************************************
   this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
+  this.addEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
   this.addEventListener(qx.constant.Event.KEYUP, this._onkeyup);
 });
 
@@ -342,9 +343,24 @@ qx.Proto._onkeydown = function(e)
   var vManager = this.getManager();
   var vSelectedItem = vManager.getSelectedItem();
 
-  switch(e.getKeyCode())
+  if (e.getKeyIdentifier() == "Enter")
   {
-    case qx.event.type.KeyEvent.keys.left:
+      e.preventDefault();
+      if (qx.ui.treefullcontrol.Tree.isTreeFolder(vSelectedItem)) {
+        return vSelectedItem.toggle();
+      }
+  }
+}
+
+
+qx.Proto._onkeypress = function(e)
+{
+  var vManager = this.getManager();
+  var vSelectedItem = vManager.getSelectedItem();
+
+  switch(e.getKeyIdentifier())
+  {
+    case "Left":
       e.preventDefault();
 
       if (qx.ui.treefullcontrol.Tree.isTreeFolder(vSelectedItem))
@@ -379,7 +395,7 @@ qx.Proto._onkeydown = function(e)
 
       break;
 
-    case qx.event.type.KeyEvent.keys.right:
+    case "Right":
       e.preventDefault();
 
       if (qx.ui.treefullcontrol.Tree.isTreeFolder(vSelectedItem))
@@ -403,15 +419,6 @@ qx.Proto._onkeydown = function(e)
 
       break;
 
-    case qx.event.type.KeyEvent.keys.enter:
-      e.preventDefault();
-
-      if (qx.ui.treefullcontrol.Tree.isTreeFolder(vSelectedItem)) {
-        return vSelectedItem.toggle();
-      }
-
-      break;
-
     default:
       if (!this._fastUpdate)
       {
@@ -419,9 +426,10 @@ qx.Proto._onkeydown = function(e)
         this._oldItem = vSelectedItem;
       }
 
-      vManager.handleKeyDown(e);
+      vManager.handleKeyPress(e);
   }
-}
+};
+
 
 qx.Proto._onkeyup = function(e)
 {
@@ -514,6 +522,10 @@ qx.Proto.dispose = function()
   if (this.getDisposed()) {
     return;
   }
+
+  this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
+  this.removeEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
+  this.removeEventListener(qx.constant.Event.KEYUP, this._onkeyup);
 
   if (this._manager)
   {

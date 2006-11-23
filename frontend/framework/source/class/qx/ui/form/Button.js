@@ -113,16 +113,16 @@ qx.Proto._onmouseup = function(e)
 {
   this.setCapture(false);
 
-  // We must remove the states before executing the command 
+  // We must remove the states before executing the command
   // because in cases were the window lost the focus while
   // executing we get the capture phase back (mouseout).
   var hasPressed = this.hasState(qx.ui.form.Button.STATE_PRESSED);
   var hasAbandoned = this.hasState(qx.ui.form.Button.STATE_ABANDONED);
-  
+
   if (hasPressed) {
     this.removeState(qx.ui.form.Button.STATE_PRESSED);
   }
-  
+
   if (hasAbandoned) {
     this.removeState(qx.ui.form.Button.STATE_ABANDONED);
   }
@@ -139,10 +139,10 @@ qx.Proto._onmouseup = function(e)
 
 qx.Proto._onkeydown = function(e)
 {
-  switch(e.getKeyCode())
+  switch(e.getKeyIdentifier())
   {
-    case qx.event.type.KeyEvent.keys.enter:
-    case qx.event.type.KeyEvent.keys.space:
+    case "Enter":
+    case "Space":
       this.removeState(qx.ui.form.Button.STATE_ABANDONED);
       this.addState(qx.ui.form.Button.STATE_PRESSED);
   }
@@ -150,10 +150,10 @@ qx.Proto._onkeydown = function(e)
 
 qx.Proto._onkeyup = function(e)
 {
-  switch(e.getKeyCode())
+  switch(e.getKeyIdentifier())
   {
-    case qx.event.type.KeyEvent.keys.enter:
-    case qx.event.type.KeyEvent.keys.space:
+    case "Enter":
+    case "Space":
       if (this.hasState(qx.ui.form.Button.STATE_PRESSED))
       {
         this.removeState(qx.ui.form.Button.STATE_ABANDONED);

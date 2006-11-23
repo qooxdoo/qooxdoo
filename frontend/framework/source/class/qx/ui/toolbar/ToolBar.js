@@ -27,7 +27,7 @@ function()
 {
   qx.ui.layout.HorizontalBoxLayout.call(this);
 
-  this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
+  this.addEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
 });
 
 
@@ -98,19 +98,19 @@ qx.Proto.getAllButtons = function()
 /*!
   Wraps key events to target functions
 */
-qx.Proto._onkeydown = function(e)
+qx.Proto._onkeypress = function(e)
 {
-  switch(e.getKeyCode())
+  switch(e.getKeyIdentifier())
   {
-    case qx.event.type.KeyEvent.keys.left:
-      return this._onkeydown_left(e);
+    case "Left":
+      return this._onkeypress_left();
 
-    case qx.event.type.KeyEvent.keys.right:
-      return this._onkeydown_right(e);
+    case "Right":
+      return this._onkeypress_right();
   }
 }
 
-qx.Proto._onkeydown_left = function(e)
+qx.Proto._onkeypress_left = function()
 {
   var vMenu = this.getOpenMenu();
   if (!vMenu) {
@@ -164,7 +164,7 @@ qx.Proto._onkeydown_left = function(e)
   }
 }
 
-qx.Proto._onkeydown_right = function(e)
+qx.Proto._onkeypress_right = function()
 {
   var vMenu = this.getOpenMenu();
   if (!vMenu) {
@@ -236,7 +236,7 @@ qx.Proto.dispose = function()
     return;
   }
 
-  this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
+  this.removeEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
 
   return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
 }
