@@ -23,9 +23,18 @@
 
 ************************************************************************ */
 
-/*!
-  A key event instance contains all data for each occured key event
-*/
+/**
+ * A key event instance contains all data for each occured key event
+ * 
+ * @param vType (string) event type (keydown, keypress, keyinput, keyup)
+ * @param vDomEvent (Element) DOM event object
+ * @param vDomTarget (Element) target element of the DOM event
+ * @param vTarget
+ * @param vOriginalTarget
+ * @param vKeyCode (int)
+ * @param vCharCode (int)
+ * @param vKeyIdentifier (string)
+ */
 qx.OO.defineClass("qx.event.type.KeyEvent", qx.event.type.DomEvent,
 function(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vKeyCode, vCharCode, vKeyIdentifier)
 {
@@ -36,19 +45,48 @@ function(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vKeyCode, vChar
   this.setKeyIdentifier(vKeyIdentifier);
 });
 
-//qx.OO.addFastProperty({ name : "keyCode", setOnlyOnce : true, noCompute : true });
+
+/** wether warnings for getKeyCode should be generated. */
+qx.Settings.setDefault("deprecationWarning", true);
+
+/**
+ * Unicode number of the pressed character.
+ * Only valid in "keyinput" events
+ */
 qx.OO.addFastProperty({ name : "charCode", setOnlyOnce : true, noCompute : true });
+
+/**
+ * Identifier of the pressed key.
+ * Not Valid in "keyinput" events"
+ */
 qx.OO.addFastProperty({ name : "keyIdentifier", setOnlyOnce : true, noCompute : true });
 
 
+/**
+ * sets the keycode property.
+ * 
+ * @param keyCode (int)
+ */
 qx.Proto.setKeyCode = function(keyCode) {
   this._keyCode = keyCode;
-}
+};
 
+
+/**
+ * returns the value of the keyCode property
+ * @deprecated
+ * 
+ * @return (int) keyCode
+ */
 qx.Proto.getKeyCode = function() {
-  // this.warn("qx.event.type.KeyEvent is deprecated. Use getKeyIdentifier instead.");
+  /*
+  if (qx.settings.getValueOfClass("qx.event.type.KeyEvent", "deprecationWarning")) {
+    this.warn("qx.event.type.KeyEvent is deprecated. Use getKeyIdentifier instead.");
+  }
+  */
   return this._keyCode;
-}
+};
+
 
 
 /* ************************************************************************
@@ -61,6 +99,10 @@ qx.Proto.getKeyCode = function() {
 ---------------------------------------------------------------------------
 */
 
+/**
+ * Mapping of the old key identifiers to the key codes
+ * @deprecated
+ */
 qx.event.type.KeyEvent.keys =
 {
   esc : 27,
