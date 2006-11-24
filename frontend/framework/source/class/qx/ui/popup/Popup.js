@@ -146,7 +146,7 @@ qx.Proto._afterAppear = function() {
     var width  = this.getBoxWidth();
     var height = this.getBoxHeight();
 
-    var oldLeft = left;
+    var oldLeft = this.getLeft();
     var oldTop = top;
 
     // NOTE: We check right and bottom first, because top and left should have
