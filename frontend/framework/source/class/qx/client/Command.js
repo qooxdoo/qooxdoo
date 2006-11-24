@@ -186,9 +186,8 @@ qx.Proto._matchesKeyEvent = function(e)
 {
   var key = this._key || this.getKeyIdentifier();
   if (!key && !this.getKeyCode()) {
-    var msg = "At least one non modifier key must be given!";
-    this.error(msg);
-    throw msg;
+    // no shortcut defined.
+    return;
   }
   
   // pre-check for check special keys
