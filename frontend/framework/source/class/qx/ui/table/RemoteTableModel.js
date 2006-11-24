@@ -57,6 +57,12 @@ qx.OO.addProperty({ name:"blockSize", type:qx.constant.Type.NUMBER, defaultValue
 /** The maximum number of row blocks kept in the cache. */
 qx.OO.addProperty({ name:"maxCachedBlockCount", type:qx.constant.Type.NUMBER, defaultValue:15, allowNull:false });
 
+/**
+ * Whether to clear the cache when some rows are removed.
+ * If false the rows are removed locally in the cache.
+ */
+qx.OO.addProperty({ name:"clearCacheOnRemove", type:qx.constant.Type.BOOLEAN, defaultValue:false, allowNull:false });
+
 
 // overridden
 qx.Proto.getRowCount = function() {
@@ -151,7 +157,7 @@ qx.Proto.prefetchRows = function(firstRowIndex, lastRowIndex) {
     var firstBlockToLoad = -1;
     var lastBlockToLoad = -1;
     for (var block = firstBlock; block <= lastBlock; block++) {
-      if (this._rowBlockCache[block] == null) {
+      if (this._rowBlockCache[block] == null || this._rowBlockCache[block].isDirty) {
         // We don't have this block
         if (firstBlockToLoad == -1) {
           firstBlockToLoad = block;
@@ -275,6 +281,69 @@ qx.Proto._setRowBlockData = function(block, rowDataArr) {
   }
 
   this._rowBlockCache[block] = { lru:++this._lruCounter, rowDataArr:rowDataArr };
+};
+
+
+/**
+ * Removes a rows from the model.
+ *
+ * @param rowIndex {int} the index of the row to remove.
+ */
+qx.Proto.removeRow = function(rowIndex) {
+  if (this.getClearCacheOnRemove()) {
+    this.clearCache();
+
+    // Inform the listeners
+    var data = { firstRow:0, lastRow:rowCount - 1, firstColumn:0, lastColumn:this.getColumnCount() - 1 };
+    this.dispatchEvent(new qx.event.type.DataEvent(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, data), true);
+  } else {
+    var blockSize = this.getBlockSize();
+    var blockCount = Math.ceil(this.getRowCount() / blockSize);
+    var startBlock = parseInt(rowIndex / blockSize);
+
+    // Remove the row and move the rows of all following blocks
+    for (var block = startBlock; block <= blockCount; block++) {
+      var blockData = this._rowBlockCache[block];
+      if (blockData != null) {
+        // Remove the row in the start block
+        // NOTE: In the other blocks the first row is removed
+        //       (This is the row that was)
+        var removeIndex = 0;
+        if (block == startBlock) {
+          removeIndex = rowIndex - block * blockSize;
+        }
+        blockData.rowDataArr.splice(removeIndex, 1);
+
+        if (block == blockCount - 1) {
+          // This is the last block
+          if (blockData.rowDataArr.length == 0) {
+            // It is empty now -> Remove it
+            delete this._rowBlockCache[block];
+          }
+        } else {
+          // Try to copy the first row of the next block to the end of this block
+          // so this block can stays clean
+          var nextBlockData = this._rowBlockCache[block + 1];
+          if (nextBlockData != null) {
+            blockData.rowDataArr.push(nextBlockData.rowDataArr[0]);
+          } else {
+            // There is no row to move -> Mark this block as dirty
+            blockData.isDirty = true;
+          }
+        }
+      }
+    }
+
+    if (this._rowCount != -1) {
+      this._rowCount--;
+    }
+
+    // Inform the listeners
+    if (this.hasEventListeners(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED)) {
+      var data = { firstRow:rowIndex, lastRow:this.getRowCount() - 1, firstColumn:0, lastColumn:this.getColumnCount() - 1 };
+      this.dispatchEvent(new qx.event.type.DataEvent(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, data), true);
+    }
+  }
 };
 
 
