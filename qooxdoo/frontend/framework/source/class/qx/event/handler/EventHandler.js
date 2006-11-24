@@ -499,10 +499,10 @@ qx.Proto._onkeyevent_post = function(vDomEvent, vType, vKeyCode, vCharCode, vKey
 
 
   // Hide Menus
-  switch(vKeyCode)
+  switch(vKeyIdentifier)
   {
-    case qx.event.type.KeyEvent.keys.esc:
-    case qx.event.type.KeyEvent.keys.tab:
+    case "Escape":
+    case "Tab":
       if (qx.OO.isAvailable("qx.manager.object.MenuManager")) {
         qx.manager.object.MenuManager.getInstance().update(vTarget, vType);
       }
@@ -518,7 +518,7 @@ qx.Proto._onkeyevent_post = function(vDomEvent, vType, vKeyCode, vCharCode, vKey
   // Prohibit CTRL+A
   if (!this.getAllowClientSelectAll())
   {
-    if (vDomEvent.ctrlKey && (vKeyCode == 65 || vKeyCode == 97))
+    if (vDomEvent.ctrlKey && vKeyIdentifier == "A")
     {
       switch(vDomTarget.tagName.toLowerCase())
       {
