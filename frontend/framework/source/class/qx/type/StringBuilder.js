@@ -47,6 +47,43 @@ function()
 });
 
 
+/**
+ * Resets the contents of the Stringbuilder
+ * equivalent to <pre>str = ""; </pre>
+ */
+qx.Proto.clear = function() {}
+
+/**
+ * Returns the contents of the concatenated string
+ * 
+ * @return (string) string content
+ */
+qx.Proto.get = function() {}
+
+/**
+ * Append a variable number of string arguments
+ * 
+ * @param varargs (string) variable number os strings to be added
+ */
+qx.Proto.add = function(varargs) {}
+
+/**
+ * Initializes the contents of the Stringbuilder
+ * equivalent to <pre>str = ""; </pre>
+ */
+qx.Proto.init = function() {}
+
+/** Destructor */
+qx.Proto.dispose = function() {}
+
+/**
+ * Returns the contents of the concatenated string
+ * 
+ * @return (string) string content
+ */
+qx.Proto.toString = function() {}
+
+
 if (qx.sys.Client.getInstance().isMshtml())
 {
   qx.Proto.clear = function() {
