@@ -595,6 +595,28 @@ qx.Proto._webkit_specialKeyMap = {
 };
 
 
+qx.Proto._operaKeyHandler = function(domEvent) {
+  var eventType = domEvent.type;
+  var keyCode = 0;
+  var charCode = 0;
+  this.debug(eventType);
+
+  if (eventType == "keypress")
+  {
+    if (this._keyCodeToIdentifierMap[domEvent.keyCode]) {
+      keyCode = domEvent.keyCode;
+    } else {
+      charCode = domEvent.keyCode; 
+    }
+    this._idealKeyHandler(keyCode, charCode, eventType, domEvent);
+  }
+  else
+  {
+    this._idealKeyHandler(domEvent.keyCode, 0, eventType, domEvent);   
+  }
+};
+
+
 
 /*
 ---------------------------------------------------------------------------
@@ -620,8 +642,8 @@ else if (qx.sys.Client.getInstance().isWebkit())
 }
 else if (qx.sys.Client.getInstance().isOpera())
 {
-  qx.Proto.onKeyUpDown = qx.Proto._mshtmlKeyUpDownHandler;
-  qx.Proto.onKeyPress = qx.Proto._mshtmlKeyPressHandler;
+  qx.Proto.onKeyUpDown = qx.Proto._operaKeyHandler; 
+  qx.Proto.onKeyPress = qx.Proto._operaKeyHandler;
 }
 else
 {

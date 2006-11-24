@@ -212,7 +212,6 @@ qx.Proto.dispatchEvent = function(vEvent, vEnableDispose)
  * Internal event dispatch method
  *
  * @param vEvent {qx.event.type.Event} event to dispatch
- * @param vEnableDispose {boolean} wether the event object should be disposed after all event handlers run.
  */
 qx.Proto._dispatchEvent = function(vEvent)
 {
