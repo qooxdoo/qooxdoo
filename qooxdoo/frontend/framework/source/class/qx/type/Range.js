@@ -31,9 +31,16 @@ function() {
   qx.core.Target.call(this);
 });
 
+/** current value of the Range object */
 qx.OO.addProperty({ name : "value", type : qx.constant.Type.NUMBER, defaultValue : 0 });
+
+/** minimal value of the Range object */
 qx.OO.addProperty({ name : "min", type : qx.constant.Type.NUMBER, defaultValue : 0 });
+
+/** maximal value of the Range object */
 qx.OO.addProperty({ name : "max", type : qx.constant.Type.NUMBER, defaultValue : 100 });
+
+/** Step size for increments/decrements of the value property */
 qx.OO.addProperty({ name : "step", type : qx.constant.Type.NUMBER, defaultValue : 1 });
 
 qx.Proto._checkValue = function(propValue) {
