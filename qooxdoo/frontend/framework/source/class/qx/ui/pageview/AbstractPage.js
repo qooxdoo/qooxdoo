@@ -21,7 +21,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.pageview.AbstractPageViewPage", qx.ui.layout.CanvasLayout,
+qx.OO.defineClass("qx.ui.pageview.AbstractPage", qx.ui.layout.CanvasLayout,
 function(vButton)
 {
   qx.ui.layout.CanvasLayout.call(this);

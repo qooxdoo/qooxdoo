@@ -22,10 +22,10 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.pageview.tabview.Pane", qx.ui.pageview.AbstractPageViewPane,
+qx.OO.defineClass("qx.ui.pageview.tabview.Pane", qx.ui.pageview.AbstractPane,
 function()
 {
-  qx.ui.pageview.AbstractPageViewPane.call(this);
+  qx.ui.pageview.AbstractPane.call(this);
 
   this.setZIndex(1);
 });

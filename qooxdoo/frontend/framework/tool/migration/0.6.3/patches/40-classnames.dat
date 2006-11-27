@@ -67,3 +67,8 @@
 \bqx\.ui\.toolbar\.ToolBarPartHandle\b=qx.ui.toolbar.PartHandle
 \bqx\.ui\.toolbar\.ToolBarRadioButton\b=qx.ui.toolbar.RadioButton
 \bqx\.ui\.toolbar\.ToolBarSeparator\b=qx.ui.toolbar.Separator
+
+\bqx\.ui\.pageview\.AbstractPageViewBar\b=qx.ui.pageview.AbstractBar
+\bqx\.ui\.pageview\.AbstractPageViewButton\b=qx.ui.pageview.AbstractButton
+\bqx\.ui\.pageview\.AbstractPageViewPage\b=qx.ui.pageview.AbstractPage
+\bqx\.ui\.pageview\.AbstractPageViewPane\b=qx.ui.pageview.AbstractPane

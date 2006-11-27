@@ -25,9 +25,9 @@
 /**
  * @event closetab {qx.event.type.DataEvent}
  */
-qx.OO.defineClass("qx.ui.pageview.tabview.Button", qx.ui.pageview.AbstractPageViewButton,
+qx.OO.defineClass("qx.ui.pageview.tabview.Button", qx.ui.pageview.AbstractButton,
 function(vText, vIcon, vIconWidth, vIconHeight, vFlash) {
-  qx.ui.pageview.AbstractPageViewButton.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
+  qx.ui.pageview.AbstractButton.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
 });
 
 qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "tab-view-button" });
@@ -163,7 +163,7 @@ qx.Proto._applyStateAppearance = function()
   this._states.alignLeft = this.getView().getAlignTabsToLeft();
   this._states.barTop = this.getView().getPlaceBarOnTop();
 
-  qx.ui.pageview.AbstractPageViewButton.prototype._applyStateAppearance.call(this);
+  qx.ui.pageview.AbstractButton.prototype._applyStateAppearance.call(this);
 }
 
 
@@ -185,5 +185,5 @@ qx.Proto.dispose = function() {
     this._closeButtonImage = null;
   }
 
-  return qx.ui.pageview.AbstractPageViewButton.prototype.dispose.call(this);
+  return qx.ui.pageview.AbstractButton.prototype.dispose.call(this);
 }
