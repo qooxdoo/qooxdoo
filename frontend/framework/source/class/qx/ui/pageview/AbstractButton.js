@@ -21,7 +21,7 @@
 
  ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.pageview.AbstractPageViewButton", qx.ui.basic.Atom,
+qx.OO.defineClass("qx.ui.pageview.AbstractButton", qx.ui.basic.Atom,
 function(vText, vIcon, vIconWidth, vIconHeight, vFlash) {
   qx.ui.basic.Atom.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
 
