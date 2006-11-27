@@ -458,14 +458,14 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sour
 
     # Search for valid ID
     if fileContentId == None:
-      print "      * Could not extract ID from file: %s. Using fileName!" % filePath
+      print "    - Could not extract ID from file: %s. Using fileName!" % filePath
       fileId = filePathId
 
     else:
       fileId = fileContentId
 
     if fileId != filePathId:
-      print "      * ID mismatch: CONTENT=%s != PATH=%s" % (fileContentId, filePathId)
+      print "    - ID mismatch: CONTENT=%s != PATH=%s" % (fileContentId, filePathId)
       sys.exit(1)
 
     fileEntry = {
