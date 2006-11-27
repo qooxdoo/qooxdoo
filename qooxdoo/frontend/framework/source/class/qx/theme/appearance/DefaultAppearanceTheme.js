@@ -2014,12 +2014,13 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
   "table-focus-indicator" : {
     setup : function() {
       this.border = new qx.renderer.border.Border(3, qx.renderer.border.Border.STYLE_SOLID, "#b3d9ff");
+      this.blurBorder = new qx.renderer.border.Border(3, qx.renderer.border.Border.STYLE_SOLID, "#c5c8ca");
       this.editingBorder = new qx.renderer.border.Border(2, qx.renderer.border.Border.STYLE_SOLID, "#b3d9ff");
     },
 
     state : function(vTheme, vStates) {
       return {
-        border : vStates.editing ? this.editingBorder : this.border
+        border : vStates.editing ? this.editingBorder : (vStates.tableHasFocus ? this.border : this.blurBorder)
       }
     }
   },
