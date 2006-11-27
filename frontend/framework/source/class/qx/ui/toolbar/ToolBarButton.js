@@ -22,7 +22,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.toolbar.ToolBarButton", qx.ui.form.Button,
+qx.OO.defineClass("qx.ui.toolbar.Button", qx.ui.form.Button,
 function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
 {
   qx.ui.form.Button.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
@@ -31,7 +31,7 @@ function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
   this.setTabIndex(-1);
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "toolbar-button" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "toolbar-button" });
 
 
 

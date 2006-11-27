@@ -41,10 +41,10 @@ function(paneScroller) {
 });
 
 /** The index of the first row to show. */
-qx.OO.addProperty({ name:"firstVisibleRow", type:qx.constant.Type.NUMBER, defaultValue:0 });
+qx.OO.addProperty({ name:"firstVisibleRow", type:"number", defaultValue:0 });
 
 /** The number of rows to show. */
-qx.OO.addProperty({ name:"visibleRowCount", type:qx.constant.Type.NUMBER, defaultValue:0 });
+qx.OO.addProperty({ name:"visibleRowCount", type:"number", defaultValue:0 });
 
 
 // property modifier
@@ -325,8 +325,8 @@ qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
   }
 
   var elem = this.getElement();
-  // this.debug(">>>" + htmlArr.join(qx.constant.Core.EMPTY) + "<<<")
-  elem.innerHTML = htmlArr.join(qx.constant.Core.EMPTY);
+  // this.debug(">>>" + htmlArr.join("") + "<<<")
+  elem.innerHTML = htmlArr.join("");
 
   this.setHeight(rowCount * rowHeight);
 
@@ -392,14 +392,14 @@ qx.Proto._updateContent_orig = function(completeUpdate, onlyRow,
       rowElem = childNodes[y];
       recyleRowElem = true
     } else {
-      var rowElem = document.createElement(qx.constant.Tags.DIV);
+      var rowElem = document.createElement("div");
 
       //rowElem.style.position = "relative";
-      rowElem.style.position = qx.constant.Style.POSITION_ABSOLUTE;
-      rowElem.style.left = qx.constant.Core.ZEROPIXEL;
-      rowElem.style.top = (y * rowHeight) + qx.constant.Core.PIXEL;
+      rowElem.style.position = "absolute";
+      rowElem.style.left = "0px";
+      rowElem.style.top = (y * rowHeight) + "px";
 
-      rowElem.style.height = rowHeight + qx.constant.Core.PIXEL;
+      rowElem.style.height = rowHeight + "px";
       rowElem.style.fontFamily = TablePane.CONTENT_ROW_FONT_FAMILY;
       rowElem.style.fontSize = TablePane.CONTENT_ROW_FONT_SIZE;
       elem.appendChild(rowElem);
@@ -421,7 +421,7 @@ qx.Proto._updateContent_orig = function(completeUpdate, onlyRow,
         var width = columnModel.getColumnWidth(col);
         cellInfo.style = TablePane.CONTENT_CELL_STYLE_LEFT + left
           + TablePane.CONTENT_CELL_STYLE_WIDTH + width
-          + TablePane.CONTENT_CELL_STYLE_HEIGHT + rowHeight + qx.constant.Core.PIXEL;
+          + TablePane.CONTENT_CELL_STYLE_HEIGHT + rowHeight + "px";
 
         var cellRenderer = columnModel.getDataCellRenderer(col);
         if (recyleRowElem) {
@@ -434,7 +434,7 @@ qx.Proto._updateContent_orig = function(completeUpdate, onlyRow,
         left += width;
       }
       if (! recyleRowElem) {
-        rowElem.style.width = left + qx.constant.Core.PIXEL;
+        rowElem.style.width = left + "px";
         rowElem.innerHTML = html;
       }
     }

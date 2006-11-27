@@ -42,7 +42,7 @@ function()
   this._sources = {};
 
   // Change event connection to AliasManager
-  qx.manager.object.AliasManager.getInstance().addEventListener(qx.constant.Event.CHANGE, this._onaliaschange, this);
+  qx.manager.object.AliasManager.getInstance().addEventListener("change", this._onaliaschange, this);
 });
 
 
@@ -54,8 +54,8 @@ function()
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefault("iconTheme", "qx.theme.icon.CrystalSvgIconTheme");
-qx.Settings.setDefault("widgetTheme", "qx.theme.widget.WindowsWidgetTheme");
+qx.Settings.setDefault("iconTheme", "qx.theme.icon.CrystalSvg");
+qx.Settings.setDefault("widgetTheme", "qx.theme.widget.Windows");
 
 
 
@@ -68,8 +68,8 @@ qx.Settings.setDefault("widgetTheme", "qx.theme.widget.WindowsWidgetTheme");
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "iconTheme", type : qx.constant.Type.OBJECT, instance : "qx.renderer.theme.IconTheme" });
-qx.OO.addProperty({ name : "widgetTheme", type : qx.constant.Type.OBJECT, instance : "qx.renderer.theme.WidgetTheme" });
+qx.OO.addProperty({ name : "iconTheme", type : "object", instance : "qx.renderer.theme.IconTheme" });
+qx.OO.addProperty({ name : "widgetTheme", type : "object", instance : "qx.renderer.theme.WidgetTheme" });
 
 
 
@@ -234,7 +234,7 @@ qx.Proto.createThemeList = function(vParent, xCor, yCor)
   var vThemes = this._iconThemes;
   var vIcon = "icon/16/icons.png";
   var vPrefix = "Icon Theme: ";
-  var vEvent = qx.constant.Event.EXECUTE;
+  var vEvent = "execute";
 
   for (var vId in vThemes)
   {
@@ -274,7 +274,7 @@ qx.Proto.dispose = function()
   }
 
   // Change event connection to AliasManager
-  qx.manager.object.AliasManager.getInstance().removeEventListener(qx.constant.Event.CHANGE, this._onaliaschange, this);
+  qx.manager.object.AliasManager.getInstance().removeEventListener("change", this._onaliaschange, this);
 
   // Delete counter field
   this._sources = null;

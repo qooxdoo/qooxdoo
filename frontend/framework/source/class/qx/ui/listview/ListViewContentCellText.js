@@ -22,19 +22,19 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.listview.ListViewContentCellText", qx.ui.embed.TextEmbed,
+qx.OO.defineClass("qx.ui.listview.ContentCellText", qx.ui.embed.TextEmbed,
 function(vText)
 {
   qx.ui.embed.TextEmbed.call(this, vText);
 
-  this.setStyleProperty(qx.constant.Style.PROPERTY_WHITESPACE, "nowrap");
-  this.setStyleProperty(qx.constant.Style.PROPERTY_OVERFLOW_TEXT, qx.constant.Style.OVERFLOW_ELLIPSIS);
+  this.setStyleProperty("whiteSpace", "nowrap");
+  this.setStyleProperty("textOverflow", "ellipsis");
 
   this.setSelectable(false);
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "list-view-content-cell-text" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "list-view-content-cell-text" });
 
-qx.ui.listview.ListViewContentCellText.empty = {
-  text : qx.constant.Core.EMPTY
+qx.ui.listview.ContentCellText.empty = {
+  text : ""
 }

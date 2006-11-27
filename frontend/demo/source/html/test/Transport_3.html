@@ -32,7 +32,7 @@
     var grid = new qx.ui.layout.GridLayout;
 
     grid.setLocation(20, 48);
-    grid.setDimension(qx.constant.Core.AUTO, qx.constant.Core.AUTO);
+    grid.setDimension("auto", "auto");
     grid.setHorizontalSpacing(10);
     grid.setVerticalSpacing(4);
     grid.setBorder(qx.renderer.border.BorderPresets.getInstance().thinOutset);
@@ -104,7 +104,7 @@
 
     function makeRequest(size)
     {
-      var req = new qx.io.remote.RemoteRequest("data/filesize/" + size + "kb.xml", "GET", "application/xml");
+      var req = new qx.io.remote.Request("data/filesize/" + size + "kb.xml", "GET", "application/xml");
 
       req.addEventListener("completed", function(e) {
         area.setValue(area.getValue() + "Request " + size + "kb: completed\n");

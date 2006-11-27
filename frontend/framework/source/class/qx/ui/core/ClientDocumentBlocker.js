@@ -36,4 +36,4 @@ function()
   this.setDisplay(false);
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "blocker" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "blocker" });

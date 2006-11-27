@@ -187,7 +187,7 @@ function(transitionName, transitionInfo)
 qx.OO.addProperty(
   {
     name         : "name",
-    type         : qx.constant.Type.STRING
+    type         : "string"
   });
 
 /**

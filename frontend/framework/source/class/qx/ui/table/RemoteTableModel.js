@@ -52,16 +52,16 @@ function() {
 
 
 /** The number of rows that are stored in one cache block. */
-qx.OO.addProperty({ name:"blockSize", type:qx.constant.Type.NUMBER, defaultValue:50, allowNull:false });
+qx.OO.addProperty({ name:"blockSize", type:"number", defaultValue:50, allowNull:false });
 
 /** The maximum number of row blocks kept in the cache. */
-qx.OO.addProperty({ name:"maxCachedBlockCount", type:qx.constant.Type.NUMBER, defaultValue:15, allowNull:false });
+qx.OO.addProperty({ name:"maxCachedBlockCount", type:"number", defaultValue:15, allowNull:false });
 
 /**
  * Whether to clear the cache when some rows are removed.
  * If false the rows are removed locally in the cache.
  */
-qx.OO.addProperty({ name:"clearCacheOnRemove", type:qx.constant.Type.BOOLEAN, defaultValue:false, allowNull:false });
+qx.OO.addProperty({ name:"clearCacheOnRemove", type:"boolean", defaultValue:false, allowNull:false });
 
 
 // overridden

@@ -172,20 +172,20 @@
         if (commandData.menu)
         {
           var subMenu = this._generateMenu(commandData.menu);
-          var menuButton = new qx.ui.menu.MenuButton(commandData.title, null, null, subMenu);
+          var menuButton = new qx.ui.menu.Button(commandData.title, null, null, subMenu);
 
         subMenu.addToDocument();
         }
         else
         {
-          var menuButton = new qx.ui.menu.MenuButton(commandData.title);
+          var menuButton = new qx.ui.menu.Button(commandData.title);
         };
 
         menu.add(menuButton);
       };
 
       if (i < menuData.groups.length-1) {
-        menu.add(new qx.ui.menu.MenuSeparator);
+        menu.add(new qx.ui.menu.Separator);
       };
     };
 
@@ -213,7 +213,7 @@
 
       for(var j=0; j<groupdata.length; j++)
       {
-        var part = new qx.ui.toolbar.ToolBarPart;
+        var part = new qx.ui.toolbar.Part;
 
         var groupcontent = this._comp.groups[groupdata[j]];
         var groupcommandlist = groupcontent.commands;
@@ -229,16 +229,16 @@
 
           if (commanddata)
           {
-            if (typeof commanddata.menu != qx.constant.Type.UNDEFINED)
+            if (typeof commanddata.menu != "undefined")
             {
               menu = this._generateMenu(commanddata.menu);
           menu.addToDocument();
     
-              btn = new qx.ui.toolbar.ToolBarMenuButton(commanddata.title, menu);
+              btn = new qx.ui.toolbar.MenuButton(commanddata.title, menu);
             }
             else
             {
-              btn = new qx.ui.toolbar.ToolBarButton(commanddata.title);
+              btn = new qx.ui.toolbar.Button(commanddata.title);
             };
 
             part.add(btn);

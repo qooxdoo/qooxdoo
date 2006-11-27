@@ -232,7 +232,7 @@ function(stateName, stateInfo)
 qx.OO.addProperty(
   {
     name         : "name",
-    type         : qx.constant.Type.STRING
+    type         : "string"
   });
 
 /**

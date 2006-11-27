@@ -42,8 +42,8 @@ function(child)
   this.setResizeableWest(false);
   this.setResizeableNorth(false);
 
-  this.setMinWidth(qx.constant.Core.AUTO);
-  this.setMinHeight(qx.constant.Core.AUTO);
+  this.setMinWidth("auto");
+  this.setMinHeight("auto");
   this.auto();
 
   if (child)
@@ -61,19 +61,19 @@ function(child)
 /*!
   If the window is resizeable in the left direction.
 */
-qx.OO.addProperty({ name : "resizeableWest", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "resizeableWest", type : "boolean", defaultValue : true });
 /*!
   If the window is resizeable in the top direction.
 */
-qx.OO.addProperty({ name : "resizeableNorth", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "resizeableNorth", type : "boolean", defaultValue : true });
 /*!
   If the window is resizeable in the right direction.
 */
-qx.OO.addProperty({ name : "resizeableEast", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "resizeableEast", type : "boolean", defaultValue : true });
 /*!
   If the window is resizeable in the bottom direction.
 */
-qx.OO.addProperty({ name : "resizeableSouth", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "resizeableSouth", type : "boolean", defaultValue : true });
 
 /*!
   If the window is resizeable
@@ -83,12 +83,12 @@ qx.OO.addPropertyGroup({ name : "resizeable", members : [ "west", "north", "east
 /*!
   The resize method to use
 */
-qx.OO.addProperty({ name : "resizeMethod", type : qx.constant.Type.STRING, defaultValue : "frame", possibleValues : [ "opaque", "lazyopaque", "frame", "translucent" ] });
+qx.OO.addProperty({ name : "resizeMethod", type : "string", defaultValue : "frame", possibleValues : [ "opaque", "lazyopaque", "frame", "translucent" ] });
 
 /*!
   The resize method to use
 */
-qx.OO.addProperty({ name : "resizeMethod", type : qx.constant.Type.STRING, defaultValue : "frame", possibleValues : [ "opaque", "lazyopaque", "frame", "translucent" ] });
+qx.OO.addProperty({ name : "resizeMethod", type : "string", defaultValue : "frame", possibleValues : [ "opaque", "lazyopaque", "frame", "translucent" ] });
 
 
 
@@ -104,9 +104,9 @@ qx.Proto.isResizeable = qx.Proto.getResizeable = function() {
 }
 
 qx.Proto._registerResizeEvents = function() {
-  this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
-  this.addEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
-  this.addEventListener(qx.constant.Event.MOUSEMOVE, this._onmousemove);
+  this.addEventListener("mousedown", this._onmousedown);
+  this.addEventListener("mouseup", this._onmouseup);
+  this.addEventListener("mousemove", this._onmousemove);
 }
 
 qx.Proto._onmousedown = function(e)
@@ -126,19 +126,19 @@ qx.Proto._onmousedown = function(e)
     var pa = this.getTopLevelWidget();
     var pl = pa.getElement();
 
-    var l = qx.dom.DomLocation.getPageAreaLeft(pl);
-    var t = qx.dom.DomLocation.getPageAreaTop(pl);
-    var r = qx.dom.DomLocation.getPageAreaRight(pl);
-    var b = qx.dom.DomLocation.getPageAreaBottom(pl);
+    var l = qx.dom.Location.getPageAreaLeft(pl);
+    var t = qx.dom.Location.getPageAreaTop(pl);
+    var r = qx.dom.Location.getPageAreaRight(pl);
+    var b = qx.dom.Location.getPageAreaBottom(pl);
 
     // handle frame and translucently
     switch(this.getResizeMethod())
     {
-      case qx.ui.window.Window.MODE_TRANSLUCENT:
+      case "translucent":
         this.setOpacity(0.5);
         break;
 
-      case qx.ui.window.Window.MODE_FRAME:
+      case "frame":
         var f = this._frame;
 
         if (f.getParent() != pa)
@@ -147,11 +147,11 @@ qx.Proto._onmousedown = function(e)
           qx.ui.core.Widget.flushGlobalQueues();
         }
 
-        f._applyRuntimeLeft(qx.dom.DomLocation.getPageBoxLeft(el) - l);
-        f._applyRuntimeTop(qx.dom.DomLocation.getPageBoxTop(el) - t);
+        f._applyRuntimeLeft(qx.dom.Location.getPageBoxLeft(el) - l);
+        f._applyRuntimeTop(qx.dom.Location.getPageBoxTop(el) - t);
 
-        f._applyRuntimeWidth(qx.dom.DomDimension.getBoxWidth(el));
-        f._applyRuntimeHeight(qx.dom.DomDimension.getBoxHeight(el));
+        f._applyRuntimeWidth(qx.dom.Dimension.getBoxWidth(el));
+        f._applyRuntimeHeight(qx.dom.Dimension.getBoxHeight(el));
 
         f.setZIndex(this.getZIndex() + 1);
 
@@ -164,13 +164,13 @@ qx.Proto._onmousedown = function(e)
 
     if (this._resizeWest)
     {
-      s.boxWidth = qx.dom.DomDimension.getBoxWidth(el);
-      s.boxRight = qx.dom.DomLocation.getPageBoxRight(el);
+      s.boxWidth = qx.dom.Dimension.getBoxWidth(el);
+      s.boxRight = qx.dom.Location.getPageBoxRight(el);
     }
 
     if (this._resizeWest || this._resizeEast)
     {
-      s.boxLeft = qx.dom.DomLocation.getPageBoxLeft(el);
+      s.boxLeft = qx.dom.Location.getPageBoxLeft(el);
 
       s.parentAreaOffsetLeft = l;
       s.parentAreaOffsetRight = r;
@@ -181,13 +181,13 @@ qx.Proto._onmousedown = function(e)
 
     if (this._resizeNorth)
     {
-      s.boxHeight = qx.dom.DomDimension.getBoxHeight(el);
-      s.boxBottom = qx.dom.DomLocation.getPageBoxBottom(el);
+      s.boxHeight = qx.dom.Dimension.getBoxHeight(el);
+      s.boxBottom = qx.dom.Location.getPageBoxBottom(el);
     }
 
     if (this._resizeNorth || this._resizeSouth)
     {
-      s.boxTop = qx.dom.DomLocation.getPageBoxTop(el);
+      s.boxTop = qx.dom.Location.getPageBoxTop(el);
 
       s.parentAreaOffsetTop = t;
       s.parentAreaOffsetBottom = b;
@@ -221,14 +221,14 @@ qx.Proto._onmouseup = function(e)
     // sync sizes to frame
     switch(this.getResizeMethod())
     {
-      case qx.ui.window.Window.MODE_FRAME:
+      case "frame":
         var o = this._frame;
         if (!(o && o.getParent())) {
           break;
         }
         // no break here
 
-      case qx.ui.window.Window.MODE_LAZYOPAQUE:
+      case "lazyopaque":
         if (qx.util.Validation.isValidNumber(s.lastLeft)) {
           this.setLeft(s.lastLeft);
         }
@@ -251,12 +251,12 @@ qx.Proto._onmouseup = function(e)
           }
         }
 
-        if (this.getResizeMethod() == qx.ui.window.Window.MODE_FRAME) {
+        if (this.getResizeMethod() == "frame") {
           this._frame.setParent(null);
         }
         break;
 
-      case qx.ui.window.Window.MODE_TRANSLUCENT:
+      case "translucent":
         this.setOpacity(null);
         break;
     }
@@ -306,8 +306,8 @@ qx.Proto._onmousemove = function(e)
 
     switch(this.getResizeMethod())
     {
-      case qx.ui.window.Window.MODE_OPAQUE:
-      case qx.ui.window.Window.MODE_TRANSLUCENT:
+      case "opaque":
+      case "translucent":
         if (this._resizeWest || this._resizeEast)
         {
           this.setWidth(s.lastWidth);
@@ -329,7 +329,7 @@ qx.Proto._onmousemove = function(e)
         break;
 
       default:
-        var o = this.getResizeMethod() == qx.ui.window.Window.MODE_FRAME ? this._frame : this;
+        var o = this.getResizeMethod() == "frame" ? this._frame : this;
 
         if (this._resizeWest || this._resizeEast)
         {
@@ -352,19 +352,19 @@ qx.Proto._onmousemove = function(e)
   }
   else
   {
-    var resizeMode = qx.constant.Core.EMPTY;
+    var resizeMode = "";
     var el = this.getElement();
 
     this._resizeNorth = this._resizeSouth = this._resizeWest = this._resizeEast = false;
 
-    if (this._near(qx.dom.DomLocation.getPageBoxTop(el), e.getPageY()))
+    if (this._near(qx.dom.Location.getPageBoxTop(el), e.getPageY()))
     {
       if (this.getResizeableNorth()) {
         resizeMode = "n";
         this._resizeNorth = true;
       }
     }
-    else if (this._near(qx.dom.DomLocation.getPageBoxBottom(el), e.getPageY()))
+    else if (this._near(qx.dom.Location.getPageBoxBottom(el), e.getPageY()))
     {
       if (this.getResizeableSouth()) {
         resizeMode = "s";
@@ -372,14 +372,14 @@ qx.Proto._onmousemove = function(e)
       }
     }
 
-    if (this._near(qx.dom.DomLocation.getPageBoxLeft(el), e.getPageX()))
+    if (this._near(qx.dom.Location.getPageBoxLeft(el), e.getPageX()))
     {
       if (this.getResizeableWest()) {
         resizeMode += "w";
         this._resizeWest = true;
       }
     }
-    else if (this._near(qx.dom.DomLocation.getPageBoxRight(el), e.getPageX()))
+    else if (this._near(qx.dom.Location.getPageBoxRight(el), e.getPageX()))
     {
       if (this.getResizeableEast()) {
         resizeMode += "e";

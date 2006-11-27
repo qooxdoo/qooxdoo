@@ -166,10 +166,10 @@ qx.Class.addFastProperty = function(vConfig)
   var vName = vConfig.name;
   var vUpName = qx.lang.String.toFirstUp(vName);
 
-  var vStorageField = qx.OO.C_VALUE + vUpName;
-  var vGetterName = qx.OO.C_GET + vUpName;
-  var vSetterName = qx.OO.C_SET + vUpName;
-  var vComputerName = qx.OO.C_COMPUTE + vUpName;
+  var vStorageField = "_value" + vUpName;
+  var vGetterName = "get" + vUpName;
+  var vSetterName = "set" + vUpName;
+  var vComputerName = "_compute" + vUpName;
 
   qx.Proto[vStorageField] = typeof vConfig.defaultValue !== "undefined" ? vConfig.defaultValue : null;
 
@@ -216,15 +216,15 @@ qx.OO.addCachedProperty = function(p)
   var vName = p.name;
   var vUpName = qx.lang.String.toFirstUp(vName);
 
-  var vStorageField = qx.OO.C_CACHED + vUpName;
-  var vComputerName = qx.OO.C_COMPUTE + vUpName;
-  var vChangeName = qx.OO.C_PRIVATECHANGE + vUpName;
+  var vStorageField = "_cached" + vUpName;
+  var vComputerName = "_compute" + vUpName;
+  var vChangeName = "_change" + vUpName;
 
   if (typeof p.defaultValue !== "undefined") {
     qx.Proto[vStorageField] = p.defaultValue;
   }
 
-  qx.Proto[qx.OO.C_GET + vUpName] = function()
+  qx.Proto["get" + vUpName] = function()
   {
     if (this[vStorageField] == null) {
       this[vStorageField] = this[vComputerName]();
@@ -233,7 +233,7 @@ qx.OO.addCachedProperty = function(p)
     return this[vStorageField];
   }
 
-  qx.Proto[qx.OO.C_INVALIDATE + vUpName] = function()
+  qx.Proto["_invalidate" + vUpName] = function()
   {
     if (this[vStorageField] != null)
     {
@@ -245,7 +245,7 @@ qx.OO.addCachedProperty = function(p)
     }
   }
 
-  qx.Proto[qx.OO.C_RECOMPUTE + vUpName] = function()
+  qx.Proto["_recompute" + vUpName] = function()
   {
     var vOld = this[vStorageField];
     var vNew = this[vComputerName]();
@@ -270,7 +270,7 @@ qx.Class.addPropertyGroup = function(p)
   /* --------------------------------------------------------------------------------
       PRE-CHECKS
   -------------------------------------------------------------------------------- */
-  if(typeof p !== qx.constant.Type.OBJECT) {
+  if(typeof p !== "object") {
     throw new Error("Param should be an object!");
   }
 
@@ -292,18 +292,18 @@ qx.Class.addPropertyGroup = function(p)
   p.setter = [];
 
   for (var i=0, l=p.members.length; i<l; i++) {
-    p.setter.push(qx.OO.C_SET + qx.lang.String.toFirstUp(p.members[i]));
+    p.setter.push("set" + qx.lang.String.toFirstUp(p.members[i]));
   }
 
   for (var i=0, l=p.members.length; i<l; i++) {
-    p.getter.push(qx.OO.C_GET + qx.lang.String.toFirstUp(p.members[i]));
+    p.getter.push("get" + qx.lang.String.toFirstUp(p.members[i]));
   }
 
 
   /* --------------------------------------------------------------------------------
       GETTER
   -------------------------------------------------------------------------------- */
-  qx.Proto[qx.OO.C_GET + p.method] = function()
+  qx.Proto["get" + p.method] = function()
   {
     var a = [];
     var g = p.getter;
@@ -322,7 +322,7 @@ qx.Class.addPropertyGroup = function(p)
   switch(p.mode)
   {
     case "shorthand":
-      qx.Proto[qx.OO.C_SET + p.method] = function()
+      qx.Proto["set" + p.method] = function()
       {
         if (arguments.length > 4 || arguments.length == 0) {
           throw new Error("Invalid number of arguments for property " + p.name + ": " + arguments);
@@ -347,7 +347,7 @@ qx.Class.addPropertyGroup = function(p)
       break;
 
     default:
-      qx.Proto[qx.OO.C_SET + p.method] = function()
+      qx.Proto["set" + p.method] = function()
       {
         var s = p.setter;
         var l = s.length;
@@ -365,11 +365,11 @@ qx.Class.addPropertyGroup = function(p)
 
 qx.Class.removeProperty = function(p)
 {
-  if (typeof qx.Proto._properties !== qx.constant.Type.STRING) {
+  if (typeof qx.Proto._properties !== "string") {
     throw new Error("Has no properties!");
   }
 
-  if(typeof p !== qx.constant.Type.OBJECT) {
+  if(typeof p !== "object") {
     throw new Error("Param should be an object!");
   }
 
@@ -383,7 +383,7 @@ qx.Class.removeProperty = function(p)
   p.method = qx.lang.String.toFirstUp(p.name);
   p.implMethod = p.impl ? qx.lang.String.toFirstUp(p.impl) : p.method;
 
-  var valueKey = qx.OO.C_VALUE + p.method;
+  var valueKey = "_value" + p.method;
 
   // Remove property from list
   pp._properties = qx.lang.String.remove(pp._properties, p.name);
@@ -392,18 +392,18 @@ qx.Class.removeProperty = function(p)
   pp[valueKey] = null;
 
   // Reset methods
-  pp[qx.OO.C_GET + p.method] = null;
-  pp[qx.OO.C_SET + p.method] = null;
-  pp[qx.OO.C_RESET + p.method] = null;
-  pp[qx.OO.C_APPLY + p.method] = null;
-  pp[qx.OO.C_FORCE + p.method] = null;
-  pp[qx.OO.C_GETDEFAULT + p.method] = null;
-  pp[qx.OO.C_SETDEFAULT + p.method] = null;
+  pp["get" + p.method] = null;
+  pp["set" + p.method] = null;
+  pp["reset" + p.method] = null;
+  pp["apply" + p.method] = null;
+  pp["force" + p.method] = null;
+  pp["getDefault" + p.method] = null;
+  pp["setDefault" + p.method] = null;
 }
 
 qx.Class._createProperty = function(p)
 {
-  if(typeof p !== qx.constant.Type.OBJECT) {
+  if(typeof p !== "object") {
     throw new Error("AddProperty: Param should be an object!");
   }
 
@@ -434,7 +434,7 @@ qx.Class._createProperty = function(p)
 
 
 
-  if (typeof p.type === qx.constant.Type.STRING) {
+  if (typeof p.type === "string") {
     p.hasType = true;
   }
   else if (typeof p.type !== "undefined") {
@@ -444,7 +444,7 @@ qx.Class._createProperty = function(p)
     p.hasType = false;
   }
 
-  if (typeof p.instance === qx.constant.Type.STRING) {
+  if (typeof p.instance === "string") {
     p.hasInstance = true;
   }
   else if (typeof p.instance !== "undefined") {
@@ -454,7 +454,7 @@ qx.Class._createProperty = function(p)
     p.hasInstance = false;
   }
 
-  if (typeof p.classname === qx.constant.Type.STRING) {
+  if (typeof p.classname === "string") {
     p.hasClassName = true;
   }
   else if (typeof p.classname !== "undefined") {
@@ -480,19 +480,19 @@ qx.Class._createProperty = function(p)
   p.up = p.name.toUpperCase();
 
   // register global uppercase name
-  qx.OO[qx.OO.C_GLOBALPROPERTYREF + p.up] = p.name;
+  qx.OO["PROPERTY_" + p.up] = p.name;
 
-  var valueKey = qx.OO.C_VALUE + p.method;
-  var evalKey = qx.OO.C_EVAL + p.method;
-  var changeKey = qx.OO.C_CHANGE + p.method;
-  var modifyKey = qx.OO.C_MODIFY + p.implMethod;
-  var checkKey = qx.OO.C_CHECK + p.implMethod;
+  var valueKey = "_value" + p.method;
+  var evalKey = "_eval" + p.method;
+  var changeKey = "change" + p.method;
+  var modifyKey = "_modify" + p.implMethod;
+  var checkKey = "_check" + p.implMethod;
 
   if (!qx.OO.setter[p.name])
   {
-    qx.OO.setter[p.name] = qx.OO.C_SET + p.method;
-    qx.OO.getter[p.name] = qx.OO.C_GET + p.method;
-    qx.OO.resetter[p.name] = qx.OO.C_RESET + p.method;
+    qx.OO.setter[p.name] = "set" + p.method;
+    qx.OO.getter[p.name] = "get" + p.method;
+    qx.OO.resetter[p.name] = "reset" + p.method;
     qx.OO.values[p.name] = valueKey;
   }
 
@@ -500,49 +500,49 @@ qx.Class._createProperty = function(p)
   if (p.hasUnitDetection)
   {
     // computed unit
-    var cu = qx.OO.C_COMPUTED + p.method;
-    pp[cu + qx.OO.C_UNIT_VALUE] = null;
-    pp[cu + qx.OO.C_UNIT_PARSED] = null;
-    pp[cu + qx.OO.C_UNIT_TYPE] = null;
-    pp[cu + qx.OO.C_UNIT_TYPE_NULL] = true;
-    pp[cu + qx.OO.C_UNIT_TYPE_PIXEL] = false;
-    pp[cu + qx.OO.C_UNIT_TYPE_PERCENT] = false;
-    pp[cu + qx.OO.C_UNIT_TYPE_AUTO] = false;
-    pp[cu + qx.OO.C_UNIT_TYPE_FLEX] = false;
+    var cu = "_computed" + p.method;
+    pp[cu + "Value"] = null;
+    pp[cu + "Parsed"] = null;
+    pp[cu + "Type"] = null;
+    pp[cu + "TypeNull"] = true;
+    pp[cu + "TypePixel"] = false;
+    pp[cu + "TypePercent"] = false;
+    pp[cu + "TypeAuto"] = false;
+    pp[cu + "TypeFlex"] = false;
 
-    var unitDetectionKey = qx.OO.C_UNITDETECTION + qx.lang.String.toFirstUp(p.unitDetection);
+    var unitDetectionKey = "_unitDetection" + qx.lang.String.toFirstUp(p.unitDetection);
   }
 
   // apply default value
   pp[valueKey] = p.defaultValue;
 
   // building getFoo(): Returns current stored value
-  pp[qx.OO.C_GET + p.method] = function() {
+  pp["get" + p.method] = function() {
     return this[valueKey];
   };
 
   // building forceFoo(): Set (override) without do anything else
-  pp[qx.OO.C_FORCE + p.method] = function(newValue) {
+  pp["force" + p.method] = function(newValue) {
     return this[valueKey] = newValue;
   };
 
   // building resetFoo(): Reset value to default value
-  pp[qx.OO.C_RESET + p.method] = function() {
-    return this[qx.OO.C_SET + p.method](p.defaultValue);
+  pp["reset" + p.method] = function() {
+    return this["set" + p.method](p.defaultValue);
   };
 
   // building toggleFoo(): Switching between two boolean values
-  if (p.type === qx.constant.Type.BOOLEAN)
+  if (p.type === "boolean")
   {
-    pp[qx.OO.C_TOGGLE + p.method] = function(newValue) {
-      return this[qx.OO.C_SET + p.method](!this[valueKey]);
+    pp["toggle" + p.method] = function(newValue) {
+      return this["set" + p.method](!this[valueKey]);
     };
   }
 
   if (p.allowMultipleArguments || p.hasConvert || p.hasInstance || p.hasClassName || p.hasPossibleValues || p.hasUnitDetection || p.addToQueue || p.addToQueueRuntime || p.addToStateQueue)
   {
     // building setFoo(): Setup new value, do type and change detection, converting types, call unit detection, ...
-    pp[qx.OO.C_SET + p.method] = function(newValue)
+    pp["set" + p.method] = function(newValue)
     {
       // convert multiple arguments to array
       if (p.allowMultipleArguments && arguments.length > 1) {
@@ -661,7 +661,7 @@ qx.Class._createProperty = function(p)
   else
   {
     // building setFoo(): Setup new value, do type and change detection, converting types, call unit detection, ...
-    pp[qx.OO.C_SET + p.method] = function(newValue)
+    pp["set" + p.method] = function(newValue)
     {
       // this.debug("Fast Setter: " + p.name);
 
@@ -737,13 +737,13 @@ qx.Class._createProperty = function(p)
   }
 
   // building user configured get alias for property
-  if (typeof p.getAlias === qx.constant.Type.STRING) {
-    pp[p.getAlias] = pp[qx.OO.C_GET + p.method];
+  if (typeof p.getAlias === "string") {
+    pp[p.getAlias] = pp["get" + p.method];
   }
 
   // building user configured set alias for property
-  if (typeof p.setAlias === qx.constant.Type.STRING) {
-    pp[p.setAlias] = pp[qx.OO.C_SET + p.method];
+  if (typeof p.setAlias === "string") {
+    pp[p.setAlias] = pp["set" + p.method];
   }
 }
 
@@ -756,22 +756,22 @@ qx.Class.addProperty = function(p)
   qx.OO._createProperty(p);
 
   // add property to (all) property list
-  if (typeof qx.Proto._properties !== qx.constant.Type.STRING) {
+  if (typeof qx.Proto._properties !== "string") {
     qx.Proto._properties = p.name;
   } else {
-    qx.Proto._properties += qx.constant.Core.COMMA + p.name;
+    qx.Proto._properties += "," + p.name;
   }
 
   // add property to object property list
   switch(p.type)
   {
     case undefined:
-    case qx.constant.Type.OBJECT:
-    case qx.constant.Type.FUNCTION:
-      if (typeof qx.Proto._objectproperties !== qx.constant.Type.STRING) {
+    case "object":
+    case "function":
+      if (typeof qx.Proto._objectproperties !== "string") {
         qx.Proto._objectproperties = p.name;
       } else {
-        qx.Proto._objectproperties += qx.constant.Core.COMMA + p.name;
+        qx.Proto._objectproperties += "," + p.name;
       }
   }
 }

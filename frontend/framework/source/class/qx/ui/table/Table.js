@@ -34,16 +34,16 @@ function(tableModel) {
 
   // Create the child widgets
   this._scrollerParent = new qx.ui.layout.HorizontalBoxLayout;
-  this._scrollerParent.setDimension(qx.constant.Core.HUNDREDPERCENT, qx.constant.Core.FLEX);
+  this._scrollerParent.setDimension("100%", "1*");
   this._scrollerParent.setSpacing(1);
 
   this._statusBar = new qx.ui.basic.Label;
   this._statusBar.setAppearance("table-focus-statusbar");
-  this._statusBar.setDimension(qx.constant.Core.HUNDREDPERCENT, qx.constant.Core.AUTO);
+  this._statusBar.setDimension("100%", "auto");
 
   this.add(this._scrollerParent, this._statusBar);
 
-  this._columnVisibilityBt = new qx.ui.toolbar.ToolBarButton(null, "widget/table/selectColumnOrder.png");
+  this._columnVisibilityBt = new qx.ui.toolbar.Button(null, "widget/table/selectColumnOrder.png");
   this._columnVisibilityBt.addEventListener("execute", this._onColumnVisibilityBtExecuted, this);
 
   // Create the models
@@ -61,8 +61,8 @@ function(tableModel) {
 
   // Make focusable
   this.setTabIndex(1);
-  this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
-  this.addEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
+  this.addEventListener("keydown", this._onkeydown);
+  this.addEventListener("keypress", this._onkeypress);
   this.addEventListener("changeFocused", this._onFocusChanged);
 
   this._focusedCol = 0;
@@ -75,53 +75,53 @@ qx.Class.DEFAULT_DATA_ROW_RENDERER = new qx.ui.table.DefaultDataRowRenderer();
 
 
 /** The selection model. */
-qx.OO.addProperty({ name:"selectionModel", type:qx.constant.Type.OBJECT, instance : "qx.ui.table.SelectionModel" });
+qx.OO.addProperty({ name:"selectionModel", type:"object", instance : "qx.ui.table.SelectionModel" });
 
 /** The table model. */
-qx.OO.addProperty({ name:"tableModel", type:qx.constant.Type.OBJECT, instance : "qx.ui.table.TableModel" });
+qx.OO.addProperty({ name:"tableModel", type:"object", instance : "qx.ui.table.TableModel" });
 
 /** The table column model. */
-qx.OO.addProperty({ name:"tableColumnModel", type:qx.constant.Type.OBJECT, instance : "qx.ui.table.TableColumnModel" });
+qx.OO.addProperty({ name:"tableColumnModel", type:"object", instance : "qx.ui.table.TableColumnModel" });
 
 /** The height of the table rows. */
-qx.OO.addProperty({ name:"rowHeight", type:qx.constant.Type.NUMBER, defaultValue:15 });
+qx.OO.addProperty({ name:"rowHeight", type:"number", defaultValue:15 });
 
 /** Whether to show the status bar */
-qx.OO.addProperty({ name:"statusBarVisible", type:qx.constant.Type.BOOLEAN, defaultValue:true });
+qx.OO.addProperty({ name:"statusBarVisible", type:"boolean", defaultValue:true });
 
 /** Whether to show the column visibility button */
-qx.OO.addProperty({ name:"columnVisibilityButtonVisible", type:qx.constant.Type.BOOLEAN, defaultValue:true });
+qx.OO.addProperty({ name:"columnVisibilityButtonVisible", type:"boolean", defaultValue:true });
 
 /**
  * {int[]} The number of columns per meta column. If the last array entry is -1,
  * this meta column will get the remaining columns.
  */
-qx.OO.addProperty({ name:"metaColumnCounts", type:qx.constant.Type.OBJECT });
+qx.OO.addProperty({ name:"metaColumnCounts", type:"object" });
 
 /**
  * Whether the focus should moved when the mouse is moved over a cell. If false
  * the focus is only moved on mouse clicks.
  */
-qx.OO.addProperty({ name:"focusCellOnMouseMove", type:qx.constant.Type.BOOLEAN, defaultValue:false });
+qx.OO.addProperty({ name:"focusCellOnMouseMove", type:"boolean", defaultValue:false });
 
 /**
  * Whether the table should keep the first visible row complete. If set to false,
  * the first row may be rendered partial, depending on the vertical scroll value.
  */
-qx.OO.addProperty({ name:"keepFirstVisibleRowComplete", type:qx.constant.Type.BOOLEAN, defaultValue:true });
+qx.OO.addProperty({ name:"keepFirstVisibleRowComplete", type:"boolean", defaultValue:true });
 
 /**
  * Whether the table cells should be updated when only the selection or the
  * focus changed. This slows down the table update but allows to react on a
  * changed selection or a changed focus in a cell renderer.
  */
-qx.OO.addProperty({ name:"alwaysUpdateCells", type:qx.constant.Type.BOOLEAN, defaultValue:false });
+qx.OO.addProperty({ name:"alwaysUpdateCells", type:"boolean", defaultValue:false });
 
 /** The height of the header cells. */
-qx.OO.addProperty({ name:"headerCellHeight", type:qx.constant.Type.NUMBER, defaultValue:16, allowNull:false });
+qx.OO.addProperty({ name:"headerCellHeight", type:"number", defaultValue:16, allowNull:false });
 
 /** The renderer to use for styling the rows. */
-qx.OO.addProperty({ name:"dataRowRenderer", type:qx.constant.Type.OBJECT, instance:"qx.ui.table.DataRowRenderer", defaultValue:qx.Class.DEFAULT_DATA_ROW_RENDERER, allowNull:false });
+qx.OO.addProperty({ name:"dataRowRenderer", type:"object", instance:"qx.ui.table.DataRowRenderer", defaultValue:qx.Class.DEFAULT_DATA_ROW_RENDERER, allowNull:false });
 
 
 // property modifier
@@ -774,8 +774,8 @@ qx.Proto._getMetaColumnAtPageX = function(pageX) {
   var scrollerArr = this._getPaneScrollerArr();
   for (var i = 0; i < scrollerArr.length; i++) {
     var elem = scrollerArr[i].getElement();
-    if (pageX >= qx.dom.DomLocation.getPageBoxLeft(elem)
-      && pageX <= qx.dom.DomLocation.getPageBoxRight(elem))
+    if (pageX >= qx.dom.Location.getPageBoxLeft(elem)
+      && pageX <= qx.dom.Location.getPageBoxRight(elem))
     {
       return i;
     }
@@ -841,7 +841,7 @@ qx.Proto._updateScrollerWidths = function() {
   var scrollerArr = this._getPaneScrollerArr();
   for (var i = 0; i < scrollerArr.length; i++) {
     var isLast = (i == (scrollerArr.length - 1));
-    var width = isLast ? qx.constant.Core.FLEX : scrollerArr[i].getTablePaneModel().getTotalWidth();
+    var width = isLast ? "1*" : scrollerArr[i].getTablePaneModel().getTotalWidth();
     scrollerArr[i].setWidth(width);
   }
 }
@@ -907,7 +907,7 @@ qx.Proto._toggleColumnVisibilityMenu = function() {
     // Create the new menu
     var menu = new qx.ui.menu.Menu;
 
-    menu.addEventListener(qx.constant.Event.DISAPPEAR, function(evt) {
+    menu.addEventListener("disappear", function(evt) {
       this._columnVisibilityMenuCloseTime = new Date().getTime();
     }, this);
 
@@ -917,7 +917,7 @@ qx.Proto._toggleColumnVisibilityMenu = function() {
       var col = columnModel.getOverallColumnAtX(x);
       var visible = columnModel.isColumnVisible(col);
       var cmd = { col:col }
-      var bt = new qx.ui.menu.MenuCheckBox(tableModel.getColumnName(col), null, visible);
+      var bt = new qx.ui.menu.CheckBox(tableModel.getColumnName(col), null, visible);
 
       var handler = this._createColumnVisibilityCheckBoxHandler(col);
       bt._handler = handler;
@@ -933,7 +933,7 @@ qx.Proto._toggleColumnVisibilityMenu = function() {
     // Show the menu
     var btElem = this._columnVisibilityBt.getElement();
     menu.setRestrictToPageOnOpen(false);
-    menu.setTop(qx.dom.DomLocation.getClientBoxBottom(btElem));
+    menu.setTop(qx.dom.Location.getClientBoxBottom(btElem));
     menu.setLeft(-1000);
 
     // NOTE: We have to show the menu in a timeout, otherwise it won't be shown
@@ -942,7 +942,7 @@ qx.Proto._toggleColumnVisibilityMenu = function() {
       menu.show();
       qx.ui.core.Widget.flushGlobalQueues();
 
-      menu.setLeft(qx.dom.DomLocation.getClientBoxRight(btElem) - menu.getOffsetWidth());
+      menu.setLeft(qx.dom.Location.getClientBoxRight(btElem) - menu.getOffsetWidth());
       qx.ui.core.Widget.flushGlobalQueues();
     }, 0);
   } else {
@@ -1055,8 +1055,8 @@ qx.Proto.dispose = function() {
     tableColumnModel.removeEventListener("orderChanged", this._onColOrderChanged, this);
   }
 
-  this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
-  this.removeEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
+  this.removeEventListener("keydown", this._onkeydown);
+  this.removeEventListener("keypress", this._onkeypress);
 
   return qx.ui.layout.VerticalBoxLayout.prototype.dispose.call(this);
 }

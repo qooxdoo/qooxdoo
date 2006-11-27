@@ -22,12 +22,12 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.pageview.buttonview.ButtonViewPane", qx.ui.pageview.AbstractPageViewPane,
+qx.OO.defineClass("qx.ui.pageview.buttonview.Pane", qx.ui.pageview.AbstractPageViewPane,
 function() {
   qx.ui.pageview.AbstractPageViewPane.call(this);
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "bar-view-pane" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "bar-view-pane" });
 
 
 
@@ -45,7 +45,7 @@ qx.Proto._applyStateAppearance = function()
 {
   var vPos = this.getParent().getBarPosition();
 
-  this._states.barHorizontal = vPos === qx.constant.Layout.ALIGN_TOP || vPos === qx.constant.Layout.ALIGN_BOTTOM;
+  this._states.barHorizontal = vPos === "top" || vPos === "bottom";
 
   qx.ui.pageview.AbstractPageViewButton.prototype._applyStateAppearance.call(this);
 }

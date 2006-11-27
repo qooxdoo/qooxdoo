@@ -22,7 +22,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.theme.color.WindowsLunaGreenColorTheme", qx.renderer.theme.ColorTheme,
+qx.OO.defineClass("qx.theme.color.WindowsLunaGreen", qx.renderer.theme.ColorTheme,
 function() {
   qx.renderer.theme.ColorTheme.call(this, "Windows Luna Green");
 });

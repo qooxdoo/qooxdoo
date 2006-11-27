@@ -45,42 +45,42 @@ function()
 /*!
   The spacing between childrens. Could be any positive integer value.
 */
-qx.OO.addProperty({ name : "horizontalSpacing", type : qx.constant.Type.NUMBER, defaultValue : 0, addToQueueRuntime : true, impl : "layout" });
+qx.OO.addProperty({ name : "horizontalSpacing", type : "number", defaultValue : 0, addToQueueRuntime : true, impl : "layout" });
 
 /*!
   The spacing between childrens. Could be any positive integer value.
 */
-qx.OO.addProperty({ name : "verticalSpacing", type : qx.constant.Type.NUMBER, defaultValue : 0, addToQueueRuntime : true, impl : "layout" });
+qx.OO.addProperty({ name : "verticalSpacing", type : "number", defaultValue : 0, addToQueueRuntime : true, impl : "layout" });
 
 /*!
   The horizontal align of the children. Allowed values are: "left", "center" and "right"
 */
-qx.OO.addProperty({ name : "horizontalChildrenAlign", type : qx.constant.Type.STRING, defaultValue : "left", possibleValues : [ "left", "center", "right" ], addToQueueRuntime : true });
+qx.OO.addProperty({ name : "horizontalChildrenAlign", type : "string", defaultValue : "left", possibleValues : [ "left", "center", "right" ], addToQueueRuntime : true });
 
 /*!
   The vertical align of the children. Allowed values are: "top", "middle" and "bottom"
 */
-qx.OO.addProperty({ name : "verticalChildrenAlign", type : qx.constant.Type.STRING, defaultValue : "top", possibleValues : [ "top", "middle", "bottom" ], addToQueueRuntime : true });
+qx.OO.addProperty({ name : "verticalChildrenAlign", type : "string", defaultValue : "top", possibleValues : [ "top", "middle", "bottom" ], addToQueueRuntime : true });
 
 /*!
   Cell padding top of all cells, if not locally defined
 */
-qx.OO.addProperty({ name : "cellPaddingTop", type : qx.constant.Type.NUMBER });
+qx.OO.addProperty({ name : "cellPaddingTop", type : "number" });
 
 /*!
   Cell padding right of all cells, if not locally defined
 */
-qx.OO.addProperty({ name : "cellPaddingRight", type : qx.constant.Type.NUMBER });
+qx.OO.addProperty({ name : "cellPaddingRight", type : "number" });
 
 /*!
   Cell padding bottom of all cells, if not locally defined
 */
-qx.OO.addProperty({ name : "cellPaddingBottom", type : qx.constant.Type.NUMBER });
+qx.OO.addProperty({ name : "cellPaddingBottom", type : "number" });
 
 /*!
   Cell padding left of all cells, if not locally defined
 */
-qx.OO.addProperty({ name : "cellPaddingLeft", type : qx.constant.Type.NUMBER });
+qx.OO.addProperty({ name : "cellPaddingLeft", type : "number" });
 
 
 
@@ -305,7 +305,7 @@ qx.Proto._invalidateColumnLayout = function()
   }
 
   this.forEachVisibleChild(function() {
-    this.addToQueue(qx.OO.PROPERTY_WIDTH);
+    this.addToQueue("width");
   });
 }
 
@@ -352,7 +352,7 @@ qx.Proto._invalidateRowLayout = function()
   }
 
   this.forEachVisibleChild(function() {
-    this.addToQueue(qx.OO.PROPERTY_HEIGHT);
+    this.addToQueue("height");
   });
 }
 

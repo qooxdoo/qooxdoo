@@ -22,7 +22,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.menu.MenuBarButton", qx.ui.toolbar.ToolBarMenuButton,
+qx.OO.defineClass("qx.ui.menubar.Button", qx.ui.toolbar.MenuButton,
 function(vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash) {
-  qx.ui.toolbar.ToolBarMenuButton.call(this, vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash);
+  qx.ui.toolbar.MenuButton.call(this, vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash);
 });

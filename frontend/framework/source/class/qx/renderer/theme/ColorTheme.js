@@ -42,7 +42,7 @@ function(vTitle)
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "title", type : qx.constant.Type.STRING, allowNull : false, defaultValue : qx.constant.Core.EMPTY });
+qx.OO.addProperty({ name : "title", type : "string", allowNull : false, defaultValue : "" });
 
 
 
@@ -67,11 +67,11 @@ qx.Proto._colors = {};
 */
 
 qx.Proto.getValueByName = function(vName) {
-  return this._colors[vName] || qx.constant.Core.EMPTY;
+  return this._colors[vName] || "";
 }
 
 qx.Proto.getStyleByName = function(vName) {
-  return this._compiledColors[vName] || qx.constant.Core.EMPTY;
+  return this._compiledColors[vName] || "";
 }
 
 

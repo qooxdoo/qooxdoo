@@ -22,10 +22,10 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.menu.MenuRadioButton", qx.ui.menu.MenuCheckBox,
+qx.OO.defineClass("qx.ui.menu.RadioButton", qx.ui.menu.CheckBox,
 function(vLabel, vCommand, vChecked)
 {
-  qx.ui.menu.MenuCheckBox.call(this, vLabel, vCommand, vChecked);
+  qx.ui.menu.CheckBox.call(this, vLabel, vCommand, vChecked);
 
   qx.manager.object.ImageManager.getInstance().preload("widget/menu/radiobutton.gif");
 });
@@ -37,12 +37,12 @@ function(vLabel, vCommand, vChecked)
 ---------------------------------------------------------------------------
 */
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "menu-radio-button" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "menu-radio-button" });
 
 /*!
   The assigned qx.manager.selection.RadioManager which handles the switching between registered buttons
 */
-qx.OO.addProperty({ name : "manager", type : qx.constant.Type.OBJECT, instance : "qx.manager.selection.RadioManager", allowNull : true });
+qx.OO.addProperty({ name : "manager", type : "object", instance : "qx.manager.selection.RadioManager", allowNull : true });
 
 
 
@@ -71,7 +71,7 @@ qx.Proto._modifyChecked = function(propValue, propOldValue, propData)
     }
   }
 
-  propValue ? this.addState(qx.ui.form.Button.STATE_CHECKED) : this.removeState(qx.ui.form.Button.STATE_CHECKED);
+  propValue ? this.addState("checked") : this.removeState("checked");
   this.getIconObject().setSource(propValue ? "widget/menu/radiobutton.gif" : "static/image/blank.gif");
 
   return true;
@@ -114,5 +114,5 @@ qx.Proto.execute = function()
   this.setChecked(true);
 
   // Intentionally bypass superclass and call super.super.execute
-  qx.ui.menu.MenuButton.prototype.execute.call(this);
+  qx.ui.menu.Button.prototype.execute.call(this);
 }

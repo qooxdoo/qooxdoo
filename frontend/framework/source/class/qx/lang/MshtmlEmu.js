@@ -85,7 +85,7 @@ if (qx.sys.Client.getInstance().isGecko())
   });
 
   CSSStyleDeclaration.prototype.__defineSetter__("pixelLeft", function(vValue) {
-    this.left = vValue + qx.constant.Core.PIXEL;
+    this.left = vValue + "px";
   });
 
   CSSStyleDeclaration.prototype.__defineGetter__("pixelTop", function() {
@@ -93,7 +93,7 @@ if (qx.sys.Client.getInstance().isGecko())
   });
 
   CSSStyleDeclaration.prototype.__defineSetter__("pixelTop", function(vValue) {
-    this.top = vValue + qx.constant.Core.PIXEL;
+    this.top = vValue + "px";
   });
 
   CSSStyleDeclaration.prototype.__defineGetter__("pixelWidth", function() {
@@ -101,7 +101,7 @@ if (qx.sys.Client.getInstance().isGecko())
   });
 
   CSSStyleDeclaration.prototype.__defineSetter__("pixelWidth", function(vValue) {
-    this.width = vValue + qx.constant.Core.PIXEL;
+    this.width = vValue + "px";
   });
 
   CSSStyleDeclaration.prototype.__defineGetter__("pixelHeight", function() {
@@ -109,7 +109,7 @@ if (qx.sys.Client.getInstance().isGecko())
   });
 
   CSSStyleDeclaration.prototype.__defineSetter__("pixelHeight", function(vValue) {
-    this.height = vValue + qx.constant.Core.PIXEL;
+    this.height = vValue + "px";
   });
 
 
@@ -126,7 +126,7 @@ if (qx.sys.Client.getInstance().isGecko())
     Support Microsoft's "all" property
   */
   HTMLDocument.prototype.__defineGetter__("all", function() {
-    return this.getElementsByTagName(qx.constant.Core.STAR);
+    return this.getElementsByTagName("*");
   });
 
   /*
@@ -151,7 +151,7 @@ if (qx.sys.Client.getInstance().isGecko())
     Mimic Microsoft's "all" property
   */
   HTMLElement.prototype.__defineGetter__("all", function() {
-    return this.getElementsByTagName(qx.constant.Core.STAR);
+    return this.getElementsByTagName("*");
   });
 
   /*
@@ -250,7 +250,7 @@ if (qx.sys.Client.getInstance().isGecko())
     this.dispatchEvent(vEvent);
 
     // not sure that this should be here??
-    if (typeof this[vName] === qx.constant.Type.FUNCTION)
+    if (typeof this[vName] === "function")
     {
       this[vName]();
     }
@@ -285,11 +285,11 @@ if (qx.sys.Client.getInstance().isGecko())
   });
 
   Event.prototype.__defineGetter__("fromElement",function() {
-    return (this.type == qx.constant.Event.MOUSEOVER) ? this.relatedTarget : (this.type == qx.constant.Event.MOUSEOUT) ? this.srcElement : null;
+    return (this.type == "mouseover") ? this.relatedTarget : (this.type == "mouseout") ? this.srcElement : null;
   });
 
   Event.prototype.__defineGetter__("toElement", function() {
-    return (this.type == qx.constant.Event.MOUSEOUT) ? this.relatedTarget : (this.type == qx.constant.Event.MOUSEOVER) ? this.srcElement : null;
+    return (this.type == "mouseout") ? this.relatedTarget : (this.type == "mouseover") ? this.srcElement : null;
   });
 
   /*

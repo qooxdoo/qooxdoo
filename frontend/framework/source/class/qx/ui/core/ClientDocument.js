@@ -19,7 +19,7 @@
 /* ************************************************************************
 
 #module(ui_core)
-#require(qx.dom.DomStyleSheet)
+#require(qx.dom.StyleSheet)
 #require(qx.event.handler.EventHandler)
 #optional(qx.client.NativeWindow)
 #optional(qx.ui.window.Window)
@@ -86,9 +86,9 @@ function()
   */
 });
 
-qx.OO.addProperty({ name : "globalCursor", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "globalCursor", type : "string" });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "client-document" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "client-document" });
 
 
 
@@ -180,8 +180,8 @@ qx.Proto._getBlocker = function()
     this._blocker = new qx.ui.core.ClientDocumentBlocker;
 
     // Add blocker events
-    this._blocker.addEventListener(qx.constant.Event.MOUSEDOWN, this.blockHelper, this);
-    this._blocker.addEventListener(qx.constant.Event.MOUSEUP, this.blockHelper, this);
+    this._blocker.addEventListener("mousedown", this.blockHelper, this);
+    this._blocker.addEventListener("mouseup", this.blockHelper, this);
 
     // Add blocker to client document
     this.add(this._blocker);
@@ -272,19 +272,19 @@ qx.Proto.release = function(vActiveChild)
 */
 
 qx.Proto.createStyleElement = function(vCssText) {
-  return qx.dom.DomStyleSheet.createElement(vCssText);
+  return qx.dom.StyleSheet.createElement(vCssText);
 }
 
 qx.Proto.addCssRule = function(vSheet, vSelector, vStyle) {
-  return qx.dom.DomStyleSheet.addRule(vSheet, vSelector, vStyle);
+  return qx.dom.StyleSheet.addRule(vSheet, vSelector, vStyle);
 }
 
 qx.Proto.removeCssRule = function(vSheet, vSelector) {
-  return qx.dom.DomStyleSheet.removeRule(vSheet, vSelector);
+  return qx.dom.StyleSheet.removeRule(vSheet, vSelector);
 }
 
 qx.Proto.removeAllCssRules = function(vSheet) {
-  return qx.dom.DomStyleSheet.removeAllRules(vSheet);
+  return qx.dom.StyleSheet.removeAllRules(vSheet);
 }
 
 
@@ -298,13 +298,13 @@ qx.Proto.removeAllCssRules = function(vSheet) {
 ---------------------------------------------------------------------------
 */
 if (qx.Settings.getValueOfClass("qx.ui.core.ClientDocument", "boxModelCorrection")) {
-  qx.dom.DomStyleSheet.createElement("html,body{margin:0;border:0;padding:0;}" +
+  qx.dom.StyleSheet.createElement("html,body{margin:0;border:0;padding:0;}" +
     " html{border:0 none;} *{" + qx.sys.Client.getInstance().getEngineBoxSizingAttribute() +
     ":border-box;} img{" + qx.sys.Client.getInstance().getEngineBoxSizingAttribute() +
     ":content-box;}");
 }
 if (qx.Settings.getValueOfClass("qx.ui.core.ClientDocument", "enableApplicationLayout")) {
-  qx.dom.DomStyleSheet.createElement("html,body{width:100%;height:100%;overflow:hidden;}");
+  qx.dom.StyleSheet.createElement("html,body{width:100%;height:100%;overflow:hidden;}");
 }
 
 
@@ -324,12 +324,12 @@ qx.Proto._modifyGlobalCursor = function(propValue, propOldValue, propData)
   }
 
   // Selector based remove does not work with the "*" selector in mshtml
-  // this.removeCssRule(this._globalCursorStyleSheet, qx.constant.Core.STAR);
+  // this.removeCssRule(this._globalCursorStyleSheet, "*");
 
   this.removeAllCssRules(this._globalCursorStyleSheet);
 
   if (propValue) {
-    this.addCssRule(this._globalCursorStyleSheet, qx.constant.Core.STAR, "cursor:" + propValue + " !important");
+    this.addCssRule(this._globalCursorStyleSheet, "*", "cursor:" + propValue + " !important");
   }
 
   return true;
@@ -415,8 +415,8 @@ qx.Proto.dispose = function()
 
   if (this._blocker)
   {
-    this._blocker.removeEventListener(qx.constant.Event.MOUSEDOWN, this.blockHelper, this);
-    this._blocker.removeEventListener(qx.constant.Event.MOUSEUP, this.blockHelper, this);
+    this._blocker.removeEventListener("mousedown", this.blockHelper, this);
+    this._blocker.removeEventListener("mouseup", this.blockHelper, this);
 
     this._blocker.dispose();
     this._blocker = null;

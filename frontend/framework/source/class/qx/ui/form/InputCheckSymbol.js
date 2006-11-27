@@ -48,10 +48,10 @@ function()
   this.setChecked(false);
 });
 
-qx.OO.addProperty({ name : "name", type : qx.constant.Type.STRING, impl : "apply" });
+qx.OO.addProperty({ name : "name", type : "string", impl : "apply" });
 qx.OO.addProperty({ name : "value", impl : "apply" });
 qx.OO.addProperty({ name : "type", impl : "apply" });
-qx.OO.addProperty({ name : "checked", type : qx.constant.Type.BOOLEAN, impl : "apply", getAlias : "isChecked" });
+qx.OO.addProperty({ name : "checked", type : "boolean", impl : "apply", getAlias : "isChecked" });
 
 qx.Proto._modifyApply = function(propValue, propOldValue, propData) {
   return this.setHtmlProperty(propData.name, propValue);
@@ -88,6 +88,6 @@ if (qx.sys.Client.getInstance().isMshtml())
 
 qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
 {
-  propValue ? this.removeHtmlAttribute(qx.constant.Core.DISABLED) : this.setHtmlAttribute(qx.constant.Core.DISABLED, qx.constant.Core.DISABLED);
+  propValue ? this.removeHtmlAttribute("disabled") : this.setHtmlAttribute("disabled", "disabled");
   return qx.ui.basic.Terminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
 }

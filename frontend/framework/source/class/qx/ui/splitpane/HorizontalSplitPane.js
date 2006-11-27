@@ -33,7 +33,7 @@
  */
 qx.OO.defineClass("qx.ui.splitpane.HorizontalSplitPane", qx.ui.splitpane.SplitPane,
 function(firstSize, secondSize) {
-  qx.ui.splitpane.SplitPane.call(this, qx.constant.Layout.ORIENTATION_HORIZONTAL, firstSize, secondSize);
+  qx.ui.splitpane.SplitPane.call(this, "horizontal", firstSize, secondSize);
 });
 
 

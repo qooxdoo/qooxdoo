@@ -22,7 +22,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.listview.ListViewHeader", qx.ui.layout.HorizontalBoxLayout,
+qx.OO.defineClass("qx.ui.listview.Header", qx.ui.layout.HorizontalBoxLayout,
 function(vColumns)
 {
   qx.ui.layout.HorizontalBoxLayout.call(this);
@@ -44,15 +44,15 @@ function(vColumns)
 
   for (var vCol in vColumns)
   {
-    vHeadCell = new qx.ui.listview.ListViewHeaderCell(vColumns[vCol], vCol);
-    vHeadSeparator = new qx.ui.listview.ListViewHeaderSeparator;
+    vHeadCell = new qx.ui.listview.HeaderCell(vColumns[vCol], vCol);
+    vHeadSeparator = new qx.ui.listview.HeaderSeparator;
 
     this.add(vHeadCell, vHeadSeparator);
 
     if (vColumns[vCol].align) {
       vHeadCell.setHorizontalChildrenAlign(vColumns[vCol].align);
 
-      if (vColumns[vCol].align == qx.constant.Layout.ALIGN_RIGHT) {
+      if (vColumns[vCol].align == "right") {
         vHeadCell.setReverseChildrenOrder(true);
       }
     }
@@ -66,13 +66,13 @@ function(vColumns)
   // ************************************************************************
   //   ADD EVENT LISTENERS
   // ************************************************************************
-  this.addEventListener(qx.constant.Event.MOUSEMOVE, this._onmousemove);
-  this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
-  this.addEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
-  this.addEventListener(qx.constant.Event.MOUSEOUT, this._onmouseout);
+  this.addEventListener("mousemove", this._onmousemove);
+  this.addEventListener("mousedown", this._onmousedown);
+  this.addEventListener("mouseup", this._onmouseup);
+  this.addEventListener("mouseout", this._onmouseout);
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "list-view-header" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "list-view-header" });
 
 
 
@@ -96,15 +96,15 @@ qx.Proto._syncResizeLine = function()
 
   var vParent = this.getParent();
   var vLine = vParent.getResizeLine();
-  var vLeft = qx.dom.DomLocation.getPageBoxLeft(this._resizeSeparator.getElement()) - qx.dom.DomLocation.getPageInnerLeft(this.getElement());
-  var vTop = qx.dom.DomDimension.getBoxHeight(vParent.getHeader().getElement());
-  var vHeight = qx.dom.DomDimension.getBoxHeight(vParent.getElement()) - vTop;
+  var vLeft = qx.dom.Location.getPageBoxLeft(this._resizeSeparator.getElement()) - qx.dom.Location.getPageInnerLeft(this.getElement());
+  var vTop = qx.dom.Dimension.getBoxHeight(vParent.getHeader().getElement());
+  var vHeight = qx.dom.Dimension.getBoxHeight(vParent.getElement()) - vTop;
 
   vLine._applyRuntimeTop(vTop);
   vLine._applyRuntimeHeight(vHeight);
   vLine._applyRuntimeLeft(vLeft);
 
-  vLine.removeStyleProperty(qx.constant.Style.PROPERTY_VISIBILITY);
+  vLine.removeStyleProperty("visibility");
 }
 
 
@@ -156,13 +156,13 @@ qx.Proto._onmousemove = function(e)
   {
     var vTarget = e.getTarget();
     var vEventPos = e.getPageX();
-    var vTargetPosLeft = qx.dom.DomLocation.getPageBoxLeft(vTarget.getElement());
-    var vTargetPosRight = vTargetPosLeft + qx.dom.DomDimension.getBoxWidth(vTarget.getElement());
+    var vTargetPosLeft = qx.dom.Location.getPageBoxLeft(vTarget.getElement());
+    var vTargetPosRight = vTargetPosLeft + qx.dom.Dimension.getBoxWidth(vTarget.getElement());
 
     var vResizeCursor = false;
     var vResizeSeparator = null;
 
-    if (vTarget instanceof qx.ui.listview.ListViewHeaderSeparator)
+    if (vTarget instanceof qx.ui.listview.HeaderSeparator)
     {
       vResizeCursor = true;
       vResizeSeparator = vTarget;
@@ -182,7 +182,7 @@ qx.Proto._onmousemove = function(e)
       vResizeSeparator = vTarget.getNextSibling();
     }
 
-    if (!(vResizeSeparator instanceof qx.ui.listview.ListViewHeaderSeparator))
+    if (!(vResizeSeparator instanceof qx.ui.listview.HeaderSeparator))
     {
       vResizeSeparator = vTarget = vResizeCursor = null;
     }
@@ -235,10 +235,10 @@ qx.Proto._onmouseup = function(e)
   this.getTopLevelWidget().setGlobalCursor(null);
 
   // Remove hover effect
-  this._resizeTarget.removeState(qx.ui.core.Widget.STATE_OVER);
+  this._resizeTarget.removeState("over");
 
   // Hide resize line
-  this.getParent().getResizeLine().setStyleProperty(qx.constant.Style.PROPERTY_VISIBILITY, qx.constant.Core.HIDDEN);
+  this.getParent().getResizeLine().setStyleProperty("visibility", "hidden");
 
   this._cleanupResizing();
 }
@@ -283,10 +283,10 @@ qx.Proto.dispose = function()
 
   this._cleanupResizing();
 
-  this.removeEventListener(qx.constant.Event.MOUSEMOVE, this._onmousemove);
-  this.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
-  this.removeEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
-  this.removeEventListener(qx.constant.Event.MOUSEOUT, this._onmouseout);
+  this.removeEventListener("mousemove", this._onmousemove);
+  this.removeEventListener("mousedown", this._onmousedown);
+  this.removeEventListener("mouseup", this._onmouseup);
+  this.removeEventListener("mouseout", this._onmouseout);
 
   this._columns = null;
 

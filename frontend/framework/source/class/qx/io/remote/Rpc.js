@@ -97,7 +97,7 @@ function(url, serviceName)
 /**
   The timeout for asynchronous calls in milliseconds.
  */
-qx.OO.addProperty({ name : "timeout", type : qx.constant.Type.NUMBER });
+qx.OO.addProperty({ name : "timeout", type : "number" });
 
 /**
   Indicate that the request is cross domain.
@@ -108,17 +108,17 @@ qx.OO.addProperty({ name : "timeout", type : qx.constant.Type.NUMBER });
   qx.io.remote.ScriptTransport because only the latter can handle cross domain
   requests.
 */
-qx.OO.addProperty({ name : "crossDomain", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "crossDomain", type : "boolean", defaultValue : false });
 
 /**
   The URL at which the service is located.
 */
-qx.OO.addProperty({ name : "url", type : qx.constant.Type.STRING, defaultValue : null });
+qx.OO.addProperty({ name : "url", type : "string", defaultValue : null });
 
 /**
   The service name.
 */
-qx.OO.addProperty({ name : "serviceName", type : qx.constant.Type.STRING, defaultValue : null });
+qx.OO.addProperty({ name : "serviceName", type : "string", defaultValue : null });
 
 /**
   Data sent as "out of band" data in the request to the server.  The format of
@@ -128,24 +128,24 @@ qx.OO.addProperty({ name : "serviceName", type : qx.constant.Type.STRING, defaul
   method.  This server data is not sent to the server if it has been set to
   'undefined'.
 */
-qx.OO.addProperty({ name : "serverData", type : qx.constant.Type.OBJECT, defaultValue : undefined });
+qx.OO.addProperty({ name : "serverData", type : "object", defaultValue : undefined });
 
 /**
   Username to use for HTTP authentication. Null if HTTP authentication
   is not used.
 */
-qx.OO.addProperty({ name : "username", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "username", type : "string" });
 
 /**
   Password to use for HTTP authentication. Null if HTTP authentication
   is not used.
 */
-qx.OO.addProperty({ name : "password", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "password", type : "string" });
 
 /**
   Use Basic HTTP Authentication
 */
-qx.OO.addProperty({ name : "useBasicHttpAuth", type : qx.constant.Type.BOOLEAN });
+qx.OO.addProperty({ name : "useBasicHttpAuth", type : "boolean" });
 
 /**
    Origins of errors
@@ -186,9 +186,9 @@ qx.Proto._callInternal = function(args, callType, refreshSession) {
   for (var i = offset + 1; i < args.length; ++i) {
     argsArray.push(args[i]);
   }
-  var req = new qx.io.remote.RemoteRequest(this.getUrl(),
-                                           qx.constant.Net.METHOD_POST,
-                                           qx.constant.Mime.JSON);
+  var req = new qx.io.remote.Request(this.getUrl(),
+                                           qx.net.Http.POST,
+                                           "text/json");
   var requestObject = {
     "service": (refreshSession ? null : this.getServiceName()),
     "method": whichMethod,
@@ -279,7 +279,7 @@ qx.Proto._callInternal = function(args, callType, refreshSession) {
     var code = evt.getData().getStatusCode();
     ex = makeException(qx.io.remote.Rpc.origin.transport,
                        code,
-                       qx.io.remote.RemoteExchange.statusCodeToString(code));
+                       qx.io.remote.Exchange.statusCodeToString(code));
     id = this.getSequenceNumber();
     handleRequestFinished("failed", eventTarget);
   });

@@ -33,7 +33,7 @@ function(vLabel, vIcon)
   qx.ui.popup.PopupAtom.call(this, vLabel, vIcon);
 
   // Apply shadow
-  this.setStyleProperty(qx.constant.Style.PROPERTY_FILTER, "progid:DXImageTransform.Microsoft.Shadow(color='Gray', Direction=135, Strength=4)");
+  this.setStyleProperty("filter", "progid:DXImageTransform.Microsoft.Shadow(color='Gray', Direction=135, Strength=4)");
 
 
   // ************************************************************************
@@ -41,17 +41,17 @@ function(vLabel, vIcon)
   // ************************************************************************
 
   this._showTimer = new qx.client.Timer(this.getShowInterval());
-  this._showTimer.addEventListener(qx.constant.Event.INTERVAL, this._onshowtimer, this);
+  this._showTimer.addEventListener("interval", this._onshowtimer, this);
 
   this._hideTimer = new qx.client.Timer(this.getHideInterval());
-  this._hideTimer.addEventListener(qx.constant.Event.INTERVAL, this._onhidetimer, this);
+  this._hideTimer.addEventListener("interval", this._onhidetimer, this);
 
 
   // ************************************************************************
   //   EVENTS
   // ************************************************************************
-  this.addEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover);
-  this.addEventListener(qx.constant.Event.MOUSEOUT, this._onmouseover);
+  this.addEventListener("mouseover", this._onmouseover);
+  this.addEventListener("mouseout", this._onmouseover);
 });
 
 qx.Proto._minZIndex = 1e7;
@@ -63,17 +63,17 @@ qx.Proto._minZIndex = 1e7;
 ---------------------------------------------------------------------------
 */
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "tool-tip" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "tool-tip" });
 
-qx.OO.addProperty({ name : "hideOnHover", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "hideOnHover", type : "boolean", defaultValue : true });
 
-qx.OO.addProperty({ name : "mousePointerOffsetX", type : qx.constant.Type.NUMBER, defaultValue : 1 });
-qx.OO.addProperty({ name : "mousePointerOffsetY", type : qx.constant.Type.NUMBER, defaultValue : 20 });
+qx.OO.addProperty({ name : "mousePointerOffsetX", type : "number", defaultValue : 1 });
+qx.OO.addProperty({ name : "mousePointerOffsetY", type : "number", defaultValue : 20 });
 
-qx.OO.addProperty({ name : "showInterval", type : qx.constant.Type.NUMBER, defaultValue : 1000 });
-qx.OO.addProperty({ name : "hideInterval", type : qx.constant.Type.NUMBER, defaultValue : 4000 });
+qx.OO.addProperty({ name : "showInterval", type : "number", defaultValue : 1000 });
+qx.OO.addProperty({ name : "hideInterval", type : "number", defaultValue : 4000 });
 
-qx.OO.addProperty({ name : "boundToWidget", type : qx.constant.Type.OBJECT, instance : "qx.ui.core.Widget" });
+qx.OO.addProperty({ name : "boundToWidget", type : "object", instance : "qx.ui.core.Widget" });
 
 
 
@@ -234,19 +234,19 @@ qx.Proto.dispose = function()
     return;
   }
 
-  this.removeEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover);
-  this.removeEventListener(qx.constant.Event.MOUSEOUT, this._onmouseover);
+  this.removeEventListener("mouseover", this._onmouseover);
+  this.removeEventListener("mouseout", this._onmouseover);
 
   if (this._showTimer)
   {
-    this._showTimer.removeEventListener(qx.constant.Event.INTERVAL, this._onshowtimer, this);
+    this._showTimer.removeEventListener("interval", this._onshowtimer, this);
     this._showTimer.dispose();
     this._showTimer = null;
   }
 
   if (this._hideTimer)
   {
-    this._hideTimer.removeEventListener(qx.constant.Event.INTERVAL, this._onhidetimer, this);
+    this._hideTimer.removeEventListener("interval", this._onhidetimer, this);
     this._hideTimer.dispose();
     this._hideTimer = null;
   }

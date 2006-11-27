@@ -69,13 +69,13 @@ qx.Settings.setDefault("staticUri", qx.Settings.getValue("resourceUri") + "/stat
 qx.Proto.add = function(vPrefix, vPath)
 {
   this._aliases[vPrefix] = vPath;
-  this.createDispatchEvent(qx.constant.Event.CHANGE);
+  this.createDispatchEvent("change");
 }
 
 qx.Proto.remove = function(vPrefix)
 {
   delete this._aliases[vPrefix];
-  this.createDispatchEvent(qx.constant.Event.CHANGE);
+  this.createDispatchEvent("change");
 }
 
 qx.Proto.resolve = function(vPrefix) {
@@ -97,7 +97,7 @@ qx.Proto.resolvePath = function(vPath, vForceUpdate)
 {
   var vUri = this._uris[vPath];
 
-  if (vForceUpdate || typeof vUri === qx.constant.Type.UNDEFINED)
+  if (vForceUpdate || typeof vUri === "undefined")
   {
     vUri = this._uris[vPath] = this._computePath(vPath);
     // this.debug("URI: " + vPath + " => " + vUri);
@@ -110,16 +110,16 @@ qx.Proto._computePath = function(vPath, vForce)
 {
   switch(vPath.charAt(0))
   {
-    case qx.constant.Core.SLASH:
-    case qx.constant.Core.DOT:
+    case "/":
+    case ".":
       return vPath;
 
     default:
-      if (qx.lang.String.startsWith(vPath, qx.constant.Net.URI_HTTP) || qx.lang.String.startsWith(vPath, qx.constant.Net.URI_HTTPS) || qx.lang.String.startsWith(vPath, qx.constant.Net.URI_FILE)) {
+      if (qx.lang.String.startsWith(vPath, qx.net.Protocol.URI_HTTP) || qx.lang.String.startsWith(vPath, qx.net.Protocol.URI_HTTPS) || qx.lang.String.startsWith(vPath, qx.net.Protocol.URI_FILE)) {
         return vPath;
       }
 
-      var vAlias = vPath.substring(0, vPath.indexOf(qx.constant.Core.SLASH));
+      var vAlias = vPath.substring(0, vPath.indexOf("/"));
       var vResolved = this._aliases[vAlias];
 
       if (qx.util.Validation.isValidString(vResolved)) {

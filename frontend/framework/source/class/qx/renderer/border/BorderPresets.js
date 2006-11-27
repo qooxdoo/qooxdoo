@@ -29,28 +29,28 @@ qx.OO.defineClass("qx.renderer.border.BorderPresets", qx.core.Object, function()
 {
   qx.core.Object.call(this);
 
-  this.black = new qx.renderer.border.Border(1, qx.renderer.border.Border.STYLE_SOLID, "black");
-  this.white = new qx.renderer.border.Border(1, qx.renderer.border.Border.STYLE_SOLID, "white");
-  this.none = new qx.renderer.border.Border(0, qx.renderer.border.Border.STYLE_NONE);
+  this.black = new qx.renderer.border.Border(1, "solid", "black");
+  this.white = new qx.renderer.border.Border(1, "solid", "white");
+  this.none = new qx.renderer.border.Border(0, "none");
 
-  this.inset = new qx.renderer.border.BorderObject(2, qx.renderer.border.Border.STYLE_INSET);
-  this.outset = new qx.renderer.border.BorderObject(2, qx.renderer.border.Border.STYLE_OUTSET);
-  this.groove = new qx.renderer.border.BorderObject(2, qx.renderer.border.Border.STYLE_GROOVE);
-  this.ridge = new qx.renderer.border.BorderObject(2, qx.renderer.border.Border.STYLE_RIDGE);
-  this.thinInset = new qx.renderer.border.BorderObject(1, qx.renderer.border.Border.STYLE_INSET);
-  this.thinOutset = new qx.renderer.border.BorderObject(1, qx.renderer.border.Border.STYLE_OUTSET);
+  this.inset = new qx.renderer.border.BorderObject(2, "inset");
+  this.outset = new qx.renderer.border.BorderObject(2, "outset");
+  this.groove = new qx.renderer.border.BorderObject(2, "groove");
+  this.ridge = new qx.renderer.border.BorderObject(2, "ridge");
+  this.thinInset = new qx.renderer.border.BorderObject(1, "inset");
+  this.thinOutset = new qx.renderer.border.BorderObject(1, "outset");
 
-  this.verticalDivider = new qx.renderer.border.BorderObject(1, qx.renderer.border.Border.STYLE_INSET);
+  this.verticalDivider = new qx.renderer.border.BorderObject(1, "inset");
   this.verticalDivider.setLeftWidth(0);
   this.verticalDivider.setRightWidth(0);
 
-  this.horizontalDivider = new qx.renderer.border.BorderObject(1, qx.renderer.border.Border.STYLE_INSET);
+  this.horizontalDivider = new qx.renderer.border.BorderObject(1, "inset");
   this.horizontalDivider.setTopWidth(0);
   this.horizontalDivider.setBottomWidth(0);
 
-  this.shadow = new qx.renderer.border.BorderObject(1, qx.renderer.border.Border.STYLE_SOLID, "threedshadow");
-  this.lightShadow = new qx.renderer.border.BorderObject(1, qx.renderer.border.Border.STYLE_SOLID, "threedlightshadow");
-  this.info = new qx.renderer.border.BorderObject(1, qx.renderer.border.Border.STYLE_SOLID, "infotext");
+  this.shadow = new qx.renderer.border.BorderObject(1, "solid", "threedshadow");
+  this.lightShadow = new qx.renderer.border.BorderObject(1, "solid", "threedlightshadow");
+  this.info = new qx.renderer.border.BorderObject(1, "solid", "infotext");
 });
 
 

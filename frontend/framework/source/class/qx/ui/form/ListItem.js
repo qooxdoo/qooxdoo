@@ -38,10 +38,10 @@ function(vText, vIcon, vValue)
   // ************************************************************************
   //   EVENT LISTENER
   // ************************************************************************
-  this.addEventListener(qx.constant.Event.DBLCLICK, this._ondblclick);
+  this.addEventListener("dblclick", this._ondblclick);
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "list-item" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "list-item" });
 qx.OO.addProperty({ name : "value" });
 
 
@@ -56,15 +56,15 @@ qx.OO.addProperty({ name : "value" });
 
 qx.Proto.handleStateChange = function()
 {
-  if (this.hasState(qx.manager.selection.SelectionManager.STATE_LEAD))
+  if (this.hasState("lead"))
   {
-    this.setStyleProperty("MozOutline", qx.constant.Style.FOCUS_OUTLINE);
-    this.setStyleProperty("outline", qx.constant.Style.FOCUS_OUTLINE);
+    this.setStyleProperty("MozOutline", "1px dotted invert");
+    this.setStyleProperty("outline", "1px dotted invert");
   }
   else
   {
     this.removeStyleProperty("MozOutline");
-    this.setStyleProperty("outline", qx.ui.core.Widget.FOCUS_NONE);
+    this.setStyleProperty("outline", "0px none");
   }
 }
 
@@ -81,19 +81,19 @@ qx.Proto._applyStateStyleFocus = function(vStates) {};
 */
 
 qx.Proto.matchesString = function(vText) {
-  return vText != qx.constant.Core.EMPTY && this.getLabel().toLowerCase().indexOf(vText.toLowerCase()) == 0;
+  return vText != "" && this.getLabel().toLowerCase().indexOf(vText.toLowerCase()) == 0;
 }
 
 qx.Proto.matchesStringExact = function(vText) {
-  return vText != qx.constant.Core.EMPTY && this.getLabel().toLowerCase() == String(vText).toLowerCase();
+  return vText != "" && this.getLabel().toLowerCase() == String(vText).toLowerCase();
 }
 
 qx.Proto.matchesValue = function(vText) {
-  return vText != qx.constant.Core.EMPTY && this.getValue().toLowerCase().indexOf(vText.toLowerCase()) == 0;
+  return vText != "" && this.getValue().toLowerCase().indexOf(vText.toLowerCase()) == 0;
 }
 
 qx.Proto.matchesValueExact = function(vText) {
-  return vText != qx.constant.Core.EMPTY && this.getValue().toLowerCase() == String(vText).toLowerCase();
+  return vText != "" && this.getValue().toLowerCase() == String(vText).toLowerCase();
 }
 
 

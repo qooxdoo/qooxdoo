@@ -26,15 +26,15 @@ function(vHtml, vIcon, vIconWidth, vIconHeight)
 {
   qx.ui.embed.HtmlEmbed.call(this, vHtml);
 
-  if (typeof vIcon != qx.constant.Type.UNDEFINED)
+  if (typeof vIcon != "undefined")
   {
     this.setIcon(vIcon);
 
-    if (typeof vIconWidth != qx.constant.Type.UNDEFINED) {
+    if (typeof vIconWidth != "undefined") {
       this.setIconWidth(vIconWidth);
     }
 
-    if (typeof vIconHeight != qx.constant.Type.UNDEFINED) {
+    if (typeof vIconHeight != "undefined") {
       this.setIconHeight(vIconWidth);
     }
   }
@@ -52,24 +52,24 @@ function(vHtml, vIcon, vIconWidth, vIconHeight)
 /*!
   Any URI String supported by qx.ui.basic.Image to display a icon
 */
-qx.OO.addProperty({ name : "icon", type : qx.constant.Type.STRING, impl : "html" });
+qx.OO.addProperty({ name : "icon", type : "string", impl : "html" });
 
 /*!
   The width of the icon.
   If configured, this makes qx.ui.embed.IconHtmlEmbed a little bit faster as it does not need to wait until the image loading is finished.
 */
-qx.OO.addProperty({ name : "iconWidth", type : qx.constant.Type.NUMBER, impl : "html" });
+qx.OO.addProperty({ name : "iconWidth", type : "number", impl : "html" });
 
 /*!
   The height of the icon
   If configured, this makes qx.ui.embed.IconHtmlEmbed a little bit faster as it does not need to wait until the image loading is finished.
 */
-qx.OO.addProperty({ name : "iconHeight", type : qx.constant.Type.NUMBER, impl : "html" });
+qx.OO.addProperty({ name : "iconHeight", type : "number", impl : "html" });
 
 /*!
   Space in pixels between the icon and the HTML.
 */
-qx.OO.addProperty({ name : "spacing", type : qx.constant.Type.NUMBER, defaultValue : 4, impl : "html" });
+qx.OO.addProperty({ name : "spacing", type : "number", defaultValue : 4, impl : "html" });
 
 
 
@@ -81,14 +81,14 @@ qx.OO.addProperty({ name : "spacing", type : qx.constant.Type.NUMBER, defaultVal
 ---------------------------------------------------------------------------
 */
 
-qx.ui.embed.IconHtmlEmbed.START_IMAGE = "<img src=\"";
-qx.ui.embed.IconHtmlEmbed.START_STYLE = "\" style=\"vertical-align:middle;";
-qx.ui.embed.IconHtmlEmbed.STYLE_MARGIN = "margin-right:";
-qx.ui.embed.IconHtmlEmbed.STYLE_WIDTH = "width:";
-qx.ui.embed.IconHtmlEmbed.STYLE_HEIGHT = "height:";
-qx.ui.embed.IconHtmlEmbed.PIXEL_UNIT = "px;";
-qx.ui.embed.IconHtmlEmbed.FILTER_START = "filter:";
-qx.ui.embed.IconHtmlEmbed.STOP_IMAGE = "\"/>";
+"<img src=\"" = "<img src=\"";
+"\" style=\"vertical-align:middle;" = "\" style=\"vertical-align:middle;";
+"margin-right:" = "margin-right:";
+"width:" = "width:";
+"height:" = "height:";
+"px;" = "px;";
+"filter:" = "filter:";
+"\"/>" = "\"/>";
 
 qx.Proto._mshtml = qx.sys.Client.getInstance().isMshtml();
 
@@ -98,46 +98,46 @@ qx.Proto._syncHtml = function()
 
   if (qx.util.Validation.isValidString(this.getIcon()))
   {
-    vHtml.push(qx.ui.embed.IconHtmlEmbed.START_IMAGE);
+    vHtml.push("<img src=\"");
     vHtml.push(qx.manager.object.AliasManager.getInstance().resolvePath(this._mshtml ? "static/image/blank.gif" : this.getIcon()));
-    vHtml.push(qx.ui.embed.IconHtmlEmbed.START_STYLE);
+    vHtml.push("\" style=\"vertical-align:middle;");
 
     if (qx.util.Validation.isValidNumber(this.getSpacing()))
     {
-      vHtml.push(qx.ui.embed.IconHtmlEmbed.STYLE_MARGIN);
+      vHtml.push("margin-right:");
       vHtml.push(this.getSpacing());
-      vHtml.push(qx.ui.embed.IconHtmlEmbed.PIXEL_UNIT);
+      vHtml.push("px;");
     }
 
     if (qx.util.Validation.isValidNumber(this.getIconWidth()))
     {
-      vHtml.push(qx.ui.embed.IconHtmlEmbed.STYLE_WIDTH);
+      vHtml.push("width:");
       vHtml.push(this.getIconWidth());
-      vHtml.push(qx.ui.embed.IconHtmlEmbed.PIXEL_UNIT);
+      vHtml.push("px;");
     }
 
     if (qx.util.Validation.isValidNumber(this.getIconHeight()))
     {
-      vHtml.push(qx.ui.embed.IconHtmlEmbed.STYLE_HEIGHT);
+      vHtml.push("height:");
       vHtml.push(this.getIconHeight());
-      vHtml.push(qx.ui.embed.IconHtmlEmbed.PIXEL_UNIT);
+      vHtml.push("px;");
     }
 
     if (this._mshtml)
     {
-      vHtml.push(qx.ui.embed.IconHtmlEmbed.FILTER_START);
-      vHtml.push(qx.ui.basic.Image.IMGLOADER_START);
+      vHtml.push("filter:");
+      vHtml.push("progid:DXImageTransform.Microsoft.AlphaImageLoader(src='");
       vHtml.push(qx.manager.object.AliasManager.getInstance().resolvePath(this.getIcon()));
-      vHtml.push(qx.ui.basic.Image.IMGLOADER_STOP);
-      vHtml.push(qx.constant.Core.SEMICOLON);
+      vHtml.push("',sizingMethod='scale')");
+      vHtml.push(";");
     }
 
-    vHtml.push(qx.ui.embed.IconHtmlEmbed.STOP_IMAGE);
+    vHtml.push("\"/>");
   }
 
   if (qx.util.Validation.isValidString(this.getHtml())) {
     vHtml.push(this.getHtml());
   }
 
-  this.getElement().innerHTML = vHtml.join(qx.constant.Core.EMPTY);
+  this.getElement().innerHTML = vHtml.join("");
 }

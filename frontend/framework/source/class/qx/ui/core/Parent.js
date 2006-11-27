@@ -22,7 +22,7 @@
 #optional(qx.event.handler.FocusHandler)
 #optional(qx.manager.object.ToolTipManager)
 #optional(qx.manager.object.PopupManager)
-#optional(qx.dom.DomElementFromPoint)
+#optional(qx.dom.ElementFromPoint)
 
 ************************************************************************ */
 
@@ -56,17 +56,17 @@ qx.ui.core.Parent.ABSTRACT_CLASS = "qx.ui.core.Parent";
 /*!
   Individual focus handler for all child elements.
 */
-qx.OO.addProperty({ name : "focusHandler", type : qx.constant.Type.OBJECT, instance : "qx.event.handler.FocusHandler" });
+qx.OO.addProperty({ name : "focusHandler", type : "object", instance : "qx.event.handler.FocusHandler" });
 
 /*!
   The current active child.
 */
-qx.OO.addProperty({ name : "activeChild", type : qx.constant.Type.OBJECT, instance : "qx.ui.core.Widget" });
+qx.OO.addProperty({ name : "activeChild", type : "object", instance : "qx.ui.core.Widget" });
 
 /*!
   The current focused child.
 */
-qx.OO.addProperty({ name : "focusedChild", type : qx.constant.Type.OBJECT, instance : "qx.ui.core.Widget" });
+qx.OO.addProperty({ name : "focusedChild", type : "object", instance : "qx.ui.core.Widget" });
 
 
 
@@ -121,8 +121,8 @@ qx.Proto._modifyFocusHandler = function(propValue, propOldValue, propData)
   if (propValue)
   {
     // Add Key Handler
-    this.addEventListener(qx.constant.Event.KEYDOWN, this._onfocuskeyevent);
-    this.addEventListener(qx.constant.Event.KEYPRESS, this._onfocuskeyevent);
+    this.addEventListener("keydown", this._onfocuskeyevent);
+    this.addEventListener("keypress", this._onfocuskeyevent);
 
     // Activate focus handling (but keep already configured tabIndex)
     if (this.getTabIndex() < 1) {
@@ -138,8 +138,8 @@ qx.Proto._modifyFocusHandler = function(propValue, propOldValue, propData)
   else
   {
     // Remove Key Handler
-    this.removeEventListener(qx.constant.Event.KEYDOWN, this._onfocuskeyevent);
-    this.removeEventListener(qx.constant.Event.KEYPRESS, this._onfocuskeyevent);
+    this.removeEventListener("keydown", this._onfocuskeyevent);
+    this.removeEventListener("keypress", this._onfocuskeyevent);
 
     // Deactivate focus handling
     this.setTabIndex(-1);
@@ -169,9 +169,9 @@ qx.Proto._modifyFocusedChild = function(propValue, propOldValue, propData)
   if (vBlurValid)
   {
     // Dispatch FocusOut
-    if (propOldValue.hasEventListeners(qx.constant.Event.FOCUSOUT))
+    if (propOldValue.hasEventListeners("focusout"))
     {
-      var vEventObject = new qx.event.type.FocusEvent(qx.constant.Event.FOCUSOUT, propOldValue);
+      var vEventObject = new qx.event.type.FocusEvent("focusout", propOldValue);
 
       if (vFocusValid) {
         vEventObject.setRelatedTarget(propValue);
@@ -184,10 +184,10 @@ qx.Proto._modifyFocusedChild = function(propValue, propOldValue, propData)
 
   if (vFocusValid)
   {
-    if (propValue.hasEventListeners(qx.constant.Event.FOCUSIN))
+    if (propValue.hasEventListeners("focusin"))
     {
       // Dispatch FocusIn
-      var vEventObject = new qx.event.type.FocusEvent(qx.constant.Event.FOCUSIN, propValue);
+      var vEventObject = new qx.event.type.FocusEvent("focusin", propValue);
 
       if (vBlurValid) {
         vEventObject.setRelatedTarget(propOldValue);
@@ -207,7 +207,7 @@ qx.Proto._modifyFocusedChild = function(propValue, propOldValue, propData)
     propOldValue.setFocused(false);
 
     // Dispatch Blur
-    var vEventObject = new qx.event.type.FocusEvent(qx.constant.Event.BLUR, propOldValue);
+    var vEventObject = new qx.event.type.FocusEvent("blur", propOldValue);
 
     if (vFocusValid) {
       vEventObject.setRelatedTarget(propValue);
@@ -233,7 +233,7 @@ qx.Proto._modifyFocusedChild = function(propValue, propOldValue, propData)
     qx.event.handler.EventHandler.getInstance().setFocusRoot(this);
 
     // Dispatch Focus
-    var vEventObject = new qx.event.type.FocusEvent(qx.constant.Event.FOCUS, propValue);
+    var vEventObject = new qx.event.type.FocusEvent("focus", propValue);
 
     if (vBlurValid) {
       vEventObject.setRelatedTarget(propOldValue);
@@ -1002,7 +1002,7 @@ if (qx.sys.Client.getInstance().isOpera())
     var vStyle = vChild.getElement().style;
 
     var vOldDisplay = vStyle.display;
-    vStyle.display = qx.constant.Core.NONE;
+    vStyle.display = "none";
     var vRet = this._layoutChildOrig(vChild);
     vStyle.display = vOldDisplay;
 
@@ -1090,7 +1090,7 @@ qx.Proto.getWidgetFromPointHelper = function(x, y)
   var ch = this.getChildren();
 
   for (var chl=ch.length, i=0; i<chl; i++) {
-    if (qx.dom.DomElementFromPoint.getElementAbsolutePointChecker(ch[i].getElement(), x, y)) {
+    if (qx.dom.ElementFromPoint.getElementAbsolutePointChecker(ch[i].getElement(), x, y)) {
       return ch[i].getWidgetFromPointHelper(x, y);
     }
   }
@@ -1197,8 +1197,8 @@ qx.Proto.dispose = function()
   // Remove Key Handler
   if (this.getFocusHandler())
   {
-    this.removeEventListener(qx.constant.Event.KEYDOWN, this._onfocuskeyevent);
-    this.removeEventListener(qx.constant.Event.KEYPRESS, this._onfocuskeyevent);
+    this.removeEventListener("keydown", this._onfocuskeyevent);
+    this.removeEventListener("keypress", this._onfocuskeyevent);
 
     this.forceFocusHandler(null);
   }

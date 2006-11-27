@@ -30,7 +30,7 @@ function(vLabel, vIcon, vIconSelected)
   this._iconObject.setAppearance("tree-folder-icon");
   this._labelObject.setAppearance("tree-folder-label");
 
-  this.addEventListener(qx.constant.Event.DBLCLICK, this._ondblclick);
+  this.addEventListener("dblclick", this._ondblclick);
 
   // Remapping of add/remove methods
   this.add = this.addToFolder;
@@ -51,12 +51,12 @@ function(vLabel, vIcon, vIconSelected)
 */
 
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "tree-folder" });
-qx.OO.changeProperty({ name : "icon", type : qx.constant.Type.STRING });
-qx.OO.changeProperty({ name : "iconSelected", type : qx.constant.Type.STRING });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "tree-folder" });
+qx.OO.changeProperty({ name : "icon", type : "string" });
+qx.OO.changeProperty({ name : "iconSelected", type : "string" });
 
-qx.OO.addProperty({ name : "open", type : qx.constant.Type.BOOLEAN, defaultValue : false });
-qx.OO.addProperty({ name : "alwaysShowPlusMinusSymbol", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "open", type : "boolean", defaultValue : false });
+qx.OO.addProperty({ name : "alwaysShowPlusMinusSymbol", type : "boolean", defaultValue : false });
 
 
 
@@ -79,7 +79,7 @@ qx.Proto.open = function()
 
   if (this.hasContent() && this.isSeeable())
   {
-    this.getTopLevelWidget().setGlobalCursor(qx.constant.Style.CURSOR_PROGRESS);
+    this.getTopLevelWidget().setGlobalCursor("progress");
     qx.client.Timer.once(this._openCallback, this, 0);
   }
   else
@@ -122,7 +122,7 @@ qx.Proto._createChildrenStructure = function()
 
   if (!this._horizontalLayout)
   {
-    this.setOrientation(qx.constant.Layout.ORIENTATION_VERTICAL);
+    this.setOrientation("vertical");
 
     this._horizontalLayout = new qx.ui.layout.HorizontalBoxLayout;
     this._horizontalLayout.setWidth(null);
@@ -587,7 +587,7 @@ qx.Proto.dispose = function()
     return;
   }
 
-  this.removeEventListener(qx.constant.Event.DBLCLICK, this._ondblclick);
+  this.removeEventListener("dblclick", this._ondblclick);
 
   if (this._horizontalLayout)
   {

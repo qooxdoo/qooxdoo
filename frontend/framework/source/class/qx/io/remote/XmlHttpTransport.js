@@ -22,7 +22,7 @@
 
 #module(io_remote)
 #require(qx.constant.Mime)
-#require(qx.io.remote.RemoteExchange)
+#require(qx.io.remote.Exchange)
 
 ************************************************************************ */
 
@@ -57,9 +57,9 @@ function()
    Class data, properties and methods
 ************************************************************************ */
 
-// basic registration to qx.io.remote.RemoteExchange
+// basic registration to qx.io.remote.Exchange
 // the real availability check (activeX stuff and so on) follows at the first real request
-qx.io.remote.RemoteExchange.registerType(qx.io.remote.XmlHttpTransport,
+qx.io.remote.Exchange.registerType(qx.io.remote.XmlHttpTransport,
                                          "qx.io.remote.XmlHttpTransport");
 
 qx.io.remote.XmlHttpTransport.handles =
@@ -69,11 +69,11 @@ qx.io.remote.XmlHttpTransport.handles =
   crossDomain : false,
   fileUpload: false,
   responseTypes : [
-                    qx.constant.Mime.TEXT,
-                    qx.constant.Mime.JAVASCRIPT,
-                    qx.constant.Mime.JSON,
-                    qx.constant.Mime.XML,
-                    qx.constant.Mime.HTML
+                    "text/plain",
+                    "text/javascript",
+                    "text/json",
+                    "application/xml",
+                    "text/html"
                   ]
 }
 
@@ -84,7 +84,7 @@ qx.io.remote.XmlHttpTransport.isSupported = function()
 {
   if (window.XMLHttpRequest)
   {
-    if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange",
+    if (qx.Settings.getValueOfClass("qx.io.remote.Exchange",
                                     "enableDebug")) {
       qx.dev.log.Logger.getClassLogger(qx.io.remote.XmlHttpTransport).debug(
           "Using XMLHttpRequest");
@@ -106,7 +106,7 @@ qx.io.remote.XmlHttpTransport.isSupported = function()
      http://blogs.msdn.com/xmlteam/archive/2006/10/23/using-the-right-version-of-msxml-in-internet-explorer.aspx
      http://msdn.microsoft.com/library/default.asp?url=/library/en-us/xmlsdk/html/aabe29a2-bad2-4cea-8387-314174252a74.asp
 
-     See similar code in qx.lang.Xml, qx.lang.XmlEmu
+     See similar code in qx.xml.Core, qx.lang.XmlEmu
     */
     var vServers =
     [
@@ -137,7 +137,7 @@ qx.io.remote.XmlHttpTransport.isSupported = function()
 
     if (vObject)
     {
-      if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
+      if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug")) {
         qx.dev.log.Logger.getClassLogger(qx.io.remote.XmlHttpTransport).debug(
             "Using ActiveXObject: " + vServer);
       }
@@ -239,18 +239,18 @@ qx.Proto.send = function()
     var value = vParameters[vId];
     if (value instanceof Array) {
       for (var i = 0; i < value.length; i++) {
-        vParametersList.push(encodeURIComponent(vId) + qx.constant.Core.EQUAL +
+        vParametersList.push(encodeURIComponent(vId) + "=" +
                              encodeURIComponent(value[i]));
       }
     } else {
-      vParametersList.push(encodeURIComponent(vId) + qx.constant.Core.EQUAL +
+      vParametersList.push(encodeURIComponent(vId) + "=" +
                            encodeURIComponent(value));
     }
   }
 
   if (vParametersList.length > 0) {
-    vUrl += (vUrl.indexOf(qx.constant.Core.QUESTIONMARK) >= 0
-      ? qx.constant.Core.AMPERSAND : qx.constant.Core.QUESTIONMARK) + vParametersList.join(qx.constant.Core.AMPERSAND);
+    vUrl += (vUrl.indexOf("?") >= 0
+      ? "&" : "?") + vParametersList.join("&");
   }
 
 
@@ -356,14 +356,14 @@ qx.Proto.send = function()
 
 /*!
   Force the transport into the failed state
-  (qx.constant.Net.STATE_FAILED).
+  ("failed").
 
   This method should be used only if the requests URI was local
   access. I.e. it started with "file://".
 */
 qx.Proto.failedLocally = function()
 {
-  if (this.getState() === qx.constant.Net.STATE_FAILED) {
+  if (this.getState() === "failed") {
     return;
   }
 
@@ -392,11 +392,11 @@ qx.Proto._onreadystatechange = function(e)
   // Ignoring already stopped requests
   switch(this.getState())
   {
-    case qx.constant.Net.STATE_COMPLETED:
-    case qx.constant.Net.STATE_ABORTED:
-    case qx.constant.Net.STATE_FAILED:
-    case qx.constant.Net.STATE_TIMEOUT:
-      if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
+    case "completed":
+    case "aborted":
+    case "failed":
+    case "timeout":
+      if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug")) {
         this.warn("Ignore Ready State Change");
       }
       return;
@@ -408,14 +408,14 @@ qx.Proto._onreadystatechange = function(e)
     // The status code is only meaningful when we reach ready state 4.
     // (Important for Opera since it goes through other states before
     // reaching 4, and the status code is not valid before 4 is reached.)
-    if (!qx.io.remote.RemoteExchange.wasSuccessful(this.getStatusCode(), vReadyState, this._localRequest)) {
+    if (!qx.io.remote.Exchange.wasSuccessful(this.getStatusCode(), vReadyState, this._localRequest)) {
       return this.failed();
     }
   }
 
   // Updating internal state
   while (this._lastReadyState < vReadyState) {
-    this.setState(qx.io.remote.RemoteExchange._nativeMap[++this._lastReadyState]);
+    this.setState(qx.io.remote.Exchange._nativeMap[++this._lastReadyState]);
   }
 }
 
@@ -566,7 +566,7 @@ qx.Proto.getStatusCode = function()
 */
 qx.Proto.getStatusText = function()
 {
-  var vStatusText = qx.constant.Core.EMPTY;
+  var vStatusText = "";
 
   try {
     vStatusText = this.getRequest().statusText;
@@ -600,7 +600,7 @@ qx.Proto.getResponseText = function()
 
   var vStatus = this.getStatusCode();
   var vReadyState = this.getReadyState();
-  if (qx.io.remote.RemoteExchange.wasSuccessful(vStatus, vReadyState, this._localRequest))
+  if (qx.io.remote.Exchange.wasSuccessful(vStatus, vReadyState, this._localRequest))
   {
     try {
       vResponseText = this.getRequest().responseText;
@@ -621,7 +621,7 @@ qx.Proto.getResponseXml = function()
 
   var vStatus = this.getStatusCode();
   var vReadyState = this.getReadyState();
-  if (qx.io.remote.RemoteExchange.wasSuccessful(vStatus, vReadyState, this._localRequest))
+  if (qx.io.remote.Exchange.wasSuccessful(vStatus, vReadyState, this._localRequest))
   {
     try {
       vResponseXML = this.getRequest().responseXML;
@@ -642,9 +642,9 @@ qx.Proto.getFetchedLength = function()
 
 qx.Proto.getResponseContent = function()
 {
-  if (this.getState() !== qx.constant.Net.STATE_COMPLETED)
+  if (this.getState() !== "completed")
   {
-    if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange",
+    if (qx.Settings.getValueOfClass("qx.io.remote.Exchange",
                                     "enableDebug")) {
       this.warn("Transfer not complete, ignoring content!");
     }
@@ -652,7 +652,7 @@ qx.Proto.getResponseContent = function()
     return null;
   }
 
-  if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange",
+  if (qx.Settings.getValueOfClass("qx.io.remote.Exchange",
                                   "enableDebug")) {
     this.debug("Returning content for responseType: " + this.getResponseType());
   }
@@ -661,11 +661,11 @@ qx.Proto.getResponseContent = function()
 
   switch(this.getResponseType())
   {
-    case qx.constant.Mime.TEXT:
-    case qx.constant.Mime.HTML:
+    case "text/plain":
+    case "text/html":
       return vText;
 
-    case qx.constant.Mime.JSON:
+    case "text/json":
       try {
         return vText && vText.length > 0 ? qx.io.Json.parseQx(vText) : null;
       } catch(ex) {
@@ -673,14 +673,14 @@ qx.Proto.getResponseContent = function()
         return "<pre>Could not execute json: \n" + vText + "\n</pre>"
       }
 
-    case qx.constant.Mime.JAVASCRIPT:
+    case "text/javascript":
       try {
         return vText && vText.length > 0 ? window.eval(vText) : null;
       } catch(ex) {
         return this.error("Could not execute javascript: [" + vText + "]", ex);
       }
 
-    case qx.constant.Mime.XML:
+    case "application/xml":
       return this.getResponseXml();
 
     default:
@@ -702,45 +702,45 @@ qx.Proto.getResponseContent = function()
 
 qx.Proto._modifyState = function(propValue, propOldValue, propData)
 {
-  if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange",
+  if (qx.Settings.getValueOfClass("qx.io.remote.Exchange",
                                   "enableDebug")) {
     this.debug("State: " + propValue);
   }
 
   switch(propValue)
   {
-    case qx.constant.Net.STATE_CREATED:
-      this.createDispatchEvent(qx.constant.Event.CREATED);
+    case "created":
+      this.createDispatchEvent("created");
       break;
 
-    case qx.constant.Net.STATE_CONFIGURED:
-      this.createDispatchEvent(qx.constant.Event.CONFIGURED);
+    case "configured":
+      this.createDispatchEvent("configured");
       break;
 
-    case qx.constant.Net.STATE_SENDING:
-      this.createDispatchEvent(qx.constant.Event.SENDING);
+    case "sending":
+      this.createDispatchEvent("sending");
       break;
 
-    case qx.constant.Net.STATE_RECEIVING:
-      this.createDispatchEvent(qx.constant.Event.RECEIVING);
+    case "receiving":
+      this.createDispatchEvent("receiving");
       break;
 
-    case qx.constant.Net.STATE_COMPLETED:
-      this.createDispatchEvent(qx.constant.Event.COMPLETED);
+    case "completed":
+      this.createDispatchEvent("completed");
       break;
 
-    case qx.constant.Net.STATE_FAILED:
-      this.createDispatchEvent(qx.constant.Event.FAILED);
+    case "failed":
+      this.createDispatchEvent("failed");
       break;
 
-    case qx.constant.Net.STATE_ABORTED:
+    case "aborted":
       this.getRequest().abort();
-      this.createDispatchEvent(qx.constant.Event.ABORTED);
+      this.createDispatchEvent("aborted");
       break;
 
-    case qx.constant.Net.STATE_TIMEOUT:
+    case "timeout":
       this.getRequest().abort();
-      this.createDispatchEvent(qx.constant.Event.TIMEOUT);
+      this.createDispatchEvent("timeout");
       break;
   }
 

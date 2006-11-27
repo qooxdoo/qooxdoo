@@ -40,8 +40,8 @@ function(table) {
 
   var scrollBarWidth = this._verScrollBar.getPreferredBoxWidth();
 
-  this._verScrollBar.setWidth(qx.constant.Core.AUTO);
-  this._horScrollBar.setHeight(qx.constant.Core.AUTO);
+  this._verScrollBar.setWidth("auto");
+  this._horScrollBar.setHeight("auto");
   this._horScrollBar.setPaddingRight(scrollBarWidth);
   //this._verScrollBar.setMergeEvents(true);
 
@@ -50,12 +50,12 @@ function(table) {
 
   // init header
   this._header = new qx.ui.table.TablePaneHeader(this);
-  this._header.set({ width:qx.constant.Core.AUTO, height:qx.constant.Core.AUTO });
+  this._header.set({ width:"auto", height:"auto" });
 
   this._headerClipper = new qx.ui.layout.CanvasLayout;
   with (this._headerClipper) {
-    setDimension(qx.constant.Core.FLEX, qx.constant.Core.AUTO);
-    setOverflow(qx.constant.Style.OVERFLOW_HIDDEN);
+    setDimension("1*", "auto");
+    setOverflow("hidden");
     add(this._header);
   }
 
@@ -64,13 +64,13 @@ function(table) {
 
   this._top = new qx.ui.layout.HorizontalBoxLayout;
   with (this._top) {
-    setHeight(qx.constant.Core.AUTO);
+    setHeight("auto");
     add(this._headerClipper, this._spacer);
   }
 
   // init pane
   this._tablePane = new qx.ui.table.TablePane(this);
-  this._tablePane.set({ width:qx.constant.Core.AUTO, height:qx.constant.Core.AUTO });
+  this._tablePane.set({ width:"auto", height:"auto" });
 
   this._focusIndicator = new qx.ui.layout.HorizontalBoxLayout;
   this._focusIndicator.setAppearance("table-focus-indicator");
@@ -84,54 +84,54 @@ function(table) {
 
   this._paneClipper = new qx.ui.layout.CanvasLayout;
   with (this._paneClipper) {
-    setWidth(qx.constant.Core.FLEX);
-    setOverflow(qx.constant.Style.OVERFLOW_HIDDEN);
+    setWidth("1*");
+    setOverflow("hidden");
     add(this._tablePane, this._focusIndicator);
-    addEventListener(qx.constant.Event.MOUSEWHEEL, this._onmousewheel, this);
+    addEventListener("mousewheel", this._onmousewheel, this);
   }
 
   // add all child widgets
   var scrollerBody = new qx.ui.layout.HorizontalBoxLayout;
-  scrollerBody.setHeight(qx.constant.Core.FLEX);
+  scrollerBody.setHeight("1*");
   scrollerBody.add(this._paneClipper, this._verScrollBar);
 
   this.add(this._top, scrollerBody, this._horScrollBar);
 
   // init event handlers
-  this.addEventListener(qx.constant.Event.MOUSEMOVE, this._onmousemove, this);
-  this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown, this);
-  this.addEventListener(qx.constant.Event.MOUSEUP,   this._onmouseup,   this);
-  this.addEventListener(qx.constant.Event.CLICK,     this._onclick,     this);
-  this.addEventListener(qx.constant.Event.DBLCLICK,  this._ondblclick,  this);
-  this.addEventListener(qx.constant.Event.MOUSEOUT,  this._onmouseout,  this);
+  this.addEventListener("mousemove", this._onmousemove, this);
+  this.addEventListener("mousedown", this._onmousedown, this);
+  this.addEventListener("mouseup",   this._onmouseup,   this);
+  this.addEventListener("click",     this._onclick,     this);
+  this.addEventListener("dblclick",  this._ondblclick,  this);
+  this.addEventListener("mouseout",  this._onmouseout,  this);
 });
 
 /** Whether to show the horizontal scroll bar */
-qx.OO.addProperty({ name:"horizontalScrollBarVisible", type:qx.constant.Type.BOOLEAN, defaultValue:true });
+qx.OO.addProperty({ name:"horizontalScrollBarVisible", type:"boolean", defaultValue:true });
 
 /** Whether to show the vertical scroll bar */
-qx.OO.addProperty({ name:"verticalScrollBarVisible", type:qx.constant.Type.BOOLEAN, defaultValue:true });
+qx.OO.addProperty({ name:"verticalScrollBarVisible", type:"boolean", defaultValue:true });
 
 /** The table pane model. */
-qx.OO.addProperty({ name:"tablePaneModel", type:qx.constant.Type.OBJECT, instance:"qx.ui.table.TablePaneModel" });
+qx.OO.addProperty({ name:"tablePaneModel", type:"object", instance:"qx.ui.table.TablePaneModel" });
 
 /** The current position of the the horizontal scroll bar. */
-qx.OO.addProperty({ name:"scrollX", type:qx.constant.Type.NUMBER, allowNull:false, defaultValue:0 });
+qx.OO.addProperty({ name:"scrollX", type:"number", allowNull:false, defaultValue:0 });
 
 /** The current position of the the vertical scroll bar. */
-qx.OO.addProperty({ name:"scrollY", type:qx.constant.Type.NUMBER, allowNull:false, defaultValue:0 });
+qx.OO.addProperty({ name:"scrollY", type:"number", allowNull:false, defaultValue:0 });
 
 /**
  * Whether column resize should be live. If false, during resize only a line is
  * shown and the real resize happens when the user releases the mouse button.
  */
-qx.OO.addProperty({ name:"liveResize", type:qx.constant.Type.BOOLEAN, defaultValue:false });
+qx.OO.addProperty({ name:"liveResize", type:"boolean", defaultValue:false });
 
 /**
  * Whether the focus should moved when the mouse is moved over a cell. If false
  * the focus is only moved on mouse clicks.
  */
-qx.OO.addProperty({ name:"focusCellOnMouseMove", type:qx.constant.Type.BOOLEAN, defaultValue:false });
+qx.OO.addProperty({ name:"focusCellOnMouseMove", type:"boolean", defaultValue:false });
 
 
 // property modifier
@@ -140,7 +140,7 @@ qx.Proto._modifyHorizontalScrollBarVisible = function(propValue, propOldValue, p
   //       correct height in order to check its value. When using
   //       setDisplay(false) the height isn't relayouted any more
   if (propValue) {
-    this._horScrollBar.setHeight(qx.constant.Core.AUTO);
+    this._horScrollBar.setHeight("auto");
   } else {
     this._horScrollBar.setHeight(0);
   }
@@ -160,7 +160,7 @@ qx.Proto._modifyHorizontalScrollBarVisible = function(propValue, propOldValue, p
 qx.Proto._modifyVerticalScrollBarVisible = function(propValue, propOldValue, propData) {
   // Workaround: See _modifyHorizontalScrollBarVisible
   if (propValue) {
-    this._verScrollBar.setWidth(qx.constant.Core.AUTO);
+    this._verScrollBar.setWidth("auto");
   } else {
     this._verScrollBar.setWidth(0);
   }
@@ -710,7 +710,7 @@ qx.Proto._showResizeLine = function(x) {
   resizeLine._applyRuntimeLeft(x - 2); // -1 for the width
   resizeLine._applyRuntimeHeight(this._paneClipper.getBoxHeight() + this._paneClipper.getScrollTop());
 
-  this._resizeLine.removeStyleProperty(qx.constant.Style.PROPERTY_VISIBILITY);
+  this._resizeLine.removeStyleProperty("visibility");
 }
 
 
@@ -718,7 +718,7 @@ qx.Proto._showResizeLine = function(x) {
  * Hides the resize line.
  */
 qx.Proto._hideResizeLine = function() {
-  this._resizeLine.setStyleProperty(qx.constant.Style.PROPERTY_VISIBILITY, qx.constant.Core.HIDDEN);
+  this._resizeLine.setStyleProperty("visibility", "hidden");
 }
 
 
@@ -731,7 +731,7 @@ qx.Proto._hideResizeLine = function() {
 qx.Proto.showColumnMoveFeedback = function(pageX) {
   var paneModel = this.getTablePaneModel();
   var columnModel = this.getTable().getTableColumnModel();
-  var paneLeftX = qx.dom.DomLocation.getClientBoxLeft(this._tablePane.getElement());
+  var paneLeftX = qx.dom.Location.getClientBoxLeft(this._tablePane.getElement());
   var colCount = paneModel.getColumnCount();
 
   var targetXPos = 0;
@@ -751,7 +751,7 @@ qx.Proto.showColumnMoveFeedback = function(pageX) {
   }
 
   // Ensure targetX is visible
-  var clipperLeftX = qx.dom.DomLocation.getClientBoxLeft(this._paneClipper.getElement());
+  var clipperLeftX = qx.dom.Location.getClientBoxLeft(this._paneClipper.getElement());
   var clipperWidth = this._paneClipper.getBoxWidth();
   var scrollX = clipperLeftX - paneLeftX;
   // NOTE: +2/-1 because of feedback width
@@ -899,7 +899,7 @@ qx.Proto.startEditing = function() {
     this._cellEditorFactory = this.getTable().getTableColumnModel().getCellEditorFactory(col);
     var cellInfo = { col:col, row:row, xPos:xPos, value:value }
     this._cellEditor = this._cellEditorFactory.createCellEditor(cellInfo);
-    this._cellEditor.set({ width:qx.constant.Core.HUNDREDPERCENT, height:qx.constant.Core.HUNDREDPERCENT });
+    this._cellEditor.set({ width:"100%", height:"100%" });
 
     this._focusIndicator.add(this._cellEditor);
     this._focusIndicator.addState("editing");
@@ -977,7 +977,7 @@ qx.Proto._onCellEditorFocusChanged = function(evt) {
  * @return {int} the model index of the column the mouse is over.
  */
 qx.Proto._getColumnForPageX = function(pageX) {
-  var headerLeftX = qx.dom.DomLocation.getClientBoxLeft(this._header.getElement());
+  var headerLeftX = qx.dom.Location.getClientBoxLeft(this._header.getElement());
 
   var columnModel = this.getTable().getTableColumnModel();
   var paneModel = this.getTablePaneModel();
@@ -1005,7 +1005,7 @@ qx.Proto._getColumnForPageX = function(pageX) {
  * @return {int} the column index.
  */
 qx.Proto._getResizeColumnForPageX = function(pageX) {
-  var headerLeftX = qx.dom.DomLocation.getClientBoxLeft(this._header.getElement());
+  var headerLeftX = qx.dom.Location.getClientBoxLeft(this._header.getElement());
 
   var columnModel = this.getTable().getTableColumnModel();
   var paneModel = this.getTablePaneModel();
@@ -1037,15 +1037,15 @@ qx.Proto._getResizeColumnForPageX = function(pageX) {
  */
 qx.Proto._getRowForPagePos = function(pageX, pageY) {
   var paneClipperElem = this._paneClipper.getElement();
-  var paneClipperLeftX = qx.dom.DomLocation.getClientBoxLeft(paneClipperElem);
-  var paneClipperRightX = qx.dom.DomLocation.getClientBoxRight(paneClipperElem);
+  var paneClipperLeftX = qx.dom.Location.getClientBoxLeft(paneClipperElem);
+  var paneClipperRightX = qx.dom.Location.getClientBoxRight(paneClipperElem);
   if (pageX < paneClipperLeftX || pageX > paneClipperRightX) {
     // There was no cell or header cell hit
     return null;
   }
 
-  var paneClipperTopY = qx.dom.DomLocation.getClientBoxTop(paneClipperElem);
-  var paneClipperBottomY = qx.dom.DomLocation.getClientBoxBottom(paneClipperElem);
+  var paneClipperTopY = qx.dom.Location.getClientBoxTop(paneClipperElem);
+  var paneClipperBottomY = qx.dom.Location.getClientBoxBottom(paneClipperElem);
   if (pageY >= paneClipperTopY && pageY <= paneClipperBottomY) {
     // This event is in the pane -> Get the row
     var rowHeight = this.getTable().getRowHeight();
@@ -1063,9 +1063,9 @@ qx.Proto._getRowForPagePos = function(pageX, pageY) {
   }
 
   var headerElem = this._headerClipper.getElement();
-  if (pageY >= qx.dom.DomLocation.getClientBoxTop(headerElem)
-    && pageY <= qx.dom.DomLocation.getClientBoxBottom(headerElem)
-    && pageX <= qx.dom.DomLocation.getClientBoxRight(headerElem))
+  if (pageY >= qx.dom.Location.getClientBoxTop(headerElem)
+    && pageY <= qx.dom.Location.getClientBoxBottom(headerElem)
+    && pageX <= qx.dom.Location.getClientBoxRight(headerElem))
   {
     // This event is in the pane -> Return -1 for the header
     return -1;
@@ -1280,12 +1280,12 @@ qx.Proto.dispose = function() {
     this._resizeLine.dispose();
   }
 
-  this.removeEventListener(qx.constant.Event.MOUSEMOVE, this._onmousemove, this);
-  this.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown, this);
-  this.removeEventListener(qx.constant.Event.MOUSEUP, this._onmouseup, this);
-  this.removeEventListener(qx.constant.Event.CLICK, this._onclick, this);
-  this.removeEventListener(qx.constant.Event.DBLCLICK, this._ondblclick, this);
-  this.removeEventListener(qx.constant.Event.MOUSEOUT, this._onmouseout, this);
+  this.removeEventListener("mousemove", this._onmousemove, this);
+  this.removeEventListener("mousedown", this._onmousedown, this);
+  this.removeEventListener("mouseup", this._onmouseup, this);
+  this.removeEventListener("click", this._onclick, this);
+  this.removeEventListener("dblclick", this._ondblclick, this);
+  this.removeEventListener("mouseout", this._onmouseout, this);
 
   var tablePaneModel = this.getTablePaneModel();
   if (tablePaneModel != null) {

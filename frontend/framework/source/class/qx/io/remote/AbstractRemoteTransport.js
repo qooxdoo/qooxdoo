@@ -51,32 +51,32 @@ function() {
 /*!
   Target url to issue the request to
 */
-qx.OO.addProperty({ name : "url", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "url", type : "string" });
 
 /*!
   Determines what type of request to issue
 */
-qx.OO.addProperty({ name : "method", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "method", type : "string" });
 
 /*!
   Set the request to asynchronous
 */
-qx.OO.addProperty({ name : "asynchronous", type : qx.constant.Type.BOOLEAN });
+qx.OO.addProperty({ name : "asynchronous", type : "boolean" });
 
 /*!
   Set the data to be sent via this request
 */
-qx.OO.addProperty({ name : "data", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "data", type : "string" });
 
 /*!
   Username to use for HTTP authentication
 */
-qx.OO.addProperty({ name : "username", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "username", type : "string" });
 
 /*!
   Password to use for HTTP authentication
 */
-qx.OO.addProperty({ name : "password", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "password", type : "string" });
 
 /*!
   The state of the current request
@@ -84,35 +84,35 @@ qx.OO.addProperty({ name : "password", type : qx.constant.Type.STRING });
 qx.OO.addProperty(
 {
   name           : "state",
-  type           : qx.constant.Type.STRING,
+  type           : "string",
   possibleValues : [
-                   qx.constant.Net.STATE_CREATED, qx.constant.Net.STATE_CONFIGURED,
-                   qx.constant.Net.STATE_SENDING, qx.constant.Net.STATE_RECEIVING,
-                   qx.constant.Net.STATE_COMPLETED, qx.constant.Net.STATE_ABORTED,
-                   qx.constant.Net.STATE_TIMEOUT, qx.constant.Net.STATE_FAILED
+                   "created", "configured",
+                   "sending", "receiving",
+                   "completed", "aborted",
+                   "timeout", "failed"
                    ],
-  defaultValue   : qx.constant.Net.STATE_CREATED
+  defaultValue   : "created"
 });
 
 /*!
   Request headers
 */
-qx.OO.addProperty({ name : "requestHeaders", type: qx.constant.Type.OBJECT });
+qx.OO.addProperty({ name : "requestHeaders", type: "object" });
 
 /*!
   Request parameters to send.
 */
-qx.OO.addProperty({ name : "parameters", type: qx.constant.Type.OBJECT });
+qx.OO.addProperty({ name : "parameters", type: "object" });
 
 /*!
   Response Type
 */
-qx.OO.addProperty({ name : "responseType", type: qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "responseType", type: "string" });
 
 /*!
   Use Basic HTTP Authentication
 */
-qx.OO.addProperty({ name : "useBasicHttpAuth", type : qx.constant.Type.BOOLEAN });
+qx.OO.addProperty({ name : "useBasicHttpAuth", type : "boolean" });
 
 
 
@@ -132,11 +132,11 @@ qx.Proto.send = function() {
 
 qx.Proto.abort = function()
 {
-  if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
+  if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug")) {
     this.warn("Aborting...");
   }
 
-  this.setState(qx.constant.Net.STATE_ABORTED);
+  this.setState("aborted");
 }
 
 /*!
@@ -144,26 +144,26 @@ qx.Proto.abort = function()
 */
 qx.Proto.timeout = function()
 {
-  if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
+  if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug")) {
     this.warn("Timeout...");
   }
 
-  this.setState(qx.constant.Net.STATE_TIMEOUT);
+  this.setState("timeout");
 }
 
 /*!
 
-  Force the transport into the failed state (qx.constant.Net.STATE_FAILED).
+  Force the transport into the failed state ("failed").
 
   Listeners of the "failed" signal are notified about the event.
 */
 qx.Proto.failed = function()
 {
-  if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
+  if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug")) {
     this.warn("Failed...");
   }
 
-  this.setState(qx.constant.Net.STATE_FAILED);
+  this.setState("failed");
 }
 
 
@@ -178,7 +178,7 @@ qx.Proto.failed = function()
 ---------------------------------------------------------------------------
 */
 /*!
-  Add a request header to this transports qx.io.remote.RemoteRequest.
+  Add a request header to this transports qx.io.remote.Request.
 
   This method is virtual and concrete subclasses are supposed to
   implement it.
@@ -285,42 +285,42 @@ qx.Proto.getFetchedLength = function() {
 
 qx.Proto._modifyState = function(propValue, propOldValue, propData)
 {
-  if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
+  if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug")) {
     this.debug("State: " + propValue);
   }
 
   switch(propValue)
   {
-    case qx.constant.Net.STATE_CREATED:
-      this.createDispatchEvent(qx.constant.Event.CREATED);
+    case "created":
+      this.createDispatchEvent("created");
       break;
 
-    case qx.constant.Net.STATE_CONFIGURED:
-      this.createDispatchEvent(qx.constant.Event.CONFIGURED);
+    case "configured":
+      this.createDispatchEvent("configured");
       break;
 
-    case qx.constant.Net.STATE_SENDING:
-      this.createDispatchEvent(qx.constant.Event.SENDING);
+    case "sending":
+      this.createDispatchEvent("sending");
       break;
 
-    case qx.constant.Net.STATE_RECEIVING:
-      this.createDispatchEvent(qx.constant.Event.RECEIVING);
+    case "receiving":
+      this.createDispatchEvent("receiving");
       break;
 
-    case qx.constant.Net.STATE_COMPLETED:
-      this.createDispatchEvent(qx.constant.Event.COMPLETED);
+    case "completed":
+      this.createDispatchEvent("completed");
       break;
 
-    case qx.constant.Net.STATE_ABORTED:
-      this.createDispatchEvent(qx.constant.Event.ABORTED);
+    case "aborted":
+      this.createDispatchEvent("aborted");
       break;
 
-    case qx.constant.Net.STATE_FAILED:
-      this.createDispatchEvent(qx.constant.Event.FAILED);
+    case "failed":
+      this.createDispatchEvent("failed");
       break;
 
-    case qx.constant.Net.STATE_TIMEOUT:
-      this.createDispatchEvent(qx.constant.Event.TIMEOUT);
+    case "timeout":
+      this.createDispatchEvent("timeout");
       break;
   }
 

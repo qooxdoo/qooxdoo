@@ -22,7 +22,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.pageview.tabview.TabViewPane", qx.ui.pageview.AbstractPageViewPane,
+qx.OO.defineClass("qx.ui.pageview.tabview.Pane", qx.ui.pageview.AbstractPageViewPane,
 function()
 {
   qx.ui.pageview.AbstractPageViewPane.call(this);
@@ -30,4 +30,4 @@ function()
   this.setZIndex(1);
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "tab-view-pane" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "tab-view-pane" });

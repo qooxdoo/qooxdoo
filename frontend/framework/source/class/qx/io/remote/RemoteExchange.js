@@ -35,7 +35,7 @@
  * @event timeout {qx.event.type.Event}
  * @event failed {qx.event.type.Event}
  */
-qx.OO.defineClass("qx.io.remote.RemoteExchange", qx.core.Target,
+qx.OO.defineClass("qx.io.remote.Exchange", qx.core.Target,
 function(vRequest)
 {
   qx.core.Target.call(this);
@@ -68,40 +68,40 @@ qx.Settings.setDefault("enableDebug", false);
 ---------------------------------------------------------------------------
 */
 
-qx.io.remote.RemoteExchange.typesOrder = [ "qx.io.remote.XmlHttpTransport", "qx.io.remote.IframeTransport", "qx.io.remote.ScriptTransport" ];
+qx.io.remote.Exchange.typesOrder = [ "qx.io.remote.XmlHttpTransport", "qx.io.remote.IframeTransport", "qx.io.remote.ScriptTransport" ];
 
-qx.io.remote.RemoteExchange.typesReady = false;
+qx.io.remote.Exchange.typesReady = false;
 
-qx.io.remote.RemoteExchange.typesAvailable = {};
-qx.io.remote.RemoteExchange.typesSupported = {};
+qx.io.remote.Exchange.typesAvailable = {};
+qx.io.remote.Exchange.typesSupported = {};
 
-qx.io.remote.RemoteExchange.registerType = function(vClass, vId) {
-  qx.io.remote.RemoteExchange.typesAvailable[vId] = vClass;
+qx.io.remote.Exchange.registerType = function(vClass, vId) {
+  qx.io.remote.Exchange.typesAvailable[vId] = vClass;
 }
 
-qx.io.remote.RemoteExchange.initTypes = function()
+qx.io.remote.Exchange.initTypes = function()
 {
-  if (qx.io.remote.RemoteExchange.typesReady) {
+  if (qx.io.remote.Exchange.typesReady) {
     return;
   }
 
-  for (var vId in qx.io.remote.RemoteExchange.typesAvailable)
+  for (var vId in qx.io.remote.Exchange.typesAvailable)
   {
-    vTransporterImpl = qx.io.remote.RemoteExchange.typesAvailable[vId];
+    vTransporterImpl = qx.io.remote.Exchange.typesAvailable[vId];
 
     if (vTransporterImpl.isSupported()) {
-      qx.io.remote.RemoteExchange.typesSupported[vId] = vTransporterImpl;
+      qx.io.remote.Exchange.typesSupported[vId] = vTransporterImpl;
     }
   }
 
-  qx.io.remote.RemoteExchange.typesReady = true;
+  qx.io.remote.Exchange.typesReady = true;
 
-  if (qx.lang.Object.isEmpty(qx.io.remote.RemoteExchange.typesSupported)) {
+  if (qx.lang.Object.isEmpty(qx.io.remote.Exchange.typesSupported)) {
     throw new Error("No supported transport types were found!");
   }
 }
 
-qx.io.remote.RemoteExchange.canHandle = function(vImpl, vNeeds, vResponseType)
+qx.io.remote.Exchange.canHandle = function(vImpl, vNeeds, vResponseType)
 {
   if (!qx.lang.Array.contains(vImpl.handles.responseTypes, vResponseType)) {
     return false;
@@ -146,13 +146,13 @@ Some data has been received. Calling the responseBody and responseText propertie
 All the data has been received, and the complete data is available in the
 */
 
-qx.io.remote.RemoteExchange._nativeMap =
+qx.io.remote.Exchange._nativeMap =
 {
-  0 : qx.constant.Net.STATE_CREATED,
-  1 : qx.constant.Net.STATE_CONFIGURED,
-  2 : qx.constant.Net.STATE_SENDING,
-  3 : qx.constant.Net.STATE_RECEIVING,
-  4 : qx.constant.Net.STATE_COMPLETED
+  0 : "created",
+  1 : "configured",
+  2 : "sending",
+  3 : "receiving",
+  4 : "completed"
 }
 
 
@@ -166,7 +166,7 @@ qx.io.remote.RemoteExchange._nativeMap =
 ---------------------------------------------------------------------------
 */
 
-qx.io.remote.RemoteExchange.wasSuccessful = function(vStatusCode, vReadyState, vIsLocal)
+qx.io.remote.Exchange.wasSuccessful = function(vStatusCode, vReadyState, vIsLocal)
 {
   if (vIsLocal)
   {
@@ -182,7 +182,7 @@ qx.io.remote.RemoteExchange.wasSuccessful = function(vStatusCode, vReadyState, v
 
       default:
         // at least older versions of Safari don't set the status code for local file access
-        return typeof vStatusCode === qx.constant.Type.UNDEFINED;
+        return typeof vStatusCode === "undefined";
     }
   }
   else
@@ -190,8 +190,8 @@ qx.io.remote.RemoteExchange.wasSuccessful = function(vStatusCode, vReadyState, v
     switch(vStatusCode)
     {
       case -1:  // Not Available (OK for readystates: MSXML<4=1-3, MSXML>3=1-2, Gecko=1)
-        if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug") && vReadyState > 3) {
-          qx.dev.log.Logger.getClassLogger(qx.io.remote.RemoteExchange).debug("Failed with statuscode: -1 at readyState " + vReadyState);
+        if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug") && vReadyState > 3) {
+          qx.dev.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Failed with statuscode: -1 at readyState " + vReadyState);
         }
 
         return vReadyState < 4;
@@ -211,8 +211,8 @@ qx.io.remote.RemoteExchange.wasSuccessful = function(vStatusCode, vReadyState, v
 
 
       case 206: // Partial Content
-        if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug") && vReadyState === 4) {
-          qx.dev.log.Logger.getClassLogger(qx.io.remote.RemoteExchange).debug("Failed with statuscode: 206 (Partial content while being complete!)");
+        if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug") && vReadyState === 4) {
+          qx.dev.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Failed with statuscode: 206 (Partial content while being complete!)");
         }
 
         return vReadyState !== 4;
@@ -245,8 +245,8 @@ qx.io.remote.RemoteExchange.wasSuccessful = function(vStatusCode, vReadyState, v
       case 503: // Out of Resources
       case 504: // Gateway Time-Out
       case 505: // HTTP Version not supported
-        if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
-          qx.dev.log.Logger.getClassLogger(qx.io.remote.RemoteExchange).debug("Failed with typical HTTP statuscode: " + vStatusCode);
+        if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug")) {
+          qx.dev.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Failed with typical HTTP statuscode: " + vStatusCode);
         }
 
         return false;
@@ -263,8 +263,8 @@ qx.io.remote.RemoteExchange.wasSuccessful = function(vStatusCode, vReadyState, v
       case 12152:
       // See above comments for variable status.
       case 13030:
-        if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
-          qx.dev.log.Logger.getClassLogger(qx.io.remote.RemoteExchange).debug("Failed with MSHTML specific HTTP statuscode: " + vStatusCode);
+        if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug")) {
+          qx.dev.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Failed with MSHTML specific HTTP statuscode: " + vStatusCode);
         }
 
         return false;
@@ -277,14 +277,14 @@ qx.io.remote.RemoteExchange.wasSuccessful = function(vStatusCode, vReadyState, v
           return true;
         }
 
-        qx.dev.log.Logger.getClassLogger(qx.io.remote.RemoteExchange).debug("Unknown status code: " + vStatusCode + " (" + vReadyState + ")");
+        qx.dev.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Unknown status code: " + vStatusCode + " (" + vReadyState + ")");
         throw new Error("Unknown status code: " + vStatusCode);
     }
   }
 }
 
 
-qx.io.remote.RemoteExchange.statusCodeToString = function(vStatusCode)
+qx.io.remote.Exchange.statusCodeToString = function(vStatusCode)
 {
   switch(vStatusCode)
   {
@@ -349,25 +349,25 @@ qx.io.remote.RemoteExchange.statusCodeToString = function(vStatusCode)
 /*!
   Set the request to send with this transport.
 */
-qx.OO.addProperty({ name : "request", type : qx.constant.Type.OBJECT, instance : "qx.io.remote.RemoteRequest" });
+qx.OO.addProperty({ name : "request", type : "object", instance : "qx.io.remote.Request" });
 /*!
   Set the implementation to use to send the request with.
 
   The implementation should be a subclass of qx.io.remote.AbstractRemoteTransport and
   must implement all methods in the transport API.
 */
-qx.OO.addProperty({ name : "implementation", type : qx.constant.Type.OBJECT });
+qx.OO.addProperty({ name : "implementation", type : "object" });
 qx.OO.addProperty(
 {
   name           : "state",
-  type           : qx.constant.Type.STRING,
+  type           : "string",
   possibleValues : [
-                   qx.constant.Net.STATE_CONFIGURED, qx.constant.Net.STATE_SENDING,
-                   qx.constant.Net.STATE_RECEIVING, qx.constant.Net.STATE_COMPLETED,
-                   qx.constant.Net.STATE_ABORTED, qx.constant.Net.STATE_TIMEOUT,
-                   qx.constant.Net.STATE_FAILED
+                   "configured", "sending",
+                   "receiving", "completed",
+                   "aborted", "timeout",
+                   "failed"
                    ],
-  defaultValue   : qx.constant.Net.STATE_CONFIGURED
+  defaultValue   : "configured"
 });
 
 
@@ -391,10 +391,10 @@ qx.Proto.send = function()
     return this.error("Please attach a request object first");
   }
 
-  qx.io.remote.RemoteExchange.initTypes();
+  qx.io.remote.Exchange.initTypes();
 
-  var vUsage = qx.io.remote.RemoteExchange.typesOrder;
-  var vSupported = qx.io.remote.RemoteExchange.typesSupported;
+  var vUsage = qx.io.remote.Exchange.typesOrder;
+  var vSupported = qx.io.remote.Exchange.typesSupported;
 
   // Mapping settings to contenttype and needs to check later
   // if the selected transport implementation can handle
@@ -423,13 +423,13 @@ qx.Proto.send = function()
 
     if (vTransportImpl)
     {
-      if (!qx.io.remote.RemoteExchange.canHandle(vTransportImpl, vNeeds, vResponseType)) {
+      if (!qx.io.remote.Exchange.canHandle(vTransportImpl, vNeeds, vResponseType)) {
         continue;
       }
 
       try
       {
-        if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
+        if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug")) {
           this.debug("Using implementation: " + vTransportImpl.classname);
         }
 
@@ -451,7 +451,7 @@ qx.Proto.send = function()
   this.error("There is no transport implementation available to handle this request: " + vRequest);
 }
 /*!
-  Force the transport into the aborted (qx.constant.Net.STATE_ABORTED)
+  Force the transport into the aborted ("aborted")
   state.
 */
 qx.Proto.abort = function()
@@ -460,17 +460,17 @@ qx.Proto.abort = function()
 
   if (vImplementation)
   {
-    if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
+    if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug")) {
       this.debug("Abort: implementation " + vImplementation.toHashCode());
     }
     vImplementation.abort();
   }
   else
   {
-    if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
+    if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug")) {
       this.debug("Abort: forcing state to be aborted");
     }
-    this.setState(qx.constant.Net.STATE_ABORTED);
+    this.setState("aborted");
   }
 }
 /*!
@@ -488,7 +488,7 @@ qx.Proto.timeout = function()
   else
   {
     this.warn("Timeout: forcing state to timeout");
-    this.setState(qx.constant.Net.STATE_TIMEOUT);
+    this.setState("timeout");
   }
 
   // Disable future timeouts in case user handler blocks
@@ -512,27 +512,27 @@ qx.Proto.timeout = function()
 */
 
 qx.Proto._onsending = function(e) {
-  this.setState(qx.constant.Net.STATE_SENDING);
+  this.setState("sending");
 }
 
 qx.Proto._onreceiving = function(e) {
-  this.setState(qx.constant.Net.STATE_RECEIVING);
+  this.setState("receiving");
 }
 
 qx.Proto._oncompleted = function(e) {
-  this.setState(qx.constant.Net.STATE_COMPLETED);
+  this.setState("completed");
 }
 
 qx.Proto._onabort = function(e) {
-  this.setState(qx.constant.Net.STATE_ABORTED);
+  this.setState("aborted");
 }
 
 qx.Proto._onfailed = function(e) {
-  this.setState(qx.constant.Net.STATE_FAILED);
+  this.setState("failed");
 }
 
 qx.Proto._ontimeout = function(e) {
-  this.setState(qx.constant.Net.STATE_TIMEOUT);
+  this.setState("timeout");
 }
 
 
@@ -550,12 +550,12 @@ qx.Proto._modifyImplementation = function(propValue, propOldValue, propData)
 {
   if (propOldValue)
   {
-    propOldValue.removeEventListener(qx.constant.Event.SENDING, this._onsending, this);
-    propOldValue.removeEventListener(qx.constant.Event.RECEIVING, this._onreceiving, this);
-    propOldValue.removeEventListener(qx.constant.Event.COMPLETED, this._oncompleted, this);
-    propOldValue.removeEventListener(qx.constant.Event.ABORTED, this._onabort, this);
-    propOldValue.removeEventListener(qx.constant.Event.TIMEOUT, this._ontimeout, this);
-    propOldValue.removeEventListener(qx.constant.Event.FAILED, this._onfailed, this);
+    propOldValue.removeEventListener("sending", this._onsending, this);
+    propOldValue.removeEventListener("receiving", this._onreceiving, this);
+    propOldValue.removeEventListener("completed", this._oncompleted, this);
+    propOldValue.removeEventListener("aborted", this._onabort, this);
+    propOldValue.removeEventListener("timeout", this._ontimeout, this);
+    propOldValue.removeEventListener("failed", this._onfailed, this);
   }
 
   if (propValue)
@@ -575,12 +575,12 @@ qx.Proto._modifyImplementation = function(propValue, propOldValue, propData)
 
     propValue.setResponseType(vRequest.getResponseType());
 
-    propValue.addEventListener(qx.constant.Event.SENDING, this._onsending, this);
-    propValue.addEventListener(qx.constant.Event.RECEIVING, this._onreceiving, this);
-    propValue.addEventListener(qx.constant.Event.COMPLETED, this._oncompleted, this);
-    propValue.addEventListener(qx.constant.Event.ABORTED, this._onabort, this);
-    propValue.addEventListener(qx.constant.Event.TIMEOUT, this._ontimeout, this);
-    propValue.addEventListener(qx.constant.Event.FAILED, this._onfailed, this);
+    propValue.addEventListener("sending", this._onsending, this);
+    propValue.addEventListener("receiving", this._onreceiving, this);
+    propValue.addEventListener("completed", this._oncompleted, this);
+    propValue.addEventListener("aborted", this._onabort, this);
+    propValue.addEventListener("timeout", this._ontimeout, this);
+    propValue.addEventListener("failed", this._onfailed, this);
   }
 
   return true;
@@ -590,24 +590,24 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
 {
   var vRequest = this.getRequest();
 
-  if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
+  if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug")) {
     this.debug("State: " + propOldValue + " => " + propValue);
   }
 
   switch(propValue)
   {
-    case qx.constant.Net.STATE_SENDING:
-      this.createDispatchEvent(qx.constant.Event.SENDING);
+    case "sending":
+      this.createDispatchEvent("sending");
       break;
 
-    case qx.constant.Net.STATE_RECEIVING:
-      this.createDispatchEvent(qx.constant.Event.RECEIVING);
+    case "receiving":
+      this.createDispatchEvent("receiving");
       break;
 
-    case qx.constant.Net.STATE_COMPLETED:
-    case qx.constant.Net.STATE_ABORTED:
-    case qx.constant.Net.STATE_TIMEOUT:
-    case qx.constant.Net.STATE_FAILED:
+    case "completed":
+    case "aborted":
+    case "timeout":
+    case "failed":
       var vImpl = this.getImplementation();
 
       if (! vImpl) {
@@ -615,9 +615,9 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
         break;
       }
 
-      var vResponse = new qx.io.remote.RemoteResponse;
+      var vResponse = new qx.io.remote.Response;
 
-      if (propValue == qx.constant.Net.STATE_COMPLETED) {
+      if (propValue == "completed") {
         var vContent = vImpl.getResponseContent();
         vResponse.setContent(vContent);
 
@@ -628,10 +628,10 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
          */
         if (vContent === null) {
           // Nope.  Change COMPLETED to FAILED.
-          if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
+          if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug")) {
             this.debug("Altered State: " + propValue + " => failed");
           }
-          propValue = qx.constant.Net.STATE_FAILED;
+          propValue = "failed";
         }
       }
 
@@ -644,20 +644,20 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
 
       switch(propValue)
       {
-        case qx.constant.Net.STATE_COMPLETED:
-          vEventType = qx.constant.Event.COMPLETED;
+        case "completed":
+          vEventType = "completed";
           break;
 
-        case qx.constant.Net.STATE_ABORTED:
-          vEventType = qx.constant.Event.ABORTED;
+        case "aborted":
+          vEventType = "aborted";
           break;
 
-        case qx.constant.Net.STATE_TIMEOUT:
-          vEventType = qx.constant.Event.TIMEOUT;
+        case "timeout":
+          vEventType = "timeout";
           break;
 
-        case qx.constant.Net.STATE_FAILED:
-          vEventType = qx.constant.Event.FAILED;
+        case "failed":
+          vEventType = "failed";
           break;
       }
 

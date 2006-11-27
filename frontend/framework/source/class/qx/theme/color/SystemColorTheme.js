@@ -22,7 +22,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.theme.color.SystemColorTheme", qx.renderer.theme.ColorTheme,
+qx.OO.defineClass("qx.theme.color.System", qx.renderer.theme.ColorTheme,
 function() {
   qx.renderer.theme.ColorTheme.call(this, "Operating System Default");
 });

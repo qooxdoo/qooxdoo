@@ -32,7 +32,7 @@ function() {
 
 
 /** Whether the logger name and log level should be included in the formatted log message. */
-qx.OO.addProperty({ name:"useLongFormat", type:qx.constant.Type.BOOLEAN, defaultValue:true, allowNull:false });
+qx.OO.addProperty({ name:"useLongFormat", type:"boolean", defaultValue:true, allowNull:false });
 
 
 // overridden
@@ -67,7 +67,7 @@ qx.Proto.formatLogEvent = function(evt) {
   // Append the time stamp
   var time = new String(new Date().getTime() - qx._LOADSTART);
   while (time.length < 6) {
-    time = qx.constant.Core.ZERO + time;
+    time = "0" + time;
   }
   text += time;
 

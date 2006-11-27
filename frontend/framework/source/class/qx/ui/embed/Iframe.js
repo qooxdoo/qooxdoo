@@ -45,7 +45,7 @@ function(vSource)
   }
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "iframe" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "iframe" });
 
 
 
@@ -58,9 +58,9 @@ qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defa
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "source", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "source", type : "string" });
 
-qx.OO.addProperty({ name : "frameName", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "frameName", type : "string" });
 
 
 
@@ -116,14 +116,14 @@ qx.Proto.reload = function() {
 qx.Proto.block = function()
 {
   if (this._blockerNode) {
-    this._blockerNode.style.display = qx.constant.Core.EMPTY;
+    this._blockerNode.style.display = "";
   }
 };
 
 qx.Proto.release = function()
 {
   if (this._blockerNode) {
-    this._blockerNode.style.display = qx.constant.Core.NONE;
+    this._blockerNode.style.display = "none";
   }
 };
 
@@ -235,14 +235,14 @@ qx.Proto._modifyFrameName = function (propValue, propOldValue, propName, uniqMod
 qx.Proto._onreadystatechange = function()
 {
   if (this.getIframeNode().readyState == "complete") {
-    this.dispatchEvent(new qx.event.type.Event(qx.constant.Event.LOAD), true);
+    this.dispatchEvent(new qx.event.type.Event("load"), true);
   }
 }
 
 qx.Proto._onload = function()
 {
   this._isLoaded = true;
-  this.dispatchEvent(new qx.event.type.Event(qx.constant.Event.LOAD), true);
+  this.dispatchEvent(new qx.event.type.Event("load"), true);
 }
 
 
@@ -383,24 +383,24 @@ qx.ui.embed.Iframe.initIframe = function(vFrameName)
     }
    }
 
-  f.frameBorder = qx.constant.Core.ZERO;
-  f.frameSpacing = qx.constant.Core.ZERO;
+  f.frameBorder = "0";
+  f.frameSpacing = "0";
 
-  f.marginWidth = qx.constant.Core.ZERO;
-  f.marginHeight = qx.constant.Core.ZERO;
+  f.marginWidth = "0";
+  f.marginHeight = "0";
 
-  f.width = qx.constant.Core.HUNDREDPERCENT;
-  f.height = qx.constant.Core.HUNDREDPERCENT;
+  f.width = "100%";
+  f.height = "100%";
 
-  f.hspace = qx.constant.Core.ZERO;
-  f.vspace = qx.constant.Core.ZERO;
+  f.hspace = "0";
+  f.vspace = "0";
 
-  f.border = qx.constant.Core.ZERO;
-  f.scrolling = qx.constant.Core.AUTO;
+  f.border = "0";
+  f.scrolling = "auto";
   f.unselectable = "on";
   f.allowTransparency = "true";
 
-  f.style.position = qx.constant.Style.POSITION_ABSOLUTE;
+  f.style.position = "absolute";
   f.style.top = 0;
   f.style.left = 0;
  };
@@ -418,13 +418,13 @@ qx.ui.embed.Iframe.initBlocker = function()
     b.style.backgroundImage = "url(" + qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif") + ")";
   }
 
-  b.style.position = qx.constant.Style.POSITION_ABSOLUTE;
+  b.style.position = "absolute";
   b.style.top = 0;
   b.style.left = 0;
-  b.style.width = qx.constant.Core.HUNDREDPERCENT;
-  b.style.height = qx.constant.Core.HUNDREDPERCENT;
+  b.style.width = "100%";
+  b.style.height = "100%";
   b.style.zIndex = 1;
-  b.style.display = qx.constant.Core.NONE;
+  b.style.display = "none";
 };
 
 

@@ -47,23 +47,23 @@ function(vData, vColumns)
   // Add handling for mouse wheel events
   // Needed because the virtual scroll area does not fire browser
   // understandable events above this pane.
-  this.addEventListener(qx.constant.Event.MOUSEWHEEL, this._onmousewheel);
+  this.addEventListener("mousewheel", this._onmousewheel);
 
-  this.addEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover);
-  this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
-  this.addEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
-  this.addEventListener(qx.constant.Event.CLICK, this._onclick);
-  this.addEventListener(qx.constant.Event.DBLCLICK, this._ondblclick);
+  this.addEventListener("mouseover", this._onmouseover);
+  this.addEventListener("mousedown", this._onmousedown);
+  this.addEventListener("mouseup", this._onmouseup);
+  this.addEventListener("click", this._onclick);
+  this.addEventListener("dblclick", this._ondblclick);
 
 
   // ************************************************************************
   //   KEY EVENT LISTENER
   // ************************************************************************
-  this.addEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
+  this.addEventListener("keypress", this._onkeypress);
 });
 
 qx.OO.changeProperty({ name : "appearance",
-                       type : qx.constant.Type.STRING,
+                       type : "string",
                        defaultValue : "list-view-pane"
                      });
 
@@ -122,7 +122,7 @@ qx.Proto._updateLayout = function(vUpdate)
         this.add(vCell, j++, i);
 
         if (vColumns[vCol].align) {
-          vCell.setStyleProperty(qx.constant.Style.PROPERTY_TEXTALIGN,
+          vCell.setStyleProperty("textAlign",
                                  vColumns[vCol].align);
         }
       }
@@ -217,9 +217,9 @@ qx.Proto._updateRow = function(vRelativeRow)
     if (vChild)
     {
       if (vEntry && vEntry._selected) {
-        vChild.addState(qx.manager.selection.SelectionManager.STATE_SELECTED);
+        vChild.addState("selected");
       } else {
-        vChild.removeState(qx.manager.selection.SelectionManager.STATE_SELECTED);
+        vChild.removeState("selected");
       }
       vChild.set(vEntry
                  ? vEntry[vCol]
@@ -270,7 +270,7 @@ qx.Proto.getManager = function() {
 qx.Proto.getListViewTarget = function(e)
 {
   var vEventTop = e.getPageY();
-  var vPaneTop = qx.dom.DomLocation.getPageInnerTop(this.getElement());
+  var vPaneTop = qx.dom.Location.getPageInnerTop(this.getElement());
   var vItemNo = Math.floor(this._currentScrollTop / this._rowHeight) +
                 Math.floor((vEventTop - vPaneTop) / this._rowHeight);
 
@@ -296,7 +296,7 @@ qx.Proto.getItemHeight = function(vItem) {
 
 // use the full inner width of the pane
 qx.Proto.getItemWidth = function(vItem) {
-  return qx.dom.DomDimension.getInnerWidth(this.getElement());
+  return qx.dom.Dimension.getInnerWidth(this.getElement());
 }
 
 qx.Proto.getItemLeft = function(vItem) {
@@ -522,18 +522,18 @@ qx.Proto.dispose = function()
   // ************************************************************************
   //   MOUSE EVENT LISTENER
   // ************************************************************************
-  this.removeEventListener(qx.constant.Event.MOUSEWHEEL, this._onmousewheel);
-  this.removeEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover);
-  this.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
-  this.removeEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
-  this.removeEventListener(qx.constant.Event.CLICK, this._onclick);
-  this.removeEventListener(qx.constant.Event.DBLCLICK, this._ondblclick);
+  this.removeEventListener("mousewheel", this._onmousewheel);
+  this.removeEventListener("mouseover", this._onmouseover);
+  this.removeEventListener("mousedown", this._onmousedown);
+  this.removeEventListener("mouseup", this._onmouseup);
+  this.removeEventListener("click", this._onclick);
+  this.removeEventListener("dblclick", this._ondblclick);
 
 
   // ************************************************************************
   //   KEY EVENT LISTENER
   // ************************************************************************
-  this.removeEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
+  this.removeEventListener("keypress", this._onkeypress);
 
 
   // ************************************************************************

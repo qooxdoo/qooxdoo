@@ -60,7 +60,7 @@ function(flags)
   Dispatches a qx.event.type.Event("done") after the hierarchy is built
 */
 qx.Proto.buildFromUrl = function(parent, url) {
-  var req = new qx.io.remote.RemoteRequest(url, "GET", "application/xml");
+  var req = new qx.io.remote.Request(url, "GET", "application/xml");
   var self = this;
   req.addEventListener("completed", function(e) {
     self.build(parent, e.getData().getContent());
@@ -221,7 +221,7 @@ qx.Proto._buildWidgetFromNode = function(parent, node) {
   var attribs = this._mapXmlAttribToObject(node, widget);
   delete attribs['qxtype'];
 
-  var dummyWidget = attribs.id && attribs.id.indexOf(qx.constant.Core.UNDERLINE) == 0;
+  var dummyWidget = attribs.id && attribs.id.indexOf("_") == 0;
 
   if (attribs.id) {
     // register a global refrence for this widget
@@ -355,9 +355,9 @@ qx.Proto._registerDefaultPropertyEditors = function() {
   this.registerPropertyEditor('qx.ui.core.Widget', 'border', evalPropertyEditor);
 
 
-  this.registerPropertyEditor('qx.ui.menu.MenuButton', 'menu', referencePropertyEditor);
+  this.registerPropertyEditor('qx.ui.menu.Button', 'menu', referencePropertyEditor);
   this.registerPropertyEditor('qx.ui.form.RadioButton', 'manager', referencePropertyEditor);
-  this.registerPropertyEditor('qx.ui.menu.MenuRadioButton', 'group', referencePropertyEditor);
+  this.registerPropertyEditor('qx.ui.menu.RadioButton', 'group', referencePropertyEditor);
 
 
   // a property editor that just tries to coerce the string value into a suitable type

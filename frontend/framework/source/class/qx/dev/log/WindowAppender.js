@@ -45,10 +45,10 @@ function(name) {
  * The maximum number of messages to show. If null the number of messages is not
  * limited.
  */
-qx.OO.addProperty({ name:"maxMessages", type:qx.constant.Type.NUMBER, defaultValue:500 });
+qx.OO.addProperty({ name:"maxMessages", type:"number", defaultValue:500 });
 
 /** Whether the window should appear under the main window. */
-qx.OO.addProperty({ name:"popUnder", type:qx.constant.Type.BOOLEAN, defaultValue:false, allowNull:false });
+qx.OO.addProperty({ name:"popUnder", type:"boolean", defaultValue:false, allowNull:false });
 
 
 /**

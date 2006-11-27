@@ -21,7 +21,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.dom.DomNode",
+qx.OO.defineClass("qx.dom.Node",
 {
   ELEMENT : 1,
   ATTRIBUTE : 2,

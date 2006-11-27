@@ -27,7 +27,7 @@ function()
 {
   qx.ui.layout.HorizontalBoxLayout.call(this);
 
-  this.addEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
+  this.addEventListener("keypress", this._onkeypress);
 });
 
 
@@ -38,12 +38,12 @@ function()
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "openMenu", type : qx.constant.Type.OBJECT, instance : "qx.ui.menu.Menu" });
+qx.OO.addProperty({ name : "openMenu", type : "object", instance : "qx.ui.menu.Menu" });
 
 /*!
   Appearance of the widget
 */
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "toolbar" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "toolbar" });
 
 
 
@@ -70,11 +70,11 @@ qx.Proto.getAllButtons = function()
   {
     vCurrent = vChildren[i];
 
-    if (vCurrent instanceof qx.ui.toolbar.ToolBarMenuButton)
+    if (vCurrent instanceof qx.ui.toolbar.MenuButton)
     {
       vDeepChildren.push(vCurrent);
     }
-    else if (vCurrent instanceof qx.ui.toolbar.ToolBarPart)
+    else if (vCurrent instanceof qx.ui.toolbar.Part)
     {
       vDeepChildren = vDeepChildren.concat(vCurrent.getChildren());
     }
@@ -132,7 +132,7 @@ qx.Proto._onkeypress_left = function()
   {
     vCurrent = vChildren[i];
 
-    if (vCurrent instanceof qx.ui.toolbar.ToolBarMenuButton && vCurrent.getEnabled())
+    if (vCurrent instanceof qx.ui.toolbar.MenuButton && vCurrent.getEnabled())
     {
       vPrevButton = vCurrent;
       break;
@@ -146,7 +146,7 @@ qx.Proto._onkeypress_left = function()
     {
       vCurrent = vChildren[i];
 
-      if (vCurrent instanceof qx.ui.toolbar.ToolBarMenuButton && vCurrent.getEnabled())
+      if (vCurrent instanceof qx.ui.toolbar.MenuButton && vCurrent.getEnabled())
       {
         vPrevButton = vCurrent;
         break;
@@ -186,7 +186,7 @@ qx.Proto._onkeypress_right = function()
   {
     vCurrent = vChildren[i];
 
-    if (vCurrent instanceof qx.ui.toolbar.ToolBarMenuButton && vCurrent.getEnabled())
+    if (vCurrent instanceof qx.ui.toolbar.MenuButton && vCurrent.getEnabled())
     {
       vNextButton = vCurrent;
       break;
@@ -200,7 +200,7 @@ qx.Proto._onkeypress_right = function()
     {
       vCurrent = vChildren[i];
 
-      if (vCurrent instanceof qx.ui.toolbar.ToolBarMenuButton && vCurrent.getEnabled())
+      if (vCurrent instanceof qx.ui.toolbar.MenuButton && vCurrent.getEnabled())
       {
         vNextButton = vCurrent;
         break;
@@ -236,7 +236,7 @@ qx.Proto.dispose = function()
     return;
   }
 
-  this.removeEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
+  this.removeEventListener("keypress", this._onkeypress);
 
   return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
 }

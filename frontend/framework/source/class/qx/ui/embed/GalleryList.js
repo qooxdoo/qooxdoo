@@ -47,9 +47,9 @@ function(galleryList)
   this.addEventListener("keypress", this._onkeypress);
 });
 
-qx.OO.addProperty({ name : "thumbMaxWidth", type : qx.constant.Type.NUMBER, defaultValue : 60 });
-qx.OO.addProperty({ name : "thumbMaxHeight", type : qx.constant.Type.NUMBER, defaultValue : 60 });
-qx.OO.addProperty({ name : "decorHeight", type : qx.constant.Type.NUMBER, defaultValue : 40 });
+qx.OO.addProperty({ name : "thumbMaxWidth", type : "number", defaultValue : 60 });
+qx.OO.addProperty({ name : "thumbMaxHeight", type : "number", defaultValue : 60 });
+qx.OO.addProperty({ name : "decorHeight", type : "number", defaultValue : 40 });
 
 
 
@@ -92,7 +92,7 @@ qx.Proto.update = function(vGalleryList)
 qx.Proto.removeAll = function()
 {
   this._manager.deselectAll();
-  this.getElement().innerHTML = qx.constant.Core.EMPTY;
+  this.getElement().innerHTML = "";
 }
 
 
@@ -174,11 +174,11 @@ qx.Proto.scrollItemIntoView = function(vItem)
 }
 
 qx.Proto.scrollItemIntoViewX = function(vItem) {
-  qx.dom.DomScrollIntoView.scrollX(vItem);
+  qx.dom.ScrollIntoView.scrollX(vItem);
 }
 
 qx.Proto.scrollItemIntoViewY = function(vItem) {
-  qx.dom.DomScrollIntoView.scrollY(vItem);
+  qx.dom.ScrollIntoView.scrollY(vItem);
 }
 
 

@@ -38,7 +38,7 @@ function() {
  * Whether the alignment should automatically be set according to the cell value.
  * If true numbers will be right-aligned.
  */
-qx.OO.addProperty({ name:"useAutoAlign", type:qx.constant.Type.BOOLEAN, defaultValue:true, allowNull:false });
+qx.OO.addProperty({ name:"useAutoAlign", type:"boolean", defaultValue:true, allowNull:false });
 
 
 // overridden
@@ -47,13 +47,13 @@ qx.Proto._getCellStyle = function(cellInfo) {
 
   var stylesToApply = this._getStyleFlags(cellInfo);
   if (stylesToApply & qx.ui.table.DefaultDataCellRenderer.STYLEFLAG_ALIGN_RIGHT){
-    style += qx.ui.table.DefaultDataCellRenderer.INTERNAL_STYLE_ALIGN_RIGHT;
+    style += ";text-align:right";
   }
   if (stylesToApply & qx.ui.table.DefaultDataCellRenderer.STYLEFLAG_BOLD){
-    style += qx.ui.table.DefaultDataCellRenderer.INTERNAL_STYLE_BOLD;
+    style += ";font-weight:bold";
   }
   if (stylesToApply & qx.ui.table.DefaultDataCellRenderer.STYLEFLAG_ITALIC){
-    style += qx.ui.table.DefaultDataCellRenderer.INTERNAL_STYLE_ITALIC;
+    style += ";font-style:italic";
   }
 
   return style;
@@ -67,7 +67,7 @@ qx.Proto._getCellStyle = function(cellInfo) {
  */
 qx.Proto._getStyleFlags = function(cellInfo) {
   if (this.getUseAutoAlign()) {
-    if (typeof cellInfo.value == qx.constant.Type.NUMBER) {
+    if (typeof cellInfo.value == "number") {
       return qx.ui.table.DefaultDataCellRenderer.STYLEFLAG_ALIGN_RIGHT;
     }
   }
@@ -124,7 +124,7 @@ qx.Proto._formatValue = function(cellInfo) {
   var value = cellInfo.value;
   if (value == null) {
     return "";
-  } else if (typeof value == qx.constant.Type.NUMBER) {
+  } else if (typeof value == "number") {
     return qx.ui.table.DefaultDataCellRenderer._numberFormat.format(value);
   } else if (value instanceof Date) {
     return qx.util.format.DateFormat.getDateInstance().format(value);
@@ -139,13 +139,13 @@ qx.Proto._createCellStyle_array_join = function(cellInfo, htmlArr) {
 
   var stylesToApply = this._getStyleFlags(cellInfo);
   if (stylesToApply & qx.ui.table.DefaultDataCellRenderer.STYLEFLAG_ALIGN_RIGHT){
-    htmlArr.push(qx.ui.table.DefaultDataCellRenderer.INTERNAL_STYLE_ALIGN_RIGHT);
+    htmlArr.push(";text-align:right");
   }
   if (stylesToApply & qx.ui.table.DefaultDataCellRenderer.STYLEFLAG_BOLD){
-    htmlArr.push(qx.ui.table.DefaultDataCellRenderer.INTERNAL_STYLE_BOLD);
+    htmlArr.push(";font-weight:bold");
   }
   if (stylesToApply & qx.ui.table.DefaultDataCellRenderer.STYLEFLAG_ITALIC){
-    htmlArr.push(qx.ui.table.DefaultDataCellRenderer.INTERNAL_STYLE_ITALIC);
+    htmlArr.push(";font-style:italic");
   }
 }
 

@@ -31,15 +31,15 @@ qx.renderer.color.ColorCache = function(propValue)
 
   switch(typeof propValue)
   {
-    case qx.constant.Type.STRING:
-      if (propValue != qx.constant.Core.EMPTY) {
+    case "string":
+      if (propValue != "") {
         propValue = propKey = propValue.toLowerCase();
         break;
       }
 
       return propValue;
 
-    case qx.constant.Type.NUMBER:
+    case "number":
       if (propValue >= 0 && propValue <= 255)
       {
         propKey = propValue.toString();
@@ -48,15 +48,15 @@ qx.renderer.color.ColorCache = function(propValue)
 
       return propValue;
 
-    case qx.constant.Type.OBJECT:
+    case "object":
       if (propValue == null || propValue instanceof qx.renderer.color.Color) {
         return propValue;
       }
 
       // Try to detect array of RGB values
-      if (typeof propValue.join === qx.constant.Type.FUNCTION && propValue.length == 3)
+      if (typeof propValue.join === "function" && propValue.length == 3)
       {
-        propKey = qx.renderer.color.Color.RGBCSS_START + propValue.join(qx.constant.Core.COMMA) + qx.renderer.color.Color.RGBCSS_STOP;
+        propKey = "rgb(" + propValue.join(",") + ")";
         propKeyAsStyle = true;
         break;
       }

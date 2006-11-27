@@ -21,8 +21,8 @@
     var mybtn = new qx.ui.form.Button("Open Popup");
     mybtn.setLocation(20, 48);
     mybtn.addEventListener("execute", function() {
-      mypop.setTop(qx.dom.DomLocation.getPageBoxBottom(this.getElement()));
-      mypop.setLeft(qx.dom.DomLocation.getPageBoxLeft(this.getElement()));
+      mypop.setTop(qx.dom.Location.getPageBoxBottom(this.getElement()));
+      mypop.setLeft(qx.dom.Location.getPageBoxLeft(this.getElement()));
       mypop.show();
     });
 

@@ -39,7 +39,7 @@ function() {
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefault("appearanceTheme", "qx.theme.appearance.DefaultAppearanceTheme");
+qx.Settings.setDefault("appearanceTheme", "qx.theme.appearance.Classic");
 
 
 
@@ -51,7 +51,7 @@ qx.Settings.setDefault("appearanceTheme", "qx.theme.appearance.DefaultAppearance
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "appearanceTheme", type : qx.constant.Type.OBJECT, allowNull : false, instance : "qx.renderer.theme.AppearanceTheme" });
+qx.OO.addProperty({ name : "appearanceTheme", type : "object", allowNull : false, instance : "qx.renderer.theme.AppearanceTheme" });
 
 
 

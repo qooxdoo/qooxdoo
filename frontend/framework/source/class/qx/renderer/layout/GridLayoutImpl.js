@@ -189,7 +189,7 @@ qx.Proto.computeChildrenNeededHeight = function()
 qx.Proto.updateChildOnInnerWidthChange = function(vChild)
 {
   vChild._recomputePercentX();
-  vChild.addToLayoutChanges(qx.ui.core.Widget.JOB_LOCATIONX);
+  vChild.addToLayoutChanges("locationX");
 
   return true;
 }
@@ -201,7 +201,7 @@ qx.Proto.updateChildOnInnerWidthChange = function(vChild)
 qx.Proto.updateChildOnInnerHeightChange = function(vChild)
 {
   vChild._recomputePercentY();
-  vChild.addToLayoutChanges(qx.ui.core.Widget.JOB_LOCATIONY);
+  vChild.addToLayoutChanges("locationY");
 
   return true;
 }
@@ -263,11 +263,11 @@ qx.Proto.layoutChild_locationX = function(vChild, vJobs)
 
   switch(vChild.getHorizontalAlign() || vWidget.getColumnHorizontalAlignment(vChild._col) || vWidget.getRowHorizontalAlignment(vChild._row) || vWidget.getHorizontalChildrenAlign())
   {
-    case qx.constant.Layout.ALIGN_CENTER:
+    case "center":
       vLocSumX += Math.round((vWidget.getColumnInnerWidth(vChild._col, vChild._row) - vChild.getBoxWidth()) / 2);
       break;
 
-    case qx.constant.Layout.ALIGN_RIGHT:
+    case "right":
       vLocSumX += vWidget.getColumnInnerWidth(vChild._col, vChild._row) - vChild.getBoxWidth();
       break;
   }
@@ -287,11 +287,11 @@ qx.Proto.layoutChild_locationY = function(vChild, vJobs)
 
   switch(vChild.getVerticalAlign() || vWidget.getRowVerticalAlignment(vChild._row) || vWidget.getColumnVerticalAlignment(vChild._col) || vWidget.getVerticalChildrenAlign())
   {
-    case qx.constant.Layout.ALIGN_MIDDLE:
+    case "middle":
       vLocSumY += Math.round((vWidget.getRowInnerHeight(vChild._col, vChild._row) - vChild.getBoxHeight()) / 2);
       break;
 
-    case qx.constant.Layout.ALIGN_BOTTOM:
+    case "bottom":
       vLocSumY += vWidget.getRowInnerHeight(vChild._col, vChild._row) - vChild.getBoxHeight();
       break;
   }

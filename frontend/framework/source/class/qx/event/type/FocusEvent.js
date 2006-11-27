@@ -38,8 +38,8 @@ function(vType, vTarget)
 
   switch(vType)
   {
-    case qx.constant.Event.FOCUSIN:
-    case qx.constant.Event.FOCUSOUT:
+    case "focusin":
+    case "focusout":
       this.setBubbles(true);
       this.setPropagationStopped(false);
   }

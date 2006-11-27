@@ -54,7 +54,7 @@ if (qx.sys.Client.getInstance().isMshtml())
        http://blogs.msdn.com/xmlteam/archive/2006/10/23/using-the-right-version-of-msxml-in-internet-explorer.aspx
        http://msdn.microsoft.com/library/default.asp?url=/library/en-us/xmlsdk/html/aabe29a2-bad2-4cea-8387-314174252a74.asp
 
-       See similar code in qx.lang.Xml, qx.io.remote.XmlHttpTransport
+       See similar code in qx.xml.Core, qx.io.remote.XmlHttpTransport
       */
       var vServers =
       [

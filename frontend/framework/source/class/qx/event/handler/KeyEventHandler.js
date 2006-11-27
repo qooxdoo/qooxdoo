@@ -60,7 +60,7 @@ function()
  *
  * Callback Signature: function(vDomEvent, vEventType, vKeyCode, vCharCode, vKeyIdentifier)
  */
-qx.OO.addProperty({ name : "callback", type : qx.constant.Type.FUNCTION });
+qx.OO.addProperty({ name : "callback", type : "function" });
 
 
 
@@ -77,9 +77,9 @@ qx.Proto.attachEvents = function()
 {
   var el = qx.sys.Client.getInstance().isGecko() ? window : document.body;
 
-  qx.dom.DomEventRegistration.addEventListener(el, qx.constant.Event.KEYPRESS, this.__onkeypress);
-  qx.dom.DomEventRegistration.addEventListener(el, qx.constant.Event.KEYUP, this.__onkeyupdown);
-  qx.dom.DomEventRegistration.addEventListener(el, qx.constant.Event.KEYDOWN, this.__onkeyupdown);
+  qx.dom.EventRegistration.addEventListener(el, "keypress", this.__onkeypress);
+  qx.dom.EventRegistration.addEventListener(el, "keyup", this.__onkeyupdown);
+  qx.dom.EventRegistration.addEventListener(el, "keydown", this.__onkeyupdown);
 };
 
 
@@ -91,9 +91,9 @@ qx.Proto.detachEvents = function()
   var el = qx.sys.Client.getInstance().isGecko() ? window : document.body;
 
   // Unregister dom events
-  qx.dom.DomEventRegistration.removeEventListener(el, qx.constant.Event.KEYPRESS, this.__onkeypress);
-  qx.dom.DomEventRegistration.removeEventListener(el, qx.constant.Event.KEYUP, this.__onkeyupdown);
-  qx.dom.DomEventRegistration.removeEventListener(el, qx.constant.Event.KEYDOWN, this.__onkeyupdown);
+  qx.dom.EventRegistration.removeEventListener(el, "keypress", this.__onkeypress);
+  qx.dom.EventRegistration.removeEventListener(el, "keyup", this.__onkeyupdown);
+  qx.dom.EventRegistration.removeEventListener(el, "keydown", this.__onkeyupdown);
 };
 
 
