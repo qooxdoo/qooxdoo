@@ -58,7 +58,7 @@ function(vColumns)
     }
 
     // store some additional data
-    vColumns[vCol].contentClass = qx.OO.classes["qx.ui.listview.ListViewContentCell" + qx.lang.String.toFirstUp(vColumns[vCol].type || "text")];
+    vColumns[vCol].contentClass = qx.OO.classes["qx.ui.listview.ContentCell" + qx.lang.String.toFirstUp(vColumns[vCol].type || "text")];
     vColumns[vCol].headerCell = vHeadCell;
   }
 
