@@ -49,27 +49,7 @@ function(vWidth, vStyle, vColor)
   }
 });
 
-qx.Class.STYLE_GROOVE = "groove";
-qx.Class.STYLE_RIDGE = "ridge";
-qx.Class.STYLE_INSET = "inset";
-qx.Class.STYLE_OUTSET = "outset";
-qx.Class.STYLE_SOLID = "solid";
-qx.Class.STYLE_DOTTED = "dotted";
-qx.Class.STYLE_DASHED = "dashed";
-qx.Class.STYLE_DOUBLE = "double";
-qx.Class.STYLE_NONE = "none";
-
-qx.Class.POSITION_TOP = "top";
-qx.Class.POSITION_RIGHT = "right";
-qx.Class.POSITION_BOTTOM = "bottom";
-qx.Class.POSITION_LEFT = "left";
-
-qx.Class.BORDER_NONE = "0px none";
-
 qx.Class.enhancedCrossBrowserMode = true;
-qx.Class.baseColor = "threedlightshadow";
-qx.Class.stylePart = "Style";
-qx.Class.colorPart = "Color";
 
 qx.Proto._needsCompilationTop = true;
 qx.Proto._needsCompilationRight = true;
