@@ -106,38 +106,6 @@ qx.Class.ABSTRACT_CLASS = "qx.ui.core.Widget";
 // Will be calculated later (TODO: Move to qx.Dom?)
 qx.Class.SCROLLBAR_SIZE = 16;
 
-// Properties
-qx.Class.PROPERTY_CLASSNAME = "className";
-qx.Class.PROPERTY_BORDERX = "borderX";
-qx.Class.PROPERTY_BORDERWIDTHX = "borderWidthX";
-qx.Class.PROPERTY_BORDERY = "borderY";
-qx.Class.PROPERTY_BORDERWIDTHY = "borderWidthY";
-"parentPaddingLeft" = "parentPaddingLeft";
-"parentPaddingRight" = "parentPaddingRight";
-"parentPaddingTop" = "parentPaddingTop";
-"parentPaddingBottom" = "parentPaddingBottom";
-
-// States
-qx.Class.STATE_OVER = "over";
-qx.Class.STATE_FOCUSED = "focused";
-qx.Class.STATE_DISABLED = "disabled";
-
-// Job constants
-qx.Class.JOB_INITIAL = "initial";
-qx.Class.JOB_VISIBLE = "visible";
-qx.Class.JOB_LOCATION = "location";
-qx.Class.JOB_LOCATIONX = "locationX";
-qx.Class.JOB_LOCATIONY = "locationY";
-qx.Class.JOB_ADDCHILD = "addChild";
-qx.Class.JOB_REMOVECHILD = "removeChild";
-qx.Class.JOB_FRAMEWIDTH = "frameWidth";
-qx.Class.JOB_FRAMEHEIGHT = "frameHeight";
-qx.Class.JOB_PREFERREDINNERWIDTH = "preferredInnerWidth";
-qx.Class.JOB_PREFERREDINNERHEIGHT = "preferredInnerHeight";
-
-qx.Class.FOCUS_OUTLINE = "1px dotted invert";
-qx.Class.FOCUS_NONE = "0px none";
-
 
 
 
@@ -3614,9 +3582,6 @@ qx.ui.core.Widget.__oninlineevent = function(e)
   }
 }
 
-qx.Class.INLINE_EVENTTYPE = "propertychange";
-qx.Class.INLINE_EVENTTYPE_PROPERTY = "value";
-
 qx.Proto._oninlineevent = function(e)
 {
   if (qx.ui.core.Widget._inFlushGlobalQueues) {
@@ -3627,7 +3592,7 @@ qx.Proto._oninlineevent = function(e)
 
   switch(e.type)
   {
-    case qx.ui.core.Widget.INLINE_EVENTTYPE:
+    case "propertychange":
       this._oninlineproperty(e);
       break;
 
@@ -3656,7 +3621,7 @@ qx.Proto._oninlineproperty = function(e)
 {
   switch(e.propertyName)
   {
-    case qx.ui.core.Widget.INLINE_EVENTTYPE_PROPERTY:
+    case "value":
       if (!this._inValueProperty) {
         this._oninlineinput(e);
       }
@@ -4526,15 +4491,6 @@ qx.Proto._modifyZIndex = function(propValue, propOldValue, propData) {
 ---------------------------------------------------------------------------
 */
 
-"unselectable" = "unselectable";
-"tabIndex" = "tabIndex";
-"userFocus" = "userFocus";
-"MozUserFocus" = "MozUserFocus";
-
-"ignore" = "ignore";
-"normal" = "normal";
-"on" = "on";
-
 if (qx.sys.Client.getInstance().isMshtml())
 {
   qx.Proto._modifyTabIndex = function(propValue, propOldValue, propData)
@@ -4648,13 +4604,6 @@ qx.Proto.getWidgetFromPointHelper = function(x, y) {
 ---------------------------------------------------------------------------
 */
 
-"unselectable" = "unselectable";
-"userSelect" = "userSelect";
-"MozUserSelect" = "MozUserSelect";
-"KhtmlUserSelect" = "KhtmlUserSelect";
-
-qx.ui.core.Widget.SEL_VALUE_ON = "on";
-
 if(qx.sys.Client.getInstance().isMshtml())
 {
   qx.Proto._modifySelectable = function(propValue, propOldValue, propData)
@@ -4665,7 +4614,7 @@ if(qx.sys.Client.getInstance().isMshtml())
     }
     else
     {
-      return this.setHtmlProperty("unselectable", qx.ui.core.Widget.SEL_VALUE_ON);
+      return this.setHtmlProperty("unselectable", "on");
     }
   }
 }
@@ -4735,14 +4684,6 @@ else
 ---------------------------------------------------------------------------
 */
 
-"Alpha(Opacity=" = "Alpha(Opacity=";
-")" = ")";
-/Alpha\(Opacity=([0-9]{1,3})\)/ = /Alpha\(Opacity=([0-9]{1,3})\)/;
-
-"opacity" = "opacity";
-"MozOpacity" = "MozOpacity";
-"KhtmlOpacity" = "KhtmlOpacity";
-
 /*!
 Sets the opacity for the widget. Any child widget inside the widget will also
 become (semi-)transparent. The value should be a number between 0 and 1
@@ -4797,7 +4738,7 @@ else
 
       if (qx.sys.Client.getInstance().isGecko())
       {
-        this.setStyleProperty(qx.ui.core.Widget.OPACTIY_PROPERTY_MOZ, propValue);
+        this.setStyleProperty("MozOpacity", propValue);
       }
       else if (qx.sys.Client.getInstance().isKhtml())
       {
@@ -4821,10 +4762,6 @@ else
   CURSOR
 ---------------------------------------------------------------------------
 */
-
-"cursor" = "cursor";
-"pointer" = "pointer";
-"hand" = "hand";
 
 qx.Proto._modifyCursor = function(propValue, propOldValue, propData)
 {
@@ -4857,12 +4794,6 @@ qx.Proto._modifyCursor = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-"backgroundImage" = "backgroundImage";
-"url(" = "url(";
-")" = ")";
-/^url\(/i = /^url\(/i;
-/\)$/ = /\)$/;
-
 qx.Proto._modifyBackgroundImage = function(propValue, propOldValue, propData)
 {
   return qx.util.Validation.isValidString(propValue) ?
@@ -4883,10 +4814,6 @@ qx.Proto._modifyBackgroundImage = function(propValue, propOldValue, propData)
   CLIPPING
 ---------------------------------------------------------------------------
 */
-
-"clip" = "clip";
-"rect(" = "rect(";
-")" = ")";
 
 qx.Proto._modifyClip = function(propValue, propOldValue, propData) {
   return this._compileClipString();
@@ -4980,20 +4907,6 @@ qx.ui.core.Widget.initOverflow = function()
 
   qx.ui.core.Widget.initOverflowDone = true;
 }
-
-"overflow" = "overflow";
-"overflowX" = "overflowX";
-"overflowY" = "overflowY";
-
-"auto" = "auto";
-"hidden" = "hidden";
-"scroll" = "scroll";
-"scrollX" = "scrollX";
-"scrollY" = "scrollY";
-
-"-moz-scrollbars-none" = "-moz-scrollbars-none";
-"-moz-scrollbars-horizontal" = "-moz-scrollbars-horizontal";
-"-moz-scrollbars-vertical" = "-moz-scrollbars-vertical";
 
 if (qx.sys.Client.getInstance().isGecko())
 {
@@ -5569,209 +5482,6 @@ qx.Proto.scrollIntoViewY = function(vAlignTop)
 
 
 
-/*
----------------------------------------------------------------------------
-  ROUNDED BORDER
----------------------------------------------------------------------------
-*/
-
-/*
-qx.Proto.applyRoundedBorder = function()
-{
-  this.addEventListener("beforeAppear", this._applyRoundedBorder);
-}
-
-qx.Proto._applyRoundedBorder = function()
-{
-  this._applyRoundedTopLeftBorder();
-  this._applyRoundedTopRightBorder();
-  this._applyRoundedBottomLeftBorder();
-  this._applyRoundedBottomRightBorder();
-
-
-  this._applyRoundedFadedTopLeftBorder();
-}
-
-qx.Proto._applyRoundedTopLeftBorder = function()
-{
-  var el = this.getElement();
-
-  var corner = document.createElement("div");
-  var cornerStyle = corner.style;
-
-  cornerStyle.backgroundColor = "threedface";
-  cornerStyle.width = "2px";
-  cornerStyle.height = "2px";
-  cornerStyle.position = "absolute";
-  cornerStyle.top = "0px";
-  cornerStyle.left = "0px";
-
-  el.appendChild(corner);
-
-
-  var cornerLeft = document.createElement("div");
-  var cornerLeftStyle = cornerLeft.style;
-
-  cornerLeftStyle.backgroundColor = "threedface";
-  cornerLeftStyle.width = "1px";
-  cornerLeftStyle.height = "1px";
-  cornerLeftStyle.position = "absolute";
-  cornerLeftStyle.top = "2px";
-  cornerLeftStyle.left = "0px";
-
-  el.appendChild(cornerLeft);
-
-
-  var cornerTop = document.createElement("div");
-  var cornerTopStyle = cornerTop.style;
-
-  cornerTopStyle.backgroundColor = "threedface";
-  cornerTopStyle.width = "1px";
-  cornerTopStyle.height = "1px";
-  cornerTopStyle.position = "absolute";
-  cornerTopStyle.top = "0px";
-  cornerTopStyle.left = "2px";
-
-  el.appendChild(cornerTop);
-
-
-}
-
-qx.Proto._applyRoundedFadedTopLeftBorder = function()
-{
-  var el = this.getElement();
-
-  var cornerTop = document.createElement("div");
-  var cornerTopStyle = cornerTop.style;
-
-  cornerTopStyle.backgroundColor = "threedface";
-  cornerTopStyle.MozOpacity = "0.5";
-  cornerTopStyle.width = "2px";
-  cornerTopStyle.height = "1px";
-  cornerTopStyle.position = "absolute";
-  cornerTopStyle.top = "0px";
-  cornerTopStyle.left = "3px";
-
-  el.appendChild(cornerTop);
-
-
-
-  var cornerLeft = document.createElement("div");
-  var cornerLeftStyle = cornerLeft.style;
-
-  cornerLeftStyle.backgroundColor = "threedface";
-  cornerLeftStyle.MozOpacity = "0.5";
-  cornerLeftStyle.width = "1px";
-  cornerLeftStyle.height = "2px";
-  cornerLeftStyle.position = "absolute";
-  cornerLeftStyle.top = "3px";
-  cornerLeftStyle.left = "0px";
-
-  el.appendChild(cornerLeft);
-
-
-
-
-  var cornerInnerTop = document.createElement("div");
-  var cornerInnerTopStyle = cornerInnerTop.style;
-
-  cornerInnerTopStyle.backgroundColor = "threedface";
-  cornerInnerTopStyle.MozOpacity = "0.5";
-  cornerInnerTopStyle.width = "1px";
-  cornerInnerTopStyle.height = "1px";
-  cornerInnerTopStyle.position = "absolute";
-  cornerInnerTopStyle.top = "1px";
-  cornerInnerTopStyle.left = "2px";
-
-  el.appendChild(cornerInnerTop);
-
-
-
-  var cornerInnerLeft = document.createElement("div");
-  var cornerInnerLeftStyle = cornerInnerLeft.style;
-
-  cornerInnerLeftStyle.backgroundColor = "threedface";
-  cornerInnerLeftStyle.MozOpacity = "0.5";
-  cornerInnerLeftStyle.width = "1px";
-  cornerInnerLeftStyle.height = "1px";
-  cornerInnerLeftStyle.position = "absolute";
-  cornerInnerLeftStyle.top = "2px";
-  cornerInnerLeftStyle.left = "1px";
-
-  el.appendChild(cornerInnerLeft);
-
-
-}
-
-qx.Proto._applyRoundedTopRightBorder = function()
-{
-  var el = this.getElement();
-
-  var corner = document.createElement("div");
-  var cornerStyle = corner.style;
-
-  cornerStyle.backgroundColor = "threedface";
-  cornerStyle.width = "2px";
-  cornerStyle.height = "2px";
-  cornerStyle.position = "absolute";
-  cornerStyle.top = "0px";
-  cornerStyle.right = "0px";
-
-  el.appendChild(corner);
-
-
-
-
-}
-
-qx.Proto._applyRoundedBottomLeftBorder = function()
-{
-  var el = this.getElement();
-
-  var corner = document.createElement("div");
-  var cornerStyle = corner.style;
-
-  cornerStyle.backgroundColor = "threedface";
-  cornerStyle.width = "2px";
-  cornerStyle.height = "2px";
-  cornerStyle.position = "absolute";
-  cornerStyle.bottom = "0px";
-  cornerStyle.left = "0px";
-
-  el.appendChild(corner);
-
-
-
-
-
-}
-
-qx.Proto._applyRoundedBottomRightBorder = function()
-{
-  var el = this.getElement();
-
-  var corner = document.createElement("div");
-  var cornerStyle = corner.style;
-
-  cornerStyle.backgroundColor = "threedface";
-  cornerStyle.width = "2px";
-  cornerStyle.height = "2px";
-  cornerStyle.position = "absolute";
-  cornerStyle.bottom = "0px";
-  cornerStyle.right = "0px";
-
-  el.appendChild(corner);
-
-
-
-
-}
-*/
-
-
-
-
-
 
 
 /*
@@ -5794,7 +5504,8 @@ qx.Proto.supportsDrop = function(vDragCache) {
 ---------------------------------------------------------------------------
   FADING PROPERTIES
 ---------------------------------------------------------------------------
- */
+*/
+
 /*!
   The amount of steps for the fade.
  */
@@ -5821,11 +5532,15 @@ qx.OO.addProperty({ name : 'fadeUnit', type : "number", allowNull : false, defau
 qx.OO.addProperty({ name : 'fadeMax', type : "number", allowNull : false, defaultValue : 100});
 
 
+
+
+
+
 /*
 ---------------------------------------------------------------------------
   FADING SUPPORT
 ---------------------------------------------------------------------------
- */
+*/
 qx.ui.core.Widget.FADE_IN = 'FADE_IN';
 qx.ui.core.Widget.FADE_OUT = 'FADE_OUT';
 qx.ui.core.Widget.FADE_FINISHED = 'FADE_FINISHED';
@@ -5922,6 +5637,11 @@ qx.Proto._computeFadeOpacity = function() {
   var op = this.getFadeUnit() * this.getFadeCounter() / 100;
   return(op);
 };
+
+
+
+
+
 
 
 

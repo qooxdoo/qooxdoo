@@ -43,12 +43,6 @@ function(vSize, vName)
   }
 });
 
-qx.Class.STYLE_BOLD = "bold";
-qx.Class.STYLE_NORMAL = "normal";
-qx.Class.STYLE_ITALIC = "italic";
-qx.Class.STYLE_UNDERLINE = "underline";
-qx.Class.STYLE_STRIKEOUT = "strikeout";
-
 
 
 
@@ -149,12 +143,6 @@ qx.renderer.font.Font.fromString = function(s)
   UTILITY
 ---------------------------------------------------------------------------
 */
-
-"fontFamily" = "fontFamily";
-"fontSize" = "fontSize";
-"fontWeight" = "fontWeight";
-"fontStyle" = "fontStyle";
-"textDecoration" = "textDecoration";
 
 qx.Proto._needsCompilation = true;
 
