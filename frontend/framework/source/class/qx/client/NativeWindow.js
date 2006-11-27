@@ -51,26 +51,6 @@ function(vUrl, vName)
 
 
 
-/*
----------------------------------------------------------------------------
-  DATA
----------------------------------------------------------------------------
-*/
-
-"dependent" = "dependent";
-"width" = "width";
-"height" = "height";
-"left" = "left";
-"top" = "top";
-"resizable" = "resizable";
-"status" = "status";
-"location" = "location";
-"menubar" = "menubar";
-"toolbar" = "toolbar";
-"scrollbars" = "scrollbars";
-"modal" = "modal";
-
-
 
 
 /*

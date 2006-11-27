@@ -48,11 +48,7 @@ function(vSource, vWidth, vHeight)
   this.setSelectable(false);
 });
 
-"alt" = "alt";
-"title" = "title";
 
-"0 none" = "0 none";
-"top" = "top";
 
 
 /*
@@ -347,10 +343,6 @@ qx.Proto._postApply = function()
 
 if (qx.sys.Client.getInstance().isMshtml())
 {
-  "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='";
-  "',sizingMethod='scale')" = "',sizingMethod='scale')";
-  "Gray() Alpha(Opacity=30)" = "Gray() Alpha(Opacity=30)";
-
   qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
   {
     if (this._image) {

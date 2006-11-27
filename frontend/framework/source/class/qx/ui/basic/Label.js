@@ -46,10 +46,6 @@ function(vHtml, vMnemonic)
   this.auto();
 });
 
-qx.Class.COPY_STYLEPROPERTY = "styleproperty";
-qx.Class.COPY_COMPUTEDELEMENT = "computedelement";
-qx.Class.COPY_LOCALELEMENT = "localelement";
-
 qx.Class._measureNodes = {};
 
 
@@ -112,26 +108,8 @@ qx.OO.addProperty({ name : "wrap", type : "boolean", defaultValue : true });
 ---------------------------------------------------------------------------
 */
 
-"hidden" = "hidden";
-"ellipsis" = "ellipsis";
 qx.ui.basic.Label.SYMBOL_ELLIPSIS = String.fromCharCode(8230);
-"innerText" = "innerText";
-"innerHTML" = "innerHTML";
 qx.ui.basic.Label.SUPPORT_NATIVE_ELLIPSIS = qx.sys.Client.getInstance().isMshtml();
-
-"(<span style=\"text-decoration:underline\">" = "(<span style=\"text-decoration:underline\">";
-"</span>)" = "</span>)";
-
-"<span style=\"text-decoration:underline\">" = "<span style=\"text-decoration:underline\">";
-"</span>" = "</span>";
-
-"^(((<([^>]|" = "^(((<([^>]|";
-")+>)|(&([^;]|" = ")+>)|(&([^;]|";
-")+;)|[^&" = ")+;)|[^&";
-"])*)(" = "])*)(";
-")" = ")";
-
-"i" = "i";
 
 // these are the properties what will be copied to the measuring frame.
 qx.ui.basic.Label._fontProperties =
@@ -146,11 +124,6 @@ qx.ui.basic.Label._fontProperties =
 
   "all" : ["fontFamily", "fontSize", "fontStyle", "fontVariant", "fontWeight", "letterSpacing", "lineBreak", "lineHeight", "quotes", "textDecoration", "textIndent", "textShadow", "textTransform", "textUnderlinePosition", "whiteSpace", "wordBreak", "wordSpacing", "wordWrap"]
 }
-
-"<br/>" = "<br/>";
-"&#x" = "&#x";
-"&#" = "&#";
-"0x" = "0x";
 
 qx.ui.basic.Label.htmlToText = function(s) {
   return String(s).replace(/\s+|<([^>])+>|&amp;|&lt;|&gt;|&quot;|&nbsp;|&#[0-9]+;|&#x[0-9a-fA-F];]/gi, qx.ui.basic.Label._htmlToText);

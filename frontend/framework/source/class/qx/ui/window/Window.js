@@ -228,10 +228,6 @@ function(vCaption, vIcon, vWindowManager)
   this.remapChildrenHandlingTo(this._pane);
 });
 
-qx.Class.STATE_ACTIVE = "active";
-qx.Class.STATE_MAXIMIZED = "maximized";
-
-
 
 
 
@@ -370,24 +366,6 @@ qx.ui.window.Window.getDefaultWindowManager = function()
 
   return qx.ui.window.Window._defaultWindowManager;
 }
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  STRINGS
----------------------------------------------------------------------------
-*/
-
-"opaque" = "opaque";
-"lazyopaque" = "lazyopaque";
-"frame" = "frame";
-"translucent" = "translucent";
-
-"minimized" = "minimized";
-"maximized" = "maximized";
 
 
 

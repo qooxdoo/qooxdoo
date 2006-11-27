@@ -106,26 +106,6 @@ qx.Settings.setDefault("labelHex", "Hex");
 
 qx.Proto._updateContext = null;
 
-// Constants for internal compares (optimize performance in mshtml)
-"redModifier" = "redModifier";
-"greenModifier" = "greenModifier";
-"blueModifier" = "blueModifier";
-
-"hueModifier" = "hueModifier";
-"saturationModifier" = "saturationModifier";
-"brightnessModifier" = "brightnessModifier";
-
-"hsbSpinner" = "hsbSpinner";
-"rgbSpinner" = "rgbSpinner";
-
-"hexField" = "hexField";
-
-"hueSaturationField" = "hueSaturationField";
-"brightnessField" = "brightnessField";
-
-
-
-
 
 
 

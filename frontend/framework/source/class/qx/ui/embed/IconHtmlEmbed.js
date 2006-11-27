@@ -81,15 +81,6 @@ qx.OO.addProperty({ name : "spacing", type : "number", defaultValue : 4, impl : 
 ---------------------------------------------------------------------------
 */
 
-"<img src=\"" = "<img src=\"";
-"\" style=\"vertical-align:middle;" = "\" style=\"vertical-align:middle;";
-"margin-right:" = "margin-right:";
-"width:" = "width:";
-"height:" = "height:";
-"px;" = "px;";
-"filter:" = "filter:";
-"\"/>" = "\"/>";
-
 qx.Proto._mshtml = qx.sys.Client.getInstance().isMshtml();
 
 qx.Proto._syncHtml = function()
