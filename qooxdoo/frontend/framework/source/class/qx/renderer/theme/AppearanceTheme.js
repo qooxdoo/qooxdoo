@@ -39,7 +39,7 @@ function(vTitle)
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "title", type : qx.constant.Type.STRING, allowNull : false, defaultValue : qx.constant.Core.EMPTY });
+qx.OO.addProperty({ name : "title", type : "string", allowNull : false, defaultValue : "" });
 
 
 

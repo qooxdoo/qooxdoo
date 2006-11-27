@@ -35,7 +35,7 @@ qx.Class.inputFilter = function(vNode)
     return false;
   }
 
-  var vTag = (vNode.tagName || qx.constant.Core.EMPTY).toLowerCase();
+  var vTag = (vNode.tagName || "").toLowerCase();
 
   if (qx.lang.Array.contains(qx.util.FormUtil.ignoreElementTypes, vTag)) {
     return false;
@@ -60,8 +60,8 @@ qx.Class.getFields = function(vForm) {
 
 qx.Class.encodeField = function(vNode)
 {
-  var vName = vNode.name || qx.constant.Core.EMPTY;
-  var vType = (vNode.type || qx.constant.Core.EMPTY).toLowerCase();
+  var vName = vNode.name || "";
+  var vType = (vNode.type || "").toLowerCase();
 
   if(vType === qx.util.FormUtil.multiSelectType)
   {
@@ -70,15 +70,15 @@ qx.Class.encodeField = function(vNode)
     for(var i=0; i<vNode.options.length; i++)
     {
       if(vNode.options[i].selected) {
-        vValues.push(vName + qx.constant.Core.EQUAL + vNode.options[i].value);
+        vValues.push(vName + "=" + vNode.options[i].value);
       }
     }
 
-    return vValues.join(qx.constant.Core.AMPERSAND);
+    return vValues.join("&");
   }
   else
   {
-    return vName + qx.constant.Core.EQUAL + vNode.value;
+    return vName + "=" + vNode.value;
   }
 }
 
@@ -91,16 +91,16 @@ qx.Class.encodeForm = function(vForm)
     vAll.push(qx.util.FormUtil.encodeField(vFields[i]));
   }
 
-  return vAll.join(qx.constant.Core.AMPERSAND);
+  return vAll.join("&");
 }
 
 qx.Class.bind = function(vForm, vMethod)
 {
-  qx.dom.DomEventRegistration.addEventListener(vForm, qx.constant.Event.SUBMIT, function(e)
+  qx.dom.EventRegistration.addEventListener(vForm, "submit", function(e)
   {
     e.returnValue = false;
 
-    if (typeof e.preventDefault === qx.constant.Type.FUNCTION) {
+    if (typeof e.preventDefault === "function") {
       e.preventDefault();
     }
 

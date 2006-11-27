@@ -30,7 +30,7 @@ function() {
   qx.manager.object.ObjectManager.call(this);
 });
 
-qx.OO.addProperty({ name : "activeWindow", type : qx.constant.Type.OBJECT });
+qx.OO.addProperty({ name : "activeWindow", type : "object" });
 
 
 

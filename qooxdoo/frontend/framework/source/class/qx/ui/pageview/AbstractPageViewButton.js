@@ -30,15 +30,15 @@ function(vText, vIcon, vIconWidth, vIconHeight, vFlash) {
   // ************************************************************************
   //   MOUSE EVENTS
   // ************************************************************************
-  this.addEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover);
-  this.addEventListener(qx.constant.Event.MOUSEOUT, this._onmouseout);
-  this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
+  this.addEventListener("mouseover", this._onmouseover);
+  this.addEventListener("mouseout", this._onmouseout);
+  this.addEventListener("mousedown", this._onmousedown);
 
   // ************************************************************************
   //   KEY EVENTS
   // ************************************************************************
-  this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
-  this.addEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
+  this.addEventListener("keydown", this._onkeydown);
+  this.addEventListener("keypress", this._onkeypress);
 });
 
 
@@ -54,23 +54,23 @@ function(vText, vIcon, vIconWidth, vIconHeight, vFlash) {
 /*!
   If this tab is the currently selected/active one
  */
-qx.OO.addProperty({ name : "checked", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "checked", type : "boolean", defaultValue : false });
 
 /*!
   The attached page of this tab
  */
-qx.OO.addProperty({ name : "page", type : qx.constant.Type.OBJECT });
+qx.OO.addProperty({ name : "page", type : "object" });
 
 /*!
   The assigned qx.manager.selection.RadioManager which handles the switching between registered buttons
  */
-qx.OO.addProperty({ name : "manager", type : qx.constant.Type.OBJECT, instance : "qx.manager.selection.RadioManager", allowNull : true });
+qx.OO.addProperty({ name : "manager", type : "object", instance : "qx.manager.selection.RadioManager", allowNull : true });
 
 /*!
   The name of the radio group. All the radio elements in a group (registered by the same manager)
   have the same name (and could have a different value).
  */
-qx.OO.addProperty({ name : "name", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "name", type : "string" });
 
 
 
@@ -140,7 +140,7 @@ qx.Proto._modifyChecked = function(propValue, propOldValue, propData) {
     }
   }
 
-  propValue ? this.addState(qx.ui.form.Button.STATE_CHECKED) : this.removeState(qx.ui.form.Button.STATE_CHECKED);
+  propValue ? this.addState("checked") : this.removeState("checked");
 
   var vPage = this.getPage();
   if (vPage) {
@@ -173,11 +173,11 @@ qx.Proto._onmousedown = function(e) {
 }
 
 qx.Proto._onmouseover = function(e) {
-  this.addState(qx.ui.core.Widget.STATE_OVER);
+  this.addState("over");
 }
 
 qx.Proto._onmouseout = function(e) {
-  this.removeState(qx.ui.core.Widget.STATE_OVER);
+  this.removeState("over");
 }
 
 qx.Proto._onkeydown = function(e) {}
@@ -203,16 +203,16 @@ qx.Proto.dispose = function() {
   // ************************************************************************
   //   MOUSE EVENTS
   // ************************************************************************
-  this.removeEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover);
-  this.removeEventListener(qx.constant.Event.MOUSEOUT, this._onmouseout);
-  this.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
+  this.removeEventListener("mouseover", this._onmouseover);
+  this.removeEventListener("mouseout", this._onmouseout);
+  this.removeEventListener("mousedown", this._onmousedown);
 
 
   // ************************************************************************
   //   KEY EVENTS
   // ************************************************************************
-  this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
-  this.removeEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
+  this.removeEventListener("keydown", this._onkeydown);
+  this.removeEventListener("keypress", this._onkeypress);
 
 
   return qx.ui.basic.Atom.prototype.dispose.call(this);

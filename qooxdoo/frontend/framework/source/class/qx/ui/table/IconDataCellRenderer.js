@@ -94,7 +94,7 @@ qx.Proto._getContentHtml = function(cellInfo) {
   var html = IconDataCellRenderer.IMG_START;
   if (qx.sys.Client.getInstance().isMshtml() && /\.png$/i.test(urlAndToolTip.url)) {
     html += qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif")
-      + '" style="filter:' + qx.ui.basic.Image.IMGLOADER_START + urlAndToolTip.url + qx.ui.basic.Image.IMGLOADER_STOP;
+      + '" style="filter:' + "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + urlAndToolTip.url + "',sizingMethod='scale')";
   } else {
     html += urlAndToolTip.url + '" style="';
   }
@@ -121,7 +121,7 @@ qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
   if (qx.sys.Client.getInstance().isMshtml()) {
     if (/\.png$/i.test(urlAndToolTip.url)) {
       img.src = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
-      img.style.filter = qx.ui.basic.Image.IMGLOADER_START + urlAndToolTip.url + qx.ui.basic.Image.IMGLOADER_STOP;
+      img.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + urlAndToolTip.url + "',sizingMethod='scale')";
     } else {
       img.src = urlAndToolTip.url;
       img.style.filter = "";

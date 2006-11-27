@@ -111,7 +111,7 @@ qx.core.Init.getInstance().defineMain(
         qx.Proto = constructor.prototype;
         qx.OO.changeProperty({
               name : "alwaysShowPlusMinusSymbol",
-              type : qx.constant.Type.BOOLEAN,
+              type : "boolean",
               defaultValue : true });
 
         var rpc = new qx.io.remote.Rpc();
@@ -146,7 +146,7 @@ qx.core.Init.getInstance().defineMain(
          * event listener for an open while empty.
          */
         t.addEventListener(
-            qx.constant.Event.TREEOPENWHILEEMPTY,
+            "treeOpenWhileEmpty",
             function(e)
             {
                 var parent = e.getData();

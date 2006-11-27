@@ -23,7 +23,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.theme.color.WindowsRoyaleColorTheme", qx.renderer.theme.ColorTheme,
+qx.OO.defineClass("qx.theme.color.WindowsRoyale", qx.renderer.theme.ColorTheme,
 function() {
   qx.renderer.theme.ColorTheme.call(this, "Windows Royale");
 });

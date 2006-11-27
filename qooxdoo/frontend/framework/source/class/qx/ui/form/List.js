@@ -44,27 +44,27 @@ function()
   // ************************************************************************
   //   MOUSE EVENT LISTENER
   // ************************************************************************
-  this.addEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover);
-  this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
-  this.addEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
-  this.addEventListener(qx.constant.Event.CLICK, this._onclick);
-  this.addEventListener(qx.constant.Event.DBLCLICK, this._ondblclick);
+  this.addEventListener("mouseover", this._onmouseover);
+  this.addEventListener("mousedown", this._onmousedown);
+  this.addEventListener("mouseup", this._onmouseup);
+  this.addEventListener("click", this._onclick);
+  this.addEventListener("dblclick", this._ondblclick);
 
 
   // ************************************************************************
   //   KEY EVENT LISTENER
   // ************************************************************************
-  this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
-  this.addEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
-  this.addEventListener(qx.constant.Event.KEYINPUT, this._onkeyinput);
+  this.addEventListener("keydown", this._onkeydown);
+  this.addEventListener("keypress", this._onkeypress);
+  this.addEventListener("keyinput", this._onkeyinput);
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "list" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "list" });
 
-qx.OO.addProperty({ name : "enableInlineFind", type : qx.constant.Type.BOOLEAN, defaultValue : true });
-qx.OO.addProperty({ name : "markLeadingItem", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "enableInlineFind", type : "boolean", defaultValue : true });
+qx.OO.addProperty({ name : "markLeadingItem", type : "boolean", defaultValue : false });
 
-qx.Proto._pressedString = qx.constant.Core.EMPTY;
+qx.Proto._pressedString = "";
 
 
 
@@ -191,7 +191,7 @@ qx.Proto._onkeyinput = function(e)
 
   // Reset string after a second of non pressed key
   if (((new Date).valueOf() - this._lastKeyPress) > 1000) {
-    this._pressedString = qx.constant.Core.EMPTY;
+    this._pressedString = "";
   }
 
   // Combine keys the user pressed to a string
@@ -370,14 +370,14 @@ qx.Proto.dispose = function()
     this._manager = null;
   }
 
-  this.removeEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover);
-  this.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
-  this.removeEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
-  this.removeEventListener(qx.constant.Event.CLICK, this._onclick);
-  this.removeEventListener(qx.constant.Event.DBLCLICK, this._ondblclick);
-  this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
-  this.removeEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
-  this.removeEventListener(qx.constant.Event.KEYINPUT, this._onkeyinput);
+  this.removeEventListener("mouseover", this._onmouseover);
+  this.removeEventListener("mousedown", this._onmousedown);
+  this.removeEventListener("mouseup", this._onmouseup);
+  this.removeEventListener("click", this._onclick);
+  this.removeEventListener("dblclick", this._ondblclick);
+  this.removeEventListener("keydown", this._onkeydown);
+  this.removeEventListener("keypress", this._onkeypress);
+  this.removeEventListener("keyinput", this._onkeyinput);
 
   return qx.ui.layout.VerticalBoxLayout.prototype.dispose.call(this);
 }

@@ -31,8 +31,8 @@ function(vCaption, vIcon, vWindowManager)
   //   FUNCTIONAL STYLE
   // ************************************************************************
 
-  this.setMinWidth(qx.constant.Core.AUTO);
-  this.setMinHeight(qx.constant.Core.AUTO);
+  this.setMinWidth("auto");
+  this.setMinHeight("auto");
   this.setAutoHide(false);
 
 
@@ -114,8 +114,8 @@ function(vCaption, vIcon, vWindowManager)
   bm.setAppearance("window-captionbar-minimize-button");
   bm.setTabIndex(-1);
 
-  bm.addEventListener(qx.constant.Event.EXECUTE, this._onminimizebuttonclick, this);
-  bm.addEventListener(qx.constant.Event.MOUSEDOWN, this._onbuttonmousedown, this);
+  bm.addEventListener("execute", this._onminimizebuttonclick, this);
+  bm.addEventListener("mousedown", this._onbuttonmousedown, this);
 
   cb.add(bm);
 
@@ -129,8 +129,8 @@ function(vCaption, vIcon, vWindowManager)
   br.setAppearance("window-captionbar-restore-button");
   br.setTabIndex(-1);
 
-  br.addEventListener(qx.constant.Event.EXECUTE, this._onrestorebuttonclick, this);
-  br.addEventListener(qx.constant.Event.MOUSEDOWN, this._onbuttonmousedown, this);
+  br.addEventListener("execute", this._onrestorebuttonclick, this);
+  br.addEventListener("mousedown", this._onbuttonmousedown, this);
 
   // don't add initially
   // cb.add(br);
@@ -145,8 +145,8 @@ function(vCaption, vIcon, vWindowManager)
   bx.setAppearance("window-captionbar-maximize-button");
   bx.setTabIndex(-1);
 
-  bx.addEventListener(qx.constant.Event.EXECUTE, this._onmaximizebuttonclick, this);
-  bx.addEventListener(qx.constant.Event.MOUSEDOWN, this._onbuttonmousedown, this);
+  bx.addEventListener("execute", this._onmaximizebuttonclick, this);
+  bx.addEventListener("mousedown", this._onbuttonmousedown, this);
 
   cb.add(bx);
 
@@ -160,8 +160,8 @@ function(vCaption, vIcon, vWindowManager)
   bc.setAppearance("window-captionbar-close-button");
   bc.setTabIndex(-1);
 
-  bc.addEventListener(qx.constant.Event.EXECUTE, this._onclosebuttonclick, this);
-  bc.addEventListener(qx.constant.Event.MOUSEDOWN, this._onbuttonmousedown, this);
+  bc.addEventListener("execute", this._onclosebuttonclick, this);
+  bc.addEventListener("mousedown", this._onbuttonmousedown, this);
 
   cb.add(bc);
 
@@ -171,8 +171,8 @@ function(vCaption, vIcon, vWindowManager)
   // ************************************************************************
 
   var p = this._pane = new qx.ui.layout.CanvasLayout;
-  p.setHeight(qx.constant.Core.FLEX);
-  p.setOverflow(qx.constant.Style.OVERFLOW_HIDDEN);
+  p.setHeight("1*");
+  p.setOverflow("hidden");
   l.add(p);
 
 
@@ -206,20 +206,20 @@ function(vCaption, vIcon, vWindowManager)
   //   EVENTS: WINDOW
   // ************************************************************************
 
-  this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onwindowmousedown, this);
-  this.addEventListener(qx.constant.Event.MOUSEUP, this._onwindowmouseup, this);
-  this.addEventListener(qx.constant.Event.MOUSEMOVE, this._onwindowmousemove, this);
-  this.addEventListener(qx.constant.Event.CLICK, this._onwindowclick, this);
+  this.addEventListener("mousedown", this._onwindowmousedown, this);
+  this.addEventListener("mouseup", this._onwindowmouseup, this);
+  this.addEventListener("mousemove", this._onwindowmousemove, this);
+  this.addEventListener("click", this._onwindowclick, this);
 
 
   // ************************************************************************
   //   EVENTS: CAPTIONBAR
   // ************************************************************************
 
-  cb.addEventListener(qx.constant.Event.MOUSEDOWN, this._oncaptionmousedown, this);
-  cb.addEventListener(qx.constant.Event.MOUSEUP, this._oncaptionmouseup, this);
-  cb.addEventListener(qx.constant.Event.MOUSEMOVE, this._oncaptionmousemove, this);
-  cb.addEventListener(qx.constant.Event.DBLCLICK, this._oncaptiondblblick, this);
+  cb.addEventListener("mousedown", this._oncaptionmousedown, this);
+  cb.addEventListener("mouseup", this._oncaptionmouseup, this);
+  cb.addEventListener("mousemove", this._oncaptionmousemove, this);
+  cb.addEventListener("dblclick", this._oncaptiondblblick, this);
 
 
   // ************************************************************************
@@ -245,113 +245,113 @@ qx.Class.STATE_MAXIMIZED = "maximized";
 /*!
   Appearance of the widget
 */
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "window" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "window" });
 
 /*!
   The windowManager to use for.
 */
-qx.OO.addProperty({ name : "windowManager", type : qx.constant.Type.OBJECT });
+qx.OO.addProperty({ name : "windowManager", type : "object" });
 
 /*!
   If the window is active, only one window in a single qx.manager.object.WindowManager could
   have set this to true at the same time.
 */
-qx.OO.addProperty({ name : "active", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "active", type : "boolean", defaultValue : false });
 
 /*!
   Should be window be modal (this disable minimize and maximize buttons)
 */
-qx.OO.addProperty({ name : "modal", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "modal", type : "boolean", defaultValue : false });
 
 /*!
   Should be window be modal (this disable minimize and maximize buttons)
 */
-qx.OO.addProperty({ name : "mode", type : qx.constant.Type.STRING, defaultValue : null, possibleValues : [ "minimized", "maximized" ], allowNull : true });
+qx.OO.addProperty({ name : "mode", type : "string", defaultValue : null, possibleValues : [ "minimized", "maximized" ], allowNull : true });
 
 /*!
   The opener (button) of the window
 */
-qx.OO.addProperty({ name : "opener", type : qx.constant.Type.OBJECT });
+qx.OO.addProperty({ name : "opener", type : "object" });
 
 /*!
   The text of the caption
 */
-qx.OO.addProperty({ name : "caption", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "caption", type : "string" });
 
 /*!
   The icon of the caption
 */
-qx.OO.addProperty({ name : "icon", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "icon", type : "string" });
 
 /*!
   The text of the statusbar
 */
-qx.OO.addProperty({ name : "status", type : qx.constant.Type.STRING, defaultValue : "Ready" });
+qx.OO.addProperty({ name : "status", type : "string", defaultValue : "Ready" });
 
 /*!
   Should the close button be shown
 */
-qx.OO.addProperty({ name : "showClose", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "showClose", type : "boolean", defaultValue : true });
 
 /*!
   Should the maximize button be shown
 */
-qx.OO.addProperty({ name : "showMaximize", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "showMaximize", type : "boolean", defaultValue : true });
 
 /*!
   Should the minimize button be shown
 */
-qx.OO.addProperty({ name : "showMinimize", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "showMinimize", type : "boolean", defaultValue : true });
 
 /*!
   Should the statusbar be shown
 */
-qx.OO.addProperty({ name : "showStatusbar", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "showStatusbar", type : "boolean", defaultValue : false });
 
 /*!
   Should the user have the ability to close the window
 */
-qx.OO.addProperty({ name : "allowClose", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "allowClose", type : "boolean", defaultValue : true });
 
 /*!
   Should the user have the ability to maximize the window
 */
-qx.OO.addProperty({ name : "allowMaximize", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "allowMaximize", type : "boolean", defaultValue : true });
 
 /*!
   Should the user have the ability to minimize the window
 */
-qx.OO.addProperty({ name : "allowMinimize", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "allowMinimize", type : "boolean", defaultValue : true });
 
 /*!
   If the text (in the captionbar) should be visible
 */
-qx.OO.addProperty({ name : "showCaption", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "showCaption", type : "boolean", defaultValue : true });
 
 /*!
   If the icon (in the captionbar) should be visible
 */
-qx.OO.addProperty({ name : "showIcon", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "showIcon", type : "boolean", defaultValue : true });
 
 /*!
   If the window is resizeable
 */
-qx.OO.addProperty({ name : "resizeable", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "resizeable", type : "boolean", defaultValue : true });
 
 /*!
   If the window is moveable
 */
-qx.OO.addProperty({ name : "moveable", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "moveable", type : "boolean", defaultValue : true });
 
 /*!
   The resize method to use
 */
-qx.OO.addProperty({ name : "resizeMethod", type : qx.constant.Type.STRING, defaultValue : "frame", possibleValues : [ "opaque", "lazyopaque", "frame", "translucent" ] });
+qx.OO.addProperty({ name : "resizeMethod", type : "string", defaultValue : "frame", possibleValues : [ "opaque", "lazyopaque", "frame", "translucent" ] });
 
 /*!
   The move method to use
 */
-qx.OO.addProperty({ name : "moveMethod", type : qx.constant.Type.STRING, defaultValue : "opaque", possibleValues : [ "opaque", "frame", "translucent" ] });
+qx.OO.addProperty({ name : "moveMethod", type : "string", defaultValue : "opaque", possibleValues : [ "opaque", "frame", "translucent" ] });
 
 
 
@@ -381,13 +381,13 @@ qx.ui.window.Window.getDefaultWindowManager = function()
 ---------------------------------------------------------------------------
 */
 
-qx.ui.window.Window.MODE_OPAQUE = "opaque";
-qx.ui.window.Window.MODE_LAZYOPAQUE = "lazyopaque";
-qx.ui.window.Window.MODE_FRAME = "frame";
-qx.ui.window.Window.MODE_TRANSLUCENT = "translucent";
+"opaque" = "opaque";
+"lazyopaque" = "lazyopaque";
+"frame" = "frame";
+"translucent" = "translucent";
 
-qx.ui.window.Window.MODE_MINIMIZED = "minimized";
-qx.ui.window.Window.MODE_MAXIMIZED = "maximized";
+"minimized" = "minimized";
+"maximized" = "maximized";
 
 
 
@@ -437,11 +437,11 @@ qx.Proto.blur = function() {
 }
 
 qx.Proto.maximize = function() {
-  this.setMode(qx.ui.window.Window.MODE_MAXIMIZED);
+  this.setMode("maximized");
 }
 
 qx.Proto.minimize = function() {
-  this.setMode(qx.ui.window.Window.MODE_MINIMIZED);
+  this.setMode("minimized");
 }
 
 qx.Proto.restore = function() {
@@ -545,8 +545,8 @@ qx.Proto._modifyActive = function(propValue, propOldValue, propData)
       this.getWindowManager().setActiveWindow(null);
     }
 
-    this.removeState(qx.ui.window.Window.STATE_ACTIVE);
-    this._captionBar.removeState(qx.ui.window.Window.STATE_ACTIVE);
+    this.removeState("active");
+    this._captionBar.removeState("active");
   }
   else
   {
@@ -560,8 +560,8 @@ qx.Proto._modifyActive = function(propValue, propOldValue, propData)
     this.getWindowManager().setActiveWindow(this);
     this.bringToFront();
 
-    this.addState(qx.ui.window.Window.STATE_ACTIVE);
-    this._captionBar.addState(qx.ui.window.Window.STATE_ACTIVE);
+    this.addState("active");
+    this._captionBar.addState("active");
   }
 
   return true;
@@ -595,22 +595,22 @@ qx.Proto._modifyMode = function(propValue, propOldValue, propData)
 {
   switch(propValue)
   {
-    case qx.ui.window.Window.MODE_MINIMIZED:
+    case "minimized":
       this._minimize();
       break;
 
-    case qx.ui.window.Window.MODE_MAXIMIZED:
+    case "maximized":
       this._maximize();
       break;
 
     default:
       switch(propOldValue)
       {
-        case qx.ui.window.Window.MODE_MAXIMIZED:
+        case "maximized":
           this._restoreFromMaximized();
           break;
 
-        case qx.ui.window.Window.MODE_MINIMIZED:
+        case "minimized":
           this._restoreFromMinimized();
           break;
       }
@@ -679,7 +679,7 @@ qx.Proto._modifyShowMaximize = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
-    var t = this.getMode() == qx.ui.window.Window.MODE_MAXIMIZED ? this._restoreButton : this._maximizeButton;
+    var t = this.getMode() == "maximized" ? this._restoreButton : this._maximizeButton;
 
     if (this.getShowMinimize())
     {
@@ -790,7 +790,7 @@ qx.Proto._restoreFromMaximized = function()
   this.setBottom(this._previousBottom ? this._previousBottom : null);
 
   // update state
-  this.removeState(qx.ui.window.Window.STATE_MAXIMIZED);
+  this.removeState("maximized");
 
   // toggle button
   if (this.getShowMaximize())
@@ -808,9 +808,9 @@ qx.Proto._restoreFromMaximized = function()
 
 qx.Proto._restoreFromMinimized = function()
 {
-  if (this.hasState(qx.ui.window.Window.STATE_MAXIMIZED))
+  if (this.hasState("maximized"))
   {
-    this.setMode(qx.ui.window.Window.MODE_MAXIMIZED);
+    this.setMode("maximized");
   }
 
   this.show();
@@ -819,7 +819,7 @@ qx.Proto._restoreFromMinimized = function()
 
 qx.Proto._maximize = function()
 {
-  if (this.hasState(qx.ui.window.Window.STATE_MAXIMIZED))
+  if (this.hasState("maximized"))
   {
     return;
   }
@@ -841,7 +841,7 @@ qx.Proto._maximize = function()
   this.setBottom(0);
 
   // update state
-  this.addState(qx.ui.window.Window.STATE_MAXIMIZED);
+  this.addState("maximized");
 
   // toggle button
   if (this.getShowMaximize())
@@ -888,19 +888,19 @@ qx.Proto._onwindowmousedown = function(e)
     var pa = this.getParent();
     var pl = pa.getElement();
 
-    var l = qx.dom.DomLocation.getPageAreaLeft(pl);
-    var t = qx.dom.DomLocation.getPageAreaTop(pl);
-    var r = qx.dom.DomLocation.getPageAreaRight(pl);
-    var b = qx.dom.DomLocation.getPageAreaBottom(pl);
+    var l = qx.dom.Location.getPageAreaLeft(pl);
+    var t = qx.dom.Location.getPageAreaTop(pl);
+    var r = qx.dom.Location.getPageAreaRight(pl);
+    var b = qx.dom.Location.getPageAreaBottom(pl);
 
     // handle frame and translucently
     switch(this.getResizeMethod())
     {
-      case qx.ui.window.Window.MODE_TRANSLUCENT:
+      case "translucent":
         this.setOpacity(0.5);
         break;
 
-      case qx.ui.window.Window.MODE_FRAME:
+      case "frame":
         var f = this._frame;
 
         if (f.getParent() != this.getParent())
@@ -909,11 +909,11 @@ qx.Proto._onwindowmousedown = function(e)
           qx.ui.core.Widget.flushGlobalQueues();
         }
 
-        f._applyRuntimeLeft(qx.dom.DomLocation.getPageBoxLeft(el) - l);
-        f._applyRuntimeTop(qx.dom.DomLocation.getPageBoxTop(el) - t);
+        f._applyRuntimeLeft(qx.dom.Location.getPageBoxLeft(el) - l);
+        f._applyRuntimeTop(qx.dom.Location.getPageBoxTop(el) - t);
 
-        f._applyRuntimeWidth(qx.dom.DomDimension.getBoxWidth(el));
-        f._applyRuntimeHeight(qx.dom.DomDimension.getBoxHeight(el));
+        f._applyRuntimeWidth(qx.dom.Dimension.getBoxWidth(el));
+        f._applyRuntimeHeight(qx.dom.Dimension.getBoxHeight(el));
 
         f.setZIndex(this.getZIndex() + 1);
 
@@ -925,13 +925,13 @@ qx.Proto._onwindowmousedown = function(e)
 
     if (this._resizeWest)
     {
-      s.boxWidth = qx.dom.DomDimension.getBoxWidth(el);
-      s.boxRight = qx.dom.DomLocation.getPageBoxRight(el);
+      s.boxWidth = qx.dom.Dimension.getBoxWidth(el);
+      s.boxRight = qx.dom.Location.getPageBoxRight(el);
     }
 
     if (this._resizeWest || this._resizeEast)
     {
-      s.boxLeft = qx.dom.DomLocation.getPageBoxLeft(el);
+      s.boxLeft = qx.dom.Location.getPageBoxLeft(el);
 
       s.parentAreaOffsetLeft = l;
       s.parentAreaOffsetRight = r;
@@ -942,13 +942,13 @@ qx.Proto._onwindowmousedown = function(e)
 
     if (this._resizeNorth)
     {
-      s.boxHeight = qx.dom.DomDimension.getBoxHeight(el);
-      s.boxBottom = qx.dom.DomLocation.getPageBoxBottom(el);
+      s.boxHeight = qx.dom.Dimension.getBoxHeight(el);
+      s.boxBottom = qx.dom.Location.getPageBoxBottom(el);
     }
 
     if (this._resizeNorth || this._resizeSouth)
     {
-      s.boxTop = qx.dom.DomLocation.getPageBoxTop(el);
+      s.boxTop = qx.dom.Location.getPageBoxTop(el);
 
       s.parentAreaOffsetTop = t;
       s.parentAreaOffsetBottom = b;
@@ -982,14 +982,14 @@ qx.Proto._onwindowmouseup = function(e)
     // sync sizes to frame
     switch(this.getResizeMethod())
     {
-      case qx.ui.window.Window.MODE_FRAME:
+      case "frame":
         var o = this._frame;
         if (!(o && o.getParent())) {
           break;
         }
         // no break here
 
-      case qx.ui.window.Window.MODE_LAZYOPAQUE:
+      case "lazyopaque":
         if (qx.util.Validation.isValidNumber(s.lastLeft)) {
           this.setLeft(s.lastLeft);
         }
@@ -1006,12 +1006,12 @@ qx.Proto._onwindowmouseup = function(e)
           this.setHeight(s.lastHeight);
         }
 
-        if (this.getResizeMethod() == qx.ui.window.Window.MODE_FRAME) {
+        if (this.getResizeMethod() == "frame") {
           this._frame.setParent(null);
         }
         break;
 
-      case qx.ui.window.Window.MODE_TRANSLUCENT:
+      case "translucent":
         this.setOpacity(null);
         break;
     }
@@ -1065,8 +1065,8 @@ qx.Proto._onwindowmousemove = function(e)
 
     switch(this.getResizeMethod())
     {
-      case qx.ui.window.Window.MODE_OPAQUE:
-      case qx.ui.window.Window.MODE_TRANSLUCENT:
+      case "opaque":
+      case "translucent":
         if (this._resizeWest || this._resizeEast)
         {
           this.setWidth(s.lastWidth);
@@ -1088,7 +1088,7 @@ qx.Proto._onwindowmousemove = function(e)
         break;
 
       default:
-        var o = this.getResizeMethod() == qx.ui.window.Window.MODE_FRAME ? this._frame : this;
+        var o = this.getResizeMethod() == "frame" ? this._frame : this;
 
         if (this._resizeWest || this._resizeEast)
         {
@@ -1111,28 +1111,28 @@ qx.Proto._onwindowmousemove = function(e)
   }
   else
   {
-    var resizeMode = qx.constant.Core.EMPTY;
+    var resizeMode = "";
     var el = this.getElement();
 
     this._resizeNorth = this._resizeSouth = this._resizeWest = this._resizeEast = false;
 
-    if (this._near(qx.dom.DomLocation.getPageBoxTop(el), e.getPageY()))
+    if (this._near(qx.dom.Location.getPageBoxTop(el), e.getPageY()))
     {
       resizeMode = "n";
       this._resizeNorth = true;
     }
-    else if (this._near(qx.dom.DomLocation.getPageBoxBottom(el), e.getPageY()))
+    else if (this._near(qx.dom.Location.getPageBoxBottom(el), e.getPageY()))
     {
       resizeMode = "s";
       this._resizeSouth = true;
     }
 
-    if (this._near(qx.dom.DomLocation.getPageBoxLeft(el), e.getPageX()))
+    if (this._near(qx.dom.Location.getPageBoxLeft(el), e.getPageX()))
     {
       resizeMode += "w";
       this._resizeWest = true;
     }
-    else if (this._near(qx.dom.DomLocation.getPageBoxRight(el), e.getPageX()))
+    else if (this._near(qx.dom.Location.getPageBoxRight(el), e.getPageX()))
     {
       resizeMode += "e";
       this._resizeEast = true;
@@ -1178,9 +1178,9 @@ qx.Proto._onminimizebuttonclick = function(e)
 
   // we need to be sure that the button gets the right states after clicking
   // because the button will move and does not get the mouseup event anymore
-  this._minimizeButton.removeState(qx.ui.form.Button.STATE_PRESSED);
-  this._minimizeButton.removeState(qx.ui.form.Button.STATE_ABANDONED);
-  this._minimizeButton.removeState(qx.ui.core.Widget.STATE_OVER);
+  this._minimizeButton.removeState("pressed");
+  this._minimizeButton.removeState("abandoned");
+  this._minimizeButton.removeState("over");
 
   e.stopPropagation();
 }
@@ -1191,9 +1191,9 @@ qx.Proto._onrestorebuttonclick = function(e)
 
   // we need to be sure that the button gets the right states after clicking
   // because the button will move and does not get the mouseup event anymore
-  this._restoreButton.removeState(qx.ui.form.Button.STATE_PRESSED);
-  this._restoreButton.removeState(qx.ui.form.Button.STATE_ABANDONED);
-  this._restoreButton.removeState(qx.ui.core.Widget.STATE_OVER);
+  this._restoreButton.removeState("pressed");
+  this._restoreButton.removeState("abandoned");
+  this._restoreButton.removeState("over");
 
   e.stopPropagation();
 }
@@ -1204,9 +1204,9 @@ qx.Proto._onmaximizebuttonclick = function(e)
 
   // we need to be sure that the button gets the right states after clicking
   // because the button will move and does not get the mouseup event anymore
-  this._maximizeButton.removeState(qx.ui.form.Button.STATE_PRESSED);
-  this._maximizeButton.removeState(qx.ui.form.Button.STATE_ABANDONED);
-  this._maximizeButton.removeState(qx.ui.core.Widget.STATE_OVER);
+  this._maximizeButton.removeState("pressed");
+  this._maximizeButton.removeState("abandoned");
+  this._maximizeButton.removeState("over");
 
   e.stopPropagation();
 }
@@ -1217,9 +1217,9 @@ qx.Proto._onclosebuttonclick = function(e)
 
   // we need to be sure that the button gets the right states after clicking
   // because the button will move and does not get the mouseup event anymore
-  this._closeButton.removeState(qx.ui.form.Button.STATE_PRESSED);
-  this._closeButton.removeState(qx.ui.form.Button.STATE_ABANDONED);
-  this._closeButton.removeState(qx.ui.core.Widget.STATE_OVER);
+  this._closeButton.removeState("pressed");
+  this._closeButton.removeState("abandoned");
+  this._closeButton.removeState("over");
 
   e.stopPropagation();
 }
@@ -1252,15 +1252,15 @@ qx.Proto._oncaptionmousedown = function(e)
   var pa = this.getParent();
   var pl = pa.getElement();
 
-  var l = qx.dom.DomLocation.getPageAreaLeft(pl);
-  var t = qx.dom.DomLocation.getPageAreaTop(pl);
-  var r = qx.dom.DomLocation.getPageAreaRight(pl);
-  var b = qx.dom.DomLocation.getPageAreaBottom(pl);
+  var l = qx.dom.Location.getPageAreaLeft(pl);
+  var t = qx.dom.Location.getPageAreaTop(pl);
+  var r = qx.dom.Location.getPageAreaRight(pl);
+  var b = qx.dom.Location.getPageAreaBottom(pl);
 
   this._dragSession =
   {
-    offsetX : e.getPageX() - qx.dom.DomLocation.getPageBoxLeft(el) + l,
-    offsetY : e.getPageY() - qx.dom.DomLocation.getPageBoxTop(el) + t,
+    offsetX : e.getPageX() - qx.dom.Location.getPageBoxLeft(el) + l,
+    offsetY : e.getPageY() - qx.dom.Location.getPageBoxTop(el) + t,
 
     parentAvailableAreaLeft : l + 5,
     parentAvailableAreaTop : t + 5,
@@ -1271,11 +1271,11 @@ qx.Proto._oncaptionmousedown = function(e)
   // handle frame and translucently
   switch(this.getMoveMethod())
   {
-    case qx.ui.window.Window.MODE_TRANSLUCENT:
+    case "translucent":
       this.setOpacity(0.5);
       break;
 
-    case qx.ui.window.Window.MODE_FRAME:
+    case "frame":
       var f = this._frame;
 
       if (f.getParent() != this.getParent())
@@ -1284,11 +1284,11 @@ qx.Proto._oncaptionmousedown = function(e)
         qx.ui.core.Widget.flushGlobalQueues();
       }
 
-      f._applyRuntimeLeft(qx.dom.DomLocation.getPageBoxLeft(el) - l);
-      f._applyRuntimeTop(qx.dom.DomLocation.getPageBoxTop(el) - t);
+      f._applyRuntimeLeft(qx.dom.Location.getPageBoxLeft(el) - l);
+      f._applyRuntimeTop(qx.dom.Location.getPageBoxTop(el) - t);
 
-      f._applyRuntimeWidth(qx.dom.DomDimension.getBoxWidth(el));
-      f._applyRuntimeHeight(qx.dom.DomDimension.getBoxHeight(el));
+      f._applyRuntimeWidth(qx.dom.Dimension.getBoxWidth(el));
+      f._applyRuntimeHeight(qx.dom.Dimension.getBoxHeight(el));
 
       f.setZIndex(this.getZIndex() + 1);
 
@@ -1319,11 +1319,11 @@ qx.Proto._oncaptionmouseup = function(e)
   // handle frame and translucently
   switch(this.getMoveMethod())
   {
-    case qx.ui.window.Window.MODE_TRANSLUCENT:
+    case "translucent":
       this.setOpacity(null);
       break;
 
-    case qx.ui.window.Window.MODE_FRAME:
+    case "frame":
       this._frame.setParent(null);
       break;
   }
@@ -1347,7 +1347,7 @@ qx.Proto._oncaptionmousemove = function(e)
   }
 
   // use the fast and direct dom methods
-  var o = this.getMoveMethod() == qx.ui.window.Window.MODE_FRAME ? this._frame : this;
+  var o = this.getMoveMethod() == "frame" ? this._frame : this;
 
   o._applyRuntimeLeft(s.lastX = e.getPageX() - s.offsetX);
   o._applyRuntimeTop(s.lastY = e.getPageY() - s.offsetY);
@@ -1359,7 +1359,7 @@ qx.Proto._oncaptiondblblick = function()
     return;
   }
 
-  return this.getMode() == qx.ui.window.Window.MODE_MAXIMIZED ? this.restore() : this.maximize();
+  return this.getMode() == "maximized" ? this.restore() : this.maximize();
 }
 
 

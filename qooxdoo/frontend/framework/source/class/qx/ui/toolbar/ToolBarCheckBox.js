@@ -22,10 +22,10 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.toolbar.ToolBarCheckBox", qx.ui.toolbar.ToolBarButton,
+qx.OO.defineClass("qx.ui.toolbar.CheckBox", qx.ui.toolbar.Button,
 function(vText, vIcon, vChecked)
 {
-  qx.ui.toolbar.ToolBarButton.call(this, vText, vIcon);
+  qx.ui.toolbar.Button.call(this, vText, vIcon);
 
   if (qx.util.Validation.isValid(vChecked)) {
     this.setChecked(vChecked);
@@ -40,7 +40,7 @@ function(vText, vIcon, vChecked)
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "checked", type : qx.constant.Type.BOOLEAN, defaultValue : false, getAlias:"isChecked" });
+qx.OO.addProperty({ name : "checked", type : "boolean", defaultValue : false, getAlias:"isChecked" });
 
 
 
@@ -54,7 +54,7 @@ qx.OO.addProperty({ name : "checked", type : qx.constant.Type.BOOLEAN, defaultVa
 
 qx.Proto._modifyChecked = function(propValue, propOldValue, propData)
 {
-  propValue ? this.addState(qx.ui.form.Button.STATE_CHECKED) : this.removeState(qx.ui.form.Button.STATE_CHECKED);
+  propValue ? this.addState("checked") : this.removeState("checked");
   return true;
 }
 
@@ -72,15 +72,15 @@ qx.Proto._onmouseup = function(e)
 {
   this.setCapture(false);
 
-  if (!this.hasState(qx.ui.form.Button.STATE_ABANDONED))
+  if (!this.hasState("abandoned"))
   {
-    this.addState(qx.ui.core.Widget.STATE_OVER);
+    this.addState("over");
     this.setChecked(!this.getChecked());
     this.execute();
   }
 
-  this.removeState(qx.ui.form.Button.STATE_ABANDONED);
-  this.removeState(qx.ui.form.Button.STATE_PRESSED);
+  this.removeState("abandoned");
+  this.removeState("pressed");
 
   e.stopPropagation();
 }

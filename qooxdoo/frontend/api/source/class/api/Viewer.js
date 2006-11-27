@@ -62,7 +62,7 @@ function () {
 
 
 /** The documentation tree to show. */
-qx.OO.addProperty({ name:"docTree", type:qx.constant.Type.OBJECT });
+qx.OO.addProperty({ name:"docTree", type:"object" });
 
 
 qx.Settings.setDefault("title", "qooxdoo");
@@ -84,7 +84,7 @@ qx.Proto._modifyDocTree = function(propValue, propOldValue, propData) {
  */
 qx.Proto.load = function(url)
 {
-  var req = new qx.io.remote.RemoteRequest(url);
+  var req = new qx.io.remote.Request(url);
 
   req.setTimeout(180000);
 

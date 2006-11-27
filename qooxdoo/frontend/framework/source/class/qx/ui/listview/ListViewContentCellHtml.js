@@ -22,7 +22,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.listview.ListViewContentCellHtml", qx.ui.embed.HtmlEmbed,
+qx.OO.defineClass("qx.ui.listview.ContentCellHtml", qx.ui.embed.HtmlEmbed,
 function(vHtml)
 {
   qx.ui.embed.HtmlEmbed.call(this, vHtml);
@@ -30,8 +30,8 @@ function(vHtml)
   this.setSelectable(false);
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "list-view-content-cell-html" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "list-view-content-cell-html" });
 
-qx.ui.listview.ListViewContentCellHtml.empty = {
-  html : qx.constant.Core.EMPTY
+qx.ui.listview.ContentCellHtml.empty = {
+  html : ""
 }

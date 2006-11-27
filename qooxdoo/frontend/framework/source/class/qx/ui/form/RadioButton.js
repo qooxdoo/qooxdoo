@@ -26,7 +26,7 @@ qx.OO.defineClass("qx.ui.form.RadioButton", qx.ui.form.CheckBox,
 function(vText, vValue, vName, vChecked) {
   qx.ui.form.CheckBox.call(this, vText, vValue, vName, vChecked);
 
-  this.addEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
+  this.addEventListener("keypress", this._onkeypress);
 });
 
 
@@ -40,7 +40,7 @@ function(vText, vValue, vName, vChecked) {
 /*!
   The assigned qx.manager.selection.RadioManager which handles the switching between registered buttons
 */
-qx.OO.addProperty({ name : "manager", type : qx.constant.Type.OBJECT, instance : "qx.manager.selection.RadioManager", allowNull : true });
+qx.OO.addProperty({ name : "manager", type : "object", instance : "qx.manager.selection.RadioManager", allowNull : true });
 
 
 
@@ -180,6 +180,6 @@ qx.Proto.dispose = function()
     return;
   }
 
-  this.removeEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
+  this.removeEventListener("keypress", this._onkeypress);
   return qx.ui.form.CheckBox.prototype.dispose.call(this);
 }

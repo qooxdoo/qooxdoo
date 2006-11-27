@@ -66,7 +66,7 @@ qx.Proto.update = function(vTarget, vEventName)
 
     // Hide only if the target is not a button inside this
     // or any sub menu and is not the opener
-    if (vMenu.getOpener() !== vTarget && ((vTarget && !vMenu.isSubButton(vTarget)) || vEventName !== qx.constant.Event.MOUSEDOWN))
+    if (vMenu.getOpener() !== vTarget && ((vTarget && !vMenu.isSubButton(vTarget)) || vEventName !== "mousedown"))
     {
       vMenu.hide();
       continue;

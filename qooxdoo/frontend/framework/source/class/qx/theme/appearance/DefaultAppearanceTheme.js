@@ -31,7 +31,7 @@
 
  ************************************************************************ */
 
-qx.OO.defineClass("qx.theme.appearance.DefaultAppearanceTheme", qx.renderer.theme.AppearanceTheme,
+qx.OO.defineClass("qx.theme.appearance.Classic", qx.renderer.theme.AppearanceTheme,
 function(vTitle) {
   qx.renderer.theme.AppearanceTheme.call(this, vTitle || "qooxdoo default appearance");
 });
@@ -77,7 +77,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
       // (Visible) background tiles could be dramatically slow down mshtml!
       // A background image or color is always needed for mshtml to block the events successfully.
       return {
-        cursor : qx.constant.Core.DEFAULT,
+        cursor : "default",
         backgroundImage : "static/image/blank.gif"
       }
     }
@@ -86,12 +86,12 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
   "atom" : {
     initial : function(vTheme) {
       return {
-        cursor : qx.constant.Core.DEFAULT,
+        cursor : "default",
         spacing : 4,
-        width : qx.constant.Core.AUTO,
-        height : qx.constant.Core.AUTO,
-        horizontalChildrenAlign : qx.constant.Layout.ALIGN_CENTER,
-        verticalChildrenAlign : qx.constant.Layout.ALIGN_MIDDLE,
+        width : "auto",
+        height : "auto",
+        horizontalChildrenAlign : "center",
+        verticalChildrenAlign : "middle",
         stretchChildrenOrthogonalAxis : false,
         allowStretchY : false,
         allowStretchX : false
@@ -132,8 +132,8 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
   "popup" : {
     initial : function(vTheme) {
       return {
-        width : qx.constant.Core.AUTO,
-        height : qx.constant.Core.AUTO
+        width : "auto",
+        height : "auto"
       }
     }
   },
@@ -233,7 +233,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
       return {
         border : qx.renderer.border.BorderPresets.getInstance().thinOutset,
         backgroundColor : this.bgcolor,
-        height : qx.constant.Core.AUTO
+        height : "auto"
       }
     }
   },
@@ -241,7 +241,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
   "toolbar-part" : {
     initial : function(vTheme) {
       return {
-        width : qx.constant.Core.AUTO
+        width : "auto"
       }
     }
   },
@@ -281,8 +281,8 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
       b.setLeftColor("threedshadow");
       b.setRightColor("threedhighlight");
 
-      b.setLeftStyle(qx.renderer.border.Border.STYLE_SOLID);
-      b.setRightStyle(qx.renderer.border.Border.STYLE_SOLID);
+      b.setLeftStyle("solid");
+      b.setRightStyle("solid");
 
       b.setLeftWidth(1);
       b.setRightWidth(1);
@@ -315,10 +315,10 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
 
     initial : function(vTheme) {
       return {
-        cursor : qx.constant.Core.DEFAULT,
+        cursor : "default",
         spacing : 4,
-        width : qx.constant.Core.AUTO,
-        verticalChildrenAlign : qx.constant.Layout.ALIGN_MIDDLE
+        width : "auto",
+        verticalChildrenAlign : "middle"
       }
     },
 
@@ -381,12 +381,12 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
       if (vStates.barHorizontal) {
         return {
           width : null,
-          height : qx.constant.Core.FLEX
+          height : "1*"
         }
       }
       else {
         return {
-          width : qx.constant.Core.FLEX,
+          width : "1*",
           height : null
         }
       }
@@ -411,16 +411,16 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
       this.border_color = new qx.renderer.color.ColorObject("threedshadow");
 
       this.border_top = new qx.renderer.border.BorderObject;
-      this.border_top.setBottom(1, qx.renderer.border.Border.STYLE_SOLID, this.border_color);
+      this.border_top.setBottom(1, "solid", this.border_color);
 
       this.border_bottom = new qx.renderer.border.BorderObject;
-      this.border_bottom.setTop(1, qx.renderer.border.Border.STYLE_SOLID, this.border_color);
+      this.border_bottom.setTop(1, "solid", this.border_color);
 
       this.border_left = new qx.renderer.border.BorderObject;
-      this.border_left.setRight(1, qx.renderer.border.Border.STYLE_SOLID, this.border_color);
+      this.border_left.setRight(1, "solid", this.border_color);
 
       this.border_right = new qx.renderer.border.BorderObject;
-      this.border_right.setLeft(1, qx.renderer.border.Border.STYLE_SOLID, this.border_color);
+      this.border_right.setLeft(1, "solid", this.border_color);
     },
 
     initial : function(vTheme) {
@@ -438,9 +438,9 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
           paddingLeft : 0,
 
           border : this.border_top,
-          height : qx.constant.Core.AUTO,
+          height : "auto",
           width : null,
-          orientation : qx.constant.Layout.ORIENTATION_HORIZONTAL
+          orientation : "horizontal"
         };
       }
       else if (vStates.barBottom) {
@@ -451,9 +451,9 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
           paddingLeft : 0,
 
           border : this.border_bottom,
-          height : qx.constant.Core.AUTO,
+          height : "auto",
           width : null,
-          orientation : qx.constant.Layout.ORIENTATION_HORIZONTAL
+          orientation : "horizontal"
         };
       }
       else if (vStates.barLeft) {
@@ -465,8 +465,8 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
 
           border : this.border_left,
           height : null,
-          width : qx.constant.Core.AUTO,
-          orientation : qx.constant.Layout.ORIENTATION_VERTICAL
+          width : "auto",
+          orientation : "vertical"
         };
       }
       else if (vStates.barRight) {
@@ -478,8 +478,8 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
 
           border : this.border_right,
           height : null,
-          width : qx.constant.Core.AUTO,
-          orientation : qx.constant.Layout.ORIENTATION_VERTICAL
+          width : "auto",
+          orientation : "vertical"
         };
       }
     }
@@ -493,22 +493,22 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
       this.border_color = new qx.renderer.color.ColorObject("threedshadow");
       this.border_color_checked = new qx.renderer.color.ColorObject("#FEC83C");
 
-      this.border_top_checked = new qx.renderer.border.Border(1, qx.renderer.border.Border.STYLE_SOLID, this.border_color);
-      this.border_top_checked.setBottom(3, qx.renderer.border.Border.STYLE_SOLID, this.border_color_checked);
+      this.border_top_checked = new qx.renderer.border.Border(1, "solid", this.border_color);
+      this.border_top_checked.setBottom(3, "solid", this.border_color_checked);
 
-      this.border_bottom_checked = new qx.renderer.border.Border(1, qx.renderer.border.Border.STYLE_SOLID, this.border_color);
-      this.border_bottom_checked.setTop(3, qx.renderer.border.Border.STYLE_SOLID, this.border_color_checked);
+      this.border_bottom_checked = new qx.renderer.border.Border(1, "solid", this.border_color);
+      this.border_bottom_checked.setTop(3, "solid", this.border_color_checked);
 
-      this.border_left_checked = new qx.renderer.border.Border(1, qx.renderer.border.Border.STYLE_SOLID, this.border_color);
-      this.border_left_checked.setRight(3, qx.renderer.border.Border.STYLE_SOLID, this.border_color_checked);
+      this.border_left_checked = new qx.renderer.border.Border(1, "solid", this.border_color);
+      this.border_left_checked.setRight(3, "solid", this.border_color_checked);
 
-      this.border_right_checked = new qx.renderer.border.Border(1, qx.renderer.border.Border.STYLE_SOLID, this.border_color);
-      this.border_right_checked.setLeft(3, qx.renderer.border.Border.STYLE_SOLID, this.border_color_checked);
+      this.border_right_checked = new qx.renderer.border.Border(1, "solid", this.border_color);
+      this.border_right_checked.setLeft(3, "solid", this.border_color_checked);
     },
 
     initial : function(vTheme) {
       return qx.lang.Object.mergeWith(vTheme.initialFrom("atom"), {
-        iconPosition : qx.constant.Layout.ALIGN_TOP
+        iconPosition : "top"
       });
     },
 
@@ -558,13 +558,13 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
       if (vStates.barTop || vStates.barBottom) {
         vReturn.marginTop = vReturn.marginBottom = 0;
         vReturn.marginRight = vReturn.marginLeft = 1;
-        vReturn.width = qx.constant.Core.AUTO;
+        vReturn.width = "auto";
         vReturn.height = null;
       }
       else if (vStates.barLeft || vStates.barRight) {
         vReturn.marginTop = vReturn.marginBottom = 1;
         vReturn.marginRight = vReturn.marginLeft = 0;
-        vReturn.height = qx.constant.Core.AUTO;
+        vReturn.height = "auto";
         vReturn.width = null;
       }
 
@@ -624,9 +624,9 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
         paddingRight : 2,
         paddingBottom : 2,
         paddingLeft : 2,
-        verticalChildrenAlign : qx.constant.Layout.ALIGN_MIDDLE,
-        height : qx.constant.Core.AUTO,
-        overflow : qx.constant.Style.OVERFLOW_HIDDEN
+        verticalChildrenAlign : "middle",
+        height : "auto",
+        overflow : "hidden"
       }
     },
 
@@ -662,7 +662,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
 
     initial : function(vTheme) {
       return {
-        cursor : qx.constant.Core.DEFAULT,
+        cursor : "default",
         font : this.font,
         marginRight : 2,
         wrap : false
@@ -739,7 +739,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
     initial : function(vTheme) {
       return {
         border : qx.renderer.border.BorderPresets.getInstance().thinInset,
-        height : qx.constant.Core.AUTO
+        height : "auto"
       }
     }
   },
@@ -751,7 +751,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
         paddingRight : 4,
         paddingBottom : 1,
         paddingLeft : 4,
-        cursor : qx.constant.Core.DEFAULT
+        cursor : "default"
       }
     }
   },
@@ -803,8 +803,8 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
 
     initial : function(vTheme) {
       return {
-        width : qx.constant.Core.AUTO,
-        height : qx.constant.Core.AUTO,
+        width : "auto",
+        height : "auto",
         backgroundColor : this.bgcolor,
         border : qx.renderer.border.BorderPresets.getInstance().outset,
         paddingTop : 1,
@@ -837,15 +837,15 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
 
     initial : function(vTheme) {
       return {
-        minWidth : qx.constant.Core.AUTO,
-        height : qx.constant.Core.AUTO,
+        minWidth : "auto",
+        height : "auto",
         spacing : 2,
         paddingTop : 2,
         paddingRight : 4,
         paddingBottom : 2,
         paddingLeft : 4,
-        cursor : qx.constant.Core.DEFAULT,
-        verticalChildrenAlign : qx.constant.Layout.ALIGN_MIDDLE,
+        cursor : "default",
+        verticalChildrenAlign : "middle",
         allowStretchX : true
       }
     },
@@ -881,7 +881,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
   "menu-separator" : {
     initial : function(vTheme) {
       return {
-        height : qx.constant.Core.AUTO,
+        height : "auto",
         marginTop : 3,
         marginBottom : 2,
         paddingLeft : 3,
@@ -895,7 +895,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
       return {
         right : 0,
         left : 0,
-        height : qx.constant.Core.AUTO,
+        height : "auto",
         border : qx.renderer.border.BorderPresets.getInstance().verticalDivider
       }
     }
@@ -921,7 +921,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
 
     initial : function(vTheme) {
       return {
-        overflow : qx.constant.Style.OVERFLOW_HIDDEN,
+        overflow : "hidden",
         border : qx.renderer.border.BorderPresets.getInstance().thinInset,
         backgroundColor : this.bgcolor
       }
@@ -936,16 +936,16 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
 
     initial : function(vTheme) {
       return {
-        cursor : qx.constant.Core.DEFAULT,
-        height : qx.constant.Core.AUTO,
-        horizontalChildrenAlign : qx.constant.Layout.ALIGN_LEFT,
-        verticalChildrenAlign : qx.constant.Layout.ALIGN_MIDDLE,
+        cursor : "default",
+        height : "auto",
+        horizontalChildrenAlign : "left",
+        verticalChildrenAlign : "middle",
         spacing : 4,
         paddingTop : 3,
         paddingRight : 5,
         paddingBottom : 3,
         paddingLeft : 5,
-        minWidth : qx.constant.Core.AUTO
+        minWidth : "auto"
       }
     },
 
@@ -986,8 +986,8 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
         allowStretchY : false,
         allowStretchX : true,
         font : this.font,
-        width : qx.constant.Core.AUTO,
-        height : qx.constant.Core.AUTO
+        width : "auto",
+        height : "auto"
       }
     },
 
@@ -999,7 +999,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
   "text-area" : {
     initial : function(vTheme) {
       return qx.lang.Object.mergeWith(vTheme.initialFrom("text-field"), {
-        overflow : qx.constant.Core.AUTO,
+        overflow : "auto",
 
         // gecko automatically defines a marginTop/marginBottom of 1px. We need to reset these values.
         marginTop : 0,
@@ -1036,7 +1036,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
       return {
         minWidth : 40,
         width : 120,
-        height : qx.constant.Core.AUTO,
+        height : "auto",
         border : qx.renderer.border.BorderPresets.getInstance().inset,
         backgroundColor : this.bgcolor,
         allowStretchY : false
@@ -1051,8 +1051,8 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
 
     initial : function(vTheme) {
       return {
-        width : qx.constant.Core.AUTO,
-        height : qx.constant.Core.AUTO,
+        width : "auto",
+        height : "auto",
         border : qx.renderer.border.BorderPresets.getInstance().inset,
         backgroundColor : this.bgcolor,
         allowStretchY : false
@@ -1068,7 +1068,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
         bottom : 0,
         left : 0,
         border : null,
-        overflow : qx.constant.Style.OVERFLOW_VERTICAL
+        overflow : "scrollY"
       });
     }
   },
@@ -1090,7 +1090,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
   "combo-box-popup" : {
     initial : function(vTheme) {
       return qx.lang.Object.mergeWith(vTheme.initialFrom("list"), {
-        height : qx.constant.Core.AUTO,
+        height : "auto",
         maxHeight : 150,
         border : qx.renderer.border.BorderPresets.getInstance().shadow
       });
@@ -1100,8 +1100,8 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
   "combo-box-ex-popup" : {
     initial : function(vTheme) {
       return qx.lang.Object.mergeWith(vTheme.initialFrom("list"), {
-        width: qx.constant.Core.AUTO,
-        height : qx.constant.Core.AUTO,
+        width: "auto",
+        height : "auto",
         border : qx.renderer.border.BorderPresets.getInstance().shadow
       });
     }
@@ -1115,7 +1115,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
     initial : function(vTheme) {
       return qx.lang.Object.mergeWith(vTheme.initialFrom("text-field"), {
         border : qx.renderer.border.BorderPresets.getInstance().none,
-        width : qx.constant.Core.FLEX,
+        width : "1*",
         backgroundColor : this.bgcolor
       });
     }
@@ -1171,7 +1171,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
     initial : function(vTheme) {
       return {
         height : 16,
-        verticalChildrenAlign : qx.constant.Layout.ALIGN_MIDDLE
+        verticalChildrenAlign : "middle"
       }
     }
   },
@@ -1193,7 +1193,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
 
     initial : function(vTheme) {
       return qx.lang.Object.mergeWith(vTheme.initialFrom("label"), {
-        cursor : qx.constant.Core.DEFAULT,
+        cursor : "default",
         marginLeft : 3,
         height : 15,
         paddingTop : 2,
@@ -1274,7 +1274,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
   "tree-container" : {
     initial : function(vTheme) {
       return {
-        verticalChildrenAlign : qx.constant.Layout.ALIGN_TOP
+        verticalChildrenAlign : "top"
       }
     }
   },
@@ -1282,8 +1282,8 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
   "tree-folder-container" : {
     initial : function(vTheme) {
       return {
-        height : qx.constant.Core.AUTO,
-        verticalChildrenAlign : qx.constant.Layout.ALIGN_TOP
+        height : "auto",
+        verticalChildrenAlign : "top"
       }
     }
   },
@@ -1303,8 +1303,8 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
   "list-view" : {
     initial : function(vTheme) {
       return {
-        cursor : qx.constant.Core.DEFAULT,
-        overflow: qx.constant.Style.OVERFLOW_HIDDEN
+        cursor : "default",
+        overflow: "hidden"
       }
     }
   },
@@ -1312,9 +1312,9 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
   "list-view-pane" : {
     initial : function(vTheme) {
       return {
-        width : qx.constant.Core.FLEX,
+        width : "1*",
         horizontalSpacing : 1,
-        overflow : qx.constant.Style.OVERFLOW_HIDDEN
+        overflow : "hidden"
       }
     }
   },
@@ -1329,8 +1329,8 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
 
     initial : function(vTheme) {
       return {
-        height : qx.constant.Core.AUTO,
-        overflow: qx.constant.Style.OVERFLOW_HIDDEN,
+        height : "auto",
+        overflow: "hidden",
         border : this.border,
         backgroundColor : this.bgcolor
       }
@@ -1347,7 +1347,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
 
     initial : function(vTheme) {
       return {
-        overflow : qx.constant.Style.OVERFLOW_HIDDEN,
+        overflow : "hidden",
         paddingTop : 2,
         paddingRight : 6,
         paddingBottom : 2,
@@ -1419,7 +1419,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
   "list-view-content-cell-text" : {
     initial : function(vTheme) {
       return qx.lang.Object.mergeWith(vTheme.initialFrom("htmlcontainer"), {
-        overflow: qx.constant.Style.OVERFLOW_HIDDEN,
+        overflow: "hidden",
         paddingLeft : 6,
         paddingRight : 6
       });
@@ -1483,20 +1483,20 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
   "tab-view-bar" : {
     initial : function(vTheme) {
       return {
-        height : qx.constant.Core.AUTO
+        height : "auto"
       };
     }
   },
 
   "tab-view-pane" : {
     setup : function() {
-      this.border = new qx.renderer.border.Border(1, qx.renderer.border.Border.STYLE_SOLID, "#91A5BD");
+      this.border = new qx.renderer.border.Border(1, "solid", "#91A5BD");
       this.bgcolor = new qx.renderer.color.ColorObject("#FAFBFE");
     },
 
     initial : function(vTheme) {
       return {
-        height : qx.constant.Core.FLEX,
+        height : "1*",
         backgroundColor : this.bgcolor,
         border : this.border,
         paddingTop : 10,
@@ -1523,19 +1523,19 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
       this.bgcolor_normal = new qx.renderer.color.ColorObject("#E1EEFF");
       this.bgcolor_checked = new qx.renderer.color.ColorObject("#FAFBFE");
 
-      this.border_top_normal = new qx.renderer.border.Border(1, qx.renderer.border.Border.STYLE_SOLID, "#91A5BD");
+      this.border_top_normal = new qx.renderer.border.Border(1, "solid", "#91A5BD");
       this.border_top_normal.setBottomWidth(0);
 
-      this.border_top_checked = new qx.renderer.border.Border(1, qx.renderer.border.Border.STYLE_SOLID, "#91A5BD");
+      this.border_top_checked = new qx.renderer.border.Border(1, "solid", "#91A5BD");
       this.border_top_checked.setBottomWidth(0);
-      this.border_top_checked.setTop(3, qx.renderer.border.Border.STYLE_SOLID, "#FEC83C");
+      this.border_top_checked.setTop(3, "solid", "#FEC83C");
 
-      this.border_bottom_normal = new qx.renderer.border.Border(1, qx.renderer.border.Border.STYLE_SOLID, "#91A5BD");
+      this.border_bottom_normal = new qx.renderer.border.Border(1, "solid", "#91A5BD");
       this.border_bottom_normal.setTopWidth(0);
 
-      this.border_bottom_checked = new qx.renderer.border.Border(1, qx.renderer.border.Border.STYLE_SOLID, "#91A5BD");
+      this.border_bottom_checked = new qx.renderer.border.Border(1, "solid", "#91A5BD");
       this.border_bottom_checked.setTopWidth(0);
-      this.border_bottom_checked.setBottom(3, qx.renderer.border.Border.STYLE_SOLID, "#FEC83C");
+      this.border_bottom_checked.setBottom(3, "solid", "#FEC83C");
     },
 
     initial : function(vTheme) {
@@ -1724,7 +1724,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
   "spinner-field" : {
     initial : function(vTheme) {
       return qx.lang.Object.mergeWith(vTheme.initialFrom("text-field"), {
-        width : qx.constant.Core.FLEX,
+        width : "1*",
         border : qx.renderer.border.BorderPresets.getInstance().none
       });
     },
@@ -1737,7 +1737,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
   "spinner-button-up" : {
     initial : function(vTheme) {
       return qx.lang.Object.mergeWith(vTheme.initialFrom("image"), {
-        height: qx.constant.Core.FLEX,
+        height: "1*",
         width: 16,
         backgroundColor: new qx.renderer.color.ColorObject("threedface")
       });
@@ -1756,7 +1756,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
   "spinner-button-down" : {
     initial : function(vTheme) {
       return qx.lang.Object.mergeWith(vTheme.initialFrom("image"), {
-        height: qx.constant.Core.FLEX,
+        height: "1*",
         width: 16,
         backgroundColor: new qx.renderer.color.ColorObject("threedface")
       });
@@ -1790,8 +1790,8 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
     initial : function(vTheme) {
       return {
         border : this.border,
-        width: qx.constant.Core.AUTO,
-        height: qx.constant.Core.AUTO
+        width: "auto",
+        height: "auto"
       }
     },
 
@@ -1824,10 +1824,10 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
 
     initial : function(vTheme) {
       return {
-        cursor : qx.constant.Core.DEFAULT,
+        cursor : "default",
         spacing : 4,
-        width : qx.constant.Core.AUTO,
-        verticalChildrenAlign : qx.constant.Layout.ALIGN_MIDDLE
+        width : "auto",
+        verticalChildrenAlign : "middle"
       }
     },
 
@@ -1880,7 +1880,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
 
   "datechooser-datepane" : {
     setup : function() {
-      this.border = new qx.renderer.border.Border(1, qx.renderer.border.Border.STYLE_SOLID, "gray");
+      this.border = new qx.renderer.border.Border(1, "solid", "gray");
       this.bgcolor = new qx.renderer.color.ColorObject("window");
     },
 
@@ -1896,7 +1896,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
   "datechooser-weekday" : {
     setup : function() {
       this.border = new qx.renderer.border.Border;
-      this.border.set({ bottomColor:"gray", bottomStyle :qx.renderer.border.Border.STYLE_SOLID, bottomWidth:1 });
+      this.border.set({ bottomColor:"gray", bottomStyle :"solid", bottomWidth:1 });
       this.color = new qx.renderer.color.ColorObject("window");
       this.bgcolor = new qx.renderer.color.ColorObject("#6285BA");
       this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
@@ -1930,12 +1930,12 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
       this.color = new qx.renderer.color.ColorObject("windowText");
       this.otherMonthColor = new qx.renderer.color.ColorObject("grayText");
 
-      this.transparentBorder = new qx.renderer.border.Border(1, qx.renderer.border.Border.STYLE_NONE);
+      this.transparentBorder = new qx.renderer.border.Border(1, "none");
     },
 
     initial : function(vTheme) {
       return {
-        cursor : qx.constant.Core.DEFAULT,
+        cursor : "default",
         border : this.border,
         color : this.color,
         font : this.font,
@@ -1958,10 +1958,10 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
   "datechooser-week" : {
     setup : function() {
       this.border = new qx.renderer.border.Border;
-      this.border.set({ rightColor:"gray", rightStyle :qx.renderer.border.Border.STYLE_SOLID, rightWidth:1 });
+      this.border.set({ rightColor:"gray", rightStyle :"solid", rightWidth:1 });
       this.headerBorder = new qx.renderer.border.Border;
-      this.headerBorder.set({ rightColor:"gray", rightStyle :qx.renderer.border.Border.STYLE_SOLID, rightWidth:1,
-      bottomColor:"gray", bottomStyle :qx.renderer.border.Border.STYLE_SOLID, bottomWidth:1 });
+      this.headerBorder.set({ rightColor:"gray", rightStyle :"solid", rightWidth:1,
+      bottomColor:"gray", bottomStyle :"solid", bottomWidth:1 });
       this.color = new qx.renderer.color.ColorObject("#6285BA");
       this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
     },
@@ -1997,7 +1997,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
     setup : function() {
       this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
       this.border = new qx.renderer.border.Border;
-      this.border.set({ topColor:"threedshadow", topStyle :qx.renderer.border.Border.STYLE_SOLID, topWidth:1 });
+      this.border.set({ topColor:"threedshadow", topStyle :"solid", topWidth:1 });
     },
 
     initial : function(vTheme) {
@@ -2013,9 +2013,9 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
 
   "table-focus-indicator" : {
     setup : function() {
-      this.border = new qx.renderer.border.Border(3, qx.renderer.border.Border.STYLE_SOLID, "#b3d9ff");
-      this.blurBorder = new qx.renderer.border.Border(3, qx.renderer.border.Border.STYLE_SOLID, "#c5c8ca");
-      this.editingBorder = new qx.renderer.border.Border(2, qx.renderer.border.Border.STYLE_SOLID, "#b3d9ff");
+      this.border = new qx.renderer.border.Border(3, "solid", "#b3d9ff");
+      this.blurBorder = new qx.renderer.border.Border(3, "solid", "#c5c8ca");
+      this.editingBorder = new qx.renderer.border.Border(2, "solid", "#b3d9ff");
     },
 
     state : function(vTheme, vStates) {
@@ -2046,12 +2046,12 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
   "table-header-cell" : {
     setup : function() {
       this.border = new qx.renderer.border.Border;
-      this.border.set({ rightColor:"#d6d2c2", rightStyle :qx.renderer.border.Border.STYLE_SOLID, rightWidth:1,
-      bottomColor:"#d6d2c2", bottomStyle :qx.renderer.border.Border.STYLE_SOLID, bottomWidth:2 });
+      this.border.set({ rightColor:"#d6d2c2", rightStyle :"solid", rightWidth:1,
+      bottomColor:"#d6d2c2", bottomStyle :"solid", bottomWidth:2 });
 
       this.mouseOverBorder = new qx.renderer.border.Border;
-      this.mouseOverBorder.set({ rightColor:"#d6d2c2", rightStyle :qx.renderer.border.Border.STYLE_SOLID, rightWidth:1,
-      bottomColor:"#F9B119", bottomStyle :qx.renderer.border.Border.STYLE_SOLID, bottomWidth:2 });
+      this.mouseOverBorder.set({ rightColor:"#d6d2c2", rightStyle :"solid", rightWidth:1,
+      bottomColor:"#F9B119", bottomStyle :"solid", bottomWidth:2 });
 
       this.mouseOverBackground = new qx.renderer.color.ColorObject("white");
       this.background = new qx.renderer.color.ColorObject("#ebeadb");
@@ -2059,7 +2059,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
 
     initial : function(vTheme) {
       return {
-        cursor : qx.constant.Core.DEFAULT,
+        cursor : "default",
         border : this.border,
         paddingLeft : 2,
         paddingRight : 2,

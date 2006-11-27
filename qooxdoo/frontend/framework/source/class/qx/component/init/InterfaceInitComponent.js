@@ -76,7 +76,7 @@ qx.Proto.main = function()
   this.info("main runtime: " + ((new Date).valueOf() - start) + "ms");
 
   this.debug("preloading visible images...");
-  new qx.io.image.ImagePreloaderSystem(qx.manager.object.ImageManager.getInstance().getPreloadImageList(), this.finalize, this);
+  new qx.io.image.PreloaderSystem(qx.manager.object.ImageManager.getInstance().getPreloadImageList(), this.finalize, this);
 };
 
 
@@ -129,7 +129,7 @@ qx.Proto.preload = function()
   if (!this._preloadDone)
   {
     this.debug("preloading hidden images...");
-    new qx.io.image.ImagePreloaderSystem(qx.manager.object.ImageManager.getInstance().getPostPreloadImageList(), this._printPreloadComplete, this);
+    new qx.io.image.PreloaderSystem(qx.manager.object.ImageManager.getInstance().getPostPreloadImageList(), this._printPreloadComplete, this);
     this._preloadDone = true;
   }
 }

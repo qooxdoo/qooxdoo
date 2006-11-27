@@ -337,7 +337,7 @@ qx.Proto.showItem = function(itemName) {
   this._markedElement = elem;
 
   // Scroll the element visible
-  var top = qx.dom.DomLocation.getPageBoxTop(elem);
+  var top = qx.dom.Location.getPageBoxTop(elem);
   var height = elem.offsetHeight;
 
   var doc = this.getElement();

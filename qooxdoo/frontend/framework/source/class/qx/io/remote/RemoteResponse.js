@@ -22,7 +22,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.io.remote.RemoteResponse", qx.core.Target,
+qx.OO.defineClass("qx.io.remote.Response", qx.core.Target,
 function() {
   qx.core.Target.call(this);
 });
@@ -36,13 +36,13 @@ function() {
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "state", type : qx.constant.Type.NUMBER });
+qx.OO.addProperty({ name : "state", type : "number" });
 /*!
   Status code of the response.
 */
-qx.OO.addProperty({ name : "statusCode", type : qx.constant.Type.NUMBER });
+qx.OO.addProperty({ name : "statusCode", type : "number" });
 qx.OO.addProperty({ name : "content" });
-qx.OO.addProperty({ name : "responseHeaders", type : qx.constant.Type.OBJECT });
+qx.OO.addProperty({ name : "responseHeaders", type : "object" });
 
 
 

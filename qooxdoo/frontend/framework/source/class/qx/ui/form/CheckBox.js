@@ -46,9 +46,9 @@ function(vText, vValue, vName, vChecked)
     this.setChecked(false);
   }
 
-  this.addEventListener(qx.constant.Event.CLICK, this._onclick);
-  this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
-  this.addEventListener(qx.constant.Event.KEYUP, this._onkeyup);
+  this.addEventListener("click", this._onclick);
+  this.addEventListener("keydown", this._onkeydown);
+  this.addEventListener("keyup", this._onkeyup);
 });
 
 /*
@@ -63,17 +63,17 @@ qx.OO.removeProperty({ name : "disabledIcon" });
 /*!
   The HTML name of the form element used by the widget
 */
-qx.OO.addProperty({ name : "name", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "name", type : "string" });
 
 /*!
   The HTML value of the form element used by the widget
 */
-qx.OO.addProperty({ name : "value", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "value", type : "string" });
 
 /*!
   If the widget is checked
 */
-qx.OO.addProperty({ name : "checked", type : qx.constant.Type.BOOLEAN, getAlias : "isChecked" });
+qx.OO.addProperty({ name : "checked", type : "boolean", getAlias : "isChecked" });
 
 
 
@@ -202,9 +202,9 @@ qx.Proto.dispose = function()
     return;
   }
 
-  this.removeEventListener(qx.constant.Event.CLICK, this._onclick);
-  this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
-  this.removeEventListener(qx.constant.Event.KEYUP, this._onkeyup);
+  this.removeEventListener("click", this._onclick);
+  this.removeEventListener("keydown", this._onkeydown);
+  this.removeEventListener("keyup", this._onkeyup);
 
   return qx.ui.basic.Atom.prototype.dispose.call(this);
 }

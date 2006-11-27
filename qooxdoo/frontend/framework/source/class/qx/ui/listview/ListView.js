@@ -38,7 +38,7 @@ function(vData, vColumns)
   //   OBJECTS
   // ************************************************************************
 
-  this._header = new qx.ui.listview.ListViewHeader(vColumns);
+  this._header = new qx.ui.listview.Header(vColumns);
   this._frame = new qx.ui.layout.HorizontalBoxLayout;
   this._pane = new qx.ui.listview.ListViewPane(vData, vColumns);
   this._scroll = new qx.ui.layout.CanvasLayout;
@@ -68,7 +68,7 @@ function(vData, vColumns)
   // ************************************************************************
 
   this._frame.setParent(this);
-  this._frame.setHeight(qx.constant.Core.FLEX);
+  this._frame.setHeight("1*");
   this._frame.setWidth(null);
 
 
@@ -85,11 +85,11 @@ function(vData, vColumns)
   //   SCROLL AREA
   // ************************************************************************
 
-  this._scroll.setWidth(qx.constant.Core.AUTO);
-  this._scroll.setOverflow(qx.constant.Style.OVERFLOW_VERTICAL);
+  this._scroll.setWidth("auto");
+  this._scroll.setOverflow("scrollY");
   this._scroll.setParent(this._frame);
-  this._scroll.enableInlineEvent(qx.constant.Event.SCROLL);
-  this._scroll.addEventListener(qx.constant.Event.SCROLL, this._onscroll, this);
+  this._scroll.enableInlineEvent("scroll");
+  this._scroll.addEventListener("scroll", this._onscroll, this);
 
 
 
@@ -117,7 +117,7 @@ function(vData, vColumns)
   //   EVENTS
   // ************************************************************************
 
-  this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
+  this.addEventListener("mousedown", this._onmousedown);
 });
 
 
@@ -129,11 +129,11 @@ function(vData, vColumns)
 ---------------------------------------------------------------------------
 */
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "list-view" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "list-view" });
 
-qx.OO.addProperty({ name : "resizable", type : qx.constant.Type.BOOLEAN, defaultValue : true });
-qx.OO.addProperty({ name : "liveResize", type : qx.constant.Type.BOOLEAN, defaultValue : false });
-qx.OO.addProperty({ name : "sortBy", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "resizable", type : "boolean", defaultValue : true });
+qx.OO.addProperty({ name : "liveResize", type : "boolean", defaultValue : false });
+qx.OO.addProperty({ name : "sortBy", type : "string" });
 
 
 
@@ -201,7 +201,7 @@ if (qx.sys.Client.getInstance().isGecko() && qx.sys.Client.getInstance().getVers
   {
     this._updateScrollBar();
 
-    this._scroll.setStyleProperty(qx.constant.Style.PROPERTY_HEIGHT, qx.constant.Core.ZEROPIXEL);
+    this._scroll.setStyleProperty("height", "0px");
     this._scroll.forceHeight(0);
     this._scroll.setHeight(null);
   }
@@ -263,7 +263,7 @@ qx.Proto._modifySortBy = function(propValue, propOldValue, propData)
     var vNewCell = this._getHeaderCell(propValue);
 
     if (vNewCell && vNewCell.getSortOrder() == null) {
-      vNewCell.setSortOrder(qx.ui.listview.ListViewHeaderCell.C_SORT_ASCENDING);
+      vNewCell.setSortOrder(qx.ui.listview.HeaderCell.C_SORT_ASCENDING);
     }
   }
 
@@ -367,7 +367,7 @@ qx.Proto.dispose = function()
   delete this._columns;
   delete this._data;
 
-  this.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
+  this.removeEventListener("mousedown", this._onmousedown);
 
   return qx.ui.layout.VerticalBoxLayout.prototype.dispose.call(this);
 }

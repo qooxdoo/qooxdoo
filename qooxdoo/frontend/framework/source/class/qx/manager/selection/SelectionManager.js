@@ -58,42 +58,42 @@ qx.Class.STATE_LEAD = "lead";
 /*!
 This contains the currently assigned widget (qx.ui.form.List, ...)
 */
-qx.OO.addProperty({ name : "boundedWidget", type : qx.constant.Type.OBJECT });
+qx.OO.addProperty({ name : "boundedWidget", type : "object" });
 
 /*!
 Should multiple selection be allowed?
 */
-qx.OO.addProperty({ name : "multiSelection", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "multiSelection", type : "boolean", defaultValue : true });
 
 /*!
 Enable drag selection?
 */
-qx.OO.addProperty({ name : "dragSelection", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "dragSelection", type : "boolean", defaultValue : true });
 
 /*!
 Should the user be able to select
 */
-qx.OO.addProperty({ name : "canDeselect", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "canDeselect", type : "boolean", defaultValue : true });
 
 /*!
 Should a change event be fired?
 */
-qx.OO.addProperty({ name : "fireChange", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "fireChange", type : "boolean", defaultValue : true });
 
 /*!
 The current anchor in range selections.
 */
-qx.OO.addProperty({ name : "anchorItem", type : qx.constant.Type.OBJECT });
+qx.OO.addProperty({ name : "anchorItem", type : "object" });
 
 /*!
 The last selected item
 */
-qx.OO.addProperty({ name : "leadItem", type : qx.constant.Type.OBJECT });
+qx.OO.addProperty({ name : "leadItem", type : "object" });
 
 /*!
 Grid selection
 */
-qx.OO.addProperty({ name : "multiColumnSupport", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "multiColumnSupport", type : "boolean", defaultValue : false });
 
 
 
@@ -284,7 +284,7 @@ qx.Proto.getItemEnabled = function(vItem) {
 
 qx.Proto.renderItemSelectionState = function(vItem, vIsSelected)
 {
-  vIsSelected ? vItem.addState(qx.manager.selection.SelectionManager.STATE_SELECTED) : vItem.removeState(qx.manager.selection.SelectionManager.STATE_SELECTED);
+  vIsSelected ? vItem.addState("selected") : vItem.removeState("selected");
 
   if (vItem.handleStateChange) {
     vItem.handleStateChange();
@@ -293,7 +293,7 @@ qx.Proto.renderItemSelectionState = function(vItem, vIsSelected)
 
 qx.Proto.renderItemAnchorState = function(vItem, vIsAnchor)
 {
-  vIsAnchor ? vItem.addState(qx.manager.selection.SelectionManager.STATE_ANCHOR) : vItem.removeState(qx.manager.selection.SelectionManager.STATE_ANCHOR);
+  vIsAnchor ? vItem.addState("anchor") : vItem.removeState("anchor");
 
   if (vItem.handleStateChange != null) {
     vItem.handleStateChange();
@@ -302,7 +302,7 @@ qx.Proto.renderItemAnchorState = function(vItem, vIsAnchor)
 
 qx.Proto.renderItemLeadState = function(vItem, vIsLead)
 {
-  vIsLead ? vItem.addState(qx.manager.selection.SelectionManager.STATE_LEAD) : vItem.removeState(qx.manager.selection.SelectionManager.STATE_LEAD);
+  vIsLead ? vItem.addState("lead") : vItem.removeState("lead");
 
   if (vItem.handleStateChange != null) {
     vItem.handleStateChange();
@@ -771,14 +771,14 @@ qx.Proto.handleMouseDown = function(vItem, e)
   if (this._activeDragSession)
   {
     // Add mouseup listener and register as capture widget
-    this.getBoundedWidget().addEventListener(qx.constant.Event.MOUSEUP, this._ondragup, this);
+    this.getBoundedWidget().addEventListener("mouseup", this._ondragup, this);
     this.getBoundedWidget().setCapture(true);
   }
 }
 
 qx.Proto._ondragup = function(e)
 {
-  this.getBoundedWidget().removeEventListener(qx.constant.Event.MOUSEUP, this._ondragup, this);
+  this.getBoundedWidget().removeEventListener("mouseup", this._ondragup, this);
   this.getBoundedWidget().setCapture(false);
   this._activeDragSession = false;
 }
@@ -1198,8 +1198,8 @@ qx.Proto._dispatchChange = function()
     return;
   }
 
-  if (this.hasEventListeners(qx.constant.Event.CHANGESELECTION)) {
-    this.dispatchEvent(new qx.event.type.DataEvent(qx.constant.Event.CHANGESELECTION, this.getSelectedItems()), true);
+  if (this.hasEventListeners("changeSelection")) {
+    this.dispatchEvent(new qx.event.type.DataEvent("changeSelection", this.getSelectedItems()), true);
   }
 }
 

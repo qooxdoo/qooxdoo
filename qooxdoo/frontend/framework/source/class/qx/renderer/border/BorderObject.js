@@ -50,22 +50,22 @@ qx.renderer.border.BorderObject.fromString = function(vDefString)
 
     switch(vPart)
     {
-      case qx.renderer.border.Border.STYLE_GROOVE:
-      case qx.renderer.border.Border.STYLE_RIDGE:
-      case qx.renderer.border.Border.STYLE_INSET:
-      case qx.renderer.border.Border.STYLE_OUTSET:
-      case qx.renderer.border.Border.STYLE_SOLID:
-      case qx.renderer.border.Border.STYLE_DOTTED:
-      case qx.renderer.border.Border.STYLE_DASHED:
-      case qx.renderer.border.Border.STYLE_DOUBLE:
-      case qx.renderer.border.Border.STYLE_NONE:
+      case "groove":
+      case "ridge":
+      case "inset":
+      case "outset":
+      case "solid":
+      case "dotted":
+      case "dashed":
+      case "double":
+      case "none":
         vBorder.setStyle(vPart);
         break;
 
       default:
         vTemp = parseFloat(vPart);
 
-        if(vTemp == vPart || qx.lang.String.contains(vPart, qx.constant.Core.PIXEL))
+        if(vTemp == vPart || qx.lang.String.contains(vPart, "px"))
         {
           vBorder.setWidth(vTemp);
         }
@@ -134,7 +134,7 @@ qx.Proto.dispose = function()
     return;
   }
 
-  if (typeof this._dependentObjects === qx.constant.Type.OBJECT)
+  if (typeof this._dependentObjects === "object")
   {
     var vAll = this._dependentObjects;
     for (vKey in vAll) {

@@ -22,7 +22,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.pageview.tabview.TabViewBar", qx.ui.pageview.AbstractPageViewBar,
+qx.OO.defineClass("qx.ui.pageview.tabview.Bar", qx.ui.pageview.AbstractPageViewBar,
 function()
 {
   qx.ui.pageview.AbstractPageViewBar.call(this);
@@ -30,4 +30,4 @@ function()
   this.setZIndex(2);
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "tab-view-bar" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "tab-view-bar" });

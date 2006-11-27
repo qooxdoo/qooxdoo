@@ -95,7 +95,7 @@
         {
           vChild = vChildren[i];
           
-          vTop = qx.dom.DomLocation.getPageBoxTop(vChild.getElement());
+          vTop = qx.dom.Location.getPageBoxTop(vChild.getElement());
           if ((vTop - vEventTop) > -4 && (vTop - vEventTop) < 4)
           {
             if (vEventTop > vTop && vChild.isFirstChild()) {

@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.theme.widget.WindowsWidgetTheme", qx.renderer.theme.WidgetTheme,
+qx.OO.defineClass("qx.theme.widget.Windows", qx.renderer.theme.WidgetTheme,
 function() {
   qx.renderer.theme.WidgetTheme.call(this, "Windows");
 });

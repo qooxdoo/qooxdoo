@@ -34,17 +34,17 @@ qx.OO.defineClass("qx.ui.component.DateChooser", qx.ui.layout.BoxLayout,
 function(date) {
   qx.ui.layout.BoxLayout.call(this);
 
-  this.setOrientation(qx.constant.Layout.ORIENTATION_VERTICAL);
+  this.setOrientation("vertical");
 
   // Create the navigation bar
   var navBar = new qx.ui.layout.BoxLayout;
   navBar.set({ width:null, height:"auto", spacing:1 });
 
-  var lastYearBt = new qx.ui.toolbar.ToolBarButton(null, "widget/datechooser/lastYear.png");
-  var lastMonthBt = new qx.ui.toolbar.ToolBarButton(null, "widget/datechooser/lastMonth.png");
+  var lastYearBt = new qx.ui.toolbar.Button(null, "widget/datechooser/lastYear.png");
+  var lastMonthBt = new qx.ui.toolbar.Button(null, "widget/datechooser/lastMonth.png");
   var monthYearLabel = new qx.ui.basic.Label;
-  var nextMonthBt = new qx.ui.toolbar.ToolBarButton(null, "widget/datechooser/nextMonth.png");
-  var nextYearBt = new qx.ui.toolbar.ToolBarButton(null, "widget/datechooser/nextYear.png");
+  var nextMonthBt = new qx.ui.toolbar.Button(null, "widget/datechooser/nextMonth.png");
+  var nextYearBt = new qx.ui.toolbar.Button(null, "widget/datechooser/nextYear.png");
 
   lastYearBt.set({ show:'icon', toolTip:new qx.ui.popup.ToolTip("Last year"), spacing:0 });
   lastMonthBt.set({ show:'icon', toolTip:new qx.ui.popup.ToolTip("Last month") });
@@ -67,7 +67,7 @@ function(date) {
   this._nextYearBt = nextYearBt;
 
   monthYearLabel.setAppearance("datechooser-monthyear");
-  monthYearLabel.set({ width:qx.constant.Core.FLEX });
+  monthYearLabel.set({ width:"1*" });
 
   navBar.add(lastYearBt, lastMonthBt, monthYearLabel, nextMonthBt, nextYearBt);
   this._monthYearLabel = monthYearLabel;
@@ -103,7 +103,7 @@ function(date) {
   var label = new qx.ui.basic.Label;
   label.setAppearance("datechooser-week");
   label.set({ width:"100%", height:"100%" });
-  label.addState(qx.ui.component.DateChooser.STATE_HEADER);
+  label.addState("header");
   datePane.add(label, 0, 0);
 
   this._weekdayLabelArr = [];
@@ -131,8 +131,8 @@ function(date) {
       var label = new qx.ui.basic.Label;
       label.setAppearance("datechooser-day");
       label.set({ width:"100%", height:"100%" });
-      label.addEventListener(qx.constant.Event.MOUSEDOWN, this._onDayClicked, this);
-      label.addEventListener(qx.constant.Event.DBLCLICK, this._onDayDblClicked, this);
+      label.addEventListener("mousedown", this._onDayClicked, this);
+      label.addEventListener("dblclick", this._onDayDblClicked, this);
       datePane.add(label, x + 1, y + 1);
       this._dayLabelArr.push(label);
     }
@@ -140,7 +140,7 @@ function(date) {
 
   // Make focusable
   this.setTabIndex(1);
-  this.addEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
+  this.addEventListener("keypress", this._onkeypress);
 
   // Show the right date
   var shownDate = (date != null) ? date : new Date();
@@ -156,13 +156,13 @@ function(date) {
 // ***** Properties *****
 
 /** The start of the week. 0 = sunday, 1 = monday, and so on. */
-qx.OO.addProperty({ name:"startOfWeek", type:qx.constant.Type.NUMBER, defaultValue:1 });
+qx.OO.addProperty({ name:"startOfWeek", type:"number", defaultValue:1 });
 /** The currently shown month. 0 = january, 1 = february, and so on. */
-qx.OO.addProperty({ name:"shownMonth", type:qx.constant.Type.NUMBER, defaultValue:null });
+qx.OO.addProperty({ name:"shownMonth", type:"number", defaultValue:null });
 /** The currently shown year. */
-qx.OO.addProperty({ name:"shownYear", type:qx.constant.Type.NUMBER, defaultValue:null });
+qx.OO.addProperty({ name:"shownYear", type:"number", defaultValue:null });
 /** {Date} The currently selected date. */
-qx.OO.addProperty({ name:"date", type:qx.constant.Type.OBJECT, defaultValue:null });
+qx.OO.addProperty({ name:"date", type:"object", defaultValue:null });
 
 
 // property checker
@@ -253,7 +253,7 @@ qx.Proto._onDayClicked = function(evt) {
 }
 
 qx.Proto._onDayDblClicked = function() {
-  this.createDispatchDataEvent(qx.constant.Event.SELECT, this.getDate());
+  this.createDispatchDataEvent("select", this.getDate());
 }
 
 /**
@@ -294,7 +294,7 @@ qx.Proto._onkeypress = function(evt) {
       case "Enter":
       case "Space":
         if (this.getDate() != null) {
-          this.createDispatchDataEvent(qx.constant.Event.SELECT, this.getDate());
+          this.createDispatchDataEvent("select", this.getDate());
         }
         return;
     }
@@ -518,8 +518,8 @@ qx.Proto.dispose = function() {
 
   for (var i = 0; i < this._dayLabelArr.length; i++) {
     this._dayLabelArr[i].dispose();
-    this._dayLabelArr[i].removeEventListener(qx.constant.Event.MOUSEDOWN, this._onDayClicked, this);
-    this._dayLabelArr[i].removeEventListener(qx.constant.Event.DBLCLICK, this._onDayDblClicked, this);
+    this._dayLabelArr[i].removeEventListener("mousedown", this._onDayClicked, this);
+    this._dayLabelArr[i].removeEventListener("dblclick", this._onDayDblClicked, this);
   }
   this._dayLabelArr = null;
 
@@ -528,7 +528,7 @@ qx.Proto.dispose = function() {
   }
   this._weekLabelArr = null;
 
-  this.removeEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
+  this.removeEventListener("keypress", this._onkeypress);
 
   return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
 }

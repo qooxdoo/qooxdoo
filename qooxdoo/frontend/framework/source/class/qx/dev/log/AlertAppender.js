@@ -40,7 +40,7 @@ function() {
 
 
 // overridden
-qx.OO.changeProperty({ name:"useLongFormat", type:qx.constant.Type.BOOLEAN, defaultValue:false, allowNull:false });
+qx.OO.changeProperty({ name:"useLongFormat", type:"boolean", defaultValue:false, allowNull:false });
 
 // overridden
 qx.Proto.appendLogEvent = function(evt) {

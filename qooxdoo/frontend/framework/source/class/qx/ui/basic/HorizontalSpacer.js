@@ -27,5 +27,5 @@ function()
 {
   qx.ui.basic.Terminator.call(this);
 
-  this.setWidth(qx.constant.Core.FLEX);
+  this.setWidth("1*");
 });

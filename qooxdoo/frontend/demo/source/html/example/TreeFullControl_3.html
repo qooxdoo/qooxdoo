@@ -41,7 +41,7 @@
        */
       var constructor = qx.OO.classes["qx.ui.treefullcontrol.TreeFolder"];
       qx.Proto = constructor.prototype;
-      qx.OO.changeProperty({ name : "alwaysShowPlusMinusSymbol", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+      qx.OO.changeProperty({ name : "alwaysShowPlusMinusSymbol", type : "boolean", defaultValue : true });
 
 
       var trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Root");
@@ -51,11 +51,11 @@
        * All subtrees will use this root node's event listeners.  Create event
        * listeners for each of the possible events.
        */
-      t.addEventListener(qx.constant.Event.TREEOPENWITHCONTENT, function(e) {
+      t.addEventListener("treeOpenWithContent", function(e) {
                            alert('treeOpenWithContent ' + e.getData().getHierarchy(new Array()).join("/"));
                          });
 
-      t.addEventListener(qx.constant.Event.TREECLOSE, function(e) {
+      t.addEventListener("treeClose", function(e) {
                            alert('treeClose ' + e.getData().getHierarchy(new Array()).join("/"));
                          });
 
@@ -66,7 +66,7 @@
        * of the folder, and if nothing is available, indicate it by removing
        * the plus/minus sign.
        */
-      t.addEventListener(qx.constant.Event.TREEOPENWHILEEMPTY, function(e) {
+      t.addEventListener("treeOpenWhileEmpty", function(e) {
                            alert('treeOpenWhileEmpty ' + e.getData().getHierarchy(new Array()).join("/"));
                            e.getData().setAlwaysShowPlusMinusSymbol(false);
                          });

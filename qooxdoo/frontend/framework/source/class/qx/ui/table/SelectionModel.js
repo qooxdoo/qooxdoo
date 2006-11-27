@@ -61,7 +61,7 @@ qx.Class.MULTIPLE_INTERVAL_SELECTION = 4;
 /**
  * (int) the selection mode.
  */
-qx.OO.addProperty({ name:"selectionMode", type:qx.constant.Type.NUMBER,
+qx.OO.addProperty({ name:"selectionMode", type:"number",
   defaultValue:qx.Class.SINGLE_SELECTION,
   allowNull:false,
   possibleValues:[ qx.Class.NO_SELECTION,

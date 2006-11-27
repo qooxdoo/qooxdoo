@@ -67,7 +67,7 @@ qx.Proto.getAttachedWidget = function() {
 // * use keydown on mshtml
 // * use keypress on vAll other (correct) browsers
 // = same behaviour
-qx.event.handler.FocusHandler.tabEventType = qx.sys.Client.getInstance().isMshtml() ? qx.constant.Event.KEYDOWN : qx.constant.Event.KEYPRESS;
+qx.event.handler.FocusHandler.tabEventType = qx.sys.Client.getInstance().isMshtml() ? "keydown" : "keypress";
 
 qx.Proto._onkeyevent = function(vContainer, vEvent)
 {
@@ -120,16 +120,16 @@ qx.Proto.compareTabOrder = function(c1, c2)
     return t1 - t2;
   }
 
-  var y1 = qx.dom.DomLocation.getPageBoxTop(c1.getElement());
-  var y2 = qx.dom.DomLocation.getPageBoxTop(c2.getElement());
+  var y1 = qx.dom.Location.getPageBoxTop(c1.getElement());
+  var y2 = qx.dom.Location.getPageBoxTop(c2.getElement());
 
   if(y1 != y2) {
     return y1 - y2;
   }
 
   // Sort-Check #3: Left-Position
-  var x1 = qx.dom.DomLocation.getPageBoxLeft(c1.getElement());
-  var x2 = qx.dom.DomLocation.getPageBoxLeft(c2.getElement());
+  var x1 = qx.dom.Location.getPageBoxLeft(c1.getElement());
+  var x2 = qx.dom.Location.getPageBoxLeft(c2.getElement());
 
   if(x1 != x2) {
     return x1 - x2;

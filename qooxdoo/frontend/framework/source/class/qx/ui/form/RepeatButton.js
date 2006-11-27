@@ -42,8 +42,8 @@ function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "interval", type : qx.constant.Type.NUMBER, defaultValue : 100 });
-qx.OO.addProperty({ name : "firstInterval", type : qx.constant.Type.NUMBER, defaultValue : 500 });
+qx.OO.addProperty({ name : "interval", type : "number", defaultValue : 100 });
+qx.OO.addProperty({ name : "firstInterval", type : "number", defaultValue : 500 });
 
 
 
@@ -66,27 +66,27 @@ qx.Proto._onmousedown = function(e)
   this._timer.setInterval(this.getFirstInterval());
   this._timer.start();
 
-  this.removeState(qx.ui.form.Button.STATE_ABANDONED);
-  this.addState(qx.ui.form.Button.STATE_PRESSED);
+  this.removeState("abandoned");
+  this.addState("pressed");
 }
 
 qx.Proto._onmouseup = function(e)
 {
   this.setCapture(false);
 
-  if (!this.hasState(qx.ui.form.Button.STATE_ABANDONED))
+  if (!this.hasState("abandoned"))
   {
-    this.addState(qx.ui.core.Widget.STATE_OVER);
+    this.addState("over");
 
-    if (this.hasState(qx.ui.form.Button.STATE_PRESSED) && !this._executed) {
+    if (this.hasState("pressed") && !this._executed) {
       this.execute();
     }
   }
 
   this._timer.stop();
 
-  this.removeState(qx.ui.form.Button.STATE_ABANDONED);
-  this.removeState(qx.ui.form.Button.STATE_PRESSED);
+  this.removeState("abandoned");
+  this.removeState("pressed");
 }
 
 qx.Proto._oninterval = function(e)
@@ -96,7 +96,7 @@ qx.Proto._oninterval = function(e)
   this._timer.start();
 
   this._executed = true;
-  this.createDispatchEvent(qx.constant.Event.EXECUTE);
+  this.createDispatchEvent("execute");
 }
 
 

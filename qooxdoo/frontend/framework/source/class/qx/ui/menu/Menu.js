@@ -32,7 +32,7 @@ function()
   //   LAYOUT
   // ************************************************************************
 
-  var l = this._layout = new qx.ui.menu.MenuLayout;
+  var l = this._layout = new qx.ui.menu.Layout;
   this.add(l);
 
 
@@ -40,22 +40,22 @@ function()
   //   TIMER
   // ************************************************************************
   this._openTimer = new qx.client.Timer(this.getOpenInterval());
-  this._openTimer.addEventListener(qx.constant.Event.INTERVAL, this._onopentimer, this);
+  this._openTimer.addEventListener("interval", this._onopentimer, this);
 
   this._closeTimer = new qx.client.Timer(this.getCloseInterval());
-  this._closeTimer.addEventListener(qx.constant.Event.INTERVAL, this._onclosetimer, this);
+  this._closeTimer.addEventListener("interval", this._onclosetimer, this);
 
 
   // ************************************************************************
   //   EVENTS
   // ************************************************************************
 
-  this.addEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover);
-  this.addEventListener(qx.constant.Event.MOUSEMOVE, this._onmouseover);
-  this.addEventListener(qx.constant.Event.MOUSEOUT, this._onmouseout);
+  this.addEventListener("mouseover", this._onmouseover);
+  this.addEventListener("mousemove", this._onmouseover);
+  this.addEventListener("mouseout", this._onmouseout);
 
-  this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
-  this.addEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
+  this.addEventListener("keydown", this._onkeydown);
+  this.addEventListener("keypress", this._onkeypress);
 
 
   // ************************************************************************
@@ -75,27 +75,27 @@ qx.Proto._remappingChildTable = [ "add", "remove", "addAt", "addAtBegin", "addAt
 ---------------------------------------------------------------------------
 */
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "menu" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "menu" });
 
-qx.OO.addProperty({ name : "iconContentGap", type : qx.constant.Type.NUMBER, defaultValue : 4 });
-qx.OO.addProperty({ name : "labelShortcutGap", type : qx.constant.Type.NUMBER, defaultValue : 10 });
-qx.OO.addProperty({ name : "contentArrowGap", type : qx.constant.Type.NUMBER, defaultValue : 8 });
-qx.OO.addProperty({ name : "contentNonIconPadding", type : qx.constant.Type.NUMBER, defaultValue : 20 });
-qx.OO.addProperty({ name : "contentNonArrowPadding", type : qx.constant.Type.NUMBER, defaultValue : 8 });
+qx.OO.addProperty({ name : "iconContentGap", type : "number", defaultValue : 4 });
+qx.OO.addProperty({ name : "labelShortcutGap", type : "number", defaultValue : 10 });
+qx.OO.addProperty({ name : "contentArrowGap", type : "number", defaultValue : 8 });
+qx.OO.addProperty({ name : "contentNonIconPadding", type : "number", defaultValue : 20 });
+qx.OO.addProperty({ name : "contentNonArrowPadding", type : "number", defaultValue : 8 });
 
-qx.OO.addProperty({ name : "hoverItem", type : qx.constant.Type.OBJECT });
-qx.OO.addProperty({ name : "openItem", type : qx.constant.Type.OBJECT });
-qx.OO.addProperty({ name : "opener", type : qx.constant.Type.OBJECT });
-qx.OO.addProperty({ name : "parentMenu", type : qx.constant.Type.OBJECT });
+qx.OO.addProperty({ name : "hoverItem", type : "object" });
+qx.OO.addProperty({ name : "openItem", type : "object" });
+qx.OO.addProperty({ name : "opener", type : "object" });
+qx.OO.addProperty({ name : "parentMenu", type : "object" });
 
-qx.OO.addProperty({ name : "fastReopen", type : qx.constant.Type.BOOLEAN, defaultValue : false });
-qx.OO.addProperty({ name : "openInterval", type : qx.constant.Type.NUMBER, defaultValue : 250 });
-qx.OO.addProperty({ name : "closeInterval", type : qx.constant.Type.NUMBER, defaultValue : 250 });
+qx.OO.addProperty({ name : "fastReopen", type : "boolean", defaultValue : false });
+qx.OO.addProperty({ name : "openInterval", type : "number", defaultValue : 250 });
+qx.OO.addProperty({ name : "closeInterval", type : "number", defaultValue : 250 });
 
-qx.OO.addProperty({ name : "subMenuHorizontalOffset", type : qx.constant.Type.NUMBER, defaultValue : -3 });
-qx.OO.addProperty({ name : "subMenuVerticalOffset", type : qx.constant.Type.NUMBER, defaultValue : -2 });
+qx.OO.addProperty({ name : "subMenuHorizontalOffset", type : "number", defaultValue : -3 });
+qx.OO.addProperty({ name : "subMenuVerticalOffset", type : "number", defaultValue : -2 });
 
-qx.OO.addProperty({ name : "indentShortcuts", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "indentShortcuts", type : "boolean", defaultValue : true });
 
 
 
@@ -172,7 +172,7 @@ qx.Proto._beforeDisappear = function()
   // be sure that the opener button gets the correct state
   var vOpener = this.getOpener();
   if (vOpener) {
-    vOpener.removeState(qx.ui.form.Button.STATE_PRESSED);
+    vOpener.removeState("pressed");
   }
 }
 
@@ -190,11 +190,11 @@ qx.Proto._beforeDisappear = function()
 qx.Proto._modifyHoverItem = function(propValue, propOldValue, propData)
 {
   if (propOldValue) {
-    propOldValue.removeState(qx.ui.core.Widget.STATE_OVER);
+    propOldValue.removeState("over");
   }
 
   if (propValue) {
-    propValue.addState(qx.ui.core.Widget.STATE_OVER);
+    propValue.addState("over");
   }
 
   return true;
@@ -228,8 +228,8 @@ qx.Proto._modifyOpenItem = function(propValue, propOldValue, propData)
       var pl = propValue.getElement();
       var el = this.getElement();
 
-      vSub.setTop(qx.dom.DomLocation.getPageBoxTop(pl) + this.getSubMenuVerticalOffset());
-      vSub.setLeft(qx.dom.DomLocation.getPageBoxLeft(el) + qx.dom.DomDimension.getBoxWidth(el) + this.getSubMenuHorizontalOffset());
+      vSub.setTop(qx.dom.Location.getPageBoxTop(pl) + this.getSubMenuVerticalOffset());
+      vSub.setLeft(qx.dom.Location.getPageBoxLeft(el) + qx.dom.Dimension.getBoxWidth(el) + this.getSubMenuHorizontalOffset());
 
       vSub.show();
 
@@ -728,7 +728,7 @@ qx.Proto._onkeypress = function(e)
 qx.Proto._onkeypress_up = function(e)
 {
   var vHover = this.getHoverItem();
-  var vPrev = vHover ? vHover.isFirstChild() ? this.getLastActiveChild() : vHover.getPreviousActiveSibling([qx.ui.menu.MenuSeparator]) : this.getLastActiveChild();
+  var vPrev = vHover ? vHover.isFirstChild() ? this.getLastActiveChild() : vHover.getPreviousActiveSibling([qx.ui.menu.Separator]) : this.getLastActiveChild();
 
   this.setHoverItem(vPrev);
 };
@@ -736,7 +736,7 @@ qx.Proto._onkeypress_up = function(e)
 qx.Proto._onkeypress_down = function(e)
 {
   var vHover = this.getHoverItem();
-  var vNext = vHover ? vHover.isLastChild() ? this.getFirstActiveChild() : vHover.getNextActiveSibling([qx.ui.menu.MenuSeparator]) : this.getFirstActiveChild();
+  var vNext = vHover ? vHover.isLastChild() ? this.getFirstActiveChild() : vHover.getNextActiveSibling([qx.ui.menu.Separator]) : this.getFirstActiveChild();
 
   this.setHoverItem(vNext);
 };
@@ -747,7 +747,7 @@ qx.Proto._onkeypress_left = function(e)
   var vOpener = this.getOpener();
 
   // Jump to the "parent" qx.ui.menu.Menu
-  if (vOpener instanceof qx.ui.menu.MenuButton)
+  if (vOpener instanceof qx.ui.menu.Button)
   {
     var vOpenerParent = this.getOpener().getParentMenu();
 
@@ -758,7 +758,7 @@ qx.Proto._onkeypress_left = function(e)
   }
 
   // Jump to the previous ToolBarMenuButton
-  else if (vOpener instanceof qx.ui.toolbar.ToolBarMenuButton)
+  else if (vOpener instanceof qx.ui.toolbar.MenuButton)
   {
     var vToolBar = vOpener.getParentToolBar();
 
@@ -801,7 +801,7 @@ qx.Proto._onkeypress_right = function(e)
   // Jump to the next ToolBarMenuButton
   var vOpener = this.getOpener();
 
-  if (vOpener instanceof qx.ui.toolbar.ToolBarMenuButton)
+  if (vOpener instanceof qx.ui.toolbar.MenuButton)
   {
     var vToolBar = vOpener.getParentToolBar();
 
@@ -811,7 +811,7 @@ qx.Proto._onkeypress_right = function(e)
     // execute toolbars keydown implementation
     vToolBar._onkeypress(e);
   }
-  else if (vOpener instanceof qx.ui.menu.MenuButton && vHover)
+  else if (vOpener instanceof qx.ui.menu.Button && vHover)
   {
     // search for menubar if existing
     // menu -> button -> menu -> button -> menu -> menubarbutton -> menubar
@@ -822,7 +822,7 @@ qx.Proto._onkeypress_right = function(e)
     {
       vOpener = vOpenerParent.getOpener();
 
-      if (vOpener instanceof qx.ui.menu.MenuButton)
+      if (vOpener instanceof qx.ui.menu.Button)
       {
         vOpenerParent = vOpener.getParentMenu();
       }
@@ -836,7 +836,7 @@ qx.Proto._onkeypress_right = function(e)
       }
     }
 
-    if (vOpenerParent instanceof qx.ui.toolbar.ToolBarPart) {
+    if (vOpenerParent instanceof qx.ui.toolbar.Part) {
       vOpenerParent = vOpenerParent.getParent();
     }
 
@@ -895,12 +895,12 @@ qx.Proto.dispose = function()
   }
 
   // Remove event listeners
-  this.removeEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover);
-  this.removeEventListener(qx.constant.Event.MOUSEMOVE, this._onmouseover);
-  this.removeEventListener(qx.constant.Event.MOUSEOUT, this._onmouseout);
+  this.removeEventListener("mouseover", this._onmouseover);
+  this.removeEventListener("mousemove", this._onmouseover);
+  this.removeEventListener("mouseout", this._onmouseout);
 
-  this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
-  this.removeEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
+  this.removeEventListener("keydown", this._onkeydown);
+  this.removeEventListener("keypress", this._onkeypress);
 
 
   return qx.ui.popup.Popup.prototype.dispose.call(this);

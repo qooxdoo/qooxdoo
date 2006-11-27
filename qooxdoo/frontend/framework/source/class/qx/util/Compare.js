@@ -65,8 +65,8 @@ qx.util.Compare.byNumberString = qx.util.Compare.byFloatString;
 
 qx.util.Compare.byIPv4 = function(a, b)
 {
-  var ipa = a.split(qx.constant.Core.DOT, 4);
-  var ipb = b.split(qx.constant.Core.DOT, 4);
+  var ipa = a.split(".", 4);
+  var ipb = b.split(".", 4);
 
   for (var i=0; i<3; i++)
   {

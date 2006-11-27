@@ -21,13 +21,13 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.dom.DomElementFromPoint");
+qx.OO.defineClass("qx.dom.ElementFromPoint");
 
-qx.dom.DomElementFromPoint.getElementFromPoint = function(x, y) {
-  return qx.dom.DomElementFromPoint.getElementFromPointHandler(document.body, x, y);
+qx.dom.ElementFromPoint.getElementFromPoint = function(x, y) {
+  return qx.dom.ElementFromPoint.getElementFromPointHandler(document.body, x, y);
 }
 
-qx.dom.DomElementFromPoint.getElementFromPointHandler = function(node, x, y, recursive)
+qx.dom.ElementFromPoint.getElementFromPointHandler = function(node, x, y, recursive)
 {
   var ch = node.childNodes;
   var chl = ch.length-1;
@@ -41,17 +41,17 @@ qx.dom.DomElementFromPoint.getElementFromPointHandler = function(node, x, y, rec
   do
   {
     chc = ch[chl];
-    ret = qx.dom.DomElementFromPoint.getElementFromPointChecker(chc, x, y);
+    ret = qx.dom.ElementFromPoint.getElementFromPointChecker(chc, x, y);
 
     if (ret)
     {
-      if (typeof recursive === qx.constant.Type.BOOLEAN && recursive == false)
+      if (typeof recursive === "boolean" && recursive == false)
       {
         return chc;
       }
       else
       {
-        subres = qx.dom.DomElementFromPoint.getElementFromPointHandler(chc, x-ret[0]-qx.dom.DomStyle.getBorderLeft(chc), y-ret[2]-qx.dom.DomStyle.getBorderTop(chc));
+        subres = qx.dom.ElementFromPoint.getElementFromPointHandler(chc, x-ret[0]-qx.dom.Style.getBorderLeft(chc), y-ret[2]-qx.dom.Style.getBorderTop(chc));
         return subres ? subres : chc;
       }
     }
@@ -61,7 +61,7 @@ qx.dom.DomElementFromPoint.getElementFromPointHandler = function(node, x, y, rec
   return null;
 }
 
-qx.dom.DomElementFromPoint.getElementFromPointChecker = function(chc, x, y)
+qx.dom.ElementFromPoint.getElementFromPointChecker = function(chc, x, y)
 {
   var xstart, ystart, xstop, ystop;
 
@@ -69,10 +69,10 @@ qx.dom.DomElementFromPoint.getElementFromPointChecker = function(chc, x, y)
     return false;
   }
 
-  xstart = qx.dom.DomOffset.getLeft(chc);
+  xstart = qx.dom.Offset.getLeft(chc);
   if (x > xstart)
   {
-    ystart = qx.dom.DomOffset.getTop(chc);
+    ystart = qx.dom.Offset.getTop(chc);
     if (y > ystart)
     {
       xstop = xstart + chc.offsetWidth;
@@ -91,7 +91,7 @@ qx.dom.DomElementFromPoint.getElementFromPointChecker = function(chc, x, y)
   return false;
 }
 
-qx.dom.DomElementFromPoint.getElementAbsolutePointChecker = function(chc, x, y)
+qx.dom.ElementFromPoint.getElementAbsolutePointChecker = function(chc, x, y)
 {
   var xstart, ystart, xstop, ystop;
 
@@ -99,10 +99,10 @@ qx.dom.DomElementFromPoint.getElementAbsolutePointChecker = function(chc, x, y)
     return false;
   }
 
-  xstart = qx.dom.DomLocation.getPageBoxLeft(chc);
+  xstart = qx.dom.Location.getPageBoxLeft(chc);
   if (x > xstart)
   {
-    ystart = qx.dom.DomLocation.getPageBoxTop(chc);
+    ystart = qx.dom.Location.getPageBoxTop(chc);
     if (y > ystart)
     {
       xstop = xstart + chc.offsetWidth;

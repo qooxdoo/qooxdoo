@@ -28,12 +28,12 @@
  * @event load {qx.event.type.Event}
  * @event error {qx.event.type.Event}
  */
-qx.OO.defineClass("qx.io.image.ImagePreloader", qx.core.Target,
+qx.OO.defineClass("qx.io.image.Preloader", qx.core.Target,
 function(vSource)
 {
   if(qx.manager.object.ImagePreloaderManager.getInstance().has(vSource))
   {
-    this.debug("Reuse qx.io.image.ImagePreloader in old-style!");
+    this.debug("Reuse qx.io.image.Preloader in old-style!");
     this.debug("Please use qx.manager.object.ImagePreloaderManager.getInstance().create(source) instead!");
 
     return qx.manager.object.ImagePreloaderManager.getInstance().get(vSource);
@@ -65,8 +65,8 @@ function(vSource)
   }
   else
   {
-    this._element.onload = qx.io.image.ImagePreloader.__onload;
-    this._element.onerror = qx.io.image.ImagePreloader.__onerror;
+    this._element.onload = qx.io.image.Preloader.__onload;
+    this._element.onerror = qx.io.image.Preloader.__onerror;
   }
 
   // Set Source
@@ -134,8 +134,8 @@ else
 ---------------------------------------------------------------------------
 */
 
-qx.io.image.ImagePreloader.__onload = function(e) { this.qx_ImagePreloader._onload(); };
-qx.io.image.ImagePreloader.__onerror = function(e) { this.qx_ImagePreloader._onerror(); };
+qx.io.image.Preloader.__onload = function(e) { this.qx_ImagePreloader._onload(); };
+qx.io.image.Preloader.__onerror = function(e) { this.qx_ImagePreloader._onerror(); };
 
 qx.Proto._onload = function()
 {
@@ -146,8 +146,8 @@ qx.Proto._onload = function()
   this._isLoaded = true;
   this._isErroneous = false;
 
-  if (this.hasEventListeners(qx.constant.Event.LOAD)) {
-    this.dispatchEvent(new qx.event.type.Event(qx.constant.Event.LOAD), true);
+  if (this.hasEventListeners("load")) {
+    this.dispatchEvent(new qx.event.type.Event("load"), true);
   }
 }
 
@@ -162,8 +162,8 @@ qx.Proto._onerror = function()
   this._isLoaded = false;
   this._isErroneous = true;
 
-  if (this.hasEventListeners(qx.constant.Event.ERROR)) {
-    this.dispatchEvent(new qx.event.type.Event(qx.constant.Event.ERROR), true);
+  if (this.hasEventListeners("error")) {
+    this.dispatchEvent(new qx.event.type.Event("error"), true);
   }
 }
 

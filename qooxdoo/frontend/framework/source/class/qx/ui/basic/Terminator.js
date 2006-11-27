@@ -94,7 +94,7 @@ qx.Proto._applyContent = function()
 
   // add load job
   if (this._initialLayoutDone) {
-    this.addToJobQueue(qx.constant.Event.LOAD);
+    this.addToJobQueue("load");
   }
 }
 

@@ -31,7 +31,7 @@
  * new qx.ui.splitpane.SplitPane(orientation)
  * new qx.ui.splitpane.SplitPane(orientation, firstSize, secondSize)
  *
- * @param orientation {string} The orientation of the splitpane control. Allowed values are qx.constant.Layout.ORIENTATION_HORIZONTAL (default) and qx.constant.Layout.ORIENTATION_VERTICAL. This is the same type as used in {@link qx.ui.layout.BoxLayout#orientation}.
+ * @param orientation {string} The orientation of the splitpane control. Allowed values are "horizontal" (default) and "vertical". This is the same type as used in {@link qx.ui.layout.BoxLayout#orientation}.
  * @param firstSize {string} The size of the left (top) pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
  * @param secondSize {string} The size of the right (bottom) pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
  */
@@ -105,11 +105,11 @@ function(orientation, firstSize, secondSize)
   box.add(this._firstArea, this._splitter, this._secondArea);
 
   // APPLY DIMENSIONS
-  this.setFirstSize(firstSize || qx.constant.Core.FLEX);
-  this.setSecondSize(secondSize || qx.constant.Core.FLEX);
+  this.setFirstSize(firstSize || "1*");
+  this.setSecondSize(secondSize || "1*");
 
   // APPLY ORIENTATION
-  this.setOrientation(orientation || qx.constant.Layout.ORIENTATION_HORIZONTAL);
+  this.setOrientation(orientation || "horizontal");
 });
 
 
@@ -135,17 +135,17 @@ qx.OO.changeProperty({ name : "appearance", defaultValue : "splitpane" });
 /**
  * Show the knob
  */
-qx.OO.addProperty({ name : "showKnob", type : qx.constant.Type.BOOLEAN, allowNull : false, defaultValue : false });
+qx.OO.addProperty({ name : "showKnob", type : "boolean", allowNull : false, defaultValue : false });
 
 /**
  * The layout method for the splitpane. If true, the content will updated immediatly.
  */
-qx.OO.addProperty({ name : "liveResize", type : qx.constant.Type.BOOLEAN, allowNull : false, defaultValue : false, getAlias : "isLiveResize"});
+qx.OO.addProperty({ name : "liveResize", type : "boolean", allowNull : false, defaultValue : false, getAlias : "isLiveResize"});
 
 /**
- * The orientation of the splitpane control. Allowed values are qx.constant.Layout.ORIENTATION_HORIZONTAL (default) and qx.constant.Layout.ORIENTATION_VERTICAL.
+ * The orientation of the splitpane control. Allowed values are "horizontal" (default) and "vertical".
  */
-qx.OO.addProperty({ name : "orientation", type : qx.constant.Type.STRING, possibleValues : [ qx.constant.Layout.ORIENTATION_HORIZONTAL, qx.constant.Layout.ORIENTATION_VERTICAL ] });
+qx.OO.addProperty({ name : "orientation", type : "string", possibleValues : [ "horizontal", "vertical" ] });
 
 /**
  * The size of the first (left/top) area.
@@ -319,14 +319,14 @@ qx.Proto._modifyOrientation = function(propValue, propOldValue, propData)
 
   switch(propOldValue)
   {
-    case qx.constant.Layout.ORIENTATION_HORIZONTAL:
+    case "horizontal":
       // remove old listeners
-      this._splitter.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onSplitterMouseDownX, this);
-      this._splitter.removeEventListener(qx.constant.Event.MOUSEMOVE, this._onSplitterMouseMoveX, this);
-      this._splitter.removeEventListener(qx.constant.Event.MOUSEUP, this._onSplitterMouseUpX, this);
-      this._knob.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onSplitterMouseDownX, this);
-      this._knob.removeEventListener(qx.constant.Event.MOUSEMOVE, this._onSplitterMouseMoveX, this);
-      this._knob.removeEventListener(qx.constant.Event.MOUSEUP, this._onSplitterMouseUpX, this);
+      this._splitter.removeEventListener("mousedown", this._onSplitterMouseDownX, this);
+      this._splitter.removeEventListener("mousemove", this._onSplitterMouseMoveX, this);
+      this._splitter.removeEventListener("mouseup", this._onSplitterMouseUpX, this);
+      this._knob.removeEventListener("mousedown", this._onSplitterMouseDownX, this);
+      this._knob.removeEventListener("mousemove", this._onSplitterMouseMoveX, this);
+      this._knob.removeEventListener("mouseup", this._onSplitterMouseUpX, this);
 
       // reconfigure states
       this._splitter.removeState("horizontal");
@@ -339,14 +339,14 @@ qx.Proto._modifyOrientation = function(propValue, propOldValue, propData)
 
       break;
 
-    case qx.constant.Layout.ORIENTATION_VERTICAL:
+    case "vertical":
       // remove old listeners
-      this._splitter.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onSplitterMouseDownY, this);
-      this._splitter.removeEventListener(qx.constant.Event.MOUSEMOVE, this._onSplitterMouseMoveY, this);
-      this._splitter.removeEventListener(qx.constant.Event.MOUSEUP, this._onSplitterMouseUpY, this);
-      this._knob.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onSplitterMouseDownY, this);
-      this._knob.removeEventListener(qx.constant.Event.MOUSEMOVE, this._onSplitterMouseMoveY, this);
-      this._knob.removeEventListener(qx.constant.Event.MOUSEUP, this._onSplitterMouseUpY, this);
+      this._splitter.removeEventListener("mousedown", this._onSplitterMouseDownY, this);
+      this._splitter.removeEventListener("mousemove", this._onSplitterMouseMoveY, this);
+      this._splitter.removeEventListener("mouseup", this._onSplitterMouseUpY, this);
+      this._knob.removeEventListener("mousedown", this._onSplitterMouseDownY, this);
+      this._knob.removeEventListener("mousemove", this._onSplitterMouseMoveY, this);
+      this._knob.removeEventListener("mouseup", this._onSplitterMouseUpY, this);
 
       // reconfigure states
       this._splitter.removeState("vertical");
@@ -362,14 +362,14 @@ qx.Proto._modifyOrientation = function(propValue, propOldValue, propData)
 
   switch(propValue)
   {
-    case qx.constant.Layout.ORIENTATION_HORIZONTAL:
+    case "horizontal":
       // add new listeners
-      this._splitter.addEventListener(qx.constant.Event.MOUSEMOVE, this._onSplitterMouseMoveX, this);
-      this._splitter.addEventListener(qx.constant.Event.MOUSEDOWN, this._onSplitterMouseDownX, this);
-      this._splitter.addEventListener(qx.constant.Event.MOUSEUP, this._onSplitterMouseUpX, this);
-      this._knob.addEventListener(qx.constant.Event.MOUSEMOVE, this._onSplitterMouseMoveX, this);
-      this._knob.addEventListener(qx.constant.Event.MOUSEDOWN, this._onSplitterMouseDownX, this);
-      this._knob.addEventListener(qx.constant.Event.MOUSEUP, this._onSplitterMouseUpX, this);
+      this._splitter.addEventListener("mousemove", this._onSplitterMouseMoveX, this);
+      this._splitter.addEventListener("mousedown", this._onSplitterMouseDownX, this);
+      this._splitter.addEventListener("mouseup", this._onSplitterMouseUpX, this);
+      this._knob.addEventListener("mousemove", this._onSplitterMouseMoveX, this);
+      this._knob.addEventListener("mousedown", this._onSplitterMouseDownX, this);
+      this._knob.addEventListener("mouseup", this._onSplitterMouseUpX, this);
 
       // reconfigure states
       this._splitter.addState("horizontal");
@@ -380,14 +380,14 @@ qx.Proto._modifyOrientation = function(propValue, propOldValue, propData)
 
       break;
 
-    case qx.constant.Layout.ORIENTATION_VERTICAL:
+    case "vertical":
       // add new listeners
-      this._splitter.addEventListener(qx.constant.Event.MOUSEDOWN, this._onSplitterMouseDownY, this);
-      this._splitter.addEventListener(qx.constant.Event.MOUSEMOVE, this._onSplitterMouseMoveY, this);
-      this._splitter.addEventListener(qx.constant.Event.MOUSEUP, this._onSplitterMouseUpY, this);
-      this._knob.addEventListener(qx.constant.Event.MOUSEDOWN, this._onSplitterMouseDownY, this);
-      this._knob.addEventListener(qx.constant.Event.MOUSEMOVE, this._onSplitterMouseMoveY, this);
-      this._knob.addEventListener(qx.constant.Event.MOUSEUP, this._onSplitterMouseUpY, this);
+      this._splitter.addEventListener("mousedown", this._onSplitterMouseDownY, this);
+      this._splitter.addEventListener("mousemove", this._onSplitterMouseMoveY, this);
+      this._splitter.addEventListener("mouseup", this._onSplitterMouseUpY, this);
+      this._knob.addEventListener("mousedown", this._onSplitterMouseDownY, this);
+      this._knob.addEventListener("mousemove", this._onSplitterMouseMoveY, this);
+      this._knob.addEventListener("mouseup", this._onSplitterMouseUpY, this);
 
       // reconfigure states
       this._splitter.addState("vertical");
@@ -429,11 +429,11 @@ qx.Proto._syncFirstSize = function()
 {
   switch(this.getOrientation())
   {
-    case qx.constant.Layout.ORIENTATION_HORIZONTAL:
+    case "horizontal":
       this._firstArea.setWidth(this.getFirstSize());
       break;
 
-    case qx.constant.Layout.ORIENTATION_VERTICAL:
+    case "vertical":
       this._firstArea.setHeight(this.getFirstSize());
       break;
   }
@@ -443,11 +443,11 @@ qx.Proto._syncSecondSize = function()
 {
   switch(this.getOrientation())
   {
-    case qx.constant.Layout.ORIENTATION_HORIZONTAL:
+    case "horizontal":
       this._secondArea.setWidth(this.getSecondSize());
       break;
 
-    case qx.constant.Layout.ORIENTATION_VERTICAL:
+    case "vertical":
       this._secondArea.setHeight(this.getSecondSize());
       break;
   }
@@ -457,11 +457,11 @@ qx.Proto._syncSplitterSize = function()
 {
   switch(this.getOrientation())
   {
-    case qx.constant.Layout.ORIENTATION_HORIZONTAL:
+    case "horizontal":
       this._splitter.setWidth(this.getSplitterSize());
       break;
 
-    case qx.constant.Layout.ORIENTATION_VERTICAL:
+    case "vertical":
       this._splitter.setHeight(this.getSplitterSize());
       break;
   }
@@ -498,9 +498,9 @@ qx.Proto._onSplitterMouseDownX = function(e)
   this._knob.addState("dragging");
 
   // initialize the drag session
-  this._dragMin = qx.dom.DomLocation.getPageInnerLeft(this._box.getElement());
+  this._dragMin = qx.dom.Location.getPageInnerLeft(this._box.getElement());
   this._dragMax = this._dragMin + this._box.getInnerWidth() - this._splitter.getBoxWidth();
-  this._dragOffset = e.getPageX() - qx.dom.DomLocation.getPageBoxLeft(this._splitter.getElement());
+  this._dragOffset = e.getPageX() - qx.dom.Location.getPageBoxLeft(this._splitter.getElement());
 }
 
 /**
@@ -523,9 +523,9 @@ qx.Proto._onSplitterMouseDownY = function(e)
 
   // initialize the drag session
   // dragStart = position of layout + mouse offset on splitter
-  this._dragMin = qx.dom.DomLocation.getPageInnerTop(this._box.getElement());
+  this._dragMin = qx.dom.Location.getPageInnerTop(this._box.getElement());
   this._dragMax = this._dragMin + this._box.getInnerHeight() - this._splitter.getBoxHeight();
-  this._dragOffset = e.getPageY() - qx.dom.DomLocation.getPageBoxTop(this._splitter.getElement());
+  this._dragOffset = e.getPageY() - qx.dom.Location.getPageBoxTop(this._splitter.getElement());
 }
 
 qx.Proto._commonMouseDown = function()
@@ -658,8 +658,8 @@ qx.Proto._syncY = function(e)
 
 qx.Proto._syncCommon = function(first, second)
 {
-  this.setFirstSize(first + qx.constant.Core.STAR);
-  this.setSecondSize(second + qx.constant.Core.STAR);
+  this.setFirstSize(first + "*");
+  this.setSecondSize(second + "*");
 }
 
 qx.Proto._normalizeX = function(e) {
@@ -721,13 +721,13 @@ qx.Proto.dispose = function()
 
   if (this._splitter)
   {
-    this._splitter.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onSplitterMouseDownX, this);
-    this._splitter.removeEventListener(qx.constant.Event.MOUSEUP, this._onSplitterMouseMoveX, this);
-    this._splitter.removeEventListener(qx.constant.Event.MOUSEMOVE, this._onSplitterMouseUpX, this);
+    this._splitter.removeEventListener("mousedown", this._onSplitterMouseDownX, this);
+    this._splitter.removeEventListener("mouseup", this._onSplitterMouseMoveX, this);
+    this._splitter.removeEventListener("mousemove", this._onSplitterMouseUpX, this);
 
-    this._splitter.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onSplitterMouseDownY, this);
-    this._splitter.removeEventListener(qx.constant.Event.MOUSEUP, this._onSplitterMouseMoveY, this);
-    this._splitter.removeEventListener(qx.constant.Event.MOUSEMOVE, this._onSplitterMouseUpY, this);
+    this._splitter.removeEventListener("mousedown", this._onSplitterMouseDownY, this);
+    this._splitter.removeEventListener("mouseup", this._onSplitterMouseMoveY, this);
+    this._splitter.removeEventListener("mousemove", this._onSplitterMouseUpY, this);
 
     this._splitter.dispose();
     this._splitter._pane = null;
@@ -743,13 +743,13 @@ qx.Proto.dispose = function()
 
   if (this._knob)
   {
-    this._knob.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onSplitterMouseDownX, this);
-    this._knob.removeEventListener(qx.constant.Event.MOUSEUP, this._onSplitterMouseMoveX, this);
-    this._knob.removeEventListener(qx.constant.Event.MOUSEMOVE, this._onSplitterMouseUpX, this);
+    this._knob.removeEventListener("mousedown", this._onSplitterMouseDownX, this);
+    this._knob.removeEventListener("mouseup", this._onSplitterMouseMoveX, this);
+    this._knob.removeEventListener("mousemove", this._onSplitterMouseUpX, this);
 
-    this._knob.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onSplitterMouseDownY, this);
-    this._knob.removeEventListener(qx.constant.Event.MOUSEUP, this._onSplitterMouseMoveY, this);
-    this._knob.removeEventListener(qx.constant.Event.MOUSEMOVE, this._onSplitterMouseUpY, this);
+    this._knob.removeEventListener("mousedown", this._onSplitterMouseDownY, this);
+    this._knob.removeEventListener("mouseup", this._onSplitterMouseMoveY, this);
+    this._knob.removeEventListener("mousemove", this._onSplitterMouseUpY, this);
 
     this._knob.dispose();
     this._knob = null;

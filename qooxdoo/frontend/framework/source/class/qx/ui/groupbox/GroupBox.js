@@ -51,7 +51,7 @@ function(vLegend, vIcon)
   this.remapChildrenHandlingTo(this._frameObject);
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "field-set" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "field-set" });
 
 
 

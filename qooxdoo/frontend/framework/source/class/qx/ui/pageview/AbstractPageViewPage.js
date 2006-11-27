@@ -44,13 +44,13 @@ function(vButton)
 /*!
   The attached tab of this page.
 */
-qx.OO.addProperty({ name : "button", type : qx.constant.Type.OBJECT });
+qx.OO.addProperty({ name : "button", type : "object" });
 
 /*!
   Make element displayed (if switched to true the widget will be created, if needed, too).
   Instead of qx.ui.core.Widget, the default is false here.
 */
-qx.OO.changeProperty({ name : "display", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.changeProperty({ name : "display", type : "boolean", defaultValue : false });
 
 
 

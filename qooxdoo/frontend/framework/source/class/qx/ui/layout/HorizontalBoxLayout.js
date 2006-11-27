@@ -25,5 +25,5 @@
 
 qx.OO.defineClass("qx.ui.layout.HorizontalBoxLayout", qx.ui.layout.BoxLayout,
 function() {
-  qx.ui.layout.BoxLayout.call(this, qx.constant.Layout.ORIENTATION_HORIZONTAL);
+  qx.ui.layout.BoxLayout.call(this, "horizontal");
 });

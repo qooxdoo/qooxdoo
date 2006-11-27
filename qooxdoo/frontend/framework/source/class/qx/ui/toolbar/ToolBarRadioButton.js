@@ -22,9 +22,9 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.toolbar.ToolBarRadioButton", qx.ui.toolbar.ToolBarCheckBox,
+qx.OO.defineClass("qx.ui.toolbar.RadioButton", qx.ui.toolbar.CheckBox,
 function(vText, vIcon, vChecked) {
-  qx.ui.toolbar.ToolBarCheckBox.call(this, vText, vIcon, vChecked);
+  qx.ui.toolbar.CheckBox.call(this, vText, vIcon, vChecked);
 });
 
 
@@ -39,18 +39,18 @@ function(vText, vIcon, vChecked) {
 /*!
   The assigned qx.manager.selection.RadioManager which handles the switching between registered buttons
 */
-qx.OO.addProperty({ name : "manager", type : qx.constant.Type.OBJECT, instance : "qx.manager.selection.RadioManager", allowNull : true });
+qx.OO.addProperty({ name : "manager", type : "object", instance : "qx.manager.selection.RadioManager", allowNull : true });
 
 /*!
   The name of the radio group. All the radio elements in a group (registered by the same manager)
   have the same name (and could have a different value).
 */
-qx.OO.addProperty({ name : "name", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "name", type : "string" });
 
 /*!
   Prohibit the deselction of the checked radio button when clicked on it.
 */
-qx.OO.addProperty({ name : "disableUncheck", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "disableUncheck", type : "boolean", defaultValue : false });
 
 
 
@@ -65,7 +65,7 @@ qx.OO.addProperty({ name : "disableUncheck", type : qx.constant.Type.BOOLEAN, de
 
 qx.Proto._modifyChecked = function(propValue, propOldValue, propData)
 {
-  qx.ui.toolbar.ToolBarCheckBox.prototype._modifyChecked.call(this, propValue, propOldValue, propData);
+  qx.ui.toolbar.CheckBox.prototype._modifyChecked.call(this, propValue, propOldValue, propData);
 
   var vManager = this.getManager();
   if (vManager) {
@@ -102,15 +102,15 @@ qx.Proto._onmouseup = function(e)
 {
   this.setCapture(false);
 
-  if (!this.hasState(qx.ui.form.Button.STATE_ABANDONED))
+  if (!this.hasState("abandoned"))
   {
-    this.addState(qx.ui.core.Widget.STATE_OVER);
+    this.addState("over");
     this.setChecked(this.getDisableUncheck() || !this.getChecked());
     this.execute();
   }
 
-  this.removeState(qx.ui.form.Button.STATE_ABANDONED);
-  this.removeState(qx.ui.form.Button.STATE_PRESSED);
+  this.removeState("abandoned");
+  this.removeState("pressed");
 
   e.stopPropagation();
 }

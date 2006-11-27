@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.theme.icon.CrystalSvgIconTheme", qx.renderer.theme.IconTheme,
+qx.OO.defineClass("qx.theme.icon.CrystalSvg", qx.renderer.theme.IconTheme,
 function() {
   qx.renderer.theme.IconTheme.call(this, "Crystal SVG");
 });

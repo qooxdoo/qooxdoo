@@ -31,13 +31,13 @@ function() {
 
 
 /** Whether the focused row should be highlighted. */
-qx.OO.addProperty({ name:"highlightFocusRow", type:qx.constant.Type.BOOLEAN, allowNull:false, defaultValue:true});
+qx.OO.addProperty({ name:"highlightFocusRow", type:"boolean", allowNull:false, defaultValue:true});
 
 /**
  * Whether the focused row and the selection should be grayed out when the table
  * hasn't the focus.
  */
-qx.OO.addProperty({ name:"visualizeFocusedState", type:qx.constant.Type.BOOLEAN, allowNull:false, defaultValue:true});
+qx.OO.addProperty({ name:"visualizeFocusedState", type:"boolean", allowNull:false, defaultValue:true});
 
 
 // overridden

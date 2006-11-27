@@ -58,17 +58,17 @@
     var tf1 = new qx.ui.pageview.tabview.TabView;
     tf1.set({ left: 10, top: 52, right: 10, bottom: 10 });
 
-    var t1_1 = new qx.ui.pageview.tabview.TabViewButton("Explore");
-    var t1_2 = new qx.ui.pageview.tabview.TabViewButton("Internet");
-    var t1_3 = new qx.ui.pageview.tabview.TabViewButton("Future");
+    var t1_1 = new qx.ui.pageview.tabview.Button("Explore");
+    var t1_2 = new qx.ui.pageview.tabview.Button("Internet");
+    var t1_3 = new qx.ui.pageview.tabview.Button("Future");
 
     t1_1.setChecked(true);
 
     tf1.getBar().add(t1_1, t1_2, t1_3);
 
-    var p1_1 = new qx.ui.pageview.tabview.TabViewPage(t1_1);
-    var p1_2 = new qx.ui.pageview.tabview.TabViewPage(t1_2);
-    var p1_3 = new qx.ui.pageview.tabview.TabViewPage(t1_3);
+    var p1_1 = new qx.ui.pageview.tabview.Page(t1_1);
+    var p1_2 = new qx.ui.pageview.tabview.Page(t1_2);
+    var p1_3 = new qx.ui.pageview.tabview.Page(t1_3);
 
     tf1.getPane().add(p1_1, p1_2, p1_3);
 

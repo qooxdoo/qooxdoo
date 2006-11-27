@@ -41,7 +41,7 @@ function() {
  * The maximum number of messages to hold. If null the number of messages is not
  * limited. Warning: Changing this property will clear the events logged so far.
  */
-qx.OO.addProperty({ name:"maxMessages", type:qx.constant.Type.NUMBER, defaultValue:50 });
+qx.OO.addProperty({ name:"maxMessages", type:"number", defaultValue:50 });
 
 qx.Proto._modifyMaxMessages = function(propValue, propOldValue, propData){
   this._history = [];

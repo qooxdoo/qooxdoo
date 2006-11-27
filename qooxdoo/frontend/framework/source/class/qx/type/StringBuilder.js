@@ -91,7 +91,7 @@ if (qx.sys.Client.getInstance().isMshtml())
   }
 
   qx.Proto.get = function() {
-    return this._array.join(qx.constant.Core.EMPTY);
+    return this._array.join("");
   }
 
   qx.Proto.add = function() {
@@ -116,7 +116,7 @@ if (qx.sys.Client.getInstance().isMshtml())
 else
 {
   qx.Proto.clear = function() {
-    this._string = qx.constant.Core.EMPTY;
+    this._string = "";
   }
 
   qx.Proto.get = function() {
@@ -124,11 +124,11 @@ else
   }
 
   qx.Proto.add = function() {
-    this._string += Array.prototype.join.call(arguments, qx.constant.Core.EMPTY);
+    this._string += Array.prototype.join.call(arguments, "");
   }
 
   qx.Proto.init = function() {
-    this._string = qx.constant.Core.EMPTY;
+    this._string = "";
   }
 
   qx.Proto.dispose = function()

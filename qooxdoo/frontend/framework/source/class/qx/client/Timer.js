@@ -43,7 +43,7 @@ function(vInterval)
   this.__oninterval = function() { o._oninterval(); }
 });
 
-qx.OO.addProperty({ name : "interval", type : qx.constant.Type.NUMBER, defaultValue : 1000 });
+qx.OO.addProperty({ name : "interval", type : "number", defaultValue : 1000 });
 
 qx.Proto._intervalHandle = null;
 
@@ -117,7 +117,7 @@ qx.Proto.restartWith = function(vInterval)
 qx.Proto._oninterval = function()
 {
   if (this.getEnabled()) {
-    this.createDispatchEvent(qx.constant.Event.INTERVAL);
+    this.createDispatchEvent("interval");
   }
 }
 
@@ -170,7 +170,7 @@ qx.client.Timer.once = function(vFunction, vObject, vTimeout)
   var vTimer = new qx.client.Timer(vTimeout);
 
   // Add event listener to interval
-  vTimer.addEventListener(qx.constant.Event.INTERVAL, function(e)
+  vTimer.addEventListener("interval", function(e)
   {
     vFunction.call(vObject, e);
     vTimer.dispose();

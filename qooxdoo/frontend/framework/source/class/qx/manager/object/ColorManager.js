@@ -46,7 +46,7 @@ function()
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefault("colorTheme", "qx.theme.color.WindowsRoyaleColorTheme");
+qx.Settings.setDefault("colorTheme", "qx.theme.color.WindowsRoyale");
 
 
 
@@ -57,7 +57,7 @@ qx.Settings.setDefault("colorTheme", "qx.theme.color.WindowsRoyaleColorTheme");
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "colorTheme", type : qx.constant.Type.OBJECT, allowNull : false, instance : "qx.renderer.theme.ColorTheme" });
+qx.OO.addProperty({ name : "colorTheme", type : "object", allowNull : false, instance : "qx.renderer.theme.ColorTheme" });
 
 
 
@@ -163,7 +163,7 @@ qx.Proto.createThemeList = function(vParent, xCor, yCor)
   var vThemes = this._colorThemes;
   var vIcon = "icon/16/colors.png";
   var vPrefix = "Color Theme: ";
-  var vEvent = qx.constant.Event.EXECUTE;
+  var vEvent = "execute";
 
   for (var vId in vThemes)
   {

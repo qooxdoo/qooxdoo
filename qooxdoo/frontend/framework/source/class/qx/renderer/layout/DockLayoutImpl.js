@@ -114,7 +114,7 @@ qx.renderer.layout.DockLayoutImpl._childCheck =
 */
 qx.Proto.computeChildBoxWidth = function(vChild)
 {
-  if (this.getChildAlignMode(vChild) == qx.constant.Layout.ORIENTATION_HORIZONTAL) {
+  if (this.getChildAlignMode(vChild) == "horizontal") {
     return vChild.getWidthValue() || vChild._computeBoxWidthFallback();
   }
 
@@ -126,7 +126,7 @@ qx.Proto.computeChildBoxWidth = function(vChild)
 */
 qx.Proto.computeChildBoxHeight = function(vChild)
 {
-  if (this.getChildAlignMode(vChild) == qx.constant.Layout.ORIENTATION_VERTICAL) {
+  if (this.getChildAlignMode(vChild) == "vertical") {
     return vChild.getHeightValue() || vChild._computeBoxHeightFallback();
   }
 
@@ -152,7 +152,7 @@ qx.Proto.computeChildBoxHeight = function(vChild)
 qx.Proto.updateChildOnInnerWidthChange = function(vChild)
 {
   vChild._recomputePercentX();
-  vChild.addToLayoutChanges(qx.ui.core.Widget.JOB_LOCATION);
+  vChild.addToLayoutChanges("location");
 
   // inform the caller if there were any notable changes occured
   return true;
@@ -165,7 +165,7 @@ qx.Proto.updateChildOnInnerWidthChange = function(vChild)
 qx.Proto.updateChildOnInnerHeightChange = function(vChild)
 {
   vChild._recomputePercentY();
-  vChild.addToLayoutChanges(qx.ui.core.Widget.JOB_LOCATION);
+  vChild.addToLayoutChanges("location");
 
   // inform the caller if there were any notable changes occured
   return true;
@@ -204,7 +204,7 @@ qx.Proto.updateSelfOnJobQueueFlush = qx.util.Return.returnFalse;
 qx.Proto.updateChildrenOnJobQueueFlush = function(vQueue)
 {
   if (vQueue.mode || vQueue.addChild || vQueue.removeChild) {
-    this.getWidget()._addChildrenToLayoutQueue(qx.ui.core.Widget.JOB_LOCATION);
+    this.getWidget()._addChildrenToLayoutQueue("location");
   }
 }
 
@@ -247,11 +247,11 @@ qx.Proto.flushChildrenQueue = function(vChildrenQueue)
 }
 
 qx.Proto.getChildAlign = function(vChild) {
-  return vChild.getVerticalAlign() || vChild.getHorizontalAlign() || qx.constant.Core.DEFAULT;
+  return vChild.getVerticalAlign() || vChild.getHorizontalAlign() || "default";
 }
 
 qx.Proto.getChildAlignMode = function(vChild) {
-  return vChild.getVerticalAlign() ? qx.constant.Layout.ORIENTATION_VERTICAL : vChild.getHorizontalAlign() ? qx.constant.Layout.ORIENTATION_HORIZONTAL : qx.constant.Core.DEFAULT;
+  return vChild.getVerticalAlign() ? "vertical" : vChild.getHorizontalAlign() ? "horizontal" : "default";
 }
 
 

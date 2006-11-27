@@ -48,19 +48,19 @@ function(vSource, vVersion)
   this.setVersion(qx.util.Validation.isValidString(vVersion) ? vVersion : qx.ui.embed.Flash.MINREQUIRED);
 });
 
-qx.OO.addProperty({ name : "source", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "source", type : "string" });
 qx.OO.addProperty({ name : "version" });
 
-qx.OO.addProperty({ name : "enableExpressInstall", type : qx.constant.Type.BOOLEAN, defaultValue : false });
-qx.OO.addProperty({ name : "enableDetection", type : qx.constant.Type.BOOLEAN, defaultValue : true });
-qx.OO.addProperty({ name : "redirectUrl", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "enableExpressInstall", type : "boolean", defaultValue : false });
+qx.OO.addProperty({ name : "enableDetection", type : "boolean", defaultValue : true });
+qx.OO.addProperty({ name : "redirectUrl", type : "string" });
 
-qx.OO.addProperty({ name : "quality", type : qx.constant.Type.STRING, impl : "param", defaultValue : "high", possibleValues : [ "low", "autolow", "autohigh", "medium", "high", "best" ] });
-qx.OO.addProperty({ name : "scale", type : qx.constant.Type.STRING, impl : "param", defaultValue : "showall", possibleValues : [ "showall", "noborder", "excactfit", "noscale" ] });
-qx.OO.addProperty({ name : "wmode", type : qx.constant.Type.STRING, impl : "param", defaultValue : "", possibleValues : [ "window", "opaque", "transparent" ] });
-qx.OO.addProperty({ name : "play", type : qx.constant.Type.BOOLEAN, impl : "param", defaultValue : true });
-qx.OO.addProperty({ name : "loop", type : qx.constant.Type.BOOLEAN, impl : "param", defaultValue : true });
-qx.OO.addProperty({ name : "menu", type : qx.constant.Type.BOOLEAN, impl : "param", defaultValue : true });
+qx.OO.addProperty({ name : "quality", type : "string", impl : "param", defaultValue : "high", possibleValues : [ "low", "autolow", "autohigh", "medium", "high", "best" ] });
+qx.OO.addProperty({ name : "scale", type : "string", impl : "param", defaultValue : "showall", possibleValues : [ "showall", "noborder", "excactfit", "noscale" ] });
+qx.OO.addProperty({ name : "wmode", type : "string", impl : "param", defaultValue : "", possibleValues : [ "window", "opaque", "transparent" ] });
+qx.OO.addProperty({ name : "play", type : "boolean", impl : "param", defaultValue : true });
+qx.OO.addProperty({ name : "loop", type : "boolean", impl : "param", defaultValue : true });
+qx.OO.addProperty({ name : "menu", type : "boolean", impl : "param", defaultValue : true });
 
 qx.ui.embed.Flash.EXPRESSINSTALL = [6,0,65];
 qx.ui.embed.Flash.MINREQUIRED = "1";
@@ -98,7 +98,7 @@ qx.ui.embed.Flash.getPlayerVersion = function()
   {
     try {
       var axo = new ActiveXObject(qx.ui.embed.Flash.ACTIVEXKEY);
-       vPlayerVersion = new qx.type.Version(axo.GetVariable("$version").split(qx.constant.Core.SPACE)[1].split(qx.constant.Core.COMMA));
+       vPlayerVersion = new qx.type.Version(axo.GetVariable("$version").split(" ")[1].split(","));
     }
     catch (e) {}
   }
@@ -149,7 +149,7 @@ qx.Proto._applyElementData = function(el)
   {
     var redir = this.getRedirectUrl();
 
-    if(redir != qx.constant.Core.EMPTY) {
+    if(redir != "") {
       document.location.replace(redir);
     }
   }
@@ -167,7 +167,7 @@ qx.Proto._applyElementData = function(el)
 
 qx.Proto._modifySource = function(propValue, propOldValue, propName)
 {
-  this._source = qx.util.Validation.isValidString(propValue) ? qx.manager.object.AliasManager.getInstance().resolvePath(propValue) : qx.constant.Core.EMPTY;
+  this._source = qx.util.Validation.isValidString(propValue) ? qx.manager.object.AliasManager.getInstance().resolvePath(propValue) : "";
   return true;
 }
 
@@ -292,7 +292,7 @@ qx.Proto.generateParamTags = function()
     vParamTags.push("'/>");
   }
 
-  return vParamTags.join(qx.constant.Core.EMPTY);
+  return vParamTags.join("");
 }
 
 qx.Proto.getVariablePairs = function()
@@ -301,10 +301,10 @@ qx.Proto.getVariablePairs = function()
   var variablePairs = [];
 
   for (var key in variables) {
-    variablePairs.push(key + qx.constant.Core.EQUAL + variables[key]);
+    variablePairs.push(key + "=" + variables[key]);
   }
 
-  return variablePairs.join(qx.constant.Core.AMPERSAND);
+  return variablePairs.join("&");
 }
 
 
@@ -337,35 +337,35 @@ if (navigator.plugins && navigator.mimeTypes && navigator.mimeTypes.length)
 
     html.push("<embed type='application/x-shockwave-flash' width='100%' height='100%' src='");
     html.push(this._source);
-    html.push(qx.constant.Core.SINGLEQUOTE);
+    html.push("'");
 
     var params = this.getParams();
 
     for (var key in params)
     {
-      html.push(qx.constant.Core.SPACE);
+      html.push(" ");
       html.push(key);
-      html.push(qx.constant.Core.EQUAL);
-      html.push(qx.constant.Core.SINGLEQUOTE);
+      html.push("=");
+      html.push("'");
       html.push(params[key]);
-      html.push(qx.constant.Core.SINGLEQUOTE);
+      html.push("'");
     }
 
     var pairs = this.getVariablePairs();
 
     if (pairs.length > 0)
     {
-      html.push(qx.constant.Core.SPACE);
+      html.push(" ");
       html.push("flashvars");
-      html.push(qx.constant.Core.EQUAL);
-      html.push(qx.constant.Core.SINGLEQUOTE);
+      html.push("=");
+      html.push("'");
       html.push(pairs);
-      html.push(qx.constant.Core.SINGLEQUOTE);
+      html.push("'");
     }
 
     html.push("></embed>");
 
-    return html.join(qx.constant.Core.EMPTY);
+    return html.join("");
   }
 }
 
@@ -408,7 +408,7 @@ else
 
     html.push("</object>");
 
-    return html.join(qx.constant.Core.EMPTY);
+    return html.join("");
   }
 }
 

@@ -29,7 +29,7 @@
 
     doc.add(dockLayout);
 
-    var menubar = new qx.ui.menu.MenuBar;
+    var menubar = new qx.ui.menubar.MenuBar;
     var toolbar = new qx.ui.toolbar.ToolBar;
     var tree = new qx.ui.tree.Tree("Inbox");
     var status = new qx.ui.basic.Atom("Status", "icon/16/network.png");
@@ -61,7 +61,7 @@
     ];
 
     for (var i=0; i<btns.length; i++) {
-      toolbar.add(new qx.ui.toolbar.ToolBarButton(btns[i].text, btns[i].icon));
+      toolbar.add(new qx.ui.toolbar.Button(btns[i].text, btns[i].icon));
     };
 
 
@@ -71,23 +71,23 @@
     var optimnu = new qx.ui.menu.Menu;
     var helpmnu = new qx.ui.menu.Menu;
 
-    filemnu.add(new qx.ui.menu.MenuButton("New Mail"));
-    filemnu.add(new qx.ui.menu.MenuButton("Exit"));
+    filemnu.add(new qx.ui.menu.Button("New Mail"));
+    filemnu.add(new qx.ui.menu.Button("Exit"));
 
-    editmnu.add(new qx.ui.menu.MenuButton("Cut"));
-    editmnu.add(new qx.ui.menu.MenuButton("Copy"));
-    editmnu.add(new qx.ui.menu.MenuButton("Paste"));
+    editmnu.add(new qx.ui.menu.Button("Cut"));
+    editmnu.add(new qx.ui.menu.Button("Copy"));
+    editmnu.add(new qx.ui.menu.Button("Paste"));
 
-    optimnu.add(new qx.ui.menu.MenuButton("View"));
-    optimnu.add(new qx.ui.menu.MenuButton("Settings"));
+    optimnu.add(new qx.ui.menu.Button("View"));
+    optimnu.add(new qx.ui.menu.Button("Settings"));
 
-    helpmnu.add(new qx.ui.menu.MenuButton("Help"));
-    helpmnu.add(new qx.ui.menu.MenuButton("About"));
+    helpmnu.add(new qx.ui.menu.Button("Help"));
+    helpmnu.add(new qx.ui.menu.Button("About"));
 
-    var filemn = new qx.ui.menu.MenuBarButton("File", filemnu);
-    var editmn = new qx.ui.menu.MenuBarButton("Edit", editmnu);
-    var optimn = new qx.ui.menu.MenuBarButton("Options", optimnu);
-    var helpmn = new qx.ui.menu.MenuBarButton("Help", helpmnu);
+    var filemn = new qx.ui.menubar.Button("File", filemnu);
+    var editmn = new qx.ui.menubar.Button("Edit", editmnu);
+    var optimn = new qx.ui.menubar.Button("Options", optimnu);
+    var helpmn = new qx.ui.menubar.Button("Help", helpmnu);
 
     menubar.add(filemn, editmn, optimn, new qx.ui.basic.HorizontalSpacer, helpmn);
     doc.add(filemnu, editmnu, optimnu, helpmnu);

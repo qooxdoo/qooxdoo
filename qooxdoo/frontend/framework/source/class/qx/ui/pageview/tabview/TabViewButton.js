@@ -25,12 +25,12 @@
 /**
  * @event closetab {qx.event.type.DataEvent}
  */
-qx.OO.defineClass("qx.ui.pageview.tabview.TabViewButton", qx.ui.pageview.AbstractPageViewButton,
+qx.OO.defineClass("qx.ui.pageview.tabview.Button", qx.ui.pageview.AbstractPageViewButton,
 function(vText, vIcon, vIconWidth, vIconHeight, vFlash) {
   qx.ui.pageview.AbstractPageViewButton.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "tab-view-button" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "tab-view-button" });
 
 
 
@@ -43,12 +43,12 @@ qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defa
 /*!
   default Close Tab Button
  */
-qx.OO.addProperty({ name : "showCloseButton", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "showCloseButton", type : "boolean", defaultValue : false });
 
 /*!
   Close Tab Icon
  */
-qx.OO.addProperty({ name : "closeButtonImage", type : qx.constant.Type.STRING, defaultValue : "icon/16/cancel.png"});
+qx.OO.addProperty({ name : "closeButtonImage", type : "string", defaultValue : "icon/16/cancel.png"});
 
 
 
@@ -130,11 +130,11 @@ qx.Proto._modifyShowCloseButton = function(propValue, propOldValue, propData) {
     this._closeButtonImage = new qx.ui.basic.Image(this.getCloseButtonImage());
   }
   if (propValue) {
-    this._closeButtonImage.addEventListener(qx.constant.Event.CLICK, this._ontabclose, this);
+    this._closeButtonImage.addEventListener("click", this._ontabclose, this);
     this.add(this._closeButtonImage);
   } else {
     this.remove(this._closeButtonImage);
-    this._closeButtonImage.removeEventListener(qx.constant.Event.CLICK, this._ontabclose);
+    this._closeButtonImage.removeEventListener("click", this._ontabclose);
   }
 
   return true;

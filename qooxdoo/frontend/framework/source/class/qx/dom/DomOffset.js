@@ -23,7 +23,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.dom.DomOffset");
+qx.OO.defineClass("qx.dom.Offset");
 
 /*
 Mozilla seems to be a little buggy here.
@@ -33,22 +33,22 @@ It calculates some borders and/or paddings to the offsetProperties.
 */
 if (qx.sys.Client.getInstance().isGecko())
 {
-  qx.dom.DomOffset.getLeft = function(el)
+  qx.dom.Offset.getLeft = function(el)
   {
     var val = el.offsetLeft;
     var pa = el.parentNode;
 
-    var pose = qx.dom.DomStyle.getStyleProperty(el, "position");
-    var posp = qx.dom.DomStyle.getStyleProperty(pa, "position");
+    var pose = qx.dom.Style.getStyleProperty(el, "position");
+    var posp = qx.dom.Style.getStyleProperty(pa, "position");
 
     // If element is positioned non-static: Substract the border of the element
-    if (pose != qx.constant.Style.POSITION_ABSOLUTE && pose != qx.constant.Style.POSITION_FIXED) {
-      val -= qx.dom.DomStyle.getBorderLeft(pa);
+    if (pose != "absolute" && pose != "fixed") {
+      val -= qx.dom.Style.getBorderLeft(pa);
     }
 
     // If parent is positioned static: Substract the border of the first
     // parent element which is ab positioned non-static.
-    if (posp != qx.constant.Style.POSITION_ABSOLUTE && posp != qx.constant.Style.POSITION_FIXED)
+    if (posp != "absolute" && posp != "fixed")
     {
       while(pa)
       {
@@ -58,10 +58,10 @@ if (qx.sys.Client.getInstance().isGecko())
           break;
         }
 
-        var posi = qx.dom.DomStyle.getStyleProperty(pa, "position");
+        var posi = qx.dom.Style.getStyleProperty(pa, "position");
 
-        if (posi == qx.constant.Style.POSITION_ABSOLUTE || posi == qx.constant.Style.POSITION_FIXED) {
-          val -= qx.dom.DomStyle.getBorderLeft(pa) + qx.dom.DomStyle.getPaddingLeft(pa);
+        if (posi == "absolute" || posi == "fixed") {
+          val -= qx.dom.Style.getBorderLeft(pa) + qx.dom.Style.getPaddingLeft(pa);
           break;
         }
       }
@@ -70,22 +70,22 @@ if (qx.sys.Client.getInstance().isGecko())
     return val;
   }
 
-  qx.dom.DomOffset.getTop = function(el)
+  qx.dom.Offset.getTop = function(el)
   {
     var val = el.offsetTop;
     var pa = el.parentNode;
 
-    var pose = qx.dom.DomStyle.getStyleProperty(el, "position");
-    var posp = qx.dom.DomStyle.getStyleProperty(pa, "position");
+    var pose = qx.dom.Style.getStyleProperty(el, "position");
+    var posp = qx.dom.Style.getStyleProperty(pa, "position");
 
     // If element is positioned non-static: Substract the border of the element
-    if (pose != qx.constant.Style.POSITION_ABSOLUTE && pose != qx.constant.Style.POSITION_FIXED) {
-      val -= qx.dom.DomStyle.getBorderTop(pa);
+    if (pose != "absolute" && pose != "fixed") {
+      val -= qx.dom.Style.getBorderTop(pa);
     }
 
     // If parent is positioned static: Substract the border of the first
     // parent element which is ab positioned non-static.
-    if (posp != qx.constant.Style.POSITION_ABSOLUTE && posp != qx.constant.Style.POSITION_FIXED)
+    if (posp != "absolute" && posp != "fixed")
     {
       while(pa)
       {
@@ -95,10 +95,10 @@ if (qx.sys.Client.getInstance().isGecko())
           break;
         }
 
-        var posi = qx.dom.DomStyle.getStyleProperty(pa, "position");
+        var posi = qx.dom.Style.getStyleProperty(pa, "position");
 
-        if (posi == qx.constant.Style.POSITION_ABSOLUTE || posi == qx.constant.Style.POSITION_FIXED) {
-          val -= qx.dom.DomStyle.getBorderTop(pa) + qx.dom.DomStyle.getPaddingTop(pa);
+        if (posi == "absolute" || posi == "fixed") {
+          val -= qx.dom.Style.getBorderTop(pa) + qx.dom.Style.getPaddingTop(pa);
           break;
         }
       }
@@ -109,11 +109,11 @@ if (qx.sys.Client.getInstance().isGecko())
 }
 else
 {
-  qx.dom.DomOffset.getLeft = function(el) {
+  qx.dom.Offset.getLeft = function(el) {
     return el.offsetLeft;
   }
 
-  qx.dom.DomOffset.getTop = function(el) {
+  qx.dom.Offset.getTop = function(el) {
     return el.offsetTop;
   }
 }

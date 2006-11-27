@@ -65,7 +65,7 @@ qx.OO.defineClass('qx.ui.form.ComboBoxEx', qx.ui.layout.HorizontalBoxLayout, fun
   // ************************************************************************
   var f = this._field = new qx.ui.form.TextField;
   f.setAppearance('combo-box-ex-text-field');
-  f.addEventListener(qx.constant.Event.INPUT, this._oninput, this);
+  f.addEventListener("input", this._oninput, this);
   this.add(f);
   this.setEditable(false);
 
@@ -90,10 +90,10 @@ qx.OO.defineClass('qx.ui.form.ComboBoxEx', qx.ui.layout.HorizontalBoxLayout, fun
   // ************************************************************************
   //   WIDGET MOUSE EVENTS
   // ************************************************************************
-  this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
-  this.addEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
-  this.addEventListener(qx.constant.Event.MOUSEWHEEL, this._onmousewheel);
-  this.addEventListener(qx.constant.Event.DBLCLICK, function() {
+  this.addEventListener("mousedown", this._onmousedown);
+  this.addEventListener("mouseup", this._onmouseup);
+  this.addEventListener("mousewheel", this._onmousewheel);
+  this.addEventListener("dblclick", function() {
     if (this.getAllowSearch()) {
       this.openSearchDialog();
     }
@@ -102,18 +102,18 @@ qx.OO.defineClass('qx.ui.form.ComboBoxEx', qx.ui.layout.HorizontalBoxLayout, fun
   // ************************************************************************
   //   WIDGET KEY EVENTS
   // ************************************************************************
-  this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
-  this.addEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
+  this.addEventListener("keydown", this._onkeydown);
+  this.addEventListener("keypress", this._onkeypress);
 
   // ************************************************************************
   //   WIDGET STATE EVENTS
   // ************************************************************************
-  this.addEventListener(qx.constant.Event.BEFOREDISAPPEAR, this._testClosePopup);
+  this.addEventListener("beforeDisappear", this._testClosePopup);
 
   // ************************************************************************
   //   CHILDREN EVENTS
   // ************************************************************************
-  this._popup.addEventListener(qx.constant.Event.APPEAR, this._onpopupappear, this);
+  this._popup.addEventListener("appear", this._onpopupappear, this);
 });
 
 /*
@@ -135,34 +135,34 @@ qx.Settings.setDefault('caseSensitiveCaption', 'Case sensitive');
 ---------------------------------------------------------------------------
 */
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "combo-box-ex" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "combo-box-ex" });
 
 /*!Is the text field component editable or the user can only select from the list?*/
-qx.OO.addProperty({ name: "editable", type: qx.constant.Type.BOOLEAN, getAlias: "isEditable" });
+qx.OO.addProperty({ name: "editable", type: "boolean", getAlias: "isEditable" });
 
 /*!0 based. -1 means no selected index.  It retrieves always the value column of the selection, not the description.*/
-qx.OO.addProperty({ name: "value", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name: "value", type : "string" });
 
 /*!How many items to transverse with PageUp and PageDn.*/
-qx.OO.addProperty({ name: "pagingInterval", type: qx.constant.Type.NUMBER, defaultValue: 10 });
+qx.OO.addProperty({ name: "pagingInterval", type: "number", defaultValue: 10 });
 
 /*!Show the ID column (column 0) of the selection data?*/
-qx.OO.addProperty({ name: "idColumnVisible", type: qx.constant.Type.BOOLEAN, getAlias: "isIdColumnVisible", defaultValue: false });
+qx.OO.addProperty({ name: "idColumnVisible", type: "boolean", getAlias: "isIdColumnVisible", defaultValue: false });
 
 /*!Only used when editable is false.  It determines what to show in the text field of the combo box.*/
-qx.OO.addProperty({ name: "showOnTextField", type: qx.constant.Type.STRING, defaultValue: 'description', possibleValues : [ 'description', 'idAndDescription'  ] });
+qx.OO.addProperty({ name: "showOnTextField", type: "string", defaultValue: 'description', possibleValues : [ 'description', 'idAndDescription'  ] });
 
 /*!Only used when editable is false and showOnTextField=='idAndDescription'.*/
-qx.OO.addProperty({ name: "idDescriptionSeparator", type: qx.constant.Type.STRING, defaultValue: '- ' });
+qx.OO.addProperty({ name: "idDescriptionSeparator", type: "string", defaultValue: '- ' });
 
 /*!Ensures that always an item is selected (in case the selection isn't empty). Only used when editable is false.*/
-qx.OO.addProperty({ name: 'ensureSomethingSelected', type: qx.constant.Type.BOOLEAN, defaultValue: true });
+qx.OO.addProperty({ name: 'ensureSomethingSelected', type: "boolean", defaultValue: true });
 
 /*!Allow the search dialog when double clicking the combo, or pressing special keys?.*/
-qx.OO.addProperty({ name: 'allowSearch', type: qx.constant.Type.BOOLEAN, defaultValue: true });
+qx.OO.addProperty({ name: 'allowSearch', type: "boolean", defaultValue: true });
 
 /*!Maximum number of visible rows in the popup list.*/
-qx.OO.addProperty({ name: 'maxVisibleRows', type: qx.constant.Type.NUMBER, defaultValue: 10 });
+qx.OO.addProperty({ name: 'maxVisibleRows', type: "number", defaultValue: 10 });
 
 
 /*
@@ -359,7 +359,7 @@ qx.Proto._modifyIdColumnVisible = function(propVal) {
 qx.Proto._modifyEditable = function(propValue/*, propOldValue, propData*/) {
   var f = this._field;
   f.setReadOnly(!propValue);
-  f.setCursor(propValue ? null : qx.constant.Core.DEFAULT);
+  f.setCursor(propValue ? null : "default");
   f.setSelectable(propValue);
   return true;
 }
@@ -424,7 +424,7 @@ qx.Proto._openPopup = function() {
   if (!this.getSelection().length) {
     return;
   }
-  p.positionRelativeTo(el, 1, qx.dom.DomDimension.getBoxHeight(el));
+  p.positionRelativeTo(el, 1, qx.dom.Dimension.getBoxHeight(el));
   this._calculateDimensions();
   p.setParent(this.getTopLevelWidget());
   p.auto();
@@ -619,7 +619,7 @@ qx.Proto.openSearchDialog = function() {
     minWidth: this._field.getWidth(),
     width: '100%'
   });
-  searchField.addEventListener(qx.constant.Event.INPUT, function() {
+  searchField.addEventListener("input", function() {
     search();
   });
 
@@ -663,7 +663,7 @@ qx.Proto.openSearchDialog = function() {
   butNext.set({
     toolTip: new qx.ui.popup.ToolTip(this._getComboSetting('toolTipSearchNext'))
   });
-  butNext.addEventListener(qx.constant.Event.EXECUTE, function() {
+  butNext.addEventListener("execute", function() {
     startIndex = (this.getSelectedIndex()+1) % sel.length;
     search();
   }, this);
@@ -708,10 +708,10 @@ qx.Proto.openSearchDialog = function() {
     allowMinimize: false,
     showMinimize: false
   });
-  win.addEventListener(qx.constant.Event.APPEAR, function() {
+  win.addEventListener("appear", function() {
     searchField.focus();
   });
-  win.addEventListener(qx.constant.Event.DISAPPEAR, function() {
+  win.addEventListener("disappear", function() {
     if (oldSelectedIndex != null) {
       // Hit Cancel button
       this.setSelectedIndex(oldSelectedIndex);
@@ -719,7 +719,7 @@ qx.Proto.openSearchDialog = function() {
     this._list.set(oldListSettings);
     this.focus();
   }, this);
-  win.addEventListener(qx.constant.Event.KEYDOWN, function(e) {
+  win.addEventListener("keydown", function(e) {
     switch (e.getKeyIdentifier()) {
       case "Enter":
         butOk.createDispatchEvent('execute');
@@ -750,7 +750,7 @@ qx.Proto._onChangeSelection = function(e) {
   this._fromSelected = true;
 
   // only do this if we called setValue separately
-  // and not from the event qx.constant.Event.INPUT.
+  // and not from the event "input".
   if (!this._fromInput) {
     var index = this.getSelectedIndex();
     if (index >= 0) {
@@ -761,7 +761,7 @@ qx.Proto._onChangeSelection = function(e) {
     }
     // In case of editable, this.setValue() already calls this._field.setValue()
     if (!this.getEditable()) {
-      var val = qx.constant.Core.EMPTY;
+      var val = "";
       if (row) {
         val = this.getShowOnTextField() == 'description' ?
           row[1] :
@@ -803,7 +803,7 @@ qx.Proto._onmousedown = function(e) {
       }
       // no break here
     case this._button:
-      this._button.addState(qx.ui.form.Button.STATE_PRESSED);
+      this._button.addState("pressed");
       this._togglePopup();
       // Assure we receive the mouse up event
       this.setCapture(true);
@@ -819,7 +819,7 @@ qx.Proto._onmouseup = function(e) {
       }
       // no break here
     default:
-      this._button.removeState(qx.ui.form.Button.STATE_PRESSED);
+      this._button.removeState("pressed");
       break;
   }
   this.setCapture(false);
@@ -969,7 +969,7 @@ qx.Proto._visualizeBlur = function() {
       catch(ex) {};
     }
   }
-  this.removeState(qx.ui.core.Widget.STATE_FOCUSED);
+  this.removeState("focused");
   return true;
 }
 
@@ -985,7 +985,7 @@ qx.Proto._visualizeFocus = function() {
     } catch(ex) {
     }
   }
-  this.addState(qx.ui.core.Widget.STATE_FOCUSED);
+  this.addState("focused");
   return true;
 }
 
@@ -1003,16 +1003,16 @@ qx.Proto.dispose = function() {
   // ************************************************************************
   //   WIDGET MOUSE EVENTS
   // ************************************************************************
-  this.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
-  this.removeEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
-  this.removeEventListener(qx.constant.Event.MOUSEWHEEL, this._onmousewheel);
+  this.removeEventListener("mousedown", this._onmousedown);
+  this.removeEventListener("mouseup", this._onmouseup);
+  this.removeEventListener("mousewheel", this._onmousewheel);
 
 
   // ************************************************************************
   //   WIDGET KEY EVENTS
   // ************************************************************************
-  this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
-  this.removeEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
+  this.removeEventListener("keydown", this._onkeydown);
+  this.removeEventListener("keypress", this._onkeypress);
 
 
   this._model = null;
@@ -1025,13 +1025,13 @@ qx.Proto.dispose = function() {
     this._list = null;
   }
   if (this._popup) {
-    this._popup.removeEventListener(qx.constant.Event.APPEAR, this._onpopupappear, this);
+    this._popup.removeEventListener("appear", this._onpopupappear, this);
     this._popup.dispose();
     this._popup = null;
   }
   if (this._field) {
     if (this.getEditable()) {
-      this._field.removeEventListener(qx.constant.Event.INPUT, this._oninput, this);
+      this._field.removeEventListener("input", this._oninput, this);
     }
     this._field.dispose();
     this._field = null;

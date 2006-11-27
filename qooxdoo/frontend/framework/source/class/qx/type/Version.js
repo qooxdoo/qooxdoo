@@ -39,8 +39,8 @@ function(arrVersion)
 {
   qx.core.Object.call(this);
 
-  if (typeof arrVersion === qx.constant.Type.STRING) {
-    arrVersion = arrVersion.split(qx.constant.Core.DOT);
+  if (typeof arrVersion === "string") {
+    arrVersion = arrVersion.split(".");
   }
 
   this._major = parseInt(arrVersion[0]) || 0;

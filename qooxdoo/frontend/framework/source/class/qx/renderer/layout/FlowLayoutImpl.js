@@ -158,7 +158,7 @@ qx.Proto.updateSelfOnChildOuterWidthChange = function(vChild)
 qx.Proto.updateChildOnInnerWidthChange = function(vChild)
 {
   vChild._recomputePercentX();
-  vChild.addToLayoutChanges(qx.ui.core.Widget.JOB_LOCATION);
+  vChild.addToLayoutChanges("location");
 
   return true;
 }
@@ -170,7 +170,7 @@ qx.Proto.updateChildOnInnerWidthChange = function(vChild)
 qx.Proto.updateChildOnInnerHeightChange = function(vChild)
 {
   vChild._recomputePercentY();
-  vChild.addToLayoutChanges(qx.ui.core.Widget.JOB_LOCATION);
+  vChild.addToLayoutChanges("location");
 
   return true;
 }
@@ -193,7 +193,7 @@ qx.Proto.updateChildOnInnerHeightChange = function(vChild)
 qx.Proto.updateChildrenOnJobQueueFlush = function(vQueue)
 {
   if (vQueue.horizontalSpacing || vQueue.verticalSpacing || vQueue.reverseChildrenOrder || vQueue.horizontalChildrenAlign || vQueue.verticalChildrenAlign) {
-    this.getWidget()._addChildrenToLayoutQueue(qx.ui.core.Widget.JOB_LOCATION);
+    this.getWidget()._addChildrenToLayoutQueue("location");
   }
 }
 
@@ -219,14 +219,14 @@ qx.Proto.updateChildrenOnRemoveChild = function(vChild, vIndex)
   if (w.getReverseChildrenOrder())
   {
     while((chc=ch[++i]) && i<vIndex) {
-      chc.addToLayoutChanges(qx.ui.core.Widget.JOB_LOCATION);
+      chc.addToLayoutChanges("location");
     }
   }
   else
   {
     i+=vIndex;
     while(chc=ch[++i]) {
-      chc.addToLayoutChanges(qx.ui.core.Widget.JOB_LOCATION);
+      chc.addToLayoutChanges("location");
     }
   }
 }
@@ -239,7 +239,7 @@ qx.Proto.updateChildrenOnRemoveChild = function(vChild, vIndex)
 qx.Proto.updateChildrenOnMoveChild = function(vChild, vIndex, vOldIndex)
 {
   for (var i=Math.min(vIndex, vOldIndex), ch=this.getWidget().getVisibleChildren(), l=ch.length; i<l; i++) {
-    ch[i].addToLayoutChanges(qx.ui.core.Widget.JOB_LOCATION);
+    ch[i].addToLayoutChanges("location");
   }
 }
 
@@ -402,7 +402,7 @@ qx.Proto.layoutChild_location = function(vChild, vJobs)
   }
 
   // add margins and parent padding
-  if (vWidget.getHorizontalChildrenAlign() == qx.constant.Layout.ALIGN_RIGHT)
+  if (vWidget.getHorizontalChildrenAlign() == "right")
   {
     vChild._resetRuntimeLeft();
     vChild._applyRuntimeRight(vWidget.getPaddingRight() + vChild._cachedLocationHorizontal);
@@ -413,7 +413,7 @@ qx.Proto.layoutChild_location = function(vChild, vJobs)
     vChild._applyRuntimeLeft(vWidget.getPaddingLeft() + vChild._cachedLocationHorizontal);
   }
 
-  if (vWidget.getVerticalChildrenAlign() == qx.constant.Layout.ALIGN_BOTTOM)
+  if (vWidget.getVerticalChildrenAlign() == "bottom")
   {
     vChild._resetRuntimeTop();
     vChild._applyRuntimeBottom(vWidget.getPaddingBottom() + vChild._cachedLocationVertical);

@@ -37,7 +37,7 @@ qx.Proto.createCellEditor = function(cellInfo) {
   cellEditor.originalValue = cellInfo.value;
   cellEditor.setValue("" + cellInfo.value);
 
-  cellEditor.addEventListener(qx.constant.Event.APPEAR, function() {
+  cellEditor.addEventListener("appear", function() {
     this.selectAll();
   });
 

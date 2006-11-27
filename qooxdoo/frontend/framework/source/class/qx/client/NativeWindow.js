@@ -18,7 +18,7 @@
 
 /* ************************************************************************
 
-#require(qx.dom.DomWindow)
+#require(qx.dom.Window)
 
 ************************************************************************ */
 
@@ -33,7 +33,7 @@ function(vUrl, vName)
   // ************************************************************************
 
   this._timer = new qx.client.Timer(100);
-  this._timer.addEventListener(qx.constant.Event.INTERVAL, this._oninterval, this);
+  this._timer.addEventListener("interval", this._oninterval, this);
 
 
   // ************************************************************************
@@ -57,18 +57,18 @@ function(vUrl, vName)
 ---------------------------------------------------------------------------
 */
 
-qx.client.NativeWindow.PROPERTY_DEPENDENT = "dependent";
-qx.client.NativeWindow.PROPERTY_WIDTH = "width";
-qx.client.NativeWindow.PROPERTY_HEIGHT = "height";
-qx.client.NativeWindow.PROPERTY_LEFT = "left";
-qx.client.NativeWindow.PROPERTY_TOP = "top";
-qx.client.NativeWindow.PROPERTY_RESIZABLE = "resizable";
-qx.client.NativeWindow.PROPERTY_STATUS = "status";
-qx.client.NativeWindow.PROPERTY_LOCATION = "location";
-qx.client.NativeWindow.PROPERTY_MENUBAR = "menubar";
-qx.client.NativeWindow.PROPERTY_TOOLBAR = "toolbar";
-qx.client.NativeWindow.PROPERTY_SCROLLBARS = "scrollbars";
-qx.client.NativeWindow.PROPERTY_MODAL = "modal";
+"dependent" = "dependent";
+"width" = "width";
+"height" = "height";
+"left" = "left";
+"top" = "top";
+"resizable" = "resizable";
+"status" = "status";
+"location" = "location";
+"menubar" = "menubar";
+"toolbar" = "toolbar";
+"scrollbars" = "scrollbars";
+"modal" = "modal";
 
 
 
@@ -82,82 +82,82 @@ qx.client.NativeWindow.PROPERTY_MODAL = "modal";
 /*!
   If the window is open or closed
 */
-qx.OO.addProperty({ name : "open", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "open", type : "boolean", defaultValue : false });
 
 /*!
   The outer width of the window.
 */
-qx.OO.addProperty({ name : "width", type : qx.constant.Type.NUMBER, defaultValue : 400, impl : "dimension" });
+qx.OO.addProperty({ name : "width", type : "number", defaultValue : 400, impl : "dimension" });
 
 /*!
   The outer height of the window.
 */
-qx.OO.addProperty({ name : "height", type : qx.constant.Type.NUMBER, defaultValue : 250, impl : "dimension" });
+qx.OO.addProperty({ name : "height", type : "number", defaultValue : 250, impl : "dimension" });
 
 /*!
   The left screen coordinate of the window.
 */
-qx.OO.addProperty({ name : "left", type : qx.constant.Type.NUMBER, defaultValue : 100, impl : "position" });
+qx.OO.addProperty({ name : "left", type : "number", defaultValue : 100, impl : "position" });
 
 /*!
   The top screen coordinate of the window.
 */
-qx.OO.addProperty({ name : "top", type : qx.constant.Type.NUMBER, defaultValue : 200, impl : "position" });
+qx.OO.addProperty({ name : "top", type : "number", defaultValue : 200, impl : "position" });
 
 /*!
   Should be window be modal
 */
-qx.OO.addProperty({ name : "modal", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "modal", type : "boolean", defaultValue : false });
 
 /*!
   Should be window be dependent on this application window
 */
-qx.OO.addProperty({ name : "dependent", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "dependent", type : "boolean", defaultValue : true });
 
 /*!
   The url
 */
-qx.OO.addProperty({ name : "url", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "url", type : "string" });
 
 /*!
   The window name
 */
-qx.OO.addProperty({ name : "name", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "name", type : "string" });
 
 /*!
   The text of the statusbar
 */
-qx.OO.addProperty({ name : "status", type : qx.constant.Type.STRING, defaultValue : "Ready" });
+qx.OO.addProperty({ name : "status", type : "string", defaultValue : "Ready" });
 
 /*!
   Should the statusbar be shown
 */
-qx.OO.addProperty({ name : "showStatusbar", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "showStatusbar", type : "boolean", defaultValue : false });
 
 /*!
   Should the menubar be shown
 */
-qx.OO.addProperty({ name : "showMenubar", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "showMenubar", type : "boolean", defaultValue : false });
 
 /*!
   Should the location(bar) be shown
 */
-qx.OO.addProperty({ name : "showLocation", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "showLocation", type : "boolean", defaultValue : false });
 
 /*!
   Should the toolbar be shown
 */
-qx.OO.addProperty({ name : "showToolbar", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "showToolbar", type : "boolean", defaultValue : false });
 
 /*!
   If the window is resizeable
 */
-qx.OO.addProperty({ name : "resizeable", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "resizeable", type : "boolean", defaultValue : true });
 
 /*!
   If the window is able to scroll and has visible scrollbars if needed
 */
-qx.OO.addProperty({ name : "allowScrollbars", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "allowScrollbars", type : "boolean", defaultValue : true });
 
 
 
@@ -368,77 +368,77 @@ qx.Proto._open = function()
 
   if (qx.util.Validation.isValidNumber(this.getWidth()))
   {
-    vConf.push(qx.client.NativeWindow.PROPERTY_WIDTH);
-    vConf.push(qx.constant.Core.EQUAL);
+    vConf.push("width");
+    vConf.push("=");
     vConf.push(this.getWidth());
-    vConf.push(qx.constant.Core.COMMA);
+    vConf.push(",");
   }
 
   if (qx.util.Validation.isValidNumber(this.getHeight()))
   {
-    vConf.push(qx.client.NativeWindow.PROPERTY_HEIGHT);
-    vConf.push(qx.constant.Core.EQUAL);
+    vConf.push("height");
+    vConf.push("=");
     vConf.push(this.getHeight());
-    vConf.push(qx.constant.Core.COMMA);
+    vConf.push(",");
   }
 
   if (qx.util.Validation.isValidNumber(this.getLeft()))
   {
-    vConf.push(qx.client.NativeWindow.PROPERTY_LEFT);
-    vConf.push(qx.constant.Core.EQUAL);
+    vConf.push("left");
+    vConf.push("=");
     vConf.push(this.getLeft());
-    vConf.push(qx.constant.Core.COMMA);
+    vConf.push(",");
   }
 
   if (qx.util.Validation.isValidNumber(this.getTop()))
   {
-    vConf.push(qx.client.NativeWindow.PROPERTY_TOP);
-    vConf.push(qx.constant.Core.EQUAL);
+    vConf.push("top");
+    vConf.push("=");
     vConf.push(this.getTop());
-    vConf.push(qx.constant.Core.COMMA);
+    vConf.push(",");
   }
 
 
 
-  vConf.push(qx.client.NativeWindow.PROPERTY_DEPENDENT);
-  vConf.push(qx.constant.Core.EQUAL);
-  vConf.push(this.getDependent() ? qx.constant.Core.YES : qx.constant.Core.NO);
-  vConf.push(qx.constant.Core.COMMA);
+  vConf.push("dependent");
+  vConf.push("=");
+  vConf.push(this.getDependent() ? "yes" : "no");
+  vConf.push(",");
 
-  vConf.push(qx.client.NativeWindow.PROPERTY_RESIZABLE);
-  vConf.push(qx.constant.Core.EQUAL);
-  vConf.push(this.getResizeable() ? qx.constant.Core.YES : qx.constant.Core.NO);
-  vConf.push(qx.constant.Core.COMMA);
+  vConf.push("resizable");
+  vConf.push("=");
+  vConf.push(this.getResizeable() ? "yes" : "no");
+  vConf.push(",");
 
-  vConf.push(qx.client.NativeWindow.PROPERTY_STATUS);
-  vConf.push(qx.constant.Core.EQUAL);
-  vConf.push(this.getShowStatusbar() ? qx.constant.Core.YES : qx.constant.Core.NO);
-  vConf.push(qx.constant.Core.COMMA);
+  vConf.push("status");
+  vConf.push("=");
+  vConf.push(this.getShowStatusbar() ? "yes" : "no");
+  vConf.push(",");
 
-  vConf.push(qx.client.NativeWindow.PROPERTY_LOCATION);
-  vConf.push(qx.constant.Core.EQUAL);
-  vConf.push(this.getShowLocation() ? qx.constant.Core.YES : qx.constant.Core.NO);
-  vConf.push(qx.constant.Core.COMMA);
+  vConf.push("location");
+  vConf.push("=");
+  vConf.push(this.getShowLocation() ? "yes" : "no");
+  vConf.push(",");
 
-  vConf.push(qx.client.NativeWindow.PROPERTY_MENUBAR);
-  vConf.push(qx.constant.Core.EQUAL);
-  vConf.push(this.getShowMenubar() ? qx.constant.Core.YES : qx.constant.Core.NO);
-  vConf.push(qx.constant.Core.COMMA);
+  vConf.push("menubar");
+  vConf.push("=");
+  vConf.push(this.getShowMenubar() ? "yes" : "no");
+  vConf.push(",");
 
-  vConf.push(qx.client.NativeWindow.PROPERTY_TOOLBAR);
-  vConf.push(qx.constant.Core.EQUAL);
-  vConf.push(this.getShowToolbar() ? qx.constant.Core.YES : qx.constant.Core.NO);
-  vConf.push(qx.constant.Core.COMMA);
+  vConf.push("toolbar");
+  vConf.push("=");
+  vConf.push(this.getShowToolbar() ? "yes" : "no");
+  vConf.push(",");
 
-  vConf.push(qx.client.NativeWindow.PROPERTY_SCROLLBARS);
-  vConf.push(qx.constant.Core.EQUAL);
-  vConf.push(this.getAllowScrollbars() ? qx.constant.Core.YES : qx.constant.Core.NO);
-  vConf.push(qx.constant.Core.COMMA);
+  vConf.push("scrollbars");
+  vConf.push("=");
+  vConf.push(this.getAllowScrollbars() ? "yes" : "no");
+  vConf.push(",");
 
-  vConf.push(qx.client.NativeWindow.PROPERTY_MODAL);
-  vConf.push(qx.constant.Core.EQUAL);
-  vConf.push(this.getModal() ? qx.constant.Core.YES : qx.constant.Core.NO);
-  vConf.push(qx.constant.Core.COMMA);
+  vConf.push("modal");
+  vConf.push("=");
+  vConf.push(this.getModal() ? "yes" : "no");
+  vConf.push(",");
 
 
 
@@ -455,7 +455,7 @@ qx.Proto._open = function()
     this.setName("qx_NativeWindow" + this.toHashCode());
   }
 
-  this._window = window.open(this.getUrl(), this.getName(), vConf.join(qx.constant.Core.EMPTY));
+  this._window = window.open(this.getUrl(), this.getName(), vConf.join(""));
 
   if (this.isClosed())
   {
@@ -533,7 +533,7 @@ qx.Proto.centerToScreenArea = function() {
 }
 
 qx.Proto.centerToOpener = function() {
-  return this._centerHelper(((qx.dom.DomWindow.getInnerWidth(window) - this.getWidth()) / 2) + qx.dom.DomLocation.getScreenBoxLeft(window.document.body), ((qx.dom.DomWindow.getInnerHeight(window) - this.getHeight()) / 2) + qx.dom.DomLocation.getScreenBoxTop(window.document.body));
+  return this._centerHelper(((qx.dom.Window.getInnerWidth(window) - this.getWidth()) / 2) + qx.dom.Location.getScreenBoxLeft(window.document.body), ((qx.dom.Window.getInnerHeight(window) - this.getHeight()) / 2) + qx.dom.Location.getScreenBoxTop(window.document.body));
 }
 
 qx.Proto._centerHelper = function(l, t)
@@ -598,7 +598,7 @@ qx.Proto._oninterval = function(e)
       if (this._window.document && this._window.document.readyState == "complete")
       {
         this._loaded = true;
-        this.createDispatchEvent(qx.constant.Event.LOAD);
+        this.createDispatchEvent("load");
       }
     }
     catch(ex) {};
@@ -612,7 +612,7 @@ qx.Proto._onload = function(e)
   if (!obj._loaded)
   {
     obj._loaded = true;
-    obj.createDispatchEvent(qx.constant.Event.LOAD);
+    obj.createDispatchEvent("load");
   }
 }
 

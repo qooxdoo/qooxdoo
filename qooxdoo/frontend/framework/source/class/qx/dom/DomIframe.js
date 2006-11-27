@@ -23,11 +23,11 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.dom.DomIframe");
+qx.OO.defineClass("qx.dom.Iframe");
 
 if (qx.sys.Client.getInstance().isMshtml())
 {
-  qx.dom.DomIframe.getWindow = function(vIframe)
+  qx.dom.Iframe.getWindow = function(vIframe)
   {
     try
     {
@@ -39,11 +39,11 @@ if (qx.sys.Client.getInstance().isMshtml())
     }
   }
 
-  qx.dom.DomIframe.getDocument = function(vIframe)
+  qx.dom.Iframe.getDocument = function(vIframe)
   {
     try
     {
-      var vWin = qx.dom.DomIframe.getWindow(vIframe);
+      var vWin = qx.dom.Iframe.getWindow(vIframe);
       return vWin ? vWin.document : null;
     }
     catch(ex)
@@ -54,11 +54,11 @@ if (qx.sys.Client.getInstance().isMshtml())
 }
 else
 {
-  qx.dom.DomIframe.getWindow = function(vIframe)
+  qx.dom.Iframe.getWindow = function(vIframe)
   {
     try
     {
-      var vDoc = qx.dom.DomIframe.getDocument(vIframe);
+      var vDoc = qx.dom.Iframe.getDocument(vIframe);
       return vDoc ? vDoc.defaultView : null;
     }
     catch(ex)
@@ -67,7 +67,7 @@ else
     }
   }
 
-  qx.dom.DomIframe.getDocument = function(vIframe)
+  qx.dom.Iframe.getDocument = function(vIframe)
   {
     try
     {
@@ -80,8 +80,8 @@ else
   }
 }
 
-qx.dom.DomIframe.getBody = function(vIframe)
+qx.dom.Iframe.getBody = function(vIframe)
 {
-  var vDoc = qx.dom.DomIframe.getDocument(vIframe);
+  var vDoc = qx.dom.Iframe.getDocument(vIframe);
   return vDoc ? vDoc.getElementsByTagName("body")[0] : null;
 }

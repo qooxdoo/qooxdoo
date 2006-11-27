@@ -24,13 +24,13 @@
       bs.set({ left: 20, top: 48, right: 335, bottom: 48 });
       bs.setBarPosition("left");
 
-      var bsb1 = new qx.ui.pageview.buttonview.ButtonViewButton("Display", "icon/16/display.png");
-      var bsb2 = new qx.ui.pageview.buttonview.ButtonViewButton("Organizer", "icon/16/organizer.png");
-      var bsb3 = new qx.ui.pageview.buttonview.ButtonViewButton("Colorize", "icon/16/colors.png");
-      var bsb4 = new qx.ui.pageview.buttonview.ButtonViewButton("Icons", "icon/16/icons.png");
-      var bsb5 = new qx.ui.pageview.buttonview.ButtonViewButton("Paint", "icon/16/paint.png");
-      var bsb6 = new qx.ui.pageview.buttonview.ButtonViewButton("Applications", "icon/16/run.png");
-      var bsb7 = new qx.ui.pageview.buttonview.ButtonViewButton("System", "icon/16/control-center.png");
+      var bsb1 = new qx.ui.pageview.buttonview.Button("Display", "icon/16/display.png");
+      var bsb2 = new qx.ui.pageview.buttonview.Button("Organizer", "icon/16/organizer.png");
+      var bsb3 = new qx.ui.pageview.buttonview.Button("Colorize", "icon/16/colors.png");
+      var bsb4 = new qx.ui.pageview.buttonview.Button("Icons", "icon/16/icons.png");
+      var bsb5 = new qx.ui.pageview.buttonview.Button("Paint", "icon/16/paint.png");
+      var bsb6 = new qx.ui.pageview.buttonview.Button("Applications", "icon/16/run.png");
+      var bsb7 = new qx.ui.pageview.buttonview.Button("System", "icon/16/control-center.png");
 
       bsb1.setChecked(true);
 
@@ -47,13 +47,13 @@
       bs.getBar().setHorizontalChildrenAlign("center");
       bs.getBar().setVerticalChildrenAlign("bottom");
 
-      var p1 = new qx.ui.pageview.buttonview.ButtonViewPage(bsb1);
-      var p2 = new qx.ui.pageview.buttonview.ButtonViewPage(bsb2);
-      var p3 = new qx.ui.pageview.buttonview.ButtonViewPage(bsb3);
-      var p4 = new qx.ui.pageview.buttonview.ButtonViewPage(bsb4);
-      var p5 = new qx.ui.pageview.buttonview.ButtonViewPage(bsb5);
-      var p6 = new qx.ui.pageview.buttonview.ButtonViewPage(bsb6);
-      var p7 = new qx.ui.pageview.buttonview.ButtonViewPage(bsb7);
+      var p1 = new qx.ui.pageview.buttonview.Page(bsb1);
+      var p2 = new qx.ui.pageview.buttonview.Page(bsb2);
+      var p3 = new qx.ui.pageview.buttonview.Page(bsb3);
+      var p4 = new qx.ui.pageview.buttonview.Page(bsb4);
+      var p5 = new qx.ui.pageview.buttonview.Page(bsb5);
+      var p6 = new qx.ui.pageview.buttonview.Page(bsb6);
+      var p7 = new qx.ui.pageview.buttonview.Page(bsb7);
 
       bs.getPane().add(p1, p2, p3, p4, p5, p6, p7);
 

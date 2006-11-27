@@ -59,32 +59,32 @@
     
     var m1 = new qx.ui.menu.Menu;
     
-    var mb11 = new qx.ui.menu.MenuButton("Open");
-    var mb12 = new qx.ui.menu.MenuButton("Save");
-    var mb13 = new qx.ui.menu.MenuButton("Close");
-    var mb14 = new qx.ui.menu.MenuButton("Exit");
+    var mb11 = new qx.ui.menu.Button("Open");
+    var mb12 = new qx.ui.menu.Button("Save");
+    var mb13 = new qx.ui.menu.Button("Close");
+    var mb14 = new qx.ui.menu.Button("Exit");
     
     m1.add(mb11, mb12, mb13, mb14);
     
     var m2 = new qx.ui.menu.Menu;
     
-    var mb21 = new qx.ui.menu.MenuButton("Cut");
-    var mb22 = new qx.ui.menu.MenuButton("Copy");
-    var mb23 = new qx.ui.menu.MenuButton("Paste");
+    var mb21 = new qx.ui.menu.Button("Cut");
+    var mb22 = new qx.ui.menu.Button("Copy");
+    var mb23 = new qx.ui.menu.Button("Paste");
     
     m2.add(mb21, mb22, mb23);
     
     var m3 = new qx.ui.menu.Menu;
     
-    var mb31 = new qx.ui.menu.MenuButton("Toolbars");
-    var mb32 = new qx.ui.menu.MenuButton("Options");
+    var mb31 = new qx.ui.menu.Button("Toolbars");
+    var mb32 = new qx.ui.menu.Button("Options");
     
     m3.add(mb31, mb32);
     
     var m4 = new qx.ui.menu.Menu;
     
-    var mb41 = new qx.ui.menu.MenuButton("Help");
-    var mb42 = new qx.ui.menu.MenuButton("Info");
+    var mb41 = new qx.ui.menu.Button("Help");
+    var mb42 = new qx.ui.menu.Button("Info");
     
     m4.add(mb41, mb42);
     
@@ -101,10 +101,10 @@
     t1.setLocation(0, 0);
     t1.setRight(0);
     
-    var tb1 = new qx.ui.toolbar.ToolBarMenuButton("File", m1);
-    var tb2 = new qx.ui.toolbar.ToolBarMenuButton("Edit", m2);
-    var tb3 = new qx.ui.toolbar.ToolBarMenuButton("View", m3);
-    var tb4 = new qx.ui.toolbar.ToolBarMenuButton("Help", m4);
+    var tb1 = new qx.ui.toolbar.MenuButton("File", m1);
+    var tb2 = new qx.ui.toolbar.MenuButton("Edit", m2);
+    var tb3 = new qx.ui.toolbar.MenuButton("View", m3);
+    var tb4 = new qx.ui.toolbar.MenuButton("Help", m4);
     
     t1.add(tb1, tb2, tb3, tb4);
     

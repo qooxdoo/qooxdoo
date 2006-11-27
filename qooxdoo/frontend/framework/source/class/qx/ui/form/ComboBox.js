@@ -107,31 +107,31 @@ function()
   // ************************************************************************
   //   WIDGET MOUSE EVENTS
   // ************************************************************************
-  this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
-  this.addEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
-  this.addEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover);
-  this.addEventListener(qx.constant.Event.MOUSEWHEEL, this._onmousewheel);
+  this.addEventListener("mousedown", this._onmousedown);
+  this.addEventListener("mouseup", this._onmouseup);
+  this.addEventListener("mouseover", this._onmouseover);
+  this.addEventListener("mousewheel", this._onmousewheel);
 
 
   // ************************************************************************
   //   WIDGET KEY EVENTS
   // ************************************************************************
-  this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
-  this.addEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
-  this.addEventListener(qx.constant.Event.KEYINPUT, this._onkeyinput);
+  this.addEventListener("keydown", this._onkeydown);
+  this.addEventListener("keypress", this._onkeypress);
+  this.addEventListener("keyinput", this._onkeyinput);
   
 
   // ************************************************************************
   //   WIDGET STATE EVENTS
   // ************************************************************************
-  this.addEventListener(qx.constant.Event.BEFOREDISAPPEAR, this._onbeforedisappear);
+  this.addEventListener("beforeDisappear", this._onbeforedisappear);
 
 
   // ************************************************************************
   //   CHILDREN EVENTS
   // ************************************************************************
-  this._popup.addEventListener(qx.constant.Event.APPEAR, this._onpopupappear, this);
-  this._field.addEventListener(qx.constant.Event.INPUT, this._oninput, this);
+  this._popup.addEventListener("appear", this._onpopupappear, this);
+  this._field.addEventListener("input", this._oninput, this);
 
 
   // ************************************************************************
@@ -155,12 +155,12 @@ function()
 ---------------------------------------------------------------------------
 */
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "combo-box" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "combo-box" });
 
-qx.OO.addProperty({ name: "editable", type: qx.constant.Type.BOOLEAN, getAlias: "isEditable" });
-qx.OO.addProperty({ name: "selected", type: qx.constant.Type.OBJECT, instance : "qx.ui.form.ListItem" });
-qx.OO.addProperty({ name: "value", type : qx.constant.Type.STRING });
-qx.OO.addProperty({ name: "pagingInterval", type: qx.constant.Type.NUMBER, defaultValue: 10 });
+qx.OO.addProperty({ name: "editable", type: "boolean", getAlias: "isEditable" });
+qx.OO.addProperty({ name: "selected", type: "object", instance : "qx.ui.form.ListItem" });
+qx.OO.addProperty({ name: "value", type : "string" });
+qx.OO.addProperty({ name: "pagingInterval", type: "number", defaultValue: 10 });
 
 
 
@@ -210,7 +210,7 @@ qx.Proto._modifySelected = function(propValue, propOldValue, propData)
   // only do this if we called setSelected seperatly
   // and not from the property "value".
   if (!this._fromValue) {
-    this.setValue(propValue ? propValue.getLabel() : qx.constant.Core.EMPTY);
+    this.setValue(propValue ? propValue.getLabel() : "");
   }
 
   // reset manager cache
@@ -238,7 +238,7 @@ qx.Proto._modifyValue = function(propValue, propOldValue, propData)
   this._fromValue = true;
 
   // only do this if we called setValue seperatly
-  // and not from the event qx.constant.Event.INPUT.
+  // and not from the event "input".
   if (!this._fromInput)
   {
     if (this._field.getValue() == propValue) {
@@ -274,7 +274,7 @@ qx.Proto._modifyEditable = function(propValue, propOldValue, propData)
   var f = this._field;
 
   f.setReadOnly(!propValue);
-  f.setCursor(propValue ? null : qx.constant.Core.DEFAULT);
+  f.setCursor(propValue ? null : "default");
   f.setSelectable(propValue);
 
   return true;
@@ -318,7 +318,7 @@ qx.Proto._openPopup = function()
     return;
   }
 
-  p.positionRelativeTo(el, 1, qx.dom.DomDimension.getBoxHeight(el));
+  p.positionRelativeTo(el, 1, qx.dom.Dimension.getBoxHeight(el));
   p.setWidth(this.getBoxWidth()-2);
 
   p.setParent(this.getTopLevelWidget());
@@ -406,7 +406,7 @@ qx.Proto._onmousedown = function(e)
       // no break here
 
     case this._button:
-      this._button.addState(qx.ui.form.Button.STATE_PRESSED);
+      this._button.addState("pressed");
       this._togglePopup();
       break;
 
@@ -443,7 +443,7 @@ qx.Proto._onmouseup = function(e)
       // no break here
 
     default:
-      this._button.removeState(qx.ui.form.Button.STATE_PRESSED);
+      this._button.removeState("pressed");
       break;
   }
 }
@@ -539,7 +539,7 @@ qx.Proto._onkeydown = function(e)
 
         vManager.setSelectedItem(this._oldSelected);
 
-        this._field.setValue(this._oldSelected ? this._oldSelected.getLabel() : qx.constant.Core.EMPTY);
+        this._field.setValue(this._oldSelected ? this._oldSelected.getLabel() : "");
 
         this._closePopup();
         this.setFocused(true);
@@ -725,7 +725,7 @@ qx.Proto._visualizeBlur = function()
     }
   }
 
-  this.removeState(qx.ui.core.Widget.STATE_FOCUSED);
+  this.removeState("focused");
   return true;
 }
 
@@ -748,7 +748,7 @@ qx.Proto._visualizeFocus = function()
     catch(ex) {};
   }
 
-  this.addState(qx.ui.core.Widget.STATE_FOCUSED);
+  this.addState("focused");
   return true;
 }
 
@@ -771,18 +771,18 @@ qx.Proto.dispose = function()
   // ************************************************************************
   //   WIDGET MOUSE EVENTS
   // ************************************************************************
-  this.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
-  this.removeEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
-  this.removeEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover);
-  this.removeEventListener(qx.constant.Event.MOUSEWHEEL, this._onmousewheel);
+  this.removeEventListener("mousedown", this._onmousedown);
+  this.removeEventListener("mouseup", this._onmouseup);
+  this.removeEventListener("mouseover", this._onmouseover);
+  this.removeEventListener("mousewheel", this._onmousewheel);
 
 
   // ************************************************************************
   //   WIDGET KEY EVENTS
   // ************************************************************************
-  this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
-  this.removeEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
-  this.removeEventListener(qx.constant.Event.KEYINPUT, this._onkeyinput);
+  this.removeEventListener("keydown", this._onkeydown);
+  this.removeEventListener("keypress", this._onkeypress);
+  this.removeEventListener("keyinput", this._onkeyinput);
 
   // ************************************************************************
   //   DOCUMENT EVENTS
@@ -804,14 +804,14 @@ qx.Proto.dispose = function()
 
   if (this._popup)
   {
-    this._popup.removeEventListener(qx.constant.Event.APPEAR, this._onpopupappear, this);
+    this._popup.removeEventListener("appear", this._onpopupappear, this);
     this._popup.dispose();
     this._popup = null;
   }
 
   if (this._field)
   {
-    this._field.removeEventListener(qx.constant.Event.INPUT, this._oninput, this);
+    this._field.removeEventListener("input", this._oninput, this);
     this._field.dispose();
     this._field = null;
   }

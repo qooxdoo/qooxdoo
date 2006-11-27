@@ -44,12 +44,12 @@ function(iconUrl, tooltip) {
 /**
  * URL of the icon to show
  */
-qx.OO.addProperty({ name:"iconUrl", type:qx.constant.Type.STRING, defaultValue:"", allowNull:false });
+qx.OO.addProperty({ name:"iconUrl", type:"string", defaultValue:"", allowNull:false });
 
 /**
  * ToolTip to show if the mouse hovers of the icon
  */
-qx.OO.addProperty({ name:"toolTip", type:qx.constant.Type.STRING, defaultValue:null, allowNull:true });
+qx.OO.addProperty({ name:"toolTip", type:"string", defaultValue:null, allowNull:true });
 
 // overridden
 qx.Proto.updateHeaderCell = function(cellInfo, cellWidget) {

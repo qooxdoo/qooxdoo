@@ -26,11 +26,11 @@ function(vHtml, vUri, vTarget)
 {
   qx.ui.embed.HtmlEmbed.call(this, vHtml);
 
-  if (typeof vUri != qx.constant.Type.UNDEFINED) {
+  if (typeof vUri != "undefined") {
     this.setUri(vUri);
   }
 
-  if (typeof vTarget != qx.constant.Type.UNDEFINED) {
+  if (typeof vTarget != "undefined") {
     this.setTarget(vTarget);
   }
 });
@@ -49,12 +49,12 @@ function(vHtml, vUri, vTarget)
 /*!
   Any valid html URI
 */
-qx.OO.addProperty({ name : "uri", type : qx.constant.Type.STRING, defaultValue : "#", impl : "html" });
+qx.OO.addProperty({ name : "uri", type : "string", defaultValue : "#", impl : "html" });
 
 /*!
   Any valid html target
 */
-qx.OO.addProperty({ name : "target", type : qx.constant.Type.STRING, defaultValue : "_blank", impl : "html" });
+qx.OO.addProperty({ name : "target", type : "string", defaultValue : "_blank", impl : "html" });
 
 
 
@@ -84,5 +84,5 @@ qx.Proto._syncHtml = function()
   vHtml.push(this.getHtml());
   vHtml.push(qx.ui.embed.LinkEmbed.LINK_STOP);
 
-  this.getElement().innerHTML = vHtml.join(qx.constant.Core.EMPTY);
+  this.getElement().innerHTML = vHtml.join("");
 }

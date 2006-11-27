@@ -62,37 +62,37 @@ qx.Class._measureNodes = {};
 ---------------------------------------------------------------------------
 */
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "label" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "label" });
 
 /*!
   Any text string which can contain HTML, too
 */
-qx.OO.addProperty({ name : "html", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "html", type : "string" });
 
 /*!
   The alignment of the text.
 */
-qx.OO.addProperty({ name : "textAlign", type : qx.constant.Type.STRING, defaultValue : "left", possibleValues : [ "left", "center", "right", "justify" ] });
+qx.OO.addProperty({ name : "textAlign", type : "string", defaultValue : "left", possibleValues : [ "left", "center", "right", "justify" ] });
 
 /*!
   The styles which should be copied
 */
-qx.OO.addProperty({ name : "fontPropertiesProfile", type : qx.constant.Type.STRING, defaultValue : qx.constant.Core.DEFAULT, possibleValues : [ qx.constant.Core.NONE, qx.constant.Core.DEFAULT, "extended", "multiline", "extendedmultiline", "all" ] });
+qx.OO.addProperty({ name : "fontPropertiesProfile", type : "string", defaultValue : "default", possibleValues : [ "none", "default", "extended", "multiline", "extendedmultiline", "all" ] });
 
 /*!
   A single character which will be underlined inside the text.
 */
-qx.OO.addProperty({ name : "mnemonic", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "mnemonic", type : "string" });
 
 /*!
   The font property describes how to paint the font on the widget.
 */
-qx.OO.addProperty({ name : "font", type : qx.constant.Type.OBJECT, instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache, allowMultipleArguments : true });
+qx.OO.addProperty({ name : "font", type : "object", instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache, allowMultipleArguments : true });
 
 /*!
   Wrap the text?
 */
-qx.OO.addProperty({ name : "wrap", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "wrap", type : "boolean", defaultValue : true });
 
 
 
@@ -112,26 +112,26 @@ qx.OO.addProperty({ name : "wrap", type : qx.constant.Type.BOOLEAN, defaultValue
 ---------------------------------------------------------------------------
 */
 
-qx.ui.basic.Label.OVERFLOW_HIDDEN = "hidden";
-qx.ui.basic.Label.OVERFLOW_ELLIPSIS = "ellipsis";
+"hidden" = "hidden";
+"ellipsis" = "ellipsis";
 qx.ui.basic.Label.SYMBOL_ELLIPSIS = String.fromCharCode(8230);
-qx.ui.basic.Label.INNER_TEXT = "innerText";
-qx.ui.basic.Label.INNER_HTML = "innerHTML";
+"innerText" = "innerText";
+"innerHTML" = "innerHTML";
 qx.ui.basic.Label.SUPPORT_NATIVE_ELLIPSIS = qx.sys.Client.getInstance().isMshtml();
 
-qx.ui.basic.Label.MNEMONIC_OUT_START = "(<span style=\"text-decoration:underline\">";
-qx.ui.basic.Label.MNEMONIC_OUT_STOP = "</span>)";
+"(<span style=\"text-decoration:underline\">" = "(<span style=\"text-decoration:underline\">";
+"</span>)" = "</span>)";
 
-qx.ui.basic.Label.MNEMONIC_IN_START = "<span style=\"text-decoration:underline\">";
-qx.ui.basic.Label.MNEMONIC_IN_STOP = "</span>";
+"<span style=\"text-decoration:underline\">" = "<span style=\"text-decoration:underline\">";
+"</span>" = "</span>";
 
-qx.ui.basic.Label.MNEMONIC_TEST1 = "^(((<([^>]|";
-qx.ui.basic.Label.MNEMONIC_TEST2 = ")+>)|(&([^;]|";
-qx.ui.basic.Label.MNEMONIC_TEST3 = ")+;)|[^&";
-qx.ui.basic.Label.MNEMONIC_TEST4 = "])*)(";
-qx.ui.basic.Label.MNEMONIC_TEST5 = ")";
+"^(((<([^>]|" = "^(((<([^>]|";
+")+>)|(&([^;]|" = ")+>)|(&([^;]|";
+")+;)|[^&" = ")+;)|[^&";
+"])*)(" = "])*)(";
+")" = ")";
 
-qx.ui.basic.Label.MNEMONIC_REGMODE = "i";
+"i" = "i";
 
 // these are the properties what will be copied to the measuring frame.
 qx.ui.basic.Label._fontProperties =
@@ -147,10 +147,10 @@ qx.ui.basic.Label._fontProperties =
   "all" : ["fontFamily", "fontSize", "fontStyle", "fontVariant", "fontWeight", "letterSpacing", "lineBreak", "lineHeight", "quotes", "textDecoration", "textIndent", "textShadow", "textTransform", "textUnderlinePosition", "whiteSpace", "wordBreak", "wordSpacing", "wordWrap"]
 }
 
-qx.ui.basic.Label.BR = "<br/>";
-qx.ui.basic.Label.CODE1 = "&#x";
-qx.ui.basic.Label.CODE2 = "&#";
-qx.ui.basic.Label.TOSTRHELPER = "0x";
+"<br/>" = "<br/>";
+"&#x" = "&#x";
+"&#" = "&#";
+"0x" = "0x";
 
 qx.ui.basic.Label.htmlToText = function(s) {
   return String(s).replace(/\s+|<([^>])+>|&amp;|&lt;|&gt;|&quot;|&nbsp;|&#[0-9]+;|&#x[0-9a-fA-F];]/gi, qx.ui.basic.Label._htmlToText);
@@ -160,36 +160,36 @@ qx.ui.basic.Label._htmlToText = function(s)
 {
   switch(s)
   {
-    case qx.constant.Html.AMPERSAND:
-      return qx.constant.Core.AMPERSAND;
+    case "&amp;":
+      return "&";
 
-    case qx.constant.Html.SMALLER:
-      return qx.constant.Core.SMALLER;
+    case "&lt;":
+      return "<";
 
-    case qx.constant.Html.BIGGER:
-      return qx.constant.Core.BIGGER;
+    case "&gt;":
+      return ">";
 
-    case qx.constant.Html.QUOTE:
-      return qx.constant.Core.QUOTE;
+    case "&quot;":
+      return '"';
 
-    case qx.constant.Html.SPACE:
+    case "&nbsp;":
       return String.fromCharCode(160);
 
     default:
-      if (s.substring(0, 3) == qx.ui.basic.Label.CODE1) {
-        return String.fromCharCode(parseInt(qx.ui.basic.Label.TOSTRHELPER + s.substring(3, s.length - 1)));
+      if (s.substring(0, 3) == "&#x") {
+        return String.fromCharCode(parseInt("0x" + s.substring(3, s.length - 1)));
       }
-      else if (s.substring(0, 2) == qx.ui.basic.Label.CODE2) {
+      else if (s.substring(0, 2) == "&#") {
         return String.fromCharCode(s.substring(2, s.length - 1));
       }
       else if (/\s+/.test(s)) {
-        return qx.constant.Core.SPACE;
+        return " ";
       }
       else if (/^<BR/gi.test(s)) {
-        return qx.constant.Core.NEWLINE;
+        return "\n";
       }
 
-      return qx.constant.Core.EMPTY;
+      return "";
   }
 }
 
@@ -201,20 +201,20 @@ qx.ui.basic.Label._textToHtml = function(s)
 {
   switch(s)
   {
-    case qx.constant.Core.AMPERSAND:
-      return qx.constant.Html.AMPERSAND;
+    case "&":
+      return "&amp;";
 
-    case qx.constant.Core.SMALLER:
-      return qx.constant.Html.SMALLER;
+    case "<":
+      return "&lt;";
 
-    case qx.constant.Core.BIGGER:
-      return qx.constant.Html.BIGGER;
+    case ">":
+      return "&gt;";
 
-    case qx.constant.Core.NEWLINE:
-      return qx.ui.basic.Label.BR;
+    case "\n":
+      return "<br/>";
 
     default:
-      return qx.constant.Core.SPACE;
+      return " ";
   }
 }
 
@@ -224,12 +224,12 @@ qx.ui.basic.Label.createMeasureNode = function(vId)
 
   if (!vNode)
   {
-    vNode = document.createElement(qx.constant.Tags.DIV);
+    vNode = document.createElement("div");
     var vStyle = vNode.style;
 
-    vStyle.width = vStyle.height = qx.constant.Core.AUTO;
-    vStyle.visibility = qx.constant.Core.HIDDEN;
-    vStyle.position = qx.constant.Style.POSITION_ABSOLUTE;
+    vStyle.width = vStyle.height = "auto";
+    vStyle.visibility = "hidden";
+    vStyle.position = "absolute";
     vStyle.zIndex = "-1";
 
     document.body.appendChild(vNode);
@@ -259,7 +259,7 @@ qx.ui.basic.Label.createMeasureNode = function(vId)
 
 qx.Proto._htmlMode = false;
 qx.Proto._hasMnemonic = false;
-qx.Proto._mnemonicHtml = qx.constant.Core.EMPTY;
+qx.Proto._mnemonicHtml = "";
 qx.Proto._mnemonicTest = null;
 
 qx.Proto._modifyHtml = function(propValue, propOldValue, propData)
@@ -283,8 +283,8 @@ qx.Proto._modifyMnemonic = function(propValue, propOldValue, propData)
 {
   this._hasMnemonic = qx.util.Validation.isValidString(propValue) && propValue.length == 1;
 
-  this._mnemonicHtml = this._hasMnemonic ? qx.ui.basic.Label.MNEMONIC_OUT_START + propValue + qx.ui.basic.Label.MNEMONIC_OUT_STOP : qx.constant.Core.EMPTY;
-  this._mnemonicTest = this._hasMnemonic ? new RegExp(qx.ui.basic.Label.MNEMONIC_TEST1 + propValue + qx.ui.basic.Label.MNEMONIC_TEST2 + propValue + qx.ui.basic.Label.MNEMONIC_TEST3 + propValue + qx.ui.basic.Label.MNEMONIC_TEST4 + propValue + qx.ui.basic.Label.MNEMONIC_TEST5, qx.ui.basic.Label.MNEMONIC_REGMODE) : null;
+  this._mnemonicHtml = this._hasMnemonic ? "(<span style=\"text-decoration:underline\">" + propValue + "</span>)" : "";
+  this._mnemonicTest = this._hasMnemonic ? new RegExp("^(((<([^>]|" + propValue + ")+>)|(&([^;]|" + propValue + ")+;)|[^&" + propValue + "])*)(" + propValue + ")", "i") : null;
 
   return true;
 }
@@ -304,7 +304,7 @@ qx.Proto._modifyFont = function(propValue, propOldValue, propData)
 
 qx.Proto._modifyWrap = function(propValue, propOldValue, propData)
 {
-  this.setStyleProperty(qx.constant.Style.PROPERTY_WHITESPACE, propValue ? "normal" : "nowrap");
+  this.setStyleProperty("whiteSpace", propValue ? "normal" : "nowrap");
   return true;
 }
 
@@ -355,7 +355,7 @@ qx.Proto._copyStyles = function()
   }
 
   do {
-    vStyle[vProperty] = qx.util.Validation.isValid(vTemp = this.getStyleProperty([vProperty])) ? vTemp : qx.constant.Core.EMPTY;
+    vStyle[vProperty] = qx.util.Validation.isValid(vTemp = this.getStyleProperty([vProperty])) ? vTemp : "";
   } while(vProperty=vUseProperties[vUsePropertiesLength--]);
 
   return vNode;
@@ -402,7 +402,7 @@ qx.Proto._postApply = function()
   var vMnemonicMode = 0;
 
   if (qx.util.Validation.isInvalidString(vHtml)) {
-    vElement.innerHTML = qx.constant.Core.EMPTY;
+    vElement.innerHTML = "";
     return;
   }
 
@@ -426,18 +426,18 @@ qx.Proto._postApply = function()
 
         if (vInner < vNeeded)
         {
-          vElement.style.overflow = qx.ui.basic.Label.OVERFLOW_HIDDEN;
+          vElement.style.overflow = "hidden";
 
           if (qx.ui.basic.Label.SUPPORT_NATIVE_ELLIPSIS)
           {
-            vElement.style.textOverflow = qx.ui.basic.Label.OVERFLOW_ELLIPSIS;
+            vElement.style.textOverflow = "ellipsis";
             vHtml += this._mnemonicHtml;
           }
           else
           {
             var vMeasureNode = this._copyStyles();
 
-            var vSplitString = vHtml.split(qx.constant.Core.SPACE);
+            var vSplitString = vHtml.split(" ");
             var vSplitLength = vSplitString.length;
 
             var vWordIterator = 0;
@@ -461,9 +461,9 @@ qx.Proto._postApply = function()
               {
                 vSplitTemp.push(vSplitString[vWordIterator]);
 
-                var vLabelText = vSplitTemp.join(qx.constant.Core.SPACE) + vPost;
+                var vLabelText = vSplitTemp.join(" ") + vPost;
                 if (vUseInnerText) {
-                  qx.dom.DomElement.setTextContent(vMeasureNode, vLabelText);
+                  qx.dom.Element.setTextContent(vMeasureNode, vLabelText);
                 } else {
                   vMeasureNode.innerHTML = vLabelText;
                 }
@@ -487,10 +487,10 @@ qx.Proto._postApply = function()
               vSplitTemp.pop();
 
               // Building new temportary array
-              vSplitTemp = [ vSplitTemp.join(qx.constant.Core.SPACE) ];
+              vSplitTemp = [ vSplitTemp.join(" ") ];
 
               // Extracting remaining string
-              vCharaterString = vHtml.replace(vSplitTemp[0], qx.constant.Core.EMPTY);
+              vCharaterString = vHtml.replace(vSplitTemp[0], "");
             }
             else
             {
@@ -505,9 +505,9 @@ qx.Proto._postApply = function()
             {
               vSplitTemp.push(vCharaterString.charAt(vCharaterIterator));
 
-              var vLabelText = vSplitTemp.join(qx.constant.Core.EMPTY) + vPost;
+              var vLabelText = vSplitTemp.join("") + vPost;
               if (vUseInnerText) {
-                qx.dom.DomElement.setTextContent(vMeasureNode, vLabelText);
+                qx.dom.Element.setTextContent(vMeasureNode, vLabelText);
               } else {
                 vMeasureNode.innerHTML = vLabelText;
               }
@@ -524,7 +524,7 @@ qx.Proto._postApply = function()
             vSplitTemp.push(vPost);
 
             // Building Final HTML String
-            vHtml = vSplitTemp.join(qx.constant.Core.EMPTY);
+            vHtml = vSplitTemp.join("");
           }
 
           break;
@@ -537,10 +537,10 @@ qx.Proto._postApply = function()
         // no break here
 
       default:
-        vElement.style.overflow = qx.constant.Core.EMPTY;
+        vElement.style.overflow = "";
 
         if (qx.ui.basic.Label.SUPPORT_NATIVE_ELLIPSIS) {
-          vElement.style.textOverflow = qx.constant.Core.EMPTY;
+          vElement.style.textOverflow = "";
         }
     }
   }
@@ -549,7 +549,7 @@ qx.Proto._postApply = function()
   {
     // re-test: needed to make ellipsis handling correct
     this._mnemonicTest.test(vHtml);
-    vHtml = RegExp.$1 + qx.ui.basic.Label.MNEMONIC_IN_START + RegExp.$7 + qx.ui.basic.Label.MNEMONIC_IN_STOP + RegExp.rightContext;
+    vHtml = RegExp.$1 + "<span style=\"text-decoration:underline\">" + RegExp.$7 + "</span>" + RegExp.rightContext;
   }
 
   return this._postApplyHtml(vElement, vHtml, vMnemonicMode);
@@ -565,7 +565,7 @@ qx.Proto._postApplyHtml = function(vElement, vHtml, vMnemonicMode)
   else
   {
     try {
-      qx.dom.DomElement.setTextContent(vElement, vHtml);
+      qx.dom.Element.setTextContent(vElement, vHtml);
     } catch(ex) {
       vElement.innerHTML = vHtml;
     }

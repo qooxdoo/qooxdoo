@@ -21,10 +21,10 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.lang.Xml");
+qx.OO.defineClass("qx.xml.Core");
 
 // Create a XML dom node
-qx.lang.Xml.createXmlDom = function()
+qx.xml.Core.createXmlDom = function()
 {
   // The Mozilla style
   if (document.implementation && document.implementation.createDocument) {

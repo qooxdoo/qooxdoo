@@ -22,13 +22,13 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.listview.ListViewHeaderCell", qx.ui.basic.Atom,
+qx.OO.defineClass("qx.ui.listview.HeaderCell", qx.ui.basic.Atom,
 function(vConfig, vId)
 {
   qx.ui.basic.Atom.call(this, vConfig.label, vConfig.icon, vConfig.iconWidth, vConfig.iconHeight, vConfig.flash);
 
   // Text Overflow
-  this.setStyleProperty(qx.constant.Style.PROPERTY_OVERFLOW_TEXT, qx.constant.Style.OVERFLOW_ELLIPSIS);
+  this.setStyleProperty("textOverflow", "ellipsis");
 
 
   // ************************************************************************
@@ -41,7 +41,7 @@ function(vConfig, vId)
   // ************************************************************************
   //   ARGUMENTS
   // ************************************************************************
-  this.setWidth(typeof vConfig.width === qx.constant.Type.UNDEFINED ? qx.constant.Core.AUTO : vConfig.width);
+  this.setWidth(typeof vConfig.width === "undefined" ? "auto" : vConfig.width);
 
   if (qx.util.Validation.isValid(vConfig.minWidth)) {
     this.setMinWidth(vConfig.minWidth);
@@ -76,13 +76,13 @@ function(vConfig, vId)
   //   EVENTS
   // ************************************************************************
 
-  this.addEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
-  this.addEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover);
-  this.addEventListener(qx.constant.Event.MOUSEOUT, this._onmouseout);
+  this.addEventListener("mouseup", this._onmouseup);
+  this.addEventListener("mouseover", this._onmouseover);
+  this.addEventListener("mouseout", this._onmouseout);
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "list-view-header-cell" });
-qx.OO.addProperty({ name : "sortOrder", type : qx.constant.Type.STRING, allowNull : true, possibleValues : [ "ascending", "descending" ] });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "list-view-header-cell" });
+qx.OO.addProperty({ name : "sortOrder", type : "string", allowNull : true, possibleValues : [ "ascending", "descending" ] });
 
 qx.Class.C_SORT_ASCENDING = "ascending";
 qx.Class.C_SORT_DESCENDING = "descending";
@@ -105,11 +105,11 @@ qx.Proto.getNextSortOrder = function()
 
   switch(vCurrentSortOrder)
   {
-    case qx.ui.listview.ListViewHeaderCell.C_SORT_ASCENDING:
-      return qx.ui.listview.ListViewHeaderCell.C_SORT_DESCENDING;
+    case qx.ui.listview.HeaderCell.C_SORT_ASCENDING:
+      return qx.ui.listview.HeaderCell.C_SORT_DESCENDING;
 
     default:
-      return qx.ui.listview.ListViewHeaderCell.C_SORT_ASCENDING;
+      return qx.ui.listview.HeaderCell.C_SORT_ASCENDING;
   }
 }
 
@@ -126,7 +126,7 @@ qx.Proto.updateSort = function()
     return vSortMethod(a[vFieldId][vSortProp], b[vFieldId][vSortProp]);
   });
 
-  if (this.getSortOrder() == qx.ui.listview.ListViewHeaderCell.C_SORT_DESCENDING) {
+  if (this.getSortOrder() == qx.ui.listview.HeaderCell.C_SORT_DESCENDING) {
     vData.reverse();
   }
 }
@@ -147,14 +147,14 @@ qx.Proto._modifySortOrder = function(propValue, propOldValue, propData)
 
   switch(propValue)
   {
-    case qx.ui.listview.ListViewHeaderCell.C_SORT_ASCENDING:
+    case qx.ui.listview.HeaderCell.C_SORT_ASCENDING:
       this._arrowup.setDisplay(true);
       this._arrowdown.setDisplay(false);
 
       vListView.setSortBy(this._id);
       break;
 
-    case qx.ui.listview.ListViewHeaderCell.C_SORT_DESCENDING:
+    case qx.ui.listview.HeaderCell.C_SORT_DESCENDING:
       this._arrowup.setDisplay(false);
       this._arrowdown.setDisplay(true);
 
@@ -192,11 +192,11 @@ qx.Proto._modifySortOrder = function(propValue, propOldValue, propData)
 */
 
 qx.Proto._onmouseover = function(e) {
-  this.addState(qx.ui.core.Widget.STATE_OVER);
+  this.addState("over");
 }
 
 qx.Proto._onmouseout = function(e) {
-  this.removeState(qx.ui.core.Widget.STATE_OVER);
+  this.removeState("over");
 }
 
 qx.Proto._onmouseup = function(e)
@@ -247,9 +247,9 @@ qx.Proto.dispose = function()
     this._arrowdown = null;
   }
 
-  this.removeEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
-  this.removeEventListener(qx.constant.Event.MOUSEOVER, this._onmouseover);
-  this.removeEventListener(qx.constant.Event.MOUSEOUT, this._onmouseout);
+  this.removeEventListener("mouseup", this._onmouseup);
+  this.removeEventListener("mouseover", this._onmouseover);
+  this.removeEventListener("mouseout", this._onmouseout);
 
   return qx.ui.basic.Atom.prototype.dispose.call(this);
 }

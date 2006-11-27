@@ -28,7 +28,7 @@
  */
 qx.OO.defineClass("qx.ui.core.ScrollBar", qx.ui.layout.BoxLayout,
 function(horizontal) {
-  qx.ui.layout.BoxLayout.call(this, horizontal ? qx.constant.Layout.ORIENTATION_HORIZONTAL : qx.constant.Layout.ORIENTATION_VERTICAL);
+  qx.ui.layout.BoxLayout.call(this, horizontal ? "horizontal" : "vertical");
 
   this._horizontal = (horizontal == true);
 
@@ -39,9 +39,9 @@ function(horizontal) {
     //     Linux the horizontal scrollbar is too high)
     this._scrollBar.setStyleProperty("position", "");
   }
-  this._scrollBar.setOverflow(horizontal ? qx.constant.Style.OVERFLOW_HORIZONTAL : qx.constant.Style.OVERFLOW_VERTICAL);
-  this._scrollBar.enableInlineEvent(qx.constant.Event.SCROLL);
-  this._scrollBar.addEventListener(qx.constant.Event.SCROLL, this._onscroll, this);
+  this._scrollBar.setOverflow(horizontal ? "scrollX" : "scrollY");
+  this._scrollBar.enableInlineEvent("scroll");
+  this._scrollBar.addEventListener("scroll", this._onscroll, this);
 
   this._scrollContent = new qx.ui.basic.Terminator;
   if (qx.sys.Client.getInstance().isGecko()) {
@@ -57,7 +57,7 @@ function(horizontal) {
     // IE needs that the scrollbar element has a width of +1
     if (qx.sys.Client.getInstance().isMshtml()) {
       this.setHeight(this._getScrollBarWidth());
-      this.setOverflow(qx.constant.Style.OVERFLOW_HIDDEN);
+      this.setOverflow("hidden");
       this._scrollBar.setHeight(this._getScrollBarWidth() + 1);
       this._scrollBar.setTop(-1);
     }
@@ -69,7 +69,7 @@ function(horizontal) {
     // IE needs that the scrollbar element has a width of +1
     if (qx.sys.Client.getInstance().isMshtml()) {
       this.setWidth(this._getScrollBarWidth());
-      this.setOverflow(qx.constant.Style.OVERFLOW_HIDDEN);
+      this.setOverflow("hidden");
       this._scrollBar.setWidth(this._getScrollBarWidth() + 1);
       this._scrollBar.setLeft(-1);
     }
@@ -87,7 +87,7 @@ function(horizontal) {
  *
  * @see #maximum
  */
-qx.OO.addProperty({ name:"value", type:qx.constant.Type.NUMBER, defaultValue:0, allowNull:false });
+qx.OO.addProperty({ name:"value", type:"number", defaultValue:0, allowNull:false });
 
 /**
  * The maximum value of the scroll bar. Note that the size of the scroll bar is
@@ -95,14 +95,14 @@ qx.OO.addProperty({ name:"value", type:qx.constant.Type.NUMBER, defaultValue:0, 
  *
  * @see #value
  */
-qx.OO.addProperty({ name:"maximum", type:qx.constant.Type.NUMBER, allowNull:false });
+qx.OO.addProperty({ name:"maximum", type:"number", allowNull:false });
 
 /**
  * Whether to merge consecutive scroll event. If true, events will be collected
  * until the user stops scrolling, so the scroll bar itself will move smoothly
  * and the scrolled content will update asynchroniously.
  */
-qx.OO.addProperty({ name:"mergeEvents", type:qx.constant.Type.BOOLEAN, defaultValue:false, allowNull:false });
+qx.OO.addProperty({ name:"mergeEvents", type:"boolean", defaultValue:false, allowNull:false });
 
 
 // property checker

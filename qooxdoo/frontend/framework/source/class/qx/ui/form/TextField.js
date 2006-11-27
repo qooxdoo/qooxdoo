@@ -32,7 +32,7 @@ function(vValue)
   // ************************************************************************
   qx.ui.basic.Terminator.call(this);
 
-  if (typeof vValue === qx.constant.Type.STRING) {
+  if (typeof vValue === "string") {
     this.setValue(vValue);
   }
 
@@ -50,10 +50,10 @@ function(vValue)
   // ************************************************************************
   //   EVENTS
   // ************************************************************************
-  this.enableInlineEvent(qx.constant.Event.INPUT);
+  this.enableInlineEvent("input");
 
-  this.addEventListener(qx.constant.Event.BLUR, this._onblur);
-  this.addEventListener(qx.constant.Event.FOCUS, this._onfocus);
+  this.addEventListener("blur", this._onblur);
+  this.addEventListener("focus", this._onfocus);
 });
 
 
@@ -66,22 +66,22 @@ function(vValue)
 */
 
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "text-field" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "text-field" });
 
-qx.OO.addProperty({ name : "value", type : qx.constant.Type.STRING, defaultValue : qx.constant.Core.EMPTY });
-qx.OO.addProperty({ name : "maxLength", type : qx.constant.Type.NUMBER });
-qx.OO.addProperty({ name : "readOnly", type : qx.constant.Type.BOOLEAN });
+qx.OO.addProperty({ name : "value", type : "string", defaultValue : "" });
+qx.OO.addProperty({ name : "maxLength", type : "number" });
+qx.OO.addProperty({ name : "readOnly", type : "boolean" });
 
-qx.OO.addProperty({ name : "selectionStart", type : qx.constant.Type.NUMBER });
-qx.OO.addProperty({ name : "selectionLength", type : qx.constant.Type.NUMBER });
-qx.OO.addProperty({ name : "selectionText", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "selectionStart", type : "number" });
+qx.OO.addProperty({ name : "selectionLength", type : "number" });
+qx.OO.addProperty({ name : "selectionText", type : "string" });
 
-qx.OO.addProperty({ name : "validator", type : qx.constant.Type.FUNCTION });
+qx.OO.addProperty({ name : "validator", type : "function" });
 
 /*!
   The font property describes how to paint the font on the widget.
 */
-qx.OO.addProperty({ name : "font", type : qx.constant.Type.OBJECT, instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache, allowMultipleArguments : true });
+qx.OO.addProperty({ name : "font", type : "object", instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache, allowMultipleArguments : true });
 
 
 
@@ -105,14 +105,14 @@ qx.Proto._clonePropertyIgnoreList += ",selectionStart,selectionLength,selectionT
 
 qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
 {
-  propValue ? this.removeHtmlAttribute(qx.constant.Core.DISABLED) : this.setHtmlAttribute(qx.constant.Core.DISABLED, qx.constant.Core.DISABLED);
+  propValue ? this.removeHtmlAttribute("disabled") : this.setHtmlAttribute("disabled", "disabled");
   return qx.ui.basic.Terminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
 }
 
 qx.Proto._modifyValue = function(propValue, propOldValue, propData)
 {
   this._inValueProperty = true;
-  this.setHtmlProperty(propData.name, propValue == null ? qx.constant.Core.EMPTY : propValue);
+  this.setHtmlProperty(propData.name, propValue == null ? "" : propValue);
   delete this._inValueProperty;
 
   return true;
@@ -231,7 +231,7 @@ if (qx.sys.Client.getInstance().isMshtml())
   qx.Proto._ieFirstInputFix = function()
   {
     this._inValueProperty = true;
-    this.getElement().value = this.getValue() === null ? qx.constant.Core.EMPTY : this.getValue();
+    this.getElement().value = this.getValue() === null ? "" : this.getValue();
     this._firstInputFixApplied = true;
     delete this._inValueProperty;
   }
@@ -405,7 +405,7 @@ if (qx.sys.Client.getInstance().isMshtml())
     var vSelectionRange = this._getSelectionRange();
 
     if (!this.getElement().contains(vSelectionRange.parentElement())) {
-      return qx.constant.Core.EMPTY;
+      return "";
     }
 
     return vSelectionRange.text;
@@ -531,8 +531,8 @@ qx.Proto.dispose = function()
     return;
   }
 
-  this.removeEventListener(qx.constant.Event.BLUR, this._onblur);
-  this.removeEventListener(qx.constant.Event.FOCUS, this._onfocus);
+  this.removeEventListener("blur", this._onblur);
+  this.removeEventListener("focus", this._onfocus);
 
   qx.ui.basic.Terminator.prototype.dispose.call(this);
 }
