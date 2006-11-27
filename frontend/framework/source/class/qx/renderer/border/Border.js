@@ -49,6 +49,7 @@ function(vWidth, vStyle, vColor)
   }
 });
 
+
 qx.Class.enhancedCrossBrowserMode = true;
 
 qx.Proto._needsCompilationTop = true;

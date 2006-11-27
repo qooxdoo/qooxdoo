@@ -181,10 +181,6 @@ qx.Class._escapeHtmlReplacer = function(str) {
 qx.Class._numberFormat = new qx.util.format.NumberFormat();
 qx.Class._numberFormat.setMaximumFractionDigits(2);
 
-qx.Class.INTERNAL_STYLE_ALIGN_RIGHT = ';text-align:right';
-qx.Class.INTERNAL_STYLE_BOLD= ';font-weight:bold';
-qx.Class.INTERNAL_STYLE_ITALIC = ';font-style:italic';
-
 qx.Class.STYLEFLAG_ALIGN_RIGHT = 1;
 qx.Class.STYLEFLAG_BOLD = 2;
 qx.Class.STYLEFLAG_ITALIC = 4;
