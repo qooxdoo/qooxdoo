@@ -30,6 +30,7 @@
 \bqx\.ui\.core\.Widget\.TAB_VALUE_IGNORE\b="ignore"
 \bqx\.ui\.core\.Widget\.TAB_VALUE_NORMAL\b="normal"
 \bqx\.ui\.core\.Widget\.TAB_VALUE_ON\b="on"
+\bqx\.ui\.core\.Widget\.SEL_VALUE_ON\b="on"
 \bqx\.ui\.core\.Widget\.SEL_PROPERTY_UNSELECTABLE\b="unselectable"
 \bqx\.ui\.core\.Widget\.SEL_PROPERTY_USERSELECT\b="userSelect"
 \bqx\.ui\.core\.Widget\.SEL_PROPERTY_MOZUSERSELECT\b="MozUserSelect"
@@ -38,6 +39,7 @@
 \bqx\.ui\.core\.Widget\.OPACITY_FILTER_STOP\b=")"
 \bqx\.ui\.core\.Widget\.OPACITY_FILTER_REGEXP = /Alpha\(Opacity\=([0-9]{1,3})\)/
 \bqx\.ui\.core\.Widget\.OPACITY_PROPERTY_CSS3\b="opacity"
+\bqx\.ui\.core\.Widget\.OPACTIY_PROPERTY_MOZ\b="MozOpacity"
 \bqx\.ui\.core\.Widget\.OPACITY_PROPERTY_MOZ\b="MozOpacity"
 \bqx\.ui\.core\.Widget\.OPACITY_PROPERTY_KHTML\b="KhtmlOpacity"
 \bqx\.ui\.core\.Widget\.CURSOR_PROPERTY\b="cursor"
@@ -62,3 +64,5 @@
 \bqx\.ui\.core\.Widget\.SCROLL_VALUE_MOZNONE\b="-moz-scrollbars-none"
 \bqx\.ui\.core\.Widget\.SCROLL_VALUE_MOZSCROLLX\b="-moz-scrollbars-horizontal"
 \bqx\.ui\.core\.Widget\.SCROLL_VALUE_MOZSCROLLY\b="-moz-scrollbars-vertical"
+\bqx\.ui\.core\.Widget\.INLINE_EVENTTYPE\b="propertychange"
+\bqx\.ui\.core\.Widget\.INLINE_EVENTTYPE_PROPERTY\b="value"
