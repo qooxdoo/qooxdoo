@@ -52,11 +52,6 @@ function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
 
 qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "button" });
 
-qx.Class.STATE_CHECKED = "checked";
-qx.Class.STATE_PRESSED = "pressed";
-qx.Class.STATE_ABANDONED = "abandoned";
-
-
 
 
 /*

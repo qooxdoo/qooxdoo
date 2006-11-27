@@ -40,13 +40,6 @@ function(vBoundedWidget)
   }
 });
 
-qx.Class.STATE_SELECTED = "selected";
-qx.Class.STATE_ANCHOR = "anchor";
-qx.Class.STATE_LEAD = "lead";
-
-
-
-
 
 
 /*
