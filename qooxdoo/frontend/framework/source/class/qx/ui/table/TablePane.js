@@ -481,25 +481,7 @@ qx.Proto.dispose = function() {
 qx.Class.USE_ARRAY_JOIN = false;
 qx.Class.USE_TABLE = false;
 
-qx.Class.ARRAY_JOIN_ROW_DIV_START = '<div style="position:absolute;font-family:\'Segoe UI\', Corbel, Calibri, Tahoma, \'Lucida Sans Unicode\', sans-serif;font-size:11px;left:0px;top:';
-qx.Class.ARRAY_JOIN_ROW_DIV_WIDTH = 'px;width:';
-qx.Class.ARRAY_JOIN_ROW_DIV_HEIGHT = 'px;height:';
-qx.Class.ARRAY_JOIN_ROW_DIV_BG_COLOR = 'px';
-qx.Class.ARRAY_JOIN_ROW_DIV_START_END = '">';
-qx.Class.ARRAY_JOIN_ROW_DIV_END = '</div>';
 
 qx.Class.CONTENT_ROW_FONT_FAMILY = '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif';
 qx.Class.CONTENT_ROW_FONT_SIZE = "11px";
-qx.Class.CONTENT_CELL_STYLE_LEFT = 'position:absolute;left:';
-qx.Class.CONTENT_CELL_STYLE_WIDTH = 'px;top:0px;width:';
-qx.Class.CONTENT_CELL_STYLE_HEIGHT = 'px; height:';
 
-qx.Class.TABLE_START = '<table cellspacing="0" cellpadding="0" style="table-layout:fixed;font-family:\'Segoe UI\', Corbel, Calibri, Tahoma, \'Lucida Sans Unicode\', sans-serif;font-size:11px;width:';
-qx.Class.TABLE_COLGROUP = 'px"><colgroup>';
-qx.Class.TABLE_COL = '<col width="';
-qx.Class.TABLE_COLEND = '"/>';
-qx.Class.TABLE_TBODY = '</colgroup><tbody>';
-qx.Class.TABLE_TR = '<tr style="height:';
-qx.Class.TABLE_HEIGHT_END = 'px';
-qx.Class.TABLE_TR_END = "</tr>";
-qx.Class.TABLE_TBODY_END = '</tbody></table>';
