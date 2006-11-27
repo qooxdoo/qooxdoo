@@ -929,8 +929,8 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     # XHTML-compatible: create and append DOM script nodes 
     jsLoaders["domappend"] = """if(document.createElementNS&&parentNode.namespaceURI)""" + srcEol + """var includeJs=function(src){var js=document.createElementNS(parentNode.namespaceURI,"script");js.type="text/javascript";js.src=src;parentNode.appendChild(js)};""" + srcEol + """else """ + srcEol + """var includeJs=function(src){var js=document.createElement("script");js.type="text/javascript";js.src=src;parentNode.appendChild(js)};"""
 
-    # Source loader function
-    sourceOutput += """qx._loadSources=function(sources){""" + srcEol
+    # Source loader closure
+    sourceOutput += """(function(sources){""" + srcEol
 
     # Detect the node we are being called from
     sourceOutput += """var parentNode=document.getElementsByTagName('body')[0]||document.getElementsByTagName('head')[0];""" + srcEol
@@ -974,7 +974,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
       sourceOutput += jsLoaders[options.sourceLoaderType] + srcEol
 
     # Loading loop
-    sourceOutput += """for(var i=0;i<sources.length;++i)includeJs(sources[i])};""" + srcEol
+    sourceOutput += """for(var i=0;i<sources.length;++i)includeJs(sources[i])})""" + srcEol
 
     sources = ""
     for fileId in sortedIncludeList:
@@ -984,14 +984,8 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
       sources += srcEol + '"%s%s",' % (os.path.join(fileDb[fileId]["sourceScriptPath"], fileDb[fileId]["pathId"].replace(".", os.sep)), config.JSEXT) 
 
-    # Array with source files to include
-    sourceOutput += "qx._sources=[" + sources[:-1] + srcEol + "];" + srcEol
-
-    # Load sources
-    sourceOutput += """qx._loadSources(qx._sources);""" + srcEol
-
-    # Cleanup qx namespace
-    sourceOutput += "delete qx._sources;delete qx._loadSources;" + srcEol
+    # Pass the array with source files to include
+    sourceOutput += "([" + sources[:-1] + srcEol + "]);" + srcEol
 
     print "  * Storing output as %s..." % options.sourceScriptFile
     filetool.save(options.sourceScriptFile, sourceOutput, options.scriptOutputEncoding)
