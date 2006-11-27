@@ -24,7 +24,6 @@
 
 #module(io_remote)
 #require(qx.io.remote.Exchange)
-#require(qx.constant.Mime)
 
 ************************************************************************ */
 

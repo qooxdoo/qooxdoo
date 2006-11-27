@@ -165,6 +165,7 @@
 \bqx\.constant\.Net\.NAMESPACE_SOAPENV\b=qx.xml.Namespace.SOAPENV
 \bqx\.constant\.Net\.NAMESPACE_WSDL\b=qx.xml.Namespace.WSDL
 \bqx\.constant\.Net\.NAMESPACE_ADOBESVGEXTENSIONS\b=qx.xml.Namespace.ADOBESVGEXTENSIONS
+\bqx\.constant\.Net\b=qx.xml.Namespace
 \bqx\.constant\.Net\.STATE_CREATED\b="created"
 \bqx\.constant\.Net\.STATE_CONFIGURED\b="configured"
 \bqx\.constant\.Net\.STATE_QUEUED\b="queued"
@@ -187,6 +188,7 @@
 \bqx\.constant\.Net\.METHOD_PUT\b=qx.net.Http.PUT
 \bqx\.constant\.Net\.METHOD_HEAD\b=qx.net.Http.HEAD
 \bqx\.constant\.Net\.METHOD_DELETE\b=qx.net.Http.DELETE
+\bqx\.constant\.Net\b=qx.net.Protocol
 
 
 
