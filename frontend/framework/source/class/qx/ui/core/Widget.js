@@ -2140,8 +2140,8 @@ qx.ui.core.Widget.initApplyMethods = function()
   var f = "_applyRuntime";
   var r = "_resetRuntime";
   var s = "this._style.";
-  var e = "=""";
-  var v = "=v+"px"";
+  var e = "=''";
+  var v = "=v+'px'";
   var vpar = "v";
 
   var props = ["left", "right", "top", "bottom", "width", "height",

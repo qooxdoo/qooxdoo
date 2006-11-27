@@ -40,45 +40,6 @@ qx.Class.resetter = {};
 qx.Class.values = {};
 qx.Class.propertyNumber = 0;
 
-qx.Class.C_SET = "set";
-qx.Class.C_GET = "get";
-qx.Class.C_APPLY = "apply";
-qx.Class.C_RESET = "reset";
-qx.Class.C_FORCE = "force";
-qx.Class.C_TOGGLE = "toggle";
-qx.Class.C_CHANGE = "change";
-qx.Class.C_STORE = "store";
-qx.Class.C_RETRIEVE = "retrieve";
-qx.Class.C_PRIVATECHANGE = "_change";
-qx.Class.C_INVALIDATE = "_invalidate";
-qx.Class.C_INVALIDATED = "_invalidated";
-qx.Class.C_RECOMPUTE = "_recompute";
-qx.Class.C_CACHED = "_cached";
-qx.Class.C_COMPUTE = "_compute";
-qx.Class.C_COMPUTED = "_computed";
-qx.Class.C_UNITDETECTION = "_unitDetection";
-
-qx.Class.C_GLOBALPROPERTYREF = "PROPERTY_";
-
-qx.Class.C_UNIT_VALUE = "Value";
-qx.Class.C_UNIT_PARSED = "Parsed";
-qx.Class.C_UNIT_TYPE = "Type";
-qx.Class.C_UNIT_TYPE_NULL = "TypeNull";
-qx.Class.C_UNIT_TYPE_PIXEL = "TypePixel";
-qx.Class.C_UNIT_TYPE_PERCENT = "TypePercent";
-qx.Class.C_UNIT_TYPE_AUTO = "TypeAuto";
-qx.Class.C_UNIT_TYPE_FLEX = "TypeFlex";
-
-qx.Class.C_GETDEFAULT = "getDefault";
-qx.Class.C_SETDEFAULT = "setDefault";
-qx.Class.C_RETRIEVEDEFAULT = "retrieveDefault";
-qx.Class.C_STOREDEFAULT = "storeDefault";
-
-qx.Class.C_VALUE = "_value";
-qx.Class.C_NULL = "_null";
-qx.Class.C_EVAL = "_eval";
-qx.Class.C_CHECK = "_check";
-qx.Class.C_MODIFY = "_modify";
 
 
 
