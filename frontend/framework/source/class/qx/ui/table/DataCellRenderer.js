@@ -41,6 +41,7 @@ function() {
  *   {@link TableModel#getRowData()}</li>
  * <li>row (int): the model index of the row the cell belongs to.</li>
  * <li>col (int): the model index of the column the cell belongs to.</li>
+ * <li>table (qx.ui.table.Table): the table the cell belongs to.</li>
  * <li>xPos (int): the x position of the cell in the table pane.</li>
  * <li>selected (boolean): whether the cell is selected.</li>
  * <li>focusedCol (boolean): whether the cell is in the same column as the

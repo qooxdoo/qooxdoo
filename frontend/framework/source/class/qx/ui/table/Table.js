@@ -18,6 +18,7 @@
 /* ************************************************************************
 
 #module(ui_table)
+#require(qx.ui.table.DefaultDataRowRenderer)
 
 ************************************************************************ */
 
@@ -62,10 +63,16 @@ function(tableModel) {
   this.setTabIndex(1);
   this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
   this.addEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
+  this.addEventListener("changeFocused", this._onFocusChanged);
 
   this._focusedCol = 0;
   this._focusedRow = 0;
 });
+
+
+/** The default row renderer to use when {@link #dataRowRenderer} is null. */
+qx.Class.DEFAULT_DATA_ROW_RENDERER = new qx.ui.table.DefaultDataRowRenderer();
+
 
 /** The selection model. */
 qx.OO.addProperty({ name:"selectionModel", type:qx.constant.Type.OBJECT, instance : "qx.ui.table.SelectionModel" });
@@ -112,6 +119,9 @@ qx.OO.addProperty({ name:"alwaysUpdateCells", type:qx.constant.Type.BOOLEAN, def
 
 /** The height of the header cells. */
 qx.OO.addProperty({ name:"headerCellHeight", type:qx.constant.Type.NUMBER, defaultValue:16, allowNull:false });
+
+/** The renderer to use for styling the rows. */
+qx.OO.addProperty({ name:"dataRowRenderer", type:qx.constant.Type.OBJECT, instance:"qx.ui.table.DataRowRenderer", defaultValue:qx.Class.DEFAULT_DATA_ROW_RENDERER, allowNull:false });
 
 
 // property modifier
@@ -529,6 +539,17 @@ qx.Proto._onkeypress = function(evt)
   if (consumed) {
     evt.preventDefault();
     evt.stopPropagation();
+  }
+};
+
+
+/**
+ * Event handler. Called when the table gets the focus.
+ */
+qx.Proto._onFocusChanged = function(evt) {
+  var scrollerArr = this._getPaneScrollerArr();
+  for (var i = 0; i < scrollerArr.length; i++) {
+    scrollerArr[i]._onFocusChanged(evt);
   }
 };
 
