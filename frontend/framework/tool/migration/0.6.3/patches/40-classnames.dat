@@ -47,6 +47,8 @@
 \bqx\.ui\.menu\.MenuCheckBox\b=qx.ui.menu.CheckBox
 \bqx\.ui\.menu\.MenuButton\b=qx.ui.menu.Button
 \bqx\.ui\.menu\.MenuSeparator\b=qx.ui.menu.Separator
+\bqx\.ui\.menu\.MenuBar\b=qx.ui.menubar.MenuBar
+\bqx\.ui\.menu\.MenuBarButton\b=qx.ui.menubar.Button
 
 \bqx\.ui\.pageview\.buttonview\.ButtonViewPage\b=qx.ui.pageview.buttonview.Page
 \bqx\.ui\.pageview\.buttonview\.ButtonViewPane\b=qx.ui.pageview.buttonview.Pane
