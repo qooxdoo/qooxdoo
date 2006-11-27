@@ -288,6 +288,16 @@ qx.Proto._onSelectionChanged = function(evt) {
 
 
 /**
+ * Event handler. Called when the table gets or looses the focus.
+ */
+qx.Proto._onFocusChanged = function(evt) {
+  this._focusIndicator.setState("tableHasFocus", this.getTable().getFocused());
+
+  this._tablePane._onFocusChanged(evt);
+};
+
+
+/**
  * Event handler. Called when the table model meta data has changed.
  *
  * @param evt {Map} the event.

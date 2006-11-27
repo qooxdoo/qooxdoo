@@ -46,9 +46,6 @@ qx.OO.addProperty({ name:"firstVisibleRow", type:qx.constant.Type.NUMBER, defaul
 /** The number of rows to show. */
 qx.OO.addProperty({ name:"visibleRowCount", type:qx.constant.Type.NUMBER, defaultValue:0 });
 
-/** Whether the focused row should be highlighted. */
-qx.OO.addProperty({ name:"highlightFocusRow", type:qx.constant.Type.BOOLEAN, allowNull:false, defaultValue:true});
-
 
 // property modifier
 qx.Proto._modifyFirstVisibleRow = function(propValue, propOldValue, propData) {
@@ -130,6 +127,14 @@ qx.Proto.setFocusedCell = function(col, row, massUpdate) {
 qx.Proto._onSelectionChanged = function(evt) {
   this._updateContent(false, null, true);
 }
+
+
+/**
+ * Event handler. Called when the table gets or looses the focus.
+ */
+qx.Proto._onFocusChanged = function(evt) {
+  this._updateContent(false, null, true);
+};
 
 
 /**
@@ -221,13 +226,16 @@ qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
 {
   var TablePane = qx.ui.table.TablePane;
 
-  var selectionModel = this.getTable().getSelectionModel();
-  var tableModel = this.getTable().getTableModel();
-  var columnModel = this.getTable().getTableColumnModel();
+  var table = this.getTable();
+
+  var selectionModel = table.getSelectionModel();
+  var tableModel = table.getTableModel();
+  var columnModel = table.getTableColumnModel();
   var paneModel = this.getPaneScroller().getTablePaneModel();
+  var rowRenderer = table.getDataRowRenderer();
 
   var colCount = paneModel.getColumnCount();
-  var rowHeight = this.getTable().getRowHeight();
+  var rowHeight = table.getRowHeight();
 
   var firstRow = this.getFirstVisibleRow();
   var rowCount = this.getVisibleRowCount();
@@ -236,7 +244,7 @@ qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
     rowCount = Math.max(0, modelRowCount - firstRow);
   }
 
-  var cellInfo = {};
+  var cellInfo = { table:table };
   cellInfo.styleHeight = rowHeight;
 
   var htmlArr = [];
@@ -271,7 +279,7 @@ qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
     if (TablePane.USE_TABLE) {
       htmlArr.push(TablePane.TABLE_TR);
       htmlArr.push(rowHeight);
-      htmlArr.push(TablePane.TABLE_BGCOLOR);
+      htmlArr.push(TablePane.TABLE_HEIGHT_END);
     } else {
       htmlArr.push(TablePane.ARRAY_JOIN_ROW_DIV_START);
       htmlArr.push(y * rowHeight);
@@ -282,13 +290,8 @@ qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
       htmlArr.push(TablePane.ARRAY_JOIN_ROW_DIV_BG_COLOR);
     }
 
-    if (cellInfo.focusedRow && this.getHighlightFocusRow()) {
-      htmlArr.push(cellInfo.selected ? TablePane.CONTENT_BGCOL_FOCUSED_SELECTED : TablePane.CONTENT_BGCOL_FOCUSED);
-    } else {
-      htmlArr.push(cellInfo.selected ? TablePane.CONTENT_BGCOL_SELECTED : ((cellInfo.row % 2 == 0) ? TablePane.CONTENT_BGCOL_EVEN : TablePane.CONTENT_BGCOL_ODD));
-    }
-    htmlArr.push(TablePane.ARRAY_JOIN_ROW_DIV_COLOR);
-    htmlArr.push(cellInfo.selected ? TablePane.CONTENT_COL_SELECTED : TablePane.CONTENT_COL);
+    rowRenderer._createRowStyle_array_join(cellInfo, htmlArr);
+
     htmlArr.push(TablePane.ARRAY_JOIN_ROW_DIV_START_END);
 
     var left = 0;
@@ -345,6 +348,7 @@ qx.Proto._updateContent_orig = function(completeUpdate, onlyRow,
   var tableModel = table.getTableModel();
   var columnModel = table.getTableColumnModel();
   var paneModel = this.getPaneScroller().getTablePaneModel();
+  var rowRenderer = table.getDataRowRenderer();
 
   var colCount = paneModel.getColumnCount();
   var rowHeight = table.getRowHeight();
@@ -368,7 +372,7 @@ qx.Proto._updateContent_orig = function(completeUpdate, onlyRow,
 
   var elem = this.getElement();
   var childNodes = elem.childNodes;
-  var cellInfo = {};
+  var cellInfo = { table:table };
   tableModel.prefetchRows(firstRow, firstRow + rowCount - 1);
   for (var y = 0; y < rowCount; y++) {
     var row = firstRow + y;
@@ -402,12 +406,7 @@ qx.Proto._updateContent_orig = function(completeUpdate, onlyRow,
       recyleRowElem = false;
     }
 
-    if (cellInfo.focusedRow && this.getHighlightFocusRow()) {
-      rowElem.style.backgroundColor = cellInfo.selected ? TablePane.CONTENT_BGCOL_FOCUSED_SELECTED : TablePane.CONTENT_BGCOL_FOCUSED;
-    } else {
-      rowElem.style.backgroundColor = (cellInfo.selected ? TablePane.CONTENT_BGCOL_SELECTED : ((cellInfo.row % 2 == 0) ? TablePane.CONTENT_BGCOL_EVEN : TablePane.CONTENT_BGCOL_ODD));
-    }
-    rowElem.style.color = cellInfo.selected ? TablePane.CONTENT_COL_SELECTED : TablePane.CONTENT_COL;
+    rowRenderer.updateDataRowElement(cellInfo, rowElem);
 
     if (alwaysUpdateCells || !recyleRowElem || !onlySelectionOrFocusChanged) {
       var html = "";
@@ -485,20 +484,12 @@ qx.Class.USE_TABLE = false;
 qx.Class.ARRAY_JOIN_ROW_DIV_START = '<div style="position:absolute;font-family:\'Segoe UI\', Corbel, Calibri, Tahoma, \'Lucida Sans Unicode\', sans-serif;font-size:11px;left:0px;top:';
 qx.Class.ARRAY_JOIN_ROW_DIV_WIDTH = 'px;width:';
 qx.Class.ARRAY_JOIN_ROW_DIV_HEIGHT = 'px;height:';
-qx.Class.ARRAY_JOIN_ROW_DIV_BG_COLOR = 'px;background-color:';
-qx.Class.ARRAY_JOIN_ROW_DIV_COLOR = ';color:';
+qx.Class.ARRAY_JOIN_ROW_DIV_BG_COLOR = 'px';
 qx.Class.ARRAY_JOIN_ROW_DIV_START_END = '">';
 qx.Class.ARRAY_JOIN_ROW_DIV_END = '</div>';
 
 qx.Class.CONTENT_ROW_FONT_FAMILY = '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif';
 qx.Class.CONTENT_ROW_FONT_SIZE = "11px";
-qx.Class.CONTENT_BGCOL_FOCUSED_SELECTED = "#5a8ad3";
-qx.Class.CONTENT_BGCOL_FOCUSED = "#ddeeff";
-qx.Class.CONTENT_BGCOL_SELECTED = "#335ea8";
-qx.Class.CONTENT_BGCOL_EVEN = "#faf8f3";
-qx.Class.CONTENT_BGCOL_ODD = "white";
-qx.Class.CONTENT_COL_SELECTED = "white";
-qx.Class.CONTENT_COL = "black";
 qx.Class.CONTENT_CELL_STYLE_LEFT = 'position:absolute;left:';
 qx.Class.CONTENT_CELL_STYLE_WIDTH = 'px;top:0px;width:';
 qx.Class.CONTENT_CELL_STYLE_HEIGHT = 'px; height:';
@@ -509,6 +500,6 @@ qx.Class.TABLE_COL = '<col width="';
 qx.Class.TABLE_COLEND = '"/>';
 qx.Class.TABLE_TBODY = '</colgroup><tbody>';
 qx.Class.TABLE_TR = '<tr style="height:';
-qx.Class.TABLE_BGCOLOR = 'px;background-color:';
+qx.Class.TABLE_HEIGHT_END = 'px';
 qx.Class.TABLE_TR_END = "</tr>";
 qx.Class.TABLE_TBODY_END = '</tbody></table>';
