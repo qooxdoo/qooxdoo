@@ -187,16 +187,16 @@ qx.Proto._modifyDate = function(propValue, propOldValue, propData) {
     for (var i = 0; i < 6 * 7; i++) {
       var dayLabel = this._dayLabelArr[i];
 
-      if (dayLabel.hasState(DateChooser.STATE_OTHER_MONTH)) {
-        if (dayLabel.hasState(DateChooser.STATE_SELECTED)) {
-          dayLabel.removeState(DateChooser.STATE_SELECTED);
+      if (dayLabel.hasState("otherMonth")) {
+        if (dayLabel.hasState("selected")) {
+          dayLabel.removeState("selected");
         }
       } else {
         var day = parseInt(dayLabel.getHtml());
         if (day == newDay) {
-          dayLabel.addState(DateChooser.STATE_SELECTED);
-        } else if (dayLabel.hasState(DateChooser.STATE_SELECTED)) {
-          dayLabel.removeState(DateChooser.STATE_SELECTED);
+          dayLabel.addState("selected");
+        } else if (dayLabel.hasState("selected")) {
+          dayLabel.removeState("selected");
         }
       }
     }
@@ -403,9 +403,9 @@ qx.Proto._updateDatePane = function() {
     dayLabel.setHtml(DateChooser.WEEKDAY_FORMAT.format(helpDate));
 
     if (this._isWeekend(day)) {
-      dayLabel.addState(DateChooser.STATE_WEEKEND);
+      dayLabel.addState("weekend");
     } else {
-      dayLabel.removeState(DateChooser.STATE_WEEKEND);
+      dayLabel.removeState("weekend");
     }
   }
 
@@ -425,22 +425,22 @@ qx.Proto._updateDatePane = function() {
 
       var isSelectedDate = (selYear == year && selMonth == month && selDayOfMonth == dayOfMonth);
       if (isSelectedDate) {
-        dayLabel.addState(DateChooser.STATE_SELECTED);
+        dayLabel.addState("selected");
       } else {
-        dayLabel.removeState(DateChooser.STATE_SELECTED);
+        dayLabel.removeState("selected");
       }
 
       if (month != shownMonth) {
-        dayLabel.addState(DateChooser.STATE_OTHER_MONTH);
+        dayLabel.addState("otherMonth");
       } else {
-        dayLabel.removeState(DateChooser.STATE_OTHER_MONTH);
+        dayLabel.removeState("otherMonth");
       }
 
       var isToday = (year == todayYear && month == todayMonth && dayOfMonth == todayDayOfMonth);
       if (isToday) {
-        dayLabel.addState(DateChooser.STATE_TODAY);
+        dayLabel.addState("today");
       } else {
-        dayLabel.removeState(DateChooser.STATE_TODAY);
+        dayLabel.removeState("today");
       }
 
       dayLabel.setHtml("" + dayOfMonth);
@@ -451,22 +451,6 @@ qx.Proto._updateDatePane = function() {
     }
   }
 }
-
-
-/** {string} The state of a week label when it is the header label. */
-qx.Class.STATE_HEADER = "header";
-
-/** {string} The state of a week day label when it belongs to the weekend. */
-qx.Class.STATE_WEEKEND = "weekend";
-
-/** {string} The state of a day label when it doesn't belong to the currently shown month. */
-qx.Class.STATE_OTHER_MONTH = "otherMonth";
-
-/** {string} The state of a day label when it's currently selected. */
-qx.Class.STATE_SELECTED = "selected";
-
-/** {string} The state of a day label when it's today. */
-qx.Class.STATE_TODAY = "today";
 
 
 /**
