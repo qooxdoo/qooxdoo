@@ -84,7 +84,7 @@ clean:
 	@echo "  CLEANUP OF GENERATED FILES"
 	@echo "----------------------------------------------------------------------------"
 	@echo "  * Deleting files..."
-	@rm -f source/script/custom.js build/script/custom.js
+	@rm -f source/script/$(SCRIPTNAME) build/script/$(SCRIPTNAME)
 
 realclean: clean
 	@echo
@@ -115,7 +115,7 @@ generate-script-source:
 	  --source-script-path class \
 	  --generate-source-script $(SOURCELDR) \
 	  $(INCLUDE) \
-	  --source-script-file source/script/custom.js \
+	  --source-script-file source/script/$(SCRIPTNAME) \
 	  --define-runtime-setting qx.core.Init.component:qx.component.init.BasicInitComponent \
 	  --cache-directory $(CACHE)
 
