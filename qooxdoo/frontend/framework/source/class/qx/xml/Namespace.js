@@ -21,7 +21,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.net.Namespace",
+qx.OO.defineClass("qx.xml.Namespace",
 {
   SVG : "http://www.w3.org/2000/svg",
   SMIL : "http://www.w3.org/2001/SMIL20/",
