@@ -132,7 +132,7 @@ if (document.createStyleSheet) // IE 4+
     }
   }
 }
-if (qx.sys.Client.getInstance().isWebkit()) // removeRule in Safari 2 doesn't work
+else if (qx.sys.Client.getInstance().isWebkit()) // removeRule in Safari 2 doesn't work
 {
   qx.dom.DomStyleSheet.removeRule = function(vSheet, vSelector)
   {
@@ -186,7 +186,7 @@ if (document.createStyleSheet) // IE 4+
     }
   }
 }
-if (qx.sys.Client.getInstance().isWebkit()) // removeRule in Safari 2 doesn't work
+else if (qx.sys.Client.getInstance().isWebkit()) // removeRule in Safari 2 doesn't work
 {
   qx.dom.DomStyleSheet.removeAllRules = function(vSheet)
   {
