@@ -27,8 +27,10 @@
 qx.OO.defineClass("qx.util.Textile");
 
 /**
+ * ATTENTION: Deprecated module. Will be removed with qooxdoo 0.7.
+ *
  * Textilizes a string
- * http://www.creatimation.net/journal/textile-live-preview
+ * http://www.creatimation.net/journal/textile-live-preview (offline)
  *
  * @param s {string} Text to be textilized.
  * @return {string} The textilized text.
