@@ -41,7 +41,7 @@ function(vUrl, vMethod, vResponseType)
   this._parameters = {};
 
   this.setUrl(vUrl);
-  this.setMethod(vMethod || qx.net.Http.GET);
+  this.setMethod(vMethod || qx.net.Http.METHOD_GET);
   this.setResponseType(vResponseType || "text/plain");
 
   this.setProhibitCaching(true);
@@ -74,9 +74,9 @@ qx.OO.addProperty(
   name           : "method",
   type           : "string",
   possibleValues : [
-                   qx.net.Http.GET, qx.net.Http.POST,
-                   qx.net.Http.PUT, qx.net.Http.HEAD,
-                   qx.net.Http.DELETE
+                   qx.net.Http.METHOD_GET, qx.net.Http.METHOD_POST,
+                   qx.net.Http.METHOD_PUT, qx.net.Http.METHOD_HEAD,
+                   qx.net.Http.METHOD_DELETE
                    ]
 });
 /*!
@@ -398,7 +398,7 @@ qx.Proto._modifyProhibitCaching = function(propValue, propOldValue, propData)
 
 qx.Proto._modifyMethod = function(propValue, propOldValue, propData)
 {
-  if (propValue === qx.net.Http.POST) {
+  if (propValue === qx.net.Http.METHOD_POST) {
     this.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   }
 

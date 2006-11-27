@@ -187,7 +187,7 @@ qx.Proto._callInternal = function(args, callType, refreshSession) {
     argsArray.push(args[i]);
   }
   var req = new qx.io.remote.Request(this.getUrl(),
-                                           qx.net.Http.POST,
+                                           qx.net.Http.METHOD_POST,
                                            "text/json");
   var requestObject = {
     "service": (refreshSession ? null : this.getServiceName()),

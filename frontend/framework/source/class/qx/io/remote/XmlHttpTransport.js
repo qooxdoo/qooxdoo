@@ -291,6 +291,7 @@ qx.Proto.send = function()
   // --------------------------------------
   //   Opening connection
   // --------------------------------------
+	alert(vMethod + " " + vUrl + " " +  vAsynchronous);
   if (this.getUsername()) {
     if (this.getUseBasicHttpAuth()) {
       vRequest.open(vMethod, vUrl, vAsynchronous);
