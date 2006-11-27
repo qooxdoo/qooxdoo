@@ -429,11 +429,22 @@ qx.Proto.postponeEvent = function(event)
 /**
  * Event listener for all event types in the finite state machine
  *
- * @param e {qx.event.type.Event}
+ * @param event {qx.event.type.Event}
  *   The event that was dispatched.
  */
-qx.Proto.eventListener = function(e)
+qx.Proto.eventListener = function(event)
 {
+  // Events are enqueued upon receipt.  Some events are then processed
+  // immediately; other events get processed later.  We need to allow the
+  // event dispatcher to free the source event upon our return, so we'll clone
+  // it and enqueue our clone.  The source event can then be disposed upon our
+  // return.
+  var e = { };
+  for (var prop in event)
+  {
+    e[prop] = event[prop];
+  }
+
   // Add the event to the event queue
   this._eventQueue.unshift(e);
 
@@ -472,6 +483,9 @@ qx.Proto._processEvents = function()
 
     // Run the finite state machine with this event
     this._run(event);
+
+    // We can now dispose the event
+    event.dispose();
   }
 
   // We're no longer processing events
