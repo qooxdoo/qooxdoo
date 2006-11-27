@@ -183,11 +183,11 @@
 \bqx\.constant\.Net\.URI_HTTPS\b=qx.net.Protocol.URI_HTTPS
 \bqx\.constant\.Net\.URI_FTP\b=qx.net.Protocol.URI_FTP
 \bqx\.constant\.Net\.URI_FILE\b=qx.net.Protocol.URI_FILE
-\bqx\.constant\.Net\.METHOD_GET\b=qx.net.Http.GET
-\bqx\.constant\.Net\.METHOD_POST\b=qx.net.Http.POST
-\bqx\.constant\.Net\.METHOD_PUT\b=qx.net.Http.PUT
-\bqx\.constant\.Net\.METHOD_HEAD\b=qx.net.Http.HEAD
-\bqx\.constant\.Net\.METHOD_DELETE\b=qx.net.Http.DELETE
+\bqx\.constant\.Net\.METHOD_GET\b=qx.net.Http.METHOD_GET
+\bqx\.constant\.Net\.METHOD_POST\b=qx.net.Http.METHOD_POST
+\bqx\.constant\.Net\.METHOD_PUT\b=qx.net.Http.METHOD_PUT
+\bqx\.constant\.Net\.METHOD_HEAD\b=qx.net.Http.METHOD_HEAD
+\bqx\.constant\.Net\.METHOD_DELETE\b=qx.net.Http.METHOD_DELETE
 \bqx\.constant\.Net\b=qx.net.Protocol
 
 
