@@ -277,6 +277,10 @@ qx.Proto.isWebkit = function() {
   return this._engineNameWebkit;
 }
 
+qx.Proto.isSafari2 = function() {
+  return this._engineNameWebkit && (this._engineVersion < 420);
+}
+
 qx.Proto.isInQuirksMode = function() {
   return this._engineQuirksMode;
 }
