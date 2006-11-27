@@ -22,16 +22,16 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.toolbar.ToolBarPart", qx.ui.layout.HorizontalBoxLayout,
+qx.OO.defineClass("qx.ui.toolbar.Part", qx.ui.layout.HorizontalBoxLayout,
 function()
 {
   qx.ui.layout.HorizontalBoxLayout.call(this);
 
-  this._handle = new qx.ui.toolbar.ToolBarPartHandle;
+  this._handle = new qx.ui.toolbar.PartHandle;
   this.add(this._handle);
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "toolbar-part" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "toolbar-part" });
 
 
 
@@ -43,14 +43,14 @@ qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defa
 ---------------------------------------------------------------------------
 */
 
-// Omit recursive cloning of qx.ui.toolbar.ToolBarPartHandle
+// Omit recursive cloning of qx.ui.toolbar.PartHandle
 qx.Proto._cloneRecursive = function(cloneInstance)
 {
   var vChildren = this.getChildren();
   var vLength = vChildren.length;
 
   for (var i=0; i<vLength; i++) {
-    if (!(vChildren[i] instanceof qx.ui.toolbar.ToolBarPartHandle)) {
+    if (!(vChildren[i] instanceof qx.ui.toolbar.PartHandle)) {
       cloneInstance.add(vChildren[i].clone(true));
     }
   }

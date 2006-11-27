@@ -166,12 +166,12 @@ qx.Proto.showColumnMoveFeedback = function(col, x) {
       setHeight(cellWidget.getBoxHeight());
       setZIndex(1000000);
       setOpacity(0.8);
-      setTop(qx.dom.DomLocation.getClientBoxTop(elem));
+      setTop(qx.dom.Location.getClientBoxTop(elem));
     }
     this.getTopLevelWidget().add(this._moveFeedback);
   }
 
-  this._moveFeedback.setLeft(qx.dom.DomLocation.getClientBoxLeft(elem) + x);
+  this._moveFeedback.setLeft(qx.dom.Location.getClientBoxLeft(elem) + x);
 }
 
 
@@ -241,7 +241,7 @@ qx.Proto._updateContent = function(completeUpdate) {
     if (cachedWidget == null) {
       // We have no cached widget -> create it
       cachedWidget = cellRenderer.createHeaderCell(cellInfo);
-      cachedWidget.set({ width:colWidth, height:qx.constant.Core.HUNDREDPERCENT });
+      cachedWidget.set({ width:colWidth, height:"100%" });
 
       this.add(cachedWidget);
     } else {

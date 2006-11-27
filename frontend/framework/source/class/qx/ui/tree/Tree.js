@@ -50,9 +50,9 @@ function(vLabel, vIcon, vIconSelected)
   // ************************************************************************
   //   KEY EVENT LISTENER
   // ************************************************************************
-  this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
-  this.addEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
-  this.addEventListener(qx.constant.Event.KEYUP, this._onkeyup);
+  this.addEventListener("keydown", this._onkeydown);
+  this.addEventListener("keypress", this._onkeypress);
+  this.addEventListener("keyup", this._onkeyup);
 });
 
 
@@ -65,8 +65,8 @@ function(vLabel, vIcon, vIconSelected)
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "useDoubleClick", type : qx.constant.Type.BOOLEAN, defaultValue : false, getAlias : "useDoubleClick" });
-qx.OO.addProperty({ name : "useTreeLines", type : qx.constant.Type.BOOLEAN, defaultValue : true, getAlias : "useTreeLines" });
+qx.OO.addProperty({ name : "useDoubleClick", type : "boolean", defaultValue : false, getAlias : "useDoubleClick" });
+qx.OO.addProperty({ name : "useTreeLines", type : "boolean", defaultValue : true, getAlias : "useTreeLines" });
 
 
 
@@ -326,7 +326,7 @@ qx.Proto._onkeyup = function(e)
     var vOldItem = this._oldItem;
     var vNewItem = this.getManager().getSelectedItem();
 
-    vNewItem.getIconObject().addState(qx.manager.selection.SelectionManager.STATE_SELECTED);
+    vNewItem.getIconObject().addState("selected");
 
     delete this._fastUpdate;
     delete this._oldItem;
@@ -382,9 +382,9 @@ qx.Proto.dispose = function()
     return;
   }
 
-  this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
-  this.removeEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
-  this.removeEventListener(qx.constant.Event.KEYUP, this._onkeyup);
+  this.removeEventListener("keydown", this._onkeydown);
+  this.removeEventListener("keypress", this._onkeypress);
+  this.removeEventListener("keyup", this._onkeyup);
 
   if (this._manager)
   {

@@ -23,7 +23,7 @@
 ************************************************************************ */
 
 /*!
-  Each instance manage vItems set of radio options: qx.ui.form.RadioButton, qx.ui.toolbar.ToolBarRadioButton, ...
+  Each instance manage vItems set of radio options: qx.ui.form.RadioButton, qx.ui.toolbar.RadioButton, ...
 */
 qx.OO.defineClass("qx.manager.selection.RadioManager", qx.core.Target,
 function(vName, vMembers)
@@ -55,7 +55,7 @@ qx.manager.selection.RadioManager.AUTO_NAME_PREFIX = "qx-radio-";
 */
 
 qx.OO.addProperty({ name : "selected" });
-qx.OO.addProperty({ name : "name", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "name", type : "string" });
 
 
 

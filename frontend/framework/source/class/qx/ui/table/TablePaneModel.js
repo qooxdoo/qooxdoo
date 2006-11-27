@@ -42,13 +42,13 @@ function(tableColumnModel) {
 
 
 /** The visible x position of the first column this model should contain. */
-qx.OO.addProperty({ name : "firstColumnX", type : qx.constant.Type.NUMBER, defaultValue : 0 });
+qx.OO.addProperty({ name : "firstColumnX", type : "number", defaultValue : 0 });
 
 /**
  * The maximum number of columns this model should contain. If -1 this model will
  * contain all remaining columns.
  */
-qx.OO.addProperty({ name : "maxColumnCount", type : qx.constant.Type.NUMBER, defaultValue : -1 });
+qx.OO.addProperty({ name : "maxColumnCount", type : "number", defaultValue : -1 });
 
 
 // property modifier

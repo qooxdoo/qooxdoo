@@ -30,12 +30,12 @@ function(vBoundedWidget) {
 /*!
 Should multiple selection be allowed?
 */
-qx.OO.changeProperty({ name : "multiSelection", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.changeProperty({ name : "multiSelection", type : "boolean", defaultValue : false });
 
 /*!
 Enable drag selection?
 */
-qx.OO.changeProperty({ name : "dragSelection", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.changeProperty({ name : "dragSelection", type : "boolean", defaultValue : false });
 
 
 
@@ -144,7 +144,7 @@ qx.Proto.getPrevious = function(vItem)
 qx.Proto.getItemTop = function(vItem)
 {
   // Alternate method:
-  // return qx.dom.DomLocation.getPageBoxTop(vItem.getElement()) - qx.dom.DomLocation.getPageInnerTop(this.getBoundedWidget().getElement());
+  // return qx.dom.Location.getPageBoxTop(vItem.getElement()) - qx.dom.Location.getPageInnerTop(this.getBoundedWidget().getElement());
 
   var vBoundedWidget = this.getBoundedWidget();
   var vElement = vItem.getElement();

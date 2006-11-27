@@ -31,9 +31,9 @@
 qx.OO.defineClass("qx.ui.pageview.buttonview.ButtonView", qx.ui.pageview.AbstractPageView,
 function()
 {
-  qx.ui.pageview.AbstractPageView.call(this, qx.ui.pageview.buttonview.ButtonViewBar, qx.ui.pageview.buttonview.ButtonViewPane);
+  qx.ui.pageview.AbstractPageView.call(this, qx.ui.pageview.buttonview.Bar, qx.ui.pageview.buttonview.Pane);
 
-  this.setOrientation(qx.constant.Layout.ORIENTATION_VERTICAL);
+  this.setOrientation("vertical");
 });
 
 
@@ -46,9 +46,9 @@ function()
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "barPosition", type : qx.constant.Type.STRING, defaultValue : qx.constant.Layout.ALIGN_TOP, possibleValues : [ qx.constant.Layout.ALIGN_TOP, qx.constant.Layout.ALIGN_RIGHT, qx.constant.Layout.ALIGN_BOTTOM, qx.constant.Layout.ALIGN_LEFT ] });
+qx.OO.addProperty({ name : "barPosition", type : "string", defaultValue : "top", possibleValues : [ "top", "right", "bottom", "left" ] });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "bar-view" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "bar-view" });
 
 
 
@@ -67,24 +67,24 @@ qx.Proto._modifyBarPosition = function(propValue, propOldValue, propData)
   // move bar around and change orientation
   switch(propValue)
   {
-    case qx.constant.Layout.ALIGN_TOP:
+    case "top":
       vBar.moveSelfToBegin();
-      this.setOrientation(qx.constant.Layout.ORIENTATION_VERTICAL);
+      this.setOrientation("vertical");
       break;
 
-    case qx.constant.Layout.ALIGN_BOTTOM:
+    case "bottom":
       vBar.moveSelfToEnd();
-      this.setOrientation(qx.constant.Layout.ORIENTATION_VERTICAL);
+      this.setOrientation("vertical");
       break;
 
-    case qx.constant.Layout.ALIGN_LEFT:
+    case "left":
       vBar.moveSelfToBegin();
-      this.setOrientation(qx.constant.Layout.ORIENTATION_HORIZONTAL);
+      this.setOrientation("horizontal");
       break;
 
-    case qx.constant.Layout.ALIGN_RIGHT:
+    case "right":
       vBar.moveSelfToEnd();
-      this.setOrientation(qx.constant.Layout.ORIENTATION_HORIZONTAL);
+      this.setOrientation("horizontal");
       break;
   }
 

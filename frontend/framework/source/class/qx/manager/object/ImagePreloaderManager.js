@@ -23,7 +23,7 @@
 ************************************************************************ */
 
 /*!
-  This singleton manage all qx.io.image.ImagePreloader instances.
+  This singleton manage all qx.io.image.Preloader instances.
 */
 qx.OO.defineClass("qx.manager.object.ImagePreloaderManager", qx.manager.object.ObjectManager,
 function() {
@@ -62,7 +62,7 @@ qx.Proto.create = function(vSource)
     return this._objects[vSource];
   }
 
-  return new qx.io.image.ImagePreloader(vSource);
+  return new qx.io.image.Preloader(vSource);
 }
 
 

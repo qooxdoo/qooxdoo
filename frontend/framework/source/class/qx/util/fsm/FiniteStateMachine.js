@@ -95,7 +95,7 @@ function(machineName)
 qx.OO.addProperty(
   {
     name         : "name",
-    type         : qx.constant.Type.STRING
+    type         : "string"
   });
 
 /**
@@ -104,7 +104,7 @@ qx.OO.addProperty(
 qx.OO.addProperty(
   {
     name         : "state",
-    type         : qx.constant.Type.STRING
+    type         : "string"
   });
 
 /**
@@ -116,7 +116,7 @@ qx.OO.addProperty(
 qx.OO.addProperty(
   {
     name         : "previousState",
-    type         : qx.constant.Type.STRING
+    type         : "string"
   });
 
 /**
@@ -127,7 +127,7 @@ qx.OO.addProperty(
 qx.OO.addProperty(
   {
     name         : "nextState",
-    type         : qx.constant.Type.STRING
+    type         : "string"
   });
 
 
@@ -141,7 +141,7 @@ qx.OO.addProperty(
 qx.OO.addProperty(
   {
     name         : "maxSavedStates",
-    type         : qx.constant.Type.NUMBER,
+    type         : "number",
     defaultValue : 5
   });
 

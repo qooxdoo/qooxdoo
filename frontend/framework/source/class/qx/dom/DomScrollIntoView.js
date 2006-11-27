@@ -19,11 +19,11 @@
 /* ************************************************************************
 
 #module(ui_core)
-#require(qx.dom.DomStyle)
+#require(qx.dom.Style)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.dom.DomScrollIntoView");
+qx.OO.defineClass("qx.dom.ScrollIntoView");
 
 // Internet Explorer has invented scrollIntoView, but does not behave the same like in Mozilla (which would be better)
 // Mozilla has a native well working method scrollIntoView
@@ -32,7 +32,7 @@ qx.OO.defineClass("qx.dom.DomScrollIntoView");
 
 qx.dom.BODY_TAG_NAME = "body";
 
-qx.dom.DomScrollIntoView.scrollX = function(vElement, vAlignLeft)
+qx.dom.ScrollIntoView.scrollX = function(vElement, vAlignLeft)
 {
   var vParentWidth, vParentScrollLeft, vWidth, vHasScroll;
 
@@ -42,19 +42,19 @@ qx.dom.DomScrollIntoView.scrollX = function(vElement, vAlignLeft)
 
   while(vParent)
   {
-    switch(qx.dom.DomStyle.getStyleProperty(vParent, qx.constant.Style.PROPERTY_OVERFLOW_BOTH))
+    switch(qx.dom.Style.getStyleProperty(vParent, "overflow"))
     {
-      case qx.constant.Style.OVERFLOW_BOTH:
-      case qx.constant.Style.OVERFLOW_AUTO:
-      case qx.constant.Style.OVERFLOW_MOZ_HORIZONTAL:
+      case "scroll":
+      case "auto":
+      case "-moz-scrollbars-horizontal":
         vHasScroll = true;
         break;
 
       default:
-        switch(qx.dom.DomStyle.getStyleProperty(vParent, qx.constant.Style.PROPERTY_OVERFLOW_HORIZONTAL))
+        switch(qx.dom.Style.getStyleProperty(vParent, "overflowX"))
         {
-          case qx.constant.Style.OVERFLOW_BOTH:
-          case qx.constant.Style.OVERFLOW_AUTO:
+          case "scroll":
+          case "auto":
             vHasScroll = true;
             break;
 
@@ -103,7 +103,7 @@ qx.dom.DomScrollIntoView.scrollX = function(vElement, vAlignLeft)
   return true;
 }
 
-qx.dom.DomScrollIntoView.scrollY = function(vElement, vAlignTop)
+qx.dom.ScrollIntoView.scrollY = function(vElement, vAlignTop)
 {
   var vParentHeight, vParentScrollTop, vHeight, vHasScroll;
 
@@ -113,19 +113,19 @@ qx.dom.DomScrollIntoView.scrollY = function(vElement, vAlignTop)
 
   while(vParent)
   {
-    switch(qx.dom.DomStyle.getStyleProperty(vParent, qx.constant.Style.PROPERTY_OVERFLOW_BOTH))
+    switch(qx.dom.Style.getStyleProperty(vParent, "overflow"))
     {
-      case qx.constant.Style.OVERFLOW_BOTH:
-      case qx.constant.Style.OVERFLOW_AUTO:
-      case qx.constant.Style.OVERFLOW_MOZ_VERTICAL:
+      case "scroll":
+      case "auto":
+      case "-moz-scrollbars-vertical":
         vHasScroll = true;
         break;
 
       default:
-        switch(qx.dom.DomStyle.getStyleProperty(vParent, qx.constant.Style.PROPERTY_OVERFLOW_VERTICAL))
+        switch(qx.dom.Style.getStyleProperty(vParent, "overflowY"))
         {
-          case qx.constant.Style.OVERFLOW_BOTH:
-          case qx.constant.Style.OVERFLOW_AUTO:
+          case "scroll":
+          case "auto":
             vHasScroll = true;
             break;
 

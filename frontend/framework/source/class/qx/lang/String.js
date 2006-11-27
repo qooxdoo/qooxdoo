@@ -26,13 +26,13 @@ qx.OO.defineClass("qx.lang.String");
 
 qx.Class.toCamelCase = function(str)
 {
-  var vArr = str.split(qx.constant.Core.DASH), vLength = vArr.length;
+  var vArr = str.split("-"), vLength = vArr.length;
 
   if(vLength == 1) {
     return vArr[0];
   }
 
-  var vNew = str.indexOf(qx.constant.Core.DASH) == 0 ? vArr[0].charAt(0).toUpperCase() + vArr[0].substring(1) : vArr[0];
+  var vNew = str.indexOf("-") == 0 ? vArr[0].charAt(0).toUpperCase() + vArr[0].substring(1) : vArr[0];
 
   for (var vPart, i=1; i<vLength; i++)
   {
@@ -44,19 +44,19 @@ qx.Class.toCamelCase = function(str)
 }
 
 qx.Class.trimLeft = function(str) {
-  return str.replace(/^\s+/, qx.constant.Core.EMPTY);
+  return str.replace(/^\s+/, "");
 }
 
 qx.Class.trimRight = function(str) {
-  return str.replace(/\s+$/, qx.constant.Core.EMPTY);
+  return str.replace(/\s+$/, "");
 }
 
 qx.Class.trim = function(str) {
-  return str.replace(/^\s+|\s+$/g, qx.constant.Core.EMPTY);
+  return str.replace(/^\s+|\s+$/g, "");
 }
 
 qx.Class.stripTags = function(str) {
-  return str.replace(/<\/?[^>]+>/gi, qx.constant.Core.EMPTY);
+  return str.replace(/<\/?[^>]+>/gi, "");
 }
 
 qx.Class.startsWith = function(fullstr, substr) {
@@ -69,11 +69,11 @@ qx.Class.endsWith = function(fullstr, substr) {
 
 qx.Class.pad = function(str, length, ch)
 {
-  if (typeof ch === qx.constant.Type.UNDEFINED) {
-    ch = qx.constant.Core.ZERO;
+  if (typeof ch === "undefined") {
+    ch = "0";
   }
 
-  var temp = qx.constant.Core.EMPTY;
+  var temp = "";
 
   for (var i=length, l=str.length; l<i; l++) {
     temp += ch;
@@ -92,14 +92,14 @@ qx.Class.add = function(str, v, sep)
   {
     return str;
   }
-  else if (str == qx.constant.Core.EMPTY)
+  else if (str == "")
   {
     return v;
   }
   else
   {
     if (qx.util.Validation.isInvalid(sep)) {
-      sep = qx.constant.Core.COMMA;
+      sep = ",";
     }
 
     var a = str.split(sep);
@@ -118,14 +118,14 @@ qx.Class.add = function(str, v, sep)
 
 qx.Class.remove = function(str, v, sep)
 {
-  if (str == v || str == qx.constant.Core.EMPTY)
+  if (str == v || str == "")
   {
-    return qx.constant.Core.EMPTY;
+    return "";
   }
   else
   {
     if (qx.util.Validation.isInvalid(sep)) {
-      sep = qx.constant.Core.COMMA;
+      sep = ",";
     }
 
     var a = str.split(sep);

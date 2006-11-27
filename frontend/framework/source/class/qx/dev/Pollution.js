@@ -229,7 +229,7 @@ qx.Class.getHtmlTable = function(object)
 
   all.push("</table>");
 
-  return all.join(qx.constant.Core.EMPTY);
+  return all.join("");
 }
 
 qx.Class.getTextList = function(object)
@@ -245,5 +245,5 @@ qx.Class.getTextList = function(object)
     all.push(ext[i].key + cellSplit + ext[i].value + rowEnd);
   }
 
-  return all.join(qx.constant.Core.EMPTY);
+  return all.join("");
 }

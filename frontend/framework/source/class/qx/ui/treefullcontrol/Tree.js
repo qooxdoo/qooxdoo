@@ -59,9 +59,9 @@ function(treeRowStructure)
   // ************************************************************************
   //   KEY EVENT LISTENER
   // ************************************************************************
-  this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
-  this.addEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
-  this.addEventListener(qx.constant.Event.KEYUP, this._onkeyup);
+  this.addEventListener("keydown", this._onkeydown);
+  this.addEventListener("keypress", this._onkeypress);
+  this.addEventListener("keyup", this._onkeyup);
 });
 
 
@@ -75,13 +75,13 @@ function(treeRowStructure)
 */
 
 qx.OO.addProperty({ name : "useDoubleClick",
-                    type : qx.constant.Type.BOOLEAN,
+                    type : "boolean",
                     defaultValue : false,
                     getAlias : "useDoubleClick"
                   });
 
 qx.OO.addProperty({ name : "useTreeLines",
-                    type : qx.constant.Type.BOOLEAN,
+                    type : "boolean",
                     defaultValue : true,
                     getAlias : "useTreeLines"
                   });
@@ -104,7 +104,7 @@ qx.OO.addProperty({ name : "useTreeLines",
   property is ignored.
 */
 qx.OO.addProperty({ name : "excludeSpecificTreeLines",
-                    type : qx.constant.Type.OBJECT,
+                    type : "object",
                     defaultValue : []
                   });
 
@@ -113,7 +113,7 @@ qx.OO.addProperty({ name : "excludeSpecificTreeLines",
   that this property hides *only* the current node, not the node's children.
 */
 qx.OO.addProperty({ name : "hideNode",
-                    type : qx.constant.Type.BOOLEAN,
+                    type : "boolean",
                     defaultValue : false,
                     getAlias : "hideNode"
                   });
@@ -126,7 +126,7 @@ qx.OO.addProperty({ name : "hideNode",
   user to open them.
 */
 qx.OO.addProperty({ name : "rootOpenClose",
-                    type : qx.constant.Type.BOOLEAN,
+                    type : "boolean",
                     defaultValue : true
                   });
 
@@ -262,7 +262,7 @@ qx.Proto.getExcludeSpecificTreeLines = function()
 {
   var vName = "excludeSpecificTreeLines";
   var vUpName = qx.lang.String.toFirstUp(vName);
-  var vStorageField = qx.OO.C_VALUE + vUpName;
+  var vStorageField = "_value" + vUpName;
 
   return this[vStorageField].slice(0);
 }
@@ -441,7 +441,7 @@ qx.Proto._onkeyup = function(e)
       return;
     }
 
-    vNewItem.getIconObject().addState(qx.manager.selection.SelectionManager.STATE_SELECTED);
+    vNewItem.getIconObject().addState("selected");
 
     delete this._fastUpdate;
     delete this._oldItem;
@@ -523,9 +523,9 @@ qx.Proto.dispose = function()
     return;
   }
 
-  this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown);
-  this.removeEventListener(qx.constant.Event.KEYPRESS, this._onkeypress);
-  this.removeEventListener(qx.constant.Event.KEYUP, this._onkeyup);
+  this.removeEventListener("keydown", this._onkeydown);
+  this.removeEventListener("keypress", this._onkeypress);
+  this.removeEventListener("keyup", this._onkeyup);
 
   if (this._manager)
   {

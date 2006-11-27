@@ -23,25 +23,25 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.dom.DomEventRegistration");
+qx.OO.defineClass("qx.dom.EventRegistration");
 
 if (qx.sys.Client.getInstance().isMshtml())
 {
-  qx.dom.DomEventRegistration.addEventListener = function(vElement, vType, vFunction) {
-    vElement.attachEvent(qx.constant.Core.ON + vType, vFunction);
+  qx.dom.EventRegistration.addEventListener = function(vElement, vType, vFunction) {
+    vElement.attachEvent("on" + vType, vFunction);
   }
 
-  qx.dom.DomEventRegistration.removeEventListener = function(vElement, vType, vFunction) {
-    vElement.detachEvent(qx.constant.Core.ON + vType, vFunction);
+  qx.dom.EventRegistration.removeEventListener = function(vElement, vType, vFunction) {
+    vElement.detachEvent("on" + vType, vFunction);
   }
 }
 else
 {
-  qx.dom.DomEventRegistration.addEventListener = function(vElement, vType, vFunction) {
+  qx.dom.EventRegistration.addEventListener = function(vElement, vType, vFunction) {
     vElement.addEventListener(vType, vFunction, false);
   }
 
-  qx.dom.DomEventRegistration.removeEventListener = function(vElement, vType, vFunction) {
+  qx.dom.EventRegistration.removeEventListener = function(vElement, vType, vFunction) {
     vElement.removeEventListener(vType, vFunction, false);
   }
 }

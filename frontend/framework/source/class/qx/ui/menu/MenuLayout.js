@@ -25,7 +25,7 @@
 /*!
   A small helper class to create a special layout handler for qx.ui.menu.Menus
 */
-qx.OO.defineClass("qx.ui.menu.MenuLayout", qx.ui.layout.VerticalBoxLayout,
+qx.OO.defineClass("qx.ui.menu.Layout", qx.ui.layout.VerticalBoxLayout,
 function()
 {
   qx.ui.layout.VerticalBoxLayout.call(this);
@@ -37,7 +37,7 @@ function()
 /*!
   Appearance of the widget
 */
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "menu-layout" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "menu-layout" });
 
 
 

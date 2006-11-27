@@ -36,7 +36,7 @@ function(vMin, vValue, vMax)
   this.setTabIndex(-1);
 
   if (qx.sys.Client.getInstance().isMshtml()) {
-    this.setStyleProperty("fontSize", qx.constant.Core.ZEROPIXEL);
+    this.setStyleProperty("fontSize", "0px");
   }
 
 
@@ -60,7 +60,7 @@ function(vMin, vValue, vMax)
   //   BUTTON LAYOUT
   // ************************************************************************
   this._buttonlayout = new qx.ui.layout.VerticalBoxLayout;
-  this._buttonlayout.setWidth(qx.constant.Core.AUTO);
+  this._buttonlayout.setWidth("auto");
   this.add(this._buttonlayout);
 
 
@@ -89,17 +89,17 @@ function(vMin, vValue, vMax)
   // ************************************************************************
   //   EVENTS
   // ************************************************************************
-  this.addEventListener(qx.constant.Event.KEYPRESS, this._onkeypress, this);
-  this.addEventListener(qx.constant.Event.KEYDOWN, this._onkeydown, this);
-  this.addEventListener(qx.constant.Event.KEYUP, this._onkeyup, this);
-  this.addEventListener(qx.constant.Event.MOUSEWHEEL, this._onmousewheel, this);
+  this.addEventListener("keypress", this._onkeypress, this);
+  this.addEventListener("keydown", this._onkeydown, this);
+  this.addEventListener("keyup", this._onkeyup, this);
+  this.addEventListener("mousewheel", this._onmousewheel, this);
 
-  this._textfield.addEventListener(qx.constant.Event.INPUT, this._oninput, this);
-  this._textfield.addEventListener(qx.constant.Event.BLUR, this._onblur, this);
-  this._upbutton.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown, this);
-  this._downbutton.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown, this);
-  this._manager.addEventListener(qx.constant.Event.CHANGE, this._onchange, this);
-  this._timer.addEventListener(qx.constant.Event.INTERVAL, this._oninterval, this);
+  this._textfield.addEventListener("input", this._oninput, this);
+  this._textfield.addEventListener("blur", this._onblur, this);
+  this._upbutton.addEventListener("mousedown", this._onmousedown, this);
+  this._downbutton.addEventListener("mousedown", this._onmousedown, this);
+  this._manager.addEventListener("change", this._onchange, this);
+  this._timer.addEventListener("interval", this._oninterval, this);
 
 
   // ************************************************************************
@@ -127,47 +127,47 @@ function(vMin, vValue, vMax)
 ---------------------------------------------------------------------------
 */
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "spinner" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "spinner" });
 
 /*!
   The amount to increment on each event (keypress or mousedown).
 */
-qx.OO.addProperty({ name : "incrementAmount", type : qx.constant.Type.NUMBER, defaultValue : 1 });
+qx.OO.addProperty({ name : "incrementAmount", type : "number", defaultValue : 1 });
 
 /*!
   The amount to increment on each event (keypress or mousedown).
 */
-qx.OO.addProperty({ name : "wheelIncrementAmount", type : qx.constant.Type.NUMBER, defaultValue : 1 });
+qx.OO.addProperty({ name : "wheelIncrementAmount", type : "number", defaultValue : 1 });
 
 /*!
   The amount to increment on each pageup / pagedown keypress
 */
-qx.OO.addProperty({ name : "pageIncrementAmount", type : qx.constant.Type.NUMBER, defaultValue : 10 });
+qx.OO.addProperty({ name : "pageIncrementAmount", type : "number", defaultValue : 10 });
 
 /*!
   The current value of the interval (this should be used internally only).
 */
-qx.OO.addProperty({ name : "interval", type : qx.constant.Type.NUMBER, defaultValue : 100 });
+qx.OO.addProperty({ name : "interval", type : "number", defaultValue : 100 });
 
 /*!
   The first interval on event based shrink/growth of the value.
 */
-qx.OO.addProperty({ name : "firstInterval", type : qx.constant.Type.NUMBER, defaultValue : 500 });
+qx.OO.addProperty({ name : "firstInterval", type : "number", defaultValue : 500 });
 
 /*!
   This configures the minimum value for the timer interval.
 */
-qx.OO.addProperty({ name : "minTimer", type : qx.constant.Type.NUMBER, defaultValue : 20 });
+qx.OO.addProperty({ name : "minTimer", type : "number", defaultValue : 20 });
 
 /*!
   Decrease of the timer on each interval (for the next interval) until minTimer reached.
 */
-qx.OO.addProperty({ name : "timerDecrease", type : qx.constant.Type.NUMBER, defaultValue : 2 });
+qx.OO.addProperty({ name : "timerDecrease", type : "number", defaultValue : 2 });
 
 /*!
   If minTimer was reached, how much the amount of each interval should growth (in relation to the previous interval).
 */
-qx.OO.addProperty({ name : "amountGrowth", type : qx.constant.Type.NUMBER, defaultValue : 1.01 });
+qx.OO.addProperty({ name : "amountGrowth", type : "number", defaultValue : 1.01 });
 
 
 
@@ -321,10 +321,10 @@ qx.Proto._onmousedown = function(e)
 
   var vButton = e.getCurrentTarget();
 
-  vButton.addState(qx.ui.form.Button.STATE_PRESSED);
+  vButton.addState("pressed");
 
-  vButton.addEventListener(qx.constant.Event.MOUSEUP, this._onmouseup, this);
-  vButton.addEventListener(qx.constant.Event.MOUSEOUT, this._onmouseup, this);
+  vButton.addEventListener("mouseup", this._onmouseup, this);
+  vButton.addEventListener("mouseout", this._onmouseup, this);
 
   this._intervalIncrease = vButton == this._upbutton;
   this._resetIncrements();
@@ -340,10 +340,10 @@ qx.Proto._onmouseup = function(e)
 {
   var vButton = e.getCurrentTarget();
 
-  vButton.removeState(qx.ui.form.Button.STATE_PRESSED);
+  vButton.removeState("pressed");
 
-  vButton.removeEventListener(qx.constant.Event.MOUSEUP, this._onmouseup, this);
-  vButton.removeEventListener(qx.constant.Event.MOUSEOUT, this._onmouseup, this);
+  vButton.removeEventListener("mouseup", this._onmouseup, this);
+  vButton.removeEventListener("mouseout", this._onmouseup, this);
 
   this._textfield.selectAll();
   this._textfield.setFocused(true);
@@ -379,7 +379,7 @@ qx.Proto._onchange = function(e)
 
   if (vValue == this.getMin())
   {
-    this._downbutton.removeState(qx.ui.form.Button.STATE_PRESSED);
+    this._downbutton.removeState("pressed");
     this._downbutton.setEnabled(false);
     this._timer.stop();
   }
@@ -390,7 +390,7 @@ qx.Proto._onchange = function(e)
 
   if (vValue == this.getMax())
   {
-    this._upbutton.removeState(qx.ui.form.Button.STATE_PRESSED);
+    this._upbutton.removeState("pressed");
     this._upbutton.setEnabled(false);
     this._timer.stop();
   }
@@ -399,8 +399,8 @@ qx.Proto._onchange = function(e)
     this._upbutton.setEnabled(true);
   }
 
-  if (this.hasEventListeners(qx.constant.Event.CHANGE)) {
-    this.dispatchEvent(new qx.event.type.Event(qx.constant.Event.CHANGE), true);
+  if (this.hasEventListeners("change")) {
+    this.dispatchEvent(new qx.event.type.Event("change"), true);
   }
 }
 
@@ -516,7 +516,7 @@ qx.Proto._checkValue = function(acceptEmpty, acceptEdit)
     return;
   }
 
-  if (el.value == qx.constant.Core.EMPTY)
+  if (el.value == "")
   {
     if (!acceptEmpty)
     {
@@ -534,7 +534,7 @@ qx.Proto._checkValue = function(acceptEmpty, acceptEdit)
     // fix leading '0'
     if (val.length > 1)
     {
-      while(val.charAt(0) == qx.constant.Core.ZERO) {
+      while(val.charAt(0) == "0") {
         val = val.substr(1, val.length);
       }
 
@@ -547,7 +547,7 @@ qx.Proto._checkValue = function(acceptEmpty, acceptEdit)
     }
 
     // fix for negative integer handling
-    if (val == qx.constant.Core.MINUS && acceptEmpty && this.getMin() < 0)
+    if (val == "-" && acceptEmpty && this.getMin() < 0)
     {
       if (el.value != val) {
         el.value = val;
@@ -568,7 +568,7 @@ qx.Proto._checkValue = function(acceptEmpty, acceptEdit)
     }
 
     // handle empty string
-    if (acceptEmpty && val == qx.constant.Core.EMPTY)
+    if (acceptEmpty && val == "")
     {
       doFix = false;
     }
@@ -631,15 +631,15 @@ qx.Proto.dispose = function()
     return;
   }
 
-  this.removeEventListener(qx.constant.Event.KEYPRESS, this._onkeypress, this);
-  this.removeEventListener(qx.constant.Event.KEYDOWN, this._onkeydown, this);
-  this.removeEventListener(qx.constant.Event.KEYUP, this._onkeyup, this);
-  this.removeEventListener(qx.constant.Event.MOUSEWHEEL, this._onmousewheel, this);
+  this.removeEventListener("keypress", this._onkeypress, this);
+  this.removeEventListener("keydown", this._onkeydown, this);
+  this.removeEventListener("keyup", this._onkeyup, this);
+  this.removeEventListener("mousewheel", this._onmousewheel, this);
 
   if (this._textfield)
   {
-    this._textfield.removeEventListener(qx.constant.Event.BLUR, this._onblur, this);
-    this._textfield.removeEventListener(qx.constant.Event.INPUT, this._oninput, this);
+    this._textfield.removeEventListener("blur", this._onblur, this);
+    this._textfield.removeEventListener("input", this._oninput, this);
     this._textfield.dispose();
     this._textfield = null;
   }
@@ -652,21 +652,21 @@ qx.Proto.dispose = function()
 
   if (this._upbutton)
   {
-    this._upbutton.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown, this);
+    this._upbutton.removeEventListener("mousedown", this._onmousedown, this);
     this._upbutton.dispose();
     this._upbutton = null;
   }
 
   if (this._downbutton)
   {
-    this._downbutton.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown, this);
+    this._downbutton.removeEventListener("mousedown", this._onmousedown, this);
     this._downbutton.dispose();
     this._downbutton = null;
   }
 
   if (this._timer)
   {
-    this._timer.removeEventListener(qx.constant.Event.INTERVAL, this._oninterval, this);
+    this._timer.removeEventListener("interval", this._oninterval, this);
     this._timer.stop();
     this._timer.dispose();
     this._timer = null;
@@ -674,7 +674,7 @@ qx.Proto.dispose = function()
 
   if (this._manager)
   {
-    this._manager.removeEventListener(qx.constant.Event.CHANGE, this._onchange, this);
+    this._manager.removeEventListener("change", this._onchange, this);
     this._manager.dispose();
     this._manager = null;
   }

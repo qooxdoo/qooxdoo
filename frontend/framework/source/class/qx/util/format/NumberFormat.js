@@ -33,34 +33,34 @@ function() {
  * The minimum number of integer digits (digits before the decimal separator).
  * Missing digits will be filled up with 0 ("19" -> "0019").
  */
-qx.OO.addProperty({ name:"minimumIntegerDigits", type:qx.constant.Type.NUMBER, defaultValue:0, allowNull:false });
+qx.OO.addProperty({ name:"minimumIntegerDigits", type:"number", defaultValue:0, allowNull:false });
 
 /**
  * The maximum number of integer digits (superfluos digits will be cut off
  * ("1923" -> "23").
  */
-qx.OO.addProperty({ name:"maximumIntegerDigits", type:qx.constant.Type.NUMBER, defaultValue:null });
+qx.OO.addProperty({ name:"maximumIntegerDigits", type:"number", defaultValue:null });
 
 /**
  * The minimum number of fraction digits (digits after the decimal separator).
  * Missing digits will be filled up with 0 ("1.5" -> "1.500")
  */
-qx.OO.addProperty({ name:"minimumFractionDigits", type:qx.constant.Type.NUMBER, defaultValue:0, allowNull:false });
+qx.OO.addProperty({ name:"minimumFractionDigits", type:"number", defaultValue:0, allowNull:false });
 
 /**
  * The maximum number of fraction digits (digits after the decimal separator).
  * Superflous digits will cause rounding ("1.8277" -> "1.83")
  */
-qx.OO.addProperty({ name:"maximumFractionDigits", type:qx.constant.Type.NUMBER, defaultValue:null });
+qx.OO.addProperty({ name:"maximumFractionDigits", type:"number", defaultValue:null });
 
 /** Whether thousand groupings should be used {e.g. "1,432,234.65"}. */
-qx.OO.addProperty({ name:"groupingUsed", type:qx.constant.Type.BOOLEAN, defaultValue:true, allowNull:false });
+qx.OO.addProperty({ name:"groupingUsed", type:"boolean", defaultValue:true, allowNull:false });
 
 /** The prefix to put before the number {"EUR " -> "EUR 12.31"}. */
-qx.OO.addProperty({ name:"prefix", type:qx.constant.Type.STRING, defaultValue:"", allowNull:false });
+qx.OO.addProperty({ name:"prefix", type:"string", defaultValue:"", allowNull:false });
 
 /** Sets the postfix to put after the number {" %" -> "56.13 %"}. */
-qx.OO.addProperty({ name:"postfix", type:qx.constant.Type.STRING, defaultValue:"", allowNull:false });
+qx.OO.addProperty({ name:"postfix", type:"string", defaultValue:"", allowNull:false });
 
 
 /**

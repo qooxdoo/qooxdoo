@@ -22,12 +22,12 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.pageview.buttonview.ButtonViewButton", qx.ui.pageview.AbstractPageViewButton,
+qx.OO.defineClass("qx.ui.pageview.buttonview.Button", qx.ui.pageview.AbstractPageViewButton,
 function(vText, vIcon, vIconWidth, vIconHeight, vFlash) {
   qx.ui.pageview.AbstractPageViewButton.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "bar-view-button" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "bar-view-button" });
 
 
 
@@ -44,8 +44,8 @@ qx.Proto._onkeypress = function(e)
 {
   switch(this.getView().getBarPosition())
   {
-    case qx.constant.Layout.ALIGN_TOP:
-    case qx.constant.Layout.ALIGN_BOTTOM:
+    case "top":
+    case "bottom":
       switch(e.getKeyIdentifier())
       {
         case "Left":
@@ -62,8 +62,8 @@ qx.Proto._onkeypress = function(e)
 
       break;
 
-    case qx.constant.Layout.ALIGN_LEFT:
-    case qx.constant.Layout.ALIGN_RIGHT:
+    case "left":
+    case "right":
       switch(e.getKeyIdentifier())
       {
         case "Up":
@@ -111,10 +111,10 @@ qx.Proto._applyStateAppearance = function()
 {
   var vPos = this.getView().getBarPosition();
 
-  this._states.barLeft = vPos === qx.constant.Layout.ALIGN_LEFT;
-  this._states.barRight = vPos === qx.constant.Layout.ALIGN_RIGHT;
-  this._states.barTop = vPos === qx.constant.Layout.ALIGN_TOP;
-  this._states.barBottom = vPos === qx.constant.Layout.ALIGN_BOTTOM;
+  this._states.barLeft = vPos === "left";
+  this._states.barRight = vPos === "right";
+  this._states.barTop = vPos === "top";
+  this._states.barBottom = vPos === "bottom";
 
   qx.ui.pageview.AbstractPageViewButton.prototype._applyStateAppearance.call(this);
 }

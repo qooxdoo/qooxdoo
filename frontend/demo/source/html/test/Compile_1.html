@@ -95,7 +95,7 @@
 
           switch(typeof v)
           {
-            case qx.constant.Type.OBJECT:
+            case "object":
               if (v == null)
               {
                 str += "$" + i + " = null;\n";
@@ -104,7 +104,7 @@
               {
                 // qx.core.Init.getInstance().debug("QXOBJECT: " + i + "=" + vObjectCache[i].value);
 
-                if (typeof c == qx.constant.Type.STRING && c.indexOf("$OBJECTMAPPER-") == 0)
+                if (typeof c == "string" && c.indexOf("$OBJECTMAPPER-") == 0)
                 {
                   cv = c.replace("$OBJECTMAPPER-", "");
 
@@ -145,7 +145,7 @@
                       str += "$" + i + "._image = $" + i + "._valueElement.getElementsByTagName(\"img\")[0];\n";
                     };
                   }
-                  else if (v instanceof qx.io.image.ImagePreloader)
+                  else if (v instanceof qx.io.image.Preloader)
                   {
                     str += "$" + i + "._element = new Image;\n";
                     str += "$" + i + "._element.src = \"" + v.getSource() + "\";\n";
@@ -167,22 +167,22 @@
 
               break;
 
-            case qx.constant.Type.STRING:
+            case "string":
               str += "$" + i + " = \"" + vObjectCache[i].value + "\";\n";
               break;
 
-            case qx.constant.Type.NUMBER:
-            case qx.constant.Type.BOOLEAN:
+            case "number":
+            case "boolean":
               str += "$" + i + " = " + v + ";\n";
               break;
 
-            case qx.constant.Type.UNDEFINED:
+            case "undefined":
               // qx.core.Init.getInstance().debug("Undefined value found: " + v);
               str += "$" + i + " = null;\n";
               break;
 
-            case qx.constant.Type.FUNCTION:
-              if (typeof c == qx.constant.Type.STRING && c.indexOf("$FUNCTIONMAPPER-") == 0)
+            case "function":
+              if (typeof c == "string" && c.indexOf("$FUNCTIONMAPPER-") == 0)
               {
                 cv = c.replace("$FUNCTIONMAPPER-", "").split("|");
                 str += "$" + i + "= QxObjectDataBase[" + cv[1] + "]." + cv[0] + ";\n";
@@ -207,11 +207,11 @@
           v = vObjectCache[i].value;
           c = vObjectCache[i].compiled;
 
-          if (typeof v == qx.constant.Type.OBJECT && v != null)
+          if (typeof v == "object" && v != null)
           {
             if (v instanceof qx.core.Object)
             {
-              if (typeof c == qx.constant.Type.STRING && c.indexOf("$OBJECTMAPPER-") == 0)
+              if (typeof c == "string" && c.indexOf("$OBJECTMAPPER-") == 0)
               {
                 continue;
               };
@@ -271,7 +271,7 @@
         };
 
         // Completly ignore DOM nodes
-        if (qx.util.Validation.isValid(vValue) && typeof vValue.nodeType != qx.constant.Type.UNDEFINED) {
+        if (qx.util.Validation.isValid(vValue) && typeof vValue.nodeType != "undefined") {
           return null;
         };
 
@@ -298,12 +298,12 @@
       {
         switch(typeof vInput)
         {
-          case qx.constant.Type.STRING:
-          case qx.constant.Type.NUMBER:
-          case qx.constant.Type.BOOLEAN:
+          case "string":
+          case "number":
+          case "boolean":
             return serializeSimple(vInput);
 
-          case qx.constant.Type.OBJECT:
+          case "object":
             if (vInput == null)
             {
               return serializeSimple(vInput);
@@ -317,7 +317,7 @@
               return serializeObject(vInput);
             };
 
-          case qx.constant.Type.FUNCTION:
+          case "function":
             //QxDebug("Serializer", "FUNCTION: " + vInput);
             return null;
         };
@@ -355,7 +355,7 @@
               break;
           };
 
-          if (typeof vObject[vKey] == qx.constant.Type.FUNCTION)
+          if (typeof vObject[vKey] == "function")
           {
             if (!(vObject instanceof qx.core.Object) && vLastListenerContext)
             {

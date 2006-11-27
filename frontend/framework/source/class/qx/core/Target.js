@@ -27,7 +27,7 @@
  *
  * In objects created with this constructor, you find functions to addEventListener or
  * removeEventListener to or from the created object. Each event to connect to has a type in
- * form of an identification string. This type could be the name of a regular dom event like qx.constant.Event.CLICK or
+ * form of an identification string. This type could be the name of a regular dom event like "click" or
  * something self-defined like "ready".
  *
  * @param vAutoDispose {boolean ? true} wether the object should be disposed automatically by qooxdoo
@@ -64,24 +64,24 @@ qx.Proto.addEventListener = function(vType, vFunction, vObject)
     return;
   }
 
-  if(typeof vFunction !== qx.constant.Type.FUNCTION) {
+  if(typeof vFunction !== "function") {
     throw new Error("qx.core.Target: addEventListener(" + vType + "): '" + vFunction + "' is not a function!");
   }
 
   // If this is the first event of given type, we need to create a subobject
   // that contains all the actions that will be assigned to this type
-  if (typeof this._listeners === qx.constant.Type.UNDEFINED)
+  if (typeof this._listeners === "undefined")
   {
     this._listeners = {};
     this._listeners[vType] = {};
   }
-  else if(typeof this._listeners[vType] === qx.constant.Type.UNDEFINED)
+  else if(typeof this._listeners[vType] === "undefined")
   {
     this._listeners[vType] = {};
   }
 
   // Create a special vKey string to allow identification of each bound action
-  var vKey = qx.core.Target.EVENTPREFIX + qx.core.Object.toHashCode(vFunction) + (vObject ? qx.constant.Core.UNDERLINE + qx.core.Object.toHashCode(vObject) : qx.constant.Core.EMPTY);
+  var vKey = qx.core.Target.EVENTPREFIX + qx.core.Object.toHashCode(vFunction) + (vObject ? "_" + qx.core.Object.toHashCode(vObject) : "");
 
   // Finally set up the listeners object
   this._listeners[vType][vKey] =
@@ -106,16 +106,16 @@ qx.Proto.removeEventListener = function(vType, vFunction, vObject)
   }
 
   var vListeners = this._listeners;
-  if (!vListeners || typeof vListeners[vType] === qx.constant.Type.UNDEFINED) {
+  if (!vListeners || typeof vListeners[vType] === "undefined") {
     return;
   }
 
-  if(typeof vFunction !== qx.constant.Type.FUNCTION) {
+  if(typeof vFunction !== "function") {
     throw new Error("qx.core.Target: removeEventListener(" + vType + "): '" + vFunction + "' is not a function!");
   }
 
   // Create a special vKey string to allow identification of each bound action
-  var vKey = qx.core.Target.EVENTPREFIX + qx.core.Object.toHashCode(vFunction) + (vObject ? qx.constant.Core.UNDERLINE + qx.core.Object.toHashCode(vObject) : qx.constant.Core.EMPTY);
+  var vKey = qx.core.Target.EVENTPREFIX + qx.core.Object.toHashCode(vFunction) + (vObject ? "_" + qx.core.Object.toHashCode(vObject) : "");
 
   // Delete object entry for this action
   delete this._listeners[vType][vKey];
@@ -135,7 +135,7 @@ qx.Proto.removeEventListener = function(vType, vFunction, vObject)
  * @param vType {string} name of the event type
  */
 qx.Proto.hasEventListeners = function(vType) {
-  return this._listeners && typeof this._listeners[vType] !== qx.constant.Type.UNDEFINED && !qx.lang.Object.isEmpty(this._listeners[vType]);
+  return this._listeners && typeof this._listeners[vType] !== "undefined" && !qx.lang.Object.isEmpty(this._listeners[vType]);
 }
 
 
@@ -238,7 +238,7 @@ qx.Proto._dispatchEvent = function(vEvent)
         // Call object function
         try
         {
-          if(typeof vFunction === qx.constant.Type.FUNCTION) {
+          if(typeof vFunction === "function") {
             vFunction.call(qx.util.Validation.isValid(vObject) ? vObject : this, vEvent);
           }
         }
@@ -279,7 +279,7 @@ qx.Proto.dispose = function()
     return;
   }
 
-  if (typeof this._listeners === qx.constant.Type.OBJECT)
+  if (typeof this._listeners === "object")
   {
     for (var vType in this._listeners)
     {

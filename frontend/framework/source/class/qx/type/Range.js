@@ -32,16 +32,16 @@ function() {
 });
 
 /** current value of the Range object */
-qx.OO.addProperty({ name : "value", type : qx.constant.Type.NUMBER, defaultValue : 0 });
+qx.OO.addProperty({ name : "value", type : "number", defaultValue : 0 });
 
 /** minimal value of the Range object */
-qx.OO.addProperty({ name : "min", type : qx.constant.Type.NUMBER, defaultValue : 0 });
+qx.OO.addProperty({ name : "min", type : "number", defaultValue : 0 });
 
 /** maximal value of the Range object */
-qx.OO.addProperty({ name : "max", type : qx.constant.Type.NUMBER, defaultValue : 100 });
+qx.OO.addProperty({ name : "max", type : "number", defaultValue : 100 });
 
 /** Step size for increments/decrements of the value property */
-qx.OO.addProperty({ name : "step", type : qx.constant.Type.NUMBER, defaultValue : 1 });
+qx.OO.addProperty({ name : "step", type : "number", defaultValue : 1 });
 
 qx.Proto._checkValue = function(propValue) {
   return Math.max(this.getMin(), Math.min(this.getMax(), Math.floor(propValue)));
@@ -49,8 +49,8 @@ qx.Proto._checkValue = function(propValue) {
 
 qx.Proto._modifyValue = function(propValue, propOldValue, propData)
 {
-  if (this.hasEventListeners(qx.constant.Event.CHANGE)) {
-    this.dispatchEvent(new qx.event.type.Event(qx.constant.Event.CHANGE), true);
+  if (this.hasEventListeners("change")) {
+    this.dispatchEvent(new qx.event.type.Event("change"), true);
   }
 
   return true;
@@ -64,8 +64,8 @@ qx.Proto._modifyMax = function(propValue, propOldValue, propData)
 {
   this.setValue(Math.min(this.getValue(), propValue));
 
-  if (this.hasEventListeners(qx.constant.Event.CHANGE)) {
-    this.dispatchEvent(new qx.event.type.Event(qx.constant.Event.CHANGE), true);
+  if (this.hasEventListeners("change")) {
+    this.dispatchEvent(new qx.event.type.Event("change"), true);
   }
 
   return true;
@@ -79,8 +79,8 @@ qx.Proto._modifyMin = function(propValue, propOldValue, propData)
 {
   this.setValue(Math.max(this.getValue(), propValue));
 
-  if (this.hasEventListeners(qx.constant.Event.CHANGE)) {
-    this.dispatchEvent(new qx.event.type.Event(qx.constant.Event.CHANGE), true);
+  if (this.hasEventListeners("change")) {
+    this.dispatchEvent(new qx.event.type.Event("change"), true);
   }
 
   return true;

@@ -60,7 +60,7 @@ qx.Class.get = function(vName)
     return vValue;
   }
 
-  return qx.constant.Core.EMPTY;
+  return "";
 }
 
 qx.Class.del = function(vName)
@@ -123,7 +123,7 @@ qx.Class._getAll = function()
 
 qx.Class._setAll = function(vHash)
 {
-  var vString = qx.constant.Core.EMPTY;
+  var vString = "";
   var vTemp;
   var vIndex = 0;
 
@@ -151,7 +151,7 @@ qx.Class._setAll = function(vHash)
     }
     else
     {
-      if (vString != qx.constant.Core.EMPTY) {
+      if (vString != "") {
         vString += qx.io.local.CookieTransport.ITEMSEPARATOR;
       }
 
@@ -159,7 +159,7 @@ qx.Class._setAll = function(vHash)
     }
   }
 
-  if (vString != qx.constant.Core.EMPTY) {
+  if (vString != "") {
     qx.io.local.CookieTransport._setCookie(vIndex++, vString);
   }
 

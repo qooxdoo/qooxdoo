@@ -41,9 +41,9 @@ function(vLabel, vIcon, vIconSelected)
 
   // Behaviour and Hard Styling
   this._labelObject.setSelectable(false);
-  this._labelObject.setStyleProperty(qx.constant.Style.PROPERTY_LINEHEIGHT, qx.constant.Core.HUNDREDPERCENT);
+  this._labelObject.setStyleProperty("lineHeight", "100%");
 
-  qx.ui.layout.BoxLayout.call(this, qx.constant.Layout.ORIENTATION_HORIZONTAL);
+  qx.ui.layout.BoxLayout.call(this, "horizontal");
 
   if (qx.util.Validation.isValid(vLabel)) {
     this.setLabel(vLabel);
@@ -75,8 +75,8 @@ function(vLabel, vIcon, vIconSelected)
   this._labelObject.setAppearance("tree-element-label");
 
   // Register event listeners
-  this.addEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
-  this.addEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
+  this.addEventListener("mousedown", this._onmousedown);
+  this.addEventListener("mouseup", this._onmouseup);
 });
 
 qx.ui.tree.AbstractTreeElement.ABSTRACT_CLASS = "qx.ui.tree.AbstractTreeElement";
@@ -90,23 +90,23 @@ qx.ui.tree.AbstractTreeElement.ABSTRACT_CLASS = "qx.ui.tree.AbstractTreeElement"
 ---------------------------------------------------------------------------
 */
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "tree-element" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "tree-element" });
 
 /*!
   The icons
 */
-qx.OO.addProperty({ name : "icon", type : qx.constant.Type.STRING });
-qx.OO.addProperty({ name : "iconSelected", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "icon", type : "string" });
+qx.OO.addProperty({ name : "iconSelected", type : "string" });
 
 /*!
   The label/caption/text of the qx.ui.basic.Atom instance
 */
-qx.OO.addProperty({ name : "label", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "label", type : "string" });
 
 /*!
   Selected property
 */
-qx.OO.addProperty({ name : "selected", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "selected", type : "boolean", defaultValue : false });
 
 
 
@@ -130,8 +130,8 @@ qx.Proto._modifyLabel = function(propValue, propOldValue, propData)
 
 qx.Proto._modifySelected = function(propValue, propOldValue, propData)
 {
-  propValue ? this.addState(qx.manager.selection.SelectionManager.STATE_SELECTED) : this.removeState(qx.manager.selection.SelectionManager.STATE_SELECTED);
-  propValue ? this._labelObject.addState(qx.manager.selection.SelectionManager.STATE_SELECTED) : this._labelObject.removeState(qx.manager.selection.SelectionManager.STATE_SELECTED);
+  propValue ? this.addState("selected") : this.removeState("selected");
+  propValue ? this._labelObject.addState("selected") : this._labelObject.removeState("selected");
 
   var vTree = this.getTree();
   if (!vTree._fastUpdate || (propOldValue && vTree._oldItem == this))
@@ -139,9 +139,9 @@ qx.Proto._modifySelected = function(propValue, propOldValue, propData)
     this._iconObject.setSource(this._evalCurrentIcon());
 
     if (propValue) {
-      this._iconObject.addState(qx.manager.selection.SelectionManager.STATE_SELECTED);
+      this._iconObject.addState("selected");
     } else {
-      this._iconObject.removeState(qx.manager.selection.SelectionManager.STATE_SELECTED);
+      this._iconObject.removeState("selected");
     }
   }
 
@@ -418,11 +418,11 @@ qx.Proto._onmouseup = qx.util.Return.returnTrue;
 ---------------------------------------------------------------------------
 */
 
-qx.ui.tree.AbstractTreeElement.INDENT_CODE_1 = "<img style=\"position:absolute;top:0px;left:";
-qx.ui.tree.AbstractTreeElement.INDENT_CODE_2 = "px\" src=\"";
-qx.ui.tree.AbstractTreeElement.INDENT_CODE_3 = "\" />";
+"<img style=\"position:absolute;top:0px;left:" = "<img style=\"position:absolute;top:0px;left:";
+"px\" src=\"" = "px\" src=\"";
+"\" />" = "\" />";
 
-qx.ui.tree.AbstractTreeElement.IMG_EXTENSION = "gif";
+"gif" = "gif";
 
 qx.Proto.flushTree = function()
 {
@@ -443,20 +443,20 @@ qx.Proto.flushTree = function()
 
     if (vImage)
     {
-      vHtml.push(qx.ui.tree.AbstractTreeElement.INDENT_CODE_1);
+      vHtml.push("<img style=\"position:absolute;top:0px;left:");
       vHtml.push((vLevel-i-1) * 19);
-      vHtml.push(qx.ui.tree.AbstractTreeElement.INDENT_CODE_2);
+      vHtml.push("px\" src=\"");
       vHtml.push(this.BASE_URI);
       vHtml.push(vImage);
-      vHtml.push(qx.constant.Core.DOT);
-      vHtml.push(qx.ui.tree.AbstractTreeElement.IMG_EXTENSION);
-      vHtml.push(qx.ui.tree.AbstractTreeElement.INDENT_CODE_3);
+      vHtml.push(".");
+      vHtml.push("gif");
+      vHtml.push("\" />");
     }
 
     vCurrentObject = vCurrentObject.getParentFolder();
   }
 
-  this._indentObject.setHtml(vHtml.join(qx.constant.Core.EMPTY));
+  this._indentObject.setHtml(vHtml.join(""));
   this._indentObject.setWidth(vLevel * 19);
 }
 
@@ -501,8 +501,8 @@ qx.Proto.dispose = function()
 
   this._previousParentFolder = null;
 
-  this.removeEventListener(qx.constant.Event.MOUSEDOWN, this._onmousedown);
-  this.removeEventListener(qx.constant.Event.MOUSEUP, this._onmouseup);
+  this.removeEventListener("mousedown", this._onmousedown);
+  this.removeEventListener("mouseup", this._onmouseup);
 
   return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
 }

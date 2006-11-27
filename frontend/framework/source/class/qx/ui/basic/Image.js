@@ -34,25 +34,25 @@ function(vSource, vWidth, vHeight)
   qx.ui.basic.Terminator.call(this);
 
   // Reset Alt and Title
-  this.setHtmlProperty(qx.ui.basic.Image.ATTR_ALT, qx.constant.Core.EMPTY);
-  this.setHtmlProperty(qx.ui.basic.Image.ATTR_TITLE, qx.constant.Core.EMPTY);
+  this.setHtmlProperty("alt", "");
+  this.setHtmlProperty("title", "");
 
   // Apply constructor arguments
   this.setSource(qx.util.Validation.isValid(vSource) ? vSource : "static/image/blank.gif");
 
   // Dimensions
-  this.setWidth(qx.util.Validation.isValid(vWidth) ? vWidth : qx.constant.Core.AUTO);
-  this.setHeight(qx.util.Validation.isValid(vHeight) ? vHeight : qx.constant.Core.AUTO);
+  this.setWidth(qx.util.Validation.isValid(vWidth) ? vWidth : "auto");
+  this.setHeight(qx.util.Validation.isValid(vHeight) ? vHeight : "auto");
 
   // Prohibit selection
   this.setSelectable(false);
 });
 
-qx.ui.basic.Image.ATTR_ALT = "alt";
-qx.ui.basic.Image.ATTR_TITLE = "title";
+"alt" = "alt";
+"title" = "title";
 
-qx.ui.basic.Image.BORDER_NONE = "0 none";
-qx.ui.basic.Image.RESET_VALIGN = "top";
+"0 none" = "0 none";
+"top" = "top";
 
 
 /*
@@ -64,12 +64,12 @@ qx.ui.basic.Image.RESET_VALIGN = "top";
 /*!
   The source uri of the image.
 */
-qx.OO.addProperty({ name : "source", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "source", type : "string" });
 
 /*!
   The assigned preloader instance of the image.
 */
-qx.OO.addProperty({ name : "preloader", type : qx.constant.Type.OBJECT });
+qx.OO.addProperty({ name : "preloader", type : "object" });
 
 /*!
   The loading status.
@@ -77,17 +77,17 @@ qx.OO.addProperty({ name : "preloader", type : qx.constant.Type.OBJECT });
   True if the image is loaded correctly. False if no image is loaded
   or the one that should be loaded is currently loading or not available.
 */
-qx.OO.addProperty({ name : "loaded", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "loaded", type : "boolean", defaultValue : false });
 
 /*!
   Should the image be maxified in it's own container?
 */
-qx.OO.addProperty({ name : "resizeToInner", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "resizeToInner", type : "boolean", defaultValue : false });
 
 /*!
   Appearance of the widget
 */
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "image" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "image" });
 
 
 
@@ -109,8 +109,8 @@ qx.Proto._onerror = function()
 
   this.setLoaded(false);
 
-  if (this.hasEventListeners(qx.constant.Event.ERROR)) {
-    this.dispatchEvent(new qx.event.type.Event(qx.constant.Event.ERROR), true);
+  if (this.hasEventListeners("error")) {
+    this.dispatchEvent(new qx.event.type.Event("error"), true);
   }
 }
 
@@ -166,7 +166,7 @@ qx.Proto._beforeDisappear = function()
 
 qx.Proto._modifySource = function(propValue, propOldValue, propData)
 {
-  if (propValue && typeof qx.manager.object.ImageManager.getInstance()._sources[propValue] === qx.constant.Type.UNDEFINED) {
+  if (propValue && typeof qx.manager.object.ImageManager.getInstance()._sources[propValue] === "undefined") {
     qx.manager.object.ImageManager.getInstance()._sources[propValue] = 0;
   }
 
@@ -203,8 +203,8 @@ qx.Proto._modifyPreloader = function(propValue, propOldValue, propData)
   if (propOldValue)
   {
     // remove event connection
-    propOldValue.removeEventListener(qx.constant.Event.LOAD, this._onload, this);
-    propOldValue.removeEventListener(qx.constant.Event.ERROR, this._onerror, this);
+    propOldValue.removeEventListener("load", this._onload, this);
+    propOldValue.removeEventListener("error", this._onerror, this);
   }
 
   if (propValue)
@@ -228,8 +228,8 @@ qx.Proto._modifyPreloader = function(propValue, propOldValue, propData)
     }
     else
     {
-      propValue.addEventListener(qx.constant.Event.LOAD, this._onload, this);
-      propValue.addEventListener(qx.constant.Event.ERROR, this._onerror, this);
+      propValue.addEventListener("load", this._onload, this);
+      propValue.addEventListener("error", this._onerror, this);
     }
   }
   else
@@ -280,14 +280,14 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
 
         // Possible alternative for MSHTML for PNG images
         // But it seems not to be faster
-        // this._image = document.createElement(qx.constant.Tags.DIV);
+        // this._image = document.createElement("div");
 
         // this costs much performance, move setup to blank gif to error handling
         // is this SSL save?
         // this._image.src = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
 
-        this._image.style.border = qx.ui.basic.Image.BORDER_NONE;
-        this._image.style.verticalAlign = qx.ui.basic.Image.RESET_VALIGN;
+        this._image.style.border = "0 none";
+        this._image.style.verticalAlign = "top";
       }
       catch(ex)
       {
@@ -347,9 +347,9 @@ qx.Proto._postApply = function()
 
 if (qx.sys.Client.getInstance().isMshtml())
 {
-  qx.ui.basic.Image.IMGLOADER_START = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='";
-  qx.ui.basic.Image.IMGLOADER_STOP = "',sizingMethod='scale')";
-  qx.ui.basic.Image.FILTER_GRAY = "Gray() Alpha(Opacity=30)";
+  "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='";
+  "',sizingMethod='scale')" = "',sizingMethod='scale')";
+  "Gray() Alpha(Opacity=30)" = "Gray() Alpha(Opacity=30)";
 
   qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
   {
@@ -368,12 +368,12 @@ if (qx.sys.Client.getInstance().isMshtml())
     if (pl.getIsPng() && this.getEnabled())
     {
       i.src = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
-      i.style.filter = qx.ui.basic.Image.IMGLOADER_START + (vSource || pl.getSource()) + qx.ui.basic.Image.IMGLOADER_STOP;
+      i.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + (vSource || pl.getSource()) + "',sizingMethod='scale')";
     }
     else
     {
       i.src = vSource || pl.getSource();
-      i.style.filter = this.getEnabled() ? qx.constant.Core.EMPTY : qx.ui.basic.Image.FILTER_GRAY;
+      i.style.filter = this.getEnabled() ? "" : "Gray() Alpha(Opacity=30)";
     }
   }
 
@@ -382,7 +382,7 @@ if (qx.sys.Client.getInstance().isMshtml())
     var i = this._image;
 
     i.src = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
-    i.style.filter = qx.constant.Core.EMPTY;
+    i.style.filter = "";
   }
 
   qx.Proto._applyEnabled = qx.Proto._postApply;
@@ -401,7 +401,7 @@ else
   {
     if (this._image)
     {
-      var o = this.getEnabled() ? qx.constant.Core.EMPTY : 0.3;
+      var o = this.getEnabled() ? "" : 0.3;
       var s = this._image.style;
 
       s.opacity = s.KhtmlOpacity = s.MozOpacity = o;
@@ -600,8 +600,8 @@ qx.Proto.dispose = function()
   if (vPreloader)
   {
     // remove event connection
-    vPreloader.removeEventListener(qx.constant.Event.LOAD, this._onload, this);
-    vPreloader.removeEventListener(qx.constant.Event.ERROR, this._onerror, this);
+    vPreloader.removeEventListener("load", this._onload, this);
+    vPreloader.removeEventListener("error", this._onerror, this);
 
     this.forcePreloader(null);
   }
@@ -609,7 +609,7 @@ qx.Proto.dispose = function()
   if (this._image)
   {
     // Remove leaking filter attribute before leaving page
-    this._image.style.filter = qx.constant.Core.EMPTY;
+    this._image.style.filter = "";
     this._image = null;
   }
 

@@ -84,16 +84,16 @@ function(vShortcut, vKeyCodeOrIdentifier)
 
 
 /** the command shortcut */
-qx.OO.addProperty({ name : "shortcut", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "shortcut", type : "string" });
 
 /** 
  * keyCode (Deprecated)
  * Still there for compatibility with the old key handler/commands
  */ 
-qx.OO.addProperty({ name : "keyCode", type : qx.constant.Type.NUMBER });
+qx.OO.addProperty({ name : "keyCode", type : "number" });
 
 /** KeyIdentifier */
-qx.OO.addProperty({ name : "keyIdentifier", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "keyIdentifier", type : "string" });
 
 
 
@@ -110,8 +110,8 @@ qx.OO.addProperty({ name : "keyIdentifier", type : qx.constant.Type.STRING });
  */
 qx.Proto.execute = function(vTarget)
 {
-  if (this.hasEventListeners(qx.constant.Event.EXECUTE)) {
-    this.dispatchEvent(new qx.event.type.DataEvent(qx.constant.Event.EXECUTE, vTarget), true);
+  if (this.hasEventListeners("execute")) {
+    this.dispatchEvent(new qx.event.type.DataEvent("execute", vTarget), true);
   }
 
   return false;
@@ -234,7 +234,7 @@ qx.Proto.toString = function()
 {
   var vShortcut = this.getShortcut();
   var vKeyCode = this.getKeyCode();
-  var vString = qx.constant.Core.EMPTY;
+  var vString = "";
   var vKeyIdentifier = this._key || this.getKeyIdentifier();
 
   var vKeyString = "";

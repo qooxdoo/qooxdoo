@@ -30,7 +30,7 @@ function() {
   qx.manager.object.ObjectManager.call(this);
 });
 
-qx.OO.addProperty({ name : "currentToolTip", type : qx.constant.Type.OBJECT, instance : "qx.ui.popup.ToolTip" });
+qx.OO.addProperty({ name : "currentToolTip", type : "object", instance : "qx.ui.popup.ToolTip" });
 
 
 

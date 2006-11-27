@@ -42,31 +42,31 @@ function(divId) {
  * The maximum number of messages to show. If null the number of messages is not
  * limited.
  */
-qx.OO.addProperty({ name:"maxMessages", type:qx.constant.Type.NUMBER, defaultValue:500 });
+qx.OO.addProperty({ name:"maxMessages", type:"number", defaultValue:500 });
 
 // overridden
-qx.OO.changeProperty({ name:"useLongFormat", type:qx.constant.Type.BOOLEAN, defaultValue:false, allowNull:false });
+qx.OO.changeProperty({ name:"useLongFormat", type:"boolean", defaultValue:false, allowNull:false });
 
 /** The CSS class name for the head div {containing the clear button}. */
-qx.OO.addProperty({ name:"headClassName", type:qx.constant.Type.STRING, defaultValue:"log-head" });
+qx.OO.addProperty({ name:"headClassName", type:"string", defaultValue:"log-head" });
 
 /** The CSS class name for the body div {containing the log messages}. */
-qx.OO.addProperty({ name:"bodyClassName", type:qx.constant.Type.STRING, defaultValue:"log-body" });
+qx.OO.addProperty({ name:"bodyClassName", type:"string", defaultValue:"log-body" });
 
 /** The CSS class name for a div showing the name of the current group. */
-qx.OO.addProperty({ name:"groupClassName", type:qx.constant.Type.STRING, defaultValue:"log-group" });
+qx.OO.addProperty({ name:"groupClassName", type:"string", defaultValue:"log-group" });
 
 /** The CSS class name for a div showing a debug message. */
-qx.OO.addProperty({ name:"debugClassName", type:qx.constant.Type.STRING, defaultValue:"log-debug" });
+qx.OO.addProperty({ name:"debugClassName", type:"string", defaultValue:"log-debug" });
 
 /** The CSS class name for a div showing a info message. */
-qx.OO.addProperty({ name:"infoClassName", type:qx.constant.Type.STRING, defaultValue:"log-info" });
+qx.OO.addProperty({ name:"infoClassName", type:"string", defaultValue:"log-info" });
 
 /** The CSS class name for a div showing a warn message. */
-qx.OO.addProperty({ name:"warnClassName", type:qx.constant.Type.STRING, defaultValue:"log-warn" });
+qx.OO.addProperty({ name:"warnClassName", type:"string", defaultValue:"log-warn" });
 
 /** The CSS class name for a div showing a error message. */
-qx.OO.addProperty({ name:"errorClassName", type:qx.constant.Type.STRING, defaultValue:"log-error" });
+qx.OO.addProperty({ name:"errorClassName", type:"string", defaultValue:"log-error" });
 
 
 /**
@@ -109,7 +109,7 @@ qx.Proto.appendLogEvent = function(evt) {
   }
 
   if (group != this._lastGroup) {
-    var elem = document.createElement(qx.constant.Tags.DIV);
+    var elem = document.createElement("div");
     elem.className = this.getGroupClassName();
     elem.innerHTML = group;
 

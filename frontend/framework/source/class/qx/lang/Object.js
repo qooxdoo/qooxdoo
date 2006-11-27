@@ -97,7 +97,7 @@ qx.Class.mergeWith = function(vObjectA, vObjectB)
 qx.Class.carefullyMergeWith = function(vObjectA, vObjectB) {
   for (vKey in vObjectB)
   {
-    if (typeof vObjectA[vKey] === qx.constant.Type.UNDEFINED) {
+    if (typeof vObjectA[vKey] === "undefined") {
       vObjectA[vKey] = vObjectB[vKey];
     }
   }

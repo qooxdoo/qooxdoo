@@ -66,4 +66,4 @@ qx.Proto.updateHeaderCell = function(cellInfo, cellWidget) {
 
 
 /** The preferred height of cells created by this header renderer. */
-qx.OO.addProperty({ name:"prefferedCellHeight", type:qx.constant.Type.NUMBER, defaultValue:16, allowNull:false });
+qx.OO.addProperty({ name:"prefferedCellHeight", type:"number", defaultValue:16, allowNull:false });

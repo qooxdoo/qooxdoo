@@ -23,7 +23,7 @@
 /* ************************************************************************
 
 #module(io_remote)
-#require(qx.io.remote.RemoteExchange)
+#require(qx.io.remote.Exchange)
 #require(qx.constant.Mime)
 
 ************************************************************************ */
@@ -87,9 +87,9 @@ qx.Proto._lastReadyState = 0;
 ---------------------------------------------------------------------------
 */
 
-// basic registration to qx.io.remote.RemoteExchange
+// basic registration to qx.io.remote.Exchange
 // the real availability check (activeX stuff and so on) follows at the first real request
-qx.io.remote.RemoteExchange.registerType(qx.io.remote.IframeTransport, "qx.io.remote.IframeTransport");
+qx.io.remote.Exchange.registerType(qx.io.remote.IframeTransport, "qx.io.remote.IframeTransport");
 
 qx.io.remote.IframeTransport.handles =
 {
@@ -97,7 +97,7 @@ qx.io.remote.IframeTransport.handles =
   asynchronous : true,
   crossDomain : false,
   fileUpload: true,
-  responseTypes : [ qx.constant.Mime.TEXT, qx.constant.Mime.JAVASCRIPT, qx.constant.Mime.JSON, qx.constant.Mime.XML, qx.constant.Mime.HTML ]
+  responseTypes : [ "text/plain", "text/javascript", "text/json", "application/xml", "text/html" ]
 }
 
 qx.io.remote.IframeTransport.isSupported = function() {
@@ -132,18 +132,18 @@ qx.Proto.send = function()
     var value = vParameters[vId];
     if (value instanceof Array) {
       for (var i = 0; i < value.length; i++) {
-        vParametersList.push(encodeURIComponent(vId) + qx.constant.Core.EQUAL +
+        vParametersList.push(encodeURIComponent(vId) + "=" +
                              encodeURIComponent(value[i]));
       }
     } else {
-      vParametersList.push(encodeURIComponent(vId) + qx.constant.Core.EQUAL +
+      vParametersList.push(encodeURIComponent(vId) + "=" +
                            encodeURIComponent(value));
     }
   }
 
   if (vParametersList.length > 0) {
-    vUrl += (vUrl.indexOf(qx.constant.Core.QUESTIONMARK) >= 0 ?
-      qx.constant.Core.AMPERSAND : qx.constant.Core.QUESTIONMARK) + vParametersList.join(qx.constant.Core.AMPERSAND);
+    vUrl += (vUrl.indexOf("?") >= 0 ?
+      "&" : "?") + vParametersList.join("&");
   }
 
 
@@ -211,17 +211,17 @@ qx.Proto._switchReadyState = function(vReadyState)
   // Ignoring already stopped requests
   switch(this.getState())
   {
-    case qx.constant.Net.STATE_COMPLETED:
-    case qx.constant.Net.STATE_ABORTED:
-    case qx.constant.Net.STATE_FAILED:
-    case qx.constant.Net.STATE_TIMEOUT:
+    case "completed":
+    case "aborted":
+    case "failed":
+    case "timeout":
       this.warn("Ignore Ready State Change");
       return;
   }
 
   // Updating internal state
   while (this._lastReadyState < vReadyState) {
-    this.setState(qx.io.remote.RemoteExchange._nativeMap[++this._lastReadyState]);
+    this.setState(qx.io.remote.Exchange._nativeMap[++this._lastReadyState]);
   }
 }
 
@@ -299,7 +299,7 @@ qx.Proto.getStatusCode = function()
 */
 qx.Proto.getStatusText = function()
 {
-  return qx.constant.Core.EMPTY;
+  return "";
 
   // TODO
   // this.error("Need implementation", "getStatusText");
@@ -318,15 +318,15 @@ qx.Proto.getStatusText = function()
 */
 
 qx.Proto.getIframeWindow = function() {
-  return qx.dom.DomIframe.getWindow(this._frame);
+  return qx.dom.Iframe.getWindow(this._frame);
 }
 
 qx.Proto.getIframeDocument = function() {
-  return qx.dom.DomIframe.getDocument(this._frame);
+  return qx.dom.Iframe.getDocument(this._frame);
 }
 
 qx.Proto.getIframeBody = function() {
-  return qx.dom.DomIframe.getBody(this._frame);
+  return qx.dom.Iframe.getBody(this._frame);
 }
 
 
@@ -381,16 +381,16 @@ qx.Proto.getFetchedLength = function()
 
 qx.Proto.getResponseContent = function()
 {
-  if (this.getState() !== qx.constant.Net.STATE_COMPLETED)
+  if (this.getState() !== "completed")
   {
-    if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
+    if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug")) {
       this.warn("Transfer not complete, ignoring content!");
     }
 
     return null;
   }
 
-  if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
+  if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug")) {
     this.debug("Returning content for responseType: " + this.getResponseType());
   }
 
@@ -398,29 +398,29 @@ qx.Proto.getResponseContent = function()
 
   switch(this.getResponseType())
   {
-    case qx.constant.Mime.TEXT:
+    case "text/plain":
       return vText;
       break;
 
-    case qx.constant.Mime.HTML:
+    case "text/html":
       return this.getIframeHtmlContent();
       break;
 
-    case qx.constant.Mime.JSON:
+    case "text/json":
       try {
         return vText && vText.length > 0 ? qx.io.Json.parseQx(vText) : null;
       } catch(ex) {
         return this.error("Could not execute json: (" + vText + ")", ex);
       }
 
-    case qx.constant.Mime.JAVASCRIPT:
+    case "text/javascript":
       try {
         return vText && vText.length > 0 ? window.eval(vText) : null;
       } catch(ex) {
         return this.error("Could not execute javascript: (" + vText + ")", ex);
       }
 
-    case qx.constant.Mime.XML:
+    case "application/xml":
       return this.getIframeDocument();
 
     default:

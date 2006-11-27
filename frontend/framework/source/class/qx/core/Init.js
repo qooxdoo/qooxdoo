@@ -19,7 +19,7 @@
 /* ************************************************************************
 
 #module(core)
-#require(qx.dom.DomEventRegistration)
+#require(qx.dom.EventRegistration)
 #optional(qx.component.init.InterfaceInitComponent)
 
 ************************************************************************ */
@@ -58,9 +58,9 @@ function()
   this.__onunload = function(e) { return o._onunload(e); }
 
   // Attach events
-  qx.dom.DomEventRegistration.addEventListener(window, "load", this.__onload);
-  qx.dom.DomEventRegistration.addEventListener(window, "beforeunload", this.__onbeforeunload);
-  qx.dom.DomEventRegistration.addEventListener(window, "unload", this.__onunload);
+  qx.dom.EventRegistration.addEventListener(window, "load", this.__onload);
+  qx.dom.EventRegistration.addEventListener(window, "beforeunload", this.__onbeforeunload);
+  qx.dom.EventRegistration.addEventListener(window, "unload", this.__onunload);
 });
 
 
@@ -89,14 +89,14 @@ qx.Settings.setDefault("component", "qx.component.init.InterfaceInitComponent");
 /**
  * Instance of the component initializer.
  */
-qx.OO.addProperty({ name : "component", type : qx.constant.Type.OBJECT, instance : "qx.component.init.BasicInitComponent" });
+qx.OO.addProperty({ name : "component", type : "object", instance : "qx.component.init.BasicInitComponent" });
 
 /**
  * Reference to the constructor of the main application.
  *
  * Set this before the onload event is fired.
  */
-qx.OO.addProperty({ name : "application", type : qx.constant.Type.FUNCTION });
+qx.OO.addProperty({ name : "application", type : "function" });
 
 
 
@@ -294,9 +294,9 @@ qx.Proto.dispose = function()
   }
 
   // Detach Events
-  qx.dom.DomEventRegistration.removeEventListener(window, "load", this.__onload);
-  qx.dom.DomEventRegistration.removeEventListener(window, "beforeunload", this.__onbeforeunload);
-  qx.dom.DomEventRegistration.removeEventListener(window, "unload", this.__onunload);
+  qx.dom.EventRegistration.removeEventListener(window, "load", this.__onload);
+  qx.dom.EventRegistration.removeEventListener(window, "beforeunload", this.__onbeforeunload);
+  qx.dom.EventRegistration.removeEventListener(window, "unload", this.__onunload);
 
   // Reset inline functions
   this.__onload = this.__onbeforeunload = this.__onunload = null;

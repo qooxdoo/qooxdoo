@@ -22,9 +22,9 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.dom.DomScroll");
+qx.OO.defineClass("qx.dom.Scroll");
 
-qx.dom.DomScroll.getLeftSum = function(el)
+qx.dom.Scroll.getLeftSum = function(el)
 {
   var sum = 0;
   var p = el.parentNode;
@@ -38,7 +38,7 @@ qx.dom.DomScroll.getLeftSum = function(el)
   return sum;
 }
 
-qx.dom.DomScroll.getTopSum = function(el)
+qx.dom.Scroll.getTopSum = function(el)
 {
   var sum = 0;
   var p = el.parentNode;

@@ -25,7 +25,7 @@
 /**
  * @event completed {qx.event.type.Event}
  */
-qx.OO.defineClass("qx.io.image.ImagePreloaderSystem", qx.core.Target,
+qx.OO.defineClass("qx.io.image.PreloaderSystem", qx.core.Target,
 function(vPreloadList, vCallBack, vCallBackScope)
 {
   qx.core.Target.call(this);
@@ -39,7 +39,7 @@ function(vPreloadList, vCallBack, vCallBackScope)
   // If we use the compact syntax, automatically add an event listeners and start the loading process
   if (vCallBack)
   {
-    this.addEventListener(qx.constant.Event.COMPLETED, vCallBack, vCallBackScope || null);
+    this.addEventListener("completed", vCallBack, vCallBackScope || null);
     this.start();
   }
 });
@@ -70,7 +70,7 @@ qx.Proto.start = function()
 {
   if (qx.lang.Object.isEmpty(this._list))
   {
-    this.createDispatchEvent(qx.constant.Event.COMPLETED);
+    this.createDispatchEvent("completed");
     return;
   }
 
@@ -86,8 +86,8 @@ qx.Proto.start = function()
     {
       vPreloader._origSource = vSource;
 
-      vPreloader.addEventListener(qx.constant.Event.LOAD, this._onload, this);
-      vPreloader.addEventListener(qx.constant.Event.ERROR, this._onerror, this);
+      vPreloader.addEventListener("load", this._onload, this);
+      vPreloader.addEventListener("error", this._onerror, this);
     }
   }
 
@@ -124,7 +124,7 @@ qx.Proto._oninterval = function(e)
   this._stopped = true;
   this._timer.stop();
 
-  this.createDispatchEvent(qx.constant.Event.COMPLETED);
+  this.createDispatchEvent("completed");
 }
 
 
@@ -149,7 +149,7 @@ qx.Proto._check = function()
   if (qx.lang.Object.isEmpty(this._list))
   {
     this._timer.stop();
-    this.createDispatchEvent(qx.constant.Event.COMPLETED);
+    this.createDispatchEvent("completed");
   }
   else
   {

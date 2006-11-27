@@ -51,14 +51,14 @@ function () {
 
 
 qx.Proto._createPage = function(barView, title, iconUrl, widget, backgroundColor, scrolls) {
-  var bt = new qx.ui.pageview.buttonview.ButtonViewButton(title, iconUrl);
+  var bt = new qx.ui.pageview.buttonview.Button(title, iconUrl);
   if (barView.getBar().isEmpty()) {
     bt.setChecked(true);
   }
 
   barView.getBar().add(bt);
 
-  var page = new qx.ui.pageview.buttonview.ButtonViewPage(bt);
+  var page = new qx.ui.pageview.buttonview.Page(bt);
   barView.getPane().add(page);
 
   page.set({ left:0, right:0, top:0, bottom:0 });
@@ -217,26 +217,26 @@ qx.Proto._createToolbarDemo = function() {
 
   // Menu
   var m1 = new qx.ui.menu.Menu;
-  var mb1_01 = new qx.ui.menu.MenuButton("New", "icon/16/file-new.png");
-  var mb1_02 = new qx.ui.menu.MenuButton("Open", "icon/16/file-open.png");
-  var mb1_03 = new qx.ui.menu.MenuButton("Save", "icon/16/file-save.png");
-  var mb1_04 = new qx.ui.menu.MenuButton("Save as", "icon/16/file-save-as.png");
-  var mb1_05 = new qx.ui.menu.MenuButton("Close", "icon/16/stop.png");
-  var mb1_06 = new qx.ui.menu.MenuButton("Restore last saved", "icon/16/reload.png");
+  var mb1_01 = new qx.ui.menu.Button("New", "icon/16/file-new.png");
+  var mb1_02 = new qx.ui.menu.Button("Open", "icon/16/file-open.png");
+  var mb1_03 = new qx.ui.menu.Button("Save", "icon/16/file-save.png");
+  var mb1_04 = new qx.ui.menu.Button("Save as", "icon/16/file-save-as.png");
+  var mb1_05 = new qx.ui.menu.Button("Close", "icon/16/stop.png");
+  var mb1_06 = new qx.ui.menu.Button("Restore last saved", "icon/16/reload.png");
   m1.add(mb1_01, mb1_02, mb1_03, mb1_04, mb1_05, mb1_06);
 
   var m2 = new qx.ui.menu.Menu;
-  var mb2_01 = new qx.ui.menu.MenuButton("Undo", "icon/16/undo.png");
-  var mb2_02 = new qx.ui.menu.MenuButton("Redo", "icon/16/redo.png");
-  var mb2_b1 = new qx.ui.menu.MenuSeparator();
-  var mb2_03 = new qx.ui.menu.MenuButton("Cut", "icon/16/edit-cut.png");
-  var mb2_04 = new qx.ui.menu.MenuButton("Copy", "icon/16/edit-copy.png");
-  var mb2_05 = new qx.ui.menu.MenuButton("Paste", "icon/16/edit-paste.png");
-  var mb2_06 = new qx.ui.menu.MenuButton("Delete", "icon/16/edit-delete.png");
-  var mb2_b2 = new qx.ui.menu.MenuSeparator();
-  var mb2_07 = new qx.ui.menu.MenuButton("Select All");
-  var mb2_08 = new qx.ui.menu.MenuButton("Find", "icon/16/find.png");
-  var mb2_09 = new qx.ui.menu.MenuButton("Find Again");
+  var mb2_01 = new qx.ui.menu.Button("Undo", "icon/16/undo.png");
+  var mb2_02 = new qx.ui.menu.Button("Redo", "icon/16/redo.png");
+  var mb2_b1 = new qx.ui.menu.Separator();
+  var mb2_03 = new qx.ui.menu.Button("Cut", "icon/16/edit-cut.png");
+  var mb2_04 = new qx.ui.menu.Button("Copy", "icon/16/edit-copy.png");
+  var mb2_05 = new qx.ui.menu.Button("Paste", "icon/16/edit-paste.png");
+  var mb2_06 = new qx.ui.menu.Button("Delete", "icon/16/edit-delete.png");
+  var mb2_b2 = new qx.ui.menu.Separator();
+  var mb2_07 = new qx.ui.menu.Button("Select All");
+  var mb2_08 = new qx.ui.menu.Button("Find", "icon/16/find.png");
+  var mb2_09 = new qx.ui.menu.Button("Find Again");
   mb2_05.setEnabled(false);
   mb2_06.setEnabled(false);
   mb2_09.setEnabled(false);
@@ -248,87 +248,87 @@ qx.Proto._createToolbarDemo = function() {
   var m3_subc = new qx.ui.menu.Menu;
   var m3_subd = new qx.ui.menu.Menu;
 
-  var mb3_01 = new qx.ui.menu.MenuCheckBox("File List", null, false);
-  var mb3_02 = new qx.ui.menu.MenuCheckBox("Syntax Highlighting", null, true);
-  var mb3_03 = new qx.ui.menu.MenuCheckBox("Statusbar", null, true);
-  var mb3_b1 = new qx.ui.menu.MenuSeparator();
-  var mb3_04 = new qx.ui.menu.MenuButton("Printer Font", null, null, m3_suba);
-  var mb3_05 = new qx.ui.menu.MenuButton("Editor Font", null, null, m3_subb);
-  var mb3_06 = new qx.ui.menu.MenuButton("Export Font", null, null, m3_subc);
-  var mb3_b2 = new qx.ui.menu.MenuSeparator();
-  var mb3_07 = new qx.ui.menu.MenuButton("Advanced", null, null, m3_subd);
+  var mb3_01 = new qx.ui.menu.CheckBox("File List", null, false);
+  var mb3_02 = new qx.ui.menu.CheckBox("Syntax Highlighting", null, true);
+  var mb3_03 = new qx.ui.menu.CheckBox("Statusbar", null, true);
+  var mb3_b1 = new qx.ui.menu.Separator();
+  var mb3_04 = new qx.ui.menu.Button("Printer Font", null, null, m3_suba);
+  var mb3_05 = new qx.ui.menu.Button("Editor Font", null, null, m3_subb);
+  var mb3_06 = new qx.ui.menu.Button("Export Font", null, null, m3_subc);
+  var mb3_b2 = new qx.ui.menu.Separator();
+  var mb3_07 = new qx.ui.menu.Button("Advanced", null, null, m3_subd);
   m3.add(mb3_01, mb3_02, mb3_03, mb3_b1, mb3_04, mb3_05, mb3_06, mb3_b2, mb3_07);
 
-  var mb3_suba_01 = new qx.ui.menu.MenuButton("Tahoma, 11pt");
-  var mb3_suba_02 = new qx.ui.menu.MenuButton("Tahoma, 12pt");
-  var mb3_suba_03 = new qx.ui.menu.MenuButton("Tahoma, 13pt");
-  var mb3_suba_04 = new qx.ui.menu.MenuButton("Tahoma, 14pt");
-  var mb3_suba_05 = new qx.ui.menu.MenuButton("Tahoma, 15pt");
+  var mb3_suba_01 = new qx.ui.menu.Button("Tahoma, 11pt");
+  var mb3_suba_02 = new qx.ui.menu.Button("Tahoma, 12pt");
+  var mb3_suba_03 = new qx.ui.menu.Button("Tahoma, 13pt");
+  var mb3_suba_04 = new qx.ui.menu.Button("Tahoma, 14pt");
+  var mb3_suba_05 = new qx.ui.menu.Button("Tahoma, 15pt");
   m3_suba.add(mb3_suba_01, mb3_suba_02, mb3_suba_03, mb3_suba_04, mb3_suba_05);
 
-  var mb3_subb_01 = new qx.ui.menu.MenuButton("Verdana, 11pt");
-  var mb3_subb_02 = new qx.ui.menu.MenuButton("Verdana, 12pt");
-  var mb3_subb_03 = new qx.ui.menu.MenuButton("Verdana, 13pt");
-  var mb3_subb_04 = new qx.ui.menu.MenuButton("Verdana, 14pt");
-  var mb3_subb_05 = new qx.ui.menu.MenuButton("Verdana, 15pt");
+  var mb3_subb_01 = new qx.ui.menu.Button("Verdana, 11pt");
+  var mb3_subb_02 = new qx.ui.menu.Button("Verdana, 12pt");
+  var mb3_subb_03 = new qx.ui.menu.Button("Verdana, 13pt");
+  var mb3_subb_04 = new qx.ui.menu.Button("Verdana, 14pt");
+  var mb3_subb_05 = new qx.ui.menu.Button("Verdana, 15pt");
   m3_subb.add(mb3_subb_01, mb3_subb_02, mb3_subb_03, mb3_subb_04, mb3_subb_05);
 
-  var mb3_subc_01 = new qx.ui.menu.MenuButton("Courier, 11pt");
-  var mb3_subc_02 = new qx.ui.menu.MenuButton("Courier, 12pt");
-  var mb3_subc_03 = new qx.ui.menu.MenuButton("Courier, 13pt");
-  var mb3_subc_04 = new qx.ui.menu.MenuButton("Courier, 14pt");
-  var mb3_subc_05 = new qx.ui.menu.MenuButton("Courier, 15pt");
+  var mb3_subc_01 = new qx.ui.menu.Button("Courier, 11pt");
+  var mb3_subc_02 = new qx.ui.menu.Button("Courier, 12pt");
+  var mb3_subc_03 = new qx.ui.menu.Button("Courier, 13pt");
+  var mb3_subc_04 = new qx.ui.menu.Button("Courier, 14pt");
+  var mb3_subc_05 = new qx.ui.menu.Button("Courier, 15pt");
   m3_subc.add(mb3_subc_01, mb3_subc_02, mb3_subc_03, mb3_subc_04, mb3_subc_05);
 
   var mb3_subd_02_suba = new qx.ui.menu.Menu();
-  var mb3_subd_02_suba_01 = new qx.ui.menu.MenuButton("First");
-  var mb3_subd_02_suba_02 = new qx.ui.menu.MenuButton("Second");
-  var mb3_subd_02_suba_03 = new qx.ui.menu.MenuButton("Third");
+  var mb3_subd_02_suba_01 = new qx.ui.menu.Button("First");
+  var mb3_subd_02_suba_02 = new qx.ui.menu.Button("Second");
+  var mb3_subd_02_suba_03 = new qx.ui.menu.Button("Third");
   mb3_subd_02_suba.add(mb3_subd_02_suba_01, mb3_subd_02_suba_02, mb3_subd_02_suba_03);
 
-  var mb3_subd_01 = new qx.ui.menu.MenuButton("First");
-  var mb3_subd_02 = new qx.ui.menu.MenuButton("Second", null, null, mb3_subd_02_suba);
-  var mb3_subd_03 = new qx.ui.menu.MenuButton("Third");
+  var mb3_subd_01 = new qx.ui.menu.Button("First");
+  var mb3_subd_02 = new qx.ui.menu.Button("Second", null, null, mb3_subd_02_suba);
+  var mb3_subd_03 = new qx.ui.menu.Button("Third");
 
   m3_subd.add(mb3_subd_01, mb3_subd_02, mb3_subd_03);
 
   var m4 = new qx.ui.menu.Menu;
   var m4_suba = new qx.ui.menu.Menu;
 
-  var mb4_01 = new qx.ui.menu.MenuButton("View", null, null, m4_suba);
-  var mb4_b1 = new qx.ui.menu.MenuSeparator();
-  var mb4_02 = new qx.ui.menu.MenuButton("Editor Preferences...", "icon/16/configure.png");
-  var mb4_03 = new qx.ui.menu.MenuButton("Editor Extensions", "icon/16/connect-established.png");
-  var mb4_04 = new qx.ui.menu.MenuButton("Framework Preferences");
+  var mb4_01 = new qx.ui.menu.Button("View", null, null, m4_suba);
+  var mb4_b1 = new qx.ui.menu.Separator();
+  var mb4_02 = new qx.ui.menu.Button("Editor Preferences...", "icon/16/configure.png");
+  var mb4_03 = new qx.ui.menu.Button("Editor Extensions", "icon/16/connect-established.png");
+  var mb4_04 = new qx.ui.menu.Button("Framework Preferences");
 
   m4.add(mb4_01, mb4_b1, mb4_02, mb4_03, mb4_04);
 
-  var mb4_suba_01 = new qx.ui.menu.MenuButton("New Window");
-  var mb4_suba_b1 = new qx.ui.menu.MenuSeparator();
-  var mb4_suba_02 = new qx.ui.menu.MenuRadioButton("Overlapping", null, true);
-  var mb4_suba_03 = new qx.ui.menu.MenuRadioButton("Split Horizontally");
-  var mb4_suba_04 = new qx.ui.menu.MenuRadioButton("Split Vertically");
-  var mb4_suba_b2 = new qx.ui.menu.MenuSeparator();
-  var mb4_suba_05 = new qx.ui.menu.MenuButton("Next Window");
-  var mb4_suba_06 = new qx.ui.menu.MenuButton("Previous Window");
+  var mb4_suba_01 = new qx.ui.menu.Button("New Window");
+  var mb4_suba_b1 = new qx.ui.menu.Separator();
+  var mb4_suba_02 = new qx.ui.menu.RadioButton("Overlapping", null, true);
+  var mb4_suba_03 = new qx.ui.menu.RadioButton("Split Horizontally");
+  var mb4_suba_04 = new qx.ui.menu.RadioButton("Split Vertically");
+  var mb4_suba_b2 = new qx.ui.menu.Separator();
+  var mb4_suba_05 = new qx.ui.menu.Button("Next Window");
+  var mb4_suba_06 = new qx.ui.menu.Button("Previous Window");
 
   m4_suba.add(mb4_suba_01, mb4_suba_b1, mb4_suba_02, mb4_suba_03, mb4_suba_04, mb4_suba_b2, mb4_suba_05, mb4_suba_06);
 
   var mb4_manager = new qx.manager.selection.RadioManager("windowMode", [ mb4_suba_02, mb4_suba_03, mb4_suba_04 ]);
 
   var m5 = new qx.ui.menu.Menu;
-  var mb5_01 = new qx.ui.menu.MenuButton("Help", "icon/16/help.png");
-  var mb5_02 = new qx.ui.menu.MenuButton("About", "icon/16/run.png");
+  var mb5_01 = new qx.ui.menu.Button("Help", "icon/16/help.png");
+  var mb5_02 = new qx.ui.menu.Button("About", "icon/16/run.png");
   m5.add(mb5_01, mb5_02);
 
   doc.add(m1, m2, m3, m3_suba, m3_subb, m3_subc, m3_subd, mb3_subd_02_suba, m4, m4_suba, m5);
 
   var mb1 = new qx.ui.toolbar.ToolBar;
-  var mbb1 = new qx.ui.toolbar.ToolBarMenuButton("File", m1);
-  var mbb2 = new qx.ui.toolbar.ToolBarMenuButton("Edit", m2);
-  var mbb3 = new qx.ui.toolbar.ToolBarMenuButton("View", m3);
-  var mbb4 = new qx.ui.toolbar.ToolBarMenuButton("Options", m4);
-  var mbb5 = new qx.ui.toolbar.ToolBarMenuButton("Help", m5);
+  var mbb1 = new qx.ui.toolbar.MenuButton("File", m1);
+  var mbb2 = new qx.ui.toolbar.MenuButton("Edit", m2);
+  var mbb3 = new qx.ui.toolbar.MenuButton("View", m3);
+  var mbb4 = new qx.ui.toolbar.MenuButton("Options", m4);
+  var mbb5 = new qx.ui.toolbar.MenuButton("Help", m5);
   mb1.add(mbb1, mbb2, mbb3, mbb4, mbb5);
   main.add(mb1);
 
@@ -346,7 +346,7 @@ qx.Proto._createToolbarDemo = function() {
 
   function createButton(text, icon, clazz, checked) {
     if (! clazz) {
-      clazz = qx.ui.toolbar.ToolBarButton;
+      clazz = qx.ui.toolbar.Button;
     }
 
     var button = new clazz(text, "icon/22/" + icon + ".png");
@@ -363,23 +363,23 @@ qx.Proto._createToolbarDemo = function() {
   var tb = new qx.ui.toolbar.ToolBar;
   main.add(tb);
 
-  var part = new qx.ui.toolbar.ToolBarPart;
+  var part = new qx.ui.toolbar.Part;
   tb.add(part);
   part.add(createButton("New", "file-new"));
-  part.add(new qx.ui.toolbar.ToolBarSeparator);
+  part.add(new qx.ui.toolbar.Separator);
   part.add(createButton("Copy",  "edit-copy"));
   part.add(createButton("Cut",   "edit-cut"));
   part.add(createButton("Paste", "edit-paste"));
 
-  var part = new qx.ui.toolbar.ToolBarPart;
+  var part = new qx.ui.toolbar.Part;
   tb.add(part);
-  part.add(createButton("Check", "configure", qx.ui.toolbar.ToolBarCheckBox, true));
+  part.add(createButton("Check", "configure", qx.ui.toolbar.CheckBox, true));
 
-  var part = new qx.ui.toolbar.ToolBarPart;
+  var part = new qx.ui.toolbar.Part;
   tb.add(part);
-  var radio1 = createButton("Radio1", "view-choose", qx.ui.toolbar.ToolBarRadioButton);
-  var radio2 = createButton("Radio2", "view-detailed", qx.ui.toolbar.ToolBarRadioButton, true);
-  var radio3 = createButton("Radio3", "view-icon", qx.ui.toolbar.ToolBarRadioButton);
+  var radio1 = createButton("Radio1", "view-choose", qx.ui.toolbar.RadioButton);
+  var radio2 = createButton("Radio2", "view-detailed", qx.ui.toolbar.RadioButton, true);
+  var radio3 = createButton("Radio3", "view-icon", qx.ui.toolbar.RadioButton);
   part.add(radio1, radio2, radio3);
   new qx.manager.selection.RadioManager(null, [radio1, radio2, radio3]);
 
@@ -448,18 +448,18 @@ qx.Proto._createTabDemo = function() {
 
   // Tab view
   var tf1 = new qx.ui.pageview.tabview.TabView;
-  tf1.set({ width:qx.constant.Core.FLEX });
+  tf1.set({ width:"1*" });
   main.add(tf1);
 
-  var t1_1 = new qx.ui.pageview.tabview.TabViewButton("Edit");
-  var t1_2 = new qx.ui.pageview.tabview.TabViewButton("Find");
-  var t1_3 = new qx.ui.pageview.tabview.TabViewButton("Backup");
+  var t1_1 = new qx.ui.pageview.tabview.Button("Edit");
+  var t1_2 = new qx.ui.pageview.tabview.Button("Find");
+  var t1_3 = new qx.ui.pageview.tabview.Button("Backup");
   t1_1.setChecked(true);
   tf1.getBar().add(t1_1, t1_2, t1_3);
 
-  var p1_1 = new qx.ui.pageview.tabview.TabViewPage(t1_1);
-  var p1_2 = new qx.ui.pageview.tabview.TabViewPage(t1_2);
-  var p1_3 = new qx.ui.pageview.tabview.TabViewPage(t1_3);
+  var p1_1 = new qx.ui.pageview.tabview.Page(t1_1);
+  var p1_2 = new qx.ui.pageview.tabview.Page(t1_2);
+  var p1_3 = new qx.ui.pageview.tabview.Page(t1_3);
   tf1.getPane().add(p1_1, p1_2, p1_3);
 
   p1_2.add(new qx.ui.form.TextField("Find Anywhere"));
@@ -489,15 +489,15 @@ qx.Proto._createTabDemo = function() {
   tf2.set({ left: 0, top: 50, right: 0, bottom: 0 });
   p1_2.add(tf2);
 
-  var t2_1 = new qx.ui.pageview.tabview.TabViewButton("Search for Files", "icon/16/file-open.png");
-  var t2_2 = new qx.ui.pageview.tabview.TabViewButton("Search the Web",   "icon/16/network.png");
-  var t2_3 = new qx.ui.pageview.tabview.TabViewButton("Search in Mails",  "icon/16/mail.png");
+  var t2_1 = new qx.ui.pageview.tabview.Button("Search for Files", "icon/16/file-open.png");
+  var t2_2 = new qx.ui.pageview.tabview.Button("Search the Web",   "icon/16/network.png");
+  var t2_3 = new qx.ui.pageview.tabview.Button("Search in Mails",  "icon/16/mail.png");
   t2_1.setChecked(true);
   tf2.getBar().add(t2_1, t2_2, t2_3);
 
-  var p2_1 = new qx.ui.pageview.tabview.TabViewPage(t2_1);
-  var p2_2 = new qx.ui.pageview.tabview.TabViewPage(t2_2);
-  var p2_3 = new qx.ui.pageview.tabview.TabViewPage(t2_3);
+  var p2_1 = new qx.ui.pageview.tabview.Page(t2_1);
+  var p2_2 = new qx.ui.pageview.tabview.Page(t2_2);
+  var p2_3 = new qx.ui.pageview.tabview.Page(t2_3);
   tf2.getPane().add(p2_1, p2_2, p2_3);
 
   var t2_1 = new qx.ui.form.TextField("Files...");
@@ -534,14 +534,14 @@ qx.Proto._createTabDemo = function() {
 
   // Bar view
   var bs = new qx.ui.pageview.buttonview.ButtonView;
-  bs.set({ width:qx.constant.Core.FLEX, barPosition:"left" });
+  bs.set({ width:"1*", barPosition:"left" });
   main.add(bs);
 
-  var bsb1 = new qx.ui.pageview.buttonview.ButtonViewButton("Display", "icon/16/display.png");
-  var bsb2 = new qx.ui.pageview.buttonview.ButtonViewButton("Colorize", "icon/16/colors.png");
-  var bsb3 = new qx.ui.pageview.buttonview.ButtonViewButton("Icons", "icon/16/icons.png");
-  var bsb4 = new qx.ui.pageview.buttonview.ButtonViewButton("Applications", "icon/16/run.png");
-  var bsb5 = new qx.ui.pageview.buttonview.ButtonViewButton("System", "icon/16/display.png");
+  var bsb1 = new qx.ui.pageview.buttonview.Button("Display", "icon/16/display.png");
+  var bsb2 = new qx.ui.pageview.buttonview.Button("Colorize", "icon/16/colors.png");
+  var bsb3 = new qx.ui.pageview.buttonview.Button("Icons", "icon/16/icons.png");
+  var bsb4 = new qx.ui.pageview.buttonview.Button("Applications", "icon/16/run.png");
+  var bsb5 = new qx.ui.pageview.buttonview.Button("System", "icon/16/display.png");
 
   bsb1.setChecked(true);
 
@@ -555,11 +555,11 @@ qx.Proto._createTabDemo = function() {
   bs.getBar().setHorizontalChildrenAlign("center");
   bs.getBar().setVerticalChildrenAlign("bottom");
 
-  var p1 = new qx.ui.pageview.buttonview.ButtonViewPage(bsb1);
-  var p2 = new qx.ui.pageview.buttonview.ButtonViewPage(bsb2);
-  var p3 = new qx.ui.pageview.buttonview.ButtonViewPage(bsb3);
-  var p4 = new qx.ui.pageview.buttonview.ButtonViewPage(bsb4);
-  var p5 = new qx.ui.pageview.buttonview.ButtonViewPage(bsb5);
+  var p1 = new qx.ui.pageview.buttonview.Page(bsb1);
+  var p2 = new qx.ui.pageview.buttonview.Page(bsb2);
+  var p3 = new qx.ui.pageview.buttonview.Page(bsb3);
+  var p4 = new qx.ui.pageview.buttonview.Page(bsb4);
+  var p5 = new qx.ui.pageview.buttonview.Page(bsb5);
   bs.getPane().add(p1, p2, p3, p4, p5);
 
   p1.add(new qx.ui.form.TextField("Display Input"));
@@ -1036,17 +1036,17 @@ qx.Proto._createInternalWindowDemo = function() {
   var tf1 = new qx.ui.pageview.tabview.TabView;
   tf1.set({ left: 10, top: 52, right: 10, bottom: 10 });
 
-  var t1_1 = new qx.ui.pageview.tabview.TabViewButton("Explore");
-  var t1_2 = new qx.ui.pageview.tabview.TabViewButton("Internet");
-  var t1_3 = new qx.ui.pageview.tabview.TabViewButton("Future");
+  var t1_1 = new qx.ui.pageview.tabview.Button("Explore");
+  var t1_2 = new qx.ui.pageview.tabview.Button("Internet");
+  var t1_3 = new qx.ui.pageview.tabview.Button("Future");
 
   t1_1.setChecked(true);
 
   tf1.getBar().add(t1_1, t1_2, t1_3);
 
-  var p1_1 = new qx.ui.pageview.tabview.TabViewPage(t1_1);
-  var p1_2 = new qx.ui.pageview.tabview.TabViewPage(t1_2);
-  var p1_3 = new qx.ui.pageview.tabview.TabViewPage(t1_3);
+  var p1_1 = new qx.ui.pageview.tabview.Page(t1_1);
+  var p1_2 = new qx.ui.pageview.tabview.Page(t1_2);
+  var p1_3 = new qx.ui.pageview.tabview.Page(t1_3);
 
   tf1.getPane().add(p1_1, p1_2, p1_3);
 

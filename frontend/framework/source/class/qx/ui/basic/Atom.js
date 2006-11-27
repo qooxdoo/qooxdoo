@@ -35,7 +35,7 @@ function(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)
   qx.ui.layout.BoxLayout.call(this);
 
   if (this.getOrientation() == null) {
-    this.setOrientation(qx.constant.Layout.ORIENTATION_HORIZONTAL);
+    this.setOrientation("horizontal");
   }
 
   // Prohibit selection
@@ -90,45 +90,45 @@ qx.ui.basic.Atom.SHOW_BOTH = "both";
 /*!
   The label/caption/text of the qx.ui.basic.Atom instance
 */
-qx.OO.addProperty({ name : "label", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "label", type : "string" });
 
 /*!
   Any URI String supported by qx.ui.basic.Image to display a icon
 */
-qx.OO.addProperty({ name : "icon", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "icon", type : "string" });
 
 /**
  * Any URI String supported by qx.ui.basic.Image to display a disabled icon.
  * <p>
  * If not set the normal icon is shown transparently.
  */
-qx.OO.addProperty({ name : "disabledIcon", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "disabledIcon", type : "string" });
 
 /*!
   Configure the visibility of the sub elements/widgets.
   Possible values: both, text, icon, none
 */
-qx.OO.addProperty({ name : "show", type : qx.constant.Type.STRING, defaultValue : "both", possibleValues : [ "both", "label", "icon", qx.constant.Core.NONE, null ] });
+qx.OO.addProperty({ name : "show", type : "string", defaultValue : "both", possibleValues : [ "both", "label", "icon", "none", null ] });
 
 /*!
   The position of the icon in relation to the text.
   Only useful/needed if text and icon is configured and 'show' is configured as 'both' (default)
 */
-qx.OO.addProperty({ name : "iconPosition", type : qx.constant.Type.STRING, defaultValue : "left", possibleValues : [ "top", "right", "bottom", "left" ] });
+qx.OO.addProperty({ name : "iconPosition", type : "string", defaultValue : "left", possibleValues : [ "top", "right", "bottom", "left" ] });
 
 /*!
   The width of the icon.
   If configured, this makes qx.ui.basic.Atom a little bit faster as it does not need to wait until the image loading is finished.
 */
-qx.OO.addProperty({ name : "iconWidth", type : qx.constant.Type.NUMBER });
+qx.OO.addProperty({ name : "iconWidth", type : "number" });
 
 /*!
   The height of the icon
   If configured, this makes qx.ui.basic.Atom a little bit faster as it does not need to wait until the image loading is finished.
 */
-qx.OO.addProperty({ name : "iconHeight", type : qx.constant.Type.NUMBER });
+qx.OO.addProperty({ name : "iconHeight", type : "number" });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "atom" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "atom" });
 
 
 
@@ -227,15 +227,15 @@ qx.Proto._modifyIconPosition = function(propValue, propOldValue, propData)
 {
   switch(propValue)
   {
-    case qx.constant.Layout.ALIGN_TOP:
-    case qx.constant.Layout.ALIGN_BOTTOM:
-      this.setOrientation(qx.constant.Layout.ORIENTATION_VERTICAL);
-      this.setReverseChildrenOrder(propValue == qx.constant.Layout.ALIGN_BOTTOM);
+    case "top":
+    case "bottom":
+      this.setOrientation("vertical");
+      this.setReverseChildrenOrder(propValue == "bottom");
       break;
 
     default:
-      this.setOrientation(qx.constant.Layout.ORIENTATION_HORIZONTAL);
-      this.setReverseChildrenOrder(propValue == qx.constant.Layout.ALIGN_RIGHT);
+      this.setOrientation("horizontal");
+      this.setReverseChildrenOrder(propValue == "right");
       break;
   }
 

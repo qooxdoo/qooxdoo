@@ -23,17 +23,17 @@
     var tf1 = new qx.ui.pageview.tabview.TabView;
     tf1.set({ left: 20, top: 48, right: 335, bottom: 48 });
 
-    var t1_1 = new qx.ui.pageview.tabview.TabViewButton("Edit");
-    var t1_2 = new qx.ui.pageview.tabview.TabViewButton("Find");
-    var t1_3 = new qx.ui.pageview.tabview.TabViewButton("Backup");
+    var t1_1 = new qx.ui.pageview.tabview.Button("Edit");
+    var t1_2 = new qx.ui.pageview.tabview.Button("Find");
+    var t1_3 = new qx.ui.pageview.tabview.Button("Backup");
 
     t1_1.setChecked(true);
 
     tf1.getBar().add(t1_1, t1_2, t1_3);
 
-    var p1_1 = new qx.ui.pageview.tabview.TabViewPage(t1_1);
-    var p1_2 = new qx.ui.pageview.tabview.TabViewPage(t1_2);
-    var p1_3 = new qx.ui.pageview.tabview.TabViewPage(t1_3);
+    var p1_1 = new qx.ui.pageview.tabview.Page(t1_1);
+    var p1_2 = new qx.ui.pageview.tabview.Page(t1_2);
+    var p1_3 = new qx.ui.pageview.tabview.Page(t1_3);
 
     tf1.getPane().add(p1_1, p1_2, p1_3);
 
@@ -71,21 +71,21 @@
 
 
 
-    var t2_1 = new qx.ui.pageview.tabview.TabViewButton("Search for Files", "icon/16/file-open.png");
-    var t2_2 = new qx.ui.pageview.tabview.TabViewButton("Search the Web", "icon/16/network.png");
-    var t2_3 = new qx.ui.pageview.tabview.TabViewButton("Search for Text", "icon/16/contents.png");
-    var t2_4 = new qx.ui.pageview.tabview.TabViewButton("Search for Persons", "icon/16/emoticon.png");
-    var t2_5 = new qx.ui.pageview.tabview.TabViewButton("Search in Mails", "icon/16/mail.png");
+    var t2_1 = new qx.ui.pageview.tabview.Button("Search for Files", "icon/16/file-open.png");
+    var t2_2 = new qx.ui.pageview.tabview.Button("Search the Web", "icon/16/network.png");
+    var t2_3 = new qx.ui.pageview.tabview.Button("Search for Text", "icon/16/contents.png");
+    var t2_4 = new qx.ui.pageview.tabview.Button("Search for Persons", "icon/16/emoticon.png");
+    var t2_5 = new qx.ui.pageview.tabview.Button("Search in Mails", "icon/16/mail.png");
 
     t2_1.setChecked(true);
 
     tf2.getBar().add(t2_1, t2_2, t2_3, t2_4, t2_5);
 
-    var p2_1 = new qx.ui.pageview.tabview.TabViewPage(t2_1);
-    var p2_2 = new qx.ui.pageview.tabview.TabViewPage(t2_2);
-    var p2_3 = new qx.ui.pageview.tabview.TabViewPage(t2_3);
-    var p2_4 = new qx.ui.pageview.tabview.TabViewPage(t2_4);
-    var p2_5 = new qx.ui.pageview.tabview.TabViewPage(t2_5);
+    var p2_1 = new qx.ui.pageview.tabview.Page(t2_1);
+    var p2_2 = new qx.ui.pageview.tabview.Page(t2_2);
+    var p2_3 = new qx.ui.pageview.tabview.Page(t2_3);
+    var p2_4 = new qx.ui.pageview.tabview.Page(t2_4);
+    var p2_5 = new qx.ui.pageview.tabview.Page(t2_5);
 
     tf2.getPane().add(p2_1, p2_2, p2_3, p2_4, p2_5);
 

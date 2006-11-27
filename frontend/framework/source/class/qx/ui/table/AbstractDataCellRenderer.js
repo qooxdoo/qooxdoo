@@ -76,7 +76,7 @@ qx.Proto.createDataCellHtml_array_join = function(cellInfo, htmlArr) {
   if (qx.ui.table.TablePane.USE_TABLE) {
     htmlArr.push(AbstractDataCellRenderer.TABLE_TD);
     htmlArr.push(cellInfo.styleHeight);
-    htmlArr.push(qx.constant.Core.PIXEL);
+    htmlArr.push("px");
   } else {
     htmlArr.push(AbstractDataCellRenderer.ARRAY_JOIN_MAIN_DIV_LEFT);
     htmlArr.push(cellInfo.styleLeft);
@@ -84,7 +84,7 @@ qx.Proto.createDataCellHtml_array_join = function(cellInfo, htmlArr) {
     htmlArr.push(cellInfo.styleWidth);
     htmlArr.push(AbstractDataCellRenderer.ARRAY_JOIN_MAIN_DIV_HEIGHT);
     htmlArr.push(cellInfo.styleHeight);
-    htmlArr.push(qx.constant.Core.PIXEL);
+    htmlArr.push("px");
   }
 
   this._createCellStyle_array_join(cellInfo, htmlArr);

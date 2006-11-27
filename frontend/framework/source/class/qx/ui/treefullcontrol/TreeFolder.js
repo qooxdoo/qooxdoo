@@ -48,7 +48,7 @@ function(treeRowStructure)
   this._iconObject.setAppearance("tree-folder-icon");
   this._labelObject.setAppearance("tree-folder-label");
 
-  this.addEventListener(qx.constant.Event.DBLCLICK, this._ondblclick);
+  this.addEventListener("dblclick", this._ondblclick);
 
   // Remapping of add/remove methods
   this.add = this.addToFolder;
@@ -69,25 +69,25 @@ function(treeRowStructure)
 
 
 qx.OO.changeProperty({ name : "appearance",
-                       type : qx.constant.Type.STRING,
+                       type : "string",
                        defaultValue : "tree-folder"
                      });
 
 qx.OO.changeProperty({ name : "icon",
-                       type : qx.constant.Type.STRING
+                       type : "string"
                      });
 
 qx.OO.changeProperty({ name : "iconSelected",
-                       type : qx.constant.Type.STRING
+                       type : "string"
                      });
 
 qx.OO.addProperty({ name : "open",
-                    type : qx.constant.Type.BOOLEAN,
+                    type : "boolean",
                     defaultValue : false
                   });
 
 qx.OO.addProperty({ name : "alwaysShowPlusMinusSymbol",
-                    type : qx.constant.Type.BOOLEAN,
+                    type : "boolean",
                     defaultValue : false
                   });
 
@@ -114,20 +114,20 @@ qx.Proto.open = function()
   if (this.hasContent())
   {
     // If there are listeners waiting for a treeOpenWithContent event...
-    if (this.getTree().hasEventListeners(qx.constant.Event.TREEOPENWITHCONTENT)) {
+    if (this.getTree().hasEventListeners("treeOpenWithContent")) {
       // ... then issue the event
-      this.getTree().dispatchEvent(new qx.event.type.DataEvent(qx.constant.Event.TREEOPENWITHCONTENT, this), true);
+      this.getTree().dispatchEvent(new qx.event.type.DataEvent("treeOpenWithContent", this), true);
     }
 
-    this.getTopLevelWidget().setGlobalCursor(qx.constant.Style.CURSOR_PROGRESS);
+    this.getTopLevelWidget().setGlobalCursor("progress");
     qx.client.Timer.once(this._openCallback, this, 0);
   }
   else
   {
     // If there are listeners waiting for a treeOpenWithContent event...
-    if (this.getTree().hasEventListeners(qx.constant.Event.TREEOPENWHILEEMPTY)) {
+    if (this.getTree().hasEventListeners("treeOpenWhileEmpty")) {
       // ... then issue the event
-      this.getTree().dispatchEvent(new qx.event.type.DataEvent(qx.constant.Event.TREEOPENWHILEEMPTY, this), true);
+      this.getTree().dispatchEvent(new qx.event.type.DataEvent("treeOpenWhileEmpty", this), true);
     }
 
     this.setOpen(true);
@@ -137,9 +137,9 @@ qx.Proto.open = function()
 qx.Proto.close = function()
 {
   // If there are listeners waiting for a treeClose event...
-  if (this.getTree().hasEventListeners(qx.constant.Event.TREECLOSE)) {
+  if (this.getTree().hasEventListeners("treeClose")) {
     // ... then issue the event
-    this.getTree().dispatchEvent(new qx.event.type.DataEvent(qx.constant.Event.TREECLOSE, this), true);
+    this.getTree().dispatchEvent(new qx.event.type.DataEvent("treeClose", this), true);
   }
 
   this.setOpen(false);
@@ -178,7 +178,7 @@ qx.Proto._createChildrenStructure = function()
 
   if (!this._horizontalLayout)
   {
-    this.setOrientation(qx.constant.Layout.ORIENTATION_VERTICAL);
+    this.setOrientation("vertical");
 
     // Create a horizontal layout for this tree row
     this._horizontalLayout = new qx.ui.layout.HorizontalBoxLayout;
@@ -629,7 +629,7 @@ qx.Proto.dispose = function()
     return;
   }
 
-  this.removeEventListener(qx.constant.Event.DBLCLICK, this._ondblclick);
+  this.removeEventListener("dblclick", this._ondblclick);
 
   if (this._horizontalLayout)
   {

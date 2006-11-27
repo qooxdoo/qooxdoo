@@ -60,28 +60,28 @@ function()
   this._lastCharCodeForEvent = {};
 });
 
-qx.OO.addProperty({ name : "allowClientContextMenu", type : qx.constant.Type.BOOLEAN, defaultValue : false });
-qx.OO.addProperty({ name : "allowClientSelectAll", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "allowClientContextMenu", type : "boolean", defaultValue : false });
+qx.OO.addProperty({ name : "allowClientSelectAll", type : "boolean", defaultValue : false });
 
-qx.OO.addProperty({ name : "captureWidget", type : qx.constant.Type.OBJECT, instance : "qx.ui.core.Widget", allowNull : true });
-qx.OO.addProperty({ name : "focusRoot", type : qx.constant.Type.OBJECT, instance : "qx.ui.core.Parent", allowNull : true });
+qx.OO.addProperty({ name : "captureWidget", type : "object", instance : "qx.ui.core.Widget", allowNull : true });
+qx.OO.addProperty({ name : "focusRoot", type : "object", instance : "qx.ui.core.Parent", allowNull : true });
 
 qx.Class.DOMMOUSESCROLL = "DOMMouseScroll";
 
-qx.Class.mouseEventTypes = [ qx.constant.Event.MOUSEOVER, qx.constant.Event.MOUSEMOVE, qx.constant.Event.MOUSEOUT, qx.constant.Event.MOUSEDOWN, qx.constant.Event.MOUSEUP, qx.constant.Event.CLICK, qx.constant.Event.DBLCLICK, qx.constant.Event.CONTEXTMENU, qx.sys.Client.getInstance().isMshtml() ? qx.constant.Event.MOUSEWHEEL : qx.Class.DOMMOUSESCROLL ];
-qx.Class.keyEventTypes = [ qx.constant.Event.KEYDOWN, qx.constant.Event.KEYPRESS, qx.constant.Event.KEYUP ];
+qx.Class.mouseEventTypes = [ "mouseover", "mousemove", "mouseout", "mousedown", "mouseup", "click", "dblclick", "contextmenu", qx.sys.Client.getInstance().isMshtml() ? "mousewheel" : qx.Class.DOMMOUSESCROLL ];
+qx.Class.keyEventTypes = [ "keydown", "keypress", "keyup" ];
 
 if (qx.sys.Client.getInstance().isGecko())
 {
-  qx.Class.dragEventTypes = [ qx.constant.Event.DRAGDROP, qx.constant.Event.DRAGOVER, "dragenter", "dragexit", "draggesture" ];
+  qx.Class.dragEventTypes = [ "dragdrop", "dragover", "dragenter", "dragexit", "draggesture" ];
 }
 else if (qx.sys.Client.getInstance().isMshtml())
 {
-  qx.Class.dragEventTypes = [ qx.constant.Event.DRAGEND, qx.constant.Event.DRAGOVER, qx.constant.Event.DRAGSTART, "drag", "dragenter", "dragleave" ];
+  qx.Class.dragEventTypes = [ "dragend", "dragover", "dragstart", "drag", "dragenter", "dragleave" ];
 }
 else
 {
-  qx.Class.dragEventTypes = [ qx.constant.Event.DRAGSTART, qx.constant.Event.DRAGDROP, qx.constant.Event.DRAGOVER, "drag", "dragleave", "dragenter", "dragexit", "draggesture" ];
+  qx.Class.dragEventTypes = [ "dragstart", "dragdrop", "dragover", "drag", "dragleave", "dragenter", "dragexit", "draggesture" ];
 }
 
 
@@ -207,9 +207,9 @@ qx.Proto.attachEvents = function()
   this._keyEventHandler.setCallback(this.__onkeyevent);
 
   // Register window events
-  qx.dom.DomEventRegistration.addEventListener(window, qx.constant.Event.BLUR, this.__onwindowblur);
-  qx.dom.DomEventRegistration.addEventListener(window, qx.constant.Event.FOCUS, this.__onwindowfocus);
-  qx.dom.DomEventRegistration.addEventListener(window, qx.constant.Event.RESIZE, this.__onwindowresize);
+  qx.dom.EventRegistration.addEventListener(window, "blur", this.__onwindowblur);
+  qx.dom.EventRegistration.addEventListener(window, "focus", this.__onwindowfocus);
+  qx.dom.EventRegistration.addEventListener(window, "resize", this.__onwindowresize);
 
   // Register selection events
   document.body.onselect = document.onselectstart = document.onselectionchange = this.__onselectevent;
@@ -223,9 +223,9 @@ qx.Proto.detachEvents = function()
   this._keyEventHandler.detachEvents();
 
   // Unregister window events
-  qx.dom.DomEventRegistration.removeEventListener(window, qx.constant.Event.BLUR, this.__onwindowblur);
-  qx.dom.DomEventRegistration.removeEventListener(window, qx.constant.Event.FOCUS, this.__onwindowfocus);
-  qx.dom.DomEventRegistration.removeEventListener(window, qx.constant.Event.RESIZE, this.__onwindowresize);
+  qx.dom.EventRegistration.removeEventListener(window, "blur", this.__onwindowblur);
+  qx.dom.EventRegistration.removeEventListener(window, "focus", this.__onwindowfocus);
+  qx.dom.EventRegistration.removeEventListener(window, "resize", this.__onwindowresize);
 
   // Unregister selection events
   document.body.onselect = document.onselectstart = document.onselectionchange = null;
@@ -254,7 +254,7 @@ qx.Proto.attachEventTypes = function(vEventTypes, vFunctionPointer)
     var el = qx.sys.Client.getInstance().isGecko() ? window : document.body;
 
     for (var i=0, l=vEventTypes.length; i<l; i++) {
-      qx.dom.DomEventRegistration.addEventListener(el, vEventTypes[i], vFunctionPointer);
+      qx.dom.EventRegistration.addEventListener(el, vEventTypes[i], vFunctionPointer);
     }
   }
   catch(ex)
@@ -270,7 +270,7 @@ qx.Proto.detachEventTypes = function(vEventTypes, vFunctionPointer)
     var el = qx.sys.Client.getInstance().isGecko() ? window : document.body;
 
     for (var i=0, l=vEventTypes.length; i<l; i++) {
-      qx.dom.DomEventRegistration.removeEventListener(el, vEventTypes[i], vFunctionPointer);
+      qx.dom.EventRegistration.removeEventListener(el, vEventTypes[i], vFunctionPointer);
     }
   }
   catch(ex)
@@ -332,7 +332,7 @@ if (qx.sys.Client.getInstance().isWebkit())
     var vNode = vDomEvent.target || vDomEvent.srcElement;
 
     // Safari takes text nodes as targets for events
-    if (vNode && (vNode.nodeType == qx.constant.Node.TEXT)) {
+    if (vNode && (vNode.nodeType == qx.dom.Node.TEXT)) {
       vNode = vNode.parentNode;
     }
 
@@ -386,7 +386,7 @@ qx.Class.getOriginalTargetObjectFromEvent = function(vDomEvent, vWindow)
 }
 
 qx.Class.getRelatedOriginalTargetObjectFromEvent = function(vDomEvent) {
-  return qx.event.handler.EventHandler.getOriginalTargetObject(vDomEvent.relatedTarget || (vDomEvent.type == qx.constant.Event.MOUSEOVER ? vDomEvent.fromElement : vDomEvent.toElement));
+  return qx.event.handler.EventHandler.getOriginalTargetObject(vDomEvent.relatedTarget || (vDomEvent.type == "mouseover" ? vDomEvent.fromElement : vDomEvent.toElement));
 }
 
 
@@ -437,7 +437,7 @@ qx.Class.getTargetObjectFromEvent = function(vDomEvent) {
 qx.Class.getRelatedTargetObjectFromEvent = function(vDomEvent) {
   var target = vDomEvent.relatedTarget;
   if (!target) {
-    if (vDomEvent.type == qx.constant.Event.MOUSEOVER) {
+    if (vDomEvent.type == "mouseover") {
       target = vDomEvent.fromElement
     } else {
       target = vDomEvent.toElement
@@ -539,7 +539,7 @@ qx.Proto._onkeyevent_post = function(vDomEvent, vType, vKeyCode, vCharCode, vKey
   var vKeyEventObject = new qx.event.type.KeyEvent(vType, vDomEvent, vDomTarget, vTarget, null, vKeyCode, vCharCode, vKeyIdentifier);
 
   // Check for commands
-  if (vDomEvent.type == qx.constant.Event.KEYDOWN) {
+  if (vDomEvent.type == "keydown") {
     this._checkKeyEventMatch(vKeyEventObject);
   }
 
@@ -598,46 +598,46 @@ if(qx.sys.Client.getInstance().isMshtml())
     var vDomTarget = qx.event.handler.EventHandler.getDomTarget(vDomEvent);
     var vType = vDomEvent.type;
 
-    if(vType == qx.constant.Event.MOUSEMOVE)
+    if(vType == "mousemove")
     {
       if (this._mouseIsDown && vDomEvent.button == 0)
       {
-        this._onmouseevent_post(vDomEvent, qx.constant.Event.MOUSEUP);
+        this._onmouseevent_post(vDomEvent, "mouseup");
         this._mouseIsDown = false;
       }
     }
     else
     {
-      if(vType == qx.constant.Event.MOUSEDOWN)
+      if(vType == "mousedown")
       {
         this._mouseIsDown = true;
       }
-      else if(vType == qx.constant.Event.MOUSEUP)
+      else if(vType == "mouseup")
       {
         this._mouseIsDown = false;
       }
 
       // Fix MSHTML Mouseup, should be after a normal click or contextmenu event, like Mozilla does this
-      if(vType == qx.constant.Event.MOUSEUP && !this._lastMouseDown && ((new Date).valueOf() - this._lastMouseEventDate) < 250)
+      if(vType == "mouseup" && !this._lastMouseDown && ((new Date).valueOf() - this._lastMouseEventDate) < 250)
       {
-        this._onmouseevent_post(vDomEvent, qx.constant.Event.MOUSEDOWN);
+        this._onmouseevent_post(vDomEvent, "mousedown");
       }
       // Fix MSHTML Doubleclick, should be after a normal click event, like Mozilla does this
-      else if(vType == qx.constant.Event.DBLCLICK && this._lastMouseEventType == qx.constant.Event.MOUSEUP && ((new Date).valueOf() - this._lastMouseEventDate) < 250)
+      else if(vType == "dblclick" && this._lastMouseEventType == "mouseup" && ((new Date).valueOf() - this._lastMouseEventDate) < 250)
       {
-        this._onmouseevent_post(vDomEvent, qx.constant.Event.CLICK);
+        this._onmouseevent_post(vDomEvent, "click");
       }
 
       switch(vType)
       {
-        case qx.constant.Event.MOUSEDOWN:
-        case qx.constant.Event.MOUSEUP:
-        case qx.constant.Event.CLICK:
-        case qx.constant.Event.DBLCLICK:
-        case qx.constant.Event.CONTEXTMENU:
+        case "mousedown":
+        case "mouseup":
+        case "click":
+        case "dblclick":
+        case "contextmenu":
           this._lastMouseEventType = vType;
           this._lastMouseEventDate = (new Date).valueOf();
-          this._lastMouseDown = vType == qx.constant.Event.MOUSEDOWN;
+          this._lastMouseDown = vType == "mousedown";
       }
     }
 
@@ -657,11 +657,11 @@ else
     {
       case qx.event.handler.EventHandler.DOMMOUSESCROLL:
         // normalize mousewheel event
-        vType = qx.constant.Event.MOUSEWHEEL;
+        vType = "mousewheel";
         break;
 
-      case qx.constant.Event.CLICK:
-      case qx.constant.Event.DBLCLICK:
+      case "click":
+      case "dblclick":
         // ignore click or dblclick events with other then the left mouse button
         if (vDomEvent.which !== 1) {
           return;
@@ -691,12 +691,12 @@ if (qx.sys.Client.getInstance().isGecko())
 
     switch(vType)
     {
-      case qx.constant.Event.MOUSEDOWN:
+      case "mousedown":
         this._lastMouseDownDomTarget = vDomTarget;
         this._lastMouseDownDispatchTarget = vDispatchTarget;
         break;
 
-      case qx.constant.Event.MOUSEUP:
+      case "mouseup":
         // Add additional click event if the dispatch target is the same, but the dom target is different
         if (this._lastMouseDownDispatchTarget === vDispatchTarget && vDomTarget !== this._lastMouseDownDomTarget)
         {
@@ -767,14 +767,14 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 
     switch(vType)
     {
-      case qx.constant.Event.CONTEXTMENU:
+      case "contextmenu":
         if (!this.getAllowClientContextMenu()) {
           qx.event.handler.EventHandler.stopDomEvent(vDomEvent);
         }
 
         break;
 
-      case qx.constant.Event.MOUSEDOWN:
+      case "mousedown":
         qx.event.handler.FocusHandler.mouseFocus = true;
 
         var vRoot = vTarget.getFocusRoot();
@@ -808,8 +808,8 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
     // Find related target object
     switch(vType)
     {
-      case qx.constant.Event.MOUSEOVER:
-      case qx.constant.Event.MOUSEOUT:
+      case "mouseover":
+      case "mouseout":
         vRelatedTarget = qx.event.handler.EventHandler.getRelatedTargetObjectFromEvent(vDomEvent);
 
         // Ignore events where the related target and
@@ -856,7 +856,7 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
     // Handle Special Post Events
     switch(vType)
     {
-      case qx.constant.Event.MOUSEDOWN:
+      case "mousedown":
         if (qx.OO.isAvailable("qx.manager.object.PopupManager")) {
           qx.manager.object.PopupManager.getInstance().update(vTarget);
         }
@@ -871,7 +871,7 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 
         break;
 
-      case qx.constant.Event.MOUSEUP:
+      case "mouseup":
 
         // Mouseup event should always hide, independed of target, so don't send a target
         if (qx.OO.isAvailable("qx.manager.object.MenuManager")) {
@@ -884,21 +884,21 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 
         break;
 
-      case qx.constant.Event.MOUSEOVER:
+      case "mouseover":
         if (qx.OO.isAvailable("qx.manager.object.ToolTipManager")) {
           qx.manager.object.ToolTipManager.getInstance().handleMouseOver(vEventObject);
         }
 
         break;
 
-      case qx.constant.Event.MOUSEOUT:
+      case "mouseout":
         if (qx.OO.isAvailable("qx.manager.object.ToolTipManager")) {
           qx.manager.object.ToolTipManager.getInstance().handleMouseOut(vEventObject);
         }
 
         break;
 
-      case qx.constant.Event.MOUSEWHEEL:
+      case "mousewheel":
         // priority for the real target not the (eventually captured) dispatch target
         vReturnValue ? this._onmousewheel(vOriginalTarget || vDispatchTarget, vEventObject) : qx.event.handler.EventHandler.stopDomEvent(vDomEvent);
 
@@ -907,7 +907,7 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 
 
 
-    this._ignoreWindowBlur = vType === qx.constant.Event.MOUSEDOWN;
+    this._ignoreWindowBlur = vType === "mousedown";
 
 
 
@@ -934,7 +934,7 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
     // Fix Click (Gecko Bug, see above)
     if (vFixClick)
     {
-      this._onmouseevent_post(vDomEvent, qx.constant.Event.CLICK, this._lastMouseDownDomTarget);
+      this._onmouseevent_post(vDomEvent, "click", this._lastMouseDownDomTarget);
 
       this._lastMouseDownDomTarget = null;
       this._lastMouseDownDispatchTarget = null;
@@ -956,7 +956,7 @@ if (qx.sys.Client.getInstance().isGecko())
 
     // ingore if overflow is configured as hidden
     // in this case send the event to the parent instead
-    if(vTarget.getOverflowY() == qx.ui.core.Widget.SCROLL_VALUE_HIDDEN) {
+    if(vTarget.getOverflowY() == "hidden") {
       return this._onmousewheel(vTarget.getParent(), vEvent);
     }
 

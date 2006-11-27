@@ -27,5 +27,5 @@ function()
 {
   qx.ui.basic.Terminator.call(this);
 
-  this.setHeight(qx.constant.Core.FLEX);
+  this.setHeight("1*");
 });

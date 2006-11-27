@@ -22,7 +22,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.toolbar.ToolBarSeparator", qx.ui.layout.CanvasLayout,
+qx.OO.defineClass("qx.ui.toolbar.Separator", qx.ui.layout.CanvasLayout,
 function()
 {
   qx.ui.layout.CanvasLayout.call(this);
@@ -32,4 +32,4 @@ function()
   this.add(l);
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "toolbar-separator" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "toolbar-separator" });

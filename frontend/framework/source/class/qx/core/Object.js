@@ -177,7 +177,7 @@ qx.Class.summary = function()
  *
  * The actual semantic of this property depends on concrete subclass of qx.core.Object.
  */
-qx.OO.addProperty({ name : "enabled", type : qx.constant.Type.BOOLEAN, defaultValue : true, getAlias : "isEnabled" });
+qx.OO.addProperty({ name : "enabled", type : "boolean", defaultValue : true, getAlias : "isEnabled" });
 
 
 
@@ -329,7 +329,7 @@ qx.Proto.error = function(msg, exc) {
  */
 qx.Proto.set = function(propertyValues)
 {
-  if (typeof propertyValues !== qx.constant.Type.OBJECT) {
+  if (typeof propertyValues !== "object") {
     throw new Error("Please use a valid hash of property key-values pairs.");
   }
 
@@ -358,11 +358,11 @@ qx.Proto.get = function(propertyNames, outputHint)
 {
   switch(typeof propertyNames)
   {
-    case qx.constant.Type.STRING:
-      return this[qx.constant.Core.GET + qx.lang.String.toFirstUp(propertyNames)]();
+    case "string":
+      return this["get" + qx.lang.String.toFirstUp(propertyNames)]();
 
-    case qx.constant.Type.OBJECT:
-      if (typeof propertyNames.length === qx.constant.Type.NUMBER)
+    case "object":
+      if (typeof propertyNames.length === "number")
       {
         if (outputHint == "hash")
         {
@@ -372,7 +372,7 @@ qx.Proto.get = function(propertyNames, outputHint)
           for (var i=0; i<propertyLength; i++)
           {
             try{
-              h[propertyNames[i]] = this[qx.constant.Core.GET + qx.lang.String.toFirstUp(propertyNames[i])]();
+              h[propertyNames[i]] = this["get" + qx.lang.String.toFirstUp(propertyNames[i])]();
             }
             catch(ex)
             {
@@ -388,7 +388,7 @@ qx.Proto.get = function(propertyNames, outputHint)
           for (var i=0; i<propertyLength; i++)
           {
             try{
-              propertyNames[i] = this[qx.constant.Core.GET + qx.lang.String.toFirstUp(propertyNames[i])]();
+              propertyNames[i] = this["get" + qx.lang.String.toFirstUp(propertyNames[i])]();
             }
             catch(ex)
             {
@@ -402,7 +402,7 @@ qx.Proto.get = function(propertyNames, outputHint)
       else
       {
         for (var i in propertyNames) {
-          propertyNames[i] = this[qx.constant.Core.GET + qx.lang.String.toFirstUp(i)]();
+          propertyNames[i] = this["get" + qx.lang.String.toFirstUp(i)]();
         }
 
         return propertyNames;
@@ -489,7 +489,7 @@ qx.Proto.dispose = function()
   // Finally cleanup properties
   if (this._objectproperties)
   {
-    var a = this._objectproperties.split(qx.constant.Core.COMMA);
+    var a = this._objectproperties.split(",");
     var d = qx.OO.values;
 
     for (var i=0, l=a.length; i<l; i++) {
@@ -503,7 +503,7 @@ qx.Proto.dispose = function()
   {
     for (var vKey in this)
     {
-      if (this[vKey] !== null && typeof this[vKey] === qx.constant.Type.OBJECT)
+      if (this[vKey] !== null && typeof this[vKey] === "object")
       {
         this.debug("Missing class implementation to dispose: " + vKey);
         delete this[vKey];
@@ -512,7 +512,7 @@ qx.Proto.dispose = function()
   }
 
   /*
-  if (typeof CollectGarbage === qx.constant.Type.FUNCTION) {
+  if (typeof CollectGarbage === "function") {
     CollectGarbage();
   }
   */

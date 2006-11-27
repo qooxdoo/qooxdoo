@@ -32,7 +32,7 @@ function(vId)
   }
 });
 
-qx.OO.addProperty({ name : "sourceNodeId", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "sourceNodeId", type : "string" });
 
 qx.Proto._createElementImpl = function()
 {
@@ -42,7 +42,7 @@ qx.Proto._createElementImpl = function()
     throw new Error("Could not find source node with ID: " + this.getSourceNodeId());
   }
 
-  vNode.style.display = qx.constant.Core.EMPTY;
+  vNode.style.display = "";
 
   return this.setElement(vNode);
 }

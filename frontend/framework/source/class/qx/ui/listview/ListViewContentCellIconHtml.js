@@ -22,7 +22,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.listview.ListViewContentCellIconHtml", qx.ui.embed.IconHtmlEmbed,
+qx.OO.defineClass("qx.ui.listview.ContentCellIconHtml", qx.ui.embed.IconHtmlEmbed,
 function(vHtml, vIcon, vIconWidth, vIconHeight)
 {
   qx.ui.embed.IconHtmlEmbed.call(this, vHtml, vIcon, vIconWidth, vIconHeight);
@@ -30,10 +30,10 @@ function(vHtml, vIcon, vIconWidth, vIconHeight)
   this.setSelectable(false);
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "list-view-content-cell-icon-html" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "list-view-content-cell-icon-html" });
 
-qx.ui.listview.ListViewContentCellIconHtml.empty =
+qx.ui.listview.ContentCellIconHtml.empty =
 {
-  icon : qx.constant.Core.EMPTY,
-  html : qx.constant.Core.EMPTY
+  icon : "",
+  html : ""
 }

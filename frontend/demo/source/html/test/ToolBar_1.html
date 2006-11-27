@@ -30,11 +30,11 @@
 
       var m1 = new qx.ui.menu.Menu;
 
-      var mb1 = new qx.ui.menu.MenuButton("Folder");
-      var ms1 = new qx.ui.menu.MenuSeparator;
-      var mb2 = new qx.ui.menu.MenuButton("Word Document");
-      var mb3 = new qx.ui.menu.MenuButton("Text File");
-      var mb4 = new qx.ui.menu.MenuButton("Image");
+      var mb1 = new qx.ui.menu.Button("Folder");
+      var ms1 = new qx.ui.menu.Separator;
+      var mb2 = new qx.ui.menu.Button("Word Document");
+      var mb3 = new qx.ui.menu.Button("Text File");
+      var mb4 = new qx.ui.menu.Button("Image");
 
       m1.add(mb1, ms1, mb2, mb3, mb4);
       d.add(m1);
@@ -42,9 +42,9 @@
 
       var m2 = new qx.ui.menu.Menu;
 
-      var mb5 = new qx.ui.menu.MenuButton("Copy", "icon/16/edit-copy.png");
-      var mb6 = new qx.ui.menu.MenuButton("Move", "icon/16/edit-cut.png");
-      var mb7 = new qx.ui.menu.MenuButton("Delete", "icon/16/edit-delete.png");
+      var mb5 = new qx.ui.menu.Button("Copy", "icon/16/edit-copy.png");
+      var mb6 = new qx.ui.menu.Button("Move", "icon/16/edit-cut.png");
+      var mb7 = new qx.ui.menu.Button("Delete", "icon/16/edit-delete.png");
 
       m2.add(mb5, mb6, mb7);
       d.add(m2);
@@ -81,7 +81,7 @@
         var btns = bars[j];
 
         if (useParts) {
-          var tbp = new qx.ui.toolbar.ToolBarPart;
+          var tbp = new qx.ui.toolbar.Part;
         };
 
         for (var i=0; i<btns.length; i++)
@@ -91,11 +91,11 @@
           switch(btn.type)
           {
             case "separator":
-              var o = new qx.ui.toolbar.ToolBarSeparator;
+              var o = new qx.ui.toolbar.Separator;
               break;
 
             case "menu":
-              var o = new qx.ui.toolbar.ToolBarMenuButton(btn.label, btn.menu, "icon/22/" + btn.icon + ".png", 22, 22);
+              var o = new qx.ui.toolbar.MenuButton(btn.label, btn.menu, "icon/22/" + btn.icon + ".png", 22, 22);
 
               // beautiful decoupling: toolbar buttons don't know about radio boxes
 
@@ -105,7 +105,7 @@
               break;
 
             case "button":
-              var o = new qx.ui.toolbar.ToolBarButton(btn.label, "icon/22/" + btn.icon + ".png");
+              var o = new qx.ui.toolbar.Button(btn.label, "icon/22/" + btn.icon + ".png");
 
               // beautiful decoupling: toolbar buttons don't know about radio boxes
 

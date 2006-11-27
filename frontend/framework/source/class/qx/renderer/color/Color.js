@@ -49,7 +49,7 @@ function(vValue)
 */
 
 qx.renderer.color.Color.rgb2style = function(r, g, b) {
-  return qx.renderer.color.Color.RGBCSS_START + r + qx.constant.Core.COMMA + g + qx.constant.Core.COMMA + b + qx.renderer.color.Color.RGBCSS_STOP;
+  return "rgb(" + r + "," + g + "," + b + ")";
 }
 
 
@@ -62,8 +62,8 @@ qx.renderer.color.Color.rgb2style = function(r, g, b) {
 ---------------------------------------------------------------------------
 */
 
-qx.renderer.color.Color.RGBCSS_START = "rgb(";
-qx.renderer.color.Color.RGBCSS_STOP = ")";
+"rgb(" = "rgb(";
+")" = ")";
 
 qx.renderer.color.Color.m_hex = [ "0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f" ];
 qx.renderer.color.Color.m_rgb = { 0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,a:10,b:11,c:12,d:13,e:14,f:15 }
@@ -277,7 +277,7 @@ qx.Proto.setValue = function(vValue)
 }
 
 qx.Proto.getValue = function() {
-  return this._value || qx.constant.Core.EMPTY;
+  return this._value || "";
 }
 
 
@@ -328,7 +328,7 @@ qx.Proto._evalHex = function()
 {
   if (this._isRgbColor)
   {
-    var a = [qx.constant.Core.HASH];
+    var a = ["#"];
 
     var r = this.getRed();
     a.push(qx.renderer.color.Color.m_hex[Math.floor(r/16)]);
@@ -342,7 +342,7 @@ qx.Proto._evalHex = function()
     a.push(qx.renderer.color.Color.m_hex[Math.floor(b/16)]);
     a.push(qx.renderer.color.Color.m_hex[Math.floor(b%16)]);
 
-    this._hex = a.join(qx.constant.Core.EMPTY);
+    this._hex = a.join("");
   }
   else
   {
@@ -422,7 +422,7 @@ qx.Proto._normalize = function(vInValue)
 
   switch(typeof vInValue)
   {
-    case qx.constant.Type.STRING:
+    case "string":
       vInValue = vInValue.toLowerCase();
 
       if (qx.renderer.color.Color.htmlNames[vInValue])
@@ -468,7 +468,7 @@ qx.Proto._normalize = function(vInValue)
 
       break;
 
-    case qx.constant.Type.NUMBER:
+    case "number":
       if (vInValue >= 0 && vInValue <= 255)
       {
         this._red = this._green = this._blue = vInValue;
@@ -481,7 +481,7 @@ qx.Proto._normalize = function(vInValue)
 
       break;
 
-    case qx.constant.Type.OBJECT:
+    case "object":
       if (qx.util.Validation.isValidArray(vInValue) && vInValue.length == 3)
       {
         this._red = vInValue[0];

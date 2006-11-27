@@ -13,7 +13,7 @@
 
   <div id="demoDescription">
     <p>Introduce all classes needed for creating real qx.ui.toolbar.ToolBars. This includes qx.ui.toolbar.ToolBars,
-    qx.ui.toolbar.ToolBarParts, qx.ui.toolbar.ToolBarSeparator and qx.ui.toolbar.ToolBarButtons.</p>
+    qx.ui.toolbar.ToolBarParts, qx.ui.toolbar.Separator and qx.ui.toolbar.ToolBarButtons.</p>
 
     <p>The qx.ui.toolbar.ToolBarButtons and QxRadioButtons in this example are beautifully
     decoupled by "global" qx.event.type.DataEvent.</p>
@@ -74,7 +74,7 @@
         var btns = bars[j];
 
         if (useParts) {
-          var tbp = new qx.ui.toolbar.ToolBarPart;
+          var tbp = new qx.ui.toolbar.Part;
         };
 
         for (var i=0; i<btns.length; i++)
@@ -84,11 +84,11 @@
           switch(btn.type)
           {
             case "separator":
-              var o = new qx.ui.toolbar.ToolBarSeparator;
+              var o = new qx.ui.toolbar.Separator;
               break;
 
             case "button":
-              var o = new qx.ui.toolbar.ToolBarButton(btn.text, "icon/22/" + btn.icon + ".png");
+              var o = new qx.ui.toolbar.Button(btn.text, "icon/22/" + btn.icon + ".png");
 
               // beautiful decoupling: toolbar buttons don't know about radio boxes
 

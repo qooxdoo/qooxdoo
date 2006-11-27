@@ -33,7 +33,7 @@
   POST). Default is GET.
   @param vResponseType The mime type of the response. Default is text/plain.
 */
-qx.OO.defineClass("qx.io.remote.RemoteRequest", qx.core.Target,
+qx.OO.defineClass("qx.io.remote.Request", qx.core.Target,
 function(vUrl, vMethod, vResponseType)
 {
   qx.core.Target.call(this);
@@ -42,8 +42,8 @@ function(vUrl, vMethod, vResponseType)
   this._parameters = {};
 
   this.setUrl(vUrl);
-  this.setMethod(vMethod || qx.constant.Net.METHOD_GET);
-  this.setResponseType(vResponseType || qx.constant.Mime.TEXT);
+  this.setMethod(vMethod || qx.net.Http.GET);
+  this.setResponseType(vResponseType || "text/plain");
 
   this.setProhibitCaching(true);
 
@@ -52,7 +52,7 @@ function(vUrl, vMethod, vResponseType)
   this.setRequestHeader("X-Qooxdoo-Version", qx.core.Version.toString());
 
   // Get the next sequence number for this request
-  this._seqNum = ++qx.io.remote.RemoteRequest._seqNum;
+  this._seqNum = ++qx.io.remote.Request._seqNum;
 });
 
 
@@ -66,50 +66,50 @@ function(vUrl, vMethod, vResponseType)
 /*!
   Target url to issue the request to.
 */
-qx.OO.addProperty({ name : "url", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "url", type : "string" });
 /*!
   Determines what type of request to issue (GET or POST).
 */
 qx.OO.addProperty(
 {
   name           : "method",
-  type           : qx.constant.Type.STRING,
+  type           : "string",
   possibleValues : [
-                   qx.constant.Net.METHOD_GET, qx.constant.Net.METHOD_POST,
-                   qx.constant.Net.METHOD_PUT, qx.constant.Net.METHOD_HEAD,
-                   qx.constant.Net.METHOD_DELETE
+                   qx.net.Http.GET, qx.net.Http.POST,
+                   qx.net.Http.PUT, qx.net.Http.HEAD,
+                   qx.net.Http.DELETE
                    ]
 });
 /*!
   Set the request to asynchronous.
 */
-qx.OO.addProperty({ name : "asynchronous", type : qx.constant.Type.BOOLEAN, defaultValue : true,
+qx.OO.addProperty({ name : "asynchronous", type : "boolean", defaultValue : true,
                     getAlias: "isAsynchronous" });
 /*!
   Set the data to be sent via this request
 */
-qx.OO.addProperty({ name : "data", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "data", type : "string" });
 /*!
   Username to use for HTTP authentication. Null if HTTP authentication
   is not used.
 */
-qx.OO.addProperty({ name : "username", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "username", type : "string" });
 /*!
   Password to use for HTTP authentication. Null if HTTP authentication
   is not used.
 */
-qx.OO.addProperty({ name : "password", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "password", type : "string" });
 qx.OO.addProperty(
 {
   name           : "state",
-  type           : qx.constant.Type.STRING,
+  type           : "string",
   possibleValues : [
-                   qx.constant.Net.STATE_CONFIGURED, qx.constant.Net.STATE_QUEUED,
-                   qx.constant.Net.STATE_SENDING, qx.constant.Net.STATE_RECEIVING,
-                   qx.constant.Net.STATE_COMPLETED, qx.constant.Net.STATE_ABORTED,
-                   qx.constant.Net.STATE_TIMEOUT, qx.constant.Net.STATE_FAILED
+                   "configured", "queued",
+                   "sending", "receiving",
+                   "completed", "aborted",
+                   "timeout", "failed"
                    ],
-  defaultValue   : qx.constant.Net.STATE_CONFIGURED
+  defaultValue   : "configured"
 });
 /*
   Response type of request.
@@ -120,20 +120,20 @@ qx.OO.addProperty(
 */
 qx.OO.addProperty({
   name           : "responseType",
-  type           : qx.constant.Type.STRING,
+  type           : "string",
   possibleValues : [
-                   qx.constant.Mime.TEXT,
-                   qx.constant.Mime.JAVASCRIPT, qx.constant.Mime.JSON,
-                   qx.constant.Mime.XML, qx.constant.Mime.HTML
+                   "text/plain",
+                   "text/javascript", "text/json",
+                   "application/xml", "text/html"
                    ]
 });
 /*!
   Number of millieseconds before the request is being timed out.
 
   If this property is null, the timeout for the request comes is the
-  qx.io.remote.RemoteRequestQueue's property defaultTimeout.
+  qx.io.remote.RequestQueue's property defaultTimeout.
 */
-qx.OO.addProperty({ name : "timeout", type : qx.constant.Type.NUMBER });
+qx.OO.addProperty({ name : "timeout", type : "number" });
 
 /*!
   Prohibit request from being cached.
@@ -142,7 +142,7 @@ qx.OO.addProperty({ name : "timeout", type : qx.constant.Type.NUMBER });
   with a value of the current time. Setting the value to false removes
   the parameter.
 */
-qx.OO.addProperty({ name : "prohibitCaching", type : qx.constant.Type.BOOLEAN });
+qx.OO.addProperty({ name : "prohibitCaching", type : "boolean" });
 /*!
   Indicate that the request is cross domain.
 
@@ -152,7 +152,7 @@ qx.OO.addProperty({ name : "prohibitCaching", type : qx.constant.Type.BOOLEAN })
   qx.io.remote.ScriptTransport, because only the latter can handle cross domain
   requests.
 */
-qx.OO.addProperty({ name : "crossDomain", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "crossDomain", type : "boolean", defaultValue : false });
 /*!
   Indicate that the request will be used for a file upload.
 
@@ -161,17 +161,17 @@ qx.OO.addProperty({ name : "crossDomain", type : qx.constant.Type.BOOLEAN, defau
   qx.io.remote.XmlHttpTransport to qx.io.remote.IFrameTransport, because only
   the latter can handle file uploads.
 */
-qx.OO.addProperty({ name : "fileUpload", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "fileUpload", type : "boolean", defaultValue : false });
 /*!
   The transport instance used for the request.
 
   This is necessary to be able to abort an asynchronous request.
 */
-qx.OO.addProperty({ name : "transport", type : qx.constant.Type.OBJECT, instance : "qx.io.remote.RemoteExchange" });
+qx.OO.addProperty({ name : "transport", type : "object", instance : "qx.io.remote.Exchange" });
 /*!
   Use Basic HTTP Authentication
 */
-qx.OO.addProperty({ name : "useBasicHttpAuth", type : qx.constant.Type.BOOLEAN });
+qx.OO.addProperty({ name : "useBasicHttpAuth", type : "boolean" });
 
 
 
@@ -186,34 +186,34 @@ qx.OO.addProperty({ name : "useBasicHttpAuth", type : qx.constant.Type.BOOLEAN }
 /*!
   Schedule this request for transport to server.
 
-  The request is added to the singleton class qx.io.remote.RemoteRequestQueue's list of
+  The request is added to the singleton class qx.io.remote.RequestQueue's list of
   pending requests.
 */
 qx.Proto.send = function() {
-  qx.io.remote.RemoteRequestQueue.getInstance().add(this);
+  qx.io.remote.RequestQueue.getInstance().add(this);
 }
 
 /*!
   Abort sending this request.
 
-  The request is removed from the singleton class qx.io.remote.RemoteRequestQueue's
+  The request is removed from the singleton class qx.io.remote.RequestQueue's
   list of pending events. If the request haven't been scheduled this
   method is a noop.
 */
 qx.Proto.abort = function() {
-  qx.io.remote.RemoteRequestQueue.getInstance().abort(this);
+  qx.io.remote.RequestQueue.getInstance().abort(this);
 }
 
 qx.Proto.reset = function()
 {
   switch(this.getState())
   {
-    case qx.constant.Net.STATE_SENDING:
-    case qx.constant.Net.STATE_RECEIVING:
+    case "sending":
+    case "receiving":
       this.error("Aborting already sent request!");
       // no break
 
-    case qx.constant.Net.STATE_QUEUED:
+    case "queued":
       this.abort();
       break;
   }
@@ -232,39 +232,39 @@ qx.Proto.reset = function()
 */
 
 qx.Proto.isConfigured = function() {
-  return this.getState() === qx.constant.Net.STATE_CONFIGURED;
+  return this.getState() === "configured";
 }
 
 qx.Proto.isQueued = function() {
-  return this.getState() === qx.constant.Net.STATE_QUEUED;
+  return this.getState() === "queued";
 }
 
 qx.Proto.isSending = function() {
-  return this.getState() === qx.constant.Net.STATE_SENDING;
+  return this.getState() === "sending";
 }
 
 qx.Proto.isReceiving = function() {
-  return this.getState() === qx.constant.Net.STATE_RECEIVING;
+  return this.getState() === "receiving";
 }
 
 qx.Proto.isCompleted = function() {
-  return this.getState() === qx.constant.Net.STATE_COMPLETED;
+  return this.getState() === "completed";
 }
 
 qx.Proto.isAborted = function() {
-  return this.getState() === qx.constant.Net.STATE_ABORTED;
+  return this.getState() === "aborted";
 }
 
 qx.Proto.isTimeout = function() {
-  return this.getState() === qx.constant.Net.STATE_TIMEOUT;
+  return this.getState() === "timeout";
 }
 
 /*!
   Return true if the request is in the failed state
-  (qx.constant.Net.STATE_FAILED).
+  ("failed").
 */
 qx.Proto.isFailed = function() {
-  return this.getState() === qx.constant.Net.STATE_FAILED;
+  return this.getState() === "failed";
 }
 
 
@@ -282,7 +282,7 @@ qx.Proto.isFailed = function() {
 qx.Proto._onqueued = function(e)
 {
   // Modify internal state
-  this.setState(qx.constant.Net.STATE_QUEUED);
+  this.setState("queued");
 
   // Bubbling up
   this.dispatchEvent(e);
@@ -291,7 +291,7 @@ qx.Proto._onqueued = function(e)
 qx.Proto._onsending = function(e)
 {
   // Modify internal state
-  this.setState(qx.constant.Net.STATE_SENDING);
+  this.setState("sending");
 
   // Bubbling up
   this.dispatchEvent(e);
@@ -300,7 +300,7 @@ qx.Proto._onsending = function(e)
 qx.Proto._onreceiving = function(e)
 {
   // Modify internal state
-  this.setState(qx.constant.Net.STATE_RECEIVING);
+  this.setState("receiving");
 
   // Bubbling up
   this.dispatchEvent(e);
@@ -309,7 +309,7 @@ qx.Proto._onreceiving = function(e)
 qx.Proto._oncompleted = function(e)
 {
   // Modify internal state
-  this.setState(qx.constant.Net.STATE_COMPLETED);
+  this.setState("completed");
 
   // Bubbling up
   this.dispatchEvent(e);
@@ -321,7 +321,7 @@ qx.Proto._oncompleted = function(e)
 qx.Proto._onaborted = function(e)
 {
   // Modify internal state
-  this.setState(qx.constant.Net.STATE_ABORTED);
+  this.setState("aborted");
 
   // Bubbling up
   this.dispatchEvent(e);
@@ -337,17 +337,17 @@ qx.Proto._ontimeout = function(e)
   switch(this.getState())
   {
     // If we're no longer running...
-    case qx.constant.Net.STATE_COMPLETED:
-    case qx.constant.Net.STATE_TIMEOUT:
-    case qx.constant.Net.STATE_ABORTED:
-    case qx.constant.Net.STATE_FAILED:
+    case "completed":
+    case "timeout":
+    case "aborted":
+    case "failed":
       // then don't bubble up the timeout event
       return;
   }
 */
 
   // Modify internal state
-  this.setState(qx.constant.Net.STATE_TIMEOUT);
+  this.setState("timeout");
 
   // Bubbling up
   this.dispatchEvent(e);
@@ -359,7 +359,7 @@ qx.Proto._ontimeout = function(e)
 qx.Proto._onfailed = function(e)
 {
   // Modify internal state
-  this.setState(qx.constant.Net.STATE_FAILED);
+  this.setState("failed");
 
   // Bubbling up
   this.dispatchEvent(e);
@@ -383,7 +383,7 @@ qx.Proto._onfailed = function(e)
 
 qx.Proto._modifyState = function(propValue, propOldValue, propData)
 {
-  if (qx.Settings.getValueOfClass("qx.io.remote.RemoteExchange", "enableDebug")) {
+  if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug")) {
     this.debug("State: " + propValue);
   }
 
@@ -399,7 +399,7 @@ qx.Proto._modifyProhibitCaching = function(propValue, propOldValue, propData)
 
 qx.Proto._modifyMethod = function(propValue, propOldValue, propData)
 {
-  if (propValue === qx.constant.Net.METHOD_POST) {
+  if (propValue === qx.net.Http.POST) {
     this.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   }
 
@@ -511,7 +511,7 @@ qx.Proto.getParameters = function() {
  * Sequence (id) number of a request, used to associate a response or error
  * with its initiating request.
  */
-qx.io.remote.RemoteRequest._seqNum = 0;
+qx.io.remote.Request._seqNum = 0;
 
 /**
  * Obtain the sequence (id) number used for this request

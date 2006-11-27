@@ -63,11 +63,11 @@ function(vGalleryList)
 ---------------------------------------------------------------------------
 */
 
-qx.OO.addProperty({ name : "thumbMaxWidth", type : qx.constant.Type.NUMBER, defaultValue : 100 });
-qx.OO.addProperty({ name : "thumbMaxHeight", type : qx.constant.Type.NUMBER, defaultValue : 100 });
-qx.OO.addProperty({ name : "decorHeight", type : qx.constant.Type.NUMBER, defaultValue : 40 });
-qx.OO.addProperty({ name : "showTitle", type : qx.constant.Type.BOOLEAN, defaultValue : true });
-qx.OO.addProperty({ name : "showComment", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "thumbMaxWidth", type : "number", defaultValue : 100 });
+qx.OO.addProperty({ name : "thumbMaxHeight", type : "number", defaultValue : 100 });
+qx.OO.addProperty({ name : "decorHeight", type : "number", defaultValue : 40 });
+qx.OO.addProperty({ name : "showTitle", type : "boolean", defaultValue : true });
+qx.OO.addProperty({ name : "showComment", type : "boolean", defaultValue : true });
 
 
 
@@ -116,7 +116,7 @@ qx.Proto.update = function(vGalleryList)
 qx.Proto.removeAll = function()
 {
   this._manager.deselectAll();
-  this.getElement().innerHTML = qx.constant.Core.EMPTY;
+  this.getElement().innerHTML = "";
 }
 
 qx.Proto.updateImageById = function(vId, vSrc, vWidth, vHeight) {
@@ -350,11 +350,11 @@ qx.Proto.scrollItemIntoView = function(vItem)
 }
 
 qx.Proto.scrollItemIntoViewX = function(vItem) {
-  qx.dom.DomScrollIntoView.scrollX(vItem);
+  qx.dom.ScrollIntoView.scrollX(vItem);
 }
 
 qx.Proto.scrollItemIntoViewY = function(vItem) {
-  qx.dom.DomScrollIntoView.scrollY(vItem);
+  qx.dom.ScrollIntoView.scrollY(vItem);
 }
 
 

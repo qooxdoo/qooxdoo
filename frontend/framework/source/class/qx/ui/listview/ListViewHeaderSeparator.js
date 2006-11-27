@@ -22,9 +22,9 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.listview.ListViewHeaderSeparator", qx.ui.basic.Terminator,
+qx.OO.defineClass("qx.ui.listview.HeaderSeparator", qx.ui.basic.Terminator,
 function() {
   qx.ui.basic.Terminator.call(this);
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "list-view-header-separator" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "list-view-header-separator" });

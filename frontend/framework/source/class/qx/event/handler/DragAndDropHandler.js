@@ -44,15 +44,15 @@ function()
   var vCursor;
   for (var vAction in this._actionNames)
   {
-    vCursor = this._cursors[vAction] = new qx.ui.basic.Image(this._cursorPath + vAction + qx.constant.Core.DOT + this._cursorFormat);
+    vCursor = this._cursors[vAction] = new qx.ui.basic.Image(this._cursorPath + vAction + "." + this._cursorFormat);
     vCursor.setZIndex(1e8);
   }
 });
 
-qx.OO.addProperty({ name : "sourceWidget", type : qx.constant.Type.OBJECT });
-qx.OO.addProperty({ name : "destinationWidget", type : qx.constant.Type.OBJECT });
-qx.OO.addProperty({ name : "cursor", type : qx.constant.Type.OBJECT });
-qx.OO.addProperty({ name : "currentAction", type : qx.constant.Type.STRING });
+qx.OO.addProperty({ name : "sourceWidget", type : "object" });
+qx.OO.addProperty({ name : "destinationWidget", type : "object" });
+qx.OO.addProperty({ name : "cursor", type : "object" });
+qx.OO.addProperty({ name : "currentAction", type : "string" });
 
 qx.Proto._actionNames =
 {
@@ -80,7 +80,7 @@ qx.Proto._modifyDestinationWidget = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
-    propValue.dispatchEvent(new qx.event.type.DragEvent(qx.constant.Event.DRAGDROP, this._lastDestinationEvent, propValue, this.getSourceWidget()));
+    propValue.dispatchEvent(new qx.event.type.DragEvent("dragdrop", this._lastDestinationEvent, propValue, this.getSourceWidget()));
     this._lastDestinationEvent = null;
   }
 
@@ -167,7 +167,7 @@ qx.Proto.getDropDataTypes = function()
 */
 
 /*!
-This needed be called from any qx.constant.Event.DRAGSTART event to really start drag session.
+This needed be called from any "dragstart" event to really start drag session.
 */
 qx.Proto.startDrag = function()
 {
@@ -196,18 +196,18 @@ qx.Proto.startDrag = function()
 
 qx.Proto._fireUserEvents = function(fromWidget, toWidget, e)
 {
-  if (fromWidget && fromWidget != toWidget && fromWidget.hasEventListeners(qx.constant.Event.DRAGOUT)) {
-    fromWidget.dispatchEvent(new qx.event.type.DragEvent(qx.constant.Event.DRAGOUT, e, fromWidget, toWidget), true);
+  if (fromWidget && fromWidget != toWidget && fromWidget.hasEventListeners("dragout")) {
+    fromWidget.dispatchEvent(new qx.event.type.DragEvent("dragout", e, fromWidget, toWidget), true);
   }
 
   if (toWidget)
   {
-    if (fromWidget != toWidget && toWidget.hasEventListeners(qx.constant.Event.DRAGOVER)) {
-      toWidget.dispatchEvent(new qx.event.type.DragEvent(qx.constant.Event.DRAGOVER, e, toWidget, fromWidget), true);
+    if (fromWidget != toWidget && toWidget.hasEventListeners("dragover")) {
+      toWidget.dispatchEvent(new qx.event.type.DragEvent("dragover", e, toWidget, fromWidget), true);
     }
 
-    if (toWidget.hasEventListeners(qx.constant.Event.DRAGMOVE)) {
-      toWidget.dispatchEvent(new qx.event.type.DragEvent(qx.constant.Event.DRAGMOVE, e, toWidget, null), true);
+    if (toWidget.hasEventListeners("dragmove")) {
+      toWidget.dispatchEvent(new qx.event.type.DragEvent("dragmove", e, toWidget, null), true);
     }
   }
 }
@@ -232,13 +232,13 @@ qx.Proto.handleMouseEvent = function(e)
 {
   switch (e.getType())
   {
-    case qx.constant.Event.MOUSEDOWN:
+    case "mousedown":
       return this._handleMouseDown(e);
 
-    case qx.constant.Event.MOUSEUP:
+    case "mouseup":
       return this._handleMouseUp(e);
 
-    case qx.constant.Event.MOUSEMOVE:
+    case "mousemove":
       return this._handleMouseMove(e);
   }
 }
@@ -247,7 +247,7 @@ qx.Proto.handleMouseEvent = function(e)
 This starts the core drag and drop session.
 
 To really get drag and drop working you need to define
-a function which you attach to qx.constant.Event.DRAGSTART-event, which
+a function which you attach to "dragstart"-event, which
 invokes at least this.startDrag()
 */
 qx.Proto._handleMouseDown = function(e)
@@ -319,7 +319,7 @@ qx.Proto._handleMouseMove = function(e)
     if (Math.abs(e.getScreenX() - this._dragCache.startScreenX) > 5 || Math.abs(e.getScreenY() - this._dragCache.startScreenY) > 5)
     {
       // Fire dragstart event to finally allow the above if to handle next events
-      this._dragCache.sourceWidget.dispatchEvent(new qx.event.type.DragEvent(qx.constant.Event.DRAGSTART, e, this._dragCache.sourceWidget), true);
+      this._dragCache.sourceWidget.dispatchEvent(new qx.event.type.DragEvent("dragstart", e, this._dragCache.sourceWidget), true);
 
       // Update status flag
       this._dragCache.hasFiredDragStart = true;
@@ -384,11 +384,11 @@ qx.Proto.handleKeyEvent = function(e)
 
   switch (e.getType())
   {
-    case qx.constant.Event.KEYDOWN:
+    case "keydown":
       this._handleKeyDown(e);
       return;
 
-    case qx.constant.Event.KEYUP:
+    case "keyup":
       this._handleKeyUp(e);
       return;
   }
@@ -479,7 +479,7 @@ qx.Proto._endDrag = function(currentDestinationWidget, e)
   }
 
   // Dispatch dragend event
-  this.getSourceWidget().dispatchEvent(new qx.event.type.DragEvent(qx.constant.Event.DRAGEND, e, this.getSourceWidget(), currentDestinationWidget), true);
+  this.getSourceWidget().dispatchEvent(new qx.event.type.DragEvent("dragend", e, this.getSourceWidget(), currentDestinationWidget), true);
 
   // Fire dragout event
   this._fireUserEvents(this._dragCache && this._dragCache.currentDropWidget, null, e);
@@ -575,7 +575,7 @@ qx.Proto._renderCursor = function()
 
   // Finally show new cursor
   if (vNewCursor != vOldCursor) {
-    vNewCursor._style.display = qx.constant.Core.EMPTY;
+    vNewCursor._style.display = "";
   }
 
   // Store new cursor
@@ -628,7 +628,7 @@ if (qx.sys.Client.getInstance().isGecko())
     // which was the one with the mousedown event before.
     if (vCurrent == this._dragCache.sourceWidget)
     {
-      // vCurrent = qx.event.handler.EventHandler.getTargetObject(qx.dom.DomElementFromPoint.getElementFromPoint(e.getPageX(), e.getPageY()));
+      // vCurrent = qx.event.handler.EventHandler.getTargetObject(qx.dom.ElementFromPoint.getElementFromPoint(e.getPageX(), e.getPageY()));
 
       // this is around 8-12 times faster as the above method
       vCurrent = this._dragCache.sourceTopLevel.getWidgetFromPoint(e.getPageX(), e.getPageY());

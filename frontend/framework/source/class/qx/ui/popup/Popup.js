@@ -31,30 +31,30 @@ function()
   this.setZIndex(this._minZIndex);
 });
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "popup" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "popup" });
 
 /*!
   Whether to let the system decide when to hide the popup. Setting
   this to false gives you better control but it also requires you
   to handle the closing of the popup.
 */
-qx.OO.addProperty({ name : "autoHide", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "autoHide", type : "boolean", defaultValue : true });
 
 /*!
   Make element displayed (if switched to true the widget will be created, if needed, too).
   Instead of qx.ui.core.Widget, the default is false here.
 */
-qx.OO.changeProperty({ name : "display", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.changeProperty({ name : "display", type : "boolean", defaultValue : false });
 
 /*!
   Center the popup on open
 */
-qx.OO.addProperty({ name : "centered", type : qx.constant.Type.BOOLEAN, defaultValue : false });
+qx.OO.addProperty({ name : "centered", type : "boolean", defaultValue : false });
 
 /**
  * Whether the popup should be restricted to the visible area of the page when opened.
  */
-qx.OO.addProperty({ name : "restrictToPageOnOpen", type : qx.constant.Type.BOOLEAN, defaultValue : true });
+qx.OO.addProperty({ name : "restrictToPageOnOpen", type : "boolean", defaultValue : true });
 
 
 qx.Proto._showTimeStamp = (new Date(0)).valueOf();
@@ -289,9 +289,9 @@ qx.Proto.positionRelativeTo = function(el, offsetX, offsetY)
   }
   if (el) {
     var gecko = qx.sys.Client.getInstance().isGecko();
-    var loc = qx.dom.DomLocation;
-    this.setLocation(loc.getClientAreaLeft(el) - (gecko ? qx.dom.DomStyle.getBorderLeft(el):0) + (offsetX || 0),
-      loc.getClientAreaTop(el) - (gecko ? qx.dom.DomStyle.getBorderTop(el):0) + (offsetY || 0));
+    var loc = qx.dom.Location;
+    this.setLocation(loc.getClientAreaLeft(el) - (gecko ? qx.dom.Style.getBorderLeft(el):0) + (offsetX || 0),
+      loc.getClientAreaTop(el) - (gecko ? qx.dom.Style.getBorderTop(el):0) + (offsetY || 0));
   } else {
     this.warn('Missing reference element');
   }

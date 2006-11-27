@@ -132,7 +132,7 @@
       buildTableHtml(Math.floor(scroller.scrollTop/rowHeight), rowCount);
     };
 
-    qx.dom.DomEventRegistration.addEventListener(scroller, "scroll", doscroll);
+    qx.dom.EventRegistration.addEventListener(scroller, "scroll", doscroll);
     doscroll();
   });
   </script>

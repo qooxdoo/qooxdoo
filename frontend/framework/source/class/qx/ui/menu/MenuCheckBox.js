@@ -25,10 +25,10 @@
 /*!
   A checkbox for the menu system.
 */
-qx.OO.defineClass("qx.ui.menu.MenuCheckBox", qx.ui.menu.MenuButton,
+qx.OO.defineClass("qx.ui.menu.CheckBox", qx.ui.menu.Button,
 function(vLabel, vCommand, vChecked)
 {
-  qx.ui.menu.MenuButton.call(this, vLabel, "static/image/blank.gif", vCommand);
+  qx.ui.menu.Button.call(this, vLabel, "static/image/blank.gif", vCommand);
 
   if (qx.util.Validation.isValidBoolean(vChecked)) {
     this.setChecked(vChecked);
@@ -45,10 +45,10 @@ function(vLabel, vCommand, vChecked)
 ---------------------------------------------------------------------------
 */
 
-qx.OO.changeProperty({ name : "appearance", type : qx.constant.Type.STRING, defaultValue : "menu-check-box" });
-qx.OO.addProperty({ name : "name", type : qx.constant.Type.STRING });
-qx.OO.addProperty({ name : "value", type : qx.constant.Type.STRING });
-qx.OO.addProperty({ name : "checked", type : qx.constant.Type.BOOLEAN, defaultValue : false, getAlias : "isChecked" });
+qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "menu-check-box" });
+qx.OO.addProperty({ name : "name", type : "string" });
+qx.OO.addProperty({ name : "value", type : "string" });
+qx.OO.addProperty({ name : "checked", type : "boolean", defaultValue : false, getAlias : "isChecked" });
 
 
 
@@ -62,7 +62,7 @@ qx.OO.addProperty({ name : "checked", type : qx.constant.Type.BOOLEAN, defaultVa
 
 qx.Proto._modifyChecked = function(propValue, propOldValue, propData)
 {
-  propValue ? this.addState(qx.ui.form.Button.STATE_CHECKED) : this.removeState(qx.ui.form.Button.STATE_CHECKED);
+  propValue ? this.addState("checked") : this.removeState("checked");
   this.getIconObject().setSource(propValue ? "widget/menu/checkbox.gif" : "static/image/blank.gif");
 
   return true;
@@ -81,5 +81,5 @@ qx.Proto._modifyChecked = function(propValue, propOldValue, propData)
 qx.Proto.execute = function()
 {
   this.setChecked(!this.getChecked());
-  qx.ui.menu.MenuButton.prototype.execute.call(this);
+  qx.ui.menu.Button.prototype.execute.call(this);
 }
