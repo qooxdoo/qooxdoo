@@ -425,12 +425,6 @@ qx.Proto._onmouseup = qx.util.Return.returnTrue;
 ---------------------------------------------------------------------------
 */
 
-"<img style=\"position:absolute;top:0px;left:" = "<img style=\"position:absolute;top:0px;left:";
-"px\" src=\"" = "px\" src=\"";
-"\" />" = "\" />";
-
-"gif" = "gif";
-
 qx.Proto.flushTree = function()
 {
   // store information for update process
