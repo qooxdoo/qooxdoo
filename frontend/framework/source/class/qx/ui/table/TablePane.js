@@ -251,19 +251,19 @@ qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
   var rowWidth = paneModel.getTotalWidth();
 
   if (TablePane.USE_TABLE) {
-    htmlArr.push(TablePane.TABLE_START);
+    htmlArr.push('<table cellspacing\="0" cellpadding\="0" style\="table-layout:fixed;font-family:\'Segoe UI\', Corbel, Calibri, Tahoma, \'Lucida Sans Unicode\', sans-serif;font-size:11px;width:');
     htmlArr.push(rowWidth);
-    htmlArr.push(TablePane.TABLE_COLGROUP);
+    htmlArr.push('px"><colgroup>');
 
     for (var x = 0; x < colCount; x++) {
       var col = paneModel.getColumnAtX(x);
 
-      htmlArr.push(TablePane.TABLE_COL);
+      htmlArr.push();
       htmlArr.push(columnModel.getColumnWidth(col));
-      htmlArr.push(TablePane.TABLE_COLEND);
+      htmlArr.push('"/>');
     }
 
-    htmlArr.push(TablePane.TABLE_TBODY);
+    htmlArr.push('</colgroup><tbody>');
   }
 
   tableModel.prefetchRows(firstRow, firstRow + rowCount - 1);
@@ -277,22 +277,21 @@ qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
 
     // Update this row
     if (TablePane.USE_TABLE) {
-      htmlArr.push(TablePane.TABLE_TR);
+      htmlArr.push('<tr style\="height:');
       htmlArr.push(rowHeight);
-      htmlArr.push(TablePane.TABLE_HEIGHT_END);
     } else {
-      htmlArr.push(TablePane.ARRAY_JOIN_ROW_DIV_START);
+      htmlArr.push('<div style\="position:absolute;font-family:\'Segoe UI\', Corbel, Calibri, Tahoma, \'Lucida Sans Unicode\', sans-serif;font-size:11px;left:0px;top:');
       htmlArr.push(y * rowHeight);
-      htmlArr.push(TablePane.ARRAY_JOIN_ROW_DIV_WIDTH);
+      htmlArr.push('px;width:');
       htmlArr.push(rowWidth);
-      htmlArr.push(TablePane.ARRAY_JOIN_ROW_DIV_HEIGHT);
+      htmlArr.push('px;height:');
       htmlArr.push(rowHeight);
-      htmlArr.push(TablePane.ARRAY_JOIN_ROW_DIV_BG_COLOR);
+      htmlArr.push('px;background-color:');
     }
 
     rowRenderer._createRowStyle_array_join(cellInfo, htmlArr);
 
-    htmlArr.push(TablePane.ARRAY_JOIN_ROW_DIV_START_END);
+    htmlArr.push('">');
 
     var left = 0;
     for (var x = 0; x < colCount; x++) {
@@ -314,14 +313,14 @@ qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
     }
 
     if (TablePane.USE_TABLE) {
-      htmlArr.push(TablePane.TABLE_TR_END);
+      htmlArr.push('</tr>');
     } else {
-      htmlArr.push(TablePane.ARRAY_JOIN_ROW_DIV_END);
+      htmlArr.push('</div>');
     }
   }
 
   if (TablePane.USE_TABLE) {
-    htmlArr.push(TablePane.TABLE_TBODY_END);
+    htmlArr.push('</tbody></table>');
   }
 
   var elem = this.getElement();
@@ -419,9 +418,9 @@ qx.Proto._updateContent_orig = function(completeUpdate, onlyRow,
         cellInfo.focusedCol = (this._focusedCol == col);
         cellInfo.value = tableModel.getValue(col, row);
         var width = columnModel.getColumnWidth(col);
-        cellInfo.style = TablePane.CONTENT_CELL_STYLE_LEFT + left
-          + TablePane.CONTENT_CELL_STYLE_WIDTH + width
-          + TablePane.CONTENT_CELL_STYLE_HEIGHT + rowHeight + "px";
+        cellInfo.style = 'position:absolute;left:' + left
+          + 'px;top:0px;width:' + width
+          + 'px; height:' + rowHeight + "px";
 
         var cellRenderer = columnModel.getDataCellRenderer(col);
         if (recyleRowElem) {
