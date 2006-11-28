@@ -666,12 +666,14 @@ qx.Class._createProperty = function(p)
         {
           var r = this[modifyKey](newValue, oldValue, p);
           if (!r) {
-            return this.error("Modification of property \"" + p.name + "\" failed without exception (" + r + ")", new Error());
+            var valueStr = new String(newValue).substring(0, 50);
+            return this.error("Setting property \"" + p.name + "\" to \"" + valueStr + "\" failed without exception (" + r + ")", new Error());
           }
         }
         catch(ex)
         {
-          return this.error("Modification of property \"" + p.name + "\" failed with exception", ex);
+          var valueStr = new String(newValue).substring(0, 50);
+          return this.error("Setting property \"" + p.name + "\" to \"" + valueStr + "\" failed with exception", ex);
         }
       }
 
