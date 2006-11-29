@@ -25,7 +25,7 @@
 
 /**
  * A key event instance contains all data for each occured key event
- * 
+ *
  * @param vType (string) event type (keydown, keypress, keyinput, keyup)
  * @param vDomEvent (Element) DOM event object
  * @param vDomTarget (Element) target element of the DOM event
@@ -64,7 +64,7 @@ qx.OO.addFastProperty({ name : "keyIdentifier", setOnlyOnce : true, noCompute : 
 
 /**
  * sets the keycode property.
- * 
+ *
  * @param keyCode (int)
  */
 qx.Proto.setKeyCode = function(keyCode) {
@@ -75,7 +75,7 @@ qx.Proto.setKeyCode = function(keyCode) {
 /**
  * returns the value of the keyCode property
  * @deprecated
- * 
+ *
  * @return (int) keyCode
  */
 qx.Proto.getKeyCode = function() {

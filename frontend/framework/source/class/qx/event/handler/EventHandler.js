@@ -449,7 +449,7 @@ qx.Class.getRelatedTargetObjectFromEvent = function(vDomEvent) {
 
 /**
  * stops further propagation of the event
- * 
+ *
  * @param vDomEvent (Element) DOM event object
  */
 qx.Class.stopDomEvent = function(vDomEvent) {};

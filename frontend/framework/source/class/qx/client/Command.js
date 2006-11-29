@@ -31,13 +31,13 @@
  * @event execute {qx.event.type.DataEvent} when the command is executed.
  *
  * @param vShortcut (string) shortcuts can be composed of optional modifier
- *		keys Control, Alt, Shift, Meta and a non modifier key.
+ *    keys Control, Alt, Shift, Meta and a non modifier key.
  *    If no non modifier key is specified, the second paramater is evaluated.
  *    The key must be seperated by a ''+'' or ''-'' character.
  *    Examples: Alt+F1, Control+C, Control+Alt+Enf
  *
  * @param vKeyCodeOrIdentifier (int)  Additional key of the command. It is interpreted as a
- *		keyIdentifier if it is given as integer. Otherwhise it is interpreted as keyCode.
+ *    keyIdentifier if it is given as integer. Otherwhise it is interpreted as keyCode.
  */
 qx.OO.defineClass("qx.client.Command", qx.core.Target,
 function(vShortcut, vKeyCodeOrIdentifier)
@@ -51,24 +51,24 @@ function(vShortcut, vKeyCodeOrIdentifier)
     this.setShortcut(vShortcut);
   }
 
-	if (qx.util.Validation.isValid(vKeyCodeOrIdentifier))
-	{ 
-   	if (qx.util.Validation.isValidString(vKeyCodeOrIdentifier))
-   	{
-		  this.setKeyIdentifier(vKeyCodeOrIdentifier);
-   	}
-   	else if (qx.util.Validation.isValidNumber(vKeyCodeOrIdentifier))
-   	{
+  if (qx.util.Validation.isValid(vKeyCodeOrIdentifier))
+  {
+     if (qx.util.Validation.isValidString(vKeyCodeOrIdentifier))
+     {
+      this.setKeyIdentifier(vKeyCodeOrIdentifier);
+     }
+     else if (qx.util.Validation.isValidNumber(vKeyCodeOrIdentifier))
+     {
       this.warn("The use of keyCode in command is deprecated. Use keyIdentifier instead.");
       this.setKeyCode(vKeyCodeOrIdentifier);
     }
     else
     {
-		  var msg = "vKeyCodeOrIdentifier must be of type string or number: " + vKeyCodeOrIdentifier;
-		  this.error(msg);
-  	  throw msg;
+      var msg = "vKeyCodeOrIdentifier must be of type string or number: " + vKeyCodeOrIdentifier;
+      this.error(msg);
+      throw msg;
     }
-	}
+  }
 
   // OSX warning for Alt key combinations
   if (this._modifier.Alt && this._key && this._key.length == 1) {
@@ -86,10 +86,10 @@ function(vShortcut, vKeyCodeOrIdentifier)
 /** the command shortcut */
 qx.OO.addProperty({ name : "shortcut", type : "string" });
 
-/** 
+/**
  * keyCode (Deprecated)
  * Still there for compatibility with the old key handler/commands
- */ 
+ */
 qx.OO.addProperty({ name : "keyCode", type : "number" });
 
 /** KeyIdentifier */
@@ -105,7 +105,7 @@ qx.OO.addProperty({ name : "keyIdentifier", type : "string" });
 
 /**
  * Fire the "execute" event on this command.
- * 
+ *
  * @param vTarget (Object)
  */
 qx.Proto.execute = function(vTarget)
@@ -149,12 +149,12 @@ qx.Proto._modifyShortcut = function(propValue, propOldValue, propData)
         case "Alt":
           this._modifier[identifier] = true;
           break;
-          
+
         case "Unidentified":
           var msg = "Not a valid key name for a command: " + a[i];
           this.error(msg);
           throw msg;
-          
+
         default:
           if (this._key) {
             var msg = "You can only specify one non modifier key!";
@@ -178,9 +178,9 @@ qx.Proto._modifyShortcut = function(propValue, propOldValue, propData)
 
 /**
  * Checks wether the given key event matches the command's shortcut
- * 
+ *
  * @param e (qx.event.type.KeyEvent) the key event object
- * @return (boolean) wether the commands shortcut matches the key event 
+ * @return (boolean) wether the commands shortcut matches the key event
  */
 qx.Proto._matchesKeyEvent = function(e)
 {
@@ -189,7 +189,7 @@ qx.Proto._matchesKeyEvent = function(e)
     // no shortcut defined.
     return;
   }
-  
+
   // pre-check for check special keys
   // we handle this here to omit to check this later again.
   if (
@@ -213,7 +213,7 @@ qx.Proto._matchesKeyEvent = function(e)
       return true;
     }
   }
-  
+
   return false;
 };
 
@@ -227,7 +227,7 @@ qx.Proto._matchesKeyEvent = function(e)
 
 /**
  * Returns the shortcut as string
- * 
+ *
  * @return (string) shortcut
  */
 qx.Proto.toString = function()
@@ -247,7 +247,7 @@ qx.Proto.toString = function()
     var vTemp = qx.event.type.KeyEvent.codes[vKeyCode];
     vKeyString = vTemp ? qx.lang.String.toFirstUp(vTemp) : String(vKeyCode);
   }
-  
+
   if (qx.util.Validation.isValidString(vShortcut))
   {
     vString = vShortcut + "+" + vKeyString;
