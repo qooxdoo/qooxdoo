@@ -1,5 +1,13 @@
 NICE=10
 
+ANY2DOS = | xargs ../framework/tool/modules/textutil.py --command any2Dos
+ANY2UNIX = | xargs ../framework/tool/modules/textutil.py --command any2Unix
+
+SYNC = rsync --recursive --links --delete --exclude build --exclude script --exclude .cache --exclude=*.svn
+FIXFILES = -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile
+
+TAR = tar cfz
+ZIP = zip -rq
 
 
 ###################################################################################
@@ -56,20 +64,18 @@ sample1-archives:
 	@mkdir -p build/temp/unix
 
 	@echo "  * Synchronizing Unix content..."
-	@nice -n $(NICE) rsync --recursive --links --delete --exclude build --exclude script --exclude .cache --exclude=*.svn source/sample1 build/temp/unix
-	@# use pipe to /dev/null because windows (cygwin) does not support the -q (quiet) argument
-	@nice -n $(NICE) find build/temp/unix -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile | xargs dos2unix > /dev/null 2>&1
+	@nice -n $(NICE) $(SYNC) source/sample1 build/temp/unix
+	@nice -n $(NICE) find build/temp/unix $(FIXFILES) $(ANY2UNIX)
 
 	@echo "  * Synchronizing DOS content..."
-	@nice -n $(NICE) rsync --recursive --links --delete --exclude build --exclude script --exclude .cache --exclude=*.svn source/sample1 build/temp/dos
-	@# use pipe to /dev/null because windows (cygwin) does not support the -q (quiet) argument
-	@nice -n $(NICE) find build/temp/dos -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile | xargs unix2dos > /dev/null 2>&1
+	@nice -n $(NICE) $(SYNC) source/sample1 build/temp/dos
+	@nice -n $(NICE) find build/temp/dos $(FIXFILES) $(ANY2DOS)
 
 	@echo "  * Creating gzip archive..."
-	@cd build/temp/unix; rm -f sample1.tar.gz; nice -n $(NICE) tar cfz ../../sample1.tar.gz sample1
+	@cd build/temp/unix; rm -f sample1.tar.gz; nice -n $(NICE) $(TAR) ../../sample1.tar.gz sample1
 
 	@echo "  * Creating zip archive..."
-	@cd build/temp/dos; rm -f sample1.zip; nice -n $(NICE) zip -rq ../../sample1.zip sample1
+	@cd build/temp/dos; rm -f sample1.zip; nice -n $(NICE) $(ZIP) ../../sample1.zip sample1
 
 sample1-clean:
 	@echo
@@ -117,20 +123,18 @@ sample2-archives:
 	@mkdir -p build/temp/unix
 
 	@echo "  * Synchronizing Unix content..."
-	@nice -n $(NICE) rsync --recursive --links --delete --exclude build --exclude script --exclude .cache --exclude=*.svn source/sample2 build/temp/unix
-	@# use pipe to /dev/null because windows (cygwin) does not support the -q (quiet) argument
-	@nice -n $(NICE) find build/temp/unix -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile | xargs dos2unix > /dev/null 2>&1
+	@nice -n $(NICE) $(SYNC) source/sample2 build/temp/unix
+	@nice -n $(NICE) find build/temp/unix $(FIXFILES) $(ANY2UNIX)
 
 	@echo "  * Synchronizing DOS content..."
-	@nice -n $(NICE) rsync --recursive --links --delete --exclude build --exclude script --exclude .cache --exclude=*.svn source/sample2 build/temp/dos
-	@# use pipe to /dev/null because windows (cygwin) does not support the -q (quiet) argument
-	@nice -n $(NICE) find build/temp/dos -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile | xargs unix2dos > /dev/null 2>&1
+	@nice -n $(NICE) $(SYNC) source/sample2 build/temp/dos
+	@nice -n $(NICE) find build/temp/dos $(FIXFILES) $(ANY2DOS)
 
 	@echo "  * Creating gzip archive..."
-	@cd build/temp/unix; rm -f sample2.tar.gz; nice -n $(NICE) tar cfz ../../sample2.tar.gz sample2
+	@cd build/temp/unix; rm -f sample2.tar.gz; nice -n $(NICE) $(TAR) ../../sample2.tar.gz sample2
 
 	@echo "  * Creating zip archive..."
-	@cd build/temp/dos; rm -f sample2.zip; nice -n $(NICE) zip -rq ../../sample2.zip sample2
+	@cd build/temp/dos; rm -f sample2.zip; nice -n $(NICE) $(ZIP) ../../sample2.zip sample2
 
 sample2-clean:
 	@echo
@@ -178,20 +182,18 @@ sample3-archives:
 	@mkdir -p build/temp/unix
 
 	@echo "  * Synchronizing Unix content..."
-	@nice -n $(NICE) rsync --recursive --links --delete --exclude build --exclude script --exclude .cache --exclude=*.svn source/sample3 build/temp/unix
-	@# use pipe to /dev/null because windows (cygwin) does not support the -q (quiet) argument
-	@nice -n $(NICE) find build/temp/unix -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile | xargs dos2unix > /dev/null 2>&1
+	@nice -n $(NICE) $(SYNC) source/sample3 build/temp/unix
+	@nice -n $(NICE) find build/temp/unix $(FIXFILES) $(ANY2UNIX)
 
 	@echo "  * Synchronizing DOS content..."
-	@nice -n $(NICE) rsync --recursive --links --delete --exclude build --exclude script --exclude .cache --exclude=*.svn source/sample3 build/temp/dos
-	@# use pipe to /dev/null because windows (cygwin) does not support the -q (quiet) argument
-	@nice -n $(NICE) find build/temp/dos -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile | xargs unix2dos > /dev/null 2>&1
+	@nice -n $(NICE) $(SYNC) source/sample3 build/temp/dos
+	@nice -n $(NICE) find build/temp/dos $(FIXFILES) $(ANY2DOS)
 
 	@echo "  * Creating gzip archive..."
-	@cd build/temp/unix; rm -f sample3.tar.gz; nice -n $(NICE) tar cfz ../../sample3.tar.gz sample3
+	@cd build/temp/unix; rm -f sample3.tar.gz; nice -n $(NICE) $(TAR) ../../sample3.tar.gz sample3
 
 	@echo "  * Creating zip archive..."
-	@cd build/temp/dos; rm -f sample3.zip; nice -n $(NICE) zip -rq ../../sample3.zip sample3
+	@cd build/temp/dos; rm -f sample3.zip; nice -n $(NICE) $(ZIP) ../../sample3.zip sample3
 
 sample3-clean:
 	@echo

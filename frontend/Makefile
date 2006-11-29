@@ -21,8 +21,8 @@ RSYNC_SDK_OPT = $(RSYNC_BUILD_OPT) --exclude script --exclude .svn
 RSYNC_BUILD_EXEC = @$(NICE_CALL) rsync $(RSYNC_BUILD_OPT)
 RSYNC_SDK_EXEC = @$(NICE_CALL) rsync $(RSYNC_SDK_OPT)
 
-UNIX2DOS = | xargs unix2dos > /dev/null 2>&1
-DOS2UNIX = | xargs dos2unix > /dev/null 2>&1
+ANY2DOS = | xargs framework/tool/modules/textutil.py --command any2Dos
+ANY2UNIX = | xargs framework/tool/modules/textutil.py --command any2Unix
 
 
 
@@ -158,7 +158,7 @@ release-build-sync:
 	$(RSYNC_BUILD_EXEC) framework/build/* $(RELEASE_BUILD_UNIX)/frontend/framework
 
 	@echo "  * Fixing line-breaks..."
-	@$(NICE_CALL) find $(RELEASE_BUILD_UNIX) $(FIX_FILES) $(DOS2UNIX)
+	@$(NICE_CALL) find $(RELEASE_BUILD_UNIX) $(FIX_FILES) $(ANY2UNIX)
 
 	@echo
 	@echo "  SYNCHRONISATION OF DOS BUILD RELEASE"
@@ -177,7 +177,7 @@ release-build-sync:
 	$(RSYNC_BUILD_EXEC) framework/build/* $(RELEASE_BUILD_DOS)/frontend/framework
 
 	@echo "  * Fixing line-breaks..."
-	@$(NICE_CALL) find $(RELEASE_BUILD_DOS) $(FIX_FILES) $(UNIX2DOS)
+	@$(NICE_CALL) find $(RELEASE_BUILD_DOS) $(FIX_FILES) $(ANY2DOS)
 
 release-build-compress:
 	@echo
@@ -239,7 +239,7 @@ release-sdk-sync:
 	@$(NICE_CALL) find $(RELEASE_SDK_UNIX)/frontend/framework/tool -name "*.sh" -o -name "*.py" | xargs chmod a+rx
 
 	@echo "  * Fixing line-breaks..."
-	@$(NICE_CALL) find $(RELEASE_SDK_UNIX) $(FIX_FILES) $(DOS2UNIX)
+	@$(NICE_CALL) find $(RELEASE_SDK_UNIX) $(FIX_FILES) $(ANY2UNIX)
 
 	@echo
 	@echo "  SYNCHRONISATION OF DOS SDK RELEASE"
@@ -280,7 +280,7 @@ release-sdk-sync:
 	@$(NICE_CALL) find $(RELEASE_SDK_DOS)/frontend/framework/tool -name "*.sh" -o -name "*.py" | xargs chmod a+rx
 
 	@echo "  * Fixing line-breaks..."
-	@$(NICE_CALL) find $(RELEASE_SDK_DOS) $(FIX_FILES) $(UNIX2DOS)
+	@$(NICE_CALL) find $(RELEASE_SDK_DOS) $(FIX_FILES) $(ANY2DOS)
 
 release-sdk-compress:
 	@echo
