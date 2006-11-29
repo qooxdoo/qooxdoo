@@ -28,8 +28,7 @@
  * This class provides unified key event handler for Internet Explorer,
  * Firefox, Opera and Safari
  */
-qx.OO.defineClass("qx.event.handler.KeyEventHandler", qx.core.Target,
-function()
+qx.OO.defineClass("qx.event.handler.KeyEventHandler", qx.core.Target, function()
 {
   qx.core.Target.call(this);
 
@@ -470,7 +469,7 @@ qx.Proto._idealKeyHandler = function(keyCode, charCode, eventType, domEvent)
 
 /*
 ---------------------------------------------------------------------------
-  BROWSER-SPECIFIC-KEY-HANDLER
+  BROWSER-SPECIFIC-KEY-HANDLER: MSHTML
 ---------------------------------------------------------------------------
 */
 
@@ -528,6 +527,14 @@ if (qx.sys.Client.getInstance().isMshtml())
 
 
 
+
+
+/*
+---------------------------------------------------------------------------
+  BROWSER-SPECIFIC-KEY-HANDLER: GECKO
+---------------------------------------------------------------------------
+*/
+
 else if (qx.sys.Client.getInstance().isGecko())
 {
   /**
@@ -572,6 +579,14 @@ else if (qx.sys.Client.getInstance().isGecko())
 
 
 
+
+
+
+/*
+---------------------------------------------------------------------------
+  BROWSER-SPECIFIC-KEY-HANDLER: WEBKIT
+---------------------------------------------------------------------------
+*/
 
 else if (qx.sys.Client.getInstance().isWebkit())
 {
@@ -653,6 +668,13 @@ else if (qx.sys.Client.getInstance().isWebkit())
 
 
 
+
+
+/*
+---------------------------------------------------------------------------
+  BROWSER-SPECIFIC-KEY-HANDLER: OPERA
+---------------------------------------------------------------------------
+*/
 
 else if (qx.sys.Client.getInstance().isOpera())
 {
