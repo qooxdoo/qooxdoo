@@ -148,7 +148,6 @@ qx.Proto.format = function(num) {
  */
 qx.Proto.parse = function(str) {
   var NumberFormat = qx.util.format.NumberFormat;
-  var LangUtils = com.ptvag.webcomponent.common.LangUtils;
 
   var regex = new RegExp(qx.lang.String.escapeRegexpChars(this.getPrefix())
     + '(-)?([0-9' + NumberFormat.GROUPING_SEPARATOR + ']+)'
