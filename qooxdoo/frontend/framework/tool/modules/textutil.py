@@ -103,6 +103,8 @@ def main():
   
   parser = optparse.OptionParser()
 
+  parser.add_option("-q", "--quiet", action="store_false", dest="verbose", default=False, help="Quiet output mode.")
+  parser.add_option("-v", "--verbose", action="store_true", dest="verbose", help="Verbose output mode.")
   parser.add_option("-c", "--command", dest="command", default="normalize", help="Normalize a file")
   parser.add_option("--encoding", dest="encoding", default="utf-8", metavar="ENCODING", help="Defines the encoding expected for input files.")
 
@@ -117,7 +119,8 @@ def main():
     sys.exit(1)
     
   for fileName in args:
-    print "  * Running %s on: %s" % (options.command, fileName)
+    if options.verbose:
+      print "  * Running %s on: %s" % (options.command, fileName)
     
     origFileContent = filetool.read(fileName, options.encoding)
     patchedFileContent = eval(options.command + "(origFileContent)")
