@@ -285,17 +285,25 @@ qx.Proto._computeButton = function() {
 ---------------------------------------------------------------------------
 */
 
+// Implementation differences: http://ajaxian.com/archives/javascript-and-mouse-wheels
+
 qx.OO.addFastProperty({ name : "wheelDelta", readOnly : true });
 
 if(qx.sys.Client.getInstance().isMshtml())
 {
   qx.Proto._computeWheelDelta = function() {
-    return this.getDomEvent().wheelDelta ? this.getDomEvent().wheelDelta / 40 : 0;
+    return this.getDomEvent().wheelDelta / 120;
+  }
+}
+else if(qx.sys.Client.getInstance().isOpera())
+{
+  qx.Proto._computeWheelDelta = function() {
+    return -this.getDomEvent().wheelDelta / 120;
   }
 }
 else
 {
   qx.Proto._computeWheelDelta = function() {
-    return -(this.getDomEvent().detail || 0);
+    return -this.getDomEvent().detail / 3;
   }
 }
