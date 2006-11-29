@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import os, codecs, cPickle, sys
-import util
+import textutil
 
 def save(filePath, content="", encoding="utf_8"):
   # Normalize
@@ -47,7 +47,7 @@ def read(filePath, encoding="utf_8"):
     content = ref.read()
     ref.close()
 
-    return util.any2Unix(unicode(content))
+    return textutil.any2Unix(unicode(content))
 
   except IOError, (errno, strerror):
     print "  * I/O error(%s): %s" % (errno, strerror)
