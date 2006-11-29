@@ -40,25 +40,24 @@ function()
   // Object Wrapper to Events (Needed for DOM-Events)
   var o = this;
 
-  this._keyEventHandler = qx.event.handler.KeyEventHandler.getInstance();
-  this.__onkeyevent = function(vDomEvent, vType, vKeyCode, vCharCode, vKeyIdentifier) {
-      o._onkeyevent_post(vDomEvent, vType, vKeyCode || vCharCode, vCharCode, vKeyIdentifier);
-  };
+  // User Events
+  this.__onmouseevent = function(e) { return o._onmouseevent(e); };
+  this.__ondragevent = function(e) { return o._ondragevent(e); };
+  this.__onselectevent = function(e) { return o._onselectevent(e); };
 
-  this.__onmouseevent = function(e) { return o._onmouseevent(e); }
-  this.__ondragevent = function(e) { return o._ondragevent(e); }
-  this.__onselectevent = function(e) { return o._onselectevent(e); }
-
-  // Some Window Events
-  this.__onwindowblur = function(e) { return o._onwindowblur(e); }
-  this.__onwindowfocus = function(e) { return o._onwindowfocus(e); }
-  this.__onwindowresize = function(e) { return o._onwindowresize(e); }
+  // Window Events
+  this.__onwindowblur = function(e) { return o._onwindowblur(e); };
+  this.__onwindowfocus = function(e) { return o._onwindowfocus(e); };
+  this.__onwindowresize = function(e) { return o._onwindowresize(e); };
 
   // Init Command Interface
   this._commands = {};
-
-  this._lastCharCodeForEvent = {};
 });
+
+
+
+
+
 
 qx.OO.addProperty({ name : "allowClientContextMenu", type : "boolean", defaultValue : false });
 qx.OO.addProperty({ name : "allowClientSelectAll", type : "boolean", defaultValue : false });
@@ -66,9 +65,12 @@ qx.OO.addProperty({ name : "allowClientSelectAll", type : "boolean", defaultValu
 qx.OO.addProperty({ name : "captureWidget", type : "object", instance : "qx.ui.core.Widget", allowNull : true });
 qx.OO.addProperty({ name : "focusRoot", type : "object", instance : "qx.ui.core.Parent", allowNull : true });
 
-qx.Class.DOMMOUSESCROLL = "DOMMouseScroll";
 
-qx.Class.mouseEventTypes = [ "mouseover", "mousemove", "mouseout", "mousedown", "mouseup", "click", "dblclick", "contextmenu", qx.sys.Client.getInstance().isMshtml() ? "mousewheel" : qx.Class.DOMMOUSESCROLL ];
+
+
+
+
+qx.Class.mouseEventTypes = [ "mouseover", "mousemove", "mouseout", "mousedown", "mouseup", "click", "dblclick", "contextmenu", qx.sys.Client.getInstance().isMshtml() ? "mousewheel" : "DOMMouseScroll" ];
 qx.Class.keyEventTypes = [ "keydown", "keypress", "keyup" ];
 
 if (qx.sys.Client.getInstance().isGecko())
@@ -103,7 +105,6 @@ qx.Proto._lastMouseEventType = null;
 qx.Proto._lastMouseDown = false;
 qx.Proto._lastMouseEventDate = 0;
 
-qx.Proto._lastKeyEventType = null;
 
 
 
@@ -203,8 +204,8 @@ qx.Proto.attachEvents = function()
   this.attachEventTypes(qx.event.handler.EventHandler.mouseEventTypes, this.__onmouseevent);
   this.attachEventTypes(qx.event.handler.EventHandler.dragEventTypes, this.__ondragevent);
 
-  this._keyEventHandler.attachEvents();
-  this._keyEventHandler.setCallback(this.__onkeyevent);
+  // Unregister separate handler events
+  qx.event.handler.KeyEventHandler.getInstance().attachEvents();
 
   // Register window events
   qx.dom.EventRegistration.addEventListener(window, "blur", this.__onwindowblur);
@@ -220,7 +221,9 @@ qx.Proto.detachEvents = function()
   // Unregister dom events
   this.detachEventTypes(qx.event.handler.EventHandler.mouseEventTypes, this.__onmouseevent);
   this.detachEventTypes(qx.event.handler.EventHandler.dragEventTypes, this.__ondragevent);
-  this._keyEventHandler.detachEvents();
+  
+  // Unregister separate handler events
+  qx.event.handler.KeyEventHandler.getInstance().detachEvents();
 
   // Unregister window events
   qx.dom.EventRegistration.removeEventListener(window, "blur", this.__onwindowblur);
@@ -655,7 +658,7 @@ else
 
     switch(vType)
     {
-      case qx.event.handler.EventHandler.DOMMOUSESCROLL:
+      case "DOMMouseScroll":
         // normalize mousewheel event
         vType = "mousewheel";
         break;
@@ -1127,14 +1130,13 @@ qx.Proto.dispose = function()
   this.detachEvents();
 
   // Reset functions
-  this.__onmouseevent = this.__onkeyevent = this.__ondragevent = this.__onselectevent = null;
+  this.__onmouseevent = this.__ondragevent = this.__onselectevent = null;
   this.__onwindowblur = this.__onwindowfocus = this.__onwindowresize = null;
 
   // Cleanup
   this._lastMouseEventType = null;
   this._lastMouseDown = null;
   this._lastMouseEventDate = null;
-  this._lastKeyEventType = null;
 
   this._lastMouseDownDomTarget = null;
   this._lastMouseDownDispatchTarget = null;
