@@ -149,9 +149,13 @@ qx.Proto.format = function(num) {
 qx.Proto.parse = function(str) {
   var NumberFormat = qx.util.format.NumberFormat;
 
+  // use the escaped separators for regexp
+  var groupSepEsc = qx.lang.String.escapeRegexpChars(NumberFormat.GROUPING_SEPARATOR);
+  var decimalSepEsc = qx.lang.String.escapeRegexpChars(NumberFormat.DECIMAL_SEPARATOR);
+
   var regex = new RegExp(qx.lang.String.escapeRegexpChars(this.getPrefix())
-    + '(-)?([0-9' + NumberFormat.GROUPING_SEPARATOR + ']+)'
-    + '(' + NumberFormat.DECIMAL_SEPARATOR + '\\d+)?'
+    + '(-)?([0-9' + groupSepEsc + ']+)'
+    + '(' + decimalSepEsc + '\\d+)?'
     + qx.lang.String.escapeRegexpChars(this.getPostfix()));
 
   var hit = regex.exec(str);
@@ -164,10 +168,12 @@ qx.Proto.parse = function(str) {
   var fractionStr = hit[3];
 
   // Remove the thousand groupings
-  integerStr = integerStr.replace(new RegExp(NumberFormat.GROUPING_SEPARATOR), "");
+  integerStr = integerStr.replace(new RegExp(groupSepEsc), "");
 
   var asStr = (negative ? "-" : "") + integerStr;
   if (fractionStr != null && fractionStr.length != 0) {
+    // Remove the leading decimal separator from the fractions string
+    fractionStr = fractionStr.replace(new RegExp(decimalSepEsc),"");
     asStr += "." + fractionStr;
   }
   return parseFloat(asStr);
