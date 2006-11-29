@@ -377,7 +377,7 @@ qx.Class._createProperty = function(p)
   p.method = qx.lang.String.toFirstUp(p.name);
   p.implMethod = p.impl ? qx.lang.String.toFirstUp(p.impl) : p.method;
 
-  if (qx.util.Validation.isInvalid(p.defaultValue)) {
+  if (p.defaultValue == undefined) {
     p.defaultValue = null;
   }
 
