@@ -129,7 +129,6 @@ qx.Proto._modifyShortcut = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
-
     this._modifier = {};
     this._key = null;
 
@@ -138,11 +137,12 @@ qx.Proto._modifyShortcut = function(propValue, propOldValue, propData)
     var a = propValue.split(/[-+\s]+/);
     var al = a.length;
 
-    for (var i=0; i<al; i++) {
-      var keyHandler = qx.event.handler.KeyEventHandler.getInstance();
-      var identifier = keyHandler.oldKeyNameToKeyIdentifier(a[i]);
+    for (var i=0; i<al; i++) 
+    {
+      var identifier = qx.event.handler.KeyEventHandler.getInstance().oldKeyNameToKeyIdentifier(a[i]);
 
-      switch (identifier) {
+      switch (identifier) 
+      {
         case "Control":
         case "Shift":
         case "Meta":
