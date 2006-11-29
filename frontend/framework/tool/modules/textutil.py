@@ -115,7 +115,7 @@ def main():
     sys.exit(1)
 
   if len(args) == 0:
-    print "Needs one or more arguments (files) to tokenize!"
+    print "Needs one or more arguments (files) to modify!"
     sys.exit(1)
     
   for fileName in args:
