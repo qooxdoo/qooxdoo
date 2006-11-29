@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+import sys, string, re, optparse
+import config, filetool, comment
+
+
 
 
 def convertMac2Unix(content):
@@ -80,3 +84,57 @@ def removeTrailingSpaces(content):
     pos += 1
 
   return ending.join(lines)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def main():
+  allowed = [ "any2Dos", "any2Mac", "any2Unix", "convertDos2Mac", "convertDos2Unix", "convertMac2Dos", "convertMac2Unix", "convertUnix2Dos", "convertUnix2Mac", "spaces2Tab", "tab2Space" ]
+  
+  parser = optparse.OptionParser()
+
+  parser.add_option("-c", "--command", dest="command", default="normalize", help="Normalize a file")
+  parser.add_option("--encoding", dest="encoding", default="utf-8", metavar="ENCODING", help="Defines the encoding expected for input files.")
+
+  (options, args) = parser.parse_args()
+  
+  if not options.command in allowed:
+    print "Unallowed command: %s" % options.command
+    sys.exit(1)
+
+  if len(args) == 0:
+    print "Needs one or more arguments (files) to tokenize!"
+    sys.exit(1)
+    
+  for fileName in args:
+    print "  * Running %s on: %s" % (options.command, fileName)
+    
+    origFileContent = filetool.read(fileName, options.encoding)
+    patchedFileContent = eval(options.command + "(origFileContent)")
+    
+    if patchedFileContent != origFileContent:
+      filetool.save(fileName, patchedFileContent, options.encoding)
+
+
+
+
+
+if __name__ == '__main__':
+  try:
+    main()
+
+  except KeyboardInterrupt:
+    print
+    print "  * Keyboard Interrupt"
+    sys.exit(1)
+    
