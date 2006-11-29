@@ -161,6 +161,7 @@ revision-bump:
 	@echo
 	@echo "  REVISION BUMP"
 	@echo "----------------------------------------------------------------------------"
-	@echo "  * Updating version file"
-	@sed --in-place "s/date\(.*\)/date($(TIMEFLAG))/g" source/class/qx/core/Version.js
-	@svn commit -m 'Revision bump: demo section update' source/class/qx/core/Version.js
+	@echo "  * Updating version file..."
+	@tool/modules/tagtool.py source/class/qx/core/Version.js
+	@echo "  * Committing to SVN..."
+	@svn commit -m 'Revision bump: Online demo update' source/class/qx/core/Version.js
