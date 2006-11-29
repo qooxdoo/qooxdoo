@@ -45,9 +45,11 @@ function(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vKeyCode, vChar
   this.setKeyIdentifier(vKeyIdentifier);
 });
 
-
-/** wether warnings for getKeyCode should be generated. */
-qx.Settings.setDefault("deprecationWarning", true);
+/**
+ * Legacy keycode
+ * @deprecated Will be removed with qooxdoo 0.7
+ */
+qx.OO.addFastProperty({ name : "keyCode", setOnlyOnce : true, noCompute : true });
 
 /**
  * Unicode number of the pressed character.
@@ -62,30 +64,9 @@ qx.OO.addFastProperty({ name : "charCode", setOnlyOnce : true, noCompute : true 
 qx.OO.addFastProperty({ name : "keyIdentifier", setOnlyOnce : true, noCompute : true });
 
 
-/**
- * sets the keycode property.
- *
- * @param keyCode (int)
- */
-qx.Proto.setKeyCode = function(keyCode) {
-  this._keyCode = keyCode;
-};
 
 
-/**
- * returns the value of the keyCode property
- * @deprecated
- *
- * @return (int) keyCode
- */
-qx.Proto.getKeyCode = function() {
-  /*
-  if (qx.settings.getValueOfClass("qx.event.type.KeyEvent", "deprecationWarning")) {
-    this.warn("qx.event.type.KeyEvent is deprecated. Use getKeyIdentifier instead.");
-  }
-  */
-  return this._keyCode;
-};
+
 
 
 
@@ -160,10 +141,10 @@ qx.event.type.KeyEvent.keys =
   numpad_multiply : 106,
   numpad_minus : 109,
   numpad_plus : 107
-}
+};
 
 // create dynamic codes copy
-;(function() {
+(function() {
   qx.event.type.KeyEvent.codes = {};
   for (var i in qx.event.type.KeyEvent.keys) {
     qx.event.type.KeyEvent.codes[qx.event.type.KeyEvent.keys[i]] = i;
