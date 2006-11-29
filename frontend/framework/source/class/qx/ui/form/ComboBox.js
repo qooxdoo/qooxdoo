@@ -119,7 +119,7 @@ function()
   this.addEventListener("keydown", this._onkeydown);
   this.addEventListener("keypress", this._onkeypress);
   this.addEventListener("keyinput", this._onkeyinput);
-  
+
 
   // ************************************************************************
   //   WIDGET STATE EVENTS
@@ -564,7 +564,7 @@ qx.Proto._onkeypress = function(e)
 {
   var vVisible = this._popup.isSeeable();
   var vManager = this._manager;
-    
+
   switch(e.getKeyIdentifier())
   {
     // Handle <PAGEUP>
@@ -621,7 +621,7 @@ qx.Proto._onkeypress = function(e)
 
       break;
   }
-  
+
   // Default Handling
   if (!this.isEditable() || vVisible)
   {

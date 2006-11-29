@@ -875,7 +875,7 @@ qx.Proto._onkeydown = function(e) {
         this._togglePopup();
       }
       break;
-      
+
     case "F3":
       if (this.getAllowSearch()) {
         this.openSearchDialog();
@@ -912,7 +912,7 @@ qx.Proto._onkeypress = function(e) {
     case "Down":
       this.setSelectedIndex(Math.max(0, this.getSelectedIndex()+1));
       break;
-      
+
     case "PageUp":
       this.setSelectedIndex(Math.max(0, this.getSelectedIndex()-this.getPagingInterval()));
       break;
@@ -928,11 +928,11 @@ qx.Proto._onkeypress = function(e) {
       return;
   }
   e.preventDefault();
-  
+
   if (!this.isEditable() && this._list.isSeeable()) {
     this._list.dispatchEvent(e);
   }
-  
+
 }
 
 
