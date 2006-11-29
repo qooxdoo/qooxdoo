@@ -326,7 +326,8 @@ def main():
     tokenString = convertTokensToString(parseFile(fileName, "", options.encoding))
 
     if options.write:
-      filetool.save(fileName + options.extension, tokenString)
+      filetool.save(fileName + options.extension, tokenString, options.encoding)
+      
     else:
       try:
         print tokenString
