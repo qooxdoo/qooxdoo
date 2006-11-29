@@ -71,10 +71,7 @@ generate-script-source:
 	  --source-script-path ../../../$(FRAMEWORK)/source/class \
 	  --generate-source-script $(SOURCELDR) \
 	  --source-script-file source/script/qx.js \
-	  --define-runtime-setting qx.theme.icon.CrystalSvg.imageUri:../../../$(FRAMEWORK)/source/resource/icon/crystalsvg \
-	  --define-runtime-setting qx.theme.icon.Nuvola.imageUri:../../../$(FRAMEWORK)/source/resource/icon/nuvola \
-	  --define-runtime-setting qx.theme.widget.Windows.imageUri:../../../$(FRAMEWORK)/source/resource/widget/windows \
-	  --define-runtime-setting qx.manager.object.AliasManager.staticUri:../../../$(FRAMEWORK)/source/resource/static \
+	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:../../../$(FRAMEWORK)/source/resource \
 	  --cache-directory $(CACHE)
 
 generate-script-build:
@@ -87,10 +84,7 @@ generate-script-build:
 	  --copy-resources \
 	  --resource-input $(FRAMEWORK)/source/resource \
 	  --resource-output build/resource \
-	  --define-runtime-setting qx.theme.icon.CrystalSvg.imageUri:../../resource/icon/crystalsvg \
-	  --define-runtime-setting qx.theme.icon.Nuvola.imageUri:../../resource/icon/nuvola \
-	  --define-runtime-setting qx.theme.widget.Windows.imageUri:../../resource/widget/windows \
-	  --define-runtime-setting qx.manager.object.AliasManager.staticUri:../../resource/static \
+	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:../../resource \
 	  --cache-directory $(CACHE)
 
 generate-script-build-test:
@@ -104,10 +98,7 @@ generate-script-build-test:
     --copy-resources \
     --resource-input $(FRAMEWORK)/source/resource \
     --resource-output build/resource \
-    --define-runtime-setting qx.theme.icon.CrystalSvg.imageUri:../../resource/icon/crystalsvg \
-    --define-runtime-setting qx.theme.icon.Nuvola.imageUri:../../resource/icon/nuvola \
-    --define-runtime-setting qx.theme.widget.Windows.imageUri:../../resource/widget/windows \
-    --define-runtime-setting qx.manager.object.AliasManager.staticUri:../../resource/static \
+    --define-runtime-setting qx.manager.object.AliasManager.resourceUri:../../resource \
     --cache-directory $(CACHE)
 
 
