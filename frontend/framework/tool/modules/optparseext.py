@@ -2,7 +2,7 @@
 
 from optparse import *
 
-class ExtendedOption(Option):
+class ExtendAction(Option):
   ACTIONS = Option.ACTIONS + ("extend",)
   STORE_ACTIONS = Option.STORE_ACTIONS + ("extend",)
   TYPED_ACTIONS = Option.TYPED_ACTIONS + ("extend",)
