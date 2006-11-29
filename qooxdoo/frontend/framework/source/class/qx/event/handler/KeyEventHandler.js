@@ -246,7 +246,7 @@ qx.Proto._isIdentifiableKeyCode = qx.Class._get_isIdentifiableKeyCode();
 
 /**
  * Checks wether a given string is a valid keyIdentifier
- * 
+ *
  * @param keyIdentifier (string)
  * @return (boolean) wether the given string is a valid keyIdentifier
  */
@@ -263,7 +263,7 @@ qx.Proto.isValidKeyIdentifier = function(keyIdentifier) {
     case "*":
     case "/":
       return true;
-      
+
     default:
       return false;
   }
@@ -362,22 +362,22 @@ qx.Class._oldKeyNameToKeyIdentifierMap =
 qx.Proto.oldKeyNameToKeyIdentifier = function(keyName)
 {
   var keyIdentifier = "Unidentified";
-  
+
   if (this.isValidKeyIdentifier(keyName)) {
     return keyName;
   }
-  
+
   if (keyName.length == 1 && keyName >= "a" && keyName <= "z") {
     return keyName.toUpperCase();
   }
 
   keyName = keyName.toLowerCase();
-  
+
   // check wether its a valid old key name
   if (!qx.event.type.KeyEvent.keys[keyName]) {
     return "Unidentified";
   }
-  
+
   var keyIdentifier = qx.event.handler.KeyEventHandler._oldKeyNameToKeyIdentifierMap[keyName];
   if (keyIdentifier) {
     return keyIdentifier;
@@ -606,13 +606,13 @@ qx.Proto._operaKeyHandler = function(domEvent) {
     if (this._keyCodeToIdentifierMap[domEvent.keyCode]) {
       keyCode = domEvent.keyCode;
     } else {
-      charCode = domEvent.keyCode; 
+      charCode = domEvent.keyCode;
     }
     this._idealKeyHandler(keyCode, charCode, eventType, domEvent);
   }
   else
   {
-    this._idealKeyHandler(domEvent.keyCode, 0, eventType, domEvent);   
+    this._idealKeyHandler(domEvent.keyCode, 0, eventType, domEvent);
   }
 };
 
@@ -642,7 +642,7 @@ else if (qx.sys.Client.getInstance().isWebkit())
 }
 else if (qx.sys.Client.getInstance().isOpera())
 {
-  qx.Proto.onKeyUpDown = qx.Proto._operaKeyHandler; 
+  qx.Proto.onKeyUpDown = qx.Proto._operaKeyHandler;
   qx.Proto.onKeyPress = qx.Proto._operaKeyHandler;
 }
 else
