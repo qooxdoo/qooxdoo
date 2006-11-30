@@ -415,11 +415,15 @@ qx.Proto._modifyOpen = function(propValue, propOldValue, propData)
 
 qx.Proto._modifyAlwaysShowPlusMinusSymbol = function(propValue, propOldValue, propData)
 {
-  // we need the whole indent process if certain tree lines are to be excluded
-  if (this.getTree().getExcludeSpecificTreeLines().length > 0) {
-    this._updateIndent();
-  } else {
-    this._updateLastColumn();
+  var t = this.getTree();
+  if (t) {
+    // we need the whole indent process if only certain tree lines are to be
+    // excluded
+    if (t.getExcludeSpecificTreeLines().length > 0) {
+      this._updateIndent();
+    } else {
+      this._updateLastColumn();
+    }
   }
 
   return true;
