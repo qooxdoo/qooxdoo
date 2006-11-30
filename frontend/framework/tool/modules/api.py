@@ -496,7 +496,14 @@ def getFileFromSyntaxItem(syntaxItem):
 
 def getType(item):
   if item.type == "constant" and item.get("constantType") == "string":
-    return item.get("value")
+    val = item.get("value")
+    
+    if val == "object":
+      val = "Object"
+    elif val == "function":
+      val = "Function"
+    
+    return val
   else:
     raise DocException("Can't gess type. type is neither string nor variable: " + item.type, item)
 
