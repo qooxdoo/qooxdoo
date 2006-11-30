@@ -116,7 +116,7 @@ if (qx.sys.Client.getInstance().isMshtml())
 // Implementation of selectNodes() and selectSingleNode()
 // for Gecko/Mozilla browsers
 
-if (window.XPathEvaluator)
+if (window.XPathEvaluator && Element.prototype.__defineGetter__)
 {
   qx.lang.XmlEmu._xpe = new XPathEvaluator();
 
@@ -174,9 +174,15 @@ if (window.XPathEvaluator)
 
   Element.prototype.__lookupGetter__('text');
 
+  if (!window.Attr) {
+    Attr = new Function();
+  }
   Attr.prototype.__defineGetter__('text', function(){ return this.nodeValue; });
   Attr.prototype.__lookupGetter__('text');
 
+  if (!window.Text) { 
+    Text = new Function();
+  }
   Text.prototype.__defineGetter__('text', function(){ return this.nodeValue; });
   Text.prototype.__lookupGetter__('text');
 }
