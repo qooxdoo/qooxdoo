@@ -497,20 +497,6 @@ def getFileFromSyntaxItem(syntaxItem):
 def getType(item):
   if item.type == "constant" and item.get("constantType") == "string":
     return item.get("value")
-  elif item.type == "variable":
-    assembled = assembleVariable(item)
-    if assembled == "qx.constant.Type.NUMBER":
-      return "number"
-    elif assembled == "qx.constant.Type.BOOLEAN":
-      return "boolean"
-    elif assembled == "qx.constant.Type.STRING":
-      return "string"
-    elif assembled == "qx.constant.Type.OBJECT":
-      return "Object"
-    elif assembled == "qx.constant.Type.FUNCTION":
-      return "Function"
-    else:
-      raise DocException("Unknown data type: " + assembled, item)
   else:
     raise DocException("Can't gess type. type is neither string nor variable: " + item.type, item)
 
