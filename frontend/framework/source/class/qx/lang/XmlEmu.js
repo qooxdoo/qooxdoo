@@ -180,7 +180,7 @@ if (window.XPathEvaluator && Element.prototype.__defineGetter__)
   Attr.prototype.__defineGetter__('text', function(){ return this.nodeValue; });
   Attr.prototype.__lookupGetter__('text');
 
-  if (!window.Text) { 
+  if (!window.Text) {
     Text = new Function();
   }
   Text.prototype.__defineGetter__('text', function(){ return this.nodeValue; });
