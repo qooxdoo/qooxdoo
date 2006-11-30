@@ -62,15 +62,21 @@ def createDoc(syntaxTree, docTree = None):
 
   except Exception:
     exc = sys.exc_info()[1]
-    msg = "Create documentation failed: " + str(exc)
+    msg = ""
 
     if hasattr(exc, "node"):
       (line, column) = getLineAndColumnFromSyntaxItem(exc.node)
       file = getFileFromSyntaxItem(exc.node)
       if line != None or file != None:
-        msg += " -  " + str(file) + "; Line: " + str(line) + ", Column: " + str(column)
-
-    raise Exception, msg, sys.exc_info()[2]
+        msg = str(exc) + "\n      " + str(file) + ", Line: " + str(line) + ", Column: " + str(column)
+        
+    if msg == "":
+      raise Exception, "Unknown reason", sys.exc_info()[2]
+      
+    else:
+      print
+      print "    - Failed: %s" % msg
+      sys.exit(1)
 
   return docTree
 
@@ -346,6 +352,9 @@ def handleFunction(funcItem, commentAttributes, classNode):
       node.addChild(descNode)
 
     elif attrib["category"] == "param":
+      if not attrib.has_key("name"):
+        raise DocException("Missing name of parameter.", funcItem)
+      
       # Find the matching param node
       paramName = attrib["name"]
       paramNode = node.getListChildByAttribute("params", "name", paramName, False)
