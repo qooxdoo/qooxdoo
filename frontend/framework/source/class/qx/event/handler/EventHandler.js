@@ -36,7 +36,7 @@ qx.OO.defineClass("qx.event.handler.EventHandler", qx.core.Target,
 function()
 {
   qx.core.Target.call(this);
-
+  
   // Object Wrapper to Events (Needed for DOM-Events)
   var o = this;
 
@@ -205,7 +205,7 @@ qx.Proto.attachEvents = function()
   this.attachEventTypes(qx.event.handler.EventHandler.dragEventTypes, this.__ondragevent);
 
   // Unregister separate handler events
-  qx.event.handler.KeyEventHandler.getInstance().attachEvents();
+  qx.event.handler.KeyEventHandler.getInstance()._attachEvents();
 
   // Register window events
   qx.dom.EventRegistration.addEventListener(window, "blur", this.__onwindowblur);
@@ -223,7 +223,7 @@ qx.Proto.detachEvents = function()
   this.detachEventTypes(qx.event.handler.EventHandler.dragEventTypes, this.__ondragevent);
   
   // Unregister separate handler events
-  qx.event.handler.KeyEventHandler.getInstance().detachEvents();
+  qx.event.handler.KeyEventHandler.getInstance()._detachEvents();
 
   // Unregister window events
   qx.dom.EventRegistration.removeEventListener(window, "blur", this.__onwindowblur);
