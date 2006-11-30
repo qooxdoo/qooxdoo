@@ -21,6 +21,7 @@
 
 #module(ui_core)
 #require(qx.event.type.KeyEvent)
+#require(qx.util.Return);
 
 ************************************************************************ */
 
@@ -533,7 +534,7 @@ else if (qx.sys.Client.getInstance().isGecko())
   qx.Proto._lastUpDownType = {};
   
   qx.Proto._keyCodeFix = {
-    12 : this._identifierToKeyCode("NumLock")    
+    12 : qx.Proto._identifierToKeyCode("NumLock")    
   };
     
   /**
