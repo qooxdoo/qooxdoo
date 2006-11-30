@@ -475,6 +475,8 @@ qx.Proto._idealKeyHandler = function(keyCode, charCode, eventType, domEvent)
 
 if (qx.sys.Client.getInstance().isMshtml())
 {
+  qx.Proto._lastUpDownType = {};
+  
   qx.Proto._onkeyupdown = function(domEvent)
   {
     domEvent = window.event || domEvent;
@@ -483,17 +485,13 @@ if (qx.sys.Client.getInstance().isMshtml())
     var charcode = 0;
     var type = domEvent.type;
   
-    if (!this._last_updown) {
-      this._last_updown = {};
-    }
-  
     // Ignore the down in such sequences dp dp dp
-    if (!(this._last_updown[keyCode] == "keydown" && type == "keydown")) {
+    if (!(this._lastUpDownType[keyCode] == "keydown" && type == "keydown")) {
       this._idealKeyHandler(keyCode, charcode, type, domEvent);
     }
     
     // Store last type
-    this._last_updown[keyCode] = type;
+    this._lastUpDownType[keyCode] = type;
   
     // On non print-able character be sure to add a keypress event
     if (this._isNonPrintableKeyCode(keyCode) && type == "keydown") {
@@ -521,7 +519,7 @@ if (qx.sys.Client.getInstance().isMshtml())
     }
   
     this._idealKeyHandler(keyCode, charCode, domEvent.type, domEvent);
-  };  
+  };
 }
 
 
@@ -537,6 +535,12 @@ if (qx.sys.Client.getInstance().isMshtml())
 
 else if (qx.sys.Client.getInstance().isGecko())
 {
+  qx.Proto._lastUpDownType = {};
+  
+  qx.Proto._keyCodeFix = {
+    12 : this._identifierToKeyCode("NumLock")    
+  };
+    
   /**
    * key handler for Gecko
    *
@@ -544,29 +548,20 @@ else if (qx.sys.Client.getInstance().isGecko())
    */
   qx.Proto._onkeyupdown = qx.Proto._onkeypress = function(domEvent)
   {
-    var geckoFixKeyCode = {
-      12 : this._identifierToKeyCode("NumLock")
-    };
-    
-    var keyCode = geckoFixKeyCode[domEvent.keyCode] || domEvent.keyCode;
+    var keyCode = this._keyCodeFix[domEvent.keyCode] || domEvent.keyCode;
     var charCode = domEvent.charCode;
   
     // FF repeats under windows keydown events like IE
     if (qx.sys.Client.getInstance().runsOnWindows()) 
     {
-      // Ignore the down in such sequences dp dp dp
-      if (!this._last_updown) {
-        this._last_updown = {};
-      }
+      var keyIdentifier = keyCode ? this._keyCodeToIdentifier(keyCode) : this._charCodeToIdentifier(charCode)
       
-      var keyHash = keyCode ? this._keyCodeToIdentifier(keyCode) : this._charCodeToIdentifier(charCode)
-      
-      if (!(this._last_updown[keyHash] == "keypress" && domEvent.type == "keydown")) {
+      if (!(this._lastUpDownType[keyIdentifier] == "keypress" && domEvent.type == "keydown")) {
         this._idealKeyHandler(keyCode, charCode, domEvent.type, domEvent);
       }
       
       // Store last type
-      this._last_updown[keyHash] = domEvent.type;
+      this._lastUpDownType[keyIdentifier] = domEvent.type;
     } 
     
     // all other OSes
@@ -574,7 +569,7 @@ else if (qx.sys.Client.getInstance().isGecko())
     {  
       this._idealKeyHandler(keyCode, charCode, domEvent.type, domEvent);
     }
-  }
+  };
 }
 
 
@@ -590,8 +585,40 @@ else if (qx.sys.Client.getInstance().isGecko())
 
 else if (qx.sys.Client.getInstance().isWebkit())
 {
-  qx.Proto._onkeyupdown = 
-  qx.Proto._onkeypress = function(domEvent)
+  qx.Proto._charCode2KeyCode = 
+  {
+    // Safari/Webkit Mappings
+    63289 : qx.Proto._identifierToKeyCode("NumLock"),
+    63276 : qx.Proto._identifierToKeyCode("PageUp"),
+    63277 : qx.Proto._identifierToKeyCode("PageDown"),
+    63275 : qx.Proto._identifierToKeyCode("End"),
+    63273 : qx.Proto._identifierToKeyCode("Home"),
+    63234 : qx.Proto._identifierToKeyCode("Left"),
+    63232 : qx.Proto._identifierToKeyCode("Up"),
+    63235 : qx.Proto._identifierToKeyCode("Right"),
+    63233 : qx.Proto._identifierToKeyCode("Down"),
+    63272 : qx.Proto._identifierToKeyCode("Delete"),
+    63302 : qx.Proto._identifierToKeyCode("Insert"),
+    63236 : qx.Proto._identifierToKeyCode("F1"),
+    63237 : qx.Proto._identifierToKeyCode("F2"),
+    63238 : qx.Proto._identifierToKeyCode("F3"),
+    63239 : qx.Proto._identifierToKeyCode("F4"),
+    63240 : qx.Proto._identifierToKeyCode("F5"),
+    63241 : qx.Proto._identifierToKeyCode("F6"),
+    63242 : qx.Proto._identifierToKeyCode("F7"),
+    63243 : qx.Proto._identifierToKeyCode("F8"),
+    63244 : qx.Proto._identifierToKeyCode("F9"),
+    63245 : qx.Proto._identifierToKeyCode("F10"),
+    63246 : qx.Proto._identifierToKeyCode("F11"),
+    63247 : qx.Proto._identifierToKeyCode("F12"),
+    63248 : qx.Proto._identifierToKeyCode("PrintScreen"),
+  
+        3 : qx.Proto._identifierToKeyCode("Enter"),
+       12 : qx.Proto._identifierToKeyCode("NumLock"),
+       13 : qx.Proto._identifierToKeyCode("Enter")
+  }; 
+    
+  qx.Proto._onkeyupdown = qx.Proto._onkeypress = function(domEvent)
   {
     var keyCode = 0;
     var charCode = 0;
@@ -628,40 +655,7 @@ else if (qx.sys.Client.getInstance().isWebkit())
     }
     
     this._idealKeyHandler(keyCode, charCode, domEvent.type, domEvent);
-  }
-  
-  qx.Proto._charCode2KeyCode = 
-  {
-    // Safari/Webkit Mappings
-    63289 : qx.Proto._identifierToKeyCode("NumLock"),
-    63276 : qx.Proto._identifierToKeyCode("PageUp"),
-    63277 : qx.Proto._identifierToKeyCode("PageDown"),
-    63275 : qx.Proto._identifierToKeyCode("End"),
-    63273 : qx.Proto._identifierToKeyCode("Home"),
-    63234 : qx.Proto._identifierToKeyCode("Left"),
-    63232 : qx.Proto._identifierToKeyCode("Up"),
-    63235 : qx.Proto._identifierToKeyCode("Right"),
-    63233 : qx.Proto._identifierToKeyCode("Down"),
-    63272 : qx.Proto._identifierToKeyCode("Delete"),
-    63302 : qx.Proto._identifierToKeyCode("Insert"),
-    63236 : qx.Proto._identifierToKeyCode("F1"),
-    63237 : qx.Proto._identifierToKeyCode("F2"),
-    63238 : qx.Proto._identifierToKeyCode("F3"),
-    63239 : qx.Proto._identifierToKeyCode("F4"),
-    63240 : qx.Proto._identifierToKeyCode("F5"),
-    63241 : qx.Proto._identifierToKeyCode("F6"),
-    63242 : qx.Proto._identifierToKeyCode("F7"),
-    63243 : qx.Proto._identifierToKeyCode("F8"),
-    63244 : qx.Proto._identifierToKeyCode("F9"),
-    63245 : qx.Proto._identifierToKeyCode("F10"),
-    63246 : qx.Proto._identifierToKeyCode("F11"),
-    63247 : qx.Proto._identifierToKeyCode("F12"),
-    63248 : qx.Proto._identifierToKeyCode("PrintScreen"),
-  
-        3 : qx.Proto._identifierToKeyCode("Enter"),
-       12 : qx.Proto._identifierToKeyCode("NumLock"),
-       13 : qx.Proto._identifierToKeyCode("Enter")
-  };  
+  }; 
 }
 
 
