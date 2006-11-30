@@ -23,7 +23,12 @@
 
 qx.OO.defineClass("qx.xml.Core");
 
-// Create a XML dom node
+/**
+ * Create a XML document
+ * http://www.w3.org/TR/DOM-Level-2-Core/core.html#i-Document
+ * 
+ * @return {Document} empty XML document
+ */
 qx.xml.Core.createXmlDom = function()
 {
   // The Mozilla style
@@ -74,4 +79,24 @@ qx.xml.Core.createXmlDom = function()
   }
 
   throw new Error("This browser does not support xml dom creation.");
+};
+
+
+/**
+ * Returns the text content of a DOM element
+ * http://developer.mozilla.org/en/docs/DOM:element.textContent
+ * 
+ * @param element {Element} DOM Element
+ * @return {string}  
+ */
+ qx.xml.Core.getTextContent = function(element) {
+  var text = "";
+  var childNodes = element.childNodes;
+  for (var i=0; i<childNodes.length; i++) {
+    var node = childNodes[i];
+    if (node.nodeType == qx.dom.Node.TEXT || node.nodeType == qx.dom.Node.CDATA_SECTION) {
+      text += node.nodeValue;
+    }
+  }
+  return text;
 };
