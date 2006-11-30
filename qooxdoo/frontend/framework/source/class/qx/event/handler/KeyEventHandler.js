@@ -35,7 +35,7 @@ qx.OO.defineClass("qx.event.handler.KeyEventHandler", qx.core.Target, function()
 
   // Object Wrapper to Events (Needed for DOM-Events)
   var o = this;
-  
+
   this.__onkeypress = function(e) { o._onkeypress(e); };
   this.__onkeyupdown = function(e) { o._onkeyupdown(e); };
 });
@@ -88,7 +88,7 @@ qx.Proto._detachEvents = function()
 */
 
 /** maps the charcodes of special printable keys to key identifiers */
-qx.Proto._specialCharCodeMap = 
+qx.Proto._specialCharCodeMap =
 {
     8 : "Backspace",   // The Backspace (Back) key.
     9 : "Tab",         // The Horizontal Tabulation (Tab) key.
@@ -96,7 +96,7 @@ qx.Proto._specialCharCodeMap =
 };
 
 /** maps the keycodes of non printable keys to key identifiers */
-qx.Proto._keyCodeToIdentifierMap = 
+qx.Proto._keyCodeToIdentifierMap =
 {
    13 : "Enter",       // The Enter key.
                        //   Note: This key identifier is also used for the
@@ -145,7 +145,7 @@ qx.Proto._keyCodeToIdentifierMap =
 };
 
 /** maps the keycodes of the numpad keys to the right charcodes */
-qx.Proto._numpadToCharCode = 
+qx.Proto._numpadToCharCode =
 {
    96 : "0".charCodeAt(0),
    97 : "1".charCodeAt(0),
@@ -170,11 +170,11 @@ qx.Proto._numpadToCharCode =
 if (!qx.Proto._identifierToKeyCodeMap)
 {
   qx.Proto._identifierToKeyCodeMap = {};
-  
+
   for (var key in qx.Proto._keyCodeToIdentifierMap) {
     qx.Proto._identifierToKeyCodeMap[qx.Proto._keyCodeToIdentifierMap[key]] = parseInt(key);
   }
-  
+
   for (var key in qx.Proto._specialCharCodeMap) {
     qx.Proto._identifierToKeyCodeMap[qx.Proto._specialCharCodeMap[key]] = parseInt(key);
   }
@@ -218,29 +218,29 @@ qx.Proto._isNonPrintableKeyCode = function(keyCode) {
 qx.Proto._isIdentifiableKeyCode = function(keyCode)
 {
   // A-Z
-  if (keyCode >= this._charCodeA && keyCode <= this._charCodeZ) { 
-    return true; 
-  } 
-  
+  if (keyCode >= this._charCodeA && keyCode <= this._charCodeZ) {
+    return true;
+  }
+
   // 0-9
-  if (keyCode >= this._charCode0 && keyCode <= this._charCode9) { 
-    return true; 
-  } 
-  
+  if (keyCode >= this._charCode0 && keyCode <= this._charCode9) {
+    return true;
+  }
+
   // Enter, Space, Tab, Backspace
-  if (this._specialCharCodeMap[keyCode]) { 
-    return true; 
-  } 
-    
+  if (this._specialCharCodeMap[keyCode]) {
+    return true;
+  }
+
   // Numpad
   if (this._numpadToCharCode[keyCode]) {
-    return true; 
+    return true;
   }
-    
+
   // non printable keys
-  if (this._isNonPrintableKeyCode(keyCode)) { 
-    return true; 
-  } 
+  if (this._isNonPrintableKeyCode(keyCode)) {
+    return true;
+  }
 
   return false;
 };
@@ -252,25 +252,25 @@ qx.Proto._isIdentifiableKeyCode = function(keyCode)
  * @param keyIdentifier (string)
  * @return (boolean) wether the given string is a valid keyIdentifier
  */
-qx.Proto.isValidKeyIdentifier = function(keyIdentifier) 
+qx.Proto.isValidKeyIdentifier = function(keyIdentifier)
 {
-  if (this._identifierToKeyCodeMap[keyIdentifier]) { 
-    return true; 
+  if (this._identifierToKeyCodeMap[keyIdentifier]) {
+    return true;
   }
 
-  if (keyIdentifier.length != 1) { 
-    return false; 
-  }
-  
-  if (keyIdentifier >= "0" && keyIdentifier <= "9") { 
-    return true; 
-  }
-  
-  if (keyIdentifier >= "A" && keyIdentifier <= "Z") { 
-    return true; 
+  if (keyIdentifier.length != 1) {
+    return false;
   }
 
-  switch (keyIdentifier) 
+  if (keyIdentifier >= "0" && keyIdentifier <= "9") {
+    return true;
+  }
+
+  if (keyIdentifier >= "A" && keyIdentifier <= "Z") {
+    return true;
+  }
+
+  switch (keyIdentifier)
   {
     case "+":
     case "-":
@@ -347,7 +347,7 @@ qx.Proto._identifierToKeyCode = function(keyIdentifier) {
 qx.Proto._oldKeyNameToKeyIdentifierMap =
 {
   // all other keys are converted by converting the first letter to uppercase
-  
+
   esc      : "Escape",
   ctrl     : "Control",
   print    : "PrintScreen",
@@ -436,23 +436,23 @@ qx.Proto._idealKeyHandler = function(keyCode, charCode, eventType, domEvent)
   }
 
   var keyIdentifier;
-  
+
   // Use: keyCode
   if (keyCode)
   {
     keyIdentifier = this._keyCodeToIdentifier(keyCode);
-    
+
     if (keyIdentifier != "Unidentified") {
       qx.event.handler.EventHandler.getInstance()._onkeyevent_post(domEvent, eventType, keyCode, charCode, keyIdentifier);
     }
   }
-  
+
   // Use: charCode
-  else 
+  else
   {
     keyIdentifier = this._charCodeToIdentifier(charCode);
-    
-    if (keyIdentifier != "Unidentified") 
+
+    if (keyIdentifier != "Unidentified")
     {
       qx.event.handler.EventHandler.getInstance()._onkeyevent_post(domEvent, "keypress", keyCode, charCode, keyIdentifier);
       qx.event.handler.EventHandler.getInstance()._onkeyevent_post(domEvent, "keyinput", keyCode, charCode, keyIdentifier);
@@ -477,26 +477,26 @@ qx.Proto._idealKeyHandler = function(keyCode, charCode, eventType, domEvent)
 if (qx.sys.Client.getInstance().isMshtml())
 {
   qx.Proto._lastUpDownType = {};
-  
-  qx.Proto._charCode2KeyCode = 
+
+  qx.Proto._charCode2KeyCode =
   {
     13 : 13,
     27 : 27
-  };  
-  
+  };
+
   qx.Proto._onkeyupdown = function(domEvent)
   {
     domEvent = window.event || domEvent;
-    
+
     var keyCode = domEvent.keyCode;
     var charcode = 0;
     var type = domEvent.type;
-  
+
     // Ignore the down in such sequences dp dp dp
     if (!(this._lastUpDownType[keyCode] == "keydown" && type == "keydown")) {
       this._idealKeyHandler(keyCode, charcode, type, domEvent);
     }
-    
+
     // On non print-able character be sure to add a keypress event
     if (this._isNonPrintableKeyCode(keyCode) && type == "keydown") {
       this._idealKeyHandler(keyCode, charcode, "keypress", domEvent);
@@ -505,11 +505,11 @@ if (qx.sys.Client.getInstance().isMshtml())
     // Store last type
     this._lastUpDownType[keyCode] = type;
   };
-  
+
   qx.Proto._onkeypress = function(domEvent)
   {
     domEvent = window.event || domEvent;
-    
+
     if (this._charCode2KeyCode[domEvent.keyCode]) {
       this._idealKeyHandler(this._charCode2KeyCode[domEvent.keyCode], 0, domEvent.type, domEvent);
     } else {
@@ -532,11 +532,11 @@ if (qx.sys.Client.getInstance().isMshtml())
 else if (qx.sys.Client.getInstance().isGecko())
 {
   qx.Proto._lastUpDownType = {};
-  
+
   qx.Proto._keyCodeFix = {
-    12 : qx.Proto._identifierToKeyCode("NumLock")    
+    12 : qx.Proto._identifierToKeyCode("NumLock")
   };
-    
+
   /**
    * key handler for Gecko
    *
@@ -547,23 +547,23 @@ else if (qx.sys.Client.getInstance().isGecko())
     var keyCode = this._keyCodeFix[domEvent.keyCode] || domEvent.keyCode;
     var charCode = domEvent.charCode;
     var type = domEvent.type;
-  
+
     // FF repeats under windows keydown events like IE
-    if (qx.sys.Client.getInstance().runsOnWindows()) 
+    if (qx.sys.Client.getInstance().runsOnWindows())
     {
       var keyIdentifier = keyCode ? this._keyCodeToIdentifier(keyCode) : this._charCodeToIdentifier(charCode)
-      
+
       if (!(this._lastUpDownType[keyIdentifier] == "keypress" && type == "keydown")) {
         this._idealKeyHandler(keyCode, charCode, type, domEvent);
       }
-      
+
       // Store last type
       this._lastUpDownType[keyIdentifier] = type;
-    } 
-    
+    }
+
     // all other OSes
     else
-    {  
+    {
       this._idealKeyHandler(keyCode, charCode, type, domEvent);
     }
   };
@@ -582,7 +582,7 @@ else if (qx.sys.Client.getInstance().isGecko())
 
 else if (qx.sys.Client.getInstance().isWebkit())
 {
-  qx.Proto._charCode2KeyCode = 
+  qx.Proto._charCode2KeyCode =
   {
     // Safari/Webkit Mappings
     63289 : qx.Proto._identifierToKeyCode("NumLock"),
@@ -609,41 +609,41 @@ else if (qx.sys.Client.getInstance().isWebkit())
     63246 : qx.Proto._identifierToKeyCode("F11"),
     63247 : qx.Proto._identifierToKeyCode("F12"),
     63248 : qx.Proto._identifierToKeyCode("PrintScreen"),
-  
+
         3 : qx.Proto._identifierToKeyCode("Enter"),
        12 : qx.Proto._identifierToKeyCode("NumLock"),
        13 : qx.Proto._identifierToKeyCode("Enter")
-  }; 
-    
+  };
+
   qx.Proto._onkeyupdown = qx.Proto._onkeypress = function(domEvent)
   {
     var keyCode = 0;
     var charCode = 0;
     var type = domEvent.type;
-  
+
     // prevent Safari from sending key signals twice
     // This bug is fixed in recent Webkit builds so we need a revision check
     // see http://trac.mochikit.com/ticket/182 for details
-    if (qx.sys.Client.getInstance().getVersion() < 420) 
+    if (qx.sys.Client.getInstance().getVersion() < 420)
     {
       if (!this._lastCharCodeForType) {
         this._lastCharCodeForType = {};
       }
-      
+
       var isSafariSpecialKey = this._lastCharCodeForType[type] > 63000;
-      
+
       if (isSafariSpecialKey) {
         this._lastCharCodeForType[type] = null;
         return;
       }
-      
+
       this._lastCharCodeForType[type] = domEvent.charCode;
     }
-  
+
     if (type == "keyup" || type == "keydown") {
       keyCode = this._charCode2KeyCode[domEvent.charCode] || domEvent.keyCode;
-    } 
-    else 
+    }
+    else
     {
       if (this._charCode2KeyCode[domEvent.charCode]) {
         keyCode = this._charCode2KeyCode[domEvent.charCode];
@@ -651,9 +651,9 @@ else if (qx.sys.Client.getInstance().isWebkit())
         charCode = domEvent.charCode;
       }
     }
-    
+
     this._idealKeyHandler(keyCode, charCode, type, domEvent);
-  }; 
+  };
 }
 
 
@@ -671,8 +671,8 @@ else if (qx.sys.Client.getInstance().isOpera())
   qx.Proto._onkeyupdown = function(domEvent) {
     this._idealKeyHandler(domEvent.keyCode, 0, domEvent.type, domEvent);
   };
-  
-  qx.Proto._onkeypress = function(domEvent) 
+
+  qx.Proto._onkeypress = function(domEvent)
   {
     if (this._keyCodeToIdentifierMap[domEvent.keyCode]) {
       this._idealKeyHandler(domEvent.keyCode, 0, domEvent.type, domEvent);
@@ -704,7 +704,7 @@ qx.Proto.dispose = function()
 
   // Detach keyboard events
   this._detachEvents();
-  
+
   return qx.core.Target.prototype.dispose.call(this);
 };
 

@@ -36,7 +36,7 @@ qx.OO.defineClass("qx.event.handler.EventHandler", qx.core.Target,
 function()
 {
   qx.core.Target.call(this);
-  
+
   // Object Wrapper to Events (Needed for DOM-Events)
   var o = this;
 
@@ -221,7 +221,7 @@ qx.Proto.detachEvents = function()
   // Unregister dom events
   this.detachEventTypes(qx.event.handler.EventHandler.mouseEventTypes, this.__onmouseevent);
   this.detachEventTypes(qx.event.handler.EventHandler.dragEventTypes, this.__ondragevent);
-  
+
   // Unregister separate handler events
   qx.event.handler.KeyEventHandler.getInstance()._detachEvents();
 
