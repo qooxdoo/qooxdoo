@@ -53,7 +53,7 @@ qx.OO.defineClass("qx.event.handler.KeyEventHandler", qx.core.Target, function()
 */
 
 /** attach the key event handler to the DOM events */
-qx.Proto.attachEvents = function()
+qx.Proto._attachEvents = function()
 {
   var el = qx.sys.Client.getInstance().isGecko() ? window : document.body;
 
@@ -63,7 +63,7 @@ qx.Proto.attachEvents = function()
 };
 
 /** detach the key event handler from the DOM events */
-qx.Proto.detachEvents = function()
+qx.Proto._detachEvents = function()
 {
   var el = qx.sys.Client.getInstance().isGecko() ? window : document.body;
 
@@ -477,6 +477,12 @@ if (qx.sys.Client.getInstance().isMshtml())
 {
   qx.Proto._lastUpDownType = {};
   
+  qx.Proto._charCode2KeyCode = 
+  {
+    13 : 13,
+    27 : 27
+  };  
+  
   qx.Proto._onkeyupdown = function(domEvent)
   {
     domEvent = window.event || domEvent;
@@ -490,35 +496,24 @@ if (qx.sys.Client.getInstance().isMshtml())
       this._idealKeyHandler(keyCode, charcode, type, domEvent);
     }
     
-    // Store last type
-    this._lastUpDownType[keyCode] = type;
-  
     // On non print-able character be sure to add a keypress event
     if (this._isNonPrintableKeyCode(keyCode) && type == "keydown") {
       this._idealKeyHandler(keyCode, charcode, "keypress", domEvent);
     }
+
+    // Store last type
+    this._lastUpDownType[keyCode] = type;
   };
   
   qx.Proto._onkeypress = function(domEvent)
   {
     domEvent = window.event || domEvent;
     
-    var ieCharCodeToKeyCode = 
-    {
-      13 : 13,
-      27 : 27
-    };
-    
-    var keyCode = 0;
-    var charCode = domEvent.keyCode;
-    
-    if (ieCharCodeToKeyCode[domEvent.keyCode])
-    {
-      keyCode = ieCharCodeToKeyCode[domEvent.keyCode];
-      charCode = 0;
+    if (this._charCode2KeyCode[domEvent.keyCode]) {
+      this._idealKeyHandler(this._charCode2KeyCode[domEvent.keyCode], 0, domEvent.type, domEvent);
+    } else {
+      this._idealKeyHandler(0, domEvent.keyCode, domEvent.type, domEvent);
     }
-  
-    this._idealKeyHandler(keyCode, charCode, domEvent.type, domEvent);
   };
 }
 
@@ -550,24 +545,25 @@ else if (qx.sys.Client.getInstance().isGecko())
   {
     var keyCode = this._keyCodeFix[domEvent.keyCode] || domEvent.keyCode;
     var charCode = domEvent.charCode;
+    var type = domEvent.type;
   
     // FF repeats under windows keydown events like IE
     if (qx.sys.Client.getInstance().runsOnWindows()) 
     {
       var keyIdentifier = keyCode ? this._keyCodeToIdentifier(keyCode) : this._charCodeToIdentifier(charCode)
       
-      if (!(this._lastUpDownType[keyIdentifier] == "keypress" && domEvent.type == "keydown")) {
-        this._idealKeyHandler(keyCode, charCode, domEvent.type, domEvent);
+      if (!(this._lastUpDownType[keyIdentifier] == "keypress" && type == "keydown")) {
+        this._idealKeyHandler(keyCode, charCode, type, domEvent);
       }
       
       // Store last type
-      this._lastUpDownType[keyIdentifier] = domEvent.type;
+      this._lastUpDownType[keyIdentifier] = type;
     } 
     
     // all other OSes
     else
     {  
-      this._idealKeyHandler(keyCode, charCode, domEvent.type, domEvent);
+      this._idealKeyHandler(keyCode, charCode, type, domEvent);
     }
   };
 }
@@ -622,6 +618,7 @@ else if (qx.sys.Client.getInstance().isWebkit())
   {
     var keyCode = 0;
     var charCode = 0;
+    var type = domEvent.type;
   
     // prevent Safari from sending key signals twice
     // This bug is fixed in recent Webkit builds so we need a revision check
@@ -632,17 +629,17 @@ else if (qx.sys.Client.getInstance().isWebkit())
         this._lastCharCodeForType = {};
       }
       
-      var isSafariSpecialKey = this._lastCharCodeForType[domEvent.type] > 63000;
+      var isSafariSpecialKey = this._lastCharCodeForType[type] > 63000;
       
       if (isSafariSpecialKey) {
-        this._lastCharCodeForType[domEvent.type] = null;
+        this._lastCharCodeForType[type] = null;
         return;
       }
       
-      this._lastCharCodeForType[domEvent.type] = domEvent.charCode;
+      this._lastCharCodeForType[type] = domEvent.charCode;
     }
   
-    if (domEvent.type == "keyup" || domEvent.type == "keydown") {
+    if (type == "keyup" || type == "keydown") {
       keyCode = this._charCode2KeyCode[domEvent.charCode] || domEvent.keyCode;
     } 
     else 
@@ -654,7 +651,7 @@ else if (qx.sys.Client.getInstance().isWebkit())
       }
     }
     
-    this._idealKeyHandler(keyCode, charCode, domEvent.type, domEvent);
+    this._idealKeyHandler(keyCode, charCode, type, domEvent);
   }; 
 }
 
@@ -705,7 +702,7 @@ qx.Proto.dispose = function()
   }
 
   // Detach keyboard events
-  this.detachEvents();
+  this._detachEvents();
   
   return qx.core.Target.prototype.dispose.call(this);
 };
