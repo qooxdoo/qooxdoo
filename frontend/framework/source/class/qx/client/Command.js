@@ -137,11 +137,11 @@ qx.Proto._modifyShortcut = function(propValue, propOldValue, propData)
     var a = propValue.split(/[-+\s]+/);
     var al = a.length;
 
-    for (var i=0; i<al; i++) 
+    for (var i=0; i<al; i++)
     {
       var identifier = qx.event.handler.KeyEventHandler.getInstance().oldKeyNameToKeyIdentifier(a[i]);
 
-      switch (identifier) 
+      switch (identifier)
       {
         case "Control":
         case "Shift":
