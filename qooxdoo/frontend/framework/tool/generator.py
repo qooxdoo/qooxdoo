@@ -526,7 +526,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
       fileEncoding = fileEntry["encoding"]
 
       fileContent = filetool.read(filePath, fileEncoding)
-      fixedContent = util.removeTrailingSpaces(util.tab2Space(util.any2Unix(fileContent), 2))
+      fixedContent = textutil.removeTrailingSpaces(textutil.tab2Space(textutil.any2Unix(fileContent), 2))
 
       if fixedContent != fileContent:
         if options.verbose:
