@@ -628,6 +628,33 @@ qx.Proto.getResponseXml = function()
     } catch(ex) {}
   }
 
+  // Typical behaviour on file:// on mshtml
+  // Could we check this with something like: /^file\:/.test(path); ?
+  // No browser check here, because it doesn't seem to break other browsers
+  //    * test for this.req.responseXML's objecthood added by *
+  //    * FRM, 20050816                                       *
+  if (typeof vResponseXML == "object" && vResponseXML != null)
+  {
+    if (!vResponseXML.documentElement)
+    {
+      // Clear xml file declaration, this breaks non unicode files (like ones with Umlauts)
+      var s = String(this.getRequest().responseText).replace(/<\?xml[^\?]*\?>/, "");
+      vResponseXML.loadXML(s);
+    };
+    // Re-check if fixed...
+    if (!vResponseXML.documentElement) {
+      throw new Error("Missing Document Element!");
+    };
+
+    if (vResponseXML.documentElement.tagName == "parseerror") {
+      throw new Error("XML-File is not well-formed!");
+    };
+  }
+  else
+  {
+    throw new Error("Response was not a valid xml document [" + this.getRequest().responseText + "]");
+  };
+
   return vResponseXML;
 }
 
