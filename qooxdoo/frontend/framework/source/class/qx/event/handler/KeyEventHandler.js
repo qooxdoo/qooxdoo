@@ -590,11 +590,11 @@ else if (qx.sys.Client.getInstance().isGecko())
 
 else if (qx.sys.Client.getInstance().isWebkit())
 {
-  qx.Proto._onkeyupdown = qx.Proto._onkeypress = function(domEvent)
+  qx.Proto._onkeyupdown = 
+  qx.Proto._onkeypress = function(domEvent)
   {
     var keyCode = 0;
     var charCode = 0;
-    var e = domEvent;
   
     // prevent Safari from sending key signals twice
     // This bug is fixed in recent Webkit builds so we need a revision check
@@ -605,34 +605,32 @@ else if (qx.sys.Client.getInstance().isWebkit())
         this._lastCharCodeForType = {};
       }
       
-      var isSafariSpecialKey = this._lastCharCodeForType[e.type] > 63000;
+      var isSafariSpecialKey = this._lastCharCodeForType[domEvent.type] > 63000;
       
       if (isSafariSpecialKey) {
-        this._lastCharCodeForType[e.type] = null;
+        this._lastCharCodeForType[domEvent.type] = null;
         return;
       }
       
-      this._lastCharCodeForType[e.type] = e.charCode;
+      this._lastCharCodeForType[domEvent.type] = domEvent.charCode;
     }
   
-    var specialKeys = this._webkit_specialKeyMap;
-    
-    if (e.type == "keyup" || e.type == "keydown") {
-      keyCode = specialKeys[e.charCode] || e.keyCode;
+    if (domEvent.type == "keyup" || domEvent.type == "keydown") {
+      keyCode = this._charCode2KeyCode[domEvent.charCode] || domEvent.keyCode;
     } 
     else 
     {
-      if (specialKeys[e.charCode]) {
-        keyCode = specialKeys[e.charCode];
+      if (this._charCode2KeyCode[domEvent.charCode]) {
+        keyCode = this._charCode2KeyCode[domEvent.charCode];
       } else {
-        charCode = e.charCode;
+        charCode = domEvent.charCode;
       }
     }
     
-    this._idealKeyHandler(keyCode, charCode, e.type, e);
+    this._idealKeyHandler(keyCode, charCode, domEvent.type, domEvent);
   }
   
-  qx.Proto._webkit_specialKeyMap = 
+  qx.Proto._charCode2KeyCode = 
   {
     // Safari/Webkit Mappings
     63289 : qx.Proto._identifierToKeyCode("NumLock"),
