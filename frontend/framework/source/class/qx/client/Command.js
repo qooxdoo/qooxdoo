@@ -139,7 +139,7 @@ qx.Proto._modifyShortcut = function(propValue, propOldValue, propData)
 
     for (var i=0; i<al; i++)
     {
-      var identifier = qx.event.handler.KeyEventHandler.getInstance().oldKeyNameToKeyIdentifier(a[i]);
+      var identifier = this._oldKeyNameToKeyIdentifier(a[i]);
 
       switch (identifier)
       {
@@ -217,6 +217,75 @@ qx.Proto._matchesKeyEvent = function(e)
   return false;
 };
 
+
+/*
+---------------------------------------------------------------------------
+  COMPATIBILITY TO COMMAND
+---------------------------------------------------------------------------
+*/
+
+qx.Proto._oldKeyNameToKeyIdentifierMap =
+{
+  // all other keys are converted by converting the first letter to uppercase
+
+  esc      : "Escape",
+  ctrl     : "Control",
+  print    : "PrintScreen",
+  del      : "Delete",
+  pageup   : "PageUp",
+  pagedown : "PageDown",
+  numlock  : "NumLock",
+  numpad_0 : "0",
+  numpad_1 : "1",
+  numpad_2 : "2",
+  numpad_3 : "3",
+  numpad_4 : "4",
+  numpad_5 : "5",
+  numpad_6 : "6",
+  numpad_7 : "7",
+  numpad_8 : "8",
+  numpad_9 : "9",
+  numpad_divide   : "/",
+  numpad_multiply : "*",
+  numpad_minus    : "-",
+  numpad_plus     : "+"
+};
+
+
+/**
+ * converts an old key name as found in @see(qx.event.type.KeyEvent.keys) to
+ * the new keyIdentifier.
+ *
+ * @param keyName (string) old name of the key.
+ * @return (string) corresponding keyIdentifier or "Unidentified" if a conversion was not possible
+ */
+qx.Proto._oldKeyNameToKeyIdentifier = function(keyName)
+{
+  var keyHandler = qx.event.handler.KeyEventHandler.getInstance();
+  var keyIdentifier = "Unidentified";
+
+  if (keyHandler.isValidKeyIdentifier(keyName)) {
+    return keyName;
+  }
+
+  if (keyName.length == 1 && keyName >= "a" && keyName <= "z") {
+    return keyName.toUpperCase();
+  }
+
+  keyName = keyName.toLowerCase();
+
+  // check wether its a valid old key name
+  if (!qx.event.type.KeyEvent.keys[keyName]) {
+    return "Unidentified";
+  }
+
+  var keyIdentifier = this._oldKeyNameToKeyIdentifierMap[keyName];
+  if (keyIdentifier) {
+    return keyIdentifier;
+  } else {
+    return qx.lang.String.toFirstUp(keyName);
+  }
+};
 
 
 /*
