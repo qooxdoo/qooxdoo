@@ -22,6 +22,9 @@
 
 ************************************************************************ */
 
+/**
+ * This singleton manages the current theme
+ */
 qx.OO.defineClass("qx.manager.object.AppearanceManager", qx.manager.object.ObjectManager,
 function() {
   qx.manager.object.ObjectManager.call(this);
@@ -51,6 +54,7 @@ qx.Settings.setDefault("appearanceTheme", "qx.theme.appearance.Classic");
 ---------------------------------------------------------------------------
 */
 
+/** currently used apperance theme */
 qx.OO.addProperty({ name : "appearanceTheme", type : "object", allowNull : false, instance : "qx.renderer.theme.AppearanceTheme" });
 
 
@@ -64,6 +68,12 @@ qx.OO.addProperty({ name : "appearanceTheme", type : "object", allowNull : false
 ---------------------------------------------------------------------------
 */
 
+/**
+ * Register an theme class.
+ * The theme is applied if it is the default apperance
+ * 
+ * @param vThemeClass {qx.renderer.theme.AppearanceTheme}
+ */
 qx.Proto.registerAppearanceTheme = function(vThemeClass)
 {
   this._appearanceThemes[vThemeClass.classname] = vThemeClass;
@@ -109,6 +119,9 @@ qx.Proto._modifyAppearanceTheme = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
+/** 
+ * Disposer
+ */
 qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {

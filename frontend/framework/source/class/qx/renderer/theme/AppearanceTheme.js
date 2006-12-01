@@ -22,6 +22,11 @@
 
 ************************************************************************ */
 
+/**
+ * Appearance Theme
+ * 
+ * @param vTitle {string} anme of the appearance
+ */
 qx.OO.defineClass("qx.renderer.theme.AppearanceTheme", qx.core.Object,
 function(vTitle)
 {
@@ -39,6 +44,7 @@ function(vTitle)
 ---------------------------------------------------------------------------
 */
 
+/** name of the theme */
 qx.OO.addProperty({ name : "title", type : "string", allowNull : false, defaultValue : "" });
 
 
@@ -63,14 +69,41 @@ qx.Proto._appearances = {};
 ---------------------------------------------------------------------------
 */
 
+/**
+ * Register an appearance for a given id
+ * 
+ * vData has the following structure:
+ * <pre>
+ * {
+ *   setup : function() {}
+ *   initial : function(vTheme) {}
+ *   state : function(vTheme, vStates) {}
+ * }
+ * </pre>
+ * @param vId {string} id of the apperance (e.g. "button", "label", ...)
+ * @param vData {Hash} 
+ */
 qx.Proto.registerAppearance = function(vId, vData) {
   this._appearances[vId] = vData;
-}
+};
 
+
+/**
+ * Return the apperance object for a specific apperance id.
+ * 
+ * @param vId {string} id of the apperance (e.g. "button", "label", ...)
+ * @return {Object} appearance map
+ */
 qx.Proto.getAppearance = function(vId) {
   return this._appearances[vId];
 }
 
+
+/**
+ * Call the "setup" function of the apperance
+ * 
+ * @param vAppearance {Object} appearance map
+ */
 qx.Proto.setupAppearance = function(vAppearance)
 {
   if (!vAppearance._setupDone)
@@ -81,7 +114,7 @@ qx.Proto.setupAppearance = function(vAppearance)
 
     vAppearance._setupDone = true;
   }
-}
+};
 
 
 
@@ -96,6 +129,12 @@ qx.Proto.setupAppearance = function(vAppearance)
 ---------------------------------------------------------------------------
 */
 
+/**
+ * Get the result of the "initial" function for a given id
+ * 
+ * @param vId {string} id of the apperance (e.g. "button", "label", ...)
+ * @return {Hash} map of widget properties as returned by the "initial" function
+ */
 qx.Proto.initialFrom = function(vId)
 {
   var vAppearance = this.getAppearance(vId);
@@ -116,8 +155,16 @@ qx.Proto.initialFrom = function(vId)
   {
     return this.error("Missing appearance: " + vId);
   }
-}
+};
 
+
+/**
+ * Get the result of the "state" function for a given id and states 
+ * 
+ * @param vId {string} id of the apperance (e.g. "button", "label", ...)
+ * @param vStates {Hash} hash map defining the set states
+ * @return {Hash} map of widget properties as returned by the "state" function
+ */
 qx.Proto.stateFrom = function(vId, vStates)
 {
   var vAppearance = this.getAppearance(vId);
@@ -152,6 +199,9 @@ qx.Proto.stateFrom = function(vId, vStates)
 ---------------------------------------------------------------------------
 */
 
+/**
+ * Disposer
+ */
 qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
