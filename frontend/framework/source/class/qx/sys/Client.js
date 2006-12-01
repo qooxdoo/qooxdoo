@@ -211,6 +211,8 @@ function()
   this._gfxSvgBuiltin = vGfxSvgBuiltin;
   this._gfxSvgPlugin = vGfxSvgPlugin;
 
+  this._fireBugActive = (window.console && console.log && console.debug && console.assert);
+
   this._supportsTextContent = (document.documentElement.textContent !== undefined);
   this._supportsInnerText = (document.documentElement.innerText !== undefined);
 });
@@ -360,6 +362,15 @@ qx.Proto.usesSvgPlugin = function() {
   return this._gfxSvgPlugin;
 }
 
+/**
+ * Retuns whether the Mozilla FireBug extension is installed and active
+ * http://www.getfirebug.com/
+ * 
+ * @return {boolean} whether FireBug is active
+ */
+ qx.Proto.isFireBugActive = function() {
+   return this._fireBugActive;
+ };
 
 /**
  * Returns whether the client supports the W3C property textContent of DOM element nodes.
@@ -369,7 +380,6 @@ qx.Proto.usesSvgPlugin = function() {
 qx.Proto.supportsTextContent = function() {
   return this._supportsTextContent;
 }
-
 
 /**
  * Returns whether the client supports the W3C property innerText of DOM element nodes.
