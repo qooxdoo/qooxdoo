@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd" [
+    <!--ENTITY % classpath-ent SYSTEM "classpath.ent"> %classpath-ent;-->
+]>
+
+<web-app>
+
+    <servlet>
+        <servlet-name>rpc</servlet-name>
+        <servlet-class>
+            net.sf.qooxdoo.rpc.RpcServlet
+        </servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>rpc</servlet-name>
+        <url-pattern>*.qxrpc</url-pattern>
+    </servlet-mapping>
+  
+</web-app>

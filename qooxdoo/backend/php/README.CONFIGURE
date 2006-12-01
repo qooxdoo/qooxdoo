@@ -1,0 +1,29 @@
+The simplest configuration of the PHP JSON-RPC server requires these steps:
+
+ - Copy the qooxdoo/backend/php/services directory to the root of your web
+   server's data directory, e.g. /var/www
+
+ - Ensure that PHP is properly configured.  Try placing a file in the services
+   directory called "test.php" which contains this data:
+
+     <?php
+     phpinfo();
+     ?>
+
+    You should then be able to access http://your.domain.com/services/test.php
+    and see the phpinfo() output.  If not, you have a web server / php
+    configuration problem to work out.
+
+ - Configure your web server to load index.php if it's found in a directory
+   specified by the URL.  By default, the web server probably looks only for
+   index.html and index.htm, but you want it also to look for index.php.
+
+The tests qooxdoo/frontend/demo/source/html/demo/RPC_*.html should then be
+able to run and access your web server.  If you're using the "build"
+environment to load the demos (i.e. via http:// rather than file://), then
+leaving the "Service" field at "/services/" should be fine.  If you're trying
+to use a file:// url for the demo, then you'll need to select the Asnyc and
+Cross-Browser checkboxes, and type the whole url into the Services input box,
+e.g.  http://your.domain.com/services/
+
+Derrell

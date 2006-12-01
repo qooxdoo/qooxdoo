@@ -1,0 +1,60 @@
+<?xml version='1.0'?>
+<project name="qooxdoo-java-backend" default="make" basedir=".">
+
+    <property file="build.properties"/>
+    <property name="frontendDir" value ="../../frontend"/>
+
+    <target name="compile">
+        <mkdir dir="classes"/>
+        <javac srcdir="rpc" destdir="classes" debug="true">
+            <classpath>
+                <fileset dir="lib">
+                    <include name="**.jar"/>
+                </fileset>
+            </classpath>
+        </javac>
+    </target>
+    
+    <target name="war">
+        <mkdir dir="build"/>
+        <copy todir="build/demo">
+            <fileset dir="${frontendDir}/demo/build"/>
+        </copy>
+        <copy todir="build/api">
+            <fileset dir="${frontendDir}/api/build"/>
+        </copy>
+        <war destfile="qooxdoo.war" webxml="webapp/WEB-INF/web.xml">
+            <fileset dir="build"/>
+            <fileset dir="webapp">
+                <exclude name="WEB-INF/**"/>
+            </fileset>
+            <lib dir="lib">
+                <exclude name="servlet-api.jar"/>
+            </lib>
+            <classes dir="classes"/>
+        </war>
+    </target>
+
+    <target name="make" depends="compile, war"/>
+    
+    <target name="clean">
+        <delete dir="classes"/>
+        <delete dir="build"/>
+        <delete file="qooxdoo.war"/>
+    </target>
+    
+    <target name="deploy">
+        <copy file="qooxdoo.war" todir="${deployDir}"/>
+    </target>
+
+    <target name="transport-jar">
+        <jar destfile="qooxdoo-transport.jar">
+            <fileset dir="../../build-transport">
+                <include name="script/transport.js"/>
+            </fileset>
+            <fileset dir="classes">
+            </fileset>
+        </jar>
+    </target>
+    
+</project>
