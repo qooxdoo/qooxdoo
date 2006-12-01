@@ -21,7 +21,13 @@
 #module(ui_form)
 
 ************************************************************************ */
-
+/**
+ * A button.
+ *
+ * @state {abandoned}
+ * @state {over}
+ * @state {pressed}
+ */
 qx.OO.defineClass("qx.ui.form.Button", qx.ui.basic.Atom,
 function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
 {

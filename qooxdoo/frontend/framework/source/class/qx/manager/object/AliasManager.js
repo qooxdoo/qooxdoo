@@ -66,20 +66,37 @@ qx.Settings.setDefault("staticUri", qx.Settings.getValue("resourceUri") + "/stat
 ---------------------------------------------------------------------------
 */
 
-qx.Proto.add = function(vPrefix, vPath)
+/**
+ * Define an alias to a resource path
+ * 
+ * @param vAlias {string} alias name for the resource path/url
+ * @param vPath {string} 
+ */
+qx.Proto.add = function(vAlias, vPath)
 {
-  this._aliases[vPrefix] = vPath;
+  this._aliases[vAlias] = vPath;
   this.createDispatchEvent("change");
 }
 
-qx.Proto.remove = function(vPrefix)
+/**
+ * Remove a previously defined alias
+ * 
+ * @param vAlias {string} alias name for the resource path/url
+ */
+qx.Proto.remove = function(vAlias)
 {
-  delete this._aliases[vPrefix];
+  delete this._aliases[vAlias];
   this.createDispatchEvent("change");
 }
 
-qx.Proto.resolve = function(vPrefix) {
-  return this._aliases[vPrefix];
+/**
+ * Resolve an alias to the actual resource path/url
+ * 
+ * @param vAlias {string} alias name for the resource path/url
+ * @return vPath {tring} resource path/url
+ */
+qx.Proto.resolve = function(vAlias) {
+  return this._aliases[vAlias];
 }
 
 
@@ -93,6 +110,17 @@ qx.Proto.resolve = function(vPrefix) {
 ---------------------------------------------------------------------------
 */
 
+/**
+ * Resolve a path name to a resource URI taking the defined aliases into account
+ * and cache the result.
+ *
+ * If the first part of the path is a defined alias, the alias is resolved. 
+ * Otherwhise the path is returned unmodified.
+ * 
+ * @param vPath {string} path name
+ * @param vForceUpdate {boolean} (default=false) wether the cached value should be ignored  
+ * @return {string} reolved path/url
+ */
 qx.Proto.resolvePath = function(vPath, vForceUpdate)
 {
   var vUri = this._uris[vPath];
@@ -106,7 +134,17 @@ qx.Proto.resolvePath = function(vPath, vForceUpdate)
   return vUri;
 }
 
-qx.Proto._computePath = function(vPath, vForce)
+
+/**
+ * Resolve a path name to a resource URI taking the defined aliases into account.
+ *
+ * If the first part of the path is a defined alias, the alias is resolved. 
+ * Otherwhise the path is returned unmodified.
+ * 
+ * @param vPath {String} path name
+ * @return {String} reolved path/url
+ */
+qx.Proto._computePath = function(vPath)
 {
   switch(vPath.charAt(0))
   {
@@ -115,7 +153,11 @@ qx.Proto._computePath = function(vPath, vForce)
       return vPath;
 
     default:
-      if (qx.lang.String.startsWith(vPath, qx.net.Protocol.URI_HTTP) || qx.lang.String.startsWith(vPath, qx.net.Protocol.URI_HTTPS) || qx.lang.String.startsWith(vPath, qx.net.Protocol.URI_FILE)) {
+      if (
+        qx.lang.String.startsWith(vPath, qx.net.Protocol.URI_HTTP) ||
+        qx.lang.String.startsWith(vPath, qx.net.Protocol.URI_HTTPS) ||
+        qx.lang.String.startsWith(vPath, qx.net.Protocol.URI_FILE)
+      ) {
         return vPath;
       }
 
@@ -143,6 +185,9 @@ qx.Proto._computePath = function(vPath, vForce)
 ---------------------------------------------------------------------------
 */
 
+/**
+ * Disposer
+ */
 qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
