@@ -26,6 +26,11 @@
 
 ************************************************************************ */
 
+/**
+ * Abstract base class for all widget which have child widgets (e.g. layout manager)
+ * 
+ * Don't instantiate this class directly.
+ */
 qx.OO.defineClass("qx.ui.core.Parent", qx.ui.core.Widget,
 function()
 {
@@ -53,19 +58,13 @@ qx.ui.core.Parent.ABSTRACT_CLASS = "qx.ui.core.Parent";
 ---------------------------------------------------------------------------
 */
 
-/*!
-  Individual focus handler for all child elements.
-*/
+/** Individual focus handler for all child elements. */
 qx.OO.addProperty({ name : "focusHandler", type : "object", instance : "qx.event.handler.FocusHandler" });
 
-/*!
-  The current active child.
-*/
+/** The current active child. */
 qx.OO.addProperty({ name : "activeChild", type : "object", instance : "qx.ui.core.Widget" });
 
-/*!
-  The current focused child.
-*/
+/** The current focused child. */
 qx.OO.addProperty({ name : "focusedChild", type : "object", instance : "qx.ui.core.Widget" });
 
 
@@ -78,6 +77,7 @@ qx.OO.addProperty({ name : "focusedChild", type : "object", instance : "qx.ui.co
 ---------------------------------------------------------------------------
 */
 
+/** all visible child widgets */
 qx.OO.addCachedProperty({ name : "visibleChildren", defaultValue : null });
 
 
@@ -91,10 +91,22 @@ qx.OO.addCachedProperty({ name : "visibleChildren", defaultValue : null });
 ---------------------------------------------------------------------------
 */
 
+/**
+ * Wether the widget has its own focus handler or uses one of its parent's
+ * focus handler.
+ * 
+ * @return {boolean} wether the widget has its own focus handler
+ */
 qx.Proto.isFocusRoot = function() {
   return this.getFocusHandler() != null;
 }
 
+
+/**
+ * Return the responsible focus handler
+ * 
+ * @return {qx.event.handler.FocusHandler}
+ */
 qx.Proto.getFocusRoot = function()
 {
   if (this.isFocusRoot()) {
@@ -108,10 +120,18 @@ qx.Proto.getFocusRoot = function()
   return null;
 }
 
+
+/**
+ * Let the widget use its own focus handler
+ */
 qx.Proto.activateFocusRoot = function() {
   this.setFocusHandler(new qx.event.handler.FocusHandler(this));
 }
 
+
+/**
+ * Delegate keyevent to the focus handler
+ */
 qx.Proto._onfocuskeyevent = function(e) {
   this.getFocusHandler()._onkeyevent(this, e);
 }
@@ -271,10 +291,23 @@ qx.Proto._modifyFocusedChild = function(propValue, propOldValue, propData)
 
 qx.Proto._layoutImpl = null;
 
+
+/**
+ * abstract method. Create layout implementation.
+ * 
+ * This method must be overwritten by all subclasses
+ * 
+ * return {qx.renderer.layout.LayoutImpl}
+ */
 qx.Proto._createLayoutImpl = function() {
   return null;
 }
 
+/**
+ * Return the layout implementation.
+ * 
+ * return {qx.renderer.layout.LayoutImpl}
+ */
 qx.Proto.getLayoutImpl = function() {
   return this._layoutImpl;
 }
@@ -291,46 +324,57 @@ qx.Proto.getLayoutImpl = function() {
 ---------------------------------------------------------------------------
 */
 
-/*!
-  Return the array of all children
-*/
+/**
+ * Return the array of all children
+ * 
+ * @return {qx.ui.core.Widget[]} all children
+ */
 qx.Proto.getChildren = function() {
   return this._children;
 }
 
-/*!
-  Get children count
-*/
+/**
+ * Get number of children
+ * 
+ * @return {int} number of children
+ */
 qx.Proto.getChildrenLength = function() {
   return this.getChildren().length;
 }
 
-/*!
-  Check if the widget has a children
-*/
+/**
+ * Check if the widget has children
+ * 
+ * @retun {boolean} wether the widget has children
+ */
 qx.Proto.hasChildren = function() {
   return this.getChildrenLength() > 0;
 }
 
-/*!
-  Check if there are any childrens inside
-*/
+/**
+ * Check if there are any childrens inside
+ * 
+ * @return {boolean} wether the number of children is 0
+ */
 qx.Proto.isEmpty = function() {
   return this.getChildrenLength() == 0;
 }
 
-/*!
-  Get the position of a children.
-*/
+/**
+ * Get the index of a child widget.
+ * 
+ * @param vChild {qx.ui.core.Widget}
+ * @return {int} index of the child widget
+ */
 qx.Proto.indexOf = function(vChild) {
   return this.getChildren().indexOf(vChild);
 }
 
-/*!
-Check if the given qx.ui.core.Widget is a children.
-
-#param des[qx.ui.core.Widget]: The widget which should be checked.
-*/
+/**
+ * Check if the given widget is a child
+ * 
+ * @param vWidget {qx.ui.core.Widget} The widget which should be checked.
+ */
 qx.Proto.contains = function(vWidget)
 {
   switch(vWidget)
@@ -360,10 +404,12 @@ qx.Proto.contains = function(vWidget)
 ---------------------------------------------------------------------------
 */
 
-/*!
-  Return the array of all visible children
-  (which are configured as visible=true)
-*/
+/**
+ * Return the array of all visible children
+ * (which are configured as visible=true)
+ * 
+ * @return {qx.ui.core.Widget[]} all visible children
+ */
 qx.Proto._computeVisibleChildren = function()
 {
   var vVisible = [];
