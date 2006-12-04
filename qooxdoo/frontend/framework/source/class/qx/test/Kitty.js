@@ -1,7 +1,6 @@
 /*
 #id(qx.test.Kitty)
 #require(qx.Clazz)
-#require(qx.test.Cat)
 #require(qx.test.IPet)
 #require(qx.test.MMoody)
 */
