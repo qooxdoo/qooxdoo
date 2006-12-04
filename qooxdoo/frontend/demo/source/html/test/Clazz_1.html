@@ -1,0 +1,42 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo</title>
+  <link type="text/css" rel="stylesheet" href="../../resource/css/layout.css"/>
+  <!--[if IE]>
+  <link type="text/css" rel="stylesheet" href="../../resource/css/layout_ie.css"/>
+  <![endif]-->
+  <script type="text/javascript" src="../../script/qx.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../../script/layout.js"></script>
+
+  <div id="demoDescription">
+    <p>Test case for new class and interface declaration scheme.</p>
+  </div>
+
+  <script type="text/javascript">
+  qx.core.Init.getInstance().defineMain(function()
+  {
+    var jessy = new qx.test.Kitty;
+
+    jessy.makeSound();
+    jessy.smooch();
+    jessy.hiss();
+    jessy.play();
+    jessy.info("color: " + jessy.getColor());
+
+
+    var leo = new qx.test.Lion;
+
+    leo.makeSound();
+    leo.play();
+    leo.info("hungry: " + leo.getHungry());
+    leo.info("color: " + leo.getColor());
+    leo.setColor("yellowgreen");
+    leo.info("color: " + leo.getColor());
+    leo.info("real color: " + leo.getRealColor());
+  });
+  </script>
+</body>
+</html>
