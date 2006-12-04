@@ -1,7 +1,6 @@
 /*
 #id(qx.test.Lion)
 #require(qx.Clazz)
-#require(qx.test.Cat)
 */
 
 qx.Clazz.define("qx.test.Lion",

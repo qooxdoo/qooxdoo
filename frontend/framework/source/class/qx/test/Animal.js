@@ -1,7 +1,6 @@
 /*
 #id(qx.test.Animal)
 #require(qx.Clazz)
-#require(qx.core.Target)
 */
 
 qx.Clazz.define("qx.test.Animal",
