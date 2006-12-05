@@ -22,8 +22,6 @@ qx.Proto._modifyLocale = function(propValue, propOldValue, propData) {
     this._majorLanguage = propValue.substring(0, pos);
   }
   
-  this.debug("LANG: " + this._language + " :: " + this._majorLanguage);
-  
   return true;
 }
 
