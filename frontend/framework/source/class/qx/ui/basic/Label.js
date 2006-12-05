@@ -30,9 +30,7 @@ function(vHtml, vMnemonic)
   qx.ui.basic.Terminator.call(this);
 
   // Apply constructor arguments
-  if (qx.util.Validation.isValidString(vHtml)) {
-    this.setHtml(vHtml);
-  }
+  this.setHtml(vHtml);
 
   if (qx.util.Validation.isValidString(vMnemonic)) {
     this.setMnemonic(vMnemonic);
@@ -63,7 +61,7 @@ qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "lab
 /*!
   Any text string which can contain HTML, too
 */
-qx.OO.addProperty({ name : "html", type : "string" });
+qx.OO.addProperty({ name : "html" });
 
 /*!
   The alignment of the text.
@@ -230,6 +228,8 @@ qx.ui.basic.Label.createMeasureNode = function(vId)
 ---------------------------------------------------------------------------
 */
 
+qx.Proto._localized = false;
+qx.Proto._htmlContent = "";
 qx.Proto._htmlMode = false;
 qx.Proto._hasMnemonic = false;
 qx.Proto._mnemonicHtml = "";
@@ -237,14 +237,32 @@ qx.Proto._mnemonicTest = null;
 
 qx.Proto._modifyHtml = function(propValue, propOldValue, propData)
 {
-  this._htmlMode = qx.util.Validation.isValidString(propValue) && propValue.match(/<.*>/) ? true : false;
+  this._localized = this.getHtml() instanceof qx.nls.LocalizedString;
+  this._updateHtml();
+  return true;
+}
+
+qx.Proto._updateHtml = function()
+{
+  if (this._localized) 
+  {
+    this._htmlContent = this.getHtml().toString();
+    qx.nls.Manager.getInstance().addEventListener("changeLocale", this._updateHtml, this);
+  }
+  else
+  {
+    this._htmlContent = this.getHtml() || "";
+    qx.nls.Manager.getInstance().remove(this);
+    qx.nls.Manager.getInstance().removeEventListener("changeLocale", this._updateHtml, this);
+  }
+    
+  this._htmlMode = qx.util.Validation.isValidString(this._htmlContent) && this._htmlContent.match(/<.*>/) ? true : false;
 
   if (this._isCreated) {
     this._applyContent();
   }
+};
 
-  return true;
-}
 
 qx.Proto._modifyTextAlign = function(propValue, propOldValue, propData)
 {
@@ -297,7 +315,7 @@ qx.Proto._computeObjectNeededDimensions = function()
   var vNode = this._copyStyles();
 
   // prepare html
-  var vHtml = this.getHtml();
+  var vHtml = this._htmlContent;
 
   // test for mnemonic and fix content
   if (this._hasMnemonic && !this._mnemonicTest.test(vHtml)) {
@@ -370,7 +388,7 @@ qx.Proto._computePreferredInnerHeight = function()
 
 qx.Proto._postApply = function()
 {
-  var vHtml = this.getHtml();
+  var vHtml = this._htmlContent;
   var vElement = this._getTargetNode();
   var vMnemonicMode = 0;
 

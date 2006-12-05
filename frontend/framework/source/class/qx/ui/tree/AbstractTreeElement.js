@@ -45,9 +45,7 @@ function(vLabel, vIcon, vIconSelected)
 
   qx.ui.layout.BoxLayout.call(this, "horizontal");
 
-  if (qx.util.Validation.isValid(vLabel)) {
-    this.setLabel(vLabel);
-  }
+  this.setLabel(vLabel);
 
   // Prohibit selection
   this.setSelectable(false);
@@ -101,7 +99,7 @@ qx.OO.addProperty({ name : "iconSelected", type : "string" });
 /*!
   The label/caption/text of the qx.ui.basic.Atom instance
 */
-qx.OO.addProperty({ name : "label", type : "string" });
+qx.OO.addProperty({ name : "label" });
 
 /*!
   Selected property

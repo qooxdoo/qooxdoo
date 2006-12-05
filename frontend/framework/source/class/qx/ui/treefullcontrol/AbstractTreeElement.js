@@ -124,8 +124,7 @@ qx.OO.addProperty({ name : "iconSelected",
 /*!
   The label/caption/text of the qx.ui.basic.Atom instance
 */
-qx.OO.addProperty({ name : "label",
-                    type : "string"
+qx.OO.addProperty({ name : "label"
                   });
 
 /*!

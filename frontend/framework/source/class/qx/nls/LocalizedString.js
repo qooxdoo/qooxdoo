@@ -2,16 +2,19 @@
  * Create a new instance of qx.nls.LocalizedString
  */
 qx.OO.defineClass("qx.nls.LocalizedString", qx.core.Object,
-function(id) {
+function(id, args) {
   qx.core.Object.call(this);
 	
   this.setId(id);
+  this.setArgs(args);
 });
 
 
 qx.OO.addProperty({ name: "id"});
+qx.OO.addProperty({ name: "args"});
 
 
 qx.Proto.toString = function () {
-  qx.nls.Manager.getInstance().tr(this.getId());
+  return qx.nls.Manager.getInstance().translate(this.getId(), this.getArgs());
 }
+
