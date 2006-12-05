@@ -6,7 +6,7 @@ function() {
   qx.manager.object.ObjectManager.call(this);
 	
 	this._translationCatalog = { C: true };
-	this.setLocale("C");
+	this.setLocale(qx.sys.Client.getInstance().getLocale() || "C");
 });
 
 qx.OO.addProperty({ name: "locale"})
@@ -21,6 +21,9 @@ qx.Proto._modifyLocale = function(propValue, propOldValue, propData) {
   } else {
     this._majorLanguage = propValue.substring(0, pos);
   }
+  
+  this.debug("LANG: " + this._language + " :: " + this._majorLanguage);
+  
   return true;
 }
 

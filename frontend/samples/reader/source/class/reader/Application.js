@@ -92,16 +92,17 @@ qx.Proto.main = function(e)
 	toolBar.add(new qx.ui.toolbar.Button(this.tr("Remove feed"), "icon/16/button-cancel.png"));
 	toolBar.add(new qx.ui.toolbar.Separator());
 	
-	var reload_btn = new qx.ui.toolbar.Button(this.tr("reload"), "icon/16/reload.png");
+	var reload_btn = new qx.ui.toolbar.Button(this.tr("Reload"), "icon/16/reload.png");
 	reload_btn.setCommand(reload_cmd);
 	reload_btn.setToolTip(new qx.ui.popup.ToolTip("(" + reload_cmd.toString() + ") realod the feeds."));
 	toolBar.add(reload_btn);
 	
 	var lang_btn = new qx.ui.toolbar.RadioButton(this.tr("German"), "icon/16/locale.png");
 	lang_btn.addEventListener("changeChecked", function(e) {
-	  qx.nls.Manager.getInstance().setLocale(e.getData() ? "de_DE" : "en_EN");
+	  qx.nls.Manager.getInstance().setLocale(e.getData() ? "de" : "en");
 	});
 	toolBar.add(lang_btn);
+	lang_btn.setChecked(qx.nls.Manager.getInstance().getLocale() == "de");	
 	
 	toolBar.add(new qx.ui.basic.HorizontalSpacer());
 	
