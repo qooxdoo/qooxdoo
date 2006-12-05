@@ -22,6 +22,8 @@ qx.Proto._modifyLocale = function(propValue, propOldValue, propData) {
     this._majorLanguage = propValue.substring(0, pos);
   }
   
+  // this.debug("LANG: " + this._language + " :: " + this._majorLanguage);
+  
   return true;
 }
 
@@ -87,17 +89,17 @@ qx.Proto.trc = function(hint, messageId, varargs)
 
 qx.Proto.translate = function(messageId, args) 
 {
-  var txt = null;
+  var txt;
   
-  if (txt === null && this._translationCatalog[this._language]) {
+  if (!txt && this._translationCatalog[this._language]) {
     txt = this._translationCatalog[this._language][messageId];
   }  
    
-  if (txt === null && this._translationCatalog[this._majorLanguage]) {
+  if (!txt && this._translationCatalog[this._majorLanguage]) {
     txt = this._translationCatalog[this._majorLanguage][messageId];
   }
   
-  if (txt == null) {
+  if (!txt) {
     txt = messageId;
   }
 
