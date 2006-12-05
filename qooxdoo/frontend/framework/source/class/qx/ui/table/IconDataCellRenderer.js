@@ -136,7 +136,7 @@ qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
   }
 
   if (urlAndToolTip.tooltip != null){
-    img.text = urlAndToolTip.tooltip;
+    img.setAttribute("title", urlAndToolTip.tooltip);
   }
 }
 
