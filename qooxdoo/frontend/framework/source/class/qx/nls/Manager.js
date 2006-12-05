@@ -42,12 +42,18 @@ qx.Proto.addTranslation = function(languageCode, translationMap) {
 
 qx.Proto.tr = function(messageId, varargs) 
 {
-  var txt = messageId;
+  var txt = null;
   
-  if (this._translationCatalog[this._language]) {
+  if (txt === null && this._translationCatalog[this._language]) {
     txt = this._translationCatalog[this._language][messageId];
-  } else if (this._translationCatalog[this._majorLanguage]) {
+  }  
+   
+  if (txt === null && this._translationCatalog[this._majorLanguage]) {
     txt = this._translationCatalog[this._majorLanguage][messageId];
+  }
+  
+  if (txt == null) {
+    txt = messageId;
   }
 
   // perform substitution
