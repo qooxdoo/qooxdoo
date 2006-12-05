@@ -26,7 +26,7 @@
 qx.OO.defineClass("reader.Application", qx.component.AbstractApplication,
 function () {
 	qx.component.AbstractApplication.call(this);
-	qx.nls.Manager.getInstance().setLocale("de_DE");
+	
 	this.setFeeds([]);
 });
 
@@ -97,9 +97,15 @@ qx.Proto.main = function(e)
 	reload_btn.setToolTip(new qx.ui.popup.ToolTip("(" + reload_cmd.toString() + ") realod the feeds."));
 	toolBar.add(reload_btn);
 	
+	var lang_btn = new qx.ui.toolbar.RadioButton(this.tr("German"), "icon/16/locale.png");
+	lang_btn.addEventListener("changeChecked", function(e) {
+	  qx.nls.Manager.getInstance().setLocale(e.getData() ? "de_DE" : "en_EN");
+	});
+	toolBar.add(lang_btn);
+	
 	toolBar.add(new qx.ui.basic.HorizontalSpacer());
 	
-	var about_btn = new qx.ui.toolbar.Button("", "icon/16/help.png");
+	var about_btn = new qx.ui.toolbar.Button(this.tr("Help"), "icon/16/help.png");
 	about_btn.setCommand(about_cmd);
 	about_btn.setToolTip(new qx.ui.popup.ToolTip("(" + about_cmd.toString() + ")"));
 	toolBar.add(about_btn);
