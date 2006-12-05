@@ -40,14 +40,18 @@ qx.Proto.addTranslation = function(languageCode, translationMap) {
 };
 
 
-qx.Proto.tr = function(messageId, varargs) {
-  var txt = 
-    this._translationCatalog[this._language][messageId] || 
-    this._translationCatalog[this._majorLanguage][messageId] || 
-    messageId;
+qx.Proto.tr = function(messageId, varargs) 
+{
+  var txt = messageId;
+  
+  if (this._translationCatalog[this._language]) {
+    txt = this._translationCatalog[this._language][messageId];
+  } else if (this._translationCatalog[this._majorLanguage]) {
+    txt = this._translationCatalog[this._majorLanguage][messageId];
+  }
+
   // perform substitution
-  /// ...
-  this.debug("tr:" + txt + " id: " + messageId);
+
   return txt;
 };
 
