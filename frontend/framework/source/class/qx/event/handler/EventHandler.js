@@ -398,7 +398,7 @@ qx.Class.getRelatedOriginalTargetObjectFromEvent = function(vDomEvent) {
 
 
 
-qx.Class.getTargetObject = function(vNode, vObject)
+qx.Class.getTargetObject = function(vNode, vObject, allowDisabled)
 {
   if (!vObject)
   {
@@ -414,7 +414,7 @@ qx.Class.getTargetObject = function(vNode, vObject)
   {
     // Break if current object is disabled -
     // event should be ignored then.
-    if (!vObject.getEnabled()) {
+    if (!allowDisabled && !vObject.getEnabled()) {
       return null;
     }
 
@@ -729,11 +729,7 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 {
   try
   {
-    var vEventObject, vCaptureTarget, vDispatchTarget, vTarget, vOriginalTarget, vRelatedTarget, vFixClick;
-
-
-
-
+    var vEventObject, vCaptureTarget, vDispatchTarget, vTarget, vOriginalTarget, vRelatedTarget, vFixClick, vTargetIsEnabled;
 
 
 
@@ -747,57 +743,52 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
     if (!vCaptureTarget)
     {
       // Get Target Object
-      vDispatchTarget = vTarget = qx.event.handler.EventHandler.getTargetObject(null, vOriginalTarget);
+      vDispatchTarget = vTarget = qx.event.handler.EventHandler.getTargetObject(null, vOriginalTarget, true);
     }
     else
     {
       vDispatchTarget = vCaptureTarget;
-      vTarget = qx.event.handler.EventHandler.getTargetObject(null, vOriginalTarget);
+      vTarget = qx.event.handler.EventHandler.getTargetObject(null, vOriginalTarget, true);
     }
 
 
 
     // If there is no target, we have nothing to do
     if (!vTarget) {
-      return false;
+      return;
     }
+    vTargetIsEnabled = vTarget.getEnabled();
 
     // Fix click event
     vFixClick = this._onmouseevent_click_fix(vDomTarget, vType, vDispatchTarget);
 
 
+    // Prevent the browser's native context menu
+    if (vType == "contextmenu" && !this.getAllowClientContextMenu()) {
+      qx.event.handler.EventHandler.stopDomEvent(vDomEvent);
+    }
 
 
-    switch(vType)
-    {
-      case "contextmenu":
-        if (!this.getAllowClientContextMenu()) {
-          qx.event.handler.EventHandler.stopDomEvent(vDomEvent);
+    // Update focus
+    if (vTargetIsEnabled && vType == "mousedown") {
+      qx.event.handler.FocusHandler.mouseFocus = true;
+
+      var vRoot = vTarget.getFocusRoot();
+
+      if (vRoot)
+      {
+        this.setFocusRoot(vRoot);
+
+        vRoot.setActiveChild(vTarget);
+
+        // Active focus on element (if possible, else search up the parent tree)
+        var vFocusTarget = vTarget;
+        while (!vFocusTarget.isFocusable() && vFocusTarget != vRoot) {
+          vFocusTarget = vFocusTarget.getParent();
         }
 
-        break;
-
-      case "mousedown":
-        qx.event.handler.FocusHandler.mouseFocus = true;
-
-        var vRoot = vTarget.getFocusRoot();
-
-        if (vRoot)
-        {
-          this.setFocusRoot(vRoot);
-
-          vRoot.setActiveChild(vTarget);
-
-          // Active focus on element (if possible, else search up the parent tree)
-          var vFocusTarget = vTarget;
-          while (!vFocusTarget.isFocusable() && vFocusTarget != vRoot) {
-            vFocusTarget = vFocusTarget.getParent();
-          }
-
-          vRoot.setFocusedChild(vFocusTarget);
-        }
-
-        break;
+        vRoot.setFocusedChild(vFocusTarget);
+      }
     }
 
 
@@ -841,85 +832,24 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
     qx.event.type.MouseEvent._storeEventState(vEventObject);
 
 
-
-    try
-    {
+    if (vTargetIsEnabled) {
       // Dispatch Event through target (eventtarget-)object
-      var vReturnValue = vDispatchTarget ? vDispatchTarget.dispatchEvent(vEventObject) : true;
-    }
-    catch(ex)
-    {
-      return this.error("Failed to dispatch mouse event", ex);
-    }
+      try {
+        var vReturnValue = vDispatchTarget ? vDispatchTarget.dispatchEvent(vEventObject) : true;
+      } catch(ex) {
+        return this.error("Failed to dispatch mouse event", ex);
+      }
 
-
-
-
-
-    // Handle Special Post Events
-    switch(vType)
-    {
-      case "mousedown":
-        if (qx.OO.isAvailable("qx.manager.object.PopupManager")) {
-          qx.manager.object.PopupManager.getInstance().update(vTarget);
-        }
-
-        if (qx.OO.isAvailable("qx.manager.object.MenuManager")) {
-          qx.manager.object.MenuManager.getInstance().update(vTarget, vType);
-        }
-
-        if (qx.OO.isAvailable("qx.manager.object.IframeManager")) {
-          qx.manager.object.IframeManager.getInstance().handleMouseDown(vEventObject);
-        }
-
-        break;
-
-      case "mouseup":
-
-        // Mouseup event should always hide, independed of target, so don't send a target
-        if (qx.OO.isAvailable("qx.manager.object.MenuManager")) {
-          qx.manager.object.MenuManager.getInstance().update(vTarget, vType);
-        }
-
-        if (qx.OO.isAvailable("qx.manager.object.IframeManager")) {
-          qx.manager.object.IframeManager.getInstance().handleMouseUp(vEventObject);
-        }
-
-        break;
-
-      case "mouseover":
+      // Handle Special Post Events
+      this._onmouseevent_special_post(vType, vTarget, vOriginalTarget, vDispatchTarget, vEventObject, vDomEvent);
+    } else {
+      // target is disabled -> Pass the event only to the ToolTipManager
+      if (vType == "mouseover") {
         if (qx.OO.isAvailable("qx.manager.object.ToolTipManager")) {
           qx.manager.object.ToolTipManager.getInstance().handleMouseOver(vEventObject);
         }
-
-        break;
-
-      case "mouseout":
-        if (qx.OO.isAvailable("qx.manager.object.ToolTipManager")) {
-          qx.manager.object.ToolTipManager.getInstance().handleMouseOut(vEventObject);
-        }
-
-        break;
-
-      case "mousewheel":
-        // priority for the real target not the (eventually captured) dispatch target
-        vReturnValue ? this._onmousewheel(vOriginalTarget || vDispatchTarget, vEventObject) : qx.event.handler.EventHandler.stopDomEvent(vDomEvent);
-
-        break;
+      }
     }
-
-
-
-    this._ignoreWindowBlur = vType === "mousedown";
-
-
-
-
-    // Send Event Object to Drag&Drop Manager
-    if (qx.OO.isAvailable("qx.event.handler.DragAndDropHandler") && vTarget) {
-      qx.event.handler.DragAndDropHandler.getInstance().handleMouseEvent(vEventObject);
-    }
-
 
 
 
@@ -948,6 +878,73 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
     return this.error("Failed to handle mouse event", ex);
   }
 }
+
+
+qx.Proto._onmouseevent_special_post = function(vType, vTarget, vOriginalTarget, vDispatchTarget, vEventObject, vDomEvent) {
+  switch(vType)
+  {
+    case "mousedown":
+      if (qx.OO.isAvailable("qx.manager.object.PopupManager")) {
+        qx.manager.object.PopupManager.getInstance().update(vTarget);
+      }
+
+      if (qx.OO.isAvailable("qx.manager.object.MenuManager")) {
+        qx.manager.object.MenuManager.getInstance().update(vTarget, vType);
+      }
+
+      if (qx.OO.isAvailable("qx.manager.object.IframeManager")) {
+        qx.manager.object.IframeManager.getInstance().handleMouseDown(vEventObject);
+      }
+
+      break;
+
+    case "mouseup":
+
+      // Mouseup event should always hide, independed of target, so don't send a target
+      if (qx.OO.isAvailable("qx.manager.object.MenuManager")) {
+        qx.manager.object.MenuManager.getInstance().update(vTarget, vType);
+      }
+
+      if (qx.OO.isAvailable("qx.manager.object.IframeManager")) {
+        qx.manager.object.IframeManager.getInstance().handleMouseUp(vEventObject);
+      }
+
+      break;
+
+    case "mouseover":
+      if (qx.OO.isAvailable("qx.manager.object.ToolTipManager")) {
+        qx.manager.object.ToolTipManager.getInstance().handleMouseOver(vEventObject);
+      }
+
+      break;
+
+    case "mouseout":
+      if (qx.OO.isAvailable("qx.manager.object.ToolTipManager")) {
+        qx.manager.object.ToolTipManager.getInstance().handleMouseOut(vEventObject);
+      }
+
+      break;
+
+    case "mousewheel":
+      // priority for the real target not the (eventually captured) dispatch target
+      vReturnValue ? this._onmousewheel(vOriginalTarget || vDispatchTarget, vEventObject) : qx.event.handler.EventHandler.stopDomEvent(vDomEvent);
+
+      break;
+  }
+
+
+
+  this._ignoreWindowBlur = vType === "mousedown";
+
+
+
+
+  // Send Event Object to Drag&Drop Manager
+  if (qx.OO.isAvailable("qx.event.handler.DragAndDropHandler") && vTarget) {
+    qx.event.handler.DragAndDropHandler.getInstance().handleMouseEvent(vEventObject);
+  }
+}
+
 
 if (qx.sys.Client.getInstance().isGecko())
 {
