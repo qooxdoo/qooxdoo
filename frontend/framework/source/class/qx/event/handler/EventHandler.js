@@ -834,14 +834,15 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 
     if (vTargetIsEnabled) {
       // Dispatch Event through target (eventtarget-)object
+      var vEventWasProcessed = false;
       try {
-        var vReturnValue = vDispatchTarget ? vDispatchTarget.dispatchEvent(vEventObject) : true;
+        vEventWasProcessed = vDispatchTarget ? vDispatchTarget.dispatchEvent(vEventObject) : true;
       } catch(ex) {
         return this.error("Failed to dispatch mouse event", ex);
       }
 
       // Handle Special Post Events
-      this._onmouseevent_special_post(vType, vTarget, vOriginalTarget, vDispatchTarget, vEventObject, vDomEvent);
+      this._onmouseevent_special_post(vType, vTarget, vOriginalTarget, vDispatchTarget, vEventWasProcessed, vEventObject, vDomEvent);
     } else {
       // target is disabled -> Pass the event only to the ToolTipManager
       if (vType == "mouseover") {
@@ -880,7 +881,7 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 }
 
 
-qx.Proto._onmouseevent_special_post = function(vType, vTarget, vOriginalTarget, vDispatchTarget, vEventObject, vDomEvent) {
+qx.Proto._onmouseevent_special_post = function(vType, vTarget, vOriginalTarget, vDispatchTarget, vEventWasProcessed, vEventObject, vDomEvent) {
   switch(vType)
   {
     case "mousedown":
@@ -927,7 +928,7 @@ qx.Proto._onmouseevent_special_post = function(vType, vTarget, vOriginalTarget, 
 
     case "mousewheel":
       // priority for the real target not the (eventually captured) dispatch target
-      vReturnValue ? this._onmousewheel(vOriginalTarget || vDispatchTarget, vEventObject) : qx.event.handler.EventHandler.stopDomEvent(vDomEvent);
+      vEventWasProcessed ? this._onmousewheel(vOriginalTarget || vDispatchTarget, vEventObject) : qx.event.handler.EventHandler.stopDomEvent(vDomEvent);
 
       break;
   }
