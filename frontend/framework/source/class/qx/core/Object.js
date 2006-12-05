@@ -252,6 +252,30 @@ qx.Proto.getSetting = function(vKey) {
 
 /*
 ---------------------------------------------------------------------------
+  I18N INTERFACE
+---------------------------------------------------------------------------
+*/
+
+qx.Proto.tr = function(messageId, varargs) {
+  var nlsManager = qx.nls.Manager.getInstance();
+  return nlsManager.tr.apply(nlsManager, arguments);
+};
+
+
+qx.Proto.trc = function(hint, messageId, varargs) {
+  var nlsManager = qx.nls.Manager.getInstance();
+  return nlsManager.trc.apply(nlsManager, arguments);
+};
+
+
+qx.Proto.trn = function(singularMessageId, pluralMessageId, count, varargs) {
+  var nlsManager = qx.nls.Manager.getInstance();
+  return nlsManager.trn.apply(nlsManager, arguments);
+};
+
+
+/*
+---------------------------------------------------------------------------
   LOGGING INTERFACE
 ---------------------------------------------------------------------------
 */
