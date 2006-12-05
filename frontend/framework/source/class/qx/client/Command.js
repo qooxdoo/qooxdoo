@@ -36,11 +36,10 @@
  *    The key must be seperated by a ''+'' or ''-'' character.
  *    Examples: Alt+F1, Control+C, Control+Alt+Enf
  *
- * @param vKeyCodeOrIdentifier (int)  Additional key of the command. It is interpreted as a
- *    keyIdentifier if it is given as integer. Otherwhise it is interpreted as keyCode.
+ * @param vKeyCode (int)  Additional key of the command interpreted as a keyCode.
  */
 qx.OO.defineClass("qx.client.Command", qx.core.Target,
-function(vShortcut, vKeyCodeOrIdentifier)
+function(vShortcut, vKeyCode)
 {
   qx.core.Target.call(this);
 
@@ -51,23 +50,10 @@ function(vShortcut, vKeyCodeOrIdentifier)
     this.setShortcut(vShortcut);
   }
 
-  if (qx.util.Validation.isValid(vKeyCodeOrIdentifier))
+  if (qx.util.Validation.isValidNumber(vKeyCode))
   {
-     if (qx.util.Validation.isValidString(vKeyCodeOrIdentifier))
-     {
-      this.setKeyIdentifier(vKeyCodeOrIdentifier);
-     }
-     else if (qx.util.Validation.isValidNumber(vKeyCodeOrIdentifier))
-     {
-      this.warn("The use of keyCode in command is deprecated. Use keyIdentifier instead.");
-      this.setKeyCode(vKeyCodeOrIdentifier);
-    }
-    else
-    {
-      var msg = "vKeyCodeOrIdentifier must be of type string or number: " + vKeyCodeOrIdentifier;
-      this.error(msg);
-      throw msg;
-    }
+    this.warn("The use of keyCode in command is deprecated. Use keyIdentifier instead.");
+    this.setKeyCode(vKeyCode);
   }
 
   // OSX warning for Alt key combinations
@@ -303,30 +289,21 @@ qx.Proto.toString = function()
 {
   var vShortcut = this.getShortcut();
   var vKeyCode = this.getKeyCode();
-  var vString = "";
-  var vKeyIdentifier = this._key || this.getKeyIdentifier();
 
-  var vKeyString = "";
-  if (qx.util.Validation.isValidString(vKeyIdentifier))
-  {
-    vKeyString = vKeyIdentifier;
-  }
-  else if (qx.util.Validation.isValidNumber(vKeyCode))
-  {
-    var vTemp = qx.event.type.KeyEvent.codes[vKeyCode];
-    vKeyString = vTemp ? qx.lang.String.toFirstUp(vTemp) : String(vKeyCode);
-  }
-
+  var vString = [];
+  
   if (qx.util.Validation.isValidString(vShortcut))
   {
-    vString = vShortcut + "+" + vKeyString;
-  }
-  else if (qx.util.Validation.isValidNumber(vKeyCode))
-  {
-    vString = vKeyString;
+    vString.push(vShortcut);
   }
 
-  return vString;
+  if (qx.util.Validation.isValidNumber(vKeyCode))
+  {
+    var vTemp = qx.event.type.KeyEvent.codes[vKeyCode];
+    vString.push(vTemp ? qx.lang.String.toFirstUp(vTemp) : String(vKeyCode));
+  }
+
+  return vString.join("-");
 };
 
 
