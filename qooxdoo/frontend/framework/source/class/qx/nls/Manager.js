@@ -6,7 +6,7 @@ function() {
   qx.manager.object.ObjectManager.call(this);
 	
 	this._translationCatalog = { C: true };
-	this.setLocale(qx.sys.Client.getInstance().getLocale() || "C");
+	this.setLocale(qx.sys.Client.getInstance().getLocale() || this._defaultLanguage);
 });
 
 qx.OO.addProperty({ name: "locale"})
@@ -85,7 +85,7 @@ qx.Proto.trc = function(hint, messageId, varargs)
 
 
 
-
+qx.Proto._defaultLanguage = "C";
 
 qx.Proto.translate = function(messageId, args) 
 {
@@ -98,7 +98,11 @@ qx.Proto.translate = function(messageId, args)
   if (!txt && this._translationCatalog[this._majorLanguage]) {
     txt = this._translationCatalog[this._majorLanguage][messageId];
   }
-  
+
+  if (!txt && this._translationCatalog[this._defaultLanguage]) {
+    txt = this._translationCatalog[this._defaultLanguage][messageId];
+  }
+    
   if (!txt) {
     txt = messageId;
   }
