@@ -40,7 +40,51 @@ qx.Proto.addTranslation = function(languageCode, translationMap) {
 };
 
 
+
+
+
+
 qx.Proto.tr = function(messageId, varargs) 
+{
+  var args = qx.lang.Array.fromArguments(arguments);
+  args.splice(0, 1);
+
+  return new qx.nls.LocalizedString(messageId, args);
+}
+
+qx.Proto.trn = function(singularMessageId, pluralMessageId, count, varargs)
+{
+  var args = qx.lang.Array.fromArguments(arguments);
+  args.splice(0, 3);
+    
+  if (count > 1)
+  {
+    return new qx.nls.LocalizedString(pluralMessageId, args); 
+  }
+  else
+  {
+    return new qx.nls.LocalizedString(singularMessageId, args);
+  }
+}
+
+qx.Proto.trc = function(hint, messageId, varargs)
+{
+  var args = qx.lang.Array.fromArguments(arguments);
+  args.splice(0, 2);
+  
+  return new qx.nls.LocalizedString(messageId, args);
+}
+
+
+
+
+
+
+
+
+
+
+qx.Proto.translate = function(messageId, args) 
 {
   var txt = null;
   

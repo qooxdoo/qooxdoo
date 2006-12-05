@@ -294,7 +294,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
     initial : function(vTheme) {
       return {
         top : 2,
-        left: 2,
+        left: 3,
         width : 2,
         bottom : 2,
         border : this.border

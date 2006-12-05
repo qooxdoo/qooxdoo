@@ -112,7 +112,7 @@ qx.Proto.main = function(e)
 	
 	dockLayout.addTop(toolBar);
 
-	var tree = new qx.ui.tree.Tree("News feeds");
+	var tree = new qx.ui.tree.Tree(this.tr("News feeds"));
 	tree.setWidth(200);
 	tree.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
 	tree.setBackgroundColor("#EEEEEE");
@@ -132,9 +132,9 @@ qx.Proto.main = function(e)
 	this._tableModel = new qx.ui.table.SimpleTableModel();
 	this._tableModel.setColumnIds(["title", "author", "date"]);
 	this._tableModel.setColumnNamesById({
-		title: "Subject",
-		author: "Sender",
-		date: "Date"
+		title: this.tr("Subject"),
+		author: this.tr("Sender"),
+		date: this.tr("Date")
 	});
 	 
 	var table = new qx.ui.table.Table(this._tableModel);
