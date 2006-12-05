@@ -22,6 +22,7 @@
 
 #module(ui_core)
 #module(theme_appearance)
+#require(qx.manager.object.AppearanceManager)
 #optional(qx.renderer.color.Color)
 #optional(qx.renderer.color.ColorObject)
 #optional(qx.renderer.border.Border)
