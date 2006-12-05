@@ -45,11 +45,7 @@ function(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)
   this.getLayoutImpl().setEnableFlexSupport(false);
 
   // Apply constructor arguments
-  if (qx.util.Validation.isValidString(vLabel)) {
-    this.setLabel(vLabel);
-  } else {
-    this.setLabel("");
-  }
+  this.setLabel(vLabel);
 
   // Simple flash wrapper
   if (qx.OO.isAvailable("qx.ui.embed.Flash") && qx.util.Validation.isValidString(vFlash) && qx.util.Validation.isValidNumber(vIconWidth) && qx.util.Validation.isValidNumber(vIconHeight) && qx.ui.embed.Flash.getPlayerVersion().getMajor() > 0)
@@ -90,7 +86,7 @@ qx.ui.basic.Atom.SHOW_BOTH = "both";
 /*!
   The label/caption/text of the qx.ui.basic.Atom instance
 */
-qx.OO.addProperty({ name : "label", type : "string" });
+qx.OO.addProperty({ name : "label" });
 
 /*!
   Any URI String supported by qx.ui.basic.Image to display a icon
@@ -309,7 +305,7 @@ qx.Proto._handleLabel = function()
   {
     case qx.ui.basic.Atom.SHOW_LABEL:
     case qx.ui.basic.Atom.SHOW_BOTH:
-      this._labelIsVisible = qx.util.Validation.isValidString(this.getLabel());
+      this._labelIsVisible = (typeof this.getLabel() == "string" && this.getLabel() != "") || this.getLabel() instanceof qx.nls.LocalizedString;
       break;
 
     default:
