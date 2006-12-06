@@ -107,8 +107,9 @@ qx.Proto.translate = function(messageId, args)
     txt = messageId;
   }
 
-  // perform substitution
-
+  if (args.length > 0) {
+    txt = qx.lang.String.format(txt, args)
+  }
   return txt;
 };
 
