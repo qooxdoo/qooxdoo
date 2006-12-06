@@ -3,8 +3,8 @@
 ###################################################################################
 
 QOOXDOO = ../../..
-SCRIPTNAME = reader.js
-APPCLASS = reader.Application
+SCRIPTNAME = feedreader.js
+APPCLASS = demo.FeedReader
 INCLUDEALL = true
 OPTIMIZESTRINGS = true
 OPTIMIZEVARIABLES = true
