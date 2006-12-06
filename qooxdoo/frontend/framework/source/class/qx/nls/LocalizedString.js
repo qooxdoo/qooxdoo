@@ -4,7 +4,7 @@
 qx.OO.defineClass("qx.nls.LocalizedString", qx.core.Object,
 function(id, args) {
   qx.core.Object.call(this);
-	
+
   this.setId(id);
   this.setArgs(args);
 });

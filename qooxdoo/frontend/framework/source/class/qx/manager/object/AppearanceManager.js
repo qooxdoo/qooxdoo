@@ -71,7 +71,7 @@ qx.OO.addProperty({ name : "appearanceTheme", type : "object", allowNull : false
 /**
  * Register an theme class.
  * The theme is applied if it is the default apperance
- * 
+ *
  * @param vThemeClass {qx.renderer.theme.AppearanceTheme}
  */
 qx.Proto.registerAppearanceTheme = function(vThemeClass)
@@ -119,7 +119,7 @@ qx.Proto._modifyAppearanceTheme = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-/** 
+/**
  * Disposer
  */
 qx.Proto.dispose = function()

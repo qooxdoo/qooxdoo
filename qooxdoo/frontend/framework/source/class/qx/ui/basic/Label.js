@@ -246,7 +246,7 @@ qx.Proto._modifyHtml = function(propValue, propOldValue, propData)
 
 qx.Proto._updateHtml = function()
 {
-  if (this._localized) 
+  if (this._localized)
   {
     this._htmlContent = this.getHtml().toString();
     qx.nls.Manager.getInstance().addEventListener("changeLocale", this._updateHtml, this);
@@ -257,7 +257,7 @@ qx.Proto._updateHtml = function()
     qx.nls.Manager.getInstance().remove(this);
     qx.nls.Manager.getInstance().removeEventListener("changeLocale", this._updateHtml, this);
   }
-    
+
   this._htmlMode = qx.util.Validation.isValidString(this._htmlContent) && this._htmlContent.match(/<.*>/) ? true : false;
 
   if (this._isCreated) {

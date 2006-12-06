@@ -68,9 +68,9 @@ qx.Settings.setDefault("staticUri", qx.Settings.getValue("resourceUri") + "/stat
 
 /**
  * Define an alias to a resource path
- * 
+ *
  * @param vAlias {string} alias name for the resource path/url
- * @param vPath {string} 
+ * @param vPath {string}
  */
 qx.Proto.add = function(vAlias, vPath)
 {
@@ -80,7 +80,7 @@ qx.Proto.add = function(vAlias, vPath)
 
 /**
  * Remove a previously defined alias
- * 
+ *
  * @param vAlias {string} alias name for the resource path/url
  */
 qx.Proto.remove = function(vAlias)
@@ -91,7 +91,7 @@ qx.Proto.remove = function(vAlias)
 
 /**
  * Resolve an alias to the actual resource path/url
- * 
+ *
  * @param vAlias {string} alias name for the resource path/url
  * @return vPath {tring} resource path/url
  */
@@ -114,11 +114,11 @@ qx.Proto.resolve = function(vAlias) {
  * Resolve a path name to a resource URI taking the defined aliases into account
  * and cache the result.
  *
- * If the first part of the path is a defined alias, the alias is resolved. 
+ * If the first part of the path is a defined alias, the alias is resolved.
  * Otherwhise the path is returned unmodified.
- * 
+ *
  * @param vPath {string} path name
- * @param vForceUpdate {boolean} (default=false) wether the cached value should be ignored  
+ * @param vForceUpdate {boolean} (default=false) wether the cached value should be ignored
  * @return {string} reolved path/url
  */
 qx.Proto.resolvePath = function(vPath, vForceUpdate)
@@ -138,9 +138,9 @@ qx.Proto.resolvePath = function(vPath, vForceUpdate)
 /**
  * Resolve a path name to a resource URI taking the defined aliases into account.
  *
- * If the first part of the path is a defined alias, the alias is resolved. 
+ * If the first part of the path is a defined alias, the alias is resolved.
  * Otherwhise the path is returned unmodified.
- * 
+ *
  * @param vPath {String} path name
  * @return {String} reolved path/url
  */

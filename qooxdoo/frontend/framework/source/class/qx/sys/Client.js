@@ -365,7 +365,7 @@ qx.Proto.usesSvgPlugin = function() {
 /**
  * Retuns whether the Mozilla FireBug extension is installed and active
  * http://www.getfirebug.com/
- * 
+ *
  * @return {boolean} whether FireBug is active
  */
  qx.Proto.isFireBugActive = function() {
