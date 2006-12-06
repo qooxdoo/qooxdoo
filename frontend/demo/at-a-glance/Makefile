@@ -2,9 +2,9 @@
 # PUBLIC VARIABLES
 ###################################################################################
 
-QOOXDOO = PATH_TO_QOOXDOO
-SCRIPTNAME = custom.js
-APPCLASS = custom.Application
+QOOXDOO = ../../..
+SCRIPTNAME = ataglance.js
+APPCLASS = demo.AtAGlance
 INCLUDEALL = true
 OPTIMIZESTRINGS = true
 OPTIMIZEVARIABLES = true
