@@ -198,6 +198,22 @@ qx.Clazz.define = function(fullname, definition)
 
     /** {var} TODOC */
     qx.Class = vClass;
+    
+    // Attach statics
+    if (vStatics)
+    {
+      for (var vProp in vStatics)
+      {
+        vClass[vProp] = vStatics[vProp];
+  
+        // Added helper stuff to functions
+        if (typeof vStatics[vProp] == "function")
+        {
+          // Configure class
+          vClass[vProp].statics = vClass;
+        }
+      }
+    }    
 
     // Store class reference in global class registry
     this._registry[fullname] = vClass;
