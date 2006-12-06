@@ -22,8 +22,19 @@
 
 ************************************************************************ */
 
+/**
+ * String helper functions
+ */
 qx.OO.defineClass("qx.lang.String");
 
+/**
+ * converts a string seperated by '-' to camel case.
+ * Example:
+ * <pre>qx.lang.String.toCamelCase("to-camel-case") == "toCamelCase"</pre>
+ * 
+ * @param str {string} string seperated by '-'
+ * @return {string} camel case string
+ */
 qx.Class.toCamelCase = function(str)
 {
   var vArr = str.split("-"), vLength = vArr.length;
@@ -41,23 +52,53 @@ qx.Class.toCamelCase = function(str)
   }
 
   return vNew;
-}
+},
 
+
+/**
+ * removes white space from the left side of a string
+ * 
+ * @param str {string}
+ * @return {string} 
+ */
 qx.Class.trimLeft = function(str) {
   return str.replace(/^\s+/, "");
-}
+};
 
+
+/**
+ * removes white space from the right side of a string
+ * 
+ * @param str {string}
+ * @return {string} 
+ */
 qx.Class.trimRight = function(str) {
   return str.replace(/\s+$/, "");
-}
+};
 
+
+/**
+ * removes white space from the left and the right side of a string
+ * 
+ * @param str {string}
+ * @return {string} 
+ */
 qx.Class.trim = function(str) {
   return str.replace(/^\s+|\s+$/g, "");
-}
+};
 
+
+/**
+ * Remove HTML/XML tags from a string
+ * Example:
+ * <pre>qx.lang.String.stripTags("<h1>Hello</h1>") == "Hello"</pre>
+ *
+ * @param str {string} string containing tags
+ * @return {string} the string with stripped tags
+ */
 qx.Class.stripTags = function(str) {
   return str.replace(/<\/?[^>]+>/gi, "");
-}
+};
 
 qx.Class.startsWith = function(fullstr, substr) {
   return !fullstr.indexOf(substr);
@@ -155,4 +196,23 @@ qx.Class.contains = function(str, s) {
  */
 qx.Class.escapeRegexpChars = function(str) {
     return str.replace(/([\\\.\(\)\[\]\{\}\^\$\?\+\*])/g, "\\$1");
-}
+};
+
+
+/**
+ * Print a list of arguments using a format string
+ * In the format string occurences of %n are replaced by the n'th element of the args list.
+ * Example:
+ * <pre>qx.lang.String.format("Hello %1, my name is %2", ["Egon", "Franz"]) == "Hello Egon, my name is Franz"<pre>
+ * 
+ * @param pattern {string} format string
+ * @param args {array}
+ * @return {string}
+ */
+qx.Class.format = function(pattern, args) {
+  var str = pattern;
+  for (var i=0; i<args.length; i++) {
+    str = str.replace(new RegExp("%" + (i+1), "g"), args[i]);
+  }
+  return str;
+};
