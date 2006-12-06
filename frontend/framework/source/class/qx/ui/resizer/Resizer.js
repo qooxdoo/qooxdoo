@@ -229,22 +229,22 @@ qx.Proto._onmouseup = function(e)
         // no break here
 
       case "lazyopaque":
-        if (qx.util.Validation.isValidNumber(s.lastLeft)) {
+        if (s.lastLeft != null) {
           this.setLeft(s.lastLeft);
         }
 
-        if (qx.util.Validation.isValidNumber(s.lastTop)) {
+        if (s.lastTop != null) {
           this.setTop(s.lastTop);
         }
 
-        if (qx.util.Validation.isValidNumber(s.lastWidth)) {
+        if (s.lastWidth != null) {
           var child = this.getChildren()[0];
           if (child) {
             child.setWidth(s.lastWidth);
           }
         }
 
-        if (qx.util.Validation.isValidNumber(s.lastHeight)) {
+        if (s.lastHeight != null) {
           var child = this.getChildren()[0];
           if (child) {
             child.setHeight(s.lastHeight);

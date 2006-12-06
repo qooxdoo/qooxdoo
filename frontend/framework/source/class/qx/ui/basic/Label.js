@@ -30,9 +30,11 @@ function(vHtml, vMnemonic)
   qx.ui.basic.Terminator.call(this);
 
   // Apply constructor arguments
-  this.setHtml(vHtml);
+  if (vHtml != null) {
+    this.setHtml(vHtml);
+  }
 
-  if (qx.util.Validation.isValidString(vMnemonic)) {
+  if (vMnemonic != null) {
     this.setMnemonic(vMnemonic);
   }
 

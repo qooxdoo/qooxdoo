@@ -31,50 +31,33 @@ qx.lang.Array.fromArguments = function(args) {
 /*!
   Utility function for padding/margin and all other shorthand handling.
 */
-qx.lang.Array.fromShortHand = function(params)
+qx.lang.Array.fromShortHand = function(input)
 {
-  var l = params.length;
+  var len = input.length;
 
-  if (l > 4) {
-    throw new Error("Invalid number of arguments!");
+  if (len > 4 || len == 0) {
+    this.error("Invalid number of arguments!");
   }
 
-  var v;
-  var list = [];
+  var result = qx.lang.Array.copy(input);
 
-  for (var i=0; i<l; i++)
-  {
-    v = params[i];
-
-    if (qx.util.Validation.isValidNumber(v))
-    {
-      list.push(v);
-    }
-    else if (qx.util.Validation.isInvalidString(v))
-    {
-      list.push(null);
-    }
-    else
-    {
-      throw new Error("Invalid shorthand value: " + v);
-    }
-  }
-
-  // Fix Values (Shorthand)
-  switch(l)
+  // Copy Values (according to the length)
+  switch(len)
   {
     case 1:
-      list[1] = list[2] = list[3] = list[0];
+      result[1] = result[2] = result[3] = result[0];
       break;
 
     case 2:
-      list[2] = list[0];
+      result[2] = result[0];
+      // no break here
 
     case 3:
-      list[3] = list[1];
+      result[3] = result[1];
   }
 
-  return list;
+  // Return list with 4 items
+  return result;
 }
 
 qx.lang.Array.copy = function(arr) {

@@ -46,11 +46,11 @@ function(vShortcut, vKeyCode)
   this._modifier = {};
   this._key = null;
 
-  if (qx.util.Validation.isValid(vShortcut)) {
+  if (vShortcut != null) {
     this.setShortcut(vShortcut);
   }
 
-  if (qx.util.Validation.isValidNumber(vKeyCode))
+  if (vKeyCode != null)
   {
     this.warn("The use of keyCode in command is deprecated. Use keyIdentifier instead.");
     this.setKeyCode(vKeyCode);
@@ -292,12 +292,11 @@ qx.Proto.toString = function()
 
   var vString = [];
   
-  if (qx.util.Validation.isValidString(vShortcut))
-  {
+  if (vShortcut != null) {
     vString.push(vShortcut);
   }
 
-  if (qx.util.Validation.isValidNumber(vKeyCode))
+  if (vKeyCode != null)
   {
     var vTemp = qx.event.type.KeyEvent.codes[vKeyCode];
     vString.push(vTemp ? qx.lang.String.toFirstUp(vTemp) : String(vKeyCode));

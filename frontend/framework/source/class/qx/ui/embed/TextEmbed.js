@@ -29,7 +29,7 @@ function(vText)
 {
   qx.ui.basic.Terminator.call(this);
 
-  if (qx.util.Validation.isValidString(vText)) {
+  if (vText != null) {
     this.setText(vText);
   }
 });

@@ -57,11 +57,12 @@ function(vLabel, vIcon, vIconSelected)
   this.add(this._indentObject, this._iconObject, this._labelObject);
 
   // Set Icons
-  if ((vIcon != null) && (qx.util.Validation.isValidString(vIcon))) {
+  if (vIcon != null) {
     this.setIcon(vIcon);
     this.setIconSelected(vIcon);
   }
-  if ((vIconSelected != null) && (qx.util.Validation.isValidString(vIconSelected))) {
+  
+  if (vIconSelected != null) {
     this.setIconSelected(vIconSelected);
   }
 

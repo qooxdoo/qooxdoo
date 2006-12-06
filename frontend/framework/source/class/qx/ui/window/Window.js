@@ -79,7 +79,7 @@ function(vCaption, vIcon, vWindowManager)
   //   CAPTIONICON
   // ************************************************************************
 
-  if (qx.util.Validation.isValidString(vIcon))
+  if (vIcon != null)
   {
     var ci = this._captionIcon = new qx.ui.basic.Image(vIcon);
     ci.setAppearance("window-captionbar-icon");
@@ -395,7 +395,7 @@ qx.Proto.close = function() {
 
 qx.Proto.open = function(vOpener)
 {
-  if (qx.util.Validation.isValid(vOpener)) {
+  if (vOpener != null) {
     this.setOpener(vOpener);
   }
 
@@ -968,19 +968,19 @@ qx.Proto._onwindowmouseup = function(e)
         // no break here
 
       case "lazyopaque":
-        if (qx.util.Validation.isValidNumber(s.lastLeft)) {
+        if (s.lastLeft != null) {
           this.setLeft(s.lastLeft);
         }
 
-        if (qx.util.Validation.isValidNumber(s.lastTop)) {
+        if (s.lastTop != null) {
           this.setTop(s.lastTop);
         }
 
-        if (qx.util.Validation.isValidNumber(s.lastWidth)) {
+        if (s.lastWidth != null) {
           this.setWidth(s.lastWidth);
         }
 
-        if (qx.util.Validation.isValidNumber(s.lastHeight)) {
+        if (s.lastHeight != null) {
           this.setHeight(s.lastHeight);
         }
 
@@ -1286,11 +1286,11 @@ qx.Proto._oncaptionmouseup = function(e)
   this._captionBar.setCapture(false);
 
   // move window to last position
-  if (qx.util.Validation.isValidNumber(s.lastX)) {
+  if (s.lastX != null) {
     this.setLeft(s.lastX);
   }
 
-  if (qx.util.Validation.isValidNumber(s.lastY)) {
+  if (s.lastY != null) {
     this.setTop(s.lastY);
   }
 

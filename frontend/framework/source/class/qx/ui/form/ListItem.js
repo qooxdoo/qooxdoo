@@ -30,7 +30,7 @@ function(vText, vIcon, vValue)
 {
   qx.ui.basic.Atom.call(this, vText, vIcon);
 
-  if (qx.util.Validation.isValid(vValue)) {
+  if (vValue != null) {
     this.setValue(vValue);
   }
 

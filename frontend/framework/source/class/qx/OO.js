@@ -234,11 +234,11 @@ qx.Class.addPropertyGroup = function(p)
     throw new Error("Param should be an object!");
   }
 
-  if (qx.util.Validation.isInvalid(p.name)) {
+  if (typeof p.name != "string") {
     throw new Error("Malformed input parameters: name needed!");
   }
 
-  if (qx.util.Validation.isInvalid(p.members)) {
+  if (typeof p.members != "object") {
     throw new Error("Malformed input parameters: members needed!");
   }
 
@@ -290,7 +290,7 @@ qx.Class.addPropertyGroup = function(p)
 
         try
         {
-          var ret = qx.lang.Array.fromShortHand(arguments);
+          var ret = qx.lang.Array.fromShortHand(qx.lang.Array.fromArguments(arguments));
         }
         catch(ex)
         {
@@ -333,7 +333,7 @@ qx.Class.removeProperty = function(p)
     throw new Error("Param should be an object!");
   }
 
-  if (qx.util.Validation.isInvalid(p.name)) {
+  if (typeof p.name !== "string") {
     throw new Error("Malformed input parameters: name needed!");
   }
 
@@ -367,7 +367,7 @@ qx.Class._createProperty = function(p)
     throw new Error("AddProperty: Param should be an object!");
   }
 
-  if (qx.util.Validation.isInvalid(p.name)) {
+  if (typeof p.name !== "string") {
     throw new Error("AddProperty: Malformed input parameters: name needed!");
   }
 
@@ -381,13 +381,8 @@ qx.Class._createProperty = function(p)
     p.defaultValue = null;
   }
 
-  if (qx.util.Validation.isInvalidBoolean(p.allowNull)) {
-    p.allowNull = true;
-  }
-
-  if (qx.util.Validation.isInvalidBoolean(p.allowMultipleArguments)) {
-    p.allowMultipleArguments = false;
-  }
+  p.allowNull = p.allowNull !== false;
+  p.allowMultipleArguments = p.allowMultipleArguments === true;
 
 
 
@@ -429,9 +424,9 @@ qx.Class._createProperty = function(p)
 
 
 
-  p.hasConvert = qx.util.Validation.isValidFunction(p.convert);
-  p.hasPossibleValues = qx.util.Validation.isValidArray(p.possibleValues);
-  p.hasUnitDetection = qx.util.Validation.isValidString(p.unitDetection);
+  p.hasConvert = p.convert != null;
+  p.hasPossibleValues = p.possibleValues != null;
+  p.hasUnitDetection = p.unitDetection != null;
 
   p.addToQueue = p.addToQueue || false;
   p.addToQueueRuntime = p.addToQueueRuntime || false;

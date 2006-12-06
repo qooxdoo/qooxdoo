@@ -40,7 +40,7 @@ function(vSource)
   this.__onreadystatechange = function(e) { return o._onreadystatechange(e); }
   this.__onload = function(e) { return o._onload(e); }
 
-  if (qx.util.Validation.isValid(vSource)) {
+  if (vSource != undefined) {
     this.setSource(vSource);
   }
 });

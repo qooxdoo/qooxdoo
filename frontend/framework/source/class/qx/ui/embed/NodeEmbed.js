@@ -27,7 +27,7 @@ function(vId)
 {
   qx.ui.basic.Terminator.call(this);
 
-  if (qx.util.Validation.isValidString(vId)) {
+  if (vId != null) {
     this.setSourceNodeId(vId);
   }
 });

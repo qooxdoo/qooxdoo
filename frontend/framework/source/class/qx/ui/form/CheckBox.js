@@ -32,15 +32,15 @@ function(vText, vValue, vName, vChecked)
 
   this._createIcon();
 
-  if (qx.util.Validation.isValidString(vValue)) {
+  if (vValue != null) {
     this.setValue(vValue);
   }
 
-  if (qx.util.Validation.isValidString(vName)) {
+  if (vName != null) {
     this.setName(vName);
   }
 
-  if (qx.util.Validation.isValidBoolean(vChecked)) {
+  if (vChecked != null) {
     this.setChecked(vChecked);
   } else {
     this.setChecked(false);
