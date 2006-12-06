@@ -5,10 +5,11 @@
 }
 
 .header h1 {
-  	font-family: "Trebuchet MS", "Lucida Grande", Verdana, sans-serif;
-	font-size: 20px;
-	color: #F3FFD1;
-	padding: 3px;
+  font-family: "Trebuchet MS", "Lucida Grande", Verdana, sans-serif;
+	font-size: 18px;
+	font-weight: bold;
+	color: #DEFF83;
+	padding: 12px 20px;
 	margin: 0px;
 }
 
