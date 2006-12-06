@@ -120,6 +120,7 @@ generate-source:
 	  --source-script-path ../class \
 	  --generate-source-script $(SOURCELDR) \
 	  --source-script-file source/script/qx.js \
+	  --add-new-lines \
 	  --cache-directory $(CACHE)
 
 generate-tree:
