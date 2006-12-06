@@ -52,7 +52,7 @@ qx.Class.toCamelCase = function(str)
   }
 
   return vNew;
-},
+};
 
 
 /**
@@ -102,11 +102,11 @@ qx.Class.stripTags = function(str) {
 
 qx.Class.startsWith = function(fullstr, substr) {
   return !fullstr.indexOf(substr);
-}
+};
 
 qx.Class.endsWith = function(fullstr, substr) {
   return fullstr.lastIndexOf(substr) === fullstr.length-substr.length;
-}
+};
 
 qx.Class.pad = function(str, length, ch)
 {
@@ -121,11 +121,11 @@ qx.Class.pad = function(str, length, ch)
   }
 
   return temp + str;
-}
+};
 
 qx.Class.toFirstUp = function(str) {
   return str.charAt(0).toUpperCase() + str.substr(1);
-}
+};
 
 qx.Class.add = function(str, v, sep)
 {
@@ -155,7 +155,7 @@ qx.Class.add = function(str, v, sep)
       return str;
     }
   }
-}
+};
 
 qx.Class.remove = function(str, v, sep)
 {
@@ -181,11 +181,11 @@ qx.Class.remove = function(str, v, sep)
 
     return a.join(sep);
   }
-}
+};
 
 qx.Class.contains = function(str, s) {
   return str.indexOf(s) != -1;
-}
+};
 
 
 /**
@@ -195,7 +195,7 @@ qx.Class.contains = function(str, s) {
  * @return {string} the string with the escaped chars.
  */
 qx.Class.escapeRegexpChars = function(str) {
-    return str.replace(/([\\\.\(\)\[\]\{\}\^\$\?\+\*])/g, "\\$1");
+  return str.replace(/([\\\.\(\)\[\]\{\}\^\$\?\+\*])/g, "\\$1");
 };
 
 
@@ -206,13 +206,16 @@ qx.Class.escapeRegexpChars = function(str) {
  * <pre>qx.lang.String.format("Hello %1, my name is %2", ["Egon", "Franz"]) == "Hello Egon, my name is Franz"<pre>
  * 
  * @param pattern {string} format string
- * @param args {array}
+ * @param args {Array}
  * @return {string}
  */
-qx.Class.format = function(pattern, args) {
+qx.Class.format = function(pattern, args) 
+{
   var str = pattern;
+
   for (var i=0; i<args.length; i++) {
     str = str.replace(new RegExp("%" + (i+1), "g"), args[i]);
   }
+
   return str;
 };
