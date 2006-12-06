@@ -196,7 +196,10 @@ fix-build-rights:
 	@nice -n $(NICE) find build -type d | xargs chmod a+rx
 	@nice -n $(NICE) find build -type f | xargs chmod a+r
 
-
+gettext:
+	rm -f default.pot
+	touch default.pot
+	find source/class/ -name '*.js' | xargs xgettext --language=Java --from-code=UTF-8 -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 -j -o default.pot
 
 
 
