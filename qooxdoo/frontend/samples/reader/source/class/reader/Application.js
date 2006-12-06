@@ -18,6 +18,14 @@
 /*
 #resource(feeds:feeds)
 #resource(css:css)
+#resource(locale:locale)
+*/
+
+/*
+qx.Locale.add("reader.locale.de_DE", "locale/de_DE.js");
+qx.Locale.add("reader.locale.de_AT", "locale/de_DE.js");
+qx.Locale.add("reader.locale.toolbar.de_DE");
+qx.Locale.add("reader.locale.toolbar.de_AT");
 */
 
 /**
@@ -88,13 +96,13 @@ qx.Proto.main = function(e)
 	}, this);
 	
 	var toolBar = new qx.ui.toolbar.ToolBar();
-	toolBar.add(new qx.ui.toolbar.Button(this.tr("Add feed"), "icon/16/button-ok.png"));
+	toolBar.add(new qx.ui.toolbar.Button(this.trn("Add feed", "Add feeds", 2), "icon/16/button-ok.png"));
 	toolBar.add(new qx.ui.toolbar.Button(this.tr("Remove feed"), "icon/16/button-cancel.png"));
 	toolBar.add(new qx.ui.toolbar.Separator());
 	
 	var reload_btn = new qx.ui.toolbar.Button(this.tr("Reload"), "icon/16/reload.png");
 	reload_btn.setCommand(reload_cmd);
-	reload_btn.setToolTip(new qx.ui.popup.ToolTip("(" + reload_cmd.toString() + ") realod the feeds."));
+	reload_btn.setToolTip(new qx.ui.popup.ToolTip(this.tr("(%1) Reload the feeds.", reload_cmd.toString())));
 	toolBar.add(reload_btn);
 	
 	var lang_btn = new qx.ui.toolbar.RadioButton(this.tr("German"), "icon/16/locale.png");
