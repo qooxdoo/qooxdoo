@@ -106,11 +106,14 @@ qx.io.remote.XmlHttpTransport.isSupported = function()
      http://msdn.microsoft.com/library/default.asp?url=/library/en-us/xmlsdk/html/aabe29a2-bad2-4cea-8387-314174252a74.asp
 
      See similar code in qx.xml.Core, qx.lang.XmlEmu
+      
+     msxml3 is preferred over msxml6 because the IE7 native XMLHttpRequest returns a msxml3 document
+     and does not work with other xml documents.
     */
     var vServers =
     [
-      "MSXML2.XMLHTTP.6.0",
       "MSXML2.XMLHTTP.3.0",
+      "MSXML2.XMLHTTP.6.0",
       "MSXML2.XMLHTTP.4.0",
       "MSXML2.XMLHTTP",    // v3.0
       "Microsoft.XMLHTTP"  // v2.x

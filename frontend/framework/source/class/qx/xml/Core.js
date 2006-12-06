@@ -51,8 +51,8 @@ qx.xml.Core.createXmlDom = function()
     */
     var vServers =
     [
-      "MSXML2.DOMDocument.6.0",
       "MSXML2.DOMDocument.3.0",
+      "MSXML2.DOMDocument.6.0",
       "MSXML2.DOMDocument.4.0",
       "MSXML2.DOMDocument",  // v3.0
       "MSXML.DOMDocument",   // v2.x
