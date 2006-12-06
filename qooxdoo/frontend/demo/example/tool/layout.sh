@@ -9,23 +9,14 @@ mkdir -p `dirname $DIST`
 
 cat $BASE > $DIST
 
-showstr=""
-for file in $SCAN/showcase/*.html ;
+widstr=""
+for file in $SCAN/widget/*.html ;
 do
   if [ `basename $file` != "index.html" ]; then
-    showstr="$showstr `basename $file`";
+    widstr="$widstr `basename $file`";
   fi
 done
-echo "var showstr = \"$showstr\";" >> $DIST
-
-exastr=""
-for file in $SCAN/example/*.html ;
-do
-  if [ `basename $file` != "index.html" ]; then
-    exastr="$exastr `basename $file`";
-  fi
-done
-echo "var exastr = \"$exastr\";" >> $DIST
+echo "var widstr = \"$widstr\";" >> $DIST
 
 perfstr=""
 for file in $SCAN/performance/*.html ;
