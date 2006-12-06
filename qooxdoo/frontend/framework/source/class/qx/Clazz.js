@@ -20,9 +20,10 @@
 
 #id(qx.Clazz)
 #module(core)
-#require(qx.Interface)
-#require(qx.Mixin)
-#require(qx.Settings)
+#load(qx.Mixin)
+#load(qx.Interface)
+#load(qx.Settings)
+#load(qx.Locale)
 #load(qx.lang.Object)
 
 ************************************************************************ */
@@ -31,13 +32,15 @@
  * Bootstrapping needed to let qx.Clazz create itself
  */
 qx.Clazz = {};
+
+/** registers all defined classes */
 qx.Clazz._registry = { "qx.Clazz": qx.Clazz };
 
 /**
  * Class definition
  *
  * Example:
- * qx.Clazz.define("ClassName",
+ * qx.Clazz.define("fullname",
  * {
  *   "extend": SuperClass,
  *   "implement": [Interfaces],
@@ -64,19 +67,19 @@ qx.Clazz._registry = { "qx.Clazz": qx.Clazz };
  *   }
  * });
  *
- * @param vClassName {String} class name
- * @param vDefinition {Map,null} definition structure
- * @param vDefinition.extend {Class,null} super class
- * @param vDefinition.implement {List,null} list of interfaces that need to be implemented
- * @param vDefinition.include {List,null} list of mixins to include
- * @param vDefinition.settings {Map,null} hash of settings for this class
- * @param vDefinition.init {Function,null} constructor method to run on each initialization
- * @param vDefinition.statics {Map,null} hash of static properties and methods ("class members")
- * @param vDefinition.properties {Map,null} hash of properties with generated setters and getters
- * @param vDefinition.properties_ng {Map,null} hash of next-gen properties with generated setters and getters
- * @param vDefinition.members {Map,null} hash of regular properties and methods ("instance members")
+ * @param fullname {String} class name
+ * @param definition {Map,null} definition structure
+ * @param definition.extend {Class,null} super class
+ * @param definition.implement {List,null} list of interfaces that need to be implemented
+ * @param definition.include {List,null} list of mixins to include
+ * @param definition.settings {Map,null} hash of settings for this class
+ * @param definition.init {Function,null} constructor method to run on each initialization
+ * @param definition.statics {Map,null} hash of static properties and methods ("class members")
+ * @param definition.properties {Map,null} hash of properties with generated setters and getters
+ * @param definition.properties_ng {Map,null} hash of next-gen properties with generated setters and getters
+ * @param definition.members {Map,null} hash of regular properties and methods ("instance members")
  */
-qx.Clazz.define = function(vClassName, vDefinition)
+qx.Clazz.define = function(fullname, definition)
 {
 
   /*
@@ -85,7 +88,7 @@ qx.Clazz.define = function(vClassName, vDefinition)
   ---------------------------------------------------------------------------
   */
 
-  var vSplitName = vClassName.split(".");
+  var vSplitName = fullname.split(".");
   var vLength = vSplitName.length;
   var vParentPackage = window;
   var vPartName = vSplitName[0];
@@ -114,12 +117,12 @@ qx.Clazz.define = function(vClassName, vDefinition)
   var vSuperClass, vInterfaces, vMixins, vSettings, vConstructor, vStatics, vProperties, vPropertiesNg, vMembers;
   var vKey, vValue;
 
-  for (vKey in vDefinition)
+  for (vKey in definition)
   {
-    vValue = vDefinition[vKey];
+    vValue = definition[vKey];
 
     if (!vValue) {
-      throw new Error("Invalid key '" + vKey + "' in class '" + vClassName + "'! Value is undefined!");
+      throw new Error("Invalid key '" + vKey + "' in class '" + fullname + "'! Value is undefined!");
     }
 
     switch(vKey)
@@ -164,7 +167,7 @@ qx.Clazz.define = function(vClassName, vDefinition)
         break;
 
       default:
-        throw new Error("Invalid key '" + vKey + "' in class '" + vClassName + "'! Key is not allowed!");
+        throw new Error("Invalid key '" + vKey + "' in class '" + fullname + "'! Key is not allowed!");
     }
   }
 
@@ -181,7 +184,7 @@ qx.Clazz.define = function(vClassName, vDefinition)
   if (!vSuperClass)
   {
     if (vConstructor) {
-      throw new Error("SuperClass is undefined, but constructor was given for class: " + vClassName);
+      throw new Error("SuperClass is undefined, but constructor was given for class: " + fullname);
     }
 
     // Create empty/non-empty class
@@ -191,7 +194,7 @@ qx.Clazz.define = function(vClassName, vDefinition)
     vParentPackage[vPartName] = vClass;
 
     // Store class name
-    vClass.classname = vClassName;
+    vClass.classname = fullname;
     vClass.basename = vPartName;
 
     // Compatibility to 0.6.x
@@ -199,7 +202,7 @@ qx.Clazz.define = function(vClassName, vDefinition)
     qx.Class = vClass;
 
     // Store class reference in global class registry
-    this._registry[vClassName] = vClass;
+    this._registry[fullname] = vClass;
 
     // Quit here
     return;
@@ -217,7 +220,7 @@ qx.Clazz.define = function(vClassName, vDefinition)
   */
 
   if (!vConstructor) {
-    throw new Error("Constructor missing for class " + vClassName);
+    throw new Error("Constructor missing for class " + fullname);
   }
 
   // Store class pointer
@@ -236,7 +239,7 @@ qx.Clazz.define = function(vClassName, vDefinition)
   vClass.prototype = vPrototype;
 
   // Store own class and base name
-  vClass.classname = vPrototype.classname = vClassName;
+  vClass.classname = vPrototype.classname = fullname;
   vClass.basename = vPrototype.basename = vPartName;
 
   // Store reference to super class
@@ -249,7 +252,7 @@ qx.Clazz.define = function(vClassName, vDefinition)
   vClass.constructor = vPrototype.constructor = vConstructor;
 
   // Register class into registry
-  this._registry[vClassName] = vClass;
+  this._registry[fullname] = vClass;
 
   // Compatibility to 0.6.x
   qx.Proto = vPrototype;
@@ -286,8 +289,16 @@ qx.Clazz.define = function(vClassName, vDefinition)
 
   if (vStatics)
   {
-    for(var vProp in vStatics) {
+    for(var vProp in vStatics) 
+    {
       vClass[vProp] = vStatics[vProp];
+      
+      // Added helper stuff to functions
+      if (typeof vStatics[vProp] == "function")
+      {
+        // Configure class
+        vClass[vProp].statics = vClass;
+      }
     }
   }
 
@@ -440,11 +451,15 @@ qx.Clazz.define = function(vClassName, vDefinition)
       // Attach member
       vPrototype[vProp] = vMembers[vProp];
 
-      // Configure superclass (named base here)
-      vPrototype[vProp].base = vSuperProto[vProp];
-
-      // Configure class
-      vPrototype[vProp].statics = vClass;
+      // Added helper stuff to functions
+      if (typeof vMembers[vProp] == "function")
+      {
+        // Configure superclass (named base here)
+        vPrototype[vProp].base = vSuperProto[vProp];
+  
+        // Configure class
+        vPrototype[vProp].statics = vClass;
+      }
     }
   }
 
@@ -481,11 +496,11 @@ qx.Clazz.define = function(vClassName, vDefinition)
           if (typeof vInterfaceMembers[vProp] === "function")
           {
             if (typeof vPrototype[vProp] === "undefined") {
-              throw new Error("Implementation of method " + vProp + "() missing in class " + vClassName + " required by interface " + vInterfaces[i].name);
+              throw new Error("Implementation of method " + vProp + "() missing in class " + fullname + " required by interface " + vInterfaces[i].name);
             }
           } else if (typeof vClass[vProp] !== "undefined")
           {
-            throw new Error("Existing property " + vProp + " in class " + vClassName + " conflicts with interface " + vInterfaces[i].name);
+            throw new Error("Existing property " + vProp + " in class " + fullname + " conflicts with interface " + vInterfaces[i].name);
           }
           else
           {
@@ -505,11 +520,11 @@ qx.Clazz.define = function(vClassName, vDefinition)
 
 /**
  * Determine if class exists
- * @param vClassName {String} class name to check
+ * @param fullname {String} class name to check
  * @return {Boolean} true if class exists
  */
-qx.Clazz.isAvailable = function(vClassName) {
-  return this._registry[vClassName] != null;
+qx.Clazz.isDefined = function(fullname) {
+  return this._registry[fullname] != null;
 };
 
 

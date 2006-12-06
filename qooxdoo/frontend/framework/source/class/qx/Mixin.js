@@ -18,153 +18,167 @@
 
 /* ************************************************************************
 
-#id(qx.Mixin)
 #module(core)
 
 ************************************************************************ */
 
-/*
- * Bootstrapping needed since qx.Class is not yet available
- */
-qx.Mixin = {};
-qx.Mixin._registry = { "qx.Mixin" : qx.Mixin };
-
-/*
-  Example:
-
-  qx.Mixin.define("MixinName",
-  {
-    "includes": [SuperMixins],
-    "properties":
-    {
-      "tabIndex": {type: "number", init: -1}
-    },
-    "members":
-    {
-      prop1: 3.141,
-      meth1: function() {},
-      meth2: function() {}
-    }
-  });
-*/
-
-/**
- * Mixin definition
- * @param vMixinName {String} name of the mixin
- * @param vDefinition {Map,null} definition structure
- * @param vDefinition.includes {List,null} list of mixins to include
- * @param vDefinition.properties {List,null} list of properties with generated setters and getters
- * @param vDefinition.members {Map,null} hash of properties and/or methods
- */
-qx.Mixin.define = function(vMixinName, vDefinition)
+qx.Clazz.define("qx.Mixin", 
 {
-
-  /*
-  ---------------------------------------------------------------------------
-    Setting up namespace
-  ---------------------------------------------------------------------------
-  */
-
-  var vSplitName = vMixinName.split(".");
-  var vNameLength = vSplitName.length;
-  var vTempObject = window;
-
-  // Setting up namespace
-  for (var i=0; i<vNameLength; i++)
+  statics :
   {
-    if (typeof vTempObject[vSplitName[i]] === "undefined") {
-      vTempObject[vSplitName[i]] = {};
-    }
-
-    vTempObject = vTempObject[vSplitName[i]];
-  }
-
-
-  /*
-  ---------------------------------------------------------------------------
-    Basic data structure
-  ---------------------------------------------------------------------------
-  */
-
-  qx._Mixin = vTempObject;
-  qx._Mixin._members = {};
-
-  var vProp;
-
-  if (typeof vDefinition !== "undefined") {
-
-    /*
-     * non-trivial mixin definition
-     */
-
-    /*
-    ---------------------------------------------------------------------------
-      Mixins to include
-    ---------------------------------------------------------------------------
-    */
-
-    var vSuper = vDefinition["includes"];
-
-    if (typeof vSuper !== "undefined")
+    /** registers all defined mixins */
+    _registry : {},
+    
+    /**
+     * Mixin definition
+     *
+     * Example:
+     * <pre><code>
+     * qx.Mixin.define("fullname",
+     * {
+     *   "includes": [SuperMixins],
+     *   "properties":
+     *   {
+     *     "tabIndex": {type: "number", init: -1}
+     *   },
+     *   "members":
+     *   {
+     *     prop1: 3.141,
+     *     meth1: function() {},
+     *     meth2: function() {}
+     *   }
+     * });
+     * </code></pre>
+     * 
+     * @param fullname {String} name of the mixin
+     * @param definition {Map ? null} definition structure
+     * @param definition.includes {List ? null} list of mixins to include
+     * @param definition.properties {List ? null} list of properties with generated setters and getters
+     * @param definition.members {Map ? null} hash of properties and/or methods
+     */    
+    define : function(fullname, definition)
     {
-
-      if (vSuper instanceof Array)
+      /*
+      ---------------------------------------------------------------------------
+        Setting up namespace
+      ---------------------------------------------------------------------------
+      */
+    
+      var vSplitName = fullname.split(".");
+      var vNameLength = vSplitName.length;
+      var vTempObject = window;
+    
+      // Setting up namespace
+      for (var i=0; i<vNameLength; i++)
       {
-        var vTotal = vSuper.length;
-
-        for (i=0; i<vTotal; i++)
+        if (typeof vTempObject[vSplitName[i]] === "undefined") {
+          vTempObject[vSplitName[i]] = {};
+        }
+    
+        vTempObject = vTempObject[vSplitName[i]];
+      }
+    
+    
+    
+    
+    
+      /*
+      ---------------------------------------------------------------------------
+        Basic data structure
+      ---------------------------------------------------------------------------
+      */
+    
+      qx._Mixin = vTempObject;
+      qx._Mixin._members = {};
+    
+      var vProp;
+    
+      if (typeof definition !== "undefined") {
+    
+        /*
+         * non-trivial mixin definition
+         */
+    
+        /*
+        ---------------------------------------------------------------------------
+          Mixins to include
+        ---------------------------------------------------------------------------
+        */
+    
+        var vSuper = definition["includes"];
+    
+        if (typeof vSuper !== "undefined")
         {
-          if (typeof vSuper[i] === "undefined" || !vSuper[i].isMixin) {
-            throw new Error("Could not modify mixin " + vMixinName
-              + " due to invalid mixin no. " + (i+1));
+    
+          if (vSuper instanceof Array)
+          {
+            var vTotal = vSuper.length;
+    
+            for (i=0; i<vTotal; i++)
+            {
+              if (typeof vSuper[i] === "undefined" || !vSuper[i].isMixin) {
+                throw new Error("Could not modify mixin " + fullname
+                  + " due to invalid mixin no. " + (i+1));
+              }
+    
+              for (vProp in vSuper[i]._members) {
+                qx._Mixin._members[vProp] = vSuper[i]._members[vProp];
+              }
+            }
           }
-
-          for (vProp in vSuper[i]._members) {
-            qx._Mixin._members[vProp] = vSuper[i]._members[vProp];
+          else
+          {
+            throw new Error("Could not modify mixin " + fullname
+                + "due to invalid mixin assignment.");
+          }
+        }
+    
+        /*
+        ---------------------------------------------------------------------------
+          Mixin members
+        ---------------------------------------------------------------------------
+        */
+    
+        var vMembers = definition["members"];
+    
+        if (typeof vMembers !== "undefined")
+        {
+          for( vProp in vMembers)
+          {
+            qx._Mixin._members[vProp] = vMembers[vProp];
           }
         }
       }
-      else
-      {
-        throw new Error("Could not modify mixin " + vMixinName
-            + "due to invalid mixin assignment.");
-      }
-    }
+    
+      /*
+      ---------------------------------------------------------------------------
+        Mixin registration
+      ---------------------------------------------------------------------------
+      */
+    
+      qx.Mixin._registry[fullname] = qx._Mixin;
+      qx._Mixin.name = fullname;
+      qx._Mixin.isMixin = true;
+    },
+    
 
-    /*
-    ---------------------------------------------------------------------------
-      Mixin members
-    ---------------------------------------------------------------------------
-    */
-
-    var vMembers = vDefinition["members"];
-
-    if (typeof vMembers !== "undefined")
-    {
-      for( vProp in vMembers)
-      {
-        qx._Mixin._members[vProp] = vMembers[vProp];
-      }
+    /**
+     * Returns a mixin by name
+     * @param fullname {String} mixin name to check
+     * @return {Object|void} mixin object
+     */
+    byName : function(fullname) {
+      return arguments.callee.statics._registry[fullname];
+    },
+    
+    
+    /**
+     * Determine if mixin exists
+     * @param fullname {String} mixin name to check
+     * @return {Boolean} true if mixin exists
+     */
+    isDefined : function(fullname) {
+      return arguments.callee.statics.byName(fullname) !== undefined;
     }
   }
-
-  /*
-  ---------------------------------------------------------------------------
-    Mixin registration
-  ---------------------------------------------------------------------------
-  */
-
-  qx.Mixin._registry[vMixinName] = qx._Mixin;
-  qx._Mixin.name = vMixinName;
-  qx._Mixin.isMixin = true;
-};
-
-
-/**
- * Determine if mixin exists
- * @param vMixinName {String} mixin name to check
- * @return {Boolean} true if mixin exists
- */
-qx.Mixin.isAvailable = function(vMixinName) {
-  return typeof qx.Mixin._registry[vMixinName] !== "undefined";
-};
+});
