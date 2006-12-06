@@ -2,7 +2,7 @@
 # VARIABLES
 ###################################################################################
 
-FRAMEWORK=../framework
+FRAMEWORK=../../framework
 GENERATOR=$(FRAMEWORK)/tool/generator.py
 CACHE=$(FRAMEWORK)/.cache
 SOURCELOADER=
