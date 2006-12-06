@@ -22,46 +22,53 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.Locale", 
+qx.Clazz.define("qx.Locale",
 {
   statics :
   {
+    /** {var} TODOC */
     _registry : {},
-    
+
     /**
      * Locale definition
-     *
+     * 
      * Example:
      * <pre><code>
      * qx.Locale.define("fullname",
      * {
-     *   "msgId": "msgText",
-     *   ...
+     * "msgId": "msgText",
+     * ...
      * });
      * </code></pre>
-     * 
+     *
+     * @type static
+     * @name define
+     * @access public
      * @param fullname {String} name of the mixin
-     * @param definition {Map ? null} definition structure
-     */      
-    define : function(fullname, definition)
-    {
-      
-      
-    },
-    
-    
+     * @param definition {Map} definition structure
+     * @return {void} 
+     */
+    define : function(fullname, definition) {},
+
     /**
      * Returns a locale by name
+     *
+     * @type static
+     * @name byName
+     * @access public
      * @param fullname {String} locale name to check
-     * @return {Object|void} locale object
+     * @return {Object | void} locale object
      */
     byName : function(fullname) {
       return arguments.callee.statics._registry[fullname];
     },
-    
-    
+
     /**
      * Determine if locale exists
+     *
+     * @type static
+     * @name isDefined
+     * @access public
      * @param fullname {String} locale name to check
      * @return {Boolean} true if locale exists
      */
