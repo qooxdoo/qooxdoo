@@ -58,7 +58,7 @@ def extractFileContentId(data):
 
   for item in config.QXHEAD["classDefine"].findall(data):
     return item
-
+  
   # TODO: Obsolete with 0.7
   for item in config.QXHEAD["defineClass"].findall(data):
     return item[0]
@@ -458,7 +458,7 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sour
 
     # Search for valid ID
     if fileContentId == None:
-      print "    - Could not extract ID from file: %s. Using fileName!" % filePath
+      print "    - Could not extract ID from file: %s. Fallback to path %s!" % (filePath, filePathId)
       fileId = filePathId
 
     else:
