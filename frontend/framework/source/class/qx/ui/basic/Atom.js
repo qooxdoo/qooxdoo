@@ -48,7 +48,7 @@ function(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)
   this.setLabel(vLabel);
 
   // Simple flash wrapper
-  if (qx.OO.isAvailable("qx.ui.embed.Flash") && qx.util.Validation.isValidString(vFlash) && qx.util.Validation.isValidNumber(vIconWidth) && qx.util.Validation.isValidNumber(vIconHeight) && qx.ui.embed.Flash.getPlayerVersion().getMajor() > 0)
+  if (qx.OO.isAvailable("qx.ui.embed.Flash") && vFlash != null && vIconWidth != null && vIconHeight != null && qx.ui.embed.Flash.getPlayerVersion().getMajor() > 0)
   {
     this._flashMode = true;
 
@@ -58,15 +58,15 @@ function(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)
     this.setIconWidth(vIconWidth);
     this.setIconHeight(vIconHeight);
   }
-  else if (qx.util.Validation.isValidString(vIcon))
+  else if (vIcon != null)
   {
     this.setIcon(vIcon);
 
-    if (qx.util.Validation.isValidNumber(vIconWidth)) {
+    if (vIconWidth != null) {
       this.setIconWidth(vIconWidth);
     }
 
-    if (qx.util.Validation.isValidNumber(vIconHeight)) {
+    if (vIconHeight != null) {
       this.setIconHeight(vIconHeight);
     }
   }
@@ -305,7 +305,7 @@ qx.Proto._handleLabel = function()
   {
     case qx.ui.basic.Atom.SHOW_LABEL:
     case qx.ui.basic.Atom.SHOW_BOTH:
-      this._labelIsVisible = (typeof this.getLabel() == "string" && this.getLabel() != "") || this.getLabel() instanceof qx.nls.LocalizedString;
+      this._labelIsVisible = qx.util.Validation.isValidString(this.getLabel()) || this.getLabel() instanceof qx.nls.LocalizedString;
       break;
 
     default:

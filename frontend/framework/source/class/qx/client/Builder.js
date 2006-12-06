@@ -101,14 +101,14 @@ qx.Proto._buildNodes = function(parent, nodes) {
 }
 
 qx.Proto._buildEventListener = function(widget, args, text) {
-  if (qx.util.Validation.isInvalidString(args.type)) {
+  if (typeof args.type !== "string") {
     throw this._newError('eventListener requires a string type attribute');
   }
 
   var self = this;
 
   // are we delegating ?
-  if (qx.util.Validation.isValidString(args.delegate)) {
+  if (typeof args.delegate === "string") {
 
     if (args.delegate.indexOf('.') > -1) {
       // delegation to a global method

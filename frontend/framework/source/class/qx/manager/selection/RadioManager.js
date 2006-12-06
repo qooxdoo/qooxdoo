@@ -35,9 +35,10 @@ function(vName, vMembers)
   this._items = [];
 
   // apply name property
-  this.setName(qx.util.Validation.isValidString(vName) ? vName : qx.manager.selection.RadioManager.AUTO_NAME_PREFIX + this._hashCode);
+  this.setName(vName != null ? vName : qx.manager.selection.RadioManager.AUTO_NAME_PREFIX + this._hashCode);
 
-  if (qx.util.Validation.isValidArray(vMembers)) {
+  if (vMembers != null) 
+  {
     // add() iterates over arguments, but vMembers is an array
     this.add.apply(this, vMembers);
   }

@@ -41,11 +41,11 @@ function(vSource, vVersion)
   this._params = {};
   this._variables = {};
 
-  if(qx.util.Validation.isValidString(vSource)) {
+  if(vSource != null) {
     this.setSource(vSource);
   }
 
-  this.setVersion(qx.util.Validation.isValidString(vVersion) ? vVersion : qx.ui.embed.Flash.MINREQUIRED);
+  this.setVersion(vVersion != null ? vVersion : qx.ui.embed.Flash.MINREQUIRED);
 });
 
 qx.OO.addProperty({ name : "source", type : "string" });

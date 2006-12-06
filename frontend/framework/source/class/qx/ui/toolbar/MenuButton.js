@@ -28,7 +28,7 @@ function(vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash)
 {
   qx.ui.toolbar.Button.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
 
-  if (qx.util.Validation.isValidObject(vMenu)) {
+  if (vMenu != null) {
     this.setMenu(vMenu);
   }
 

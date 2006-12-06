@@ -30,7 +30,7 @@ function(vLabel, vCommand, vChecked)
 {
   qx.ui.menu.Button.call(this, vLabel, "static/image/blank.gif", vCommand);
 
-  if (qx.util.Validation.isValidBoolean(vChecked)) {
+  if (vChecked != null) {
     this.setChecked(vChecked);
   }
 

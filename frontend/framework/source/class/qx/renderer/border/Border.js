@@ -36,15 +36,15 @@ function(vWidth, vStyle, vColor)
   this._themedEdges = {};
   this._initCache();
 
-  if (qx.util.Validation.isValidNumber(vWidth))
+  if (vWidth != null)
   {
     this.setWidth(vWidth);
 
-    if (qx.util.Validation.isValidString(vStyle)) {
+    if (vStyle != null) {
       this.setStyle(vStyle);
     }
 
-    if (qx.util.Validation.isValid(vColor)) {
+    if (vColor != null) {
       this.setColor(vColor);
     }
   }
@@ -429,15 +429,15 @@ qx.Proto._generateDefString = function(vWidth, vStyle, vColor)
 
   var vArr = [ vWidth + "px" ];
 
-  if (qx.util.Validation.isValidString(vStyle)) {
+  if (vStyle != null) {
     vArr.push(vStyle);
   }
 
-  if (qx.util.Validation.isValidObject(vColor) && vColor instanceof qx.renderer.color.Color) {
+  if (vColor instanceof qx.renderer.color.Color) {
     vColor = vColor.getStyle();
   }
 
-  if (qx.util.Validation.isValidString(vColor)) {
+  if (vColor != null) {
     vArr.push(vColor);
   }
 

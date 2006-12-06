@@ -164,7 +164,7 @@ qx.Proto._computePath = function(vPath)
       var vAlias = vPath.substring(0, vPath.indexOf("/"));
       var vResolved = this._aliases[vAlias];
 
-      if (qx.util.Validation.isValidString(vResolved)) {
+      if (vResolved != null) {
         return vResolved + vPath.substring(vAlias.length);
       }
 

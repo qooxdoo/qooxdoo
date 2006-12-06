@@ -29,7 +29,7 @@ function(vHtml)
 {
   qx.ui.basic.Terminator.call(this);
 
-  if (qx.util.Validation.isValidString(vHtml)) {
+  if (vHtml != null) {
     this.setHtml(vHtml);
   }
 });

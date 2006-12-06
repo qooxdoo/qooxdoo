@@ -27,7 +27,7 @@
 qx.OO.defineClass("qx.renderer.color.Color", qx.core.Object,
 function(vValue)
 {
-  if (qx.util.Validation.isValid(vValue)) {
+  if (vValue != null) {
     this.setValue(vValue);
   }
 
@@ -303,9 +303,9 @@ qx.Proto._evalStyle = function()
   {
     this._style = this._value;
   }
-  else if (qx.util.Validation.isValid(this._value))
+  else if (this._value != null)
   {
-    throw new Error("_evalStyle could not handle non-rgb colors :" + this.getValue() + "!");
+    this.error("Could not handle non-rgb colors :" + this.getValue() + "!");
   }
 }
 

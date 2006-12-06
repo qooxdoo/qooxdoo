@@ -38,11 +38,11 @@ function(vSource, vWidth, vHeight)
   this.setHtmlProperty("title", "");
 
   // Apply constructor arguments
-  this.setSource(qx.util.Validation.isValid(vSource) ? vSource : "static/image/blank.gif");
+  this.setSource(vSource || "static/image/blank.gif");
 
   // Dimensions
-  this.setWidth(qx.util.Validation.isValid(vWidth) ? vWidth : "auto");
-  this.setHeight(qx.util.Validation.isValid(vHeight) ? vHeight : "auto");
+  this.setWidth(vWidth !== undefined ? vWidth : "auto");
+  this.setHeight(vHeight !== undefined ? vHeight : "auto");
 
   // Prohibit selection
   this.setSelectable(false);

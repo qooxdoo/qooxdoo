@@ -29,7 +29,7 @@ function(vId)
 
   this.setStyleProperty("position", "relative");
 
-  if (qx.util.Validation.isValidString(vId)) {
+  if (vId != null) {
     this.setInlineNodeId(vId);
   }
 });

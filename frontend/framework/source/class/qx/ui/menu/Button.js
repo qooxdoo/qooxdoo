@@ -52,17 +52,19 @@ function(vLabel, vIcon, vCommand, vMenu)
   //   INIT
   // ************************************************************************
 
-  this.setLabel(vLabel);
+  if (vLabel != null) {
+    this.setLabel(vLabel);
+  }
 
-  if (qx.util.Validation.isValidString(vIcon)) {
+  if (vIcon != null) {
     this.setIcon(vIcon);
   }
 
-  if (qx.util.Validation.isValid(vCommand)) {
+  if (vCommand != null) {
     this.setCommand(vCommand);
   }
 
-  if (qx.util.Validation.isValid(vMenu)) {
+  if (vMenu != null) {
     this.setMenu(vMenu);
   }
 
@@ -272,7 +274,7 @@ qx.Proto._modifyCommand = function(propValue, propOldValue, propData)
 
 qx.Proto._modifyMenu = function(propValue, propOldValue, propData)
 {
-  if (qx.util.Validation.isValidObject(propValue))
+  if (propValue)
   {
     this._hasMenu = true;
 

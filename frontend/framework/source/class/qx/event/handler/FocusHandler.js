@@ -32,7 +32,7 @@ function(vWidget)
 {
   qx.core.Target.call(this);
 
-  if (qx.util.Validation.isValidObject(vWidget)) {
+  if (vWidget != null) {
     this._attachedWidget = vWidget;
   }
 });

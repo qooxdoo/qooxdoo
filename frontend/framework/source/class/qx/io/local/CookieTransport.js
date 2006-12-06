@@ -42,7 +42,7 @@ qx.OO.defineClass("qx.io.local.CookieTransport",
 
 qx.Class.set = function(vName, vValue)
 {
-  if (!qx.util.Validation.isValid(vValue)) {
+  if (vValue === undefined) {
     return qx.io.local.CookieTransport.del(vName);
   }
 
@@ -55,12 +55,7 @@ qx.Class.get = function(vName)
 {
   var vAll = qx.io.local.CookieTransport._getAll();
 
-  var vValue = qx.io.local.CookieTransport._getAll()[vName];
-  if (qx.util.Validation.isValidString(vValue)) {
-    return vValue;
-  }
-
-  return "";
+  return vAll[vName] || "";
 }
 
 qx.Class.del = function(vName)

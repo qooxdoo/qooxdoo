@@ -27,7 +27,7 @@ function(vText, vIcon, vChecked)
 {
   qx.ui.toolbar.Button.call(this, vText, vIcon);
 
-  if (qx.util.Validation.isValid(vChecked)) {
+  if (vChecked != null) {
     this.setChecked(vChecked);
   }
 });

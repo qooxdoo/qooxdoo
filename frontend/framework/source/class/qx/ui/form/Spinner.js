@@ -106,15 +106,15 @@ function(vMin, vValue, vMax)
   //   INITIALIZATION
   // ************************************************************************
 
-  if(qx.util.Validation.isValidNumber(vMin)) {
+  if(vMin != null) {
     this.setMin(vMin);
   }
 
-  if(qx.util.Validation.isValidNumber(vMax)) {
+  if(vMax != null) {
     this.setMax(vMax);
   }
 
-  if(qx.util.Validation.isValidNumber(vValue)) {
+  if(vValue != null) {
     this.setValue(vValue);
   }
 });
