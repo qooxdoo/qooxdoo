@@ -40,7 +40,7 @@ function(vLegend, vIcon)
   // ************************************************************************
   this.setLegend(vLegend);
 
-  if (qx.util.Validation.isValidString(vIcon)) {
+  if (vIcon != null) {
     this.setIcon(vIcon);
   }
 

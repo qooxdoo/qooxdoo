@@ -1167,7 +1167,7 @@ qx.ui.core.Widget.getActiveSiblingHelper = function(vObject, vParent, vCalc, vIg
   }
 
   var vChilds = vParent.getChildren();
-  var vPosition = qx.util.Validation.isInvalid(vMode) ? vChilds.indexOf(vObject) + vCalc : vMode == "first" ? 0 : vChilds.length-1;
+  var vPosition = vMode == null ? vChilds.indexOf(vObject) + vCalc : vMode === "first" ? 0 : vChilds.length-1;
   var vInstance = vChilds[vPosition];
 
   while(!vInstance.isEnabled() || qx.ui.core.Widget.getActiveSiblingHelperIgnore(vIgnoreClasses, vInstance))
@@ -1366,7 +1366,7 @@ qx.Proto._modifyParent = function(propValue, propOldValue, propData)
   {
     this._hasParent = true;
 
-    if (qx.util.Validation.isValidNumber(this._insertIndex))
+    if (typeof this._insertIndex == "number")
     {
       qx.lang.Array.insertAt(propValue.getChildren(), this, this._insertIndex);
       delete this._insertIndex;
@@ -1809,7 +1809,7 @@ qx.Proto._createElementImpl = function() {
 
 qx.Proto._modifyElement = function(propValue, propOldValue, propData)
 {
-  this._isCreated = qx.util.Validation.isValidElement(propValue);
+  this._isCreated = propValue != null;
 
   if (propOldValue)
   {
@@ -4696,16 +4696,12 @@ if(qx.sys.Client.getInstance().isMshtml())
     {
       this.removeStyleProperty("filter");
     }
-    else if (qx.util.Validation.isValidNumber(propValue))
+    else
     {
       this.setStyleProperty("filter",
                             ("Alpha(Opacity=" +
                              Math.round(propValue * 100) +
                              ")"));
-    }
-    else
-    {
-      throw new Error("Unsupported opacity value: " + propValue);
     }
 
     return true;
@@ -4728,7 +4724,7 @@ else
 
       this.removeStyleProperty("opacity");
     }
-    else if (qx.util.Validation.isValidNumber(propValue))
+    else
     {
       propValue = qx.lang.Number.limit(propValue, 0, 1);
 
@@ -5294,7 +5290,7 @@ qx.Proto.clone = function(cloneRecursive, customPropertyList)
   var propertyIngoreList = this._clonePropertyIgnoreList.split(",");
 
   // Build new filtered property list
-  var sourcePropertyList = qx.util.Validation.isValid(customPropertyList) ? customPropertyList : this._properties.split(",");
+  var sourcePropertyList = customPropertyList != null ? customPropertyList : this._properties.split(",");
   var sourcePropertyListLength = sourcePropertyList.length-1;
   do {
     propertyName = sourcePropertyList[sourcePropertyListLength];

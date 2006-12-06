@@ -70,13 +70,11 @@ qx.Proto.addEventListener = function(vType, vFunction, vObject)
 
   // If this is the first event of given type, we need to create a subobject
   // that contains all the actions that will be assigned to this type
-  if (typeof this._listeners === "undefined")
-  {
+  if (this._listeners === undefined) {
     this._listeners = {};
-    this._listeners[vType] = {};
   }
-  else if(typeof this._listeners[vType] === "undefined")
-  {
+  
+  if(this._listeners[vType] === undefined) {
     this._listeners[vType] = {};
   }
 
@@ -106,7 +104,7 @@ qx.Proto.removeEventListener = function(vType, vFunction, vObject)
   }
 
   var vListeners = this._listeners;
-  if (!vListeners || typeof vListeners[vType] === "undefined") {
+  if (!vListeners || vListeners[vType] === undefined) {
     return;
   }
 
@@ -233,14 +231,12 @@ qx.Proto._dispatchEvent = function(vEvent)
       {
         // Shortcuts for handler and object
         vFunction = vTypeListeners[vHashCode].handler;
-        vObject = vTypeListeners[vHashCode].object;
+        vObject = vTypeListeners[vHashCode].object || this;
 
         // Call object function
         try
         {
-          if(typeof vFunction === "function") {
-            vFunction.call(qx.util.Validation.isValid(vObject) ? vObject : this, vEvent);
-          }
+          vFunction.call(vObject, vEvent);
         }
         catch(ex)
         {

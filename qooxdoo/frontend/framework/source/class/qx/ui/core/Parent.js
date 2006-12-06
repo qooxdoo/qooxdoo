@@ -175,8 +175,8 @@ qx.Proto._modifyFocusedChild = function(propValue, propOldValue, propData)
 {
   // this.debug("FocusedChild: " + propValue);
 
-  var vFocusValid = qx.util.Validation.isValidObject(propValue);
-  var vBlurValid = qx.util.Validation.isValidObject(propOldValue);
+  var vFocusValid = propValue != null;
+  var vBlurValid = propOldValue != null;
 
   if (qx.OO.isAvailable("qx.manager.object.PopupManager") && vFocusValid)
   {
@@ -486,7 +486,7 @@ qx.Proto.add = function()
 
 qx.Proto.addAt = function(vChild, vIndex)
 {
-  if (qx.util.Validation.isInvalidNumber(vIndex) || vIndex == -1) {
+  if (vIndex == null || vIndex < 0) {
     throw new Error("Not a valid index for addAt(): " + vIndex);
   }
 

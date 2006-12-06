@@ -29,7 +29,7 @@ function(vOrientation)
   qx.ui.core.Parent.call(this);
 
   // apply orientation
-  if (qx.util.Validation.isValidString(vOrientation)) {
+  if (vOrientation != null) {
     this.setOrientation(vOrientation);
   }
 });

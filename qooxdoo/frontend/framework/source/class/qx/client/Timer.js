@@ -34,7 +34,7 @@ function(vInterval)
 
   this.setEnabled(false);
 
-  if (qx.util.Validation.isValidNumber(vInterval)) {
+  if (vInterval != null) {
     this.setInterval(vInterval);
   }
 

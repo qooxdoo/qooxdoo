@@ -664,7 +664,7 @@ qx.Proto.getResponseXml = function()
 qx.Proto.getFetchedLength = function()
 {
   var vText = this.getResponseText();
-  return qx.util.Validation.isValidString(vText) ? vText.length : 0;
+  return typeof vText == "string" ? vText.length : 0;
 }
 
 qx.Proto.getResponseContent = function()

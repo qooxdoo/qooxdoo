@@ -26,15 +26,15 @@ function(vHtml, vIcon, vIconWidth, vIconHeight)
 {
   qx.ui.embed.HtmlEmbed.call(this, vHtml);
 
-  if (typeof vIcon != "undefined")
+  if (vIcon != null)
   {
     this.setIcon(vIcon);
 
-    if (typeof vIconWidth != "undefined") {
+    if (vIconWidth != null) {
       this.setIconWidth(vIconWidth);
     }
 
-    if (typeof vIconHeight != "undefined") {
+    if (vIconHeight != null) {
       this.setIconHeight(vIconWidth);
     }
   }
@@ -93,21 +93,21 @@ qx.Proto._syncHtml = function()
     vHtml.push(qx.manager.object.AliasManager.getInstance().resolvePath(this._mshtml ? "static/image/blank.gif" : this.getIcon()));
     vHtml.push("\" style=\"vertical-align:middle;");
 
-    if (qx.util.Validation.isValidNumber(this.getSpacing()))
+    if (this.getSpacing() != null)
     {
       vHtml.push("margin-right:");
       vHtml.push(this.getSpacing());
       vHtml.push("px;");
     }
 
-    if (qx.util.Validation.isValidNumber(this.getIconWidth()))
+    if (this.getIconWidth() != null)
     {
       vHtml.push("width:");
       vHtml.push(this.getIconWidth());
       vHtml.push("px;");
     }
 
-    if (qx.util.Validation.isValidNumber(this.getIconHeight()))
+    if (this.getIconHeight() != null)
     {
       vHtml.push("height:");
       vHtml.push(this.getIconHeight());

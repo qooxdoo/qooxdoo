@@ -26,7 +26,7 @@ function(vButton)
 {
   qx.ui.layout.CanvasLayout.call(this);
 
-  if (qx.util.Validation.isValid(vButton)) {
+  if (vButton != null) {
     this.setButton(vButton);
   }
 });

@@ -54,7 +54,7 @@ if (qx.sys.Client.getInstance().isGecko())
       {
         pa = pa.parentNode;
 
-        if (!pa || qx.util.Validation.isInvalidString(pa.tagName)) {
+        if (!pa || typeof pa.tagName !== "string") {
           break;
         }
 
@@ -91,7 +91,7 @@ if (qx.sys.Client.getInstance().isGecko())
       {
         pa = pa.parentNode;
 
-        if (!pa || qx.util.Validation.isInvalidString(pa.tagName)) {
+        if (!pa || typeof pa.tagName !== "string") {
           break;
         }
 

@@ -35,7 +35,7 @@ function(vBoundedWidget)
 
   this._selectedItems = new qx.type.Selection(this);
 
-  if (qx.util.Validation.isValid(vBoundedWidget)) {
+  if (vBoundedWidget != null) {
     this.setBoundedWidget(vBoundedWidget);
   }
 });

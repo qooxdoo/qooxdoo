@@ -98,7 +98,7 @@ qx.Class.add = function(str, v, sep)
   }
   else
   {
-    if (qx.util.Validation.isInvalid(sep)) {
+    if (sep == null) {
       sep = ",";
     }
 
@@ -124,7 +124,7 @@ qx.Class.remove = function(str, v, sep)
   }
   else
   {
-    if (qx.util.Validation.isInvalid(sep)) {
+    if (sep == null) {
       sep = ",";
     }
 

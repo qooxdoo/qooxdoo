@@ -34,11 +34,11 @@ function(vSize, vName)
 
   this._defs = {};
 
-  if (qx.util.Validation.isValidNumber(vSize)) {
+  if (vSize != null) {
     this.setSize(vSize);
   }
 
-  if (qx.util.Validation.isValidString(vName)) {
+  if (vName != null) {
     this.setName(vName);
   }
 });
@@ -164,11 +164,11 @@ qx.Proto._compile = function()
     vDecoration += " " + "strikeout";
   }
 
-  this._defs.fontFamily = qx.util.Validation.isValidString(vName) ? vName : "";
-  this._defs.fontSize = qx.util.Validation.isValidNumber(vSize) ? vSize + "px" : "";
+  this._defs.fontFamily = vName || "";
+  this._defs.fontSize = typeof vSize == "number" ? vSize + "px" : "";
   this._defs.fontWeight = this.getBold() ? "bold" : "normal";
   this._defs.fontStyle = this.getItalic() ? "italic" : "normal";
-  this._defs.textDecoration = qx.util.Validation.isValidString(vDecoration) ? vDecoration : "";
+  this._defs.textDecoration = vDecoration || "";
 
   this._needsCompilation = false;
 }
