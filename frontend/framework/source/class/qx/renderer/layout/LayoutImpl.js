@@ -26,7 +26,7 @@
 
 /**
  * Abstact base class of all layout implementations
- * 
+ *
  * @param vWidget {qx.ui.core.Parent} reference to the associated widget
  */
 qx.OO.defineClass("qx.renderer.layout.LayoutImpl", qx.core.Object,
@@ -42,7 +42,7 @@ function(vWidget)
 
 /**
  * Returns the associated widget
- * 
+ *
  * @return {qx.ui.core.Parent} reference to the associated widget
  */
 qx.Proto.getWidget = function() {
@@ -74,7 +74,7 @@ qx.Proto.getWidget = function() {
 
 /**
  * Compute and return the box width of the given child
- * 
+ *
  * @param vChild {qx.ui.core.Widget}
  * @return {int} box width of the given child
  */
@@ -84,7 +84,7 @@ qx.Proto.computeChildBoxWidth = function(vChild) {
 
 /**
  * Compute and return the box height of the given child
- * 
+ *
  * @param vChild {qx.ui.core.Widget}
  * @return {int} box height of the given child
  */
@@ -104,7 +104,7 @@ qx.Proto.computeChildBoxHeight = function(vChild) {
 
 /**
  * Compute and return the needed width of the given child
- * 
+ *
  * @param vChild {qx.ui.core.Widget}
  * @return {int} needed width
  */
@@ -122,7 +122,7 @@ qx.Proto.computeChildNeededWidth = function(vChild)
 
 /**
  * Compute and return the needed height of the given child
- * 
+ *
  * @param vChild {qx.ui.core.Widget}
  * @return {int} needed height
  */
@@ -149,7 +149,7 @@ qx.Proto.computeChildNeededHeight = function(vChild)
 
 /**
  * Calculate the maximum needed width of all children
- * 
+ *
  * @return {int} maximum needed width of all children
  */
 qx.Proto.computeChildrenNeededWidth_max = function()
@@ -163,7 +163,7 @@ qx.Proto.computeChildrenNeededWidth_max = function()
 
 /**
  * Calculate the maximum needed height of all children
- * 
+ *
  * @return {int} maximum needed height of all children
  */
 qx.Proto.computeChildrenNeededHeight_max = function()
@@ -177,7 +177,7 @@ qx.Proto.computeChildrenNeededHeight_max = function()
 
 /**
  * Compute and return the width needed by all children of this widget
- * 
+ *
  * @return {int}
  */
 qx.Proto.computeChildrenNeededWidth_sum = function()
@@ -191,7 +191,7 @@ qx.Proto.computeChildrenNeededWidth_sum = function()
 
 /**
  * Compute and return the height needed by all children of this widget
- * 
+ *
  * @return {int} height needed by all children of this widget
  */
 qx.Proto.computeChildrenNeededHeight_sum = function()
@@ -205,14 +205,14 @@ qx.Proto.computeChildrenNeededHeight_sum = function()
 
 /**
  * Compute and return the width needed by all children of this widget
- * 
+ *
  * @return {int} width needed by all children of this widget
  */
 qx.Proto.computeChildrenNeededWidth = qx.Proto.computeChildrenNeededWidth_max;
 
 /**
  * Compute and return the height needed by all children of this widget
- * 
+ *
  * @return {int} height needed by all children of this widget
  */
 qx.Proto.computeChildrenNeededHeight = qx.Proto.computeChildrenNeededHeight_max;
@@ -229,9 +229,9 @@ qx.Proto.computeChildrenNeededHeight = qx.Proto.computeChildrenNeededHeight_max;
 /**
  * Things to do and layout when any of the childs changes its outer width.
  * Needed by layouts where the children depend on each other, like flow or box layouts.
- * 
+ *
  * Subclasses might implement this method
- * 
+ *
  * @param vChild {qx.ui.core.Widget} changed child widget
  */
 qx.Proto.updateSelfOnChildOuterWidthChange = function(vChild) {}
@@ -239,9 +239,9 @@ qx.Proto.updateSelfOnChildOuterWidthChange = function(vChild) {}
 /**
  * Things to do and layout when any of the childs changes its outer height.
  * Needed by layouts where the children depend on each other, like flow or box layouts.
- * 
+ *
  * Subclasses might implement this method
- * 
+ *
  * @param vChild {qx.ui.core.Widget} changed child widget
  */
 qx.Proto.updateSelfOnChildOuterHeightChange = function(vChild) {}
@@ -259,9 +259,9 @@ qx.Proto.updateSelfOnChildOuterHeightChange = function(vChild) {}
 /**
  * Actions that should be done if the inner width of the layout widget has changed.
  * Normally this includes updates to percent values and ranges.
- * 
+ *
  * Subclasses might implement this method
- * 
+ *
  * @param vChild {qx.ui.core.Widget} changed child widget
  */
 qx.Proto.updateChildOnInnerWidthChange = function(vChild) {}
@@ -269,9 +269,9 @@ qx.Proto.updateChildOnInnerWidthChange = function(vChild) {}
 /**
  * Actions that should be done if the inner height of the layout widget has changed.
  * Normally this includes updates to percent values and ranges.
- * 
+ *
  * Subclasses might implement this method
- * 
+ *
  * @param vChild {qx.ui.core.Widget} changed child widget
  */
 qx.Proto.updateChildOnInnerHeightChange = function(vChild) {}
@@ -289,9 +289,9 @@ qx.Proto.updateChildOnInnerHeightChange = function(vChild) {}
 /**
  * Invalidate and recompute cached data according to job queue.
  * This is executed at the beginning of the job queue handling.
- * 
+ *
  * Subclasses might implement this method
- * 
+ *
  * @param vJobQueue {Object}
  */
 qx.Proto.updateSelfOnJobQueueFlush = function(vJobQueue) {}
@@ -309,9 +309,9 @@ qx.Proto.updateSelfOnJobQueueFlush = function(vJobQueue) {}
 /**
  * Updates children on job queue flush.
  * This is executed at the end of the job queue handling.
- * 
+ *
  * Subclasses might implement this method
- * 
+ *
  * @param vJobQueue {Object}
  */
 qx.Proto.updateChildrenOnJobQueueFlush = function(vJobQueue) {}
@@ -329,9 +329,9 @@ qx.Proto.updateChildrenOnJobQueueFlush = function(vJobQueue) {}
 
 /**
  * Add child to current layout. Rarely needed by some layout implementations.
- * 
+ *
  * Subclasses might implement this method
- * 
+ *
  * @param vChild {qx.ui.core.Widget} newly added child
  * @param vIndex {int} index of the child
  */
@@ -340,9 +340,9 @@ qx.Proto.updateChildrenOnAddChild = function(vChild, vIndex) {}
 /**
  *Remove child from current layout.
  * Needed by layouts where the children depend on each other, like flow or box layouts.
- * 
+ *
  * Subclasses might implement this method
- * 
+ *
  * @param vChild {qx.ui.core.Widget} newly added child
  * @param vIndex {int} index of the child
  */
@@ -351,9 +351,9 @@ qx.Proto.updateChildrenOnAddChild = function(vChild, vIndex) {}
 /**
  * Move child within its parent to a new position.
  *  Needed by layouts where the children depend on each other, like flow or box layouts.
- * 
+ *
  * Subclasses might implement this method
- * 
+ *
  * @param vChild {qx.ui.core.Widget} newly added child
  * @param vIndex {int} new index of the child
  * @param vOldIndex {int} old index of the child
@@ -374,8 +374,8 @@ qx.Proto.updateChildrenOnMoveChild = function(vChild, vIndex, vOldIndex) {}
 
 /**
  * Has full control of the order in which the registered
- * (or non-registered) children should be layouted. 
- * 
+ * (or non-registered) children should be layouted.
+ *
  * @param vChildrenQueue {Object}
  */
 qx.Proto.flushChildrenQueue = function(vChildrenQueue)
@@ -405,8 +405,8 @@ qx.Proto.flushChildrenQueue = function(vChildrenQueue)
  * (excluding border and padding) to the child.
  *
  * @param vChild {qx.ui.core.Widget} child to layout
- * @param vJobs {Set} layout changes to perform  
- */ 
+ * @param vJobs {Set} layout changes to perform
+ */
 qx.Proto.layoutChild = function(vChild, vJobs) {}
 
 
@@ -416,20 +416,20 @@ qx.Proto.layoutChild = function(vChild, vJobs) {}
  *  versions of Internet Explorer)
  *
  * @param vChild {qx.ui.core.Widget} child to layout
- * @param vJobs {Set} layout changes to perform  
+ * @param vJobs {Set} layout changes to perform
  */
 qx.Proto.layoutChild_sizeLimitX = function(vChild, vJobs) {}
- 
+
 /**
  * Apply min-/max-height to the child. Direct usage of stylesheet properties.
  * This is only possible in modern capable clients (i.e. excluding all current
  *  versions of Internet Explorer)
- * 
+ *
  * @param vChild {qx.ui.core.Widget} child to layout
- * @param vJobs {Set} layout changes to perform  
+ * @param vJobs {Set} layout changes to perform
  */
 qx.Proto.layoutChild_sizeLimitY = function(vChild, vJobs) {}
- 
+
 if (qx.sys.Client.getInstance().isMshtml())
 {
   qx.Proto.layoutChild_sizeLimitX = qx.util.Return.returnTrue;
@@ -475,9 +475,9 @@ else
 
 /**
  * Apply the X margin values as pure stylesheet equivalent.
- * 
+ *
  * @param vChild {qx.ui.core.Widget} child to layout
- * @param vJobs {Set} layout changes to perform  
+ * @param vJobs {Set} layout changes to perform
  */
 qx.Proto.layoutChild_marginX = function(vChild, vJobs)
 {
@@ -496,9 +496,9 @@ qx.Proto.layoutChild_marginX = function(vChild, vJobs)
 
 /**
  * Apply the Y margin values as pure stylesheet equivalent.
- * 
+ *
  * @param vChild {qx.ui.core.Widget} child to layout
- * @param vJobs {Set} layout changes to perform  
+ * @param vJobs {Set} layout changes to perform
  */
 qx.Proto.layoutChild_marginY = function(vChild, vJobs)
 {

@@ -291,7 +291,7 @@ qx.Proto.toString = function()
   var vKeyCode = this.getKeyCode();
 
   var vString = [];
-  
+
   if (vShortcut != null) {
     vString.push(vShortcut);
   }

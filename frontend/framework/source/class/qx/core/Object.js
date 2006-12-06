@@ -44,7 +44,7 @@ function(vAutoDispose)
   if (vAutoDispose !== false) {
     qx.core.Object._db.push(this);
   }
-  
+
   // Properties NG
   // Initialize data field for properties
   this._user_values_ng = {};
@@ -63,7 +63,7 @@ function(vAutoDispose)
       // We need to use the current function
       this["force" + vEntry.upname](vEntry.init);
     }
-  }  
+  }
 });
 
 

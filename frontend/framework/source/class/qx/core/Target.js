@@ -73,7 +73,7 @@ qx.Proto.addEventListener = function(vType, vFunction, vObject)
   if (this._listeners === undefined) {
     this._listeners = {};
   }
-  
+
   if(this._listeners[vType] === undefined) {
     this._listeners[vType] = {};
   }

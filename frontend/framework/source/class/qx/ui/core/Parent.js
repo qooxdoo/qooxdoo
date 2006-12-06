@@ -28,7 +28,7 @@
 
 /**
  * Abstract base class for all widget which have child widgets (e.g. layout manager)
- * 
+ *
  * Don't instantiate this class directly.
  */
 qx.OO.defineClass("qx.ui.core.Parent", qx.ui.core.Widget,
@@ -94,7 +94,7 @@ qx.OO.addCachedProperty({ name : "visibleChildren", defaultValue : null });
 /**
  * Wether the widget has its own focus handler or uses one of its parent's
  * focus handler.
- * 
+ *
  * @return {boolean} wether the widget has its own focus handler
  */
 qx.Proto.isFocusRoot = function() {
@@ -104,7 +104,7 @@ qx.Proto.isFocusRoot = function() {
 
 /**
  * Return the responsible focus handler
- * 
+ *
  * @return {qx.event.handler.FocusHandler}
  */
 qx.Proto.getFocusRoot = function()
@@ -294,9 +294,9 @@ qx.Proto._layoutImpl = null;
 
 /**
  * abstract method. Create layout implementation.
- * 
+ *
  * This method must be overwritten by all subclasses
- * 
+ *
  * return {qx.renderer.layout.LayoutImpl}
  */
 qx.Proto._createLayoutImpl = function() {
@@ -305,7 +305,7 @@ qx.Proto._createLayoutImpl = function() {
 
 /**
  * Return the layout implementation.
- * 
+ *
  * return {qx.renderer.layout.LayoutImpl}
  */
 qx.Proto.getLayoutImpl = function() {
@@ -326,7 +326,7 @@ qx.Proto.getLayoutImpl = function() {
 
 /**
  * Return the array of all children
- * 
+ *
  * @return {qx.ui.core.Widget[]} all children
  */
 qx.Proto.getChildren = function() {
@@ -335,7 +335,7 @@ qx.Proto.getChildren = function() {
 
 /**
  * Get number of children
- * 
+ *
  * @return {int} number of children
  */
 qx.Proto.getChildrenLength = function() {
@@ -344,7 +344,7 @@ qx.Proto.getChildrenLength = function() {
 
 /**
  * Check if the widget has children
- * 
+ *
  * @retun {boolean} wether the widget has children
  */
 qx.Proto.hasChildren = function() {
@@ -353,7 +353,7 @@ qx.Proto.hasChildren = function() {
 
 /**
  * Check if there are any childrens inside
- * 
+ *
  * @return {boolean} wether the number of children is 0
  */
 qx.Proto.isEmpty = function() {
@@ -362,7 +362,7 @@ qx.Proto.isEmpty = function() {
 
 /**
  * Get the index of a child widget.
- * 
+ *
  * @param vChild {qx.ui.core.Widget}
  * @return {int} index of the child widget
  */
@@ -372,7 +372,7 @@ qx.Proto.indexOf = function(vChild) {
 
 /**
  * Check if the given widget is a child
- * 
+ *
  * @param vWidget {qx.ui.core.Widget} The widget which should be checked.
  */
 qx.Proto.contains = function(vWidget)
@@ -407,7 +407,7 @@ qx.Proto.contains = function(vWidget)
 /**
  * Return the array of all visible children
  * (which are configured as visible=true)
- * 
+ *
  * @return {qx.ui.core.Widget[]} all visible children
  */
 qx.Proto._computeVisibleChildren = function()
