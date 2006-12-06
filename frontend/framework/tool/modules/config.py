@@ -23,7 +23,7 @@ DIRIGNORE = [ ".svn", "CVS" ]
 #
 
 QXHEAD = {
-  # TODO: Obsolete with 0.7
+  # TODO: Obsolete since 0.7
   "defineClass" : re.compile('qx.OO.defineClass\(\s*["\']([\.a-zA-Z0-9_-]+)["\'](\s*\,\s*([\.a-zA-Z0-9_-]+))?', re.M),
     
   # 0.7 API
