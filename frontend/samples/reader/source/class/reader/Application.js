@@ -71,9 +71,9 @@ qx.Proto.main = function(e)
 		width: "100%"
 	});
 	
-	var header = new qx.ui.embed.HtmlEmbed("<h1><span>qooxdoo</span> Feed Reader</h1>");
+	var header = new qx.ui.embed.HtmlEmbed("<h1><span>qooxdoo</span> reader</h1>");
 	header.setCssClassName("header");
-	header.setHeight(30);
+	header.setHeight(50);
 	dockLayout.addTop(header);
 
 	var reload_cmd = new qx.client.Command("Control+R");
