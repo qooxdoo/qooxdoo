@@ -23,8 +23,13 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("AtAGlance", qx.core.Object,
+qx.OO.defineClass("demo.AtAGlance", qx.component.AbstractApplication,
 function () {
+  qx.component.AbstractApplication.call(this);
+});
+
+qx.Proto.main = function(e)
+{
   qx.core.Object.call(this);
 
   var barView = new qx.ui.pageview.buttonview.ButtonView;
@@ -47,7 +52,7 @@ function () {
   this._createPage(barView, "Native Window",    "icon/32/display.png",          this._createNativeWindowDemo(), "threedface");
   this._createPage(barView, "Internal Window",  "icon/32/look-and-feel.png",    this._createInternalWindowDemo(), null, true);
   this._createPage(barView, "Themes",           "icon/32/style.png",            this._createThemesDemo());
-});
+};
 
 
 qx.Proto._createPage = function(barView, title, iconUrl, widget, backgroundColor, scrolls) {
