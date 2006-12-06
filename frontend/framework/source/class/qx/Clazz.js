@@ -31,57 +31,53 @@
 /*
  * Bootstrapping needed to let qx.Clazz create itself
  */
+
 qx.Clazz = {};
 
 /** registers all defined classes */
-qx.Clazz._registry = { "qx.Clazz": qx.Clazz };
+qx.Clazz._registry = { "qx.Clazz" : qx.Clazz };
 
 /**
  * Class definition
- *
+ * 
  * Example:
  * qx.Clazz.define("fullname",
  * {
- *   "extend": SuperClass,
- *   "implement": [Interfaces],
- *   "include" : [Mixins],
- *
- *   "statics":
- *   {
- *     static_property1: 3.141,
- *     static_method1: function() {}
- *   },
- *
- *   "properties":
- *   {
- *     "tabIndex": {type: "number", init: -1}
- *   },
- *
- *   "members":
- *   {
- *     public_property1: 3.141,
- *     public_method1: function() {},
- *
- *     _protected_property: 3.141,
- *     _protected_method1: function() {},
- *   }
+ * "extend": SuperClass,
+ * "implement": [Interfaces],
+ * "include" : [Mixins],
+ * 
+ * "statics":
+ * {
+ * static_property1: 3.141,
+ * static_method1: function() {}
+ * },
+ * 
+ * "properties":
+ * {
+ * "tabIndex": {type: "number", init: -1}
+ * },
+ * 
+ * "members":
+ * {
+ * public_property1: 3.141,
+ * public_method1: function() {},
+ * 
+ * _protected_property: 3.141,
+ * _protected_method1: function() {},
+ * }
  * });
  *
+ * @type object
+ * @name define
+ * @access public
  * @param fullname {String} class name
  * @param definition {Map,null} definition structure
- * @param definition.extend {Class,null} super class
- * @param definition.implement {List,null} list of interfaces that need to be implemented
- * @param definition.include {List,null} list of mixins to include
- * @param definition.settings {Map,null} hash of settings for this class
- * @param definition.init {Function,null} constructor method to run on each initialization
- * @param definition.statics {Map,null} hash of static properties and methods ("class members")
- * @param definition.properties {Map,null} hash of properties with generated setters and getters
- * @param definition.properties_ng {Map,null} hash of next-gen properties with generated setters and getters
- * @param definition.members {Map,null} hash of regular properties and methods ("instance members")
+ * @return {void} 
+ * @throws TODOC
  */
 qx.Clazz.define = function(fullname, definition)
 {
-
   /*
   ---------------------------------------------------------------------------
     Setting up namespace
@@ -93,17 +89,15 @@ qx.Clazz.define = function(fullname, definition)
   var vParentPackage = window;
   var vPartName = vSplitName[0];
 
-  for (var i=0, l=vSplitName.length-1; i<l; i++)
+  for (var i=0, l=vSplitName.length - 1; i<l; i++)
   {
     if (!vParentPackage[vPartName]) {
       vParentPackage[vPartName] = {};
     }
 
     vParentPackage = vParentPackage[vPartName];
-    vPartName = vSplitName[i+1];
+    vPartName = vSplitName[i + 1];
   }
-
-
 
 
 
@@ -151,13 +145,15 @@ qx.Clazz.define = function(fullname, definition)
         vStatics = vValue;
         break;
 
-      // Next generation property implementation
-      // Will be ready for 0.8
+        // Next generation property implementation
+        // Will be ready for 0.8
+
       case "properties_ng":
         vPropertiesNg = vValue;
         break;
 
-      // Compatibility to 0.6.x style properties
+        // Compatibility to 0.6.x style properties
+
       case "properties":
         vProperties = vValue;
         break;
@@ -170,7 +166,6 @@ qx.Clazz.define = function(fullname, definition)
         throw new Error("Invalid key '" + vKey + "' in class '" + fullname + "'! Key is not allowed!");
     }
   }
-
 
 
 
@@ -198,17 +193,18 @@ qx.Clazz.define = function(fullname, definition)
     vClass.basename = vPartName;
 
     // Compatibility to 0.6.x
+    /** {var} TODOC */
     qx.Proto = null;
+
+    /** {var} TODOC */
     qx.Class = vClass;
 
     // Store class reference in global class registry
     this._registry[fullname] = vClass;
 
     // Quit here
-    return;
+    return ;
   }
-
-
 
 
 
@@ -231,11 +227,20 @@ qx.Clazz.define = function(fullname, definition)
 
   // Use helper function/class to save the unnecessary constructor call while
   // setting up inheritance. Safari does not support "new Function"
+  /**
+   * TODOC
+   *
+   * @type function
+   * @return {void} 
+   */
   var vHelperClass = function() {};
+
+  /** {var} TODOC */
   vHelperClass.prototype = vSuperClass.prototype;
   var vPrototype = new vHelperClass;
 
   // Apply prototype to new helper instance
+  /** {var} TODOC */
   vClass.prototype = vPrototype;
 
   // Store own class and base name
@@ -246,6 +251,7 @@ qx.Clazz.define = function(fullname, definition)
   vClass.superclass = vPrototype.superclass = vSuperClass;
 
   // Store base constructor to constructor
+  /** {var} TODOC */
   vConstructor.base = vSuperClass;
 
   // Store correct constructor
@@ -255,10 +261,11 @@ qx.Clazz.define = function(fullname, definition)
   this._registry[fullname] = vClass;
 
   // Compatibility to 0.6.x
+  /** {var} TODOC */
   qx.Proto = vPrototype;
+
+  /** {var} TODOC */
   qx.Class = vClass;
-
-
 
 
 
@@ -279,8 +286,6 @@ qx.Clazz.define = function(fullname, definition)
 
 
 
-
-
   /*
   ---------------------------------------------------------------------------
     Attach class members
@@ -289,10 +294,10 @@ qx.Clazz.define = function(fullname, definition)
 
   if (vStatics)
   {
-    for(var vProp in vStatics) 
+    for (var vProp in vStatics)
     {
       vClass[vProp] = vStatics[vProp];
-      
+
       // Added helper stuff to functions
       if (typeof vStatics[vProp] == "function")
       {
@@ -301,8 +306,6 @@ qx.Clazz.define = function(fullname, definition)
       }
     }
   }
-
-
 
 
 
@@ -327,6 +330,7 @@ qx.Clazz.define = function(fullname, definition)
 
         // Attach members
         vMixinMembers = vMixins[i]._members;
+
         for (var vProp in vMixinMembers) {
           vPrototype[vProp] = vMixinMembers[vProp];
         }
@@ -336,13 +340,12 @@ qx.Clazz.define = function(fullname, definition)
     {
       // Attach members
       vMixinMembers = vMixins._members;
+
       for (var vProp in vMixinMembers) {
         vPrototype[vProp] = vMixinMembers[vProp];
       }
     }
   }
-
-
 
 
 
@@ -357,7 +360,7 @@ qx.Clazz.define = function(fullname, definition)
   {
     var vProperty;
 
-    for (var i=0,l=vProperties.length;i<l;i++)
+    for (var i=0, l=vProperties.length; i<l; i++)
     {
       vProperty = vProperties[i];
 
@@ -434,8 +437,6 @@ qx.Clazz.define = function(fullname, definition)
 
 
 
-
-
   /*
   ---------------------------------------------------------------------------
     Attach instance members
@@ -446,7 +447,7 @@ qx.Clazz.define = function(fullname, definition)
   {
     var vSuperProto = vSuperClass.prototype;
 
-    for(var vProp in vMembers)
+    for (var vProp in vMembers)
     {
       // Attach member
       vPrototype[vProp] = vMembers[vProp];
@@ -455,16 +456,14 @@ qx.Clazz.define = function(fullname, definition)
       if (typeof vMembers[vProp] == "function")
       {
         // Configure superclass (named base here)
+        /** {var} TODOC */
         vPrototype[vProp].base = vSuperProto[vProp];
-  
+
         // Configure class
         vPrototype[vProp].statics = vClass;
       }
     }
   }
-
-
-
 
 
 
@@ -486,19 +485,20 @@ qx.Clazz.define = function(fullname, definition)
       for (i=0; i<vTotal; i++)
       {
         if (typeof vInterfaces[i] === "undefined" || !vInterfaces[i].isInterface) {
-          throw new Error("Interface no. " + (i+1) + " to extend from is invalid.");
+          throw new Error("Interface no. " + (i + 1) + " to extend from is invalid.");
         }
 
         vInterfaceMembers = vInterfaces[i]._members;
 
-        for (vProp in vInterfaceMembers) {
-
+        for (vProp in vInterfaceMembers)
+        {
           if (typeof vInterfaceMembers[vProp] === "function")
           {
             if (typeof vPrototype[vProp] === "undefined") {
               throw new Error("Implementation of method " + vProp + "() missing in class " + fullname + " required by interface " + vInterfaces[i].name);
             }
-          } else if (typeof vClass[vProp] !== "undefined")
+          }
+          else if (typeof vClass[vProp] !== "undefined")
           {
             throw new Error("Existing property " + vProp + " in class " + fullname + " conflicts with interface " + vInterfaces[i].name);
           }
@@ -509,17 +509,17 @@ qx.Clazz.define = function(fullname, definition)
           }
         }
       }
-    }
-    else
-    {
-      // TODO
-    }
+    } else {}
   }
 };
 
-
+// TODO
 /**
  * Determine if class exists
+ *
+ * @type object
+ * @name isDefined
+ * @access public
  * @param fullname {String} class name to check
  * @return {Boolean} true if class exists
  */
@@ -527,9 +527,12 @@ qx.Clazz.isDefined = function(fullname) {
   return this._registry[fullname] != null;
 };
 
-
 /**
  * Includes a mixin into an already define class
+ *
+ * @type object
+ * @name include
+ * @access public
  * @param vClass {Function} class to extend
  * @param vMixin {Function} mixin to include
  * @return {Boolean} true if was successful
@@ -540,12 +543,12 @@ qx.Clazz.include = function(vClass, vMixin)
 
   // Attach members
   var vMixinMembers = vMixins._members;
+
   for (var vProp in vMixinMembers) {
     vPrototype[vProp] = vMixinMembers[vProp];
   }
 
   // Attach properties
   // TODO: Implementation
-
   return true;
-}
+};
