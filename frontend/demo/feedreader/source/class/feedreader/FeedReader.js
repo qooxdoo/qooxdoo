@@ -31,7 +31,7 @@ qx.Locale.add("reader.locale.toolbar.de_AT");
 /**
  * Qooxdoo news reader Application class
  */
-qx.OO.defineClass("reader.Application", qx.component.AbstractApplication,
+qx.OO.defineClass("demo.FeedReader", qx.component.AbstractApplication,
 function () {
   qx.component.AbstractApplication.call(this);
 
