@@ -31,7 +31,7 @@ qx.Mixin._registry = { "qx.Mixin" : qx.Mixin };
 
 /*
   Example:
-  
+
   qx.Mixin.define("MixinName",
   {
     "includes": [SuperMixins],
@@ -90,64 +90,64 @@ qx.Mixin.define = function(vMixinName, vDefinition)
   qx._Mixin._members = {};
 
   var vProp;
-  
+
   if (typeof vDefinition !== "undefined") {
 
     /*
      * non-trivial mixin definition
      */
-    
+
     /*
     ---------------------------------------------------------------------------
       Mixins to include
     ---------------------------------------------------------------------------
     */
-      
+
     var vSuper = vDefinition["includes"];
 
     if (typeof vSuper !== "undefined")
-    { 
+    {
 
       if (vSuper instanceof Array)
       {
         var vTotal = vSuper.length;
-        
+
         for (i=0; i<vTotal; i++)
         {
           if (typeof vSuper[i] === "undefined" || !vSuper[i].isMixin) {
-            throw new Error("Could not modify mixin " + vMixinName 
+            throw new Error("Could not modify mixin " + vMixinName
               + " due to invalid mixin no. " + (i+1));
           }
-          
+
           for (vProp in vSuper[i]._members) {
             qx._Mixin._members[vProp] = vSuper[i]._members[vProp];
           }
         }
       }
-      else 
+      else
       {
-        throw new Error("Could not modify mixin " + vMixinName 
+        throw new Error("Could not modify mixin " + vMixinName
             + "due to invalid mixin assignment.");
       }
     }
-  
+
     /*
     ---------------------------------------------------------------------------
       Mixin members
     ---------------------------------------------------------------------------
     */
-  
+
     var vMembers = vDefinition["members"];
-    
+
     if (typeof vMembers !== "undefined")
     {
       for( vProp in vMembers)
       {
         qx._Mixin._members[vProp] = vMembers[vProp];
       }
-    } 
+    }
   }
-  
+
   /*
   ---------------------------------------------------------------------------
     Mixin registration

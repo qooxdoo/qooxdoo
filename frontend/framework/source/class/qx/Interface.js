@@ -31,7 +31,7 @@ qx.Interface._registry = { "qx.Interface" : qx.Interface };
 
 /*
   Example:
-  
+
   qx.Interface.define("InterfaceName",
   {
     "extends": [SuperInterfaces],
@@ -85,64 +85,64 @@ qx.Interface.define = function(vInterfaceName, vDefinition)
   qx._Interface._members = {};
 
   var vProp;
-  
+
   if (typeof vDefinition !== "undefined") {
 
     /*
      * non-trivial interface definition
      */
-    
+
     /*
     ---------------------------------------------------------------------------
       Interfaces to extend from
     ---------------------------------------------------------------------------
     */
-      
+
     var vSuper = vDefinition["extends"];
 
     if (typeof vSuper !== "undefined")
-    { 
+    {
 
       if (vSuper instanceof Array)
       {
         var vTotal = vSuper.length;
-        
+
         for (i=0; i<vTotal; i++)
         {
           if (typeof vSuper[i] === "undefined" || !vSuper[i].isInterface) {
-            throw new Error("Could not extend interface " + vInterfaceName 
+            throw new Error("Could not extend interface " + vInterfaceName
               + " due to invalid interface no. " + (i+1));
           }
-          
+
           for (vProp in vSuper[i]._members) {
             qx._Interface._members[vProp] = vSuper[i]._members[vProp];
           }
         }
       }
-      else 
+      else
       {
-        throw new Error("Could not extend interface " + vInterfaceName 
+        throw new Error("Could not extend interface " + vInterfaceName
             + "due to invalid interface assignment.");
       }
     }
-  
+
     /*
     ---------------------------------------------------------------------------
       Interface members
     ---------------------------------------------------------------------------
     */
-  
+
     var vMembers = vDefinition["members"];
-    
+
     if (typeof vMembers !== "undefined")
     {
       for( vProp in vMembers)
       {
         qx._Interface._members[vProp] = vMembers[vProp];
       }
-    } 
+    }
   }
-  
+
   /*
   ---------------------------------------------------------------------------
     Interface registration

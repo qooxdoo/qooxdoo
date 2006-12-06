@@ -26,7 +26,7 @@ qx.OO.defineClass("qx.xml.Core");
 /**
  * Create a XML document
  * http://www.w3.org/TR/DOM-Level-2-Core/core.html#i-Document
- * 
+ *
  * @return {Document} empty XML document
  */
 qx.xml.Core.createXmlDom = function()
@@ -85,9 +85,9 @@ qx.xml.Core.createXmlDom = function()
 /**
  * Returns the text content of a DOM element
  * http://developer.mozilla.org/en/docs/DOM:element.textContent
- * 
+ *
  * @param element {Element} DOM Element
- * @return {string}  
+ * @return {string}
  */
  qx.xml.Core.getTextContent = function(element) {
   var text = "";

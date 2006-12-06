@@ -61,7 +61,7 @@ function(vLabel, vIcon, vIconSelected)
     this.setIcon(vIcon);
     this.setIconSelected(vIcon);
   }
-  
+
   if (vIconSelected != null) {
     this.setIconSelected(vIconSelected);
   }

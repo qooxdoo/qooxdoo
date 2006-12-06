@@ -24,7 +24,7 @@
 
 /**
  * Appearance Theme
- * 
+ *
  * @param vTitle {string} anme of the appearance
  */
 qx.OO.defineClass("qx.renderer.theme.AppearanceTheme", qx.core.Object,
@@ -71,7 +71,7 @@ qx.Proto._appearances = {};
 
 /**
  * Register an appearance for a given id
- * 
+ *
  * vData has the following structure:
  * <pre>
  * {
@@ -81,7 +81,7 @@ qx.Proto._appearances = {};
  * }
  * </pre>
  * @param vId {string} id of the apperance (e.g. "button", "label", ...)
- * @param vData {Hash} 
+ * @param vData {Hash}
  */
 qx.Proto.registerAppearance = function(vId, vData) {
   this._appearances[vId] = vData;
@@ -90,7 +90,7 @@ qx.Proto.registerAppearance = function(vId, vData) {
 
 /**
  * Return the apperance object for a specific apperance id.
- * 
+ *
  * @param vId {string} id of the apperance (e.g. "button", "label", ...)
  * @return {Object} appearance map
  */
@@ -101,7 +101,7 @@ qx.Proto.getAppearance = function(vId) {
 
 /**
  * Call the "setup" function of the apperance
- * 
+ *
  * @param vAppearance {Object} appearance map
  */
 qx.Proto.setupAppearance = function(vAppearance)
@@ -131,7 +131,7 @@ qx.Proto.setupAppearance = function(vAppearance)
 
 /**
  * Get the result of the "initial" function for a given id
- * 
+ *
  * @param vId {string} id of the apperance (e.g. "button", "label", ...)
  * @return {Hash} map of widget properties as returned by the "initial" function
  */
@@ -159,8 +159,8 @@ qx.Proto.initialFrom = function(vId)
 
 
 /**
- * Get the result of the "state" function for a given id and states 
- * 
+ * Get the result of the "state" function for a given id and states
+ *
  * @param vId {string} id of the apperance (e.g. "button", "label", ...)
  * @param vStates {Hash} hash map defining the set states
  * @return {Hash} map of widget properties as returned by the "state" function

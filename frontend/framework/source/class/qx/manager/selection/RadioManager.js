@@ -37,7 +37,7 @@ function(vName, vMembers)
   // apply name property
   this.setName(vName != null ? vName : qx.manager.selection.RadioManager.AUTO_NAME_PREFIX + this._hashCode);
 
-  if (vMembers != null) 
+  if (vMembers != null)
   {
     // add() iterates over arguments, but vMembers is an array
     this.add.apply(this, vMembers);
