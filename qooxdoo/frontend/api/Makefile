@@ -78,6 +78,7 @@ generate-script-source:
 	  --include api \
 	  --generate-source-script $(SOURCELDR) \
 	  --source-script-file source/script/api.js \
+	  --add-new-lines \
 	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:../$(FRAMEWORK)/source/resource \
 	  --cache-directory $(CACHE)
 

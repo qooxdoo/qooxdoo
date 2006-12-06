@@ -71,6 +71,7 @@ generate-script-source:
 	  --source-script-path ../../../$(FRAMEWORK)/source/class \
 	  --generate-source-script $(SOURCELDR) \
 	  --source-script-file source/script/qx.js \
+	  --add-new-lines \
 	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:../../../$(FRAMEWORK)/source/resource \
 	  --cache-directory $(CACHE)
 
