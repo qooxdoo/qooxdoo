@@ -44,6 +44,26 @@ function(vAutoDispose)
   if (vAutoDispose !== false) {
     qx.core.Object._db.push(this);
   }
+  
+  // Properties NG
+  // Initialize data field for properties
+  this._user_values_ng = {};
+  this._appearance_values_ng = {};
+  this._real_values_ng = {};
+
+  // Properties NG
+  // Apply default values
+  if (this._properties_init_ng)
+  {
+    for (var i=0, a=this._properties_init_ng, l=a.length; i<l; i++)
+    {
+      var vName = a[i];
+      var vEntry = this._properties_ng[vName];
+
+      // We need to use the current function
+      this["force" + vEntry.upname](vEntry.init);
+    }
+  }  
 });
 
 
@@ -193,6 +213,10 @@ qx.OO.addProperty({ name : "enabled", type : "boolean", defaultValue : true, get
   UTILITIES
 ---------------------------------------------------------------------------
 */
+
+// Properties NG
+qx.Proto._properties_ng = {};
+qx.Proto._properties_init_ng = [];
 
 /**
  * Returns a string represantation of the qooxdoo object.
