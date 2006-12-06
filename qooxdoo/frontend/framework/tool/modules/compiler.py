@@ -1451,6 +1451,9 @@ def main():
 
     compiledString = compile(restree, not options.compress)
     if options.write:
+      if compiledString != "" and not compiledString.endswith("\n"):
+        compiledString += "\n"
+        
       filetool.save(fileName + options.extension, compiledString)
 
     else:
