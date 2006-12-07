@@ -58,12 +58,8 @@ sync-qooxdoo-org:
 	@echo "----------------------------------------------------------------------------"
 	@echo "  * Syncing..."
 	
-	@mkdir -p build
-	@nice -n $(NICE) rsync --checksum --recursive --delete --verbose --exclude '.svn' ataglance/build/* build/ataglance
-	@nice -n $(NICE) rsync --checksum --recursive --delete --verbose --exclude '.svn' samples/build/* build/samples
-	@nice -n $(NICE) rsync --checksum --recursive --delete --verbose --exclude '.svn' webmail/build/* build/webmail
-	@nice -n $(NICE) rsync --checksum --recursive --delete --verbose --exclude '.svn' feedreader/build/* build/feedreader
-	
-	@nice -n $(NICE) rsync --checksum --recursive --archive --delete --verbose build/* root@qooxdoo.org:/var/www/qooxdoo/demo
-	@$(RM) -rf build
+	@nice -n $(NICE) rsync --checksum --recursive --delete --verbose --exclude '.svn' ataglance/build/* root@qooxdoo.org:/var/www/qooxdoo/demo/ataglance
+	@nice -n $(NICE) rsync --checksum --recursive --delete --verbose --exclude '.svn' samples/build/* root@qooxdoo.org:/var/www/qooxdoo/demo/samples
+	@nice -n $(NICE) rsync --checksum --recursive --delete --verbose --exclude '.svn' webmail/build/* root@qooxdoo.org:/var/www/qooxdoo/demo/webmail
+	@nice -n $(NICE) rsync --checksum --recursive --delete --verbose --exclude '.svn' feedreader/build/* root@qooxdoo.org:/var/www/qooxdoo/demo/feedreader
 
