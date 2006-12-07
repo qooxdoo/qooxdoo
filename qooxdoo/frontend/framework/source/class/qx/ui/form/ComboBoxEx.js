@@ -19,6 +19,10 @@
 
 #module(ui_comboboxex)
 #require(qx.ui.table.Table)
+#embed(widget/arrows/down.gif)
+#embed(icon/16/find.png)
+#embed(icon/16/button-ok.png)
+#embed(icon/16/button-cancel.png)
 
 ************************************************************************ */
 

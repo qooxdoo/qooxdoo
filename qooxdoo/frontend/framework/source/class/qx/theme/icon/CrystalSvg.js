@@ -20,7 +20,7 @@
 
 #module(ui_core)
 #module(theme_icon)
-#resource(images:icon/crystalsvg)
+#resource(images:icon/crystalsvg:icon)
 
 ************************************************************************ */
 

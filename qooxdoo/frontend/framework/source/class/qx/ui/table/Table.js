@@ -19,6 +19,7 @@
 
 #module(ui_table)
 #require(qx.ui.table.DefaultDataRowRenderer)
+#embed(widget/table/selectColumnOrder.png)
 
 ************************************************************************ */
 

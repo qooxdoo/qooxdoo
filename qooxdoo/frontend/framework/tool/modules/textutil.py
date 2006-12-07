@@ -86,7 +86,8 @@ def removeTrailingSpaces(content):
   return ending.join(lines)
 
 
-
+def toRegExp(text):
+  return re.compile("^(" + text.replace('.', '\\.').replace('*', '.*').replace('?', '.?') + ")$")
 
 
 
