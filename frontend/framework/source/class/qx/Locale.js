@@ -19,6 +19,7 @@
 /* ************************************************************************
 
 #module(core)
+#require(qx.Clazz)
 
 ************************************************************************ */
 
@@ -36,8 +37,8 @@ qx.Clazz.define("qx.Locale",
      * <pre><code>
      * qx.Locale.define("fullname",
      * {
-     * "msgId": "msgText",
-     * ...
+     *   "msgId": "msgText",
+     *   ...
      * });
      * </code></pre>
      *
@@ -48,7 +49,34 @@ qx.Clazz.define("qx.Locale",
      * @param definition {Map} definition structure
      * @return {void} 
      */
-    define : function(fullname, definition) {},
+    define : function(fullname, definition) 
+    {
+      /*
+      ---------------------------------------------------------------------------
+        Setting up namespace
+      ---------------------------------------------------------------------------
+      */
+    
+      var vSplitName = fullname.split(".");
+      var vLength = vSplitName.length;
+      var vParentPackage = window;
+      var vPartName = vSplitName[0];
+    
+      for (var i=0, l=vSplitName.length - 1; i<l; i++)
+      {
+        if (!vParentPackage[vPartName]) {
+          vParentPackage[vPartName] = {};
+        }
+    
+        vParentPackage = vParentPackage[vPartName];
+        vPartName = vSplitName[i + 1];
+      }
+  
+      vParentPackage[vPartName] = definition;
+      qx.nls.Manager.getInstance().addTranslation(vPartName, definition);      
+      
+      arguments.callee.statics._registry[fullname] = definition;
+    },
 
     /**
      * Returns a locale by name

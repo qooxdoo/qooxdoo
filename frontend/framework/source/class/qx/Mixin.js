@@ -19,6 +19,7 @@
 /* ************************************************************************
 
 #module(core)
+#require(qx.Clazz)
 
 ************************************************************************ */
 
@@ -36,17 +37,17 @@ qx.Clazz.define("qx.Mixin",
      * <pre><code>
      * qx.Mixin.define("fullname",
      * {
-     * "includes": [SuperMixins],
-     * "properties":
-     * {
-     * "tabIndex": {type: "number", init: -1}
-     * },
-     * "members":
-     * {
-     * prop1: 3.141,
-     * meth1: function() {},
-     * meth2: function() {}
-     * }
+     *   "includes": [SuperMixins],
+     *   "properties":
+     *   {
+     *     "tabIndex": {type: "number", init: -1}
+     *   },
+     *   "members":
+     *   {
+     *     prop1: 3.141,
+     *     meth1: function() {},
+     *     meth2: function() {}
+     *   }
      * });
      * </code></pre>
      *
