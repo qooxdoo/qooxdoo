@@ -18,13 +18,6 @@
 /*
 #resource(feeds:feeds)
 #resource(css:css)
-
-#resource(widget/arrow)
-
-#icon(16/button-ok.png)
-#icon(16/button-cancel.png)
-#icon(16/reload.png)
-#icon(16/*)
 */
 
 /*
