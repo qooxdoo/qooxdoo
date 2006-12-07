@@ -20,6 +20,7 @@
 #resource(readerfeeds:feeds)
 #resource(readercss:css)
 #embed(readerfeeds/*)
+#embed(readercss/*)
 #embed(icon/16/button-ok.png)
 #embed(icon/16/button-cancel.png)
 #embed(icon/16/reload.png)
