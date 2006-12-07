@@ -65,10 +65,12 @@ img{
 h1{
   font-size: 20px;
   margin-bottom: 20px;
+  color: #134275;
 }
 
 h2{
   font-size: 14px;
+  color: #1D65B3;
 }
 
 a{
@@ -81,6 +83,11 @@ li{
   margin-bottom: 20px;
 }
 
+ul.links li{
+  list-style: disc;
+	margin-bottom: 5px;
+}
+
 p{
   font-size: 12px;
 }
@@ -88,35 +95,58 @@ p{
 </head>
 <body>
   <div id="demoHead">qooxdoo: <span>The new era of web interface development</span></div>
-  <div id="demoFoot"></div>
 
   <div id="content" style="position:absolute;top:0px;left:0px">
     <h1>qooxdoo <span>demo</demo></h1>
 
     <ul>
       <li>
-        <h2><a href="ataglance/source/index.html">At-a-Glance</a></h2>
+        <h2>At-a-Glance</h2>
         <p>A good example for qooxdoo's versatility.</p>
+        <ul class="links">
+        	<li><a href="ataglance/source/index.html">source version</a></li>
+        	<li><a href="ataglance/build/index.html">build version</a></li>
+        </ul>
       </li>
       <li>
-        <h2><a href="feedreader/source/index.html">RSS News Feed Reader</a></h2>
+        <h2>RSS News Feed Reader</h2>
         <p>qooxdoo RSS feed reader using dummy RSS feed data.</p>
+        <ul class="links">
+        	<li><a href="feedreader/source/index.html">source version</a></li>
+        	<li><a href="feedreader/build/index.html">build version</a></li>
+        </ul>
       </li>
       <li>
-        <h2><a href="webmail/source/index.html">Mail</a></h2>
+        <h2>Mail</h2>
         <p>Complex application-like interface using multiple qooxdoo widgets.</p>
+        <ul class="links">
+        	<li><a href="webmail/source/index.html">source version</a></li>
+        	<li><a href="webmail/build/index.html">build version</a></li>
+        </ul>
       </li>
       <li>
-        <h2><a href="samples/source/html/example/index.html">Example</a></h2>
+        <h2>Example</h2>
         <p>Easily to understand examples. The basic features of each qooxdoo widget is demonstrated in a separate example. This section is probably the one you are looking for!</p>
+        <ul class="links">
+        	<li><a href="samples/source/html/example/index.html">source version</a></li>
+        	<li><a href="samples/build/html/example/index.html">build version</a></li>
+        </ul>
       </li>
       <li>
-        <h2><a href="samples/source/html/test/index.html">Test</a></h2>
+        <h2>Test</h2>
         <p>These tests demonstrate internal functionality of qooxdoo. Not really useful for the typical qooxdoo user, but needed for developers to test some complex layout stuff, performance related problems and more. The tests may not always be up-to-date and functioning!</p>
+        <ul class="links">
+        	<li><a href="samples/source/html/test/index.html">source version</a></li>
+        	<li><a href="samples/build/html/test/index.html">build version</a></li>
+        </ul>
       </li>
       <li>
-        <h2><a href="samples/source/html/performance/index.html">Performance</a></h2>
+        <h2>Performance</h2>
         <p>These tests are used to test performance of different javascript/qooxdoo rountines and allows them to compare them with each other</p>
+        <ul class="links">
+        	<li><a href="samples/source/html/performance/index.html">source version</a></li>
+        	<li><a href="samples/build/html/performance/index.html">build version</a></li>
+        </ul>
       </li>
     </ul>
   </div>
