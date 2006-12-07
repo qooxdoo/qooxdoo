@@ -18,10 +18,17 @@
 /*
 #resource(feeds:feeds)
 #resource(css:css)
-#resource(locale:locale)
+
+#resource(widget/arrow)
+
+#icon(16/button-ok.png)
+#icon(16/button-cancel.png)
+#icon(16/reload.png)
+#icon(16/*)
 */
 
 /*
+#resource(locale:locale)
 qx.Locale.add("reader.locale.de_DE", "locale/de_DE.js");
 qx.Locale.add("reader.locale.de_AT", "locale/de_DE.js");
 qx.Locale.add("reader.locale.toolbar.de_DE");
@@ -127,7 +134,7 @@ qx.Proto.main = function(e)
   tree.setBackgroundColor("#EEEEEE");
   tree.setMargin(3);
 
-  var feedDesc = reader.Application._feedDesc;
+  var feedDesc = demo.FeedReader._feedDesc;
   for (var i=0; i<feedDesc.length; i++) {
     var folder = new qx.ui.tree.TreeFolder(feedDesc[i].name);
     tree.getManager().addEventListener("changeSelection", function(e) {
@@ -158,7 +165,7 @@ qx.Proto.main = function(e)
     this.displayArticle(item);
   }, this);
 
-  this._blogEntry = new reader.ArticleView();
+  this._blogEntry = new demo.ArticleView();
   this._blogEntry.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
 
   var contentArea = new qx.ui.layout.DockLayout();
@@ -172,7 +179,7 @@ qx.Proto.main = function(e)
 };
 
 qx.Proto.fetchFeeds = function() {
-  var feedDesc = reader.Application._feedDesc;
+  var feedDesc = demo.FeedReader._feedDesc;
   var that = this;
   var getCallback = function(feedName) {
     return function(e) {
