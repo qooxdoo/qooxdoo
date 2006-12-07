@@ -555,7 +555,7 @@ def fromNode(node, assignType, name, alternative, old=[]):
     cat = attrib["category"]
 
     if cat != "description":
-      print " * Found unallowed attribute %s in comment for %s" % (cat, name)
+      print " * Found unallowed attribute %s in comment for %s (node)" % (cat, name)
   
   return s  
       
@@ -597,7 +597,7 @@ def fromFunction(func, assignType, name, alternative, old=[]):
     
 
   #
-  # add @name
+  # add @name and @access
   ##############################################################
   if name != None and name != "construct":
     s += " * @name %s\n" % name
@@ -774,8 +774,8 @@ def fromFunction(func, assignType, name, alternative, old=[]):
       if not s.endswith("\n"):
         s += "\n"
 
-    elif not cat in [ "name", "access", "membership", "alternative", "param", "return", "throws", "description" ]:
-      print " * Found unallowed attribute %s in comment for %s" % (cat, name)
+    elif not cat in [ "description", "type", "name", "access", "alternative", "abstract", "param", "return", "throws" ]:
+      print " * Found unallowed attribute %s in comment for %s (function)" % (cat, name)
 
 
 
