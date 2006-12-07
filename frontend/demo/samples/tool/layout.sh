@@ -16,7 +16,7 @@ do
     exastr="$exastr `basename $file`";
   fi
 done
-echo "var exastr = \"$widstr\";" >> $DIST
+echo "var exastr = \"$exastr\";" >> $DIST
 
 perfstr=""
 for file in $SCAN/performance/*.html ;
