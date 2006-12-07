@@ -66,6 +66,8 @@ function()
 });
 
 qx.Proto._remappingChildTable = [ "add", "remove", "addAt", "addAtBegin", "addAtEnd", "removeAt", "addBefore", "addAfter", "removeAll", "getFirstChild", "getFirstActiveChild", "getLastChild", "getLastActiveChild" ];
+qx.Proto._isFocusRoot = false;
+
 
 
 

@@ -41,9 +41,6 @@ function(vCaption, vIcon, vWindowManager)
   //   MANAGER
   // ************************************************************************
 
-  // Init Focus Manager
-  this.activateFocusRoot();
-
   // Init Window Manager
   this.setWindowManager(vWindowManager || qx.ui.window.Window.getDefaultWindowManager());
 

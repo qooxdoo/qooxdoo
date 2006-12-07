@@ -29,7 +29,14 @@ function()
   qx.ui.layout.CanvasLayout.call(this);
 
   this.setZIndex(this._minZIndex);
+
+  // Init Focus Handler
+  if (this._isFocusRoot) {
+    this.activateFocusRoot();
+  }
 });
+
+qx.Proto._isFocusRoot = true;
 
 qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "popup" });
 
@@ -200,18 +207,6 @@ qx.Proto._makeInactive = function()
 }
 
 
-
-
-
-/*
----------------------------------------------------------------------------
-  FOCUS
----------------------------------------------------------------------------
-*/
-
-qx.Proto.isFocusable = function() {
-  return false;
-}
 
 
 
