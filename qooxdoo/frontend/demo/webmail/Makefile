@@ -91,7 +91,7 @@ realclean: clean
 	@echo "  CLEANUP OF GENERATED FILES (REAL)"
 	@echo "----------------------------------------------------------------------------"
 	@echo "  * Deleting files..."
-	@nice -n $(NICE) rm -rf build
+	@nice -n $(NICE) rm -rf source/script build
 
 distclean: realclean
 	@echo
