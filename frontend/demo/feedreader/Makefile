@@ -3,7 +3,8 @@
 ###################################################################################
 
 QOOXDOO = ../../..
-SCRIPTNAME = feedreader.js
+APPNAME=feedreader
+SCRIPTNAME = $(APPNAME).js
 APPCLASS = demo.FeedReader
 INCLUDEALL = false
 OPTIMIZESTRINGS = true
@@ -11,8 +12,10 @@ OPTIMIZEVARIABLES = true
 SOURCELOADER=
 NICE=10
 PODIR=po
-APPNAME=feedreader
+
 TRANSLATIONS=po/de.po po/fr.po po/de_AT.po
+LOCALE_NAMESPACE=demo.nls
+LOCALE_TARGET_DIRECTORY=source/class/demo/nls
 
 
 ###################################################################################
@@ -64,7 +67,7 @@ all: build
 ###################################################################################
 
 source: info-source generate-script-source
-build: info-build generate-script-build copy-build-files fix-build-rights
+build: info-build messages generate-script-build copy-build-files fix-build-rights
 
 api: generate-api-build generate-api-data
 	@echo
@@ -220,7 +223,7 @@ extract-messages:
 	@rm $@.old
 
 message-format:
-	@find $(PODIR) -name '*.po' | xargs python qxmsgfmt.py -n demo.nls -d source/class/demo/nls
+	@find $(PODIR) -name '*.po' | xargs python qxmsgfmt.py --namespace=$(LOCALE_NAMESPACE) -d $(LOCALE_TARGET_DIRECTORY)
 
 ###################################################################################
 # INFO TARGETS
