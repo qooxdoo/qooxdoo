@@ -206,22 +206,21 @@ fix-build-rights:
 # GETTEXT TARGETS
 ###################################################################################
 
-update-messages: messages $(TRANSLATIONS)
+messages: extract-messages $(TRANSLATIONS) message-format
 
-messages:
-	rm -f $(PODIR)/$(APPNAME).pot
-	touch $(PODIR)/$(APPNAME).pot
-	find source/class/ -name '*.js' | xargs xgettext --language=Java --from-code=UTF-8 -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 -j -o $(PODIR)/$(APPNAME).pot
+extract-messages:
+	@rm -f $(PODIR)/$(APPNAME).pot
+	@touch $(PODIR)/$(APPNAME).pot
+	@find source/class/ -name '*.js' | xargs xgettext --language=Java --from-code=UTF-8 -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 -j -o $(PODIR)/$(APPNAME).pot
 
 %.po: $(PODIR)/$(APPNAME).pot
-	echo $@
-	if test ! -f $@; then cp $(PODIR)/$(APPNAME).pot $@; fi
-	cp  $@  $@.old
-	msgmerge $@.old $(PODIR)/$(APPNAME).pot > $@
+	@if test ! -f $@; then cp $(PODIR)/$(APPNAME).pot $@; fi
+	@cp  $@  $@.old
+	@msgmerge $@.old $(PODIR)/$(APPNAME).pot > $@
+	@rm $@.old
 
-update-translations: po/*.po
-	cp  $<  $<.old
-	msgmerge $<.old $(PODIR)/$(APPNAME).pot > $<
+message-format:
+	@find $(PODIR) -name '*.po' | xargs python qxmsgfmt.py -n demo.nls -d source/class/demo/nls
 
 ###################################################################################
 # INFO TARGETS

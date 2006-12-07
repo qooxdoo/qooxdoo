@@ -21,18 +21,13 @@
 #require(qx.Locale)
 
 ************************************************************************ */
-
 qx.Locale.define("demo.nls.de",
 {
+  "German": "Deutsch",
   "Add feed": "Feed hinzufügen",
+  "Reload": "Aktualisieren",
   "Add feeds": "Feeds hinzufügen",
-  "Remove feed": "Feed entfernen",
-  "Reload": "Auffrischen",
-  "(%1) Reload the feeds." : "(%1) Feeds neu laden",
-  "Subject" : "Betreff",
-  "Date" : "Datum",
-  "Sender" : "Autor",
-  "Help" : "Hilfe",
-  "German" : "Deutsch",
-  "News feeds" : "Nachrichtenquellen"
+  "read more ...": "weitere Informationen ...",
+  "Remove feed": "Feed löschen",
+  "realoding ...": "aktualisieren ..."
 });
