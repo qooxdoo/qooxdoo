@@ -73,7 +73,9 @@ qx.Proto.getHtml = function() {
 
   html.add("<a target='_blank' href='");
   html.add(item.link);
-  html.add("'>read more ... </a>");
+  html.add("'>");
+  html.add(this.tr("read more ..."));
+  html.add("</a>");
 
   html.add("</div>");
 

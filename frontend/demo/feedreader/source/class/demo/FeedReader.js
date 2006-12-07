@@ -88,12 +88,12 @@ qx.Proto.main = function(e)
   var reload_cmd = new qx.client.Command("Control+R");
   reload_cmd.addEventListener("execute", function(e) {
     this.fetchFeeds();
-    this.debug("realoding ...");
+    this.debug(this.tr("realoding ..."));
   }, this);
 
   var about_cmd = new qx.client.Command("F1");
   about_cmd.addEventListener("execute", function(e) {
-    alert("qooxdoo feed reader.");
+    alert(this.tr("qooxdoo feed reader."));
   }, this);
 
   var toolBar = new qx.ui.toolbar.ToolBar();
