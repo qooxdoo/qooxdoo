@@ -5,7 +5,7 @@
 QOOXDOO = ../../..
 SCRIPTNAME = feedreader.js
 APPCLASS = demo.FeedReader
-INCLUDEALL = true
+INCLUDEALL = false
 OPTIMIZESTRINGS = true
 OPTIMIZEVARIABLES = true
 SOURCELOADER=
@@ -131,6 +131,7 @@ generate-script-build:
 	  --resource-output build/resource \
 	  --resource-input source/resource \
 	  --resource-output build/resource \
+	  --enable-resource-filter \
 	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:./resource \
 	  --cache-directory $(CACHE)
 
@@ -142,6 +143,7 @@ generate-api-build:
 	  --script-input $(API)/source/class \
 	  --resource-input $(API)/source/resource \
 	  --resource-output api/resource \
+	  --enable-resource-filter \
 	  --include api \
 	  $(OPTIMIZESTR) $(OPTIMIZEVAR) \
 	  --generate-compiled-script \

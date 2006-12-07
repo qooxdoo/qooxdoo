@@ -23,6 +23,14 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#embed(icon/16/*)
+#embed(icon/22/*)
+#embed(icon/32/*)
+
+************************************************************************ */
+
 qx.OO.defineClass("demo.AtAGlance", qx.component.AbstractApplication,
 function () {
   qx.component.AbstractApplication.call(this);

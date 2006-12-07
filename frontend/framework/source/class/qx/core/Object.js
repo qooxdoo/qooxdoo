@@ -20,7 +20,7 @@
 
 #module(core)
 #load(qx.core.Init)
-#resource(static:static:static)
+#resource(static:static)
 
 ************************************************************************ */
 
