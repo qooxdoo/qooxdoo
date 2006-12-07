@@ -31,6 +31,8 @@ function(vLabel, vIcon)
   this._atom.setParent(this);
 });
 
+qx.Proto._isFocusRoot = false;
+
 qx.Proto.getAtom = function() {
   return this._atom;
 }
