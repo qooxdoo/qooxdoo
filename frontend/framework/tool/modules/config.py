@@ -37,7 +37,8 @@ QXHEAD = {
   "after" : re.compile("#after\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
   "load" : re.compile("#load\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
   "optional" : re.compile("#optional\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
-  "resource" : re.compile("#resource\(\s*(.*?)\s*\)", re.M)
+  "resource" : re.compile("#resource\(\s*(.*?)\s*\)", re.M),
+  "embed" : re.compile("#embed\(\s*(.*?)\s*\)", re.M)
 }
 
 

@@ -31,12 +31,6 @@ function(vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash)
   if (vMenu != null) {
     this.setMenu(vMenu);
   }
-
-  /*
-  this._menuButton = new qx.ui.basic.Image("widget/arrows/down_small.gif");
-  this._menuButton.setAnonymous(true);
-  this.addAtEnd(this._menuButton);
-  */
 });
 
 

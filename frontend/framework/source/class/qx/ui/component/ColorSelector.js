@@ -18,6 +18,10 @@
 
 /* ************************************************************************
 
+#embed(widget/colorselector/*)
+#embed(icon/16/button-cancel.png)
+#embed(icon/16/button-ok.png)
+#embed(static/image/dotted_white.gif)
 
 ************************************************************************ */
 

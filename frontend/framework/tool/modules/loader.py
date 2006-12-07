@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys, string, re, os, random, cPickle, codecs
-import config, tokenizer, treegenerator, filetool, stringoptimizer
+import config, tokenizer, treegenerator, filetool, stringoptimizer, textutil
 
 internalModTime = 0
 
@@ -177,7 +177,13 @@ def extractResources(data):
   return res
 
 
+def extractEmbeds(data):
+  emb = []
 
+  for item in config.QXHEAD["embed"].findall(data):
+    emb.append(item)
+
+  return emb
 
 
 
@@ -395,7 +401,7 @@ def resolveAutoDeps(fileDb, options):
 
 
 def storeEntryCache(fileDb, options):
-  print "  * Storing file entries..."
+  print "  * Saving database..."
 
   cacheCounter = 0
   ignoreDbEntries = [ "tokens", "tree", "path", "pathId", "encoding", "resourceInput", "resourceOutput", "sourceScriptPath", "listIndex", "scriptInput" ]
@@ -478,6 +484,7 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sour
       "afterDeps" : extractAfterDeps(fileContent, fileId),
       "loadDeps" : extractLoadDeps(fileContent, fileId),
       "resources" : extractResources(fileContent),
+      "embeds" : extractEmbeds(fileContent),
       "modules" : extractModules(fileContent)
     }
 
@@ -693,18 +700,13 @@ def getSortedList(options, fileDb, moduleDb):
       if include in moduleDb:
         includeWithDeps.extend(moduleDb[include])
 
-      elif "*" in include or "?" in include:
-        regstr = "^(" + include.replace('.', '\\.').replace('*', '.*').replace('?', '.?') + ")$"
-        regexp = re.compile(regstr)
+      else:
+        regexp = textutil.toRegExp(include)
 
         for fileId in fileDb:
           if regexp.search(fileId):
             if not fileId in includeWithDeps:
               includeWithDeps.append(fileId)
-
-      else:
-        if not include in includeWithDeps:
-          includeWithDeps.append(include)
 
 
   # Add Modules and Files (without deps)
@@ -713,18 +715,13 @@ def getSortedList(options, fileDb, moduleDb):
       if include in moduleDb:
         includeWithoutDeps.extend(moduleDb[include])
 
-      elif "*" in include or "?" in include:
-        regstr = "^(" + include.replace('.', '\\.').replace('*', '.*').replace('?', '.?') + ")$"
-        regexp = re.compile(regstr)
+      else:
+        regexp = textutil.toRegExp(include)
 
         for fileId in fileDb:
           if regexp.search(fileId):
             if not fileId in includeWithoutDeps:
               includeWithoutDeps.append(fileId)
-
-      else:
-        if not include in includeWithoutDeps:
-          includeWithoutDeps.append(include)
 
 
 
@@ -755,8 +752,7 @@ def getSortedList(options, fileDb, moduleDb):
         excludeWithDeps.extend(moduleDb[exclude])
 
       elif "*" in exclude or "?" in exclude:
-        regstr = "^(" + exclude.replace('.', '\\.').replace('*', '.*').replace('?', '.?') + ")$"
-        regexp = re.compile(regstr)
+        regexp = textutil.toRegExp(exclude)
 
         for fileId in fileDb:
           if regexp.search(fileId):
@@ -775,8 +771,7 @@ def getSortedList(options, fileDb, moduleDb):
         excludeWithoutDeps.extend(moduleDb[exclude])
 
       elif "*" in exclude or "?" in exclude:
-        regstr = "^(" + exclude.replace('.', '\\.').replace('*', '.*').replace('?', '.?') + ")$"
-        regexp = re.compile(regstr)
+        regexp = textutil.toRegExp(exclude)
 
         for fileId in fileDb:
           if regexp.search(fileId):

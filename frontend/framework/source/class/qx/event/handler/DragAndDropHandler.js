@@ -19,7 +19,8 @@
 /* ************************************************************************
 
 #module(ui_dragdrop)
-#require(qx.dom.ElementFromPoint) // Needed indirectly by qx.ui.core.Parent
+#load(qx.dom.ElementFromPoint)
+#embed(widget/cursors/*)
 
 ************************************************************************ */
 
