@@ -98,7 +98,7 @@ generate-script-build:
 	  --optimize-variables \
 	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:resource/qooxdoo \
 	  --copy-resources \
-	  --cache-directory $(CACHE) --disable-internal-check
+	  --cache-directory $(CACHE)
 
 generate-data-source:
 	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
