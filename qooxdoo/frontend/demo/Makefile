@@ -38,6 +38,12 @@ clean:
 	@$(MAKE) -C feedreader clean
 	@$(MAKE) -C samples clean
 
+realclean:
+	@$(MAKE) -C ataglance realclean
+	@$(MAKE) -C webmail realclean
+	@$(MAKE) -C feedreader realclean
+	@$(MAKE) -C samples realclean
+
 distclean:
 	@$(MAKE) -C ataglance distclean
 	@$(MAKE) -C webmail distclean

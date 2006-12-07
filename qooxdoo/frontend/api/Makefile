@@ -90,6 +90,7 @@ generate-script-build:
 	  --script-input source/class \
 	  --resource-input source/resource \
 	  --resource-output build/resource \
+	  --enable-resource-filter \
 	  --include api \
 	  --generate-compiled-script \
 	  --compiled-script-file build/script/api.js \
@@ -97,7 +98,7 @@ generate-script-build:
 	  --optimize-variables \
 	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:resource/qooxdoo \
 	  --copy-resources \
-	  --cache-directory $(CACHE)
+	  --cache-directory $(CACHE) --disable-internal-check
 
 generate-data-source:
 	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \

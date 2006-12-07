@@ -5,7 +5,7 @@
 QOOXDOO = ../../..
 SCRIPTNAME = mail.js
 APPCLASS = demo.Mail
-INCLUDEALL = true
+INCLUDEALL = false
 OPTIMIZESTRINGS = true
 OPTIMIZEVARIABLES = true
 SOURCELOADER=
@@ -129,6 +129,7 @@ generate-script-build:
 	  --copy-resources \
 	  --resource-input $(FRAMEWORK)/source/resource \
 	  --resource-output build/resource \
+	  --enable-resource-filter \
 	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:./resource \
 	  --cache-directory $(CACHE)
 
@@ -140,6 +141,7 @@ generate-api-build:
 	  --script-input $(API)/source/class \
 	  --resource-input $(API)/source/resource \
 	  --resource-output api/resource \
+	  --enable-resource-filter \
 	  --include api \
 	  $(OPTIMIZESTR) $(OPTIMIZEVAR) \
 	  --generate-compiled-script \

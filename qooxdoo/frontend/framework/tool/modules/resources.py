@@ -79,21 +79,19 @@ def copy(options, sortedIncludeList, fileDb):
 
       for fileResource in fileResources:
         fileResourceSplit = fileResource.split(":")
+        
+        if len(fileResourceSplit) != 2:
+          print "    - Malformed resource definition: %s" % fileResource
+          sys.exit(1)
 
         resourceId = fileResourceSplit.pop(0)
         relativeDirectory = fileResourceSplit.pop(0)
           
-        if len(fileResourceSplit) == 0:
-          resourceCategory = "other"
-        else:
-          resourceCategory = fileResourceSplit.pop(0)
 
-
-
-            
+           
         if options.enableResourceFilter:
-          if embeds.has_key(resourceCategory):
-            resourceFilter = compiledEmbeds[resourceCategory]
+          if embeds.has_key(resourceId):
+            resourceFilter = compiledEmbeds[resourceId]
           else:
             resourceFilter = []
           
@@ -124,7 +122,7 @@ def copy(options, sortedIncludeList, fileDb):
 
 
 
-        print "      - Copying %s [%s]" % (relativeDirectory, resourceCategory)
+        print "      - Copying %s [%s]" % (relativeDirectory, resourceId)
 
         for root, dirs, files in os.walk(sourceDirectory):
 
