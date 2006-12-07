@@ -15,21 +15,21 @@
 
 ************************************************************************ */
 
-/*
-#resource(feeds:feeds)
-#resource(css:css)
-*/
+/* ************************************************************************
 
-/*
-#resource(locale:locale)
-qx.Locale.add("reader.locale.de_DE", "locale/de_DE.js");
-qx.Locale.add("reader.locale.de_AT", "locale/de_DE.js");
-qx.Locale.add("reader.locale.toolbar.de_DE");
-qx.Locale.add("reader.locale.toolbar.de_AT");
-*/
+#resource(readerfeeds:feeds)
+#resource(readercss:css)
+#embed(readerfeeds/*)
+#embed(icon/16/button-ok.png)
+#embed(icon/16/button-cancel.png)
+#embed(icon/16/reload.png)
+#embed(icon/16/locale.png)
+#embed(icon/16/help.png)
+
+************************************************************************ */
 
 /**
- * Qooxdoo news reader Application class
+ * qooxdoo news reader Application class
  */
 qx.OO.defineClass("demo.FeedReader", qx.component.AbstractApplication,
 function () {

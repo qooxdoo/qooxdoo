@@ -23,6 +23,16 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#embed(icon/16/network.png)
+#embed(icon/16/mail-new.png)
+#embed(icon/16/mail-send.png)
+#embed(icon/16/appointment.png)
+
+************************************************************************ */
+
+
 /**
  * A small example how a webmail application can look and feel using qooxdoo.
  */

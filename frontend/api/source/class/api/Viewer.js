@@ -1,8 +1,30 @@
-/*
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+
+   License:
+     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+
+   Authors:
+     * Til Schneider (til132)
+     * Sebastian Werner (wpbasti)
+     * Andreas Ecker (ecker)
+
+************************************************************************ */
+
+/* ************************************************************************
+
 #module(api)
-#resource(css:css)
-#resource(images:image)
-*/
+#resource(apistyles:css)
+#resource(apiimages:image)
+#embed(apistyles/*)
+
+************************************************************************ */
 
 /**
  * The API viewer. Shows the API documentation.
