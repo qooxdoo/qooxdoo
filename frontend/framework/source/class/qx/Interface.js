@@ -19,6 +19,7 @@
 /* ************************************************************************
 
 #module(core)
+#require(qx.Clazz)
 
 ************************************************************************ */
 
@@ -36,13 +37,13 @@ qx.Clazz.define("qx.Interface",
      * <pre><code>
      * qx.Interface.define("fullname",
      * {
-     * "extends": [SuperInterfaces],
-     * "members":
-     * {
-     * prop1: 3.141,
-     * meth1: function() {},
-     * meth2: function() {}
-     * }
+     *   "extends": [SuperInterfaces],
+     *   "members":
+     *   {
+     *     prop1: 3.141,
+     *     meth1: function() {},
+     *     meth2: function() {}
+     *   }
      * });
      * </code></pre>
      *
