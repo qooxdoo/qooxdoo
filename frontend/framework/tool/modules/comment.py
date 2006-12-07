@@ -399,7 +399,6 @@ def autoOutdent(text):
   
   for line in lines:
     if len(line) > 0 and line[0] != " ":
-      print ">>> IGNORE"
       return text
  
   result = ""
