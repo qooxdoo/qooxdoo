@@ -26,8 +26,8 @@
   document.write('<div id="demoHead">qooxdoo: <span>The new era of web development</span></div>');
   document.write('<div id="demoFoot">');
 
-  if( /\/widget\//.test(window.location.href) ) {
-    document.write('Selected: Widget | ');
+  if( /\/example\//.test(window.location.href) ) {
+    document.write('Selected: Example | ');
     document.write('[<a href="../../index.html">Back to overview</a>] &#160;');
   } else if( /\/performance\//.test(window.location.href) ) {
     document.write('Selected: Performance | ');
@@ -50,8 +50,8 @@
   function showTestFiles()
   {
     var str = "";
-    if( window.location.href.search(/\/widget\//)+1 ) {
-      str = widstr;
+    if( window.location.href.search(/\/example\//)+1 ) {
+      str = exastr;
     }
     else if( window.location.href.search(/\/performance\//)+1 ) {
       str = perfstr;
