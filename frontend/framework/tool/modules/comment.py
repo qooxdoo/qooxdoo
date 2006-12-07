@@ -299,7 +299,10 @@ def parseText(intext, format=True):
   # Strip leading stars in every line
   text = ""
   for line in intext.split("\n"):
-    text += R_JAVADOC_STARS.sub("", line).strip() + "\n"
+    text += R_JAVADOC_STARS.sub("", line) + "\n"
+
+  # Autodent 
+  text = autoOutdent(text)
 
   # Search for attributes
   desc = { "category" : "description", "text" : "" }
@@ -310,8 +313,8 @@ def parseText(intext, format=True):
     mtch = R_ATTRIBUTE.search(text, pos)
 
     if mtch == None:
-      prevText = text[pos:].strip()
-
+      prevText = text[pos:].rstrip()
+        
       if len(attribs) == 0:
         desc["text"] = prevText
       else:
@@ -319,7 +322,7 @@ def parseText(intext, format=True):
 
       break
 
-    prevText = text[pos:mtch.start(0)].strip()
+    prevText = text[pos:mtch.start(0)].rstrip()
     pos = mtch.end(0)
 
     if len(attribs) == 0:
@@ -388,6 +391,25 @@ def parseDetail(attrib, format=True):
 
 
 
+def autoOutdent(text):
+  lines = text.split("\n")
+  
+  if len(lines) <= 1:
+    return text.strip()
+  
+  for line in lines:
+    if len(line) > 0 and line[0] != " ":
+      print ">>> IGNORE"
+      return text
+ 
+  result = ""
+  for line in lines:
+    if len(line) >= 0:
+      result += line[1:]
+        
+    result += "\n"
+    
+  return result
 
 
 
@@ -405,8 +427,6 @@ def cleanupText(text):
   text = ""
   
   for line in lines:
-    line = line.strip()
-    
     if line == "":
       if not newline:
         newline = True
