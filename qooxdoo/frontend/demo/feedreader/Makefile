@@ -10,6 +10,9 @@ OPTIMIZESTRINGS = true
 OPTIMIZEVARIABLES = true
 SOURCELOADER=
 NICE=10
+PODIR=po
+APPNAME=feedreader
+TRANSLATIONS=po/de.po po/fr.po po/de_AT.po
 
 
 ###################################################################################
@@ -198,12 +201,27 @@ fix-build-rights:
 	@nice -n $(NICE) find build -type d | xargs chmod a+rx
 	@nice -n $(NICE) find build -type f | xargs chmod a+r
 
-gettext:
-	rm -f default.pot
-	touch default.pot
-	find source/class/ -name '*.js' | xargs xgettext --language=Java --from-code=UTF-8 -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 -j -o default.pot
 
+###################################################################################
+# GETTEXT TARGETS
+###################################################################################
 
+update-messages: messages $(TRANSLATIONS)
+
+messages:
+	rm -f $(PODIR)/$(APPNAME).pot
+	touch $(PODIR)/$(APPNAME).pot
+	find source/class/ -name '*.js' | xargs xgettext --language=Java --from-code=UTF-8 -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 -j -o $(PODIR)/$(APPNAME).pot
+
+%.po: $(PODIR)/$(APPNAME).pot
+	echo $@
+	if test ! -f $@; then cp $(PODIR)/$(APPNAME).pot $@; fi
+	cp  $@  $@.old
+	msgmerge $@.old $(PODIR)/$(APPNAME).pot > $@
+
+update-translations: po/*.po
+	cp  $<  $<.old
+	msgmerge $<.old $(PODIR)/$(APPNAME).pot > $<
 
 ###################################################################################
 # INFO TARGETS
