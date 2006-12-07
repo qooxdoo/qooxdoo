@@ -43,29 +43,29 @@ qx.Clazz._registry = { "qx.Clazz" : qx.Clazz };
  * Example:
  * qx.Clazz.define("fullname",
  * {
- * "extend": SuperClass,
- * "implement": [Interfaces],
- * "include" : [Mixins],
+ *   "extend": SuperClass,
+ *   "implement": [Interfaces],
+ *   "include" : [Mixins],
  * 
- * "statics":
- * {
- * static_property1: 3.141,
- * static_method1: function() {}
- * },
+ *   "statics":
+ *   {
+ *     static_property1: 3.141,
+ *     static_method1: function() {}
+ *   },
  * 
- * "properties":
- * {
- * "tabIndex": {type: "number", init: -1}
- * },
+ *   "properties":
+ *   {
+ *     "tabIndex": {type: "number", init: -1}
+ *   },
  * 
- * "members":
- * {
- * public_property1: 3.141,
- * public_method1: function() {},
+ *   "members":
+ *   {
+ *     public_property1: 3.141,
+ *     public_method1: function() {},
  * 
- * _protected_property: 3.141,
- * _protected_method1: function() {},
- * }
+ *     _protected_property: 3.141,
+ *     _protected_method1: function() {},
+ *   }
  * });
  *
  * @type object
@@ -145,15 +145,13 @@ qx.Clazz.define = function(fullname, definition)
         vStatics = vValue;
         break;
 
-        // Next generation property implementation
-        // Will be ready for 0.8
-
+      // Next generation property implementation
+      // Will be ready for 0.8
       case "properties_ng":
         vPropertiesNg = vValue;
         break;
 
-        // Compatibility to 0.6.x style properties
-
+      // Compatibility to 0.6.x style properties
       case "properties":
         vProperties = vValue;
         break;

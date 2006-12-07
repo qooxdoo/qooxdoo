@@ -1,14 +1,29 @@
-/*
-qx.Locale.define("reader.locale.de_DE",
-{
-  "Add feed": "Feed hinzufügen",
-  "Remove feed": "Feed entfernen",
-  "reload": "neu laden",
-  "(%1) reload the feeds." : "(%1) Feeds neu laden"
-});
-*/
+/* ************************************************************************
 
-qx.nls.Manager.getInstance().addTranslation("de", {
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+
+   License:
+     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+     * Andreas Ecker (ecker)
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#require(qx.Locale)
+
+************************************************************************ */
+
+qx.Locale.define("demo.nls.de",
+{
   "Add feed": "Feed hinzufügen",
   "Add feeds": "Feeds hinzufügen",
   "Remove feed": "Feed entfernen",
