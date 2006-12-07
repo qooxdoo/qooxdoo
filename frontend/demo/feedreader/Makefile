@@ -27,6 +27,7 @@ FRAMEWORK = $(FRONTEND)/framework
 API = $(FRONTEND)/api
 CACHE = $(FRAMEWORK)/.cache
 GENERATOR = $(FRAMEWORK)/tool/generator.py
+QXMSGFMT= $(FRAMEWORK)/tool/qxmsgfmt.py
 
 
 ifeq ($(INCLUDEALL),false)
@@ -223,7 +224,7 @@ extract-messages:
 	@rm $@.old
 
 message-format:
-	@find $(PODIR) -name '*.po' | xargs python qxmsgfmt.py --namespace=$(LOCALE_NAMESPACE) -d $(LOCALE_TARGET_DIRECTORY)
+	@find $(PODIR) -name '*.po' | xargs python $(QXMSGFMT) --namespace=$(LOCALE_NAMESPACE) -d $(LOCALE_TARGET_DIRECTORY)
 
 ###################################################################################
 # INFO TARGETS
