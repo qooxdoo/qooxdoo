@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
-import os, shutil
-import config
+import os, shutil, re
+import config, textutil
+
+
 
 
 def copy(options, sortedIncludeList, fileDb):
@@ -25,7 +27,48 @@ def copy(options, sortedIncludeList, fileDb):
     # Append
     overrideList.append(overrideData)
 
-  print "  * Syncing..."
+
+
+
+  if options.enableResourceFilter:
+    print "  * Processing embeds..."
+    
+    embeds = {}
+    
+    for fileId in sortedIncludeList:
+      fileEmbeds = fileDb[fileId]["embeds"]
+      
+      
+      if len(fileEmbeds) > 0:
+        print "    - Found %i embeds in %s" % (len(fileEmbeds), fileId)
+        
+        for fileEmbed in fileEmbeds:
+          embedCategory = fileEmbed[0:fileEmbed.find("/")]
+          embedElement = fileEmbed[fileEmbed.find("/")+1:]
+            
+          if not embeds.has_key(embedCategory):
+            embeds[embedCategory] = []
+            
+          if not embedElement in embeds[embedCategory]:
+            embeds[embedCategory].append(embedElement)
+            
+
+
+    print "  * Compiling embeds..."
+        
+    compiledEmbeds = {}
+    
+    for embedCategory in embeds:
+      for embedElement in embeds[embedCategory]:
+        if not compiledEmbeds.has_key(embedCategory):
+          compiledEmbeds[embedCategory] = []
+        
+        compiledEmbeds[embedCategory].append(textutil.toRegExp(embedElement))
+        
+
+
+
+  print "  * Syncing files..."
 
   for fileId in sortedIncludeList:
     filePath = fileDb[fileId]["path"]
@@ -38,9 +81,38 @@ def copy(options, sortedIncludeList, fileDb):
         fileResourceSplit = fileResource.split(":")
 
         resourceId = fileResourceSplit.pop(0)
-        relativeDirectory = ":".join(fileResourceSplit)
+        relativeDirectory = fileResourceSplit.pop(0)
+          
+        if len(fileResourceSplit) == 0:
+          resourceCategory = "other"
+        else:
+          resourceCategory = fileResourceSplit.pop(0)
 
+
+
+            
+        if options.enableResourceFilter:
+          if embeds.has_key(resourceCategory):
+            resourceFilter = compiledEmbeds[resourceCategory]
+          else:
+            resourceFilter = []
+          
+ 
+ 
+        
+        # Preparing source directory
+        
         sourceDirectory = os.path.join(fileDb[fileId]["resourceInput"], relativeDirectory)
+        
+        try:
+          os.listdir(sourceDirectory)
+        except OSError:
+          print "        - Source directory isn't readable! Ignore resource!"
+          continue
+          
+        
+        # Preparing destination directory  
+          
         destinationDirectory = os.path.join(fileDb[fileId]["resourceOutput"], relativeDirectory)
 
         # Searching for overrides
@@ -48,13 +120,11 @@ def copy(options, sortedIncludeList, fileDb):
           if overrideData["fileId"] == fileId and overrideData["resourceId"] == resourceId:
             destinationDirectory = overrideData["destinationDirectory"]
 
-        print "      - Copy %s => %s" % (sourceDirectory, destinationDirectory)
 
-        try:
-          os.listdir(sourceDirectory)
-        except OSError:
-          print "        - Source directory isn't readable! Ignore resource!"
-          continue
+
+
+
+        print "      - Copying %s [%s]" % (relativeDirectory, resourceCategory)
 
         for root, dirs, files in os.walk(sourceDirectory):
 
@@ -65,13 +135,24 @@ def copy(options, sortedIncludeList, fileDb):
 
           # Searching for items (resource files)
           for itemName in files:
-
+            
             # Generate absolute source file path
             itemSourcePath = os.path.join(root, itemName)
 
             # Extract relative path and directory
             itemRelPath = itemSourcePath.replace(sourceDirectory + os.sep, "")
             itemRelDir = os.path.dirname(itemRelPath)
+
+            # Filter items
+            if options.enableResourceFilter:
+              include = False
+              
+              for filterEntry in resourceFilter:
+                if filterEntry.search(itemRelPath):
+                  include = True
+              
+              if not include:
+                continue
 
             # Generate destination directory and file path
             itemDestDir = os.path.join(destinationDirectory, itemRelDir)
@@ -83,6 +164,6 @@ def copy(options, sortedIncludeList, fileDb):
 
             # Copy file
             if options.verbose:
-              print "      - Copying: %s => %s" % (itemSourcePath, itemDestPath)
+              print "        - Copying file: %s" % itemRelPath
 
             shutil.copyfile(itemSourcePath, itemDestPath)

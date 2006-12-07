@@ -18,8 +18,8 @@
 
 /* ************************************************************************
 
-#resource(html:static/history)
 #require(qx.manager.object.AliasManager)
+#embed(static/history/historyHelper.html)
 
 ************************************************************************ */
 

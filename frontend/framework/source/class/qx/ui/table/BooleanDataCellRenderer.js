@@ -19,6 +19,9 @@
 /* ************************************************************************
 
 #module(ui_table)
+#embed(widget/table/boolean-true.png)
+#embed(widget/table/boolean-false.png)
+#embed(static/image/blank.gif)
 
 ************************************************************************ */
 
