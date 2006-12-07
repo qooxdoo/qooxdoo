@@ -1369,7 +1369,7 @@ def compileNode(node):
             space()
 
     # Semicolon handling
-    elif node.type in [ "block", "assignment", "call", "operation", "definitionList", "return", "break", "continue", "delete", "accessor", "instantiation", "throw", "variable" ]:
+    elif node.type in [ "group", "block", "assignment", "call", "operation", "definitionList", "return", "break", "continue", "delete", "accessor", "instantiation", "throw", "variable" ]:
 
       # Default semicolon handling
       if node.parent.type in [ "block", "file" ]:
