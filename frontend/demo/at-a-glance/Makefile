@@ -204,10 +204,10 @@ fix-build-rights:
 
 info-build:
 	@echo "****************************************************************************"
-	@echo "  GENERATING SAMPLE 1 BUILD"
+	@echo "  GENERATING AT-A-GLANCE BUILD"
 	@echo "****************************************************************************"
 
 info-source:
 	@echo "****************************************************************************"
-	@echo "  GENERATING SAMPLE 1 SOURCE"
+	@echo "  GENERATING AT-A-GLANCE SOURCE"
 	@echo "****************************************************************************"
