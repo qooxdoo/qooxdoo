@@ -3,8 +3,8 @@
 ###################################################################################
 
 QOOXDOO = ../../..
-SCRIPTNAME = ataglance.js
-APPCLASS = demo.AtAGlance
+SCRIPTNAME = glance.js
+APPCLASS = glance.Application
 INCLUDEALL = false
 OPTIMIZESTRINGS = true
 OPTIMIZEVARIABLES = true
@@ -221,7 +221,7 @@ sync-qooxdoo-org:
 	@echo "  SYNC FILES TO HOMEPAGE"
 	@echo "----------------------------------------------------------------------------"
 	@echo "  * Syncing..."
-	@nice -n $(NICE) rsync $(SYNCOPT) build/* root@qooxdoo.org:/var/www/qooxdoo/demo/ataglance
+	@nice -n $(NICE) rsync $(SYNCOPT) build/* root@qooxdoo.org:/var/www/qooxdoo/demo/glance
 
 
 
