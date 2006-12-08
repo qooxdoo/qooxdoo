@@ -680,10 +680,6 @@ class Textiler:
                                 (?P<text>.*)             # text
                              ''' % self.res, self.pre),
    
-                           # Pre-formatted text. (HTML syntax)
-                           (r'''^<pre>?(?P<text>.*?)(</pre>)?$
-                             ''', self.pre),
-
                            # Block code.
                            (r'''^bc                      # Blockcode signature
                                 %(battr)s                # Blockcode attributes
@@ -788,6 +784,22 @@ class Textiler:
                           ]
 
 
+    def protectPre(self, text):
+        regexps = re.compile(r'''^<pre>?(?P<text>.*?)</pre>?$''', re.VERBOSE | re.DOTALL | re.M)
+        counter = 0
+        self.protectedPres = []
+        
+        for item in regexps.findall(text):
+          text = text.replace(item, "[[[[[REPL%s]]]]]" % counter, 1)
+          self.protectedPres.append(item)    
+          counter += 1  
+          
+        #if len(self.protectedPres) > 0:
+        #  print ">>>> PREPROCESSED: %s items" % len(self.protectedPres)  
+          
+        return text    
+
+
     def preprocess(self):
         """Pre-processing of the text.
 
@@ -800,9 +812,25 @@ class Textiler:
         self.text = self.text.replace("\r\n", "\n")
         self.text = self.text.replace("\r", "\n")
 
+        # Protect existing pre blocks
+        self.text = self.protectPre(self.text)
+
         # Minor sanitizing.
         self.text = self.sanitize(self.text)
+        
 
+    def postprocess(self, text):
+        counter = 0
+        
+        #if len(self.protectedPres) > 0:
+        #  print ">>>> POSTPROCESS: %s items" % len(self.protectedPres)
+      
+        for entry in self.protectedPres:
+          text = text.replace("[[[[[REPL%s]]]]]" % counter, entry, 1)        
+          counter += 1
+        
+        return text
+        
 
     def grab_links(self):
         """Grab link lookups.
@@ -853,6 +881,9 @@ class Textiler:
         # Convert to desired output.
         text = unicode(text, encoding)
         text = text.encode(output, 'xmlcharrefreplace')
+        
+        # Postprocess
+        text = self.postprocess(text)
 
         # Sanitize?
         if sanitize:
@@ -955,6 +986,8 @@ class Textiler:
         clear = None
 
         extending  = 0
+        
+        
 
         # We capture the \n's because they are important inside "pre..".
         blocks = re.split(r'''((\n\s*){2,})''', self.text)
