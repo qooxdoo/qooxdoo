@@ -450,10 +450,6 @@ def cleanupText(text):
 def formatText(text):
   text = cleanupText(text)
   
-  # Be sure that pre blocks are separated from previous/next blocks
-  text = text.replace("<pre>", "\n<pre>")
-  text = text.replace("</pre>", "</pre>\n")
-  
   #if "\n" in text:
   #  print
   #  print "------------- ORIGINAL ----------------"
