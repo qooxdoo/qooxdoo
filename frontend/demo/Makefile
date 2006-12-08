@@ -13,17 +13,17 @@ all: build
 
 
 build:
-	@$(MAKE) -C ataglance build
+	@$(MAKE) -C glance build
 	@$(MAKE) -C webmail build
 	@$(MAKE) -C feedreader build
-	@$(MAKE) -C samples build
+	@$(MAKE) -C sample build
 
 
 source:
-	@$(MAKE) -C ataglance source
+	@$(MAKE) -C glance source
 	@$(MAKE) -C webmail source
 	@$(MAKE) -C feedreader source
-	@$(MAKE) -C samples source
+	@$(MAKE) -C sample source
 	
 
 
@@ -34,22 +34,22 @@ source:
 ###################################################################################
 
 clean:
-	@$(MAKE) -C ataglance clean
+	@$(MAKE) -C glance clean
 	@$(MAKE) -C webmail clean
 	@$(MAKE) -C feedreader clean
-	@$(MAKE) -C samples clean
+	@$(MAKE) -C sample clean
 
 realclean:
-	@$(MAKE) -C ataglance realclean
+	@$(MAKE) -C glance realclean
 	@$(MAKE) -C webmail realclean
 	@$(MAKE) -C feedreader realclean
-	@$(MAKE) -C samples realclean
+	@$(MAKE) -C sample realclean
 
 distclean:
-	@$(MAKE) -C ataglance distclean
+	@$(MAKE) -C glance distclean
 	@$(MAKE) -C webmail distclean
 	@$(MAKE) -C feedreader distclean
-	@$(MAKE) -C samples distclean
+	@$(MAKE) -C sample distclean
 
 
 
@@ -60,7 +60,7 @@ distclean:
 ###################################################################################
 
 sync:
-	@$(MAKE) -C ataglance sync
+	@$(MAKE) -C glance sync
 	@$(MAKE) -C webmail sync
 	@$(MAKE) -C feedreader sync
-	@$(MAKE) -C samples sync
+	@$(MAKE) -C sample sync
