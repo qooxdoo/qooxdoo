@@ -3,8 +3,8 @@
 ###################################################################################
 
 QOOXDOO = ../../..
-SCRIPTNAME = mail.js
-APPCLASS = demo.Mail
+SCRIPTNAME = webmail.js
+APPCLASS = webmail.Application
 INCLUDEALL = false
 OPTIMIZESTRINGS = true
 OPTIMIZEVARIABLES = true
