@@ -23,6 +23,7 @@ FRAMEWORK = $(FRONTEND)/framework
 API = $(FRONTEND)/api
 CACHE = $(FRAMEWORK)/.cache
 GENERATOR = $(FRAMEWORK)/tool/generator.py
+SYNCOPT=--checksum --recursive --links --safe-links --delete --compress
 
 ifeq ($(INCLUDEALL),false)
   INCLUDE = --include $(APPCLASS)
@@ -222,7 +223,7 @@ sync-qooxdoo-org:
 	@echo "  SYNC FILES TO HOMEPAGE"
 	@echo "----------------------------------------------------------------------------"
 	@echo "  * Syncing..."
-	@nice -n $(NICE) rsync --checksum --recursive --delete --verbose --exclude '.svn' webmail/build/* root@qooxdoo.org:/var/www/qooxdoo/demo/webmail
+	@nice -n $(NICE) rsync $(SYNCOPT) build/* root@qooxdoo.org:/var/www/qooxdoo/demo/webmail
 
 
 
