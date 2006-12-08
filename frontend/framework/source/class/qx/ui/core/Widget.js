@@ -1793,9 +1793,11 @@ qx.Proto.addToDocument = function() {
   qx.ui.core.ClientDocument.getInstance().add(this);
 }
 
-/*!
-  Check if the widget is created (or the element is already available).
-*/
+/**
+ * Check if the widget is created (or the element is already available).
+ *
+ * @return {boolean} whether the widget is already created.
+ */
 qx.Proto.isCreated = function() {
   return this._isCreated;
 }

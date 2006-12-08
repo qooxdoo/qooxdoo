@@ -249,11 +249,11 @@ extract-messages:
 	#cp $(PODIR)/$(APPNAME).pot $@
 
 	@cp  $@  $@.old
-	@msgmerge $@.old $(PODIR)/$(APPNAME).pot > $@
+	msgmerge $@.old $(PODIR)/$(APPNAME).pot > $@
 	@rm $@.old
 
 message-format:
-	@find $(PODIR) -name '*.po' | xargs python $(QXMSGFMT) --namespace=$(LOCALE_NAMESPACE) -d $(LOCALE_TARGET_DIRECTORY)
+	find $(PODIR) -name '*.po' | xargs python $(QXMSGFMT) --namespace=$(LOCALE_NAMESPACE) -d $(LOCALE_TARGET_DIRECTORY)
 
 
 
