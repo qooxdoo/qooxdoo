@@ -95,6 +95,7 @@
   -moz-border-radius: 5px;
   padding: 12px;
   padding-top: 4px;
+  padding-bottom: 4px;
 
   width: 650px;
 }
