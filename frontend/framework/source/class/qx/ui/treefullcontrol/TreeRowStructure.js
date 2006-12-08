@@ -27,11 +27,11 @@
  * This is a singleton class.  The constructor is not accessed by users;
  * instead, to obtain the one and only TreeRowStructure object, call either
  *
- *   @qx.ui.treefullcontrol.TreeRowStructure.newRow()@
+ * <pre>qx.ui.treefullcontrol.TreeRowStructure.newRow()</pre>
  *
  * or
  *
- *   @qx.ui.treefullcontrol.TreeRowStructure.standard().@
+ * <pre>qx.ui.treefullcontrol.TreeRowStructure.standard().</pre>
  *
  * The structure of a tree row is provided by a
  * qx.ui.treefullcontrol.TreeRowStructure.  The order of elements added to
