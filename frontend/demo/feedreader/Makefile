@@ -10,8 +10,8 @@ INCLUDEALL = false
 OPTIMIZESTRINGS = true
 OPTIMIZEVARIABLES = true
 NICE=10
-LOCALE_NAMESPACE=demo.nls
-LOCALE_TARGET_DIRECTORY=source/class/demo/nls
+LOCALE_NAMESPACE=feedreader.nls
+LOCALE_TARGET_DIRECTORY=source/class/feedreader/nls
 LOCALES=de fr de_AT
 
 
