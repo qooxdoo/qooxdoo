@@ -179,7 +179,7 @@ def _in_tag(text, tag):
         text = text.split('</%s' % tag, 1)[0]
 
     text = text.strip().replace('\r\n', '\n')
-
+    
     return text
 
 
@@ -680,6 +680,10 @@ class Textiler:
                                 (?P<text>.*)             # text
                              ''' % self.res, self.pre),
    
+                           # Pre-formatted text. (HTML syntax)
+                           (r'''^<pre>?(?P<text>.*?)(</pre>)?$
+                             ''', self.pre),
+
                            # Block code.
                            (r'''^bc                      # Blockcode signature
                                 %(battr)s                # Blockcode attributes
@@ -753,7 +757,7 @@ class Textiler:
                            # Escaped text.
                            (r'''^==?(?P<text>.*?)(==)?$  # Escaped text
                              ''', self.escape),
-   
+
                            (r'''^(?P<text><.*)$          # XHTML tag
                              ''', self.escape),
    
@@ -1236,7 +1240,7 @@ class Textiler:
                 if attributes.has_key('id'): del attributes['id']
 
                 # Break lines. 
-                line = preg_replace(r'(<br />|\n)+', '<br />\n', line)
+                # line = preg_replace(r'(<br />|\n)+', '<br />\n', line)
 
                 # Remove <br /> from inside broken HTML tags.
                 line = preg_replace(r'(<[^>]*)<br />\n(.*?>)', r'\1 \2', line)
