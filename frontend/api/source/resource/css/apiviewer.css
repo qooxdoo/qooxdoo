@@ -89,18 +89,19 @@
 #ClassViewer div.classDescription{
   font-size: 12px;
 
-  background: #E9F2FB;
-  border: 1px solid #E9F2FB;
+  background: #F3FFD1;
+  border: 1px solid #F3FFD1;
 
   -moz-border-radius: 5px;
   padding: 12px;
   padding-top: 4px;
 
-  width: 450px;
+  width: 650px;
 }
 
 #ClassViewer div.classDescription p{
-  margin-top: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 #ClassViewer div.packageName{
@@ -197,6 +198,10 @@
   cursor: default;
 }
 
+#ClassViewer table.info td.text{
+  padding-right: 10px;
+}
+
 #ClassViewer table.info td.text h3{
   cursor: default;
 }
@@ -255,8 +260,15 @@
 #ClassViewer pre,
 #ClassViewer span.item-detail-param-name {
   font-family: Consolas, "Bitstream Vera Sans Mono", "Courier New", monospace;
-  background: #E9F2FB;
+  background: #FFF;
   padding: 1px;
+}
+
+#ClassViewer pre{
+  overflow: auto;
+  padding: 4px 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 
 #ClassViewer span.caps{
