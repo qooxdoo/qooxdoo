@@ -252,6 +252,7 @@
 }
 
 #ClassViewer code,
+#ClassViewer pre,
 #ClassViewer span.item-detail-param-name {
   font-family: Consolas, "Bitstream Vera Sans Mono", "Courier New", monospace;
   background: #E9F2FB;
