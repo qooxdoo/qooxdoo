@@ -31,7 +31,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("demo.AtAGlance", qx.component.AbstractApplication,
+qx.OO.defineClass("glance.Application", qx.component.AbstractApplication,
 function () {
   qx.component.AbstractApplication.call(this);
 });
