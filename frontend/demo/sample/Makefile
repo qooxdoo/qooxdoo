@@ -56,8 +56,8 @@ all: build
 # COMMON TARGETS
 ###################################################################################
 
-source: generate-script-source update-layout-source
-build: generate-script-build update-layout-build
+source: info-source generate-script-source update-layout-source
+build: info-build generate-script-build update-layout-build
 sync: build sync-qooxdoo-org
 
 
@@ -174,3 +174,23 @@ sync-qooxdoo-org:
 	@echo "----------------------------------------------------------------------------"
 	@echo "  * Syncing..."
 	@nice -n $(NICE) rsync $(SYNCOPT) build/* root@qooxdoo.org:/var/www/qooxdoo/demo/sample
+
+
+
+
+
+
+
+###################################################################################
+# INFO TARGETS
+###################################################################################
+
+info-build:
+	@echo "****************************************************************************"
+	@echo "  GENERATING SAMPLE BUILD"
+	@echo "****************************************************************************"
+
+info-source:
+	@echo "****************************************************************************"
+	@echo "  GENERATING SAMPLE SOURCE"
+	@echo "****************************************************************************"

@@ -275,10 +275,10 @@ sync-qooxdoo-org:
 
 info-build:
 	@echo "****************************************************************************"
-	@echo "  GENERATING FEEDREADER BUILD"
+	@echo "  GENERATING FEED READER BUILD"
 	@echo "****************************************************************************"
 
 info-source:
 	@echo "****************************************************************************"
-	@echo "  GENERATING FEEDREADER SOURCE"
+	@echo "  GENERATING FEED READER SOURCE"
 	@echo "****************************************************************************"
