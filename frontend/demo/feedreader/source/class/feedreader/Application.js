@@ -51,7 +51,8 @@ qx.OO.addProperty({name: "selectedFeed"});
 ---------------------------------------------------------------------------
 */
 
-if (qx.sys.Client.getInstance().getRunsLocally())
+// Temporary disabled (PHP file needs to be fixed)
+if (qx.sys.Client.getInstance().getRunsLocally() && false)
 {
 	qx.Class._feedDesc = [
 	  {
@@ -71,7 +72,9 @@ if (qx.sys.Client.getInstance().getRunsLocally())
 	    name: "Surfin' Safari"
 	  }
 	];
-} else {	
+} 
+else 
+{	
 	qx.Class._feedDesc = [
 	  {
 	    url: "./resource/proxy/proxy.php?proxy=" + encodeURIComponent("http://feeds.feedburner.com/qooxdoo/blog/content"),
