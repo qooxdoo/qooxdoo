@@ -448,31 +448,22 @@ def cleanupText(text):
 
 
 def formatText(text):
-  #print "============= FORMAT:1 ========================="
-  #print text
-
-  # cleanup HTML
-  text = text.replace("<p>", "\n")
-  text = text.replace("<br/>", "\n")
-  text = text.replace("<br>", "\n")
-  text = text.replace("</p>", " ")
-
-  # cleanup wraps
-  text = text.replace("\n\n", "----BREAK----")
-  text = text.replace("\n*", "----UL----")
-  text = text.replace("\n#", "----OL----")
-  text = text.replace("\n", " ")
-  text = text.replace("----BREAK----", "\n\n")
-  text = text.replace("----UL----", "\n*")
-  text = text.replace("----OL----", "\n#")
-
-  #print "============= FORMAT:2 ========================="
-  #print text
-
+  text = cleanupText(text)
+  
+  # Be sure that pre blocks are separated from previous/next blocks
+  text = text.replace("<pre>", "\n<pre>")
+  text = text.replace("</pre>", "</pre>\n")
+  
+  #if "\n" in text:
+  #  print
+  #  print "------------- ORIGINAL ----------------"
+  #  print text
+  
   text = textile.textile(unicode(text).encode('utf-8'))
-
-  #print "============= FORMAT:3 ========================="
-  #print text
+  
+  #if "\n" in text:
+  #  print "------------- TEXTILED ----------------"
+  #  print text
 
   return text
 
