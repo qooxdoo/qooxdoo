@@ -19,7 +19,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("demo.ArticleView", qx.ui.basic.Terminator,
+qx.OO.defineClass("feedreader.ArticleView", qx.ui.basic.Terminator,
 function(article) {
   qx.ui.basic.Terminator.call(this);
   this.setCssClassName("blogEntry");
