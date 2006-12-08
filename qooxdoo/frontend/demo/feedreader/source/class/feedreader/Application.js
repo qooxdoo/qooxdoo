@@ -28,7 +28,7 @@
 #embed(icon/16/reload.png)
 #embed(icon/16/locale.png)
 #embed(icon/16/help.png)
-#load(feedreader.nls.de)
+#load(feedreader.locale.de)
 
 ************************************************************************ */
 
