@@ -15,11 +15,16 @@ else
 endif
 
 
+
+
+
 ###################################################################################
 # DEFAULT TARGET
 ###################################################################################
 
 all: build
+
+
 
 
 
@@ -29,7 +34,10 @@ all: build
 
 source: generate-script-source update-layout-source
 build: generate-script-build update-layout-build fix-build-rights
-sync: revision-bump build sync-qooxdoo-org
+sync: build sync-qooxdoo-org
+
+
+
 
 
 
@@ -58,6 +66,10 @@ distclean: realclean
 	@echo "  * Deleting files..."
 	@nice -n $(NICE) find . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
 	@nice -n $(NICE) rm -rf $(CACHE)
+
+
+
+
 
 
 
@@ -103,6 +115,11 @@ generate-script-build-test:
     --cache-directory $(CACHE)
 
 
+
+
+
+
+
 ###################################################################################
 # FILE RELATED TARGETS
 ###################################################################################
@@ -145,16 +162,14 @@ fix-build-rights:
 
 
 
+
 ###################################################################################
 # ONLINE TARGETS
 ###################################################################################
-
-revision-bump:
-	@$(MAKE) -C ../framework revision-bump
 
 sync-qooxdoo-org:
 	@echo
 	@echo "  SYNC FILES TO HOMEPAGE"
 	@echo "----------------------------------------------------------------------------"
 	@echo "  * Syncing..."
-	@nice -n $(NICE) rsync --checksum --recursive --archive --delete --verbose build/* root@qooxdoo.org:/var/www/qooxdoo/demo
+	@nice -n $(NICE) rsync --checksum --recursive --delete --verbose --exclude '.svn' build/* root@qooxdoo.org:/var/www/qooxdoo/demo/samples

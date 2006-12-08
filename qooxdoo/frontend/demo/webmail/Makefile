@@ -12,6 +12,9 @@ SOURCELOADER=
 NICE=10
 
 
+
+
+
 ###################################################################################
 # PRIVATE VARIABLES
 ###################################################################################
@@ -48,11 +51,16 @@ else
 endif
 
 
+
+
+
 ###################################################################################
 # DEFAULT TARGET
 ###################################################################################
 
 all: build
+
+
 
 
 
@@ -72,6 +80,10 @@ api: generate-api-build generate-api-data
 
 pretty: generate-pretty
 fix: generate-fix
+sync: build sync-qooxdoo-org
+
+
+
 
 
 
@@ -100,6 +112,10 @@ distclean: realclean
 	@echo "  * Deleting files..."
 	@nice -n $(NICE) find . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
 	@nice -n $(NICE) rm -rf $(CACHE)
+
+
+
+
 
 
 
@@ -177,6 +193,9 @@ generate-fix:
 
 
 
+
+
+
 ###################################################################################
 # ADDITIONAL TARGETS
 ###################################################################################
@@ -195,6 +214,23 @@ fix-build-rights:
 	@echo "  * Fixing file rights..."
 	@nice -n $(NICE) find build -type d | xargs chmod a+rx
 	@nice -n $(NICE) find build -type f | xargs chmod a+r
+
+
+
+
+
+
+###################################################################################
+# ONLINE TARGETS
+###################################################################################
+
+sync-qooxdoo-org:
+	@echo
+	@echo "  SYNC FILES TO HOMEPAGE"
+	@echo "----------------------------------------------------------------------------"
+	@echo "  * Syncing..."
+	@nice -n $(NICE) rsync --checksum --recursive --delete --verbose --exclude '.svn' webmail/build/* root@qooxdoo.org:/var/www/qooxdoo/demo/webmail
+
 
 
 
