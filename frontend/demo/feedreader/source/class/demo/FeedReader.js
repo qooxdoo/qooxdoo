@@ -20,6 +20,7 @@
 #resource(readerfeeds:feeds)
 #resource(readercss:css)
 #resource(proxy:proxy)
+#embed(proxy/*)
 #embed(readerfeeds/*)
 #embed(readercss/*)
 #embed(icon/16/button-ok.png)
