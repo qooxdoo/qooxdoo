@@ -59,6 +59,12 @@ def add (msgid, transtr, fuzzy):
         MESSAGES[msgid] = transtr
 
 
+def escapeJS(str):
+	str = str.replace('"', '\\"')
+	str = str.replace("'", "\\'")
+	return str
+	
+
 def generate(infile, languageCode, namespace):
 	global MESSAGES
 	if namespace != "": namespace += "."
@@ -108,7 +114,7 @@ qx.Locale.define("%s%s",
 	
 	for msg in normalizedMessages:
 		if msg == "": continue
-		translations.append('  "%s": "%s"' % (msg, normalizedMessages[msg]))
+		translations.append('  "%s": "%s"' % (msg, escapeJS(normalizedMessages[msg])))
 	output += (",\n").join(translations)
 	output += "\n});"
 	#print output
