@@ -81,7 +81,7 @@ qx.Proto._appearances = {};
  * }
  * </pre>
  * @param vId {string} id of the apperance (e.g. "button", "label", ...)
- * @param vData {Hash}
+ * @param vData {Map}
  */
 qx.Proto.registerAppearance = function(vId, vData) {
   this._appearances[vId] = vData;
@@ -133,7 +133,7 @@ qx.Proto.setupAppearance = function(vAppearance)
  * Get the result of the "initial" function for a given id
  *
  * @param vId {string} id of the apperance (e.g. "button", "label", ...)
- * @return {Hash} map of widget properties as returned by the "initial" function
+ * @return {Map} map of widget properties as returned by the "initial" function
  */
 qx.Proto.initialFrom = function(vId)
 {
@@ -162,8 +162,8 @@ qx.Proto.initialFrom = function(vId)
  * Get the result of the "state" function for a given id and states
  *
  * @param vId {string} id of the apperance (e.g. "button", "label", ...)
- * @param vStates {Hash} hash map defining the set states
- * @return {Hash} map of widget properties as returned by the "state" function
+ * @param vStates {Map} hash map defining the set states
+ * @return {Map} map of widget properties as returned by the "state" function
  */
 qx.Proto.stateFrom = function(vId, vStates)
 {
