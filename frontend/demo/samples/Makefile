@@ -146,8 +146,6 @@ update-demo-build:
 	@echo "  CREATE COPY OF HTML FILES"
 	@echo "----------------------------------------------------------------------------"
 	@echo "  * Copying files..."
-	@mkdir -p build
-	@cp -f source/index.html build/
 	@mkdir -p build/html
 	@nice -n $(NICE) rsync --recursive --links --delete --exclude=.svn source/html/* build/html
 	@mkdir -p build/resource/css
