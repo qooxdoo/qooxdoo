@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-08 09:11+0100\n"
+"POT-Creation-Date: 2006-12-08 10:48+0100\n"
 "PO-Revision-Date: 2006-12-07 18:01+0100\n"
 "Last-Translator: Fabian Jakobs <fabian.jakobs@web.de>\n"
 "Language-Team: German <en@li.org>\n"
@@ -21,52 +21,52 @@ msgstr ""
 msgid "read more ..."
 msgstr "weitere Informationen ..."
 
-#: source/class//demo/FeedReader.js:92
+#: source/class//demo/FeedReader.js:115
 msgid "realoding ..."
 msgstr "aktualisieren ..."
 
-#: source/class//demo/FeedReader.js:97
+#: source/class//demo/FeedReader.js:120
 msgid "qooxdoo feed reader."
 msgstr ""
 
-#: source/class//demo/FeedReader.js:101
+#: source/class//demo/FeedReader.js:124
 msgid "Add feed"
 msgid_plural "Add feeds"
 msgstr[0] "Feed hinzufügen"
 msgstr[1] "Feeds hinzufügen"
 
-#: source/class//demo/FeedReader.js:102
+#: source/class//demo/FeedReader.js:125
 msgid "Remove feed"
 msgstr "Feed löschen"
 
-#: source/class//demo/FeedReader.js:105
+#: source/class//demo/FeedReader.js:128
 msgid "Reload"
 msgstr "Aktualisieren"
 
-#: source/class//demo/FeedReader.js:107
+#: source/class//demo/FeedReader.js:130
 msgid "(%1) Reload the feeds."
 msgstr ""
 
-#: source/class//demo/FeedReader.js:110
+#: source/class//demo/FeedReader.js:133
 msgid "German"
 msgstr "Deutsch"
 
-#: source/class//demo/FeedReader.js:119
+#: source/class//demo/FeedReader.js:142
 msgid "Help"
 msgstr ""
 
-#: source/class//demo/FeedReader.js:126
+#: source/class//demo/FeedReader.js:149
 msgid "News feeds"
 msgstr ""
 
-#: source/class//demo/FeedReader.js:146
+#: source/class//demo/FeedReader.js:169
 msgid "Subject"
 msgstr ""
 
-#: source/class//demo/FeedReader.js:147
+#: source/class//demo/FeedReader.js:170
 msgid "Sender"
 msgstr ""
 
-#: source/class//demo/FeedReader.js:148
+#: source/class//demo/FeedReader.js:171
 msgid "Date"
 msgstr ""

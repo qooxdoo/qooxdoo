@@ -19,6 +19,7 @@
 
 #resource(readerfeeds:feeds)
 #resource(readercss:css)
+#resource(proxy:proxy)
 #embed(readerfeeds/*)
 #embed(readercss/*)
 #embed(icon/16/button-ok.png)
@@ -49,24 +50,46 @@ qx.OO.addProperty({name: "selectedFeed"});
 ---------------------------------------------------------------------------
 */
 
-qx.Class._feedDesc = [
-  {
-    url: "./resource/feeds/qooxdoo-news.xml",
-    name: "qooxdoo-news"
-  },
-  {
-    url: "./resource/feeds/qooxdoo-blog.xml",
-    name: "qooxdoo-blog"
-  },
-  {
-    url: "./resource/feeds/ajaxian.xml",
-    name: "ajaxian"
-  },
-  {
-    url: "./resource/feeds/safari.xml",
-    name: "Surfin' Safari"
-  }
-];
+if (qx.sys.Client.getInstance().getRunsLocally())
+{
+	qx.Class._feedDesc = [
+	  {
+	    url: "./resource/feeds/qooxdoo-news.xml",
+	    name: "qooxdoo-news"
+	  },
+	  {
+	    url: "./resource/feeds/qooxdoo-blog.xml",
+	    name: "qooxdoo-blog"
+	  },
+	  {
+	    url: "./resource/feeds/ajaxian.xml",
+	    name: "ajaxian"
+	  },
+	  {
+	    url: "./resource/feeds/safari.xml",
+	    name: "Surfin' Safari"
+	  }
+	];
+} else {	
+	qx.Class._feedDesc = [
+	  {
+	    url: "./resource/proxy/proxy.php?proxy=" + encodeURIComponent("http://feeds.feedburner.com/qooxdoo/blog/content"),
+	    name: "qooxdoo-news"
+	  },
+	  {
+	    url: "./resource/proxy/proxy.php?proxy=" + encodeURIComponent("http://feeds.feedburner.com/qooxdoo/news/content"),
+	    name: "qooxdoo-blog"
+	  },
+	  {
+	    url: "./resource/proxy/proxy.php?proxy=" + encodeURIComponent("http://feeds.feedburner.com/ajaxian"),
+	    name: "ajaxian"
+	  },
+	  {
+	    url: "./resource/proxy/proxy.php?proxy=" + encodeURIComponent("http://webkit.org/blog/?feed=rss2"),
+	    name: "Surfin' Safari"
+	  }
+	];
+}
 
 qx.Proto.initialize = function(e)
 {
@@ -178,7 +201,7 @@ qx.Proto.fetchFeeds = function() {
   var that = this;
   var getCallback = function(feedName) {
     return function(e) {
-      //that.debug("loading " + feedName + " complete!");
+      that.debug("loading " + feedName + " complete!");
       that.parseXmlFeed(feedName, e.getData().getContent());
     }
   }
@@ -194,7 +217,6 @@ qx.Proto.getElementsByTagNameNS = function(element, ns, nsPrefix, name) {
   if (element.getElementsByTagNameNS) {
     return element.getElementsByTagNameNS(ns, name);
   } else {
-    //this.debug(element.getElementsByTagName(name)[0].tagName);
     return element.getElementsByTagName(nsPrefix+':'+name);
   }
 };
