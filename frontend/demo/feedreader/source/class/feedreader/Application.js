@@ -116,7 +116,7 @@ qx.Proto.main = function(e)
   var reload_cmd = new qx.client.Command("Control+R");
   reload_cmd.addEventListener("execute", function(e) {
     this.fetchFeeds();
-    this.debug(this.tr("realoding ..."));
+    this.debug(this.tr("reloading ..."));
   }, this);
 
   var about_cmd = new qx.client.Command("F1");
