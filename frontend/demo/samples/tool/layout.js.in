@@ -100,7 +100,7 @@
   var pagename = split[1].replace(".html", "").replace(/_/g, " ");
   pagename = pagename.charAt(0).toUpperCase() + pagename.substring(1);
 
-  document.title = "qooxdoo » Demo » " + category + " » " + pagename;
+  document.title = "qooxdoo » Demo » Samples » " + category + " » " + pagename;
 
   if (window.location.href.indexOf("demo.qooxdoo.org") != -1)
   {
