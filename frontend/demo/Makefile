@@ -1,10 +1,9 @@
-NICE=10
-
 ###################################################################################
 # DEFAULT TARGET
 ###################################################################################
 
 all: build
+
 
 
 
@@ -26,6 +25,8 @@ source:
 	@$(MAKE) -C feedreader source
 	@$(MAKE) -C samples source
 	
+
+
 
 
 ###################################################################################
@@ -51,21 +52,15 @@ distclean:
 	@$(MAKE) -C samples distclean
 
 
+
+
+
 ###################################################################################
-# ONLINE TARGETS
+# SYNC TARGETS
 ###################################################################################
 
-revision-bump:
-	@$(MAKE) -C ../framework revision-bump
-
-sync-qooxdoo-org:
-	@echo
-	@echo "  SYNC FILES TO HOMEPAGE"
-	@echo "----------------------------------------------------------------------------"
-	@echo "  * Syncing..."
-	
-	@nice -n $(NICE) rsync --checksum --recursive --delete --verbose --exclude '.svn' ataglance/build/* root@qooxdoo.org:/var/www/qooxdoo/demo/ataglance
-	@nice -n $(NICE) rsync --checksum --recursive --delete --verbose --exclude '.svn' samples/build/* root@qooxdoo.org:/var/www/qooxdoo/demo/samples
-	@nice -n $(NICE) rsync --checksum --recursive --delete --verbose --exclude '.svn' webmail/build/* root@qooxdoo.org:/var/www/qooxdoo/demo/webmail
-	@nice -n $(NICE) rsync --checksum --recursive --delete --verbose --exclude '.svn' feedreader/build/* root@qooxdoo.org:/var/www/qooxdoo/demo/feedreader
-
+sync:
+	@$(MAKE) -C ataglance sync
+	@$(MAKE) -C webmail sync
+	@$(MAKE) -C feedreader sync
+	@$(MAKE) -C samples sync

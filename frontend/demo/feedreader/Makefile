@@ -17,6 +17,10 @@ LOCALE_TARGET_DIRECTORY=source/class/demo/nls
 LOCALES=de fr de_AT en_GB
 
 
+
+
+
+
 ###################################################################################
 # PRIVATE VARIABLES
 ###################################################################################
@@ -57,11 +61,18 @@ else
 endif
 
 
+
+
+
+
 ###################################################################################
 # DEFAULT TARGET
 ###################################################################################
 
 all: build
+
+
+
 
 
 
@@ -81,6 +92,10 @@ api: generate-api-build generate-api-data
 
 pretty: generate-pretty
 fix: generate-fix
+sync: build sync-qooxdoo-org
+
+
+
 
 
 
@@ -109,6 +124,10 @@ distclean: realclean
 	@echo "  * Deleting files..."
 	@nice -n $(NICE) find . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
 	@nice -n $(NICE) rm -rf $(CACHE)
+
+
+
+
 
 
 
@@ -188,6 +207,8 @@ generate-fix:
 
 
 
+
+
 ###################################################################################
 # ADDITIONAL TARGETS
 ###################################################################################
@@ -206,6 +227,10 @@ fix-build-rights:
 	@echo "  * Fixing file rights..."
 	@nice -n $(NICE) find build -type d | xargs chmod a+rx
 	@nice -n $(NICE) find build -type f | xargs chmod a+r
+
+
+
+
 
 
 ###################################################################################
@@ -229,6 +254,27 @@ extract-messages:
 
 message-format:
 	@find $(PODIR) -name '*.po' | xargs python $(QXMSGFMT) --namespace=$(LOCALE_NAMESPACE) -d $(LOCALE_TARGET_DIRECTORY)
+
+
+
+
+
+
+###################################################################################
+# ONLINE TARGETS
+###################################################################################
+
+sync-qooxdoo-org:
+	@echo
+	@echo "  SYNC FILES TO HOMEPAGE"
+	@echo "----------------------------------------------------------------------------"
+	@echo "  * Syncing..."
+	@nice -n $(NICE) rsync --checksum --recursive --delete --verbose --exclude '.svn' build/* root@qooxdoo.org:/var/www/qooxdoo/demo/feedreader
+
+
+
+
+
 
 ###################################################################################
 # INFO TARGETS
