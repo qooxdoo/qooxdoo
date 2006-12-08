@@ -5,7 +5,7 @@
 QOOXDOO = ../../..
 APPNAME=feedreader
 SCRIPTNAME = $(APPNAME).js
-APPCLASS = demo.FeedReader
+APPCLASS = feedreader.Application
 INCLUDEALL = false
 OPTIMIZESTRINGS = true
 OPTIMIZEVARIABLES = true

@@ -28,14 +28,14 @@
 #embed(icon/16/reload.png)
 #embed(icon/16/locale.png)
 #embed(icon/16/help.png)
-#load(demo.nls.de)
+#load(feadreader.nls.de)
 
 ************************************************************************ */
 
 /**
  * qooxdoo news reader Application class
  */
-qx.OO.defineClass("demo.FeedReader", qx.component.AbstractApplication,
+qx.OO.defineClass("feedreader.Application", qx.component.AbstractApplication,
 function () {
   qx.component.AbstractApplication.call(this);
 
@@ -153,7 +153,7 @@ qx.Proto.main = function(e)
   tree.setBackgroundColor("#EEEEEE");
   tree.setMargin(3);
 
-  var feedDesc = demo.FeedReader._feedDesc;
+  var feedDesc = feedreader.Application._feedDesc;
   for (var i=0; i<feedDesc.length; i++) {
     var folder = new qx.ui.tree.TreeFolder(feedDesc[i].name);
     tree.getManager().addEventListener("changeSelection", function(e) {
@@ -184,7 +184,7 @@ qx.Proto.main = function(e)
     this.displayArticle(item);
   }, this);
 
-  this._blogEntry = new demo.ArticleView();
+  this._blogEntry = new feedreader.ArticleView();
   this._blogEntry.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
 
   var contentArea = new qx.ui.layout.DockLayout();
@@ -198,7 +198,7 @@ qx.Proto.main = function(e)
 };
 
 qx.Proto.fetchFeeds = function() {
-  var feedDesc = demo.FeedReader._feedDesc;
+  var feedDesc = feedreader.Application._feedDesc;
   var that = this;
   var getCallback = function(feedName) {
     return function(e) {
