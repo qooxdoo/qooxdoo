@@ -54,10 +54,9 @@ qx.Proto.main = function(e)
 
   var dockLayout = new qx.ui.layout.DockLayout;
 
-  dockLayout.setLocation(20, 48);
-  dockLayout.setDimension(700, 500);
+  dockLayout.setLocation(0, 0);
+  dockLayout.setDimension(800, 600);
   dockLayout.setBackgroundColor("white");
-  dockLayout.setBorder(qx.renderer.border.BorderPresets.getInstance().black);
 
   doc.add(dockLayout);
 
@@ -144,8 +143,8 @@ qx.Proto.main = function(e)
 
   var view = new qx.ui.listview.ListView(ld, lc);
 
-  view.setLocation(220, 95);
-  view.setDimension(499, 430);
+  view.setLocation(200, 47);
+  view.setDimension(600, 530);
   view.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
 
   doc.add(view);
