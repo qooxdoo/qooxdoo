@@ -3,7 +3,7 @@
 ###################################################################################
 
 QOOXDOO = ../../..
-SCRIPTNAME = samples.js
+SCRIPTNAME = sample.js
 APPCLASS = 
 OPTIMIZESTRINGS = true
 OPTIMIZEVARIABLES = true
@@ -173,4 +173,4 @@ sync-qooxdoo-org:
 	@echo "  SYNC FILES TO HOMEPAGE"
 	@echo "----------------------------------------------------------------------------"
 	@echo "  * Syncing..."
-	@nice -n $(NICE) rsync $(SYNCOPT) build/* root@qooxdoo.org:/var/www/qooxdoo/demo/samples
+	@nice -n $(NICE) rsync $(SYNCOPT) build/* root@qooxdoo.org:/var/www/qooxdoo/demo/sample
