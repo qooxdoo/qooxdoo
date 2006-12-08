@@ -1,18 +1,22 @@
 ###################################################################################
-# VARIABLES
+# PUBLIC VARIABLES
+###################################################################################
+
+NICE=10
+
+
+
+
+###################################################################################
+# PRIVATE VARIABLES
 ###################################################################################
 
 FRAMEWORK=../framework
 GENERATOR=$(FRAMEWORK)/tool/generator.py
 CACHE=$(FRAMEWORK)/.cache
-SOURCELOADER=
-NICE=10
+SYNCOPT=--checksum --recursive --links --safe-links --delete --compress
 
-ifneq ($(SOURCELOADER),)
-  SOURCELDR = --source-loader-type $(SOURCELOADER)
-else
-  SOURCELDR =
-endif
+
 
 
 ###################################################################################
@@ -76,7 +80,7 @@ generate-script-source:
 	  --script-input source/class \
 	  --source-script-path class \
 	  --include api \
-	  --generate-source-script $(SOURCELDR) \
+	  --generate-source-script \
 	  --source-script-file source/script/api.js \
 	  --add-new-lines \
 	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:../$(FRAMEWORK)/source/resource \
@@ -146,6 +150,9 @@ generate-fix:
 
 
 
+
+
+
 ###################################################################################
 # FILE RELATED TARGETS
 ###################################################################################
@@ -168,8 +175,6 @@ fix-build-rights:
 
 
 
-
-
 ###################################################################################
 # ONLINE TARGETS
 ###################################################################################
@@ -179,4 +184,4 @@ sync-qooxdoo-org:
 	@echo "  SYNC FILES TO HOMEPAGE"
 	@echo "----------------------------------------------------------------------------"
 	@echo "  * Syncing..."
-	@nice -n $(NICE) rsync --checksum --recursive --archive --delete --verbose build/* root@qooxdoo.org:/var/www/qooxdoo/api
+	@nice -n $(NICE) rsync $(SYNCOPT) build/* root@qooxdoo.org:/var/www/qooxdoo/api
