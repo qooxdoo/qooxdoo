@@ -19,8 +19,8 @@
 
 #resource(readerfeeds:feeds)
 #resource(readercss:css)
-#resource(proxy:proxy)
-#embed(proxy/*)
+#resource(readerproxy:proxy)
+#embed(readerproxy/*)
 #embed(readerfeeds/*)
 #embed(readercss/*)
 #embed(icon/16/button-ok.png)
@@ -28,7 +28,7 @@
 #embed(icon/16/reload.png)
 #embed(icon/16/locale.png)
 #embed(icon/16/help.png)
-#load(feadreader.nls.de)
+#load(feedreader.nls.de)
 
 ************************************************************************ */
 
