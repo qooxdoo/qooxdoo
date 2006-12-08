@@ -12,8 +12,7 @@ OPTIMIZEVARIABLES = true
 NICE=10
 LOCALE_NAMESPACE=demo.nls
 LOCALE_TARGET_DIRECTORY=source/class/demo/nls
-LOCALES=de fr de_AT en_GB
-
+LOCALES=de fr de_AT
 
 
 
@@ -229,23 +228,25 @@ fix-build-rights:
 # GETTEXT TARGETS
 ###################################################################################
 
-messages: extract-messages $(TRANSLATIONS) message-format
+messages: message-format
 
-extract-messages:
+force-build:
+	@#dummy dependency to force rebuilding the target
+
+$(PODIR)/$(APPNAME).pot: force-build
+	@echo "Extracting messages ..."
 	@rm -f $(PODIR)/$(APPNAME).pot
 	@touch $(PODIR)/$(APPNAME).pot
 	@find source/class/ -name '*.js' | xargs xgettext --language=Java --from-code=UTF-8 -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 -j -o $(PODIR)/$(APPNAME).pot
 
 %.po: $(PODIR)/$(APPNAME).pot
+	@echo "Updating translation catalog " $@
 	@if test ! -f $@; then msginit --no-translator -i $(PODIR)/$(APPNAME).pot -o $@; fi
-	#cp $(PODIR)/$(APPNAME).pot $@
+	@msgmerge --update $@ $(PODIR)/$(APPNAME).pot 
 
-	@cp  $@  $@.old
-	msgmerge $@.old $(PODIR)/$(APPNAME).pot > $@
-	@rm $@.old
-
-message-format:
-	find $(PODIR) -name '*.po' | xargs python $(QXMSGFMT) --namespace=$(LOCALE_NAMESPACE) -d $(LOCALE_TARGET_DIRECTORY)
+message-format: $(TRANSLATIONS)
+	@echo "Compiling catalogs ..."
+	@find $(PODIR) -name '*.po' | xargs python $(QXMSGFMT) --namespace=$(LOCALE_NAMESPACE) -d $(LOCALE_TARGET_DIRECTORY)
 
 
 
