@@ -10,9 +10,9 @@ INCLUDEALL = false
 OPTIMIZESTRINGS = true
 OPTIMIZEVARIABLES = true
 NICE=10
-LOCALE_NAMESPACE=feedreader.nls
-LOCALE_TARGET_DIRECTORY=source/class/feedreader/nls
-LOCALES=de fr de_AT
+LOCALE_NAMESPACE=feedreader.locate
+LOCALE_TARGET_DIRECTORY=source/class/feedreader/locale
+LOCALES=de
 
 
 
@@ -29,7 +29,7 @@ CACHE = $(FRAMEWORK)/.cache
 GENERATOR = $(FRAMEWORK)/tool/generator.py
 SYNCOPT=--checksum --recursive --links --safe-links --delete --compress
 QXMSGFMT= $(FRAMEWORK)/tool/qxmsgfmt.py
-PODIR=source/po
+PODIR=source/translation
 TRANSLATIONS := $(LOCALES:%=$(PODIR)/%.po)
 
 ifeq ($(INCLUDEALL),false)
