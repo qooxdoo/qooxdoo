@@ -6,7 +6,19 @@ function(id, args) {
   qx.core.Object.call(this);
 
   this.setId(id);
-  this.setArgs(args);
+  
+  var storedArguments = [];
+  for (var i=0; i<args.length; args++) {
+    var arg = args[i];
+    if (arg instanceof qx.nls.LocalizedString) {
+      // defer conversion to string
+      storedArguments.push(arg);
+    } else {
+      // force converstion to string
+      storedArguments.push(arg + "");
+    }
+  }
+  this.setArgs(storedArguments);
 });
 
 
