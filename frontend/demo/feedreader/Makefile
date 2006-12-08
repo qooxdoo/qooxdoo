@@ -29,7 +29,7 @@ CACHE = $(FRAMEWORK)/.cache
 GENERATOR = $(FRAMEWORK)/tool/generator.py
 SYNCOPT=--checksum --recursive --links --safe-links --delete --compress
 QXMSGFMT= $(FRAMEWORK)/tool/qxmsgfmt.py
-PODIR=po
+PODIR=source/po
 TRANSLATIONS := $(LOCALES:%=$(PODIR)/%.po)
 
 ifeq ($(INCLUDEALL),false)
