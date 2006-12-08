@@ -9,9 +9,7 @@ APPCLASS = demo.FeedReader
 INCLUDEALL = false
 OPTIMIZESTRINGS = true
 OPTIMIZEVARIABLES = true
-SOURCELOADER=
 NICE=10
-
 LOCALE_NAMESPACE=demo.nls
 LOCALE_TARGET_DIRECTORY=source/class/demo/nls
 LOCALES=de fr de_AT en_GB
@@ -30,11 +28,9 @@ FRAMEWORK = $(FRONTEND)/framework
 API = $(FRONTEND)/api
 CACHE = $(FRAMEWORK)/.cache
 GENERATOR = $(FRAMEWORK)/tool/generator.py
-
 QXMSGFMT= $(FRAMEWORK)/tool/qxmsgfmt.py
 PODIR=po
 TRANSLATIONS := $(LOCALES:%=$(PODIR)/%.po)
-
 
 ifeq ($(INCLUDEALL),false)
   INCLUDE = --include $(APPCLASS)
@@ -54,11 +50,6 @@ else
   OPTIMIZEVAR =
 endif
 
-ifneq ($(SOURCELOADER),)
-  SOURCELDR = --source-loader-type $(SOURCELOADER)
-else
-  SOURCELDR =
-endif
 
 
 
@@ -141,7 +132,7 @@ generate-script-source:
 	  --source-script-path ../$(FRAMEWORK)/source/class \
 	  --script-input source/class \
 	  --source-script-path class \
-	  --generate-source-script $(SOURCELDR) \
+	  --generate-source-script \
 	  $(INCLUDE) \
 	  --source-script-file source/script/$(SCRIPTNAME) \
 	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:../$(FRAMEWORK)/source/resource \
