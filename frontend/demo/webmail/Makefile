@@ -236,10 +236,10 @@ sync-qooxdoo-org:
 
 info-build:
 	@echo "****************************************************************************"
-	@echo "  GENERATING WEBMAIL BUILD"
+	@echo "  GENERATING WEB MAIL BUILD"
 	@echo "****************************************************************************"
 
 info-source:
 	@echo "****************************************************************************"
-	@echo "  GENERATING WEBMAIL SOURCE"
+	@echo "  GENERATING WEB MAIL SOURCE"
 	@echo "****************************************************************************"
