@@ -8,7 +8,6 @@ APPCLASS = demo.AtAGlance
 INCLUDEALL = false
 OPTIMIZESTRINGS = true
 OPTIMIZEVARIABLES = true
-SOURCELOADER=
 NICE=10
 
 
@@ -24,7 +23,6 @@ FRAMEWORK = $(FRONTEND)/framework
 API = $(FRONTEND)/api
 CACHE = $(FRAMEWORK)/.cache
 GENERATOR = $(FRAMEWORK)/tool/generator.py
-
 
 ifeq ($(INCLUDEALL),false)
   INCLUDE = --include $(APPCLASS)
@@ -44,11 +42,6 @@ else
   OPTIMIZEVAR =
 endif
 
-ifneq ($(SOURCELOADER),)
-  SOURCELDR = --source-loader-type $(SOURCELOADER)
-else
-  SOURCELDR =
-endif
 
 
 
@@ -128,7 +121,7 @@ generate-script-source:
 	  --source-script-path ../$(FRAMEWORK)/source/class \
 	  --script-input source/class \
 	  --source-script-path class \
-	  --generate-source-script $(SOURCELDR) \
+	  --generate-source-script \
 	  $(INCLUDE) \
 	  --source-script-file source/script/$(SCRIPTNAME) \
 	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:../$(FRAMEWORK)/source/resource \

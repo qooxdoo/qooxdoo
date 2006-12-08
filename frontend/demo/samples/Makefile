@@ -1,18 +1,41 @@
 ###################################################################################
-# VARIABLES
+# PUBLIC VARIABLES
 ###################################################################################
 
-FRAMEWORK=../../framework
-GENERATOR=$(FRAMEWORK)/tool/generator.py
-CACHE=$(FRAMEWORK)/.cache
-SOURCELOADER=
+QOOXDOO = ../../..
+SCRIPTNAME = samples.js
+APPCLASS = 
+OPTIMIZESTRINGS = true
+OPTIMIZEVARIABLES = true
 NICE=10
 
-ifneq ($(SOURCELOADER),)
-  SOURCELDR = --source-loader-type $(SOURCELOADER)
+
+
+
+
+###################################################################################
+# PRIVATE VARIABLES
+###################################################################################
+
+FRONTEND = $(QOOXDOO)/frontend
+FRAMEWORK = $(FRONTEND)/framework
+API = $(FRONTEND)/api
+CACHE = $(FRAMEWORK)/.cache
+GENERATOR = $(FRAMEWORK)/tool/generator.py
+
+ifeq ($(OPTIMIZESTRINGS),true)
+  OPTIMIZESTR = --optimize-strings
 else
-  SOURCELDR =
+  OPTIMIZESTR =
 endif
+
+ifeq ($(OPTIMIZEVARIABLES),true)
+  OPTIMIZEVAR = --optimize-variables
+else
+  OPTIMIZEVAR =
+endif
+
+
 
 
 
@@ -33,7 +56,7 @@ all: build
 ###################################################################################
 
 source: generate-script-source update-layout-source
-build: generate-script-build update-layout-build fix-build-rights
+build: generate-script-build update-layout-build
 sync: build sync-qooxdoo-org
 
 
@@ -81,8 +104,8 @@ generate-script-source:
 	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
 	  --script-input $(FRAMEWORK)/source/class \
 	  --source-script-path ../../../$(FRAMEWORK)/source/class \
-	  --generate-source-script $(SOURCELDR) \
-	  --source-script-file source/script/qx.js \
+	  --generate-source-script \
+	  --source-script-file source/script/$(SCRIPTNAME) \
 	  --add-new-lines \
 	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:../../../$(FRAMEWORK)/source/resource \
 	  --cache-directory $(CACHE)
@@ -91,7 +114,7 @@ generate-script-build:
 	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
 	  --script-input $(FRAMEWORK)/source/class \
 	  --generate-compiled-script \
-	  --compiled-script-file build/script/qx.js \
+	  --compiled-script-file build/script/$(SCRIPTNAME) \
 	  --optimize-strings \
 	  --optimize-variables \
 	  --copy-resources \
@@ -100,19 +123,6 @@ generate-script-build:
 	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:../../resource \
 	  --cache-directory $(CACHE)
 
-generate-script-build-test:
-	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
-    --script-input $(FRAMEWORK)/source/class \
-    --generate-compiled-script \
-    --compiled-script-file build/script/qx.js \
-    --optimize-strings \
-    --optimize-variables \
-    --obfuscate-identifiers --add-new-lines --add-file-ids \
-    --copy-resources \
-    --resource-input $(FRAMEWORK)/source/resource \
-    --resource-output build/resource \
-    --define-runtime-setting qx.manager.object.AliasManager.resourceUri:../../resource \
-    --cache-directory $(CACHE)
 
 
 
@@ -149,14 +159,6 @@ update-layout-build: update-demo-build
 	@echo "----------------------------------------------------------------------------"
 	@echo "  * Generating..."
 	@chmod u+x tool/layout.sh && nice -n $(NICE) tool/layout.sh build/script/layout.js build/html BUILD
-
-fix-build-rights:
-	@echo
-	@echo "  FIX RIGHTS ON BUILD FILES"
-	@echo "----------------------------------------------------------------------------"
-	@echo "  * Fixing file rights..."
-	@nice -n $(NICE) find build -type d | xargs chmod a+rx
-	@nice -n $(NICE) find build -type f | xargs chmod a+r
 
 
 
