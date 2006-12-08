@@ -11,11 +11,10 @@ OPTIMIZESTRINGS = true
 OPTIMIZEVARIABLES = true
 SOURCELOADER=
 NICE=10
-PODIR=po
 
-TRANSLATIONS=po/de.po po/fr.po po/de_AT.po
 LOCALE_NAMESPACE=demo.nls
 LOCALE_TARGET_DIRECTORY=source/class/demo/nls
+LOCALES=de fr de_AT en_GB
 
 
 ###################################################################################
@@ -27,7 +26,10 @@ FRAMEWORK = $(FRONTEND)/framework
 API = $(FRONTEND)/api
 CACHE = $(FRAMEWORK)/.cache
 GENERATOR = $(FRAMEWORK)/tool/generator.py
+
 QXMSGFMT= $(FRAMEWORK)/tool/qxmsgfmt.py
+PODIR=po
+TRANSLATIONS := $(LOCALES:%=$(PODIR)/%.po)
 
 
 ifeq ($(INCLUDEALL),false)
@@ -67,7 +69,7 @@ all: build
 # COMMON TARGETS
 ###################################################################################
 
-source: info-source generate-script-source
+source: info-source messages generate-script-source
 build: info-build messages generate-script-build copy-build-files fix-build-rights
 
 api: generate-api-build generate-api-data
@@ -218,7 +220,9 @@ extract-messages:
 	@find source/class/ -name '*.js' | xargs xgettext --language=Java --from-code=UTF-8 -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 -j -o $(PODIR)/$(APPNAME).pot
 
 %.po: $(PODIR)/$(APPNAME).pot
-	@if test ! -f $@; then cp $(PODIR)/$(APPNAME).pot $@; fi
+	@if test ! -f $@; then msginit --no-translator -i $(PODIR)/$(APPNAME).pot -o $@; fi
+	#cp $(PODIR)/$(APPNAME).pot $@
+
 	@cp  $@  $@.old
 	@msgmerge $@.old $(PODIR)/$(APPNAME).pot > $@
 	@rm $@.old
