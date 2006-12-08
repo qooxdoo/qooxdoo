@@ -10,7 +10,7 @@ INCLUDEALL = false
 OPTIMIZESTRINGS = true
 OPTIMIZEVARIABLES = true
 NICE=10
-LOCALE_NAMESPACE=feedreader.locate
+LOCALE_NAMESPACE=feedreader.locale
 LOCALE_TARGET_DIRECTORY=source/class/feedreader/locale
 LOCALES=de
 
@@ -71,8 +71,8 @@ all: build
 # COMMON TARGETS
 ###################################################################################
 
-source: info-source messages generate-script-source
-build: info-build messages generate-script-build copy-build-files fix-build-rights
+source: info-source translation generate-script-source
+build: info-build translation generate-script-build copy-build-files fix-build-rights
 
 api: generate-api-build generate-api-data
 	@echo
@@ -228,13 +228,11 @@ fix-build-rights:
 # GETTEXT TARGETS
 ###################################################################################
 
-messages: message-format
-
 force-build:
 	@#dummy dependency to force rebuilding the target
 
 $(PODIR)/$(APPNAME).pot: force-build
-	@echo "Extracting messages ..."
+	@echo "Extracting translation ..."
 	@rm -f $(PODIR)/$(APPNAME).pot
 	@touch $(PODIR)/$(APPNAME).pot
 	@find source/class/ -name '*.js' | xargs xgettext --language=Java --from-code=UTF-8 -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 -j -o $(PODIR)/$(APPNAME).pot
@@ -244,7 +242,7 @@ $(PODIR)/$(APPNAME).pot: force-build
 	@if test ! -f $@; then msginit --no-translator -i $(PODIR)/$(APPNAME).pot -o $@; fi
 	@msgmerge --update $@ $(PODIR)/$(APPNAME).pot 
 
-message-format: $(TRANSLATIONS)
+translation: $(TRANSLATIONS)
 	@echo "Compiling catalogs ..."
 	@find $(PODIR) -name '*.po' | xargs python $(QXMSGFMT) --namespace=$(LOCALE_NAMESPACE) -d $(LOCALE_TARGET_DIRECTORY)
 
