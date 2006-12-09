@@ -246,12 +246,16 @@ def parseStream(content, uniqueId=""):
     elif R_STRING_A.match(fragment):
       # print "Type:StringA: %s" % fragment
       content = parseFragmentLead(content, fragment, tokens)
-      tokens.append({ "type" : "string", "detail" : "singlequotes", "source" : recoverEscape(fragment)[1:-1].replace("\\\n",""), "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn })
+      source = recoverEscape(fragment)[1:-1]
+      tokens.append({ "type" : "string", "detail" : "singlequotes", "source" : source.replace("\\\n",""), "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn })
+      parseLine += source.count("\\\n");
 
     elif R_STRING_B.match(fragment):
       # print "Type:StringB: %s" % fragment
       content = parseFragmentLead(content, fragment, tokens)
-      tokens.append({ "type" : "string", "detail" : "doublequotes", "source" : recoverEscape(fragment)[1:-1].replace("\\\n",""), "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn })
+      source = recoverEscape(fragment)[1:-1]
+      tokens.append({ "type" : "string", "detail" : "doublequotes", "source" : source.replace("\\\n",""), "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn })
+      parseLine += source.count("\\\n");
 
     elif R_FLOAT.match(fragment):
       # print "Type:Float: %s" % fragment
