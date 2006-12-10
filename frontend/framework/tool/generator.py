@@ -84,6 +84,7 @@ def getparser():
   parser.add_option("--add-file-ids", action="store_true", dest="addFileIds", default=False, help="Add file IDs to compiled output.")
   parser.add_option("--optimize-strings", action="store_true", dest="optimizeStrings", default=False, help="Optimize strings. Increase mshtml performance.")
   parser.add_option("--optimize-variables", action="store_true", dest="optimizeVariables", default=False, help="Optimize variables. Reducing size.")
+  parser.add_option("--optimize-variables-skip-prefix", action="store", dest="optimizeVariablesSkipPrefix", metavar="PREFIX", default="", help="Skip optimization of variables beginning with PREFIX [default: optimize all variables].")
   parser.add_option("--obfuscate-identifiers", action="store_true", dest="obfuscateIdentifiers", default=False, help="Obfuscate public names like function names. (ALPHA!)")
 
   # Options for resource copying
@@ -674,7 +675,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
         sys.stdout.write(".")
         sys.stdout.flush()
 
-      variableoptimizer.search(loader.getTree(fileDb, fileId, options), [], 0, "$")
+      variableoptimizer.search(loader.getTree(fileDb, fileId, options), [], 0, "$", skipPrefix = options.optimizeVariablesSkipPrefix, debug = options.enableDebug)
 
     if not options.verbose:
       print
