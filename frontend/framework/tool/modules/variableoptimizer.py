@@ -2,12 +2,15 @@
 
 import tree, mapper
 
-def search(node, found, level=0, prefix="$", register=False, debug=False):
+def skip(name, prefix):
+	return len(prefix) > 0 and name[:len(prefix)] == prefix
+
+def search(node, found, level=0, prefix="$", skipPrefix="", register=False, debug=False):
   if node.type == "function":
     if register:
       name = node.get("name", False)
       if name != None and not name in found:
-        # print "Name: %s" % funcName
+        # print "Name: %s" % name
         found.append(name)
 
     foundLen = len(found)
@@ -25,6 +28,7 @@ def search(node, found, level=0, prefix="$", register=False, debug=False):
         name = first.get("name")
 
         if not name in found:
+          # print "Name: %s" % name
           found.append(name)
 
   # e.g. var name1, name2 = "foo";
@@ -33,17 +37,18 @@ def search(node, found, level=0, prefix="$", register=False, debug=False):
 
     if name != None:
       if not name in found:
+        # print "Name: %s" % name
         found.append(name)
 
   # Iterate over children
   if node.hasChildren():
     if node.type == "function":
       for child in node.children:
-        search(child, found, level+1, prefix, register, debug)
+        search(child, found, level+1, prefix, skipPrefix, register, debug)
 
     else:
       for child in node.children:
-        search(child, found, level, prefix, register, debug)
+        search(child, found, level, prefix, skipPrefix, register, debug)
 
   # Function closed
   if node.type == "function":
@@ -56,12 +61,13 @@ def search(node, found, level=0, prefix="$", register=False, debug=False):
 
     # Iterate over content
     # Replace variables in current scope
-    update(node, found, prefix, debug)
+    update(node, found, prefix, skipPrefix, debug)
     del found[foundLen:]
 
 
 
-def update(node, found, prefix="$", debug=False):
+def update(node, found, prefix="$", skipPrefix="", debug=False):
+
   # Handle all identifiers
   if node.type == "identifier":
 
@@ -84,7 +90,7 @@ def update(node, found, prefix="$", debug=False):
     if not isVariableMember or isFirstChild:
       idenName = node.get("name", False)
 
-      if idenName != None and idenName in found:
+      if idenName != None and idenName in found and not skip(idenName, skipPrefix):
         replName = "%s%s" % (prefix, mapper.convert(found.index(idenName)))
         node.set("name", replName)
 
@@ -95,7 +101,7 @@ def update(node, found, prefix="$", debug=False):
   elif node.type == "definition":
     idenName = node.get("identifier", False)
 
-    if idenName != None and idenName in found:
+    if idenName != None and idenName in found and not skip(idenName, skipPrefix):
       replName = "%s%s" % (prefix, mapper.convert(found.index(idenName)))
       node.set("identifier", replName)
 
@@ -106,7 +112,7 @@ def update(node, found, prefix="$", debug=False):
   elif node.type == "function":
     idenName = node.get("name", False)
 
-    if idenName != None and idenName in found:
+    if idenName != None and idenName in found and not skip(idenName, skipPrefix):
       replName = "%s%s" % (prefix, mapper.convert(found.index(idenName)))
       node.set("name", replName)
 
@@ -116,4 +122,4 @@ def update(node, found, prefix="$", debug=False):
   # Iterate over children
   if node.hasChildren():
     for child in node.children:
-      update(child, found, prefix, debug)
+      update(child, found, prefix, skipPrefix, debug)
