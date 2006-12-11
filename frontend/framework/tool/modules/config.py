@@ -30,6 +30,10 @@ QXHEAD = {
   "classDefine" : re.compile('qx.Clazz.define\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M),
   "superClass" : re.compile('extend\s*:\s*([\.a-zA-Z0-9_-]+)', re.M),
     
+  "localeDefine" : re.compile('qx.Locale.define\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M),
+  "mixinDefine" : re.compile('qx.Mixin.define\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M),
+  "interfaceDefine" : re.compile('qx.Interface.define\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M),
+    
   "id" : re.compile("#id\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
   "module" : re.compile("#module\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
   "require" : re.compile("#require\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
