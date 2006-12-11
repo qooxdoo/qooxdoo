@@ -23,11 +23,12 @@
 #module(io_remote)
 
 ************************************************************************ */
-/*!
-  Handles scheduling of requests to be sent to a server.
 
-  This class is a singleton and is used by qx.io.remote.Request to schedule its
-  requests. It should not be used directly.
+/**
+ * Handles scheduling of requests to be sent to a server.
+ *
+ * This class is a singleton and is used by qx.io.remote.Request to schedule its
+ * requests. It should not be used directly.
  */
 qx.OO.defineClass("qx.io.remote.RequestQueue", qx.core.Target,
 function()
@@ -53,8 +54,19 @@ function()
 ---------------------------------------------------------------------------
 */
 
+/**
+ * @deprecated
+ */
 qx.OO.addProperty({ name : "maxTotalRequests", type : "number" });
+
+/**
+ * Maximum number of parallel requests.
+ */
 qx.OO.addProperty({ name : "maxConcurrentRequests", type : "number", defaultValue : 3 });
+
+/**
+ * Default timeout for remote requests in milliseconds.
+ */
 qx.OO.addProperty({ name : "defaultTimeout", type : "number", defaultValue : 5000 });
 
 
@@ -348,6 +360,9 @@ qx.Proto.abort = function(vRequest)
 ---------------------------------------------------------------------------
 */
 
+/**
+ * Disposer
+ */
 qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
