@@ -51,8 +51,7 @@ qx.OO.addProperty({name: "selectedFeed"});
 ---------------------------------------------------------------------------
 */
 
-// Temporary disabled (PHP file needs to be fixed)
-if (qx.sys.Client.getInstance().getRunsLocally() || true)
+if (qx.sys.Client.getInstance().getRunsLocally())
 {
 	qx.Class._feedDesc = [
 	  {
