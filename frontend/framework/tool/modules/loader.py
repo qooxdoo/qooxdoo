@@ -57,7 +57,7 @@ def extractFileContentId(data):
     return item
 
   for item in config.QXHEAD["classDefine"].findall(data):
-    return item
+    return item[1]
   
   # TODO: Obsolete with 0.7
   for item in config.QXHEAD["defineClass"].findall(data):
