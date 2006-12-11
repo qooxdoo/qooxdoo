@@ -32,7 +32,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("glance.Application", qx.component.AbstractApplication,
+qx.OO.defineClass("showcase.Application", qx.component.AbstractApplication,
 function () {
   qx.component.AbstractApplication.call(this);
 });
