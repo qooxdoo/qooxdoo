@@ -27,18 +27,23 @@ def createDoc(syntaxTree, docTree = None):
         rightItem = item.getFirstListChild("right")
         if leftItem.type == "variable":
           if currClassNode and len(leftItem.children) == 3 and leftItem.children[0].get("name") == "qx":
+            
             if leftItem.children[1].get("name") == "Proto" and rightItem.type == "function":
               # It's a method definition
               handleMethodDefinition(item, False, currClassNode)
+              
             elif leftItem.children[1].get("name") == "Class":
               if rightItem.type == "function":
                 handleMethodDefinition(item, True, currClassNode)
+              
               elif leftItem.children[2].get("name").isupper():
                 handleConstantDefinition(item, currClassNode)
+                
           elif currClassNode and assembleVariable(leftItem).startswith(currClassNode.get("fullName")):
             # This is definition of the type "mypackage.MyClass.bla = ..."
             if rightItem.type == "function":
               handleMethodDefinition(item, True, currClassNode)
+              
             elif leftItem.children[len(leftItem.children) - 1].get("name").isupper():
               handleConstantDefinition(item, currClassNode)
 
@@ -46,19 +51,23 @@ def createDoc(syntaxTree, docTree = None):
         operand = item.getChild("operand", False)
         if operand:
           var = operand.getChild("variable", False)
+          
+          # qooxdoo < 0.7 (DEPRECATED)
           if var and len(var.children) == 3 and var.children[0].get("name") == "qx" and var.children[1].get("name") == "OO":
             methodName = var.children[2].get("name")
+            
             if methodName == "defineClass":
-              currClassNode = handleClassDefinition(docTree, item)
-            elif methodName == "addProperty" or methodName == "addFastProperty":
+              currClassNode = handleClassDefinitionOld(docTree, item)
+              
+            elif methodName in [ "addProperty", "addFastProperty" ]:
               # these are private and should be marked if listed, otherwise just hide them (wpbasti)
               #or methodName == "addCachedProperty" or methodName == "changeProperty":
               handlePropertyDefinition(item, currClassNode)
-      #elif item.type == "function":
-      #  name = item.get("name", False)
-      #  if name and name[0].isupper():
-      #    # This is an old class definition "function MyClass (...)"
-      #    currClassNode = handleClassDefinition(docTree, item)
+          
+          # qooxdoo >= 0.7
+          elif var and len(var.children) == 3 and var.children[0].get("name") == "qx" and var.children[1].get("name") in [ "Class", "Clazz", "Locale", "Interface", "Mixin" ] and var.children[2].get("name") == "define":
+            currClassNode = handleClassDefinition(docTree, item, var.children[1].get("name").lower())
+            
 
   except Exception:
     exc = sys.exc_info()[1]
@@ -116,7 +125,71 @@ def assembleVariable(variableItem):
 
 
 
-def handleClassDefinition(docTree, item):
+def handleClassDefinition(docTree, item, variant):
+  params = item.getChild("params")
+
+  className = params.children[0].get("value")
+  classMap = params.children[1]
+  classNode = getClassNode(docTree, className)
+
+  print
+  print className
+
+  for keyvalueItem in classMap.children:
+    key = keyvalueItem.get("key")
+    valueItem = keyvalueItem.getChild("value").getFirstChild()
+    
+    print "KEY: %s = %s" % (key, valueItem.type)
+    
+    if key == "extend":
+      if variant in [ "class", "clazz" ]:
+        superClassName = assembleVariable(valueItem)
+        superClassNode = getClassNode(docTree, superClassName)
+        childClasses = superClassNode.get("childClasses", False)
+  
+        if childClasses:
+          childClasses += "," + className
+        else:
+          childClasses = className
+  
+        superClassNode.set("childClasses", childClasses)
+    
+        classNode.set("superClass", superClassName)      
+        
+      elif variant == "interface":
+        pass
+        
+      elif variant == "mixin":
+        pass
+      
+    elif key == "include":
+      pass
+
+    elif key == "implement":
+      pass
+      
+    elif key == "init":
+      pass
+
+    elif key == "statics":
+      pass
+      
+    elif key == "properties":
+      pass
+      
+    elif key == "members":
+      pass
+      
+      
+      
+    
+    
+
+
+
+
+
+def handleClassDefinitionOld(docTree, item):
   params = item.getChild("params")
 
   paramsLen = len(params.children);
