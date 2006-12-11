@@ -244,6 +244,7 @@ $(PODIR)/$(APPNAME).pot: force-build
 
 translation: $(TRANSLATIONS)
 	@echo "Compiling catalogs ..."
+	@mkdir -p $(LOCALE_TARGET_DIRECTORY)
 	@find $(PODIR) -name '*.po' | xargs python $(QXMSGFMT) --namespace=$(LOCALE_NAMESPACE) -d $(LOCALE_TARGET_DIRECTORY)
 
 
