@@ -3,8 +3,8 @@
 ###################################################################################
 
 QOOXDOO = ../../..
-SCRIPTNAME = glance.js
-APPCLASS = glance.Application
+SCRIPTNAME = showcase.js
+APPCLASS = showcase.Application
 INCLUDEALL = false
 OPTIMIZESTRINGS = true
 OPTIMIZEVARIABLES = true
@@ -221,7 +221,7 @@ sync-qooxdoo-org:
 	@echo "  SYNC FILES TO HOMEPAGE"
 	@echo "----------------------------------------------------------------------------"
 	@echo "  * Syncing..."
-	@nice -n $(NICE) rsync $(SYNCOPT) build/* root@qooxdoo.org:/var/www/qooxdoo/demo/glance
+	@nice -n $(NICE) rsync $(SYNCOPT) build/* root@qooxdoo.org:/var/www/qooxdoo/demo/showcase
 
 
 
@@ -233,10 +233,10 @@ sync-qooxdoo-org:
 
 info-build:
 	@echo "****************************************************************************"
-	@echo "  GENERATING AT-A-GLANCE BUILD"
+	@echo "  GENERATING SHOWCASE BUILD"
 	@echo "****************************************************************************"
 
 info-source:
 	@echo "****************************************************************************"
-	@echo "  GENERATING AT-A-GLANCE SOURCE"
+	@echo "  GENERATING SHOWCASE SOURCE"
 	@echo "****************************************************************************"
