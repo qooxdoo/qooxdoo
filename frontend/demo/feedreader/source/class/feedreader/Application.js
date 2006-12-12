@@ -39,6 +39,7 @@ qx.OO.defineClass("feedreader.Application", qx.component.AbstractApplication,
 function () {
   qx.component.AbstractApplication.call(this);
 
+  //this.fetchFeedDesc();
   this.setFeeds([]);
 });
 
@@ -115,7 +116,7 @@ qx.Proto.main = function(e)
   var reload_cmd = new qx.client.Command("Control+R");
   reload_cmd.addEventListener("execute", function(e) {
     this.fetchFeeds();
-    this.debug(this.tr("reloading ..."));
+    this.debug(this.tr("reloading ...").toString());
   }, this);
 
   var about_cmd = new qx.client.Command("F1");
@@ -133,14 +134,22 @@ qx.Proto.main = function(e)
   reload_btn.setToolTip(new qx.ui.popup.ToolTip(this.tr("(%1) Reload the feeds.", reload_cmd.toString())));
   toolBar.add(reload_btn);
 
-  var lang_btn = new qx.ui.toolbar.RadioButton(this.tr("German"), "icon/16/locale.png");
-  lang_btn.addEventListener("changeChecked", function(e) {
-    qx.nls.Manager.getInstance().setLocale(e.getData() ? "de" : "en");
-  });
-  toolBar.add(lang_btn);
-  lang_btn.setChecked(qx.nls.Manager.getInstance().getLocale() == "de");
-
   toolBar.add(new qx.ui.basic.HorizontalSpacer());
+	
+	var locale = qx.nls.Manager.getInstance().getLocale();
+	var mb_de = new qx.ui.menu.RadioButton(this.tr("German"), null, locale == "de" );
+	mb_de.setUserData("locale", "de");
+	var mb_en = new qx.ui.menu.RadioButton(this.tr("English"), null, locale == "en");
+	mb_en.setUserData("locale", "en");
+	var lang_menu = new qx.ui.menu.Menu();
+	var radioManager = new qx.manager.selection.RadioManager("lang", [mb_de, mb_en]);
+	radioManager.addEventListener("changeSelected", function(e) {
+		var lang = e.getData().getUserData("locale");
+		qx.nls.Manager.getInstance().setLocale(lang);
+	}); 
+	lang_menu.add(mb_de, mb_en);
+	lang_menu.addToDocument();
+	toolBar.add(new qx.ui.toolbar.MenuButton("", lang_menu, "icon/16/locale.png"));
 
   var about_btn = new qx.ui.toolbar.Button(this.tr("Help"), "icon/16/help.png");
   about_btn.setCommand(about_cmd);
@@ -151,6 +160,7 @@ qx.Proto.main = function(e)
 
   var tree = new qx.ui.tree.Tree(this.tr("News feeds"));
   tree.setWidth(200);
+	tree.setOverflow("auto");
   tree.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
   tree.setBackgroundColor("#EEEEEE");
   tree.setMargin(3);
@@ -196,10 +206,32 @@ qx.Proto.main = function(e)
 
   dockLayout.addToDocument();
 
+	this.displayFeed(feedreader.Application._feedDesc[0].name);
   this.fetchFeeds();
 };
 
+
+qx.Proto.fetchFeedDesc = function() {
+	var req = new qx.io.remote.Request("./resource/feeds/febo-feeds.opml.xml", "GET", "application/xml");
+	feedreader.Application._feedDesc = [];
+    req.addEventListener("completed", function(e) {
+		var xml = e.getData().getContent();
+		var eItems = xml.getElementsByTagName("outline");
+		for(var i=0; i<eItems.length; i++) {
+			var eDesc = eItems[i];
+			feedreader.Application._feedDesc.push({
+				name: eDesc.getAttribute("title"),
+				url: "./resource/proxy/proxy.php?proxy=" + encodeURIComponent(eDesc.getAttribute("xmlUrl"))
+			});
+		}
+	}, this);
+	req.setAsynchronous(false);
+    req.send();	
+};
+
+
 qx.Proto.fetchFeeds = function() {
+  qx.io.remote.RequestQueue.getInstance().setMaxConcurrentRequests(2);
   var feedDesc = feedreader.Application._feedDesc;
   var that = this;
   var getCallback = function(feedName) {
@@ -226,31 +258,69 @@ qx.Proto.getElementsByTagNameNS = function(element, ns, nsPrefix, name) {
 
 
 qx.Proto.parseXmlFeed = function(feedName, xml) {
-  var eItems = xml.getElementsByTagName("item");
+  var items = [];
+  if (xml.documentElement.tagName == "rss") {
+    items = this.parseRSSFeed(xml);
+  } else if	(xml.documentElement.tagName == "feed") {
+	items = this.parseAtomFeed(xml);
+  }
+  this.getFeeds()[feedName] = items;
+  if (feedName == this.getSelectedFeed()) {
+	  this.displayFeed(feedName);
+	}
+};
+
+
+qx.Proto.parseAtomFeed = function(xml) {
+  var eItems = xml.getElementsByTagName("entry");
+  var empty = xml.createElement("empty");
   var items = [];
   for (var i=0; i<eItems.length; i++) {
     var eItem = eItems[i];
     var item = {}
     item.title = qx.xml.Core.getTextContent(eItem.getElementsByTagName("title")[0]);
-    item.author = qx.xml.Core.getTextContent(this.getElementsByTagNameNS(eItem, "http://purl.org/dc/elements/1.1/", "dc", "creator")[0]);
-    item.date = qx.xml.Core.getTextContent(eItem.getElementsByTagName("pubDate")[0]);
-    item.content = qx.xml.Core.getTextContent(this.getElementsByTagNameNS(eItem, "http://purl.org/rss/1.0/modules/content/", "content", "encoded")[0]);
-    item.link = qx.xml.Core.getTextContent(eItem.getElementsByTagName("link")[0]);
+    if (eItem.getElementsByTagName("author").length > 0) {
+      item.author = qx.xml.Core.getTextContent(eItem.getElementsByTagName("author")[0].getElementsByTagName("name")[0]);
+    } else {
+	  item.author = ""
+    }
+    item.date = qx.xml.Core.getTextContent(
+		eItem.getElementsByTagName("created")[0] ||
+		eItem.getElementsByTagName("published")[0] ||
+		eItem.getElementsByTagName("updated")[0] ||
+		empty
+	);
+    item.content = qx.xml.Core.getTextContent(eItem.getElementsByTagName("content")[0] || empty);
+    item.link = eItem.getElementsByTagName("link")[0].getAttribute("href");
     items.push(item);
   }
-  this.getFeeds()[feedName] = items;
-  this.displayFeed(feedName);
+  return items;
 }
 
 
-qx.Proto.displayFeed = function(feedName) {
-  if (this.getSelectedFeed() == feedName) {
-    return;
+qx.Proto.parseRSSFeed = function(xml) {
+  var eItems = xml.getElementsByTagName("item");
+  var empty = xml.createElement("empty");
+  var items = [];
+  for (var i=0; i<eItems.length; i++) {
+    var eItem = eItems[i];
+    var item = {}
+    item.title = qx.xml.Core.getTextContent(eItem.getElementsByTagName("title")[0]);
+    item.author = qx.xml.Core.getTextContent(this.getElementsByTagNameNS(eItem, "http://purl.org/dc/elements/1.1/", "dc", "creator")[0] || empty);
+    item.date = qx.xml.Core.getTextContent(eItem.getElementsByTagName("pubDate")[0]);
+    item.content = qx.xml.Core.getTextContent(this.getElementsByTagNameNS(eItem, "http://purl.org/rss/1.0/modules/content/", "content", "encoded")[0] || empty);
+    item.link = qx.xml.Core.getTextContent(eItem.getElementsByTagName("link")[0]);
+    items.push(item);
   }
+  return items;
+};
+
+
+qx.Proto.displayFeed = function(feedName) {
+  this.setSelectedFeed(feedName);
   var items = this.getFeeds()[feedName];
   if (items) {
     this._tableModel.setDataAsMapArray(items);
-    this.setSelectedFeed(feedName);
     this.displayArticle(this.getFeeds()[feedName][0]);
   }
 };
