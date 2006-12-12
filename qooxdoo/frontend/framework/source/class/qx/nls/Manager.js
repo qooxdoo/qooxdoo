@@ -9,7 +9,9 @@ function() {
   this.setLocale(qx.sys.Client.getInstance().getLocale() || this._defaultLanguage);
 });
 
-qx.OO.addProperty({ name: "locale"})
+
+/** current locale. locale is an language code like de, de_AT, en, en_GB, fr, ... */
+qx.OO.addProperty({ name: "locale"});
 
 
 qx.Proto._modifyLocale = function(propValue, propOldValue, propData) {
@@ -22,12 +24,16 @@ qx.Proto._modifyLocale = function(propValue, propOldValue, propData) {
     this._majorLanguage = propValue.substring(0, pos);
   }
 
-  // this.debug("LANG: " + this._language + " :: " + this._majorLanguage);
-
   return true;
-}
+};
 
 
+/**
+ * Add a translation to the translation manager
+ * 
+ * @param languageCode (string) language code of the translation like de, de_AT, en, en_GB, fr, ...
+ * @param translationMap (Map) mapping of message identifiers (english text) to the target language
+ */
 qx.Proto.addTranslation = function(languageCode, translationMap) {
 
   if (this._translationCatalog[languageCode])
@@ -43,18 +49,36 @@ qx.Proto.addTranslation = function(languageCode, translationMap) {
 };
 
 
-
-
-
-
+/**
+ * Translate a message
+ * @see qx.lang.String.format
+ * 
+ * @param messageId (string) message id (may contain format strings)
+ * @param varargs (object) variable number of argumes applied to the format string
+ * @return (qx.nls.LocalizedString)
+ */
 qx.Proto.tr = function(messageId, varargs)
 {
   var args = qx.lang.Array.fromArguments(arguments);
   args.splice(0, 1);
 
   return new qx.nls.LocalizedString(messageId, args);
-}
+};
 
+
+/**
+ * Translate a plural message
+ * 
+ * Depending on the third argument the plursl or the singular form is chosen.
+ * 
+ * @see qx.lang.String.format
+ * 
+ * @param singularMessageId (string) message id of the singular form (may contain format strings)
+ * @param pluralMessageId (string) message id of the plural form (may contain format strings)
+ * @param count (integer) if greater than 1 the plural form otherwhise the singular form is returned.
+ * @param varargs (object) variable number of argumes applied to the format string
+ * @return (qx.nls.LocalizedString)
+ */
 qx.Proto.trn = function(singularMessageId, pluralMessageId, count, varargs)
 {
   var args = qx.lang.Array.fromArguments(arguments);
@@ -68,8 +92,21 @@ qx.Proto.trn = function(singularMessageId, pluralMessageId, count, varargs)
   {
     return new qx.nls.LocalizedString(singularMessageId, args);
   }
-}
+};
 
+
+/**
+ * Translate a message with translation hint
+ * 
+ * Depending on the third argument the plursl or the singular form is chosen.
+ * 
+ * @see qx.lang.String.format
+ *
+ * @param hint (string) hint for the translator of the message. Will be included in the .pot file. 
+ * @param messageId (string) message id (may contain format strings)
+ * @param varargs (object) variable number of argumes applied to the format string
+ * @return (qx.nls.LocalizedString)
+ */
 qx.Proto.trc = function(hint, messageId, varargs)
 {
   var args = qx.lang.Array.fromArguments(arguments);
@@ -87,6 +124,14 @@ qx.Proto.trc = function(hint, messageId, varargs)
 
 qx.Proto._defaultLanguage = "C";
 
+
+/**
+ * Translate a message using the current locale and apply format string to the arguments.
+ * 
+ * @param messageId (string) message id (may contain format strings)
+ * @param args (object[]) array of objects, which are inserted into the format string.
+ * @return (string) translated message. 
+ */
 qx.Proto.translate = function(messageId, args)
 {
   var txt;
