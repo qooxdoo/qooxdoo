@@ -51,7 +51,7 @@ qx.Proto.addTranslation = function(languageCode, translationMap) {
 
 /**
  * Translate a message
- * @see qx.lang.String.format
+ * @see(qx.lang.String.format)
  * 
  * @param messageId (string) message id (may contain format strings)
  * @param varargs (object) variable number of argumes applied to the format string
@@ -71,7 +71,7 @@ qx.Proto.tr = function(messageId, varargs)
  * 
  * Depending on the third argument the plursl or the singular form is chosen.
  * 
- * @see qx.lang.String.format
+ * @see(qx.lang.String.format)
  * 
  * @param singularMessageId (string) message id of the singular form (may contain format strings)
  * @param pluralMessageId (string) message id of the plural form (may contain format strings)
@@ -100,7 +100,7 @@ qx.Proto.trn = function(singularMessageId, pluralMessageId, count, varargs)
  * 
  * Depending on the third argument the plursl or the singular form is chosen.
  * 
- * @see qx.lang.String.format
+ * @see(qx.lang.String.format)
  *
  * @param hint (string) hint for the translator of the message. Will be included in the .pot file. 
  * @param messageId (string) message id (may contain format strings)
