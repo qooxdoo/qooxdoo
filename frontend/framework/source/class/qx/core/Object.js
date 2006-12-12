@@ -322,7 +322,7 @@ qx.Proto.trc = function(hint, messageId, varargs) {
  * 
  * Depending on the third argument the plursl or the singular form is chosen.
  * 
- * @see qx.lang.String.format
+ * @see(qx.lang.String.format)
  *
  * @param hint (string) hint for the translator of the message. Will be included in the .pot file. 
  * @param messageId (string) message id (may contain format strings)
