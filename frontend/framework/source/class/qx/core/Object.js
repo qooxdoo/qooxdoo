@@ -281,23 +281,69 @@ qx.Proto.getSetting = function(vKey) {
 ---------------------------------------------------------------------------
 */
 
+/**
+ * Translate a message
+ * Mark the message for translation.
+ * @see qx.lang.String.format
+ * 
+ * @param messageId (string) message id (may contain format strings)
+ * @param varargs (object) variable number of argumes applied to the format string
+ * @return (qx.nls.LocalizedString)
+ */
 qx.Proto.tr = function(messageId, varargs) {
   var nlsManager = qx.nls.Manager.getInstance();
   return nlsManager.tr.apply(nlsManager, arguments);
 };
 
 
+/**
+ * Translate a plural message
+ * Mark the messages for translation.
+ * 
+ * Depending on the third argument the plursl or the singular form is chosen.
+ * 
+ * @see qx.lang.String.format
+ * 
+ * @param singularMessageId (string) message id of the singular form (may contain format strings)
+ * @param pluralMessageId (string) message id of the plural form (may contain format strings)
+ * @param count (integer) if greater than 1 the plural form otherwhise the singular form is returned.
+ * @param varargs (object) variable number of argumes applied to the format string
+ * @return (qx.nls.LocalizedString)
+ */
 qx.Proto.trc = function(hint, messageId, varargs) {
   var nlsManager = qx.nls.Manager.getInstance();
   return nlsManager.trc.apply(nlsManager, arguments);
 };
 
 
+/**
+ * Translate a message with translation hint
+ * Mark the messages for translation.
+ * 
+ * Depending on the third argument the plursl or the singular form is chosen.
+ * 
+ * @see qx.lang.String.format
+ *
+ * @param hint (string) hint for the translator of the message. Will be included in the .pot file. 
+ * @param messageId (string) message id (may contain format strings)
+ * @param varargs (object) variable number of argumes applied to the format string
+ * @return (qx.nls.LocalizedString)
+ */
 qx.Proto.trn = function(singularMessageId, pluralMessageId, count, varargs) {
   var nlsManager = qx.nls.Manager.getInstance();
   return nlsManager.trn.apply(nlsManager, arguments);
 };
 
+
+/**
+ * Mark the message for translation but return the original message.
+ * 
+ * @param messageId (string)
+ * @return (string) messageId
+ */
+qx.Proto.marktr = function(messageId) {
+  return messageId;
+};
 
 /*
 ---------------------------------------------------------------------------
