@@ -326,9 +326,9 @@ qx.Proto.getItems = function(recursive, invisible)
  */
 qx.Proto.destroyContent = function() {
   if(this.hasContent()) {
-
+ 
     var manager = this.getTree() ? this.getTree().getManager() : null;
-
+   
     var leadItem;
     var anchorItem;
     if(manager) {
@@ -336,13 +336,17 @@ qx.Proto.destroyContent = function() {
       anchorItem = manager.getAnchorItem();
     }
 
-    var items = this.getItems();
+    // set the container objects display property
+    // to true so getChildren will retreive all
+    // children objects
+    this._containerObject.setDisplay(true);
+    var items = this._containerObject.getChildren();
     var item;
-
+   
     for(var i=items.length-1;i>=0;--i) {
       item = items[i];
 
-      // this.getItems seems to also contain this.
+      // this.getItems seems to also contain "this".
       // In order to avoid endless loops by calling
       // recursively destroyContent we have to avoid
       // destroying ourselves
@@ -358,9 +362,9 @@ qx.Proto.destroyContent = function() {
           if(anchorItem == item) {
             manager.setAnchorItem(null);
           }
-
+ 
           // if the current destroyed item is
-          // selectd deselect the item. If we are
+          // selected, deselect the item. If we are
           // in single selection mode we have to
           // call deselectAll because setItemSelected
           // refuses to deselect in this case
@@ -372,7 +376,7 @@ qx.Proto.destroyContent = function() {
               manager.deselectAll();
             }
           }
-
+ 
           // if the item has the method destroyContent defined
           // then it is a TreeFolder (and it's subclasses)
           // which potentially have content which also
@@ -381,12 +385,16 @@ qx.Proto.destroyContent = function() {
             item.destroyContent();
           }
         }
-
+   
         // first disconnect the item so rendering
         // of the tree lines can be done correctly
+        item.removeFromTreeQueue();
         item.disconnect();
-        this.remove(item);
+   
+        // remove the item from the containerObject
+        this._containerObject.remove(item);
         item.dispose();
+        delete items[i];
       }
     }
   }
