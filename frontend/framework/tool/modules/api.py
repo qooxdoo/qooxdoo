@@ -132,14 +132,14 @@ def handleClassDefinition(docTree, item, variant):
   classMap = params.children[1]
   classNode = getClassNode(docTree, className)
 
-  print
-  print className
+  #print
+  #print className
 
   for keyvalueItem in classMap.children:
     key = keyvalueItem.get("key")
     valueItem = keyvalueItem.getChild("value").getFirstChild()
     
-    print "KEY: %s = %s" % (key, valueItem.type)
+    #print "KEY: %s = %s" % (key, valueItem.type)
     
     if key == "extend":
       if variant in [ "class", "clazz" ]:
