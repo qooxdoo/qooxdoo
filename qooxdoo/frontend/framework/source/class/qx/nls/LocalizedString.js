@@ -1,7 +1,7 @@
 /**
  * Create a new instance of qx.nls.LocalizedString
  * 
- * @see qx.lang.String.format
+ * @see(qx.lang.String.format)
  * 
  * @param messageId (string) message id (may contain format strings)
  * @param args (object[]) array of objects, which are inserted into the format string.
