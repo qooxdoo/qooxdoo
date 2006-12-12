@@ -242,7 +242,7 @@ qx.Proto._modifyLabel = function(propValue, propOldValue, propData)
 
 qx.Proto._modifyCommand = function(propValue, propOldValue, propData)
 {
-  var vHtml = propValue ? propValue.getShortcut() : "";
+  var vHtml = propValue ? propValue.toString() : "";
 
   this._shortcutObject.setHtml(vHtml);
 
