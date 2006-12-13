@@ -289,10 +289,10 @@ qx.Proto.getSetting = function(vKey) {
  * 
  * @param messageId (string) message id (may contain format strings)
  * @param varargs (object) variable number of argumes applied to the format string
- * @return (qx.nls.LocalizedString)
+ * @return (qx.locale.manager.LocalizedString)
  */
 qx.Proto.tr = function(messageId, varargs) {
-  var nlsManager = qx.nls.Manager.getInstance();
+  var nlsManager = qx.locale.manager.Manager.getInstance();
   return nlsManager.tr.apply(nlsManager, arguments);
 };
 
@@ -309,10 +309,10 @@ qx.Proto.tr = function(messageId, varargs) {
  * @param pluralMessageId (string) message id of the plural form (may contain format strings)
  * @param count (integer) if greater than 1 the plural form otherwhise the singular form is returned.
  * @param varargs (object) variable number of argumes applied to the format string
- * @return (qx.nls.LocalizedString)
+ * @return (qx.locale.manager.LocalizedString)
  */
 qx.Proto.trn = function(singularMessageId, pluralMessageId, count, varargs) {
-  var nlsManager = qx.nls.Manager.getInstance();
+  var nlsManager = qx.locale.manager.Manager.getInstance();
   return nlsManager.trn.apply(nlsManager, arguments);
 };
 
