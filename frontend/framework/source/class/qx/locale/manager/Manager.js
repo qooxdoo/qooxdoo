@@ -14,16 +14,24 @@ function() {
 qx.OO.addProperty({ name: "locale"});
 
 
+qx.Proto._getMajorLanguage = function(locale) {
+  var majorLanguage;
+  var pos = locale.indexOf("_");
+  if (pos == -1) {
+    majorLanguage = locale;
+  } else {
+    majorLanguage = locale.substring(0, pos);
+  }
+  return majorLanguage;
+};
+
+
 qx.Proto._modifyLocale = function(propValue, propOldValue, propData) {
   this._language = propValue;
 
   var pos = propValue.indexOf("_");
-  if (pos == -1) {
-    this._majorLanguage = propValue;
-  } else {
-    this._majorLanguage = propValue.substring(0, pos);
-  }
-
+  this._majorLanguage = this._getMajorLanguage(propValue);
+  
   return true;
 };
 
@@ -130,18 +138,27 @@ qx.Proto._defaultLanguage = "C";
  * 
  * @param messageId (string) message id (may contain format strings)
  * @param args (object[]) array of objects, which are inserted into the format string.
+ * @param locale (string) optional locale to be used for translation
  * @return (string) translated message. 
  */
-qx.Proto.translate = function(messageId, args)
+qx.Proto.translate = function(messageId, args, locale)
 {
   var txt;
 
-  if (!txt && this._translationCatalog[this._language]) {
-    txt = this._translationCatalog[this._language][messageId];
+  if (locale) {
+    var language = locale;
+    var majorLanguage = this._getMajorLanguage(locale);
+  } else {
+    language = this._language;
+    majorLanguage = this._majorLanguage;
   }
 
-  if (!txt && this._translationCatalog[this._majorLanguage]) {
-    txt = this._translationCatalog[this._majorLanguage][messageId];
+  if (!txt && this._translationCatalog[language]) {
+    txt = this._translationCatalog[language][messageId];
+  }
+
+  if (!txt && this._translationCatalog[majorLanguage]) {
+    txt = this._translationCatalog[majorLanguage][messageId];
   }
 
   if (!txt && this._translationCatalog[this._defaultLanguage]) {
