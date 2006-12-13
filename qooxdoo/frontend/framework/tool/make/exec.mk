@@ -5,7 +5,7 @@
 #
 # Configure commands
 #
-CMD_NICE = nice -n $(COMPUTED_COMMON_NICE)
+CMD_NICE = @nice -n $(COMPUTED_COMMON_NICE)
 CMD_GENERATOR = $(CMD_NICE) $(FRAMEWORK_PATH)/tool/generator.py --cache-directory $(FRAMEWORK_CACHE_PATH)
 CMD_REMOVE = $(CMD_NICE) rm -rf
 CMD_FIND = $(CMD_NICE) find 
@@ -142,7 +142,7 @@ exec-api-build:
 	  --enable-resource-filter \
 	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:resource/qooxdoo \
 	  --define-runtime-setting api.Viewer.resourceUri:resource/api \
-	  --define-runtime-setting api.Viewer.title:$(PROJECT_TITLE)
+	  --define-runtime-setting api.Viewer.title:$(PROJECT_API_TITLE)
 
 
 
@@ -157,53 +157,53 @@ exec-api-build:
 info-build:
 	@echo 
 	@echo "****************************************************************************"
-	@echo "  GENERATING $(TITLE) BUILD"
+	@echo "  GENERATING $(PROJECT_MAKE_TITLE) BUILD"
 	@echo "****************************************************************************"
 
 info-source:
 	@echo 
 	@echo "****************************************************************************"
-	@echo "  GENERATING $(TITLE) SOURCE"
+	@echo "  GENERATING $(PROJECT_MAKE_TITLE) SOURCE"
 	@echo "****************************************************************************"
 	
 info-api:
 	@echo 
 	@echo "****************************************************************************"
-	@echo "  GENERATING $(TITLE) API"
+	@echo "  GENERATING $(PROJECT_MAKE_TITLE) API"
 	@echo "****************************************************************************"
 	
 info-pretty:
 	@echo 
 	@echo "****************************************************************************"
-	@echo "  GENERATING $(TITLE) PRETTY"
+	@echo "  GENERATING $(PROJECT_MAKE_TITLE) PRETTY"
 	@echo "****************************************************************************"
 	
 info-fix:
 	@echo 
 	@echo "****************************************************************************"
-	@echo "  GENERATING $(TITLE) FIX"
+	@echo "  GENERATING $(PROJECT_MAKE_TITLE) FIX"
 	@echo "****************************************************************************"
 			
 info-help:
 	@echo 
 	@echo "****************************************************************************"
-	@echo "  HELP FOR $(TITLE)"
+	@echo "  HELP FOR $(PROJECT_MAKE_TITLE)"
 	@echo "****************************************************************************"
 
 info-clean:
 	@echo 
 	@echo "****************************************************************************"
-	@echo "  CLEANING UP $(TITLE) BASE"
+	@echo "  CLEANING UP $(PROJECT_MAKE_TITLE) BASE"
 	@echo "****************************************************************************"
 
 info-realclean:
 	@echo 
 	@echo "****************************************************************************"
-	@echo "  CLEANING UP $(TITLE) REAL"
+	@echo "  CLEANING UP $(PROJECT_MAKE_TITLE) REAL"
 	@echo "****************************************************************************"
 
 info-distclean:
 	@echo 
 	@echo "****************************************************************************"
-	@echo "  CLEANING UP $(TITLE) DIST"
+	@echo "  CLEANING UP $(PROJECT_MAKE_TITLE) DIST"
 	@echo "****************************************************************************"

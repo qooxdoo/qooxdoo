@@ -1,11 +1,16 @@
+####################################################################################
+# BASIC SETTINGS
+####################################################################################
+
 #
 # Most interesting: Where qooxdoo resists
 #
 QOOXDOO_PATH = ../../../..
 
 #
-# The same, but from the webserver point of view
+# The same as above, but from the webserver point of view
 # Starting point is the application HTML file of the source folder.
+# In most cases just add a "/.." compared to above
 #
 QOOXDOO_URI = ../../../../..
 
@@ -13,15 +18,18 @@ QOOXDOO_URI = ../../../../..
 # Basic project data
 #
 PROJECT_NAMESPACE = custom
-PROJECT_TITLE = CUSTOM
+PROJECT_MAKE_TITLE = CUSTOM
+PROJECT_API_TITLE = Custom
 
 #
-# Additional files (add more files if needed)
-# Space separated
+# Additional files (space separated list)
 #
 PROJECT_FILES = index.html
 
-
+#
+# Locales to build (space separated list)
+#
+PROJECT_LOCALES = de en fr
 
 
 
