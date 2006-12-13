@@ -17,6 +17,7 @@
 
 /* ************************************************************************
 
+#require(qx.locale.Date)
 
 ************************************************************************ */
 
@@ -577,31 +578,19 @@ qx.Class.AM_MARKER = "am";
 qx.Class.PM_MARKER = "pm";
 
 /** {string[]} The full month names. */
-qx.Class.FULL_MONTH_NAMES = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
-];
+qx.Class.FULL_MONTH_NAMES = qx.locale.Date.getMonthNames("wide");
 
 /** {string[]} The short month names. */
-qx.Class.SHORT_MONTH_NAMES = [
-  "Jan", "Feb", "Mar", "Apr", "Mai", "Jun",
-  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-];
+qx.Class.SHORT_MONTH_NAMES = qx.locale.Date.getMonthNames("abbreviated");
 
-/** {string[]} The short (two letter) day of week names. */
-qx.Class.SHORT_DAY_OF_WEEK_NAMES = [
-  "Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"
-];
+/** {string[]} The short (one letter) day of week names. */
+qx.Class.SHORT_DAY_OF_WEEK_NAMES = qx.locale.Date.getDayNames("narrow");
 
-/** {string[]} The medium (three letter) day of week names. */
-qx.Class.MEDIUM_DAY_OF_WEEK_NAMES = [
-  "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
-];
+/** {string[]} The medium (tro letter) day of week names. */
+qx.Class.MEDIUM_DAY_OF_WEEK_NAMES = qx.locale.Date.getDayNames("abbreviated");
 
 /** {string[]} The full day of week names. */
-qx.Class.FULL_DAY_OF_WEEK_NAMES = [
-  "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
-];
+qx.Class.FULL_DAY_OF_WEEK_NAMES = qx.locale.Date.getDayNames("wide");
 
 /** {string[]} The medium (three letter) timezone names. */
 qx.Class.MEDIUM_TIMEZONE_NAMES = [
