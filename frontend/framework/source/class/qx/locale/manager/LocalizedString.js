@@ -1,12 +1,12 @@
 /**
- * Create a new instance of qx.nls.LocalizedString
+ * Create a new instance of qx.locale.manager.LocalizedString
  * 
  * @see(qx.lang.String.format)
  * 
  * @param messageId (string) message id (may contain format strings)
  * @param args (object[]) array of objects, which are inserted into the format string.
  */
-qx.OO.defineClass("qx.nls.LocalizedString", qx.core.Object,
+qx.OO.defineClass("qx.locale.manager.LocalizedString", qx.core.Object,
 function(messageId, args) {
   qx.core.Object.call(this);
 
@@ -15,7 +15,7 @@ function(messageId, args) {
   var storedArguments = [];
   for (var i=0; i<args.length; args++) {
     var arg = args[i];
-    if (arg instanceof qx.nls.LocalizedString) {
+    if (arg instanceof qx.locale.manager.LocalizedString) {
       // defer convertion to string
       storedArguments.push(arg);
     } else {
@@ -40,6 +40,6 @@ qx.OO.addProperty({ name: "args"});
  * @return (string) translation using the current locale
  */
 qx.Proto.toString = function () {
-  return qx.nls.Manager.getInstance().translate(this.getId(), this.getArgs());
+  return qx.locale.manager.Manager.getInstance().translate(this.getId(), this.getArgs());
 }
 
