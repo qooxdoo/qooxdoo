@@ -305,7 +305,7 @@ qx.Proto._handleLabel = function()
   {
     case qx.ui.basic.Atom.SHOW_LABEL:
     case qx.ui.basic.Atom.SHOW_BOTH:
-      this._labelIsVisible = qx.util.Validation.isValidString(this.getLabel()) || this.getLabel() instanceof qx.nls.LocalizedString;
+      this._labelIsVisible = qx.util.Validation.isValidString(this.getLabel()) || this.getLabel() instanceof qx.locale.manager.LocalizedString;
       break;
 
     default:

@@ -223,11 +223,11 @@ qx.Proto._modifyLabel = function(propValue, propOldValue, propData)
 {
   this._labelObject.setHtml(propValue);
 
-  if ((typeof propValue == "string" && propValue != "") || propValue instanceof qx.nls.LocalizedString)
+  if ((typeof propValue == "string" && propValue != "") || propValue instanceof qx.locale.manager.LocalizedString)
   {
     this._hasLabel = true;
 
-    if (!((typeof propOldValue == "string" && propOldValue != "") || propOldValue instanceof qx.nls.LocalizedString)) {
+    if (!((typeof propOldValue == "string" && propOldValue != "") || propOldValue instanceof qx.locale.manager.LocalizedString)) {
       this.addAt(this._labelObject, this.getFirstChild() == this._iconObject ? 1 : 0);
     }
   }

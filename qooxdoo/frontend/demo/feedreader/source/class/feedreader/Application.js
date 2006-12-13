@@ -57,11 +57,11 @@ if (qx.sys.Client.getInstance().getRunsLocally())
 	qx.Class._feedDesc = [
 	  {
 	    url: "./resource/feeds/qooxdoo-news.xml",
-	    name: "qooxdoo-news"
+	    name: "qooxdoo-blog"
 	  },
 	  {
 	    url: "./resource/feeds/qooxdoo-blog.xml",
-	    name: "qooxdoo-blog"
+	    name: "qooxdoo-news"
 	  },
 	  {
 	    url: "./resource/feeds/ajaxian.xml",
@@ -78,11 +78,11 @@ else
 	qx.Class._feedDesc = [
 	  {
 	    url: "./resource/proxy/proxy.php?proxy=" + encodeURIComponent("http://feeds.feedburner.com/qooxdoo/blog/content"),
-	    name: "qooxdoo-news"
+	    name: "qooxdoo-blog"
 	  },
 	  {
 	    url: "./resource/proxy/proxy.php?proxy=" + encodeURIComponent("http://feeds.feedburner.com/qooxdoo/news/content"),
-	    name: "qooxdoo-blog"
+	    name: "qooxdoo-news"
 	  },
 	  {
 	    url: "./resource/proxy/proxy.php?proxy=" + encodeURIComponent("http://feeds.feedburner.com/ajaxian"),
@@ -136,7 +136,7 @@ qx.Proto.main = function(e)
 
   toolBar.add(new qx.ui.basic.HorizontalSpacer());
 	
-	var locale = qx.nls.Manager.getInstance().getLocale();
+	var locale = qx.locale.manager.Manager.getInstance().getLocale();
 	var mb_de = new qx.ui.menu.RadioButton(this.tr("German"), null, locale == "de" );
 	mb_de.setUserData("locale", "de");
 	var mb_en = new qx.ui.menu.RadioButton(this.tr("English"), null, locale == "en");
@@ -145,7 +145,7 @@ qx.Proto.main = function(e)
 	var radioManager = new qx.manager.selection.RadioManager("lang", [mb_de, mb_en]);
 	radioManager.addEventListener("changeSelected", function(e) {
 		var lang = e.getData().getUserData("locale");
-		qx.nls.Manager.getInstance().setLocale(lang);
+		qx.locale.manager.Manager.getInstance().setLocale(lang);
 	}); 
 	lang_menu.add(mb_de, mb_en);
 	lang_menu.addToDocument();
