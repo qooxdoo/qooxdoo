@@ -33,6 +33,7 @@
  *   <li> common getter/setter </li>
  *   <li> user data </li>
  *   <li> object destruction </li>
+ *   <li> internationalization </li>
  * </ul>
  *
  * @param vAutoDispose {boolean ? true} wether the object should be disposed automatically by qooxdoo
@@ -307,25 +308,6 @@ qx.Proto.tr = function(messageId, varargs) {
  * @param singularMessageId (string) message id of the singular form (may contain format strings)
  * @param pluralMessageId (string) message id of the plural form (may contain format strings)
  * @param count (integer) if greater than 1 the plural form otherwhise the singular form is returned.
- * @param varargs (object) variable number of argumes applied to the format string
- * @return (qx.nls.LocalizedString)
- */
-qx.Proto.trc = function(hint, messageId, varargs) {
-  var nlsManager = qx.nls.Manager.getInstance();
-  return nlsManager.trc.apply(nlsManager, arguments);
-};
-
-
-/**
- * Translate a message with translation hint
- * Mark the messages for translation.
- * 
- * Depending on the third argument the plursl or the singular form is chosen.
- * 
- * @see(qx.lang.String.format)
- *
- * @param hint (string) hint for the translator of the message. Will be included in the .pot file. 
- * @param messageId (string) message id (may contain format strings)
  * @param varargs (object) variable number of argumes applied to the format string
  * @return (qx.nls.LocalizedString)
  */
