@@ -458,7 +458,7 @@ qx.Proto._updateDatePane = function() {
  * {qx.util.format.DateFormat} The format for the date year
  * label at the top center.
  */
-qx.Class.MONTH_YEAR_FORMAT = qx.util.DateFormat.getDateTimeFormat("MMMM yyyy");
+qx.Class.MONTH_YEAR_FORMAT = new qx.util.format.DateFormat("MMMM yyyy");
 
 /**
  * {qx.util.format.DateFormat} The format for the weekday
