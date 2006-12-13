@@ -183,7 +183,7 @@ qx.Proto._createInfoPanel = function(nodeType, listName, labelText, infoFactory,
   }
 
   html += '<img class="openclose" src="'
-    + qx.manager.object.AliasManager.getInstance().resolvePath('api/' + (isOpen ? 'close.gif' : 'open.gif')) + '"'
+    + qx.manager.object.AliasManager.getInstance().resolvePath('api/image/' + (isOpen ? 'close.gif' : 'open.gif')) + '"'
     + " onclick=\"document._detailViewer._onShowInfoPanelBodyClicked(" + nodeType + ")\"/> "
     + '<span '
     + " onclick=\"document._detailViewer._onShowInfoPanelBodyClicked(" + nodeType + ")\">"
@@ -261,10 +261,10 @@ qx.Proto.showClass = function(classNode) {
   this._currentClassHierarchy = classHierarchy;
 
   // Add the class hierarchy
-  classHtml += ClassViewer.createImageHtml("api/class18.gif") + "Object<br/>";
+  classHtml += ClassViewer.createImageHtml("api/image/class18.gif") + "Object<br/>";
   var indent = 0;
   for (var i = classHierarchy.length - 1; i >= 0; i--) {
-    classHtml += ClassViewer.createImageHtml("api/nextlevel.gif", null, "margin-left:" + indent + "px")
+    classHtml += ClassViewer.createImageHtml("api/image/nextlevel.gif", null, "margin-left:" + indent + "px")
       + ClassViewer.createImageHtml(api.TreeUtil.getIconUrl(classHierarchy[i]));
     if (i != 0) {
       classHtml += this._createItemLinkHtml(classHierarchy[i].attributes.fullName, null, false);
@@ -447,7 +447,7 @@ qx.Proto._updateInfoPanel = function(nodeType) {
         if (typeInfo.hasDetailDecider.call(this, node, nodeType, fromClassNode))
         {
           // This node has details -> Show the detail button
-          html += '<img src="' + qx.manager.object.AliasManager.getInstance().resolvePath("api/open.gif") + '"'
+          html += '<img src="' + qx.manager.object.AliasManager.getInstance().resolvePath("api/image/open.gif") + '"'
             + " onclick=\"document._detailViewer._onShowItemDetailClicked(" + nodeType + ",'"
             + node.attributes.name + "'"
             + ((fromClassNode != this._currentClassDocNode) ? ",'" + fromClassNode.attributes.fullName + "'" : "")
@@ -545,7 +545,7 @@ qx.Proto._onShowItemDetailClicked = function(nodeType, name, fromClassName) {
 
     // Update the close/open image
     var opencloseImgElem = textDiv.parentNode.previousSibling.firstChild;
-    opencloseImgElem.src = qx.manager.object.AliasManager.getInstance().resolvePath(showDetails ? 'api/close.gif' : 'api/open.gif');
+    opencloseImgElem.src = qx.manager.object.AliasManager.getInstance().resolvePath(showDetails ? 'api/image/close.gif' : 'api/image/open.gif');
 
     // Update content
     var info = typeInfo.infoFactory.call(this, node, nodeType, fromClassNode, showDetails);
@@ -591,7 +591,7 @@ qx.Proto._onShowInfoPanelBodyClicked = function(nodeType) {
     typeInfo.isOpen = !typeInfo.isOpen;
 
     var imgElem = typeInfo.infoTitleElem.getElementsByTagName("img")[0];
-    imgElem.src = qx.manager.object.AliasManager.getInstance().resolvePath(typeInfo.isOpen ? 'api/close.gif' : 'api/open.gif');
+    imgElem.src = qx.manager.object.AliasManager.getInstance().resolvePath(typeInfo.isOpen ? 'api/image/close.gif' : 'api/image/open.gif');
 
     this._updateInfoPanel(nodeType);
   } catch (exc) {
