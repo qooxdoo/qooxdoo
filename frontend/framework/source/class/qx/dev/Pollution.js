@@ -22,6 +22,9 @@
 
 ************************************************************************ */
 
+/**
+ * Retrieve information about global namespace pollution
+ */
 qx.OO.defineClass("qx.dev.Pollution");
 
 qx.Class.names =
