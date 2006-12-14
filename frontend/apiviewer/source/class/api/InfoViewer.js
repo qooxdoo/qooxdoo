@@ -26,7 +26,7 @@
 /**
  * Shows the class details.
  */
-qx.OO.defineClass("api.InfoViewer", qx.ui.embed.HtmlEmbed,
+qx.OO.defineClass("apiviewer.InfoViewer", qx.ui.embed.HtmlEmbed,
 function() {
   qx.ui.embed.HtmlEmbed.call(this);
 
@@ -36,7 +36,7 @@ function() {
   this.setHtmlProperty("id", "InfoViewer");
   this.setVisibility(false);
 
-  api.InfoViewer.instance = this;
+  apiviewer.InfoViewer.instance = this;
 });
 
 qx.Proto.showInfo = function(classNode)
