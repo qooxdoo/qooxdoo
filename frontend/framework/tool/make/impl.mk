@@ -136,12 +136,12 @@ exec-api-build:
 	  --optimize-strings --optimize-variables \
 	  --copy-resources \
 	  --resource-input $(FRAMEWORK_SOURCE_PATH)/resource \
-	  --resource-output $(PROJECT_API_PATH)/resource/qooxdoo \
+	  --resource-output $(PROJECT_API_PATH)/resource/qx \
 	  --resource-input $(API_SOURCE_PATH)/resource \
 	  --resource-output $(PROJECT_API_PATH)/resource/api \
 	  --enable-resource-filter \
-	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:resource/qooxdoo \
-	  --define-runtime-setting api.Viewer.resourceUri:resource/api \
+	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:resource/qx \
+	  --define-runtime-setting api.Application.resourceUri:resource/api \
 	  --define-runtime-setting api.Viewer.title:$(PROJECT_API_TITLE)
 
 

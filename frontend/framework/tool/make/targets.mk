@@ -11,7 +11,7 @@
 build: info-build exec-script-build exec-files-build
 source: info-source exec-script-source
 api: info-api exec-api-build exec-api-data exec-files-api
-all: qx-source qx-build qx-api
+all: source build api
 pretty: info-pretty exec-pretty
 fix: info-fix exec-fix
 help: info-help
