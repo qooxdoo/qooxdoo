@@ -129,15 +129,3 @@ endif
 ifeq ($(PROJECT_LINEBREAKS_BUILD),true)
   COMPUTED_BUILD_LINEBREAKS = --add-new-lines --add-file-ids
 endif
-
-
-
-
-
-###################################################################################
-# INCLUDE CORE FEATURES
-###################################################################################
-
-include $(FRAMEWORK_TOOL_PATH)/make/alias.mk
-include $(FRAMEWORK_TOOL_PATH)/make/commands.mk
-include $(FRAMEWORK_TOOL_PATH)/make/exec.mk
