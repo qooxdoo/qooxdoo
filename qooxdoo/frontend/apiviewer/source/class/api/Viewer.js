@@ -26,7 +26,7 @@
 /**
  * The API viewer. Shows the API documentation.
  */
-qx.OO.defineClass("api.Viewer", qx.ui.layout.HorizontalBoxLayout,
+qx.OO.defineClass("apiviewer.Viewer", qx.ui.layout.HorizontalBoxLayout,
 function () {
   qx.ui.layout.HorizontalBoxLayout.call(this);
 
@@ -59,21 +59,21 @@ function () {
   this._detailLoader.setMarginTop(20);
   this._detailFrame.add(this._detailLoader);
 
-  this._classViewer = new api.ClassViewer;
+  this._classViewer = new apiviewer.ClassViewer;
   this._detailFrame.add(this._classViewer);
 
-  this._infoViewer = new api.InfoViewer;
+  this._infoViewer = new apiviewer.InfoViewer;
   this._detailFrame.add(this._infoViewer);
 
-  this._currentTreeType = api.Viewer.PACKAGE_TREE;
+  this._currentTreeType = apiviewer.Viewer.PACKAGE_TREE;
 
   // Workaround: Since navigating in qx.ui.tree.Tree doesn't work, we've to
   //             maintain a hash that keeps the tree nodes for class names
   this._classTreeNodeHash = {};
-  this._classTreeNodeHash[api.Viewer.PACKAGE_TREE] = {};
-  this._classTreeNodeHash[api.Viewer.INHERITENCE_TREE] = {};
+  this._classTreeNodeHash[apiviewer.Viewer.PACKAGE_TREE] = {};
+  this._classTreeNodeHash[apiviewer.Viewer.INHERITENCE_TREE] = {};
 
-  api.Viewer.instance = this;
+  apiviewer.Viewer.instance = this;
 
   qx.client.History.getInstance().init();
   qx.client.History.getInstance().addEventListener("request", this._onHistoryRequest, this);
@@ -178,8 +178,8 @@ qx.Proto._updateTree = function(docTree) {
  * @param docNode {Map} the documentation node of the package.
  */
 qx.Proto._fillPackageNode = function(treeNode, docNode, depth) {
-  var ApiViewer = api.Viewer;
-  var TreeUtil = api.TreeUtil;
+  var ApiViewer = apiviewer.Viewer;
+  var TreeUtil = apiviewer.TreeUtil;
 
   var packagesDocNode = TreeUtil.getChild(docNode, "packages");
   if (packagesDocNode && packagesDocNode.children) {
@@ -232,8 +232,8 @@ qx.Proto._fillPackageNode = function(treeNode, docNode, depth) {
  * @param docTree {Map} the documentation tree.
  */
 qx.Proto._createInheritanceNode = function(parentTreeNode, classDocNode, docTree) {
-  var ApiViewer = api.Viewer;
-  var TreeUtil = api.TreeUtil;
+  var ApiViewer = apiviewer.Viewer;
+  var TreeUtil = apiviewer.TreeUtil;
 
   // Create the tree node
   var iconUrl = TreeUtil.getIconUrl(classDocNode);

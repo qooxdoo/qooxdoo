@@ -29,7 +29,7 @@
 /**
  * Your custom application
  */
-qx.OO.defineClass("api.Application", qx.component.AbstractApplication,
+qx.OO.defineClass("apiviewer.Application", qx.component.AbstractApplication,
 function () {
   qx.component.AbstractApplication.call(this);
 });
@@ -49,7 +49,7 @@ qx.Settings.setDefault("resourceUri", "./resource");
 qx.Proto.initialize = function(e)
 {
   // Define alias for custom resource path
-  qx.manager.object.AliasManager.getInstance().add("api", qx.Settings.getValueOfClass("api.Application", "resourceUri"));
+  qx.manager.object.AliasManager.getInstance().add("api", qx.Settings.getValueOfClass("apiviewer.Application", "resourceUri"));
   
   // Reduce log level
   qx.dev.log.Logger.ROOT_LOGGER.setMinLevel(qx.dev.log.Logger.LEVEL_WARN);
@@ -61,7 +61,7 @@ qx.Proto.initialize = function(e)
 qx.Proto.main = function(e)
 {
   // Initialize the viewer
-  this.viewer = new api.Viewer;
+  this.viewer = new apiviewer.Viewer;
   this.viewer.addToDocument();
 };
 
