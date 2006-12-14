@@ -27,6 +27,21 @@
 
 qx.OO.defineClass("qx.dom.StyleSheet");
 
+/**
+ * Include a CSS file
+ *
+ * @param vHref {string} Href value
+ */
+qx.dom.StyleSheet.includeFile = function(vHref) 
+{
+  var el = document.createElement("link");
+  el.type = "text/css";
+  el.rel = "stylesheet";
+  el.href = vHref;
+  
+  var head = document.getElementsByTagName("head")[0];
+  head.appendChild(el);
+};
 
 /**
  * create a new Stylesheet node and append it to the document
@@ -45,7 +60,7 @@ if (document.createStyleSheet) // IE 4+
     }
 
     return vSheet;
-  }
+  };
 }
 else // FF, Opera, Safari
 {
@@ -71,7 +86,7 @@ else // FF, Opera, Safari
       }
     }
     throw "Error: Could not get a reference to the sheet object";
-  }
+  };
 }
 
 
@@ -130,7 +145,7 @@ if (document.createStyleSheet) // IE 4+
         vSheet.removeRule(i);
       }
     }
-  }
+  };
 }
 else if (qx.sys.Client.getInstance().isSafari2()) // removeRule in Safari 2 doesn't work
 {
@@ -149,7 +164,7 @@ else if (qx.sys.Client.getInstance().isSafari2()) // removeRule in Safari 2 does
     } else {
       warn();
     }
-  }
+  };
 }
 else
 {
@@ -164,7 +179,7 @@ else
         vSheet.deleteRule(i);
       }
     }
-  }
+  };
 }
 
 
@@ -184,7 +199,7 @@ if (document.createStyleSheet) // IE 4+
     for (var i=vLength-1; i>=0; i--) {
       vSheet.removeRule(i);
     }
-  }
+  };
 }
 else if (qx.sys.Client.getInstance().isSafari2()) // removeRule in Safari 2 doesn't work
 {
@@ -195,7 +210,7 @@ else if (qx.sys.Client.getInstance().isSafari2()) // removeRule in Safari 2 does
     while (rules.length > 0) {
       node.removeChild(rules[0]);
     }
-  }
+  };
 }
 else // FF, etc
 {
@@ -207,7 +222,7 @@ else // FF, etc
     for (var i=vLength-1; i>=0; i--) {
       vSheet.deleteRule(i);
     }
-  }
+  };
 }
 
 
@@ -225,19 +240,19 @@ if (document.createStyleSheet) // IE 4+
 {
   qx.dom.StyleSheet.addImport = function(vSheet, vUrl) {
     vSheet.addImport(vUrl);
-  }
+  };
 }
 else  if (qx.sys.Client.getInstance().isSafari2()) // insertRule in Safari 2 doesn't work
 {
   qx.dom.StyleSheet.addImport = function(vSheet, vUrl) {
     vSheet.ownerNode.appendChild(document.createTextNode('@import "' + vUrl + '";'));
-  }
+  };
 }
 else // FF, etc
 {
   qx.dom.StyleSheet.addImport = function(vSheet, vUrl) {
     vSheet.insertRule('@import "' + vUrl + '";', vSheet.cssRules.length);
-  }
+  };
 }
 
 
@@ -259,7 +274,7 @@ if (document.createStyleSheet) // IE 4+
         vSheet.removeImport(i);
       }
     }
-  }
+  };
 }
 else // FF, etc
 {
@@ -272,7 +287,7 @@ else // FF, etc
         vSheet.deleteRule(i);
       }
     }
-  }
+  };
 }
 
 
@@ -291,7 +306,7 @@ if (document.createStyleSheet) // IE 4+
     for (var i=vLength-1; i>=0; i--) {
       vSheet.removeImport(i);
     }
-  }
+  };
 }
 else // FF, etc
 {
@@ -304,5 +319,5 @@ else // FF, etc
         vSheet.deleteRule(i);
       }
     }
-  }
+  };
 }
