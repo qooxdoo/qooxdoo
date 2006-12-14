@@ -1,66 +1,31 @@
-###################################################################################
-# DEFAULT TARGET
-###################################################################################
-
-all: build
-
-
-
-
-###################################################################################
-# COMMON TARGETS
-###################################################################################
-
-
-build:
-	@$(MAKE) -C showcase build
-	@$(MAKE) -C webmail build
-	@$(MAKE) -C feedreader build
-	@$(MAKE) -C sample build
-
+TARGETS = apiviewer feedreader sample showcase skeleton webmail
 
 source:
-	@$(MAKE) -C showcase source
-	@$(MAKE) -C webmail source
-	@$(MAKE) -C feedreader source
-	@$(MAKE) -C sample source
-	
+	@for DIR in $(TARGETS); do \
+	  make -C $$DIR source || exit 1; \
+	done
 
-
-
-
-###################################################################################
-# CLEANUP TARGETS
-###################################################################################
+build:
+	@for DIR in $(TARGETS); do \
+	  make -C $$DIR build || exit 1; \
+	done
 
 clean:
-	@$(MAKE) -C showcase clean
-	@$(MAKE) -C webmail clean
-	@$(MAKE) -C feedreader clean
-	@$(MAKE) -C sample clean
+	@for DIR in $(TARGETS); do \
+	  make -C $$DIR clean || exit 1; \
+	done
 
 realclean:
-	@$(MAKE) -C showcase realclean
-	@$(MAKE) -C webmail realclean
-	@$(MAKE) -C feedreader realclean
-	@$(MAKE) -C sample realclean
+	@for DIR in $(TARGETS); do \
+	  make -C $$DIR realclean || exit 1; \
+	done
 
 distclean:
-	@$(MAKE) -C showcase distclean
-	@$(MAKE) -C webmail distclean
-	@$(MAKE) -C feedreader distclean
-	@$(MAKE) -C sample distclean
-
-
-
-
-
-###################################################################################
-# SYNC TARGETS
-###################################################################################
+	@for DIR in $(TARGETS); do \
+	  make -C $$DIR distclean || exit 1; \
+	done
 
 sync:
-	@$(MAKE) -C showcase sync
-	@$(MAKE) -C webmail sync
-	@$(MAKE) -C feedreader sync
-	@$(MAKE) -C sample sync
+	@for DIR in $(TARGETS); do \
+	  make -C $$DIR sync || exit 1; \
+	done
