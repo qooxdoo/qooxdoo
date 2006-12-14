@@ -29,7 +29,7 @@
 qx.OO.defineClass("qx.util.format.NumberFormat", qx.util.format.Format,
 function(locale) {
   qx.util.format.Format.call(this);
-  this._locale = locale;?
+  this._locale = locale;
 });
 
 
