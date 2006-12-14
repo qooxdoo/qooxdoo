@@ -28,9 +28,9 @@ all: build
 # COMMON TARGETS
 ###################################################################################
 
-source: generate-source
-build: generate-build
-debug: generate-debug
+source: download-locales generate-source
+build: download-locales generate-build
+debug: download-locales generate-debug
 pretty: generate-pretty
 fix: generate-fix
 
@@ -157,6 +157,20 @@ generate-fix:
 	  --script-input source/class \
 	  --fix-source \
 	  --cache-directory $(CACHE)
+
+
+###################################################################################
+# CLDR data extraction target
+###################################################################################
+
+download-locales:
+	@echo
+	@echo "  Loading CLDR files"
+	@echo "--------------------------------------------------------"
+	@echo "  * Loading files..."
+	@$(MAKE) -C $(FRAMEWORK)/tool/make -e -f cldr.mk
+	
+	
 
 revision-bump:
 	@echo
