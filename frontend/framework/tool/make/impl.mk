@@ -40,8 +40,8 @@ print-clean:
 	@echo "  * Cleaning up..."
 
 exec-clean: print-clean internal-clean
-exec-realclean: print-clean internal-realclean
-exec-distclean: print-clean internal-distclean
+exec-realclean: print-realclean internal-realclean
+exec-distclean: print-distclean internal-distclean
 		  
 		  
 		  
