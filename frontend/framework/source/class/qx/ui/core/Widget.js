@@ -64,6 +64,12 @@
  * @event focusin {qx.event.type.FocusEvent} (Fired by {@link qx.ui.core.Parent})
  * @event blur {qx.event.type.FocusEvent} (Fired by {@link qx.ui.core.Parent})
  * @event focus {qx.event.type.FocusEvent} (Fired by {@link qx.ui.core.Parent})
+ * @event dragdrop {qx.event.type.DragEvent} (Fired by {@link qx.event.handler.DragAndDropHandler})
+ * @event dragout {qx.event.type.DragEvent} (Fired by {@link qx.event.handler.DragAndDropHandler})
+ * @event dragover {qx.event.type.DragEvent} (Fired by {@link qx.event.handler.DragAndDropHandler})
+ * @event dragmove {qx.event.type.DragEvent} (Fired by {@link qx.event.handler.DragAndDropHandler})
+ * @event dragstart {qx.event.type.DragEvent} (Fired by {@link qx.event.handler.DragAndDropHandler})
+ * @event dragend {qx.event.type.DragEvent} (Fired by {@link qx.event.handler.DragAndDropHandler})
  */
 qx.OO.defineClass("qx.ui.core.Widget", qx.core.Target,
 function()
