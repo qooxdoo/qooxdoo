@@ -39,14 +39,14 @@ all: build
 ###################################################################################
 
 build:
+	@$(MAKE) -C framework build
 	@$(MAKE) -C apiviewer build
 	@$(MAKE) -C demo build
-	@$(MAKE) -C framework build
 
 source:
+	@$(MAKE) -C framework source
 	@$(MAKE) -C apiviewer source
 	@$(MAKE) -C demo source
-	@$(MAKE) -C framework source
 
 apiviewer-build:
 	@$(MAKE) -C apiviewer build
