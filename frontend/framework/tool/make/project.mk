@@ -230,6 +230,7 @@ API_FILES = index.html
 
 
 
+
 ###################################################################################
 # COMPUTED DEFAULTS
 ###################################################################################
@@ -271,11 +272,11 @@ COMPUTED_CLASS_URI = --source-script-path $(FRAMEWORK_SOURCE_URI)/class \
   
 COMPUTED_RESOURCE = --copy-resources \
   --resource-input $(FRAMEWORK_SOURCE_PATH)/resource \
-  --resource-output $(PROJECT_BUILD_PATH)/resource/qooxdoo \
-  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:resource/qooxdoo \
+  --resource-output $(PROJECT_BUILD_PATH)/resource/qx \
+  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:resource/qx \
   --resource-input $(PROJECT_SOURCE_PATH)/resource \
-  --resource-output $(PROJECT_BUILD_PATH)/resource/project \
-  --define-runtime-setting $(PROJECT_NAMESPACE).Application.resourceUri:resource/project \
+  --resource-output $(PROJECT_BUILD_PATH)/resource/$(PROJECT_NAMESPACE) \
+  --define-runtime-setting $(PROJECT_NAMESPACE).Application.resourceUri:resource/$(PROJECT_NAMESPACE) \
   $(PROJECT_ADDITIONAL_RESOURCE)
   
   
