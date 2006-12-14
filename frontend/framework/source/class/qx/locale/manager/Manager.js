@@ -14,23 +14,47 @@ function() {
 qx.OO.addProperty({ name: "locale"});
 
 
-qx.Proto._getMajorLanguage = function(locale) {
-  var majorLanguage;
+/**
+ * Get the language code of the currnt locale
+ * 
+ * This is the first part of a locale definition. The language for "de_DE" would be "de"
+ * 
+ * @return {string} language code
+ */
+qx.Proto.getLanguage = function() {
+  return this._language;
+};
+
+
+/**
+ * Get the territory code of the currnt locale
+ * 
+ * This is the second part of a locale definition. The territory for "de_DE" would be "DE"
+ * 
+ * @return {string} territory code
+ */
+qx.Proto.getTerritory = function() {
+  return this.getLocale().split("_")[1] || "";
+}
+
+
+qx.Proto._extractLanguage = function(locale) {
+  var language;
   var pos = locale.indexOf("_");
   if (pos == -1) {
-    majorLanguage = locale;
+    language = locale;
   } else {
-    majorLanguage = locale.substring(0, pos);
+    language = locale.substring(0, pos);
   }
-  return majorLanguage;
+  return language;
 };
 
 
 qx.Proto._modifyLocale = function(propValue, propOldValue, propData) {
-  this._language = propValue;
+  this._locale = propValue;
 
   var pos = propValue.indexOf("_");
-  this._majorLanguage = this._getMajorLanguage(propValue);
+  this._language = this._extractLanguage(propValue);
   
   return true;
 };
@@ -146,19 +170,18 @@ qx.Proto.translate = function(messageId, args, locale)
   var txt;
 
   if (locale) {
-    var language = locale;
-    var majorLanguage = this._getMajorLanguage(locale);
+    var language = this._extractLanguage(locale);
   } else {
+    locale = this._locale;
     language = this._language;
-    majorLanguage = this._majorLanguage;
+  }
+
+  if (!txt && this._translationCatalog[locale]) {
+    txt = this._translationCatalog[locale][messageId];
   }
 
   if (!txt && this._translationCatalog[language]) {
     txt = this._translationCatalog[language][messageId];
-  }
-
-  if (!txt && this._translationCatalog[majorLanguage]) {
-    txt = this._translationCatalog[majorLanguage][messageId];
   }
 
   if (!txt && this._translationCatalog[this._defaultLanguage]) {
