@@ -47,10 +47,10 @@ function(date) {
   var nextMonthBt = new qx.ui.toolbar.Button(null, "widget/datechooser/nextMonth.png");
   var nextYearBt = new qx.ui.toolbar.Button(null, "widget/datechooser/nextYear.png");
 
-  lastYearBt.set({ show:'icon', toolTip:new qx.ui.popup.ToolTip("Last year"), spacing:0 });
-  lastMonthBt.set({ show:'icon', toolTip:new qx.ui.popup.ToolTip("Last month") });
-  nextMonthBt.set({ show:'icon', toolTip:new qx.ui.popup.ToolTip("Next month") });
-  nextYearBt.set({ show:'icon', toolTip:new qx.ui.popup.ToolTip("Next year") });
+  lastYearBt.set({ show:'icon', toolTip:new qx.ui.popup.ToolTip(this.tr("Last year")), spacing:0 });
+  lastMonthBt.set({ show:'icon', toolTip:new qx.ui.popup.ToolTip(this.tr("Last month")) });
+  nextMonthBt.set({ show:'icon', toolTip:new qx.ui.popup.ToolTip(this.tr("Next month")) });
+  nextYearBt.set({ show:'icon', toolTip:new qx.ui.popup.ToolTip(this.tr("Next year")) });
 
   lastYearBt.setAppearance("datechooser-toolbar-button");
   lastMonthBt.setAppearance("datechooser-toolbar-button");
@@ -146,6 +146,9 @@ function(date) {
   // Show the right date
   var shownDate = (date != null) ? date : new Date();
   this.showMonth(shownDate.getMonth(), shownDate.getFullYear());
+  
+  // listen for locale changes
+  qx.locale.manager.Manager.getInstance().addEventListener("changeLocale", this._updateDatePane, this);
 
   // Add the main widgets
   this.add(navBar);
@@ -156,8 +159,6 @@ function(date) {
 
 // ***** Properties *****
 
-/** The start of the week. 0 = sunday, 1 = monday, and so on. */
-qx.OO.addProperty({ name:"startOfWeek", type:"number", defaultValue:1 });
 /** The currently shown month. 0 = january, 1 = february, and so on. */
 qx.OO.addProperty({ name:"shownMonth", type:"number", defaultValue:null });
 /** The currently shown year. */
@@ -331,18 +332,6 @@ qx.Proto._onkeypress = function(evt) {
 
 
 /**
- * Returns whether a certain day of week belongs to the week end.
- *
- * @param dayOfWeek {int} the day to check. (0 = sunday, 1 = monday, ...,
- *    6 = saturday)
- * @return {boolean} whether the day belongs to the week end.
- */
-qx.Proto._isWeekend = function(dayOfWeek) {
-  return (dayOfWeek == 0) || (dayOfWeek == 6);
-}
-
-
-/**
  * Shows a certain month.
  *
  * @param month {int ? null} the month to show (0 = january). If not set the month
@@ -385,7 +374,7 @@ qx.Proto._updateDatePane = function() {
   var shownMonth = this.getShownMonth();
   var shownYear  = this.getShownYear();
 
-  var startOfWeek = this.getStartOfWeek();
+  var startOfWeek = qx.locale.Date.getWeekStart();
 
   // Create a help date that points to the first of the current month
   var helpDate = new Date(this.getShownYear(), this.getShownMonth(), 1);
@@ -394,16 +383,16 @@ qx.Proto._updateDatePane = function() {
 
   // Show the day names
   var firstDayOfWeek = helpDate.getDay();
-  var firstSundayInMonth = (1 + 7 - firstDayOfWeek) % 7;
+  var firstMondayInMonth = (2 + 7 - firstDayOfWeek) % 7;
   for (var i = 0; i < 7; i++) {
     var day = (i + startOfWeek) % 7;
 
     var dayLabel = this._weekdayLabelArr[i];
 
-    helpDate.setDate(firstSundayInMonth + day);
+    helpDate.setDate(firstMondayInMonth + day);
     dayLabel.setHtml(DateChooser.WEEKDAY_FORMAT.format(helpDate));
 
-    if (this._isWeekend(day)) {
+    if (qx.locale.Date.isWeekend(day)) {
       dayLabel.addState("weekend");
     } else {
       dayLabel.removeState("weekend");

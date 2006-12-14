@@ -31,7 +31,7 @@ qx.OO.defineClass("qx.util.format.DateFormat", qx.util.format.Format,
 function(format) {
   qx.util.format.Format.call(this);
 
-  this._format = (format != null) ? format : qx.util.format.DateFormat.DEFAULT_DATE_TIME_FORMAT;
+  this._format = (format != null) ? format.toString() : qx.util.format.DateFormat.DEFAULT_DATE_TIME_FORMAT;
 });
 
 
@@ -572,10 +572,10 @@ qx.Class.DEFAULT_DATE_TIME_FORMAT = qx.util.format.DateFormat.LOGGING_DATE_TIME_
 qx.Class.DEFAULT_DATE_FORMAT = qx.util.format.DateFormat.SHORT_DATE_FORMAT;
 
 /** {string} The am marker. */
-qx.Class.AM_MARKER = "am";
+qx.Class.AM_MARKER = qx.locale.Date.getAmMarker();
 
 /** {string} The pm marker. */
-qx.Class.PM_MARKER = "pm";
+qx.Class.PM_MARKER = qx.locale.Date.getPmMarker();
 
 /** {string[]} The full month names. */
 qx.Class.FULL_MONTH_NAMES = qx.locale.Date.getMonthNames("wide");
