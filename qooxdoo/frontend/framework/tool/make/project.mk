@@ -223,7 +223,7 @@ FRAMEWORK_SOURCE_URI = $(FRAMEWORK_URI)/source
 #
 # API Paths
 #
-API_PATH = $(QOOXDOO_PATH)/frontend/api
+API_PATH = $(QOOXDOO_PATH)/frontend/apiviewer
 API_SOURCE_PATH = $(API_PATH)/source
 API_FILES = index.html
 

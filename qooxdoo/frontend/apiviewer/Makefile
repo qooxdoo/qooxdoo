@@ -54,7 +54,11 @@ PROJECT_RESOURCE_FILTER = true
 #
 PROJECT_COMPLETE_SOURCE = false
 
-
+#
+# Disable line breaks
+#
+PROJECT_LINEBREAKS_BUILD = false
+PROJECT_LINEBREAKS_SOURCE = false
 
 
 
@@ -70,16 +74,22 @@ PROJECT_COMPLETE_SOURCE = false
 include $(QOOXDOO_PATH)/frontend/framework/tool/make/project.mk
 
 #
-# Include default targets, but add data generation to source and build
+# Include default targets, but add data generation (only qooxdoo) to source and build
 #
 include $(QOOXDOO_PATH)/frontend/framework/tool/make/targets.mk
 
-build:
-	$(MAKE) exec-api-data PROJECT_API_PATH=$(PROJECT_PATH)/build
+source:	
+	$(CMD_GENERATOR) \
+	  --generate-api-documentation \
+	  --api-documentation-json-file $(PROJECT_PATH)/source/script/apidata.js \
+	  --script-input $(FRAMEWORK_SOURCE_PATH)/class
+	  
+build:	
+	$(CMD_GENERATOR) \
+	  --generate-api-documentation \
+	  --api-documentation-json-file $(PROJECT_PATH)/build/script/apidata.js \
+	  --script-input $(FRAMEWORK_SOURCE_PATH)/class
 	
-source:
-	$(MAKE) exec-api-data PROJECT_API_PATH=$(PROJECT_PATH)/source
-
 #
 # Include implementation targets
 #
