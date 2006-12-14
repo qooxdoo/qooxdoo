@@ -39,17 +39,17 @@ all: build
 ###################################################################################
 
 build:
-	@$(MAKE) -C api build
+	@$(MAKE) -C apiviewer build
 	@$(MAKE) -C demo build
 	@$(MAKE) -C framework build
 
 source:
-	@$(MAKE) -C api source
+	@$(MAKE) -C apiviewer source
 	@$(MAKE) -C demo source
 	@$(MAKE) -C framework source
 
-api-build:
-	@$(MAKE) -C api build
+apiviewer-build:
+	@$(MAKE) -C apiviewer build
 
 demo-build:
 	@$(MAKE) -C demo build
@@ -57,8 +57,8 @@ demo-build:
 framework-build:
 	@$(MAKE) -C framework build
 
-api-source:
-	@$(MAKE) -C api source
+apiviewer-source:
+	@$(MAKE) -C apiviewer source
 
 demo-source:
 	@$(MAKE) -C demo source
@@ -72,8 +72,8 @@ skeleton-archives:
 demo-sync:
 	@$(MAKE) -C demo sync
 
-api-sync:
-	@$(MAKE) -C api sync
+apiviewer-sync:
+	@$(MAKE) -C apiviewer sync
 
 framework-debug:
 	@$(MAKE) -C framework debug
@@ -88,7 +88,7 @@ clean:
 	@echo
 	@echo "  CLEANUP OF GENERATED FILES"
 	@echo "----------------------------------------------------------------------------"
-	@$(MAKE) -C api clean
+	@$(MAKE) -C apiviewer clean
 	@$(MAKE) -C demo clean
 	@$(MAKE) -C framework clean
 	@$(MAKE) -C skeleton clean
@@ -98,7 +98,7 @@ realclean:
 	@echo "  CLEANUP OF GENERATED FILES (REAL)"
 	@echo "----------------------------------------------------------------------------"
 	@echo "  * Deleting files..."
-	@$(MAKE) -C api realclean
+	@$(MAKE) -C apiviewer realclean
 	@$(MAKE) -C demo realclean
 	@$(MAKE) -C framework realclean
 	@$(MAKE) -C skeleton realclean
@@ -111,7 +111,7 @@ distclean:
 	@echo "  CLEANUP OF GENERATED FILES (DIST)"
 	@echo "----------------------------------------------------------------------------"
 	@echo "  * Deleting files..."
-	@$(MAKE) -C api distclean
+	@$(MAKE) -C apiviewer distclean
 	@$(MAKE) -C demo distclean
 	@$(MAKE) -C framework distclean
 	@$(MAKE) -C skeleton distclean
@@ -150,8 +150,8 @@ release-build-sync:
 	@find ../ -maxdepth 1 -type f -name "[A-Z]*" -exec cp -f {} $(RELEASE_BUILD_UNIX) \;
 
 	@echo "  * Synchronizing Unix build folders..."
-	@mkdir -p $(RELEASE_BUILD_UNIX)/frontend/api
-	$(RSYNC_BUILD_EXEC) api/build/* $(RELEASE_BUILD_UNIX)/frontend/api
+	@mkdir -p $(RELEASE_BUILD_UNIX)/frontend/apiviewer
+	$(RSYNC_BUILD_EXEC) apiviewer/build/* $(RELEASE_BUILD_UNIX)/frontend/apiviewer
 	@mkdir -p $(RELEASE_BUILD_UNIX)/frontend/demo
 	$(RSYNC_BUILD_EXEC) demo/build/* $(RELEASE_BUILD_UNIX)/frontend/demo
 	@mkdir -p $(RELEASE_BUILD_UNIX)/frontend/framework
@@ -169,8 +169,8 @@ release-build-sync:
 	@find ../ -maxdepth 1 -type f -name "[A-Z]*" -exec cp -f {} $(RELEASE_BUILD_DOS) \;
 
 	@echo "  * Synchronizing DOS build folders..."
-	@mkdir -p $(RELEASE_BUILD_DOS)/frontend/api
-	$(RSYNC_BUILD_EXEC) api/build/* $(RELEASE_BUILD_DOS)/frontend/api
+	@mkdir -p $(RELEASE_BUILD_DOS)/frontend/apiviewer
+	$(RSYNC_BUILD_EXEC) apiviewer/build/* $(RELEASE_BUILD_DOS)/frontend/apiviewer
 	@mkdir -p $(RELEASE_BUILD_DOS)/frontend/demo
 	$(RSYNC_BUILD_EXEC) demo/build/* $(RELEASE_BUILD_DOS)/frontend/demo
 	@mkdir -p $(RELEASE_BUILD_DOS)/frontend/framework
@@ -211,16 +211,16 @@ release-sdk-sync:
 	@echo "  * Copying Makefiles..."
 	@mkdir -p $(RELEASE_SDK_UNIX)/frontend
 	@cp -f Makefile $(RELEASE_SDK_UNIX)/frontend
-	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/api
-	@cp -f api/Makefile $(RELEASE_SDK_UNIX)/frontend/api
+	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/apiviewer
+	@cp -f apiviewer/Makefile $(RELEASE_SDK_UNIX)/frontend/apiviewer
 	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/demo
 	@cp -f demo/Makefile $(RELEASE_SDK_UNIX)/frontend/demo
 	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/framework
 	@cp -f framework/Makefile $(RELEASE_SDK_UNIX)/frontend/framework
 
 	@echo "  * Synchronizing source folders..."
-	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/api/source
-	$(RSYNC_SDK_EXEC) api/source/* $(RELEASE_SDK_UNIX)/frontend/api/source
+	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/apiviewer/source
+	$(RSYNC_SDK_EXEC) apiviewer/source/* $(RELEASE_SDK_UNIX)/frontend/apiviewer/source
 	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/demo/source
 	$(RSYNC_SDK_EXEC) demo/source/* $(RELEASE_SDK_UNIX)/frontend/demo/source
 	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/framework/source
@@ -252,16 +252,16 @@ release-sdk-sync:
 	@echo "  * Copying Makefiles..."
 	@mkdir -p $(RELEASE_SDK_DOS)/frontend
 	@cp -f Makefile $(RELEASE_SDK_DOS)/frontend
-	@mkdir -p $(RELEASE_SDK_DOS)/frontend/api
-	@cp -f api/Makefile $(RELEASE_SDK_DOS)/frontend/api
+	@mkdir -p $(RELEASE_SDK_DOS)/frontend/apiviewer
+	@cp -f apiviewer/Makefile $(RELEASE_SDK_DOS)/frontend/apiviewer
 	@mkdir -p $(RELEASE_SDK_DOS)/frontend/demo
 	@cp -f demo/Makefile $(RELEASE_SDK_DOS)/frontend/demo
 	@mkdir -p $(RELEASE_SDK_DOS)/frontend/framework
 	@cp -f framework/Makefile $(RELEASE_SDK_DOS)/frontend/framework
 
 	@echo "  * Synchronizing source folders..."
-	@mkdir -p $(RELEASE_SDK_DOS)/frontend/api/source
-	$(RSYNC_SDK_EXEC) api/source/* $(RELEASE_SDK_DOS)/frontend/api/source
+	@mkdir -p $(RELEASE_SDK_DOS)/frontend/apiviewer/source
+	$(RSYNC_SDK_EXEC) apiviewer/source/* $(RELEASE_SDK_DOS)/frontend/apiviewer/source
 	@mkdir -p $(RELEASE_SDK_DOS)/frontend/demo/source
 	$(RSYNC_SDK_EXEC) demo/source/* $(RELEASE_SDK_DOS)/frontend/demo/source
 	@mkdir -p $(RELEASE_SDK_DOS)/frontend/framework/source
