@@ -122,7 +122,7 @@ exec-files-api:
 exec-api-data:
 	$(CMD_GENERATOR) \
 	  --generate-api-documentation \
-	  --api-documentation-json-file $(PROJECT_API_PATH)/script/data.js \
+	  --api-documentation-json-file $(PROJECT_API_PATH)/script/apidata.js \
 	  $(COMPUTED_CLASS_PATH) \
 	  $(COMPUTED_API_INCLUDE)
 	  
@@ -132,17 +132,17 @@ exec-api-build:
 	  --script-input $(API_SOURCE_PATH)/class \
 	  --include api \
 	  --generate-compiled-script \
-	  --compiled-script-file $(PROJECT_API_PATH)/script/api.js \
+	  --compiled-script-file $(PROJECT_API_PATH)/script/apiviewer.js \
 	  --optimize-strings --optimize-variables \
 	  --copy-resources \
 	  --resource-input $(FRAMEWORK_SOURCE_PATH)/resource \
 	  --resource-output $(PROJECT_API_PATH)/resource/qx \
 	  --resource-input $(API_SOURCE_PATH)/resource \
-	  --resource-output $(PROJECT_API_PATH)/resource/api \
+	  --resource-output $(PROJECT_API_PATH)/resource/apiviewer \
 	  --enable-resource-filter \
 	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:resource/qx \
-	  --define-runtime-setting api.Application.resourceUri:resource/api \
-	  --define-runtime-setting api.Viewer.title:$(PROJECT_API_TITLE)
+	  --define-runtime-setting apiviewer.Application.resourceUri:resource/apiviewer \
+	  --define-runtime-setting apiviewer.Viewer.title:$(PROJECT_API_TITLE)
 
 
 
