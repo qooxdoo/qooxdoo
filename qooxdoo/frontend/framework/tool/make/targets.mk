@@ -8,8 +8,8 @@
 
 .PHONY: build source api all clean realclean distclean pretty fix help
 
-source: info-source exec-script-source
-build: info-build exec-script-build exec-files-build
+source: info-source download_locales exec-script-source
+build: info-build download_locales exec-script-build exec-files-build
 api: info-api exec-api-build exec-api-data exec-files-api
 all: source build api
 

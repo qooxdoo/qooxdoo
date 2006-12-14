@@ -110,8 +110,23 @@ exec-files-api:
 	@for file in $(API_FILES); do \
     cp -f $(API_SOURCE_PATH)/$$file $(PROJECT_API_PATH)/$$file; \
   done
-  
-	  
+
+
+
+
+
+#
+# CLDR data extraction targets
+#
+
+export PROJECT_LOCALES
+download_locales:
+	@echo
+	@echo "  Loading CLDR files"
+	@echo "--------------------------------------------------------"
+	@echo "  * Loading files..."
+	@$(MAKE) -C $(FRAMEWORK_TOOL_PATH)/make -e -f cldr.mk
+
 	  
 	  
 	  
