@@ -132,10 +132,14 @@ def handleClassDefinition(docTree, item, variant):
   classMap = params.children[1]
   classNode = getClassNode(docTree, className)
 
-  #print
   #print className
 
-  for keyvalueItem in classMap.children:
+  try:
+      children = classMap.children
+  except AttributeError:
+      return
+
+  for keyvalueItem in children:
     key = keyvalueItem.get("key")
     valueItem = keyvalueItem.getChild("value").getFirstChild()
     
