@@ -113,16 +113,30 @@ PROJECT_ADDITIONAL_CLASS_PATH =
 PROJECT_ADDITIONAL_CLASS_URI =
 PROJECT_ADDITIONAL_RESOURCE =
 
+#
+# Define the default commands e.g. build, source, clean, all, ...
+#
+PROJECT_DEFINE_DEFAULT_TARGETS = true
 
 
 
 
 
 ####################################################################################
-# INCLUDE IMPLEMENTATION
+# INCLUDE CORE
 ####################################################################################
 
 #
-# Include project features
+# Include project core handling
 #
 include $(QOOXDOO_PATH)/frontend/framework/tool/make/project.mk
+
+#
+# Include default targets: build, source, clean, ...
+#
+include $(QOOXDOO_PATH)/frontend/framework/tool/make/targets.mk
+
+#
+# Include implementation targets
+#
+include $(QOOXDOO_PATH)/frontend/framework/tool/make/impl.mk
