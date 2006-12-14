@@ -38,14 +38,15 @@ ifndef PROJECT_API_TITLE
 endif
 
 #
-# Additional files (space separated list)
+# Files that will be copied into the build directory
+# (space separated list)
 #
 ifndef PROJECT_FILES
   PROJECT_FILES = index.html
 endif
 
 #
-# Locales to build (space separated list)
+# Locales to use (space separated list)
 #
 ifndef PROJECT_LOCALES
   PROJECT_LOCALES = en fr de es
