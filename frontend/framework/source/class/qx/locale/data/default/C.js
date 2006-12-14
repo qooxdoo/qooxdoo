@@ -22,7 +22,7 @@
 #require(qx.Locale)
 */
 
-qx.Locale.define("qx.locale.data.C", {
+qx.Locale.define("qx.locale.data.default.C", {
 /*
   locale: "en",
   data: {

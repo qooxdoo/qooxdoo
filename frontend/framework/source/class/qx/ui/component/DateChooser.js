@@ -379,7 +379,7 @@ qx.Proto._updateDatePane = function() {
   // Create a help date that points to the first of the current month
   var helpDate = new Date(this.getShownYear(), this.getShownMonth(), 1);
 
-  this._monthYearLabel.setHtml(DateChooser.MONTH_YEAR_FORMAT.format(helpDate));
+  this._monthYearLabel.setHtml((new qx.util.format.DateFormat(DateChooser.MONTH_YEAR_FORMAT)).format(helpDate));
 
   // Show the day names
   var firstDayOfWeek = helpDate.getDay();
@@ -444,10 +444,10 @@ qx.Proto._updateDatePane = function() {
 
 
 /**
- * {qx.util.format.DateFormat} The format for the date year
+ * {string} The format for the date year
  * label at the top center.
  */
-qx.Class.MONTH_YEAR_FORMAT = new qx.util.format.DateFormat("MMMM yyyy");
+qx.Class.MONTH_YEAR_FORMAT = qx.locale.Date.getDateTimeFormat("yyyyMMMM", "MMMM yyyy");
 
 /**
  * {qx.util.format.DateFormat} The format for the weekday
