@@ -20,9 +20,6 @@
 /* ************************************************************************
 
 #module(api)
-#resource(apistyles:css)
-#resource(apiimages:image)
-#embed(apistyles/*)
 
 ************************************************************************ */
 
@@ -89,7 +86,6 @@ qx.OO.addProperty({ name:"docTree", type:"object" });
 
 qx.Settings.setDefault("title", "qooxdoo");
 qx.Settings.setDefault("initialTreeDepth", 1);
-qx.Settings.setDefault("resourceUri", "./resource");
 
 
 // property checker
