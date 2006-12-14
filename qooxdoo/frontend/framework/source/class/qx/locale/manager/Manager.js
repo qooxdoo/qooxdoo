@@ -1,3 +1,23 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+
+   License:
+     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+     * Andreas Ecker (ecker)
+     * Fabian Jakobs (fjakobs)
+
+************************************************************************ */
+
+
 /**
  * Create a new instance of qx.locale.manager.Manager
  */
@@ -38,6 +58,12 @@ qx.Proto.getTerritory = function() {
 }
 
 
+/**
+ * Extract the language part from a locale.
+ * 
+ * @param locale {string} locale to be used
+ * @return {string} language
+ */
 qx.Proto._extractLanguage = function(locale) {
   var language;
   var pos = locale.indexOf("_");

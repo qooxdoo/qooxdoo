@@ -26,12 +26,18 @@
  *
  * @param format {string} The format to use. If null, the
  *    {@link #DEFAULT_DATE_TIME_FORMAT} is used.
+ * @param locale {string} optional locale to be used
  */
 qx.OO.defineClass("qx.util.format.DateFormat", qx.util.format.Format,
-function(format) {
+function(format, locale) {
   qx.util.format.Format.call(this);
 
-  this._format = (format != null) ? format.toString() : qx.util.format.DateFormat.DEFAULT_DATE_TIME_FORMAT;
+  if (format != null) {
+    this._format = format.toString() 
+  } else {
+    this._format = qx.locale.Date.getDateFormat("long", locale) + " " + qx.locale.Date.getDateTimeFormat("HHmmss", "HH:mm:ss", locale);
+  }
+  this._locale = locale;
 });
 
 
@@ -118,6 +124,7 @@ qx.Proto._getWeekInYear = function(date) {
  */
 qx.Proto.format = function(date) {
   var DateFormat = qx.util.format.DateFormat;
+  var locale = this._locale;
 
   var fullYear = date.getFullYear();
   var month = date.getMonth();
@@ -164,25 +171,25 @@ qx.Proto.format = function(date) {
           replacement = this._fillNumber(this._getWeekInYear(date), wildcardSize); break;
         case 'E': // Day in week
           if (wildcardSize == 2) {
-            replacement = DateFormat.SHORT_DAY_OF_WEEK_NAMES[dayOfWeek];
+            replacement = qx.locale.Date.getDayName("narrow", dayOfWeek, locale);
           } else if (wildcardSize == 3) {
-            replacement = DateFormat.MEDIUM_DAY_OF_WEEK_NAMES[dayOfWeek];
+            replacement = qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale);
           } else if (wildcardSize == 4) {
-            replacement = DateFormat.FULL_DAY_OF_WEEK_NAMES[dayOfWeek];
+            replacement = qx.locale.Date.getDayName("wide", dayOfWeek, locale);
           }
           break;
         case 'M': // Month
           if (wildcardSize == 1 || wildcardSize == 2) {
             replacement = this._fillNumber(month + 1, wildcardSize);
           } else if (wildcardSize == 3) {
-            replacement = DateFormat.SHORT_MONTH_NAMES[month];
+            replacement = qx.locale.Date.getMonthName("abbreviated",month, locale);
           } else if (wildcardSize == 4) {
-            replacement = DateFormat.FULL_MONTH_NAMES[month];
+            replacement = qx.locale.Date.getMonthName("wide", month, locale);
           }
           break;
         case 'a': // am/pm marker
           // NOTE: 0:00 is am, 12:00 is pm
-          replacement = (hours < 12) ? DateFormat.AM_MARKER : DateFormat.PM_MARKER; break;
+          replacement = (hours < 12) ? qx.locale.Date.getAmMarker(locale) : qx.locale.Date.getPmMarker(locale); break;
         case 'H': // Hour in day (0-23)
           replacement = this._fillNumber(hours, wildcardSize); break;
         case 'k': // Hour in day (1-24)
@@ -486,7 +493,11 @@ qx.Proto._initParseRules = function() {
 qx.Class.getDateTimeInstance = function() {
   var DateFormat = qx.util.format.DateFormat;
 
-  if (DateFormat._dateTimeInstance == null) {
+  var format = qx.locale.Date.getDateFormat("long") + " " + qx.locale.Date.getDateTimeFormat("HHmmss", "HH:mm:ss");
+  if (
+    DateFormat._dateInstance == null ||
+    DateFormat._format != format
+  ) {
     DateFormat._dateTimeInstance = new DateFormat();
   }
   return DateFormat._dateTimeInstance;
@@ -502,8 +513,12 @@ qx.Class.getDateTimeInstance = function() {
 qx.Class.getDateInstance = function() {
   var DateFormat = qx.util.format.DateFormat;
 
-  if (DateFormat._dateInstance == null) {
-    DateFormat._dateInstance = new DateFormat(DateFormat.DEFAULT_DATE_FORMAT);
+  var format = qx.locale.Date.getDateFormat("short") + "";
+  if (
+    DateFormat._dateInstance == null ||
+    DateFormat._format != format
+  ) {
+    DateFormat._dateInstance = new DateFormat(format);
   }
   return DateFormat._dateInstance;
 }
@@ -518,28 +533,28 @@ qx.Class.getDateInstance = function() {
 qx.Class.ASSUME_YEAR_2000_THRESHOLD = 30;
 
 /** {string} The short date format. */
-qx.Class.SHORT_DATE_FORMAT = "MM/dd/yyyy";
+qx.Class.SHORT_DATE_FORMAT = qx.locale.Date.getDateFormat("short");
 
 /** {string} The medium date format. */
-qx.Class.MEDIUM_DATE_FORMAT = "MMM dd, yyyy";
+qx.Class.MEDIUM_DATE_FORMAT = qx.locale.Date.getDateFormat("medium");
 
 /** {string} The long date format. */
-qx.Class.LONG_DATE_FORMAT = "MMMM dd, yyyy";
+qx.Class.LONG_DATE_FORMAT = qx.locale.Date.getDateFormat("long");
 
 /** {string} The full date format. */
-qx.Class.FULL_DATE_FORMAT = "EEEE, MMMM dd, yyyy";
+qx.Class.FULL_DATE_FORMAT = qx.locale.Date.getDateFormat("full");
 
 /** {string} The short time format. */
-qx.Class.SHORT_TIME_FORMAT = "HH:mm";
+qx.Class.SHORT_TIME_FORMAT = qx.locale.Date.getDateTimeFormat("HHmm", "HH:mm");
 
 /** {string} The medium time format. */
 qx.Class.MEDIUM_TIME_FORMAT = qx.util.format.DateFormat.SHORT_TIME_FORMAT;
 
 /** {string} The long time format. */
-qx.Class.LONG_TIME_FORMAT = "HH:mm:ss";
+qx.Class.LONG_TIME_FORMAT = qx.locale.Date.getDateTimeFormat("HHmmss", "HH:mm:ss");
 
 /** {string} The full time format. */
-qx.Class.FULL_TIME_FORMAT = "HH:mm:ss zz";
+qx.Class.FULL_TIME_FORMAT = qx.locale.Date.getDateTimeFormat("HHmmsszz", "HH:mm:ss zz");
 
 /** {string} The short date-time format. */
 qx.Class.SHORT_DATE_TIME_FORMAT
@@ -566,7 +581,7 @@ qx.Class.FULL_DATE_TIME_FORMAT
 qx.Class.LOGGING_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
 /** {string}  The default date/time format. */
-qx.Class.DEFAULT_DATE_TIME_FORMAT = qx.util.format.DateFormat.LOGGING_DATE_TIME_FORMAT;
+qx.Class.DEFAULT_DATE_TIME_FORMAT = qx.util.format.DateFormat.LONG_DATE_TIME_FORMAT;
 
 /** {string}  The default date format. */
 qx.Class.DEFAULT_DATE_FORMAT = qx.util.format.DateFormat.SHORT_DATE_FORMAT;

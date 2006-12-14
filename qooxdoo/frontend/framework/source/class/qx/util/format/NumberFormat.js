@@ -17,15 +17,19 @@
 
 /* ************************************************************************
 
+* #require(qx.locale.Number)
 
 ************************************************************************ */
 
 /**
  * A formatter and parser for numbers.
+ * 
+ * @param locale {string} optional locale to be used
  */
 qx.OO.defineClass("qx.util.format.NumberFormat", qx.util.format.Format,
-function() {
+function(locale) {
   qx.util.format.Format.call(this);
+  this._locale = locale;?
 });
 
 
@@ -106,7 +110,7 @@ qx.Proto.format = function(num) {
   while (fractionStr.length < this.getMinimumFractionDigits()) {
     fractionStr += "0";
   }
-  if (this.getMaximumFractionDigits() != -1 && fractionStr.length > this.getMaximumFractionDigits()) {
+  if (this.getMaximumFractionDigits() != null && fractionStr.length > this.getMaximumFractionDigits()) {
     // We have already rounded -> Just cut off the rest
     fractionStr = fractionStr.substring(0, this.getMaximumFractionDigits());
   }
@@ -117,7 +121,7 @@ qx.Proto.format = function(num) {
     integerStr = "";
     var groupPos;
     for (groupPos = origIntegerStr.length; groupPos > 3; groupPos -= 3) {
-      integerStr = NumberFormat.GROUPING_SEPARATOR
+      integerStr = "" + qx.locale.Number.getGroupSeperator(this._locale)
         + origIntegerStr.substring(groupPos - 3, groupPos) + integerStr;
     }
     integerStr = origIntegerStr.substring(0, groupPos) + integerStr;
@@ -131,7 +135,7 @@ qx.Proto.format = function(num) {
   // Assemble the number
   var str = prefix + (negative ? "-" : "") + integerStr;
   if (fractionStr.length > 0) {
-    str += NumberFormat.DECIMAL_SEPARATOR + fractionStr;
+    str += "" + qx.locale.Number.getDecimalSeperator(this._locale) + fractionStr;
   }
   str += postfix;
 
@@ -150,8 +154,8 @@ qx.Proto.parse = function(str) {
   var NumberFormat = qx.util.format.NumberFormat;
 
   // use the escaped separators for regexp
-  var groupSepEsc = qx.lang.String.escapeRegexpChars(NumberFormat.GROUPING_SEPARATOR);
-  var decimalSepEsc = qx.lang.String.escapeRegexpChars(NumberFormat.DECIMAL_SEPARATOR);
+  var groupSepEsc = qx.lang.String.escapeRegexpChars(qx.locale.Number.getGroupSeperator(this._locale)+"");
+  var decimalSepEsc = qx.lang.String.escapeRegexpChars(qx.locale.Number.getDecimalSeperator(this._locale)+"");
 
   var regex = new RegExp(qx.lang.String.escapeRegexpChars(this.getPrefix())
     + '(-)?([0-9' + groupSepEsc + ']+)'
@@ -210,7 +214,6 @@ qx.Class.getIntegerInstance = function() {
 
 
 /** {string} The decimal separator. */
-qx.Class.DECIMAL_SEPARATOR = ".";
 
 /** {string} The thousand grouping separator. */
-qx.Class.GROUPING_SEPARATOR = ",";
+qx.Class.GROUPING_SEPARATOR = qx.locale.Number.getGroupSeperator()+"";
