@@ -68,5 +68,5 @@ qx.Proto.main = function(e)
 qx.Proto.finalize = function(e) 
 {
   // Finally load the data
-  this.viewer.load("script/data.js");
+  this.viewer.load("script/apidata.js");
 };
