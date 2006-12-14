@@ -5,7 +5,7 @@ qx.OO.defineClass("qx.locale.manager.Manager", qx.manager.object.ObjectManager,
 function() {
   qx.manager.object.ObjectManager.call(this);
 
-  this._translationCatalog = { C: true };
+  this._translationCatalog = {};
   this.setLocale(qx.sys.Client.getInstance().getLocale() || this._defaultLanguage);
 });
 
