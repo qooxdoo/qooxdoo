@@ -26,13 +26,6 @@
 
 /**
  * This manager (singleton) manage all drag and drop handling of a qx.core.Init instance.
- *
- * @event dragdrop {qx.event.type.DragEvent}
- * @event dragout {qx.event.type.DragEvent}
- * @event dragover {qx.event.type.DragEvent}
- * @event dragmove {qx.event.type.DragEvent}
- * @event dragstart {qx.event.type.DragEvent}
- * @event dragend {qx.event.type.DragEvent}
  */
 qx.OO.defineClass("qx.event.handler.DragAndDropHandler", qx.manager.object.ObjectManager,
 function()
