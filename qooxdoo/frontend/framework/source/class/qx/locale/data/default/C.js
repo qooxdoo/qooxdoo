@@ -1,7 +1,28 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+
+   License:
+     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+     * Andreas Ecker (ecker)
+     * Fabian Jakobs (fjakobs)
+
+************************************************************************ */
+
+// default locale values
 /*
 #require(qx.Locale)
 */
-qx.Locale.define("qx.locale.data.en", {
+
+qx.Locale.define("qx.locale.data.C", {
 /*
   locale: "en",
   data: {
@@ -78,6 +99,10 @@ qx.Locale.define("qx.locale.data.en", {
     cldr_time_format_full: "h:mm:ss a v",
     cldr_time_format_long: "h:mm:ss a z",
     cldr_time_format_medium: "h:mm:ss a",
-    cldr_time_format_short: "h:mm a"
+    cldr_time_format_short: "h:mm a",
+    
+    cldr_number_group_seperator: ",",
+    cldr_number_decimal_seperator: "."
+    
   /*}*/
 });
