@@ -20,6 +20,7 @@
 
 #module(core)
 #require(qx.Clazz)
+#require(qx.locale.manager.Manager)
 
 ************************************************************************ */
 
