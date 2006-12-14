@@ -18,7 +18,7 @@ QOOXDOO_URI = ../../..
 #
 # Namespace of your application e.g. custom
 #
-PROJECT_NAMESPACE = api
+PROJECT_NAMESPACE = apiviewer
 
 #
 # Titles used in your API viewer and during the build process
@@ -43,11 +43,6 @@ PROJECT_LOCALES =
 ####################################################################################
 # ADVANCED SETTINGS
 ####################################################################################
-
-#
-# Please take a look at $(QOOXDOO)/frontend/framework/tool/make/project.mk
-# for more options
-#
 
 #
 # Enable resource filtering in API viewer
