@@ -9,6 +9,7 @@ CMD_NICE = @nice -n $(COMPUTED_COMMON_NICE)
 CMD_GENERATOR = $(CMD_NICE) $(FRAMEWORK_PATH)/tool/generator.py --cache-directory $(FRAMEWORK_CACHE_PATH)
 CMD_REMOVE = $(CMD_NICE) rm -rf
 CMD_FIND = $(CMD_NICE) find 
+CMD_SYNC = $(CMD_NICE) rsync --checksum --recursive --links --safe-links --delete --compress
 
 
 
@@ -163,6 +164,18 @@ exec-api-build:
 
 
 
+#
+# Publish targets
+#
+exec-publish:
+	@echo "  * Syncing files..."
+	$(CMD_SYNC) $(PROJECT_BUILD_PATH)/* $(PROJECT_PUBLISH_PATH)
+
+
+
+
+
+
 
 
 ###################################################################################
@@ -202,7 +215,7 @@ info-fix:
 info-help:
 	@echo 
 	@echo "****************************************************************************"
-	@echo "  HELP FOR $(PROJECT_MAKE_TITLE)"
+	@echo "  $(PROJECT_MAKE_TITLE) HELP"
 	@echo "****************************************************************************"
 
 info-clean:
@@ -221,4 +234,10 @@ info-distclean:
 	@echo 
 	@echo "****************************************************************************"
 	@echo "  CLEANING UP $(PROJECT_MAKE_TITLE) DIST"
+	@echo "****************************************************************************"
+
+info-publish:
+	@echo 
+	@echo "****************************************************************************"
+	@echo "  PUBLISHING $(PROJECT_MAKE_TITLE)"
 	@echo "****************************************************************************"

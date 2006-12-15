@@ -84,6 +84,14 @@ ifndef PROJECT_API_PATH
 endif
 
 #
+# Define the publishing location
+# Could be any rsync compatible url/path
+#
+ifndef PROJECT_PUBLISH_PATH
+  PROJECT_PUBLISH_PATH = $(PROJECT_PATH)/publish
+endif
+
+#
 # Relation from HTML file in source folder to source directory. 
 # Normally keep this the default "."
 #
@@ -195,7 +203,6 @@ endif
 ifndef PROJECT_DEFINE_DEFAULT_TARGETS
   PROJECT_DEFINE_DEFAULT_TARGETS = true
 endif
-
 
 
 
