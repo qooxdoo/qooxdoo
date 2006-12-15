@@ -8,6 +8,7 @@
 CMD_NICE = nice -n $(COMPUTED_COMMON_NICE)
 CMD_GENERATOR = $(CMD_NICE) $(FRAMEWORK_PATH)/tool/generator.py --cache-directory $(FRAMEWORK_CACHE_PATH)
 CMD_CLDR = $(CMD_NICE) $(FRAMEWORK_PATH)/tool/cldr/extract_cldr.py 
+CMD_MSGFMT = $(CMD_NICE) $(FRAMEWORK_PATH)/tool/qxmsgfmt.py
 CMD_REMOVE = $(CMD_NICE) rm -rf
 CMD_FIND = $(CMD_NICE) find 
 CMD_SYNC = $(CMD_NICE) rsync --checksum --recursive --links --safe-links --delete --compress
@@ -82,6 +83,7 @@ exec-script-build:
 
 
 
+
 #
 # Utility targets
 #
@@ -96,6 +98,8 @@ exec-fix:
 	  --include-without-dependencies $(PROJECT_NAMESPACE).* \
 	  --fix-source \
 	  $(COMPUTED_CLASS_PATH)
+
+
 
 
 
@@ -121,16 +125,21 @@ exec-treegenerator:
 	  
 
 
-#
-# Locale targets
-#
+
+
+
+
+
 ifdef PROJECT_LOCALES
-exec-locales:
+
+PROJECT_TRANSLATION_PATH = $(PROJECT_SOURCE_PATH)/translation
+
+exec-localisation:
 	@echo
-	@echo "  PREPARING LOCALES"
+	@echo "  PREPARING LOCALISATION"
 	@$(CMD_LINE)
 	@for LOC in $(PROJECT_LOCALES); do \
-	  echo "  * Preparing locale $$LOC"; \
+	  echo "  * Processing $$LOC"; \
 	  mod=0; \
 	  if [ ! -r $(FRAMEWORK_LOCALES_CACHE_PATH)/$$LOC.xml ]; then \
 	    echo "    - Downloading $$LOC.xml..."; \
@@ -142,9 +151,47 @@ exec-locales:
 	    $(CMD_CLDR) -o $(FRAMEWORK_LOCALES_PATH) $(FRAMEWORK_LOCALES_CACHE_PATH)/$$LOC.xml; \
 	  fi; \
 	done
+	
+exec-translation:
+	@echo
+	@echo "  PREPARING PROJECT TRANSLATION"
+	@$(CMD_LINE)
+	
+	@echo "  * Processing source code..."
+	@mkdir -p $(PROJECT_TRANSLATION_PATH)
+	@rm -f $(PROJECT_TRANSLATION_PATH)/messages.pot
+	@touch $(PROJECT_TRANSLATION_PATH)/messages.pot
+	@find $(PROJECT_SOURCE_PATH)/$(PROJECT_CLASS_FOLDERNAME) -name "*.js" | xargs xgettext --language=Java --from-code=UTF-8 \
+	  -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 \
+	  -kManager.trc -kManager.tr -kManager.marktr -kManager.trn:1,2 \
+	  -j -o $(PROJECT_TRANSLATION_PATH)/messages.pot
+	
+	@for LOC in $(PROJECT_LOCALES); do \
+		echo "  * Processing $$LOC"; \
+		if [ ! -r $(PROJECT_TRANSLATION_PATH)/$$LOC.po ]; then \
+  		echo "    - Generating initial translation file..."; \
+		  msginit --no-translator -i $(PROJECT_TRANSLATION_PATH)/messages.pot -o $(PROJECT_TRANSLATION_PATH)/$$LOC.po; \
+		else \
+	  	echo "    - Merging translation file..."; \
+		  msgmerge --update -q $(PROJECT_TRANSLATION_PATH)/$$LOC.po $(PROJECT_TRANSLATION_PATH)/messages.pot; \
+		fi; \
+    echo "    - Generating catalog..."; \
+    mkdir -p $(PROJECT_LOCALE_DIRECTORY); \
+	  $(CMD_MSGFMT) \
+	    -n $(PROJECT_LOCALE_NAMESPACE) \
+	    -d $(PROJECT_LOCALE_DIRECTORY) \
+	    $(PROJECT_SOURCE_PATH)/translation/$$LOC.po; \
+	done
+
 else
-  exec-locales: exec-none
+
+exec-localisation: exec-none
+exec-translation: exec-none
+
 endif
+
+
+
 
 
 
@@ -170,6 +217,8 @@ exec-files-api:
 	@for file in $(API_FILES); do \
     cp -f $(API_SOURCE_PATH)/$$file $(PROJECT_API_PATH)/$$file; \
   done
+
+
 
 
 
@@ -208,12 +257,15 @@ exec-api-build:
 
 
 
+
+
 #
 # Publish targets
 #
 exec-publish:
 	@echo "  * Syncing files..."
 	@$(CMD_SYNC) $(PROJECT_BUILD_PATH)/* $(PROJECT_PUBLISH_PATH)
+
 
 
 
