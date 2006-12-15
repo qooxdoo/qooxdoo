@@ -138,8 +138,8 @@ qx.Proto._createButtonBar = function()
   this._btnbar.setPadding(2, 4);
   this.add(this._btnbar);
 
-  this._btncancel = new qx.ui.form.Button(this.getSetting("labelCancel"), "icon/16/button-cancel.png");
-  this._btnok = new qx.ui.form.Button(this.getSetting("labelOK"), "icon/16/button-ok.png");
+  this._btncancel = new qx.ui.form.Button(this.tr("Cancel"), "icon/16/button-cancel.png");
+  this._btnok = new qx.ui.form.Button(this.tr("OK"), "icon/16/button-ok.png");
 
   this._btncancel.addEventListener("execute", this._onButtonCancelExecute, this);
   this._btnok.addEventListener("execute", this._onButtonOkExecute, this);
@@ -231,7 +231,7 @@ qx.Proto._createBrightnessPane = function()
 
 qx.Proto._createPresetFieldSet = function()
 {
-  this._presetFieldSet = new qx.ui.groupbox.GroupBox("Presets");
+  this._presetFieldSet = new qx.ui.groupbox.GroupBox(this.tr("Presets"));
   this._presetFieldSet.setHeight("auto");
   this._presetFieldSet.setParent(this._controlPane);
 
@@ -275,7 +275,7 @@ qx.Proto._createPresetFieldSet = function()
 
 qx.Proto._createInputFieldSet = function()
 {
-  this._inputFieldSet = new qx.ui.groupbox.GroupBox(this.getSetting("labelDetails"));
+  this._inputFieldSet = new qx.ui.groupbox.GroupBox(this.tr("Details"));
   this._inputFieldSet.setHeight("auto");
   this._inputFieldSet.setParent(this._controlPane);
 
@@ -287,7 +287,7 @@ qx.Proto._createInputFieldSet = function()
 
 qx.Proto._createPreviewFieldSet = function()
 {
-  this._previewFieldSet = new qx.ui.groupbox.GroupBox(this.getSetting("labelPreview"));
+  this._previewFieldSet = new qx.ui.groupbox.GroupBox(this.tr("Preview (Old/New)"));
   this._previewFieldSet.setHeight("1*");
   this._previewFieldSet.setParent(this._controlPane);
 
@@ -320,7 +320,7 @@ qx.Proto._createHexField = function()
   this._hexLayout.setVerticalChildrenAlign("middle");
   this._hexLayout.setParent(this._inputLayout);
 
-  this._hexLabel = new qx.ui.basic.Label(this.getSetting("labelHex"));
+  this._hexLabel = new qx.ui.basic.Label(this.tr("Hex"));
   this._hexLabel.setWidth(25);
   this._hexLabel.setParent(this._hexLayout);
 
@@ -343,7 +343,7 @@ qx.Proto._createRgbSpinner = function()
   this._rgbSpinLayout.setVerticalChildrenAlign("middle");
   this._rgbSpinLayout.setParent(this._inputLayout);
 
-  this._rgbSpinLabel = new qx.ui.basic.Label(this.getSetting("labelRGB"));
+  this._rgbSpinLabel = new qx.ui.basic.Label(this.tr("RGB"));
   this._rgbSpinLabel.setWidth(25);
   this._rgbSpinLabel.setParent(this._rgbSpinLayout);
 
@@ -371,7 +371,7 @@ qx.Proto._createHsbSpinner = function()
   this._hsbSpinLayout.setVerticalChildrenAlign("middle");
   this._hsbSpinLayout.setParent(this._inputLayout);
 
-  this._hsbSpinLabel = new qx.ui.basic.Label(this.getSetting("labelHSB"));
+  this._hsbSpinLabel = new qx.ui.basic.Label(this.tr("HSB"));
   this._hsbSpinLabel.setWidth(25);
   this._hsbSpinLayout.add(this._hsbSpinLabel);
 

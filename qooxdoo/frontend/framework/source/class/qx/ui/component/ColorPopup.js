@@ -76,7 +76,7 @@ qx.Proto._createLayout = function()
 
 qx.Proto._createAutoBtn = function()
 {
-  this._automaticBtn = new qx.ui.form.Button("Automatic");
+  this._automaticBtn = new qx.ui.form.Button(this.tr("Automatic"));
   this._automaticBtn.setWidth(null);
   this._automaticBtn.setAllowStretchX(true);
   this._automaticBtn.addEventListener("execute", this._onAutomaticBtnExecute, this);
@@ -130,7 +130,7 @@ qx.Proto._createBoxes = function()
 
 qx.Proto._createPreview = function()
 {
-  this._previewBox = new qx.ui.groupbox.GroupBox("Preview (Old/New)");
+  this._previewBox = new qx.ui.groupbox.GroupBox(this.tr("Preview (Old/New)"));
   this._previewLayout = new qx.ui.layout.HorizontalBoxLayout;
   this._selectedPreview = new qx.ui.basic.Terminator;
   this._currentPreview = new qx.ui.basic.Terminator;
@@ -156,7 +156,7 @@ qx.Proto._createPreview = function()
 
 qx.Proto._createSelectorBtn = function()
 {
-  this._selectorButton = new qx.ui.form.Button("Open ColorSelector");
+  this._selectorButton = new qx.ui.form.Button(this.tr("Open ColorSelector"));
   this._selectorButton.setWidth(null);
   this._selectorButton.setAllowStretchX(true);
   this._selectorButton.addEventListener("execute", this._onSelectorButtonExecute, this);
@@ -170,7 +170,7 @@ qx.Proto._createColorSelector = function()
     return;
   }
 
-  this._colorSelectorWindow = new qx.ui.window.Window("Color Selector");
+  this._colorSelectorWindow = new qx.ui.window.Window(this.tr("Color Selector"));
   this._colorSelectorWindow.setMinWidth(null);
   this._colorSelectorWindow.setMinHeight(null);
   this._colorSelectorWindow.setResizeable(false);

@@ -270,7 +270,7 @@ qx.OO.addProperty({ name : "opener", type : "object" });
 /*!
   The text of the caption
 */
-qx.OO.addProperty({ name : "caption", type : "string" });
+qx.OO.addProperty({ name : "caption" });
 
 /*!
   The icon of the caption

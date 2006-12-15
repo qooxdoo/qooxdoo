@@ -298,7 +298,7 @@ qx.Proto.toString = function()
   }
   
   if (key) {
-    vString.push(key);
+    vString.push(this.tr(key));
   }
   /*
   if (vShortcut != null) {
