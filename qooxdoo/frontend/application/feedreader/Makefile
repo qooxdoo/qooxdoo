@@ -10,7 +10,7 @@ INCLUDEALL = false
 OPTIMIZESTRINGS = true
 OPTIMIZEVARIABLES = true
 NICE=10
-PROJECT_LOCALES=de
+PROJECT_LOCALES=de de_AT
 
 
 
@@ -25,10 +25,6 @@ API = $(FRONTEND)/api
 CACHE = $(FRAMEWORK)/.cache
 GENERATOR = $(FRAMEWORK)/tool/generator.py
 SYNCOPT=--checksum --recursive --links --safe-links --delete --compress
-
-LOCALE_NAMESPACE=$(APPNAME).locale
-LOCALE_TARGET_DIRECTORY=source/class/$(APPNAME)/locale
-PODIR=source/translation
 
 ifeq ($(INCLUDEALL),false)
   INCLUDE = --include $(APPCLASS)
