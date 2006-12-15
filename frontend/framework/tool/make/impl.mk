@@ -25,8 +25,8 @@ CMD_SYNC = $(CMD_NICE) rsync --checksum --recursive --links --safe-links --delet
 #
 
 internal-clean:
-	@$(CMD_REMOVE) $(PROJECT_SOURCE_PATH)/$(PROJECT_SCRIPT_FOLDERNAME)/$(PROJECT_SCRIPT_FILENAME) 
-	@$(CMD_REMOVE) $(PROJECT_BUILD_PATH)/$(PROJECT_SCRIPT_FOLDERNAME)/$(PROJECT_SCRIPT_FILENAME)
+	$(CMD_REMOVE) $(PROJECT_SOURCE_PATH)/$(PROJECT_SCRIPT_FOLDERNAME)/$(PROJECT_SCRIPT_FILENAME) 
+	$(CMD_REMOVE) $(PROJECT_BUILD_PATH)/$(PROJECT_SCRIPT_FOLDERNAME)/$(PROJECT_SCRIPT_FILENAME)
 
 internal-realclean: internal-clean
 	$(CMD_REMOVE) $(PROJECT_SOURCE_PATH)/$(PROJECT_SCRIPT_FOLDERNAME)
@@ -34,8 +34,9 @@ internal-realclean: internal-clean
 	$(CMD_REMOVE) $(PROJECT_API_PATH)
 
 internal-distclean: internal-realclean
-	@$(CMD_FIND) . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
-	@$(CMD_REMOVE) $(CACHE)
+	$(CMD_FIND) . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
+	$(CMD_REMOVE) $(CACHE)
+	$(CMD_REMOVE) $(PROJECT_DEBUG_PATH)
 
 job-clean-common:
 	@echo "  * Cleaning up..."
