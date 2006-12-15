@@ -17,14 +17,37 @@
 
   <script type="text/javascript">
 
-	//qx.locale.manager.Manager.getInstance().setLocale("de_DE");
-
 	qx.Locale.define("sample.de", {
 		"A date: ": "Ein Datum: ",
-		"Locale: ": "Lokalisierung: "
+		"Locale: ": "Lokalisierung: ",
+		"Locale information": "Landesinformationen",
+		
+		"Territory code:": "Landescode:",
+		"Date format medium:": "Mittellanges Datumsformat:",
+		"Date medium:": "Mittellanges Datum:",
+		"Date format long:": "Langes Datumsformat:",
+		"Date long:": "Langes Datum",
+		"Date format full:": "Vollständiges Datumsformat:",
+		"date full:": "Vollständiges Datum",
+		"Week start:": "Wochenanfang:",
+		"Format of %1:": "Format von %1:"
 	});
 	
-  var locales = ["de_DE", "de_AU", "en_US", "ar", "zh"];
+	qx.Locale.define("sample.fr", {
+		// Translate me
+	});
+
+	qx.Locale.define("sample.es", {
+		// Translate me
+	});
+
+	qx.Locale.define("sample.zh", {
+		// Translate me
+	});
+	
+	//...
+
+  var locales = ["de_DE", "de_AU", "en_US", "fr_FR", "es_ES", "ar", "zh"];
   
   qx.locale.manager.Manager.getInstance().setLocale(locales[0]);
 
@@ -32,17 +55,8 @@
   {
     var d = qx.ui.core.ClientDocument.getInstance();
 
-
-    // DateChooserButton
-		var hb1 = new qx.ui.layout.HorizontalBoxLayout(); hb1.set({top:51, left:20, spacing:3});
-    var l1 = new qx.ui.basic.Label(this.tr("A date: "));
-    var tf1 = new qx.ui.form.TextField();
-    var dcb1 = new qx.ui.component.DateChooserButton(); dcb1.set({ width: 20 });
-    dcb1.setTargetWidget(tf1);
-    hb1.add(l1, tf1, dcb1);
-    d.add(hb1);
-    
-		var hb2 = new qx.ui.layout.HorizontalBoxLayout(); hb2.set({top:75, left:20, spacing:3});
+	 // locale selection
+		var hb2 = new qx.ui.layout.HorizontalBoxLayout(); hb2.set({top:50, left:20, spacing:3});
     var l2 = new qx.ui.basic.Label(this.tr("Locale: "));
     var select = new qx.ui.form.ComboBox();
 		for (var i=0; i<locales.length; i++) {
@@ -55,7 +69,86 @@
 	  });
 	  hb2.add(l2, select);
 	  d.add(hb2);
-	  
+
+		var frame = new qx.ui.layout.VerticalBoxLayout();
+		frame.set({left: 20, top: 120, width: "auto", height: "auto", spacing: 15});
+
+    // DateChooserButton
+		var hb1 = new qx.ui.layout.HorizontalBoxLayout(); hb1.set({height: "auto", spacing:3});
+    var l1 = new qx.ui.basic.Label(this.tr("A date: "));
+    var tf1 = new qx.ui.form.TextField();
+    var dcb1 = new qx.ui.component.DateChooserButton(); dcb1.set({ width: 20 });
+    dcb1.setTargetWidget(tf1);
+    hb1.add(l1, tf1, dcb1);
+    frame.add(hb1);
+    
+    // DateChooser
+    var chooser = new qx.ui.component.DateChooser;
+    chooser.setWidth("auto");
+    chooser.setHeight("auto");
+    frame.add(chooser);
+    
+    // ColorSelector
+    var mycolor = new qx.ui.component.ColorSelector;
+    frame.add(mycolor);
+    
+    d.add(frame);
+    
+    // Info Box
+    var fs = new qx.ui.groupbox.GroupBox(this.tr("Locale information"));
+    fs.set({ left: 300, top: 50, width: 400, height: 200});
+    var infoLabel = new qx.ui.basic.Label("");
+    fs.add(infoLabel);
+	  d.add(fs);
+    
+    var info = [];
+    info.push("<table style='font-size:11px'><tr><td>"); 
+    for (var i=0; i<9; i++) {
+    	info.push(""); 
+	    info.push("</td><td>"); 
+	    info.push(""); 
+	    info.push("</td></tr><td>"); 
+    }
+    info.push(""); 
+    info.push("</td><td>"); 
+    info.push("");
+    info.push("</td></tr></table>");
+    
+    this.updateLocaleInformation = function() {
+			var i = 0;
+    	info[(i++ * 2) + 1] = this.tr("Locale:");
+    	info[(i++ * 2) + 1] = qx.locale.manager.Manager.getInstance().getLocale();
+
+    	info[(i++ * 2) + 1] = this.tr("Territory code:");
+    	info[(i++ * 2) + 1] = qx.locale.manager.Manager.getInstance().getTerritory();
+
+    	info[(i++ * 2) + 1] = this.tr("Date format medium:");
+    	info[(i++ * 2) + 1] = qx.locale.Date.getDateFormat("medium");
+    	info[(i++ * 2) + 1] = this.tr("Date medium:");
+    	info[(i++ * 2) + 1] = (new qx.util.format.DateFormat(qx.locale.Date.getDateFormat("medium"))).format(new Date());
+
+    	info[(i++ * 2) + 1] = this.tr("Date format long:");
+    	info[(i++ * 2) + 1] = qx.locale.Date.getDateFormat("long");
+    	info[(i++ * 2) + 1] = this.tr("Date long:");
+    	info[(i++ * 2) + 1] = (new qx.util.format.DateFormat(qx.locale.Date.getDateFormat("long"))).format(new Date());
+
+    	info[(i++ * 2) + 1] = this.tr("Date format full:");
+    	info[(i++ * 2) + 1] = qx.locale.Date.getDateFormat("full");
+    	info[(i++ * 2) + 1] = this.tr("date full:");
+    	info[(i++ * 2) + 1] = (new qx.util.format.DateFormat(qx.locale.Date.getDateFormat("full"))).format(new Date());
+
+    	info[(i++ * 2) + 1] = this.tr("Week start:");
+    	info[(i++ * 2) + 1] = qx.locale.Date.getDayName("wide", qx.locale.Date.getWeekStart());
+
+    	info[(i++ * 2) + 1] = this.tr("Format of %1:", 10000.12);
+    	info[(i++ * 2) + 1] = qx.util.format.NumberFormat.getInstance().format(10000.12);
+
+    	infoLabel.setHtml(info.join(""));
+    };
+    
+    // update info box
+    qx.locale.manager.Manager.getInstance().addEventListener("changeLocale", this.updateLocaleInformation, this);
+    this.updateLocaleInformation();
     
   });
   </script>
