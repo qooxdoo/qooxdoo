@@ -383,13 +383,13 @@ qx.Proto._updateDatePane = function() {
 
   // Show the day names
   var firstDayOfWeek = helpDate.getDay();
-  var firstMondayInMonth = (2 + 7 - firstDayOfWeek) % 7;
+  var firstSundayInMonth = (1 + 7 - firstDayOfWeek) % 7;
   for (var i = 0; i < 7; i++) {
     var day = (i + startOfWeek) % 7;
 
     var dayLabel = this._weekdayLabelArr[i];
 
-    helpDate.setDate(firstMondayInMonth + day);
+    helpDate.setDate(firstSundayInMonth + day);
     dayLabel.setHtml(DateChooser.WEEKDAY_FORMAT.format(helpDate));
 
     if (qx.locale.Date.isWeekend(day)) {
