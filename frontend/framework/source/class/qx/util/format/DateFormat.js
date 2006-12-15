@@ -350,6 +350,7 @@ qx.Proto._initParseFeed = function() {
   }
 
   var DateFormat = qx.util.format.DateFormat;
+  var format = this._format;
 
   // Initialize the rules
   this._initParseRules();
@@ -459,6 +460,7 @@ qx.Proto._initParseRules = function() {
     groups:2, manipulator:yearManipulator } );
   DateFormat._parseRules.push({ pattern:"yy",   regex:"(\\d\\d)",  manipulator:yearManipulator } );
   // TODO: "MMMM", "MMM" (Month names)
+  DateFormat._parseRules.push({ pattern:"M",    regex:"(\\d\\d?)", manipulator:monthManipulator });
   DateFormat._parseRules.push({ pattern:"MM",   regex:"(\\d\\d?)", manipulator:monthManipulator });
   DateFormat._parseRules.push({ pattern:"dd",   regex:"(\\d\\d?)", field:"day" });
   DateFormat._parseRules.push({ pattern:"d",    regex:"(\\d\\d?)", field:"day" });
@@ -532,80 +534,14 @@ qx.Class.getDateInstance = function() {
  */
 qx.Class.ASSUME_YEAR_2000_THRESHOLD = 30;
 
-/** {string} The short date format. */
-qx.Class.SHORT_DATE_FORMAT = qx.locale.Date.getDateFormat("short");
-
-/** {string} The medium date format. */
-qx.Class.MEDIUM_DATE_FORMAT = qx.locale.Date.getDateFormat("medium");
-
-/** {string} The long date format. */
-qx.Class.LONG_DATE_FORMAT = qx.locale.Date.getDateFormat("long");
-
-/** {string} The full date format. */
-qx.Class.FULL_DATE_FORMAT = qx.locale.Date.getDateFormat("full");
-
-/** {string} The short time format. */
-qx.Class.SHORT_TIME_FORMAT = qx.locale.Date.getDateTimeFormat("HHmm", "HH:mm");
-
-/** {string} The medium time format. */
-qx.Class.MEDIUM_TIME_FORMAT = qx.util.format.DateFormat.SHORT_TIME_FORMAT;
-
-/** {string} The long time format. */
-qx.Class.LONG_TIME_FORMAT = qx.locale.Date.getDateTimeFormat("HHmmss", "HH:mm:ss");
-
-/** {string} The full time format. */
-qx.Class.FULL_TIME_FORMAT = qx.locale.Date.getDateTimeFormat("HHmmsszz", "HH:mm:ss zz");
-
-/** {string} The short date-time format. */
-qx.Class.SHORT_DATE_TIME_FORMAT
-  = qx.util.format.DateFormat.SHORT_DATE_FORMAT + " "
-  + qx.util.format.DateFormat.SHORT_TIME_FORMAT;
-
-/** {string} The medium date-time format. */
-qx.Class.MEDIUM_DATE_TIME_FORMAT
-  = qx.util.format.DateFormat.MEDIUM_DATE_FORMAT + " "
-  + qx.util.format.DateFormat.MEDIUM_TIME_FORMAT;
-
-/** {string} The long date-time format. */
-qx.Class.LONG_DATE_TIME_FORMAT
-  = qx.util.format.DateFormat.LONG_DATE_FORMAT + " "
-  + qx.util.format.DateFormat.LONG_TIME_FORMAT;
-
-/** {string} The full date-time format. */
-qx.Class.FULL_DATE_TIME_FORMAT
-  = qx.util.format.DateFormat.FULL_DATE_FORMAT + " "
-  + qx.util.format.DateFormat.FULL_TIME_FORMAT;
-
-
 /** {string} The date format used for logging. */
 qx.Class.LOGGING_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
-/** {string}  The default date/time format. */
-qx.Class.DEFAULT_DATE_TIME_FORMAT = qx.util.format.DateFormat.LONG_DATE_TIME_FORMAT;
-
-/** {string}  The default date format. */
-qx.Class.DEFAULT_DATE_FORMAT = qx.util.format.DateFormat.SHORT_DATE_FORMAT;
-
 /** {string} The am marker. */
-qx.Class.AM_MARKER = qx.locale.Date.getAmMarker();
+qx.Class.AM_MARKER = "am"
 
 /** {string} The pm marker. */
-qx.Class.PM_MARKER = qx.locale.Date.getPmMarker();
-
-/** {string[]} The full month names. */
-qx.Class.FULL_MONTH_NAMES = qx.locale.Date.getMonthNames("wide");
-
-/** {string[]} The short month names. */
-qx.Class.SHORT_MONTH_NAMES = qx.locale.Date.getMonthNames("abbreviated");
-
-/** {string[]} The short (one letter) day of week names. */
-qx.Class.SHORT_DAY_OF_WEEK_NAMES = qx.locale.Date.getDayNames("narrow");
-
-/** {string[]} The medium (tro letter) day of week names. */
-qx.Class.MEDIUM_DAY_OF_WEEK_NAMES = qx.locale.Date.getDayNames("abbreviated");
-
-/** {string[]} The full day of week names. */
-qx.Class.FULL_DAY_OF_WEEK_NAMES = qx.locale.Date.getDayNames("wide");
+qx.Class.PM_MARKER = "pm";
 
 /** {string[]} The medium (three letter) timezone names. */
 qx.Class.MEDIUM_TIMEZONE_NAMES = [

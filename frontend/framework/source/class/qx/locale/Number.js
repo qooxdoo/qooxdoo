@@ -42,7 +42,7 @@ qx.Class.getDecimalSeperator = function(locale) {
 
 
 /**
- * Get group seperator for number formatting
+ * Get thousand grouping seperator for number formatting
  * 
  * @param locale {string} optional locale to be used
  * @return {qx.locale.manager.LocalizedString} group seperator.
