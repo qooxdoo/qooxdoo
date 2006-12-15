@@ -46,7 +46,7 @@ function() {
  *
  * @param rowInfo {Map} A map containing the information about the row to
  *    update. This map has the same structure as in {@link #createDataCell}.
- * @param cellElement {element} the DOM element that renders the data rot. This
+ * @param rowElement {element} the DOM element that renders the data rot. This
  *    is the same element formally created by the HTML from {@link #createDataCell}.
  */
 qx.Proto.updateDataRowElement = function(rowInfo, rowElement) {
