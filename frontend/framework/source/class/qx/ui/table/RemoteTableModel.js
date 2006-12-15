@@ -96,7 +96,7 @@ qx.Proto._loadRowCount = function() {
  * @param rowCount {int} the number of rows in this model or null if loading.
  */
 qx.Proto._onRowCountLoaded = function(rowCount) {
-  this.debug("row count loaded: " + rowCount);
+  // this.debug("row count loaded: " + rowCount);
   if (rowCount == null) {
     rowCount = 0;
   }
@@ -173,7 +173,7 @@ qx.Proto.prefetchRows = function(firstRowIndex, lastRowIndex) {
 
       this._firstLoadingBlock = firstBlockToLoad;
 
-      this.debug("Starting server request. rows: " + firstRowIndex + ".." + lastRowIndex + ", blocks: " + firstBlockToLoad + ".." + lastBlockToLoad);
+      // this.debug("Starting server request. rows: " + firstRowIndex + ".." + lastRowIndex + ", blocks: " + firstBlockToLoad + ".." + lastBlockToLoad);
       this._loadRowData(firstBlockToLoad * blockSize, (lastBlockToLoad + 1) * blockSize - 1);
     }
   } else {
@@ -226,7 +226,7 @@ qx.Proto._onRowDataLoaded = function(rowDataArr) {
         this._setRowBlockData(this._firstLoadingBlock + i, blockRowData);
       }
     }
-    this.debug("Got server answer. blocks: " + this._firstLoadingBlock + ".." + (this._firstLoadingBlock + blockCount - 1) + ". mail count: " + rowDataArr.length + " block count:" + blockCount);
+    // this.debug("Got server answer. blocks: " + this._firstLoadingBlock + ".." + (this._firstLoadingBlock + blockCount - 1) + ". mail count: " + rowDataArr.length + " block count:" + blockCount);
 
     // Inform the listeners
     var data = {
@@ -274,7 +274,7 @@ qx.Proto._setRowBlockData = function(block, rowDataArr) {
       }
 
       // Remove that block
-      this.debug("Removing block: " + lruBlock + ". current LRU: " + this._lruCounter);
+      // this.debug("Removing block: " + lruBlock + ". current LRU: " + this._lruCounter);
       delete this._rowBlockCache[lruBlock];
       this._rowBlockCount--;
     }
