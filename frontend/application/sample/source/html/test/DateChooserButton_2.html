@@ -19,40 +19,9 @@
   </div>
 
   <script type="text/javascript">
-  /** {string[]} The full month names. */
-  qx.util.format.DateFormat.FULL_MONTH_NAMES = [
-    "Januar", "Februar", "März", "April", "Mai", "Juni",
-    "Juli", "August", "September", "Oktober", "November", "Dezember"
-  ];
-  
-  /** {string[]} The short month names. */
-  qx.util.format.DateFormat.SHORT_MONTH_NAMES = [
-    "Jan", "Feb", "Mär", "Apr", "Mai", "Jun",
-    "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"
-  ];
-  
-  /** {string[]} The short (two letter) day of week names. */
-  qx.util.format.DateFormat.SHORT_DAY_OF_WEEK_NAMES = [
-    "So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"
-  ];
-  
-  /** {string[]} The medium (three letter) day of week names. */
-  qx.util.format.DateFormat.MEDIUM_DAY_OF_WEEK_NAMES = [
-    "Son", "Mon", "Die", "Mit", "Don", "Fre", "Sam"
-  ];
-  
-  /** {string[]} The full day of week names. */
-  qx.util.format.DateFormat.FULL_DAY_OF_WEEK_NAMES = [
-    "Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"
-  ];
 
-
-  qx.util.format.DateFormat.SHORT_DATE_FORMAT = "dd.MM.yyyy";
-
-  qx.util.format.DateFormat.SHORT_DATE_TIME_FORMAT
-    = qx.util.format.DateFormat.SHORT_DATE_FORMAT + " "
-    + qx.util.format.DateFormat.SHORT_TIME_FORMAT;
-
+	qx.locale.manager.Manager.getInstance().setLocale("de_DE");
+	
   qx.core.Init.getInstance().defineMain(function()
   {
     var d = qx.ui.core.ClientDocument.getInstance();
