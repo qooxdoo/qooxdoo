@@ -29,20 +29,20 @@ internal-clean:
 	@$(CMD_REMOVE) $(PROJECT_BUILD_PATH)/$(PROJECT_SCRIPT_FOLDERNAME)/$(PROJECT_SCRIPT_FILENAME)
 
 internal-realclean: internal-clean
-	@$(CMD_REMOVE) $(PROJECT_SOURCE_PATH)/$(PROJECT_SCRIPT_FOLDERNAME)
-	@$(CMD_REMOVE) $(PROJECT_BUILD_PATH)
-	@$(CMD_REMOVE) $(PROJECT_API_PATH)
+	$(CMD_REMOVE) $(PROJECT_SOURCE_PATH)/$(PROJECT_SCRIPT_FOLDERNAME)
+	$(CMD_REMOVE) $(PROJECT_BUILD_PATH)
+	$(CMD_REMOVE) $(PROJECT_API_PATH)
 
 internal-distclean: internal-realclean
 	@$(CMD_FIND) . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
 	@$(CMD_REMOVE) $(CACHE)
 
-print-clean:
+job-clean-common:
 	@echo "  * Cleaning up..."
 
-exec-clean: print-clean internal-clean
-exec-realclean: print-realclean internal-realclean
-exec-distclean: print-distclean internal-distclean
+exec-clean: job-clean-common internal-clean
+exec-realclean: job-clean-common internal-realclean
+exec-distclean: job-clean-common internal-distclean
 		  
 		  
 		  
@@ -74,6 +74,13 @@ exec-script-build:
 	  $(COMPUTED_BUILD_OPTIMIZATIONS) \
 	  $(COMPUTED_BUILD_LINEBREAKS)
 
+
+
+
+
+#
+# Utility targets
+#
 exec-pretty:
 	$(CMD_GENERATOR) \
 	  --include-without-dependencies $(PROJECT_NAMESPACE).* \
@@ -86,6 +93,28 @@ exec-fix:
 	  --fix-source \
 	  $(COMPUTED_CLASS_PATH)
 
+
+
+
+
+#
+# Debug targets
+#
+exec-tokenizer:
+	$(CMD_GENERATOR) \
+	  --include-without-dependencies $(PROJECT_NAMESPACE).* \
+	  --store-tokens \
+    --token-output-directory $(PROJECT_DEBUG_PATH)/tokens \
+	  $(COMPUTED_CLASS_PATH)
+
+exec-treegenerator:
+	$(CMD_GENERATOR) \
+	  --include-without-dependencies $(PROJECT_NAMESPACE).* \
+	  --store-tree \
+    --tree-output-directory $(PROJECT_DEBUG_PATH)/tree \
+	  $(COMPUTED_CLASS_PATH)
+	  
+	  
 
 
 
@@ -129,6 +158,8 @@ download_locales:
 	@$(MAKE) -C $(FRAMEWORK_TOOL_PATH)/make -e -f cldr.mk
 
 	  
+	  
+	 
 	  
 	  
 #
@@ -240,4 +271,10 @@ info-publish:
 	@echo 
 	@echo "****************************************************************************"
 	@echo "  PUBLISHING $(PROJECT_MAKE_TITLE)"
+	@echo "****************************************************************************"
+
+info-debug:
+	@echo 
+	@echo "****************************************************************************"
+	@echo "  CREATING DEBUG OUTPUT FOR $(PROJECT_MAKE_TITLE)"
 	@echo "****************************************************************************"
