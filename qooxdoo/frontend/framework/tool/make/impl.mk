@@ -5,12 +5,13 @@
 #
 # Configure commands
 #
-CMD_NICE = @nice -n $(COMPUTED_COMMON_NICE)
+CMD_NICE = nice -n $(COMPUTED_COMMON_NICE)
 CMD_GENERATOR = $(CMD_NICE) $(FRAMEWORK_PATH)/tool/generator.py --cache-directory $(FRAMEWORK_CACHE_PATH)
+CMD_CLDR = $(CMD_NICE) $(FRAMEWORK_PATH)/tool/cldr/extract_cldr.py 
 CMD_REMOVE = $(CMD_NICE) rm -rf
 CMD_FIND = $(CMD_NICE) find 
 CMD_SYNC = $(CMD_NICE) rsync --checksum --recursive --links --safe-links --delete --compress
-
+CMD_LINE = echo "----------------------------------------------------------------------------"
 
 
 
@@ -25,18 +26,20 @@ CMD_SYNC = $(CMD_NICE) rsync --checksum --recursive --links --safe-links --delet
 #
 
 internal-clean:
-	$(CMD_REMOVE) $(PROJECT_SOURCE_PATH)/$(PROJECT_SCRIPT_FOLDERNAME)/$(PROJECT_SCRIPT_FILENAME) 
-	$(CMD_REMOVE) $(PROJECT_BUILD_PATH)/$(PROJECT_SCRIPT_FOLDERNAME)/$(PROJECT_SCRIPT_FILENAME)
+	@$(CMD_REMOVE) $(PROJECT_SOURCE_PATH)/$(PROJECT_SCRIPT_FOLDERNAME)/$(PROJECT_SCRIPT_FILENAME) 
+	@$(CMD_REMOVE) $(PROJECT_BUILD_PATH)/$(PROJECT_SCRIPT_FOLDERNAME)/$(PROJECT_SCRIPT_FILENAME)
 
 internal-realclean: internal-clean
-	$(CMD_REMOVE) $(PROJECT_SOURCE_PATH)/$(PROJECT_SCRIPT_FOLDERNAME)
-	$(CMD_REMOVE) $(PROJECT_BUILD_PATH)
-	$(CMD_REMOVE) $(PROJECT_API_PATH)
+	@$(CMD_REMOVE) $(PROJECT_SOURCE_PATH)/$(PROJECT_SCRIPT_FOLDERNAME)
+	@$(CMD_REMOVE) $(PROJECT_BUILD_PATH)
+	@$(CMD_REMOVE) $(PROJECT_API_PATH)
+	@$(CMD_REMOVE) $(FRAMEWORK_LOCALES_PATH)
 
 internal-distclean: internal-realclean
-	$(CMD_FIND) . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
-	$(CMD_REMOVE) $(CACHE)
-	$(CMD_REMOVE) $(PROJECT_DEBUG_PATH)
+	@$(CMD_FIND) . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
+	@$(CMD_REMOVE) $(CACHE)
+	@$(CMD_REMOVE) $(PROJECT_DEBUG_PATH)
+	@$(CMD_REMOVE) $(FRAMEWORK_LOCALES_CACHE_PATH)
 
 job-clean-common:
 	@echo "  * Cleaning up..."
@@ -54,7 +57,7 @@ exec-distclean: job-clean-common internal-distclean
 #
 
 exec-script-source:
-	$(CMD_GENERATOR) \
+	@$(CMD_GENERATOR) \
 	  $(COMPUTED_INIT_COMPONENT) \
 	  $(COMPUTED_CLASS_PATH) \
 	  $(COMPUTED_CLASS_URI) \
@@ -65,7 +68,7 @@ exec-script-source:
 	  $(COMPUTED_SOURCE_LINEBREAKS)
 
 exec-script-build:
-	$(CMD_GENERATOR) \
+	@$(CMD_GENERATOR) \
 	  $(COMPUTED_INIT_COMPONENT) \
 	  $(COMPUTED_CLASS_PATH) \
 	  $(COMPUTED_RESOURCE) \
@@ -83,13 +86,13 @@ exec-script-build:
 # Utility targets
 #
 exec-pretty:
-	$(CMD_GENERATOR) \
+	@$(CMD_GENERATOR) \
 	  --include-without-dependencies $(PROJECT_NAMESPACE).* \
 	  --pretty-print \
 	  $(COMPUTED_CLASS_PATH)
 
 exec-fix:
-	$(CMD_GENERATOR) \
+	@$(CMD_GENERATOR) \
 	  --include-without-dependencies $(PROJECT_NAMESPACE).* \
 	  --fix-source \
 	  $(COMPUTED_CLASS_PATH)
@@ -102,20 +105,42 @@ exec-fix:
 # Debug targets
 #
 exec-tokenizer:
-	$(CMD_GENERATOR) \
+	@$(CMD_GENERATOR) \
 	  --include-without-dependencies $(PROJECT_NAMESPACE).* \
 	  --store-tokens \
     --token-output-directory $(PROJECT_DEBUG_PATH)/tokens \
 	  $(COMPUTED_CLASS_PATH)
 
 exec-treegenerator:
-	$(CMD_GENERATOR) \
+	@$(CMD_GENERATOR) \
 	  --include-without-dependencies $(PROJECT_NAMESPACE).* \
 	  --store-tree \
     --tree-output-directory $(PROJECT_DEBUG_PATH)/tree \
 	  $(COMPUTED_CLASS_PATH)
 	  
 	  
+
+
+#
+# Locale targets
+#
+exec-locales:
+	@echo
+	@echo "  PREPARING LOCALES"
+	@$(CMD_LINE)
+	@for LOC in $(PROJECT_LOCALES); do \
+	  echo "  * Preparing locale $$LOC"; \
+	  mod=0; \
+	  if [ ! -r $(FRAMEWORK_LOCALES_CACHE_PATH)/$$LOC.xml ]; then \
+	    echo "    - Downloading $$LOC.xml..."; \
+	    wget $(FRAMEWORK_CLDR_DOWNLOAD_URI)/$$LOC.xml -q -P $(FRAMEWORK_LOCALES_CACHE_PATH); \
+	    mod=1; \
+	  fi; \
+	  if [ ! -r $(FRAMEWORK_LOCALES_PATH)/$$LOC.js -o $$mod == 1 ]; then \
+	    echo "    - Generating $$LOC.js..."; \
+	    $(CMD_CLDR) -o $(FRAMEWORK_LOCALES_PATH) $(FRAMEWORK_LOCALES_CACHE_PATH)/$$LOC.xml; \
+	  fi; \
+	done
 
 
 
@@ -127,7 +152,7 @@ exec-treegenerator:
 exec-files-build:
 	@echo
 	@echo "  COPYING OF FILES"
-	@echo "--------------------------------------------------------"
+	@$(CMD_LINE)
 	@echo "  * Copying files..."
 	@for file in $(PROJECT_FILES); do \
     cp -f $(PROJECT_SOURCE_PATH)/$$file $(PROJECT_BUILD_PATH)/$$file; \
@@ -136,7 +161,7 @@ exec-files-build:
 exec-files-api:
 	@echo
 	@echo "  COPYING OF FILES"
-	@echo "--------------------------------------------------------"
+	@$(CMD_LINE)
 	@echo "  * Copying files..."
 	@for file in $(API_FILES); do \
     cp -f $(API_SOURCE_PATH)/$$file $(PROJECT_API_PATH)/$$file; \
@@ -147,35 +172,18 @@ exec-files-api:
 
 
 #
-# CLDR data extraction targets
-#
-
-export PROJECT_LOCALES
-download_locales:
-	@echo
-	@echo "  Loading CLDR files"
-	@echo "--------------------------------------------------------"
-	@echo "  * Loading files..."
-	@$(MAKE) -C $(FRAMEWORK_TOOL_PATH)/make -e -f cldr.mk
-
-	  
-	  
-	 
-	  
-	  
-#
 # API targets
 #
 
 exec-api-data:
-	$(CMD_GENERATOR) \
+	@$(CMD_GENERATOR) \
 	  --generate-api-documentation \
 	  --api-documentation-json-file $(PROJECT_API_PATH)/script/apidata.js \
 	  $(COMPUTED_CLASS_PATH) \
 	  $(COMPUTED_API_INCLUDE)
 	  
 exec-api-build:
-	$(CMD_GENERATOR) \
+	@$(CMD_GENERATOR) \
 	  --script-input $(FRAMEWORK_SOURCE_PATH)/class \
 	  --script-input $(API_SOURCE_PATH)/class \
 	  --include api \
@@ -201,7 +209,7 @@ exec-api-build:
 #
 exec-publish:
 	@echo "  * Syncing files..."
-	$(CMD_SYNC) $(PROJECT_BUILD_PATH)/* $(PROJECT_PUBLISH_PATH)
+	@$(CMD_SYNC) $(PROJECT_BUILD_PATH)/* $(PROJECT_PUBLISH_PATH)
 
 
 
