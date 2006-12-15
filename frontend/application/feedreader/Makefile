@@ -10,7 +10,7 @@ INCLUDEALL = false
 OPTIMIZESTRINGS = true
 OPTIMIZEVARIABLES = true
 NICE=10
-LOCALES=de
+PROJECT_LOCALES=de
 
 
 
@@ -26,11 +26,9 @@ CACHE = $(FRAMEWORK)/.cache
 GENERATOR = $(FRAMEWORK)/tool/generator.py
 SYNCOPT=--checksum --recursive --links --safe-links --delete --compress
 
-QXMSGFMT= $(FRAMEWORK)/tool/qxmsgfmt.py
 LOCALE_NAMESPACE=$(APPNAME).locale
 LOCALE_TARGET_DIRECTORY=source/class/$(APPNAME)/locale
 PODIR=source/translation
-TRANSLATIONS := $(LOCALES:%=$(PODIR)/%.po)
 
 ifeq ($(INCLUDEALL),false)
   INCLUDE = --include $(APPCLASS)
