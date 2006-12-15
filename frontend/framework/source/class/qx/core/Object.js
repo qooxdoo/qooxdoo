@@ -292,7 +292,7 @@ qx.Proto.getSetting = function(vKey) {
  * @return (qx.locale.manager.LocalizedString)
  */
 qx.Proto.tr = function(messageId, varargs) {
-  var nlsManager = qx.locale.manager.Manager.getInstance();
+  var nlsManager = qx.locale.manager.Manager;
   return nlsManager.tr.apply(nlsManager, arguments);
 };
 
@@ -312,7 +312,7 @@ qx.Proto.tr = function(messageId, varargs) {
  * @return (qx.locale.manager.LocalizedString)
  */
 qx.Proto.trn = function(singularMessageId, pluralMessageId, count, varargs) {
-  var nlsManager = qx.locale.manager.Manager.getInstance();
+  var nlsManager = qx.locale.manager.Manager;
   return nlsManager.trn.apply(nlsManager, arguments);
 };
 
@@ -324,7 +324,8 @@ qx.Proto.trn = function(singularMessageId, pluralMessageId, count, varargs) {
  * @return (string) messageId
  */
 qx.Proto.marktr = function(messageId) {
-  return messageId;
+  var nlsManager = qx.locale.manager.Manager;
+  return nlsManager.marktr.apply(nlsManager, arguments);
 };
 
 /*

@@ -90,37 +90,37 @@ qx.Proto._detachEvents = function()
 /** maps the charcodes of special printable keys to key identifiers */
 qx.Proto._specialCharCodeMap =
 {
-    8 : "Backspace",   // The Backspace (Back) key.
-    9 : "Tab",         // The Horizontal Tabulation (Tab) key.
-   32 : "Space"        // The Space (Spacebar) key.
+    8 : qx.locale.manager.Manager.marktr("Backspace"),   // The Backspace (Back) key.
+    9 : qx.locale.manager.Manager.marktr("Tab"),         // The Horizontal Tabulation (Tab) key.
+   32 : qx.locale.manager.Manager.marktr("Space")        // The Space (Spacebar) key.
 };
 
 /** maps the keycodes of non printable keys to key identifiers */
 qx.Proto._keyCodeToIdentifierMap =
 {
-   13 : "Enter",       // The Enter key.
+   13 : qx.locale.manager.Manager.marktr("Enter"),       // The Enter key.
                        //   Note: This key identifier is also used for the
                        //   Return (Macintosh numpad) key.
-   16 : "Shift",       // The Shift key.
-   17 : "Control",     // The Control (Ctrl) key.
-   18 : "Alt",         // The Alt (Menu) key.
-   20 : "CapsLock",    // The CapsLock key
-  224 : "Meta",        // The Meta key. (Apple Meta and Windows key)
+   16 : qx.locale.manager.Manager.marktr("Shift"),       // The Shift key.
+   17 : qx.locale.manager.Manager.marktr("Control"),     // The Control (Ctrl) key.
+   18 : qx.locale.manager.Manager.marktr("Alt"),         // The Alt (Menu) key.
+   20 : qx.locale.manager.Manager.marktr("CapsLock"),    // The CapsLock key
+  224 : qx.locale.manager.Manager.marktr("Meta"),        // The Meta key. (Apple Meta and Windows key)
 
-   27 : "Escape",      // The Escape (Esc) key.
+   27 : qx.locale.manager.Manager.marktr("Escape"),      // The Escape (Esc) key.
 
-   37 : "Left",        // The Left Arrow key.
-   38 : "Up",          // The Up Arrow key.
-   39 : "Right",       // The Right Arrow key.
-   40 : "Down",        // The Down Arrow key.
+   37 : qx.locale.manager.Manager.marktr("Left"),        // The Left Arrow key.
+   38 : qx.locale.manager.Manager.marktr("Up"),          // The Up Arrow key.
+   39 : qx.locale.manager.Manager.marktr("Right"),       // The Right Arrow key.
+   40 : qx.locale.manager.Manager.marktr("Down"),        // The Down Arrow key.
 
-   33 : "PageUp",      // The Page Up key.
-   34 : "PageDown",    // The Page Down (Next) key.
+   33 : qx.locale.manager.Manager.marktr("PageUp"),      // The Page Up key.
+   34 : qx.locale.manager.Manager.marktr("PageDown"),    // The Page Down (Next) key.
 
-   35 : "End",         // The End key.
-   36 : "Home",        // The Home key.
-   45 : "Insert",      // The Insert (Ins) key. (Does not fire in Opera/Win)
-   46 : "Delete",      // The Delete (Del) Key.
+   35 : qx.locale.manager.Manager.marktr("End"),         // The End key.
+   36 : qx.locale.manager.Manager.marktr("Home"),        // The Home key.
+   45 : qx.locale.manager.Manager.marktr("Insert"),      // The Insert (Ins) key. (Does not fire in Opera/Win)
+   46 : qx.locale.manager.Manager.marktr("Delete"),      // The Delete (Del) Key.
 
   112 : "F1",          // The F1 key.
   113 : "F2",          // The F2 key.
@@ -135,13 +135,13 @@ qx.Proto._keyCodeToIdentifierMap =
   122 : "F11",         // The F11 key.
   123 : "F12",         // The F12 key.
 
-  144 : "NumLock",     // The Num Lock key.
-   44 : "PrintScreen", // The Print Screen (PrintScrn, SnapShot) key.
-  145 : "Scroll",      // The scroll lock key
-   19 : "Pause",       // The pause/break key
+  144 : qx.locale.manager.Manager.marktr("NumLock"),     // The Num Lock key.
+   44 : qx.locale.manager.Manager.marktr("PrintScreen"), // The Print Screen (PrintScrn, SnapShot) key.
+  145 : qx.locale.manager.Manager.marktr("Scroll"),      // The scroll lock key
+   19 : qx.locale.manager.Manager.marktr("Pause"),       // The pause/break key
 
-   91 : "Win",         // The Windows Logo key
-   93 : "Apps"         // The Application key (Windows Context Menu)
+   91 : qx.locale.manager.Manager.marktr("Win"),         // The Windows Logo key
+   93 : qx.locale.manager.Manager.marktr("Apps")         // The Application key (Windows Context Menu)
 };
 
 /** maps the keycodes of the numpad keys to the right charcodes */
