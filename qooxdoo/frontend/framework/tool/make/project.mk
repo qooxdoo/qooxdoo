@@ -42,7 +42,7 @@ endif
 # (space separated list)
 #
 ifndef PROJECT_FILES
-  PROJECT_FILES = index.html
+  PROJECT_FILES = 
 endif
 
 #
@@ -89,6 +89,14 @@ endif
 #
 ifndef PROJECT_PUBLISH_PATH
   PROJECT_PUBLISH_PATH = $(PROJECT_PATH)/publish
+endif
+
+#
+# Define the debug location
+# Could be any rsync compatible url/path
+#
+ifndef PROJECT_DEBUG_PATH
+  PROJECT_DEBUG_PATH = $(PROJECT_PATH)/debug
 endif
 
 #
