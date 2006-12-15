@@ -73,7 +73,20 @@ qx.Clazz._registry = { "qx.Clazz" : qx.Clazz };
  * @access public
  * @param fullname {String} class name
  * @param definition {Map,null} definition structure
- * @return {void} 
+ * @param definition.extend {Class,null} super class
+ * @param definition.implement {List,null} list of interfaces that need to be implemented
+ * @param definition.include {List,null} list of mixins to include
+ * @param definition.settings {Map,null} hash of settings for this class
+ * @param definition.init {Function,null} constructor method to run on each initialization
+ * @param definition.statics {Map,null} hash of static properties and methods ("class members")
+ * @param definition.properties {Map,null} hash of properties with generated setters and getters
+ * @param definition.properties_ng {Map,null} hash of next-gen properties with generated setters and getters
+ * @param definition.members {Map,null} hash of regular properties and methods ("instance members")
+ * @param definition.defer {Function,null} function to be called for post-processing
+ * @param definition.isAbstract {Boolean,false} is abstract class
+ * @param definition.isSingleton {Boolean,false} is singleton class
+ * @param definition.events {List,null} list of events the class is able to fire
+ * @return {void}
  * @throws TODOC
  */
 qx.Clazz.define = function(fullname, definition)
@@ -161,7 +174,7 @@ qx.Clazz.define = function(fullname, definition)
         break;
 
       default:
-        throw new Error("Invalid key '" + vKey + "' in class '" + fullname + "'! Key is not allowed!");
+        throw new Error("Key '" + vKey + "' in class '" + fullname + "' not allowed!");
     }
   }
 
@@ -191,10 +204,7 @@ qx.Clazz.define = function(fullname, definition)
     vClass.basename = vPartName;
 
     // Compatibility to 0.6.x
-    /** {var} TODOC */
-    qx.Proto = null;
-
-    /** {var} TODOC */
+    qx.Proto = qx.Super = null;
     qx.Class = vClass;
     
     // Attach statics
@@ -216,8 +226,11 @@ qx.Clazz.define = function(fullname, definition)
     // Store class reference in global class registry
     this._registry[fullname] = vClass;
 
+    // Store reference to global classname registry
+    qx.OO.classes[fullname] = vClass;
+
     // Quit here
-    return ;
+    return;
   }
 
 
@@ -248,13 +261,10 @@ qx.Clazz.define = function(fullname, definition)
    * @return {void} 
    */
   var vHelperClass = function() {};
-
-  /** {var} TODOC */
   vHelperClass.prototype = vSuperClass.prototype;
   var vPrototype = new vHelperClass;
 
   // Apply prototype to new helper instance
-  /** {var} TODOC */
   vClass.prototype = vPrototype;
 
   // Store own class and base name
@@ -265,7 +275,6 @@ qx.Clazz.define = function(fullname, definition)
   vClass.superclass = vPrototype.superclass = vSuperClass;
 
   // Store base constructor to constructor
-  /** {var} TODOC */
   vConstructor.base = vSuperClass;
 
   // Store correct constructor
@@ -274,12 +283,13 @@ qx.Clazz.define = function(fullname, definition)
   // Register class into registry
   this._registry[fullname] = vClass;
 
-  // Compatibility to 0.6.x
-  /** {var} TODOC */
-  qx.Proto = vPrototype;
+  // Store reference to global classname registry
+  qx.OO.classes[fullname] = vClass;
 
-  /** {var} TODOC */
+  // Compatibility to 0.6.x
+  qx.Proto = vPrototype;
   qx.Class = vClass;
+  qx.Super = vSuperClass;
 
 
 
@@ -374,15 +384,16 @@ qx.Clazz.define = function(fullname, definition)
   {
     var vProperty;
 
-    for (var i=0, l=vProperties.length; i<l; i++)
+    for (var vName in vProperties)
     {
-      vProperty = vProperties[i];
+      vProperty = vProperties[vName];
+	    vProperty.name = vName;			
 
       if (vProperty.fast) {
         qx.OO.addFastProperty(vProperty);
       } else if (vProperty.cached) {
         qx.OO.addCachedProperty(vProperty);
-      } else {
+      } else if (vProperty.deprecated) {
         qx.OO.addProperty(vProperty);
       }
     }
@@ -467,13 +478,12 @@ qx.Clazz.define = function(fullname, definition)
       vPrototype[vProp] = vMembers[vProp];
 
       // Added helper stuff to functions
-      if (typeof vMembers[vProp] == "function")
+      if (typeof vMembers[vProp] === "function")
       {
         // Configure superclass (named base here)
-        /** {var} TODOC */
         vPrototype[vProp].base = vSuperProto[vProp];
 
-        // Configure class
+        // Configure class [TODO: find better name for statics here]
         vPrototype[vProp].statics = vClass;
       }
     }
@@ -523,11 +533,14 @@ qx.Clazz.define = function(fullname, definition)
           }
         }
       }
-    } else {}
-  }
+    } 
+		else
+		{
+	  	// TODO
+		}
+	}
 };
 
-// TODO
 /**
  * Determine if class exists
  *
@@ -554,15 +567,15 @@ qx.Clazz.isDefined = function(fullname) {
 qx.Clazz.include = function(vClass, vMixin)
 {
   var vPrototype = vClass.prototype;
-
-  // Attach members
   var vMixinMembers = vMixins._members;
 
+	// Attach members
   for (var vProp in vMixinMembers) {
     vPrototype[vProp] = vMixinMembers[vProp];
   }
 
   // Attach properties
   // TODO: Implementation
+
   return true;
 };
