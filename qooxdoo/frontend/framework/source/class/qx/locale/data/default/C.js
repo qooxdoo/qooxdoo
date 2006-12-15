@@ -102,7 +102,13 @@ qx.Locale.define("qx.locale.data.default.C", {
     cldr_time_format_short: "h:mm a",
     
     cldr_number_group_seperator: ",",
-    cldr_number_decimal_seperator: "."
+    cldr_number_decimal_seperator: ".",
+    
+    cldr_quotationEnd: "’",
+    cldr_quotationStart: "‘",
+    
+    cldr_alternateQuotationEnd: "”",
+    cldr_alternateQuotationStart: "“"
     
   /*}*/
 });
