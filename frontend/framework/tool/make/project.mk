@@ -191,6 +191,20 @@ ifndef PROJECT_APPLICATION
 endif
 
 #
+# Locale namespace
+#
+ifndef PROJECT_LOCALE_NAMESPACE
+  PROJECT_LOCALE_NAMESPACE = $(PROJECT_NAMESPACE).locale.translation
+endif
+
+#
+# Locale directory
+#
+ifndef PROJECT_LOCALE_DIRECTORY
+  PROJECT_LOCALE_DIRECTORY = $(PROJECT_SOURCE_PATH)/class/$(PROJECT_NAMESPACE)/locale/translation
+endif
+
+#
 # Settings for more advanced users
 #
 ifndef PROJECT_ADDITIONAL_CLASS_PATH
@@ -282,11 +296,11 @@ COMPUTED_API_INCLUDE =
 #
 
 COMPUTED_CLASS_PATH = --script-input $(FRAMEWORK_SOURCE_PATH)/class \
-  --script-input $(PROJECT_SOURCE_PATH)/class \
+  --script-input $(PROJECT_SOURCE_PATH)/$(PROJECT_CLASS_FOLDERNAME) \
   $(PROJECT_ADDITIONAL_CLASS_PATH)
   
 COMPUTED_CLASS_URI = --source-script-path $(FRAMEWORK_SOURCE_URI)/class \
-  --source-script-path $(PROJECT_SOURCE_URI)/class \
+  --source-script-path $(PROJECT_SOURCE_URI)/$(PROJECT_CLASS_FOLDERNAME) \
   $(PROJECT_ADDITIONAL_CLASS_URI)
   
 COMPUTED_RESOURCE = --copy-resources \

@@ -1,257 +1,89 @@
-###################################################################################
-# PUBLIC VARIABLES
-###################################################################################
-
-QOOXDOO = ../../..
-APPNAME=feedreader
-SCRIPTNAME = $(APPNAME).js
-APPCLASS = feedreader.Application
-INCLUDEALL = false
-OPTIMIZESTRINGS = true
-OPTIMIZEVARIABLES = true
-NICE=10
-PROJECT_LOCALES=de de_AT
-
-
-
-
-###################################################################################
-# PRIVATE VARIABLES
-###################################################################################
-
-FRONTEND = $(QOOXDOO)/frontend
-FRAMEWORK = $(FRONTEND)/framework
-API = $(FRONTEND)/api
-CACHE = $(FRAMEWORK)/.cache
-GENERATOR = $(FRAMEWORK)/tool/generator.py
-SYNCOPT=--checksum --recursive --links --safe-links --delete --compress
-
-ifeq ($(INCLUDEALL),false)
-  INCLUDE = --include $(APPCLASS)
-else
-  INCLUDE =
-endif
-
-ifeq ($(OPTIMIZESTRINGS),true)
-  OPTIMIZESTR = --optimize-strings
-else
-  OPTIMIZESTR =
-endif
-
-ifeq ($(OPTIMIZEVARIABLES),true)
-  OPTIMIZEVAR = --optimize-variables
-else
-  OPTIMIZEVAR =
-endif
-
-
-
-
-
-
-
-###################################################################################
-# DEFAULT TARGET
-###################################################################################
-
-all: build
-
-
-
-
-
-
-###################################################################################
-# COMMON TARGETS
-###################################################################################
-
-source: info-source translation generate-script-source
-build: info-build translation generate-script-build copy-build-files fix-build-rights
-
-api: generate-api-build generate-api-data
-	@echo
-	@echo "  CREATE COPY OF HTML FILE"
-	@echo "----------------------------------------------------------------------------"
-	@echo "  * Copying file..."
-	@cp -f $(API)/source/index.html api/index.html
-
-pretty: generate-pretty
-fix: generate-fix
-sync: build sync-qooxdoo-org
-
-
-
-
-
-
-###################################################################################
-# CLEANUP TARGETS
-###################################################################################
-
-clean:
-	@echo
-	@echo "  CLEANUP OF GENERATED FILES"
-	@echo "----------------------------------------------------------------------------"
-	@echo "  * Deleting files..."
-	@rm -f source/script/$(SCRIPTNAME) build/script/$(SCRIPTNAME)
-
-realclean: clean
-	@echo
-	@echo "  CLEANUP OF GENERATED FILES (REAL)"
-	@echo "----------------------------------------------------------------------------"
-	@echo "  * Deleting files..."
-	@nice -n $(NICE) rm -rf source/script build
-
-distclean: realclean
-	@echo
-	@echo "  CLEANUP OF GENERATED FILES (DIST)"
-	@echo "----------------------------------------------------------------------------"
-	@echo "  * Deleting files..."
-	@nice -n $(NICE) find . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
-	@nice -n $(NICE) rm -rf $(CACHE)
-
-
-
-
-
-
-
-###################################################################################
-# GENERATOR TARGETS
-###################################################################################
-
-generate-script-source:
-	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
-	  --script-input $(FRAMEWORK)/source/class \
-	  --source-script-path ../$(FRAMEWORK)/source/class \
-	  --script-input source/class \
-	  --source-script-path class \
-	  --generate-source-script \
-	  $(INCLUDE) \
-	  --source-script-file source/script/$(SCRIPTNAME) \
-	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:../$(FRAMEWORK)/source/resource \
-	  --cache-directory $(CACHE)
-
-generate-script-build:
-	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
-	  --script-input $(FRAMEWORK)/source/class \
-	  --script-input source/class \
-	  --generate-compiled-script \
-	  $(INCLUDE) $(OPTIMIZESTR) $(OPTIMIZEVAR) \
-	  --compiled-script-file build/script/$(SCRIPTNAME) \
-	  --copy-resources \
-	  --resource-input $(FRAMEWORK)/source/resource \
-	  --resource-output build/resource \
-	  --resource-input source/resource \
-	  --resource-output build/resource \
-	  --enable-resource-filter \
-	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:./resource \
-	  --cache-directory $(CACHE)
-
-generate-api-build:
-	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
-	  --script-input $(FRAMEWORK)/source/class \
-	  --resource-input $(FRAMEWORK)/source/resource \
-	  --resource-output api/resource/qooxdoo \
-	  --script-input $(API)/source/class \
-	  --resource-input $(API)/source/resource \
-	  --resource-output api/resource \
-	  --enable-resource-filter \
-	  --include api \
-	  $(OPTIMIZESTR) $(OPTIMIZEVAR) \
-	  --generate-compiled-script \
-	  --compiled-script-file api/script/api.js \
-	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:resource/qooxdoo \
-	  --define-runtime-setting api.Viewer.title:Sample \
-	  --copy-resources \
-	  --cache-directory $(CACHE)
-
-generate-api-data:
-	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
-	  --script-input $(FRAMEWORK)/source/class \
-	  --script-input source/class \
-	  --generate-api-documentation \
-	  --api-documentation-json-file api/script/data.js \
-	  --cache-directory $(CACHE)
-
-generate-pretty:
-	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
-	  --script-input source/class \
-	  --script-input $(FRAMEWORK)/source/class \
-	  --include-without-dependencies api.* \
-	  --pretty-print \
-	  --cache-directory $(CACHE)
-
-generate-fix:
-	@chmod u+x $(GENERATOR) && nice -n $(NICE) $(GENERATOR) \
-	  --script-input source/class \
-	  --script-input $(FRAMEWORK)/source/class \
-	  --include-without-dependencies api.* \
-	  --fix-source \
-	  --cache-directory $(CACHE)
-
-
-
-
-
-###################################################################################
-# ADDITIONAL TARGETS
-###################################################################################
-
-copy-build-files:
-	@echo
-	@echo "  CREATE COPY OF HTML FILE"
-	@echo "----------------------------------------------------------------------------"
-	@echo "  * Copying file..."
-	@cp -f source/index.html build/index.html
-
-fix-build-rights:
-	@echo
-	@echo "  FIX RIGHTS ON BUILD FILES"
-	@echo "----------------------------------------------------------------------------"
-	@echo "  * Fixing file rights..."
-	@nice -n $(NICE) find build -type d | xargs chmod a+rx
-	@nice -n $(NICE) find build -type f | xargs chmod a+r
-
-
-
-
-
-
-###################################################################################
-# GETTEXT TARGETS
-###################################################################################
-
-include $(FRAMEWORK)/tool/make/translate.mk
-
-
-
-###################################################################################
-# ONLINE TARGETS
-###################################################################################
-
-sync-qooxdoo-org:
-	@echo
-	@echo "  SYNC FILES TO HOMEPAGE"
-	@echo "----------------------------------------------------------------------------"
-	@echo "  * Syncing..."
-	@nice -n $(NICE) rsync $(SYNCOPT) build/* root@qooxdoo.org:/var/www/qooxdoo/demo/feedreader
-
-
-
-
-
-
-###################################################################################
-# INFO TARGETS
-###################################################################################
-
-info-build:
-	@echo "****************************************************************************"
-	@echo "  GENERATING FEED READER BUILD"
-	@echo "****************************************************************************"
-
-info-source:
-	@echo "****************************************************************************"
-	@echo "  GENERATING FEED READER SOURCE"
-	@echo "****************************************************************************"
+####################################################################################
+# BASIC SETTINGS
+####################################################################################
+
+#
+# Location of your qooxdoo distribution
+# Could be relative from this location or absolute
+#
+QOOXDOO_PATH = ../../..
+
+#
+# The same as above, but from the webserver point of view
+# Starting point is the application HTML file of the source folder.
+# In most cases just add a "/.." compared to above
+#
+QOOXDOO_URI = ../../../..
+
+#
+# Namespace of your application e.g. custom
+#
+PROJECT_NAMESPACE = feedreader
+
+#
+# Titles used in your API viewer and during the build process
+#
+PROJECT_MAKE_TITLE = FEEDREADER
+PROJECT_API_TITLE = FeedReader
+
+#
+# Additional files (space separated list)
+#
+PROJECT_FILES = index.html
+
+#
+# Locales to include
+#
+PROJECT_LOCALES = de de_AT
+
+
+
+
+
+####################################################################################
+# ADVANCED SETTINGS
+####################################################################################
+
+#
+# Enable resource filtering in API viewer
+#
+PROJECT_RESOURCE_FILTER = true
+
+#
+# We don't need the full source code
+#
+PROJECT_COMPLETE_SOURCE = false
+
+#
+# Disable line breaks
+#
+PROJECT_LINEBREAKS_BUILD = false
+PROJECT_LINEBREAKS_SOURCE = false
+
+#
+# qooxdoo.org sync
+#
+PROJECT_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/demo/$(PROJECT_NAMESPACE)
+
+
+
+
+
+####################################################################################
+# INCLUDE CORE
+####################################################################################
+
+#
+# Include project core handling
+#
+include $(QOOXDOO_PATH)/frontend/framework/tool/make/project.mk
+
+#
+# Include default targets, but add data generation (only qooxdoo) to source and build
+#
+include $(QOOXDOO_PATH)/frontend/framework/tool/make/targets.mk
+	
+#
+# Include implementation targets
+#
+include $(QOOXDOO_PATH)/frontend/framework/tool/make/impl.mk
