@@ -124,6 +124,7 @@ exec-treegenerator:
 #
 # Locale targets
 #
+ifdef PROJECT_LOCALES
 exec-locales:
 	@echo
 	@echo "  PREPARING LOCALES"
@@ -141,6 +142,9 @@ exec-locales:
 	    $(CMD_CLDR) -o $(FRAMEWORK_LOCALES_PATH) $(FRAMEWORK_LOCALES_CACHE_PATH)/$$LOC.xml; \
 	  fi; \
 	done
+else
+  exec-locales: exec-none
+endif
 
 
 
@@ -215,6 +219,12 @@ exec-publish:
 
 
 
+
+#
+# None helper target
+#
+exec-none: 
+	@true
 
 
 

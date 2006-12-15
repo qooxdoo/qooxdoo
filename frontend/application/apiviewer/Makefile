@@ -31,11 +31,6 @@ PROJECT_API_TITLE = ApiViewer
 #
 PROJECT_FILES = index.html
 
-#
-# Locales to build (space separated list)
-#
-PROJECT_LOCALES =
-
 
 
 
@@ -83,13 +78,13 @@ include $(QOOXDOO_PATH)/frontend/framework/tool/make/project.mk
 include $(QOOXDOO_PATH)/frontend/framework/tool/make/targets.mk
 
 source:	
-	$(CMD_GENERATOR) \
+	@$(CMD_GENERATOR) \
 	  --generate-api-documentation \
 	  --api-documentation-json-file $(PROJECT_PATH)/source/script/apidata.js \
 	  --script-input $(FRAMEWORK_SOURCE_PATH)/class
 	  
 build:	
-	$(CMD_GENERATOR) \
+	@$(CMD_GENERATOR) \
 	  --generate-api-documentation \
 	  --api-documentation-json-file $(PROJECT_PATH)/build/script/apidata.js \
 	  --script-input $(FRAMEWORK_SOURCE_PATH)/class
