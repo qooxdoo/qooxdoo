@@ -2,6 +2,43 @@
 # GETTEXT TARGETS
 ###################################################################################
 
+ifndef QOOXDOO
+	QOOXDOO = ../../..
+endif
+
+ifndef APPNAME
+	APPNAME=feedreader
+endif
+
+ifndef PROJECT_LOCALES
+	PROJECT_LOCALES=de
+endif
+
+ifndef JS_SOURCE_DIR
+	JS_SOURCE_DIR=source/class/
+endif
+
+ifdef LOCALE_NAMESPACE
+	LOCALE_NAMESPACE=$(APPNAME).locale
+endif
+
+ifndef LOCALE_TARGET_DIRECTORY
+	LOCALE_TARGET_DIRECTORY=$(JS_SOURCE_DIR)/$(APPNAME)/locale
+endif
+
+ifndef PODIR
+	PODIR=source/translation
+endif
+
+FRONTEND = $(QOOXDOO)/frontend
+FRAMEWORK = $(FRONTEND)/framework
+QXMSGFMT= $(FRAMEWORK)/tool/qxmsgfmt.py
+
+TRANSLATIONS := $(PROJECT_LOCALES:%=$(PODIR)/%.po)
+
+
+all: translation
+
 force-build:
 	@#dummy dependency to force rebuilding the target
 
@@ -12,7 +49,10 @@ $(PODIR)/$(APPNAME).pot: force-build
 	@echo "  * Extracting translation ..."
 	@rm -f $(PODIR)/$(APPNAME).pot
 	@touch $(PODIR)/$(APPNAME).pot
-	@find source/class/ -name '*.js' | xargs xgettext --language=Java --from-code=UTF-8 -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 -j -o $(PODIR)/$(APPNAME).pot
+	@find $(JS_SOURCE_DIR) -name '*.js' | xargs xgettext --language=Java --from-code=UTF-8 \
+	  -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 \
+	  -kManager.trc -kManager.tr -kManager.marktr -kManager.trn:1,2 \
+	  -j -o $(PODIR)/$(APPNAME).pot
 
 %.po: $(PODIR)/$(APPNAME).pot
 	@echo "  * Updating translation catalog " $@
