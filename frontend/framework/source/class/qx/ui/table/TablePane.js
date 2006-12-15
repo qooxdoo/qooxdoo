@@ -251,7 +251,12 @@ qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
   var rowWidth = paneModel.getTotalWidth();
 
   if (TablePane.USE_TABLE) {
-    htmlArr.push('<table cellspacing\="0" cellpadding\="0" style\="table-layout:fixed;font-family:\'Segoe UI\', Corbel, Calibri, Tahoma, \'Lucida Sans Unicode\', sans-serif;font-size:11px;width:');
+    // The table test
+    htmlArr.push('<table cellspacing\="0" cellpadding\="0" style\="table-layout:fixed;font-family:');
+    htmlArr.push(qx.ui.table.TablePane.CONTENT_ROW_FONT_FAMILY_TEST);
+    htmlArr.push(';font-size:');
+    htmlArr.push(qx.ui.table.TablePane.CONTENT_ROW_FONT_SIZE_TEST);
+    htmlArr.push(';width:');
     htmlArr.push(rowWidth);
     htmlArr.push('px"><colgroup>');
 
@@ -280,13 +285,13 @@ qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
       htmlArr.push('<tr style\="height:');
       htmlArr.push(rowHeight);
     } else {
-      htmlArr.push('<div style\="position:absolute;font-family:\'Segoe UI\', Corbel, Calibri, Tahoma, \'Lucida Sans Unicode\', sans-serif;font-size:11px;left:0px;top:');
+      htmlArr.push('<div style\="position:absolute;left:0px;top:');
       htmlArr.push(y * rowHeight);
       htmlArr.push('px;width:');
       htmlArr.push(rowWidth);
       htmlArr.push('px;height:');
       htmlArr.push(rowHeight);
-      htmlArr.push('px;background-color:');
+      htmlArr.push('px');
     }
 
     rowRenderer._createRowStyle_array_join(cellInfo, htmlArr);
@@ -399,8 +404,6 @@ qx.Proto._updateContent_orig = function(completeUpdate, onlyRow,
       rowElem.style.top = (y * rowHeight) + "px";
 
       rowElem.style.height = rowHeight + "px";
-      rowElem.style.fontFamily = TablePane.CONTENT_ROW_FONT_FAMILY;
-      rowElem.style.fontSize = TablePane.CONTENT_ROW_FONT_SIZE;
       elem.appendChild(rowElem);
       recyleRowElem = false;
     }
@@ -481,6 +484,6 @@ qx.Class.USE_ARRAY_JOIN = false;
 qx.Class.USE_TABLE = false;
 
 
-qx.Class.CONTENT_ROW_FONT_FAMILY = '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif';
-qx.Class.CONTENT_ROW_FONT_SIZE = "11px";
+qx.Class.CONTENT_ROW_FONT_FAMILY_TEST = "'Segoe UI', Corbel, Calibri, Tahoma, 'Lucida Sans Unicode', sans-serif";
+qx.Class.CONTENT_ROW_FONT_SIZE_TEST = "11px";
 

@@ -39,10 +39,17 @@ qx.OO.addProperty({ name:"highlightFocusRow", type:"boolean", allowNull:false, d
  */
 qx.OO.addProperty({ name:"visualizeFocusedState", type:"boolean", allowNull:false, defaultValue:true});
 
+qx.OO.addProperty({ name:"fontFamily", type:"string", allowNull:false, defaultValue:"'Segoe UI', Corbel, Calibri, Tahoma, 'Lucida Sans Unicode', sans-serif" });
+
+qx.OO.addProperty({ name:"fontSize", type:"string", allowNull:false, defaultValue:"11px" });
+
 
 // overridden
 qx.Proto.updateDataRowElement = function(rowInfo, rowElem) {
   var clazz = qx.ui.table.DefaultDataRowRenderer;
+
+  rowElem.style.fontFamily = this.getFontFamily();
+  rowElem.style.fontSize   = this.getFontSize();
 
   if (rowInfo.focusedRow && this.getHighlightFocusRow()) {
     if (rowInfo.table.getFocused() || !this.getVisualizeFocusedState()) {
@@ -65,10 +72,16 @@ qx.Proto.updateDataRowElement = function(rowInfo, rowElem) {
 }
 
 
+// Array join test
 qx.Proto._createRowStyle_array_join = function(rowInfo, htmlArr) {
   var clazz = qx.ui.table.DefaultDataRowRenderer;
 
-  htmlArr.push(clazz.ARRAY_JOIN_BG_COLOR);
+  htmlArr.push(";font-family:");
+  htmlArr.push(this.getFontFamily());
+  htmlArr.push(";font-size:");
+  htmlArr.push(this.getFontSize());
+
+  htmlArr.push(";background-color:");
   if (rowInfo.focusedRow && this.getHighlightFocusRow()) {
     if (rowInfo.table.getFocused() || !this.getVisualizeFocusedState()) {
       htmlArr.push(rowInfo.selected ? clazz.BGCOL_FOCUSED_SELECTED : clazz.BGCOL_FOCUSED);
@@ -86,7 +99,7 @@ qx.Proto._createRowStyle_array_join = function(rowInfo, htmlArr) {
       htmlArr.push((rowInfo.row % 2 == 0) ? clazz.BGCOL_EVEN : clazz.BGCOL_ODD);
     }
   }
-  htmlArr.push(clazz.ARRAY_JOIN_COLOR);
+  htmlArr.push(';color:');
   htmlArr.push(rowInfo.selected ? clazz.COL_SELECTED : clazz.COL);
 }
 
@@ -101,6 +114,3 @@ qx.Class.BGCOL_EVEN = "#faf8f3";
 qx.Class.BGCOL_ODD = "white";
 qx.Class.COL_SELECTED = "white";
 qx.Class.COL_NORMAL = "black";
-
-qx.Class.ARRAY_JOIN_BG_COLOR = ";background-color:";
-qx.Class.ARRAY_JOIN_COLOR = ';color:';
