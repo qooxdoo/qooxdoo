@@ -1,0 +1,63 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo</title>
+  <link type="text/css" rel="stylesheet" href="../../resource/css/layout.css"/>
+  <!--[if IE]>
+  <link type="text/css" rel="stylesheet" href="../../resource/css/layout_ie.css"/>
+  <![endif]-->
+  <script type="text/javascript" src="../../script/sample.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../../script/layout.js"></script>
+
+  <div id="demoDescription">
+    <p>Test the localization of different widgets<p>
+  </div>
+
+  <script type="text/javascript">
+
+	//qx.locale.manager.Manager.getInstance().setLocale("de_DE");
+
+	qx.Locale.define("sample.de", {
+		"A date: ": "Ein Datum: ",
+		"Locale: ": "Lokalisierung: "
+	});
+	
+  var locales = ["de_DE", "de_AU", "en_US", "ar", "zh"];
+  
+  qx.locale.manager.Manager.getInstance().setLocale(locales[0]);
+
+  qx.core.Init.getInstance().defineMain(function()
+  {
+    var d = qx.ui.core.ClientDocument.getInstance();
+
+
+    // DateChooserButton
+		var hb1 = new qx.ui.layout.HorizontalBoxLayout(); hb1.set({top:51, left:20, spacing:3});
+    var l1 = new qx.ui.basic.Label(this.tr("A date: "));
+    var tf1 = new qx.ui.form.TextField();
+    var dcb1 = new qx.ui.component.DateChooserButton(); dcb1.set({ width: 20 });
+    dcb1.setTargetWidget(tf1);
+    hb1.add(l1, tf1, dcb1);
+    d.add(hb1);
+    
+		var hb2 = new qx.ui.layout.HorizontalBoxLayout(); hb2.set({top:75, left:20, spacing:3});
+    var l2 = new qx.ui.basic.Label(this.tr("Locale: "));
+    var select = new qx.ui.form.ComboBox();
+		for (var i=0; i<locales.length; i++) {
+	    select.add(new qx.ui.form.ListItem(locales[i]));
+	  }
+	  select.setSelected(select.getList().getFirstChild());
+	  select.addEventListener("changeSelected", function(e) {
+			var locale = e.getData().getLabel();
+	  	qx.locale.manager.Manager.getInstance().setLocale(locale);
+	  });
+	  hb2.add(l2, select);
+	  d.add(hb2);
+	  
+    
+  });
+  </script>
+</body>
+</html>
