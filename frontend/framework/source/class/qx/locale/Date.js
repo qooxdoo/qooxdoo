@@ -272,10 +272,9 @@ qx.Class.getWeekStart = function(locale) {
     "NG": 0,
     "TJ": 0
   };
-
   var territory = qx.locale.Date._getTerritory(locale);
   // default is monday
-  return weekStart[territory] || 1;
+  return weekStart[territory] != null ? weekStart[territory] : 1;
 };
 
 
@@ -315,7 +314,7 @@ qx.Class.getWeekendStart = function(locale) {
   };
   var territory = qx.locale.Date._getTerritory(locale);
   // default is saturday
-  return weekendStart[territory] || 6;
+  return weekendStart[territory] != null ? weekendStart[territory] : 6;
 };   
 
 
@@ -355,7 +354,7 @@ qx.Class.getWeekendEnd = function(locale) {
   }
   var territory = qx.locale.Date._getTerritory(locale);
   // default is sunday
-  return weekendEnd[territory] || 0;
+  return weekendEnd[territory] != null ? weekendEnd[territory] : 0;
 };
 
 
