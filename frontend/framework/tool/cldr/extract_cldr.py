@@ -195,7 +195,7 @@ def parseCldrFile(filename, outputDirectory=None):
 	#print code
 	if outputDirectory != None:
 		outfile = os.path.join(outputDirectory, locale + ".js");
-		print "writing %s ..." % outfile
+		# print "writing %s ..." % outfile
 		open(outfile, "w").write(code)
 	else:
 		print code
