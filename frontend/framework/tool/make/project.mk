@@ -49,7 +49,7 @@ endif
 # Locales to use (space separated list)
 #
 ifndef PROJECT_LOCALES
-  PROJECT_LOCALES = en fr de es
+  #PROJECT_LOCALES = en fr de es
 endif
 
 
