@@ -22,3 +22,5 @@ realclean: info-realclean exec-realclean
 distclean: info-distclean exec-distclean
 
 publish: build info-publish exec-publish
+
+debug: info-debug exec-tokenizer exec-treegenerator

@@ -6,36 +6,30 @@
 # Location of your qooxdoo distribution
 # Could be relative from this location or absolute
 #
-QOOXDOO_PATH = ../../..
+QOOXDOO_PATH = ../..
 
 #
 # The same as above, but from the webserver point of view
 # Starting point is the application HTML file of the source folder.
 # In most cases just add a "/.." compared to above
 #
-QOOXDOO_URI = ../../../..
+QOOXDOO_URI = ../../..
 
 #
 # Namespace of your application e.g. custom
 #
-PROJECT_NAMESPACE = custom
+PROJECT_NAMESPACE = qx
 
 #
 # Titles used in your API viewer and during the build process
 #
-PROJECT_MAKE_TITLE = CUSTOM
-PROJECT_API_TITLE = Custom
+PROJECT_MAKE_TITLE = FRAMEWORK
+PROJECT_API_TITLE = qooxdoo
 
 #
-# Additional files (space separated list)
+# Include all stuff into build
 #
-PROJECT_FILES = index.html
-
-#
-# Locales to build (space separated list)
-#
-PROJECT_LOCALES =
-
+PROJECT_COMPLETE_BUILD = true
 
 
 
