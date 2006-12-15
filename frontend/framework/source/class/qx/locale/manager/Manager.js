@@ -33,6 +33,8 @@ function() {
 /** current locale. locale is an language code like de, de_AT, en, en_GB, fr, ... */
 qx.OO.addProperty({ name: "locale"});
 
+qx.Proto._defaultLanguage = "C";
+
 
 /**
  * Get the language code of the currnt locale
@@ -115,7 +117,7 @@ qx.Proto.addTranslation = function(languageCode, translationMap) {
  * @param varargs (object) variable number of argumes applied to the format string
  * @return (qx.locale.manager.LocalizedString)
  */
-qx.Proto.tr = function(messageId, varargs)
+qx.Class.tr = function(messageId, varargs)
 {
   var args = qx.lang.Array.fromArguments(arguments);
   args.splice(0, 1);
@@ -137,7 +139,7 @@ qx.Proto.tr = function(messageId, varargs)
  * @param varargs (object) variable number of argumes applied to the format string
  * @return (qx.locale.manager.LocalizedString)
  */
-qx.Proto.trn = function(singularMessageId, pluralMessageId, count, varargs)
+qx.Class.trn = function(singularMessageId, pluralMessageId, count, varargs)
 {
   var args = qx.lang.Array.fromArguments(arguments);
   args.splice(0, 3);
@@ -165,7 +167,7 @@ qx.Proto.trn = function(singularMessageId, pluralMessageId, count, varargs)
  * @param varargs (object) variable number of argumes applied to the format string
  * @return (qx.locale.manager.LocalizedString)
  */
-qx.Proto.trc = function(hint, messageId, varargs)
+qx.Class.trc = function(hint, messageId, varargs)
 {
   var args = qx.lang.Array.fromArguments(arguments);
   args.splice(0, 2);
@@ -174,13 +176,15 @@ qx.Proto.trc = function(hint, messageId, varargs)
 }
 
 
-
-
-
-
-
-
-qx.Proto._defaultLanguage = "C";
+/**
+ * Mark the message for translation but return the original message.
+ * 
+ * @param messageId (string)
+ * @return (string) messageId
+ */
+qx.Class.marktr = function(messageId) {
+  return messageId;
+};
 
 
 /**
