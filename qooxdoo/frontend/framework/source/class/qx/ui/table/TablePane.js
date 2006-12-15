@@ -34,7 +34,7 @@ function(paneScroller) {
 
   this._paneScroller = paneScroller;
 
-  this.debug("USE_ARRAY_JOIN:" + qx.ui.table.TablePane.USE_ARRAY_JOIN + ", USE_TABLE:" + qx.ui.table.TablePane.USE_TABLE);
+  // this.debug("USE_ARRAY_JOIN:" + qx.ui.table.TablePane.USE_ARRAY_JOIN + ", USE_TABLE:" + qx.ui.table.TablePane.USE_TABLE);
 
   this._lastColCount = 0;
   this._lastRowCount = 0;
