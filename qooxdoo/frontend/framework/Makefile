@@ -26,10 +26,6 @@ PROJECT_NAMESPACE = qx
 PROJECT_MAKE_TITLE = FRAMEWORK
 PROJECT_API_TITLE = qooxdoo
 
-#
-# Include all stuff into build
-#
-PROJECT_COMPLETE_BUILD = true
 
 
 
@@ -40,9 +36,9 @@ PROJECT_COMPLETE_BUILD = true
 ####################################################################################
 
 #
-# Please take a look at $(QOOXDOO)/frontend/framework/tool/make/project.mk
-# for more options
+# Include all stuff into build
 #
+PROJECT_COMPLETE_BUILD = true
 
 
 
