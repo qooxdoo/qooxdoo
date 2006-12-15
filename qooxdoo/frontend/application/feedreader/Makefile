@@ -226,7 +226,7 @@ fix-build-rights:
 # GETTEXT TARGETS
 ###################################################################################
 
-include locale.mk
+include $(FRAMEWORK)/tool/make/translate.mk
 
 
 
