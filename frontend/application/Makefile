@@ -25,7 +25,7 @@ distclean:
 	  make -C $$DIR distclean || exit 1; \
 	done
 
-sync:
+publish:
 	@for DIR in $(TARGETS); do \
-	  make -C $$DIR sync || exit 1; \
+	  make -C $$DIR publish || exit 1; \
 	done
