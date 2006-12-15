@@ -64,7 +64,7 @@ def read(filePath, encoding="utf_8"):
 
 def storeCache(cachePath, data):
   try:
-    cPickle.dump(data, open(cachePath, 'w'), 2)
+    cPickle.dump(data, open(cachePath, 'wb'), 2)
 
   except EOFError or PickleError or PicklingError:
     print "  * Could not store cache to %s" % cachePath
@@ -73,7 +73,7 @@ def storeCache(cachePath, data):
 
 def readCache(cachePath):
   try:
-    return cPickle.load(open(cachePath))
+    return cPickle.load(open(cachePath, 'rb'))
 
   except EOFError or PickleError or UnpicklingError:
     print "  * Could not read cache from %s" % cachePath
