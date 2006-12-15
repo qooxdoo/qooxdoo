@@ -20,3 +20,5 @@ help: info-help
 clean: info-clean exec-clean
 realclean: info-realclean exec-realclean
 distclean: info-distclean exec-distclean
+
+publish: build info-publish exec-publish

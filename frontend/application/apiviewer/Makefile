@@ -60,6 +60,10 @@ PROJECT_COMPLETE_SOURCE = false
 PROJECT_LINEBREAKS_BUILD = false
 PROJECT_LINEBREAKS_SOURCE = false
 
+#
+# qooxdoo.org sync
+#
+PROJECT_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/api
 
 
 
