@@ -28,7 +28,7 @@
 #embed(icon/16/reload.png)
 #embed(icon/16/locale.png)
 #embed(icon/16/help.png)
-#load(feedreader.locale.de)
+#load(feedreader.translation.de)
 
 ************************************************************************ */
 
