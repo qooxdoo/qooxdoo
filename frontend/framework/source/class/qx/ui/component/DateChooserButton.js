@@ -51,6 +51,7 @@ qx.OO.defineClass("qx.ui.component.DateChooserButton", qx.ui.form.Button, functi
   // create dateFormat instance
   //
   this._dateFormat = new qx.util.format.DateFormat(qx.locale.Date.getDateFormat("short"));
+  qx.locale.manager.Manager.getInstance().addEventListener("changeLocale", this._changeLocale, this);
 
   if (vTargetWidget) {
     this.setTargetWidget(vTargetWidget);
@@ -230,6 +231,33 @@ qx.Proto._executeHandler = function(e)
   this._chooser.setDate(date);
   this._chooserWindow.open();
 };
+
+
+/**
+ * Handle locale changes. Update the date format of the target widget.
+ * 
+ * @param e {Event} the received event
+ */
+qx.Proto._changeLocale = function(e) {
+  if (qx.util.Validation.isInvalidObject(this.getTargetWidget())) {
+    throw new error("TargetWidget must be set which must be an instance of qx.ui.core.Widget and has setValue and getValue method.");
+  }
+
+  var date = null;
+
+  try {
+    date = this._dateFormat.parse(this.getTargetWidget().getValue());
+  } catch(ex) {}
+  
+  if (!date) {
+    return;  
+  }
+  
+  this._chooser.setDate(date);
+  this._dateFormat = new qx.util.format.DateFormat(qx.locale.Date.getDateFormat("short"));
+  this.getTargetWidget().setValue(this._dateFormat.format(date));
+};
+
 
 /**
  * Event handler for keydown events of the chooser window. Closes the window on hitting the 'Escape' key.

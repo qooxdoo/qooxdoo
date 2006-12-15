@@ -140,7 +140,7 @@ qx.Proto.format = function(num) {
   str += postfix;
 
   return str;
-}
+};
 
 
 /**
@@ -181,7 +181,7 @@ qx.Proto.parse = function(str) {
     asStr += "." + fractionStr;
   }
   return parseFloat(asStr);
-}
+};
 
 
 /**
@@ -195,7 +195,7 @@ qx.Class.getInstance = function() {
     NumberFormat._instance = new NumberFormat();
   }
   return NumberFormat._instance;
-}
+};
 
 
 /**
@@ -210,10 +210,4 @@ qx.Class.getIntegerInstance = function() {
     NumberFormat._integerInstance.setMaximumFractionDigits(0);
   }
   return NumberFormat._integerInstance;
-}
-
-
-/** {string} The decimal separator. */
-
-/** {string} The thousand grouping separator. */
-qx.Class.GROUPING_SEPARATOR = qx.locale.Number.getGroupSeperator()+"";
+};

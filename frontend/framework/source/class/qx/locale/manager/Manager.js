@@ -26,14 +26,14 @@ function() {
   qx.manager.object.ObjectManager.call(this);
 
   this._translationCatalog = {};
-  this.setLocale(qx.sys.Client.getInstance().getLocale() || this._defaultLanguage);
+  this.setLocale(qx.sys.Client.getInstance().getLocale() || this._defaultLocale);
 });
 
 
 /** current locale. locale is an language code like de, de_AT, en, en_GB, fr, ... */
 qx.OO.addProperty({ name: "locale"});
 
-qx.Proto._defaultLanguage = "C";
+qx.Proto._defaultLocale = "C";
 
 
 /**
@@ -214,8 +214,8 @@ qx.Proto.translate = function(messageId, args, locale)
     txt = this._translationCatalog[language][messageId];
   }
 
-  if (!txt && this._translationCatalog[this._defaultLanguage]) {
-    txt = this._translationCatalog[this._defaultLanguage][messageId];
+  if (!txt && this._translationCatalog[this._defaultLocale]) {
+    txt = this._translationCatalog[this._defaultLocale][messageId];
   }
 
   if (!txt) {
