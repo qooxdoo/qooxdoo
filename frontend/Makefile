@@ -40,40 +40,38 @@ all: build
 
 build:
 	@$(MAKE) -C framework build
-	@$(MAKE) -C apiviewer build
-	@$(MAKE) -C demo build
+	@$(MAKE) -C application build
 
 source:
 	@$(MAKE) -C framework source
-	@$(MAKE) -C apiviewer source
-	@$(MAKE) -C demo source
+	@$(MAKE) -C application source
 
 apiviewer-build:
-	@$(MAKE) -C apiviewer build
+	@$(MAKE) -C application/apiviewer build
 
-demo-build:
-	@$(MAKE) -C demo build
+sample-build:
+	@$(MAKE) -C application/sample build
 
 framework-build:
 	@$(MAKE) -C framework build
 
 apiviewer-source:
-	@$(MAKE) -C apiviewer source
+	@$(MAKE) -C application/apiviewer source
 
-demo-source:
-	@$(MAKE) -C demo source
+sample-source:
+	@$(MAKE) -C application/sample source
 
 framework-source:
 	@$(MAKE) -C framework source
 
 skeleton-archives:
-	@$(MAKE) -C skeleton archives
+	@$(MAKE) -C application/skeleton archives
 
-demo-sync:
-	@$(MAKE) -C demo sync
+sample-sync:
+	@$(MAKE) -C application/sample sync
 
 apiviewer-sync:
-	@$(MAKE) -C apiviewer sync
+	@$(MAKE) -C application/apiviewer sync
 
 framework-debug:
 	@$(MAKE) -C framework debug
@@ -88,20 +86,16 @@ clean:
 	@echo
 	@echo "  CLEANUP OF GENERATED FILES"
 	@echo "----------------------------------------------------------------------------"
-	@$(MAKE) -C apiviewer clean
-	@$(MAKE) -C demo clean
+	@$(MAKE) -C application clean
 	@$(MAKE) -C framework clean
-	@$(MAKE) -C skeleton clean
 
 realclean:
 	@echo
 	@echo "  CLEANUP OF GENERATED FILES (REAL)"
 	@echo "----------------------------------------------------------------------------"
 	@echo "  * Deleting files..."
-	@$(MAKE) -C apiviewer realclean
-	@$(MAKE) -C demo realclean
+	@$(MAKE) -C application realclean
 	@$(MAKE) -C framework realclean
-	@$(MAKE) -C skeleton realclean
 
 	@echo "  * Deleting release temp data..."
 	@$(NICE_CALL) rm -rf release/temp
@@ -111,10 +105,8 @@ distclean:
 	@echo "  CLEANUP OF GENERATED FILES (DIST)"
 	@echo "----------------------------------------------------------------------------"
 	@echo "  * Deleting files..."
-	@$(MAKE) -C apiviewer distclean
-	@$(MAKE) -C demo distclean
+	@$(MAKE) -C application distclean
 	@$(MAKE) -C framework distclean
-	@$(MAKE) -C skeleton distclean
 
 	@echo "  * Deleting cache..."
 	@$(NICE_CALL) rm -rf .cache
@@ -150,10 +142,10 @@ release-build-sync:
 	@find ../ -maxdepth 1 -type f -name "[A-Z]*" -exec cp -f {} $(RELEASE_BUILD_UNIX) \;
 
 	@echo "  * Synchronizing Unix build folders..."
-	@mkdir -p $(RELEASE_BUILD_UNIX)/frontend/apiviewer
-	$(RSYNC_BUILD_EXEC) apiviewer/build/* $(RELEASE_BUILD_UNIX)/frontend/apiviewer
-	@mkdir -p $(RELEASE_BUILD_UNIX)/frontend/demo
-	$(RSYNC_BUILD_EXEC) demo/build/* $(RELEASE_BUILD_UNIX)/frontend/demo
+	@mkdir -p $(RELEASE_BUILD_UNIX)/frontend/application/apiviewer
+	$(RSYNC_BUILD_EXEC) application/apiviewer/build/* $(RELEASE_BUILD_UNIX)/frontend/application/apiviewer
+	@mkdir -p $(RELEASE_BUILD_UNIX)/frontend/application/sample
+	$(RSYNC_BUILD_EXEC) application/sample/build/* $(RELEASE_BUILD_UNIX)/frontend/application/sample
 	@mkdir -p $(RELEASE_BUILD_UNIX)/frontend/framework
 	$(RSYNC_BUILD_EXEC) framework/build/* $(RELEASE_BUILD_UNIX)/frontend/framework
 
@@ -169,10 +161,10 @@ release-build-sync:
 	@find ../ -maxdepth 1 -type f -name "[A-Z]*" -exec cp -f {} $(RELEASE_BUILD_DOS) \;
 
 	@echo "  * Synchronizing DOS build folders..."
-	@mkdir -p $(RELEASE_BUILD_DOS)/frontend/apiviewer
-	$(RSYNC_BUILD_EXEC) apiviewer/build/* $(RELEASE_BUILD_DOS)/frontend/apiviewer
-	@mkdir -p $(RELEASE_BUILD_DOS)/frontend/demo
-	$(RSYNC_BUILD_EXEC) demo/build/* $(RELEASE_BUILD_DOS)/frontend/demo
+	@mkdir -p $(RELEASE_BUILD_DOS)/frontend/application/apiviewer
+	$(RSYNC_BUILD_EXEC) application/apiviewer/build/* $(RELEASE_BUILD_DOS)/frontend/application/apiviewer
+	@mkdir -p $(RELEASE_BUILD_DOS)/frontend/application/sample
+	$(RSYNC_BUILD_EXEC) application/sample/build/* $(RELEASE_BUILD_DOS)/frontend/application/sample
 	@mkdir -p $(RELEASE_BUILD_DOS)/frontend/framework
 	$(RSYNC_BUILD_EXEC) framework/build/* $(RELEASE_BUILD_DOS)/frontend/framework
 
@@ -211,18 +203,18 @@ release-sdk-sync:
 	@echo "  * Copying Makefiles..."
 	@mkdir -p $(RELEASE_SDK_UNIX)/frontend
 	@cp -f Makefile $(RELEASE_SDK_UNIX)/frontend
-	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/apiviewer
-	@cp -f apiviewer/Makefile $(RELEASE_SDK_UNIX)/frontend/apiviewer
-	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/demo
-	@cp -f demo/Makefile $(RELEASE_SDK_UNIX)/frontend/demo
+	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/application/apiviewer
+	@cp -f application/apiviewer/Makefile $(RELEASE_SDK_UNIX)/frontend/application/apiviewer
+	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/application/sample
+	@cp -f application/sample/Makefile $(RELEASE_SDK_UNIX)/frontend/application/sample
 	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/framework
 	@cp -f framework/Makefile $(RELEASE_SDK_UNIX)/frontend/framework
 
 	@echo "  * Synchronizing source folders..."
-	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/apiviewer/source
-	$(RSYNC_SDK_EXEC) apiviewer/source/* $(RELEASE_SDK_UNIX)/frontend/apiviewer/source
-	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/demo/source
-	$(RSYNC_SDK_EXEC) demo/source/* $(RELEASE_SDK_UNIX)/frontend/demo/source
+	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/application/apiviewer/source
+	$(RSYNC_SDK_EXEC) application/apiviewer/source/* $(RELEASE_SDK_UNIX)/frontend/application/apiviewer/source
+	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/application/sample/source
+	$(RSYNC_SDK_EXEC) application/sample/source/* $(RELEASE_SDK_UNIX)/frontend/application/sample/source
 	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/framework/source
 	$(RSYNC_SDK_EXEC) framework/source/* $(RELEASE_SDK_UNIX)/frontend/framework/source
 
@@ -231,9 +223,9 @@ release-sdk-sync:
 	$(RSYNC_BUILD_EXEC) skeleton/build/*.tar.gz $(RELEASE_SDK_UNIX)/frontend/skeleton
 
 	@echo "  * Synchronizing tool folders..."
-	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/demo/tool
-	$(RSYNC_SDK_EXEC) demo/tool/* $(RELEASE_SDK_UNIX)/frontend/demo/tool
-	@$(NICE_CALL) find $(RELEASE_SDK_UNIX)/frontend/demo/tool -name "*.sh" -o -name "*.py" | xargs chmod a+rx
+	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/application/sample/tool
+	$(RSYNC_SDK_EXEC) application/sample/tool/* $(RELEASE_SDK_UNIX)/frontend/application/sample/tool
+	@$(NICE_CALL) find $(RELEASE_SDK_UNIX)/frontend/application/sample/tool -name "*.sh" -o -name "*.py" | xargs chmod a+rx
 	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/framework/tool
 	$(RSYNC_SDK_EXEC) framework/tool/* $(RELEASE_SDK_UNIX)/frontend/framework/tool
 	@$(NICE_CALL) find $(RELEASE_SDK_UNIX)/frontend/framework/tool -name "*.sh" -o -name "*.py" | xargs chmod a+rx
@@ -252,18 +244,18 @@ release-sdk-sync:
 	@echo "  * Copying Makefiles..."
 	@mkdir -p $(RELEASE_SDK_DOS)/frontend
 	@cp -f Makefile $(RELEASE_SDK_DOS)/frontend
-	@mkdir -p $(RELEASE_SDK_DOS)/frontend/apiviewer
-	@cp -f apiviewer/Makefile $(RELEASE_SDK_DOS)/frontend/apiviewer
-	@mkdir -p $(RELEASE_SDK_DOS)/frontend/demo
-	@cp -f demo/Makefile $(RELEASE_SDK_DOS)/frontend/demo
+	@mkdir -p $(RELEASE_SDK_DOS)/frontend/application/apiviewer
+	@cp -f application/apiviewer/Makefile $(RELEASE_SDK_DOS)/frontend/application/apiviewer
+	@mkdir -p $(RELEASE_SDK_DOS)/frontend/application/sample
+	@cp -f application/sample/Makefile $(RELEASE_SDK_DOS)/frontend/application/sample
 	@mkdir -p $(RELEASE_SDK_DOS)/frontend/framework
 	@cp -f framework/Makefile $(RELEASE_SDK_DOS)/frontend/framework
 
 	@echo "  * Synchronizing source folders..."
-	@mkdir -p $(RELEASE_SDK_DOS)/frontend/apiviewer/source
-	$(RSYNC_SDK_EXEC) apiviewer/source/* $(RELEASE_SDK_DOS)/frontend/apiviewer/source
-	@mkdir -p $(RELEASE_SDK_DOS)/frontend/demo/source
-	$(RSYNC_SDK_EXEC) demo/source/* $(RELEASE_SDK_DOS)/frontend/demo/source
+	@mkdir -p $(RELEASE_SDK_DOS)/frontend/application/apiviewer/source
+	$(RSYNC_SDK_EXEC) application/apiviewer/source/* $(RELEASE_SDK_DOS)/frontend/application/apiviewer/source
+	@mkdir -p $(RELEASE_SDK_DOS)/frontend/application/sample/source
+	$(RSYNC_SDK_EXEC) application/sample/source/* $(RELEASE_SDK_DOS)/frontend/application/sample/source
 	@mkdir -p $(RELEASE_SDK_DOS)/frontend/framework/source
 	$(RSYNC_SDK_EXEC) framework/source/* $(RELEASE_SDK_DOS)/frontend/framework/source
 
@@ -272,9 +264,9 @@ release-sdk-sync:
 	$(RSYNC_BUILD_EXEC) skeleton/build/*.zip $(RELEASE_SDK_DOS)/frontend/skeleton
 
 	@echo "  * Synchronizing tool folders..."
-	@mkdir -p $(RELEASE_SDK_DOS)/frontend/demo/tool
-	$(RSYNC_SDK_EXEC) demo/tool/* $(RELEASE_SDK_DOS)/frontend/demo/tool
-	@$(NICE_CALL) find $(RELEASE_SDK_DOS)/frontend/demo/tool -name "*.sh" -o -name "*.py" | xargs chmod a+rx
+	@mkdir -p $(RELEASE_SDK_DOS)/frontend/application/sample/tool
+	$(RSYNC_SDK_EXEC) application/sample/tool/* $(RELEASE_SDK_DOS)/frontend/application/sample/tool
+	@$(NICE_CALL) find $(RELEASE_SDK_DOS)/frontend/application/sample/tool -name "*.sh" -o -name "*.py" | xargs chmod a+rx
 	@mkdir -p $(RELEASE_SDK_DOS)/frontend/framework/tool
 	$(RSYNC_SDK_EXEC) framework/tool/* $(RELEASE_SDK_DOS)/frontend/framework/tool
 	@$(NICE_CALL) find $(RELEASE_SDK_DOS)/frontend/framework/tool -name "*.sh" -o -name "*.py" | xargs chmod a+rx
