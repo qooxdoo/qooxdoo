@@ -26,8 +26,8 @@
 /**
  * A table.
  *
- * @param tableModel {qx.ui.table.TableModel} The table
- *    model to read the data from.
+ * @param tableModel {qx.ui.table.TableModel, null} The table model to read the
+ *        data from.
  */
 qx.OO.defineClass("qx.ui.table.Table", qx.ui.layout.VerticalBoxLayout,
 function(tableModel) {
@@ -52,10 +52,9 @@ function(tableModel) {
 
   this.setSelectionModel(new qx.ui.table.SelectionModel);
   this.setTableColumnModel(new qx.ui.table.TableColumnModel);
-  this.setTableModel(tableModel);
-
-  // Update the status bar
-  this._updateStatusBar();
+  if (tableModel != null) {
+    this.setTableModel(tableModel);
+  }
 
   // create the main meta column
   this.setMetaColumnCounts([ -1 ]);
@@ -148,6 +147,9 @@ qx.Proto._modifyTableModel = function(propValue, propOldValue, propData) {
   }
   propValue.addEventListener(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
   propValue.addEventListener(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
+
+  // Update the status bar
+  this._updateStatusBar();
 
   return true;
 }
