@@ -204,17 +204,21 @@ exec-files-build:
 	@echo "  COPYING OF FILES"
 	@$(CMD_LINE)
 	@echo "  * Copying files..."
+	@mkdir -p $(PROJECT_BUILD_PATH)
 	@for file in $(PROJECT_FILES); do \
-    cp -f $(PROJECT_SOURCE_PATH)/$$file $(PROJECT_BUILD_PATH)/$$file; \
-  done	
+		echo "    - $$file"; \
+		cp -a $(PROJECT_SOURCE_PATH)/$$file $(PROJECT_BUILD_PATH)/$$file; \
+	done	
 
 exec-files-api:
 	@echo
 	@echo "  COPYING OF FILES"
 	@$(CMD_LINE)
 	@echo "  * Copying files..."
+	@mkdir -p $(PROJECT_API_PATH)
 	@for file in $(API_FILES); do \
-    cp -f $(API_SOURCE_PATH)/$$file $(PROJECT_API_PATH)/$$file; \
+		echo "    - $$file"; \
+		cp -a $(API_SOURCE_PATH)/$$file $(PROJECT_API_PATH)/$$file; \
   done
 
 

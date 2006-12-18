@@ -100,11 +100,10 @@ ifndef PROJECT_DEBUG_PATH
 endif
 
 #
-# Relation from HTML file in source folder to source directory. 
-# Normally keep this the default "."
+# Relation from HTML file to the top level directory (source or build). 
 #
-ifndef PROJECT_SOURCE_URI
-  PROJECT_SOURCE_URI = .
+ifndef PROJECT_PAGE_TO_TOPLEVEL
+  PROJECT_PAGE_TO_TOPLEVEL = .
 endif
 
 #
@@ -300,16 +299,16 @@ COMPUTED_CLASS_PATH = --script-input $(FRAMEWORK_SOURCE_PATH)/class \
   $(PROJECT_ADDITIONAL_CLASS_PATH)
   
 COMPUTED_CLASS_URI = --source-script-path $(FRAMEWORK_SOURCE_URI)/class \
-  --source-script-path $(PROJECT_SOURCE_URI)/$(PROJECT_CLASS_FOLDERNAME) \
+  --source-script-path $(PROJECT_PAGE_TO_TOPLEVEL)/$(PROJECT_CLASS_FOLDERNAME) \
   $(PROJECT_ADDITIONAL_CLASS_URI)
   
 COMPUTED_RESOURCE = --copy-resources \
   --resource-input $(FRAMEWORK_SOURCE_PATH)/resource \
   --resource-output $(PROJECT_BUILD_PATH)/resource/qx \
-  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:resource/qx \
+  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:$(PROJECT_PAGE_TO_TOPLEVEL)/resource/qx \
   --resource-input $(PROJECT_SOURCE_PATH)/resource \
   --resource-output $(PROJECT_BUILD_PATH)/resource/$(PROJECT_NAMESPACE) \
-  --define-runtime-setting $(PROJECT_NAMESPACE).Application.resourceUri:resource/$(PROJECT_NAMESPACE) \
+  --define-runtime-setting $(PROJECT_NAMESPACE).Application.resourceUri:$(PROJECT_PAGE_TO_TOPLEVEL)/resource/$(PROJECT_NAMESPACE) \
   $(PROJECT_ADDITIONAL_RESOURCE)
   
   
