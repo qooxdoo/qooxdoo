@@ -34,7 +34,6 @@ internal-realclean: internal-clean
 	@$(CMD_REMOVE) $(PROJECT_SOURCE_PATH)/$(PROJECT_SCRIPT_FOLDERNAME)
 	@$(CMD_REMOVE) $(PROJECT_BUILD_PATH)
 	@$(CMD_REMOVE) $(PROJECT_API_PATH)
-	@$(CMD_REMOVE) $(FRAMEWORK_LOCALES_PATH)
 
 internal-distclean: internal-realclean
 	@$(CMD_FIND) . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
