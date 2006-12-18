@@ -249,12 +249,14 @@ qx.Proto._changeLocale = function(e) {
     date = this._dateFormat.parse(this.getTargetWidget().getValue());
   } catch(ex) {}
 
+
+  this._dateFormat = new qx.util.format.DateFormat(qx.locale.Date.getDateFormat("short"));
+
   if (!date) {
     return;
   }
 
   this._chooser.setDate(date);
-  this._dateFormat = new qx.util.format.DateFormat(qx.locale.Date.getDateFormat("short"));
   this.getTargetWidget().setValue(this._dateFormat.format(date));
 };
 
