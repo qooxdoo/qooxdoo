@@ -791,6 +791,21 @@ qx.Proto.dispose = function()
   var vDoc = qx.ui.core.ClientDocument.getInstance();
   vDoc.removeEventListener("windowblur", this._onwindowblur, this);
 
+  if (this._popup)
+  {
+    this._popup.removeEventListener("appear", this._onpopupappear, this);
+    if (!qx.core.Object._disposeAll) {
+      this._popup.setParent(null);
+      // If this is not a page unload, we have to reset the parent. Otherwise,
+      // disposing a ComboBox that was clicked at least once would mean that
+      // the popup is still referenced by the parent. When an application
+      // repeatedly creates and disposes ComboBoxes, this would mean a memleak
+      // (and it would also mess with other things like focus management).
+    }
+    this._popup.dispose();
+    this._popup = null;
+  }
+
   if (this._list)
   {
     this._list.dispose();
@@ -801,13 +816,6 @@ qx.Proto.dispose = function()
   {
     this._manager.dispose();
     this._manager = null;
-  }
-
-  if (this._popup)
-  {
-    this._popup.removeEventListener("appear", this._onpopupappear, this);
-    this._popup.dispose();
-    this._popup = null;
   }
 
   if (this._field)
