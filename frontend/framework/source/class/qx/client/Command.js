@@ -20,6 +20,7 @@
 /* ************************************************************************
 
 #module(ui_core)
+#require(qx.locale.Key)
 
 ************************************************************************ */
 
@@ -294,11 +295,11 @@ qx.Proto.toString = function()
   var vString = [];
 
   for (var modifier in this._modifier) {
-    vString.push(this.tr(modifier).toString());
+    vString.push(qx.locale.Key.getKeyName("short", modifier));
   }
 
   if (key) {
-    vString.push(this.tr(key));
+    vString.push(qx.locale.Key.getKeyName("short", key));
   }
   /*
   if (vShortcut != null) {
