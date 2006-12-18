@@ -149,13 +149,16 @@ qx.Proto.main = function(e)
   mb_de.setUserData("locale", "de");
   var mb_en = new qx.ui.menu.RadioButton(this.tr("English"), null, locale == "en");
   mb_en.setUserData("locale", "en");
+  var mb_tr = new qx.ui.menu.RadioButton(this.tr("Turkish"), null, locale == "tr");
+  mb_tr.setUserData("locale", "tr");
   var lang_menu = new qx.ui.menu.Menu();
-  var radioManager = new qx.manager.selection.RadioManager("lang", [mb_de, mb_en]);
+  var radioManager = new qx.manager.selection.RadioManager("lang", [mb_de, mb_en, mb_tr]);
   radioManager.addEventListener("changeSelected", function(e) {
     var lang = e.getData().getUserData("locale");
-    qx.locale.manager.Manager.getInstance().setLocale(lang);
+    this.debug("lang:" + lang);
+	qx.locale.manager.Manager.getInstance().setLocale(lang);
   });
-  lang_menu.add(mb_de, mb_en);
+  lang_menu.add(mb_de, mb_en, mb_tr);
   lang_menu.addToDocument();
   toolBar.add(new qx.ui.toolbar.MenuButton("", lang_menu, "icon/16/locale.png"));
 
