@@ -72,25 +72,25 @@ qx.Proto._hideTimeStamp = (new Date(0)).valueOf();
  * The minimum offset to the left of the page too keep when
  * {@link #restrictToPageOnOpen} is true (in pixels).
  */
-qx.Settings.setDefault("restrictToPageLeft", "5");
+qx.Settings.setDefault("restrictToPageLeft", "0");
 
 /**
  * The minimum offset to the right of the page too keep when
  * {@link #restrictToPageOnOpen} is true (in pixels).
  */
-qx.Settings.setDefault("restrictToPageRight", "5");
+qx.Settings.setDefault("restrictToPageRight", "0");
 
 /**
  * The minimum offset to the top of the page too keep when
  * {@link #restrictToPageOnOpen} is true (in pixels).
  */
-qx.Settings.setDefault("restrictToPageTop", "5");
+qx.Settings.setDefault("restrictToPageTop", "0");
 
 /**
  * The minimum offset to the bottom of the page too keep when
  * {@link #restrictToPageOnOpen} is true (in pixels).
  */
-qx.Settings.setDefault("restrictToPageBottom", "5");
+qx.Settings.setDefault("restrictToPageBottom", "0");
 
 
 
