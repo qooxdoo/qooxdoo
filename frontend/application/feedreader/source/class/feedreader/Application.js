@@ -46,6 +46,10 @@ function () {
 qx.OO.addProperty({name: "feeds"});
 qx.OO.addProperty({name: "selectedFeed"});
 
+qx.Settings.setDefault("resourceUri", "./resource");
+
+
+
 /*
 ---------------------------------------------------------------------------
   METHODS
@@ -56,19 +60,19 @@ if (qx.sys.Client.getInstance().getRunsLocally())
 {
   qx.Class._feedDesc = [
     {
-      url: "./resource/feeds/qooxdoo-news.xml",
+      url: "feedreader/feeds/qooxdoo-news.xml",
       name: "qooxdoo-blog"
     },
     {
-      url: "./resource/feeds/qooxdoo-blog.xml",
+      url: "feedreader/feeds/qooxdoo-blog.xml",
       name: "qooxdoo-news"
     },
     {
-      url: "./resource/feeds/ajaxian.xml",
+      url: "feedreader/feeds/ajaxian.xml",
       name: "ajaxian"
     },
     {
-      url: "./resource/feeds/safari.xml",
+      url: "feedreader/feeds/safari.xml",
       name: "Surfin' Safari"
     }
   ];
@@ -77,19 +81,19 @@ else
 {
   qx.Class._feedDesc = [
     {
-      url: "./resource/proxy/proxy.php?proxy=" + encodeURIComponent("http://feeds.feedburner.com/qooxdoo/blog/content"),
+      url: "feedreader/proxy/proxy.php?proxy=" + encodeURIComponent("http://feeds.feedburner.com/qooxdoo/blog/content"),
       name: "qooxdoo-blog"
     },
     {
-      url: "./resource/proxy/proxy.php?proxy=" + encodeURIComponent("http://feeds.feedburner.com/qooxdoo/news/content"),
+      url: "feedreader/proxy/proxy.php?proxy=" + encodeURIComponent("http://feeds.feedburner.com/qooxdoo/news/content"),
       name: "qooxdoo-news"
     },
     {
-      url: "./resource/proxy/proxy.php?proxy=" + encodeURIComponent("http://feeds.feedburner.com/ajaxian"),
+      url: "feedreader/proxy/proxy.php?proxy=" + encodeURIComponent("http://feeds.feedburner.com/ajaxian"),
       name: "ajaxian"
     },
     {
-      url: "./resource/proxy/proxy.php?proxy=" + encodeURIComponent("http://webkit.org/blog/?feed=rss2"),
+      url: "feedreader/proxy/proxy.php?proxy=" + encodeURIComponent("http://webkit.org/blog/?feed=rss2"),
       name: "Surfin' Safari"
     }
   ];
@@ -97,7 +101,11 @@ else
 
 qx.Proto.initialize = function(e)
 {
-  qx.manager.object.AliasManager.getInstance().add("custom", "./resource");
+  // Define alias for custom resource path
+  qx.manager.object.AliasManager.getInstance().add("feedreader", qx.Settings.getValueOfClass("feedreader.Application", "resourceUri"));
+
+  // Include CSS file
+  qx.dom.StyleSheet.includeFile(qx.manager.object.AliasManager.getInstance().resolvePath("feedreader/css/reader.css"));
 };
 
 qx.Proto.main = function(e)
@@ -212,7 +220,7 @@ qx.Proto.main = function(e)
 
 
 qx.Proto.fetchFeedDesc = function() {
-  var req = new qx.io.remote.Request("./resource/feeds/febo-feeds.opml.xml", "GET", "application/xml");
+  var req = new qx.io.remote.Request(qx.manager.object.AliasManager.getInstance().resolvePath("feedreader/feeds/febo-feeds.opml.xml"), "GET", "application/xml");
   feedreader.Application._feedDesc = [];
     req.addEventListener("completed", function(e) {
     var xml = e.getData().getContent();
@@ -221,7 +229,7 @@ qx.Proto.fetchFeedDesc = function() {
       var eDesc = eItems[i];
       feedreader.Application._feedDesc.push({
         name: eDesc.getAttribute("title"),
-        url: "./resource/proxy/proxy.php?proxy=" + encodeURIComponent(eDesc.getAttribute("xmlUrl"))
+        url: qx.manager.object.AliasManager.getInstance().resolvePath("feedreader/proxy/proxy.php") + "?proxy=" + encodeURIComponent(eDesc.getAttribute("xmlUrl"))
       });
     }
   }, this);
@@ -241,7 +249,7 @@ qx.Proto.fetchFeeds = function() {
     }
   }
   for (var i=0; i<feedDesc.length; i++) {
-    var req = new qx.io.remote.Request(feedDesc[i].url, "GET", "application/xml");
+    var req = new qx.io.remote.Request(qx.manager.object.AliasManager.getInstance().resolvePath(feedDesc[i].url), "GET", "application/xml");
     req.addEventListener("completed", getCallback(feedDesc[i].name));
     req.send();
   }
