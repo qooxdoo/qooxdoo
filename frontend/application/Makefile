@@ -1,4 +1,4 @@
-TARGETS = apiviewer feedreader sample showcase skeleton webmail
+TARGETS = apiviewer feedreader sample showcase webmail
 
 source:
 	@for DIR in $(TARGETS); do \
