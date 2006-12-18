@@ -2149,7 +2149,7 @@ qx.ui.core.Widget.initApplyMethods = function()
   var r = "_resetRuntime";
   var s = "this._style.";
   var e = "=''";
-  var v = "=v+'px'";
+  var v = "=((v==null)?0:v)+'px'";
   var vpar = "v";
 
   var props = ["left", "right", "top", "bottom", "width", "height",
@@ -2178,7 +2178,7 @@ qx.ui.core.Widget.initApplyMethods = function()
   {
     // need to use setStyleProperty to keep compatibility with enhanced cross browser borders
     var s1="this.setStyleProperty('padding";
-    var s2="', v+'px')";
+    var s2="', ((v==null)?0:v)+'px')";
     var s3="this.removeStyleProperty('padding";
     var s4="')";
 
@@ -4328,7 +4328,8 @@ qx.Proto._applyStyleProperties = function(vElement)
         vElement = vTargetElement;
     }
 
-    vElement.style[propName] = vProperties[propName];
+    var value = vProperties[propName];
+    vElement.style[propName] = (value == null) ? "" : value;
   }
 }
 
