@@ -288,7 +288,7 @@ qx.Proto.getSetting = function(vKey) {
  * Translate a message
  * Mark the message for translation.
  * @see qx.lang.String.format
- * 
+ *
  * @param messageId (string) message id (may contain format strings)
  * @param varargs (object) variable number of argumes applied to the format string
  * @return (qx.locale.manager.LocalizedString)
@@ -302,11 +302,11 @@ qx.Proto.tr = function(messageId, varargs) {
 /**
  * Translate a plural message
  * Mark the messages for translation.
- * 
+ *
  * Depending on the third argument the plursl or the singular form is chosen.
- * 
+ *
  * @see qx.lang.String.format
- * 
+ *
  * @param singularMessageId (string) message id of the singular form (may contain format strings)
  * @param pluralMessageId (string) message id of the plural form (may contain format strings)
  * @param count (integer) if greater than 1 the plural form otherwhise the singular form is returned.
@@ -321,7 +321,7 @@ qx.Proto.trn = function(singularMessageId, pluralMessageId, count, varargs) {
 
 /**
  * Mark the message for translation but return the original message.
- * 
+ *
  * @param messageId (string)
  * @return (string) messageId
  */

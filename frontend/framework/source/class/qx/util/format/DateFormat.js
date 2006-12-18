@@ -34,7 +34,7 @@ function(format, locale) {
   qx.util.format.Format.call(this);
 
   if (format != null) {
-    this._format = format.toString() 
+    this._format = format.toString()
   } else {
     this._format = qx.locale.Date.getDateFormat("long", locale) + " " + qx.locale.Date.getDateTimeFormat("HHmmss", "HH:mm:ss", locale);
   }
@@ -290,9 +290,9 @@ qx.Proto._initFormatTree = function() {
   var currWildcardSize = 0;
   var currLiteral = "";
   var format = this._format;
-  
+
   var state = "default"
-  
+
   var i = 0;
   while (i < format.length) {
     var currChar = format.charAt(i);
@@ -316,7 +316,7 @@ qx.Proto._initFormatTree = function() {
             // quoted literal ends
             i++;
             state = "unkown";
-          }          
+          }
         } else {
           currLiteral += currChar;
           i++;
@@ -342,7 +342,7 @@ qx.Proto._initFormatTree = function() {
           // This is a letter -> All letters are wildcards
           // Start a new wildcard
           currWildcardChar = currChar;
-          state = "wildcard";           
+          state = "wildcard";
         } else if (currChar == "'") {
           if (i+1 >= format.length) {
             // this is the last character
@@ -365,7 +365,7 @@ qx.Proto._initFormatTree = function() {
           if (currLiteral.length > 0) {
             this._formatTree.push({ type:"literal", text:currLiteral });
             currLiteral = "";
-          }       
+          }
         } else {
           // This is an unquoted literal -> Add it to the current literal
           currLiteral += currChar;
@@ -374,7 +374,7 @@ qx.Proto._initFormatTree = function() {
         break;
     }
   }
-  
+
   // Add the last wildcard or literal
   if (currWildcardChar != null) {
     this._formatTree.push({ type:"wildcard", character:currWildcardChar, size:currWildcardSize });

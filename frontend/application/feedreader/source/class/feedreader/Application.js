@@ -54,45 +54,45 @@ qx.OO.addProperty({name: "selectedFeed"});
 
 if (qx.sys.Client.getInstance().getRunsLocally())
 {
-	qx.Class._feedDesc = [
-	  {
-	    url: "./resource/feeds/qooxdoo-news.xml",
-	    name: "qooxdoo-blog"
-	  },
-	  {
-	    url: "./resource/feeds/qooxdoo-blog.xml",
-	    name: "qooxdoo-news"
-	  },
-	  {
-	    url: "./resource/feeds/ajaxian.xml",
-	    name: "ajaxian"
-	  },
-	  {
-	    url: "./resource/feeds/safari.xml",
-	    name: "Surfin' Safari"
-	  }
-	];
-} 
-else 
-{	
-	qx.Class._feedDesc = [
-	  {
-	    url: "./resource/proxy/proxy.php?proxy=" + encodeURIComponent("http://feeds.feedburner.com/qooxdoo/blog/content"),
-	    name: "qooxdoo-blog"
-	  },
-	  {
-	    url: "./resource/proxy/proxy.php?proxy=" + encodeURIComponent("http://feeds.feedburner.com/qooxdoo/news/content"),
-	    name: "qooxdoo-news"
-	  },
-	  {
-	    url: "./resource/proxy/proxy.php?proxy=" + encodeURIComponent("http://feeds.feedburner.com/ajaxian"),
-	    name: "ajaxian"
-	  },
-	  {
-	    url: "./resource/proxy/proxy.php?proxy=" + encodeURIComponent("http://webkit.org/blog/?feed=rss2"),
-	    name: "Surfin' Safari"
-	  }
-	];
+  qx.Class._feedDesc = [
+    {
+      url: "./resource/feeds/qooxdoo-news.xml",
+      name: "qooxdoo-blog"
+    },
+    {
+      url: "./resource/feeds/qooxdoo-blog.xml",
+      name: "qooxdoo-news"
+    },
+    {
+      url: "./resource/feeds/ajaxian.xml",
+      name: "ajaxian"
+    },
+    {
+      url: "./resource/feeds/safari.xml",
+      name: "Surfin' Safari"
+    }
+  ];
+}
+else
+{
+  qx.Class._feedDesc = [
+    {
+      url: "./resource/proxy/proxy.php?proxy=" + encodeURIComponent("http://feeds.feedburner.com/qooxdoo/blog/content"),
+      name: "qooxdoo-blog"
+    },
+    {
+      url: "./resource/proxy/proxy.php?proxy=" + encodeURIComponent("http://feeds.feedburner.com/qooxdoo/news/content"),
+      name: "qooxdoo-news"
+    },
+    {
+      url: "./resource/proxy/proxy.php?proxy=" + encodeURIComponent("http://feeds.feedburner.com/ajaxian"),
+      name: "ajaxian"
+    },
+    {
+      url: "./resource/proxy/proxy.php?proxy=" + encodeURIComponent("http://webkit.org/blog/?feed=rss2"),
+      name: "Surfin' Safari"
+    }
+  ];
 }
 
 qx.Proto.initialize = function(e)
@@ -135,21 +135,21 @@ qx.Proto.main = function(e)
   toolBar.add(reload_btn);
 
   toolBar.add(new qx.ui.basic.HorizontalSpacer());
-	
-	var locale = qx.locale.manager.Manager.getInstance().getLocale();
-	var mb_de = new qx.ui.menu.RadioButton(this.tr("German"), null, locale == "de" );
-	mb_de.setUserData("locale", "de");
-	var mb_en = new qx.ui.menu.RadioButton(this.tr("English"), null, locale == "en");
-	mb_en.setUserData("locale", "en");
-	var lang_menu = new qx.ui.menu.Menu();
-	var radioManager = new qx.manager.selection.RadioManager("lang", [mb_de, mb_en]);
-	radioManager.addEventListener("changeSelected", function(e) {
-		var lang = e.getData().getUserData("locale");
-		qx.locale.manager.Manager.getInstance().setLocale(lang);
-	}); 
-	lang_menu.add(mb_de, mb_en);
-	lang_menu.addToDocument();
-	toolBar.add(new qx.ui.toolbar.MenuButton("", lang_menu, "icon/16/locale.png"));
+
+  var locale = qx.locale.manager.Manager.getInstance().getLocale();
+  var mb_de = new qx.ui.menu.RadioButton(this.tr("German"), null, locale == "de" );
+  mb_de.setUserData("locale", "de");
+  var mb_en = new qx.ui.menu.RadioButton(this.tr("English"), null, locale == "en");
+  mb_en.setUserData("locale", "en");
+  var lang_menu = new qx.ui.menu.Menu();
+  var radioManager = new qx.manager.selection.RadioManager("lang", [mb_de, mb_en]);
+  radioManager.addEventListener("changeSelected", function(e) {
+    var lang = e.getData().getUserData("locale");
+    qx.locale.manager.Manager.getInstance().setLocale(lang);
+  });
+  lang_menu.add(mb_de, mb_en);
+  lang_menu.addToDocument();
+  toolBar.add(new qx.ui.toolbar.MenuButton("", lang_menu, "icon/16/locale.png"));
 
   var about_btn = new qx.ui.toolbar.Button(this.tr("Help"), "icon/16/help.png");
   about_btn.setCommand(about_cmd);
@@ -160,7 +160,7 @@ qx.Proto.main = function(e)
 
   var tree = new qx.ui.tree.Tree(this.tr("News feeds"));
   tree.setWidth(200);
-	tree.setOverflow("auto");
+  tree.setOverflow("auto");
   tree.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
   tree.setBackgroundColor("#EEEEEE");
   tree.setMargin(3);
@@ -206,27 +206,27 @@ qx.Proto.main = function(e)
 
   dockLayout.addToDocument();
 
-	this.displayFeed(feedreader.Application._feedDesc[0].name);
+  this.displayFeed(feedreader.Application._feedDesc[0].name);
   this.fetchFeeds();
 };
 
 
 qx.Proto.fetchFeedDesc = function() {
-	var req = new qx.io.remote.Request("./resource/feeds/febo-feeds.opml.xml", "GET", "application/xml");
-	feedreader.Application._feedDesc = [];
+  var req = new qx.io.remote.Request("./resource/feeds/febo-feeds.opml.xml", "GET", "application/xml");
+  feedreader.Application._feedDesc = [];
     req.addEventListener("completed", function(e) {
-		var xml = e.getData().getContent();
-		var eItems = xml.getElementsByTagName("outline");
-		for(var i=0; i<eItems.length; i++) {
-			var eDesc = eItems[i];
-			feedreader.Application._feedDesc.push({
-				name: eDesc.getAttribute("title"),
-				url: "./resource/proxy/proxy.php?proxy=" + encodeURIComponent(eDesc.getAttribute("xmlUrl"))
-			});
-		}
-	}, this);
-	req.setAsynchronous(false);
-    req.send();	
+    var xml = e.getData().getContent();
+    var eItems = xml.getElementsByTagName("outline");
+    for(var i=0; i<eItems.length; i++) {
+      var eDesc = eItems[i];
+      feedreader.Application._feedDesc.push({
+        name: eDesc.getAttribute("title"),
+        url: "./resource/proxy/proxy.php?proxy=" + encodeURIComponent(eDesc.getAttribute("xmlUrl"))
+      });
+    }
+  }, this);
+  req.setAsynchronous(false);
+    req.send();
 };
 
 
@@ -261,13 +261,13 @@ qx.Proto.parseXmlFeed = function(feedName, xml) {
   var items = [];
   if (xml.documentElement.tagName == "rss") {
     items = this.parseRSSFeed(xml);
-  } else if	(xml.documentElement.tagName == "feed") {
-	items = this.parseAtomFeed(xml);
+  } else if  (xml.documentElement.tagName == "feed") {
+  items = this.parseAtomFeed(xml);
   }
   this.getFeeds()[feedName] = items;
   if (feedName == this.getSelectedFeed()) {
-	  this.displayFeed(feedName);
-	}
+    this.displayFeed(feedName);
+  }
 };
 
 
@@ -282,14 +282,14 @@ qx.Proto.parseAtomFeed = function(xml) {
     if (eItem.getElementsByTagName("author").length > 0) {
       item.author = qx.xml.Core.getTextContent(eItem.getElementsByTagName("author")[0].getElementsByTagName("name")[0]);
     } else {
-	  item.author = ""
+    item.author = ""
     }
     item.date = qx.xml.Core.getTextContent(
-		eItem.getElementsByTagName("created")[0] ||
-		eItem.getElementsByTagName("published")[0] ||
-		eItem.getElementsByTagName("updated")[0] ||
-		empty
-	);
+    eItem.getElementsByTagName("created")[0] ||
+    eItem.getElementsByTagName("published")[0] ||
+    eItem.getElementsByTagName("updated")[0] ||
+    empty
+  );
     item.content = qx.xml.Core.getTextContent(eItem.getElementsByTagName("content")[0] || empty);
     item.link = eItem.getElementsByTagName("link")[0].getAttribute("href");
     items.push(item);

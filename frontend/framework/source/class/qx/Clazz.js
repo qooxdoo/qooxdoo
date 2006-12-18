@@ -39,30 +39,30 @@ qx.Clazz._registry = { "qx.Clazz" : qx.Clazz };
 
 /**
  * Class definition
- * 
+ *
  * Example:
  * qx.Clazz.define("fullname",
  * {
  *   "extend": SuperClass,
  *   "implement": [Interfaces],
  *   "include" : [Mixins],
- * 
+ *
  *   "statics":
  *   {
  *     static_property1: 3.141,
  *     static_method1: function() {}
  *   },
- * 
+ *
  *   "properties":
  *   {
  *     "tabIndex": {type: "number", init: -1}
  *   },
- * 
+ *
  *   "members":
  *   {
  *     public_property1: 3.141,
  *     public_method1: function() {},
- * 
+ *
  *     _protected_property: 3.141,
  *     _protected_method1: function() {},
  *   }
@@ -206,14 +206,14 @@ qx.Clazz.define = function(fullname, definition)
     // Compatibility to 0.6.x
     qx.Proto = qx.Super = null;
     qx.Class = vClass;
-    
+
     // Attach statics
     if (vStatics)
     {
       for (var vProp in vStatics)
       {
         vClass[vProp] = vStatics[vProp];
-  
+
         // Added helper stuff to functions
         if (typeof vStatics[vProp] == "function")
         {
@@ -221,7 +221,7 @@ qx.Clazz.define = function(fullname, definition)
           vClass[vProp].statics = vClass;
         }
       }
-    }    
+    }
 
     // Store class reference in global class registry
     this._registry[fullname] = vClass;
@@ -258,7 +258,7 @@ qx.Clazz.define = function(fullname, definition)
    * TODOC
    *
    * @type function
-   * @return {void} 
+   * @return {void}
    */
   var vHelperClass = function() {};
   vHelperClass.prototype = vSuperClass.prototype;
@@ -387,7 +387,7 @@ qx.Clazz.define = function(fullname, definition)
     for (var vName in vProperties)
     {
       vProperty = vProperties[vName];
-	    vProperty.name = vName;			
+      vProperty.name = vName;
 
       if (vProperty.fast) {
         qx.OO.addFastProperty(vProperty);
@@ -533,12 +533,12 @@ qx.Clazz.define = function(fullname, definition)
           }
         }
       }
-    } 
-		else
-		{
-	  	// TODO
-		}
-	}
+    }
+    else
+    {
+      // TODO
+    }
+  }
 };
 
 /**
@@ -569,7 +569,7 @@ qx.Clazz.include = function(vClass, vMixin)
   var vPrototype = vClass.prototype;
   var vMixinMembers = vMixins._members;
 
-	// Attach members
+  // Attach members
   for (var vProp in vMixinMembers) {
     vPrototype[vProp] = vMixinMembers[vProp];
   }
