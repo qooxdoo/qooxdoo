@@ -31,6 +31,11 @@ PROJECT_API_TITLE = Sample
 #
 PROJECT_FILES = html css
 
+#
+# Locales to include
+#
+PROJECT_LOCALES = de de_DE de_AT en en_US fr fr_FR es es_ES ar zh
+
 
 
 
