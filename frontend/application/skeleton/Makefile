@@ -6,14 +6,14 @@
 # Location of your qooxdoo distribution
 # Could be relative from this location or absolute
 #
-QOOXDOO_PATH = ../../..
+QOOXDOO_PATH = PATH_TO_QOOXDOO
 
 #
 # The same as above, but from the webserver point of view
 # Starting point is the application HTML file of the source folder.
 # In most cases just add a "/.." compared to above
 #
-QOOXDOO_URI = ../../../..
+QOOXDOO_URI = URI_TO_QOOXDOO
 
 #
 # Namespace of your application e.g. custom
