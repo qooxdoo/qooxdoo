@@ -25,9 +25,9 @@ def getparser():
   parser.add_option("--export-to-file", dest="exportToFile", metavar="FILENAME", help="Store options to FILENAME.")
 
   # Directories (Lists, Match using index)
-  parser.add_option("--script-input", action="extend", dest="scriptInput", metavar="DIRECTORY", type="string", default=[], help="Define a script input directory.")
-  parser.add_option("--script-encoding", action="extend", dest="scriptEncoding", metavar="ENCODING", type="string", default=[], help="Define the encoding for a script input directory.")
-  parser.add_option("--source-script-path", action="extend", dest="sourceScriptPath", metavar="PATH", type="string", default=[], help="Define a script path for the source version.")
+  parser.add_option("--class-path", action="extend", dest="classPath", metavar="DIRECTORY", type="string", default=[], help="Define a script input directory.")
+  parser.add_option("--class-uri", action="extend", dest="classUri", metavar="PATH", type="string", default=[], help="Define a script path for the source version.")
+  parser.add_option("--class-encoding", action="extend", dest="classEncoding", metavar="ENCODING", type="string", default=[], help="Define the encoding for a script input directory.")
   parser.add_option("--resource-input", action="extend", dest="resourceInput", metavar="DIRECTORY", type="string", default=[], help="Define a resource input directory.")
   parser.add_option("--resource-output", action="extend", dest="resourceOutput", metavar="DIRECTORY", type="string", default=[], help="Define a resource output directory.")
 
@@ -317,7 +317,7 @@ def load(options):
   print "  SOURCE LOADER:"
   print "----------------------------------------------------------------------------"
 
-  if options.scriptInput == None or len(options.scriptInput) == 0:
+  if options.classPath == None or len(options.classPath) == 0:
     if len(options.migrationInput) == 0:
       basename = os.path.basename(sys.argv[0])
       print "You must define at least one script input directory!"
@@ -980,11 +980,11 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
     sources = ""
     for fileId in sortedIncludeList:
-      if fileDb[fileId]["sourceScriptPath"] == None:
-        print "  * Missing source path definition for script input %s. Could not create source script file!" % fileDb[fileId]["scriptInput"]
+      if fileDb[fileId]["classUri"] == None:
+        print "  * Missing source path definition for script input %s. Could not create source script file!" % fileDb[fileId]["classPath"]
         sys.exit(1)
 
-      sources += srcEol + '"%s%s",' % (os.path.join(fileDb[fileId]["sourceScriptPath"], fileDb[fileId]["pathId"].replace(".", os.sep)), config.JSEXT) 
+      sources += srcEol + '"%s%s",' % (os.path.join(fileDb[fileId]["classUri"], fileDb[fileId]["pathId"].replace(".", os.sep)), config.JSEXT) 
 
     # Pass the array with source files to include
     sourceOutput += "([" + sources[:-1] + srcEol + "]);" + srcEol
