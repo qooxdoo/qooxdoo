@@ -47,38 +47,38 @@ DIRECTORIES = framework application
 ###################################################################################
 
 source:
-	@for DIR in $(DIRECTORIES); do make -C $$DIR source || exit 1; done
+	@for DIR in $(DIRECTORIES); do $(MAKE) -C $$DIR source || exit 1; done
 
 build:
-	@for DIR in $(DIRECTORIES); do make -C $$DIR build || exit 1; done
+	@for DIR in $(DIRECTORIES); do $(MAKE) -C $$DIR build || exit 1; done
 
 api:
-	@for DIR in $(DIRECTORIES); do make -C $$DIR api || exit 1; done
+	@for DIR in $(DIRECTORIES); do $(MAKE) -C $$DIR api || exit 1; done
 
 all:
-	@for DIR in $(DIRECTORIES); do make -C $$DIR all || exit 1; done
+	@for DIR in $(DIRECTORIES); do $(MAKE) -C $$DIR all || exit 1; done
 
 locales:
-	@for DIR in $(DIRECTORIES); do make -C $$DIR locales || exit 1; done
+	@for DIR in $(DIRECTORIES); do $(MAKE) -C $$DIR locales || exit 1; done
 
 pretty:
-	@for DIR in $(DIRECTORIES); do make -C $$DIR pretty || exit 1; done
+	@for DIR in $(DIRECTORIES); do $(MAKE) -C $$DIR pretty || exit 1; done
 
 fix:
-	@for DIR in $(DIRECTORIES); do make -C $$DIR fix || exit 1; done
+	@for DIR in $(DIRECTORIES); do $(MAKE) -C $$DIR fix || exit 1; done
 
 publish:
-	@for DIR in $(DIRECTORIES); do make -C $$DIR publish || exit 1; done
+	@for DIR in $(DIRECTORIES); do $(MAKE) -C $$DIR publish || exit 1; done
 
 clean:
-	@for DIR in $(DIRECTORIES); do make -C $$DIR clean || exit 1; done
+	@for DIR in $(DIRECTORIES); do $(MAKE) -C $$DIR clean || exit 1; done
 
 realclean:
-	@for DIR in $(DIRECTORIES); do make -C $$DIR realclean || exit 1; done
+	@for DIR in $(DIRECTORIES); do $(MAKE) -C $$DIR realclean || exit 1; done
 	@$(CMD_NICE) rm -rf release/temp
 
 distclean:
-	@for DIR in $(DIRECTORIES); do make -C $$DIR distclean || exit 1; done
+	@for DIR in $(DIRECTORIES); do $(MAKE) -C $$DIR distclean || exit 1; done
 	@$(CMD_NICE) rm -rf release
 
 
@@ -116,7 +116,7 @@ release-build-unix:
 		echo "    - $$TARGET"; \
 	  mkdir -p $(RELEASE_BUILD_UNIX)/frontend/$$TARGET; \
 		if [ ! -r $$TARGET/build ]; then \
-		  echo "      - Missing build folder! Run make build first!"; \
+		  echo "      - Missing build folder! Run $(MAKE) build first!"; \
 		  exit 1; \
 		fi; \
 	  $(CMD_RSYNC) $$TARGET/build/* $(RELEASE_BUILD_UNIX)/frontend/$$TARGET; \
@@ -145,7 +145,7 @@ release-build-dos:
 		echo "    - $$TARGET"; \
 	  mkdir -p $(RELEASE_BUILD_DOS)/frontend/$$TARGET; \
 		if [ ! -r $$TARGET/build ]; then \
-		  echo "      - Missing build folder! Run make build first!"; \
+		  echo "      - Missing build folder! Run $(MAKE) build first!"; \
 		  exit 1; \
 		fi; \
 	  $(CMD_RSYNC) $$TARGET/build/* $(RELEASE_BUILD_DOS)/frontend/$$TARGET; \
