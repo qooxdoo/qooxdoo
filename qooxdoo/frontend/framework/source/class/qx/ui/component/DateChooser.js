@@ -146,7 +146,7 @@ function(date) {
   // Show the right date
   var shownDate = (date != null) ? date : new Date();
   this.showMonth(shownDate.getMonth(), shownDate.getFullYear());
-  
+
   // listen for locale changes
   qx.locale.manager.Manager.getInstance().addEventListener("changeLocale", this._updateDatePane, this);
 

@@ -28,7 +28,7 @@ qx.dom.Window.getInnerWidth = function(w) {}
 qx.dom.Window.getInnerHeight = function(w) {}
 qx.dom.Window.getScrollLeft = function(w) {}
 qx.dom.Window.getScrollTop = function(w) {}
-  
+
 if (qx.sys.Client.getInstance().isMshtml())
 {
   qx.dom.Window.getInnerWidth = function(w)

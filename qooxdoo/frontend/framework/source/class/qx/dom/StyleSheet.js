@@ -32,13 +32,13 @@ qx.OO.defineClass("qx.dom.StyleSheet");
  *
  * @param vHref {string} Href value
  */
-qx.dom.StyleSheet.includeFile = function(vHref) 
+qx.dom.StyleSheet.includeFile = function(vHref)
 {
   var el = document.createElement("link");
   el.type = "text/css";
   el.rel = "stylesheet";
   el.href = vHref;
-  
+
   var head = document.getElementsByTagName("head")[0];
   head.appendChild(el);
 };

@@ -32,7 +32,7 @@ qx.Clazz.define("qx.Interface",
 
     /**
      * Interface definition
-     * 
+     *
      * Example:
      * <pre><code>
      * qx.Interface.define("fullname",
@@ -52,7 +52,7 @@ qx.Clazz.define("qx.Interface",
      * @access public
      * @param fullname {String} name of the interface
      * @param definition {Map,null} definition structure
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     define : function(fullname, definition)

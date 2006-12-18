@@ -6,7 +6,7 @@
 
    Copyright:
      2006 by Visionet GmbH, Germany, http://www.visionet.de
-  
+
    License:
      LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
 
@@ -120,7 +120,7 @@ qx.Proto._modifyTargetWidget = function(propValue, propOldValue, propData)
 };
 
 /**
- * Modifier for property chooserTitle.  
+ * Modifier for property chooserTitle.
  *
  * @type member
  * @name _modifyChooserTitle
@@ -151,7 +151,7 @@ qx.Proto._modifyChooserTitle = function(propValue, propOldValue, propData)
  * @type member
  * @name _createChooserWindow
  * @access protected
- * @return {void} 
+ * @return {void}
  */
 qx.Proto._createChooserWindow = function()
 {
@@ -185,7 +185,7 @@ qx.Proto._createChooserWindow = function()
  * @type member
  * @name _createChooser
  * @access protected
- * @return {void} 
+ * @return {void}
  */
 qx.Proto._createChooser = function()
 {
@@ -212,7 +212,7 @@ qx.Proto._createChooser = function()
  * @name _executeHandler
  * @access protected
  * @param e {Event} the received event
- * @return {void} 
+ * @return {void}
  * @throws exception if the target widget is not instance of qx.ui.core.Widget or does not have setter and getter for property value
  */
 qx.Proto._executeHandler = function(e)
@@ -235,7 +235,7 @@ qx.Proto._executeHandler = function(e)
 
 /**
  * Handle locale changes. Update the date format of the target widget.
- * 
+ *
  * @param e {Event} the received event
  */
 qx.Proto._changeLocale = function(e) {
@@ -248,11 +248,11 @@ qx.Proto._changeLocale = function(e) {
   try {
     date = this._dateFormat.parse(this.getTargetWidget().getValue());
   } catch(ex) {}
-  
+
   if (!date) {
-    return;  
+    return;
   }
-  
+
   this._chooser.setDate(date);
   this._dateFormat = new qx.util.format.DateFormat(qx.locale.Date.getDateFormat("short"));
   this.getTargetWidget().setValue(this._dateFormat.format(date));
@@ -266,7 +266,7 @@ qx.Proto._changeLocale = function(e) {
  * @name _chooserWindowKeydownHandler
  * @access protected
  * @param e {Event} the received key event
- * @return {void} 
+ * @return {void}
  */
 qx.Proto._chooserWindowKeydownHandler = function(e)
 {
@@ -286,7 +286,7 @@ qx.Proto._chooserWindowKeydownHandler = function(e)
  * @name _chooserWindowAppearHandler
  * @access protected
  * @param e {Event} the received appear event
- * @return {void} 
+ * @return {void}
  */
 qx.Proto._chooserWindowAppearHandler = function(e)
 {
@@ -301,7 +301,7 @@ qx.Proto._chooserWindowAppearHandler = function(e)
  * @name _chooserSelectHandler
  * @access protected
  * @param e {Event} the select event
- * @return {void} 
+ * @return {void}
  */
 qx.Proto._chooserSelectHandler = function(e)
 {

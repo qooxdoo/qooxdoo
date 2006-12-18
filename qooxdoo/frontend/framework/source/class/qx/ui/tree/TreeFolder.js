@@ -326,9 +326,9 @@ qx.Proto.getItems = function(recursive, invisible)
  */
 qx.Proto.destroyContent = function() {
   if(this.hasContent()) {
- 
+
     var manager = this.getTree() ? this.getTree().getManager() : null;
-   
+
     var leadItem;
     var anchorItem;
     if(manager) {
@@ -342,7 +342,7 @@ qx.Proto.destroyContent = function() {
     this._containerObject.setDisplay(true);
     var items = this._containerObject.getChildren();
     var item;
-   
+
     for(var i=items.length-1;i>=0;--i) {
       item = items[i];
 
@@ -362,7 +362,7 @@ qx.Proto.destroyContent = function() {
           if(anchorItem == item) {
             manager.setAnchorItem(null);
           }
- 
+
           // if the current destroyed item is
           // selected, deselect the item. If we are
           // in single selection mode we have to
@@ -376,7 +376,7 @@ qx.Proto.destroyContent = function() {
               manager.deselectAll();
             }
           }
- 
+
           // if the item has the method destroyContent defined
           // then it is a TreeFolder (and it's subclasses)
           // which potentially have content which also
@@ -385,12 +385,12 @@ qx.Proto.destroyContent = function() {
             item.destroyContent();
           }
         }
-   
+
         // first disconnect the item so rendering
         // of the tree lines can be done correctly
         item.removeFromTreeQueue();
         item.disconnect();
-   
+
         // remove the item from the containerObject
         this._containerObject.remove(item);
         item.dispose();

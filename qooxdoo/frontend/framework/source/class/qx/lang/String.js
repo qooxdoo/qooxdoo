@@ -31,7 +31,7 @@ qx.OO.defineClass("qx.lang.String");
  * converts a string seperated by '-' to camel case.
  * Example:
  * <pre>qx.lang.String.toCamelCase("to-camel-case") == "toCamelCase"</pre>
- * 
+ *
  * @param str {string} string seperated by '-'
  * @return {string} camel case string
  */
@@ -57,9 +57,9 @@ qx.Class.toCamelCase = function(str)
 
 /**
  * removes white space from the left side of a string
- * 
+ *
  * @param str {string}
- * @return {string} 
+ * @return {string}
  */
 qx.Class.trimLeft = function(str) {
   return str.replace(/^\s+/, "");
@@ -68,9 +68,9 @@ qx.Class.trimLeft = function(str) {
 
 /**
  * removes white space from the right side of a string
- * 
+ *
  * @param str {string}
- * @return {string} 
+ * @return {string}
  */
 qx.Class.trimRight = function(str) {
   return str.replace(/\s+$/, "");
@@ -79,9 +79,9 @@ qx.Class.trimRight = function(str) {
 
 /**
  * removes white space from the left and the right side of a string
- * 
+ *
  * @param str {string}
- * @return {string} 
+ * @return {string}
  */
 qx.Class.trim = function(str) {
   return str.replace(/^\s+|\s+$/g, "");
@@ -204,12 +204,12 @@ qx.Class.escapeRegexpChars = function(str) {
  * In the format string occurences of %n are replaced by the n'th element of the args list.
  * Example:
  * <pre>qx.lang.String.format("Hello %1, my name is %2", ["Egon", "Franz"]) == "Hello Egon, my name is Franz"<pre>
- * 
+ *
  * @param pattern {string} format string
  * @param args {Array}
  * @return {string}
  */
-qx.Class.format = function(pattern, args) 
+qx.Class.format = function(pattern, args)
 {
   var str = pattern;
 

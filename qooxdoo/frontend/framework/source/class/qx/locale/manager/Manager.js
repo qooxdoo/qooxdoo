@@ -38,9 +38,9 @@ qx.Proto._defaultLocale = "C";
 
 /**
  * Get the language code of the currnt locale
- * 
+ *
  * This is the first part of a locale definition. The language for "de_DE" would be "de"
- * 
+ *
  * @return {string} language code
  */
 qx.Proto.getLanguage = function() {
@@ -50,9 +50,9 @@ qx.Proto.getLanguage = function() {
 
 /**
  * Get the territory code of the currnt locale
- * 
+ *
  * This is the second part of a locale definition. The territory for "de_DE" would be "DE"
- * 
+ *
  * @return {string} territory code
  */
 qx.Proto.getTerritory = function() {
@@ -62,7 +62,7 @@ qx.Proto.getTerritory = function() {
 
 /**
  * Extract the language part from a locale.
- * 
+ *
  * @param locale {string} locale to be used
  * @return {string} language
  */
@@ -83,14 +83,14 @@ qx.Proto._modifyLocale = function(propValue, propOldValue, propData) {
 
   var pos = propValue.indexOf("_");
   this._language = this._extractLanguage(propValue);
-  
+
   return true;
 };
 
 
 /**
  * Add a translation to the translation manager
- * 
+ *
  * @param languageCode (string) language code of the translation like de, de_AT, en, en_GB, fr, ...
  * @param translationMap (Map) mapping of message identifiers (english text) to the target language
  */
@@ -112,7 +112,7 @@ qx.Proto.addTranslation = function(languageCode, translationMap) {
 /**
  * Translate a message
  * @see(qx.lang.String.format)
- * 
+ *
  * @param messageId (string) message id (may contain format strings)
  * @param varargs (object) variable number of argumes applied to the format string
  * @return (qx.locale.manager.LocalizedString)
@@ -128,11 +128,11 @@ qx.Class.tr = function(messageId, varargs)
 
 /**
  * Translate a plural message
- * 
+ *
  * Depending on the third argument the plursl or the singular form is chosen.
- * 
+ *
  * @see(qx.lang.String.format)
- * 
+ *
  * @param singularMessageId (string) message id of the singular form (may contain format strings)
  * @param pluralMessageId (string) message id of the plural form (may contain format strings)
  * @param count (integer) if greater than 1 the plural form otherwhise the singular form is returned.
@@ -157,12 +157,12 @@ qx.Class.trn = function(singularMessageId, pluralMessageId, count, varargs)
 
 /**
  * Translate a message with translation hint
- * 
+ *
  * Depending on the third argument the plursl or the singular form is chosen.
- * 
+ *
  * @see(qx.lang.String.format)
  *
- * @param hint (string) hint for the translator of the message. Will be included in the .pot file. 
+ * @param hint (string) hint for the translator of the message. Will be included in the .pot file.
  * @param messageId (string) message id (may contain format strings)
  * @param varargs (object) variable number of argumes applied to the format string
  * @return (qx.locale.manager.LocalizedString)
@@ -178,7 +178,7 @@ qx.Class.trc = function(hint, messageId, varargs)
 
 /**
  * Mark the message for translation but return the original message.
- * 
+ *
  * @param messageId (string)
  * @return (string) messageId
  */
@@ -189,11 +189,11 @@ qx.Class.marktr = function(messageId) {
 
 /**
  * Translate a message using the current locale and apply format string to the arguments.
- * 
+ *
  * @param messageId (string) message id (may contain format strings)
  * @param args (object[]) array of objects, which are inserted into the format string.
  * @param locale (string) optional locale to be used for translation
- * @return (string) translated message. 
+ * @return (string) translated message.
  */
 qx.Proto.translate = function(messageId, args, locale)
 {
