@@ -21,14 +21,25 @@
 		"A date: ": "Ein Datum: ",
 		"Locale: ": "Lokalisierung: ",
 		"Locale information": "Landesinformationen",
-		
+
+	  "Open Color Popup": "Öffne Farbauswahl",
+	  "Basic Colors": "Grundfarben",
+		"Template Colors": "Beispielfarben",
+		"Recent Colors": "Vorherige Farben",
+
 		"Territory code:": "Landescode:",
 		"Date format medium:": "Mittellanges Datumsformat:",
 		"Date medium:": "Mittellanges Datum:",
 		"Date format long:": "Langes Datumsformat:",
 		"Date long:": "Langes Datum",
 		"Date format full:": "Vollständiges Datumsformat:",
-		"date full:": "Vollständiges Datum",
+		"Date full:": "Vollständiges Datum",
+		
+		"Time format short:": "Kurzes Zeitformat:",
+		"Time short:": "Krze Zeit:",
+		"Time format long:": "Langes Zeitformat:",
+		"Time long:": "Lange Zeit:",
+    	
 		"Week start:": "Wochenanfang:",
 		"Format of %1:": "Format von %1:"
 	});
@@ -71,7 +82,7 @@
 	  d.add(hb2);
 
 		var frame = new qx.ui.layout.VerticalBoxLayout();
-		frame.set({left: 20, top: 120, width: "auto", height: "auto", spacing: 15});
+		frame.set({left: 20, top: 120, width: "auto", height: "auto", spacing: 20});
 
     // DateChooserButton
 		var hb1 = new qx.ui.layout.HorizontalBoxLayout(); hb1.set({height: "auto", spacing:3});
@@ -88,6 +99,35 @@
     chooser.setHeight("auto");
     frame.add(chooser);
     
+    // ColorPopup
+    var mybtn = new qx.ui.form.Button(this.tr("Open Color Popup"));
+    mybtn.addEventListener("execute", function() {
+      mypop.setTop(qx.dom.Location.getPageBoxBottom(this.getElement()));
+      mypop.setLeft(qx.dom.Location.getPageBoxLeft(this.getElement()));
+      mypop.show();
+    });
+    frame.add(mybtn);
+    var mytables =
+    {
+      core : {
+        label : this.tr("Basic Colors"),
+        values : [ "#000", "#333", "#666", "#999", "#CCC", "#FFF", "red", "green", "blue", "yellow", "teal", "maroon" ]
+      },
+      template : {
+        label : this.tr("Template Colors"),
+        values : [ "#B07B30", "#B07BC9", "#E3AEC9", "#7A2A53" ]
+      },
+      recent : {
+        label : this.tr("Recent Colors"),
+
+        // In this case we need named colors or rgb-value-strings, hex is not allowed currently
+        values : [ "rgb(122,195,134)", "orange" ]
+      }
+    }
+    var mypop = new qx.ui.component.ColorPopup(mytables);
+    mypop.setValue(new qx.renderer.color.Color("#23F3C1"));
+    d.add(mypop);
+    
     // ColorSelector
     var mycolor = new qx.ui.component.ColorSelector;
     frame.add(mycolor);
@@ -96,14 +136,14 @@
     
     // Info Box
     var fs = new qx.ui.groupbox.GroupBox(this.tr("Locale information"));
-    fs.set({ left: 300, top: 50, width: 400, height: 200});
+    fs.set({ left: 300, top: 50, width: 400, height: "auto"});
     var infoLabel = new qx.ui.basic.Label("");
     fs.add(infoLabel);
 	  d.add(fs);
     
     var info = [];
     info.push("<table style='font-size:11px'><tr><td>"); 
-    for (var i=0; i<9; i++) {
+    for (var i=0; i<13; i++) {
     	info.push(""); 
 	    info.push("</td><td>"); 
 	    info.push(""); 
@@ -134,14 +174,19 @@
 
     	info[(i++ * 2) + 1] = this.tr("Date format full:");
     	info[(i++ * 2) + 1] = qx.locale.Date.getDateFormat("full");
-    	info[(i++ * 2) + 1] = this.tr("date full:");
+    	info[(i++ * 2) + 1] = this.tr("Date full:");
     	info[(i++ * 2) + 1] = (new qx.util.format.DateFormat(qx.locale.Date.getDateFormat("full"))).format(new Date());
 
-    	info[(i++ * 2) + 1] = this.tr("Date format full:");
-    	info[(i++ * 2) + 1] = qx.locale.Date.getDateFormat("full");
-    	info[(i++ * 2) + 1] = this.tr("date full:");
-    	info[(i++ * 2) + 1] = (new qx.util.format.DateFormat(qx.locale.Date.getDateFormat("full"))).format(new Date());
+    	info[(i++ * 2) + 1] = this.tr("Time format short:");
+    	info[(i++ * 2) + 1] = qx.locale.Date.getTimeFormat("short");
+    	info[(i++ * 2) + 1] = this.tr("Time short:");
+    	info[(i++ * 2) + 1] = (new qx.util.format.DateFormat(qx.locale.Date.getTimeFormat("short"))).format(new Date());
     	
+    	info[(i++ * 2) + 1] = this.tr("Time format long:");
+    	info[(i++ * 2) + 1] = qx.locale.Date.getTimeFormat("long");
+    	info[(i++ * 2) + 1] = this.tr("Time long:");
+    	info[(i++ * 2) + 1] = (new qx.util.format.DateFormat(qx.locale.Date.getTimeFormat("long"))).format(new Date());
+
     	info[(i++ * 2) + 1] = this.tr("Week start:");
     	info[(i++ * 2) + 1] = qx.locale.Date.getDayName("wide", qx.locale.Date.getWeekStart());
 
