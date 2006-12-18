@@ -167,19 +167,21 @@ qx.Proto._numpadToCharCode =
 
 
 // construct invers of keyCodeToIdentifierMap
-if (!qx.Proto._identifierToKeyCodeMap)
+(function()
 {
-  qx.Proto._identifierToKeyCodeMap = {};
-
-  for (var key in qx.Proto._keyCodeToIdentifierMap) {
-    qx.Proto._identifierToKeyCodeMap[qx.Proto._keyCodeToIdentifierMap[key]] = parseInt(key);
-  }
-
-  for (var key in qx.Proto._specialCharCodeMap) {
-    qx.Proto._identifierToKeyCodeMap[qx.Proto._specialCharCodeMap[key]] = parseInt(key);
-  }
-}
-
+	if (!qx.Proto._identifierToKeyCodeMap)
+	{
+	  qx.Proto._identifierToKeyCodeMap = {};
+	
+	  for (var key in qx.Proto._keyCodeToIdentifierMap) {
+	    qx.Proto._identifierToKeyCodeMap[qx.Proto._keyCodeToIdentifierMap[key]] = parseInt(key);
+	  }
+	
+	  for (var key in qx.Proto._specialCharCodeMap) {
+	    qx.Proto._identifierToKeyCodeMap[qx.Proto._specialCharCodeMap[key]] = parseInt(key);
+	  }
+	}
+})();
 
 
 

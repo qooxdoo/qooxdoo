@@ -38,6 +38,14 @@ qx.Class.ignore =
 {
   "window" :
   [
+	  // qooxdoo
+		"qx",
+		
+		// Java
+		"java",
+		"sun",
+		"Packages",
+		
     // Firefox
     "__firebug__",
     "Components",
@@ -175,7 +183,13 @@ qx.Class.ignore =
 
 qx.Class.consoleInfo = function(object)
 {
-  alert("Global namespace is polluted by:\n\n" + qx.dev.Pollution.getTextList(object));
+	var msg = qx.dev.Pollution.getTextList(object);
+	
+	if (msg) {
+  	alert("Global namespace is polluted by the following unknown objects:\n\n" + msg);
+	} else {
+		alert("Global namespace is not polluted by any unknown objects.");
+	}
 }
 
 qx.Class.extract = function(object)
