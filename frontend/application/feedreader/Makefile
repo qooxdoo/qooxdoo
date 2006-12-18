@@ -34,7 +34,7 @@ PROJECT_FILES = index.html
 #
 # Locales to include
 #
-PROJECT_LOCALES = de
+PROJECT_LOCALES = de tr
 
 
 
@@ -52,7 +52,7 @@ PROJECT_RESOURCE_FILTER = true
 #
 # We don't need the full source code
 #
-PROJECT_COMPLETE_SOURCE = false
+PROJECT_COMPLETE_SOURCE = true
 
 #
 # Disable line breaks
