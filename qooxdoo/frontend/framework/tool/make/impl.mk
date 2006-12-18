@@ -170,7 +170,7 @@ exec-translation:
 		echo "  * Processing $$LOC"; \
 		if [ ! -r $(PROJECT_TRANSLATION_PATH)/$$LOC.po ]; then \
   		echo "    - Generating initial translation file..."; \
-		  msginit --no-translator -i $(PROJECT_TRANSLATION_PATH)/messages.pot -o $(PROJECT_TRANSLATION_PATH)/$$LOC.po; \
+		  msginit --no-translator -i $(PROJECT_TRANSLATION_PATH)/messages.pot -o $(PROJECT_TRANSLATION_PATH)/$$LOC.po > /dev/null 2>&1; \
 		else \
 	  	echo "    - Merging translation file..."; \
 		  msgmerge --update -q $(PROJECT_TRANSLATION_PATH)/$$LOC.po $(PROJECT_TRANSLATION_PATH)/messages.pot; \
