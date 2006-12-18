@@ -164,13 +164,16 @@ exec-translation:
 	
 	@echo "  * Processing source code..."
 	@mkdir -p $(PROJECT_TRANSLATION_PATH)
+	@which xgettext > /dev/null 2>&1 || (echo "    - Please install gettext tools (xgettext)" && exit 1)
+	@which msginit > /dev/null 2>&1 || (echo "    - Please install gettext tools (msginit)" && exit 1)
+	@which msgmerge > /dev/null 2>&1 || (echo "    - Please install gettext tools (msgmerge)" && exit 1)
 	@rm -f $(PROJECT_TRANSLATION_PATH)/messages.pot
 	@touch $(PROJECT_TRANSLATION_PATH)/messages.pot
 	@for FILE in `find $(PROJECT_SOURCE_PATH)/$(PROJECT_CLASS_FOLDERNAME) -name "*.js"`; do \
 	  xgettext --language=Java --from-code=UTF-8 \
 	    -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 \
 	    -kManager.trc -kManager.tr -kManager.marktr -kManager.trn:1,2 \
-	    -j -o $(PROJECT_TRANSLATION_PATH)/messages.pot $$FILE; \
+	    -j -o $(PROJECT_TRANSLATION_PATH)/messages.pot $$FILE 2> /dev/null; \
 	done;
 	@echo "    - Found `grep msgid $(PROJECT_TRANSLATION_PATH)/messages.pot | wc -l` messages"
 	@for LOC in $(PROJECT_LOCALES); do \
