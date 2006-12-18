@@ -29,7 +29,7 @@ PROJECT_API_TITLE = Sample
 #
 # Additional files (space separated list)
 #
-PROJECT_FILES = html
+PROJECT_FILES = html css
 
 
 
@@ -83,3 +83,28 @@ include $(QOOXDOO_PATH)/frontend/framework/tool/make/targets.mk
 # Include implementation targets
 #
 include $(QOOXDOO_PATH)/frontend/framework/tool/make/impl.mk
+
+
+
+
+
+####################################################################################
+# EXTENSIONS
+####################################################################################
+
+layout-source:
+	@echo
+	@echo "  GENERATION OF SAMPLE LAYOUT"
+	@$(CMD_LINE)
+	@echo "  * Generating layout.js..."
+	@tool/layout.sh build/script/layout.js source/html SOURCE
+  
+layout-build:
+	@echo
+	@echo "  GENERATION OF SAMPLE LAYOUT"
+	@$(CMD_LINE)
+	@echo "  * Generating layout.js..."
+	@tool/layout.sh build/script/layout.js build/html BUILD
+  
+build: layout-build
+source: layout-source
