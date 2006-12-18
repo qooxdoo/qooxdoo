@@ -9,6 +9,28 @@ build:
 	@for DIR in $(APPLICATIONS); do \
 	  make -C $$DIR build || exit 1; \
 	done
+	
+api:
+	@for DIR in $(APPLICATIONS); do \
+	  make -C $$DIR api || exit 1; \
+	done
+	
+api: source build api
+
+publish:
+	@for DIR in $(APPLICATIONS); do \
+	  make -C $$DIR publish || exit 1; \
+	done
+
+fix:
+	@for DIR in $(APPLICATIONS); do \
+	  make -C $$DIR fix || exit 1; \
+	done
+
+pretty:
+	@for DIR in $(APPLICATIONS); do \
+	  make -C $$DIR pretty || exit 1; \
+	done	
 
 clean:
 	@for DIR in $(APPLICATIONS); do \
@@ -23,9 +45,4 @@ realclean:
 distclean:
 	@for DIR in $(APPLICATIONS); do \
 	  make -C $$DIR distclean || exit 1; \
-	done
-
-publish:
-	@for DIR in $(APPLICATIONS); do \
-	  make -C $$DIR publish || exit 1; \
 	done

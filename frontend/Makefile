@@ -51,17 +51,27 @@ build:
 	@$(MAKE) -C framework build
 	@$(MAKE) -C application build
 
+api:
+	@$(MAKE) -C framework api
+	@$(MAKE) -C application api
+
 all: source build api
 
+locales:
+	@$(MAKE) -C framework locales
+	@$(MAKE) -C application locales
 
+pretty:
+	@$(MAKE) -C framework pretty
+	@$(MAKE) -C application pretty
 
+fix:
+	@$(MAKE) -C framework fix
+	@$(MAKE) -C application fix
 
-
-
-
-###################################################################################
-# CLEANUP TARGETS
-###################################################################################
+publish:
+	@$(MAKE) -C framework publish
+	@$(MAKE) -C application publish
 
 clean:
 	@$(MAKE) -C application clean
