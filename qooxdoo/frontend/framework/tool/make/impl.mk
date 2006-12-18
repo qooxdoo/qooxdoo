@@ -5,10 +5,11 @@
 #
 # Configure commands
 #
+CMD_PYTHON=/usr/bin/env python
 CMD_NICE = nice -n $(COMPUTED_COMMON_NICE)
-CMD_GENERATOR = $(CMD_NICE) $(FRAMEWORK_PATH)/tool/generator.py --cache-directory $(FRAMEWORK_CACHE_PATH)
-CMD_CLDR = $(CMD_NICE) $(FRAMEWORK_PATH)/tool/cldr/extract_cldr.py 
-CMD_MSGFMT = $(CMD_NICE) $(FRAMEWORK_PATH)/tool/qxmsgfmt.py
+CMD_GENERATOR = $(CMD_NICE) $(CMD_PYTHON) $(FRAMEWORK_PATH)/tool/generator.py --cache-directory $(FRAMEWORK_CACHE_PATH)
+CMD_CLDR = $(CMD_NICE) $(CMD_PYTHON) $(FRAMEWORK_PATH)/tool/cldr/extract_cldr.py 
+CMD_MSGFMT = $(CMD_NICE) $(CMD_PYTHON) $(FRAMEWORK_PATH)/tool/qxmsgfmt.py
 CMD_REMOVE = $(CMD_NICE) rm -rf
 CMD_FIND = $(CMD_NICE) find 
 CMD_SYNC = $(CMD_NICE) rsync --checksum --recursive --links --safe-links --delete --compress
@@ -207,7 +208,7 @@ exec-files-build:
 	@mkdir -p $(PROJECT_BUILD_PATH)
 	@for file in $(PROJECT_FILES); do \
 		echo "    - Processing $$file"; \
-		cp -a $(PROJECT_SOURCE_PATH)/$$file $(PROJECT_BUILD_PATH)/$$file; \
+		cp -Rf $(PROJECT_SOURCE_PATH)/$$file $(PROJECT_BUILD_PATH)/$$file; \
 	done	
 
 exec-files-api:
@@ -218,7 +219,7 @@ exec-files-api:
 	@mkdir -p $(PROJECT_API_PATH)
 	@for file in $(API_FILES); do \
 		echo "    - Processing $$file"; \
-		cp -a $(API_SOURCE_PATH)/$$file $(PROJECT_API_PATH)/$$file; \
+		cp -Rf $(API_SOURCE_PATH)/$$file $(PROJECT_API_PATH)/$$file; \
   done
 
 
