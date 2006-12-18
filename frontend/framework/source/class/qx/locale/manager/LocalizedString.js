@@ -19,20 +19,20 @@
 
 /**
  * Create a new instance of qx.locale.manager.LocalizedString
- * 
+ *
  * @see(qx.lang.String.format)
- * 
+ *
  * @param messageId (string) message id (may contain format strings)
  * @param args (object[]) array of objects, which are inserted into the format string.
- * @param locale (string) optional locale to be used for translation 
+ * @param locale (string) optional locale to be used for translation
  */
 qx.OO.defineClass("qx.locale.manager.LocalizedString", qx.core.Object,
 function(messageId, args, locale) {
   qx.core.Object.call(this);
 
   this.setId(messageId);
-	this._locale = locale;
-  
+  this._locale = locale;
+
   var storedArguments = [];
   for (var i=0; i<args.length; args++) {
     var arg = args[i];
@@ -57,7 +57,7 @@ qx.OO.addProperty({ name: "args"});
 
 /**
  * Return translation of the string using the current locale
- * 
+ *
  * @return (string) translation using the current locale
  */
 qx.Proto.toString = function () {

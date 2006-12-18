@@ -296,7 +296,7 @@ qx.Proto.toString = function()
   for (var modifier in this._modifier) {
     vString.push(this.tr(modifier).toString());
   }
-  
+
   if (key) {
     vString.push(this.tr(key));
   }
@@ -310,7 +310,7 @@ qx.Proto.toString = function()
     var vTemp = qx.event.type.KeyEvent.codes[vKeyCode];
     vString.push(vTemp ? qx.lang.String.toFirstUp(vTemp) : String(vKeyCode));
   }
-  
+
   return vString.join("-");
 };
 

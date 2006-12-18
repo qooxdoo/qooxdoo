@@ -32,7 +32,7 @@ qx.Clazz.define("qx.Mixin",
 
     /**
      * Mixin definition
-     * 
+     *
      * Example:
      * <pre><code>
      * qx.Mixin.define("fullname",
@@ -56,7 +56,7 @@ qx.Clazz.define("qx.Mixin",
      * @access public
      * @param fullname {String} name of the mixin
      * @param definition {Map} definition structure
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     define : function(fullname, definition)

@@ -23,7 +23,7 @@
 
 /**
  * A formatter and parser for numbers.
- * 
+ *
  * @param locale {string} optional locale to be used
  */
 qx.OO.defineClass("qx.util.format.NumberFormat", qx.util.format.Format,

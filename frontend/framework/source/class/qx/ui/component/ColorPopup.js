@@ -266,11 +266,11 @@ qx.Proto._rotatePreviousColors = function()
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._onFieldMouseDown = function(e) 
+qx.Proto._onFieldMouseDown = function(e)
 {
   var vValue = this._currentPreview.getBackgroundColor();
   this.setValue(vValue);
-  
+
   if (vValue) {
     this.hide();
   }

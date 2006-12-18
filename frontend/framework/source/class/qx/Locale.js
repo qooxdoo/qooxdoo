@@ -33,7 +33,7 @@ qx.Clazz.define("qx.Locale",
 
     /**
      * Locale definition
-     * 
+     *
      * Example:
      * <pre><code>
      * qx.Locale.define("fullname",
@@ -48,34 +48,34 @@ qx.Clazz.define("qx.Locale",
      * @access public
      * @param fullname {String} name of the mixin
      * @param definition {Map} definition structure
-     * @return {void} 
+     * @return {void}
      */
-    define : function(fullname, definition) 
+    define : function(fullname, definition)
     {
       /*
       ---------------------------------------------------------------------------
         Setting up namespace
       ---------------------------------------------------------------------------
       */
-    
+
       var vSplitName = fullname.split(".");
       var vLength = vSplitName.length;
       var vParentPackage = window;
       var vPartName = vSplitName[0];
-    
+
       for (var i=0, l=vSplitName.length - 1; i<l; i++)
       {
         if (!vParentPackage[vPartName]) {
           vParentPackage[vPartName] = {};
         }
-    
+
         vParentPackage = vParentPackage[vPartName];
         vPartName = vSplitName[i + 1];
       }
-  
+
       vParentPackage[vPartName] = definition;
-      qx.locale.manager.Manager.getInstance().addTranslation(vPartName, definition);      
-      
+      qx.locale.manager.Manager.getInstance().addTranslation(vPartName, definition);
+
       arguments.callee.statics._registry[fullname] = definition;
     },
 
