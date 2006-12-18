@@ -26,7 +26,7 @@ qx.OO.defineClass("qx.locale.Key");
 /**
  * Return localized name of a key identifier
  * @see(qx.event.handler.KeyEventHandler)
- * 
+ *
  * @param size {string} format of the key identifier.
  *     Possible values: "short", "full"
  * @param keyIdentifier {string} key identifier to translate @see(qx.event.handler.KeyEventHandler)
@@ -34,27 +34,27 @@ qx.OO.defineClass("qx.locale.Key");
  * @return {qx.locale.manager.LocalizedString} localized key name
  */
 qx.Class.getKeyName = function(size, keyIdentifier, locale) {
-	if (
-	  size != "short" &&
-	  size != "full"
-	) {
-	  throw new Error('format must be one of: "short", "full"');
-	}
-	
-	var key = "key_" + size + "_" + keyIdentifier;
-	var localizedKey = new qx.locale.manager.LocalizedString(key, [], locale);
-	if (localizedKey == key) {
-	  return qx.locale.Key._keyNames[key] || keyIdentifier;
-	} else {
-	  return localizedKey;
-	}
+  if (
+    size != "short" &&
+    size != "full"
+  ) {
+    throw new Error('format must be one of: "short", "full"');
+  }
+
+  var key = "key_" + size + "_" + keyIdentifier;
+  var localizedKey = new qx.locale.manager.LocalizedString(key, [], locale);
+  if (localizedKey == key) {
+    return qx.locale.Key._keyNames[key] || keyIdentifier;
+  } else {
+    return localizedKey;
+  }
 };
 
 
 ( function() {
   var keyNames = {};
   var Manager = qx.locale.manager.Manager;
-  
+
   keyNames[Manager.marktr("key_short_Backspace")] = "Backspace";
   keyNames[Manager.marktr("key_short_Tab")] = "Tab";
   keyNames[Manager.marktr("key_short_Space")] = "Space";

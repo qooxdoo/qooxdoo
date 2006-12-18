@@ -402,7 +402,7 @@ qx.Clazz.define = function(fullname, definition)
   if (vPropertiesNg)
   {
     var vClassProperties = vPrototype._properties_ng;
-		var vInitClassProperties = vPrototype._properties_init_ng = [];
+    var vInitClassProperties = vPrototype._properties_init_ng = [];
 
     // Copy property databases from superclass
     if (vClassProperties === vSuperClass.prototype._properties_ng)
