@@ -26,8 +26,10 @@ PROJECT_NAMESPACE = qx
 PROJECT_MAKE_TITLE = FRAMEWORK
 PROJECT_API_TITLE = qooxdoo
 
-
-
+#
+# Locales to include
+#
+PROJECT_LOCALES = de de_DE de_AT en en_US fr fr_FR zh es
 
 
 
