@@ -12,6 +12,7 @@
 
    Authors:
      * Til Schneider (til132)
+     * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
 
@@ -286,46 +287,94 @@ qx.Proto._initFormatTree = function() {
   this._formatTree = [];
 
   var currWildcardChar;
-  var currWildcardSize;
+  var currWildcardSize = 0;
   var currLiteral = "";
   var format = this._format;
-  for (var i = 0; i < format.length; i++) {
+  
+  var state = "default"
+  
+  var i = 0;
+  while (i < format.length) {
     var currChar = format.charAt(i);
 
-    // Check whether we are currently in a wildcard
-    if (currWildcardChar != null) {
-      // Check whether the currChar belongs to that wildcard
-      if (currChar == currWildcardChar) {
-        // It does -> Raise the size
-        currWildcardSize++;
-      } else {
-        // It does not -> The current wildcard is done
-        this._formatTree.push({ type:"wildcard", character:currWildcardChar, size:currWildcardSize });
-        currWildcardChar = null;
-      }
-    }
-
-    if (currWildcardChar == null) {
-      // We are not (any more) in a wildcard -> Check what's starting here
-      if ((currChar >= 'a' && currChar <= 'z') || (currChar >= 'A' && currChar <= 'Z')) {
-        // This is a letter -> All letters are wildcards
-
-        // Add the literal
-        if (currLiteral.length > 0) {
-          this._formatTree.push({ type:"literal", text:currLiteral });
-          currLiteral = "";
+    switch (state) {
+      case "quoted_literal":
+        // We are now inside a quoted literal
+        // Check whether the current character is an escaped "'" character
+        if (currChar == "'") {
+          if (i+1 >= format.length) {
+            // this is the last character
+            currLiteral += currChar;
+            i++;
+            break;
+          }
+          var lookAhead = format.charAt(i+1);
+          if (lookAhead == "'") {
+            currLiteral += currChar;
+            i++;
+          } else {
+            // quoted literal ends
+            i++;
+            state = "unkown";
+          }          
+        } else {
+          currLiteral += currChar;
+          i++;
         }
-
-        // Start a new wildcard
-        currWildcardChar = currChar;
-        currWildcardSize = 1;
-      } else {
-        // This is a literal -> Add it to the current literal
-        currLiteral += currChar;
-      }
+        break;
+      case "wildcard":
+        // Check whether the currChar belongs to that wildcard
+        if (currChar == currWildcardChar) {
+          // It does -> Raise the size
+          currWildcardSize++;
+          i++;
+        } else {
+          // It does not -> The current wildcard is done
+          this._formatTree.push({ type:"wildcard", character:currWildcardChar, size:currWildcardSize });
+          currWildcardChar = null;
+          currWildcardSize = 0;
+          state = "default";
+        }
+        break;
+      default:
+        // We are not (any more) in a wildcard or quoted literal -> Check what's starting here
+        if ((currChar >= 'a' && currChar <= 'z') || (currChar >= 'A' && currChar <= 'Z')) {
+          // This is a letter -> All letters are wildcards
+          // Start a new wildcard
+          currWildcardChar = currChar;
+          state = "wildcard";           
+        } else if (currChar == "'") {
+          if (i+1 >= format.length) {
+            // this is the last character
+            currLiteral += currChar;
+            i++;
+            break;
+          }
+          var lookAhead = format.charAt(i+1);
+          if (lookAhead == "'") {
+            currLiteral += currChar;
+            i++;
+          }
+          i++;
+          state = "quoted_literal";
+        } else {
+          state = "default"
+        }
+        if (state != "default") {
+          // Add the literal
+          if (currLiteral.length > 0) {
+            this._formatTree.push({ type:"literal", text:currLiteral });
+            currLiteral = "";
+          }       
+        } else {
+          // This is an unquoted literal -> Add it to the current literal
+          currLiteral += currChar;
+          i++;
+        }
+        break;
     }
   }
-
+  
   // Add the last wildcard or literal
   if (currWildcardChar != null) {
     this._formatTree.push({ type:"wildcard", character:currWildcardChar, size:currWildcardSize });
