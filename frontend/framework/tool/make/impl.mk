@@ -241,8 +241,8 @@ exec-api-data:
 	  
 exec-api-build:
 	@$(CMD_GENERATOR) \
-	  --script-input $(FRAMEWORK_SOURCE_PATH)/class \
-	  --script-input $(API_SOURCE_PATH)/class \
+	  --class-path $(FRAMEWORK_SOURCE_PATH)/class \
+	  --class-path $(API_SOURCE_PATH)/class \
 	  --include api \
 	  --generate-compiled-script \
 	  --compiled-script-file $(PROJECT_API_PATH)/script/apiviewer.js \

@@ -96,11 +96,11 @@ source:
 	@$(CMD_GENERATOR) \
 	  --generate-api-documentation \
 	  --api-documentation-json-file $(PROJECT_PATH)/source/script/apidata.js \
-	  --script-input $(FRAMEWORK_SOURCE_PATH)/class
+	  --class-path $(FRAMEWORK_SOURCE_PATH)/class
 	  
 build:	
 	@$(CMD_GENERATOR) \
 	  --generate-api-documentation \
 	  --api-documentation-json-file $(PROJECT_PATH)/build/script/apidata.js \
-	  --script-input $(FRAMEWORK_SOURCE_PATH)/class
+	  --class-path $(FRAMEWORK_SOURCE_PATH)/class
 	
