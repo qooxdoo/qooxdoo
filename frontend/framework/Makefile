@@ -73,3 +73,13 @@ include $(QOOXDOO_PATH)/frontend/framework/tool/make/targets.mk
 # Include implementation targets
 #
 include $(QOOXDOO_PATH)/frontend/framework/tool/make/impl.mk
+
+
+
+
+####################################################################################
+# EXTENSIONS
+####################################################################################
+
+distclean:
+	@rm -rf .cache
