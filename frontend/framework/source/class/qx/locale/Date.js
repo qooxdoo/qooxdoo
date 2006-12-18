@@ -151,7 +151,7 @@ qx.Class.getMonthName = function(length, month, locale) {
 /**
  * Return localized date format string to be used with @see(qx.util.format.DateFormat).
  *
- * @param size {string} format of the month names.
+ * @param size {string} format of the date format.
  *    Possible values: "short", "medium", "long", "full"
  * @param locale {string} optional locale to be used
  * @return {qx.locale.manager.LocalizedString} localized date format string
@@ -188,6 +188,40 @@ qx.Class.getDateTimeFormat = function(canonical, fallback, locale) {
     localizedFormat = fallback;
   }
   return localizedFormat;
+};
+
+
+/**
+ * Return localized time format string to be used with @see(qx.util.format.DateFormat).
+ *
+ * @param size {string} format of the time pattern.
+ *    Possible values: "short", "medium", "long", "full"
+ * @param locale {string} optional locale to be used
+ * @return {qx.locale.manager.LocalizedString} localized time format string
+ */
+qx.Class.getTimeFormat = function(size, locale) {
+  if (
+    size != "short" &&
+    size != "medium" &&
+    size != "long" &&
+    size != "full"
+  ) {
+    throw new Error('format must be one of "short", "medium", "long", "full"');
+  }
+  switch (size) {
+    case "short":
+    case "medium":
+      return qx.locale.Date.getDateTimeFormat("HHmm", "HH:mm");
+    
+    case "long":
+      return qx.locale.Date.getDateTimeFormat("HHmmss", "HH:mm:ss");
+    
+    case "full":
+      return qx.locale.Date.getDateTimeFormat("HHmmsszz", "HH:mm:ss zz");
+
+    default:
+      throw new Error("This case should never happen.");
+  }
 };
 
 
