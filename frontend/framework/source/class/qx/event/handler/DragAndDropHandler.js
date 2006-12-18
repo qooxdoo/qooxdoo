@@ -451,7 +451,20 @@ qx.Proto._handleKeyUp = function(e)
   Cancel current drag and drop session
 */
 qx.Proto.cancelDrag = function(e) {
-  this._endDrag(null, e);
+  // Return if dragCache was not filled before
+  if (!this._dragCache) {
+    return;
+  }
+
+  if (this._dragCache.dragHandlerActive)
+  {
+    this._endDrag(null, e);
+  }
+  else
+  {
+    // Clear drag cache
+    this._dragCache = null;
+  }
 }
 
 qx.Proto.globalCancelDrag = function()
