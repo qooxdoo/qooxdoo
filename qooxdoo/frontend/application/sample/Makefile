@@ -97,7 +97,7 @@ layout-source:
 	@echo "  GENERATION OF SAMPLE LAYOUT"
 	@$(CMD_LINE)
 	@echo "  * Generating layout.js..."
-	@tool/layout.sh build/script/layout.js source/html SOURCE
+	@tool/layout.sh source/script/layout.js source/html SOURCE
   
 layout-build:
 	@echo

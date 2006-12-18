@@ -206,7 +206,7 @@ exec-files-build:
 	@echo "  * Copying files..."
 	@mkdir -p $(PROJECT_BUILD_PATH)
 	@for file in $(PROJECT_FILES); do \
-		echo "    - $$file"; \
+		echo "    - Processing $$file"; \
 		cp -a $(PROJECT_SOURCE_PATH)/$$file $(PROJECT_BUILD_PATH)/$$file; \
 	done	
 
@@ -217,7 +217,7 @@ exec-files-api:
 	@echo "  * Copying files..."
 	@mkdir -p $(PROJECT_API_PATH)
 	@for file in $(API_FILES); do \
-		echo "    - $$file"; \
+		echo "    - Processing $$file"; \
 		cp -a $(API_SOURCE_PATH)/$$file $(PROJECT_API_PATH)/$$file; \
   done
 
