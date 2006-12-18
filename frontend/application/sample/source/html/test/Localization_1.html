@@ -76,7 +76,7 @@
     // DateChooserButton
 		var hb1 = new qx.ui.layout.HorizontalBoxLayout(); hb1.set({height: "auto", spacing:3});
     var l1 = new qx.ui.basic.Label(this.tr("A date: "));
-    var tf1 = new qx.ui.form.TextField();
+    var tf1 = new qx.ui.form.TextField(); tf1.set({ width: 130, height:20});
     var dcb1 = new qx.ui.component.DateChooserButton(); dcb1.set({ width: 20 });
     dcb1.setTargetWidget(tf1);
     hb1.add(l1, tf1, dcb1);
@@ -137,6 +137,11 @@
     	info[(i++ * 2) + 1] = this.tr("date full:");
     	info[(i++ * 2) + 1] = (new qx.util.format.DateFormat(qx.locale.Date.getDateFormat("full"))).format(new Date());
 
+    	info[(i++ * 2) + 1] = this.tr("Date format full:");
+    	info[(i++ * 2) + 1] = qx.locale.Date.getDateFormat("full");
+    	info[(i++ * 2) + 1] = this.tr("date full:");
+    	info[(i++ * 2) + 1] = (new qx.util.format.DateFormat(qx.locale.Date.getDateFormat("full"))).format(new Date());
+    	
     	info[(i++ * 2) + 1] = this.tr("Week start:");
     	info[(i++ * 2) + 1] = qx.locale.Date.getDayName("wide", qx.locale.Date.getWeekStart());
 
