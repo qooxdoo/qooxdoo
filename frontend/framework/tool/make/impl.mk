@@ -134,9 +134,9 @@ ifdef PROJECT_LOCALES
 
 PROJECT_TRANSLATION_PATH = $(PROJECT_SOURCE_PATH)/translation
 
-exec-localisation:
+exec-localization:
 	@echo
-	@echo "  PREPARING LOCALISATION"
+	@echo "  PREPARING LOCALIZATION"
 	@$(CMD_LINE)
 	@mkdir -p $(FRAMEWORK_LOCALES_CACHE_PATH)
 	@for LOC in $(PROJECT_LOCALES); do \
@@ -192,7 +192,7 @@ exec-translation:
 
 else
 
-exec-localisation: exec-none
+exec-localization: exec-none
 exec-translation: exec-none
 
 endif
