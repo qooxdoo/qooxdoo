@@ -404,7 +404,7 @@ def storeEntryCache(fileDb, options):
   print "  * Saving database..."
 
   cacheCounter = 0
-  ignoreDbEntries = [ "tokens", "tree", "path", "pathId", "encoding", "resourceInput", "resourceOutput", "sourceScriptPath", "listIndex", "scriptInput" ]
+  ignoreDbEntries = [ "tokens", "tree", "path", "pathId", "encoding", "resourceInput", "resourceOutput", "listIndex", "classPath", "classUri" ]
 
   for fileId in fileDb:
     fileEntry = fileDb[fileId]
@@ -429,7 +429,7 @@ def storeEntryCache(fileDb, options):
 
 
 
-def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sourceScriptPath, resourceInput, resourceOutput, options, fileDb={}, moduleDb={}):
+def indexFile(filePath, filePathId, classPath, listIndex, classEncoding, classUri, resourceInput, resourceOutput, options, fileDb={}, moduleDb={}):
 
   ########################################
   # Checking cache
@@ -457,7 +457,7 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sour
     fileId = filePathId
 
   else:
-    fileContent = filetool.read(filePath, scriptEncoding)
+    fileContent = filetool.read(filePath, classEncoding)
 
     # Extract ID
     fileContentId = extractFileContentId(fileContent)
@@ -497,12 +497,12 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sour
   # We don't want to cache these items
   fileEntry["path"] = filePath
   fileEntry["pathId"] = filePathId
-  fileEntry["encoding"] = scriptEncoding
+  fileEntry["encoding"] = classEncoding
   fileEntry["resourceInput"] = resourceInput
   fileEntry["resourceOutput"] = resourceOutput
-  fileEntry["sourceScriptPath"] = sourceScriptPath
+  fileEntry["classUri"] = classUri
   fileEntry["listIndex"] = listIndex
-  fileEntry["scriptInput"] = scriptInput
+  fileEntry["classPath"] = classPath
 
 
   ########################################
@@ -523,19 +523,19 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sour
 
 
 
-def indexSingleScriptInput(scriptInput, listIndex, options, fileDb={}, moduleDb={}):
-  scriptInput = filetool.normalize(scriptInput)
+def indexSingleScriptInput(classPath, listIndex, options, fileDb={}, moduleDb={}):
+  classPath = filetool.normalize(classPath)
 
   # Search for other indexed lists
-  if len(options.scriptEncoding) > listIndex:
-    scriptEncoding = options.scriptEncoding[listIndex]
+  if len(options.classEncoding) > listIndex:
+    classEncoding = options.classEncoding[listIndex]
   else:
-    scriptEncoding = "utf-8"
+    classEncoding = "utf-8"
 
-  if len(options.sourceScriptPath) > listIndex:
-    sourceScriptPath = options.sourceScriptPath[listIndex]
+  if len(options.classUri) > listIndex:
+    classUri = options.classUri[listIndex]
   else:
-    sourceScriptPath = None
+    classUri = None
 
   if len(options.resourceInput) > listIndex:
     resourceInput = options.resourceInput[listIndex]
@@ -547,7 +547,7 @@ def indexSingleScriptInput(scriptInput, listIndex, options, fileDb={}, moduleDb=
   else:
     resourceOutput = None
 
-  for root, dirs, files in os.walk(scriptInput):
+  for root, dirs, files in os.walk(classPath):
 
     # Filter ignored directories
     for ignoredDir in config.DIRIGNORE:
@@ -558,9 +558,9 @@ def indexSingleScriptInput(scriptInput, listIndex, options, fileDb={}, moduleDb=
     for fileName in files:
       if os.path.splitext(fileName)[1] == config.JSEXT:
         filePath = os.path.join(root, fileName)
-        filePathId = filePath.replace(scriptInput + os.sep, "").replace(config.JSEXT, "").replace(os.sep, ".")
+        filePathId = filePath.replace(classPath + os.sep, "").replace(config.JSEXT, "").replace(os.sep, ".")
 
-        indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sourceScriptPath, resourceInput, resourceOutput, options, fileDb, moduleDb)
+        indexFile(filePath, filePathId, classPath, listIndex, classEncoding, classUri, resourceInput, resourceOutput, options, fileDb, moduleDb)
 
 
 def indexScriptInput(options):
@@ -573,8 +573,8 @@ def indexScriptInput(options):
   moduleDb = {}
   listIndex = 0
 
-  for scriptInput in options.scriptInput:
-    indexSingleScriptInput(scriptInput, listIndex, options, fileDb, moduleDb)
+  for classPath in options.classPath:
+    indexSingleScriptInput(classPath, listIndex, options, fileDb, moduleDb)
     listIndex += 1
 
   print "  * %s files were found" % len(fileDb)
