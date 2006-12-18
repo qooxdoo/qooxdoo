@@ -2,7 +2,7 @@
 # VARIABLES
 ###################################################################################
 
-VERSION = 0.7-pre
+VERSION = 0.6.4
 
 NICE=10
 NICE_CALL = nice -n $(NICE)
@@ -46,35 +46,7 @@ source:
 	@$(MAKE) -C framework source
 	@$(MAKE) -C application source
 
-apiviewer-build:
-	@$(MAKE) -C application/apiviewer build
 
-sample-build:
-	@$(MAKE) -C application/sample build
-
-framework-build:
-	@$(MAKE) -C framework build
-
-apiviewer-source:
-	@$(MAKE) -C application/apiviewer source
-
-sample-source:
-	@$(MAKE) -C application/sample source
-
-framework-source:
-	@$(MAKE) -C framework source
-
-skeleton-archives:
-	@$(MAKE) -C application/skeleton archives
-
-sample-sync:
-	@$(MAKE) -C application/sample sync
-
-apiviewer-sync:
-	@$(MAKE) -C application/apiviewer sync
-
-framework-debug:
-	@$(MAKE) -C framework debug
 
 
 
@@ -107,9 +79,6 @@ distclean:
 	@echo "  * Deleting files..."
 	@$(MAKE) -C application distclean
 	@$(MAKE) -C framework distclean
-
-	@echo "  * Deleting cache..."
-	@$(NICE_CALL) rm -rf .cache
 
 	@echo "  * Deleting release archives..."
 	@$(NICE_CALL) rm -rf release
