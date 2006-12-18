@@ -163,7 +163,7 @@ exec-translation:
 	@find $(PROJECT_SOURCE_PATH)/$(PROJECT_CLASS_FOLDERNAME) -name "*.js" | xargs xgettext --language=Java --from-code=UTF-8 \
 	  -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 \
 	  -kManager.trc -kManager.tr -kManager.marktr -kManager.trn:1,2 \
-	  -j -o $(PROJECT_TRANSLATION_PATH)/messages.pot
+	  -j -o $(PROJECT_TRANSLATION_PATH)/messages.pot 2> /dev/null
 	
 	@for LOC in $(PROJECT_LOCALES); do \
 		echo "  * Processing $$LOC"; \
