@@ -138,15 +138,20 @@ exec-localisation:
 	@echo
 	@echo "  PREPARING LOCALISATION"
 	@$(CMD_LINE)
+	@mkdir -p $(FRAMEWORK_LOCALES_CACHE_PATH)
 	@for LOC in $(PROJECT_LOCALES); do \
 	  echo "  * Processing $$LOC"; \
 	  mod=0; \
 	  if [ ! -r $(FRAMEWORK_LOCALES_CACHE_PATH)/$$LOC.xml ]; then \
 	    echo "    - Downloading $$LOC.xml..."; \
-	    wget $(FRAMEWORK_CLDR_DOWNLOAD_URI)/$$LOC.xml -q -P $(FRAMEWORK_LOCALES_CACHE_PATH); \
+	    (which wget > /dev/null 2>&1 && wget $(FRAMEWORK_CLDR_DOWNLOAD_URI)/$$LOC.xml -q -P $(FRAMEWORK_LOCALES_CACHE_PATH)) || \
+      (which curl > /dev/null 2>&1 && curl $(FRAMEWORK_CLDR_DOWNLOAD_URI)/$$LOC.xml -s -o $(FRAMEWORK_LOCALES_CACHE_PATH)/$$LOC.xml); \
 	    mod=1; \
 	  fi; \
-	  if [ ! -r $(FRAMEWORK_LOCALES_PATH)/$$LOC.js -o $$mod == 1 ]; then \
+	  if [ ! -r $(FRAMEWORK_LOCALES_CACHE_PATH)/$$LOC.xml ]; then \
+	    echo "    - Download failed! Please install wget (preferred) or curl."; \
+	    exit 1; \
+	  elif [ ! -r $(FRAMEWORK_LOCALES_PATH)/$$LOC.js -o $$mod == 1 ]; then \
 	    echo "    - Generating $$LOC.js..."; \
 	    $(CMD_CLDR) -o $(FRAMEWORK_LOCALES_PATH) $(FRAMEWORK_LOCALES_CACHE_PATH)/$$LOC.xml; \
 	  fi; \
