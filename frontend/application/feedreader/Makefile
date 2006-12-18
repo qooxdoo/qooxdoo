@@ -34,7 +34,7 @@ PROJECT_FILES = index.html
 #
 # Locales to include
 #
-PROJECT_LOCALES = de de_AT
+PROJECT_LOCALES = de
 
 
 
