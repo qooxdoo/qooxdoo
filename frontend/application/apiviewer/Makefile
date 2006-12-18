@@ -78,6 +78,20 @@ include $(QOOXDOO_PATH)/frontend/framework/tool/make/project.mk
 #
 include $(QOOXDOO_PATH)/frontend/framework/tool/make/targets.mk
 
+#
+# Include implementation targets
+#
+include $(QOOXDOO_PATH)/frontend/framework/tool/make/impl.mk
+
+
+
+
+
+
+####################################################################################
+# EXTENSIONS
+####################################################################################
+
 source:	
 	@$(CMD_GENERATOR) \
 	  --generate-api-documentation \
@@ -90,7 +104,3 @@ build:
 	  --api-documentation-json-file $(PROJECT_PATH)/build/script/apidata.js \
 	  --script-input $(FRAMEWORK_SOURCE_PATH)/class
 	
-#
-# Include implementation targets
-#
-include $(QOOXDOO_PATH)/frontend/framework/tool/make/impl.mk
