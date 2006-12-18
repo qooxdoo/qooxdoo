@@ -87,6 +87,7 @@ qx.Settings.setDefault("enableDisposerDebug", false);
 
 qx.Class._counter = 0;
 qx.Class._db = [];
+qx.Class._disposeAll = false;
 
 /**
  * Generate an unique key for the given object and return it.
@@ -129,6 +130,7 @@ qx.Class.dispose = function()
   // logger.debug("Disposing Application");
 
   // var vStart = (new Date).valueOf();
+  qx.core.Object._disposeAll = true;
   var vObject;
 
   for (var i=qx.core.Object._db.length-1; i>=0; i--)
@@ -596,7 +598,11 @@ qx.Proto.dispose = function()
   */
 
   // Delete Entry from Object DB
-  qx.core.Object._db[this._hashCode] = null;
+  if (qx.core.Object._disposeAll) {
+    qx.core.Object._db[this._hashCode] = null;
+  } else {
+    delete qx.core.Object._db[this._hashCode];
+  }
 
   // Mark as disposed
   this._disposed = true;
