@@ -35,6 +35,7 @@ TARGETS = framework application/apiviewer application/feedreader application/sam
 SKELETON_FILES = Makefile source/class source/resource source/index.html
 SDK_MAKEFILES = Makefile framework/Makefile application/Makefile
 
+DIRECTORIES = framework application
 
 
 
@@ -46,47 +47,38 @@ SDK_MAKEFILES = Makefile framework/Makefile application/Makefile
 ###################################################################################
 
 source:
-	@$(MAKE) -C framework source
-	@$(MAKE) -C application source
+	@for DIR in $(DIRECTORIES); do make -C $$DIR source || exit 1; done
 
 build:
-	@$(MAKE) -C framework build
-	@$(MAKE) -C application build
+	@for DIR in $(DIRECTORIES); do make -C $$DIR build || exit 1; done
 
 api:
-	@$(MAKE) -C framework api
-	@$(MAKE) -C application api
+	@for DIR in $(DIRECTORIES); do make -C $$DIR api || exit 1; done
 
-all: source build api
+all:
+	@for DIR in $(DIRECTORIES); do make -C $$DIR all || exit 1; done
 
 locales:
-	@$(MAKE) -C framework locales
-	@$(MAKE) -C application locales
+	@for DIR in $(DIRECTORIES); do make -C $$DIR locales || exit 1; done
 
 pretty:
-	@$(MAKE) -C framework pretty
-	@$(MAKE) -C application pretty
+	@for DIR in $(DIRECTORIES); do make -C $$DIR pretty || exit 1; done
 
 fix:
-	@$(MAKE) -C framework fix
-	@$(MAKE) -C application fix
+	@for DIR in $(DIRECTORIES); do make -C $$DIR fix || exit 1; done
 
 publish:
-	@$(MAKE) -C framework publish
-	@$(MAKE) -C application publish
+	@for DIR in $(DIRECTORIES); do make -C $$DIR publish || exit 1; done
 
 clean:
-	@$(MAKE) -C application clean
-	@$(MAKE) -C framework clean
+	@for DIR in $(DIRECTORIES); do make -C $$DIR clean || exit 1; done
 
 realclean:
-	@$(MAKE) -C application realclean
-	@$(MAKE) -C framework realclean
+	@for DIR in $(DIRECTORIES); do make -C $$DIR realclean || exit 1; done
 	@$(CMD_NICE) rm -rf release/temp
 
 distclean:
-	@$(MAKE) -C application distclean
-	@$(MAKE) -C framework distclean
+	@for DIR in $(DIRECTORIES); do make -C $$DIR distclean || exit 1; done
 	@$(CMD_NICE) rm -rf release
 
 
