@@ -64,17 +64,10 @@ all: source build api
 ###################################################################################
 
 clean:
-	@echo
-	@echo "  CLEANUP OF GENERATED FILES"
-	@echo "----------------------------------------------------------------------------"
 	@$(MAKE) -C application clean
 	@$(MAKE) -C framework clean
 
 realclean:
-	@echo
-	@echo "  CLEANUP OF GENERATED FILES (REAL)"
-	@echo "----------------------------------------------------------------------------"
-	@echo "  * Deleting files..."
 	@$(MAKE) -C application realclean
 	@$(MAKE) -C framework realclean
 
@@ -82,10 +75,6 @@ realclean:
 	@$(NICE_CMD) rm -rf release/temp
 
 distclean:
-	@echo
-	@echo "  CLEANUP OF GENERATED FILES (DIST)"
-	@echo "----------------------------------------------------------------------------"
-	@echo "  * Deleting files..."
 	@$(MAKE) -C application distclean
 	@$(MAKE) -C framework distclean
 
@@ -126,6 +115,10 @@ release-build-unix:
 	@for TARGET in $(TARGETS); do \
 		echo "    - $$TARGET"; \
 	  mkdir -p $(RELEASE_BUILD_UNIX)/frontend/$$TARGET; \
+		if [ ! -r $$TARGET/build ]; then \
+		  echo "      - Missing build folder! Run make build first!"; \
+		  exit 1; \
+		fi; \
 	  $(RSYNC_CMD) $$TARGET/build/* $(RELEASE_BUILD_UNIX)/frontend/$$TARGET; \
 	done
 	
@@ -151,6 +144,10 @@ release-build-dos:
 	@for TARGET in $(TARGETS); do \
 		echo "    - $$TARGET"; \
 	  mkdir -p $(RELEASE_BUILD_DOS)/frontend/$$TARGET; \
+		if [ ! -r $$TARGET/build ]; then \
+		  echo "      - Missing build folder! Run make build first!"; \
+		  exit 1; \
+		fi; \
 	  $(RSYNC_CMD) $$TARGET/build/* $(RELEASE_BUILD_DOS)/frontend/$$TARGET; \
 	done
 	
