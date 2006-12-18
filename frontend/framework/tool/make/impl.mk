@@ -166,11 +166,13 @@ exec-translation:
 	@mkdir -p $(PROJECT_TRANSLATION_PATH)
 	@rm -f $(PROJECT_TRANSLATION_PATH)/messages.pot
 	@touch $(PROJECT_TRANSLATION_PATH)/messages.pot
-	@find $(PROJECT_SOURCE_PATH)/$(PROJECT_CLASS_FOLDERNAME) -name "*.js" -exec xgettext --language=Java --from-code=UTF-8 \
-	  -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 \
-	  -kManager.trc -kManager.tr -kManager.marktr -kManager.trn:1,2 \
-	  -j -o $(PROJECT_TRANSLATION_PATH)/messages.pot 2>/dev/null {} \;
-	
+	@for FILE in `find $(PROJECT_SOURCE_PATH)/$(PROJECT_CLASS_FOLDERNAME) -name "*.js"`; do \
+	  xgettext --language=Java --from-code=UTF-8 \
+	    -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 \
+	    -kManager.trc -kManager.tr -kManager.marktr -kManager.trn:1,2 \
+	    -j -o $(PROJECT_TRANSLATION_PATH)/messages.pot $$FILE; \
+	done;
+	@echo "    - Found `grep msgid $(PROJECT_TRANSLATION_PATH)/messages.pot | wc -l` messages"
 	@for LOC in $(PROJECT_LOCALES); do \
 		echo "  * Processing $$LOC"; \
 		if [ ! -r $(PROJECT_TRANSLATION_PATH)/$$LOC.po ]; then \
