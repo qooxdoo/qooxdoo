@@ -193,7 +193,7 @@ endif
 # Locale namespace
 #
 ifndef PROJECT_LOCALE_NAMESPACE
-  PROJECT_LOCALE_NAMESPACE = $(PROJECT_NAMESPACE).locale.translation
+  PROJECT_LOCALE_NAMESPACE = $(PROJECT_NAMESPACE).translation
 endif
 
 #
