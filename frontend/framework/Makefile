@@ -47,7 +47,10 @@ PROJECT_COMPLETE_BUILD = true
 #
 PROJECT_LOCALE_DIRECTORY = source/class/$(PROJECT_NAMESPACE)/locale/translation
 
-
+#
+# Locale namespace
+#
+PROJECT_LOCALE_NAMESPACE = $(PROJECT_NAMESPACE).locale.translation
 
 
 
