@@ -157,7 +157,7 @@ qx.Class.summary = function()
 {
   var vData = {};
   var vCounter = 0;
-	var vObject;
+  var vObject;
 
   for (var i=qx.core.Object._db.length-1; i>=0; i--)
   {

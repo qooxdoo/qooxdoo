@@ -212,10 +212,10 @@ qx.Class.getTimeFormat = function(size, locale) {
     case "short":
     case "medium":
       return qx.locale.Date.getDateTimeFormat("HHmm", "HH:mm");
-    
+
     case "long":
       return qx.locale.Date.getDateTimeFormat("HHmmss", "HH:mm:ss");
-    
+
     case "full":
       return qx.locale.Date.getDateTimeFormat("HHmmsszz", "HH:mm:ss zz");
 
