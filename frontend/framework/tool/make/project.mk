@@ -200,7 +200,7 @@ endif
 # Locale directory
 #
 ifndef PROJECT_LOCALE_DIRECTORY
-  PROJECT_LOCALE_DIRECTORY = $(PROJECT_SOURCE_PATH)/class/$(PROJECT_NAMESPACE)/locale/translation
+  PROJECT_LOCALE_DIRECTORY = $(PROJECT_SOURCE_PATH)/class/$(PROJECT_NAMESPACE)/translation
 endif
 
 #
@@ -287,12 +287,6 @@ COMPUTED_API_INCLUDE =
 ###################################################################################
 # PROCESSING PROJECT SETTINGS
 ###################################################################################
-
-# TODO:
-# Rename: 
-#   --script-input to --class-path
-#   --source-script-path to --class-uri
-#
 
 COMPUTED_CLASS_PATH = --class-path $(FRAMEWORK_SOURCE_PATH)/class \
   --class-path $(PROJECT_SOURCE_PATH)/$(PROJECT_CLASS_FOLDERNAME) \
