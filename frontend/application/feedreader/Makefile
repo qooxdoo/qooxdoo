@@ -34,7 +34,7 @@ PROJECT_FILES = index.html
 #
 # Locales to include
 #
-PROJECT_LOCALES = de tr
+PROJECT_LOCALES = de tr it es
 
 
 
