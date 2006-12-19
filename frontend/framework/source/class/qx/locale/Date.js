@@ -34,10 +34,10 @@ qx.OO.defineClass("qx.locale.Date");
  * Get AM marker for time definitions
  *
  * @param locale {string} optional locale to be used
- * @return {qx.locale.manager.LocalizedString} translated AM marker.
+ * @return {qx.locale.LocalizedString} translated AM marker.
  */
 qx.Class.getAmMarker = function(locale) {
-  return new qx.locale.manager.LocalizedString("cldr_am", [], locale);
+  return new qx.locale.LocalizedString("cldr_am", [], locale);
 };
 
 
@@ -45,10 +45,10 @@ qx.Class.getAmMarker = function(locale) {
  * Get PM marker for time definitions
  *
  * @param locale {string} optional locale to be used
- * @return {qx.locale.manager.LocalizedString} translated PM marker.
+ * @return {qx.locale.LocalizedString} translated PM marker.
  */
 qx.Class.getPmMarker = function(locale) {
-  return new qx.locale.manager.LocalizedString("cldr_pm", [], locale);
+  return new qx.locale.LocalizedString("cldr_pm", [], locale);
 };
 
 
@@ -58,7 +58,7 @@ qx.Class.getPmMarker = function(locale) {
  * @param length {string} format of the day names.
  *     Possible values: "abbreviated", "narrow", "wide"
  * @param locale {string} optional locale to be used
- * @return {qx.locale.manager.LocalizedString[]} array of localized day names starting with sunday.
+ * @return {qx.locale.LocalizedString[]} array of localized day names starting with sunday.
  */
 qx.Class.getDayNames = function(length, locale) {
   if (
@@ -72,7 +72,7 @@ qx.Class.getDayNames = function(length, locale) {
   var names = [];
   for (var i=0; i<days.length; i++) {
     var key = "cldr_day_" + length + "_" + days[i];
-    names.push(new qx.locale.manager.LocalizedString(key, [], locale));
+    names.push(new qx.locale.LocalizedString(key, [], locale));
   }
   return names;
 };
@@ -85,7 +85,7 @@ qx.Class.getDayNames = function(length, locale) {
  *     Possible values: "abbreviated", "narrow", "wide"
  * @param day {integer} day number. 0=sunday, 1=monday, ...
  * @param locale {string} optional locale to be used
- * @return {qx.locale.manager.LocalizedString} localized day name
+ * @return {qx.locale.LocalizedString} localized day name
  */
 qx.Class.getDayName = function(length, day, locale) {
   if (
@@ -97,7 +97,7 @@ qx.Class.getDayName = function(length, day, locale) {
   }
   var days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
   var key = "cldr_day_" + length + "_" + days[day];
-  return new qx.locale.manager.LocalizedString(key, [], locale);
+  return new qx.locale.LocalizedString(key, [], locale);
 };
 
 
@@ -107,7 +107,7 @@ qx.Class.getDayName = function(length, day, locale) {
  * @param length {string} format of the month names.
  *     Possible values: "abbreviated", "narrow", "wide"
  * @param locale {string} optional locale to be used
- * @return {qx.locale.manager.LocalizedString[]} array of localized month names starting with january.
+ * @return {qx.locale.LocalizedString[]} array of localized month names starting with january.
  */
 qx.Class.getMonthNames = function(length, locale) {
   if (
@@ -120,7 +120,7 @@ qx.Class.getMonthNames = function(length, locale) {
   var names = [];
   for (var i=0; i<12; i++) {
     var key = "cldr_month_" + length + "_" + (i+1);
-    names.push(new qx.locale.manager.LocalizedString(key, [], locale));
+    names.push(new qx.locale.LocalizedString(key, [], locale));
   }
   return names;
 };
@@ -133,7 +133,7 @@ qx.Class.getMonthNames = function(length, locale) {
  *     Possible values: "abbreviated", "narrow", "wide"
  * @param month {integer} index of the month. 0=january, 1=februrary, ...
  * @param locale {string} optional locale to be used
- * @return {qx.locale.manager.LocalizedString} localized month name
+ * @return {qx.locale.LocalizedString} localized month name
  */
 qx.Class.getMonthName = function(length, month, locale) {
   if (
@@ -144,7 +144,7 @@ qx.Class.getMonthName = function(length, month, locale) {
     throw new Error('format must be one of "abbreviated", "narrow", "wide"');
   }
   var key = "cldr_month_" + length + "_" + (month+1);
-  return new qx.locale.manager.LocalizedString(key, [], locale);
+  return new qx.locale.LocalizedString(key, [], locale);
 };
 
 
@@ -154,7 +154,7 @@ qx.Class.getMonthName = function(length, month, locale) {
  * @param size {string} format of the date format.
  *    Possible values: "short", "medium", "long", "full"
  * @param locale {string} optional locale to be used
- * @return {qx.locale.manager.LocalizedString} localized date format string
+ * @return {qx.locale.LocalizedString} localized date format string
  */
 qx.Class.getDateFormat = function(size, locale) {
   if (
@@ -166,7 +166,7 @@ qx.Class.getDateFormat = function(size, locale) {
     throw new Error('format must be one of "short", "medium", "long", "full"');
   }
   var key = "cldr_date_format_" + size;
-  return new qx.locale.manager.LocalizedString(key, [], locale)
+  return new qx.locale.LocalizedString(key, [], locale)
 };
 
 
@@ -183,7 +183,7 @@ qx.Class.getDateFormat = function(size, locale) {
  */
 qx.Class.getDateTimeFormat = function(canonical, fallback, locale) {
   var key = "cldr_date_time_format_" + canonical;
-  var localizedFormat = qx.locale.manager.Manager.getInstance().translate(key, [], locale);
+  var localizedFormat = qx.locale.Manager.getInstance().translate(key, [], locale);
   if (localizedFormat == key) {
     localizedFormat = fallback;
   }
@@ -197,7 +197,7 @@ qx.Class.getDateTimeFormat = function(canonical, fallback, locale) {
  * @param size {string} format of the time pattern.
  *    Possible values: "short", "medium", "long", "full"
  * @param locale {string} optional locale to be used
- * @return {qx.locale.manager.LocalizedString} localized time format string
+ * @return {qx.locale.LocalizedString} localized time format string
  */
 qx.Class.getTimeFormat = function(size, locale) {
   if (
@@ -427,8 +427,8 @@ qx.Class._getTerritory = function(locale) {
     var territory = locale.split("_")[1] || locale;
   } else {
     territory =
-      qx.locale.manager.Manager.getInstance().getTerritory() ||
-      qx.locale.manager.Manager.getInstance().getLanguage();
+      qx.locale.Manager.getInstance().getTerritory() ||
+      qx.locale.Manager.getInstance().getLanguage();
   };
   return territory.toUpperCase();
 };

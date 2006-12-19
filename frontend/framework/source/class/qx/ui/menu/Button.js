@@ -63,7 +63,7 @@ function(vLabel, vIcon, vCommand, vMenu)
 
   if (vCommand != null) {
     this.setCommand(vCommand);
-    qx.locale.manager.Manager.getInstance().addEventListener("changeLocale", function(e) {
+    qx.locale.Manager.getInstance().addEventListener("changeLocale", function(e) {
       this._modifyCommand(vCommand, vCommand);
     }, this)
   }
@@ -226,11 +226,11 @@ qx.Proto._modifyLabel = function(propValue, propOldValue, propData)
 {
   this._labelObject.setHtml(propValue);
 
-  if ((typeof propValue == "string" && propValue != "") || propValue instanceof qx.locale.manager.LocalizedString)
+  if ((typeof propValue == "string" && propValue != "") || propValue instanceof qx.locale.LocalizedString)
   {
     this._hasLabel = true;
 
-    if (!((typeof propOldValue == "string" && propOldValue != "") || propOldValue instanceof qx.locale.manager.LocalizedString)) {
+    if (!((typeof propOldValue == "string" && propOldValue != "") || propOldValue instanceof qx.locale.LocalizedString)) {
       this.addAt(this._labelObject, this.getFirstChild() == this._iconObject ? 1 : 0);
     }
   }

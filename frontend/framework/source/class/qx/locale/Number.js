@@ -34,10 +34,10 @@ qx.OO.defineClass("qx.locale.Number");
  * Get deciaml seperator for number formatting
  *
  * @param locale {string} optional locale to be used
- * @return {qx.locale.manager.LocalizedString} deciaml seperator.
+ * @return {qx.locale.LocalizedString} deciaml seperator.
  */
 qx.Class.getDecimalSeperator = function(locale) {
-  return new qx.locale.manager.LocalizedString("cldr_number_decimal_seperator", [], locale);
+  return new qx.locale.LocalizedString("cldr_number_decimal_seperator", [], locale);
 };
 
 
@@ -45,10 +45,10 @@ qx.Class.getDecimalSeperator = function(locale) {
  * Get thousand grouping seperator for number formatting
  *
  * @param locale {string} optional locale to be used
- * @return {qx.locale.manager.LocalizedString} group seperator.
+ * @return {qx.locale.LocalizedString} group seperator.
  */
 qx.Class.getGroupSeperator = function(locale) {
-  return new qx.locale.manager.LocalizedString("cldr_number_group_seperator", [], locale);
+  return new qx.locale.LocalizedString("cldr_number_group_seperator", [], locale);
 };
 
 
@@ -56,8 +56,8 @@ qx.Class.getGroupSeperator = function(locale) {
  * Get percent format string
  *
  * @param locale {string} optional locale to be used
- * @return {qx.locale.manager.LocalizedString} percent format string.
+ * @return {qx.locale.LocalizedString} percent format string.
  */
 qx.Class.getPercentFormat = function(locale) {
-  return new qx.locale.manager.LocalizedString("cldr_number_percent_format", [], locale);
+  return new qx.locale.LocalizedString("cldr_number_percent_format", [], locale);
 };

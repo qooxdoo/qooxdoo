@@ -31,7 +31,7 @@ qx.OO.defineClass("qx.locale.Key");
  *     Possible values: "short", "full"
  * @param keyIdentifier {string} key identifier to translate @see(qx.event.handler.KeyEventHandler)
  * @param locale {string} optional locale to be used
- * @return {qx.locale.manager.LocalizedString} localized key name
+ * @return {qx.locale.LocalizedString} localized key name
  */
 qx.Class.getKeyName = function(size, keyIdentifier, locale) {
   if (
@@ -42,7 +42,7 @@ qx.Class.getKeyName = function(size, keyIdentifier, locale) {
   }
 
   var key = "key_" + size + "_" + keyIdentifier;
-  var localizedKey = new qx.locale.manager.LocalizedString(key, [], locale);
+  var localizedKey = new qx.locale.LocalizedString(key, [], locale);
   if (localizedKey == key) {
     return qx.locale.Key._keyNames[key] || keyIdentifier;
   } else {
@@ -53,7 +53,7 @@ qx.Class.getKeyName = function(size, keyIdentifier, locale) {
 
 ( function() {
   var keyNames = {};
-  var Manager = qx.locale.manager.Manager;
+  var Manager = qx.locale.Manager;
 
   keyNames[Manager.marktr("key_short_Backspace")] = "Backspace";
   keyNames[Manager.marktr("key_short_Tab")] = "Tab";
