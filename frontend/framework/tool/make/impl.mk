@@ -156,17 +156,22 @@ exec-framework-localization:
 	@for LOC in $(PROJECT_LOCALES); do \
 	  echo "  * Processing $$LOC"; \
 	  mod=0; \
+	  if [ ! -r $(FRAMEWORK_CACHE_PATH)/$$LOC.xml -a -r $(FRAMEWORK_LOCALE_PATH)/$$LOC.xml ]; then \
+	    echo "    - Copying $$LOC.xml..."; \
+	    cp -f $(FRAMEWORK_LOCALE_PATH)/$$LOC.xml $(FRAMEWORK_CACHE_PATH)/$$LOC.xml; \
+	    mod=1; \
+    fi; \
 	  if [ ! -r $(FRAMEWORK_CACHE_PATH)/$$LOC.xml ]; then \
-	    echo "    - Loading $$LOC.xml..."; \
-	    (test -r $(FRAMEWORK_LOCALE_PATH)/$$LOC.xml && cp -f $(FRAMEWORK_LOCALE_PATH)/$$LOC.xml $(FRAMEWORK_CACHE_PATH)/$$LOC.xml) || \
+	    echo "    - Downloading $$LOC.xml..."; \
 	    (which wget > /dev/null 2>&1 && wget $(FRAMEWORK_CLDR_DOWNLOAD_URI)/$$LOC.xml -q -P $(FRAMEWORK_CACHE_PATH)) || \
       (which curl > /dev/null 2>&1 && curl $(FRAMEWORK_CLDR_DOWNLOAD_URI)/$$LOC.xml -s -o $(FRAMEWORK_CACHE_PATH)/$$LOC.xml); \
 	    mod=1; \
+		  if [ ! -r $(FRAMEWORK_CACHE_PATH)/$$LOC.xml ]; then \
+		    echo "    - Download failed! Please install wget (preferred) or curl."; \
+		    exit 1; \
+		  fi; \
 	  fi; \
-	  if [ ! -r $(FRAMEWORK_CACHE_PATH)/$$LOC.xml ]; then \
-	    echo "    - Download failed! Please install wget (preferred) or curl."; \
-	    exit 1; \
-	  elif [ ! -r $(FRAMEWORK_LOCALE_CLASS_PATH)/$$LOC.js -o $$mod == 1 ]; then \
+	  if [ ! -r $(FRAMEWORK_LOCALE_CLASS_PATH)/$$LOC.js -o $$mod == 1 ]; then \
 	    echo "    - Generating $$LOC.js..."; \
 	    $(CMD_CLDR) -o $(FRAMEWORK_LOCALE_CLASS_PATH) $(FRAMEWORK_CACHE_PATH)/$$LOC.xml; \
 	  fi; \
