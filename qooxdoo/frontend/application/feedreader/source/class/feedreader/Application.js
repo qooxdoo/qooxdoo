@@ -28,7 +28,10 @@
 #embed(icon/16/reload.png)
 #embed(icon/16/locale.png)
 #embed(icon/16/help.png)
-#load(feedreader.locale.translation.de)
+#load(feedreader.translation.de)
+#load(feedreader.translation.tr)
+#load(feedreader.translation.it)
+#load(feedreader.translation.es)
 
 ************************************************************************ */
 
@@ -151,14 +154,18 @@ qx.Proto.main = function(e)
   mb_en.setUserData("locale", "en");
   var mb_tr = new qx.ui.menu.RadioButton(this.tr("Turkish"), null, locale == "tr");
   mb_tr.setUserData("locale", "tr");
+  var mb_it = new qx.ui.menu.RadioButton(this.tr("Italian"), null, locale == "it");
+  mb_it.setUserData("locale", "it");
+  var mb_es = new qx.ui.menu.RadioButton(this.tr("Spanish"), null, locale == "es");
+  mb_es.setUserData("locale", "es");
   var lang_menu = new qx.ui.menu.Menu();
-  var radioManager = new qx.manager.selection.RadioManager("lang", [mb_de, mb_en, mb_tr]);
+  var radioManager = new qx.manager.selection.RadioManager("lang", [mb_de, mb_en, mb_tr, mb_it, mb_es]);
   radioManager.addEventListener("changeSelected", function(e) {
     var lang = e.getData().getUserData("locale");
     this.debug("lang:" + lang);
 	qx.locale.manager.Manager.getInstance().setLocale(lang);
   });
-  lang_menu.add(mb_de, mb_en, mb_tr);
+  lang_menu.add(mb_de, mb_en, mb_tr, mb_it, mb_es);
   lang_menu.addToDocument();
   toolBar.add(new qx.ui.toolbar.MenuButton("", lang_menu, "icon/16/locale.png"));
 
