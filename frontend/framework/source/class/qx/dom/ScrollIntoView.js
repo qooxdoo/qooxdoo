@@ -121,7 +121,7 @@ qx.dom.ScrollIntoView.scrollX = function(vElement, vAlignLeft)
  * the visible area of the parent.
  * 
  * @param vElement {Element} DOM node to be scrolled into view
- * @param vAlignLeft {boolean} whether the element should be top aligned
+ * @param vAlignTop {boolean} whether the element should be top aligned
  */
 qx.dom.ScrollIntoView.scrollY = function(vElement, vAlignTop)
 {

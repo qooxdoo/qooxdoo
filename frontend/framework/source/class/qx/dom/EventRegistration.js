@@ -25,6 +25,9 @@
 
 qx.OO.defineClass("qx.dom.EventRegistration");
 
+qx.dom.EventRegistration.addEventListener = function(vElement, vType, vFunction) {};
+qx.dom.EventRegistration.removeEventListener = function(vElement, vType, vFunction) {};
+
 if (qx.sys.Client.getInstance().isMshtml())
 {
   qx.dom.EventRegistration.addEventListener = function(vElement, vType, vFunction) {
