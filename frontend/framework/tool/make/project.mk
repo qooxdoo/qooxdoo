@@ -1,7 +1,9 @@
+###################################################################################
+# INCLUDE EXTERNAL MAKEFILES
+###################################################################################
+
 include $(QOOXDOO_PATH)/frontend/framework/tool/make/framework.mk
 include $(QOOXDOO_PATH)/frontend/framework/tool/make/apiviewer.mk
-include $(QOOXDOO_PATH)/frontend/framework/tool/make/impl.mk
-
 
 
 ####################################################################################
@@ -54,11 +56,12 @@ endif
 #
 # Locales to use (space separated list)
 #
-#ifndef PROJECT_LOCALES
-#  PROJECT_LOCALES = C en fr de es
-#endif
+ifndef PROJECT_LOCALES
+  PROJECT_LOCALES = C
+else
+  PROJECT_LOCALES += C
+endif
 
-PROJECT_LOCALES += C
 
 
 
@@ -344,3 +347,13 @@ endif
 ifeq ($(PROJECT_LINEBREAKS_BUILD),true)
   COMPUTED_BUILD_LINEBREAKS = --add-new-lines --add-file-ids
 endif
+
+
+
+
+
+###################################################################################
+# INCLUDE EXTERNAL MAKEFILES
+###################################################################################
+
+include $(QOOXDOO_PATH)/frontend/framework/tool/make/impl.mk
