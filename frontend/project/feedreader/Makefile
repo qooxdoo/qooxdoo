@@ -34,7 +34,7 @@ PROJECT_FILES = index.html
 #
 # Locales to include
 #
-PROJECT_LOCALES = de tr it es sv
+PROJECT_LOCALES = de tr it es
 
 
 
@@ -52,13 +52,13 @@ PROJECT_RESOURCE_FILTER = true
 #
 # We don't need the full source code
 #
-PROJECT_COMPLETE_SOURCE = true
+PROJECT_COMPLETE_SOURCE = false
 
 #
 # Disable line breaks
 #
 PROJECT_LINEBREAKS_BUILD = false
-PROJECT_LINEBREAKS_SOURCE = false
+PROJECT_LINEBREAKS_SOURCE = true
 
 #
 # qooxdoo.org sync

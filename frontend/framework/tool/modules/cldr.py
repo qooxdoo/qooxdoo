@@ -29,19 +29,15 @@ def getJavaScript(data, locale, language, territory="", namespace="qx.locale.dat
 	str += '''#require(qx.Locale)
 */
 qx.Locale.define("%s.%s", {
-/*
-  locale: "%s",
-  data: {
-*/
-''' % (namespace, locale, locale)
+''' % (namespace, locale)
 	lines = []
 	keys = data.keys()
 	keys.sort()
 	for key in keys:
-		lines.append('    cldr_%s: "%s"' % (key.replace("-", "_"), data[key].encode("UTF-8").replace("\n", "\n" + 6 * " ").replace('"', '\\"')) )
+		lines.append('  cldr_%s: "%s"' % (key.replace("-", "_"), data[key].encode("UTF-8").replace("\n", "\n" + 4 * " ").replace('"', '\\"')) )
 		
 	body = ",\n".join(lines)
-	str += "%s\n  /*}*/\n});" % body
+	str += "%s\n});" % body
 	return str
 	
 
@@ -57,15 +53,11 @@ def getLocale(calendarElement):
 def extractMonth(calendarElement):
 	data = {}
 	for monthContext in calendarElement.findall(".//monthContext"):
-		#context = monthContext.attrib["type"]
 		for monthWidth in monthContext.findall("monthWidth"):
 			monthType = monthWidth.attrib["type"]
-			#monthList = []
 			for month in monthWidth.findall("month"):
 				if month.attrib.has_key("alt"): continue
-				#monthList.append(month.text)
 				data["month_%s_%s" % (monthType, month.attrib["type"])] = month.text
-			#data["month_%s_%s" % (context, monthType)] = '["%s"]' % ""'", "'.join(monthList)
 	return data
 
 
@@ -73,16 +65,12 @@ def extractDay(calendarElement):
 	data = {}
 	for dayWidth in calendarElement.findall(".//dayWidth"):
 		dayType = dayWidth.attrib["type"]
-		#dayList = []
 		for day in dayWidth.findall("day"):
 			if day.attrib.has_key("alt"): continue
-			#dayList.append(day.text)
 			data['day_%s_%s' % (dayType, day.attrib["type"])] = day.text
-		#data['day_%s' % (dayType)] = '["%s"]' % ""'", "'.join(dayList)
 	return data
 	
 def extractQuarter(calendarElement):
-	#print "/* TODO no quarter extraction yet */"
 	return {'': ''}
 
 	
@@ -121,12 +109,9 @@ def extractTimeFormat(calendarElement):
 
 		
 def extractDateTimeFormat(calendarElement):
-	#formatList = []
 	data = {}
 	for dateTimeFormat in calendarElement.findall(".//dateFormatItem"):
-		#formatList.append('"%s": "%s"' % (dateTimeFormat.attrib["id"], dateTimeFormat.text))
 		data["date_time_format_%s" % dateTimeFormat.attrib["id"]] = dateTimeFormat.text
-	#return {'dateTimeFormats' : '{\n%s\n}' % (',\n'.join(formatList)) }
 	return data
 
 	
@@ -192,10 +177,8 @@ def parseCldrFile(filename, outputDirectory=None):
 		locale += "_" + territory
 
 	code = getJavaScript(data, locale, language, territory)
-	#print code
 	if outputDirectory != None:
 		outfile = os.path.join(outputDirectory, locale + ".js");
-		# print "writing %s ..." % outfile
 		open(outfile, "w").write(code)
 	else:
 		print code
@@ -210,7 +193,6 @@ def main(argv=None):
         except getopt.error, msg:
             raise Usage(msg)
     
-        # option processing
         output = None
         for option, value in opts:
             if option == "-v":
