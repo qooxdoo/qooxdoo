@@ -28,11 +28,6 @@
 #embed(icon/16/reload.png)
 #embed(icon/16/locale.png)
 #embed(icon/16/help.png)
-#load(feedreader.translation.de)
-#load(feedreader.translation.tr)
-#load(feedreader.translation.it)
-#load(feedreader.translation.es)
-#load(feedreader.translation.sv)
 
 ************************************************************************ */
 
