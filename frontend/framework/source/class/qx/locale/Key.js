@@ -55,6 +55,7 @@ qx.Class.getKeyName = function(size, keyIdentifier, locale) {
   var keyNames = {};
   var Manager = qx.locale.Manager;
 
+  // TRANSLATION: short representation of key names
   keyNames[Manager.marktr("key_short_Backspace")] = "Backspace";
   keyNames[Manager.marktr("key_short_Tab")] = "Tab";
   keyNames[Manager.marktr("key_short_Space")] = "Space";
@@ -82,6 +83,7 @@ qx.Class.getKeyName = function(size, keyIdentifier, locale) {
   keyNames[Manager.marktr("key_short_Win")] = "Win";
   keyNames[Manager.marktr("key_short_Apps")] = "Apps";
 
+  // TRANSLATION: full/long representation of key names
   keyNames[Manager.marktr("key_full_Backspace")] = "Backspace";
   keyNames[Manager.marktr("key_full_Tab")] = "Tabulator";
   keyNames[Manager.marktr("key_full_Space")] = "Space";
