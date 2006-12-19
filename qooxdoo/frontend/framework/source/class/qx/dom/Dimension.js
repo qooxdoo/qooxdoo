@@ -169,7 +169,7 @@ qx.dom.Dimension.getInsetLeft   = function(el) {};
 qx.dom.Dimension.getInsetTop    = function(el) {};
 qx.dom.Dimension.getInsetRight  = function(el) {};
 qx.dom.Dimension.getInsetBottom = function(el) {};
-  
+
 if (qx.sys.Client.getInstance().isMshtml())
 {
   qx.dom.Dimension.getInsetLeft   = function(el) { return el.clientLeft; }
