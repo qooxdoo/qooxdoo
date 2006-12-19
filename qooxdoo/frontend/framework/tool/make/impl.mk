@@ -38,10 +38,10 @@ internal-realclean: internal-clean
 
 internal-distclean: internal-realclean
 	@$(CMD_FIND) . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
-	@$(CMD_REMOVE) $(CACHE)
 	@$(CMD_REMOVE) $(PROJECT_DEBUG_PATH)
 	@$(CMD_REMOVE) $(PROJECT_TRANSLATION_CLASS_PATH)
 	@$(CMD_REMOVE) $(FRAMEWORK_CACHE_PATH)
+	@$(CMD_REMOVE) $(FRAMEWORK_LOCALE_CLASS_PATH)
 	@$(CMD_REMOVE) $(FRAMEWORK_TRANSLATION_CLASS_PATH)
 
 job-clean-common:
