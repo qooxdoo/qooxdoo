@@ -31,11 +31,9 @@ CMD_PYTHON=/usr/bin/env python
 ANY2DOS = | xargs $(CMD_PYTHON) framework/tool/modules/textutil.py --command any2Dos
 ANY2UNIX = | xargs $(CMD_PYTHON) framework/tool/modules/textutil.py --command any2Unix
 
-TARGETS = framework application/apiviewer application/feedreader application/sample application/showcase application/webmail
+TARGETS = project/apiviewer project/feedreader project/framework project/sample project/showcase project/webmail
 SKELETON_FILES = Makefile source/class source/resource source/index.html
-SDK_MAKEFILES = Makefile framework/Makefile application/Makefile
-
-DIRECTORIES = framework application
+SDK_MAKEFILES = Makefile framework/Makefile project/Makefile
 
 
 
@@ -47,38 +45,38 @@ DIRECTORIES = framework application
 ###################################################################################
 
 source:
-	@for DIR in $(DIRECTORIES); do $(MAKE) -s -C $$DIR source || exit 1; done
+	@$(MAKE) -s -C project source
 
 build:
-	@for DIR in $(DIRECTORIES); do $(MAKE) -s -C $$DIR build || exit 1; done
+	@$(MAKE) -s -C project build
 
 api:
-	@for DIR in $(DIRECTORIES); do $(MAKE) -s -C $$DIR api || exit 1; done
+	@$(MAKE) -s -C project api
 
 all:
-	@for DIR in $(DIRECTORIES); do $(MAKE) -s -C $$DIR all || exit 1; done
+	@$(MAKE) -s -C project all
 
 locales:
-	@for DIR in $(DIRECTORIES); do $(MAKE) -s -C $$DIR locales || exit 1; done
+	@$(MAKE) -s -C project locales
 
 pretty:
-	@for DIR in $(DIRECTORIES); do $(MAKE) -s -C $$DIR pretty || exit 1; done
+	@$(MAKE) -s -C project pretty
 
 fix:
-	@for DIR in $(DIRECTORIES); do $(MAKE) -s -C $$DIR fix || exit 1; done
+	@$(MAKE) -s -C project fix
 
 publish:
-	@for DIR in $(DIRECTORIES); do $(MAKE) -s -C $$DIR publish || exit 1; done
+	@$(MAKE) -s -C project publish
 
 clean:
-	@for DIR in $(DIRECTORIES); do $(MAKE) -s -C $$DIR clean || exit 1; done
+	@$(MAKE) -s -C project clean
 
 realclean:
-	@for DIR in $(DIRECTORIES); do $(MAKE) -s -C $$DIR realclean || exit 1; done
+	@$(MAKE) -s -C project realclean
 	@$(CMD_NICE) rm -rf release/temp
 
 distclean:
-	@for DIR in $(DIRECTORIES); do $(MAKE) -s -C $$DIR distclean || exit 1; done
+	@$(MAKE) -s -C project distclean
 	@$(CMD_NICE) rm -rf release
 
 
@@ -196,8 +194,8 @@ release-sdk-unix:
 	@echo "  * Collecting skeleton files..."
 	@for FILE in $(SKELETON_FILES); do \
     echo "    - $$FILE"; \
-    mkdir -p `dirname $(RELEASE_SDK_UNIX)/frontend/application/skeleton/$$FILE`; \
-	  $(CMD_RSYNC) application/skeleton/$$FILE `dirname $(RELEASE_SDK_UNIX)/frontend/application/skeleton/$$FILE`; \
+    mkdir -p `dirname $(RELEASE_SDK_UNIX)/frontend/project/skeleton/$$FILE`; \
+	  $(CMD_RSYNC) project/skeleton/$$FILE `dirname $(RELEASE_SDK_UNIX)/frontend/project/skeleton/$$FILE`; \
   done    
   
 	@echo "  * Synchronizing tool folders..."
@@ -214,9 +212,9 @@ release-sdk-unix:
 	@$(CMD_NICE) find $(RELEASE_SDK_UNIX) $(EXEC_FILES) | xargs chmod a+rx
 
 	@echo "  * Building skeleton archive..."
-	@rm -f $(RELEASE_SDK_UNIX)/frontend/application/skeleton.tar.gz
-	@cd $(RELEASE_SDK_UNIX)/frontend/application; $(CMD_NICE) tar cfzp skeleton.tar.gz skeleton 
-	@rm -rf $(RELEASE_SDK_UNIX)/frontend/application/skeleton
+	@rm -f $(RELEASE_SDK_UNIX)/frontend/project/skeleton.tar.gz
+	@cd $(RELEASE_SDK_UNIX)/frontend/project; $(CMD_NICE) tar cfzp skeleton.tar.gz skeleton 
+	@rm -rf $(RELEASE_SDK_UNIX)/frontend/project/skeleton
 	
 	@echo "  * Generating tar archive..."
 	@cd release/temp/sdk/unix; rm -f qooxdoo-$(VERSION)-sdk.tar.gz; $(CMD_NICE) tar cfzp ../../../qooxdoo-$(VERSION)-sdk.tar.gz qooxdoo-$(VERSION)-sdk
@@ -249,8 +247,8 @@ release-sdk-dos:
 	@echo "  * Collecting skeleton files..."
 	@for FILE in $(SKELETON_FILES); do \
     echo "    - $$FILE"; \
-    mkdir -p `dirname $(RELEASE_SDK_DOS)/frontend/application/skeleton/$$FILE`; \
-	  $(CMD_RSYNC) application/skeleton/$$FILE `dirname $(RELEASE_SDK_DOS)/frontend/application/skeleton/$$FILE`; \
+    mkdir -p `dirname $(RELEASE_SDK_DOS)/frontend/project/skeleton/$$FILE`; \
+	  $(CMD_RSYNC) project/skeleton/$$FILE `dirname $(RELEASE_SDK_DOS)/frontend/project/skeleton/$$FILE`; \
   done    
   
 	@echo "  * Synchronizing tool folders..."
@@ -267,9 +265,9 @@ release-sdk-dos:
 	@$(CMD_NICE) find $(RELEASE_SDK_DOS) $(EXEC_FILES) | xargs chmod a+rx
 
 	@echo "  * Building skeleton archive..."
-	@rm -f $(RELEASE_SDK_DOS)/frontend/application/skeleton.zip
-	@cd $(RELEASE_SDK_DOS)/frontend/application; $(CMD_NICE) zip -rq skeleton.zip skeleton 
-	@rm -rf $(RELEASE_SDK_DOS)/frontend/application/skeleton
+	@rm -f $(RELEASE_SDK_DOS)/frontend/project/skeleton.zip
+	@cd $(RELEASE_SDK_DOS)/frontend/project; $(CMD_NICE) zip -rq skeleton.zip skeleton 
+	@rm -rf $(RELEASE_SDK_DOS)/frontend/project/skeleton
 
 	@echo "  * Generating zip archive..."
 	@cd release/temp/sdk/dos; rm -f qooxdoo-$(VERSION)-sdk.zip; $(CMD_NICE) zip -rq ../../../qooxdoo-$(VERSION)-sdk.zip qooxdoo-$(VERSION)-sdk
