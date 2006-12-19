@@ -1,4 +1,4 @@
-APPLICATIONS = apiviewer feedreader sample showcase webmail
+APPLICATIONS = apiviewer feedreader framework sample showcase webmail
 
 source:
 	@for DIR in $(APPLICATIONS); do $(MAKE) -s -C $$DIR source || exit 1; done
