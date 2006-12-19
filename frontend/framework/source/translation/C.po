@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-19 17:04+0100\n"
+"POT-Creation-Date: 2006-12-19 17:12+0100\n"
 "PO-Revision-Date: 2006-12-19 15:52+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -122,107 +122,108 @@ msgstr ""
 msgid "key_short_Apps"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:88
+#. TRANSLATION: full/long representation of key names
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:87
 msgid "key_full_Backspace"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:89
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:88
 msgid "key_full_Tab"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:90
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:89
 msgid "key_full_Space"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:91
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:90
 msgid "key_full_Enter"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:92
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:91
 msgid "key_full_Shift"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:93
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:92
 msgid "key_full_Control"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:94
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:93
 msgid "key_full_Alt"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:95
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:94
 msgid "key_full_CapsLock"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:96
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:95
 msgid "key_full_Meta"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:97
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:96
 msgid "key_full_Escape"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:98
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:97
 msgid "key_full_Left"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:99
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:98
 msgid "key_full_Up"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:100
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:99
 msgid "key_full_Right"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:101
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:100
 msgid "key_full_Down"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:102
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:101
 msgid "key_full_PageUp"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:103
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:102
 msgid "key_full_PageDown"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:104
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:103
 msgid "key_full_End"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:105
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:104
 msgid "key_full_Home"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:106
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:105
 msgid "key_full_Insert"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:107
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:106
 msgid "key_full_Delete"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:108
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:107
 msgid "key_full_NumLock"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:109
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:108
 msgid "key_full_PrintScreen"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:110
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:109
 msgid "key_full_Scroll"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:111
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:110
 msgid "key_full_Pause"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:112
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:111
 msgid "key_full_Win"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:113
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:112
 msgid "key_full_Apps"
 msgstr ""
 

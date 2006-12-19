@@ -17,3 +17,12 @@ build: all
 api: all
 pretty: all
 fix: all
+
+clean:
+  @rm -rf .cache
+  @rm -rf source/translation/messages.pot
+  @rm -rf source/class/qx/locale/data
+  @rm -rf source/class/qx/locale/translations
+  
+distclean: clean
+realclean: clean
