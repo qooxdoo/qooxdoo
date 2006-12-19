@@ -197,6 +197,8 @@ exec-framework-translation:
 	  xgettext --language=Java --from-code=UTF-8 \
 	    -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 \
 	    -kManager.trc -kManager.tr -kManager.marktr -kManager.trn:1,2 \
+	    --sort-by-file \
+	    --add-comments=TRANSLATION \
 	    -j -o $(FRAMEWORK_TRANSLATION_PATH)/messages.pot $$FILE 2> /dev/null; \
 	  echo -n "."; \
 	done;
