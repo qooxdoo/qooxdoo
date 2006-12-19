@@ -1,0 +1,76 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-12-18 16:13+0100\n"
+"PO-Revision-Date: 2006-12-19 11:10+0100\n"
+"Last-Translator: Henric Johansson <henric.johansson@mindset.se>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: source/class/feedreader/Application.js:127
+msgid "reloading ..."
+msgstr "uppdaterar..."
+
+#: source/class/feedreader/Application.js:132
+msgid "qooxdoo feed reader."
+msgstr "qooxdoo feed läsare."
+
+#: source/class/feedreader/Application.js:136
+msgid "Add feed"
+msgid_plural "Add feeds"
+msgstr[0] "Lägg till feed"
+msgstr[1] "Lägg till feeds"
+
+#: source/class/feedreader/Application.js:137
+msgid "Remove feed"
+msgstr "Ta bort feed"
+
+#: source/class/feedreader/Application.js:140
+msgid "Reload"
+msgstr "Uppdatera"
+
+#: source/class/feedreader/Application.js:142
+msgid "(%1) Reload the feeds."
+msgstr "(%1) Uppdatera feedsen."
+
+#: source/class/feedreader/Application.js:148
+msgid "German"
+msgstr "Tyska"
+
+#: source/class/feedreader/Application.js:150
+msgid "English"
+msgstr "Engelska"
+
+#: source/class/feedreader/Application.js:162
+msgid "Help"
+msgstr "Hjälp"
+
+#: source/class/feedreader/Application.js:169
+msgid "News feeds"
+msgstr "Nyhetsfeed"
+
+#: source/class/feedreader/Application.js:190
+msgid "Subject"
+msgstr "Ämne"
+
+#: source/class/feedreader/Application.js:191
+msgid "Sender"
+msgstr "Avsändare"
+
+#: source/class/feedreader/Application.js:192
+msgid "Date"
+msgstr "Datum"
+
+#: source/class/feedreader/ArticleView.js:77
+msgid "read more ..."
+msgstr "läs mer..."
+

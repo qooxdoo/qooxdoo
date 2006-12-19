@@ -63,6 +63,9 @@ function(vLabel, vIcon, vCommand, vMenu)
 
   if (vCommand != null) {
     this.setCommand(vCommand);
+    qx.locale.manager.Manager.getInstance().addEventListener("changeLocale", function(e) {
+      this._modifyCommand(vCommand, vCommand);
+    }, this)
   }
 
   if (vMenu != null) {

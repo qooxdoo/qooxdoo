@@ -34,7 +34,7 @@ PROJECT_FILES = html css
 #
 # Locales to include
 #
-PROJECT_LOCALES = de de_DE de_AT en en_US fr fr_FR es es_ES ar zh tr
+PROJECT_LOCALES = de de_DE de_AT en en_US fr fr_FR es es_ES sv ar zh tr it
 
 
 
