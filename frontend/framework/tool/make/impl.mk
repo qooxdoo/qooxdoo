@@ -158,7 +158,7 @@ exec-framework-localization:
 	  mod=0; \
 	  if [ ! -r $(FRAMEWORK_CACHE_PATH)/$$LOC.xml ]; then \
 	    echo "    - Loading $$LOC.xml..."; \
-	    (test -r $(FRAMEWORK_LOCALE_STATIC_PATH)/$$LOC.xml && cp -f $(FRAMEWORK_LOCALE_STATIC_PATH)/$$LOC.xml $(FRAMEWORK_CACHE_PATH)/$$LOC.xml) || \
+	    (test -r $(FRAMEWORK_LOCALE_PATH)/$$LOC.xml && cp -f $(FRAMEWORK_LOCALE_PATH)/$$LOC.xml $(FRAMEWORK_CACHE_PATH)/$$LOC.xml) || \
 	    (which wget > /dev/null 2>&1 && wget $(FRAMEWORK_CLDR_DOWNLOAD_URI)/$$LOC.xml -q -P $(FRAMEWORK_CACHE_PATH)) || \
       (which curl > /dev/null 2>&1 && curl $(FRAMEWORK_CLDR_DOWNLOAD_URI)/$$LOC.xml -s -o $(FRAMEWORK_CACHE_PATH)/$$LOC.xml); \
 	    mod=1; \
