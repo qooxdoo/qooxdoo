@@ -51,7 +51,7 @@ qx.OO.defineClass("qx.ui.component.DateChooserButton", qx.ui.form.Button, functi
   // create dateFormat instance
   //
   this._dateFormat = new qx.util.format.DateFormat(qx.locale.Date.getDateFormat("short"));
-  qx.locale.manager.Manager.getInstance().addEventListener("changeLocale", this._changeLocale, this);
+  qx.locale.Manager.getInstance().addEventListener("changeLocale", this._changeLocale, this);
 
   if (vTargetWidget) {
     this.setTargetWidget(vTargetWidget);
@@ -86,7 +86,7 @@ qx.OO.addProperty(
 qx.OO.addProperty(
 {
   name         : "chooserTitle",
-  defaultValue : qx.locale.manager.Manager.tr("Choose a date")
+  defaultValue : qx.locale.Manager.tr("Choose a date")
 });
 
 

@@ -20,7 +20,7 @@
 
 #module(core)
 #require(qx.Clazz)
-#require(qx.locale.manager.Manager)
+#require(qx.locale.Manager)
 
 ************************************************************************ */
 
@@ -74,7 +74,7 @@ qx.Clazz.define("qx.Locale",
       }
 
       vParentPackage[vPartName] = definition;
-      qx.locale.manager.Manager.getInstance().addTranslation(vPartName, definition);
+      qx.locale.Manager.getInstance().addTranslation(vPartName, definition);
 
       arguments.callee.statics._registry[fullname] = definition;
     },

@@ -239,7 +239,7 @@ qx.Proto._mnemonicTest = null;
 
 qx.Proto._modifyHtml = function(propValue, propOldValue, propData)
 {
-  this._localized = this.getHtml() instanceof qx.locale.manager.LocalizedString;
+  this._localized = this.getHtml() instanceof qx.locale.LocalizedString;
   this._updateHtml();
   return true;
 }
@@ -249,13 +249,13 @@ qx.Proto._updateHtml = function()
   if (this._localized)
   {
     this._htmlContent = this.getHtml().toString();
-    qx.locale.manager.Manager.getInstance().addEventListener("changeLocale", this._updateHtml, this);
+    qx.locale.Manager.getInstance().addEventListener("changeLocale", this._updateHtml, this);
   }
   else
   {
     this._htmlContent = this.getHtml() || "";
-    qx.locale.manager.Manager.getInstance().remove(this);
-    qx.locale.manager.Manager.getInstance().removeEventListener("changeLocale", this._updateHtml, this);
+    qx.locale.Manager.getInstance().remove(this);
+    qx.locale.Manager.getInstance().removeEventListener("changeLocale", this._updateHtml, this);
   }
 
   this._htmlMode = qx.util.Validation.isValidString(this._htmlContent) && this._htmlContent.match(/<.*>/) ? true : false;
