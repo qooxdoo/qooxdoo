@@ -40,9 +40,9 @@ internal-distclean: internal-realclean
 	@$(CMD_FIND) . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
 	@$(CMD_REMOVE) $(CACHE)
 	@$(CMD_REMOVE) $(PROJECT_DEBUG_PATH)
+	@$(CMD_REMOVE) $(PROJECT_TRANSLATION_CLASS_PATH)
 	@$(CMD_REMOVE) $(FRAMEWORK_CACHE_PATH)
 	@$(CMD_REMOVE) $(FRAMEWORK_TRANSLATION_CLASS_PATH)
-	@$(CMD_REMOVE) $(PROJECT_TRANSLATION_CLASS_PATH)
 
 job-clean-common:
 	@echo "  * Cleaning up..."
@@ -173,20 +173,64 @@ exec-framework-localization:
 	done
 	
 exec-framework-translation:
-
+	@echo
+	@echo "  PREPARING FRAMEWORK TRANSLATION"
+	@$(CMD_LINE)
+	@echo -n "  * Processing source code: "
+	@which xgettext > /dev/null 2>&1 || (echo "    - Please install gettext tools (xgettext)" && exit 1)
+	@which msginit > /dev/null 2>&1 || (echo "    - Please install gettext tools (msginit)" && exit 1)
+	@which msgmerge > /dev/null 2>&1 || (echo "    - Please install gettext tools (msgmerge)" && exit 1)
+	
+	@mkdir -p $(FRAMEWORK_TRANSLATION_PATH)
+	@mkdir -p $(FRAMEWORK_TRANSLATION_CLASS_PATH)
+	
+	@rm -f $(FRAMEWORK_TRANSLATION_PATH)/messages.pot
+	@touch $(FRAMEWORK_TRANSLATION_PATH)/messages.pot
+	
+	@for FILE in `find $(FRAMEWORK_SOURCE_PATH)/$(FRAMEWORK_CLASS_FOLDERNAME) -name "*.js"`; do \
+	  xgettext --language=Java --from-code=UTF-8 \
+	    -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 \
+	    -kManager.trc -kManager.tr -kManager.marktr -kManager.trn:1,2 \
+	    -j -o $(FRAMEWORK_TRANSLATION_PATH)/messages.pot $$FILE 2> /dev/null; \
+	  echo -n "."; \
+	done;
+	
+	@echo ""
+	@echo "    - Found `grep msgid $(FRAMEWORK_TRANSLATION_PATH)/messages.pot | wc -l` messages"
+	
+	@for LOC in $(PROJECT_LOCALES); do \
+		echo "  * Processing $$LOC"; \
+		if [ ! -r $(FRAMEWORK_TRANSLATION_PATH)/$$LOC.po ]; then \
+  		echo "    - Generating initial translation file..."; \
+		  msginit --no-translator -i $(FRAMEWORK_TRANSLATION_PATH)/messages.pot -o $(FRAMEWORK_TRANSLATION_PATH)/$$LOC.po > /dev/null 2>&1; \
+		else \
+	  	echo "    - Merging translation file..."; \
+		  msgmerge --update -q $(FRAMEWORK_TRANSLATION_PATH)/$$LOC.po $(FRAMEWORK_TRANSLATION_PATH)/messages.pot; \
+		fi; \
+    echo "    - Generating catalog..."; \
+    mkdir -p $(FRAMEWORK_TRANSLATION_PATH); \
+	  $(CMD_MSGFMT) \
+	    -n $(FRAMEWORK_TRANSLATION_CLASS_NAMESPACE) \
+	    -d $(FRAMEWORK_TRANSLATION_CLASS_PATH) \
+	    $(FRAMEWORK_TRANSLATION_PATH)/$$LOC.po; \
+	done
 
 exec-project-translation:
 	@echo
 	@echo "  PREPARING PROJECT TRANSLATION"
 	@$(CMD_LINE)
 	@echo -n "  * Processing source code: "
+	
 	@which xgettext > /dev/null 2>&1 || (echo "    - Please install gettext tools (xgettext)" && exit 1)
 	@which msginit > /dev/null 2>&1 || (echo "    - Please install gettext tools (msginit)" && exit 1)
 	@which msgmerge > /dev/null 2>&1 || (echo "    - Please install gettext tools (msgmerge)" && exit 1)
+	
 	@mkdir -p $(PROJECT_TRANSLATION_PATH)
 	@mkdir -p $(PROJECT_TRANSLATION_CLASS_PATH)
+	
 	@rm -f $(PROJECT_TRANSLATION_PATH)/messages.pot
 	@touch $(PROJECT_TRANSLATION_PATH)/messages.pot
+	
 	@for FILE in `find $(PROJECT_SOURCE_PATH)/$(PROJECT_CLASS_FOLDERNAME) -name "*.js"`; do \
 	  xgettext --language=Java --from-code=UTF-8 \
 	    -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 \
@@ -194,7 +238,10 @@ exec-project-translation:
 	    -j -o $(PROJECT_TRANSLATION_PATH)/messages.pot $$FILE 2> /dev/null; \
 	  echo -n "."; \
 	done;
+	
+	@echo ""
 	@echo "    - Found `grep msgid $(PROJECT_TRANSLATION_PATH)/messages.pot | wc -l` messages"
+	
 	@for LOC in $(PROJECT_LOCALES); do \
 		echo "  * Processing $$LOC"; \
 		if [ ! -r $(PROJECT_TRANSLATION_PATH)/$$LOC.po ]; then \
