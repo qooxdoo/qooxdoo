@@ -68,20 +68,8 @@ PROJECT_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/api
 # INCLUDE CORE
 ####################################################################################
 
-#
-# Include project core handling
-#
-include $(QOOXDOO_PATH)/frontend/framework/tool/make/project.mk
-
-#
-# Include default targets, but add data generation (only qooxdoo) to source and build
-#
 include $(QOOXDOO_PATH)/frontend/framework/tool/make/targets.mk
-
-#
-# Include implementation targets
-#
-include $(QOOXDOO_PATH)/frontend/framework/tool/make/impl.mk
+include $(QOOXDOO_PATH)/frontend/framework/tool/make/project.mk
 
 
 
