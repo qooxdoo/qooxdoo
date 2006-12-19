@@ -40,7 +40,7 @@ internal-distclean: internal-realclean
 	@$(CMD_FIND) . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
 	@$(CMD_REMOVE) $(CACHE)
 	@$(CMD_REMOVE) $(PROJECT_DEBUG_PATH)
-	@$(CMD_REMOVE) $(FRAMEWORK_LOCALE_CACHE_PATH)
+	@$(CMD_REMOVE) $(FRAMEWORK_CACHE_PATH)
 
 job-clean-common:
 	@echo "  * Cleaning up..."
@@ -138,23 +138,23 @@ exec-localization:
 	@echo
 	@echo "  PREPARING LOCALIZATION"
 	@$(CMD_LINE)
-	@mkdir -p $(FRAMEWORK_LOCALE_CACHE_PATH)
+	@mkdir -p $(FRAMEWORK_CACHE_PATH)
 	@for LOC in $(PROJECT_LOCALES); do \
 	  echo "  * Processing $$LOC"; \
 	  mod=0; \
-	  if [ ! -r $(FRAMEWORK_LOCALE_CACHE_PATH)/$$LOC.xml ]; then \
+	  if [ ! -r $(FRAMEWORK_CACHE_PATH)/$$LOC.xml ]; then \
 	    echo "    - Loading $$LOC.xml..."; \
-	    (test -r $(FRAMEWORK_LOCALE_STATIC_PATH)/$$LOC.xml && cp -f $(FRAMEWORK_LOCALE_STATIC_PATH)/$$LOC.xml $(FRAMEWORK_LOCALE_CACHE_PATH)/$$LOC.xml) || \
-	    (which wget > /dev/null 2>&1 && wget $(FRAMEWORK_CLDR_DOWNLOAD_URI)/$$LOC.xml -q -P $(FRAMEWORK_LOCALE_CACHE_PATH)) || \
-      (which curl > /dev/null 2>&1 && curl $(FRAMEWORK_CLDR_DOWNLOAD_URI)/$$LOC.xml -s -o $(FRAMEWORK_LOCALE_CACHE_PATH)/$$LOC.xml); \
+	    (test -r $(FRAMEWORK_LOCALE_STATIC_PATH)/$$LOC.xml && cp -f $(FRAMEWORK_LOCALE_STATIC_PATH)/$$LOC.xml $(FRAMEWORK_CACHE_PATH)/$$LOC.xml) || \
+	    (which wget > /dev/null 2>&1 && wget $(FRAMEWORK_CLDR_DOWNLOAD_URI)/$$LOC.xml -q -P $(FRAMEWORK_CACHE_PATH)) || \
+      (which curl > /dev/null 2>&1 && curl $(FRAMEWORK_CLDR_DOWNLOAD_URI)/$$LOC.xml -s -o $(FRAMEWORK_CACHE_PATH)/$$LOC.xml); \
 	    mod=1; \
 	  fi; \
-	  if [ ! -r $(FRAMEWORK_LOCALE_CACHE_PATH)/$$LOC.xml ]; then \
+	  if [ ! -r $(FRAMEWORK_CACHE_PATH)/$$LOC.xml ]; then \
 	    echo "    - Download failed! Please install wget (preferred) or curl."; \
 	    exit 1; \
 	  elif [ ! -r $(FRAMEWORK_LOCALE_CLASS_PATH)/$$LOC.js -o $$mod == 1 ]; then \
 	    echo "    - Generating $$LOC.js..."; \
-	    $(CMD_CLDR) -o $(FRAMEWORK_LOCALE_CLASS_PATH) $(FRAMEWORK_LOCALE_CACHE_PATH)/$$LOC.xml; \
+	    $(CMD_CLDR) -o $(FRAMEWORK_LOCALE_CLASS_PATH) $(FRAMEWORK_CACHE_PATH)/$$LOC.xml; \
 	  fi; \
 	done
 	
