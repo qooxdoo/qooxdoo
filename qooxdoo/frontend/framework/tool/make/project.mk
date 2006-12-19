@@ -48,11 +48,12 @@ endif
 #
 # Locales to use (space separated list)
 #
-# ifndef PROJECT_LOCALES
-#   PROJECT_LOCALES = en fr de es
-# endif
+ifndef PROJECT_LOCALES
+  PROJECT_LOCALES = C en fr de es
+else
+  PROJECT_LOCALES = C
+endif
 
-PROJECT_LOCALES += C
 
 
 
