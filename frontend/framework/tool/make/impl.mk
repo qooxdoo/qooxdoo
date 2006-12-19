@@ -8,7 +8,7 @@
 CMD_PYTHON = python
 CMD_NICE = nice -n $(COMPUTED_COMMON_NICE)
 CMD_GENERATOR = $(CMD_NICE) $(CMD_PYTHON) $(FRAMEWORK_PATH)/tool/generator.py --cache-directory $(FRAMEWORK_CACHE_PATH)
-CMD_CLDR = $(CMD_NICE) $(CMD_PYTHON) $(FRAMEWORK_PATH)/tool/cldr/extract_cldr.py 
+CMD_CLDR = $(CMD_NICE) $(CMD_PYTHON) $(FRAMEWORK_PATH)/tool/modules/cldr.py 
 CMD_MSGFMT = $(CMD_NICE) $(CMD_PYTHON) $(FRAMEWORK_PATH)/tool/modules/msgfmt.py
 CMD_REMOVE = $(CMD_NICE) rm -rf
 CMD_FIND = $(CMD_NICE) find 
