@@ -26,6 +26,11 @@ clean: all
 realclean: all
 
 distclean:
+	@echo 
+	@echo "****************************************************************************"
+	@echo "  CLEANING UP FRAMEWORK DIST"
+	@echo "****************************************************************************"
+	@echo "  * Cleaning up..."
 	@$(CMD_REMOVE) $(FRAMEWORK_CACHE_PATH)
 	@$(CMD_REMOVE) $(FRAMEWORK_LOCALE_CLASS_PATH)
 	@$(CMD_REMOVE) $(FRAMEWORK_TRANSLATION_CLASS_PATH)
