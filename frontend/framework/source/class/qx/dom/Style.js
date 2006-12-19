@@ -31,7 +31,7 @@ qx.OO.defineClass("qx.dom.Style");
 /**
  * TODO
  */
-qx.dom.Style.getStylePropertySure = function(el, prop) {};
+qx.dom.Style.getStylePropertySure = function(vElement, propertyName) {};
 
 /**
  * Get the (CSS) style property of a given DOM element
@@ -40,7 +40,7 @@ qx.dom.Style.getStylePropertySure = function(el, prop) {};
  * @param propertyName {string} the name of the style property. e.g. "color", "border", ...
  * @return {string} the (CSS) style property
  */
-qx.dom.Style.getStyleProperty = function(el, prop) {};
+qx.dom.Style.getStyleProperty = function(vElement, propertyName) {};
 
 if (Boolean(document.defaultView) && Boolean(document.defaultView.getComputedStyle))
 {
@@ -125,7 +125,7 @@ else
  * @param propertyName {string} the name of the style property. e.g. "paddingTop", "marginLeft", ...
  * @return {integer} the (CSS) style property converted to an integer value
  */
-qx.dom.Style.getStyleSize = function(el, prop) { return parseInt(qx.dom.Style.getStyleProperty(el, prop)) || 0; }
+qx.dom.Style.getStyleSize = function(vElement, propertyName) { return parseInt(qx.dom.Style.getStyleProperty(vElement, propertyName)) || 0; }
 
 
 // Properties

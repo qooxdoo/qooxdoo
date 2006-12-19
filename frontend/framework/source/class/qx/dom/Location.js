@@ -36,6 +36,15 @@ qx.dom.Location.getClientOuterRight  = function(el) { return qx.dom.Location.get
 qx.dom.Location.getClientOuterBottom = function(el) { return qx.dom.Location.getClientBoxBottom(el) + qx.dom.Style.getMarginBottom(el); }
 
 
+qx.dom.Location.getClientBoxLeft = function(el) {}
+qx.dom.Location.getClientBoxTop = function(el) {}
+qx.dom.Location.getClientBoxRight = function(el) {}
+qx.dom.Location.getClientBoxBottom = function(el) {}
+qx.dom.Location.getPageBoxLeft = function(el) {}
+qx.dom.Location.getPageBoxTop = function(el) {}
+qx.dom.Location.getPageBoxRight = function(el) {}
+qx.dom.Location.getPageBoxBottom = function(el) {}
+  
 if (qx.sys.Client.getInstance().isMshtml())
 {
   qx.dom.Location.getClientBoxLeft   = function(el) { return el.getBoundingClientRect().left; }
@@ -120,6 +129,12 @@ else
   qx.dom.Location.getPageBoxBottom   = function(el) { return qx.dom.Location.getPageBoxTop(el)    + qx.dom.Dimension.getBoxHeight(el); }
 }
 
+
+qx.dom.Location.getClientAreaLeft = function(el) {};
+qx.dom.Location.getClientAreaTop = function(el) {};
+qx.dom.Location.getPageAreaLeft = function(el) {};
+qx.dom.Location.getPageAreaTop = function(el) {};
+
 if (qx.sys.Client.getInstance().isGecko())
 {
   qx.dom.Location.getPageAreaLeft = function(el) {
@@ -172,6 +187,9 @@ qx.dom.Location.getPageInnerBottom   = function(el) { return qx.dom.Location.get
 
 
 // Screen
+qx.dom.Location.getScreenBoxLeft = function(el) {};
+qx.dom.Location.getScreenBoxTop = function(el) {};
+
 if (qx.sys.Client.getInstance().isGecko())
 {
   /*
@@ -233,6 +251,11 @@ qx.dom.Location.getScreenInnerTop    = function(el) { return qx.dom.Location.get
 qx.dom.Location.getScreenInnerRight  = function(el) { return qx.dom.Location.getScreenAreaRight(el)  - qx.dom.Style.getPaddingRight(el); }
 qx.dom.Location.getScreenInnerBottom = function(el) { return qx.dom.Location.getScreenAreaBottom(el) - qx.dom.Style.getPaddingBottom(el); }
 
+
+qx.dom.Location.getScreenDocumentLeft = function(el) {};
+qx.dom.Location.getScreenDocumentTop = function(el) {};
+qx.dom.Location.getScreenDocumentRight = function(el) {};
+qx.dom.Location.getScreenDocumentBottom = function(el) {};
 
 if (qx.sys.Client.getInstance().isGecko())
 {
