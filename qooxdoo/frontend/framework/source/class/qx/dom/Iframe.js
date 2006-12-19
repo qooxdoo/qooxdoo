@@ -25,6 +25,9 @@
 
 qx.OO.defineClass("qx.dom.Iframe");
 
+qx.dom.Iframe.getWindow = function(vIframe) {};
+qx.dom.Iframe.getDocument = function(vIframe) {};
+
 if (qx.sys.Client.getInstance().isMshtml())
 {
   qx.dom.Iframe.getWindow = function(vIframe)

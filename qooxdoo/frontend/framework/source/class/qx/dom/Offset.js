@@ -31,6 +31,10 @@ Mozilla/5.0 (Windows; U; Windows NT 5.1; de-DE; rv:1.7.5) Gecko/20041108 Firefox
 
 It calculates some borders and/or paddings to the offsetProperties.
 */
+
+qx.dom.Offset.getLeft = function(vElement) {};
+qx.dom.Offset.getTop = function(vElement) {};
+
 if (qx.sys.Client.getInstance().isGecko())
 {
   qx.dom.Offset.getLeft = function(el)
