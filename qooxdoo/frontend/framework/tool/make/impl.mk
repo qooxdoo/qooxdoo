@@ -41,6 +41,8 @@ internal-distclean: internal-realclean
 	@$(CMD_REMOVE) $(CACHE)
 	@$(CMD_REMOVE) $(PROJECT_DEBUG_PATH)
 	@$(CMD_REMOVE) $(FRAMEWORK_CACHE_PATH)
+	@$(CMD_REMOVE) $(FRAMEWORK_TRANSLATION_CLASS_PATH)
+	@$(CMD_REMOVE) $(PROJECT_TRANSLATION_CLASS_PATH)
 
 job-clean-common:
 	@echo "  * Cleaning up..."
