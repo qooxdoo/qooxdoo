@@ -43,14 +43,14 @@ PROJECT_LOCALES = de de_DE en en_US fr fr_FR es es_ES
 PROJECT_COMPLETE_BUILD = true
 
 #
-# Locale namespace
+# Translation namespace
 #
-PROJECT_TRANSLATION_NAMESPACE = $(PROJECT_NAMESPACE).locale.translation
+PROJECT_TRANSLATION_CLASS_NAMESPACE = $(PROJECT_NAMESPACE).locale.translation
 
 #
-# Locale directory
+# Translation directory
 #
-PROJECT_TRANSLATION_PATH = source/class/$(PROJECT_NAMESPACE)/locale/translation
+PROJECT_TRANSLATION_CLASS_PATH = source/class/$(PROJECT_NAMESPACE)/locale/translation
 
 
 
