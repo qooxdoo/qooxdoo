@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: feedreader\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-19 09:50+0100\n"
+"POT-Creation-Date: 2006-12-19 11:52+0100\n"
 "PO-Revision-Date: 2006-12-19 00:35-0500\n"
 "Last-Translator: Camilo Aguilar <camilo.aguilar@gmail.com>\n"
 "Language-Team:  <camilo.aguilar@gmail.com>\n"
@@ -42,36 +42,43 @@ msgstr "(%1) Actualizar los feeds."
 msgid "German"
 msgstr "Alemán"
 
-#: source/class/feedreader/Application.js:153
+#: source/class/feedreader/Application.js:152
 msgid "English"
 msgstr "Inglés"
 
-#: source/class/feedreader/Application.js:155
+#: source/class/feedreader/Application.js:153
 msgid "Turkish"
 msgstr ""
 
-#: source/class/feedreader/Application.js:157
-#: source/class/feedreader/Application.js:159
+#: source/class/feedreader/Application.js:154
 msgid "Italian"
 msgstr ""
 
-#: source/class/feedreader/Application.js:172
+#: source/class/feedreader/Application.js:155
+msgid "Spanish"
+msgstr ""
+
+#: source/class/feedreader/Application.js:156
+msgid "Swedish"
+msgstr ""
+
+#: source/class/feedreader/Application.js:175
 msgid "Help"
 msgstr "Ayuda"
 
-#: source/class/feedreader/Application.js:179
+#: source/class/feedreader/Application.js:182
 msgid "News feeds"
 msgstr "Feeds de noticias"
 
-#: source/class/feedreader/Application.js:200
+#: source/class/feedreader/Application.js:203
 msgid "Subject"
 msgstr "Asunto"
 
-#: source/class/feedreader/Application.js:201
+#: source/class/feedreader/Application.js:204
 msgid "Sender"
 msgstr "Remitente"
 
-#: source/class/feedreader/Application.js:202
+#: source/class/feedreader/Application.js:205
 msgid "Date"
 msgstr "Fecha"
 
