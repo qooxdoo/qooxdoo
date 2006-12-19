@@ -76,6 +76,7 @@ realclean:
 
 distclean:
 	@$(MAKE) -s -C project distclean
+	@$(MAKE) -s -C framework distclean
 	@$(CMD_NICE) rm -rf release
 
 
