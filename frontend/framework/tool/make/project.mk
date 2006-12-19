@@ -1,3 +1,9 @@
+include $(QOOXDOO_PATH)/frontend/framework/tool/make/framework.mk
+include $(QOOXDOO_PATH)/frontend/framework/tool/make/apiviewer.mk
+include $(QOOXDOO_PATH)/frontend/framework/tool/make/impl.mk
+
+
+
 ####################################################################################
 # BASIC SETTINGS
 ####################################################################################
@@ -48,12 +54,11 @@ endif
 #
 # Locales to use (space separated list)
 #
-ifndef PROJECT_LOCALES
-  PROJECT_LOCALES = C en fr de es
-else
-  PROJECT_LOCALES = C
-endif
+#ifndef PROJECT_LOCALES
+#  PROJECT_LOCALES = C en fr de es
+#endif
 
+PROJECT_LOCALES += C
 
 
 
@@ -237,48 +242,6 @@ ifndef PROJECT_DEFINE_DEFAULT_TARGETS
   PROJECT_DEFINE_DEFAULT_TARGETS = true
 endif
 
-
-
-
-
-
-
-###################################################################################
-# SETTINGS
-###################################################################################
-
-#
-# Framework paths
-#
-FRAMEWORK_PATH = $(QOOXDOO_PATH)/frontend/framework
-FRAMEWORK_NAMESPACE = qx
-FRAMEWORK_SOURCE_PATH = $(FRAMEWORK_PATH)/source
-FRAMEWORK_CACHE_PATH = $(FRAMEWORK_PATH)/.cache
-FRAMEWORK_CLASS_FOLDERNAME = class
-
-FRAMEWORK_LOCALE_PATH = $(FRAMEWORK_SOURCE_PATH)/locale
-FRAMEWORK_LOCALE_CLASS_PATH = $(FRAMEWORK_SOURCE_PATH)/$(FRAMEWORK_CLASS_FOLDERNAME)/$(FRAMEWORK_NAMESPACE)/locale/data
-
-FRAMEWORK_TRANSLATION_PATH = $(FRAMEWORK_SOURCE_PATH)/translation
-FRAMEWORK_TRANSLATION_CLASS_NAMESPACE = $(FRAMEWORK_NAMESPACE).locale.translation
-FRAMEWORK_TRANSLATION_CLASS_PATH = $(FRAMEWORK_SOURCE_PATH)/$(FRAMEWORK_CLASS_FOLDERNAME)/$(FRAMEWORK_NAMESPACE)/locale/translation
-
-FRAMEWORK_TOOL_PATH = $(FRAMEWORK_PATH)/tool
-
-#
-# Framework URIs
-#
-FRAMEWORK_URI = $(QOOXDOO_URI)/frontend/framework
-FRAMEWORK_SOURCE_URI = $(FRAMEWORK_URI)/source
-FRAMEWORK_CLDR_DOWNLOAD_URI = http://unicode.org/cldr/data/common/main
-
-#
-# API Paths
-#
-APIVIEWER_NAMESPACE = apiviewer
-APIVIEWER_PATH = $(QOOXDOO_PATH)/frontend/application/apiviewer
-APIVIEWER_SOURCE_PATH = $(APIVIEWER_PATH)/source
-API_FILES = index.html
 
 
 
