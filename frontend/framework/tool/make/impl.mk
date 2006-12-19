@@ -153,11 +153,12 @@ exec-framework-localization:
 	@echo "  PREPARING LOCALIZATION"
 	@$(CMD_LINE)
 	@mkdir -p $(FRAMEWORK_CACHE_PATH)
+	@echo "  * Processing locales..."
 	@for LOC in $(PROJECT_LOCALES); do \
-	  echo "  * Processing $$LOC"; \
+	  echo "    - Locale: $$LOC"; \
 	  mod=0; \
 	  if [ ! -r $(FRAMEWORK_CACHE_PATH)/$$LOC.xml -a -r $(FRAMEWORK_LOCALE_PATH)/$$LOC.xml ]; then \
-	    echo "    - Copying $$LOC.xml..."; \
+	    echo "      - Copying $$LOC.xml..."; \
 	    cp -f $(FRAMEWORK_LOCALE_PATH)/$$LOC.xml $(FRAMEWORK_CACHE_PATH)/$$LOC.xml; \
 	    mod=1; \
     fi; \
@@ -172,7 +173,7 @@ exec-framework-localization:
 		  fi; \
 	  fi; \
 	  if [ ! -r $(FRAMEWORK_LOCALE_CLASS_PATH)/$$LOC.js -o $$mod == 1 ]; then \
-	    echo "    - Generating $$LOC.js..."; \
+	    echo "      - Generating $$LOC.js..."; \
 	    $(CMD_CLDR) -o $(FRAMEWORK_LOCALE_CLASS_PATH) $(FRAMEWORK_CACHE_PATH)/$$LOC.xml; \
 	  fi; \
 	done
@@ -203,16 +204,17 @@ exec-framework-translation:
 	@echo ""
 	@echo "    - Found `grep msgid $(FRAMEWORK_TRANSLATION_PATH)/messages.pot | wc -l` messages"
 	
+	@echo "  * Processing translations..."
 	@for LOC in $(PROJECT_LOCALES); do \
-		echo "  * Processing $$LOC"; \
+		echo "    - Translation: $$LOC"; \
 		if [ ! -r $(FRAMEWORK_TRANSLATION_PATH)/$$LOC.po ]; then \
-  		echo "    - Generating initial translation file..."; \
+  		echo "      - Generating initial translation file..."; \
 		  msginit --no-translator -i $(FRAMEWORK_TRANSLATION_PATH)/messages.pot -o $(FRAMEWORK_TRANSLATION_PATH)/$$LOC.po > /dev/null 2>&1; \
 		else \
-	  	echo "    - Merging translation file..."; \
+	  	echo "      - Merging translation file..."; \
 		  msgmerge --update -q $(FRAMEWORK_TRANSLATION_PATH)/$$LOC.po $(FRAMEWORK_TRANSLATION_PATH)/messages.pot; \
 		fi; \
-    echo "    - Generating catalog..."; \
+    echo "      - Generating catalog..."; \
     mkdir -p $(FRAMEWORK_TRANSLATION_PATH); \
 	  $(CMD_MSGFMT) \
 	    -n $(FRAMEWORK_TRANSLATION_CLASS_NAMESPACE) \
@@ -247,16 +249,17 @@ exec-project-translation:
 	@echo ""
 	@echo "    - Found `grep msgid $(PROJECT_TRANSLATION_PATH)/messages.pot | wc -l` messages"
 	
+	@echo "  * Processing translations..."
 	@for LOC in $(PROJECT_LOCALES); do \
-		echo "  * Processing $$LOC"; \
+		echo "    - Translation: $$LOC"; \
 		if [ ! -r $(PROJECT_TRANSLATION_PATH)/$$LOC.po ]; then \
-  		echo "    - Generating initial translation file..."; \
+  		echo "      - Generating initial translation file..."; \
 		  msginit --no-translator -i $(PROJECT_TRANSLATION_PATH)/messages.pot -o $(PROJECT_TRANSLATION_PATH)/$$LOC.po > /dev/null 2>&1; \
 		else \
-	  	echo "    - Merging translation file..."; \
+	  	echo "      - Merging translation file..."; \
 		  msgmerge --update -q $(PROJECT_TRANSLATION_PATH)/$$LOC.po $(PROJECT_TRANSLATION_PATH)/messages.pot; \
 		fi; \
-    echo "    - Generating catalog..."; \
+    echo "      - Generating catalog..."; \
     mkdir -p $(PROJECT_TRANSLATION_PATH); \
 	  $(CMD_MSGFMT) \
 	    -n $(PROJECT_TRANSLATION_CLASS_NAMESPACE) \
