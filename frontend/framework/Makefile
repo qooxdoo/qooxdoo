@@ -1,3 +1,6 @@
+#
+# New all target
+#
 all:
 	@echo 
 	@echo "****************************************************************************"
@@ -12,3 +15,5 @@ all:
 source: all
 build: all
 api: all
+pretty: all
+fix: all

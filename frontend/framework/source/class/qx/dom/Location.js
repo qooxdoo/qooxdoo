@@ -44,7 +44,7 @@ qx.dom.Location.getPageBoxLeft = function(el) {}
 qx.dom.Location.getPageBoxTop = function(el) {}
 qx.dom.Location.getPageBoxRight = function(el) {}
 qx.dom.Location.getPageBoxBottom = function(el) {}
-  
+
 if (qx.sys.Client.getInstance().isMshtml())
 {
   qx.dom.Location.getClientBoxLeft   = function(el) { return el.getBoundingClientRect().left; }

@@ -18,7 +18,7 @@ QOOXDOO_URI = ../../../..
 #
 # Namespace of your application e.g. custom
 #
-PROJECT_NAMESPACE = custom
+PROJECT_NAMESPACE = qx
 
 #
 # Titles used in your API viewer and during the build process
