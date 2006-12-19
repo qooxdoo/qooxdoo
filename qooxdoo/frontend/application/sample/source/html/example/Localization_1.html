@@ -21,9 +21,20 @@
 		"A date: ": "Ein Datum: ",
 		"Locale: ": "Lokalisierung: ",
 		"Locale information": "Landesinformationen",
+		
+    "Undo": "Rückgängig",
+    "Redo": "Wiederholen",
+    "Cut": "Aussschneiden",
+    "Copy": "Kopieren",
+    "Paste": "Einfügen",
+    "Delete": "Löschen",
+    "Select All": "Alles markieren",
+    "Search": "Suchen",
+    "Search Again": "Weiter suchen",
+    "Command Menu (keyboard shortcuts)": "Command Menü (Tastaturkürzel)",
 
-	    "Open Color Popup": "Öffne Farbauswahl",
-	    "Basic Colors": "Grundfarben",
+    "Open Color Popup": "Öffne Farbauswahl",
+    "Basic Colors": "Grundfarben",
 		"Template Colors": "Beispielfarben",
 		"Recent Colors": "Vorherige Farben",
 
@@ -58,7 +69,7 @@
 	
 	//...
 
-  var locales = ["de_DE", "de_AT", "en_US", "fr_FR", "tr", "es_ES", "ar", "zh"];
+  var locales = ["de_DE", "de_AT", "en_US", "fr_FR", "tr", "it", "es_ES", "sv", "ar", "zh"];
   
   qx.locale.manager.Manager.getInstance().setLocale(locales[0]);
 
@@ -67,37 +78,82 @@
     var d = qx.ui.core.ClientDocument.getInstance();
 
 	 // locale selection
-		var hb2 = new qx.ui.layout.HorizontalBoxLayout(); hb2.set({top:50, left:20, spacing:3});
+	var hb2 = new qx.ui.layout.HorizontalBoxLayout(); hb2.set({top:50, left:20, spacing:3});
     var l2 = new qx.ui.basic.Label(this.tr("Locale: "));
     var select = new qx.ui.form.ComboBox();
-		for (var i=0; i<locales.length; i++) {
-	    select.add(new qx.ui.form.ListItem(locales[i]));
-	  }
-	  select.setSelected(select.getList().getFirstChild());
-	  select.addEventListener("changeSelected", function(e) {
-			var locale = e.getData().getLabel();
-	  	qx.locale.manager.Manager.getInstance().setLocale(locale);
+    for (var i=0; i<locales.length; i++) {
+      select.add(new qx.ui.form.ListItem(locales[i]));
+    }
+    select.setSelected(select.getList().getFirstChild());
+    select.addEventListener("changeSelected", function(e) {
+      var locale = e.getData().getLabel();
+      qx.locale.manager.Manager.getInstance().setLocale(locale);
 	  });
-	  hb2.add(l2, select);
-	  d.add(hb2);
+    hb2.add(l2, select);
+    d.add(hb2);
 
-		var frame = new qx.ui.layout.VerticalBoxLayout();
-		frame.set({left: 20, top: 120, width: "auto", height: "auto", spacing: 20});
+    var frame = new qx.ui.layout.VerticalBoxLayout();
+    frame.set({left: 20, top: 120, width: "auto", height: "auto", spacing: 20});
+
 
     // DateChooserButton
-		var hb1 = new qx.ui.layout.HorizontalBoxLayout(); hb1.set({height: "auto", spacing:3});
+    var hb1 = new qx.ui.layout.HorizontalBoxLayout(); hb1.set({height: "auto", spacing:3});
     var l1 = new qx.ui.basic.Label(this.tr("A date: "));
     var tf1 = new qx.ui.form.TextField(); tf1.set({ width: 130, height:20});
     var dcb1 = new qx.ui.component.DateChooserButton(); dcb1.set({ width: 20 });
     dcb1.setTargetWidget(tf1);
     hb1.add(l1, tf1, dcb1);
     frame.add(hb1);
+
     
     // DateChooser
     var chooser = new qx.ui.component.DateChooser;
     chooser.setWidth("auto");
     chooser.setHeight("auto");
     frame.add(chooser);
+
+    
+    // Commands
+    var undo_cmd = new qx.client.Command("Ctrl+Z");
+    var redo_cmd = new qx.client.Command("Ctrl+Y");
+    var cut_cmd = new qx.client.Command("Ctrl+X");
+    var copy_cmd = new qx.client.Command("Ctrl+C");
+    var paste_cmd = new qx.client.Command("Ctrl+V");
+    var delete_cmd = new qx.client.Command("Del");
+    var select_all_cmd = new qx.client.Command("Ctrl+A");
+    var search_cmd = new qx.client.Command("Ctrl+F");
+    var search_again_cmd = new qx.client.Command("F3");
+
+    var m1 = new qx.ui.menu.Menu;
+    m1.add(new qx.ui.menu.Button(this.tr("Undo"), null, undo_cmd));
+    m1.add(new qx.ui.menu.Button(this.tr("Redo"), null, redo_cmd));
+    m1.add(new qx.ui.menu.Separator());
+    m1.add(new qx.ui.menu.Button(this.tr("Cut"), "icon/16/edit-cut.png", cut_cmd));
+    m1.add(new qx.ui.menu.Button(this.tr("Copy"), "icon/16/edit-copy.png", copy_cmd));
+    m1.add(new qx.ui.menu.Button(this.tr("Paste"), "icon/16/edit-paste.png", paste_cmd));
+    m1.add(new qx.ui.menu.Button(this.tr("Delete"), "icon/16/edit-delete.png", delete_cmd));
+    m1.add(new qx.ui.menu.Button(this.tr("Select All"), null, select_all_cmd));
+    m1.add(new qx.ui.menu.Separator());
+    m1.add(new qx.ui.menu.Button(this.tr("Search"), null, search_cmd));
+    m1.add(new qx.ui.menu.Button(this.tr("Search Again"), null, search_again_cmd));
+    d.add(m1);
+
+    var w1 = new qx.ui.form.Button(this.tr("Command Menu (keyboard shortcuts)"));
+    w1.addEventListener("click", function(e) {
+      if (m1.isSeeable()) {
+        m1.hide();
+      } else {
+        var el = this.getElement();
+        m1.setLeft(qx.dom.Location.getPageBoxLeft(el));
+        m1.setTop(qx.dom.Location.getPageBoxBottom(el));
+        m1.show();
+      };
+      e.setPropagationStopped(true);
+    });
+    w1.addEventListener("mousedown", function(e) {
+      e.setPropagationStopped(true);
+    });
+    frame.add(w1);
     
     // ColorPopup
     var mybtn = new qx.ui.form.Button(this.tr("Open Color Popup"));
@@ -127,12 +183,14 @@
     var mypop = new qx.ui.component.ColorPopup(mytables);
     mypop.setValue(new qx.renderer.color.Color("#23F3C1"));
     d.add(mypop);
+
     
     // ColorSelector
     var mycolor = new qx.ui.component.ColorSelector;
     frame.add(mycolor);
     
     d.add(frame);
+
     
     // Info Box
     var fs = new qx.ui.groupbox.GroupBox(this.tr("Locale information"));

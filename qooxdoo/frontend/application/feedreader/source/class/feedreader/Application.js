@@ -147,25 +147,28 @@ qx.Proto.main = function(e)
 
   toolBar.add(new qx.ui.basic.HorizontalSpacer());
 
+  var locales = {
+    de: this.tr("German"),
+    en: this.tr("English"),
+    tr: this.tr("Turkish"),
+    it: this.tr("Italian"),
+    es: this.tr("Spanish"),
+    sv: this.tr("Swedish")
+  }
   var locale = qx.locale.manager.Manager.getInstance().getLocale();
-  var mb_de = new qx.ui.menu.RadioButton(this.tr("German"), null, locale == "de" );
-  mb_de.setUserData("locale", "de");
-  var mb_en = new qx.ui.menu.RadioButton(this.tr("English"), null, locale == "en");
-  mb_en.setUserData("locale", "en");
-  var mb_tr = new qx.ui.menu.RadioButton(this.tr("Turkish"), null, locale == "tr");
-  mb_tr.setUserData("locale", "tr");
-  var mb_it = new qx.ui.menu.RadioButton(this.tr("Italian"), null, locale == "it");
-  mb_it.setUserData("locale", "it");
-  var mb_es = new qx.ui.menu.RadioButton(this.tr("Spanish"), null, locale == "es");
-  mb_es.setUserData("locale", "es");
   var lang_menu = new qx.ui.menu.Menu();
-  var radioManager = new qx.manager.selection.RadioManager("lang", [mb_de, mb_en, mb_tr, mb_it, mb_es]);
+  var radioManager = new qx.manager.selection.RadioManager("lang");
+  for (var lang in locales) {
+    var menuButton = new qx.ui.menu.RadioButton(locales[lang], null, locale == lang);
+    menuButton.setUserData("locale", lang);
+    lang_menu.add(menuButton);
+    radioManager.add(menuButton);
+  }
   radioManager.addEventListener("changeSelected", function(e) {
     var lang = e.getData().getUserData("locale");
     this.debug("lang:" + lang);
 	qx.locale.manager.Manager.getInstance().setLocale(lang);
   });
-  lang_menu.add(mb_de, mb_en, mb_tr, mb_it, mb_es);
   lang_menu.addToDocument();
   toolBar.add(new qx.ui.toolbar.MenuButton("", lang_menu, "icon/16/locale.png"));
 
