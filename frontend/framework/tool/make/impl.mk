@@ -132,9 +132,10 @@ exec-treegenerator:
 
 ifdef PROJECT_LOCALES
 
-PROJECT_TRANSLATION_PATH = $(PROJECT_SOURCE_PATH)/translation
+exec-localization: exec-framework-localization
+exec-translation: exec-framework-translation exec-project-translation
 
-exec-localization:
+exec-framework-localization:
 	@echo
 	@echo "  PREPARING LOCALIZATION"
 	@$(CMD_LINE)
@@ -158,16 +159,18 @@ exec-localization:
 	  fi; \
 	done
 	
-exec-translation:
+exec-framework-translation:
+
+
+exec-project-translation:
 	@echo
 	@echo "  PREPARING PROJECT TRANSLATION"
 	@$(CMD_LINE)
-	
 	@echo "  * Processing source code..."
-	@mkdir -p $(PROJECT_TRANSLATION_PATH)
 	@which xgettext > /dev/null 2>&1 || (echo "    - Please install gettext tools (xgettext)" && exit 1)
 	@which msginit > /dev/null 2>&1 || (echo "    - Please install gettext tools (msginit)" && exit 1)
 	@which msgmerge > /dev/null 2>&1 || (echo "    - Please install gettext tools (msgmerge)" && exit 1)
+	@mkdir -p $(PROJECT_TRANSLATION_PATH)
 	@rm -f $(PROJECT_TRANSLATION_PATH)/messages.pot
 	@touch $(PROJECT_TRANSLATION_PATH)/messages.pot
 	@for FILE in `find $(PROJECT_SOURCE_PATH)/$(PROJECT_CLASS_FOLDERNAME) -name "*.js"`; do \
@@ -187,10 +190,10 @@ exec-translation:
 		  msgmerge --update -q $(PROJECT_TRANSLATION_PATH)/$$LOC.po $(PROJECT_TRANSLATION_PATH)/messages.pot; \
 		fi; \
     echo "    - Generating catalog..."; \
-    mkdir -p $(PROJECT_LOCALE_DIRECTORY); \
+    mkdir -p $(PROJECT_TRANSLATION_PATH); \
 	  $(CMD_MSGFMT) \
-	    -n $(PROJECT_LOCALE_NAMESPACE) \
-	    -d $(PROJECT_LOCALE_DIRECTORY) \
+	    -n $(PROJECT_TRANSLATION_NAMESPACE) \
+	    -d $(PROJECT_TRANSLATION_PATH) \
 	    $(PROJECT_SOURCE_PATH)/translation/$$LOC.po; \
 	done
 
