@@ -24,10 +24,39 @@
 
 qx.OO.defineClass("qx.dom.Window");
 
-qx.dom.Window.getInnerWidth = function(w) {}
-qx.dom.Window.getInnerHeight = function(w) {}
-qx.dom.Window.getScrollLeft = function(w) {}
-qx.dom.Window.getScrollTop = function(w) {}
+
+/**
+ * Get the inner width of the given browser window
+ * 
+ * @param window {window} browser window
+ * @return {integer} the window's inner width
+ */
+qx.dom.Window.getInnerWidth = function(window) {};
+
+/**
+ * Get the inner height of the given browser window
+ * 
+ * @param window {window} browser window
+ * @return {integer} the window's inner height
+ */
+qx.dom.Window.getInnerHeight = function(window) {};
+
+/**
+ * Get the left scroll position of the given browser window
+ * 
+ * @param window {window} browser window
+ * @return {integer} the window's left scroll position
+ */
+qx.dom.Window.getScrollLeft = function(window) {};
+
+/**
+ * Get the top scroll position of the given browser window
+ * 
+ * @param window {window} browser window
+ * @return {integer} the window's top scroll position
+ */
+qx.dom.Window.getScrollTop = function(window) {};
+
 
 if (qx.sys.Client.getInstance().isMshtml())
 {
