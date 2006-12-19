@@ -27,7 +27,7 @@ qx.OO.defineClass("qx.dom.Window");
 
 /**
  * Get the inner width of the given browser window
- * 
+ *
  * @param window {window} browser window
  * @return {integer} the window's inner width
  */
@@ -35,7 +35,7 @@ qx.dom.Window.getInnerWidth = function(window) {};
 
 /**
  * Get the inner height of the given browser window
- * 
+ *
  * @param window {window} browser window
  * @return {integer} the window's inner height
  */
@@ -43,7 +43,7 @@ qx.dom.Window.getInnerHeight = function(window) {};
 
 /**
  * Get the left scroll position of the given browser window
- * 
+ *
  * @param window {window} browser window
  * @return {integer} the window's left scroll position
  */
@@ -51,7 +51,7 @@ qx.dom.Window.getScrollLeft = function(window) {};
 
 /**
  * Get the top scroll position of the given browser window
- * 
+ *
  * @param window {window} browser window
  * @return {integer} the window's top scroll position
  */

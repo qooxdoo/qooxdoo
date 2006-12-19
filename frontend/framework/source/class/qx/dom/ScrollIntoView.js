@@ -40,7 +40,7 @@ qx.dom.BODY_TAG_NAME = "body";
 /**
  * Scroll the parent DOM element so that the element's so that the x coordinate is inside
  * the visible area of the parent.
- * 
+ *
  * @param vElement {Element} DOM node to be scrolled into view
  * @param vAlignLeft {boolean} whether the element should be left aligned
  */
@@ -119,7 +119,7 @@ qx.dom.ScrollIntoView.scrollX = function(vElement, vAlignLeft)
 /**
  * Scroll the parent DOM element so that the element's so that the y coordinate is inside
  * the visible area of the parent.
- * 
+ *
  * @param vElement {Element} DOM node to be scrolled into view
  * @param vAlignTop {boolean} whether the element should be top aligned
  */

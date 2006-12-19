@@ -25,8 +25,7 @@ EXEC_FILES = -name "*.py" -o -name "*.sh"
 
 CMD_NICE = nice -n $(NICE)
 CMD_RSYNC = $(CMD_NICE) rsync --recursive --delete --exclude .svn
-
-CMD_PYTHON=/usr/bin/env python
+CMD_PYTHON = python
 
 ANY2DOS = | xargs $(CMD_PYTHON) framework/tool/modules/textutil.py --command any2Dos
 ANY2UNIX = | xargs $(CMD_PYTHON) framework/tool/modules/textutil.py --command any2Unix

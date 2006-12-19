@@ -5,7 +5,7 @@
 #
 # Configure commands
 #
-CMD_PYTHON=/usr/bin/env python
+CMD_PYTHON = python
 CMD_NICE = nice -n $(COMPUTED_COMMON_NICE)
 CMD_GENERATOR = $(CMD_NICE) $(CMD_PYTHON) $(FRAMEWORK_PATH)/tool/generator.py --cache-directory $(FRAMEWORK_CACHE_PATH)
 CMD_CLDR = $(CMD_NICE) $(CMD_PYTHON) $(FRAMEWORK_PATH)/tool/cldr/extract_cldr.py 
