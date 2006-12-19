@@ -19,9 +19,9 @@
 
 
 /**
- * Create a new instance of qx.locale.manager.Manager
+ * Create a new instance of qx.locale.Manager
  */
-qx.OO.defineClass("qx.locale.manager.Manager", qx.manager.object.ObjectManager,
+qx.OO.defineClass("qx.locale.Manager", qx.manager.object.ObjectManager,
 function() {
   qx.manager.object.ObjectManager.call(this);
 
@@ -115,14 +115,14 @@ qx.Proto.addTranslation = function(languageCode, translationMap) {
  *
  * @param messageId (string) message id (may contain format strings)
  * @param varargs (object) variable number of argumes applied to the format string
- * @return (qx.locale.manager.LocalizedString)
+ * @return (qx.locale.LocalizedString)
  */
 qx.Class.tr = function(messageId, varargs)
 {
   var args = qx.lang.Array.fromArguments(arguments);
   args.splice(0, 1);
 
-  return new qx.locale.manager.LocalizedString(messageId, args);
+  return new qx.locale.LocalizedString(messageId, args);
 };
 
 
@@ -137,7 +137,7 @@ qx.Class.tr = function(messageId, varargs)
  * @param pluralMessageId (string) message id of the plural form (may contain format strings)
  * @param count (integer) if greater than 1 the plural form otherwhise the singular form is returned.
  * @param varargs (object) variable number of argumes applied to the format string
- * @return (qx.locale.manager.LocalizedString)
+ * @return (qx.locale.LocalizedString)
  */
 qx.Class.trn = function(singularMessageId, pluralMessageId, count, varargs)
 {
@@ -146,11 +146,11 @@ qx.Class.trn = function(singularMessageId, pluralMessageId, count, varargs)
 
   if (count > 1)
   {
-    return new qx.locale.manager.LocalizedString(pluralMessageId, args);
+    return new qx.locale.LocalizedString(pluralMessageId, args);
   }
   else
   {
-    return new qx.locale.manager.LocalizedString(singularMessageId, args);
+    return new qx.locale.LocalizedString(singularMessageId, args);
   }
 };
 
@@ -165,14 +165,14 @@ qx.Class.trn = function(singularMessageId, pluralMessageId, count, varargs)
  * @param hint (string) hint for the translator of the message. Will be included in the .pot file.
  * @param messageId (string) message id (may contain format strings)
  * @param varargs (object) variable number of argumes applied to the format string
- * @return (qx.locale.manager.LocalizedString)
+ * @return (qx.locale.LocalizedString)
  */
 qx.Class.trc = function(hint, messageId, varargs)
 {
   var args = qx.lang.Array.fromArguments(arguments);
   args.splice(0, 2);
 
-  return new qx.locale.manager.LocalizedString(messageId, args);
+  return new qx.locale.LocalizedString(messageId, args);
 }
 
 

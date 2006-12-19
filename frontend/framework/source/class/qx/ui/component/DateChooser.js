@@ -148,7 +148,7 @@ function(date) {
   this.showMonth(shownDate.getMonth(), shownDate.getFullYear());
 
   // listen for locale changes
-  qx.locale.manager.Manager.getInstance().addEventListener("changeLocale", this._updateDatePane, this);
+  qx.locale.Manager.getInstance().addEventListener("changeLocale", this._updateDatePane, this);
 
   // Add the main widgets
   this.add(navBar);
