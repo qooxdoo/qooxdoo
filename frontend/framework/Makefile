@@ -1,3 +1,8 @@
+QOOXDOO_PATH = ../..
+CMD_REMOVE = rm -rf
+
+include $(QOOXDOO_PATH)/frontend/framework/tool/make/framework.mk
+
 #
 # New all target
 #
@@ -17,12 +22,10 @@ build: all
 api: all
 pretty: all
 fix: all
+clean: all
+realclean: all
 
-clean:
-  @rm -rf .cache
-  @rm -rf source/translation/messages.pot
-  @rm -rf source/class/qx/locale/data
-  @rm -rf source/class/qx/locale/translations
-  
-distclean: clean
-realclean: clean
+distclean:
+	@$(CMD_REMOVE) $(FRAMEWORK_CACHE_PATH)
+	@$(CMD_REMOVE) $(FRAMEWORK_LOCALE_CLASS_PATH)
+	@$(CMD_REMOVE) $(FRAMEWORK_TRANSLATION_CLASS_PATH)

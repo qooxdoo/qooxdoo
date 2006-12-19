@@ -60,17 +60,5 @@ PROJECT_LOCALES =
 # INCLUDE CORE
 ####################################################################################
 
-#
-# Include project core handling
-#
-include $(QOOXDOO_PATH)/frontend/framework/tool/make/project.mk
-
-#
-# Include default targets: build, source, clean, ...
-#
 include $(QOOXDOO_PATH)/frontend/framework/tool/make/targets.mk
-
-#
-# Include implementation targets
-#
-include $(QOOXDOO_PATH)/frontend/framework/tool/make/impl.mk
+include $(QOOXDOO_PATH)/frontend/framework/tool/make/project.mk
