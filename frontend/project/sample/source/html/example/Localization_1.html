@@ -71,7 +71,7 @@
 
   var locales = ["de_DE", "de_AT", "en_US", "fr_FR", "tr", "it", "es_ES", "sv", "ar", "zh"];
   
-  qx.locale.manager.Manager.getInstance().setLocale(locales[0]);
+  qx.locale.Manager.getInstance().setLocale(locales[0]);
 
   qx.core.Init.getInstance().defineMain(function()
   {
@@ -87,7 +87,7 @@
     select.setSelected(select.getList().getFirstChild());
     select.addEventListener("changeSelected", function(e) {
       var locale = e.getData().getLabel();
-      qx.locale.manager.Manager.getInstance().setLocale(locale);
+      qx.locale.Manager.getInstance().setLocale(locale);
 	  });
     hb2.add(l2, select);
     d.add(hb2);
@@ -215,10 +215,10 @@
     this.updateLocaleInformation = function() {
 			var i = 0;
     	info[(i++ * 2) + 1] = this.tr("Locale:");
-    	info[(i++ * 2) + 1] = qx.locale.manager.Manager.getInstance().getLocale();
+    	info[(i++ * 2) + 1] = qx.locale.Manager.getInstance().getLocale();
 
     	info[(i++ * 2) + 1] = this.tr("Territory code:");
-    	info[(i++ * 2) + 1] = qx.locale.manager.Manager.getInstance().getTerritory();
+    	info[(i++ * 2) + 1] = qx.locale.Manager.getInstance().getTerritory();
 
     	info[(i++ * 2) + 1] = this.tr("Date format medium:");
     	info[(i++ * 2) + 1] = qx.locale.Date.getDateFormat("medium");
@@ -255,7 +255,7 @@
     };
     
     // update info box
-    qx.locale.manager.Manager.getInstance().addEventListener("changeLocale", this.updateLocaleInformation, this);
+    qx.locale.Manager.getInstance().addEventListener("changeLocale", this.updateLocaleInformation, this);
     this.updateLocaleInformation();
     
   });

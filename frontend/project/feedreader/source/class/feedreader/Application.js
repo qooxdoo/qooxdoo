@@ -32,6 +32,7 @@
 #load(feedreader.translation.tr)
 #load(feedreader.translation.it)
 #load(feedreader.translation.es)
+#load(feedreader.translation.sv)
 
 ************************************************************************ */
 
@@ -155,7 +156,7 @@ qx.Proto.main = function(e)
     es: this.tr("Spanish"),
     sv: this.tr("Swedish")
   }
-  var locale = qx.locale.manager.Manager.getInstance().getLocale();
+  var locale = qx.locale.Manager.getInstance().getLocale();
   var lang_menu = new qx.ui.menu.Menu();
   var radioManager = new qx.manager.selection.RadioManager("lang");
   for (var lang in locales) {
@@ -167,7 +168,7 @@ qx.Proto.main = function(e)
   radioManager.addEventListener("changeSelected", function(e) {
     var lang = e.getData().getUserData("locale");
     this.debug("lang:" + lang);
-	qx.locale.manager.Manager.getInstance().setLocale(lang);
+	qx.locale.Manager.getInstance().setLocale(lang);
   });
   lang_menu.addToDocument();
   toolBar.add(new qx.ui.toolbar.MenuButton("", lang_menu, "icon/16/locale.png"));
