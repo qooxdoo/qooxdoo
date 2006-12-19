@@ -64,7 +64,7 @@ exec-script-source:
 	  $(COMPUTED_CLASS_URI) \
 	  --generate-source-script \
 	  --source-script-file $(PROJECT_SOURCE_PATH)/$(PROJECT_SCRIPT_FOLDERNAME)/$(PROJECT_SCRIPT_FILENAME) \
-	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:$(FRAMEWORK_SOURCE_URI)/resource \
+	  --define-runtime-setting $(FRAMEWORK_NAMESPACE).manager.object.AliasManager.resourceUri:$(FRAMEWORK_SOURCE_URI)/resource \
 	  $(COMPUTED_SOURCE_INCLUDE) \
 	  $(COMPUTED_SOURCE_LINEBREAKS)
 
@@ -135,6 +135,17 @@ ifdef PROJECT_LOCALES
 exec-localization: exec-framework-localization
 exec-translation: exec-framework-translation exec-project-translation
 
+else
+
+exec-localization: exec-none
+exec-translation: exec-none
+
+endif
+
+
+
+
+
 exec-framework-localization:
 	@echo
 	@echo "  PREPARING LOCALIZATION"
@@ -171,6 +182,7 @@ exec-project-translation:
 	@which msginit > /dev/null 2>&1 || (echo "    - Please install gettext tools (msginit)" && exit 1)
 	@which msgmerge > /dev/null 2>&1 || (echo "    - Please install gettext tools (msgmerge)" && exit 1)
 	@mkdir -p $(PROJECT_TRANSLATION_PATH)
+	@mkdir -p $(PROJECT_TRANSLATION_CLASS_PATH)
 	@rm -f $(PROJECT_TRANSLATION_PATH)/messages.pot
 	@touch $(PROJECT_TRANSLATION_PATH)/messages.pot
 	@for FILE in `find $(PROJECT_SOURCE_PATH)/$(PROJECT_CLASS_FOLDERNAME) -name "*.js"`; do \
@@ -192,17 +204,10 @@ exec-project-translation:
     echo "    - Generating catalog..."; \
     mkdir -p $(PROJECT_TRANSLATION_PATH); \
 	  $(CMD_MSGFMT) \
-	    -n $(PROJECT_TRANSLATION_NAMESPACE) \
-	    -d $(PROJECT_TRANSLATION_PATH) \
-	    $(PROJECT_SOURCE_PATH)/translation/$$LOC.po; \
+	    -n $(PROJECT_TRANSLATION_CLASS_NAMESPACE) \
+	    -d $(PROJECT_TRANSLATION_CLASS_PATH) \
+	    $(PROJECT_TRANSLATION_PATH)/$$LOC.po; \
 	done
-
-else
-
-exec-localization: exec-none
-exec-translation: exec-none
-
-endif
 
 
 
@@ -231,9 +236,9 @@ exec-files-api:
 	@$(CMD_LINE)
 	@echo "  * Copying files..."
 	@mkdir -p $(PROJECT_API_PATH)
-	@for file in $(API_FILES); do \
+	@for file in $(APIVIEWER_FILES); do \
 		echo "    - Processing $$file"; \
-		cp -Rf $(API_SOURCE_PATH)/$$file $(PROJECT_API_PATH)/$$file; \
+		cp -Rf $(APIVIEWER_SOURCE_PATH)/$$file $(PROJECT_API_PATH)/$$file; \
   done
 
 
@@ -256,20 +261,20 @@ exec-api-data:
 exec-api-build:
 	@$(CMD_GENERATOR) \
 	  --class-path $(FRAMEWORK_SOURCE_PATH)/class \
-	  --class-path $(API_SOURCE_PATH)/class \
+	  --class-path $(APIVIEWER_SOURCE_PATH)/class \
 	  --include api \
 	  --generate-compiled-script \
-	  --compiled-script-file $(PROJECT_API_PATH)/script/apiviewer.js \
+	  --compiled-script-file $(PROJECT_API_PATH)/script/$(APIVIEWER_NAMESPACE).js \
 	  --optimize-strings --optimize-variables \
 	  --copy-resources \
 	  --resource-input $(FRAMEWORK_SOURCE_PATH)/resource \
-	  --resource-output $(PROJECT_API_PATH)/resource/qx \
-	  --resource-input $(API_SOURCE_PATH)/resource \
-	  --resource-output $(PROJECT_API_PATH)/resource/apiviewer \
+	  --resource-output $(PROJECT_API_PATH)/resource/$(FRAMEWORK_NAMESPACE) \
+	  --resource-input $(APIVIEWER_SOURCE_PATH)/resource \
+	  --resource-output $(PROJECT_API_PATH)/resource/$(APIVIEWER_NAMESPACE) \
 	  --enable-resource-filter \
-	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:resource/qx \
-	  --define-runtime-setting apiviewer.Application.resourceUri:resource/apiviewer \
-	  --define-runtime-setting apiviewer.Viewer.title:$(PROJECT_API_TITLE)
+	  --define-runtime-setting $(FRAMEWORK_NAMESPACE).manager.object.AliasManager.resourceUri:resource/$(FRAMEWORK_NAMESPACE) \
+	  --define-runtime-setting $(APIVIEWER_NAMESPACE).Application.resourceUri:resource/$(APIVIEWER_NAMESPACE) \
+	  --define-runtime-setting $(APIVIEWER_NAMESPACE).Viewer.title:$(PROJECT_API_TITLE)
 
 
 
