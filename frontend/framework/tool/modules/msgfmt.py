@@ -3,7 +3,7 @@
 # -*- coding: iso-8859-1 -*-
 # Written by Martin v. Lwis <loewis@informatik.hu-berlin.de>
 # Plural forms support added by alexander smishlajev <alex@tycobka.lv>
-# Adapted to JavaScript by Fabian Jakobs <fabian.jakobs@1und1.de>
+# Adapted to JavaScript by Fabian Jakobs <fabian DOT jakobs AT 1und1 DOT de>
 """
 Generate qooxdoo message catalog from textual translation description.
 
