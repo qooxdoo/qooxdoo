@@ -213,6 +213,7 @@ qx.Proto.main = function(e)
   var table = new qx.ui.table.Table(this._tableModel);
   table.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
   table.set({height:"100%", width:"100%"});
+  table.setStatusBarVisible(false);
   table.getTableColumnModel().setColumnWidth(0, 350);
   table.getTableColumnModel().setColumnWidth(1, 200);
   table.getTableColumnModel().setColumnWidth(2, 200);
