@@ -153,6 +153,7 @@ exec-framework-localization:
 	@echo "  PREPARING LOCALIZATION"
 	@$(CMD_LINE)
 	@mkdir -p $(FRAMEWORK_CACHE_PATH)
+	@mkdir -p $(FRAMEWORK_LOCALE_CLASS_PATH)
 	@echo "  * Processing locales..."
 	@for LOC in $(PROJECT_LOCALES); do \
 	  echo "    - Locale: $$LOC"; \
@@ -239,10 +240,11 @@ exec-project-translation:
 	@mkdir -p $(PROJECT_TRANSLATION_PATH)
 	@mkdir -p $(PROJECT_TRANSLATION_CLASS_PATH)
 	
-	@rm -f $(PROJECT_TRANSLATION_PATH)/messages.pot
-	@touch $(PROJECT_TRANSLATION_PATH)/messages.pot
+	@if [ ! -r $(PROJECT_TRANSLATION_PATH)/messages.pot ]; then \
+		touch -t 197001010000 $(PROJECT_TRANSLATION_PATH)/messages.pot; \
+	fi;	
 	
-	@for FILE in `find $(PROJECT_SOURCE_PATH)/$(PROJECT_CLASS_FOLDERNAME) -name "*.js"`; do \
+	@for FILE in `find $(PROJECT_SOURCE_PATH)/$(PROJECT_CLASS_FOLDERNAME) -newer $(PROJECT_TRANSLATION_PATH)/messages.pot -name "*.js"`; do \
 	  xgettext --language=Java --from-code=UTF-8 \
 	    -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 \
 	    -kManager.trc -kManager.tr -kManager.marktr -kManager.trn:1,2 \
