@@ -252,7 +252,7 @@ release-sdk-unix:
 	@for APPLICATION in $(APPLICATIONS); do \
 		echo "    - $$APPLICATION"; \
 	  mkdir -p $(RELEASE_SDK_UNIX)/frontend/application/$$APPLICATION; \
-	  $(CMD_RSYNC) --exclude script --exclude build --exclude publish application/$$APPLICATION/source/* $(RELEASE_SDK_UNIX)/frontend/application/$$APPLICATION/source; \
+	  $(CMD_RSYNC) --exclude script --exclude build --exclude publish application/$$APPLICATION/* $(RELEASE_SDK_UNIX)/frontend/application/$$APPLICATION; \
 	done
 	
 	@echo "  * Synchronizing framework..."
@@ -304,7 +304,7 @@ release-sdk-dos:
 	@for APPLICATION in $(APPLICATIONS); do \
 		echo "    - $$APPLICATION"; \
 	  mkdir -p $(RELEASE_SDK_DOS)/frontend/application/$$APPLICATION; \
-	  $(CMD_RSYNC) --exclude script --exclude build --exclude publish application/$$APPLICATION/source/* $(RELEASE_SDK_DOS)/frontend/application/$$APPLICATION/source; \
+	  $(CMD_RSYNC) --exclude script --exclude build --exclude publish application/$$APPLICATION/* $(RELEASE_SDK_DOS)/frontend/application/$$APPLICATION; \
 	done
 
 	@echo "  * Synchronizing framework..."
