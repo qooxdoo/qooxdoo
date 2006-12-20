@@ -13,6 +13,9 @@ NICE = 10
 # PRIVATE VARIABLES
 ###################################################################################
 
+QOOXDOO_PATH = ..
+CMD_REMOVE = rm -rf
+
 RELEASE_BUILD_UNIX = release/temp/build/unix/qooxdoo-$(VERSION)-build
 RELEASE_BUILD_DOS = release/temp/build/dos/qooxdoo-$(VERSION)-build
 
@@ -20,7 +23,7 @@ RELEASE_SDK_UNIX = release/temp/sdk/unix/qooxdoo-$(VERSION)-sdk
 RELEASE_SDK_DOS = release/temp/sdk/dos/qooxdoo-$(VERSION)-sdk
 
 TEXT_FILES = -name "*.py" -o -name "*.sh" -o -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile -o -name AUTHORS -o -name LICENSE -o -name README -o -name RELEASENOTES -o -name TODO
-TEMP_FILES = -name "*.pyc" -o -name "*.bak" -o -name "*.old"
+TEMP_FILES = -name "*.pyc" -o -name "*.bak" -o -name "*.old" -o -name "*~" -o -name "messages.pot"
 EXEC_FILES = -name "*.py" -o -name "*.sh"
 
 CMD_NICE = nice -n $(NICE)
@@ -30,10 +33,19 @@ CMD_PYTHON = python
 ANY2DOS = | xargs $(CMD_PYTHON) framework/tool/modules/textutil.py --command any2Dos
 ANY2UNIX = | xargs $(CMD_PYTHON) framework/tool/modules/textutil.py --command any2Unix
 
-TARGETS = project/apiviewer project/feedreader project/framework project/sample project/showcase project/webmail
+PROJECTS = apiviewer feedreader framework sample showcase webmail
 SKELETON_FILES = Makefile source/class source/resource source/index.html
 SDK_MAKEFILES = Makefile project/Makefile
 
+
+
+
+
+###################################################################################
+# INCLUDE CORE
+###################################################################################
+
+include $(QOOXDOO_PATH)/frontend/framework/tool/make/framework.mk
 
 
 
@@ -72,14 +84,28 @@ clean:
 
 realclean:
 	@$(MAKE) -s -C project realclean
-	@$(CMD_NICE) rm -rf release/temp
 
-distclean:
+distclean: release-distclean framework-distclean
 	@$(MAKE) -s -C project distclean
-	@$(MAKE) -s -C framework distclean
-	@$(CMD_NICE) rm -rf release
 
+framework-distclean:
+	@echo 
+	@echo "****************************************************************************"
+	@echo "  CLEANING UP FRAMEWORK"
+	@echo "****************************************************************************"
+	@echo "  * Cleaning up..."
+	@$(CMD_REMOVE) $(FRAMEWORK_CACHE_PATH)
+	@$(CMD_REMOVE) $(FRAMEWORK_LOCALE_CLASS_PATH)
+	@$(CMD_REMOVE) $(FRAMEWORK_TRANSLATION_CLASS_PATH)
 
+release-distclean:
+	@echo 
+	@echo "****************************************************************************"
+	@echo "  CLEANING UP RELEASE"
+	@echo "****************************************************************************"
+	@echo "  * Cleaning up..."
+	@$(CMD_REMOVE) release
+	
 
 
 
@@ -88,7 +114,7 @@ distclean:
 # RELEASE TARGETS
 ###################################################################################
 
-release: release-build release-sdk
+release: release-sdk release-build
 release-fast: release-build-fast release-sdk-fast
 
 
@@ -109,15 +135,15 @@ release-build-unix:
 	  cp -f $$FILE $(RELEASE_BUILD_UNIX); \
 	done
 
-	@echo "  * Synchronizing builds..."
-	@for TARGET in $(TARGETS); do \
-		echo "    - $$TARGET"; \
-	  mkdir -p $(RELEASE_BUILD_UNIX)/frontend/$$TARGET; \
-		if [ ! -r $$TARGET/build ]; then \
+	@echo "  * Synchronizing projects..."
+	@for PROJECT in $(PROJECTS); do \
+		echo "    - $$PROJECT"; \
+	  mkdir -p $(RELEASE_BUILD_UNIX)/frontend/$$PROJECT; \
+		if [ ! -r project/$$PROJECT/build ]; then \
 		  echo "      - Missing build folder! Run $(MAKE) build first!"; \
 		  exit 1; \
 		fi; \
-	  $(CMD_RSYNC) $$TARGET/build/* $(RELEASE_BUILD_UNIX)/frontend/$$TARGET; \
+	  $(CMD_RSYNC) project/$$PROJECT/build/* $(RELEASE_BUILD_UNIX)/frontend/$$PROJECT; \
 	done
 	
 	@echo "  * Switching to Unix line endings..."
@@ -138,15 +164,15 @@ release-build-dos:
 	  cp -f $$FILE $(RELEASE_BUILD_DOS); \
 	done
 
-	@echo "  * Synchronizing builds..."
-	@for TARGET in $(TARGETS); do \
-		echo "    - $$TARGET"; \
-	  mkdir -p $(RELEASE_BUILD_DOS)/frontend/$$TARGET; \
-		if [ ! -r $$TARGET/build ]; then \
+	@echo "  * Synchronizing projects..."
+	@for PROJECT in $(PROJECTS); do \
+		echo "    - $$PROJECT"; \
+	  mkdir -p $(RELEASE_BUILD_DOS)/frontend/$$PROJECT; \
+		if [ ! -r project/$$PROJECT/build ]; then \
 		  echo "      - Missing build folder! Run $(MAKE) build first!"; \
 		  exit 1; \
 		fi; \
-	  $(CMD_RSYNC) $$TARGET/build/* $(RELEASE_BUILD_DOS)/frontend/$$TARGET; \
+	  $(CMD_RSYNC) project/$$PROJECT/build/* $(RELEASE_BUILD_DOS)/frontend/$$PROJECT; \
 	done
 	
 	@echo "  * Switching to DOS line endings..."
@@ -163,7 +189,7 @@ release-build-dos:
 
 
 
-release-sdk: release-sdk-fast
+release-sdk: distclean release-sdk-fast
 release-sdk-fast: release-sdk-unix release-sdk-dos
 
 release-sdk-unix:
@@ -178,21 +204,17 @@ release-sdk-unix:
 	  cp -f $$FILE $(RELEASE_SDK_UNIX); \
 	done
 	
-	@echo "  * Synchronizing sources..."
-	@for TARGET in $(TARGETS); do \
-		echo "    - $$TARGET"; \
-	  mkdir -p $(RELEASE_SDK_UNIX)/frontend/$$TARGET; \
-	  cp -f $$TARGET/Makefile $(RELEASE_SDK_UNIX)/frontend/$$TARGET; \
-	  $(CMD_RSYNC) --exclude script $$TARGET/source/* $(RELEASE_SDK_UNIX)/frontend/$$TARGET/source; \
+	@echo "  * Synchronizing projects..."
+	@for PROJECT in $(PROJECTS); do \
+		echo "    - $$PROJECT"; \
+	  mkdir -p $(RELEASE_SDK_UNIX)/frontend/project/$$PROJECT; \
+	  cp -f project/$$PROJECT/Makefile $(RELEASE_SDK_UNIX)/frontend/project/$$PROJECT; \
+	  $(CMD_RSYNC) --exclude script project/$$PROJECT/source/* $(RELEASE_SDK_UNIX)/frontend/project/$$PROJECT/source; \
 	done
 	
-	@echo "  * Synchronizing framework tool folders..."
-	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/framework/tool
-	@$(CMD_RSYNC) framework/tool/* $(RELEASE_SDK_UNIX)/frontend/framework/tool
-
-	@echo "  * Synchronizing framework source folders..."
-	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/framework/source
-	@$(CMD_RSYNC) framework/source/* $(RELEASE_SDK_UNIX)/frontend/framework/source
+	@echo "  * Synchronizing framework..."
+	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/framework
+	@$(CMD_RSYNC) framework/* --exclude .cache $(RELEASE_SDK_UNIX)/frontend/framework
 
 	@echo "  * Copying top level Makefiles..."
 	@for MAKEFILE in $(SDK_MAKEFILES); do \
@@ -235,21 +257,17 @@ release-sdk-dos:
 	  cp -f $$FILE $(RELEASE_SDK_DOS); \
 	done
 	
-	@echo "  * Synchronizing sources..."
-	@for TARGET in $(TARGETS); do \
-		echo "    - $$TARGET"; \
-	  mkdir -p $(RELEASE_SDK_DOS)/frontend/$$TARGET; \
-	  cp -f $$TARGET/Makefile $(RELEASE_SDK_DOS)/frontend/$$TARGET; \
-	  $(CMD_RSYNC) --exclude script $$TARGET/source/* $(RELEASE_SDK_DOS)/frontend/$$TARGET/source; \
+	@echo "  * Synchronizing projects..."
+	@for PROJECT in $(PROJECTS); do \
+		echo "    - $$PROJECT"; \
+	  mkdir -p $(RELEASE_SDK_DOS)/frontend/project/$$PROJECT; \
+	  cp -f project/$$PROJECT/Makefile $(RELEASE_SDK_DOS)/frontend/project/$$PROJECT; \
+	  $(CMD_RSYNC) --exclude script project/$$PROJECT/source/* $(RELEASE_SDK_DOS)/frontend/project/$$PROJECT/source; \
 	done
 
-	@echo "  * Synchronizing framework tool folders..."
-	@mkdir -p $(RELEASE_SDK_DOS)/frontend/framework/tool
-	@$(CMD_RSYNC) framework/tool/* $(RELEASE_SDK_DOS)/frontend/framework/tool
-
-	@echo "  * Synchronizing framework source folders..."
-	@mkdir -p $(RELEASE_SDK_DOS)/frontend/framework/source
-	@$(CMD_RSYNC) framework/source/* $(RELEASE_SDK_DOS)/frontend/framework/source
+	@echo "  * Synchronizing framework..."
+	@mkdir -p $(RELEASE_SDK_DOS)/frontend/framework
+	@$(CMD_RSYNC) framework/* --exclude .cache $(RELEASE_SDK_DOS)/frontend/framework
 
 	@echo "  * Copying top level Makefiles..."
 	@for MAKEFILE in $(SDK_MAKEFILES); do \
