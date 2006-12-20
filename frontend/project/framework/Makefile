@@ -26,7 +26,10 @@ PROJECT_NAMESPACE = qx
 PROJECT_MAKE_TITLE = FRAMEWORK
 PROJECT_API_TITLE = Framework
 
-
+#
+# Locales to include
+#
+PROJECT_LOCALES = de de_DE en en_US fr fr_FR es es_ES
 
 
 
