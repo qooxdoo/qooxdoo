@@ -78,7 +78,7 @@ def getparser():
   parser.add_option("--add-new-lines", action="store_true", dest="addNewLines", default=False, help="Keep newlines in compiled files.")
 
   # Options for source version
-  parser.add_option("--source-loader-type", action="store", dest="sourceLoaderType", metavar="TYPE", choices=("auto", "docwrite", "domappend"), default="auto", help="Generated source loader type: auto, docwrite, domappend [default: %default].")
+  parser.add_option("--source-loader-type", action="store", dest="sourceLoaderType", metavar="TYPE", choices=("auto", "docwrite", "domappend"), default="docwrite", help="Generated source loader type: auto, docwrite, domappend [default: %default].")
 
   # Options for compiled version
   parser.add_option("--add-file-ids", action="store_true", dest="addFileIds", default=False, help="Add file IDs to compiled output.")
