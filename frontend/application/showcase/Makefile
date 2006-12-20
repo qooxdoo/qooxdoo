@@ -31,7 +31,10 @@ APPLICATION_API_TITLE = ShowCase
 #
 APPLICATION_FILES = index.html
 
-
+#
+# Locales to include
+#
+APPLICATION_LOCALES = de de_DE de_AT en en_US fr fr_FR tr it es es_ES sv ar zh
 
 
 
