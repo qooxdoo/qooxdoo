@@ -82,32 +82,33 @@ qx.Proto._getContentHtml = function(cellInfo) {
 
 // overridden
 qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
-  var style = qx.ui.table.AbstractDataCellRenderer.prototype._getCellStyle(cellInfo);
-
+  var clazz = qx.ui.table.DefaultDataCellRenderer;
+  var style = cellElement.style;
+  
   var stylesToApply = this._getStyleFlags(cellInfo);
-  if (stylesToApply & qx.ui.table.DefaultDataCellRenderer.STYLEFLAG_ALIGN_RIGHT){
-    cellElement.style.textAlign = "right";
+  if (stylesToApply & clazz.STYLEFLAG_ALIGN_RIGHT){
+    style.textAlign = "right";
   } else {
-    cellElement.style.textAlign = "";
+    style.textAlign = "";
   }
 
-  if (stylesToApply & qx.ui.table.DefaultDataCellRenderer.STYLEFLAG_BOLD){
-    cellElement.style.fontWeight = "bold";
+  if (stylesToApply & clazz.STYLEFLAG_BOLD){
+    style.fontWeight = "bold";
   } else {
-    cellElement.style.fontWeight = "";
+    style.fontWeight = "";
   }
 
-  if (stylesToApply & qx.ui.table.DefaultDataCellRenderer.STYLEFLAG_ITALIC){
-    cellElement.style.fontStyle = "ital";
+  if (stylesToApply & clazz.STYLEFLAG_ITALIC){
+    style.fontStyle = "ital";
   } else {
-    cellElement.style.fontStyle = "";
+    style.fontStyle = "";
   }
 
   var textNode = cellElement.firstChild;
   if (textNode != null) {
     textNode.nodeValue = this._formatValue(cellInfo);
   } else {
-    cellElement.innerHTML = qx.ui.table.DefaultDataCellRenderer.escapeHtml(this._formatValue(cellInfo));
+    cellElement.innerHTML = clazz.escapeHtml(this._formatValue(cellInfo));
   }
 }
 
