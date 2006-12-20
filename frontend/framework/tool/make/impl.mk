@@ -272,6 +272,7 @@ exec-project-translation:
 	    -d $(PROJECT_TRANSLATION_CLASS_PATH) \
 	    $(PROJECT_TRANSLATION_PATH)/$$LOC.po; \
 	done
+	@rm -rf $(PROJECT_TRANSLATION_PATH)/*~
 
 
 
