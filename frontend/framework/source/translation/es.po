@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo 0.63\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-19 17:12+0100\n"
+"POT-Creation-Date: 2006-12-19 21:16+0100\n"
 "PO-Revision-Date: 2006-12-19 00:49-0500\n"
 "Last-Translator: Camilo Aguilar <camilo.aguilar@gmail.com>\n"
 "Language-Team:  <camilo.aguilar@gmail.com>\n"
@@ -13,276 +13,276 @@ msgstr ""
 "X-Poedit-Country: COLOMBIA\n"
 
 #. TRANSLATION: short representation of key names
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:59
+#: qx/frontend/framework/source/class/qx/locale/Key.js:59
 msgid "key_short_Backspace"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:60
+#: qx/frontend/framework/source/class/qx/locale/Key.js:60
 msgid "key_short_Tab"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:61
+#: qx/frontend/framework/source/class/qx/locale/Key.js:61
 msgid "key_short_Space"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:62
+#: qx/frontend/framework/source/class/qx/locale/Key.js:62
 msgid "key_short_Enter"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:63
+#: qx/frontend/framework/source/class/qx/locale/Key.js:63
 msgid "key_short_Shift"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:64
+#: qx/frontend/framework/source/class/qx/locale/Key.js:64
 msgid "key_short_Control"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:65
+#: qx/frontend/framework/source/class/qx/locale/Key.js:65
 msgid "key_short_Alt"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:66
+#: qx/frontend/framework/source/class/qx/locale/Key.js:66
 msgid "key_short_CapsLock"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:67
+#: qx/frontend/framework/source/class/qx/locale/Key.js:67
 msgid "key_short_Meta"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:68
+#: qx/frontend/framework/source/class/qx/locale/Key.js:68
 msgid "key_short_Escape"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:69
+#: qx/frontend/framework/source/class/qx/locale/Key.js:69
 msgid "key_short_Left"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:70
+#: qx/frontend/framework/source/class/qx/locale/Key.js:70
 msgid "key_short_Up"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:71
+#: qx/frontend/framework/source/class/qx/locale/Key.js:71
 msgid "key_short_Right"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:72
+#: qx/frontend/framework/source/class/qx/locale/Key.js:72
 msgid "key_short_Down"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:73
+#: qx/frontend/framework/source/class/qx/locale/Key.js:73
 msgid "key_short_PageUp"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:74
+#: qx/frontend/framework/source/class/qx/locale/Key.js:74
 msgid "key_short_PageDown"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:75
+#: qx/frontend/framework/source/class/qx/locale/Key.js:75
 msgid "key_short_End"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:76
+#: qx/frontend/framework/source/class/qx/locale/Key.js:76
 msgid "key_short_Home"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:77
+#: qx/frontend/framework/source/class/qx/locale/Key.js:77
 msgid "key_short_Insert"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:78
+#: qx/frontend/framework/source/class/qx/locale/Key.js:78
 msgid "key_short_Delete"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:79
+#: qx/frontend/framework/source/class/qx/locale/Key.js:79
 msgid "key_short_NumLock"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:80
+#: qx/frontend/framework/source/class/qx/locale/Key.js:80
 msgid "key_short_PrintScreen"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:81
+#: qx/frontend/framework/source/class/qx/locale/Key.js:81
 msgid "key_short_Scroll"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:82
+#: qx/frontend/framework/source/class/qx/locale/Key.js:82
 msgid "key_short_Pause"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:83
+#: qx/frontend/framework/source/class/qx/locale/Key.js:83
 msgid "key_short_Win"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:84
+#: qx/frontend/framework/source/class/qx/locale/Key.js:84
 msgid "key_short_Apps"
 msgstr ""
 
 #. TRANSLATION: full/long representation of key names
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:87
+#: qx/frontend/framework/source/class/qx/locale/Key.js:87
 msgid "key_full_Backspace"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:88
+#: qx/frontend/framework/source/class/qx/locale/Key.js:88
 msgid "key_full_Tab"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:89
+#: qx/frontend/framework/source/class/qx/locale/Key.js:89
 msgid "key_full_Space"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:90
+#: qx/frontend/framework/source/class/qx/locale/Key.js:90
 msgid "key_full_Enter"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:91
+#: qx/frontend/framework/source/class/qx/locale/Key.js:91
 msgid "key_full_Shift"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:92
+#: qx/frontend/framework/source/class/qx/locale/Key.js:92
 msgid "key_full_Control"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:93
+#: qx/frontend/framework/source/class/qx/locale/Key.js:93
 msgid "key_full_Alt"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:94
+#: qx/frontend/framework/source/class/qx/locale/Key.js:94
 msgid "key_full_CapsLock"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:95
+#: qx/frontend/framework/source/class/qx/locale/Key.js:95
 msgid "key_full_Meta"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:96
+#: qx/frontend/framework/source/class/qx/locale/Key.js:96
 msgid "key_full_Escape"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:97
+#: qx/frontend/framework/source/class/qx/locale/Key.js:97
 msgid "key_full_Left"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:98
+#: qx/frontend/framework/source/class/qx/locale/Key.js:98
 msgid "key_full_Up"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:99
+#: qx/frontend/framework/source/class/qx/locale/Key.js:99
 msgid "key_full_Right"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:100
+#: qx/frontend/framework/source/class/qx/locale/Key.js:100
 msgid "key_full_Down"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:101
+#: qx/frontend/framework/source/class/qx/locale/Key.js:101
 msgid "key_full_PageUp"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:102
+#: qx/frontend/framework/source/class/qx/locale/Key.js:102
 msgid "key_full_PageDown"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:103
+#: qx/frontend/framework/source/class/qx/locale/Key.js:103
 msgid "key_full_End"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:104
+#: qx/frontend/framework/source/class/qx/locale/Key.js:104
 msgid "key_full_Home"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:105
+#: qx/frontend/framework/source/class/qx/locale/Key.js:105
 msgid "key_full_Insert"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:106
+#: qx/frontend/framework/source/class/qx/locale/Key.js:106
 msgid "key_full_Delete"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:107
+#: qx/frontend/framework/source/class/qx/locale/Key.js:107
 msgid "key_full_NumLock"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:108
+#: qx/frontend/framework/source/class/qx/locale/Key.js:108
 msgid "key_full_PrintScreen"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:109
+#: qx/frontend/framework/source/class/qx/locale/Key.js:109
 msgid "key_full_Scroll"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:110
+#: qx/frontend/framework/source/class/qx/locale/Key.js:110
 msgid "key_full_Pause"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:111
+#: qx/frontend/framework/source/class/qx/locale/Key.js:111
 msgid "key_full_Win"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:112
+#: qx/frontend/framework/source/class/qx/locale/Key.js:112
 msgid "key_full_Apps"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorPopup.js:79
+#: qx/frontend/framework/source/class/qx/ui/component/ColorPopup.js:79
 msgid "Automatic"
 msgstr "Automático"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorPopup.js:133
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:290
+#: qx/frontend/framework/source/class/qx/ui/component/ColorPopup.js:133
+#: qx/frontend/framework/source/class/qx/ui/component/ColorSelector.js:290
 msgid "Preview (Old/New)"
 msgstr "Vista previa (Antes/Después)"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorPopup.js:159
+#: qx/frontend/framework/source/class/qx/ui/component/ColorPopup.js:159
 msgid "Open ColorSelector"
 msgstr "Abrir selector de color"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorPopup.js:173
+#: qx/frontend/framework/source/class/qx/ui/component/ColorPopup.js:173
 msgid "Color Selector"
 msgstr "Selector de color"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:141
+#: qx/frontend/framework/source/class/qx/ui/component/ColorSelector.js:141
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:142
+#: qx/frontend/framework/source/class/qx/ui/component/ColorSelector.js:142
 msgid "OK"
 msgstr "Aceptar"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:234
+#: qx/frontend/framework/source/class/qx/ui/component/ColorSelector.js:234
 msgid "Presets"
 msgstr "Predefinidos"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:278
+#: qx/frontend/framework/source/class/qx/ui/component/ColorSelector.js:278
 msgid "Details"
 msgstr "Detalles"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:323
+#: qx/frontend/framework/source/class/qx/ui/component/ColorSelector.js:323
 msgid "Hex"
 msgstr "Hex"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:346
+#: qx/frontend/framework/source/class/qx/ui/component/ColorSelector.js:346
 msgid "RGB"
 msgstr "RGB"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:374
+#: qx/frontend/framework/source/class/qx/ui/component/ColorSelector.js:374
 msgid "HSB"
 msgstr "HSB"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:50
+#: qx/frontend/framework/source/class/qx/ui/component/DateChooser.js:50
 msgid "Last year"
 msgstr "Último año"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:51
+#: qx/frontend/framework/source/class/qx/ui/component/DateChooser.js:51
 msgid "Last month"
 msgstr "Último mes"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:52
+#: qx/frontend/framework/source/class/qx/ui/component/DateChooser.js:52
 msgid "Next month"
 msgstr "Mes siguiente"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:53
+#: qx/frontend/framework/source/class/qx/ui/component/DateChooser.js:53
 msgid "Next year"
 msgstr "Año siguiente"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooserButton.js:89
+#: qx/frontend/framework/source/class/qx/ui/component/DateChooserButton.js:89
 msgid "Choose a date"
 msgstr "Seleccione una fecha"

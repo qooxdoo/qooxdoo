@@ -190,11 +190,12 @@ exec-framework-translation:
 	
 	@mkdir -p $(FRAMEWORK_TRANSLATION_PATH)
 	@mkdir -p $(FRAMEWORK_TRANSLATION_CLASS_PATH)
+
+	@if [ ! -r $(FRAMEWORK_TRANSLATION_PATH)/messages.pot ]; then \
+		touch -t 197001010000 $(FRAMEWORK_TRANSLATION_PATH)/messages.pot; \
+	fi;	
 	
-	@rm -f $(FRAMEWORK_TRANSLATION_PATH)/messages.pot
-	@touch $(FRAMEWORK_TRANSLATION_PATH)/messages.pot
-	
-	@for FILE in `find $(FRAMEWORK_SOURCE_PATH)/$(FRAMEWORK_CLASS_FOLDERNAME) -name "*.js"`; do \
+	@for FILE in `find $(FRAMEWORK_SOURCE_PATH)/$(FRAMEWORK_CLASS_FOLDERNAME) -newer $(FRAMEWORK_TRANSLATION_PATH)/messages.pot -name "*.js"`; do \
 	  xgettext --language=Java --from-code=UTF-8 \
 	    -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 \
 	    -kManager.trc -kManager.tr -kManager.marktr -kManager.trn:1,2 \
