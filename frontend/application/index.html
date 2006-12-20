@@ -96,6 +96,23 @@ p.note{
   margin: 20px 0;
 }
   </style>
+  <script type="text/javascript">
+  	function launch(url, w, h) {
+		var w = w || 800;
+		var h = h || 600;
+		var sw = 100;
+		var sh = 100;
+		
+		sw = getCenteredCoord(w, screen.availWidth);
+		sh = getCenteredCoord(h, screen.availHeight);
+		
+		var win = window.open(url, "qx", "width=" + w + ",height=" + h + ",left=" + sw + ",top=" + sh + ",status=no,resizable=no");
+	}
+	
+	function getCenteredCoord(windowDim, screenDim) {
+		return (screenDim / 2) - (windowDim / 2);
+	}
+	</script>
 </head>
 <body>
   <div id="demoHead">qooxdoo: <span>The new era of web interface development</span></div>
@@ -122,7 +139,7 @@ p.note{
       <li>
         <h3>Web Mail</h3>
         <p>Complex application-like interface using multiple qooxdoo widgets.</p>
-        <a href="webmail/build/index.html"><b>Build</b></a> | <a href="webmail/source/index.html">Source (Developer)</a>
+        <a href="#" onclick="launch('webmail/build/index.html')"><b>Build</b></a> | <a href="#" onclick="launch('webmail/source/index.html')">Source (Developer)</a>
       </li>
       <li>
         <h3>API Viewer</h3>
