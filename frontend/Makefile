@@ -4,7 +4,16 @@
 
 VERSION = 0.6.4
 NICE = 10
+QOOXDOO_PATH = ..
 
+
+
+
+###################################################################################
+# INCLUDE CORE
+###################################################################################
+
+include $(QOOXDOO_PATH)/frontend/framework/tool/make/framework.mk
 
 
 
@@ -12,9 +21,6 @@ NICE = 10
 ###################################################################################
 # PRIVATE VARIABLES
 ###################################################################################
-
-QOOXDOO_PATH = ..
-CMD_REMOVE = rm -rf
 
 RELEASE_BUILD_UNIX = release/temp/build/unix/qooxdoo-$(VERSION)-build
 RELEASE_BUILD_DOS = release/temp/build/dos/qooxdoo-$(VERSION)-build
@@ -41,14 +47,6 @@ SDK_MAKEFILES = Makefile application/Makefile
 
 
 
-###################################################################################
-# INCLUDE CORE
-###################################################################################
-
-include $(QOOXDOO_PATH)/frontend/framework/tool/make/framework.mk
-
-
-
 
 
 ###################################################################################
@@ -70,10 +68,10 @@ all:
 locales:
 	@$(MAKE) -s -C application locales
 
-pretty:
+pretty: framework-pretty
 	@$(MAKE) -s -C application pretty
 
-fix:
+fix: framework-fix
 	@$(MAKE) -s -C application fix
 
 publish:
@@ -88,6 +86,15 @@ realclean:
 distclean: release-distclean framework-distclean
 	@$(MAKE) -s -C application distclean
 
+
+
+
+
+
+###################################################################################
+# FRAMEWORK TARGETS
+###################################################################################
+
 framework-distclean:
 	@echo 
 	@echo "****************************************************************************"
@@ -98,13 +105,22 @@ framework-distclean:
 	@$(CMD_REMOVE) $(FRAMEWORK_LOCALE_CLASS_PATH)
 	@$(CMD_REMOVE) $(FRAMEWORK_TRANSLATION_CLASS_PATH)
 
-release-distclean:
-	@echo 
-	@echo "****************************************************************************"
-	@echo "  CLEANING UP RELEASE DIST"
-	@echo "****************************************************************************"
-	@echo "  * Cleaning up..."
-	@$(CMD_REMOVE) release
+framework-pretty:
+	@$(CMD_GENERATOR) \
+	  --pretty-print \
+	  --class-path $(FRAMEWORK_SOURCE_PATH)/$(FRAMEWORK_CLASS_FOLDERNAME)
+
+framework-fix:
+	@$(CMD_GENERATOR) \
+	  --fix-source \
+	  --class-path $(FRAMEWORK_SOURCE_PATH)/$(FRAMEWORK_CLASS_FOLDERNAME)
+	  
+	  
+	  
+	  
+	  
+
+
 	
 
 
@@ -113,6 +129,17 @@ release-distclean:
 ###################################################################################
 # RELEASE TARGETS
 ###################################################################################
+
+release-distclean:
+	@echo 
+	@echo "****************************************************************************"
+	@echo "  CLEANING UP RELEASE DIST"
+	@echo "****************************************************************************"
+	@echo "  * Cleaning up..."
+	@$(CMD_REMOVE) release
+	
+	
+	
 
 release: release-sdk release-build
 release-fast: release-build-fast release-sdk-fast
