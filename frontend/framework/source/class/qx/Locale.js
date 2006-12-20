@@ -22,7 +22,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.Locale", 
+qx.OO.defineClass("qx.Locale",
 {
   /** {var} TODOC */
   _registry : {},
