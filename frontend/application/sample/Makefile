@@ -31,13 +31,6 @@ APPLICATION_API_TITLE = Sample
 #
 APPLICATION_FILES = html css
 
-#
-# Locales to include
-#
-APPLICATION_LOCALES = de de_DE de_AT en en_US fr fr_FR es es_ES sv ar zh tr it
-
-
-
 
 
 ####################################################################################
