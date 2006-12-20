@@ -858,7 +858,6 @@ qx.Proto._createLocalizazionDemo = function() {
   controls.set({top: 40, width: "auto", height: "auto", spacing: 20});
 
   var locales = qx.locale.Manager.getInstance().getAvailableLocales();
-  alert(locales.join(" "));
 
   // locale selection
   var hb2 = new qx.ui.layout.HorizontalBoxLayout(); hb2.set({top:0, left:0, spacing:3});
