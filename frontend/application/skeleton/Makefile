@@ -46,7 +46,7 @@ APPLICATION_LOCALES =
 ####################################################################################
 
 #
-# Please take a look at $(QOOXDOO)/frontend/framework/tool/make/project.mk
+# Please take a look at $(QOOXDOO_PATH)/frontend/framework/tool/make/project.mk
 # for more options
 #
 
