@@ -80,9 +80,6 @@ publish:
 clean:
 	@$(MAKE) -s -C application clean
 
-realclean:
-	@$(MAKE) -s -C application realclean
-
 distclean: release-distclean framework-distclean
 	@$(MAKE) -s -C application distclean
 
