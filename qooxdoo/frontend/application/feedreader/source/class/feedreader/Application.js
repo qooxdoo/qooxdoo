@@ -109,17 +109,20 @@ qx.Proto.initialize = function(e)
 
 qx.Proto.main = function(e)
 {
+  // create main layout
   var dockLayout = new qx.ui.layout.DockLayout();
   dockLayout.set({
     height: "100%",
     width: "100%"
   });
 
+	// create header
   var header = new qx.ui.embed.HtmlEmbed("<h1><span>qooxdoo</span> reader</h1>");
   header.setCssClassName("header");
   header.setHeight(50);
   dockLayout.addTop(header);
 
+	// define commands
   var reload_cmd = new qx.client.Command("Control+R");
   reload_cmd.addEventListener("execute", function(e) {
     this.fetchFeeds();
@@ -131,6 +134,7 @@ qx.Proto.main = function(e)
     alert(this.tr("qooxdoo feed reader."));
   }, this);
 
+	// create toolbar
   var toolBar = new qx.ui.toolbar.ToolBar();
   toolBar.add(new qx.ui.toolbar.Button(this.trn("Add feed", "Add feeds", 2), "icon/16/button-ok.png"));
   toolBar.add(new qx.ui.toolbar.Button(this.tr("Remove feed"), "icon/16/button-cancel.png"));
@@ -143,6 +147,7 @@ qx.Proto.main = function(e)
 
   toolBar.add(new qx.ui.basic.HorizontalSpacer());
 
+	// poulate languages menu and add it to the toolbar
   var locales = {
     de: this.tr("German"),
     en: this.tr("English"),
@@ -151,10 +156,14 @@ qx.Proto.main = function(e)
     es: this.tr("Spanish"),
     sv: this.tr("Swedish")
   }
+  var availableLocales = qx.locale.Manager.getInstance().getAvailableLocales();
   var locale = qx.locale.Manager.getInstance().getLocale();
   var lang_menu = new qx.ui.menu.Menu();
   var radioManager = new qx.manager.selection.RadioManager("lang");
   for (var lang in locales) {
+    if (availableLocales.indexOf(lang) == -1) {
+    	continue;
+    }
     var menuButton = new qx.ui.menu.RadioButton(locales[lang], null, locale == lang);
     menuButton.setUserData("locale", lang);
     lang_menu.add(menuButton);
@@ -175,12 +184,12 @@ qx.Proto.main = function(e)
 
   dockLayout.addTop(toolBar);
 
+	// add tree
   var tree = new qx.ui.tree.Tree(this.tr("News feeds"));
-  tree.setWidth(200);
+  tree.set({height:"100%", width:"100%"});
   tree.setOverflow("auto");
   tree.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
   tree.setBackgroundColor("#EEEEEE");
-  tree.setMargin(3);
 
   var feedDesc = feedreader.Application._feedDesc;
   for (var i=0; i<feedDesc.length; i++) {
@@ -191,8 +200,7 @@ qx.Proto.main = function(e)
     tree.add(folder);
   }
 
-  dockLayout.addLeft(tree)
-
+	// create table model
   this._tableModel = new qx.ui.table.SimpleTableModel();
   this._tableModel.setColumnIds(["title", "author", "date"]);
   this._tableModel.setColumnNamesById({
@@ -201,9 +209,10 @@ qx.Proto.main = function(e)
     date: this.tr("Date")
   });
 
+	// add table
   var table = new qx.ui.table.Table(this._tableModel);
   table.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
-  table.setHeight(300);
+  table.set({height:"100%", width:"100%"});
   table.getTableColumnModel().setColumnWidth(0, 350);
   table.getTableColumnModel().setColumnWidth(1, 200);
   table.getTableColumnModel().setColumnWidth(2, 200);
@@ -213,16 +222,29 @@ qx.Proto.main = function(e)
     this.displayArticle(item);
   }, this);
 
+	// add blog entry
   this._blogEntry = new feedreader.ArticleView();
+  this._blogEntry.set({height:"100%", width:"100%"});
   this._blogEntry.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
 
-  var contentArea = new qx.ui.layout.DockLayout();
-  contentArea.addTop(table);
-  contentArea.add(this._blogEntry);
-  dockLayout.add(contentArea);
-
+	// create splitpane for the right hand content area
+  var contentSplitPane = new qx.ui.splitpane.VerticalSplitPane("1*", "2*");
+	contentSplitPane.set({height:"100%", width:"100%"});
+  contentSplitPane.setLiveResize(true);
+  contentSplitPane.addTop(table);
+  contentSplitPane.addBottom(this._blogEntry);
+    
+	// create vertival splitter
+  var mainSplitPane = new qx.ui.splitpane.HorizontalSplitPane(200, "1*");
+  mainSplitPane.setLiveResize(true);
+  mainSplitPane.addLeft(tree);
+  mainSplitPane.addRight(contentSplitPane);
+  
+	dockLayout.add(mainSplitPane);
+	
   dockLayout.addToDocument();
 
+	// load and display feed data
   this.displayFeed(feedreader.Application._feedDesc[0].name);
   this.fetchFeeds();
 };

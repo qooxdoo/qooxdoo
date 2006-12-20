@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-19 15:12+0100\n"
+"POT-Creation-Date: 2006-12-20 14:52+0100\n"
 "PO-Revision-Date: 2006-12-19 11:10+0100\n"
 "Last-Translator: Henric Johansson <henric.johansson@mindset.se>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -67,22 +67,27 @@ msgid "Swedish"
 msgstr ""
 
 #: source/class/feedreader/Application.js:171
+#: source/class/feedreader/Application.js:175
 msgid "Help"
 msgstr "Hjälp"
 
 #: source/class/feedreader/Application.js:178
+#: source/class/feedreader/Application.js:182
 msgid "News feeds"
 msgstr "Nyhetsfeed"
 
 #: source/class/feedreader/Application.js:199
+#: source/class/feedreader/Application.js:203
 msgid "Subject"
 msgstr "Ämne"
 
 #: source/class/feedreader/Application.js:200
+#: source/class/feedreader/Application.js:204
 msgid "Sender"
 msgstr "Avsändare"
 
 #: source/class/feedreader/Application.js:201
+#: source/class/feedreader/Application.js:205
 msgid "Date"
 msgstr "Datum"
 
