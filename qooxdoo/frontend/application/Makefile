@@ -24,8 +24,5 @@ pretty:
 clean:
 	@for APPLICATION in $(APPLICATIONS); do $(MAKE) -s -C $$APPLICATION clean || exit 1; done
 
-realclean:
-	@for APPLICATION in $(APPLICATIONS); do $(MAKE) -s -C $$APPLICATION realclean || exit 1; done
-
 distclean:
 	@for APPLICATION in $(APPLICATIONS); do $(MAKE) -s -C $$APPLICATION distclean || exit 1; done

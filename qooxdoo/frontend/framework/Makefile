@@ -15,5 +15,4 @@ api: all
 pretty: all
 fix: all
 clean: all
-realclean: all
 distclean: all

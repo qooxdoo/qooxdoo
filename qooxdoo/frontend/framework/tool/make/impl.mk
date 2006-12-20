@@ -6,29 +6,23 @@
 # Cleanup targets
 #
 
-internal-clean:
+
+exec-clean:
+	@echo "  * Cleaning up..."
 	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/$(APPLICATION_SCRIPT_FILENAME) 
 	@$(CMD_REMOVE) $(APPLICATION_BUILD_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/$(APPLICATION_SCRIPT_FILENAME)
 
-internal-realclean: internal-clean
+exec-distclean:
+	@echo "  * Cleaning up..."
+	@$(CMD_FIND) . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
 	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)
 	@$(CMD_REMOVE) $(APPLICATION_BUILD_PATH)
 	@$(CMD_REMOVE) $(APPLICATION_API_PATH)
-
-internal-distclean: internal-realclean
-	@$(CMD_FIND) . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
 	@$(CMD_REMOVE) $(APPLICATION_DEBUG_PATH)
 	@$(CMD_REMOVE) $(APPLICATION_TRANSLATION_CLASS_PATH)
 	@$(CMD_REMOVE) $(FRAMEWORK_CACHE_PATH)
 	@$(CMD_REMOVE) $(FRAMEWORK_LOCALE_CLASS_PATH)
 	@$(CMD_REMOVE) $(FRAMEWORK_TRANSLATION_CLASS_PATH)
-
-job-clean-common:
-	@echo "  * Cleaning up..."
-
-exec-clean: job-clean-common internal-clean
-exec-realclean: job-clean-common internal-realclean
-exec-distclean: job-clean-common internal-distclean
 		  
 		  
 		  
