@@ -18,23 +18,23 @@ QOOXDOO_URI = ../../../../../..
 #
 # Namespace of your application e.g. custom
 #
-PROJECT_NAMESPACE = sample
+APPLICATION_NAMESPACE = sample
 
 #
 # Titles used in your API viewer and during the build process
 #
-PROJECT_MAKE_TITLE = SAMPLE
-PROJECT_API_TITLE = Sample
+APPLICATION_MAKE_TITLE = SAMPLE
+APPLICATION_API_TITLE = Sample
 
 #
 # Additional files (space separated list)
 #
-PROJECT_FILES = html css
+APPLICATION_FILES = html css
 
 #
 # Locales to include
 #
-PROJECT_LOCALES = de de_DE de_AT en en_US fr fr_FR es es_ES sv ar zh tr it
+APPLICATION_LOCALES = de de_DE de_AT en en_US fr fr_FR es es_ES sv ar zh tr it
 
 
 
@@ -47,23 +47,23 @@ PROJECT_LOCALES = de de_DE de_AT en en_US fr fr_FR es es_ES sv ar zh tr it
 #
 # Disable line breaks
 #
-PROJECT_LINEBREAKS_BUILD = false
-PROJECT_LINEBREAKS_SOURCE = false
+APPLICATION_LINEBREAKS_BUILD = false
+APPLICATION_LINEBREAKS_SOURCE = false
 
 #
 # qooxdoo.org sync
 #
-PROJECT_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/demo/$(PROJECT_NAMESPACE)
+APPLICATION_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/demo/$(APPLICATION_NAMESPACE)
 
 #
 # Build/Integrate all features
 #
-PROJECT_COMPLETE_BUILD = true
+APPLICATION_COMPLETE_BUILD = true
 
 #
 # Relation from HTML file to the top level directory (source or build). 
 #
-PROJECT_PAGE_TO_TOPLEVEL = ../..
+APPLICATION_PAGE_TO_TOPLEVEL = ../..
 
 
 

@@ -18,18 +18,18 @@ QOOXDOO_URI = ../../../..
 #
 # Namespace of your application e.g. custom
 #
-PROJECT_NAMESPACE = apiviewer
+APPLICATION_NAMESPACE = apiviewer
 
 #
 # Titles used in your API viewer and during the build process
 #
-PROJECT_MAKE_TITLE = APIVIEWER
-PROJECT_API_TITLE = ApiViewer
+APPLICATION_MAKE_TITLE = APIVIEWER
+APPLICATION_API_TITLE = ApiViewer
 
 #
 # Additional files (space separated list)
 #
-PROJECT_FILES = index.html
+APPLICATION_FILES = index.html
 
 
 
@@ -42,23 +42,23 @@ PROJECT_FILES = index.html
 #
 # Enable resource filtering in API viewer
 #
-PROJECT_RESOURCE_FILTER = true
+APPLICATION_RESOURCE_FILTER = true
 
 #
 # We don't need the full source code
 #
-PROJECT_COMPLETE_SOURCE = false
+APPLICATION_COMPLETE_SOURCE = false
 
 #
 # Disable line breaks
 #
-PROJECT_LINEBREAKS_BUILD = false
-PROJECT_LINEBREAKS_SOURCE = false
+APPLICATION_LINEBREAKS_BUILD = false
+APPLICATION_LINEBREAKS_SOURCE = false
 
 #
 # qooxdoo.org sync
 #
-PROJECT_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/api
+APPLICATION_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/api
 
 
 
@@ -83,12 +83,12 @@ include $(QOOXDOO_PATH)/frontend/framework/tool/make/project.mk
 source:	
 	@$(CMD_GENERATOR) \
 	  --generate-api-documentation \
-	  --api-documentation-json-file $(PROJECT_PATH)/source/script/apidata.js \
+	  --api-documentation-json-file $(APPLICATION_PATH)/source/script/apidata.js \
 	  --class-path $(FRAMEWORK_SOURCE_PATH)/class
 	  
 build:	
 	@$(CMD_GENERATOR) \
 	  --generate-api-documentation \
-	  --api-documentation-json-file $(PROJECT_PATH)/build/script/apidata.js \
+	  --api-documentation-json-file $(APPLICATION_PATH)/build/script/apidata.js \
 	  --class-path $(FRAMEWORK_SOURCE_PATH)/class
 	
