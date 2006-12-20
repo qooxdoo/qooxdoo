@@ -852,7 +852,7 @@ qx.Proto._createTableDemo = function() {
 
 qx.Proto._createLocalizazionDemo = function() {
   var main = new qx.ui.layout.CanvasLayout();
-  main.set({ width: "auto", height: "auto", marginLeft: 10, marginTop: 10 })
+  main.set({ width: "auto", height: "auto", marginLeft: 10, marginTop: 10, marginBottom:10, marginRight:10 })
   
   var controls = new qx.ui.layout.VerticalBoxLayout();
   controls.set({top: 40, width: "auto", height: "auto", spacing: 20});
