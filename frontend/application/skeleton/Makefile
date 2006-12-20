@@ -18,23 +18,23 @@ QOOXDOO_URI = URI_TO_QOOXDOO
 #
 # Namespace of your application e.g. custom
 #
-PROJECT_NAMESPACE = custom
+APPLICATION_NAMESPACE = custom
 
 #
 # Titles used in your API viewer and during the build process
 #
-PROJECT_MAKE_TITLE = CUSTOM
-PROJECT_API_TITLE = Custom
+APPLICATION_MAKE_TITLE = CUSTOM
+APPLICATION_API_TITLE = Custom
 
 #
 # Additional files (space separated list)
 #
-PROJECT_FILES = index.html
+APPLICATION_FILES = index.html
 
 #
 # Locales to build (space separated list)
 #
-PROJECT_LOCALES =
+APPLICATION_LOCALES =
 
 
 
