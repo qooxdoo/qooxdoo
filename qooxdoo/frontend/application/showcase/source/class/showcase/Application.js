@@ -853,13 +853,13 @@ qx.Proto._createTableDemo = function() {
 qx.Proto._createLocalizazionDemo = function() {
   var main = new qx.ui.layout.CanvasLayout();
   main.set({ width: "auto", height: "auto", marginLeft: 10, marginTop: 10, marginBottom:10, marginRight:10 })
-  
+
   var controls = new qx.ui.layout.VerticalBoxLayout();
   controls.set({top: 40, width: "auto", height: "auto", spacing: 20});
 
   var locales = ["de_DE", "de_AT", "en_US", "fr_FR", "tr", "it", "es_ES", "sv", "ar", "zh"];
 
-	// locale selection
+  // locale selection
   var hb2 = new qx.ui.layout.HorizontalBoxLayout(); hb2.set({top:0, left:0, spacing:3});
   var l2 = new qx.ui.basic.Label(this.tr("Choose a locale: "));
   var select = new qx.ui.form.ComboBox();
@@ -883,14 +883,14 @@ qx.Proto._createLocalizazionDemo = function() {
   hb1.add(l1, tf1, dcb1);
   controls.add(hb1);
 
-  
+
   // DateChooser
   var chooser = new qx.ui.component.DateChooser;
   chooser.setWidth("auto");
   chooser.setHeight("auto");
   controls.add(chooser);
 
-  
+
   // Commands
   var undo_cmd = new qx.client.Command("Ctrl+Z");
   var redo_cmd = new qx.client.Command("Ctrl+Y");
@@ -932,7 +932,7 @@ qx.Proto._createLocalizazionDemo = function() {
     e.setPropagationStopped(true);
   });
   controls.add(w1);
-  
+
   // ColorPopup
   var mybtn = new qx.ui.form.Button(this.tr("Open Color Popup"));
   mybtn.addEventListener("execute", function() {
@@ -962,75 +962,75 @@ qx.Proto._createLocalizazionDemo = function() {
   mypop.setValue(new qx.renderer.color.Color("#23F3C1"));
   mypop.addToDocument();
 
-  
+
   // ColorSelector
   var mycolor = new qx.ui.component.ColorSelector;
   controls.add(mycolor);
-  
+
   main.add(controls);
-  
+
   // Info Box
   var fs = new qx.ui.groupbox.GroupBox(this.tr("Locale information"));
   fs.set({ left: 300, top: 0, width: 400, height: "auto"});
   var infoLabel = new qx.ui.basic.Label("");
   fs.add(infoLabel);
   main.add(fs);
-  
+
   var info = [];
-  info.push("<table style='font-size:11px'><tr><td>"); 
+  info.push("<table style='font-size:11px'><tr><td>");
   for (var i=0; i<13; i++) {
-  	info.push(""); 
-    info.push("</td><td>"); 
-    info.push(""); 
-    info.push("</td></tr><td>"); 
+    info.push("");
+    info.push("</td><td>");
+    info.push("");
+    info.push("</td></tr><td>");
   }
-  info.push(""); 
-  info.push("</td><td>"); 
+  info.push("");
+  info.push("</td><td>");
   info.push("");
   info.push("</td></tr></table>");
-  
+
   this.updateLocaleInformation = function() {
-		var i = 0;
-  	info[(i++ * 2) + 1] = this.tr("Locale:");
-  	info[(i++ * 2) + 1] = qx.locale.Manager.getInstance().getLocale();
+    var i = 0;
+    info[(i++ * 2) + 1] = this.tr("Locale:");
+    info[(i++ * 2) + 1] = qx.locale.Manager.getInstance().getLocale();
 
-  	info[(i++ * 2) + 1] = this.tr("Territory code:");
-  	info[(i++ * 2) + 1] = qx.locale.Manager.getInstance().getTerritory();
+    info[(i++ * 2) + 1] = this.tr("Territory code:");
+    info[(i++ * 2) + 1] = qx.locale.Manager.getInstance().getTerritory();
 
-  	info[(i++ * 2) + 1] = this.tr("Date format medium:");
-  	info[(i++ * 2) + 1] = qx.locale.Date.getDateFormat("medium");
-  	info[(i++ * 2) + 1] = this.tr("Date medium:");
-  	info[(i++ * 2) + 1] = (new qx.util.format.DateFormat(qx.locale.Date.getDateFormat("medium"))).format(new Date());
+    info[(i++ * 2) + 1] = this.tr("Date format medium:");
+    info[(i++ * 2) + 1] = qx.locale.Date.getDateFormat("medium");
+    info[(i++ * 2) + 1] = this.tr("Date medium:");
+    info[(i++ * 2) + 1] = (new qx.util.format.DateFormat(qx.locale.Date.getDateFormat("medium"))).format(new Date());
 
-  	info[(i++ * 2) + 1] = this.tr("Date format long:");
-  	info[(i++ * 2) + 1] = qx.locale.Date.getDateFormat("long");
-  	info[(i++ * 2) + 1] = this.tr("Date long:");
-  	info[(i++ * 2) + 1] = (new qx.util.format.DateFormat(qx.locale.Date.getDateFormat("long"))).format(new Date());
+    info[(i++ * 2) + 1] = this.tr("Date format long:");
+    info[(i++ * 2) + 1] = qx.locale.Date.getDateFormat("long");
+    info[(i++ * 2) + 1] = this.tr("Date long:");
+    info[(i++ * 2) + 1] = (new qx.util.format.DateFormat(qx.locale.Date.getDateFormat("long"))).format(new Date());
 
-  	info[(i++ * 2) + 1] = this.tr("Date format full:");
-  	info[(i++ * 2) + 1] = qx.locale.Date.getDateFormat("full");
-  	info[(i++ * 2) + 1] = this.tr("Date full:");
-  	info[(i++ * 2) + 1] = (new qx.util.format.DateFormat(qx.locale.Date.getDateFormat("full"))).format(new Date());
+    info[(i++ * 2) + 1] = this.tr("Date format full:");
+    info[(i++ * 2) + 1] = qx.locale.Date.getDateFormat("full");
+    info[(i++ * 2) + 1] = this.tr("Date full:");
+    info[(i++ * 2) + 1] = (new qx.util.format.DateFormat(qx.locale.Date.getDateFormat("full"))).format(new Date());
 
-  	info[(i++ * 2) + 1] = this.tr("Time format short:");
-  	info[(i++ * 2) + 1] = qx.locale.Date.getTimeFormat("short");
-  	info[(i++ * 2) + 1] = this.tr("Time short:");
-  	info[(i++ * 2) + 1] = (new qx.util.format.DateFormat(qx.locale.Date.getTimeFormat("short"))).format(new Date());
-  	
-  	info[(i++ * 2) + 1] = this.tr("Time format long:");
-  	info[(i++ * 2) + 1] = qx.locale.Date.getTimeFormat("long");
-  	info[(i++ * 2) + 1] = this.tr("Time long:");
-  	info[(i++ * 2) + 1] = (new qx.util.format.DateFormat(qx.locale.Date.getTimeFormat("long"))).format(new Date());
+    info[(i++ * 2) + 1] = this.tr("Time format short:");
+    info[(i++ * 2) + 1] = qx.locale.Date.getTimeFormat("short");
+    info[(i++ * 2) + 1] = this.tr("Time short:");
+    info[(i++ * 2) + 1] = (new qx.util.format.DateFormat(qx.locale.Date.getTimeFormat("short"))).format(new Date());
 
-  	info[(i++ * 2) + 1] = this.tr("Week start:");
-  	info[(i++ * 2) + 1] = qx.locale.Date.getDayName("wide", qx.locale.Date.getWeekStart());
+    info[(i++ * 2) + 1] = this.tr("Time format long:");
+    info[(i++ * 2) + 1] = qx.locale.Date.getTimeFormat("long");
+    info[(i++ * 2) + 1] = this.tr("Time long:");
+    info[(i++ * 2) + 1] = (new qx.util.format.DateFormat(qx.locale.Date.getTimeFormat("long"))).format(new Date());
 
-  	info[(i++ * 2) + 1] = this.tr("Format of %1:", 10000.12);
-  	info[(i++ * 2) + 1] = qx.util.format.NumberFormat.getInstance().format(10000.12);
+    info[(i++ * 2) + 1] = this.tr("Week start:");
+    info[(i++ * 2) + 1] = qx.locale.Date.getDayName("wide", qx.locale.Date.getWeekStart());
 
-  	infoLabel.setHtml(info.join(""));
+    info[(i++ * 2) + 1] = this.tr("Format of %1:", 10000.12);
+    info[(i++ * 2) + 1] = qx.util.format.NumberFormat.getInstance().format(10000.12);
+
+    infoLabel.setHtml(info.join(""));
   };
-  
+
   // update info box
   qx.locale.Manager.getInstance().addEventListener("changeLocale", this.updateLocaleInformation, this);
   this.updateLocaleInformation();
