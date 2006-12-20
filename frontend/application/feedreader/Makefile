@@ -34,7 +34,8 @@ APPLICATION_FILES = index.html
 #
 # Locales to include
 #
-APPLICATION_LOCALES = de tr it es
+#APPLICATION_LOCALES = de tr it es sv
+APPLICATION_LOCALES = de es
 
 
 
