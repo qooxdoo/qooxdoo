@@ -433,14 +433,11 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     print "  * Exclude (with dependencies): %s" % options.excludeWithDeps
     print "  * Exclude (without dependencies): %s" % options.excludeWithoutDeps
 
-  print "  * Sorting classes..."
+  print "  * Sorting %s classes..." % len(fileDb)
 
   sortedIncludeList = loader.getSortedList(options, fileDb, moduleDb)
 
-  if len(sortedIncludeList) == len(fileDb):
-    print "  * Including all classes"
-
-  print "  * Arranged %s classes" % len(sortedIncludeList)
+  print "    - Including %s classes" % len(sortedIncludeList)
 
   if options.printIncludes:
     print
