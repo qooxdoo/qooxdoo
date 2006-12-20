@@ -254,6 +254,7 @@ release-sdk-unix:
 	  mkdir -p $(RELEASE_SDK_UNIX)/frontend/application/$$APPLICATION; \
 	  $(CMD_RSYNC) --exclude script --exclude build --exclude publish application/$$APPLICATION/* $(RELEASE_SDK_UNIX)/frontend/application/$$APPLICATION; \
 	done
+	@cp application/index.html $(RELEASE_SDK_UNIX)/frontend/application
 	
 	@echo "  * Synchronizing framework..."
 	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/framework
@@ -306,6 +307,7 @@ release-sdk-dos:
 	  mkdir -p $(RELEASE_SDK_DOS)/frontend/application/$$APPLICATION; \
 	  $(CMD_RSYNC) --exclude script --exclude build --exclude publish application/$$APPLICATION/* $(RELEASE_SDK_DOS)/frontend/application/$$APPLICATION; \
 	done
+	@cp application/index.html $(RELEASE_SDK_UNIX)/frontend/application
 
 	@echo "  * Synchronizing framework..."
 	@mkdir -p $(RELEASE_SDK_DOS)/frontend/framework
