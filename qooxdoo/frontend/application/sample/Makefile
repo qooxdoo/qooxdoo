@@ -67,8 +67,13 @@ APPLICATION_PAGE_TO_TOPLEVEL = ../..
 # INCLUDE CORE
 ####################################################################################
 
-include $(QOOXDOO_PATH)/frontend/framework/tool/make/targets.mk
-include $(QOOXDOO_PATH)/frontend/framework/tool/make/project.mk
+ifneq ($(QOOXDOO_PATH),PLEASE_DEFINE_QOOXDOO_PATH)
+	include $(QOOXDOO_PATH)/frontend/framework/tool/make/targets.mk
+	include $(QOOXDOO_PATH)/frontend/framework/tool/make/project.mk
+endif
+
+error:
+	@echo "  * Please configure QOOXDOO_PATH"
 
 
 
