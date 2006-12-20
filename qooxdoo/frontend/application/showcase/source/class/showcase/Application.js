@@ -857,7 +857,8 @@ qx.Proto._createLocalizazionDemo = function() {
   var controls = new qx.ui.layout.VerticalBoxLayout();
   controls.set({top: 40, width: "auto", height: "auto", spacing: 20});
 
-  var locales = ["de_DE", "de_AT", "en_US", "fr_FR", "tr", "it", "es_ES", "sv", "ar", "zh"];
+  var locales = qx.locale.Manager.getInstance().getAvailableLocales();
+  alert(locales.join(" "));
 
   // locale selection
   var hb2 = new qx.ui.layout.HorizontalBoxLayout(); hb2.set({top:0, left:0, spacing:3});
