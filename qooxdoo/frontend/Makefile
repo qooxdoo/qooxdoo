@@ -91,7 +91,7 @@ distclean: release-distclean framework-distclean
 framework-distclean:
 	@echo 
 	@echo "****************************************************************************"
-	@echo "  CLEANING UP FRAMEWORK"
+	@echo "  CLEANING UP FRAMEWORK DIST"
 	@echo "****************************************************************************"
 	@echo "  * Cleaning up..."
 	@$(CMD_REMOVE) $(FRAMEWORK_CACHE_PATH)
@@ -101,7 +101,7 @@ framework-distclean:
 release-distclean:
 	@echo 
 	@echo "****************************************************************************"
-	@echo "  CLEANING UP RELEASE"
+	@echo "  CLEANING UP RELEASE DIST"
 	@echo "****************************************************************************"
 	@echo "  * Cleaning up..."
 	@$(CMD_REMOVE) release
