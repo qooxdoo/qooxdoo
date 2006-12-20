@@ -395,14 +395,12 @@ def resolveAutoDeps(fileDb, options):
   if not hasMessage and not options.verbose:
     print
 
-  print "  * Added %s dependencies" % depCounter
+  # print "  * Added %s dependencies" % depCounter
 
 
 
 
 def storeEntryCache(fileDb, options):
-  print "  * Saving database..."
-
   cacheCounter = 0
   ignoreDbEntries = [ "tokens", "tree", "path", "pathId", "encoding", "resourceInput", "resourceOutput", "listIndex", "classPath", "classUri" ]
 
@@ -424,7 +422,7 @@ def storeEntryCache(fileDb, options):
     filetool.storeCache(fileEntry["cachePath"], fileEntryCopy)
     cacheCounter += 1
 
-  print "  * Updated %s files" % cacheCounter
+  print "  * Found %s modified classes" % cacheCounter
 
 
 
@@ -525,6 +523,7 @@ def indexFile(filePath, filePathId, classPath, listIndex, classEncoding, classUr
 
 def indexSingleScriptInput(classPath, listIndex, options, fileDb={}, moduleDb={}):
   classPath = filetool.normalize(classPath)
+  counter = 0
 
   # Search for other indexed lists
   if len(options.classEncoding) > listIndex:
@@ -561,23 +560,26 @@ def indexSingleScriptInput(classPath, listIndex, options, fileDb={}, moduleDb={}
         filePathId = filePath.replace(classPath + os.sep, "").replace(config.JSEXT, "").replace(os.sep, ".")
 
         indexFile(filePath, filePathId, classPath, listIndex, classEncoding, classUri, resourceInput, resourceOutput, options, fileDb, moduleDb)
+        counter += 1
 
+  return counter
+  
 
 def indexScriptInput(options):
   if options.cacheDirectory != None:
     filetool.directory(options.cacheDirectory)
 
-  print "  * Indexing files... "
+  print "  * Indexing class paths... "
 
   fileDb = {}
   moduleDb = {}
   listIndex = 0
 
   for classPath in options.classPath:
-    indexSingleScriptInput(classPath, listIndex, options, fileDb, moduleDb)
+    print "    - Indexing: %s" % classPath
+    counter = indexSingleScriptInput(classPath, listIndex, options, fileDb, moduleDb)
+    print "      - %s classes were found" % counter
     listIndex += 1
-
-  print "  * %s files were found" % len(fileDb)
 
   if options.enableAutoDependencies:
     resolveAutoDeps(fileDb, options)
