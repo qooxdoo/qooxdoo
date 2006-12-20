@@ -19,90 +19,79 @@
 /* ************************************************************************
 
 #module(core)
-#require(qx.Clazz)
-#require(qx.locale.Manager)
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.Locale",
+qx.OO.defineClass("qx.Locale", 
 {
-  statics :
+  /** {var} TODOC */
+  _registry : {},
+
+  /**
+   * Locale definition
+   *
+   * Example:
+   * <pre><code>
+   * qx.Locale.define("fullname",
+   * {
+   *   "msgId": "msgText",
+   *   ...
+   * });
+   * </code></pre>
+   *
+   * @type static
+   * @name define
+   * @access public
+   * @param fullname {String} name of the mixin
+   * @param definition {Map} definition structure
+   * @return {void}
+   */
+  define : function(fullname, definition)
   {
-    /** {var} TODOC */
-    _registry : {},
+    var vSplitName = fullname.split(".");
+    var vLength = vSplitName.length;
+    var vParentPackage = window;
+    var vPartName = vSplitName[0];
 
-    /**
-     * Locale definition
-     *
-     * Example:
-     * <pre><code>
-     * qx.Locale.define("fullname",
-     * {
-     *   "msgId": "msgText",
-     *   ...
-     * });
-     * </code></pre>
-     *
-     * @type static
-     * @name define
-     * @access public
-     * @param fullname {String} name of the mixin
-     * @param definition {Map} definition structure
-     * @return {void}
-     */
-    define : function(fullname, definition)
+    for (var i=0, l=vSplitName.length - 1; i<l; i++)
     {
-      /*
-      ---------------------------------------------------------------------------
-        Setting up namespace
-      ---------------------------------------------------------------------------
-      */
-
-      var vSplitName = fullname.split(".");
-      var vLength = vSplitName.length;
-      var vParentPackage = window;
-      var vPartName = vSplitName[0];
-
-      for (var i=0, l=vSplitName.length - 1; i<l; i++)
-      {
-        if (!vParentPackage[vPartName]) {
-          vParentPackage[vPartName] = {};
-        }
-
-        vParentPackage = vParentPackage[vPartName];
-        vPartName = vSplitName[i + 1];
+      if (!vParentPackage[vPartName]) {
+        vParentPackage[vPartName] = {};
       }
 
-      vParentPackage[vPartName] = definition;
-      qx.locale.Manager.getInstance().addTranslation(vPartName, definition);
-
-      arguments.callee.statics._registry[fullname] = definition;
-    },
-
-    /**
-     * Returns a locale by name
-     *
-     * @type static
-     * @name byName
-     * @access public
-     * @param fullname {String} locale name to check
-     * @return {Object | void} locale object
-     */
-    byName : function(fullname) {
-      return arguments.callee.statics._registry[fullname];
-    },
-
-    /**
-     * Determine if locale exists
-     *
-     * @type static
-     * @name isDefined
-     * @access public
-     * @param fullname {String} locale name to check
-     * @return {Boolean} true if locale exists
-     */
-    isDefined : function(fullname) {
-      return arguments.callee.statics.byName(fullname) !== undefined;
+      vParentPackage = vParentPackage[vPartName];
+      vPartName = vSplitName[i + 1];
     }
+
+    vParentPackage[vPartName] = definition;
+    qx.locale.Manager.getInstance().addTranslation(vPartName, definition);
+
+    qx.Locale._registry[fullname] = definition;
+  },
+
+  /**
+   * Returns a locale by name
+   *
+   * @type static
+   * @name byName
+   * @access public
+   * @param fullname {String} locale name to check
+   * @return {Object | void} locale object
+   */
+  byName : function(fullname) {
+    return qx.Locale._registry[fullname];
+  },
+
+  /**
+   * Determine if locale exists
+   *
+   * @type static
+   * @name isDefined
+   * @access public
+   * @param fullname {String} locale name to check
+   * @return {Boolean} true if locale exists
+   */
+  isDefined : function(fullname) {
+    return qx.Locale.byName(fullname) !== undefined;
   }
 });
