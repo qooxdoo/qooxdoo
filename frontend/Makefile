@@ -41,7 +41,7 @@ ANY2UNIX = | xargs $(CMD_PYTHON) framework/tool/modules/textutil.py --command an
 
 APPLICATIONS = apiviewer feedreader sample showcase webmail
 SKELETON_FILES = Makefile source/class source/resource source/index.html
-SDK_MAKEFILES = Makefile application/Makefile
+SDK_FILES = Makefile application/Makefile application/index.html
 
 
 
@@ -254,15 +254,14 @@ release-sdk-unix:
 	  mkdir -p $(RELEASE_SDK_UNIX)/frontend/application/$$APPLICATION; \
 	  $(CMD_RSYNC) --exclude script --exclude build --exclude publish application/$$APPLICATION/* $(RELEASE_SDK_UNIX)/frontend/application/$$APPLICATION; \
 	done
-	@cp application/index.html $(RELEASE_SDK_UNIX)/frontend/application
 	
 	@echo "  * Synchronizing framework..."
 	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/framework
 	@$(CMD_RSYNC) framework/* --exclude .cache $(RELEASE_SDK_UNIX)/frontend/framework
 
-	@echo "  * Copying top level Makefiles..."
-	@for MAKEFILE in $(SDK_MAKEFILES); do \
-	  cp -f $$MAKEFILE $(RELEASE_SDK_UNIX)/frontend/$$MAKEFILE; \
+	@echo "  * Copying remaining SDK files..."
+	@for FILE in $(SDK_FILES); do \
+	  cp -f $$FILE $(RELEASE_SDK_UNIX)/frontend/$$FILE; \
 	done
 
 	@echo "  * Collecting skeleton files..."
@@ -307,15 +306,14 @@ release-sdk-dos:
 	  mkdir -p $(RELEASE_SDK_DOS)/frontend/application/$$APPLICATION; \
 	  $(CMD_RSYNC) --exclude script --exclude build --exclude publish application/$$APPLICATION/* $(RELEASE_SDK_DOS)/frontend/application/$$APPLICATION; \
 	done
-	@cp application/index.html $(RELEASE_SDK_UNIX)/frontend/application
 
 	@echo "  * Synchronizing framework..."
 	@mkdir -p $(RELEASE_SDK_DOS)/frontend/framework
 	@$(CMD_RSYNC) framework/* --exclude .cache $(RELEASE_SDK_DOS)/frontend/framework
 
-	@echo "  * Copying top level Makefiles..."
-	@for MAKEFILE in $(SDK_MAKEFILES); do \
-	  cp -f $$MAKEFILE $(RELEASE_SDK_DOS)/frontend/$$MAKEFILE; \
+	@echo "  * Copying remaining SDK files..."
+	@for FILE in $(SDK_FILES); do \
+	  cp -f $$FILE $(RELEASE_SDK_DOS)/frontend/$$FILE; \
 	done
 
 	@echo "  * Collecting skeleton files..."
