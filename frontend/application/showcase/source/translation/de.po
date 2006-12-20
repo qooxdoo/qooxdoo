@@ -1,0 +1,175 @@
+# translation of de.po to German
+# Header entry was created by KBabel!
+#
+# Fabian Jakobs <fabian.jakobs at 1und1 dot de>, 2006.
+msgid ""
+msgstr ""
+"Project-Id-Version: de\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-12-20 11:11+0100\n"
+"PO-Revision-Date: 2006-12-20 11:10+0100\n"
+"Language-Team: German <en@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+
+#: source/class/showcase/Application.js:861
+#: source/class/showcase/Application.js:864
+msgid "Locale: "
+msgstr "Locale:"
+
+#: source/class/showcase/Application.js:876
+#: source/class/showcase/Application.js:879
+msgid "A date: "
+msgstr "Ein Datum:"
+
+#: source/class/showcase/Application.js:903
+#: source/class/showcase/Application.js:906
+msgid "Undo"
+msgstr "Rückgängig"
+
+#: source/class/showcase/Application.js:904
+#: source/class/showcase/Application.js:907
+msgid "Redo"
+msgstr "Wiederholen"
+
+#: source/class/showcase/Application.js:906
+#: source/class/showcase/Application.js:909
+msgid "Cut"
+msgstr "Aussschneiden"
+
+#: source/class/showcase/Application.js:907
+#: source/class/showcase/Application.js:910
+msgid "Copy"
+msgstr "Kopieren"
+
+#: source/class/showcase/Application.js:908
+#: source/class/showcase/Application.js:911
+msgid "Paste"
+msgstr "Einfügen"
+
+#: source/class/showcase/Application.js:909
+#: source/class/showcase/Application.js:912
+msgid "Delete"
+msgstr "Löschen"
+
+#: source/class/showcase/Application.js:910
+#: source/class/showcase/Application.js:913
+msgid "Select All"
+msgstr "Alles auswählen"
+
+#: source/class/showcase/Application.js:912
+#: source/class/showcase/Application.js:915
+msgid "Search"
+msgstr "Suchen"
+
+#: source/class/showcase/Application.js:913
+#: source/class/showcase/Application.js:916
+msgid "Search Again"
+msgstr "Weiter suchen"
+
+#: source/class/showcase/Application.js:916
+#: source/class/showcase/Application.js:919
+msgid "Command Menu (keyboard shortcuts)"
+msgstr "Command-Menü (Tastenkürzel)"
+
+#: source/class/showcase/Application.js:934
+#: source/class/showcase/Application.js:937
+msgid "Open Color Popup"
+msgstr "Öffne Farbauswahl"
+
+#: source/class/showcase/Application.js:944
+#: source/class/showcase/Application.js:947
+msgid "Basic Colors"
+msgstr "Grundfarben"
+
+#: source/class/showcase/Application.js:948
+#: source/class/showcase/Application.js:951
+msgid "Template Colors"
+msgstr "Beispielfarben"
+
+#: source/class/showcase/Application.js:952
+#: source/class/showcase/Application.js:955
+msgid "Recent Colors"
+msgstr "Vorherige Farben"
+
+#: source/class/showcase/Application.js:969
+#: source/class/showcase/Application.js:973
+msgid "Locale information"
+msgstr "Lokalisierungsinformationen:"
+
+#: source/class/showcase/Application.js:990
+#: source/class/showcase/Application.js:994
+msgid "Locale:"
+msgstr "Lokale:"
+
+#: source/class/showcase/Application.js:993
+#: source/class/showcase/Application.js:997
+msgid "Territory code:"
+msgstr "Landeskennung:"
+
+#: source/class/showcase/Application.js:996
+#: source/class/showcase/Application.js:1000
+msgid "Date format medium:"
+msgstr "Mittellanges Datumsformat:"
+
+#: source/class/showcase/Application.js:998
+#: source/class/showcase/Application.js:1002
+msgid "Date medium:"
+msgstr "Mittellanges Datum:"
+
+#: source/class/showcase/Application.js:1001
+#: source/class/showcase/Application.js:1005
+msgid "Date format long:"
+msgstr "Langes Datumsformat:"
+
+#: source/class/showcase/Application.js:1003
+#: source/class/showcase/Application.js:1007
+msgid "Date long:"
+msgstr "Langes Datum:"
+
+#: source/class/showcase/Application.js:1006
+#: source/class/showcase/Application.js:1010
+msgid "Date format full:"
+msgstr "Vollständiges Datumsformat:"
+
+#: source/class/showcase/Application.js:1008
+#: source/class/showcase/Application.js:1012
+msgid "Date full:"
+msgstr "Vollständiges Datum:"
+
+#: source/class/showcase/Application.js:1011
+#: source/class/showcase/Application.js:1015
+msgid "Time format short:"
+msgstr "kurzes Zeitformat:"
+
+#: source/class/showcase/Application.js:1013
+#: source/class/showcase/Application.js:1017
+msgid "Time short:"
+msgstr "Zeit (kurz):"
+
+#: source/class/showcase/Application.js:1016
+#: source/class/showcase/Application.js:1020
+msgid "Time format long:"
+msgstr "Langes Zeitformat:"
+
+#: source/class/showcase/Application.js:1018
+#: source/class/showcase/Application.js:1022
+msgid "Time long:"
+msgstr "Zeit (lang):"
+
+#: source/class/showcase/Application.js:1021
+#: source/class/showcase/Application.js:1025
+msgid "Week start:"
+msgstr "Wochenanfang:"
+
+#: source/class/showcase/Application.js:1024
+#: source/class/showcase/Application.js:1028
+msgid "Format of %1:"
+msgstr "Format von %1:"
+
+#: source/class/showcase/Application.js:864
+msgid "Choose a locale: "
+msgstr "Lokalisierung wählen"
