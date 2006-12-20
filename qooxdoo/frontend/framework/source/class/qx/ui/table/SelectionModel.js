@@ -346,6 +346,8 @@ qx.Proto.removeSelectionInterval = function(fromIndex, toIndex) {
  */
 qx.Proto._clearSelection = function() {
   this._selectedRangeArr = [];
+  this._anchorSelectionIndex = -1;
+  this._leadSelectionIndex = -1;
 }
 
 
