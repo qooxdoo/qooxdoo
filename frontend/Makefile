@@ -3,7 +3,7 @@
 ###################################################################################
 
 VERSION = 0.6.4
-NICE=10
+NICE = 10
 
 
 
@@ -32,7 +32,7 @@ ANY2UNIX = | xargs $(CMD_PYTHON) framework/tool/modules/textutil.py --command an
 
 TARGETS = project/apiviewer project/feedreader project/framework project/sample project/showcase project/webmail
 SKELETON_FILES = Makefile source/class source/resource source/index.html
-SDK_MAKEFILES = Makefile framework/Makefile project/Makefile
+SDK_MAKEFILES = Makefile project/Makefile
 
 
 
@@ -185,6 +185,14 @@ release-sdk-unix:
 	  cp -f $$TARGET/Makefile $(RELEASE_SDK_UNIX)/frontend/$$TARGET; \
 	  $(CMD_RSYNC) --exclude script $$TARGET/source/* $(RELEASE_SDK_UNIX)/frontend/$$TARGET/source; \
 	done
+	
+	@echo "  * Synchronizing framework tool folders..."
+	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/framework/tool
+	@$(CMD_RSYNC) framework/tool/* $(RELEASE_SDK_UNIX)/frontend/framework/tool
+
+	@echo "  * Synchronizing framework source folders..."
+	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/framework/source
+	@$(CMD_RSYNC) framework/source/* $(RELEASE_SDK_UNIX)/frontend/framework/source
 
 	@echo "  * Copying top level Makefiles..."
 	@for MAKEFILE in $(SDK_MAKEFILES); do \
@@ -197,10 +205,6 @@ release-sdk-unix:
     mkdir -p `dirname $(RELEASE_SDK_UNIX)/frontend/project/skeleton/$$FILE`; \
 	  $(CMD_RSYNC) project/skeleton/$$FILE `dirname $(RELEASE_SDK_UNIX)/frontend/project/skeleton/$$FILE`; \
   done    
-  
-	@echo "  * Synchronizing tool folders..."
-	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/framework/tool
-	@$(CMD_RSYNC) framework/tool/* $(RELEASE_SDK_UNIX)/frontend/framework/tool
   
 	@echo "  * Cleaning up target folders..."
 	@$(CMD_NICE) find $(RELEASE_SDK_UNIX) $(TEMP_FILES) | xargs rm -rf
@@ -239,6 +243,14 @@ release-sdk-dos:
 	  $(CMD_RSYNC) --exclude script $$TARGET/source/* $(RELEASE_SDK_DOS)/frontend/$$TARGET/source; \
 	done
 
+	@echo "  * Synchronizing framework tool folders..."
+	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/framework/tool
+	@$(CMD_RSYNC) framework/tool/* $(RELEASE_SDK_DOS)/frontend/framework/tool
+
+	@echo "  * Synchronizing framework source folders..."
+	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/framework/source
+	@$(CMD_RSYNC) framework/source/* $(RELEASE_SDK_DOS)/frontend/framework/source
+
 	@echo "  * Copying top level Makefiles..."
 	@for MAKEFILE in $(SDK_MAKEFILES); do \
 	  cp -f $$MAKEFILE $(RELEASE_SDK_DOS)/frontend/$$MAKEFILE; \
@@ -250,10 +262,6 @@ release-sdk-dos:
     mkdir -p `dirname $(RELEASE_SDK_DOS)/frontend/project/skeleton/$$FILE`; \
 	  $(CMD_RSYNC) project/skeleton/$$FILE `dirname $(RELEASE_SDK_DOS)/frontend/project/skeleton/$$FILE`; \
   done    
-  
-	@echo "  * Synchronizing tool folders..."
-	@mkdir -p $(RELEASE_SDK_DOS)/frontend/framework/tool
-	@$(CMD_RSYNC) framework/tool/* $(RELEASE_SDK_DOS)/frontend/framework/tool
   
 	@echo "  * Cleaning up target folders..."
 	@$(CMD_NICE) find $(RELEASE_SDK_DOS) $(TEMP_FILES) | xargs rm -rf
