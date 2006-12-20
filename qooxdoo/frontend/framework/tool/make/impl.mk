@@ -384,19 +384,13 @@ info-help:
 info-clean:
 	@echo 
 	@echo "****************************************************************************"
-	@echo "  CLEANING UP $(APPLICATION_MAKE_TITLE) BASE"
-	@echo "****************************************************************************"
-
-info-realclean:
-	@echo 
-	@echo "****************************************************************************"
-	@echo "  CLEANING UP $(APPLICATION_MAKE_TITLE) REAL"
+	@echo "  CLEANING UP $(APPLICATION_MAKE_TITLE)"
 	@echo "****************************************************************************"
 
 info-distclean:
 	@echo 
 	@echo "****************************************************************************"
-	@echo "  CLEANING UP $(APPLICATION_MAKE_TITLE) DIST"
+	@echo "  REAL CLEANING UP $(APPLICATION_MAKE_TITLE)"
 	@echo "****************************************************************************"
 
 info-publish:
