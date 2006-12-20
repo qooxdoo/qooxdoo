@@ -121,8 +121,14 @@ release-fast: release-build-fast release-sdk-fast
 
 
 release-build: build release-build-fast
-release-build-fast: release-build-unix release-build-dos
+release-build-fast: release-build-info release-build-unix release-build-dos
 
+release-build-info:
+	@echo 
+	@echo "****************************************************************************"
+	@echo "  GENERATING BUILD RELEASE"
+	@echo "****************************************************************************"
+	
 release-build-unix:
 	@echo
 	@echo "  SYNCHRONISATION OF UNIX BUILD RELEASE"
@@ -190,7 +196,13 @@ release-build-dos:
 
 
 release-sdk: distclean release-sdk-fast
-release-sdk-fast: release-sdk-unix release-sdk-dos
+release-sdk-fast: release-sdk-info release-sdk-unix release-sdk-dos
+
+release-sdk-info:
+	@echo 
+	@echo "****************************************************************************"
+	@echo "  GENERATING SDK RELEASE"
+	@echo "****************************************************************************"
 
 release-sdk-unix:
 	@echo
