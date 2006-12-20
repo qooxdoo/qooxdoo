@@ -244,11 +244,11 @@ release-sdk-dos:
 	done
 
 	@echo "  * Synchronizing framework tool folders..."
-	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/framework/tool
+	@mkdir -p $(RELEASE_SDK_DOS)/frontend/framework/tool
 	@$(CMD_RSYNC) framework/tool/* $(RELEASE_SDK_DOS)/frontend/framework/tool
 
 	@echo "  * Synchronizing framework source folders..."
-	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/framework/source
+	@mkdir -p $(RELEASE_SDK_DOS)/frontend/framework/source
 	@$(CMD_RSYNC) framework/source/* $(RELEASE_SDK_DOS)/frontend/framework/source
 
 	@echo "  * Copying top level Makefiles..."
