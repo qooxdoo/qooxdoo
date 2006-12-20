@@ -163,7 +163,7 @@ qx.Proto.main = function(e)
   radioManager.addEventListener("changeSelected", function(e) {
     var lang = e.getData().getUserData("locale");
     this.debug("lang:" + lang);
-	qx.locale.Manager.getInstance().setLocale(lang);
+  qx.locale.Manager.getInstance().setLocale(lang);
   });
   lang_menu.addToDocument();
   toolBar.add(new qx.ui.toolbar.MenuButton("", lang_menu, "icon/16/locale.png"));
