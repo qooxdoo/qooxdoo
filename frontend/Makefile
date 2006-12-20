@@ -33,9 +33,9 @@ CMD_PYTHON = python
 ANY2DOS = | xargs $(CMD_PYTHON) framework/tool/modules/textutil.py --command any2Dos
 ANY2UNIX = | xargs $(CMD_PYTHON) framework/tool/modules/textutil.py --command any2Unix
 
-PROJECTS = apiviewer feedreader framework sample showcase webmail
+APPLICATIONS = apiviewer feedreader sample showcase webmail
 SKELETON_FILES = Makefile source/class source/resource source/index.html
-SDK_MAKEFILES = Makefile project/Makefile
+SDK_MAKEFILES = Makefile application/Makefile
 
 
 
@@ -56,37 +56,37 @@ include $(QOOXDOO_PATH)/frontend/framework/tool/make/framework.mk
 ###################################################################################
 
 source:
-	@$(MAKE) -s -C project source
+	@$(MAKE) -s -C application source
 
 build:
-	@$(MAKE) -s -C project build
+	@$(MAKE) -s -C application build
 
 api:
-	@$(MAKE) -s -C project api
+	@$(MAKE) -s -C application api
 
 all:
-	@$(MAKE) -s -C project all
+	@$(MAKE) -s -C application all
 
 locales:
-	@$(MAKE) -s -C project locales
+	@$(MAKE) -s -C application locales
 
 pretty:
-	@$(MAKE) -s -C project pretty
+	@$(MAKE) -s -C application pretty
 
 fix:
-	@$(MAKE) -s -C project fix
+	@$(MAKE) -s -C application fix
 
 publish:
-	@$(MAKE) -s -C project publish
+	@$(MAKE) -s -C application publish
 
 clean:
-	@$(MAKE) -s -C project clean
+	@$(MAKE) -s -C application clean
 
 realclean:
-	@$(MAKE) -s -C project realclean
+	@$(MAKE) -s -C application realclean
 
 distclean: release-distclean framework-distclean
-	@$(MAKE) -s -C project distclean
+	@$(MAKE) -s -C application distclean
 
 framework-distclean:
 	@echo 
@@ -141,15 +141,15 @@ release-build-unix:
 	  cp -f $$FILE $(RELEASE_BUILD_UNIX); \
 	done
 
-	@echo "  * Synchronizing projects..."
-	@for PROJECT in $(PROJECTS); do \
-		echo "    - $$PROJECT"; \
-	  mkdir -p $(RELEASE_BUILD_UNIX)/frontend/$$PROJECT; \
-		if [ ! -r project/$$PROJECT/build ]; then \
+	@echo "  * Synchronizing applications..."
+	@for APPLICATION in $(APPLICATIONS); do \
+		echo "    - $$APPLICATION"; \
+	  mkdir -p $(RELEASE_BUILD_UNIX)/frontend/$$APPLICATION; \
+		if [ ! -r application/$$APPLICATION/build ]; then \
 		  echo "      - Missing build folder! Run $(MAKE) build first!"; \
 		  exit 1; \
 		fi; \
-	  $(CMD_RSYNC) project/$$PROJECT/build/* $(RELEASE_BUILD_UNIX)/frontend/$$PROJECT; \
+	  $(CMD_RSYNC) application/$$APPLICATION/build/* $(RELEASE_BUILD_UNIX)/frontend/$$APPLICATION; \
 	done
 	
 	@echo "  * Switching to Unix line endings..."
@@ -170,15 +170,15 @@ release-build-dos:
 	  cp -f $$FILE $(RELEASE_BUILD_DOS); \
 	done
 
-	@echo "  * Synchronizing projects..."
-	@for PROJECT in $(PROJECTS); do \
-		echo "    - $$PROJECT"; \
-	  mkdir -p $(RELEASE_BUILD_DOS)/frontend/$$PROJECT; \
-		if [ ! -r project/$$PROJECT/build ]; then \
+	@echo "  * Synchronizing applications..."
+	@for APPLICATION in $(APPLICATIONS); do \
+		echo "    - $$APPLICATION"; \
+	  mkdir -p $(RELEASE_BUILD_DOS)/frontend/$$APPLICATION; \
+		if [ ! -r application/$$APPLICATION/build ]; then \
 		  echo "      - Missing build folder! Run $(MAKE) build first!"; \
 		  exit 1; \
 		fi; \
-	  $(CMD_RSYNC) project/$$PROJECT/build/* $(RELEASE_BUILD_DOS)/frontend/$$PROJECT; \
+	  $(CMD_RSYNC) application/$$APPLICATION/build/* $(RELEASE_BUILD_DOS)/frontend/$$APPLICATION; \
 	done
 	
 	@echo "  * Switching to DOS line endings..."
@@ -216,12 +216,12 @@ release-sdk-unix:
 	  cp -f $$FILE $(RELEASE_SDK_UNIX); \
 	done
 	
-	@echo "  * Synchronizing projects..."
-	@for PROJECT in $(PROJECTS); do \
-		echo "    - $$PROJECT"; \
-	  mkdir -p $(RELEASE_SDK_UNIX)/frontend/project/$$PROJECT; \
-	  cp -f project/$$PROJECT/Makefile $(RELEASE_SDK_UNIX)/frontend/project/$$PROJECT; \
-	  $(CMD_RSYNC) --exclude script project/$$PROJECT/source/* $(RELEASE_SDK_UNIX)/frontend/project/$$PROJECT/source; \
+	@echo "  * Synchronizing applications..."
+	@for APPLICATION in $(APPLICATIONS); do \
+		echo "    - $$APPLICATION"; \
+	  mkdir -p $(RELEASE_SDK_UNIX)/frontend/application/$$APPLICATION; \
+	  cp -f application/$$APPLICATION/Makefile $(RELEASE_SDK_UNIX)/frontend/application/$$APPLICATION; \
+	  $(CMD_RSYNC) --exclude script application/$$APPLICATION/source/* $(RELEASE_SDK_UNIX)/frontend/application/$$APPLICATION/source; \
 	done
 	
 	@echo "  * Synchronizing framework..."
@@ -236,8 +236,8 @@ release-sdk-unix:
 	@echo "  * Collecting skeleton files..."
 	@for FILE in $(SKELETON_FILES); do \
     echo "    - $$FILE"; \
-    mkdir -p `dirname $(RELEASE_SDK_UNIX)/frontend/project/skeleton/$$FILE`; \
-	  $(CMD_RSYNC) project/skeleton/$$FILE `dirname $(RELEASE_SDK_UNIX)/frontend/project/skeleton/$$FILE`; \
+    mkdir -p `dirname $(RELEASE_SDK_UNIX)/frontend/application/skeleton/$$FILE`; \
+	  $(CMD_RSYNC) application/skeleton/$$FILE `dirname $(RELEASE_SDK_UNIX)/frontend/application/skeleton/$$FILE`; \
   done    
   
 	@echo "  * Cleaning up target folders..."
@@ -250,9 +250,9 @@ release-sdk-unix:
 	@$(CMD_NICE) find $(RELEASE_SDK_UNIX) $(EXEC_FILES) | xargs chmod a+rx
 
 	@echo "  * Building skeleton archive..."
-	@rm -f $(RELEASE_SDK_UNIX)/frontend/project/skeleton.tar.gz
-	@cd $(RELEASE_SDK_UNIX)/frontend/project; $(CMD_NICE) tar cfzp skeleton.tar.gz skeleton 
-	@rm -rf $(RELEASE_SDK_UNIX)/frontend/project/skeleton
+	@rm -f $(RELEASE_SDK_UNIX)/frontend/application/skeleton.tar.gz
+	@cd $(RELEASE_SDK_UNIX)/frontend/application; $(CMD_NICE) tar cfzp skeleton.tar.gz skeleton 
+	@rm -rf $(RELEASE_SDK_UNIX)/frontend/application/skeleton
 	
 	@echo "  * Generating tar archive..."
 	@cd release/temp/sdk/unix; rm -f qooxdoo-$(VERSION)-sdk.tar.gz; $(CMD_NICE) tar cfzp ../../../qooxdoo-$(VERSION)-sdk.tar.gz qooxdoo-$(VERSION)-sdk
@@ -269,12 +269,12 @@ release-sdk-dos:
 	  cp -f $$FILE $(RELEASE_SDK_DOS); \
 	done
 	
-	@echo "  * Synchronizing projects..."
-	@for PROJECT in $(PROJECTS); do \
-		echo "    - $$PROJECT"; \
-	  mkdir -p $(RELEASE_SDK_DOS)/frontend/project/$$PROJECT; \
-	  cp -f project/$$PROJECT/Makefile $(RELEASE_SDK_DOS)/frontend/project/$$PROJECT; \
-	  $(CMD_RSYNC) --exclude script project/$$PROJECT/source/* $(RELEASE_SDK_DOS)/frontend/project/$$PROJECT/source; \
+	@echo "  * Synchronizing applications..."
+	@for APPLICATION in $(APPLICATIONS); do \
+		echo "    - $$APPLICATION"; \
+	  mkdir -p $(RELEASE_SDK_DOS)/frontend/application/$$APPLICATION; \
+	  cp -f application/$$APPLICATION/Makefile $(RELEASE_SDK_DOS)/frontend/application/$$APPLICATION; \
+	  $(CMD_RSYNC) --exclude script application/$$APPLICATION/source/* $(RELEASE_SDK_DOS)/frontend/application/$$APPLICATION/source; \
 	done
 
 	@echo "  * Synchronizing framework..."
@@ -289,8 +289,8 @@ release-sdk-dos:
 	@echo "  * Collecting skeleton files..."
 	@for FILE in $(SKELETON_FILES); do \
     echo "    - $$FILE"; \
-    mkdir -p `dirname $(RELEASE_SDK_DOS)/frontend/project/skeleton/$$FILE`; \
-	  $(CMD_RSYNC) project/skeleton/$$FILE `dirname $(RELEASE_SDK_DOS)/frontend/project/skeleton/$$FILE`; \
+    mkdir -p `dirname $(RELEASE_SDK_DOS)/frontend/application/skeleton/$$FILE`; \
+	  $(CMD_RSYNC) application/skeleton/$$FILE `dirname $(RELEASE_SDK_DOS)/frontend/application/skeleton/$$FILE`; \
   done    
   
 	@echo "  * Cleaning up target folders..."
@@ -303,9 +303,9 @@ release-sdk-dos:
 	@$(CMD_NICE) find $(RELEASE_SDK_DOS) $(EXEC_FILES) | xargs chmod a+rx
 
 	@echo "  * Building skeleton archive..."
-	@rm -f $(RELEASE_SDK_DOS)/frontend/project/skeleton.zip
-	@cd $(RELEASE_SDK_DOS)/frontend/project; $(CMD_NICE) zip -rq skeleton.zip skeleton 
-	@rm -rf $(RELEASE_SDK_DOS)/frontend/project/skeleton
+	@rm -f $(RELEASE_SDK_DOS)/frontend/application/skeleton.zip
+	@cd $(RELEASE_SDK_DOS)/frontend/application; $(CMD_NICE) zip -rq skeleton.zip skeleton 
+	@rm -rf $(RELEASE_SDK_DOS)/frontend/application/skeleton
 
 	@echo "  * Generating zip archive..."
 	@cd release/temp/sdk/dos; rm -f qooxdoo-$(VERSION)-sdk.zip; $(CMD_NICE) zip -rq ../../../qooxdoo-$(VERSION)-sdk.zip qooxdoo-$(VERSION)-sdk
