@@ -1,7 +1,7 @@
 # translation of de.po to German
 # Header entry was created by KBabel!
 #
-# Fabian Jakobs <fabian.jakobs at 1und1 dot de>, 2006.
+# Fabian Jakobs <fabian dot jakobs at 1und1 dot de>, 2006.
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
