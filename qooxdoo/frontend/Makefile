@@ -106,11 +106,19 @@ framework-distclean:
 	@$(CMD_REMOVE) $(FRAMEWORK_TRANSLATION_CLASS_PATH)
 
 framework-pretty:
+	@echo 
+	@echo "****************************************************************************"
+	@echo "  GENERATING FRAMEWORK PRETTY"
+	@echo "****************************************************************************"
 	@$(CMD_GENERATOR) \
 	  --pretty-print \
 	  --class-path $(FRAMEWORK_SOURCE_PATH)/$(FRAMEWORK_CLASS_FOLDERNAME)
 
 framework-fix:
+	@echo 
+	@echo "****************************************************************************"
+	@echo "  GENERATING FRAMEWORK FIX"
+	@echo "****************************************************************************"
 	@$(CMD_GENERATOR) \
 	  --fix-source \
 	  --class-path $(FRAMEWORK_SOURCE_PATH)/$(FRAMEWORK_CLASS_FOLDERNAME)
