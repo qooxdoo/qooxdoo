@@ -182,10 +182,10 @@ qx.Proto._matchesKeyEvent = function(e)
   // pre-check for check special keys
   // we handle this here to omit to check this later again.
   if (
-    (this._modifier.Shift && !e.getShiftKey()) ||
-    (this._modifier.Control && !e.getCtrlKey()) ||
+    (this._modifier.Shift && !e.isShiftPressed()) ||
+    (this._modifier.Control && !e.isCtrlPressed()) ||
 //    (this._modifier.Meta && !e.getMetaKey()) ||
-    (this._modifier.Alt && !e.getAltKey())
+    (this._modifier.Alt && !e.isAltPressed())
   ) {
     return false;
   }
