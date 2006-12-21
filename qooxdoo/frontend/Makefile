@@ -95,7 +95,7 @@ distclean: release-distclean framework-distclean
 framework-distclean:
 	@echo 
 	@echo "****************************************************************************"
-	@echo "  CLEANING UP FRAMEWORK DIST"
+	@echo "  CLEANING UP FRAMEWORK (FULL)"
 	@echo "****************************************************************************"
 	@echo "  * Cleaning up..."
 	@$(CMD_REMOVE) $(FRAMEWORK_CACHE_PATH)
@@ -105,7 +105,7 @@ framework-distclean:
 framework-pretty:
 	@echo 
 	@echo "****************************************************************************"
-	@echo "  GENERATING FRAMEWORK PRETTY"
+	@echo "  GENERATING PRETTY FRAMEWORK"
 	@echo "****************************************************************************"
 	@$(CMD_GENERATOR) \
 	  --pretty-print \
@@ -114,7 +114,7 @@ framework-pretty:
 framework-fix:
 	@echo 
 	@echo "****************************************************************************"
-	@echo "  GENERATING FRAMEWORK FIX"
+	@echo "  FIXING FRAMEWORK"
 	@echo "****************************************************************************"
 	@$(CMD_GENERATOR) \
 	  --fix-source \
@@ -138,7 +138,7 @@ framework-fix:
 release-distclean:
 	@echo 
 	@echo "****************************************************************************"
-	@echo "  CLEANING UP RELEASE DIST"
+	@echo "  CLEANING UP RELEASE (FULL)"
 	@echo "****************************************************************************"
 	@echo "  * Cleaning up..."
 	@$(CMD_REMOVE) release
