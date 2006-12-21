@@ -931,6 +931,9 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     # Source loader closure
     sourceOutput += """(function(sources){""" + srcEol
 
+	 # Differentiate source build
+    sourceOutput += """qx.SOURCE_BUILD=true;""" + srcEol
+
     # Detect the node we are being called from
     sourceOutput += """var parentNode=document.getElementsByTagName('body')[0]||document.getElementsByTagName('head')[0];""" + srcEol
 
