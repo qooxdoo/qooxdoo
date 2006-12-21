@@ -370,13 +370,13 @@ info-api:
 info-pretty:
 	@echo 
 	@echo "****************************************************************************"
-	@echo "  GENERATING $(APPLICATION_MAKE_TITLE) PRETTY"
+	@echo "  GENERATING PRETTY $(APPLICATION_MAKE_TITLE)"
 	@echo "****************************************************************************"
 	
 info-fix:
 	@echo 
 	@echo "****************************************************************************"
-	@echo "  GENERATING $(APPLICATION_MAKE_TITLE) FIX"
+	@echo "  FIXING $(APPLICATION_MAKE_TITLE)"
 	@echo "****************************************************************************"
 			
 info-help:
@@ -394,7 +394,7 @@ info-clean:
 info-distclean:
 	@echo 
 	@echo "****************************************************************************"
-	@echo "  REAL CLEANING UP $(APPLICATION_MAKE_TITLE)"
+	@echo "  CLEANING UP $(APPLICATION_MAKE_TITLE) (FULL)"
 	@echo "****************************************************************************"
 
 info-publish:
