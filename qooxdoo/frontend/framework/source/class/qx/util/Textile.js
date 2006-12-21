@@ -28,7 +28,7 @@ qx.OO.defineClass("qx.util.Textile");
 
 /**
  * ATTENTION: Deprecated module. Will be removed with qooxdoo 0.7.
- * 
+ *
  * @deprecated
  *
  * Textilizes a string

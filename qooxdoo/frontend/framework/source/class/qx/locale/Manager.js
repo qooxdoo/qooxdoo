@@ -62,9 +62,9 @@ qx.Proto.getTerritory = function() {
 
 /**
  * Return the available application locales
- * 
+ *
  * This corresponds to the Makefile APPLICATION_LOCALES setting
- * 
+ *
  * @return {string[]} array of available locales
  */
 qx.Proto.getAvailableLocales = function() {

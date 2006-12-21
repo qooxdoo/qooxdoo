@@ -183,6 +183,10 @@ release-build-unix:
 		fi; \
 	  $(CMD_RSYNC) application/$$APPLICATION/build/* $(RELEASE_BUILD_UNIX)/frontend/$$APPLICATION; \
 	done
+	@echo "  * Generating index.html..."
+	@cat application/index.html | \
+		sed 's/class="source"/class="source hide"/g' | \
+		sed 's/class="build"//g' > $(RELEASE_BUILD_UNIX)/frontend/index.html	
 	
 	@echo "  * Switching to Unix line endings..."
 	@$(CMD_NICE) find $(RELEASE_BUILD_UNIX) $(TEXT_FILES) $(ANY2UNIX)
