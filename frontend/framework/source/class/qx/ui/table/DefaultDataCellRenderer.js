@@ -84,7 +84,7 @@ qx.Proto._getContentHtml = function(cellInfo) {
 qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
   var clazz = qx.ui.table.DefaultDataCellRenderer;
   var style = cellElement.style;
-  
+
   var stylesToApply = this._getStyleFlags(cellInfo);
   if (stylesToApply & clazz.STYLEFLAG_ALIGN_RIGHT){
     style.textAlign = "right";

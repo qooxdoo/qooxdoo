@@ -116,13 +116,13 @@ qx.Proto.main = function(e)
     width: "100%"
   });
 
-	// create header
+  // create header
   var header = new qx.ui.embed.HtmlEmbed("<h1><span>qooxdoo</span> reader</h1>");
   header.setCssClassName("header");
   header.setHeight(50);
   dockLayout.addTop(header);
 
-	// define commands
+  // define commands
   var reload_cmd = new qx.client.Command("Control+R");
   reload_cmd.addEventListener("execute", function(e) {
     this.fetchFeeds();
@@ -134,7 +134,7 @@ qx.Proto.main = function(e)
     alert(this.tr("qooxdoo feed reader."));
   }, this);
 
-	// create toolbar
+  // create toolbar
   var toolBar = new qx.ui.toolbar.ToolBar();
   toolBar.add(new qx.ui.toolbar.Button(this.trn("Add feed", "Add feeds", 2), "icon/16/button-ok.png"));
   toolBar.add(new qx.ui.toolbar.Button(this.tr("Remove feed"), "icon/16/button-cancel.png"));
@@ -147,7 +147,7 @@ qx.Proto.main = function(e)
 
   toolBar.add(new qx.ui.basic.HorizontalSpacer());
 
-	// poulate languages menu and add it to the toolbar
+  // poulate languages menu and add it to the toolbar
   var locales = {
     en: this.tr("English"),
     de: this.tr("German"),
@@ -164,7 +164,7 @@ qx.Proto.main = function(e)
   var radioManager = new qx.manager.selection.RadioManager("lang");
   for (var lang in locales) {
     if (availableLocales.indexOf(lang) == -1) {
-    	continue;
+      continue;
     }
     var menuButton = new qx.ui.menu.RadioButton(locales[lang], null, locale == lang);
     menuButton.setUserData("locale", lang);
@@ -186,7 +186,7 @@ qx.Proto.main = function(e)
 
   dockLayout.addTop(toolBar);
 
-	// add tree
+  // add tree
   var tree = new qx.ui.tree.Tree(this.tr("News feeds"));
   tree.set({height:"100%", width:"100%"});
   tree.setOverflow("auto");
@@ -202,7 +202,7 @@ qx.Proto.main = function(e)
     tree.add(folder);
   }
 
-	// create table model
+  // create table model
   this._tableModel = new qx.ui.table.SimpleTableModel();
   this._tableModel.setColumnIds(["title", "author", "date"]);
   this._tableModel.setColumnNamesById({
@@ -211,7 +211,7 @@ qx.Proto.main = function(e)
     date: this.tr("Date")
   });
 
-	// add table
+  // add table
   var table = new qx.ui.table.Table(this._tableModel);
   table.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
   table.set({height:"100%", width:"100%"});
@@ -225,29 +225,29 @@ qx.Proto.main = function(e)
     this.displayArticle(item);
   }, this);
 
-	// add blog entry
+  // add blog entry
   this._blogEntry = new feedreader.ArticleView();
   this._blogEntry.set({height:"100%", width:"100%"});
   this._blogEntry.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
 
-	// create splitpane for the right hand content area
+  // create splitpane for the right hand content area
   var contentSplitPane = new qx.ui.splitpane.VerticalSplitPane("1*", "2*");
-	contentSplitPane.set({height:"100%", width:"100%"});
+  contentSplitPane.set({height:"100%", width:"100%"});
   contentSplitPane.setLiveResize(true);
   contentSplitPane.addTop(table);
   contentSplitPane.addBottom(this._blogEntry);
-    
-	// create vertival splitter
+
+  // create vertival splitter
   var mainSplitPane = new qx.ui.splitpane.HorizontalSplitPane(200, "1*");
   mainSplitPane.setLiveResize(true);
   mainSplitPane.addLeft(tree);
   mainSplitPane.addRight(contentSplitPane);
-  
-	dockLayout.add(mainSplitPane);
-	
+
+  dockLayout.add(mainSplitPane);
+
   dockLayout.addToDocument();
 
-	// load and display feed data
+  // load and display feed data
   this.displayFeed(feedreader.Application._feedDesc[0].name);
   this.fetchFeeds();
 };
