@@ -550,7 +550,7 @@ qx.Proto._onkeydown = function(e)
 
     // Handle Alt+Down
     case "Down":
-      if (e.getAltKey())
+      if (e.isAltPressed())
       {
         this._togglePopup();
         return;
