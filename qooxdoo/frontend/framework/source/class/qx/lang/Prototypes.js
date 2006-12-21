@@ -64,6 +64,6 @@ qx.lang.Prototypes.init = function()
   }
 }
 
-if (qx.Settings.getValueOfClass("qx.lang.Generics", "enable")) {
+if (qx.Settings.getValueOfClass("qx.lang.Prototypes", "enable")) {
   qx.lang.Prototypes.init();
 }
