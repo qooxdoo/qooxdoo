@@ -162,7 +162,7 @@ qx.Proto._ondblclick = function(e)
 qx.Proto._onkeydown = function(e)
 {
   // Execute action on press <ENTER>
-  if (e.getKeyIdentifier() == "Enter" && !e.getAltKey())
+  if (e.getKeyIdentifier() == "Enter" && !e.isAltPressed())
   {
     var items = this.getSelectedItems();
     var currentItem;

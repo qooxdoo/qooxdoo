@@ -462,7 +462,7 @@ qx.Proto._onkeydown = function(evt) {
           consumed = false;
           break;
       }
-    } else if (evt.getCtrlKey()) {
+    } else if (evt.isCtrlPressed()) {
       consumed = true;
       switch (identifier) {
         case "A": // Ctrl + A
