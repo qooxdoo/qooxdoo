@@ -300,7 +300,7 @@ qx.Proto._onkeypress = function(evt) {
         }
         return;
     }
-  } else if (evt.getShiftKey()) {
+  } else if (evt.isShiftPressed()) {
     switch(evt.getKeyIdentifier()) {
       case "PageUp":
         yearIncrement = -1;

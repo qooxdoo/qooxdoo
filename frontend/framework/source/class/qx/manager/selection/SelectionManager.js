@@ -746,7 +746,7 @@ qx.Proto.handleMouseDown = function(vItem, e)
   // Shift Key
   //   or
   // Click on an unseleted item (without Strg)
-  if (e.getShiftKey() || this.getDragSelection() || (!this.getItemSelected(vItem) && !e.getCtrlKey()))
+  if (e.isShiftPressed() || this.getDragSelection() || (!this.getItemSelected(vItem) && !e.isCtrlPressed()))
   {
     // Handle event
     this._onmouseevent(vItem, e);
@@ -841,8 +841,8 @@ qx.Proto._onmouseevent = function(oItem, e, bOver)
   var currentAnchorItem = this.getAnchorItem();
 
   // Cache keys pressed
-  var vCtrlKey = e.getCtrlKey();
-  var vShiftKey = e.getShiftKey();
+  var vCtrlKey = e.isCtrlPressed();
+  var vShiftKey = e.isShiftPressed();
 
 
   // ********************************************************************
@@ -1059,7 +1059,7 @@ qx.Proto.handleKeyPress = function(vDomEvent)
       vDomEvent.preventDefault();
 
       // Select a range
-      if (vDomEvent.getShiftKey() && this.getMultiSelection())
+      if (vDomEvent.isShiftPressed() && this.getMultiSelection())
       {
         // Make it a little bit more failsafe:
         // Set anchor if not given already. Allows us to select
