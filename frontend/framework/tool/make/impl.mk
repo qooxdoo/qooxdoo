@@ -38,7 +38,7 @@ exec-distclean:
 
 exec-script-source:
 	@$(CMD_GENERATOR) \
-	  $(COMPUTED_INIT_COMPONENT) \
+	  $(COMPUTED_COMMON_INIT) \
 	  $(COMPUTED_CLASS_PATH) \
 	  $(COMPUTED_CLASS_URI) \
 	  --generate-source-script \
@@ -49,7 +49,7 @@ exec-script-source:
 
 exec-script-build:
 	@$(CMD_GENERATOR) \
-	  $(COMPUTED_INIT_COMPONENT) \
+	  $(COMPUTED_COMMON_INIT) \
 	  $(COMPUTED_CLASS_PATH) \
 	  $(COMPUTED_RESOURCE) \
 	  --generate-compiled-script \
