@@ -74,7 +74,9 @@ function(vShortcut, vKeyCode)
 qx.OO.addProperty({ name : "shortcut", type : "string" });
 
 /**
- * keyCode (Deprecated)
+ * keyCode
+ * @deprecated
+ * 
  * Still there for compatibility with the old key handler/commands
  */
 qx.OO.addProperty({ name : "keyCode", type : "number" });
