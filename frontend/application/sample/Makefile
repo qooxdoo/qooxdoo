@@ -29,7 +29,7 @@ APPLICATION_API_TITLE = Sample
 #
 # Additional files (space separated list)
 #
-APPLICATION_FILES = html css
+APPLICATION_FILES = index.html html css
 
 
 
