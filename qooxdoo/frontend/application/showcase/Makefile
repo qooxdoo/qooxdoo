@@ -39,7 +39,7 @@ APPLICATION_LOCALES = de de_DE en en_US fr fr_FR es es_ES
 #
 # full locales used for the online version
 #
-#APPLICATION_LOCALES = de de_DE de_AT en en_US fr fr_FR tr it es es_ES sv ar zh
+#APPLICATION_LOCALES = de de_DE de_AT en en_US fr fr_FR tr it es es_ES sv ar zh ru
 
 
 

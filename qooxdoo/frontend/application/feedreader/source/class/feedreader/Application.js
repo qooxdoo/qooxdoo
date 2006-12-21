@@ -149,12 +149,14 @@ qx.Proto.main = function(e)
 
 	// poulate languages menu and add it to the toolbar
   var locales = {
+    en: this.tr("English"),
     de: this.tr("German"),
     en: this.tr("English"),
     tr: this.tr("Turkish"),
     it: this.tr("Italian"),
     es: this.tr("Spanish"),
-    sv: this.tr("Swedish")
+    sv: this.tr("Swedish"),
+    ru: this.tr("Russian")
   }
   var availableLocales = qx.locale.Manager.getInstance().getAvailableLocales();
   var locale = qx.locale.Manager.getInstance().getLocale();

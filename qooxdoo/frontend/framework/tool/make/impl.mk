@@ -11,6 +11,8 @@ exec-clean:
 	@echo "  * Cleaning up..."
 	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/$(APPLICATION_SCRIPT_FILENAME) 
 	@$(CMD_REMOVE) $(APPLICATION_BUILD_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/$(APPLICATION_SCRIPT_FILENAME)
+	@$(CMD_REMOVE) $(APPLICATION_TRANSLATION_PATH)/messages.pot
+	@$(CMD_REMOVE) $(FRAMEWORK_TRANSLATION_PATH)/messages.pot
 
 exec-distclean:
 	@echo "  * Cleaning up..."
@@ -20,6 +22,8 @@ exec-distclean:
 	@$(CMD_REMOVE) $(APPLICATION_API_PATH)
 	@$(CMD_REMOVE) $(APPLICATION_DEBUG_PATH)
 	@$(CMD_REMOVE) $(APPLICATION_TRANSLATION_CLASS_PATH)
+	@$(CMD_REMOVE) $(APPLICATION_TRANSLATION_PATH)/messages.pot
+	@$(CMD_REMOVE) $(FRAMEWORK_TRANSLATION_PATH)/messages.pot
 	@$(CMD_REMOVE) $(FRAMEWORK_CACHE_PATH)
 	@$(CMD_REMOVE) $(FRAMEWORK_LOCALE_CLASS_PATH)
 	@$(CMD_REMOVE) $(FRAMEWORK_TRANSLATION_CLASS_PATH)
@@ -180,13 +184,13 @@ exec-framework-translation:
 	
 	@echo ""
 	@echo "    - Found `grep msgid $(FRAMEWORK_TRANSLATION_PATH)/messages.pot | wc -l` messages"
-	
+
 	@echo "  * Processing translations..."
 	@for LOC in $(APPLICATION_LOCALES); do \
 		echo "    - Translation: $$LOC"; \
 		if [ ! -r $(FRAMEWORK_TRANSLATION_PATH)/$$LOC.po ]; then \
   		echo "      - Generating initial translation file..."; \
-		  msginit --no-translator -i $(FRAMEWORK_TRANSLATION_PATH)/messages.pot -o $(FRAMEWORK_TRANSLATION_PATH)/$$LOC.po > /dev/null 2>&1; \
+			msginit --locale $$LOC --no-translator -i $(FRAMEWORK_TRANSLATION_PATH)/messages.pot -o $(FRAMEWORK_TRANSLATION_PATH)/$$LOC.po > /dev/null 2>&1; \
 		else \
 	  	echo "      - Merging translation file..."; \
 		  msgmerge --update -q $(FRAMEWORK_TRANSLATION_PATH)/$$LOC.po $(FRAMEWORK_TRANSLATION_PATH)/messages.pot; \
@@ -233,7 +237,7 @@ exec-project-translation:
 		echo "    - Translation: $$LOC"; \
 		if [ ! -r $(APPLICATION_TRANSLATION_PATH)/$$LOC.po ]; then \
   		echo "      - Generating initial translation file..."; \
-		  msginit --no-translator -i $(APPLICATION_TRANSLATION_PATH)/messages.pot -o $(APPLICATION_TRANSLATION_PATH)/$$LOC.po > /dev/null 2>&1; \
+		  msginit --locale $$LOC --no-translator -i $(APPLICATION_TRANSLATION_PATH)/messages.pot -o $(APPLICATION_TRANSLATION_PATH)/$$LOC.po > /dev/null 2>&1; \
 		else \
 	  	echo "      - Merging translation file..."; \
 		  msgmerge --update -q $(APPLICATION_TRANSLATION_PATH)/$$LOC.po $(APPLICATION_TRANSLATION_PATH)/messages.pot; \
