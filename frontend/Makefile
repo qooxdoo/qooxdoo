@@ -40,7 +40,6 @@ ANY2DOS = | xargs $(CMD_PYTHON) framework/tool/modules/textutil.py --command any
 ANY2UNIX = | xargs $(CMD_PYTHON) framework/tool/modules/textutil.py --command any2Unix
 
 APPLICATIONS = apiviewer feedreader sample showcase webmail
-SKELETON_FILES = Makefile source/class source/resource source/index.html
 SDK_FILES = Makefile application/Makefile application/index.html
 
 
@@ -123,6 +122,98 @@ framework-fix:
 	  
 	  
 	  
+###################################################################################
+# SKELETON TARGETS
+###################################################################################
+
+SKELETON_TEMP_UNIX = temp-skeleton-unix
+SKELETON_TEMP_DOS = temp-skeleton-dos
+
+SKELETON_FILES = Makefile source/class source/resource source/index.html
+SKELETON_FILES_BUILD = source/class source/resource source/index.html source/script
+
+
+__info-skeleton-unix:
+	@echo 
+	@echo "****************************************************************************"
+	@echo "  CREATING SKELETON (UNIX)"
+	@echo "****************************************************************************"
+
+__info-skeleton-dos:
+	@echo 
+	@echo "****************************************************************************"
+	@echo "  CREATING SKELETON (DOS)"
+	@echo "****************************************************************************"
+
+skeleton-unix: __info-skeleton-unix __skeleton-unix __skeleton-unix-post __skeleton-unix-clean
+skeleton-dos: __info-skeleton-dos __skeleton-dos __skeleton-dos-post __skeleton-dos-clean
+
+__skeleton-unix: __skeleton-unix-collect __skeleton-unix-archive
+__skeleton-dos: __skeleton-dos-collect __skeleton-dos-archive
+
+__skeleton-unix-collect:
+	@echo "  * Collecting skeleton files..."
+	@for FILE in $(SKELETON_FILES); do \
+    	echo "    - $$FILE"; \
+    	mkdir -p `dirname $(SKELETON_TEMP_UNIX)/skeleton/$$FILE`; \
+	  	$(CMD_RSYNC) application/skeleton/$$FILE `dirname $(SKELETON_TEMP_UNIX)/skeleton/$$FILE`; \
+  	done    
+
+__skeleton-unix-archive:
+	@echo "  * Cleaning up target folders..."
+	@$(CMD_NICE) find $(SKELETON_TEMP_UNIX) $(TEMP_FILES) | xargs rm -rf 
+
+	@echo "  * Switching to Unix line endings..."
+	@$(CMD_NICE) find $(SKELETON_TEMP_UNIX) $(TEXT_FILES) $(ANY2UNIX)
+
+	@echo "  * Fixing executables..."
+	@$(CMD_NICE) find $(SKELETON_TEMP_UNIX) $(EXEC_FILES) -exec chmod a+rx {} \;
+
+	@echo "  * Building skeleton archive..."
+	@rm -f $(SKELETON_TEMP_UNIX)/skeleton.tar.gz
+	@cd $(SKELETON_TEMP_UNIX); $(CMD_NICE) tar cfzp skeleton.tar.gz skeleton 
+	@rm -rf $(SKELETON_TEMP_UNIX)/skeleton
+
+__skeleton-dos-collect:
+	@echo "  * Collecting skeleton files..."
+	@for FILE in $(SKELETON_FILES); do \
+    	echo "    - $$FILE"; \
+    	mkdir -p `dirname $(SKELETON_TEMP_DOS)/skeleton/$$FILE`; \
+	  	$(CMD_RSYNC) application/skeleton/$$FILE `dirname $(SKELETON_TEMP_DOS)/skeleton/$$FILE`; \
+  	done    
+  
+__skeleton-dos-archive:
+	@echo "  * Cleaning up target folders..."
+	@$(CMD_NICE) find $(SKELETON_TEMP_DOS) $(TEMP_FILES) | xargs rm -rf
+
+	@echo "  * Switching to DOS line endings..."
+	@$(CMD_NICE) find $(SKELETON_TEMP_DOS) $(TEXT_FILES) $(ANY2DOS)
+
+	@echo "  * Fixing executables..."
+	@$(CMD_NICE) find $(SKELETON_TEMP_DOS) $(EXEC_FILES) -exec chmod a+rx {} \;
+
+	@echo "  * Building skeleton archive..."
+	@rm -f $(SKELETON_TEMP_DOS)/skeleton.zip
+	@cd $(SKELETON_TEMP_DOS); $(CMD_NICE) zip -rq skeleton.zip skeleton
+	@rm -rf $(SKELETON_TEMP_DOS)/skeleton
+
+__skeleton-unix-post:
+	@$(CMD_RSYNC) $(SKELETON_TEMP_UNIX)/skeleton.tar.gz application/
+	@echo
+	@echo "  * Created application/skeleton.tar.gz"
+	@echo "    Please extract to a location outside this qooxdoo folder."
+
+__skeleton-dos-post:
+	@$(CMD_RSYNC) $(SKELETON_TEMP_DOS)/skeleton.zip application/
+	@echo
+	@echo "  * Created application/skeleton.zip"
+	@echo "    Please extract to a location outside this qooxdoo folder."
+
+__skeleton-unix-clean:
+	@$(CMD_REMOVE) $(SKELETON_TEMP_UNIX)
+
+__skeleton-dos-clean:
+	@$(CMD_REMOVE) $(SKELETON_TEMP_DOS)
 	  
 
 
@@ -217,6 +308,11 @@ release-build-dos:
 	  $(CMD_RSYNC) application/$$APPLICATION/build/* $(RELEASE_BUILD_DOS)/frontend/$$APPLICATION; \
 	done
 	
+	@echo "  * Generating index.html..."
+	@cat application/index.html | \
+		sed 's/class="source"/class="source hide"/g' | \
+		sed 's/class="build"//g' > $(RELEASE_BUILD_DOS)/frontend/index.html	
+
 	@echo "  * Switching to DOS line endings..."
 	@$(CMD_NICE) find $(RELEASE_BUILD_DOS) $(TEXT_FILES) $(ANY2DOS)
 
@@ -268,26 +364,9 @@ release-sdk-unix:
 	  cp -f $$FILE $(RELEASE_SDK_UNIX)/frontend/$$FILE; \
 	done
 
-	@echo "  * Collecting skeleton files..."
-	@for FILE in $(SKELETON_FILES); do \
-    echo "    - $$FILE"; \
-    mkdir -p `dirname $(RELEASE_SDK_UNIX)/frontend/application/skeleton/$$FILE`; \
-	  $(CMD_RSYNC) application/skeleton/$$FILE `dirname $(RELEASE_SDK_UNIX)/frontend/application/skeleton/$$FILE`; \
-  done    
-  
-	@echo "  * Cleaning up target folders..."
-	@$(CMD_NICE) find $(RELEASE_SDK_UNIX) $(TEMP_FILES) | xargs rm -rf
-
-	@echo "  * Switching to Unix line endings..."
-	@$(CMD_NICE) find $(RELEASE_SDK_UNIX) $(TEXT_FILES) $(ANY2UNIX)
-
-	@echo "  * Fixing executables..."
-	@$(CMD_NICE) find $(RELEASE_SDK_UNIX) $(EXEC_FILES) | xargs chmod a+rx
-
-	@echo "  * Building skeleton archive..."
-	@rm -f $(RELEASE_SDK_UNIX)/frontend/application/skeleton.tar.gz
-	@cd $(RELEASE_SDK_UNIX)/frontend/application; $(CMD_NICE) tar cfzp skeleton.tar.gz skeleton 
-	@rm -rf $(RELEASE_SDK_UNIX)/frontend/application/skeleton
+	@$(MAKE) -s __skeleton-unix	
+	@$(CMD_RSYNC) $(SKELETON_TEMP_UNIX)/skeleton.tar.gz $(RELEASE_SDK_UNIX)/frontend/application/
+	@$(MAKE) -s __skeleton-unix-clean
 	
 	@echo "  * Generating tar archive..."
 	@cd release/temp/sdk/unix; rm -f qooxdoo-$(VERSION)-sdk.tar.gz; $(CMD_NICE) tar cfzp ../../../qooxdoo-$(VERSION)-sdk.tar.gz qooxdoo-$(VERSION)-sdk
@@ -320,26 +399,9 @@ release-sdk-dos:
 	  cp -f $$FILE $(RELEASE_SDK_DOS)/frontend/$$FILE; \
 	done
 
-	@echo "  * Collecting skeleton files..."
-	@for FILE in $(SKELETON_FILES); do \
-    echo "    - $$FILE"; \
-    mkdir -p `dirname $(RELEASE_SDK_DOS)/frontend/application/skeleton/$$FILE`; \
-	  $(CMD_RSYNC) application/skeleton/$$FILE `dirname $(RELEASE_SDK_DOS)/frontend/application/skeleton/$$FILE`; \
-  done    
-  
-	@echo "  * Cleaning up target folders..."
-	@$(CMD_NICE) find $(RELEASE_SDK_DOS) $(TEMP_FILES) | xargs rm -rf
-
-	@echo "  * Switching to DOS line endings..."
-	@$(CMD_NICE) find $(RELEASE_SDK_DOS) $(TEXT_FILES) $(ANY2DOS)
-
-	@echo "  * Fixing executables..."
-	@$(CMD_NICE) find $(RELEASE_SDK_DOS) $(EXEC_FILES) | xargs chmod a+rx
-
-	@echo "  * Building skeleton archive..."
-	@rm -f $(RELEASE_SDK_DOS)/frontend/application/skeleton.zip
-	@cd $(RELEASE_SDK_DOS)/frontend/application; $(CMD_NICE) zip -rq skeleton.zip skeleton 
-	@rm -rf $(RELEASE_SDK_DOS)/frontend/application/skeleton
+	@$(MAKE) -s __skeleton-dos
+	@$(CMD_RSYNC) $(SKELETON_TEMP_DOS)/skeleton.zip $(RELEASE_SDK_DOS)/frontend/application/
+	@$(MAKE) -s __skeleton-dos-clean
 
 	@echo "  * Generating zip archive..."
 	@cd release/temp/sdk/dos; rm -f qooxdoo-$(VERSION)-sdk.zip; $(CMD_NICE) zip -rq ../../../qooxdoo-$(VERSION)-sdk.zip qooxdoo-$(VERSION)-sdk
