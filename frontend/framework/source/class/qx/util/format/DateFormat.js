@@ -304,7 +304,6 @@ qx.Proto._initFormatTree = function() {
         if (currChar == "'") {
           if (i+1 >= format.length) {
             // this is the last character
-            currLiteral += currChar;
             i++;
             break;
           }
