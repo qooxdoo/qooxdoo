@@ -294,7 +294,7 @@ qx.Proto._handleMouseMove = function(e)
     var currentDropTarget = this.getDropTarget(e);
 
     // Update action
-    this.setCurrentAction(currentDropTarget ? this._evalNewAction(e.getShiftKey(), e.getCtrlKey(), e.getAltKey()) : null);
+    this.setCurrentAction(currentDropTarget ? this._evalNewAction(e.isShiftPressed(), e.isCtrlPressed(), e.isAltPressed()) : null);
 
     // Fire user events
     this._fireUserEvents(this._dragCache.currentDropWidget, currentDropTarget, e);
@@ -406,7 +406,7 @@ qx.Proto._handleKeyDown = function(e)
       case "Shift":
       case "Control":
       case "Alt":
-        this.setAction(this._evalNewAction(e.getShiftKey(), e.getCtrlKey(), e.getAltKey()));
+        this.setAction(this._evalNewAction(e.isShiftPressed(), e.isCtrlPressed(), e.isAltPressed()));
         this._renderCursor();
 
         e.preventDefault();
@@ -425,7 +425,7 @@ qx.Proto._handleKeyUp = function(e)
   {
     if (this.getCurrentAction() != null)
     {
-      this.setAction(this._evalNewAction(!bShiftPressed && e.getShiftKey(), ! bCtrlPressed && e.getCtrlKey(), !bAltPressed && e.getAltKey()));
+      this.setAction(this._evalNewAction(!bShiftPressed && e.isShiftPressed(), ! bCtrlPressed && e.isCtrlPressed(), !bAltPressed && e.isAltPressed()));
       this._renderCursor();
 
       e.preventDefault();

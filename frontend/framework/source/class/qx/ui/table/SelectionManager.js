@@ -137,7 +137,7 @@ qx.Proto.handleMoveKeyDown = function(index, evt) {
  */
 qx.Proto._handleSelectEvent = function(index, evt) {
   var selectionModel = this.getSelectionModel();
-  if (evt.getShiftKey()) {
+  if (evt.isShiftPressed()) {
     var leadIndex = selectionModel.getLeadSelectionIndex();
     if (index != leadIndex || selectionModel.isSelectionEmpty()) {
       // The lead selection index was changed
