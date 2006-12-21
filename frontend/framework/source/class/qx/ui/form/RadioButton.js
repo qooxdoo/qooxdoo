@@ -125,7 +125,7 @@ qx.Proto._modifyValue = function(propValue, propOldValue, propData)
 
 qx.Proto._onkeydown = function(e)
 {
-  if (e.getKeyIdentifier() == "Enter" && !e.getAltKey()) {
+  if (e.getKeyIdentifier() == "Enter" && !e.isAltPressed()) {
     this.setChecked(true);
   }
 };

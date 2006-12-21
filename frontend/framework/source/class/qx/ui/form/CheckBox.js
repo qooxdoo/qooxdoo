@@ -175,7 +175,7 @@ qx.Proto._onclick = function(e) {
 
 qx.Proto._onkeydown = function(e)
 {
-  if(e.getKeyIdentifier() == "Enter" && !e.getAltKey()) {
+  if(e.getKeyIdentifier() == "Enter" && !e.isAltPressed()) {
     this.toggleChecked();
   }
 };

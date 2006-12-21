@@ -203,7 +203,7 @@ qx.Proto._onkeypress = function(e)
 {
   var vIdentifier = e.getKeyIdentifier();
 
-  if (vIdentifier == "Enter" && !e.getAltKey())
+  if (vIdentifier == "Enter" && !e.isAltPressed())
   {
     this._checkValue(true, false, false);
     this._textfield.selectAll();

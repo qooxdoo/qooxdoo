@@ -89,7 +89,7 @@ qx.Proto._onkeyevent = function(vContainer, vEvent)
   var vCurrent = this.getAttachedWidget().getFocusedChild();
 
   // Support shift key to reverse widget detection order
-  if(!vEvent.getShiftKey()) {
+  if(!vEvent.isShiftPressed()) {
     var vNext = vCurrent ? this.getWidgetAfter(vContainer, vCurrent) : this.getFirstWidget(vContainer);
   } else {
     var vNext = vCurrent ? this.getWidgetBefore(vContainer, vCurrent) : this.getLastWidget(vContainer);

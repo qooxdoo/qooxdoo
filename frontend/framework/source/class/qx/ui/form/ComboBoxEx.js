@@ -875,7 +875,7 @@ qx.Proto._onkeydown = function(e) {
       break;
 
     case "Down":
-      if (e.getAltKey()) {
+      if (e.isAltPressed()) {
         this._togglePopup();
       }
       break;
@@ -887,7 +887,7 @@ qx.Proto._onkeydown = function(e) {
       break;
 
     case "F":
-      if (e.getCtrlKey()) {
+      if (e.isCtrlPressed()) {
         if (this.getAllowSearch()) {
           this.openSearchDialog();
         }
