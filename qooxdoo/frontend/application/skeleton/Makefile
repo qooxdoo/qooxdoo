@@ -49,7 +49,7 @@ APPLICATION_LOCALES = de de_DE en en_US fr fr_FR es es_ES
 #
 
 
-
+APPLICATION_COMPLETE_BUILD = true
 
 
 
