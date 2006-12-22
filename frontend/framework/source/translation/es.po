@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo framework\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-20 09:33+0100\n"
+"POT-Creation-Date: 2006-12-22 11:05+0100\n"
 "PO-Revision-Date: 2006-12-19 00:49-0500\n"
 "Last-Translator: Camilo Aguilar <camilo.aguilar@gmail.com>\n"
 "Language-Team:  <camilo.aguilar@gmail.com>\n"
@@ -224,67 +224,50 @@ msgstr ""
 msgid "key_full_Apps"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorPopup.js:79
-msgid "Automatic"
-msgstr "Automático"
+#~ msgid "Automatic"
+#~ msgstr "Automático"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorPopup.js:133
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:290
-msgid "Preview (Old/New)"
-msgstr "Vista previa (Antes/Después)"
+#~ msgid "Preview (Old/New)"
+#~ msgstr "Vista previa (Antes/Después)"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorPopup.js:159
-msgid "Open ColorSelector"
-msgstr "Abrir selector de color"
+#~ msgid "Open ColorSelector"
+#~ msgstr "Abrir selector de color"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorPopup.js:173
-msgid "Color Selector"
-msgstr "Selector de color"
+#~ msgid "Color Selector"
+#~ msgstr "Selector de color"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:141
-msgid "Cancel"
-msgstr "Cancelar"
+#~ msgid "Cancel"
+#~ msgstr "Cancelar"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:142
-msgid "OK"
-msgstr "Aceptar"
+#~ msgid "OK"
+#~ msgstr "Aceptar"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:234
-msgid "Presets"
-msgstr "Predefinidos"
+#~ msgid "Presets"
+#~ msgstr "Predefinidos"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:278
-msgid "Details"
-msgstr "Detalles"
+#~ msgid "Details"
+#~ msgstr "Detalles"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:323
-msgid "Hex"
-msgstr "Hex"
+#~ msgid "Hex"
+#~ msgstr "Hex"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:346
-msgid "RGB"
-msgstr "RGB"
+#~ msgid "RGB"
+#~ msgstr "RGB"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:374
-msgid "HSB"
-msgstr "HSB"
+#~ msgid "HSB"
+#~ msgstr "HSB"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:50
-msgid "Last year"
-msgstr "Último año"
+#~ msgid "Last year"
+#~ msgstr "Último año"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:51
-msgid "Last month"
-msgstr "Último mes"
+#~ msgid "Last month"
+#~ msgstr "Último mes"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:52
-msgid "Next month"
-msgstr "Mes siguiente"
+#~ msgid "Next month"
+#~ msgstr "Mes siguiente"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:53
-msgid "Next year"
-msgstr "Año siguiente"
+#~ msgid "Next year"
+#~ msgstr "Año siguiente"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooserButton.js:89
-msgid "Choose a date"
-msgstr "Seleccione una fecha"
+#~ msgid "Choose a date"
+#~ msgstr "Seleccione una fecha"
