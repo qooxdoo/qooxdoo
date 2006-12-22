@@ -100,6 +100,8 @@ framework-distclean:
 	@$(CMD_REMOVE) $(FRAMEWORK_CACHE_PATH)
 	@$(CMD_REMOVE) $(FRAMEWORK_LOCALE_CLASS_PATH)
 	@$(CMD_REMOVE) $(FRAMEWORK_TRANSLATION_CLASS_PATH)
+	@$(CMD_REMOVE) application/skeleton.tar.gz
+	@$(CMD_REMOVE) application/skeleton.zip
 
 framework-pretty:
 	@echo 
@@ -130,28 +132,27 @@ SKELETON_TEMP_UNIX = temp-skeleton-unix
 SKELETON_TEMP_DOS = temp-skeleton-dos
 
 SKELETON_FILES = Makefile source/class source/resource source/index.html
-SKELETON_FILES_BUILD = source/class source/resource source/index.html source/script
 
 
-__info-skeleton-unix:
+info-skeleton-unix:
 	@echo 
 	@echo "****************************************************************************"
 	@echo "  CREATING SKELETON (UNIX)"
 	@echo "****************************************************************************"
 
-__info-skeleton-dos:
+info-skeleton-dos:
 	@echo 
 	@echo "****************************************************************************"
 	@echo "  CREATING SKELETON (DOS)"
 	@echo "****************************************************************************"
 
-skeleton-unix: __info-skeleton-unix __skeleton-unix __skeleton-unix-post __skeleton-unix-clean
-skeleton-dos: __info-skeleton-dos __skeleton-dos __skeleton-dos-post __skeleton-dos-clean
+skeleton-unix: info-skeleton-unix exec-skeleton-unix exec-skeleton-unix-post exec-skeleton-unix-clean
+skeleton-dos: info-skeleton-dos exec-skeleton-dos exec-skeleton-dos-post exec-skeleton-dos-clean
 
-__skeleton-unix: __skeleton-unix-collect __skeleton-unix-archive
-__skeleton-dos: __skeleton-dos-collect __skeleton-dos-archive
+exec-skeleton-unix: exec-skeleton-unix-collect exec-skeleton-unix-archive
+exec-skeleton-dos: exec-skeleton-dos-collect exec-skeleton-dos-archive
 
-__skeleton-unix-collect:
+exec-skeleton-unix-collect:
 	@echo "  * Collecting skeleton files..."
 	@for FILE in $(SKELETON_FILES); do \
     	echo "    - $$FILE"; \
@@ -159,7 +160,7 @@ __skeleton-unix-collect:
 	  	$(CMD_RSYNC) application/skeleton/$$FILE `dirname $(SKELETON_TEMP_UNIX)/skeleton/$$FILE`; \
   	done    
 
-__skeleton-unix-archive:
+exec-skeleton-unix-archive:
 	@echo "  * Cleaning up target folders..."
 	@$(CMD_NICE) find $(SKELETON_TEMP_UNIX) $(TEMP_FILES) | xargs rm -rf 
 
@@ -174,7 +175,7 @@ __skeleton-unix-archive:
 	@cd $(SKELETON_TEMP_UNIX); $(CMD_NICE) tar cfzp skeleton.tar.gz skeleton 
 	@rm -rf $(SKELETON_TEMP_UNIX)/skeleton
 
-__skeleton-dos-collect:
+exec-skeleton-dos-collect:
 	@echo "  * Collecting skeleton files..."
 	@for FILE in $(SKELETON_FILES); do \
     	echo "    - $$FILE"; \
@@ -182,7 +183,7 @@ __skeleton-dos-collect:
 	  	$(CMD_RSYNC) application/skeleton/$$FILE `dirname $(SKELETON_TEMP_DOS)/skeleton/$$FILE`; \
   	done    
   
-__skeleton-dos-archive:
+exec-skeleton-dos-archive:
 	@echo "  * Cleaning up target folders..."
 	@$(CMD_NICE) find $(SKELETON_TEMP_DOS) $(TEMP_FILES) | xargs rm -rf
 
@@ -197,22 +198,22 @@ __skeleton-dos-archive:
 	@cd $(SKELETON_TEMP_DOS); $(CMD_NICE) zip -rq skeleton.zip skeleton
 	@rm -rf $(SKELETON_TEMP_DOS)/skeleton
 
-__skeleton-unix-post:
+exec-skeleton-unix-post:
 	@$(CMD_RSYNC) $(SKELETON_TEMP_UNIX)/skeleton.tar.gz application/
 	@echo
 	@echo "  * Created application/skeleton.tar.gz"
 	@echo "    Please extract to a location outside this qooxdoo folder."
 
-__skeleton-dos-post:
+exec-skeleton-dos-post:
 	@$(CMD_RSYNC) $(SKELETON_TEMP_DOS)/skeleton.zip application/
 	@echo
 	@echo "  * Created application/skeleton.zip"
 	@echo "    Please extract to a location outside this qooxdoo folder."
 
-__skeleton-unix-clean:
+exec-skeleton-unix-clean:
 	@$(CMD_REMOVE) $(SKELETON_TEMP_UNIX)
 
-__skeleton-dos-clean:
+exec-skeleton-dos-clean:
 	@$(CMD_REMOVE) $(SKELETON_TEMP_DOS)
 	  
 
@@ -364,9 +365,9 @@ release-sdk-unix:
 	  cp -f $$FILE $(RELEASE_SDK_UNIX)/frontend/$$FILE; \
 	done
 
-	@$(MAKE) -s __skeleton-unix	
+	@$(MAKE) -s exec-skeleton-unix	
 	@$(CMD_RSYNC) $(SKELETON_TEMP_UNIX)/skeleton.tar.gz $(RELEASE_SDK_UNIX)/frontend/application/
-	@$(MAKE) -s __skeleton-unix-clean
+	@$(MAKE) -s exec-skeleton-unix-clean
 	
 	@echo "  * Generating tar archive..."
 	@cd release/temp/sdk/unix; rm -f qooxdoo-$(VERSION)-sdk.tar.gz; $(CMD_NICE) tar cfzp ../../../qooxdoo-$(VERSION)-sdk.tar.gz qooxdoo-$(VERSION)-sdk
@@ -399,9 +400,9 @@ release-sdk-dos:
 	  cp -f $$FILE $(RELEASE_SDK_DOS)/frontend/$$FILE; \
 	done
 
-	@$(MAKE) -s __skeleton-dos
+	@$(MAKE) -s exec-skeleton-dos
 	@$(CMD_RSYNC) $(SKELETON_TEMP_DOS)/skeleton.zip $(RELEASE_SDK_DOS)/frontend/application/
-	@$(MAKE) -s __skeleton-dos-clean
+	@$(MAKE) -s exec-skeleton-dos-clean
 
 	@echo "  * Generating zip archive..."
 	@cd release/temp/sdk/dos; rm -f qooxdoo-$(VERSION)-sdk.zip; $(CMD_NICE) zip -rq ../../../qooxdoo-$(VERSION)-sdk.zip qooxdoo-$(VERSION)-sdk
