@@ -1,3 +1,5 @@
+# Turkish translation
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: feedreader\n"
