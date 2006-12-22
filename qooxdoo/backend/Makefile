@@ -15,8 +15,10 @@ FIX_FILES = -name "*.py" -o -name "*.sh" -o -name SERVER_WRITER_GUIDE -o -name *
 RSYNC = --recursive --archive --delete --exclude .svn
 RSYNC_EXEC = @$(NICE_CALL) rsync $(RSYNC)
 
-UNIX2DOS = | xargs unix2dos > /dev/null 2>&1
-DOS2UNIX = | xargs dos2unix > /dev/null 2>&1
+CMD_PYTHON = python
+
+ANY2DOS = | xargs $(CMD_PYTHON) ../frontend/framework/tool/modules/textutil.py --command any2Dos
+ANY2UNIX = | xargs $(CMD_PYTHON) ../frontend/framework/tool/modules/textutil.py --command any2Unix
 
 FILES = java php SERVER_WRITER_GUIDE
 
@@ -44,7 +46,7 @@ archive:
 	@echo "  * Syncing backend files..."
 	@$(RSYNC_EXEC) $(FILES) $(RELEASE_UNIX)/backend
 	@echo "  * Converting line-breaks..."
-	@$(NICE_CALL) find $(RELEASE_UNIX) $(FIX_FILES) $(DOS2UNIX)
+	@$(NICE_CALL) find $(RELEASE_UNIX) $(FIX_FILES) $(ANY2UNIX)
 
 	@echo
 	@echo "  SYNCHRONISATION OF DOS BUILD RELEASE"
@@ -56,7 +58,7 @@ archive:
 	@echo "  * Syncing backend files..."
 	@$(RSYNC_EXEC) $(FILES) $(RELEASE_DOS)/backend
 	@echo "  * Converting line-breaks..."
-	@$(NICE_CALL) find $(RELEASE_DOS) $(FIX_FILES) $(UNIX2DOS)
+	@$(NICE_CALL) find $(RELEASE_DOS) $(FIX_FILES) $(ANY2DOS)
 
 	@echo
 	@echo "  COMPRESSION OF RELEASE"
