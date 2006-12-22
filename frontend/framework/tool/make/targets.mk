@@ -6,13 +6,14 @@
 # Target definitions
 #
 
-.PHONY: build source api all pretty fix help clean realclean distclean publish debug
+.PHONY: source build api all locales pretty fix help clean distclean publish debug
 
 source: info-source exec-localization exec-translation exec-script-source
 build: info-build exec-localization exec-translation exec-script-build exec-files-build
 api: info-api exec-localization exec-translation exec-api-build exec-api-data exec-files-api
-locales: exec-localization exec-translation
 all: source build api
+
+locales: exec-localization exec-translation
 
 pretty: info-pretty exec-pretty
 fix: info-fix exec-fix
