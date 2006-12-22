@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo framework\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-20 09:44+0100\n"
+"POT-Creation-Date: 2006-12-22 11:05+0100\n"
 "PO-Revision-Date: 2006-12-15 17:22+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -221,69 +221,4 @@ msgstr ""
 
 #: ../../../frontend/framework/source/class/qx/locale/Key.js:112
 msgid "key_full_Apps"
-msgstr ""
-
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorPopup.js:79
-msgid "Automatic"
-msgstr ""
-
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorPopup.js:133
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:290
-msgid "Preview (Old/New)"
-msgstr ""
-
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorPopup.js:159
-msgid "Open ColorSelector"
-msgstr ""
-
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorPopup.js:173
-msgid "Color Selector"
-msgstr ""
-
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:141
-msgid "Cancel"
-msgstr ""
-
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:142
-msgid "OK"
-msgstr ""
-
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:234
-msgid "Presets"
-msgstr ""
-
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:278
-msgid "Details"
-msgstr ""
-
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:323
-msgid "Hex"
-msgstr ""
-
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:346
-msgid "RGB"
-msgstr ""
-
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:374
-msgid "HSB"
-msgstr ""
-
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:50
-msgid "Last year"
-msgstr ""
-
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:51
-msgid "Last month"
-msgstr ""
-
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:52
-msgid "Next month"
-msgstr ""
-
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:53
-msgid "Next year"
-msgstr ""
-
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooserButton.js:89
-msgid "Choose a date"
 msgstr ""
