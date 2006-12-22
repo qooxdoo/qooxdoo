@@ -1,11 +1,8 @@
-# translation of qooxdoo.po to Italiano
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# Italian
 #
-# Alessandro Sala <alessandro.sala@mclink.net>, 2006.
 msgid ""
 msgstr ""
-"Project-Id-Version: qooxdoo\n"
+"Project-Id-Version: qooxdoo framework\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-12-19 17:32+0100\n"
 "PO-Revision-Date: 2006-12-18 22:15+0100\n"
