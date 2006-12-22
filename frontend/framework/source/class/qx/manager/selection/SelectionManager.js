@@ -926,7 +926,7 @@ qx.Proto._onmouseevent = function(oItem, e, bOver)
     }
 
     // a little bit hacky, but seems to be a fast way to detect if we slide to top or to bottom
-    this.scrollItemIntoView((this.getBoundedWidget().getScrollTop() > (this.getItemTop(oItem)-1) ? this.getPrevious(oItem) : this.getNext(oItem)) || oItem);
+    this.scrollItemIntoView((this.getBoundedWidget().getScroll�op() > (this.getItemTop(oItem)-1) ? this.getPrevious(oItem) : this.getNext(oItem)) || oItem);
   }
 
 
