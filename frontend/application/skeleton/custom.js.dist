@@ -1,0 +1,20 @@
+qx={};
+qx.Settings={};
+qx.Settings._customSettings={};
+qx.Settings._customSettings["qx.manager.object.AliasManager"]={};
+qx.Settings._customSettings["qx.manager.object.AliasManager"]["resourceUri"]="./resource/qx";
+qx.Settings._customSettings["custom.Application"]={};
+qx.Settings._customSettings["custom.Application"]["resourceUri"]="./resource";
+
+(
+function(sources) {
+  var includeJs = function(src) {
+	document.write('<script type="text/javascript" src="'+src+'"></script>')
+  };
+  for(var i=0; i<sources.length; ++i) {
+	includeJs(sources[i])
+  }
+}) ([
+"script/qx.js",
+"class/custom/Application.js"
+]);
