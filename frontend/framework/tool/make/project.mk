@@ -284,15 +284,23 @@ COMPUTED_CLASS_URI = --class-uri $(FRAMEWORK_SOURCE_URI)/class \
   --class-uri $(APPLICATION_PAGE_TO_TOPLEVEL)/$(APPLICATION_CLASS_FOLDERNAME) \
   $(APPLICATION_ADDITIONAL_CLASS_URI)
   
-COMPUTED_RESOURCE = --copy-resources \
-  --resource-input $(FRAMEWORK_SOURCE_PATH)/resource \
-  --resource-output $(APPLICATION_BUILD_PATH)/resource/qx \
-  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:$(APPLICATION_PAGE_TO_TOPLEVEL)/resource/qx \
-  --resource-input $(APPLICATION_SOURCE_PATH)/resource \
-  --resource-output $(APPLICATION_BUILD_PATH)/resource/$(APPLICATION_NAMESPACE) \
-  --define-runtime-setting $(APPLICATION_NAMESPACE).Application.resourceUri:$(APPLICATION_PAGE_TO_TOPLEVEL)/resource/$(APPLICATION_NAMESPACE) \
-  $(APPLICATION_ADDITIONAL_RESOURCE)
-
+ifneq ($(APPLICATION_NORESOURCES), true)
+	COMPUTED_RESOURCE = --copy-resources \
+	  --resource-input $(FRAMEWORK_SOURCE_PATH)/resource \
+	  --resource-output $(APPLICATION_BUILD_PATH)/resource/qx \
+	  --define-runtime-setting qx.manager.object.AliasManager.resourceUri:$(APPLICATION_PAGE_TO_TOPLEVEL)/resource/qx \
+	  --resource-input $(APPLICATION_SOURCE_PATH)/resource \
+	  --resource-output $(APPLICATION_BUILD_PATH)/resource/$(APPLICATION_NAMESPACE) \
+	  --define-runtime-setting $(APPLICATION_NAMESPACE).Application.resourceUri:$(APPLICATION_PAGE_TO_TOPLEVEL)/resource/$(APPLICATION_NAMESPACE) \
+	  $(APPLICATION_ADDITIONAL_RESOURCE)
+else
+	COMPUTED_RESOURCE = --copy-resources \
+   	  --resource-input $(FRAMEWORK_SOURCE_PATH)/resource \
+  	  --resource-output $(APPLICATION_BUILD_PATH)/resource/qx \
+  	  --resource-input $(APPLICATION_SOURCE_PATH)/resource \
+  	  --resource-output $(APPLICATION_BUILD_PATH)/resource/$(APPLICATION_NAMESPACE) \
+  	  $(APPLICATION_ADDITIONAL_RESOURCE)
+endif
 
 COMPUTED_FRAMEWORK_LOCALE_INCLUDE := $(APPLICATION_LOCALES:%= --include qx.locale.data.% )  
 COMPUTED_FRAMEWORK_TRANSLATION_INCLUDE := $(APPLICATION_LOCALES:%= --include $(FRAMEWORK_TRANSLATION_CLASS_NAMESPACE).% )  
