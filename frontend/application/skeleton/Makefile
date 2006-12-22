@@ -85,13 +85,13 @@ skeleton-release-build:
 	mkdir -p $(SKELETON_BUILD_DIR)/script
 	cp custom.js.dist $(SKELETON_BUILD_DIR)/script/custom.js
 	cp build/script/qx.js $(SKELETON_BUILD_DIR)/script
-	rsync --recursive --links --safe-links dist/source/ $(SKELETON_BUILD_DIR)
-	rsync --recursive --links --safe-links build/resource/qx $(SKELETON_BUILD_DIR)/resource
+	rsync --recursive --links --exclude .svn --safe-links dist/source/ $(SKELETON_BUILD_DIR)
+	rsync --recursive --links --exclude .svn --safe-links build/resource/qx $(SKELETON_BUILD_DIR)/resource
 	
 skeleton-release-sdk:
 	rm -rf $(SKELETON_SDK_DIR)
 	mkdir -p $(SKELETON_SDK_DIR)
-	rsync --recursive --links --safe-links dist/ $(SKELETON_SDK_DIR)
+	rsync --recursive --links --exclude .svn --safe-links dist/ $(SKELETON_SDK_DIR)
 	
 clean:
 	rm -rf $(SKELETON_BUILD_DIR)
