@@ -5,7 +5,7 @@
 #
 # Path to the folder of your qooxdoo distribution.
 # Can either be 
-# a) a path relative to the location of this Makefile or
+# a) a path relative to the location of this Makefile (preferred) or
 # b) an absolute path starting at the root of your file system
 # Example: If you put the skeleton folder next to the qooxdoo-0.6.4-sdk folder, 
 # you can use the following relative path:
