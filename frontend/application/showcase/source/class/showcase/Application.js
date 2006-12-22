@@ -57,7 +57,7 @@ qx.Proto.main = function(e)
   this._createPage(barView, "List",             "icon/32/view-detailed.png",    this._createListDemo(), "threedface");
   this._createPage(barView, "ListView",         "icon/32/view-multicolumn.png", this._createListViewDemo(), "threedface");
   this._createPage(barView, "Table",            "icon/32/view-multicolumn.png", this._createTableDemo(), "threedface", true);
-  this._createPage(barView, "Localization",     "icon/32/babelfish.png",        this._createLocalizazionDemo(), "threedface");
+  this._createPage(barView, "Localization",     "icon/32/babelfish.png",        this._createLocalizationDemo(), "threedface");
   this._createPage(barView, "Native Window",    "icon/32/display.png",          this._createNativeWindowDemo(), "threedface");
   this._createPage(barView, "Internal Window",  "icon/32/look-and-feel.png",    this._createInternalWindowDemo(), null, true);
   this._createPage(barView, "Themes",           "icon/32/style.png",            this._createThemesDemo());
@@ -850,14 +850,14 @@ qx.Proto._createTableDemo = function() {
 }
 
 
-qx.Proto._createLocalizazionDemo = function() {
+qx.Proto._createLocalizationDemo = function() {
   var main = new qx.ui.layout.CanvasLayout();
   main.set({ width: "auto", height: "auto", marginLeft: 10, marginTop: 10, marginBottom:10, marginRight:10 })
 
   var controls = new qx.ui.layout.VerticalBoxLayout();
   controls.set({top: 40, width: "auto", height: "auto", spacing: 20});
 
-  var locales = qx.locale.Manager.getInstance().getAvailableLocales();
+  var locales = qx.locale.Manager.getInstance().getAvailableLocales().sort();
 
   // locale selection
   var hb2 = new qx.ui.layout.HorizontalBoxLayout(); hb2.set({top:0, left:0, spacing:3});
