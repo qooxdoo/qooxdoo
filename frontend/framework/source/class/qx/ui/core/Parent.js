@@ -220,7 +220,7 @@ qx.Proto._modifyFocusedChild = function(propValue, propOldValue, propData)
 
   if (vBlurValid)
   {
-    if (this.getActiveChild() == propOldValue) {
+    if (this.getActiveChild() == propOldValue && !vFocusValid) {
       this.setActiveChild(null);
     }
 
