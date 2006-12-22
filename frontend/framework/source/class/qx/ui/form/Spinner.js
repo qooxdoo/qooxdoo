@@ -136,15 +136,21 @@ qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "spi
 */
 qx.OO.addProperty({ name : "incrementAmount", type : "number", defaultValue : 1 });
 
+/**
+ * The computed amount to increment on each event (keypress or mousedown).
+ * @private
+ */
+qx.OO.addProperty({ name : "computedIncrementAmount", type : "number", defaultValue : 1 });
+
 /*!
   The amount to increment on each event (keypress or mousedown).
 */
-qx.OO.addProperty({ name : "wheelIncrementAmount", type : "number", defaultValue : 1 });
+qx.OO.addProperty({ name : "wheelComputedIncrementAmount", type : "number", defaultValue : 1 });
 
 /*!
   The amount to increment on each pageup / pagedown keypress
 */
-qx.OO.addProperty({ name : "pageIncrementAmount", type : "number", defaultValue : 10 });
+qx.OO.addProperty({ name : "pageComputedIncrementAmount", type : "number", defaultValue : 10 });
 
 /*!
   The current value of the interval (this should be used internally only).
@@ -170,6 +176,13 @@ qx.OO.addProperty({ name : "timerDecrease", type : "number", defaultValue : 2 })
   If minTimer was reached, how much the amount of each interval should growth (in relation to the previous interval).
 */
 qx.OO.addProperty({ name : "amountGrowth", type : "number", defaultValue : 1.01 });
+
+
+qx.Proto._modifyIncrementAmount = function(propValue, propOldValue, propData)
+{
+  this.setComputedIncrementAmount(propValue);
+  return true;
+};
 
 
 
@@ -356,7 +369,7 @@ qx.Proto._onmouseup = function(e)
 
 qx.Proto._onmousewheel = function(e)
 {
-  this._manager.setValue(this._manager.getValue() + this.getWheelIncrementAmount() * e.getWheelDelta());
+  this._manager.setValue(this._manager.getValue() + this.getWheelComputedIncrementAmount() * e.getWheelDelta());
   this._textfield.selectAll();
 }
 
@@ -478,7 +491,7 @@ qx.Proto._oninterval = function(e)
   else
   {
     if (this.getInterval() == this.getMinTimer()) {
-      this.setIncrementAmount(this.getAmountGrowth() * this.getIncrementAmount());
+      this.setComputedIncrementAmount(this.getAmountGrowth() * this.getComputedIncrementAmount());
     }
 
     this._increment();
@@ -604,16 +617,16 @@ qx.Proto._checkValue = function(acceptEmpty, acceptEdit)
 }
 
 qx.Proto._increment = function() {
-  this._manager.setValue(this._manager.getValue() + ((this._intervalIncrease ? 1 : - 1) * this.getIncrementAmount()));
+  this._manager.setValue(this._manager.getValue() + ((this._intervalIncrease ? 1 : - 1) * this.getComputedIncrementAmount()));
 }
 
 qx.Proto._pageIncrement = function() {
-  this._manager.setValue(this._manager.getValue() + ((this._intervalIncrease ? 1 : - 1) * this.getPageIncrementAmount()));
+  this._manager.setValue(this._manager.getValue() + ((this._intervalIncrease ? 1 : - 1) * this.getPageComputedIncrementAmount()));
 }
 
 qx.Proto._resetIncrements = function()
 {
-  this.resetIncrementAmount();
+  this.setComputedIncrementAmount(this.getIncrementAmount());
   this.resetInterval();
 }
 
