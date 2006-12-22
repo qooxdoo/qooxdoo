@@ -34,7 +34,7 @@ APPLICATION_FILES = index.html
 #
 # Locales to include
 #
-APPLICATION_LOCALES = de de_DE en en_US fr fr_FR es es_ES
+APPLICATION_LOCALES = de de_DE en en_US fr fr_FR es es_ES it
 
 #
 # full locales used for the online version
