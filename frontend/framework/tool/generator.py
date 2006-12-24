@@ -78,7 +78,7 @@ def getparser():
   parser.add_option("--add-new-lines", action="store_true", dest="addNewLines", default=False, help="Keep newlines in compiled files.")
 
   # Options for source version
-  parser.add_option("--source-loader-type", action="store", dest="sourceLoaderType", metavar="TYPE", choices=("auto", "docwrite", "domappend"), default="docwrite", help="Generated source loader type: auto, docwrite, domappend [default: %default].")
+  parser.add_option("--source-loader-type", action="store", dest="sourceLoaderType", metavar="TYPE", choices=("auto", "docwrite", "xhrequest"), default="auto", help="Generated source loader type: auto, docwrite, xhrequest [default: %default].")
 
   # Options for compiled version
   parser.add_option("--add-file-ids", action="store_true", dest="addFileIds", default=False, help="Add file IDs to compiled output.")
@@ -925,8 +925,8 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     # HTML-only: create <script> tags using document.write()
     jsLoaders["docwrite"] = """var includeJs=function(src){document.write('<script type="text/javascript" src="'+src+'"></script>')};""" 
 
-    # XHTML-compatible: create and append DOM script nodes 
-    jsLoaders["domappend"] = """if(document.createElementNS&&parentNode.namespaceURI)""" + srcEol + """var includeJs=function(src){var js=document.createElementNS(parentNode.namespaceURI,"script");js.type="text/javascript";js.src=src;parentNode.appendChild(js)};""" + srcEol + """else """ + srcEol + """var includeJs=function(src){var js=document.createElement("script");js.type="text/javascript";js.src=src;parentNode.appendChild(js)};"""
+    # XHTML-compatible: load scripts using XMLHttpRequest and eval() them
+    jsLoaders["xhrequest"] = """{var xhr=null;if(window.XMLHttpRequest)xhr=new XMLHttpRequest;else if(window.ActiveXObject){var s=["MSXML2.XMLHTTP.3.0","MSXML2.XMLHTTP.6.0","MSXML2.XMLHTTP","Microsoft.XMLHTTP"];for(var i=0;i<s.length;++i)try{xhr=new ActiveXObject(s[i])}catch(e){}};""" + srcEol + """if(!xhr){alert("Sorry, you need support for XMLHttpRequest in order to\\nload source builds into XHTML documents.");return}""" + srcEol + """var includeJs=function(src){xhr.open("GET", src, false);xhr.send(null);window.eval(xhr.responseText)}}"""
 
     # Source loader closure
     sourceOutput += """(function(sources){""" + srcEol
@@ -937,46 +937,24 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     # Detect the node we are being called from
     sourceOutput += """var parentNode=document.getElementsByTagName('body')[0]||document.getElementsByTagName('head')[0];""" + srcEol
 
-    # Autoselect a loader based on client engine
+    # Autoselect a loader based on document type
     if options.sourceLoaderType == "auto":
-      sourceOutput += """var clientEngine=null;""" + srcEol
 
-      # Opera
-      sourceOutput += """if(window.opera&&/Opera[\s\/]([0-9\.]*)/.test(navigator.userAgent))clientEngine="opera";else """ + srcEol
+		 # Detect if document type is XHTML
+      sourceOutput += """var isXHTML=false;""" + srcEol
+      sourceOutput += """if(document.doctype&&document.doctype.publicId.match(/-\/\/W3C\/\/DTD XHTML/))isXHTML=true;""" + srcEol
+      sourceOutput += """else if(parentNode.namespaceURI&&parentNode.namespaceURI.match(/\/xhtml/))isXHTML=true;""" + srcEol
 
-      # Khtml
-      sourceOutput += """if(typeof navigator.vendor==="string"&&navigator.vendor==="KDE"&&/KHTML\/([0-9-\.]*)/.test(navigator.userAgent))clientEngine="khtml";else """ + srcEol
-
-      # Webkit
-      sourceOutput += """if(navigator.userAgent.indexOf("AppleWebKit")!=-1&&/AppleWebKit\/([0-9-\.]*)/.test(navigator.userAgent))clientEngine="webkit";else """ + srcEol
-
-      # Gecko
-      sourceOutput += """if(window.controllers&&typeof navigator.product==="string"&&navigator.product==="Gecko"&&/rv\:([^\);]+)(\)|;)/.test(navigator.userAgent))clientEngine="gecko";else """ + srcEol
-
-      # MShtml
-      sourceOutput += """if(/MSIE\s+([^\);]+)(\)|;)/.test(navigator.userAgent))clientEngine="mshtml";""" + srcEol
-
-      # Select the loader based on the engine
-      sourceOutput += """switch(clientEngine){""" + srcEol
-
-      # Use DOM
-      sourceOutput += """case "opera": case "gecko":""" + srcEol
-      sourceOutput += jsLoaders["domappend"] + srcEol
-      sourceOutput += """break;""" + srcEol
-
-      # Use document.write()
-      sourceOutput += """case "webkit": case "khtml": case "mshtml": default:""" + srcEol
-      sourceOutput += jsLoaders["docwrite"] + srcEol
-      sourceOutput += """break;""" + srcEol
-
-      sourceOutput += """}""" + srcEol
+      # Select the loader based on document type
+      sourceOutput += """if(isXHTML)""" + jsLoaders["xhrequest"]+ srcEol
+      sourceOutput += """else """ + jsLoaders["docwrite"] + srcEol
 
     # Use a fixed loader
     else:
       sourceOutput += jsLoaders[options.sourceLoaderType] + srcEol
 
     # Loading loop
-    sourceOutput += """for(var i=0;i<sources.length;++i)includeJs(sources[i])})""" + srcEol
+    sourceOutput += """for(var i=0;i<sources.length;++i)includeJs(sources[i])""" + srcEol + """})"""
 
     sources = ""
     for fileId in sortedIncludeList:
