@@ -190,6 +190,55 @@ qx.Proto.addState = function(state)
 
 
 /**
+ * Replace a state in the finite state machine.  This is useful if initially
+ * "dummy" states are created which load the real state table for a series of
+ * operations (and possibly also load the gui associated with the new states
+ * at the same time).  Having portions of the finite state machine and their
+ * associated gui pages loaded at run time can help prevent long delays at
+ * application start-up time.
+ *
+ * @param state {qx.util.fsm.State}
+ *   An object of class qx.util.fsm.State representing a state
+ *   which is to be a part of this finite state machine.
+ *
+ * @param bDispose {boolean}
+ *   If <i>true</i>, then dispose the old state object.  If <i>false</i>, the
+ *   old state object is returned for disposing by the caller.
+ *
+ * @return {Object}
+ *   The old state object if it was not disposed; otherwise null.
+ */
+qx.Proto.replaceState = function(state, bDispose)
+{
+  // Ensure that we got valid state info
+  if (! state instanceof qx.util.fsm.State)
+  {
+    throw new Error("Invalid state: not an instance of " +
+                    "qx.util.fsm.State");
+  }
+
+  // Retrieve the name of this state
+  var stateName = state.getName();
+
+  // Save the old state object, so we can return it to be disposed
+  var oldState = this._states[stateName];
+
+  // Replace the old state with the new state object.
+  this._states[stateName] = state;
+
+  // Did they request that the old state be disposed?
+  if (bDispose)
+  {
+    // Yup.  Mark it to be disposed.
+    oldState._needDispose;
+  }
+
+  return oldState;
+};
+
+
+
+/**
  * Add an object (typically a widget) that is to be accessed during state
  * transitions, to the finite state machine.
  *
@@ -427,6 +476,68 @@ qx.Proto.postponeEvent = function(event)
 
 
 /**
+ * Copy an event
+ *
+ * @param event {qx.event.type.Event}
+ *   The event to be copied
+ *
+ * @return {qx.event.type.Event}
+ *   The new copy of the provided event
+ */
+qx.Proto.copyEvent = function(event)
+{
+  var e = { };
+  for (var prop in event)
+  {
+    e[prop] = event[prop];
+  }
+
+  return e;
+};
+
+
+/**
+ * Enqueue an event for processing
+ *
+ * @param event {qx.event.type.Event}
+ *   The event to be enqueued
+ *
+ * @param bAddAtHead {boolean}
+ *   If <i>true</i>, put the event at the head of the queue for immediate
+ *   processing.  If <i>false</i>, place the event at the tail of the queue so
+ *   that it receives in-order processing.
+ */
+qx.Proto.enqueueEvent = function(event, bAddAtHead)
+{
+  // Add the event to the event queue
+  if (bAddAtHead)
+  {
+    // Put event at the head of the queue 
+    this._eventQueue.push(event);
+  }
+  else
+  {
+    // Put event at the tail of the queue
+    this._eventQueue.unshift(event);
+  }
+
+  if (qx.Settings.getValueOfClass("qx.util.fsm.FiniteStateMachine",
+                                  "debugFlags") &
+      qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS)
+  {
+    if (bAddAtHead)
+    {
+      this.debug(this.getName() + ": Pushed event: " + event.getType());
+    }
+    else
+    {
+      this.debug(this.getName() + ": Queued event: " + event.getType());
+    }
+  }
+};
+
+
+/**
  * Event listener for all event types in the finite state machine
  *
  * @param event {qx.event.type.Event}
@@ -439,21 +550,10 @@ qx.Proto.eventListener = function(event)
   // event dispatcher to free the source event upon our return, so we'll clone
   // it and enqueue our clone.  The source event can then be disposed upon our
   // return.
-  var e = { };
-  for (var prop in event)
-  {
-    e[prop] = event[prop];
-  }
+  var e = this.copyEvent(event);
 
-  // Add the event to the event queue
-  this._eventQueue.unshift(e);
-
-  if (qx.Settings.getValueOfClass("qx.util.fsm.FiniteStateMachine",
-                                  "debugFlags") &
-      qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS)
-  {
-    this.debug(this.getName() + ": Queued event: " + e.getType());
-  }
+  // Enqueue the new event on the tail of the queue
+  this.enqueueEvent(e, false);
 
   // Process events
   this._processEvents();
@@ -738,7 +838,14 @@ qx.Proto._run = function(event)
     {
       this.debug(this.getName() + "#" + thisState + "#autoActionsAfterOnexit");
     }
-    currentState.getAutoActionsAfterOnentry()(this);
+    currentState.getAutoActionsAfterOnexit()(this);
+
+    // If this state has been replaced and we're supposed to dispose it...
+    if (currentState._needDispose)
+    {
+      // ... then dispose it now that it's no longer in use
+      currentState.dispose();
+    }
 
     // Reset currentState to the new state object
     currentState = this._states[this.getNextState()];
