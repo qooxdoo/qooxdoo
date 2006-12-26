@@ -142,7 +142,7 @@ qx.OO.addProperty(
   {
     name         : "maxSavedStates",
     type         : "number",
-    defaultValue : 5
+    defaultValue : 2
   });
 
 /*
@@ -353,12 +353,12 @@ qx.Proto.getObject = function(friendlyName)
  *
  * @return {string}
  *   If the object has been previously registered via {@see #addObject}, then
- *   a reference to the object is returned; otherwise, null.
+ *   the friendly name of the object is returned; otherwise, null.
  */
 qx.Proto.getFriendlyName = function(obj)
 {
   var hash = obj.toHashCode();
-  return hash ? this.getObject(this._hashToFriendly[hash]) : null;
+  return hash ? this._hashToFriendly[hash] : null;
 };
 
 
@@ -384,6 +384,32 @@ qx.Proto.getGroupObjects = function(groupName)
 
   return a;
 };
+
+
+/**
+ * Display all of the saved objects and their reverse mappings.
+ */
+qx.Proto.displayAllObjects = function()
+{
+  for (var friendlyName in this._friendlyToHash)
+  {
+    var hash = this._friendlyToHash[friendlyName];
+    var obj = this.getObject(friendlyName);
+    this.debug(friendlyName +
+               " => " +
+               hash);
+    this.debug("  " + hash +
+               " => " +
+               this._hashToFriendly[hash]);
+    this.debug("  " + friendlyName +
+               " => " +
+               this.getObject(friendlyName));
+    this.debug("  " + this.getObject(friendlyName) +
+               " => " +
+               this.getFriendlyName(obj));
+  }
+};
+
 
 /**
  * Start (or restart, after it has terminated) the finite state machine from
@@ -438,25 +464,39 @@ qx.Proto.start = function()
 
 
 /**
- * Save the current state on the saved-state stack.  A future transition can
- * then provide, as its nextState value, the class constant:
+ * Save the current or previous state on the saved-state stack.  A future
+ * transition can then provide, as its nextState value, the class constant:
  *
  *   qx.util.fsm.FiniteStateMachine.StateChange.POP_STATE_STACK
  *
  * which will cause the next state to be whatever is at the top of the
  * saved-state stack, and remove that top element from the saved-state stack.
+ *
+ * @param bCurrent {boolean}
+ *   When <i>true</i>, then push the current state onto the stack.  This might
+ *   be used in a transition, before the state has changed.  When
+ *   <i>false</i>, then push the previous state onto the stack.  This might be
+ *   used in an on entry function to save the previous state to return to.
  */
-qx.Proto.pushState = function()
+qx.Proto.pushState = function(bCurrent)
 {
   // See if there's room on the state stack for a new state
-  if (this.getMaxSavedStates() >= this._savedStates.length)
+  if (this._savedStates.length >= this.getMaxSavedStates())
   {
     // Nope.  Programmer error.
     throw new Error("Saved-state stack is full");
   }
 
-  // Push the current state onto the saved-state stack
-  this._savedStates.push(this.getState());
+  if (bCurrent)
+  {
+    // Push the current state onto the saved-state stack
+    this._savedStates.push(this.getState());
+  }
+  else
+  {
+    // Push the previous state onto the saved-state stack
+    this._savedStates.push(this.getPreviousState());
+  }
 };
 
 
@@ -692,6 +732,7 @@ qx.Proto._run = function(event)
     action = e;
   }
 
+  
   switch(action)
   {
     case qx.util.fsm.FiniteStateMachine.EventHandling.PREDICATE:
@@ -778,14 +819,14 @@ qx.Proto._run = function(event)
 
       case qx.util.fsm.FiniteStateMachine.StateChange.POP_STATE_STACK:
         // Switch to the state at the top of the state stack.
-        if (this._stateStack.length == 0)
+        if (this._savedStates.length == 0)
         {
           throw new Error("Attempt to transition to POP_STATE_STACK " +
                           "while state stack is empty.");
         }
 
         // Pop the state stack to retrieve the state to transition to
-        nextState = this._stateStack.pop();
+        nextState = this._savedStates.pop();
         this.setNextState(nextState);
         break;
 
