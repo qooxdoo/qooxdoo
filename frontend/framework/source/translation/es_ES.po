@@ -72,11 +72,11 @@ msgstr "Abajo"
 
 #: ../../../frontend/framework/source/class/qx/locale/Key.js:73
 msgid "key_short_PageUp"
-msgstr "RePag"
+msgstr "RePág"
 
 #: ../../../frontend/framework/source/class/qx/locale/Key.js:74
 msgid "key_short_PageDown"
-msgstr "AvPag"
+msgstr "AvPág"
 
 #: ../../../frontend/framework/source/class/qx/locale/Key.js:75
 msgid "key_short_End"
