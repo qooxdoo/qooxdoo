@@ -40,7 +40,7 @@
  * <li>Automatically calculating needed width</li>
  * <li>Popup list always shows full contents, and can be wider than text field</li>
  * <li>Search values through popup dialog</li>
- * <li>Internationalization support of messages (through custom settings)</li>
+ * <li>Internationalization support of messages</li>
  * </ul>
  * <p>Pending features:</p>
  * <ul>
@@ -62,7 +62,7 @@ qx.OO.defineClass('qx.ui.form.ComboBoxEx', qx.ui.layout.HorizontalBoxLayout, fun
   // ************************************************************************
   //   LIST
   // ************************************************************************
-  this._createList([ this._getComboSetting('idHeader'), this._getComboSetting('descriptionHeader') ]);
+  this._createList([ this.tr("ID"), this.tr("Description") ]);
 
   // ************************************************************************
   //   FIELD
@@ -119,19 +119,6 @@ qx.OO.defineClass('qx.ui.form.ComboBoxEx', qx.ui.layout.HorizontalBoxLayout, fun
   // ************************************************************************
   this._popup.addEventListener("appear", this._onpopupappear, this);
 });
-
-/*
----------------------------------------------------------------------------
-  LOCALIZATION SUPPORT
----------------------------------------------------------------------------
-*/
-
-qx.Settings.setDefault('titleSearch', 'Search items in list');
-qx.Settings.setDefault('toolTipSearchNext', 'Search next occurrence');
-qx.Settings.setDefault('idHeader', 'ID');
-qx.Settings.setDefault('descriptionHeader', 'Description');
-qx.Settings.setDefault('caseSensitiveCaption', 'Case sensitive');
-
 
 /*
 ---------------------------------------------------------------------------
@@ -628,7 +615,7 @@ qx.Proto.openSearchDialog = function() {
   });
 
   //###checkCase
-  var checkCase = new qx.ui.form.CheckBox(this._getComboSetting('caseSensitiveCaption'));
+  var checkCase = new qx.ui.form.CheckBox(this.tr("Case sensitive"));
   checkCase.set({
     horizontalAlign: 'center',
     marginBottom: 4
@@ -665,7 +652,7 @@ qx.Proto.openSearchDialog = function() {
   //###buttons
   var butNext = new qx.ui.form.Button('', 'icon/16/find.png');
   butNext.set({
-    toolTip: new qx.ui.popup.ToolTip(this._getComboSetting('toolTipSearchNext'))
+    toolTip: new qx.ui.popup.ToolTip(this.tr("Search next occurrence"))
   });
   butNext.addEventListener("execute", function() {
     startIndex = (this.getSelectedIndex()+1) % sel.length;
@@ -702,7 +689,7 @@ qx.Proto.openSearchDialog = function() {
   hbox.add(vbox, butBox);
 
   //###Window
-  var win = new qx.ui.window.Window(this._getComboSetting('titleSearch'), 'icon/16/find.png');
+  var win = new qx.ui.window.Window(this.tr("Search items in list"), 'icon/16/find.png');
   win.add(hbox);
   win.positionRelativeTo(this);
   win.set({
