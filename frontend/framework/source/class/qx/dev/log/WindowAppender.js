@@ -36,6 +36,8 @@ function(name) {
 
   this._id = qx.dev.log.WindowAppender.register(this);
   this._name = (name == null) ? "qx_log" : name;
+  
+  this._errorsPreventingAutoCloseCount = 0;
 
   this._logWindowOpened = false;
 });
@@ -49,6 +51,15 @@ qx.OO.addProperty({ name:"maxMessages", type:"number", defaultValue:500 });
 
 /** Whether the window should appear under the main window. */
 qx.OO.addProperty({ name:"popUnder", type:"boolean", defaultValue:false, allowNull:false });
+
+/** Whether the window should automatically be closed when its creating page is unloaded and
+ * errors have been logged. Note that errors that have been logged before this property has been
+ * turned off will be ignored. Warning: Turning this off may create a memory hole because the disposer
+ * of this class will auto-close the window, i. e. it may stay open after dispose(), still holding 
+ * memory. However, for diagnostics it is often more important to get information about errors 
+ * than to save memory.
+ */
+qx.OO.addProperty({ name:"autoCloseWithErrors", type:"boolean", defaultValue:true, allowNull:false });
 
 
 /**
@@ -103,7 +114,7 @@ qx.Proto.openWindow = function() {
   //     (at least in Firefox, but maybe in IE, too)
   logDocument.open();
   logDocument.write("<html><head><title>" + this._name + "</title></head>"
-    + '<body onload="qx = opener.qx;" onunload="try{qx.dev.log.WindowAppender._registeredAppenders[' + this._id + '].closeWindow()}catch(e){}">'
+    + '<body onload="qx = opener.qx;" onunload="try{qx.dev.log.WindowAppender._registeredAppenders[' + this._id + ']._autoCloseWindow()}catch(e){}">'
     + '<pre id="log" wrap="wrap" style="font-size:11"></pre></body></html>');
   logDocument.close();
 
@@ -116,7 +127,7 @@ qx.Proto.openWindow = function() {
     }
     this._logEventQueue = null;
   }
-}
+};
 
 
 /**
@@ -129,7 +140,34 @@ qx.Proto.closeWindow = function() {
     this._logElem = null;
     this._logWindowOpened = false;
   }
-}
+};
+
+/**
+ * Called when the window should be automatically closed (because the page that opened 
+ * is is unloaded). Will only close the window if the autoClose***-Properties allow it
+ */
+qx.Proto._autoCloseWindow = function() {
+  if (this.getAutoCloseWithErrors() || this._errorsPreventingAutoCloseCount == 0){
+    this.closeWindow();
+  } else  {
+    //Show message why auto-close has failed    
+    this._showMessageInLog("Log window message: <b>Note: " + this._errorsPreventingAutoCloseCount
+                        + " errors have been recorded, keeping log window open.</b>");
+  }
+};
+
+/**
+ * Appends a line to the log showing the given text
+ * @param Msg {string} message to show, may be HTML
+ */
+qx.Proto._showMessageInLog = function(msg) {
+  //Create dummy log event and use appendLogEvent()
+  //Reason is that it is rather complicated to get something into the log
+  //window when it is not already open -> reuse the existing code
+  //which does event queuing in such a case
+  var dummyEvent = {message: msg, isDummyEventForMessage : true};
+  this.appendLogEvent(dummyEvent);
+};
 
 
 // overridden
@@ -150,13 +188,20 @@ qx.Proto.appendLogEvent = function(evt) {
     this._logEventQueue.push(evt);
   } else {
     var divElem = this._logWindow.document.createElement("div");
-    if (evt.level == qx.dev.log.Logger.LEVEL_ERROR) {
+    if (evt.level >= qx.dev.log.Logger.LEVEL_ERROR) {
       divElem.style.backgroundColor = "#FFEEEE";
+      if (!this.getAutoCloseWithErrors()){
+        this._errorsPreventingAutoCloseCount += 1;
+      }
     } else if (evt.level == qx.dev.log.Logger.LEVEL_DEBUG) {
       divElem.style.color = "gray";
     }
-    divElem.innerHTML = this.formatLogEvent(evt).replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;").replace(/  /g, " &#160;").replace(/[\n]/g, "<br>");
+    if (evt.isDummyEventForMessage){
+      divElem.innerHTML = evt.message;
+    } else {
+      divElem.innerHTML = this.formatLogEvent(evt).replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;").replace(/  /g, " &#160;").replace(/[\n]/g, "<br>");
+    }
     this._logElem.appendChild(divElem);
 
     while (this._logElem.childNodes.length > this.getMaxMessages()) {
@@ -179,6 +224,21 @@ qx.Proto.appendLogEvent = function(evt) {
   }
 }
 
+qx.Proto._modifyAutoCloseWithErrors = function(propValue, propOldValue, propData){
+  if (!propValue && propOldValue){
+    this._errorsPreventingAutoCloseCount = 0;
+    
+    //Show message in log so user can see which errors have been counted
+    this._showMessageInLog("Log window message: Starting error recording, any errors below this line will prevent the log window from closing");
+    
+  } else if (propValue && !propOldValue){
+    //Show message in log so user can see which errors have been counted
+    this._showMessageInLog("Log window message: Stopping error recording, discarding " + this._errorsPreventingAutoCloseCount + " errors.");  
+  }
+  return true;
+}
+
+
 
 // overridden
 qx.Proto.dispose = function() {
@@ -186,7 +246,7 @@ qx.Proto.dispose = function() {
     return true;
   }
 
-  this.closeWindow();
+  this._autoCloseWindow();
 
   return qx.dev.log.Appender.prototype.dispose.call(this);
 }
