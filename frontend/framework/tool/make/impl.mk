@@ -394,7 +394,7 @@ info-clean:
 info-distclean:
 	@echo 
 	@echo "****************************************************************************"
-	@echo "  CLEANING UP $(APPLICATION_MAKE_TITLE) (FULL)"
+	@echo "  CLEANING UP $(APPLICATION_MAKE_TITLE) (COMPLETELY)"
 	@echo "****************************************************************************"
 
 info-publish:
