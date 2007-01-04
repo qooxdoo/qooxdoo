@@ -85,13 +85,16 @@ error:
 # EXTENSIONS
 ####################################################################################
 
-source:	
+source:	exec-source-data
+build: exec-build-data
+	
+exec-source-data:	
 	@$(CMD_GENERATOR) \
 	  --generate-api-documentation \
 	  --api-documentation-json-file $(APPLICATION_PATH)/source/script/apidata.js \
 	  --class-path $(FRAMEWORK_SOURCE_PATH)/class
-	  
-build:	
+
+exec-build-data:	
 	@$(CMD_GENERATOR) \
 	  --generate-api-documentation \
 	  --api-documentation-json-file $(APPLICATION_PATH)/build/script/apidata.js \
