@@ -91,6 +91,7 @@ qx.Class._lastHashCode = 0;
 qx.Class._db = [];
 qx.Class._disposeAll = false;
 
+
 /**
  * Generate an unique key for the given object and return it.
  * Sets object._hashCode to the generated key.
@@ -109,14 +110,14 @@ qx.Class.toHashCode = function(o)
 
 
 /**
- * Class function which returns an object given its hash code
+ * Class function which returns an object given its db key
  *
- * @param hash {string} hash code of an object
+ * @param hash {string} db key an object
  *
  * @returns {Object} the object whose hash is specified
  */
-qx.Class.fromHashCode = function(hash) {
-  return qx.core.Object._db[hash];
+qx.Class.fromDbKey = function(key) {
+  return qx.core.Object._db[key];
 }
 
 
