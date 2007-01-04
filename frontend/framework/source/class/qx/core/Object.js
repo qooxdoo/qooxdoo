@@ -25,23 +25,24 @@
 ************************************************************************ */
 
 /**
- * The qooxdoo base object. All qooxdoo classes extend this one
+ * The qooxdoo root class. All other classes are direct or indirect subclasses of this one.
  *
- * This class contains functions for:
+ * This class contains methods for:
  * <ul>
- *   <li> logging </li>
- *   <li> common getter/setter </li>
+ *   <li> object management (creation and destruction) </li>
+ *   <li> logging & debugging </li>
+ *   <li> generic getter/setter </li>
  *   <li> user data </li>
- *   <li> object destruction </li>
+ *   <li> settings </li>
  *   <li> internationalization </li>
  * </ul>
  *
- * @param vAutoDispose {boolean ? true} wether the object should be disposed automatically by qooxdoo
+ * @param vAutoDispose {boolean ? true} whether the object should be automatically disposed
  */
 qx.OO.defineClass("qx.core.Object", Object,
 function(vAutoDispose)
 {
-  this._hashCode = qx.core.Object._lastHashCode++;
+  this._hashCode = qx.core.Object._availableHashCode++;
 
   if (vAutoDispose !== false)
   {
@@ -87,17 +88,17 @@ qx.Settings.setDefault("enableDisposerDebug", false);
    Class data, properties and methods
 ************************************************************************ */
 
-qx.Class._lastHashCode = 0;
+qx.Class._availableHashCode = 0;
 qx.Class._db = [];
 qx.Class._disposeAll = false;
 
 
 /**
- * Generate an unique key for the given object and return it.
- * Sets object._hashCode to the generated key.
+ * Returns an unique identifier for the given object. If such an identifier
+ * does not yet exist, create it.
  *
  * @param o {Object}
- * @return {int} unique key for the given object
+ * @return {int} unique identifier for the given object
  */
 qx.Class.toHashCode = function(o)
 {
@@ -105,15 +106,15 @@ qx.Class.toHashCode = function(o)
     return o._hashCode;
   }
 
-  return o._hashCode = qx.core.Object._lastHashCode++;
+  return o._hashCode = qx.core.Object._availableHashCode++;
 }
 
 
 /**
  * Destructor. This method is called by qooxdoo on object destruction.
  *
- * Any class that holds ressources like links to DOM nodes must overwrite
- * this method and free theese ressources.
+ * Any class that holds resources like links to DOM nodes must overwrite
+ * this method and free these resources.
  */
 qx.Class.dispose = function()
 {
