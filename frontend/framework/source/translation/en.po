@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo framework\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-22 11:56+0100\n"
+"POT-Creation-Date: 2007-01-04 10:33+0100\n"
 "PO-Revision-Date: 2006-12-15 17:22+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -286,4 +286,24 @@ msgstr ""
 
 #: ../../../frontend/framework/source/class/qx/ui/component/DateChooserButton.js:89
 msgid "Choose a date"
+msgstr ""
+
+#: ../../../frontend/framework/source/class/qx/ui/form/ComboBoxEx.js:65
+msgid "Description"
+msgstr ""
+
+#: ../../../frontend/framework/source/class/qx/ui/form/ComboBoxEx.js:65
+msgid "ID"
+msgstr ""
+
+#: ../../../frontend/framework/source/class/qx/ui/form/ComboBoxEx.js:618
+msgid "Case sensitive"
+msgstr ""
+
+#: ../../../frontend/framework/source/class/qx/ui/form/ComboBoxEx.js:655
+msgid "Search next occurrence"
+msgstr ""
+
+#: ../../../frontend/framework/source/class/qx/ui/form/ComboBoxEx.js:692
+msgid "Search items in list"
 msgstr ""
