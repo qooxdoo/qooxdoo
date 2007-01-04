@@ -273,7 +273,7 @@ COMPUTED_API_INCLUDE =
 
 
 ###################################################################################
-# PROCESSING PROJECT SETTINGS
+# PROCESSING APPLICATION SETTINGS
 ###################################################################################
 
 COMPUTED_CLASS_PATH = --class-path $(FRAMEWORK_SOURCE_PATH)/class \
