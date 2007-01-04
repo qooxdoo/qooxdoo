@@ -71,21 +71,21 @@ qx.Clazz._registry = { "qx.Clazz" : qx.Clazz };
  * @type object
  * @name define
  * @access public
- * @param fullname {String} class name
- * @param definition {Map,null} definition structure
- * @param definition.extend {Class,null} super class
- * @param definition.implement {List,null} list of interfaces that need to be implemented
- * @param definition.include {List,null} list of mixins to include
- * @param definition.settings {Map,null} hash of settings for this class
- * @param definition.init {Function,null} constructor method to run on each initialization
- * @param definition.statics {Map,null} hash of static properties and methods ("class members")
- * @param definition.properties {Map,null} hash of properties with generated setters and getters
- * @param definition.properties_ng {Map,null} hash of next-gen properties with generated setters and getters
- * @param definition.members {Map,null} hash of regular properties and methods ("instance members")
- * @param definition.defer {Function,null} function to be called for post-processing
- * @param definition.isAbstract {Boolean,false} is abstract class
- * @param definition.isSingleton {Boolean,false} is singleton class
- * @param definition.events {List,null} list of events the class is able to fire
+ * @param fullname {string} class name
+ * @param definition {Map ? null} definition structure
+ * @param definition.extend {Function ? null} super class
+ * @param definition.implement {Array ? null} list of interfaces that need to be implemented
+ * @param definition.include {Array ? null} list of mixins to include
+ * @param definition.settings {Map ? null} hash of settings for this class
+ * @param definition.init {Function ? null} constructor method to run on each initialization
+ * @param definition.statics {Map ? null} hash of static properties and methods ("class members")
+ * @param definition.properties {Map ? null} hash of properties with generated setters and getters
+ * @param definition.properties_ng {Map ? null} hash of next-gen properties with generated setters and getters
+ * @param definition.members {Map ? null} hash of regular properties and methods ("instance members")
+ * @param definition.defer {Function ? null} function to be called for post-processing
+ * @param definition.isAbstract {boolean ? false} is abstract class
+ * @param definition.isSingleton {boolean ? false} is singleton class
+ * @param definition.events {Array ? null} list of events the class is able to fire
  * @return {void}
  * @throws TODOC
  */
@@ -548,8 +548,8 @@ qx.Clazz.define = function(fullname, definition)
  * @type object
  * @name isDefined
  * @access public
- * @param fullname {String} class name to check
- * @return {Boolean} true if class exists
+ * @param fullname {string} class name to check
+ * @return {boolean} true if class exists
  */
 qx.Clazz.isDefined = function(fullname) {
   return this._registry[fullname] != null;
@@ -563,7 +563,7 @@ qx.Clazz.isDefined = function(fullname) {
  * @access public
  * @param vClass {Function} class to extend
  * @param vMixin {Function} mixin to include
- * @return {Boolean} true if was successful
+ * @return {boolean} true if was successful
  */
 qx.Clazz.include = function(vClass, vMixin)
 {
