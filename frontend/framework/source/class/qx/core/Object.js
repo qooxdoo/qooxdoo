@@ -112,7 +112,7 @@ qx.Class.toHashCode = function(o)
 /**
  * Class function which returns an object given its db key
  *
- * @param hash {string} db key an object
+ * @param key {string} db key an object
  *
  * @returns {Object} the object whose hash is specified
  */
