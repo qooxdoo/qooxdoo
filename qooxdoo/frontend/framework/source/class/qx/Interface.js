@@ -50,8 +50,8 @@ qx.Clazz.define("qx.Interface",
      * @type static
      * @name define
      * @access public
-     * @param fullname {String} name of the interface
-     * @param definition {Map,null} definition structure
+     * @param fullname {string} name of the interface
+     * @param definition {Map ? null} definition structure
      * @return {void}
      * @throws TODOC
      */
@@ -167,8 +167,8 @@ qx.Clazz.define("qx.Interface",
      * @type static
      * @name byName
      * @access public
-     * @param fullname {String} interface name to check
-     * @return {Object | void} interface object
+     * @param fullname {string} interface name to check
+     * @return {Object ? void} interface object
      */
     byName : function(fullname) {
       return arguments.callee.statics._registry[fullname];
@@ -180,8 +180,8 @@ qx.Clazz.define("qx.Interface",
      * @type static
      * @name isDefined
      * @access public
-     * @param fullname {String} interface name to check
-     * @return {Boolean} true if interface exists
+     * @param fullname {string} interface name to check
+     * @return {boolean} true if interface exists
      */
     isDefined : function(fullname) {
       return arguments.callee.statics.byName(fullname) !== undefined;
