@@ -178,7 +178,7 @@ qx.Proto._checkKeyEventMatch = function(e)
     {
       // allow the user to stop the event
       // through the execute event.
-      if (!vCommand.execute()) {
+      if (!vCommand.execute(e.getTarget())) {
         e.preventDefault();
       }
 
