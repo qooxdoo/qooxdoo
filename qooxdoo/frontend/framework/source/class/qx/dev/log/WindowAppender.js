@@ -36,7 +36,7 @@ function(name) {
 
   this._id = qx.dev.log.WindowAppender.register(this);
   this._name = (name == null) ? "qx_log" : name;
-  
+
   this._errorsPreventingAutoCloseCount = 0;
 
   this._logWindowOpened = false;
@@ -55,8 +55,8 @@ qx.OO.addProperty({ name:"popUnder", type:"boolean", defaultValue:false, allowNu
 /** Whether the window should automatically be closed when its creating page is unloaded and
  * errors have been logged. Note that errors that have been logged before this property has been
  * turned off will be ignored. Warning: Turning this off may create a memory hole because the disposer
- * of this class will auto-close the window, i. e. it may stay open after dispose(), still holding 
- * memory. However, for diagnostics it is often more important to get information about errors 
+ * of this class will auto-close the window, i. e. it may stay open after dispose(), still holding
+ * memory. However, for diagnostics it is often more important to get information about errors
  * than to save memory.
  */
 qx.OO.addProperty({ name:"autoCloseWithErrors", type:"boolean", defaultValue:true, allowNull:false });
@@ -143,14 +143,14 @@ qx.Proto.closeWindow = function() {
 };
 
 /**
- * Called when the window should be automatically closed (because the page that opened 
+ * Called when the window should be automatically closed (because the page that opened
  * is is unloaded). Will only close the window if the autoClose***-Properties allow it
  */
 qx.Proto._autoCloseWindow = function() {
   if (this.getAutoCloseWithErrors() || this._errorsPreventingAutoCloseCount == 0){
     this.closeWindow();
   } else  {
-    //Show message why auto-close has failed    
+    //Show message why auto-close has failed
     this._showMessageInLog("Log window message: <b>Note: " + this._errorsPreventingAutoCloseCount
                         + " errors have been recorded, keeping log window open.</b>");
   }
@@ -227,13 +227,13 @@ qx.Proto.appendLogEvent = function(evt) {
 qx.Proto._modifyAutoCloseWithErrors = function(propValue, propOldValue, propData){
   if (!propValue && propOldValue){
     this._errorsPreventingAutoCloseCount = 0;
-    
+
     //Show message in log so user can see which errors have been counted
     this._showMessageInLog("Log window message: Starting error recording, any errors below this line will prevent the log window from closing");
-    
+
   } else if (propValue && !propOldValue){
     //Show message in log so user can see which errors have been counted
-    this._showMessageInLog("Log window message: Stopping error recording, discarding " + this._errorsPreventingAutoCloseCount + " errors.");  
+    this._showMessageInLog("Log window message: Stopping error recording, discarding " + this._errorsPreventingAutoCloseCount + " errors.");
   }
   return true;
 }

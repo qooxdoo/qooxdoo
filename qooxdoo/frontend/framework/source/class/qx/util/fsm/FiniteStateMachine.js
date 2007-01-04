@@ -552,7 +552,7 @@ qx.Proto.enqueueEvent = function(event, bAddAtHead)
   // Add the event to the event queue
   if (bAddAtHead)
   {
-    // Put event at the head of the queue 
+    // Put event at the head of the queue
     this._eventQueue.push(event);
   }
   else
@@ -732,7 +732,7 @@ qx.Proto._run = function(event)
     action = e;
   }
 
-  
+
   switch(action)
   {
     case qx.util.fsm.FiniteStateMachine.EventHandling.PREDICATE:
