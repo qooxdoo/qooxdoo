@@ -27,23 +27,23 @@ def createDoc(syntaxTree, docTree = None):
         rightItem = item.getFirstListChild("right")
         if leftItem.type == "variable":
           if currClassNode and len(leftItem.children) == 3 and leftItem.children[0].get("name") == "qx":
-            
+
             if leftItem.children[1].get("name") == "Proto" and rightItem.type == "function":
               # It's a method definition
               handleMethodDefinition(item, False, currClassNode)
-              
+
             elif leftItem.children[1].get("name") == "Class":
               if rightItem.type == "function":
                 handleMethodDefinition(item, True, currClassNode)
-              
+
               elif leftItem.children[2].get("name").isupper():
                 handleConstantDefinition(item, currClassNode)
-                
+
           elif currClassNode and assembleVariable(leftItem).startswith(currClassNode.get("fullName")):
             # This is definition of the type "mypackage.MyClass.bla = ..."
             if rightItem.type == "function":
               handleMethodDefinition(item, True, currClassNode)
-              
+
             elif leftItem.children[len(leftItem.children) - 1].get("name").isupper():
               handleConstantDefinition(item, currClassNode)
 
@@ -51,23 +51,23 @@ def createDoc(syntaxTree, docTree = None):
         operand = item.getChild("operand", False)
         if operand:
           var = operand.getChild("variable", False)
-          
+
           # qooxdoo < 0.7 (DEPRECATED)
           if var and len(var.children) == 3 and var.children[0].get("name") == "qx" and var.children[1].get("name") == "OO":
             methodName = var.children[2].get("name")
-            
+
             if methodName == "defineClass":
               currClassNode = handleClassDefinitionOld(docTree, item)
-              
+
             elif methodName in [ "addProperty", "addFastProperty" ]:
               # these are private and should be marked if listed, otherwise just hide them (wpbasti)
               #or methodName == "addCachedProperty" or methodName == "changeProperty":
               handlePropertyDefinitionOld(item, currClassNode)
-          
+
           # qooxdoo >= 0.7
           elif var and len(var.children) == 3 and var.children[0].get("name") == "qx" and var.children[1].get("name") in [ "Class", "Clazz", "Locale", "Interface", "Mixin" ] and var.children[2].get("name") == "define":
             currClassNode = handleClassDefinition(docTree, item, var.children[1].get("name").lower())
-            
+
 
   except Exception:
     exc = sys.exc_info()[1]
@@ -78,10 +78,10 @@ def createDoc(syntaxTree, docTree = None):
       file = getFileFromSyntaxItem(exc.node)
       if line != None or file != None:
         msg = str(exc) + "\n      " + str(file) + ", Line: " + str(line) + ", Column: " + str(column)
-        
+
     if msg == "":
-      raise Exception, "Unknown reason", sys.exc_info()[2]
-      
+      raise exc
+
     else:
       print
       print "    - Failed: %s" % msg
@@ -142,52 +142,51 @@ def handleClassDefinition(docTree, item, variant):
   for keyvalueItem in children:
     key = keyvalueItem.get("key")
     valueItem = keyvalueItem.getChild("value").getFirstChild()
-    
-    print "KEY: %s = %s" % (key, valueItem.type)
-    
+
+    # print "KEY: %s = %s" % (key, valueItem.type)
+
     if key == "extend":
       if variant in [ "class", "clazz" ]:
         superClassName = assembleVariable(valueItem)
         superClassNode = getClassNode(docTree, superClassName)
         childClasses = superClassNode.get("childClasses", False)
-  
+
         if childClasses:
           childClasses += "," + className
         else:
           childClasses = className
-  
+
         superClassNode.set("childClasses", childClasses)
-    
-        classNode.set("superClass", superClassName)      
-        
+
+        classNode.set("superClass", superClassName)
+
       elif variant == "interface":
         pass
-        
+
       elif variant == "mixin":
         pass
-      
+
     elif key == "include":
-      pass
+      handleMixins(valueItem, classNode)
 
     elif key == "implement":
-      pass
-      
+      handleInterfaces(valueItem, classNode)
+
     elif key == "init":
-      pass
+      handleConstructor(valueItem, classNode)
 
     elif key == "statics":
-      pass
-      
+      handleStatics(valueItem, classNode)
+
     elif key == "properties":
     	handleProperties(valueItem, classNode)
-      
+
     elif key == "members":
-      pass
-      
-      
-      
-    
-    
+      handleMembers(valueItem, classNode)
+
+
+
+
 
 
 
@@ -267,10 +266,39 @@ def handleClassDefinitionOld(docTree, item):
 
 
 
+def handleMixins(item, classNode):
+  pass
+
+def handleInterfaces(item, classNode):
+  pass
+
+def handleConstructor(item, classNode):
+  pass
+
+def handleStatics(item, classNode):
+  if item.hasChildren():
+    for keyvalue in item.children:
+      key = keyvalue.get("key")
+      value = keyvalue.getFirstChild(True, True).getFirstChild(True, True)
+      print "  - Found Static: %s = %s" % (key, value.type)
+
 def handleProperties(item, classNode):
-	for child in item.children:
-		print child.type
-	pass
+  if item.hasChildren():
+    for keyvalue in item.children:
+      key = keyvalue.get("key")
+      value = keyvalue.getFirstChild(True, True).getFirstChild(True, True)
+      print "  - Found Property: %s" % key
+
+def handleMembers(item, classNode):
+  if item.hasChildren():
+    for keyvalue in item.children:
+      key = keyvalue.get("key")
+      value = keyvalue.getFirstChild(True, True).getFirstChild(True, True)
+      print "  - Found Member: %s = %s" % (key, value.type)
+
+
+
+
 
 
 
@@ -436,7 +464,7 @@ def handleFunction(funcItem, commentAttributes, classNode):
     elif attrib["category"] == "param":
       if not attrib.has_key("name"):
         raise DocException("Missing name of parameter.", funcItem)
-      
+
       # Find the matching param node
       paramName = attrib["name"]
       paramNode = node.getListChildByAttribute("params", "name", paramName, False)
@@ -579,12 +607,12 @@ def getFileFromSyntaxItem(syntaxItem):
 def getType(item):
   if item.type == "constant" and item.get("constantType") == "string":
     val = item.get("value")
-    
+
     if val == "object":
       val = "Object"
     elif val == "function":
       val = "Function"
-    
+
     return val
   else:
     raise DocException("Can't gess type. type is neither string nor variable: " + item.type, item)
