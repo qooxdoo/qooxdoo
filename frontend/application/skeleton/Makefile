@@ -63,7 +63,7 @@ APPLICATION_LOCALES =
 ####################################################################################
 
 #
-# Please take a look at $(QOOXDOO_PATH)/frontend/framework/tool/make/project.mk
+# Please take a look at $(QOOXDOO_PATH)/frontend/framework/tool/make/application.mk
 # for an overview of available options
 #
 
@@ -79,7 +79,7 @@ APPLICATION_LOCALES =
 
 ifneq ($(QOOXDOO_PATH),PLEASE_DEFINE_QOOXDOO_PATH)
 	include $(QOOXDOO_PATH)/frontend/framework/tool/make/targets.mk
-	include $(QOOXDOO_PATH)/frontend/framework/tool/make/project.mk
+	include $(QOOXDOO_PATH)/frontend/framework/tool/make/application.mk
 endif
 
 error:

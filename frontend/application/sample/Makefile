@@ -69,7 +69,7 @@ APPLICATION_PAGE_TO_TOPLEVEL = ../..
 
 ifneq ($(QOOXDOO_PATH),PLEASE_DEFINE_QOOXDOO_PATH)
 	include $(QOOXDOO_PATH)/frontend/framework/tool/make/targets.mk
-	include $(QOOXDOO_PATH)/frontend/framework/tool/make/project.mk
+	include $(QOOXDOO_PATH)/frontend/framework/tool/make/application.mk
 endif
 
 error:
