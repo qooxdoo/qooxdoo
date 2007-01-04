@@ -437,7 +437,11 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
   sortedIncludeList = loader.getSortedList(options, fileDb, moduleDb)
 
-  print "    - Including %s classes" % len(sortedIncludeList)
+  if len(sortedIncludeList) == 0:
+  	print "    - No class files to include. Exciting!"
+  	sys.exit(1)
+  else:
+  	print "    - Including %s classes" % len(sortedIncludeList)
 
   if options.printIncludes:
     print

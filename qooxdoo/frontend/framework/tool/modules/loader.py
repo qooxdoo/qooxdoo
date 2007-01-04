@@ -731,7 +731,7 @@ def getSortedList(options, fileDb, moduleDb):
 
 
   # Add all if both lists are empty
-  if len(includeWithDeps) == 0 and len(includeWithoutDeps) == 0:
+  if len(options.includeWithDeps) == 0 and len(options.includeWithoutDeps) == 0:
     for fileId in fileDb:
       includeWithDeps.append(fileId)
 
@@ -753,17 +753,13 @@ def getSortedList(options, fileDb, moduleDb):
       if exclude in moduleDb:
         excludeWithDeps.extend(moduleDb[exclude])
 
-      elif "*" in exclude or "?" in exclude:
+      else:
         regexp = textutil.toRegExp(exclude)
 
         for fileId in fileDb:
           if regexp.search(fileId):
             if not fileId in excludeWithDeps:
               excludeWithDeps.append(fileId)
-
-      else:
-        if not exclude in excludeWithDeps:
-          excludeWithDeps.append(exclude)
 
 
   # Add Modules and Files (without deps)
@@ -772,7 +768,7 @@ def getSortedList(options, fileDb, moduleDb):
       if exclude in moduleDb:
         excludeWithoutDeps.extend(moduleDb[exclude])
 
-      elif "*" in exclude or "?" in exclude:
+      else:
         regexp = textutil.toRegExp(exclude)
 
         for fileId in fileDb:
@@ -780,9 +776,6 @@ def getSortedList(options, fileDb, moduleDb):
             if not fileId in excludeWithDeps:
               excludeWithoutDeps.append(fileId)
 
-      else:
-        if not exclude in excludeWithDeps:
-          excludeWithoutDeps.append(exclude)
 
 
 
