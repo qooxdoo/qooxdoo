@@ -62,7 +62,7 @@ def createDoc(syntaxTree, docTree = None):
             elif methodName in [ "addProperty", "addFastProperty" ]:
               # these are private and should be marked if listed, otherwise just hide them (wpbasti)
               #or methodName == "addCachedProperty" or methodName == "changeProperty":
-              handlePropertyDefinition(item, currClassNode)
+              handlePropertyDefinitionOld(item, currClassNode)
           
           # qooxdoo >= 0.7
           elif var and len(var.children) == 3 and var.children[0].get("name") == "qx" and var.children[1].get("name") in [ "Class", "Clazz", "Locale", "Interface", "Mixin" ] and var.children[2].get("name") == "define":
@@ -143,7 +143,7 @@ def handleClassDefinition(docTree, item, variant):
     key = keyvalueItem.get("key")
     valueItem = keyvalueItem.getChild("value").getFirstChild()
     
-    #print "KEY: %s = %s" % (key, valueItem.type)
+    print "KEY: %s = %s" % (key, valueItem.type)
     
     if key == "extend":
       if variant in [ "class", "clazz" ]:
@@ -179,7 +179,7 @@ def handleClassDefinition(docTree, item, variant):
       pass
       
     elif key == "properties":
-      pass
+    	handleProperties(valueItem, classNode)
       
     elif key == "members":
       pass
@@ -267,9 +267,14 @@ def handleClassDefinitionOld(docTree, item):
 
 
 
+def handleProperties(item, classNode):
+	for child in item.children:
+		print child.type
+	pass
 
 
-def handlePropertyDefinition(item, classNode):
+
+def handlePropertyDefinitionOld(item, classNode):
   paramsMap = item.getChild("params").getChild("map")
 
   node = tree.Node("property")
