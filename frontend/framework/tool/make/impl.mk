@@ -112,7 +112,7 @@ exec-treegenerator:
 ifdef APPLICATION_LOCALES
 
 exec-localization: exec-framework-localization
-exec-translation: exec-framework-translation exec-project-translation
+exec-translation: exec-framework-translation exec-application-translation
 
 else
 
@@ -204,9 +204,9 @@ exec-framework-translation:
 	done
 	@rm -rf $(FRAMEWORK_TRANSLATION_PATH)/*~
 
-exec-project-translation:
+exec-application-translation:
 	@echo
-	@echo "  PREPARING PROJECT TRANSLATION"
+	@echo "  PREPARING APPLICATION TRANSLATION"
 	@$(CMD_LINE)
 	@echo -n "  * Processing source code: "
 	
