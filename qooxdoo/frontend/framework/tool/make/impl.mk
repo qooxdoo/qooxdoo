@@ -150,7 +150,7 @@ exec-framework-localization:
 		    exit 1; \
 		  fi; \
 	  fi; \
-	  if [ ! -r $(FRAMEWORK_LOCALE_CLASS_PATH)/$$LOC.js -o $$mod == 1 ]; then \
+	  if [ ! -r $(FRAMEWORK_LOCALE_CLASS_PATH)/$$LOC.js -o $$mod -eq 1 ]; then \
 	    echo "      - Generating $$LOC.js..."; \
 	    $(CMD_CLDR) -o $(FRAMEWORK_LOCALE_CLASS_PATH) $(FRAMEWORK_CACHE_PATH)/$$LOC.xml; \
 	  fi; \
