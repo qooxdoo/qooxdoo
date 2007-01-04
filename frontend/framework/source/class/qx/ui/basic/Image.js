@@ -24,7 +24,7 @@
 ************************************************************************ */
 
 /**
- * This widget is for all images in qooxdoo projects.
+ * This widget represents an image.
  *
  * @event error {qx.event.type.Event}
  */
