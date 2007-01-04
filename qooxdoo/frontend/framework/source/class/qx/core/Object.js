@@ -41,9 +41,11 @@
 qx.OO.defineClass("qx.core.Object", Object,
 function(vAutoDispose)
 {
-  this._hashCode = qx.core.Object._counter++;
+  this._hashCode = qx.core.Object._lastHashCode++;
 
-  if (vAutoDispose !== false) {
+  if (vAutoDispose !== false)
+  {
+    this._dbKey = qx.core.Object._db.length;
     qx.core.Object._db.push(this);
   }
 
@@ -85,7 +87,7 @@ qx.Settings.setDefault("enableDisposerDebug", false);
    Class data, properties and methods
 ************************************************************************ */
 
-qx.Class._counter = 0;
+qx.Class._lastHashCode = 0;
 qx.Class._db = [];
 qx.Class._disposeAll = false;
 
@@ -102,7 +104,7 @@ qx.Class.toHashCode = function(o)
     return o._hashCode;
   }
 
-  return o._hashCode = qx.core.Object._counter++;
+  return o._hashCode = qx.core.Object._lastHashCode++;
 }
 
 
@@ -598,11 +600,28 @@ qx.Proto.dispose = function()
   }
   */
 
+  /*
+  // see bug #258.
+  if(this._dbKey != this._hashCode) {
+    console.log("Disposing wrong entry: " + this._dbKey + " vs. " + this._hashCode);
+  }
+  */
+
   // Delete Entry from Object DB
-  if (qx.core.Object._disposeAll) {
-    qx.core.Object._db[this._hashCode] = null;
-  } else {
-    delete qx.core.Object._db[this._hashCode];
+  if (this._dbKey != null)
+  {
+    if (qx.core.Object._disposeAll)
+    {
+      qx.core.Object._db[this._dbKey] = null;
+      this._hashCode = null;
+      this._dbKey = null;
+    }
+    else
+    {
+      delete qx.core.Object._db[this._dbKey];
+      delete this._hashCode;
+      delete this._dbKey;
+    }
   }
 
   // Mark as disposed
