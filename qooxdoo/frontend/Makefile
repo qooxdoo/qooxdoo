@@ -94,7 +94,7 @@ distclean: release-distclean framework-distclean
 framework-distclean:
 	@echo 
 	@echo "****************************************************************************"
-	@echo "  CLEANING UP FRAMEWORK (FULL)"
+	@echo "  CLEANING UP FRAMEWORK (COMPLETELY)"
 	@echo "****************************************************************************"
 	@echo "  * Cleaning up..."
 	@$(CMD_REMOVE) $(FRAMEWORK_CACHE_PATH)
@@ -102,6 +102,8 @@ framework-distclean:
 	@$(CMD_REMOVE) $(FRAMEWORK_TRANSLATION_CLASS_PATH)
 	@$(CMD_REMOVE) application/skeleton.tar.gz
 	@$(CMD_REMOVE) application/skeleton.zip
+	@$(CMD_NICE) find $(FRAMEWORK_PATH) $(TEMP_FILES) -exec rm -rf {} \;
+	
 
 framework-pretty:
 	@echo 
@@ -230,7 +232,7 @@ exec-skeleton-dos-clean:
 release-distclean:
 	@echo 
 	@echo "****************************************************************************"
-	@echo "  CLEANING UP RELEASE (FULL)"
+	@echo "  CLEANING UP RELEASE (COMPLETELY)"
 	@echo "****************************************************************************"
 	@echo "  * Cleaning up..."
 	@$(CMD_REMOVE) release
