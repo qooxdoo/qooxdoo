@@ -141,8 +141,8 @@ qx.Proto.resolvePath = function(vPath, vForceUpdate)
  * If the first part of the path is a defined alias, the alias is resolved.
  * Otherwhise the path is returned unmodified.
  *
- * @param vPath {String} path name
- * @return {String} reolved path/url
+ * @param vPath {string} path name
+ * @return {string} reolved path/url
  */
 qx.Proto._computePath = function(vPath)
 {

@@ -227,7 +227,7 @@ qx.Proto._createList = function(columns) {
 */
 
 /**Sets the header for each column.
- * @param columns {String[]}*/
+ * @param columns {string[]}*/
 qx.Proto.setColumnHeaders = function(columns) {
   if (!this._list || columns.length != this._model.getColumnCount()) {
     if (this._list) {
@@ -249,7 +249,7 @@ qx.Proto.setColumnHeaders = function(columns) {
 }
 
 /**Getter for {@link #setColumnHeaders}.
- * @return {String[]}*/
+ * @return {string[]}*/
 qx.Proto.getColumnHeaders = function(propVal) {
   var cols = [];
   cols.length = this._model.getColumnCount();
@@ -282,7 +282,7 @@ qx.Proto.getSelection = function() {
 }
 
 /**Sets the index of the currently selected item in the list.
- * @param index {Number} -1 means no selected index*/
+ * @param index {number} -1 means no selected index*/
 qx.Proto.setSelectedIndex = function(index) {
   var items = this.getSelection().length;
   if (items >= 0) {
@@ -549,9 +549,9 @@ qx.Proto.isSearchInProgress = function() {
 }
 
 /**Searches the given text.  Called from the search dialog.
- * @param startIndex  {Number} Start index, 0 based
- * @param txt      {String} Text to find
- * @param caseSens    {Boolean} Case sensivity flag.*/
+ * @param startIndex  {number} Start index, 0 based
+ * @param txt      {string} Text to find
+ * @param caseSens    {boolean} Case sensivity flag.*/
 qx.Proto._search = function(startIndex, txt, caseSens) {
   if (txt == null || !txt.length) {
     return;
