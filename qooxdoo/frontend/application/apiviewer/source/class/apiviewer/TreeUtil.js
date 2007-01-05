@@ -138,7 +138,7 @@ qx.Class.getClassDocNode = function(docTree, className) {
  * @return {var} the URL of the icon. May be a string or an array of string
  *         (in case of an overlay icon).
  */
-qx.Class.getIconUrl = function(node, inherited) {
+qx.Class.getIconUrl = function(node, inherited, context) {
   var constName;
   switch (node.type) {
     case "package":
@@ -197,6 +197,7 @@ qx.Class.getIconUrl = function(node, inherited) {
   if (iconUrl == null) {
     throw new Error("Unknown img constant: " + constName);
   }
+
   return iconUrl;
 }
 
