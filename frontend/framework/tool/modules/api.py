@@ -194,10 +194,17 @@ def handleStatics(item, classNode):
       if value.type == "function":
         node = handleFunction(value, commentAttributes, classNode)
         node.set("name", key)
-        classNode.addListChild("methods-static", node)
+        node.set("isStatic", True)
+
+        if key.startswith("_"):
+          listType = "prot"
+        else:
+          listType = "pub"
+
+        classNode.addListChild("methods-static-%s" % listType, node)
 
       # Data
-      else:
+      else
         handleConstantDefinition(keyvalue, classNode)
 
 def handleProperties(item, classNode):
@@ -421,8 +428,6 @@ def handleConstantDefinition(item, classNode):
   elif (item.type == "keyvalue"):
     # This is a constant definition of a map-style class (like qx.Const)
     name = item.get("key")
-  else:
-    return
 
   node = tree.Node("constant")
   node.set("name", name)
@@ -778,7 +783,7 @@ def postWorkClass(docTree, classNode):
     and classNode.getChild("properties", False) == None \
     and classNode.getChild("methods-pub", False) == None \
     and classNode.getChild("methods-prot", False) == None:
-    # This class has is static
+    # This class is static
     classNode.set("isStatic", True)
 
   # Check whether the class is abstract
