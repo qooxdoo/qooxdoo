@@ -26,3 +26,7 @@ clean:
 
 distclean:
 	@for APPLICATION in $(APPLICATIONS); do $(MAKE) -s -C $$APPLICATION distclean || exit 1; done
+
+locales:
+	@for APPLICATION in $(APPLICATIONS); do $(MAKE) -s -C $$APPLICATION locales || exit 1; done
+	
