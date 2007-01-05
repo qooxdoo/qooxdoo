@@ -23,6 +23,16 @@
   padding-bottom: 0;
 }
 
+#DetailFrame #ControlFrame{
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 10px;
+  background: #FBFFEF;
+  padding: 3px 6px;
+  border: 1px solid #ECECEC;
+}
+
 #DetailFrame h1 {
   font-size: 24px;
   margin-bottom: 20px;
@@ -129,21 +139,6 @@
   cursor: default;
 }
 
-#ClassViewer div.infoPanel span.inheritCheck {
-  font-weight: normal;
-  float: right;
-  font-size: 11px;
-  vertical-align: bottom;
-}
-
-#ClassViewer div.infoPanel span.inheritCheck input,
-#ClassViewer div.infoPanel span.inheritCheck label{
-  vertical-align: middle;
-}
-
-#ClassViewer div.infoPanel span.inheritCheck label{
-  margin-left: 3px;
-}
 
 
 

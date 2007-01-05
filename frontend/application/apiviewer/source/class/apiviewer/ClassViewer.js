@@ -55,7 +55,8 @@ qx.Proto._fixLinks = function(el)
  * Initializes the content of the embedding DIV. Will be called by the
  * HtmlEmbed element initialization routine.
  */
-qx.Proto._syncHtml = function() {
+qx.Proto._syncHtml = function()
+{
   var ClassViewer = apiviewer.ClassViewer;
 
   document._detailViewer = this;
@@ -70,45 +71,65 @@ qx.Proto._syncHtml = function() {
   // Add description
   html += ClassViewer.DIV_START + ClassViewer.DIV_END;
 
+  html += '<div id="ControlFrame">';
+  html += '<input type="checkbox" id="showInherited" onclick="document._detailViewer._onInheritedCheckBoxClick()"/><label for="showInherited">Show Inherited</label>';
+  html += '&#160;';
+  html += '<input type="checkbox" id="showProtected" onclick="document._detailViewer._onProtectedCheckBoxClick()"/><label for="showProtected">Show Protected</label>';
+  html += '</div>';
+
+
+
+  // BASICS
+
   // Add constructor info
   html += this._createInfoPanel(ClassViewer.NODE_TYPE_CONSTRUCTOR,
     "constructor", "constructor", this._createMethodInfo,
     this._methodHasDetails, false, true);
-
-  // Add properties info
-  html += this._createInfoPanel(ClassViewer.NODE_TYPE_PROPERTY,
-    "properties", "properties", this._createPropertyInfo,
-    qx.util.Return.returnTrue, true, true);
 
   // Add event info
   html += this._createInfoPanel(ClassViewer.NODE_TYPE_EVENT,
     "events", "events", this._createEventInfo,
     this._eventHasDetails, true, true);
 
+  // Add properties info
+  html += this._createInfoPanel(ClassViewer.NODE_TYPE_PROPERTY,
+    "properties", "properties", this._createPropertyInfo,
+    qx.util.Return.returnTrue, true, true);
+
+
+
+  // PUBLIC
+
   // Add public methods info
   html += this._createInfoPanel(ClassViewer.NODE_TYPE_METHOD_PUBLIC,
     "methods-pub", "public methods", this._createMethodInfo,
     this._methodHasDetails, true, true);
-
-  // Add protected methods info
-  html += this._createInfoPanel(ClassViewer.NODE_TYPE_METHOD_PROTECTED,
-    "methods-prot", "protected methods", this._createMethodInfo,
-    this._methodHasDetails, true, false);
 
   // Add static public methods info
   html += this._createInfoPanel(ClassViewer.NODE_TYPE_METHOD_STATIC_PUBLIC,
     "methods-static-pub", "static public methods", this._createMethodInfo,
     this._methodHasDetails, false, true);
 
+  // Add constants info
+  html += this._createInfoPanel(ClassViewer.NODE_TYPE_CONSTANT,
+    "constants", "constants", this._createConstantInfo,
+    this._constantHasDetails, false, true);
+
+
+
+  // PROTECTED
+
+  // Add protected methods info
+  html += this._createInfoPanel(ClassViewer.NODE_TYPE_METHOD_PROTECTED,
+    "methods-prot", "protected methods", this._createMethodInfo,
+    this._methodHasDetails, true, false);
+
   // Add static protected methods info
   html += this._createInfoPanel(ClassViewer.NODE_TYPE_METHOD_STATIC_PROTECTED,
     "methods-static-prot", "static protected methods", this._createMethodInfo,
     this._methodHasDetails, false, false);
 
-  // Add constants info
-  html += this._createInfoPanel(ClassViewer.NODE_TYPE_CONSTANT,
-    "constants", "constants", this._createConstantInfo,
-    this._constantHasDetails, false, true);
+
 
 
   // Set the html
@@ -120,24 +141,32 @@ qx.Proto._syncHtml = function() {
   var divArr = this.getElement().childNodes;
   this._titleElem = divArr[0];
   this._classDescElem = divArr[1];
-  this._infoPanelHash[ClassViewer.NODE_TYPE_CONSTRUCTOR].infoElem             = divArr[2];
-  this._infoPanelHash[ClassViewer.NODE_TYPE_PROPERTY].infoElem                = divArr[3];
+  this._controlFrame = divArr[2];
+
+  this._infoPanelHash[ClassViewer.NODE_TYPE_CONSTRUCTOR].infoElem             = divArr[3];
   this._infoPanelHash[ClassViewer.NODE_TYPE_EVENT].infoElem                   = divArr[4];
-  this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD_PUBLIC].infoElem           = divArr[5];
-  this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD_PROTECTED].infoElem        = divArr[6];
+  this._infoPanelHash[ClassViewer.NODE_TYPE_PROPERTY].infoElem                = divArr[5];
+
+  this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD_PUBLIC].infoElem           = divArr[6];
   this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD_STATIC_PUBLIC].infoElem    = divArr[7];
-  this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD_STATIC_PROTECTED].infoElem = divArr[8];
-  this._infoPanelHash[ClassViewer.NODE_TYPE_CONSTANT].infoElem                = divArr[9];
+  this._infoPanelHash[ClassViewer.NODE_TYPE_CONSTANT].infoElem                = divArr[8];
+
+  this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD_PROTECTED].infoElem        = divArr[9];
+  this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD_STATIC_PROTECTED].infoElem = divArr[10];
+
+  this._protectedElems = [ 9, 10 ];
 
   // Get the child elements
-  for (var nodeType in this._infoPanelHash) {
+  for (var nodeType in this._infoPanelHash)
+  {
     var typeInfo = this._infoPanelHash[nodeType];
     typeInfo.infoTitleElem = typeInfo.infoElem.firstChild;
     typeInfo.infoBodyElem = typeInfo.infoElem.lastChild;
   }
 
   // Update the view
-  if (this._currentClassDocNode) {
+  if (this._currentClassDocNode)
+  {
     // NOTE: We have to set this._currentClassDocNode to null beore, because
     //       otherwise showClass thinks, there's nothing to do
     var classDocNode = this._currentClassDocNode;
@@ -171,16 +200,10 @@ qx.Proto._createInfoPanel = function(nodeType, listName, labelText, infoFactory,
 
   typeInfo = { listName:listName, labelText:labelText, infoFactory:infoFactory,
     hasDetailDecider:hasDetailDecider, isOpen:isOpen,
-    hasInheritedCheckBox:addInheritedCheckBox }
+    hasInheritedCheckBox:addInheritedCheckBox };
   this._infoPanelHash[nodeType] = typeInfo;
 
   var html = '<div class="infoPanel"><h2>';
-
-  if (addInheritedCheckBox) {
-    html += '<span class="inheritCheck"><input type="checkbox" id="chk_' + nodeType + '" '
-      + 'onclick="document._detailViewer._onInheritedCheckBoxClick(' + nodeType + ')"></input>'
-      + '<label for="chk_' + nodeType + '">Show inherited</label></span>';
-  }
 
   html += '<img class="openclose" src="'
     + qx.manager.object.AliasManager.getInstance().resolvePath('api/image/' + (isOpen ? 'close.gif' : 'open.gif')) + '"'
@@ -304,12 +327,17 @@ qx.Proto.showClass = function(classNode) {
   this._fixLinks(this._classDescElem);
 
   // Refresh the info viewers
-  for (var nodeType in this._infoPanelHash) {
-    this._updateInfoPanel(parseInt(nodeType));
-  }
+  this._updateInfoViewers();
 
   // Scroll to top
   this.getElement().scrollTop = 0;
+}
+
+qx.Proto._updateInfoViewers = function()
+{
+  for (var nodeType in this._infoPanelHash) {
+    this._updateInfoPanel(parseInt(nodeType));
+  }
 }
 
 qx.Proto.showInfo = function(classNode) {
@@ -372,13 +400,16 @@ qx.Proto.showItem = function(itemName) {
   }
 }
 
+qx.Proto._showProtected = false;
+qx.Proto._showInherited = false;
 
 /**
  * Updates an info panel.
  *
  * @param nodeType {int} the node type of which to update the info panel.
  */
-qx.Proto._updateInfoPanel = function(nodeType) {
+qx.Proto._updateInfoPanel = function(nodeType)
+{
   var ClassViewer = apiviewer.ClassViewer;
 
   var typeInfo = this._infoPanelHash[nodeType];
@@ -386,8 +417,21 @@ qx.Proto._updateInfoPanel = function(nodeType) {
   // Get the nodes to show
   var nodeArr = null;
   var fromClassHash = null;
-  if (typeInfo.isOpen && this._currentClassDocNode) {
-    if (typeInfo.showInherited) {
+
+  if (!this._showProtected && (nodeType == apiviewer.ClassViewer.NODE_TYPE_METHOD_PROTECTED || nodeType == apiviewer.ClassViewer.NODE_TYPE_METHOD_STATIC_PROTECTED))
+  {
+    typeInfo.infoElem.style.display = "none";
+    return;
+  }
+  else
+  {
+    typeInfo.infoElem.style.display = "";
+  }
+
+  if (typeInfo.isOpen && this._currentClassDocNode)
+  {
+    if (this._showInherited && (nodeType == apiviewer.ClassViewer.NODE_TYPE_EVENT || nodeType == apiviewer.ClassViewer.NODE_TYPE_PROPERTY || nodeType == apiviewer.ClassViewer.NODE_TYPE_METHOD_PUBLIC || nodeType == apiviewer.ClassViewer.NODE_TYPE_METHOD_PROTECTED))
+    {
       nodeArr = [];
       fromClassArr = [];
       fromClassHash = {};
@@ -414,7 +458,9 @@ qx.Proto._updateInfoPanel = function(nodeType) {
       nodeArr.sort(function(obj1, obj2) {
         return (obj1.attributes.name.toLowerCase() < obj2.attributes.name.toLowerCase()) ? -1 : 1;
       });
-    } else {
+    }
+    else
+    {
       var parentNode = apiviewer.TreeUtil.getChild(this._currentClassDocNode, typeInfo.listName);
       nodeArr = parentNode ? parentNode.children : null;
     }
@@ -428,6 +474,8 @@ qx.Proto._updateInfoPanel = function(nodeType) {
     for (var i = 0; i < nodeArr.length; i++)
     {
       var node = nodeArr[i];
+
+
       var fromClassNode = fromClassHash ? fromClassHash[node.attributes.name] : null;
       if (fromClassNode == null) {
         fromClassNode = this._currentClassDocNode;
@@ -435,7 +483,7 @@ qx.Proto._updateInfoPanel = function(nodeType) {
 
       var info = typeInfo.infoFactory.call(this, node, nodeType, fromClassNode, false);
       var inherited = fromClassNode && (fromClassNode != this._currentClassDocNode);
-      var iconUrl = apiviewer.TreeUtil.getIconUrl(node, inherited);
+      var iconUrl = apiviewer.TreeUtil.getIconUrl(node, inherited, "_updateInfoPanel");
 
       // Create the title row
       html += '<tr>';
@@ -558,23 +606,21 @@ qx.Proto._onShowItemDetailClicked = function(nodeType, name, fromClassName) {
 
 
 /**
- * Event handler. Called when the user clicked on a "show inherited ..."
- * checkbox.
- *
- * @param nodeType {int} the node type of which the inherited-checkbox was
- *        clicked.
+ * Event handler. Called when the user clicked on the "show inherited ..." checkbox.
  */
-qx.Proto._onInheritedCheckBoxClick = function(nodeType) {
-  try {
-    var typeInfo = this._infoPanelHash[nodeType];
-    var checkboxElem = typeInfo.infoTitleElem.getElementsByTagName("input")[0];
+qx.Proto._onInheritedCheckBoxClick = function()
+{
+  this._showInherited = document.getElementById("showInherited").checked;
+  this._updateInfoViewers();
+}
 
-    typeInfo.showInherited = checkboxElem.checked;
-
-    this._updateInfoPanel(nodeType);
-  } catch (exc) {
-    this.error("Handling inherited checkbox click failed", exc);
-  }
+/**
+ * Event handler. Called when the user clicked on the "show protected ..." checkbox.
+ */
+qx.Proto._onProtectedCheckBoxClick = function()
+{
+  this._showProtected = document.getElementById("showProtected").checked;
+  this._updateInfoViewers();
 }
 
 
@@ -1500,23 +1546,24 @@ qx.Class.ITEM_SPEC_REGEX = /^(([\w\.]+)?(#\w+(\([^\)]*\))?)?)(\s+(.*))?$/;
 /** {regexp} The regexp that finds the end of a sentence. */
 qx.Class.SENTENCE_END_REGEX = /[^\.].\.(\s|<)/;
 
-
 /** {int} The node type of a constructor. */
 qx.Class.NODE_TYPE_CONSTRUCTOR = 1;
-/** {int} The node type of a property. */
-qx.Class.NODE_TYPE_PROPERTY = 2;
 /** {int} The node type of an event. */
-qx.Class.NODE_TYPE_EVENT = 3;
+qx.Class.NODE_TYPE_EVENT = 2;
+/** {int} The node type of a property. */
+qx.Class.NODE_TYPE_PROPERTY = 3;
+
 /** {int} The node type of a public method. */
 qx.Class.NODE_TYPE_METHOD_PUBLIC = 4;
-/** {int} The node type of a protected method. */
-qx.Class.NODE_TYPE_METHOD_PROTECTED = 5;
 /** {int} The node type of a static public method. */
-qx.Class.NODE_TYPE_METHOD_STATIC_PUBLIC = 6;
-/** {int} The node type of a static protected method. */
-qx.Class.NODE_TYPE_METHOD_STATIC_PROTECTED = 7;
+qx.Class.NODE_TYPE_METHOD_STATIC_PUBLIC = 5;
 /** {int} The node type of a constant. */
-qx.Class.NODE_TYPE_CONSTANT = 8;
+qx.Class.NODE_TYPE_CONSTANT = 6;
+
+/** {int} The node type of a protected method. */
+qx.Class.NODE_TYPE_METHOD_PROTECTED = 7;
+/** {int} The node type of a static protected method. */
+qx.Class.NODE_TYPE_METHOD_STATIC_PROTECTED = 8;
 
 /** {string} The start tag of a div. */
 qx.Class.DIV_START = '<div>';
