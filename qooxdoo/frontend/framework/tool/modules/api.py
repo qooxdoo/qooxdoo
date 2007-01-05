@@ -204,7 +204,7 @@ def handleStatics(item, classNode):
         classNode.addListChild("methods-static-%s" % listType, node)
 
       # Data
-      else
+      else:
         handleConstantDefinition(keyvalue, classNode)
 
 def handleProperties(item, classNode):
