@@ -424,7 +424,7 @@ qx.Proto.set = function(propertyValues)
 /**
  * Gets multiple properties at once by using a property list
  *
- * @param propertyNames {string | array | hash} list of the properties to get
+ * @param propertyNames {string | Array | Map} list of the properties to get
  * @param outputHint {string ? "array"} how should the values be returned. Possible values are "hash" and "array".
 */
 qx.Proto.get = function(propertyNames, outputHint)
