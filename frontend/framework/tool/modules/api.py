@@ -5,6 +5,12 @@ import tree, treegenerator, tokenizer, comment
 
 
 
+########################################################################################
+#
+#  MAIN
+#
+########################################################################################
+
 class DocException (Exception):
   def __init__ (self, msg, syntaxItem):
     Exception.__init__(self, msg)
@@ -30,11 +36,11 @@ def createDoc(syntaxTree, docTree = None):
 
             if leftItem.children[1].get("name") == "Proto" and rightItem.type == "function":
               # It's a method definition
-              handleMethodDefinition(item, False, currClassNode)
+              handleMethodDefinitionOld(item, False, currClassNode)
 
             elif leftItem.children[1].get("name") == "Class":
               if rightItem.type == "function":
-                handleMethodDefinition(item, True, currClassNode)
+                handleMethodDefinitionOld(item, True, currClassNode)
 
               elif leftItem.children[2].get("name").isupper():
                 handleConstantDefinition(item, currClassNode)
@@ -42,7 +48,7 @@ def createDoc(syntaxTree, docTree = None):
           elif currClassNode and assembleVariable(leftItem).startswith(currClassNode.get("fullName")):
             # This is definition of the type "mypackage.MyClass.bla = ..."
             if rightItem.type == "function":
-              handleMethodDefinition(item, True, currClassNode)
+              handleMethodDefinitionOld(item, True, currClassNode)
 
             elif leftItem.children[len(leftItem.children) - 1].get("name").isupper():
               handleConstantDefinition(item, currClassNode)
@@ -91,39 +97,18 @@ def createDoc(syntaxTree, docTree = None):
 
 
 
-def variableIsClassName(varItem):
-  length = len(varItem.children)
-  for i in range(length):
-    varChild = varItem.children[i]
-    if not varChild.type == "identifier":
-      return False
-    if i < length - 1:
-      # This is not the last identifier -> It must a package (= lowercase)
-      if not varChild.get("name").islower():
-        return False
-    else:
-      # This is the last identifier -> It must the class name (= first letter uppercase)
-      if not varChild.get("name")[0].isupper():
-        return False
-  return True
 
 
 
 
 
-def assembleVariable(variableItem):
-  if variableItem.type != "variable":
-    raise DocException("'variableItem' is no variable", variableItem)
-
-  assembled = ""
-  for child in variableItem.children:
-    if len(assembled) != 0:
-      assembled += "."
-    assembled += child.get("name")
-
-  return assembled
 
 
+########################################################################################
+#
+#  COMPATIBLE TO 0.7 STYLE ONLY!
+#
+########################################################################################
 
 def handleClassDefinition(docTree, item, variant):
   params = item.getChild("params")
@@ -184,13 +169,79 @@ def handleClassDefinition(docTree, item, variant):
     elif key == "members":
       handleMembers(valueItem, classNode)
 
+def handleMixins(item, classNode):
+  #print "  - Found Mixin"
+  pass
+
+def handleInterfaces(item, classNode):
+  #print "  - Found Interface"
+  pass
+
+def handleConstructor(item, classNode):
+  #print "  - Found Constructor"
+  pass
+
+def handleStatics(item, classNode):
+  if item.hasChildren():
+    for keyvalue in item.children:
+      key = keyvalue.get("key")
+      value = keyvalue.getFirstChild(True, True).getFirstChild(True, True)
+      commentAttributes = comment.parseNode(item)
+
+      # print "  - Found Static: %s = %s" % (key, value.type)
+
+      # Function
+      if value.type == "function":
+        node = handleFunction(value, commentAttributes, classNode)
+        node.set("name", key)
+        classNode.addListChild("methods-static", node)
+
+      # Data
+      else:
+        handleConstantDefinition(keyvalue, classNode)
+
+def handleProperties(item, classNode):
+  if item.hasChildren():
+    for keyvalue in item.children:
+      key = keyvalue.get("key")
+      value = keyvalue.getFirstChild(True, True).getFirstChild(True, True)
+      # print "  - Found Property: %s" % key
+
+      # TODO: New handling for new properties needed
+      handlePropertyDefinitionOldCommon(value, classNode, key, value)
+
+def handleMembers(item, classNode):
+  if item.hasChildren():
+    for keyvalue in item.children:
+      key = keyvalue.get("key")
+      value = keyvalue.getFirstChild(True, True).getFirstChild(True, True)
+      commentAttributes = comment.parseNode(item)
+
+      # print "  - Found Member: %s = %s" % (key, value.type)
+
+      # Function
+      if value.type == "function":
+
+        node = handleFunction(value, commentAttributes, classNode)
+        node.set("name", key)
+
+        if key.startswith("_"):
+          listType = "prot"
+        else:
+          listType = "pub"
+
+        classNode.addListChild("methods-%s" % listType, node)
 
 
 
 
 
 
-
+########################################################################################
+#
+#  COMPATIBLE TO 0.6 STYLE ONLY!
+#
+########################################################################################
 
 def handleClassDefinitionOld(docTree, item):
   params = item.getChild("params")
@@ -250,63 +301,27 @@ def handleClassDefinitionOld(docTree, item):
 
           # It's a method definition
           if leftItem.type == "variable" and len(leftItem.children) == 2 and (leftItem.children[0].get("name") == "this" or leftItem.children[0].get("name") == "self") and rightItem.type == "function":
-            handleMethodDefinition(item, False, classNode)
+            handleMethodDefinitionOld(item, False, classNode)
 
   elif ctorItem and ctorItem.type == "map":
     for keyvalueItem in ctorItem.children:
       valueItem = keyvalueItem.getChild("value").getFirstChild()
       if (valueItem.type == "function"):
-        handleMethodDefinition(keyvalueItem, True, classNode)
+        handleMethodDefinitionOld(keyvalueItem, True, classNode)
       else:
         handleConstantDefinition(keyvalueItem, classNode)
 
-  return classNode;
-
-
-
-
-
-def handleMixins(item, classNode):
-  pass
-
-def handleInterfaces(item, classNode):
-  pass
-
-def handleConstructor(item, classNode):
-  pass
-
-def handleStatics(item, classNode):
-  if item.hasChildren():
-    for keyvalue in item.children:
-      key = keyvalue.get("key")
-      value = keyvalue.getFirstChild(True, True).getFirstChild(True, True)
-      print "  - Found Static: %s = %s" % (key, value.type)
-
-def handleProperties(item, classNode):
-  if item.hasChildren():
-    for keyvalue in item.children:
-      key = keyvalue.get("key")
-      value = keyvalue.getFirstChild(True, True).getFirstChild(True, True)
-      print "  - Found Property: %s" % key
-
-def handleMembers(item, classNode):
-  if item.hasChildren():
-    for keyvalue in item.children:
-      key = keyvalue.get("key")
-      value = keyvalue.getFirstChild(True, True).getFirstChild(True, True)
-      print "  - Found Member: %s = %s" % (key, value.type)
-
-
-
-
-
-
+  return classNode
 
 def handlePropertyDefinitionOld(item, classNode):
   paramsMap = item.getChild("params").getChild("map")
+  propertyName = paramsMap.getChildByAttribute("key", "name").getChild("value").getChild("constant").get("value")
 
+  handlePropertyDefinitionOldCommon(item, classNode, propertyName, paramsMap)
+
+def handlePropertyDefinitionOldCommon(item, classNode, propertyName, paramsMap):
   node = tree.Node("property")
-  node.set("name", paramsMap.getChildByAttribute("key", "name").getChild("value").getChild("constant").get("value"))
+  node.set("name", propertyName)
 
   propType = paramsMap.getChildByAttribute("key", "type", False)
   if propType:
@@ -357,28 +372,7 @@ def handlePropertyDefinitionOld(item, classNode):
 
   classNode.addListChild("properties", node)
 
-
-
-def getValue(item):
-  value = None
-  if item.type == "constant":
-    if item.get("constantType") == "string":
-      value = '"' + item.get("value") + '"'
-    else:
-      value = item.get("value")
-  elif item.type == "variable":
-    value = assembleVariable(item)
-  elif item.type == "operation" and item.get("operator") == "SUB":
-    # E.g. "-1" or "-Infinity"
-    value = "-" + getValue(item.getChild("first").getFirstChild())
-  if value == None:
-    value = "[Unsupported item type: " + item.type + "]"
-
-  return value
-
-
-
-def handleMethodDefinition(item, isStatic, classNode):
+def handleMethodDefinitionOld(item, isStatic, classNode):
   if item.type == "assignment":
     # This is a "normal" method definition
     leftItem = item.getFirstListChild("left")
@@ -408,6 +402,17 @@ def handleMethodDefinition(item, isStatic, classNode):
 
 
 
+
+
+
+
+
+########################################################################################
+#
+#  COMPATIBLE TO BOTH, 0.6 and 0.7 style
+#
+########################################################################################
+
 def handleConstantDefinition(item, classNode):
   if (item.type == "assignment"):
     # This is a "normal" constant definition
@@ -416,16 +421,17 @@ def handleConstantDefinition(item, classNode):
   elif (item.type == "keyvalue"):
     # This is a constant definition of a map-style class (like qx.Const)
     name = item.get("key")
+  else:
+    return
 
   node = tree.Node("constant")
   node.set("name", name)
 
   commentAttributes = comment.parseNode(item)
-  addTypeInfo(node, comment.getAttrib(commentAttributes, "description"), item)
+  description = comment.getAttrib(commentAttributes, "description")
+  addTypeInfo(node, description, item)
 
   classNode.addListChild("constants", node)
-
-
 
 def handleFunction(funcItem, commentAttributes, classNode):
   if funcItem.type != "function":
@@ -493,6 +499,71 @@ def handleFunction(funcItem, commentAttributes, classNode):
 
 
 
+
+
+
+
+
+
+
+########################################################################################
+#
+#  COMMON STUFF
+#
+#######################################################################################
+
+
+def variableIsClassName(varItem):
+  length = len(varItem.children)
+  for i in range(length):
+    varChild = varItem.children[i]
+    if not varChild.type == "identifier":
+      return False
+    if i < length - 1:
+      # This is not the last identifier -> It must a package (= lowercase)
+      if not varChild.get("name").islower():
+        return False
+    else:
+      # This is the last identifier -> It must the class name (= first letter uppercase)
+      if not varChild.get("name")[0].isupper():
+        return False
+  return True
+
+
+
+def assembleVariable(variableItem):
+  if variableItem.type != "variable":
+    raise DocException("'variableItem' is no variable", variableItem)
+
+  assembled = ""
+  for child in variableItem.children:
+    if len(assembled) != 0:
+      assembled += "."
+    assembled += child.get("name")
+
+  return assembled
+
+
+
+def getValue(item):
+  value = None
+  if item.type == "constant":
+    if item.get("constantType") == "string":
+      value = '"' + item.get("value") + '"'
+    else:
+      value = item.get("value")
+  elif item.type == "variable":
+    value = assembleVariable(item)
+  elif item.type == "operation" and item.get("operator") == "SUB":
+    # E.g. "-1" or "-Infinity"
+    value = "-" + getValue(item.getChild("first").getFirstChild())
+  if value == None:
+    value = "[Unsupported item type: " + item.type + "]"
+
+  return value
+
+
+
 def addTypeInfo(node, commentAttrib=None, item=None):
   if commentAttrib == None:
     if node.type == "param":
@@ -532,8 +603,6 @@ def addTypeInfo(node, commentAttrib=None, item=None):
 
 
 
-
-
 def addEventNode(classNode, classItem, commentAttrib):
   node = tree.Node("event")
 
@@ -555,7 +624,6 @@ def addEventNode(classNode, classItem, commentAttrib):
         itemNode.set("dimensions", item["dimensions"])
 
   classNode.addListChild("events", node)
-
 
 
 
