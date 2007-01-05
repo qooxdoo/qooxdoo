@@ -412,6 +412,57 @@ qx.Proto.displayAllObjects = function()
 
 
 /**
+ * Recursively display an object (as debug messages)
+ *
+ * @param obj {Object}
+ *   The object to be recursively displayed
+ */
+qx.Proto.debugObject = function(obj)
+{
+  thisClass = this;
+
+  var displayObj = function(obj, level)
+  {
+    var indentStr = "";
+    for (var i = 0; i < level; i++)
+    {
+      indentStr += "  ";
+    }
+
+    if (typeof(obj) != "object")
+    {
+      thisClass.debug(indentStr, obj);
+      return;
+    }
+
+    for (var prop in obj)
+    {
+      if (typeof(obj[prop]) == "object")
+      {
+        if (obj[prop] instanceof Array)
+        {
+          thisClass.debug(indentStr + prop + ": "  + "Array");
+        }
+        else
+        {
+          thisClass.debug(indentStr + prop + ": "  + "Object");
+        }
+
+        displayObj(obj[prop], level + 1);
+      }
+      else
+      {
+        thisClass.debug(indentStr + prop + ": " + obj[prop]);
+      }
+    }
+  }
+
+  displayObj(obj, 0);
+};
+
+
+
+/**
  * Start (or restart, after it has terminated) the finite state machine from
  * the starting state.  The starting state is defined as the first state added
  * to the finite state machine.
@@ -552,7 +603,7 @@ qx.Proto.enqueueEvent = function(event, bAddAtHead)
   // Add the event to the event queue
   if (bAddAtHead)
   {
-    // Put event at the head of the queue
+    // Put event at the head of the queue 
     this._eventQueue.push(event);
   }
   else
@@ -706,7 +757,6 @@ qx.Proto._run = function(event)
     return;
   }
 
-
   // We might have found a constant (PREDICATE or BLOCKED) or an object with
   // each property name being the friendly name of a saved object, and the
   // property value being one of the constants (PREDICATE or BLOCKED).
@@ -731,7 +781,6 @@ qx.Proto._run = function(event)
   {
     action = e;
   }
-
 
   switch(action)
   {
