@@ -186,7 +186,7 @@ def handleStatics(item, classNode):
     for keyvalue in item.children:
       key = keyvalue.get("key")
       value = keyvalue.getFirstChild(True, True).getFirstChild(True, True)
-      commentAttributes = comment.parseNode(item)
+      commentAttributes = comment.parseNode(keyvalue)
 
       # print "  - Found Static: %s = %s" % (key, value.type)
 
@@ -208,14 +208,14 @@ def handleProperties(item, classNode):
       # print "  - Found Property: %s" % key
 
       # TODO: New handling for new properties needed
-      handlePropertyDefinitionOldCommon(value, classNode, key, value)
+      handlePropertyDefinitionOldCommon(keyvalue, classNode, key, value)
 
 def handleMembers(item, classNode):
   if item.hasChildren():
     for keyvalue in item.children:
       key = keyvalue.get("key")
       value = keyvalue.getFirstChild(True, True).getFirstChild(True, True)
-      commentAttributes = comment.parseNode(item)
+      commentAttributes = comment.parseNode(keyvalue)
 
       # print "  - Found Member: %s = %s" % (key, value.type)
 

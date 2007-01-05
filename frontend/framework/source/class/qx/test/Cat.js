@@ -18,10 +18,12 @@ qx.Clazz.define("qx.test.Cat",
 
   properties :
   {
+    /** This is the documentation for the color property */
     color : {
       init : "red"
     },
 
+    /** This is the documentation for the oldStyle property */
     oldStyle : {
       defaultValue : 1,
       possibleValues : [ 1, 2, 3 ],
@@ -34,10 +36,12 @@ qx.Clazz.define("qx.test.Cat",
   {
     name : "",
 
+    /** This is the documentation for the makeSound function */
     makeSound : function() {
      this.debug("MEOW! MEOW!");
     },
 
+    /** This is the documentation for the play function */
     play : function() {
      this.debug("Don't know how to play!");
     }
