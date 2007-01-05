@@ -11,7 +11,7 @@ qx.Clazz.define("qx.test.Lion",
     arguments.callee.base.call(this);
   },
 
-  properties_ng :
+  properties :
   {
     color : {
       init : "brown"
