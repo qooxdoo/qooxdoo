@@ -1,4 +1,4 @@
-# German
+# German (Germany)
 #
 msgid ""
 msgstr ""
