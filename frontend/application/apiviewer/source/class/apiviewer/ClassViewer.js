@@ -100,34 +100,20 @@ qx.Proto._syncHtml = function()
 
   // PUBLIC
 
-  // Add public methods info
-  html += this._createInfoPanel(ClassViewer.NODE_TYPE_METHOD_PUBLIC,
-    "methods-pub", "public methods", this._createMethodInfo,
+  // Add methods info
+  html += this._createInfoPanel(ClassViewer.NODE_TYPE_METHOD,
+    "methods", "methods", this._createMethodInfo,
     this._methodHasDetails, true, true);
 
-  // Add static public methods info
-  html += this._createInfoPanel(ClassViewer.NODE_TYPE_METHOD_STATIC_PUBLIC,
-    "methods-static-pub", "static public methods", this._createMethodInfo,
+  // Add static methods info
+  html += this._createInfoPanel(ClassViewer.NODE_TYPE_METHOD_STATIC,
+    "methods-static", "static methods", this._createMethodInfo,
     this._methodHasDetails, false, true);
 
   // Add constants info
   html += this._createInfoPanel(ClassViewer.NODE_TYPE_CONSTANT,
     "constants", "constants", this._createConstantInfo,
     this._constantHasDetails, false, true);
-
-
-
-  // PROTECTED
-
-  // Add protected methods info
-  html += this._createInfoPanel(ClassViewer.NODE_TYPE_METHOD_PROTECTED,
-    "methods-prot", "protected methods", this._createMethodInfo,
-    this._methodHasDetails, true, false);
-
-  // Add static protected methods info
-  html += this._createInfoPanel(ClassViewer.NODE_TYPE_METHOD_STATIC_PROTECTED,
-    "methods-static-prot", "static protected methods", this._createMethodInfo,
-    this._methodHasDetails, false, false);
 
 
 
@@ -143,18 +129,12 @@ qx.Proto._syncHtml = function()
   this._classDescElem = divArr[1];
   this._controlFrame = divArr[2];
 
-  this._infoPanelHash[ClassViewer.NODE_TYPE_CONSTRUCTOR].infoElem             = divArr[3];
-  this._infoPanelHash[ClassViewer.NODE_TYPE_EVENT].infoElem                   = divArr[4];
-  this._infoPanelHash[ClassViewer.NODE_TYPE_PROPERTY].infoElem                = divArr[5];
-
-  this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD_PUBLIC].infoElem           = divArr[6];
-  this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD_STATIC_PUBLIC].infoElem    = divArr[7];
-  this._infoPanelHash[ClassViewer.NODE_TYPE_CONSTANT].infoElem                = divArr[8];
-
-  this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD_PROTECTED].infoElem        = divArr[9];
-  this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD_STATIC_PROTECTED].infoElem = divArr[10];
-
-  this._protectedElems = [ 9, 10 ];
+  this._infoPanelHash[ClassViewer.NODE_TYPE_CONSTRUCTOR].infoElem   = divArr[3];
+  this._infoPanelHash[ClassViewer.NODE_TYPE_EVENT].infoElem         = divArr[4];
+  this._infoPanelHash[ClassViewer.NODE_TYPE_PROPERTY].infoElem      = divArr[5];
+  this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD].infoElem        = divArr[6];
+  this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD_STATIC].infoElem = divArr[7];
+  this._infoPanelHash[ClassViewer.NODE_TYPE_CONSTANT].infoElem      = divArr[8];
 
   // Get the child elements
   for (var nodeType in this._infoPanelHash)
@@ -418,32 +398,29 @@ qx.Proto._updateInfoPanel = function(nodeType)
   var nodeArr = null;
   var fromClassHash = null;
 
-  if (!this._showProtected && (nodeType == apiviewer.ClassViewer.NODE_TYPE_METHOD_PROTECTED || nodeType == apiviewer.ClassViewer.NODE_TYPE_METHOD_STATIC_PROTECTED))
-  {
-    typeInfo.infoElem.style.display = "none";
-    return;
-  }
-  else
-  {
-    typeInfo.infoElem.style.display = "";
-  }
-
   if (typeInfo.isOpen && this._currentClassDocNode)
   {
-    if (this._showInherited && (nodeType == apiviewer.ClassViewer.NODE_TYPE_EVENT || nodeType == apiviewer.ClassViewer.NODE_TYPE_PROPERTY || nodeType == apiviewer.ClassViewer.NODE_TYPE_METHOD_PUBLIC || nodeType == apiviewer.ClassViewer.NODE_TYPE_METHOD_PROTECTED))
+    if (this._showInherited && (nodeType == apiviewer.ClassViewer.NODE_TYPE_EVENT || nodeType == apiviewer.ClassViewer.NODE_TYPE_PROPERTY || nodeType == apiviewer.ClassViewer.NODE_TYPE_METHOD))
     {
       nodeArr = [];
       fromClassArr = [];
       fromClassHash = {};
+
       var currClassNode = this._currentClassDocNode;
-      while (currClassNode != null) {
+
+      while (currClassNode != null)
+      {
         var currParentNode = apiviewer.TreeUtil.getChild(currClassNode, typeInfo.listName);
         var currNodeArr = currParentNode ? currParentNode.children : null;
-        if (currNodeArr) {
+        if (currNodeArr)
+        {
           // Add the nodes from this class
-          for (var i = 0; i < currNodeArr.length; i++) {
+          for (var i = 0; i < currNodeArr.length; i++)
+          {
             var name = currNodeArr[i].attributes.name;
-            if (fromClassHash[name] == null) {
+
+            if (fromClassHash[name] == null)
+            {
               fromClassHash[name] = currClassNode;
               nodeArr.push(currNodeArr[i]);
             }
@@ -453,17 +430,56 @@ qx.Proto._updateInfoPanel = function(nodeType)
         var superClassName = currClassNode.attributes.superClass;
         currClassNode = superClassName ? this._getClassDocNode(superClassName) : null;
       }
-
-      // Sort the nodeArr by name
-      nodeArr.sort(function(obj1, obj2) {
-        return (obj1.attributes.name.toLowerCase() < obj2.attributes.name.toLowerCase()) ? -1 : 1;
-      });
     }
     else
     {
       var parentNode = apiviewer.TreeUtil.getChild(this._currentClassDocNode, typeInfo.listName);
       nodeArr = parentNode ? parentNode.children : null;
     }
+  }
+
+  // Filter protected
+  if (nodeType == apiviewer.ClassViewer.NODE_TYPE_METHOD || nodeType == apiviewer.ClassViewer.NODE_TYPE_METHOD_STATIC)
+  {
+    if (nodeArr && nodeArr.length != 0 && !this._showProtected)
+    {
+      copyArr = nodeArr.concat();
+
+      for (var i=nodeArr.length-1; i>=0; i--)
+      {
+        var node = nodeArr[i];
+
+        if (nodeArr[i].attributes.name.charAt(0) == "_") {
+          qx.lang.Array.removeAt(copyArr, i);
+        }
+      }
+
+      nodeArr = copyArr;
+    }
+  }
+
+  // Sort the nodeArr by name
+  // Move protected methods to the end
+  if (nodeArr)
+  {
+    nodeArr.sort(function(obj1, obj2)
+    {
+      var n1 = obj1.attributes.name;
+      var n2 = obj2.attributes.name;
+      var p1 = n1.charAt(0) == "_";
+      var p2 = n2.charAt(0) == "_";
+      var h1 = n1.charAt(0) == "__";
+      var h2 = n2.charAt(0) == "__";
+
+      if (p1 == p2 && h1 == h2)
+      {
+        return n1.toLowerCase() < n2.toLowerCase() ? -1 : 1;
+      }
+      else
+      {
+        return h1 ? 1 : p1 ? 1 : -1;
+      }
+    });
   }
 
   // Show the nodes
@@ -474,7 +490,6 @@ qx.Proto._updateInfoPanel = function(nodeType)
     for (var i = 0; i < nodeArr.length; i++)
     {
       var node = nodeArr[i];
-
 
       var fromClassNode = fromClassHash ? fromClassHash[node.attributes.name] : null;
       if (fromClassNode == null) {
@@ -541,18 +556,11 @@ qx.Proto._updateInfoPanel = function(nodeType)
     typeInfo.infoBodyElem.innerHTML = html;
     this._fixLinks(typeInfo.infoBodyElem);
     typeInfo.infoBodyElem.style.display = "";
+    typeInfo.infoElem.style.display = "";
   }
   else
   {
-    if (typeInfo.isOpen)
-    {
-      typeInfo.infoBodyElem.innerHTML = '<div class="empty-info-body">This class has no ' + typeInfo.labelText + '</div>';
-      typeInfo.infoBodyElem.style.display = "";
-    }
-    else
-    {
-      typeInfo.infoBodyElem.style.display = "none";
-    }
+    typeInfo.infoElem.style.display = "none";
   }
 }
 
@@ -1492,17 +1500,11 @@ qx.Proto._getTypeForItemNode = function(itemNode) {
     var name = itemNode.attributes.name;
     if (name == null) {
       return ClassViewer.NODE_TYPE_CONSTRUCTOR;
-    } else if (name.charAt(0) == "_") {
-      if (itemNode.attributes.isStatic) {
-        return ClassViewer.NODE_TYPE_METHOD_STATIC_PROTECTED;
-      } else {
-        return ClassViewer.NODE_TYPE_METHOD_PROTECTED;
-      }
     } else {
       if (itemNode.attributes.isStatic) {
-        return ClassViewer.NODE_TYPE_METHOD_STATIC_PUBLIC;
+        return ClassViewer.NODE_TYPE_METHOD_STATIC;
       } else {
-        return ClassViewer.NODE_TYPE_METHOD_PUBLIC;
+        return ClassViewer.NODE_TYPE_METHOD;
       }
     }
   }
@@ -1554,16 +1556,11 @@ qx.Class.NODE_TYPE_EVENT = 2;
 qx.Class.NODE_TYPE_PROPERTY = 3;
 
 /** {int} The node type of a public method. */
-qx.Class.NODE_TYPE_METHOD_PUBLIC = 4;
+qx.Class.NODE_TYPE_METHOD = 4;
 /** {int} The node type of a static public method. */
-qx.Class.NODE_TYPE_METHOD_STATIC_PUBLIC = 5;
+qx.Class.NODE_TYPE_METHOD_STATIC = 5;
 /** {int} The node type of a constant. */
 qx.Class.NODE_TYPE_CONSTANT = 6;
-
-/** {int} The node type of a protected method. */
-qx.Class.NODE_TYPE_METHOD_PROTECTED = 7;
-/** {int} The node type of a static protected method. */
-qx.Class.NODE_TYPE_METHOD_STATIC_PROTECTED = 8;
 
 /** {string} The start tag of a div. */
 qx.Class.DIV_START = '<div>';
