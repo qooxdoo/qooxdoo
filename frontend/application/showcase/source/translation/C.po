@@ -1,3 +1,5 @@
+# (Default)
+
 #: source/class/showcase/Application.js:864
 msgid "Choose a locale: "
 msgstr ""
