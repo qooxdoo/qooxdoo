@@ -1,10 +1,8 @@
-# translation of de.po to German
-# Header entry was created by KBabel!
+# German
 #
-# Fabian Jakobs <fabian dot jakobs at 1und1 dot de>, 2006.
 msgid ""
 msgstr ""
-"Project-Id-Version: de\n"
+"Project-Id-Version: qooxdoo showcase\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-12-21 10:57+0100\n"
 "PO-Revision-Date: 2006-12-20 11:10+0100\n"

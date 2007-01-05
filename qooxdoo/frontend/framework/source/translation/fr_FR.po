@@ -1,4 +1,4 @@
-# French
+# French (France)
 #
 msgid ""
 msgstr ""
