@@ -196,12 +196,7 @@ def handleStatics(item, classNode):
         node.set("name", key)
         node.set("isStatic", True)
 
-        if key.startswith("_"):
-          listType = "prot"
-        else:
-          listType = "pub"
-
-        classNode.addListChild("methods-static-%s" % listType, node)
+        classNode.addListChild("methods-static", node)
 
       # Data
       else:
@@ -232,12 +227,7 @@ def handleMembers(item, classNode):
         node = handleFunction(value, commentAttributes, classNode)
         node.set("name", key)
 
-        if key.startswith("_"):
-          listType = "prot"
-        else:
-          listType = "pub"
-
-        classNode.addListChild("methods-%s" % listType, node)
+        classNode.addListChild("methods", node)
 
 
 
@@ -400,10 +390,6 @@ def handleMethodDefinitionOld(item, isStatic, classNode):
   if isStatic:
     node.set("isStatic", True)
     listName += "-static"
-  if isPublic:
-    listName += "-pub"
-  else:
-    listName += "-prot"
 
   classNode.addListChild(listName, node)
 
@@ -772,17 +758,14 @@ def postWorkClass(docTree, classNode):
   # Mark overridden items
   postWorkItemList(docTree, classNode, "properties", True)
   postWorkItemList(docTree, classNode, "events", False)
-  postWorkItemList(docTree, classNode, "methods-pub", True)
-  postWorkItemList(docTree, classNode, "methods-prot", True)
-  postWorkItemList(docTree, classNode, "methods-static-pub", False)
-  postWorkItemList(docTree, classNode, "methods-static-prot", False)
+  postWorkItemList(docTree, classNode, "methods", True)
+  postWorkItemList(docTree, classNode, "methods-static", False)
 
   # Check whether the class is static
   superClassName = classNode.get("superClass", False)
-  if (superClassName == None or superClassName == "QxObject") \
+  if (superClassName == None or superClassName == "qx.core.Object") \
     and classNode.getChild("properties", False) == None \
-    and classNode.getChild("methods-pub", False) == None \
-    and classNode.getChild("methods-prot", False) == None:
+    and classNode.getChild("methods", False) == None:
     # This class is static
     classNode.set("isStatic", True)
 
@@ -792,8 +775,7 @@ def postWorkClass(docTree, classNode):
 
   # Check for errors
   childHasError = listHasError(classNode, "constructor") or listHasError(classNode, "properties") \
-    or listHasError(classNode, "methods-pub") or listHasError(classNode, "methods-prot") \
-    or listHasError(classNode, "methods-static-pub") or listHasError(classNode, "methods-static-prot") \
+    or listHasError(classNode, "methods") or listHasError(classNode, "methods-static") \
     or listHasError(classNode, "constants")
 
   if childHasError:
@@ -804,8 +786,7 @@ def postWorkClass(docTree, classNode):
 
 
 def isClassAbstract(docTree, classNode, visitedMethodNames):
-  if containsAbstractMethods(classNode.getChild("methods-pub", False), visitedMethodNames) \
-    or containsAbstractMethods(classNode.getChild("methods-prot", False), visitedMethodNames):
+  if containsAbstractMethods(classNode.getChild("methods", False), visitedMethodNames):
     # One of the methods is abstract
     return True
 
@@ -833,26 +814,26 @@ def containsAbstractMethods(methodListNode, visitedMethodNames):
 
 def removePropertyModifiers(classNode):
   propertiesList = classNode.getChild("properties", False)
-  methodsProtList = classNode.getChild("methods-prot", False)
-  if propertiesList and methodsProtList:
+  methodsList = classNode.getChild("methods", False)
+  if propertiesList and methodsList:
     for propNode in propertiesList.children:
       name = propNode.get("name")
       upperName = name[0].upper() + name[1:]
 
-      modifyNode = methodsProtList.getChildByAttribute("name", "_modify" + upperName, False)
+      modifyNode = methodsList.getChildByAttribute("name", "_modify" + upperName, False)
       if modifyNode:
-        methodsProtList.removeChild(modifyNode);
+        methodsList.removeChild(modifyNode);
 
-      changeNode = methodsProtList.getChildByAttribute("name", "_change" + upperName, False)
+      changeNode = methodsList.getChildByAttribute("name", "_change" + upperName, False)
       if changeNode:
-        methodsProtList.removeChild(changeNode);
+        methodsList.removeChild(changeNode);
 
-      checkNode = methodsProtList.getChildByAttribute("name", "_check" + upperName, False)
+      checkNode = methodsList.getChildByAttribute("name", "_check" + upperName, False)
       if checkNode:
-        methodsProtList.removeChild(checkNode);
+        methodsList.removeChild(checkNode);
 
-    if not methodsProtList.hasChildren():
-      classNode.removeChild(methodsProtList)
+    if not methodsList.hasChildren():
+      classNode.removeChild(methodsList)
 
 
 
