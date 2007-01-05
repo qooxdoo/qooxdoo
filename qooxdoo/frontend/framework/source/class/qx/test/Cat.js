@@ -16,10 +16,17 @@ qx.Clazz.define("qx.test.Cat",
     static_prop1 : 3.141
   },
 
-  properties_ng :
+  properties :
   {
     color : {
       init : "red"
+    },
+
+    oldStyle : {
+      defaultValue : 1,
+      possibleValues : [ 1, 2, 3 ],
+      type : "string",
+      instance : "qx.core.Object"
     }
   },
 

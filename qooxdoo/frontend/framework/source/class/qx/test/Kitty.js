@@ -21,7 +21,7 @@ qx.Clazz.define("qx.test.Kitty",
     arguments.callee.base.call(this);
   },
 
-  properties_ng :
+  properties :
   {
     /*
     color : {
