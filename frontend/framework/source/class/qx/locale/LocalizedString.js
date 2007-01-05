@@ -34,16 +34,18 @@ function(messageId, args, locale) {
   this._locale = locale;
 
   var storedArguments = [];
-  for (var i=0; i<args.length; args++) {
+  for (var i=0; i<args.length; i++)
+  {
     var arg = args[i];
     if (arg instanceof qx.locale.LocalizedString) {
-      // defer convertion to string
+      // defer conversion to string
       storedArguments.push(arg);
     } else {
-      // force convertion to string
+      // force conversion to string
       storedArguments.push(arg + "");
     }
   }
+
   this.setArgs(storedArguments);
 });
 
