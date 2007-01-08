@@ -61,6 +61,47 @@ qx.Settings.setDefault("enable", false);
 
 // Relicensed under LGPL for qooxdoo.
 
+/**
+ * Initialize JavaScript generics (http://developer.mozilla.org/en/docs/New_in_JavaScript_1.6#Array_and_String_generics) as introduced with JavaScript 1.6 implemented
+ * in FireFox 1.5 and later for all Browsers.
+ * 
+ * This method sets up the following generic methods:
+ * * Array.join
+ * * Array.reverse
+ * * Array.sort
+ * * Array.push
+ * * Array.pop
+ * * Array.shift
+ * * Array.unshift
+ * * Array.splice
+ * * Array.concat
+ * * Array.slice
+ * * Array.indexOf
+ * * Array.lastIndexOf
+ * * Array.forEach
+ * * Array.map
+ * * Array.filter
+ * * Array.some
+ * * Array.every"
+ * * String.quote
+ * * String.substring
+ * * String.toLowerCase
+ * * String.toUpperCase
+ * * String.charAt
+ * * String.charCodeAt
+ * * String.indexOf
+ * * String.lastIndexOf
+ * * String.toLocaleLowerCase
+ * * String.toLocaleUpperCase
+ * * String.localeCompare
+ * * String.match
+ * * String.search
+ * * String.replace
+ * * String.split
+ * * String.substr
+ * * String.concat
+ * * String.slice
+ */
 qx.lang.Generics.init = function()
 {
   // Make generic versions of instance methods

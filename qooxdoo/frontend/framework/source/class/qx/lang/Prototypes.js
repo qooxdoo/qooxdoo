@@ -43,6 +43,14 @@ qx.Settings.setDefault("enable", false);
 ---------------------------------------------------------------------------
 */
 
+/**
+ * Augment the prototype of the native JavaScript objects "String", "Number" and "Array" with
+ * the methods defined in qx.lang.
+ * 
+ * @see qx.lang.String
+ * @see qx.lang.Number
+ * @see qx.lang.Array
+ */
 qx.lang.Prototypes.init = function()
 {
   var key, obj;

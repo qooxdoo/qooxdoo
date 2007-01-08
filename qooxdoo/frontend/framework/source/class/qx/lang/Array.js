@@ -35,7 +35,8 @@ qx.OO.defineClass("qx.lang.Array");
  */
 qx.lang.Array.fromArguments = function(args) {
   return Array.prototype.slice.call(args, 0);
-}
+};
+
 
 /**
  * Expand shorthand definition to a four element list.
@@ -71,53 +72,58 @@ qx.lang.Array.fromShortHand = function(input)
 
   // Return list with 4 items
   return result;
-}
+};
+
 
 /**
  * Return a copy of the given array
  *
- * @param arr {Array}
+ * @param arr {Array} the array to copy
  * @return {Array} copy of the array
  */
 qx.lang.Array.copy = function(arr) {
   return arr.concat();
-}
+};
+
 
 /**
  * Return a copy of the given array
  * The same as {@link qx.lang.Array.copy}
  *
- * @param arr {Array}
+ * @param arr {Array} the array to copy
  * @return {Array} copy of the array
  */
 qx.lang.Array.clone = function(arr) {
   return arr.concat();
-}
+};
+
 
 /**
  * Return the last element of an array
  *
- * @param arr {Array}
+ * @param arr {Array} the array
  * @return {var} the last element of the array
  */
 qx.lang.Array.getLast = function(arr) {
   return arr[arr.length-1];
-}
+};
+
 
 /**
  * Return the first element of an array
  *
- * @param arr {Array}
+ * @param arr {Array} the array
  * @return {var} the first element of the array
  */
 qx.lang.Array.getFirst = function(arr) {
   return arr[0];
-}
+};
+
 
 /**
  * Insert an element at a given position into the array
  *
- * @param arr {Array}
+ * @param arr {Array} the array 
  * @param obj {var} the element to insert
  * @param i {Integer} position where to insert the element into the array
  * @return {Array} the array
@@ -127,12 +133,13 @@ qx.lang.Array.insertAt = function(arr, obj, i)
   arr.splice(i, 0, obj);
 
   return arr;
-}
+};
+
 
 /**
  * Insert an element into the array before a given second element
  *
- * @param arr {Array}
+ * @param arr {Array} the array 
  * @param obj {var} object to be inserted
  * @param obj2 {var} insert obj1 before this object
  * @return {Array} the array
@@ -151,12 +158,13 @@ qx.lang.Array.insertBefore = function(arr, obj, obj2)
   }
 
   return arr;
-}
+};
+
 
 /**
  * Insert an element into the array after a given second element
  *
- * @param arr {Array}
+ * @param arr {Array} the array 
  * @param obj {var} object to be inserted
  * @param obj2 {var} insert obj1 after this object
  * @return {Array} the array
@@ -175,43 +183,47 @@ qx.lang.Array.insertAfter = function(arr, obj, obj2)
   }
 
   return arr;
-}
+};
+
 
 /**
  * Remove an element from the array at the given index
  *
- * @param arr {Array}
+ * @param arr {Array} the array 
  * @param i {Integer} index of the element to be removed
  * @return {Array} the array with the element remnoved
  */
 qx.lang.Array.removeAt = function(arr, i) {
   return arr.splice(i, 1);
-}
+};
+
 
 /**
  * Remmove all elements from the array
  *
- * @param arr {Array}
+ * @param arr {Array} the array 
  * @return {Array} empty array
  */
 qx.lang.Array.removeAll = function(arr) {
   return arr.splice(0, arr.length);
-}
+};
+
 
 /**
  * Append the elements of an array to the array
  *
- * @param arr {Array}
+ * @param arr {Array} the array 
  * @param a {Array} the elements of this array will be appended to the array
  */
 qx.lang.Array.append = function(arr, a) {
   Array.prototype.push.apply(arr, a);
-}
+};
+
 
 /**
  * Remove an element from the array
  *
- * @param arr {Array}
+ * @param arr {Array} the array 
  * @param obj {var} element to be removed from the array
  * @return {Array} array with the element removed
  */
@@ -222,15 +234,16 @@ qx.lang.Array.remove = function(arr, obj)
   if (i != -1) {
     return arr.splice(i, 1);
   }
-}
+};
+
 
 /**
  * Whether the array contains the given element
  *
- * @param arr {Array}
+ * @param arr {Array} the array 
  * @param obj {var} object to look for
  * @return {Boolean} whether the array contains the element
  */
 qx.lang.Array.contains = function(arr, obj) {
   return arr.indexOf(obj) != -1;
-}
+};
