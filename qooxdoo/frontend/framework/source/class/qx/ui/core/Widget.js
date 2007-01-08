@@ -590,6 +590,11 @@ qx.OO.addPropertyGroup({ name : "clip", members : [ "clipLeft", "clipTop", "clip
 ---------------------------------------------------------------------------
 */
 
+/**
+ * Flush all global queues
+ */
+qx.ui.core.Widget.flushGlobalQueues = function() {};
+
 if (qx.Settings.getValueOfClass("qx.ui.core.Widget", "enableQueueDebug"))
 {
   qx.ui.core.Widget.flushGlobalQueues = function()
