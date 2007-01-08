@@ -462,6 +462,9 @@ def handleFunction(funcItem, commentAttributes, classNode):
       node.addChild(descNode)
 
     elif attrib["category"] == "see":
+      if not attrib.has_key("name"):
+        raise DocException("Missing target for see.", funcItem)
+
       seeNode = tree.Node("see").set("name", attrib["name"])
       node.addChild(seeNode)
 
