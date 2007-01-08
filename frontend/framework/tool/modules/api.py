@@ -461,6 +461,10 @@ def handleFunction(funcItem, commentAttributes, classNode):
       descNode = tree.Node("desc").set("text", attrib["text"])
       node.addChild(descNode)
 
+    elif attrib["category"] == "see":
+      seeNode = tree.Node("see").set("name", attrib["name"])
+      node.addChild(seeNode)
+
     elif attrib["category"] == "param":
       if not attrib.has_key("name"):
         raise DocException("Missing name of parameter.", funcItem)
