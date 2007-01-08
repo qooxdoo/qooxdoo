@@ -95,7 +95,7 @@ qx.OO.addCachedProperty({ name : "visibleChildren", defaultValue : null });
  * Wether the widget has its own focus handler or uses one of its parent's
  * focus handler.
  *
- * @return {boolean} wether the widget has its own focus handler
+ * @return {Boolean} wether the widget has its own focus handler
  */
 qx.Proto.isFocusRoot = function() {
   return this.getFocusHandler() != null;
@@ -336,7 +336,7 @@ qx.Proto.getChildren = function() {
 /**
  * Get number of children
  *
- * @return {int} number of children
+ * @return {Integer} number of children
  */
 qx.Proto.getChildrenLength = function() {
   return this.getChildren().length;
@@ -354,7 +354,7 @@ qx.Proto.hasChildren = function() {
 /**
  * Check if there are any childrens inside
  *
- * @return {boolean} wether the number of children is 0
+ * @return {Boolean} wether the number of children is 0
  */
 qx.Proto.isEmpty = function() {
   return this.getChildrenLength() == 0;
@@ -364,7 +364,7 @@ qx.Proto.isEmpty = function() {
  * Get the index of a child widget.
  *
  * @param vChild {qx.ui.core.Widget}
- * @return {int} index of the child widget
+ * @return {Integer} index of the child widget
  */
 qx.Proto.indexOf = function(vChild) {
   return this.getChildren().indexOf(vChild);

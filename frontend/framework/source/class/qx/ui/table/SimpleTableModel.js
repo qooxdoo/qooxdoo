@@ -39,7 +39,7 @@ function() {
 /**
  * <p>See overridden method for details.</p>
  *
- * @param rowIndex {int} the model index of the row.
+ * @param rowIndex {Integer} the model index of the row.
  * @return {Array} Array containing a value for each column.
  */
 qx.Proto.getRowData = function(rowIndex) {
@@ -51,7 +51,7 @@ qx.Proto.getRowData = function(rowIndex) {
  * Returns the data of one row as map containing the column IDs as key and the
  * cell values as value.
  *
- * @param rowIndex {int} the model index of the row.
+ * @param rowIndex {Integer} the model index of the row.
  * @return {Map} a Map containing the column values.
  */
 qx.Proto.getRowDataAsMap = function(rowIndex) {
@@ -67,7 +67,7 @@ qx.Proto.getRowDataAsMap = function(rowIndex) {
 /**
  * Sets all columns editable or not editable.
  *
- * @param editable {boolean} whether all columns are editable.
+ * @param editable {Boolean} whether all columns are editable.
  */
 qx.Proto.setEditable = function(editable) {
   this._editableColArr = [];
@@ -82,8 +82,8 @@ qx.Proto.setEditable = function(editable) {
 /**
  * Sets whether a column is editable.
  *
- * @param columnIndex {int} the column of which to set the editable state.
- * @param editable {boolean} whether the column should be editable.
+ * @param columnIndex {Integer} the column of which to set the editable state.
+ * @param editable {Boolean} whether the column should be editable.
  */
 qx.Proto.setColumnEditable = function(columnIndex, editable) {
   if (editable != this.isColumnEditable(columnIndex)) {
@@ -250,7 +250,7 @@ qx.Proto.setDataAsMapArray = function(mapArr) {
  * @param rowArr {var[][]} An array containing an array for each row. Each
  *        row-array contains the values in that row in the order of the columns
  *        in this model.
- * @param startIndex {int ? null} The index where to insert the new rows. If null,
+ * @param startIndex {Integer ? null} The index where to insert the new rows. If null,
  *        the rows are appended to the end.
  */
 qx.Proto.addRows = function(rowArr, startIndex) {
@@ -281,7 +281,7 @@ qx.Proto.addRows = function(rowArr, startIndex) {
  *
  * @param mapArr {Map[]} An array containing a map for each row. Each
  *        row-map contains the column IDs as key and the cell values as value.
- * @param startIndex {int ? null} The index where to insert the new rows. If null,
+ * @param startIndex {Integer ? null} The index where to insert the new rows. If null,
  *        the rows are appended to the end.
  */
 qx.Proto.addRowsAsMapArray = function(mapArr, startIndex) {
@@ -292,8 +292,8 @@ qx.Proto.addRowsAsMapArray = function(mapArr, startIndex) {
 /**
  * Removes some rows from the model.
  *
- * @param startIndex {int} the index of the first row to remove.
- * @param howMany {int} the number of rows to remove.
+ * @param startIndex {Integer} the index of the first row to remove.
+ * @param howMany {Integer} the number of rows to remove.
  */
 qx.Proto.removeRows = function(startIndex, howMany) {
   this._rowArr.splice(startIndex, howMany);

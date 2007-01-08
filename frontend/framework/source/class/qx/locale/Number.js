@@ -26,7 +26,7 @@ qx.OO.defineClass("qx.locale.Number");
 /**
  * Get deciaml separator for number formatting
  *
- * @param locale {string} optional locale to be used
+ * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString} deciaml separator.
  */
 qx.Class.getDecimalSeparator = function(locale) {
@@ -37,7 +37,7 @@ qx.Class.getDecimalSeparator = function(locale) {
 /**
  * Get thousand grouping separator for number formatting
  *
- * @param locale {string} optional locale to be used
+ * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString} group separator.
  */
 qx.Class.getGroupSeparator = function(locale) {
@@ -48,7 +48,7 @@ qx.Class.getGroupSeparator = function(locale) {
 /**
  * Get percent format string
  *
- * @param locale {string} optional locale to be used
+ * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString} percent format string.
  */
 qx.Class.getPercentFormat = function(locale) {

@@ -119,7 +119,7 @@ qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
  * @param cellInfo {Map} A map containing the information about the cell to
  *        create. This map has the same structure as in
  *        {@link DataCellRenderer#createDataCell}.
- * @return {string} the formatted value.
+ * @return {String} the formatted value.
  */
 qx.Proto._formatValue = function(cellInfo) {
   var value = cellInfo.value;
@@ -159,8 +159,8 @@ qx.Proto._createContentHtml_array_join = function(cellInfo, htmlArr) {
 /**
  * Escapes special HTML characters by their entities.
  *
- * @param html {string} The HTML to escape.
- * @return {string} The escaped string showing HTML code as plain text.
+ * @param html {String} The HTML to escape.
+ * @return {String} The escaped string showing HTML code as plain text.
  */
 qx.Class.escapeHtml = function(html) {
   return html.replace(/[<>&]/gi, qx.ui.table.DefaultDataCellRenderer._escapeHtmlReplacer);

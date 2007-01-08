@@ -282,8 +282,8 @@ qx.Proto.getHideTimeStamp = function() {
 /**
  * Positions the popup relative to some reference element.
  * @param el    {var} Reference DOM element/widget.
- * @param offsetX   {int} Offset in pixels in X direction (optional).
- * @param offsetY   {int} Offset in pixels in Y direction (optional).
+ * @param offsetX {Integer} Offset in pixels in X direction (optional).
+ * @param offsetY {Integer} Offset in pixels in Y direction (optional).
  */
 qx.Proto.positionRelativeTo = function(el, offsetX, offsetY)
 {

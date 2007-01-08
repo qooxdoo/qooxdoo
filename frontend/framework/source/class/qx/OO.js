@@ -53,7 +53,7 @@ qx.Class.propertyNumber = 0;
  * define a new qooxdoo class
  * All classes should be defined in this way.
  *
- * @param vClassName {string} fully qualified class name (e.g. "qx.ui.form.Button")
+ * @param vClassName {String} fully qualified class name (e.g. "qx.ui.form.Button")
  * @param vSuper {Object} super class
  * @param vConstructor {Function} the constructor of the new class
  */

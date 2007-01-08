@@ -97,7 +97,7 @@ qx.OO.addProperty({ name : "resizeMethod", type : "string", defaultValue : "fram
 
 /**
  * Adjust so that it returns a boolean instead of an array.
- * @return {boolean}
+ * @return {Boolean}
  */
 qx.Proto.isResizeable = qx.Proto.getResizeable = function() {
   return this.getResizeableWest() || this.getResizeableEast() || this.getResizeableNorth() || this.getResizeableSouth();

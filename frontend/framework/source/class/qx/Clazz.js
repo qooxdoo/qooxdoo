@@ -71,7 +71,7 @@ qx.Clazz._registry = { "qx.Clazz" : qx.Clazz };
  * @type object
  * @name define
  * @access public
- * @param fullname {string} class name
+ * @param fullname {String} class name
  * @param definition {Map ? null} definition structure
  * @param definition.extend {Function ? null} super class
  * @param definition.implement {Array ? null} list of interfaces that need to be implemented
@@ -548,8 +548,8 @@ qx.Clazz.define = function(fullname, definition)
  * @type object
  * @name isDefined
  * @access public
- * @param fullname {string} class name to check
- * @return {boolean} true if class exists
+ * @param fullname {String} class name to check
+ * @return {Boolean} true if class exists
  */
 qx.Clazz.isDefined = function(fullname) {
   return this._registry[fullname] != null;
@@ -563,7 +563,7 @@ qx.Clazz.isDefined = function(fullname) {
  * @access public
  * @param vClass {Function} class to extend
  * @param vMixin {Function} mixin to include
- * @return {boolean} true if was successful
+ * @return {Boolean} true if was successful
  */
 qx.Clazz.include = function(vClass, vMixin)
 {

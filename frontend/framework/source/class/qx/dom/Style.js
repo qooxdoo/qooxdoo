@@ -37,8 +37,8 @@ qx.dom.Style.getStylePropertySure = function(vElement, propertyName) {};
  * Get the (CSS) style property of a given DOM element
  *
  * @param vElement {Element} the DOM element
- * @param propertyName {string} the name of the style property. e.g. "color", "border", ...
- * @return {string} the (CSS) style property
+ * @param propertyName {String} the name of the style property. e.g. "color", "border", ...
+ * @return {String} the (CSS) style property
  */
 qx.dom.Style.getStyleProperty = function(vElement, propertyName) {};
 
@@ -122,8 +122,8 @@ else
  * Get a (CSS) style property of a given DOM element and interpret the property as integer value
  *
  * @param vElement {Element} the DOM element
- * @param propertyName {string} the name of the style property. e.g. "paddingTop", "marginLeft", ...
- * @return {integer} the (CSS) style property converted to an integer value
+ * @param propertyName {String} the name of the style property. e.g. "paddingTop", "marginLeft", ...
+ * @return {Integereger} the (CSS) style property converted to an integer value
  */
 qx.dom.Style.getStyleSize = function(vElement, propertyName) { return parseInt(qx.dom.Style.getStyleProperty(vElement, propertyName)) || 0; }
 
@@ -133,7 +133,7 @@ qx.dom.Style.getStyleSize = function(vElement, propertyName) { return parseInt(q
  * Get the element's left margin.
  *
  * @param vElement {Element} the DOM element
- * @return {integer} the element's left margin size
+ * @return {Integereger} the element's left margin size
  */
 qx.dom.Style.getMarginLeft    = function(vElement) { return qx.dom.Style.getStyleSize(vElement, "marginLeft"); }
 
@@ -141,7 +141,7 @@ qx.dom.Style.getMarginLeft    = function(vElement) { return qx.dom.Style.getStyl
  * Get the element's top margin.
  *
  * @param vElement {Element} the DOM element
- * @return {integer} the element's top margin size
+ * @return {Integereger} the element's top margin size
  */
 qx.dom.Style.getMarginTop     = function(vElement) { return qx.dom.Style.getStyleSize(vElement, "marginTop"); }
 
@@ -149,7 +149,7 @@ qx.dom.Style.getMarginTop     = function(vElement) { return qx.dom.Style.getStyl
  * Get the element's right margin.
  *
  * @param vElement {Element} the DOM element
- * @return {integer} the element's right margin size
+ * @return {Integereger} the element's right margin size
  */
 qx.dom.Style.getMarginRight   = function(vElement) { return qx.dom.Style.getStyleSize(vElement, "marginRight"); }
 
@@ -157,7 +157,7 @@ qx.dom.Style.getMarginRight   = function(vElement) { return qx.dom.Style.getStyl
  * Get the element's bottom margin.
  *
  * @param vElement {Element} the DOM element
- * @return {integer} the element's bottom margin size
+ * @return {Integereger} the element's bottom margin size
  */
 qx.dom.Style.getMarginBottom  = function(vElement) { return qx.dom.Style.getStyleSize(vElement, "marginBottom"); }
 
@@ -165,7 +165,7 @@ qx.dom.Style.getMarginBottom  = function(vElement) { return qx.dom.Style.getStyl
  * Get the element's left padding.
  *
  * @param vElement {Element} the DOM element
- * @return {integer} the element's left padding size
+ * @return {Integereger} the element's left padding size
  */
 qx.dom.Style.getPaddingLeft   = function(vElement) { return qx.dom.Style.getStyleSize(vElement, "paddingLeft"); }
 
@@ -173,7 +173,7 @@ qx.dom.Style.getPaddingLeft   = function(vElement) { return qx.dom.Style.getStyl
  * Get the element's top padding.
  *
  * @param vElement {Element} the DOM element
- * @return {integer} the element's top padding size
+ * @return {Integereger} the element's top padding size
  */
 qx.dom.Style.getPaddingTop    = function(vElement) { return qx.dom.Style.getStyleSize(vElement, "paddingTop"); }
 
@@ -181,7 +181,7 @@ qx.dom.Style.getPaddingTop    = function(vElement) { return qx.dom.Style.getStyl
  * Get the element's right padding.
  *
  * @param vElement {Element} the DOM element
- * @return {integer} the element's right padding size
+ * @return {Integereger} the element's right padding size
  */
 qx.dom.Style.getPaddingRight  = function(vElement) { return qx.dom.Style.getStyleSize(vElement, "paddingRight"); }
 
@@ -189,7 +189,7 @@ qx.dom.Style.getPaddingRight  = function(vElement) { return qx.dom.Style.getStyl
  * Get the element's bottom padding.
  *
  * @param vElement {Element} the DOM element
- * @return {integer} the element's bottom padding size
+ * @return {Integereger} the element's bottom padding size
  */
 qx.dom.Style.getPaddingBottom = function(vElement) { return qx.dom.Style.getStyleSize(vElement, "paddingBottom"); }
 
@@ -197,7 +197,7 @@ qx.dom.Style.getPaddingBottom = function(vElement) { return qx.dom.Style.getStyl
  * Get the element's left border width.
  *
  * @param vElement {Element} the DOM element
- * @return {integer} the element's left border width
+ * @return {Integereger} the element's left border width
  */
 qx.dom.Style.getBorderLeft    = function(vElement) { return qx.dom.Style.getStyleProperty(vElement, "borderLeftStyle")   == "none" ? 0 : qx.dom.Style.getStyleSize(vElement, "borderLeftWidth"); }
 
@@ -205,7 +205,7 @@ qx.dom.Style.getBorderLeft    = function(vElement) { return qx.dom.Style.getStyl
  * Get the element's top border width.
  *
  * @param vElement {Element} the DOM element
- * @return {integer} the element's top border width
+ * @return {Integereger} the element's top border width
  */
 qx.dom.Style.getBorderTop     = function(vElement) { return qx.dom.Style.getStyleProperty(vElement, "borderTopStyle")    == "none" ? 0 : qx.dom.Style.getStyleSize(vElement, "borderTopWidth"); }
 
@@ -213,7 +213,7 @@ qx.dom.Style.getBorderTop     = function(vElement) { return qx.dom.Style.getStyl
  * Get the element's right border width.
  *
  * @param vElement {Element} the DOM element
- * @return {integer} the element's right border width
+ * @return {Integereger} the element's right border width
  */
 qx.dom.Style.getBorderRight   = function(vElement) { return qx.dom.Style.getStyleProperty(vElement, "borderRightStyle")  == "none" ? 0 : qx.dom.Style.getStyleSize(vElement, "borderRightWidth"); }
 
@@ -221,6 +221,6 @@ qx.dom.Style.getBorderRight   = function(vElement) { return qx.dom.Style.getStyl
  * Get the element's bottom border width.
  *
  * @param vElement {Element} the DOM element
- * @return {integer} the element's bottom border width
+ * @return {Integereger} the element's bottom border width
  */
 qx.dom.Style.getBorderBottom  = function(vElement) { return qx.dom.Style.getStyleProperty(vElement, "borderBottomStyle") == "none" ? 0 : qx.dom.Style.getStyleSize(vElement, "borderBottomWidth"); }
