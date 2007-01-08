@@ -24,8 +24,8 @@
 /**
  * A finite state machine.
  *
- * See {@see qx.util.finitestatemacine.State} for details on creating States,
- * and {@see qx.util.finitestatemacine.Transitions} for details on creating
+ * See {@link qx.util.finitestatemacine.State} for details on creating States,
+ * and {@link qx.util.finitestatemacine.Transitions} for details on creating
  * transitions between states.
  *
  * *EXPERIMENTAL*
@@ -301,7 +301,7 @@ qx.Proto.addObject = function(friendlyName, obj, groupNames)
 
 
 /**
- * Remove an object which had previously been added by {@see #addObject}.
+ * Remove an object which had previously been added by {@link #addObject}.
  *
  * @param friendlyName {String}
  *   The friendly name associated with an object, specifying which object is
@@ -330,7 +330,7 @@ qx.Proto.removeObject = function(friendlyName)
 
 
 /**
- * Retrieve an object previously saved via {@see #addObject}, using its
+ * Retrieve an object previously saved via {@link #addObject}, using its
  * Friendly Name.
  *
  * @param friendlyName {String}
@@ -352,7 +352,7 @@ qx.Proto.getObject = function(friendlyName)
  * @param obj {Object} The object for which the friendly name is desired
  *
  * @return {String}
- *   If the object has been previously registered via {@see #addObject}, then
+ *   If the object has been previously registered via {@link #addObject}, then
  *   the friendly name of the object is returned; otherwise, null.
  */
 qx.Proto.getFriendlyName = function(obj)
@@ -363,7 +363,7 @@ qx.Proto.getFriendlyName = function(obj)
 
 
 /**
- * Retrieve the list of objects which have registered, via {@see addObject} as
+ * Retrieve the list of objects which have registered, via {@link addObject} as
  * being members of the specified group.
  *
  * @param groupName {String}
