@@ -109,8 +109,8 @@ qx.Proto._modifyLocale = function(propValue, propOldValue, propData) {
 /**
  * Add a translation to the translation manager
  *
- * @param languageCode (string) language code of the translation like de, de_AT, en, en_GB, fr, ...
- * @param translationMap (Map) mapping of message identifiers (english text) to the target language
+ * @param languageCode {String} language code of the translation like de, de_AT, en, en_GB, fr, ...
+ * @param translationMap {Map} mapping of message identifiers (english text) to the target language
  */
 qx.Proto.addTranslation = function(languageCode, translationMap) {
 
@@ -129,11 +129,11 @@ qx.Proto.addTranslation = function(languageCode, translationMap) {
 
 /**
  * Translate a message
- * @see(qx.lang.String.format)
+ * @see qx.lang.String.format
  *
- * @param messageId (string) message id (may contain format strings)
- * @param varargs (object) variable number of argumes applied to the format string
- * @return (qx.locale.LocalizedString)
+ * @param messageId {String} message id (may contain format strings)
+ * @param varargs {Object} variable number of argumes applied to the format string
+ * @return {qx.locale.LocalizedString}
  */
 qx.Class.tr = function(messageId, varargs)
 {
@@ -149,13 +149,13 @@ qx.Class.tr = function(messageId, varargs)
  *
  * Depending on the third argument the plursl or the singular form is chosen.
  *
- * @see(qx.lang.String.format)
+ * @see qx.lang.String.format
  *
- * @param singularMessageId (string) message id of the singular form (may contain format strings)
- * @param pluralMessageId (string) message id of the plural form (may contain format strings)
- * @param count (integer) if greater than 1 the plural form otherwhise the singular form is returned.
- * @param varargs (object) variable number of argumes applied to the format string
- * @return (qx.locale.LocalizedString)
+ * @param singularMessageId {String} message id of the singular form (may contain format strings)
+ * @param pluralMessageId {String} message id of the plural form (may contain format strings)
+ * @param count {Integer} if greater than 1 the plural form otherwhise the singular form is returned.
+ * @param varargs {Object} variable number of argumes applied to the format string
+ * @return {qx.locale.LocalizedString}
  */
 qx.Class.trn = function(singularMessageId, pluralMessageId, count, varargs)
 {
@@ -178,12 +178,12 @@ qx.Class.trn = function(singularMessageId, pluralMessageId, count, varargs)
  *
  * Depending on the third argument the plursl or the singular form is chosen.
  *
- * @see(qx.lang.String.format)
+ * @see qx.lang.String.format
  *
- * @param hint (string) hint for the translator of the message. Will be included in the .pot file.
- * @param messageId (string) message id (may contain format strings)
- * @param varargs (object) variable number of argumes applied to the format string
- * @return (qx.locale.LocalizedString)
+ * @param hint {String} hint for the translator of the message. Will be included in the .pot file.
+ * @param messageId {String} message id (may contain format strings)
+ * @param varargs {Object} variable number of argumes applied to the format string
+ * @return {qx.locale.LocalizedString}
  */
 qx.Class.trc = function(hint, messageId, varargs)
 {
@@ -197,8 +197,8 @@ qx.Class.trc = function(hint, messageId, varargs)
 /**
  * Mark the message for translation but return the original message.
  *
- * @param messageId (string)
- * @return (string) messageId
+ * @param messageId {String}
+ * @return {String} messageId
  */
 qx.Class.marktr = function(messageId) {
   return messageId;
@@ -208,10 +208,10 @@ qx.Class.marktr = function(messageId) {
 /**
  * Translate a message using the current locale and apply format string to the arguments.
  *
- * @param messageId (string) message id (may contain format strings)
- * @param args (object[]) array of objects, which are inserted into the format string.
- * @param locale (string) optional locale to be used for translation
- * @return (string) translated message.
+ * @param messageId {String} message id (may contain format strings)
+ * @param args (Object[]) array of objects, which are inserted into the format string.
+ * @param locale {String} optional locale to be used for translation
+ * @return {String} translated message.
  */
 qx.Proto.translate = function(messageId, args, locale)
 {
