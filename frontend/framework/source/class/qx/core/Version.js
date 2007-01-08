@@ -41,12 +41,12 @@ qx.OO.defineClass("qx.core.Version",
   /**
    * qooxdoo revision number
    */
-  revision : 4,
+  revision : 5,
 
   /**
    * qooxdoo revision state
    */
-  state : "",
+  state : "pre",
 
   /**
    * qooxdoo subversion revision number
