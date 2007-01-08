@@ -459,6 +459,7 @@ def formatText(text):
   #  print "------------- ORIGINAL ----------------"
   #  print text
 
+  text = text.replace("<pre", "\n\n<pre").replace("</pre>", "</pre>\n\n")
   text = textile.textile(unicode(text).encode('utf-8'))
 
   #if "\n" in text:
