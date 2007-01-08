@@ -1184,27 +1184,24 @@ qx.Proto._hasSeeAlsoHtml = function(node) {
 qx.Proto._createSeeAlsoHtml = function(node, fromClassNode) {
   var ClassViewer = apiviewer.ClassViewer;
 
-  var descNode = apiviewer.TreeUtil.getChild(node, "desc");
-  if (descNode) {
-    var attributesNode = apiviewer.TreeUtil.getChild(descNode, "attributes");
-    if (attributesNode) {
-      var seeAlsoHtml = "";
-      for (var i = 0; i < attributesNode.children.length; i++) {
-        var attribNode = attributesNode.children[i];
-        if (attribNode.attributes.name == "see") {
-          // This is a @see attribute
-          if (seeAlsoHtml.length != 0) {
-            seeAlsoHtml += ", ";
-          }
-          seeAlsoHtml += this._createItemLinkHtml(attribNode.attributes.text, fromClassNode);
-        }
-      }
+  var descNode = apiviewer.TreeUtil.getChild(node, "see");
 
-      if (seeAlsoHtml.length != 0) {
-        // We had @see attributes
-        return ClassViewer.DIV_START_DETAIL_HEADLINE + "See also:" + ClassViewer.DIV_END
-          + ClassViewer.DIV_START_DETAIL_TEXT + seeAlsoHtml + ClassViewer.DIV_END;
+  if (node.children)
+  {
+    var seeAlsoHtml = "";
+    for (var i = 0; i < node.children.length; i++) {
+      if (node.children[i].type == "see") {
+        // This is a @see attribute
+        if (seeAlsoHtml.length != 0) {
+          seeAlsoHtml += ", ";
+        }
+        seeAlsoHtml += this._createItemLinkHtml(node.children[i].attributes.name, fromClassNode);
       }
+    }
+    if (seeAlsoHtml.length != 0) {
+      // We had @see attributes
+      return ClassViewer.DIV_START_DETAIL_HEADLINE + "See also:" + ClassViewer.DIV_END
+        + ClassViewer.DIV_START_DETAIL_TEXT + seeAlsoHtml + ClassViewer.DIV_END;
     }
   }
 
