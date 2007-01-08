@@ -226,7 +226,7 @@ qx.Proto._updateState = function(vItem, vState, vIsState)
   var c = this.getItemClassName(vItem);
   var n = this.getItemBaseClassName(vItem) + "-" + vState;
 
-  this.setItemClassName(vItem, vIsState ? qx.lang.String.add(c, n, " ") : qx.lang.String.remove(c, n, " "));
+  this.setItemClassName(vItem, vIsState ? qx.lang.String.addListItem(c, n, " ") : qx.lang.String.removeListItem(c, n, " "));
 }
 
 qx.Proto.renderItemSelectionState = function(vItem, vIsSelected) {
