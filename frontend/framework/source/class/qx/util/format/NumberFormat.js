@@ -121,7 +121,7 @@ qx.Proto.format = function(num) {
     integerStr = "";
     var groupPos;
     for (groupPos = origIntegerStr.length; groupPos > 3; groupPos -= 3) {
-      integerStr = "" + qx.locale.Number.getGroupSeperator(this._locale)
+      integerStr = "" + qx.locale.Number.getGroupSeparator(this._locale)
         + origIntegerStr.substring(groupPos - 3, groupPos) + integerStr;
     }
     integerStr = origIntegerStr.substring(0, groupPos) + integerStr;
@@ -135,7 +135,7 @@ qx.Proto.format = function(num) {
   // Assemble the number
   var str = prefix + (negative ? "-" : "") + integerStr;
   if (fractionStr.length > 0) {
-    str += "" + qx.locale.Number.getDecimalSeperator(this._locale) + fractionStr;
+    str += "" + qx.locale.Number.getDecimalSeparator(this._locale) + fractionStr;
   }
   str += postfix;
 
@@ -154,8 +154,8 @@ qx.Proto.parse = function(str) {
   var NumberFormat = qx.util.format.NumberFormat;
 
   // use the escaped separators for regexp
-  var groupSepEsc = qx.lang.String.escapeRegexpChars(qx.locale.Number.getGroupSeperator(this._locale)+"");
-  var decimalSepEsc = qx.lang.String.escapeRegexpChars(qx.locale.Number.getDecimalSeperator(this._locale)+"");
+  var groupSepEsc = qx.lang.String.escapeRegexpChars(qx.locale.Number.getGroupSeparator(this._locale)+"");
+  var decimalSepEsc = qx.lang.String.escapeRegexpChars(qx.locale.Number.getDecimalSeparator(this._locale)+"");
 
   var regex = new RegExp(qx.lang.String.escapeRegexpChars(this.getPrefix())
     + '(-)?([0-9' + groupSepEsc + ']+)'
