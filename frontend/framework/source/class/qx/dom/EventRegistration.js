@@ -25,7 +25,22 @@
 
 qx.OO.defineClass("qx.dom.EventRegistration");
 
+/**
+ * Assign a function to an event.
+ *
+ * @param vElement {Element} DOM Element
+ * @param vType {String} Name of the event
+ * @param vFunction {Function} The pointer to the function to assign
+ */
 qx.dom.EventRegistration.addEventListener = function(vElement, vType, vFunction) {};
+
+/**
+ * Unassign a function from an event.
+ *
+ * @param vElement {Element} DOM Element
+ * @param vType {String} Name of the event
+ * @param vFunction {Function} The pointer to the function to assign
+ */
 qx.dom.EventRegistration.removeEventListener = function(vElement, vType, vFunction) {};
 
 if (qx.sys.Client.getInstance().isMshtml())
