@@ -389,6 +389,8 @@ def parseDetail(attrib, format=True):
   else:
     attrib["text"] = cleanupText(text)
 
+  if attrib["text"] == "":
+    del attrib["text"]
 
 
 

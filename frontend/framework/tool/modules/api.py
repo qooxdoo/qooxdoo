@@ -458,8 +458,9 @@ def handleFunction(funcItem, commentAttributes, classNode):
   for attrib in commentAttributes:
     # Add description
     if attrib["category"] == "description":
-      descNode = tree.Node("desc").set("text", attrib["text"])
-      node.addChild(descNode)
+      if attrib.has_key("text"):
+        descNode = tree.Node("desc").set("text", attrib["text"])
+        node.addChild(descNode)
 
     elif attrib["category"] == "see":
       if not attrib.has_key("name"):
@@ -579,7 +580,8 @@ def addTypeInfo(node, commentAttrib=None, item=None):
     return
 
   # add description
-  node.addChild(tree.Node("desc").set("text", commentAttrib["text"]))
+  if commentAttrib.has_key("text"):
+    node.addChild(tree.Node("desc").set("text", commentAttrib["text"]))
 
   # add types
   if commentAttrib.has_key("type"):
@@ -608,7 +610,9 @@ def addEventNode(classNode, classItem, commentAttrib):
   node = tree.Node("event")
 
   node.set("name", commentAttrib["name"])
-  node.addChild(tree.Node("desc").set("text", commentAttrib["text"]))
+
+  if commentAttrib.has_key("text"):
+    node.addChild(tree.Node("desc").set("text", commentAttrib["text"]))
 
   # add types
   if commentAttrib.has_key("type"):
