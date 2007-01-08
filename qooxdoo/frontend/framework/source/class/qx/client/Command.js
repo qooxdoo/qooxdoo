@@ -242,7 +242,7 @@ qx.Proto._oldKeyNameToKeyIdentifierMap =
 
 
 /**
- * converts an old key name as found in @see(qx.event.type.KeyEvent.keys) to
+ * converts an old key name as found in {@link qx.event.type.KeyEvent.keys} to
  * the new keyIdentifier.
  *
  * @param keyName (string) old name of the key.

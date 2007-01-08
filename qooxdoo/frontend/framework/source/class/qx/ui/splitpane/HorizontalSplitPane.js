@@ -28,8 +28,8 @@
  * new qx.ui.splitpane.HorizontalSplitPane()<br />
  * new qx.ui.splitpane.HorizontalSplitPane(firstSize, secondSize)
  *
- * @param firstSize {String} The size of the left pane. Allowed values are any by {@see qx.ui.core.Widget} supported unit.
- * @param secondSize {String} The size of the right pane. Allowed values are any by {@see qx.ui.core.Widget} supported unit.
+ * @param firstSize {String} The size of the left pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
+ * @param secondSize {String} The size of the right pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
  */
 qx.OO.defineClass("qx.ui.splitpane.HorizontalSplitPane", qx.ui.splitpane.SplitPane,
 function(firstSize, secondSize) {

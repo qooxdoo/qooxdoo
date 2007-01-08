@@ -105,7 +105,7 @@
  *       describes some number of functions to invoke on a set of specified
  *       objects (typically widgets).
  *
- *       See {@see qx.util.fsm.State} for an example of autoActions.
+ *       See {@link qx.util.fsm.State} for an example of autoActions.
  *
  *     ontransition -
  *       A function which is called if the predicate function for this
