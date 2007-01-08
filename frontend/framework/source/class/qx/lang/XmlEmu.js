@@ -30,7 +30,6 @@ qx.OO.defineClass("qx.lang.XmlEmu");
   License: http://creativecommons.org/licenses/LGPL/2.1/
   Modelled after: http://www.mozilla.org/xmlextras
 */
-
 if (qx.sys.Client.getInstance().isMshtml())
 {
   var DOMParser = function() {
