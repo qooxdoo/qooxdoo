@@ -27,6 +27,7 @@
  */
 qx.OO.defineClass("qx.lang.String");
 
+
 /**
  * converts a string seperated by '-' to camel case.
  * Example:
@@ -58,7 +59,7 @@ qx.Class.toCamelCase = function(str)
 /**
  * removes white space from the left side of a string
  *
- * @param str {String}
+ * @param str {String} the string to trim
  * @return {String}
  */
 qx.Class.trimLeft = function(str) {
@@ -69,7 +70,7 @@ qx.Class.trimLeft = function(str) {
 /**
  * removes white space from the right side of a string
  *
- * @param str {String}
+ * @param str {String} the string to trim
  * @return {String}
  */
 qx.Class.trimRight = function(str) {
@@ -80,7 +81,7 @@ qx.Class.trimRight = function(str) {
 /**
  * removes white space from the left and the right side of a string
  *
- * @param str {String}
+ * @param str {String} the string to trim
  * @return {String}
  */
 qx.Class.trim = function(str) {
@@ -100,14 +101,39 @@ qx.Class.stripTags = function(str) {
   return str.replace(/<\/?[^>]+>/gi, "");
 };
 
+
+/**
+ * Check whether the string starts with the given substring
+ * 
+ * @param fullstr {String} the string to search in
+ * @param substr {String} the substring to look for
+ * @return {Boolean} whether the string starts with the given substring
+ */
 qx.Class.startsWith = function(fullstr, substr) {
   return !fullstr.indexOf(substr);
 };
 
+
+/**
+ * Check whether the string ends with the given substring
+ * 
+ * @param fullstr {String} the string to search in 
+ * @param substr {String} the substring to look for
+ * @return {Boolean} whether the string ends with the given substring
+ */
 qx.Class.endsWith = function(fullstr, substr) {
   return fullstr.lastIndexOf(substr) === fullstr.length-substr.length;
 };
 
+
+/**
+ * Pad a string up to a given length. Padding characters are added to the left of the string.
+ * 
+ * @param str {String} the string to pad
+ * @param length {Integer} the final length of the string
+ * @param ch {String?"0"} character used to fill up the string
+ * @return {String} paddded string
+ */
 qx.Class.pad = function(str, length, ch)
 {
   if (typeof ch === "undefined") {
@@ -116,50 +142,74 @@ qx.Class.pad = function(str, length, ch)
 
   var temp = "";
 
-  for (var i=length, l=str.length; l<i; l++) {
+  for (var i=str.length; i<length; i++) {
     temp += ch;
   }
 
   return temp + str;
 };
 
+
+/**
+ * Convert the first character of the string to upper case.
+ * 
+ * @param str {String} the string
+ * @return {String} the string with a upper case first character
+ */
 qx.Class.toFirstUp = function(str) {
   return str.charAt(0).toUpperCase() + str.substr(1);
 };
 
-qx.Class.add = function(str, v, sep)
+
+/**
+ * Add a list item to a serialized list string
+ * Example:
+ * <pre>qx.lang.String.addListItem("red, yellow, green", "blue", ", ") == "red, yellow, green, blue"<pre>
+ *
+ * @param str {String} serialized list. The items are seperated by "sep"
+ * @param item {String} list item to be added
+ * @param sep {String?","} separator
+ * @return {String} the string with the added item
+ */
+qx.Class.addListItem = function(str, item, sep)
 {
-  if (str == v)
+  if (str == item || str == "")
   {
-    return str;
+    return item;
   }
-  else if (str == "")
+  
+  if (sep == null) {
+    sep = ",";
+  }
+
+  var a = str.split(sep);
+
+  if (a.indexOf(item) == -1)
   {
-    return v;
+    a.push(item);
+    return a.join(sep);
   }
   else
   {
-    if (sep == null) {
-      sep = ",";
-    }
-
-    var a = str.split(sep);
-
-    if (a.indexOf(v) == -1)
-    {
-      a.push(v);
-      return a.join(sep);
-    }
-    else
-    {
-      return str;
-    }
+    return str;
   }
+
 };
 
-qx.Class.remove = function(str, v, sep)
+
+/**
+ * Remove a list item from a serialized list string
+ * Example:
+ * <pre>qx.lang.String.removeListItem("red, yellow, green", "yellow", ", ") == "red, green, blue"<pre>
+ *
+ * @param str {String} serialized list. The items are seperated by "sep"
+ * @param item {String} list item to be removed
+ * @param sep {String?","} separator
+ * @return {String} the string with the removed item
+ */
+qx.Class.removeListItem = function(str, item, sep)
 {
-  if (str == v || str == "")
+  if (str == item || str == "")
   {
     return "";
   }
@@ -170,21 +220,29 @@ qx.Class.remove = function(str, v, sep)
     }
 
     var a = str.split(sep);
-    var p = a.indexOf(v);
+    var p = a.indexOf(item);
 
     if (p === -1) {
       return str;
     }
 
     do { a.splice(p, 1); }
-    while((p = a.indexOf(v)) != -1);
+    while((p = a.indexOf(item)) != -1);
 
     return a.join(sep);
   }
 };
 
-qx.Class.contains = function(str, s) {
-  return str.indexOf(s) != -1;
+
+/**
+ * Check whether the string contains a given substring
+ * 
+ * @param str {String} the string
+ * @param substring {String} substring to search for
+ * @return {Boolean} whether the string contains the substring
+ */
+qx.Class.contains = function(str, substring) {
+  return str.indexOf(substring) != -1;
 };
 
 
@@ -206,7 +264,7 @@ qx.Class.escapeRegexpChars = function(str) {
  * <pre>qx.lang.String.format("Hello %1, my name is %2", ["Egon", "Franz"]) == "Hello Egon, my name is Franz"<pre>
  *
  * @param pattern {String} format string
- * @param args {Array}
+ * @param args {Array} array of arguments to insert into the format string
  * @return {String}
  */
 qx.Class.format = function(pattern, args)
