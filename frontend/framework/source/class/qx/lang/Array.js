@@ -119,7 +119,7 @@ qx.lang.Array.getFirst = function(arr) {
  *
  * @param arr {Array}
  * @param obj {var} the element to insert
- * @param i {int} position where to insert the element into the array
+ * @param i {Integer} position where to insert the element into the array
  * @return {Array} the array
  */
 qx.lang.Array.insertAt = function(arr, obj, i)
@@ -181,7 +181,7 @@ qx.lang.Array.insertAfter = function(arr, obj, obj2)
  * Remove an element from the array at the given index
  *
  * @param arr {Array}
- * @param i {int} index of the element to be removed
+ * @param i {Integer} index of the element to be removed
  * @return {Array} the array with the element remnoved
  */
 qx.lang.Array.removeAt = function(arr, i) {
@@ -229,7 +229,7 @@ qx.lang.Array.remove = function(arr, obj)
  *
  * @param arr {Array}
  * @param obj {var} object to look for
- * @return {boolean} whether the array contains the element
+ * @return {Boolean} whether the array contains the element
  */
 qx.lang.Array.contains = function(arr, obj) {
   return arr.indexOf(obj) != -1;
