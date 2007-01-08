@@ -32,7 +32,7 @@ R_JAVADOC_STARS = re.compile(r'^\s*\*')
 
 
 
-R_NAMED_TYPE = re.compile(r'^\s*([a-zA-Z0-9_\.]+)\s*({([^}]+)})?')
+R_NAMED_TYPE = re.compile(r'^\s*([a-zA-Z0-9_\.#]+)\s*({([^}]+)})?')
 R_SIMPLE_TYPE = re.compile(r'^\s*({([^}]+)})?')
 
 
