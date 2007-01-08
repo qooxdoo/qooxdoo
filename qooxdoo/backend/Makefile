@@ -2,7 +2,7 @@
 # VARIABLES
 ###################################################################################
 
-VERSION = 0.6.4
+VERSION = 0.6.5-pre
 
 NICE=10
 NICE_CALL = nice -n $(NICE)
@@ -15,8 +15,10 @@ FIX_FILES = -name "*.py" -o -name "*.sh" -o -name SERVER_WRITER_GUIDE -o -name *
 RSYNC = --recursive --archive --delete --exclude .svn
 RSYNC_EXEC = @$(NICE_CALL) rsync $(RSYNC)
 
-UNIX2DOS = | xargs unix2dos > /dev/null 2>&1
-DOS2UNIX = | xargs dos2unix > /dev/null 2>&1
+CMD_PYTHON = python
+
+ANY2DOS = | xargs $(CMD_PYTHON) ../frontend/framework/tool/modules/textutil.py --command any2Dos
+ANY2UNIX = | xargs $(CMD_PYTHON) ../frontend/framework/tool/modules/textutil.py --command any2Unix
 
 FILES = java php SERVER_WRITER_GUIDE
 
