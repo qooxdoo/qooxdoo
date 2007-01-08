@@ -25,9 +25,9 @@
 /**
  * A formatter and parser for dates
  *
- * @param format {string} The format to use. If null, the
+ * @param format {String} The format to use. If null, the
  *    {@link #DEFAULT_DATE_TIME_FORMAT} is used.
- * @param locale {string} optional locale to be used
+ * @param locale {String} optional locale to be used
  */
 qx.OO.defineClass("qx.util.format.DateFormat", qx.util.format.Format,
 function(format, locale) {
@@ -45,9 +45,9 @@ function(format, locale) {
 /**
  * Fills a number with leading zeros ("25" -> "0025").
  *
- * @param number {int} the number to fill.
- * @param minSize {int} the minimum size the returned string should have.
- * @return {string} the filled number as string.
+ * @param number {Integer} the number to fill.
+ * @param minSize {Integer} the minimum size the returned string should have.
+ * @return {String} the filled number as string.
  */
 qx.Proto._fillNumber = function(number, minSize) {
   var str = "" + number;
@@ -62,7 +62,7 @@ qx.Proto._fillNumber = function(number, minSize) {
  * Returns the day in year of a date.
  *
  * @param date {Date} the date.
- * @return {int} the day in year.
+ * @return {Integer} the day in year.
  */
 qx.Proto._getDayInYear = function(date) {
   var helpDate = new Date(date.getTime());
@@ -91,7 +91,7 @@ qx.Proto._thursdayOfSameWeek = function(date) {
  * Returns the week in year of a date.
  *
  * @param date {Date} the date to get the week in year of.
- * @return {int} the week in year.
+ * @return {Integer} the week in year.
  */
 qx.Proto._getWeekInYear = function(date) {
   // This algorithm gets the correct calendar week after ISO 8601.
@@ -121,7 +121,7 @@ qx.Proto._getWeekInYear = function(date) {
  * the SimpleDateFormat class in Java</a>.
  *
  * @param date {Date} The date to format.
- * @return {string} the formatted date.
+ * @return {String} the formatted date.
  */
 qx.Proto.format = function(date) {
   var DateFormat = qx.util.format.DateFormat;
@@ -232,7 +232,7 @@ qx.Proto.format = function(date) {
  * <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/text/SimpleDateFormat.html" target="_blank">
  * the SimpleDateFormat class in Java</a>.
  *
- * @param dateStr {string} the date to parse.
+ * @param dateStr {String} the date to parse.
  * @return {Date} the parsed date.
  * @throws If the format is not well formed or if the date string does not
  *     match to the format.
@@ -538,7 +538,7 @@ qx.Proto._initParseRules = function() {
  * Returns a <code>DateFomat</code> instance that uses the
  * {@link #DEFAULT_DATE_TIME_FORMAT}.
  *
- * @return {string} the date/time instance.
+ * @return {String} the date/time instance.
  */
 qx.Class.getDateTimeInstance = function() {
   var DateFormat = qx.util.format.DateFormat;
@@ -558,7 +558,7 @@ qx.Class.getDateTimeInstance = function() {
  * Returns a <code>DateFomat</code> instance that uses the
  * {@link #DEFAULT_DATE_FORMAT}.
  *
- * @return {string} the date instance.
+ * @return {String} the date instance.
  */
 qx.Class.getDateInstance = function() {
   var DateFormat = qx.util.format.DateFormat;

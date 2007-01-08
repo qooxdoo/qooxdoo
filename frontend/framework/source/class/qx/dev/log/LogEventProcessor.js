@@ -88,7 +88,7 @@ qx.Proto._getDefaultFilter = function() {
  * <p>
  * Note: This will clear all custom filters.
  *
- * @param enabled {boolean} whether event processing should be enabled.
+ * @param enabled {Boolean} whether event processing should be enabled.
  */
 qx.Proto.setEnabled = function(enabled) {
   this._getDefaultFilter().setEnabled(enabled);
@@ -100,7 +100,7 @@ qx.Proto.setEnabled = function(enabled) {
  * <p>
  * Note: This will clear all custom filters.
  *
- * @param minLevel {int} the new min level.
+ * @param minLevel {Integer} the new min level.
  */
 qx.Proto.setMinLevel = function(minLevel) {
   this._getDefaultFilter().setMinLevel(minLevel);
@@ -111,7 +111,7 @@ qx.Proto.setMinLevel = function(minLevel) {
  * Decides whether a log event is processed.
  *
  * @param evt {Map} the event to check.
- * @return {int} {@link Filter#ACCEPT}, {@link Filter#DENY} or
+ * @return {Integer} {@link Filter#ACCEPT}, {@link Filter#DENY} or
  *     {@link Filter#NEUTRAL}.
  */
 qx.Proto.decideLogEvent = function(evt) {

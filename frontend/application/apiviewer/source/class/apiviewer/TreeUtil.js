@@ -37,7 +37,7 @@ function () {
  * Gets the child of a doc node having a certain type.
  *
  * @param docNode {Map} the doc node to get the child of.
- * @param childType {string} the type of the child to get.
+ * @param childType {String} the type of the child to get.
  * @return {Map} the wanted child or <code>null</code> if <code>docNode</code>
  *         is <code>null</code> or has no such child.
  */
@@ -58,8 +58,8 @@ qx.Class.getChild = function(docNode, childType) {
  * Gets the child of a doc node having a certain attribute value.
  *
  * @param docNode {Map} the doc node to get the child of.
- * @param attributeName {string} the name of the attribute the wanted child must have.
- * @param attributeValue {string} the value of the attribute the wanted child must have.
+ * @param attributeName {String} the name of the attribute the wanted child must have.
+ * @param attributeValue {String} the value of the attribute the wanted child must have.
  * @return {Map} the wanted child or <code>code</code> if there is no such child.
  */
 qx.Class.getChildByAttribute = function(docNode, attributeName, attributeValue) {
@@ -81,7 +81,7 @@ qx.Class.getChildByAttribute = function(docNode, attributeName, attributeValue) 
  * type of the item.
  *
  * @param classNode {Map} the class node the item belongs to.
- * @param itemName {string} the name of the item to search.
+ * @param itemName {String} the name of the item to search.
  * @return {Map} the doc node of the item or <code>null</code> if the class has
  *         no such item.
  */
@@ -108,7 +108,7 @@ qx.Class.getItemDocNode = function(classNode, itemName) {
  * Gets the doc node of a class.
  *
  * @param docTree {Map} the documentation tree.
- * @param className {string} the name of the class.
+ * @param className {String} the name of the class.
  * @return {Map} the doc node of the class.
  */
 qx.Class.getClassDocNode = function(docTree, className) {
@@ -134,7 +134,7 @@ qx.Class.getClassDocNode = function(docTree, className) {
  * Gets the icon URL of a doc node.
  *
  * @param node {Map} the node to get the icon for.
- * @param inherited {boolean,false} whether the node was inherited.
+ * @param inherited {Boolean,false} whether the node was inherited.
  * @return {var} the URL of the icon. May be a string or an array of string
  *         (in case of an overlay icon).
  */

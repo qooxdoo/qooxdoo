@@ -27,10 +27,10 @@ qx.OO.defineClass("qx.locale.Key");
  * Return localized name of a key identifier
  * @see(qx.event.handler.KeyEventHandler)
  *
- * @param size {string} format of the key identifier.
+ * @param size {String} format of the key identifier.
  *     Possible values: "short", "full"
- * @param keyIdentifier {string} key identifier to translate @see(qx.event.handler.KeyEventHandler)
- * @param locale {string} optional locale to be used
+ * @param keyIdentifier {String} key identifier to translate @see(qx.event.handler.KeyEventHandler)
+ * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString} localized key name
  */
 qx.Class.getKeyName = function(size, keyIdentifier, locale) {

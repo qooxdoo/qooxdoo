@@ -97,9 +97,9 @@ qx.Proto.getTable = function() {
 /**
  * Sets the currently focused cell.
  *
- * @param col {int} the model index of the focused cell's column.
- * @param row {int} the model index of the focused cell's row.
- * @param massUpdate {boolean ? false} Whether other updates are planned as well.
+ * @param col {Integer} the model index of the focused cell's column.
+ * @param row {Integer} the model index of the focused cell's row.
+ * @param massUpdate {Boolean ? false} Whether other updates are planned as well.
  *        If true, no repaint will be done.
  */
 qx.Proto.setFocusedCell = function(col, row, massUpdate) {
@@ -199,10 +199,10 @@ qx.Proto._onTableModelMetaDataChanged = function(evt) {
 /**
  * Updates the content of the pane.
  *
- * @param completeUpdate {boolean ? false} if true a complete update is performed.
+ * @param completeUpdate {Boolean ? false} if true a complete update is performed.
  *    On a complete update all cell widgets are recreated.
- * @param onlyRow {int ? null} if set only the specified row will be updated.
- * @param onlySelectionOrFocusChanged {boolean ? false} if true, cell values won't
+ * @param onlyRow {Integer ? null} if set only the specified row will be updated.
+ * @param onlySelectionOrFocusChanged {Boolean ? false} if true, cell values won't
  *        be updated. Only the row background will.
  */
 qx.Proto._updateContent = function(completeUpdate, onlyRow,
@@ -452,7 +452,7 @@ qx.Proto._updateContent_orig = function(completeUpdate, onlyRow,
 /**
  * Cleans up the row widgets.
  *
- * @param firstRowToRemove {int} the visible index of the first row to clean up.
+ * @param firstRowToRemove {Integer} the visible index of the first row to clean up.
  *    All following rows will be cleaned up, too.
  */
 qx.Proto._cleanUpRows = function(firstRowToRemove) {

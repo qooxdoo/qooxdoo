@@ -27,12 +27,12 @@
  * whith the selected date.
  *
  * @param vTargetWidget {qx.ui.core.Widget} the widget which is the target for the date value selection. The target widget must have a setValue and getValue method.
- * @param vChooserTitle {string} the title of the chooser window. The default value is held in property chooserTitle.
- * @param vButtonLabel {string} the label of the button. The default is null.
- * @param vIcon {string} the icon of the button. The default is 'icon/16/date.png'.
- * @param vIconWidth {string} derived from qx.ui.form.Button.
- * @param vIconHeight {string} derived from qx.ui.form.Button.
- * @param vFlash {string} derived from qx.ui.form.Button.
+ * @param vChooserTitle {String} the title of the chooser window. The default value is held in property chooserTitle.
+ * @param vButtonLabel {String} the label of the button. The default is null.
+ * @param vIcon {String} the icon of the button. The default is 'icon/16/date.png'.
+ * @param vIconWidth {String} derived from qx.ui.form.Button.
+ * @param vIconHeight {String} derived from qx.ui.form.Button.
+ * @param vFlash {String} derived from qx.ui.form.Button.
  */
 qx.OO.defineClass("qx.ui.component.DateChooserButton", qx.ui.form.Button, function(vTargetWidget, vChooserTitle, vButtonLabel, vIcon, vIconWidth, vIconHeight, vFlash)
 {
@@ -107,7 +107,7 @@ qx.OO.addProperty(
  * @param propValue {var} Current value
  * @param propOldValue {var} Previous value
  * @param propData {var} Property configuration map
- * @return {boolean} true if modification succeeded
+ * @return {Boolean} true if modification succeeded
  * @throws exception if propValue is not instance of qx.ui.core.Widget or does not have setter and getter for property value
  */
 qx.Proto._modifyTargetWidget = function(propValue, propOldValue, propData)
@@ -128,7 +128,7 @@ qx.Proto._modifyTargetWidget = function(propValue, propOldValue, propData)
  * @param propValue {var} Current value
  * @param propOldValue {var} Previous value
  * @param propData {var} Property configuration map
- * @return {boolean} true if modification succeeded
+ * @return {Boolean} true if modification succeeded
  */
 qx.Proto._modifyChooserTitle = function(propValue, propOldValue, propData)
 {

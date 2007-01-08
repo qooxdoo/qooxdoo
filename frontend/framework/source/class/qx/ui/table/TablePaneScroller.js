@@ -692,7 +692,7 @@ qx.Proto._onmouseout = function(evt) {
 /**
  * Shows the resize line.
  *
- * @param x {int} the position where to show the line (in pixels, relative to
+ * @param x {Integer} the position where to show the line (in pixels, relative to
  *    the left side of the pane).
  */
 qx.Proto._showResizeLine = function(x) {
@@ -725,8 +725,8 @@ qx.Proto._hideResizeLine = function() {
 /**
  * Shows the feedback shown while a column is moved by the user.
  *
- * @param pageX {int} the x position of the mouse in the page (in pixels).
- * @return {int} the visible x position of the column in the whole table.
+ * @param pageX {Integer} the x position of the mouse in the page (in pixels).
+ * @return {Integer} the visible x position of the column in the whole table.
  */
 qx.Proto.showColumnMoveFeedback = function(pageX) {
   var paneModel = this.getTablePaneModel();
@@ -777,8 +777,8 @@ qx.Proto.hideColumnMoveFeedback = function() {
  * <code>pageX</code>/<code>pageY</code>. If there is no cell at that position,
  * nothing happens.
  *
- * @param pageX {int} the x position in the page (in pixels).
- * @param pageY {int} the y position in the page (in pixels).
+ * @param pageX {Integer} the x position in the page (in pixels).
+ * @param pageY {Integer} the y position in the page (in pixels).
  */
 qx.Proto._focusCellAtPagePos = function(pageX, pageY) {
   var row = this._getRowForPagePos(pageX, pageY);
@@ -795,8 +795,8 @@ qx.Proto._focusCellAtPagePos = function(pageX, pageY) {
 /**
  * Sets the currently focused cell.
  *
- * @param col {int} the model index of the focused cell's column.
- * @param row {int} the model index of the focused cell's row.
+ * @param col {Integer} the model index of the focused cell's column.
+ * @param row {Integer} the model index of the focused cell's row.
  */
 qx.Proto.setFocusedCell = function(col, row) {
   if (!this.isEditing()) {
@@ -816,7 +816,7 @@ qx.Proto.setFocusedCell = function(col, row) {
 /**
  * Returns the column of currently focused cell.
  *
- * @return {int} the model index of the focused cell's column.
+ * @return {Integer} the model index of the focused cell's column.
  */
 qx.Proto.getFocusedColumn = function() {
   return this._focusedCol;
@@ -826,7 +826,7 @@ qx.Proto.getFocusedColumn = function() {
 /**
  * Returns the row of currently focused cell.
  *
- * @return {int} the model index of the focused cell's column.
+ * @return {Integer} the model index of the focused cell's column.
  */
 qx.Proto.getFocusedRow = function() {
   return this._focusedRow;
@@ -836,8 +836,8 @@ qx.Proto.getFocusedRow = function() {
 /**
  * Scrolls a cell visible.
  *
- * @param col {int} the model index of the column the cell belongs to.
- * @param row {int} the model index of the row the cell belongs to.
+ * @param col {Integer} the model index of the column the cell belongs to.
+ * @param row {Integer} the model index of the row the cell belongs to.
  */
 qx.Proto.scrollCellVisible = function(col, row) {
   var paneModel = this.getTablePaneModel();
@@ -885,7 +885,7 @@ qx.Proto.isEditing = function() {
  * Starts editing the currently focused cell. Does nothing if already editing
  * or if the column is not editable.
  *
- * @return {boolean} whether editing was started
+ * @return {Boolean} whether editing was started
  */
 qx.Proto.startEditing = function() {
   var tableModel = this.getTable().getTableModel();
@@ -973,8 +973,8 @@ qx.Proto._onCellEditorFocusChanged = function(evt) {
  * Returns the model index of the column the mouse is over or null if the mouse
  * is not over a column.
  *
- * @param pageX {int} the x position of the mouse in the page (in pixels).
- * @return {int} the model index of the column the mouse is over.
+ * @param pageX {Integer} the x position of the mouse in the page (in pixels).
+ * @return {Integer} the model index of the column the mouse is over.
  */
 qx.Proto._getColumnForPageX = function(pageX) {
   var headerLeftX = qx.dom.Location.getClientBoxLeft(this._header.getElement());
@@ -1001,8 +1001,8 @@ qx.Proto._getColumnForPageX = function(pageX) {
  * Returns the model index of the column that should be resized when dragging
  * starts here. Returns -1 if the mouse is in no resize region of any column.
  *
- * @param pageX {int} the x position of the mouse in the page (in pixels).
- * @return {int} the column index.
+ * @param pageX {Integer} the x position of the mouse in the page (in pixels).
+ * @return {Integer} the column index.
  */
 qx.Proto._getResizeColumnForPageX = function(pageX) {
   var headerLeftX = qx.dom.Location.getClientBoxLeft(this._header.getElement());
@@ -1031,9 +1031,9 @@ qx.Proto._getResizeColumnForPageX = function(pageX) {
  * the mouse is over the header. Returns null if the mouse is not over any
  * column.
  *
- * @param pageX {int} the mouse x position in the page.
- * @param pageY {int} the mouse y position in the page.
- * @return {int} the model index of the row the mouse is currently over.
+ * @param pageX {Integer} the mouse x position in the page.
+ * @param pageY {Integer} the mouse y position in the page.
+ * @return {Integer} the model index of the row the mouse is currently over.
  */
 qx.Proto._getRowForPagePos = function(pageX, pageY) {
   var paneClipperElem = this._paneClipper.getElement();
@@ -1123,11 +1123,11 @@ qx.Proto.getTablePane = function() {
 /**
  * Returns which scrollbars are needed.
  *
- * @param forceHorizontal {boolean ? false} Whether to show the horizontal
+ * @param forceHorizontal {Boolean ? false} Whether to show the horizontal
  *    scrollbar always.
- * @param preventVertical {boolean ? false} Whether tp show the vertical scrollbar
+ * @param preventVertical {Boolean ? false} Whether tp show the vertical scrollbar
  *    never.
- * @return {int} which scrollbars are needed. This may be any combination of
+ * @return {Integer} which scrollbars are needed. This may be any combination of
  *    {@link #HORIZONTAL_SCROLLBAR} or {@link #VERTICAL_SCROLLBAR}
  *    (combined by OR).
  */

@@ -33,7 +33,7 @@
  * experimental.  It may change in non-backward-compatible ways as more
  * experience is gained in its use.
  *
- * @param machineName {string} The name of this finite state machine
+ * @param machineName {String} The name of this finite state machine
  *
  */
 qx.OO.defineClass("qx.util.fsm.FiniteStateMachine", qx.core.Target,
@@ -201,7 +201,7 @@ qx.Proto.addState = function(state)
  *   An object of class qx.util.fsm.State representing a state
  *   which is to be a part of this finite state machine.
  *
- * @param bDispose {boolean}
+ * @param bDispose {Boolean}
  *   If <i>true</i>, then dispose the old state object.  If <i>false</i>, the
  *   old state object is returned for disposing by the caller.
  *
@@ -242,7 +242,7 @@ qx.Proto.replaceState = function(state, bDispose)
  * Add an object (typically a widget) that is to be accessed during state
  * transitions, to the finite state machine.
  *
- * @param friendlyName {string}
+ * @param friendlyName {String}
  *   The friendly name to used for access to the object being added.
  *
  * @param obj {Object}
@@ -303,7 +303,7 @@ qx.Proto.addObject = function(friendlyName, obj, groupNames)
 /**
  * Remove an object which had previously been added by {@see #addObject}.
  *
- * @param friendlyName {string}
+ * @param friendlyName {String}
  *   The friendly name associated with an object, specifying which object is
  *   to be removed.
  */
@@ -333,7 +333,7 @@ qx.Proto.removeObject = function(friendlyName)
  * Retrieve an object previously saved via {@see #addObject}, using its
  * Friendly Name.
  *
- * @param friendlyName {string}
+ * @param friendlyName {String}
  *   The friendly name of the object to be retrieved.
  *
  * @return {Object}
@@ -351,7 +351,7 @@ qx.Proto.getObject = function(friendlyName)
  *
  * @param obj {Object} The object for which the friendly name is desired
  *
- * @return {string}
+ * @return {String}
  *   If the object has been previously registered via {@see #addObject}, then
  *   the friendly name of the object is returned; otherwise, null.
  */
@@ -366,7 +366,7 @@ qx.Proto.getFriendlyName = function(obj)
  * Retrieve the list of objects which have registered, via {@see addObject} as
  * being members of the specified group.
  *
- * @param groupName {string}
+ * @param groupName {String}
  *   The name of the group for which the member list is desired.
  *
  * @return {Array}
@@ -523,7 +523,7 @@ qx.Proto.start = function()
  * which will cause the next state to be whatever is at the top of the
  * saved-state stack, and remove that top element from the saved-state stack.
  *
- * @param bCurrent {boolean}
+ * @param bCurrent {Boolean}
  *   When <i>true</i>, then push the current state onto the stack.  This might
  *   be used in a transition, before the state has changed.  When
  *   <i>false</i>, then push the previous state onto the stack.  This might be
@@ -593,7 +593,7 @@ qx.Proto.copyEvent = function(event)
  * @param event {qx.event.type.Event}
  *   The event to be enqueued
  *
- * @param bAddAtHead {boolean}
+ * @param bAddAtHead {Boolean}
  *   If <i>true</i>, put the event at the head of the queue for immediate
  *   processing.  If <i>false</i>, place the event at the tail of the queue so
  *   that it receives in-order processing.
@@ -1137,7 +1137,7 @@ qx.Settings.setDefault(
  *     };
  *     </pre>
  *
- * @param actionType {string}
+ * @param actionType {String}
  *   The name of the action being validated (for debug messages)
  *
  * @param propValue {Object}

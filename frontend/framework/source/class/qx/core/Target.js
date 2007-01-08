@@ -30,7 +30,7 @@
  * form of an identification string. This type could be the name of a regular dom event like "click" or
  * something self-defined like "ready".
  *
- * @param vAutoDispose {boolean ? true} wether the object should be disposed automatically by qooxdoo
+ * @param vAutoDispose {Boolean ? true} wether the object should be disposed automatically by qooxdoo
  */
 qx.OO.defineClass("qx.core.Target", qx.core.Object,
 function(vAutoDispose) {
@@ -54,7 +54,7 @@ qx.Class.EVENTPREFIX = "evt";
 /**
  * Add event listener to an object.
  *
- * @param vType {string} name of the event type
+ * @param vType {String} name of the event type
  * @param vFunction {Function} event callback function
  * @param vObject {Object ? window} reference to the 'this' variable inside the callback
  */
@@ -93,7 +93,7 @@ qx.Proto.addEventListener = function(vType, vFunction, vObject)
 /**
  * Remove event listener from object
  *
- * @param vType {string} name of the event type
+ * @param vType {String} name of the event type
  * @param vFunction {Function} event callback function
  * @param vObject {Object ? window} reference to the 'this' variable inside the callback
  */
@@ -130,7 +130,7 @@ qx.Proto.removeEventListener = function(vType, vFunction, vObject)
 /**
  * Check if there are one or more listeners for an event type.
  *
- * @param vType {string} name of the event type
+ * @param vType {String} name of the event type
  */
 qx.Proto.hasEventListeners = function(vType) {
   return this._listeners && typeof this._listeners[vType] !== "undefined" && !qx.lang.Object.isEmpty(this._listeners[vType]);
@@ -140,7 +140,7 @@ qx.Proto.hasEventListeners = function(vType) {
 /**
  * Checks if the event is registered. If so it creates an event object and dispatches it.
  *
- * @param vType {string} name of the event type
+ * @param vType {String} name of the event type
  */
 qx.Proto.createDispatchEvent = function(vType)
 {
@@ -153,7 +153,7 @@ qx.Proto.createDispatchEvent = function(vType)
 /**
  * Checks if the event is registered. If so it creates an event object and dispatches it.
  *
- * @param vType {string} name of the event type
+ * @param vType {String} name of the event type
  * @param vData {Object} user defined data attached to the event object
  */
 qx.Proto.createDispatchDataEvent = function(vType, vData)
@@ -175,8 +175,8 @@ qx.Proto.createDispatchDataEvent = function(vType, vData)
  * Dispatch an event
  *
  * @param vEvent {qx.event.type.Event} event to dispatch
- * @param vEnableDispose {boolean} wether the event object should be disposed after all event handlers run.
- * @return {boolean} wether the event default was prevented or not. Returns true, when the event was NOT prevented.
+ * @param vEnableDispose {Boolean} wether the event object should be disposed after all event handlers run.
+ * @return {Boolean} wether the event default was prevented or not. Returns true, when the event was NOT prevented.
  */
 qx.Proto.dispatchEvent = function(vEvent, vEnableDispose)
 {

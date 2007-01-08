@@ -24,7 +24,7 @@
 /**
  * A formatter and parser for numbers.
  *
- * @param locale {string} optional locale to be used
+ * @param locale {String} optional locale to be used
  */
 qx.OO.defineClass("qx.util.format.NumberFormat", qx.util.format.Format,
 function(locale) {
@@ -71,7 +71,7 @@ qx.OO.addProperty({ name:"postfix", type:"string", defaultValue:"", allowNull:fa
  * Formats a number.
  *
  * @param num {number} the number to format.
- * @return {string} the formatted number as a string.
+ * @return {String} the formatted number as a string.
  */
 qx.Proto.format = function(num) {
   var NumberFormat = qx.util.format.NumberFormat;
@@ -146,9 +146,9 @@ qx.Proto.format = function(num) {
 /**
  * Parses a number.
  *
- * @param str {string} the string to parse.
+ * @param str {String} the string to parse.
  *
- * @return {double} the number.
+ * @return {Double} the number.
  */
 qx.Proto.parse = function(str) {
   var NumberFormat = qx.util.format.NumberFormat;

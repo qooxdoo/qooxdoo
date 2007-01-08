@@ -37,7 +37,7 @@
  *   <li> internationalization </li>
  * </ul>
  *
- * @param vAutoDispose {boolean ? true} whether the object should be automatically disposed
+ * @param vAutoDispose {Boolean ? true} whether the object should be automatically disposed
  */
 qx.OO.defineClass("qx.core.Object", Object,
 function(vAutoDispose)
@@ -98,7 +98,7 @@ qx.Class._disposeAll = false;
  * does not yet exist, create it.
  *
  * @param o {Object}
- * @return {int} unique identifier for the given object
+ * @return {Integer} unique identifier for the given object
  */
 qx.Class.toHashCode = function(o)
 {
@@ -143,7 +143,7 @@ qx.Class.dispose = function()
 /**
  * Summary of allocated objects
  *
- * @return {string} summary of allocated objects.
+ * @return {String} summary of allocated objects.
  */
 qx.Class.summary = function()
 {
@@ -218,7 +218,7 @@ qx.Proto._properties_init_ng = [];
 /**
  * Returns a string represantation of the qooxdoo object.
  *
- * @returns {string} string representation of the object
+ * @return {String} string representation of the object
  */
 qx.Proto.toString = function()
 {
@@ -233,7 +233,7 @@ qx.Proto.toString = function()
 /**
  * Return unique hash code of object
  *
- * @return {int} unique hash code of the object
+ * @return {Integer} unique hash code of the object
  */
 qx.Proto.toHashCode = function() {
   return this._hashCode;
@@ -243,7 +243,7 @@ qx.Proto.toHashCode = function() {
 /**
  * Returns true if the object is disposed.
  *
- * @return {boolean} wether the object has been disposed
+ * @return {Boolean} wether the object has been disposed
  */
 qx.Proto.getDisposed = function() {
   return this._disposed;
@@ -253,7 +253,7 @@ qx.Proto.getDisposed = function() {
 /**
  * Returns true if the object is disposed.
  *
- * @return {boolean} wether the object has been disposed
+ * @return {Boolean} wether the object has been disposed
  */
 qx.Proto.isDisposed = function() {
   return this._disposed;
@@ -263,7 +263,7 @@ qx.Proto.isDisposed = function() {
 /**
  * Returns a settings from global setting definition
  *
- * @param vKey {string}
+ * @param vKey {String}
  * @return {Object} value of the global setting
  */
 qx.Proto.getSetting = function(vKey) {
@@ -282,9 +282,9 @@ qx.Proto.getSetting = function(vKey) {
  * Mark the message for translation.
  * @see qx.lang.String.format
  *
- * @param messageId (string) message id (may contain format strings)
- * @param varargs (object) variable number of argumes applied to the format string
- * @return (qx.locale.LocalizedString)
+ * @param messageId {String} message id (may contain format strings)
+ * @param varargs {Object} variable number of argumes applied to the format string
+ * @return {qx.locale.LocalizedString}
  */
 qx.Proto.tr = function(messageId, varargs) {
   var nlsManager = qx.locale.Manager;
@@ -300,11 +300,11 @@ qx.Proto.tr = function(messageId, varargs) {
  *
  * @see qx.lang.String.format
  *
- * @param singularMessageId (string) message id of the singular form (may contain format strings)
- * @param pluralMessageId (string) message id of the plural form (may contain format strings)
- * @param count (integer) if greater than 1 the plural form otherwhise the singular form is returned.
- * @param varargs (object) variable number of argumes applied to the format string
- * @return (qx.locale.LocalizedString)
+ * @param singularMessageId {String} message id of the singular form (may contain format strings)
+ * @param pluralMessageId {String} message id of the plural form (may contain format strings)
+ * @param count {Integer} if greater than 1 the plural form otherwhise the singular form is returned.
+ * @param varargs {Object} variable number of argumes applied to the format string
+ * @return {qx.locale.LocalizedString)
  */
 qx.Proto.trn = function(singularMessageId, pluralMessageId, count, varargs) {
   var nlsManager = qx.locale.Manager;
@@ -315,8 +315,8 @@ qx.Proto.trn = function(singularMessageId, pluralMessageId, count, varargs) {
 /**
  * Mark the message for translation but return the original message.
  *
- * @param messageId (string)
- * @return (string) messageId
+ * @param messageId {String}
+ * @return {String} messageId
  */
 qx.Proto.marktr = function(messageId) {
   var nlsManager = qx.locale.Manager;
@@ -424,8 +424,8 @@ qx.Proto.set = function(propertyValues)
 /**
  * Gets multiple properties at once by using a property list
  *
- * @param propertyNames {string | Array | Map} list of the properties to get
- * @param outputHint {string ? "array"} how should the values be returned. Possible values are "hash" and "array".
+ * @param propertyNames {String | Array | Map} list of the properties to get
+ * @param outputHint {String ? "array"} how should the values be returned. Possible values are "hash" and "array".
 */
 qx.Proto.get = function(propertyNames, outputHint)
 {
@@ -499,7 +499,7 @@ qx.Proto.get = function(propertyNames, outputHint)
 /**
  * Store user defined data inside the object.
  *
- * @param vKey {string}
+ * @param vKey {String}
  * @param vValue {Object}
  */
 qx.Proto.setUserData = function(vKey, vValue)
@@ -515,7 +515,7 @@ qx.Proto.setUserData = function(vKey, vValue)
 /**
  * Load user defined data from the object
  *
- * @param vKey {string}
+ * @param vKey {String}
  * @return {Object} the user data
  */
 qx.Proto.getUserData = function(vKey)

@@ -42,7 +42,7 @@ qx.OO.defineClass("qx.Locale",
    * @type static
    * @name define
    * @access public
-   * @param fullname {string} name of the mixin
+   * @param fullname {String} name of the mixin
    * @param definition {Map} definition structure
    * @return {void}
    */
@@ -75,7 +75,7 @@ qx.OO.defineClass("qx.Locale",
    * @type static
    * @name byName
    * @access public
-   * @param fullname {string} locale name to check
+   * @param fullname {String} locale name to check
    * @return {Object ? void} locale object
    */
   byName : function(fullname) {
@@ -88,8 +88,8 @@ qx.OO.defineClass("qx.Locale",
    * @type static
    * @name isDefined
    * @access public
-   * @param fullname {string} locale name to check
-   * @return {boolean} true if locale exists
+   * @param fullname {String} locale name to check
+   * @return {Boolean} true if locale exists
    */
   isDefined : function(fullname) {
     return qx.Locale.byName(fullname) !== undefined;

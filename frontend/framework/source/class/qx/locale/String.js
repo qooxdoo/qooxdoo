@@ -26,7 +26,7 @@ qx.OO.defineClass("qx.locale.String");
 /**
  * Get quotation start sign
  *
- * @param locale {string} optional locale to be used
+ * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString} quotation start sign
  */
 qx.Class.getQuotationStart = function(locale) {
@@ -37,7 +37,7 @@ qx.Class.getQuotationStart = function(locale) {
 /**
  * Get quotation end sign
  *
- * @param locale {string} optional locale to be used
+ * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString} quotation end sign
  */
 qx.Class.getQuotationEnd = function(locale) {
@@ -48,7 +48,7 @@ qx.Class.getQuotationEnd = function(locale) {
 /**
  * Get quotation alternative start sign
  *
- * @param locale {string} optional locale to be used
+ * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString} alternative quotation start sign
  */
 qx.Class.getQuotationStart = function(locale) {
@@ -59,7 +59,7 @@ qx.Class.getQuotationStart = function(locale) {
 /**
  * Get quotation alternative end sign
  *
- * @param locale {string} optional locale to be used
+ * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString} alternative quotation end sign
  */
 qx.Class.getQuotationEnd = function(locale) {

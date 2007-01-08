@@ -54,7 +54,7 @@ qx.Clazz.define("qx.Mixin",
      * @type static
      * @name define
      * @access public
-     * @param fullname {string} name of the mixin
+     * @param fullname {String} name of the mixin
      * @param definition {Map} definition structure
      * @return {void}
      * @throws TODOC
@@ -171,8 +171,8 @@ qx.Clazz.define("qx.Mixin",
      * @type static
      * @name byName
      * @access public
-     * @param fullname {string} mixin name to check
-     * @return {object ? void} mixin object
+     * @param fullname {String} mixin name to check
+     * @return {Object ? void} mixin object
      */
     byName : function(fullname) {
       return arguments.callee.statics._registry[fullname];
@@ -184,8 +184,8 @@ qx.Clazz.define("qx.Mixin",
      * @type static
      * @name isDefined
      * @access public
-     * @param fullname {string} mixin name to check
-     * @return {boolean} true if mixin exists
+     * @param fullname {String} mixin name to check
+     * @return {Boolean} true if mixin exists
      */
     isDefined : function(fullname) {
       return arguments.callee.statics.byName(fullname) !== undefined;

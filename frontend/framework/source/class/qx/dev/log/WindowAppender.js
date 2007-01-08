@@ -28,7 +28,7 @@
  * This class does not depend on qooxdoo widgets, so it also works when there
  * are problems with widgets or when the widgets are not yet initialized.
  *
- * @param name {string ? "qx_log"} the name of the log window.
+ * @param name {String ? "qx_log"} the name of the log window.
  */
 qx.OO.defineClass("qx.dev.log.WindowAppender", qx.dev.log.Appender,
 function(name) {
@@ -158,7 +158,7 @@ qx.Proto._autoCloseWindow = function() {
 
 /**
  * Appends a line to the log showing the given text
- * @param Msg {string} message to show, may be HTML
+ * @param Msg {String} message to show, may be HTML
  */
 qx.Proto._showMessageInLog = function(msg) {
   //Create dummy log event and use appendLogEvent()
@@ -261,7 +261,7 @@ qx.Class._registeredAppenders = {};
  * You don't have to call this.
  *
  * @param appender {WindowAppender} the WindowAppender to register.
- * @return {int} the ID.
+ * @return {Integer} the ID.
  */
 qx.Class.register = function(appender) {
   var WindowAppender = qx.dev.log.WindowAppender;
@@ -276,7 +276,7 @@ qx.Class.register = function(appender) {
 /**
  * Returns a prviously registered WindowAppender.
  *
- * @param id {int} the ID of the wanted WindowAppender.
+ * @param id {Integer} the ID of the wanted WindowAppender.
  * @return {WindowAppender} the WindowAppender or null if no
  *     WindowAppender with this ID is registered.
  */

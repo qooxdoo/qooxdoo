@@ -55,7 +55,7 @@ qx.dom.Element.isEmpty = function(vElement) {
  * Wrapper for element.innerText and element.textContent.
  *
  * @param vElement {Element} DOM node
- * @param sValue {string}
+ * @param sValue {String}
  */
 qx.dom.Element.setTextContent = function(vElement, sValue) {};
 

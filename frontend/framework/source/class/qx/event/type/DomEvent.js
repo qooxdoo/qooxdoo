@@ -72,7 +72,7 @@ qx.Proto._computeModifiers = function() {
 /**
  * Returns whether the the ctrl key is pressed.
  *
- * @return {boolean} whether the the ctrl key is pressed.
+ * @return {Boolean} whether the the ctrl key is pressed.
  */
 qx.Proto.isCtrlPressed = function() {
   return this.getDomEvent().ctrlKey;
@@ -81,7 +81,7 @@ qx.Proto.isCtrlPressed = function() {
 /**
  * Returns whether the the ctrl key is pressed.
  *
- * @return {boolean} whether the the ctrl key is pressed.
+ * @return {Boolean} whether the the ctrl key is pressed.
  * @deprecated Use {@link #isCtrlPressed} instead.
  */
 qx.Proto.getCtrlKey = qx.Proto.isCtrlPressed;
@@ -90,7 +90,7 @@ qx.Proto.getCtrlKey = qx.Proto.isCtrlPressed;
 /**
  * Returns whether the the shift key is pressed.
  *
- * @return {boolean} whether the the shift key is pressed.
+ * @return {Boolean} whether the the shift key is pressed.
  */
 qx.Proto.isShiftPressed = function() {
   return this.getDomEvent().shiftKey;
@@ -99,7 +99,7 @@ qx.Proto.isShiftPressed = function() {
 /**
  * Returns whether the the shift key is pressed.
  *
- * @return {boolean} whether the the shift key is pressed.
+ * @return {Boolean} whether the the shift key is pressed.
  * @deprecated Use {@link #isShiftPressed} instead.
  */
 qx.Proto.getShiftKey = qx.Proto.isShiftPressed;
@@ -108,7 +108,7 @@ qx.Proto.getShiftKey = qx.Proto.isShiftPressed;
 /**
  * Returns whether the the alt key is pressed.
  *
- * @return {boolean} whether the the alt key is pressed.
+ * @return {Boolean} whether the the alt key is pressed.
  */
 qx.Proto.isAltPressed = function() {
   return this.getDomEvent().altKey;
@@ -117,7 +117,7 @@ qx.Proto.isAltPressed = function() {
 /**
  * Returns whether the the alt key is pressed.
  *
- * @return {boolean} whether the the alt key is pressed.
+ * @return {Boolean} whether the the alt key is pressed.
  * @deprecated Use {@link #isAltPressed} instead.
  */
 qx.Proto.getAltKey = qx.Proto.isAltPressed;
@@ -126,7 +126,7 @@ qx.Proto.getAltKey = qx.Proto.isAltPressed;
 /**
  * Returns whether the the meta key is pressed.
  *
- * @return {boolean} whether the the meta key is pressed.
+ * @return {Boolean} whether the the meta key is pressed.
  */
 qx.Proto.isMetaPressed = function() {
   return this.getDomEvent().metaKey;
@@ -136,7 +136,7 @@ qx.Proto.isMetaPressed = function() {
 /**
  * Returns whether the ctrl key or (on the Mac) the command key is pressed.
  *
- * @return {boolean} <code>true</code> if the command key is pressed on the Mac
+ * @return {Boolean} <code>true</code> if the command key is pressed on the Mac
  *         or the ctrl key is pressed on another system.
  */
 qx.Proto.isCtrlOrCommandPressed = function() {
