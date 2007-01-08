@@ -175,6 +175,13 @@ qx.io.remote.Rpc.localError =
 */
 
 /* callType: 0 = sync, 1 = async with handler, 2 = async event listeners */
+/**
+ * Internal RPC call method
+ * 
+ * @param args {Array} array of arguments
+ * @param callType {Integer} 0 = sync, 1 = async with handler, 2 = async event listeners
+ * @param refreshSession {Boolean} whether a new session should be requested
+ */
 qx.Proto._callInternal = function(args, callType, refreshSession) {
   var self = this;
   var offset = (callType == 0 ? 0 : 1)
