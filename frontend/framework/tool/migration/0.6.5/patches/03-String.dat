@@ -1,0 +1,2 @@
+\bqx\.lang\.String\.add\b=qx.lang.String.addListItem
+\bqx\.lang\.String\.remove\b=qx.lang.String.removeListItem
