@@ -29,7 +29,7 @@ qx.OO.defineClass("qx.lang.Array");
 
 /**
  * Convert an arguments object into an array
- * 
+ *
  * @param args {arguments} arguments object
  * @return {array}
  */
@@ -40,7 +40,7 @@ qx.lang.Array.fromArguments = function(args) {
 /**
  * Expand shorthand definition to a four element list.
  * This is an utility function for padding/margin and all other shorthand handling.
- * 
+ *
  * @param input {Array} array with one to four elements
  * @return {Array} array with four elements
  */
@@ -75,7 +75,7 @@ qx.lang.Array.fromShortHand = function(input)
 
 /**
  * Return a copy of the given array
- * 
+ *
  * @param arr {Array}
  * @return {Array} copy of the array
  */
@@ -86,7 +86,7 @@ qx.lang.Array.copy = function(arr) {
 /**
  * Return a copy of the given array
  * The same as @see(qx.lang.Array.copy)
- * 
+ *
  * @param arr {Array}
  * @return {Array} copy of the array
  */
@@ -96,7 +96,7 @@ qx.lang.Array.clone = function(arr) {
 
 /**
  * Return the last element of an array
- * 
+ *
  * @param arr {Array}
  * @return {var} the last element of the array
  */
@@ -106,7 +106,7 @@ qx.lang.Array.getLast = function(arr) {
 
 /**
  * Return the first element of an array
- * 
+ *
  * @param arr {Array}
  * @return {var} the first element of the array
  */
@@ -116,7 +116,7 @@ qx.lang.Array.getFirst = function(arr) {
 
 /**
  * Insert an element at a given position into the array
- * 
+ *
  * @param arr {Array}
  * @param obj {var} the element to insert
  * @param i {int} position where to insert the element into the array
@@ -131,7 +131,7 @@ qx.lang.Array.insertAt = function(arr, obj, i)
 
 /**
  * Insert an element into the array before a given second element
- * 
+ *
  * @param arr {Array}
  * @param obj {var} object to be inserted
  * @param obj2 {var} insert obj1 before this object
@@ -155,7 +155,7 @@ qx.lang.Array.insertBefore = function(arr, obj, obj2)
 
 /**
  * Insert an element into the array after a given second element
- * 
+ *
  * @param arr {Array}
  * @param obj {var} object to be inserted
  * @param obj2 {var} insert obj1 after this object
@@ -179,7 +179,7 @@ qx.lang.Array.insertAfter = function(arr, obj, obj2)
 
 /**
  * Remove an element from the array at the given index
- * 
+ *
  * @param arr {Array}
  * @param i {int} index of the element to be removed
  * @return {Array} the array with the element remnoved
@@ -190,7 +190,7 @@ qx.lang.Array.removeAt = function(arr, i) {
 
 /**
  * Remmove all elements from the array
- * 
+ *
  * @param arr {Array}
  * @return {Array} empty array
  */
@@ -200,7 +200,7 @@ qx.lang.Array.removeAll = function(arr) {
 
 /**
  * Append the elements of an array to the array
- * 
+ *
  * @param arr {Array}
  * @param a {Array} the elements of this array will be appended to the array
  */
@@ -210,7 +210,7 @@ qx.lang.Array.append = function(arr, a) {
 
 /**
  * Remove an element from the array
- * 
+ *
  * @param arr {Array}
  * @param obj {var} element to be removed from the array
  * @return {Array} array with the element removed
@@ -226,7 +226,7 @@ qx.lang.Array.remove = function(arr, obj)
 
 /**
  * Whether the array contains the given element
- * 
+ *
  * @param arr {Array}
  * @param obj {var} object to look for
  * @return {boolean} whether the array contains the element
