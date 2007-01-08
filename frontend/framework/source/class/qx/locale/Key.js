@@ -29,7 +29,7 @@ qx.OO.defineClass("qx.locale.Key");
  *
  * @param size {String} format of the key identifier.
  *     Possible values: "short", "full"
- * @param keyIdentifier {String} key identifier to translate @see(qx.event.handler.KeyEventHandler)
+ * @param keyIdentifier {String} key identifier to translate {@link qx.event.handler.KeyEventHandler}
  * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString} localized key name
  */

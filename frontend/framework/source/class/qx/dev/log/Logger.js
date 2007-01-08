@@ -236,7 +236,7 @@ qx.Proto.fatal = function(msg, instanceId, exc) {
 /**
  * Resets the measure timer.
  *
- * @see #measure{}
+ * @see #measure()
  */
 qx.Proto.measureReset = function() {
   if (this._totalMeasureTime != null) {
