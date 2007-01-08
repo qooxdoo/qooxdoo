@@ -91,7 +91,7 @@ qx.Class.trim = function(str) {
 /**
  * Remove HTML/XML tags from a string
  * Example:
- * <pre>qx.lang.String.stripTags("<h1>Hello</h1>") == "Hello"</pre>
+ * <pre>qx.lang.String.stripTags("&lt;h1>Hello&lt;/h1>") == "Hello"</pre>
  *
  * @param str {string} string containing tags
  * @return {string} the string with stripped tags
