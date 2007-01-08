@@ -198,8 +198,8 @@ def handleStatics(item, classNode):
 
         classNode.addListChild("methods-static", node)
 
-      # Data
-      else:
+      # Constant
+      elif key.isupper():
         handleConstantDefinition(keyvalue, classNode)
 
 def handleProperties(item, classNode):
@@ -414,6 +414,9 @@ def handleConstantDefinition(item, classNode):
   elif (item.type == "keyvalue"):
     # This is a constant definition of a map-style class (like qx.Const)
     name = item.get("key")
+
+  if not name.isupper():
+    return
 
   node = tree.Node("constant")
   node.set("name", name)
@@ -665,14 +668,9 @@ def getFileFromSyntaxItem(syntaxItem):
 
 def getType(item):
   if item.type == "constant" and item.get("constantType") == "string":
-    val = item.get("value")
-
-    if val == "object":
-      val = "Object"
-    elif val == "function":
-      val = "Function"
-
+    val = item.get("value").capitalize()
     return val
+
   else:
     raise DocException("Can't gess type. type is neither string nor variable: " + item.type, item)
 
