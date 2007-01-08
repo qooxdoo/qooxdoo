@@ -4,11 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo framework\n"
 "Report-Msgid-Bugs-To: \n"
-<<<<<<< .mine
-"POT-Creation-Date: 2007-01-08 15:00+0100\n"
-=======
 "POT-Creation-Date: 2007-01-08 17:25+0100\n"
->>>>>>> .r5541
 "PO-Revision-Date: 2006-12-19 15:52+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -18,12 +14,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. TRANSLATION: short representation of key names
-<<<<<<< .mine
-#. TRANSLATION: short representation of key names
-=======
-#. TRANSLATION: short representation of key names
-#. TRANSLATION: short representation of key names
->>>>>>> .r5541
 #: ../../../frontend/framework/source/class/qx/locale/Key.js:59
 msgid "key_short_Backspace"
 msgstr ""
@@ -129,12 +119,6 @@ msgid "key_short_Apps"
 msgstr ""
 
 #. TRANSLATION: full/long representation of key names
-<<<<<<< .mine
-#. TRANSLATION: full/long representation of key names
-=======
-#. TRANSLATION: full/long representation of key names
-#. TRANSLATION: full/long representation of key names
->>>>>>> .r5541
 #: ../../../frontend/framework/source/class/qx/locale/Key.js:87
 msgid "key_full_Backspace"
 msgstr ""
