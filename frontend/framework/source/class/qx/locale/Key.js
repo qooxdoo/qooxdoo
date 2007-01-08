@@ -25,7 +25,7 @@ qx.OO.defineClass("qx.locale.Key");
 
 /**
  * Return localized name of a key identifier
- * @see(qx.event.handler.KeyEventHandler)
+ * @{link qx.event.handler.KeyEventHandler}
  *
  * @param size {String} format of the key identifier.
  *     Possible values: "short", "full"

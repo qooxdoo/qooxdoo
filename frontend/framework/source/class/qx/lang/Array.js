@@ -85,7 +85,7 @@ qx.lang.Array.copy = function(arr) {
 
 /**
  * Return a copy of the given array
- * The same as @see(qx.lang.Array.copy)
+ * The same as {@link qx.lang.Array.copy}
  *
  * @param arr {Array}
  * @return {Array} copy of the array

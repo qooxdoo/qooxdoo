@@ -142,7 +142,7 @@ qx.Class.getMonthName = function(length, month, locale) {
 
 
 /**
- * Return localized date format string to be used with @see(qx.util.format.DateFormat).
+ * Return localized date format string to be used with @{link qx.util.format.DateFormat}.
  *
  * @param size {String} format of the date format.
  *    Possible values: "short", "medium", "long", "full"
@@ -185,7 +185,7 @@ qx.Class.getDateTimeFormat = function(canonical, fallback, locale) {
 
 
 /**
- * Return localized time format string to be used with @see(qx.util.format.DateFormat).
+ * Return localized time format string to be used with {@link qx.util.format.DateFormat}.
  *
  * @param size {String} format of the time pattern.
  *    Possible values: "short", "medium", "long", "full"
