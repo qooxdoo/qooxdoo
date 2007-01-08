@@ -227,7 +227,7 @@ qx.Proto._createList = function(columns) {
 */
 
 /**Sets the header for each column.
- * @param columns {string[]}*/
+ * @param columns {String[]}*/
 qx.Proto.setColumnHeaders = function(columns) {
   if (!this._list || columns.length != this._model.getColumnCount()) {
     if (this._list) {
@@ -249,7 +249,7 @@ qx.Proto.setColumnHeaders = function(columns) {
 }
 
 /**Getter for {@link #setColumnHeaders}.
- * @return {string[]}*/
+ * @return {String[]}*/
 qx.Proto.getColumnHeaders = function(propVal) {
   var cols = [];
   cols.length = this._model.getColumnCount();
@@ -528,7 +528,7 @@ qx.Proto._calculateDimensions = function() {
 
 /**Calculates the width of the given text.
  * The default font is used.
- * @return {integer}*/
+ * @return {Integereger}*/
 qx.Proto._getTextWidth = function(text) {
   var lab = new qx.ui.basic.Label(text);
   var res = lab.getPreferredBoxWidth();
@@ -550,8 +550,8 @@ qx.Proto.isSearchInProgress = function() {
 
 /**Searches the given text.  Called from the search dialog.
  * @param startIndex  {number} Start index, 0 based
- * @param txt      {string} Text to find
- * @param caseSens    {boolean} Case sensivity flag.*/
+ * @param txt {String} Text to find
+ * @param caseSens {Boolean} Case sensivity flag.*/
 qx.Proto._search = function(startIndex, txt, caseSens) {
   if (txt == null || !txt.length) {
     return;

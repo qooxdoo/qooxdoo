@@ -334,9 +334,9 @@ qx.Proto._onkeypress = function(evt) {
 /**
  * Shows a certain month.
  *
- * @param month {int ? null} the month to show (0 = january). If not set the month
+ * @param month {Integer ? null} the month to show (0 = january). If not set the month
  *    will remain the same.
- * @param year {int ? null} the year to show. If not set the year will remain the
+ * @param year {Integer ? null} the year to show. If not set the year will remain the
  *    same.
  */
 qx.Proto.showMonth = function(month, year) {

@@ -27,7 +27,7 @@
 /**
  * A logger. Logs messages of one log category.
  *
- * @param name {string} The category name of this logger. (Normally a class or
+ * @param name {String} The category name of this logger. (Normally a class or
  *    package name)
  * @param parentLogger {Logger} The parent logger.
  */
@@ -43,7 +43,7 @@ function(name, parentLogger) {
 /**
  * Returns the name of this logger. (Normally a class or package name)
  *
- * @return {string} the name.
+ * @return {String} the name.
  */
 qx.Proto.getName = function() {
   return this._name;
@@ -155,7 +155,7 @@ qx.Proto.appendLogEvent = function(evt) {
 /**
  * Logs a message.
  *
- * @param level {int} the log level.
+ * @param level {Integer} the log level.
  * @param msg {var} the message to log. If this is not a string, the
  *    object dump will be logged.
  * @param instanceId {var ? null} the ID of the instance the log message comes from.
@@ -251,7 +251,7 @@ qx.Proto.measureReset = function() {
 /**
  * Logs a debug message and measures the time since the last call of measure.
  *
- * @param msg {string} the message to log.
+ * @param msg {String} the message to log.
  * @param instanceId {var ? null} the ID of the instance the log message comes from.
  * @param exc {var ? null} the exception to log.
  */

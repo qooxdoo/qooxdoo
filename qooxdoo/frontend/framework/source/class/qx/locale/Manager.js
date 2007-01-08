@@ -41,7 +41,7 @@ qx.Proto._defaultLocale = "C";
  *
  * This is the first part of a locale definition. The language for "de_DE" would be "de"
  *
- * @return {string} language code
+ * @return {String} language code
  */
 qx.Proto.getLanguage = function() {
   return this._language;
@@ -53,7 +53,7 @@ qx.Proto.getLanguage = function() {
  *
  * This is the second part of a locale definition. The territory for "de_DE" would be "DE"
  *
- * @return {string} territory code
+ * @return {String} territory code
  */
 qx.Proto.getTerritory = function() {
   return this.getLocale().split("_")[1] || "";
@@ -65,7 +65,7 @@ qx.Proto.getTerritory = function() {
  *
  * This corresponds to the Makefile APPLICATION_LOCALES setting
  *
- * @return {string[]} array of available locales
+ * @return {String[]} array of available locales
  */
 qx.Proto.getAvailableLocales = function() {
   var locales = [];
@@ -81,8 +81,8 @@ qx.Proto.getAvailableLocales = function() {
 /**
  * Extract the language part from a locale.
  *
- * @param locale {string} locale to be used
- * @return {string} language
+ * @param locale {String} locale to be used
+ * @return {String} language
  */
 qx.Proto._extractLanguage = function(locale) {
   var language;

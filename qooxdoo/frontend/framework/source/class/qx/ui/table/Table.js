@@ -301,7 +301,7 @@ qx.Proto._getPaneScrollerArr = function() {
 /**
  * Returns a TablePaneScroller of this table.
  *
- * @param metaColumn {int} the meta column to get the TablePaneScroller for.
+ * @param metaColumn {Integer} the meta column to get the TablePaneScroller for.
  * @return {TablePaneScroller} the TablePaneScroller.
  */
 qx.Proto.getPaneScroller = function(metaColumn) {
@@ -312,7 +312,7 @@ qx.Proto.getPaneScroller = function(metaColumn) {
 /**
  * Cleans up the meta columns.
  *
- * @param fromMetaColumn {int} the first meta column to clean up. All following
+ * @param fromMetaColumn {Integer} the first meta column to clean up. All following
  *    meta columns will be cleaned up, too. All previous meta columns will
  *    stay unchanged. If 0 all meta columns will be cleaned up.
  */
@@ -610,7 +610,7 @@ qx.Proto._onColOrderChanged = function(evt) {
  * Gets the TablePaneScroller at a certain x position in the page. If there is
  * no TablePaneScroller at this postion, null is returned.
  *
- * @param pageX {int} the position in the page to check (in pixels).
+ * @param pageX {Integer} the position in the page to check (in pixels).
  * @return {TablePaneScroller} the TablePaneScroller or null.
  *
  * @see TablePaneScrollerPool
@@ -624,9 +624,9 @@ qx.Proto.getTablePaneScrollerAtPageX = function(pageX) {
 /**
  * Sets the currently focused cell.
  *
- * @param col {int} the model index of the focused cell's column.
- * @param row {int} the model index of the focused cell's row.
- * @param scrollVisible {boolean ? false} whether to scroll the new focused cell
+ * @param col {Integer} the model index of the focused cell's column.
+ * @param row {Integer} the model index of the focused cell's row.
+ * @param scrollVisible {Boolean ? false} whether to scroll the new focused cell
  *        visible.
  *
  * @see TablePaneScrollerPool
@@ -651,7 +651,7 @@ qx.Proto.setFocusedCell = function(col, row, scrollVisible) {
 /**
  * Returns the column of the currently focused cell.
  *
- * @return {int} the model index of the focused cell's column.
+ * @return {Integer} the model index of the focused cell's column.
  */
 qx.Proto.getFocusedColumn = function() {
   return this._focusedCol;
@@ -661,7 +661,7 @@ qx.Proto.getFocusedColumn = function() {
 /**
  * Returns the row of the currently focused cell.
  *
- * @return {int} the model index of the focused cell's column.
+ * @return {Integer} the model index of the focused cell's column.
  */
 qx.Proto.getFocusedRow = function() {
   return this._focusedRow;
@@ -671,8 +671,8 @@ qx.Proto.getFocusedRow = function() {
 /**
  * Moves the focus.
  *
- * @param deltaX {int} The delta by which the focus should be moved on the x axis.
- * @param deltaY {int} The delta by which the focus should be moved on the y axis.
+ * @param deltaX {Integer} The delta by which the focus should be moved on the x axis.
+ * @param deltaY {Integer} The delta by which the focus should be moved on the y axis.
  */
 qx.Proto.moveFocusedCell = function(deltaX, deltaY) {
   var col = this._focusedCol;
@@ -698,8 +698,8 @@ qx.Proto.moveFocusedCell = function(deltaX, deltaY) {
 /**
  * Scrolls a cell visible.
  *
- * @param col {int} the model index of the column the cell belongs to.
- * @param row {int} the model index of the row the cell belongs to.
+ * @param col {Integer} the model index of the column the cell belongs to.
+ * @param row {Integer} the model index of the row the cell belongs to.
  */
 qx.Proto.scrollCellVisible = function(col, row) {
   var columnModel = this.getTableColumnModel();
@@ -730,7 +730,7 @@ qx.Proto.isEditing = function() {
  * Starts editing the currently focused cell. Does nothing if already editing
  * or if the column is not editable.
  *
- * @return {boolean} whether editing was started
+ * @return {Boolean} whether editing was started
  */
 qx.Proto.startEditing = function() {
   if (this._focusedCol != null) {
@@ -770,8 +770,8 @@ qx.Proto.cancelEditing = function() {
  * Gets the meta column at a certain x position in the page. If there is no
  * meta column at this postion, -1 is returned.
  *
- * @param pageX {int} the position in the page to check (in pixels).
- * @return {int} the index of the meta column or -1.
+ * @param pageX {Integer} the position in the page to check (in pixels).
+ * @return {Integer} the index of the meta column or -1.
  */
 qx.Proto._getMetaColumnAtPageX = function(pageX) {
   var scrollerArr = this._getPaneScrollerArr();
@@ -792,8 +792,8 @@ qx.Proto._getMetaColumnAtPageX = function(pageX) {
  * Returns the meta column a column is shown in. If the column is not shown at
  * all, -1 is returned.
  *
- * @param visXPos {int} the visible x position of the column.
- * @return {int} the meta column the column is shown in.
+ * @param visXPos {Integer} the visible x position of the column.
+ * @return {Integer} the meta column the column is shown in.
  */
 qx.Proto._getMetaColumnAtColumnX = function(visXPos) {
   var metaColumnCounts = this.getMetaColumnCounts();
@@ -970,7 +970,7 @@ qx.Proto._cleanupColumnVisibilityMenu = function() {
 /**
  * Creates a handler for a check box of the column visibility menu.
  *
- * @param col {int} the model index of column to create the handler for.
+ * @param col {Integer} the model index of column to create the handler for.
  */
 qx.Proto._createColumnVisibilityCheckBoxHandler = function(col) {
   return function(evt) {
@@ -983,8 +983,8 @@ qx.Proto._createColumnVisibilityCheckBoxHandler = function(col) {
 /**
  * Sets the width of a column.
  *
- * @param col {int} the model index of column.
- * @param width {int} the new width in pixels.
+ * @param col {Integer} the model index of column.
+ * @param width {Integer} the new width in pixels.
  */
 qx.Proto.setColumnWidth = function(col, width) {
   this.getTableColumnModel().setColumnWidth(col, width);

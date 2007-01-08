@@ -55,7 +55,7 @@ function() {
  *
  * @param cellInfo {Map} A map containing the information about the cell to
  *    create.
- * @return {string} the HTML of the data cell.
+ * @return {String} the HTML of the data cell.
  */
 qx.Proto.createDataCellHtml = function(cellInfo) {
   throw new Error("createDataCellHtml is abstract");

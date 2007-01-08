@@ -272,9 +272,9 @@ qx.io.Json = function ()
      * Stringify a JavaScript value, producing a JSON text.
      *
      * @param v {var} the object to serialize.
-     * @param beautify {boolean ? false} whether to beautify the serialized string
+     * @param beautify {Boolean ? false} whether to beautify the serialized string
      *        by adding some white space that indents objects and arrays.
-     * @return {string} the serialized object.
+     * @return {String} the serialized object.
      */
     stringify: function (v, beautify) {
       this._beautify = beautify;

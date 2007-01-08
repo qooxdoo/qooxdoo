@@ -99,7 +99,7 @@ qx.Proto._modifyDocTree = function(propValue, propOldValue, propData) {
  * Loads the API doc tree from a URL. The URL must point to a JSON encoded
  * doc tree.
  *
- * @param url {string} the URL.
+ * @param url {String} the URL.
  */
 qx.Proto.load = function(url)
 {
@@ -314,7 +314,7 @@ qx.Proto._selectTreeNode = function(vTreeNode)
 /**
  * Selects an item (class, property, method or constant).
  *
- * @param fullItemName {string} the full name of the item to select.
+ * @param fullItemName {String} the full name of the item to select.
  *        (e.g. "qx.mypackage.MyClass" or "qx.mypackage.MyClass#myProperty")
  */
 qx.Proto.selectItem = function(fullItemName) {
@@ -341,7 +341,7 @@ qx.Proto.selectItem = function(fullItemName) {
 /**
  * Shows a certain class.
  *
- * @param className {string} the name of the class to show.
+ * @param className {String} the name of the class to show.
  */
 qx.Proto.showClassByName = function(className) {
   var treeNode = this._classTreeNodeHash[this._currentTreeType][className];

@@ -76,7 +76,7 @@ qx.Proto.getWidget = function() {
  * Compute and return the box width of the given child
  *
  * @param vChild {qx.ui.core.Widget}
- * @return {int} box width of the given child
+ * @return {Integer} box width of the given child
  */
 qx.Proto.computeChildBoxWidth = function(vChild) {
   return vChild.getWidthValue() || vChild._computeBoxWidthFallback();
@@ -86,7 +86,7 @@ qx.Proto.computeChildBoxWidth = function(vChild) {
  * Compute and return the box height of the given child
  *
  * @param vChild {qx.ui.core.Widget}
- * @return {int} box height of the given child
+ * @return {Integer} box height of the given child
  */
 qx.Proto.computeChildBoxHeight = function(vChild) {
   return vChild.getHeightValue() || vChild._computeBoxHeightFallback();
@@ -106,7 +106,7 @@ qx.Proto.computeChildBoxHeight = function(vChild) {
  * Compute and return the needed width of the given child
  *
  * @param vChild {qx.ui.core.Widget}
- * @return {int} needed width
+ * @return {Integer} needed width
  */
 qx.Proto.computeChildNeededWidth = function(vChild)
 {
@@ -124,7 +124,7 @@ qx.Proto.computeChildNeededWidth = function(vChild)
  * Compute and return the needed height of the given child
  *
  * @param vChild {qx.ui.core.Widget}
- * @return {int} needed height
+ * @return {Integer} needed height
  */
 qx.Proto.computeChildNeededHeight = function(vChild)
 {
@@ -150,7 +150,7 @@ qx.Proto.computeChildNeededHeight = function(vChild)
 /**
  * Calculate the maximum needed width of all children
  *
- * @return {int} maximum needed width of all children
+ * @return {Integer} maximum needed width of all children
  */
 qx.Proto.computeChildrenNeededWidth_max = function()
 {
@@ -164,7 +164,7 @@ qx.Proto.computeChildrenNeededWidth_max = function()
 /**
  * Calculate the maximum needed height of all children
  *
- * @return {int} maximum needed height of all children
+ * @return {Integer} maximum needed height of all children
  */
 qx.Proto.computeChildrenNeededHeight_max = function()
 {
@@ -178,7 +178,7 @@ qx.Proto.computeChildrenNeededHeight_max = function()
 /**
  * Compute and return the width needed by all children of this widget
  *
- * @return {int}
+ * @return {Integer}
  */
 qx.Proto.computeChildrenNeededWidth_sum = function()
 {
@@ -192,7 +192,7 @@ qx.Proto.computeChildrenNeededWidth_sum = function()
 /**
  * Compute and return the height needed by all children of this widget
  *
- * @return {int} height needed by all children of this widget
+ * @return {Integer} height needed by all children of this widget
  */
 qx.Proto.computeChildrenNeededHeight_sum = function()
 {
@@ -206,14 +206,14 @@ qx.Proto.computeChildrenNeededHeight_sum = function()
 /**
  * Compute and return the width needed by all children of this widget
  *
- * @return {int} width needed by all children of this widget
+ * @return {Integer} width needed by all children of this widget
  */
 qx.Proto.computeChildrenNeededWidth = qx.Proto.computeChildrenNeededWidth_max;
 
 /**
  * Compute and return the height needed by all children of this widget
  *
- * @return {int} height needed by all children of this widget
+ * @return {Integer} height needed by all children of this widget
  */
 qx.Proto.computeChildrenNeededHeight = qx.Proto.computeChildrenNeededHeight_max;
 
@@ -333,7 +333,7 @@ qx.Proto.updateChildrenOnJobQueueFlush = function(vJobQueue) {}
  * Subclasses might implement this method
  *
  * @param vChild {qx.ui.core.Widget} newly added child
- * @param vIndex {int} index of the child
+ * @param vIndex {Integer} index of the child
  */
 qx.Proto.updateChildrenOnAddChild = function(vChild, vIndex) {}
 
@@ -344,7 +344,7 @@ qx.Proto.updateChildrenOnAddChild = function(vChild, vIndex) {}
  * Subclasses might implement this method
  *
  * @param vChild {qx.ui.core.Widget} newly added child
- * @param vIndex {int} index of the child
+ * @param vIndex {Integer} index of the child
  */
  qx.Proto.updateChildrenOnRemoveChild = function(vChild, vIndex) {}
 
@@ -355,8 +355,8 @@ qx.Proto.updateChildrenOnAddChild = function(vChild, vIndex) {}
  * Subclasses might implement this method
  *
  * @param vChild {qx.ui.core.Widget} newly added child
- * @param vIndex {int} new index of the child
- * @param vOldIndex {int} old index of the child
+ * @param vIndex {Integer} new index of the child
+ * @param vOldIndex {Integer} old index of the child
  */
 qx.Proto.updateChildrenOnMoveChild = function(vChild, vIndex, vOldIndex) {}
 

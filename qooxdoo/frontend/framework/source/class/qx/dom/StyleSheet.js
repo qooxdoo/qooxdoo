@@ -30,7 +30,7 @@ qx.OO.defineClass("qx.dom.StyleSheet");
 /**
  * Include a CSS file
  *
- * @param vHref {string} Href value
+ * @param vHref {String} Href value
  */
 qx.dom.StyleSheet.includeFile = function(vHref)
 {
@@ -46,7 +46,7 @@ qx.dom.StyleSheet.includeFile = function(vHref)
 /**
  * create a new Stylesheet node and append it to the document
  *
- * @param vCssText {string} optional string of css rules
+ * @param vCssText {String} optional string of css rules
  */
 qx.dom.StyleSheet.createElement = function(vCssText) {};
 if (document.createStyleSheet) // IE 4+
@@ -94,8 +94,8 @@ else // FF, Opera, Safari
  * insert a new CSS rule into a given Stylesheet
  *
  * @param vSheet     {Object} the target Stylesheet object
- * @param vSelector {string}
- * @param vStyle     {string}
+ * @param vSelector {String}
+ * @param vStyle {String}
  */
 qx.dom.StyleSheet.addRule = function(vSheet, vSelector, vStyle) {};
 if (document.createStyleSheet) // IE 4+
@@ -129,7 +129,7 @@ else // FF, Opera
  * remove a CSS rule from a stylesheet
  *
  * @param vSheet     {Object} the Stylesheet
- * @param vSelector {string} the Selector of the rule to remove
+ * @param vSelector {String} the Selector of the rule to remove
  */
 qx.dom.StyleSheet.removeRule = function(vSheet, vSelector) {};
 if (document.createStyleSheet) // IE 4+
@@ -233,7 +233,7 @@ else // FF, etc
 /**
  * add an import of an external CSS file to a stylesheet
  * @param vSheet {Object}
- * @param vUrl   {string}
+ * @param vUrl {String}
  */
 qx.dom.StyleSheet.addImport = function(vSheet, vUrl) {};
 if (document.createStyleSheet) // IE 4+
@@ -260,7 +260,7 @@ else // FF, etc
  * removes an import from a stylesheet
  *
  * @param vSheet {Object}
- * @param vUrl    {string}  URL of the importet CSS file
+ * @param vUrl {String}  URL of the importet CSS file
  */
 qx.dom.StyleSheet.removeImport = function(vSheet, vUrl) {};
 if (document.createStyleSheet) // IE 4+

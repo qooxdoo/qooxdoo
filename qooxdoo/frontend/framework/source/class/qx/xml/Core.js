@@ -87,7 +87,7 @@ qx.xml.Core.createXmlDom = function()
  * http://developer.mozilla.org/en/docs/DOM:element.textContent
  *
  * @param element {Element} DOM Element
- * @return {string}
+ * @return {String}
  */
  qx.xml.Core.getTextContent = function(element) {
   var text = "";

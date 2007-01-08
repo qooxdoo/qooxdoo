@@ -160,18 +160,18 @@ qx.Proto._syncHtml = function()
  * Creates an info panel. An info panel shows the information about one item
  * type (e.g. for public methods).
  *
- * @param nodeType {int} the node type to create the info panel for.
- * @param listName {string} the name of the node list in the class doc node where
+ * @param nodeType {Integer} the node type to create the info panel for.
+ * @param listName {String} the name of the node list in the class doc node where
  *        the items shown by this info panel are stored.
- * @param labelText {string} the label text describing the node type.
+ * @param labelText {String} the label text describing the node type.
  * @param infoFactory {function} the factory method creating the HTML for one
  *        item.
  * @param hasDetailDecider {function} a function returning <code>true</code>
  *        when a item has details.
- * @param addInheritedCheckBox {boolean} whether to add a "show inherited ..."
+ * @param addInheritedCheckBox {Boolean} whether to add a "show inherited ..."
  *        checkbox.
- * @param isOpen {boolean} whether the info panel is open by default.
- * @return {string} the HTML for the info panel.
+ * @param isOpen {Boolean} whether the info panel is open by default.
+ * @return {String} the HTML for the info panel.
  */
 qx.Proto._createInfoPanel = function(nodeType, listName, labelText, infoFactory,
   hasDetailDecider, addInheritedCheckBox, isOpen)
@@ -346,7 +346,7 @@ qx.Proto.showInfo = function(classNode) {
 /**
  * Highlights an item (property, method or constant) and scrolls it visible.
  *
- * @param itemName {string} the name of the item to highlight.
+ * @param itemName {String} the name of the item to highlight.
  */
 qx.Proto.showItem = function(itemName) {
   var itemNode = apiviewer.TreeUtil.getItemDocNode(this._currentClassDocNode, itemName);
@@ -386,7 +386,7 @@ qx.Proto._showInherited = false;
 /**
  * Updates an info panel.
  *
- * @param nodeType {int} the node type of which to update the info panel.
+ * @param nodeType {Integer} the node type of which to update the info panel.
  */
 qx.Proto._updateInfoPanel = function(nodeType)
 {
@@ -569,9 +569,9 @@ qx.Proto._updateInfoPanel = function(nodeType)
  * Event handler. Called when the user clicked a button for showing/hiding the
  * details of an item.
  *
- * @param nodeType {int} the node type of the item to show/hide the details.
- * @param name {string} the name of the item.
- * @param fromClassName {string} the name of the class the item the item was
+ * @param nodeType {Integer} the node type of the item to show/hide the details.
+ * @param name {String} the name of the item.
+ * @param fromClassName {String} the name of the class the item the item was
  *        defined in.
  */
 qx.Proto._onShowItemDetailClicked = function(nodeType, name, fromClassName) {
@@ -636,7 +636,7 @@ qx.Proto._onProtectedCheckBoxClick = function()
  * Event handler. Called when the user clicked a button for showing/hiding the
  * body of an info panel.
  *
- * @param nodeType {int} the node type of which the show/hide-body-button was
+ * @param nodeType {Integer} the node type of which the show/hide-body-button was
  *        clicked.
  */
 qx.Proto._onShowInfoPanelBodyClicked = function(nodeType) {
@@ -657,8 +657,8 @@ qx.Proto._onShowInfoPanelBodyClicked = function(nodeType) {
 /**
  * Gets the HTML element showing the details of an item.
  *
- * @param nodeType {int} the node type of the item.
- * @param name {string} the item's name.
+ * @param nodeType {Integer} the node type of the item.
+ * @param name {String} the item's name.
  * @return {Element} the HTML element showing the details of the item.
  */
 qx.Proto._getItemElement = function(nodeType, name) {
@@ -678,7 +678,7 @@ qx.Proto._getItemElement = function(nodeType, name) {
 /**
  * Selects an item.
  *
- * @param itemName {string} the name of the item.
+ * @param itemName {String} the name of the item.
  * @see ApiViewer#selectItem
  */
 qx.Proto._selectItem = function(itemName) {
@@ -694,7 +694,7 @@ qx.Proto._selectItem = function(itemName) {
 /**
  * Gets the doc node of a class.
  *
- * @param className {string} the name of the class.
+ * @param className {String} the name of the class.
  * @return {Map} the doc node of the class.
  */
 qx.Proto._getClassDocNode = function(className) {
@@ -710,10 +710,10 @@ qx.Proto._getClassDocNode = function(className) {
  * Creates the HTML showing the information about a property.
  *
  * @param node {Map} the doc node of the property.
- * @param nodeType {int} the node type of the property.
+ * @param nodeType {Integer} the node type of the property.
  * @param fromClassNode {Map} the doc node of the class the property was defined.
- * @param showDetails {boolean} whether to show the details.
- * @return {string} the HTML showing the information about the property.
+ * @param showDetails {Boolean} whether to show the details.
+ * @return {String} the HTML showing the information about the property.
  */
 qx.Proto._createPropertyInfo = function(node, nodeType, fromClassNode, showDetails) {
   var ClassViewer = apiviewer.ClassViewer;
@@ -809,9 +809,9 @@ qx.Proto._createPropertyInfo = function(node, nodeType, fromClassNode, showDetai
  * Checks whether an event has details.
  *
  * @param node {Map} the doc node of the event.
- * @param nodeType {int} the node type of the event.
+ * @param nodeType {Integer} the node type of the event.
  * @param fromClassNode {Map} the doc node of the class the event was defined.
- * @return {boolean} whether the event has details.
+ * @return {Boolean} whether the event has details.
  */
 qx.Proto._eventHasDetails = function(node, nodeType, fromClassNode) {
   return (fromClassNode != this._currentClassDocNode) // event is inherited
@@ -825,10 +825,10 @@ qx.Proto._eventHasDetails = function(node, nodeType, fromClassNode) {
  * Creates the HTML showing the information about an event.
  *
  * @param node {Map} the doc node of the event.
- * @param nodeType {int} the node type of the event.
+ * @param nodeType {Integer} the node type of the event.
  * @param fromClassNode {Map} the doc node of the class the event was defined.
- * @param showDetails {boolean} whether to show the details.
- * @return {string} the HTML showing the information about the event.
+ * @param showDetails {Boolean} whether to show the details.
+ * @return {String} the HTML showing the information about the event.
  */
 qx.Proto._createEventInfo = function(node, nodeType, fromClassNode, showDetails) {
   var ClassViewer = apiviewer.ClassViewer;
@@ -868,9 +868,9 @@ qx.Proto._createEventInfo = function(node, nodeType, fromClassNode, showDetails)
  * Checks whether a method has details.
  *
  * @param node {Map} the doc node of the method.
- * @param nodeType {int} the node type of the method.
+ * @param nodeType {Integer} the node type of the method.
  * @param fromClassNode {Map} the doc node of the class the method was defined.
- * @return {boolean} whether the method has details.
+ * @return {Boolean} whether the method has details.
  */
 qx.Proto._methodHasDetails = function(node, nodeType, fromClassNode) {
   var TreeUtil = apiviewer.TreeUtil;
@@ -905,10 +905,10 @@ qx.Proto._methodHasDetails = function(node, nodeType, fromClassNode) {
  * Creates the HTML showing the information about a method.
  *
  * @param node {Map} the doc node of the method.
- * @param nodeType {int} the node type of the method.
+ * @param nodeType {Integer} the node type of the method.
  * @param fromClassNode {Map} the doc node of the class the method was defined.
- * @param showDetails {boolean} whether to show the details.
- * @return {string} the HTML showing the information about the method.
+ * @param showDetails {Boolean} whether to show the details.
+ * @return {String} the HTML showing the information about the method.
  */
 qx.Proto._createMethodInfo = function(node, nodeType, fromClassNode, showDetails) {
   var ClassViewer = apiviewer.ClassViewer;
@@ -1040,9 +1040,9 @@ qx.Proto._createMethodInfo = function(node, nodeType, fromClassNode, showDetails
  * Checks whether a constant has details.
  *
  * @param node {Map} the doc node of the constant.
- * @param nodeType {int} the node type of the constant.
+ * @param nodeType {Integer} the node type of the constant.
  * @param fromClassNode {Map} the doc node of the class the constant was defined.
- * @return {boolean} whether the constant has details.
+ * @return {Boolean} whether the constant has details.
  */
 qx.Proto._constantHasDetails = function(node, nodeType, fromClassNode) {
   return this._hasSeeAlsoHtml(node) || this._hasErrorHtml(node) || this._descHasDetails(node);
@@ -1053,10 +1053,10 @@ qx.Proto._constantHasDetails = function(node, nodeType, fromClassNode) {
  * Creates the HTML showing the information about a constant.
  *
  * @param node {Map} the doc node of the constant.
- * @param nodeType {int} the node type of the constant.
+ * @param nodeType {Integer} the node type of the constant.
  * @param fromClassNode {Map} the doc node of the class the constant was defined.
- * @param showDetails {boolean} whether to show the details.
- * @return {string} the HTML showing the information about the constant.
+ * @param showDetails {Boolean} whether to show the details.
+ * @return {String} the HTML showing the information about the constant.
  */
 qx.Proto._createConstantInfo = function(node, nodeType, fromClassNode, showDetails) {
   var info = {}
@@ -1085,7 +1085,7 @@ qx.Proto._createConstantInfo = function(node, nodeType, fromClassNode, showDetai
  * sentence).
  *
  * @param node {Map} the doc node of the item.
- * @return {boolean} whether the description of an item has details.
+ * @return {Boolean} whether the description of an item has details.
  */
 qx.Proto._descHasDetails = function(node) {
   var descNode = apiviewer.TreeUtil.getChild(node, "desc");
@@ -1103,9 +1103,9 @@ qx.Proto._descHasDetails = function(node) {
  *
  * @param node {Map} the doc node of the item.
  * @param fromClassNode {Map} the doc node of the class the item was defined.
- * @param showDetails {boolean} whether to show details. If <code>false</code>
+ * @param showDetails {Boolean} whether to show details. If <code>false</code>
  *        only the first sentence of the description will be shown.
- * @return {string} the HTML showing the description.
+ * @return {String} the HTML showing the description.
  */
 qx.Proto._createDescHtml = function(node, fromClassNode, showDetails) {
   var descNode = apiviewer.TreeUtil.getChild(node, "desc");
@@ -1126,8 +1126,8 @@ qx.Proto._createDescHtml = function(node, fromClassNode, showDetails) {
 /**
  * Extracts the first sentence from a text.
  *
- * @param text {string} the text.
- * @return {string} the first sentence from the text.
+ * @param text {String} the text.
+ * @return {String} the first sentence from the text.
  */
 qx.Proto._extractFirstSentence = function(text)
 {
@@ -1153,7 +1153,7 @@ qx.Proto._extractFirstSentence = function(text)
  * Checks whether a item has &#64;see attributes.
  *
  * @param node {Map} the doc node of the item.
- * @return {boolean} whether the item has &#64;see attributes.
+ * @return {Boolean} whether the item has &#64;see attributes.
  */
 qx.Proto._hasSeeAlsoHtml = function(node) {
   var TreeUtil = apiviewer.TreeUtil;
@@ -1179,7 +1179,7 @@ qx.Proto._hasSeeAlsoHtml = function(node) {
  *
  * @param node {Map} the doc node of the item.
  * @param fromClassNode {Map} the doc node of the class the item was defined.
- * @return {string} the HTML showing the &#64;see attributes.
+ * @return {String} the HTML showing the &#64;see attributes.
  */
 qx.Proto._createSeeAlsoHtml = function(node, fromClassNode) {
   var ClassViewer = apiviewer.ClassViewer;
@@ -1217,7 +1217,7 @@ qx.Proto._createSeeAlsoHtml = function(node, fromClassNode) {
  * Checks whether a item has documentation errors.
  *
  * @param node {Map} the doc node of the item.
- * @return {boolean} whether the item has documentation errors.
+ * @return {Boolean} whether the item has documentation errors.
  */
 qx.Proto._hasErrorHtml = function(node) {
   var errorNode = apiviewer.TreeUtil.getChild(node, "errors");
@@ -1230,7 +1230,7 @@ qx.Proto._hasErrorHtml = function(node) {
  *
  * @param node {Map} the doc node of the item.
  * @param fromClassNode {Map} the doc node of the class the item was defined.
- * @return {string} the HTML showing the documentation errors.
+ * @return {String} the HTML showing the documentation errors.
  */
 qx.Proto._createErrorHtml = function(node, fromClassNode) {
   var ClassViewer = apiviewer.ClassViewer;
@@ -1260,11 +1260,11 @@ qx.Proto._createErrorHtml = function(node, fromClassNode) {
  * @param typeNode {Map} the doc node to show the type for.
  * @param packageBaseClass {Map} the doc node of the class <code>typeNode</code>
  *        belongs to.
- * @param defaultType {string} the type name to use if <code>typeNode</code> is
+ * @param defaultType {String} the type name to use if <code>typeNode</code> is
  *        <code>null</code> or defines no type.
- * @param useShortName {boolean,true} whether to use short class names
+ * @param useShortName {Boolean,true} whether to use short class names
  *        (without package).
- * @return {string} the HTML showing the type.
+ * @return {String} the HTML showing the type.
  */
 qx.Proto._createTypeHtml = function(typeNode, packageBaseClass, defaultType, useShortName) {
   if (useShortName == null) {
@@ -1364,7 +1364,7 @@ qx.Proto._createTypeHtml = function(typeNode, packageBaseClass, defaultType, use
 /**
  * Creates HTML that replaces all &#64;link-attributes with links.
  *
- * @param description {string} the description.
+ * @param description {String} the description.
  * @param packageBaseClass {Map,null} the doc node of the class to use for
  *        auto-adding packages.
  */
@@ -1392,13 +1392,13 @@ qx.Proto._createDescriptionHtml = function(description, packageBaseClass) {
 /**
  * Creates the HTML for a link to an item.
  *
- * @param linkText {string} the link text
+ * @param linkText {String} the link text
  *        (e.g. "mypackage.MyClass#myMethod alt text")
  * @param packageBaseClass {Map,null} the doc node of the class to use when
  *        auto-adding the package to a class name having no package specified.
  *        If null, no automatic package addition is done.
- * @param useIcon {boolean,true} whether to add an icon to the link.
- * @param useShortName {boolean,false} whether to use the short name.
+ * @param useIcon {Boolean,true} whether to add an icon to the link.
+ * @param useShortName {Boolean,false} whether to use the short name.
  */
 qx.Proto._createItemLinkHtml = function(linkText, packageBaseClass, useIcon,
   useShortName)
@@ -1485,7 +1485,7 @@ qx.Proto._createItemLinkHtml = function(linkText, packageBaseClass, useIcon,
  * Gets the node type for a doc node.
  *
  * @param itemNode {Map} the doc node of the item.
- * @return {int} the item's node type.
+ * @return {Integer} the item's node type.
  */
 qx.Proto._getTypeForItemNode = function(itemNode) {
   var ClassViewer = apiviewer.ClassViewer;
@@ -1534,8 +1534,9 @@ qx.Proto.dispose = function() {
 
 
 /** {Map} The primitive types. These types will not be shown with links. */
-qx.Class.PRIMITIVES = { "boolean":true, "string":true, "float":true,
-  "number":true, "int":true, "double":true, "var":true, "void":true,
+qx.Class.PRIMITIVES = { "var":true, "void":true, "undefined":true, "arguments":true,
+  "Boolean":true, "String":true, "Float":true, "Double":true,
+  "Number":true, "Integer":true, "Error":true,
   "RegExp":true, "Array":true, "Map":true, "Date":true, "Element":true,
   "Node":true, "Function":true, "Object":true, "Event":true };
 
@@ -1588,8 +1589,8 @@ qx.Class.SPAN_END = '</span>';
  *
  * @param imgUrl {var} the URL of the image. May be a string or an array of
  *        strings (for overlay images).
- * @param tooltip {string} the tooltip to show.
- * @param styleAttributes {string} the style attributes to add to the image.
+ * @param tooltip {String} the tooltip to show.
+ * @param styleAttributes {String} the style attributes to add to the image.
  */
 qx.Class.createImageHtml = function(imgUrl, tooltip, styleAttributes) {
   if (typeof imgUrl == "string") {
@@ -1610,13 +1611,13 @@ qx.Class.createImageHtml = function(imgUrl, tooltip, styleAttributes) {
  * Creates HTML that shows an overlay image (several images on top of each other).
  * The resulting HTML will behave inline.
  *
- * @param width {int} the width of the images.
- * @param height {int} the height of the images.
- * @param imgUrlArr {string[]} the URLs of the images. The last image will be
+ * @param width {Integer} the width of the images.
+ * @param height {Integer} the height of the images.
+ * @param imgUrlArr {String[]} the URLs of the images. The last image will be
  *        painted on top.
- * @param toolTip {string,null} the tooltip of the icon.
- * @param styleAttributes {string,null} custom CSS style attributes.
- * @return {string} the HTML with the overlay image.
+ * @param toolTip {String,null} the tooltip of the icon.
+ * @param styleAttributes {String,null} custom CSS style attributes.
+ * @return {String} the HTML with the overlay image.
  */
 qx.Class.createOverlayImageHtml
   = function(width, height, imgUrlArr, toolTip, styleAttributes)

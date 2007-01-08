@@ -26,7 +26,7 @@ qx.OO.defineClass("qx.locale.Date");
 /**
  * Get AM marker for time definitions
  *
- * @param locale {string} optional locale to be used
+ * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString} translated AM marker.
  */
 qx.Class.getAmMarker = function(locale) {
@@ -37,7 +37,7 @@ qx.Class.getAmMarker = function(locale) {
 /**
  * Get PM marker for time definitions
  *
- * @param locale {string} optional locale to be used
+ * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString} translated PM marker.
  */
 qx.Class.getPmMarker = function(locale) {
@@ -48,9 +48,9 @@ qx.Class.getPmMarker = function(locale) {
 /**
  * Return localized names of day names
  *
- * @param length {string} format of the day names.
+ * @param length {String} format of the day names.
  *     Possible values: "abbreviated", "narrow", "wide"
- * @param locale {string} optional locale to be used
+ * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString[]} array of localized day names starting with sunday.
  */
 qx.Class.getDayNames = function(length, locale) {
@@ -74,10 +74,10 @@ qx.Class.getDayNames = function(length, locale) {
 /**
  * Return localized name of a week day name
  *
- * @param length {string} format of the day name.
+ * @param length {String} format of the day name.
  *     Possible values: "abbreviated", "narrow", "wide"
- * @param day {integer} day number. 0=sunday, 1=monday, ...
- * @param locale {string} optional locale to be used
+ * @param day {Integereger} day number. 0=sunday, 1=monday, ...
+ * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString} localized day name
  */
 qx.Class.getDayName = function(length, day, locale) {
@@ -97,9 +97,9 @@ qx.Class.getDayName = function(length, day, locale) {
 /**
  * Return localized names of month names
  *
- * @param length {string} format of the month names.
+ * @param length {String} format of the month names.
  *     Possible values: "abbreviated", "narrow", "wide"
- * @param locale {string} optional locale to be used
+ * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString[]} array of localized month names starting with january.
  */
 qx.Class.getMonthNames = function(length, locale) {
@@ -122,10 +122,10 @@ qx.Class.getMonthNames = function(length, locale) {
 /**
  * Return localized name of a month
  *
- * @param length {string} format of the month names.
+ * @param length {String} format of the month names.
  *     Possible values: "abbreviated", "narrow", "wide"
- * @param month {integer} index of the month. 0=january, 1=februrary, ...
- * @param locale {string} optional locale to be used
+ * @param month {Integereger} index of the month. 0=january, 1=februrary, ...
+ * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString} localized month name
  */
 qx.Class.getMonthName = function(length, month, locale) {
@@ -144,9 +144,9 @@ qx.Class.getMonthName = function(length, month, locale) {
 /**
  * Return localized date format string to be used with @see(qx.util.format.DateFormat).
  *
- * @param size {string} format of the date format.
+ * @param size {String} format of the date format.
  *    Possible values: "short", "medium", "long", "full"
- * @param locale {string} optional locale to be used
+ * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString} localized date format string
  */
 qx.Class.getDateFormat = function(size, locale) {
@@ -168,11 +168,11 @@ qx.Class.getDateFormat = function(size, locale) {
  *
  * If now localization is availible take the fallback format string
  *
- * @param canonical {string} format string containing only field information, and in a canonical order.
+ * @param canonical {String} format string containing only field information, and in a canonical order.
  *     Examples are "yyyyMMMM" for year + full month, or "MMMd" for abbreviated month + day.
- * @param fallback {string} fallback format string if no localized version is found
- * @param locale {string} optional locale to be used
- * @return {string} best matching format string
+ * @param fallback {String} fallback format string if no localized version is found
+ * @param locale {String} optional locale to be used
+ * @return {String} best matching format string
  */
 qx.Class.getDateTimeFormat = function(canonical, fallback, locale) {
   var key = "cldr_date_time_format_" + canonical;
@@ -187,9 +187,9 @@ qx.Class.getDateTimeFormat = function(canonical, fallback, locale) {
 /**
  * Return localized time format string to be used with @see(qx.util.format.DateFormat).
  *
- * @param size {string} format of the time pattern.
+ * @param size {String} format of the time pattern.
  *    Possible values: "short", "medium", "long", "full"
- * @param locale {string} optional locale to be used
+ * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString} localized time format string
  */
 qx.Class.getTimeFormat = function(size, locale) {
@@ -223,8 +223,8 @@ qx.Class.getTimeFormat = function(size, locale) {
  *
  * Reference: Common Locale Data Repository (cldr) supplementalData.xml
  *
- * @param locale {string} optional locale to be used
- * @return {integer} index of the first day of the week. 0=sunday, 1=monday, ...
+ * @param locale {String} optional locale to be used
+ * @return {Integereger} index of the first day of the week. 0=sunday, 1=monday, ...
  */
 qx.Class.getWeekStart = function(locale) {
   var weekStart = {
@@ -310,8 +310,8 @@ qx.Class.getWeekStart = function(locale) {
  *
  * Reference: Common Locale Data Repository (cldr) supplementalData.xml
  *
- * @param locale {string} optional locale to be used
- * @return {integer} index of the first day of the weekend. 0=sunday, 1=monday, ...
+ * @param locale {String} optional locale to be used
+ * @return {Integereger} index of the first day of the weekend. 0=sunday, 1=monday, ...
  */
 qx.Class.getWeekendStart = function(locale) {
   var weekendStart = {
@@ -350,8 +350,8 @@ qx.Class.getWeekendStart = function(locale) {
  *
  * Reference: Common Locale Data Repository (cldr) supplementalData.xml
  *
- * @param locale {string} optional locale to be used
- * @return {integer} index of the last day of the weekend. 0=sunday, 1=monday, ...
+ * @param locale {String} optional locale to be used
+ * @return {Integereger} index of the last day of the weekend. 0=sunday, 1=monday, ...
  */
 qx.Class.getWeekendEnd = function(locale) {
   var weekendEnd = {
@@ -388,9 +388,9 @@ qx.Class.getWeekendEnd = function(locale) {
 /**
  * Returns whether a certain day of week belongs to the week end.
  *
- * @param day {integer} index of the day. 0=sunday, 1=monday, ...
- * @param locale {string} optional locale to be used
- * @return {boolean} whether the given day is a weekend day
+ * @param day {Integereger} index of the day. 0=sunday, 1=monday, ...
+ * @param locale {String} optional locale to be used
+ * @return {Boolean} whether the given day is a weekend day
  */
 qx.Class.isWeekend = function(day, locale) {
   var weekendStart = qx.locale.Date.getWeekendStart(locale);
@@ -412,8 +412,8 @@ qx.Class.isWeekend = function(day, locale) {
 /**
  * Extract the territory part from a locale
  *
- * @param locale {string}
- * @return {string} territory
+ * @param locale {String}
+ * @return {String} territory
  */
 qx.Class._getTerritory = function(locale) {
   if (locale) {

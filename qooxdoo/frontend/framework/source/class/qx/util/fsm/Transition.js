@@ -30,7 +30,7 @@
  * experimental.  It may change in non-backward-compatible ways as more
  * experience is gained in its use.
  *
- * @param transitionName {string}
+ * @param transitionName {String}
  *   The name of this transition, used in debug messages.
  *
  * @param transitionInfo {Object}

@@ -64,7 +64,7 @@ qx.Proto.appendLogEvent = function(evt) {
 /**
  * Returns log events which have been logged previously.
  *
- * @param count {int} The number of events to retreive. If there are more events than the
+ * @param count {Integer} The number of events to retreive. If there are more events than the
  *                    given count, the oldest ones will not be returned.
  * @return {array} array of stored log events
  */
@@ -95,9 +95,9 @@ qx.Proto.retrieveLogEvents = function(count) {
 /**
  * Returns a string holding the information of log events which have been logged previously.
  *
- * @param count {int} The number of events to retreive. If there are more events than the
+ * @param count {Integer} The number of events to retreive. If there are more events than the
  *                    given count, the oldest ones will not be returned.
- * @return {string} string
+ * @return {String} string
  */
 qx.Proto.formatLogEvents = function(count) {
   if (this._appenderToFormatStrings == null){

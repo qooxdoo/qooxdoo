@@ -45,7 +45,7 @@ function() {
 /**
  * Returns the number of rows in the model.
  *
- * @return {int} the number of rows.
+ * @return {Integer} the number of rows.
  */
 qx.Proto.getRowCount = function() {
   throw new Error("getRowCount is abstract");
@@ -60,7 +60,7 @@ qx.Proto.getRowCount = function() {
  * <p><b>Important:</b>Models which do not have their row data accessible in one object
  * may return null.</p>
  *
- * @param rowIndex {int} the model index of the row.
+ * @param rowIndex {Integer} the model index of the row.
  * @return {Object} the row data as an object or null if the model does not support row data
  *                  objects. The details on the object returned are determined by the model
  *                  implementation only.
@@ -73,7 +73,7 @@ qx.Proto.getRowData = function(rowIndex) {
 /**
  * Returns the number of columns in the model.
  *
- * @return {int} the number of columns.
+ * @return {Integer} the number of columns.
  */
 qx.Proto.getColumnCount = function() {
   throw new Error("getColumnCount is abstract");
@@ -85,8 +85,8 @@ qx.Proto.getColumnCount = function() {
  * independent from their index in the model. E.g. for being aware of added
  * columns when saving the width of a column.
  *
- * @param columnIndex {int} the index of the column.
- * @return {string} the ID of the column.
+ * @param columnIndex {Integer} the index of the column.
+ * @return {String} the ID of the column.
  */
 qx.Proto.getColumnId = function(columnIndex) {
   throw new Error("getColumnId is abstract");
@@ -96,8 +96,8 @@ qx.Proto.getColumnId = function(columnIndex) {
 /**
  * Returns the index of a column.
  *
- * @param columnId {string} the ID of the column.
- * @return {int} the index of the column.
+ * @param columnId {String} the ID of the column.
+ * @return {Integer} the index of the column.
  */
 qx.Proto.getColumnIndexById = function(columnId) {
   throw new Error("getColumnIndexById is abstract");
@@ -108,8 +108,8 @@ qx.Proto.getColumnIndexById = function(columnId) {
  * Returns the name of a column. This name will be shown to the user in the
  * table header.
  *
- * @param columnIndex {int} the index of the column.
- * @return {string} the name of the column.
+ * @param columnIndex {Integer} the index of the column.
+ * @return {String} the name of the column.
  */
 qx.Proto.getColumnName = function(columnIndex) {
   throw new Error("getColumnName is abstract");
@@ -119,8 +119,8 @@ qx.Proto.getColumnName = function(columnIndex) {
 /**
  * Returns whether a column is editable.
  *
- * @param columnIndex {int} the column to check.
- * @return {boolean} whether the column is editable.
+ * @param columnIndex {Integer} the column to check.
+ * @return {Boolean} whether the column is editable.
  */
 qx.Proto.isColumnEditable = function(columnIndex) {
   return false;
@@ -130,8 +130,8 @@ qx.Proto.isColumnEditable = function(columnIndex) {
 /**
  * Returns whether a column is sortable.
  *
- * @param columnIndex {int} the column to check.
- * @return {boolean} whether the column is sortable.
+ * @param columnIndex {Integer} the column to check.
+ * @return {Boolean} whether the column is sortable.
  */
 qx.Proto.isColumnSortable = function(columnIndex) {
   return false;
@@ -141,8 +141,8 @@ qx.Proto.isColumnSortable = function(columnIndex) {
 /**
  * Sorts the model by a column.
  *
- * @param columnIndex {int} the column to sort by.
- * @param ascending {boolean} whether to sort ascending.
+ * @param columnIndex {Integer} the column to sort by.
+ * @param ascending {Boolean} whether to sort ascending.
  */
 qx.Proto.sortByColumn = function(columnIndex, ascending) {
 }
@@ -152,7 +152,7 @@ qx.Proto.sortByColumn = function(columnIndex, ascending) {
  * Returns the column index the model is sorted by. If the model is not sorted
  * -1 is returned.
  *
- * @return {int} the column index the model is sorted by.
+ * @return {Integer} the column index the model is sorted by.
  */
 qx.Proto.getSortColumnIndex = function() {
   return -1;
@@ -162,7 +162,7 @@ qx.Proto.getSortColumnIndex = function() {
 /**
  * Returns whether the model is sorted ascending.
  *
- * @return {boolean} whether the model is sorted ascending.
+ * @return {Boolean} whether the model is sorted ascending.
  */
 qx.Proto.isSortAscending = function() {
   return true;
@@ -173,8 +173,8 @@ qx.Proto.isSortAscending = function() {
  * Prefetches some rows. This is a hint to the model that the specified rows
  * will be read soon.
  *
- * @param firstRowIndex {int} the index of first row.
- * @param lastRowIndex {int} the index of last row.
+ * @param firstRowIndex {Integer} the index of first row.
+ * @param lastRowIndex {Integer} the index of last row.
  */
 qx.Proto.prefetchRows = function(firstRowIndex, lastRowIndex) {
 }
@@ -183,8 +183,8 @@ qx.Proto.prefetchRows = function(firstRowIndex, lastRowIndex) {
 /**
  * Returns a cell value by column index.
  *
- * @param columnIndex {int} the index of the column.
- * @param rowIndex {int} the index of the row.
+ * @param columnIndex {Integer} the index of the column.
+ * @param rowIndex {Integer} the index of the row.
  * @return {var} The value of the cell.
  * @see #getValueById{}
  */
@@ -199,8 +199,8 @@ qx.Proto.getValue = function(columnIndex, rowIndex) {
  * Whenever you have the choice, use {@link #getValue()} instead,
  * because this should be faster.
  *
- * @param columnId {string} the ID of the column.
- * @param rowIndex {int} the index of the row.
+ * @param columnId {String} the ID of the column.
+ * @param rowIndex {Integer} the index of the row.
  * @return {var} the value of the cell.
  */
 qx.Proto.getValueById = function(columnId, rowIndex) {
@@ -211,8 +211,8 @@ qx.Proto.getValueById = function(columnId, rowIndex) {
 /**
  * Sets a cell value by column index.
  *
- * @param columnIndex {int} The index of the column.
- * @param rowIndex {int} the index of the row.
+ * @param columnIndex {Integer} The index of the column.
+ * @param rowIndex {Integer} the index of the row.
  * @param value {var} The new value.
  * @see #setValueById{}
  */
@@ -227,8 +227,8 @@ qx.Proto.setValue = function(columnIndex, rowIndex, value) {
  * Whenever you have the choice, use {@link #setValue()} instead,
  * because this should be faster.
  *
- * @param columnId {string} The ID of the column.
- * @param rowIndex {int} The index of the row.
+ * @param columnId {String} The ID of the column.
+ * @param rowIndex {Integer} The index of the row.
  * @param value {var} The new value.
  */
 qx.Proto.setValueById = function(columnId, rowIndex, value) {

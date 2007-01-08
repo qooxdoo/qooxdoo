@@ -45,7 +45,7 @@
  * create circular references! There are no checks to detect these (which would
  * be expensive), so you as the user are responsible for avoiding them.
  *
- * @param       url {string}            identifies the url where the service
+ * @param url {String}            identifies the url where the service
  *                                      is found.  Note that if the url is to
  *                                      a domain (server) other than where the
  *                                      qooxdoo script came from, i.e. it is
@@ -55,7 +55,7 @@
  *                                      the XmlHttpTransport, since the latter
  *                                      can not handle cross-domain requests.
  *
- * @param       serviceName {string}    identifies the service. For the Java
+ * @param serviceName {String}    identifies the service. For the Java
  *                                      implementation, this is the fully
  *                                      qualified name of the class that offers
  *                                      the service methods
@@ -352,9 +352,9 @@ qx.Proto._callInternal = function(args, callType, refreshSession) {
  * Helper method to rewrite a URL with a stale session id (so that it includes
  * the correct session id afterwards).
  *
- * @param url {string}        the URL to examine.
+ * @param url {String}        the URL to examine.
  *
- * @return {string}            the (possibly re-written) URL.
+ * @return {String}            the (possibly re-written) URL.
  */
 
 qx.Proto.fixUrl = function(url) {
@@ -390,7 +390,7 @@ qx.Proto.fixUrl = function(url) {
  * YOU HAVE BEEN WARNED.
  * </p>
  *
- * @param       methodName {string}   the name of the method to call.
+ * @param methodName {String}   the name of the method to call.
  *
  * @return      {var}                 the result returned by the server.
  */
@@ -429,7 +429,7 @@ qx.Proto.callSync = function(methodName) {
  *
  * @param       handler {Function}    the callback function.
  *
- * @param       methodName {string}   the name of the method to call.
+ * @param methodName {String}   the name of the method to call.
  *
  * @return      {var}                 the method call reference.
  */
@@ -546,7 +546,7 @@ qx.Proto.abort = function(opaqueCallRef) {
  * lives in the same application as the page calling the service. For backends
  * that don't support this auto-generation, this method returns null.
  *
- * @param       instanceId {string ? null}    an optional identifier for the
+ * @param instanceId {String ? null}    an optional identifier for the
  *                                          server side instance that should be
  *                                          used. All calls to the same service
  *                                          with the same instance id are
@@ -556,7 +556,7 @@ qx.Proto.abort = function(opaqueCallRef) {
  *                                          data for the service instantiation
  *                                          on the server.
  *
- * @return      {string}                    the url.
+ * @return {String}                    the url.
  */
 
 qx.Class.makeServerURL = function(instanceId) {

@@ -85,7 +85,7 @@ qx.Proto._onColVisibilityChanged = function(evt) {
 /**
  * Returns the number of columns in this model.
  *
- * @return {int} the number of columns in this model.
+ * @return {Integer} the number of columns in this model.
  */
 qx.Proto.getColumnCount = function() {
   if (this._columnCount == null) {
@@ -106,8 +106,8 @@ qx.Proto.getColumnCount = function() {
 /**
  * Returns the model index of the column at the position <code>xPos</code>.
  *
- * @param xPos {int} the x postion in the table pane of the column.
- * @return {int} the model index of the column.
+ * @param xPos {Integer} the x postion in the table pane of the column.
+ * @return {Integer} the model index of the column.
  */
 qx.Proto.getColumnAtX = function(xPos) {
   var firstX = this.getFirstColumnX();
@@ -118,8 +118,8 @@ qx.Proto.getColumnAtX = function(xPos) {
 /**
  * Returns the x position of the column <code>col</code>.
  *
- * @param col {int} the model index of the column.
- * @return {int} the x postion in the table pane of the column.
+ * @param col {Integer} the model index of the column.
+ * @return {Integer} the x postion in the table pane of the column.
  */
 qx.Proto.getX = function(col) {
   var firstX = this.getFirstColumnX();
@@ -141,7 +141,7 @@ qx.Proto.getX = function(col) {
  * This value corresponds to the sum of the widths of all columns left of the
  * column.
  *
- * @param col {int} the model index of the column.
+ * @param col {Integer} the model index of the column.
  * @return the position of the left side of the column.
  */
 qx.Proto.getColumnLeft = function(col) {
@@ -162,7 +162,7 @@ qx.Proto.getColumnLeft = function(col) {
 /**
  * Returns the total width of all columns in the model.
  *
- * @return {int} the total width of all columns in the model.
+ * @return {Integer} the total width of all columns in the model.
  */
 qx.Proto.getTotalWidth = function() {
   var totalWidth = 0;

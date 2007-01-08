@@ -32,8 +32,8 @@ qx.OO.defineClass("qx.lang.String");
  * Example:
  * <pre>qx.lang.String.toCamelCase("to-camel-case") == "toCamelCase"</pre>
  *
- * @param str {string} string seperated by '-'
- * @return {string} camel case string
+ * @param str {String} string seperated by '-'
+ * @return {String} camel case string
  */
 qx.Class.toCamelCase = function(str)
 {
@@ -58,8 +58,8 @@ qx.Class.toCamelCase = function(str)
 /**
  * removes white space from the left side of a string
  *
- * @param str {string}
- * @return {string}
+ * @param str {String}
+ * @return {String}
  */
 qx.Class.trimLeft = function(str) {
   return str.replace(/^\s+/, "");
@@ -69,8 +69,8 @@ qx.Class.trimLeft = function(str) {
 /**
  * removes white space from the right side of a string
  *
- * @param str {string}
- * @return {string}
+ * @param str {String}
+ * @return {String}
  */
 qx.Class.trimRight = function(str) {
   return str.replace(/\s+$/, "");
@@ -80,8 +80,8 @@ qx.Class.trimRight = function(str) {
 /**
  * removes white space from the left and the right side of a string
  *
- * @param str {string}
- * @return {string}
+ * @param str {String}
+ * @return {String}
  */
 qx.Class.trim = function(str) {
   return str.replace(/^\s+|\s+$/g, "");
@@ -93,8 +93,8 @@ qx.Class.trim = function(str) {
  * Example:
  * <pre>qx.lang.String.stripTags("&lt;h1>Hello&lt;/h1>") == "Hello"</pre>
  *
- * @param str {string} string containing tags
- * @return {string} the string with stripped tags
+ * @param str {String} string containing tags
+ * @return {String} the string with stripped tags
  */
 qx.Class.stripTags = function(str) {
   return str.replace(/<\/?[^>]+>/gi, "");
@@ -191,8 +191,8 @@ qx.Class.contains = function(str, s) {
 /**
  * Escapes all chars that have a special meaning in regular expressions
  *
- * @param str {string} the string where to escape the chars.
- * @return {string} the string with the escaped chars.
+ * @param str {String} the string where to escape the chars.
+ * @return {String} the string with the escaped chars.
  */
 qx.Class.escapeRegexpChars = function(str) {
   return str.replace(/([\\\.\(\)\[\]\{\}\^\$\?\+\*])/g, "\\$1");
@@ -205,9 +205,9 @@ qx.Class.escapeRegexpChars = function(str) {
  * Example:
  * <pre>qx.lang.String.format("Hello %1, my name is %2", ["Egon", "Franz"]) == "Hello Egon, my name is Franz"<pre>
  *
- * @param pattern {string} format string
+ * @param pattern {String} format string
  * @param args {Array}
- * @return {string}
+ * @return {String}
  */
 qx.Class.format = function(pattern, args)
 {

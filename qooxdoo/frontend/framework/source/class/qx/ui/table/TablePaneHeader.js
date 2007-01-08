@@ -98,8 +98,8 @@ qx.Proto._onTableModelMetaDataChanged = function(evt) {
 /**
  * Sets the column width. This overrides the width from the column model.
  *
- * @param col {int} the column to change the width for.
- * @param width {int} the new width.
+ * @param col {Integer} the column to change the width for.
+ * @param width {Integer} the new width.
  */
 qx.Proto.setColumnWidth = function(col, width) {
   var x = this.getPaneScroller().getTablePaneModel().getX(col);
@@ -113,7 +113,7 @@ qx.Proto.setColumnWidth = function(col, width) {
 /**
  * Sets the column the mouse is currently over.
  *
- * @param col {int} the model index of the column the mouse is currently over or
+ * @param col {Integer} the model index of the column the mouse is currently over or
  *    null if the mouse is over no column.
  */
 qx.Proto.setMouseOverColumn = function(col) {
@@ -139,8 +139,8 @@ qx.Proto.setMouseOverColumn = function(col) {
 /**
  * Shows the feedback shown while a column is moved by the user.
  *
- * @param col {int} the model index of the column to show the move feedback for.
- * @param x {int} the x position the left side of the feeback should have
+ * @param col {Integer} the model index of the column to show the move feedback for.
+ * @param x {Integer} the x position the left side of the feeback should have
  *    (in pixels, relative to the left side of the header).
  */
 qx.Proto.showColumnMoveFeedback = function(col, x) {
@@ -198,7 +198,7 @@ qx.Proto.isShowingColumnMoveFeedback = function() {
 /**
  * Updates the content of the header.
  *
- * @param completeUpdate {boolean} if true a complete update is performed. On a
+ * @param completeUpdate {Boolean} if true a complete update is performed. On a
  *    complete update all header widgets are recreated.
  */
 qx.Proto._updateContent = function(completeUpdate) {
