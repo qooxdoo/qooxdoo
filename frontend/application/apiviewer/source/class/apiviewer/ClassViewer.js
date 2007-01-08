@@ -1156,21 +1156,7 @@ qx.Proto._extractFirstSentence = function(text)
  * @return {Boolean} whether the item has &#64;see attributes.
  */
 qx.Proto._hasSeeAlsoHtml = function(node) {
-  var TreeUtil = apiviewer.TreeUtil;
-
-  var descNode = TreeUtil.getChild(node, "desc");
-  if (descNode) {
-    var attributesNode = TreeUtil.getChild(descNode, "attributes");
-    if (attributesNode) {
-      var seeAttribNode = TreeUtil.getChildByAttribute(attributesNode, "name", "see");
-      if (seeAttribNode) {
-        return true;
-      }
-    }
-  }
-
-  // There is no @see attribute
-  return false;
+  return apiviewer.TreeUtil.getChild(node, "see") ? true : false;
 }
 
 
