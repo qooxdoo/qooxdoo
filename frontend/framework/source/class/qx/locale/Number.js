@@ -24,24 +24,24 @@ qx.OO.defineClass("qx.locale.Number");
 
 
 /**
- * Get deciaml seperator for number formatting
+ * Get deciaml separator for number formatting
  *
  * @param locale {string} optional locale to be used
- * @return {qx.locale.LocalizedString} deciaml seperator.
+ * @return {qx.locale.LocalizedString} deciaml separator.
  */
-qx.Class.getDecimalSeperator = function(locale) {
-  return new qx.locale.LocalizedString("cldr_number_decimal_seperator", [], locale);
+qx.Class.getDecimalSeparator = function(locale) {
+  return new qx.locale.LocalizedString("cldr_number_decimal_separator", [], locale);
 };
 
 
 /**
- * Get thousand grouping seperator for number formatting
+ * Get thousand grouping separator for number formatting
  *
  * @param locale {string} optional locale to be used
- * @return {qx.locale.LocalizedString} group seperator.
+ * @return {qx.locale.LocalizedString} group separator.
  */
-qx.Class.getGroupSeperator = function(locale) {
-  return new qx.locale.LocalizedString("cldr_number_group_seperator", [], locale);
+qx.Class.getGroupSeparator = function(locale) {
+  return new qx.locale.LocalizedString("cldr_number_group_separator", [], locale);
 };
 
 

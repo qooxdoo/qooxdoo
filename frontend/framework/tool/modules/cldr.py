@@ -135,14 +135,14 @@ def extractDelimiter(tree):
 def extractNumber(tree):
 	data = {}
 	
-	decimalSeperatorNode = tree.find("numbers/symbols/decimal")
-	if decimalSeperatorNode != None:
-		data['number_decimal_seperator'] = decimalSeperatorNode.text
+	decimalSeparatorNode = tree.find("numbers/symbols/decimal")
+	if decimalSeparatorNode != None:
+		data['number_decimal_separator'] = decimalSeparatorNode.text
 	
-	groupSeperator = ","
-	groupSeperatorNode = tree.find("numbers/symbols/group")
-	if groupSeperatorNode != None:
-		data['number_group_seperator'] = groupSeperatorNode.text
+	groupSeparator = ","
+	groupSeparatorNode = tree.find("numbers/symbols/group")
+	if groupSeparatorNode != None:
+		data['number_group_separator'] = groupSeparatorNode.text
 	
 	percentFormatNode = tree.find("numbers/percentFormats/percentFormatLength/percentFormat/pattern")
 	if percentFormatNode != None:
