@@ -395,14 +395,13 @@ qx.Proto._updateInfoPanel = function(nodeType)
   var typeInfo = this._infoPanelHash[nodeType];
 
   // Get the nodes to show
-  var nodeArr = null;
+  var nodeArr = [];
   var fromClassHash = null;
 
-  if (typeInfo.isOpen && this._currentClassDocNode)
+  if (this._currentClassDocNode)
   {
     if (this._showInherited && (nodeType == apiviewer.ClassViewer.NODE_TYPE_EVENT || nodeType == apiviewer.ClassViewer.NODE_TYPE_PROPERTY || nodeType == apiviewer.ClassViewer.NODE_TYPE_METHOD))
     {
-      nodeArr = [];
       fromClassArr = [];
       fromClassHash = {};
 
@@ -438,30 +437,30 @@ qx.Proto._updateInfoPanel = function(nodeType)
     }
   }
 
-  // Filter protected
-  if (nodeType == apiviewer.ClassViewer.NODE_TYPE_METHOD || nodeType == apiviewer.ClassViewer.NODE_TYPE_METHOD_STATIC)
-  {
-    if (nodeArr && nodeArr.length != 0 && !this._showProtected)
-    {
-      copyArr = nodeArr.concat();
-
-      for (var i=nodeArr.length-1; i>=0; i--)
-      {
-        var node = nodeArr[i];
-
-        if (nodeArr[i].attributes.name.charAt(0) == "_") {
-          qx.lang.Array.removeAt(copyArr, i);
-        }
-      }
-
-      nodeArr = copyArr;
-    }
-  }
-
-  // Sort the nodeArr by name
-  // Move protected methods to the end
   if (nodeArr)
   {
+    // Filter protected
+    if (nodeType == apiviewer.ClassViewer.NODE_TYPE_METHOD || nodeType == apiviewer.ClassViewer.NODE_TYPE_METHOD_STATIC)
+    {
+      if (nodeArr.length != 0 && !this._showProtected)
+      {
+        copyArr = nodeArr.concat();
+
+        for (var i=nodeArr.length-1; i>=0; i--)
+        {
+          var node = nodeArr[i];
+
+          if (nodeArr[i].attributes.name.charAt(0) == "_") {
+            qx.lang.Array.removeAt(copyArr, i);
+          }
+        }
+
+        nodeArr = copyArr;
+      }
+    }
+
+    // Sort the nodeArr by name
+    // Move protected methods to the end
     nodeArr.sort(function(obj1, obj2)
     {
       var n1 = obj1.attributes.name;
@@ -483,7 +482,7 @@ qx.Proto._updateInfoPanel = function(nodeType)
   }
 
   // Show the nodes
-  if (nodeArr && nodeArr.length != 0)
+  if (nodeArr && nodeArr.length > 0)
   {
     var html = '<table cellspacing="0" cellpadding="0" class="info" width="100%">';
 
@@ -555,7 +554,7 @@ qx.Proto._updateInfoPanel = function(nodeType)
 
     typeInfo.infoBodyElem.innerHTML = html;
     this._fixLinks(typeInfo.infoBodyElem);
-    typeInfo.infoBodyElem.style.display = "";
+    typeInfo.infoBodyElem.style.display = !typeInfo.isOpen ? "none" : "";
     typeInfo.infoElem.style.display = "";
   }
   else
