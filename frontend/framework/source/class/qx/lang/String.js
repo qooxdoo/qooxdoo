@@ -104,7 +104,7 @@ qx.Class.stripTags = function(str) {
 
 /**
  * Check whether the string starts with the given substring
- * 
+ *
  * @param fullstr {String} the string to search in
  * @param substr {String} the substring to look for
  * @return {Boolean} whether the string starts with the given substring
@@ -116,8 +116,8 @@ qx.Class.startsWith = function(fullstr, substr) {
 
 /**
  * Check whether the string ends with the given substring
- * 
- * @param fullstr {String} the string to search in 
+ *
+ * @param fullstr {String} the string to search in
  * @param substr {String} the substring to look for
  * @return {Boolean} whether the string ends with the given substring
  */
@@ -128,7 +128,7 @@ qx.Class.endsWith = function(fullstr, substr) {
 
 /**
  * Pad a string up to a given length. Padding characters are added to the left of the string.
- * 
+ *
  * @param str {String} the string to pad
  * @param length {Integer} the final length of the string
  * @param ch {String?"0"} character used to fill up the string
@@ -152,7 +152,7 @@ qx.Class.pad = function(str, length, ch)
 
 /**
  * Convert the first character of the string to upper case.
- * 
+ *
  * @param str {String} the string
  * @return {String} the string with a upper case first character
  */
@@ -164,7 +164,7 @@ qx.Class.toFirstUp = function(str) {
 /**
  * Add a list item to a serialized list string
  * Example:
- * <pre>qx.lang.String.addListItem("red, yellow, green", "blue", ", ") == "red, yellow, green, blue"<pre>
+ * <pre>qx.lang.String.addListItem("red, yellow, green", "blue", ", ") == "red, yellow, green, blue"</pre>
  *
  * @param str {String} serialized list. The items are seperated by "sep"
  * @param item {String} list item to be added
@@ -177,7 +177,7 @@ qx.Class.addListItem = function(str, item, sep)
   {
     return item;
   }
-  
+
   if (sep == null) {
     sep = ",";
   }
@@ -200,7 +200,7 @@ qx.Class.addListItem = function(str, item, sep)
 /**
  * Remove a list item from a serialized list string
  * Example:
- * <pre>qx.lang.String.removeListItem("red, yellow, green", "yellow", ", ") == "red, green, blue"<pre>
+ * <pre>qx.lang.String.removeListItem("red, yellow, green", "yellow", ", ") == "red, green, blue"</pre>
  *
  * @param str {String} serialized list. The items are seperated by "sep"
  * @param item {String} list item to be removed
@@ -236,7 +236,7 @@ qx.Class.removeListItem = function(str, item, sep)
 
 /**
  * Check whether the string contains a given substring
- * 
+ *
  * @param str {String} the string
  * @param substring {String} substring to search for
  * @return {Boolean} whether the string contains the substring
@@ -261,7 +261,7 @@ qx.Class.escapeRegexpChars = function(str) {
  * Print a list of arguments using a format string
  * In the format string occurences of %n are replaced by the n'th element of the args list.
  * Example:
- * <pre>qx.lang.String.format("Hello %1, my name is %2", ["Egon", "Franz"]) == "Hello Egon, my name is Franz"<pre>
+ * <pre>qx.lang.String.format("Hello %1, my name is %2", ["Egon", "Franz"]) == "Hello Egon, my name is Franz"</pre>
  *
  * @param pattern {String} format string
  * @param args {Array} array of arguments to insert into the format string
