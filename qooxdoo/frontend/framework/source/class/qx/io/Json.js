@@ -60,9 +60,25 @@ SOFTWARE.
 
 qx.OO.defineClass("qx.io.Json");
 
+/**
+ * Stringify a JavaScript value, producing a JSON text.
+ *
+ * @param v {var} the object to serialize.
+ * @param beautify {Boolean ? false} whether to beautify the serialized string
+ *        by adding some white space that indents objects and arrays.
+ * @return {String} the serialized object.
+ */
+qx.Class.stringify = function (v, beautify) {};
 
-
-
+/**
+ * Parse a JSON text, producing a JavaScript value.
+ * It returns false if there is a syntax error.
+ *
+ * @param text {String} JSON string
+ * @return {var} evaluated JSON string.
+ */
+qx.Class.parse = function (text) {};
+    
 /*
 ---------------------------------------------------------------------------
   DEFAULT SETTINGS
@@ -355,6 +371,9 @@ qx.io.Json = function ()
 /**
  * Parse a JSON text, producing a JavaScript value.
  * It triggers an exception if there is a syntax error.
+ * 
+ * @param text {String} JSON string
+ * @return {var} evaluated JSON string. 
  */
 qx.io.Json.parseQx = function(text) {
   /* Convert the result text into a result primitive or object */
@@ -380,6 +399,8 @@ qx.io.Json.parseQx = function(text) {
   return obj;
 }
 
+/** indent string for JSON pretty printing */
 qx.io.Json.BEAUTIFYING_INDENT = "  ";
 
+/** new line string for JSON pretty printing */
 qx.io.Json.BEAUTIFYING_LINE_END = "\n";
