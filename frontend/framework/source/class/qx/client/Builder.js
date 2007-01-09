@@ -61,7 +61,7 @@ function(flags)
   Dispatches a qx.event.type.Event("done") after the hierarchy is built
 */
 qx.Proto.buildFromUrl = function(parent, url) {
-  var req = new qx.io.remote.Request(url, "GET", "application/xml");
+  var req = new qx.io.remote.Request(url, "GET", qx.util.Mime.XML);
   var self = this;
   req.addEventListener("completed", function(e) {
     self.build(parent, e.getData().getContent());

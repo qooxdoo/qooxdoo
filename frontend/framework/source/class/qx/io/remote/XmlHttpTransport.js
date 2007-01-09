@@ -23,6 +23,7 @@
 
 #module(io_remote)
 #require(qx.io.remote.Exchange)
+#require(qx.util.Mime)
 
 ************************************************************************ */
 
@@ -69,11 +70,11 @@ qx.io.remote.XmlHttpTransport.handles =
   crossDomain : false,
   fileUpload: false,
   responseTypes : [
-                    "text/plain",
-                    "text/javascript",
-                    "text/json",
-                    "application/xml",
-                    "text/html"
+                    qx.util.Mime.TEXT,
+                    qx.util.Mime.JAVASCRIPT,
+                    qx.util.Mime.JSON,
+                    qx.util.Mime.XML,
+                    qx.util.Mime.HTML
                   ]
 }
 
@@ -692,11 +693,11 @@ qx.Proto.getResponseContent = function()
 
   switch(this.getResponseType())
   {
-    case "text/plain":
-    case "text/html":
+    case qx.util.Mime.TEXT:
+    case qx.util.Mime.HTML:
       return vText;
 
-    case "text/json":
+    case qx.util.Mime.JSON:
       try {
         return vText && vText.length > 0 ? qx.io.Json.parseQx(vText) : null;
       } catch(ex) {
@@ -704,14 +705,14 @@ qx.Proto.getResponseContent = function()
         return "<pre>Could not execute json: \n" + vText + "\n</pre>"
       }
 
-    case "text/javascript":
+    case qx.util.Mime.JAVASCRIPT:
       try {
         return vText && vText.length > 0 ? window.eval(vText) : null;
       } catch(ex) {
         return this.error("Could not execute javascript: [" + vText + "]", ex);
       }
 
-    case "application/xml":
+    case qx.util.Mime.XML:
       return this.getResponseXml();
 
     default:

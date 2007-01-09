@@ -25,6 +25,7 @@
 
 #module(io_remote)
 #require(qx.io.remote.Exchange)
+#require(qx.util.Mime)
 #embed(static/image/blank.gif)
 
 ************************************************************************ */
@@ -98,7 +99,7 @@ qx.io.remote.IframeTransport.handles =
   asynchronous : true,
   crossDomain : false,
   fileUpload: true,
-  responseTypes : [ "text/plain", "text/javascript", "text/json", "application/xml", "text/html" ]
+  responseTypes : [ qx.util.Mime.TEXT, qx.util.Mime.JAVASCRIPT, qx.util.Mime.JSON, qx.util.Mime.XML, qx.util.Mime.HTML ]
 }
 
 qx.io.remote.IframeTransport.isSupported = function() {
@@ -399,29 +400,29 @@ qx.Proto.getResponseContent = function()
 
   switch(this.getResponseType())
   {
-    case "text/plain":
+    case qx.util.Mime.TEXT:
       return vText;
       break;
 
-    case "text/html":
+    case qx.util.Mime.HTML:
       return this.getIframeHtmlContent();
       break;
 
-    case "text/json":
+    case qx.util.Mime.JSON:
       try {
         return vText && vText.length > 0 ? qx.io.Json.parseQx(vText) : null;
       } catch(ex) {
         return this.error("Could not execute json: (" + vText + ")", ex);
       }
 
-    case "text/javascript":
+    case qx.util.Mime.JAVASCRIPT:
       try {
         return vText && vText.length > 0 ? window.eval(vText) : null;
       } catch(ex) {
         return this.error("Could not execute javascript: (" + vText + ")", ex);
       }
 
-    case "application/xml":
+    case qx.util.Mime.XML:
       return this.getIframeDocument();
 
     default:
