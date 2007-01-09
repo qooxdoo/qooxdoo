@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo framework\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-08 17:27+0100\n"
+"POT-Creation-Date: 2007-01-09 11:32+0100\n"
 "PO-Revision-Date: 2006-12-19 00:49-0500\n"
 "Last-Translator: Camilo Aguilar <camilo.aguilar@gmail.com>\n"
 "Language-Team:  <camilo.aguilar@gmail.com>\n"
@@ -14,8 +14,6 @@ msgstr ""
 "X-Poedit-Language: Spanish\n"
 "X-Poedit-Country: COLOMBIA\n"
 
-#. TRANSLATION: short representation of key names
-#. TRANSLATION: short representation of key names
 #. TRANSLATION: short representation of key names
 #: ../../../frontend/framework/source/class/qx/locale/Key.js:59
 msgid "key_short_Backspace"
@@ -121,8 +119,6 @@ msgstr "Win"
 msgid "key_short_Apps"
 msgstr "Aplic"
 
-#. TRANSLATION: full/long representation of key names
-#. TRANSLATION: full/long representation of key names
 #. TRANSLATION: full/long representation of key names
 #: ../../../frontend/framework/source/class/qx/locale/Key.js:87
 msgid "key_full_Backspace"
