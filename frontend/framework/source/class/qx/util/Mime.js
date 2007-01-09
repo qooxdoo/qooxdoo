@@ -22,11 +22,17 @@
 
 ************************************************************************ */
 
+/**
+ * Mime type constants
+ */
 qx.OO.defineClass("qx.util.Mime",
 {
-  JAVASCRIPT: "text/javascript",
-  JSON: "application/json",  // this has been changed from text/json to application/json
-  XML: "application/xml",
-  TEXT: "text/plain",
-  HTML: "text/html"
+  JAVASCRIPT : "text/javascript",
+  
+  /** this has been changed from text/json to application/json */
+  JSON       : "application/json",
+  
+  XML        : "application/xml",
+  TEXT       : "text/plain",
+  HTML       : "text/html"
 });
