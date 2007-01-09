@@ -196,7 +196,7 @@ qx.Proto._callInternal = function(args, callType, refreshSession) {
   }
   var req = new qx.io.remote.Request(this.getUrl(),
                                            qx.net.Http.METHOD_POST,
-                                           "text/json");
+                                           qx.util.Mime.JSON);
   var requestObject = {
     "service": (refreshSession ? null : this.getServiceName()),
     "method": whichMethod,
@@ -338,7 +338,7 @@ qx.Proto._callInternal = function(args, callType, refreshSession) {
     req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   } else {
     // When not cross-domain, set type to text/json
-    req.setRequestHeader("Content-Type", "text/json");
+    req.setRequestHeader("Content-Type", qx.util.Mime.JSON);
   }
 
   req.send();
