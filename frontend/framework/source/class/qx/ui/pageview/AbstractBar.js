@@ -9,7 +9,7 @@
 
    License:
      LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
-     EPL 1.0: http://www.eclipse.org/org/documents/epl-v10.php     
+     EPL 1.0: http://www.eclipse.org/org/documents/epl-v10.php
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -70,7 +70,7 @@ qx.Proto._onmousewheel = function(e)
   this._lastDate = vDate;
 
   var vManager = this.getManager();
-  var vItems = vManager.getItems();
+  var vItems = vManager.getEnabledItems();
   var vPos = vItems.indexOf(vManager.getSelected());
 
   if (this.getWheelDelta(e) > 0)

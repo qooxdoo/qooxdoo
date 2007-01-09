@@ -9,7 +9,7 @@
 
    License:
      LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
-     EPL 1.0: http://www.eclipse.org/org/documents/epl-v10.php     
+     EPL 1.0: http://www.eclipse.org/org/documents/epl-v10.php
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -72,6 +72,20 @@ qx.OO.addProperty({ name : "name", type : "string" });
 
 qx.Proto.getItems = function() {
   return this._items;
+}
+
+qx.Proto.getEnabledItems = function()
+{
+  var b = [];
+
+  for (var i=0, a=this._items, l=a.length; i<l; i++)
+  {
+    if (a[i].getEnabled()) {
+      b.push(a[i]);
+    }
+  }
+
+  return b;
 }
 
 qx.Proto.handleItemChecked = function(vItem, vChecked)

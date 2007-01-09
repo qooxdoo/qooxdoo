@@ -27,7 +27,8 @@
     var t1_2 = new qx.ui.pageview.tabview.Button("Find");
     var t1_3 = new qx.ui.pageview.tabview.Button("Backup");
 
-    t1_1.setChecked(true);
+
+    t1_2.setChecked(true);
 
     tf1.getBar().add(t1_1, t1_2, t1_3);
 
@@ -146,6 +147,9 @@
 
 
     d.add(tf1);
+
+
+    t1_1.setEnabled(false);
   });
   </script>
 </body>

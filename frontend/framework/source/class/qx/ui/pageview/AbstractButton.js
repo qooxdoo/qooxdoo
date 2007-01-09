@@ -9,7 +9,7 @@
 
    License:
      LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
-     EPL 1.0: http://www.eclipse.org/org/documents/epl-v10.php     
+     EPL 1.0: http://www.eclipse.org/org/documents/epl-v10.php
 
    Authors:
  * Sebastian Werner (wpbasti)
@@ -84,7 +84,7 @@ qx.OO.addProperty({ name : "name", type : "string" });
 
 qx.Proto.getView = function() {
   return this.getParent().getParent();
-}
+};
 
 
 
@@ -106,7 +106,7 @@ qx.Proto._modifyManager = function(propValue, propOldValue, propData) {
   }
 
   return true;
-}
+};
 
 qx.Proto._modifyParent = function(propValue, propOldValue, propData) {
   if (propOldValue) {
@@ -118,7 +118,7 @@ qx.Proto._modifyParent = function(propValue, propOldValue, propData) {
   }
 
   return qx.ui.basic.Atom.prototype._modifyParent.call(this, propValue, propOldValue, propData);
-}
+};
 
 qx.Proto._modifyPage = function(propValue, propOldValue, propData) {
   if (propOldValue) {
@@ -131,7 +131,7 @@ qx.Proto._modifyPage = function(propValue, propOldValue, propData) {
   }
 
   return true;
-}
+};
 
 qx.Proto._modifyChecked = function(propValue, propOldValue, propData) {
   if (this._hasParent) {
@@ -149,7 +149,7 @@ qx.Proto._modifyChecked = function(propValue, propOldValue, propData) {
   }
 
   return true;
-}
+};
 
 qx.Proto._modifyName = function(propValue, propOldValue, propData) {
   if (this.getManager()) {
@@ -157,7 +157,7 @@ qx.Proto._modifyName = function(propValue, propOldValue, propData) {
   }
 
   return true;
-}
+};
 
 
 
@@ -171,18 +171,18 @@ qx.Proto._modifyName = function(propValue, propOldValue, propData) {
 
 qx.Proto._onmousedown = function(e) {
   this.setChecked(true);
-}
+};
 
 qx.Proto._onmouseover = function(e) {
   this.addState("over");
-}
+};
 
 qx.Proto._onmouseout = function(e) {
   this.removeState("over");
-}
+};
 
-qx.Proto._onkeydown = function(e) {}
-qx.Proto._onkeypress = function(e) {}
+qx.Proto._onkeydown = function(e) {};
+qx.Proto._onkeypress = function(e) {};
 
 
 
@@ -195,7 +195,8 @@ qx.Proto._onkeypress = function(e) {}
 ---------------------------------------------------------------------------
  */
 
-qx.Proto.dispose = function() {
+qx.Proto.dispose = function()
+{
   if (this.getDisposed()) {
     return;
   }
@@ -217,4 +218,4 @@ qx.Proto.dispose = function() {
 
 
   return qx.ui.basic.Atom.prototype.dispose.call(this);
-}
+};
