@@ -24,6 +24,9 @@
 
 ************************************************************************ */
 
+/**
+ * Default qooxdoo widget theme
+ */
 qx.OO.defineClass("qx.theme.widget.Windows", qx.renderer.theme.WidgetTheme,
 function() {
   qx.renderer.theme.WidgetTheme.call(this, "Windows");

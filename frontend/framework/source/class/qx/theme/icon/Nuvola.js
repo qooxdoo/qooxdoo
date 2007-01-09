@@ -23,6 +23,9 @@
 
 ************************************************************************ */
 
+/**
+ * Nuvola icon theme (http://www.icon-king.com/v2/?p=23)
+ */
 qx.OO.defineClass("qx.theme.icon.Nuvola", qx.renderer.theme.IconTheme,
 function() {
   qx.renderer.theme.IconTheme.call(this, "Nuvola");
