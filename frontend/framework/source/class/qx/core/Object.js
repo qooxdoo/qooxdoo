@@ -97,7 +97,7 @@ qx.Class._disposeAll = false;
  * Returns an unique identifier for the given object. If such an identifier
  * does not yet exist, create it.
  *
- * @param o {Object}
+ * @param o {Object} the Object to get the hashcode for
  * @return {Integer} unique identifier for the given object
  */
 qx.Class.toHashCode = function(o)
@@ -263,7 +263,7 @@ qx.Proto.isDisposed = function() {
 /**
  * Returns a settings from global setting definition
  *
- * @param vKey {String}
+ * @param vKey {String} the key
  * @return {Object} value of the global setting
  */
 qx.Proto.getSetting = function(vKey) {
@@ -315,7 +315,7 @@ qx.Proto.trn = function(singularMessageId, pluralMessageId, count, varargs) {
 /**
  * Mark the message for translation but return the original message.
  *
- * @param messageId {String}
+ * @param messageId {String} the message ID
  * @return {String} messageId
  */
 qx.Proto.marktr = function(messageId) {
@@ -499,8 +499,8 @@ qx.Proto.get = function(propertyNames, outputHint)
 /**
  * Store user defined data inside the object.
  *
- * @param vKey {String}
- * @param vValue {Object}
+ * @param vKey {String} the key
+ * @param vValue {Object} the value of the user data
  */
 qx.Proto.setUserData = function(vKey, vValue)
 {
@@ -515,7 +515,7 @@ qx.Proto.setUserData = function(vKey, vValue)
 /**
  * Load user defined data from the object
  *
- * @param vKey {String}
+ * @param vKey {String} the key
  * @return {Object} the user data
  */
 qx.Proto.getUserData = function(vKey)

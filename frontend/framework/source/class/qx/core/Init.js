@@ -43,17 +43,17 @@ function()
 
   /**
    * private
-   * @param e {Object}
+   * @param e {Object} event
    */
   this.__onload = function(e) { return o._onload(e); }
   /**
    * private
-   * @param e {Object}
+   * @param e {Object} event
    */
   this.__onbeforeunload = function(e) { return o._onbeforeunload(e); }
   /**
    * private
-   * @param e {Object}
+   * @param e {Object} event
    */
   this.__onunload = function(e) { return o._onunload(e); }
 
@@ -220,7 +220,7 @@ qx.Proto.defineTerminate = function(vFunc) {
 /**
  * load event handler
  *
- * @param e {Object}
+ * @param e {Object} event
  */
 qx.Proto._onload = function(e)
 {
@@ -249,7 +249,7 @@ qx.Proto._onload = function(e)
 /**
  * beforeunload event handler
  *
- * @param e {Object}
+ * @param e {Object} event
  */
 qx.Proto._onbeforeunload = function(e)
 {
@@ -261,7 +261,7 @@ qx.Proto._onbeforeunload = function(e)
 /**
  * unload event handler
  *
- * @param e {Object}
+ * @param e {Object} event
  */
 qx.Proto._onunload = function(e)
 {
