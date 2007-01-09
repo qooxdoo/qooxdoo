@@ -9,7 +9,7 @@
 
    License:
      LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
-     EPL 1.0: http://www.eclipse.org/org/documents/epl-v10.php     
+     EPL 1.0: http://www.eclipse.org/org/documents/epl-v10.php
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -79,7 +79,7 @@ qx.Proto._onkeypress = function(e)
   switch(e.getKeyIdentifier())
   {
     case "Left":
-      var vPrev = this.getPreviousSibling() || this.getParent().getLastChild();
+      var vPrev = this.getPreviousActiveSibling();
       if (vPrev && vPrev != this)
       {
         // we want to enable the outline border, because
@@ -95,7 +95,7 @@ qx.Proto._onkeypress = function(e)
       break;
 
     case "Right":
-      var vNext = this.getNextSibling() || this.getParent().getFirstVisibleChild();
+      var vNext = this.getNextActiveSibling();
       if (vNext && vNext != this)
       {
         // we want to enable the outline border, because
