@@ -11,7 +11,6 @@
 
    License:
      LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
-     EPL 1.0: http://www.eclipse.org/org/documents/epl-v10.php     
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -79,7 +78,7 @@ qx.Class.stringify = function (v, beautify) {};
  * @return {var} evaluated JSON string.
  */
 qx.Class.parse = function (text) {};
-    
+
 /*
 ---------------------------------------------------------------------------
   DEFAULT SETTINGS
@@ -372,9 +371,9 @@ qx.io.Json = function ()
 /**
  * Parse a JSON text, producing a JavaScript value.
  * It triggers an exception if there is a syntax error.
- * 
+ *
  * @param text {String} JSON string
- * @return {var} evaluated JSON string. 
+ * @return {var} evaluated JSON string.
  */
 qx.io.Json.parseQx = function(text) {
   /* Convert the result text into a result primitive or object */

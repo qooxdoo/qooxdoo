@@ -10,7 +10,6 @@
 
    License:
      LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
-     EPL 1.0: http://www.eclipse.org/org/documents/epl-v10.php     
 
    Authors:
      * Andreas Junghans (lucidcake)
@@ -178,7 +177,7 @@ qx.io.remote.Rpc.localError =
 /* callType: 0 = sync, 1 = async with handler, 2 = async event listeners */
 /**
  * Internal RPC call method
- * 
+ *
  * @param args {Array} array of arguments
  * @param callType {Integer} 0 = sync, 1 = async with handler, 2 = async event listeners
  * @param refreshSession {Boolean} whether a new session should be requested
