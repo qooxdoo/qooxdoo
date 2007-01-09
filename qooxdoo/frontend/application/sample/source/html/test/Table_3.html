@@ -20,7 +20,7 @@
   {
     var d = qx.ui.core.ClientDocument.getInstance();
 
-    qx.ui.table.TablePane.USE_TABLE = true;
+    // qx.ui.table.TablePane.USE_TABLE = true;
 
     // table model
     var tableModel = new qx.ui.table.SimpleTableModel();
@@ -35,7 +35,7 @@
     tableModel.setData(rowData);
     tableModel.setColumnEditable(1, true);
     tableModel.setColumnEditable(2, true);
-  
+
     // table
     var table = new qx.ui.table.Table(tableModel);
     with (table) {
