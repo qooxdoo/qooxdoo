@@ -866,7 +866,11 @@ qx.Proto._createLocalizationDemo = function() {
   for (var i=0; i<locales.length; i++) {
     select.add(new qx.ui.form.ListItem(locales[i]));
   }
-  select.setSelected(select.getList().getFirstChild());
+  
+  var defaultListItem = select.getList().findStringExact("en");
+  if (defaultListItem) {
+    select.setSelected(defaultListItem);
+  }
   select.addEventListener("changeSelected", function(e) {
     var locale = e.getData().getLabel();
     qx.locale.Manager.getInstance().setLocale(locale);
