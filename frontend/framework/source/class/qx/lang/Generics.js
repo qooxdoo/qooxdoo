@@ -9,7 +9,6 @@
 
    License:
      LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
-     EPL 1.0: http://www.eclipse.org/org/documents/epl-v10.php     
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -65,7 +64,7 @@ qx.Settings.setDefault("enable", false);
 /**
  * Initialize JavaScript generics (http://developer.mozilla.org/en/docs/New_in_JavaScript_1.6#Array_and_String_generics) as introduced with JavaScript 1.6 implemented
  * in FireFox 1.5 and later for all Browsers.
- * 
+ *
  * This method sets up the following generic methods:
  * * Array.join
  * * Array.reverse

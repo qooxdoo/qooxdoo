@@ -9,7 +9,6 @@
 
    License:
      LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
-     EPL 1.0: http://www.eclipse.org/org/documents/epl-v10.php
 
    Authors:
  * Sebastian Werner (wpbasti)
