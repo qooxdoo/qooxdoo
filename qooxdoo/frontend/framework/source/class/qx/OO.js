@@ -346,7 +346,7 @@ qx.Class.removeProperty = function(p)
   var valueKey = "_value" + p.method;
 
   // Remove property from list
-  pp._properties = qx.lang.String.remove(pp._properties, p.name);
+  pp._properties = qx.lang.String.removeListItem(pp._properties, p.name);
 
   // Reset default value to null
   pp[valueKey] = null;
