@@ -24,6 +24,9 @@
 
 ************************************************************************ */
 
+/**
+ * Crystal SVG icon theme (http://www.everaldo.com/crystal.html)
+ */
 qx.OO.defineClass("qx.theme.icon.CrystalSvg", qx.renderer.theme.IconTheme,
 function() {
   qx.renderer.theme.IconTheme.call(this, "Crystal SVG");

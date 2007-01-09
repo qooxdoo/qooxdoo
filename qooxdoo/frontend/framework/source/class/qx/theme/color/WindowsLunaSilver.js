@@ -22,6 +22,9 @@
 
 ************************************************************************ */
 
+/**
+ * Windows luna silver color theme
+ */
 qx.OO.defineClass("qx.theme.color.WindowsLunaSilver", qx.renderer.theme.ColorTheme,
 function() {
   qx.renderer.theme.ColorTheme.call(this, "Windows Luna Silver");

@@ -36,7 +36,18 @@ qx.OO.defineClass("qx.event.handler.KeyEventHandler", qx.core.Target, function()
   // Object Wrapper to Events (Needed for DOM-Events)
   var o = this;
 
+  /**
+   * private
+   * 
+   * @param e {Event} event
+   */
   this.__onkeypress = function(e) { o._onkeypress(e); };
+
+  /**
+   * private
+   * 
+   * @param e {Event} event
+   */
   this.__onkeyupdown = function(e) { o._onkeyupdown(e); };
 });
 

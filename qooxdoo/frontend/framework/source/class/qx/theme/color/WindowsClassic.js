@@ -23,6 +23,9 @@
 ************************************************************************ */
 
 
+/**
+ * Windows classic color theme
+ */
 qx.OO.defineClass("qx.theme.color.WindowsClassic", qx.renderer.theme.ColorTheme,
 function() {
   qx.renderer.theme.ColorTheme.call(this, "Windows Classic");

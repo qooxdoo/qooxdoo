@@ -21,19 +21,21 @@
 
 ************************************************************************ */
 
-/*!
-  This class contains a version string and can extract
-  major, minor and revision flags from this string. It can also
-  compare a incoming version object with the stored version string
-  and checks if this version is smaller or identical than the stored
-  one.
-
-  Flash detection and embed (http://blog.deconcept.com/flashobject) (non qooxdoo Version by Geoff Stearns)
-  Copyright 2005 Geoff Stearns. Released under the MIT License (http://www.opensource.org/licenses/mit-license.php).
-
-  Modified for qooxdoo by Sebastian Werner. Based on version 1.2.3. Relicensed under LGPL in assent of Geoff Stearns.
-*/
-
+/**
+ * This class contains a version string and can extract
+ * major, minor and revision flags from this string. It can also
+ * compare a incoming version object with the stored version string
+ * and checks if this version is smaller or identical than the stored
+ * one.
+ *
+ * Flash detection and embed (http://blog.deconcept.com/flashobject) (non qooxdoo Version by Geoff Stearns)
+ * Copyright 2005 Geoff Stearns. Released under the MIT License (http://www.opensource.org/licenses/mit-license.php).
+ *
+ * Modified for qooxdoo by Sebastian Werner. Based on version 1.2.3. Relicensed under LGPL in assent of Geoff Stearns.
+ *
+ * @param arrVersion {Array|String} array with three elements defining major, minor and revision number
+ *   or a version string separated by '.' 
+ */
 qx.OO.defineClass("qx.type.Version", qx.core.Object,
 function(arrVersion)
 {
@@ -71,6 +73,13 @@ qx.Proto._rev = 0;
 ---------------------------------------------------------------------------
 */
 
+/**
+ * Comapres the Version with another version number.
+ * Returns true if this version instance has a bigger version number
+ * 
+ * @param fv {qx.type.Version} Version number to compare with
+ * @return {Boolean} whether the version instance has a bigger version numbers.
+ */
 qx.Proto.versionIsValid = function(fv)
 {
   if (this.getMajor() < fv.getMajor()) return false;
@@ -82,19 +91,37 @@ qx.Proto.versionIsValid = function(fv)
   if (this.getRev() < fv.getRev()) return false;
 
   return true;
-}
+};
 
+
+/**
+ * Return major version number
+ * 
+ * @return {String|Integer} major version number
+ */
 qx.Proto.getMajor = function() {
   return this._major;
-}
+};
 
+
+/**
+ * Return minor version number
+ * 
+ * @return {String|Integer} minor version number
+ */
 qx.Proto.getMinor = function() {
   return this._minor;
-}
+};
 
+
+/**
+ * Return revision number
+ * 
+ * @return {String|Integer} revision number
+ */
 qx.Proto.getRev = function() {
   return this._rev;
-}
+};
 
 
 
@@ -106,6 +133,7 @@ qx.Proto.getRev = function() {
 ---------------------------------------------------------------------------
 */
 
+/** Destructor */
 qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
