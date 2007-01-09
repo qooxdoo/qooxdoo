@@ -23,6 +23,7 @@
 
 #module(io_remote)
 #require(qx.net.Http)
+#require(qx.util.Mime)
 
 ************************************************************************ */
 
@@ -43,7 +44,7 @@ function(vUrl, vMethod, vResponseType)
 
   this.setUrl(vUrl);
   this.setMethod(vMethod || qx.net.Http.METHOD_GET);
-  this.setResponseType(vResponseType || "text/plain");
+  this.setResponseType(vResponseType || qx.util.Mime.TEXT);
 
   this.setProhibitCaching(true);
 
@@ -115,16 +116,18 @@ qx.OO.addProperty(
   Response type of request.
 
   The response type is a MIME type, default is text/plain. Other
-  supported MIME types are text/javascript, text/html, text/json,
+  supported MIME types are text/javascript, text/html, application/json,
   application/xml.
+  
+  @see qx.util.Mime
 */
 qx.OO.addProperty({
   name           : "responseType",
   type           : "string",
   possibleValues : [
-                   "text/plain",
-                   "text/javascript", "text/json",
-                   "application/xml", "text/html"
+                   qx.util.Mime.TEXT,
+                   qx.util.Mime.JAVASCRIPT, qx.util.Mime.JSON,
+                   qx.util.Mime.XML, qx.util.Mime.HTML
                    ]
 });
 /*!
@@ -426,7 +429,7 @@ qx.Proto._modifyResponseType = function(propValue, propOldValue, propData)
 /*!
   Add a request header to the request.
 
-  Example: request.setRequestHeader("Content-Type", "text/html")
+  Example: request.setRequestHeader("Content-Type", qx.util.Mime.HTML)
 */
 qx.Proto.setRequestHeader = function(vId, vValue) {
   this._requestHeaders[vId] = vValue;
