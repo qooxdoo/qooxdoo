@@ -9,7 +9,7 @@
 
    License:
      LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
-     EPL 1.0: http://www.eclipse.org/org/documents/epl-v10.php     
+     EPL 1.0: http://www.eclipse.org/org/documents/epl-v10.php
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -1182,7 +1182,7 @@ qx.ui.core.Widget.getActiveSiblingHelper = function(vObject, vParent, vCalc, vIg
   var vPosition = vMode == null ? vChilds.indexOf(vObject) + vCalc : vMode === "first" ? 0 : vChilds.length-1;
   var vInstance = vChilds[vPosition];
 
-  while(!vInstance.isEnabled() || qx.ui.core.Widget.getActiveSiblingHelperIgnore(vIgnoreClasses, vInstance))
+  while(vInstance && (!vInstance.isEnabled() || qx.ui.core.Widget.getActiveSiblingHelperIgnore(vIgnoreClasses, vInstance)))
   {
     vPosition += vCalc;
     vInstance = vChilds[vPosition];
