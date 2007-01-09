@@ -218,13 +218,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
      * expect "_data_=<url-encoded-json-rpc>"; otherwise (XmlHttpTransport)
      * we'll have simply <json-rpc>, not url-encoded and with no "_data_=".
      * The "Content-Type" field should be one of our two supported variants:
-     * text/json or application/x-json-form-urlencoded.  If neither, or if
+     * application/json or application/x-json-form-urlencoded.  If neither, or if
      * there is more than one form field provided or if the first form field
      * name is not '_data_', it's an error.
      */
     switch($_SERVER["CONTENT_TYPE"])
     {
-    case "text/json":
+    case "application/json":
         /* We found literal POSTed json-rpc data (we hope) */
         $input = file_get_contents('php://input');
         $jsonInput = $json->decode($input);
