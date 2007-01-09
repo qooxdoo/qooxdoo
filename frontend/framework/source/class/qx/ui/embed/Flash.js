@@ -9,7 +9,6 @@
 
    License:
      LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
-     EPL 1.0: http://www.eclipse.org/org/documents/epl-v10.php     
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -92,16 +91,38 @@ qx.ui.embed.Flash.getPlayerVersion = function()
     var x = navigator.plugins[qx.ui.embed.Flash.PLUGINKEY];
 
     if(x && x.description) {
-      vPlayerVersion = new qx.type.Version(x.description.replace(/([a-z]|[A-Z]|\s)+/, '').replace(/(\s+r|\s+b[0-9]+)/, '.'));
+      vPlayerVersion = new qx.type.Version(x.description.replace(/([a-zA-Z]|\s)+/, "").replace(/(\s+r|\s+b[0-9]+)/, ".").split("."));
     }
   }
   else if (window.ActiveXObject)
   {
+    // do minor version lookup in IE, but avoid fp6 crashing issues
+    // see http://blog.deconcept.com/2006/01/11/getvariable-setvariable-crash-internet-explorer-flash-6/
     try {
-      var axo = new ActiveXObject(qx.ui.embed.Flash.ACTIVEXKEY);
-       vPlayerVersion = new qx.type.Version(axo.GetVariable("$version").split(" ")[1].split(","));
+      var axo = new ActiveXObject(qx.ui.embed.Flash.ACTIVEXKEY + ".7");
     }
-    catch (e) {}
+    catch(e)
+    {
+      try {
+  var axo = new ActiveXObject(qx.ui.embed.Flash.ACTIVEXKEY + ".6");
+  vPlayerVersion = new qx.type.Version([6,0,21]);
+  axo.AllowScriptAccess = "always"; // throws if player version < 6.0.47 (thanks to Michael Williams @ Adobe for this code)
+      }
+      catch(e)
+      {
+  if (vPlayerVersion.major == 6) {
+    return vPlayerVersion;
+  }
+      }
+
+      try {
+  axo = new ActiveXObject(qx.ui.embed.Flash.ACTIVEXKEY);
+      } catch(e) {}
+    }
+
+    if (axo != null) {
+      vPlayerVersion = new qx.type.Version(axo.GetVariable("$version").split(" ")[1].split(","));
+    }
   }
 
   return qx.ui.embed.Flash.PLAYERVERSION = vPlayerVersion;

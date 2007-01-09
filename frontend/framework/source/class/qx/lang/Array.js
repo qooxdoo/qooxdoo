@@ -9,7 +9,6 @@
 
    License:
      LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
-     EPL 1.0: http://www.eclipse.org/org/documents/epl-v10.php     
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -124,7 +123,7 @@ qx.lang.Array.getFirst = function(arr) {
 /**
  * Insert an element at a given position into the array
  *
- * @param arr {Array} the array 
+ * @param arr {Array} the array
  * @param obj {var} the element to insert
  * @param i {Integer} position where to insert the element into the array
  * @return {Array} the array
@@ -140,7 +139,7 @@ qx.lang.Array.insertAt = function(arr, obj, i)
 /**
  * Insert an element into the array before a given second element
  *
- * @param arr {Array} the array 
+ * @param arr {Array} the array
  * @param obj {var} object to be inserted
  * @param obj2 {var} insert obj1 before this object
  * @return {Array} the array
@@ -165,7 +164,7 @@ qx.lang.Array.insertBefore = function(arr, obj, obj2)
 /**
  * Insert an element into the array after a given second element
  *
- * @param arr {Array} the array 
+ * @param arr {Array} the array
  * @param obj {var} object to be inserted
  * @param obj2 {var} insert obj1 after this object
  * @return {Array} the array
@@ -190,7 +189,7 @@ qx.lang.Array.insertAfter = function(arr, obj, obj2)
 /**
  * Remove an element from the array at the given index
  *
- * @param arr {Array} the array 
+ * @param arr {Array} the array
  * @param i {Integer} index of the element to be removed
  * @return {Array} the array with the element remnoved
  */
@@ -202,7 +201,7 @@ qx.lang.Array.removeAt = function(arr, i) {
 /**
  * Remmove all elements from the array
  *
- * @param arr {Array} the array 
+ * @param arr {Array} the array
  * @return {Array} empty array
  */
 qx.lang.Array.removeAll = function(arr) {
@@ -213,7 +212,7 @@ qx.lang.Array.removeAll = function(arr) {
 /**
  * Append the elements of an array to the array
  *
- * @param arr {Array} the array 
+ * @param arr {Array} the array
  * @param a {Array} the elements of this array will be appended to the array
  */
 qx.lang.Array.append = function(arr, a) {
@@ -224,7 +223,7 @@ qx.lang.Array.append = function(arr, a) {
 /**
  * Remove an element from the array
  *
- * @param arr {Array} the array 
+ * @param arr {Array} the array
  * @param obj {var} element to be removed from the array
  * @return {Array} array with the element removed
  */
@@ -241,7 +240,7 @@ qx.lang.Array.remove = function(arr, obj)
 /**
  * Whether the array contains the given element
  *
- * @param arr {Array} the array 
+ * @param arr {Array} the array
  * @param obj {var} object to look for
  * @return {Boolean} whether the array contains the element
  */

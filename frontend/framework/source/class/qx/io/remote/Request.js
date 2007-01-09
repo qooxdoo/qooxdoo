@@ -10,7 +10,6 @@
 
    License:
      LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
-     EPL 1.0: http://www.eclipse.org/org/documents/epl-v10.php     
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -118,7 +117,7 @@ qx.OO.addProperty(
   The response type is a MIME type, default is text/plain. Other
   supported MIME types are text/javascript, text/html, application/json,
   application/xml.
-  
+
   @see qx.util.Mime
 */
 qx.OO.addProperty({
