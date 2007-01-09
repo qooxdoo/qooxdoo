@@ -86,7 +86,7 @@ sub handle_request
         print STDERR "Content type is '$content_type'\n"
             if $Qooxdoo::JSONRPC::debug;
 
-        if ($content_type eq 'text/json')
+        if ($content_type eq 'application/json')
         {
             $input = $cgi->param('POSTDATA');
         }
