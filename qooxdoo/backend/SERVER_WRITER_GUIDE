@@ -176,7 +176,7 @@ Transport
   "Content Type:" of the received request:
 
     XmlHTTPTransport
-      Content Type: text/json
+      Content Type: application/json
 
     IframeTransport
       Content Type: application/x-www-form-urlencoded

@@ -255,7 +255,7 @@ qx.Proto.main = function(e)
 
 
 qx.Proto.fetchFeedDesc = function() {
-  var req = new qx.io.remote.Request(qx.manager.object.AliasManager.getInstance().resolvePath("feedreader/feeds/febo-feeds.opml.xml"), "GET", "application/xml");
+  var req = new qx.io.remote.Request(qx.manager.object.AliasManager.getInstance().resolvePath("feedreader/feeds/febo-feeds.opml.xml"), "GET", qx.util.Mime.XML);
   feedreader.Application._feedDesc = [];
     req.addEventListener("completed", function(e) {
     var xml = e.getData().getContent();
@@ -284,7 +284,7 @@ qx.Proto.fetchFeeds = function() {
     }
   }
   for (var i=0; i<feedDesc.length; i++) {
-    var req = new qx.io.remote.Request(qx.manager.object.AliasManager.getInstance().resolvePath(feedDesc[i].url), "GET", "application/xml");
+    var req = new qx.io.remote.Request(qx.manager.object.AliasManager.getInstance().resolvePath(feedDesc[i].url), "GET", qx.util.Mime.XML);
     req.addEventListener("completed", getCallback(feedDesc[i].name));
     req.send();
   }

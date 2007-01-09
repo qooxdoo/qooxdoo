@@ -1,0 +1,6 @@
+\"text\/javascript\"=Better use qx.net.Mime.JAVASCRIPT
+\"text\/json\"=Warning! the mime type "text/json" has been renamed to "application/json" to comply with RFC4627. Better use qx.net.Mime.JSON
+\"application\/javascript\"=Better use qx.net.Mime.JSON
+\"application\/xml\"=Better use qx.net.Mime.XML
+\"text\/plain\"=Better use qx.net.Mime.TEXT
+\"text\/html\"=Better use qx.net.Mime.HTML
