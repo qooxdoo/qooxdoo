@@ -197,7 +197,7 @@ qx.Class.trc = function(hint, messageId, varargs)
 /**
  * Mark the message for translation but return the original message.
  *
- * @param messageId {String}
+ * @param messageId {String} the message ID
  * @return {String} messageId
  */
 qx.Class.marktr = function(messageId) {

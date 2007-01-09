@@ -21,13 +21,15 @@
 
 ************************************************************************ */
 
-/*!
-  A class to generate a widget hierarchy from XML
-
-  qx.client.Builder is not thread safe by design
-    - state information is stored at the instance level
-    - only use it from a single thread
-*/
+/**
+ * A class to generate a widget hierarchy from XML
+ *
+ * qx.client.Builder is not thread safe by design
+ *  - state information is stored at the instance level
+ *  - only use it from a single thread
+ * 
+ * @param flags {Map} map of flags. "flags.strict" sets strict mode.
+ */
 qx.OO.defineClass("qx.client.Builder", qx.core.Target,
 function(flags)
 {
@@ -55,10 +57,14 @@ function(flags)
 ------------------------------------------------------------------------------------
 */
 
-/*!
-  Asynchronous method - fetches XML data from the URL then delegates to build to process the xml
-  Dispatches a qx.event.type.Event("done") after the hierarchy is built
-*/
+/**
+ * Asynchronous method - fetches XML data from the URL then delegates to build to process the xml
+ * Dispatches a qx.event.type.Event("done") after the hierarchy is built
+ *
+ * @param parent {qx.ui.core.Widget} can either be the application instance, or a widget to append the xml toplevel widgets to
+ * @param url {String} URL of the XML files
+ *
+ */
 qx.Proto.buildFromUrl = function(parent, url) {
   var req = new qx.io.remote.Request(url, "GET", qx.util.Mime.XML);
   var self = this;
@@ -69,11 +75,12 @@ qx.Proto.buildFromUrl = function(parent, url) {
   req.send();
 }
 
-/*!
-  parse the children of the xml and appending all widgets to the parent widget
-  @param parent can either be the application instance, or a widget to append the xml toplevel widgets to
-  @param node can be either a xml string, or a xml dom document or fragment
-*/
+/**
+ * parse the children of the xml and appending all widgets to the parent widget
+ *
+ * @param parent {qx.ui.core.Widget} can either be the application instance, or a widget to append the xml toplevel widgets to
+ * @param node {String|Document|Element} can be either a xml string, or a xml dom document or fragment
+ */
 qx.Proto.build = function(parent, node) {
     // support embedding of an XML string within a textarea
     if (typeof node == "object" && node.nodeName == 'TEXTAREA') {
@@ -157,9 +164,13 @@ qx.Proto._buildEventListener = function(widget, args, text) {
 }
 
 
-/*
-  a node builder that will be used if no node builder is declared for a nodeName
-*/
+/**
+ * A node builder that will be used if no node builder is declared for a nodeName
+ * 
+ * @param parent {qx.ui.core.Widget} can either be the application instance, or a widget to append the xml toplevel widgets to
+ * @param node {String|Document|Element} can be either a xml string, or a xml dom document or fragment
+ */
+
 qx.Proto._buildWidgetFromNode = function(parent, node) {
 
   var className = this._extractClassName(node);

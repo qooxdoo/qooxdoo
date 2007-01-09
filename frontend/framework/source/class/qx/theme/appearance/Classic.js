@@ -34,6 +34,11 @@
 
  ************************************************************************ */
 
+/**
+ * The default qooxdoo appearance theme.
+ * 
+ * @param vTitle {String?"qooxdoo default appearance"} appearance title
+ */
 qx.OO.defineClass("qx.theme.appearance.Classic", qx.renderer.theme.AppearanceTheme,
 function(vTitle) {
   qx.renderer.theme.AppearanceTheme.call(this, vTitle || "qooxdoo default appearance");

@@ -158,7 +158,7 @@ qx.Proto._autoCloseWindow = function() {
 
 /**
  * Appends a line to the log showing the given text
- * @param Msg {String} message to show, may be HTML
+ * @param msg {String} message to show, may be HTML
  */
 qx.Proto._showMessageInLog = function(msg) {
   //Create dummy log event and use appendLogEvent()

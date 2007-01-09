@@ -412,7 +412,7 @@ qx.Class.isWeekend = function(day, locale) {
 /**
  * Extract the territory part from a locale
  *
- * @param locale {String}
+ * @param locale {String} the locale
  * @return {String} territory
  */
 qx.Class._getTerritory = function(locale) {
