@@ -241,9 +241,9 @@ qx.Proto.showClass = function(classNode) {
   var classHtml = "";
 
    // Add the class description
-  var ctorList = apiviewer.TreeUtil.getChild(classNode, "constructor");
-  if (ctorList) {
-    var desc = this._createDescHtml(ctorList.children[0], classNode, true);
+  var descNode = apiviewer.TreeUtil.getChild(classNode, "desc");
+  if (descNode) {
+    var desc = descNode.attributes.text;
 
     if (desc != "")
     {
@@ -252,6 +252,7 @@ qx.Proto.showClass = function(classNode) {
     }
   }
 
+  
   // Create the class hierarchy
   classHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Inheritance hierarchy:" + ClassViewer.DIV_END;
 
@@ -298,6 +299,7 @@ qx.Proto.showClass = function(classNode) {
   }
 
   // Add @see attributes
+  var ctorList = apiviewer.TreeUtil.getChild(classNode, "constructor");
   if (ctorList) {
     classHtml += this._createSeeAlsoHtml(ctorList.children[0], classNode);
     classHtml += '<br/>';
@@ -1044,7 +1046,12 @@ qx.Proto._createMethodInfo = function(node, nodeType, fromClassNode, showDetails
  * @return {Boolean} whether the constant has details.
  */
 qx.Proto._constantHasDetails = function(node, nodeType, fromClassNode) {
-  return this._hasSeeAlsoHtml(node) || this._hasErrorHtml(node) || this._descHasDetails(node);
+  return (
+    this._hasSeeAlsoHtml(node) ||
+    this._hasErrorHtml(node) ||
+    this._descHasDetails(node) ||
+    this._hasConstantValueHtml(node)
+  );
 }
 
 
@@ -1068,11 +1075,14 @@ qx.Proto._createConstantInfo = function(node, nodeType, fromClassNode, showDetai
   info.textHtml = this._createDescHtml(node, fromClassNode, showDetails);
 
   if (showDetails) {
+    info.textHtml += this._createConstantValueHtml(node, fromClassNode);
+
     // Add @see attributes
     info.textHtml += this._createSeeAlsoHtml(node, fromClassNode);
 
     // Add documentation errors
     info.textHtml += this._createErrorHtml(node, fromClassNode);
+    
   }
 
   return info;
@@ -1145,6 +1155,38 @@ qx.Proto._extractFirstSentence = function(text)
   }
 
   return ret;
+}
+
+
+/**
+ * Checks whether a constant value is provided
+ *
+ * @param node {Map} the doc node of the item.
+ * @return {Boolean} whether the constant provides a value
+ */
+qx.Proto._hasConstantValueHtml = function(node) {
+  return node.attributes.value ? true : false;
+}
+
+
+/**
+ * Creates the HTML showing the value of a constant
+ *
+ * @param node {Map} the doc node of the item.
+ * @param fromClassNode {Map} the doc node of the class the item was defined.
+ * @return {String} the HTML showing the value of the constant
+ */
+qx.Proto._createConstantValueHtml = function(node, fromClassNode) {
+  var ClassViewer = apiviewer.ClassViewer;
+  this.debug (node.attributes.value)
+  if (this._hasConstantValueHtml(node)) {
+      return (
+        ClassViewer.DIV_START_DETAIL_HEADLINE + "Value: " + ClassViewer.DIV_END +
+        ClassViewer.DIV_START_DETAIL_TEXT + qx.io.Json.stringify(node.attributes.value) + ClassViewer.DIV_END
+      );
+  } else {
+    return "";
+  }
 }
 
 

@@ -258,7 +258,7 @@ def handleClassDefinitionOld(docTree, item):
 
   className = params.children[0].get("value")
   classNode = getClassNode(docTree, className)
-
+  
   if superClassName != "Object":
     superClassNode = getClassNode(docTree, superClassName)
     childClasses = superClassNode.get("childClasses", False)
@@ -271,7 +271,7 @@ def handleClassDefinitionOld(docTree, item):
     classNode.set("superClass", superClassName)
 
   commentAttributes = comment.parseNode(item)
-
+  
   for attrib in commentAttributes:
     if attrib["category"] == "event":
       # Add the event
@@ -279,6 +279,10 @@ def handleClassDefinitionOld(docTree, item):
         addEventNode(classNode, item, attrib);
       else:
         addError(classNode, "Documentation contains malformed event attribute.", item)
+    elif attrib["category"] == "description":
+      if attrib.has_key("text"):
+        descNode = tree.Node("desc").set("text", attrib["text"])
+        classNode.addChild(descNode)
 
   # Add the constructor
   if ctorItem and ctorItem.type == "function":
@@ -412,15 +416,22 @@ def handleConstantDefinition(item, classNode):
     # This is a "normal" constant definition
     leftItem = item.getFirstListChild("left")
     name = leftItem.children[len(leftItem.children) - 1].get("name")
+    valueNode = item.getChild("right")
   elif (item.type == "keyvalue"):
     # This is a constant definition of a map-style class (like qx.Const)
     name = item.get("key")
+    valueNode = item.getChild("value")
 
   if not name.isupper():
     return
-
-  node = tree.Node("constant")
+  
+  node = tree.Node("constant")      
   node.set("name", name)
+  
+  value = None
+  if valueNode.hasChild("constant"):
+      node.set("value", valueNode.getChild("constant").get("value"))
+      node.set("type", valueNode.getChild("constant").get("constantType").capitalize())
 
   commentAttributes = comment.parseNode(item)
   description = comment.getAttrib(commentAttributes, "description")
@@ -569,7 +580,10 @@ def getValue(item):
 
 def addTypeInfo(node, commentAttrib=None, item=None):
   if commentAttrib == None:
-    if node.type == "param":
+    if node.type == "constant" and node.get("value", False):
+        pass
+    
+    elif node.type == "param":
       addError(node, "Parameter <code>%s</code> in not documented." % commentAttrib.get("name"), item)
 
     elif node.type == "return":
