@@ -221,9 +221,10 @@ qx.Proto.main = function(e)
   table.getTableColumnModel().setColumnWidth(2, 200);
   table.getSelectionModel().addEventListener("changeSelection", function(e) {
     var selectedEntry = table.getSelectionModel().getAnchorSelectionIndex();
-    var item = this.getFeeds()[this.getSelectedFeed()][selectedEntry];
+    var item = this.getFeeds()[this.getSelectedFeed()].items[selectedEntry];
     this.displayArticle(item);
   }, this);
+  this._table = table;
 
   // add blog entry
   this._blogEntry = new feedreader.ArticleView();
@@ -248,7 +249,7 @@ qx.Proto.main = function(e)
   dockLayout.addToDocument();
 
   // load and display feed data
-  this.displayFeed(feedreader.Application._feedDesc[0].name);
+  this.setSelectedFeed(feedDesc[0].name);
   this.fetchFeeds();
 };
 
@@ -306,7 +307,10 @@ qx.Proto.parseXmlFeed = function(feedName, xml) {
   } else if  (xml.documentElement.tagName == "feed") {
   items = this.parseAtomFeed(xml);
   }
-  this.getFeeds()[feedName] = items;
+  this.getFeeds()[feedName] = {
+    selected: 0,
+    items: items
+  };
   if (feedName == this.getSelectedFeed()) {
     this.displayFeed(feedName);
   }
@@ -359,11 +363,20 @@ qx.Proto.parseRSSFeed = function(xml) {
 
 
 qx.Proto.displayFeed = function(feedName) {
+  if (this.getSelectedFeed() != feedName) {
+    this.getFeeds()[this.getSelectedFeed()].selected = this._table.getSelectionModel().getAnchorSelectionIndex();
+  }
+
   this.setSelectedFeed(feedName);
-  var items = this.getFeeds()[feedName];
-  if (items) {
+
+  if (this.getFeeds()[feedName]) {
+    var items = this.getFeeds()[feedName].items;
+    var selection = this.getFeeds()[feedName].selected;
+
     this._tableModel.setDataAsMapArray(items);
-    this.displayArticle(this.getFeeds()[feedName][0]);
+    this._table.getSelectionModel().setSelectionInterval(selection, selection);
+    this._table.setFocusedCell(0, selection, true);
+    this.displayArticle(items[selection]);
   }
 };
 
