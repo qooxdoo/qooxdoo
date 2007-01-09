@@ -302,11 +302,12 @@ def handleClassDefinitionOld(docTree, item):
 
   elif ctorItem and ctorItem.type == "map":
     for keyvalueItem in ctorItem.children:
-      valueItem = keyvalueItem.getChild("value").getFirstChild()
-      if (valueItem.type == "function"):
-        handleMethodDefinitionOld(keyvalueItem, True, classNode)
-      else:
-        handleConstantDefinition(keyvalueItem, classNode)
+      if keyvalueItem.type == "keyvalue":
+        valueItem = keyvalueItem.getChild("value").getFirstChild()
+        if (valueItem.type == "function"):
+          handleMethodDefinitionOld(keyvalueItem, True, classNode)
+        else:
+          handleConstantDefinition(keyvalueItem, classNode)
 
   return classNode
 
