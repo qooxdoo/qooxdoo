@@ -65,7 +65,7 @@ def escapeJS(str):
 	str = str.replace('"', '\\"')
 	str = str.replace("'", "\\'")
 	return str
-	
+
 
 def generate(infile, languageCode, namespace):
 	global MESSAGES
@@ -74,7 +74,7 @@ def generate(infile, languageCode, namespace):
 		requireString = "#require(%s%s)" % (namespace, languageCode.split("_")[0])
 	else:
 		requireString = ""
-	
+
 	output = '''/* ************************************************************************
 
    qooxdoo - the new era of web development
@@ -82,10 +82,11 @@ def generate(infile, languageCode, namespace):
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 by 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
      LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     EPL 1.0: http://www.eclipse.org/org/documents/epl-v10.php
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -112,13 +113,13 @@ qx.Locale.define("%s%s",
 	normalizedMessages = {}
 	for msg in MESSAGES:
 		keys = msg.split("\0");
-		if len(keys) <= 1: 
+		if len(keys) <= 1:
 			normalizedMessages[msg] = MESSAGES[msg]
 			continue
 		values = MESSAGES[msg].split("\0");
 		for i in range(len(keys)):
 			normalizedMessages[keys[i]] = values[i]
-	
+
 	for msg in normalizedMessages:
 		if msg == "": continue
 		translations.append('  "%s": "%s"' % (msg, escapeJS(normalizedMessages[msg])))
@@ -126,7 +127,7 @@ qx.Locale.define("%s%s",
 	output += "\n});"
 	#print output
 	return output
-	
+
 
 def make (filename, outdir, namespace):
     ID = 1
@@ -211,13 +212,13 @@ def make (filename, outdir, namespace):
 
     # Compute output
     output = generate(infile, basename, namespace)
-	
-	
+
+
     try:
         open(outfile,"w").write(output)
     except IOError,msg:
         print >> sys.stderr, msg
-	
+
 
 
 def main ():
