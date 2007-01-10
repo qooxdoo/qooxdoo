@@ -20,7 +20,7 @@
 
 #module(ui_dragdrop)
 #load(qx.dom.ElementFromPoint)
-#embed(widget/cursors/*)
+#embed(qx.widgettheme/cursors/*)
 
 ************************************************************************ */
 

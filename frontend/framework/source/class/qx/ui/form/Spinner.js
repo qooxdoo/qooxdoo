@@ -19,8 +19,8 @@
 /* ************************************************************************
 
 #module(ui_form)
-#embed(widget/arrows/up_small.gif)
-#embed(widget/arrows/down_small.gif)
+#embed(qx.widgettheme/arrows/up_small.gif)
+#embed(qx.widgettheme/arrows/down_small.gif)
 
 ************************************************************************ */
 

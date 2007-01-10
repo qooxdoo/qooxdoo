@@ -17,17 +17,17 @@
 
 /* ************************************************************************
 
-#resource(readerfeeds:feeds)
-#resource(readercss:css)
-#resource(readerproxy:proxy)
-#embed(readerproxy/*)
-#embed(readerfeeds/*)
-#embed(readercss/*)
-#embed(icon/16/button-ok.png)
-#embed(icon/16/button-cancel.png)
-#embed(icon/16/reload.png)
-#embed(icon/16/locale.png)
-#embed(icon/16/help.png)
+#resource(feeds:feeds)
+#resource(css:css)
+#resource(proxy:proxy)
+#embed(feedreader.proxy/*)
+#embed(feedreader.feeds/*)
+#embed(feedreader.css/*)
+#embed(qx.icontheme/16/button-ok.png)
+#embed(qx.icontheme/16/button-cancel.png)
+#embed(qx.icontheme/16/reload.png)
+#embed(qx.icontheme/16/locale.png)
+#embed(qx.icontheme/16/help.png)
 
 ************************************************************************ */
 

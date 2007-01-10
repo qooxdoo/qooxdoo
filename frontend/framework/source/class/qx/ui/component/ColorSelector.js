@@ -18,10 +18,10 @@
 
 /* ************************************************************************
 
-#embed(widget/colorselector/*)
-#embed(icon/16/button-cancel.png)
-#embed(icon/16/button-ok.png)
-#embed(static/image/dotted_white.gif)
+#embed(qx.widgettheme/colorselector/*)
+#embed(qx.icontheme/16/button-cancel.png)
+#embed(qx.icontheme/16/button-ok.png)
+#embed(qx.static/image/dotted_white.gif)
 
 ************************************************************************ */
 

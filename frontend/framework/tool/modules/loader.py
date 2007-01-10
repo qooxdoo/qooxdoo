@@ -62,7 +62,7 @@ def extractFileContentId(data):
 
   for item in config.QXHEAD["classDefine"].findall(data):
     return item[1]
-  
+
   return None
 
 
@@ -168,11 +168,11 @@ def extractModules(data):
   return mods
 
 
-def extractResources(data):
+def extractResources(data, fileId):
   res = []
 
   for item in config.QXHEAD["resource"].findall(data):
-    res.append(item)
+    res.append({ "namespace" : fileId[0:fileId.find(".")], "id" : item[0], "entry" : item[1] })
 
   return res
 
@@ -181,7 +181,7 @@ def extractEmbeds(data):
   emb = []
 
   for item in config.QXHEAD["embed"].findall(data):
-    emb.append(item)
+    emb.append({ "namespace" : item[0], "id" : item[1], "entry" : item[2] })
 
   return emb
 
@@ -422,7 +422,10 @@ def storeEntryCache(fileDb, options):
     filetool.storeCache(fileEntry["cachePath"], fileEntryCopy)
     cacheCounter += 1
 
-  print "  * Found %s modified classes" % cacheCounter
+  if cacheCounter == 0:
+    print "  * No classes were modified"
+  else:
+    print "  * %s classes were modified" % cacheCounter
 
 
 
@@ -481,7 +484,7 @@ def indexFile(filePath, filePathId, classPath, listIndex, classEncoding, classUr
       "runtimeDeps" : extractRuntimeDeps(fileContent, fileId),
       "afterDeps" : extractAfterDeps(fileContent, fileId),
       "loadDeps" : extractLoadDeps(fileContent, fileId),
-      "resources" : extractResources(fileContent),
+      "resources" : extractResources(fileContent, fileId),
       "embeds" : extractEmbeds(fileContent),
       "modules" : extractModules(fileContent)
     }
@@ -563,7 +566,7 @@ def indexSingleScriptInput(classPath, listIndex, options, fileDb={}, moduleDb={}
         counter += 1
 
   return counter
-  
+
 
 def indexScriptInput(options):
   if options.cacheDirectory != None:

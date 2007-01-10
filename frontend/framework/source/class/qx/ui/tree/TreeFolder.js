@@ -19,8 +19,8 @@
 /* ************************************************************************
 
 #module(ui_tree)
-#embed(icon/16/folder-open.png)
-#embed(icon/16/folder.png)
+#embed(qx.icontheme/16/folder-open.png)
+#embed(qx.icontheme/16/folder.png)
 
 ************************************************************************ */
 

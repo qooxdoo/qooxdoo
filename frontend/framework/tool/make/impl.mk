@@ -9,7 +9,7 @@
 
 exec-clean:
 	@echo "  * Cleaning up..."
-	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/$(APPLICATION_SCRIPT_FILENAME) 
+	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/$(APPLICATION_SCRIPT_FILENAME)
 	@$(CMD_REMOVE) $(APPLICATION_BUILD_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/$(APPLICATION_SCRIPT_FILENAME)
 	@$(CMD_REMOVE) $(APPLICATION_TRANSLATION_PATH)/messages.pot
 	@$(CMD_REMOVE) $(FRAMEWORK_TRANSLATION_PATH)/messages.pot
@@ -27,9 +27,9 @@ exec-distclean:
 	@$(CMD_REMOVE) $(FRAMEWORK_CACHE_PATH)
 	@$(CMD_REMOVE) $(FRAMEWORK_LOCALE_CLASS_PATH)
 	@$(CMD_REMOVE) $(FRAMEWORK_TRANSLATION_CLASS_PATH)
-		  
-		  
-		  
+
+
+
 
 
 #
@@ -58,7 +58,13 @@ exec-script-build:
 	  $(COMPUTED_BUILD_OPTIMIZATIONS) \
 	  $(COMPUTED_BUILD_LINEBREAKS)
 
-
+exec-resources-build:
+	@$(CMD_GENERATOR) \
+	  $(COMPUTED_COMMON_INIT) \
+	  $(COMPUTED_CLASS_PATH) \
+	  $(COMPUTED_RESOURCE) \
+	  --compiled-script-file $(APPLICATION_BUILD_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/$(APPLICATION_SCRIPT_FILENAME) \
+	  $(COMPUTED_BUILD_INCLUDE)
 
 
 
@@ -100,8 +106,8 @@ exec-treegenerator:
 	  --store-tree \
     --tree-output-directory $(APPLICATION_DEBUG_PATH)/tree \
 	  $(COMPUTED_CLASS_PATH)
-	  
-	  
+
+
 
 
 
@@ -155,7 +161,7 @@ exec-framework-localization:
 	    $(CMD_CLDR) -o $(FRAMEWORK_LOCALE_CLASS_PATH) $(FRAMEWORK_CACHE_PATH)/$$LOC.xml; \
 	  fi; \
 	done
-	
+
 exec-framework-translation:
 	@echo
 	@echo "  PREPARING FRAMEWORK TRANSLATION"
@@ -164,14 +170,14 @@ exec-framework-translation:
 	@which xgettext > /dev/null 2>&1 || (echo "    - Please install gettext tools (xgettext)" && exit 1)
 	@which msginit > /dev/null 2>&1 || (echo "    - Please install gettext tools (msginit)" && exit 1)
 	@which msgmerge > /dev/null 2>&1 || (echo "    - Please install gettext tools (msgmerge)" && exit 1)
-	
+
 	@mkdir -p $(FRAMEWORK_TRANSLATION_PATH)
 	@mkdir -p $(FRAMEWORK_TRANSLATION_CLASS_PATH)
 
 	@if [ ! -r $(FRAMEWORK_TRANSLATION_PATH)/messages.pot ]; then \
 		touch -t 197001010000 $(FRAMEWORK_TRANSLATION_PATH)/messages.pot; \
-	fi;	
-	
+	fi;
+
 	@for FILE in `find $(FRAMEWORK_SOURCE_PATH)/$(FRAMEWORK_CLASS_FOLDERNAME) -newer $(FRAMEWORK_TRANSLATION_PATH)/messages.pot -name "*.js"`; do \
 	  xgettext --language=Java --from-code=UTF-8 \
 	    -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 \
@@ -181,7 +187,7 @@ exec-framework-translation:
 	    -j -o $(FRAMEWORK_TRANSLATION_PATH)/messages.pot $$FILE 2> /dev/null; \
 	  echo -n "."; \
 	done;
-	
+
 	@echo ""
 	@echo "    - Found `grep msgid $(FRAMEWORK_TRANSLATION_PATH)/messages.pot | wc -l` messages"
 
@@ -209,18 +215,18 @@ exec-application-translation:
 	@echo "  PREPARING APPLICATION TRANSLATION"
 	@$(CMD_LINE)
 	@echo -n "  * Processing source code: "
-	
+
 	@which xgettext > /dev/null 2>&1 || (echo "    - Please install gettext tools (xgettext)" && exit 1)
 	@which msginit > /dev/null 2>&1 || (echo "    - Please install gettext tools (msginit)" && exit 1)
 	@which msgmerge > /dev/null 2>&1 || (echo "    - Please install gettext tools (msgmerge)" && exit 1)
-	
+
 	@mkdir -p $(APPLICATION_TRANSLATION_PATH)
 	@mkdir -p $(APPLICATION_TRANSLATION_CLASS_PATH)
-	
+
 	@if [ ! -r $(APPLICATION_TRANSLATION_PATH)/messages.pot ]; then \
 		touch -t 197001010000 $(APPLICATION_TRANSLATION_PATH)/messages.pot; \
-	fi;	
-	
+	fi;
+
 	@for FILE in `find $(APPLICATION_SOURCE_PATH)/$(APPLICATION_CLASS_FOLDERNAME) -newer $(APPLICATION_TRANSLATION_PATH)/messages.pot -name "*.js"`; do \
 	  xgettext --language=Java --from-code=UTF-8 \
 	    -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 \
@@ -228,10 +234,10 @@ exec-application-translation:
 	    -j -o $(APPLICATION_TRANSLATION_PATH)/messages.pot $$FILE 2> /dev/null; \
 	  echo -n "."; \
 	done;
-	
+
 	@echo ""
 	@echo "    - Found `grep msgid $(APPLICATION_TRANSLATION_PATH)/messages.pot | wc -l` messages"
-	
+
 	@echo "  * Processing translations..."
 	@for LOC in $(APPLICATION_LOCALES); do \
 		echo "    - Translation: $$LOC"; \
@@ -260,7 +266,7 @@ exec-application-translation:
 #
 # File copy targets
 #
-		  
+
 exec-files-build:
 	@echo
 	@echo "  COPYING OF FILES"
@@ -270,7 +276,7 @@ exec-files-build:
 	@for file in $(APPLICATION_FILES); do \
 		echo "    - Processing $$file"; \
 		cp -Rf $(APPLICATION_SOURCE_PATH)/$$file $(APPLICATION_BUILD_PATH)/$$file; \
-	done	
+	done
 
 exec-files-api:
 	@echo
@@ -299,7 +305,7 @@ exec-api-data:
 	  --api-documentation-json-file $(APPLICATION_API_PATH)/script/apidata.js \
 	  $(COMPUTED_CLASS_PATH) \
 	  $(COMPUTED_API_INCLUDE)
-	  
+
 exec-api-build:
 	@$(CMD_GENERATOR) \
 	  --class-path $(FRAMEWORK_SOURCE_PATH)/class \
@@ -340,7 +346,7 @@ exec-publish:
 #
 # None helper target
 #
-exec-none: 
+exec-none:
 	@true
 
 
@@ -350,61 +356,61 @@ exec-none:
 ###################################################################################
 
 info-build:
-	@echo 
+	@echo
 	@echo "****************************************************************************"
-	@echo "  GENERATING $(APPLICATION_MAKE_TITLE) BUILD"
+	@echo "  GENERATING BUILD VERSION OF $(APPLICATION_MAKE_TITLE)"
 	@echo "****************************************************************************"
 
 info-source:
-	@echo 
+	@echo
 	@echo "****************************************************************************"
-	@echo "  GENERATING $(APPLICATION_MAKE_TITLE) SOURCE"
+	@echo "  GENERATING SOURCE VERSION OF $(APPLICATION_MAKE_TITLE)"
 	@echo "****************************************************************************"
-	
+
 info-api:
-	@echo 
+	@echo
 	@echo "****************************************************************************"
-	@echo "  GENERATING $(APPLICATION_MAKE_TITLE) API"
+	@echo "  GENERATING API BROWSER FOR $(APPLICATION_MAKE_TITLE)"
 	@echo "****************************************************************************"
-	
+
 info-pretty:
-	@echo 
+	@echo
 	@echo "****************************************************************************"
-	@echo "  GENERATING PRETTY $(APPLICATION_MAKE_TITLE)"
+	@echo "  PRETTIFYING $(APPLICATION_MAKE_TITLE) CLASSES"
 	@echo "****************************************************************************"
-	
+
 info-fix:
-	@echo 
+	@echo
 	@echo "****************************************************************************"
-	@echo "  FIXING $(APPLICATION_MAKE_TITLE)"
+	@echo "  FIXING $(APPLICATION_MAKE_TITLE) CLASSES"
 	@echo "****************************************************************************"
-			
+
 info-help:
-	@echo 
+	@echo
 	@echo "****************************************************************************"
-	@echo "  $(APPLICATION_MAKE_TITLE) HELP"
+	@echo "  HELP FOR $(APPLICATION_MAKE_TITLE)"
 	@echo "****************************************************************************"
 
 info-clean:
-	@echo 
+	@echo
 	@echo "****************************************************************************"
 	@echo "  CLEANING UP $(APPLICATION_MAKE_TITLE)"
 	@echo "****************************************************************************"
 
 info-distclean:
-	@echo 
+	@echo
 	@echo "****************************************************************************"
-	@echo "  CLEANING UP $(APPLICATION_MAKE_TITLE) (COMPLETELY)"
+	@echo "  COMPLETELY CLEANING UP $(APPLICATION_MAKE_TITLE)"
 	@echo "****************************************************************************"
 
 info-publish:
-	@echo 
+	@echo
 	@echo "****************************************************************************"
 	@echo "  PUBLISHING $(APPLICATION_MAKE_TITLE)"
 	@echo "****************************************************************************"
 
 info-debug:
-	@echo 
+	@echo
 	@echo "****************************************************************************"
-	@echo "  CREATING DEBUG OUTPUT FOR $(APPLICATION_MAKE_TITLE)"
+	@echo "  CREATING DEBUG DATA FOR $(APPLICATION_MAKE_TITLE)"
 	@echo "****************************************************************************"
