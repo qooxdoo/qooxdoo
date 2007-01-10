@@ -7,64 +7,50 @@ import config, textutil
 
 
 def copy(options, sortedIncludeList, fileDb):
-  print "  * Preparing configuration..."
-
-  overrideList = []
-
-  for overrideEntry in options.overrideResourceOutput:
-    # Parse
-    # fileId.resourceId:destinationDirectory
-    targetSplit = overrideEntry.split(":")
-    targetStart = targetSplit.pop(0)
-    targetStartSplit = targetStart.split(".")
-
-    # Store
-    overrideData = {}
-    overrideData["destinationDirectory"] = ":".join(targetSplit)
-    overrideData["resourceId"] = targetStartSplit.pop()
-    overrideData["fileId"] = ".".join(targetStartSplit)
-
-    # Append
-    overrideList.append(overrideData)
-
-
-
-
   if options.enableResourceFilter:
     print "  * Processing embeds..."
-    
-    embeds = {}
-    
+
+    definedEmbeds = {}
+    compiledEmbeds = {}
+
     for fileId in sortedIncludeList:
       fileEmbeds = fileDb[fileId]["embeds"]
-      
-      
+
+
       if len(fileEmbeds) > 0:
         print "    - Found %i embeds in %s" % (len(fileEmbeds), fileId)
-        
-        for fileEmbed in fileEmbeds:
-          embedCategory = fileEmbed[0:fileEmbed.find("/")]
-          embedElement = fileEmbed[fileEmbed.find("/")+1:]
-            
-          if not embeds.has_key(embedCategory):
-            embeds[embedCategory] = []
-            
-          if not embedElement in embeds[embedCategory]:
-            embeds[embedCategory].append(embedElement)
-            
 
+        for fileEmbed in fileEmbeds:
+          resourceNS = fileEmbed["namespace"]
+          resourceId = fileEmbed["id"]
+          embedEntry = fileEmbed["entry"]
+
+          if not definedEmbeds.has_key(resourceNS):
+            definedEmbeds[resourceNS] = {}
+
+          if not definedEmbeds[resourceNS].has_key(resourceId):
+            definedEmbeds[resourceNS][resourceId] = []
+
+          if not embedEntry in definedEmbeds[resourceNS][resourceId]:
+            definedEmbeds[resourceNS][resourceId].append(embedEntry)
+
+
+    # We must do this in a separate step because otherwise the string compare
+    # above does not work (how to compare compiled regexp?)
 
     print "  * Compiling embeds..."
-        
-    compiledEmbeds = {}
-    
-    for embedCategory in embeds:
-      for embedElement in embeds[embedCategory]:
-        if not compiledEmbeds.has_key(embedCategory):
-          compiledEmbeds[embedCategory] = []
-        
-        compiledEmbeds[embedCategory].append(textutil.toRegExp(embedElement))
-        
+
+    for resourceNS in definedEmbeds:
+      for resourceId in definedEmbeds[resourceNS]:
+        for embedEntry in definedEmbeds[resourceNS][resourceId]:
+          if not compiledEmbeds.has_key(resourceNS):
+            compiledEmbeds[resourceNS] = {}
+
+          if not compiledEmbeds[resourceNS].has_key(resourceId):
+            compiledEmbeds[resourceNS][resourceId] = []
+
+          compiledEmbeds[resourceNS][resourceId].append(textutil.toRegExp(embedEntry))
+
 
 
 
@@ -78,51 +64,38 @@ def copy(options, sortedIncludeList, fileDb):
       print "    - Found %i resources in %s" % (len(fileResources), fileId)
 
       for fileResource in fileResources:
-        fileResourceSplit = fileResource.split(":")
-        
-        if len(fileResourceSplit) != 2:
-          print "    - Malformed resource definition: %s" % fileResource
-          sys.exit(1)
+        resourceNS = fileResource["namespace"]
+        resourceId = fileResource["id"]
+        resourceEntry = fileResource["entry"]
 
-        resourceId = fileResourceSplit.pop(0)
-        relativeDirectory = fileResourceSplit.pop(0)
-          
-
-           
         if options.enableResourceFilter:
-          if embeds.has_key(resourceId):
-            resourceFilter = compiledEmbeds[resourceId]
+          if compiledEmbeds.has_key(resourceNS) and compiledEmbeds[resourceNS].has_key(resourceId):
+            resourceFilter = compiledEmbeds[resourceNS][resourceId]
           else:
             resourceFilter = []
-          
- 
- 
-        
+
+
+
         # Preparing source directory
-        
-        sourceDirectory = os.path.join(fileDb[fileId]["resourceInput"], relativeDirectory)
-        
+
+        sourceDirectory = os.path.join(fileDb[fileId]["resourceInput"], resourceEntry)
+
         try:
           os.listdir(sourceDirectory)
         except OSError:
           print "        - Source directory isn't readable! Ignore resource!"
           continue
-          
-        
-        # Preparing destination directory  
-          
-        destinationDirectory = os.path.join(fileDb[fileId]["resourceOutput"], relativeDirectory)
 
-        # Searching for overrides
-        for overrideData in overrideList:
-          if overrideData["fileId"] == fileId and overrideData["resourceId"] == resourceId:
-            destinationDirectory = overrideData["destinationDirectory"]
+
+        # Preparing destination directory
+
+        destinationDirectory = os.path.join(fileDb[fileId]["resourceOutput"], resourceEntry)
 
 
 
 
 
-        print "      - Copying %s [%s]" % (relativeDirectory, resourceId)
+        print "      - Copying %s [%s.%s]" % (resourceEntry, resourceNS, resourceId)
 
         for root, dirs, files in os.walk(sourceDirectory):
 
@@ -133,7 +106,7 @@ def copy(options, sortedIncludeList, fileDb):
 
           # Searching for items (resource files)
           for itemName in files:
-            
+
             # Generate absolute source file path
             itemSourcePath = os.path.join(root, itemName)
 
@@ -144,11 +117,12 @@ def copy(options, sortedIncludeList, fileDb):
             # Filter items
             if options.enableResourceFilter:
               include = False
-              
+
               for filterEntry in resourceFilter:
                 if filterEntry.search(itemRelPath):
                   include = True
-              
+                  break
+
               if not include:
                 continue
 

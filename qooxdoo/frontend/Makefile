@@ -92,9 +92,9 @@ distclean: release-distclean framework-distclean
 ###################################################################################
 
 framework-distclean:
-	@echo 
+	@echo
 	@echo "****************************************************************************"
-	@echo "  CLEANING UP FRAMEWORK (COMPLETELY)"
+	@echo "  COMPLETELY CLEANING UP FRAMEWORK"
 	@echo "****************************************************************************"
 	@echo "  * Cleaning up..."
 	@$(CMD_REMOVE) $(FRAMEWORK_CACHE_PATH)
@@ -103,29 +103,29 @@ framework-distclean:
 	@$(CMD_REMOVE) application/skeleton.tar.gz
 	@$(CMD_REMOVE) application/skeleton.zip
 	@$(CMD_NICE) find $(FRAMEWORK_PATH) $(TEMP_FILES) -exec rm -rf {} \;
-	
+
 
 framework-pretty:
-	@echo 
+	@echo
 	@echo "****************************************************************************"
-	@echo "  GENERATING PRETTY FRAMEWORK"
+	@echo "  PRETTIFYING FRAMEWORK CLASSES"
 	@echo "****************************************************************************"
 	@$(CMD_GENERATOR) \
 	  --pretty-print \
 	  --class-path $(FRAMEWORK_SOURCE_PATH)/$(FRAMEWORK_CLASS_FOLDERNAME)
 
 framework-fix:
-	@echo 
+	@echo
 	@echo "****************************************************************************"
-	@echo "  FIXING FRAMEWORK"
+	@echo "  FIXING FRAMEWORK CLASSES"
 	@echo "****************************************************************************"
 	@$(CMD_GENERATOR) \
 	  --fix-source \
 	  --class-path $(FRAMEWORK_SOURCE_PATH)/$(FRAMEWORK_CLASS_FOLDERNAME)
-	  
-	  
-	  
-	  
+
+
+
+
 ###################################################################################
 # SKELETON TARGETS
 ###################################################################################
@@ -137,15 +137,15 @@ SKELETON_FILES = Makefile source/class source/resource source/index.html
 
 
 info-skeleton-unix:
-	@echo 
+	@echo
 	@echo "****************************************************************************"
-	@echo "  CREATING SKELETON (UNIX)"
+	@echo "  GENERATING UNIX VERSION OF SKELETON"
 	@echo "****************************************************************************"
 
 info-skeleton-dos:
-	@echo 
+	@echo
 	@echo "****************************************************************************"
-	@echo "  CREATING SKELETON (DOS)"
+	@echo "  GENERATING DOS VERSION OF SKELETON"
 	@echo "****************************************************************************"
 
 skeleton-unix: info-skeleton-unix exec-skeleton-unix exec-skeleton-unix-post exec-skeleton-unix-clean
@@ -160,11 +160,11 @@ exec-skeleton-unix-collect:
     	echo "    - $$FILE"; \
     	mkdir -p `dirname $(SKELETON_TEMP_UNIX)/skeleton/$$FILE`; \
 	  	$(CMD_RSYNC) application/skeleton/$$FILE `dirname $(SKELETON_TEMP_UNIX)/skeleton/$$FILE`; \
-  	done    
+  	done
 
 exec-skeleton-unix-archive:
 	@echo "  * Cleaning up target folders..."
-	@$(CMD_NICE) find $(SKELETON_TEMP_UNIX) $(TEMP_FILES) | xargs rm -rf 
+	@$(CMD_NICE) find $(SKELETON_TEMP_UNIX) $(TEMP_FILES) | xargs rm -rf
 
 	@echo "  * Switching to Unix line endings..."
 	@$(CMD_NICE) find $(SKELETON_TEMP_UNIX) $(TEXT_FILES) $(ANY2UNIX)
@@ -174,7 +174,7 @@ exec-skeleton-unix-archive:
 
 	@echo "  * Building skeleton archive..."
 	@rm -f $(SKELETON_TEMP_UNIX)/skeleton.tar.gz
-	@cd $(SKELETON_TEMP_UNIX); $(CMD_NICE) tar cfzp skeleton.tar.gz skeleton 
+	@cd $(SKELETON_TEMP_UNIX); $(CMD_NICE) tar cfzp skeleton.tar.gz skeleton
 	@rm -rf $(SKELETON_TEMP_UNIX)/skeleton
 
 exec-skeleton-dos-collect:
@@ -183,8 +183,8 @@ exec-skeleton-dos-collect:
     	echo "    - $$FILE"; \
     	mkdir -p `dirname $(SKELETON_TEMP_DOS)/skeleton/$$FILE`; \
 	  	$(CMD_RSYNC) application/skeleton/$$FILE `dirname $(SKELETON_TEMP_DOS)/skeleton/$$FILE`; \
-  	done    
-  
+  	done
+
 exec-skeleton-dos-archive:
 	@echo "  * Cleaning up target folders..."
 	@$(CMD_NICE) find $(SKELETON_TEMP_DOS) $(TEMP_FILES) | xargs rm -rf
@@ -217,10 +217,10 @@ exec-skeleton-unix-clean:
 
 exec-skeleton-dos-clean:
 	@$(CMD_REMOVE) $(SKELETON_TEMP_DOS)
-	  
 
 
-	
+
+
 
 
 
@@ -230,15 +230,15 @@ exec-skeleton-dos-clean:
 ###################################################################################
 
 release-distclean:
-	@echo 
+	@echo
 	@echo "****************************************************************************"
-	@echo "  CLEANING UP RELEASE (COMPLETELY)"
+	@echo "  COMPLETELY CLEANING UP RELEASE"
 	@echo "****************************************************************************"
 	@echo "  * Cleaning up..."
 	@$(CMD_REMOVE) release
-	
-	
-	
+
+
+
 
 release: release-sdk release-build
 release-fast: release-build-fast release-sdk-fast
@@ -250,14 +250,14 @@ release-build: build release-build-fast
 release-build-fast: release-build-info release-build-unix release-build-dos
 
 release-build-info:
-	@echo 
+	@echo
 	@echo "****************************************************************************"
-	@echo "  GENERATING BUILD RELEASE"
+	@echo "  GENERATING BUILD VERSION OF RELEASE $(VERSION)"
 	@echo "****************************************************************************"
-	
+
 release-build-unix:
 	@echo
-	@echo "  SYNCHRONISATION OF UNIX BUILD RELEASE"
+	@echo "  SYNCHRONISATION OF BUILD RELEASE (UNIX VERSION)"
 	@echo "----------------------------------------------------------------------------"
 
 	@echo "  * Copying info files..."
@@ -280,8 +280,8 @@ release-build-unix:
 	@echo "  * Generating index.html..."
 	@cat application/index.html | \
 		sed 's/class="source"/class="source hide"/g' | \
-		sed 's/class="build"//g' > $(RELEASE_BUILD_UNIX)/frontend/index.html	
-	
+		sed 's/class="build"//g' > $(RELEASE_BUILD_UNIX)/frontend/index.html
+
 	@echo "  * Switching to Unix line endings..."
 	@$(CMD_NICE) find $(RELEASE_BUILD_UNIX) $(TEXT_FILES) $(ANY2UNIX)
 
@@ -290,7 +290,7 @@ release-build-unix:
 
 release-build-dos:
 	@echo
-	@echo "  SYNCHRONISATION OF DOS BUILD RELEASE"
+	@echo "  SYNCHRONISATION OF BUILD RELEASE (DOS VERSION)"
 	@echo "----------------------------------------------------------------------------"
 
 	@echo "  * Copying info files..."
@@ -310,11 +310,11 @@ release-build-dos:
 		fi; \
 	  $(CMD_RSYNC) application/$$APPLICATION/build/* $(RELEASE_BUILD_DOS)/frontend/$$APPLICATION; \
 	done
-	
+
 	@echo "  * Generating index.html..."
 	@cat application/index.html | \
 		sed 's/class="source"/class="source hide"/g' | \
-		sed 's/class="build"//g' > $(RELEASE_BUILD_DOS)/frontend/index.html	
+		sed 's/class="build"//g' > $(RELEASE_BUILD_DOS)/frontend/index.html
 
 	@echo "  * Switching to DOS line endings..."
 	@$(CMD_NICE) find $(RELEASE_BUILD_DOS) $(TEXT_FILES) $(ANY2DOS)
@@ -334,14 +334,14 @@ release-sdk: distclean release-sdk-fast
 release-sdk-fast: release-sdk-info release-sdk-unix release-sdk-dos
 
 release-sdk-info:
-	@echo 
+	@echo
 	@echo "****************************************************************************"
-	@echo "  GENERATING SDK RELEASE"
+	@echo "  GENERATING SDK VERSION OF RELEASE $(VERSION)"
 	@echo "****************************************************************************"
 
 release-sdk-unix:
 	@echo
-	@echo "  SYNCHRONISATION OF UNIX SDK RELEASE"
+	@echo "  SYNCHRONISATION OF SDK RELEASE (UNIX VERSION)"
 	@echo "----------------------------------------------------------------------------"
 
 	@echo "  * Copying info files..."
@@ -350,14 +350,14 @@ release-sdk-unix:
 	  echo "    - `basename $$FILE`"; \
 	  cp -f $$FILE $(RELEASE_SDK_UNIX); \
 	done
-	
+
 	@echo "  * Synchronizing applications..."
 	@for APPLICATION in $(APPLICATIONS); do \
 		echo "    - $$APPLICATION"; \
 	  mkdir -p $(RELEASE_SDK_UNIX)/frontend/application/$$APPLICATION; \
 	  $(CMD_RSYNC) --exclude script --exclude build --exclude publish application/$$APPLICATION/* $(RELEASE_SDK_UNIX)/frontend/application/$$APPLICATION; \
 	done
-	
+
 	@echo "  * Synchronizing framework..."
 	@mkdir -p $(RELEASE_SDK_UNIX)/frontend/framework
 	@$(CMD_RSYNC) framework/* --exclude .cache $(RELEASE_SDK_UNIX)/frontend/framework
@@ -367,16 +367,16 @@ release-sdk-unix:
 	  cp -f $$FILE $(RELEASE_SDK_UNIX)/frontend/$$FILE; \
 	done
 
-	@$(MAKE) -s exec-skeleton-unix	
+	@$(MAKE) -s exec-skeleton-unix
 	@$(CMD_RSYNC) $(SKELETON_TEMP_UNIX)/skeleton.tar.gz $(RELEASE_SDK_UNIX)/frontend/application/
 	@$(MAKE) -s exec-skeleton-unix-clean
-	
+
 	@echo "  * Generating tar archive..."
 	@cd release/temp/sdk/unix; rm -f qooxdoo-$(VERSION)-sdk.tar.gz; $(CMD_NICE) tar cfzp ../../../qooxdoo-$(VERSION)-sdk.tar.gz qooxdoo-$(VERSION)-sdk
 
 release-sdk-dos:
 	@echo
-	@echo "  SYNCHRONISATION OF DOS SDK RELEASE"
+	@echo "  SYNCHRONISATION OF SDK RELEASE (DOS VERSION)"
 	@echo "----------------------------------------------------------------------------"
 
 	@echo "  * Copying info files..."
@@ -385,7 +385,7 @@ release-sdk-dos:
 	  echo "    - `basename $$FILE`"; \
 	  cp -f $$FILE $(RELEASE_SDK_DOS); \
 	done
-	
+
 	@echo "  * Synchronizing applications..."
 	@for APPLICATION in $(APPLICATIONS); do \
 		echo "    - $$APPLICATION"; \

@@ -18,7 +18,7 @@
 /* ************************************************************************
 
 #require(qx.util.format.DateFormat)
-#embed(widget/datechooser/*)
+#embed(qx.widgettheme/datechooser/*)
 
 ************************************************************************ */
 

@@ -89,7 +89,6 @@ def getparser():
 
   # Options for resource copying
   parser.add_option("--enable-resource-filter", action="store_true", dest="enableResourceFilter", default=False, help="Enable filtering of resource files used by classes (based on #embed).")
-  parser.add_option("--override-resource-output", action="append", dest="overrideResourceOutput", metavar="CLASSNAME.ID:DIRECTORY", default=[], help="Define a resource input directory.")
 
   # Options for token/tree storage
   parser.add_option("--token-output-directory", dest="tokenOutputDirectory", metavar="DIRECTORY", help="Define output directory for tokenizer result of the incoming JavaScript files. (Debugging)")
@@ -101,7 +100,7 @@ def getparser():
   # Options for migration support
   parser.add_option("--migration-target", dest="migrationTarget", metavar="VERSION", help="Define the target for migration of source code.")
   parser.add_option("--migration-input", action="extend", dest="migrationInput", metavar="DIRECTORY", type="string", default=[], help="Define additional directories for to directories to migrate e.g. HTML files, ...")
-  
+
 
 
 
@@ -927,7 +926,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     jsLoaders = {}
 
     # HTML-only: create <script> tags using document.write()
-    jsLoaders["docwrite"] = """var includeJs=function(src){document.write('<script type="text/javascript" src="'+src+'"></script>')};""" 
+    jsLoaders["docwrite"] = """var includeJs=function(src){document.write('<script type="text/javascript" src="'+src+'"></script>')};"""
 
     # XHTML-compatible: load scripts using XMLHttpRequest and eval() them
     jsLoaders["xhrequest"] = """{var xhr=null;if(window.XMLHttpRequest)xhr=new XMLHttpRequest;else if(window.ActiveXObject){var s=["MSXML2.XMLHTTP.3.0","MSXML2.XMLHTTP.6.0","MSXML2.XMLHTTP","Microsoft.XMLHTTP"];for(var i=0;i<s.length;++i)try{xhr=new ActiveXObject(s[i])}catch(e){}};""" + srcEol + """if(!xhr){alert("Sorry, you need support for XMLHttpRequest in order to\\nload source builds into XHTML documents.");return}""" + srcEol + """var includeJs=function(src){xhr.open("GET", src, false);xhr.send(null);window.eval(xhr.responseText)}}"""
@@ -966,7 +965,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
         print "  * Missing source path definition for script input %s. Could not create source script file!" % fileDb[fileId]["classPath"]
         sys.exit(1)
 
-      sources += srcEol + '"%s%s",' % (os.path.join(fileDb[fileId]["classUri"], fileDb[fileId]["pathId"].replace(".", os.sep)), config.JSEXT) 
+      sources += srcEol + '"%s%s",' % (os.path.join(fileDb[fileId]["classUri"], fileDb[fileId]["pathId"].replace(".", os.sep)), config.JSEXT)
 
     # Pass the array with source files to include
     sourceOutput += "([" + sources[:-1] + srcEol + "]);" + srcEol

@@ -20,7 +20,7 @@
 
 #module(ui_core)
 #module(theme_widget)
-#resource(widget:widget/windows)
+#resource(widgettheme:widget/windows)
 
 ************************************************************************ */
 

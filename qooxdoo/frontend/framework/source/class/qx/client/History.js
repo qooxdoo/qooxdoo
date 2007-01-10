@@ -19,7 +19,7 @@
 /* ************************************************************************
 
 #require(qx.manager.object.AliasManager)
-#embed(static/history/historyHelper.html)
+#embed(qx.static/history/historyHelper.html)
 
 ************************************************************************ */
 

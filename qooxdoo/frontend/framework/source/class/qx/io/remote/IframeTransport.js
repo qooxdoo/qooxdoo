@@ -25,7 +25,7 @@
 #module(io_remote)
 #require(qx.io.remote.Exchange)
 #require(qx.util.Mime)
-#embed(static/image/blank.gif)
+#embed(qx.static/image/blank.gif)
 
 ************************************************************************ */
 

@@ -29,8 +29,8 @@
 #optional(qx.renderer.border.BorderObject)
 #optional(qx.renderer.font.Font)
 #optional(qx.renderer.font.FontObject)
-#embed(static/image/dotted_white.gif)
-#embed(static/image/blank.gif)
+#embed(qx.static/image/dotted_white.gif)
+#embed(qx.static/image/blank.gif)
 
  ************************************************************************ */
 

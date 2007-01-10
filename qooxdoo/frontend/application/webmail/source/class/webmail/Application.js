@@ -25,10 +25,10 @@
 
 /* ************************************************************************
 
-#embed(icon/16/network.png)
-#embed(icon/16/mail-new.png)
-#embed(icon/16/mail-send.png)
-#embed(icon/16/appointment.png)
+#embed(qx.icontheme/16/network.png)
+#embed(qx.icontheme/16/mail-new.png)
+#embed(qx.icontheme/16/mail-send.png)
+#embed(qx.icontheme/16/appointment.png)
 
 ************************************************************************ */
 

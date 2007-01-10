@@ -19,8 +19,8 @@
 /* ************************************************************************
 
 #module(ui_menu)
-#embed(widget/menu/radiobutton.gif)
-#embed(static/image/blank.gif)
+#embed(qx.widgettheme/menu/radiobutton.gif)
+#embed(qx.static/image/blank.gif)
 
 ************************************************************************ */
 
