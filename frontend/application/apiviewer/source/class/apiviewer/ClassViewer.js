@@ -19,7 +19,7 @@
 
 /* ************************************************************************
 
-#module(api)
+#module(apiviewer)
 
 ************************************************************************ */
 
@@ -252,7 +252,7 @@ qx.Proto.showClass = function(classNode) {
     }
   }
 
-  
+
   // Create the class hierarchy
   classHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Inheritance hierarchy:" + ClassViewer.DIV_END;
 
@@ -1082,7 +1082,7 @@ qx.Proto._createConstantInfo = function(node, nodeType, fromClassNode, showDetai
 
     // Add documentation errors
     info.textHtml += this._createErrorHtml(node, fromClassNode);
-    
+
   }
 
   return info;

@@ -19,10 +19,10 @@
 
 /* ************************************************************************
 
-#module(api)
-#resource(apistyles:css)
-#resource(apiimages:image)
-#embed(apistyles/*)
+#module(apiviewer)
+#resource(css:css)
+#resource(image:image)
+#embed(apiviewer.css/*)
 
 ************************************************************************ */
 

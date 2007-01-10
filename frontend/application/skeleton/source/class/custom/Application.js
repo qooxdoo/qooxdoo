@@ -10,7 +10,7 @@
 
 /* ************************************************************************
 
-#resource(customimages:image)
+#resource(image:image)
 
 ************************************************************************ */
 
@@ -48,13 +48,13 @@ qx.Proto.main = function(e)
   // Set button location
   button1.setTop(50);
   button1.setLeft(50);
-  
+
   // Add button to document
   button1.addToDocument();
-  
+
   // Attach a tooltip
   button1.setToolTip(new qx.ui.popup.ToolTip("A nice tooltip", "icon/32/info.png"));
-  
+
   // Add an event listener
   button1.addEventListener("execute", function(e) {
     alert("Hello World!");

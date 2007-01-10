@@ -19,8 +19,8 @@
 /* ************************************************************************
 
 #module(ui_listview)
-#embed(widget/arrows/up.gif)
-#embed(widget/arrows/down.gif)
+#embed(qx.widgettheme/arrows/up.gif)
+#embed(qx.widgettheme/arrows/down.gif)
 
 ************************************************************************ */
 

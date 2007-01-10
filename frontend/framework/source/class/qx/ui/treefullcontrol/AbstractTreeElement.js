@@ -21,8 +21,8 @@
 /* ************************************************************************
 
 #module(ui_treefullcontrol)
-#embed(widget/tree/*)
-#embed(icon/16/file-new.png)
+#embed(qx.widgettheme/tree/*)
+#embed(qx.icontheme/16/file-new.png)
 
 ************************************************************************ */
 

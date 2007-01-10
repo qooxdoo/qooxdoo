@@ -19,8 +19,8 @@
 /* ************************************************************************
 
 #module(ui_menu)
-#embed(widget/menu/checkbox.gif)
-#embed(static/image/blank.gif)
+#embed(qx.widgettheme/menu/checkbox.gif)
+#embed(qx.static/image/blank.gif)
 
 ************************************************************************ */
 

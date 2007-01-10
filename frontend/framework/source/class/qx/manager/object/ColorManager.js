@@ -20,7 +20,7 @@
 
 #module(ui_core)
 #optional(qx.ui.form.Button)
-#embed(icon/16/colors.png)
+#embed(qx.icontheme/16/colors.png)
 
 ************************************************************************ */
 
