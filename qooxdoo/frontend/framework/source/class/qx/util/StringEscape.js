@@ -328,31 +328,13 @@ qx.Class.HTML_ENTITIES_TO_CHARCODE = {
 
 
 /**
- * Build regular expression for entity detection
- * 
- * @see qx.util.StringUtil#HTML_ENTITIES_TO_CHARCODE
- * @see qx.util.StringUtil#XML_ENTITIES_TO_CHARCODE
- * 
- * @param entity_to_charcode_map {Map} entity to charcode map
- * @return {RegExp} regular expression 
- */
-qx.Class._getRegExpForEntities = function(entity_to_charcode_map) {
-  var escapedChars = [];
-  for (var key in entity_to_charcode_map) {
-    escapedChars.push(String.fromCharCode(entity_to_charcode_map[key]));
-  }
-  return new RegExp(escapedChars.join("|"), "gi");
-};
-
-
-/**
  * generic escaping method
  * 
  * @param str {String} string to escape
  * @param re {RegExp} regular expression
  * @param charcodeToEntities {Map} entity to charcode map
  */
-qx.Class._escape = function(str, re, charcodeToEntities) {
+qx.Class._escape = function(str, charcodeToEntities) {
   var result = [];
   for (var i=0; i<str.length; i++) {
     var char = str[i];
@@ -372,8 +354,27 @@ qx.Class._escape = function(str, re, charcodeToEntities) {
 };
 
 
+qx.Class._unescape = function(str, entitiesToCharCode) {
+  return str.replace(/&.+?;/gi, function(entity) {
+    var char = entity;
+    var entity = entity.substring(1, entity.length-1);
+    var code = entitiesToCharCode[entity];
+    if (code) {
+      char = String.fromCharCode(code);
+    } else {
+      if (entity[0] == '#') {
+        var code = entity.substring(1);
+        if (parseInt(code) == code) {
+          char = String.fromCharCode(parseInt(code));
+        }
+      }
+    }
+    return char;
+  });
+};
+
+
 qx.Class.HTML_CHARCODE_TO_ENTITIES = qx.lang.Object.invert(qx.Class.HTML_ENTITIES_TO_CHARCODE);
-qx.Class._HTML_RE = qx.Class._getRegExpForEntities(qx.Class.HTML_ENTITIES_TO_CHARCODE);
 
 /**
  * Escapes the characters in a <code>String</code> using HTML entities.
@@ -393,33 +394,20 @@ qx.Class._HTML_RE = qx.Class._getRegExpForEntities(qx.Class.HTML_ENTITIES_TO_CHA
 qx.Class.escapeHtml = function(str) {
   return qx.util.StringEscape._escape(
     str,
-    qx.util.StringEscape._HTML_RE,
     qx.util.StringEscape.HTML_CHARCODE_TO_ENTITIES
   );
 };
 
 
-qx.Class._unescape = function(str, charcodeToEntities) {
-  return str.replace(/&.+?;/gi, function(entity) {
-    var char = entity;
-    var entity = entity.substring(1, entity.length-1);
-    var code = qx.util.StringEscape.HTML_ENTITIES_TO_CHARCODE[entity];
-    if (code) {
-      char = String.fromCharCode(code);
-    } else {
-      if (entity[0] == '#') {
-        var code = entity.substring(1);
-        if (parseInt(code) == code) {
-          char = String.fromCharCode(perseInt(code));
-        }
-      }
-    }
-    return char;
-  });
+qx.Class.unescapeHtml = function(str) {
+  return qx.util.StringEscape._unescape(
+    str,
+    qx.util.StringEscape.HTML_ENTITIES_TO_CHARCODE
+  );
 };
 
+
 qx.Class.XML_CHARCODE_TO_ENTITIES = qx.lang.Object.invert(qx.Class.XML_ENTITIES_TO_CHARCODE);
-qx.Class._XML_RE = qx.Class._getRegExpForEntities(qx.Class.XML_ENTITIES_TO_CHARCODE);
 
 /**
  * Escapes the characters in a <code>String</code> using XML entities.
@@ -437,8 +425,15 @@ qx.Class._XML_RE = qx.Class._getRegExpForEntities(qx.Class.XML_ENTITIES_TO_CHARC
 qx.Class.escapeXml = function(str) {
   return qx.util.StringEscape._escape(
     str,
-    qx.util.StringEscape._XML_RE,
     qx.util.StringEscape.XML_CHARCODE_TO_ENTITIES
+  );
+};
+
+
+qx.Class.unescapeXml = function(str) {
+  return qx.util.StringEscape._unescape(
+    str,
+    qx.util.StringEscape.XML_ENTITIES_TO_CHARCODE
   );
 };
 
