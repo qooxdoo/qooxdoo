@@ -144,11 +144,11 @@ exec-framework-localization:
 	    echo "      - Copying $$LOC.xml..."; \
 	    cp -f $(FRAMEWORK_LOCALE_PATH)/$$LOC.xml $(FRAMEWORK_CACHE_PATH)/$$LOC.xml; \
 	    mod=1; \
-    fi; \
+	  fi; \
 	  if [ ! -r $(FRAMEWORK_CACHE_PATH)/$$LOC.xml ]; then \
 	    echo "      - Downloading $$LOC.xml..."; \
 	    (which wget > /dev/null 2>&1 && wget $(FRAMEWORK_CLDR_DOWNLOAD_URI)/$$LOC.xml -q -P $(FRAMEWORK_CACHE_PATH)) || \
-      (which curl > /dev/null 2>&1 && curl $(FRAMEWORK_CLDR_DOWNLOAD_URI)/$$LOC.xml -s -o $(FRAMEWORK_CACHE_PATH)/$$LOC.xml); \
+        (which curl > /dev/null 2>&1 && curl $(FRAMEWORK_CLDR_DOWNLOAD_URI)/$$LOC.xml -s -o $(FRAMEWORK_CACHE_PATH)/$$LOC.xml); \
 	    mod=1; \
 		  if [ ! -r $(FRAMEWORK_CACHE_PATH)/$$LOC.xml ]; then \
 		    echo "        - Download failed! Please install wget (preferred) or curl."; \
@@ -165,7 +165,7 @@ exec-framework-translation:
 	@echo
 	@echo "  PREPARING FRAMEWORK TRANSLATION"
 	@$(CMD_LINE)
-	@echo -n "  * Processing source code..."
+	@echo "  * Processing source code..."
 	@which xgettext > /dev/null 2>&1 || (echo "    - Please install gettext tools (xgettext)" && exit 1)
 	@which msginit > /dev/null 2>&1 || (echo "    - Please install gettext tools (msginit)" && exit 1)
 	@which msgmerge > /dev/null 2>&1 || (echo "    - Please install gettext tools (msgmerge)" && exit 1)
@@ -173,29 +173,30 @@ exec-framework-translation:
 	@mkdir -p $(FRAMEWORK_TRANSLATION_PATH)
 	@mkdir -p $(FRAMEWORK_TRANSLATION_CLASS_PATH)
 
-	@rm -f $(FRAMEWORK_TRANSLATION_PATH)/messages.pot
-	@xgettext --language=Java --from-code=UTF-8 \
-    -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 \
-    -kManager.trc -kManager.tr -kManager.marktr -kManager.trn:1,2 \
-    --sort-by-file --add-comments=TRANSLATION \
-    -o $(FRAMEWORK_TRANSLATION_PATH)/messages.pot \
-    `find $(FRAMEWORK_SOURCE_PATH)/$(FRAMEWORK_CLASS_FOLDERNAME) -name "*.js"` 2> /dev/null || exit 1
 
-	@echo ""
-	@echo "    - Found `grep msgid $(FRAMEWORK_TRANSLATION_PATH)/messages.pot | wc -l` messages"
+	@rm -f $(FRAMEWORK_TRANSLATION_PATH)/messages.pot
+	@touch $(FRAMEWORK_TRANSLATION_PATH)/messages.pot
+	@for file in `find $(FRAMEWORK_SOURCE_PATH)/$(FRAMEWORK_CLASS_FOLDERNAME) -name "*.js"`; do \
+	  LC_ALL=C xgettext --language=Java --from-code=UTF-8 \
+	  -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 \
+	  -kManager.trc -kManager.tr -kManager.marktr -kManager.trn:1,2 \
+	  --sort-by-file --add-comments=TRANSLATION \
+	  -o $(FRAMEWORK_TRANSLATION_PATH)/messages.pot \
+	  `find $(FRAMEWORK_SOURCE_PATH)/$(FRAMEWORK_CLASS_FOLDERNAME) -name "*.js"` 2>&1 | grep -v warning; \
+	  break; done
 
 	@echo "  * Processing translations..."
 	@for LOC in $(APPLICATION_LOCALES); do \
-		echo "    - Translation: $$LOC"; \
-		if [ ! -r $(FRAMEWORK_TRANSLATION_PATH)/$$LOC.po ]; then \
-  		echo "      - Generating initial translation file..."; \
-			msginit --locale $$LOC --no-translator -i $(FRAMEWORK_TRANSLATION_PATH)/messages.pot -o $(FRAMEWORK_TRANSLATION_PATH)/$$LOC.po > /dev/null 2>&1; \
-		else \
-	  	echo "      - Merging translation file..."; \
-		  msgmerge --update -q $(FRAMEWORK_TRANSLATION_PATH)/$$LOC.po $(FRAMEWORK_TRANSLATION_PATH)/messages.pot; \
-		fi; \
-    echo "      - Generating catalog..."; \
-    mkdir -p $(FRAMEWORK_TRANSLATION_PATH); \
+	  echo "    - Translation: $$LOC"; \
+	  if [ ! -r $(FRAMEWORK_TRANSLATION_PATH)/$$LOC.po ]; then \
+  	    echo "      - Generating initial translation file..."; \
+	    msginit --locale $$LOC --no-translator -i $(FRAMEWORK_TRANSLATION_PATH)/messages.pot -o $(FRAMEWORK_TRANSLATION_PATH)/$$LOC.po > /dev/null 2>&1; \
+	  else \
+	    echo "      - Merging translation file..."; \
+	    msgmerge --update -q $(FRAMEWORK_TRANSLATION_PATH)/$$LOC.po $(FRAMEWORK_TRANSLATION_PATH)/messages.pot; \
+	  fi; \
+	  echo "      - Generating catalog..."; \
+	  mkdir -p $(FRAMEWORK_TRANSLATION_PATH); \
 	  $(CMD_MSGFMT) \
 	    -n $(FRAMEWORK_TRANSLATION_CLASS_NAMESPACE) \
 	    -d $(FRAMEWORK_TRANSLATION_CLASS_PATH) \
@@ -207,7 +208,7 @@ exec-application-translation:
 	@echo
 	@echo "  PREPARING APPLICATION TRANSLATION"
 	@$(CMD_LINE)
-	@echo -n "  * Processing source code..."
+	@echo "  * Processing source code..."
 
 	@which xgettext > /dev/null 2>&1 || (echo "    - Please install gettext tools (xgettext)" && exit 1)
 	@which msginit > /dev/null 2>&1 || (echo "    - Please install gettext tools (msginit)" && exit 1)
@@ -217,28 +218,28 @@ exec-application-translation:
 	@mkdir -p $(APPLICATION_TRANSLATION_CLASS_PATH)
 
 	@rm -f $(APPLICATION_TRANSLATION_PATH)/messages.pot
-	@xgettext --language=Java --from-code=UTF-8 \
-    -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 \
-    -kManager.trc -kManager.tr -kManager.marktr -kManager.trn:1,2 \
-    --sort-by-file --add-comments=TRANSLATION \
-    -o $(APPLICATION_TRANSLATION_PATH)/messages.pot \
-    `find $(APPLICATION_SOURCE_PATH)/$(APPLICATION_CLASS_FOLDERNAME) -name "*.js"` 2> /dev/null || exit 1
-
-	@echo ""
-	@echo "    - Found `grep msgid $(APPLICATION_TRANSLATION_PATH)/messages.pot | wc -l` messages"
+	@touch $(APPLICATION_TRANSLATION_PATH)/messages.pot
+	@for file in `find $(APPLICATION_SOURCE_PATH)/$(APPLICATION_CLASS_FOLDERNAME) -name "*.js"`; do \
+	  LC_ALL=C xgettext --language=Java --from-code=UTF-8 \
+	  -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 \
+	  -kManager.trc -kManager.tr -kManager.marktr -kManager.trn:1,2 \
+	  --sort-by-file --add-comments=TRANSLATION \
+	  -o $(APPLICATION_TRANSLATION_PATH)/messages.pot \
+	  `find $(APPLICATION_SOURCE_PATH)/$(APPLICATION_CLASS_FOLDERNAME) -name "*.js"` 2>&1 | grep -v warning; \
+	  break; done
 
 	@echo "  * Processing translations..."
 	@for LOC in $(APPLICATION_LOCALES); do \
-		echo "    - Translation: $$LOC"; \
-		if [ ! -r $(APPLICATION_TRANSLATION_PATH)/$$LOC.po ]; then \
-  		echo "      - Generating initial translation file..."; \
-		  msginit --locale $$LOC --no-translator -i $(APPLICATION_TRANSLATION_PATH)/messages.pot -o $(APPLICATION_TRANSLATION_PATH)/$$LOC.po > /dev/null 2>&1; \
-		else \
-	  	echo "      - Merging translation file..."; \
-		  msgmerge --update -q $(APPLICATION_TRANSLATION_PATH)/$$LOC.po $(APPLICATION_TRANSLATION_PATH)/messages.pot; \
-		fi; \
-    echo "      - Generating catalog..."; \
-    mkdir -p $(APPLICATION_TRANSLATION_PATH); \
+	  echo "    - Translation: $$LOC"; \
+	  if [ ! -r $(APPLICATION_TRANSLATION_PATH)/$$LOC.po ]; then \
+  	    echo "      - Generating initial translation file..."; \
+	    msginit --locale $$LOC --no-translator -i $(APPLICATION_TRANSLATION_PATH)/messages.pot -o $(APPLICATION_TRANSLATION_PATH)/$$LOC.po > /dev/null 2>&1; \
+	  else \
+	    echo "      - Merging translation file..."; \
+	    msgmerge --update -q $(APPLICATION_TRANSLATION_PATH)/$$LOC.po $(APPLICATION_TRANSLATION_PATH)/messages.pot; \
+	  fi; \
+	  echo "      - Generating catalog..."; \
+	  mkdir -p $(APPLICATION_TRANSLATION_PATH); \
 	  $(CMD_MSGFMT) \
 	    -n $(APPLICATION_TRANSLATION_CLASS_NAMESPACE) \
 	    -d $(APPLICATION_TRANSLATION_CLASS_PATH) \
