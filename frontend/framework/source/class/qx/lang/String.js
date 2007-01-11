@@ -247,17 +247,6 @@ qx.Class.contains = function(str, substring) {
 
 
 /**
- * Escapes all chars that have a special meaning in regular expressions
- *
- * @param str {String} the string where to escape the chars.
- * @return {String} the string with the escaped chars.
- */
-qx.Class.escapeRegexpChars = function(str) {
-  return str.replace(/([\\\.\(\)\[\]\{\}\^\$\?\+\*])/g, "\\$1");
-};
-
-
-/**
  * Print a list of arguments using a format string
  * In the format string occurences of %n are replaced by the n'th element of the args list.
  * Example:

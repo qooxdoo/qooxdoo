@@ -411,7 +411,7 @@ qx.Proto._initParseFeed = function() {
     var currAtom = this._formatTree[atomIdx];
 
     if (currAtom.type == "literal") {
-      pattern += qx.lang.String.escapeRegexpChars(currAtom.text);
+      pattern += qx.util.StringEscape.escapeRegexpChars(currAtom.text);
     } else {
       // This is a wildcard
       var wildcardChar = currAtom.character;

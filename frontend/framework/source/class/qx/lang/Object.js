@@ -197,3 +197,21 @@ qx.Class.merge = function(vObjectA, varargs)
 qx.Class.copy = function(vObject) {
   return qx.lang.Object.mergeWith({}, vObject);
 };
+
+
+/**
+ * Inverts a Map by exchanging the keys with the values.
+ * If the map has the same values for different keys, information will get lost.
+ * The values will be converted to Strings using the toString methos.
+ * 
+ * @param vObject {Object} Map to invert
+ * @return {Object} inverted Map
+ */
+qx.Class.invert = function(vObject) {
+  var result = {};
+  for (var key in vObject) {
+    var value = vObject[key].toString();
+    result[value] = key;
+  }
+  return result;
+}
