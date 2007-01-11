@@ -165,7 +165,7 @@ exec-framework-translation:
 	@echo
 	@echo "  PREPARING FRAMEWORK TRANSLATION"
 	@$(CMD_LINE)
-	@echo -n "  * Processing source code: "
+	@echo -n "  * Processing source code..."
 	@which xgettext > /dev/null 2>&1 || (echo "    - Please install gettext tools (xgettext)" && exit 1)
 	@which msginit > /dev/null 2>&1 || (echo "    - Please install gettext tools (msginit)" && exit 1)
 	@which msgmerge > /dev/null 2>&1 || (echo "    - Please install gettext tools (msgmerge)" && exit 1)
@@ -173,19 +173,13 @@ exec-framework-translation:
 	@mkdir -p $(FRAMEWORK_TRANSLATION_PATH)
 	@mkdir -p $(FRAMEWORK_TRANSLATION_CLASS_PATH)
 
-	@if [ ! -r $(FRAMEWORK_TRANSLATION_PATH)/messages.pot ]; then \
-		touch -t 197001010000 $(FRAMEWORK_TRANSLATION_PATH)/messages.pot; \
-	fi;
-
-	@for FILE in `find $(FRAMEWORK_SOURCE_PATH)/$(FRAMEWORK_CLASS_FOLDERNAME) -newer $(FRAMEWORK_TRANSLATION_PATH)/messages.pot -name "*.js"`; do \
-	  xgettext --language=Java --from-code=UTF-8 \
-	    -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 \
-	    -kManager.trc -kManager.tr -kManager.marktr -kManager.trn:1,2 \
-	    --sort-by-file \
-	    --add-comments=TRANSLATION \
-	    -j -o $(FRAMEWORK_TRANSLATION_PATH)/messages.pot $$FILE 2> /dev/null; \
-	  echo -n "."; \
-	done;
+	@rm -f $(FRAMEWORK_TRANSLATION_PATH)/messages.pot
+	@xgettext --language=Java --from-code=UTF-8 \
+    -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 \
+    -kManager.trc -kManager.tr -kManager.marktr -kManager.trn:1,2 \
+    --sort-by-file --add-comments=TRANSLATION \
+    -o $(FRAMEWORK_TRANSLATION_PATH)/messages.pot \
+    `find $(FRAMEWORK_SOURCE_PATH)/$(FRAMEWORK_CLASS_FOLDERNAME) -name "*.js"` 2> /dev/null || exit 1
 
 	@echo ""
 	@echo "    - Found `grep msgid $(FRAMEWORK_TRANSLATION_PATH)/messages.pot | wc -l` messages"
@@ -213,7 +207,7 @@ exec-application-translation:
 	@echo
 	@echo "  PREPARING APPLICATION TRANSLATION"
 	@$(CMD_LINE)
-	@echo -n "  * Processing source code: "
+	@echo -n "  * Processing source code..."
 
 	@which xgettext > /dev/null 2>&1 || (echo "    - Please install gettext tools (xgettext)" && exit 1)
 	@which msginit > /dev/null 2>&1 || (echo "    - Please install gettext tools (msginit)" && exit 1)
@@ -222,17 +216,13 @@ exec-application-translation:
 	@mkdir -p $(APPLICATION_TRANSLATION_PATH)
 	@mkdir -p $(APPLICATION_TRANSLATION_CLASS_PATH)
 
-	@if [ ! -r $(APPLICATION_TRANSLATION_PATH)/messages.pot ]; then \
-		touch -t 197001010000 $(APPLICATION_TRANSLATION_PATH)/messages.pot; \
-	fi;
-
-	@for FILE in `find $(APPLICATION_SOURCE_PATH)/$(APPLICATION_CLASS_FOLDERNAME) -newer $(APPLICATION_TRANSLATION_PATH)/messages.pot -name "*.js"`; do \
-	  xgettext --language=Java --from-code=UTF-8 \
-	    -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 \
-	    -kManager.trc -kManager.tr -kManager.marktr -kManager.trn:1,2 \
-	    -j -o $(APPLICATION_TRANSLATION_PATH)/messages.pot $$FILE 2> /dev/null; \
-	  echo -n "."; \
-	done;
+	@rm -f $(APPLICATION_TRANSLATION_PATH)/messages.pot
+	@xgettext --language=Java --from-code=UTF-8 \
+    -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 \
+    -kManager.trc -kManager.tr -kManager.marktr -kManager.trn:1,2 \
+    --sort-by-file --add-comments=TRANSLATION \
+    -o $(APPLICATION_TRANSLATION_PATH)/messages.pot \
+    `find $(APPLICATION_SOURCE_PATH)/$(APPLICATION_CLASS_FOLDERNAME) -name "*.js"` 2> /dev/null || exit 1
 
 	@echo ""
 	@echo "    - Found `grep msgid $(APPLICATION_TRANSLATION_PATH)/messages.pot | wc -l` messages"
