@@ -82,102 +82,13 @@ qx.io.remote.XmlHttpTransport.requestObjectCount = 0;
 
 qx.io.remote.XmlHttpTransport.isSupported = function()
 {
-  if (window.XMLHttpRequest)
-  {
-    if (qx.Settings.getValueOfClass("qx.io.remote.Exchange",
-                                    "enableDebug")) {
-      qx.dev.log.Logger.getClassLogger(qx.io.remote.XmlHttpTransport).debug(
-          "Using XMLHttpRequest");
-    }
+  qx.io.remote.XmlHttpTransport._requestObject = qx.xml.Core.createXmlHttpRequest();
+  return qx.io.remote.XmlHttpTransport._requestObject != null ? true : false;
+};
 
-    qx.io.remote.XmlHttpTransport.createRequestObject =
-      qx.io.remote.XmlHttpTransport._createNativeRequestObject;
-    return true;
-  }
-
-  if (window.ActiveXObject)
-  {
-    /*
-     According to information on the Microsoft XML Team's WebLog
-     it is recommended to check for availability of MSXML versions 6.0 and 3.0.
-     Other versions are included for completeness, 5.0 is excluded as it is
-     "off-by-default" in IE7 (which could trigger a goldbar).
-
-     http://blogs.msdn.com/xmlteam/archive/2006/10/23/using-the-right-version-of-msxml-in-internet-explorer.aspx
-     http://msdn.microsoft.com/library/default.asp?url=/library/en-us/xmlsdk/html/aabe29a2-bad2-4cea-8387-314174252a74.asp
-
-     See similar code in qx.xml.Core, qx.lang.XmlEmu
-
-     msxml3 is preferred over msxml6 because the IE7 native XMLHttpRequest returns a msxml3 document
-     and does not work with other xml documents.
-    */
-    var vServers =
-    [
-      "MSXML2.XMLHTTP.3.0",
-      "MSXML2.XMLHTTP.6.0",
-      "MSXML2.XMLHTTP.4.0",
-      "MSXML2.XMLHTTP",    // v3.0
-      "Microsoft.XMLHTTP"  // v2.x
-    ];
-
-    var vObject;
-    var vServer;
-
-    for (var i=0, l=vServers.length; i<l; i++)
-    {
-      vServer = vServers[i];
-
-      try
-      {
-        vObject = new ActiveXObject(vServer);
-        break;
-      }
-      catch(ex)
-      {
-        vObject = null;
-      }
-    }
-
-    if (vObject)
-    {
-      if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug")) {
-        qx.dev.log.Logger.getClassLogger(qx.io.remote.XmlHttpTransport).debug(
-            "Using ActiveXObject: " + vServer);
-      }
-
-      qx.io.remote.XmlHttpTransport._activeXServer = vServer;
-      qx.io.remote.XmlHttpTransport.createRequestObject = qx.io.remote.XmlHttpTransport._createActiveXRequestObject;
-
-      return true;
-    }
-  }
-
-  return false;
-}
-
-/*!
-  Return a new request object suitable for the client browser.
-
-  qx.io.remote.XmlHttpTransport's isSupported method scans which request object
-  to use. The createRequestObject method is then replaced with a
-  method that creates request suitable for the client browser. If the
-  client browser doesn't support XMLHTTP requests, the method isn't
-  replaced and the error "XMLHTTP is not supported!" is thrown.
-*/
 qx.io.remote.XmlHttpTransport.createRequestObject = function() {
-  throw new Error("XMLHTTP is not supported!");
+  return qx.io.remote.XmlHttpTransport._requestObject;
 }
-
-qx.io.remote.XmlHttpTransport._createNativeRequestObject = function() {
-   return new XMLHttpRequest;
-}
-
-qx.io.remote.XmlHttpTransport._createActiveXRequestObject = function() {
-  return new ActiveXObject(qx.io.remote.XmlHttpTransport._activeXServer);
-}
-
-
-
 
 
 

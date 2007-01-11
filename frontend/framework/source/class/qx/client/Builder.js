@@ -89,8 +89,7 @@ qx.Proto.build = function(parent, node) {
 
     // parse strings in to XML DOM
     if (typeof node == "string") {
-      var parser = new DOMParser();
-      node = parser.parseFromString(node, "text/xml");
+      node = qx.xml.Core.parse(node);
       // TODO handle parse errors
     }
     this._buildNodes(parent, node.childNodes);
