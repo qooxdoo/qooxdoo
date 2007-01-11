@@ -24,10 +24,10 @@
 ************************************************************************ */
 
 /**
- * A multi-prupose widget used by many more complex widgets.
+ * A multi-purpose widget used by many more complex widgets.
  *
  * The intended purpose of qx.ui.basic.Atom is to easily align the common icon-text combination in different ways.
- * This is useful for all types of buttons, menuentires, tooltips, ...
+ * This is useful for all types of buttons, menuentries, tooltips, ...
  *
  * @param vLabel {String} label of the atom
  * @param vIcon {String?null} Icon of the atom
