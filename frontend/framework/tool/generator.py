@@ -261,7 +261,11 @@ def argparser(cmdlineargs):
         combinedargs.extend(fileargs[filearg])
 
         options = getparser().parse_args(combinedargs)[0]
-        execute(fileDb, moduleDb, options, filearg, names)
+
+        if options.obfuscateIdentifiers:
+          execute(fileDb, moduleDb, options, filearg, names)
+        else:
+          execute(fileDb, moduleDb, options, filearg)
 
     else:
       options = getparser().parse_args(defaultargs)[0]
@@ -270,7 +274,7 @@ def argparser(cmdlineargs):
       if options.obfuscateIdentifiers:
         execute(fileDb, moduleDb, options, "", obfuscator.sort(findnames(fileDb, moduleDb, options)))
       else:
-        execute(fileDb, moduleDb, options, "", names)
+        execute(fileDb, moduleDb, options, "")
 
   else:
     print
