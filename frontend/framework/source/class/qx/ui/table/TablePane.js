@@ -131,6 +131,8 @@ qx.Proto._onSelectionChanged = function(evt) {
 
 /**
  * Event handler. Called when the table gets or looses the focus.
+ * 
+ * @param evt {Map} the event.
  */
 qx.Proto._onFocusChanged = function(evt) {
   this._updateContent(false, null, true);
@@ -221,6 +223,15 @@ qx.Proto._updateContent = function(completeUpdate, onlyRow,
 }
 
 
+/**
+ * Updates the content of the pane (implemented using array joins).
+ *
+ * @param completeUpdate {Boolean ? false} if true a complete update is performed.
+ *    On a complete update all cell widgets are recreated.
+ * @param onlyRow {Integer ? null} if set only the specified row will be updated.
+ * @param onlySelectionOrFocusChanged {Boolean ? false} if true, cell values won't
+ *        be updated. Only the row background will.
+ */
 qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
   onlySelectionOrFocusChanged)
 {
@@ -339,6 +350,15 @@ qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
 }
 
 
+/**
+ * Updates the content of the pane (old implementation).
+ *
+ * @param completeUpdate {Boolean ? false} if true a complete update is performed.
+ *    On a complete update all cell widgets are recreated.
+ * @param onlyRow {Integer ? null} if set only the specified row will be updated.
+ * @param onlySelectionOrFocusChanged {Boolean ? false} if true, cell values won't
+ *        be updated. Only the row background will.
+ */
 qx.Proto._updateContent_orig = function(completeUpdate, onlyRow,
   onlySelectionOrFocusChanged)
 {

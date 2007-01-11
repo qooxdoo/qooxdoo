@@ -114,6 +114,7 @@ qx.Proto._createContentHtml_array_join = function(cellInfo, htmlArr) {
 qx.Class.MAIN_DIV_START = '<div style="';
 qx.Class.MAIN_DIV_START_END = '">';
 qx.Class.MAIN_DIV_END = '</div>';
+/** main style */
 qx.Class.MAIN_DIV_STYLE = ';overflow:hidden;white-space:nowrap;border-right:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding-left:2px;padding-right:2px;cursor:default'
   + (qx.sys.Client.getInstance().isMshtml() ? '' : ';-moz-user-select:none;');
 
