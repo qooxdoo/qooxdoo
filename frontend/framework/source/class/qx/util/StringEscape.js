@@ -21,8 +21,13 @@
 
 ************************************************************************ */
 
+/**
+ * A Collection of utility functions to escape and unescape strings.
+ */
 qx.OO.defineClass("qx.util.StringEscape");
 
+
+/** Mapping of XML entity names to the corresponding char code */
 qx.Class.XML_ENTITIES_TO_CHARCODE = {
   "quot": 34, // " - double-quote
   "amp": 38, // & 
@@ -31,6 +36,12 @@ qx.Class.XML_ENTITIES_TO_CHARCODE = {
   "apos": 39 // XML apostrophe
 };
 
+
+/** Mapping of char codes to XML entity names */
+qx.Class.XML_CHARCODE_TO_ENTITIES = qx.lang.Object.invert(qx.Class.XML_ENTITIES_TO_CHARCODE);
+
+
+/** Mapping of HTML entity names to the corresponding char code */
 qx.Class.HTML_ENTITIES_TO_CHARCODE = {
   "quot": 34, // " - double-quote
   "amp": 38, // & 
@@ -319,6 +330,10 @@ qx.Class.HTML_ENTITIES_TO_CHARCODE = {
 };
 
 
+/** Mapping of char codes to HTML entity names */
+qx.Class.HTML_CHARCODE_TO_ENTITIES = qx.lang.Object.invert(qx.Class.HTML_ENTITIES_TO_CHARCODE);
+
+
 /**
  * generic escaping method
  * 
@@ -380,8 +395,6 @@ qx.Class._unescape = function(str, entitiesToCharCode) {
 };
 
 
-qx.Class.HTML_CHARCODE_TO_ENTITIES = qx.lang.Object.invert(qx.Class.HTML_ENTITIES_TO_CHARCODE);
-
 /**
  * Escapes the characters in a <code>String</code> using HTML entities.
  *
@@ -430,8 +443,6 @@ qx.Class.unescapeHtml = function(str) {
   );
 };
 
-
-qx.Class.XML_CHARCODE_TO_ENTITIES = qx.lang.Object.invert(qx.Class.XML_ENTITIES_TO_CHARCODE);
 
 /**
  * Escapes the characters in a <code>String</code> using XML entities.
