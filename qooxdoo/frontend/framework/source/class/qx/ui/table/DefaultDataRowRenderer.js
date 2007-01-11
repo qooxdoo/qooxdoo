@@ -39,8 +39,10 @@ qx.OO.addProperty({ name:"highlightFocusRow", type:"boolean", allowNull:false, d
  */
 qx.OO.addProperty({ name:"visualizeFocusedState", type:"boolean", allowNull:false, defaultValue:true});
 
+/** The font family used for the data row*/
 qx.OO.addProperty({ name:"fontFamily", type:"string", allowNull:false, defaultValue:"'Segoe UI', Corbel, Calibri, Tahoma, 'Lucida Sans Unicode', sans-serif" });
 
+/** Fomt size of the data row */
 qx.OO.addProperty({ name:"fontSize", type:"string", allowNull:false, defaultValue:"11px" });
 
 

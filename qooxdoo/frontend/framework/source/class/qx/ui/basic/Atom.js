@@ -23,12 +23,18 @@
 
 ************************************************************************ */
 
-/*!
-  A multi-prupose widget used by many more complex widgets.
-
-  The intended purpose of qx.ui.basic.Atom is to easily align the common icon-text combination in different ways.
-  This is useful for all types of buttons, menuentires, tooltips, ...
-*/
+/**
+ * A multi-prupose widget used by many more complex widgets.
+ *
+ * The intended purpose of qx.ui.basic.Atom is to easily align the common icon-text combination in different ways.
+ * This is useful for all types of buttons, menuentires, tooltips, ...
+ *
+ * @param vLabel {String} label of the atom
+ * @param vIcon {String?null} Icon of the atom
+ * @param vIconWidth {Integer?null} desired width of the icon (the icon will be scaled to this size)
+ * @param vIconHeight {Integer?null} desired height of the icon (the icon will be scaled to this size)
+ * @param vFlash {qx.ui.embed.Flash?null} optional flash animation for the Atom. Needs valid width and height values.
+ */
 qx.OO.defineClass("qx.ui.basic.Atom", qx.ui.layout.BoxLayout,
 function(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)
 {
