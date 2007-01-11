@@ -26,13 +26,22 @@
 
 ************************************************************************ */
 
-/*!
-  This class is used to send HTTP requests to the server.
-  @param vUrl Target url to issue the request to.
-  @param vMethod Determines what type of request to issue (GET or
-  POST). Default is GET.
-  @param vResponseType The mime type of the response. Default is text/plain.
-*/
+/**
+ * This class is used to send HTTP requests to the server.
+ *
+ * @event created {qx.event.type.Event}
+ * @event configured {qx.event.type.Event}
+ * @event sending {qx.event.type.Event}
+ * @event receiving {qx.event.type.Event}
+ * @event completed {qx.event.type.Event}
+ * @event failed {qx.event.type.Event}
+ * @event aborted {qx.event.type.Event}
+ * @event timeout {qx.event.type.Event}
+ *
+ * @param vUrl {String} Target url to issue the request to.
+ * @param vMethod {String} Determines that type of request to issue (GET or POST). Default is GET.
+ * @param vResponseType {String} The mime type of the response. Default is text/plain {@link qx.util.Mime}.
+ */
 qx.OO.defineClass("qx.io.remote.Request", qx.core.Target,
 function(vUrl, vMethod, vResponseType)
 {
