@@ -1182,7 +1182,7 @@ qx.Proto._createConstantValueHtml = function(node, fromClassNode) {
   if (this._hasConstantValueHtml(node)) {
       return (
         ClassViewer.DIV_START_DETAIL_HEADLINE + "Value: " + ClassViewer.DIV_END +
-        ClassViewer.DIV_START_DETAIL_TEXT + qx.lang.String.escapeHtml(qx.io.Json.stringify(node.attributes.value)) + ClassViewer.DIV_END
+        ClassViewer.DIV_START_DETAIL_TEXT + qx.util.StringEscape.escapeHtml(qx.io.Json.stringify(node.attributes.value)) + ClassViewer.DIV_END
       );
   } else {
     return "";

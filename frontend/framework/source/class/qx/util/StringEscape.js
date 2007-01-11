@@ -331,21 +331,20 @@ qx.Class.HTML_ENTITIES_TO_CHARCODE = {
  * generic escaping method
  * 
  * @param str {String} string to escape
- * @param re {RegExp} regular expression
  * @param charcodeToEntities {Map} entity to charcode map
  */
 qx.Class._escape = function(str, charcodeToEntities) {
   var result = [];
   for (var i=0; i<str.length; i++) {
-    var char = str[i];
-    var code = char.charCodeAt(0)
+    var chr = str.charAt(i);
+    var code = chr.charCodeAt(0)
     if (charcodeToEntities[code]) {
         var entity = "&" + charcodeToEntities[code] + ";";        
     } else {
       if (code > 0x7F) {
         entity = "&#" + code + ";";
       } else {
-        entity = char;
+        entity = chr;
       }
     }
     result.push(entity);
@@ -354,22 +353,28 @@ qx.Class._escape = function(str, charcodeToEntities) {
 };
 
 
+/**
+ * generic unescaping method
+ * 
+ * @param str {String} string to unescape
+ * @param entitiesToCharCode {Map} charcode to entity map
+ */
 qx.Class._unescape = function(str, entitiesToCharCode) {
-  return str.replace(/&.+?;/gi, function(entity) {
-    var char = entity;
+  return str.replace(/&[#\w]+;/gi, function(entity) {
+    var chr = entity;
     var entity = entity.substring(1, entity.length-1);
     var code = entitiesToCharCode[entity];
     if (code) {
-      char = String.fromCharCode(code);
+      chr = String.fromCharCode(code);
     } else {
-      if (entity[0] == '#') {
+      if (entity.charAt(0) == '#') {
         var code = entity.substring(1);
         if (parseInt(code) == code) {
-          char = String.fromCharCode(parseInt(code));
+          chr = String.fromCharCode(parseInt(code));
         }
       }
     }
-    return char;
+    return chr;
   });
 };
 
@@ -388,6 +393,8 @@ qx.Class.HTML_CHARCODE_TO_ENTITIES = qx.lang.Object.invert(qx.Class.HTML_ENTITIE
  * * <a href="http://www.w3.org/TR/html401/charset.html#h-5.3">HTML 4.01 Character References</a>
  * * <a href="http://www.w3.org/TR/html401/charset.html#code-position">HTML 4.01 Code positions</a>
  * 
+ * @see #unescapeHtml
+ * 
  * @param str {String} the String to escape
  * @return {String} a new escaped String
  */
@@ -399,6 +406,23 @@ qx.Class.escapeHtml = function(str) {
 };
 
 
+/**
+ * Unescapes a string containing entity escapes to a string
+ * containing the actual Unicode characters corresponding to the
+ * escapes. Supports HTML 4.0 entities.
+ *
+ * For example, the string "&amp;lt;Fran&amp;ccedil;ais&amp;gt;"
+ * will become "&lt;Fran&ccedil;ais&gt;"
+ *
+ * If an entity is unrecognized, it is left alone, and inserted
+ * verbatim into the result string. e.g. "&amp;gt;&amp;zzzz;x" will
+ * become "&gt;&amp;zzzz;x".
+ * 
+ * @see #escapeHtml
+ *
+ * @param str {String} the String to unescape, may be null
+ * @return a new unescaped String
+ */
 qx.Class.unescapeHtml = function(str) {
   return qx.util.StringEscape._unescape(
     str,
@@ -418,6 +442,8 @@ qx.Class.XML_CHARCODE_TO_ENTITIES = qx.lang.Object.invert(qx.Class.XML_ENTITIES_
  * Supports only the four basic XML entities (gt, lt, quot, amp).
  * Does not support DTDs or external entities.
  * Note that unicode characters greater than 0x7f are currently escaped to their numerical \\u equivalent. 
+ * 
+ * @see #unescapeXml
  *
  * @param str {String} the String to escape
  * @return {String} a new escaped String
@@ -430,6 +456,19 @@ qx.Class.escapeXml = function(str) {
 };
 
 
+/**
+ * Unescapes a string containing XML entity escapes to a string
+ * containing the actual Unicode characters corresponding to the
+ * escapes.
+ *
+ * Supports only the four basic XML entities (gt, lt, quot, amp).
+ * Does not support DTDs or external entities.
+ *
+ * @see #escapeXml
+ *
+ * @param str {String} the String to unescape
+ * @return {String} a new unescaped String
+ */
 qx.Class.unescapeXml = function(str) {
   return qx.util.StringEscape._unescape(
     str,
