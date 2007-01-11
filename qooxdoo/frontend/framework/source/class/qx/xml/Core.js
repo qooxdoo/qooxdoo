@@ -13,6 +13,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
+     * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
 
@@ -21,23 +22,35 @@
 
 ************************************************************************ */
 
+/**
+ * Core XML functionality
+ * 
+ * Tested with IE6, Firefox 2.0, WebKit and Opera 9 
+ * 
+ * http://msdn.microsoft.com/library/default.asp?url=/library/en-us/xmlsdk/html/81f3de54-3b79-46dc-8e01-73ca2d94cdb5.asp
+ * http://developer.mozilla.org/en/docs/Parsing_and_serializing_XML
+ */
 qx.OO.defineClass("qx.xml.Core");
 
 /**
- * Create a XML document
+ * Create an XML document
  * http://www.w3.org/TR/DOM-Level-2-Core/core.html#i-Document
  *
  * @return {Document} empty XML document
  */
-qx.xml.Core.createXmlDom = function()
+qx.xml.Core.createXmlDom = function() {};
+
+if (document.implementation && document.implementation.createDocument) // The Mozilla style
 {
-  // The Mozilla style
-  if (document.implementation && document.implementation.createDocument) {
+  qx.xml.Core.createXmlDom = function()
+  {
     return document.implementation.createDocument("", "", null);
   }
-
-  // The Microsoft style
-  if (window.ActiveXObject) {
+}
+else if (qx.sys.Client.getInstance().isMshtml())   // The Microsoft style
+{
+  qx.xml.Core.createXmlDom = function()
+  {
     /*
      According to information on the Microsoft XML Team's WebLog
      it is recommended to check for availability of MSXML versions 6.0 and 3.0.
@@ -74,12 +87,14 @@ qx.xml.Core.createXmlDom = function()
         vObject = null;
       }
     }
-
     return vObject;
-  }
-
+  };
+}
+else 
+{
   throw new Error("This browser does not support xml dom creation.");
-};
+}
+
 
 
 /**
@@ -100,3 +115,118 @@ qx.xml.Core.createXmlDom = function()
   }
   return text;
 };
+
+
+/**
+ * Check whether an object is a Document instance
+ * 
+ * @param obj {Object} object to check
+ * @return {Boolean} whether the object is a Document instance
+ */
+qx.xml.Core.isDocument = function(obj) {
+  // TODO: better check needed here
+  return (typeof(obj.createElement) != "undefined");
+};
+
+
+/**
+ * The subtree rooted by the specified element or document is serialized to a string.
+ * 
+ * @param element {Element|Document} The root of the subtree to be serialized. This could be any node, including a Document. 
+ * @return {String}
+ */
+qx.xml.Core.serialize = function(element) {}
+
+if (window.XMLSerializer) {
+  qx.xml.Core.serialize = function(element) {
+    var element = qx.xml.Core.isDocument(element) ? element.documentElement : element; 
+    return (new XMLSerializer()).serializeToString(element);
+  }
+}
+else
+{
+  qx.xml.Core.serialize = function(element) {
+    var element = qx.xml.Core.isDocument(element) ? element.documentElement : element; 
+    return element.xml || element.outerHTML;
+  }  
+}
+
+
+/**
+ * The string passed in is parsed into a DOM document.
+ * 
+ * @param str {String} the string to be parsed
+ * @return {Document}
+ */
+qx.xml.Core.parse = function(str) {};
+
+if (window.DOMParser)
+{
+  qx.xml.Core.parse = function(str) {
+    var dom = (new DOMParser()).parseFromString(str, "text/xml");
+    return dom;
+  };  
+}
+else if (qx.sys.Client.getInstance().isMshtml())   // The Microsoft style
+{
+  qx.xml.Core.parse = function(str) {
+    var dom = qx.xml.Core.createXmlDom();
+    dom.loadXML(str);
+    return dom;
+  }; 
+}
+
+
+/**
+ * Selects the first XmlNode that matches the XPath expression.
+ * 
+ * @param element {Element|Document} root element for the search
+ * @param query {String}  XPath query
+ * @return {Element} first matching element
+ */
+ qx.xml.Core.selectSingleNode = function(element, query) {};
+ 
+if (window.XPathEvaluator) 
+{
+  qx.xml.Core.selectSingleNode = function(element, query) {
+    var xpe = new XPathEvaluator();
+    return xpe.evaluate(query, element, xpe.createNSResolver(element), XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+  };
+}
+else if(qx.sys.Client.getInstance().isMshtml() || document.selectSingleNode) // IE and Opera
+{
+  qx.xml.Core.selectSingleNode = function(element, query) {
+    return element.selectSingleNode(query);
+  };
+}
+
+
+/**
+ * Selects a list of nodes matching the XPath expression.
+ * 
+ * @param element {Element|Document} root element for the search
+ * @param query {String}  XPath query
+ * @return {Element[]} List of matching elements
+ */
+ qx.xml.Core.selectNodes = function(element, query) {};
+ 
+if (window.XPathEvaluator) 
+{
+  qx.xml.Core.selectNodes = function(element, query) {
+    var xpe = new XPathEvaluator();
+    var result = xpe.evaluate(query, element, qx.lang.XmlEmu._xpe.createNSResolver(element), XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+    var nodes = [];
+  
+    for (var i=0; i<result.snapshotLength; i++) {
+      nodes[i] = result.snapshotItem(i);
+    }
+  
+    return nodes;
+  };
+}
+else if(qx.sys.Client.getInstance().isMshtml() || document.selectNodes) // IE and Opera
+{
+  qx.xml.Core.selectNodes = function(element, query) {
+    return element.selectNodes(query);
+  };
+}
