@@ -5,7 +5,7 @@
 ###########################################################################
 
 class-path = framework/source/class
-cache-directory = .cache
+cache-directory = framework/.cache
 generate-compiled-script
 optimize-strings
 
