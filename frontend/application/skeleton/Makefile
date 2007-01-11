@@ -49,7 +49,8 @@ APPLICATION_FILES = index.html
 
 #
 # Locales to build (space separated list)
-# Example: APPLICATION_LOCALES = en_US de_DE es
+# To set a specific locale like "en_US" the generic locale "en" has to be added as well
+# Example: APPLICATION_LOCALES = en en_US de de_DE es
 #
 APPLICATION_LOCALES =
 
