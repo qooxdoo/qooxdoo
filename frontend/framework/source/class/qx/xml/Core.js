@@ -60,7 +60,6 @@ else if (qx.sys.Client.getInstance().isMshtml())   // The Microsoft style
      http://blogs.msdn.com/xmlteam/archive/2006/10/23/using-the-right-version-of-msxml-in-internet-explorer.aspx
      http://msdn.microsoft.com/library/default.asp?url=/library/en-us/xmlsdk/html/aabe29a2-bad2-4cea-8387-314174252a74.asp
 
-     See similar code in qx.lang.XmlEmu, qx.io.remote.XmlHttpTransport
     */
     var vServers =
     [
@@ -276,7 +275,7 @@ if (window.XPathEvaluator)
 {
   qx.xml.Core.selectNodes = function(element, query) {
     var xpe = new XPathEvaluator();
-    var result = xpe.evaluate(query, element, qx.lang.XmlEmu._xpe.createNSResolver(element), XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+    var result = xpe.evaluate(query, element, xpe.createNSResolver(element), XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
     var nodes = [];
   
     for (var i=0; i<result.snapshotLength; i++) {
