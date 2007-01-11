@@ -25,6 +25,9 @@
 qx.OO.defineClass("qx.lang.Core");
 
 
+
+
+
 /*
 ---------------------------------------------------------------------------
   ADDITIONS FOR NATIVE ERROR OBJECT
@@ -38,53 +41,6 @@ if (!Error.prototype.toString)
   }
 }
 
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  ADDITIONS FOR NATIVE FUNCTION OBJECT
----------------------------------------------------------------------------
-*/
-
-/**
- * function apply for browsers that do not support it natively, e.g. IE 5.0
- * <p>
- * Based on code from youngpup.net licensed under
- * Creative Commons Attribution 2.0
- * </p>
- */
-if (!Function.prototype.apply)
-{
-  Function.prototype.apply = function(oScope, args)
-  {
-    var sarg = [];
-    var rtrn, call;
-
-    if (!oScope) {
-      oScope = window;
-    }
-
-    if (!args) {
-      args = [];
-    }
-
-    for (var i = 0; i < args.length; i++) {
-      sarg[i] = "args["+i+"]";
-    }
-
-    call = "oScope._applyTemp_(" + sarg.join(",") + ");";
-
-    oScope._applyTemp_ = this;
-    rtrn = eval(call);
-
-    delete oScope._applyTemp_;
-
-    return rtrn;
-  }
-}
 
 
 
