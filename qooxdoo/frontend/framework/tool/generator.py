@@ -135,7 +135,7 @@ def argparser(cmdlineargs):
     print "  EXPORTING:"
     print "----------------------------------------------------------------------------"
 
-    print " * Translating options..."
+    print "  * Translating options..."
 
     optionString = "# Exported configuration from build.py\n\n"
     ignoreValue = True
@@ -154,7 +154,7 @@ def argparser(cmdlineargs):
         lastWasKey = True
 
       elif arg.startswith("-"):
-        print "   * Couldn't export short argument: %s" % arg
+        print "     - Could not export short argument: %s" % arg
         optionString += "\n# Ignored short argument %s\n" % arg
         ignoreValue = True
 
@@ -165,7 +165,7 @@ def argparser(cmdlineargs):
 
 
 
-    print " * Export to file: %s" % options.exportToFile
+    print "  * Export to file: %s" % options.exportToFile
     filetool.save(options.exportToFile, optionString)
 
     sys.exit(0)
