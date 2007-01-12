@@ -1217,8 +1217,8 @@ qx.Proto.isMaterialized = function() {
   var el=this._element;
   return (this._initialLayoutDone &&
           this._isDisplayable &&
-          qx.dom.Style.getStyleProperty(el, "display") != "none" &&
-          qx.dom.Style.getStyleProperty(el, "visibility") != "hidden" &&
+          qx.html.Style.getStyleProperty(el, "display") != "none" &&
+          qx.html.Style.getStyleProperty(el, "visibility") != "hidden" &&
           el.offsetWidth > 0 && el.offsetHeight > 0);
 }
 
@@ -4907,7 +4907,7 @@ qx.ui.core.Widget.initOverflow = function()
 
   document.body.appendChild(t);
 
-  var c = qx.dom.Dimension.getScrollBarSizeRight(t);
+  var c = qx.html.Dimension.getScrollBarSizeRight(t);
   if (c) {
     qx.ui.core.Widget.SCROLLBAR_SIZE = c;
   }
@@ -5395,13 +5395,13 @@ qx.Proto.setScrollTop = function(nScrollTop)
 qx.Proto.getOffsetLeft = function()
 {
   this._visualPropertyCheck();
-  return qx.dom.Offset.getLeft(this.getElement());
+  return qx.html.Offset.getLeft(this.getElement());
 }
 
 qx.Proto.getOffsetTop = function()
 {
   this._visualPropertyCheck();
-  return qx.dom.Offset.getTop(this.getElement());
+  return qx.html.Offset.getTop(this.getElement());
 }
 
 qx.Proto.getScrollLeft = function()
@@ -5474,7 +5474,7 @@ qx.Proto.scrollIntoViewX = function(vAlignLeft)
     return false;
   }
 
-  return qx.dom.ScrollIntoView.scrollX(this.getElement(), vAlignLeft);
+  return qx.html.ScrollIntoView.scrollX(this.getElement(), vAlignLeft);
 }
 
 qx.Proto.scrollIntoViewY = function(vAlignTop)
@@ -5483,7 +5483,7 @@ qx.Proto.scrollIntoViewY = function(vAlignTop)
     return false;
   }
 
-  return qx.dom.ScrollIntoView.scrollY(this.getElement(), vAlignTop);
+  return qx.html.ScrollIntoView.scrollY(this.getElement(), vAlignTop);
 }
 
 

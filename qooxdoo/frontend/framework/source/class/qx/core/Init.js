@@ -19,7 +19,7 @@
 /* ************************************************************************
 
 #module(core)
-#require(qx.dom.EventRegistration)
+#require(qx.html.EventRegistration)
 #optional(qx.component.init.InterfaceInitComponent)
 
 ************************************************************************ */
@@ -58,9 +58,9 @@ function()
   this.__onunload = function(e) { return o._onunload(e); }
 
   // Attach events
-  qx.dom.EventRegistration.addEventListener(window, "load", this.__onload);
-  qx.dom.EventRegistration.addEventListener(window, "beforeunload", this.__onbeforeunload);
-  qx.dom.EventRegistration.addEventListener(window, "unload", this.__onunload);
+  qx.html.EventRegistration.addEventListener(window, "load", this.__onload);
+  qx.html.EventRegistration.addEventListener(window, "beforeunload", this.__onbeforeunload);
+  qx.html.EventRegistration.addEventListener(window, "unload", this.__onunload);
 });
 
 
@@ -294,9 +294,9 @@ qx.Proto.dispose = function()
   }
 
   // Detach Events
-  qx.dom.EventRegistration.removeEventListener(window, "load", this.__onload);
-  qx.dom.EventRegistration.removeEventListener(window, "beforeunload", this.__onbeforeunload);
-  qx.dom.EventRegistration.removeEventListener(window, "unload", this.__onunload);
+  qx.html.EventRegistration.removeEventListener(window, "load", this.__onload);
+  qx.html.EventRegistration.removeEventListener(window, "beforeunload", this.__onbeforeunload);
+  qx.html.EventRegistration.removeEventListener(window, "unload", this.__onunload);
 
   // Reset inline functions
   this.__onload = this.__onbeforeunload = this.__onunload = null;

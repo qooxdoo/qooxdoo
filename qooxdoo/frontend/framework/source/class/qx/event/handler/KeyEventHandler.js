@@ -69,9 +69,9 @@ qx.Proto._attachEvents = function()
 {
   var el = qx.sys.Client.getInstance().isGecko() ? window : document.body;
 
-  qx.dom.EventRegistration.addEventListener(el, "keypress", this.__onkeypress);
-  qx.dom.EventRegistration.addEventListener(el, "keyup", this.__onkeyupdown);
-  qx.dom.EventRegistration.addEventListener(el, "keydown", this.__onkeyupdown);
+  qx.html.EventRegistration.addEventListener(el, "keypress", this.__onkeypress);
+  qx.html.EventRegistration.addEventListener(el, "keyup", this.__onkeyupdown);
+  qx.html.EventRegistration.addEventListener(el, "keydown", this.__onkeyupdown);
 };
 
 /** detach the key event handler from the DOM events */
@@ -80,9 +80,9 @@ qx.Proto._detachEvents = function()
   var el = qx.sys.Client.getInstance().isGecko() ? window : document.body;
 
   // Unregister dom events
-  qx.dom.EventRegistration.removeEventListener(el, "keypress", this.__onkeypress);
-  qx.dom.EventRegistration.removeEventListener(el, "keyup", this.__onkeyupdown);
-  qx.dom.EventRegistration.removeEventListener(el, "keydown", this.__onkeyupdown);
+  qx.html.EventRegistration.removeEventListener(el, "keypress", this.__onkeypress);
+  qx.html.EventRegistration.removeEventListener(el, "keyup", this.__onkeyupdown);
+  qx.html.EventRegistration.removeEventListener(el, "keydown", this.__onkeyupdown);
 };
 
 

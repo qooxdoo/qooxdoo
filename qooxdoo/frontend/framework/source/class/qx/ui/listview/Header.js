@@ -96,9 +96,9 @@ qx.Proto._syncResizeLine = function()
 
   var vParent = this.getParent();
   var vLine = vParent.getResizeLine();
-  var vLeft = qx.dom.Location.getPageBoxLeft(this._resizeSeparator.getElement()) - qx.dom.Location.getPageInnerLeft(this.getElement());
-  var vTop = qx.dom.Dimension.getBoxHeight(vParent.getHeader().getElement());
-  var vHeight = qx.dom.Dimension.getBoxHeight(vParent.getElement()) - vTop;
+  var vLeft = qx.html.Location.getPageBoxLeft(this._resizeSeparator.getElement()) - qx.html.Location.getPageInnerLeft(this.getElement());
+  var vTop = qx.html.Dimension.getBoxHeight(vParent.getHeader().getElement());
+  var vHeight = qx.html.Dimension.getBoxHeight(vParent.getElement()) - vTop;
 
   vLine._applyRuntimeTop(vTop);
   vLine._applyRuntimeHeight(vHeight);
@@ -156,8 +156,8 @@ qx.Proto._onmousemove = function(e)
   {
     var vTarget = e.getTarget();
     var vEventPos = e.getPageX();
-    var vTargetPosLeft = qx.dom.Location.getPageBoxLeft(vTarget.getElement());
-    var vTargetPosRight = vTargetPosLeft + qx.dom.Dimension.getBoxWidth(vTarget.getElement());
+    var vTargetPosLeft = qx.html.Location.getPageBoxLeft(vTarget.getElement());
+    var vTargetPosRight = vTargetPosLeft + qx.html.Dimension.getBoxWidth(vTarget.getElement());
 
     var vResizeCursor = false;
     var vResizeSeparator = null;

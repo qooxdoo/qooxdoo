@@ -319,15 +319,15 @@ qx.Proto.getStatusText = function()
 */
 
 qx.Proto.getIframeWindow = function() {
-  return qx.dom.Iframe.getWindow(this._frame);
+  return qx.html.Iframe.getWindow(this._frame);
 }
 
 qx.Proto.getIframeDocument = function() {
-  return qx.dom.Iframe.getDocument(this._frame);
+  return qx.html.Iframe.getDocument(this._frame);
 }
 
 qx.Proto.getIframeBody = function() {
-  return qx.dom.Iframe.getBody(this._frame);
+  return qx.html.Iframe.getBody(this._frame);
 }
 
 

@@ -19,7 +19,7 @@
 /* ************************************************************************
 
 #module(ui_core)
-#require(qx.dom.Style)
+#require(qx.html.Style)
 
 ************************************************************************ */
 
@@ -44,7 +44,7 @@ qx.dom.BODY_TAG_NAME = "body";
  * @param vElement {Element} DOM node to be scrolled into view
  * @param vAlignLeft {Boolean} whether the element should be left aligned
  */
-qx.dom.ScrollIntoView.scrollX = function(vElement, vAlignLeft)
+qx.html.ScrollIntoView.scrollX = function(vElement, vAlignLeft)
 {
   var vParentWidth, vParentScrollLeft, vWidth, vHasScroll;
 
@@ -54,7 +54,7 @@ qx.dom.ScrollIntoView.scrollX = function(vElement, vAlignLeft)
 
   while(vParent)
   {
-    switch(qx.dom.Style.getStyleProperty(vParent, "overflow"))
+    switch(qx.html.Style.getStyleProperty(vParent, "overflow"))
     {
       case "scroll":
       case "auto":
@@ -63,7 +63,7 @@ qx.dom.ScrollIntoView.scrollX = function(vElement, vAlignLeft)
         break;
 
       default:
-        switch(qx.dom.Style.getStyleProperty(vParent, "overflowX"))
+        switch(qx.html.Style.getStyleProperty(vParent, "overflowX"))
         {
           case "scroll":
           case "auto":
@@ -123,7 +123,7 @@ qx.dom.ScrollIntoView.scrollX = function(vElement, vAlignLeft)
  * @param vElement {Element} DOM node to be scrolled into view
  * @param vAlignTop {Boolean} whether the element should be top aligned
  */
-qx.dom.ScrollIntoView.scrollY = function(vElement, vAlignTop)
+qx.html.ScrollIntoView.scrollY = function(vElement, vAlignTop)
 {
   var vParentHeight, vParentScrollTop, vHeight, vHasScroll;
 
@@ -133,7 +133,7 @@ qx.dom.ScrollIntoView.scrollY = function(vElement, vAlignTop)
 
   while(vParent)
   {
-    switch(qx.dom.Style.getStyleProperty(vParent, "overflow"))
+    switch(qx.html.Style.getStyleProperty(vParent, "overflow"))
     {
       case "scroll":
       case "auto":
@@ -142,7 +142,7 @@ qx.dom.ScrollIntoView.scrollY = function(vElement, vAlignTop)
         break;
 
       default:
-        switch(qx.dom.Style.getStyleProperty(vParent, "overflowY"))
+        switch(qx.html.Style.getStyleProperty(vParent, "overflowY"))
         {
           case "scroll":
           case "auto":

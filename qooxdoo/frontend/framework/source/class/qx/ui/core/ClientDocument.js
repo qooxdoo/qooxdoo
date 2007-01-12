@@ -19,7 +19,7 @@
 /* ************************************************************************
 
 #module(ui_core)
-#require(qx.dom.StyleSheet)
+#require(qx.html.StyleSheet)
 #require(qx.event.handler.EventHandler)
 #optional(qx.client.NativeWindow)
 #optional(qx.ui.window.Window)
@@ -272,19 +272,19 @@ qx.Proto.release = function(vActiveChild)
 */
 
 qx.Proto.createStyleElement = function(vCssText) {
-  return qx.dom.StyleSheet.createElement(vCssText);
+  return qx.html.StyleSheet.createElement(vCssText);
 }
 
 qx.Proto.addCssRule = function(vSheet, vSelector, vStyle) {
-  return qx.dom.StyleSheet.addRule(vSheet, vSelector, vStyle);
+  return qx.html.StyleSheet.addRule(vSheet, vSelector, vStyle);
 }
 
 qx.Proto.removeCssRule = function(vSheet, vSelector) {
-  return qx.dom.StyleSheet.removeRule(vSheet, vSelector);
+  return qx.html.StyleSheet.removeRule(vSheet, vSelector);
 }
 
 qx.Proto.removeAllCssRules = function(vSheet) {
-  return qx.dom.StyleSheet.removeAllRules(vSheet);
+  return qx.html.StyleSheet.removeAllRules(vSheet);
 }
 
 
@@ -298,13 +298,13 @@ qx.Proto.removeAllCssRules = function(vSheet) {
 ---------------------------------------------------------------------------
 */
 if (qx.Settings.getValueOfClass("qx.ui.core.ClientDocument", "boxModelCorrection")) {
-  qx.dom.StyleSheet.createElement("html,body{margin:0;border:0;padding:0;}" +
+  qx.html.StyleSheet.createElement("html,body{margin:0;border:0;padding:0;}" +
     " html{border:0 none;} *{" + qx.sys.Client.getInstance().getEngineBoxSizingAttribute() +
     ":border-box;} img{" + qx.sys.Client.getInstance().getEngineBoxSizingAttribute() +
     ":content-box;}");
 }
 if (qx.Settings.getValueOfClass("qx.ui.core.ClientDocument", "enableApplicationLayout")) {
-  qx.dom.StyleSheet.createElement("html,body{width:100%;height:100%;overflow:hidden;}");
+  qx.html.StyleSheet.createElement("html,body{width:100%;height:100%;overflow:hidden;}");
 }
 
 

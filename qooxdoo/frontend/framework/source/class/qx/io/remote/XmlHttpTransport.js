@@ -82,11 +82,11 @@ qx.io.remote.XmlHttpTransport.requestObjectCount = 0;
 
 qx.io.remote.XmlHttpTransport.isSupported = function()
 {
-  return qx.xml.Core.createXmlHttpRequest() != null ? true : false;
+  return qx.net.HttpRequest.create() != null ? true : false;
 };
 
 qx.io.remote.XmlHttpTransport.createRequestObject = function() {
-  return qx.xml.Core.createXmlHttpRequest();
+  return qx.net.HttpRequest.create();
 }
 
 
@@ -226,9 +226,6 @@ qx.Proto.send = function()
   // --------------------------------------
   //   Appliying request header
   // --------------------------------------
-
-  // Add a Referer header
-  vRequest.setRequestHeader('Referer', window.location.href);
 
   var vRequestHeaders = this.getRequestHeaders();
   for (var vId in vRequestHeaders) {

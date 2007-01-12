@@ -123,6 +123,7 @@
   padding-bottom: 4px;
 
   width: 650px;
+	overflow: auto;
 }
 
 #ClassViewer div.classDescription p{

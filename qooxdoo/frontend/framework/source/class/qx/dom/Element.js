@@ -89,6 +89,6 @@ if (qx.sys.Client.getInstance().supportsTextContent()) {
   };
 } else {
   qx.Class.setTextContent = function(vElement, sValue) {
-    vElement.innerHTML = qx.util.StringEscape.escapeHtml(sValue);
+    vElement.innerHTML = qx.html.String.escape(sValue);
   };
 }

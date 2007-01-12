@@ -24,7 +24,7 @@
 
 qx.OO.defineClass("qx.html.Scroll");
 
-qx.dom.Scroll.getLeftSum = function(el)
+qx.html.Scroll.getLeftSum = function(el)
 {
   var sum = 0;
   var p = el.parentNode;
@@ -38,7 +38,7 @@ qx.dom.Scroll.getLeftSum = function(el)
   return sum;
 }
 
-qx.dom.Scroll.getTopSum = function(el)
+qx.html.Scroll.getTopSum = function(el)
 {
   var sum = 0;
   var p = el.parentNode;

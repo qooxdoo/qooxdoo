@@ -777,8 +777,8 @@ qx.Proto._getMetaColumnAtPageX = function(pageX) {
   var scrollerArr = this._getPaneScrollerArr();
   for (var i = 0; i < scrollerArr.length; i++) {
     var elem = scrollerArr[i].getElement();
-    if (pageX >= qx.dom.Location.getPageBoxLeft(elem)
-      && pageX <= qx.dom.Location.getPageBoxRight(elem))
+    if (pageX >= qx.html.Location.getPageBoxLeft(elem)
+      && pageX <= qx.html.Location.getPageBoxRight(elem))
     {
       return i;
     }
@@ -936,7 +936,7 @@ qx.Proto._toggleColumnVisibilityMenu = function() {
     // Show the menu
     var btElem = this._columnVisibilityBt.getElement();
     menu.setRestrictToPageOnOpen(false);
-    menu.setTop(qx.dom.Location.getClientBoxBottom(btElem));
+    menu.setTop(qx.html.Location.getClientBoxBottom(btElem));
     menu.setLeft(-1000);
 
     // NOTE: We have to show the menu in a timeout, otherwise it won't be shown
@@ -945,7 +945,7 @@ qx.Proto._toggleColumnVisibilityMenu = function() {
       menu.show();
       qx.ui.core.Widget.flushGlobalQueues();
 
-      menu.setLeft(qx.dom.Location.getClientBoxRight(btElem) - menu.getOffsetWidth());
+      menu.setLeft(qx.html.Location.getClientBoxRight(btElem) - menu.getOffsetWidth());
       qx.ui.core.Widget.flushGlobalQueues();
     }, 0);
   } else {
