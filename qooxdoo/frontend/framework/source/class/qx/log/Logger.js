@@ -31,7 +31,7 @@
  *    package name)
  * @param parentLogger {Logger} The parent logger.
  */
-qx.OO.defineClass("qx.dev.log.Logger", qx.dev.log.LogEventProcessor,
+qx.OO.defineClass("qx.log.Logger", qx.dev.log.LogEventProcessor,
 function(name, parentLogger) {
   qx.dev.log.LogEventProcessor.call(this);
 

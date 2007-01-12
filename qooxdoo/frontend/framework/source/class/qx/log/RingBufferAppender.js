@@ -27,7 +27,7 @@
  * arises what actions have caused the error.
  *
  */
-qx.OO.defineClass("qx.dev.log.RingBufferAppender", qx.dev.log.Appender,
+qx.OO.defineClass("qx.log.RingBufferAppender", qx.dev.log.Appender,
 function() {
   qx.dev.log.Appender.call(this);
 

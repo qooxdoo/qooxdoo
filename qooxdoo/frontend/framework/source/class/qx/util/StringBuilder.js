@@ -37,7 +37,7 @@
  * So this class seems to be the best compromise to handle
  * string concatination.</p>
  */
-qx.OO.defineClass("qx.type.StringBuilder", qx.core.Object,
+qx.OO.defineClass("qx.util.StringBuilder", qx.core.Object,
 function()
 {
   qx.core.Object.call(this);

@@ -25,7 +25,7 @@
 /**
  * A filter for log events.
  */
-qx.OO.defineClass("qx.dev.log.Filter", qx.core.Object,
+qx.OO.defineClass("qx.log.Filter", qx.core.Object,
 function() {
   qx.core.Object.call(this);
 });
