@@ -827,7 +827,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
       print
 
     if docTree:
-      print "  * Finalising tree..."
+      print "  * Finalizing tree..."
       api.postWorkPackage(docTree, docTree)
 
     if options.apiDocumentationXmlFile != None:
