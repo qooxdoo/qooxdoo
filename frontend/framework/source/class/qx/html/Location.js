@@ -23,7 +23,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.dom.Location");
+qx.OO.defineClass("qx.html.Location");
 
 qx.dom.Location.getPageOuterLeft     = function(el) { return qx.dom.Location.getPageBoxLeft(el)     - qx.dom.Style.getMarginLeft(el); }
 qx.dom.Location.getPageOuterTop      = function(el) { return qx.dom.Location.getPageBoxTop(el)      - qx.dom.Style.getMarginTop(el); }

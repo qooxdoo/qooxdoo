@@ -23,7 +23,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.dom.Iframe");
+qx.OO.defineClass("qx.html.Iframe");
 
 qx.dom.Iframe.getWindow = function(vIframe) {};
 qx.dom.Iframe.getDocument = function(vIframe) {};

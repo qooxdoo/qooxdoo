@@ -23,7 +23,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.dom.Offset");
+qx.OO.defineClass("qx.html.Offset");
 
 /*
 Mozilla seems to be a little buggy here.
