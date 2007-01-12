@@ -25,7 +25,7 @@
 /**
  * An appender. Does the actual logging.
  */
-qx.OO.defineClass("qx.dev.log.Appender", qx.dev.log.LogEventProcessor,
+qx.OO.defineClass("qx.log.Appender", qx.dev.log.LogEventProcessor,
 function() {
   qx.dev.log.LogEventProcessor.call(this);
 });

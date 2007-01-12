@@ -25,7 +25,7 @@
  * Processes log events. May be configured with filters in order to specify
  * which log events should be processed.
  */
-qx.OO.defineClass("qx.dev.log.LogEventProcessor", qx.core.Object,
+qx.OO.defineClass("qx.log.LogEventProcessor", qx.core.Object,
 function() {
   qx.core.Object.call(this);
 });

@@ -33,7 +33,7 @@ qx.OO.defineClass("qx.html.Textile");
  * @param s {String} Text to be textilized.
  * @return {String} The textilized text.
  */
-qx.util.Textile.textilize = function(s)
+qx.html.Textile.textilize = function(s)
 {
   var r = s;
 

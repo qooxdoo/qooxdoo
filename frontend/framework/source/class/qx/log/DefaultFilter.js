@@ -25,7 +25,7 @@
 /**
  * The default filter. Has a minimum level and can be enabled or disabled.
  */
-qx.OO.defineClass("qx.dev.log.DefaultFilter", qx.dev.log.Filter,
+qx.OO.defineClass("qx.log.DefaultFilter", qx.dev.log.Filter,
 function() {
   qx.dev.log.Filter.call(this);
 });

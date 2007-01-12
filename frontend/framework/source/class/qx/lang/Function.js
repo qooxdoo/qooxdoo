@@ -22,7 +22,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.util.Return");
+qx.OO.defineClass("qx.lang.Function");
 
 
 

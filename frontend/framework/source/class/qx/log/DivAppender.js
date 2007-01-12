@@ -30,7 +30,7 @@
  * @param divId {String ? "qx_log"} the ID of the div element to write the
  *        messages to.
  */
-qx.OO.defineClass("qx.dev.log.DivAppender", qx.dev.log.Appender,
+qx.OO.defineClass("qx.log.DivAppender", qx.dev.log.Appender,
 function(divId) {
   qx.dev.log.Appender.call(this);
 

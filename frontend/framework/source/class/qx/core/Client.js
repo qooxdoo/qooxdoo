@@ -28,7 +28,7 @@
   Version shemes following wikipedia: major.minor[.revision[.build]]
   http://en.wikipedia.org/wiki/Software_version
 */
-qx.OO.defineClass("qx.sys.Client", Object,
+qx.OO.defineClass("qx.core.Client", Object,
 function()
 {
   var vRunsLocally = window.location.protocol === "file:";

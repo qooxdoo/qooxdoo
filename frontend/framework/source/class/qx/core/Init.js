@@ -131,7 +131,7 @@ qx.Proto._modifyApplication = function(propValue, propOldValue, propData)
 */
 
 /**
- * Rreturns an instance of the current qooxdoo Application
+ * Returns an instance of the current qooxdoo Application
  *
  * @return {qx.component.AbstractApplication} instance of the current qooxdoo application
  */
