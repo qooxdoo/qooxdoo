@@ -94,7 +94,7 @@ distclean: release-distclean framework-distclean
 framework-distclean:
 	@echo
 	@echo "****************************************************************************"
-	@echo "  COMPLETELY CLEANING UP FRAMEWORK"
+	@echo "  CLEANING UP FRAMEWORK COMPLETELY"
 	@echo "****************************************************************************"
 	@echo "  * Cleaning up..."
 	@$(CMD_REMOVE) $(FRAMEWORK_CACHE_PATH)
@@ -232,7 +232,7 @@ exec-skeleton-dos-clean:
 release-distclean:
 	@echo
 	@echo "****************************************************************************"
-	@echo "  COMPLETELY CLEANING UP RELEASE"
+	@echo "  CLEANING UP RELEASE COMPLETELY"
 	@echo "****************************************************************************"
 	@echo "  * Cleaning up..."
 	@$(CMD_REMOVE) release
