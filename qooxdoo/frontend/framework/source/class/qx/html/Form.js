@@ -22,7 +22,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.util.FormUtil");
+qx.OO.defineClass("qx.html.Form");
 
 qx.Class.ignoreInputTypes = [ "file", "submit", "image", "reset", "button" ];
 qx.Class.ignoreElementTypes = [ "fieldset" ];
