@@ -26,7 +26,7 @@
 /**
  * Functions to scroll DOM elements into the visible area of the parent element
  */
-qx.OO.defineClass("qx.dom.ScrollIntoView");
+qx.OO.defineClass("qx.html.ScrollIntoView");
 
 // Internet Explorer has invented scrollIntoView, but does not behave the same like in Mozilla (which would be better)
 // Mozilla has a native well working method scrollIntoView

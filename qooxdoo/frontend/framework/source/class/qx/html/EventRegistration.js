@@ -23,7 +23,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.dom.EventRegistration");
+qx.OO.defineClass("qx.html.EventRegistration");
 
 /**
  * Assign a function to an event.

@@ -26,7 +26,7 @@
 /**
  * Methods to get CSS style properties of DOM elements.
  */
-qx.OO.defineClass("qx.dom.Style");
+qx.OO.defineClass("qx.html.Style");
 
 /**
  * TODO
