@@ -184,7 +184,7 @@ qx.Proto.updateChildOnInnerHeightChange = function(vChild)
 /*!
   Invalidate and recompute things because of job in queue (before the rest of job handling will be executed).
 */
-qx.Proto.updateSelfOnJobQueueFlush = qx.util.Return.returnFalse;
+qx.Proto.updateSelfOnJobQueueFlush = qx.lang.Function.returnFalse;
 
 
 
@@ -310,7 +310,7 @@ qx.Proto.layoutChild_location_left = function(vChild, vJobs)
 
 
 
-if (qx.sys.Client.getInstance().isMshtml() || qx.sys.Client.getInstance().isOpera())
+if (qx.core.Client.getInstance().isMshtml() || qx.core.Client.getInstance().isOpera())
 {
   qx.Proto._applyComputedWidth = function(vChild)
   {

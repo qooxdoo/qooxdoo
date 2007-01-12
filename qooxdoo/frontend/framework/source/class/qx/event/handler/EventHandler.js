@@ -70,14 +70,14 @@ qx.OO.addProperty({ name : "focusRoot", type : "object", instance : "qx.ui.core.
 
 
 
-qx.Class.mouseEventTypes = [ "mouseover", "mousemove", "mouseout", "mousedown", "mouseup", "click", "dblclick", "contextmenu", qx.sys.Client.getInstance().isMshtml() ? "mousewheel" : "DOMMouseScroll" ];
+qx.Class.mouseEventTypes = [ "mouseover", "mousemove", "mouseout", "mousedown", "mouseup", "click", "dblclick", "contextmenu", qx.core.Client.getInstance().isMshtml() ? "mousewheel" : "DOMMouseScroll" ];
 qx.Class.keyEventTypes = [ "keydown", "keypress", "keyup" ];
 
-if (qx.sys.Client.getInstance().isGecko())
+if (qx.core.Client.getInstance().isGecko())
 {
   qx.Class.dragEventTypes = [ "dragdrop", "dragover", "dragenter", "dragexit", "draggesture" ];
 }
-else if (qx.sys.Client.getInstance().isMshtml())
+else if (qx.core.Client.getInstance().isMshtml())
 {
   qx.Class.dragEventTypes = [ "dragend", "dragover", "dragstart", "drag", "dragenter", "dragleave" ];
 }
@@ -254,7 +254,7 @@ qx.Proto.attachEventTypes = function(vEventTypes, vFunctionPointer)
     // I think they will fix this sometimes, and we should add a version check here.
     // Internet Explorer has problems to use 'window', so there we use the 'body' element
     // as previously.
-    var el = qx.sys.Client.getInstance().isGecko() ? window : document.body;
+    var el = qx.core.Client.getInstance().isGecko() ? window : document.body;
 
     for (var i=0, l=vEventTypes.length; i<l; i++) {
       qx.html.EventRegistration.addEventListener(el, vEventTypes[i], vFunctionPointer);
@@ -270,7 +270,7 @@ qx.Proto.detachEventTypes = function(vEventTypes, vFunctionPointer)
 {
   try
   {
-    var el = qx.sys.Client.getInstance().isGecko() ? window : document.body;
+    var el = qx.core.Client.getInstance().isGecko() ? window : document.body;
 
     for (var i=0, l=vEventTypes.length; i<l; i++) {
       qx.html.EventRegistration.removeEventListener(el, vEventTypes[i], vFunctionPointer);
@@ -321,7 +321,7 @@ qx.Class.getOriginalTargetObject = function(vNode)
   return vNode ? vNode.qx_Widget : null;
 }
 
-if (qx.sys.Client.getInstance().isWebkit())
+if (qx.core.Client.getInstance().isWebkit())
 {
   /**
    * extract the target node from a DOM event
@@ -342,7 +342,7 @@ if (qx.sys.Client.getInstance().isWebkit())
     return vNode;
   };
 }
-else if (qx.sys.Client.getInstance().isMshtml())
+else if (qx.core.Client.getInstance().isMshtml())
 {
   /**
    * extract the target node from a DOM event
@@ -456,7 +456,7 @@ qx.Class.getRelatedTargetObjectFromEvent = function(vDomEvent) {
  * @param vDomEvent (Element) DOM event object
  */
 qx.Class.stopDomEvent = function(vDomEvent) {};
-if (qx.sys.Client.getInstance().isMshtml())
+if (qx.core.Client.getInstance().isMshtml())
 {
   qx.Class.stopDomEvent = function(vDomEvent) {
     vDomEvent.returnValue = false;
@@ -588,7 +588,7 @@ qx.Proto._onkeyevent_post = function(vDomEvent, vType, vKeyCode, vCharCode, vKey
   7. dblclick
 */
 
-if(qx.sys.Client.getInstance().isMshtml())
+if(qx.core.Client.getInstance().isMshtml())
 {
   qx.Proto._onmouseevent = function(vDomEvent)
   {
@@ -686,7 +686,7 @@ Internet Explorer 6.0: The DOM-targets are identical and the click fires fine.
 Opera 9.01: The DOM-targets are different, but the click fires fine. Fires click successfull,
   even if the content under the cursor was moved away.
 */
-if (qx.sys.Client.getInstance().isGecko())
+if (qx.core.Client.getInstance().isGecko())
 {
   qx.Proto._onmouseevent_click_fix = function(vDomTarget, vType, vDispatchTarget)
   {
@@ -947,7 +947,7 @@ qx.Proto._onmouseevent_special_post = function(vType, vTarget, vOriginalTarget, 
 }
 
 
-if (qx.sys.Client.getInstance().isGecko())
+if (qx.core.Client.getInstance().isGecko())
 {
   qx.Proto._onmousewheel = function(vTarget, vEvent)
   {
@@ -1167,4 +1167,4 @@ qx.Proto.dispose = function()
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = qx.util.Return.returnInstance;
+qx.Class.getInstance = qx.lang.Function.returnInstance;

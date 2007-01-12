@@ -19,7 +19,7 @@
 /* ************************************************************************
 
 #module(core)
-#require(qx.sys.Client)
+#require(qx.core.Client)
 
 ************************************************************************ */
 
@@ -43,7 +43,7 @@ qx.html.EventRegistration.addEventListener = function(vElement, vType, vFunction
  */
 qx.html.EventRegistration.removeEventListener = function(vElement, vType, vFunction) {};
 
-if (qx.sys.Client.getInstance().isMshtml())
+if (qx.core.Client.getInstance().isMshtml())
 {
   qx.html.EventRegistration.addEventListener = function(vElement, vType, vFunction) {
     vElement.attachEvent("on" + vType, vFunction);

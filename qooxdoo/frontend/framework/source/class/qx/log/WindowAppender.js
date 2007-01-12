@@ -30,11 +30,11 @@
  *
  * @param name {String ? "qx_log"} the name of the log window.
  */
-qx.OO.defineClass("qx.log.WindowAppender", qx.dev.log.Appender,
+qx.OO.defineClass("qx.log.WindowAppender", qx.log.Appender,
 function(name) {
-  qx.dev.log.Appender.call(this);
+  qx.log.Appender.call(this);
 
-  this._id = qx.dev.log.WindowAppender.register(this);
+  this._id = qx.log.WindowAppender.register(this);
   this._name = (name == null) ? "qx_log" : name;
 
   this._errorsPreventingAutoCloseCount = 0;
@@ -114,7 +114,7 @@ qx.Proto.openWindow = function() {
   //     (at least in Firefox, but maybe in IE, too)
   logDocument.open();
   logDocument.write("<html><head><title>" + this._name + "</title></head>"
-    + '<body onload="qx = opener.qx;" onunload="try{qx.dev.log.WindowAppender._registeredAppenders[' + this._id + ']._autoCloseWindow()}catch(e){}">'
+    + '<body onload="qx = opener.qx;" onunload="try{qx.log.WindowAppender._registeredAppenders[' + this._id + ']._autoCloseWindow()}catch(e){}">'
     + '<pre id="log" wrap="wrap" style="font-size:11"></pre></body></html>');
   logDocument.close();
 
@@ -188,12 +188,12 @@ qx.Proto.appendLogEvent = function(evt) {
     this._logEventQueue.push(evt);
   } else {
     var divElem = this._logWindow.document.createElement("div");
-    if (evt.level >= qx.dev.log.Logger.LEVEL_ERROR) {
+    if (evt.level >= qx.log.Logger.LEVEL_ERROR) {
       divElem.style.backgroundColor = "#FFEEEE";
       if (!this.getAutoCloseWithErrors()){
         this._errorsPreventingAutoCloseCount += 1;
       }
-    } else if (evt.level == qx.dev.log.Logger.LEVEL_DEBUG) {
+    } else if (evt.level == qx.log.Logger.LEVEL_DEBUG) {
       divElem.style.color = "gray";
     }
     if (evt.isDummyEventForMessage){
@@ -247,7 +247,7 @@ qx.Proto.dispose = function() {
 
   this._autoCloseWindow();
 
-  return qx.dev.log.Appender.prototype.dispose.call(this);
+  return qx.log.Appender.prototype.dispose.call(this);
 }
 
 
@@ -263,7 +263,7 @@ qx.Class._registeredAppenders = {};
  * @return {Integer} the ID.
  */
 qx.Class.register = function(appender) {
-  var WindowAppender = qx.dev.log.WindowAppender;
+  var WindowAppender = qx.log.WindowAppender;
 
   var id = WindowAppender._nextId++;
   WindowAppender._registeredAppenders[id] = appender;
@@ -280,5 +280,5 @@ qx.Class.register = function(appender) {
  *     WindowAppender with this ID is registered.
  */
 qx.Class.getAppender = function(id) {
-  return qx.dev.log.WindowAppender._registeredAppenders[id];
+  return qx.log.WindowAppender._registeredAppenders[id];
 }

@@ -140,7 +140,7 @@ qx.Proto.isMetaPressed = function() {
  *         or the ctrl key is pressed on another system.
  */
 qx.Proto.isCtrlOrCommandPressed = function() {
-  if (qx.sys.Client.getInstance().runsOnMacintosh()) {
+  if (qx.core.Client.getInstance().runsOnMacintosh()) {
     return this.getDomEvent().metaKey;
   } else {
     return this.getDomEvent().ctrlKey;
@@ -159,7 +159,7 @@ qx.Proto.isCtrlOrCommandPressed = function() {
 ---------------------------------------------------------------------------
 */
 
-if(qx.sys.Client.getInstance().isMshtml())
+if(qx.core.Client.getInstance().isMshtml())
 {
   qx.Proto.setDefaultPrevented = function(vValue)
   {

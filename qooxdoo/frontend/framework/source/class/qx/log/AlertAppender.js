@@ -33,9 +33,9 @@
  * window temporarily halts the regular program execution. That way even
  * the dispose process can easily be debugged.
  */
-qx.OO.defineClass("qx.log.AlertAppender", qx.dev.log.Appender,
+qx.OO.defineClass("qx.log.AlertAppender", qx.log.Appender,
 function() {
-  qx.dev.log.Appender.call(this);
+  qx.log.Appender.call(this);
 });
 
 
@@ -61,5 +61,5 @@ qx.Proto.dispose = function() {
       return true;
   }
 
-  return qx.dev.log.Appender.prototype.dispose.call(this);
+  return qx.log.Appender.prototype.dispose.call(this);
 }

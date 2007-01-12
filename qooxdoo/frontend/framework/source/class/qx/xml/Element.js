@@ -72,7 +72,7 @@ if (window.XPathEvaluator)
     return xpe.evaluate(query, element, xpe.createNSResolver(element), XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
   };
 }
-else if(qx.sys.Client.getInstance().isMshtml() || document.selectSingleNode) // IE and Opera
+else if(qx.core.Client.getInstance().isMshtml() || document.selectSingleNode) // IE and Opera
 {
   qx.Class.selectSingleNode = function(element, query) {
     return element.selectSingleNode(query);
@@ -103,7 +103,7 @@ if (window.XPathEvaluator)
     return nodes;
   };
 }
-else if(qx.sys.Client.getInstance().isMshtml() || document.selectNodes) // IE and Opera
+else if(qx.core.Client.getInstance().isMshtml() || document.selectNodes) // IE and Opera
 {
   qx.Class.selectNodes = function(element, query) {
     return element.selectNodes(query);
@@ -129,7 +129,7 @@ if (document.getElementsByTagNameNS)
    return element.getElementsByTagNameNS(namespaceURI, tagname);
   };
 }
-else if (qx.sys.Client.getInstance().isMshtml())
+else if (qx.core.Client.getInstance().isMshtml())
 {
   qx.Class.getElementsByTagNameNS = function(element, namespaceURI, tagname) {
     var doc = element.ownerDocument;

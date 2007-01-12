@@ -407,7 +407,7 @@ qx.Proto._onmousedown = function(e)
   e.stopPropagation();
 }
 
-qx.Proto._onmouseup = qx.util.Return.returnTrue;
+qx.Proto._onmouseup = qx.lang.Function.returnTrue;
 
 
 

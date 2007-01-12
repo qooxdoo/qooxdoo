@@ -104,7 +104,7 @@ qx.Proto._layoutPost = function(vChanges) {
   }
 }
 
-qx.Proto._postApply = qx.util.Return.returnTrue;
+qx.Proto._postApply = qx.lang.Function.returnTrue;
 
 
 
@@ -121,8 +121,8 @@ qx.Proto._postApply = qx.util.Return.returnTrue;
 qx.Proto._computeBoxWidthFallback = qx.Proto.getPreferredBoxWidth;
 qx.Proto._computeBoxHeightFallback = qx.Proto.getPreferredBoxHeight;
 
-qx.Proto._computePreferredInnerWidth = qx.util.Return.returnZero;
-qx.Proto._computePreferredInnerHeight = qx.util.Return.returnZero;
+qx.Proto._computePreferredInnerWidth = qx.lang.Function.returnZero;
+qx.Proto._computePreferredInnerHeight = qx.lang.Function.returnZero;
 
 
 

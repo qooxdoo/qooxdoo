@@ -13,11 +13,11 @@
 
   <script type="text/javascript">
     qx.core.Init.getInstance().defineMain(function() {
-      new qx.client.Builder().build(qx.ui.core.ClientDocument.getInstance(), document.getElementById('widgets'));
+      new qx.util.GuiBuilder().build(qx.ui.core.ClientDocument.getInstance(), document.getElementById('widgets'));
     });
   </script>
   <div id="demoDescription">
-    <p>qx.client.Builder demo.</p>
+    <p>qx.util.GuiBuilder demo.</p>
     <p>2 Format Example</p>
   </div>
   <textarea id='widgets' style='display:none'>

@@ -19,7 +19,7 @@
 /* ************************************************************************
 
 #module(ui_core)
-#require(qx.sys.Client)
+#require(qx.core.Client)
 
 ************************************************************************ */
 
@@ -35,7 +35,7 @@ It calculates some borders and/or paddings to the offsetProperties.
 qx.html.Offset.getLeft = function(vElement) {};
 qx.html.Offset.getTop = function(vElement) {};
 
-if (qx.sys.Client.getInstance().isGecko())
+if (qx.core.Client.getInstance().isGecko())
 {
   qx.html.Offset.getLeft = function(el)
   {

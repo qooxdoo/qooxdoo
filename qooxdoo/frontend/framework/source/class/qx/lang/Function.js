@@ -34,23 +34,23 @@ qx.OO.defineClass("qx.lang.Function");
 ---------------------------------------------------------------------------
 */
 
-qx.util.Return.returnTrue = function() {
+qx.lang.Function.returnTrue = function() {
   return true;
 };
 
-qx.util.Return.returnFalse = function() {
+qx.lang.Function.returnFalse = function() {
   return false;
 };
 
-qx.util.Return.returnNull = function() {
+qx.lang.Function.returnNull = function() {
   return null;
 };
 
-qx.util.Return.returnThis = function() {
+qx.lang.Function.returnThis = function() {
   return this;
 };
 
-qx.util.Return.returnInstance = function()
+qx.lang.Function.returnInstance = function()
 {
   if (!this._instance)
   {
@@ -65,10 +65,10 @@ qx.util.Return.returnInstance = function()
   return this._instance;
 };
 
-qx.util.Return.returnZero = function() {
+qx.lang.Function.returnZero = function() {
   return 0;
 };
 
-qx.util.Return.returnNegativeIndex = function() {
+qx.lang.Function.returnNegativeIndex = function() {
   return -1;
 };

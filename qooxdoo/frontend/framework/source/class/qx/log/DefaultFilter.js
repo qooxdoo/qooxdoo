@@ -25,9 +25,9 @@
 /**
  * The default filter. Has a minimum level and can be enabled or disabled.
  */
-qx.OO.defineClass("qx.log.DefaultFilter", qx.dev.log.Filter,
+qx.OO.defineClass("qx.log.DefaultFilter", qx.log.Filter,
 function() {
-  qx.dev.log.Filter.call(this);
+  qx.log.Filter.call(this);
 });
 
 
@@ -46,7 +46,7 @@ qx.OO.addProperty({ name:"minLevel", type:"number", defaultValue:null });
 
 // overridden
 qx.Proto.decide = function(evt) {
-  var Filter = qx.dev.log.Filter;
+  var Filter = qx.log.Filter;
   if (! this.isEnabled()) {
     return Filter.DENY;
   } else if (this.getMinLevel() == null) {

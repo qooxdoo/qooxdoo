@@ -20,7 +20,7 @@
 
 #module(ui_core)
 #module(ui_layout)
-#require(qx.sys.Client)
+#require(qx.core.Client)
 
 ************************************************************************ */
 
@@ -430,10 +430,10 @@ qx.Proto.layoutChild_sizeLimitX = function(vChild, vJobs) {}
  */
 qx.Proto.layoutChild_sizeLimitY = function(vChild, vJobs) {}
 
-if (qx.sys.Client.getInstance().isMshtml())
+if (qx.core.Client.getInstance().isMshtml())
 {
-  qx.Proto.layoutChild_sizeLimitX = qx.util.Return.returnTrue;
-  qx.Proto.layoutChild_sizeLimitY = qx.util.Return.returnTrue;
+  qx.Proto.layoutChild_sizeLimitX = qx.lang.Function.returnTrue;
+  qx.Proto.layoutChild_sizeLimitY = qx.lang.Function.returnTrue;
 }
 else
 {

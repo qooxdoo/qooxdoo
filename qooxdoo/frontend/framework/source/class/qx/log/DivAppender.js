@@ -30,9 +30,9 @@
  * @param divId {String ? "qx_log"} the ID of the div element to write the
  *        messages to.
  */
-qx.OO.defineClass("qx.log.DivAppender", qx.dev.log.Appender,
+qx.OO.defineClass("qx.log.DivAppender", qx.log.Appender,
 function(divId) {
-  qx.dev.log.Appender.call(this);
+  qx.log.Appender.call(this);
 
   this._divId = divId ? divId : "qx_log";
 });
@@ -85,7 +85,7 @@ qx.Proto._createClearButtonHandler = function(logElem) {
 
 // overridden
 qx.Proto.appendLogEvent = function(evt) {
-  var Logger = qx.dev.log.Logger;
+  var Logger = qx.log.Logger;
 
   // Initialize the log element if nessesary
   if (this._logElem == null) {
@@ -160,5 +160,5 @@ qx.Proto.dispose = function() {
   }
   this._logElem = null;
 
-  return qx.dev.log.Appender.prototype.dispose.call(this);
+  return qx.log.Appender.prototype.dispose.call(this);
 }

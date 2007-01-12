@@ -190,7 +190,7 @@ qx.io.remote.Exchange.wasSuccessful = function(vStatusCode, vReadyState, vIsLoca
     {
       case -1:  // Not Available (OK for readystates: MSXML<4=1-3, MSXML>3=1-2, Gecko=1)
         if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug") && vReadyState > 3) {
-          qx.dev.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Failed with statuscode: -1 at readyState " + vReadyState);
+          qx.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Failed with statuscode: -1 at readyState " + vReadyState);
         }
 
         return vReadyState < 4;
@@ -211,7 +211,7 @@ qx.io.remote.Exchange.wasSuccessful = function(vStatusCode, vReadyState, vIsLoca
 
       case 206: // Partial Content
         if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug") && vReadyState === 4) {
-          qx.dev.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Failed with statuscode: 206 (Partial content while being complete!)");
+          qx.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Failed with statuscode: 206 (Partial content while being complete!)");
         }
 
         return vReadyState !== 4;
@@ -245,7 +245,7 @@ qx.io.remote.Exchange.wasSuccessful = function(vStatusCode, vReadyState, vIsLoca
       case 504: // Gateway Time-Out
       case 505: // HTTP Version not supported
         if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug")) {
-          qx.dev.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Failed with typical HTTP statuscode: " + vStatusCode);
+          qx.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Failed with typical HTTP statuscode: " + vStatusCode);
         }
 
         return false;
@@ -263,7 +263,7 @@ qx.io.remote.Exchange.wasSuccessful = function(vStatusCode, vReadyState, vIsLoca
       // See above comments for variable status.
       case 13030:
         if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug")) {
-          qx.dev.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Failed with MSHTML specific HTTP statuscode: " + vStatusCode);
+          qx.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Failed with MSHTML specific HTTP statuscode: " + vStatusCode);
         }
 
         return false;
@@ -276,7 +276,7 @@ qx.io.remote.Exchange.wasSuccessful = function(vStatusCode, vReadyState, vIsLoca
           return true;
         }
 
-        qx.dev.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Unknown status code: " + vStatusCode + " (" + vReadyState + ")");
+        qx.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Unknown status code: " + vStatusCode + " (" + vReadyState + ")");
         throw new Error("Unknown status code: " + vStatusCode);
     }
   }

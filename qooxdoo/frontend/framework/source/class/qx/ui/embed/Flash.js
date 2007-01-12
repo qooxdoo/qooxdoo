@@ -445,8 +445,8 @@ else
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._isWidthEssential = qx.util.Return.returnTrue;
-qx.Proto._isHeightEssential = qx.util.Return.returnTrue;
+qx.Proto._isWidthEssential = qx.lang.Function.returnTrue;
+qx.Proto._isHeightEssential = qx.lang.Function.returnTrue;
 
 
 
@@ -457,8 +457,8 @@ qx.Proto._isHeightEssential = qx.util.Return.returnTrue;
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._computePreferredInnerWidth = qx.util.Return.returnZero;
-qx.Proto._computePreferredInnerHeight = qx.util.Return.returnZero;
+qx.Proto._computePreferredInnerWidth = qx.lang.Function.returnZero;
+qx.Proto._computePreferredInnerHeight = qx.lang.Function.returnZero;
 
 
 

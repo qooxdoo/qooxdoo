@@ -363,7 +363,7 @@ qx.Proto._handleIcon = function()
 */
 
 // Omit recursive cloning
-qx.Proto._cloneRecursive = qx.util.Return.returnTrue;
+qx.Proto._cloneRecursive = qx.lang.Function.returnTrue;
 
 
 

@@ -311,7 +311,7 @@ qx.io.Json = function ()
 
       // DJL --
       if (qx.Settings.getValueOfClass("qx.io.Json", "enableDebug")) {
-        var logger = qx.dev.log.Logger.getClassLogger(qx.core.Object);
+        var logger = qx.log.Logger.getClassLogger(qx.core.Object);
         logger.debug("JSON request: " + ret);
       }
 
@@ -379,7 +379,7 @@ qx.io.Json.parseQx = function(text) {
   /* Convert the result text into a result primitive or object */
 
   if (qx.Settings.getValueOfClass("qx.io.Json", "enableDebug")) {
-  var logger = qx.dev.log.Logger.getClassLogger(qx.core.Object);
+  var logger = qx.log.Logger.getClassLogger(qx.core.Object);
   logger.debug("JSON response: " + text);
   }
 

@@ -79,11 +79,11 @@ qx.Class.isEmpty = function(vElement) {
  */
 qx.Class.setTextContent = function(vElement, sValue) {};
 
-if (qx.sys.Client.getInstance().supportsTextContent()) {
+if (qx.core.Client.getInstance().supportsTextContent()) {
   qx.Class.setTextContent = function(vElement, sValue) {
     vElement.textContent = sValue;
   };
-} else if (qx.sys.Client.getInstance().supportsInnerText()) {
+} else if (qx.core.Client.getInstance().supportsInnerText()) {
   qx.Class.setTextContent = function(vElement, sValue) {
     vElement.innerText = sValue;
   };

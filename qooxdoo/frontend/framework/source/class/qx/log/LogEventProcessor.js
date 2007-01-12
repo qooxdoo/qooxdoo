@@ -70,12 +70,12 @@ qx.Proto.getHeadFilter = function() {
  */
 qx.Proto._getDefaultFilter = function() {
   var headFilter = this.getHeadFilter();
-  if (! (headFilter instanceof qx.dev.log.DefaultFilter)) {
+  if (! (headFilter instanceof qx.log.DefaultFilter)) {
     // The head filter of the appender is no DefaultFilter
     // (or the appender has no filters at all)
     // -> Create a default handler and append it
     this.clearFilters();
-    headFilter = new qx.dev.log.DefaultFilter();
+    headFilter = new qx.log.DefaultFilter();
     this.addFilter(headFilter);
   }
 
@@ -115,7 +115,7 @@ qx.Proto.setMinLevel = function(minLevel) {
  *     {@link Filter#NEUTRAL}.
  */
 qx.Proto.decideLogEvent = function(evt) {
-  var NEUTRAL = qx.dev.log.Filter.NEUTRAL;
+  var NEUTRAL = qx.log.Filter.NEUTRAL;
 
   if (this._filterArr != null) {
     for (var i = 0; i < this._filterArr.length; i++) {

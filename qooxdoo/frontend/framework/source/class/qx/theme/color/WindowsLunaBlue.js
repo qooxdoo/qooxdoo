@@ -84,7 +84,7 @@ qx.Proto._colors = qx.lang.Object.carefullyMergeWith({
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = qx.util.Return.returnInstance;
+qx.Class.getInstance = qx.lang.Function.returnInstance;
 
 
 

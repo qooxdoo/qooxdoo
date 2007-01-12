@@ -18,7 +18,7 @@
 
 /* ************************************************************************
 
-#require(qx.sys.Client)
+#require(qx.core.Client)
 
 ************************************************************************ */
 
@@ -58,7 +58,7 @@ qx.html.Window.getScrollLeft = function(window) {};
 qx.html.Window.getScrollTop = function(window) {};
 
 
-if (qx.sys.Client.getInstance().isMshtml())
+if (qx.core.Client.getInstance().isMshtml())
 {
   qx.html.Window.getInnerWidth = function(w)
   {

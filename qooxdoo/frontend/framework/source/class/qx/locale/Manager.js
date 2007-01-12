@@ -26,7 +26,7 @@ function() {
   qx.manager.object.ObjectManager.call(this);
 
   this._translationCatalog = {};
-  this.setLocale(qx.sys.Client.getInstance().getLocale() || this._defaultLocale);
+  this.setLocale(qx.core.Client.getInstance().getLocale() || this._defaultLocale);
 });
 
 
@@ -256,4 +256,4 @@ qx.Proto.translate = function(messageId, args, locale)
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = qx.util.Return.returnInstance;
+qx.Class.getInstance = qx.lang.Function.returnInstance;

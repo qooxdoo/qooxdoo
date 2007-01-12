@@ -21,7 +21,7 @@
 
 #module(ui_core)
 #require(qx.event.type.KeyEvent)
-#require(qx.util.Return);
+#require(qx.lang.Function);
 
 ************************************************************************ */
 
@@ -67,7 +67,7 @@ qx.OO.defineClass("qx.event.handler.KeyEventHandler", qx.core.Target, function()
 /** attach the key event handler to the DOM events */
 qx.Proto._attachEvents = function()
 {
-  var el = qx.sys.Client.getInstance().isGecko() ? window : document.body;
+  var el = qx.core.Client.getInstance().isGecko() ? window : document.body;
 
   qx.html.EventRegistration.addEventListener(el, "keypress", this.__onkeypress);
   qx.html.EventRegistration.addEventListener(el, "keyup", this.__onkeyupdown);
@@ -77,7 +77,7 @@ qx.Proto._attachEvents = function()
 /** detach the key event handler from the DOM events */
 qx.Proto._detachEvents = function()
 {
-  var el = qx.sys.Client.getInstance().isGecko() ? window : document.body;
+  var el = qx.core.Client.getInstance().isGecko() ? window : document.body;
 
   // Unregister dom events
   qx.html.EventRegistration.removeEventListener(el, "keypress", this.__onkeypress);
@@ -413,7 +413,7 @@ qx.Proto._idealKeyHandler = function(keyCode, charCode, eventType, domEvent)
 ---------------------------------------------------------------------------
 */
 
-if (qx.sys.Client.getInstance().isMshtml())
+if (qx.core.Client.getInstance().isMshtml())
 {
   qx.Proto._lastUpDownType = {};
 
@@ -468,7 +468,7 @@ if (qx.sys.Client.getInstance().isMshtml())
 ---------------------------------------------------------------------------
 */
 
-else if (qx.sys.Client.getInstance().isGecko())
+else if (qx.core.Client.getInstance().isGecko())
 {
   qx.Proto._lastUpDownType = {};
 
@@ -488,7 +488,7 @@ else if (qx.sys.Client.getInstance().isGecko())
     var type = domEvent.type;
 
     // FF repeats under windows keydown events like IE
-    if (qx.sys.Client.getInstance().runsOnWindows())
+    if (qx.core.Client.getInstance().runsOnWindows())
     {
       var keyIdentifier = keyCode ? this._keyCodeToIdentifier(keyCode) : this._charCodeToIdentifier(charCode)
 
@@ -519,7 +519,7 @@ else if (qx.sys.Client.getInstance().isGecko())
 ---------------------------------------------------------------------------
 */
 
-else if (qx.sys.Client.getInstance().isWebkit())
+else if (qx.core.Client.getInstance().isWebkit())
 {
   qx.Proto._charCode2KeyCode =
   {
@@ -563,7 +563,7 @@ else if (qx.sys.Client.getInstance().isWebkit())
     // prevent Safari from sending key signals twice
     // This bug is fixed in recent Webkit builds so we need a revision check
     // see http://trac.mochikit.com/ticket/182 for details
-    if (qx.sys.Client.getInstance().getVersion() < 420)
+    if (qx.core.Client.getInstance().getVersion() < 420)
     {
       if (!this._lastCharCodeForType) {
         this._lastCharCodeForType = {};
@@ -605,7 +605,7 @@ else if (qx.sys.Client.getInstance().isWebkit())
 ---------------------------------------------------------------------------
 */
 
-else if (qx.sys.Client.getInstance().isOpera())
+else if (qx.core.Client.getInstance().isOpera())
 {
   qx.Proto._onkeyupdown = function(domEvent) {
     this._idealKeyHandler(domEvent.keyCode, 0, domEvent.type, domEvent);
@@ -661,4 +661,4 @@ qx.Proto.dispose = function()
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = qx.util.Return.returnInstance;
+qx.Class.getInstance = qx.lang.Function.returnInstance;
