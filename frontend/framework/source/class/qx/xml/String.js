@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2006 by STZ-IDA, Germany, http://www.stz-ida.de
+     2004-2007 by 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
      LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
@@ -22,7 +22,7 @@
 ************************************************************************ */
 
 /**
- * A Collection of utility functions to escape and unescape strings.
+ * Escaping and unescaping of XML strings.
  */
 qx.OO.defineClass("qx.xml.String");
 
@@ -37,10 +37,10 @@ qx.OO.defineClass("qx.xml.String");
  * Does not support DTDs or external entities.
  * Note that unicode characters greater than 0x7f are currently escaped to their numerical \\u equivalent. 
  * 
- * @see #unescapeXml
+ * @see #unescape
  *
- * @param str {String} the String to escape
- * @return {String} a new escaped String
+ * @param str {String} the string to be escaped
+ * @return {String} the escaped string
  */
 qx.Class.escape = function(str) {
   return qx.dom.String.escapeEntities(
@@ -58,10 +58,10 @@ qx.Class.escape = function(str) {
  * Supports only the four basic XML entities (gt, lt, quot, amp).
  * Does not support DTDs or external entities.
  *
- * @see #escapeXml
+ * @see #escape
  *
- * @param str {String} the String to unescape
- * @return {String} a new unescaped String
+ * @param str {String} the string to be unescaped
+ * @return {String} the unescaped string
  */
 qx.Class.unescape = function(str) {
   return qx.dom.String.unescapeEntities(

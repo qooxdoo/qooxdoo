@@ -26,9 +26,9 @@ qx.OO.defineClass("qx.net.HttpRequest");
 /**
  * Return a new XMLHttpRequest object suitable for the client browser.
  *
- * TODO: extract singleton creation of request
+ * TODO: extract detection of MSXML version (run once)
  * 
- * @return {XMLHttpRequest}
+ * @return {HttpRequest}
  */
 qx.Class.create = function() { return null };
 
@@ -52,10 +52,8 @@ else if (window.ActiveXObject)
      http://blogs.msdn.com/xmlteam/archive/2006/10/23/using-the-right-version-of-msxml-in-internet-explorer.aspx
      http://msdn.microsoft.com/library/default.asp?url=/library/en-us/xmlsdk/html/aabe29a2-bad2-4cea-8387-314174252a74.asp
 
-     See similar code in qx.xml.Core, qx.lang.XmlEmu
-
-     msxml3 is preferred over msxml6 because the IE7 native XMLHttpRequest returns a msxml3 document
-     and does not work with other xml documents.
+     MSXML 3 is preferred over MSXML 6 because the IE7 native XMLHttpRequest returns 
+     a MSXML 3 document and so does not properly work with other types of xml documents.
     */
     var vServers =
     [
