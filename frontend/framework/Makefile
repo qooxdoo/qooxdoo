@@ -10,7 +10,7 @@ all:
 	@echo "    combining all framework classes, is no longer supported."
 	@echo
 	@echo '    Please use the powerful yet easy-to-use "skeletons" as a starting point'
-	@echo "    your custom application development."
+	@echo "    for your custom application development."
 	@echo
 	@echo "    http://qooxdoo.org/documentation/user_manual/skeleton"
 
