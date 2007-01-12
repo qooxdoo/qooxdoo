@@ -314,9 +314,9 @@ if (document.getElementsByTagNameNS)
 else if (qx.sys.Client.getInstance().isMshtml())
 {
   qx.xml.Core.getElementsByTagNameNS = function(element, namespaceURI, tagname) {
-   var doc = element.ownerDocument;
-   nsDoc.setProperty("SelectionLanguage", "XPath");
-   nsDoc.setProperty("SelectionNamespaces", "xmlns:ns='" + namespaceURI + "'");
-   return qx.xml.Core.selectNodes(element, '//ns:' + tagname);
+    var doc = element.ownerDocument;
+    nsDoc.setProperty("SelectionLanguage", "XPath");
+    nsDoc.setProperty("SelectionNamespaces", "xmlns:ns='" + namespaceURI + "'");
+    return qx.xml.Core.selectNodes(element, '//ns:' + tagname);
   }
 }
