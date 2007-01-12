@@ -322,7 +322,6 @@ qx.Proto.getResponseContent = function()
       // server is responsible for using a string as the response
 
     case qx.util.Mime.JSON:
-
     case qx.util.Mime.JAVASCRIPT:
       return this._responseContent;
 
