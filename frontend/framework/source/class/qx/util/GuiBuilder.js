@@ -23,14 +23,10 @@
 
 /**
  * A class to generate a widget hierarchy from XML
- *
- * qx.client.Builder is not thread safe by design
- *  - state information is stored at the instance level
- *  - only use it from a single thread
  * 
  * @param flags {Map} map of flags. "flags.strict" sets strict mode.
  */
-qx.OO.defineClass("qx.client.Builder", qx.core.Target,
+qx.OO.defineClass("qx.util.GuiBuilder", qx.core.Target,
 function(flags)
 {
   qx.core.Target.call(this);

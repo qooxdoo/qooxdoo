@@ -37,17 +37,17 @@ qx.Class.inputFilter = function(vNode)
 
   var vTag = (vNode.tagName || "").toLowerCase();
 
-  if (qx.lang.Array.contains(qx.util.FormUtil.ignoreElementTypes, vTag)) {
+  if (qx.lang.Array.contains(qx.html.Form.ignoreElementTypes, vTag)) {
     return false;
   }
 
   var vType = vNode.type.toLowerCase();
 
-  if (qx.lang.Array.contains(qx.util.FormUtil.ignoreInputTypes, vType)) {
+  if (qx.lang.Array.contains(qx.html.Form.ignoreInputTypes, vType)) {
     return false;
   }
 
-  if (!vNode.checked && qx.lang.Array.contains(qx.util.FormUtil.checkElementTypes, vType)) {
+  if (!vNode.checked && qx.lang.Array.contains(qx.html.Form.checkElementTypes, vType)) {
     return false;
   }
 
@@ -55,7 +55,7 @@ qx.Class.inputFilter = function(vNode)
 }
 
 qx.Class.getFields = function(vForm) {
-  return Array.filter(vForm.elements, qx.util.FormUtil.inputFilter);
+  return Array.filter(vForm.elements, qx.html.Form.inputFilter);
 }
 
 qx.Class.encodeField = function(vNode)
@@ -63,7 +63,7 @@ qx.Class.encodeField = function(vNode)
   var vName = vNode.name || "";
   var vType = (vNode.type || "").toLowerCase();
 
-  if(vType === qx.util.FormUtil.multiSelectType)
+  if(vType === qx.html.Form.multiSelectType)
   {
     var vValues = [];
 
@@ -84,11 +84,11 @@ qx.Class.encodeField = function(vNode)
 
 qx.Class.encodeForm = function(vForm)
 {
-  var vFields = qx.util.FormUtil.getFields(vForm);
+  var vFields = qx.html.Form.getFields(vForm);
   var vAll = [];
 
   for (var i=0, l=vFields.length; i<l; i++) {
-    vAll.push(qx.util.FormUtil.encodeField(vFields[i]));
+    vAll.push(qx.html.Form.encodeField(vFields[i]));
   }
 
   return vAll.join("&");

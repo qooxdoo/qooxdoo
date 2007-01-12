@@ -27,7 +27,7 @@
  * @param targetProcessor {LogEventProcessor} The log event processor Where to
  *    pass the log events.
  */
-qx.OO.defineClass("qx.dev.log.ForwardAppender", qx.dev.log.Appender,
+qx.OO.defineClass("qx.log.ForwardAppender", qx.dev.log.Appender,
 function(targetProcessor) {
   qx.dev.log.Appender.call(this);
 

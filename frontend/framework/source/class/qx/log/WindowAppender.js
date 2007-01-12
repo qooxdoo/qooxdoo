@@ -30,7 +30,7 @@
  *
  * @param name {String ? "qx_log"} the name of the log window.
  */
-qx.OO.defineClass("qx.dev.log.WindowAppender", qx.dev.log.Appender,
+qx.OO.defineClass("qx.log.WindowAppender", qx.dev.log.Appender,
 function(name) {
   qx.dev.log.Appender.call(this);
 
