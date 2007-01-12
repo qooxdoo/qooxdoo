@@ -44,8 +44,8 @@
   document.write('<div id="demoDebug"></div>');
   document.write('<div id="demoFrame">&#160;</div>');
 
-  qx.dev.log.Logger.ROOT_LOGGER.removeAllAppenders();
-  qx.dev.log.Logger.ROOT_LOGGER.addAppender(new qx.dev.log.DivAppender("demoDebug"));
+  qx.log.Logger.ROOT_LOGGER.removeAllAppenders();
+  qx.log.Logger.ROOT_LOGGER.addAppender(new qx.log.DivAppender("demoDebug"));
 
   function showTestFiles()
   {
