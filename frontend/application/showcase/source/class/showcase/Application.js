@@ -926,8 +926,8 @@ qx.Proto._createLocalizationDemo = function() {
       m1.hide();
     } else {
       var el = this.getElement();
-      m1.setLeft(qx.dom.Location.getPageBoxLeft(el));
-      m1.setTop(qx.dom.Location.getPageBoxBottom(el));
+      m1.setLeft(qx.html.Location.getPageBoxLeft(el));
+      m1.setTop(qx.html.Location.getPageBoxBottom(el));
       m1.show();
     };
     e.setPropagationStopped(true);
@@ -940,8 +940,8 @@ qx.Proto._createLocalizationDemo = function() {
   // ColorPopup
   var mybtn = new qx.ui.form.Button(this.tr("Open Color Popup"));
   mybtn.addEventListener("execute", function() {
-    mypop.setTop(qx.dom.Location.getPageBoxBottom(this.getElement()));
-    mypop.setLeft(qx.dom.Location.getPageBoxLeft(this.getElement()));
+    mypop.setTop(qx.html.Location.getPageBoxBottom(this.getElement()));
+    mypop.setLeft(qx.html.Location.getPageBoxLeft(this.getElement()));
     mypop.show();
   });
   controls.add(mybtn);

@@ -199,7 +199,7 @@ qx.Proto.appendLogEvent = function(evt) {
     if (evt.isDummyEventForMessage){
       divElem.innerHTML = evt.message;
     } else {
-      divElem.innerHTML = qx.util.StringEscape.textToHtml(this.formatLogEvent(evt));
+      divElem.innerHTML = qx.html.String.fromText(this.formatLogEvent(evt));
     }
     this._logElem.appendChild(divElem);
 

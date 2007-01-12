@@ -208,9 +208,9 @@ qx.Proto.attachEvents = function()
   qx.event.handler.KeyEventHandler.getInstance()._attachEvents();
 
   // Register window events
-  qx.dom.EventRegistration.addEventListener(window, "blur", this.__onwindowblur);
-  qx.dom.EventRegistration.addEventListener(window, "focus", this.__onwindowfocus);
-  qx.dom.EventRegistration.addEventListener(window, "resize", this.__onwindowresize);
+  qx.html.EventRegistration.addEventListener(window, "blur", this.__onwindowblur);
+  qx.html.EventRegistration.addEventListener(window, "focus", this.__onwindowfocus);
+  qx.html.EventRegistration.addEventListener(window, "resize", this.__onwindowresize);
 
   // Register selection events
   document.body.onselect = document.onselectstart = document.onselectionchange = this.__onselectevent;
@@ -226,9 +226,9 @@ qx.Proto.detachEvents = function()
   qx.event.handler.KeyEventHandler.getInstance()._detachEvents();
 
   // Unregister window events
-  qx.dom.EventRegistration.removeEventListener(window, "blur", this.__onwindowblur);
-  qx.dom.EventRegistration.removeEventListener(window, "focus", this.__onwindowfocus);
-  qx.dom.EventRegistration.removeEventListener(window, "resize", this.__onwindowresize);
+  qx.html.EventRegistration.removeEventListener(window, "blur", this.__onwindowblur);
+  qx.html.EventRegistration.removeEventListener(window, "focus", this.__onwindowfocus);
+  qx.html.EventRegistration.removeEventListener(window, "resize", this.__onwindowresize);
 
   // Unregister selection events
   document.body.onselect = document.onselectstart = document.onselectionchange = null;
@@ -257,7 +257,7 @@ qx.Proto.attachEventTypes = function(vEventTypes, vFunctionPointer)
     var el = qx.sys.Client.getInstance().isGecko() ? window : document.body;
 
     for (var i=0, l=vEventTypes.length; i<l; i++) {
-      qx.dom.EventRegistration.addEventListener(el, vEventTypes[i], vFunctionPointer);
+      qx.html.EventRegistration.addEventListener(el, vEventTypes[i], vFunctionPointer);
     }
   }
   catch(ex)
@@ -273,7 +273,7 @@ qx.Proto.detachEventTypes = function(vEventTypes, vFunctionPointer)
     var el = qx.sys.Client.getInstance().isGecko() ? window : document.body;
 
     for (var i=0, l=vEventTypes.length; i<l; i++) {
-      qx.dom.EventRegistration.removeEventListener(el, vEventTypes[i], vFunctionPointer);
+      qx.html.EventRegistration.removeEventListener(el, vEventTypes[i], vFunctionPointer);
     }
   }
   catch(ex)

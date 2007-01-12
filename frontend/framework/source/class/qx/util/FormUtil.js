@@ -96,7 +96,7 @@ qx.Class.encodeForm = function(vForm)
 
 qx.Class.bind = function(vForm, vMethod)
 {
-  qx.dom.EventRegistration.addEventListener(vForm, "submit", function(e)
+  qx.html.EventRegistration.addEventListener(vForm, "submit", function(e)
   {
     e.returnValue = false;
 

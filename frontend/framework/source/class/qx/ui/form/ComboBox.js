@@ -319,7 +319,7 @@ qx.Proto._openPopup = function()
     return;
   }
 
-  p.positionRelativeTo(el, 1, qx.dom.Dimension.getBoxHeight(el));
+  p.positionRelativeTo(el, 1, qx.html.Dimension.getBoxHeight(el));
   p.setWidth(this.getBoxWidth()-2);
 
   p.setParent(this.getTopLevelWidget());

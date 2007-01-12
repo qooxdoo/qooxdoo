@@ -415,7 +415,7 @@ qx.Proto._openPopup = function() {
   if (!this.getSelection().length) {
     return;
   }
-  p.positionRelativeTo(el, 1, qx.dom.Dimension.getBoxHeight(el));
+  p.positionRelativeTo(el, 1, qx.html.Dimension.getBoxHeight(el));
   this._calculateDimensions();
   p.setParent(this.getTopLevelWidget());
   p.auto();

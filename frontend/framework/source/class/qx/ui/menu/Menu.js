@@ -230,8 +230,8 @@ qx.Proto._modifyOpenItem = function(propValue, propOldValue, propData)
       var pl = propValue.getElement();
       var el = this.getElement();
 
-      vSub.setTop(qx.dom.Location.getPageBoxTop(pl) + this.getSubMenuVerticalOffset());
-      vSub.setLeft(qx.dom.Location.getPageBoxLeft(el) + qx.dom.Dimension.getBoxWidth(el) + this.getSubMenuHorizontalOffset());
+      vSub.setTop(qx.html.Location.getPageBoxTop(pl) + this.getSubMenuVerticalOffset());
+      vSub.setLeft(qx.html.Location.getPageBoxLeft(el) + qx.html.Dimension.getBoxWidth(el) + this.getSubMenuHorizontalOffset());
 
       vSub.show();
 

@@ -32,7 +32,7 @@ qx.OO.defineClass("qx.html.EventRegistration");
  * @param vType {String} Name of the event
  * @param vFunction {Function} The pointer to the function to assign
  */
-qx.dom.EventRegistration.addEventListener = function(vElement, vType, vFunction) {};
+qx.html.EventRegistration.addEventListener = function(vElement, vType, vFunction) {};
 
 /**
  * Unassign a function from an event.
@@ -41,25 +41,25 @@ qx.dom.EventRegistration.addEventListener = function(vElement, vType, vFunction)
  * @param vType {String} Name of the event
  * @param vFunction {Function} The pointer to the function to assign
  */
-qx.dom.EventRegistration.removeEventListener = function(vElement, vType, vFunction) {};
+qx.html.EventRegistration.removeEventListener = function(vElement, vType, vFunction) {};
 
 if (qx.sys.Client.getInstance().isMshtml())
 {
-  qx.dom.EventRegistration.addEventListener = function(vElement, vType, vFunction) {
+  qx.html.EventRegistration.addEventListener = function(vElement, vType, vFunction) {
     vElement.attachEvent("on" + vType, vFunction);
   }
 
-  qx.dom.EventRegistration.removeEventListener = function(vElement, vType, vFunction) {
+  qx.html.EventRegistration.removeEventListener = function(vElement, vType, vFunction) {
     vElement.detachEvent("on" + vType, vFunction);
   }
 }
 else
 {
-  qx.dom.EventRegistration.addEventListener = function(vElement, vType, vFunction) {
+  qx.html.EventRegistration.addEventListener = function(vElement, vType, vFunction) {
     vElement.addEventListener(vType, vFunction, false);
   }
 
-  qx.dom.EventRegistration.removeEventListener = function(vElement, vType, vFunction) {
+  qx.html.EventRegistration.removeEventListener = function(vElement, vType, vFunction) {
     vElement.removeEventListener(vType, vFunction, false);
   }
 }

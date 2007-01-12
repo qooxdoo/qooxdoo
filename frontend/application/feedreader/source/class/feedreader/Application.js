@@ -104,7 +104,7 @@ qx.Proto.initialize = function(e)
   qx.manager.object.AliasManager.getInstance().add("feedreader", qx.Settings.getValueOfClass("feedreader.Application", "resourceUri"));
 
   // Include CSS file
-  qx.dom.StyleSheet.includeFile(qx.manager.object.AliasManager.getInstance().resolvePath("feedreader/css/reader.css"));
+  qx.html.StyleSheet.includeFile(qx.manager.object.AliasManager.getInstance().resolvePath("feedreader/css/reader.css"));
 };
 
 qx.Proto.main = function(e)
@@ -343,9 +343,9 @@ qx.Proto.parseRSSFeed = function(xml) {
     var eItem = eItems[i];
     var item = {}
     item.title = qx.xml.Core.getTextContent(eItem.getElementsByTagName("title")[0]);
-    item.author = qx.xml.Core.getTextContent(qx.xml.Core.getElementsByTagNameNS(eItem, "http://purl.org/dc/elements/1.1/", "creator")[0] || empty);
+    item.author = qx.xml.Core.getTextContent(qx.xml.Element.getElementsByTagNameNS(eItem, "http://purl.org/dc/elements/1.1/", "creator")[0] || empty);
     item.date = qx.xml.Core.getTextContent(eItem.getElementsByTagName("pubDate")[0]);
-    item.content = qx.xml.Core.getTextContent(qx.xml.Core.getElementsByTagNameNS(eItem, "http://purl.org/rss/1.0/modules/content/", "encoded")[0] || empty);
+    item.content = qx.xml.Core.getTextContent(qx.xml.Element.getElementsByTagNameNS(eItem, "http://purl.org/rss/1.0/modules/content/", "encoded")[0] || empty);
     item.link = qx.xml.Core.getTextContent(eItem.getElementsByTagName("link")[0]);
     items.push(item);
   }
