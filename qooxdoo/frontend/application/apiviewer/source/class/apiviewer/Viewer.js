@@ -26,32 +26,46 @@
 /**
  * The API viewer. Shows the API documentation.
  */
-qx.OO.defineClass("apiviewer.Viewer", qx.ui.layout.HorizontalBoxLayout,
+qx.OO.defineClass("apiviewer.Viewer", qx.ui.layout.DockLayout,
 function () {
-  qx.ui.layout.HorizontalBoxLayout.call(this);
+  qx.ui.layout.DockLayout.call(this);
 
   this.setEdge(0);
 
   this._titlePrefix = this.getSetting("title") + " API Documentation";
   document.title = this._titlePrefix;
 
+  // create header
+  var header = new qx.ui.embed.HtmlEmbed("<h1><span>" + this.getSetting("title") + "</span> API Documentation</h1>");
+  header.setCssClassName("header");
+  header.setHeight(35);
+  this.addTop(header);
+  
   this._tree = new qx.ui.tree.Tree("API Documentation");
   this._tree.set({
     backgroundColor: "white",
     overflow: "scroll",
-    width: "22%",
-    minWidth : 150,
-    maxWidth : 300
+    width: "100%",
+    height: "100%",
+    border: qx.renderer.border.BorderPresets.getInstance().inset
   });
   this._tree.getManager().addEventListener("changeSelection", this._onTreeSelectionChange, this);
-  this.add(this._tree);
 
   this._detailFrame = new qx.ui.layout.CanvasLayout;
-  this._detailFrame.setWidth("1*");
-  this._detailFrame.setBorder(qx.renderer.border.BorderPresets.horizontalDivider);
-  this._detailFrame.setBackgroundColor("white");
+  this._detailFrame.set({
+    width: "100%",
+    height: "100%",
+    backgroundColor: "white",
+    border: qx.renderer.border.BorderPresets.getInstance().inset
+  });
   this._detailFrame.setHtmlProperty("id", "DetailFrame");
-  this.add(this._detailFrame);
+  
+  // create vertival splitter
+  var mainSplitPane = new qx.ui.splitpane.HorizontalSplitPane(250, "1*");
+  mainSplitPane.setLiveResize(true);
+  mainSplitPane.addLeft(this._tree);
+  mainSplitPane.addRight(this._detailFrame);
+  this.add(mainSplitPane);
 
   this._detailLoader = new qx.ui.embed.HtmlEmbed('<h1><div class="please">please wait</div>Loading data...</h1>');
   this._detailLoader.setHtmlProperty("id", "DetailLoader");
