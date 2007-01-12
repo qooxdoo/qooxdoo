@@ -23,11 +23,11 @@
 
 qx.OO.defineClass("qx.html.ElementFromPoint");
 
-qx.dom.ElementFromPoint.getElementFromPoint = function(x, y) {
-  return qx.dom.ElementFromPoint.getElementFromPointHandler(document.body, x, y);
+qx.html.ElementFromPoint.getElementFromPoint = function(x, y) {
+  return qx.html.ElementFromPoint.getElementFromPointHandler(document.body, x, y);
 }
 
-qx.dom.ElementFromPoint.getElementFromPointHandler = function(node, x, y, recursive)
+qx.html.ElementFromPoint.getElementFromPointHandler = function(node, x, y, recursive)
 {
   var ch = node.childNodes;
   var chl = ch.length-1;
@@ -41,7 +41,7 @@ qx.dom.ElementFromPoint.getElementFromPointHandler = function(node, x, y, recurs
   do
   {
     chc = ch[chl];
-    ret = qx.dom.ElementFromPoint.getElementFromPointChecker(chc, x, y);
+    ret = qx.html.ElementFromPoint.getElementFromPointChecker(chc, x, y);
 
     if (ret)
     {
@@ -51,7 +51,7 @@ qx.dom.ElementFromPoint.getElementFromPointHandler = function(node, x, y, recurs
       }
       else
       {
-        subres = qx.dom.ElementFromPoint.getElementFromPointHandler(chc, x-ret[0]-qx.dom.Style.getBorderLeft(chc), y-ret[2]-qx.dom.Style.getBorderTop(chc));
+        subres = qx.html.ElementFromPoint.getElementFromPointHandler(chc, x-ret[0]-qx.html.Style.getBorderLeft(chc), y-ret[2]-qx.html.Style.getBorderTop(chc));
         return subres ? subres : chc;
       }
     }
@@ -61,7 +61,7 @@ qx.dom.ElementFromPoint.getElementFromPointHandler = function(node, x, y, recurs
   return null;
 }
 
-qx.dom.ElementFromPoint.getElementFromPointChecker = function(chc, x, y)
+qx.html.ElementFromPoint.getElementFromPointChecker = function(chc, x, y)
 {
   var xstart, ystart, xstop, ystop;
 
@@ -69,10 +69,10 @@ qx.dom.ElementFromPoint.getElementFromPointChecker = function(chc, x, y)
     return false;
   }
 
-  xstart = qx.dom.Offset.getLeft(chc);
+  xstart = qx.html.Offset.getLeft(chc);
   if (x > xstart)
   {
-    ystart = qx.dom.Offset.getTop(chc);
+    ystart = qx.html.Offset.getTop(chc);
     if (y > ystart)
     {
       xstop = xstart + chc.offsetWidth;
@@ -91,7 +91,7 @@ qx.dom.ElementFromPoint.getElementFromPointChecker = function(chc, x, y)
   return false;
 }
 
-qx.dom.ElementFromPoint.getElementAbsolutePointChecker = function(chc, x, y)
+qx.html.ElementFromPoint.getElementAbsolutePointChecker = function(chc, x, y)
 {
   var xstart, ystart, xstop, ystop;
 
@@ -99,10 +99,10 @@ qx.dom.ElementFromPoint.getElementAbsolutePointChecker = function(chc, x, y)
     return false;
   }
 
-  xstart = qx.dom.Location.getPageBoxLeft(chc);
+  xstart = qx.html.Location.getPageBoxLeft(chc);
   if (x > xstart)
   {
-    ystart = qx.dom.Location.getPageBoxTop(chc);
+    ystart = qx.html.Location.getPageBoxTop(chc);
     if (y > ystart)
     {
       xstop = xstart + chc.offsetWidth;

@@ -32,7 +32,7 @@ qx.OO.defineClass("qx.html.StyleSheet");
  *
  * @param vHref {String} Href value
  */
-qx.dom.StyleSheet.includeFile = function(vHref)
+qx.html.StyleSheet.includeFile = function(vHref)
 {
   var el = document.createElement("link");
   el.type = "text/css";
@@ -48,10 +48,10 @@ qx.dom.StyleSheet.includeFile = function(vHref)
  *
  * @param vCssText {String} optional string of css rules
  */
-qx.dom.StyleSheet.createElement = function(vCssText) {};
+qx.html.StyleSheet.createElement = function(vCssText) {};
 if (document.createStyleSheet) // IE 4+
 {
-  qx.dom.StyleSheet.createElement = function(vCssText)
+  qx.html.StyleSheet.createElement = function(vCssText)
   {
     var vSheet = document.createStyleSheet();
 
@@ -64,7 +64,7 @@ if (document.createStyleSheet) // IE 4+
 }
 else // FF, Opera, Safari
 {
-  qx.dom.StyleSheet.createElement = function(vCssText)
+  qx.html.StyleSheet.createElement = function(vCssText)
   {
     var vElement = document.createElement("style");
     vElement.type = "text/css";
@@ -97,16 +97,16 @@ else // FF, Opera, Safari
  * @param vSelector {String} the selector
  * @param vStyle {String} style rule
  */
-qx.dom.StyleSheet.addRule = function(vSheet, vSelector, vStyle) {};
+qx.html.StyleSheet.addRule = function(vSheet, vSelector, vStyle) {};
 if (document.createStyleSheet) // IE 4+
 {
-  qx.dom.StyleSheet.addRule = function(vSheet, vSelector, vStyle) {
+  qx.html.StyleSheet.addRule = function(vSheet, vSelector, vStyle) {
     vSheet.addRule(vSelector, vStyle);
   };
 }
 else if (qx.sys.Client.getInstance().isSafari2()) // insertRule in Safari 2 doesn't work
 {
-  qx.dom.StyleSheet.addRule = function(vSheet, vSelector, vStyle) {
+  qx.html.StyleSheet.addRule = function(vSheet, vSelector, vStyle) {
     if (!vSheet._qxRules) {
       vSheet._qxRules = {};
     }
@@ -119,7 +119,7 @@ else if (qx.sys.Client.getInstance().isSafari2()) // insertRule in Safari 2 does
 }
 else // FF, Opera
 {
-  qx.dom.StyleSheet.addRule = function(vSheet, vSelector, vStyle) {
+  qx.html.StyleSheet.addRule = function(vSheet, vSelector, vStyle) {
     vSheet.insertRule(vSelector + "{" + vStyle + "}", vSheet.cssRules.length);
   };
 }
@@ -131,10 +131,10 @@ else // FF, Opera
  * @param vSheet     {Object} the Stylesheet
  * @param vSelector {String} the Selector of the rule to remove
  */
-qx.dom.StyleSheet.removeRule = function(vSheet, vSelector) {};
+qx.html.StyleSheet.removeRule = function(vSheet, vSelector) {};
 if (document.createStyleSheet) // IE 4+
 {
-  qx.dom.StyleSheet.removeRule = function(vSheet, vSelector)
+  qx.html.StyleSheet.removeRule = function(vSheet, vSelector)
   {
     var vRules = vSheet.rules;
     var vLength = vRules.length;
@@ -149,10 +149,10 @@ if (document.createStyleSheet) // IE 4+
 }
 else if (qx.sys.Client.getInstance().isSafari2()) // removeRule in Safari 2 doesn't work
 {
-  qx.dom.StyleSheet.removeRule = function(vSheet, vSelector)
+  qx.html.StyleSheet.removeRule = function(vSheet, vSelector)
   {
     var warn = function() {
-      qx.dev.log.Logger.ROOT_LOGGER.warn("In Safari/Webkit you can only remove rules that are created using qx.dom.StyleSheet.addRule");
+      qx.dev.log.Logger.ROOT_LOGGER.warn("In Safari/Webkit you can only remove rules that are created using qx.html.StyleSheet.addRule");
     }
     if (!vSheet._qxRules) {
       warn();
@@ -168,7 +168,7 @@ else if (qx.sys.Client.getInstance().isSafari2()) // removeRule in Safari 2 does
 }
 else
 {
-  qx.dom.StyleSheet.removeRule = function(vSheet, vSelector)
+  qx.html.StyleSheet.removeRule = function(vSheet, vSelector)
   {
     var vRules = vSheet.cssRules;
     var vLength = vRules.length;
@@ -188,10 +188,10 @@ else
  *
  * @param vSheet {Object} the stylesheet object
  */
-qx.dom.StyleSheet.removeAllRules = function(vSheet) {};
+qx.html.StyleSheet.removeAllRules = function(vSheet) {};
 if (document.createStyleSheet) // IE 4+
 {
-  qx.dom.StyleSheet.removeAllRules = function(vSheet)
+  qx.html.StyleSheet.removeAllRules = function(vSheet)
   {
     var vRules = vSheet.rules;
     var vLength = vRules.length;
@@ -203,7 +203,7 @@ if (document.createStyleSheet) // IE 4+
 }
 else if (qx.sys.Client.getInstance().isSafari2()) // removeRule in Safari 2 doesn't work
 {
-  qx.dom.StyleSheet.removeAllRules = function(vSheet)
+  qx.html.StyleSheet.removeAllRules = function(vSheet)
   {
     var node = vSheet.ownerNode;
     var rules = node.childNodes;
@@ -214,7 +214,7 @@ else if (qx.sys.Client.getInstance().isSafari2()) // removeRule in Safari 2 does
 }
 else // FF, etc
 {
-  qx.dom.StyleSheet.removeAllRules = function(vSheet)
+  qx.html.StyleSheet.removeAllRules = function(vSheet)
   {
     var vRules = vSheet.cssRules;
     var vLength = vRules.length;
@@ -235,22 +235,22 @@ else // FF, etc
  * @param vSheet {Object} the stylesheet object
  * @param vUrl {String} URL of the external stylesheet file
  */
-qx.dom.StyleSheet.addImport = function(vSheet, vUrl) {};
+qx.html.StyleSheet.addImport = function(vSheet, vUrl) {};
 if (document.createStyleSheet) // IE 4+
 {
-  qx.dom.StyleSheet.addImport = function(vSheet, vUrl) {
+  qx.html.StyleSheet.addImport = function(vSheet, vUrl) {
     vSheet.addImport(vUrl);
   };
 }
 else  if (qx.sys.Client.getInstance().isSafari2()) // insertRule in Safari 2 doesn't work
 {
-  qx.dom.StyleSheet.addImport = function(vSheet, vUrl) {
+  qx.html.StyleSheet.addImport = function(vSheet, vUrl) {
     vSheet.ownerNode.appendChild(document.createTextNode('@import "' + vUrl + '";'));
   };
 }
 else // FF, etc
 {
-  qx.dom.StyleSheet.addImport = function(vSheet, vUrl) {
+  qx.html.StyleSheet.addImport = function(vSheet, vUrl) {
     vSheet.insertRule('@import "' + vUrl + '";', vSheet.cssRules.length);
   };
 }
@@ -262,10 +262,10 @@ else // FF, etc
  * @param vSheet {Object} the stylesheet object
  * @param vUrl {String}  URL of the importet CSS file
  */
-qx.dom.StyleSheet.removeImport = function(vSheet, vUrl) {};
+qx.html.StyleSheet.removeImport = function(vSheet, vUrl) {};
 if (document.createStyleSheet) // IE 4+
 {
-  qx.dom.StyleSheet.removeImport = function(vSheet, vUrl) {
+  qx.html.StyleSheet.removeImport = function(vSheet, vUrl) {
     var vImports = vSheet.imports;
     var vLength = vImports.length;
 
@@ -278,7 +278,7 @@ if (document.createStyleSheet) // IE 4+
 }
 else // FF, etc
 {
-  qx.dom.StyleSheet.removeImport = function(vSheet, vUrl) {
+  qx.html.StyleSheet.removeImport = function(vSheet, vUrl) {
     var vRules = vSheet.cssRules;
     var vLength = vRules.length;
 
@@ -296,10 +296,10 @@ else // FF, etc
  *
  * @param vSheet {Object} the stylesheet object
  */
-qx.dom.StyleSheet.removeAllImports = function(vSheet) {};
+qx.html.StyleSheet.removeAllImports = function(vSheet) {};
 if (document.createStyleSheet) // IE 4+
 {
-  qx.dom.StyleSheet.removeAllImports = function(vSheet) {
+  qx.html.StyleSheet.removeAllImports = function(vSheet) {
     var vImports = vSheet.imports;
     var vLength = vImports.length;
 
@@ -310,7 +310,7 @@ if (document.createStyleSheet) // IE 4+
 }
 else // FF, etc
 {
-  qx.dom.StyleSheet.removeAllImports = function(vSheet) {
+  qx.html.StyleSheet.removeAllImports = function(vSheet) {
     var vRules = vSheet.cssRules;
     var vLength = vRules.length;
 

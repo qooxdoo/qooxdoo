@@ -368,7 +368,7 @@ qx.Proto.showItem = function(itemName) {
   this._markedElement = elem;
 
   // Scroll the element visible
-  var top = qx.dom.Location.getPageBoxTop(elem);
+  var top = qx.html.Location.getPageBoxTop(elem);
   var height = elem.offsetHeight;
 
   var doc = this.getElement();
@@ -1182,7 +1182,7 @@ qx.Proto._createConstantValueHtml = function(node, fromClassNode) {
   if (this._hasConstantValueHtml(node)) {
       return (
         ClassViewer.DIV_START_DETAIL_HEADLINE + "Value: " + ClassViewer.DIV_END +
-        ClassViewer.DIV_START_DETAIL_TEXT + qx.util.StringEscape.escapeHtml(qx.io.Json.stringify(node.attributes.value)) + ClassViewer.DIV_END
+        ClassViewer.DIV_START_DETAIL_TEXT + qx.html.String.escape(qx.io.Json.stringify(node.attributes.value)) + ClassViewer.DIV_END
       );
   } else {
     return "";
@@ -1562,7 +1562,8 @@ qx.Class.PRIMITIVES = { "var":true, "void":true, "undefined":true, "arguments":t
   "Boolean":true, "String":true, "Float":true, "Double":true,
   "Number":true, "Integer":true, "Error":true,
   "RegExp":true, "Array":true, "Map":true, "Date":true, "Element":true,
-  "Node":true, "Function":true, "Object":true, "Event":true };
+  "Document":true, "Window":true, "Node":true, "Function":true, "Object":true,
+  "Event":true };
 
 /**
  * {regexp} The regexp for parsing a item name

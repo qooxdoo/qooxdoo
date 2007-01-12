@@ -166,12 +166,12 @@ qx.Proto.showColumnMoveFeedback = function(col, x) {
       setHeight(cellWidget.getBoxHeight());
       setZIndex(1000000);
       setOpacity(0.8);
-      setTop(qx.dom.Location.getClientBoxTop(elem));
+      setTop(qx.html.Location.getClientBoxTop(elem));
     }
     this.getTopLevelWidget().add(this._moveFeedback);
   }
 
-  this._moveFeedback.setLeft(qx.dom.Location.getClientBoxLeft(elem) + x);
+  this._moveFeedback.setLeft(qx.html.Location.getClientBoxLeft(elem) + x);
 }
 
 

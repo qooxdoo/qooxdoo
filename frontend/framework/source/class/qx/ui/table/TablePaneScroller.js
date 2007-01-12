@@ -733,7 +733,7 @@ qx.Proto._hideResizeLine = function() {
 qx.Proto.showColumnMoveFeedback = function(pageX) {
   var paneModel = this.getTablePaneModel();
   var columnModel = this.getTable().getTableColumnModel();
-  var paneLeftX = qx.dom.Location.getClientBoxLeft(this._tablePane.getElement());
+  var paneLeftX = qx.html.Location.getClientBoxLeft(this._tablePane.getElement());
   var colCount = paneModel.getColumnCount();
 
   var targetXPos = 0;
@@ -753,7 +753,7 @@ qx.Proto.showColumnMoveFeedback = function(pageX) {
   }
 
   // Ensure targetX is visible
-  var clipperLeftX = qx.dom.Location.getClientBoxLeft(this._paneClipper.getElement());
+  var clipperLeftX = qx.html.Location.getClientBoxLeft(this._paneClipper.getElement());
   var clipperWidth = this._paneClipper.getBoxWidth();
   var scrollX = clipperLeftX - paneLeftX;
   // NOTE: +2/-1 because of feedback width
@@ -979,7 +979,7 @@ qx.Proto._onCellEditorFocusChanged = function(evt) {
  * @return {Integer} the model index of the column the mouse is over.
  */
 qx.Proto._getColumnForPageX = function(pageX) {
-  var headerLeftX = qx.dom.Location.getClientBoxLeft(this._header.getElement());
+  var headerLeftX = qx.html.Location.getClientBoxLeft(this._header.getElement());
 
   var columnModel = this.getTable().getTableColumnModel();
   var paneModel = this.getTablePaneModel();
@@ -1007,7 +1007,7 @@ qx.Proto._getColumnForPageX = function(pageX) {
  * @return {Integer} the column index.
  */
 qx.Proto._getResizeColumnForPageX = function(pageX) {
-  var headerLeftX = qx.dom.Location.getClientBoxLeft(this._header.getElement());
+  var headerLeftX = qx.html.Location.getClientBoxLeft(this._header.getElement());
 
   var columnModel = this.getTable().getTableColumnModel();
   var paneModel = this.getTablePaneModel();
@@ -1039,15 +1039,15 @@ qx.Proto._getResizeColumnForPageX = function(pageX) {
  */
 qx.Proto._getRowForPagePos = function(pageX, pageY) {
   var paneClipperElem = this._paneClipper.getElement();
-  var paneClipperLeftX = qx.dom.Location.getClientBoxLeft(paneClipperElem);
-  var paneClipperRightX = qx.dom.Location.getClientBoxRight(paneClipperElem);
+  var paneClipperLeftX = qx.html.Location.getClientBoxLeft(paneClipperElem);
+  var paneClipperRightX = qx.html.Location.getClientBoxRight(paneClipperElem);
   if (pageX < paneClipperLeftX || pageX > paneClipperRightX) {
     // There was no cell or header cell hit
     return null;
   }
 
-  var paneClipperTopY = qx.dom.Location.getClientBoxTop(paneClipperElem);
-  var paneClipperBottomY = qx.dom.Location.getClientBoxBottom(paneClipperElem);
+  var paneClipperTopY = qx.html.Location.getClientBoxTop(paneClipperElem);
+  var paneClipperBottomY = qx.html.Location.getClientBoxBottom(paneClipperElem);
   if (pageY >= paneClipperTopY && pageY <= paneClipperBottomY) {
     // This event is in the pane -> Get the row
     var rowHeight = this.getTable().getRowHeight();
@@ -1065,9 +1065,9 @@ qx.Proto._getRowForPagePos = function(pageX, pageY) {
   }
 
   var headerElem = this._headerClipper.getElement();
-  if (pageY >= qx.dom.Location.getClientBoxTop(headerElem)
-    && pageY <= qx.dom.Location.getClientBoxBottom(headerElem)
-    && pageX <= qx.dom.Location.getClientBoxRight(headerElem))
+  if (pageY >= qx.html.Location.getClientBoxTop(headerElem)
+    && pageY <= qx.html.Location.getClientBoxBottom(headerElem)
+    && pageX <= qx.html.Location.getClientBoxRight(headerElem))
   {
     // This event is in the pane -> Return -1 for the header
     return -1;

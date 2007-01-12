@@ -22,7 +22,7 @@
 #optional(qx.event.handler.FocusHandler)
 #optional(qx.manager.object.ToolTipManager)
 #optional(qx.manager.object.PopupManager)
-#optional(qx.dom.ElementFromPoint)
+#optional(qx.html.ElementFromPoint)
 
 ************************************************************************ */
 
@@ -1136,7 +1136,7 @@ qx.Proto.getWidgetFromPointHelper = function(x, y)
   var ch = this.getChildren();
 
   for (var chl=ch.length, i=0; i<chl; i++) {
-    if (qx.dom.ElementFromPoint.getElementAbsolutePointChecker(ch[i].getElement(), x, y)) {
+    if (qx.html.ElementFromPoint.getElementAbsolutePointChecker(ch[i].getElement(), x, y)) {
       return ch[i].getWidgetFromPointHelper(x, y);
     }
   }

@@ -55,7 +55,7 @@ qx.Proto.initialize = function(e)
   qx.dev.log.Logger.ROOT_LOGGER.setMinLevel(qx.dev.log.Logger.LEVEL_WARN);
 
   // Include CSS file
-  qx.dom.StyleSheet.includeFile(qx.manager.object.AliasManager.getInstance().resolvePath("api/css/apiviewer.css"));
+  qx.html.StyleSheet.includeFile(qx.manager.object.AliasManager.getInstance().resolvePath("api/css/apiviewer.css"));
 };
 
 qx.Proto.main = function(e)

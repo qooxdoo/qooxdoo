@@ -18,7 +18,7 @@
 
 /* ************************************************************************
 
-#require(qx.dom.Window)
+#require(qx.html.Window)
 
 ************************************************************************ */
 
@@ -513,7 +513,7 @@ qx.Proto.centerToScreenArea = function() {
 }
 
 qx.Proto.centerToOpener = function() {
-  return this._centerHelper(((qx.dom.Window.getInnerWidth(window) - this.getWidth()) / 2) + qx.dom.Location.getScreenBoxLeft(window.document.body), ((qx.dom.Window.getInnerHeight(window) - this.getHeight()) / 2) + qx.dom.Location.getScreenBoxTop(window.document.body));
+  return this._centerHelper(((qx.html.Window.getInnerWidth(window) - this.getWidth()) / 2) + qx.html.Location.getScreenBoxLeft(window.document.body), ((qx.html.Window.getInnerHeight(window) - this.getHeight()) / 2) + qx.html.Location.getScreenBoxTop(window.document.body));
 }
 
 qx.Proto._centerHelper = function(l, t)

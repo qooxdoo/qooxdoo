@@ -864,10 +864,10 @@ qx.Proto._onwindowmousedown = function(e)
     var pa = this.getParent();
     var pl = pa.getElement();
 
-    var l = qx.dom.Location.getPageAreaLeft(pl);
-    var t = qx.dom.Location.getPageAreaTop(pl);
-    var r = qx.dom.Location.getPageAreaRight(pl);
-    var b = qx.dom.Location.getPageAreaBottom(pl);
+    var l = qx.html.Location.getPageAreaLeft(pl);
+    var t = qx.html.Location.getPageAreaTop(pl);
+    var r = qx.html.Location.getPageAreaRight(pl);
+    var b = qx.html.Location.getPageAreaBottom(pl);
 
     // handle frame and translucently
     switch(this.getResizeMethod())
@@ -885,11 +885,11 @@ qx.Proto._onwindowmousedown = function(e)
           qx.ui.core.Widget.flushGlobalQueues();
         }
 
-        f._applyRuntimeLeft(qx.dom.Location.getPageBoxLeft(el) - l);
-        f._applyRuntimeTop(qx.dom.Location.getPageBoxTop(el) - t);
+        f._applyRuntimeLeft(qx.html.Location.getPageBoxLeft(el) - l);
+        f._applyRuntimeTop(qx.html.Location.getPageBoxTop(el) - t);
 
-        f._applyRuntimeWidth(qx.dom.Dimension.getBoxWidth(el));
-        f._applyRuntimeHeight(qx.dom.Dimension.getBoxHeight(el));
+        f._applyRuntimeWidth(qx.html.Dimension.getBoxWidth(el));
+        f._applyRuntimeHeight(qx.html.Dimension.getBoxHeight(el));
 
         f.setZIndex(this.getZIndex() + 1);
 
@@ -901,13 +901,13 @@ qx.Proto._onwindowmousedown = function(e)
 
     if (this._resizeWest)
     {
-      s.boxWidth = qx.dom.Dimension.getBoxWidth(el);
-      s.boxRight = qx.dom.Location.getPageBoxRight(el);
+      s.boxWidth = qx.html.Dimension.getBoxWidth(el);
+      s.boxRight = qx.html.Location.getPageBoxRight(el);
     }
 
     if (this._resizeWest || this._resizeEast)
     {
-      s.boxLeft = qx.dom.Location.getPageBoxLeft(el);
+      s.boxLeft = qx.html.Location.getPageBoxLeft(el);
 
       s.parentAreaOffsetLeft = l;
       s.parentAreaOffsetRight = r;
@@ -918,13 +918,13 @@ qx.Proto._onwindowmousedown = function(e)
 
     if (this._resizeNorth)
     {
-      s.boxHeight = qx.dom.Dimension.getBoxHeight(el);
-      s.boxBottom = qx.dom.Location.getPageBoxBottom(el);
+      s.boxHeight = qx.html.Dimension.getBoxHeight(el);
+      s.boxBottom = qx.html.Location.getPageBoxBottom(el);
     }
 
     if (this._resizeNorth || this._resizeSouth)
     {
-      s.boxTop = qx.dom.Location.getPageBoxTop(el);
+      s.boxTop = qx.html.Location.getPageBoxTop(el);
 
       s.parentAreaOffsetTop = t;
       s.parentAreaOffsetBottom = b;
@@ -1092,23 +1092,23 @@ qx.Proto._onwindowmousemove = function(e)
 
     this._resizeNorth = this._resizeSouth = this._resizeWest = this._resizeEast = false;
 
-    if (this._near(qx.dom.Location.getPageBoxTop(el), e.getPageY()))
+    if (this._near(qx.html.Location.getPageBoxTop(el), e.getPageY()))
     {
       resizeMode = "n";
       this._resizeNorth = true;
     }
-    else if (this._near(qx.dom.Location.getPageBoxBottom(el), e.getPageY()))
+    else if (this._near(qx.html.Location.getPageBoxBottom(el), e.getPageY()))
     {
       resizeMode = "s";
       this._resizeSouth = true;
     }
 
-    if (this._near(qx.dom.Location.getPageBoxLeft(el), e.getPageX()))
+    if (this._near(qx.html.Location.getPageBoxLeft(el), e.getPageX()))
     {
       resizeMode += "w";
       this._resizeWest = true;
     }
-    else if (this._near(qx.dom.Location.getPageBoxRight(el), e.getPageX()))
+    else if (this._near(qx.html.Location.getPageBoxRight(el), e.getPageX()))
     {
       resizeMode += "e";
       this._resizeEast = true;
@@ -1228,15 +1228,15 @@ qx.Proto._oncaptionmousedown = function(e)
   var pa = this.getParent();
   var pl = pa.getElement();
 
-  var l = qx.dom.Location.getPageAreaLeft(pl);
-  var t = qx.dom.Location.getPageAreaTop(pl);
-  var r = qx.dom.Location.getPageAreaRight(pl);
-  var b = qx.dom.Location.getPageAreaBottom(pl);
+  var l = qx.html.Location.getPageAreaLeft(pl);
+  var t = qx.html.Location.getPageAreaTop(pl);
+  var r = qx.html.Location.getPageAreaRight(pl);
+  var b = qx.html.Location.getPageAreaBottom(pl);
 
   this._dragSession =
   {
-    offsetX : e.getPageX() - qx.dom.Location.getPageBoxLeft(el) + l,
-    offsetY : e.getPageY() - qx.dom.Location.getPageBoxTop(el) + t,
+    offsetX : e.getPageX() - qx.html.Location.getPageBoxLeft(el) + l,
+    offsetY : e.getPageY() - qx.html.Location.getPageBoxTop(el) + t,
 
     parentAvailableAreaLeft : l + 5,
     parentAvailableAreaTop : t + 5,
@@ -1260,11 +1260,11 @@ qx.Proto._oncaptionmousedown = function(e)
         qx.ui.core.Widget.flushGlobalQueues();
       }
 
-      f._applyRuntimeLeft(qx.dom.Location.getPageBoxLeft(el) - l);
-      f._applyRuntimeTop(qx.dom.Location.getPageBoxTop(el) - t);
+      f._applyRuntimeLeft(qx.html.Location.getPageBoxLeft(el) - l);
+      f._applyRuntimeTop(qx.html.Location.getPageBoxTop(el) - t);
 
-      f._applyRuntimeWidth(qx.dom.Dimension.getBoxWidth(el));
-      f._applyRuntimeHeight(qx.dom.Dimension.getBoxHeight(el));
+      f._applyRuntimeWidth(qx.html.Dimension.getBoxWidth(el));
+      f._applyRuntimeHeight(qx.html.Dimension.getBoxHeight(el));
 
       f.setZIndex(this.getZIndex() + 1);
 

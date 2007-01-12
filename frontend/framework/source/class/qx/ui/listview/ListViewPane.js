@@ -275,7 +275,7 @@ qx.Proto.getManager = function() {
 qx.Proto.getListViewTarget = function(e)
 {
   var vEventTop = e.getPageY();
-  var vPaneTop = qx.dom.Location.getPageInnerTop(this.getElement());
+  var vPaneTop = qx.html.Location.getPageInnerTop(this.getElement());
   var vItemNo = Math.floor(this._currentScrollTop / this._rowHeight) +
                 Math.floor((vEventTop - vPaneTop) / this._rowHeight);
 
@@ -301,7 +301,7 @@ qx.Proto.getItemHeight = function(vItem) {
 
 // use the full inner width of the pane
 qx.Proto.getItemWidth = function(vItem) {
-  return qx.dom.Dimension.getInnerWidth(this.getElement());
+  return qx.html.Dimension.getInnerWidth(this.getElement());
 }
 
 qx.Proto.getItemLeft = function(vItem) {

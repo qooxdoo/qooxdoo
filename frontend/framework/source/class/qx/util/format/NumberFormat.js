@@ -154,13 +154,13 @@ qx.Proto.parse = function(str) {
   var NumberFormat = qx.util.format.NumberFormat;
 
   // use the escaped separators for regexp
-  var groupSepEsc = qx.util.StringEscape.escapeRegexpChars(qx.locale.Number.getGroupSeparator(this._locale)+"");
-  var decimalSepEsc = qx.util.StringEscape.escapeRegexpChars(qx.locale.Number.getDecimalSeparator(this._locale)+"");
+  var groupSepEsc = qx.lang.String.escapeRegexpChars(qx.locale.Number.getGroupSeparator(this._locale)+"");
+  var decimalSepEsc = qx.lang.String.escapeRegexpChars(qx.locale.Number.getDecimalSeparator(this._locale)+"");
 
-  var regex = new RegExp(qx.util.StringEscape.escapeRegexpChars(this.getPrefix())
+  var regex = new RegExp(qx.lang.String.escapeRegexpChars(this.getPrefix())
     + '(-)?([0-9' + groupSepEsc + ']+)'
     + '(' + decimalSepEsc + '\\d+)?'
-    + qx.util.StringEscape.escapeRegexpChars(this.getPostfix()));
+    + qx.lang.String.escapeRegexpChars(this.getPostfix()));
 
   var hit = regex.exec(str);
   if (hit == null) {

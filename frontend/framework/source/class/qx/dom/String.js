@@ -91,7 +91,7 @@ qx.Class.unescapeEntities = function(str, entitiesToCharCode) {
 /**
  * Remove HTML/XML tags from a string
  * Example:
- * <pre>qx.lang.String.stripTags("&lt;h1>Hello&lt;/h1>") == "Hello"</pre>
+ * <pre>qx.dom.String.stripTags("&lt;h1>Hello&lt;/h1>") == "Hello"</pre>
  *
  * @param str {String} string containing tags
  * @return {String} the string with stripped tags

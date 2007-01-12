@@ -57,6 +57,8 @@ VARPREFIXES = {
 VARNAMES = {
   "a" : "Array",
   "arr" : "Array",
+  
+  "doc" : "Document",
 
   "e" : "Event",
   "ev" : "Event",
@@ -90,7 +92,9 @@ VARNAMES = {
   "reg" : "RegExp",
 
   "s" : "String",
-  "str" : "String"
+  "str" : "String",
+  
+  "win" : "Window"
 }
 
 VARDESC = {

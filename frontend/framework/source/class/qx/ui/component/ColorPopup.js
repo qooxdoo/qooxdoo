@@ -289,8 +289,8 @@ qx.Proto._onSelectorButtonExecute = function(e)
 {
   this._createColorSelector();
 
-  this._colorSelectorWindow.setTop(qx.dom.Location.getPageBoxTop(this._selectorButton.getElement()) + 10);
-  this._colorSelectorWindow.setLeft(qx.dom.Location.getPageBoxLeft(this._selectorButton.getElement()) + 100);
+  this._colorSelectorWindow.setTop(qx.html.Location.getPageBoxTop(this._selectorButton.getElement()) + 10);
+  this._colorSelectorWindow.setLeft(qx.html.Location.getPageBoxLeft(this._selectorButton.getElement()) + 100);
 
   this.hide();
 
