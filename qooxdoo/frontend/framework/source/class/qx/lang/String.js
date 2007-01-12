@@ -90,19 +90,6 @@ qx.Class.trim = function(str) {
 
 
 /**
- * Remove HTML/XML tags from a string
- * Example:
- * <pre>qx.lang.String.stripTags("&lt;h1>Hello&lt;/h1>") == "Hello"</pre>
- *
- * @param str {String} string containing tags
- * @return {String} the string with stripped tags
- */
-qx.Class.stripTags = function(str) {
-  return str.replace(/<\/?[^>]+>/gi, "");
-};
-
-
-/**
  * Check whether the string starts with the given substring
  *
  * @param fullstr {String} the string to search in
@@ -265,4 +252,15 @@ qx.Class.format = function(pattern, args)
   }
 
   return str;
+};
+
+
+/**
+ * Escapes all chars that have a special meaning in regular expressions
+ *
+ * @param str {String} the string where to escape the chars.
+ * @return {String} the string with the escaped chars.
+ */
+qx.Class.escapeRegexpChars = function(str) {
+  return str.replace(/([\\\.\(\)\[\]\{\}\^\$\?\+\*])/g, "\\$1");
 };

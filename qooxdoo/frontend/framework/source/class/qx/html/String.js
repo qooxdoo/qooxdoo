@@ -44,7 +44,7 @@ qx.OO.defineClass("qx.html.String");
  * @return {String} a new escaped String
  */
 qx.Class.escape = function(str) {
-  return qx.dom.String.escape(
+  return qx.dom.String.escapeEntities(
     str,
     qx.html.Entity.FROM_CHARCODE
   );
@@ -69,7 +69,7 @@ qx.Class.escape = function(str) {
  * @return a new unescaped String
  */
 qx.Class.unescape = function(str) {
-  return qx.dom.String.unescape(
+  return qx.dom.String.unescapeEntities(
     str,
     qx.html.Entity.TO_CHARCODE
   );
