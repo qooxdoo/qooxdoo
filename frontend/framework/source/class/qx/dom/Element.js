@@ -27,7 +27,7 @@ qx.OO.defineClass("qx.dom.Element");
  *
  * @param vElement {Element} DOM element
  */
-qx.dom.Element.cleanWhitespace = function(vElement)
+qx.Class.cleanWhitespace = function(vElement)
 {
   for (var i=0; i<vElement.childNodes.length; i++)
   {
@@ -45,9 +45,29 @@ qx.dom.Element.cleanWhitespace = function(vElement)
  *
  * @param vElement {Element} DOM element
  */
-qx.dom.Element.isEmpty = function(vElement) {
+qx.Class.isEmpty = function(vElement) {
   return vElement.innerHTML.match(/^\s*$/);
 }
+
+
+/**
+ * Returns the text content of a DOM element
+ * http://developer.mozilla.org/en/docs/DOM:element.textContent
+ *
+ * @param element {Element} DOM Element
+ * @return {String}
+ */
+ qx.Class.getTextContent = function(element) {
+  var text = "";
+  var childNodes = element.childNodes;
+  for (var i=0; i<childNodes.length; i++) {
+    var node = childNodes[i];
+    if (node.nodeType == qx.dom.Node.TEXT || node.nodeType == qx.dom.Node.CDATA_SECTION) {
+      text += node.nodeValue;
+    }
+  }
+  return text;
+};
 
 
 /**
@@ -57,18 +77,18 @@ qx.dom.Element.isEmpty = function(vElement) {
  * @param vElement {Element} DOM node
  * @param sValue {String} the value
  */
-qx.dom.Element.setTextContent = function(vElement, sValue) {};
+qx.Class.setTextContent = function(vElement, sValue) {};
 
 if (qx.sys.Client.getInstance().supportsTextContent()) {
-  qx.dom.Element.setTextContent = function(vElement, sValue) {
+  qx.Class.setTextContent = function(vElement, sValue) {
     vElement.textContent = sValue;
   };
 } else if (qx.sys.Client.getInstance().supportsInnerText()) {
-  qx.dom.Element.setTextContent = function(vElement, sValue) {
+  qx.Class.setTextContent = function(vElement, sValue) {
     vElement.innerText = sValue;
   };
 } else {
-  qx.dom.Element.setTextContent = function(vElement, sValue) {
+  qx.Class.setTextContent = function(vElement, sValue) {
     vElement.innerHTML = qx.util.StringEscape.escapeHtml(sValue);
   };
 }
