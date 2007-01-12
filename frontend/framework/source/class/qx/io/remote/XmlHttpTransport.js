@@ -82,12 +82,11 @@ qx.io.remote.XmlHttpTransport.requestObjectCount = 0;
 
 qx.io.remote.XmlHttpTransport.isSupported = function()
 {
-  qx.io.remote.XmlHttpTransport._requestObject = qx.xml.Core.createXmlHttpRequest();
-  return qx.io.remote.XmlHttpTransport._requestObject != null ? true : false;
+  return qx.xml.Core.createXmlHttpRequest() != null ? true : false;
 };
 
 qx.io.remote.XmlHttpTransport.createRequestObject = function() {
-  return qx.io.remote.XmlHttpTransport._requestObject;
+  return qx.xml.Core.createXmlHttpRequest();
 }
 
 
