@@ -36,7 +36,8 @@ qx.OO.defineClass("qx.xml.Document");
  * Create an XML document
  * http://www.w3.org/TR/DOM-Level-2-Core/core.html#i-Document
  *
- * TODO: args!!!
+ * TODO: add implementation that suuports the given arguments.
+ *       Drop fromString() afterwards.
  * 
  * @param content {String|null?null}
  * @param namespace {String|null?null}
