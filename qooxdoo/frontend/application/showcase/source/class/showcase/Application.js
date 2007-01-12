@@ -30,6 +30,14 @@
 #embed(qx.icontheme/32/*)
 #embed(qx.icontheme/48/*)
 
+#load(qx.theme.icon.Nuvola)
+
+#load(qx.theme.color.System)
+#load(qx.theme.color.WindowsClassic)
+#load(qx.theme.color.WindowsLunaBlue)
+#load(qx.theme.color.WindowsLunaGreen)
+#load(qx.theme.color.WindowsLunaSilver)
+
 ************************************************************************ */
 
 qx.OO.defineClass("showcase.Application", qx.component.AbstractApplication,
