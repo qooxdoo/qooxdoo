@@ -360,7 +360,7 @@ info-source:
 info-api:
 	@echo
 	@echo "****************************************************************************"
-	@echo "  GENERATING API BROWSER FOR $(APPLICATION_MAKE_TITLE)"
+	@echo "  GENERATING API VIEWER FOR $(APPLICATION_MAKE_TITLE)"
 	@echo "****************************************************************************"
 
 info-pretty:
@@ -390,7 +390,7 @@ info-clean:
 info-distclean:
 	@echo
 	@echo "****************************************************************************"
-	@echo "  COMPLETELY CLEANING UP $(APPLICATION_MAKE_TITLE)"
+	@echo "  CLEANING UP $(APPLICATION_MAKE_TITLE)" COMPLETELY
 	@echo "****************************************************************************"
 
 info-publish:
