@@ -1,3 +1,18 @@
+.header {
+	margin: 0px;
+	padding: 0px;
+	background-color: #134275;
+}
+
+.header h1 {
+  font-family: "Trebuchet MS", "Lucida Grande", Verdana, sans-serif;
+	font-size: 18px;
+	font-weight: bold;
+	color: #DEFF83;
+	padding: 6px 20px;
+	margin: 0px;
+}
+
 #DetailFrame,
 #DetailFrame td,
 #DetailFrame th{
