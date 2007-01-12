@@ -53,7 +53,7 @@ if (document.implementation && document.implementation.createDocument) // The Mo
     return document.implementation.createDocument("", "", null);
   }
 }
-else if (qx.sys.Client.getInstance().isMshtml())   // The Microsoft style
+else if (qx.core.Client.getInstance().isMshtml())   // The Microsoft style
 {
   qx.Class.create = function(content, namespace, root)
   {
@@ -118,7 +118,7 @@ if (window.DOMParser)
     return dom;
   };  
 }
-else if (qx.sys.Client.getInstance().isMshtml())   // The Microsoft style
+else if (qx.core.Client.getInstance().isMshtml())   // The Microsoft style
 {
   qx.Class.fromString = function(str) {
     var dom = qx.xml.Document.create();

@@ -43,5 +43,5 @@ qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "too
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._onkeydown = qx.util.Return.returnTrue;
-qx.Proto._onkeyup = qx.util.Return.returnTrue;
+qx.Proto._onkeydown = qx.lang.Function.returnTrue;
+qx.Proto._onkeyup = qx.lang.Function.returnTrue;

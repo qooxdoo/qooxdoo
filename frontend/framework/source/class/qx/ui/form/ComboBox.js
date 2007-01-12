@@ -689,7 +689,7 @@ qx.Proto._visualizeBlur = function()
   // Force blur, even if mouseFocus is not active because we
   // need to be sure that the previous focus rect gets removed.
   // But this only needs to be done, if there is no new focused element.
-  if (qx.sys.Client.getInstance().isMshtml())
+  if (qx.core.Client.getInstance().isMshtml())
   {
     if (this.getEnableElementFocus() && !this.getFocusRoot().getFocusedChild())
     {

@@ -33,7 +33,7 @@ function(horizontal) {
   this._horizontal = (horizontal == true);
 
   this._scrollBar = new qx.ui.layout.CanvasLayout;
-  if (qx.sys.Client.getInstance().isGecko()) {
+  if (qx.core.Client.getInstance().isGecko()) {
     // NOTE: We have to force not using position:absolute, because this causes
     //     strange looking scrollbars in some cases (e.g. in Firefox under
     //     Linux the horizontal scrollbar is too high)
@@ -44,7 +44,7 @@ function(horizontal) {
   this._scrollBar.addEventListener("scroll", this._onscroll, this);
 
   this._scrollContent = new qx.ui.basic.Terminator;
-  if (qx.sys.Client.getInstance().isGecko()) {
+  if (qx.core.Client.getInstance().isGecko()) {
     this._scrollContent.setStyleProperty("position", "");
   }
   this._scrollBar.add(this._scrollContent);
@@ -55,7 +55,7 @@ function(horizontal) {
     this._scrollBar.setHeight(this._getScrollBarWidth());
 
     // IE needs that the scrollbar element has a width of +1
-    if (qx.sys.Client.getInstance().isMshtml()) {
+    if (qx.core.Client.getInstance().isMshtml()) {
       this.setHeight(this._getScrollBarWidth());
       this.setOverflow("hidden");
       this._scrollBar.setHeight(this._getScrollBarWidth() + 1);
@@ -67,7 +67,7 @@ function(horizontal) {
     this._scrollBar.setWidth(this._getScrollBarWidth());
 
     // IE needs that the scrollbar element has a width of +1
-    if (qx.sys.Client.getInstance().isMshtml()) {
+    if (qx.core.Client.getInstance().isMshtml()) {
       this.setWidth(this._getScrollBarWidth());
       this.setOverflow("hidden");
       this._scrollBar.setWidth(this._getScrollBarWidth() + 1);

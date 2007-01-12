@@ -370,7 +370,7 @@ qx.Proto._afterAppear = function() {
   qx.ui.layout.VerticalBoxLayout.prototype._afterAppear.call(this);
 
   var self = this;
-  this.getElement().onselectstart = qx.util.Return.returnFalse;
+  this.getElement().onselectstart = qx.lang.Function.returnFalse;
 
   this._updateContent();
   this._header._updateContent();
@@ -1330,4 +1330,4 @@ qx.Class.VERTICAL_SCROLLBAR = 2;
  * (string) The correct value for the CSS style attribute "cursor" for the
  * horizontal resize cursor.
  */
-qx.Class.CURSOR_RESIZE_HORIZONTAL = (qx.sys.Client.getInstance().isGecko() && (qx.sys.Client.getInstance().getMajor() > 1 || qx.sys.Client.getInstance().getMinor() >= 8)) ? "ew-resize" : "e-resize";
+qx.Class.CURSOR_RESIZE_HORIZONTAL = (qx.core.Client.getInstance().isGecko() && (qx.core.Client.getInstance().getMajor() > 1 || qx.core.Client.getInstance().getMinor() >= 8)) ? "ew-resize" : "e-resize";

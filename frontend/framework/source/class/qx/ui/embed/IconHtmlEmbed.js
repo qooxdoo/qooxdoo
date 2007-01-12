@@ -82,7 +82,7 @@ qx.OO.addProperty({ name : "spacing", type : "number", defaultValue : 4, impl : 
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._mshtml = qx.sys.Client.getInstance().isMshtml();
+qx.Proto._mshtml = qx.core.Client.getInstance().isMshtml();
 
 qx.Proto._syncHtml = function()
 {

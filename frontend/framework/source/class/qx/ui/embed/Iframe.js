@@ -156,7 +156,7 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
     // clone proto blocker
     blockerNode = this.setBlockerNode(qx.ui.embed.Iframe._blocker.cloneNode(true));
 
-    if (qx.sys.Client.getInstance().isMshtml()) {
+    if (qx.core.Client.getInstance().isMshtml()) {
       iframeNode.onreadystatechange = this.__onreadystatechange;
     } else {
       iframeNode.onload = this.__onload;
@@ -257,7 +257,7 @@ qx.Proto._onload = function()
 ---------------------------------------------------------------------------
 */
 
-if (qx.sys.Client.getInstance().isMshtml())
+if (qx.core.Client.getInstance().isMshtml())
 {
   qx.Proto.getContentWindow = function()
   {
@@ -313,7 +313,7 @@ else
 
 qx.Proto._isLoaded = false;
 
-if (qx.sys.Client.getInstance().isMshtml())
+if (qx.core.Client.getInstance().isMshtml())
 {
   qx.Proto.isLoaded = function()
   {
@@ -375,7 +375,7 @@ qx.ui.embed.Iframe.initIframe = function(vFrameName)
     return;
   }
 
-  if (vFrameName && qx.sys.Client.getInstance().isMshtml()) {
+  if (vFrameName && qx.core.Client.getInstance().isMshtml()) {
     var f = qx.ui.embed.Iframe._element = document.createElement('<iframe name="' + vFrameName + '"></iframe>');
   } else {
     var f = qx.ui.embed.Iframe._element = document.createElement("iframe");
@@ -415,7 +415,7 @@ qx.ui.embed.Iframe.initBlocker = function()
 
   var b = qx.ui.embed.Iframe._blocker = document.createElement("div");
 
-  if (qx.sys.Client.getInstance().isMshtml()) {
+  if (qx.core.Client.getInstance().isMshtml()) {
     b.style.backgroundImage = "url(" + qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif") + ")";
   }
 

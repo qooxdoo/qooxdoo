@@ -216,10 +216,10 @@ qx.core.Init.getInstance().defineMain(function() {
   <script type="text/javascript" src="../../script/layout.js"></script>
   <script type="text/javascript">
 if (console.debug) {
-	with (qx.dev.log.Logger.ROOT_LOGGER) {
+	with (qx.log.Logger.ROOT_LOGGER) {
 		removeAllAppenders();
-		addAppender(new qx.dev.log.FireBugAppender);
-		setMinLevel(qx.dev.log.Logger.LEVEL_WARN);
+		addAppender(new qx.log.FireBugAppender);
+		setMinLevel(qx.log.Logger.LEVEL_WARN);
 	}
 }
   </script>

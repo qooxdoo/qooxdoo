@@ -134,4 +134,4 @@ qx.Settings.setDefault("helperFile", qx.Settings.getValueOfClass("qx.manager.obj
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = qx.util.Return.returnInstance;
+qx.Class.getInstance = qx.lang.Function.returnInstance;

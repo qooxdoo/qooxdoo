@@ -19,7 +19,7 @@
 /* ************************************************************************
 
 #module(ui_core)
-#require(qx.util.Return)
+#require(qx.lang.Function)
 #load(qx.renderer.color.ColorObject)
 
 ************************************************************************ */
@@ -235,8 +235,8 @@ qx.Proto._hex = null;
 ---------------------------------------------------------------------------
 */
 
-qx.Proto.add = qx.util.Return.returnTrue;
-qx.Proto.remove = qx.util.Return.returnTrue;
+qx.Proto.add = qx.lang.Function.returnTrue;
+qx.Proto.remove = qx.lang.Function.returnTrue;
 
 
 

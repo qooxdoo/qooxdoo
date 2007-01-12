@@ -78,7 +78,7 @@ function()
 
   // Init Resize Helper
   /*
-  if (qx.sys.Client.getInstance().isGecko())
+  if (qx.core.Client.getInstance().isGecko())
   {
     var o = this;
     this._resizeHelper = window.setInterval(function() { o._onresizehelper() }, 100);
@@ -112,8 +112,8 @@ qx.Settings.setDefault("boxModelCorrection", true);
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._modifyParent = qx.util.Return.returnTrue;
-qx.Proto._modifyVisible = qx.util.Return.returnTrue;
+qx.Proto._modifyParent = qx.lang.Function.returnTrue;
+qx.Proto._modifyVisible = qx.lang.Function.returnTrue;
 
 qx.Proto._modifyElement = function(propValue, propOldValue, propData)
 {
@@ -142,12 +142,12 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
   return true;
 }
 
-qx.Proto.getTopLevelWidget = qx.util.Return.returnThis;
+qx.Proto.getTopLevelWidget = qx.lang.Function.returnThis;
 qx.Proto.getWindowElement = function() { return this._window; }
 qx.Proto.getDocumentElement = function() { return this._document; }
 
-qx.Proto.getParent = qx.Proto.getToolTip = qx.util.Return.returnNull;
-qx.Proto.isMaterialized = qx.Proto.isSeeable = qx.util.Return.returnTrue;
+qx.Proto.getParent = qx.Proto.getToolTip = qx.lang.Function.returnNull;
+qx.Proto.isMaterialized = qx.Proto.isSeeable = qx.lang.Function.returnTrue;
 
 qx.Proto._isDisplayable = true;
 qx.Proto._hasParent = false;
@@ -299,8 +299,8 @@ qx.Proto.removeAllCssRules = function(vSheet) {
 */
 if (qx.Settings.getValueOfClass("qx.ui.core.ClientDocument", "boxModelCorrection")) {
   qx.html.StyleSheet.createElement("html,body{margin:0;border:0;padding:0;}" +
-    " html{border:0 none;} *{" + qx.sys.Client.getInstance().getEngineBoxSizingAttribute() +
-    ":border-box;} img{" + qx.sys.Client.getInstance().getEngineBoxSizingAttribute() +
+    " html{border:0 none;} *{" + qx.core.Client.getInstance().getEngineBoxSizingAttribute() +
+    ":border-box;} img{" + qx.core.Client.getInstance().getEngineBoxSizingAttribute() +
     ":content-box;}");
 }
 if (qx.Settings.getValueOfClass("qx.ui.core.ClientDocument", "enableApplicationLayout")) {
@@ -447,4 +447,4 @@ qx.Proto.dispose = function()
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = qx.util.Return.returnInstance;
+qx.Class.getInstance = qx.lang.Function.returnInstance;

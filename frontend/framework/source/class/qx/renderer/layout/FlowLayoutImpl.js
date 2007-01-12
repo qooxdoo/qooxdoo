@@ -323,7 +323,7 @@ qx.Proto.layoutChild = function(vChild, vJobs)
   this.layoutChild_location(vChild, vJobs);
 }
 
-if (qx.sys.Client.getInstance().isMshtml() || qx.sys.Client.getInstance().isOpera())
+if (qx.core.Client.getInstance().isMshtml() || qx.core.Client.getInstance().isOpera())
 {
   /*!
     We need to respect all dimension properties on the horizontal axis in

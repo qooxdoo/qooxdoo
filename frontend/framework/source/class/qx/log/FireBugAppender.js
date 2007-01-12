@@ -29,15 +29,15 @@
  * are problems with widgets or when the widgets are not yet initialized.
  * </p>
  */
-qx.OO.defineClass('qx.dev.log.FireBugAppender', qx.dev.log.Appender, function() {
-  qx.dev.log.Appender.call(this);
+qx.OO.defineClass('qx.log.FireBugAppender', qx.log.Appender, function() {
+  qx.log.Appender.call(this);
 });
 
 qx.Proto.appendLogEvent = function(evt)
 {
   if (typeof console != 'undefined')
   {
-    var log = qx.dev.log.Logger;
+    var log = qx.log.Logger;
     var msg = this.formatLogEvent(evt);
 
     switch (evt.level)

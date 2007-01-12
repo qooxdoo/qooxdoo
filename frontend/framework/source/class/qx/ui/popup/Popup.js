@@ -291,7 +291,7 @@ qx.Proto.positionRelativeTo = function(el, offsetX, offsetY)
     el = el.getElement();
   }
   if (el) {
-    var gecko = qx.sys.Client.getInstance().isGecko();
+    var gecko = qx.core.Client.getInstance().isGecko();
     var loc = qx.html.Location;
     this.setLocation(loc.getClientAreaLeft(el) - (gecko ? qx.html.Style.getBorderLeft(el):0) + (offsetX || 0),
       loc.getClientAreaTop(el) - (gecko ? qx.html.Style.getBorderTop(el):0) + (offsetY || 0));

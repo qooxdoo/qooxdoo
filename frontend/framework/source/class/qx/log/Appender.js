@@ -25,9 +25,9 @@
 /**
  * An appender. Does the actual logging.
  */
-qx.OO.defineClass("qx.log.Appender", qx.dev.log.LogEventProcessor,
+qx.OO.defineClass("qx.log.Appender", qx.log.LogEventProcessor,
 function() {
-  qx.dev.log.LogEventProcessor.call(this);
+  qx.log.LogEventProcessor.call(this);
 });
 
 
@@ -37,7 +37,7 @@ qx.OO.addProperty({ name:"useLongFormat", type:"boolean", defaultValue:true, all
 
 // overridden
 qx.Proto.handleLogEvent = function(evt) {
-  if (this.decideLogEvent(evt) != qx.dev.log.Filter.DENY) {
+  if (this.decideLogEvent(evt) != qx.log.Filter.DENY) {
     this.appendLogEvent(evt);
   }
 }
@@ -60,7 +60,7 @@ qx.Proto.appendLogEvent = function(evt) {
  * @return {String} The formatted event.
  */
 qx.Proto.formatLogEvent = function(evt) {
-  var Logger = qx.dev.log.Logger;
+  var Logger = qx.log.Logger;
 
   var text = "";
 

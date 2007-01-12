@@ -51,10 +51,10 @@ function()
 
 qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "menu-separator" });
 
-qx.Proto.hasIcon = qx.util.Return.returnFalse;
-qx.Proto.hasLabel = qx.util.Return.returnFalse;
-qx.Proto.hasShortcut = qx.util.Return.returnFalse;
-qx.Proto.hasMenu = qx.util.Return.returnFalse;
+qx.Proto.hasIcon = qx.lang.Function.returnFalse;
+qx.Proto.hasLabel = qx.lang.Function.returnFalse;
+qx.Proto.hasShortcut = qx.lang.Function.returnFalse;
+qx.Proto.hasMenu = qx.lang.Function.returnFalse;
 
 qx.Proto._onmousedown = function(e) {
   e.stopPropagation();

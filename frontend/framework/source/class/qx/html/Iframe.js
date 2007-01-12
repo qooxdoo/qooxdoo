@@ -19,7 +19,7 @@
 /* ************************************************************************
 
 #module(io_remote)
-#require(qx.sys.Client)
+#require(qx.core.Client)
 
 ************************************************************************ */
 
@@ -28,7 +28,7 @@ qx.OO.defineClass("qx.html.Iframe");
 qx.html.Iframe.getWindow = function(vIframe) {};
 qx.html.Iframe.getDocument = function(vIframe) {};
 
-if (qx.sys.Client.getInstance().isMshtml())
+if (qx.core.Client.getInstance().isMshtml())
 {
   qx.html.Iframe.getWindow = function(vIframe)
   {

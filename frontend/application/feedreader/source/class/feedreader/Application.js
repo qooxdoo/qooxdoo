@@ -55,7 +55,7 @@ qx.Settings.setDefault("resourceUri", "./resource");
 ---------------------------------------------------------------------------
 */
 
-if (qx.sys.Client.getInstance().getRunsLocally())
+if (qx.core.Client.getInstance().getRunsLocally())
 {
   qx.Class._feedDesc = [
     {

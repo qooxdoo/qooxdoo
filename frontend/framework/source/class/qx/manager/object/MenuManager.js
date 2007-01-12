@@ -89,4 +89,4 @@ qx.Proto.update = function(vTarget, vEventName)
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = qx.util.Return.returnInstance;
+qx.Class.getInstance = qx.lang.Function.returnInstance;

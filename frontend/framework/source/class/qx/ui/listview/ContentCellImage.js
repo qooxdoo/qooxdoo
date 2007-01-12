@@ -55,4 +55,4 @@ qx.Proto.setSource = function(vSource)
 }
 
 // Omit dimension setup in list-view
-qx.Proto._postApplyDimensions = qx.util.Return.returnTrue;
+qx.Proto._postApplyDimensions = qx.lang.Function.returnTrue;

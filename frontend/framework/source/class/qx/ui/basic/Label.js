@@ -109,7 +109,7 @@ qx.OO.addProperty({ name : "wrap", type : "boolean", defaultValue : true });
 */
 
 qx.ui.basic.Label.SYMBOL_ELLIPSIS = String.fromCharCode(8230);
-qx.ui.basic.Label.SUPPORT_NATIVE_ELLIPSIS = qx.sys.Client.getInstance().isMshtml();
+qx.ui.basic.Label.SUPPORT_NATIVE_ELLIPSIS = qx.core.Client.getInstance().isMshtml();
 
 // these are the properties what will be copied to the measuring frame.
 qx.ui.basic.Label._fontProperties =

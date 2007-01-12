@@ -19,7 +19,7 @@
 /* ************************************************************************
 
 #module(ui_core)
-#require(qx.sys.Client)
+#require(qx.core.Client)
 
 ************************************************************************ */
 
@@ -58,7 +58,7 @@ if (Boolean(document.defaultView) && Boolean(document.defaultView.getComputedSty
     }
   }
 }
-else if (qx.sys.Client.getInstance().isMshtml())
+else if (qx.core.Client.getInstance().isMshtml())
 {
   qx.html.Style.getStyleProperty = function(el, prop)
   {

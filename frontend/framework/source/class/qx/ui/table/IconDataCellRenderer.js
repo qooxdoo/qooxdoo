@@ -93,7 +93,7 @@ qx.Proto._getContentHtml = function(cellInfo) {
 
   var urlAndToolTip = this._getImageInfos(cellInfo);
   var html = IconDataCellRenderer.IMG_START;
-  if (qx.sys.Client.getInstance().isMshtml() && /\.png$/i.test(urlAndToolTip.url)) {
+  if (qx.core.Client.getInstance().isMshtml() && /\.png$/i.test(urlAndToolTip.url)) {
     html += qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif")
       + '" style="filter:' + "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + urlAndToolTip.url + "',sizingMethod='scale')";
   } else {
@@ -119,7 +119,7 @@ qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
   // Set image and tooltip text
   var urlAndToolTip = this._getImageInfos(cellInfo);
   var img = cellElement.firstChild;
-  if (qx.sys.Client.getInstance().isMshtml()) {
+  if (qx.core.Client.getInstance().isMshtml()) {
     if (/\.png$/i.test(urlAndToolTip.url)) {
       img.src = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
       img.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + urlAndToolTip.url + "',sizingMethod='scale')";
