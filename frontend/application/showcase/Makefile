@@ -34,12 +34,12 @@ APPLICATION_FILES = index.html
 #
 # Locales to include
 #
-APPLICATION_LOCALES = de de_DE en en_US fr fr_FR es es_ES
+APPLICATION_LOCALES = de de_DE en en_US es es_ES fr fr_FR
 
 #
 # full locales used for the online version
 #
-#APPLICATION_LOCALES = de de_DE de_AT en en_US fr fr_FR tr it es es_ES sv ar zh ru
+#APPLICATION_LOCALES = ar de de_AT de_DE en en_US es es_ES fr fr_FR it ru sv tr zh
 
 
 
