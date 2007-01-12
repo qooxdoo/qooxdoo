@@ -291,3 +291,32 @@ else if(qx.sys.Client.getInstance().isMshtml() || document.selectNodes) // IE an
     return element.selectNodes(query);
   };
 }
+
+
+/**
+ * Returns a list of elements with the given tag name belonging to the given namespace (http://developer.mozilla.org/en/docs/DOM:element.getElementsByTagNameNS).
+ * 
+ * @param element {Element|Document} the element from where the search should start.
+ *     Note that only the descendants of this element are included in the search, not the node itself.
+ * @param namespaceURI is the namespace URI of elements to look for . For example, if you need to look
+ *     for XHTML elements, use the XHTML namespace URI, <tt>http://www.w3.org/1999/xhtml</tt>.
+ * @param tagname {String} the tagname to look for
+ * @return {Element[]} a list of found elements in the order they appear in the tree.
+ */
+qx.xml.Core.getElementsByTagNameNS = function(element, namespaceURI, tagname) {};
+
+if (document.getElementsByTagNameNS)
+{
+  qx.xml.Core.getElementsByTagNameNS = function(element, namespaceURI, tagname) {
+   return element.getElementsByTagNameNS(namespaceURI, tagname);
+  }
+}
+else if (qx.sys.Client.getInstance().isMshtml())
+{
+  qx.xml.Core.getElementsByTagNameNS = function(element, namespaceURI, tagname) {
+   var doc = element.ownerDocument;
+   nsDoc.setProperty("SelectionLanguage", "XPath");
+   nsDoc.setProperty("SelectionNamespaces", "xmlns:ns='" + namespaceURI + "'");
+   return qx.xml.Core.selectNodes(element, '//ns:' + tagname);
+  }
+}

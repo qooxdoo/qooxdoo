@@ -51,7 +51,7 @@ qx.dom.Element.isEmpty = function(vElement) {
 
 
 /**
- * Sets the textValue of the given DOM element.
+ * Sets the textValue of the given DOM element (http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#Node3-textContent).
  * Wrapper for element.innerText and element.textContent.
  *
  * @param vElement {Element} DOM node
@@ -69,6 +69,6 @@ if (qx.sys.Client.getInstance().supportsTextContent()) {
   };
 } else {
   qx.dom.Element.setTextContent = function(vElement, sValue) {
-    vElement.innerHTML = sValue;
+    vElement.innerHTML = qx.util.StringEscape.escapeHtml(sValue);
   };
 }
