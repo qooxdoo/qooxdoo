@@ -27,9 +27,9 @@
  * arises what actions have caused the error.
  *
  */
-qx.OO.defineClass("qx.log.RingBufferAppender", qx.dev.log.Appender,
+qx.OO.defineClass("qx.log.RingBufferAppender", qx.log.Appender,
 function() {
-  qx.dev.log.Appender.call(this);
+  qx.log.Appender.call(this);
 
   this._history = [];
   this._nextIndexToStoreTo = 0;
@@ -101,7 +101,7 @@ qx.Proto.retrieveLogEvents = function(count) {
  */
 qx.Proto.formatLogEvents = function(count) {
   if (this._appenderToFormatStrings == null){
-    this._appenderToFormatStrings = new qx.dev.log.Appender();
+    this._appenderToFormatStrings = new qx.log.Appender();
   }
 
   var events = this.retrieveLogEvents(count);
@@ -118,5 +118,5 @@ qx.Proto.dispose = function() {
     return true;
   }
 
-  return qx.dev.log.Appender.prototype.dispose.call(this);
+  return qx.log.Appender.prototype.dispose.call(this);
 };

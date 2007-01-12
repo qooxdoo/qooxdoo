@@ -265,7 +265,7 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
         // Create Image-Node
         // Webkit has problems with "new Image". Maybe related to "new Function" with
         // is also not working correctly.
-        if (qx.sys.Client.getInstance().isWebkit())
+        if (qx.core.Client.getInstance().isWebkit())
         {
           this._image = document.createElement("img");
         }
@@ -290,7 +290,7 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
         this.error("Failed while creating image #1", ex);
       }
 
-      if (!qx.sys.Client.getInstance().isMshtml()) {
+      if (!qx.core.Client.getInstance().isMshtml()) {
         this._applyEnabled();
       }
     }
@@ -341,7 +341,7 @@ qx.Proto._postApply = function()
   this._updateContent();
 }
 
-if (qx.sys.Client.getInstance().isMshtml())
+if (qx.core.Client.getInstance().isMshtml())
 {
   qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
   {
@@ -479,7 +479,7 @@ qx.Proto._applyContent = function()
   qx.ui.core.Widget.flushGlobalQueues();
 }
 
-if (qx.sys.Client.getInstance().isMshtml())
+if (qx.core.Client.getInstance().isMshtml())
 {
   qx.Proto._postApplyDimensions = function()
   {
@@ -539,7 +539,7 @@ else
 ---------------------------------------------------------------------------
 */
 
-if (qx.sys.Client.getInstance().isMshtml())
+if (qx.core.Client.getInstance().isMshtml())
 {
   qx.Proto._changeInnerWidth = function(vNew, vOld)
   {

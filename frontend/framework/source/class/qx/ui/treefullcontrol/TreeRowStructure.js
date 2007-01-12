@@ -263,4 +263,4 @@ qx.Proto.addObject = function(vObj, vAnonymous)
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = qx.util.Return.returnInstance;
+qx.Class.getInstance = qx.lang.Function.returnInstance;

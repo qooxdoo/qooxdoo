@@ -19,7 +19,7 @@
 /* ************************************************************************
 
 #module(newproperties)
-#require(qx.type.StringBuilder)
+#require(qx.util.StringBuilder)
 #require(qx.lang.Object)
 
 ************************************************************************ */
@@ -51,7 +51,7 @@ qx.OO.defineClass("qx.Property",
     vProto.debug("Creating real getter for " + vName);
 
     // Starting code generation
-    var vCode = new qx.type.StringBuilder;
+    var vCode = new qx.util.StringBuilder;
 
     // Including user and appearance values
     for (var i=0, a=this.getterFieldOrder, l=a.length; i<l; i++)
@@ -102,7 +102,7 @@ qx.OO.defineClass("qx.Property",
 
 
     // Starting code generation
-    var vCode = new qx.type.StringBuilder;
+    var vCode = new qx.util.StringBuilder;
 
     // Debug output
     // vCode.add("this.debug('Property: " + vName + ": ' + vNew);");

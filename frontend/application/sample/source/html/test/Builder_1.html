@@ -13,7 +13,7 @@
 
   <script type="text/javascript">
     qx.core.Init.getInstance().defineMain(function() {
-      new qx.client.Builder().build(qx.ui.core.ClientDocument.getInstance(), document.getElementById('widgets'));
+      new qx.util.GuiBuilder().build(qx.ui.core.ClientDocument.getInstance(), document.getElementById('widgets'));
     });
 
     // test delegate object
@@ -30,7 +30,7 @@
     }
   </script>
   <div id="demoDescription">
-    <p>qx.client.Builder demo.</p>
+    <p>qx.util.GuiBuilder demo.</p>
     <p>Build your web apps using qooxdooml.</p>
     <p>Textarea example</p>
   </div>

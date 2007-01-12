@@ -54,7 +54,7 @@ qx.Settings.setDefault("imageUri", qx.Settings.getValueOfClass("qx.manager.objec
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = qx.util.Return.returnInstance;
+qx.Class.getInstance = qx.lang.Function.returnInstance;
 
 
 

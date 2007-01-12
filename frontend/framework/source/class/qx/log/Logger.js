@@ -19,8 +19,8 @@
 
 #module(core)
 #module(log)
-#require(qx.dev.log.WindowAppender)
-#require(qx.dev.log.FireBugAppender)
+#require(qx.log.WindowAppender)
+#require(qx.log.FireBugAppender)
 *
 ************************************************************************ */
 
@@ -31,9 +31,9 @@
  *    package name)
  * @param parentLogger {Logger} The parent logger.
  */
-qx.OO.defineClass("qx.log.Logger", qx.dev.log.LogEventProcessor,
+qx.OO.defineClass("qx.log.Logger", qx.log.LogEventProcessor,
 function(name, parentLogger) {
-  qx.dev.log.LogEventProcessor.call(this);
+  qx.log.LogEventProcessor.call(this);
 
   this._name = name;
   this._parentLogger = parentLogger;
@@ -66,7 +66,7 @@ qx.Proto.getParentLogger = function() {
  * This affects all log messages. Even those of other loggers.
  */
 qx.Proto.indent = function() {
-  qx.dev.log.Logger._indent++;
+  qx.log.Logger._indent++;
 }
 
 
@@ -76,7 +76,7 @@ qx.Proto.indent = function() {
  * This affects all log messages. Even those of other loggers.
  */
 qx.Proto.unindent = function() {
-  qx.dev.log.Logger._indent--;
+  qx.log.Logger._indent--;
 }
 
 
@@ -120,7 +120,7 @@ qx.Proto.removeAllAppenders = function() {
 
 // overridden
 qx.Proto.handleLogEvent = function(evt) {
-  var Filter = qx.dev.log.Filter;
+  var Filter = qx.log.Filter;
 
   var decision = Filter.NEUTRAL;
   var logger = this;
@@ -163,7 +163,7 @@ qx.Proto.appendLogEvent = function(evt) {
  */
 qx.Proto.log = function(level, msg, instanceId, exc) {
   var evt = { logger:this, level:level, message:msg, throwable:exc,
-              indent:qx.dev.log.Logger._indent, instanceId:instanceId }
+              indent:qx.log.Logger._indent, instanceId:instanceId }
   this.handleLogEvent(evt);
 }
 
@@ -177,7 +177,7 @@ qx.Proto.log = function(level, msg, instanceId, exc) {
  * @param exc {var ? null} the exception to log.
  */
 qx.Proto.debug = function(msg, instanceId, exc) {
-  this.log(qx.dev.log.Logger.LEVEL_DEBUG, msg, instanceId, exc);
+  this.log(qx.log.Logger.LEVEL_DEBUG, msg, instanceId, exc);
 }
 
 
@@ -190,7 +190,7 @@ qx.Proto.debug = function(msg, instanceId, exc) {
  * @param exc {var ? null} the exception to log.
  */
 qx.Proto.info = function(msg, instanceId, exc) {
-  this.log(qx.dev.log.Logger.LEVEL_INFO, msg, instanceId, exc);
+  this.log(qx.log.Logger.LEVEL_INFO, msg, instanceId, exc);
 }
 
 
@@ -203,7 +203,7 @@ qx.Proto.info = function(msg, instanceId, exc) {
  * @param exc {var ? null} the exception to log.
  */
 qx.Proto.warn = function(msg, instanceId, exc) {
-  this.log(qx.dev.log.Logger.LEVEL_WARN, msg, instanceId, exc);
+  this.log(qx.log.Logger.LEVEL_WARN, msg, instanceId, exc);
 }
 
 
@@ -216,7 +216,7 @@ qx.Proto.warn = function(msg, instanceId, exc) {
  * @param exc {var ? null} the exception to log.
  */
 qx.Proto.error = function(msg, instanceId, exc) {
-  this.log(qx.dev.log.Logger.LEVEL_ERROR, msg, instanceId, exc);
+  this.log(qx.log.Logger.LEVEL_ERROR, msg, instanceId, exc);
 }
 
 
@@ -229,7 +229,7 @@ qx.Proto.error = function(msg, instanceId, exc) {
  * @param exc {var ? null} the exception to log.
  */
 qx.Proto.fatal = function(msg, instanceId, exc) {
-  this.log(qx.dev.log.Logger.LEVEL_FATAL, msg, instanceId, exc);
+  this.log(qx.log.Logger.LEVEL_FATAL, msg, instanceId, exc);
 }
 
 
@@ -300,20 +300,20 @@ qx.Class.getClassLogger = function(clazz) {
     var splits = classname.split(".");
     var currPackage = window;
     var currPackageName = "";
-    var parentLogger = qx.dev.log.Logger.ROOT_LOGGER;
+    var parentLogger = qx.log.Logger.ROOT_LOGGER;
     for (var i = 0; i < splits.length - 1; i++) {
       currPackage = currPackage[splits[i]];
       currPackageName += ((i != 0) ? "." : "") + splits[i];
 
       if (currPackage._logger == null) {
         // This package has no logger -> Create one
-        currPackage._logger = new qx.dev.log.Logger(currPackageName, parentLogger);
+        currPackage._logger = new qx.log.Logger(currPackageName, parentLogger);
       }
       parentLogger = currPackage._logger;
     }
 
     // Create the class logger
-    logger = new qx.dev.log.Logger(classname, parentLogger);
+    logger = new qx.log.Logger(classname, parentLogger);
     clazz._logger = logger;
   }
   return logger;
@@ -370,11 +370,11 @@ qx.Class.LEVEL_OFF = 1000;
  * This logger logs by default everything greater than level INFO to a log
  * window.
  */
-qx.Class.ROOT_LOGGER = new qx.dev.log.Logger("root", null);
-qx.Class.ROOT_LOGGER.setMinLevel(qx.dev.log.Logger.LEVEL_DEBUG);
+qx.Class.ROOT_LOGGER = new qx.log.Logger("root", null);
+qx.Class.ROOT_LOGGER.setMinLevel(qx.log.Logger.LEVEL_DEBUG);
 
 if (typeof console != 'undefined' && console.debug) {
-  qx.Class.ROOT_LOGGER.addAppender(new qx.dev.log.FireBugAppender());
+  qx.Class.ROOT_LOGGER.addAppender(new qx.log.FireBugAppender());
 } else {
-  qx.Class.ROOT_LOGGER.addAppender(new qx.dev.log.WindowAppender());
+  qx.Class.ROOT_LOGGER.addAppender(new qx.log.WindowAppender());
 }

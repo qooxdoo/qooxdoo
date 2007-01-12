@@ -18,7 +18,7 @@
 
 /* ************************************************************************
 
-#require(qx.sys.Client)
+#require(qx.core.Client)
 
 ************************************************************************ */
 
@@ -84,7 +84,7 @@ qx.Proto.dispose = function() {}
 qx.Proto.toString = function() {}
 
 
-if (qx.sys.Client.getInstance().isMshtml())
+if (qx.core.Client.getInstance().isMshtml())
 {
   qx.Proto.clear = function() {
     this._array = [];

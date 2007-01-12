@@ -21,7 +21,7 @@
 /* ************************************************************************
 
 #module(ui_core)
-#require(qx.sys.Client)
+#require(qx.core.Client)
 
 ************************************************************************ */
 
@@ -104,7 +104,7 @@ if (document.createStyleSheet) // IE 4+
     vSheet.addRule(vSelector, vStyle);
   };
 }
-else if (qx.sys.Client.getInstance().isSafari2()) // insertRule in Safari 2 doesn't work
+else if (qx.core.Client.getInstance().isSafari2()) // insertRule in Safari 2 doesn't work
 {
   qx.html.StyleSheet.addRule = function(vSheet, vSelector, vStyle) {
     if (!vSheet._qxRules) {
@@ -147,12 +147,12 @@ if (document.createStyleSheet) // IE 4+
     }
   };
 }
-else if (qx.sys.Client.getInstance().isSafari2()) // removeRule in Safari 2 doesn't work
+else if (qx.core.Client.getInstance().isSafari2()) // removeRule in Safari 2 doesn't work
 {
   qx.html.StyleSheet.removeRule = function(vSheet, vSelector)
   {
     var warn = function() {
-      qx.dev.log.Logger.ROOT_LOGGER.warn("In Safari/Webkit you can only remove rules that are created using qx.html.StyleSheet.addRule");
+      qx.log.Logger.ROOT_LOGGER.warn("In Safari/Webkit you can only remove rules that are created using qx.html.StyleSheet.addRule");
     }
     if (!vSheet._qxRules) {
       warn();
@@ -201,7 +201,7 @@ if (document.createStyleSheet) // IE 4+
     }
   };
 }
-else if (qx.sys.Client.getInstance().isSafari2()) // removeRule in Safari 2 doesn't work
+else if (qx.core.Client.getInstance().isSafari2()) // removeRule in Safari 2 doesn't work
 {
   qx.html.StyleSheet.removeAllRules = function(vSheet)
   {
@@ -242,7 +242,7 @@ if (document.createStyleSheet) // IE 4+
     vSheet.addImport(vUrl);
   };
 }
-else  if (qx.sys.Client.getInstance().isSafari2()) // insertRule in Safari 2 doesn't work
+else  if (qx.core.Client.getInstance().isSafari2()) // insertRule in Safari 2 doesn't work
 {
   qx.html.StyleSheet.addImport = function(vSheet, vUrl) {
     vSheet.ownerNode.appendChild(document.createTextNode('@import "' + vUrl + '";'));

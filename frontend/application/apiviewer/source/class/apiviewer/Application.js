@@ -52,7 +52,7 @@ qx.Proto.initialize = function(e)
   qx.manager.object.AliasManager.getInstance().add("api", qx.Settings.getValueOfClass("apiviewer.Application", "resourceUri"));
 
   // Reduce log level
-  qx.dev.log.Logger.ROOT_LOGGER.setMinLevel(qx.dev.log.Logger.LEVEL_WARN);
+  qx.log.Logger.ROOT_LOGGER.setMinLevel(qx.log.Logger.LEVEL_WARN);
 
   // Include CSS file
   qx.html.StyleSheet.includeFile(qx.manager.object.AliasManager.getInstance().resolvePath("api/css/apiviewer.css"));

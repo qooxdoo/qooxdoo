@@ -624,7 +624,7 @@ qx.Proto.supportsDrop = function(vWidget)
 /*!
 #param e[qx.event.type.MouseEvent]: Current MouseEvent for dragdrop action
 */
-if (qx.sys.Client.getInstance().isGecko())
+if (qx.core.Client.getInstance().isGecko())
 {
   qx.Proto.getDropTarget = function(e)
   {
@@ -851,4 +851,4 @@ qx.Proto.dispose = function()
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = qx.util.Return.returnInstance;
+qx.Class.getInstance = qx.lang.Function.returnInstance;

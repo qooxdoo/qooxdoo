@@ -55,7 +55,7 @@ qx.Proto.getHtml = function() {
     return "";
   }
 
-  var html = new qx.type.StringBuilder();
+  var html = new qx.util.StringBuilder();
 
   html.add("<div id='_blogEntry'>");
 

@@ -1030,12 +1030,12 @@ qx.Proto._layoutChild = function(vChild)
   delete this._childrenQueue[vChild.toHashCode()];
 }
 
-qx.Proto._layoutPost = qx.util.Return.returnTrue;
+qx.Proto._layoutPost = qx.lang.Function.returnTrue;
 
 /*!
   Fix Operas Rendering Bugs
 */
-if (qx.sys.Client.getInstance().isOpera())
+if (qx.core.Client.getInstance().isOpera())
 {
   qx.Proto._layoutChildOrig = qx.Proto._layoutChild;
 

@@ -94,7 +94,7 @@ qx.Proto._syncHtml = function()
   // Add properties info
   html += this._createInfoPanel(ClassViewer.NODE_TYPE_PROPERTY,
     "properties", "properties", this._createPropertyInfo,
-    qx.util.Return.returnTrue, true, true);
+    qx.lang.Function.returnTrue, true, true);
 
 
 

@@ -118,7 +118,7 @@ qx.Class.toHashCode = function(o)
  */
 qx.Class.dispose = function()
 {
-  // var logger = qx.dev.log.Logger.getClassLogger(qx.core.Object);
+  // var logger = qx.log.Logger.getClassLogger(qx.core.Object);
   // logger.debug("Disposing Application");
 
   // var vStart = (new Date).valueOf();
@@ -332,10 +332,10 @@ qx.Proto.marktr = function(messageId) {
 /**
  * Returns the logger of this class.
  *
- * @return {qx.dev.log.Logger} the logger of this class.
+ * @return {qx.log.Logger} the logger of this class.
  */
 qx.Proto.getLogger = function() {
-  return qx.dev.log.Logger.getClassLogger(this.constructor);
+  return qx.log.Logger.getClassLogger(this.constructor);
 }
 
 

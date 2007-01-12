@@ -257,7 +257,7 @@ qx.Proto.createView = function()
   return frame;
 }
 
-qx.Proto._mshtml = qx.sys.Client.getInstance().isMshtml();
+qx.Proto._mshtml = qx.core.Client.getInstance().isMshtml();
 
 qx.Proto.createImageCell = function(inode, d)
 {

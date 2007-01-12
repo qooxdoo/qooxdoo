@@ -230,7 +230,7 @@ qx.Proto._onload = function(e)
   this.debug("loaded " + qx.lang.Object.getLength(qx.OO.classes) + " classes");
 
   // Print browser information
-  var cl = qx.sys.Client.getInstance();
+  var cl = qx.core.Client.getInstance();
   this.debug("client: " + cl.getEngine() + "-" + cl.getMajor() + "."
     + cl.getMinor() + "/" + cl.getPlatform() + "/" + cl.getLocale());
 
@@ -321,7 +321,7 @@ qx.Proto.dispose = function()
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = qx.util.Return.returnInstance;
+qx.Class.getInstance = qx.lang.Function.returnInstance;
 
 // Force direct creation
 qx.Class.getInstance();
