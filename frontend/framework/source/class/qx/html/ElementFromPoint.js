@@ -21,7 +21,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.dom.ElementFromPoint");
+qx.OO.defineClass("qx.html.ElementFromPoint");
 
 qx.dom.ElementFromPoint.getElementFromPoint = function(x, y) {
   return qx.dom.ElementFromPoint.getElementFromPointHandler(document.body, x, y);

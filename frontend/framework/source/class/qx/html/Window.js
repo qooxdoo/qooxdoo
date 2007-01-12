@@ -22,7 +22,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.dom.Window");
+qx.OO.defineClass("qx.html.Window");
 
 
 /**

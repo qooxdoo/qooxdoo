@@ -25,7 +25,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.dom.StyleSheet");
+qx.OO.defineClass("qx.html.StyleSheet");
 
 /**
  * Include a CSS file
