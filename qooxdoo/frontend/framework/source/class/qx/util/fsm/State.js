@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2006 by Derrell Lipman
+     2006, 2007 by Derrell Lipman
 
    License:
      LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
@@ -24,11 +24,6 @@
 
 /**
  * Create a new state which may be added to a finite state machine.
- *
- * *EXPERIMENTAL*
- * The interface to the finite state machine, states, and transitions is
- * experimental.  It may change in non-backward-compatible ways as more
- * experience is gained in its use.
  *
  * @param
  * stateName -
