@@ -1,0 +1,393 @@
+###########################################################################
+#
+# ICON MAPPING KDE<->Tango
+#
+# "+" = Available in KDE and Tango
+# "*" = Available in KDE, but not in Tango
+#
+###########################################################################
+
+actions/address-book-new
++actions/application-exit = actions/exit
++actions/appointment-new = actions/ark_new
+actions/contact-new
+*actions/bookmark-add = actions/bookmark_add
+*actions/bookmark-delete
++actions/dialog-cancel = actions/button_cancel
+actions/dialog-close
++actions/dialog-ok = actions/button_ok
+*actions/connection-creating = actions/connect_creating
+*actions/connection-established = actions/connect_established
+*actions/connection-disconneced = actions/connect_no
++actions/document-new = actions/filenew
++actions/document-open = actions/fileopen
+actions/document-open-recent
+actions/document-page-setup
++actions/document-print = actions/fileprint
+actions/document-print-preview
+actions/document-properties
+actions/document-revert = actions/revert
++actions/document-save = actions/filesave
++actions/document-save-as = actions/filesaveas
+*actions/document-save-all = actions/save_all
+*actions/document-close = actions/fileclose
++actions/edit-copy = actions/editcopy
++actions/edit-cut = actions/editcut
++actions/edit-delete = actions/editdelete
++ actions/edit-find = actions/find
+actions/edit-find-replace
++actions/edit-paste = actions/editpaste
++actions/edit-redo = actions/redo
+actions/edit-select-all
++actions/edit-undo = actions/undo
++actions/edit-blend = actions/blend
+*actions/edit-color-fill = actions/color_fill
+*actions/edit-color-line = actions/color_line
+*actions/edit-color-palette = actions/colorize
+*actions/edit-color-picker = actions/colorpicker
+*actions/edit-configure = actions/configure
+*actions/edit-decrypted = actions/decrypted
+*actions/edit-apply = actions/apply
+*actions/encrypt-sign = actions/kgpg_sign
+*actions/encrypt-info = actions/kgpg_info
+*actions/encrypt-import = actions/kgpg_import
+*actions/encrypt-identity = actions/kgpg_identity
+*actions/encrypt-generate = actions/kgpg_gen
+*actions/encrypt-export = actions/kgpg_export
+*actions/encrypt-edit = actions/kgpg_edit
++actions/folder-new = folder_new
++actions/format-indent-less = actions/format_decreaseindent
++actions/format-indent-more = actions/format_increaseindent
+actions/format-justify-center
+actions/format-justify-fill
+actions/format-justify-left
+actions/format-justify-right
+actions/format-text-direction-ltr
+actions/format-text-direction-rtl
+actions/format-text-bold
+actions/format-text-italic
+actions/format-text-underline
+actions/format-text-strikethrough
+*actions/format-text-size-up = actions/fontsizeup
+*actions/format-text-size-down = actions/fontsizedown
+actions/identity = actions/identity
+actions/go-bottom = actions/bottom
+actions/go-down = actions/down
+actions/go-first = actions/first
++actions/go-home = actions/gohome
+actions/go-jump
+actions/go-last = actions/last
+actions/go-next = actions/next
+actions/go-previous = actions/previous
+actions/go-top = actions/top
+actions/go-up = actions/up
+actions/help-about
+actions/help-contents = actions/help
+actions/help-faq
+*actions/help-hint = actions/idea
+actions/history = actions/history
+actions/history-clear = actions/history_clear
+actions/insert-image
+actions/insert-link
+actions/insert-object
+actions/insert-text
+actions/list-add
+actions/list-remove
+*actions/mail-folder-inbox = actions/inbox
+*actions/mail-folder-sent = actions/folder_sent_mail
++actions/mail-forward = actions/mail_forward
+*actions/mail-find = actions/mail_find
+actions/mail-mark-important
+actions/mail-mark-junk
+actions/mail-mark-notjunk
+actions/mail-mark-read
+actions/mail-mark-unread
+*actions/mail-message-attach = actions/attach
+*actions/mail-message-delete = actions/mail_delete
++actions/mail-message-new = actions/mail_new
++actions/mail-reply-all = actions/mail_replyall
++actions/mail-reply-sender = actions/mail_reply
+*actions/mail-reply-list = actions/mail_replylist
++actions/mail-send = actions/mail_send
+actions/mail-send-receive
+actions/news-subscribe = actions/news_subscribe
+actions/news-unsubscribe = actions/news_unsubscribe
++actions/media-eject = actions/player_eject
++actions/media-playback-pause = actions/player_pause
++actions/media-playback-start = actions/player_play
++actions/media-playback-stop = actions/player_stop
++actions/media-record = actions/krec_record
+*actions/media-playlist = actions/noatunplaylist
+*actions/media-playlist-backward = actions/noatunback
+*actions/media-playlist-forward = actions/noatunforward
++actions/media-seek-backward = actions/player_rew
++actions/media-seek-forward = actions/player_fwd
++actions/media-skip-backward = actions/player_start
++actions/media-skip-forward = actions/player_end
+*actions/navigation-back = actions/back
+*actions/navigation-forward = actions/forward
+actions/object-flip-horizontal
+actions/object-flip-vertical
++actions/object-rotate-left = actions/rotate
+actions/object-rotate-right
++actions/system-lock-screen =  actions/lock
+actions/system-log-out
+actions/system-run
+actions/system-search
++actions/system-power = actions/power
+*actions/system-charge = actions/laptop_charge
+*actions/system-nobattery = actions/laptop_nobattery
+*actions/system-nocharge = actions/laptop_nocharge
+*actions/tab-duplicate = actions/tab_duplicate
+*actions/tab-new = actions/tab_new
+*actions/tab-remove = actions/tab_remove
++actions/tools-check-spelling = spellcheck
+*actions/tools-signature = signature
++actions/view-fullscreen = actions/window_fullscreen
++actions/view-refresh = actions/reload
++actions/view-restore = actions/window_nofullscreen
+actions/view-sort-ascending
+actions/view-sort-descending
+*actions/view-pane-bottom = actions/view_bottom
+*actions/view-pane-right = actions/view_right
+*actions/view-pane-left-right = actions/view_left_right
+*actions/view-pane-top-bottom = actions/view_top_bottom
+*actions/view-pane-choose = actions/view_choose
+*actions/view-pane-remove = actions/view_remove
+*actions/view-type-detailed = actions/view_detailed
+*actions/view-type-icon = actions/view_icon
+*actions/view-type-text = actions/view_text
+*actions/view-type-multicolumn = actions/view_multicolumn
+*actions/view-type-tree = actions/view_tree
+actions/window-close
++actions/window-new = actions/window_new
++actions/zoom-best-fit = actions/viewmagfit
++actions/zoom-in = actions/viewmag+
++actions/zoom-original = actions/viewmag1
++actions/zoom-out = actions/viewmag-
+*actions/zoom = actions/viewmag
+
+
+
++apps/accessories-calculator = applications/calc
+apps/accessories-character-map
+apps/accessories-dictionary
+*apps/accessories-encrypt = actions/kgpg
++apps/accessories-text-editor = applications/kate
++apps/help-browser = applications/khelpcenter
++apps/multimedia-volume-control = applications/kmix
+apps/preferences-desktop-accessibility
+apps/preferences-desktop-font
+apps/preferences-desktop-keyboard
+apps/preferences-desktop-locale
+apps/preferences-desktop-multimedia
+apps/preferences-desktop-screensaver
+apps/preferences-desktop-theme
+apps/preferences-desktop-wallpaper
+apps/preferences-desktop-printer = actions/klpq
+apps/system-file-manager = applications/konqueror
+apps/system-software-update
+apps/utilities-system-monitor
+apps/utilities-terminal
+*apps/wizard = actions/wizard
+*apps/office-organizer = actions/korgac
+*apps/internet-mail = actions/kmail
+
+
+
+categories/applications-accessories
+categories/applications-development = applications/package_application
+categories/applications-engineering
++categories/applications-games = applications/package_games
++categories/applications-graphics = applications/package_graphics
++categories/applications-internet = applications/package_network
++categories/applications-multimedia = applications/package_multimedia
++categories/applications-office = applications/package_wordprocessing
++categories/applications-other = applications/package_toys
+categories/applications-science
++categories/applications-system = applications/package_system
+*categories/applications-settings = applications/package_settings
++categories/applications-utilities = applications/package_utilities
+categories/preferences-desktop
+categories/preferences-desktop-peripherals
+categories/preferences-desktop-personal
+categories/preferences-other
+categories/preferences-system
+categories/preferences-system-network
+categories/system-help
+
+
+
+devices/audio-card
+devices/audio-input-microphone
+devices/battery
++devices/camera-photo = devices/camera
++devices/camera-video = devices/cam
+devices/computer
++devices/drive-harddisk = devices/hdd_unmount
++devices/drive-optical = devices/cd_unmount
++devices/drive-removable-media = devices/zip_unmount
+*devices/drive-network = devices/nfs_unmount
+*devices/drive-ipod = devices/ipod
++devices/input-gaming = devices/joystick
++devices/input-keyboard = devices/kxkb
++devices/input-mouse = devices/mouse
++devices/input-tablet = devices/tablet
+*devices/handheld = devices/pda
+devices/media-flash
++devices/media-floppy = devices/3floppy_unmount
+devices/media-optical = devices/cdrom_unmount
+devices/media-tape
+devices/memory = devices/memory
++devices/modem = devices/modem
+devices/multimedia-player
+devices/network-wired
+devices/network-wireless
++devices/printer = devices/printer
++devices/scanner = devices/scanner
+devices/video-display
+*devices/tv = devices/tv
+
+
+
+emblems/emblem-default
+emblems/emblem-documents
+emblems/emblem-downloads
+emblems/emblem-favorite
+emblems/emblem-important
+emblems/emblem-mail
+emblems/emblem-photos
+emblems/emblem-readonly
+emblems/emblem-shared
+emblems/emblem-symbolic-link
+emblems/emblem-synchronized
+emblems/emblem-system
+emblems/emblem-unreadable
+
+
+
+emotes/face-angel
+emotes/face-crying
+emotes/face-devil-grin
+emotes/face-devil-sad
+emotes/face-glasses
+emotes/face-kiss
+emotes/face-monkey
+emotes/face-plain
+emotes/face-sad
+emotes/face-smile
+emotes/face-smile-big
+emotes/face-smirk
+emotes/face-surprise
+emotes/face-wink
+
+
+
++mimetypes/application-x-executable = mimetypes/binary
++mimetypes/audio-x-generic = mimetypes/sound
++mimetypes/font-x-generic = mimetypes/font
++mimetypes/image-x-generic = mimetypes/image
++mimetypes/package-x-generic = mimetypes/pk
++mimetypes/text-html = mimetypes/html
++mimetypes/text-x-generic = mimetypes/txt
++mimetypes/text-x-generic-template = mimetypes/mime_empty
++mimetypes/text-x-script = mimetypes/shellscript
++mimetypes/video-x-generic = mimetypes/video
++mimetypes/x-office-address-book = mimetypes/vcard
++mimetypes/x-office-calendar = mimetypes/vcalendar
++mimetypes/x-office-document = mimetypes/wordprocessing
++mimetypes/x-office-presentation = mimetypes/vectorgfx
++mimetypes/x-office-spreadsheet = mimetypes/spreadsheet
+*mimetypes/unknown = mimetypes/unknown
+*mimetypes/message-x-generic = mimetypes/message
+*mimetypes/manual-x-generic = mimetypes/man
+*mimetypes/encrypted-x-generic = mimetypes/encrypted
+*mimetypes/locked-x-generic = mimetypes/file_locked
+*mimetypes/temporary-x-generic = mimetypes/file_temporary
+*mimetypes/x-office-pdf = mimetypes/pdf
+
+
+
++places/folder = filesystems/folder
+*places/folder-open = filesystems/folder_open
+places/folder-remote
+*places/folder-favorite = filesystems/folder_favorite
+*places/folder-locked = filesystems/folder_locked
+*places/folder-video = filesystems/folder_video
+*places/folder-sound = filesystems/folder_sound
++places/network-server = filesystems/network
++places/network-workgroup = filesystems/network_local
++places/start-here = apps/starthere
++places/user-desktop = filesystems/desktop
++places/user-home = filesystems/folder_home
++places/user-trash = filesystems/trashcan_empty
+*places/user-trash-full = filesystems/trashcan_full
+*places/user-favorites = filesystems/favorites
+*places/special-pipe = filesystems/pipe
+*places/special-blockdevice = filesystems/blockdevice
+*places/special-chardevice = filesystems/chardevice
+*places/special-socket = filesystems/socket
+
+
+
+status/appointment-missed
+status/appointment-soon
+status/audio-volume-high
+status/audio-volume-low
+status/audio-volume-medium
+status/audio-volume-muted
+status/battery-caution
+status/battery-low
++status/dialog-error = actions/messagebox_critical
++status/dialog-information = actions/messagebox_info
+status/dialog-password
+status/dialog-question
++status/dialog-warning = actions/messagebox_warning
+status/folder-drag-accept
+status/folder-open
+status/folder-visiting
+status/document-encrypted = actions/encrypted
+status/document-decrypted = actions/decrypted
+status/image-loading
+status/image-missing
+status/mail-attachment
+status/mail-unread
+status/mail-read
+status/mail-replied
+status/mail-signed
+status/mail-signed-verified
+status/media-playlist-repeat
+status/media-playlist-shuffle
+status/network-error
+status/network-idle
+status/network-offline
+status/network-receive
+status/network-transmit
+status/network-transmit-receive
+status/printer-error
+status/printer-printing
+status/security-high
+status/security-medium
+status/security-low
+status/software-update-available
+status/software-update-urgent
+status/sync-error
+status/sync-synchronizing
+status/task-due
+status/task-passed-due
+status/user-away
+status/user-idle
+status/user-offline
+status/user-online
+status/user-trash-full
+status/weather-clear
+status/weather-clear-night
+status/weather-few-clouds
+status/weather-few-clouds-night
+status/weather-fog
+status/weather-overcast
+status/weather-severe-alert
+status/weather-showers
+status/weather-showers-scattered
+status/weather-snow
+status/weather-storm
