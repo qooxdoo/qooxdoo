@@ -21,6 +21,12 @@
 
 ************************************************************************ */
 
+/**
+ * Apply all JavaScript 1.6 and all other qooxdoo qx.lang.* features
+ * directly to the native object. This method is not recommended and
+ * disabled by default. All classes and features contributed to qooxdoo
+ * should work without this feature enabled!
+ */
 qx.OO.defineClass("qx.lang.Prototypes");
 
 
