@@ -6,6 +6,11 @@ needs configuring slightly differently.
 
       # perl -MCPAN -e 'install JSON'
 
+  * Also make sure that you have CGI::Session, which could also be installed
+    from CPAN
+
+      # perl -MCPAN -e 'install CGI::Session'
+
   *  Next you'll need to configure a list of places to look for modules
      and services: Open jsonrpc.pl and add as many (space-separated)
      directories as you need to the lib list. Usually this need only
@@ -30,7 +35,7 @@ needs configuring slightly differently.
       $ cd ..
       $ perl/jsonrpc.pl
 
-     If you get "Can't locate Qooxdoo/RPC.pm in @INC" then you didn't get
+     If you get "Can't locate Qooxdoo/JSONRPC.pm in @INC" then you didn't get
      you library path right.
 
   * Now you have a few choices, depending on how you plan to integrate
