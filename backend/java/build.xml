@@ -17,11 +17,11 @@
     
     <target name="war">
         <mkdir dir="build"/>
-        <copy todir="build/demo">
-            <fileset dir="${frontendDir}/demo/build"/>
-        </copy>
         <copy todir="build/api">
-            <fileset dir="${frontendDir}/api/build"/>
+            <fileset dir="${frontendDir}/application/apiviewer/build"/>
+        </copy>
+        <copy todir="build/sample">
+            <fileset dir="${frontendDir}/application/sample/build"/>
         </copy>
         <war destfile="qooxdoo.war" webxml="webapp/WEB-INF/web.xml">
             <fileset dir="build"/>
@@ -45,16 +45,6 @@
     
     <target name="deploy">
         <copy file="qooxdoo.war" todir="${deployDir}"/>
-    </target>
-
-    <target name="transport-jar">
-        <jar destfile="qooxdoo-transport.jar">
-            <fileset dir="../../build-transport">
-                <include name="script/transport.js"/>
-            </fileset>
-            <fileset dir="classes">
-            </fileset>
-        </jar>
     </target>
     
 </project>
