@@ -23,6 +23,25 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+
+/**
+ * The servlet responsible for incoming RPC calls.
+ * 
+ * There's an init-param for this servlet called "referrerCheck".
+ * It can have one of the following values:
+ * <ul>
+ *     <li><strong>strict</strong> (default): Calls are only accepted from
+ *         pages within the same webapp as this servlet.</li>
+ *     <li><strong>domain</strong>: Calls are only accepted from pages within
+ *         the same domain.</li>
+ *     <li><strong>session</strong>: Calls are accepted from pages in arbitrary
+ *         domains, but all calls in a session must come from the same domain.
+ *         </li>
+ *     <li><strong>public</strong>: Calls are accepted from everywhere.</li>
+ *     <li><strong>fail</strong>: No calls are accepted (useful for testing
+ *         purposes).</li>
+ * </ul> 
+ */
 public class RpcServlet extends HttpServlet {
 
     /** The size for the read buffer. */
@@ -40,6 +59,19 @@ public class RpcServlet extends HttpServlet {
     /** The RemoteCallUtils instance that is used by this servlet. */
     protected RemoteCallUtils _remoteCallUtils;
 
+    /** The referrer checking method used for RPC calls. */
+    protected int _referrerCheck;
+    
+    protected static int REFERRER_CHECK_STRICT = 0;
+    protected static int REFERRER_CHECK_DOMAIN = 1;
+    protected static int REFERRER_CHECK_SESSION = 2;
+    protected static int REFERRER_CHECK_PUBLIC = 3;
+    protected static int REFERRER_CHECK_FAIL = 4;
+    
+    public static String SESSION_REFERRER_KEY = "_qooxdoo_rpc_referrer";
+    
+    protected static String ACCESS_DENIED_RESULT = "alert('Access denied. Please make sure that your browser sends correct referer headers.')";
+    
 
     /**
      * Looks up an instance of a service and creates one if necessary.
@@ -169,7 +201,7 @@ public class RpcServlet extends HttpServlet {
     }
 
     
-    private String makeJavaScriptServerInfo(HttpServletRequest request) {
+    protected String getContextURL(HttpServletRequest request) {
         // reconstruct the start of the URL
         StringBuffer contextURL = new StringBuffer();
         String scheme = request.getScheme();
@@ -185,10 +217,35 @@ public class RpcServlet extends HttpServlet {
         }
         contextURL.append(request.getContextPath());
         
+        return contextURL.toString();
+    }
+    
+    
+    protected String getDomainURL(HttpServletRequest request) {
+        // reconstruct the start of the URL
+        StringBuffer domainURL = new StringBuffer();
+        String scheme = request.getScheme();
+        int port = request.getServerPort();
+        
+        domainURL.append(scheme);
+        domainURL.append("://");
+        domainURL.append(request.getServerName());
+        if ((scheme.equals("http") && port != 80) ||
+            (scheme.equals ("https") && port != 443)) {
+            domainURL.append(':');
+            domainURL.append(request.getServerPort());
+        }
+        domainURL.append('/');
+        
+        return domainURL.toString();
+    }
+    
+    
+    private String makeJavaScriptServerInfo(HttpServletRequest request) {
         return "if (!qx || !qx.core || !qx.core.ServerSettings) {" +
                  "qx.OO.defineClass(\"qx.core.ServerSettings\");" +
                 "}" +
-                "qx.core.ServerSettings.serverPathPrefix = \"" + contextURL.toString() + "\";" +
+                "qx.core.ServerSettings.serverPathPrefix = \"" + getContextURL(request) + "\";" +
                 "qx.core.ServerSettings.serverPathSuffix = \";jsessionid=" + request.getSession().getId() + "\";" +
                 "qx.core.ServerSettings.sessionTimeoutInSeconds = " + request.getSession().getMaxInactiveInterval() + ";" +
                 "qx.core.ServerSettings.lastSessionRefresh = (new Date()).getTime();";
@@ -308,23 +365,33 @@ public class RpcServlet extends HttpServlet {
         } catch (Exception e) {
             throw new ServletException("Cannot generate a response");
         }
+        
         String jsTransportId = request.getParameter("_ScriptTransport_id");
         if (jsTransportId != null) {
             try {
-                String requestString = request.getParameter("_ScriptTransport_data");
-                //System.out.println("Request string: " + requestString);
-                //System.out.println("Session id: " + request.getSession().getId());
-                //System.out.println("Requested session id: " + request.getRequestedSessionId());
-                String res = handleRPC(request, requestString);
-                
-                responseWriter.write("qx.io.remote.ScriptTransport._requestFinished(\"" +
-                        jsTransportId + "\", " + res + ");");
+                if (!checkReferrer(request)) {
+                    responseWriter.write(ACCESS_DENIED_RESULT);
+                } else {
+                    
+                    String requestString = request.getParameter("_ScriptTransport_data");
+                    //System.out.println("Request string: " + requestString);
+                    //System.out.println("Session id: " + request.getSession().getId());
+                    //System.out.println("Requested session id: " + request.getRequestedSessionId());
+                    String res = handleRPC(request, requestString);
+                    
+                    responseWriter.write("qx.io.remote.ScriptTransport._requestFinished(\"" +
+                            jsTransportId + "\", " + res + ");");
+                }
             } catch (Exception e) {
                 throw new ServletException("Cannot execute remote method", e);
             }
         } else {
             try {
-                responseWriter.write(makeJavaScriptServerInfo(request));
+                if (!checkReferrer(request)) {
+                    responseWriter.write(ACCESS_DENIED_RESULT);
+                } else {
+                    responseWriter.write(makeJavaScriptServerInfo(request));
+                }
             } catch (Exception e) {
                 throw new ServletException("Cannot write path information", e);
             }
@@ -350,15 +417,12 @@ public class RpcServlet extends HttpServlet {
         InputStream is = null;
         Reader reader = null;
         try {
-            String requestString = null;
-            
+            String res;
             String contentType = request.getHeader("Content-Type");
-            if (contentType != null) {
-                if (contentType.indexOf("x-www-form-urlencoded") != -1) {
-                    requestString = request.getParameter("_data_");
-                }
-            }
-            if (requestString == null) {
+            if (!checkReferrer(request) || contentType == null ||
+                contentType.indexOf("application/json") != 0) {
+                res = ACCESS_DENIED_RESULT;
+            } else {
                 is = request.getInputStream();
                 reader = new InputStreamReader(is, "UTF-8");
                 StringBuffer requestBuffer = new StringBuffer();
@@ -367,10 +431,10 @@ public class RpcServlet extends HttpServlet {
                 while ((length = reader.read(readBuffer)) != -1) {
                     requestBuffer.append(readBuffer, 0, length);
                 }
-                requestString = requestBuffer.toString();
+                String requestString = requestBuffer.toString();
+                System.out.println("Request string: " + requestString);
+                res = handleRPC(request, requestString);
             }
-            System.out.println("Request string: " + requestString);
-            String res = handleRPC(request, requestString);
             
             response.setContentType("text/plain; charset=UTF-8");
             Writer responseWriter = response.getWriter();
@@ -397,11 +461,98 @@ public class RpcServlet extends HttpServlet {
 
     
     /**
+     * Checks the referrer based on the configured strategy
+     * 
+     * @param   request             the incoming request.
+     * 
+     * @return  whether or not the request should be granted.
+     */
+    protected boolean checkReferrer(HttpServletRequest request) {
+        if (_referrerCheck == REFERRER_CHECK_PUBLIC) {
+            return true;
+        }
+        if (_referrerCheck == REFERRER_CHECK_FAIL) {
+            return false;
+        }
+        String referrer = request.getHeader("Referer");
+        if (referrer == null) {
+            return false;
+        }
+        if (_referrerCheck == REFERRER_CHECK_STRICT) {
+            String contextURL = getContextURL(request);
+            if (!referrer.startsWith(contextURL)) {
+                return false;
+            }
+            return true;
+        }
+        if (_referrerCheck == REFERRER_CHECK_DOMAIN) {
+            String domainURL = getDomainURL(request);
+            if (!referrer.startsWith(domainURL)) {
+                return false;
+            }
+            return true;
+        }
+        if (_referrerCheck == REFERRER_CHECK_SESSION) {
+            // find the domain part of the referrer
+            int colonIndex = referrer.indexOf(":");
+            if (colonIndex == -1) {
+                return false;
+            }
+            int referrerLength = referrer.length();
+            int i;
+            for (i = colonIndex + 1;;++i) {
+                if (i >= referrerLength) {
+                    return false;
+                }
+                if (referrer.charAt(i) != '/') {
+                    break;
+                }
+            }
+            int slashIndex = referrer.indexOf("/", i + 1);
+            if (slashIndex == -1) {
+                return false;
+            }
+            String referrerDomain = referrer.substring(0, slashIndex + 1);
+            HttpSession session = request.getSession();
+            String oldReferrerDomain = (String)session.getAttribute(SESSION_REFERRER_KEY);
+            if (oldReferrerDomain == null) {
+                session.setAttribute(SESSION_REFERRER_KEY, referrerDomain);
+            } else {
+                if (!oldReferrerDomain.equals(referrerDomain)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        throw new IllegalStateException("Internal error: unknown referrer checking configuration");
+    }
+    
+    
+    /**
      * Initializes this servlet.
+     * 
+     * @param   config              the servlet config.
      */
     
-    public void init() throws ServletException {
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        
         _remoteCallUtils = getRemoteCallUtils();
+        String referrerCheckName = config.getInitParameter("referrerCheck");
+        if ("strict".equals(referrerCheckName)) {
+            _referrerCheck = REFERRER_CHECK_STRICT;
+        } else if ("domain".equals(referrerCheckName)) {
+            _referrerCheck = REFERRER_CHECK_DOMAIN;
+        } else if ("session".equals(referrerCheckName)) {
+            _referrerCheck = REFERRER_CHECK_SESSION;
+        } else if ("public".equals(referrerCheckName)) {
+            _referrerCheck = REFERRER_CHECK_PUBLIC;
+        } else if ("fail".equals(referrerCheckName)) {
+            _referrerCheck = REFERRER_CHECK_FAIL;
+        } else {
+            _referrerCheck = REFERRER_CHECK_STRICT;
+            log("No referrer checking configuration found. Using strict checking as the default.");
+        }
     }
 
     
