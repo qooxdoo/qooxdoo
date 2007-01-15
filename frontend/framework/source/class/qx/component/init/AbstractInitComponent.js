@@ -34,7 +34,7 @@ function() {
 
 /**
  * Run initialisation part of component creation.
- * 
+ *
  * @param e {Event} event object
  */
 qx.Proto.initialize = function(e) {
@@ -44,7 +44,7 @@ qx.Proto.initialize = function(e) {
 
 /**
  * Run main  part of component creation.
- * 
+ *
  * @param e {Event} event object
  */
 qx.Proto.main = function(e) {
@@ -54,7 +54,7 @@ qx.Proto.main = function(e) {
 
 /**
  * Run finalization part of component creation.
- * 
+ *
  * @param e {Event} event object
  */
 qx.Proto.finalize = function(e) {
@@ -64,7 +64,7 @@ qx.Proto.finalize = function(e) {
 
 /**
  * Terminate this component.
- * 
+ *
  * @param e {Event} event object
  */
 qx.Proto.close = function(e) {
@@ -74,7 +74,7 @@ qx.Proto.close = function(e) {
 
 /**
  * Terminate this component.
- * 
+ *
  * @param e {Event} event object
  */
 qx.Proto.terminate = function(e) {

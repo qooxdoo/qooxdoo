@@ -24,7 +24,7 @@
 
 /**
  * Helper for qx.manager.selection.SelectionManager, contains data for selections
- * 
+ *
  * @param vManager {Object} a class which implements a getItemHashCode(oItem) method
  */
 qx.OO.defineClass("qx.type.Selection", qx.core.Object,
@@ -48,7 +48,7 @@ function(vManager)
 
 /**
  * Add an item to the selection
- * 
+ *
  * @param oItem {var} item to add
  */
 qx.Proto.add = function(oItem) {
@@ -58,7 +58,7 @@ qx.Proto.add = function(oItem) {
 
 /**
  * Remove an item from the selection
- * 
+ *
  * @param oItem {var} item to remove
  */
 qx.Proto.remove = function(oItem) {
@@ -76,7 +76,7 @@ qx.Proto.removeAll = function() {
 
 /**
  * Check whether the selection contains a given item
- * 
+ *
  * @param oItem {var} item to check for
  * @return {Boolean} whether the selection contains the item
  */
@@ -87,7 +87,7 @@ qx.Proto.contains = function(oItem) {
 
 /**
  * Convert selection to an array
- * 
+ *
  * @return {Array} array representation of the selection
  */
 qx.Proto.toArray = function()
@@ -104,7 +104,7 @@ qx.Proto.toArray = function()
 
 /**
  * Return first element of the Selection
- * 
+ *
  * @return {var} first item of the selection
  */
 qx.Proto.getFirst = function()
@@ -117,7 +117,7 @@ qx.Proto.getFirst = function()
 
 /**
  * Get a string representation of the Selection. The return value can be used to compare selections.
- * 
+ *
  * @return {String} string representation of the Selection
  */
 qx.Proto.getChangeValue = function()
@@ -135,7 +135,7 @@ qx.Proto.getChangeValue = function()
 
 /**
  * Compute a hash code for an item using the manager
- * 
+ *
  * @param oItem {var} the item
  * @return {var} unique hash code for the item
  */
@@ -146,7 +146,7 @@ qx.Proto.getItemHashCode = function(oItem) {
 
 /**
  * Whether the selection is empty
- * 
+ *
  * @return {Boolean} whether the selection is empty
  */
 qx.Proto.isEmpty = function() {

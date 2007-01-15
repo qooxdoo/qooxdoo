@@ -131,7 +131,7 @@ qx.Proto._onSelectionChanged = function(evt) {
 
 /**
  * Event handler. Called when the table gets or looses the focus.
- * 
+ *
  * @param evt {Map} the event.
  */
 qx.Proto._onFocusChanged = function(evt) {

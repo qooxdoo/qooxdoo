@@ -40,7 +40,7 @@ qx.util.Normalization._umlautsShortData = { "\xC4": "A", "\xD6": "O", "\xDC": "U
 
 /**
  * Private helper
- * 
+ *
  * @param vChar {String} char to convert
  * @return {String}
  */
@@ -52,7 +52,7 @@ qx.util.Normalization._umlautsShort = function(vChar) {
 /**
  * Converts (German) umlauts in the string to a one letter ASCI form.
  * Example: &Auml; -> A, &uuml; -> u, &szlig; -> s, ...
- * 
+ *
  * @param vString {String} string to normalize
  * @return {String} normalized string
  */
@@ -66,7 +66,7 @@ qx.util.Normalization._umlautsLongData = { "\xC4": "Ae", "\xD6": "Oe", "\xDC": "
 
 /**
  * Private helper
- * 
+ *
  * @param vChar {String} char to convert
  * @return {String}
  */
@@ -78,7 +78,7 @@ qx.util.Normalization._umlautsLong = function(vChar) {
 /**
  * Converts (German) umlauts in the string to a two letter ASCI form.
  * Example: &Auml; -> Ae, &uuml; -> ue, &szlig; -> ss, ...
- * 
+ *
  * @param vString {String} string to normalize
  * @return {String} normalized string
  */

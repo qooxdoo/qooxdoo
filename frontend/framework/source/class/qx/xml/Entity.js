@@ -30,9 +30,9 @@ qx.OO.defineClass("qx.xml.Entity");
 /** Mapping of XML entity names to the corresponding char code */
 qx.Class.TO_CHARCODE = {
   "quot": 34, // " - double-quote
-  "amp": 38, // & 
-  "lt": 60, // < 
-  "gt": 62, // > 
+  "amp": 38, // &
+  "lt": 60, // <
+  "gt": 62, // >
   "apos": 39 // XML apostrophe
 };
 

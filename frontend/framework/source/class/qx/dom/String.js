@@ -22,14 +22,18 @@
 ************************************************************************ */
 
 /**
- * A Collection of utility functions to escape and unescape strings.
+ * Generic escaping and unescaping of DOM strings.
+ *
+ * {@link qx.html.String} for (un)escaping of HTML strings.
+ *
+ * {@link qx.xml.String} for (un)escaping of XML strings.
  */
 qx.OO.defineClass("qx.dom.String");
 
 
 /**
  * generic escaping method
- * 
+ *
  * @param str {String} string to escape
  * @param charcodeToEntities {Map} entity to charcode map
  */
@@ -39,7 +43,7 @@ qx.Class.escapeEntities = function(str, charcodeToEntities) {
     var chr = str.charAt(i);
     var code = chr.charCodeAt(0)
     if (charcodeToEntities[code]) {
-        var entity = "&" + charcodeToEntities[code] + ";";        
+        var entity = "&" + charcodeToEntities[code] + ";";
     } else {
       if (code > 0x7F) {
         entity = "&#" + code + ";";
@@ -55,7 +59,7 @@ qx.Class.escapeEntities = function(str, charcodeToEntities) {
 
 /**
  * generic unescaping method
- * 
+ *
  * @param str {String} string to unescape
  * @param entitiesToCharCode {Map} charcode to entity map
  */
@@ -79,7 +83,7 @@ qx.Class.unescapeEntities = function(str, entitiesToCharCode) {
           // match integer
           if (code.match(/^\d+$/gi)) {
             chr = String.fromCharCode(parseInt(code));
-          }          
+          }
         }
       }
     }

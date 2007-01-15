@@ -32,14 +32,14 @@ qx.OO.defineClass("qx.html.String");
  *
  * For example: <tt>"bread" & "butter"</tt> => <tt>&amp;quot;bread&amp;quot; &amp;amp; &amp;quot;butter&amp;quot;</tt>.
  * Supports all known HTML 4.0 entities, including funky accents.
- * 
+ *
  * * <a href="http://www.w3.org/TR/REC-html32#latin1">HTML 3.2 Character Entities for ISO Latin-1</a>
  * * <a href="http://www.w3.org/TR/REC-html40/sgml/entities.html">HTML 4.0 Character entity references</a>
  * * <a href="http://www.w3.org/TR/html401/charset.html#h-5.3">HTML 4.01 Character References</a>
  * * <a href="http://www.w3.org/TR/html401/charset.html#code-position">HTML 4.01 Code positions</a>
- * 
+ *
  * @see #unescapeHtml
- * 
+ *
  * @param str {String} the String to escape
  * @return {String} a new escaped String
  */
@@ -62,7 +62,7 @@ qx.Class.escape = function(str) {
  * If an entity is unrecognized, it is left alone, and inserted
  * verbatim into the result string. e.g. "&amp;gt;&amp;zzzz;x" will
  * become "&gt;&amp;zzzz;x".
- * 
+ *
  * @see #escapeHtml
  *
  * @param str {String} the String to unescape, may be null
@@ -79,9 +79,9 @@ qx.Class.unescape = function(str) {
 /**
  * Converts a plain text string into HTML.
  * This is similar to {@link #escapeHtml} but converts new lines to <tt>&lt:br&gt:</tt> and preserves whitespaces.
- * 
+ *
  * @see #escapeHtml
- * 
+ *
  * @param str {String} the String to convert
  * @return {String} a new converted String
  */
@@ -101,7 +101,7 @@ qx.Class.fromText = function(str) {
  *  * Strips all HTML tags
  *  * converts <tt>&lt:br&gt:</tt> to new line
  *  * unescapes HTML entities
- * 
+ *
  * @param str {String} HTML string to converts
  * @return {String} plain text representaion of the HTML string
  */

@@ -34,7 +34,7 @@
  * Modified for qooxdoo by Sebastian Werner. Based on version 1.2.3. Relicensed under LGPL in assent of Geoff Stearns.
  *
  * @param arrVersion {Array|String} array with three elements defining major, minor and revision number
- *   or a version string separated by '.' 
+ *   or a version string separated by '.'
  */
 qx.OO.defineClass("qx.type.Version", qx.core.Object,
 function(arrVersion)
@@ -76,7 +76,7 @@ qx.Proto._rev = 0;
 /**
  * Comapres the Version with another version number.
  * Returns true if this version instance has a bigger version number
- * 
+ *
  * @param fv {qx.type.Version} Version number to compare with
  * @return {Boolean} whether the version instance has a bigger version numbers.
  */
@@ -96,7 +96,7 @@ qx.Proto.versionIsValid = function(fv)
 
 /**
  * Return major version number
- * 
+ *
  * @return {String|Integer} major version number
  */
 qx.Proto.getMajor = function() {
@@ -106,7 +106,7 @@ qx.Proto.getMajor = function() {
 
 /**
  * Return minor version number
- * 
+ *
  * @return {String|Integer} minor version number
  */
 qx.Proto.getMinor = function() {
@@ -116,7 +116,7 @@ qx.Proto.getMinor = function() {
 
 /**
  * Return revision number
- * 
+ *
  * @return {String|Integer} revision number
  */
 qx.Proto.getRev = function() {

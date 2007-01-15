@@ -40,7 +40,7 @@ function () {
   header.setCssClassName("header");
   header.setHeight(35);
   this.addTop(header);
-  
+
   this._tree = new qx.ui.tree.Tree("API Documentation");
   this._tree.set({
     backgroundColor: "white",
@@ -59,7 +59,7 @@ function () {
     border: qx.renderer.border.BorderPresets.getInstance().inset
   });
   this._detailFrame.setHtmlProperty("id", "DetailFrame");
-  
+
   // create vertival splitter
   var mainSplitPane = new qx.ui.splitpane.HorizontalSplitPane(250, "1*");
   mainSplitPane.setLiveResize(true);

@@ -35,8 +35,8 @@ qx.OO.defineClass("qx.xml.String");
  *
  * Supports only the four basic XML entities (gt, lt, quot, amp).
  * Does not support DTDs or external entities.
- * Note that unicode characters greater than 0x7f are currently escaped to their numerical \\u equivalent. 
- * 
+ * Note that unicode characters greater than 0x7f are currently escaped to their numerical \\u equivalent.
+ *
  * @see #unescape
  *
  * @param str {String} the string to be escaped
