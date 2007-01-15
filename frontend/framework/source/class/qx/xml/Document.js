@@ -24,9 +24,9 @@
 
 /**
  * XML Document
- * 
- * Tested with IE6, Firefox 2.0, WebKit/Safari 3.0 and Opera 9 
- * 
+ *
+ * Tested with IE6, Firefox 2.0, WebKit/Safari 3.0 and Opera 9
+ *
  * http://msdn.microsoft.com/library/default.asp?url=/library/en-us/xmlsdk/html/81f3de54-3b79-46dc-8e01-73ca2d94cdb5.asp
  * http://developer.mozilla.org/en/docs/Parsing_and_serializing_XML
  */
@@ -38,11 +38,11 @@ qx.OO.defineClass("qx.xml.Document");
  *
  * TODO: add implementation that suuports the given arguments.
  *       Drop fromString() afterwards.
- * 
+ *
  * @param content {String|null?null}
  * @param namespace {String|null?null}
  * @param root {String|null?null}
- * 
+ *
  * @return {Document} empty XML document
  */
 qx.Class.create = function(content, namespace, root) {};
@@ -96,7 +96,7 @@ else if (qx.core.Client.getInstance().isMshtml())   // The Microsoft style
     return vObject;
   };
 }
-else 
+else
 {
   throw new Error("This browser does not support xml dom creation.");
 }
@@ -104,10 +104,10 @@ else
 
 /**
  * The string passed in is parsed into a DOM document.
- * 
+ *
  * @param str {String} the string to be parsed
  * @return {Document}
- * 
+ *
  * TODO: move to create()
  */
 qx.Class.fromString = function(str) {};
@@ -117,7 +117,7 @@ if (window.DOMParser)
   qx.Class.fromString = function(str) {
     var dom = (new DOMParser()).parseFromString(str, "text/xml");
     return dom;
-  };  
+  };
 }
 else if (qx.core.Client.getInstance().isMshtml())   // The Microsoft style
 {
@@ -125,7 +125,7 @@ else if (qx.core.Client.getInstance().isMshtml())   // The Microsoft style
     var dom = qx.xml.Document.create();
     dom.loadXML(str);
     return dom;
-  }; 
+  };
 }
 else
 {
@@ -135,7 +135,7 @@ else
 
 /**
  * Check whether an object is a Document instance
- * 
+ *
  * @param obj {Object} object to check
  * @return {Boolean} whether the object is a Document instance
  */

@@ -24,9 +24,9 @@
 
 /**
  * XML Element
- * 
- * Tested with IE6, Firefox 2.0, WebKit/Safari 3.0 and Opera 9 
- * 
+ *
+ * Tested with IE6, Firefox 2.0, WebKit/Safari 3.0 and Opera 9
+ *
  * http://msdn.microsoft.com/library/default.asp?url=/library/en-us/xmlsdk/html/81f3de54-3b79-46dc-8e01-73ca2d94cdb5.asp
  * http://developer.mozilla.org/en/docs/Parsing_and_serializing_XML
  */
@@ -35,22 +35,22 @@ qx.OO.defineClass("qx.xml.Element");
 
 /**
  * The subtree rooted by the specified element or document is serialized to a string.
- * 
- * @param element {Element|Document} The root of the subtree to be serialized. This could be any node, including a Document. 
+ *
+ * @param element {Element|Document} The root of the subtree to be serialized. This could be any node, including a Document.
  * @return {String}
  */
 qx.Class.serialize = function(element) {}
 
 if (window.XMLSerializer) {
   qx.Class.serialize = function(element) {
-    var element = qx.xml.Document.isDocument(element) ? element.documentElement : element; 
+    var element = qx.xml.Document.isDocument(element) ? element.documentElement : element;
     return (new XMLSerializer()).serializeToString(element);
   };
 }
 else
 {
   qx.Class.serialize = function(element) {
-    var element = qx.xml.Document.isDocument(element) ? element.documentElement : element; 
+    var element = qx.xml.Document.isDocument(element) ? element.documentElement : element;
     return element.xml || element.outerHTML;
   };
 }
@@ -58,14 +58,14 @@ else
 
 /**
  * Selects the first XmlNode that matches the XPath expression.
- * 
+ *
  * @param element {Element|Document} root element for the search
  * @param query {String}  XPath query
  * @return {Element} first matching element
  */
  qx.Class.selectSingleNode = function(element, query) {};
- 
-if (window.XPathEvaluator) 
+
+if (window.XPathEvaluator)
 {
   qx.Class.selectSingleNode = function(element, query) {
     var xpe = new XPathEvaluator();
@@ -82,24 +82,24 @@ else if(qx.core.Client.getInstance().isMshtml() || document.selectSingleNode) //
 
 /**
  * Selects a list of nodes matching the XPath expression.
- * 
+ *
  * @param element {Element|Document} root element for the search
  * @param query {String}  XPath query
  * @return {Element[]} List of matching elements
  */
  qx.Class.selectNodes = function(element, query) {};
- 
-if (window.XPathEvaluator) 
+
+if (window.XPathEvaluator)
 {
   qx.Class.selectNodes = function(element, query) {
     var xpe = new XPathEvaluator();
     var result = xpe.evaluate(query, element, xpe.createNSResolver(element), XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
     var nodes = [];
-  
+
     for (var i=0; i<result.snapshotLength; i++) {
       nodes[i] = result.snapshotItem(i);
     }
-  
+
     return nodes;
   };
 }
@@ -113,7 +113,7 @@ else if(qx.core.Client.getInstance().isMshtml() || document.selectNodes) // IE a
 
 /**
  * Returns a list of elements with the given tag name belonging to the given namespace (http://developer.mozilla.org/en/docs/DOM:element.getElementsByTagNameNS).
- * 
+ *
  * @param element {Element|Document} the element from where the search should start.
  *     Note that only the descendants of this element are included in the search, not the node itself.
  * @param namespaceURI is the namespace URI of elements to look for . For example, if you need to look
