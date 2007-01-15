@@ -140,6 +140,5 @@ else
  * @return {Boolean} whether the object is a Document instance
  */
 qx.Class.isDocument = function(obj) {
-  // TODO: better check needed here
-  return (typeof(obj.createElement) != "undefined");
+  return (obj.nodeType == qx.dom.Node.DOCUMENT);
 };

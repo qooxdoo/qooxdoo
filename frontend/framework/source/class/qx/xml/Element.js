@@ -132,9 +132,9 @@ if (document.getElementsByTagNameNS)
 else if (qx.core.Client.getInstance().isMshtml())
 {
   qx.Class.getElementsByTagNameNS = function(element, namespaceURI, tagname) {
-    var doc = element.ownerDocument;
-    nsDoc.setProperty("SelectionLanguage", "XPath");
-    nsDoc.setProperty("SelectionNamespaces", "xmlns:ns='" + namespaceURI + "'");
+    var doc = element.ownerDocument || element;
+    doc.setProperty("SelectionLanguage", "XPath");
+    doc.setProperty("SelectionNamespaces", "xmlns:ns='" + namespaceURI + "'");
     return qx.xml.Element.selectNodes(element, '//ns:' + tagname);
   };
 }
