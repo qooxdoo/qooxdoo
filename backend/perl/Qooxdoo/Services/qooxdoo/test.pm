@@ -4,7 +4,7 @@ package Qooxdoo::Services::qooxdoo::test;
 # qooxdoo - the new era of web interface development
 #
 # Copyright:
-#   (C) 2006 by Nick Glencross
+#   (C) 2006, 2007 by Nick Glencross
 #       All rights reserved
 #
 # License:
@@ -28,7 +28,49 @@ use strict;
 
 use Qooxdoo::JSONRPC;
 
-sub echo
+# Specify method accessibility.  Default value is configured in server,
+# but may be overridden on a per-method basis here.
+#
+# @param method
+#   The name of the method (without the leading "method_") to be tested
+#   for accessibility.
+#
+# @param defaultAccessibility
+#   The default accessibility configured in the server.  (See @return for
+#   possible values.)
+#
+# @param bScriptTransportInUse (not yet implemented)
+#   Boolean indicating whether the current request was issued via
+#   ScriptTransport.
+#
+# @param bDefaultScriptTransportAllowed (not yet implemented)
+#   Boolean specifying the default value for allowing requests via
+#   ScriptTransport. 
+#
+# @return
+#   One of these values:
+#     Accessibility_Public
+#     Accessibility_Domain
+#     Accessibility_Session
+#     Accessibility_Fail
+
+sub GetAccessibility
+{
+    my ($method, $defaultAccessibility) = @_;
+
+    # This flag can be used to enable/disable the ACL checks
+    my $acl_disabled = 1;
+    return $defaultAccessibility if $acl_disabled;
+
+    my %acl = (echo       => Qooxdoo::JSONRPC::Accessibility_Domain,
+               getInteger => Qooxdoo::JSONRPC::Accessibility_Session,
+               getString  => Qooxdoo::JSONRPC::Accessibility_Public);
+
+    return $acl{$method} || $defaultAccessibility;
+}
+
+
+sub method_echo
 {
     my $error  = shift;
     my @params = @_;
@@ -38,7 +80,7 @@ sub echo
     if ($count != 1)
     {
         $error->set_error (Qooxdoo::JSONRPC::JsonRpcError_ParameterMismatch,
-                           "Expected 1 parameter, but got " . $count);
+                           "Expected 1 parameter, but got $count");
         return $error;
     }
     
@@ -46,7 +88,7 @@ sub echo
 }
 
 
-sub sink 
+sub method_sink 
 {
     my $error  = shift;
     my @params = @_;
@@ -56,7 +98,7 @@ sub sink
 }
 
 
-sub sleep
+sub method_sleep
 {
     my $error  = shift;
     my @params = @_;
@@ -66,7 +108,7 @@ sub sleep
     if ($count != 1)
     {
         $error->set_error (Qooxdoo::JSONRPC::JsonRpcError_ParameterMismatch,
-                           "Expected 1 parameter, but got " . $count);
+                           "Expected 1 parameter, but got $count");
         return $error;
     }
     
@@ -76,98 +118,99 @@ sub sleep
 }
 
 
-sub getInteger 
+sub method_getInteger 
 {
     return 1;
 }
 
 
-sub getFloat
+sub method_getFloat
 {
     return 1/3;
 }
 
 
-sub getString
+sub method_getString
 {
     return "Hello world";
 }
 
 
-sub getBadString
+sub method_getBadString
 {
     return "<!DOCTYPE HTML \"-//IETF//DTD HTML 2.0//EN\">";
 }
 
 
-sub getArrayInteger
+sub method_getArrayInteger
 {
     return [1, 2, 3, 4];
 }
 
 
-sub getArrayString
+sub method_getArrayString
 {
     return ["one", "two", "three", "four"];
 }
 
 
-sub getObject
+sub method_getObject
 {
     # XXX This isn't a real Object. The JSON module does not appear to
-    # support both 'selfconvert' and 'convblessed', which is what we need
+    # support both 'selfconvert' and 'convblessed', which is what we
+    # ideally need
 
     # Return a hash, but not blessed
     return {test => 1};
 }
 
 
-sub getTrue
+sub method_getTrue
 {
     return JSON::True;
 }
 
 
-sub getFalse
+sub method_getFalse
 {
     return JSON::False;
 }
 
 
-sub getNull
+sub method_getNull
 {
     return JSON::Null;
 }
 
 
-sub isInteger
+sub method_isInteger
 {
     my $error  = shift;
     my @params = @_;
 
-    return $params[0] =~ /^[\-\+\d]+$/ ? JSON::True : JSON::False;
+    return Qooxdoo::JSONRPC::json_bool ($params[0] =~ /^[\-\+\d]+$/);
 }
 
 
-sub isFloat
+sub method_isFloat
 {
     my $error  = shift;
     my @params = @_;
 
-    return $params[0] =~ /^[\-\+\d\.]+$/ ? JSON::True : JSON::False;
+    return Qooxdoo::JSONRPC::json_bool ($params[0] =~ /^[\-\+\d\.]+$/);
 }
 
 
-sub isString
+sub method_isString
 {
     my $error  = shift;
     my @params = @_;
 
-    return ref $params[0] eq '' ? JSON::True : JSON::False;
+    return Qooxdoo::JSONRPC::json_bool (ref $params[0] eq '');
 }
 
 
-sub isBoolean
+sub method_isBoolean
 {
     my $error  = shift;
     my @params = @_;
@@ -179,29 +222,29 @@ sub isBoolean
     && ($param->{value} eq 'true' ||
         $param->{value} eq 'false');
     
-    return $is_true ? JSON::True : JSON::False;
+    return Qooxdoo::JSONRPC::json_bool ($is_true);
 }
 
 
-sub isArray
+sub method_isArray
 {
     my $error  = shift;
     my @params = @_;
 
-    return ref $params[0] eq 'ARRAY' ? JSON::True : JSON::False;
+    return Qooxdoo::JSONRPC::json_bool (ref $params[0] eq 'ARRAY');
 }
 
 
-sub isObject
+sub method_isObject
 {
     my $error  = shift;
     my @params = @_;
 
-    return ref $params[0] eq 'HASH' ? JSON::True : JSON::False;
+    return Qooxdoo::JSONRPC::json_bool (ref $params[0] eq 'HASH');
 }
 
 
-sub isNull
+sub method_isNull
 {
     my $error  = shift;
     my @params = @_;
@@ -211,11 +254,11 @@ sub isNull
     my $is_null = ref $param eq 'JSON::NotString'
         && !defined $param->{value};
     
-    return $is_null ? JSON::True : JSON::False;
+    return Qooxdoo::JSONRPC::json_bool ($is_null);
 }
 
 
-sub getParams
+sub method_getParams
 {
     my $error  = shift;
     my @params = @_;
@@ -224,7 +267,7 @@ sub getParams
 }       
 
 
-sub getParam
+sub method_getParam
 {
     my $error  = shift;
     my @params = @_;
@@ -233,16 +276,16 @@ sub getParam
 }       
 
 
-sub getCurrentTimestamp
+sub method_getCurrentTimestamp
 {
     my $now = time;
 
-    return {now => $now,
+    return {now  => $now,
             json => new Qooxdoo::JSONRPC::Date ($now)};
 }
 
 
-sub getError
+sub method_getError
 {
     my $error  = shift;
     my @params = @_;
