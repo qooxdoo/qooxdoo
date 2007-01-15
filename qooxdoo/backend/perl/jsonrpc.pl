@@ -4,7 +4,7 @@
 # qooxdoo - the new era of web interface development
 #
 # Copyright:
-#   (C) 2006 by Nick Glencross
+#   (C) 2006, 2007 by Nick Glencross
 #       All rights reserved
 #
 # License:
@@ -27,7 +27,7 @@
 use strict;
 
 # Change this space-separated list of directories to include
-# Qooxdoo::JSONRPC.pm and any Services elsewhere
+# Qooxdoo::JSONRPC.pm and co-located Services
 use lib qw(/PATH_TO_QOOXDOO/backend/perl);
 
 use Qooxdoo::JSONRPC;

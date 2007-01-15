@@ -1,30 +1,30 @@
 <?php
-  /*
-   * qooxdoo - the new era of web interface development
-   *
-   * Copyright:
-   *   (C) 2006 by Derrell Lipman
-   *       All rights reserved
-   *
-   * License:
-   *   LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
-   *
-   * Internet:
-   *   * http://qooxdoo.org
-   *
-   * Author:
-   *   * Derrell Lipman
-   *     derrell dot lipman at unwireduniverse dot com
-   */
+/*
+ * qooxdoo - the new era of web interface development
+ *
+ * Copyright:
+ *   (C) 2006, 2007 by Derrell Lipman
+ *       All rights reserved
+ *
+ * License:
+ *   LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+ *
+ * Internet:
+ *   * http://qooxdoo.org
+ *
+ * Author:
+ *   * Derrell Lipman (derrell)
+ */
 
-  /*
-   * This is a simple JSON-RPC server.  We receive a service name in
-   * dot-separated path format and expect to find the class containing the
-   * service in a file of the service name (with dots converted to slashes and
-   * ".php" appended).
-   */
+/*
+ * This is a simple JSON-RPC server.  We receive a service name in
+ * dot-separated path format and expect to find the class containing the
+ * service in a file of the service name (with dots converted to slashes and
+ * ".php" appended).
+ */
 
 require "JSON.phps";
+
 
 /**
  * The location of the service class directories.
@@ -34,6 +34,39 @@ define("servicePathPrefix",                "");
 
 
 /*
+ * Method Accessibility values
+ *
+ * Possible values are:
+ *
+ *   "public" -
+ *     The method may be called from any session, and without any checking of
+ *     who the Referer is.
+ *
+ *   "domain" -
+ *     The method may only be called by a script obtained via a web page
+ *     loaded from this server.  The Referer must match the request URI,
+ *     through the domain part.
+ *
+ *   "session" -
+ *     The Referer must match the Referer of the very first RPC request
+ *     issued during the session.
+ *
+ *   "fail" -
+ *     Access is denied
+ */
+define("Accessibility_Public",             "public");
+define("Accessibility_Domain",             "domain");
+define("Accessibility_Session",            "session");
+define("Accessibility_Fail",               "fail");
+
+/**
+ * Default accessibility for methods when not overridden by the service class.
+ */
+define("defaultAccessibility",             Accessibility_Domain);
+
+
+
+/**
  * JSON-RPC error origins
  */
 define("JsonRpcError_Origin_Server",      1);
@@ -194,11 +227,17 @@ function debug($str)
     static $fw = null;
     if ($fw === null)
     {
-        $fw = fopen("/tmp/phpinfo", "w");
+        $fw = fopen("/tmp/phpinfo", "a");
     }
     fputs($fw, $str, strlen($str));
     fflush($fw);
 }
+
+
+/*
+ * Start or join an existing session
+ */
+session_start();
 
 /*
  * Create a new instance of JSON and get the JSON-RPC request from
@@ -213,14 +252,7 @@ $scriptTransportId = ScriptTransport_NotInUse;
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
     /*
-     * We might have received either of two submission methods here.  If this
-     * was form data (as would be received via an IframeTransport request), we
-     * expect "_data_=<url-encoded-json-rpc>"; otherwise (XmlHttpTransport)
-     * we'll have simply <json-rpc>, not url-encoded and with no "_data_=".
-     * The "Content-Type" field should be one of our two supported variants:
-     * application/json or application/x-json-form-urlencoded.  If neither, or if
-     * there is more than one form field provided or if the first form field
-     * name is not '_data_', it's an error.
+     * For POST data, the only acceptable content type is application/json.
      */
     switch($_SERVER["CONTENT_TYPE"])
     {
@@ -229,22 +261,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         $input = file_get_contents('php://input');
         $jsonInput = $json->decode($input);
         break;
-    
-    case "application/x-www-form-urlencoded":
-        /*
-         * We received a form submission.  See what fields were provided.
-         * There must be only "_data_"
-         */
-        if (count($_POST) == 1 && isset($_POST["_data_"]))
-        {
-            /* $_POST["_data_"] has quotes escaped.  php://input doesn't. */
-            $input = file_get_contents('php://input');
-            $inputFields = explode("=", $input);
-            $jsonInput = $json->decode(urldecode($inputFields[1]));
-            break;
-        }
-    
-        /* fall through to default */
     
     default:
         /*
@@ -259,6 +275,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 }
 else if ($_SERVER["REQUEST_METHOD"] == "GET" &&
          isset($_GET["_ScriptTransport_id"]) &&
+         $_GET["_ScriptTransport_id"] != ScriptTransport_NotInUse &&
          isset($_GET["_ScriptTransport_data"]))
 {
     /* We have what looks like a valid ScriptTransport request */
@@ -372,6 +389,137 @@ if (! class_exists($className))
 /* Instantiate the service */
 $service = new $className();
 
+/*
+ * Do referer checking.  There is a global default which can be overridden by
+ * each service for a specified method.
+ */
+
+/* Assign the default accessibility */
+$accessibility = defaultAccessibility;
+
+/*
+ * See if there is a "GetAccessibility" method in the class.  If there is, it
+ * should take two parameters: the method name and the default accessibility,
+ * and return one of the Accessibililty values.
+ */
+if (method_exists($service, "GetAccessibility"))
+{
+    /* Yup, there is.  Get the accessibility for the requested method */
+    $accessibility = $service->GetAccessibility($jsonInput->method,
+                                                $accessibility);
+}
+
+/* Do the accessibility test. */
+switch($accessibility)
+{
+case Accessibility_Public:
+    /* Nothing to do.  The method is accessible. */
+    break;
+    
+case Accessibility_Domain:
+    /* Determine the protocol used for the request */
+    if (isset($_SERVER["SSL_PROTOCOL"]))
+    {
+        $requestUriDomain = "https://";
+    }
+    else
+    {
+        $requestUriDomain = "http://";
+    }
+
+    // Add the server name
+    $requestUriDomain .= $_SERVER["SERVER_NAME"];
+
+    // The port number optionally follows.  We don't know if they manually
+    // included the default port number, so we just have to assume they
+    // didn't.
+    if ((! isset($_SERVER["SSL_PROTOCOL"]) && $_SERVER["SERVER_PORT"] != 80) ||
+        (  isset($_SERVER["SSL_PROTOCOL"]) && $_SERVER["SERVER_PORT"] != 443))
+    {
+        // Non-default port number, so append it.
+        $requestUriDomain .= ":" . $_SERVER["SERVER_PORT"];
+    }
+
+    /* Get the Referer, up through the domain part */
+    if (ereg("^(https?://[^/]*)", $_SERVER["HTTP_REFERER"], $regs) === false)
+    {
+        /* unrecognized referer */
+        $error->SetError(JsonRpcError_PermissionDenied,
+                         "Permission Denied [2]");
+        $error->SendAndExit();
+        /* never gets here */
+    }
+
+    /* Retrieve the referer component */
+    $refererDomain = $regs[1];
+
+    /* Is the method accessible? */
+    if ($refererDomain != $requestUriDomain)
+    {
+        /* Nope. */
+        $error->SetError(JsonRpcError_PermissionDenied,
+                         "Permission Denied [3]");
+        $error->SendAndExit();
+        /* never gets here */
+    }
+
+    /* If no referer domain has yet been saved in the session... */
+    if (! isset($_SESSION["session_referer_domain"]))
+    {
+        /* ... then set it now using this referer domain. */
+        $_SESSION["session_referer_domain"] = $refererDomain;
+    }
+    break;
+    
+case Accessibility_Session:
+    /* Get the Referer, up through the domain part */
+    if (ereg("(((http)|(https))://[^/]*)(.*)",
+             $_SERVER["HTTP_REFERER"],
+             $regs) === false)
+    {
+        /* unrecognized referer */
+        $error->SetError(JsonRpcError_PermissionDenied,
+                         "Permission Denied [4]");
+        $error->SendAndExit();
+        /* never gets here */
+    }
+
+    /* Retrieve the referer component */
+    $refererDomain = $regs[1];
+
+    /* Is the method accessible? */
+    if (isset($_SESSION["session_referer_domain"]) &&
+        $refererDomain != $_SESSION["session_referer_domain"])
+    {
+        /* Nope. */
+        $error->SetError(JsonRpcError_PermissionDenied,
+                         "Permission Denied [5]");
+        $error->SendAndExit();
+        /* never gets here */
+    }
+    else if (! isset($_SESSION["session_referer_domain"]))
+    {
+        /* No referer domain is yet saved in the session.  Save it. */
+        $_SESSION["session_referer_domain"] = $refererDomain;
+    }
+
+    break;
+
+case Accessibility_Fail:
+    $error->SetError(JsonRpcError_PermissionDenied,
+                     "Permission Denied [6]");
+    $error->SendAndExit();
+    /* never gets here */
+    break;
+
+default:
+    /* Service's GetAccessibility() function returned a bogus value */
+    $error->SetError(JsonRpcError_PermissionDenied,
+                     "Service error: unknown accessibility.");
+    $error->SendAndExit();
+    /* never gets here */
+}
+
 /* Now that we've instantiated service, we should find the requested method */
 $method = "method_" . $jsonInput->method;
 if (! method_exists($service, $method))
@@ -387,7 +535,7 @@ if (! method_exists($service, $method))
 $error->SetOrigin(JsonRpcError_Origin_Application);
 
 /* Call the requested method passing it the provided params */
-$output = $service->$method($jsonInput->params, &$error);
+$output = $service->$method($jsonInput->params, $error);
 
 /* See if the result of the function was actually an error */
 if (get_class($output) == "JsonRpcError")

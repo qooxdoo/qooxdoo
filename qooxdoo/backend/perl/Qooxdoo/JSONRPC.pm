@@ -4,7 +4,7 @@ package Qooxdoo::JSONRPC;
 # qooxdoo - the new era of web interface development
 #
 # Copyright:
-#   (C) 2006 by Nick Glencross
+#   (C) 2006, 2007 by Nick Glencross
 #       All rights reserved
 #
 # License:
@@ -23,9 +23,13 @@ package Qooxdoo::JSONRPC;
 
 use strict;
 
-use CGI;
 use JSON;
 
+use CGI;
+use CGI::Session;
+
+# Enabling debugging will log information in the apache logs, and in
+# some cases provide more information in error responses
 $Qooxdoo::JSONRPC::debug = 0;
 
 ##############################################################################
@@ -48,8 +52,18 @@ use constant JsonRpcError_MethodNotFound     =>  4;
 use constant JsonRpcError_ParameterMismatch  =>  5;
 use constant JsonRpcError_PermissionDenied   =>  6;
 
-use constant ScriptTransport_NotInUse        => -1;
+# Method Accessibility values
 
+use constant Accessibility_Public            => "public";
+use constant Accessibility_Domain            => "domain";
+use constant Accessibility_Session           => "session";
+use constant Accessibility_Fail              => "fail";
+
+use constant defaultAccessibility            => Accessibility_Domain;
+
+# Script transport not-in-use setting
+
+use constant ScriptTransport_NotInUse        => -1;
 
 ##############################################################################
 
@@ -57,10 +71,17 @@ use constant ScriptTransport_NotInUse        => -1;
 
 sub handle_request
 {
-    # Instantiating the CGI module will parse the HTTP request
+    # Instantiating the CGI module which parses the HTTP request
     my $cgi = new CGI;
 
-    print $cgi->header;
+    my $session = new CGI::Session;
+
+    my $session_id = $session->id ();
+
+    print STDERR "Session id: $session_id\n" 
+        if $Qooxdoo::JSONRPC::debug;
+
+    print $session->header;
 
     # 'selfconvert' is enabled for date conversion. Ideally we also want
     # 'convblessed', but this then disabled 'selfconvert'.
@@ -72,27 +93,25 @@ sub handle_request
 
     my $script_transport_id = ScriptTransport_NotInUse;
 
-    my $request_method = $cgi->request_method || '';
+    #----------------------------------------------------------------------
 
     # Deal with various types of HTTP request and extract the JSON
     # body
 
     my $input;
 
+    my $request_method = $cgi->request_method || '';
+
     if ($request_method eq 'POST')
     {
         my $content_type = $cgi->content_type;
 
-        print STDERR "Content type is '$content_type'\n"
+        print STDERR "POST Content type is '$content_type'\n"
             if $Qooxdoo::JSONRPC::debug;
 
         if ($content_type eq 'application/json')
         {
             $input = $cgi->param('POSTDATA');
-        }
-        elsif ($content_type eq 'application/x-www-form-urlencoded')
-        {
-            # XXX: This case needs implementing and testing
         }
         else
         {
@@ -102,12 +121,13 @@ sub handle_request
     }
     elsif ($request_method eq 'GET' &&
            defined $cgi->param ('_ScriptTransport_id') &&
+           $cgi->param ('_ScriptTransport_id') != ScriptTransport_NotInUse &&
            defined $cgi->param ('_ScriptTransport_data'))
     {
-        # XXX: This case needs testing
+        print STDERR "GET request\n" if $Qooxdoo::JSONRPC::debug;
 
         # We have what looks like a valid ScriptTransport request
-        my $script_transport_id = $cgi->param ('_ScriptTransport_id');
+        $script_transport_id = $cgi->param ('_ScriptTransport_id');
         $error->set_script_transport_id ($script_transport_id);
 
         $input = $cgi->param ('_ScriptTransport_data');
@@ -119,11 +139,14 @@ sub handle_request
         exit;
     }
 
-    # Transform dates into JSON which the parser can handle
+    #----------------------------------------------------------------------
 
+    # Transform dates into JSON which the parser can handle
     Qooxdoo::JSONRPC::Date::transform_date (\$input);
 
     print STDERR "JSON received: $input\n" if $Qooxdoo::JSONRPC::debug;
+
+    #----------------------------------------------------------------------
 
     # Convert the JSON string to a Perl datastructure
 
@@ -136,7 +159,7 @@ sub handle_request
 
     if ($@)
     {
-        print "A bad JSON-RPC request was received which could not be parsed\n";
+        print"A bad JSON-RPC request was received which could not be parsed\n";
         exit;
     }
 
@@ -150,6 +173,8 @@ sub handle_request
     }
 
     $error->set_id ($json_input->{id});
+
+    #----------------------------------------------------------------------
 
     # Perform various sanity checks on the received request
 
@@ -182,6 +207,8 @@ sub handle_request
         }
     }
 
+    #----------------------------------------------------------------------
+
     # Generate the name of the module corresponding to the Service
 
     my $module = join ('::', ('Qooxdoo', 'Services', @service_components));
@@ -195,25 +222,154 @@ sub handle_request
     {
         print STDERR "$@\n" if $Qooxdoo::JSONRPC::debug;
 
-        $error->set_error (JsonRpcError_ServiceNotFound,
-                           "Service '$module' not found");
+        # The error description used here provides more information when
+        # debugging, but probably reveals too much on a live stable
+        # server
+
+        if ($Qooxdoo::JSONRPC::debug)
+        {
+            $error->set_error (JsonRpcError_ServiceNotFound,
+                               "Service '$module' could not be loaded ($@)");
+        }
+        else
+        {
+            $error->set_error (JsonRpcError_ServiceNotFound,
+                               "Service '$module' not found");
+        }
         $error->send_and_exit;
         
     }
 
-    # Generate the name of the function to call and check it exists
+    #----------------------------------------------------------------------
+
+    # Determine the accessibility of the requested method
 
     my $method = $json_input->{method};
 
-    my $package_method = "${module}::${method}";
+    my $accessibility = defaultAccessibility;
+
+    my $accessibility_method = "${module}::GetAccessibility";
+    
+    if (defined &$accessibility_method)
+    {
+        print STDERR "Module $module has GetAccessibility\n"
+            if defined $Qooxdoo::JSONRPC::debug;
+
+        $@ = '';
+        $accessibility = eval $accessibility_method . 
+            '($method, $accessibility)';
+
+        if ($@)
+        {
+            print STDERR "$@\n" if $Qooxdoo::JSONRPC::debug;
+            
+            $error->set_error (JsonRpcError_Unknown,
+                               $@);
+            $error->send_and_exit;
+        }
+
+        print STDERR "GetAccessibility for $method returns $accessibility\n"
+            if defined $Qooxdoo::JSONRPC::debug;
+
+    }
+
+    #----------------------------------------------------------------------
+
+    # Do referer checking based on accessibility
+
+    if ($accessibility eq Accessibility_Public)
+    {
+        # Nothing to do as the method is always accessible
+    }
+    elsif ($accessibility eq Accessibility_Domain)
+    {
+        my $requestUriDomain;
+
+        my $server_protocol = $cgi->server_protocol;
+
+        my $is_https = $cgi->https ? 1 : 0;
+
+        $requestUriDomain = $is_https ? 'https://' : 'http://';
+
+        $requestUriDomain .= $cgi->server_name;
+
+        $requestUriDomain .= ":" . $cgi->server_port 
+            if $cgi->server_port != ($is_https ? 443 : 80);
+
+        if ($cgi->referer !~ m|^(https?://[^/]*)|)
+        {
+            $error->set_error (JsonRpcError_PermissionDenied,
+                               "Permission denied");
+            $error->send_and_exit;
+        }
+
+        my $refererDomain = $1;
+
+        if ($refererDomain ne $requestUriDomain)
+        {
+            $error->set_error (JsonRpcError_PermissionDenied,
+                               "Permission denied");
+            $error->send_and_exit;
+        }
+        
+        if (!defined $session->param ('session_referer_domain'))
+        {
+            $session->param ('session_referer_domain', $refererDomain);
+        }
+            
+    }
+    elsif ($accessibility eq Accessibility_Session)
+    {
+        if ($cgi->referer !~ m|^(https?://[^/]*)|)
+        {
+            $error->set_error (JsonRpcError_PermissionDenied,
+                               "Permission denied");
+            $error->send_and_exit;
+        }
+
+        my $refererDomain = $1; 
+
+        if (defined $session->param ('session_referer_domain') &&
+            $session->param ('session_referer_domain') ne $refererDomain)
+        {
+            $error->set_error (JsonRpcError_PermissionDenied,
+                               "Permission denied");
+            $error->send_and_exit;
+        }
+        else
+        {
+            $session->param ('session_referer_domain', $refererDomain);
+        }
+    }
+    elsif ($accessibility eq Accessibility_Fail)
+    {
+        $error->set_error (JsonRpcError_PermissionDenied,
+                           "Permission denied");
+        $error->send_and_exit;
+
+    }
+    else
+    {
+        $error->set_error (JsonRpcError_PermissionDenied,
+                           "Service error: unknown accessibility");
+        $error->send_and_exit;
+    }
+
+    #----------------------------------------------------------------------
+
+    # Generate the name of the function to call and check it exists
+
+    my $package_method = "${module}::method_${method}";
     
     unless (defined &$package_method)
     {
         $error->set_error (JsonRpcError_MethodNotFound,
-                     "Method '$method' not found " .
-                     "in service class '$module'");
+                           "Method '$method' not found " .
+                           "in service class '$module'");
         $error->send_and_exit;
     }
+
+    #----------------------------------------------------------------------
 
     # Errors from here come from the Application
 
@@ -300,15 +456,28 @@ sub send_reply
     }
     else
     {
-        # XXX: This case isn't properly tested
-        print "qx.io.remote.ScriptTransport._requestFinished(" .
-            "$script_transport_id, $reply);";
+        $reply = "qx.io.remote.ScriptTransport._requestFinished" .
+            "($script_transport_id, $reply);";
+
+        print STDERR "Send $reply\n" if $Qooxdoo::JSONRPC::debug;
+        print $reply;
     }
+}
+
+
+sub json_bool
+{
+    my $bool = shift;
+
+    return $bool ? JSON::True : JSON::False;
+
 }
 
 ##############################################################################
 
 package Qooxdoo::JSONRPC::error;
+
+use strict;
 
 # The error object enumerates various types of error
 
@@ -382,7 +551,7 @@ sub send_and_exit
     my $script_transport_id =  $self->{script_transport_id};
 
     Qooxdoo::JSONRPC::send_reply ($self->{json}->objToJson ($result),
-                              $script_transport_id);
+                                  $script_transport_id);
     exit;
 }
 
@@ -391,6 +560,8 @@ sub send_and_exit
 # Implementation of a Date class with set/get methods
 
 package Qooxdoo::JSONRPC::Date;
+
+use strict;
 
 sub new
 {
@@ -604,6 +775,8 @@ sub transform_date
         blessed_date($1,$2,$3,$4,$5,$6,$7)/gxe;
 }
 
+# This function is called by the regexp in transform_date
+
 sub blessed_date
 {
     my ($year, $month, $day, $hour, $minute, $second, $millisecond) = @_;
@@ -628,7 +801,7 @@ Qooxdoo::JSONRPC.pm - A Perl implementation of JSON-RPC for Qooxdoo
 =head1 SYNOPSIS
 
 RPC-JSON is a straightforward Remote Procedure Call mechanism, primarily
-targetted at Javascript clients, and hence ideal for Qooxdoo.
+targeted at Javascript clients, and hence ideal for Qooxdoo.
 
 Services may be implemented in any language provided they provide a
 conformant implementation. This module uses the CGI module to parse
@@ -661,7 +834,7 @@ would therefore start with something equivalent to:
 See test.pm for how to deal with errors and return responses.
 
 The response is sent back with the corresponding id (essential for
-assynchronous calls).
+asynchronous calls).
 
 The protocol also provides an exception handling mechanism, where a
 response is formatted something like:
@@ -733,6 +906,35 @@ receive the parameters they are expecting.
 
 Again, this error is raised by individual methods. Remember that RPC
 calls need to be as secure as the rest of your application!
+
+=back
+
+There is also some infrastructure to allow access control on methods
+depending on the relationship of the referer. Have a look at test.pm
+to see how this can be done by defining C<GetAccessibility> which
+returns one of the following for a supplied method name:
+
+=over 4
+
+=item * Accessibility_Public ("public")
+
+The method may be called from any session, and without any checking of
+who the Referer is.
+
+=item * Accessibility_Domain ("domain")
+
+The method may only be called by a script obtained via a web page
+loaded from this server.  The Referer must match the request URI,
+through the domain part.
+
+=item * Accessibility_Session ("session")
+
+The Referer must match the Referer of the very first RPC request
+issued during the session.
+
+=item * Accessibility_Fail ("fail")
+
+Access is denied
 
 =back
 
