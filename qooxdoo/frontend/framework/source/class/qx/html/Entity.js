@@ -30,11 +30,11 @@ qx.OO.defineClass("qx.html.Entity");
 /** Mapping of HTML entity names to the corresponding char code */
 qx.Class.TO_CHARCODE = {
   "quot": 34, // " - double-quote
-  "amp": 38, // & 
-  "lt": 60, // < 
-  "gt": 62, // > 
-  
-   // http://www.w3.org/TR/REC-html40/sgml/entities.html 
+  "amp": 38, // &
+  "lt": 60, // <
+  "gt": 62, // >
+
+   // http://www.w3.org/TR/REC-html40/sgml/entities.html
    // ISO 8859-1 characters
   "nbsp": 160, // no-break space
   "iexcl": 161, // inverted exclamation mark
@@ -189,9 +189,9 @@ qx.Class.TO_CHARCODE = {
   "upsih": 978, //greek upsilon with hook symbol,U+03D2 NEW
   "piv": 982, //greek pi symbol, U+03D6 ISOgrk3
   // General Punctuation
-  "bull": 8226, //bullet = black small circle,U+2022 ISOpub 
+  "bull": 8226, //bullet = black small circle,U+2022 ISOpub
   // bullet is NOT the same as bullet operator, U+2219
-  "hellip": 8230, //horizontal ellipsis = three dot leader,U+2026 ISOpub 
+  "hellip": 8230, //horizontal ellipsis = three dot leader,U+2026 ISOpub
   "prime": 8242, //prime = minutes = feet, U+2032 ISOtech
   "Prime": 8243, //double prime = seconds = inches,U+2033 ISOtech
   "oline": 8254, //overline = spacing overscore,U+203E NEW
@@ -219,7 +219,7 @@ qx.Class.TO_CHARCODE = {
   "hArr": 8660, //left right double arrow,U+21D4 ISOamsa
   // Mathematical Operators
   "forall": 8704, //for all, U+2200 ISOtech
-  "part": 8706, //partial differential, U+2202 ISOtech 
+  "part": 8706, //partial differential, U+2202 ISOtech
   "exist": 8707, //there exists, U+2203 ISOtech
   "empty": 8709, //empty set = null set = diameter,U+2205 ISOamso
   "nabla": 8711, //nabla = backward difference,U+2207 ISOtech
@@ -244,7 +244,7 @@ qx.Class.TO_CHARCODE = {
   "int": 8747, //integral, U+222B ISOtech
   "there4": 8756, //therefore, U+2234 ISOtech
   "sim": 8764, //tilde operator = varies with = similar to,U+223C ISOtech
-  // tilde operator is NOT the same character as the tilde, U+007E,although the same glyph might be used to represent both 
+  // tilde operator is NOT the same character as the tilde, U+007E,although the same glyph might be used to represent both
   "cong": 8773, //approximately equal to, U+2245 ISOtech
   "asymp": 8776, //almost equal to = asymptotic to,U+2248 ISOamsr
   "ne": 8800, //not equal to, U+2260 ISOtech
@@ -262,10 +262,10 @@ qx.Class.TO_CHARCODE = {
   "sdot": 8901, //dot operator, U+22C5 ISOamsb
   // dot operator is NOT the same character as U+00B7 middle dot
   // Miscellaneous Technical
-  "lceil": 8968, //left ceiling = apl upstile,U+2308 ISOamsc 
-  "rceil": 8969, //right ceiling, U+2309 ISOamsc 
-  "lfloor": 8970, //left floor = apl downstile,U+230A ISOamsc 
-  "rfloor": 8971, //right floor, U+230B ISOamsc 
+  "lceil": 8968, //left ceiling = apl upstile,U+2308 ISOamsc
+  "rceil": 8969, //right ceiling, U+2309 ISOamsc
+  "lfloor": 8970, //left floor = apl downstile,U+230A ISOamsc
+  "rfloor": 8971, //right floor, U+230B ISOamsc
   "lang": 9001, //left-pointing angle bracket = bra,U+2329 ISOtech
   // lang is NOT the same character as U+003C 'less than' or U+2039 'single left-pointing angle quotation mark'
   "rang": 9002, //right-pointing angle bracket = ket,U+232A ISOtech

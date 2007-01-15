@@ -17,7 +17,7 @@
 ************************************************************************ */
 
 /**
- * Crossbrowser operations on DOM Nodes
+ * Crossbrowser operations on DOM Elements
  */
 qx.OO.defineClass("qx.dom.Element");
 
@@ -33,7 +33,7 @@ qx.Class.cleanWhitespace = function(vElement)
   {
     var node = vElement.childNodes[i];
 
-    if (node.nodeType == 3 && !/\S/.test(node.nodeValue)) {
+    if (node.nodeType == qx.dom.Node.TEXT && !/\S/.test(node.nodeValue)) {
       vElement.removeChild(node);
     }
   }
@@ -54,7 +54,7 @@ qx.Class.isEmpty = function(vElement) {
  * Returns the text content of a DOM element
  * http://developer.mozilla.org/en/docs/DOM:element.textContent
  *
- * @param element {Element} DOM Element
+ * @param element {Element} DOM element
  * @return {String}
  */
  qx.Class.getTextContent = function(element) {
@@ -74,7 +74,7 @@ qx.Class.isEmpty = function(vElement) {
  * Sets the textValue of the given DOM element (http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#Node3-textContent).
  * Wrapper for element.innerText and element.textContent.
  *
- * @param vElement {Element} DOM node
+ * @param vElement {Element} DOM element
  * @param sValue {String} the value
  */
 qx.Class.setTextContent = function(vElement, sValue) {};

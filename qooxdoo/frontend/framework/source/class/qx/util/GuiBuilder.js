@@ -23,7 +23,7 @@
 
 /**
  * A class to generate a widget hierarchy from XML
- * 
+ *
  * @param flags {Map} map of flags. "flags.strict" sets strict mode.
  */
 qx.OO.defineClass("qx.util.GuiBuilder", qx.core.Target,
@@ -161,7 +161,7 @@ qx.Proto._buildEventListener = function(widget, args, text) {
 
 /**
  * A node builder that will be used if no node builder is declared for a nodeName
- * 
+ *
  * @param parent {qx.ui.core.Widget} can either be the application instance, or a widget to append the xml toplevel widgets to
  * @param node {String|Document|Element} can be either a xml string, or a xml dom document or fragment
  */
