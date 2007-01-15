@@ -381,3 +381,30 @@ if (!Array.prototype.every)
     return true;
   }
 }
+
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  STANDARD ADDITIONS FOR NATIVE STRING OBJECT
+---------------------------------------------------------------------------
+  The intention of this code is to bring all browsers to the same
+  JavaScript 1.6 language level.
+---------------------------------------------------------------------------
+*/
+
+if (!String.prototype.quote)
+{
+  /**
+   * Puts the string in double quotes and escapes all double quotes and backslashes within.
+   *
+   * Note: Not part of ECMAScript edition 3, but implemented by Gecko since... ?
+   */
+  String.prototype.quote = function () {
+    return '"' + this.replace(/\\/g, "\\\\").replace(/\"/g, "\\\"") + '"';
+  };
+}
