@@ -26,7 +26,7 @@ actions/document-page-setup
 +actions/document-print = actions/fileprint
 actions/document-print-preview
 actions/document-properties
-actions/document-revert = actions/revert
++actions/document-revert = actions/revert
 +actions/document-save = actions/filesave
 +actions/document-save-as = actions/filesaveas
 *actions/document-save-all = actions/save_all
@@ -34,7 +34,7 @@ actions/document-revert = actions/revert
 +actions/edit-copy = actions/editcopy
 +actions/edit-cut = actions/editcut
 +actions/edit-delete = actions/editdelete
-+ actions/edit-find = actions/find
++actions/edit-find = actions/find
 actions/edit-find-replace
 +actions/edit-paste = actions/editpaste
 +actions/edit-redo = actions/redo
@@ -70,23 +70,23 @@ actions/format-text-underline
 actions/format-text-strikethrough
 *actions/format-text-size-up = actions/fontsizeup
 *actions/format-text-size-down = actions/fontsizedown
-actions/identity = actions/identity
-actions/go-bottom = actions/bottom
-actions/go-down = actions/down
-actions/go-first = actions/first
++actions/identity = actions/identity
++actions/go-bottom = actions/bottom
++actions/go-down = actions/down
++actions/go-first = actions/first
 +actions/go-home = actions/gohome
 actions/go-jump
-actions/go-last = actions/last
-actions/go-next = actions/next
-actions/go-previous = actions/previous
-actions/go-top = actions/top
-actions/go-up = actions/up
++actions/go-last = actions/last
++actions/go-next = actions/next
++actions/go-previous = actions/previous
++actions/go-top = actions/top
++actions/go-up = actions/up
 actions/help-about
-actions/help-contents = actions/help
++actions/help-contents = actions/help
 actions/help-faq
 *actions/help-hint = actions/idea
-actions/history = actions/history
-actions/history-clear = actions/history_clear
++actions/history = actions/history
++actions/history-clear = actions/history_clear
 actions/insert-image
 actions/insert-link
 actions/insert-object
@@ -110,8 +110,8 @@ actions/mail-mark-unread
 *actions/mail-reply-list = actions/mail_replylist
 +actions/mail-send = actions/mail_send
 actions/mail-send-receive
-actions/news-subscribe = actions/news_subscribe
-actions/news-unsubscribe = actions/news_unsubscribe
+*actions/news-subscribe = actions/news_subscribe
+*actions/news-unsubscribe = actions/news_unsubscribe
 +actions/media-eject = actions/player_eject
 +actions/media-playback-pause = actions/player_pause
 +actions/media-playback-start = actions/player_play
@@ -184,8 +184,8 @@ apps/preferences-desktop-multimedia
 apps/preferences-desktop-screensaver
 apps/preferences-desktop-theme
 apps/preferences-desktop-wallpaper
-apps/preferences-desktop-printer = actions/klpq
-apps/system-file-manager = applications/konqueror
+*apps/preferences-desktop-printer = actions/klpq
++apps/system-file-manager = applications/konqueror
 apps/system-software-update
 apps/utilities-system-monitor
 apps/utilities-terminal
@@ -196,7 +196,7 @@ apps/utilities-terminal
 
 
 categories/applications-accessories
-categories/applications-development = applications/package_application
++categories/applications-development = applications/package_application
 categories/applications-engineering
 +categories/applications-games = applications/package_games
 +categories/applications-graphics = applications/package_graphics
@@ -236,9 +236,9 @@ devices/computer
 *devices/handheld = devices/pda
 devices/media-flash
 +devices/media-floppy = devices/3floppy_unmount
-devices/media-optical = devices/cdrom_unmount
++devices/media-optical = devices/cdrom_unmount
 devices/media-tape
-devices/memory = devices/memory
++devices/memory = devices/memory
 +devices/modem = devices/modem
 devices/multimedia-player
 devices/network-wired
@@ -346,8 +346,8 @@ status/dialog-question
 status/folder-drag-accept
 status/folder-open
 status/folder-visiting
-status/document-encrypted = actions/encrypted
-status/document-decrypted = actions/decrypted
+*status/document-encrypted = actions/encrypted
+*status/document-decrypted = actions/decrypted
 status/image-loading
 status/image-missing
 status/mail-attachment
