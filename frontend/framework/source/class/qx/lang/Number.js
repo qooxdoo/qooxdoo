@@ -22,7 +22,13 @@
 ************************************************************************ */
 
 /**
- * Helper functions for Number objects
+ * Helper functions for numbers.
+ *
+ * The native JavaScript Number is not modified by this class.
+ *
+ * The additions implemented here may be added directly to the native Number
+ * by a setting in {@link qx.lang.Prototypes}. This feature is not enabled by
+ * default.
  */
 qx.OO.defineClass("qx.lang.Number");
 

@@ -24,12 +24,13 @@
 ************************************************************************ */
 
 /**
- * Initialize "JavaScript generics":http://developer.mozilla.org/en/docs/New_in_JavaScript_1.6#Array_and_String_generics
- * as introduced with JavaScript 1.6 for all browsers.
+ * Support string/array generics as introduced with JavaScript 1.6 for
+ * all browsers.
  *
- * This adds the following generic arr:
+ * http://developer.mozilla.org/en/docs/New_in_JavaScript_1.6#Array_and_String_generics
  *
  * *Array*
+ *
  * * join
  * * reverse
  * * sort
@@ -49,6 +50,7 @@
  * * every
  *
  * *String*
+ *
  * * quote
  * * substring
  * * toLowerCase

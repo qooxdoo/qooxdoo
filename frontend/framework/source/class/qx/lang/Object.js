@@ -23,7 +23,7 @@
 ************************************************************************ */
 
 /**
- * Helper functions to handle Objects as Hash maps
+ * Helper functions to handle Object as a Hash map.
  */
 qx.OO.defineClass("qx.lang.Object");
 
