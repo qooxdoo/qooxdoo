@@ -247,7 +247,7 @@ qx.Proto.showClass = function(classNode) {
 
     if (desc != "")
     {
-      classHtml += '<div class="classDescription">' + desc + '</div>';
+      classHtml += '<div class="classDescription">' + this._createDescriptionHtml(desc, classNode) + '</div>';
       classHtml += "<br/>";
     }
   }
@@ -1495,11 +1495,12 @@ qx.Proto._createItemLinkHtml = function(linkText, packageBaseClass, useIcon,
       // NOTE: The onclick-handler must be added by HTML code. If it
       //       is added using the DOM element then the href is followed.
       var fullItemName = className + (itemName ? itemName : "");
-      return (typeof iconCode != "undefined" ? iconCode : "")
+      return '<span style="white-space: nowrap;">'
+        + (typeof iconCode != "undefined" ? iconCode : "")
         + '<a href="' + window.location.protocol + '//' +  window.location.pathname
         + '#' + fullItemName + '" onclick="'
         + 'document._detailViewer._selectItem(\'' + fullItemName + '\'); return false;"'
-        + ' title="' + fullItemName + '">' + label + '</a>';
+        + ' title="' + fullItemName + '">' + label + '</a></span>';
     }
   }
 }
