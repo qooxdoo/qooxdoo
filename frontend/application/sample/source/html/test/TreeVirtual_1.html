@@ -1,0 +1,72 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo &raquo; Sample</title>
+  <link type="text/css" rel="stylesheet" href="../../css/layout.css"/>
+  <!--[if IE]>
+  <link type="text/css" rel="stylesheet" href="../../css/layout_ie.css"/>
+  <![endif]-->
+  <script type="text/javascript" src="../../script/sample.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../../script/layout.js"></script>
+
+  <div id="demoDescription">
+    <p>An example of using a the Virtual Tree widget with addNode()</p>
+  </div>
+
+  <script type="text/javascript">
+  qx.core.Init.getInstance().defineMain(function()
+  {
+    var d = qx.ui.core.ClientDocument.getInstance();
+
+    // tree
+    var tree = new qx.ui.treevirtual.TreeVirtual("Tree");
+    with (tree)
+    {
+      set({
+            left   : 10,
+            top    : 30,
+            width  : 400,
+            bottom : 30,
+            border : qx.renderer.border.BorderPresets.getInstance().thinInset
+          });
+      setDataWidth(400);
+    };
+
+    d.add(tree);
+
+    // tree data model
+    var dataModel = tree.getDataModel();
+
+    var nodeId;
+
+    nodeId =
+      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
+                        null,
+                        "My Root",
+                        "icon/16/folder.png",     
+                        "icon/16/folder_open.png",
+                        true);
+
+    nodeId = 
+      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
+                        nodeId,
+                        "A sub-folder",
+                        "icon/16/folder.png",     
+                        "icon/16/folder_open.png",
+                        true);
+
+    nodeId = 
+      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF,
+                        nodeId,
+                        "Third-level leaf",
+                        "icon/16/file-new.png",     
+                        "icon/16/file-open.png",
+                        false);
+
+    dataModel.setData(null);
+  });
+  </script>
+</body>
+</html>
