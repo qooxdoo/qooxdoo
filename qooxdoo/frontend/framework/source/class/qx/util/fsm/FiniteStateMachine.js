@@ -412,7 +412,7 @@ qx.Proto.displayAllObjects = function()
  * @param obj {Object}
  *   The object to be recursively displayed
  */
-qx.Proto.debugObject = function(obj)
+qx.Proto.debugObject = function(obj, initialMessage)
 {
   thisClass = this;
 
@@ -452,6 +452,11 @@ qx.Proto.debugObject = function(obj)
     }
   }
 
+  if (initialMessage)
+  {
+    this.debug(initialMessage);
+  }
+  
   displayObj(obj, 0);
 };
 
