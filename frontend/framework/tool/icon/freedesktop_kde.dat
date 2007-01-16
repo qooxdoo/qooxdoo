@@ -16,6 +16,7 @@
 +actions/dialog-cancel = actions/button_cancel
 -actions/dialog-close
 +actions/dialog-ok = actions/button_ok
+*actions/dialog-no = actions/no
 *actions/connection-creating = actions/connect_creating
 *actions/connection-established = actions/connect_established
 *actions/connection-disconneced = actions/connect_no
@@ -73,12 +74,12 @@
 +actions/identity = actions/identity
 +actions/go-bottom = actions/bottom
 +actions/go-down = actions/down
-+actions/go-first = actions/first
+-actions/go-first
 +actions/go-home = actions/gohome
 -actions/go-jump
-+actions/go-last = actions/last
-+actions/go-next = actions/next
-+actions/go-previous = actions/previous
+-actions/go-last
++actions/go-next = actions/forward
++actions/go-previous = actions/back
 +actions/go-top = actions/top
 +actions/go-up = actions/up
 -actions/help-about
@@ -128,12 +129,10 @@
 +actions/media-seek-forward = actions/player_fwd
 +actions/media-skip-backward = actions/player_start
 +actions/media-skip-forward = actions/player_end
-*actions/navigation-back = actions/back
-*actions/navigation-forward = actions/forward
 -actions/object-flip-horizontal
 -actions/object-flip-vertical
--actions/object-rotate-left
--actions/object-rotate-right
++actions/object-rotate-left = actions/rotate_cw
++actions/object-rotate-right = actions/rotate_ccw
 *actions/object-rotate = actions/rotate
 +actions/system-lock-screen = actions/lock
 +actions/system-log-out = apps/logout
@@ -146,8 +145,8 @@
 *actions/tab-duplicate = actions/tab_duplicate
 *actions/tab-new = actions/tab_new
 *actions/tab-remove = actions/tab_remove
-+actions/tools-check-spelling = spellcheck
-*actions/tools-signature = signature
++actions/tools-check-spelling = actions/spellcheck
+*actions/tools-signature = actions/signature
 +actions/view-fullscreen = actions/window_fullscreen
 +actions/view-refresh = actions/reload
 +actions/view-restore = actions/window_nofullscreen
@@ -171,7 +170,7 @@
 +actions/zoom-original = actions/viewmag1
 +actions/zoom-out = actions/viewmag-
 *actions/zoom = actions/viewmag
-+apps/accessories-calculator = apps/calc
++apps/accessories-calculator = apps/kcalc
 +apps/accessories-character-map = apps/kcharselect
 +apps/accessories-dictionary = apps/kdict
 *apps/accessories-encrypt = actions/kgpg
@@ -181,9 +180,11 @@
 *apps/accessories-alarm = apps/kalarm
 *apps/accessories-timetracking = apps/karm
 *apps/accessories-notes = apps/knotes
+*apps/accessories-fonts = apps/fonts
 +apps/help-browser = apps/khelpcenter
 +apps/multimedia-volume-control = apps/kmix
 *apps/preferences = apps/kcontrol
++apps/preferences-system = apps/kcontrol
 +apps/preferences-desktop-accessibility = apps/access
 +apps/preferences-desktop-font = apps/kcmfontinst
 +apps/preferences-desktop-keyboard = apps/keyboard
@@ -205,7 +206,7 @@
 *apps/office-organizer = apps/korganizer
 *apps/adressbook = apps/kaddressbook
 *apps/internet-mail = apps/email
-*apps/internet-browser = apps/browser
+*apps/internet-web-browser = apps/browser
 *apps/office-adobe-reader = apps/acroread
 *apps/office-chart = apps/kchart
 *apps/system-antivirus = apps/antivirus
@@ -233,21 +234,21 @@
 *apps/multimedia-quicktime = apps/quicktime
 *apps/multimedia-realplayer = apps/realplayer
 -categories/applications-accessories
-+categories/applications-development = applications/package_application
++categories/applications-development = apps/package_application
 -categories/applications-engineering
-+categories/applications-games = applications/package_games
-+categories/applications-graphics = applications/package_graphics
-+categories/applications-internet = applications/package_network
-+categories/applications-multimedia = applications/package_multimedia
-+categories/applications-office = applications/package_wordprocessing
-+categories/applications-other = applications/package_programs
++categories/applications-games = apps/package_games
++categories/applications-graphics = apps/package_graphics
++categories/applications-internet = apps/package_network
++categories/applications-multimedia = apps/package_multimedia
++categories/applications-office = apps/package_wordprocessing
++categories/applications-other = apps/package_programs
 -categories/applications-science
-+categories/applications-system = applications/package_system
-*categories/applications-settings = applications/package_settings
-+categories/applications-utilities = applications/package_utilities
-*categories/applications-toys = applications/package_toys
-*categories/preferences = applications/package_settings
--categories/preferences-desktop = applications/package_settings
++categories/applications-system = apps/package_system
+*categories/applications-settings = apps/package_settings
++categories/applications-utilities = apps/package_utilities
+*categories/applications-toys = apps/package_toys
+*categories/preferences = apps/package_settings
+-categories/preferences-desktop = apps/package_settings
 -categories/preferences-desktop-peripherals
 -categories/preferences-desktop-personal
 -categories/preferences-other
@@ -259,7 +260,7 @@
 +devices/battery = apps/laptop_battery
 +devices/camera-photo = devices/camera
 +devices/camera-video = devices/cam
-+devices/computer = apps/kcmsystem
++devices/computer = apps/mycomputer
 +devices/drive-harddisk = devices/hdd_unmount
 +devices/drive-optical = devices/cd_unmount
 +devices/drive-removable-media = devices/zip_unmount
@@ -287,7 +288,7 @@
 *devices/scsi = apps/kcmscsi
 +devices/printer = devices/printer
 +devices/scanner = devices/scanner
-+devices/video-display = apps/kcmx
++devices/video-display = apps/display
 *devices/tv = devices/tv
 -emblems/emblem-default
 -emblems/emblem-documents
@@ -367,7 +368,7 @@
 -status/battery-low
 +status/dialog-error = actions/messagebox_critical
 +status/dialog-information = actions/messagebox_info
--status/dialog-password
++status/dialog-password = apps/password
 +status/dialog-question = actions/messagebox_question
 +status/dialog-warning = actions/messagebox_warning
 -status/folder-drag-accept
