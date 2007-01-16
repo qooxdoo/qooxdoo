@@ -197,29 +197,28 @@
 
 
 
-categories/applications-accessories
+-categories/applications-accessories
 +categories/applications-development = applications/package_application
-categories/applications-engineering
+-categories/applications-engineering
 +categories/applications-games = applications/package_games
 +categories/applications-graphics = applications/package_graphics
 +categories/applications-internet = applications/package_network
 +categories/applications-multimedia = applications/package_multimedia
 +categories/applications-office = applications/package_wordprocessing
-+categories/applications-other = applications/package_toys
-categories/applications-science
++categories/applications-other = applications/package_programs
+-categories/applications-science
 +categories/applications-system = applications/package_system
 *categories/applications-settings = applications/package_settings
 +categories/applications-utilities = applications/package_utilities
-categories/preferences-desktop
-categories/preferences-desktop-peripherals
-categories/preferences-desktop-personal
-categories/preferences-other
-categories/preferences-system
-categories/preferences-system-network
-categories/system-help
-
-
-
+*categories/applications-toys = applications/package_toys
+*categories/preferences = applications/package_settings
+-categories/preferences-desktop = applications/package_settings
+-categories/preferences-desktop-peripherals
+-categories/preferences-desktop-personal
+-categories/preferences-other
+-categories/preferences-system
+-categories/preferences-system-network
+-categories/system-help
 +devices/audio-card = apps/kcmsound
 -devices/audio-input-microphone
 +devices/battery = apps/laptop_battery
@@ -299,9 +298,6 @@ categories/system-help
 *mimetypes/locked-x-generic = mimetypes/file_locked
 *mimetypes/temporary-x-generic = mimetypes/file_temporary
 *mimetypes/x-office-pdf = mimetypes/pdf
-
-
-
 +places/folder = filesystems/folder
 *places/folder-open = filesystems/folder_open
 -places/folder-remote
@@ -324,56 +320,57 @@ categories/system-help
 
 
 
-status/appointment-missed
-status/appointment-soon
-status/audio-volume-high
-status/audio-volume-low
-status/audio-volume-medium
-status/audio-volume-muted
-status/battery-caution
-status/battery-low
+-status/appointment-missed
+-status/appointment-soon
+-status/audio-volume-high
+-status/audio-volume-low
+-status/audio-volume-medium
+-status/audio-volume-muted
+-status/battery-caution
+-status/battery-low
 +status/dialog-error = actions/messagebox_critical
 +status/dialog-information = actions/messagebox_info
-status/dialog-password
-status/dialog-question
+-status/dialog-password
++status/dialog-question = actions/messagebox_question
 +status/dialog-warning = actions/messagebox_warning
-status/folder-drag-accept
-status/folder-open
-status/folder-visiting
+-status/folder-drag-accept
+-status/folder-open
+-status/folder-visiting
 *status/document-encrypted = actions/encrypted
 *status/document-decrypted = actions/decrypted
-status/image-loading
-status/image-missing
-status/mail-attachment
-status/mail-unread
-status/mail-read
-status/mail-replied
-status/mail-signed
-status/mail-signed-verified
-status/media-playlist-repeat
-status/media-playlist-shuffle
-status/network-error
-status/network-idle
-status/network-offline
-status/network-receive
-status/network-transmit
-status/network-transmit-receive
-status/printer-error
-status/printer-printing
-status/security-high
-status/security-medium
-status/security-low
-status/software-update-available
-status/software-update-urgent
-status/sync-error
-status/sync-synchronizing
-status/task-due
-status/task-passed-due
-status/user-away
-status/user-idle
-status/user-offline
-status/user-online
-status/user-trash-full
+-status/image-loading
+-status/image-missing
+-status/mail-attachment
+-status/mail-unread
+-status/mail-read
+-status/mail-replied
+-status/mail-signed
+-status/mail-signed-verified
+-status/media-playlist-repeat
+-status/media-playlist-shuffle
+-status/network-error
+-status/network-idle
+-status/network-offline
+-status/network-receive
+-status/network-transmit
+-status/network-transmit-receive
+-status/printer-error
+-status/printer-printing
+-status/security-high
+-status/security-medium
+-status/security-low
+-status/software-update-available
+-status/software-update-urgent
+-status/sync-error
+-status/sync-synchronizing
+-status/task-due
+-status/task-passed-due
++status/user-unknown = actions/metacontact_unknown
++status/user-away = actions/metacontact_away
+-status/user-idle =
++status/user-offline = actions/metacontact_offline
++status/user-online = actions/metacontact_online
+-status/user-trash-full
 -status/weather-clear
 -status/weather-clear-night
 -status/weather-few-clouds
