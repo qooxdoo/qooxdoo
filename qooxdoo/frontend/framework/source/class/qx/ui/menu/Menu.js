@@ -87,7 +87,11 @@ qx.OO.addProperty({ name : "contentNonArrowPadding", type : "number", defaultVal
 
 qx.OO.addProperty({ name : "hoverItem", type : "object" });
 qx.OO.addProperty({ name : "openItem", type : "object" });
+
+/** Widget that opened the menu */
 qx.OO.addProperty({ name : "opener", type : "object" });
+
+/** reference to the parent menu if the menu is a submenu */
 qx.OO.addProperty({ name : "parentMenu", type : "object" });
 
 qx.OO.addProperty({ name : "fastReopen", type : "boolean", defaultValue : false });

@@ -29,15 +29,16 @@
  *
  * Each command could be assigned to multiple widgets.
  *
- * @event execute {qx.event.type.DataEvent} when the command is executed.
+ * @event execute {qx.event.type.DataEvent} when the command is executed. Sets the
+ *     "data" property of the event to the object that issued the command.
  *
- * @param vShortcut (string) shortcuts can be composed of optional modifier
+ * @param vShortcut {String} shortcuts can be composed of optional modifier
  *    keys Control, Alt, Shift, Meta and a non modifier key.
  *    If no non modifier key is specified, the second paramater is evaluated.
- *    The key must be seperated by a ''+'' or ''-'' character.
+ *    The key must be seperated by a <code>-</code> or <code>-</code> character.
  *    Examples: Alt+F1, Control+C, Control+Alt+Enf
  *
- * @param vKeyCode (int)  Additional key of the command interpreted as a keyCode.
+ * @param vKeyCode {Integer}  Additional key of the command interpreted as a keyCode.
  */
 qx.OO.defineClass("qx.client.Command", qx.core.Target,
 function(vShortcut, vKeyCode)
@@ -95,12 +96,13 @@ qx.OO.addProperty({ name : "keyIdentifier", type : "string" });
 /**
  * Fire the "execute" event on this command.
  *
- * @param vTarget (Object)
+ * @param vTarget {Object} Object which issued the execute event
  */
 qx.Proto.execute = function(vTarget)
 {
   if (this.hasEventListeners("execute")) {
-    this.dispatchEvent(new qx.event.type.DataEvent("execute", vTarget), true);
+    var event = new qx.event.type.DataEvent("execute", vTarget);
+    this.dispatchEvent(event, true);
   }
 
   return false;
@@ -168,8 +170,8 @@ qx.Proto._modifyShortcut = function(propValue, propOldValue, propData)
 /**
  * Checks wether the given key event matches the command's shortcut
  *
- * @param e (qx.event.type.KeyEvent) the key event object
- * @return (boolean) wether the commands shortcut matches the key event
+ * @param e {qx.event.type.KeyEvent} the key event object
+ * @return {Boolean} wether the commands shortcut matches the key event
  */
 qx.Proto._matchesKeyEvent = function(e)
 {
@@ -245,8 +247,8 @@ qx.Proto._oldKeyNameToKeyIdentifierMap =
  * converts an old key name as found in {@link qx.event.type.KeyEvent.keys} to
  * the new keyIdentifier.
  *
- * @param keyName (string) old name of the key.
- * @return (string) corresponding keyIdentifier or "Unidentified" if a conversion was not possible
+ * @param keyName {String} old name of the key.
+ * @return {String} corresponding keyIdentifier or "Unidentified" if a conversion was not possible
  */
 qx.Proto._oldKeyNameToKeyIdentifier = function(keyName)
 {
@@ -286,7 +288,7 @@ qx.Proto._oldKeyNameToKeyIdentifier = function(keyName)
 /**
  * Returns the shortcut as string
  *
- * @return (string) shortcut
+ * @return {String} shortcut
  */
 qx.Proto.toString = function()
 {
