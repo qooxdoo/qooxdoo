@@ -22,26 +22,48 @@
 
 ************************************************************************ */
 
+/**
+ * The intention of this class is to add features to native JavaScript
+ * objects so that all browsers operate on a common JavaScript language level
+ * (particularly JavaScript 1.6).
+ *
+ * For reference:
+ *
+ * * http://www.ecma-international.org/publications/standards/Ecma-262.htm
+ * * http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference
+ * * http://developer.mozilla.org/en/docs/New_in_JavaScript_1.6
+ *
+ * The following methods are added if they are not supported natively:
+ *
+ * * Error.toString()
+ * * Array.indexOf()
+ * * Array.lastIndexOf()
+ * * Array.forEach()
+ * * Array.filter()
+ * * Array.map()
+ * * Array.some()
+ * * Array.every()
+ * * String.quote()
+ */
 qx.OO.defineClass("qx.lang.Core");
-
-
-
 
 
 /*
 ---------------------------------------------------------------------------
-  ADDITIONS FOR NATIVE ERROR OBJECT
----------------------------------------------------------------------------
-  Internet Explorer does not support to stringify error objects like other
-  browsers. This will add this feature to these clients.
+  FEATURE EXTENSION OF NATIVE ERROR OBJECT
 ---------------------------------------------------------------------------
 */
 
 if (!Error.prototype.toString)
 {
+  /**
+   * Some browsers (e.g. Internet Explorer) do not support to stringify
+   * error objects like other browsers usually do. This feature is added to
+   * those browsers.
+   */
   Error.prototype.toString = function() {
     return this.message;
-  }
+  };
 }
 
 
@@ -52,10 +74,7 @@ if (!Error.prototype.toString)
 
 /*
 ---------------------------------------------------------------------------
-  STANDARD ADDITIONS FOR NATIVE ARRAY OBJECT
----------------------------------------------------------------------------
-  The intention of this code is to bring all browsers to the same
-  JavaScript 1.6 language level.
+  FEATURE EXTENSION OF NATIVE ARRAY OBJECT
 ---------------------------------------------------------------------------
 */
 
@@ -96,9 +115,8 @@ if (!Array.prototype.indexOf)
     }
 
     return -1;
-  }
+  };
 }
-
 
 if (!Array.prototype.lastIndexOf)
 {
@@ -139,7 +157,7 @@ if (!Array.prototype.lastIndexOf)
     }
 
     return -1;
-  }
+  };
 }
 
 if (!Array.prototype.forEach)
@@ -182,7 +200,7 @@ if (!Array.prototype.forEach)
     for (var i=0; i<l; i++) {
       callback.call(obj, this[i], i, this);
     }
-  }
+  };
 }
 
 if (!Array.prototype.filter)
@@ -235,7 +253,7 @@ if (!Array.prototype.filter)
     }
 
     return res;
-  }
+  };
 }
 
 if (!Array.prototype.map)
@@ -280,7 +298,7 @@ if (!Array.prototype.map)
     }
 
     return res;
-  }
+  };
 }
 
 if (!Array.prototype.some)
@@ -330,7 +348,7 @@ if (!Array.prototype.some)
     }
 
     return false;
-  }
+  };
 }
 
 if (!Array.prototype.every)
@@ -379,7 +397,7 @@ if (!Array.prototype.every)
     }
 
     return true;
-  }
+  };
 }
 
 
@@ -390,19 +408,19 @@ if (!Array.prototype.every)
 
 /*
 ---------------------------------------------------------------------------
-  STANDARD ADDITIONS FOR NATIVE STRING OBJECT
----------------------------------------------------------------------------
-  The intention of this code is to bring all browsers to the same
-  JavaScript 1.6 language level.
+  FEATURE EXTENSION OF NATIVE STRING OBJECT
 ---------------------------------------------------------------------------
 */
 
 if (!String.prototype.quote)
 {
   /**
-   * Puts the string in double quotes and escapes all double quotes and backslashes within.
+   * Surrounds the string with double quotes and escapes all double quotes
+   * and backslashes within the string.
    *
-   * Note: Not part of ECMAScript edition 3, but implemented by Gecko since... ?
+   * Note: Not part of ECMAScript Language Specification ECMA-262
+   *       3rd edition (December 1999), but implemented by Gecko:
+   *       http://lxr.mozilla.org/seamonkey/source/js/src/jsstr.c
    */
   String.prototype.quote = function () {
     return '"' + this.replace(/\\/g, "\\\\").replace(/\"/g, "\\\"") + '"';

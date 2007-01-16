@@ -23,15 +23,18 @@
 ************************************************************************ */
 
 /**
- * Helper functions for JavaScript arrays.
- * 
- * The native JavaScript Array is not modified by this class. However, 
- * there are modifications to the native Array for browsers that do not 
- * support certain JavaScript 1.6 features natively in {@link qx.lang.Core}.
- * 
- * The modifications both to the native Array as well as to qx.lang.Array
- * may be added to the Array.prototype by a setting in 
- * {@link qx.lang.Prototypes}. This feature is not enabled be default.
+ * Helper functions for arrays.
+ *
+ * The native JavaScript Array is not modified by this class. However,
+ * there are modifications to the native Array in {@link qx.lang.Core} for
+ * browsers that do not support certain JavaScript 1.6 features natively .
+ *
+ * The additions implemented here may be added directly to native Array by
+ * a setting in {@link qx.lang.Prototypes}. This feature is not enabled by
+ * default.
+ *
+ * The string/array generics introduced in JavaScript 1.6 are supported by
+ * {@link qx.lang.Generics}.
  */
 qx.OO.defineClass("qx.lang.Array");
 
