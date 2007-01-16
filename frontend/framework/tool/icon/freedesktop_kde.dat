@@ -194,9 +194,6 @@
 *apps/wizard = actions/wizard
 *apps/office-organizer = apps/korganizer
 *apps/internet-mail = apps/mail
-
-
-
 -categories/applications-accessories
 +categories/applications-development = applications/package_application
 -categories/applications-engineering
@@ -317,9 +314,6 @@
 *places/special-blockdevice = filesystems/blockdevice
 *places/special-chardevice = filesystems/chardevice
 *places/special-socket = filesystems/socket
-
-
-
 -status/appointment-missed
 -status/appointment-soon
 -status/audio-volume-high
