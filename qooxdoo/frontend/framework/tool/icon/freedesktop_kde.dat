@@ -83,7 +83,7 @@
 +actions/go-up = actions/up
 -actions/help-about
 +actions/help-contents = actions/help
--actions/help-faq
++actions/help-faq = apps/help_index
 *actions/help-hint = actions/idea
 +actions/history = actions/history
 +actions/history-clear = actions/history_clear
@@ -176,24 +176,62 @@
 +apps/accessories-dictionary = apps/kdict
 *apps/accessories-encrypt = actions/kgpg
 +apps/accessories-text-editor = apps/kate
+*apps/accessories-clock = apps/clock
+*apps/accessories-date = apps/date
+*apps/accessories-alarm = apps/kalarm
+*apps/accessories-timetracking = apps/karm
+*apps/accessories-notes = apps/knotes
 +apps/help-browser = apps/khelpcenter
 +apps/multimedia-volume-control = apps/kmix
+*apps/preferences = apps/kcontrol
 +apps/preferences-desktop-accessibility = apps/access
 +apps/preferences-desktop-font = apps/kcmfontinst
 +apps/preferences-desktop-keyboard = apps/keyboard
++apps/preferences-desktop-keyboard-bindings = apps/key_bindings
++apps/preferences-desktop-keyboard-layout = apps/keyboard_layout
 +apps/preferences-desktop-locale = apps/locale
 +apps/preferences-desktop-multimedia = apps/multimedia
 +apps/preferences-desktop-screensaver = apps/kscreensaver
-+apps/preferences-desktop-theme = apps/kthememgr
++apps/preferences-desktop-theme = apps/looknfeel
++apps/preferences-desktop-theme-icon = apps/iconthemes
++apps/preferences-desktop-theme-cursor = apps/mousecursor
 +apps/preferences-desktop-wallpaper = apps/background
 *apps/preferences-desktop-printer = actions/klpq
 +apps/system-file-manager = apps/konqueror
--apps/system-software-update
++apps/system-software-update = apps/kpackage
 +apps/utilities-system-monitor = apps/ksysguard
 +apps/utilities-terminal = apps/terminal
 *apps/wizard = actions/wizard
 *apps/office-organizer = apps/korganizer
-*apps/internet-mail = apps/mail
+*apps/adressbook = apps/kaddressbook
+*apps/internet-mail = apps/email
+*apps/internet-browser = apps/browser
+*apps/office-adobe-reader = apps/acroread
+*apps/office-chart = apps/kchart
+*apps/system-antivirus = apps/antivirus
+*apps/office-database = apps/kexi
+*apps/office-formula = apps/kformula
+*apps/office-diagram = apps/kivio
+*apps/office-presentation = apps/kpresenter
+*apps/office-spreadsheet = apps/kspread
+*apps/office-wordprocessing = apps/kword
+*apps/graphic-3d = apps/3d
+*apps/graphic-draw = apps/kpaint
+*apps/graphic-viewer = apps/kview
+*apps/graphic-snapshot = apps/ksnapshot
+*apps/internet-browser-netscape = apps/netscape
+*apps/internet-browser-opera = apps/opera
+*apps/internet-chat-msn = apps/msn_protocol
+*apps/internet-chat-icq = apps/icq_protocol
+*apps/internet-chat-aim = apps/aim_protocol
+*apps/internet-chat-jabber = apps/jabber_protocol
+*apps/internet-chat-gadu = apps/gadu_protocol
+*apps/internet-chat-irc = apps/irc_protocol
+*apps/internet-chat-sms = apps/sms_protocol
+*apps/internet-chat-yahoo = apps/yahoo_protocol
+*apps/office-openoffice = apps/openoffice
+*apps/multimedia-quicktime = apps/quicktime
+*apps/multimedia-realplayer = apps/realplayer
 -categories/applications-accessories
 +categories/applications-development = applications/package_application
 -categories/applications-engineering
@@ -225,16 +263,21 @@
 +devices/drive-harddisk = devices/hdd_unmount
 +devices/drive-optical = devices/cd_unmount
 +devices/drive-removable-media = devices/zip_unmount
-*devices/drive-network = devices/nfs_unmount
+*devices/drive-network = devices/fileshare
+*devices/drive-network-nfs = devices/nfs_unmount
 *devices/drive-ipod = devices/ipod
 +devices/input-gaming = devices/joystick
 +devices/input-keyboard = devices/kxkb
 +devices/input-mouse = devices/mouse
 +devices/input-tablet = devices/tablet
 *devices/handheld = devices/pda
+*devices/handheld-pda = devices/pda
 -devices/media-flash
 +devices/media-floppy = devices/3floppy_unmount
 +devices/media-optical = devices/cdrom_unmount
++devices/media-optical-dvd = devices/dvd_unmount
++devices/media-optical-cd = devices/cdrom_unmount
++devices/media-optical-cdaudio = devices/cdaudio_unmount
 -devices/media-tape
 +devices/memory = devices/memory
 +devices/modem = devices/modem
