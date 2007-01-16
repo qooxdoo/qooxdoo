@@ -1,11 +1,12 @@
-###########################################################################
+################################################################################
 #
-# ICON MAPPING KDE<->Tango
+# ICON MAPPING KDE<->FD
 #
-# "+" = Available in KDE and Tango
-# "*" = Available in KDE, but not in Tango
+# "+" = Available in KDE and FD
+# "*" = Available in KDE, but not in FD
+# "-" = Available in FD, but not in KDE
 #
-###########################################################################
+################################################################################
 
 actions/address-book-new
 +actions/application-exit = actions/exit
