@@ -116,6 +116,10 @@ public class RpcServlet extends HttpServlet {
             paramTypes[0] = Environment.class;
             Method method = MethodUtils.getMatchingAccessibleMethod(clazz,
                 "setWebcomponentEnvironment", paramTypes);
+            if (method == null) {
+                method = MethodUtils.getMatchingAccessibleMethod(clazz,
+                        "setQooxdooEnvironment", paramTypes);
+            }
             if (method != null) {
                 params[0] = new Environment();
                 method.invoke(inst, params);
