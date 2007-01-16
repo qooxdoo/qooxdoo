@@ -24,6 +24,17 @@
 
 /**
  * String helper functions
+ *
+ * The native JavaScript String is not modified by this class. However,
+ * there are modifications to the native String in {@link qx.lang.Core} for
+ * browsers that do not support certain features.
+ *
+ * The additions implemented here may be added directly to native String by
+ * a setting in {@link qx.lang.Prototypes}. This feature is not enabled by
+ * default.
+ *
+ * The string/array generics introduced in JavaScript 1.6 are supported by
+ * {@link qx.lang.Generics}.
  */
 qx.OO.defineClass("qx.lang.String");
 

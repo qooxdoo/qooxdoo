@@ -22,9 +22,14 @@
 ************************************************************************ */
 
 /**
- * Apply all JavaScript 1.6 and all other qooxdoo qx.lang.* features
- * directly to the native object. This method is not recommended and
- * disabled by default. All classes and features contributed to qooxdoo
+ * Extend the native JavaScript types Number, String and Array with the
+ * feature additions of {@link qx.lang.Number}, {@link qx.lang.String} and
+ * {@link qx.lang.Array}, respectively.
+ *
+ * Important: It is not recommended to modify the native types, as this
+ * may lead to incompatibilities with non-qooxdoo code or libraries.
+ * Therefore this feature is disabled by default (see default setting
+ * "enable"). All classes and features contributed to qooxdoo
  * should work without this feature enabled!
  */
 qx.OO.defineClass("qx.lang.Prototypes");
@@ -50,8 +55,9 @@ qx.Settings.setDefault("enable", false);
 */
 
 /**
- * Augment the prototype of the native JavaScript objects "String", "Number" and "Array" with
- * the methods defined in qx.lang.
+ * Augment the prototype of the native JavaScript objects "String",
+ * "Number" and "Array" with the methods defined in the corresponding
+ * static classes.
  *
  * @see qx.lang.String
  * @see qx.lang.Number
