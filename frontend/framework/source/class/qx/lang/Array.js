@@ -23,7 +23,15 @@
 ************************************************************************ */
 
 /**
- * Helper functions for JavaScript arrays
+ * Helper functions for JavaScript arrays.
+ * 
+ * The native JavaScript Array is not modified by this class. However, 
+ * there are modifications to the native Array for browsers that do not 
+ * support certain JavaScript 1.6 features natively in {@link qx.lang.Core}.
+ * 
+ * The modifications both to the native Array as well as to qx.lang.Array
+ * may be added to the Array.prototype by a setting in 
+ * {@link qx.lang.Prototypes}. This feature is not enabled be default.
  */
 qx.OO.defineClass("qx.lang.Array");
 
@@ -31,7 +39,7 @@ qx.OO.defineClass("qx.lang.Array");
  * Convert an arguments object into an array
  *
  * @param args {arguments} arguments object
- * @return {array}
+ * @return {Array}
  */
 qx.lang.Array.fromArguments = function(args) {
   return Array.prototype.slice.call(args, 0);
@@ -191,7 +199,7 @@ qx.lang.Array.insertAfter = function(arr, obj, obj2)
  *
  * @param arr {Array} the array
  * @param i {Integer} index of the element to be removed
- * @return {Array} the array with the element remnoved
+ * @return {Array} the array with the element removed
  */
 qx.lang.Array.removeAt = function(arr, i) {
   return arr.splice(i, 1);
