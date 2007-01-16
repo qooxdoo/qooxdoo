@@ -115,14 +115,8 @@ qx.Proto.add = function(varargs)
 {
   var vItems = arguments;
   var vLength = vItems.length;
-
-  var vLast = vItems[vLength-1];
-
-  if (!(vLast instanceof qx.ui.core.Parent) && !(vLast instanceof qx.ui.basic.Terminator)) {
-    vLength--;
-  }
-
   var vItem;
+
   for (var i=0; i<vLength; i++)
   {
     vItem = vItems[i];
