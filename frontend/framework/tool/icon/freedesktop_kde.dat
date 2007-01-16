@@ -1,32 +1,31 @@
 ################################################################################
 #
-# ICON MAPPING FD<->KDE
+# ICON MAPPING Freedesktop<->KDE
 #
-# "+" = Available in KDE and FD
-# "*" = Available in KDE, but not in FD
-# "-" = Available in FD, but not in KDE
+# "+" = Available in KDE and Freedesktop
+# "*" = Available in KDE, but not in Freedesktop
+# "-" = Available in Freedesktop, but not in KDE
 #
 ################################################################################
 
-actions/address-book-new
+-actions/address-book-new
 +actions/application-exit = actions/exit
-+actions/appointment-new = actions/ark_new
-actions/contact-new
+-actions/appointment-new
+-actions/contact-new
 *actions/bookmark-add = actions/bookmark_add
-*actions/bookmark-delete
 +actions/dialog-cancel = actions/button_cancel
-actions/dialog-close
+-actions/dialog-close
 +actions/dialog-ok = actions/button_ok
 *actions/connection-creating = actions/connect_creating
 *actions/connection-established = actions/connect_established
 *actions/connection-disconneced = actions/connect_no
 +actions/document-new = actions/filenew
 +actions/document-open = actions/fileopen
-actions/document-open-recent
-actions/document-page-setup
+-actions/document-open-recent
+-actions/document-page-setup
 +actions/document-print = actions/fileprint
-actions/document-print-preview
-actions/document-properties
+-actions/document-print-preview
+-actions/document-properties
 +actions/document-revert = actions/revert
 +actions/document-save = actions/filesave
 +actions/document-save-as = actions/filesaveas
@@ -36,10 +35,10 @@ actions/document-properties
 +actions/edit-cut = actions/editcut
 +actions/edit-delete = actions/editdelete
 +actions/edit-find = actions/find
-actions/edit-find-replace
+-actions/edit-find-replace
 +actions/edit-paste = actions/editpaste
 +actions/edit-redo = actions/redo
-actions/edit-select-all
++actions/edit-select-all = actions/select
 +actions/edit-undo = actions/undo
 +actions/edit-blend = actions/blend
 *actions/edit-color-fill = actions/color_fill
@@ -59,16 +58,16 @@ actions/edit-select-all
 +actions/folder-new = folder_new
 +actions/format-indent-less = actions/format_decreaseindent
 +actions/format-indent-more = actions/format_increaseindent
-actions/format-justify-center
-actions/format-justify-fill
-actions/format-justify-left
-actions/format-justify-right
-actions/format-text-direction-ltr
-actions/format-text-direction-rtl
-actions/format-text-bold
-actions/format-text-italic
-actions/format-text-underline
-actions/format-text-strikethrough
+-actions/format-justify-center
+-actions/format-justify-fill
+-actions/format-justify-left
+-actions/format-justify-right
+-actions/format-text-direction-ltr
+-actions/format-text-direction-rtl
+-actions/format-text-bold
+-actions/format-text-italic
+-actions/format-text-underline
+-actions/format-text-strikethrough
 *actions/format-text-size-up = actions/fontsizeup
 *actions/format-text-size-down = actions/fontsizedown
 +actions/identity = actions/identity
@@ -76,33 +75,37 @@ actions/format-text-strikethrough
 +actions/go-down = actions/down
 +actions/go-first = actions/first
 +actions/go-home = actions/gohome
-actions/go-jump
+-actions/go-jump
 +actions/go-last = actions/last
 +actions/go-next = actions/next
 +actions/go-previous = actions/previous
 +actions/go-top = actions/top
 +actions/go-up = actions/up
-actions/help-about
+-actions/help-about
 +actions/help-contents = actions/help
-actions/help-faq
+-actions/help-faq
 *actions/help-hint = actions/idea
 +actions/history = actions/history
 +actions/history-clear = actions/history_clear
-actions/insert-image
-actions/insert-link
-actions/insert-object
-actions/insert-text
-actions/list-add
-actions/list-remove
+-actions/insert-image
+-actions/insert-link
+-actions/insert-object
+-actions/insert-text
+*actions/insert-table = actions/inserttable
+*actions/insert-table-cell = actions/insertcell
+*actions/insert-table-col = actions/insert_table_cell
+*actions/insert-table-row = actions/insert_table_row
+-actions/list-add
+-actions/list-remove
 *actions/mail-folder-inbox = actions/inbox
 *actions/mail-folder-sent = actions/folder_sent_mail
 +actions/mail-forward = actions/mail_forward
 *actions/mail-find = actions/mail_find
-actions/mail-mark-important
-actions/mail-mark-junk
-actions/mail-mark-notjunk
-actions/mail-mark-read
-actions/mail-mark-unread
+-actions/mail-mark-important
+-actions/mail-mark-junk
+-actions/mail-mark-notjunk
+-actions/mail-mark-read
+-actions/mail-mark-unread
 *actions/mail-message-attach = actions/attach
 *actions/mail-message-delete = actions/mail_delete
 +actions/mail-message-new = actions/mail_new
@@ -110,7 +113,7 @@ actions/mail-mark-unread
 +actions/mail-reply-sender = actions/mail_reply
 *actions/mail-reply-list = actions/mail_replylist
 +actions/mail-send = actions/mail_send
-actions/mail-send-receive
+-actions/mail-send-receive
 *actions/news-subscribe = actions/news_subscribe
 *actions/news-unsubscribe = actions/news_unsubscribe
 +actions/media-eject = actions/player_eject
@@ -127,14 +130,15 @@ actions/mail-send-receive
 +actions/media-skip-forward = actions/player_end
 *actions/navigation-back = actions/back
 *actions/navigation-forward = actions/forward
-actions/object-flip-horizontal
-actions/object-flip-vertical
-+actions/object-rotate-left = actions/rotate
-actions/object-rotate-right
-+actions/system-lock-screen =  actions/lock
-actions/system-log-out
-actions/system-run
-actions/system-search
+-actions/object-flip-horizontal
+-actions/object-flip-vertical
+-actions/object-rotate-left
+-actions/object-rotate-right
+*actions/object-rotate = actions/rotate
++actions/system-lock-screen = actions/lock
++actions/system-log-out = apps/logout
++actions/system-run = actions/run
++actions/system-search = actions/find
 +actions/system-power = actions/power
 *actions/system-charge = actions/laptop_charge
 *actions/system-nobattery = actions/laptop_nobattery
@@ -147,8 +151,8 @@ actions/system-search
 +actions/view-fullscreen = actions/window_fullscreen
 +actions/view-refresh = actions/reload
 +actions/view-restore = actions/window_nofullscreen
-actions/view-sort-ascending
-actions/view-sort-descending
+-actions/view-sort-ascending
+-actions/view-sort-descending
 *actions/view-pane-bottom = actions/view_bottom
 *actions/view-pane-right = actions/view_right
 *actions/view-pane-left-right = actions/view_left_right
@@ -160,39 +164,36 @@ actions/view-sort-descending
 *actions/view-type-text = actions/view_text
 *actions/view-type-multicolumn = actions/view_multicolumn
 *actions/view-type-tree = actions/view_tree
-actions/window-close
+-actions/window-close
 +actions/window-new = actions/window_new
 +actions/zoom-best-fit = actions/viewmagfit
 +actions/zoom-in = actions/viewmag+
 +actions/zoom-original = actions/viewmag1
 +actions/zoom-out = actions/viewmag-
 *actions/zoom = actions/viewmag
-
-
-
-+apps/accessories-calculator = applications/calc
-apps/accessories-character-map
-apps/accessories-dictionary
++apps/accessories-calculator = apps/calc
++apps/accessories-character-map = apps/kcharselect
++apps/accessories-dictionary = apps/kdict
 *apps/accessories-encrypt = actions/kgpg
-+apps/accessories-text-editor = applications/kate
-+apps/help-browser = applications/khelpcenter
-+apps/multimedia-volume-control = applications/kmix
-apps/preferences-desktop-accessibility
-apps/preferences-desktop-font
-apps/preferences-desktop-keyboard
-apps/preferences-desktop-locale
-apps/preferences-desktop-multimedia
-apps/preferences-desktop-screensaver
-apps/preferences-desktop-theme
-apps/preferences-desktop-wallpaper
++apps/accessories-text-editor = apps/kate
++apps/help-browser = apps/khelpcenter
++apps/multimedia-volume-control = apps/kmix
++apps/preferences-desktop-accessibility = apps/access
++apps/preferences-desktop-font = apps/kcmfontinst
++apps/preferences-desktop-keyboard = apps/keyboard
++apps/preferences-desktop-locale = apps/locale
++apps/preferences-desktop-multimedia = apps/multimedia
++apps/preferences-desktop-screensaver = apps/kscreensaver
++apps/preferences-desktop-theme = apps/kthememgr
++apps/preferences-desktop-wallpaper = apps/background
 *apps/preferences-desktop-printer = actions/klpq
-+apps/system-file-manager = applications/konqueror
-apps/system-software-update
-apps/utilities-system-monitor
-apps/utilities-terminal
++apps/system-file-manager = apps/konqueror
+-apps/system-software-update
++apps/utilities-system-monitor = apps/ksysguard
++apps/utilities-terminal = apps/terminal
 *apps/wizard = actions/wizard
-*apps/office-organizer = actions/korgac
-*apps/internet-mail = actions/kmail
+*apps/office-organizer = apps/korganizer
+*apps/internet-mail = apps/mail
 
 
 
@@ -219,12 +220,12 @@ categories/system-help
 
 
 
-devices/audio-card
-devices/audio-input-microphone
-devices/battery
++devices/audio-card = apps/kcmsound
+-devices/audio-input-microphone
++devices/battery = apps/laptop_battery
 +devices/camera-photo = devices/camera
 +devices/camera-video = devices/cam
-devices/computer
++devices/computer = apps/kcmsystem
 +devices/drive-harddisk = devices/hdd_unmount
 +devices/drive-optical = devices/cd_unmount
 +devices/drive-removable-media = devices/zip_unmount
@@ -235,55 +236,47 @@ devices/computer
 +devices/input-mouse = devices/mouse
 +devices/input-tablet = devices/tablet
 *devices/handheld = devices/pda
-devices/media-flash
+-devices/media-flash
 +devices/media-floppy = devices/3floppy_unmount
 +devices/media-optical = devices/cdrom_unmount
-devices/media-tape
+-devices/media-tape
 +devices/memory = devices/memory
 +devices/modem = devices/modem
-devices/multimedia-player
-devices/network-wired
-devices/network-wireless
+-devices/multimedia-player
+-devices/network-wired
+-devices/network-wireless
+*devices/scsi = apps/kcmscsi
 +devices/printer = devices/printer
 +devices/scanner = devices/scanner
-devices/video-display
++devices/video-display = apps/kcmx
 *devices/tv = devices/tv
-
-
-
-emblems/emblem-default
-emblems/emblem-documents
-emblems/emblem-downloads
-emblems/emblem-favorite
-emblems/emblem-important
-emblems/emblem-mail
-emblems/emblem-photos
-emblems/emblem-readonly
-emblems/emblem-shared
-emblems/emblem-symbolic-link
-emblems/emblem-synchronized
-emblems/emblem-system
-emblems/emblem-unreadable
-
-
-
-emotes/face-angel
-emotes/face-crying
-emotes/face-devil-grin
-emotes/face-devil-sad
-emotes/face-glasses
-emotes/face-kiss
-emotes/face-monkey
-emotes/face-plain
-emotes/face-sad
-emotes/face-smile
-emotes/face-smile-big
-emotes/face-smirk
-emotes/face-surprise
-emotes/face-wink
-
-
-
+-emblems/emblem-default
+-emblems/emblem-documents
+-emblems/emblem-downloads
+-emblems/emblem-favorite
+-emblems/emblem-important
+-emblems/emblem-mail
+-emblems/emblem-photos
+-emblems/emblem-readonly
+-emblems/emblem-shared
+-emblems/emblem-symbolic-link
+-emblems/emblem-synchronized
+-emblems/emblem-system
+-emblems/emblem-unreadable
+-emotes/face-angel
+-emotes/face-crying
+-emotes/face-devil-grin
+-emotes/face-devil-sad
+-emotes/face-glasses
+-emotes/face-kiss
+-emotes/face-monkey
+-emotes/face-plain
+-emotes/face-sad
+-emotes/face-smile
+-emotes/face-smile-big
+-emotes/face-smirk
+-emotes/face-surprise
+-emotes/face-wink
 +mimetypes/application-x-executable = mimetypes/binary
 +mimetypes/audio-x-generic = mimetypes/sound
 +mimetypes/font-x-generic = mimetypes/font
@@ -311,7 +304,7 @@ emotes/face-wink
 
 +places/folder = filesystems/folder
 *places/folder-open = filesystems/folder_open
-places/folder-remote
+-places/folder-remote
 *places/folder-favorite = filesystems/folder_favorite
 *places/folder-locked = filesystems/folder_locked
 *places/folder-video = filesystems/folder_video
@@ -381,14 +374,14 @@ status/user-idle
 status/user-offline
 status/user-online
 status/user-trash-full
-status/weather-clear
-status/weather-clear-night
-status/weather-few-clouds
-status/weather-few-clouds-night
-status/weather-fog
-status/weather-overcast
-status/weather-severe-alert
-status/weather-showers
-status/weather-showers-scattered
-status/weather-snow
-status/weather-storm
+-status/weather-clear
+-status/weather-clear-night
+-status/weather-few-clouds
+-status/weather-few-clouds-night
+-status/weather-fog
+-status/weather-overcast
+-status/weather-severe-alert
+-status/weather-showers
+-status/weather-showers-scattered
+-status/weather-snow
+-status/weather-storm
