@@ -1,15 +1,9 @@
 #!/usr/bin/env bash
 
-lfilled=`egrep "^\+" freedesktop_kde.dat | wc -l`
-laddon=`egrep "^\*" freedesktop_kde.dat | wc -l`
-lempty=`egrep "^[a-z]+" freedesktop_kde.dat | wc -l`
+lcommon=`egrep "^\+" freedesktop_kde.dat | wc -l`
+lkde=`egrep "^\*" freedesktop_kde.dat | wc -l`
+lfd=`egrep "^\-" freedesktop_kde.dat | wc -l`
+lunspec=`egrep "^[a-z]+" freedesktop_kde.dat | wc -l`
 
 echo ">>> Stats"
-echo "    empty:$lempty, filled:$lfilled, addon:$laddon"
-
-echo
-echo ">>> Malformed:"
-grep -v "^#" freedesktop_kde.dat | grep "=" | grep -v "^+" | grep -v "^*"
-
-echo
-echo ">>> Done"
+echo "    common:$lcommon, fd-only:$lfd, kde-only:$lkde, unspec:$lunspec"
