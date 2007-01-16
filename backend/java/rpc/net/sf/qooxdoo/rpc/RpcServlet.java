@@ -71,8 +71,11 @@ public class RpcServlet extends HttpServlet {
     public static String SESSION_REFERRER_KEY = "_qooxdoo_rpc_referrer";
     
     protected static String ACCESS_DENIED_RESULT = "alert('Access denied. Please make sure that your browser sends correct referer headers.')";
-    
 
+    protected static int ERROR_ORIGIN_SERVER = 1;
+    protected static int ERROR_ORIGIN_APPLICATION = 2;
+
+    
     /**
      * Looks up an instance of a service and creates one if necessary.
      *
@@ -262,17 +265,19 @@ public class RpcServlet extends HttpServlet {
      */
     
     protected JSONObject convertException(Throwable error) {
+        int origin = ERROR_ORIGIN_SERVER;
         if (error instanceof InvocationTargetException) {
             error = ((InvocationTargetException)error).getTargetException();
+            origin = ERROR_ORIGIN_APPLICATION;
         }
         JSONObject ex = new JSONObject();
+        ex.put("origin", origin);
         ex.put("code", 500);    // 500: internal server error
                                 // (executing the method generated
                                 //  an exception)
                                 // TODO: properly detect common errors
                                 //       like "method not found" and
                                 //       return appropriate codes
-                                // TODO: fill in the origin property
         ex.put("message", error.getClass().getName() + ": " + error.getMessage());
         ex.put("class", error.getClass().getName());
         ex.put("origMessage", error.getMessage());
