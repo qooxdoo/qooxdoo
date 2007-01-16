@@ -343,9 +343,9 @@ qx.Proto.parseRSSFeed = function(xml) {
     var eItem = eItems[i];
     var item = {}
     item.title = qx.xml.Core.getTextContent(eItem.getElementsByTagName("title")[0]);
-    item.author = qx.xml.Core.getTextContent(qx.xml.Element.getElementsByTagNameNS(eItem, "http://purl.org/dc/elements/1.1/", "creator")[0] || empty);
+    item.author = qx.xml.Core.getTextContent(qx.xml.Element.getElementsByTagNameNS(eItem, qx.xml.Namespace.DC, "creator")[0] || empty);
     item.date = qx.xml.Core.getTextContent(eItem.getElementsByTagName("pubDate")[0]);
-    item.content = qx.xml.Core.getTextContent(qx.xml.Element.getElementsByTagNameNS(eItem, "http://purl.org/rss/1.0/modules/content/", "encoded")[0] || empty);
+    item.content = qx.xml.Core.getTextContent(qx.xml.Element.getElementsByTagNameNS(eItem, qx.xml.Namespace.RSS1, "encoded")[0] || empty);
     item.link = qx.xml.Core.getTextContent(eItem.getElementsByTagName("link")[0]);
     items.push(item);
   }
