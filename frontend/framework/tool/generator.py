@@ -80,9 +80,6 @@ def getparser():
   parser.add_option("--define-runtime-setting", action="append", dest="defineRuntimeSetting", metavar="NAMESPACE.KEY:VALUE", default=[], help="Define a setting.")
   parser.add_option("--add-new-lines", action="store_true", dest="addNewLines", default=False, help="Keep newlines in compiled files.")
 
-  # Options for source version
-  parser.add_option("--source-loader-type", action="store", dest="sourceLoaderType", metavar="TYPE", choices=("auto", "docwrite", "xhrequest"), default="auto", help="Generated source loader type: auto, docwrite, xhrequest [default: %default].")
-
   # Options for compiled version
   parser.add_option("--add-file-ids", action="store_true", dest="addFileIds", default=False, help="Add file IDs to compiled output.")
   parser.add_option("--optimize-strings", action="store_true", dest="optimizeStrings", default=False, help="Optimize strings. Increase mshtml performance.")
