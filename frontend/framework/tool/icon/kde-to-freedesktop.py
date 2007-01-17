@@ -5,27 +5,65 @@ import sys
 import shutil
 import optparse
 
+def rmgeneric(path, __func__):
+  try:
+    __func__(path)
+    # print 'Removed ', path
+  except OSError, (errno, strerror):
+    print ERROR_STR % {'path' : path, 'error': strerror }
+
+
+def removeall(path):
+  if not os.path.isdir(path):
+    return
+
+  files=os.listdir(path)
+
+  for x in files:
+    fullpath=os.path.join(path, x)
+    if os.path.isfile(fullpath):
+      f=os.remove
+      rmgeneric(fullpath, f)
+    elif os.path.isdir(fullpath):
+      removeall(fullpath)
+      f=os.rmdir
+      rmgeneric(fullpath, f)
+
 
 
 def copy_file(kde, fd, options):
-  img_sizes = [16, 22, 32, 48, 64, 128]
+  img_sizes = [16, 22, 32, 48, 64, 72, 96, 128]
+  found = []
+  notfound = []
+
+  if options.verbose:
+    print "    - Processing: %s -> %s" % (kde, fd)
 
   for size in img_sizes:
-    print ">>> %s" % size
-
     kde_file = "%s/%sx%s/%s.png" % (options.input, size, size, kde)
     fd_file = "%s/%sx%s/%s.png" % (options.output, size, size, fd)
 
     if os.path.exists(kde_file):
       fd_dir = os.path.dirname(fd_file)
-
       if not os.path.exists(fd_dir):
         os.makedirs(fd_dir)
 
-      if options.verbose:
-        print "  - Copy %s -> %s" % (kde_file, fd_file)
-
       shutil.copyfile(kde_file, fd_file)
+      found.append(size)
+
+    else:
+      notfound.append(size)
+
+  if options.verbose:
+    dbg = "      "
+    for size in img_sizes:
+      if size in found:
+        ret = "Y"
+      else:
+        ret = "N"
+      dbg += " [%s] %s" % (ret, size)
+
+    print dbg
 
 
 
@@ -45,8 +83,12 @@ def main():
     print "Try '%s -h' or '%s --help' to show the help message." % (basename, basename)
     sys.exit(1)
 
+  print ">>> Cleaning up..."
+  removeall(options.output)
+
   dat = open("data/freedesktop_kde.dat")
 
+  print ">>> Copying files..."
   for line in dat.readlines():
     line = line.strip();
 
