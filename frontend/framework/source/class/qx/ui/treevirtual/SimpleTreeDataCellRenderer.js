@@ -113,6 +113,21 @@ qx.Proto._getContentHtml = function(cellInfo)
 
   // Add the node's icon
   imageUrl = (node.bSelected ? node.iconSelected : node.icon);
+  if (! imageUrl)
+  {
+    if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF)
+    {
+      imageUrl = (node.bSelected
+                  ? "icon/16/file-open.png"
+                  : "icon/16/file-new.png");
+    }
+    else
+    {
+      imageUrl = (node.bSelected
+                  ? "icon/16/folder_open.png"
+                  : "icon/16/folder.png");
+    }
+  }
   html += addImage({ url:imageUrl });
 
   // Add the node's label.  We calculate the "left" property with: each tree
@@ -136,7 +151,7 @@ qx.Proto._getIndentSymbol = function(column, node, bUseTreeLines)
   if (column < node.level - 1)
   {
     // then return either a line or a blank icon, depending on bUseTreeLines
-    return (bUseTreeLines && ! node.bLastChild
+    return (bUseTreeLines
             ? this.WIDGET_TREE_URI + "line.gif"
             : this.STATIC_IMAGE_URI + "blank.gif");
   }
