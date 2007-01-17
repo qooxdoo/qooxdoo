@@ -3,3 +3,6 @@
 [\"\']application\/xml[\"\']=qx.util.Mime.XML
 [\"\']text\/plain[\"\']=qx.util.Mime.TEXT
 [\"\']text\/html[\"\']=qx.util.Mime.HTML
+
+# text/javascript is not autmatically replaced with application/javascript.
+# Instead, a info warning is given, see info/ folder.
