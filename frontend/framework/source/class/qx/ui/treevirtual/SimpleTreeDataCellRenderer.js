@@ -108,7 +108,11 @@ qx.Proto._getContentHtml = function(cellInfo)
   for (var i = 0; i < node.level; i++)
   {
     imageUrl = this._getIndentSymbol(i, node, bUseTreeLines);
-    html += addImage({ url:imageUrl, imageWidth:19, imageHeight:16 });
+    html += addImage({
+                       url         : imageUrl,
+                       imageWidth  : 19,
+                       imageHeight : 16
+                     });
   }
 
   // Add the node's icon
@@ -131,9 +135,9 @@ qx.Proto._getContentHtml = function(cellInfo)
   html += addImage({ url:imageUrl });
 
   // Add the node's label.  We calculate the "left" property with: each tree
-  // line icon is 19 pixels wide; the folder icon is 16 pixels wide, there are
-  // two pixels of padding at the left, and we want 2 pixels between the
-  // folder icon and the label
+  // line (indentation) icon is 19 pixels wide; the folder icon is 16 pixels
+  // wide, there are two pixels of padding at the left, and we want 2 pixels
+  // between the folder icon and the label
   html +=
     '<div style="position:absolute;' +
     'left:' + ((node.level * 19) + 16 + 2 + 2) + ';' +

@@ -45,6 +45,20 @@ function(heading)
   // Set the data cell render
   var Stdcr = new qx.ui.treevirtual.SimpleTreeDataCellRenderer();
   this.getTableColumnModel().setDataCellRenderer(0, Stdcr);
+
+  // Move the focus with the mouse
+  this.setFocusCellOnMouseMove(true);
+
+  // Arrange to handle mouse clicks. Replace the selection manager's method
+  // with one that calls our handleClick method (with this TreeVirtual object
+  // as 'this' instead of the selection manager).
+  var _this = this;
+  this._getSelectionManager().handleClick = function(index, evt)
+  {
+    qx.ui.treevirtual.TreeVirtual.prototype._handleClick.call(_this,
+                                                              index,
+                                                              evt);
+  };
 });
 
 
@@ -57,6 +71,18 @@ qx.Proto.getDataModel = function()
 qx.Proto.setDataWidth = function(width)
 {
   this.setColumnWidth(0, width);
+};
+
+
+qx.Proto.toggleExpanded = function(node)
+{
+  // Ignore toggle request if 'expanded' is not a boolean (i.e. we've been
+  // told explicitely not to display the expand/contract button).
+  if (node.expanded == true || node.expanded == false)
+  {
+    node.expanded = ! node.expanded;
+    this.getTableModel()._render();
+  }
 };
 
 
@@ -80,11 +106,8 @@ qx.Proto._onkeydown = function(evt)
     case "Enter":
       var node = this.getTableModel().getValue(this.getFocusedColumn(),
                                                this.getFocusedRow());
-      if (node.expanded == true || node.expanded == false)
-      {
-        node.expanded = ! node.expanded;
-        this.getTableModel().setData(null);
-      }
+
+      this.toggleExpanded();
       consumed = true;
       break;
     }
@@ -101,5 +124,34 @@ qx.Proto._onkeydown = function(evt)
   {
     // It's not one of ours.  Let our superclass handle this event
     qx.ui.table.Table.prototype._onkeydown.call(this, evt);
+  }
+};
+
+
+/**
+ * Handles the mouse click event.
+ *
+ * @param index {Integer}
+ *   The row index the mouse is pointing at.
+ *
+ * @param evt {Map}
+ *   The mouse event.
+ */
+qx.Proto._handleClick = function(index, evt)
+{
+  // Get the node to which this click applies
+  var node = this.getTableModel().getValue(this.getFocusedColumn(),
+                                           this.getFocusedRow());
+
+  // Was the click on the expand/contract button?  That button begins at
+  // (node.level - 1) * 19 + 2 (the latter for padding), and has width 19.  We
+  // add a bit of latitude to that.
+  var x = evt.getClientX();
+  var latitude = 2;
+  var buttonPos = (node.level - 1) * 19 + 2;
+  if (x >= buttonPos - latitude && x <= buttonPos + 19 + latitude)
+  {
+    // Yup.  Toggle the expanded state for this node.
+    this.toggleExpanded(node);
   }
 };
