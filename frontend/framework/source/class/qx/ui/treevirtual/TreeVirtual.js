@@ -43,8 +43,8 @@ function(heading)
   this.setMetaColumnCounts([1, -1]);
 
   // Set the data cell render
-  var Stdcr = new qx.ui.treevirtual.SimpleTreeDataCellRenderer();
-  this.getTableColumnModel().setDataCellRenderer(0, Stdcr);
+  var stdcr = new qx.ui.treevirtual.SimpleTreeDataCellRenderer();
+  this.getTableColumnModel().setDataCellRenderer(0, stdcr);
 
   // Move the focus with the mouse
   this.setFocusCellOnMouseMove(true);
@@ -73,6 +73,12 @@ qx.Proto.setDataWidth = function(width)
   this.setColumnWidth(0, width);
 };
 
+
+qx.Proto.setAlwaysShowPlusMinusSymbol = function(b)
+{
+  var dcr = this.getTableColumnModel().getDataCellRenderer(0);
+  dcr.setAlwaysShowPlusMinusSymbol(b);
+};
 
 qx.Proto.toggleExpanded = function(node)
 {
@@ -107,7 +113,7 @@ qx.Proto._onkeydown = function(evt)
       var node = this.getTableModel().getValue(this.getFocusedColumn(),
                                                this.getFocusedRow());
 
-      this.toggleExpanded();
+      this.toggleExpanded(node);
       consumed = true;
       break;
     }
