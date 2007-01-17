@@ -1,0 +1,97 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo &raquo; Sample</title>
+  <link type="text/css" rel="stylesheet" href="../../css/layout.css"/>
+  <!--[if IE]>
+  <link type="text/css" rel="stylesheet" href="../../css/layout_ie.css"/>
+  <![endif]-->
+  <script type="text/javascript" src="../../script/sample.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../../script/layout.js"></script>
+
+  <div id="demoDescription">
+    <p>An example of using a the Virtual Tree widget with addNode()</p>
+  </div>
+
+  <script type="text/javascript">
+  qx.core.Init.getInstance().defineMain(function()
+  {
+    var d = qx.ui.core.ClientDocument.getInstance();
+
+    // tree
+    var tree = new qx.ui.treevirtual.TreeVirtual("Tree");
+    with (tree)
+    {
+      set({
+            left   : 10,
+            top    : 30,
+            width  : 400,
+            bottom : 30,
+            border : qx.renderer.border.BorderPresets.getInstance().thinInset
+          });
+      setDataWidth(400);
+    };
+
+    d.add(tree);
+
+    // tree data model
+    var dataModel = tree.getDataModel();
+
+    var te1 =
+      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
+                        null, "Desktop", true);
+
+    var te1_1 = 
+      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
+                        te1, "Files", true);
+    var te1_2 = 
+      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
+                        te1, "Workspace", true);
+    var te1_3 = 
+      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
+                        te1, "Network", true);
+    var te1_4 = 
+      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
+                        te1, "Trash", true);
+
+    var te1_2_1 = 
+      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF,
+                        te1_2, "Windows (C:)", false);
+    var te1_2_2 = 
+      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF,
+                        te1_2, "Documents (D:)", false);
+
+    var te2 = 
+      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
+                        null, "Inbox", true);
+
+    var te2_1 = 
+      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
+                        te2, "Spam", false);
+
+    for (var i = 1; i < 3000; i++)
+    {
+      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF,
+                        te2_1, "Spam Message #" + i, false);
+    }
+
+    var te2_2 = 
+      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
+                        te2, "Sent", true);
+    var te2_3 = 
+      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
+                        te2, "Trash", true);
+    var te2_4 = 
+      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
+                        te2, "Data", true);
+    var te2_5 = 
+      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
+                        te2, "Edit", true);
+
+    dataModel.setData(null);
+  });
+  </script>
+</body>
+</html>
