@@ -40,7 +40,7 @@ def main():
 
   if options.input == None or options.output == None:
     basename = os.path.basename(sys.argv[0])
-    print "You must define at least one script input directory!"
+    print "You must define both, the input and output folders!"
     print "usage: %s [options]" % basename
     print "Try '%s -h' or '%s --help' to show the help message." % (basename, basename)
     sys.exit(1)
