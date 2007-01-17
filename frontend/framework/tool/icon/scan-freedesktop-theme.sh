@@ -2,28 +2,29 @@
 
 echo ">>> Indexing..."
 
+BASE=`dirname $0`
+THEMEBASE=$BASE/data/theme_
 WHITELIST="16x16 22x22 24x24 32x32 48x48 64x64 128x128 scaleable"
 CATS="actions animations apps categories devices emblems emotes intl mimetypes places status"
+DNAME=`basename $1`
 
-for DIR in `find . -maxdepth 1 -mindepth 1 -type d`; do
-  DNAME=`basename $DIR`
-  echo "  - $DNAME"
-  rm -f data/theme_${DNAME}.dat
+cd $1
+echo "  - $DNAME"
+rm -f ${THEMEBASE}${DNAME}.dat
 
-  for SUB in $WHITELIST; do
-    echo "    + $SUB"
+for SUB in $WHITELIST; do
+  echo "    + $SUB"
 
-    for CAT in $CATS; do
-      if [ -r $DIR/$SUB/$CAT ]; then
-        for FILE in `find $DIR/$SUB/$CAT -mindepth 1 -maxdepth 1 -name "*.png" -o -name "*.svg"`; do
-          FNAME=`basename $FILE | cut -d"." -f1`
-          echo "$CAT/$FNAME" >> data/theme_${DNAME}.dat
-        done
-      fi
-    done
+  for CAT in $CATS; do
+    if [ -r $DIR/$SUB/$CAT ]; then
+      for FILE in `find $DIR/$SUB/$CAT -mindepth 1 -maxdepth 1 -name "*.png" -o -name "*.svg"`; do
+        FNAME=`basename $FILE | cut -d"." -f1`
+        echo "$CAT/$FNAME" >> ${THEMEBASE}${DNAME}.dat
+      done
+    fi
   done
-
-  cat data/theme_${DNAME}.dat | sort | uniq > data/theme_${DNAME}.tmp
-  rm data/theme_${DNAME}.dat
-  mv data/theme_${DNAME}.tmp data/theme_${DNAME}.dat
 done
+
+cat ${THEMEBASE}${DNAME}.dat | sort | uniq > ${THEMEBASE}${DNAME}.tmp
+rm ${THEMEBASE}${DNAME}.dat
+mv ${THEMEBASE}${DNAME}.tmp data/${THEMEBASE}${DNAME}.dat
