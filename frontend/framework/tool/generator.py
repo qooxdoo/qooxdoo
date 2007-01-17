@@ -51,6 +51,9 @@ def getparser():
 
   # Output files
   parser.add_option("--source-script-file", dest="sourceScriptFile", metavar="FILENAME", help="Name of output file from source build process.")
+  parser.add_option("--source-template-input-file", dest="sourceTemplateInputFile", metavar="FILENAME", help="Name of a template file to patch")
+  parser.add_option("--source-template-output-file", dest="sourceTemplateOutputFile", metavar="FILENAME", help="Name of the resulting file to store the modified template to.")
+  parser.add_option("--source-template-replace", dest="sourceTemplateReplace", default="<!-- qooxdoo-script-block -->", metavar="CODE", help="Content of the template which should be replaced with the script block.")
   parser.add_option("--compiled-script-file", dest="compiledScriptFile", metavar="FILENAME", help="Name of output file from compiler.")
   parser.add_option("--api-documentation-json-file", dest="apiDocumentationJsonFile", metavar="FILENAME", help="Name of JSON API file.")
   parser.add_option("--api-documentation-xml-file", dest="apiDocumentationXmlFile", metavar="FILENAME", help="Name of XML API file.")
@@ -908,74 +911,57 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     print "  GENERATION OF SOURCE SCRIPT:"
     print "----------------------------------------------------------------------------"
 
-    if options.sourceScriptFile == None:
-      print "  * You must define the source script file!"
+    if options.sourceScriptFile == None and (options.sourceTemplateInputFile == None or options.sourceTemplateOutputFile == None):
+      print "  * You must define at least one source script file or template input/output."
       sys.exit(1)
 
-    else:
+    if options.sourceScriptFile:
       options.sourceScriptFile = os.path.normpath(options.sourceScriptFile)
 
-    print "  * Generating includer..."
+    if options.sourceTemplateInputFile:
+      options.sourceTemplateInputFile = os.path.normpath(options.sourceTemplateInputFile)
 
-    sourceOutput = settingsStr
+    if options.sourceTemplateOutputFile:
+      options.sourceTemplateOutputFile = os.path.normpath(options.sourceTemplateOutputFile)
 
-    srcEol = "";
+
+    print "  * Generating script block..."
+
+    # Handling line feed setting
+    sourceLineFeed = "";
     if options.addNewLines:
-      srcEol = "\n";
+      sourceLineFeed = "\n";
 
-    if sourceOutput != "":
-      settingsStr += srcEol
 
-    # Define javascript loaders
-    jsLoaders = {}
+    # Generating inline code...
+    inlineCode = ""
+    inlineCode += settingsStr + sourceLineFeed
+    inlineCode += "qx.SOURCE_BUILD=true;" + sourceLineFeed
 
-    # HTML-only: create <script> tags using document.write()
-    jsLoaders["docwrite"] = """var includeJs=function(src){document.write('<script type="text/javascript" src="'+src+'"></script>')};"""
 
-    # XHTML-compatible: load scripts using XMLHttpRequest and eval() them
-    jsLoaders["xhrequest"] = """{var xhr=null;if(window.XMLHttpRequest)xhr=new XMLHttpRequest;else if(window.ActiveXObject){var s=["MSXML2.XMLHTTP.3.0","MSXML2.XMLHTTP.6.0","MSXML2.XMLHTTP","Microsoft.XMLHTTP"];for(var i=0;i<s.length;++i)try{xhr=new ActiveXObject(s[i])}catch(e){}};""" + srcEol + """if(!xhr){alert("Sorry, you need support for XMLHttpRequest in order to\\nload source builds into XHTML documents.");return}""" + srcEol + """var includeJs=function(src){xhr.open("GET", src, false);xhr.send(null);window.eval(xhr.responseText)}}"""
-
-    # Source loader closure
-    sourceOutput += """(function(sources){""" + srcEol
-
-	 # Differentiate source build
-    sourceOutput += """qx.SOURCE_BUILD=true;""" + srcEol
-
-    # Detect the node we are being called from
-    sourceOutput += """var parentNode=document.getElementsByTagName('body')[0]||document.getElementsByTagName('head')[0];""" + srcEol
-
-    # Autoselect a loader based on document type
-    if options.sourceLoaderType == "auto":
-
-		 # Detect if document type is XHTML
-      sourceOutput += """var isXHTML=false;""" + srcEol
-      sourceOutput += """if(document.doctype&&document.doctype.publicId.match(/-\/\/W3C\/\/DTD XHTML/))isXHTML=true;""" + srcEol
-      sourceOutput += """else if(parentNode.namespaceURI&&parentNode.namespaceURI.match(/\/xhtml/))isXHTML=true;""" + srcEol
-
-      # Select the loader based on document type
-      sourceOutput += """if(isXHTML)""" + jsLoaders["xhrequest"]+ srcEol
-      sourceOutput += """else """ + jsLoaders["docwrite"] + srcEol
-
-    # Use a fixed loader
-    else:
-      sourceOutput += jsLoaders[options.sourceLoaderType] + srcEol
-
-    # Loading loop
-    sourceOutput += """for(var i=0;i<sources.length;++i)includeJs(sources[i])""" + srcEol + """})"""
-
-    sources = ""
+    # Generating script block
+    scriptBlocks = ""
+    scriptBlocks += '<script type="text/javascript">%s</script>' % inlineCode
     for fileId in sortedIncludeList:
       if fileDb[fileId]["classUri"] == None:
-        print "  * Missing source path definition for script input %s. Could not create source script file!" % fileDb[fileId]["classPath"]
+        print "  * Missing class URI definition for class path %s." % fileDb[fileId]["classPath"]
         sys.exit(1)
 
-      sources += srcEol + '"%s%s",' % (os.path.join(fileDb[fileId]["classUri"], fileDb[fileId]["pathId"].replace(".", os.sep)), config.JSEXT)
+      scriptBlocks += '<script type="text/javascript" src="%s%s"></script>' % (os.path.join(fileDb[fileId]["classUri"], fileDb[fileId]["pathId"].replace(".", os.sep)), config.JSEXT)
+      scriptBlocks += sourceLineFeed
 
-    # Pass the array with source files to include
-    sourceOutput += "([" + sources[:-1] + srcEol + "]);" + srcEol
 
-    print "  * Storing output as %s..." % options.sourceScriptFile
-    filetool.save(options.sourceScriptFile, sourceOutput, options.scriptOutputEncoding)
+
+    if options.sourceScriptFile != None:
+      print "  * Storing includer as %s..." % options.sourceScriptFile
+      sourceScript = "document.write('%s');" % scriptBlocks.replace("'", "\\'")
+      filetool.save(options.sourceScriptFile, sourceScript, options.scriptOutputEncoding)
+
+    if options.sourceTemplateInputFile != None and options.sourceTemplateOutputFile != None:
+      print "  * Patching template: %s => %s" % (options.sourceTemplateInputFile, options.sourceTemplateOutputFile)
+      tmpl = filetool.read(options.sourceTemplateInputFile)
+      res = tmpl.replace(options.sourceTemplateReplace, scriptBlocks)
+      filetool.save(options.sourceTemplateOutputFile, res, options.scriptOutputEncoding)
 
 
 

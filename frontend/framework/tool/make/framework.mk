@@ -26,12 +26,17 @@ FRAMEWORK_CLDR_DOWNLOAD_URI = http://unicode.org/cldr/data/common/main
 #
 # Configure commands
 #
+CMD_LINE = echo "----------------------------------------------------------------------------"
 CMD_PYTHON = python
 CMD_NICE = nice -n $(COMPUTED_COMMON_NICE)
 CMD_GENERATOR = $(CMD_NICE) $(CMD_PYTHON) $(FRAMEWORK_PATH)/tool/generator.py --cache-directory $(FRAMEWORK_CACHE_PATH)
-CMD_CLDR = $(CMD_NICE) $(CMD_PYTHON) $(FRAMEWORK_PATH)/tool/modules/cldr.py 
+CMD_CLDR = $(CMD_NICE) $(CMD_PYTHON) $(FRAMEWORK_PATH)/tool/modules/cldr.py
 CMD_MSGFMT = $(CMD_NICE) $(CMD_PYTHON) $(FRAMEWORK_PATH)/tool/modules/msgfmt.py
 CMD_REMOVE = $(CMD_NICE) rm -rf
-CMD_FIND = $(CMD_NICE) find 
-CMD_SYNC = $(CMD_NICE) rsync --checksum --recursive --links --safe-links --delete --compress
-CMD_LINE = echo "----------------------------------------------------------------------------"
+CMD_FIND = $(CMD_NICE) find
+
+# Optimized for remote sync (ssh etc.)
+CMD_SYNC = $(CMD_NICE) rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn
+
+# Optimized for local sync (same computer, filesystem)
+# CMD_SYNC = $(CMD_NICE) rsync --size-only --recursive --delete --inplace --links --safe-links --exclude .svn

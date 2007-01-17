@@ -31,6 +31,12 @@ APPLICATION_API_TITLE = WebMail
 #
 APPLICATION_FILES = index.html
 
+#
+# XHTML support
+#
+APPLICATION_TEMPLATE_INPUT = index.xhtml.tmpl
+APPLICATION_TEMPLATE_OUTPUT = index.xhtml
+
 
 
 
