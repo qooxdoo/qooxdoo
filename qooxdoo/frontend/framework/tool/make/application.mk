@@ -177,6 +177,7 @@ endif
 
 #
 # Redefine folder names (inside build/source)
+# It is not recommended to change these fundamental settings.
 #
 ifndef APPLICATION_SCRIPT_FOLDERNAME
   APPLICATION_SCRIPT_FOLDERNAME = script
@@ -198,7 +199,7 @@ ifndef APPLICATION_SCRIPT_FILENAME
 endif
 
 #
-# Application classname
+# Full application classname
 #
 ifndef APPLICATION_CLASSNAME
   APPLICATION_CLASSNAME = $(APPLICATION_NAMESPACE).Application

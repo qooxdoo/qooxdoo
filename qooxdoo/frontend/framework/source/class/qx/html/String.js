@@ -38,7 +38,7 @@ qx.OO.defineClass("qx.html.String");
  * * <a href="http://www.w3.org/TR/html401/charset.html#h-5.3">HTML 4.01 Character References</a>
  * * <a href="http://www.w3.org/TR/html401/charset.html#code-position">HTML 4.01 Code positions</a>
  *
- * @see #unescapeHtml
+ * @see #unescape
  *
  * @param str {String} the String to escape
  * @return {String} a new escaped String
@@ -63,7 +63,7 @@ qx.Class.escape = function(str) {
  * verbatim into the result string. e.g. "&amp;gt;&amp;zzzz;x" will
  * become "&gt;&amp;zzzz;x".
  *
- * @see #escapeHtml
+ * @see #escape
  *
  * @param str {String} the String to unescape, may be null
  * @return a new unescaped String
@@ -78,9 +78,10 @@ qx.Class.unescape = function(str) {
 
 /**
  * Converts a plain text string into HTML.
- * This is similar to {@link #escapeHtml} but converts new lines to <tt>&lt:br&gt:</tt> and preserves whitespaces.
+ * This is similar to {@link #escape} but converts new lines to
+ * <tt>&lt:br&gt:</tt> and preserves whitespaces.
  *
- * @see #escapeHtml
+ * @see #escape
  *
  * @param str {String} the String to convert
  * @return {String} a new converted String
