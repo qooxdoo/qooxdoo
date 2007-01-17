@@ -96,7 +96,7 @@ def fix_names(qx_icon_path, tango_icon_path):
 		line = line.strip();
 		if line == "" or line[0] == "#": continue
 		if not "=" in line:
-			qx_not_in_tango.append(qx)
+			qx_not_in_tango.append(line.strip())
 			continue
 
 		(qx, tango) = map(lambda x: x.strip(), line.split("="))
@@ -117,11 +117,16 @@ def main(argv=None):
         argv = sys.argv
     try:
         try:
-            opts, args = getopt.getopt(argv[1:], "ho:v", ["help", "output="])
+            opts, args = getopt.getopt(argv[1:], "ho:t:q:v", ["help", "output=", "tango-icon-path=", "qooxdoo-icon-path="])
         except getopt.error, msg:
             raise Usage(msg)
 
         # option processing
+        tango_icon_path = "/Users/fabianpb/opt/tango/share/icons/Tango/16x16"
+        #tango_icon_path = "/Users/fabianpb/Desktop/icon-convert/tg/Tango/16x16"
+        #tango_icon_path = "/Users/fabianpb/Desktop/icon-convert/fd/nuvola/16x16"
+        qx_icon_path = "/Users/fabianpb/Desktop/icon-convert/qx/16"
+        output = ""
         for option, value in opts:
             if option == "-v":
                 verbose = True
@@ -129,15 +134,24 @@ def main(argv=None):
                 raise Usage(help_message)
             if option in ("-o", "--output"):
                 output = value
+            if option in ("-t", "--tango-icon-path"):
+                tango_icon_path = value
+            if option in ("-q", "--qooxdoo-icon-path"):
+                qx_icon_path = value
 
-        qx_icon_path = "/Users/fabianpb/Desktop/icon-convert/qx/16"
-        tango_icon_path = "/Users/fabianpb/opt/tango/share/icons/Tango/16x16"
-        #tango_icon_path = "/Users/fabianpb/Desktop/icon-convert/tg/Tango/16x16"
-        #tango_icon_path = "/Users/fabianpb/Desktop/icon-convert/fd/nuvola/16x16"
+        if not output in ["html", "patch", "info", "debug"]:
+            raise Usage("invalid parameter for output.")
+			
         (qx_to_tango_map, qx_not_in_tango, qx_in_tango_without_image) = fix_names(qx_icon_path, tango_icon_path)
-        print get_html(qx_to_tango_map, qx_not_in_tango, qx_in_tango_without_image, qx_icon_path, tango_icon_path)
-        #print get_migration_info(qx_to_tango_map, qx_not_in_tango, qx_in_tango_without_image, qx_icon_path, tango_icon_path)
-        #print get_migration_patch(qx_to_tango_map, qx_not_in_tango, qx_in_tango_without_image, qx_icon_path, tango_icon_path)
+
+        if output == "html":
+            print get_html(qx_to_tango_map, qx_not_in_tango, qx_in_tango_without_image, qx_icon_path, tango_icon_path)
+        elif output == "info":
+            print get_migration_info(qx_to_tango_map, qx_not_in_tango, qx_in_tango_without_image, qx_icon_path, tango_icon_path)
+        elif output == "patch":
+            print get_migration_patch(qx_to_tango_map, qx_not_in_tango, qx_in_tango_without_image, qx_icon_path, tango_icon_path)
+        elif output == "debug":
+            print qx_not_in_tango
 
     except Usage, err:
         print >> sys.stderr, sys.argv[0].split("/")[-1] + ": " + str(err.msg)
