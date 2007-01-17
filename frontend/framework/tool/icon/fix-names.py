@@ -91,7 +91,7 @@ def fix_names(qx_icon_path, tango_icon_path):
 	qx_not_in_tango = []
 	qx_in_tango_without_image = {}
 
-	lines = open("data/qooxdoo_freedesktop.dat").readlines()
+	lines = open(os.path.join(os.path.dirname(sys.argv[0]), "data", "qooxdoo_freedesktop.dat")).readlines()
 	for line in lines:
 		line = line.strip();
 		if line == "" or line[0] == "#": continue

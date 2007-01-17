@@ -3,16 +3,16 @@
 #
 
 accessibility = apps/preferences-desktop-accessibility
-adobe-reader
-alarm
+adobe-reader = apps/office-adobe-reader
+alarm = apps/accessories-alarm
 applications
 apply = actions/dialog-ok
-attach = status/mail-attachment
+attach = actions/mail-message-attach
 back = actions/go-previous
 background = apps/preferences-desktop-wallpaper
 bell
 bitmapgraphics = mimetypes/image-x-generic
-bookmark-add = actions/bookmark_add
+bookmark-add = actions/bookmark-add
 bookmark-folder
 bookmark-toolbar
 bookmark = emblems/emblem-favorite
@@ -24,22 +24,22 @@ calculator = apps/accessories-calculator
 camera = devices/camera-photo
 cancel = actions/dialog-cancel
 cdrom = devices/media-optical
-char-device
+char-device = places/special-chardevice
 chart = mimetypes/x-office-spreadsheet
 clipboard = actions/edit-paste
-clock
-color-fill
-color-line
+clock = apps/accessories-clock
+color-fill = actions/edit-color-fill
+color-line = actions/edit-color-line
 colors
 configure = apps/preferences-system
-connect-creating = status/network-transmit
-connect-established = status/network-transmit-receive
-connect-no = status/network-offline
+connect-creating = actions/connection-creating
+connect-established = actions/connection-established
+connect-no = actions/connection-disconneced
 control-center = apps/preferences-system
 cookie
 core
 date = mimetypes/x-office-calendar
-decrypted
+decrypted = actions/edit-decrypted
 desktop = places/user-desktop
 devices = devices/drive-harddisk
 dictionary = apps/accessories-dictionary
@@ -52,7 +52,7 @@ edit-paste = actions/edit-paste
 edit
 editor = apps/accessories-text-editor
 email = apps/internet-mail
-encrypted
+encrypted = status/document-encrypted
 energy = devices/battery
 error = status/dialog-error
 exec
@@ -66,9 +66,9 @@ file-save = actions/document-save
 find = actions/edit-find
 floppy = devices/media-floppy
 flowchart
-folder-favorite
+folder-favorite = places/folder-favorite
 folder-important
-folder-locked
+folder-locked = places/folder-locked
 folder-open = places/folder-open
 folder = places/folder
 fonts = apps/accessories-fonts
@@ -79,20 +79,20 @@ harddrive = devices/drive-harddisk
 hardware-info
 help-center = apps/help-browser
 help = apps/help-browser
-history-clear
-history
+history-clear = actions/history-clear
+history = actions/history
 home = actions/go-home
 icons
-iconthemes
+iconthemes = apps/preferences-desktop-theme-icon
 important = emblems/emblem-important
 info = status/dialog-information
 joystick = devices/input-gaming
-keyboard-layout = input-keyboard
+keyboard-layout = apps/preferences-desktop-keyboard-layout
 locale = apps/preferences-desktop-locale
 look-and-feel = apps/preferences-desktop-theme
 magnifier = actions/system-search
 mail-delete = actions/mail-message-delete
-mail-find
+mail-find = actions/mail-find
 mail-forward = actions/mail-forward
 mail-get = actions/mail-send-receive
 mail-new = actions/mail-message-new
@@ -100,9 +100,9 @@ mail-reply-all = actions/mail-reply-all
 mail-reply = actions/mail-reply-sender
 mail-send = actions/mail-send
 mail = apps/internet-mail
-memory = devices/media-flash
+memory = devices/memory
 mime-archive = mimetypes/package-x-generic
-mime-binary
+mime-binary = mimetypes/application-x-executable
 mime-calendar = mimetypes/x-office-calendar
 mime-card = mimetypes/x-office-address-book
 mime-color
@@ -138,8 +138,8 @@ organizer = apps/office-organizer
 paint = categories/applications-graphics
 partitions
 password = status/dialog-password
-pda
-pipe
+pda = devices/handheld
+pipe = places/special-pipe
 presentation = apps/office-presentation
 printer = devices/printer
 queue
@@ -147,45 +147,45 @@ redo = actions/edit-redo
 reload = actions/view-refresh
 rotate = actions/object-rotate-right
 run = actions/system-run
-scanner
+scanner = devices/scanner
 services = emblems/emblem-system
 settings = apps/preferences-system
-signature
+signature = actions/tools-signature
 spellcheck = actions/tools-check-spelling
 stop = actions/media-playback-stop
 style = apps/preferences-system-windows
 system = apps/preferences-system
-tab-duplicate
+tab-duplicate = actions/tab-duplicate
 tab-new-raised = actions/tab-new
 tab-new = actions/tab-new
-tab-remove
-tablet
+tab-remove = actions/tab-remove
+tablet = devices/input-tablet
 terminal = apps/utilities-terminal
 themes
-toys
+toys = categories/applications-toys
 trashcan-empty = places/user-trash
 trashcan-full = places/user-trash-full
-tv
+tv = devices/tv
 undo = actions/edit-undo
 up = actions/go-up
 user
 utilities = categories/applications-utilities
-view-bottom
-view-choose
-view-detailed
-view-icon
-view-left-right
-view-multicolumn
-view-remove
-view-right
-view-sidetree
-view-text
-view-top-bottom
-view-tree
+view-bottom = actions/view-pane-bottom
+view-choose = actions/view-pane-choose
+view-detailed = actions/view-type-detailed
+view-icon = actions/view-type-icon
+view-left-right = actions/view-pane-left-right
+view-multicolumn = actions/view-type-multicolumn
+view-remove = actions/view-pane-remove
+view-right = actions/view-pane-right
+view-sidetree = actions/view-type-sidetree
+view-text = actions/view-type-text
+view-top-bottom = actions/view-type-top-bottom
+view-tree = actions/view-type-tree
 viewmag-fit = actions/zoom-best-fit
 viewmag-minus = actions/zoom-out
 viewmag-original = actions/zoom-original
 viewmag-plus = actions/zoom-in
 viewmag = actions/system-search
-wizard
+wizard = apps/wizard
 wordprocessor = mimetypes/x-office-document
