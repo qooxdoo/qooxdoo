@@ -21,8 +21,12 @@
 
 ************************************************************************ */
 
-/**
+/*
  * A "virtual" tree
+ *
+ * WARNING: This widget is in active development and the interface to it is
+ *          very likely to change, possibly on a daily basis, for a while.  Do
+ *          not use this widget yet.
  */
 qx.OO.defineClass("qx.ui.treevirtual.TreeVirtual", qx.ui.table.Table,
 function(heading)
