@@ -33,7 +33,7 @@ TEMP_FILES = -name "*.pyc" -o -name "*.bak" -o -name "*.old" -o -name "*~" -o -n
 EXEC_FILES = -name "*.py" -o -name "*.sh"
 
 CMD_NICE = nice -n $(NICE)
-CMD_RSYNC = $(CMD_NICE) rsync --recursive --delete --exclude .svn
+CMD_RSYNC = $(CMD_NICE) rsync --recursive --delete --inplace --links --safe-links --exclude .svn
 CMD_PYTHON = python
 
 ANY2DOS = | xargs $(CMD_PYTHON) framework/tool/modules/textutil.py --command any2Dos

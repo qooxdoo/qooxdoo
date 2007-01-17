@@ -42,6 +42,7 @@ exec-script-source:
 	  $(COMPUTED_CLASS_PATH) \
 	  $(COMPUTED_CLASS_URI) \
 	  --generate-source-script \
+	  $(COMPUTED_TEMPLATE) \
 	  --source-script-file $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/$(APPLICATION_SCRIPT_FILENAME) \
 	  --define-runtime-setting $(FRAMEWORK_NAMESPACE).manager.object.AliasManager.resourceUri:$(FRAMEWORK_SOURCE_URI)/resource \
 	  $(COMPUTED_SOURCE_INCLUDE) \
