@@ -147,9 +147,9 @@ qx.Proto.getValue = function(columnIndex, rowIndex)
 qx.Proto.addNode = function(type,
                             parentNodeId,
                             labelHtml,
+                            expanded,
                             icon,
-                            iconSelected,
-                            expanded)
+                            iconSelected)
 {
   var parentNode;
 
