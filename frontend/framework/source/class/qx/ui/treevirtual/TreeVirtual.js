@@ -54,3 +54,48 @@ qx.Proto.setDataWidth = function(width)
 {
   this.setColumnWidth(0, width);
 };
+
+
+/**
+ * Event handler. Called when a key was pressed.
+ *
+ * We handle the Enter key to toggle expanded/contracted tree state.  All
+ * other keydown events are passed to our superclass.
+ *
+ * @param evt {Map} the event.
+ */
+qx.Proto._onkeydown = function(evt)
+{
+  var identifier = evt.getKeyIdentifier();
+
+  var consumed = false;
+  if (evt.getModifiers() == 0)
+  {
+    switch (identifier)
+    {
+    case "Enter":
+      var node = this.getTableModel().getValue(this.getFocusedColumn(),
+                                               this.getFocusedRow());
+      if (node.expanded == true || node.expanded == false)
+      {
+        node.expanded = ! node.expanded;
+        this.getTableModel().setData(null);
+      }
+      consumed = true;
+      break;
+    }
+  }
+
+  // Was this one of our events that we handled?
+  if (consumed)
+  {
+    // Yup.  Don't propagate it.
+    evt.preventDefault();
+    evt.stopPropagation();
+  }
+  else
+  {
+    // It's not one of ours.  Let our superclass handle this event
+    qx.ui.table.Table.prototype._onkeydown.call(this, evt);
+  }
+};
