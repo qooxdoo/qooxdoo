@@ -19,6 +19,7 @@
 /* ************************************************************************
 
 #module(ui_popup)
+#optional(qx.ui.popup.ToolTip)
 
 ************************************************************************ */
 
@@ -53,6 +54,10 @@ qx.Proto.update = function(vTarget)
     vPopup = vAll[vHashCode];
 
     if(!vPopup.getAutoHide() || vTarget == vPopup || vPopup.contains(vTarget)) {
+      continue;
+    }
+
+    if (qx.OO.isAvailable("qx.ui.popup.ToolTip") && vTarget instanceof qx.ui.popup.ToolTip && !(vPopup instanceof qx.ui.popup.ToolTip)) {
       continue;
     }
 
