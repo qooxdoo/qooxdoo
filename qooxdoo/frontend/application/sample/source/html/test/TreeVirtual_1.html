@@ -39,31 +39,49 @@
     // tree data model
     var dataModel = tree.getDataModel();
 
-    var nodeId;
-
-    nodeId =
+    var te1 =
       dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
-                        null,
-                        "My Root",
-                        "icon/16/folder.png",     
-                        "icon/16/folder_open.png",
-                        true);
+                        null, "Desktop", true);
 
-    nodeId = 
+    var te1_1 = 
       dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
-                        nodeId,
-                        "A sub-folder",
-                        "icon/16/folder.png",     
-                        "icon/16/folder_open.png",
-                        true);
+                        te1, "Files", true);
+    var te1_2 = 
+      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
+                        te1, "Workspace", true);
+    var te1_3 = 
+      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
+                        te1, "Network", true);
+    var te1_4 = 
+      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
+                        te1, "Trash", true);
 
-    nodeId = 
+    var te1_2_1 = 
       dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF,
-                        nodeId,
-                        "Third-level leaf",
-                        "icon/16/file-new.png",     
-                        "icon/16/file-open.png",
-                        false);
+                        te1_2, "Windows (C:)", false);
+    var te1_2_2 = 
+      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF,
+                        te1_2, "Documents (D:)", false);
+
+    var te2 = 
+      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
+                        null, "Inbox", true);
+
+    var te2_1 = 
+      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
+                        te2, "Presets", true);
+    var te2_2 = 
+      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
+                        te2, "Sent", true);
+    var te2_3 = 
+      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
+                        te2, "Trash", true);
+    var te2_4 = 
+      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
+                        te2, "Data", true);
+    var te2_5 = 
+      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
+                        te2, "Edit", true);
 
     dataModel.setData(null);
   });
