@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import os
 import sys
 import shutil
@@ -6,23 +8,24 @@ import optparse
 
 
 def copy_file(kde, fd, options):
-	img_sizes = [16, 22, 32, 48, 64, 128]
+  img_sizes = [16, 22, 32, 48, 64, 128]
 
-	for size in img_sizes:
-		print ">>> %s" % size
+  for size in img_sizes:
+    print ">>> %s" % size
 
-		kde_file = "%s/%sx%s/%s.png" % (options.input, size, size, kde)
-		fd_file = "%s/%sx%s/%s.png" % (options.output, size, size, fd)
+    kde_file = "%s/%sx%s/%s.png" % (options.input, size, size, kde)
+    fd_file = "%s/%sx%s/%s.png" % (options.output, size, size, fd)
 
-		if os.path.exists(kde_file):
-		  fd_dir = os.path.dirname(fd_file)
-			if not os.path.exists(fd_dir):
-				os.makedirs(fd_dir)
+    if os.path.exists(kde_file):
+      fd_dir = os.path.dirname(fd_file)
 
-		  if options.verbose:
-			  print "  - Copy %s -> %s" % (kde_file, fd_file)
+      if not os.path.exists(fd_dir):
+        os.makedirs(fd_dir)
 
-			shutil.copyfile(kde_file, fd_file)
+      if options.verbose:
+        print "  - Copy %s -> %s" % (kde_file, fd_file)
+
+      shutil.copyfile(kde_file, fd_file)
 
 
 
@@ -35,21 +38,28 @@ def main():
 
   (options, args) = parser.parse_args(sys.argv[1:])
 
-	dat = open("data/freedesktop_kde.dat")
+  if options.input == None or options.output == None:
+    basename = os.path.basename(sys.argv[0])
+    print "You must define at least one script input directory!"
+    print "usage: %s [options]" % basename
+    print "Try '%s -h' or '%s --help' to show the help message." % (basename, basename)
+    sys.exit(1)
 
-	for line in dat.readlines():
-		line = line.strip();
+  dat = open("data/freedesktop_kde.dat")
 
-		if line == "" or line[0] == "#":
-		  continue
+  for line in dat.readlines():
+    line = line.strip();
 
-		if not line[0] in ["+", "*"]:
-		  continue
+    if line == "" or line[0] == "#":
+      continue
 
-		line = line[1:]
+    if not line[0] in ["+", "*"]:
+      continue
 
-		(fd, kde) = map(lambda x: x.strip(), line.split("="))
-		copy_file(kde, fd, options)
+    line = line[1:]
+
+    (fd, kde) = map(lambda x: x.strip(), line.split("="))
+    copy_file(kde, fd, options)
 
 
 
