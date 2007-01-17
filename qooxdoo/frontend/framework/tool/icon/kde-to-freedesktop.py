@@ -8,7 +8,6 @@ import optparse
 def rmgeneric(path, __func__):
   try:
     __func__(path)
-    # print 'Removed ', path
   except OSError, (errno, strerror):
     print ERROR_STR % {'path' : path, 'error': strerror }
 
@@ -86,7 +85,7 @@ def main():
   print ">>> Cleaning up..."
   removeall(options.output)
 
-  dat = open("data/freedesktop_kde.dat")
+  dat = open("%s/data/freedesktop_kde.dat" % os.path.dirname(sys.argv[0]))
 
   print ">>> Copying files..."
   for line in dat.readlines():
