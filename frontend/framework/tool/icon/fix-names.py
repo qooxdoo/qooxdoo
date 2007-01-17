@@ -26,7 +26,7 @@ def get_migration_patch(qx_to_tango_map, qx_not_in_tango, qx_in_tango_without_im
 	for qx in qx_to_tango_map:
 		re += "\\b%s\\.png[\\\"\\']=%s.png\"\n" % (qx, qx_to_tango_map[qx])
 	return re
-		
+
 
 def get_migration_info(qx_to_tango_map, qx_not_in_tango, qx_in_tango_without_image, qx_icon_path, tango_icon_path):
 	re = ""
@@ -39,7 +39,7 @@ def get_migration_info(qx_to_tango_map, qx_not_in_tango, qx_in_tango_without_ima
 		re += "\\b%s\\.png[\\\"\\']=The image '%s.png' should be renamed to '%s' but currently no tango icon exists!\n" % (qx, qx, qx_in_tango_without_image[qx])
 
 	return re
-		
+
 
 def get_html(qx_to_tango_map, qx_not_in_tango, qx_in_tango_without_image, qx_icon_path, tango_icon_path):
 	html = """
@@ -60,7 +60,7 @@ def get_html(qx_to_tango_map, qx_not_in_tango, qx_in_tango_without_image, qx_ico
 		tango = qx_to_tango_map[qx]
 		rows += "<tr><td><img src='%s/%s.png'></img>%s</td><td><img src='%s/%s.png'></img>%s</td></tr>\n" % (qx_icon_path, qx, qx, tango_icon_path, tango, tango)
 	qx_to_tango_table = qx_to_tango_table % rows
-		
+
 	no_tango_icon_table = """
 	<h2>qoxxdoo images tango equivalent but no tango icon</h2>
 	<table>
@@ -75,7 +75,7 @@ def get_html(qx_to_tango_map, qx_not_in_tango, qx_in_tango_without_image, qx_ico
 	no_tango_list = "<h2>qoxxdoo images without tango equivalent</h2>"
 	for qx in qx_not_in_tango:
 		no_tango_list += "<img src='%s/%s.png'></img>%s<br>\n" % (qx_icon_path, qx, qx)
-		
+
 	return html % (qx_to_tango_table + no_tango_icon_table + no_tango_list)
 
 def print_migration(qx_to_tango_map, qx_not_in_tango, qx_in_tango_without_image):
@@ -90,15 +90,15 @@ def fix_names(qx_icon_path, tango_icon_path):
 	qx_to_tango_map = {}
 	qx_not_in_tango = []
 	qx_in_tango_without_image = {}
-	
-	lines = open("qooxdoo_freedesktop.dat").readlines()
+
+	lines = open("data/qooxdoo_freedesktop.dat").readlines()
 	for line in lines:
 		line = line.strip();
 		if line == "" or line[0] == "#": continue
-		if not "=" in line: 
+		if not "=" in line:
 			qx_not_in_tango.append(qx)
 			continue
-			
+
 		(qx, tango) = map(lambda x: x.strip(), line.split("="))
 
 		if os.path.exists(os.path.join(tango_icon_path, tango + ".png")):
@@ -120,7 +120,7 @@ def main(argv=None):
             opts, args = getopt.getopt(argv[1:], "ho:v", ["help", "output="])
         except getopt.error, msg:
             raise Usage(msg)
-    
+
         # option processing
         for option, value in opts:
             if option == "-v":
@@ -138,7 +138,7 @@ def main(argv=None):
         print get_html(qx_to_tango_map, qx_not_in_tango, qx_in_tango_without_image, qx_icon_path, tango_icon_path)
         #print get_migration_info(qx_to_tango_map, qx_not_in_tango, qx_in_tango_without_image, qx_icon_path, tango_icon_path)
         #print get_migration_patch(qx_to_tango_map, qx_not_in_tango, qx_in_tango_without_image, qx_icon_path, tango_icon_path)
-        
+
     except Usage, err:
         print >> sys.stderr, sys.argv[0].split("/")[-1] + ": " + str(err.msg)
         print >> sys.stderr, "\t for help use --help"

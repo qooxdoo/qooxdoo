@@ -18,17 +18,16 @@ def main():
 	kde_to_fd = {}
 	kde_path = "kde/nuvola"
 	fd_path = "fd/nuvola"
-	dat = open("freedesktop_kde.dat")
+	dat = open("data/freedesktop_kde.dat")
 	for line in dat.readlines():
 		line = line.strip();
 		if line == "" or line[0] == "#": continue
 		if not line[0] in ["+", "*"]: continue
 		line = line[1:]
-		
+
 		(fd, kde) = map(lambda x: x.strip(), line.split("="))
 		kde_to_fd[kde] = fd
 		copy_file(kde, fd, kde_path, fd_path)
-		
 
 if __name__ == "__main__":
     sys.exit(main())
