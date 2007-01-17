@@ -65,7 +65,7 @@ qx.Proto.main = function(e)
   this._createPage(barView, "List",             "icon/32/view-detailed.png",    this._createListDemo(), "threedface");
   this._createPage(barView, "ListView",         "icon/32/view-multicolumn.png", this._createListViewDemo(), "threedface");
   this._createPage(barView, "Table",            "icon/32/view-multicolumn.png", this._createTableDemo(), "threedface", true);
-  this._createPage(barView, "Localization",     "icon/32/babelfish.png",        this._createLocalizationDemo(), "threedface");
+  this._createPage(barView, "Localization",     "icon/32/toys.png",        this._createLocalizationDemo(), "threedface");
   this._createPage(barView, "Native Window",    "icon/32/display.png",          this._createNativeWindowDemo(), "threedface");
   this._createPage(barView, "Internal Window",  "icon/32/look-and-feel.png",    this._createInternalWindowDemo(), null, true);
   this._createPage(barView, "Themes",           "icon/32/style.png",            this._createThemesDemo());
@@ -218,11 +218,11 @@ qx.Proto._createTooltipDemo = function() {
   c2.setToolTip(new qx.ui.popup.ToolTip("Images are also possible", "icon/16/help.png"));
   main.add(c2);
 
-  var c3 = new qx.ui.basic.Atom("Hover me", "icon/32/penguin.png");
+  var c3 = new qx.ui.basic.Atom("Hover me", "icon/32/pipe.png");
   c3.setPadding(5);
   c3.setBorder(qx.renderer.border.BorderPresets.getInstance().outset);
   c3.setBackgroundColor(new qx.renderer.color.Color("#D1A4AD"));
-  var tip3 = new qx.ui.popup.ToolTip('Such a great tooltip with a show timeout of 50ms.<br>And <b>H</b><span style="color:red">T</span><i>M</i><u>L</u>', "icon/32/penguin.png");
+  var tip3 = new qx.ui.popup.ToolTip('Such a great tooltip with a show timeout of 50ms.<br>And <b>H</b><span style="color:red">T</span><i>M</i><u>L</u>', "icon/32/pipe.png");
   tip3.setShowInterval(50);
   c3.setToolTip(tip3);
   main.add(c3);
@@ -534,9 +534,9 @@ qx.Proto._createTabDemo = function() {
   p2_2.add(t2_2);
   p2_3.add(t2_3);
 
-  var b2_1 = new qx.ui.form.Button("Search", "icon/16/search.png");
-  var b2_2 = new qx.ui.form.Button("Search", "icon/16/search.png");
-  var b2_3 = new qx.ui.form.Button("Search", "icon/16/search.png");
+  var b2_1 = new qx.ui.form.Button("Search", "icon/16/find.png");
+  var b2_2 = new qx.ui.form.Button("Search", "icon/16/find.png");
+  var b2_3 = new qx.ui.form.Button("Search", "icon/16/find.png");
 
   b2_1.set({ top: 0, left: 150 });
   b2_2.set({ top: 0, left: 150 });
@@ -644,7 +644,7 @@ qx.Proto._createTreeDemo = function() {
 
   var te2_1 = new qx.ui.tree.TreeFolder("Presets");
   var te2_2 = new qx.ui.tree.TreeFolder("Sent");
-  var te2_3 = new qx.ui.tree.TreeFolder("Trash", "icon/16/trash.png", "icon/16/trash.png");
+  var te2_3 = new qx.ui.tree.TreeFolder("Trash", "icon/16/trashcan-empty.png", "icon/16/trashcan-empty.png");
   var te2_4 = new qx.ui.tree.TreeFolder("Data");
   var te2_5 = new qx.ui.tree.TreeFolder("Edit");
 
@@ -1380,7 +1380,7 @@ qx.Proto._createInternalWindowDemo = function() {
   w2.add(fs1);
 
   // Fill window 3
-  var btn1 = new qx.ui.form.Button("Open Modal Dialog 1", "icon/16/launch.png");
+  var btn1 = new qx.ui.form.Button("Open Modal Dialog 1", "icon/16/find.png");
   btn1.setLocation(4, 4);
   w3.add(btn1);
 
@@ -1389,7 +1389,7 @@ qx.Proto._createInternalWindowDemo = function() {
   });
 
   // Fill modal window 1
-  var btn2 = new qx.ui.form.Button("Open Modal Dialog 2", "icon/16/launch.png");
+  var btn2 = new qx.ui.form.Button("Open Modal Dialog 2", "icon/16/find.png");
   btn2.setLocation(4, 4);
   wm1.add(btn2);
 
@@ -1485,7 +1485,7 @@ qx.Proto._createThemesDemo = function() {
   main.setPadding(10);
   main.set({ width:"auto", height:"auto" });
 
-  var openThemeWinBt = new qx.ui.form.Button("Open theming window", "icon/16/launch.png");
+  var openThemeWinBt = new qx.ui.form.Button("Open theming window", "icon/16/find.png");
   openThemeWinBt.addEventListener("execute", function(e) {
     win.open();
 
