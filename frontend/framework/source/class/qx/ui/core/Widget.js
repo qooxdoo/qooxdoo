@@ -1763,6 +1763,15 @@ else
         }
       }
 
+      for (var i in this._htmlProperties)
+      {
+        switch(i)
+        {
+          case "unselectable":
+            cl.unselectable = this._htmlProperties[i];
+        }
+      }
+
       // Move existing children
       while(el.firstChild) {
         cl.appendChild(el.firstChild);
