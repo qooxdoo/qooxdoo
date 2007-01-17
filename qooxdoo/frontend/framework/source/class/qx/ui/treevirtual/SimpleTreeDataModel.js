@@ -181,6 +181,9 @@ qx.Proto.addNode = function(type,
     throw new Error("Attempt to display a LEAF expanded");
   }
 
+  // Determine the node id of this new node
+  var nodeId = this._nodeArr.length;
+
   // Set the data for this node.
   var node =
     {
@@ -192,9 +195,6 @@ qx.Proto.addNode = function(type,
       iconSelected : iconSelected,
       children     : { }
     };
-
-  // Determine the node id of this new node
-  var nodeId = this._nodeArr.length;
 
   // Add this node to the array
   this._nodeArr.push(node);
