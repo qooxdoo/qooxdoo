@@ -456,7 +456,7 @@ qx.Proto.debugObject = function(obj, initialMessage)
   {
     this.debug(initialMessage);
   }
-  
+
   displayObj(obj, 0);
 };
 
