@@ -127,6 +127,34 @@ framework-fix:
 
 
 ###################################################################################
+# MIGRATION TARGETS
+###################################################################################
+
+
+checkout-migration:
+	@echo
+	@echo "****************************************************************************"
+	@echo "  MIGRATE CHECKOUT"
+	@echo "****************************************************************************"
+	@if [ 1 ]; then \
+	  migrate_options="--class-path framework/source/class --migration-input application/sample/source/html/"; \
+	  for APPLICATION in $(APPLICATIONS); do \
+	    if [ -d application/$$APPLICATION/source/class ]; then \
+	      migrate_options="$${migrate_options} --class-path application/$$APPLICATION/source/class"; \
+	    fi; \
+	  done; \
+	  $(CMD_GENERATOR) \
+	    --migrate-source --migration-target `echo $(VERSION) | cut -d'-' -f1` \
+	    $${migrate_options}; \
+	 fi;
+
+
+
+
+
+
+
+###################################################################################
 # SKELETON TARGETS
 ###################################################################################
 
