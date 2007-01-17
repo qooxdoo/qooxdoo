@@ -231,7 +231,7 @@ qx.Proto.setData = function(nodeArr)
 {
   if (nodeArr instanceof Array)
   {
-    // Save the user-supplied data.  
+    // Save the user-supplied data.
     this._nodeArr = nodeArr;
   }
   else if (nodeArr !== null)
@@ -259,7 +259,7 @@ qx.Proto._render = function()
   var inorder = function(nodeId, level)
   {
     var child = null;
-    
+
     // For each child of the specified node...
     for (var childNodeId in _this._nodeArr[nodeId].children)
     {
@@ -306,7 +306,7 @@ qx.Proto._render = function()
         firstColumn     : 0,
         lastColumn      : this.getColumnCount() - 1
       };
-    
+
     this.dispatchEvent(new qx.event.type.DataEvent(
                          qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED,
                          data),

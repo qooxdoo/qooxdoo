@@ -158,7 +158,7 @@ qx.Proto._getIndentSymbol = function(column, node, bUseTreeLines)
 
   // Is this a branch node?
   if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH)
-  {  
+  {
     // Determine if this node has any children
     var child = null;
     for (child in node.children)
@@ -192,7 +192,7 @@ qx.Proto._getIndentSymbol = function(column, node, bUseTreeLines)
                  : this.WIDGET_TREE_URI + "cross_plus.gif"));
     }
   }
-  
+
   // This node does not have any children.  Return an end or cross, if we're
   // using tree lines.
   if (bUseTreeLines)
