@@ -152,12 +152,6 @@
 +actions/view-restore = actions/window_nofullscreen
 -actions/view-sort-ascending
 -actions/view-sort-descending
-*actions/view-pane-bottom = actions/view_bottom
-*actions/view-pane-right = actions/view_right
-*actions/view-pane-left-right = actions/view_left_right
-*actions/view-pane-top-bottom = actions/view_top_bottom
-*actions/view-pane-choose = actions/view_choose
-*actions/view-pane-remove = actions/view_remove
 *actions/view-type-detailed = actions/view_detailed
 *actions/view-type-icon = actions/view_icon
 *actions/view-type-text = actions/view_text
