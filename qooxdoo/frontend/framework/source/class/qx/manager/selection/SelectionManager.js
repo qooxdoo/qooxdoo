@@ -1015,7 +1015,7 @@ qx.Proto.handleKeyDown = function(vDomEvent) {
 /**
  * Handles key event to perform selection and navigation
  *
- * @param vDomEvent (qx.event.type.KeyEvent) event object
+ * @param vDomEvent {qx.event.type.KeyEvent} event object
  */
 qx.Proto.handleKeyPress = function(vDomEvent)
 {

@@ -209,7 +209,7 @@ qx.Class.marktr = function(messageId) {
  * Translate a message using the current locale and apply format string to the arguments.
  *
  * @param messageId {String} message id (may contain format strings)
- * @param args (Object[]) array of objects, which are inserted into the format string.
+ * @param args {Object[]} array of objects, which are inserted into the format string.
  * @param locale {String} optional locale to be used for translation
  * @return {String} translated message.
  */

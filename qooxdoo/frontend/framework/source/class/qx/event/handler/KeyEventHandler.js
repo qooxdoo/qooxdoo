@@ -214,8 +214,8 @@ qx.Proto._charCode9 = "9".charCodeAt(0);
 /**
  * Checks wether the keyCode represents a non printable key
  *
- * @param keyCode (string)
- * @return (boolean)
+ * @param keyCode {String}
+ * @return {Boolean}
  */
 qx.Proto._isNonPrintableKeyCode = function(keyCode) {
   return this._keyCodeToIdentifierMap[keyCode] ? true : false;
@@ -225,8 +225,8 @@ qx.Proto._isNonPrintableKeyCode = function(keyCode) {
 /**
  * Check wether the keycode can be reliably detected in keyup/keydown events
  *
- * @param keyCode (string)
- * @return (boolean)
+ * @param keyCode {String}
+ * @return {Boolean}
  */
 qx.Proto._isIdentifiableKeyCode = function(keyCode)
 {
@@ -262,8 +262,8 @@ qx.Proto._isIdentifiableKeyCode = function(keyCode)
 /**
  * Checks wether a given string is a valid keyIdentifier
  *
- * @param keyIdentifier (string)
- * @return (boolean) wether the given string is a valid keyIdentifier
+ * @param keyIdentifier {String}
+ * @return {Boolean} wether the given string is a valid keyIdentifier
  */
 qx.Proto.isValidKeyIdentifier = function(keyIdentifier)
 {
@@ -300,8 +300,8 @@ qx.Proto.isValidKeyIdentifier = function(keyIdentifier)
 /**
  * converts a keyboard code to the corresponding identifier
  *
- * @param keyCode (int)
- * @return (string) key identifier
+ * @param keyCode {Integer}
+ * @return {String} key identifier
  */
 qx.Proto._keyCodeToIdentifier = function(keyCode)
 {
@@ -328,8 +328,8 @@ qx.Proto._keyCodeToIdentifier = function(keyCode)
 /**
  * converts a character code to the corresponding identifier
  *
- * @param charCode (string)
- * @return (string) key identifier
+ * @param charCode {String}
+ * @return {String} key identifier
  */
 qx.Proto._charCodeToIdentifier = function(charCode) {
   return this._specialCharCodeMap[charCode] || String.fromCharCode(charCode).toUpperCase();
@@ -339,8 +339,8 @@ qx.Proto._charCodeToIdentifier = function(charCode) {
 /**
  * converts a key identifier back to a keycode
  *
- * @param keyIdentifier (string)
- * @return (int) keyboard code
+ * @param keyIdentifier {String}
+ * @return {Integer} keyboard code
  */
 qx.Proto._identifierToKeyCode = function(keyIdentifier) {
   return this._identifierToKeyCodeMap[keyIdentifier] || keyIdentifier.charCodeAt(0);
@@ -363,10 +363,10 @@ qx.Proto._identifierToKeyCode = function(keyIdentifier) {
  * Key handler for an idealized browser.
  * Runs after the browser specific key handlers have normalized the key events.
  *
- * @param keyCode (string) keyboard code
- * @param charCode (string) character code
- * @param eventType (string) type of the event (keydown, keypress, keyup)
- * @param domEvent (Element) DomEvent
+ * @param keyCode {String} keyboard code
+ * @param charCode {String} character code
+ * @param eventType {String} type of the event (keydown, keypress, keyup)
+ * @param domEvent {Element} DomEvent
  */
 qx.Proto._idealKeyHandler = function(keyCode, charCode, eventType, domEvent)
 {
@@ -479,7 +479,7 @@ else if (qx.core.Client.getInstance().isGecko())
   /**
    * key handler for Gecko
    *
-   * @param domEvent (Element) DomEvent
+   * @param domEvent {Element} DomEvent
    */
   qx.Proto._onkeyupdown = qx.Proto._onkeypress = function(domEvent)
   {

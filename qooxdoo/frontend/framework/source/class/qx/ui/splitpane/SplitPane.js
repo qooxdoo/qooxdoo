@@ -179,7 +179,7 @@ qx.OO.addProperty({ name : "splitterSize", defaultValue : 4 });
 /**
  * adds one or more widget(s) to the left pane
  *
- *@param widget (qx.ui.core.Parent)
+ *@param widget {qx.ui.core.Parent}
  */
 qx.Proto.addLeft = function() {
   var c = this.getFirstArea();
@@ -189,7 +189,7 @@ qx.Proto.addLeft = function() {
 /**
  * adds one or more widget(s) to the top pane
  *
- *@param widget (qx.ui.core.Parent)
+ *@param widget {qx.ui.core.Parent}
  */
 qx.Proto.addTop = function() {
   var c = this.getFirstArea();
@@ -199,7 +199,7 @@ qx.Proto.addTop = function() {
 /**
  * adds one or more widget(s) to the right pane
  *
- *@param widget (qx.ui.core.Parent)
+ *@param widget {qx.ui.core.Parent}
  */
 qx.Proto.addRight = function() {
   var c = this.getSecondArea();
@@ -209,7 +209,7 @@ qx.Proto.addRight = function() {
 /**
  * adds one or more widget(s) to the bottom pane
  *
- *@param widget (qx.ui.core.Parent)
+ *@param widget {qx.ui.core.Parent}
  */
 qx.Proto.addBottom = function() {
   var c = this.getSecondArea();

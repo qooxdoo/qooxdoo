@@ -56,14 +56,14 @@ qx.Proto.clear = function() {}
 /**
  * Returns the contents of the concatenated string
  *
- * @return (string) string content
+ * @return {String} string content
  */
 qx.Proto.get = function() {}
 
 /**
  * Append a variable number of string arguments
  *
- * @param varargs (string) variable number os strings to be added
+ * @param varargs {String} variable number os strings to be added
  */
 qx.Proto.add = function(varargs) {}
 
@@ -79,7 +79,7 @@ qx.Proto.dispose = function() {}
 /**
  * Returns the contents of the concatenated string
  *
- * @return (string) string content
+ * @return {String} string content
  */
 qx.Proto.toString = function() {}
 
