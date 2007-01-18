@@ -11,34 +11,34 @@ attach = actions/mail-message-attach
 back = actions/go-previous
 background = apps/preferences-desktop-wallpaper
 bell
-bitmapgraphics = mimetypes/image-x-generic
+bitmapgraphics = apps/graphic-draw
 bookmark-add = actions/bookmark-add
 bookmark-folder
 bookmark-toolbar
-bookmark = emblems/emblem-favorite
+bookmark
 bug
 button-cancel = actions/dialog-cancel
 button-ok = actions/dialog-ok
 cache
 calculator = apps/accessories-calculator
 camera = devices/camera-photo
-cancel = actions/dialog-cancel
+cancel
 cdrom = devices/media-optical
 char-device = places/special-chardevice
-chart = mimetypes/x-office-spreadsheet
-clipboard = actions/edit-paste
+chart = apps/office-chart
+clipboard
 clock = apps/accessories-clock
 color-fill = actions/edit-color-fill
 color-line = actions/edit-color-line
 colors = apps/preferences-desktop-theme-color
-configure = apps/preferences-system
+configure = actions/edit-configure
 connect-creating = actions/connection-creating
 connect-established = actions/connection-established
 connect-no = actions/connection-disconneced
 control-center = apps/preferences-system
 cookie
 core
-date = mimetypes/x-office-calendar
+date = apps/accessories-date
 decrypted = actions/edit-decrypted
 desktop = places/user-desktop
 devices = devices/drive-harddisk
@@ -52,9 +52,9 @@ edit-paste = actions/edit-paste
 edit
 editor = apps/accessories-text-editor
 email = apps/internet-mail
-encrypted = status/document-encrypted
-energy = devices/battery
-error = status/dialog-error
+encrypted = mimetypes/encrypted-x-generic
+energy
+error
 exec
 exit = actions/application-exit
 file-manager = apps/system-file-manager
@@ -78,28 +78,28 @@ graphics = categories/applications-graphics
 harddrive = devices/drive-harddisk
 hardware-info
 help-center = apps/help-browser
-help = apps/help-browser
+help
 history-clear = actions/history-clear
 history = actions/history
 home = actions/go-home
-icons = apps/preferences-desktop-theme-icon
+icons
 iconthemes = apps/preferences-desktop-theme-icon
-important = status/dialog-warning
-info = status/dialog-information
+important = emblems/emblem-important
+info
 joystick = devices/input-gaming
 keyboard-layout = apps/preferences-desktop-keyboard-layout
 locale = apps/preferences-desktop-locale
 look-and-feel = apps/preferences-desktop-theme
-magnifier = actions/system-search
+magnifier = actions/zoom
 mail-delete = actions/mail-message-delete
 mail-find = actions/mail-find
 mail-forward = actions/mail-forward
-mail-get = actions/mail-send-receive
+mail-get = actions/mail-receive
 mail-new = actions/mail-message-new
 mail-reply-all = actions/mail-reply-all
 mail-reply = actions/mail-reply-sender
 mail-send = actions/mail-send
-mail = apps/internet-mail
+mail
 memory = devices/memory
 mime-archive = mimetypes/package-x-generic
 mime-binary = mimetypes/application-x-executable
@@ -112,30 +112,30 @@ mime-image = mimetypes/image-x-generic
 mime-manual
 mime-multimedia = mimetypes/audio-x-generic
 mime-pdf = mimetypes/x-office-pdf
-mime-quicktime = mimetypes/video-x-generic
-mime-rpm = mimetypes/package-x-generic
-mime-script = mimetypes/text-x-script
+mime-quicktime = mimetypes/video-x-quicktime
+mime-rpm
+mime-script
 mime-shellscript = mimetypes/text-x-script
-mime-sourcecode = mimetypes/text-x-generic
+mime-sourcecode
 mime-spreadsheet = mimetypes/x-office-spreadsheet
 mime-text = mimetypes/text-x-generic
 mime-video = mimetypes/video-x-generic
-misc = emblems/emblem-system
-mixer = devices/audio-card
+misc
+mixer = apps/multimedia-volume-control
 modem = devices/modem
 mouse = devices/input-mouse
-movieplayer = categories/applications-multimedia
+movieplayer
 multimedia = categories/applications-multimedia
 mycomputer = devices/computer
-netscape = apps/internet-web-browser
+netscape = mimetypes/text-html
 network = categories/applications-internet
-no = actions/dialog-cancel
+no
 notes = apps/accessories-notes
-notify = mimetypes/audio-x-generic
+notify
 ok = actions/dialog-ok
-opera = apps/internet-web-browser
+opera = apps/internet-browser-opera
 organizer = apps/office-organizer
-paint = categories/applications-graphics
+paint = apps/graphic-draw
 partitions
 password = status/dialog-password
 pda = devices/handheld
@@ -145,16 +145,16 @@ printer = devices/printer
 queue
 redo = actions/edit-redo
 reload = actions/view-refresh
-rotate = actions/object-rotate-right
+rotate = actions/object-rotate
 run = actions/system-run
 scanner = devices/scanner
-services = emblems/emblem-system
-settings = apps/preferences-system
+services
+settings = categories/applications-settings
 signature = actions/tools-signature
 spellcheck = actions/tools-check-spelling
-stop = actions/media-playback-stop
-style = apps/preferences-system-windows
-system = apps/preferences-system
+stop
+style
+system
 tab-duplicate = actions/tab-duplicate
 tab-new-raised = actions/tab-new
 tab-new = actions/tab-new
@@ -186,6 +186,6 @@ viewmag-fit = actions/zoom-best-fit
 viewmag-minus = actions/zoom-out
 viewmag-original = actions/zoom-original
 viewmag-plus = actions/zoom-in
-viewmag = actions/system-search
+viewmag = actions/zoom
 wizard = apps/wizard
-wordprocessor = mimetypes/x-office-document
+wordprocessor = apps/office-wordprocessing

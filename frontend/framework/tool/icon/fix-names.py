@@ -24,19 +24,19 @@ class Usage(Exception):
 def get_migration_patch(qx_to_tango_map, qx_not_in_tango, qx_in_tango_without_image, qx_icon_path, tango_icon_path):
 	re = ""
 	for qx in qx_to_tango_map:
-		re += "\\b%s\\.png[\\\"\\']=%s.png\"\n" % (qx, qx_to_tango_map[qx])
+		re += "\\b%s\\.png([\\\"\\'])=%s.png\\1\n" % (qx, qx_to_tango_map[qx])
 	return re
 
 
 def get_migration_info(qx_to_tango_map, qx_not_in_tango, qx_in_tango_without_image, qx_icon_path, tango_icon_path):
 	re = ""
 	for qx in qx_not_in_tango:
-		re += "\\b%s\\.png[\\\"\\']=The image '%s.png' is no longer supported!\n" % (qx, qx)
+		re += "\\b%s\\.png[\\\"\\']=The image '%s.png' is no longer supported! try to use a different icon.\n" % (qx, qx)
 
 	re += "\n"
 
 	for qx in qx_in_tango_without_image:
-		re += "\\b%s\\.png[\\\"\\']=The image '%s.png' should be renamed to '%s' but currently no tango icon exists!\n" % (qx, qx, qx_in_tango_without_image[qx])
+		re += "\\b%s\\.png[\\\"\\']=The image '%s.png' should be renamed to '%s' but currently no icon for the default icon set exists!\n" % (qx, qx, qx_in_tango_without_image[qx])
 
 	return re
 
@@ -96,10 +96,12 @@ def fix_names(qx_icon_path, tango_icon_path):
 		line = line.strip();
 		if line == "" or line[0] == "#": continue
 		if not "=" in line:
-			qx_not_in_tango.append(line.strip())
-			continue
-
-		(qx, tango) = map(lambda x: x.strip(), line.split("="))
+			#qx_not_in_tango.append(line.strip())
+			#continue
+			qx = line
+			tango = "qx/" + line
+		else:
+			(qx, tango) = map(lambda x: x.strip(), line.split("="))
 
 		if os.path.exists(os.path.join(tango_icon_path, tango + ".png")):
 			qx_to_tango_map[qx] = tango
