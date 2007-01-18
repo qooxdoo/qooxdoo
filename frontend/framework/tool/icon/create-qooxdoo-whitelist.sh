@@ -2,7 +2,7 @@
 
 echo ">>> Indexing themes..."
 mkdir -p temp
-echo "" > temp/fd_content_all.txt
+echo -n "" > temp/fd_content_all.txt
 COUNT=0
 for DIR in `find themes/fd -maxdepth 1 -mindepth 1 -type d ! -name archives -a ! -name .svn`
 do
@@ -12,6 +12,4 @@ do
   COUNT=$[$COUNT+1]
 done
 
-
-
-#cat temp/fd_content_all.txt | cut -d"/" -f2- | sort | uniq -c | grep "${COUNT} " | cut -d" " -f8 > data/qooxdoo_whitelist.dat
+cat temp/fd_content_all.txt | sort | uniq -c | grep "${COUNT} " | cut -d" " -f8 > data/qooxdoo_whitelist.dat
