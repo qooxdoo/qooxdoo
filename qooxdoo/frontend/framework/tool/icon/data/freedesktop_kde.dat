@@ -12,6 +12,7 @@
 -actions/dialog-close
 +actions/dialog-ok = actions/button_ok
 *actions/dialog-apply = actions/apply
+*actions/dialog-finish = actions/finish
 +actions/dialog-no = actions/no
 +actions/document-new = actions/filenew
 +actions/document-open = actions/fileopen
@@ -68,6 +69,10 @@
 +actions/go-up = actions/up
 *actions/go-back = actions/back
 *actions/go-forward = actions/forward
+*actions/go-left = actions/1leftarrow
+*actions/go-right = actions/1rightarrow
+*actions/go-up = actions/1uparrow
+*actions/go-down = actions/1downarrow
 +actions/help-about = actions/help
 +actions/help-contents = apps/help_index
 +actions/help-faq = apps/khelpcenter
