@@ -21,12 +21,17 @@
 
 ************************************************************************ */
 
-/*
+/**
  * A "virtual" tree
+ *
+ * @event treeOpenWithContent {qx.event.type.DataEvent}
+ * @event treeOpenWhileEmpty {qx.event.type.DataEvent}
+ * @event treeClose {qx.event.type.DataEvent}
  *
  * WARNING: This widget is in active development and the interface to it is
  *          very likely to change, possibly on a daily basis, for a while.  Do
  *          not use this widget yet.
+ *
  */
 qx.OO.defineClass("qx.ui.treevirtual.TreeVirtual", qx.ui.table.Table,
 function(heading)
@@ -80,15 +85,48 @@ qx.Proto.setAlwaysShowPlusMinusSymbol = function(b)
   dcr.setAlwaysShowPlusMinusSymbol(b);
 };
 
+
+/*
+ * Toggle the expanded state of the node: if the node is expanded, contract
+ * it; if it is contracted, expand it.
+ */
 qx.Proto.toggleExpanded = function(node)
 {
   // Ignore toggle request if 'expanded' is not a boolean (i.e. we've been
   // told explicitely not to display the expand/contract button).
-  if (node.expanded == true || node.expanded == false)
+  if (node.expanded !== true && node.expanded !== false)
   {
-    node.expanded = ! node.expanded;
-    this.getTableModel()._render();
+    return;
   }
+
+  // Are we expanding or contracting?
+  if (node.expanded)
+  {
+    // We're contracting.  If there are listeners, generate a treeClose event.
+    this.createDispatchDataEvent("treeClose", node);
+  }
+  else
+  {
+    // We're expanding.  Are there any children?
+    if (node.children.length > 0)
+    {
+      // Yup.  If there any listeners, generate a "treeOpenWithContent" event.
+      this.createDispatchDataEvent("treeOpenWithContent", node);
+    }
+    else
+    {
+      // No children.  If there are listeners, generate a "treeOpenWhileEmpty"
+      // event.
+      this.createDispatchDataEvent("treeOpenWhileEmpty", node);
+    }
+  }
+
+  // Toggle the state
+  node.expanded = ! node.expanded;
+
+  // Re-render the row data since formerly visible rows may now be invisible,
+  // or vice versa.
+  this.getTableModel()._render();
 };
 
 
