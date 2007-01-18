@@ -27,7 +27,7 @@ echo ">>> Finding differences..."
 diff temp/content_common_base.txt temp/content_assigned.txt > temp/content_assigned_diff.txt
 
 echo ">>> Unassigned images..."
-grep "^<" temp/content_assigned_diff.txt
+grep "^<" temp/content_assigned_diff.txt | cut -d" " -f2-
 
 echo ">>> Unavailable images (hopefully empty)..."
-grep "^>" temp/content_assigned_diff.txt
+grep "^>" temp/content_assigned_diff.txt | cut -d" " -f2-
