@@ -63,6 +63,7 @@
 128x128/devices/scanner.png
 128x128/devices/usb.png
 128x128/devices/video-display.png
+128x128/mimetypes/application-x-executable.png
 128x128/mimetypes/audio-x-generic.png
 128x128/mimetypes/empty-x-encrypted.png
 128x128/mimetypes/empty-x-generic.png
@@ -70,7 +71,6 @@
 128x128/mimetypes/empty-x-temporary.png
 128x128/mimetypes/font-x-generic.png
 128x128/mimetypes/image-x-generic.png
-128x128/mimetypes/mimetypes/application-x-executable.png
 128x128/mimetypes/package-x-generic.png
 128x128/mimetypes/text-html.png
 128x128/mimetypes/text-x-generic.png
@@ -234,6 +234,7 @@
 16x16/devices/scanner.png
 16x16/devices/usb.png
 16x16/devices/video-display.png
+16x16/mimetypes/application-x-executable.png
 16x16/mimetypes/audio-x-generic.png
 16x16/mimetypes/empty-x-encrypted.png
 16x16/mimetypes/empty-x-generic.png
@@ -241,7 +242,6 @@
 16x16/mimetypes/empty-x-temporary.png
 16x16/mimetypes/font-x-generic.png
 16x16/mimetypes/image-x-generic.png
-16x16/mimetypes/mimetypes/application-x-executable.png
 16x16/mimetypes/package-x-generic.png
 16x16/mimetypes/text-html.png
 16x16/mimetypes/text-x-generic.png
@@ -383,13 +383,13 @@
 22x22/devices/scanner.png
 22x22/devices/usb.png
 22x22/devices/video-display.png
+22x22/mimetypes/application-x-executable.png
 22x22/mimetypes/audio-x-generic.png
 22x22/mimetypes/empty-x-encrypted.png
 22x22/mimetypes/empty-x-generic.png
 22x22/mimetypes/empty-x-temporary.png
 22x22/mimetypes/font-x-generic.png
 22x22/mimetypes/image-x-generic.png
-22x22/mimetypes/mimetypes/application-x-executable.png
 22x22/mimetypes/package-x-generic.png
 22x22/mimetypes/text-html.png
 22x22/mimetypes/text-x-generic.png
@@ -544,6 +544,7 @@
 32x32/devices/scanner.png
 32x32/devices/usb.png
 32x32/devices/video-display.png
+32x32/mimetypes/application-x-executable.png
 32x32/mimetypes/audio-x-generic.png
 32x32/mimetypes/empty-x-encrypted.png
 32x32/mimetypes/empty-x-generic.png
@@ -551,7 +552,6 @@
 32x32/mimetypes/empty-x-temporary.png
 32x32/mimetypes/font-x-generic.png
 32x32/mimetypes/image-x-generic.png
-32x32/mimetypes/mimetypes/application-x-executable.png
 32x32/mimetypes/package-x-generic.png
 32x32/mimetypes/text-html.png
 32x32/mimetypes/text-x-generic.png
@@ -640,6 +640,7 @@
 48x48/devices/scanner.png
 48x48/devices/usb.png
 48x48/devices/video-display.png
+48x48/mimetypes/application-x-executable.png
 48x48/mimetypes/audio-x-generic.png
 48x48/mimetypes/empty-x-encrypted.png
 48x48/mimetypes/empty-x-generic.png
@@ -647,7 +648,6 @@
 48x48/mimetypes/empty-x-temporary.png
 48x48/mimetypes/font-x-generic.png
 48x48/mimetypes/image-x-generic.png
-48x48/mimetypes/mimetypes/application-x-executable.png
 48x48/mimetypes/package-x-generic.png
 48x48/mimetypes/text-html.png
 48x48/mimetypes/text-x-generic.png
@@ -735,6 +735,7 @@
 64x64/devices/scanner.png
 64x64/devices/usb.png
 64x64/devices/video-display.png
+64x64/mimetypes/application-x-executable.png
 64x64/mimetypes/audio-x-generic.png
 64x64/mimetypes/empty-x-encrypted.png
 64x64/mimetypes/empty-x-generic.png
@@ -742,7 +743,6 @@
 64x64/mimetypes/empty-x-temporary.png
 64x64/mimetypes/font-x-generic.png
 64x64/mimetypes/image-x-generic.png
-64x64/mimetypes/mimetypes/application-x-executable.png
 64x64/mimetypes/package-x-generic.png
 64x64/mimetypes/text-html.png
 64x64/mimetypes/text-x-generic.png

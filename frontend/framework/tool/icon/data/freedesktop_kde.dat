@@ -249,7 +249,7 @@
 -emotes/face-smirk
 -emotes/face-surprise
 -emotes/face-wink
-+mimetypes/mimetypes/application-x-executable = mimetypes/binary
++mimetypes/application-x-executable = mimetypes/binary
 +mimetypes/audio-x-generic = mimetypes/sound
 +mimetypes/font-x-generic = mimetypes/font
 +mimetypes/image-x-generic = mimetypes/image
