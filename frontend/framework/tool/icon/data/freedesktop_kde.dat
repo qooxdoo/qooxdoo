@@ -115,6 +115,7 @@
 *actions/mail-reply-list = actions/mail_replylist
 +actions/mail-send = actions/mail_send
 -actions/mail-send-receive
+*actions/mail-receive = actions/mail_get
 *actions/news-subscribe = actions/news_subscribe
 *actions/news-unsubscribe = actions/news_unsubscribe
 +actions/media-eject = actions/player_eject
@@ -157,6 +158,7 @@
 *actions/view-type-text = actions/view_text
 *actions/view-type-multicolumn = actions/view_multicolumn
 *actions/view-type-tree = actions/view_tree
+*actions/view-type-sidetree = actions/view_sidetree
 -actions/window-close
 +actions/window-new = actions/window_new
 +actions/zoom-best-fit = actions/viewmagfit
@@ -189,10 +191,11 @@
 +apps/preferences-desktop-screensaver = apps/kscreensaver
 +apps/preferences-desktop-theme = apps/looknfeel
 +apps/preferences-desktop-theme-icon = apps/iconthemes
++apps/preferences-desktop-theme-color = apps/colors
 +apps/preferences-desktop-theme-cursor = apps/mousecursor
 +apps/preferences-desktop-wallpaper = apps/background
 *apps/preferences-desktop-printer = actions/klpq
-+apps/system-file-manager = apps/konqueror
++apps/system-file-manager = apps/file-manager
 +apps/system-software-update = apps/kpackage
 +apps/utilities-system-monitor = apps/ksysguard
 +apps/utilities-terminal = apps/terminal
@@ -280,7 +283,7 @@
 -devices/network-wired
 -devices/network-wireless
 *devices/scsi = apps/kcmscsi
-+devices/printer = devices/printer
++devices/printer = devices/printer1
 +devices/scanner = devices/scanner
 +devices/video-display = apps/display
 *devices/tv = devices/tv
@@ -288,7 +291,7 @@
 -emblems/emblem-documents
 -emblems/emblem-downloads
 -emblems/emblem-favorite
--emblems/emblem-important
++emblems/emblem-important = apps/important
 -emblems/emblem-mail
 -emblems/emblem-photos
 -emblems/emblem-readonly
@@ -315,12 +318,13 @@
 +mimetypes/audio-x-generic = mimetypes/sound
 +mimetypes/font-x-generic = mimetypes/font
 +mimetypes/image-x-generic = mimetypes/image
-+mimetypes/package-x-generic = mimetypes/pk
++mimetypes/package-x-generic = mimetypes/tgz
 +mimetypes/text-html = mimetypes/html
 +mimetypes/text-x-generic = mimetypes/txt
 +mimetypes/text-x-generic-template = mimetypes/mime_empty
 +mimetypes/text-x-script = mimetypes/shellscript
 +mimetypes/video-x-generic = mimetypes/video
+*mimetypes/video-x-quicktime = mimetypes/quicktime
 +mimetypes/x-office-address-book = mimetypes/vcard
 +mimetypes/x-office-calendar = mimetypes/vcalendar
 +mimetypes/x-office-document = mimetypes/wordprocessing
@@ -414,3 +418,46 @@
 -status/weather-showers-scattered
 -status/weather-snow
 -status/weather-storm
+*qx/info = mimetypes/info
+*qx/style = apps/style
+*qx/bookmark = actions/bookmark
+*qx/misc = actions/misc
+*qx/error = apps/error
+*qx/services = apps/kservices
+*qx/view-sidetree = actions/view_sidetree
+*qx/applications = apps/package_applications
+*qx/bell = apps/bell
+*qx/bookmark-folder = actions/bookmark_folder
+*qx/bookmark-toolbar = actions/bookmark_toolbar
+*qx/bug = apps/bug
+*qx/cache = apps/cache
+*qx/cookie = apps/cookie
+*qx/core = mimetypes/core
+*qx/edit = actions/edit
+*qx/exec = filesystems/exec
+*qx/flowchart = apps/kivio
+*qx/folder-important = filesystems/folder_important
+*qx/hardware-info = apps/hwinfo
+*qx/mime-color = mimetypes/colorset
+*qx/mime-manual = mimetypes/man
+*qx/no = actions/no
+*qx/partitions = apps/kcmpartitions
+*qx/queue = actions/queue
+*qx/stop = actions/stop
+*qx/themes = apps/kthememgr
+*qx/user = apps/kuser
+*qx/misc = actions/misc
+*qx/bookmark = actions/bookmark
+*qx/style = apps/style
+*qx/help = actions/help
+*qx/mail = actions/mail_generic
+*qx/energy = apps/energy
+*qx/clipboard = apps/klipper
+*qx/notify = apps/knotify
+*qx/cancel = actions/cancel
+*qx/movieplayer = apps/aktion
+*qx/system = apps/kcmsystem
+*qx/mime-sourcecode = mimetypes/source
+*qx/mime-rpm = mimetypes/rpm
+*qx/mime-script = mimetypes/make
+*qx/icons = apps/icons
