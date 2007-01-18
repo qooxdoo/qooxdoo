@@ -52,7 +52,6 @@
 128x128/devices/drive-harddisk.png
 128x128/devices/drive-optical.png
 128x128/devices/drive-removable-media.png
-128x128/devices/input-gaming-joystick.png
 128x128/devices/input-mouse.png
 128x128/devices/media-flash.png
 128x128/devices/media-floppy.png
@@ -149,7 +148,6 @@
 16x16/actions/media-seek-forward.png
 16x16/actions/media-skip-backward.png
 16x16/actions/media-skip-forward.png
-16x16/actions/reload.png
 16x16/actions/start.png
 16x16/actions/stop.png
 16x16/actions/system-lock-screen.png
@@ -161,6 +159,7 @@
 16x16/actions/view-pane-icon.png
 16x16/actions/view-pane-text.png
 16x16/actions/view-pane-tree.png
+16x16/actions/view-refresh.png
 16x16/actions/window-new.png
 16x16/actions/zoom-best-fit.png
 16x16/actions/zoom-in.png
@@ -223,7 +222,6 @@
 16x16/devices/drive-harddisk.png
 16x16/devices/drive-optical.png
 16x16/devices/drive-removable-media.png
-16x16/devices/input-gaming-joystick.png
 16x16/devices/input-mouse.png
 16x16/devices/media-flash.png
 16x16/devices/media-floppy.png
@@ -315,7 +313,6 @@
 22x22/actions/media-seek-forward.png
 22x22/actions/media-skip-backward.png
 22x22/actions/media-skip-forward.png
-22x22/actions/reload.png
 22x22/actions/start.png
 22x22/actions/stop.png
 22x22/actions/system-lock-screen.png
@@ -327,6 +324,7 @@
 22x22/actions/view-pane-icon.png
 22x22/actions/view-pane-text.png
 22x22/actions/view-pane-tree.png
+22x22/actions/view-refresh.png
 22x22/actions/window-new.png
 22x22/actions/zoom-best-fit.png
 22x22/actions/zoom-in.png
@@ -373,7 +371,6 @@
 22x22/devices/drive-harddisk.png
 22x22/devices/drive-optical.png
 22x22/devices/drive-removable-media.png
-22x22/devices/input-gaming-joystick.png
 22x22/devices/input-mouse.png
 22x22/devices/media-flash.png
 22x22/devices/media-floppy.png
@@ -460,7 +457,6 @@
 32x32/actions/media-seek-forward.png
 32x32/actions/media-skip-backward.png
 32x32/actions/media-skip-forward.png
-32x32/actions/reload.png
 32x32/actions/start.png
 32x32/actions/stop.png
 32x32/actions/system-lock-screen.png
@@ -472,6 +468,7 @@
 32x32/actions/view-pane-icon.png
 32x32/actions/view-pane-text.png
 32x32/actions/view-pane-tree.png
+32x32/actions/view-refresh.png
 32x32/actions/window-new.png
 32x32/actions/zoom-best-fit.png
 32x32/actions/zoom-in.png
@@ -533,7 +530,6 @@
 32x32/devices/drive-harddisk.png
 32x32/devices/drive-optical.png
 32x32/devices/drive-removable-media.png
-32x32/devices/input-gaming-joystick.png
 32x32/devices/input-mouse.png
 32x32/devices/media-flash.png
 32x32/devices/media-floppy.png
@@ -629,7 +625,6 @@
 48x48/devices/drive-harddisk.png
 48x48/devices/drive-optical.png
 48x48/devices/drive-removable-media.png
-48x48/devices/input-gaming-joystick.png
 48x48/devices/input-mouse.png
 48x48/devices/media-flash.png
 48x48/devices/media-floppy.png
@@ -724,7 +719,6 @@
 64x64/devices/drive-harddisk.png
 64x64/devices/drive-optical.png
 64x64/devices/drive-removable-media.png
-64x64/devices/input-gaming-joystick.png
 64x64/devices/input-mouse.png
 64x64/devices/media-flash.png
 64x64/devices/media-floppy.png
