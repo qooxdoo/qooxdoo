@@ -4,11 +4,8 @@ OUTPUT=themes/fd
 CONVERT=./modules/kde-to-freedesktop.py
 
 echo ">>> Converting themes..."
-mkdir -p temp
-echo "" > temp/content_all.txt
-COUNT=0
-
 chmod +x $CONVERT
+mkdir -p $OUTPUT
 for DIR in `find themes/kde -maxdepth 1 -mindepth 1 -type d ! -name archives -a ! -name .svn`
 do
   THEMENAME=`basename $DIR`
