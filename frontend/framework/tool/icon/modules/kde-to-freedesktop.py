@@ -82,12 +82,12 @@ def main():
     print "Try '%s -h' or '%s --help' to show the help message." % (basename, basename)
     sys.exit(1)
 
-  print ">>> Cleaning up..."
+  print "    - Cleaning up..."
   removeall(options.output)
 
-  dat = open("%s/data/freedesktop_kde.dat" % os.path.dirname(sys.argv[0]))
+  dat = open("%s/../data/freedesktop_kde.dat" % os.path.dirname(sys.argv[0]))
 
-  print ">>> Copying files..."
+  print "    - Copying files..."
   for line in dat.readlines():
     line = line.strip();
 
