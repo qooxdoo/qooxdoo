@@ -151,13 +151,26 @@ qx.Proto._getContentHtml = function(cellInfo)
 
 qx.Proto._getIndentSymbol = function(column, node, bUseTreeLines)
 {
+  // If "no expanded/contracted" icon is requested...
+  if (node.expanded !== true && node.expanded !== false)
+  {
+    // ... then just use a blank icon.
+    return this.STATIC_IMAGE_URI + "blank.gif";
+  }
+
   // If we're not on the final column...
   if (column < node.level - 1)
   {
     // then return either a line or a blank icon, depending on bUseTreeLines
-    return (bUseTreeLines
+    return (bUseTreeLines && ! node.bParentLastChild
             ? this.WIDGET_TREE_URI + "line.gif"
             : this.STATIC_IMAGE_URI + "blank.gif");
+  }
+  else if (! bUseTreeLines)
+  {
+    return (node.expanded
+            ? this.WIDGET_TREE_URI + "minus.gif"
+            : this.WIDGET_TREE_URI + "plus.gif");
   }
 
   // Is this a branch node?
@@ -175,25 +188,41 @@ qx.Proto._getIndentSymbol = function(column, node, bUseTreeLines)
     // symbol to be shown?
     if (child !== null || this.getAlwaysShowPlusMinusSymbol())
     {
-      // Yup.  If this is the last child of its parent...
+      // Yup.  Is this the fisrt child of its parent?
+      if (column == 0 && node.bFirstChild)
+      {
+        // Yup.  If it's also a last child...
+        if (node.bLastChild)
+        {
+          // ... then use no tree lines.
+          return (node.expanded
+                  ? this.WIDGET_TREE_URI + "only_minus.gif"
+                  : this.WIDGET_TREE_URI + "only_plus.gif");
+        }
+        else
+        {
+          // otherwise, use descender lines but no ascender.
+          return (node.expanded
+                  ? this.WIDGET_TREE_URI + "start_minus.gif"
+                  : this.WIDGET_TREE_URI + "start_plus.gif");
+        }
+      }
+
+      // It's not a first child.  Is this the last child of its parent?
       if (node.bLastChild)
       {
-        // then return an ending plus or minus, or blank if node.expanded so
+        // Yup.   Return an ending plus or minus, or blank if node.expanded so
         // indicates.
-        return (node.expanded === null
-                ? "blank"
-                : (node.expanded
-                   ? this.WIDGET_TREE_URI + "end_minus.gif"
-                   : this.WIDGET_TREE_URI + "end_plus.gif"));
+        return (node.expanded
+                ? this.WIDGET_TREE_URI + "end_minus.gif"
+                : this.WIDGET_TREE_URI + "end_plus.gif");
       }
 
       // Otherwise, return a crossing plus or minus, or a blank if
       // node.expanded so indicates.
-      return (node.expanded === null
-              ? this.STATIC_IMAGE_URI + "blank.gif"
-              : (node.expanded
-                 ? this.WIDGET_TREE_URI + "cross_minus.gif"
-                 : this.WIDGET_TREE_URI + "cross_plus.gif"));
+      return (node.expanded
+              ? this.WIDGET_TREE_URI + "cross_minus.gif"
+              : this.WIDGET_TREE_URI + "cross_plus.gif");
     }
   }
 

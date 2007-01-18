@@ -46,10 +46,15 @@
  *
  *   level         : 2,    // The indentation level of this tree node
  *
- *   bLastChild    : false // Whether this is the last child of a parent.  It
- *                         // is used to locate the appropriate "tree line"
- *                         // icon, specifically whether it's a terminating or
- *                         // a continuation icon.
+ *   bFirstChild   : true,
+ *   bLastChild    : false,  // Whether this is the first or last last child
+ *                           // of a parent.  These are used to locate the
+ *                           // appropriate "tree line" icon.
+ *
+ *   bParentLastChild : true // Whether this node's parent was the last child
+ *                           // of its parent.  It is used to determine
+ *                           // whether leading "tree lines" (the initial
+ *                           // indentation icons) are necessary.
  * }
  */
 qx.OO.defineClass("qx.ui.treevirtual.SimpleTreeDataModel",
@@ -63,8 +68,9 @@ function()
 
   this._nodeArr.push(           // the root node, needed to store its children
     {
+      labelHtml : "<virtual root>",
       expanded  : true,
-      children  : { }
+      children  : [ ]
     });
 });
 
@@ -170,7 +176,7 @@ qx.Proto.addNode = function(type,
   }
   else
   {
-    // This is a child of the root, so it's level 0
+    // This is a child of the root
     parentNode = this._nodeArr[0];
     parentNodeId = 0;
   }
@@ -193,18 +199,14 @@ qx.Proto.addNode = function(type,
       expanded     : expanded,
       icon         : icon,
       iconSelected : iconSelected,
-      children     : { }
+      children     : [ ]
     };
 
   // Add this node to the array
   this._nodeArr.push(node);
 
-  // Add this node to its parent's child array.  We prefer to use object
-  // properties for this rather than pushing the nodeId onto an array because
-  // it is very easy to delete a specific object property if a child is
-  // deleted, whereas we'd have to search the array to find the node in the
-  // non-preferred implementation.
-  parentNode.children[nodeId] = true;
+  // Add this node to its parent's child array.
+  parentNode.children.push(nodeId);
 
   // Return the node id we just added
   return nodeId;
@@ -259,18 +261,32 @@ qx.Proto._render = function()
   var inorder = function(nodeId, level)
   {
     var child = null;
+    var childNodeId;
 
     // For each child of the specified node...
-    for (var childNodeId in _this._nodeArr[nodeId].children)
+    var numChildren = _this._nodeArr[nodeId].children.length;
+    for (var i = 0; i < numChildren; i++)
     {
+      // Determine the node id of this child
+      childNodeId = _this._nodeArr[nodeId].children[i];
+
       // Get the child node
       child = _this._nodeArr[childNodeId];
 
       // (Re-)assign this node's level
       child.level = level;
 
-      // Assume that this is not a last child.  If it is, we'll reset it later
-      child.bLastChild = false;
+      // Determine if we're the first child of our parent
+      child.bFirstChild = (i == 0);
+
+      // Determine if we're the last child of our parent
+      child.bLastChild = (i == numChildren - 1);
+
+      // Get our parent.
+      var parent = _this._nodeArr[child.parentNodeId];
+
+      // Determine whether our parent is a last child
+      child.bParentLastChild = parent.bLastChild;
 
       // Add this node to the row array
       _this._rowArr.push( [ child ])
@@ -282,19 +298,13 @@ qx.Proto._render = function()
         inorder(childNodeId, level + 1);
       }
     }
-
-    // The most recent child we added is a "last child" for tree lines
-    if (child !== null)
-    {
-      child.bLastChild = true;
-    }
   }
 
   // Reset the row array
   this._rowArr = [];
 
   // Begin in-order traversal of the tree from the root to regenerate _rowArr
-  inorder(0, 0);
+  inorder(0, 1);
 
   // Inform the listeners
   if (this.hasEventListeners(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED))
