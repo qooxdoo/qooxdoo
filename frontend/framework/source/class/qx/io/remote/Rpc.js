@@ -481,15 +481,15 @@ qx.Proto.callAsync = function(handler, methodName) {
  * value which increments with each request.)
  * </p>
  *
- * @param       coalesce (boolean)    coalesce all failure types ("failed",
+ * @param coalesce {Boolean}    coalesce all failure types ("failed",
  *                                    "timeout", and "aborted") to "failed".
  *                                    This is reasonable in many cases, as
  *                                    the provided exception contains adequate
  *                                    disambiguating information.
  *
- * @param       methodName (string)   the name of the method to call.
+ * @param methodName {String}   the name of the method to call.
  *
- * @return      (var)                 the method call reference.
+ * @return {var}                 the method call reference.
  */
 
 qx.Proto.callAsyncListeners = function(coalesce, methodName) {
