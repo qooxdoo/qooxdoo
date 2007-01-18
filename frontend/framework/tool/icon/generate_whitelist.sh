@@ -1,7 +1,5 @@
 #!/bin/bash
 
-BASESIZE="16x16"
-
 echo ">>> Indexing themes..."
 mkdir -p temp
 echo "" > temp/fd_content_all.txt
