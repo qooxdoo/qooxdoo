@@ -26,14 +26,14 @@
 /**
  * A key event instance contains all data for each occured key event
  *
- * @param vType (string) event type (keydown, keypress, keyinput, keyup)
- * @param vDomEvent (Element) DOM event object
- * @param vDomTarget (Element) target element of the DOM event
+ * @param vType {String} event type (keydown, keypress, keyinput, keyup)
+ * @param vDomEvent {Element} DOM event object
+ * @param vDomTarget {Element} target element of the DOM event
  * @param vTarget
  * @param vOriginalTarget
- * @param vKeyCode (int)
- * @param vCharCode (int)
- * @param vKeyIdentifier (string)
+ * @param vKeyCode {Integer}
+ * @param vCharCode {Integer}
+ * @param vKeyIdentifier {String}
  */
 qx.OO.defineClass("qx.event.type.KeyEvent", qx.event.type.DomEvent,
 function(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vKeyCode, vCharCode, vKeyIdentifier)
