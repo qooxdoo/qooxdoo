@@ -4,7 +4,7 @@ BASESIZE="16x16"
 
 echo ">>> Indexing themes..."
 mkdir -p temp
-echo "" > temp/kde_content_all.txt
+echo -n "" > temp/kde_content_all.txt
 COUNT=0
 for DIR in `find themes/kde -maxdepth 1 -mindepth 1 -type d ! -name archives -a ! -name .svn`
 do
