@@ -45,7 +45,7 @@
     var node =                  // the root node (not displayed)
       {
         expanded      : true,
-        children      : { 1 : true }
+        children      : [ 1 ]
       };
     treeData.push(node);
 
@@ -58,9 +58,7 @@
         expanded      : true,
         icon          : "icon/16/folder.png",
         iconSelected  : "icon/16/folder_open.png",
-        children      : { 2 : true },
-        level         : 0,
-        bLastChild    : true 
+        children      : [ 2 ]
       };
     treeData.push(node);
 
@@ -73,9 +71,7 @@
         expanded      : true,
         icon          : "icon/16/folder.png",
         iconSelected  : "icon/16/folder_open.png",
-        children      : { 3 : true },
-        level         : 1,
-        bLastChild    : true 
+        children      : [ 3 ]
       };
     treeData.push(node);
 
@@ -88,9 +84,7 @@
         expanded      : false,
         icon          : "icon/16/file-new.png",
         iconSelected  : "icon/16/file-open.png",
-        children      : { },
-        level         : 2,
-        bLastChild    : true 
+        children      : [ ]
       };
     treeData.push(node);
 
