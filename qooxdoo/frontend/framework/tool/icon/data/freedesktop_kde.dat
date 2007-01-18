@@ -176,7 +176,7 @@
 *apps/internet-email-client = apps/email
 *apps/graphics-snapshot = apps/ksnapshot
 *apps/graphics-image-viewer = apps/kview
-*categories/application = apps/package_applications
+*categories/applications = apps/package_applications
 -categories/applications-accessories
 +categories/applications-development = apps/package_development
 -categories/applications-engineering
