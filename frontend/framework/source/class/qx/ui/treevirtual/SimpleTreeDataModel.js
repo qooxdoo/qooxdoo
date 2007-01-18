@@ -36,13 +36,13 @@
  *   expanded      : null, // true (-), false (+), or null (no +/-)
  *   icon          : "images/folder.gif",
  *   iconSelected  : "images/folder_selected.gif",
- *   children      : { },  // each property name is an index into _nodeArr
+ *   children      : [ ],  // each value is an index into _nodeArr
  *
- *   // The following properties need not (and should not) be set when using
- *   // the methods in this class.  They are automatically calculated.  If,
- *   // on the other hand, the model data is loaded via RemoteTableModel, it
- *   // is the responsibility of the server to ensure that these properties
- *   // are properly set.
+ *   // The following properties need not (and should not) be set by the
+ *   // caller, but are automatically calculated.  Some are used internally,
+ *   // while others may be of use to event listeners.
+ *
+ *   nodeId        : 42,   // The index in _nodeArr, useful to event listeners
  *
  *   level         : 2,    // The indentation level of this tree node
  *
@@ -272,6 +272,9 @@ qx.Proto._render = function()
 
       // Get the child node
       child = _this._nodeArr[childNodeId];
+
+      // Listeners will need to know a node's id when they receive an event
+      child.nodeId = childNodeId;
 
       // (Re-)assign this node's level
       child.level = level;
