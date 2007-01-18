@@ -34,25 +34,29 @@ def regtool(content, regs, patch, options):
     line = 1
 
     for fragment in matches:
-      # Search for first match position
-      pos = itercontent.find(fragment)
-      pos = patchEntry["expr"].search(itercontent).start()
-
-      # Update current line
-      line += len((itercontent[:pos] + fragment).split("\n")) - 1
-
-      # Removing leading part til matching part
-      itercontent = itercontent[pos+len(fragment):]
-
-      # Debug
-      if options.verbose:
-        print "      - Matches %s in %s" % (patchEntry["orig"], line)
 
       # Replacing
       if patch:
         content = patchEntry["expr"].sub(patchEntry["repl"], content, 1)
-
+        # Debug
+        if options.verbose:
+          print "      - Replacing pattern '%s' to '%s'" % (patchEntry["orig"], patchEntry["repl"])
+          
       else:
+        # Search for first match position
+        pos = itercontent.find(fragment)
+        pos = patchEntry["expr"].search(itercontent).start()
+    
+        # Update current line
+        line += len((itercontent[:pos] + fragment).split("\n")) - 1
+    
+        # Removing leading part til matching part
+        itercontent = itercontent[pos+len(fragment):]
+    
+        # Debug
+        if options.verbose:
+          print "      - Matches %s in %s" % (patchEntry["orig"], line)
+
         print "      - line %s : (%s)" % (line, patchEntry["orig"])
         print "        %s" % patchEntry["repl"]
 
