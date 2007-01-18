@@ -111,7 +111,6 @@
 -actions/object-flip-vertical
 -actions/object-rotate-left
 -actions/object-rotate-right
-*actions/reload = actions/reload
 +actions/system-lock-screen = actions/lock
 -actions/system-log-out
 +actions/system-run = actions/run
@@ -120,7 +119,7 @@
 *actions/stop = actions/stop
 +actions/tools-check-spelling = actions/spellcheck
 -actions/view-fullscreen
--actions/view-refresh
++actions/view-refresh = actions/reload
 -actions/view-restore
 -actions/view-sort-ascending
 -actions/view-sort-descending
