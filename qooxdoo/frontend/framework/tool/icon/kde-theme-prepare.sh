@@ -6,7 +6,7 @@ echo ">>> Indexing themes..."
 mkdir -p temp
 echo "" > temp/content_all.txt
 COUNT=0
-for DIR in `find themes/kde -maxdepth 1 -mindepth 1 -type d ! -name archives`
+for DIR in `find themes/kde -maxdepth 1 -mindepth 1 -type d ! -name archives -a ! -name .svn`
 do
   THEMENAME=`basename $DIR`
   echo "  - $THEMENAME"
