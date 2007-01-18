@@ -205,10 +205,9 @@
 +devices/drive-harddisk = devices/hdd_unmount
 +devices/drive-optical = devices/dvd_unmount
 +devices/drive-removable-media = devices/usbpendrive_unmount
--devices/input-gaming
+-devices/input-gaming = devices/joystick
 -devices/input-keyboard
 +devices/input-mouse = devices/mouse
-*devices/input-gaming-joystick = devices/joystick
 +devices/media-flash = devices/usbpendrive_unmount
 +devices/media-floppy = devices/3floppy_unmount
 +devices/media-optical = devices/cdrom_unmount
