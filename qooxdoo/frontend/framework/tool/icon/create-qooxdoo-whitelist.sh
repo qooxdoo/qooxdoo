@@ -12,4 +12,8 @@ do
   COUNT=$[$COUNT+1]
 done
 
+echo ">>> Normalizing..."
 cat temp/fd_content_all.txt | sort | uniq -c | grep "${COUNT} " | cut -d" " -f8 > data/qooxdoo_whitelist.dat
+
+echo ">>> Result..."
+wc -l data/qooxdoo_whitelist.dat
