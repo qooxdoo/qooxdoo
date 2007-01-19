@@ -3,7 +3,7 @@
 INPUT=themes/freedesktop/use
 OUTPUT=themes/qooxdoo/use
 
-echo ">>> Cleanup"
+echo ">>> Cleanup..."
 rm -rf themes/qooxdoo/*
 
 echo ">>> Converting themes..."

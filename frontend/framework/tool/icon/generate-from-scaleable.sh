@@ -1,27 +1,24 @@
 SIZES="16 22 24 32 48 64 72 96 128"
 FORMAT=png
-DIR=$1
 
-INPUT=themes/freedesktop/scaleable
+INPUT=themes/freedesktop/scalable
 OUTPUT=themes/freedesktop/use
 
-for THEME in `find $INPUT -type d -maxdepth 1 -mindepth 1`
+for THEME in `find $INPUT -maxdepth 1 -mindepth 1 -type d ! -name .svn`
 do
-  THEMENAME=`basename $DIR`
+  THEMENAME=`basename $THEME`
   echo $THEMENAME
-  continue
-
 
   mkdir -p $OUTPUT
 
-  for DIR in `find ${DIR}/scaleable -maxdepth 1 -mindepth 1 -type d`
+  for DIR in `find ${THEME}/scalable -maxdepth 1 -mindepth 1 -type d ! -name .svn`
   do
     CAT=`basename $DIR`
     echo ">>> ${THEMENAME}/${CAT}"
 
     echo "  * Creating directories..."
     for SIZE in $SIZES; do
-      mkdir -p ${OUTPUT}/${THEMENAME}/${CAT}/${SIZE}x${SIZE}
+      mkdir -p ${OUTPUT}/${THEMENAME}/${SIZE}x${SIZE}/${CAT}
     done
 
     echo "  * Rendering files..."
