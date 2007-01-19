@@ -4,7 +4,7 @@ INPUT=themes/freedesktop/use
 OUTPUT=themes/qooxdoo/use
 
 echo ">>> Cleanup..."
-rm -rf themes/qooxdoo/*
+rm -rf ${OUTPUT}/*
 
 echo ">>> Converting themes..."
 for DIR in `find ${INPUT} -maxdepth 1 -mindepth 1 -type d ! -name .svn`
