@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 INPUT=themes/freedesktop/use
 OUTPUT=themes/qooxdoo/use
