@@ -380,22 +380,15 @@ qx.Proto._idealKeyHandler = function(keyCode, charCode, eventType, domEvent)
   if (keyCode)
   {
     keyIdentifier = this._keyCodeToIdentifier(keyCode);
-
-    if (keyIdentifier != "Unidentified") {
-      qx.event.handler.EventHandler.getInstance()._onkeyevent_post(domEvent, eventType, keyCode, charCode, keyIdentifier);
-    }
+    qx.event.handler.EventHandler.getInstance()._onkeyevent_post(domEvent, eventType, keyCode, charCode, keyIdentifier);
   }
 
   // Use: charCode
   else
   {
     keyIdentifier = this._charCodeToIdentifier(charCode);
-
-    if (keyIdentifier != "Unidentified")
-    {
-      qx.event.handler.EventHandler.getInstance()._onkeyevent_post(domEvent, "keypress", keyCode, charCode, keyIdentifier);
-      qx.event.handler.EventHandler.getInstance()._onkeyevent_post(domEvent, "keyinput", keyCode, charCode, keyIdentifier);
-    }
+    qx.event.handler.EventHandler.getInstance()._onkeyevent_post(domEvent, "keypress", keyCode, charCode, keyIdentifier);
+    qx.event.handler.EventHandler.getInstance()._onkeyevent_post(domEvent, "keyinput", keyCode, charCode, keyIdentifier);
   }
 };
 
