@@ -1,13 +1,13 @@
 #!/bin/bash
 
-INPUT=themes/freedesktop
-OUTPUT=themes/qooxdoo
+INPUT=themes/freedesktop/use
+OUTPUT=themes/qooxdoo/use
 
 echo ">>> Cleanup"
 rm -rf themes/qooxdoo/*
 
 echo ">>> Converting themes..."
-for DIR in `find ${INPUT} -maxdepth 1 -mindepth 1 -type d ! -name archives -a ! -name incomplete -a ! -name .svn`
+for DIR in `find ${INPUT} -maxdepth 1 -mindepth 1 -type d ! -name .svn`
 do
   THEME=`basename $DIR`
   echo "  - $THEME"
