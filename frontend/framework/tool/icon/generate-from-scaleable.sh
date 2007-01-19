@@ -19,18 +19,18 @@ do
     CAT=`basename $DIR`
     echo ">>> ${THEMENAME}/${CAT}"
 
-    echo "  - Creating directories..."
+    echo "  * Creating directories..."
     for SIZE in $SIZES; do
       mkdir -p ${OUTPUT}/${THEMENAME}/${CAT}/${SIZE}x${SIZE}
     done
 
-    echo "  - Rendering files..."
+    echo "  * Rendering files..."
     for SVG in `find $DIR -name "*.svg"`
     do
       SVGNAME=`basename $SVG`
       RENNAME=`echo $SVGNAME | sed s:svg:$FORMAT:g`
 
-      echo "    - $SVGNAME -> $RENNAME"
+      # echo "    - $SVGNAME -> $RENNAME"
       for SIZE in $SIZES; do
         rsvg-convert $SVG -o ${OUTPUT}/${THEMENAME}/${SIZE}x${SIZE}/${CAT}/${RENNAME} -a -w $SIZE -h $SIZE -f $FORMAT
       done
