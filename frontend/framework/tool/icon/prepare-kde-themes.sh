@@ -1,16 +1,16 @@
 #!/bin/bash
 
-BASESIZE="16x16"
+BASESIZE="16"
 
 echo ">>> Indexing themes..."
 mkdir -p temp
 echo -n "" > temp/kde_content_all.txt
 COUNT=0
-for DIR in `find themes/kde -maxdepth 1 -mindepth 1 -type d ! -name archives -a ! -name incomplete -a ! -name .svn`
+for DIR in `find themes/kde/use -maxdepth 1 -mindepth 1 -type d ! -name .svn`
 do
   THEMENAME=`basename $DIR`
   echo "  - $THEMENAME"
-  find $DIR -name "*.png" -o -name "*.svg" | cut -d"/" -f4- >> temp/kde_content_all.txt
+  find $DIR -name "*.png" | cut -d"/" -f4- >> temp/kde_content_all.txt
   COUNT=$[$COUNT+1]
 done
 
@@ -18,7 +18,7 @@ echo ">>> Building common list..."
 cat temp/kde_content_all.txt | sort | uniq -c | grep "$COUNT " | cut -d" " -f8 | cut -d"." -f1 > temp/kde_content_common.txt
 
 echo ">>> Building list for base size..."
-grep $BASESIZE temp/kde_content_common.txt | cut -d"/" -f2- | sort | uniq > temp/kde_content_common_base.txt
+grep ${BASESIZE}x${BASESIZE} temp/kde_content_common.txt | cut -d"/" -f2- | sort | uniq > temp/kde_content_common_base.txt
 
 echo ">>> Preparing replacement map..."
 cat data/freedesktop_kde.dat | cut -s -d"=" -f2 | cut -d" " -f2 | sort | uniq > temp/kde_content_assigned.txt
