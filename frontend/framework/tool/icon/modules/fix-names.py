@@ -31,7 +31,7 @@ def get_migration_patch(qx_to_tango_map, qx_not_in_tango, qx_in_tango_without_im
 def get_migration_info(qx_to_tango_map, qx_not_in_tango, qx_in_tango_without_image, qx_icon_path, tango_icon_path):
 	re = ""
 	for qx in qx_not_in_tango:
-		re += "\\b%s\\.png[\\\"\\']=The image '%s.png' is no longer supported! try to use a different icon.\n" % (qx, qx)
+		re += "\\b%s\\.png[\\\"\\']=The image '%s.png' is no longer supported! Try to use a different icon.\n" % (qx, qx)
 
 	re += "\n"
 
@@ -68,7 +68,9 @@ def get_html(qx_to_tango_map, qx_not_in_tango, qx_in_tango_without_image, qx_ico
 	</table>
 	"""
 	rows = ""
-	for qx in qx_in_tango_without_image:
+	keys = qx_in_tango_without_image.keys()
+	keys.sort()
+	for qx in keys:
 		rows += "<tr><td><img src='%s/%s.png'></img>%s</td><td>%s</td></tr>\n" % (qx_icon_path, qx, qx, qx_in_tango_without_image[qx])
 	no_tango_icon_table = no_tango_icon_table % rows
 
@@ -96,12 +98,12 @@ def fix_names(qx_icon_path, tango_icon_path):
 		line = line.strip();
 		if line == "" or line[0] == "#": continue
 		if not "=" in line:
-			#qx_not_in_tango.append(line.strip())
-			#continue
-			qx = line
-			tango = "qx/" + line
-		else:
-			(qx, tango) = map(lambda x: x.strip(), line.split("="))
+			qx_not_in_tango.append(line)
+			continue
+			#qx = line
+			#tango = line
+		
+		(qx, tango) = map(lambda x: x.strip(), line.split("="))
 
 		if os.path.exists(os.path.join(tango_icon_path, tango + ".png")):
 			qx_to_tango_map[qx] = tango
@@ -126,8 +128,6 @@ def main(argv=None):
 
         # option processing
         tango_icon_path = os.path.join(tool_path, "themes/qooxdoo/nuvola/16x16")
-        #tango_icon_path = "/Users/fabianpb/Desktop/icon-convert/tg/Tango/16x16"
-        #tango_icon_path = "/Users/fabianpb/Desktop/icon-convert/fd/nuvola/16x16"
         qx_icon_path = os.path.join(tool_path, "../../source/resource/icon/nuvola/16")
         output = ""
         for option, value in opts:

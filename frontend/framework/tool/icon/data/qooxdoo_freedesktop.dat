@@ -11,7 +11,7 @@ attach = actions/mail-message-attach
 back = actions/go-previous
 background = apps/preferences-desktop-wallpaper
 bell
-bitmapgraphics = apps/graphic-draw
+bitmapgraphics
 bookmark-add = actions/bookmark-add
 bookmark-folder
 bookmark-toolbar
@@ -24,17 +24,17 @@ calculator = apps/accessories-calculator
 camera = devices/camera-photo
 cancel
 cdrom = devices/media-optical
-char-device = places/special-chardevice
-chart = apps/office-chart
+char-device
+chart
 clipboard
 clock = apps/accessories-clock
-color-fill = actions/edit-color-fill
-color-line = actions/edit-color-line
+color-fill
+color-line
 colors = actions/format-color
 configure = apps/preferences
-connect-creating = actions/connection-creating
-connect-established = actions/connection-established
-connect-no = actions/connection-disconneced
+connect-creating
+connect-established
+connect-no = status/network-offline
 control-center = apps/preferences-system
 cookie
 core
@@ -87,7 +87,7 @@ iconthemes = apps/preferences-desktop-theme-icon
 important = emblems/emblem-important
 info
 joystick = devices/input-gaming
-keyboard-layout = apps/preferences-desktop-keyboard-layout
+keyboard-layout
 locale = apps/preferences-desktop-locale
 look-and-feel = apps/preferences-desktop-theme
 magnifier = actions/zoom
@@ -135,12 +135,12 @@ notify
 ok = actions/dialog-ok
 opera = apps/internet-browser-opera
 organizer = apps/office-organizer
-paint = apps/graphic-draw
+paint
 partitions
 password = status/dialog-password
-pda = devices/handheld
-pipe = places/special-pipe
-presentation = apps/office-presentation
+pda
+pipe
+presentation
 printer = devices/printer
 queue
 redo = actions/edit-redo
@@ -150,15 +150,15 @@ run = actions/system-run
 scanner = devices/scanner
 services
 settings = categories/preferences
-signature = actions/tools-signature
+signature
 spellcheck = actions/tools-check-spelling
 stop = actions/stop
 style
 system = categories/applications-system
-tab-duplicate = actions/tab-duplicate
-tab-new-raised = actions/tab-new
-tab-new = actions/tab-new
-tab-remove = actions/tab-remove
+tab-duplicate
+tab-new-raised
+tab-new
+tab-remove
 tablet = devices/input-tablet
 terminal = apps/utilities-terminal
 themes = apps/preferences-desktop-theme
@@ -170,22 +170,22 @@ undo = actions/edit-undo
 up = actions/go-up
 user
 utilities = categories/applications-utilities
-view-bottom = actions/view-pane-bottom
-view-choose = actions/view-pane-choose
-view-detailed = actions/view-type-detailed
-view-icon = actions/view-type-icon
-view-left-right = actions/view-pane-left-right
-view-multicolumn = actions/view-type-multicolumn
-view-remove = actions/view-pane-remove
-view-right = actions/view-pane-right
-view-sidetree = actions/view-type-sidetree
-view-text = actions/view-type-text
-view-top-bottom = actions/view-pane-top-bottom
-view-tree = actions/view-type-tree
+view-bottom
+view-choose
+view-detailed
+view-icon
+view-left-right
+view-multicolumn
+view-remove
+view-right
+view-sidetree
+view-text
+view-top-bottom
+view-tree
 viewmag-fit = actions/zoom-best-fit
 viewmag-minus = actions/zoom-out
 viewmag-original = actions/zoom-original
 viewmag-plus = actions/zoom-in
 viewmag = actions/zoom
-wizard = apps/wizard
-wordprocessor = apps/office-wordprocessing
+wizard
+wordprocessor
