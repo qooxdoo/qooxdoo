@@ -4,11 +4,11 @@ echo ">>> Indexing themes..."
 mkdir -p temp
 echo -n "" > temp/fd_content_all.txt
 COUNT=0
-for DIR in `find themes/freedesktop/use -maxdepth 1 -mindepth 1 -type d ! -name archives -a ! -name incomplete -a ! -name .svn`
+for DIR in `find themes/freedesktop/use -maxdepth 1 -mindepth 1 -type d ! -name .svn`
 do
   THEMENAME=`basename $DIR`
   echo "  - $THEMENAME"
-  find $DIR -name "*.png" | cut -d"/" -f4- >> temp/fd_content_all.txt
+  find $DIR -name "*.png" | cut -d"/" -f5- >> temp/fd_content_all.txt
   COUNT=$[$COUNT+1]
 done
 
