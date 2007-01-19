@@ -1,3 +1,7 @@
+#!/usr/bin/env bash
+
+which rsvg-convert > /dev/null || exit 1
+
 SIZES="16 22 24 32 48 64 72 96 128"
 FORMAT=png
 

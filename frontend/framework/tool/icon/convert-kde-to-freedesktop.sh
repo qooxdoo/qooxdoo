@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 OUTPUT=themes/freedesktop/use
 CONVERT=./modules/kde-to-freedesktop.py
