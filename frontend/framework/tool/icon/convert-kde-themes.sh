@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OUTPUT=themes/fd
+OUTPUT=themes/freedesktop
 CONVERT=./modules/kde-to-freedesktop.py
 
 echo ">>> Converting themes..."
