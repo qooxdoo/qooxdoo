@@ -172,16 +172,16 @@ user
 utilities = categories/applications-utilities
 view-bottom
 view-choose
-view-detailed
-view-icon
+view-detailed = actions/view-pane-detailed
+view-icon = actions/view-pane-icon
 view-left-right
-view-multicolumn
+view-multicolumn = actions/view-pane-column
 view-remove
 view-right
 view-sidetree
-view-text
+view-text = actions/view-pane-text
 view-top-bottom
-view-tree
+view-tree = actions/view-pane-tree
 viewmag-fit = actions/zoom-best-fit
 viewmag-minus = actions/zoom-out
 viewmag-original = actions/zoom-original

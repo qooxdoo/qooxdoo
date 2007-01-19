@@ -3,6 +3,7 @@
 \bmime-image\.png([\"\'])=mimetypes/image-x-generic.png\1
 \bthemes\.png([\"\'])=apps/preferences-desktop-theme.png\1
 \bcolors\.png([\"\'])=actions/format-color.png\1
+\bview-text\.png([\"\'])=actions/view-pane-text.png\1
 \bfind\.png([\"\'])=actions/edit-find.png\1
 \bspellcheck\.png([\"\'])=actions/tools-check-spelling.png\1
 \bmovieplayer\.png([\"\'])=apps/multimedia-movie-player.png\1
@@ -13,6 +14,7 @@
 \bmime-archive\.png([\"\'])=mimetypes/package-x-generic.png\1
 \bmime-html\.png([\"\'])=mimetypes/text-html.png\1
 \bstop\.png([\"\'])=actions/stop.png\1
+\bview-tree\.png([\"\'])=actions/view-pane-tree.png\1
 \bfile-open\.png([\"\'])=actions/document-open.png\1
 \bpassword\.png([\"\'])=status/dialog-password.png\1
 \bbutton-ok\.png([\"\'])=actions/dialog-ok.png\1
@@ -76,7 +78,9 @@
 \bcdrom\.png([\"\'])=devices/media-optical.png\1
 \bmime-spreadsheet\.png([\"\'])=mimetypes/x-office-spreadsheet.png\1
 \bnetscape\.png([\"\'])=mimetypes/text-html.png\1
+\bview-icon\.png([\"\'])=actions/view-pane-icon.png\1
 \bedit-paste\.png([\"\'])=actions/edit-paste.png\1
+\bview-multicolumn\.png([\"\'])=actions/view-pane-column.png\1
 \bup\.png([\"\'])=actions/go-up.png\1
 \bhelp-center\.png([\"\'])=apps/help-browser.png\1
 \berror\.png([\"\'])=status/dialog-error.png\1
@@ -94,5 +98,6 @@
 \bapplications\.png([\"\'])=categories/applications.png\1
 \bdate\.png([\"\'])=apps/accessories-date.png\1
 \balarm\.png([\"\'])=apps/accessories-alarm.png\1
+\bview-detailed\.png([\"\'])=actions/view-pane-detailed.png\1
 \bmagnifier\.png([\"\'])=actions/zoom.png\1
 
