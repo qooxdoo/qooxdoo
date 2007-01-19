@@ -125,10 +125,10 @@ def main(argv=None):
             raise Usage(msg)
 
         # option processing
-        tango_icon_path = os.path.join(tool_path, "themes/fd/crystal/16x16")
+        tango_icon_path = os.path.join(tool_path, "themes/qooxdoo/nuvola/16x16")
         #tango_icon_path = "/Users/fabianpb/Desktop/icon-convert/tg/Tango/16x16"
         #tango_icon_path = "/Users/fabianpb/Desktop/icon-convert/fd/nuvola/16x16"
-        qx_icon_path = os.path.join(tool_path, "../../source/resource/icon/crystalsvg/16")
+        qx_icon_path = os.path.join(tool_path, "../../source/resource/icon/nuvola/16")
         output = ""
         for option, value in opts:
             if option == "-v":
