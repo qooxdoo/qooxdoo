@@ -29,9 +29,13 @@
 
 ************************************************************************ */
 
-/*!
-  This manager registers and manage all incoming key and mouse events.
-*/
+/**
+ * This manager registers and manage all incoming key and mouse events.
+ *
+ * @event error {qx.event.type.DataEvent} Fired when an exception was thrown
+ *        when dispatching the event to the listeners. The event's property
+ *        "data" holds the exception.
+ */
 qx.OO.defineClass("qx.event.handler.EventHandler", qx.core.Target,
 function()
 {
@@ -546,13 +550,18 @@ qx.Proto._onkeyevent_post = function(vDomEvent, vType, vKeyCode, vCharCode, vKey
     this._checkKeyEventMatch(vKeyEventObject);
   }
 
-  // Starting Objects Internal Event Dispatcher
-  // This handles the real event action
-  vTarget.dispatchEvent(vKeyEventObject);
-
-  // Send event to qx.event.handler.DragAndDropHandler
-  if (qx.OO.isAvailable("qx.event.handler.DragAndDropHandler")) {
-    qx.event.handler.DragAndDropHandler.getInstance().handleKeyEvent(vKeyEventObject);
+  try {
+    // Starting Objects Internal Event Dispatcher
+    // This handles the real event action
+    vTarget.dispatchEvent(vKeyEventObject);
+  
+    // Send event to qx.event.handler.DragAndDropHandler
+    if (qx.OO.isAvailable("qx.event.handler.DragAndDropHandler")) {
+      qx.event.handler.DragAndDropHandler.getInstance().handleKeyEvent(vKeyEventObject);
+    }
+  } catch (ex) {
+    this.error("Failed to dispatch key event", ex);
+    this.createDispatchDataEvent("error", ex);
   }
 
   // Cleanup Event Object
@@ -837,12 +846,13 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
       var vEventWasProcessed = false;
       try {
         vEventWasProcessed = vDispatchTarget ? vDispatchTarget.dispatchEvent(vEventObject) : true;
-      } catch(ex) {
-        return this.error("Failed to dispatch mouse event", ex);
-      }
 
-      // Handle Special Post Events
-      this._onmouseevent_special_post(vType, vTarget, vOriginalTarget, vDispatchTarget, vEventWasProcessed, vEventObject, vDomEvent);
+        // Handle Special Post Events
+        this._onmouseevent_special_post(vType, vTarget, vOriginalTarget, vDispatchTarget, vEventWasProcessed, vEventObject, vDomEvent);
+      } catch(ex) {
+        this.error("Failed to dispatch mouse event", ex);
+        this.createDispatchDataEvent("error", ex);
+      }
     } else {
       // target is disabled -> Pass the event only to the ToolTipManager
       if (vType == "mouseover") {
