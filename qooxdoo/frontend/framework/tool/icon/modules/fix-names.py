@@ -91,7 +91,7 @@ def fix_names(qx_icon_path, tango_icon_path):
 	qx_not_in_tango = []
 	qx_in_tango_without_image = {}
 
-	lines = open(os.path.join(os.path.dirname(sys.argv[0]), "data", "qooxdoo_freedesktop.dat")).readlines()
+	lines = open(os.path.join(os.path.dirname(sys.argv[0]), "..", "data", "qooxdoo_freedesktop.dat")).readlines()
 	for line in lines:
 		line = line.strip();
 		if line == "" or line[0] == "#": continue
@@ -115,6 +115,7 @@ def fix_names(qx_icon_path, tango_icon_path):
 	)
 
 def main(argv=None):
+    tool_path = os.path.join(os.path.dirname(sys.argv[0]), "..")
     if argv is None:
         argv = sys.argv
     try:
@@ -124,10 +125,10 @@ def main(argv=None):
             raise Usage(msg)
 
         # option processing
-        tango_icon_path = "/Users/fabianpb/opt/tango/share/icons/Tango/16x16"
+        tango_icon_path = os.path.join(tool_path, "themes/fd/crystal/16x16")
         #tango_icon_path = "/Users/fabianpb/Desktop/icon-convert/tg/Tango/16x16"
         #tango_icon_path = "/Users/fabianpb/Desktop/icon-convert/fd/nuvola/16x16"
-        qx_icon_path = "/Users/fabianpb/Desktop/icon-convert/qx/16"
+        qx_icon_path = os.path.join(tool_path, "../../source/resource/icon/crystalsvg/16")
         output = ""
         for option, value in opts:
             if option == "-v":
