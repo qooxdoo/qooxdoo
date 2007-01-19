@@ -63,16 +63,12 @@
 +actions/go-home = actions/gohome
 -actions/go-jump
 -actions/go-last
-+actions/go-next = actions/next
-+actions/go-previous = actions/previous
++actions/go-next = actions/forward
++actions/go-previous = actions/back
 +actions/go-top = actions/top
 +actions/go-up = actions/up
-*actions/go-back = actions/back
-*actions/go-forward = actions/forward
 *actions/go-left = actions/1leftarrow
 *actions/go-right = actions/1rightarrow
-*actions/go-up = actions/1uparrow
-*actions/go-down = actions/1downarrow
 +actions/help-about = actions/help
 +actions/help-contents = apps/help_index
 +actions/help-faq = apps/khelpcenter
