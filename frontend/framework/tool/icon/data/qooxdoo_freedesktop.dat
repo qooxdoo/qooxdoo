@@ -5,7 +5,7 @@
 accessibility = apps/preferences-desktop-accessibility
 adobe-reader = apps/office-adobe-reader
 alarm = apps/accessories-alarm
-applications
+applications = categories/applications
 apply = actions/dialog-ok
 attach = actions/mail-message-attach
 back = actions/go-previous
@@ -30,8 +30,8 @@ clipboard
 clock = apps/accessories-clock
 color-fill = actions/edit-color-fill
 color-line = actions/edit-color-line
-colors = apps/preferences-desktop-theme-color
-configure = actions/edit-configure
+colors = actions/format-color
+configure = apps/preferences
 connect-creating = actions/connection-creating
 connect-established = actions/connection-established
 connect-no = actions/connection-disconneced
@@ -39,7 +39,7 @@ control-center = apps/preferences-system
 cookie
 core
 date = apps/accessories-date
-decrypted = actions/edit-decrypted
+decrypted = actions/decrypt
 desktop = places/user-desktop
 devices = devices/drive-harddisk
 dictionary = apps/accessories-dictionary
@@ -49,12 +49,12 @@ edit-copy = actions/edit-copy
 edit-cut = actions/edit-cut
 edit-delete = actions/edit-delete
 edit-paste = actions/edit-paste
-edit
+edit = actions/edit
 editor = apps/accessories-text-editor
 email = apps/internet-mail
-encrypted = mimetypes/encrypted-x-generic
+encrypted = actions/encrypt
 energy
-error
+error = status/dialog-error
 exec
 exit = actions/application-exit
 file-manager = apps/system-file-manager
@@ -66,19 +66,19 @@ file-save = actions/document-save
 find = actions/edit-find
 floppy = devices/media-floppy
 flowchart
-folder-favorite = places/folder-favorite
+folder-favorite = status/folder-favorite
 folder-important
 folder-locked = places/folder-locked
-folder-open = places/folder-open
+folder-open = status/folder-open
 folder = places/folder
-fonts = apps/accessories-fonts
+fonts = apps/preferences-desktop-font
 forward = actions/go-next
 games = categories/applications-games
 graphics = categories/applications-graphics
 harddrive = devices/drive-harddisk
 hardware-info
 help-center = apps/help-browser
-help
+help = actions/help-about
 history-clear = actions/history-clear
 history = actions/history
 home = actions/go-home
@@ -105,7 +105,7 @@ mime-archive = mimetypes/package-x-generic
 mime-binary = mimetypes/application-x-executable
 mime-calendar = mimetypes/x-office-calendar
 mime-card = mimetypes/x-office-address-book
-mime-color
+mime-color = actions/format-color
 mime-document = mimetypes/x-office-document
 mime-html = mimetypes/text-html
 mime-image = mimetypes/image-x-generic
@@ -116,7 +116,7 @@ mime-quicktime = mimetypes/video-x-quicktime
 mime-rpm
 mime-script
 mime-shellscript = mimetypes/text-x-script
-mime-sourcecode
+mime-sourcecode = mimetypes/empty-x-generic
 mime-spreadsheet = mimetypes/x-office-spreadsheet
 mime-text = mimetypes/text-x-generic
 mime-video = mimetypes/video-x-generic
@@ -124,7 +124,7 @@ misc
 mixer = apps/multimedia-volume-control
 modem = devices/modem
 mouse = devices/input-mouse
-movieplayer
+movieplayer = apps/multimedia-movie-player
 multimedia = categories/applications-multimedia
 mycomputer = devices/computer
 netscape = mimetypes/text-html
@@ -145,27 +145,27 @@ printer = devices/printer
 queue
 redo = actions/edit-redo
 reload = actions/view-refresh
-rotate = actions/object-rotate
+rotate = actions/object-rotate-left
 run = actions/system-run
 scanner = devices/scanner
 services
-settings = categories/applications-settings
+settings = categories/preferences
 signature = actions/tools-signature
 spellcheck = actions/tools-check-spelling
-stop
+stop = actions/stop
 style
-system
+system = categories/applications-system
 tab-duplicate = actions/tab-duplicate
 tab-new-raised = actions/tab-new
 tab-new = actions/tab-new
 tab-remove = actions/tab-remove
 tablet = devices/input-tablet
 terminal = apps/utilities-terminal
-themes
+themes = apps/preferences-desktop-theme
 toys = categories/applications-toys
 trashcan-empty = places/user-trash
 trashcan-full = places/user-trash-full
-tv = devices/tv
+tv = devices/video-display
 undo = actions/edit-undo
 up = actions/go-up
 user
