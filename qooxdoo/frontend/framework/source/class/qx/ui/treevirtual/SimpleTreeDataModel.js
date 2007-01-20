@@ -363,6 +363,10 @@ qx.Proto._render = function()
       child.bParentLastChild = parent.bLastChild;
 
       // Ensure there's an entry in the columnData array for each column
+      if (! child.columnData)
+      {
+        child.columnData = [ ];
+      }
       child.columnData[_this.getColumnCount() - 1] = null;
 
       // Add this node to the row array.  Initialize a row data array.
