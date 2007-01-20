@@ -34,15 +34,15 @@ function() {
 qx.OO.addProperty({ name:"highlightFocusRow", type:"boolean", allowNull:false, defaultValue:true});
 
 /**
- * Whether the focused row and the selection should be grayed out when the table
- * hasn't the focus.
+ * Whether the focused row and the selection should be grayed out when the
+ * table hasn't the focus.
  */
 qx.OO.addProperty({ name:"visualizeFocusedState", type:"boolean", allowNull:false, defaultValue:true});
 
-/** The font family used for the data row*/
+/** The font family used for the data row */
 qx.OO.addProperty({ name:"fontFamily", type:"string", allowNull:false, defaultValue:"'Segoe UI', Corbel, Calibri, Tahoma, 'Lucida Sans Unicode', sans-serif" });
 
-/** Fomt size of the data row */
+/** The font size used for the data row */
 qx.OO.addProperty({ name:"fontSize", type:"string", allowNull:false, defaultValue:"11px" });
 
 

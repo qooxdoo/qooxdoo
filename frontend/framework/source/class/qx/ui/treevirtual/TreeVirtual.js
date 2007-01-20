@@ -27,6 +27,7 @@
  * @event treeOpenWithContent {qx.event.type.DataEvent}
  * @event treeOpenWhileEmpty {qx.event.type.DataEvent}
  * @event treeClose {qx.event.type.DataEvent}
+ * @event changeSelection {qx.event.type.Event}
  *
  * WARNING: This widget is in active development and the interface to it is
  *          very likely to change, possibly on a daily basis, for a while.  Do
@@ -54,15 +55,23 @@ function(heading)
   // Move the focus with the mouse
   this.setFocusCellOnMouseMove(true);
 
-  // Arrange to handle mouse clicks. Replace the selection manager's method
-  // with one that calls our handleClick method (with this TreeVirtual object
-  // as 'this' instead of the selection manager).
+  // Arrange to select events locally. Replace the selection manager's method
+  // with one that calls the selection manager's method and then calls own our
+  // _handleSelectEvent method (with this TreeVirtual object as 'this' instead
+  // of the selection manager).  The selection manager's method handles
+  // marking the selected row.  Ours handles dispatching events to our
+  // listeners.
   var _this = this;
-  this._getSelectionManager().handleClick = function(index, evt)
+  this._getSelectionManager()._handleSelectEvent = function(index, evt)
   {
-    qx.ui.treevirtual.TreeVirtual.prototype._handleClick.call(_this,
-                                                              index,
-                                                              evt);
+    var Sm = qx.ui.table.SelectionManager;
+    var Tv = qx.ui.treevirtual.TreeVirtual;
+
+    // Call the Selection Manager's method to handle the actual selection
+    Sm.prototype._handleSelectEvent.call(_this, index, evt);
+
+    // Call our local method to dispatch events to our users, if necessary
+    Tv.prototype._handleSelectEvent.call(_this, index, evt);
   };
 });
 
@@ -87,27 +96,27 @@ qx.Proto.setAlwaysShowPlusMinusSymbol = function(b)
 
 
 /*
- * Toggle the expanded state of the node: if the node is expanded, contract
- * it; if it is contracted, expand it.
+ * Toggle the opened state of the node: if the node is opened, close
+ * it; if it is closed, open it.
  */
-qx.Proto.toggleExpanded = function(node)
+qx.Proto.toggleOpened = function(node)
 {
-  // Ignore toggle request if 'expanded' is not a boolean (i.e. we've been
-  // told explicitely not to display the expand/contract button).
-  if (node.expanded !== true && node.expanded !== false)
+  // Ignore toggle request if 'opened' is not a boolean (i.e. we've been
+  // told explicitely not to display the open/close button).
+  if (node.opened !== true && node.opened !== false)
   {
     return;
   }
 
-  // Are we expanding or contracting?
-  if (node.expanded)
+  // Are we opening or closing?
+  if (node.opened)
   {
-    // We're contracting.  If there are listeners, generate a treeClose event.
+    // We're closing.  If there are listeners, generate a treeClose event.
     this.createDispatchDataEvent("treeClose", node);
   }
   else
   {
-    // We're expanding.  Are there any children?
+    // We're opening.  Are there any children?
     if (node.children.length > 0)
     {
       // Yup.  If there any listeners, generate a "treeOpenWithContent" event.
@@ -121,8 +130,12 @@ qx.Proto.toggleExpanded = function(node)
     }
   }
 
-  // Toggle the state
-  node.expanded = ! node.expanded;
+  // Event handler may have modified the opened state.  Check before toggling.
+  if (node.opened === true || node.opened === false)
+  {
+    // It's still boolean.  Toggle the state
+    node.opened = ! node.opened;
+  }
 
   // Re-render the row data since formerly visible rows may now be invisible,
   // or vice versa.
@@ -130,10 +143,19 @@ qx.Proto.toggleExpanded = function(node)
 };
 
 
+
+qx.Proto.setState = function(nodeId, attributes)
+{
+  this.getDataModel().setState(nodeId, attributes);
+}
+
+
+
+
 /**
  * Event handler. Called when a key was pressed.
  *
- * We handle the Enter key to toggle expanded/contracted tree state.  All
+ * We handle the Enter key to toggle opened/closed tree state.  All
  * other keydown events are passed to our superclass.
  *
  * @param evt {Map} the event.
@@ -151,7 +173,7 @@ qx.Proto._onkeydown = function(evt)
       var node = this.getTableModel().getValue(this.getFocusedColumn(),
                                                this.getFocusedRow());
 
-      this.toggleExpanded(node);
+      this.toggleOpened(node);
       consumed = true;
       break;
     }
@@ -173,7 +195,7 @@ qx.Proto._onkeydown = function(evt)
 
 
 /**
- * Handles the mouse click event.
+ * Handles the a selection event
  *
  * @param index {Integer}
  *   The row index the mouse is pointing at.
@@ -181,13 +203,13 @@ qx.Proto._onkeydown = function(evt)
  * @param evt {Map}
  *   The mouse event.
  */
-qx.Proto._handleClick = function(index, evt)
+qx.Proto._handleSelectEvent = function(index, evt)
 {
   // Get the node to which this click applies
   var node = this.getTableModel().getValue(this.getFocusedColumn(),
                                            this.getFocusedRow());
 
-  // Was the click on the expand/contract button?  That button begins at
+  // Was the click on the open/close button?  That button begins at
   // (node.level - 1) * 19 + 2 (the latter for padding), and has width 19.  We
   // add a bit of latitude to that.
   var x = evt.getClientX();
@@ -195,7 +217,22 @@ qx.Proto._handleClick = function(index, evt)
   var buttonPos = (node.level - 1) * 19 + 2;
   if (x >= buttonPos - latitude && x <= buttonPos + 19 + latitude)
   {
-    // Yup.  Toggle the expanded state for this node.
-    this.toggleExpanded(node);
+    // Yup.  Toggle the opened state for this node.
+    this.toggleOpened(node);
   }
 };
+
+
+/**
+ * Event handler. Called when the selection has changed.
+ *
+ * @param evt {Map} the event.
+ */
+qx.Proto._onSelectionChanged = function(evt) {
+  qx.ui.table.Table.prototype._onSelectionChanged.call(this, evt);
+  this.createDispatchEvent("changeSelection");
+}
+
+
+// Change the background color for mouse-over in the tree
+qx.ui.table.DefaultDataRowRenderer.BGCOL_FOCUSED_BLUR = "#f4f4f4";

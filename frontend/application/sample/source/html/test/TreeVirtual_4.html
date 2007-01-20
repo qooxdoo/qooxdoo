@@ -12,7 +12,7 @@
   <script type="text/javascript" src="../../script/layout.js"></script>
 
   <div id="demoDescription">
-    <p>Show use of events upon tree expanding and contracting.</p>
+    <p>Show use of events upon tree opening and closing.</p>
   </div>
 
   <script type="text/javascript">
@@ -39,56 +39,30 @@
     // tree data model
     var dataModel = tree.getDataModel();
 
-    var te1 =
-      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
-                        null, "Desktop", true);
+    var te1 = dataModel.addBranch(null, "Desktop", true);
 
-    var te1_1 = 
-      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
-                        te1, "Files", true);
-    var te1_2 = 
-      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
-                        te1, "Workspace", true);
-    var te1_3 = 
-      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
-                        te1, "Network", true);
-    var te1_4 = 
-      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
-                        te1, "Trash", true);
+    var te;
+    dataModel.addBranch(te1, "Files", true);
 
-    var te1_2_1 = 
-      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF,
-                        te1_2, "Windows (C:)", false);
-    var te1_2_2 = 
-      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF,
-                        te1_2, "Documents (D:)", false);
+    te = dataModel.addBranch(te1, "Workspace", true);
+    dataModel.addLeaf(te, "Windows (C:)");
+    dataModel.addLeaf(te, "Documents (D:)");
 
-    var te2 = 
-      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
-                        null, "Inbox", true);
+    dataModel.addBranch(te1, "Network", true);
+    dataModel.addBranch(te1, "Trash", true);
 
-    var te2_1 = 
-      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
-                        te2, "Spam", false);
+    var te2 = dataModel.addBranch(null, "Inbox", true);
 
+    te = dataModel.addBranch(te2, "Spam", false);
     for (var i = 1; i < 3000; i++)
     {
-      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF,
-                        te2_1, "Spam Message #" + i, false);
+      dataModel.addLeaf(te, "Spam Message #" + i);
     }
 
-    var te2_2 = 
-      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
-                        te2, "Sent", true);
-    var te2_3 = 
-      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
-                        te2, "Trash", true);
-    var te2_4 = 
-      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
-                        te2, "Data", true);
-    var te2_5 = 
-      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
-                        te2, "Edit", true);
+    dataModel.addBranch(te2, "Sent", false);
+    dataModel.addBranch(te2, "Trash", false);
+    dataModel.addBranch(te2, "Data", false);
+    dataModel.addBranch(te2, "Edit", false);
 
     dataModel.setData(null);
 
@@ -102,10 +76,8 @@
                           function(e)
                           {
                             alert('treeOpenWithContent ');
-                            var Stdm = qx.ui.treevirtual.SimpleTreeDataModel;
                             var node = e.getData();
-                            dataModel.addNode(Stdm.Type.LEAF,
-                                              node.nodeId,
+                            dataModel.addLeaf(node.nodeId,
                                               newItem.toString(),
                                               false);
                             newItem++;
@@ -127,10 +99,16 @@
     tree.addEventListener("treeOpenWhileEmpty",
                           function(e)
                           {
-                            alert('treeOpenWhileEmpty -- FIX ME');
+                            alert('treeOpenWhileEmpty');
                             var node = e.getData();
-                            node.expanded = null;
-                            dataModel.setData(null);
+                            tree.setState(node.nodeId, { opened : null });
+                          });
+
+
+    tree.addEventListener("changeSelection",
+                          function(e)
+                          {
+                            alert('changeSelection');
                           });
 
 
