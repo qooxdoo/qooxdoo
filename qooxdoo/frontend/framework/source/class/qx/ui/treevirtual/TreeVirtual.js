@@ -55,6 +55,20 @@ function(heading)
   // Move the focus with the mouse
   this.setFocusCellOnMouseMove(true);
 
+  // Change focus colors.  Make them less obtrusive.
+  this.setRowColors(
+    {
+      bgcolFocused             : "#f0f0f0",
+      bgcolFocusedBlur         : "#f0f0f0",
+    });
+  
+  // Remove the outline on focus.
+  // KLUDGE ALERT: I really want to remove the old appearance, but I don't
+  // know how to do that.  Instead, for the moment, I'll just use an existing
+  // appearance that won't affect the focus indicator, making the appearance
+  // effectively a no-op.
+  this.getPaneScroller(0)._focusIndicator.setAppearance("image");
+
   // Arrange to select events locally. Replace the selection manager's method
   // with one that calls the selection manager's method and then calls own our
   // _handleSelectEvent method (with this TreeVirtual object as 'this' instead
@@ -147,9 +161,32 @@ qx.Proto.toggleOpened = function(node)
 qx.Proto.setState = function(nodeId, attributes)
 {
   this.getDataModel().setState(nodeId, attributes);
-}
+};
 
 
+/**
+ * Allow setting the tree row colors.
+ *
+ * @param colors {Map}
+ *    The value of each property in the map is a string containing either a
+ *    number (e.g. "#518ad3") or color name ("white") representing the color
+ *    for that type of display.  The map may contain any or all of the
+ *    following properties:
+ *     - bgcolFocusedSelected
+ *     - bgcolFocusedSelectedBlur
+ *     - bgcolFocused
+ *     - bgcolFocusedBlur
+ *     - bgcolSelected
+ *     - bgcolSelectedBlur
+ *     - bgcolEven
+ *     - bgcolOdd
+ *     - colSelected
+ *     - colNormal
+ */
+qx.Proto.setRowColors = function(colors)
+{
+  this.getDataRowRenderer().setRowColors(colors);
+};
 
 
 /**
@@ -232,7 +269,3 @@ qx.Proto._onSelectionChanged = function(evt) {
   qx.ui.table.Table.prototype._onSelectionChanged.call(this, evt);
   this.createDispatchEvent("changeSelection");
 }
-
-
-// Change the background color for mouse-over in the tree
-qx.ui.table.DefaultDataRowRenderer.BGCOL_FOCUSED_BLUR = "#f4f4f4";
