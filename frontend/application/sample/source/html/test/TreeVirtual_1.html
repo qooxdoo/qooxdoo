@@ -12,7 +12,9 @@
   <script type="text/javascript" src="../../script/layout.js"></script>
 
   <div id="demoDescription">
-    <p>An example of using a the Virtual Tree widget with addNode()</p>
+  <p>
+    An example of using the Virtual Tree widget with addBranch() and addLeaf()
+  </p>
   </div>
 
   <script type="text/javascript">
@@ -39,49 +41,26 @@
     // tree data model
     var dataModel = tree.getDataModel();
 
-    var te1 =
-      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
-                        null, "Desktop", true);
+    var te;
 
-    var te1_1 = 
-      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
-                        te1, "Files", true);
-    var te1_2 = 
-      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
-                        te1, "Workspace", true);
-    var te1_3 = 
-      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
-                        te1, "Network", true);
-    var te1_4 = 
-      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
-                        te1, "Trash", true);
+    var te1 = dataModel.addBranch(null, "Desktop", true);
 
-    var te1_2_1 = 
-      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF,
-                        te1_2, "Windows (C:)", false);
-    var te1_2_2 = 
-      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF,
-                        te1_2, "Documents (D:)", false);
+    dataModel.addBranch(te1, "Files", true);
 
-    var te2 = 
-      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
-                        null, "Inbox", true);
+    te = dataModel.addBranch(te1, "Workspace", true);
+    dataModel.addLeaf(te, "Windows (C:)");
+    dataModel.addLeaf(te, "Documents (D:)");
 
-    var te2_1 = 
-      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
-                        te2, "Presets", true);
-    var te2_2 = 
-      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
-                        te2, "Sent", true);
-    var te2_3 = 
-      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
-                        te2, "Trash", true);
-    var te2_4 = 
-      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
-                        te2, "Data", true);
-    var te2_5 = 
-      dataModel.addNode(qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
-                        te2, "Edit", true);
+    dataModel.addBranch(te1, "Network", true);
+    dataModel.addBranch(te1, "Trash", true);
+
+    var te2 = dataModel.addBranch(null, "Inbox", true);
+
+    dataModel.addBranch(te2, "Presets", true);
+    dataModel.addBranch(te2, "Sent", true);
+    dataModel.addBranch(te2, "Trash", true);
+    dataModel.addBranch(te2, "Data", true);
+    dataModel.addBranch(te2, "Edit", true);
 
     dataModel.setData(null);
   });

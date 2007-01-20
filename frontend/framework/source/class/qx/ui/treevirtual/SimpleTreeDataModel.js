@@ -31,9 +31,9 @@
  * {
  *   type          : qx.ui.treevirtual.Type.LEAF,
  *   parentNodeId  : 23,   // index in _nodeArr of the parent node
- *   labelHtml     : "My Documents",
+ *   label         : "My Documents",
  *   bSelected     : true, // true if node is selected; false otherwise
- *   expanded      : null, // true (-), false (+), or null (no +/-)
+ *   opened        : null, // true (-), false (+), or null (no +/-)
  *   icon          : "images/folder.gif",
  *   iconSelected  : "images/folder_selected.gif",
  *   children      : [ ],  // each value is an index into _nodeArr
@@ -68,8 +68,8 @@ function()
 
   this._nodeArr.push(           // the root node, needed to store its children
     {
-      labelHtml : "<virtual root>",
-      expanded  : true,
+      label     : "<virtual root>",
+      opened    : true,
       children  : [ ]
     });
 });
@@ -150,12 +150,12 @@ qx.Proto.getValue = function(columnIndex, rowIndex)
 };
 
 
-qx.Proto.addNode = function(type,
-                            parentNodeId,
-                            labelHtml,
-                            expanded,
-                            icon,
-                            iconSelected)
+qx.Proto._addNode = function(parentNodeId,
+                             label,
+                             opened,
+                             type,
+                             icon,
+                             iconSelected)
 {
   var parentNode;
 
@@ -181,10 +181,10 @@ qx.Proto.addNode = function(type,
     parentNodeId = 0;
   }
 
-  // If this is a file, we don't present expand/contract icon
-  if (type == qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF && expanded)
+  // If this is a file, we don't present open/close icon
+  if (type == qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF && opened)
   {
-    throw new Error("Attempt to display a LEAF expanded");
+    throw new Error("Attempt to display a LEAF opened [" + label + "]");
   }
 
   // Determine the node id of this new node
@@ -195,8 +195,8 @@ qx.Proto.addNode = function(type,
     {
       type         : type,
       parentNodeId : parentNodeId,
-      labelHtml    : labelHtml,
-      expanded     : expanded,
+      label        : label,
+      opened       : opened,
       icon         : icon,
       iconSelected : iconSelected,
       children     : [ ]
@@ -210,6 +210,36 @@ qx.Proto.addNode = function(type,
 
   // Return the node id we just added
   return nodeId;
+};
+
+
+
+qx.Proto.addBranch = function(parentNodeId,
+                              label,
+                              opened,
+                              icon,
+                              iconSelected)
+{
+  return this._addNode(parentNodeId,
+                       label,
+                       opened,
+                       qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
+                       icon,
+                       iconSelected);
+};
+
+
+qx.Proto.addLeaf = function(parentNodeId,
+                            label,
+                            icon,
+                            iconSelected)
+{
+  return this._addNode(parentNodeId,
+                       label,
+                       false,
+                       qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF,
+                       icon,
+                       iconSelected);
 };
 
 
@@ -245,6 +275,16 @@ qx.Proto.setData = function(nodeArr)
   // Re-render the row array
   this._render();
 };
+
+
+
+qx.Proto.setState = function(nodeId, attributes)
+{
+  for (var attribute in attributes)
+  {
+    this._nodeArr[nodeId][attribute] = attributes[attribute];
+  }
+}
 
 
 /**
@@ -294,8 +334,8 @@ qx.Proto._render = function()
       // Add this node to the row array
       _this._rowArr.push( [ child ])
 
-      // If this child is expanded, ...
-      if (child.expanded)
+      // If this child is opened, ...
+      if (child.opened)
       {
         // ... then add its children too.
         inorder(childNodeId, level + 1);
@@ -330,6 +370,6 @@ qx.Proto._render = function()
 
 // We currently support these types of tree nodes
 qx.Class.Type = {};
-qx.Class.Type.LEAF            = 0;
-qx.Class.Type.BRANCH          = 1;
+qx.Class.Type.LEAF            = 1;
+qx.Class.Type.BRANCH          = 2;
 
