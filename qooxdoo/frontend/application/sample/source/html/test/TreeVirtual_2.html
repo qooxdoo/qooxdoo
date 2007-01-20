@@ -13,7 +13,8 @@
 
   <div id="demoDescription">
     <p>An example of using the Virtual Tree widget providing the array of tree
-          nodes en bulk instead of issuing a series of addNode() calls.</p>
+    nodes en bulk instead of issuing a series of addBranch() and addLeaf()
+    calls.</p>
   </div>
 
   <script type="text/javascript">
@@ -44,7 +45,7 @@
 
     var node =                  // the root node (not displayed)
       {
-        expanded      : true,
+        opened        : true,
         children      : [ 1 ]
       };
     treeData.push(node);
@@ -53,9 +54,9 @@
       {
         type          : qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
         parentNodeId  : 0,
-        labelHtml     : "My Root",
+        label         : "My Root",
         bSelected     : false,
-        expanded      : true,
+        opened        : true,
         icon          : "icon/16/folder.png",
         iconSelected  : "icon/16/folder_open.png",
         children      : [ 2 ]
@@ -66,9 +67,9 @@
       {
         type          : qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
         parentNodeId  : 1,
-        labelHtml     : "A sub-folder",
+        label         : "A sub-folder",
         bSelected     : false,
-        expanded      : true,
+        opened        : true,
         icon          : "icon/16/folder.png",
         iconSelected  : "icon/16/folder_open.png",
         children      : [ 3 ]
@@ -79,9 +80,9 @@
       {
         type          : qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF,
         parentNodeId  : 2,
-        labelHtml     : "Third-level leaf",
+        label         : "Third-level leaf",
         bSelected     : false,
-        expanded      : false,
+        opened        : false,
         icon          : "icon/16/file-new.png",
         iconSelected  : "icon/16/file-open.png",
         children      : [ ]

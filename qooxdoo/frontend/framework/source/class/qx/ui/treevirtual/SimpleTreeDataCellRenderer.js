@@ -142,7 +142,7 @@ qx.Proto._getContentHtml = function(cellInfo)
     '<div style="position:absolute;' +
     'left:' + ((node.level * 19) + 16 + 2 + 2) + ';' +
     'top:0;">' +
-    node.labelHtml +
+    node.label +
     '</div>';
 
   return html;
@@ -151,13 +151,6 @@ qx.Proto._getContentHtml = function(cellInfo)
 
 qx.Proto._getIndentSymbol = function(column, node, bUseTreeLines)
 {
-  // If "no expanded/contracted" icon is requested...
-  if (node.expanded !== true && node.expanded !== false)
-  {
-    // ... then just use a blank icon.
-    return this.STATIC_IMAGE_URI + "blank.gif";
-  }
-
   // If we're not on the final column...
   if (column < node.level - 1)
   {
@@ -168,13 +161,14 @@ qx.Proto._getIndentSymbol = function(column, node, bUseTreeLines)
   }
   else if (! bUseTreeLines)
   {
-    return (node.expanded
+    return (node.opened
             ? this.WIDGET_TREE_URI + "minus.gif"
             : this.WIDGET_TREE_URI + "plus.gif");
   }
 
   // Is this a branch node?
-  if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH)
+  if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH &&
+      (node.opened === true || node.opened === false))
   {
     // Determine if this node has any children
     var child = null;
@@ -195,14 +189,14 @@ qx.Proto._getIndentSymbol = function(column, node, bUseTreeLines)
         if (node.bLastChild)
         {
           // ... then use no tree lines.
-          return (node.expanded
+          return (node.opened
                   ? this.WIDGET_TREE_URI + "only_minus.gif"
                   : this.WIDGET_TREE_URI + "only_plus.gif");
         }
         else
         {
           // otherwise, use descender lines but no ascender.
-          return (node.expanded
+          return (node.opened
                   ? this.WIDGET_TREE_URI + "start_minus.gif"
                   : this.WIDGET_TREE_URI + "start_plus.gif");
         }
@@ -211,16 +205,16 @@ qx.Proto._getIndentSymbol = function(column, node, bUseTreeLines)
       // It's not a first child.  Is this the last child of its parent?
       if (node.bLastChild)
       {
-        // Yup.   Return an ending plus or minus, or blank if node.expanded so
+        // Yup.   Return an ending plus or minus, or blank if node.opened so
         // indicates.
-        return (node.expanded
+        return (node.opened
                 ? this.WIDGET_TREE_URI + "end_minus.gif"
                 : this.WIDGET_TREE_URI + "end_plus.gif");
       }
 
       // Otherwise, return a crossing plus or minus, or a blank if
-      // node.expanded so indicates.
-      return (node.expanded
+      // node.opened so indicates.
+      return (node.opened
               ? this.WIDGET_TREE_URI + "cross_minus.gif"
               : this.WIDGET_TREE_URI + "cross_plus.gif");
     }
