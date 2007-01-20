@@ -69,6 +69,8 @@ function()
   this._rowArr = [];            // rows, resorted into tree order as necessary
   this._nodeArr = [];           // tree nodes, organized with hierarchy
 
+  this._treeColumn = 0;         // default column for tree nodes
+
   this._nodeArr.push(           // the root node, needed to store its children
     {
       label     : "<virtual root>",
@@ -131,11 +133,18 @@ qx.Proto.getRowCount = function()
 };
 
 
+qx.Proto.setTreeColumn = function(columnIndex)
+{
+  this._treeColumn = columnIndex;
+}
+
+
 qx.Proto.getValue = function(columnIndex, rowIndex)
 {
   if (rowIndex < 0 || rowIndex >= this._rowArr.length)
   {
-    throw new Error ("this._rowArr row out of bounds: " +
+    throw new Error ("this._rowArr row " +
+                     "(" + rowIndex + ") out of bounds: " +
                      this._rowArr +
                      " (0.." +
                      (this._rowArr.length - 1) + ")");b
@@ -143,7 +152,8 @@ qx.Proto.getValue = function(columnIndex, rowIndex)
 
   if (columnIndex < 0 || columnIndex >= this._rowArr[rowIndex].length)
   {
-    throw new Error ("this._rowArr column out of bounds: " +
+    throw new Error ("this._rowArr column " +
+                     "(" + columnIndex + ") out of bounds: " +
                      this._rowArr[rowIndex] +
                      " (0.." +
                      (this._rowArr[rowIndex].length - 1) + ")");
@@ -202,7 +212,8 @@ qx.Proto._addNode = function(parentNodeId,
       opened       : opened,
       icon         : icon,
       iconSelected : iconSelected,
-      children     : [ ]
+      children     : [ ],
+      columnData   : [ ]
     };
 
   // Add this node to the array
@@ -280,6 +291,23 @@ qx.Proto.setData = function(nodeArr)
 };
 
 
+/**
+ * Add data to an additional column of the tree.
+ *
+ * @param nodeId
+ *   A node identifier, as previously returned by addBranch() or addLeaf().
+ *
+ * @param columnIndex
+ *   The column number to which the provided data applies
+ *
+ * @param data
+ *   The cell data for the specified column
+ */
+qx.Proto.setColumnData = function(nodeId, columnIndex, data)
+{
+  this._nodeArr[nodeId].columnData[columnIndex] = data;
+}
+
 
 qx.Proto.setState = function(nodeId, attributes)
 {
@@ -334,8 +362,39 @@ qx.Proto._render = function()
       // Determine whether our parent is a last child
       child.bParentLastChild = parent.bLastChild;
 
-      // Add this node to the row array
-      _this._rowArr.push( [ child ])
+      // Ensure there's an entry in the columnData array for each column
+      child.columnData[_this.getColumnCount() - 1] = null;
+
+      // Add this node to the row array.  Initialize a row data array.
+      var rowData = [ ];
+
+      // If additional column data is provided...
+      if (child.columnData)
+      {
+        // ... then add each column data.
+        for (var j = 0; j < child.columnData.length; j++)
+        {
+          // Is this the tree column?
+          if (j == _this._treeColumn)
+          {
+            // Yup.  Add the tree node data
+            rowData.push(child);
+          }
+          else
+          {
+            // Otherwise, add the column data verbatim.
+            rowData.push(child.columnData[j]);
+          }
+        }
+      }
+      else
+      {
+        // No column data.  Just add the tree node.
+        rowData.push(child);
+      }
+      
+      // Add the row data to the row array
+      _this._rowArr.push(rowData)
 
       // If this child is opened, ...
       if (child.opened)
