@@ -38,6 +38,9 @@
  *   iconSelected  : "images/folder_selected.gif",
  *   children      : [ ],  // each value is an index into _nodeArr
  *
+ *   cellStyle     : "background-color:cyan"
+ *   labelStyle    : "background-color:red;color:white"
+ *
  *   // The following properties need not (and should not) be set by the
  *   // caller, but are automatically calculated.  Some are used internally,
  *   // while others may be of use to event listeners.

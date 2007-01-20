@@ -14,7 +14,7 @@
   <div id="demoDescription">
     <p>An example of using the Virtual Tree widget providing the array of tree
     nodes en bulk instead of issuing a series of addBranch() and addLeaf()
-    calls.</p>
+    calls.  This example also colors some nodes.</p>
   </div>
 
   <script type="text/javascript">
@@ -59,6 +59,7 @@
         opened        : true,
         icon          : "icon/16/folder.png",
         iconSelected  : "icon/16/folder_open.png",
+        labelStyle    : "background-color:red;color:white",
         children      : [ 2 ]
       };
     treeData.push(node);
@@ -72,6 +73,7 @@
         opened        : true,
         icon          : "icon/16/folder.png",
         iconSelected  : "icon/16/folder_open.png",
+        cellStyle     : "background-color:cyan",
         children      : [ 3 ]
       };
     treeData.push(node);

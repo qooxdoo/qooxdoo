@@ -53,7 +53,14 @@ qx.OO.addProperty({ name : "alwaysShowPlusMinusSymbol",
 // overridden
 qx.Proto._getCellStyle = function(cellInfo)
 {
-  return qx.ui.treevirtual.SimpleTreeDataCellRenderer.MAIN_DIV_STYLE;
+  var node = cellInfo.value;
+
+  // Return the style for the div for the cell.  If there's cell-specific
+  // style information provided, append it.
+  var html =
+    qx.ui.treevirtual.SimpleTreeDataCellRenderer.MAIN_DIV_STYLE +
+    (node.cellStyle ? node.cellStyle + ";" : "");
+  return html;
 };
 
 
@@ -141,7 +148,9 @@ qx.Proto._getContentHtml = function(cellInfo)
   html +=
     '<div style="position:absolute;' +
     'left:' + ((node.level * 19) + 16 + 2 + 2) + ';' +
-    'top:0;">' +
+    'top:0' +
+    (node.labelStyle ? ";" + node.labelStyle : "") +
+    ';">' +
     node.label +
     '</div>';
 
