@@ -35,11 +35,21 @@
  *
  */
 qx.OO.defineClass("qx.ui.treevirtual.TreeVirtual", qx.ui.table.Table,
-function(heading)
+function(headings)
 {
   // Create a table model
   var tableModel = new qx.ui.treevirtual.SimpleTreeDataModel();
-  tableModel.setColumns([ heading ]);
+
+  // Specify the column headings.  We accept a single string (one single
+  // column) or an array of strings (one or more columns).
+  if (headings instanceof Array)
+  {
+    tableModel.setColumns(headings);
+  }
+  else
+  {
+    tableModel.setColumns([ headings ]);
+  }
 
   // Call our superclass constructor
   qx.ui.table.Table.call(this, tableModel);
@@ -59,7 +69,7 @@ function(heading)
   this.setRowColors(
     {
       bgcolFocused             : "#f0f0f0",
-      bgcolFocusedBlur         : "#f0f0f0",
+      bgcolFocusedBlur         : "#f0f0f0"
     });
   
   // Remove the outline on focus.
@@ -93,12 +103,6 @@ function(heading)
 qx.Proto.getDataModel = function()
 {
   return this.getTableModel();
-};
-
-
-qx.Proto.setDataWidth = function(width)
-{
-  this.setColumnWidth(0, width);
 };
 
 
@@ -245,13 +249,31 @@ qx.Proto._handleSelectEvent = function(index, evt)
   // Get the node to which this click applies
   var node = this.getTableModel().getValue(this.getFocusedColumn(),
                                            this.getFocusedRow());
+  if (! node)
+  {
+    return;
+  }
+
+  // Get the order of the columns
+  var tcm = this.getTableColumnModel();
+  var columnPositions = tcm._getColToXPosMap();
+
+  // Calculate the position of the beginning of the tree column
+  var treeCol = this.getTableModel()._treeColumn;
+  var left = 0;
+  for (i = 0; i < columnPositions[treeCol].visX; i++)
+  {
+    left += tcm.getColumnWidth(columnPositions[i].visX);
+  }
 
   // Was the click on the open/close button?  That button begins at
   // (node.level - 1) * 19 + 2 (the latter for padding), and has width 19.  We
   // add a bit of latitude to that.
   var x = evt.getClientX();
   var latitude = 2;
-  var buttonPos = (node.level - 1) * 19 + 2;
+
+  var buttonPos = left + (node.level - 1) * 19 + 2;
+
   if (x >= buttonPos - latitude && x <= buttonPos + 19 + latitude)
   {
     // Yup.  Toggle the opened state for this node.

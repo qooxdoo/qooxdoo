@@ -12,7 +12,7 @@
   <script type="text/javascript" src="../../script/layout.js"></script>
 
   <div id="demoDescription">
-    <p>Test large trees.  This one adds a Spam branch with 3000 leaf nodes.</p>
+    <p>Demonstrate use of multiple columns in a tree.</p>
   </div>
 
   <script type="text/javascript">
@@ -21,18 +21,19 @@
     var d = qx.ui.core.ClientDocument.getInstance();
 
     // tree
-    var tree = new qx.ui.treevirtual.TreeVirtual("Tree");
+    var tree = new qx.ui.treevirtual.TreeVirtual([ "Tree", "Permissions" ]);
     with (tree)
     {
       set({
             left   : 10,
             top    : 30,
-            width  : 400,
+            width  : 506,
             bottom : 30,
             border : qx.renderer.border.BorderPresets.getInstance().thinInset
           });
-      setColumnWidth(0, 400);
       setAlwaysShowPlusMinusSymbol(true);
+      setColumnWidth(0, 400);
+      setColumnWidth(1, 100);
     };
 
     d.add(tree);
