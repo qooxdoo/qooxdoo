@@ -47,13 +47,15 @@
                          labelStyle : "background-color: red; color: white;"
                        });
                          
-    var te;
+    var te1_1;
 
     dataModel.addBranch(te1, "Files", true);
 
-    te = dataModel.addBranch(te1, "Workspace", true);
-    dataModel.addLeaf(te, "Windows (C:)");
-    dataModel.addLeaf(te, "Documents (D:)");
+    te1_1 = dataModel.addBranch(te1, "Workspace", true);
+    te = dataModel.addLeaf(te1_1, "Windows (C:)");
+    dataModel.setColumnData(te, 1, "-rwxr-xr-x");
+    te = dataModel.addLeaf(te1_1, "Documents (D:)");
+    dataModel.setColumnData(te, 1, "-rwxr-xr-x");
 
     dataModel.addBranch(te1, "Network", true);
 
