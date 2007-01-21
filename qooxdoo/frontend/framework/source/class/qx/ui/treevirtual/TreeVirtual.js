@@ -73,11 +73,16 @@ function(headings)
     });
   
   // Remove the outline on focus.
+  //
   // KLUDGE ALERT: I really want to remove the old appearance, but I don't
   // know how to do that.  Instead, for the moment, I'll just use an existing
   // appearance that won't affect the focus indicator, making the appearance
   // effectively a no-op.
-  this.getPaneScroller(0)._focusIndicator.setAppearance("image");
+  var scrollerArr = this._getPaneScrollerArr();
+  for (var i = 0; i < scrollerArr.length; i++)
+  {
+    scrollerArr[i]._focusIndicator.setAppearance("image");
+  }
 
   // Arrange to select events locally. Replace the selection manager's method
   // with one that calls the selection manager's method and then calls own our
