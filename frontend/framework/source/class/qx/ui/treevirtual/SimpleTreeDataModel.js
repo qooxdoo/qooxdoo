@@ -367,7 +367,11 @@ qx.Proto._render = function()
       {
         child.columnData = [ ];
       }
-      child.columnData[_this.getColumnCount() - 1] = null;
+
+      if (child.columnData.length < _this.getColumnCount())
+      {
+        child.columnData[_this.getColumnCount() - 1] = null;
+      }
 
       // Add this node to the row array.  Initialize a row data array.
       var rowData = [ ];

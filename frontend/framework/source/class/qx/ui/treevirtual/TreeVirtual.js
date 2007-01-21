@@ -42,14 +42,11 @@ function(headings)
 
   // Specify the column headings.  We accept a single string (one single
   // column) or an array of strings (one or more columns).
-  if (headings instanceof Array)
+  if (! headings instanceof Array)
   {
-    tableModel.setColumns(headings);
+    headings = [ headings ];
   }
-  else
-  {
-    tableModel.setColumns([ headings ]);
-  }
+  tableModel.setColumns(headings);
 
   // Call our superclass constructor
   qx.ui.table.Table.call(this, tableModel);
@@ -58,9 +55,16 @@ function(headings)
   this.setRowHeight(16);
   this.setMetaColumnCounts([1, -1]);
 
-  // Set the data cell render
+  // Set the data cell render.  We use the SimpleTreeDataCellRenderer for the
+  // tree column, and our DefaultDataCellRenderer for all other columns.
   var stdcr = new qx.ui.treevirtual.SimpleTreeDataCellRenderer();
-  this.getTableColumnModel().setDataCellRenderer(0, stdcr);
+  var ddcr = new qx.ui.treevirtual.DefaultDataCellRenderer();
+  var tcm = this.getTableColumnModel();
+  var treeCol = this.getTableModel()._treeColumn;
+  for (var i = 0; i < headings.length; i++)
+  {
+    tcm.setDataCellRenderer(i, i == treeCol ? stdcr : ddcr);
+  }
 
   // Move the focus with the mouse
   this.setFocusCellOnMouseMove(true);
