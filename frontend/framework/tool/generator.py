@@ -952,6 +952,8 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     if options.sourceScriptFile != None:
       print "  * Storing includer as %s..." % options.sourceScriptFile
       sourceScript = "document.write('%s');" % scriptBlocks.replace("'", "\\'")
+      if options.addNewLines:
+        sourceScript = sourceScript.replace("\n", "\\\n")
       filetool.save(options.sourceScriptFile, sourceScript, options.scriptOutputEncoding)
 
     if options.sourceTemplateInputFile != None and options.sourceTemplateOutputFile != None:
