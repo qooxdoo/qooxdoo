@@ -673,10 +673,13 @@ qx.Proto._processEvents = function()
     var event = this._eventQueue.pop();
 
     // Run the finite state machine with this event
-    this._run(event);
+    var bDispose = this._run(event);
 
-    // We can now dispose the event
-    event.dispose();
+    // If we didn't block (and re-queue) the event, dispose it.
+    if (bDispose)
+    {
+      event.dispose();
+    }
   }
 
   // We're no longer processing events
@@ -691,6 +694,10 @@ qx.Proto._processEvents = function()
  *   current state handles this event type), queued (if the current state
  *   blocks this event type), or discarded (if the current state neither
  *   handles nor blocks this event type).
+ *
+ * @return {Boolean}
+ *   Whether the event should be disposed.  If it was blocked, we've pushed it
+ *   back onto the event queue, and it should not be disposed.
  */
 qx.Proto._run = function(event)
 {
@@ -749,12 +756,12 @@ qx.Proto._run = function(event)
   // See if we actually found this event type
   if (! e)
   {
-    if (this.debugEvents)
+    if (debugEvents)
     {
       this.debug(this.getName() + ": Event '" + event.getType() + "'" +
                  " not handled.  Ignoring.");
     }
-    return;
+    return true;
   }
 
   // We might have found a constant (PREDICATE or BLOCKED) or an object with
@@ -772,7 +779,7 @@ qx.Proto._run = function(event)
         this.debug(this.getName() + ": Could not find friendly name for '" +
                    event.getType() + "' on '" + event.getTarget() + "'");
       }
-      return;
+      return true;
     }
 
     action = e[friendly];
@@ -790,8 +797,13 @@ qx.Proto._run = function(event)
 
     case qx.util.fsm.FiniteStateMachine.EventHandling.BLOCKED:
       // This event is blocked.  Enqueue it for later, and get outta here.
+      if (debugEvents)
+      {
+        this.debug(this.getName() + ": Event '" + event.getType() + "'" +
+                   " blocked.  Re-queuing.");
+      }
       this._blockedEvents.unshift(event);
-      return;
+      return false;
 
     default:
       // See if we've been given an explicit transition name
@@ -833,12 +845,11 @@ qx.Proto._run = function(event)
 
     case null:
       // Transition indicates not to try further transitions
-      return;
+      return true;
 
     default:
       throw new Error("Transition " + thisState + ":" + t +
                       " returned a value other than true, false, or null.");
-      return;
     }
 
     // We think we can transition to the next state.  Set next state.
@@ -971,14 +982,13 @@ qx.Proto._run = function(event)
     }
     currentState.getAutoActionsAfterOnentry()(this);
 
-    // Add the blocked events to the pending event queue
-    if (this._blockedEvents.length > 0)
+    // Add any blocked events back onto the pending event queue
+    var e;
+    for (var i = 0; i < this._blockedEvents.length; i++)
     {
-      this._eventQueue.unshift(this._blockedEvents);
+      e = this._blockedEvents.pop();
+      this._eventQueue.unshift(e);
     }
-
-    // The blocked event list is now empty
-    this._blockedEvents = [ ];
 
     // Ensure that all actions have been flushed
     qx.ui.core.Widget.flushGlobalQueues();
@@ -990,7 +1000,7 @@ qx.Proto._run = function(event)
     }
 
     // See ya!
-    return;
+    return true;
   }
 
   if (debugTransitions)
@@ -999,6 +1009,8 @@ qx.Proto._run = function(event)
                ": event '" + event.getType() + "'" +
                ": no transition found.  No state change.");
   }
+
+  return true;
 };
 
 
@@ -1383,4 +1395,4 @@ qx.Proto.dispose = function()
   this._states = null;
 
   return qx.core.Target.prototype.dispose.call(this);
-}
+};
