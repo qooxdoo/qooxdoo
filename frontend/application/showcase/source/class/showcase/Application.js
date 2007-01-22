@@ -31,6 +31,8 @@
 #embed(qx.icontheme/48/*)
 
 #load(qx.theme.icon.Nuvola)
+#load(qx.theme.icon.NuoveXT)
+#load(qx.theme.icon.CrystalClear)
 
 #load(qx.theme.color.System)
 #load(qx.theme.color.WindowsClassic)
@@ -57,18 +59,18 @@ qx.Proto.main = function(e)
 
   barView.addToDocument();
 
-  this._createPage(barView, "Form",             "icon/32/wordprocessor.png",    this._createFormDemo(), "threedface");
+  this._createPage(barView, "Form",             "icon/32/apps/accessories-text-editor.png",    this._createFormDemo(), "threedface");
   this._createPage(barView, "Tooltip",          "icon/32/actions/system-run.png",              this._createTooltipDemo());
   this._createPage(barView, "Menu and Toolbar", "icon/32/devices/video-display.png",          this._createToolbarDemo());
-  this._createPage(barView, "Tab",              "icon/32/contents.png",         this._createTabDemo(), "threedface", true);
-  this._createPage(barView, "Tree",             "icon/32/view-sidetree.png",    this._createTreeDemo(), "threedface");
+  this._createPage(barView, "Tab",              "icon/32/places/user-desktop.png",         this._createTabDemo(), "threedface", true);
+  this._createPage(barView, "Tree",             "icon/32/actions/view-pane-tree.png",    this._createTreeDemo(), "threedface");
   this._createPage(barView, "List",             "icon/32/actions/view-pane-detailed.png",    this._createListDemo(), "threedface");
-  this._createPage(barView, "ListView",         "icon/32/actions/view-pane-column.png", this._createListViewDemo(), "threedface");
+  this._createPage(barView, "ListView",         "icon/32/actions/view-pane-icon.png", this._createListViewDemo(), "threedface");
   this._createPage(barView, "Table",            "icon/32/actions/view-pane-column.png", this._createTableDemo(), "threedface", true);
   this._createPage(barView, "Localization",     "icon/32/apps/accessories-archiver.png",        this._createLocalizationDemo(), "threedface");
   this._createPage(barView, "Native Window",    "icon/32/devices/video-display.png",          this._createNativeWindowDemo(), "threedface");
   this._createPage(barView, "Internal Window",  "icon/32/apps/preferences-desktop-theme.png",    this._createInternalWindowDemo(), null, true);
-  this._createPage(barView, "Themes",           "icon/32/style.png",            this._createThemesDemo());
+  this._createPage(barView, "Themes",           "icon/32/apps/preferences-desktop-wallpaper.png",            this._createThemesDemo());
 };
 
 
@@ -218,11 +220,11 @@ qx.Proto._createTooltipDemo = function() {
   c2.setToolTip(new qx.ui.popup.ToolTip("Images are also possible", "icon/16/actions/help-about.png"));
   main.add(c2);
 
-  var c3 = new qx.ui.basic.Atom("Hover me", "icon/32/pipe.png");
+  var c3 = new qx.ui.basic.Atom("Hover me", "icon/32/apps/accessories-disk-usage.png");
   c3.setPadding(5);
   c3.setBorder(qx.renderer.border.BorderPresets.getInstance().outset);
   c3.setBackgroundColor(new qx.renderer.color.Color("#D1A4AD"));
-  var tip3 = new qx.ui.popup.ToolTip('Such a great tooltip with a show timeout of 50ms.<br>And <b>H</b><span style="color:red">T</span><i>M</i><u>L</u>', "icon/32/pipe.png");
+  var tip3 = new qx.ui.popup.ToolTip('Such a great tooltip with a show timeout of 50ms.<br>And <b>H</b><span style="color:red">T</span><i>M</i><u>L</u>', "icon/32/apps/accessories-disk-usage.png");
   tip3.setShowInterval(50);
   c3.setToolTip(tip3);
   main.add(c3);
@@ -320,7 +322,7 @@ qx.Proto._createToolbarDemo = function() {
   var mb4_01 = new qx.ui.menu.Button("View", null, null, m4_suba);
   var mb4_b1 = new qx.ui.menu.Separator();
   var mb4_02 = new qx.ui.menu.Button("Editor Preferences...", "icon/16/apps/preferences.png");
-  var mb4_03 = new qx.ui.menu.Button("Editor Extensions", "icon/16/connect-established.png");
+  var mb4_03 = new qx.ui.menu.Button("Editor Extensions", "icon/16/apps/accessories-disk-usage.png");
   var mb4_04 = new qx.ui.menu.Button("Framework Preferences");
 
   m4.add(mb4_01, mb4_b1, mb4_02, mb4_03, mb4_04);
@@ -371,7 +373,7 @@ qx.Proto._createToolbarDemo = function() {
       clazz = qx.ui.toolbar.Button;
     }
 
-    var button = new clazz(text, "icon/22/" + icon + ".png");
+    var button = new clazz(text, "icon/22/actions/" + icon + ".png");
     doc.addEventListener("changeLayout", changeLayout, button);
     doc.addEventListener("changeSize", changeSize, button);
 
@@ -387,7 +389,7 @@ qx.Proto._createToolbarDemo = function() {
 
   var part = new qx.ui.toolbar.Part;
   tb.add(part);
-  part.add(createButton("New", "file-new"));
+  part.add(createButton("New", "document-new"));
   part.add(new qx.ui.toolbar.Separator);
   part.add(createButton("Copy",  "edit-copy"));
   part.add(createButton("Cut",   "edit-cut"));
@@ -395,13 +397,13 @@ qx.Proto._createToolbarDemo = function() {
 
   var part = new qx.ui.toolbar.Part;
   tb.add(part);
-  part.add(createButton("Check", "configure", qx.ui.toolbar.CheckBox, true));
+  part.add(createButton("Check", "edit-add", qx.ui.toolbar.CheckBox, true));
 
   var part = new qx.ui.toolbar.Part;
   tb.add(part);
-  var radio1 = createButton("Radio1", "view-choose", qx.ui.toolbar.RadioButton);
-  var radio2 = createButton("Radio2", "view-detailed", qx.ui.toolbar.RadioButton, true);
-  var radio3 = createButton("Radio3", "view-icon", qx.ui.toolbar.RadioButton);
+  var radio1 = createButton("Radio1", "view-pane-column", qx.ui.toolbar.RadioButton);
+  var radio2 = createButton("Radio2", "view-pane-detailed", qx.ui.toolbar.RadioButton, true);
+  var radio3 = createButton("Radio3", "view-pane-icon", qx.ui.toolbar.RadioButton);
   part.add(radio1, radio2, radio3);
   new qx.manager.selection.RadioManager(null, [radio1, radio2, radio3]);
 
@@ -740,9 +742,9 @@ qx.Proto._createListDemo = function() {
     switch (parseInt(Math.random() * 5)) {
       case 0: iconName = "places/folder.png"; break;
       case 1: iconName = "devices/drive-harddisk.png"; break;
-      case 2: iconName = "penguin.png"; break;
-      case 3: iconName = "pda.png"; break;
-      case 4: iconName = "bell.png"; break;
+      case 2: iconName = "apps/accessories-tip.png"; break;
+      case 3: iconName = "devices/scanner.png"; break;
+      case 4: iconName = "apps/accessories-tip.png"; break;
     }
     item = new qx.ui.form.ListItem("Item No " + i, "icon/" + ((i % 4) ? "16" : "48") + "/" + iconName);
 
@@ -1059,7 +1061,7 @@ qx.Proto._createNativeWindowDemo = function() {
   var win = new qx.client.NativeWindow("http://www.google.com");
   win.setDimension(600, 400);
 
-  var openBt = new qx.ui.form.Button("Open Native Window", "icon/16/wizard.png");
+  var openBt = new qx.ui.form.Button("Open Native Window", "icon/16/apps/system-users.png");
   openBt.addEventListener("click", function() { win.open(); } );
   main.add(openBt);
 
@@ -1207,7 +1209,7 @@ qx.Proto._createInternalWindowDemo = function() {
   main.setOverflow("hidden");
 
   // Create the windows
-  var w1 = new qx.ui.window.Window("First Window", "icon/16/bell.png");
+  var w1 = new qx.ui.window.Window("First Window", "icon/16/apps/preferences-desktop-multimedia.png");
   w1.setSpace(20, 400, 48, 250);
   main.add(w1);
 
@@ -1231,7 +1233,7 @@ qx.Proto._createInternalWindowDemo = function() {
   doc.add(wm2);
 
   // Fill window 1
-  var a1 = new qx.ui.basic.Atom("Welcome to your first own Window.<br/>Have fun!", "icon/32/chart.png");
+  var a1 = new qx.ui.basic.Atom("Welcome to your first own Window.<br/>Have fun!", "icon/32/apps/office-organizer.png");
   a1.set({ top: 4, left: 4 });
   w1.add(a1);
 
@@ -1322,7 +1324,7 @@ qx.Proto._createInternalWindowDemo = function() {
     w2.setAllowMinimize(e.getData());
   });
 
-  var l1 = new qx.ui.basic.Atom("Move Method", "icon/16/status/dialog-information.png");
+  var l1 = new qx.ui.basic.Atom("Move Method", "icon/16/apps/preferences-desktop-wallpaper.png");
   l1.setLocation(0, 100);
 
   var rb1 = new qx.ui.form.RadioButton("Frame", "frame");
@@ -1341,7 +1343,7 @@ qx.Proto._createInternalWindowDemo = function() {
     w2.setMoveMethod(e.getData().getValue());
   });
 
-  var l2 = new qx.ui.basic.Atom("Resize Method", "icon/16/status/dialog-information.png");
+  var l2 = new qx.ui.basic.Atom("Resize Method", "icon/16/apps/preferences-desktop-wallpaper.png");
   l2.setLocation(0, 190);
 
   var rb4 = new qx.ui.form.RadioButton("Frame", "frame");
@@ -1448,7 +1450,7 @@ qx.Proto._createThemesDemo = function() {
   var doc = qx.ui.core.ClientDocument.getInstance();
 
   // Theming window
-  var win = new qx.ui.window.Window("Theming window", "icon/16/style.png");
+  var win = new qx.ui.window.Window("Theming window", "icon/16/apps/preferences-desktop-wallpaper.png");
   //win.set({ width:"auto", height:"auto" });
   doc.add(win);
 

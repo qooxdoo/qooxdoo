@@ -110,10 +110,5 @@
 (?<!actions)(?<!apps)(?<!categories)(?<!devices)(?<!mimetypes)(?<!places)(?<!status)([/\"\'\(])alarm\.png([\"\'\)])=\1apps/accessories-alarm.png\2
 (?<!actions)(?<!apps)(?<!categories)(?<!devices)(?<!mimetypes)(?<!places)(?<!status)([/\"\'\(])view-detailed\.png([\"\'\)])=\1actions/view-pane-detailed.png\2
 (?<!actions)(?<!apps)(?<!categories)(?<!devices)(?<!mimetypes)(?<!places)(?<!status)([/\"\'\(])magnifier\.png([\"\'\)])=\1actions/zoom.png\2
-
 (?<!actions)(?<!apps)(?<!categories)(?<!devices)(?<!mimetypes)(?<!places)(?<!status)([/\"\'\(])info\.png([\"\'\)])=\1status/dialog-information.png\2
 (?<!actions)(?<!apps)(?<!categories)(?<!devices)(?<!mimetypes)(?<!places)(?<!status)([/\"\'\(])error\.png([\"\'\)])=\1status/dialog-error.png\2
-
-
-
-
