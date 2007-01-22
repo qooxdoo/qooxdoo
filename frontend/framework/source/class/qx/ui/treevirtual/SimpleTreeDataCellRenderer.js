@@ -200,10 +200,12 @@ qx.Proto._getIndentSymbol = function(column,
   if (column < node.level - 1)
   {
     // then return either a line or a blank icon, depending on bUseTreeLines
-    return (bUseTreeLines && ! node.bParentLastChild
+    return (bUseTreeLines && ! node.lastChild[column]
             ? this.WIDGET_TREE_URI + "line.gif"
             : this.STATIC_IMAGE_URI + "blank.gif");
   }
+
+  var bLastChild = node.lastChild[node.lastChild.length - 1];
 
   // Is this a branch node?
   if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH &&
@@ -230,11 +232,11 @@ qx.Proto._getIndentSymbol = function(column,
                 : this.WIDGET_TREE_URI + "plus.gif");
       }
 
-      // Is this the first child of its parent?
+      // Are we looking at a top-level, first child of its parent?
       if (column == 0 && node.bFirstChild)
       {
         // Yup.  If it's also a last child...
-        if (node.bLastChild)
+        if (bLastChild)
         {
           // ... then use no tree lines.
           return (node.opened
@@ -250,8 +252,9 @@ qx.Proto._getIndentSymbol = function(column,
         }
       }
 
-      // It's not a first child.  Is this the last child of its parent?
-      if (node.bLastChild)
+      // It's not a top-level, first child.  Is this the last child of its
+      // parent?
+      if (bLastChild)
       {
         // Yup.   Return an ending plus or minus, or blank if node.opened so
         // indicates.
@@ -273,7 +276,7 @@ qx.Proto._getIndentSymbol = function(column,
   if (bUseTreeLines)
   {
     // If this is a last child, return and ending line; otherwise cross.
-    return (node.bLastChild
+    return (bLastChild
             ? this.WIDGET_TREE_URI + "end.gif"
             : this.WIDGET_TREE_URI + "cross.gif");
   }
