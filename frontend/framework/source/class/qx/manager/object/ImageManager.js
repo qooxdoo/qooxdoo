@@ -54,7 +54,7 @@ function()
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefault("iconTheme", "qx.theme.icon.VistaInspirate");
+qx.Settings.setDefault("iconTheme", "qx.theme.icon.Nuvola");
 qx.Settings.setDefault("widgetTheme", "qx.theme.widget.Windows");
 
 
