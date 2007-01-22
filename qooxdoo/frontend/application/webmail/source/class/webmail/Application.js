@@ -26,8 +26,8 @@
 /* ************************************************************************
 
 #embed(qx.icontheme/16/network.png)
-#embed(qx.icontheme/16/mail-new.png)
-#embed(qx.icontheme/16/mail-send.png)
+#embed(qx.icontheme/16/actions/mail.png)
+#embed(qx.icontheme/16/actions/system-run.png)
 #embed(qx.icontheme/16/notes.png)
 
 ************************************************************************ */
@@ -86,8 +86,8 @@ qx.Proto.main = function(e)
 
 
   var btns = [
-    { text : "New", icon : "icon/16/mail-new.png" },
-    { text : "Send/Receive", icon : "icon/16/mail-send.png" },
+    { text : "New", icon : "icon/16/actions/mail.png" },
+    { text : "Send/Receive", icon : "icon/16/actions/system-run.png" },
     { text : "Adressbook", icon : "icon/16/apps/accessories-notes.png" }
   ];
 
