@@ -28,6 +28,7 @@
 *actions/document-save-all=actions/save_all
 *actions/document-close=actions/fileclose
 *actions/document-export=actions/fileexport
+*actions/document-import=actions/fileimport
 *actions/edit=actions/edit
 *actions/edit-add=actions/edit_add
 +actions/edit-copy=actions/editcopy
@@ -40,6 +41,7 @@
 -actions/edit-select-all
 *actions/edit-trash=actions/edittrash
 +actions/edit-undo=actions/undo
+*actions/exec=actions/exec
 *actions/decrypt=actions/decrypted
 *actions/encrypt=actions/encrypted
 *actions/favorite-add=actions/bookmark_add
@@ -74,6 +76,7 @@
 +actions/help-faq=apps/khelpcenter
 *actions/history=actions/history
 *actions/history-clear=actions/history_clear
+*actions/idea=actions/idea
 *actions/identity=actions/identity
 *actions/alarm=actions/kalarm
 -actions/insert-image
@@ -110,7 +113,7 @@
 +actions/system-lock-screen=actions/lock
 -actions/system-log-out
 +actions/system-run=actions/run
-+actions/system-search=apps/kfind
++actions/system-search=actions/filefind
 *actions/start=actions/start
 *actions/stop=actions/stop
 +actions/tools-check-spelling=actions/spellcheck
@@ -131,6 +134,7 @@
 *actions/view-pane-column=actions/view_multicolumn
 *actions/view-pane-text=actions/view_text
 *actions/view-pane-tree=actions/view_tree
+*actions/view-pane-remove=actions/view_remove
 +apps/accessories-calculator=apps/kcalc
 +apps/accessories-character-map=apps/kcharselect
 +apps/accessories-dictionary=apps/kdict
@@ -161,11 +165,13 @@
 +apps/preferences-desktop-wallpaper=apps/background
 +apps/system-file-manager=apps/file-manager
 +apps/system-software-update=apps/kpackage
++apps/system-users=apps/kuser
 -apps/utilities-system-monitor
 +apps/utilities-terminal=apps/terminal
 *apps/office-adobe-reader=apps/acroread
 *apps/office-pim=apps/kontact
 *apps/office-organizer=apps/korganizer
+*apps/internet-general=apps/internet
 *apps/internet-web-browser=apps/browser
 *apps/internet-download-manager=apps/download_manager
 *apps/internet-email-client=apps/email
@@ -184,6 +190,7 @@
 -categories/applications-science
 +categories/applications-system=apps/package_system
 +categories/applications-utilities=apps/package_utilities
++categories/applications-favorite=apps/package_favorite
 *categories/preferences=apps/package_settings
 +categories/preferences-desktop=apps/display
 -categories/preferences-desktop-peripherals
@@ -249,6 +256,7 @@
 +mimetypes/image-x-generic=mimetypes/image
 +mimetypes/package-x-generic=mimetypes/tgz
 +mimetypes/text-html=mimetypes/html
+*mimetypes/text-ascii=mimetypes/ascii
 +mimetypes/text-x-generic=mimetypes/txt
 +mimetypes/text-x-generic-template=mimetypes/txt
 +mimetypes/text-x-script=mimetypes/shellscript
@@ -258,6 +266,8 @@
 -mimetypes/x-office-document
 -mimetypes/x-office-presentation
 +mimetypes/x-office-spreadsheet=mimetypes/spreadsheet
+*mimetypes/application-pdf=mimetypes/pdf
+*mimetypes/application-quicktime=mimetypes/quicktime
 *mimetypes/empty-x-generic=mimetypes/empty
 *mimetypes/empty-x-encrypted=mimetypes/encrypted
 *mimetypes/empty-x-locked=mimetypes/file_locked
@@ -273,6 +283,14 @@
 +places/user-trash=filesystems/trashcan_empty
 *places/user-trash-empty=filesystems/trashcan_empty
 *places/user-trash-full=filesystems/trashcan_full
+*places/favorite-folder=actions/bookmark_folder
+*places/image-folder=filesystems/folder_image
+*places/html-folder=filesystems/folder_html
+*places/music-folder=filesystems/folder_music
+*places/document-folder=filesystems/folder_txt
+*places/archive-folder=filesystems/folder_tar
+*places/www=filesystems/www
+*places/services=filesystems/services
 -status/appointment-missed
 -status/appointment-soon
 -status/audio-volume-high
@@ -281,11 +299,11 @@
 -status/audio-volume-muted
 -status/battery-caution
 -status/battery-low
-+status/dialog-error=apps/error
--status/dialog-information
++status/dialog-error=actions/messagebox_critical
+*status/dialog-information=actions/messagebox_info
 +status/dialog-password=apps/password
 -status/dialog-question
--status/dialog-warning
+*status/dialog-warning=actions/messagebox_warning
 -status/folder-drag-accept
 +status/folder-open=filesystems/folder_open
 -status/folder-visiting
