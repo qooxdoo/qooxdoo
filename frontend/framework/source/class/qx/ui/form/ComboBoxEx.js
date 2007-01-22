@@ -20,9 +20,9 @@
 #module(ui_comboboxex)
 #require(qx.ui.table.Table)
 #embed(qx.widgettheme/arrows/down.gif)
-#embed(qx.icontheme/16/find.png)
-#embed(qx.icontheme/16/button-ok.png)
-#embed(qx.icontheme/16/button-cancel.png)
+#embed(qx.icontheme/16/actions/edit-find.png)
+#embed(qx.icontheme/16/actions/dialog-ok.png)
+#embed(qx.icontheme/16/actions/dialog-cancel.png)
 
 ************************************************************************ */
 

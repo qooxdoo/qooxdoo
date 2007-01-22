@@ -20,7 +20,7 @@
 
 #module(ui_tree)
 #embed(qx.widgettheme/tree/*)
-#embed(qx.icontheme/16/file-new.png)
+#embed(qx.icontheme/16/actions/document-new.png)
 
 ************************************************************************ */
 
