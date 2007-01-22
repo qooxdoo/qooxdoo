@@ -200,9 +200,7 @@ qx.Proto._getIndentSymbol = function(column,
   if (column < node.level - 1)
   {
     // then return either a line or a blank icon, depending on bUseTreeLines
-    return ((bUseTreeLines &&
-             ! node.bParentLastChild &&
-             (column != 0 || ! bJensLautenbacherMode))
+    return (bUseTreeLines && ! node.bParentLastChild
             ? this.WIDGET_TREE_URI + "line.gif"
             : this.STATIC_IMAGE_URI + "blank.gif");
   }
