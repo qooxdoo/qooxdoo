@@ -31,7 +31,7 @@ def get_migration_patch(qx_to_tango_map, qx_not_in_tango, qx_in_tango_without_im
 def get_migration_info(qx_to_tango_map, qx_not_in_tango, qx_in_tango_without_image, qx_icon_path, tango_icon_path):
 	re = ""
 	for qx in qx_not_in_tango:
-		re += "(?<!actions)(?<!apps)(?<!categories)(?<!devices)(?<!mimetypes)(?<!places)(?<!status)[/\\\"\\']%s\\.png[\\\"\\']=The image '%s.png' is no longer supported! Try to use a different icon.\n" % (qx, qx)
+		re += "(?<!actions)(?<!apps)(?<!categories)(?<!devices)(?<!mimetypes)(?<!places)(?<!status)	[/\\\"\\']%s\\.png[\\\"\\']=The image '%s.png' is no longer supported! Try to use a different icon.\n" % (qx, qx)
 		#re += "[/\\\"\\']%s\\.png[\\\"\\']=The image '%s.png' is no longer supported! Try to use a different icon.\n" % (qx, qx)
 
 	re += "\n"
