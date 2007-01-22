@@ -65,7 +65,7 @@ qx.Proto.main = function(e)
   this._createPage(barView, "List",             "icon/32/actions/view-pane-detailed.png",    this._createListDemo(), "threedface");
   this._createPage(barView, "ListView",         "icon/32/actions/view-pane-column.png", this._createListViewDemo(), "threedface");
   this._createPage(barView, "Table",            "icon/32/actions/view-pane-column.png", this._createTableDemo(), "threedface", true);
-  this._createPage(barView, "Localization",     "icon/32/toys.png",        this._createLocalizationDemo(), "threedface");
+  this._createPage(barView, "Localization",     "icon/32/apps/accessories-archiver.png",        this._createLocalizationDemo(), "threedface");
   this._createPage(barView, "Native Window",    "icon/32/devices/video-display.png",          this._createNativeWindowDemo(), "threedface");
   this._createPage(barView, "Internal Window",  "icon/32/apps/preferences-desktop-theme.png",    this._createInternalWindowDemo(), null, true);
   this._createPage(barView, "Themes",           "icon/32/style.png",            this._createThemesDemo());
@@ -143,7 +143,7 @@ qx.Proto._createFormDemo = function() {
   var combo = new qx.ui.form.ComboBox;
   combo.add(new qx.ui.form.ListItem("CD"));    //, "icon/16/cd.png"));
   combo.add(new qx.ui.form.ListItem("Clock"));   //, "icon/16/apps/accessories-clock.png"));
-  combo.add(new qx.ui.form.ListItem("Modem"));   //, "icon/16/modem.png"));
+  combo.add(new qx.ui.form.ListItem("Modem"));   //, "icon/16/apps/internet-download-manager.png"));
   combo.add(new qx.ui.form.ListItem("Network")); //, "icon/16/categories/applications-internet.png"));
   combo.add(new qx.ui.form.ListItem("Sound"));   //, "icon/16/apps/multimedia-volume-control.png"));
   combo.add(new qx.ui.form.ListItem("PDA"));   //, "icon/16/pda.png"));
@@ -211,7 +211,7 @@ qx.Proto._createTooltipDemo = function() {
   c1.setToolTip(new qx.ui.popup.ToolTip("Look at this"));
   main.add(c1);
 
-  var c2 = new qx.ui.basic.Atom("Hover me", "icon/32/toys.png");
+  var c2 = new qx.ui.basic.Atom("Hover me", "icon/32/apps/accessories-archiver.png");
   c2.setPadding(5);
   c2.setBorder(qx.renderer.border.BorderPresets.getInstance().outset);
   c2.setBackgroundColor(new qx.renderer.color.Color("#D1DFAD"));
@@ -807,7 +807,7 @@ qx.Proto._createListViewDemo = function() {
 
   for (var i = 0, t; i < 1000; i++) {
     t = Math.round(Math.random() * 4);
-    ld.push({ name : { html : "E-Mail " + i, icon : "icon/16/email.png", iconWidth : 16, iconHeight : 16 }, size : { text : Math.round(Math.random()*100) + "kb" }, type : { text : lt[t] }, modified : { text : "Nov " + Math.round(Math.random() * 30 + 1) + " 2005" }, rights: { text : "-rw-r--r--" }, open : { uri : "http://www.google.com/search?q=" + i, html : "Open " + i }});
+    ld.push({ name : { html : "E-Mail " + i, icon : "icon/16/apps/internet-email-client.png", iconWidth : 16, iconHeight : 16 }, size : { text : Math.round(Math.random()*100) + "kb" }, type : { text : lt[t] }, modified : { text : "Nov " + Math.round(Math.random() * 30 + 1) + " 2005" }, rights: { text : "-rw-r--r--" }, open : { uri : "http://www.google.com/search?q=" + i, html : "Open " + i }});
   }
 
   var lc = {
