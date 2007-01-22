@@ -356,18 +356,11 @@ qx.Proto._render = function()
       var parent = _this._nodeArr[child.parentNodeId];
 
       // For each parent node, determine if it is a last child
-      while (true)
+      while (parent.nodeId)
       {
-        if (parent.nodeId)
-        {
-          var bLast = parent.lastChild[parent.lastChild.length - 1];
-          child.lastChild.unshift(bLast);
-          parent = _this._nodeArr[parent.parentNodeId];
-        }
-        else
-        {
-          break;
-        }
+        var bLast = parent.lastChild[parent.lastChild.length - 1];
+        child.lastChild.unshift(bLast);
+        parent = _this._nodeArr[parent.parentNodeId];
       }
 
       // Ensure there's an entry in the columnData array for each column
