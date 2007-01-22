@@ -85,7 +85,7 @@ def main():
   print "    - Cleaning up..."
   removeall(options.output)
 
-  dat = open("%s/../data/freedesktop_kde.dat" % os.path.dirname(sys.argv[0]))
+  dat = open("%s/../data/kde_freedesktop.dat" % os.path.dirname(sys.argv[0]))
 
   print "    - Copying files..."
   for line in dat.readlines():

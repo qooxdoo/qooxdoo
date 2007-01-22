@@ -21,7 +21,7 @@ echo ">>> Building list for base size..."
 grep ${BASESIZE}x${BASESIZE} temp/kde_content_common.txt | cut -d"/" -f2- | sort | uniq > temp/kde_content_common_base.txt
 
 echo ">>> Preparing replacement map..."
-cat data/freedesktop_kde.dat | cut -s -d"=" -f2 | cut -d" " -f2 | sort | uniq > temp/kde_content_assigned.txt
+cat data/kde_freedesktop.dat | cut -s -d"=" -f2 | sort | uniq > temp/kde_content_assigned.txt
 
 echo ">>> Finding differences..."
 diff temp/kde_content_common_base.txt temp/kde_content_assigned.txt > temp/kde_content_assigned_diff.txt
