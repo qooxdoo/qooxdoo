@@ -18,21 +18,22 @@
 
 /* ************************************************************************
 
+#module(ui_core)
 #module(theme_icon)
-#resource(icontheme:icon/Nuvola)
+#resource(icontheme:icon/VistaInspirate)
 
 ************************************************************************ */
 
-
 /**
- * Nuvola
- * Author: David Vignoni (david@icon-king.com)
- * License: LGPL
- * Home: http://www.kde-look.org/content/show.php?content=5358
+ * Vista-Inspirate
+ * Author: Alexandre Moore (alexandre.moore@gmail.com)
+ * License: GPL & LGPL/EPL
+ * Home: http://www.kde-look.org/content/show.php?content=31585
+ * Comment: Based on nuoveXT by the same author
  */
-qx.OO.defineClass("qx.theme.icon.Nuvola", qx.renderer.theme.IconTheme,
+qx.OO.defineClass("qx.theme.icon.VistaInspirate", qx.renderer.theme.IconTheme,
 function() {
-  qx.renderer.theme.IconTheme.call(this, "Nuvola");
+  qx.renderer.theme.IconTheme.call(this, "Vista Inspirate");
 });
 
 
@@ -44,7 +45,7 @@ function() {
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefault("imageUri", qx.Settings.getValueOfClass("qx.manager.object.AliasManager", "resourceUri") + "/icon/Nuvola");
+qx.Settings.setDefault("imageUri", qx.Settings.getValueOfClass("qx.manager.object.AliasManager", "resourceUri") + "/icon/VistaInspirate");
 
 
 
@@ -59,6 +60,7 @@ qx.Settings.setDefault("imageUri", qx.Settings.getValueOfClass("qx.manager.objec
  * Singleton Instance Getter
  */
 qx.Class.getInstance = qx.lang.Function.returnInstance;
+
 
 
 
