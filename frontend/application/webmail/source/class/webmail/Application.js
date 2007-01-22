@@ -63,7 +63,7 @@ qx.Proto.main = function(e)
   var menubar = new qx.ui.menubar.MenuBar;
   var toolbar = new qx.ui.toolbar.ToolBar;
   var tree = new qx.ui.tree.Tree("Inbox");
-  var status = new qx.ui.basic.Atom("Status", "icon/16/network.png");
+  var status = new qx.ui.basic.Atom("Status", "icon/16/categories/applications-internet.png");
 
   tree.setWidth(200);
   tree.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
@@ -88,7 +88,7 @@ qx.Proto.main = function(e)
   var btns = [
     { text : "New", icon : "icon/16/mail-new.png" },
     { text : "Send/Receive", icon : "icon/16/mail-send.png" },
-    { text : "Adressbook", icon : "icon/16/notes.png" }
+    { text : "Adressbook", icon : "icon/16/apps/accessories-notes.png" }
   ];
 
   for (var i=0; i<btns.length; i++) {

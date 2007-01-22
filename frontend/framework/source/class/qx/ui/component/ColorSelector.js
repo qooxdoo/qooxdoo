@@ -138,8 +138,8 @@ qx.Proto._createButtonBar = function()
   this._btnbar.setPadding(2, 4);
   this.add(this._btnbar);
 
-  this._btncancel = new qx.ui.form.Button(this.tr("Cancel"), "icon/16/button-cancel.png");
-  this._btnok = new qx.ui.form.Button(this.tr("OK"), "icon/16/button-ok.png");
+  this._btncancel = new qx.ui.form.Button(this.tr("Cancel"), "icon/16/actions/dialog-cancel.png");
+  this._btnok = new qx.ui.form.Button(this.tr("OK"), "icon/16/actions/dialog-ok.png");
 
   this._btncancel.addEventListener("execute", this._onButtonCancelExecute, this);
   this._btnok.addEventListener("execute", this._onButtonOkExecute, this);

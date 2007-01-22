@@ -49,7 +49,7 @@ qx.OO.addProperty({ name : "showCloseButton", type : "boolean", defaultValue : f
 /*!
   Close Tab Icon
  */
-qx.OO.addProperty({ name : "closeButtonImage", type : "string", defaultValue : "icon/16/cancel.png"});
+qx.OO.addProperty({ name : "closeButtonImage", type : "string", defaultValue : "icon/16/actions/dialog-cancel.png"});
 
 
 

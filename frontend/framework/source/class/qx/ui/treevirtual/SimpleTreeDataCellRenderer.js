@@ -154,14 +154,14 @@ qx.Proto._getContentHtml = function(cellInfo)
     if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF)
     {
       imageUrl = (node.bSelected
-                  ? "icon/16/file-open.png"
-                  : "icon/16/file-new.png");
+                  ? "icon/16/actions/document-open.png"
+                  : "icon/16/actions/document-new.png");
     }
     else
     {
       imageUrl = (node.bSelected
                   ? "icon/16/folder_open.png"
-                  : "icon/16/folder.png");
+                  : "icon/16/places/folder.png");
     }
   }
   html += addImage({ url:imageUrl });
