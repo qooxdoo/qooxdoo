@@ -393,9 +393,9 @@ qx.Proto.getItems = function()
 qx.Proto._evalCurrentIcon = function()
 {
   if (this.getSelected()) {
-    return this.getIconSelected() || "icon/16/folder-open.png";
+    return this.getIconSelected() || "icon/16/status/folder-open.png";
   } else {
-    return this.getIcon() || "icon/16/folder.png";
+    return this.getIcon() || "icon/16/places/folder.png";
   }
 }
 

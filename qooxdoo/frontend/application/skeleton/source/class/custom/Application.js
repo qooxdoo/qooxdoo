@@ -53,7 +53,7 @@ qx.Proto.main = function(e)
   button1.addToDocument();
 
   // Attach a tooltip
-  button1.setToolTip(new qx.ui.popup.ToolTip("A nice tooltip", "icon/32/info.png"));
+  button1.setToolTip(new qx.ui.popup.ToolTip("A nice tooltip", "icon/32/status/dialog-information.png"));
 
   // Add an event listener
   button1.addEventListener("execute", function(e) {

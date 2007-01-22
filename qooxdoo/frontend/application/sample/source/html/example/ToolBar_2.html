@@ -56,7 +56,7 @@
 
 
       // Default
-      var tbd1 = new qx.ui.toolbar.Button("Default", "icon/22/file-new.png");
+      var tbd1 = new qx.ui.toolbar.Button("Default", "icon/22/actions/document-new.png");
       tbp1.add(tbd1);
       d.addEventListener("changeLayout", changeLayout, tbd1);
       d.addEventListener("changeSize", changeSize, tbd1);
@@ -69,7 +69,7 @@
 
 
       // Checkbox
-      var tbc1 = new qx.ui.toolbar.CheckBox("Check", "icon/22/configure.png", true);
+      var tbc1 = new qx.ui.toolbar.CheckBox("Check", "icon/22/apps/preferences.png", true);
       tbp2.add(tbc1);
       d.addEventListener("changeLayout", changeLayout, tbc1);
       d.addEventListener("changeSize", changeSize, tbc1);
@@ -82,12 +82,12 @@
       d.addEventListener("changeLayout", changeLayout, tbr1);
       d.addEventListener("changeSize", changeSize, tbr1);
 
-      var tbr2 = new qx.ui.toolbar.RadioButton("Radio2", "icon/22/view-detailed.png", true);
+      var tbr2 = new qx.ui.toolbar.RadioButton("Radio2", "icon/22/actions/view-pane-detailed.png", true);
       tbp3.add(tbr2);
       d.addEventListener("changeLayout", changeLayout, tbr2);
       d.addEventListener("changeSize", changeSize, tbr2);
 
-      var tbr3 = new qx.ui.toolbar.RadioButton("Radio3", "icon/22/view-icon.png");
+      var tbr3 = new qx.ui.toolbar.RadioButton("Radio3", "icon/22/actions/view-pane-icon.png");
       tbp3.add(tbr3);
       d.addEventListener("changeLayout", changeLayout, tbr3);
       d.addEventListener("changeSize", changeSize, tbr3);
@@ -105,13 +105,13 @@
       d.addEventListener("changeLayout", changeLayout, tbs1);
       d.addEventListener("changeSize", changeSize, tbs1);
 
-      var tbs2 = new qx.ui.toolbar.RadioButton("Radio2", "icon/22/view-detailed.png", true);
+      var tbs2 = new qx.ui.toolbar.RadioButton("Radio2", "icon/22/actions/view-pane-detailed.png", true);
       tbp4.add(tbs2);
       tbs2.setDisableUncheck(true);
       d.addEventListener("changeLayout", changeLayout, tbs2);
       d.addEventListener("changeSize", changeSize, tbs2);
 
-      var tbs3 = new qx.ui.toolbar.RadioButton("Radio3", "icon/22/view-icon.png");
+      var tbs3 = new qx.ui.toolbar.RadioButton("Radio3", "icon/22/actions/view-pane-icon.png");
       tbp4.add(tbs3);
       tbs3.setDisableUncheck(true);
       d.addEventListener("changeLayout", changeLayout, tbs3);
@@ -209,7 +209,7 @@
 
 
       // Icon Sizes
-      var b3 = new qx.ui.form.Button("Icons: 22 Pixel", "icon/16/colors.png");
+      var b3 = new qx.ui.form.Button("Icons: 22 Pixel", "icon/16/actions/format-color.png");
 
       with(b3)
       {
@@ -222,7 +222,7 @@
         d.dispatchEvent(new qx.event.type.DataEvent("changeSize", 22));
       });
 
-      var b4 = new qx.ui.form.Button("Icons: 32 Pixel", "icon/16/colors.png");
+      var b4 = new qx.ui.form.Button("Icons: 32 Pixel", "icon/16/actions/format-color.png");
 
       with(b4)
       {
