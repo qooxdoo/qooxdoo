@@ -561,7 +561,7 @@ qx.Proto._createTabDemo = function() {
 
   var bsb1 = new qx.ui.pageview.buttonview.Button("Display", "icon/16/devices/video-display.png");
   var bsb2 = new qx.ui.pageview.buttonview.Button("Colorize", "icon/16/actions/format-color.png");
-  var bsb3 = new qx.ui.pageview.buttonview.Button("Icons", "icon/16/icons.png");
+  var bsb3 = new qx.ui.pageview.buttonview.Button("Icons", "icon/16/apps/preferences-desktop-theme.png");
   var bsb4 = new qx.ui.pageview.buttonview.Button("Applications", "icon/16/actions/system-run.png");
   var bsb5 = new qx.ui.pageview.buttonview.Button("System", "icon/16/devices/video-display.png");
 
