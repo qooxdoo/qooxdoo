@@ -92,39 +92,204 @@ function(headings)
   // with one that calls the selection manager's method and then calls own our
   // _handleSelectEvent method (with this TreeVirtual object as 'this' instead
   // of the selection manager).  The selection manager's method handles
-  // marking the selected row.  Ours handles dispatching events to our
-  // listeners.
+  // marking the selected row.  Ours handles deciding if the click was on the
+  // open/close button, and toggling the opened/closed state as necessary.
   var _this = this;
   this._getSelectionManager()._handleSelectEvent = function(index, evt)
   {
     var Sm = qx.ui.table.SelectionManager;
     var Tv = qx.ui.treevirtual.TreeVirtual;
 
-    // Call the Selection Manager's method to handle the actual selection
-    Sm.prototype._handleSelectEvent.call(_this, index, evt);
+    // Call our local method to toggle the open/close state, if necessary
+    bWasOpenClose = Tv.prototype._handleSelectEvent.call(_this, index, evt);
 
-    // Call our local method to dispatch events to our users, if necessary
-    Tv.prototype._handleSelectEvent.call(_this, index, evt);
+    // Call the Selection Manager's method to handle the actual selection
+    if (! bWasOpenClose || _this.openCloseClickSelectsRow())
+    {
+      Sm.prototype._handleSelectEvent.call(_this, index, evt);
+
+      // Get the now-focused 
+      var node = _this.getTableModel().getValue(_this.getFocusedColumn(),
+                                                _this.getFocusedRow());
+      _this.createDispatchDataEvent("changeSelection", node);
+    }
   };
 });
 
 
+/**
+ * Whether a click on the open/close button should also cause selection of the
+ * row.
+ */
+qx.OO.addProperty(
+  {
+    name         : "openCloseClickSelectsRow",
+    type         : "boolean",
+    defaultValue : false,
+    getAlias     : "openCloseClickSelectsRow"
+  });
+
+
+/**
+ * Return the data model for this tree.
+ */
 qx.Proto.getDataModel = function()
 {
   return this.getTableModel();
 };
 
 
-qx.Proto.setAlwaysShowPlusMinusSymbol = function(b)
+/**
+ * Set whether lines linking tree children shall be drawn on the tree.
+ *
+ * @param b {Boolean}
+ *   <i>true</i> if tree lines should be shown; <i>false</i> otherwise.
+ */
+qx.Proto.setUseTreeLines = function(b)
 {
-  var dcr = this.getTableColumnModel().getDataCellRenderer(0);
-  dcr.setAlwaysShowPlusMinusSymbol(b);
+  var stdcm = this.getTableModel();
+  var treeCol = stdcm._treeColumn;
+  var dcr = this.getTableColumnModel().getDataCellRenderer(treeCol);
+  dcr.setUseTreeLines(b);
+
+  // Inform the listeners
+  if (stdcm.hasEventListeners(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED))
+  {
+    var data =
+      {
+        firstRow        : 0,
+        lastRow         : stdcm._rowArr.length - 1,
+        firstColumn     : 0,
+        lastColumn      : stdcm.getColumnCount() - 1
+      };
+
+    stdcm.dispatchEvent(new qx.event.type.DataEvent(
+                          qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED,
+                          data),
+                        true);
+  }
 };
 
 
-/*
+/**
+ * Get whether lines linking tree children shall be drawn on the tree.
+ *
+ * @return {Boolean}
+ *   <i>true</i> if tree lines are in use; <i>false</i> otherwise.
+ */
+qx.Proto.getUseTreeLines = function()
+{
+  var treeCol = this.getTableModel()._treeColumn;
+  var dcr = this.getTableColumnModel().getDataCellRenderer(treeCol);
+  return dcr.getUseTreeLines();
+}
+
+
+/**
+ * Set whether the open/close button should be displayed on a branch, even if
+ * the branch has no children.
+ *
+ * @param b {Boolean}
+ *   <i>true</i> if the open/close button should be shown; <i>false</i>
+ *   otherwise. 
+ */
+qx.Proto.setAlwaysShowPlusMinusSymbol = function(b)
+{
+  var stdcm = this.getTableModel();
+  var treeCol = stdcm._treeColumn;
+  var dcr = this.getTableColumnModel().getDataCellRenderer(treeCol);
+  dcr.setAlwaysShowPlusMinusSymbol(b);
+
+  // Inform the listeners
+  if (stdcm.hasEventListeners(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED))
+  {
+    var data =
+      {
+        firstRow        : 0,
+        lastRow         : stdcm._rowArr.length - 1,
+        firstColumn     : 0,
+        lastColumn      : stdcm.getColumnCount() - 1
+      };
+
+    stdcm.dispatchEvent(new qx.event.type.DataEvent(
+                          qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED,
+                          data),
+                        true);
+  }
+};
+
+
+/**
+ * Set whether drawing of first-level tree-node lines are disabled.
+ *
+ * @param b {Boolean}
+ *   <i>true</i> if first-level tree lines should be disabled;
+ *   <i>false</i> for normal operation.
+ */
+qx.Proto.setJensLautenbacherMode = function(b)
+{
+  var stdcm = this.getTableModel();
+  var treeCol = stdcm._treeColumn;
+  var dcr = this.getTableColumnModel().getDataCellRenderer(treeCol);
+  dcr.setJensLautenbacherMode(b);
+
+  // Inform the listeners
+  if (stdcm.hasEventListeners(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED))
+  {
+    var data =
+      {
+        firstRow        : 0,
+        lastRow         : stdcm._rowArr.length - 1,
+        firstColumn     : 0,
+        lastColumn      : stdcm.getColumnCount() - 1
+      };
+
+    stdcm.dispatchEvent(new qx.event.type.DataEvent(
+                          qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED,
+                          data),
+                        true);
+  }
+};
+
+
+/**
+ * Get whether drawing of first-level tree lines should be disabled
+ *
+ * @return {Boolean}
+ *   <i>true</i> if tree lines are in use; <i>false</i> otherwise.
+ */
+qx.Proto.getJensLautenbacherMode = function()
+{
+  var treeCol = this.getTableModel()._treeColumn;
+  var dcr = this.getTableColumnModel().getDataCellRenderer(treeCol);
+  return dcr.getJensLautenbacherMode();
+}
+
+
+
+
+/**
+/**
+ * Set whether the open/close button should be displayed on a branch, even if
+ * the branch has no children.
+ *
+ * @return {Boolean}
+ *   <i>true</i> if tree lines are in use; <i>false</i> otherwise.
+ */
+qx.Proto.getAlwaysShowPlusMinusSymbol = function()
+{
+  var treeCol = this.getTableModel()._treeColumn;
+  var dcr = this.getTableColumnModel().getDataCellRenderer(treeCol);
+  return dcr.getAlwaysShowPlusMinusSymbol();
+};
+
+/**
  * Toggle the opened state of the node: if the node is opened, close
  * it; if it is closed, open it.
+ *
+ * @param node {Object}
+ *   The object representing the node to have its opened/closed state
+ *   toggled.
  */
 qx.Proto.toggleOpened = function(node)
 {
@@ -170,7 +335,17 @@ qx.Proto.toggleOpened = function(node)
 };
 
 
-
+/**
+ * Set state attributes of a tree node.
+ *
+ * @param nodeId {Integer}
+ *   The node identifier (returned by addBranch() or addLeaf()) representing
+ *   the node for which attributes are being set.
+ *
+ * @param attributes {Map}
+ *   Map with the node properties to be set.  The map may contain any of the
+ *   properties described in {@link qx.ui.treevirtual.SimpleDataCellModel}
+ */
 qx.Proto.setState = function(nodeId, attributes)
 {
   this.getDataModel().setState(nodeId, attributes);
@@ -252,6 +427,10 @@ qx.Proto._onkeydown = function(evt)
  *
  * @param evt {Map}
  *   The mouse event.
+ *
+ * @return {Boolean}
+ *   Returns <i>true</i> if the event was a click on the open/close button,
+ *   <i>false</i> otherwise.
  */
 qx.Proto._handleSelectEvent = function(index, evt)
 {
@@ -260,7 +439,7 @@ qx.Proto._handleSelectEvent = function(index, evt)
                                            this.getFocusedRow());
   if (! node)
   {
-    return;
+    return false;
   }
 
   // Get the order of the columns
@@ -287,16 +466,8 @@ qx.Proto._handleSelectEvent = function(index, evt)
   {
     // Yup.  Toggle the opened state for this node.
     this.toggleOpened(node);
+    return true;
   }
+
+  return false;
 };
-
-
-/**
- * Event handler. Called when the selection has changed.
- *
- * @param evt {Map} the event.
- */
-qx.Proto._onSelectionChanged = function(evt) {
-  qx.ui.table.Table.prototype._onSelectionChanged.call(this, evt);
-  this.createDispatchEvent("changeSelection");
-}
