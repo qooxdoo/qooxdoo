@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-BASESIZE="16"
+BASESIZES="16 22 32"
 
 echo ">>> Indexing themes..."
 mkdir -p temp
@@ -17,9 +17,18 @@ done
 echo ">>> Building common list..."
 cat temp/kde_content_all.txt | sort | uniq -c | sort > temp/kde_content_count.txt
 cat temp/kde_content_count.txt | grep "$COUNT " | cut -d" " -f8 | cut -d"." -f1 > temp/kde_content_common.txt
+cat temp/kde_content_count.txt | grep "$[$COUNT-1] " | cut -d" " -f8 | cut -d"." -f1 > temp/kde_content_common_less.txt
 
-echo ">>> Building list for base size..."
-grep ${BASESIZE}x${BASESIZE} temp/kde_content_common.txt | cut -d"/" -f2- | sort | uniq > temp/kde_content_common_base.txt
+echo ">>> Building list for base sizes..."
+echo -n "" > temp/kde_content_common_base_temp.txt
+for BASESIZE in $BASESIZES; do
+  echo "  * $BASESIZE"
+  grep ${BASESIZE}x${BASESIZE} temp/kde_content_common.txt | cut -d"/" -f2- | sort | uniq > temp/kde_content_common_${BASESIZE}.txt
+  cat temp/kde_content_common_${BASESIZE}.txt >> temp/kde_content_common_base_temp.txt
+done
+
+echo ">>> Normalizing list..."
+cat temp/kde_content_common_base_temp.txt | sort | uniq > temp/kde_content_common_base.txt
 
 echo ">>> Preparing replacement map..."
 cat data/kde_freedesktop.dat | cut -s -d"=" -f2 | sort | uniq > temp/kde_content_assigned.txt
