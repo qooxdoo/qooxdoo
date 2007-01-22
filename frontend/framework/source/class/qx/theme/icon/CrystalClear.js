@@ -20,16 +20,19 @@
 
 #module(ui_core)
 #module(theme_icon)
-#resource(icontheme:icon/crystalsvg)
+#resource(icontheme:icon/CrystalClear)
 
 ************************************************************************ */
 
 /**
- * Crystal SVG icon theme (http://www.everaldo.com/crystal.html)
+ * Crystal Clear
+ * Author: Everaldo (everaldo@everaldo.com)
+ * License: LGPL
+ * Home: http://www.kde-look.org/content/show.php?content=25668
  */
-qx.OO.defineClass("qx.theme.icon.CrystalSvg", qx.renderer.theme.IconTheme,
+qx.OO.defineClass("qx.theme.icon.CrystalClear", qx.renderer.theme.IconTheme,
 function() {
-  qx.renderer.theme.IconTheme.call(this, "Crystal SVG");
+  qx.renderer.theme.IconTheme.call(this, "CrystalClear");
 });
 
 
@@ -41,7 +44,7 @@ function() {
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefault("imageUri", qx.Settings.getValueOfClass("qx.manager.object.AliasManager", "resourceUri") + "/icon/crystalsvg");
+qx.Settings.setDefault("imageUri", qx.Settings.getValueOfClass("qx.manager.object.AliasManager", "resourceUri") + "/icon/CrystalClear");
 
 
 
