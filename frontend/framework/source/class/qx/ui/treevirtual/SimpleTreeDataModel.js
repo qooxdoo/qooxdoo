@@ -50,14 +50,10 @@
  *   level         : 2,    // The indentation level of this tree node
  *
  *   bFirstChild   : true,
- *   bLastChild    : false,  // Whether this is the first or last last child
- *                           // of a parent.  These are used to locate the
- *                           // appropriate "tree line" icon.
- *
- *   bParentLastChild : true // Whether this node's parent was the last child
- *                           // of its parent.  It is used to determine
- *                           // whether leading "tree lines" (the initial
- *                           // indentation icons) are necessary.
+ *   lastChild     : [ false ],  // Array where the index is the column of
+ *                               // indentation, and the value is a boolean.
+ *                               // These are used to locate the 
+ *                               // appropriate "tree line" icon.
  * }
  */
 qx.OO.defineClass("qx.ui.treevirtual.SimpleTreeDataModel",
@@ -354,13 +350,25 @@ qx.Proto._render = function()
       child.bFirstChild = (i == 0);
 
       // Determine if we're the last child of our parent
-      child.bLastChild = (i == numChildren - 1);
+      child.lastChild = [ i == numChildren - 1 ];
 
       // Get our parent.
       var parent = _this._nodeArr[child.parentNodeId];
 
-      // Determine whether our parent is a last child
-      child.bParentLastChild = parent.bLastChild;
+      // For each parent node, determine if it is a last child
+      while (true)
+      {
+        if (parent.nodeId)
+        {
+          var bLast = parent.lastChild[parent.lastChild.length - 1];
+          child.lastChild.unshift(bLast);
+          parent = _this._nodeArr[parent.parentNodeId];
+        }
+        else
+        {
+          break;
+        }
+      }
 
       // Ensure there's an entry in the columnData array for each column
       if (! child.columnData)
