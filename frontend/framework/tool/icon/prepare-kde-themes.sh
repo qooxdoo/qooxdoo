@@ -15,7 +15,8 @@ do
 done
 
 echo ">>> Building common list..."
-cat temp/kde_content_all.txt | sort | uniq -c | grep "$COUNT " | cut -d" " -f8 | cut -d"." -f1 > temp/kde_content_common.txt
+cat temp/kde_content_all.txt | sort | uniq -c | sort > temp/kde_content_count.txt
+cat temp/kde_content_count.txt | grep "$COUNT " | cut -d" " -f8 | cut -d"." -f1 > temp/kde_content_common.txt
 
 echo ">>> Building list for base size..."
 grep ${BASESIZE}x${BASESIZE} temp/kde_content_common.txt | cut -d"/" -f2- | sort | uniq > temp/kde_content_common_base.txt
