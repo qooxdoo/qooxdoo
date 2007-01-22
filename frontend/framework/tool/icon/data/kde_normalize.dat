@@ -1,3 +1,14 @@
 actions/messagebox_info=actions/info
 actions/cancel=actions/button_cancel
 actions/ok=actions/button_ok
+filesystems/folder_images=filesystems/folder_image
+filesystems/folder_music=filesystems/folder_sound
+filesystems/folder_favorites=filesystems/folder_favorite
+filesystems/folder_games=filesystems/folder_game
+devices/printer2=devices/printer
+devices/network_local=devices/nfs_unmount
+mimetypes/mime_ascii=mimetypes/ascii
+mimetypes/misc=mimetypes/mime
+filesystems/folder_home2=filesystems/folder_home
+apps/mail=apps/email
+apps/mail=apps/kmail
