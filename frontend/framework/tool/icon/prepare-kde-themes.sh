@@ -24,10 +24,10 @@ echo ">>> Preparing replacement map..."
 cat data/kde_freedesktop.dat | cut -s -d"=" -f2 | sort | uniq > temp/kde_content_assigned.txt
 
 echo ">>> Finding differences..."
-diff temp/kde_content_common_base.txt temp/kde_content_assigned.txt > temp/kde_content_assigned_diff.txt
+diff temp/kde_content_common_base.txt temp/kde_content_assigned.txt > temp/kde_content_assigned.diff
 
 echo ">>> Unassigned images..."
-grep "^<" temp/kde_content_assigned_diff.txt | cut -d" " -f2-
+grep "^<" temp/kde_content_assigned.diff | cut -d" " -f2-
 
 echo ">>> Unavailable images (hopefully empty)..."
-grep "^>" temp/kde_content_assigned_diff.txt | cut -d" " -f2-
+grep "^>" temp/kde_content_assigned.diff | cut -d" " -f2-

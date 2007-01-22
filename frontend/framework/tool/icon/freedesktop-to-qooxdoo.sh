@@ -17,13 +17,15 @@ do
     SOURCE=${INPUT}/${THEME}/${ITEM}
     TARGET=${OUTPUT}/${THEME}/${ITEM}
     TARGETDIR=`dirname $TARGET`
+    SIZE=`echo $ITEM | cut -d"x" -f1`
+    SUBPATH=`echo $ITEM | cut -d"/" -f2`
 
     if [ -r ${INPUT}/${THEME}/${ITEM} ]
     then
       if [ ! -r $TARGETDIR ]; then
         mkdir -p $TARGETDIR
       fi
-      cp ${INPUT}/${THEME}/${ITEM} ${OUTPUT}/${THEME}/${ITEM}
+      cp ${INPUT}/${THEME}/${ITEM} ${OUTPUT}/${THEME}/${SIZE}/${SUBPATH}
     else
       echo "    - Missing icon: $ITEM (Malformed whitelist!)"
     fi
