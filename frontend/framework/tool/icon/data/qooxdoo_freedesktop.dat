@@ -22,7 +22,7 @@ button-ok = actions/dialog-ok
 cache
 calculator = apps/accessories-calculator
 camera = devices/camera-photo
-cancel
+cancel = actions/dialog-cancel
 cdrom = devices/media-optical
 char-device
 chart

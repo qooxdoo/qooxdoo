@@ -1,0 +1,3 @@
+actions/messagebox_info=actions/info
+actions/cancel=actions/button_cancel
+actions/ok=actions/button_ok
