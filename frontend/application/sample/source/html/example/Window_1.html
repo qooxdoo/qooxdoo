@@ -24,11 +24,11 @@
     w1.setSpace(20, 400, 48, 250);
     d.add(w1);
 
-    var w2 = new qx.ui.window.Window("Second Window", "icon/16/colors.png");
+    var w2 = new qx.ui.window.Window("Second Window", "icon/16/actions/format-color.png");
     w2.setSpace(250, "auto", 120, "auto");
     d.add(w2);
 
-    var w3 = new qx.ui.window.Window("Third Window", "icon/16/network.png");
+    var w3 = new qx.ui.window.Window("Third Window", "icon/16/categories/applications-internet.png");
     w3.setSpace(100, 300, 200, 300);
     w3.setMaxWidth(450);
     w3.setMaxHeight(400);
@@ -76,7 +76,7 @@
 
 
 
-    var at1 = new qx.ui.basic.Atom("Your second window", "icon/22/find.png");
+    var at1 = new qx.ui.basic.Atom("Your second window", "icon/22/actions/edit-find.png");
     at1.setLocation(8, 8);
     w2.add(at1);
 
@@ -253,7 +253,7 @@
 
 
 
-    var btnpack = new qx.ui.form.Button("Pack Window", "icon/16/cdrom.png");
+    var btnpack = new qx.ui.form.Button("Pack Window", "icon/16/devices/media-optical.png");
     btnpack.setLocation(140, 170);
     btnpack.addEventListener("execute", function(e) {
       w2.pack();
@@ -264,7 +264,7 @@
     w2.add(fs1);
 
 
-    var icon1 = new qx.ui.basic.Image("icon/32/error.png");
+    var icon1 = new qx.ui.basic.Image("icon/32/status/dialog-error.png");
     var warn1 = new qx.ui.basic.Label("Do you want to delete<br/>all your personal data?");
 
     icon1.setTop(10);
@@ -273,8 +273,8 @@
     warn1.setTop(10);
     warn1.setLeft(48);
 
-    var btn3 = new qx.ui.form.Button("Yes", "icon/16/button-ok.png");
-    var btn4 = new qx.ui.form.Button("No", "icon/16/button-cancel.png");
+    var btn3 = new qx.ui.form.Button("Yes", "icon/16/actions/dialog-ok.png");
+    var btn4 = new qx.ui.form.Button("No", "icon/16/actions/dialog-cancel.png");
 
     btn3.addEventListener("execute", function(e) {
       alert("Thank you!");

@@ -165,7 +165,7 @@ qx.Proto._evalCurrentIcon = function()
   if (this.getSelected() && this.getIconSelected()) {
     return this.getIconSelected();
   } else {
-    return this.getIcon() || "icon/16/file-new.png";
+    return this.getIcon() || "icon/16/actions/document-new.png";
   }
 }
 

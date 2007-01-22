@@ -650,7 +650,7 @@ qx.Proto.openSearchDialog = function() {
   this._list.set(newListSettings);
 
   //###buttons
-  var butNext = new qx.ui.form.Button('', 'icon/16/find.png');
+  var butNext = new qx.ui.form.Button('', 'icon/16/actions/edit-find.png');
   butNext.set({
     toolTip: new qx.ui.popup.ToolTip(this.tr("Search next occurrence"))
   });
@@ -659,13 +659,13 @@ qx.Proto.openSearchDialog = function() {
     search();
   }, this);
 
-  var butOk = new qx.ui.form.Button('', 'icon/16/button-ok.png');
+  var butOk = new qx.ui.form.Button('', 'icon/16/actions/dialog-ok.png');
   butOk.addEventListener('execute', function() {
     oldSelectedIndex = null;
     win.close();
   }, this);
 
-  var butCancel = new qx.ui.form.Button('', 'icon/16/button-cancel.png');
+  var butCancel = new qx.ui.form.Button('', 'icon/16/actions/dialog-cancel.png');
   butCancel.addEventListener('execute', function() {
     win.close();
   }, this);
@@ -689,7 +689,7 @@ qx.Proto.openSearchDialog = function() {
   hbox.add(vbox, butBox);
 
   //###Window
-  var win = new qx.ui.window.Window(this.tr("Search items in list"), 'icon/16/find.png');
+  var win = new qx.ui.window.Window(this.tr("Search items in list"), 'icon/16/actions/edit-find.png');
   win.add(hbox);
   win.positionRelativeTo(this);
   win.set({

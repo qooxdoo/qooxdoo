@@ -135,7 +135,7 @@
 
 
 
-      var toolTip = new qx.ui.popup.ToolTip("Photo Details", "icon/32/colors.png");
+      var toolTip = new qx.ui.popup.ToolTip("Photo Details", "icon/32/actions/format-color.png");
     gallery.setToolTip(toolTip);
     
       gallery.addEventListener("beforeToolTipAppear", function(e)
@@ -165,7 +165,7 @@
             timestamp : Math.random().toString(),
             comment : "Cool Comment: " + i,
             id : "7686191121780974-10682-" + i,
-            src : qx.manager.object.AliasManager.getInstance().resolvePath("icon/64/colors.png")
+            src : qx.manager.object.AliasManager.getInstance().resolvePath("icon/64/actions/format-color.png")
           });
         };      
         

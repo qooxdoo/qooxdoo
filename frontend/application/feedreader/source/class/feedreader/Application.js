@@ -136,11 +136,11 @@ qx.Proto.main = function(e)
 
   // create toolbar
   var toolBar = new qx.ui.toolbar.ToolBar();
-  toolBar.add(new qx.ui.toolbar.Button(this.trn("Add feed", "Add feeds", 2), "icon/16/button-ok.png"));
-  toolBar.add(new qx.ui.toolbar.Button(this.tr("Remove feed"), "icon/16/button-cancel.png"));
+  toolBar.add(new qx.ui.toolbar.Button(this.trn("Add feed", "Add feeds", 2), "icon/16/actions/dialog-ok.png"));
+  toolBar.add(new qx.ui.toolbar.Button(this.tr("Remove feed"), "icon/16/actions/dialog-cancel.png"));
   toolBar.add(new qx.ui.toolbar.Separator());
 
-  var reload_btn = new qx.ui.toolbar.Button(this.tr("Reload"), "icon/16/reload.png");
+  var reload_btn = new qx.ui.toolbar.Button(this.tr("Reload"), "icon/16/actions/view-refresh.png");
   reload_btn.setCommand(reload_cmd);
   reload_btn.setToolTip(new qx.ui.popup.ToolTip(this.tr("(%1) Reload the feeds.", reload_cmd.toString())));
   toolBar.add(reload_btn);
@@ -179,7 +179,7 @@ qx.Proto.main = function(e)
   lang_menu.addToDocument();
   toolBar.add(new qx.ui.toolbar.MenuButton("", lang_menu, "icon/16/locale.png"));
 
-  var about_btn = new qx.ui.toolbar.Button(this.tr("Help"), "icon/16/help.png");
+  var about_btn = new qx.ui.toolbar.Button(this.tr("Help"), "icon/16/actions/help-about.png");
   about_btn.setCommand(about_cmd);
   about_btn.setToolTip(new qx.ui.popup.ToolTip("(" + about_cmd.toString() + ")"));
   toolBar.add(about_btn);
