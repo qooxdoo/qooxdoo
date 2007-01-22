@@ -12,8 +12,8 @@ back = actions/go-previous
 background = apps/preferences-desktop-wallpaper
 bell
 bitmapgraphics
-bookmark-add = actions/bookmark-add
-bookmark-folder
+bookmark-add = actions/favorite-add
+bookmark-folder = actions/bookmark_folder
 bookmark-toolbar
 bookmark
 bug
@@ -26,7 +26,7 @@ cancel = actions/dialog-cancel
 cdrom = devices/media-optical
 char-device
 chart
-clipboard
+clipboard = apps/accessories-clipboard
 clock = apps/accessories-clock
 color-fill
 color-line
@@ -55,7 +55,7 @@ email = apps/internet-mail
 encrypted = actions/encrypt
 energy
 error = status/dialog-error
-exec
+exec = actions/execute
 exit = actions/application-exit
 file-manager = apps/system-file-manager
 file-new = actions/document-new
@@ -82,12 +82,12 @@ help = actions/help-about
 history-clear = actions/history-clear
 history = actions/history
 home = actions/go-home
-icons
+icons = apps/preferences-desktop-theme-icon
 iconthemes = apps/preferences-desktop-theme-icon
 important = emblems/emblem-important
-info
+info = status/dialog-information
 joystick = devices/input-gaming
-keyboard-layout
+keyboard-layout = apps/preferences-desktop-keyboard
 locale = apps/preferences-desktop-locale
 look-and-feel = apps/preferences-desktop-theme
 magnifier = actions/zoom
@@ -99,7 +99,7 @@ mail-new = actions/mail-message-new
 mail-reply-all = actions/mail-reply-all
 mail-reply = actions/mail-reply-sender
 mail-send = actions/mail-send
-mail
+mail = apps/internet-email-client
 memory = devices/memory
 mime-archive = mimetypes/package-x-generic
 mime-binary = mimetypes/application-x-executable
@@ -111,16 +111,16 @@ mime-html = mimetypes/text-html
 mime-image = mimetypes/image-x-generic
 mime-manual
 mime-multimedia = mimetypes/audio-x-generic
-mime-pdf = mimetypes/x-office-pdf
-mime-quicktime = mimetypes/video-x-quicktime
+mime-pdf = mimetypes/application-pdf
+mime-quicktime = mimetypes/application-quicktime
 mime-rpm
-mime-script
+mime-script = mimetypes/text-x-script
 mime-shellscript = mimetypes/text-x-script
 mime-sourcecode = mimetypes/empty-x-generic
 mime-spreadsheet = mimetypes/x-office-spreadsheet
 mime-text = mimetypes/text-x-generic
 mime-video = mimetypes/video-x-generic
-misc
+misc = actions/execute
 mixer = apps/multimedia-volume-control
 modem = devices/modem
 mouse = devices/input-mouse
@@ -148,7 +148,7 @@ reload = actions/view-refresh
 rotate = actions/object-rotate-left
 run = actions/system-run
 scanner = devices/scanner
-services
+services = places/services
 settings = categories/preferences
 signature
 spellcheck = actions/tools-check-spelling
@@ -168,7 +168,7 @@ trashcan-full = places/user-trash-full
 tv = devices/video-display
 undo = actions/edit-undo
 up = actions/go-up
-user
+user = apps/system-users
 utilities = categories/applications-utilities
 view-bottom
 view-choose
@@ -176,7 +176,7 @@ view-detailed = actions/view-pane-detailed
 view-icon = actions/view-pane-icon
 view-left-right
 view-multicolumn = actions/view-pane-column
-view-remove
+view-remove = actions/view-pane-remove
 view-right
 view-sidetree
 view-text = actions/view-pane-text

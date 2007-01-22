@@ -41,7 +41,7 @@
 -actions/edit-select-all
 *actions/edit-trash=actions/edittrash
 +actions/edit-undo=actions/undo
-*actions/exec=actions/exec
+*actions/execute=actions/exec
 *actions/decrypt=actions/decrypted
 *actions/encrypt=actions/encrypted
 *actions/favorite-add=actions/bookmark_add
@@ -137,6 +137,7 @@
 *actions/view-pane-remove=actions/view_remove
 +apps/accessories-calculator=apps/kcalc
 +apps/accessories-character-map=apps/kcharselect
++apps/accessories-clipboard=apps/klipper
 +apps/accessories-dictionary=apps/kdict
 +apps/accessories-text-editor=apps/kedit
 *apps/accessories-archiver=apps/ark
@@ -155,7 +156,7 @@
 +apps/multimedia-volume-control=apps/kmix
 *apps/multimedia-movie-player=apps/aktion
 *apps/preferences=actions/configure
--apps/preferences-desktop-accessibility
++apps/preferences-desktop-accessibility=apps/access
 +apps/preferences-desktop-font=apps/kcmfontinst
 -apps/preferences-desktop-keyboard
 -apps/preferences-desktop-locale
@@ -163,6 +164,7 @@
 -apps/preferences-desktop-screensaver
 +apps/preferences-desktop-theme=apps/kthememgr
 +apps/preferences-desktop-wallpaper=apps/background
+*apps/preferences-desktop-theme-icon=apps/iconthemes
 +apps/system-file-manager=apps/file-manager
 +apps/system-software-update=apps/kpackage
 +apps/system-users=apps/kuser
@@ -273,6 +275,7 @@
 *mimetypes/empty-x-locked=mimetypes/file_locked
 *mimetypes/empty-x-temporary=mimetypes/file_temporary
 *mimetypes/unknown-x-temporary=mimetypes/unknown
+*mimetypes/misc-x-generic=mimetypes/misc
 +places/folder=filesystems/folder
 +places/folder-remote=filesystems/ftp
 +places/network-server=filesystems/network
