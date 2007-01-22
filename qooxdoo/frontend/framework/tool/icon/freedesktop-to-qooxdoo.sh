@@ -26,7 +26,7 @@ do
       if [ ! -r $TARGETDIR ]; then
         mkdir -p $TARGETDIR
       fi
-      cp -fv ${SOURCE} ${TARGET}
+      cp -f ${SOURCE} ${TARGET}
     else
       echo "    - Missing icon: $ITEM (Malformed whitelist!)"
     fi
