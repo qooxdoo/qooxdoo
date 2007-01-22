@@ -24,19 +24,21 @@ class Usage(Exception):
 def get_migration_patch(qx_to_tango_map, qx_not_in_tango, qx_in_tango_without_image, qx_icon_path, tango_icon_path):
 	re = ""
 	for qx in qx_to_tango_map:
-		re += "\\b%s\\.png([\\\"\\'])=%s.png\\1\n" % (qx, qx_to_tango_map[qx])
+		re += "(?:(?<!actions)|(?<!apps)|(?<!categories)|(?<!devices)|(?<!mimetypes)|(?<!places)|(?<!status))%s\\.png([\\\"\\'])=%s.png\\1\n" % (qx, qx_to_tango_map[qx])
 	return re
 
 
 def get_migration_info(qx_to_tango_map, qx_not_in_tango, qx_in_tango_without_image, qx_icon_path, tango_icon_path):
 	re = ""
 	for qx in qx_not_in_tango:
-		re += "\\b%s\\.png[\\\"\\']=The image '%s.png' is no longer supported! Try to use a different icon.\n" % (qx, qx)
+		re += "(?:(?<!actions)|(?<!apps)|(?<!categories)|(?<!devices)|(?<!mimetypes)|(?<!places)|(?<!status))[/\\\"\\']%s\\.png[\\\"\\']=The image '%s.png' is no longer supported! Try to use a different icon.\n" % (qx, qx)
+		#re += "[/\\\"\\']%s\\.png[\\\"\\']=The image '%s.png' is no longer supported! Try to use a different icon.\n" % (qx, qx)
 
 	re += "\n"
 
 	for qx in qx_in_tango_without_image:
-		re += "\\b%s\\.png[\\\"\\']=The image '%s.png' should be renamed to '%s' but currently no icon for the default icon set exists!\n" % (qx, qx, qx_in_tango_without_image[qx])
+		re += "(?:(?<!actions)|(?<!apps)|(?<!categories)|(?<!devices)|(?<!mimetypes)|(?<!places)|(?<!status))[/\\\"\\']%s\\.png[\\\"\\']=The image '%s.png' is no longer supported! Try to use a different icon.\n" % (qx, qx)
+		#re += "\\b%s\\.png[\\\"\\']=The image '%s.png' should be renamed to '%s' but currently no icon for the default icon set exists!\n" % (qx, qx, qx_in_tango_without_image[qx])
 
 	return re
 
