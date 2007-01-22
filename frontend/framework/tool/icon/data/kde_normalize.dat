@@ -59,3 +59,4 @@ apps/looknfeel=apps/iconthemes
 apps/Session=apps/smserver
 apps/toys=apps/tux
 mimetypes/mime_empty=mimetypes/mime
+apps/keyboard=devices/keyboard
