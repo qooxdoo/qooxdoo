@@ -15,7 +15,7 @@ do
   for ITEM in `cat data/qooxdoo_whitelist.dat`
   do
     SIZE=`echo $ITEM | cut -d"x" -f1`
-    SUBPATH=`echo $ITEM | cut -d"/" -f2`
+    SUBPATH=`echo $ITEM | cut -d"/" -f2-`
 
     SOURCE=${INPUT}/${THEME}/${ITEM}
     TARGET=${OUTPUT}/${THEME}/${SIZE}/${SUBPATH}
@@ -26,7 +26,7 @@ do
       if [ ! -r $TARGETDIR ]; then
         mkdir -p $TARGETDIR
       fi
-      cp -f ${SOURCE} ${TARGET}
+      cp -fv ${SOURCE} ${TARGET}
     else
       echo "    - Missing icon: $ITEM (Malformed whitelist!)"
     fi
