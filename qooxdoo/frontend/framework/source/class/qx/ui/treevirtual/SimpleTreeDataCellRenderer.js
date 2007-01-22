@@ -37,16 +37,33 @@ function()
 });
 
 
+/**
+ * Set whether lines linking tree children shall be drawn on the tree.
+ */
 qx.OO.addProperty({ name : "useTreeLines",
                     type : "boolean",
                     defaultValue : true,
                     getAlias : "useTreeLines"
                   });
 
+/**
+ * Set whether the open/close button should be displayed on a branch, even if
+ * the branch has no children.
+ */
 qx.OO.addProperty({ name : "alwaysShowPlusMinusSymbol",
                     type : "boolean",
                     defaultValue : false
                   });
+
+/**
+ * When true, exclude only the first-level tree lines, creating, effectively,
+ * multiple unrelated root nodes.
+ */
+qx.OO.addProperty({ name : "jensLautenbacherMode",
+                    type : "boolean",
+                    defaultValue : false
+                  });
+
 
 
 
@@ -110,11 +127,19 @@ qx.Proto._getContentHtml = function(cellInfo)
     return html;
   }
 
-  // Generate the indentation
+  // Generate the indentation.  Obtain icon determination values once rather
+  // than each time through the loop.
   var bUseTreeLines = this.getUseTreeLines();
+  var bJensLautenbacherMode = this.getJensLautenbacherMode();
+  var bAlwaysShowPlusMinusSymbol = this.getAlwaysShowPlusMinusSymbol();
+  
   for (var i = 0; i < node.level; i++)
   {
-    imageUrl = this._getIndentSymbol(i, node, bUseTreeLines);
+    imageUrl = this._getIndentSymbol(i,
+                                     node,
+                                     bUseTreeLines,
+                                     bAlwaysShowPlusMinusSymbol,
+                                     bJensLautenbacherMode);
     html += addImage({
                        url         : imageUrl,
                        imageWidth  : 19,
@@ -158,21 +183,28 @@ qx.Proto._getContentHtml = function(cellInfo)
 };
 
 
-qx.Proto._getIndentSymbol = function(column, node, bUseTreeLines)
+qx.Proto._getIndentSymbol = function(column,
+                                     node,
+                                     bUseTreeLines,
+                                     bAlwaysShowPlusMinusSymbol,
+                                     bJensLautenbacherMode)
 {
+  // If we're in column 0 and jensLautenbacherMode is enabled, then we treat
+  // this as if no tree lines were requested.
+  if (column == 0 && bJensLautenbacherMode)
+  {
+    bUseTreeLines = false;
+  }
+
   // If we're not on the final column...
   if (column < node.level - 1)
   {
     // then return either a line or a blank icon, depending on bUseTreeLines
-    return (bUseTreeLines && ! node.bParentLastChild
+    return ((bUseTreeLines &&
+             ! node.bParentLastChild &&
+             (column != 0 || ! bJensLautenbacherMode))
             ? this.WIDGET_TREE_URI + "line.gif"
             : this.STATIC_IMAGE_URI + "blank.gif");
-  }
-  else if (! bUseTreeLines)
-  {
-    return (node.opened
-            ? this.WIDGET_TREE_URI + "minus.gif"
-            : this.WIDGET_TREE_URI + "plus.gif");
   }
 
   // Is this a branch node?
@@ -189,9 +221,18 @@ qx.Proto._getIndentSymbol = function(column, node, bUseTreeLines)
 
     // Does this node have any children, or do we always want the plus/minus
     // symbol to be shown?
-    if (child !== null || this.getAlwaysShowPlusMinusSymbol())
+    if (child !== null || bAlwaysShowPlusMinusSymbol)
     {
-      // Yup.  Is this the fisrt child of its parent?
+      // If we're not showing tree lines...
+      if (! bUseTreeLines)
+      {
+        // ... then just use a plus/minus
+        return (node.opened
+                ? this.WIDGET_TREE_URI + "minus.gif"
+                : this.WIDGET_TREE_URI + "plus.gif");
+      }
+
+      // Is this the first child of its parent?
       if (column == 0 && node.bFirstChild)
       {
         // Yup.  If it's also a last child...
