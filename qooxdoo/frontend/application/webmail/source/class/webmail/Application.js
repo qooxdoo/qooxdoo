@@ -25,10 +25,10 @@
 
 /* ************************************************************************
 
-#embed(qx.icontheme/16/network.png)
+#embed(qx.icontheme/16/categories/applications-internet.png)
 #embed(qx.icontheme/16/actions/mail.png)
 #embed(qx.icontheme/16/actions/system-run.png)
-#embed(qx.icontheme/16/notes.png)
+#embed(qx.icontheme/16/apps/accessories-notes.png)
 
 ************************************************************************ */
 

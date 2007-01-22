@@ -23,11 +23,11 @@
 #embed(feedreader.proxy/*)
 #embed(feedreader.feeds/*)
 #embed(feedreader.css/*)
-#embed(qx.icontheme/16/button-ok.png)
-#embed(qx.icontheme/16/button-cancel.png)
-#embed(qx.icontheme/16/reload.png)
-#embed(qx.icontheme/16/locale.png)
-#embed(qx.icontheme/16/help.png)
+#embed(qx.icontheme/16/actions/dialog-ok.png)
+#embed(qx.icontheme/16/actions/dialog-cancel.png)
+#embed(qx.icontheme/16/actions/view-refresh.png)
+#embed(qx.icontheme/16/apps/accessories-disk-usage.png)
+#embed(qx.icontheme/16/actions/help-about.png)
 
 ************************************************************************ */
 
@@ -177,7 +177,7 @@ qx.Proto.main = function(e)
   qx.locale.Manager.getInstance().setLocale(lang);
   });
   lang_menu.addToDocument();
-  toolBar.add(new qx.ui.toolbar.MenuButton("", lang_menu, "icon/16/locale.png"));
+  toolBar.add(new qx.ui.toolbar.MenuButton("", lang_menu, "icon/16/apps/accessories-disk-usage.png"));
 
   var about_btn = new qx.ui.toolbar.Button(this.tr("Help"), "icon/16/actions/help-about.png");
   about_btn.setCommand(about_cmd);
