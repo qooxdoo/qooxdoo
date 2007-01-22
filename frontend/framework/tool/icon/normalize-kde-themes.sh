@@ -25,6 +25,7 @@ do
       then
         if [ ! -r ${FILE2} -a ! -L ${FILE2} ]; then
           echo "    - Linking: $SIZE/$NAME1 -> $SIZE/$NAME2"
+          mkdir -p `dirname ${FILE2}`
           ln -s ${FILE1} ${FILE2}
         fi
       fi
@@ -33,6 +34,7 @@ do
       then
         if [ ! -r ${FILE1} -a ! -L ${FILE1} ]; then
           echo "    - Linking: $SIZE/$NAME2 -> $SIZE/$NAME1"
+          mkdir -p `dirname ${FILE1}`
           ln -s ${FILE2} ${FILE1}
         fi
       fi
