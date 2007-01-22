@@ -18,21 +18,21 @@
 
 /* ************************************************************************
 
+#module(ui_core)
 #module(theme_icon)
-#resource(icontheme:icon/Nuvola)
+#resource(icontheme:icon/NuoveXT)
 
 ************************************************************************ */
 
-
 /**
- * Nuvola
- * Author: David Vignoni (david@icon-king.com)
- * License: LGPL
- * Home: http://www.kde-look.org/content/show.php?content=5358
+ * nuoveXT
+ * Author: Alexandre Moore (alexandre.moore@gmail.com)
+ * License: GPL & LGPL/EPL
+ * Home: http://www.kde-look.org/content/show.php?content=26449
  */
-qx.OO.defineClass("qx.theme.icon.Nuvola", qx.renderer.theme.IconTheme,
+qx.OO.defineClass("qx.theme.icon.NuoveXT", qx.renderer.theme.IconTheme,
 function() {
-  qx.renderer.theme.IconTheme.call(this, "Nuvola");
+  qx.renderer.theme.IconTheme.call(this, "NuoveXT");
 });
 
 
@@ -44,7 +44,7 @@ function() {
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefault("imageUri", qx.Settings.getValueOfClass("qx.manager.object.AliasManager", "resourceUri") + "/icon/Nuvola");
+qx.Settings.setDefault("imageUri", qx.Settings.getValueOfClass("qx.manager.object.AliasManager", "resourceUri") + "/icon/NuoveXT");
 
 
 
@@ -59,6 +59,7 @@ qx.Settings.setDefault("imageUri", qx.Settings.getValueOfClass("qx.manager.objec
  * Singleton Instance Getter
  */
 qx.Class.getInstance = qx.lang.Function.returnInstance;
+
 
 
 
