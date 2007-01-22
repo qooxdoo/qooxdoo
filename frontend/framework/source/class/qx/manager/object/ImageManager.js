@@ -20,7 +20,7 @@
 
 #module(ui_core)
 #optional(qx.ui.form.Button)
-#embed(qx.icontheme/16/icons.png)
+#embed(qx.icontheme/16/apps/preferences-desktop-theme.png)
 
 ************************************************************************ */
 
@@ -232,7 +232,7 @@ qx.Proto.createThemeList = function(vParent, xCor, yCor)
 {
   var vButton;
   var vThemes = this._iconThemes;
-  var vIcon = "icon/16/icons.png";
+  var vIcon = "icon/16/apps/preferences-desktop-theme.png";
   var vPrefix = "Icon Theme: ";
   var vEvent = "execute";
 
