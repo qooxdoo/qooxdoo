@@ -198,7 +198,9 @@ qx.Proto.main = function(e)
   for (var i=0; i<feedDesc.length; i++) {
     var folder = new qx.ui.tree.TreeFolder(feedDesc[i].name);
     tree.getManager().addEventListener("changeSelection", function(e) {
-      this.displayFeed(e.getData()[0].getLabel());
+      if (e.getData()[0] .getParentFolder()) {
+        this.displayFeed(e.getData()[0].getLabel());
+      }
     }, this);
     tree.add(folder);
   }
