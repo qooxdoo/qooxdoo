@@ -11,7 +11,10 @@ def search_loop(node, stringMap={}, verbose=False):
   if node.type == "constant" and node.get("constantType") == "string":
 
     if verbose:
-      print "    - Found: %s" % node.get("value")
+      pvalue = node.get("value")
+      if isinstance(pvalue, unicode):
+        pvalue = pvalue.encode("utf-8")
+      print "    - Found: %s" % pvalue
 
     if node.get("detail") == "singlequotes":
       quote = "'"
@@ -107,7 +110,10 @@ def replace(node, stringList, var="$", verbose=False):
         newvalue = "%s[%s]" % (var, pos)
 
         if verbose:
-          print "    - Replace: %s => %s" % (oldvalue, newvalue)
+          poldvalue = oldvalue
+          if isinstance(poldvalue, unicode):
+            poldvalue = poldvalue.encode("utf-8")
+          print "    - Replace: %s => %s" % (poldvalue, newvalue)
 
         line = node.get("line")
 
