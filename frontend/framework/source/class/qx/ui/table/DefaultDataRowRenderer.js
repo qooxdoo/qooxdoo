@@ -29,7 +29,7 @@ function() {
   qx.ui.table.DataRowRenderer.call(this);
 
   var Ddrr = qx.ui.table.DefaultDataRowRenderer;
-  
+
   // Initialize to the default colors.
   this._colors =
     {
@@ -144,7 +144,7 @@ qx.Proto.setRowColors = function(colors)
   for (var color in colors)
   {
     this._colors[color] = colors[color];
-  }   
+  }
 }
 
 qx.Class.BGCOL_FOCUSED_SELECTED = "#5a8ad3";

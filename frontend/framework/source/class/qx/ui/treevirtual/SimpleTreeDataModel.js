@@ -52,7 +52,7 @@
  *   bFirstChild   : true,
  *   lastChild     : [ false ],  // Array where the index is the column of
  *                               // indentation, and the value is a boolean.
- *                               // These are used to locate the 
+ *                               // These are used to locate the
  *                               // appropriate "tree line" icon.
  * }
  */
@@ -401,7 +401,7 @@ qx.Proto._render = function()
         // No column data.  Just add the tree node.
         rowData.push(child);
       }
-      
+
       // Add the row data to the row array
       _this._rowArr.push(rowData)
 
