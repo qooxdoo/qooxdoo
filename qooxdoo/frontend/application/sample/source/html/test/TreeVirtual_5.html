@@ -107,17 +107,8 @@
                          tree.setUseTreeLines(e.getData());
                        });
 
-    o = new qx.ui.form.CheckBox("Always show open/close symbol?");
-    o.set({ top: 100, left: 0, checked: true });
-    commandFrame.add(o);
-    o.addEventListener("changeChecked",
-                       function(e)
-                       {
-                         tree.setAlwaysShowOpenCloseSymbol(e.getData());
-                       });
-
     o = new qx.ui.form.CheckBox("Jens Lautenbacher mode?");
-    o.set({ top: 120, left: 0, checked: false });
+    o.set({ top: 100, left: 0, checked: false });
     commandFrame.add(o);
     o.addEventListener("changeChecked",
                        function(e)
@@ -125,17 +116,17 @@
                          tree.setJensLautenbacherMode(e.getData());
                        });
 
-    o = new qx.ui.form.CheckBox("Open/close click selects row?");
-    o.set({ top: 140, left: 0, checked: false });
+    o = new qx.ui.form.CheckBox("Always show open/close symbol?");
+    o.set({ top: 120, left: 0, checked: true });
     commandFrame.add(o);
     o.addEventListener("changeChecked",
                        function(e)
                        {
-                         tree.setOpenCloseClickSelectsRow(e.getData());
+                         tree.setAlwaysShowOpenCloseSymbol(e.getData());
                        });
 
     o = new qx.ui.form.CheckBox("Remove open/close if found empty?");
-    o.set({ top: 160, left: 0, checked: true });
+    o.set({ top: 140, left: 0, checked: true });
     commandFrame.add(o);
     tree.addEventListener("treeOpenWhileEmpty",
                           function(e)
@@ -146,6 +137,15 @@
                               tree.setState(node.nodeId, { opened : null });
                             }
                           });
+
+    o = new qx.ui.form.CheckBox("Open/close click selects row?");
+    o.set({ top: 160, left: 0, checked: false });
+    commandFrame.add(o);
+    o.addEventListener("changeChecked",
+                       function(e)
+                       {
+                         tree.setOpenCloseClickSelectsRow(e.getData());
+                       });
   });
   </script>
 </body>
