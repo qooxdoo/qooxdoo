@@ -233,6 +233,21 @@
   cursor: default;
 }
 
+#ClassViewer table.info td.text table{
+	padding: 0;
+}
+
+#ClassViewer table.info td.text table td {
+	padding: 1px 3px;
+}
+
+#ClassViewer table.info td.text table th {
+	text-align: left;
+	color: #134275;
+	font-weight: normal;
+	padding: 1px 3px;
+}
+
 #ClassViewer span.methodSignature{
   font-size: 12px;
   color: #83B300;
