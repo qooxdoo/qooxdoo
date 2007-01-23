@@ -320,7 +320,7 @@ qx.Proto.getItems = function(recursive, invisible)
  * </p>
  *
  * <p>the current items subitems (and the subitems of each
- * subitem) are destoyed going top down the TreeFolder
+ * subitem) are destroyed going top down the TreeFolder
  * hierarchy. The current item is left as is.
  * </p>
  */
