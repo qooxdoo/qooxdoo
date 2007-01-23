@@ -76,7 +76,7 @@ qx.Class.getDayNames = function(length, locale) {
  *
  * @param length {String} format of the day name.
  *     Possible values: "abbreviated", "narrow", "wide"
- * @param day {Integereger} day number. 0=sunday, 1=monday, ...
+ * @param day {Integer} day number. 0=sunday, 1=monday, ...
  * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString} localized day name
  */
@@ -124,7 +124,7 @@ qx.Class.getMonthNames = function(length, locale) {
  *
  * @param length {String} format of the month names.
  *     Possible values: "abbreviated", "narrow", "wide"
- * @param month {Integereger} index of the month. 0=january, 1=februrary, ...
+ * @param month {Integer} index of the month. 0=january, 1=februrary, ...
  * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString} localized month name
  */
@@ -224,7 +224,7 @@ qx.Class.getTimeFormat = function(size, locale) {
  * Reference: Common Locale Data Repository (cldr) supplementalData.xml
  *
  * @param locale {String} optional locale to be used
- * @return {Integereger} index of the first day of the week. 0=sunday, 1=monday, ...
+ * @return {Integer} index of the first day of the week. 0=sunday, 1=monday, ...
  */
 qx.Class.getWeekStart = function(locale) {
   var weekStart = {
@@ -311,7 +311,7 @@ qx.Class.getWeekStart = function(locale) {
  * Reference: Common Locale Data Repository (cldr) supplementalData.xml
  *
  * @param locale {String} optional locale to be used
- * @return {Integereger} index of the first day of the weekend. 0=sunday, 1=monday, ...
+ * @return {Integer} index of the first day of the weekend. 0=sunday, 1=monday, ...
  */
 qx.Class.getWeekendStart = function(locale) {
   var weekendStart = {
@@ -351,7 +351,7 @@ qx.Class.getWeekendStart = function(locale) {
  * Reference: Common Locale Data Repository (cldr) supplementalData.xml
  *
  * @param locale {String} optional locale to be used
- * @return {Integereger} index of the last day of the weekend. 0=sunday, 1=monday, ...
+ * @return {Integer} index of the last day of the weekend. 0=sunday, 1=monday, ...
  */
 qx.Class.getWeekendEnd = function(locale) {
   var weekendEnd = {
@@ -388,7 +388,7 @@ qx.Class.getWeekendEnd = function(locale) {
 /**
  * Returns whether a certain day of week belongs to the week end.
  *
- * @param day {Integereger} index of the day. 0=sunday, 1=monday, ...
+ * @param day {Integer} index of the day. 0=sunday, 1=monday, ...
  * @param locale {String} optional locale to be used
  * @return {Boolean} whether the given day is a weekend day
  */

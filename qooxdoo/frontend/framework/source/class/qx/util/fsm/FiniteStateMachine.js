@@ -411,6 +411,8 @@ qx.Proto.displayAllObjects = function()
  *
  * @param obj {Object}
  *   The object to be recursively displayed
+ * @param initialMessage {String}
+ *   The initial message to be displayed.
  */
 qx.Proto.debugObject = function(obj, initialMessage)
 {

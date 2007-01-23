@@ -414,7 +414,7 @@ qx.Proto.set = function(propertyValues)
     }
     catch(ex)
     {
-      this.error("Setter of property " + prop + " returned with an error", ex);
+      this.error("Setter of property '" + prop + "' returned with an error", ex);
     }
   }
 
