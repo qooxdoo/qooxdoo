@@ -274,14 +274,14 @@ qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
     for (var x = 0; x < colCount; x++) {
       var col = paneModel.getColumnAtX(x);
 
-      htmlArr.push();
+      htmlArr.push('<col width="');
       htmlArr.push(columnModel.getColumnWidth(col));
       htmlArr.push('"/>');
     }
 
     htmlArr.push('</colgroup><tbody>');
   }
-
+  this.debug(htmlArr);
   tableModel.prefetchRows(firstRow, firstRow + rowCount - 1);
   for (var y = 0; y < rowCount; y++) {
     var row = firstRow + y;
