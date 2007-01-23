@@ -281,7 +281,7 @@ qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
 
     htmlArr.push('</colgroup><tbody>');
   }
-  this.debug(htmlArr);
+
   tableModel.prefetchRows(firstRow, firstRow + rowCount - 1);
   for (var y = 0; y < rowCount; y++) {
     var row = firstRow + y;
