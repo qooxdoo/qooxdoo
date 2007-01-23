@@ -6,6 +6,11 @@
   </head>
   <body>
     <script type="text/javascript">
+      // Log only critical errors in deployment builds.
+      // Otherwise the default log level is qx.log.Logger.LEVEL_DEBUG 
+      if (!qx.SOURCE_BUILD) {
+        qx.log.Logger.ROOT_LOGGER.setMinLevel(qx.log.Logger.LEVEL_ERROR);
+      }
       qx.core.Init.getInstance().setApplication(custom.Application);
     </script>
   </body>

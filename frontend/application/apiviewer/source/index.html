@@ -6,6 +6,9 @@
   </head>
   <body>
     <script type="text/javascript">
+      if (!qx.SOURCE_BUILD) {
+        qx.log.Logger.ROOT_LOGGER.setMinLevel(qx.log.Logger.LEVEL_ERROR);
+      }
       qx.core.Init.getInstance().setApplication(apiviewer.Application);
     </script>
   </body>
