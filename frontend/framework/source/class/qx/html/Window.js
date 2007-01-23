@@ -29,7 +29,7 @@ qx.OO.defineClass("qx.html.Window");
  * Get the inner width of the given browser window
  *
  * @param window {window} browser window
- * @return {Integereger} the window's inner width
+ * @return {Integer} the window's inner width
  */
 qx.html.Window.getInnerWidth = function(window) {};
 
@@ -37,7 +37,7 @@ qx.html.Window.getInnerWidth = function(window) {};
  * Get the inner height of the given browser window
  *
  * @param window {window} browser window
- * @return {Integereger} the window's inner height
+ * @return {Integer} the window's inner height
  */
 qx.html.Window.getInnerHeight = function(window) {};
 
@@ -45,7 +45,7 @@ qx.html.Window.getInnerHeight = function(window) {};
  * Get the left scroll position of the given browser window
  *
  * @param window {window} browser window
- * @return {Integereger} the window's left scroll position
+ * @return {Integer} the window's left scroll position
  */
 qx.html.Window.getScrollLeft = function(window) {};
 
@@ -53,7 +53,7 @@ qx.html.Window.getScrollLeft = function(window) {};
  * Get the top scroll position of the given browser window
  *
  * @param window {window} browser window
- * @return {Integereger} the window's top scroll position
+ * @return {Integer} the window's top scroll position
  */
 qx.html.Window.getScrollTop = function(window) {};
 

@@ -35,7 +35,7 @@
  * wrapper is not relevant.
  * </p><p>
  * So this class seems to be the best compromise to handle
- * string concatination.</p>
+ * string concatenation.</p>
  */
 qx.OO.defineClass("qx.util.StringBuilder", qx.core.Object,
 function()

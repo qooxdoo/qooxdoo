@@ -22,6 +22,9 @@
 
 ************************************************************************ */
 
+/**
+ * @param vValue {String} this string is ddisplayed as the value of the TextArea.
+ */
 qx.OO.defineClass("qx.ui.form.TextArea", qx.ui.form.TextField,
 function(vValue)
 {

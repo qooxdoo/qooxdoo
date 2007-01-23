@@ -88,13 +88,28 @@ qx.OO.defineClass("qx.lang.Generics",
     ]
   },
 
-  wrp : function(obj, func)
+  /**
+   * Make a method of an object generic and return the generic functions.
+   * The generic function takes as first parameter the object the method operates on.
+   * 
+   * TODO: maybe mode this function to qx.lang.Function
+   * 
+   * @param obj {Object} the object in which prototype the function is defined.
+   * @param func {String} name of the method to wrap.
+   * 
+   * @return {Function} wrapped method. This function takes as first argument an
+   *     instance of obj and as following arguments the arguments of the original method.
+   */
+  _wrap : function(obj, func)
   {
     return function(s) {
       return obj.prototype[func].apply(s, Array.prototype.slice.call(arguments, 1));
     }
   },
 
+  /**
+   * Initialize all gernic function defined in JavaScript 1.6.
+   */
   init : function()
   {
     var map = qx.lang.Generics.map;
@@ -111,7 +126,7 @@ qx.OO.defineClass("qx.lang.Generics",
         var func = arr[i];
 
         if (!obj[func]) {
-          obj[func] = qx.lang.Generics.wrp(obj, func);
+          obj[func] = qx.lang.Generics._wrap(obj, func);
         }
       }
     }
