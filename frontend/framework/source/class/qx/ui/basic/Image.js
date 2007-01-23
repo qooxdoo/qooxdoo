@@ -307,7 +307,9 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
     {
       // initialisize preloader
       var vSource = this.getSource();
-      if (qx.util.Validation.isValidString(vSource)) {
+      if (qx.util.Validation.isValidString(vSource))
+      {
+        //this.debug("Post-Create: " + vSource);
         this.setPreloader(qx.manager.object.ImagePreloaderManager.getInstance().create(qx.manager.object.AliasManager.getInstance().resolvePath(vSource)));
       }
     }
