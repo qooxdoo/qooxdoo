@@ -32,7 +32,7 @@
             border : qx.renderer.border.BorderPresets.getInstance().thinInset
           });
       setColumnWidth(0, 400);
-      setAlwaysShowPlusMinusSymbol(true);
+      setAlwaysShowOpenCloseSymbol(true);
     };
 
     // Add the tree to the document
@@ -93,10 +93,10 @@
 
     /*
      * We handle opening an empty folder specially.  We demonstrate how to
-     * disable the plus/minus sign once we've determined there's nothing in
+     * disable the open/close symbol once we've determined there's nothing in
      * it.  This feature might be used to dynamically retrieve the contents of
      * the folder, and if nothing is available, indicate it by removing the
-     * plus/minus sign.
+     * open/close symbol.
      */
     tree.addEventListener("treeOpenWhileEmpty",
                           function(e)
