@@ -33,30 +33,26 @@
 qx.OO.defineClass("qx.xml.Document");
 
 /**
- * Create an XML document
+ * Create an XML document.
  * http://www.w3.org/TR/DOM-Level-2-Core/core.html#i-Document
  *
- * TODO: add implementation that suuports the given arguments.
- *       Drop fromString() afterwards.
- *
- * @param content {String|null?null}
- * @param namespace {String|null?null}
- * @param root {String|null?null}
+ * @param namespaceUri {String|null?null} The namespace URI of the document element to create or null.
+ * @param qualifiedName {String|null?null} The qualified name of the document element to be created or null.
  *
  * @return {Document} empty XML document
  */
-qx.Class.create = function(content, namespace, root) {};
+qx.Class.create = function(namespaceUri, qualifiedName) {};
 
 if (document.implementation && document.implementation.createDocument) // The Mozilla style
 {
-  qx.Class.create = function(content, namespace, root)
+  qx.Class.create = function(namespaceUri, qualifiedName)
   {
-    return document.implementation.createDocument("", "", null);
+    return document.implementation.createDocument(namespaceUri || "", qualifiedName || "", null);
   }
 }
 else if (qx.core.Client.getInstance().isMshtml())   // The Microsoft style
 {
-  qx.Class.create = function(content, namespace, root)
+  qx.Class.create = function(namespaceUri, qualifiedName)
   {
     /*
      According to information on the Microsoft XML Team's WebLog
@@ -92,6 +88,18 @@ else if (qx.core.Client.getInstance().isMshtml())   // The Microsoft style
       {
         vObject = null;
       }
+    }
+    if (qualifiedName && vObject) {
+      xmlStr = new qx.util.StringBuilder();
+      xmlStr.add("<?xml version='1.0' encoding='UTF-8'?>\n<");
+      xmlStr.add(qualifiedName);
+      if (namespaceUri) {
+      	xmlStr.add(" xmlns='");
+      	xmlStr.add(namespaceUri);
+      	xmlStr.add("'");
+      }
+      xmlStr.add(" />");
+      vObject.loadXML(xmlStr.toString());
     }
     return vObject;
   };
