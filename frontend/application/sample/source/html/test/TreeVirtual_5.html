@@ -29,7 +29,7 @@
             bottom : 30,
             border : qx.renderer.border.BorderPresets.getInstance().thinInset
           });
-      setAlwaysShowPlusMinusSymbol(true);
+      setAlwaysShowOpenCloseSymbol(true);
       setColumnWidth(0, 400);
       setColumnWidth(1, 100);
     };
@@ -73,10 +73,10 @@
       dataModel.addLeaf(te, "Spam Message #" + i);
     }
 
-    dataModel.addBranch(te2, "Sent", true);
-    dataModel.addBranch(te2, "Trash", true);
-    dataModel.addBranch(te2, "Data", true);
-    dataModel.addBranch(te2, "Edit", true);
+    dataModel.addBranch(te2, "Sent", false);
+    dataModel.addBranch(te2, "Trash", false);
+    dataModel.addBranch(te2, "Data", false);
+    dataModel.addBranch(te2, "Edit", false);
 
     dataModel.setData(null);
 
@@ -107,13 +107,13 @@
                          tree.setUseTreeLines(e.getData());
                        });
 
-    o = new qx.ui.form.CheckBox("Always show plus/minus symbol?");
+    o = new qx.ui.form.CheckBox("Always show open/close symbol?");
     o.set({ top: 100, left: 0, checked: true });
     commandFrame.add(o);
     o.addEventListener("changeChecked",
                        function(e)
                        {
-                         tree.setAlwaysShowPlusMinusSymbol(e.getData());
+                         tree.setAlwaysShowOpenCloseSymbol(e.getData());
                        });
 
     o = new qx.ui.form.CheckBox("Jens Lautenbacher mode?");
@@ -124,6 +124,28 @@
                        {
                          tree.setJensLautenbacherMode(e.getData());
                        });
+
+    o = new qx.ui.form.CheckBox("Open/close click selects row?");
+    o.set({ top: 140, left: 0, checked: false });
+    commandFrame.add(o);
+    o.addEventListener("changeChecked",
+                       function(e)
+                       {
+                         tree.setOpenCloseClickSelectsRow(e.getData());
+                       });
+
+    o = new qx.ui.form.CheckBox("Remove open/close if found empty?");
+    o.set({ top: 160, left: 0, checked: true });
+    commandFrame.add(o);
+    tree.addEventListener("treeOpenWhileEmpty",
+                          function(e)
+                          {
+                            if (o.getChecked())
+                            {
+                              var node = e.getData();
+                              tree.setState(node.nodeId, { opened : null });
+                            }
+                          });
   });
   </script>
 </body>

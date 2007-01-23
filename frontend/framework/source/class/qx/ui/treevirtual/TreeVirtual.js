@@ -193,12 +193,12 @@ qx.Proto.getUseTreeLines = function()
  *   <i>true</i> if the open/close button should be shown; <i>false</i>
  *   otherwise. 
  */
-qx.Proto.setAlwaysShowPlusMinusSymbol = function(b)
+qx.Proto.setAlwaysShowOpenCloseSymbol = function(b)
 {
   var stdcm = this.getTableModel();
   var treeCol = stdcm._treeColumn;
   var dcr = this.getTableColumnModel().getDataCellRenderer(treeCol);
-  dcr.setAlwaysShowPlusMinusSymbol(b);
+  dcr.setAlwaysShowOpenCloseSymbol(b);
 
   // Inform the listeners
   if (stdcm.hasEventListeners(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED))
@@ -276,11 +276,11 @@ qx.Proto.getJensLautenbacherMode = function()
  * @return {Boolean}
  *   <i>true</i> if tree lines are in use; <i>false</i> otherwise.
  */
-qx.Proto.getAlwaysShowPlusMinusSymbol = function()
+qx.Proto.getAlwaysShowOpenCloseSymbol = function()
 {
   var treeCol = this.getTableModel()._treeColumn;
   var dcr = this.getTableColumnModel().getDataCellRenderer(treeCol);
-  return dcr.getAlwaysShowPlusMinusSymbol();
+  return dcr.getAlwaysShowOpenCloseSymbol();
 };
 
 /**
