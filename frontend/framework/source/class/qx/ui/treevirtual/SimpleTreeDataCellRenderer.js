@@ -40,18 +40,20 @@ function()
 /**
  * Set whether lines linking tree children shall be drawn on the tree.
  */
-qx.OO.addProperty({ name : "useTreeLines",
-                    type : "boolean",
+qx.OO.addProperty({
+                    name         : "useTreeLines",
+                    type         : "boolean",
                     defaultValue : true,
-                    getAlias : "useTreeLines"
+                    getAlias     : "useTreeLines"
                   });
 
 /**
  * Set whether the open/close button should be displayed on a branch, even if
  * the branch has no children.
  */
-qx.OO.addProperty({ name : "alwaysShowPlusMinusSymbol",
-                    type : "boolean",
+qx.OO.addProperty({
+                    name         : "alwaysShowOpenCloseSymbol",
+                    type         : "boolean",
                     defaultValue : false
                   });
 
@@ -59,8 +61,9 @@ qx.OO.addProperty({ name : "alwaysShowPlusMinusSymbol",
  * When true, exclude only the first-level tree lines, creating, effectively,
  * multiple unrelated root nodes.
  */
-qx.OO.addProperty({ name : "jensLautenbacherMode",
-                    type : "boolean",
+qx.OO.addProperty({
+                    name         : "jensLautenbacherMode",
+                    type         : "boolean",
                     defaultValue : false
                   });
 
@@ -131,14 +134,14 @@ qx.Proto._getContentHtml = function(cellInfo)
   // than each time through the loop.
   var bUseTreeLines = this.getUseTreeLines();
   var bJensLautenbacherMode = this.getJensLautenbacherMode();
-  var bAlwaysShowPlusMinusSymbol = this.getAlwaysShowPlusMinusSymbol();
+  var bAlwaysShowOpenCloseSymbol = this.getAlwaysShowOpenCloseSymbol();
   
   for (var i = 0; i < node.level; i++)
   {
     imageUrl = this._getIndentSymbol(i,
                                      node,
                                      bUseTreeLines,
-                                     bAlwaysShowPlusMinusSymbol,
+                                     bAlwaysShowOpenCloseSymbol,
                                      bJensLautenbacherMode);
     html += addImage({
                        url         : imageUrl,
@@ -186,7 +189,7 @@ qx.Proto._getContentHtml = function(cellInfo)
 qx.Proto._getIndentSymbol = function(column,
                                      node,
                                      bUseTreeLines,
-                                     bAlwaysShowPlusMinusSymbol,
+                                     bAlwaysShowOpenCloseSymbol,
                                      bJensLautenbacherMode)
 {
   // If we're in column 0 and jensLautenbacherMode is enabled, then we treat
@@ -219,14 +222,14 @@ qx.Proto._getIndentSymbol = function(column,
       break;
     }
 
-    // Does this node have any children, or do we always want the plus/minus
+    // Does this node have any children, or do we always want the open/close
     // symbol to be shown?
-    if (child !== null || bAlwaysShowPlusMinusSymbol)
+    if (child !== null || bAlwaysShowOpenCloseSymbol)
     {
       // If we're not showing tree lines...
       if (! bUseTreeLines)
       {
-        // ... then just use a plus/minus
+        // ... then just use a plus or minus
         return (node.opened
                 ? this.WIDGET_TREE_URI + "minus.gif"
                 : this.WIDGET_TREE_URI + "plus.gif");
