@@ -13,6 +13,21 @@
 	margin: 0px;
 }
 
+#qxversion {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	top: -20px;
+	left: 0px;
+	text-align: right;
+	vertical-align: bottom;
+	padding: 0px 10px 0px 0px;
+	margin: 0px;
+  font-family: "Trebuchet MS", "Lucida Grande", Verdana, sans-serif;
+  color: #DEFF83;
+	font-size: 12px;
+}
+
 #DetailFrame,
 #DetailFrame td,
 #DetailFrame th{
