@@ -12,7 +12,7 @@
   <script type="text/javascript" src="../../script/layout.js"></script>
 
   <div id="demoDescription">
-    <p>Testing QxFormUtils</p>
+    <p>Testing qx.html.Form</p>
   </div>
 
   <form id="mainform" style="position: absolute; left:300px; top: 48px">
@@ -73,12 +73,12 @@
     area.setDimension(200, 100);
     qx.ui.core.ClientDocument.getInstance().add(area);
 
-    QxFormUtils.bind(document.getElementById("mainform"), function() {
+    qx.html.Form.bind(document.getElementById("mainform"), function() {
       alert("Submitting Form Replacement...");
     });
 
     btn.addEventListener("execute", function() {
-      area.setValue(QxFormUtils.encodeForm(document.getElementById("mainform")));
+      area.setValue(qx.html.Form.encodeForm(document.getElementById("mainform")));
     });
   });
   </script>

@@ -35,7 +35,7 @@
       };
 
       var btns1 = [
-        { type : "button", icon : "file-new", text : "New" },
+        { type : "button", icon : "document-new", text : "New" },
         { type : "separator" },
         { type : "button", icon : "edit-copy", text : "Copy" },
         { type : "button", icon : "edit-cut", text : "Cut" },
@@ -43,12 +43,12 @@
       ];
 
       var btns2 = [
-        { type : "button", icon : "up", text : "Upload" },
-        { type : "button", icon : "down", text : "Download" }
+        { type : "button", icon : "go-up", text : "Upload" },
+        { type : "button", icon : "go-down", text : "Download" }
       ];
 
       var btns3 = [
-        { type : "button", icon : "help", text : "Help" }
+        { type : "button", icon : "help-about", text : "Help" }
       ];
 
       var bars = [ btns1, btns2, btns3 ];
@@ -88,7 +88,7 @@
               break;
 
             case "button":
-              var o = new qx.ui.toolbar.Button(btn.text, "icon/22/" + btn.icon + ".png");
+              var o = new qx.ui.toolbar.Button(btn.text, "icon/22/actions/" + btn.icon + ".png");
 
               // beautiful decoupling: toolbar buttons don't know about radio boxes
 
