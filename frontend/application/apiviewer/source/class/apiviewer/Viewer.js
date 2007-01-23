@@ -36,7 +36,13 @@ function () {
   document.title = this._titlePrefix;
 
   // create header
-  var header = new qx.ui.embed.HtmlEmbed("<h1><span>" + this.getSetting("title") + "</span> API Documentation</h1>");
+  var header = new qx.ui.embed.HtmlEmbed(
+    "<h1>" + 
+    "<span>" + this.getSetting("title") + "</span>"+
+    " API Documentation"+
+    "</h1>" +
+    "<div id='qxversion'>qooxdoo " + qx.core.Version.toString() + "</div>"
+  );
   header.setCssClassName("header");
   header.setHeight(35);
   this.addTop(header);
@@ -47,7 +53,9 @@ function () {
     overflow: "scroll",
     width: "100%",
     height: "100%",
-    border: qx.renderer.border.BorderPresets.getInstance().inset
+    border: qx.renderer.border.BorderPresets.getInstance().inset,
+    paddingLeft: 5,
+    paddingTop: 3
   });
   this._tree.getManager().addEventListener("changeSelection", this._onTreeSelectionChange, this);
 
