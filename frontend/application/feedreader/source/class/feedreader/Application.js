@@ -20,15 +20,16 @@
 #resource(feeds:feeds)
 #resource(css:css)
 #resource(proxy:proxy)
+#resource(images:images)
 #embed(feedreader.proxy/*)
 #embed(feedreader.feeds/*)
 #embed(feedreader.css/*)
+#embed(feedreader.images/*)
 #embed(qx.icontheme/16/actions/dialog-ok.png)
 #embed(qx.icontheme/16/actions/dialog-cancel.png)
-#embed(qx.icontheme/16/actions/view-refresh.png)
 #embed(qx.icontheme/16/apps/accessories-disk-usage.png)
 #embed(qx.icontheme/16/actions/help-about.png)
-
+ 
 ************************************************************************ */
 
 /**
@@ -38,6 +39,7 @@ qx.OO.defineClass("feedreader.Application", qx.component.AbstractApplication,
 function () {
   qx.component.AbstractApplication.call(this);
 
+  qx.manager.object.ImageManager.getInstance().setIconTheme(qx.theme.icon.VistaInspirate.getInstance());
   //this.fetchFeedDesc();
   this.setFeeds([]);
 });
@@ -177,7 +179,7 @@ qx.Proto.main = function(e)
   qx.locale.Manager.getInstance().setLocale(lang);
   });
   lang_menu.addToDocument();
-  toolBar.add(new qx.ui.toolbar.MenuButton("", lang_menu, "icon/16/apps/accessories-disk-usage.png"));
+  toolBar.add(new qx.ui.toolbar.MenuButton("", lang_menu, "feedreader/images/locale.png"));
 
   var about_btn = new qx.ui.toolbar.Button(this.tr("Help"), "icon/16/actions/help-about.png");
   about_btn.setCommand(about_cmd);
@@ -315,19 +317,19 @@ qx.Proto.parseAtomFeed = function(xml) {
   for (var i=0; i<eItems.length; i++) {
     var eItem = eItems[i];
     var item = {}
-    item.title = qx.xml.Core.getTextContent(eItem.getElementsByTagName("title")[0]);
+    item.title = qx.dom.Element.getTextContent(eItem.getElementsByTagName("title")[0]);
     if (eItem.getElementsByTagName("author").length > 0) {
-      item.author = qx.xml.Core.getTextContent(eItem.getElementsByTagName("author")[0].getElementsByTagName("name")[0]);
+      item.author = qx.dom.Element.getTextContent(eItem.getElementsByTagName("author")[0].getElementsByTagName("name")[0]);
     } else {
     item.author = ""
     }
-    item.date = qx.xml.Core.getTextContent(
+    item.date = qx.dom.Element.getTextContent(
     eItem.getElementsByTagName("created")[0] ||
     eItem.getElementsByTagName("published")[0] ||
     eItem.getElementsByTagName("updated")[0] ||
     empty
   );
-    item.content = qx.xml.Core.getTextContent(eItem.getElementsByTagName("content")[0] || empty);
+    item.content = qx.dom.Element.getTextContent(eItem.getElementsByTagName("content")[0] || empty);
     item.link = eItem.getElementsByTagName("link")[0].getAttribute("href");
     items.push(item);
   }
@@ -342,11 +344,11 @@ qx.Proto.parseRSSFeed = function(xml) {
   for (var i=0; i<eItems.length; i++) {
     var eItem = eItems[i];
     var item = {}
-    item.title = qx.xml.Core.getTextContent(eItem.getElementsByTagName("title")[0]);
-    item.author = qx.xml.Core.getTextContent(qx.xml.Element.getElementsByTagNameNS(eItem, qx.xml.Namespace.DC, "creator")[0] || empty);
-    item.date = qx.xml.Core.getTextContent(eItem.getElementsByTagName("pubDate")[0]);
-    item.content = qx.xml.Core.getTextContent(qx.xml.Element.getElementsByTagNameNS(eItem, qx.xml.Namespace.RSS1, "encoded")[0] || empty);
-    item.link = qx.xml.Core.getTextContent(eItem.getElementsByTagName("link")[0]);
+    item.title = qx.dom.Element.getTextContent(eItem.getElementsByTagName("title")[0]);
+    item.author = qx.dom.Element.getTextContent(qx.xml.Element.getElementsByTagNameNS(eItem, qx.xml.Namespace.DC, "creator")[0] || empty);
+    item.date = qx.dom.Element.getTextContent(eItem.getElementsByTagName("pubDate")[0]);
+    item.content = qx.dom.Element.getTextContent(qx.xml.Element.getElementsByTagNameNS(eItem, qx.xml.Namespace.RSS1, "encoded")[0] || empty);
+    item.link = qx.dom.Element.getTextContent(eItem.getElementsByTagName("link")[0]);
     items.push(item);
   }
   return items;
