@@ -210,7 +210,7 @@ qx.Proto._updateImages = function()
   for (var vHashCode in vAll)
   {
     vObject = vAll[vHashCode];
-    vObject.setPreloader(vPreMgr.create(vAliasMgr.resolvePath(vObject.getSource(), true)));
+    vObject.setPreloader(vPreMgr.create(vAliasMgr.resolvePath(vObject.getSource())));
   }
 
   return true;

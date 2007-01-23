@@ -70,11 +70,21 @@ qx.Settings.setDefault("staticUri", qx.Settings.getValue("resourceUri") + "/stat
  * Define an alias to a resource path
  *
  * @param vAlias {String} alias name for the resource path/url
- * @param vPath {String}
+ * @param vUriStart {String} first part of URI for all images which use this alias
  */
-qx.Proto.add = function(vAlias, vPath)
+qx.Proto.add = function(vAlias, vUriStart)
 {
-  this._aliases[vAlias] = vPath;
+  this._aliases[vAlias] = vUriStart;
+
+  // Cleanup old uris which use this alias
+  for (var vPath in this._uris)
+  {
+    if (vPath.substring(0, vPath.indexOf("/") == vAlias)) {
+      this._uris[vPath] = null;
+    }
+  }
+
+  // Fire change event (for ImageManager, etc.)
   this.createDispatchEvent("change");
 }
 
@@ -86,6 +96,16 @@ qx.Proto.add = function(vAlias, vPath)
 qx.Proto.remove = function(vAlias)
 {
   delete this._aliases[vAlias];
+
+  // Cleanup old uris which use this alias
+  for (var vPath in this._uris)
+  {
+    if (vPath.substring(0, vPath.indexOf("/") == vAlias)) {
+      this._uris[vPath] = null;
+    }
+  }
+
+  // Fire change event (for ImageManager, etc.)
   this.createDispatchEvent("change");
 }
 
@@ -125,11 +145,11 @@ qx.Proto.resolvePath = function(vPath, vForceUpdate)
 {
   var vUri = this._uris[vPath];
 
-  if (vForceUpdate || typeof vUri === "undefined")
-  {
+  if (vUri == null) {
     vUri = this._uris[vPath] = this._computePath(vPath);
-    // this.debug("URI: " + vPath + " => " + vUri);
   }
+
+  // this.debug("URI: " + vPath + " => " + vUri);
 
   return vUri;
 }
