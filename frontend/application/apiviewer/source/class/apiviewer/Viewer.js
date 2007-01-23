@@ -37,7 +37,7 @@ function () {
 
   // create header
   var header = new qx.ui.embed.HtmlEmbed(
-    "<h1>" + 
+    "<h1>" +
     "<span>" + this.getSetting("title") + "</span>"+
     " API Documentation"+
     "</h1>" +

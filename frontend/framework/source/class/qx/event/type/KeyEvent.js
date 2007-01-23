@@ -60,10 +60,10 @@ qx.OO.addFastProperty({ name : "charCode", setOnlyOnce : true, noCompute : true 
 /**
  * Identifier of the pressed key. This property is modeled after the <em>KeyboardEvent.keyIdentifier</em> property
  * of the W3C DOM 3 event specification (http://www.w3.org/TR/2003/NOTE-DOM-Level-3-Events-20031107/events.html#Events-KeyboardEvent-keyIdentifier).
- * 
+ *
  * It is not valid in "keyinput" events"
- * 
- * Printable keys are represented by a unicode string, non-printable keys have one of the following 
+ *
+ * Printable keys are represented by a unicode string, non-printable keys have one of the following
  * values:
  * <br>
  * <table>

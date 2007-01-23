@@ -94,9 +94,9 @@ else if (qx.core.Client.getInstance().isMshtml())   // The Microsoft style
       xmlStr.add("<?xml version='1.0' encoding='UTF-8'?>\n<");
       xmlStr.add(qualifiedName);
       if (namespaceUri) {
-      	xmlStr.add(" xmlns='");
-      	xmlStr.add(namespaceUri);
-      	xmlStr.add("'");
+        xmlStr.add(" xmlns='");
+        xmlStr.add(namespaceUri);
+        xmlStr.add("'");
       }
       xmlStr.add(" />");
       vObject.loadXML(xmlStr.toString());

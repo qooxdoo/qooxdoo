@@ -67,23 +67,23 @@ qx.Proto.update = function(vTarget, vEventName)
     // Hide only if the target is not a button inside this
     // or any sub menu and is not the opener
     var isMouseDown = vEventName == "mousedown";
-    var isMouseUp = vEventName == "mouseup";    
-    
+    var isMouseUp = vEventName == "mouseup";
+
     //Close menu if the target is not the opener button...
-    if (vMenu.getOpener() !== vTarget 
-    
-        //  and 
-        && ( vTarget && 
+    if (vMenu.getOpener() !== vTarget
+
+        //  and
+        && ( vTarget &&
              // the event is a mouse down on a non-child of the menu
              (!vMenu.isSubElement(vTarget) && isMouseDown)
-             
+
              // or the event is a mouse up on a child button of the menu
              || (vMenu.isSubElement(vTarget, true) && isMouseUp)
-             
+
              // or the event is a key (esc) event
              || (!isMouseDown && !isMouseUp )))
-             
-             
+
+
     {
       vMenu.hide();
       continue;
