@@ -118,25 +118,32 @@ qx.Proto.getLayout = function() {
   return this._layout;
 }
 
-qx.Proto.isSubButton = function(vButton)
+/**
+ * Returns if the given element is a child of this menu
+ * 
+ * @param vElement {Object} element to test
+ * @param vButtonsOnly {boolean ? false} if true, child elements other than buttons
+ *                                       will be ignored
+ */
+qx.Proto.isSubElement = function(vElement, vButtonsOnly)
 {
-  if (vButton.getParent() === this._layout) {
+  if ((vElement.getParent() === this._layout)
+  
+      //accept this as child, this can happen if a scrollbar is clicked upon in
+      //a context menu
+      ||((!vButtonsOnly) && (vElement === this))) {
     return true;
   }
 
   for (var a=this._layout.getChildren(), l=a.length, i=0; i<l; i++)
   {
-    if (a[i].getMenu && a[i].getMenu() && a[i].getMenu().isSubButton(vButton)) {
+    if (a[i].getMenu && a[i].getMenu() && a[i].getMenu().isSubElement(vElement, vButtonsOnly)) {
       return true;
     }
   }
 
   return false;
 }
-
-
-
-
 
 
 /*
