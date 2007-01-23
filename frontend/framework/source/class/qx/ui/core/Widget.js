@@ -280,11 +280,13 @@ qx.OO.addProperty({ name : "backgroundImage", type : "string" });
  * Describes how to handle content that is too large to fit inside the widget.
  *
  * Overflow modes:
- * * hidden: The content is clipped
- * * auto: Scroll bars are shown as needed
- * * scroll: Scroll bars are always shown. Even if there is enough room for the content inside the widget.
- * * scrollX: Scroll bars for the X-Axis are always shown. Even if there is enough room for the content inside the widget.
- * * scrollY: Scroll bars for the Y-Axis are always shown. Even if there is enough room for the content inside the widget.
+ * <table>
+ * <tr><th>hidden</th><td>The content is clipped</td></tr>
+ * <tr><th>auto</th><td>Scroll bars are shown as needed</td></tr>
+ * <tr><th>scroll</th><td>Scroll bars are always shown. Even if there is enough room for the content inside the widget.</td></tr>
+ * <tr><th>scrollX</th><td>Scroll bars for the X-Axis are always shown. Even if there is enough room for the content inside the widget.</td></tr>
+ * <tr><th>scrollY</th><td>Scroll bars for the Y-Axis are always shown. Even if there is enough room for the content inside the widget.</td></tr>
+ * </table>
  */
 qx.OO.addProperty({ name : "overflow", type : "string", addToQueue : true });
 

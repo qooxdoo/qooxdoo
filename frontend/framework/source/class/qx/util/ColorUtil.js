@@ -21,8 +21,23 @@
 
 ************************************************************************ */
 
+/**
+ * Methods to convert colors between ddiffernt color spaces.
+ */
 qx.OO.defineClass("qx.util.ColorUtil");
 
+/**
+ * Convert RGB colors to HSB
+ * 
+ * @param vRed {Number} Red value. Range: 0..255
+ * @param vGreen {Number} Green value. Range: 0..255
+ * @param vBlue {Number} Blue value. Range: 0..255
+ * 
+ * @return {Map} Map with the keys following keys:
+ *     'hue': range 0..360,
+ *     'saturation': range 0..100,
+ *     'brightness': range 0..100
+ */
 qx.Class.rgb2hsb = function(vRed, vGreen, vBlue)
 {
   var vHue, vSaturation, vBrightness;
@@ -86,6 +101,19 @@ qx.Class.rgb2hsb = function(vRed, vGreen, vBlue)
   }
 }
 
+
+/**
+ * Convert HSB colors to RGB
+ * 
+ * @param vHue {Number} Hue value. Range 0..360
+ * @param vSaturation {Number} Saturation value. Range 0..100
+ * @param vBrightness {Number} Brightness value. Range 0..100
+ * 
+ * @return {Map} Map the the following keys:
+ *     'red': range 0..255,
+ *     'green': range 0..255,
+ *     'blue': range 0..255
+ */
 qx.Class.hsb2rgb = function(vHue, vSaturation, vBrightness)
 {
   var i, f, p, q, t, vReturn;

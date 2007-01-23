@@ -528,7 +528,7 @@ qx.Proto._calculateDimensions = function() {
 
 /**Calculates the width of the given text.
  * The default font is used.
- * @return {Integereger}*/
+ * @return {Integer}*/
 qx.Proto._getTextWidth = function(text) {
   var lab = new qx.ui.basic.Label(text);
   var res = lab.getPreferredBoxWidth();
