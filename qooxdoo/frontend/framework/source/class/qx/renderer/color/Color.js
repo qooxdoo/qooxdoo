@@ -75,12 +75,12 @@ qx.renderer.color.Color.r_percent = /^[0-9]{1,3}\.{0,1}[0-9]*%$/;
 
 /**
  * CSS 3 colors (http://www.w3.org/TR/css3-color/#svg-color)
- * 
+ *
  * This includes all classic HTML Color names (http://www.w3.org/TR/css3-color/#html4) and the <code>transparent</code> keyword.
  */
 qx.Class.htmlNames =
 {
-  transparent : [-1,-1,-1], 
+  transparent : [-1,-1,-1],
   aliceblue : [ 240,248,255 ],
   antiquewhite : [ 250,235,215 ],
   aqua : [ 0,255,255 ],

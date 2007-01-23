@@ -75,7 +75,7 @@ function(headings)
       bgcolFocused             : "#f0f0f0",
       bgcolFocusedBlur         : "#f0f0f0"
     });
-  
+
   // Remove the outline on focus.
   //
   // KLUDGE ALERT: I really want to remove the old appearance, but I don't
@@ -108,7 +108,7 @@ function(headings)
     {
       Sm.prototype._handleSelectEvent.call(_this, index, evt);
 
-      // Get the now-focused 
+      // Get the now-focused
       var node = _this.getTableModel().getValue(_this.getFocusedColumn(),
                                                 _this.getFocusedRow());
       _this.createDispatchDataEvent("changeSelection", node);
@@ -191,7 +191,7 @@ qx.Proto.getUseTreeLines = function()
  *
  * @param b {Boolean}
  *   <i>true</i> if the open/close button should be shown; <i>false</i>
- *   otherwise. 
+ *   otherwise.
  */
 qx.Proto.setAlwaysShowOpenCloseSymbol = function(b)
 {

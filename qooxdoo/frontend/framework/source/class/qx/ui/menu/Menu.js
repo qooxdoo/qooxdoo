@@ -120,7 +120,7 @@ qx.Proto.getLayout = function() {
 
 /**
  * Returns if the given element is a child of this menu
- * 
+ *
  * @param vElement {Object} element to test
  * @param vButtonsOnly {boolean ? false} if true, child elements other than buttons
  *                                       will be ignored
@@ -128,7 +128,7 @@ qx.Proto.getLayout = function() {
 qx.Proto.isSubElement = function(vElement, vButtonsOnly)
 {
   if ((vElement.getParent() === this._layout)
-  
+
       //accept this as child, this can happen if a scrollbar is clicked upon in
       //a context menu
       ||((!vButtonsOnly) && (vElement === this))) {

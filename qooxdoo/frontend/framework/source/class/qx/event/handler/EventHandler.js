@@ -554,7 +554,7 @@ qx.Proto._onkeyevent_post = function(vDomEvent, vType, vKeyCode, vCharCode, vKey
     // Starting Objects Internal Event Dispatcher
     // This handles the real event action
     vTarget.dispatchEvent(vKeyEventObject);
-  
+
     // Send event to qx.event.handler.DragAndDropHandler
     if (qx.OO.isAvailable("qx.event.handler.DragAndDropHandler")) {
       qx.event.handler.DragAndDropHandler.getInstance().handleKeyEvent(vKeyEventObject);

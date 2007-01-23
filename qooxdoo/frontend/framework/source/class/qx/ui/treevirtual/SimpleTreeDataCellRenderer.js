@@ -135,7 +135,7 @@ qx.Proto._getContentHtml = function(cellInfo)
   var bUseTreeLines = this.getUseTreeLines();
   var bJensLautenbacherMode = this.getJensLautenbacherMode();
   var bAlwaysShowOpenCloseSymbol = this.getAlwaysShowOpenCloseSymbol();
-  
+
   for (var i = 0; i < node.level; i++)
   {
     imageUrl = this._getIndentSymbol(i,
