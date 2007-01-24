@@ -42,7 +42,7 @@ function(headings)
 
   // Specify the column headings.  We accept a single string (one single
   // column) or an array of strings (one or more columns).
-  if (! headings instanceof Array)
+  if (typeof(headings) == "string")
   {
     headings = [ headings ];
   }
@@ -65,6 +65,9 @@ function(headings)
   {
     tcm.setDataCellRenderer(i, i == treeCol ? stdcr : ddcr);
   }
+
+  // We need our cell renderer called on selection change, to update the icon
+  this.setAlwaysUpdateCells(true);
 
   // Move the focus with the mouse
   this.setFocusCellOnMouseMove(true);
