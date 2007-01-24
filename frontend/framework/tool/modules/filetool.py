@@ -13,7 +13,7 @@ def save(filePath, content="", encoding="utf-8"):
   # Writing file
   try:
     outputFile = codecs.open(filePath, encoding=encoding, mode="w", errors="replace")
-    outputFile.write(content.decode("utf-8"))
+    outputFile.write(content)
   except IOError, (errno, strerror):
     print "  * I/O error(%s): %s" % (errno, strerror)
     sys.exit(1)
