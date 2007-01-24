@@ -262,7 +262,7 @@ qx.Proto._isIdentifiableKeyCode = function(keyCode)
 /**
  * Checks wether a given string is a valid keyIdentifier
  *
- * @param keyIdentifier {String}
+ * @param keyIdentifier {String} The key identifier.
  * @return {Boolean} wether the given string is a valid keyIdentifier
  */
 qx.Proto.isValidKeyIdentifier = function(keyIdentifier)
