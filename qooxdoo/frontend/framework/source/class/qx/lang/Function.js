@@ -40,7 +40,7 @@ qx.OO.defineClass("qx.lang.Function");
 
 /**
  * Simply return true.
- * 
+ *
  * @return {Boolean} Always returns true.
  */
 qx.lang.Function.returnTrue = function() {
@@ -50,7 +50,7 @@ qx.lang.Function.returnTrue = function() {
 
 /**
  * Simply return false.
- * 
+ *
  * @return {Boolean} Always returns false.
  */
 
@@ -61,7 +61,7 @@ qx.lang.Function.returnFalse = function() {
 
 /**
  * Simply return null.
- * 
+ *
  * @return {var} Always returns null.
  */
 
@@ -72,7 +72,7 @@ qx.lang.Function.returnNull = function() {
 
 /**
  * Return "this".
- * 
+ *
  * @return {Object} Always returns "this".
  */
 qx.lang.Function.returnThis = function() {
@@ -83,8 +83,8 @@ qx.lang.Function.returnThis = function() {
 /**
  * Used to return a refernce to an singleton. Classes which should act as singletons can use this
  * function to implement the "getInstance" methods.
- * 
- * @returns {Object} Singleton instance of the class this method is bound to. 
+ *
+ * @returns {Object} Singleton instance of the class this method is bound to.
  */
 qx.lang.Function.returnInstance = function()
 {
@@ -104,7 +104,7 @@ qx.lang.Function.returnInstance = function()
 
 /**
  * Simply return 0.
- * 
+ *
  * @return {Number} Always returns 0.
  */
 
@@ -115,7 +115,7 @@ qx.lang.Function.returnZero = function() {
 
 /**
  * Simply return a negative index (-1).
- * 
+ *
  * @return {Number} Always returns -1.
  */
 
