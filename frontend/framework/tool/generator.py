@@ -74,6 +74,7 @@ def getparser():
   parser.add_option("-q", "--quiet", action="store_false", dest="verbose", default=False, help="Quiet output mode.")
   parser.add_option("-v", "--verbose", action="store_true", dest="verbose", help="Verbose output mode.")
   parser.add_option("-d", "--debug", action="store_true", dest="enableDebug", help="Enable debug mode.")
+  parser.add_option("--version", dest="version", default="0.0", metavar="VERSION", help="Version number of qooxdoo")
   parser.add_option("--package-id", dest="packageId", default="", metavar="ID", help="Defines a package ID (required for string optimization etc.)")
   parser.add_option("--disable-internal-check", action="store_true", dest="disableInternalCheck", default=False, help="Disable check of modifications to internal files.")
 
@@ -486,51 +487,22 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
         print "      - Optional: "
         for depEntry in fileDb[fileId]["optionalDeps"]:
           print "        - %s" % depEntry
-  
-  def dotLine(fileId, depEntry, largetFileSize):
-    file = fileId.split(".")
-    dep = depEntry.split(".")
-    weight = 1
-    for i in range(len(file)):
-      if file[i] == dep[i]:
-        weight += 1
-      else:
-        break
-    size = os.path.getsize(fileDb[fileId]["path"])
-    dot = '  "%s" [color="%s %s 1.000"];\n' % (fileId, math.log(size)/math.log(largetFileSize), math.log(size)/math.log(largetFileSize))
-    dot += '  "%s" -> "%s" [weight=%s];\n' % (fileId, depEntry, weight)
-    return dot
+
+
+
+
+
+  ######################################################################
+  #  GRAPHVIZ OUTPUT
+  ######################################################################
 
   if options.depDotFile:
-    dot = '''digraph "qooxdoo" {
-  node [style=filled];
-'''
-    largest = 0
-    for fileId in sortedIncludeList:
-        size = os.path.getsize(fileDb[fileId]["path"])
-        if size > largest:
-            largest = size
-    
-    for fileId in sortedIncludeList:
-      if len(fileDb[fileId]["loadtimeDeps"]) > 0:
-        for depEntry in fileDb[fileId]["loadtimeDeps"]:
-          dot += dotLine(fileId, depEntry, largest)
+    graph.store(fileDb, sortedIncludeList, options)
 
-      if len(fileDb[fileId]["afterDeps"]) > 0:
-        for depEntry in fileDb[fileId]["afterDeps"]:
-          dot += dotLine(fileId, depEntry, largest)
 
-      if len(fileDb[fileId]["runtimeDeps"]) > 0:
-        for depEntry in fileDb[fileId]["runtimeDeps"]:
-          dot += dotLine(fileId, depEntry, largest)
 
-      if len(fileDb[fileId]["loadDeps"]) > 0:
-        for depEntry in fileDb[fileId]["loadDeps"]:
-          dot += dotLine(fileId, depEntry, largest)
 
-    dot += '}'
-    filetool.save(options.depDotFile, dot)
-    
+
 
   ######################################################################
   #  SOURCE MIGRATION
@@ -547,6 +519,9 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
     # Return after migration: Ignore other jobs
     return
+
+
+
 
 
   ######################################################################
@@ -593,6 +568,9 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
     # Return after fixing: Ignore other jobs
     return
+
+
+
 
 
 
@@ -974,7 +952,9 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     # Generating inline code...
     inlineCode = ""
     inlineCode += settingsStr + sourceLineFeed
-    inlineCode += "qx.SOURCE_BUILD=true;" + sourceLineFeed
+    inlineCode += "qx.IS_SOURCE=true;%s" % sourceLineFeed
+    inlineCode += "qx.VERSION=\"%s\";%s" % (options.version, sourceLineFeed)
+    inlineCode += "".join(additionalOutput)
 
 
     # Generating script block
@@ -1016,7 +996,17 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     print "  GENERATION OF COMPILED SCRIPT:"
     print "----------------------------------------------------------------------------"
 
-    compiledOutput = settingsStr + "".join(additionalOutput)
+    buildLineFeed = "";
+    if options.addNewLines:
+      buildLineFeed = "\n";
+
+    inlineCode = ""
+    inlineCode += settingsStr + buildLineFeed
+    inlineCode += "qx.IS_SOURCE=false;%s" % buildLineFeed
+    inlineCode += "qx.VERSION=\"%s\";%s" % (options.version, buildLineFeed)
+    inlineCode += "".join(additionalOutput)
+
+    compiledOutput = inlineCode
 
     if options.compiledScriptFile == None:
       print "  * You must define the compiled script file!"
