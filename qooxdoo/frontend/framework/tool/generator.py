@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import sys, re, os, optparse
+import sys, re, os, optparse, math
 
 # reconfigure path to import own modules from modules subfolder
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "modules"))
@@ -48,6 +48,7 @@ def getparser():
   parser.add_option("--print-files-without-modules", action="store_true", dest="printFilesWithoutModules", default=False, help="Output files which have no module connection. (Debugging)")
   parser.add_option("--print-includes", action="store_true", dest="printIncludes", default=False, help="Output sorted file list. (Debugging)")
   parser.add_option("--print-dependencies", action="store_true", dest="printDeps", default=False, help="Output dependencies of files. (Debugging)")
+  parser.add_option("--dependencies-graphviz-file", dest="depDotFile", metavar="FILENAME", help="Save dependencies as graphviz dot file. (Debugging)")
 
   # Output files
   parser.add_option("--source-script-file", dest="sourceScriptFile", metavar="FILENAME", help="Name of output file from source build process.")
@@ -476,20 +477,60 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
         for depEntry in fileDb[fileId]["runtimeDeps"]:
           print "        - %s" % depEntry
 
-      if len(fileDb[fileId]["beforeDeps"]) > 0:
-        print "      - Before: "
-        for depEntry in fileDb[fileId]["beforeDeps"]:
+      if len(fileDb[fileId]["loadDeps"]) > 0:
+        print "      - Load: "
+        for depEntry in fileDb[fileId]["loadDeps"]:
           print "        - %s" % depEntry
 
       if len(fileDb[fileId]["optionalDeps"]) > 0:
         print "      - Optional: "
         for depEntry in fileDb[fileId]["optionalDeps"]:
           print "        - %s" % depEntry
+  
+  def dotLine(fileId, depEntry, largetFileSize):
+    file = fileId.split(".")
+    dep = depEntry.split(".")
+    weight = 1
+    for i in range(len(file)):
+      if file[i] == dep[i]:
+        weight += 1
+      else:
+        break
+    size = os.path.getsize(fileDb[fileId]["path"])
+    dot = '  "%s" [color="%s %s 1.000"];\n' % (fileId, math.log(size)/math.log(largetFileSize), math.log(size)/math.log(largetFileSize))
+    dot += '  "%s" -> "%s" [weight=%s];\n' % (fileId, depEntry, weight)
+    return dot
 
+  if options.depDotFile:
+    dot = '''digraph "qooxdoo" {
+  node [style=filled];
+'''
+    largest = 0
+    for fileId in sortedIncludeList:
+        size = os.path.getsize(fileDb[fileId]["path"])
+        if size > largest:
+            largest = size
+    
+    for fileId in sortedIncludeList:
+      if len(fileDb[fileId]["loadtimeDeps"]) > 0:
+        for depEntry in fileDb[fileId]["loadtimeDeps"]:
+          dot += dotLine(fileId, depEntry, largest)
 
+      if len(fileDb[fileId]["afterDeps"]) > 0:
+        for depEntry in fileDb[fileId]["afterDeps"]:
+          dot += dotLine(fileId, depEntry, largest)
 
+      if len(fileDb[fileId]["runtimeDeps"]) > 0:
+        for depEntry in fileDb[fileId]["runtimeDeps"]:
+          dot += dotLine(fileId, depEntry, largest)
 
+      if len(fileDb[fileId]["loadDeps"]) > 0:
+        for depEntry in fileDb[fileId]["loadDeps"]:
+          dot += dotLine(fileId, depEntry, largest)
 
+    dot += '}'
+    filetool.save(options.depDotFile, dot)
+    
 
   ######################################################################
   #  SOURCE MIGRATION
