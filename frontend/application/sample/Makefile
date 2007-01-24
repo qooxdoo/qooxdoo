@@ -46,7 +46,7 @@ APPLICATION_LINEBREAKS_SOURCE = false
 #
 # qooxdoo.org sync
 #
-APPLICATION_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/demo/$(APPLICATION_NAMESPACE)
+APPLICATION_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/demo/$(APPLICATION_NAMESPACE)/$(FRAMEWORK_VERSION)
 
 #
 # Build/Integrate all features
@@ -54,7 +54,7 @@ APPLICATION_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/demo/$(APPLICATION_
 APPLICATION_COMPLETE_BUILD = true
 
 #
-# Relation from HTML file to the top level directory (source or build). 
+# Relation from HTML file to the top level directory (source or build).
 #
 APPLICATION_PAGE_TO_TOPLEVEL = ../..
 
@@ -89,13 +89,13 @@ layout-source:
 	@$(CMD_LINE)
 	@echo "  * Generating layout.js..."
 	@tool/layout.sh source/script/layout.js source/html SOURCE
-  
+
 layout-build:
 	@echo
 	@echo "  GENERATION OF SAMPLE LAYOUT"
 	@$(CMD_LINE)
 	@echo "  * Generating layout.js..."
 	@tool/layout.sh build/script/layout.js build/html BUILD
-  
+
 build: layout-build
 source: layout-source

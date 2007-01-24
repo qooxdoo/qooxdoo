@@ -169,13 +169,6 @@ ifndef APPLICATION_ENABLE_GUI
 endif
 
 #
-# Available options: low, middle, high
-#
-ifndef APPLICATION_PROCESS_PRIORITY
-  APPLICATION_PROCESS_PRIORITY = low
-endif
-
-#
 # Redefine folder names (inside build/source)
 # It is not recommended to change these fundamental settings.
 #
@@ -269,7 +262,6 @@ endif
 ###################################################################################
 
 COMPUTED_COMMON_INIT =
-COMPUTED_COMMON_NICE = 0
 
 COMPUTED_SOURCE_INCLUDE =
 COMPUTED_SOURCE_LINEBREAKS =
@@ -311,14 +303,6 @@ COMPUTED_FRAMEWORK_LOCALE_INCLUDE := $(APPLICATION_LOCALES:%= --include qx.local
 COMPUTED_FRAMEWORK_TRANSLATION_INCLUDE := $(APPLICATION_LOCALES:%= --include $(FRAMEWORK_TRANSLATION_CLASS_NAMESPACE).% )
 COMPUTED_APPLICATION_TRANSLATION_INCLUDE := $(APPLICATION_LOCALES:%= --include $(APPLICATION_TRANSLATION_CLASS_NAMESPACE).% )
 
-
-ifeq ($(APPLICATION_PROCESS_PRIORITY),low)
-  COMPUTED_COMMON_NICE = 10
-endif
-
-ifeq ($(APPLICATION_PROCESS_PRIORITY),high)
-  COMPUTED_COMMON_NICE = -10
-endif
 
 ifeq ($(APPLICATION_COMPLETE_SOURCE),false)
   COMPUTED_SOURCE_INCLUDE = --include $(APPLICATION_CLASSNAME) \

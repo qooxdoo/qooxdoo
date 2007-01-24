@@ -4,21 +4,21 @@
 
 #
 # Path to the folder of your qooxdoo distribution.
-# Can either be 
+# Can either be
 # a) a path relative to the location of this Makefile (preferred) or
 # b) an absolute path starting at the root of your file system
-# Example: If you put the skeleton folder next to the qooxdoo-0.6.4-sdk folder, 
+# Example: If you put the skeleton folder next to the qooxdoo SDK folder,
 # you can use the following relative path:
-# QOOXDOO_PATH = ../qooxdoo-0.6.4-sdk
+# QOOXDOO_PATH = ../qooxdoo-x.x.x-sdk
 #
 QOOXDOO_PATH = PLEASE_DEFINE_QOOXDOO_PATH
 
 #
 # Similar to above, but from the webserver point of view.
-# Starting point is now the application HTML file of the source folder 
-# (source/index.html by default). In most cases just prepend a "../" to 
+# Starting point is now the application HTML file of the source folder
+# (source/index.html by default). In most cases just prepend a "../" to
 # QOOXDOO_PATH from above.
-# Example: QOOXDOO_URI = ../../qooxdoo-0.6.4-sdk
+# Example: QOOXDOO_URI = ../../qooxdoo-x.x.x-sdk
 #
 QOOXDOO_URI = PLEASE_DEFINE_QOOXDOO_URI
 
