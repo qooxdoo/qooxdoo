@@ -41,9 +41,20 @@ function() {
   this._rowCount = -1;
 
   this._lruCounter = 0;
+
+  // Holds the index of the first block that is currently loading.
+  // Is -1 if there is currently no request on its way.
   this._firstLoadingBlock = -1;
+
+  // Holds the index of the first row that should be loaded when the response of
+  // the current request arrives. Is -1 we need no following request.
   this._firstRowToLoad = -1;
+
+  // Counterpart to _firstRowToLoad
   this._lastRowToLoad = -1;
+
+  // Holds whether the current request will bring obsolete data. When true the
+  // response of the current request will be ignored.
   this._ignoreCurrentRequest = false;
 
   this._rowBlockCache = {};
@@ -119,6 +130,11 @@ qx.Proto.reloadData = function() {
   if (this._firstLoadingBlock != -1) {
     this._ignoreCurrentRequest = true;
   }
+
+  // Forget a possibly outstanding request
+  // (_loadRowCount will tell the listeners anyway, that the whole table changed)
+  this._firstRowToLoad = -1;
+  this._lastRowToLoad = -1;
 
   // NOTE: This will inform the listeners as soon as the new row count is known
   this._loadRowCount();
