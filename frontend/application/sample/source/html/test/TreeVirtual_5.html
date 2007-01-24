@@ -81,7 +81,7 @@
     dataModel.addBranch(te2, "Data", false);
     dataModel.addBranch(te2, "Edit", false);
 
-    dataModel.setData(null);
+    dataModel.setData();
 
     var commandFrame = new qx.ui.groupbox.GroupBox("Control");
     commandFrame.set({ top: 48, left: 520, width: "auto", height: "auto" });
@@ -94,14 +94,17 @@
     o = new qx.ui.form.TextField();
     o.set({ left: 4, right: 0, top: 20, readOnly: true });
     commandFrame.add(o);
-    tree.addEventListener("changeSelection",
-                          function(e)
-                          {
-                            var nodes = e.getData();
-                            this.setValue(nodes[0].label);
-                            buttonRemove.setEnabled(true);
-                          },
-                          o);
+    tree.addEventListener(
+      "changeSelection",
+      function(e)
+      {
+        // Get the list of selected nodes.  We're in single-selection mode, so
+        // there will be only one of them.
+        var nodes = e.getData();
+        this.setValue(tree.getHierarchy(nodes[0].nodeId).join('/'));
+        buttonRemove.setEnabled(true);
+      },
+      o);
 
     var buttonRemove = new qx.ui.form.Button("Remove");
     buttonRemove.set({ top: 42, left: 0, enabled: false });
