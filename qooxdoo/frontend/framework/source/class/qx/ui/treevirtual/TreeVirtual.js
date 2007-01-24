@@ -497,6 +497,35 @@ qx.Proto._handleSelectEvent = function(index, evt)
 };
 
 
+qx.Proto.getHierarchy = function(nodeId)
+{
+  var _this = this;
+  var components = [ ];
+  
+  function addHierarchy(nodeId)
+  {
+    // If we're at the root...
+    if (! nodeId)
+    {
+      // ... then we're done
+      return;
+    }
+
+    // Get the requested node
+    var node = _this.getDataModel().getData()[nodeId];
+
+    // Add its label to the hierarchy components
+    components.unshift(node.label);
+
+    // Call recursively to our parent node.
+    addHierarchy(node.parentNodeId);
+  }
+
+  addHierarchy(nodeId);
+  return components;
+}
+
+
 qx.Proto.getSelectedNodes = function()
 {
   // Create an array of nodes that are now selected
