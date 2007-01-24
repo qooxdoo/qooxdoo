@@ -130,6 +130,9 @@ qx.Proto._getContentHtml = function(cellInfo)
     return html;
   }
 
+  // Update the selected state
+  node.bSelected = cellInfo.selected;
+
   // Generate the indentation.  Obtain icon determination values once rather
   // than each time through the loop.
   var bUseTreeLines = this.getUseTreeLines();
