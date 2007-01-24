@@ -174,7 +174,6 @@ exec-framework-translation:
 	@mkdir -p $(FRAMEWORK_TRANSLATION_PATH)
 	@mkdir -p $(FRAMEWORK_TRANSLATION_CLASS_PATH)
 
-
 	@rm -f $(FRAMEWORK_TRANSLATION_PATH)/messages.pot
 	@touch $(FRAMEWORK_TRANSLATION_PATH)/messages.pot
 	@for file in `find $(FRAMEWORK_SOURCE_PATH)/$(FRAMEWORK_CLASS_FOLDERNAME) -name "*.js"`; do \
@@ -326,7 +325,7 @@ exec-api-build:
 #
 exec-publish:
 	@echo "  * Syncing files..."
-	@$(CMD_SYNC) $(APPLICATION_BUILD_PATH)/* $(APPLICATION_PUBLISH_PATH)
+	@$(CMD_SYNC_ONLINE) $(APPLICATION_BUILD_PATH)/* $(APPLICATION_PUBLISH_PATH)
 
 
 
@@ -339,6 +338,9 @@ exec-publish:
 #
 exec-none:
 	@true
+
+
+
 
 
 

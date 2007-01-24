@@ -58,7 +58,8 @@ APPLICATION_LINEBREAKS_SOURCE = false
 #
 # qooxdoo.org sync
 #
-APPLICATION_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/api
+APPLICATION_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/api/$(FRAMEWORK_VERSION)
+
 
 
 
