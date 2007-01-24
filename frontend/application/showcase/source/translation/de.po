@@ -1,20 +1,18 @@
-# translation of de.po to German
 # German
 #
-# Fabian Jakobs <fabian DOT jakobs AT 1und1 DOT de>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: de\n"
+"Project-Id-Version: qooxdoo showcase\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-23 17:44+0100\n"
+"POT-Creation-Date: 2007-01-24 16:11+0100\n"
 "PO-Revision-Date: 2007-01-23 17:46+0100\n"
+"Last-Translator: Fabian Jakobs <fabian DOT jakobs AT 1und1 DOT de>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
-"Last-Translator: Fabian Jakobs <fabian DOT jakobs AT 1und1 DOT de>\n"
 
 #: source/class/showcase/Application.js:874
 msgid "Choose a locale: "
@@ -139,4 +137,3 @@ msgstr "Wochenanfang:"
 #: source/class/showcase/Application.js:1042
 msgid "Format of %1:"
 msgstr "Format von %1:"
-

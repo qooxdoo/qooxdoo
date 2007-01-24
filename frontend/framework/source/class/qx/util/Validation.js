@@ -24,7 +24,7 @@
 
 /**
  * Collection of validation methods.
- * 
+ *
  * All methods use the strict comparison operators as all modern
  * browsers (needs support for JavaScript 1.3) support this.
  *
@@ -42,7 +42,7 @@ qx.OO.defineClass("qx.util.Validation");
  *   <li>false</li>
  * </ul>
  * All other values are considered valid.
- * 
+ *
  * @param v {var} the value to validate.
  * @return {Boolean} whether the variable is valid
  */
@@ -81,7 +81,7 @@ qx.util.Validation.isValid = function(v)
  *   <li>false</li>
  * </ul>
  * All other values are considered valid.
- * 
+ *
  * @param v {var} the value to validate.
  * @return {Boolean} whether the variable is invalid
  */
@@ -116,7 +116,7 @@ qx.util.Validation.isInvalid = function(v)
  *   <li>type is number</li>
  *   <li>not NaN</li>
  * </ul>
- * 
+ *
  * @param v {var} the value to validate.
  * @return {Boolean} whether the variable is valid
  */
@@ -127,7 +127,7 @@ qx.util.Validation.isValidNumber = function(v) {
 
 /**
  * Whether a value is an invalid number.
- * 
+ *
  * @param v {var} the value to validate.
  * @return {Boolean} whether the variable is valid
  */
@@ -142,7 +142,7 @@ qx.util.Validation.isInvalidNumber = function(v) {
  *   <li>type is string</li>
  *   <li>not an empty string</li>
  * </ul>
- * 
+ *
  * @param v {var} the value to validate.
  * @return {Boolean} whether the variable is valid
  */
@@ -153,7 +153,7 @@ qx.util.Validation.isValidString = function(v) {
 
 /**
  * Whether a value is an invalid string.
- * 
+ *
  * @param v {var} the value to validate.
  * @return {Boolean} whether the variable is valid
  */
@@ -168,7 +168,7 @@ qx.util.Validation.isInvalidString = function(v) {
  *   <li>type is object</li>
  *   <li>instance is Array</li>
  * </ul>
- * 
+ *
  * @param v {var} the value to validate.
  * @return {Boolean} whether the variable is valid
  */
@@ -179,7 +179,7 @@ qx.util.Validation.isValidArray = function(v) {
 
 /**
  * Whether a value is an invalid array.
- * 
+ *
  * @param v {var} the value to validate.
  * @return {Boolean} whether the variable is valid
  */
@@ -194,7 +194,7 @@ qx.util.Validation.isInvalidArray = function(v) {
  *   <li>type is object</li>
  *   <li>instance != Array</li>
  * </ul>
- * 
+ *
  * @param v {var} the value to validate.
  * @return {Boolean} whether the variable is valid
  */
@@ -205,7 +205,7 @@ qx.util.Validation.isValidObject = function(v) {
 
 /**
  * Whether a value is an invalid object.
- * 
+ *
  * @param v {var} the value to validate.
  * @return {Boolean} whether the variable is valid
  */
@@ -219,7 +219,7 @@ qx.util.Validation.isInvalidObject = function(v) {
  * <ul>
  *   <li>type is object</li>
  * </ul>
- * 
+ *
  * @param v {var} the value to validate.
  * @return {Boolean} whether the variable is valid
  */
@@ -230,7 +230,7 @@ qx.util.Validation.isValidNode = function(v) {
 
 /**
  * Whether a value is an invalid node.
- * 
+ *
  * @param v {var} the value to validate.
  * @return {Boolean} whether the variable is valid
  */
@@ -245,7 +245,7 @@ qx.util.Validation.isInvalidNode = function(v) {
  *   <li>type is object</li>
  *   <li>v.nodeType === 1</li>
  * </ul>
- * 
+ *
  * @param v {var} the value to validate.
  * @return {Boolean} whether the variable is valid
  */
@@ -256,7 +256,7 @@ qx.util.Validation.isValidElement = function(v) {
 
 /**
  * Whether a value is not a DOM element.
- * 
+ *
  * @param v {var} the value to validate.
  * @return {Boolean} whether the variable is valid
  */
@@ -270,7 +270,7 @@ qx.util.Validation.isInvalidElement = function(v) {
  * <ul>
  *   <li>type is function</li>
  * </ul>
- * 
+ *
  * @param v {var} the value to validate.
  * @return {Boolean} whether the variable is valid
  */
@@ -281,7 +281,7 @@ qx.util.Validation.isValidFunction = function(v) {
 
 /**
  * Whether a value is not a function.
- * 
+ *
  * @param v {var} the value to validate.
  * @return {Boolean} whether the variable is valid
  */
@@ -295,7 +295,7 @@ qx.util.Validation.isInvalidFunction = function(v) {
  * <ul>
  *   <li>type is boolean</li>
  * </ul>
- * 
+ *
  * @param v {var} the value to validate.
  * @return {Boolean} whether the variable is valid
  */
@@ -306,7 +306,7 @@ qx.util.Validation.isValidBoolean = function(v) {
 
 /**
  * Whether a value is not boolean.
- * 
+ *
  * @param v {var} the value to validate.
  * @return {Boolean} whether the variable is valid
  */
@@ -321,7 +321,7 @@ qx.util.Validation.isInvalidBoolean = function(v) {
  *   <li>type is string or number</li>
  *   <li>values is not "" or NaN</li>
  * </ul>
- * 
+ *
  * @param v {var} the value to validate.
  * @return {Boolean} whether the variable is valid
  */
@@ -342,7 +342,7 @@ qx.util.Validation.isValidStringOrNumber = function(v)
 
 /**
  * Whether a value not a valid string or number.
- * 
+ *
  * @param v {var} the value to validate.
  * @return {Boolean} whether the variable is valid
  */

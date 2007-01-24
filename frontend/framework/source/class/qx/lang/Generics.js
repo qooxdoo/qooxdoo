@@ -91,12 +91,12 @@ qx.OO.defineClass("qx.lang.Generics",
   /**
    * Make a method of an object generic and return the generic functions.
    * The generic function takes as first parameter the object the method operates on.
-   * 
+   *
    * TODO: maybe mode this function to qx.lang.Function
-   * 
+   *
    * @param obj {Object} the object in which prototype the function is defined.
    * @param func {String} name of the method to wrap.
-   * 
+   *
    * @return {Function} wrapped method. This function takes as first argument an
    *     instance of obj and as following arguments the arguments of the original method.
    */
