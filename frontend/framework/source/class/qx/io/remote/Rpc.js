@@ -51,7 +51,7 @@
  *                                      qooxdoo script came from, i.e. it is
  *                                      cross-domain, then you must also call
  *                                      the setCrossDomain(true) method to
- *                                      enable the IframeTrannsport instead of
+ *                                      enable the ScriptTransport instead of
  *                                      the XmlHttpTransport, since the latter
  *                                      can not handle cross-domain requests.
  *

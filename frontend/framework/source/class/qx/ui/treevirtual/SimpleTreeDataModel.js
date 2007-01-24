@@ -273,7 +273,7 @@ qx.Proto.prune = function(nodeId)
   // Delete ourself from our parent's children list
   var node = this._nodeArr[nodeId];
   qx.lang.Array.remove(this._nodeArr[node.parentNodeId].children, nodeId);
-  
+
   // Delete ourself from the selections list, if we're in it.
   if (this._selections[nodeId])
   {
@@ -380,7 +380,7 @@ qx.Proto.setState = function(nodeId, attributes)
         delete this._selections[nodeId];
       }
     }
-    
+
     this._nodeArr[nodeId][attribute] = attributes[attribute];
   }
 };

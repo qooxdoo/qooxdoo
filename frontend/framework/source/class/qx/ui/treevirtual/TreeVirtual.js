@@ -501,7 +501,7 @@ qx.Proto.getHierarchy = function(nodeId)
 {
   var _this = this;
   var components = [ ];
-  
+
   function addHierarchy(nodeId)
   {
     // If we're at the root...
@@ -568,13 +568,13 @@ qx.Class.SelectionMode =
 {
   NONE              :
     qx.ui.table.SelectionModel.NO_SELECTION,
-  
+
   SINGLE            :
     qx.ui.table.SelectionModel.SINGLE_SELECTION,
-  
+
   SINGLE_INTERVAL   :
     qx.ui.table.SelectionModel.SINGLE_INTERVAL_SELECTION,
-  
+
   MULTIPLE_INTERVAL :
     qx.ui.table.SelectionModel.MULTIPLE_INTERVAL_SELECTION
 };
