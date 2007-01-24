@@ -470,7 +470,7 @@ class Node:
 
 
 
-def nodeToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n"):
+def nodeToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n", encoding="utf-8"):
   hasText = False
   asString = prefix + "<" + node.type
   if node.hasAttributes():
@@ -478,7 +478,7 @@ def nodeToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n"):
       if key == "text":
         hasText = True
       else:
-        asString += " " + key + "=\"" + escapeXmlChars(node.attributes[key], True) + "\""
+        asString += " " + key + "=\"" + escapeXmlChars(node.attributes[key], True, encoding) + "\""
 
   if not node.hasChildren() and not hasText:
     asString += "/>" + newLine
@@ -491,12 +491,12 @@ def nodeToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n"):
       else:
         asString += newLine + prefix + childPrefix
 
-      asString += "<text>" + escapeXmlChars(node.attributes["text"], False) + "</text>" + newLine
+      asString += "<text>" + escapeXmlChars(node.attributes["text"], False, encoding) + "</text>" + newLine
 
     if node.hasChildren():
       asString += newLine
       for child in node.children:
-        asString += nodeToXmlString(child, prefix + childPrefix, childPrefix, newLine)
+        asString += nodeToXmlString(child, prefix + childPrefix, childPrefix, newLine, encoding)
 
     asString += prefix + "</" + node.type + ">" + newLine
 
@@ -538,7 +538,10 @@ def nodeToJsonString(node, prefix = "", childPrefix = "  ", newLine="\n"):
 
 
 
-def escapeXmlChars(text, inAttribute):
+def escapeXmlChars(text, inAttribute, encoding="utf-8"):
+  if isinstance(text, unicode):
+    text = text.encode(encoding)
+  
   if isinstance(text, basestring):
     text = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
     if inAttribute:
@@ -553,6 +556,9 @@ def escapeXmlChars(text, inAttribute):
 
 
 def escapeJsonChars(text):
+  if isinstance(text, unicode):
+      text = text.encode("utf-8")
+
   if isinstance(text, basestring):
     text = text.replace('"', '\\"').replace('\n', '\\n').replace('\r', '\\r')
   elif isinstance(text, bool):

@@ -3,7 +3,7 @@
 import os, codecs, cPickle, sys
 import textutil
 
-def save(filePath, content="", encoding="utf_8"):
+def save(filePath, content="", encoding="utf-8"):
   # Normalize
   filePath = normalize(filePath)
 
@@ -13,7 +13,7 @@ def save(filePath, content="", encoding="utf_8"):
   # Writing file
   try:
     outputFile = codecs.open(filePath, encoding=encoding, mode="w", errors="replace")
-    outputFile.write(content)
+    outputFile.write(content.decode("utf-8"))
   except IOError, (errno, strerror):
     print "  * I/O error(%s): %s" % (errno, strerror)
     sys.exit(1)
