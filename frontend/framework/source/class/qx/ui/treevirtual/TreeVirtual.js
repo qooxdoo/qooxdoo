@@ -339,11 +339,20 @@ qx.Proto.toggleOpened = function(node)
   {
     // It's still boolean.  Toggle the state
     node.opened = ! node.opened;
+
+    // Get the selection model
+    var sm = this.getSelectionModel();
+
+    // Clear the old selections in the table
+    this.getSelectionModel()._clearSelection();
+
+    // Clear the old selections in the data model
+    this.getDataModel().clearSelections();
   }
 
   // Re-render the row data since formerly visible rows may now be invisible,
   // or vice versa.
-  this.getTableModel()._render();
+  this.getDataModel()._render();
 };
 
 
@@ -471,7 +480,7 @@ qx.Proto._onSelectionChanged = function(evt)
  */
 qx.Proto._handleSelectEvent = function(index, evt)
 {
-  // Get the node to which this click applies
+  // Get the node to which this event applies
   var node = this.getTableModel().getValue(this.getFocusedColumn(),
                                            this.getFocusedRow());
   if (! node)
@@ -479,33 +488,43 @@ qx.Proto._handleSelectEvent = function(index, evt)
     return false;
   }
 
-  // Get the order of the columns
-  var tcm = this.getTableColumnModel();
-  var columnPositions = tcm._getColToXPosMap();
-
-  // Calculate the position of the beginning of the tree column
-  var treeCol = this.getTableModel()._treeColumn;
-  var left = 0;
-  for (i = 0; i < columnPositions[treeCol].visX; i++)
+  // Was this a mouse event?
+  if (evt instanceof qx.event.type.MouseEvent)
   {
-    left += tcm.getColumnWidth(columnPositions[i].visX);
+    // Yup.  Get the order of the columns
+    var tcm = this.getTableColumnModel();
+    var columnPositions = tcm._getColToXPosMap();
+
+    // Calculate the position of the beginning of the tree column
+    var treeCol = this.getTableModel()._treeColumn;
+    var left = 0;
+    for (i = 0; i < columnPositions[treeCol].visX; i++)
+    {
+      left += tcm.getColumnWidth(columnPositions[i].visX);
+    }
+
+    // Was the click on the open/close button?  That button begins at
+    // (node.level - 1) * 19 + 2 (the latter for padding), and has width 19.
+    // We add a bit of latitude to that.
+    var x = evt.getClientX();
+    var latitude = 2;
+
+    var buttonPos = left + (node.level - 1) * 19 + 2;
+
+    if (x >= buttonPos - latitude && x <= buttonPos + 19 + latitude)
+    {
+      // Yup.  Toggle the opened state for this node.
+      this.toggleOpened(node);
+      return true;
+    }
   }
-
-  // Was the click on the open/close button?  That button begins at
-  // (node.level - 1) * 19 + 2 (the latter for padding), and has width 19.  We
-  // add a bit of latitude to that.
-  var x = evt.getClientX();
-  var latitude = 2;
-
-  var buttonPos = left + (node.level - 1) * 19 + 2;
-
-  if (x >= buttonPos - latitude && x <= buttonPos + 19 + latitude)
+  else
   {
-    // Yup.  Toggle the opened state for this node.
+    // Key event.  Toggle the open state
     this.toggleOpened(node);
     return true;
   }
-
+  
   return this.openCloseClickSelectsRow() ? true : false;
 };
 
