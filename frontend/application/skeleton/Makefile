@@ -9,7 +9,7 @@
 # b) an absolute path starting at the root of your file system
 # Example: If you put the skeleton folder next to the qooxdoo SDK folder,
 # you can use the following relative path:
-# QOOXDOO_PATH = ../qooxdoo-x.x.x-sdk
+# QOOXDOO_PATH = ../qooxdoo-0.6.5-sdk
 #
 QOOXDOO_PATH = PLEASE_DEFINE_QOOXDOO_PATH
 
@@ -18,7 +18,7 @@ QOOXDOO_PATH = PLEASE_DEFINE_QOOXDOO_PATH
 # Starting point is now the application HTML file of the source folder
 # (source/index.html by default). In most cases just prepend a "../" to
 # QOOXDOO_PATH from above.
-# Example: QOOXDOO_URI = ../../qooxdoo-x.x.x-sdk
+# Example: QOOXDOO_URI = ../../qooxdoo-0.6.5-sdk
 #
 QOOXDOO_URI = PLEASE_DEFINE_QOOXDOO_URI
 
