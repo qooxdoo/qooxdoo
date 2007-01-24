@@ -53,20 +53,16 @@ function(table) {
   this._header.set({ width:"auto", height:"auto" });
 
   this._headerClipper = new qx.ui.layout.CanvasLayout;
-  with (this._headerClipper) {
-    setDimension("1*", "auto");
-    setOverflow("hidden");
-    add(this._header);
-  }
+  this._headerClipper.setDimension("1*", "auto");
+  this._headerClipper.setOverflow("hidden");
+  this._headerClipper.add(this._header);
 
   this._spacer = new qx.ui.basic.Terminator;
   this._spacer.setWidth(scrollBarWidth);
 
   this._top = new qx.ui.layout.HorizontalBoxLayout;
-  with (this._top) {
-    setHeight("auto");
-    add(this._headerClipper, this._spacer);
-  }
+  this._top.setHeight("auto");
+  this._top.add(this._headerClipper, this._spacer);
 
   // init pane
   this._tablePane = new qx.ui.table.TablePane(this);
@@ -83,12 +79,10 @@ function(table) {
   this._focusIndicator.add(dummyContent);
 
   this._paneClipper = new qx.ui.layout.CanvasLayout;
-  with (this._paneClipper) {
-    setWidth("1*");
-    setOverflow("hidden");
-    add(this._tablePane, this._focusIndicator);
-    addEventListener("mousewheel", this._onmousewheel, this);
-  }
+  this._paneClipper.setWidth("1*");
+  this._paneClipper.setOverflow("hidden");
+  this._paneClipper.add(this._tablePane, this._focusIndicator);
+  this._paneClipper.addEventListener("mousewheel", this._onmousewheel, this);
 
   // add all child widgets
   var scrollerBody = new qx.ui.layout.HorizontalBoxLayout;

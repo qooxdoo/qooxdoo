@@ -158,17 +158,16 @@ qx.Proto.showColumnMoveFeedback = function(col, x) {
     var columnModel = this.getTable().getTableColumnModel();
     var cellInfo = { xPos:xPos, col:col, name:tableModel.getColumnName(col) }
     var cellRenderer = columnModel.getHeaderCellRenderer(col);
-    this._moveFeedback = cellRenderer.createHeaderCell(cellInfo);
 
+    var feedback = cellRenderer.createHeaderCell(cellInfo);
     // Configure the feedback
-    with (this._moveFeedback) {
-      setWidth(cellWidget.getBoxWidth());
-      setHeight(cellWidget.getBoxHeight());
-      setZIndex(1000000);
-      setOpacity(0.8);
-      setTop(qx.html.Location.getClientBoxTop(elem));
-    }
-    this.getTopLevelWidget().add(this._moveFeedback);
+    feedback.setWidth(cellWidget.getBoxWidth());
+    feedback.setHeight(cellWidget.getBoxHeight());
+    feedback.setZIndex(1000000);
+    feedback.setOpacity(0.8);
+    feedback.setTop(qx.html.Location.getClientBoxTop(elem));
+    this.getTopLevelWidget().add(feedback);
+    this._moveFeedback = feedback;
   }
 
   this._moveFeedback.setLeft(qx.html.Location.getClientBoxLeft(elem) + x);

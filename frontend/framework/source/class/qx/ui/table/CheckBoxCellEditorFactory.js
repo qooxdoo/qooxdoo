@@ -31,9 +31,8 @@ qx.OO.defineClass("qx.ui.table.CheckBoxCellEditorFactory", qx.ui.table.CellEdito
 // overridden
 qx.Proto.createCellEditor = function(cellInfo) {
   var editor = new qx.ui.form.CheckBox;
-  with (editor) {
-    setChecked(cellInfo.value);
-  }
+  editor.setChecked(cellInfo.value);
+
   return editor;
 }
 
