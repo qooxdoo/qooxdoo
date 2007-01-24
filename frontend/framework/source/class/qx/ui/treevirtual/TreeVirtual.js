@@ -92,11 +92,11 @@ function(headings)
   }
 
   // Arrange to select events locally. Replace the selection manager's method
-  // with one that calls the selection manager's method and then calls own our
-  // _handleSelectEvent method (with this TreeVirtual object as 'this' instead
-  // of the selection manager).  The selection manager's method handles
-  // marking the selected row.  Ours handles deciding if the click was on the
+  // with one that calls our _handleSelectEvent method first, and it it
+  // indicates we should actually select the row, then call the selection
+  // manager's method.  Our method handles deciding if the click was on the
   // open/close button, and toggling the opened/closed state as necessary.
+  // The selection manager's method handles marking the selected row.
   var _this = this;
   this._getSelectionManager()._handleSelectEvent = function(index, evt)
   {
@@ -104,25 +104,13 @@ function(headings)
     var Tv = qx.ui.treevirtual.TreeVirtual;
 
     // Call our local method to toggle the open/close state, if necessary
-    bWasOpenClose = Tv.prototype._handleSelectEvent.call(_this, index, evt);
+    var bNoSelect = Tv.prototype._handleSelectEvent.call(_this, index, evt);
 
-    // Call the Selection Manager's method to handle the actual selection
-    if (! bWasOpenClose || _this.openCloseClickSelectsRow())
+    // If we haven't been told not to do the selection...
+    if (! bNoSelect)
     {
+      // then call the Selection Manager's method to do it.
       Sm.prototype._handleSelectEvent.call(_this, index, evt);
-
-      // Clear the old list of selected nodes
-      tableModel.clearSelections();
-
-      // If selections are allowed, pass an event to our listeners
-      if (_this.getSelectionMode() !=
-          qx.ui.treevirtual.TreeVirtual.SelectionMode.NONE)
-      {
-        var selectedNodes = _this.getSelectedNodes();
-
-        // Get the now-focused
-        _this.createDispatchDataEvent("changeSelection", selectedNodes);
-      }
     }
   };
 });
@@ -444,6 +432,31 @@ qx.Proto._onkeydown = function(evt)
 
 
 /**
+ * Event handler. Called when the selection has changed.
+ *
+ * @param evt {Map} the event.
+ */
+qx.Proto._onSelectionChanged = function(evt)
+{
+  // Call the superclass method
+  qx.ui.table.Table.prototype._onSelectionChanged.call(this, evt);
+
+  // Clear the old list of selected nodes
+  this.getTableModel().clearSelections();
+
+  // If selections are allowed, pass an event to our listeners
+  if (this.getSelectionMode() !=
+      qx.ui.treevirtual.TreeVirtual.SelectionMode.NONE)
+  {
+    var selectedNodes = this._calculateSelectedNodes();
+
+    // Get the now-focused
+    this.createDispatchDataEvent("changeSelection", selectedNodes);
+  }
+};
+
+
+/**
  * Handles the a selection event
  *
  * @param index {Integer}
@@ -493,7 +506,7 @@ qx.Proto._handleSelectEvent = function(index, evt)
     return true;
   }
 
-  return false;
+  return this.openCloseClickSelectsRow() ? true : false;
 };
 
 
@@ -526,13 +539,14 @@ qx.Proto.getHierarchy = function(nodeId)
 }
 
 
-qx.Proto.getSelectedNodes = function()
+qx.Proto._calculateSelectedNodes = function()
 {
   // Create an array of nodes that are now selected
   var stdcm = this.getTableModel();
   var selectedRanges = this.getSelectionModel().getSelectedRanges();
   var selectedNodes = [ ];
   var node;
+
   for (var i = 0; i < selectedRanges.length; i++)
   {
     for (var j = selectedRanges[i].minIndex;
