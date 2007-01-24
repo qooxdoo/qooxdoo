@@ -87,19 +87,36 @@
     commandFrame.set({ top: 48, left: 520, width: "auto", height: "auto" });
     commandFrame.addToDocument();
 
-    var o = new qx.ui.basic.Atom("Current Folder: ");
-    o.set({ left: 0, top: 0 });
+    var o = new qx.ui.basic.Atom("Current Selection: ");
+    o.set({ left: 0, top: 6 });
     commandFrame.add(o);
 
-    o = new qx.ui.form.TextField;
-    o.set({ left: 0, right: 0, top: 20, readOnly: true });
+    o = new qx.ui.form.TextField();
+    o.set({ left: 4, right: 0, top: 20, readOnly: true });
     commandFrame.add(o);
     tree.addEventListener("changeSelection",
                           function(e)
                           {
-                            var node = e.getData();
-                            o.setValue(node.label);
-                          });
+                            var nodes = e.getData();
+                            this.setValue(nodes[0].label);
+                            buttonRemove.setEnabled(true);
+                          },
+                          o);
+
+    var buttonRemove = new qx.ui.form.Button("Remove");
+    buttonRemove.set({ top: 42, left: 0, enabled: false });
+    commandFrame.add(buttonRemove);
+    buttonRemove.addEventListener(
+      "execute",
+      function(e)
+      {
+        selectedNodes = tree.getSelectedNodes();
+        for (var i = 0; i < selectedNodes.length; i++)
+        {
+          dataModel.prune(selectedNodes[i].nodeId);
+          dataModel.setData();
+        }
+      });
 
     o = new qx.ui.form.CheckBox("Use tree lines?");
     o.set({ top: 80, left: 0, checked: true });
@@ -134,12 +151,13 @@
     tree.addEventListener("treeOpenWhileEmpty",
                           function(e)
                           {
-                            if (o.getChecked())
+                            if (this.getChecked())
                             {
                               var node = e.getData();
                               tree.setState(node.nodeId, { opened : null });
                             }
-                          });
+                          },
+                          o);
 
     o = new qx.ui.form.CheckBox("Open/close click selects row?");
     o.set({ top: 160, left: 0, checked: false });

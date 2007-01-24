@@ -62,10 +62,12 @@ function()
 {
   qx.ui.table.AbstractTableModel.call(this);
 
-  this._rowArr = [];            // rows, resorted into tree order as necessary
-  this._nodeArr = [];           // tree nodes, organized with hierarchy
+  this._rowArr = [ ];           // rows, resorted into tree order as necessary
+  this._nodeArr = [ ];          // tree nodes, organized with hierarchy
 
   this._treeColumn = 0;         // default column for tree nodes
+
+  this._selections = { };       // list of indexes of selected nodes
 
   this._nodeArr.push(           // the root node, needed to store its children
     {
@@ -132,6 +134,12 @@ qx.Proto.getRowCount = function()
 qx.Proto.setTreeColumn = function(columnIndex)
 {
   this._treeColumn = columnIndex;
+}
+
+
+qx.Proto.getTreeColumn = function()
+{
+  return this._treeColumn;
 }
 
 
@@ -205,6 +213,7 @@ qx.Proto._addNode = function(parentNodeId,
       type         : type,
       parentNodeId : parentNodeId,
       label        : label,
+      bSelected    : false,
       opened       : opened,
       icon         : icon,
       iconSelected : iconSelected,
@@ -253,6 +262,32 @@ qx.Proto.addLeaf = function(parentNodeId,
 };
 
 
+qx.Proto.prune = function(nodeId)
+{
+  // First, recursively remove all children
+  for (var i = 0; i < this._nodeArr[nodeId].children.length; i++)
+  {
+    this.prune(this._nodeArr[nodeId].children[i]);
+  }
+
+  // Delete ourself from our parent's children list
+  var node = this._nodeArr[nodeId];
+  qx.lang.Array.remove(this._nodeArr[node.parentNodeId].children, nodeId);
+  
+  // Delete ourself from the selections list, if we're in it.
+  if (this._selections[nodeId])
+  {
+    delete this._selections[nodeId];
+  }
+
+  // We can't splice the node itself out, because that would muck up the
+  // nodeId == index correspondence.  Instead, just replace the node with
+  // null so its index just becomes unused.
+  this._nodeArr[nodeId] = null;
+};
+
+
+
 /**
  * Sets the whole data en bulk, or notifies the data model that node
  * modifications are complete.
@@ -273,18 +308,41 @@ qx.Proto.setData = function(nodeArr)
 {
   if (nodeArr instanceof Array)
   {
+    // Determine the set of selected nodes
+    for (i = 0; i < nodeArr.length; i++)
+    {
+      if (nodeArr[i].selected)
+      {
+        this._selections[i] = true;
+      }
+    }
+
     // Save the user-supplied data.
     this._nodeArr = nodeArr;
   }
-  else if (nodeArr !== null)
+  else if (nodeArr !== null && nodeArr !== undefined)
   {
-    throw new Error("Expected array of node objects or null; got " +
+    throw new Error("Expected array of node objects or null/undefined; got " +
                     typeof(nodeArr));
   }
 
   // Re-render the row array
   this._render();
 };
+
+
+/**
+ * Return the array of node data.
+ *
+ * @return {Array}
+ *   Array of node objects.  See {@link qx.ui.treevirtual.SimpleTreeDataModel}
+ *   for a description of each node.
+ */
+qx.Proto.getData = function()
+{
+  return this._nodeArr;
+};
+
 
 
 /**
@@ -309,9 +367,36 @@ qx.Proto.setState = function(nodeId, attributes)
 {
   for (var attribute in attributes)
   {
+    // If the selected state is changing...
+    if (attribute == "bSelected")
+    {
+      // ... then keep track of what is selected
+      if (attributes[attribute])
+      {
+        this._selections[nodeId] = true;
+      }
+      else
+      {
+        delete this._selections[nodeId];
+      }
+    }
+    
     this._nodeArr[nodeId][attribute] = attributes[attribute];
   }
-}
+};
+
+
+qx.Proto.clearSelections = function()
+{
+  // Clear selected state for any selected nodes.
+  for (var selection in this._selections)
+  {
+    this._nodeArr[selection].bSelected = false;
+  }
+
+  // Reinitialize selections array.
+  this._selections = [ ];
+};
 
 
 /**
@@ -339,6 +424,12 @@ qx.Proto._render = function()
 
       // Get the child node
       child = _this._nodeArr[childNodeId];
+
+      // Skip deleted nodes
+      if (child == null)
+      {
+        continue;
+      }
 
       // Listeners will need to know a node's id when they receive an event
       child.nodeId = childNodeId;
