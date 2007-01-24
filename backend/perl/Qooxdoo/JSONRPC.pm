@@ -253,7 +253,7 @@ sub handle_request
     if (defined &$accessibility_method)
     {
         print STDERR "Module $module has GetAccessibility\n"
-            if defined $Qooxdoo::JSONRPC::debug;
+            if $Qooxdoo::JSONRPC::debug;
 
         $@ = '';
         $accessibility = eval $accessibility_method . 
@@ -269,7 +269,7 @@ sub handle_request
         }
 
         print STDERR "GetAccessibility for $method returns $accessibility\n"
-            if defined $Qooxdoo::JSONRPC::debug;
+            if $Qooxdoo::JSONRPC::debug;
 
     }
 
