@@ -2,8 +2,8 @@
 # Framework config
 #
 FRAMEWORK_VERSION := $(shell cat $(QOOXDOO_PATH)/VERSION)
-FRAMEWORK_REVISION := $(shell svn info $(QOOXDOO_PATH) | grep Revision | cut -d" " -f2 || echo "")
-
+#FRAMEWORK_REVISION := $(shell test -r $(QOOXDOO_PATH)/.svn && svn info -r HEAD $(QOOXDOO_PATH) | grep Revision | cut -d" " -f2)
+#
 ifeq ($(FRAMEWORK_REVISION),"")
   FRAMEWORK_FULL_VERSION = $(FRAMEWORK_VERSION)
 else
