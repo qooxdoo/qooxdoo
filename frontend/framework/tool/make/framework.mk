@@ -2,7 +2,13 @@
 # Framework config
 #
 FRAMEWORK_VERSION := $(shell cat $(QOOXDOO_PATH)/VERSION)
+FRAMEWORK_REVISION := $(shell svn info $(QOOXDOO_PATH) | grep Revision | cut -d" " -f2 || echo "")
 
+ifeq ($(FRAMEWORK_REVISION),"")
+  FRAMEWORK_FULL_VERSION = $(FRAMEWORK_VERSION)
+else
+  FRAMEWORK_FULL_VERSION = "$(FRAMEWORK_VERSION) (r$(FRAMEWORK_REVISION))"
+endif
 
 #
 # Framework paths
@@ -37,7 +43,7 @@ FRAMEWORK_CLDR_DOWNLOAD_URI = http://unicode.org/cldr/data/common/main
 CMD_LINE = echo "----------------------------------------------------------------------------"
 CMD_NICE = nice -n 10
 CMD_PYTHON = $(CMD_NICE) python
-CMD_GENERATOR = $(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/generator.py --cache-directory $(FRAMEWORK_CACHE_PATH)
+CMD_GENERATOR = $(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/generator.py --cache-directory $(FRAMEWORK_CACHE_PATH) --version $(FRAMEWORK_FULL_VERSION)
 CMD_CLDR =  $(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/modules/cldr.py
 CMD_MSGFMT = $(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/modules/msgfmt.py
 CMD_REMOVE = $(CMD_NICE) rm -rf

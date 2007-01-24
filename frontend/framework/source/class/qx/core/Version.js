@@ -19,7 +19,6 @@
 /* ************************************************************************
 
 #module(core)
-#random(386)
 
 ************************************************************************ */
 
@@ -36,22 +35,22 @@ qx.OO.defineClass("qx.core.Version",
   /**
    * qooxdoo minor version number
    */
-  minor : 6,
+  minor : 0,
 
   /**
    * qooxdoo revision number
    */
-  revision : 5,
+  revision : 0,
 
   /**
    * qooxdoo revision state
    */
-  state : "pre",
+  state : "",
 
   /**
    * qooxdoo subversion revision number
    */
-  svn : Number("$Rev$".match(/[0-9]+/)[0]),
+  svn : 0,
 
   /**
    * returns the qooxdoo version string
@@ -61,7 +60,24 @@ qx.OO.defineClass("qx.core.Version",
   toString: function()
   {
     with(qx.core.Version) {
-      return major + "." + minor + (revision==0 ? "" : "." + revision) + (state == "" ? "" : "-" + state) + " (r" + svn + ")";
+      return major + "." + minor + (revision==0 ? "" : "." + revision) + (state == "" ? "" : "-" + state) + (svn==0 ? "" : " (r" + svn + ")");
+    }
+  },
+
+  init : function()
+  {
+    var vReg = /([0-9]+)\.([0-9]+)(\.([0-9]))?(-([a-z]+))?(\s\(r([0-9]+)\))?/;
+    var vClass = qx.core.Version;
+
+    if (vReg.test(qx.VERSION))
+    {
+      vClass.major = RegExp.$1 != "" ? parseInt(RegExp.$1) : 0;
+      vClass.minor = RegExp.$2 != "" ? parseInt(RegExp.$2) : 0;
+      vClass.revision = RegExp.$4 != "" ? parseInt(RegExp.$4) : 0;
+      vClass.state = RegExp.$6;
+      vClass.svn = RegExp.$8 != "" ? parseInt(RegExp.$8) : 0;
     }
   }
 });
+
+qx.core.Version.init();
