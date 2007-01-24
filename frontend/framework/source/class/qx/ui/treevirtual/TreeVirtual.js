@@ -108,10 +108,18 @@ function(headings)
     {
       Sm.prototype._handleSelectEvent.call(_this, index, evt);
 
-      // Get the now-focused
-      var node = _this.getTableModel().getValue(_this.getFocusedColumn(),
-                                                _this.getFocusedRow());
-      _this.createDispatchDataEvent("changeSelection", node);
+      // Clear the old list of selected nodes
+      tableModel.clearSelections();
+
+      // If selections are allowed, pass an event to our listeners
+      if (_this.getSelectionMode() !=
+          qx.ui.treevirtual.TreeVirtual.SelectionMode.NONE)
+      {
+        var selectedNodes = _this.getSelectedNodes();
+
+        // Get the now-focused
+        _this.createDispatchDataEvent("changeSelection", selectedNodes);
+      }
     }
   };
 });
@@ -283,6 +291,19 @@ qx.Proto.getAlwaysShowOpenCloseSymbol = function()
   return dcr.getAlwaysShowOpenCloseSymbol();
 };
 
+
+qx.Proto.setSelectionMode = function(mode)
+{
+  this.getSelectionModel().setSelectionMode(mode);
+}
+
+
+qx.Proto.getSelectionMode = function(mode)
+{
+  return this.getSelectionModel().getSelectionMode();
+}
+
+
 /**
  * Toggle the opened state of the node: if the node is opened, close
  * it; if it is closed, open it.
@@ -344,7 +365,7 @@ qx.Proto.toggleOpened = function(node)
  *
  * @param attributes {Map}
  *   Map with the node properties to be set.  The map may contain any of the
- *   properties described in {@link qx.ui.treevirtual.SimpleDataCellModel}
+ *   properties described in {@link qx.ui.treevirtual.SimpleTreeDataModel}
  */
 qx.Proto.setState = function(nodeId, attributes)
 {
@@ -470,4 +491,58 @@ qx.Proto._handleSelectEvent = function(index, evt)
   }
 
   return false;
+};
+
+
+qx.Proto.getSelectedNodes = function()
+{
+  // Create an array of nodes that are now selected
+  var stdcm = this.getTableModel();
+  var selectedRanges = this.getSelectionModel().getSelectedRanges();
+  var selectedNodes = [ ];
+  var node;
+  for (var i = 0; i < selectedRanges.length; i++)
+  {
+    for (var j = selectedRanges[i].minIndex;
+         j <= selectedRanges[i].maxIndex;
+         j++)
+    {
+      node = stdcm.getValue(stdcm.getTreeColumn(), j);
+      stdcm.setState(node.nodeId, { bSelected : true });
+      selectedNodes.push(node);
+    }
+  }
+
+  return selectedNodes;
+};
+
+
+/*
+ * Selection Modes {int}
+ *
+ *   NONE
+ *     Nothing can ever be selected.
+ *
+ *   SINGLE
+ *     Allow only one selected item.
+ *
+ *   SINGLE_INTERVAL
+ *     Allow one contiguous interval of selected items.
+ *
+ *   MULTIPLE_INTERVAL
+ *     Allow any set of selected items, whether contiguous or not.
+ */
+qx.Class.SelectionMode =
+{
+  NONE              :
+    qx.ui.table.SelectionModel.NO_SELECTION,
+  
+  SINGLE            :
+    qx.ui.table.SelectionModel.SINGLE_SELECTION,
+  
+  SINGLE_INTERVAL   :
+    qx.ui.table.SelectionModel.SINGLE_INTERVAL_SELECTION,
+  
+  MULTIPLE_INTERVAL :
+    qx.ui.table.SelectionModel.MULTIPLE_INTERVAL_SELECTION,
 };

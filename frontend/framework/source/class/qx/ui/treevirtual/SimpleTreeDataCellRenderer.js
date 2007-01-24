@@ -163,7 +163,7 @@ qx.Proto._getContentHtml = function(cellInfo)
     else
     {
       imageUrl = (node.bSelected
-                  ? "icon/16/folder_open.png"
+                  ? "icon/16/status/folder-open.png"
                   : "icon/16/places/folder.png");
     }
   }
