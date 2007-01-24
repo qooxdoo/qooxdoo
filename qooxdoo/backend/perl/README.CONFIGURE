@@ -17,8 +17,8 @@ needs configuring slightly differently.
      contain the full path to qooxdoo/backend/perl.
 
      It does however mean that Services can be spread across different
-     directorys for different projects. These are searched for as
-     as <path>/Qooxdoo/Services/<serivice name>, and should have package names
+     directories for different projects. These are searched for as
+     as <path>/Qooxdoo/Services/<service name>, and should have package names
      such as Qooxdoo::Services::qooxdoo::test (which corresponds to
      <path>/Qooxdoo/Services/qooxdoo/test.pm).
 
