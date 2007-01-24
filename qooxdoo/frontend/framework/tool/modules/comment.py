@@ -57,7 +57,7 @@ VARPREFIXES = {
 VARNAMES = {
   "a" : "Array",
   "arr" : "Array",
-  
+
   "doc" : "Document",
 
   "e" : "Event",
@@ -93,7 +93,7 @@ VARNAMES = {
 
   "s" : "String",
   "str" : "String",
-  
+
   "win" : "Window"
 }
 
@@ -464,7 +464,9 @@ def formatText(text):
   #  print text
 
   text = text.replace("<pre", "\n\n<pre").replace("</pre>", "</pre>\n\n")
-  text = textile.textile(unicode(text).encode("utf-8")).decode("utf-8")
+
+  # encode to ascii leads into a translation of umlauts to their XML code.
+  text = unicode(textile.textile(text.encode("utf-8"), output="ascii"))
 
   #if "\n" in text:
   #  print "------------- TEXTILED ----------------"
