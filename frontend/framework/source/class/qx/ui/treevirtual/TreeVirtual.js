@@ -576,5 +576,5 @@ qx.Class.SelectionMode =
     qx.ui.table.SelectionModel.SINGLE_INTERVAL_SELECTION,
   
   MULTIPLE_INTERVAL :
-    qx.ui.table.SelectionModel.MULTIPLE_INTERVAL_SELECTION,
+    qx.ui.table.SelectionModel.MULTIPLE_INTERVAL_SELECTION
 };
