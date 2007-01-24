@@ -31,9 +31,9 @@
  * @param vDomTarget {Element} target element of the DOM event
  * @param vTarget
  * @param vOriginalTarget
- * @param vKeyCode {Integer}
- * @param vCharCode {Integer}
- * @param vKeyIdentifier {String}
+ * @param vKeyCode {Integer} emulated key code for compatibility with older qoodoo applications
+ * @param vCharCode {Integer} char code from the "keypress" event
+ * @param vKeyIdentifier {String} the key identifier
  */
 qx.OO.defineClass("qx.event.type.KeyEvent", qx.event.type.DomEvent,
 function(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vKeyCode, vCharCode, vKeyIdentifier)
@@ -67,44 +67,44 @@ qx.OO.addFastProperty({ name : "charCode", setOnlyOnce : true, noCompute : true 
  * values:
  * <br>
  * <table>
- * <tr><td>Backspace</td><td>The Backspace (Back) key.</td></tr>
- * <tr><td>Tab</td><td>The Horizontal Tabulation (Tab) key.</td></tr>
- * <tr><td>Space</td><td>The Space (Spacebar) key.</td></tr>
- * <tr><td>Enter</td><td>The Enter key. Note: This key identifier is also used for the Return (Macintosh numpad) key.</td></tr>
- * <tr><td>Shift</td><td>The Shift key.</td></tr>
- * <tr><td>Control</td><td>The Control (Ctrl) key.</td></tr>
- * <tr><td>Alt</td><td>The Alt (Menu) key.</td></tr>
- * <tr><td>CapsLock</td><td>The CapsLock key</td></tr>
- * <tr><td>Meta</td><td>The Meta key. (Apple Meta and Windows key)</td></tr>
- * <tr><td>Escape</td><td>The Escape (Esc) key.</td></tr>
- * <tr><td>Left</td><td>The Left Arrow key.</td></tr>
- * <tr><td>Up</td><td>The Up Arrow key.</td></tr>
- * <tr><td>Right</td><td>The Right Arrow key.</td></tr>
- * <tr><td>Down</td><td>The Down Arrow key.</td></tr>
- * <tr><td>PageUp</td><td>The Page Up key.</td></tr>
- * <tr><td>PageDown</td><td>The Page Down (Next) key.</td></tr>
- * <tr><td>End</td><td>The End key.</td></tr>
- * <tr><td>Home</td><td>The Home key.</td></tr>
- * <tr><td>Insert</td><td>The Insert (Ins) key. (Does not fire in Opera/Win)</td></tr>
- * <tr><td>Delete</td><td>The Delete (Del) Key.</td></tr>
- * <tr><td>F1</td><td>The F1 key.</td></tr>
- * <tr><td>F2</td><td>The F2 key.</td></tr>
- * <tr><td>F3</td><td>The F3 key.</td></tr>
- * <tr><td>F4</td><td>The F4 key.</td></tr>
- * <tr><td>F5</td><td>The F5 key.</td></tr>
- * <tr><td>F6</td><td>The F6 key.</td></tr>
- * <tr><td>F7</td><td>The F7 key.</td></tr>
- * <tr><td>F8</td><td>The F8 key.</td></tr>
- * <tr><td>F9</td><td>The F9 key.</td></tr>
- * <tr><td>F10</td><td>The F10 key.</td></tr>
- * <tr><td>F11</td><td>The F11 key.</td></tr>
- * <tr><td>F12</td><td>The F12 key.</td></tr>
- * <tr><td>NumLock</td><td>The Num Lock key.</td></tr>
- * <tr><td>PrintScreen</td><td>The Print Screen (PrintScrn, SnapShot) key.</td></tr>
- * <tr><td>Scroll</td><td>The scroll lock key</td></tr>
- * <tr><td>Pause</td><td>The pause/break key</td></tr>
- * <tr><td>Win</td><td>The Windows Logo key</td></tr>
- * <tr><td>Apps</td><td>The Application key (Windows Context Menu)</td></tr>
+ * <tr><th>Backspace</th><td>The Backspace (Back) key.</td></tr>
+ * <tr><th>Tab</th><td>The Horizontal Tabulation (Tab) key.</td></tr>
+ * <tr><th>Space</th><td>The Space (Spacebar) key.</td></tr>
+ * <tr><th>Enter</th><td>The Enter key. Note: This key identifier is also used for the Return (Macintosh numpad) key.</td></tr>
+ * <tr><th>Shift</th><td>The Shift key.</td></tr>
+ * <tr><th>Control</th><td>The Control (Ctrl) key.</td></tr>
+ * <tr><th>Alt</th><td>The Alt (Menu) key.</td></tr>
+ * <tr><th>CapsLock</th><td>The CapsLock key</td></tr>
+ * <tr><th>Meta</th><td>The Meta key. (Apple Meta and Windows key)</td></tr>
+ * <tr><th>Escape</th><td>The Escape (Esc) key.</td></tr>
+ * <tr><th>Left</th><td>The Left Arrow key.</td></tr>
+ * <tr><th>Up</th><td>The Up Arrow key.</td></tr>
+ * <tr><th>Right</th><td>The Right Arrow key.</td></tr>
+ * <tr><th>Down</th><td>The Down Arrow key.</td></tr>
+ * <tr><th>PageUp</th><td>The Page Up key.</td></tr>
+ * <tr><th>PageDown</th><td>The Page Down (Next) key.</td></tr>
+ * <tr><th>End</th><td>The End key.</td></tr>
+ * <tr><th>Home</th><td>The Home key.</td></tr>
+ * <tr><th>Insert</th><td>The Insert (Ins) key. (Does not fire in Opera/Win)</td></tr>
+ * <tr><th>Delete</th><td>The Delete (Del) Key.</td></tr>
+ * <tr><th>F1</th><td>The F1 key.</td></tr>
+ * <tr><th>F2</th><td>The F2 key.</td></tr>
+ * <tr><th>F3</th><td>The F3 key.</td></tr>
+ * <tr><th>F4</th><td>The F4 key.</td></tr>
+ * <tr><th>F5</th><td>The F5 key.</td></tr>
+ * <tr><th>F6</th><td>The F6 key.</td></tr>
+ * <tr><th>F7</th><td>The F7 key.</td></tr>
+ * <tr><th>F8</th><td>The F8 key.</td></tr>
+ * <tr><th>F9</th><td>The F9 key.</td></tr>
+ * <tr><th>F10</th><td>The F10 key.</td></tr>
+ * <tr><th>F11</th><td>The F11 key.</td></tr>
+ * <tr><th>F12</th><td>The F12 key.</td></tr>
+ * <tr><th>NumLock</th><td>The Num Lock key.</td></tr>
+ * <tr><th>PrintScreen</th><td>The Print Screen (PrintScrn, SnapShot) key.</td></tr>
+ * <tr><th>Scroll</th><td>The scroll lock key</td></tr>
+ * <tr><th>Pause</th><td>The pause/break key</td></tr>
+ * <tr><th>Win</th><td>The Windows Logo key</td></tr>
+ * <tr><th>Apps</th><td>The Application key (Windows Context Menu)</td></tr>
  * </table>
  */
 qx.OO.addFastProperty({ name : "keyIdentifier", setOnlyOnce : true, noCompute : true });
