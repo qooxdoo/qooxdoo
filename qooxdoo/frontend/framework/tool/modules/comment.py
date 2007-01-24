@@ -431,7 +431,7 @@ def cleanupText(text):
 
   newline = False
   lines = text.split("\n")
-  text = ""
+  text = u""
 
   for line in lines:
     if line == "":
@@ -464,7 +464,7 @@ def formatText(text):
   #  print text
 
   text = text.replace("<pre", "\n\n<pre").replace("</pre>", "</pre>\n\n")
-  text = textile.textile(unicode(text).encode('utf-8'))
+  text = textile.textile(unicode(text).encode("utf-8")).decode("utf-8")
 
   #if "\n" in text:
   #  print "------------- TEXTILED ----------------"

@@ -539,9 +539,6 @@ def nodeToJsonString(node, prefix = "", childPrefix = "  ", newLine="\n"):
 
 
 def escapeXmlChars(text, inAttribute, encoding="utf-8"):
-  if isinstance(text, unicode):
-    text = text.encode(encoding)
-  
   if isinstance(text, basestring):
     text = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
     if inAttribute:
@@ -556,9 +553,6 @@ def escapeXmlChars(text, inAttribute, encoding="utf-8"):
 
 
 def escapeJsonChars(text):
-  if isinstance(text, unicode):
-      text = text.encode("utf-8")
-
   if isinstance(text, basestring):
     text = text.replace('"', '\\"').replace('\n', '\\n').replace('\r', '\\r')
   elif isinstance(text, bool):
