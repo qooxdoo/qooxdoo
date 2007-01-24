@@ -395,7 +395,13 @@ qx.Proto.clearSelections = function()
   }
 
   // Reinitialize selections array.
-  this._selections = [ ];
+  this._selections = { };
+};
+
+
+qx.Proto.getSelections = function()
+{
+  return this._selections;
 };
 
 
