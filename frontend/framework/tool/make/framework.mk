@@ -48,6 +48,7 @@ CMD_PYTHON = $(CMD_NICE) python
 CMD_GENERATOR = $(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/generator.py --cache-directory $(FRAMEWORK_CACHE_PATH) --version "$(FRAMEWORK_FULL_VERSION)"
 CMD_CLDR =  $(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/modules/cldr.py
 CMD_MSGFMT = $(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/modules/msgfmt.py
+CMD_CHECKLOCALES = $(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/modules/checklocales.py
 CMD_REMOVE = $(CMD_NICE) rm -rf
 CMD_FIND = $(CMD_NICE) find
 CMD_ZIP = $(CMD_NICE) zip
