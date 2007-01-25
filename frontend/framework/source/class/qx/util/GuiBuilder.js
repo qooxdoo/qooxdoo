@@ -22,7 +22,13 @@
 ************************************************************************ */
 
 /**
- * A class to generate a widget hierarchy from XML
+ * A class to generate a widget hierarchy from XML.
+ *
+ * WARNING: This class may not be up-to-date or fully functional since it
+ *          it is not actively maintained. However, there are other
+ *          (server-side) solutions for handling XML GUI descriptions.
+ *          Please see the qooxdoo homepage for related projects or ask on
+ *          the mailing list.
  *
  * @param flags {Map} map of flags. "flags.strict" sets strict mode.
  */
