@@ -49,6 +49,20 @@ qx.OO.addProperty({ name : "destinationWidget", type : "object" });
 qx.OO.addProperty({ name : "cursor", type : "object" });
 qx.OO.addProperty({ name : "currentAction", type : "string" });
 
+/**
+ * The default delta x of the cursor feedback.
+ * 
+ * @see #setCursorPosition
+ */
+qx.OO.addProperty({ name : "defaultCursorDeltaX", type : "number", defaultValue : 5, allowNull : false });
+
+/**
+ * The default delta y of the cursor feedback.
+ * 
+ * @see #setCursorPosition
+ */
+qx.OO.addProperty({ name : "defaultCursorDeltaY", type : "number", defaultValue : 15, allowNull : false });
+
 qx.Proto._actionNames =
 {
   move : "move",
@@ -175,6 +189,14 @@ qx.Proto.startDrag = function()
 
   // Internal storage of source widget
   this.setSourceWidget(this._dragCache.sourceWidget);
+
+  // Add feedback widget
+  if (this._feedbackWidget) {
+    this._feedbackWidget.setVisibility(false);
+
+    var doc = qx.ui.core.ClientDocument.getInstance();
+    doc.add(this._feedbackWidget);
+  }
 }
 
 
@@ -247,7 +269,7 @@ invokes at least this.startDrag()
 */
 qx.Proto._handleMouseDown = function(e)
 {
-  if (e.getDefaultPrevented()) {
+  if (e.getDefaultPrevented() || ! e.isLeftButtonPressed()) {
     return;
   }
 
@@ -304,6 +326,9 @@ qx.Proto._handleMouseMove = function(e)
 
     // Update cursor icon
     this._renderCursor();
+
+    // Update user feedback
+    this._renderFeedbackWidget();
   }
 
   /*
@@ -498,6 +523,18 @@ qx.Proto._endDrag = function(currentDestinationWidget, e)
 
 qx.Proto._endDragCore = function()
 {
+  // Cleanup feedback widget
+  if (this._feedbackWidget) {
+    var doc = qx.ui.core.ClientDocument.getInstance();
+    doc.remove(this._feedbackWidget);
+
+    if (this._feedbackAutoDispose) {
+      this._feedbackWidget.dispose();
+    }
+
+    this._feedbackWidget = null;
+  }
+
   // Remove cursor
   var oldCursor = this.getCursor();
   if (oldCursor)
@@ -505,6 +542,9 @@ qx.Proto._endDragCore = function()
     oldCursor._style.display = "none";
     this.forceCursor(null);
   }
+
+  this._cursorDeltaX = null;
+  this._cursorDeltaY = null;
 
   // Reset drag cache for next drag and drop session
   if (this._dragCache)
@@ -538,6 +578,20 @@ qx.Proto._endDragCore = function()
   IMPLEMENTATION OF CURSOR UPDATES
 ---------------------------------------------------------------------------
 */
+
+/**
+ * Sets the position of the cursor feedback (the icon showing whether dropping
+ * is allowed at the current position and which action a drop will do).
+ *
+ * @param deltaX {int} The number of pixels the top-left corner of the
+ *        cursor feedback should be away from the mouse cursor in x direction.
+ * @param deltaY {int} The number of pixels the top-left corner of the
+ *        cursor feedback should be away from the mouse cursor in y direction.
+ */
+qx.Proto.setCursorPosition = function(deltaX, deltaY) {
+  this._cursorDeltaX = deltaX;
+  this._cursorDeltaY = deltaY;
+};
 
 /*!
   Select and setup the current used cursor
@@ -578,8 +632,10 @@ qx.Proto._renderCursor = function()
   }
 
   // Apply position with runtime style (fastest qooxdoo method)
-  vNewCursor._applyRuntimeLeft(this._dragCache.pageX + 5);
-  vNewCursor._applyRuntimeTop(this._dragCache.pageY + 15);
+  vNewCursor._applyRuntimeLeft(this._dragCache.pageX
+      + ((this._cursorDeltaX != null) ? this._cursorDeltaX : this.getDefaultCursorDeltaX()));
+  vNewCursor._applyRuntimeTop(this._dragCache.pageY
+      + ((this._cursorDeltaY != null) ? this._cursorDeltaY : this.getDefaultCursorDeltaY()));
 
   // Finally show new cursor
   if (vNewCursor != vOldCursor) {
@@ -771,6 +827,46 @@ qx.Proto._evalNewAction = function(vKeyShift, vKeyCtrl, vKeyAlt)
 
 
 
+
+
+
+/*
+---------------------------------------------------------------------------
+  USER FEEDBACK SUPPORT
+---------------------------------------------------------------------------
+*/
+
+/**
+ * Sets the widget to show as feedback for the user. This widget should
+ * represent the object(s) the user is dragging.
+ *
+ * @param widget {qx.ui.core.Widget} the feedback widget.
+ * @param deltaX {int ? 10} the number of pixels the top-left corner of the widget
+ *        should be away from the mouse cursor in x direction.
+ * @param deltaY {int ? 10} the number of pixels the top-left corner of the widget
+ *        should be away from the mouse cursor in y direction.
+ * @param autoDisposeWidget {boolean} whether the widget should be disposed when
+ *        dragging is finished or cancelled.
+ */
+qx.Proto.setFeedbackWidget = function(widget, deltaX, deltaY, autoDisposeWidget) {
+  this._feedbackWidget = widget;
+  this._feedbackDeltaX = (deltaX != null) ? deltaX : 10;
+  this._feedbackDeltaY = (deltaY != null) ? deltaY : 10;
+  this._feedbackAutoDispose = autoDisposeWidget ? true : false;
+};
+
+/**
+ * Renders the user feedback widget at the correct location.
+ */
+qx.Proto._renderFeedbackWidget = function() {
+  if (this._feedbackWidget) {
+    this._feedbackWidget.setVisibility(true);
+
+    // Apply position with runtime style (fastest qooxdoo method)
+    this._feedbackWidget._applyRuntimeLeft(this._dragCache.pageX + this._feedbackDeltaX);
+    this._feedbackWidget._applyRuntimeTop(this._dragCache.pageY + this._feedbackDeltaY);
+  }
+};
 
 
 
