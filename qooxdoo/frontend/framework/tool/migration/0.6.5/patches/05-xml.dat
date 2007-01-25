@@ -75,6 +75,13 @@
 \bqx\.xml\.Core\.selectNodes\b=qx.xml.Element.selectNodes
 \bqx\.xml\.Core\.getElementsByTagNameNS\b=qx.xml.Element.getElementsByTagNameNS
 
+##############
+# xml.Element
+##############
+
+\bqx\.xml\.Core\.getTextContent\b=qx.dom.Element.getTextContent
+
+
 ##################
 # net.HttpRequest
 ##################
