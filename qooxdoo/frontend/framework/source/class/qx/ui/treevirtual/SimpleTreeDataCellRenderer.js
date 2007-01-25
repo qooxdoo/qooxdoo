@@ -22,7 +22,7 @@
 ************************************************************************ */
 
 /**
- * A data cell renderer for a simple tree row
+ * A data cell renderer for the tree column of a simple tree
  */
 qx.OO.defineClass("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
                   qx.ui.table.AbstractDataCellRenderer,
@@ -129,9 +129,6 @@ qx.Proto._getContentHtml = function(cellInfo)
 
     return html;
   }
-
-  // Update the selected state
-  node.bSelected = cellInfo.selected;
 
   // Generate the indentation.  Obtain icon determination values once rather
   // than each time through the loop.

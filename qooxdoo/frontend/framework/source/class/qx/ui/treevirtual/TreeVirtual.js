@@ -60,11 +60,14 @@ function(headings)
   var stdcr = new qx.ui.treevirtual.SimpleTreeDataCellRenderer();
   var ddcr = new qx.ui.treevirtual.DefaultDataCellRenderer();
   var tcm = this.getTableColumnModel();
-  var treeCol = this.getTableModel()._treeColumn;
+  var treeCol = this.getTableModel().getTreeColumn();
   for (var i = 0; i < headings.length; i++)
   {
     tcm.setDataCellRenderer(i, i == treeCol ? stdcr : ddcr);
   }
+
+  // Set the data row renderer.
+  this.setDataRowRenderer(new qx.ui.treevirtual.SimpleTreeDataRowRenderer());
 
   // We need our cell renderer called on selection change, to update the icon
   this.setAlwaysUpdateCells(true);
@@ -79,6 +82,19 @@ function(headings)
       bgcolFocusedBlur         : "#f0f0f0"
     });
 
+/*
+  // Use this instead, to help determine which does what
+  this.setRowColors(
+    {
+      bgcolFocusedSelected     : "cyan",
+      bgcolFocusedSelectedBlur : "green",
+      bgcolFocused             : "yellow",
+      bgcolFocusedBlur         : "blue",
+      bgcolSelected            : "red",
+      bgcolSelectedBlur        : "pink",
+    });
+*/
+
   // Remove the outline on focus.
   //
   // KLUDGE ALERT: I really want to remove the old appearance, but I don't
@@ -89,6 +105,10 @@ function(headings)
   for (var i = 0; i < scrollerArr.length; i++)
   {
     scrollerArr[i]._focusIndicator.setAppearance("image");
+
+    // Set the pane scrollers to handle the selection before displaying the
+    // focus, so we can manipulate the selected icon.
+    scrollerArr[i].setSelectBeforeFocus(true);
   }
 
   // Arrange to select events locally. Replace the selection manager's method
@@ -147,7 +167,7 @@ qx.Proto.getDataModel = function()
 qx.Proto.setUseTreeLines = function(b)
 {
   var stdcm = this.getTableModel();
-  var treeCol = stdcm._treeColumn;
+  var treeCol = stdcm.getTreeColumn();
   var dcr = this.getTableColumnModel().getDataCellRenderer(treeCol);
   dcr.setUseTreeLines(b);
 
@@ -178,7 +198,7 @@ qx.Proto.setUseTreeLines = function(b)
  */
 qx.Proto.getUseTreeLines = function()
 {
-  var treeCol = this.getTableModel()._treeColumn;
+  var treeCol = this.getTableModel().getTreeColumn();
   var dcr = this.getTableColumnModel().getDataCellRenderer(treeCol);
   return dcr.getUseTreeLines();
 }
@@ -195,7 +215,7 @@ qx.Proto.getUseTreeLines = function()
 qx.Proto.setAlwaysShowOpenCloseSymbol = function(b)
 {
   var stdcm = this.getTableModel();
-  var treeCol = stdcm._treeColumn;
+  var treeCol = stdcm.getTreeColumn();
   var dcr = this.getTableColumnModel().getDataCellRenderer(treeCol);
   dcr.setAlwaysShowOpenCloseSymbol(b);
 
@@ -228,7 +248,7 @@ qx.Proto.setAlwaysShowOpenCloseSymbol = function(b)
 qx.Proto.setJensLautenbacherMode = function(b)
 {
   var stdcm = this.getTableModel();
-  var treeCol = stdcm._treeColumn;
+  var treeCol = stdcm.getTreeColumn();
   var dcr = this.getTableColumnModel().getDataCellRenderer(treeCol);
   dcr.setJensLautenbacherMode(b);
 
@@ -259,7 +279,7 @@ qx.Proto.setJensLautenbacherMode = function(b)
  */
 qx.Proto.getJensLautenbacherMode = function()
 {
-  var treeCol = this.getTableModel()._treeColumn;
+  var treeCol = this.getTableModel().getTreeColumn();
   var dcr = this.getTableColumnModel().getDataCellRenderer(treeCol);
   return dcr.getJensLautenbacherMode();
 }
@@ -277,7 +297,7 @@ qx.Proto.getJensLautenbacherMode = function()
  */
 qx.Proto.getAlwaysShowOpenCloseSymbol = function()
 {
-  var treeCol = this.getTableModel()._treeColumn;
+  var treeCol = this.getTableModel().getTreeColumn();
   var dcr = this.getTableColumnModel().getDataCellRenderer(treeCol);
   return dcr.getAlwaysShowOpenCloseSymbol();
 };
@@ -343,16 +363,16 @@ qx.Proto.toggleOpened = function(node)
     // Get the selection model
     var sm = this.getSelectionModel();
 
-    // Clear the old selections in the table
+    // Clear the old selections in the tree
     this.getSelectionModel()._clearSelection();
 
     // Clear the old selections in the data model
-    this.getDataModel().clearSelections();
+    this.getTableModel().clearSelections();
   }
 
   // Re-render the row data since formerly visible rows may now be invisible,
   // or vice versa.
-  this.getDataModel()._render();
+  this.getTableModel()._render();
 };
 
 
@@ -369,7 +389,7 @@ qx.Proto.toggleOpened = function(node)
  */
 qx.Proto.setState = function(nodeId, attributes)
 {
-  this.getDataModel().setState(nodeId, attributes);
+  this.getTableModel().setState(nodeId, attributes);
 };
 
 
@@ -447,9 +467,6 @@ qx.Proto._onkeydown = function(evt)
  */
 qx.Proto._onSelectionChanged = function(evt)
 {
-  // Call the superclass method
-  qx.ui.table.Table.prototype._onSelectionChanged.call(this, evt);
-
   // Clear the old list of selected nodes
   this.getTableModel().clearSelections();
 
@@ -462,6 +479,9 @@ qx.Proto._onSelectionChanged = function(evt)
     // Get the now-focused
     this.createDispatchDataEvent("changeSelection", selectedNodes);
   }
+
+  // Call the superclass method
+  qx.ui.table.Table.prototype._onSelectionChanged.call(this, evt);
 };
 
 
@@ -496,7 +516,7 @@ qx.Proto._handleSelectEvent = function(index, evt)
     var columnPositions = tcm._getColToXPosMap();
 
     // Calculate the position of the beginning of the tree column
-    var treeCol = this.getTableModel()._treeColumn;
+    var treeCol = this.getTableModel().getTreeColumn();
     var left = 0;
     for (i = 0; i < columnPositions[treeCol].visX; i++)
     {
@@ -544,7 +564,7 @@ qx.Proto.getHierarchy = function(nodeId)
     }
 
     // Get the requested node
-    var node = _this.getDataModel().getData()[nodeId];
+    var node = _this.getTableModel().getData()[nodeId];
 
     // Add its label to the hierarchy components
     components.unshift(node.label);
