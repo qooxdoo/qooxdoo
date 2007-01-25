@@ -57,17 +57,8 @@ p{
 
   position: absolute;
   top: 24px;
-  right: 50px;
-  width: 215px;
-  z-index: 1000000002;
-}
-
-#demoJump{
-  position: absolute;
-  top: 24px;
-  right: 4px;
-  width: 45px;
-  text-align: right;
+  right: 10px;
+  width: 250px;
   z-index: 1000000002;
 }
 
@@ -143,7 +134,6 @@ p{
   padding: 8px 2px 4px;
 }
 
-#demoJump button,
 #demoDebug .log-head button{
   border: 1px solid #335EA8;
   margin: 0 2px;
@@ -154,9 +144,4 @@ p{
 
 #demoDebug .log-head button{
   visibility: visible;
-}
-
-#demoJump button{
-  width: 16px;
-  -moz-appearance: none !important;
 }

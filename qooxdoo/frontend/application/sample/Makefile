@@ -87,15 +87,15 @@ layout-source:
 	@echo
 	@echo "  GENERATION OF SAMPLE LAYOUT"
 	@$(CMD_LINE)
-	@echo "  * Generating layout.js..."
-	@tool/layout.sh source/script/layout.js source/html SOURCE
+	@echo "  * Generating source/script/layout.js..."
+	@python tool/layout.py source/script/layout.js source/html
 
 layout-build:
 	@echo
 	@echo "  GENERATION OF SAMPLE LAYOUT"
 	@$(CMD_LINE)
-	@echo "  * Generating layout.js..."
-	@tool/layout.sh build/script/layout.js build/html BUILD
+	@echo "  * Generating build/script/layout.js..."
+	@python tool/layout.py build/script/layout.js build/html
 
 build: layout-build
 source: layout-source
