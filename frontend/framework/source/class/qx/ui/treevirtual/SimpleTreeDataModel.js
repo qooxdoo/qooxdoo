@@ -65,6 +65,12 @@ function()
   this._rowArr = [ ];           // rows, resorted into tree order as necessary
   this._nodeArr = [ ];          // tree nodes, organized with hierarchy
 
+  this._nodeRowMap = [ ];       // map nodeArr index to rowArr index.  The
+                                // index of this array is the index of
+                                // _nodeArr, and the values in this array are
+                                // the indexes into _rowArr.
+  
+
   this._treeColumn = 0;         // default column for tree nodes
 
   this._selections = { };       // list of indexes of selected nodes
@@ -140,6 +146,12 @@ qx.Proto.setTreeColumn = function(columnIndex)
 qx.Proto.getTreeColumn = function()
 {
   return this._treeColumn;
+}
+
+
+qx.Proto.getRowData = function(rowIndex)
+{
+  return this._rowArr[rowIndex];
 }
 
 
@@ -386,6 +398,12 @@ qx.Proto.setState = function(nodeId, attributes)
 };
 
 
+qx.Proto.getNodeRowMap = function()
+{
+  return this._nodeRowMap;
+};
+
+
 qx.Proto.clearSelections = function()
 {
   // Clear selected state for any selected nodes.
@@ -499,6 +517,16 @@ qx.Proto._render = function()
         rowData.push(child);
       }
 
+      // If this node is selected, ...
+      if (child.bSelected)
+      {
+        // ... indicate so for the row.
+        rowData.selected = true;
+      }
+
+      // Track the _rowArr index for each node so we can handle selections
+      _this._nodeRowMap[child.nodeId] = _this._rowArr.length;
+
       // Add the row data to the row array
       _this._rowArr.push(rowData)
 
@@ -513,6 +541,9 @@ qx.Proto._render = function()
 
   // Reset the row array
   this._rowArr = [];
+
+  // Reset the _nodeArr -> _rowArr map
+  this._nodeRowMap = [ ];
 
   // Begin in-order traversal of the tree from the root to regenerate _rowArr
   inorder(0, 1);
