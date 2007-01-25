@@ -44,8 +44,6 @@ if __name__ == '__main__':
     revision, folder = query(args[0])
     if revision != None:
       print format(revision, folder)
-    else:
-      print "unknown"
 
 
   except KeyboardInterrupt:
