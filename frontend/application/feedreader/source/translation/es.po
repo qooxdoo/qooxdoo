@@ -2,11 +2,11 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: qooxdoo feedreader\n"
+"Project-Id-Version: feedreader\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-23 17:57+0100\n"
-"PO-Revision-Date: 2006-12-19 00:35-0500\n"
-"Last-Translator: Camilo Aguilar <camilo.aguilar@gmail.com>\n"
+"PO-Revision-Date: 2007-01-24 20:54+0100\n"
+"Last-Translator: Carsten Rammoser <carsten@rammoser.com>\n"
 "Language-Team:  <camilo.aguilar@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -51,23 +51,23 @@ msgstr "Alemán"
 
 #: source/class/feedreader/Application.js:156
 msgid "Turkish"
-msgstr ""
+msgstr "Turco"
 
 #: source/class/feedreader/Application.js:157
 msgid "Italian"
-msgstr ""
+msgstr "Italiano"
 
 #: source/class/feedreader/Application.js:158
 msgid "Spanish"
-msgstr ""
+msgstr "Español"
 
 #: source/class/feedreader/Application.js:159
 msgid "Swedish"
-msgstr ""
+msgstr "Sueco"
 
 #: source/class/feedreader/Application.js:160
 msgid "Russian"
-msgstr ""
+msgstr "Ruso"
 
 #: source/class/feedreader/Application.js:183
 msgid "Help"
@@ -92,3 +92,4 @@ msgstr "Fecha"
 #: source/class/feedreader/ArticleView.js:77
 msgid "read more ..."
 msgstr "leer más ..."
+
