@@ -189,7 +189,6 @@ qx.Proto._updateHtml = function()
   else
   {
     this._htmlContent = this.getHtml() || "";
-    //qx.locale.Manager.getInstance().remove(this);
     qx.locale.Manager.getInstance().removeEventListener("changeLocale", this._updateHtml, this);
   }
 
