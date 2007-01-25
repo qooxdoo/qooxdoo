@@ -57,6 +57,9 @@ qx.Class.state = "";
 /** {Integer} Subversion revision number */
 qx.Class.svn = 0;
 
+/** {String} Subversion folder e.g. trunk, release_0_6_3, ... */
+qx.Class.folder = "";
+
 /**
  * returns the qooxdoo version string
  *
@@ -68,7 +71,8 @@ qx.Class.toString = function()
   return vClass.major + "." + vClass.minor
     + (vClass.revision==0 ? "" : "." + vClass.revision)
     + (vClass.state == "" ? "" : "-" + vClass.state)
-    + (vClass.svn==0 ? "" : " (r" + vClass.svn + ")");
+    + (vClass.svn==0 ? "" : " (r" + vClass.svn + ")")
+    + (vClass.folder == "" ? "" : " [" + vClass.folder + "]");
 };
 
 /**
@@ -76,16 +80,24 @@ qx.Class.toString = function()
  */
 qx.Class._init = function()
 {
-  var vReg = /([0-9]+)\.([0-9]+)(\.([0-9]))?(-([a-z]+))?(\s\(r([0-9]+)\))?/;
+  var vClass = qx.core.Version;
 
-  if (vReg.test(qx.VERSION))
+  var vSplit = qx.VERSION.split(" ");
+  var vVersion = vSplit.shift();
+  var vInfos = vSplit.join(" ");
+
+  if (/([0-9]+)\.([0-9]+)(\.([0-9]))?(-([a-z]+))?/.test(vVersion))
   {
-    var vClass = qx.core.Version;
     vClass.major = (RegExp.$1 != "" ? parseInt(RegExp.$1) : 0);
     vClass.minor = (RegExp.$2 != "" ? parseInt(RegExp.$2) : 0);
     vClass.revision = (RegExp.$4 != "" ? parseInt(RegExp.$4) : 0);
-    vClass.state = RegExp.$6;
-    vClass.svn = (RegExp.$8 != "" ? parseInt(RegExp.$8) : 0);
+    vClass.state = typeof RegExp.$6 == "string" ? RegExp.$6 : "";
+  }
+
+  if (/(\(r([0-9]+)\))?(\s\[(\w+)\])?/.test(vInfos))
+  {
+    vClass.svn = (RegExp.$2 != "" ? parseInt(RegExp.$2) : 0);
+    vClass.folder = typeof RegExp.$4 == "string" ? RegExp.$4 : "";
   }
 };
 
