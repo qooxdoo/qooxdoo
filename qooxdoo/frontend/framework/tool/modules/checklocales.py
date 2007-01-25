@@ -6,13 +6,14 @@ checks whether the locale string is correct.
 
 errormsg = """
 ****************************************************************************
-  WARNING
+  ERROR
 ----------------------------------------------------------------------------
-  The locale '%(locale)s' is defind in APPLICATION_LOCALES but not '%(lang)s'!
-  Please add '%(lang)s' to APPLICATION_LOCALES.
+  The locale '%(locale)s' is defined in APPLICATION_LOCALES, but not '%(lang)s'!
 
-  If a locale with a territory code is set ('%(locale)s'), the corrsponding
-  locale without territory code must be added as well ('%(lang)s').
+  If a locale with a territory code is set ('%(locale)s'), the corresponding
+  locale without territory code must be included as well ('%(lang)s').
+  
+  Please add '%(lang)s' to APPLICATION_LOCALES in your Makefile.
 ****************************************************************************
 """
 
