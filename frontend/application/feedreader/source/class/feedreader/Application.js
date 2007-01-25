@@ -32,7 +32,7 @@
 ************************************************************************ */
 
 /**
- * qooxdoo news reader Application class
+ * qooxdoo news reader Application class.
  */
 qx.OO.defineClass("feedreader.Application", qx.component.AbstractApplication,
 function () {
@@ -219,6 +219,7 @@ qx.Proto.main = function(e)
   table.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
   table.set({height:"100%", width:"100%"});
   table.setStatusBarVisible(false);
+  table.getDataRowRenderer().setHighlightFocusRow(false);
   table.getTableColumnModel().setColumnWidth(0, 350);
   table.getTableColumnModel().setColumnWidth(1, 200);
   table.getTableColumnModel().setColumnWidth(2, 200);
