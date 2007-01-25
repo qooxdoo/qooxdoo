@@ -524,7 +524,7 @@ qx.Proto._handleSelectEvent = function(index, evt)
     this.toggleOpened(node);
     return true;
   }
-  
+
   return this.openCloseClickSelectsRow() ? true : false;
 };
 

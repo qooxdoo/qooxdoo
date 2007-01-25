@@ -51,14 +51,14 @@ qx.OO.addProperty({ name : "currentAction", type : "string" });
 
 /**
  * The default delta x of the cursor feedback.
- * 
+ *
  * @see #setCursorPosition
  */
 qx.OO.addProperty({ name : "defaultCursorDeltaX", type : "number", defaultValue : 5, allowNull : false });
 
 /**
  * The default delta y of the cursor feedback.
- * 
+ *
  * @see #setCursorPosition
  */
 qx.OO.addProperty({ name : "defaultCursorDeltaY", type : "number", defaultValue : 15, allowNull : false });
