@@ -62,6 +62,17 @@ p{
   z-index: 1000000002;
 }
 
+#demoFiles optgroup{
+  background: #ececed;
+  font-size: 14px;
+  text-transform: capitalize;
+}
+
+#demoFiles optgroup option{
+  font-size: 11px;
+  background: #fff;
+}
+
 #demoDescription{
   position: absolute;
   top: 44px;
