@@ -1,31 +1,33 @@
-.header {
+#header {
   margin: 0px;
   padding: 0px;
   background-color: #134275;
+  font-family: "Trebuchet MS", "Lucida Grande", Verdana, sans-serif;
 }
 
-.header h1 {
-  font-family: "Trebuchet MS", "Lucida Grande", Verdana, sans-serif;
+#header h1 {
   font-size: 18px;
   font-weight: bold;
   color: #DEFF83;
-  padding: 6px 20px;
-  margin: 0px;
+  position: absolute;
+  top: 30px;
+  left: 20px;
+  margin: 0;
+  padding: 0;
 }
 
 #qxversion {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  top: -20px;
-  left: 0px;
-  text-align: right;
-  vertical-align: bottom;
-  padding: 0px 10px 0px 0px;
-  margin: 0px;
-  font-family: "Trebuchet MS", "Lucida Grande", Verdana, sans-serif;
-  color: #DEFF83;
-  font-size: 12px;
+  font-size: 11px;
+  text-transform: lowercase;
+  color: #F3FFD1;
+  margin-top: -14px;
+  letter-spacing: 1px;
+  word-spacing: 4px;
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  margin: 0;
+  padding: 0;
 }
 
 #DetailFrame,

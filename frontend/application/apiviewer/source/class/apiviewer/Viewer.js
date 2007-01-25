@@ -43,8 +43,9 @@ function () {
     "</h1>" +
     "<div id='qxversion'>qooxdoo " + qx.core.Version.toString() + "</div>"
   );
-  header.setCssClassName("header");
-  header.setHeight(35);
+  header.setHtmlProperty("id", "header");
+  header.setStyleProperty("background", "#134275 url(" + qx.manager.object.AliasManager.getInstance().resolvePath("api/image/colorstrip.gif") + ") top left repeat-x");
+  header.setHeight(70);
   this.addTop(header);
 
   this._tree = new qx.ui.tree.Tree("API Documentation");
