@@ -300,7 +300,7 @@ exec-api-build:
 	@$(CMD_GENERATOR) \
 	  --class-path $(FRAMEWORK_SOURCE_PATH)/class \
 	  --class-path $(APIVIEWER_SOURCE_PATH)/class \
-	  --include api \
+	  --include apiviewer \
 	  --generate-compiled-script \
 	  --compiled-script-file $(APPLICATION_API_PATH)/script/$(APIVIEWER_NAMESPACE).js \
 	  --optimize-strings --optimize-variables \
