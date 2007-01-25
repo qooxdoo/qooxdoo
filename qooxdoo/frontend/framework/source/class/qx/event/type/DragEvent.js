@@ -136,6 +136,56 @@ qx.Proto.clearActions = function() {
 
 
 
+/*
+---------------------------------------------------------------------------
+  USER FEEDBACK SUPPORT
+---------------------------------------------------------------------------
+*/
+
+/**
+ * Sets the widget to show as feedback for the user. This widget should
+ * represent the object(s) the user is dragging.
+ *
+ * @param widget {qx.ui.core.Widget} the feedback widget.
+ * @param deltaX {int ? 10} the number of pixels the top-left corner of the widget
+ *        should be away from the mouse cursor in x direction.
+ * @param deltaY {int ? 10} the number of pixels the top-left corner of the widget
+ *        should be away from the mouse cursor in y direction.
+ * @param autoDisposeWidget {boolean} whether the widget should be disposed when
+ *        dragging is finished or cancelled.
+ */
+qx.Proto.setFeedbackWidget = function(widget, deltaX, deltaY, autoDisposeWidget) {
+  qx.event.handler.DragAndDropHandler.getInstance().setFeedbackWidget(widget, deltaX, deltaY, autoDisposeWidget);
+};
+
+
+
+
+
+
+/*
+---------------------------------------------------------------------------
+  CURSPOR POSITIONING SUPPORT
+---------------------------------------------------------------------------
+*/
+
+/**
+ * Sets the position of the cursor feedback (the icon showing whether dropping
+ * is allowed at the current position and which action a drop will do).
+ *
+ * @param deltaX {int} The number of pixels the top-left corner of the
+ *        cursor feedback should be away from the mouse cursor in x direction.
+ * @param deltaY {int} The number of pixels the top-left corner of the
+ *        cursor feedback should be away from the mouse cursor in y direction.
+ */
+qx.Proto.setCursorPosition = function(deltaX, deltaY) {
+  qx.event.handler.DragAndDropHandler.getInstance().setCursorPosition(deltaX, deltaY);
+};
+
+
+
+
+
 
 /*
 ---------------------------------------------------------------------------
