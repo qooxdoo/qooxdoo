@@ -113,12 +113,13 @@ exec-treegenerator:
 
 
 
-
+check-locales:
+	@echo $(APPLICATION_LOCALES) | $(CMD_CHECKLOCALES)
 
 ifdef APPLICATION_LOCALES
 
-exec-localization: exec-framework-localization
-exec-translation: exec-framework-translation exec-application-translation
+exec-localization: check-locales exec-framework-localization
+exec-translation: check-locales exec-framework-translation exec-application-translation
 
 else
 
