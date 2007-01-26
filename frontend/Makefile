@@ -210,11 +210,11 @@ exec-skeleton-unix-archive:
 	@$(CMD_FIND) $(SKELETON_TEMP_UNIX) $(FILES_TEXT) $(CMD_ANY2UNIX)
 
 	@echo "  * Fixing executables..."
-	@$(CMD_FIND) $(SKELETON_TEMP_UNIX) $(FILES_EXEC) -exec chmod a+rx {} \;
+	@$(CMD_FIND) $(SKELETON_TEMP_UNIX) $(FILES_EXEC) -exec $(CMD_MKEXEC) {} \;
 
 	@echo "  * Building skeleton archive..."
 	@$(CMD_REMOVE) $(SKELETON_TEMP_UNIX)/skeleton.tar.gz
-	@cd $(SKELETON_TEMP_UNIX); $(CMD_NICE) tar cfzp skeleton.tar.gz skeleton
+	@cd $(SKELETON_TEMP_UNIX); $(CMD_TAR_CREATE) skeleton.tar.gz skeleton
 	@$(CMD_REMOVE) $(SKELETON_TEMP_UNIX)/skeleton
 
 exec-skeleton-dos-collect:
@@ -233,11 +233,11 @@ exec-skeleton-dos-archive:
 	@$(CMD_FIND) $(SKELETON_TEMP_DOS) $(FILES_TEXT) $(CMD_ANY2DOS)
 
 	@echo "  * Fixing executables..."
-	@$(CMD_FIND) $(SKELETON_TEMP_DOS) $(FILES_EXEC) -exec chmod a+rx {} \;
+	@$(CMD_FIND) $(SKELETON_TEMP_DOS) $(FILES_EXEC) -exec $(CMD_MKEXEC) {} \;
 
 	@echo "  * Building skeleton archive..."
 	@$(CMD_REMOVE) $(SKELETON_TEMP_DOS)/skeleton.zip
-	@cd $(SKELETON_TEMP_DOS); $(CMD_NICE) zip -rq skeleton.zip skeleton
+	@cd $(SKELETON_TEMP_DOS); $(CMD_ZIP_CREATE) skeleton.zip skeleton
 	@$(CMD_REMOVE) $(SKELETON_TEMP_DOS)/skeleton
 
 exec-skeleton-unix-post:
