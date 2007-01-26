@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: feedreader\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-23 17:57+0100\n"
+"POT-Creation-Date: 2007-01-26 11:25+0100\n"
 "PO-Revision-Date: 2007-01-24 20:54+0100\n"
 "Last-Translator: Carsten Rammoser <carsten@rammoser.com>\n"
 "Language-Team:  <camilo.aguilar@gmail.com>\n"
@@ -14,82 +14,81 @@ msgstr ""
 "X-Poedit-Language: Spanish\n"
 "X-Poedit-Country: COLOMBIA\n"
 
-#: source/class/feedreader/Application.js:130
+#: source/class/feedreader/Application.js:131
 msgid "reloading ..."
 msgstr "actualizando ..."
 
-#: source/class/feedreader/Application.js:135
+#: source/class/feedreader/Application.js:136
 msgid "qooxdoo feed reader."
 msgstr "lector de feeds qooxdoo."
 
-#: source/class/feedreader/Application.js:140
+#: source/class/feedreader/Application.js:141
 msgid "Add feed"
 msgid_plural "Add feeds"
 msgstr[0] "Agregar feed"
 msgstr[1] "Agregar feeds"
 
-#: source/class/feedreader/Application.js:141
+#: source/class/feedreader/Application.js:142
 msgid "Remove feed"
 msgstr "Eliminar feed"
 
-#: source/class/feedreader/Application.js:144
+#: source/class/feedreader/Application.js:145
 msgid "Reload"
 msgstr "Actualizar"
 
-#: source/class/feedreader/Application.js:146
+#: source/class/feedreader/Application.js:147
 msgid "(%1) Reload the feeds."
 msgstr "(%1) Actualizar los feeds."
 
-#: source/class/feedreader/Application.js:153
-#: source/class/feedreader/Application.js:155
+#: source/class/feedreader/Application.js:154
+#: source/class/feedreader/Application.js:156
 msgid "English"
 msgstr "Inglés"
 
-#: source/class/feedreader/Application.js:154
+#: source/class/feedreader/Application.js:155
 msgid "German"
 msgstr "Alemán"
 
-#: source/class/feedreader/Application.js:156
+#: source/class/feedreader/Application.js:157
 msgid "Turkish"
 msgstr "Turco"
 
-#: source/class/feedreader/Application.js:157
+#: source/class/feedreader/Application.js:158
 msgid "Italian"
 msgstr "Italiano"
 
-#: source/class/feedreader/Application.js:158
+#: source/class/feedreader/Application.js:159
 msgid "Spanish"
 msgstr "Español"
 
-#: source/class/feedreader/Application.js:159
+#: source/class/feedreader/Application.js:160
 msgid "Swedish"
 msgstr "Sueco"
 
-#: source/class/feedreader/Application.js:160
+#: source/class/feedreader/Application.js:161
 msgid "Russian"
 msgstr "Ruso"
 
-#: source/class/feedreader/Application.js:183
+#: source/class/feedreader/Application.js:184
 msgid "Help"
 msgstr "Ayuda"
 
-#: source/class/feedreader/Application.js:191
+#: source/class/feedreader/Application.js:192
 msgid "News feeds"
 msgstr "Feeds de noticias"
 
-#: source/class/feedreader/Application.js:212
+#: source/class/feedreader/Application.js:213
 msgid "Subject"
 msgstr "Asunto"
 
-#: source/class/feedreader/Application.js:213
+#: source/class/feedreader/Application.js:214
 msgid "Sender"
 msgstr "Remitente"
 
-#: source/class/feedreader/Application.js:214
+#: source/class/feedreader/Application.js:215
 msgid "Date"
 msgstr "Fecha"
 
 #: source/class/feedreader/ArticleView.js:77
 msgid "read more ..."
 msgstr "leer más ..."
-
