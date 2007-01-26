@@ -10,12 +10,33 @@ or the
 
   * Eclipse Public License (EPL)
     http://www.eclipse.org/org/documents/epl-v10.php
-    
+
 As a recipient of qooxdoo, you may choose which license to receive the code 
 under. Certain files or entire directories may not be covered by this 
 dual license, but are subject to licenses compatible to both LGPL and EPL.
 License exceptions are explicitly declared in all relevant files or in a 
 LICENSE file in the relevant directories.
+
+________________________________________________________________________________
+
+Important Note For Projects That Need To Comply With EPL:
+---------------------------------------------------------
+
+The qooxdoo default icon theme ("Nuvola") is available only under the LGPL. 
+Therefore, you have to select another icon theme that is compatible to EPL. 
+
+You may do so by switching to another default icon theme:
+in class qx.manager.object.ImageManager, which is declared in file 
+frontend/framework/source/class/qx/manager/object/ImageManager.js, change 
+the following line
+  qx.Settings.setDefault("iconTheme", "qx.theme.icon.Nuvola");
+to either
+  qx.Settings.setDefault("iconTheme", "qx.theme.icon.NuoveXT");
+or
+  qx.Settings.setDefault("iconTheme", "qx.theme.icon.VistaInspirate");
+or to a custom icon theme that is license compatible.
+________________________________________________________________________________
+
 
 The full text of the LGPL and EPL licenses is attached below. 
 
