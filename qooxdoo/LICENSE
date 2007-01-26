@@ -34,7 +34,7 @@ to either
   qx.Settings.setDefault("iconTheme", "qx.theme.icon.NuoveXT");
 or
   qx.Settings.setDefault("iconTheme", "qx.theme.icon.VistaInspirate");
-or to a custom icon theme that is license compatible.
+or to a custom icon theme that is license-compatible.
 ________________________________________________________________________________
 
 
