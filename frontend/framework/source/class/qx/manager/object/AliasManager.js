@@ -81,7 +81,7 @@ qx.Proto.add = function(vAlias, vUriStart)
   // Cleanup old uris which use this alias
   for (var vPath in this._uris)
   {
-    if (vPath.substring(0, vPath.indexOf("/") == vAlias)) {
+    if (vPath.substring(0, vPath.indexOf("/")) == vAlias) {
       this._uris[vPath] = null;
     }
   }
@@ -102,7 +102,7 @@ qx.Proto.remove = function(vAlias)
   // Cleanup old uris which use this alias
   for (var vPath in this._uris)
   {
-    if (vPath.substring(0, vPath.indexOf("/") == vAlias)) {
+    if (vPath.substring(0, vPath.indexOf("/")) == vAlias) {
       this._uris[vPath] = null;
     }
   }
