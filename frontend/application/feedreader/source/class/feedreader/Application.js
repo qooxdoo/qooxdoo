@@ -30,6 +30,7 @@
 #embed(qx.icontheme/16/actions/dialog-ok.png)
 #embed(qx.icontheme/16/actions/dialog-cancel.png)
 #embed(qx.icontheme/16/actions/help-about.png)
+#embed(qx.icontheme/16/actions/view-refresh.png)
 
 ************************************************************************ */
 
