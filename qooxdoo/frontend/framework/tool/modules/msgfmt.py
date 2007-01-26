@@ -9,7 +9,7 @@
 #    2006-2007 1&1 Internet AG, Germany, http://www.1and1.org
 #
 #  License:
-#    LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+#    LGPL: http://www.gnu.org/licenses/lgpl.html
 #    EPL: http://www.eclipse.org/org/documents/epl-v10.php
 #    See the LICENSE file in the project's top-level directory for details.
 #
@@ -103,7 +103,7 @@ def generate(infile, languageCode, namespace):
      2004-2007 by 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
      EPL 1.0: http://www.eclipse.org/org/documents/epl-v10.php
 
    Authors:
