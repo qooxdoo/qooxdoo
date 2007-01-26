@@ -2,24 +2,20 @@
 
    qooxdoo - the new era of web development
 
+   http://qooxdoo.org
+
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany
-     http://www.1und1.de | http://www.1and1.com
-     All rights reserved
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
-
-   Internet:
-     * http://qooxdoo.org
+     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
-       <sebastian dot werner at 1und1 dot de>
      * Andreas Ecker (ecker)
-       <andreas dot ecker at 1und1 dot de>
      * Fabian Jakobs (fjakobs)
-       <fabian dot jakobs at 1und1 dot de>
 
 ************************************************************************ */
 
