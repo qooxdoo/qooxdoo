@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo showcase\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-12 20:22+0100\n"
+"POT-Creation-Date: 2007-01-26 10:40+0100\n"
 "PO-Revision-Date: 2006-12-20 10:58+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -13,126 +13,126 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: source/class/showcase/Application.js:874
+#: source/class/showcase/Application.js:875
 msgid "Choose a locale: "
 msgstr ""
 
-#: source/class/showcase/Application.js:893
+#: source/class/showcase/Application.js:894
 msgid "A date: "
 msgstr ""
 
-#: source/class/showcase/Application.js:920
+#: source/class/showcase/Application.js:921
 msgid "Undo"
 msgstr ""
 
-#: source/class/showcase/Application.js:921
+#: source/class/showcase/Application.js:922
 msgid "Redo"
 msgstr ""
 
-#: source/class/showcase/Application.js:923
+#: source/class/showcase/Application.js:924
 msgid "Cut"
 msgstr ""
 
-#: source/class/showcase/Application.js:924
+#: source/class/showcase/Application.js:925
 msgid "Copy"
 msgstr ""
 
-#: source/class/showcase/Application.js:925
+#: source/class/showcase/Application.js:926
 msgid "Paste"
 msgstr ""
 
-#: source/class/showcase/Application.js:926
+#: source/class/showcase/Application.js:927
 msgid "Delete"
 msgstr ""
 
-#: source/class/showcase/Application.js:927
+#: source/class/showcase/Application.js:928
 msgid "Select All"
 msgstr ""
 
-#: source/class/showcase/Application.js:929
+#: source/class/showcase/Application.js:930
 msgid "Search"
 msgstr ""
 
-#: source/class/showcase/Application.js:930
+#: source/class/showcase/Application.js:931
 msgid "Search Again"
 msgstr ""
 
-#: source/class/showcase/Application.js:933
+#: source/class/showcase/Application.js:934
 msgid "Command Menu (keyboard shortcuts)"
 msgstr ""
 
-#: source/class/showcase/Application.js:951
+#: source/class/showcase/Application.js:952
 msgid "Open Color Popup"
 msgstr ""
 
-#: source/class/showcase/Application.js:961
+#: source/class/showcase/Application.js:962
 msgid "Basic Colors"
 msgstr ""
 
-#: source/class/showcase/Application.js:965
+#: source/class/showcase/Application.js:966
 msgid "Template Colors"
 msgstr ""
 
-#: source/class/showcase/Application.js:969
+#: source/class/showcase/Application.js:970
 msgid "Recent Colors"
 msgstr ""
 
-#: source/class/showcase/Application.js:987
+#: source/class/showcase/Application.js:988
 msgid "Locale information"
 msgstr ""
 
-#: source/class/showcase/Application.js:1008
+#: source/class/showcase/Application.js:1009
 msgid "Locale:"
 msgstr ""
 
-#: source/class/showcase/Application.js:1011
+#: source/class/showcase/Application.js:1012
 msgid "Territory code:"
 msgstr ""
 
-#: source/class/showcase/Application.js:1014
+#: source/class/showcase/Application.js:1015
 msgid "Date format medium:"
 msgstr ""
 
-#: source/class/showcase/Application.js:1016
+#: source/class/showcase/Application.js:1017
 msgid "Date medium:"
 msgstr ""
 
-#: source/class/showcase/Application.js:1019
+#: source/class/showcase/Application.js:1020
 msgid "Date format long:"
 msgstr ""
 
-#: source/class/showcase/Application.js:1021
+#: source/class/showcase/Application.js:1022
 msgid "Date long:"
 msgstr ""
 
-#: source/class/showcase/Application.js:1024
+#: source/class/showcase/Application.js:1025
 msgid "Date format full:"
 msgstr ""
 
-#: source/class/showcase/Application.js:1026
+#: source/class/showcase/Application.js:1027
 msgid "Date full:"
 msgstr ""
 
-#: source/class/showcase/Application.js:1029
+#: source/class/showcase/Application.js:1030
 msgid "Time format short:"
 msgstr ""
 
-#: source/class/showcase/Application.js:1031
+#: source/class/showcase/Application.js:1032
 msgid "Time short:"
 msgstr ""
 
-#: source/class/showcase/Application.js:1034
+#: source/class/showcase/Application.js:1035
 msgid "Time format long:"
 msgstr ""
 
-#: source/class/showcase/Application.js:1036
+#: source/class/showcase/Application.js:1037
 msgid "Time long:"
 msgstr ""
 
-#: source/class/showcase/Application.js:1039
+#: source/class/showcase/Application.js:1040
 msgid "Week start:"
 msgstr ""
 
-#: source/class/showcase/Application.js:1042
+#: source/class/showcase/Application.js:1043
 msgid "Format of %1:"
 msgstr ""
