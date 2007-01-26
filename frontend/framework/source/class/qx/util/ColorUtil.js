@@ -34,9 +34,11 @@ qx.OO.defineClass("qx.util.ColorUtil");
  * @param vBlue {Number} Blue value. Range: 0..255
  *
  * @return {Map} Map with the keys following keys:
- *     'hue': range 0..360,
- *     'saturation': range 0..100,
- *     'brightness': range 0..100
+ *     <ul>
+ *       <li>'hue': range 0..360</li>
+ *       <li>'saturation': range 0..100</li>
+ *       <li>'brightness': range 0..100</li>
+ *     </ul>
  */
 qx.Class.rgb2hsb = function(vRed, vGreen, vBlue)
 {
@@ -110,9 +112,11 @@ qx.Class.rgb2hsb = function(vRed, vGreen, vBlue)
  * @param vBrightness {Number} Brightness value. Range 0..100
  *
  * @return {Map} Map the the following keys:
- *     'red': range 0..255,
- *     'green': range 0..255,
- *     'blue': range 0..255
+ *     <ul>
+ *       <li>'red': range 0..255</li>
+ *       <li>'green': range 0..255</li>
+ *       <li>'blue': range 0..255</li>
+ *     </ul>
  */
 qx.Class.hsb2rgb = function(vHue, vSaturation, vBrightness)
 {
