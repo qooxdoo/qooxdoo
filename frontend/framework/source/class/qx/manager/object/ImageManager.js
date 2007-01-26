@@ -57,7 +57,13 @@ function()
 ---------------------------------------------------------------------------
 */
 
+/*
+  Make sure to select an icon theme that is compatible to the license you 
+  chose to receive the qooxdoo code under. For more information, please 
+  see the LICENSE file in the project's top-level directory.
+ */
 qx.Settings.setDefault("iconTheme", "qx.theme.icon.Nuvola");
+
 qx.Settings.setDefault("widgetTheme", "qx.theme.widget.Windows");
 
 
