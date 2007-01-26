@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -28,15 +30,9 @@ function(vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash)
 {
   qx.ui.toolbar.Button.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
 
-  if (qx.util.Validation.isValidObject(vMenu)) {
+  if (vMenu != null) {
     this.setMenu(vMenu);
   }
-
-  /*
-  this._menuButton = new qx.ui.basic.Image("widget/arrows/down_small.gif");
-  this._menuButton.setAnonymous(true);
-  this.addAtEnd(this._menuButton);
-  */
 });
 
 
@@ -81,11 +77,11 @@ qx.Proto._showMenu = function(vFromKeyEvent)
     var vMenuParent = vMenu.getParent();
     var vMenuParentElement = vMenuParent.getElement();
     var vButtonElement = this.getElement();
-    var vButtonHeight = qx.dom.Dimension.getBoxHeight(vButtonElement);
+    var vButtonHeight = qx.html.Dimension.getBoxHeight(vButtonElement);
 
     // Apply X-Location
-    var vMenuParentLeft = qx.dom.Location.getPageBoxLeft(vMenuParentElement);
-    var vButtonLeft = qx.dom.Location.getPageBoxLeft(vButtonElement);
+    var vMenuParentLeft = qx.html.Location.getPageBoxLeft(vMenuParentElement);
+    var vButtonLeft = qx.html.Location.getPageBoxLeft(vButtonElement);
 
     vMenu.setLeft(vButtonLeft - vMenuParentLeft);
 
@@ -93,16 +89,16 @@ qx.Proto._showMenu = function(vFromKeyEvent)
     switch(this.getDirection())
     {
       case "up":
-        var vBodyHeight = qx.dom.Dimension.getInnerHeight(document.body);
-        var vMenuParentBottom = qx.dom.Location.getPageBoxBottom(vMenuParentElement);
-        var vButtonBottom = qx.dom.Location.getPageBoxBottom(vButtonElement);
+        var vBodyHeight = qx.html.Dimension.getInnerHeight(document.body);
+        var vMenuParentBottom = qx.html.Location.getPageBoxBottom(vMenuParentElement);
+        var vButtonBottom = qx.html.Location.getPageBoxBottom(vButtonElement);
 
         vMenu.setBottom(vButtonHeight + (vBodyHeight - vButtonBottom) - (vBodyHeight - vMenuParentBottom));
         vMenu.setTop(null);
         break;
 
       case "down":
-        var vButtonTop = qx.dom.Location.getPageBoxTop(vButtonElement);
+        var vButtonTop = qx.html.Location.getPageBoxTop(vButtonElement);
 
         vMenu.setTop(vButtonTop + vButtonHeight);
         vMenu.setBottom(null);

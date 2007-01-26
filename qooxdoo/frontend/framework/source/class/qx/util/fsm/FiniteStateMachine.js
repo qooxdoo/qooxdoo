@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2006 by Derrell Lipman
+     2006, 2007 Derrell Lipman
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Derrell Lipman (derrell)
@@ -24,16 +26,11 @@
 /**
  * A finite state machine.
  *
- * See {@see qx.util.finitestatemacine.State} for details on creating States,
- * and {@see qx.util.finitestatemacine.Transitions} for details on creating
+ * See {@link qx.util.finitestatemacine.State} for details on creating States,
+ * and {@link qx.util.finitestatemacine.Transitions} for details on creating
  * transitions between states.
  *
- * *EXPERIMENTAL*
- * The interface to the finite state machine, states, and transitions is
- * experimental.  It may change in non-backward-compatible ways as more
- * experience is gained in its use.
- *
- * @param machineName {string} The name of this finite state machine
+ * @param machineName {String} The name of this finite state machine
  *
  */
 qx.OO.defineClass("qx.util.fsm.FiniteStateMachine", qx.core.Target,
@@ -142,7 +139,7 @@ qx.OO.addProperty(
   {
     name         : "maxSavedStates",
     type         : "number",
-    defaultValue : 5
+    defaultValue : 2
   });
 
 /*
@@ -190,10 +187,59 @@ qx.Proto.addState = function(state)
 
 
 /**
+ * Replace a state in the finite state machine.  This is useful if initially
+ * "dummy" states are created which load the real state table for a series of
+ * operations (and possibly also load the gui associated with the new states
+ * at the same time).  Having portions of the finite state machine and their
+ * associated gui pages loaded at run time can help prevent long delays at
+ * application start-up time.
+ *
+ * @param state {qx.util.fsm.State}
+ *   An object of class qx.util.fsm.State representing a state
+ *   which is to be a part of this finite state machine.
+ *
+ * @param bDispose {Boolean}
+ *   If <i>true</i>, then dispose the old state object.  If <i>false</i>, the
+ *   old state object is returned for disposing by the caller.
+ *
+ * @return {Object}
+ *   The old state object if it was not disposed; otherwise null.
+ */
+qx.Proto.replaceState = function(state, bDispose)
+{
+  // Ensure that we got valid state info
+  if (! state instanceof qx.util.fsm.State)
+  {
+    throw new Error("Invalid state: not an instance of " +
+                    "qx.util.fsm.State");
+  }
+
+  // Retrieve the name of this state
+  var stateName = state.getName();
+
+  // Save the old state object, so we can return it to be disposed
+  var oldState = this._states[stateName];
+
+  // Replace the old state with the new state object.
+  this._states[stateName] = state;
+
+  // Did they request that the old state be disposed?
+  if (bDispose)
+  {
+    // Yup.  Mark it to be disposed.
+    oldState._needDispose;
+  }
+
+  return oldState;
+};
+
+
+
+/**
  * Add an object (typically a widget) that is to be accessed during state
  * transitions, to the finite state machine.
  *
- * @param friendlyName {string}
+ * @param friendlyName {String}
  *   The friendly name to used for access to the object being added.
  *
  * @param obj {Object}
@@ -252,9 +298,9 @@ qx.Proto.addObject = function(friendlyName, obj, groupNames)
 
 
 /**
- * Remove an object which had previously been added by {@see #addObject}.
+ * Remove an object which had previously been added by {@link #addObject}.
  *
- * @param friendlyName {string}
+ * @param friendlyName {String}
  *   The friendly name associated with an object, specifying which object is
  *   to be removed.
  */
@@ -281,10 +327,10 @@ qx.Proto.removeObject = function(friendlyName)
 
 
 /**
- * Retrieve an object previously saved via {@see #addObject}, using its
+ * Retrieve an object previously saved via {@link #addObject}, using its
  * Friendly Name.
  *
- * @param friendlyName {string}
+ * @param friendlyName {String}
  *   The friendly name of the object to be retrieved.
  *
  * @return {Object}
@@ -302,22 +348,22 @@ qx.Proto.getObject = function(friendlyName)
  *
  * @param obj {Object} The object for which the friendly name is desired
  *
- * @return {string}
- *   If the object has been previously registered via {@see #addObject}, then
- *   a reference to the object is returned; otherwise, null.
+ * @return {String}
+ *   If the object has been previously registered via {@link #addObject}, then
+ *   the friendly name of the object is returned; otherwise, null.
  */
 qx.Proto.getFriendlyName = function(obj)
 {
   var hash = obj.toHashCode();
-  return hash ? this.getObject(this._hashToFriendly[hash]) : null;
+  return hash ? this._hashToFriendly[hash] : null;
 };
 
 
 /**
- * Retrieve the list of objects which have registered, via {@see addObject} as
+ * Retrieve the list of objects which have registered, via {@link addObject} as
  * being members of the specified group.
  *
- * @param groupName {string}
+ * @param groupName {String}
  *   The name of the group for which the member list is desired.
  *
  * @return {Array}
@@ -335,6 +381,90 @@ qx.Proto.getGroupObjects = function(groupName)
 
   return a;
 };
+
+
+/**
+ * Display all of the saved objects and their reverse mappings.
+ */
+qx.Proto.displayAllObjects = function()
+{
+  for (var friendlyName in this._friendlyToHash)
+  {
+    var hash = this._friendlyToHash[friendlyName];
+    var obj = this.getObject(friendlyName);
+    this.debug(friendlyName +
+               " => " +
+               hash);
+    this.debug("  " + hash +
+               " => " +
+               this._hashToFriendly[hash]);
+    this.debug("  " + friendlyName +
+               " => " +
+               this.getObject(friendlyName));
+    this.debug("  " + this.getObject(friendlyName) +
+               " => " +
+               this.getFriendlyName(obj));
+  }
+};
+
+
+/**
+ * Recursively display an object (as debug messages)
+ *
+ * @param obj {Object}
+ *   The object to be recursively displayed
+ * @param initialMessage {String}
+ *   The initial message to be displayed.
+ */
+qx.Proto.debugObject = function(obj, initialMessage)
+{
+  thisClass = this;
+
+  var displayObj = function(obj, level)
+  {
+    var indentStr = "";
+    for (var i = 0; i < level; i++)
+    {
+      indentStr += "  ";
+    }
+
+    if (typeof(obj) != "object")
+    {
+      thisClass.debug(indentStr, obj);
+      return;
+    }
+
+    for (var prop in obj)
+    {
+      if (typeof(obj[prop]) == "object")
+      {
+        if (obj[prop] instanceof Array)
+        {
+          thisClass.debug(indentStr + prop + ": "  + "Array");
+        }
+        else
+        {
+          thisClass.debug(indentStr + prop + ": "  + "Object");
+        }
+
+        displayObj(obj[prop], level + 1);
+      }
+      else
+      {
+        thisClass.debug(indentStr + prop + ": " + obj[prop]);
+      }
+    }
+  }
+
+  if (initialMessage)
+  {
+    this.debug(initialMessage);
+  }
+
+  displayObj(obj, 0);
+};
+
+
 
 /**
  * Start (or restart, after it has terminated) the finite state machine from
@@ -389,25 +519,39 @@ qx.Proto.start = function()
 
 
 /**
- * Save the current state on the saved-state stack.  A future transition can
- * then provide, as its nextState value, the class constant:
+ * Save the current or previous state on the saved-state stack.  A future
+ * transition can then provide, as its nextState value, the class constant:
  *
  *   qx.util.fsm.FiniteStateMachine.StateChange.POP_STATE_STACK
  *
  * which will cause the next state to be whatever is at the top of the
  * saved-state stack, and remove that top element from the saved-state stack.
+ *
+ * @param bCurrent {Boolean}
+ *   When <i>true</i>, then push the current state onto the stack.  This might
+ *   be used in a transition, before the state has changed.  When
+ *   <i>false</i>, then push the previous state onto the stack.  This might be
+ *   used in an on entry function to save the previous state to return to.
  */
-qx.Proto.pushState = function()
+qx.Proto.pushState = function(bCurrent)
 {
   // See if there's room on the state stack for a new state
-  if (this.getMaxSavedStates() >= this._savedStates.length)
+  if (this._savedStates.length >= this.getMaxSavedStates())
   {
     // Nope.  Programmer error.
     throw new Error("Saved-state stack is full");
   }
 
-  // Push the current state onto the saved-state stack
-  this._savedStates.push(this.getState());
+  if (bCurrent)
+  {
+    // Push the current state onto the saved-state stack
+    this._savedStates.push(this.getState());
+  }
+  else
+  {
+    // Push the previous state onto the saved-state stack
+    this._savedStates.push(this.getPreviousState());
+  }
 };
 
 
@@ -427,6 +571,68 @@ qx.Proto.postponeEvent = function(event)
 
 
 /**
+ * Copy an event
+ *
+ * @param event {qx.event.type.Event}
+ *   The event to be copied
+ *
+ * @return {qx.event.type.Event}
+ *   The new copy of the provided event
+ */
+qx.Proto.copyEvent = function(event)
+{
+  var e = { };
+  for (var prop in event)
+  {
+    e[prop] = event[prop];
+  }
+
+  return e;
+};
+
+
+/**
+ * Enqueue an event for processing
+ *
+ * @param event {qx.event.type.Event}
+ *   The event to be enqueued
+ *
+ * @param bAddAtHead {Boolean}
+ *   If <i>true</i>, put the event at the head of the queue for immediate
+ *   processing.  If <i>false</i>, place the event at the tail of the queue so
+ *   that it receives in-order processing.
+ */
+qx.Proto.enqueueEvent = function(event, bAddAtHead)
+{
+  // Add the event to the event queue
+  if (bAddAtHead)
+  {
+    // Put event at the head of the queue
+    this._eventQueue.push(event);
+  }
+  else
+  {
+    // Put event at the tail of the queue
+    this._eventQueue.unshift(event);
+  }
+
+  if (qx.Settings.getValueOfClass("qx.util.fsm.FiniteStateMachine",
+                                  "debugFlags") &
+      qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS)
+  {
+    if (bAddAtHead)
+    {
+      this.debug(this.getName() + ": Pushed event: " + event.getType());
+    }
+    else
+    {
+      this.debug(this.getName() + ": Queued event: " + event.getType());
+    }
+  }
+};
+
+
+/**
  * Event listener for all event types in the finite state machine
  *
  * @param event {qx.event.type.Event}
@@ -439,21 +645,10 @@ qx.Proto.eventListener = function(event)
   // event dispatcher to free the source event upon our return, so we'll clone
   // it and enqueue our clone.  The source event can then be disposed upon our
   // return.
-  var e = { };
-  for (var prop in event)
-  {
-    e[prop] = event[prop];
-  }
+  var e = this.copyEvent(event);
 
-  // Add the event to the event queue
-  this._eventQueue.unshift(e);
-
-  if (qx.Settings.getValueOfClass("qx.util.fsm.FiniteStateMachine",
-                                  "debugFlags") &
-      qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS)
-  {
-    this.debug(this.getName() + ": Queued event: " + e.getType());
-  }
+  // Enqueue the new event on the tail of the queue
+  this.enqueueEvent(e, false);
 
   // Process events
   this._processEvents();
@@ -482,10 +677,13 @@ qx.Proto._processEvents = function()
     var event = this._eventQueue.pop();
 
     // Run the finite state machine with this event
-    this._run(event);
+    var bDispose = this._run(event);
 
-    // We can now dispose the event
-    event.dispose();
+    // If we didn't block (and re-queue) the event, dispose it.
+    if (bDispose)
+    {
+      event.dispose();
+    }
   }
 
   // We're no longer processing events
@@ -500,6 +698,10 @@ qx.Proto._processEvents = function()
  *   current state handles this event type), queued (if the current state
  *   blocks this event type), or discarded (if the current state neither
  *   handles nor blocks this event type).
+ *
+ * @return {Boolean}
+ *   Whether the event should be disposed.  If it was blocked, we've pushed it
+ *   back onto the event queue, and it should not be disposed.
  */
 qx.Proto._run = function(event)
 {
@@ -558,14 +760,13 @@ qx.Proto._run = function(event)
   // See if we actually found this event type
   if (! e)
   {
-    if (this.debugEvents)
+    if (debugEvents)
     {
       this.debug(this.getName() + ": Event '" + event.getType() + "'" +
                  " not handled.  Ignoring.");
     }
-    return;
+    return true;
   }
-
 
   // We might have found a constant (PREDICATE or BLOCKED) or an object with
   // each property name being the friendly name of a saved object, and the
@@ -582,7 +783,7 @@ qx.Proto._run = function(event)
         this.debug(this.getName() + ": Could not find friendly name for '" +
                    event.getType() + "' on '" + event.getTarget() + "'");
       }
-      return;
+      return true;
     }
 
     action = e[friendly];
@@ -600,8 +801,13 @@ qx.Proto._run = function(event)
 
     case qx.util.fsm.FiniteStateMachine.EventHandling.BLOCKED:
       // This event is blocked.  Enqueue it for later, and get outta here.
+      if (debugEvents)
+      {
+        this.debug(this.getName() + ": Event '" + event.getType() + "'" +
+                   " blocked.  Re-queuing.");
+      }
       this._blockedEvents.unshift(event);
-      return;
+      return false;
 
     default:
       // See if we've been given an explicit transition name
@@ -643,12 +849,11 @@ qx.Proto._run = function(event)
 
     case null:
       // Transition indicates not to try further transitions
-      return;
+      return true;
 
     default:
       throw new Error("Transition " + thisState + ":" + t +
                       " returned a value other than true, false, or null.");
-      return;
     }
 
     // We think we can transition to the next state.  Set next state.
@@ -678,14 +883,14 @@ qx.Proto._run = function(event)
 
       case qx.util.fsm.FiniteStateMachine.StateChange.POP_STATE_STACK:
         // Switch to the state at the top of the state stack.
-        if (this._stateStack.length == 0)
+        if (this._savedStates.length == 0)
         {
           throw new Error("Attempt to transition to POP_STATE_STACK " +
                           "while state stack is empty.");
         }
 
         // Pop the state stack to retrieve the state to transition to
-        nextState = this._stateStack.pop();
+        nextState = this._savedStates.pop();
         this.setNextState(nextState);
         break;
 
@@ -738,7 +943,14 @@ qx.Proto._run = function(event)
     {
       this.debug(this.getName() + "#" + thisState + "#autoActionsAfterOnexit");
     }
-    currentState.getAutoActionsAfterOnentry()(this);
+    currentState.getAutoActionsAfterOnexit()(this);
+
+    // If this state has been replaced and we're supposed to dispose it...
+    if (currentState._needDispose)
+    {
+      // ... then dispose it now that it's no longer in use
+      currentState.dispose();
+    }
 
     // Reset currentState to the new state object
     currentState = this._states[this.getNextState()];
@@ -774,14 +986,13 @@ qx.Proto._run = function(event)
     }
     currentState.getAutoActionsAfterOnentry()(this);
 
-    // Add the blocked events to the pending event queue
-    if (this._blockedEvents.length > 0)
+    // Add any blocked events back onto the pending event queue
+    var e;
+    for (var i = 0; i < this._blockedEvents.length; i++)
     {
-      this._eventQueue.unshift(this._blockedEvents);
+      e = this._blockedEvents.pop();
+      this._eventQueue.unshift(e);
     }
-
-    // The blocked event list is now empty
-    this._blockedEvents = [ ];
 
     // Ensure that all actions have been flushed
     qx.ui.core.Widget.flushGlobalQueues();
@@ -793,7 +1004,7 @@ qx.Proto._run = function(event)
     }
 
     // See ya!
-    return;
+    return true;
   }
 
   if (debugTransitions)
@@ -802,6 +1013,8 @@ qx.Proto._run = function(event)
                ": event '" + event.getType() + "'" +
                ": no transition found.  No state change.");
   }
+
+  return true;
 };
 
 
@@ -940,7 +1153,7 @@ qx.Settings.setDefault(
  *     };
  *     </pre>
  *
- * @param actionType {string}
+ * @param actionType {String}
  *   The name of the action being validated (for debug messages)
  *
  * @param propValue {Object}
@@ -1186,4 +1399,4 @@ qx.Proto.dispose = function()
   this._states = null;
 
   return qx.core.Target.prototype.dispose.call(this);
-}
+};

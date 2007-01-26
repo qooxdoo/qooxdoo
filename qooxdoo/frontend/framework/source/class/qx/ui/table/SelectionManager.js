@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2006 by STZ-IDA, Germany, http://www.stz-ida.de
+     2006 STZ-IDA, Germany, http://www.stz-ida.de
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Til Schneider (til132)
@@ -46,7 +48,7 @@ qx.OO.addProperty({ name:"selectionModel", type:"object", instance:"qx.ui.table.
 /**
  * Handles the mouse down event.
  *
- * @param index {int} the index the mouse is pointing at.
+ * @param index {Integer} the index the mouse is pointing at.
  * @param evt {Map} the mouse event.
  */
 qx.Proto.handleMouseDown = function(index, evt) {
@@ -73,7 +75,7 @@ qx.Proto.handleMouseDown = function(index, evt) {
 /**
  * Handles the mouse up event.
  *
- * @param index {int} the index the mouse is pointing at.
+ * @param index {Integer} the index the mouse is pointing at.
  * @param evt {Map} the mouse event.
  */
 qx.Proto.handleMouseUp = function(index, evt) {
@@ -86,7 +88,7 @@ qx.Proto.handleMouseUp = function(index, evt) {
 /**
  * Handles the mouse click event.
  *
- * @param index {int} the index the mouse is pointing at.
+ * @param index {Integer} the index the mouse is pointing at.
  * @param evt {Map} the mouse event.
  */
 qx.Proto.handleClick = function(index, evt) {
@@ -97,7 +99,7 @@ qx.Proto.handleClick = function(index, evt) {
  * Handles the key down event that is used as replacement for mouse clicks
  * (Normally space).
  *
- * @param index {int} the index that is currently focused.
+ * @param index {Integer} the index that is currently focused.
  * @param evt {Map} the key event.
  */
 qx.Proto.handleSelectKeyDown = function(index, evt) {
@@ -108,7 +110,7 @@ qx.Proto.handleSelectKeyDown = function(index, evt) {
 /**
  * Handles a key down event that moved the focus (E.g. up, down, home, end, ...).
  *
- * @param index {int} the index that is currently focused.
+ * @param index {Integer} the index that is currently focused.
  * @param evt {Map} the key event.
  */
 qx.Proto.handleMoveKeyDown = function(index, evt) {
@@ -132,12 +134,12 @@ qx.Proto.handleMoveKeyDown = function(index, evt) {
 /**
  * Handles a select event.
  *
- * @param index {int} the index the event is pointing at.
+ * @param index {Integer} the index the event is pointing at.
  * @param evt {Map} the mouse event.
  */
 qx.Proto._handleSelectEvent = function(index, evt) {
   var selectionModel = this.getSelectionModel();
-  if (evt.getShiftKey()) {
+  if (evt.isShiftPressed()) {
     var leadIndex = selectionModel.getLeadSelectionIndex();
     if (index != leadIndex || selectionModel.isSelectionEmpty()) {
       // The lead selection index was changed

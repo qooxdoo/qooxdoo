@@ -5,14 +5,50 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
+   ________________________________________________________________________
+
+   This class contains code based on the following work:
+
+     SWFObject: Javascript Flash Player detection and embed script
+     http://blog.deconcept.com/swfobject/
+     Version: 1.4.4
+
+     Copyright:
+       2006 Geoff Stearns
+
+     License:
+       MIT: http://www.opensource.org/licenses/mit-license.php
+
+       Permission is hereby granted, free of charge, to any person obtaining a
+       copy of this software and associated documentation files (the "Software"),
+       to deal in the Software without restriction, including without limitation
+       the rights to use, copy, modify, merge, publish, distribute, sublicense,
+       and/or sell copies of the Software, and to permit persons to whom the
+       Software is furnished to do so, subject to the following conditions:
+
+       The above copyright notice and this permission notice shall be included in
+       all copies or substantial portions of the Software.
+
+       THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+       IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+       FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+       AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+       LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+       FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+       DEALINGS IN THE SOFTWARE.
+
+     Authors:
+       * Geoff Stearns (geoff@deconcept.com)
 
 ************************************************************************ */
 
@@ -21,17 +57,21 @@
 
 ************************************************************************ */
 
-/*!
-  Original non qooxdoo Version by Geoff Stearns
-    Flash detection and embed - http://blog.deconcept.com/flashobject/
-    FlashObject is (c) 2005 Geoff Stearns and is released under the MIT License
-    http://www.opensource.org/licenses/mit-license.php
-
-  Modified for qooxdoo by Sebastian Werner
-    Based on version 1.2.3
-    Relicensed under LGPL in assent of Geoff Stearns
-*/
-
+/**
+ * Flash Player detection and embed.
+ *
+ * This class contains code based on the following work:<br/>
+ *   SWFObject: Javascript Flash Player detection and embed script<br/>
+ *   http://blog.deconcept.com/swfobject/</br>
+ *   Version: 1.4.4
+ *
+ * License:<br/>
+ *   MIT: http://www.opensource.org/licenses/mit-license.php<br/>
+ *   For more info, please see the corresponding source file.
+ *
+ * @param vSource {String} Url of the SWF file to embed
+ * @param vVersion {String} Flash version of the SWF file
+ */
 qx.OO.defineClass("qx.ui.embed.Flash", qx.ui.basic.Terminator,
 function(vSource, vVersion)
 {
@@ -41,11 +81,11 @@ function(vSource, vVersion)
   this._params = {};
   this._variables = {};
 
-  if(qx.util.Validation.isValidString(vSource)) {
+  if(vSource != null) {
     this.setSource(vSource);
   }
 
-  this.setVersion(qx.util.Validation.isValidString(vVersion) ? vVersion : qx.ui.embed.Flash.MINREQUIRED);
+  this.setVersion(vVersion != null ? vVersion : qx.ui.embed.Flash.MINREQUIRED);
 });
 
 qx.OO.addProperty({ name : "source", type : "string" });
@@ -91,20 +131,42 @@ qx.ui.embed.Flash.getPlayerVersion = function()
     var x = navigator.plugins[qx.ui.embed.Flash.PLUGINKEY];
 
     if(x && x.description) {
-      vPlayerVersion = new qx.type.Version(x.description.replace(/([a-z]|[A-Z]|\s)+/, '').replace(/(\s+r|\s+b[0-9]+)/, '.'));
+      vPlayerVersion = new qx.type.Version(x.description.replace(/([a-zA-Z]|\s)+/, "").replace(/(\s+r|\s+b[0-9]+)/, ".").split("."));
     }
   }
   else if (window.ActiveXObject)
   {
+    // do minor version lookup in IE, but avoid fp6 crashing issues
+    // see http://blog.deconcept.com/2006/01/11/getvariable-setvariable-crash-internet-explorer-flash-6/
     try {
-      var axo = new ActiveXObject(qx.ui.embed.Flash.ACTIVEXKEY);
-       vPlayerVersion = new qx.type.Version(axo.GetVariable("$version").split(" ")[1].split(","));
+      var axo = new ActiveXObject(qx.ui.embed.Flash.ACTIVEXKEY + ".7");
     }
-    catch (e) {}
+    catch(e)
+    {
+      try {
+        var axo = new ActiveXObject(qx.ui.embed.Flash.ACTIVEXKEY + ".6");
+        vPlayerVersion = new qx.type.Version([6,0,21]);
+        axo.AllowScriptAccess = "always"; // throws if player version < 6.0.47 (thanks to Michael Williams @ Adobe for this code)
+      }
+      catch(e)
+      {
+        if (vPlayerVersion.major == 6) {
+          return vPlayerVersion;
+        }
+      }
+
+      try {
+        axo = new ActiveXObject(qx.ui.embed.Flash.ACTIVEXKEY);
+      } catch(e) {}
+    }
+
+    if (axo != null) {
+      vPlayerVersion = new qx.type.Version(axo.GetVariable("$version").split(" ")[1].split(","));
+    }
   }
 
   return qx.ui.embed.Flash.PLAYERVERSION = vPlayerVersion;
-}
+};
 
 
 
@@ -153,7 +215,7 @@ qx.Proto._applyElementData = function(el)
       document.location.replace(redir);
     }
   }
-}
+};
 
 
 
@@ -169,7 +231,7 @@ qx.Proto._modifySource = function(propValue, propOldValue, propName)
 {
   this._source = qx.util.Validation.isValidString(propValue) ? qx.manager.object.AliasManager.getInstance().resolvePath(propValue) : "";
   return true;
-}
+};
 
 qx.Proto._modifyVersion = function(propValue, propOldValue, propData)
 {
@@ -184,13 +246,13 @@ qx.Proto._modifyVersion = function(propValue, propOldValue, propData)
   }
 
   return true;
-}
+};
 
 qx.Proto._modifyParam = function(propValue, propOldValue, propData)
 {
   this.setParam(propData.name, propValue.toString());
   return true;
-}
+};
 
 
 
@@ -219,11 +281,11 @@ qx.Proto._modifyBackgroundColor = function(propValue, propOldValue, propData)
   }
 
   return true;
-}
+};
 
 qx.Proto._applyBackgroundColor = function(vNewValue) {
   this.setParam("bgcolor", vNewValue);
-}
+};
 
 
 
@@ -236,15 +298,15 @@ qx.Proto._applyBackgroundColor = function(vNewValue) {
 
 qx.Proto.setParam = function(name, value){
   this._params[name] = value;
-}
+};
 
 qx.Proto.getParam = function(name){
   return this._params[name];
-}
+};
 
 qx.Proto.getParams = function() {
   return this._params;
-}
+};
 
 
 
@@ -258,15 +320,15 @@ qx.Proto.getParams = function() {
 
 qx.Proto.setVariable = function(name, value){
   this._variables[name] = value;
-}
+};
 
 qx.Proto.getVariable = function(name){
   return this._variables[name];
-}
+};
 
 qx.Proto.getVariables = function(){
   return this._variables;
-}
+};
 
 
 
@@ -293,7 +355,7 @@ qx.Proto.generateParamTags = function()
   }
 
   return vParamTags.join("");
-}
+};
 
 qx.Proto.getVariablePairs = function()
 {
@@ -305,7 +367,7 @@ qx.Proto.getVariablePairs = function()
   }
 
   return variablePairs.join("&");
-}
+};
 
 
 
@@ -366,12 +428,11 @@ if (navigator.plugins && navigator.mimeTypes && navigator.mimeTypes.length)
     html.push("></embed>");
 
     return html.join("");
-  }
+  };
 }
-
-// Internet Explorer ActiveX Architecture
 else
 {
+  // Internet Explorer ActiveX Architecture
   qx.Proto.generateHTML = function()
   {
     var html = [];
@@ -409,7 +470,7 @@ else
     html.push("</object>");
 
     return html.join("");
-  }
+  };
 }
 
 
@@ -423,8 +484,8 @@ else
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._isWidthEssential = qx.util.Return.returnTrue;
-qx.Proto._isHeightEssential = qx.util.Return.returnTrue;
+qx.Proto._isWidthEssential = qx.lang.Function.returnTrue;
+qx.Proto._isHeightEssential = qx.lang.Function.returnTrue;
 
 
 
@@ -435,8 +496,8 @@ qx.Proto._isHeightEssential = qx.util.Return.returnTrue;
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._computePreferredInnerWidth = qx.util.Return.returnZero;
-qx.Proto._computePreferredInnerHeight = qx.util.Return.returnZero;
+qx.Proto._computePreferredInnerWidth = qx.lang.Function.returnZero;
+qx.Proto._computePreferredInnerHeight = qx.lang.Function.returnZero;
 
 
 
@@ -465,4 +526,4 @@ qx.Proto.dispose = function()
   }
 
   qx.ui.basic.Terminator.prototype.dispose.call(this);
-}
+};

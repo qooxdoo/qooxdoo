@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2006 by STZ-IDA, Germany, http://www.stz-ida.de
+     2006 STZ-IDA, Germany, http://www.stz-ida.de
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Til Schneider (til132)
@@ -41,9 +43,20 @@ function() {
   this._rowCount = -1;
 
   this._lruCounter = 0;
+
+  // Holds the index of the first block that is currently loading.
+  // Is -1 if there is currently no request on its way.
   this._firstLoadingBlock = -1;
+
+  // Holds the index of the first row that should be loaded when the response of
+  // the current request arrives. Is -1 we need no following request.
   this._firstRowToLoad = -1;
+
+  // Counterpart to _firstRowToLoad
   this._lastRowToLoad = -1;
+
+  // Holds whether the current request will bring obsolete data. When true the
+  // response of the current request will be ignored.
   this._ignoreCurrentRequest = false;
 
   this._rowBlockCache = {};
@@ -93,10 +106,10 @@ qx.Proto._loadRowCount = function() {
  * <p>
  * Has to be called by {@link _loadRowCount()}.
  *
- * @param rowCount {int} the number of rows in this model or null if loading.
+ * @param rowCount {Integer} the number of rows in this model or null if loading.
  */
 qx.Proto._onRowCountLoaded = function(rowCount) {
-  this.debug("row count loaded: " + rowCount);
+  // this.debug("row count loaded: " + rowCount);
   if (rowCount == null) {
     rowCount = 0;
   }
@@ -119,6 +132,11 @@ qx.Proto.reloadData = function() {
   if (this._firstLoadingBlock != -1) {
     this._ignoreCurrentRequest = true;
   }
+
+  // Forget a possibly outstanding request
+  // (_loadRowCount will tell the listeners anyway, that the whole table changed)
+  this._firstRowToLoad = -1;
+  this._lastRowToLoad = -1;
 
   // NOTE: This will inform the listeners as soon as the new row count is known
   this._loadRowCount();
@@ -173,7 +191,7 @@ qx.Proto.prefetchRows = function(firstRowIndex, lastRowIndex) {
 
       this._firstLoadingBlock = firstBlockToLoad;
 
-      this.debug("Starting server request. rows: " + firstRowIndex + ".." + lastRowIndex + ", blocks: " + firstBlockToLoad + ".." + lastBlockToLoad);
+      // this.debug("Starting server request. rows: " + firstRowIndex + ".." + lastRowIndex + ", blocks: " + firstBlockToLoad + ".." + lastBlockToLoad);
       this._loadRowData(firstBlockToLoad * blockSize, (lastBlockToLoad + 1) * blockSize - 1);
     }
   } else {
@@ -191,8 +209,8 @@ qx.Proto.prefetchRows = function(firstRowIndex, lastRowIndex) {
  * Implementing classes have to call {@link _onRowDataLoaded()} when the server
  * response arrived. That method has to be called! Even when there was an error.
  *
- * @param firstRow {int} The index of the first row to load.
- * @param lastRow {int} The index of the last row to load.
+ * @param firstRow {Integer} The index of the first row to load.
+ * @param lastRow {Integer} The index of the last row to load.
  */
 qx.Proto._loadRowData = function(firstRow, lastRow) {
   throw new Error("_loadRowCount is abstract");
@@ -226,7 +244,7 @@ qx.Proto._onRowDataLoaded = function(rowDataArr) {
         this._setRowBlockData(this._firstLoadingBlock + i, blockRowData);
       }
     }
-    this.debug("Got server answer. blocks: " + this._firstLoadingBlock + ".." + (this._firstLoadingBlock + blockCount - 1) + ". mail count: " + rowDataArr.length + " block count:" + blockCount);
+    // this.debug("Got server answer. blocks: " + this._firstLoadingBlock + ".." + (this._firstLoadingBlock + blockCount - 1) + ". mail count: " + rowDataArr.length + " block count:" + blockCount);
 
     // Inform the listeners
     var data = {
@@ -252,7 +270,7 @@ qx.Proto._onRowDataLoaded = function(rowDataArr) {
 /**
  * Sets the data of one block.
  *
- * @param block {int} the index of the block.
+ * @param block {Integer} the index of the block.
  * @param rowDataArr {var[][]} the data to set.
  */
 qx.Proto._setRowBlockData = function(block, rowDataArr) {
@@ -274,7 +292,7 @@ qx.Proto._setRowBlockData = function(block, rowDataArr) {
       }
 
       // Remove that block
-      this.debug("Removing block: " + lruBlock + ". current LRU: " + this._lruCounter);
+      // this.debug("Removing block: " + lruBlock + ". current LRU: " + this._lruCounter);
       delete this._rowBlockCache[lruBlock];
       this._rowBlockCount--;
     }
@@ -287,7 +305,7 @@ qx.Proto._setRowBlockData = function(block, rowDataArr) {
 /**
  * Removes a rows from the model.
  *
- * @param rowIndex {int} the index of the row to remove.
+ * @param rowIndex {Integer} the index of the row to remove.
  */
 qx.Proto.removeRow = function(rowIndex) {
   if (this.getClearCacheOnRemove()) {
@@ -350,7 +368,7 @@ qx.Proto.removeRow = function(rowIndex) {
 /**
  * <p>See overridden method for details.</p>
  *
- * @param rowIndex {int} the model index of the row.
+ * @param rowIndex {Integer} the model index of the row.
  * @return {Object} Map containing a value for each column.
  */
 qx.Proto.getRowData = function(rowIndex) {
@@ -388,8 +406,8 @@ qx.Proto.getValue = function(columnIndex, rowIndex) {
 /**
  * Sets whether a column is sortable.
  *
- * @param columnIndex {int} the column of which to set the sortable state.
- * @param sortable {boolean} whether the column should be sortable.
+ * @param columnIndex {Integer} the column of which to set the sortable state.
+ * @param sortable {Boolean} whether the column should be sortable.
  */
 qx.Proto.setColumnSortable = function(columnIndex, sortable) {
   if (sortable != this.isColumnSortable(columnIndex)) {

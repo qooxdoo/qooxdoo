@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2006 by STZ-IDA, Germany, http://www.stz-ida.de
+     2006 STZ-IDA, Germany, http://www.stz-ida.de
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Til Schneider (til132)
@@ -23,7 +25,7 @@
 /**
  * A scroll bar.
  *
- * @param horizontal {boolean ? false} whether the scroll bar should be
+ * @param horizontal {Boolean ? false} whether the scroll bar should be
  *    horizontal. If false it will be vertical.
  */
 qx.OO.defineClass("qx.ui.core.ScrollBar", qx.ui.layout.BoxLayout,
@@ -33,7 +35,7 @@ function(horizontal) {
   this._horizontal = (horizontal == true);
 
   this._scrollBar = new qx.ui.layout.CanvasLayout;
-  if (qx.sys.Client.getInstance().isGecko()) {
+  if (qx.core.Client.getInstance().isGecko()) {
     // NOTE: We have to force not using position:absolute, because this causes
     //     strange looking scrollbars in some cases (e.g. in Firefox under
     //     Linux the horizontal scrollbar is too high)
@@ -44,7 +46,7 @@ function(horizontal) {
   this._scrollBar.addEventListener("scroll", this._onscroll, this);
 
   this._scrollContent = new qx.ui.basic.Terminator;
-  if (qx.sys.Client.getInstance().isGecko()) {
+  if (qx.core.Client.getInstance().isGecko()) {
     this._scrollContent.setStyleProperty("position", "");
   }
   this._scrollBar.add(this._scrollContent);
@@ -55,7 +57,7 @@ function(horizontal) {
     this._scrollBar.setHeight(this._getScrollBarWidth());
 
     // IE needs that the scrollbar element has a width of +1
-    if (qx.sys.Client.getInstance().isMshtml()) {
+    if (qx.core.Client.getInstance().isMshtml()) {
       this.setHeight(this._getScrollBarWidth());
       this.setOverflow("hidden");
       this._scrollBar.setHeight(this._getScrollBarWidth() + 1);
@@ -67,7 +69,7 @@ function(horizontal) {
     this._scrollBar.setWidth(this._getScrollBarWidth());
 
     // IE needs that the scrollbar element has a width of +1
-    if (qx.sys.Client.getInstance().isMshtml()) {
+    if (qx.core.Client.getInstance().isMshtml()) {
       this.setWidth(this._getScrollBarWidth());
       this.setOverflow("hidden");
       this._scrollBar.setWidth(this._getScrollBarWidth() + 1);
@@ -170,7 +172,7 @@ qx.Proto._computePreferredInnerHeight = function() {
 /**
  * Gets the width of vertical scroll bar.
  *
- * @return {int} the width in pixels.
+ * @return {Integer} the width in pixels.
  */
 qx.Proto._getScrollBarWidth = function() {
   // Auto-detect the scrollbar width
@@ -217,7 +219,7 @@ qx.Proto._onscroll = function(evt) {
 /**
  * Positions the scroll bar knob at a certain value.
  *
- * @param value {int} The value where to postion the scroll bar.
+ * @param value {Integer} The value where to postion the scroll bar.
  */
 qx.Proto._positionKnob = function(value) {
   if (this._horizontal) {

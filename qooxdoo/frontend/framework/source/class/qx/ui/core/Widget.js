@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -64,6 +66,12 @@
  * @event focusin {qx.event.type.FocusEvent} (Fired by {@link qx.ui.core.Parent})
  * @event blur {qx.event.type.FocusEvent} (Fired by {@link qx.ui.core.Parent})
  * @event focus {qx.event.type.FocusEvent} (Fired by {@link qx.ui.core.Parent})
+ * @event dragdrop {qx.event.type.DragEvent} (Fired by {@link qx.event.handler.DragAndDropHandler})
+ * @event dragout {qx.event.type.DragEvent} (Fired by {@link qx.event.handler.DragAndDropHandler})
+ * @event dragover {qx.event.type.DragEvent} (Fired by {@link qx.event.handler.DragAndDropHandler})
+ * @event dragmove {qx.event.type.DragEvent} (Fired by {@link qx.event.handler.DragAndDropHandler})
+ * @event dragstart {qx.event.type.DragEvent} (Fired by {@link qx.event.handler.DragAndDropHandler})
+ * @event dragend {qx.event.type.DragEvent} (Fired by {@link qx.event.handler.DragAndDropHandler})
  */
 qx.OO.defineClass("qx.ui.core.Widget", qx.core.Target,
 function()
@@ -274,11 +282,13 @@ qx.OO.addProperty({ name : "backgroundImage", type : "string" });
  * Describes how to handle content that is too large to fit inside the widget.
  *
  * Overflow modes:
- * * hidden: The content is clipped
- * * auto: Scroll bars are shown as needed
- * * scroll: Scroll bars are always shown. Even if there is enough room for the content inside the widget.
- * * scrollX: Scroll bars for the X-Axis are always shown. Even if there is enough room for the content inside the widget.
- * * scrollY: Scroll bars for the Y-Axis are always shown. Even if there is enough room for the content inside the widget.
+ * <table>
+ * <tr><th>hidden</th><td>The content is clipped</td></tr>
+ * <tr><th>auto</th><td>Scroll bars are shown as needed</td></tr>
+ * <tr><th>scroll</th><td>Scroll bars are always shown. Even if there is enough room for the content inside the widget.</td></tr>
+ * <tr><th>scrollX</th><td>Scroll bars for the X-Axis are always shown. Even if there is enough room for the content inside the widget.</td></tr>
+ * <tr><th>scrollY</th><td>Scroll bars for the Y-Axis are always shown. Even if there is enough room for the content inside the widget.</td></tr>
+ * </table>
  */
 qx.OO.addProperty({ name : "overflow", type : "string", addToQueue : true });
 
@@ -584,6 +594,11 @@ qx.OO.addPropertyGroup({ name : "clip", members : [ "clipLeft", "clipTop", "clip
 ---------------------------------------------------------------------------
 */
 
+/**
+ * Flush all global queues
+ */
+qx.ui.core.Widget.flushGlobalQueues = function() {};
+
 if (qx.Settings.getValueOfClass("qx.ui.core.Widget", "enableQueueDebug"))
 {
   qx.ui.core.Widget.flushGlobalQueues = function()
@@ -640,7 +655,7 @@ if (qx.Settings.getValueOfClass("qx.ui.core.Widget", "enableQueueDebug"))
 
     if (vSum > 0)
     {
-      var logger = qx.dev.log.Logger.getClassLogger(qx.ui.core.Widget);
+      var logger = qx.log.Logger.getClassLogger(qx.ui.core.Widget);
       logger.debug("Flush Global Queues");
       logger.debug("Widgets: " + vWidgetDuration + "ms (" + globalWidgetQueueLength + ")");
       logger.debug("State: " + vStateDuration + "ms (" + globalStateQueueLength + ")");
@@ -1167,10 +1182,10 @@ qx.ui.core.Widget.getActiveSiblingHelper = function(vObject, vParent, vCalc, vIg
   }
 
   var vChilds = vParent.getChildren();
-  var vPosition = qx.util.Validation.isInvalid(vMode) ? vChilds.indexOf(vObject) + vCalc : vMode == "first" ? 0 : vChilds.length-1;
+  var vPosition = vMode == null ? vChilds.indexOf(vObject) + vCalc : vMode === "first" ? 0 : vChilds.length-1;
   var vInstance = vChilds[vPosition];
 
-  while(!vInstance.isEnabled() || qx.ui.core.Widget.getActiveSiblingHelperIgnore(vIgnoreClasses, vInstance))
+  while(vInstance && (!vInstance.isEnabled() || qx.ui.core.Widget.getActiveSiblingHelperIgnore(vIgnoreClasses, vInstance)))
   {
     vPosition += vCalc;
     vInstance = vChilds[vPosition];
@@ -1206,8 +1221,8 @@ qx.Proto.isMaterialized = function() {
   var el=this._element;
   return (this._initialLayoutDone &&
           this._isDisplayable &&
-          qx.dom.Style.getStyleProperty(el, "display") != "none" &&
-          qx.dom.Style.getStyleProperty(el, "visibility") != "hidden" &&
+          qx.html.Style.getStyleProperty(el, "display") != "none" &&
+          qx.html.Style.getStyleProperty(el, "visibility") != "hidden" &&
           el.offsetWidth > 0 && el.offsetHeight > 0);
 }
 
@@ -1243,32 +1258,32 @@ qx.Proto.auto = function()
 /*!
   Get an array of the current children
 */
-qx.Proto.getChildren = qx.util.Return.returnNull;
+qx.Proto.getChildren = qx.lang.Function.returnNull;
 
 /*!
   Get the number of children
 */
-qx.Proto.getChildrenLength = qx.util.Return.returnZero;
+qx.Proto.getChildrenLength = qx.lang.Function.returnZero;
 
 /*!
   Get if the widget has any children
 */
-qx.Proto.hasChildren = qx.util.Return.returnFalse;
+qx.Proto.hasChildren = qx.lang.Function.returnFalse;
 
 /*!
   Get if the widget has no children
 */
-qx.Proto.isEmpty = qx.util.Return.returnTrue;
+qx.Proto.isEmpty = qx.lang.Function.returnTrue;
 
 /*!
   Return the position of the child inside
 */
-qx.Proto.indexOf = qx.util.Return.returnNegativeIndex;
+qx.Proto.indexOf = qx.lang.Function.returnNegativeIndex;
 
 /*!
   Test if this widget contains the given widget
 */
-qx.Proto.contains = qx.util.Return.returnFalse;
+qx.Proto.contains = qx.lang.Function.returnFalse;
 
 
 
@@ -1284,22 +1299,22 @@ qx.Proto.contains = qx.util.Return.returnFalse;
 /*!
   Get an array of the current visible children
 */
-qx.Proto.getVisibleChildren = qx.util.Return.returnNull;
+qx.Proto.getVisibleChildren = qx.lang.Function.returnNull;
 
 /*!
   Get the number of children
 */
-qx.Proto.getVisibleChildrenLength = qx.util.Return.returnZero;
+qx.Proto.getVisibleChildrenLength = qx.lang.Function.returnZero;
 
 /*!
   If this widget has visible children
 */
-qx.Proto.hasVisibleChildren = qx.util.Return.returnFalse;
+qx.Proto.hasVisibleChildren = qx.lang.Function.returnFalse;
 
 /*!
   Check if there are any visible children inside
 */
-qx.Proto.isVisibleEmpty = qx.util.Return.returnTrue;
+qx.Proto.isVisibleEmpty = qx.lang.Function.returnTrue;
 
 
 
@@ -1366,7 +1381,7 @@ qx.Proto._modifyParent = function(propValue, propOldValue, propData)
   {
     this._hasParent = true;
 
-    if (qx.util.Validation.isValidNumber(this._insertIndex))
+    if (typeof this._insertIndex == "number")
     {
       qx.lang.Array.insertAt(propValue.getChildren(), this, this._insertIndex);
       delete this._insertIndex;
@@ -1548,10 +1563,10 @@ qx.Proto._handleDisplayable = function(vHint)
   return true;
 }
 
-qx.Proto.addToCustomQueues = qx.util.Return.returnTrue;
-qx.Proto.removeFromCustomQueues = qx.util.Return.returnTrue;
+qx.Proto.addToCustomQueues = qx.lang.Function.returnTrue;
+qx.Proto.removeFromCustomQueues = qx.lang.Function.returnTrue;
 
-qx.Proto._handleDisplayableCustom = qx.util.Return.returnTrue;
+qx.Proto._handleDisplayableCustom = qx.lang.Function.returnTrue;
 
 qx.Proto._computeDisplayable = function() {
   return this.getDisplay() && this._hasParent && this.getParent()._isDisplayable ? true : false;
@@ -1599,9 +1614,9 @@ qx.Proto._isSeeable = false;
 /**
  * If the widget is currently seeable which means that it:
  *
- *   * has a also seeable parent
- *   * visibility is true
- *   * display is true
+ * * has a also seeable parent
+ * * visibility is true
+ * * display is true
  */
 qx.Proto.isSeeable = function() {
   return this._isSeeable;
@@ -1714,9 +1729,9 @@ qx.Proto.disconnect = function() {
 ---------------------------------------------------------------------------
 */
 
-if (qx.sys.Client.getInstance().isGecko())
+if (qx.core.Client.getInstance().isGecko())
 {
-  qx.Proto._createElementForEnhancedBorder = qx.util.Return.returnTrue;
+  qx.Proto._createElementForEnhancedBorder = qx.lang.Function.returnTrue;
 }
 else
 {
@@ -1752,6 +1767,15 @@ else
         }
       }
 
+      for (var i in this._htmlProperties)
+      {
+        switch(i)
+        {
+          case "unselectable":
+            cl.unselectable = this._htmlProperties[i];
+        }
+      }
+
       // Move existing children
       while(el.firstChild) {
         cl.appendChild(el.firstChild);
@@ -1776,7 +1800,7 @@ else
 
 qx.Proto._isCreated = false;
 
-if (qx.sys.Client.getInstance().isGecko())
+if (qx.core.Client.getInstance().isGecko())
 {
   qx.Proto._getTargetNode = function() {
     return this._element;
@@ -1793,9 +1817,11 @@ qx.Proto.addToDocument = function() {
   qx.ui.core.ClientDocument.getInstance().add(this);
 }
 
-/*!
-  Check if the widget is created (or the element is already available).
-*/
+/**
+ * Check if the widget is created (or the element is already available).
+ *
+ * @return {Boolean} whether the widget is already created.
+ */
 qx.Proto.isCreated = function() {
   return this._isCreated;
 }
@@ -1809,7 +1835,7 @@ qx.Proto._createElementImpl = function() {
 
 qx.Proto._modifyElement = function(propValue, propOldValue, propData)
 {
-  this._isCreated = qx.util.Validation.isValidElement(propValue);
+  this._isCreated = propValue != null;
 
   if (propOldValue)
   {
@@ -2120,8 +2146,8 @@ qx.Proto._flushJobQueue = function(q)
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._isWidthEssential = qx.util.Return.returnTrue;
-qx.Proto._isHeightEssential = qx.util.Return.returnTrue;
+qx.Proto._isWidthEssential = qx.lang.Function.returnTrue;
+qx.Proto._isHeightEssential = qx.lang.Function.returnTrue;
 
 
 
@@ -2141,7 +2167,7 @@ qx.ui.core.Widget.initApplyMethods = function()
   var r = "_resetRuntime";
   var s = "this._style.";
   var e = "=''";
-  var v = "=v+'px'";
+  var v = "=((v==null)?0:v)+'px'";
   var vpar = "v";
 
   var props = ["left", "right", "top", "bottom", "width", "height",
@@ -2158,7 +2184,7 @@ qx.ui.core.Widget.initApplyMethods = function()
   var pad = "padding";
   var upad = "Padding";
 
-  if (qx.sys.Client.getInstance().isGecko())
+  if (qx.core.Client.getInstance().isGecko())
   {
     for (var i=0, fn=f+upad, rn=r+upad, sp=s+pad; i<4; i++)
     {
@@ -2170,7 +2196,7 @@ qx.ui.core.Widget.initApplyMethods = function()
   {
     // need to use setStyleProperty to keep compatibility with enhanced cross browser borders
     var s1="this.setStyleProperty('padding";
-    var s2="', v+'px')";
+    var s2="', ((v==null)?0:v)+'px')";
     var s3="this.removeStyleProperty('padding";
     var s4="')";
 
@@ -2194,7 +2220,7 @@ qx.ui.core.Widget.initApplyMethods = function()
     Now I've switched back to the conventional method
     to reset the value. This seems to work again.
   */
-  if (qx.sys.Client.getInstance().isMshtml())
+  if (qx.core.Client.getInstance().isMshtml())
   {
     for (var i=0, tpos="pos", vset="=v"; i<6; i++)
     {
@@ -2444,7 +2470,7 @@ qx.Proto._recomputePercentY = function()
 ---------------------------------------------------------------------------
 */
 
-if (qx.sys.Client.getInstance().isMshtml() || qx.sys.Client.getInstance().isOpera())
+if (qx.core.Client.getInstance().isMshtml() || qx.core.Client.getInstance().isOpera())
 {
   qx.Proto._recomputeRangeX = function()
   {
@@ -2488,7 +2514,7 @@ else
 ---------------------------------------------------------------------------
 */
 
-if (qx.sys.Client.getInstance().isMshtml() || qx.sys.Client.getInstance().isOpera())
+if (qx.core.Client.getInstance().isMshtml() || qx.core.Client.getInstance().isOpera())
 {
   qx.Proto._recomputeStretchingX = function()
   {
@@ -2990,8 +3016,8 @@ qx.Proto._applyBorderY = function(vChild, vChanges, vStyle)
   vBorder ? vBorder._applyWidgetY(vChild) : qx.renderer.border.Border._resetBorderY(vChild);
 }
 
-qx.Proto._applyPaddingX = qx.util.Return.returnTrue;
-qx.Proto._applyPaddingY = qx.util.Return.returnTrue;
+qx.Proto._applyPaddingX = qx.lang.Function.returnTrue;
+qx.Proto._applyPaddingY = qx.lang.Function.returnTrue;
 
 
 
@@ -3458,7 +3484,7 @@ qx.Proto._unitDetectionPixelPercent = function(propData, propValue)
 ---------------------------------------------------------------------------
 */
 
-if (qx.sys.Client.getInstance().isMshtml())
+if (qx.core.Client.getInstance().isMshtml())
 {
   qx.ui.core.Widget.inlineEventMap =
   {
@@ -3810,8 +3836,8 @@ qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
 /**
  * Returns whether a state is set.
  *
- * @param vState {string} the state to check.
- * @return {boolean} whether the state is set.
+ * @param vState {String} the state to check.
+ * @return {Boolean} whether the state is set.
  */
 qx.Proto.hasState = function(vState) {
   return this._states[vState] ? true : false;
@@ -3820,7 +3846,7 @@ qx.Proto.hasState = function(vState) {
 /**
  * Sets a state.
  *
- * @param state {string} the state to set.
+ * @param state {String} the state to set.
  */
 qx.Proto.addState = function(vState)
 {
@@ -3836,7 +3862,7 @@ qx.Proto.addState = function(vState)
 /**
  * Clears a state.
  *
- * @param vState {string} the state to clear.
+ * @param vState {String} the state to clear.
  */
 qx.Proto.removeState = function(vState)
 {
@@ -3852,8 +3878,8 @@ qx.Proto.removeState = function(vState)
 /**
  * Sets or clears a state.
  *
- * @param state {string} the state to set or clear.
- * @param enabled {boolean} whether the state should be set.
+ * @param state {String} the state to set or clear.
+ * @param enabled {Boolean} whether the state should be set.
  *        If false it will be cleared.
  */
 qx.Proto.setState = function(state, enabled) {
@@ -3943,14 +3969,14 @@ qx.Proto._resetAppearanceThemeWrapper = function(vNewAppearanceTheme, vOldAppear
   }
 }
 
-if (qx.sys.Client.getInstance().isMshtml())
+if (qx.core.Client.getInstance().isMshtml())
 {
   /*
     Mshtml does not support outlines by css
   */
   qx.Proto._applyStateStyleFocus = function(vStates) {}
 }
-else if (qx.sys.Client.getInstance().isGecko())
+else if (qx.core.Client.getInstance().isGecko())
 {
   qx.Proto._applyStateStyleFocus = function(vStates)
   {
@@ -4090,7 +4116,7 @@ qx.Proto.setHtmlProperty = function(propName, propValue)
   return true;
 }
 
-if (qx.sys.Client.getInstance().isMshtml())
+if (qx.core.Client.getInstance().isMshtml())
 {
   qx.Proto.removeHtmlProperty = function(propName)
   {
@@ -4320,7 +4346,8 @@ qx.Proto._applyStyleProperties = function(vElement)
         vElement = vTargetElement;
     }
 
-    vElement.style[propName] = vProperties[propName];
+    var value = vProperties[propName];
+    vElement.style[propName] = (value == null) ? "" : value;
   }
 }
 
@@ -4364,7 +4391,7 @@ qx.Proto.getActiveChild = function()
   return null;
 }
 
-qx.Proto._ontabfocus = qx.util.Return.returnTrue;
+qx.Proto._ontabfocus = qx.lang.Function.returnTrue;
 
 qx.Proto._modifyFocused = function(propValue, propOldValue, propData)
 {
@@ -4490,7 +4517,7 @@ qx.Proto._modifyZIndex = function(propValue, propOldValue, propData) {
 ---------------------------------------------------------------------------
 */
 
-if (qx.sys.Client.getInstance().isMshtml())
+if (qx.core.Client.getInstance().isMshtml())
 {
   qx.Proto._modifyTabIndex = function(propValue, propOldValue, propData)
   {
@@ -4507,7 +4534,7 @@ if (qx.sys.Client.getInstance().isMshtml())
     return true;
   }
 }
-else if (qx.sys.Client.getInstance().isGecko())
+else if (qx.core.Client.getInstance().isGecko())
 {
   qx.Proto._modifyTabIndex = function(propValue, propOldValue, propData)
   {
@@ -4603,7 +4630,7 @@ qx.Proto.getWidgetFromPointHelper = function(x, y) {
 ---------------------------------------------------------------------------
 */
 
-if(qx.sys.Client.getInstance().isMshtml())
+if(qx.core.Client.getInstance().isMshtml())
 {
   qx.Proto._modifySelectable = function(propValue, propOldValue, propData)
   {
@@ -4617,7 +4644,7 @@ if(qx.sys.Client.getInstance().isMshtml())
     }
   }
 }
-else if(qx.sys.Client.getInstance().isGecko())
+else if(qx.core.Client.getInstance().isGecko())
 {
   qx.Proto._modifySelectable = function(propValue, propOldValue, propData)
   {
@@ -4633,14 +4660,14 @@ else if(qx.sys.Client.getInstance().isGecko())
     return true;
   };
 }
-else if (qx.sys.Client.getInstance().isOpera())
+else if (qx.core.Client.getInstance().isOpera())
 {
   // No known method available for this client
   qx.Proto._modifySelectable = function(propValue, propOldValue, propData) {
     return true;
   }
 }
-else if (qx.sys.Client.getInstance().isKhtml() || qx.sys.Client.getInstance().isWebkit())
+else if (qx.core.Client.getInstance().isKhtml() || qx.core.Client.getInstance().isWebkit())
 {
   qx.Proto._modifySelectable = function(propValue, propOldValue, propData)
   {
@@ -4688,7 +4715,7 @@ Sets the opacity for the widget. Any child widget inside the widget will also
 become (semi-)transparent. The value should be a number between 0 and 1
 inclusive, where 1 means totally opaque and 0 invisible.
 */
-if(qx.sys.Client.getInstance().isMshtml())
+if(qx.core.Client.getInstance().isMshtml())
 {
   qx.Proto._modifyOpacity = function(propValue, propOldValue, propData)
   {
@@ -4696,16 +4723,12 @@ if(qx.sys.Client.getInstance().isMshtml())
     {
       this.removeStyleProperty("filter");
     }
-    else if (qx.util.Validation.isValidNumber(propValue))
+    else
     {
       this.setStyleProperty("filter",
                             ("Alpha(Opacity=" +
                              Math.round(propValue * 100) +
                              ")"));
-    }
-    else
-    {
-      throw new Error("Unsupported opacity value: " + propValue);
     }
 
     return true;
@@ -4717,29 +4740,29 @@ else
   {
     if(propValue == null || propValue > 1)
     {
-      if (qx.sys.Client.getInstance().isGecko())
+      if (qx.core.Client.getInstance().isGecko())
       {
         this.removeStyleProperty("MozOpacity");
       }
-      else if (qx.sys.Client.getInstance().isKhtml())
+      else if (qx.core.Client.getInstance().isKhtml())
       {
         this.removeStyleProperty("KhtmlOpacity");
       }
 
       this.removeStyleProperty("opacity");
     }
-    else if (qx.util.Validation.isValidNumber(propValue))
+    else
     {
       propValue = qx.lang.Number.limit(propValue, 0, 1);
 
       // should we omit gecko's flickering here
       // and limit the max value to 0.99?
 
-      if (qx.sys.Client.getInstance().isGecko())
+      if (qx.core.Client.getInstance().isGecko())
       {
         this.setStyleProperty("MozOpacity", propValue);
       }
-      else if (qx.sys.Client.getInstance().isKhtml())
+      else if (qx.core.Client.getInstance().isKhtml())
       {
         this.setStyleProperty("KhtmlOpacity", propValue);
       }
@@ -4767,7 +4790,7 @@ qx.Proto._modifyCursor = function(propValue, propOldValue, propData)
   if (propValue)
   {
     if (propValue == "pointer" &&
-        qx.sys.Client.getInstance().isMshtml()) {
+        qx.core.Client.getInstance().isMshtml()) {
     this.setStyleProperty("cursor",
                           "hand");
     } else {
@@ -4897,7 +4920,7 @@ qx.ui.core.Widget.initOverflow = function()
 
   document.body.appendChild(t);
 
-  var c = qx.dom.Dimension.getScrollBarSizeRight(t);
+  var c = qx.html.Dimension.getScrollBarSizeRight(t);
   if (c) {
     qx.ui.core.Widget.SCROLLBAR_SIZE = c;
   }
@@ -4907,7 +4930,7 @@ qx.ui.core.Widget.initOverflow = function()
   qx.ui.core.Widget.initOverflowDone = true;
 }
 
-if (qx.sys.Client.getInstance().isGecko())
+if (qx.core.Client.getInstance().isGecko())
 {
   qx.Proto._modifyOverflow = function(propValue, propOldValue, propData)
   {
@@ -4935,7 +4958,7 @@ if (qx.sys.Client.getInstance().isGecko())
 
 // Mshtml conforms here to CSS3 Spec. Eventually there will be multiple
 // browsers which support these new overflowX overflowY properties.
-else if (qx.sys.Client.getInstance().isMshtml())
+else if (qx.core.Client.getInstance().isMshtml())
 {
   qx.Proto._modifyOverflow = function(propValue, propOldValue, propData)
   {
@@ -5029,7 +5052,7 @@ qx.Proto.getOverflowY = function()
 ---------------------------------------------------------------------------
 */
 
-if (qx.sys.Client.getInstance().isMshtml())
+if (qx.core.Client.getInstance().isMshtml())
 {
   qx.Proto._modifyHideFocus = function(propValue, propOldValue, propData)
   {
@@ -5294,7 +5317,7 @@ qx.Proto.clone = function(cloneRecursive, customPropertyList)
   var propertyIngoreList = this._clonePropertyIgnoreList.split(",");
 
   // Build new filtered property list
-  var sourcePropertyList = qx.util.Validation.isValid(customPropertyList) ? customPropertyList : this._properties.split(",");
+  var sourcePropertyList = customPropertyList != null ? customPropertyList : this._properties.split(",");
   var sourcePropertyListLength = sourcePropertyList.length-1;
   do {
     propertyName = sourcePropertyList[sourcePropertyListLength];
@@ -5385,13 +5408,13 @@ qx.Proto.setScrollTop = function(nScrollTop)
 qx.Proto.getOffsetLeft = function()
 {
   this._visualPropertyCheck();
-  return qx.dom.Offset.getLeft(this.getElement());
+  return qx.html.Offset.getLeft(this.getElement());
 }
 
 qx.Proto.getOffsetTop = function()
 {
   this._visualPropertyCheck();
-  return qx.dom.Offset.getTop(this.getElement());
+  return qx.html.Offset.getTop(this.getElement());
 }
 
 qx.Proto.getScrollLeft = function()
@@ -5464,7 +5487,7 @@ qx.Proto.scrollIntoViewX = function(vAlignLeft)
     return false;
   }
 
-  return qx.dom.ScrollIntoView.scrollX(this.getElement(), vAlignLeft);
+  return qx.html.ScrollIntoView.scrollX(this.getElement(), vAlignLeft);
 }
 
 qx.Proto.scrollIntoViewY = function(vAlignTop)
@@ -5473,7 +5496,7 @@ qx.Proto.scrollIntoViewY = function(vAlignTop)
     return false;
   }
 
-  return qx.dom.ScrollIntoView.scrollY(this.getElement(), vAlignTop);
+  return qx.html.ScrollIntoView.scrollY(this.getElement(), vAlignTop);
 }
 
 

@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -18,6 +20,7 @@
 
 /* ************************************************************************
 
+#embed(qx.static/image/blank.gif)
 
 ************************************************************************ */
 
@@ -26,15 +29,15 @@ function(vHtml, vIcon, vIconWidth, vIconHeight)
 {
   qx.ui.embed.HtmlEmbed.call(this, vHtml);
 
-  if (typeof vIcon != "undefined")
+  if (vIcon != null)
   {
     this.setIcon(vIcon);
 
-    if (typeof vIconWidth != "undefined") {
+    if (vIconWidth != null) {
       this.setIconWidth(vIconWidth);
     }
 
-    if (typeof vIconHeight != "undefined") {
+    if (vIconHeight != null) {
       this.setIconHeight(vIconWidth);
     }
   }
@@ -81,7 +84,7 @@ qx.OO.addProperty({ name : "spacing", type : "number", defaultValue : 4, impl : 
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._mshtml = qx.sys.Client.getInstance().isMshtml();
+qx.Proto._mshtml = qx.core.Client.getInstance().isMshtml();
 
 qx.Proto._syncHtml = function()
 {
@@ -93,21 +96,21 @@ qx.Proto._syncHtml = function()
     vHtml.push(qx.manager.object.AliasManager.getInstance().resolvePath(this._mshtml ? "static/image/blank.gif" : this.getIcon()));
     vHtml.push("\" style=\"vertical-align:middle;");
 
-    if (qx.util.Validation.isValidNumber(this.getSpacing()))
+    if (this.getSpacing() != null)
     {
       vHtml.push("margin-right:");
       vHtml.push(this.getSpacing());
       vHtml.push("px;");
     }
 
-    if (qx.util.Validation.isValidNumber(this.getIconWidth()))
+    if (this.getIconWidth() != null)
     {
       vHtml.push("width:");
       vHtml.push(this.getIconWidth());
       vHtml.push("px;");
     }
 
-    if (qx.util.Validation.isValidNumber(this.getIconHeight()))
+    if (this.getIconHeight() != null)
     {
       vHtml.push("height:");
       vHtml.push(this.getIconHeight());

@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -96,9 +98,9 @@ qx.Proto._syncResizeLine = function()
 
   var vParent = this.getParent();
   var vLine = vParent.getResizeLine();
-  var vLeft = qx.dom.Location.getPageBoxLeft(this._resizeSeparator.getElement()) - qx.dom.Location.getPageInnerLeft(this.getElement());
-  var vTop = qx.dom.Dimension.getBoxHeight(vParent.getHeader().getElement());
-  var vHeight = qx.dom.Dimension.getBoxHeight(vParent.getElement()) - vTop;
+  var vLeft = qx.html.Location.getPageBoxLeft(this._resizeSeparator.getElement()) - qx.html.Location.getPageInnerLeft(this.getElement());
+  var vTop = qx.html.Dimension.getBoxHeight(vParent.getHeader().getElement());
+  var vHeight = qx.html.Dimension.getBoxHeight(vParent.getElement()) - vTop;
 
   vLine._applyRuntimeTop(vTop);
   vLine._applyRuntimeHeight(vHeight);
@@ -116,7 +118,7 @@ qx.Proto._syncResizeLine = function()
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._mshtml = qx.sys.Client.getInstance().isMshtml();
+qx.Proto._mshtml = qx.core.Client.getInstance().isMshtml();
 
 qx.Proto._onmousemove = function(e)
 {
@@ -156,8 +158,8 @@ qx.Proto._onmousemove = function(e)
   {
     var vTarget = e.getTarget();
     var vEventPos = e.getPageX();
-    var vTargetPosLeft = qx.dom.Location.getPageBoxLeft(vTarget.getElement());
-    var vTargetPosRight = vTargetPosLeft + qx.dom.Dimension.getBoxWidth(vTarget.getElement());
+    var vTargetPosLeft = qx.html.Location.getPageBoxLeft(vTarget.getElement());
+    var vTargetPosRight = vTargetPosLeft + qx.html.Dimension.getBoxWidth(vTarget.getElement());
 
     var vResizeCursor = false;
     var vResizeSeparator = null;

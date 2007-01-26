@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -23,12 +25,18 @@
 
 ************************************************************************ */
 
-/*!
-  A multi-prupose widget used by many more complex widgets.
-
-  The intended purpose of qx.ui.basic.Atom is to easily align the common icon-text combination in different ways.
-  This is useful for all types of buttons, menuentires, tooltips, ...
-*/
+/**
+ * A multi-purpose widget used by many more complex widgets.
+ *
+ * The intended purpose of qx.ui.basic.Atom is to easily align the common icon-text combination in different ways.
+ * This is useful for all types of buttons, menuentries, tooltips, ...
+ *
+ * @param vLabel {String} label of the atom
+ * @param vIcon {String?null} Icon of the atom
+ * @param vIconWidth {Integer?null} desired width of the icon (the icon will be scaled to this size)
+ * @param vIconHeight {Integer?null} desired height of the icon (the icon will be scaled to this size)
+ * @param vFlash {qx.ui.embed.Flash?null} optional flash animation for the Atom. Needs valid width and height values.
+ */
 qx.OO.defineClass("qx.ui.basic.Atom", qx.ui.layout.BoxLayout,
 function(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)
 {
@@ -45,14 +53,10 @@ function(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)
   this.getLayoutImpl().setEnableFlexSupport(false);
 
   // Apply constructor arguments
-  if (qx.util.Validation.isValidString(vLabel)) {
-    this.setLabel(vLabel);
-  } else {
-    this.setLabel("");
-  }
+  this.setLabel(vLabel);
 
   // Simple flash wrapper
-  if (qx.OO.isAvailable("qx.ui.embed.Flash") && qx.util.Validation.isValidString(vFlash) && qx.util.Validation.isValidNumber(vIconWidth) && qx.util.Validation.isValidNumber(vIconHeight) && qx.ui.embed.Flash.getPlayerVersion().getMajor() > 0)
+  if (qx.OO.isAvailable("qx.ui.embed.Flash") && vFlash != null && vIconWidth != null && vIconHeight != null && qx.ui.embed.Flash.getPlayerVersion().getMajor() > 0)
   {
     this._flashMode = true;
 
@@ -62,15 +66,15 @@ function(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)
     this.setIconWidth(vIconWidth);
     this.setIconHeight(vIconHeight);
   }
-  else if (qx.util.Validation.isValidString(vIcon))
+  else if (vIcon != null)
   {
     this.setIcon(vIcon);
 
-    if (qx.util.Validation.isValidNumber(vIconWidth)) {
+    if (vIconWidth != null) {
       this.setIconWidth(vIconWidth);
     }
 
-    if (qx.util.Validation.isValidNumber(vIconHeight)) {
+    if (vIconHeight != null) {
       this.setIconHeight(vIconHeight);
     }
   }
@@ -90,7 +94,7 @@ qx.ui.basic.Atom.SHOW_BOTH = "both";
 /*!
   The label/caption/text of the qx.ui.basic.Atom instance
 */
-qx.OO.addProperty({ name : "label", type : "string" });
+qx.OO.addProperty({ name : "label" });
 
 /*!
   Any URI String supported by qx.ui.basic.Image to display a icon
@@ -309,7 +313,7 @@ qx.Proto._handleLabel = function()
   {
     case qx.ui.basic.Atom.SHOW_LABEL:
     case qx.ui.basic.Atom.SHOW_BOTH:
-      this._labelIsVisible = qx.util.Validation.isValidString(this.getLabel());
+      this._labelIsVisible = qx.util.Validation.isValidString(this.getLabel()) || this.getLabel() instanceof qx.locale.LocalizedString;
       break;
 
     default:
@@ -361,7 +365,7 @@ qx.Proto._handleIcon = function()
 */
 
 // Omit recursive cloning
-qx.Proto._cloneRecursive = qx.util.Return.returnTrue;
+qx.Proto._cloneRecursive = qx.lang.Function.returnTrue;
 
 
 

@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -22,7 +24,7 @@
 #module(core)
 #after(qx.Settings)
 #load(qx.lang.Core)
-#load(qx.util.Return)
+#load(qx.lang.Function)
 #optional(qx.event.type.DataEvent)
 
 ************************************************************************ */
@@ -53,7 +55,7 @@ qx.Class.propertyNumber = 0;
  * define a new qooxdoo class
  * All classes should be defined in this way.
  *
- * @param vClassName {string} fully qualified class name (e.g. "qx.ui.form.Button")
+ * @param vClassName {String} fully qualified class name (e.g. "qx.ui.form.Button")
  * @param vSuper {Object} super class
  * @param vConstructor {Function} the constructor of the new class
  */
@@ -234,11 +236,11 @@ qx.Class.addPropertyGroup = function(p)
     throw new Error("Param should be an object!");
   }
 
-  if (qx.util.Validation.isInvalid(p.name)) {
+  if (typeof p.name != "string") {
     throw new Error("Malformed input parameters: name needed!");
   }
 
-  if (qx.util.Validation.isInvalid(p.members)) {
+  if (typeof p.members != "object") {
     throw new Error("Malformed input parameters: members needed!");
   }
 
@@ -290,7 +292,7 @@ qx.Class.addPropertyGroup = function(p)
 
         try
         {
-          var ret = qx.lang.Array.fromShortHand(arguments);
+          var ret = qx.lang.Array.fromShortHand(qx.lang.Array.fromArguments(arguments));
         }
         catch(ex)
         {
@@ -333,7 +335,7 @@ qx.Class.removeProperty = function(p)
     throw new Error("Param should be an object!");
   }
 
-  if (qx.util.Validation.isInvalid(p.name)) {
+  if (typeof p.name !== "string") {
     throw new Error("Malformed input parameters: name needed!");
   }
 
@@ -346,7 +348,7 @@ qx.Class.removeProperty = function(p)
   var valueKey = "_value" + p.method;
 
   // Remove property from list
-  pp._properties = qx.lang.String.remove(pp._properties, p.name);
+  pp._properties = qx.lang.String.removeListItem(pp._properties, p.name);
 
   // Reset default value to null
   pp[valueKey] = null;
@@ -367,7 +369,7 @@ qx.Class._createProperty = function(p)
     throw new Error("AddProperty: Param should be an object!");
   }
 
-  if (qx.util.Validation.isInvalid(p.name)) {
+  if (typeof p.name !== "string") {
     throw new Error("AddProperty: Malformed input parameters: name needed!");
   }
 
@@ -381,13 +383,8 @@ qx.Class._createProperty = function(p)
     p.defaultValue = null;
   }
 
-  if (qx.util.Validation.isInvalidBoolean(p.allowNull)) {
-    p.allowNull = true;
-  }
-
-  if (qx.util.Validation.isInvalidBoolean(p.allowMultipleArguments)) {
-    p.allowMultipleArguments = false;
-  }
+  p.allowNull = p.allowNull !== false;
+  p.allowMultipleArguments = p.allowMultipleArguments === true;
 
 
 
@@ -429,9 +426,9 @@ qx.Class._createProperty = function(p)
 
 
 
-  p.hasConvert = qx.util.Validation.isValidFunction(p.convert);
-  p.hasPossibleValues = qx.util.Validation.isValidArray(p.possibleValues);
-  p.hasUnitDetection = qx.util.Validation.isValidString(p.unitDetection);
+  p.hasConvert = p.convert != null;
+  p.hasPossibleValues = p.possibleValues != null;
+  p.hasUnitDetection = p.unitDetection != null;
 
   p.addToQueue = p.addToQueue || false;
   p.addToQueueRuntime = p.addToQueueRuntime || false;
@@ -745,5 +742,5 @@ qx.Class.inheritField = function(vField, vData)
 }
 
 qx.Class.isAvailable = function(vClassName) {
-  return typeof qx.OO.classes[vClassName] !== "undefined";
+  return qx.OO.classes[vClassName] != null;
 }

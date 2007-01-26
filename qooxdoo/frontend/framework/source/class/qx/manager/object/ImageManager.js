@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -20,6 +22,8 @@
 
 #module(ui_core)
 #optional(qx.ui.form.Button)
+#embed(qx.icontheme/16/apps/preferences-desktop-theme.png)
+#require(qx.manager.object.ImagePreloaderManager)
 
 ************************************************************************ */
 
@@ -53,7 +57,13 @@ function()
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefault("iconTheme", "qx.theme.icon.CrystalSvg");
+/*
+  Make sure to select an icon theme that is compatible to the license you
+  chose to receive the qooxdoo code under. For more information, please
+  see the LICENSE file in the project's top-level directory.
+ */
+qx.Settings.setDefault("iconTheme", "qx.theme.icon.Nuvola");
+
 qx.Settings.setDefault("widgetTheme", "qx.theme.widget.Windows");
 
 
@@ -208,7 +218,7 @@ qx.Proto._updateImages = function()
   for (var vHashCode in vAll)
   {
     vObject = vAll[vHashCode];
-    vObject.setPreloader(vPreMgr.create(vAliasMgr.resolvePath(vObject.getSource(), true)));
+    vObject.setPreloader(vPreMgr.create(vAliasMgr.resolvePath(vObject.getSource())));
   }
 
   return true;
@@ -231,7 +241,7 @@ qx.Proto.createThemeList = function(vParent, xCor, yCor)
 {
   var vButton;
   var vThemes = this._iconThemes;
-  var vIcon = "icon/16/icons.png";
+  var vIcon = "icon/16/apps/preferences-desktop-theme.png";
   var vPrefix = "Icon Theme: ";
   var vEvent = "execute";
 
@@ -302,4 +312,4 @@ qx.Proto.dispose = function()
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = qx.util.Return.returnInstance;
+qx.Class.getInstance = qx.lang.Function.returnInstance;

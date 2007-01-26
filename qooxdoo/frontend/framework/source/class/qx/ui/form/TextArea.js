@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -22,6 +24,9 @@
 
 ************************************************************************ */
 
+/**
+ * @param vValue {String} this string is ddisplayed as the value of the TextArea.
+ */
 qx.OO.defineClass("qx.ui.form.TextArea", qx.ui.form.TextField,
 function(vValue)
 {
@@ -35,7 +40,7 @@ qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "tex
 
 qx.OO.addProperty({ name : "wrap", type : "boolean" });
 
-if (qx.sys.Client.getInstance().isMshtml())
+if (qx.core.Client.getInstance().isMshtml())
 {
   qx.Proto._modifyWrap = function(propValue, propOldValue, propData) {
     return this.setStyleProperty("whiteSpace", propValue ? "normal" : "nowrap");

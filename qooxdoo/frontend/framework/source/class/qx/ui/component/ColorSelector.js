@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -18,6 +20,10 @@
 
 /* ************************************************************************
 
+#embed(qx.widgettheme/colorselector/*)
+#embed(qx.icontheme/16/actions/dialog-cancel.png)
+#embed(qx.icontheme/16/actions/dialog-ok.png)
+#embed(qx.static/image/dotted_white.gif)
 
 ************************************************************************ */
 
@@ -134,8 +140,8 @@ qx.Proto._createButtonBar = function()
   this._btnbar.setPadding(2, 4);
   this.add(this._btnbar);
 
-  this._btncancel = new qx.ui.form.Button(this.getSetting("labelCancel"), "icon/16/button-cancel.png");
-  this._btnok = new qx.ui.form.Button(this.getSetting("labelOK"), "icon/16/button-ok.png");
+  this._btncancel = new qx.ui.form.Button(this.tr("Cancel"), "icon/16/actions/dialog-cancel.png");
+  this._btnok = new qx.ui.form.Button(this.tr("OK"), "icon/16/actions/dialog-ok.png");
 
   this._btncancel.addEventListener("execute", this._onButtonCancelExecute, this);
   this._btnok.addEventListener("execute", this._onButtonOkExecute, this);
@@ -227,7 +233,7 @@ qx.Proto._createBrightnessPane = function()
 
 qx.Proto._createPresetFieldSet = function()
 {
-  this._presetFieldSet = new qx.ui.groupbox.GroupBox("Presets");
+  this._presetFieldSet = new qx.ui.groupbox.GroupBox(this.tr("Presets"));
   this._presetFieldSet.setHeight("auto");
   this._presetFieldSet.setParent(this._controlPane);
 
@@ -271,7 +277,7 @@ qx.Proto._createPresetFieldSet = function()
 
 qx.Proto._createInputFieldSet = function()
 {
-  this._inputFieldSet = new qx.ui.groupbox.GroupBox(this.getSetting("labelDetails"));
+  this._inputFieldSet = new qx.ui.groupbox.GroupBox(this.tr("Details"));
   this._inputFieldSet.setHeight("auto");
   this._inputFieldSet.setParent(this._controlPane);
 
@@ -283,7 +289,7 @@ qx.Proto._createInputFieldSet = function()
 
 qx.Proto._createPreviewFieldSet = function()
 {
-  this._previewFieldSet = new qx.ui.groupbox.GroupBox(this.getSetting("labelPreview"));
+  this._previewFieldSet = new qx.ui.groupbox.GroupBox(this.tr("Preview (Old/New)"));
   this._previewFieldSet.setHeight("1*");
   this._previewFieldSet.setParent(this._controlPane);
 
@@ -316,7 +322,7 @@ qx.Proto._createHexField = function()
   this._hexLayout.setVerticalChildrenAlign("middle");
   this._hexLayout.setParent(this._inputLayout);
 
-  this._hexLabel = new qx.ui.basic.Label(this.getSetting("labelHex"));
+  this._hexLabel = new qx.ui.basic.Label(this.tr("Hex"));
   this._hexLabel.setWidth(25);
   this._hexLabel.setParent(this._hexLayout);
 
@@ -339,7 +345,7 @@ qx.Proto._createRgbSpinner = function()
   this._rgbSpinLayout.setVerticalChildrenAlign("middle");
   this._rgbSpinLayout.setParent(this._inputLayout);
 
-  this._rgbSpinLabel = new qx.ui.basic.Label(this.getSetting("labelRGB"));
+  this._rgbSpinLabel = new qx.ui.basic.Label(this.tr("RGB"));
   this._rgbSpinLabel.setWidth(25);
   this._rgbSpinLabel.setParent(this._rgbSpinLayout);
 
@@ -367,7 +373,7 @@ qx.Proto._createHsbSpinner = function()
   this._hsbSpinLayout.setVerticalChildrenAlign("middle");
   this._hsbSpinLayout.setParent(this._inputLayout);
 
-  this._hsbSpinLabel = new qx.ui.basic.Label(this.getSetting("labelHSB"));
+  this._hsbSpinLabel = new qx.ui.basic.Label(this.tr("HSB"));
   this._hsbSpinLabel.setWidth(25);
   this._hsbSpinLayout.add(this._hsbSpinLabel);
 
@@ -664,7 +670,7 @@ qx.Proto._onBrightnessHandleMouseDown = function(e)
   this._brightnessHandle.setCapture(true);
 
   // Calculate subtract: Position of Brightness Field - Current Mouse Offset
-  this._brightnessSubtract = qx.dom.Location.getPageOuterTop(this._brightnessField.getElement()) + (e.getPageY() - qx.dom.Location.getPageBoxTop(this._brightnessHandle.getElement()));
+  this._brightnessSubtract = qx.html.Location.getPageOuterTop(this._brightnessField.getElement()) + (e.getPageY() - qx.html.Location.getPageBoxTop(this._brightnessHandle.getElement()));
 
   // Block field event handling
   e.setPropagationStopped(true);
@@ -687,7 +693,7 @@ qx.Proto._onBrightnessHandleMouseMove = function(e)
 qx.Proto._onBrightnessFieldMouseDown = function(e)
 {
   // Calculate substract: Half height of handler
-  this._brightnessSubtract = qx.dom.Location.getPageOuterTop(this._brightnessField.getElement()) + Math.round(qx.dom.Dimension.getBoxHeight(this._brightnessHandle.getElement()) / 2);
+  this._brightnessSubtract = qx.html.Location.getPageOuterTop(this._brightnessField.getElement()) + Math.round(qx.html.Dimension.getBoxHeight(this._brightnessHandle.getElement()) / 2);
 
   // Update
   this._setBrightnessOnFieldEvent(e);
@@ -745,8 +751,8 @@ qx.Proto._onHueSaturationHandleMouseDown = function(e)
   this._hueSaturationHandle.setCapture(true);
 
   // Calculate subtract: Position of HueSaturation Field - Current Mouse Offset
-  this._hueSaturationSubtractTop = qx.dom.Location.getPageOuterTop(this._hueSaturationField.getElement()) + (e.getPageY() - qx.dom.Location.getPageBoxTop(this._hueSaturationHandle.getElement()));
-  this._hueSaturationSubtractLeft = qx.dom.Location.getPageOuterLeft(this._hueSaturationField.getElement()) + (e.getPageX() - qx.dom.Location.getPageBoxLeft(this._hueSaturationHandle.getElement()));
+  this._hueSaturationSubtractTop = qx.html.Location.getPageOuterTop(this._hueSaturationField.getElement()) + (e.getPageY() - qx.html.Location.getPageBoxTop(this._hueSaturationHandle.getElement()));
+  this._hueSaturationSubtractLeft = qx.html.Location.getPageOuterLeft(this._hueSaturationField.getElement()) + (e.getPageX() - qx.html.Location.getPageBoxLeft(this._hueSaturationHandle.getElement()));
 
   // Block field event handling
   e.setPropagationStopped(true);
@@ -769,8 +775,8 @@ qx.Proto._onHueSaturationHandleMouseMove = function(e)
 qx.Proto._onHueSaturationFieldMouseDown = function(e)
 {
   // Calculate substract: Half width/height of handler
-  this._hueSaturationSubtractTop = qx.dom.Location.getPageOuterTop(this._hueSaturationField.getElement()) + Math.round(qx.dom.Dimension.getBoxHeight(this._hueSaturationHandle.getElement()) / 2);
-  this._hueSaturationSubtractLeft = qx.dom.Location.getPageOuterLeft(this._hueSaturationField.getElement()) + Math.round(qx.dom.Dimension.getBoxWidth(this._hueSaturationHandle.getElement()) / 2);
+  this._hueSaturationSubtractTop = qx.html.Location.getPageOuterTop(this._hueSaturationField.getElement()) + Math.round(qx.html.Dimension.getBoxHeight(this._hueSaturationHandle.getElement()) / 2);
+  this._hueSaturationSubtractLeft = qx.html.Location.getPageOuterLeft(this._hueSaturationField.getElement()) + Math.round(qx.html.Dimension.getBoxWidth(this._hueSaturationHandle.getElement()) / 2);
 
   // Update
   this._setHueSaturationOnFieldEvent(e);

@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2006 by STZ-IDA, Germany, http://www.stz-ida.de
+     2006 STZ-IDA, Germany, http://www.stz-ida.de
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Til Schneider (til132)
@@ -18,6 +20,7 @@
 /* ************************************************************************
 
 #require(qx.util.format.DateFormat)
+#embed(qx.widgettheme/datechooser/*)
 
 ************************************************************************ */
 
@@ -46,10 +49,10 @@ function(date) {
   var nextMonthBt = new qx.ui.toolbar.Button(null, "widget/datechooser/nextMonth.png");
   var nextYearBt = new qx.ui.toolbar.Button(null, "widget/datechooser/nextYear.png");
 
-  lastYearBt.set({ show:'icon', toolTip:new qx.ui.popup.ToolTip("Last year"), spacing:0 });
-  lastMonthBt.set({ show:'icon', toolTip:new qx.ui.popup.ToolTip("Last month") });
-  nextMonthBt.set({ show:'icon', toolTip:new qx.ui.popup.ToolTip("Next month") });
-  nextYearBt.set({ show:'icon', toolTip:new qx.ui.popup.ToolTip("Next year") });
+  lastYearBt.set({ show:'icon', toolTip:new qx.ui.popup.ToolTip(this.tr("Last year")), spacing:0 });
+  lastMonthBt.set({ show:'icon', toolTip:new qx.ui.popup.ToolTip(this.tr("Last month")) });
+  nextMonthBt.set({ show:'icon', toolTip:new qx.ui.popup.ToolTip(this.tr("Next month")) });
+  nextYearBt.set({ show:'icon', toolTip:new qx.ui.popup.ToolTip(this.tr("Next year")) });
 
   lastYearBt.setAppearance("datechooser-toolbar-button");
   lastMonthBt.setAppearance("datechooser-toolbar-button");
@@ -146,6 +149,9 @@ function(date) {
   var shownDate = (date != null) ? date : new Date();
   this.showMonth(shownDate.getMonth(), shownDate.getFullYear());
 
+  // listen for locale changes
+  qx.locale.Manager.getInstance().addEventListener("changeLocale", this._updateDatePane, this);
+
   // Add the main widgets
   this.add(navBar);
   this.add(datePane);
@@ -155,8 +161,6 @@ function(date) {
 
 // ***** Properties *****
 
-/** The start of the week. 0 = sunday, 1 = monday, and so on. */
-qx.OO.addProperty({ name:"startOfWeek", type:"number", defaultValue:1 });
 /** The currently shown month. 0 = january, 1 = february, and so on. */
 qx.OO.addProperty({ name:"shownMonth", type:"number", defaultValue:null });
 /** The currently shown year. */
@@ -298,7 +302,7 @@ qx.Proto._onkeypress = function(evt) {
         }
         return;
     }
-  } else if (evt.getShiftKey()) {
+  } else if (evt.isShiftPressed()) {
     switch(evt.getKeyIdentifier()) {
       case "PageUp":
         yearIncrement = -1;
@@ -330,23 +334,11 @@ qx.Proto._onkeypress = function(evt) {
 
 
 /**
- * Returns whether a certain day of week belongs to the week end.
- *
- * @param dayOfWeek {int} the day to check. (0 = sunday, 1 = monday, ...,
- *    6 = saturday)
- * @return {boolean} whether the day belongs to the week end.
- */
-qx.Proto._isWeekend = function(dayOfWeek) {
-  return (dayOfWeek == 0) || (dayOfWeek == 6);
-}
-
-
-/**
  * Shows a certain month.
  *
- * @param month {int ? null} the month to show (0 = january). If not set the month
+ * @param month {Integer ? null} the month to show (0 = january). If not set the month
  *    will remain the same.
- * @param year {int ? null} the year to show. If not set the year will remain the
+ * @param year {Integer ? null} the year to show. If not set the year will remain the
  *    same.
  */
 qx.Proto.showMonth = function(month, year) {
@@ -384,12 +376,12 @@ qx.Proto._updateDatePane = function() {
   var shownMonth = this.getShownMonth();
   var shownYear  = this.getShownYear();
 
-  var startOfWeek = this.getStartOfWeek();
+  var startOfWeek = qx.locale.Date.getWeekStart();
 
   // Create a help date that points to the first of the current month
   var helpDate = new Date(this.getShownYear(), this.getShownMonth(), 1);
 
-  this._monthYearLabel.setHtml(DateChooser.MONTH_YEAR_FORMAT.format(helpDate));
+  this._monthYearLabel.setHtml((new qx.util.format.DateFormat(DateChooser.MONTH_YEAR_FORMAT)).format(helpDate));
 
   // Show the day names
   var firstDayOfWeek = helpDate.getDay();
@@ -402,7 +394,7 @@ qx.Proto._updateDatePane = function() {
     helpDate.setDate(firstSundayInMonth + day);
     dayLabel.setHtml(DateChooser.WEEKDAY_FORMAT.format(helpDate));
 
-    if (this._isWeekend(day)) {
+    if (qx.locale.Date.isWeekend(day)) {
       dayLabel.addState("weekend");
     } else {
       dayLabel.removeState("weekend");
@@ -454,10 +446,10 @@ qx.Proto._updateDatePane = function() {
 
 
 /**
- * {qx.util.format.DateFormat} The format for the date year
+ * {string} The format for the date year
  * label at the top center.
  */
-qx.Class.MONTH_YEAR_FORMAT = new qx.util.format.DateFormat("MMMM yyyy");
+qx.Class.MONTH_YEAR_FORMAT = qx.locale.Date.getDateTimeFormat("yyyyMMMM", "MMMM yyyy");
 
 /**
  * {qx.util.format.DateFormat} The format for the weekday

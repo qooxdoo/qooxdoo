@@ -5,11 +5,13 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
-     2006 by STZ-IDA, Germany, http://www.stz-ida.de
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2006 STZ-IDA, Germany, http://www.stz-ida.de
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
  * Sebastian Werner (wpbasti)
@@ -22,15 +24,23 @@
 
 #module(ui_core)
 #module(theme_appearance)
+#require(qx.manager.object.AppearanceManager)
 #optional(qx.renderer.color.Color)
 #optional(qx.renderer.color.ColorObject)
 #optional(qx.renderer.border.Border)
 #optional(qx.renderer.border.BorderObject)
 #optional(qx.renderer.font.Font)
 #optional(qx.renderer.font.FontObject)
+#embed(qx.static/image/dotted_white.gif)
+#embed(qx.static/image/blank.gif)
 
  ************************************************************************ */
 
+/**
+ * The default qooxdoo appearance theme.
+ *
+ * @param vTitle {String?"qooxdoo default appearance"} appearance title
+ */
 qx.OO.defineClass("qx.theme.appearance.Classic", qx.renderer.theme.AppearanceTheme,
 function(vTitle) {
   qx.renderer.theme.AppearanceTheme.call(this, vTitle || "qooxdoo default appearance");
@@ -293,7 +303,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
     initial : function(vTheme) {
       return {
         top : 2,
-        left: 2,
+        left: 3,
         width : 2,
         bottom : 2,
         border : this.border
@@ -2206,7 +2216,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = qx.util.Return.returnInstance;
+qx.Class.getInstance = qx.lang.Function.returnInstance;
 
 
 

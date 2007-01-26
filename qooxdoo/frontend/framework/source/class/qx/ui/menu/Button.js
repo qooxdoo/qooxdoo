@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -19,6 +21,7 @@
 /* ************************************************************************
 
 #module(ui_menu)
+#embed(qx.widgettheme/arrows/next.gif)
 
 ************************************************************************ */
 
@@ -52,19 +55,22 @@ function(vLabel, vIcon, vCommand, vMenu)
   //   INIT
   // ************************************************************************
 
-  if (qx.util.Validation.isValidString(vLabel)) {
+  if (vLabel != null) {
     this.setLabel(vLabel);
   }
 
-  if (qx.util.Validation.isValidString(vIcon)) {
+  if (vIcon != null) {
     this.setIcon(vIcon);
   }
 
-  if (qx.util.Validation.isValid(vCommand)) {
+  if (vCommand != null) {
     this.setCommand(vCommand);
+    qx.locale.Manager.getInstance().addEventListener("changeLocale", function(e) {
+      this._modifyCommand(vCommand, vCommand);
+    }, this)
   }
 
-  if (qx.util.Validation.isValid(vMenu)) {
+  if (vMenu != null) {
     this.setMenu(vMenu);
   }
 
@@ -87,7 +93,7 @@ function(vLabel, vIcon, vCommand, vMenu)
 qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "menu-button" });
 
 qx.OO.addProperty({ name : "icon", type : "string" });
-qx.OO.addProperty({ name : "label", type : "string" });
+qx.OO.addProperty({ name : "label" });
 qx.OO.addProperty({ name : "menu", type : "object" });
 
 
@@ -222,11 +228,11 @@ qx.Proto._modifyLabel = function(propValue, propOldValue, propData)
 {
   this._labelObject.setHtml(propValue);
 
-  if (qx.util.Validation.isValidString(propValue))
+  if ((typeof propValue == "string" && propValue != "") || propValue instanceof qx.locale.LocalizedString)
   {
     this._hasLabel = true;
 
-    if (qx.util.Validation.isInvalidString(propOldValue)) {
+    if (!((typeof propOldValue == "string" && propOldValue != "") || propOldValue instanceof qx.locale.LocalizedString)) {
       this.addAt(this._labelObject, this.getFirstChild() == this._iconObject ? 1 : 0);
     }
   }
@@ -241,7 +247,7 @@ qx.Proto._modifyLabel = function(propValue, propOldValue, propData)
 
 qx.Proto._modifyCommand = function(propValue, propOldValue, propData)
 {
-  var vHtml = propValue ? propValue.getShortcut() : "";
+  var vHtml = propValue ? propValue.toString() : "";
 
   this._shortcutObject.setHtml(vHtml);
 
@@ -274,7 +280,7 @@ qx.Proto._modifyCommand = function(propValue, propOldValue, propData)
 
 qx.Proto._modifyMenu = function(propValue, propOldValue, propData)
 {
-  if (qx.util.Validation.isValidObject(propValue))
+  if (propValue)
   {
     this._hasMenu = true;
 

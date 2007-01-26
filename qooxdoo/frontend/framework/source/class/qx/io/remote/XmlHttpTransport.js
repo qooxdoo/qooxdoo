@@ -5,11 +5,13 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
-     2006 by Derrell Lipman
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2006 Derrell Lipman
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -22,6 +24,7 @@
 
 #module(io_remote)
 #require(qx.io.remote.Exchange)
+#require(qx.util.Mime)
 
 ************************************************************************ */
 
@@ -68,11 +71,11 @@ qx.io.remote.XmlHttpTransport.handles =
   crossDomain : false,
   fileUpload: false,
   responseTypes : [
-                    "text/plain",
-                    "text/javascript",
-                    "text/json",
-                    "application/xml",
-                    "text/html"
+                    qx.util.Mime.TEXT,
+                    qx.util.Mime.JAVASCRIPT,
+                    qx.util.Mime.JSON,
+                    qx.util.Mime.XML,
+                    qx.util.Mime.HTML
                   ]
 }
 
@@ -81,99 +84,12 @@ qx.io.remote.XmlHttpTransport.requestObjectCount = 0;
 
 qx.io.remote.XmlHttpTransport.isSupported = function()
 {
-  if (window.XMLHttpRequest)
-  {
-    if (qx.Settings.getValueOfClass("qx.io.remote.Exchange",
-                                    "enableDebug")) {
-      qx.dev.log.Logger.getClassLogger(qx.io.remote.XmlHttpTransport).debug(
-          "Using XMLHttpRequest");
-    }
+  return qx.net.HttpRequest.create() != null ? true : false;
+};
 
-    qx.io.remote.XmlHttpTransport.createRequestObject =
-      qx.io.remote.XmlHttpTransport._createNativeRequestObject;
-    return true;
-  }
-
-  if (window.ActiveXObject)
-  {
-    /*
-     According to information on the Microsoft XML Team's WebLog
-     it is recommended to check for availability of MSXML versions 6.0 and 3.0.
-     Other versions are included for completeness, 5.0 is excluded as it is
-     "off-by-default" in IE7 (which could trigger a goldbar).
-
-     http://blogs.msdn.com/xmlteam/archive/2006/10/23/using-the-right-version-of-msxml-in-internet-explorer.aspx
-     http://msdn.microsoft.com/library/default.asp?url=/library/en-us/xmlsdk/html/aabe29a2-bad2-4cea-8387-314174252a74.asp
-
-     See similar code in qx.xml.Core, qx.lang.XmlEmu
-    */
-    var vServers =
-    [
-      "MSXML2.XMLHTTP.6.0",
-      "MSXML2.XMLHTTP.3.0",
-      "MSXML2.XMLHTTP.4.0",
-      "MSXML2.XMLHTTP",    // v3.0
-      "Microsoft.XMLHTTP"  // v2.x
-    ];
-
-    var vObject;
-    var vServer;
-
-    for (var i=0, l=vServers.length; i<l; i++)
-    {
-      vServer = vServers[i];
-
-      try
-      {
-        vObject = new ActiveXObject(vServer);
-        break;
-      }
-      catch(ex)
-      {
-        vObject = null;
-      }
-    }
-
-    if (vObject)
-    {
-      if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug")) {
-        qx.dev.log.Logger.getClassLogger(qx.io.remote.XmlHttpTransport).debug(
-            "Using ActiveXObject: " + vServer);
-      }
-
-      qx.io.remote.XmlHttpTransport._activeXServer = vServer;
-      qx.io.remote.XmlHttpTransport.createRequestObject = qx.io.remote.XmlHttpTransport._createActiveXRequestObject;
-
-      return true;
-    }
-  }
-
-  return false;
-}
-
-/*!
-  Return a new request object suitable for the client browser.
-
-  qx.io.remote.XmlHttpTransport's isSupported method scans which request object
-  to use. The createRequestObject method is then replaced with a
-  method that creates request suitable for the client browser. If the
-  client browser doesn't support XMLHTTP requests, the method isn't
-  replaced and the error "XMLHTTP is not supported!" is thrown.
-*/
 qx.io.remote.XmlHttpTransport.createRequestObject = function() {
-  throw new Error("XMLHTTP is not supported!");
+  return qx.net.HttpRequest.create();
 }
-
-qx.io.remote.XmlHttpTransport._createNativeRequestObject = function() {
-   return new XMLHttpRequest;
-}
-
-qx.io.remote.XmlHttpTransport._createActiveXRequestObject = function() {
-  return new ActiveXObject(qx.io.remote.XmlHttpTransport._activeXServer);
-}
-
-
-
 
 
 
@@ -223,7 +139,7 @@ qx.Proto.send = function()
   //   Local handling
   // --------------------------------------
 
-  var vLocalRequest = (qx.sys.Client.getInstance().getRunsLocally() &&
+  var vLocalRequest = (qx.core.Client.getInstance().getRunsLocally() &&
                        !(/^http(s){0,1}\:/.test(vUrl)));
   this._localRequest = vLocalRequest;
 
@@ -310,8 +226,11 @@ qx.Proto.send = function()
 
 
   // --------------------------------------
-  //   Appliying request header
+  //   Applying request header
   // --------------------------------------
+
+  // Add a Referer header
+  vRequest.setRequestHeader('Referer', window.location.href);
 
   var vRequestHeaders = this.getRequestHeaders();
   for (var vId in vRequestHeaders) {
@@ -664,7 +583,7 @@ qx.Proto.getResponseXml = function()
 qx.Proto.getFetchedLength = function()
 {
   var vText = this.getResponseText();
-  return qx.util.Validation.isValidString(vText) ? vText.length : 0;
+  return typeof vText == "string" ? vText.length : 0;
 }
 
 qx.Proto.getResponseContent = function()
@@ -688,11 +607,11 @@ qx.Proto.getResponseContent = function()
 
   switch(this.getResponseType())
   {
-    case "text/plain":
-    case "text/html":
+    case qx.util.Mime.TEXT:
+    case qx.util.Mime.HTML:
       return vText;
 
-    case "text/json":
+    case qx.util.Mime.JSON:
       try {
         return vText && vText.length > 0 ? qx.io.Json.parseQx(vText) : null;
       } catch(ex) {
@@ -700,14 +619,14 @@ qx.Proto.getResponseContent = function()
         return "<pre>Could not execute json: \n" + vText + "\n</pre>"
       }
 
-    case "text/javascript":
+    case qx.util.Mime.JAVASCRIPT:
       try {
         return vText && vText.length > 0 ? window.eval(vText) : null;
       } catch(ex) {
         return this.error("Could not execute javascript: [" + vText + "]", ex);
       }
 
-    case "application/xml":
+    case qx.util.Mime.XML:
       return this.getResponseXml();
 
     default:
@@ -798,7 +717,7 @@ qx.Proto.dispose = function()
   {
     // Should be right,
     // but is not compatible to mshtml (throws an exception)
-    if (!qx.sys.Client.getInstance().isMshtml()) {
+    if (!qx.core.Client.getInstance().isMshtml()) {
       vRequest.onreadystatechange = null;
     }
 

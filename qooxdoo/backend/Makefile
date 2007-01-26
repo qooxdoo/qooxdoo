@@ -1,37 +1,73 @@
-###################################################################################
-# VARIABLES
-###################################################################################
+################################################################################
+#
+#  qooxdoo - the new era of web development
+#
+#  http://qooxdoo.org
+#
+#  Copyright:
+#    2006-2007 1&1 Internet AG, Germany, http://www.1and1.org
+#
+#  License:
+#    LGPL: http://www.gnu.org/licenses/lgpl.html
+#    EPL: http://www.eclipse.org/org/documents/epl-v10.php
+#    See the LICENSE file in the project's top-level directory for details.
+#
+#  Authors:
+#    * Sebastian Werner (wpbasti)
+#    * Andreas Ecker (ecker)
+#    * Fabian Jakobs (fjakobs)
+#
+################################################################################
 
-VERSION = 0.6.3
+################################################################################
+# PUBLIC VARIABLES
+################################################################################
 
-NICE=10
-NICE_CALL = nice -n $(NICE)
-
-RELEASE_UNIX = release/temp/unix/qooxdoo-$(VERSION)-backend
-RELEASE_DOS = release/temp/dos/qooxdoo-$(VERSION)-backend
-
-FIX_FILES = -name "*.py" -o -name "*.sh" -o -name SERVER_WRITER_GUIDE -o -name *.java -o -name *.xml -o -name *.sample -o -name *.php -o -name *.phps -o -name AUTHORS -o -name LICENSE -o -name README -o -name RELEASENOTES -o -name TODO
-
-RSYNC = --recursive --archive --delete --exclude .svn
-RSYNC_EXEC = @$(NICE_CALL) rsync $(RSYNC)
-
-UNIX2DOS = | xargs unix2dos > /dev/null 2>&1
-DOS2UNIX = | xargs dos2unix > /dev/null 2>&1
-
-FILES = java php SERVER_WRITER_GUIDE
+QOOXDOO_PATH = ..
 
 
-###################################################################################
+
+
+################################################################################
+# INCLUDE CORE
+################################################################################
+
+include $(QOOXDOO_PATH)/frontend/framework/tool/make/framework.mk
+
+
+
+
+
+################################################################################
+# PRIVATE VARIABLES
+################################################################################
+
+RELEASE_UNIX = release/temp/unix/qooxdoo-$(FRAMEWORK_VERSION)-backend
+RELEASE_DOS = release/temp/dos/qooxdoo-$(FRAMEWORK_VERSION)-backend
+
+TEXT_FILES = -name "*.py" -o -name "*.sh" -o -name *.java -o -name *.xml -o -name *.sample -o -name *.php -o -name *.phps -o -name AUTHORS -o -name LICENSE -o -name README -o -name RELEASENOTES -o -name TODO -o -name SERVER_WRITER_GUIDE
+
+BACKEND_COPY = java php SERVER_WRITER_GUIDE
+
+
+
+
+
+################################################################################
 # DEFAULT TARGET
-###################################################################################
+################################################################################
 
 all: archive
 release: archive
 
 
-###################################################################################
+
+
+
+
+################################################################################
 # COMMON TARGETS
-###################################################################################
+################################################################################
 
 archive:
 	@echo
@@ -40,11 +76,11 @@ archive:
 	@mkdir -p $(RELEASE_UNIX)
 
 	@echo "  * Copying info files..."
-	@find ../ -maxdepth 1 -type f -name "[A-Z]*" -exec cp -f {} $(RELEASE_UNIX) \;
+	@$(CMD_FIND) ../ -maxdepth 1 -type f -name "[A-Z]*" -exec cp -f {} $(RELEASE_UNIX) \;
 	@echo "  * Syncing backend files..."
-	@$(RSYNC_EXEC) $(FILES) $(RELEASE_UNIX)/backend
+	@$(CMD_SYNC_OFFLINE) $(BACKEND_COPY) $(RELEASE_UNIX)/backend
 	@echo "  * Converting line-breaks..."
-	@$(NICE_CALL) find $(RELEASE_UNIX) $(FIX_FILES) $(DOS2UNIX)
+	@$(CMD_FIND) $(RELEASE_UNIX) $(TEXT_FILES) $(CMD_ANY2UNIX)
 
 	@echo
 	@echo "  SYNCHRONISATION OF DOS BUILD RELEASE"
@@ -52,21 +88,21 @@ archive:
 	@mkdir -p $(RELEASE_DOS)
 
 	@echo "  * Copying info files..."
-	@find ../ -maxdepth 1 -type f -name "[A-Z]*" -exec cp -f {} $(RELEASE_DOS) \;
+	@$(CMD_FIND) ../ -maxdepth 1 -type f -name "[A-Z]*" -exec cp -f {} $(RELEASE_DOS) \;
 	@echo "  * Syncing backend files..."
-	@$(RSYNC_EXEC) $(FILES) $(RELEASE_DOS)/backend
+	@$(CMD_SYNC_OFFLINE) $(BACKEND_COPY) $(RELEASE_DOS)/backend
 	@echo "  * Converting line-breaks..."
-	@$(NICE_CALL) find $(RELEASE_DOS) $(FIX_FILES) $(UNIX2DOS)
+	@$(CMD_FIND) $(RELEASE_DOS) $(TEXT_FILES) $(CMD_ANY2DOS)
 
 	@echo
 	@echo "  COMPRESSION OF RELEASE"
 	@echo "----------------------------------------------------------------------------"
 
 	@echo "  * Generating gzip (Unix) archive..."
-	@cd release/temp/unix; rm -f qooxdoo-$(VERSION)-backend.tar.gz; $(NICE_CALL) tar cfzp ../../qooxdoo-$(VERSION)-backend.tar.gz qooxdoo-$(VERSION)-backend
+	@cd release/temp/unix; rm -f qooxdoo-$(FRAMEWORK_VERSION)-backend.tar.gz; $(CMD_TAR_CREATE) ../../qooxdoo-$(FRAMEWORK_VERSION)-backend.tar.gz qooxdoo-$(FRAMEWORK_VERSION)-backend
 
 	@echo "  * Generating zip (DOS) archive..."
-	@cd release/temp/dos; rm -f qooxdoo-$(VERSION)-backend.zip; $(NICE_CALL) zip -rq ../../qooxdoo-$(VERSION)-backend.zip qooxdoo-$(VERSION)-backend
+	@cd release/temp/dos; rm -f qooxdoo-$(FRAMEWORK_VERSION)-backend.zip; $(CMD_ZIP_CREATE) ../../qooxdoo-$(FRAMEWORK_VERSION)-backend.zip qooxdoo-$(FRAMEWORK_VERSION)-backend
 
 
 
@@ -74,26 +110,19 @@ archive:
 
 
 
-###################################################################################
+################################################################################
 # CLEANUP TARGETS
-###################################################################################
+################################################################################
 
 clean:
 	@echo
-	@echo "  CLEANUP OF GENERATED FILES"
+	@echo "  CLEANING UP GENERATED FILES"
 	@echo "----------------------------------------------------------------------------"
 	@rm -f release/*.gz release/*.zip
 
-realclean:
-	@echo
-	@echo "  CLEANUP OF GENERATED FILES (REAL)"
-	@echo "----------------------------------------------------------------------------"
-	@echo "  * Deleting files..."
-	@rm -rf release/temp
-
 distclean:
 	@echo
-	@echo "  CLEANUP OF GENERATED FILES (DIST)"
+	@echo "  CLEANING UP GENERATED FILES COMPLETELY"
 	@echo "----------------------------------------------------------------------------"
 	@echo "  * Deleting files..."
 	@rm -rf release

@@ -5,11 +5,13 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
-     2006 by Derrell Lipman
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2006 Derrell Lipman
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -21,6 +23,8 @@
 /* ************************************************************************
 
 #module(ui_treefullcontrol)
+#embed(qx.icontheme/16/status/folder-open.png)
+#embed(qx.icontheme/16/places/folder.png)
 
 ************************************************************************ */
 
@@ -391,9 +395,9 @@ qx.Proto.getItems = function()
 qx.Proto._evalCurrentIcon = function()
 {
   if (this.getSelected()) {
-    return this.getIconSelected() || "icon/16/folder-open.png";
+    return this.getIconSelected() || "icon/16/status/folder-open.png";
   } else {
-    return this.getIcon() || "icon/16/folder.png";
+    return this.getIcon() || "icon/16/places/folder.png";
   }
 }
 

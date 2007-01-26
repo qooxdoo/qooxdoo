@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -22,84 +24,139 @@
 
 ************************************************************************ */
 
+/**
+ * Helper functions for arrays.
+ *
+ * The native JavaScript Array is not modified by this class. However,
+ * there are modifications to the native Array in {@link qx.lang.Core} for
+ * browsers that do not support certain JavaScript 1.6 features natively .
+ *
+ * The additions implemented here may be added directly to native Array by
+ * a setting in {@link qx.lang.Prototypes}. This feature is not enabled by
+ * default.
+ *
+ * The string/array generics introduced in JavaScript 1.6 are supported by
+ * {@link qx.lang.Generics}.
+ */
 qx.OO.defineClass("qx.lang.Array");
 
+/**
+ * Convert an arguments object into an array
+ *
+ * @param args {arguments} arguments object
+ * @return {Array}
+ */
 qx.lang.Array.fromArguments = function(args) {
   return Array.prototype.slice.call(args, 0);
-}
+};
 
-/*!
-  Utility function for padding/margin and all other shorthand handling.
-*/
-qx.lang.Array.fromShortHand = function(params)
+
+/**
+ * Expand shorthand definition to a four element list.
+ * This is an utility function for padding/margin and all other shorthand handling.
+ *
+ * @param input {Array} array with one to four elements
+ * @return {Array} array with four elements
+ */
+qx.lang.Array.fromShortHand = function(input)
 {
-  var l = params.length;
+  var len = input.length;
 
-  if (l > 4) {
-    throw new Error("Invalid number of arguments!");
+  if (len > 4 || len == 0) {
+    this.error("Invalid number of arguments!");
   }
 
-  var v;
-  var list = [];
+  var result = qx.lang.Array.copy(input);
 
-  for (var i=0; i<l; i++)
-  {
-    v = params[i];
-
-    if (qx.util.Validation.isValidNumber(v))
-    {
-      list.push(v);
-    }
-    else if (qx.util.Validation.isInvalidString(v))
-    {
-      list.push(null);
-    }
-    else
-    {
-      throw new Error("Invalid shorthand value: " + v);
-    }
-  }
-
-  // Fix Values (Shorthand)
-  switch(l)
+  // Copy Values (according to the length)
+  switch(len)
   {
     case 1:
-      list[1] = list[2] = list[3] = list[0];
+      result[1] = result[2] = result[3] = result[0];
       break;
 
     case 2:
-      list[2] = list[0];
+      result[2] = result[0];
+      // no break here
 
     case 3:
-      list[3] = list[1];
+      result[3] = result[1];
   }
 
-  return list;
-}
+  // Return list with 4 items
+  return result;
+};
 
+
+/**
+ * Return a copy of the given array
+ *
+ * @param arr {Array} the array to copy
+ * @return {Array} copy of the array
+ */
 qx.lang.Array.copy = function(arr) {
   return arr.concat();
-}
+};
 
+
+/**
+ * Return a copy of the given array
+ * The same as {@link qx.lang.Array.copy}
+ *
+ * @param arr {Array} the array to copy
+ * @return {Array} copy of the array
+ */
 qx.lang.Array.clone = function(arr) {
   return arr.concat();
-}
+};
 
+
+/**
+ * Return the last element of an array
+ *
+ * @param arr {Array} the array
+ * @return {var} the last element of the array
+ */
 qx.lang.Array.getLast = function(arr) {
   return arr[arr.length-1];
-}
+};
 
+
+/**
+ * Return the first element of an array
+ *
+ * @param arr {Array} the array
+ * @return {var} the first element of the array
+ */
 qx.lang.Array.getFirst = function(arr) {
   return arr[0];
-}
+};
 
+
+/**
+ * Insert an element at a given position into the array
+ *
+ * @param arr {Array} the array
+ * @param obj {var} the element to insert
+ * @param i {Integer} position where to insert the element into the array
+ * @return {Array} the array
+ */
 qx.lang.Array.insertAt = function(arr, obj, i)
 {
   arr.splice(i, 0, obj);
 
   return arr;
-}
+};
 
+
+/**
+ * Insert an element into the array before a given second element
+ *
+ * @param arr {Array} the array
+ * @param obj {var} object to be inserted
+ * @param obj2 {var} insert obj1 before this object
+ * @return {Array} the array
+ */
 qx.lang.Array.insertBefore = function(arr, obj, obj2)
 {
   var i = arr.indexOf(obj2);
@@ -114,36 +171,75 @@ qx.lang.Array.insertBefore = function(arr, obj, obj2)
   }
 
   return arr;
-}
+};
 
-qx.lang.Array.insertAfter = function(arr, o, o2)
+
+/**
+ * Insert an element into the array after a given second element
+ *
+ * @param arr {Array} the array
+ * @param obj {var} object to be inserted
+ * @param obj2 {var} insert obj1 after this object
+ * @return {Array} the array
+ */
+qx.lang.Array.insertAfter = function(arr, obj, obj2)
 {
-  var i = arr.indexOf(o2);
+  var i = arr.indexOf(obj2);
 
   if (i == -1 || i == (arr.length-1))
   {
-    arr.push(o);
+    arr.push(obj);
   }
   else
   {
-    arr.splice(i+1, 0, o);
+    arr.splice(i+1, 0, obj);
   }
 
   return arr;
-}
+};
 
+
+/**
+ * Remove an element from the array at the given index
+ *
+ * @param arr {Array} the array
+ * @param i {Integer} index of the element to be removed
+ * @return {Array} the array with the element removed
+ */
 qx.lang.Array.removeAt = function(arr, i) {
   return arr.splice(i, 1);
-}
+};
 
+
+/**
+ * Remmove all elements from the array
+ *
+ * @param arr {Array} the array
+ * @return {Array} empty array
+ */
 qx.lang.Array.removeAll = function(arr) {
   return arr.splice(0, arr.length);
-}
+};
 
+
+/**
+ * Append the elements of an array to the array
+ *
+ * @param arr {Array} the array
+ * @param a {Array} the elements of this array will be appended to the array
+ */
 qx.lang.Array.append = function(arr, a) {
   Array.prototype.push.apply(arr, a);
-}
+};
 
+
+/**
+ * Remove an element from the array
+ *
+ * @param arr {Array} the array
+ * @param obj {var} element to be removed from the array
+ * @return {Array} array with the element removed
+ */
 qx.lang.Array.remove = function(arr, obj)
 {
   var i = arr.indexOf(obj);
@@ -151,8 +247,16 @@ qx.lang.Array.remove = function(arr, obj)
   if (i != -1) {
     return arr.splice(i, 1);
   }
-}
+};
 
+
+/**
+ * Whether the array contains the given element
+ *
+ * @param arr {Array} the array
+ * @param obj {var} object to look for
+ * @return {Boolean} whether the array contains the element
+ */
 qx.lang.Array.contains = function(arr, obj) {
   return arr.indexOf(obj) != -1;
-}
+};

@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2006 by STZ-IDA, Germany, http://www.stz-ida.de
+     2006 STZ-IDA, Germany, http://www.stz-ida.de
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Til Schneider (til132)
@@ -17,15 +19,19 @@
 
 /* ************************************************************************
 
+* #require(qx.locale.Number)
 
 ************************************************************************ */
 
 /**
  * A formatter and parser for numbers.
+ *
+ * @param locale {String} optional locale to be used
  */
 qx.OO.defineClass("qx.util.format.NumberFormat", qx.util.format.Format,
-function() {
+function(locale) {
   qx.util.format.Format.call(this);
+  this._locale = locale;
 });
 
 
@@ -67,7 +73,7 @@ qx.OO.addProperty({ name:"postfix", type:"string", defaultValue:"", allowNull:fa
  * Formats a number.
  *
  * @param num {number} the number to format.
- * @return {string} the formatted number as a string.
+ * @return {String} the formatted number as a string.
  */
 qx.Proto.format = function(num) {
   var NumberFormat = qx.util.format.NumberFormat;
@@ -106,7 +112,7 @@ qx.Proto.format = function(num) {
   while (fractionStr.length < this.getMinimumFractionDigits()) {
     fractionStr += "0";
   }
-  if (this.getMaximumFractionDigits() != -1 && fractionStr.length > this.getMaximumFractionDigits()) {
+  if (this.getMaximumFractionDigits() != null && fractionStr.length > this.getMaximumFractionDigits()) {
     // We have already rounded -> Just cut off the rest
     fractionStr = fractionStr.substring(0, this.getMaximumFractionDigits());
   }
@@ -117,7 +123,7 @@ qx.Proto.format = function(num) {
     integerStr = "";
     var groupPos;
     for (groupPos = origIntegerStr.length; groupPos > 3; groupPos -= 3) {
-      integerStr = NumberFormat.GROUPING_SEPARATOR
+      integerStr = "" + qx.locale.Number.getGroupSeparator(this._locale)
         + origIntegerStr.substring(groupPos - 3, groupPos) + integerStr;
     }
     integerStr = origIntegerStr.substring(0, groupPos) + integerStr;
@@ -131,27 +137,27 @@ qx.Proto.format = function(num) {
   // Assemble the number
   var str = prefix + (negative ? "-" : "") + integerStr;
   if (fractionStr.length > 0) {
-    str += NumberFormat.DECIMAL_SEPARATOR + fractionStr;
+    str += "" + qx.locale.Number.getDecimalSeparator(this._locale) + fractionStr;
   }
   str += postfix;
 
   return str;
-}
+};
 
 
 /**
  * Parses a number.
  *
- * @param str {string} the string to parse.
+ * @param str {String} the string to parse.
  *
- * @return {double} the number.
+ * @return {Double} the number.
  */
 qx.Proto.parse = function(str) {
   var NumberFormat = qx.util.format.NumberFormat;
 
   // use the escaped separators for regexp
-  var groupSepEsc = qx.lang.String.escapeRegexpChars(NumberFormat.GROUPING_SEPARATOR);
-  var decimalSepEsc = qx.lang.String.escapeRegexpChars(NumberFormat.DECIMAL_SEPARATOR);
+  var groupSepEsc = qx.lang.String.escapeRegexpChars(qx.locale.Number.getGroupSeparator(this._locale)+"");
+  var decimalSepEsc = qx.lang.String.escapeRegexpChars(qx.locale.Number.getDecimalSeparator(this._locale)+"");
 
   var regex = new RegExp(qx.lang.String.escapeRegexpChars(this.getPrefix())
     + '(-)?([0-9' + groupSepEsc + ']+)'
@@ -177,7 +183,7 @@ qx.Proto.parse = function(str) {
     asStr += "." + fractionStr;
   }
   return parseFloat(asStr);
-}
+};
 
 
 /**
@@ -191,7 +197,7 @@ qx.Class.getInstance = function() {
     NumberFormat._instance = new NumberFormat();
   }
   return NumberFormat._instance;
-}
+};
 
 
 /**
@@ -206,11 +212,4 @@ qx.Class.getIntegerInstance = function() {
     NumberFormat._integerInstance.setMaximumFractionDigits(0);
   }
   return NumberFormat._integerInstance;
-}
-
-
-/** {string} The decimal separator. */
-qx.Class.DECIMAL_SEPARATOR = ".";
-
-/** {string} The thousand grouping separator. */
-qx.Class.GROUPING_SEPARATOR = ",";
+};

@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -20,28 +22,33 @@
 
 #module(core)
 #load(qx.core.Init)
+#resource(static:static)
 
 ************************************************************************ */
 
 /**
- * The qooxdoo base object. All qooxdoo classes extend this one
+ * The qooxdoo root class. All other classes are direct or indirect subclasses of this one.
  *
- * This class contains functions for:
+ * This class contains methods for:
  * <ul>
- *   <li> logging </li>
- *   <li> common getter/setter </li>
+ *   <li> object management (creation and destruction) </li>
+ *   <li> logging & debugging </li>
+ *   <li> generic getter/setter </li>
  *   <li> user data </li>
- *   <li> object destruction </li>
+ *   <li> settings </li>
+ *   <li> internationalization </li>
  * </ul>
  *
- * @param vAutoDispose {boolean ? true} wether the object should be disposed automatically by qooxdoo
+ * @param vAutoDispose {Boolean ? true} whether the object should be automatically disposed
  */
 qx.OO.defineClass("qx.core.Object", Object,
 function(vAutoDispose)
 {
-  this._hashCode = qx.core.Object._counter++;
+  this._hashCode = qx.core.Object._availableHashCode++;
 
-  if (vAutoDispose !== false) {
+  if (vAutoDispose !== false)
+  {
+    this._dbKey = qx.core.Object._db.length;
     qx.core.Object._db.push(this);
   }
 });
@@ -63,15 +70,17 @@ qx.Settings.setDefault("enableDisposerDebug", false);
    Class data, properties and methods
 ************************************************************************ */
 
-qx.Class._counter = 0;
+qx.Class._availableHashCode = 0;
 qx.Class._db = [];
+qx.Class._disposeAll = false;
+
 
 /**
- * Generate an unique key for the given object and return it.
- * Sets object._hashCode to the generated key.
+ * Returns an unique identifier for the given object. If such an identifier
+ * does not yet exist, create it.
  *
- * @param o {Object}
- * @return {int} unique key for the given object
+ * @param o {Object} the Object to get the hashcode for
+ * @return {Integer} unique identifier for the given object
  */
 qx.Class.toHashCode = function(o)
 {
@@ -79,34 +88,23 @@ qx.Class.toHashCode = function(o)
     return o._hashCode;
   }
 
-  return o._hashCode = qx.core.Object._counter++;
-}
-
-
-/**
- * Class function which returns an object given its hash code
- *
- * @param hash {string} hash code of an object
- *
- * @returns {Object} the object whose hash is specified
- */
-qx.Class.fromHashCode = function(hash) {
-  return qx.core.Object._db[hash];
+  return o._hashCode = qx.core.Object._availableHashCode++;
 }
 
 
 /**
  * Destructor. This method is called by qooxdoo on object destruction.
  *
- * Any class that holds ressources like links to DOM nodes must overwrite
- * this method and free theese ressources.
+ * Any class that holds resources like links to DOM nodes must overwrite
+ * this method and free these resources.
  */
 qx.Class.dispose = function()
 {
-  // var logger = qx.dev.log.Logger.getClassLogger(qx.core.Object);
+  // var logger = qx.log.Logger.getClassLogger(qx.core.Object);
   // logger.debug("Disposing Application");
 
   // var vStart = (new Date).valueOf();
+  qx.core.Object._disposeAll = true;
   var vObject;
 
   for (var i=qx.core.Object._db.length-1; i>=0; i--)
@@ -127,12 +125,13 @@ qx.Class.dispose = function()
 /**
  * Summary of allocated objects
  *
- * @return {string} summary of allocated objects.
+ * @return {String} summary of allocated objects.
  */
 qx.Class.summary = function()
 {
   var vData = {};
   var vCounter = 0;
+  var vObject;
 
   for (var i=qx.core.Object._db.length-1; i>=0; i--)
   {
@@ -170,7 +169,7 @@ qx.Class.summary = function()
   }
 
   alert(vMsg);
-}
+};
 
 /**
  * Enable or disable the Object.
@@ -197,7 +196,7 @@ qx.OO.addProperty({ name : "enabled", type : "boolean", defaultValue : true, get
 /**
  * Returns a string represantation of the qooxdoo object.
  *
- * @returns {string} string representation of the object
+ * @return {String} string representation of the object
  */
 qx.Proto.toString = function()
 {
@@ -212,7 +211,7 @@ qx.Proto.toString = function()
 /**
  * Return unique hash code of object
  *
- * @return {int} unique hash code of the object
+ * @return {Integer} unique hash code of the object
  */
 qx.Proto.toHashCode = function() {
   return this._hashCode;
@@ -222,7 +221,7 @@ qx.Proto.toHashCode = function() {
 /**
  * Returns true if the object is disposed.
  *
- * @return {boolean} wether the object has been disposed
+ * @return {Boolean} wether the object has been disposed
  */
 qx.Proto.getDisposed = function() {
   return this._disposed;
@@ -232,7 +231,7 @@ qx.Proto.getDisposed = function() {
 /**
  * Returns true if the object is disposed.
  *
- * @return {boolean} wether the object has been disposed
+ * @return {Boolean} wether the object has been disposed
  */
 qx.Proto.isDisposed = function() {
   return this._disposed;
@@ -242,13 +241,65 @@ qx.Proto.isDisposed = function() {
 /**
  * Returns a settings from global setting definition
  *
- * @param vKey {string}
+ * @param vKey {String} the key
  * @return {Object} value of the global setting
  */
 qx.Proto.getSetting = function(vKey) {
   return qx.Settings.getValueOfClass(this.classname, vKey);
 }
 
+
+/*
+---------------------------------------------------------------------------
+  I18N INTERFACE
+---------------------------------------------------------------------------
+*/
+
+/**
+ * Translate a message
+ * Mark the message for translation.
+ * @see qx.lang.String.format
+ *
+ * @param messageId {String} message id (may contain format strings)
+ * @param varargs {Object} variable number of argumes applied to the format string
+ * @return {qx.locale.LocalizedString}
+ */
+qx.Proto.tr = function(messageId, varargs) {
+  var nlsManager = qx.locale.Manager;
+  return nlsManager.tr.apply(nlsManager, arguments);
+};
+
+
+/**
+ * Translate a plural message
+ * Mark the messages for translation.
+ *
+ * Depending on the third argument the plursl or the singular form is chosen.
+ *
+ * @see qx.lang.String.format
+ *
+ * @param singularMessageId {String} message id of the singular form (may contain format strings)
+ * @param pluralMessageId {String} message id of the plural form (may contain format strings)
+ * @param count {Integer} if greater than 1 the plural form otherwhise the singular form is returned.
+ * @param varargs {Object} variable number of argumes applied to the format string
+ * @return {qx.locale.LocalizedString)
+ */
+qx.Proto.trn = function(singularMessageId, pluralMessageId, count, varargs) {
+  var nlsManager = qx.locale.Manager;
+  return nlsManager.trn.apply(nlsManager, arguments);
+};
+
+
+/**
+ * Mark the message for translation but return the original message.
+ *
+ * @param messageId {String} the message ID
+ * @return {String} messageId
+ */
+qx.Proto.marktr = function(messageId) {
+  var nlsManager = qx.locale.Manager;
+  return nlsManager.marktr.apply(nlsManager, arguments);
+};
 
 /*
 ---------------------------------------------------------------------------
@@ -259,10 +310,10 @@ qx.Proto.getSetting = function(vKey) {
 /**
  * Returns the logger of this class.
  *
- * @return {qx.dev.log.Logger} the logger of this class.
+ * @return {qx.log.Logger} the logger of this class.
  */
 qx.Proto.getLogger = function() {
-  return qx.dev.log.Logger.getClassLogger(this.constructor);
+  return qx.log.Logger.getClassLogger(this.constructor);
 }
 
 
@@ -341,7 +392,7 @@ qx.Proto.set = function(propertyValues)
     }
     catch(ex)
     {
-      this.error("Setter of property " + prop + " returned with an error", ex);
+      this.error("Setter of property '" + prop + "' returned with an error", ex);
     }
   }
 
@@ -351,8 +402,8 @@ qx.Proto.set = function(propertyValues)
 /**
  * Gets multiple properties at once by using a property list
  *
- * @param propertyNames {string | array | hash} list of the properties to get
- * @param outputHint {string ? "array"} how should the values be returned. Possible values are "hash" and "array".
+ * @param propertyNames {String | Array | Map} list of the properties to get
+ * @param outputHint {String ? "array"} how should the values be returned. Possible values are "hash" and "array".
 */
 qx.Proto.get = function(propertyNames, outputHint)
 {
@@ -426,8 +477,8 @@ qx.Proto.get = function(propertyNames, outputHint)
 /**
  * Store user defined data inside the object.
  *
- * @param vKey {string}
- * @param vValue {Object}
+ * @param vKey {String} the key
+ * @param vValue {Object} the value of the user data
  */
 qx.Proto.setUserData = function(vKey, vValue)
 {
@@ -442,7 +493,7 @@ qx.Proto.setUserData = function(vKey, vValue)
 /**
  * Load user defined data from the object
  *
- * @param vKey {string}
+ * @param vKey {String} the key
  * @return {Object} the user data
  */
 qx.Proto.getUserData = function(vKey)
@@ -517,8 +568,29 @@ qx.Proto.dispose = function()
   }
   */
 
+  /*
+  // see bug #258.
+  if(this._dbKey != this._hashCode) {
+    console.log("Disposing wrong entry: " + this._dbKey + " vs. " + this._hashCode);
+  }
+  */
+
   // Delete Entry from Object DB
-  qx.core.Object._db[this._hashCode] = null;
+  if (this._dbKey != null)
+  {
+    if (qx.core.Object._disposeAll)
+    {
+      qx.core.Object._db[this._dbKey] = null;
+      this._hashCode = null;
+      this._dbKey = null;
+    }
+    else
+    {
+      delete qx.core.Object._db[this._dbKey];
+      delete this._hashCode;
+      delete this._dbKey;
+    }
+  }
 
   // Mark as disposed
   this._disposed = true;

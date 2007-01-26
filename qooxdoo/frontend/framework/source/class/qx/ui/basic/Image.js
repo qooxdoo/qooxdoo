@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -19,12 +21,12 @@
 /* ************************************************************************
 
 #module(ui_basic)
-#resource(core:static/image)
+#embed(qx.static/image/blank.gif)
 
 ************************************************************************ */
 
 /**
- * This widget is for all images in qooxdoo projects.
+ * This widget represents an image.
  *
  * @event error {qx.event.type.Event}
  */
@@ -38,11 +40,11 @@ function(vSource, vWidth, vHeight)
   this.setHtmlProperty("title", "");
 
   // Apply constructor arguments
-  this.setSource(qx.util.Validation.isValid(vSource) ? vSource : "static/image/blank.gif");
+  this.setSource(vSource || "static/image/blank.gif");
 
   // Dimensions
-  this.setWidth(qx.util.Validation.isValid(vWidth) ? vWidth : "auto");
-  this.setHeight(qx.util.Validation.isValid(vHeight) ? vHeight : "auto");
+  this.setWidth(vWidth !== undefined ? vWidth : "auto");
+  this.setHeight(vHeight !== undefined ? vHeight : "auto");
 
   // Prohibit selection
   this.setSelectable(false);
@@ -265,7 +267,7 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
         // Create Image-Node
         // Webkit has problems with "new Image". Maybe related to "new Function" with
         // is also not working correctly.
-        if (qx.sys.Client.getInstance().isWebkit())
+        if (qx.core.Client.getInstance().isWebkit())
         {
           this._image = document.createElement("img");
         }
@@ -290,7 +292,7 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
         this.error("Failed while creating image #1", ex);
       }
 
-      if (!qx.sys.Client.getInstance().isMshtml()) {
+      if (!qx.core.Client.getInstance().isMshtml()) {
         this._applyEnabled();
       }
     }
@@ -307,7 +309,9 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
     {
       // initialisize preloader
       var vSource = this.getSource();
-      if (qx.util.Validation.isValidString(vSource)) {
+      if (qx.util.Validation.isValidString(vSource))
+      {
+        //this.debug("Post-Create: " + vSource);
         this.setPreloader(qx.manager.object.ImagePreloaderManager.getInstance().create(qx.manager.object.AliasManager.getInstance().resolvePath(vSource)));
       }
     }
@@ -341,7 +345,7 @@ qx.Proto._postApply = function()
   this._updateContent();
 }
 
-if (qx.sys.Client.getInstance().isMshtml())
+if (qx.core.Client.getInstance().isMshtml())
 {
   qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
   {
@@ -479,7 +483,7 @@ qx.Proto._applyContent = function()
   qx.ui.core.Widget.flushGlobalQueues();
 }
 
-if (qx.sys.Client.getInstance().isMshtml())
+if (qx.core.Client.getInstance().isMshtml())
 {
   qx.Proto._postApplyDimensions = function()
   {
@@ -539,7 +543,7 @@ else
 ---------------------------------------------------------------------------
 */
 
-if (qx.sys.Client.getInstance().isMshtml())
+if (qx.core.Client.getInstance().isMshtml())
 {
   qx.Proto._changeInnerWidth = function(vNew, vOld)
   {

@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2006 by STZ-IDA, Germany, http://www.stz-ida.de
+     2006 STZ-IDA, Germany, http://www.stz-ida.de
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Til Schneider (til132)
@@ -55,7 +57,7 @@ function() {
  *
  * @param cellInfo {Map} A map containing the information about the cell to
  *    create.
- * @return {string} the HTML of the data cell.
+ * @return {String} the HTML of the data cell.
  */
 qx.Proto.createDataCellHtml = function(cellInfo) {
   throw new Error("createDataCellHtml is abstract");
@@ -63,18 +65,28 @@ qx.Proto.createDataCellHtml = function(cellInfo) {
 
 
 /**
- * Updates a data cell.
+ * Updates the content of the pane.
  *
- * @param cellInfo {Map} A map containing the information about the cell to
- *    create. This map has the same structure as in {@link #createDataCell}.
- * @param cellElement {element} the DOM element that renders the data cell. This
- *    is the same element formally created by the HTML from {@link #createDataCell}.
+ * @param completeUpdate {Boolean ? false} if true a complete update is performed.
+ *    On a complete update all cell widgets are recreated.
+ * @param onlyRow {Integer ? null} if set only the specified row will be updated.
+ * @param onlySelectionOrFocusChanged {Boolean ? false} if true, cell values won't
+ *        be updated. Only the row background will.
  */
 qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
   throw new Error("updateDataCellElement is abstract");
 }
 
 
+/**
+ * Updates the content of the pane using array joins.
+ *
+ * @param completeUpdate {Boolean ? false} if true a complete update is performed.
+ *    On a complete update all cell widgets are recreated.
+ * @param onlyRow {Integer ? null} if set only the specified row will be updated.
+ * @param onlySelectionOrFocusChanged {Boolean ? false} if true, cell values won't
+ *        be updated. Only the row background will.
+ */
 qx.Proto.createDataCellHtml_array_join = function(cellInfo, htmlArr) {
   throw new Error("createDataCellHtml_array_join is abstract");
 }

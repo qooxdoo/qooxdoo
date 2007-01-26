@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -20,6 +22,7 @@
 /* ************************************************************************
 
 #module(ui_core)
+#require(qx.locale.Key)
 
 ************************************************************************ */
 
@@ -28,46 +31,33 @@
  *
  * Each command could be assigned to multiple widgets.
  *
- * @event execute {qx.event.type.DataEvent} when the command is executed.
+ * @event execute {qx.event.type.DataEvent} when the command is executed. Sets the
+ *     "data" property of the event to the object that issued the command.
  *
- * @param vShortcut (string) shortcuts can be composed of optional modifier
+ * @param vShortcut {String} shortcuts can be composed of optional modifier
  *    keys Control, Alt, Shift, Meta and a non modifier key.
  *    If no non modifier key is specified, the second paramater is evaluated.
- *    The key must be seperated by a ''+'' or ''-'' character.
+ *    The key must be seperated by a <code>+</code> or <code>-</code> character.
  *    Examples: Alt+F1, Control+C, Control+Alt+Enf
  *
- * @param vKeyCodeOrIdentifier (int)  Additional key of the command. It is interpreted as a
- *    keyIdentifier if it is given as integer. Otherwhise it is interpreted as keyCode.
+ * @param vKeyCode {Integer}  Additional key of the command interpreted as a keyCode.
  */
 qx.OO.defineClass("qx.client.Command", qx.core.Target,
-function(vShortcut, vKeyCodeOrIdentifier)
+function(vShortcut, vKeyCode)
 {
   qx.core.Target.call(this);
 
   this._modifier = {};
   this._key = null;
 
-  if (qx.util.Validation.isValid(vShortcut)) {
+  if (vShortcut != null) {
     this.setShortcut(vShortcut);
   }
 
-  if (qx.util.Validation.isValid(vKeyCodeOrIdentifier))
+  if (vKeyCode != null)
   {
-     if (qx.util.Validation.isValidString(vKeyCodeOrIdentifier))
-     {
-      this.setKeyIdentifier(vKeyCodeOrIdentifier);
-     }
-     else if (qx.util.Validation.isValidNumber(vKeyCodeOrIdentifier))
-     {
-      this.warn("The use of keyCode in command is deprecated. Use keyIdentifier instead.");
-      this.setKeyCode(vKeyCodeOrIdentifier);
-    }
-    else
-    {
-      var msg = "vKeyCodeOrIdentifier must be of type string or number: " + vKeyCodeOrIdentifier;
-      this.error(msg);
-      throw msg;
-    }
+    this.warn("The use of keyCode in command is deprecated. Use keyIdentifier instead.");
+    this.setKeyCode(vKeyCode);
   }
 
   // OSX warning for Alt key combinations
@@ -87,7 +77,9 @@ function(vShortcut, vKeyCodeOrIdentifier)
 qx.OO.addProperty({ name : "shortcut", type : "string" });
 
 /**
- * keyCode (Deprecated)
+ * keyCode
+ * @deprecated
+ *
  * Still there for compatibility with the old key handler/commands
  */
 qx.OO.addProperty({ name : "keyCode", type : "number" });
@@ -106,12 +98,13 @@ qx.OO.addProperty({ name : "keyIdentifier", type : "string" });
 /**
  * Fire the "execute" event on this command.
  *
- * @param vTarget (Object)
+ * @param vTarget {Object} Object which issued the execute event
  */
 qx.Proto.execute = function(vTarget)
 {
   if (this.hasEventListeners("execute")) {
-    this.dispatchEvent(new qx.event.type.DataEvent("execute", vTarget), true);
+    var event = new qx.event.type.DataEvent("execute", vTarget);
+    this.dispatchEvent(event, true);
   }
 
   return false;
@@ -139,7 +132,7 @@ qx.Proto._modifyShortcut = function(propValue, propOldValue, propData)
 
     for (var i=0; i<al; i++)
     {
-      var identifier = qx.event.handler.KeyEventHandler.getInstance().oldKeyNameToKeyIdentifier(a[i]);
+      var identifier = this._oldKeyNameToKeyIdentifier(a[i]);
 
       switch (identifier)
       {
@@ -171,7 +164,7 @@ qx.Proto._modifyShortcut = function(propValue, propOldValue, propData)
 
 
 /*
----------------------------------------------------------------------------
+--------------------------------------------------------------------------
   INTERNAL MATCHING LOGIC
 ---------------------------------------------------------------------------
 */
@@ -179,8 +172,8 @@ qx.Proto._modifyShortcut = function(propValue, propOldValue, propData)
 /**
  * Checks wether the given key event matches the command's shortcut
  *
- * @param e (qx.event.type.KeyEvent) the key event object
- * @return (boolean) wether the commands shortcut matches the key event
+ * @param e {qx.event.type.KeyEvent} the key event object
+ * @return {Boolean} wether the commands shortcut matches the key event
  */
 qx.Proto._matchesKeyEvent = function(e)
 {
@@ -193,10 +186,10 @@ qx.Proto._matchesKeyEvent = function(e)
   // pre-check for check special keys
   // we handle this here to omit to check this later again.
   if (
-    (this._modifier.Shift && !e.getShiftKey()) ||
-    (this._modifier.Control && !e.getCtrlKey()) ||
-//    (this._modifier.Meta && !e.getCtrlKey()) ||
-    (this._modifier.Alt && !e.getAltKey())
+    (this._modifier.Shift && !e.isShiftPressed()) ||
+    (this._modifier.Control && !e.isCtrlPressed()) ||
+//    (this._modifier.Meta && !e.getMetaKey()) ||
+    (this._modifier.Alt && !e.isAltPressed())
   ) {
     return false;
   }
@@ -218,6 +211,75 @@ qx.Proto._matchesKeyEvent = function(e)
 };
 
 
+/*
+---------------------------------------------------------------------------
+  COMPATIBILITY TO COMMAND
+---------------------------------------------------------------------------
+*/
+
+qx.Proto._oldKeyNameToKeyIdentifierMap =
+{
+  // all other keys are converted by converting the first letter to uppercase
+
+  esc      : "Escape",
+  ctrl     : "Control",
+  print    : "PrintScreen",
+  del      : "Delete",
+  pageup   : "PageUp",
+  pagedown : "PageDown",
+  numlock  : "NumLock",
+  numpad_0 : "0",
+  numpad_1 : "1",
+  numpad_2 : "2",
+  numpad_3 : "3",
+  numpad_4 : "4",
+  numpad_5 : "5",
+  numpad_6 : "6",
+  numpad_7 : "7",
+  numpad_8 : "8",
+  numpad_9 : "9",
+  numpad_divide   : "/",
+  numpad_multiply : "*",
+  numpad_minus    : "-",
+  numpad_plus     : "+"
+};
+
+
+/**
+ * converts an old key name as found in {@link qx.event.type.KeyEvent.keys} to
+ * the new keyIdentifier.
+ *
+ * @param keyName {String} old name of the key.
+ * @return {String} corresponding keyIdentifier or "Unidentified" if a conversion was not possible
+ */
+qx.Proto._oldKeyNameToKeyIdentifier = function(keyName)
+{
+  var keyHandler = qx.event.handler.KeyEventHandler.getInstance();
+  var keyIdentifier = "Unidentified";
+
+  if (keyHandler.isValidKeyIdentifier(keyName)) {
+    return keyName;
+  }
+
+  if (keyName.length == 1 && keyName >= "a" && keyName <= "z") {
+    return keyName.toUpperCase();
+  }
+
+  keyName = keyName.toLowerCase();
+
+  // check wether its a valid old key name
+  if (!qx.event.type.KeyEvent.keys[keyName]) {
+    return "Unidentified";
+  }
+
+  var keyIdentifier = this._oldKeyNameToKeyIdentifierMap[keyName];
+  if (keyIdentifier) {
+    return keyIdentifier;
+  } else {
+    return qx.lang.String.toFirstUp(keyName);
+  }
+};
+
 
 /*
 ---------------------------------------------------------------------------
@@ -228,36 +290,35 @@ qx.Proto._matchesKeyEvent = function(e)
 /**
  * Returns the shortcut as string
  *
- * @return (string) shortcut
+ * @return {String} shortcut
  */
 qx.Proto.toString = function()
 {
-  var vShortcut = this.getShortcut();
+  //var vShortcut = this.getShortcut();
   var vKeyCode = this.getKeyCode();
-  var vString = "";
-  var vKeyIdentifier = this._key || this.getKeyIdentifier();
+  var key = this._key || this.getKeyIdentifier();
 
-  var vKeyString = "";
-  if (qx.util.Validation.isValidString(vKeyIdentifier))
-  {
-    vKeyString = vKeyIdentifier;
+  var vString = [];
+
+  for (var modifier in this._modifier) {
+    vString.push(qx.locale.Key.getKeyName("short", modifier));
   }
-  else if (qx.util.Validation.isValidNumber(vKeyCode))
+
+  if (key) {
+    vString.push(qx.locale.Key.getKeyName("short", key));
+  }
+  /*
+  if (vShortcut != null) {
+    vString.push(vShortcut);
+  }
+  */
+  if (vKeyCode != null)
   {
     var vTemp = qx.event.type.KeyEvent.codes[vKeyCode];
-    vKeyString = vTemp ? qx.lang.String.toFirstUp(vTemp) : String(vKeyCode);
+    vString.push(vTemp ? qx.lang.String.toFirstUp(vTemp) : String(vKeyCode));
   }
 
-  if (qx.util.Validation.isValidString(vShortcut))
-  {
-    vString = vShortcut + "+" + vKeyString;
-  }
-  else if (qx.util.Validation.isValidNumber(vKeyCode))
-  {
-    vString = vKeyString;
-  }
-
-  return vString;
+  return vString.join("-");
 };
 
 

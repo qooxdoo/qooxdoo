@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -24,8 +26,8 @@
 
 /**
  * Appearance Theme
- * 
- * @param vTitle {string} anme of the appearance
+ *
+ * @param vTitle {String} anme of the appearance
  */
 qx.OO.defineClass("qx.renderer.theme.AppearanceTheme", qx.core.Object,
 function(vTitle)
@@ -71,7 +73,7 @@ qx.Proto._appearances = {};
 
 /**
  * Register an appearance for a given id
- * 
+ *
  * vData has the following structure:
  * <pre>
  * {
@@ -80,8 +82,8 @@ qx.Proto._appearances = {};
  *   state : function(vTheme, vStates) {}
  * }
  * </pre>
- * @param vId {string} id of the apperance (e.g. "button", "label", ...)
- * @param vData {Hash} 
+ * @param vId {String} id of the apperance (e.g. "button", "label", ...)
+ * @param vData {Map}
  */
 qx.Proto.registerAppearance = function(vId, vData) {
   this._appearances[vId] = vData;
@@ -90,8 +92,8 @@ qx.Proto.registerAppearance = function(vId, vData) {
 
 /**
  * Return the apperance object for a specific apperance id.
- * 
- * @param vId {string} id of the apperance (e.g. "button", "label", ...)
+ *
+ * @param vId {String} id of the apperance (e.g. "button", "label", ...)
  * @return {Object} appearance map
  */
 qx.Proto.getAppearance = function(vId) {
@@ -101,7 +103,7 @@ qx.Proto.getAppearance = function(vId) {
 
 /**
  * Call the "setup" function of the apperance
- * 
+ *
  * @param vAppearance {Object} appearance map
  */
 qx.Proto.setupAppearance = function(vAppearance)
@@ -131,9 +133,9 @@ qx.Proto.setupAppearance = function(vAppearance)
 
 /**
  * Get the result of the "initial" function for a given id
- * 
- * @param vId {string} id of the apperance (e.g. "button", "label", ...)
- * @return {Hash} map of widget properties as returned by the "initial" function
+ *
+ * @param vId {String} id of the apperance (e.g. "button", "label", ...)
+ * @return {Map} map of widget properties as returned by the "initial" function
  */
 qx.Proto.initialFrom = function(vId)
 {
@@ -159,11 +161,11 @@ qx.Proto.initialFrom = function(vId)
 
 
 /**
- * Get the result of the "state" function for a given id and states 
- * 
- * @param vId {string} id of the apperance (e.g. "button", "label", ...)
- * @param vStates {Hash} hash map defining the set states
- * @return {Hash} map of widget properties as returned by the "state" function
+ * Get the result of the "state" function for a given id and states
+ *
+ * @param vId {String} id of the apperance (e.g. "button", "label", ...)
+ * @param vStates {Map} hash map defining the set states
+ * @return {Map} map of widget properties as returned by the "state" function
  */
 qx.Proto.stateFrom = function(vId, vStates)
 {

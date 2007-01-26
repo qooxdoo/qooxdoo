@@ -5,22 +5,20 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
-     2006 by STZ-IDA, Germany, http://www.stz-ida.de
-     2006 by Derrell Lipman
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2006 STZ-IDA, Germany, http://www.stz-ida.de
+     2006 Derrell Lipman
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
-       <sebastian dot werner at 1und1 dot de>
      * Andreas Ecker (ecker)
-       <andreas dot ecker at 1und1 dot de>
      * Andreas Junghans (lucidcake)
-       <andreas dot junghans at stz-ida dot de>
-     * Derrell Lipman
-       <derrell dot lipman at unwireduniverse dot com>
+     * Derrell Lipman (derrell)
 
 ************************************************************************ */
 
@@ -60,8 +58,24 @@ SOFTWARE.
 
 qx.OO.defineClass("qx.io.Json");
 
+/**
+ * Stringify a JavaScript value, producing a JSON text.
+ *
+ * @param v {var} the object to serialize.
+ * @param beautify {Boolean ? false} whether to beautify the serialized string
+ *        by adding some white space that indents objects and arrays.
+ * @return {String} the serialized object.
+ */
+qx.Class.stringify = function (v, beautify) {};
 
-
+/**
+ * Parse a JSON text, producing a JavaScript value.
+ * It returns false if there is a syntax error.
+ *
+ * @param text {String} JSON string
+ * @return {var} evaluated JSON string.
+ */
+qx.Class.parse = function (text) {};
 
 /*
 ---------------------------------------------------------------------------
@@ -272,9 +286,9 @@ qx.io.Json = function ()
      * Stringify a JavaScript value, producing a JSON text.
      *
      * @param v {var} the object to serialize.
-     * @param beautify {boolean ? false} whether to beautify the serialized string
+     * @param beautify {Boolean ? false} whether to beautify the serialized string
      *        by adding some white space that indents objects and arrays.
-     * @return {string} the serialized object.
+     * @return {String} the serialized object.
      */
     stringify: function (v, beautify) {
       this._beautify = beautify;
@@ -295,7 +309,7 @@ qx.io.Json = function ()
 
       // DJL --
       if (qx.Settings.getValueOfClass("qx.io.Json", "enableDebug")) {
-        var logger = qx.dev.log.Logger.getClassLogger(qx.core.Object);
+        var logger = qx.log.Logger.getClassLogger(qx.core.Object);
         logger.debug("JSON request: " + ret);
       }
 
@@ -355,12 +369,15 @@ qx.io.Json = function ()
 /**
  * Parse a JSON text, producing a JavaScript value.
  * It triggers an exception if there is a syntax error.
+ *
+ * @param text {String} JSON string
+ * @return {var} evaluated JSON string.
  */
 qx.io.Json.parseQx = function(text) {
   /* Convert the result text into a result primitive or object */
 
   if (qx.Settings.getValueOfClass("qx.io.Json", "enableDebug")) {
-  var logger = qx.dev.log.Logger.getClassLogger(qx.core.Object);
+  var logger = qx.log.Logger.getClassLogger(qx.core.Object);
   logger.debug("JSON response: " + text);
   }
 
@@ -380,6 +397,8 @@ qx.io.Json.parseQx = function(text) {
   return obj;
 }
 
+/** indent string for JSON pretty printing */
 qx.io.Json.BEAUTIFYING_INDENT = "  ";
 
+/** new line string for JSON pretty printing */
 qx.io.Json.BEAUTIFYING_LINE_END = "\n";

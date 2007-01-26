@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -19,6 +21,7 @@
 /* ************************************************************************
 
 #module(ui_form)
+#embed(qx.widgettheme/arrows/down.gif)
 
 ************************************************************************ */
 
@@ -318,7 +321,7 @@ qx.Proto._openPopup = function()
     return;
   }
 
-  p.positionRelativeTo(el, 1, qx.dom.Dimension.getBoxHeight(el));
+  p.positionRelativeTo(el, 1, qx.html.Dimension.getBoxHeight(el));
   p.setWidth(this.getBoxWidth()-2);
 
   p.setParent(this.getTopLevelWidget());
@@ -549,7 +552,7 @@ qx.Proto._onkeydown = function(e)
 
     // Handle Alt+Down
     case "Down":
-      if (e.getAltKey())
+      if (e.isAltPressed())
       {
         this._togglePopup();
         return;
@@ -688,7 +691,7 @@ qx.Proto._visualizeBlur = function()
   // Force blur, even if mouseFocus is not active because we
   // need to be sure that the previous focus rect gets removed.
   // But this only needs to be done, if there is no new focused element.
-  if (qx.sys.Client.getInstance().isMshtml())
+  if (qx.core.Client.getInstance().isMshtml())
   {
     if (this.getEnableElementFocus() && !this.getFocusRoot().getFocusedChild())
     {
@@ -790,6 +793,21 @@ qx.Proto.dispose = function()
   var vDoc = qx.ui.core.ClientDocument.getInstance();
   vDoc.removeEventListener("windowblur", this._onwindowblur, this);
 
+  if (this._popup)
+  {
+    this._popup.removeEventListener("appear", this._onpopupappear, this);
+    if (!qx.core.Object._disposeAll) {
+      this._popup.setParent(null);
+      // If this is not a page unload, we have to reset the parent. Otherwise,
+      // disposing a ComboBox that was clicked at least once would mean that
+      // the popup is still referenced by the parent. When an application
+      // repeatedly creates and disposes ComboBoxes, this would mean a memleak
+      // (and it would also mess with other things like focus management).
+    }
+    this._popup.dispose();
+    this._popup = null;
+  }
+
   if (this._list)
   {
     this._list.dispose();
@@ -800,13 +818,6 @@ qx.Proto.dispose = function()
   {
     this._manager.dispose();
     this._manager = null;
-  }
-
-  if (this._popup)
-  {
-    this._popup.removeEventListener("appear", this._onpopupappear, this);
-    this._popup.dispose();
-    this._popup = null;
   }
 
   if (this._field)

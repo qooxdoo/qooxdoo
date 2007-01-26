@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -76,7 +78,7 @@ qx.Proto._createLayout = function()
 
 qx.Proto._createAutoBtn = function()
 {
-  this._automaticBtn = new qx.ui.form.Button("Automatic");
+  this._automaticBtn = new qx.ui.form.Button(this.tr("Automatic"));
   this._automaticBtn.setWidth(null);
   this._automaticBtn.setAllowStretchX(true);
   this._automaticBtn.addEventListener("execute", this._onAutomaticBtnExecute, this);
@@ -130,7 +132,7 @@ qx.Proto._createBoxes = function()
 
 qx.Proto._createPreview = function()
 {
-  this._previewBox = new qx.ui.groupbox.GroupBox("Preview (Old/New)");
+  this._previewBox = new qx.ui.groupbox.GroupBox(this.tr("Preview (Old/New)"));
   this._previewLayout = new qx.ui.layout.HorizontalBoxLayout;
   this._selectedPreview = new qx.ui.basic.Terminator;
   this._currentPreview = new qx.ui.basic.Terminator;
@@ -156,7 +158,7 @@ qx.Proto._createPreview = function()
 
 qx.Proto._createSelectorBtn = function()
 {
-  this._selectorButton = new qx.ui.form.Button("Open ColorSelector");
+  this._selectorButton = new qx.ui.form.Button(this.tr("Open ColorSelector"));
   this._selectorButton.setWidth(null);
   this._selectorButton.setAllowStretchX(true);
   this._selectorButton.addEventListener("execute", this._onSelectorButtonExecute, this);
@@ -170,7 +172,7 @@ qx.Proto._createColorSelector = function()
     return;
   }
 
-  this._colorSelectorWindow = new qx.ui.window.Window("Color Selector");
+  this._colorSelectorWindow = new qx.ui.window.Window(this.tr("Color Selector"));
   this._colorSelectorWindow.setMinWidth(null);
   this._colorSelectorWindow.setMinHeight(null);
   this._colorSelectorWindow.setResizeable(false);
@@ -266,8 +268,14 @@ qx.Proto._rotatePreviousColors = function()
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._onFieldMouseDown = function(e) {
-  this.setValue(this._currentPreview.getBackgroundColor());
+qx.Proto._onFieldMouseDown = function(e)
+{
+  var vValue = this._currentPreview.getBackgroundColor();
+  this.setValue(vValue);
+
+  if (vValue) {
+    this.hide();
+  }
 }
 
 qx.Proto._onFieldMouseOver = function(e) {
@@ -283,8 +291,8 @@ qx.Proto._onSelectorButtonExecute = function(e)
 {
   this._createColorSelector();
 
-  this._colorSelectorWindow.setTop(qx.dom.Location.getPageBoxTop(this._selectorButton.getElement()) + 10);
-  this._colorSelectorWindow.setLeft(qx.dom.Location.getPageBoxLeft(this._selectorButton.getElement()) + 100);
+  this._colorSelectorWindow.setTop(qx.html.Location.getPageBoxTop(this._selectorButton.getElement()) + 10);
+  this._colorSelectorWindow.setLeft(qx.html.Location.getPageBoxLeft(this._selectorButton.getElement()) + 100);
 
   this.hide();
 

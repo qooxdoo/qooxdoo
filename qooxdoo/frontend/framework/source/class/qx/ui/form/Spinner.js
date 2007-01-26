@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -19,6 +21,8 @@
 /* ************************************************************************
 
 #module(ui_form)
+#embed(qx.widgettheme/arrows/up_small.gif)
+#embed(qx.widgettheme/arrows/down_small.gif)
 
 ************************************************************************ */
 
@@ -35,7 +39,7 @@ function(vMin, vValue, vMax)
   // ************************************************************************
   this.setTabIndex(-1);
 
-  if (qx.sys.Client.getInstance().isMshtml()) {
+  if (qx.core.Client.getInstance().isMshtml()) {
     this.setStyleProperty("fontSize", "0px");
   }
 
@@ -106,15 +110,15 @@ function(vMin, vValue, vMax)
   //   INITIALIZATION
   // ************************************************************************
 
-  if(qx.util.Validation.isValidNumber(vMin)) {
+  if(vMin != null) {
     this.setMin(vMin);
   }
 
-  if(qx.util.Validation.isValidNumber(vMax)) {
+  if(vMax != null) {
     this.setMax(vMax);
   }
 
-  if(qx.util.Validation.isValidNumber(vValue)) {
+  if(vValue != null) {
     this.setValue(vValue);
   }
 });
@@ -170,6 +174,13 @@ qx.OO.addProperty({ name : "timerDecrease", type : "number", defaultValue : 2 })
 qx.OO.addProperty({ name : "amountGrowth", type : "number", defaultValue : 1.01 });
 
 
+qx.Proto._modifyIncrementAmount = function(propValue, propOldValue, propData)
+{
+  this._computedIncrementAmount = propValue;
+  return true;
+};
+
+
 
 
 
@@ -201,7 +212,7 @@ qx.Proto._onkeypress = function(e)
 {
   var vIdentifier = e.getKeyIdentifier();
 
-  if (vIdentifier == "Enter" && !e.getAltKey())
+  if (vIdentifier == "Enter" && !e.isAltPressed())
   {
     this._checkValue(true, false, false);
     this._textfield.selectAll();
@@ -476,7 +487,7 @@ qx.Proto._oninterval = function(e)
   else
   {
     if (this.getInterval() == this.getMinTimer()) {
-      this.setIncrementAmount(this.getAmountGrowth() * this.getIncrementAmount());
+      this._computedIncrementAmount = this.getAmountGrowth() * this._computedIncrementAmount;
     }
 
     this._increment();
@@ -602,7 +613,7 @@ qx.Proto._checkValue = function(acceptEmpty, acceptEdit)
 }
 
 qx.Proto._increment = function() {
-  this._manager.setValue(this._manager.getValue() + ((this._intervalIncrease ? 1 : - 1) * this.getIncrementAmount()));
+  this._manager.setValue(this._manager.getValue() + ((this._intervalIncrease ? 1 : - 1) * this._computedIncrementAmount));
 }
 
 qx.Proto._pageIncrement = function() {
@@ -611,7 +622,7 @@ qx.Proto._pageIncrement = function() {
 
 qx.Proto._resetIncrements = function()
 {
-  this.resetIncrementAmount();
+  this._computedIncrementAmount = this.getIncrementAmount();
   this.resetInterval();
 }
 

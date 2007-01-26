@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -677,7 +679,7 @@ qx.Proto.layoutChild = function(vChild, vJobs)
   this.layoutChild_marginY(vChild, vJobs);
 }
 
-if (qx.sys.Client.getInstance().isMshtml() || qx.sys.Client.getInstance().isOpera() || qx.sys.Client.getInstance().isWebkit())
+if (qx.core.Client.getInstance().isMshtml() || qx.core.Client.getInstance().isOpera() || qx.core.Client.getInstance().isWebkit())
 {
   qx.Proto.layoutChild_sizeX = function(vChild, vJobs)
   {
@@ -813,7 +815,7 @@ qx.Proto.layoutChild_locationX = function(vChild, vJobs)
   var vWidget = this.getWidget();
 
   // special stretching support
-  if (qx.sys.Client.getInstance().isGecko() && vChild.getAllowStretchX() && vWidget.getStretchChildrenOrthogonalAxis() && vChild._computedWidthTypeNull)
+  if (qx.core.Client.getInstance().isGecko() && vChild.getAllowStretchX() && vWidget.getStretchChildrenOrthogonalAxis() && vChild._computedWidthTypeNull)
   {
     vChild._applyRuntimeLeft(vWidget.getPaddingLeft() || 0);
     vChild._applyRuntimeRight(vWidget.getPaddingRight() || 0);

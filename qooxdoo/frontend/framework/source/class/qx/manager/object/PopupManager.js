@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -19,6 +21,7 @@
 /* ************************************************************************
 
 #module(ui_popup)
+#optional(qx.ui.popup.ToolTip)
 
 ************************************************************************ */
 
@@ -56,6 +59,10 @@ qx.Proto.update = function(vTarget)
       continue;
     }
 
+    if (qx.OO.isAvailable("qx.ui.popup.ToolTip") && vTarget instanceof qx.ui.popup.ToolTip && !(vPopup instanceof qx.ui.popup.ToolTip)) {
+      continue;
+    }
+
     vPopup.hide();
   }
 }
@@ -74,4 +81,4 @@ qx.Proto.update = function(vTarget)
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = qx.util.Return.returnInstance;
+qx.Class.getInstance = qx.lang.Function.returnInstance;

@@ -5,41 +5,51 @@
    http://qooxdoo.org
 
    Copyright:
-     2006 by STZ-IDA, Germany, http://www.stz-ida.de
+     2006 STZ-IDA, Germany, http://www.stz-ida.de
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Til Schneider (til132)
+     * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
 
 /* ************************************************************************
 
+#require(qx.locale.Date)
 
 ************************************************************************ */
 
 /**
  * A formatter and parser for dates
  *
- * @param format {string} The format to use. If null, the
+ * @param format {String} The format to use. If null, the
  *    {@link #DEFAULT_DATE_TIME_FORMAT} is used.
+ * @param locale {String} optional locale to be used
  */
 qx.OO.defineClass("qx.util.format.DateFormat", qx.util.format.Format,
-function(format) {
+function(format, locale) {
   qx.util.format.Format.call(this);
 
-  this._format = (format != null) ? format : qx.util.format.DateFormat.DEFAULT_DATE_TIME_FORMAT;
+  if (format != null) {
+    this._format = format.toString()
+  } else {
+    this._format = qx.locale.Date.getDateFormat("long", locale) + " " + qx.locale.Date.getDateTimeFormat("HHmmss", "HH:mm:ss", locale);
+  }
+  this._locale = locale;
 });
 
 
 /**
  * Fills a number with leading zeros ("25" -> "0025").
  *
- * @param number {int} the number to fill.
- * @param minSize {int} the minimum size the returned string should have.
- * @return {string} the filled number as string.
+ * @param number {Integer} the number to fill.
+ * @param minSize {Integer} the minimum size the returned string should have.
+ * @return {String} the filled number as string.
  */
 qx.Proto._fillNumber = function(number, minSize) {
   var str = "" + number;
@@ -54,7 +64,7 @@ qx.Proto._fillNumber = function(number, minSize) {
  * Returns the day in year of a date.
  *
  * @param date {Date} the date.
- * @return {int} the day in year.
+ * @return {Integer} the day in year.
  */
 qx.Proto._getDayInYear = function(date) {
   var helpDate = new Date(date.getTime());
@@ -83,7 +93,7 @@ qx.Proto._thursdayOfSameWeek = function(date) {
  * Returns the week in year of a date.
  *
  * @param date {Date} the date to get the week in year of.
- * @return {int} the week in year.
+ * @return {Integer} the week in year.
  */
 qx.Proto._getWeekInYear = function(date) {
   // This algorithm gets the correct calendar week after ISO 8601.
@@ -113,10 +123,11 @@ qx.Proto._getWeekInYear = function(date) {
  * the SimpleDateFormat class in Java</a>.
  *
  * @param date {Date} The date to format.
- * @return {string} the formatted date.
+ * @return {String} the formatted date.
  */
 qx.Proto.format = function(date) {
   var DateFormat = qx.util.format.DateFormat;
+  var locale = this._locale;
 
   var fullYear = date.getFullYear();
   var month = date.getMonth();
@@ -163,25 +174,25 @@ qx.Proto.format = function(date) {
           replacement = this._fillNumber(this._getWeekInYear(date), wildcardSize); break;
         case 'E': // Day in week
           if (wildcardSize == 2) {
-            replacement = DateFormat.SHORT_DAY_OF_WEEK_NAMES[dayOfWeek];
+            replacement = qx.locale.Date.getDayName("narrow", dayOfWeek, locale);
           } else if (wildcardSize == 3) {
-            replacement = DateFormat.MEDIUM_DAY_OF_WEEK_NAMES[dayOfWeek];
+            replacement = qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale);
           } else if (wildcardSize == 4) {
-            replacement = DateFormat.FULL_DAY_OF_WEEK_NAMES[dayOfWeek];
+            replacement = qx.locale.Date.getDayName("wide", dayOfWeek, locale);
           }
           break;
         case 'M': // Month
           if (wildcardSize == 1 || wildcardSize == 2) {
             replacement = this._fillNumber(month + 1, wildcardSize);
           } else if (wildcardSize == 3) {
-            replacement = DateFormat.SHORT_MONTH_NAMES[month];
+            replacement = qx.locale.Date.getMonthName("abbreviated",month, locale);
           } else if (wildcardSize == 4) {
-            replacement = DateFormat.FULL_MONTH_NAMES[month];
+            replacement = qx.locale.Date.getMonthName("wide", month, locale);
           }
           break;
         case 'a': // am/pm marker
           // NOTE: 0:00 is am, 12:00 is pm
-          replacement = (hours < 12) ? DateFormat.AM_MARKER : DateFormat.PM_MARKER; break;
+          replacement = (hours < 12) ? qx.locale.Date.getAmMarker(locale) : qx.locale.Date.getPmMarker(locale); break;
         case 'H': // Hour in day (0-23)
           replacement = this._fillNumber(hours, wildcardSize); break;
         case 'k': // Hour in day (1-24)
@@ -223,7 +234,7 @@ qx.Proto.format = function(date) {
  * <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/text/SimpleDateFormat.html" target="_blank">
  * the SimpleDateFormat class in Java</a>.
  *
- * @param dateStr {string} the date to parse.
+ * @param dateStr {String} the date to parse.
  * @return {Date} the parsed date.
  * @throws If the format is not well formed or if the date string does not
  *     match to the format.
@@ -278,43 +289,90 @@ qx.Proto._initFormatTree = function() {
   this._formatTree = [];
 
   var currWildcardChar;
-  var currWildcardSize;
+  var currWildcardSize = 0;
   var currLiteral = "";
   var format = this._format;
-  for (var i = 0; i < format.length; i++) {
+
+  var state = "default"
+
+  var i = 0;
+  while (i < format.length) {
     var currChar = format.charAt(i);
 
-    // Check whether we are currently in a wildcard
-    if (currWildcardChar != null) {
-      // Check whether the currChar belongs to that wildcard
-      if (currChar == currWildcardChar) {
-        // It does -> Raise the size
-        currWildcardSize++;
-      } else {
-        // It does not -> The current wildcard is done
-        this._formatTree.push({ type:"wildcard", character:currWildcardChar, size:currWildcardSize });
-        currWildcardChar = null;
-      }
-    }
-
-    if (currWildcardChar == null) {
-      // We are not (any more) in a wildcard -> Check what's starting here
-      if ((currChar >= 'a' && currChar <= 'z') || (currChar >= 'A' && currChar <= 'Z')) {
-        // This is a letter -> All letters are wildcards
-
-        // Add the literal
-        if (currLiteral.length > 0) {
-          this._formatTree.push({ type:"literal", text:currLiteral });
-          currLiteral = "";
+    switch (state) {
+      case "quoted_literal":
+        // We are now inside a quoted literal
+        // Check whether the current character is an escaped "'" character
+        if (currChar == "'") {
+          if (i+1 >= format.length) {
+            // this is the last character
+            i++;
+            break;
+          }
+          var lookAhead = format.charAt(i+1);
+          if (lookAhead == "'") {
+            currLiteral += currChar;
+            i++;
+          } else {
+            // quoted literal ends
+            i++;
+            state = "unkown";
+          }
+        } else {
+          currLiteral += currChar;
+          i++;
         }
-
-        // Start a new wildcard
-        currWildcardChar = currChar;
-        currWildcardSize = 1;
-      } else {
-        // This is a literal -> Add it to the current literal
-        currLiteral += currChar;
-      }
+        break;
+      case "wildcard":
+        // Check whether the currChar belongs to that wildcard
+        if (currChar == currWildcardChar) {
+          // It does -> Raise the size
+          currWildcardSize++;
+          i++;
+        } else {
+          // It does not -> The current wildcard is done
+          this._formatTree.push({ type:"wildcard", character:currWildcardChar, size:currWildcardSize });
+          currWildcardChar = null;
+          currWildcardSize = 0;
+          state = "default";
+        }
+        break;
+      default:
+        // We are not (any more) in a wildcard or quoted literal -> Check what's starting here
+        if ((currChar >= 'a' && currChar <= 'z') || (currChar >= 'A' && currChar <= 'Z')) {
+          // This is a letter -> All letters are wildcards
+          // Start a new wildcard
+          currWildcardChar = currChar;
+          state = "wildcard";
+        } else if (currChar == "'") {
+          if (i+1 >= format.length) {
+            // this is the last character
+            currLiteral += currChar;
+            i++;
+            break;
+          }
+          var lookAhead = format.charAt(i+1);
+          if (lookAhead == "'") {
+            currLiteral += currChar;
+            i++;
+          }
+          i++;
+          state = "quoted_literal";
+        } else {
+          state = "default"
+        }
+        if (state != "default") {
+          // Add the literal
+          if (currLiteral.length > 0) {
+            this._formatTree.push({ type:"literal", text:currLiteral });
+            currLiteral = "";
+          }
+        } else {
+          // This is an unquoted literal -> Add it to the current literal
+          currLiteral += currChar;
+          i++;
+        }
+        break;
     }
   }
 
@@ -342,6 +400,7 @@ qx.Proto._initParseFeed = function() {
   }
 
   var DateFormat = qx.util.format.DateFormat;
+  var format = this._format;
 
   // Initialize the rules
   this._initParseRules();
@@ -451,6 +510,7 @@ qx.Proto._initParseRules = function() {
     groups:2, manipulator:yearManipulator } );
   DateFormat._parseRules.push({ pattern:"yy",   regex:"(\\d\\d)",  manipulator:yearManipulator } );
   // TODO: "MMMM", "MMM" (Month names)
+  DateFormat._parseRules.push({ pattern:"M",    regex:"(\\d\\d?)", manipulator:monthManipulator });
   DateFormat._parseRules.push({ pattern:"MM",   regex:"(\\d\\d?)", manipulator:monthManipulator });
   DateFormat._parseRules.push({ pattern:"dd",   regex:"(\\d\\d?)", field:"day" });
   DateFormat._parseRules.push({ pattern:"d",    regex:"(\\d\\d?)", field:"day" });
@@ -480,12 +540,16 @@ qx.Proto._initParseRules = function() {
  * Returns a <code>DateFomat</code> instance that uses the
  * {@link #DEFAULT_DATE_TIME_FORMAT}.
  *
- * @return {string} the date/time instance.
+ * @return {String} the date/time instance.
  */
 qx.Class.getDateTimeInstance = function() {
   var DateFormat = qx.util.format.DateFormat;
 
-  if (DateFormat._dateTimeInstance == null) {
+  var format = qx.locale.Date.getDateFormat("long") + " " + qx.locale.Date.getDateTimeFormat("HHmmss", "HH:mm:ss");
+  if (
+    DateFormat._dateInstance == null ||
+    DateFormat._format != format
+  ) {
     DateFormat._dateTimeInstance = new DateFormat();
   }
   return DateFormat._dateTimeInstance;
@@ -496,13 +560,17 @@ qx.Class.getDateTimeInstance = function() {
  * Returns a <code>DateFomat</code> instance that uses the
  * {@link #DEFAULT_DATE_FORMAT}.
  *
- * @return {string} the date instance.
+ * @return {String} the date instance.
  */
 qx.Class.getDateInstance = function() {
   var DateFormat = qx.util.format.DateFormat;
 
-  if (DateFormat._dateInstance == null) {
-    DateFormat._dateInstance = new DateFormat(DateFormat.DEFAULT_DATE_FORMAT);
+  var format = qx.locale.Date.getDateFormat("short") + "";
+  if (
+    DateFormat._dateInstance == null ||
+    DateFormat._format != format
+  ) {
+    DateFormat._dateInstance = new DateFormat(format);
   }
   return DateFormat._dateInstance;
 }
@@ -516,92 +584,14 @@ qx.Class.getDateInstance = function() {
  */
 qx.Class.ASSUME_YEAR_2000_THRESHOLD = 30;
 
-/** {string} The short date format. */
-qx.Class.SHORT_DATE_FORMAT = "MM/dd/yyyy";
-
-/** {string} The medium date format. */
-qx.Class.MEDIUM_DATE_FORMAT = "MMM dd, yyyy";
-
-/** {string} The long date format. */
-qx.Class.LONG_DATE_FORMAT = "MMMM dd, yyyy";
-
-/** {string} The full date format. */
-qx.Class.FULL_DATE_FORMAT = "EEEE, MMMM dd, yyyy";
-
-/** {string} The short time format. */
-qx.Class.SHORT_TIME_FORMAT = "HH:mm";
-
-/** {string} The medium time format. */
-qx.Class.MEDIUM_TIME_FORMAT = qx.util.format.DateFormat.SHORT_TIME_FORMAT;
-
-/** {string} The long time format. */
-qx.Class.LONG_TIME_FORMAT = "HH:mm:ss";
-
-/** {string} The full time format. */
-qx.Class.FULL_TIME_FORMAT = "HH:mm:ss zz";
-
-/** {string} The short date-time format. */
-qx.Class.SHORT_DATE_TIME_FORMAT
-  = qx.util.format.DateFormat.SHORT_DATE_FORMAT + " "
-  + qx.util.format.DateFormat.SHORT_TIME_FORMAT;
-
-/** {string} The medium date-time format. */
-qx.Class.MEDIUM_DATE_TIME_FORMAT
-  = qx.util.format.DateFormat.MEDIUM_DATE_FORMAT + " "
-  + qx.util.format.DateFormat.MEDIUM_TIME_FORMAT;
-
-/** {string} The long date-time format. */
-qx.Class.LONG_DATE_TIME_FORMAT
-  = qx.util.format.DateFormat.LONG_DATE_FORMAT + " "
-  + qx.util.format.DateFormat.LONG_TIME_FORMAT;
-
-/** {string} The full date-time format. */
-qx.Class.FULL_DATE_TIME_FORMAT
-  = qx.util.format.DateFormat.FULL_DATE_FORMAT + " "
-  + qx.util.format.DateFormat.FULL_TIME_FORMAT;
-
-
 /** {string} The date format used for logging. */
 qx.Class.LOGGING_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
-/** {string}  The default date/time format. */
-qx.Class.DEFAULT_DATE_TIME_FORMAT = qx.util.format.DateFormat.LOGGING_DATE_TIME_FORMAT;
-
-/** {string}  The default date format. */
-qx.Class.DEFAULT_DATE_FORMAT = qx.util.format.DateFormat.SHORT_DATE_FORMAT;
-
 /** {string} The am marker. */
-qx.Class.AM_MARKER = "am";
+qx.Class.AM_MARKER = "am"
 
 /** {string} The pm marker. */
 qx.Class.PM_MARKER = "pm";
-
-/** {string[]} The full month names. */
-qx.Class.FULL_MONTH_NAMES = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
-];
-
-/** {string[]} The short month names. */
-qx.Class.SHORT_MONTH_NAMES = [
-  "Jan", "Feb", "Mar", "Apr", "Mai", "Jun",
-  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-];
-
-/** {string[]} The short (two letter) day of week names. */
-qx.Class.SHORT_DAY_OF_WEEK_NAMES = [
-  "Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"
-];
-
-/** {string[]} The medium (three letter) day of week names. */
-qx.Class.MEDIUM_DAY_OF_WEEK_NAMES = [
-  "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
-];
-
-/** {string[]} The full day of week names. */
-qx.Class.FULL_DAY_OF_WEEK_NAMES = [
-  "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
-];
 
 /** {string[]} The medium (three letter) timezone names. */
 qx.Class.MEDIUM_TIMEZONE_NAMES = [

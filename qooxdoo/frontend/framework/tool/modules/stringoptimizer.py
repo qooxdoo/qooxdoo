@@ -1,4 +1,23 @@
 #!/usr/bin/env python
+################################################################################
+#
+#  qooxdoo - the new era of web development
+#
+#  http://qooxdoo.org
+#
+#  Copyright:
+#    2006-2007 1&1 Internet AG, Germany, http://www.1and1.org
+#
+#  License:
+#    LGPL: http://www.gnu.org/licenses/lgpl.html
+#    EPL: http://www.eclipse.org/org/documents/epl-v10.php
+#    See the LICENSE file in the project's top-level directory for details.
+#
+#  Authors:
+#    * Sebastian Werner (wpbasti)
+#    * Fabian Jakobs (fjakobs)
+#
+################################################################################
 
 import tree
 
@@ -11,7 +30,10 @@ def search_loop(node, stringMap={}, verbose=False):
   if node.type == "constant" and node.get("constantType") == "string":
 
     if verbose:
-      print "    - Found: %s" % node.get("value")
+      pvalue = node.get("value")
+      if isinstance(pvalue, unicode):
+        pvalue = pvalue.encode("utf-8")
+      print "    - Found: %s" % pvalue
 
     if node.get("detail") == "singlequotes":
       quote = "'"
@@ -107,7 +129,10 @@ def replace(node, stringList, var="$", verbose=False):
         newvalue = "%s[%s]" % (var, pos)
 
         if verbose:
-          print "    - Replace: %s => %s" % (oldvalue, newvalue)
+          poldvalue = oldvalue
+          if isinstance(poldvalue, unicode):
+            poldvalue = poldvalue.encode("utf-8")
+          print "    - Replace: %s => %s" % (poldvalue, newvalue)
 
         line = node.get("line")
 

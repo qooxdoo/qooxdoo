@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -51,10 +53,10 @@ function()
 
 qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "menu-separator" });
 
-qx.Proto.hasIcon = qx.util.Return.returnFalse;
-qx.Proto.hasLabel = qx.util.Return.returnFalse;
-qx.Proto.hasShortcut = qx.util.Return.returnFalse;
-qx.Proto.hasMenu = qx.util.Return.returnFalse;
+qx.Proto.hasIcon = qx.lang.Function.returnFalse;
+qx.Proto.hasLabel = qx.lang.Function.returnFalse;
+qx.Proto.hasShortcut = qx.lang.Function.returnFalse;
+qx.Proto.hasMenu = qx.lang.Function.returnFalse;
 
 qx.Proto._onmousedown = function(e) {
   e.stopPropagation();

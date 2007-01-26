@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -74,7 +76,7 @@ qx.event.type.MouseEvent.getPageX   = function() { return qx.event.type.MouseEve
 qx.event.type.MouseEvent.getPageY   = function() { return qx.event.type.MouseEvent._pageY;   }
 qx.event.type.MouseEvent.getButton  = function() { return qx.event.type.MouseEvent._button;  }
 
-if (qx.sys.Client.getInstance().isMshtml())
+if (qx.core.Client.getInstance().isMshtml())
 {
   qx.event.type.MouseEvent.buttons = { left : 1, right : 2, middle : 4 }
 }
@@ -119,12 +121,12 @@ qx.Proto.getScreenY = function() {
 ---------------------------------------------------------------------------
 */
 
-if (qx.sys.Client.getInstance().isMshtml())
+if (qx.core.Client.getInstance().isMshtml())
 {
 qx.OO.addFastProperty({ name : "pageX", readOnly : true });
 qx.OO.addFastProperty({ name : "pageY", readOnly : true });
 
-  if (qx.sys.Client.getInstance().isInQuirksMode())
+  if (qx.core.Client.getInstance().isInQuirksMode())
   {
     qx.Proto._computePageX = function() {
       return this.getDomEvent().clientX + document.documentElement.scrollLeft;
@@ -145,7 +147,7 @@ qx.OO.addFastProperty({ name : "pageY", readOnly : true });
     }
   }
 }
-else if (qx.sys.Client.getInstance().isGecko())
+else if (qx.core.Client.getInstance().isGecko())
 {
   qx.Proto.getPageX = function() {
     return this.getDomEvent().pageX;
@@ -178,7 +180,7 @@ else
 ---------------------------------------------------------------------------
 */
 
-if (qx.sys.Client.getInstance().isMshtml() || qx.sys.Client.getInstance().isGecko())
+if (qx.core.Client.getInstance().isMshtml() || qx.core.Client.getInstance().isGecko())
 {
   qx.Proto.getClientX = function() {
     return this.getDomEvent().clientX;
@@ -217,7 +219,7 @@ qx.OO.addFastProperty({ name : "clientY", readOnly : true });
 qx.OO.addFastProperty({ name : "button", readOnly : true });
 
 // IE does not set e.button in click events
-if (qx.sys.Client.getInstance().isMshtml())
+if (qx.core.Client.getInstance().isMshtml())
 {
   qx.Proto.isLeftButtonPressed = function() {
     if (this.getType() == "click") {
@@ -289,13 +291,13 @@ qx.Proto._computeButton = function() {
 
 qx.OO.addFastProperty({ name : "wheelDelta", readOnly : true });
 
-if(qx.sys.Client.getInstance().isMshtml())
+if(qx.core.Client.getInstance().isMshtml())
 {
   qx.Proto._computeWheelDelta = function() {
     return this.getDomEvent().wheelDelta / 120;
   }
 }
-else if(qx.sys.Client.getInstance().isOpera())
+else if(qx.core.Client.getInstance().isOpera())
 {
   qx.Proto._computeWheelDelta = function() {
     return -this.getDomEvent().wheelDelta / 120;

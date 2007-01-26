@@ -5,12 +5,14 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
-     2006 by Derrell Lipman
-     2006 by STZ-IDA, Germany, http://www.stz-ida.de
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2006 Derrell Lipman
+     2006 STZ-IDA, Germany, http://www.stz-ida.de
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -24,6 +26,8 @@
 
 #module(io_remote)
 #require(qx.io.remote.Exchange)
+#require(qx.util.Mime)
+#embed(qx.static/image/blank.gif)
 
 ************************************************************************ */
 
@@ -44,7 +48,7 @@ function()
   // Mshtml allows us to define a full HTML as a parameter for createElement.
   // Using this method is the only (known) working to register the frame
   // to the known elements of the Internet Explorer.
-  if (qx.sys.Client.getInstance().isMshtml()) {
+  if (qx.core.Client.getInstance().isMshtml()) {
     this._frame = document.createElement('<iframe name="' + vFrameName + '"></iframe>');
   } else {
     this._frame = document.createElement("iframe");
@@ -96,7 +100,7 @@ qx.io.remote.IframeTransport.handles =
   asynchronous : true,
   crossDomain : false,
   fileUpload: true,
-  responseTypes : [ "text/plain", "text/javascript", "text/json", "application/xml", "text/html" ]
+  responseTypes : [ qx.util.Mime.TEXT, qx.util.Mime.JAVASCRIPT, qx.util.Mime.JSON, qx.util.Mime.XML, qx.util.Mime.HTML ]
 }
 
 qx.io.remote.IframeTransport.isSupported = function() {
@@ -317,15 +321,15 @@ qx.Proto.getStatusText = function()
 */
 
 qx.Proto.getIframeWindow = function() {
-  return qx.dom.Iframe.getWindow(this._frame);
+  return qx.html.Iframe.getWindow(this._frame);
 }
 
 qx.Proto.getIframeDocument = function() {
-  return qx.dom.Iframe.getDocument(this._frame);
+  return qx.html.Iframe.getDocument(this._frame);
 }
 
 qx.Proto.getIframeBody = function() {
-  return qx.dom.Iframe.getBody(this._frame);
+  return qx.html.Iframe.getBody(this._frame);
 }
 
 
@@ -397,29 +401,29 @@ qx.Proto.getResponseContent = function()
 
   switch(this.getResponseType())
   {
-    case "text/plain":
+    case qx.util.Mime.TEXT:
       return vText;
       break;
 
-    case "text/html":
+    case qx.util.Mime.HTML:
       return this.getIframeHtmlContent();
       break;
 
-    case "text/json":
+    case qx.util.Mime.JSON:
       try {
         return vText && vText.length > 0 ? qx.io.Json.parseQx(vText) : null;
       } catch(ex) {
         return this.error("Could not execute json: (" + vText + ")", ex);
       }
 
-    case "text/javascript":
+    case qx.util.Mime.JAVASCRIPT:
       try {
         return vText && vText.length > 0 ? window.eval(vText) : null;
       } catch(ex) {
         return this.error("Could not execute javascript: (" + vText + ")", ex);
       }
 
-    case "application/xml":
+    case qx.util.Mime.XML:
       return this.getIframeDocument();
 
     default:
@@ -452,7 +456,7 @@ qx.Proto.dispose = function()
 
     // Reset source to a blank image for gecko
     // Otherwise it will switch into a load-without-end behaviour
-    if (qx.sys.Client.getInstance().isGecko()) {
+    if (qx.core.Client.getInstance().isGecko()) {
       this._frame.src = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
     }
 

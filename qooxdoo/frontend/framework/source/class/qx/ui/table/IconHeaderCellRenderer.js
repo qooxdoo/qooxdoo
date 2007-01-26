@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2006 by STZ-IDA, Germany, http://www.stz-ida.de
+     2006 STZ-IDA, Germany, http://www.stz-ida.de
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Til Schneider (til132)
@@ -26,8 +28,8 @@
  * A header cell renderer which renders an icon (only). The icon cannot be combined
  * with text.
  *
- * @param iconUrl {string} URL to the icon to show
- * @param tooltip {string ? ""} Text of the tooltip to show if the mouse hovers over the
+ * @param iconUrl {String} URL to the icon to show
+ * @param tooltip {String ? ""} Text of the tooltip to show if the mouse hovers over the
  *                             icon
  *
  */

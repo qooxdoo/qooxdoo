@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Volker Pauli (vpauli)
@@ -20,6 +22,7 @@
 /* ************************************************************************
 
 #module(ui_splitpane)
+#embed(qx.widgettheme/splitpane/*)
 
  ************************************************************************ */
 
@@ -31,9 +34,9 @@
  * new qx.ui.splitpane.SplitPane(orientation)
  * new qx.ui.splitpane.SplitPane(orientation, firstSize, secondSize)
  *
- * @param orientation {string} The orientation of the splitpane control. Allowed values are "horizontal" (default) and "vertical". This is the same type as used in {@link qx.ui.layout.BoxLayout#orientation}.
- * @param firstSize {string} The size of the left (top) pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
- * @param secondSize {string} The size of the right (bottom) pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
+ * @param orientation {String} The orientation of the splitpane control. Allowed values are "horizontal" (default) and "vertical". This is the same type as used in {@link qx.ui.layout.BoxLayout#orientation}.
+ * @param firstSize {String} The size of the left (top) pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
+ * @param secondSize {String} The size of the right (bottom) pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
  */
 qx.OO.defineClass("qx.ui.splitpane.SplitPane", qx.ui.layout.CanvasLayout,
 function(orientation, firstSize, secondSize)
@@ -178,7 +181,7 @@ qx.OO.addProperty({ name : "splitterSize", defaultValue : 4 });
 /**
  * adds one or more widget(s) to the left pane
  *
- *@param widget (qx.ui.core.Parent)
+ *@param widget {qx.ui.core.Parent}
  */
 qx.Proto.addLeft = function() {
   var c = this.getFirstArea();
@@ -188,7 +191,7 @@ qx.Proto.addLeft = function() {
 /**
  * adds one or more widget(s) to the top pane
  *
- *@param widget (qx.ui.core.Parent)
+ *@param widget {qx.ui.core.Parent}
  */
 qx.Proto.addTop = function() {
   var c = this.getFirstArea();
@@ -198,7 +201,7 @@ qx.Proto.addTop = function() {
 /**
  * adds one or more widget(s) to the right pane
  *
- *@param widget (qx.ui.core.Parent)
+ *@param widget {qx.ui.core.Parent}
  */
 qx.Proto.addRight = function() {
   var c = this.getSecondArea();
@@ -208,7 +211,7 @@ qx.Proto.addRight = function() {
 /**
  * adds one or more widget(s) to the bottom pane
  *
- *@param widget (qx.ui.core.Parent)
+ *@param widget {qx.ui.core.Parent}
  */
 qx.Proto.addBottom = function() {
   var c = this.getSecondArea();
@@ -498,9 +501,9 @@ qx.Proto._onSplitterMouseDownX = function(e)
   this._knob.addState("dragging");
 
   // initialize the drag session
-  this._dragMin = qx.dom.Location.getPageInnerLeft(this._box.getElement());
+  this._dragMin = qx.html.Location.getPageInnerLeft(this._box.getElement());
   this._dragMax = this._dragMin + this._box.getInnerWidth() - this._splitter.getBoxWidth();
-  this._dragOffset = e.getPageX() - qx.dom.Location.getPageBoxLeft(this._splitter.getElement());
+  this._dragOffset = e.getPageX() - qx.html.Location.getPageBoxLeft(this._splitter.getElement());
 }
 
 /**
@@ -523,9 +526,9 @@ qx.Proto._onSplitterMouseDownY = function(e)
 
   // initialize the drag session
   // dragStart = position of layout + mouse offset on splitter
-  this._dragMin = qx.dom.Location.getPageInnerTop(this._box.getElement());
+  this._dragMin = qx.html.Location.getPageInnerTop(this._box.getElement());
   this._dragMax = this._dragMin + this._box.getInnerHeight() - this._splitter.getBoxHeight();
-  this._dragOffset = e.getPageY() - qx.dom.Location.getPageBoxTop(this._splitter.getElement());
+  this._dragOffset = e.getPageY() - qx.html.Location.getPageBoxTop(this._splitter.getElement());
 }
 
 qx.Proto._commonMouseDown = function()

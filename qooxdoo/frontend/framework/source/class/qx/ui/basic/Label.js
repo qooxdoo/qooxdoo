@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -30,11 +32,11 @@ function(vHtml, vMnemonic)
   qx.ui.basic.Terminator.call(this);
 
   // Apply constructor arguments
-  if (qx.util.Validation.isValidString(vHtml)) {
+  if (vHtml != null) {
     this.setHtml(vHtml);
   }
 
-  if (qx.util.Validation.isValidString(vMnemonic)) {
+  if (vMnemonic != null) {
     this.setMnemonic(vMnemonic);
   }
 
@@ -63,7 +65,7 @@ qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "lab
 /*!
   Any text string which can contain HTML, too
 */
-qx.OO.addProperty({ name : "html", type : "string" });
+qx.OO.addProperty({ name : "html" });
 
 /*!
   The alignment of the text.
@@ -109,7 +111,7 @@ qx.OO.addProperty({ name : "wrap", type : "boolean", defaultValue : true });
 */
 
 qx.ui.basic.Label.SYMBOL_ELLIPSIS = String.fromCharCode(8230);
-qx.ui.basic.Label.SUPPORT_NATIVE_ELLIPSIS = qx.sys.Client.getInstance().isMshtml();
+qx.ui.basic.Label.SUPPORT_NATIVE_ELLIPSIS = qx.core.Client.getInstance().isMshtml();
 
 // these are the properties what will be copied to the measuring frame.
 qx.ui.basic.Label._fontProperties =
@@ -125,71 +127,6 @@ qx.ui.basic.Label._fontProperties =
   "all" : ["fontFamily", "fontSize", "fontStyle", "fontVariant", "fontWeight", "letterSpacing", "lineBreak", "lineHeight", "quotes", "textDecoration", "textIndent", "textShadow", "textTransform", "textUnderlinePosition", "whiteSpace", "wordBreak", "wordSpacing", "wordWrap"]
 }
 
-qx.ui.basic.Label.htmlToText = function(s) {
-  return String(s).replace(/\s+|<([^>])+>|&amp;|&lt;|&gt;|&quot;|&nbsp;|&#[0-9]+;|&#x[0-9a-fA-F];]/gi, qx.ui.basic.Label._htmlToText);
-}
-
-qx.ui.basic.Label._htmlToText = function(s)
-{
-  switch(s)
-  {
-    case "&amp;":
-      return "&";
-
-    case "&lt;":
-      return "<";
-
-    case "&gt;":
-      return ">";
-
-    case "&quot;":
-      return '"';
-
-    case "&nbsp;":
-      return String.fromCharCode(160);
-
-    default:
-      if (s.substring(0, 3) == "&#x") {
-        return String.fromCharCode(parseInt("0x" + s.substring(3, s.length - 1)));
-      }
-      else if (s.substring(0, 2) == "&#") {
-        return String.fromCharCode(s.substring(2, s.length - 1));
-      }
-      else if (/\s+/.test(s)) {
-        return " ";
-      }
-      else if (/^<BR/gi.test(s)) {
-        return "\n";
-      }
-
-      return "";
-  }
-}
-
-qx.ui.basic.Label.textToHtml = function(s) {
-  return String(s).replace(/&|<|>|\n|\u00A0/g, qx.ui.basic.Label._textToHtml);
-}
-
-qx.ui.basic.Label._textToHtml = function(s)
-{
-  switch(s)
-  {
-    case "&":
-      return "&amp;";
-
-    case "<":
-      return "&lt;";
-
-    case ">":
-      return "&gt;";
-
-    case "\n":
-      return "<br/>";
-
-    default:
-      return " ";
-  }
-}
 
 qx.ui.basic.Label.createMeasureNode = function(vId)
 {
@@ -230,6 +167,8 @@ qx.ui.basic.Label.createMeasureNode = function(vId)
 ---------------------------------------------------------------------------
 */
 
+qx.Proto._localized = false;
+qx.Proto._htmlContent = "";
 qx.Proto._htmlMode = false;
 qx.Proto._hasMnemonic = false;
 qx.Proto._mnemonicHtml = "";
@@ -237,14 +176,31 @@ qx.Proto._mnemonicTest = null;
 
 qx.Proto._modifyHtml = function(propValue, propOldValue, propData)
 {
-  this._htmlMode = qx.util.Validation.isValidString(propValue) && propValue.match(/<.*>/) ? true : false;
+  this._localized = this.getHtml() instanceof qx.locale.LocalizedString;
+  this._updateHtml();
+  return true;
+}
+
+qx.Proto._updateHtml = function()
+{
+  if (this._localized)
+  {
+    this._htmlContent = this.getHtml().toString();
+    qx.locale.Manager.getInstance().addEventListener("changeLocale", this._updateHtml, this);
+  }
+  else
+  {
+    this._htmlContent = this.getHtml() || "";
+    qx.locale.Manager.getInstance().removeEventListener("changeLocale", this._updateHtml, this);
+  }
+
+  this._htmlMode = qx.util.Validation.isValidString(this._htmlContent) && this._htmlContent.match(/<.*>/) ? true : false;
 
   if (this._isCreated) {
     this._applyContent();
   }
+};
 
-  return true;
-}
 
 qx.Proto._modifyTextAlign = function(propValue, propOldValue, propData)
 {
@@ -297,7 +253,7 @@ qx.Proto._computeObjectNeededDimensions = function()
   var vNode = this._copyStyles();
 
   // prepare html
-  var vHtml = this.getHtml();
+  var vHtml = this._htmlContent;
 
   // test for mnemonic and fix content
   if (this._hasMnemonic && !this._mnemonicTest.test(vHtml)) {
@@ -370,7 +326,7 @@ qx.Proto._computePreferredInnerHeight = function()
 
 qx.Proto._postApply = function()
 {
-  var vHtml = this.getHtml();
+  var vHtml = this._htmlContent;
   var vElement = this._getTargetNode();
   var vMnemonicMode = 0;
 

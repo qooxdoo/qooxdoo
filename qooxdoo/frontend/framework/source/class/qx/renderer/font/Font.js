@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -34,11 +36,11 @@ function(vSize, vName)
 
   this._defs = {};
 
-  if (qx.util.Validation.isValidNumber(vSize)) {
+  if (vSize != null) {
     this.setSize(vSize);
   }
 
-  if (qx.util.Validation.isValidString(vName)) {
+  if (vName != null) {
     this.setName(vName);
   }
 });
@@ -164,11 +166,11 @@ qx.Proto._compile = function()
     vDecoration += " " + "strikeout";
   }
 
-  this._defs.fontFamily = qx.util.Validation.isValidString(vName) ? vName : "";
-  this._defs.fontSize = qx.util.Validation.isValidNumber(vSize) ? vSize + "px" : "";
+  this._defs.fontFamily = vName || "";
+  this._defs.fontSize = typeof vSize == "number" ? vSize + "px" : "";
   this._defs.fontWeight = this.getBold() ? "bold" : "normal";
   this._defs.fontStyle = this.getItalic() ? "italic" : "normal";
-  this._defs.textDecoration = qx.util.Validation.isValidString(vDecoration) ? vDecoration : "";
+  this._defs.textDecoration = vDecoration || "";
 
   this._needsCompilation = false;
 }

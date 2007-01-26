@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2006 by Derrell Lipman
+     2006 Derrell Lipman
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Derrell Lipman (derrell)
@@ -27,11 +29,11 @@
  * This is a singleton class.  The constructor is not accessed by users;
  * instead, to obtain the one and only TreeRowStructure object, call either
  *
- *   qx.ui.treefullcontrol.TreeRowStructure.newRow()
+ * <pre>qx.ui.treefullcontrol.TreeRowStructure.newRow()</pre>
  *
  * or
  *
- *   qx.ui.treefullcontrol.TreeRowStructure.standard().
+ * <pre>qx.ui.treefullcontrol.TreeRowStructure.standard().</pre>
  *
  * The structure of a tree row is provided by a
  * qx.ui.treefullcontrol.TreeRowStructure.  The order of elements added to
@@ -54,54 +56,60 @@
  *
  * A "standard" (traditional) tree row would be generated like this:
  *
- *   treeRowStructure = qx.ui.treefullcontrol.TreeRowStructure.standard("Trash");
+ * <pre>
+ * treeRowStructure = qx.ui.treefullcontrol.TreeRowStructure.standard("Trash");
+ * </pre>
  *
  * which equates to issuing these commands:
  *
- *   treeRowStructure = qx.ui.treefullcontrol.TreeRowStructure.newRow();
+ * <pre>
+ * treeRowStructure = qx.ui.treefullcontrol.TreeRowStructure.newRow();
  *
  * //treeRowStructure.addIndent()  // defaults to here; no need to call
- *   treeRowStructure.addIcon();
- *   treeRowStructure.addLabel("Trash");
+ * treeRowStructure.addIcon();
+ * treeRowStructure.addLabel("Trash");
+ * </pre>
  *
  * The former method is typically preferred.
  *
  * An example of a more sophisticated structure:
  *
- *   treeRowStructure = qx.ui.treefullcontrol.TreeRowStructure.newRow();
+ * <pre>
+ * treeRowStructure = qx.ui.treefullcontrol.TreeRowStructure.newRow();
  *
- *   // A left-justified icon
- *   obj = new qx.ui.basic.Image("icon/16/alarm.png");
- *   treeRowStructure.addObject(obj, true);
+ * // A left-justified icon
+ * obj = new qx.ui.basic.Image("icon/16/apps/accessories-alarm.png");
+ * treeRowStructure.addObject(obj, true);
  *
- *   // Here's our indentation and tree-lines
- *   treeRowStructure.addIndent();
+ * // Here's our indentation and tree-lines
+ * treeRowStructure.addIndent();
  *
- *   // The standard tree icon follows
- *   treeRowStructure.addIcon("icon/16/desktop.png","icon/16/dictionary.png");
+ * // The standard tree icon follows
+ * treeRowStructure.addIcon("icon/16/places/user-desktop.png","icon/16/apps/accessories-dictionary.png");
  *
- *   // Right after the tree icon is a checkbox
- *   obj = new qx.ui.form.CheckBox(null, 23, null, false);
- *   obj.setPadding(0, 0);
- *   treeRowStructure.addObject(obj, true);
+ * // Right after the tree icon is a checkbox
+ * obj = new qx.ui.form.CheckBox(null, 23, null, false);
+ * obj.setPadding(0, 0);
+ * treeRowStructure.addObject(obj, true);
  *
- *   // The label
- *   treeRowStructure.addLabel("Trash");
+ * // The label
+ * treeRowStructure.addLabel("Trash");
  *
- *   // All else should be right justified
- *   obj = new qx.ui.basic.HorizontalSpacer;
- *   treeRowStructure.addObject(obj, true);
+ * // All else should be right justified
+ * obj = new qx.ui.basic.HorizontalSpacer;
+ * treeRowStructure.addObject(obj, true);
  *
- *   // Add a file size, date and mode
- *   obj = new qx.ui.basic.Label("23kb");
- *   obj.setWidth(50);
- *   treeRowStructure.addObject(obj, true);
- *   obj = new qx.ui.basic.Label("11 Sept 1959");
- *   obj.setWidth(150);
- *   treeRowStructure.addObject(obj, true);
- *   obj = new qx.ui.basic.Label("-rw-r--r--");
- *   obj.setWidth(80);
- *   treeRowStructure.addObject(obj, true);
+ * // Add a file size, date and mode
+ * obj = new qx.ui.basic.Label("23kb");
+ * obj.setWidth(50);
+ * treeRowStructure.addObject(obj, true);
+ * obj = new qx.ui.basic.Label("11 Sept 1959");
+ * obj.setWidth(150);
+ * treeRowStructure.addObject(obj, true);
+ * obj = new qx.ui.basic.Label("-rw-r--r--");
+ * obj.setWidth(80);
+ * treeRowStructure.addObject(obj, true);
+ * </pre>
  */
 
 qx.OO.defineClass("qx.ui.treefullcontrol.TreeRowStructure", qx.core.Object,
@@ -156,9 +164,9 @@ qx.Proto.newRow = function()
  * The icon parameters may be omitted in which case the defaults will be
  * used.  If the label parameter is omitted, no label will appear.
  *
- * @param vLabel        {string} The label text
- * @param vIcon         {string} Relative path to the 'non-selected' icon
- * @param vIconSelected {string} Relative path to the 'selected' icon
+ * @param vLabel {String} The label text
+ * @param vIcon {String} Relative path to the 'non-selected' icon
+ * @param vIconSelected {String} Relative path to the 'selected' icon
  *
  * @return The singleton itself, purely for convenience.
  */
@@ -257,4 +265,4 @@ qx.Proto.addObject = function(vObj, vAnonymous)
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = qx.util.Return.returnInstance;
+qx.Class.getInstance = qx.lang.Function.returnInstance;

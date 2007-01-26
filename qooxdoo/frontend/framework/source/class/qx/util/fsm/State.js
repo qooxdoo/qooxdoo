@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2006 by Derrell Lipman
+     2006, 2007 Derrell Lipman
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Derrell Lipman (derrell)
@@ -24,11 +26,6 @@
 
 /**
  * Create a new state which may be added to a finite state machine.
- *
- * *EXPERIMENTAL*
- * The interface to the finite state machine, states, and transitions is
- * experimental.  It may change in non-backward-compatible ways as more
- * experience is gained in its use.
  *
  * @param
  * stateName -
@@ -70,7 +67,7 @@
  *
  *     autoActionsBeforeOnentry -
  *     autoActionsAfterOnentry -
- *     auutoActionsBeforeOnexit -
+ *     autoActionsBeforeOnexit -
  *     autoActionsAfterOnexit -
  *       Automatic actions which take place at the time specified by the
  *       property name.  In all cases, the action takes place immediately
@@ -181,11 +178,11 @@ function(stateName, stateInfo)
       break;
 
     case "autoActionsBeforeOnexit":
-      this.setAutoActionsBeforeOnentry(stateInfo[field]);
+      this.setAutoActionsBeforeOnexit(stateInfo[field]);
       break;
 
-    case "autoActionsBeforeOnexit":
-      this.setAutoActionsBeforeOnentry(stateInfo[field]);
+    case "autoActionsAfterOnexit":
+      this.setAutoActionsAfterOnexit(stateInfo[field]);
       break;
 
     case "events":
@@ -493,14 +490,17 @@ qx.Proto._checkEvents = function(propValue, propData)
       for (action_e in action)
       {
         if (typeof(action[action_e]) == "number" &&
-            action != qx.util.fsm.FiniteStateMachine.EventHandling.PREDICATE &&
-            action != qx.util.fsm.FiniteStateMachine.EventHandling.BLOCKED)
+            action[action_e] !=
+              qx.util.fsm.FiniteStateMachine.EventHandling.PREDICATE &&
+            action[action_e] !=
+              qx.util.fsm.FiniteStateMachine.EventHandling.BLOCKED)
         {
           throw new Error("Invalid numeric value in events object " +
                           "(" + e + "): " +
                           action_e + ": " + action[action_e]);
         }
-        else if (typeof(action[action_e]) != "string")
+        else if (typeof(action[action_e]) != "string" &&
+                 typeof(action[action_e]) != "number")
         {
           throw new Error("Invalid value in events object " +
                           "(" + e + "): " +
@@ -508,7 +508,7 @@ qx.Proto._checkEvents = function(propValue, propData)
         }
       }
     }
-    else if (typeof(action) != "string")
+    else if (typeof(action) != "string" && typeof(action) != "number")
     {
       throw new Error("Invalid value in events object: " +
                       e + ": " + propValue[e]);

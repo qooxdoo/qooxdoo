@@ -5,11 +5,13 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
-     2006 by Derrell Lipman
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2006 Derrell Lipman
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -21,6 +23,8 @@
 /* ************************************************************************
 
 #module(ui_treefullcontrol)
+#embed(qx.widgettheme/tree/*)
+#embed(qx.icontheme/16/actions/document-new.png)
 
 ************************************************************************ */
 
@@ -124,8 +128,7 @@ qx.OO.addProperty({ name : "iconSelected",
 /*!
   The label/caption/text of the qx.ui.basic.Atom instance
 */
-qx.OO.addProperty({ name : "label",
-                    type : "string"
+qx.OO.addProperty({ name : "label"
                   });
 
 /*!
@@ -197,7 +200,7 @@ qx.Proto._evalCurrentIcon = function()
   if (this.getSelected() && this.getIconSelected()) {
     return this.getIconSelected();
   } else {
-    return this.getIcon() || "icon/16/file-new.png";
+    return this.getIcon() || "icon/16/actions/document-new.png";
   }
 }
 
@@ -413,7 +416,7 @@ qx.Proto._onmousedown = function(e)
   e.stopPropagation();
 }
 
-qx.Proto._onmouseup = qx.util.Return.returnTrue;
+qx.Proto._onmouseup = qx.lang.Function.returnTrue;
 
 
 

@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -19,6 +21,8 @@
 /* ************************************************************************
 
 #module(ui_tree)
+#embed(qx.icontheme/16/status/folder-open.png)
+#embed(qx.icontheme/16/places/folder.png)
 
 ************************************************************************ */
 
@@ -318,79 +322,87 @@ qx.Proto.getItems = function(recursive, invisible)
  * </p>
  *
  * <p>the current items subitems (and the subitems of each
- * subitem) are destoyed going top down the TreeFolder
+ * subitem) are destroyed going top down the TreeFolder
  * hierarchy. The current item is left as is.
  * </p>
  */
-qx.Proto.destroyContent = function() {
-  if(this.hasContent()) {
+qx.Proto.destroyContent = function()
+{
+  if(!this.hasContent()) {
+    return;
+  }
 
-    var manager = this.getTree() ? this.getTree().getManager() : null;
+  var manager = this.getTree() ? this.getTree().getManager() : null;
 
-    var leadItem;
-    var anchorItem;
-    if(manager) {
-      leadItem = manager.getLeadItem();
-      anchorItem = manager.getAnchorItem();
-    }
+  var leadItem;
+  var anchorItem;
+  if(manager) {
+    leadItem = manager.getLeadItem();
+    anchorItem = manager.getAnchorItem();
+  }
 
-    var items = this.getItems();
-    var item;
+  // set the container objects display property
+  // to true so getChildren will retreive all
+  // children objects
+  this._containerObject.setDisplay(true);
+  var items = this._containerObject.getChildren();
+  var item;
 
-    for(var i=items.length-1;i>=0;--i) {
-      item = items[i];
+  for(var i=items.length-1;i>=0;--i) {
+    item = items[i];
 
-      // this.getItems seems to also contain this.
-      // In order to avoid endless loops by calling
-      // recursively destroyContent we have to avoid
-      // destroying ourselves
-      if(item != this) {
-        if(manager) {
-          // set the leadItem to null if the current
-          // destroyed item is the leadItem
-          if(leadItem == item) {
-            manager.setLeadItem(null);
+    // this.getItems seems to also contain "this".
+    // In order to avoid endless loops by calling
+    // recursively destroyContent we have to avoid
+    // destroying ourselves
+    if(item != this) {
+      if(manager) {
+        // set the leadItem to null if the current
+        // destroyed item is the leadItem
+        if(leadItem == item) {
+          manager.setLeadItem(null);
+        }
+        // set the anchorItem to null if the current
+        // destroyed item is the anchorItem
+        if(anchorItem == item) {
+          manager.setAnchorItem(null);
+        }
+
+        // if the current destroyed item is
+        // selected, deselect the item. If we are
+        // in single selection mode we have to
+        // call deselectAll because setItemSelected
+        // refuses to deselect in this case
+        if(manager.getItemSelected(item)) {
+          if(manager.getMultiSelection()) {
+            manager.setItemSelected(item,false);
           }
-          // set the anchorItem to null if the current
-          // destroyed item is the anchorItem
-          if(anchorItem == item) {
-            manager.setAnchorItem(null);
-          }
-
-          // if the current destroyed item is
-          // selectd deselect the item. If we are
-          // in single selection mode we have to
-          // call deselectAll because setItemSelected
-          // refuses to deselect in this case
-          if(manager.getItemSelected(item)) {
-            if(manager.getMultiSelection()) {
-              manager.setItemSelected(item,false);
-            }
-            else {
-              manager.deselectAll();
-            }
-          }
-
-          // if the item has the method destroyContent defined
-          // then it is a TreeFolder (and it's subclasses)
-          // which potentially have content which also
-          // has to be destroyed
-          if (item.destroyContent) {
-            item.destroyContent();
+          else {
+            manager.deselectAll();
           }
         }
 
-        // first disconnect the item so rendering
-        // of the tree lines can be done correctly
-        item.disconnect();
-        this.remove(item);
-        item.dispose();
+        // if the item has the method destroyContent defined
+        // then it is a TreeFolder (and it's subclasses)
+        // which potentially have content which also
+        // has to be destroyed
+        if (item.destroyContent) {
+          item.destroyContent();
+        }
       }
+
+      // first disconnect the item so rendering
+      // of the tree lines can be done correctly
+      item.removeFromTreeQueue();
+      item.disconnect();
+
+      // remove the item from the containerObject
+      this._containerObject.remove(item);
+      item.dispose();
+      delete items[i];
     }
   }
 }
-
-
 
 
 
@@ -404,9 +416,9 @@ qx.Proto.destroyContent = function() {
 qx.Proto._evalCurrentIcon = function()
 {
   if (this.getSelected()) {
-    return this.getIconSelected() || "icon/16/folder-open.png";
+    return this.getIconSelected() || "icon/16/status/folder-open.png";
   } else {
-    return this.getIcon() || "icon/16/folder.png";
+    return this.getIcon() || "icon/16/places/folder.png";
   }
 }
 
@@ -461,8 +473,15 @@ qx.Proto._onmousedown = function(e)
     case this._indentObject:
       if (this._indentObject.getElement().firstChild == e.getDomTarget())
       {
-        this.getTree().getManager().handleMouseDown(this, e);
         this.toggle();
+
+        // Only if we just get closed and the current selection is inside of this node.
+        if (!this.getOpen())
+        {
+          if(qx.lang.Array.contains(this.getItems(true, true), this.getTree().getSelectedElement())) {
+            this.getTree().getManager().handleMouseDown(this, e);
+          }
+        }
       }
 
       break;

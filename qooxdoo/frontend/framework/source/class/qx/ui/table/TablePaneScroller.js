@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2006 by STZ-IDA, Germany, http://www.stz-ida.de
+     2006 STZ-IDA, Germany, http://www.stz-ida.de
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Til Schneider (til132)
@@ -53,20 +55,16 @@ function(table) {
   this._header.set({ width:"auto", height:"auto" });
 
   this._headerClipper = new qx.ui.layout.CanvasLayout;
-  with (this._headerClipper) {
-    setDimension("1*", "auto");
-    setOverflow("hidden");
-    add(this._header);
-  }
+  this._headerClipper.setDimension("1*", "auto");
+  this._headerClipper.setOverflow("hidden");
+  this._headerClipper.add(this._header);
 
   this._spacer = new qx.ui.basic.Terminator;
   this._spacer.setWidth(scrollBarWidth);
 
   this._top = new qx.ui.layout.HorizontalBoxLayout;
-  with (this._top) {
-    setHeight("auto");
-    add(this._headerClipper, this._spacer);
-  }
+  this._top.setHeight("auto");
+  this._top.add(this._headerClipper, this._spacer);
 
   // init pane
   this._tablePane = new qx.ui.table.TablePane(this);
@@ -83,12 +81,10 @@ function(table) {
   this._focusIndicator.add(dummyContent);
 
   this._paneClipper = new qx.ui.layout.CanvasLayout;
-  with (this._paneClipper) {
-    setWidth("1*");
-    setOverflow("hidden");
-    add(this._tablePane, this._focusIndicator);
-    addEventListener("mousewheel", this._onmousewheel, this);
-  }
+  this._paneClipper.setWidth("1*");
+  this._paneClipper.setOverflow("hidden");
+  this._paneClipper.add(this._tablePane, this._focusIndicator);
+  this._paneClipper.addEventListener("mousewheel", this._onmousewheel, this);
 
   // add all child widgets
   var scrollerBody = new qx.ui.layout.HorizontalBoxLayout;
@@ -132,6 +128,15 @@ qx.OO.addProperty({ name:"liveResize", type:"boolean", defaultValue:false });
  * the focus is only moved on mouse clicks.
  */
 qx.OO.addProperty({ name:"focusCellOnMouseMove", type:"boolean", defaultValue:false });
+
+/**
+ * Whether to handle selections via the selection manager before setting the
+ * focus.  The traditional behavior is to handle selections after setting the
+ * focus, but setting the focus means redrawing portions of the table, and
+ * some subclasses may want to modify the data to be displayed based on the
+ * selection.
+ */
+qx.OO.addProperty({ name:"selectBeforeFocus", type:"boolean", defaultValue:false });
 
 
 // property modifier
@@ -289,6 +294,8 @@ qx.Proto._onSelectionChanged = function(evt) {
 
 /**
  * Event handler. Called when the table gets or looses the focus.
+ *
+ * @param evt {Map} the event.
  */
 qx.Proto._onFocusChanged = function(evt) {
   this._focusIndicator.setState("tableHasFocus", this.getTable().getFocused());
@@ -368,7 +375,7 @@ qx.Proto._afterAppear = function() {
   qx.ui.layout.VerticalBoxLayout.prototype._afterAppear.call(this);
 
   var self = this;
-  this.getElement().onselectstart = qx.util.Return.returnFalse;
+  this.getElement().onselectstart = qx.lang.Function.returnFalse;
 
   this._updateContent();
   this._header._updateContent();
@@ -548,12 +555,20 @@ qx.Proto._onmousedown = function(evt) {
       }
     }
   } else if (row != null) {
+    var selectBeforeFocus = this.getSelectBeforeFocus();
+
+    if (selectBeforeFocus) {
+      this.getTable()._getSelectionManager().handleMouseDown(row, evt);
+    }
+
     // The mouse is over the data -> update the focus
     if (! this.getFocusCellOnMouseMove()) {
       this._focusCellAtPagePos(pageX, pageY);
     }
 
-    this.getTable()._getSelectionManager().handleMouseDown(row, evt);
+    if (! selectBeforeFocus) {
+      this.getTable()._getSelectionManager().handleMouseDown(row, evt);
+    }
   }
 }
 
@@ -692,7 +707,7 @@ qx.Proto._onmouseout = function(evt) {
 /**
  * Shows the resize line.
  *
- * @param x {int} the position where to show the line (in pixels, relative to
+ * @param x {Integer} the position where to show the line (in pixels, relative to
  *    the left side of the pane).
  */
 qx.Proto._showResizeLine = function(x) {
@@ -725,13 +740,13 @@ qx.Proto._hideResizeLine = function() {
 /**
  * Shows the feedback shown while a column is moved by the user.
  *
- * @param pageX {int} the x position of the mouse in the page (in pixels).
- * @return {int} the visible x position of the column in the whole table.
+ * @param pageX {Integer} the x position of the mouse in the page (in pixels).
+ * @return {Integer} the visible x position of the column in the whole table.
  */
 qx.Proto.showColumnMoveFeedback = function(pageX) {
   var paneModel = this.getTablePaneModel();
   var columnModel = this.getTable().getTableColumnModel();
-  var paneLeftX = qx.dom.Location.getClientBoxLeft(this._tablePane.getElement());
+  var paneLeftX = qx.html.Location.getClientBoxLeft(this._tablePane.getElement());
   var colCount = paneModel.getColumnCount();
 
   var targetXPos = 0;
@@ -751,7 +766,7 @@ qx.Proto.showColumnMoveFeedback = function(pageX) {
   }
 
   // Ensure targetX is visible
-  var clipperLeftX = qx.dom.Location.getClientBoxLeft(this._paneClipper.getElement());
+  var clipperLeftX = qx.html.Location.getClientBoxLeft(this._paneClipper.getElement());
   var clipperWidth = this._paneClipper.getBoxWidth();
   var scrollX = clipperLeftX - paneLeftX;
   // NOTE: +2/-1 because of feedback width
@@ -777,8 +792,8 @@ qx.Proto.hideColumnMoveFeedback = function() {
  * <code>pageX</code>/<code>pageY</code>. If there is no cell at that position,
  * nothing happens.
  *
- * @param pageX {int} the x position in the page (in pixels).
- * @param pageY {int} the y position in the page (in pixels).
+ * @param pageX {Integer} the x position in the page (in pixels).
+ * @param pageY {Integer} the y position in the page (in pixels).
  */
 qx.Proto._focusCellAtPagePos = function(pageX, pageY) {
   var row = this._getRowForPagePos(pageX, pageY);
@@ -795,8 +810,8 @@ qx.Proto._focusCellAtPagePos = function(pageX, pageY) {
 /**
  * Sets the currently focused cell.
  *
- * @param col {int} the model index of the focused cell's column.
- * @param row {int} the model index of the focused cell's row.
+ * @param col {Integer} the model index of the focused cell's column.
+ * @param row {Integer} the model index of the focused cell's row.
  */
 qx.Proto.setFocusedCell = function(col, row) {
   if (!this.isEditing()) {
@@ -816,7 +831,7 @@ qx.Proto.setFocusedCell = function(col, row) {
 /**
  * Returns the column of currently focused cell.
  *
- * @return {int} the model index of the focused cell's column.
+ * @return {Integer} the model index of the focused cell's column.
  */
 qx.Proto.getFocusedColumn = function() {
   return this._focusedCol;
@@ -826,7 +841,7 @@ qx.Proto.getFocusedColumn = function() {
 /**
  * Returns the row of currently focused cell.
  *
- * @return {int} the model index of the focused cell's column.
+ * @return {Integer} the model index of the focused cell's column.
  */
 qx.Proto.getFocusedRow = function() {
   return this._focusedRow;
@@ -836,8 +851,8 @@ qx.Proto.getFocusedRow = function() {
 /**
  * Scrolls a cell visible.
  *
- * @param col {int} the model index of the column the cell belongs to.
- * @param row {int} the model index of the row the cell belongs to.
+ * @param col {Integer} the model index of the column the cell belongs to.
+ * @param row {Integer} the model index of the row the cell belongs to.
  */
 qx.Proto.scrollCellVisible = function(col, row) {
   var paneModel = this.getTablePaneModel();
@@ -885,7 +900,7 @@ qx.Proto.isEditing = function() {
  * Starts editing the currently focused cell. Does nothing if already editing
  * or if the column is not editable.
  *
- * @return {boolean} whether editing was started
+ * @return {Boolean} whether editing was started
  */
 qx.Proto.startEditing = function() {
   var tableModel = this.getTable().getTableModel();
@@ -973,11 +988,11 @@ qx.Proto._onCellEditorFocusChanged = function(evt) {
  * Returns the model index of the column the mouse is over or null if the mouse
  * is not over a column.
  *
- * @param pageX {int} the x position of the mouse in the page (in pixels).
- * @return {int} the model index of the column the mouse is over.
+ * @param pageX {Integer} the x position of the mouse in the page (in pixels).
+ * @return {Integer} the model index of the column the mouse is over.
  */
 qx.Proto._getColumnForPageX = function(pageX) {
-  var headerLeftX = qx.dom.Location.getClientBoxLeft(this._header.getElement());
+  var headerLeftX = qx.html.Location.getClientBoxLeft(this._header.getElement());
 
   var columnModel = this.getTable().getTableColumnModel();
   var paneModel = this.getTablePaneModel();
@@ -1001,11 +1016,11 @@ qx.Proto._getColumnForPageX = function(pageX) {
  * Returns the model index of the column that should be resized when dragging
  * starts here. Returns -1 if the mouse is in no resize region of any column.
  *
- * @param pageX {int} the x position of the mouse in the page (in pixels).
- * @return {int} the column index.
+ * @param pageX {Integer} the x position of the mouse in the page (in pixels).
+ * @return {Integer} the column index.
  */
 qx.Proto._getResizeColumnForPageX = function(pageX) {
-  var headerLeftX = qx.dom.Location.getClientBoxLeft(this._header.getElement());
+  var headerLeftX = qx.html.Location.getClientBoxLeft(this._header.getElement());
 
   var columnModel = this.getTable().getTableColumnModel();
   var paneModel = this.getTablePaneModel();
@@ -1031,21 +1046,21 @@ qx.Proto._getResizeColumnForPageX = function(pageX) {
  * the mouse is over the header. Returns null if the mouse is not over any
  * column.
  *
- * @param pageX {int} the mouse x position in the page.
- * @param pageY {int} the mouse y position in the page.
- * @return {int} the model index of the row the mouse is currently over.
+ * @param pageX {Integer} the mouse x position in the page.
+ * @param pageY {Integer} the mouse y position in the page.
+ * @return {Integer} the model index of the row the mouse is currently over.
  */
 qx.Proto._getRowForPagePos = function(pageX, pageY) {
   var paneClipperElem = this._paneClipper.getElement();
-  var paneClipperLeftX = qx.dom.Location.getClientBoxLeft(paneClipperElem);
-  var paneClipperRightX = qx.dom.Location.getClientBoxRight(paneClipperElem);
+  var paneClipperLeftX = qx.html.Location.getClientBoxLeft(paneClipperElem);
+  var paneClipperRightX = qx.html.Location.getClientBoxRight(paneClipperElem);
   if (pageX < paneClipperLeftX || pageX > paneClipperRightX) {
     // There was no cell or header cell hit
     return null;
   }
 
-  var paneClipperTopY = qx.dom.Location.getClientBoxTop(paneClipperElem);
-  var paneClipperBottomY = qx.dom.Location.getClientBoxBottom(paneClipperElem);
+  var paneClipperTopY = qx.html.Location.getClientBoxTop(paneClipperElem);
+  var paneClipperBottomY = qx.html.Location.getClientBoxBottom(paneClipperElem);
   if (pageY >= paneClipperTopY && pageY <= paneClipperBottomY) {
     // This event is in the pane -> Get the row
     var rowHeight = this.getTable().getRowHeight();
@@ -1063,9 +1078,9 @@ qx.Proto._getRowForPagePos = function(pageX, pageY) {
   }
 
   var headerElem = this._headerClipper.getElement();
-  if (pageY >= qx.dom.Location.getClientBoxTop(headerElem)
-    && pageY <= qx.dom.Location.getClientBoxBottom(headerElem)
-    && pageX <= qx.dom.Location.getClientBoxRight(headerElem))
+  if (pageY >= qx.html.Location.getClientBoxTop(headerElem)
+    && pageY <= qx.html.Location.getClientBoxBottom(headerElem)
+    && pageX <= qx.html.Location.getClientBoxRight(headerElem))
   {
     // This event is in the pane -> Return -1 for the header
     return -1;
@@ -1123,11 +1138,11 @@ qx.Proto.getTablePane = function() {
 /**
  * Returns which scrollbars are needed.
  *
- * @param forceHorizontal {boolean ? false} Whether to show the horizontal
+ * @param forceHorizontal {Boolean ? false} Whether to show the horizontal
  *    scrollbar always.
- * @param preventVertical {boolean ? false} Whether tp show the vertical scrollbar
+ * @param preventVertical {Boolean ? false} Whether tp show the vertical scrollbar
  *    never.
- * @return {int} which scrollbars are needed. This may be any combination of
+ * @return {Integer} which scrollbars are needed. This may be any combination of
  *    {@link #HORIZONTAL_SCROLLBAR} or {@link #VERTICAL_SCROLLBAR}
  *    (combined by OR).
  */
@@ -1328,4 +1343,4 @@ qx.Class.VERTICAL_SCROLLBAR = 2;
  * (string) The correct value for the CSS style attribute "cursor" for the
  * horizontal resize cursor.
  */
-qx.Class.CURSOR_RESIZE_HORIZONTAL = (qx.sys.Client.getInstance().isGecko() && (qx.sys.Client.getInstance().getMajor() > 1 || qx.sys.Client.getInstance().getMinor() >= 8)) ? "ew-resize" : "e-resize";
+qx.Class.CURSOR_RESIZE_HORIZONTAL = (qx.core.Client.getInstance().isGecko() && (qx.core.Client.getInstance().getMajor() > 1 || qx.core.Client.getInstance().getMinor() >= 8)) ? "ew-resize" : "e-resize";

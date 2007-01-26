@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -35,7 +37,7 @@ function(vBoundedWidget)
 
   this._selectedItems = new qx.type.Selection(this);
 
-  if (qx.util.Validation.isValid(vBoundedWidget)) {
+  if (vBoundedWidget != null) {
     this.setBoundedWidget(vBoundedWidget);
   }
 });
@@ -746,7 +748,7 @@ qx.Proto.handleMouseDown = function(vItem, e)
   // Shift Key
   //   or
   // Click on an unseleted item (without Strg)
-  if (e.getShiftKey() || this.getDragSelection() || (!this.getItemSelected(vItem) && !e.getCtrlKey()))
+  if (e.isShiftPressed() || this.getDragSelection() || (!this.getItemSelected(vItem) && !e.isCtrlPressed()))
   {
     // Handle event
     this._onmouseevent(vItem, e);
@@ -782,7 +784,7 @@ qx.Proto.handleMouseUp = function(vItem, e)
     return;
   }
 
-  if (e.getCtrlKey() || this.getItemSelected(vItem) && !this._activeDragSession) {
+  if (e.isCtrlPressed() || this.getItemSelected(vItem) && !this._activeDragSession) {
     this._onmouseevent(vItem, e);
   }
 
@@ -841,8 +843,8 @@ qx.Proto._onmouseevent = function(oItem, e, bOver)
   var currentAnchorItem = this.getAnchorItem();
 
   // Cache keys pressed
-  var vCtrlKey = e.getCtrlKey();
-  var vShiftKey = e.getShiftKey();
+  var vCtrlKey = e.isCtrlPressed();
+  var vShiftKey = e.isShiftPressed();
 
 
   // ********************************************************************
@@ -1015,7 +1017,7 @@ qx.Proto.handleKeyDown = function(vDomEvent) {
 /**
  * Handles key event to perform selection and navigation
  *
- * @param vDomEvent (Element) DOM event object
+ * @param vDomEvent {qx.event.type.KeyEvent} event object
  */
 qx.Proto.handleKeyPress = function(vDomEvent)
 {
@@ -1026,7 +1028,7 @@ qx.Proto.handleKeyPress = function(vDomEvent)
   this.setFireChange(false);
 
   // Ctrl+A: Select all
-  if (vDomEvent.getKeyIdentifier() == "A" && vDomEvent.getCtrlKey())
+  if (vDomEvent.getKeyIdentifier() == "A" && vDomEvent.isCtrlPressed())
   {
     if (this.getMultiSelection())
     {
@@ -1059,7 +1061,7 @@ qx.Proto.handleKeyPress = function(vDomEvent)
       vDomEvent.preventDefault();
 
       // Select a range
-      if (vDomEvent.getShiftKey() && this.getMultiSelection())
+      if (vDomEvent.isShiftPressed() && this.getMultiSelection())
       {
         // Make it a little bit more failsafe:
         // Set anchor if not given already. Allows us to select
@@ -1071,7 +1073,7 @@ qx.Proto.handleKeyPress = function(vDomEvent)
         // Select new range (and clear up current selection first)
         this._selectItemRange(this.getAnchorItem(), itemToSelect, true);
       }
-      else if (!vDomEvent.getCtrlKey())
+      else if (!vDomEvent.isCtrlPressed())
       {
         // Clear current selection
         this._deselectAll();
@@ -1102,7 +1104,7 @@ qx.Proto.handleKeyPress = function(vDomEvent)
         else
         {
           // Clear current selection
-          if (!vDomEvent.getCtrlKey() || !this.getMultiSelection()) {
+          if (!vDomEvent.isCtrlPressed() || !this.getMultiSelection()) {
             this._deselectAll();
           }
 
@@ -1132,7 +1134,7 @@ qx.Proto.handleKeyPress = function(vDomEvent)
 qx.Proto.getItemToSelect = function(vKeyboardEvent)
 {
   // Don't handle ALT here
-  if (vKeyboardEvent.getAltKey()) {
+  if (vKeyboardEvent.isAltPressed()) {
     return null;
   }
 
@@ -1168,7 +1170,7 @@ qx.Proto.getItemToSelect = function(vKeyboardEvent)
 
 
     case "Space":
-      if (vKeyboardEvent.getCtrlKey()) {
+      if (vKeyboardEvent.isCtrlPressed()) {
         return this.getLeadItem();
       }
   }

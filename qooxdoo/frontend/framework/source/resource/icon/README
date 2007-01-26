@@ -1,20 +1,62 @@
-These iconsets are licensed under different open-source
-licenses and was published for KDE (http://www.kde.org).
-The iconsets found here are not the complete ones which
-comes with KDE. Also the file and directory structure
-and naming is different. If you want to download the
-complete iconsets follow the URL listed below.
+Information On Available Icon Themes
+====================================
 
-* Crystal SVG
-  Copyright Everaldo (everaldo (at) everaldo.com)
-  http://everaldo.com
-  License: LGPL
-  http://www.fsf.org/licensing/licenses/lgpl.html
+Please make sure you read and understand the LICENSE file that is included in 
+each icon theme's directory.
 
-* Nuvola
-  Copyright David Vignoni (dave (at) icon-king.com)
-  http://www.icon-king.com
-  License: LGPL
-  http://www.fsf.org/licensing/licenses/lgpl.html
+********************************************************************************
 
-Please respect the licence. All rights reserved!
+ * Vista-Inspirate
+ 
+   Directory: 
+     VistaInspirate
+   Author:
+     Alexandre Moore (alexandre DOT moore AT gmail DOT com)
+   License: 
+     GPL & LGPL/EPL
+   Home: 
+     http://www.kde-look.org/content/show.php?content=31585
+   Comment: 
+     Based on nuoveXT by the same author
+
+********************************************************************************
+
+ * nuoveXT
+ 
+   Directory:
+     NuoveXT
+   Author:
+     Alexandre Moore (alexandre DOT moore AT gmail DOT com)
+   License:
+     GPL & LGPL/EPL
+   Home:
+     http://www.kde-look.org/content/show.php?content=26449
+
+********************************************************************************
+
+ * Crystal Clear
+ 
+   Directory:
+     CrystalClear
+   Author:
+     Everaldo (everaldo AT everaldo DOT com)
+   License:
+     LGPL
+   Home:
+     http://www.kde-look.org/content/show.php?content=25668
+
+********************************************************************************
+
+ * Nuvola
+
+   Directory:
+     Nuvola
+   Author: 
+     David Vignoni (david AT icon-king DOT com)
+   License:
+     LGPL
+   Home:
+     http://www.kde-look.org/content/show.php?content=5358
+
+********************************************************************************
+     

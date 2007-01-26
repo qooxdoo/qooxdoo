@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2006 by STZ-IDA, Germany, http://www.stz-ida.de
+     2006 STZ-IDA, Germany, http://www.stz-ida.de
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Til Schneider (til132)
@@ -98,8 +100,8 @@ qx.Proto._onTableModelMetaDataChanged = function(evt) {
 /**
  * Sets the column width. This overrides the width from the column model.
  *
- * @param col {int} the column to change the width for.
- * @param width {int} the new width.
+ * @param col {Integer} the column to change the width for.
+ * @param width {Integer} the new width.
  */
 qx.Proto.setColumnWidth = function(col, width) {
   var x = this.getPaneScroller().getTablePaneModel().getX(col);
@@ -113,7 +115,7 @@ qx.Proto.setColumnWidth = function(col, width) {
 /**
  * Sets the column the mouse is currently over.
  *
- * @param col {int} the model index of the column the mouse is currently over or
+ * @param col {Integer} the model index of the column the mouse is currently over or
  *    null if the mouse is over no column.
  */
 qx.Proto.setMouseOverColumn = function(col) {
@@ -139,8 +141,8 @@ qx.Proto.setMouseOverColumn = function(col) {
 /**
  * Shows the feedback shown while a column is moved by the user.
  *
- * @param col {int} the model index of the column to show the move feedback for.
- * @param x {int} the x position the left side of the feeback should have
+ * @param col {Integer} the model index of the column to show the move feedback for.
+ * @param x {Integer} the x position the left side of the feeback should have
  *    (in pixels, relative to the left side of the header).
  */
 qx.Proto.showColumnMoveFeedback = function(col, x) {
@@ -158,20 +160,19 @@ qx.Proto.showColumnMoveFeedback = function(col, x) {
     var columnModel = this.getTable().getTableColumnModel();
     var cellInfo = { xPos:xPos, col:col, name:tableModel.getColumnName(col) }
     var cellRenderer = columnModel.getHeaderCellRenderer(col);
-    this._moveFeedback = cellRenderer.createHeaderCell(cellInfo);
 
+    var feedback = cellRenderer.createHeaderCell(cellInfo);
     // Configure the feedback
-    with (this._moveFeedback) {
-      setWidth(cellWidget.getBoxWidth());
-      setHeight(cellWidget.getBoxHeight());
-      setZIndex(1000000);
-      setOpacity(0.8);
-      setTop(qx.dom.Location.getClientBoxTop(elem));
-    }
-    this.getTopLevelWidget().add(this._moveFeedback);
+    feedback.setWidth(cellWidget.getBoxWidth());
+    feedback.setHeight(cellWidget.getBoxHeight());
+    feedback.setZIndex(1000000);
+    feedback.setOpacity(0.8);
+    feedback.setTop(qx.html.Location.getClientBoxTop(elem));
+    this.getTopLevelWidget().add(feedback);
+    this._moveFeedback = feedback;
   }
 
-  this._moveFeedback.setLeft(qx.dom.Location.getClientBoxLeft(elem) + x);
+  this._moveFeedback.setLeft(qx.html.Location.getClientBoxLeft(elem) + x);
 }
 
 
@@ -198,7 +199,7 @@ qx.Proto.isShowingColumnMoveFeedback = function() {
 /**
  * Updates the content of the header.
  *
- * @param completeUpdate {boolean} if true a complete update is performed. On a
+ * @param completeUpdate {Boolean} if true a complete update is performed. On a
  *    complete update all header widgets are recreated.
  */
 qx.Proto._updateContent = function(completeUpdate) {

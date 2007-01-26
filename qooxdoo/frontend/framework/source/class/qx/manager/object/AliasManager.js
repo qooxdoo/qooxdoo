@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -68,32 +70,52 @@ qx.Settings.setDefault("staticUri", qx.Settings.getValue("resourceUri") + "/stat
 
 /**
  * Define an alias to a resource path
- * 
- * @param vAlias {string} alias name for the resource path/url
- * @param vPath {string} 
+ *
+ * @param vAlias {String} alias name for the resource path/url
+ * @param vUriStart {String} first part of URI for all images which use this alias
  */
-qx.Proto.add = function(vAlias, vPath)
+qx.Proto.add = function(vAlias, vUriStart)
 {
-  this._aliases[vAlias] = vPath;
+  this._aliases[vAlias] = vUriStart;
+
+  // Cleanup old uris which use this alias
+  for (var vPath in this._uris)
+  {
+    if (vPath.substring(0, vPath.indexOf("/")) == vAlias) {
+      this._uris[vPath] = null;
+    }
+  }
+
+  // Fire change event (for ImageManager, etc.)
   this.createDispatchEvent("change");
 }
 
 /**
  * Remove a previously defined alias
- * 
- * @param vAlias {string} alias name for the resource path/url
+ *
+ * @param vAlias {String} alias name for the resource path/url
  */
 qx.Proto.remove = function(vAlias)
 {
   delete this._aliases[vAlias];
+
+  // Cleanup old uris which use this alias
+  for (var vPath in this._uris)
+  {
+    if (vPath.substring(0, vPath.indexOf("/")) == vAlias) {
+      this._uris[vPath] = null;
+    }
+  }
+
+  // Fire change event (for ImageManager, etc.)
   this.createDispatchEvent("change");
 }
 
 /**
  * Resolve an alias to the actual resource path/url
- * 
- * @param vAlias {string} alias name for the resource path/url
- * @return vPath {tring} resource path/url
+ *
+ * @param vAlias {String} alias name for the resource path/url
+ * @return {String} resource path/url
  */
 qx.Proto.resolve = function(vAlias) {
   return this._aliases[vAlias];
@@ -114,22 +136,22 @@ qx.Proto.resolve = function(vAlias) {
  * Resolve a path name to a resource URI taking the defined aliases into account
  * and cache the result.
  *
- * If the first part of the path is a defined alias, the alias is resolved. 
+ * If the first part of the path is a defined alias, the alias is resolved.
  * Otherwhise the path is returned unmodified.
- * 
- * @param vPath {string} path name
- * @param vForceUpdate {boolean} (default=false) wether the cached value should be ignored  
- * @return {string} reolved path/url
+ *
+ * @param vPath {String} path name
+ * @param vForceUpdate {Boolean} (default=false) wether the cached value should be ignored
+ * @return {String} reolved path/url
  */
 qx.Proto.resolvePath = function(vPath, vForceUpdate)
 {
   var vUri = this._uris[vPath];
 
-  if (vForceUpdate || typeof vUri === "undefined")
-  {
+  if (vUri == null) {
     vUri = this._uris[vPath] = this._computePath(vPath);
-    // this.debug("URI: " + vPath + " => " + vUri);
   }
+
+  // this.debug("URI: " + vPath + " => " + vUri);
 
   return vUri;
 }
@@ -138,9 +160,9 @@ qx.Proto.resolvePath = function(vPath, vForceUpdate)
 /**
  * Resolve a path name to a resource URI taking the defined aliases into account.
  *
- * If the first part of the path is a defined alias, the alias is resolved. 
+ * If the first part of the path is a defined alias, the alias is resolved.
  * Otherwhise the path is returned unmodified.
- * 
+ *
  * @param vPath {String} path name
  * @return {String} reolved path/url
  */
@@ -164,7 +186,7 @@ qx.Proto._computePath = function(vPath)
       var vAlias = vPath.substring(0, vPath.indexOf("/"));
       var vResolved = this._aliases[vAlias];
 
-      if (qx.util.Validation.isValidString(vResolved)) {
+      if (vResolved != null) {
         return vResolved + vPath.substring(vAlias.length);
       }
 
@@ -214,4 +236,4 @@ qx.Proto.dispose = function()
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = qx.util.Return.returnInstance;
+qx.Class.getInstance = qx.lang.Function.returnInstance;

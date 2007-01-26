@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2006 by STZ-IDA, Germany, http://www.stz-ida.de
+     2006 STZ-IDA, Germany, http://www.stz-ida.de
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Til Schneider (til132)
@@ -65,7 +67,7 @@ qx.Proto.getColumnName = function(columnIndex) {
  * Note: This will clear previously set column names.
  * </p>
  *
- * @param columnIdArr {string[]} the IDs of the columns.
+ * @param columnIdArr {String[]} the IDs of the columns.
  * @see #setColumns
  */
 qx.Proto.setColumnIds = function(columnIdArr) {
@@ -91,7 +93,7 @@ qx.Proto.setColumnIds = function(columnIdArr) {
  * Note: The column IDs have to be defined before.
  * </p>
  *
- * @param columnNameArr {string[]} the names of the columns.
+ * @param columnNameArr {String[]} the names of the columns.
  * @see #setColumnIds
  */
 qx.Proto.setColumnNamesByIndex = function(columnNameArr) {
@@ -127,9 +129,9 @@ qx.Proto.setColumnNamesById = function(columnNameMap) {
 /**
  * Sets the columns.
  *
- * @param columnNameArr {string[]} The column names. These names will be shown to
+ * @param columnNameArr {String[]} The column names. These names will be shown to
  *        the user.
- * @param columnIdArr {string[] ? null} The column IDs. These IDs may be used
+ * @param columnIdArr {String[] ? null} The column IDs. These IDs may be used
  *        internally to identify a column. If null, the column names are used as
  *        IDs.
  */

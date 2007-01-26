@@ -5,11 +5,13 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
-     2006 by Derrell Lipman
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2006 Derrell Lipman
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -23,11 +25,12 @@
 #module(io_remote)
 
 ************************************************************************ */
-/*!
-  Handles scheduling of requests to be sent to a server.
 
-  This class is a singleton and is used by qx.io.remote.Request to schedule its
-  requests. It should not be used directly.
+/**
+ * Handles scheduling of requests to be sent to a server.
+ *
+ * This class is a singleton and is used by qx.io.remote.Request to schedule its
+ * requests. It should not be used directly.
  */
 qx.OO.defineClass("qx.io.remote.RequestQueue", qx.core.Target,
 function()
@@ -53,8 +56,19 @@ function()
 ---------------------------------------------------------------------------
 */
 
+/**
+ * @deprecated
+ */
 qx.OO.addProperty({ name : "maxTotalRequests", type : "number" });
+
+/**
+ * Maximum number of parallel requests.
+ */
 qx.OO.addProperty({ name : "maxConcurrentRequests", type : "number", defaultValue : 3 });
+
+/**
+ * Default timeout for remote requests in milliseconds.
+ */
 qx.OO.addProperty({ name : "defaultTimeout", type : "number", defaultValue : 5000 });
 
 
@@ -348,6 +362,9 @@ qx.Proto.abort = function(vRequest)
 ---------------------------------------------------------------------------
 */
 
+/**
+ * Disposer
+ */
 qx.Proto.dispose = function()
 {
   if (this.getDisposed()) {
@@ -389,4 +406,4 @@ qx.Proto.dispose = function()
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = qx.util.Return.returnInstance;
+qx.Class.getInstance = qx.lang.Function.returnInstance;

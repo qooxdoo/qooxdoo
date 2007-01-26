@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2006 by Derrell Lipman
+     2006, 2007 Derrell Lipman
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Derrell Lipman (derrell)
@@ -25,12 +27,7 @@
 /**
  * Create a new possible transition from one state to another.
  *
- * *EXPERIMENTAL*
- * The interface to the finite state machine, states, and transitions is
- * experimental.  It may change in non-backward-compatible ways as more
- * experience is gained in its use.
- *
- * @param transitionName {string}
+ * @param transitionName {String}
  *   The name of this transition, used in debug messages.
  *
  * @param transitionInfo {Object}
@@ -86,7 +83,7 @@
  *         - One of the constants:
  *           - qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE:
  *               Remain in whatever is the current state
- *           - qx.util.fsm.FiniteStateMachine.StateChange.PREVIOUS_STATE:
+ *           - qx.util.fsm.FiniteStateMachine.StateChange.POP_STATE_STACK:
  *               Transition to the state at the top of the saved-state stack,
  *               and remove the top element from the saved-state stack.
  *               Elements are added to the saved-state stack using
@@ -105,7 +102,7 @@
  *       describes some number of functions to invoke on a set of specified
  *       objects (typically widgets).
  *
- *       See {@see qx.util.fsm.State} for an example of autoActions.
+ *       See {@link qx.util.fsm.State} for an example of autoActions.
  *
  *     ontransition -
  *       A function which is called if the predicate function for this
@@ -308,7 +305,8 @@ qx.Proto._checkNextState = function(propValue, propData)
     switch(propValue)
     {
     case qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE:
-    case qx.util.fsm.FiniteStateMachine.StateChange.PREVIOUS_STATE:
+    case qx.util.fsm.FiniteStateMachine.StateChange.POP_STATE_STACK:
+    case qx.util.fsm.FiniteStateMachine.StateChange.TERMINATE:
       return propValue;
 
     default:

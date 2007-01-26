@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -71,7 +73,7 @@ qx.OO.addProperty({ name : "appearanceTheme", type : "object", allowNull : false
 /**
  * Register an theme class.
  * The theme is applied if it is the default apperance
- * 
+ *
  * @param vThemeClass {qx.renderer.theme.AppearanceTheme}
  */
 qx.Proto.registerAppearanceTheme = function(vThemeClass)
@@ -119,7 +121,7 @@ qx.Proto._modifyAppearanceTheme = function(propValue, propOldValue, propData)
 ---------------------------------------------------------------------------
 */
 
-/** 
+/**
  * Disposer
  */
 qx.Proto.dispose = function()
@@ -149,4 +151,4 @@ qx.Proto.dispose = function()
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = qx.util.Return.returnInstance;
+qx.Class.getInstance = qx.lang.Function.returnInstance;

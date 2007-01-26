@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -20,10 +22,15 @@
 
 #module(ui_core)
 #module(ui_layout)
-#require(qx.sys.Client)
+#require(qx.core.Client)
 
 ************************************************************************ */
 
+/**
+ * Abstact base class of all layout implementations
+ *
+ * @param vWidget {qx.ui.core.Parent} reference to the associated widget
+ */
 qx.OO.defineClass("qx.renderer.layout.LayoutImpl", qx.core.Object,
 function(vWidget)
 {
@@ -35,15 +42,17 @@ function(vWidget)
 
 
 
-/*!
-  Returns the associated widget
-*/
+/**
+ * Returns the associated widget
+ *
+ * @return {qx.ui.core.Parent} reference to the associated widget
+ */
 qx.Proto.getWidget = function() {
   return this._widget;
 }
 
 
-/*!
+/*
   Global Structure:
   [01] COMPUTE BOX DIMENSIONS FOR AN INDIVIDUAL CHILD
   [02] COMPUTE NEEDED DIMENSIONS FOR AN INDIVIDUAL CHILD
@@ -65,16 +74,22 @@ qx.Proto.getWidget = function() {
 ---------------------------------------------------------------------------
 */
 
-/*!
-  Compute and return the box width of the given child
-*/
+/**
+ * Compute and return the box width of the given child
+ *
+ * @param vChild {qx.ui.core.Widget}
+ * @return {Integer} box width of the given child
+ */
 qx.Proto.computeChildBoxWidth = function(vChild) {
   return vChild.getWidthValue() || vChild._computeBoxWidthFallback();
 }
 
-/*!
-  Compute and return the box height of the given child
-*/
+/**
+ * Compute and return the box height of the given child
+ *
+ * @param vChild {qx.ui.core.Widget}
+ * @return {Integer} box height of the given child
+ */
 qx.Proto.computeChildBoxHeight = function(vChild) {
   return vChild.getHeightValue() || vChild._computeBoxHeightFallback();
 }
@@ -89,9 +104,12 @@ qx.Proto.computeChildBoxHeight = function(vChild) {
 ---------------------------------------------------------------------------
 */
 
-/*!
-  Compute and return the needed width of the given child
-*/
+/**
+ * Compute and return the needed width of the given child
+ *
+ * @param vChild {qx.ui.core.Widget}
+ * @return {Integer} needed width
+ */
 qx.Proto.computeChildNeededWidth = function(vChild)
 {
   // omit ultra long lines, these two variables only needed once
@@ -104,9 +122,12 @@ qx.Proto.computeChildNeededWidth = function(vChild)
   return qx.lang.Number.limit(vBox, vMinBox, vMaxBox) + vChild.getMarginLeft() + vChild.getMarginRight();
 }
 
-/*!
-  Compute and return the needed height of the given child
-*/
+/**
+ * Compute and return the needed height of the given child
+ *
+ * @param vChild {qx.ui.core.Widget}
+ * @return {Integer} needed height
+ */
 qx.Proto.computeChildNeededHeight = function(vChild)
 {
   // omit ultra long lines, these two variables only needed once
@@ -128,9 +149,11 @@ qx.Proto.computeChildNeededHeight = function(vChild)
 ---------------------------------------------------------------------------
 */
 
-/*!
-  Calculate the maximum needed width of all children
-*/
+/**
+ * Calculate the maximum needed width of all children
+ *
+ * @return {Integer} maximum needed width of all children
+ */
 qx.Proto.computeChildrenNeededWidth_max = function()
 {
   for (var i=0, ch=this.getWidget().getVisibleChildren(), chl=ch.length, maxv=0; i<chl; i++) {
@@ -140,9 +163,11 @@ qx.Proto.computeChildrenNeededWidth_max = function()
   return maxv;
 }
 
-/*!
-  Calculate the maximum needed height of all children
-*/
+/**
+ * Calculate the maximum needed height of all children
+ *
+ * @return {Integer} maximum needed height of all children
+ */
 qx.Proto.computeChildrenNeededHeight_max = function()
 {
   for (var i=0, ch=this.getWidget().getVisibleChildren(), chl=ch.length, maxv=0; i<chl; i++) {
@@ -152,6 +177,11 @@ qx.Proto.computeChildrenNeededHeight_max = function()
   return maxv;
 }
 
+/**
+ * Compute and return the width needed by all children of this widget
+ *
+ * @return {Integer}
+ */
 qx.Proto.computeChildrenNeededWidth_sum = function()
 {
   for (var i=0, ch=this.getWidget().getVisibleChildren(), chl=ch.length, sumv=0; i<chl; i++) {
@@ -161,6 +191,11 @@ qx.Proto.computeChildrenNeededWidth_sum = function()
   return sumv;
 }
 
+/**
+ * Compute and return the height needed by all children of this widget
+ *
+ * @return {Integer} height needed by all children of this widget
+ */
 qx.Proto.computeChildrenNeededHeight_sum = function()
 {
   for (var i=0, ch=this.getWidget().getVisibleChildren(), chl=ch.length, sumv=0; i<chl; i++) {
@@ -170,14 +205,18 @@ qx.Proto.computeChildrenNeededHeight_sum = function()
   return sumv;
 }
 
-/*!
-  Compute and return the width needed by all children of this widget
-*/
+/**
+ * Compute and return the width needed by all children of this widget
+ *
+ * @return {Integer} width needed by all children of this widget
+ */
 qx.Proto.computeChildrenNeededWidth = qx.Proto.computeChildrenNeededWidth_max;
 
-/*!
-  Compute and return the height needed by all children of this widget
-*/
+/**
+ * Compute and return the height needed by all children of this widget
+ *
+ * @return {Integer} height needed by all children of this widget
+ */
 qx.Proto.computeChildrenNeededHeight = qx.Proto.computeChildrenNeededHeight_max;
 
 
@@ -189,16 +228,24 @@ qx.Proto.computeChildrenNeededHeight = qx.Proto.computeChildrenNeededHeight_max;
 ---------------------------------------------------------------------------
 */
 
-/*!
-  Things to do and layout when any of the childs changes its outer width.
-  Needed by layouts where the children depend on each other, like flow or box layouts.
-*/
+/**
+ * Things to do and layout when any of the childs changes its outer width.
+ * Needed by layouts where the children depend on each other, like flow or box layouts.
+ *
+ * Subclasses might implement this method
+ *
+ * @param vChild {qx.ui.core.Widget} changed child widget
+ */
 qx.Proto.updateSelfOnChildOuterWidthChange = function(vChild) {}
 
-/*!
-  Things to do and layout when any of the childs changes its outer height.
-  Needed by layouts where the children depend on each other, like flow or box layouts.
-*/
+/**
+ * Things to do and layout when any of the childs changes its outer height.
+ * Needed by layouts where the children depend on each other, like flow or box layouts.
+ *
+ * Subclasses might implement this method
+ *
+ * @param vChild {qx.ui.core.Widget} changed child widget
+ */
 qx.Proto.updateSelfOnChildOuterHeightChange = function(vChild) {}
 
 
@@ -211,16 +258,24 @@ qx.Proto.updateSelfOnChildOuterHeightChange = function(vChild) {}
 ---------------------------------------------------------------------------
 */
 
-/*!
-  Actions that should be done if the inner width of the layout widget has changed.
-  Normally this includes updates to percent values and ranges.
-*/
+/**
+ * Actions that should be done if the inner width of the layout widget has changed.
+ * Normally this includes updates to percent values and ranges.
+ *
+ * Subclasses might implement this method
+ *
+ * @param vChild {qx.ui.core.Widget} changed child widget
+ */
 qx.Proto.updateChildOnInnerWidthChange = function(vChild) {}
 
-/*!
-  Actions that should be done if the inner height of the layout widget has changed.
-  Normally this includes updates to percent values and ranges.
-*/
+/**
+ * Actions that should be done if the inner height of the layout widget has changed.
+ * Normally this includes updates to percent values and ranges.
+ *
+ * Subclasses might implement this method
+ *
+ * @param vChild {qx.ui.core.Widget} changed child widget
+ */
 qx.Proto.updateChildOnInnerHeightChange = function(vChild) {}
 
 
@@ -233,10 +288,14 @@ qx.Proto.updateChildOnInnerHeightChange = function(vChild) {}
 ---------------------------------------------------------------------------
 */
 
-/*!
-  Invalidate and recompute cached data according to job queue.
-  This is executed at the beginning of the job queue handling.
-*/
+/**
+ * Invalidate and recompute cached data according to job queue.
+ * This is executed at the beginning of the job queue handling.
+ *
+ * Subclasses might implement this method
+ *
+ * @param vJobQueue {Object}
+ */
 qx.Proto.updateSelfOnJobQueueFlush = function(vJobQueue) {}
 
 
@@ -249,12 +308,15 @@ qx.Proto.updateSelfOnJobQueueFlush = function(vJobQueue) {}
   [07] UPDATE CHILDREN ON JOB QUEUE FLUSH
 ---------------------------------------------------------------------------
 */
-
-/*!
-  Updates children on job queue flush.
-  This is executed at the end of the job queue handling.
-*/
-qx.Proto.updateChildrenOnJobQueueFlush = function(vQueue) {}
+/**
+ * Updates children on job queue flush.
+ * This is executed at the end of the job queue handling.
+ *
+ * Subclasses might implement this method
+ *
+ * @param vJobQueue {Object}
+ */
+qx.Proto.updateChildrenOnJobQueueFlush = function(vJobQueue) {}
 
 
 
@@ -267,21 +329,37 @@ qx.Proto.updateChildrenOnJobQueueFlush = function(vQueue) {}
 ---------------------------------------------------------------------------
 */
 
-/*!
-  Add child to current layout. Rarely needed by some layout implementations.
-*/
+/**
+ * Add child to current layout. Rarely needed by some layout implementations.
+ *
+ * Subclasses might implement this method
+ *
+ * @param vChild {qx.ui.core.Widget} newly added child
+ * @param vIndex {Integer} index of the child
+ */
 qx.Proto.updateChildrenOnAddChild = function(vChild, vIndex) {}
 
-/*!
-  Remove child from current layout.
-  Needed by layouts where the children depend on each other, like flow or box layouts.
-*/
-qx.Proto.updateChildrenOnRemoveChild = function(vChild, vIndex) {}
+/**
+ *Remove child from current layout.
+ * Needed by layouts where the children depend on each other, like flow or box layouts.
+ *
+ * Subclasses might implement this method
+ *
+ * @param vChild {qx.ui.core.Widget} newly added child
+ * @param vIndex {Integer} index of the child
+ */
+ qx.Proto.updateChildrenOnRemoveChild = function(vChild, vIndex) {}
 
-/*!
-  Move child within its parent to a new position.
-  Needed by layouts where the children depend on each other, like flow or box layouts.
-*/
+/**
+ * Move child within its parent to a new position.
+ *  Needed by layouts where the children depend on each other, like flow or box layouts.
+ *
+ * Subclasses might implement this method
+ *
+ * @param vChild {qx.ui.core.Widget} newly added child
+ * @param vIndex {Integer} new index of the child
+ * @param vOldIndex {Integer} old index of the child
+ */
 qx.Proto.updateChildrenOnMoveChild = function(vChild, vIndex, vOldIndex) {}
 
 
@@ -296,10 +374,12 @@ qx.Proto.updateChildrenOnMoveChild = function(vChild, vIndex, vOldIndex) {}
 ---------------------------------------------------------------------------
 */
 
-/*!
-  Has full control of the order in which the registered
-  (or non-registered) children should be layouted.
-*/
+/**
+ * Has full control of the order in which the registered
+ * (or non-registered) children should be layouted.
+ *
+ * @param vChildrenQueue {Object}
+ */
 qx.Proto.flushChildrenQueue = function(vChildrenQueue)
 {
   var vWidget = this.getWidget();
@@ -322,24 +402,44 @@ qx.Proto.flushChildrenQueue = function(vChildrenQueue)
 ---------------------------------------------------------------------------
 */
 
-/*!
-  Called from qx.ui.core.Widget. Its task is to apply the layout
-  (excluding border and padding) to the child.
-*/
+/**
+ * Called from qx.ui.core.Parent. Its task is to apply the layout
+ * (excluding border and padding) to the child.
+ *
+ * @param vChild {qx.ui.core.Widget} child to layout
+ * @param vJobs {Set} layout changes to perform
+ */
 qx.Proto.layoutChild = function(vChild, vJobs) {}
 
-if (qx.sys.Client.getInstance().isMshtml())
+
+/**
+ * Apply min-/max-width to the child. Direct usage of stylesheet properties.
+ * This is only possible in modern capable clients (i.e. excluding all current
+ *  versions of Internet Explorer)
+ *
+ * @param vChild {qx.ui.core.Widget} child to layout
+ * @param vJobs {Set} layout changes to perform
+ */
+qx.Proto.layoutChild_sizeLimitX = function(vChild, vJobs) {}
+
+/**
+ * Apply min-/max-height to the child. Direct usage of stylesheet properties.
+ * This is only possible in modern capable clients (i.e. excluding all current
+ *  versions of Internet Explorer)
+ *
+ * @param vChild {qx.ui.core.Widget} child to layout
+ * @param vJobs {Set} layout changes to perform
+ */
+qx.Proto.layoutChild_sizeLimitY = function(vChild, vJobs) {}
+
+if (qx.core.Client.getInstance().isMshtml())
 {
-  qx.Proto.layoutChild_sizeLimitX = qx.util.Return.returnTrue;
-  qx.Proto.layoutChild_sizeLimitY = qx.util.Return.returnTrue;
+  qx.Proto.layoutChild_sizeLimitX = qx.lang.Function.returnTrue;
+  qx.Proto.layoutChild_sizeLimitY = qx.lang.Function.returnTrue;
 }
 else
 {
-  /*!
-    Apply min-/max-width/height to the child. Direct usage of stylesheet properties.
-    This is only possible in modern capable clients (i.e. excluding all current
-    versions of Internet Explorer)
-  */
+
   qx.Proto.layoutChild_sizeLimitX = function(vChild, vJobs)
   {
     if (vJobs.minWidth) {
@@ -375,9 +475,12 @@ else
   }
 }
 
-/*!
-  Apply the margin values as pure stylesheet equivalent.
-*/
+/**
+ * Apply the X margin values as pure stylesheet equivalent.
+ *
+ * @param vChild {qx.ui.core.Widget} child to layout
+ * @param vJobs {Set} layout changes to perform
+ */
 qx.Proto.layoutChild_marginX = function(vChild, vJobs)
 {
   if (vJobs.marginLeft || vJobs.initial)
@@ -393,6 +496,12 @@ qx.Proto.layoutChild_marginX = function(vChild, vJobs)
   }
 }
 
+/**
+ * Apply the Y margin values as pure stylesheet equivalent.
+ *
+ * @param vChild {qx.ui.core.Widget} child to layout
+ * @param vJobs {Set} layout changes to perform
+ */
 qx.Proto.layoutChild_marginY = function(vChild, vJobs)
 {
   if (vJobs.marginTop || vJobs.initial)

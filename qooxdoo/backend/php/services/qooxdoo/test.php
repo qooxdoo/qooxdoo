@@ -1,20 +1,19 @@
 <?php
   /*
-   * qooxdoo - the new era of web interface development
+   * qooxdoo - the new era of web development
+   *
+   * http://qooxdoo.org
    *
    * Copyright:
-   *   (C) 2006 by Derrell Lipman
-   *       All rights reserved
+   *   2006 Derrell Lipman
    *
    * License:
-   *   LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+   *   LGPL: http://www.gnu.org/licenses/lgpl.html
+   *   EPL: http://www.eclipse.org/org/documents/epl-v10.php
+   *   See the LICENSE file in the project's top-level directory for details.
    *
-   * Internet:
-   *   * http://qooxdoo.org
-   *
-   * Author:
-   *   * Derrell Lipman
-   *     derrell dot lipman at unwireduniverse dot com
+   * Authors:
+   *  * Derrell Lipman (derrell)
    */
 
 /*
@@ -25,6 +24,52 @@
 
 class class_test
 {
+    /**
+     * Specify method accessibility.  Default value is configured in server,
+     * but may be overridden on a per-method basis here.
+     *
+     * @param method
+     *   The name of the method (without the leading "method_") to be tested
+     *   for accessibility.
+     *
+     * @param defaultAccessibility
+     *   The default accessibility configured in the server.  (See @return for
+     *   possible values.)
+     *
+     * @param bScriptTransportInUse (not yet implemented)
+     *   Boolean indicating whether the current request was issued via
+     *   ScriptTransport.
+     *
+     * @param bDefaultScriptTransportAllowed (not yet implemented)
+     *   Boolean specifying the default value for allowing requests via
+     *   ScriptTransport. 
+     *
+     * @return
+     *   One of these values:
+     *     Accessibility_Public
+     *     Accessibility_Domain
+     *     Accessibility_Session
+     *     Accessibility_Fail
+     */
+/*
+    function GetAccessibility($method, $defaultAccessibility)
+    {
+        switch($method)
+        {
+        case "echo":
+            return Accessibility_Domain;
+
+        case "getInteger":
+            return Accessibility_Session;
+
+        case "getString":
+            return Accessibility_Public;
+        }
+
+        return $defaultAccessibility;
+    }
+*/
+
     /**
      * Echo the (one and only) parameter.
      *

@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2006 by STZ-IDA, Germany, http://www.stz-ida.de
+     2006 STZ-IDA, Germany, http://www.stz-ida.de
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Til Schneider (til132)
@@ -46,7 +48,7 @@ function() {
  *
  * @param rowInfo {Map} A map containing the information about the row to
  *    update. This map has the same structure as in {@link #createDataCell}.
- * @param cellElement {element} the DOM element that renders the data rot. This
+ * @param rowElement {element} the DOM element that renders the data rot. This
  *    is the same element formally created by the HTML from {@link #createDataCell}.
  */
 qx.Proto.updateDataRowElement = function(rowInfo, rowElement) {

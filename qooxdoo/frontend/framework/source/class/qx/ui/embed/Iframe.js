@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -19,6 +21,7 @@
 
 /* ************************************************************************
 
+#embed(qx.static/image/blank.gif)
 
 ************************************************************************ */
 
@@ -40,7 +43,7 @@ function(vSource)
   this.__onreadystatechange = function(e) { return o._onreadystatechange(e); }
   this.__onload = function(e) { return o._onload(e); }
 
-  if (qx.util.Validation.isValid(vSource)) {
+  if (vSource != undefined) {
     this.setSource(vSource);
   }
 });
@@ -153,9 +156,9 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
     qx.ui.embed.Iframe.initBlocker();
 
     // clone proto blocker
-    blockerNode = this.setBlockerNode(qx.ui.embed.Iframe._blocker.cloneNode(true));
+    var blockerNode = this.setBlockerNode(qx.ui.embed.Iframe._blocker.cloneNode(true));
 
-    if (qx.sys.Client.getInstance().isMshtml()) {
+    if (qx.core.Client.getInstance().isMshtml()) {
       iframeNode.onreadystatechange = this.__onreadystatechange;
     } else {
       iframeNode.onload = this.__onload;
@@ -256,7 +259,7 @@ qx.Proto._onload = function()
 ---------------------------------------------------------------------------
 */
 
-if (qx.sys.Client.getInstance().isMshtml())
+if (qx.core.Client.getInstance().isMshtml())
 {
   qx.Proto.getContentWindow = function()
   {
@@ -312,7 +315,7 @@ else
 
 qx.Proto._isLoaded = false;
 
-if (qx.sys.Client.getInstance().isMshtml())
+if (qx.core.Client.getInstance().isMshtml())
 {
   qx.Proto.isLoaded = function()
   {
@@ -374,7 +377,7 @@ qx.ui.embed.Iframe.initIframe = function(vFrameName)
     return;
   }
 
-  if (vFrameName && qx.sys.Client.getInstance().isMshtml()) {
+  if (vFrameName && qx.core.Client.getInstance().isMshtml()) {
     var f = qx.ui.embed.Iframe._element = document.createElement('<iframe name="' + vFrameName + '"></iframe>');
   } else {
     var f = qx.ui.embed.Iframe._element = document.createElement("iframe");
@@ -414,7 +417,7 @@ qx.ui.embed.Iframe.initBlocker = function()
 
   var b = qx.ui.embed.Iframe._blocker = document.createElement("div");
 
-  if (qx.sys.Client.getInstance().isMshtml()) {
+  if (qx.core.Client.getInstance().isMshtml()) {
     b.style.backgroundImage = "url(" + qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif") + ")";
   }
 

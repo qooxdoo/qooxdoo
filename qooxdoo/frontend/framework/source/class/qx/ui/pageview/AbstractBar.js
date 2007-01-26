@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -69,7 +71,7 @@ qx.Proto._onmousewheel = function(e)
   this._lastDate = vDate;
 
   var vManager = this.getManager();
-  var vItems = vManager.getItems();
+  var vItems = vManager.getEnabledItems();
   var vPos = vItems.indexOf(vManager.getSelected());
 
   if (this.getWheelDelta(e) > 0)

@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -32,7 +34,7 @@ function(vWidget)
 {
   qx.core.Target.call(this);
 
-  if (qx.util.Validation.isValidObject(vWidget)) {
+  if (vWidget != null) {
     this._attachedWidget = vWidget;
   }
 });
@@ -67,7 +69,7 @@ qx.Proto.getAttachedWidget = function() {
 // * use keydown on mshtml
 // * use keypress on vAll other (correct) browsers
 // = same behaviour
-qx.event.handler.FocusHandler.tabEventType = qx.sys.Client.getInstance().isMshtml() ? "keydown" : "keypress";
+qx.event.handler.FocusHandler.tabEventType = qx.core.Client.getInstance().isMshtml() ? "keydown" : "keypress";
 
 qx.Proto._onkeyevent = function(vContainer, vEvent)
 {
@@ -89,7 +91,7 @@ qx.Proto._onkeyevent = function(vContainer, vEvent)
   var vCurrent = this.getAttachedWidget().getFocusedChild();
 
   // Support shift key to reverse widget detection order
-  if(!vEvent.getShiftKey()) {
+  if(!vEvent.isShiftPressed()) {
     var vNext = vCurrent ? this.getWidgetAfter(vContainer, vCurrent) : this.getFirstWidget(vContainer);
   } else {
     var vNext = vCurrent ? this.getWidgetBefore(vContainer, vCurrent) : this.getLastWidget(vContainer);
@@ -120,16 +122,16 @@ qx.Proto.compareTabOrder = function(c1, c2)
     return t1 - t2;
   }
 
-  var y1 = qx.dom.Location.getPageBoxTop(c1.getElement());
-  var y2 = qx.dom.Location.getPageBoxTop(c2.getElement());
+  var y1 = qx.html.Location.getPageBoxTop(c1.getElement());
+  var y2 = qx.html.Location.getPageBoxTop(c2.getElement());
 
   if(y1 != y2) {
     return y1 - y2;
   }
 
   // Sort-Check #3: Left-Position
-  var x1 = qx.dom.Location.getPageBoxLeft(c1.getElement());
-  var x2 = qx.dom.Location.getPageBoxLeft(c2.getElement());
+  var x1 = qx.html.Location.getPageBoxLeft(c1.getElement());
+  var x2 = qx.html.Location.getPageBoxLeft(c2.getElement());
 
   if(x1 != x2) {
     return x1 - x2;

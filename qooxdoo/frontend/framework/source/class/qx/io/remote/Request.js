@@ -5,11 +5,13 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
-     2006 by Derrell Lipman
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2006 Derrell Lipman
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -22,16 +24,26 @@
 
 #module(io_remote)
 #require(qx.net.Http)
+#require(qx.util.Mime)
 
 ************************************************************************ */
 
-/*!
-  This class is used to send HTTP requests to the server.
-  @param vUrl Target url to issue the request to.
-  @param vMethod Determines what type of request to issue (GET or
-  POST). Default is GET.
-  @param vResponseType The mime type of the response. Default is text/plain.
-*/
+/**
+ * This class is used to send HTTP requests to the server.
+ *
+ * @event created {qx.event.type.Event}
+ * @event configured {qx.event.type.Event}
+ * @event sending {qx.event.type.Event}
+ * @event receiving {qx.event.type.Event}
+ * @event completed {qx.event.type.Event}
+ * @event failed {qx.event.type.Event}
+ * @event aborted {qx.event.type.Event}
+ * @event timeout {qx.event.type.Event}
+ *
+ * @param vUrl {String} Target url to issue the request to.
+ * @param vMethod {String} Determines that type of request to issue (GET or POST). Default is GET.
+ * @param vResponseType {String} The mime type of the response. Default is text/plain {@link qx.util.Mime}.
+ */
 qx.OO.defineClass("qx.io.remote.Request", qx.core.Target,
 function(vUrl, vMethod, vResponseType)
 {
@@ -42,7 +54,7 @@ function(vUrl, vMethod, vResponseType)
 
   this.setUrl(vUrl);
   this.setMethod(vMethod || qx.net.Http.METHOD_GET);
-  this.setResponseType(vResponseType || "text/plain");
+  this.setResponseType(vResponseType || qx.util.Mime.TEXT);
 
   this.setProhibitCaching(true);
 
@@ -114,16 +126,18 @@ qx.OO.addProperty(
   Response type of request.
 
   The response type is a MIME type, default is text/plain. Other
-  supported MIME types are text/javascript, text/html, text/json,
+  supported MIME types are text/javascript, text/html, application/json,
   application/xml.
+
+  @see qx.util.Mime
 */
 qx.OO.addProperty({
   name           : "responseType",
   type           : "string",
   possibleValues : [
-                   "text/plain",
-                   "text/javascript", "text/json",
-                   "application/xml", "text/html"
+                   qx.util.Mime.TEXT,
+                   qx.util.Mime.JAVASCRIPT, qx.util.Mime.JSON,
+                   qx.util.Mime.XML, qx.util.Mime.HTML
                    ]
 });
 /*!
@@ -425,7 +439,7 @@ qx.Proto._modifyResponseType = function(propValue, propOldValue, propData)
 /*!
   Add a request header to the request.
 
-  Example: request.setRequestHeader("Content-Type", "text/html")
+  Example: request.setRequestHeader("Content-Type", qx.util.Mime.HTML)
 */
 qx.Proto.setRequestHeader = function(vId, vValue) {
   this._requestHeaders[vId] = vValue;

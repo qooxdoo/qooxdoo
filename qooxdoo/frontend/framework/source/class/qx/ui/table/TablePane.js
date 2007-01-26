@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2006 by STZ-IDA, Germany, http://www.stz-ida.de
+     2006 STZ-IDA, Germany, http://www.stz-ida.de
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Til Schneider (til132)
@@ -34,7 +36,7 @@ function(paneScroller) {
 
   this._paneScroller = paneScroller;
 
-  this.debug("USE_ARRAY_JOIN:" + qx.ui.table.TablePane.USE_ARRAY_JOIN + ", USE_TABLE:" + qx.ui.table.TablePane.USE_TABLE);
+  // this.debug("USE_ARRAY_JOIN:" + qx.ui.table.TablePane.USE_ARRAY_JOIN + ", USE_TABLE:" + qx.ui.table.TablePane.USE_TABLE);
 
   this._lastColCount = 0;
   this._lastRowCount = 0;
@@ -97,9 +99,9 @@ qx.Proto.getTable = function() {
 /**
  * Sets the currently focused cell.
  *
- * @param col {int} the model index of the focused cell's column.
- * @param row {int} the model index of the focused cell's row.
- * @param massUpdate {boolean ? false} Whether other updates are planned as well.
+ * @param col {Integer} the model index of the focused cell's column.
+ * @param row {Integer} the model index of the focused cell's row.
+ * @param massUpdate {Boolean ? false} Whether other updates are planned as well.
  *        If true, no repaint will be done.
  */
 qx.Proto.setFocusedCell = function(col, row, massUpdate) {
@@ -131,6 +133,8 @@ qx.Proto._onSelectionChanged = function(evt) {
 
 /**
  * Event handler. Called when the table gets or looses the focus.
+ *
+ * @param evt {Map} the event.
  */
 qx.Proto._onFocusChanged = function(evt) {
   this._updateContent(false, null, true);
@@ -199,10 +203,10 @@ qx.Proto._onTableModelMetaDataChanged = function(evt) {
 /**
  * Updates the content of the pane.
  *
- * @param completeUpdate {boolean ? false} if true a complete update is performed.
+ * @param completeUpdate {Boolean ? false} if true a complete update is performed.
  *    On a complete update all cell widgets are recreated.
- * @param onlyRow {int ? null} if set only the specified row will be updated.
- * @param onlySelectionOrFocusChanged {boolean ? false} if true, cell values won't
+ * @param onlyRow {Integer ? null} if set only the specified row will be updated.
+ * @param onlySelectionOrFocusChanged {Boolean ? false} if true, cell values won't
  *        be updated. Only the row background will.
  */
 qx.Proto._updateContent = function(completeUpdate, onlyRow,
@@ -221,6 +225,15 @@ qx.Proto._updateContent = function(completeUpdate, onlyRow,
 }
 
 
+/**
+ * Updates the content of the pane (implemented using array joins).
+ *
+ * @param completeUpdate {Boolean ? false} if true a complete update is performed.
+ *    On a complete update all cell widgets are recreated.
+ * @param onlyRow {Integer ? null} if set only the specified row will be updated.
+ * @param onlySelectionOrFocusChanged {Boolean ? false} if true, cell values won't
+ *        be updated. Only the row background will.
+ */
 qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
   onlySelectionOrFocusChanged)
 {
@@ -251,14 +264,19 @@ qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
   var rowWidth = paneModel.getTotalWidth();
 
   if (TablePane.USE_TABLE) {
-    htmlArr.push('<table cellspacing\="0" cellpadding\="0" style\="table-layout:fixed;font-family:\'Segoe UI\', Corbel, Calibri, Tahoma, \'Lucida Sans Unicode\', sans-serif;font-size:11px;width:');
+    // The table test
+    htmlArr.push('<table cellspacing\="0" cellpadding\="0" style\="table-layout:fixed;font-family:');
+    htmlArr.push(qx.ui.table.TablePane.CONTENT_ROW_FONT_FAMILY_TEST);
+    htmlArr.push(';font-size:');
+    htmlArr.push(qx.ui.table.TablePane.CONTENT_ROW_FONT_SIZE_TEST);
+    htmlArr.push(';width:');
     htmlArr.push(rowWidth);
     htmlArr.push('px"><colgroup>');
 
     for (var x = 0; x < colCount; x++) {
       var col = paneModel.getColumnAtX(x);
 
-      htmlArr.push();
+      htmlArr.push('<col width="');
       htmlArr.push(columnModel.getColumnWidth(col));
       htmlArr.push('"/>');
     }
@@ -280,13 +298,13 @@ qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
       htmlArr.push('<tr style\="height:');
       htmlArr.push(rowHeight);
     } else {
-      htmlArr.push('<div style\="position:absolute;font-family:\'Segoe UI\', Corbel, Calibri, Tahoma, \'Lucida Sans Unicode\', sans-serif;font-size:11px;left:0px;top:');
+      htmlArr.push('<div style\="position:absolute;left:0px;top:');
       htmlArr.push(y * rowHeight);
       htmlArr.push('px;width:');
       htmlArr.push(rowWidth);
       htmlArr.push('px;height:');
       htmlArr.push(rowHeight);
-      htmlArr.push('px;background-color:');
+      htmlArr.push('px');
     }
 
     rowRenderer._createRowStyle_array_join(cellInfo, htmlArr);
@@ -334,6 +352,15 @@ qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
 }
 
 
+/**
+ * Updates the content of the pane (old implementation).
+ *
+ * @param completeUpdate {Boolean ? false} if true a complete update is performed.
+ *    On a complete update all cell widgets are recreated.
+ * @param onlyRow {Integer ? null} if set only the specified row will be updated.
+ * @param onlySelectionOrFocusChanged {Boolean ? false} if true, cell values won't
+ *        be updated. Only the row background will.
+ */
 qx.Proto._updateContent_orig = function(completeUpdate, onlyRow,
   onlySelectionOrFocusChanged)
 {
@@ -399,8 +426,6 @@ qx.Proto._updateContent_orig = function(completeUpdate, onlyRow,
       rowElem.style.top = (y * rowHeight) + "px";
 
       rowElem.style.height = rowHeight + "px";
-      rowElem.style.fontFamily = TablePane.CONTENT_ROW_FONT_FAMILY;
-      rowElem.style.fontSize = TablePane.CONTENT_ROW_FONT_SIZE;
       elem.appendChild(rowElem);
       recyleRowElem = false;
     }
@@ -449,7 +474,7 @@ qx.Proto._updateContent_orig = function(completeUpdate, onlyRow,
 /**
  * Cleans up the row widgets.
  *
- * @param firstRowToRemove {int} the visible index of the first row to clean up.
+ * @param firstRowToRemove {Integer} the visible index of the first row to clean up.
  *    All following rows will be cleaned up, too.
  */
 qx.Proto._cleanUpRows = function(firstRowToRemove) {
@@ -481,6 +506,6 @@ qx.Class.USE_ARRAY_JOIN = false;
 qx.Class.USE_TABLE = false;
 
 
-qx.Class.CONTENT_ROW_FONT_FAMILY = '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif';
-qx.Class.CONTENT_ROW_FONT_SIZE = "11px";
+qx.Class.CONTENT_ROW_FONT_FAMILY_TEST = "'Segoe UI', Corbel, Calibri, Tahoma, 'Lucida Sans Unicode', sans-serif";
+qx.Class.CONTENT_ROW_FONT_SIZE_TEST = "11px";
 

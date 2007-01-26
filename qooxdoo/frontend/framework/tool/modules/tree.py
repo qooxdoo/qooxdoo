@@ -1,4 +1,23 @@
 #!/usr/bin/env python
+################################################################################
+#
+#  qooxdoo - the new era of web development
+#
+#  http://qooxdoo.org
+#
+#  Copyright:
+#    2006-2007 1&1 Internet AG, Germany, http://www.1and1.org
+#
+#  License:
+#    LGPL: http://www.gnu.org/licenses/lgpl.html
+#    EPL: http://www.eclipse.org/org/documents/epl-v10.php
+#    See the LICENSE file in the project's top-level directory for details.
+#
+#  Authors:
+#    * Sebastian Werner (wpbasti)
+#    * Fabian Jakobs (fjakobs)
+#
+################################################################################
 
 class NodeAccessException (Exception):
   def __init__ (self, msg, node):
@@ -470,7 +489,7 @@ class Node:
 
 
 
-def nodeToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n"):
+def nodeToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n", encoding="utf-8"):
   hasText = False
   asString = prefix + "<" + node.type
   if node.hasAttributes():
@@ -478,7 +497,7 @@ def nodeToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n"):
       if key == "text":
         hasText = True
       else:
-        asString += " " + key + "=\"" + escapeXmlChars(node.attributes[key], True) + "\""
+        asString += " " + key + "=\"" + escapeXmlChars(node.attributes[key], True, encoding) + "\""
 
   if not node.hasChildren() and not hasText:
     asString += "/>" + newLine
@@ -491,12 +510,12 @@ def nodeToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n"):
       else:
         asString += newLine + prefix + childPrefix
 
-      asString += "<text>" + escapeXmlChars(node.attributes["text"], False) + "</text>" + newLine
+      asString += "<text>" + escapeXmlChars(node.attributes["text"], False, encoding) + "</text>" + newLine
 
     if node.hasChildren():
       asString += newLine
       for child in node.children:
-        asString += nodeToXmlString(child, prefix + childPrefix, childPrefix, newLine)
+        asString += nodeToXmlString(child, prefix + childPrefix, childPrefix, newLine, encoding)
 
     asString += prefix + "</" + node.type + ">" + newLine
 
@@ -538,7 +557,7 @@ def nodeToJsonString(node, prefix = "", childPrefix = "  ", newLine="\n"):
 
 
 
-def escapeXmlChars(text, inAttribute):
+def escapeXmlChars(text, inAttribute, encoding="utf-8"):
   if isinstance(text, basestring):
     text = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
     if inAttribute:

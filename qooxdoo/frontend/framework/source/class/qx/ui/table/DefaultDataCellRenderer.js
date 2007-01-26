@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2006 by STZ-IDA, Germany, http://www.stz-ida.de
+     2006 STZ-IDA, Germany, http://www.stz-ida.de
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Til Schneider (til132)
@@ -76,38 +78,39 @@ qx.Proto._getStyleFlags = function(cellInfo) {
 
 // overridden
 qx.Proto._getContentHtml = function(cellInfo) {
-  return qx.ui.table.DefaultDataCellRenderer.escapeHtml(this._formatValue(cellInfo));
+  return qx.html.String.escape(this._formatValue(cellInfo));
 }
 
 
 // overridden
 qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
-  var style = qx.ui.table.AbstractDataCellRenderer.prototype._getCellStyle(cellInfo);
+  var clazz = qx.ui.table.DefaultDataCellRenderer;
+  var style = cellElement.style;
 
   var stylesToApply = this._getStyleFlags(cellInfo);
-  if (stylesToApply & qx.ui.table.DefaultDataCellRenderer.STYLEFLAG_ALIGN_RIGHT){
-    cellElement.style.textAlign = "right";
+  if (stylesToApply & clazz.STYLEFLAG_ALIGN_RIGHT){
+    style.textAlign = "right";
   } else {
-    cellElement.style.textAlign = "";
+    style.textAlign = "";
   }
 
-  if (stylesToApply & qx.ui.table.DefaultDataCellRenderer.STYLEFLAG_BOLD){
-    cellElement.style.fontWeight = "bold";
+  if (stylesToApply & clazz.STYLEFLAG_BOLD){
+    style.fontWeight = "bold";
   } else {
-    cellElement.style.fontWeight = "";
+    style.fontWeight = "";
   }
 
-  if (stylesToApply & qx.ui.table.DefaultDataCellRenderer.STYLEFLAG_ITALIC){
-    cellElement.style.fontStyle = "ital";
+  if (stylesToApply & clazz.STYLEFLAG_ITALIC){
+    style.fontStyle = "ital";
   } else {
-    cellElement.style.fontStyle = "";
+    style.fontStyle = "";
   }
 
   var textNode = cellElement.firstChild;
   if (textNode != null) {
     textNode.nodeValue = this._formatValue(cellInfo);
   } else {
-    cellElement.innerHTML = qx.ui.table.DefaultDataCellRenderer.escapeHtml(this._formatValue(cellInfo));
+    cellElement.innerHTML = qx.html.String.escape(this._formatValue(cellInfo));
   }
 }
 
@@ -118,7 +121,7 @@ qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
  * @param cellInfo {Map} A map containing the information about the cell to
  *        create. This map has the same structure as in
  *        {@link DataCellRenderer#createDataCell}.
- * @return {string} the formatted value.
+ * @return {String} the formatted value.
  */
 qx.Proto._formatValue = function(cellInfo) {
   var value = cellInfo.value;
@@ -151,30 +154,7 @@ qx.Proto._createCellStyle_array_join = function(cellInfo, htmlArr) {
 
 
 qx.Proto._createContentHtml_array_join = function(cellInfo, htmlArr) {
-  htmlArr.push(qx.ui.table.DefaultDataCellRenderer.escapeHtml(this._formatValue(cellInfo)));
-}
-
-
-/**
- * Escapes special HTML characters by their entities.
- *
- * @param html {string} The HTML to escape.
- * @return {string} The escaped string showing HTML code as plain text.
- */
-qx.Class.escapeHtml = function(html) {
-  return html.replace(/[<>&]/gi, qx.ui.table.DefaultDataCellRenderer._escapeHtmlReplacer);
-}
-
-
-/**
- * Helper method for {@link #escapeHtml}.
- */
-qx.Class._escapeHtmlReplacer = function(str) {
-  switch(str) {
-    case "<": return "&lt;";
-    case ">": return "&gt;";
-    case "&": return "&amp;";
-  }
+  htmlArr.push(qx.html.String.escape(this._formatValue(cellInfo)));
 }
 
 

@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -18,125 +20,119 @@
 
 /* ************************************************************************
 
-
+#module(core)
+#require(qx.lang.Core)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.lang.Generics");
-
-
-/*
----------------------------------------------------------------------------
-  DEFAULT SETTINGS
----------------------------------------------------------------------------
-*/
-
-qx.Settings.setDefault("enable", false);
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  JAVASCRIPT 1.6 GENERICS
----------------------------------------------------------------------------
-*/
-
-// Copyright 2006 Erik Arvidsson
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//    http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
-// http://erik.eae.net/archives/2006/02/28/00.39.52/
-
-// Relicensed under LGPL for qooxdoo.
-
-qx.lang.Generics.init = function()
+/**
+ * Support string/array generics as introduced with JavaScript 1.6 for
+ * all browsers.
+ *
+ * http://developer.mozilla.org/en/docs/New_in_JavaScript_1.6#Array_and_String_generics
+ *
+ * *Array*
+ *
+ * * join
+ * * reverse
+ * * sort
+ * * push
+ * * pop
+ * * shift
+ * * unshift
+ * * splice
+ * * concat
+ * * slice
+ * * indexOf
+ * * lastIndexOf
+ * * forEach
+ * * map
+ * * filter
+ * * some
+ * * every
+ *
+ * *String*
+ *
+ * * quote
+ * * substring
+ * * toLowerCase
+ * * toUpperCase
+ * * charAt
+ * * charCodeAt
+ * * indexOf
+ * * lastIndexOf
+ * * toLocaleLowerCase
+ * * toLocaleUpperCase
+ * * localeCompare
+ * * match
+ * * search
+ * * replace
+ * * split
+ * * substr
+ * * concat
+ * * slice
+ */
+qx.OO.defineClass("qx.lang.Generics",
 {
-  // Make generic versions of instance methods
-  var makeGeneric = [
+  map :
   {
-    object: Array,
-    methods:
-    [
-      "join",
-      "reverse",
-      "sort",
-      "push",
-      "pop",
-      "shift",
-      "unshift",
-      "splice",
-      "concat",
-      "slice",
-      "indexOf",
-      "lastIndexOf",
-      "forEach",
-      "map",
-      "filter",
-      "some",
-      "every"
+    "Array" : [
+      "join", "reverse", "sort", "push", "pop", "shift", "unshift",
+      "splice", "concat", "slice", "indexOf", "lastIndexOf", "forEach",
+      "map", "filter", "some", "every"
+    ],
+
+    "String" : [
+      "quote", "substring", "toLowerCase", "toUpperCase", "charAt",
+      "charCodeAt", "indexOf", "lastIndexOf", "toLocaleLowerCase",
+      "toLocaleUpperCase", "localeCompare", "match", "search",
+      "replace", "split", "substr", "concat", "slice"
     ]
   },
-  {
-    object: String,
-    methods:
-    [
-      "quote",
-      "substring",
-      "toLowerCase",
-      "toUpperCase",
-      "charAt",
-      "charCodeAt",
-      "indexOf",
-      "lastIndexOf",
-      "toLocaleLowerCase",
-      "toLocaleUpperCase",
-      "localeCompare",
-      "match",
-      "search",
-      "replace",
-      "split",
-      "substr",
-      "concat",
-      "slice"
-    ]
-  }];
 
-  for (var i=0, l=makeGeneric.length; i<l; i++)
+  /**
+   * Make a method of an object generic and return the generic functions.
+   * The generic function takes as first parameter the object the method operates on.
+   *
+   * TODO: maybe mode this function to qx.lang.Function
+   *
+   * @param obj {Object} the object in which prototype the function is defined.
+   * @param func {String} name of the method to wrap.
+   *
+   * @return {Function} wrapped method. This function takes as first argument an
+   *     instance of obj and as following arguments the arguments of the original method.
+   */
+  _wrap : function(obj, func)
   {
-    var constr = makeGeneric[i].object;
-    var methods = makeGeneric[i].methods;
+    return function(s) {
+      return obj.prototype[func].apply(s, Array.prototype.slice.call(arguments, 1));
+    }
+  },
 
-    for (var j=0; j<methods.length; j++)
+  /**
+   * Initialize all gernic function defined in JavaScript 1.6.
+   */
+  init : function()
+  {
+    var map = qx.lang.Generics.map;
+
+
+
+    for (var key in map)
     {
-      var name = methods[j];
+      var obj = window[key];
+      var arr = map[key];
 
-      if (!constr[name])
+      for (var i=0, l=arr.length; i<l; i++)
       {
-        constr[methods[j]] = (function(constr, name)
-        {
-          return function(s)
-          {
-            var args = Array.prototype.slice.call(arguments, 1);
-            return constr.prototype[name].apply(s, args);
-          }
-        })(constr, name);
+        var func = arr[i];
+
+        if (!obj[func]) {
+          obj[func] = qx.lang.Generics._wrap(obj, func);
+        }
       }
     }
   }
-}
+});
 
-if (qx.Settings.getValueOfClass("qx.lang.Generics", "enable")) {
-  qx.lang.Generics.init();
-}
+qx.lang.Generics.init();

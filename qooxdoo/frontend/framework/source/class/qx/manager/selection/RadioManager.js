@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -35,9 +37,10 @@ function(vName, vMembers)
   this._items = [];
 
   // apply name property
-  this.setName(qx.util.Validation.isValidString(vName) ? vName : qx.manager.selection.RadioManager.AUTO_NAME_PREFIX + this._hashCode);
+  this.setName(vName != null ? vName : qx.manager.selection.RadioManager.AUTO_NAME_PREFIX + this._hashCode);
 
-  if (qx.util.Validation.isValidArray(vMembers)) {
+  if (vMembers != null)
+  {
     // add() iterates over arguments, but vMembers is an array
     this.add.apply(this, vMembers);
   }
@@ -72,6 +75,20 @@ qx.Proto.getItems = function() {
   return this._items;
 }
 
+qx.Proto.getEnabledItems = function()
+{
+  var b = [];
+
+  for (var i=0, a=this._items, l=a.length; i<l; i++)
+  {
+    if (a[i].getEnabled()) {
+      b.push(a[i]);
+    }
+  }
+
+  return b;
+}
+
 qx.Proto.handleItemChecked = function(vItem, vChecked)
 {
   if (vChecked)
@@ -100,14 +117,8 @@ qx.Proto.add = function(varargs)
 {
   var vItems = arguments;
   var vLength = vItems.length;
-
-  var vLast = vItems[vLength-1];
-
-  if (!(vLast instanceof qx.ui.core.Parent) && !(vLast instanceof qx.ui.basic.Terminator)) {
-    vLength--;
-  }
-
   var vItem;
+
   for (var i=0; i<vLength; i++)
   {
     vItem = vItems[i];

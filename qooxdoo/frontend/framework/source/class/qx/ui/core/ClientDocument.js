@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -19,7 +21,7 @@
 /* ************************************************************************
 
 #module(ui_core)
-#require(qx.dom.StyleSheet)
+#require(qx.html.StyleSheet)
 #require(qx.event.handler.EventHandler)
 #optional(qx.client.NativeWindow)
 #optional(qx.ui.window.Window)
@@ -78,7 +80,7 @@ function()
 
   // Init Resize Helper
   /*
-  if (qx.sys.Client.getInstance().isGecko())
+  if (qx.core.Client.getInstance().isGecko())
   {
     var o = this;
     this._resizeHelper = window.setInterval(function() { o._onresizehelper() }, 100);
@@ -112,8 +114,8 @@ qx.Settings.setDefault("boxModelCorrection", true);
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._modifyParent = qx.util.Return.returnTrue;
-qx.Proto._modifyVisible = qx.util.Return.returnTrue;
+qx.Proto._modifyParent = qx.lang.Function.returnTrue;
+qx.Proto._modifyVisible = qx.lang.Function.returnTrue;
 
 qx.Proto._modifyElement = function(propValue, propOldValue, propData)
 {
@@ -142,12 +144,12 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
   return true;
 }
 
-qx.Proto.getTopLevelWidget = qx.util.Return.returnThis;
+qx.Proto.getTopLevelWidget = qx.lang.Function.returnThis;
 qx.Proto.getWindowElement = function() { return this._window; }
 qx.Proto.getDocumentElement = function() { return this._document; }
 
-qx.Proto.getParent = qx.Proto.getToolTip = qx.util.Return.returnNull;
-qx.Proto.isMaterialized = qx.Proto.isSeeable = qx.util.Return.returnTrue;
+qx.Proto.getParent = qx.Proto.getToolTip = qx.lang.Function.returnNull;
+qx.Proto.isMaterialized = qx.Proto.isSeeable = qx.lang.Function.returnTrue;
 
 qx.Proto._isDisplayable = true;
 qx.Proto._hasParent = false;
@@ -272,19 +274,19 @@ qx.Proto.release = function(vActiveChild)
 */
 
 qx.Proto.createStyleElement = function(vCssText) {
-  return qx.dom.StyleSheet.createElement(vCssText);
+  return qx.html.StyleSheet.createElement(vCssText);
 }
 
 qx.Proto.addCssRule = function(vSheet, vSelector, vStyle) {
-  return qx.dom.StyleSheet.addRule(vSheet, vSelector, vStyle);
+  return qx.html.StyleSheet.addRule(vSheet, vSelector, vStyle);
 }
 
 qx.Proto.removeCssRule = function(vSheet, vSelector) {
-  return qx.dom.StyleSheet.removeRule(vSheet, vSelector);
+  return qx.html.StyleSheet.removeRule(vSheet, vSelector);
 }
 
 qx.Proto.removeAllCssRules = function(vSheet) {
-  return qx.dom.StyleSheet.removeAllRules(vSheet);
+  return qx.html.StyleSheet.removeAllRules(vSheet);
 }
 
 
@@ -298,13 +300,13 @@ qx.Proto.removeAllCssRules = function(vSheet) {
 ---------------------------------------------------------------------------
 */
 if (qx.Settings.getValueOfClass("qx.ui.core.ClientDocument", "boxModelCorrection")) {
-  qx.dom.StyleSheet.createElement("html,body{margin:0;border:0;padding:0;}" +
-    " html{border:0 none;} *{" + qx.sys.Client.getInstance().getEngineBoxSizingAttribute() +
-    ":border-box;} img{" + qx.sys.Client.getInstance().getEngineBoxSizingAttribute() +
+  qx.html.StyleSheet.createElement("html,body{margin:0;border:0;padding:0;}" +
+    " html{border:0 none;} *{" + qx.core.Client.getInstance().getEngineBoxSizingAttribute() +
+    ":border-box;} img{" + qx.core.Client.getInstance().getEngineBoxSizingAttribute() +
     ":content-box;}");
 }
 if (qx.Settings.getValueOfClass("qx.ui.core.ClientDocument", "enableApplicationLayout")) {
-  qx.dom.StyleSheet.createElement("html,body{width:100%;height:100%;overflow:hidden;}");
+  qx.html.StyleSheet.createElement("html,body{width:100%;height:100%;overflow:hidden;}");
 }
 
 
@@ -447,4 +449,4 @@ qx.Proto.dispose = function()
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = qx.util.Return.returnInstance;
+qx.Class.getInstance = qx.lang.Function.returnInstance;

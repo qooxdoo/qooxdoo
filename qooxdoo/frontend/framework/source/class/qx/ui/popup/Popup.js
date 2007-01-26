@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -29,7 +31,14 @@ function()
   qx.ui.layout.CanvasLayout.call(this);
 
   this.setZIndex(this._minZIndex);
+
+  // Init Focus Handler
+  if (this._isFocusRoot) {
+    this.activateFocusRoot();
+  }
 });
+
+qx.Proto._isFocusRoot = true;
 
 qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "popup" });
 
@@ -65,25 +74,25 @@ qx.Proto._hideTimeStamp = (new Date(0)).valueOf();
  * The minimum offset to the left of the page too keep when
  * {@link #restrictToPageOnOpen} is true (in pixels).
  */
-qx.Settings.setDefault("restrictToPageLeft", "5");
+qx.Settings.setDefault("restrictToPageLeft", "0");
 
 /**
  * The minimum offset to the right of the page too keep when
  * {@link #restrictToPageOnOpen} is true (in pixels).
  */
-qx.Settings.setDefault("restrictToPageRight", "5");
+qx.Settings.setDefault("restrictToPageRight", "0");
 
 /**
  * The minimum offset to the top of the page too keep when
  * {@link #restrictToPageOnOpen} is true (in pixels).
  */
-qx.Settings.setDefault("restrictToPageTop", "5");
+qx.Settings.setDefault("restrictToPageTop", "0");
 
 /**
  * The minimum offset to the bottom of the page too keep when
  * {@link #restrictToPageOnOpen} is true (in pixels).
  */
-qx.Settings.setDefault("restrictToPageBottom", "5");
+qx.Settings.setDefault("restrictToPageBottom", "0");
 
 
 
@@ -203,18 +212,6 @@ qx.Proto._makeInactive = function()
 
 
 
-/*
----------------------------------------------------------------------------
-  FOCUS
----------------------------------------------------------------------------
-*/
-
-qx.Proto.isFocusable = function() {
-  return false;
-}
-
-
-
 
 
 /*
@@ -240,9 +237,17 @@ qx.Proto.sendToBack = function()
 qx.Proto._sendTo = function()
 {
   var vPopups = qx.lang.Object.getValues(qx.manager.object.PopupManager.getInstance().getAll());
-  var vMenus = qx.lang.Object.getValues(qx.manager.object.MenuManager.getInstance().getAll());
 
-  var vAll = vPopups.concat(vMenus).sort(qx.util.Compare.byZIndex);
+  if (qx.OO.isAvailable("qx.manager.object.MenuManager"))
+  {
+    var vMenus = qx.lang.Object.getValues(qx.manager.object.MenuManager.getInstance().getAll());
+    var vAll = vPopups.concat(vMenus).sort(qx.util.Compare.byZIndex);
+  }
+  else
+  {
+    var vAll = vPopups.sort(qx.util.Compare.byZIndex);
+  }
+
   var vLength = vAll.length;
   var vIndex = this._minZIndex;
 
@@ -279,8 +284,8 @@ qx.Proto.getHideTimeStamp = function() {
 /**
  * Positions the popup relative to some reference element.
  * @param el    {var} Reference DOM element/widget.
- * @param offsetX   {int} Offset in pixels in X direction (optional).
- * @param offsetY   {int} Offset in pixels in Y direction (optional).
+ * @param offsetX {Integer} Offset in pixels in X direction (optional).
+ * @param offsetY {Integer} Offset in pixels in Y direction (optional).
  */
 qx.Proto.positionRelativeTo = function(el, offsetX, offsetY)
 {
@@ -288,10 +293,10 @@ qx.Proto.positionRelativeTo = function(el, offsetX, offsetY)
     el = el.getElement();
   }
   if (el) {
-    var gecko = qx.sys.Client.getInstance().isGecko();
-    var loc = qx.dom.Location;
-    this.setLocation(loc.getClientAreaLeft(el) - (gecko ? qx.dom.Style.getBorderLeft(el):0) + (offsetX || 0),
-      loc.getClientAreaTop(el) - (gecko ? qx.dom.Style.getBorderTop(el):0) + (offsetY || 0));
+    var gecko = qx.core.Client.getInstance().isGecko();
+    var loc = qx.html.Location;
+    this.setLocation(loc.getClientAreaLeft(el) - (gecko ? qx.html.Style.getBorderLeft(el):0) + (offsetX || 0),
+      loc.getClientAreaTop(el) - (gecko ? qx.html.Style.getBorderTop(el):0) + (offsetY || 0));
   } else {
     this.warn('Missing reference element');
   }

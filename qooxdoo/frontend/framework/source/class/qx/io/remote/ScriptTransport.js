@@ -5,12 +5,14 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
-     2006 by Derrell Lipman
-     2006 by STZ-IDA, Germany, http://www.stz-ida.de
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2006 Derrell Lipman
+     2006 STZ-IDA, Germany, http://www.stz-ida.de
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -73,7 +75,7 @@ qx.io.remote.ScriptTransport.handles =
   asynchronous : true,
   crossDomain : true,
   fileUpload: false,
-  responseTypes : [ "text/plain", "text/javascript", "text/json" ]
+  responseTypes : [ qx.util.Mime.TEXT, qx.util.Mime.JAVASCRIPT, qx.util.Mime.JSON ]
 }
 
 qx.io.remote.ScriptTransport.isSupported = function() {
@@ -318,12 +320,11 @@ qx.Proto.getResponseContent = function()
 
   switch(this.getResponseType())
   {
-    case "text/plain":
+    case qx.util.Mime.TEXT:
       // server is responsible for using a string as the response
 
-    case "text/json":
-
-    case "text/javascript":
+    case qx.util.Mime.JSON:
+    case qx.util.Mime.JAVASCRIPT:
       return this._responseContent;
 
     default:

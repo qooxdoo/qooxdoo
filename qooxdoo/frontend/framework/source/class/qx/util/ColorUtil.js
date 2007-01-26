@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -21,8 +23,25 @@
 
 ************************************************************************ */
 
+/**
+ * Methods to convert colors between ddiffernt color spaces.
+ */
 qx.OO.defineClass("qx.util.ColorUtil");
 
+/**
+ * Convert RGB colors to HSB
+ *
+ * @param vRed {Number} Red value. Range: 0..255
+ * @param vGreen {Number} Green value. Range: 0..255
+ * @param vBlue {Number} Blue value. Range: 0..255
+ *
+ * @return {Map} Map with the keys following keys:
+ *     <ul>
+ *       <li>'hue': range 0..360</li>
+ *       <li>'saturation': range 0..100</li>
+ *       <li>'brightness': range 0..100</li>
+ *     </ul>
+ */
 qx.Class.rgb2hsb = function(vRed, vGreen, vBlue)
 {
   var vHue, vSaturation, vBrightness;
@@ -86,6 +105,21 @@ qx.Class.rgb2hsb = function(vRed, vGreen, vBlue)
   }
 }
 
+
+/**
+ * Convert HSB colors to RGB
+ *
+ * @param vHue {Number} Hue value. Range 0..360
+ * @param vSaturation {Number} Saturation value. Range 0..100
+ * @param vBrightness {Number} Brightness value. Range 0..100
+ *
+ * @return {Map} Map the the following keys:
+ *     <ul>
+ *       <li>'red': range 0..255</li>
+ *       <li>'green': range 0..255</li>
+ *       <li>'blue': range 0..255</li>
+ *     </ul>
+ */
 qx.Class.hsb2rgb = function(vHue, vSaturation, vBrightness)
 {
   var i, f, p, q, t, vReturn;

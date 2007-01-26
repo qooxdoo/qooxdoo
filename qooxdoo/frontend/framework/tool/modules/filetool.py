@@ -1,9 +1,27 @@
 #!/usr/bin/env python
+################################################################################
+#
+#  qooxdoo - the new era of web development
+#
+#  http://qooxdoo.org
+#
+#  Copyright:
+#    2006-2007 1&1 Internet AG, Germany, http://www.1and1.org
+#
+#  License:
+#    LGPL: http://www.gnu.org/licenses/lgpl.html
+#    EPL: http://www.eclipse.org/org/documents/epl-v10.php
+#    See the LICENSE file in the project's top-level directory for details.
+#
+#  Authors:
+#    * Sebastian Werner (wpbasti)
+#
+################################################################################
 
 import os, codecs, cPickle, sys
 import textutil
 
-def save(filePath, content="", encoding="utf_8"):
+def save(filePath, content="", encoding="utf-8"):
   # Normalize
   filePath = normalize(filePath)
 
@@ -64,7 +82,7 @@ def read(filePath, encoding="utf_8"):
 
 def storeCache(cachePath, data):
   try:
-    cPickle.dump(data, open(cachePath, 'w'), 2)
+    cPickle.dump(data, open(cachePath, 'wb'), 2)
 
   except EOFError or PickleError or PicklingError:
     print "  * Could not store cache to %s" % cachePath
@@ -73,7 +91,7 @@ def storeCache(cachePath, data):
 
 def readCache(cachePath):
   try:
-    return cPickle.load(open(cachePath))
+    return cPickle.load(open(cachePath, 'rb'))
 
   except EOFError or PickleError or UnpicklingError:
     print "  * Could not read cache from %s" % cachePath

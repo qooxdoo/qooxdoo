@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -19,7 +21,7 @@
 /* ************************************************************************
 
 #module(core)
-#require(qx.dom.EventRegistration)
+#require(qx.html.EventRegistration)
 #optional(qx.component.init.InterfaceInitComponent)
 
 ************************************************************************ */
@@ -43,24 +45,24 @@ function()
 
   /**
    * private
-   * @param e {Object}
+   * @param e {Object} event
    */
   this.__onload = function(e) { return o._onload(e); }
   /**
    * private
-   * @param e {Object}
+   * @param e {Object} event
    */
   this.__onbeforeunload = function(e) { return o._onbeforeunload(e); }
   /**
    * private
-   * @param e {Object}
+   * @param e {Object} event
    */
   this.__onunload = function(e) { return o._onunload(e); }
 
   // Attach events
-  qx.dom.EventRegistration.addEventListener(window, "load", this.__onload);
-  qx.dom.EventRegistration.addEventListener(window, "beforeunload", this.__onbeforeunload);
-  qx.dom.EventRegistration.addEventListener(window, "unload", this.__onunload);
+  qx.html.EventRegistration.addEventListener(window, "load", this.__onload);
+  qx.html.EventRegistration.addEventListener(window, "beforeunload", this.__onbeforeunload);
+  qx.html.EventRegistration.addEventListener(window, "unload", this.__onunload);
 });
 
 
@@ -131,7 +133,7 @@ qx.Proto._modifyApplication = function(propValue, propOldValue, propData)
 */
 
 /**
- * Rreturns an instance of the current qooxdoo Application
+ * Returns an instance of the current qooxdoo Application
  *
  * @return {qx.component.AbstractApplication} instance of the current qooxdoo application
  */
@@ -220,7 +222,7 @@ qx.Proto.defineTerminate = function(vFunc) {
 /**
  * load event handler
  *
- * @param e {Object}
+ * @param e {Object} event
  */
 qx.Proto._onload = function(e)
 {
@@ -230,7 +232,7 @@ qx.Proto._onload = function(e)
   this.debug("loaded " + qx.lang.Object.getLength(qx.OO.classes) + " classes");
 
   // Print browser information
-  var cl = qx.sys.Client.getInstance();
+  var cl = qx.core.Client.getInstance();
   this.debug("client: " + cl.getEngine() + "-" + cl.getMajor() + "."
     + cl.getMinor() + "/" + cl.getPlatform() + "/" + cl.getLocale());
 
@@ -249,7 +251,7 @@ qx.Proto._onload = function(e)
 /**
  * beforeunload event handler
  *
- * @param e {Object}
+ * @param e {Object} event
  */
 qx.Proto._onbeforeunload = function(e)
 {
@@ -261,7 +263,7 @@ qx.Proto._onbeforeunload = function(e)
 /**
  * unload event handler
  *
- * @param e {Object}
+ * @param e {Object} event
  */
 qx.Proto._onunload = function(e)
 {
@@ -294,9 +296,9 @@ qx.Proto.dispose = function()
   }
 
   // Detach Events
-  qx.dom.EventRegistration.removeEventListener(window, "load", this.__onload);
-  qx.dom.EventRegistration.removeEventListener(window, "beforeunload", this.__onbeforeunload);
-  qx.dom.EventRegistration.removeEventListener(window, "unload", this.__onunload);
+  qx.html.EventRegistration.removeEventListener(window, "load", this.__onload);
+  qx.html.EventRegistration.removeEventListener(window, "beforeunload", this.__onbeforeunload);
+  qx.html.EventRegistration.removeEventListener(window, "unload", this.__onunload);
 
   // Reset inline functions
   this.__onload = this.__onbeforeunload = this.__onunload = null;
@@ -321,7 +323,7 @@ qx.Proto.dispose = function()
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = qx.util.Return.returnInstance;
+qx.Class.getInstance = qx.lang.Function.returnInstance;
 
 // Force direct creation
 qx.Class.getInstance();

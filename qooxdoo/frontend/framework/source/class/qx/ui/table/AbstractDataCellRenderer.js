@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2006 by STZ-IDA, Germany, http://www.stz-ida.de
+     2006 STZ-IDA, Germany, http://www.stz-ida.de
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Til Schneider (til132)
@@ -63,7 +65,7 @@ qx.Proto._getCellStyle = function(cellInfo) {
  *
  * @param cellInfo {Map} The information about the cell.
  *        See {@link #createDataCellHtml}.
- * @return {string} the inner HTML of the main div.
+ * @return {String} the inner HTML of the main div.
  */
 qx.Proto._getContentHtml = function(cellInfo) {
   return cellInfo.value;
@@ -114,8 +116,9 @@ qx.Proto._createContentHtml_array_join = function(cellInfo, htmlArr) {
 qx.Class.MAIN_DIV_START = '<div style="';
 qx.Class.MAIN_DIV_START_END = '">';
 qx.Class.MAIN_DIV_END = '</div>';
+/** main style */
 qx.Class.MAIN_DIV_STYLE = ';overflow:hidden;white-space:nowrap;border-right:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding-left:2px;padding-right:2px;cursor:default'
-  + (qx.sys.Client.getInstance().isMshtml() ? '' : ';-moz-user-select:none;');
+  + (qx.core.Client.getInstance().isMshtml() ? '' : ';-moz-user-select:none;');
 
 qx.Class.ARRAY_JOIN_MAIN_DIV_LEFT = '<div style="position:absolute;left:';
 qx.Class.ARRAY_JOIN_MAIN_DIV_WIDTH = 'px;top:0px;width:';

@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -19,6 +21,11 @@
 /* ************************************************************************
 
 #module(ui_listview)
+#load(qx.ui.listview.ContentCellHtml)
+#load(qx.ui.listview.ContentCellIconHtml)
+#load(qx.ui.listview.ContentCellImage)
+#load(qx.ui.listview.ContentCellLink)
+#load(qx.ui.listview.ContentCellText)
 
 ************************************************************************ */
 
@@ -270,7 +277,7 @@ qx.Proto.getManager = function() {
 qx.Proto.getListViewTarget = function(e)
 {
   var vEventTop = e.getPageY();
-  var vPaneTop = qx.dom.Location.getPageInnerTop(this.getElement());
+  var vPaneTop = qx.html.Location.getPageInnerTop(this.getElement());
   var vItemNo = Math.floor(this._currentScrollTop / this._rowHeight) +
                 Math.floor((vEventTop - vPaneTop) / this._rowHeight);
 
@@ -296,7 +303,7 @@ qx.Proto.getItemHeight = function(vItem) {
 
 // use the full inner width of the pane
 qx.Proto.getItemWidth = function(vItem) {
-  return qx.dom.Dimension.getInnerWidth(this.getElement());
+  return qx.html.Dimension.getInnerWidth(this.getElement());
 }
 
 qx.Proto.getItemLeft = function(vItem) {

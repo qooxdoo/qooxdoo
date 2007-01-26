@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -19,7 +21,8 @@
 /* ************************************************************************
 
 #module(ui_core)
-#require(qx.sys.Client)
+#require(qx.core.Client)
+#require(qx.renderer.color.ColorCache)
 #load(qx.renderer.border.BorderObject)
 
 ************************************************************************ */
@@ -35,15 +38,15 @@ function(vWidth, vStyle, vColor)
   this._themedEdges = {};
   this._initCache();
 
-  if (qx.util.Validation.isValidNumber(vWidth))
+  if (vWidth != null)
   {
     this.setWidth(vWidth);
 
-    if (qx.util.Validation.isValidString(vStyle)) {
+    if (vStyle != null) {
       this.setStyle(vStyle);
     }
 
-    if (qx.util.Validation.isValid(vColor)) {
+    if (vColor != null) {
       this.setColor(vColor);
     }
   }
@@ -142,10 +145,10 @@ qx.renderer.border.Border.fromString = function(vDefString)
 ---------------------------------------------------------------------------
 */
 
-qx.Proto.addListenerWidget = qx.util.Return.returnTrue;
-qx.Proto.removeListenerWidget = qx.util.Return.returnTrue;
+qx.Proto.addListenerWidget = qx.lang.Function.returnTrue;
+qx.Proto.removeListenerWidget = qx.lang.Function.returnTrue;
 
-qx.Proto._sync = qx.util.Return.returnTrue;
+qx.Proto._sync = qx.lang.Function.returnTrue;
 
 
 
@@ -237,7 +240,7 @@ qx.Proto.setLeft = function(vWidth, vStyle, vColor)
 */
 
 
-if (qx.sys.Client.getInstance().isGecko())
+if (qx.core.Client.getInstance().isGecko())
 {
   qx.Proto._initCache = function()
   {
@@ -300,7 +303,7 @@ else
 ---------------------------------------------------------------------------
 */
 
-if (qx.sys.Client.getInstance().isGecko() || qx.renderer.border.Border.enhancedCrossBrowserMode)
+if (qx.core.Client.getInstance().isGecko() || qx.renderer.border.Border.enhancedCrossBrowserMode)
 {
   qx.Proto._addToThemed3DColors = function(vProp)
   {
@@ -428,15 +431,15 @@ qx.Proto._generateDefString = function(vWidth, vStyle, vColor)
 
   var vArr = [ vWidth + "px" ];
 
-  if (qx.util.Validation.isValidString(vStyle)) {
+  if (vStyle != null) {
     vArr.push(vStyle);
   }
 
-  if (qx.util.Validation.isValidObject(vColor) && vColor instanceof qx.renderer.color.Color) {
+  if (vColor instanceof qx.renderer.color.Color) {
     vColor = vColor.getStyle();
   }
 
-  if (qx.util.Validation.isValidString(vColor)) {
+  if (vColor != null) {
     vArr.push(vColor);
   }
 
@@ -659,7 +662,7 @@ qx.Proto._applyWidgetXCommon = function(vObject)
     vObject._style[i] = this._defsX[i];
   }
 
-  if (!qx.sys.Client.getInstance().isGecko() && qx.renderer.border.Border.enhancedCrossBrowserMode)
+  if (!qx.core.Client.getInstance().isGecko() && qx.renderer.border.Border.enhancedCrossBrowserMode)
   {
     if (this.getUseEnhancedCrossBrowserMode()) {
       vObject._createElementForEnhancedBorder();
@@ -688,7 +691,7 @@ qx.Proto._applyWidgetYCommon = function(vObject)
     vObject._style[i] = this._defsY[i];
   }
 
-  if (!qx.sys.Client.getInstance().isGecko() && qx.renderer.border.Border.enhancedCrossBrowserMode)
+  if (!qx.core.Client.getInstance().isGecko() && qx.renderer.border.Border.enhancedCrossBrowserMode)
   {
     if (this.getUseEnhancedCrossBrowserMode()) {
       vObject._createElementForEnhancedBorder();
@@ -703,7 +706,7 @@ qx.Proto._applyWidgetYCommon = function(vObject)
   }
 }
 
-if (qx.sys.Client.getInstance().isGecko())
+if (qx.core.Client.getInstance().isGecko())
 {
   qx.Proto._applyWidgetX = qx.Proto._applyWidgetXCommon;
   qx.Proto._applyWidgetY = qx.Proto._applyWidgetYCommon;

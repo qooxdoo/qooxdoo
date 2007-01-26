@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -66,6 +68,8 @@ function()
 });
 
 qx.Proto._remappingChildTable = [ "add", "remove", "addAt", "addAtBegin", "addAtEnd", "removeAt", "addBefore", "addAfter", "removeAll", "getFirstChild", "getFirstActiveChild", "getLastChild", "getLastActiveChild" ];
+qx.Proto._isFocusRoot = false;
+
 
 
 
@@ -85,7 +89,11 @@ qx.OO.addProperty({ name : "contentNonArrowPadding", type : "number", defaultVal
 
 qx.OO.addProperty({ name : "hoverItem", type : "object" });
 qx.OO.addProperty({ name : "openItem", type : "object" });
+
+/** Widget that opened the menu */
 qx.OO.addProperty({ name : "opener", type : "object" });
+
+/** reference to the parent menu if the menu is a submenu */
 qx.OO.addProperty({ name : "parentMenu", type : "object" });
 
 qx.OO.addProperty({ name : "fastReopen", type : "boolean", defaultValue : false });
@@ -112,25 +120,32 @@ qx.Proto.getLayout = function() {
   return this._layout;
 }
 
-qx.Proto.isSubButton = function(vButton)
+/**
+ * Returns if the given element is a child of this menu
+ *
+ * @param vElement {Object} element to test
+ * @param vButtonsOnly {boolean ? false} if true, child elements other than buttons
+ *                                       will be ignored
+ */
+qx.Proto.isSubElement = function(vElement, vButtonsOnly)
 {
-  if (vButton.getParent() === this._layout) {
+  if ((vElement.getParent() === this._layout)
+
+      //accept this as child, this can happen if a scrollbar is clicked upon in
+      //a context menu
+      ||((!vButtonsOnly) && (vElement === this))) {
     return true;
   }
 
   for (var a=this._layout.getChildren(), l=a.length, i=0; i<l; i++)
   {
-    if (a[i].getMenu && a[i].getMenu() && a[i].getMenu().isSubButton(vButton)) {
+    if (a[i].getMenu && a[i].getMenu() && a[i].getMenu().isSubElement(vElement, vButtonsOnly)) {
       return true;
     }
   }
 
   return false;
 }
-
-
-
-
 
 
 /*
@@ -228,8 +243,8 @@ qx.Proto._modifyOpenItem = function(propValue, propOldValue, propData)
       var pl = propValue.getElement();
       var el = this.getElement();
 
-      vSub.setTop(qx.dom.Location.getPageBoxTop(pl) + this.getSubMenuVerticalOffset());
-      vSub.setLeft(qx.dom.Location.getPageBoxLeft(el) + qx.dom.Dimension.getBoxWidth(el) + this.getSubMenuHorizontalOffset());
+      vSub.setTop(qx.html.Location.getPageBoxTop(pl) + this.getSubMenuVerticalOffset());
+      vSub.setLeft(qx.html.Location.getPageBoxLeft(el) + qx.html.Dimension.getBoxWidth(el) + this.getSubMenuHorizontalOffset());
 
       vSub.show();
 

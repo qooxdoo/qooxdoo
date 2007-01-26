@@ -1,4 +1,23 @@
 #!/usr/bin/env python
+################################################################################
+#
+#  qooxdoo - the new era of web development
+#
+#  http://qooxdoo.org
+#
+#  Copyright:
+#    2006-2007 1&1 Internet AG, Germany, http://www.1and1.org
+#
+#  License:
+#    LGPL: http://www.gnu.org/licenses/lgpl.html
+#    EPL: http://www.eclipse.org/org/documents/epl-v10.php
+#    See the LICENSE file in the project's top-level directory for details.
+#
+#  Authors:
+#    * Sebastian Werner (wpbasti)
+#    * Fabian Jakobs (fjakobs)
+#
+################################################################################
 
 import sys, string, re
 import config, tree, textile
@@ -32,7 +51,7 @@ R_JAVADOC_STARS = re.compile(r'^\s*\*')
 
 
 
-R_NAMED_TYPE = re.compile(r'^\s*(\w+)\s*({([^}]+)})?')
+R_NAMED_TYPE = re.compile(r'^\s*([a-zA-Z0-9_\.#]+)\s*({([^}]+)})?')
 R_SIMPLE_TYPE = re.compile(r'^\s*({([^}]+)})?')
 
 
@@ -40,16 +59,16 @@ R_SIMPLE_TYPE = re.compile(r'^\s*({([^}]+)})?')
 
 VARPREFIXES = {
   "a" : "Array",
-  "b" : "boolean",
+  "b" : "Boolean",
   "d" : "Date",
   "f" : "Function",
-  "i" : "int",
+  "i" : "Integer",
   "h" : "Map",
   "m" : "Map",
-  "n" : "number",
+  "n" : "Number",
   "o" : "Object",
   "r" : "RegExp",
-  "s" : "string",
+  "s" : "String",
   "v" : "var",
   "w" : "Widget"
 }
@@ -57,6 +76,8 @@ VARPREFIXES = {
 VARNAMES = {
   "a" : "Array",
   "arr" : "Array",
+
+  "doc" : "Document",
 
   "e" : "Event",
   "ev" : "Event",
@@ -69,8 +90,8 @@ VARNAMES = {
   "ex" : "Exception",
   "exc" : "Exception",
 
-  "flag" : "boolean",
-  "force" : "boolean",
+  "flag" : "Boolean",
+  "force" : "Boolean",
 
   "f" : "Function",
   "func" : "Function",
@@ -81,16 +102,18 @@ VARNAMES = {
 
   "node" : "Node",
 
-  "n" : "number",
-  "num" : "number",
+  "n" : "Number",
+  "num" : "Number",
 
   "o" : "Object",
   "obj" : "Object",
 
   "reg" : "RegExp",
 
-  "s" : "string",
-  "str" : "string"
+  "s" : "String",
+  "str" : "String",
+
+  "win" : "Window"
 }
 
 VARDESC = {
@@ -178,7 +201,7 @@ def hasThrows(node):
   return False
 
 
- 
+
 
 def getReturns(node, found):
   if node.type == "function":
@@ -266,7 +289,7 @@ def qt2javadoc(text):
 
     for line in desc.split("\n"):
       res += " * %s\n" % line
-      
+
     res += " "
 
   else:
@@ -293,13 +316,18 @@ def parseNode(node):
 
 
 def parseText(intext, format=True):
+  # print "Parse: " + intext
+
   # Strip "/**", "/*!" and "*/"
   intext = intext[3:-2]
 
   # Strip leading stars in every line
   text = ""
   for line in intext.split("\n"):
-    text += R_JAVADOC_STARS.sub("", line).strip() + "\n"
+    text += R_JAVADOC_STARS.sub("", line) + "\n"
+
+  # Autodent
+  text = autoOutdent(text)
 
   # Search for attributes
   desc = { "category" : "description", "text" : "" }
@@ -310,7 +338,7 @@ def parseText(intext, format=True):
     mtch = R_ATTRIBUTE.search(text, pos)
 
     if mtch == None:
-      prevText = text[pos:].strip()
+      prevText = text[pos:].rstrip()
 
       if len(attribs) == 0:
         desc["text"] = prevText
@@ -319,7 +347,7 @@ def parseText(intext, format=True):
 
       break
 
-    prevText = text[pos:mtch.start(0)].strip()
+    prevText = text[pos:mtch.start(0)].rstrip()
     pos = mtch.end(0)
 
     if len(attribs) == 0:
@@ -340,7 +368,7 @@ def parseText(intext, format=True):
 def parseDetail(attrib, format=True):
   text = attrib["text"]
 
-  if attrib["category"] in [ "param", "event" ]:
+  if attrib["category"] in [ "param", "event", "see" ]:
     mtch = R_NAMED_TYPE.search(text)
   else:
     mtch = R_SIMPLE_TYPE.search(text)
@@ -348,7 +376,7 @@ def parseDetail(attrib, format=True):
   if mtch:
     text = text[mtch.end(0):]
 
-    if attrib["category"] in [ "param", "event" ]:
+    if attrib["category"] in [ "param", "event", "see" ]:
       attrib["name"] = mtch.group(1)
       # print ">>> NAME: %s" % mtch.group(1)
       remain = mtch.group(3)
@@ -384,10 +412,30 @@ def parseDetail(attrib, format=True):
   else:
     attrib["text"] = cleanupText(text)
 
+  if attrib["text"] == "":
+    del attrib["text"]
 
 
 
 
+def autoOutdent(text):
+  lines = text.split("\n")
+
+  if len(lines) <= 1:
+    return text.strip()
+
+  for line in lines:
+    if len(line) > 0 and line[0] != " ":
+      return text
+
+  result = ""
+  for line in lines:
+    if len(line) >= 0:
+      result += line[1:]
+
+    result += "\n"
+
+  return result
 
 
 
@@ -402,23 +450,21 @@ def cleanupText(text):
 
   newline = False
   lines = text.split("\n")
-  text = ""
-  
+  text = u""
+
   for line in lines:
-    line = line.strip()
-    
     if line == "":
       if not newline:
         newline = True
-      
+
     else:
       if text != "":
         text += "\n"
-      
+
       if newline:
         text += "\n"
         newline = False
-  
+
       text += line
 
   #print "============= OUTTEXT ========================="
@@ -429,31 +475,21 @@ def cleanupText(text):
 
 
 def formatText(text):
-  #print "============= FORMAT:1 ========================="
-  #print text
+  text = cleanupText(text)
 
-  # cleanup HTML
-  text = text.replace("<p>", "\n")
-  text = text.replace("<br/>", "\n")
-  text = text.replace("<br>", "\n")
-  text = text.replace("</p>", " ")
+  #if "\n" in text:
+  #  print
+  #  print "------------- ORIGINAL ----------------"
+  #  print text
 
-  # cleanup wraps
-  text = text.replace("\n\n", "----BREAK----")
-  text = text.replace("\n*", "----UL----")
-  text = text.replace("\n#", "----OL----")
-  text = text.replace("\n", " ")
-  text = text.replace("----BREAK----", "\n\n")
-  text = text.replace("----UL----", "\n*")
-  text = text.replace("----OL----", "\n#")
+  text = text.replace("<pre", "\n\n<pre").replace("</pre>", "</pre>\n\n")
 
-  #print "============= FORMAT:2 ========================="
-  #print text
+  # encode to ascii leads into a translation of umlauts to their XML code.
+  text = unicode(textile.textile(text.encode("utf-8"), output="ascii"))
 
-  text = textile.textile(unicode(text).encode('utf-8'))
-
-  #print "============= FORMAT:3 ========================="
-  #print text
+  #if "\n" in text:
+  #  print "------------- TEXTILED ----------------"
+  #  print text
 
   return text
 
@@ -540,12 +576,12 @@ def fromNode(node, assignType, name, alternative, old=[]):
     newText = oldDesc["text"]
   else:
     newText = "{var} TODOC"
-    
+
   if "\n" in newText:
     s = "/**\n%s\n-*/" % splitText(newText, False)
   else:
     s = "/** %s */" % newText
-  
+
 
   #
   # other @attributes
@@ -555,10 +591,10 @@ def fromNode(node, assignType, name, alternative, old=[]):
     cat = attrib["category"]
 
     if cat != "description":
-      print " * Found unallowed attribute %s in comment for %s" % (cat, name)
-  
-  return s  
-      
+      print " * Found unallowed attribute %s in comment for %s (node)" % (cat, name)
+
+  return s
+
 
 
 
@@ -578,10 +614,10 @@ def fromFunction(func, assignType, name, alternative, old=[]):
     newText = oldDesc["text"]
   else:
     newText = "TODOC"
-    
+
   s += splitText(newText, False)
   s += " *\n"
-  
+
 
 
 
@@ -592,12 +628,12 @@ def fromFunction(func, assignType, name, alternative, old=[]):
     s += " * @type %s\n" % assignType
   else:
     s += " * @type unknown TODOC\n"
-    
-    
-    
+
+
+
 
   #
-  # add @name
+  # add @name and @access
   ##############################################################
   if name != None and name != "construct":
     s += " * @name %s\n" % name
@@ -699,33 +735,33 @@ def fromFunction(func, assignType, name, alternative, old=[]):
   ##############################################################
   if name != "construct":
     oldReturn = getAttrib(old, "return")
-  
+
     newType = "void"
     newText = ""
-  
+
     # Get type and text from old content
     if oldReturn:
       if attribHas(oldReturn, "type"):
         newType = parseType(oldReturn["type"])
-  
+
       if attribHas(oldReturn, "text"):
         newText = oldReturn["text"].strip()
-  
+
     # Try to autodetect the type
     if newType == "void":
       returns = getReturns(func.getChild("body"), [])
-  
+
       if len(returns) > 0:
         newType = " | ".join(returns)
       elif name != None and name.startswith("is") and name[3].isupper():
         newType = "boolean"
-  
+
     # Add documentation hint in non void cases
     if newType != "void" and newText == "":
       newText = "TODOC"
-  
+
     s += " * @return {%s}%s" % (newType, splitText(newText))
-  
+
     if not s.endswith("\n"):
       s += "\n"
 
@@ -774,8 +810,8 @@ def fromFunction(func, assignType, name, alternative, old=[]):
       if not s.endswith("\n"):
         s += "\n"
 
-    elif not cat in [ "name", "access", "membership", "alternative", "param", "return", "throws", "description" ]:
-      print " * Found unallowed attribute %s in comment for %s" % (cat, name)
+    elif not cat in [ "description", "type", "name", "access", "alternative", "abstract", "param", "return", "throws" ]:
+      print " * Found unallowed attribute %s in comment for %s (function)" % (cat, name)
 
 
 
@@ -793,26 +829,26 @@ def fromFunction(func, assignType, name, alternative, old=[]):
 def fill(node):
   if node.type in [ "comment", "commentsBefore", "commentsAfter" ]:
     return
-    
+
   if node.hasParent():
     target = node
-    
+
     if node.type == "function":
       name = node.get("name", False)
     else:
       name = ""
-      
+
     alternative = False
     assignType = None
-  
+
     if name != None:
       assignType = "function"
-  
+
     # move to hook operation
     while target.parent.type in [ "first", "second", "third" ] and target.parent.parent.type == "operation" and target.parent.parent.get("operator") == "HOOK":
       alternative = True
       target = target.parent.parent
-  
+
     # move comment to assignment
     while target.parent.type == "right" and target.parent.parent.type == "assignment":
       target = target.parent.parent
@@ -824,82 +860,82 @@ def fill(node):
           if last and last.type == "identifier":
             name = last.get("name")
             assignType = "object"
-  
+
           for child in var.children:
             if child.type == "identifier":
               if child.get("name") in [ "prototype", "Proto" ]:
                 assignType = "member"
               elif child.get("name") in [ "class", "base", "Class" ]:
                 assignType = "static"
-  
+
       elif target.parent.type == "definition":
         name = target.parent.get("identifier")
         assignType = "definition"
-  
+
     # move to definition
     if target.parent.type == "assignment" and target.parent.parent.type == "definition" and target.parent.parent.parent.getChildrenLength(True) == 1:
       target = target.parent.parent.parent
       assignType = "function"
-  
-  
+
+
     # move comment to keyvalue
     if target.parent.type == "value" and target.parent.parent.type == "keyvalue":
       target = target.parent.parent
       name = target.get("key")
       assignType = "map"
-  
+
       if name == "construct":
         assignType = "constructor"
-  
+
       if target.parent.type == "map" and target.parent.parent.type == "value" and target.parent.parent.parent.type == "keyvalue":
         paname = target.parent.parent.parent.get("key")
-  
+
         if paname == "members":
           assignType = "member"
-  
+
         elif paname == "statics":
           assignType = "static"
-  
+
     # filter stuff, only add comments to member and static values and to all functions
     if assignType in [ "member", "static" ] or node.type == "function":
-      
+
       if not hasattr(target, "documentationAdded") and target.parent.type != "params":
         old = []
-    
+
         # create commentsBefore
         if target.hasChild("commentsBefore"):
           commentsBefore = target.getChild("commentsBefore")
-    
+
           if commentsBefore.hasChild("comment"):
             for child in commentsBefore.children:
               if child.get("detail") in [ "javadoc", "qtdoc" ]:
                 old = parseText(child.get("text"), False)
                 commentsBefore.removeChild(child)
                 break
-    
+
         else:
           commentsBefore = tree.Node("commentsBefore")
           target.addChild(commentsBefore)
-    
+
         # create comment node
         commentNode = tree.Node("comment")
-        
+
         if node.type == "function":
           commentNode.set("text", fromFunction(node, assignType, name, alternative, old))
         else:
           commentNode.set("text", fromNode(node, assignType, name, alternative, old))
-          
+
         commentNode.set("detail", "javadoc")
         commentNode.set("multiline", True)
-    
+
         commentsBefore.addChild(commentNode)
-    
+
         # in case of alternative methods, use the first one, ignore the others
         target.documentationAdded = True
 
 
-    
-    
+
+
 
   if node.hasChildren():
     for child in node.children:

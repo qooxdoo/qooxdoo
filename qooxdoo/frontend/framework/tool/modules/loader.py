@@ -1,7 +1,25 @@
 #!/usr/bin/env python
+################################################################################
+#
+#  qooxdoo - the new era of web development
+#
+#  http://qooxdoo.org
+#
+#  Copyright:
+#    2006-2007 1&1 Internet AG, Germany, http://www.1and1.org
+#
+#  License:
+#    LGPL: http://www.gnu.org/licenses/lgpl.html
+#    EPL: http://www.eclipse.org/org/documents/epl-v10.php
+#    See the LICENSE file in the project's top-level directory for details.
+#
+#  Authors:
+#    * Sebastian Werner (wpbasti)
+#
+################################################################################
 
 import sys, string, re, os, random, cPickle, codecs
-import config, tokenizer, treegenerator, filetool, stringoptimizer
+import config, tokenizer, treegenerator, filetool, stringoptimizer, textutil
 
 internalModTime = 0
 
@@ -53,26 +71,26 @@ def getInternalModTime(options):
 
 
 def extractFileContentId(data):
+  # TODO: Obsolete with 0.7
+  for item in config.QXHEAD["defineClass"].findall(data):
+    return item[0]
+
   for item in config.QXHEAD["id"].findall(data):
     return item
 
   for item in config.QXHEAD["classDefine"].findall(data):
-    return item
-
-  # TODO: Obsolete with 0.7
-  for item in config.QXHEAD["defineClass"].findall(data):
-    return item[0]
+    return item[1]
 
   return None
 
 
 def extractSuperClass(data):
-  for item in config.QXHEAD["superClass"].findall(data):
-    return item
-
   # TODO: Obsolete with 0.7
   for item in config.QXHEAD["defineClass"].findall(data):
     return item[2]
+
+  for item in config.QXHEAD["superClass"].findall(data):
+    return item
 
   return None
 
@@ -93,9 +111,9 @@ def extractLoadtimeDeps(data, fileId=""):
   # Adding explicit requirements
   for item in config.QXHEAD["require"].findall(data):
     if item == fileId:
-      print "      - Self-referring load dependency: %s" % item
+      print "    - Self-referring load dependency: %s" % item
     elif item in deps:
-      print "      - Double definition of load dependency: %s" % item
+      print "    - Double definition of load dependency: %s" % item
     else:
       deps.append(item)
 
@@ -108,9 +126,9 @@ def extractAfterDeps(data, fileId=""):
   # Adding explicit after requirements
   for item in config.QXHEAD["after"].findall(data):
     if item == fileId:
-      print "      - Self-referring load dependency: %s" % item
+      print "    - Self-referring load dependency: %s" % item
     elif item in deps:
-      print "      - Double definition of load dependency: %s" % item
+      print "    - Double definition of load dependency: %s" % item
     else:
       deps.append(item)
 
@@ -123,9 +141,9 @@ def extractRuntimeDeps(data, fileId=""):
   # Adding explicit runtime requirements
   for item in config.QXHEAD["use"].findall(data):
     if item == fileId:
-      print "      - Self-referring runtime dependency: %s" % item
+      print "    - Self-referring runtime dependency: %s" % item
     elif item in deps:
-      print "      - Double definition of runtime dependency: %s" % item
+      print "    - Double definition of runtime dependency: %s" % item
     else:
       deps.append(item)
 
@@ -138,9 +156,9 @@ def extractLoadDeps(data, fileId=""):
   # Adding before requirements
   for item in config.QXHEAD["load"].findall(data):
     if item == fileId:
-      print "      - Self-referring runtime dependency: %s" % item
+      print "    - Self-referring runtime dependency: %s" % item
     elif item in deps:
-      print "      - Double definition of runtime dependency: %s" % item
+      print "    - Double definition of runtime dependency: %s" % item
     else:
       deps.append(item)
 
@@ -168,16 +186,22 @@ def extractModules(data):
   return mods
 
 
-def extractResources(data):
+def extractResources(data, fileId):
   res = []
 
   for item in config.QXHEAD["resource"].findall(data):
-    res.append(item)
+    res.append({ "namespace" : fileId[0:fileId.find(".")], "id" : item[0], "entry" : item[1] })
 
   return res
 
 
+def extractEmbeds(data):
+  emb = []
 
+  for item in config.QXHEAD["embed"].findall(data):
+    emb.append({ "namespace" : item[0], "id" : item[1], "entry" : item[2] })
+
+  return emb
 
 
 
@@ -389,16 +413,14 @@ def resolveAutoDeps(fileDb, options):
   if not hasMessage and not options.verbose:
     print
 
-  print "  * Added %s dependencies" % depCounter
+  # print "  * Added %s dependencies" % depCounter
 
 
 
 
 def storeEntryCache(fileDb, options):
-  print "  * Storing file entries..."
-
   cacheCounter = 0
-  ignoreDbEntries = [ "tokens", "tree", "path", "pathId", "encoding", "resourceInput", "resourceOutput", "sourceScriptPath", "listIndex", "scriptInput" ]
+  ignoreDbEntries = [ "tokens", "tree", "path", "pathId", "encoding", "resourceInput", "resourceOutput", "listIndex", "classPath", "classUri" ]
 
   for fileId in fileDb:
     fileEntry = fileDb[fileId]
@@ -418,12 +440,15 @@ def storeEntryCache(fileDb, options):
     filetool.storeCache(fileEntry["cachePath"], fileEntryCopy)
     cacheCounter += 1
 
-  print "  * Updated %s files" % cacheCounter
+  if cacheCounter == 0:
+    print "  * No classes were modified"
+  else:
+    print "  * %s classes were modified" % cacheCounter
 
 
 
 
-def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sourceScriptPath, resourceInput, resourceOutput, options, fileDb={}, moduleDb={}):
+def indexFile(filePath, filePathId, classPath, listIndex, classEncoding, classUri, resourceInput, resourceOutput, options, fileDb={}, moduleDb={}):
 
   ########################################
   # Checking cache
@@ -451,14 +476,14 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sour
     fileId = filePathId
 
   else:
-    fileContent = filetool.read(filePath, scriptEncoding)
+    fileContent = filetool.read(filePath, classEncoding)
 
     # Extract ID
     fileContentId = extractFileContentId(fileContent)
 
     # Search for valid ID
     if fileContentId == None:
-      print "    - Could not extract ID from file: %s. Using fileName!" % filePath
+      print "    - Could not extract ID from file: %s. Fallback to path %s!" % (filePath, filePathId)
       fileId = filePathId
 
     else:
@@ -477,7 +502,8 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sour
       "runtimeDeps" : extractRuntimeDeps(fileContent, fileId),
       "afterDeps" : extractAfterDeps(fileContent, fileId),
       "loadDeps" : extractLoadDeps(fileContent, fileId),
-      "resources" : extractResources(fileContent),
+      "resources" : extractResources(fileContent, fileId),
+      "embeds" : extractEmbeds(fileContent),
       "modules" : extractModules(fileContent)
     }
 
@@ -490,12 +516,12 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sour
   # We don't want to cache these items
   fileEntry["path"] = filePath
   fileEntry["pathId"] = filePathId
-  fileEntry["encoding"] = scriptEncoding
+  fileEntry["encoding"] = classEncoding
   fileEntry["resourceInput"] = resourceInput
   fileEntry["resourceOutput"] = resourceOutput
-  fileEntry["sourceScriptPath"] = sourceScriptPath
+  fileEntry["classUri"] = classUri
   fileEntry["listIndex"] = listIndex
-  fileEntry["scriptInput"] = scriptInput
+  fileEntry["classPath"] = classPath
 
 
   ########################################
@@ -516,19 +542,20 @@ def indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sour
 
 
 
-def indexSingleScriptInput(scriptInput, listIndex, options, fileDb={}, moduleDb={}):
-  scriptInput = filetool.normalize(scriptInput)
+def indexSingleScriptInput(classPath, listIndex, options, fileDb={}, moduleDb={}):
+  classPath = filetool.normalize(classPath)
+  counter = 0
 
   # Search for other indexed lists
-  if len(options.scriptEncoding) > listIndex:
-    scriptEncoding = options.scriptEncoding[listIndex]
+  if len(options.classEncoding) > listIndex:
+    classEncoding = options.classEncoding[listIndex]
   else:
-    scriptEncoding = "utf-8"
+    classEncoding = "utf-8"
 
-  if len(options.sourceScriptPath) > listIndex:
-    sourceScriptPath = options.sourceScriptPath[listIndex]
+  if len(options.classUri) > listIndex:
+    classUri = options.classUri[listIndex]
   else:
-    sourceScriptPath = None
+    classUri = None
 
   if len(options.resourceInput) > listIndex:
     resourceInput = options.resourceInput[listIndex]
@@ -540,7 +567,7 @@ def indexSingleScriptInput(scriptInput, listIndex, options, fileDb={}, moduleDb=
   else:
     resourceOutput = None
 
-  for root, dirs, files in os.walk(scriptInput):
+  for root, dirs, files in os.walk(classPath):
 
     # Filter ignored directories
     for ignoredDir in config.DIRIGNORE:
@@ -551,26 +578,29 @@ def indexSingleScriptInput(scriptInput, listIndex, options, fileDb={}, moduleDb=
     for fileName in files:
       if os.path.splitext(fileName)[1] == config.JSEXT:
         filePath = os.path.join(root, fileName)
-        filePathId = filePath.replace(scriptInput + os.sep, "").replace(config.JSEXT, "").replace(os.sep, ".")
+        filePathId = filePath.replace(classPath + os.sep, "").replace(config.JSEXT, "").replace(os.sep, ".")
 
-        indexFile(filePath, filePathId, scriptInput, listIndex, scriptEncoding, sourceScriptPath, resourceInput, resourceOutput, options, fileDb, moduleDb)
+        indexFile(filePath, filePathId, classPath, listIndex, classEncoding, classUri, resourceInput, resourceOutput, options, fileDb, moduleDb)
+        counter += 1
+
+  return counter
 
 
 def indexScriptInput(options):
   if options.cacheDirectory != None:
     filetool.directory(options.cacheDirectory)
 
-  print "  * Indexing files... "
+  print "  * Indexing class paths... "
 
   fileDb = {}
   moduleDb = {}
   listIndex = 0
 
-  for scriptInput in options.scriptInput:
-    indexSingleScriptInput(scriptInput, listIndex, options, fileDb, moduleDb)
+  for classPath in options.classPath:
+    print "    - Indexing: %s" % classPath
+    counter = indexSingleScriptInput(classPath, listIndex, options, fileDb, moduleDb)
+    print "      - %s classes were found" % counter
     listIndex += 1
-
-  print "  * %s files were found" % len(fileDb)
 
   if options.enableAutoDependencies:
     resolveAutoDeps(fileDb, options)
@@ -693,18 +723,13 @@ def getSortedList(options, fileDb, moduleDb):
       if include in moduleDb:
         includeWithDeps.extend(moduleDb[include])
 
-      elif "*" in include or "?" in include:
-        regstr = "^(" + include.replace('.', '\\.').replace('*', '.*').replace('?', '.?') + ")$"
-        regexp = re.compile(regstr)
+      else:
+        regexp = textutil.toRegExp(include)
 
         for fileId in fileDb:
           if regexp.search(fileId):
             if not fileId in includeWithDeps:
               includeWithDeps.append(fileId)
-
-      else:
-        if not include in includeWithDeps:
-          includeWithDeps.append(include)
 
 
   # Add Modules and Files (without deps)
@@ -713,18 +738,13 @@ def getSortedList(options, fileDb, moduleDb):
       if include in moduleDb:
         includeWithoutDeps.extend(moduleDb[include])
 
-      elif "*" in include or "?" in include:
-        regstr = "^(" + include.replace('.', '\\.').replace('*', '.*').replace('?', '.?') + ")$"
-        regexp = re.compile(regstr)
+      else:
+        regexp = textutil.toRegExp(include)
 
         for fileId in fileDb:
           if regexp.search(fileId):
             if not fileId in includeWithoutDeps:
               includeWithoutDeps.append(fileId)
-
-      else:
-        if not include in includeWithoutDeps:
-          includeWithoutDeps.append(include)
 
 
 
@@ -732,7 +752,7 @@ def getSortedList(options, fileDb, moduleDb):
 
 
   # Add all if both lists are empty
-  if len(includeWithDeps) == 0 and len(includeWithoutDeps) == 0:
+  if len(options.includeWithDeps) == 0 and len(options.includeWithoutDeps) == 0:
     for fileId in fileDb:
       includeWithDeps.append(fileId)
 
@@ -754,18 +774,13 @@ def getSortedList(options, fileDb, moduleDb):
       if exclude in moduleDb:
         excludeWithDeps.extend(moduleDb[exclude])
 
-      elif "*" in exclude or "?" in exclude:
-        regstr = "^(" + exclude.replace('.', '\\.').replace('*', '.*').replace('?', '.?') + ")$"
-        regexp = re.compile(regstr)
+      else:
+        regexp = textutil.toRegExp(exclude)
 
         for fileId in fileDb:
           if regexp.search(fileId):
             if not fileId in excludeWithDeps:
               excludeWithDeps.append(fileId)
-
-      else:
-        if not exclude in excludeWithDeps:
-          excludeWithDeps.append(exclude)
 
 
   # Add Modules and Files (without deps)
@@ -774,18 +789,14 @@ def getSortedList(options, fileDb, moduleDb):
       if exclude in moduleDb:
         excludeWithoutDeps.extend(moduleDb[exclude])
 
-      elif "*" in exclude or "?" in exclude:
-        regstr = "^(" + exclude.replace('.', '\\.').replace('*', '.*').replace('?', '.?') + ")$"
-        regexp = re.compile(regstr)
+      else:
+        regexp = textutil.toRegExp(exclude)
 
         for fileId in fileDb:
           if regexp.search(fileId):
             if not fileId in excludeWithDeps:
               excludeWithoutDeps.append(fileId)
 
-      else:
-        if not exclude in excludeWithDeps:
-          excludeWithoutDeps.append(exclude)
 
 
 

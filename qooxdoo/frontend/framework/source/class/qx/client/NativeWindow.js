@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -18,7 +20,7 @@
 
 /* ************************************************************************
 
-#require(qx.dom.Window)
+#require(qx.html.Window)
 
 ************************************************************************ */
 
@@ -40,11 +42,11 @@ function(vUrl, vName)
   //   INITIAL PROPERTIES
   // ************************************************************************
 
-  if (qx.util.Validation.isValidString(vUrl)) {
+  if (vUrl != null) {
     this.setUrl(vUrl);
   }
 
-  if (qx.util.Validation.isValidString(vName)) {
+  if (vName != null) {
     this.setName(vName);
   }
 });
@@ -235,7 +237,7 @@ qx.Proto._modifyUrl = function(propValue, propOldValue, propName)
 {
   // String hack needed for old compressor (compile.py)
   if(!this.isClosed()) {
-    this._window.location.replace(qx.util.Validation.isValidString(propValue) ? propValue : ("javascript:/" + "/"));
+    this._window.location.replace(propValue != null ? propValue : ("javascript:/" + "/"));
   }
 
   return true;
@@ -346,7 +348,7 @@ qx.Proto._open = function()
   ------------------------------------------------------------------------------
   */
 
-  if (qx.util.Validation.isValidNumber(this.getWidth()))
+  if (this.getWidth() != null)
   {
     vConf.push("width");
     vConf.push("=");
@@ -354,7 +356,7 @@ qx.Proto._open = function()
     vConf.push(",");
   }
 
-  if (qx.util.Validation.isValidNumber(this.getHeight()))
+  if (this.getHeight() != null)
   {
     vConf.push("height");
     vConf.push("=");
@@ -362,7 +364,7 @@ qx.Proto._open = function()
     vConf.push(",");
   }
 
-  if (qx.util.Validation.isValidNumber(this.getLeft()))
+  if (this.getLeft() != null)
   {
     vConf.push("left");
     vConf.push("=");
@@ -370,7 +372,7 @@ qx.Proto._open = function()
     vConf.push(",");
   }
 
-  if (qx.util.Validation.isValidNumber(this.getTop()))
+  if (this.getTop() != null)
   {
     vConf.push("top");
     vConf.push("=");
@@ -431,7 +433,7 @@ qx.Proto._open = function()
   ------------------------------------------------------------------------------
   */
 
-  if (qx.util.Validation.isInvalidString(this.getName())) {
+  if (this.getName() != null) {
     this.setName("qx_NativeWindow" + this.toHashCode());
   }
 
@@ -513,7 +515,7 @@ qx.Proto.centerToScreenArea = function() {
 }
 
 qx.Proto.centerToOpener = function() {
-  return this._centerHelper(((qx.dom.Window.getInnerWidth(window) - this.getWidth()) / 2) + qx.dom.Location.getScreenBoxLeft(window.document.body), ((qx.dom.Window.getInnerHeight(window) - this.getHeight()) / 2) + qx.dom.Location.getScreenBoxTop(window.document.body));
+  return this._centerHelper(((qx.html.Window.getInnerWidth(window) - this.getWidth()) / 2) + qx.html.Location.getScreenBoxLeft(window.document.body), ((qx.html.Window.getInnerHeight(window) - this.getHeight()) / 2) + qx.html.Location.getScreenBoxTop(window.document.body));
 }
 
 qx.Proto._centerHelper = function(l, t)

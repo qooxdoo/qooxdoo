@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -19,6 +21,8 @@
 /* ************************************************************************
 
 #module(ui_tree)
+#embed(qx.widgettheme/tree/*)
+#embed(qx.icontheme/16/actions/document-new.png)
 
 ************************************************************************ */
 
@@ -45,9 +49,7 @@ function(vLabel, vIcon, vIconSelected)
 
   qx.ui.layout.BoxLayout.call(this, "horizontal");
 
-  if (qx.util.Validation.isValid(vLabel)) {
-    this.setLabel(vLabel);
-  }
+  this.setLabel(vLabel);
 
   // Prohibit selection
   this.setSelectable(false);
@@ -59,11 +61,12 @@ function(vLabel, vIcon, vIconSelected)
   this.add(this._indentObject, this._iconObject, this._labelObject);
 
   // Set Icons
-  if ((vIcon != null) && (qx.util.Validation.isValidString(vIcon))) {
+  if (vIcon != null) {
     this.setIcon(vIcon);
     this.setIconSelected(vIcon);
   }
-  if ((vIconSelected != null) && (qx.util.Validation.isValidString(vIconSelected))) {
+
+  if (vIconSelected != null) {
     this.setIconSelected(vIconSelected);
   }
 
@@ -101,7 +104,7 @@ qx.OO.addProperty({ name : "iconSelected", type : "string" });
 /*!
   The label/caption/text of the qx.ui.basic.Atom instance
 */
-qx.OO.addProperty({ name : "label", type : "string" });
+qx.OO.addProperty({ name : "label" });
 
 /*!
   Selected property
@@ -164,7 +167,7 @@ qx.Proto._evalCurrentIcon = function()
   if (this.getSelected() && this.getIconSelected()) {
     return this.getIconSelected();
   } else {
-    return this.getIcon() || "icon/16/file-new.png";
+    return this.getIcon() || "icon/16/actions/document-new.png";
   }
 }
 
@@ -406,7 +409,7 @@ qx.Proto._onmousedown = function(e)
   e.stopPropagation();
 }
 
-qx.Proto._onmouseup = qx.util.Return.returnTrue;
+qx.Proto._onmouseup = qx.lang.Function.returnTrue;
 
 
 

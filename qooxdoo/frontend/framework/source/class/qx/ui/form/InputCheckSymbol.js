@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -30,13 +32,13 @@ function()
   this.setTagName("input");
   this.setSelectable(false);
 
-  if (qx.sys.Client.getInstance().isMshtml())
+  if (qx.core.Client.getInstance().isMshtml())
   {
     // Take control over size of element (mshtml)
     this.setWidth(13);
     this.setHeight(13);
   }
-  else if (qx.sys.Client.getInstance().isGecko())
+  else if (qx.core.Client.getInstance().isGecko())
   {
     // Remove gecko default margin
     this.setMargin(0);
@@ -71,7 +73,7 @@ qx.Proto.getBoxHeight = qx.Proto.getPreferredBoxHeight;
 qx.Proto.getInnerWidth = qx.Proto.getPreferredBoxWidth;
 qx.Proto.getInnerHeight = qx.Proto.getPreferredBoxHeight;
 
-if (qx.sys.Client.getInstance().isMshtml())
+if (qx.core.Client.getInstance().isMshtml())
 {
   qx.Proto._afterAppear = function()
   {

@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * David Perez Carmona (david-perez), based on qx.ui.form.ComboBox
@@ -19,6 +21,10 @@
 
 #module(ui_comboboxex)
 #require(qx.ui.table.Table)
+#embed(qx.widgettheme/arrows/down.gif)
+#embed(qx.icontheme/16/actions/edit-find.png)
+#embed(qx.icontheme/16/actions/dialog-ok.png)
+#embed(qx.icontheme/16/actions/dialog-cancel.png)
 
 ************************************************************************ */
 
@@ -36,7 +42,7 @@
  * <li>Automatically calculating needed width</li>
  * <li>Popup list always shows full contents, and can be wider than text field</li>
  * <li>Search values through popup dialog</li>
- * <li>Internationalization support of messages (through custom settings)</li>
+ * <li>Internationalization support of messages</li>
  * </ul>
  * <p>Pending features:</p>
  * <ul>
@@ -58,7 +64,7 @@ qx.OO.defineClass('qx.ui.form.ComboBoxEx', qx.ui.layout.HorizontalBoxLayout, fun
   // ************************************************************************
   //   LIST
   // ************************************************************************
-  this._createList([ this._getComboSetting('idHeader'), this._getComboSetting('descriptionHeader') ]);
+  this._createList([ this.tr("ID"), this.tr("Description") ]);
 
   // ************************************************************************
   //   FIELD
@@ -115,19 +121,6 @@ qx.OO.defineClass('qx.ui.form.ComboBoxEx', qx.ui.layout.HorizontalBoxLayout, fun
   // ************************************************************************
   this._popup.addEventListener("appear", this._onpopupappear, this);
 });
-
-/*
----------------------------------------------------------------------------
-  LOCALIZATION SUPPORT
----------------------------------------------------------------------------
-*/
-
-qx.Settings.setDefault('titleSearch', 'Search items in list');
-qx.Settings.setDefault('toolTipSearchNext', 'Search next occurrence');
-qx.Settings.setDefault('idHeader', 'ID');
-qx.Settings.setDefault('descriptionHeader', 'Description');
-qx.Settings.setDefault('caseSensitiveCaption', 'Case sensitive');
-
 
 /*
 ---------------------------------------------------------------------------
@@ -291,7 +284,7 @@ qx.Proto.getSelection = function() {
 }
 
 /**Sets the index of the currently selected item in the list.
- * @param index {Number} -1 means no selected index*/
+ * @param index {number} -1 means no selected index*/
 qx.Proto.setSelectedIndex = function(index) {
   var items = this.getSelection().length;
   if (items >= 0) {
@@ -424,7 +417,7 @@ qx.Proto._openPopup = function() {
   if (!this.getSelection().length) {
     return;
   }
-  p.positionRelativeTo(el, 1, qx.dom.Dimension.getBoxHeight(el));
+  p.positionRelativeTo(el, 1, qx.html.Dimension.getBoxHeight(el));
   this._calculateDimensions();
   p.setParent(this.getTopLevelWidget());
   p.auto();
@@ -537,7 +530,7 @@ qx.Proto._calculateDimensions = function() {
 
 /**Calculates the width of the given text.
  * The default font is used.
- * @return {integer}*/
+ * @return {Integer}*/
 qx.Proto._getTextWidth = function(text) {
   var lab = new qx.ui.basic.Label(text);
   var res = lab.getPreferredBoxWidth();
@@ -558,9 +551,9 @@ qx.Proto.isSearchInProgress = function() {
 }
 
 /**Searches the given text.  Called from the search dialog.
- * @param startIndex  {Number} Start index, 0 based
- * @param txt      {String} Text to find
- * @param caseSens    {Boolean} Case sensivity flag.*/
+ * @param startIndex  {number} Start index, 0 based
+ * @param txt {String} Text to find
+ * @param caseSens {Boolean} Case sensivity flag.*/
 qx.Proto._search = function(startIndex, txt, caseSens) {
   if (txt == null || !txt.length) {
     return;
@@ -624,7 +617,7 @@ qx.Proto.openSearchDialog = function() {
   });
 
   //###checkCase
-  var checkCase = new qx.ui.form.CheckBox(this._getComboSetting('caseSensitiveCaption'));
+  var checkCase = new qx.ui.form.CheckBox(this.tr("Case sensitive"));
   checkCase.set({
     horizontalAlign: 'center',
     marginBottom: 4
@@ -659,22 +652,22 @@ qx.Proto.openSearchDialog = function() {
   this._list.set(newListSettings);
 
   //###buttons
-  var butNext = new qx.ui.form.Button('', 'icon/16/find.png');
+  var butNext = new qx.ui.form.Button('', 'icon/16/actions/edit-find.png');
   butNext.set({
-    toolTip: new qx.ui.popup.ToolTip(this._getComboSetting('toolTipSearchNext'))
+    toolTip: new qx.ui.popup.ToolTip(this.tr("Search next occurrence"))
   });
   butNext.addEventListener("execute", function() {
     startIndex = (this.getSelectedIndex()+1) % sel.length;
     search();
   }, this);
 
-  var butOk = new qx.ui.form.Button('', 'icon/16/button-ok.png');
+  var butOk = new qx.ui.form.Button('', 'icon/16/actions/dialog-ok.png');
   butOk.addEventListener('execute', function() {
     oldSelectedIndex = null;
     win.close();
   }, this);
 
-  var butCancel = new qx.ui.form.Button('', 'icon/16/button-cancel.png');
+  var butCancel = new qx.ui.form.Button('', 'icon/16/actions/dialog-cancel.png');
   butCancel.addEventListener('execute', function() {
     win.close();
   }, this);
@@ -698,7 +691,7 @@ qx.Proto.openSearchDialog = function() {
   hbox.add(vbox, butBox);
 
   //###Window
-  var win = new qx.ui.window.Window(this._getComboSetting('titleSearch'), 'icon/16/find.png');
+  var win = new qx.ui.window.Window(this.tr("Search items in list"), 'icon/16/actions/edit-find.png');
   win.add(hbox);
   win.positionRelativeTo(this);
   win.set({
@@ -871,7 +864,7 @@ qx.Proto._onkeydown = function(e) {
       break;
 
     case "Down":
-      if (e.getAltKey()) {
+      if (e.isAltPressed()) {
         this._togglePopup();
       }
       break;
@@ -883,7 +876,7 @@ qx.Proto._onkeydown = function(e) {
       break;
 
     case "F":
-      if (e.getCtrlKey()) {
+      if (e.isCtrlPressed()) {
         if (this.getAllowSearch()) {
           this.openSearchDialog();
         }
@@ -946,7 +939,7 @@ qx.Proto._visualizeBlur = function() {
   // Force blur, even if mouseFocus is not active because we
   // need to be sure that the previous focus rect gets removed.
   // But this only needs to be done, if there is no new focused element.
-  if (qx.sys.Client.getInstance().isMshtml()) {
+  if (qx.core.Client.getInstance().isMshtml()) {
     if (this.getEnableElementFocus() && !this.getFocusRoot().getFocusedChild()) {
       try {
         if (this.getEditable())  {

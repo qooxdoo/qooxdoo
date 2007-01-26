@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -104,7 +106,7 @@ qx.Proto._layoutPost = function(vChanges) {
   }
 }
 
-qx.Proto._postApply = qx.util.Return.returnTrue;
+qx.Proto._postApply = qx.lang.Function.returnTrue;
 
 
 
@@ -121,8 +123,8 @@ qx.Proto._postApply = qx.util.Return.returnTrue;
 qx.Proto._computeBoxWidthFallback = qx.Proto.getPreferredBoxWidth;
 qx.Proto._computeBoxHeightFallback = qx.Proto.getPreferredBoxHeight;
 
-qx.Proto._computePreferredInnerWidth = qx.util.Return.returnZero;
-qx.Proto._computePreferredInnerHeight = qx.util.Return.returnZero;
+qx.Proto._computePreferredInnerWidth = qx.lang.Function.returnZero;
+qx.Proto._computePreferredInnerHeight = qx.lang.Function.returnZero;
 
 
 

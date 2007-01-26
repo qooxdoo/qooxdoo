@@ -1,11 +1,34 @@
 #!/usr/bin/env python
+################################################################################
+#
+#  qooxdoo - the new era of web development
+#
+#  http://qooxdoo.org
+#
+#  Copyright:
+#    2006-2007 1&1 Internet AG, Germany, http://www.1and1.org
+#
+#  License:
+#    LGPL: http://www.gnu.org/licenses/lgpl.html
+#    EPL: http://www.eclipse.org/org/documents/epl-v10.php
+#    See the LICENSE file in the project's top-level directory for details.
+#
+#  Authors:
+#    * Sebastian Werner (wpbasti)
+#    * Andreas Ecker (ecker)
+#    * Fabian Jakobs (fjakobs)
+#    * Alessandro Sala (asala)
+#
+################################################################################
 
-import sys, re, os, optparse
+import sys, re, os, optparse, math
 
 # reconfigure path to import own modules from modules subfolder
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "modules"))
 
-import config, tokenizer, loader, api, tree, treegenerator, settings, resources, filetool, stringoptimizer, optparseext, variableoptimizer, obfuscator, compiler, migrator, textutil
+import config, tokenizer, loader, api, tree, treegenerator, settings, resources
+import filetool, stringoptimizer, optparseext, variableoptimizer, obfuscator, compiler
+import migrator, textutil, graph
 
 
 
@@ -25,9 +48,9 @@ def getparser():
   parser.add_option("--export-to-file", dest="exportToFile", metavar="FILENAME", help="Store options to FILENAME.")
 
   # Directories (Lists, Match using index)
-  parser.add_option("--script-input", action="extend", dest="scriptInput", metavar="DIRECTORY", type="string", default=[], help="Define a script input directory.")
-  parser.add_option("--script-encoding", action="extend", dest="scriptEncoding", metavar="ENCODING", type="string", default=[], help="Define the encoding for a script input directory.")
-  parser.add_option("--source-script-path", action="extend", dest="sourceScriptPath", metavar="PATH", type="string", default=[], help="Define a script path for the source version.")
+  parser.add_option("--class-path", action="extend", dest="classPath", metavar="DIRECTORY", type="string", default=[], help="Define a script input directory.")
+  parser.add_option("--class-uri", action="extend", dest="classUri", metavar="PATH", type="string", default=[], help="Define a script path for the source version.")
+  parser.add_option("--class-encoding", action="extend", dest="classEncoding", metavar="ENCODING", type="string", default=[], help="Define the encoding for a script input directory.")
   parser.add_option("--resource-input", action="extend", dest="resourceInput", metavar="DIRECTORY", type="string", default=[], help="Define a resource input directory.")
   parser.add_option("--resource-output", action="extend", dest="resourceOutput", metavar="DIRECTORY", type="string", default=[], help="Define a resource output directory.")
 
@@ -48,9 +71,13 @@ def getparser():
   parser.add_option("--print-files-without-modules", action="store_true", dest="printFilesWithoutModules", default=False, help="Output files which have no module connection. (Debugging)")
   parser.add_option("--print-includes", action="store_true", dest="printIncludes", default=False, help="Output sorted file list. (Debugging)")
   parser.add_option("--print-dependencies", action="store_true", dest="printDeps", default=False, help="Output dependencies of files. (Debugging)")
+  parser.add_option("--dependencies-graphviz-file", dest="depDotFile", metavar="FILENAME", help="Save dependencies as graphviz dot file. (Debugging)")
 
   # Output files
   parser.add_option("--source-script-file", dest="sourceScriptFile", metavar="FILENAME", help="Name of output file from source build process.")
+  parser.add_option("--source-template-input-file", dest="sourceTemplateInputFile", metavar="FILENAME", help="Name of a template file to patch")
+  parser.add_option("--source-template-output-file", dest="sourceTemplateOutputFile", metavar="FILENAME", help="Name of the resulting file to store the modified template to.")
+  parser.add_option("--source-template-replace", dest="sourceTemplateReplace", default="<!-- qooxdoo-script-block -->", metavar="CODE", help="Content of the template which should be replaced with the script block.")
   parser.add_option("--compiled-script-file", dest="compiledScriptFile", metavar="FILENAME", help="Name of output file from compiler.")
   parser.add_option("--api-documentation-json-file", dest="apiDocumentationJsonFile", metavar="FILENAME", help="Name of JSON API file.")
   parser.add_option("--api-documentation-xml-file", dest="apiDocumentationXmlFile", metavar="FILENAME", help="Name of XML API file.")
@@ -70,6 +97,7 @@ def getparser():
   parser.add_option("-q", "--quiet", action="store_false", dest="verbose", default=False, help="Quiet output mode.")
   parser.add_option("-v", "--verbose", action="store_true", dest="verbose", help="Verbose output mode.")
   parser.add_option("-d", "--debug", action="store_true", dest="enableDebug", help="Enable debug mode.")
+  parser.add_option("--version", dest="version", default="0.0", metavar="VERSION", help="Version number of qooxdoo")
   parser.add_option("--package-id", dest="packageId", default="", metavar="ID", help="Defines a package ID (required for string optimization etc.)")
   parser.add_option("--disable-internal-check", action="store_true", dest="disableInternalCheck", default=False, help="Disable check of modifications to internal files.")
 
@@ -77,17 +105,15 @@ def getparser():
   parser.add_option("--define-runtime-setting", action="append", dest="defineRuntimeSetting", metavar="NAMESPACE.KEY:VALUE", default=[], help="Define a setting.")
   parser.add_option("--add-new-lines", action="store_true", dest="addNewLines", default=False, help="Keep newlines in compiled files.")
 
-  # Options for source version
-  parser.add_option("--source-loader-type", action="store", dest="sourceLoaderType", metavar="TYPE", choices=("auto", "docwrite", "domappend"), default="auto", help="Generated source loader type: auto, docwrite, domappend [default: %default].")
-
   # Options for compiled version
   parser.add_option("--add-file-ids", action="store_true", dest="addFileIds", default=False, help="Add file IDs to compiled output.")
   parser.add_option("--optimize-strings", action="store_true", dest="optimizeStrings", default=False, help="Optimize strings. Increase mshtml performance.")
   parser.add_option("--optimize-variables", action="store_true", dest="optimizeVariables", default=False, help="Optimize variables. Reducing size.")
+  parser.add_option("--optimize-variables-skip-prefix", action="store", dest="optimizeVariablesSkipPrefix", metavar="PREFIX", default="", help="Skip optimization of variables beginning with PREFIX [default: optimize all variables].")
   parser.add_option("--obfuscate-identifiers", action="store_true", dest="obfuscateIdentifiers", default=False, help="Obfuscate public names like function names. (ALPHA!)")
 
   # Options for resource copying
-  parser.add_option("--override-resource-output", action="append", dest="overrideResourceOutput", metavar="CLASSNAME.ID:DIRECTORY", default=[], help="Define a resource input directory.")
+  parser.add_option("--enable-resource-filter", action="store_true", dest="enableResourceFilter", default=False, help="Enable filtering of resource files used by classes (based on #embed).")
 
   # Options for token/tree storage
   parser.add_option("--token-output-directory", dest="tokenOutputDirectory", metavar="DIRECTORY", help="Define output directory for tokenizer result of the incoming JavaScript files. (Debugging)")
@@ -99,7 +125,7 @@ def getparser():
   # Options for migration support
   parser.add_option("--migration-target", dest="migrationTarget", metavar="VERSION", help="Define the target for migration of source code.")
   parser.add_option("--migration-input", action="extend", dest="migrationInput", metavar="DIRECTORY", type="string", default=[], help="Define additional directories for to directories to migrate e.g. HTML files, ...")
-  
+
 
 
 
@@ -134,7 +160,7 @@ def argparser(cmdlineargs):
     print "  EXPORTING:"
     print "----------------------------------------------------------------------------"
 
-    print " * Translating options..."
+    print "  * Translating options..."
 
     optionString = "# Exported configuration from build.py\n\n"
     ignoreValue = True
@@ -153,7 +179,7 @@ def argparser(cmdlineargs):
         lastWasKey = True
 
       elif arg.startswith("-"):
-        print "   * Couldn't export short argument: %s" % arg
+        print "     - Could not export short argument: %s" % arg
         optionString += "\n# Ignored short argument %s\n" % arg
         ignoreValue = True
 
@@ -164,7 +190,7 @@ def argparser(cmdlineargs):
 
 
 
-    print " * Export to file: %s" % options.exportToFile
+    print "  * Export to file: %s" % options.exportToFile
     filetool.save(options.exportToFile, optionString)
 
     sys.exit(0)
@@ -260,7 +286,11 @@ def argparser(cmdlineargs):
         combinedargs.extend(fileargs[filearg])
 
         options = getparser().parse_args(combinedargs)[0]
-        execute(fileDb, moduleDb, options, filearg, names)
+
+        if options.obfuscateIdentifiers:
+          execute(fileDb, moduleDb, options, filearg, names)
+        else:
+          execute(fileDb, moduleDb, options, filearg)
 
     else:
       options = getparser().parse_args(defaultargs)[0]
@@ -269,7 +299,7 @@ def argparser(cmdlineargs):
       if options.obfuscateIdentifiers:
         execute(fileDb, moduleDb, options, "", obfuscator.sort(findnames(fileDb, moduleDb, options)))
       else:
-        execute(fileDb, moduleDb, options, "", names)
+        execute(fileDb, moduleDb, options, "")
 
   else:
     print
@@ -315,7 +345,7 @@ def load(options):
   print "  SOURCE LOADER:"
   print "----------------------------------------------------------------------------"
 
-  if options.scriptInput == None or len(options.scriptInput) == 0:
+  if options.classPath == None or len(options.classPath) == 0:
     if len(options.migrationInput) == 0:
       basename = os.path.basename(sys.argv[0])
       print "You must define at least one script input directory!"
@@ -431,14 +461,15 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     print "  * Exclude (with dependencies): %s" % options.excludeWithDeps
     print "  * Exclude (without dependencies): %s" % options.excludeWithoutDeps
 
-  print "  * Sorting classes..."
+  print "  * Sorting %s classes..." % len(fileDb)
 
   sortedIncludeList = loader.getSortedList(options, fileDb, moduleDb)
 
-  if len(sortedIncludeList) == len(fileDb):
-    print "  * Including all classes"
-
-  print "  * Arranged %s classes" % len(sortedIncludeList)
+  if len(sortedIncludeList) == 0:
+  	print "    - No class files to include. Exciting!"
+  	sys.exit(1)
+  else:
+  	print "    - Including %s classes" % len(sortedIncludeList)
 
   if options.printIncludes:
     print
@@ -470,15 +501,26 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
         for depEntry in fileDb[fileId]["runtimeDeps"]:
           print "        - %s" % depEntry
 
-      if len(fileDb[fileId]["beforeDeps"]) > 0:
-        print "      - Before: "
-        for depEntry in fileDb[fileId]["beforeDeps"]:
+      if len(fileDb[fileId]["loadDeps"]) > 0:
+        print "      - Load: "
+        for depEntry in fileDb[fileId]["loadDeps"]:
           print "        - %s" % depEntry
 
       if len(fileDb[fileId]["optionalDeps"]) > 0:
         print "      - Optional: "
         for depEntry in fileDb[fileId]["optionalDeps"]:
           print "        - %s" % depEntry
+
+
+
+
+
+  ######################################################################
+  #  GRAPHVIZ OUTPUT
+  ######################################################################
+
+  if options.depDotFile:
+    graph.store(fileDb, sortedIncludeList, options)
 
 
 
@@ -500,6 +542,9 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
     # Return after migration: Ignore other jobs
     return
+
+
+
 
 
   ######################################################################
@@ -546,6 +591,9 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
     # Return after fixing: Ignore other jobs
     return
+
+
+
 
 
 
@@ -673,7 +721,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
         sys.stdout.write(".")
         sys.stdout.flush()
 
-      variableoptimizer.search(loader.getTree(fileDb, fileId, options), [], 0, "$")
+      variableoptimizer.search(loader.getTree(fileDb, fileId, options), [], 0, "$", skipPrefix = options.optimizeVariablesSkipPrefix, debug = options.enableDebug)
 
     if not options.verbose:
       print
@@ -821,7 +869,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
       print
 
     if docTree:
-      print "  * Finalising tree..."
+      print "  * Finalizing tree..."
       api.postWorkPackage(docTree, docTree)
 
     if options.apiDocumentationXmlFile != None:
@@ -902,93 +950,61 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     print "  GENERATION OF SOURCE SCRIPT:"
     print "----------------------------------------------------------------------------"
 
-    if options.sourceScriptFile == None:
-      print "  * You must define the source script file!"
+    if options.sourceScriptFile == None and (options.sourceTemplateInputFile == None or options.sourceTemplateOutputFile == None):
+      print "  * You must define at least one source script file or template input/output."
       sys.exit(1)
 
-    else:
+    if options.sourceScriptFile:
       options.sourceScriptFile = os.path.normpath(options.sourceScriptFile)
 
-    print "  * Generating includer..."
+    if options.sourceTemplateInputFile:
+      options.sourceTemplateInputFile = os.path.normpath(options.sourceTemplateInputFile)
 
-    sourceOutput = settingsStr
+    if options.sourceTemplateOutputFile:
+      options.sourceTemplateOutputFile = os.path.normpath(options.sourceTemplateOutputFile)
 
-    srcEol = "";
+
+    print "  * Generating script block..."
+
+    # Handling line feed setting
+    sourceLineFeed = "";
     if options.addNewLines:
-      srcEol = "\n";
+      sourceLineFeed = "\n";
 
-    if sourceOutput != "":
-      settingsStr += srcEol
 
-    # Define javascript loaders
-    jsLoaders = {}
+    # Generating inline code...
+    inlineCode = ""
+    inlineCode += settingsStr + sourceLineFeed
+    inlineCode += "qx.IS_SOURCE=true;%s" % sourceLineFeed
+    inlineCode += "qx.VERSION=\"%s\";%s" % (options.version, sourceLineFeed)
+    inlineCode += "".join(additionalOutput)
 
-    # HTML-only: create <script> tags using document.write()
-    jsLoaders["docwrite"] = """var includeJs=function(src){document.write('<script type="text/javascript" src="'+src+'"></script>')};""" 
 
-    # XHTML-compatible: create and append DOM script nodes 
-    jsLoaders["domappend"] = """if(document.createElementNS&&parentNode.namespaceURI)""" + srcEol + """var includeJs=function(src){var js=document.createElementNS(parentNode.namespaceURI,"script");js.type="text/javascript";js.src=src;parentNode.appendChild(js)};""" + srcEol + """else """ + srcEol + """var includeJs=function(src){var js=document.createElement("script");js.type="text/javascript";js.src=src;parentNode.appendChild(js)};"""
-
-    # Source loader closure
-    sourceOutput += """(function(sources){""" + srcEol
-
-    # Detect the node we are being called from
-    sourceOutput += """var parentNode=document.getElementsByTagName('body')[0]||document.getElementsByTagName('head')[0];""" + srcEol
-
-    # Autoselect a loader based on client engine
-    if options.sourceLoaderType == "auto":
-      sourceOutput += """var clientEngine=null;""" + srcEol
-
-      # Opera
-      sourceOutput += """if(window.opera&&/Opera[\s\/]([0-9\.]*)/.test(navigator.userAgent))clientEngine="opera";else """ + srcEol
-
-      # Khtml
-      sourceOutput += """if(typeof navigator.vendor==="string"&&navigator.vendor==="KDE"&&/KHTML\/([0-9-\.]*)/.test(navigator.userAgent))clientEngine="khtml";else """ + srcEol
-
-      # Webkit
-      sourceOutput += """if(navigator.userAgent.indexOf("AppleWebKit")!=-1&&/AppleWebKit\/([0-9-\.]*)/.test(navigator.userAgent))clientEngine="webkit";else """ + srcEol
-
-      # Gecko
-      sourceOutput += """if(window.controllers&&typeof navigator.product==="string"&&navigator.product==="Gecko"&&/rv\:([^\);]+)(\)|;)/.test(navigator.userAgent))clientEngine="gecko";else """ + srcEol
-
-      # MShtml
-      sourceOutput += """if(/MSIE\s+([^\);]+)(\)|;)/.test(navigator.userAgent))clientEngine="mshtml";""" + srcEol
-
-      # Select the loader based on the engine
-      sourceOutput += """switch(clientEngine){""" + srcEol
-
-      # Use DOM
-      sourceOutput += """case "opera": case "gecko":""" + srcEol
-      sourceOutput += jsLoaders["domappend"] + srcEol
-      sourceOutput += """break;""" + srcEol
-
-      # Use document.write()
-      sourceOutput += """case "webkit": case "khtml": case "mshtml": default:""" + srcEol
-      sourceOutput += jsLoaders["docwrite"] + srcEol
-      sourceOutput += """break;""" + srcEol
-
-      sourceOutput += """}""" + srcEol
-
-    # Use a fixed loader
-    else:
-      sourceOutput += jsLoaders[options.sourceLoaderType] + srcEol
-
-    # Loading loop
-    sourceOutput += """for(var i=0;i<sources.length;++i)includeJs(sources[i])})""" + srcEol
-
-    sources = ""
+    # Generating script block
+    scriptBlocks = ""
+    scriptBlocks += '<script type="text/javascript">%s</script>' % inlineCode
     for fileId in sortedIncludeList:
-      if fileDb[fileId]["sourceScriptPath"] == None:
-        print "  * Missing source path definition for script input %s. Could not create source script file!" % fileDb[fileId]["scriptInput"]
+      if fileDb[fileId]["classUri"] == None:
+        print "  * Missing class URI definition for class path %s." % fileDb[fileId]["classPath"]
         sys.exit(1)
 
-      sources += srcEol + '"%s%s",' % (os.path.join(fileDb[fileId]["sourceScriptPath"], fileDb[fileId]["pathId"].replace(".", os.sep)), config.JSEXT) 
+      scriptBlocks += '<script type="text/javascript" src="%s%s"></script>' % (os.path.join(fileDb[fileId]["classUri"], fileDb[fileId]["pathId"].replace(".", os.sep)), config.JSEXT)
+      scriptBlocks += sourceLineFeed
 
-    # Pass the array with source files to include
-    sourceOutput += "([" + sources[:-1] + srcEol + "]);" + srcEol
 
-    print "  * Storing output as %s..." % options.sourceScriptFile
-    filetool.save(options.sourceScriptFile, sourceOutput, options.scriptOutputEncoding)
+
+    if options.sourceScriptFile != None:
+      print "  * Storing includer as %s..." % options.sourceScriptFile
+      sourceScript = "document.write('%s');" % scriptBlocks.replace("'", "\\'")
+      if options.addNewLines:
+        sourceScript = sourceScript.replace("\n", "\\\n")
+      filetool.save(options.sourceScriptFile, sourceScript, options.scriptOutputEncoding)
+
+    if options.sourceTemplateInputFile != None and options.sourceTemplateOutputFile != None:
+      print "  * Patching template: %s => %s" % (options.sourceTemplateInputFile, options.sourceTemplateOutputFile)
+      tmpl = filetool.read(options.sourceTemplateInputFile)
+      res = tmpl.replace(options.sourceTemplateReplace, scriptBlocks)
+      filetool.save(options.sourceTemplateOutputFile, res, options.scriptOutputEncoding)
 
 
 
@@ -1003,7 +1019,17 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     print "  GENERATION OF COMPILED SCRIPT:"
     print "----------------------------------------------------------------------------"
 
-    compiledOutput = settingsStr + "".join(additionalOutput)
+    buildLineFeed = "";
+    if options.addNewLines:
+      buildLineFeed = "\n";
+
+    inlineCode = ""
+    inlineCode += settingsStr + buildLineFeed
+    inlineCode += "qx.IS_SOURCE=false;%s" % buildLineFeed
+    inlineCode += "qx.VERSION=\"%s\";%s" % (options.version, buildLineFeed)
+    inlineCode += "".join(additionalOutput)
+
+    compiledOutput = inlineCode
 
     if options.compiledScriptFile == None:
       print "  * You must define the compiled script file!"

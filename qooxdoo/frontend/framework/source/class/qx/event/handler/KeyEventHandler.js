@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -21,7 +23,7 @@
 
 #module(ui_core)
 #require(qx.event.type.KeyEvent)
-#require(qx.util.Return);
+#require(qx.lang.Function);
 
 ************************************************************************ */
 
@@ -36,7 +38,18 @@ qx.OO.defineClass("qx.event.handler.KeyEventHandler", qx.core.Target, function()
   // Object Wrapper to Events (Needed for DOM-Events)
   var o = this;
 
+  /**
+   * private
+   *
+   * @param e {Event} event
+   */
   this.__onkeypress = function(e) { o._onkeypress(e); };
+
+  /**
+   * private
+   *
+   * @param e {Event} event
+   */
   this.__onkeyupdown = function(e) { o._onkeyupdown(e); };
 });
 
@@ -56,22 +69,22 @@ qx.OO.defineClass("qx.event.handler.KeyEventHandler", qx.core.Target, function()
 /** attach the key event handler to the DOM events */
 qx.Proto._attachEvents = function()
 {
-  var el = qx.sys.Client.getInstance().isGecko() ? window : document.body;
+  var el = qx.core.Client.getInstance().isGecko() ? window : document.body;
 
-  qx.dom.EventRegistration.addEventListener(el, "keypress", this.__onkeypress);
-  qx.dom.EventRegistration.addEventListener(el, "keyup", this.__onkeyupdown);
-  qx.dom.EventRegistration.addEventListener(el, "keydown", this.__onkeyupdown);
+  qx.html.EventRegistration.addEventListener(el, "keypress", this.__onkeypress);
+  qx.html.EventRegistration.addEventListener(el, "keyup", this.__onkeyupdown);
+  qx.html.EventRegistration.addEventListener(el, "keydown", this.__onkeyupdown);
 };
 
 /** detach the key event handler from the DOM events */
 qx.Proto._detachEvents = function()
 {
-  var el = qx.sys.Client.getInstance().isGecko() ? window : document.body;
+  var el = qx.core.Client.getInstance().isGecko() ? window : document.body;
 
   // Unregister dom events
-  qx.dom.EventRegistration.removeEventListener(el, "keypress", this.__onkeypress);
-  qx.dom.EventRegistration.removeEventListener(el, "keyup", this.__onkeyupdown);
-  qx.dom.EventRegistration.removeEventListener(el, "keydown", this.__onkeyupdown);
+  qx.html.EventRegistration.removeEventListener(el, "keypress", this.__onkeypress);
+  qx.html.EventRegistration.removeEventListener(el, "keyup", this.__onkeyupdown);
+  qx.html.EventRegistration.removeEventListener(el, "keydown", this.__onkeyupdown);
 };
 
 
@@ -167,19 +180,21 @@ qx.Proto._numpadToCharCode =
 
 
 // construct invers of keyCodeToIdentifierMap
-if (!qx.Proto._identifierToKeyCodeMap)
+(function()
 {
-  qx.Proto._identifierToKeyCodeMap = {};
+  if (!qx.Proto._identifierToKeyCodeMap)
+  {
+    qx.Proto._identifierToKeyCodeMap = {};
 
-  for (var key in qx.Proto._keyCodeToIdentifierMap) {
-    qx.Proto._identifierToKeyCodeMap[qx.Proto._keyCodeToIdentifierMap[key]] = parseInt(key);
+    for (var key in qx.Proto._keyCodeToIdentifierMap) {
+      qx.Proto._identifierToKeyCodeMap[qx.Proto._keyCodeToIdentifierMap[key]] = parseInt(key);
+    }
+
+    for (var key in qx.Proto._specialCharCodeMap) {
+      qx.Proto._identifierToKeyCodeMap[qx.Proto._specialCharCodeMap[key]] = parseInt(key);
+    }
   }
-
-  for (var key in qx.Proto._specialCharCodeMap) {
-    qx.Proto._identifierToKeyCodeMap[qx.Proto._specialCharCodeMap[key]] = parseInt(key);
-  }
-}
-
+})();
 
 
 
@@ -201,8 +216,8 @@ qx.Proto._charCode9 = "9".charCodeAt(0);
 /**
  * Checks wether the keyCode represents a non printable key
  *
- * @param keyCode (string)
- * @return (boolean)
+ * @param keyCode {String}
+ * @return {Boolean}
  */
 qx.Proto._isNonPrintableKeyCode = function(keyCode) {
   return this._keyCodeToIdentifierMap[keyCode] ? true : false;
@@ -212,8 +227,8 @@ qx.Proto._isNonPrintableKeyCode = function(keyCode) {
 /**
  * Check wether the keycode can be reliably detected in keyup/keydown events
  *
- * @param keyCode (string)
- * @return (boolean)
+ * @param keyCode {String}
+ * @return {Boolean}
  */
 qx.Proto._isIdentifiableKeyCode = function(keyCode)
 {
@@ -249,8 +264,8 @@ qx.Proto._isIdentifiableKeyCode = function(keyCode)
 /**
  * Checks wether a given string is a valid keyIdentifier
  *
- * @param keyIdentifier (string)
- * @return (boolean) wether the given string is a valid keyIdentifier
+ * @param keyIdentifier {String} The key identifier.
+ * @return {Boolean} wether the given string is a valid keyIdentifier
  */
 qx.Proto.isValidKeyIdentifier = function(keyIdentifier)
 {
@@ -287,8 +302,8 @@ qx.Proto.isValidKeyIdentifier = function(keyIdentifier)
 /**
  * converts a keyboard code to the corresponding identifier
  *
- * @param keyCode (int)
- * @return (string) key identifier
+ * @param keyCode {Integer}
+ * @return {String} key identifier
  */
 qx.Proto._keyCodeToIdentifier = function(keyCode)
 {
@@ -315,8 +330,8 @@ qx.Proto._keyCodeToIdentifier = function(keyCode)
 /**
  * converts a character code to the corresponding identifier
  *
- * @param charCode (string)
- * @return (string) key identifier
+ * @param charCode {String}
+ * @return {String} key identifier
  */
 qx.Proto._charCodeToIdentifier = function(charCode) {
   return this._specialCharCodeMap[charCode] || String.fromCharCode(charCode).toUpperCase();
@@ -326,86 +341,12 @@ qx.Proto._charCodeToIdentifier = function(charCode) {
 /**
  * converts a key identifier back to a keycode
  *
- * @param keyIdentifier (string)
- * @return (int) keyboard code
+ * @param keyIdentifier {String}
+ * @return {Integer} keyboard code
  */
 qx.Proto._identifierToKeyCode = function(keyIdentifier) {
   return this._identifierToKeyCodeMap[keyIdentifier] || keyIdentifier.charCodeAt(0);
 };
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  COMPATIBILITY TO COMMAND
----------------------------------------------------------------------------
-*/
-
-qx.Proto._oldKeyNameToKeyIdentifierMap =
-{
-  // all other keys are converted by converting the first letter to uppercase
-
-  esc      : "Escape",
-  ctrl     : "Control",
-  print    : "PrintScreen",
-  del      : "Delete",
-  pageup   : "PageUp",
-  pagedown : "PageDown",
-  numlock  : "NumLock",
-  numpad_0 : "0",
-  numpad_1 : "1",
-  numpad_2 : "2",
-  numpad_3 : "3",
-  numpad_4 : "4",
-  numpad_5 : "5",
-  numpad_6 : "6",
-  numpad_7 : "7",
-  numpad_8 : "8",
-  numpad_9 : "9",
-  numpad_divide   : "/",
-  numpad_multiply : "*",
-  numpad_minus    : "-",
-  numpad_plus     : "+"
-};
-
-
-/**
- * converts an old key name as found in @see(qx.event.type.KeyEvent.keys) to
- * the new keyIdentifier.
- *
- * @param keyName (string) old name of the key.
- * @return (string) corresponding keyIdentifier or "Unidentified" if a conversion was not possible
- */
-qx.Proto.oldKeyNameToKeyIdentifier = function(keyName)
-{
-  var keyIdentifier = "Unidentified";
-
-  if (this.isValidKeyIdentifier(keyName)) {
-    return keyName;
-  }
-
-  if (keyName.length == 1 && keyName >= "a" && keyName <= "z") {
-    return keyName.toUpperCase();
-  }
-
-  keyName = keyName.toLowerCase();
-
-  // check wether its a valid old key name
-  if (!qx.event.type.KeyEvent.keys[keyName]) {
-    return "Unidentified";
-  }
-
-  var keyIdentifier = this._oldKeyNameToKeyIdentifierMap[keyName];
-  if (keyIdentifier) {
-    return keyIdentifier;
-  } else {
-    return qx.lang.String.toFirstUp(keyName);
-  }
-};
-
 
 
 
@@ -424,10 +365,10 @@ qx.Proto.oldKeyNameToKeyIdentifier = function(keyName)
  * Key handler for an idealized browser.
  * Runs after the browser specific key handlers have normalized the key events.
  *
- * @param keyCode (string) keyboard code
- * @param charCode (string) character code
- * @param eventType (string) type of the event (keydown, keypress, keyup)
- * @param domEvent (Element) DomEvent
+ * @param keyCode {String} keyboard code
+ * @param charCode {String} character code
+ * @param eventType {String} type of the event (keydown, keypress, keyup)
+ * @param domEvent {Element} DomEvent
  */
 qx.Proto._idealKeyHandler = function(keyCode, charCode, eventType, domEvent)
 {
@@ -441,22 +382,15 @@ qx.Proto._idealKeyHandler = function(keyCode, charCode, eventType, domEvent)
   if (keyCode)
   {
     keyIdentifier = this._keyCodeToIdentifier(keyCode);
-
-    if (keyIdentifier != "Unidentified") {
-      qx.event.handler.EventHandler.getInstance()._onkeyevent_post(domEvent, eventType, keyCode, charCode, keyIdentifier);
-    }
+    qx.event.handler.EventHandler.getInstance()._onkeyevent_post(domEvent, eventType, keyCode, charCode, keyIdentifier);
   }
 
   // Use: charCode
   else
   {
     keyIdentifier = this._charCodeToIdentifier(charCode);
-
-    if (keyIdentifier != "Unidentified")
-    {
-      qx.event.handler.EventHandler.getInstance()._onkeyevent_post(domEvent, "keypress", keyCode, charCode, keyIdentifier);
-      qx.event.handler.EventHandler.getInstance()._onkeyevent_post(domEvent, "keyinput", keyCode, charCode, keyIdentifier);
-    }
+    qx.event.handler.EventHandler.getInstance()._onkeyevent_post(domEvent, "keypress", keyCode, charCode, keyIdentifier);
+    qx.event.handler.EventHandler.getInstance()._onkeyevent_post(domEvent, "keyinput", keyCode, charCode, keyIdentifier);
   }
 };
 
@@ -474,7 +408,7 @@ qx.Proto._idealKeyHandler = function(keyCode, charCode, eventType, domEvent)
 ---------------------------------------------------------------------------
 */
 
-if (qx.sys.Client.getInstance().isMshtml())
+if (qx.core.Client.getInstance().isMshtml())
 {
   qx.Proto._lastUpDownType = {};
 
@@ -529,7 +463,7 @@ if (qx.sys.Client.getInstance().isMshtml())
 ---------------------------------------------------------------------------
 */
 
-else if (qx.sys.Client.getInstance().isGecko())
+else if (qx.core.Client.getInstance().isGecko())
 {
   qx.Proto._lastUpDownType = {};
 
@@ -540,7 +474,7 @@ else if (qx.sys.Client.getInstance().isGecko())
   /**
    * key handler for Gecko
    *
-   * @param domEvent (Element) DomEvent
+   * @param domEvent {Element} DomEvent
    */
   qx.Proto._onkeyupdown = qx.Proto._onkeypress = function(domEvent)
   {
@@ -549,7 +483,7 @@ else if (qx.sys.Client.getInstance().isGecko())
     var type = domEvent.type;
 
     // FF repeats under windows keydown events like IE
-    if (qx.sys.Client.getInstance().runsOnWindows())
+    if (qx.core.Client.getInstance().runsOnWindows())
     {
       var keyIdentifier = keyCode ? this._keyCodeToIdentifier(keyCode) : this._charCodeToIdentifier(charCode)
 
@@ -580,7 +514,7 @@ else if (qx.sys.Client.getInstance().isGecko())
 ---------------------------------------------------------------------------
 */
 
-else if (qx.sys.Client.getInstance().isWebkit())
+else if (qx.core.Client.getInstance().isWebkit())
 {
   qx.Proto._charCode2KeyCode =
   {
@@ -624,7 +558,7 @@ else if (qx.sys.Client.getInstance().isWebkit())
     // prevent Safari from sending key signals twice
     // This bug is fixed in recent Webkit builds so we need a revision check
     // see http://trac.mochikit.com/ticket/182 for details
-    if (qx.sys.Client.getInstance().getVersion() < 420)
+    if (qx.core.Client.getInstance().getVersion() < 420)
     {
       if (!this._lastCharCodeForType) {
         this._lastCharCodeForType = {};
@@ -666,7 +600,7 @@ else if (qx.sys.Client.getInstance().isWebkit())
 ---------------------------------------------------------------------------
 */
 
-else if (qx.sys.Client.getInstance().isOpera())
+else if (qx.core.Client.getInstance().isOpera())
 {
   qx.Proto._onkeyupdown = function(domEvent) {
     this._idealKeyHandler(domEvent.keyCode, 0, domEvent.type, domEvent);
@@ -722,4 +656,4 @@ qx.Proto.dispose = function()
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = qx.util.Return.returnInstance;
+qx.Class.getInstance = qx.lang.Function.returnInstance;

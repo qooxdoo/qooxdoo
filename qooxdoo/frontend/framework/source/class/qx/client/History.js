@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -18,8 +20,8 @@
 
 /* ************************************************************************
 
-#resource(html:static/history)
 #require(qx.manager.object.AliasManager)
+#embed(qx.static/history/historyHelper.html)
 
 ************************************************************************ */
 
@@ -59,10 +61,10 @@ qx.Proto.init = function() {
 /**
  * Adds an entry to the browser history.
  *
- * @param command {string} a string representing the old state of the
+ * @param command {String} a string representing the old state of the
  *        application. This command will be delivered in the data property of
  *        the "request" event.
- * @param newTitle {string ? null} the page title to set after the history entry
+ * @param newTitle {String ? null} the page title to set after the history entry
  *        is done. This title should represent the new state of the application.
  */
 qx.Proto.addToHistory = function(command, newTitle) {
@@ -134,4 +136,4 @@ qx.Settings.setDefault("helperFile", qx.Settings.getValueOfClass("qx.manager.obj
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = qx.util.Return.returnInstance;
+qx.Class.getInstance = qx.lang.Function.returnInstance;

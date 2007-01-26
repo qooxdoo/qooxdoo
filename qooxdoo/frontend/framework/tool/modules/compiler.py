@@ -1,4 +1,23 @@
 #!/usr/bin/env python
+################################################################################
+#
+#  qooxdoo - the new era of web development
+#
+#  http://qooxdoo.org
+#
+#  Copyright:
+#    2006-2007 1&1 Internet AG, Germany, http://www.1and1.org
+#
+#  License:
+#    LGPL: http://www.gnu.org/licenses/lgpl.html
+#    EPL: http://www.eclipse.org/org/documents/epl-v10.php
+#    See the LICENSE file in the project's top-level directory for details.
+#
+#  Authors:
+#    * Sebastian Werner (wpbasti)
+#    * Alessandro Sala (asala)
+#
+################################################################################
 
 import sys, string, re, optparse
 import config, tokenizer, filetool, treegenerator, variableoptimizer, comment, tree
@@ -1369,7 +1388,7 @@ def compileNode(node):
             space()
 
     # Semicolon handling
-    elif node.type in [ "block", "assignment", "call", "operation", "definitionList", "return", "break", "continue", "delete", "accessor", "instantiation", "throw", "variable" ]:
+    elif node.type in [ "group", "block", "assignment", "call", "operation", "definitionList", "return", "break", "continue", "delete", "accessor", "instantiation", "throw", "variable" ]:
 
       # Default semicolon handling
       if node.parent.type in [ "block", "file" ]:
@@ -1427,7 +1446,7 @@ def main():
   parser = optparse.OptionParser()
 
   parser.add_option("-w", "--write", action="store_true", dest="write", default=False, help="Writes file to incoming fileName + EXTENSION.")
-  parser.add_option("-e", "--extension", dest="extension", metavar="EXTENSION", help="The EXTENSION to use", default=".compiled")
+  parser.add_option("-e", "--extension", dest="extension", metavar="EXTENSION", help="The EXTENSION to use", default="")
   parser.add_option("-c", "--compress", action="store_true", dest="compress", help="Enable compression", default=False)
   parser.add_option("--optimize-variables", action="store_true", dest="optimizeVariables", default=False, help="Optimize variables. Reducing size.")
   parser.add_option("--encoding", dest="encoding", default="utf-8", metavar="ENCODING", help="Defines the encoding expected for input files.")
@@ -1451,6 +1470,9 @@ def main():
 
     compiledString = compile(restree, not options.compress)
     if options.write:
+      if compiledString != "" and not compiledString.endswith("\n"):
+        compiledString += "\n"
+        
       filetool.save(fileName + options.extension, compiledString)
 
     else:

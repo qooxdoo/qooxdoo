@@ -5,11 +5,13 @@
    http://qooxdoo.org
 
    Copyright:
-     2006 by STZ-IDA, Germany, http://www.stz-ida.de
-     2006 by Derrell Lipman
+     2006 STZ-IDA, Germany, http://www.stz-ida.de
+     2006 Derrell Lipman
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Andreas Junghans (lucidcake)
@@ -45,17 +47,17 @@
  * create circular references! There are no checks to detect these (which would
  * be expensive), so you as the user are responsible for avoiding them.
  *
- * @param       url {string}            identifies the url where the service
+ * @param url {String}            identifies the url where the service
  *                                      is found.  Note that if the url is to
  *                                      a domain (server) other than where the
  *                                      qooxdoo script came from, i.e. it is
  *                                      cross-domain, then you must also call
  *                                      the setCrossDomain(true) method to
- *                                      enable the IframeTrannsport instead of
+ *                                      enable the ScriptTransport instead of
  *                                      the XmlHttpTransport, since the latter
  *                                      can not handle cross-domain requests.
  *
- * @param       serviceName {string}    identifies the service. For the Java
+ * @param serviceName {String}    identifies the service. For the Java
  *                                      implementation, this is the fully
  *                                      qualified name of the class that offers
  *                                      the service methods
@@ -175,6 +177,13 @@ qx.io.remote.Rpc.localError =
 */
 
 /* callType: 0 = sync, 1 = async with handler, 2 = async event listeners */
+/**
+ * Internal RPC call method
+ *
+ * @param args {Array} array of arguments
+ * @param callType {Integer} 0 = sync, 1 = async with handler, 2 = async event listeners
+ * @param refreshSession {Boolean} whether a new session should be requested
+ */
 qx.Proto._callInternal = function(args, callType, refreshSession) {
   var self = this;
   var offset = (callType == 0 ? 0 : 1)
@@ -188,7 +197,7 @@ qx.Proto._callInternal = function(args, callType, refreshSession) {
   }
   var req = new qx.io.remote.Request(this.getUrl(),
                                            qx.net.Http.METHOD_POST,
-                                           "text/json");
+                                           qx.util.Mime.JSON);
   var requestObject = {
     "service": (refreshSession ? null : this.getServiceName()),
     "method": whichMethod,
@@ -330,7 +339,7 @@ qx.Proto._callInternal = function(args, callType, refreshSession) {
     req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   } else {
     // When not cross-domain, set type to text/json
-    req.setRequestHeader("Content-Type", "text/json");
+    req.setRequestHeader("Content-Type", qx.util.Mime.JSON);
   }
 
   req.send();
@@ -352,9 +361,9 @@ qx.Proto._callInternal = function(args, callType, refreshSession) {
  * Helper method to rewrite a URL with a stale session id (so that it includes
  * the correct session id afterwards).
  *
- * @param url {string}        the URL to examine.
+ * @param url {String}        the URL to examine.
  *
- * @return {string}            the (possibly re-written) URL.
+ * @return {String}            the (possibly re-written) URL.
  */
 
 qx.Proto.fixUrl = function(url) {
@@ -390,7 +399,7 @@ qx.Proto.fixUrl = function(url) {
  * YOU HAVE BEEN WARNED.
  * </p>
  *
- * @param       methodName {string}   the name of the method to call.
+ * @param methodName {String}   the name of the method to call.
  *
  * @return      {var}                 the result returned by the server.
  */
@@ -429,7 +438,7 @@ qx.Proto.callSync = function(methodName) {
  *
  * @param       handler {Function}    the callback function.
  *
- * @param       methodName {string}   the name of the method to call.
+ * @param methodName {String}   the name of the method to call.
  *
  * @return      {var}                 the method call reference.
  */
@@ -474,15 +483,15 @@ qx.Proto.callAsync = function(handler, methodName) {
  * value which increments with each request.)
  * </p>
  *
- * @param       coalesce (boolean)    coalesce all failure types ("failed",
+ * @param coalesce {Boolean}    coalesce all failure types ("failed",
  *                                    "timeout", and "aborted") to "failed".
  *                                    This is reasonable in many cases, as
  *                                    the provided exception contains adequate
  *                                    disambiguating information.
  *
- * @param       methodName (string)   the name of the method to call.
+ * @param methodName {String}   the name of the method to call.
  *
- * @return      (var)                 the method call reference.
+ * @return {var}                 the method call reference.
  */
 
 qx.Proto.callAsyncListeners = function(coalesce, methodName) {
@@ -546,7 +555,7 @@ qx.Proto.abort = function(opaqueCallRef) {
  * lives in the same application as the page calling the service. For backends
  * that don't support this auto-generation, this method returns null.
  *
- * @param       instanceId {string ? null}    an optional identifier for the
+ * @param instanceId {String ? null}    an optional identifier for the
  *                                          server side instance that should be
  *                                          used. All calls to the same service
  *                                          with the same instance id are
@@ -556,7 +565,7 @@ qx.Proto.abort = function(opaqueCallRef) {
  *                                          data for the service instantiation
  *                                          on the server.
  *
- * @return      {string}                    the url.
+ * @return {String}                    the url.
  */
 
 qx.Class.makeServerURL = function(instanceId) {

@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -42,7 +44,7 @@ qx.OO.defineClass("qx.io.local.CookieTransport",
 
 qx.Class.set = function(vName, vValue)
 {
-  if (!qx.util.Validation.isValid(vValue)) {
+  if (vValue === undefined) {
     return qx.io.local.CookieTransport.del(vName);
   }
 
@@ -55,12 +57,7 @@ qx.Class.get = function(vName)
 {
   var vAll = qx.io.local.CookieTransport._getAll();
 
-  var vValue = qx.io.local.CookieTransport._getAll()[vName];
-  if (qx.util.Validation.isValidString(vValue)) {
-    return vValue;
-  }
-
-  return "";
+  return vAll[vName] || "";
 }
 
 qx.Class.del = function(vName)
@@ -133,7 +130,7 @@ qx.Class._setAll = function(vHash)
 
     if (vTemp.length > qx.io.local.CookieTransport.MAXSIZE)
     {
-      qx.dev.log.Logger.getClassLogger(qx.io.local.CookieTransport).debug("Could not store value of name '" + vName + "': Maximum size of " + qx.io.local.CookieTransport.MAXSIZE + "reached!");
+      qx.log.Logger.getClassLogger(qx.io.local.CookieTransport).debug("Could not store value of name '" + vName + "': Maximum size of " + qx.io.local.CookieTransport.MAXSIZE + "reached!");
       continue;
     }
 
@@ -143,7 +140,7 @@ qx.Class._setAll = function(vHash)
 
       if (vIndex == qx.io.local.CookieTransport.MAXCOOKIES)
       {
-        qx.dev.log.Logger.getClassLogger(qx.io.local.CookieTransport).debug("Failed to store cookie. Max cookie amount reached!", "error");
+        qx.log.Logger.getClassLogger(qx.io.local.CookieTransport).debug("Failed to store cookie. Max cookie amount reached!", "error");
         return false;
       }
 
@@ -170,12 +167,12 @@ qx.Class._setAll = function(vHash)
 
 qx.Class._setCookie = function(vIndex, vString)
 {
-  // qx.dev.log.Logger.getClassLogger(qx.io.local.CookieTransport).debug("Store: " + vIndex + " = " + vString);
+  // qx.log.Logger.getClassLogger(qx.io.local.CookieTransport).debug("Store: " + vIndex + " = " + vString);
   qx.io.local.CookieApi.set(qx.io.local.CookieTransport.BASENAME + vIndex, vString);
 }
 
 qx.Class._delCookie = function(vIndex)
 {
-  // qx.dev.log.Logger.getClassLogger(qx.io.local.CookieTransport).debug("Delete: " + vIndex);
+  // qx.log.Logger.getClassLogger(qx.io.local.CookieTransport).debug("Delete: " + vIndex);
   qx.io.local.CookieApi.del(qx.io.local.CookieTransport.BASENAME + vIndex);
 }

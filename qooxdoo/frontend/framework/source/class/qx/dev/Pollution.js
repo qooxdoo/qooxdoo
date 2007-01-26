@@ -5,14 +5,17 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
+     * Carsten Lergenmueller (carstenl)
 
 ************************************************************************ */
 
@@ -22,6 +25,9 @@
 
 ************************************************************************ */
 
+/**
+ * Retrieve information about global namespace pollution
+ */
 qx.OO.defineClass("qx.dev.Pollution");
 
 qx.Class.names =
@@ -35,10 +41,20 @@ qx.Class.ignore =
 {
   "window" :
   [
+    // qooxdoo
+    "qx",
+
+    // Java
+    "java",
+    "sun",
+    "Packages",
+
     // Firefox
     "__firebug__",
     "Components",
     "controllers",
+    "sessionStorage",
+    "globalStorage",
 
     // Firefox extension: Firebug
     "console",
@@ -95,7 +111,8 @@ qx.Class.ignore =
     "scrollMaxX",
     "scrollMaxY",
     "fullScreen",
-    "frameElement"
+    "frameElement",
+    "XMLHttpRequest"
   ],
 
   "document" :
@@ -172,19 +189,42 @@ qx.Class.ignore =
 
 qx.Class.consoleInfo = function(object)
 {
-  alert("Global namespace is polluted by:\n\n" + qx.dev.Pollution.getTextList(object));
+  var msg = qx.dev.Pollution.getTextList(object);
+
+  if (msg) {
+    alert("Global namespace is polluted by the following unknown objects:\n\n" + msg);
+  } else {
+    alert("Global namespace is not polluted by any unknown objects.");
+  }
 }
 
 qx.Class.extract = function(object)
 {
   var ext = [];
   var ign = qx.dev.Pollution.ignore[object];
+  var clientInfos = qx.core.Client.getInstance();
+
+  //IE offers a window[index] access to the frames of a window, i. e.
+  //for three frame, the window object will have attributes "0", "1" and "2"
+  if (clientInfos.isMshtml() && (object == "window")){
+    ign = ign.slice();
+    for (var frameIndex = 0; frameIndex < window.length; frameIndex++){
+      ign.push("" + frameIndex);
+    }
+  }
+
   var obj = qx.dev.Pollution.names[object];
 
   for (var key in obj)
   {
     try
     {
+      //MS IE 7 crashes when doing typeof(window.external), catch here
+      if ( clientInfos.isMshtml() && (clientInfos.getMajor() >= 7)
+           && (object == "window") && (key == "external") ) {
+        continue;
+      }
+
       // Ignore null or undefined values
       if (typeof obj[key] == "undefined" || obj[key] === null) {
         continue;
@@ -199,6 +239,7 @@ qx.Class.extract = function(object)
       if (qx.lang.Array.contains(ign, key)) {
         continue;
       }
+
     }
     catch(ex)
     {

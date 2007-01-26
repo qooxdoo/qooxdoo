@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2006 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -19,6 +21,7 @@
 /* ************************************************************************
 
 #module(dev)
+#embed(qx.icontheme/16/actions/dialog-ok.png)
 
 ************************************************************************ */
 
@@ -68,10 +71,10 @@ qx.Proto.buttonSets = function()
   repeatLabel.setVerticalAlign("middle");
   repeatLabel.setMarginLeft(30);
 
-  var btnStart1 = new qx.ui.form.Button("Start 3x", "icon/16/button-ok.png");
-  var btnStart2 = new qx.ui.form.Button("Start 7x", "icon/16/button-ok.png");
-  var btnStart3 = new qx.ui.form.Button("Start 15x", "icon/16/button-ok.png");
-  var btnStart4 = new qx.ui.form.Button("Start 25x", "icon/16/button-ok.png");
+  var btnStart1 = new qx.ui.form.Button("Start 3x", "icon/16/actions/dialog-ok.png");
+  var btnStart2 = new qx.ui.form.Button("Start 7x", "icon/16/actions/dialog-ok.png");
+  var btnStart3 = new qx.ui.form.Button("Start 15x", "icon/16/actions/dialog-ok.png");
+  var btnStart4 = new qx.ui.form.Button("Start 25x", "icon/16/actions/dialog-ok.png");
 
   btnStart1.addEventListener("execute", function() { this.start(3, parseInt(loopInput.getValue())); }, this);
   btnStart2.addEventListener("execute", function() { this.start(7, parseInt(loopInput.getValue())); }, this);
