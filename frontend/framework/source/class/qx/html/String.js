@@ -99,9 +99,10 @@ qx.Class.fromText = function(str) {
 
 /**
  * Converts HTML to plain text.
- *  * Strips all HTML tags
- *  * converts <tt>&lt:br&gt:</tt> to new line
- *  * unescapes HTML entities
+ *
+ * * Strips all HTML tags
+ * * converts <tt>&lt:br&gt:</tt> to new line
+ * * unescapes HTML entities
  *
  * @param str {String} HTML string to converts
  * @return {String} plain text representaion of the HTML string
