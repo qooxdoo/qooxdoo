@@ -8,14 +8,12 @@ high-level client-server communication.
 
 License
 
-qooxdoo is licensed under the GNU Lesser General Public License (LGPL). 
-Please make sure you understand the license of qooxdoo and the rights and 
-obligations that come with it by consulting the file LICENSE or 
-http://www.gnu.org/licenses/lgpl.html .
+qooxdoo may be used under the terms of either the GNU Lesser General Public 
+License (LGPL) or the Eclipse Public License (EPL). As a recipient of qooxdoo, 
+you may choose which license to receive the code under.
 
-The framework is in the process of being re-licensed under a dual-license 
-combination of the LGPL and the Eclipse Public License (EPL). For more 
-information about the upcoming changes, please see http://qooxdoo.org/license .
+Please make sure you understand the dual license of qooxdoo and the rights and 
+obligations that come with it. See the top-level LICENSE file for more details.
 
 
 Framework
@@ -64,7 +62,7 @@ communication.
 
 Learn more
 
-For further information about qooxdoo please point your browser to
+For further information about qooxdoo, please point your browser to
 http://qooxdoo.org/about
 
 For a step-by-step introduction to qooxdoo application development, please 

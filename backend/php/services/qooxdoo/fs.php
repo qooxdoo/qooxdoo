@@ -1,20 +1,19 @@
 <?php
   /*
-   * qooxdoo - the new era of web interface development
+   * qooxdoo - the new era of web development
+   *
+   * http://qooxdoo.org
    *
    * Copyright:
-   *   (C) 2006 by Derrell Lipman
-   *       All rights reserved
+   *   2006 Derrell Lipman
    *
    * License:
-   *   LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+   *   LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+   *   EPL: http://www.eclipse.org/org/documents/epl-v10.php
+   *   See the LICENSE file in the project's top-level directory for details.
    *
-   * Internet:
-   *   * http://qooxdoo.org
-   *
-   * Author:
-   *   * Derrell Lipman
-   *     derrell dot lipman at unwireduniverse dot com
+   * Authors:
+   *  * Derrell Lipman (derrell)
    */
 
   /*

@@ -1,22 +1,19 @@
 #!/usr/bin/perl -w
 
+# qooxdoo - the new era of web development
 #
-# qooxdoo - the new era of web interface development
+# http://qooxdoo.org
 #
 # Copyright:
-#   (C) 2006, 2007 by Nick Glencross
-#       All rights reserved
+#   2006-2007 Nick Glencross
 #
 # License:
-#   LGPL 2.1: http://creativecommons.org/licenses/LGPL/2.1/
+#   LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+#   EPL: http://www.eclipse.org/org/documents/epl-v10.php
+#   See the LICENSE file in the project's top-level directory for details.
 #
-# Internet:
-#   # http://qooxdoo.org
-#
-# Author:
-#   * Nick Glencross
-#     nick dot glencross at gmail dot com
-#
+# Authors:
+#  * Nick Glencross
 
 # This is a simple JSON-RPC server.  We receive a service name in
 # dot-separated path format and expect to find the class containing the
