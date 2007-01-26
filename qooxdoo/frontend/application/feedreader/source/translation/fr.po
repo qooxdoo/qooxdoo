@@ -1,95 +1,96 @@
-# German translation
+# French translations for PACKAGE package.
+# Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2007.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: qooxdoo feedreader\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-26 12:52+0100\n"
-"PO-Revision-Date: 2006-12-22 09:59+0100\n"
-"Last-Translator: Fabian Jakobs <fabian dot jakobs at 1und1 dot de>\n"
-"Language-Team:  <en@li.org>\n"
+"PO-Revision-Date: 2007-01-26 12:52+0100\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=ASCII\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: source/class/feedreader/Application.js:133
-#, fuzzy
 msgid "reloading ..."
-msgstr "aktualisieren ..."
+msgstr ""
 
 #: source/class/feedreader/Application.js:138
 msgid "qooxdoo feed reader."
-msgstr "\"qooxdoo\" feed reader"
+msgstr ""
 
 #: source/class/feedreader/Application.js:143
 msgid "Add feed"
 msgid_plural "Add feeds"
-msgstr[0] "Feed hinzufügen"
-msgstr[1] "Feeds hinzufügen"
+msgstr[0] ""
+msgstr[1] ""
 
 #: source/class/feedreader/Application.js:144
 msgid "Remove feed"
-msgstr "Feed löschen"
+msgstr ""
 
 #: source/class/feedreader/Application.js:147
 msgid "Reload"
-msgstr "Aktualisieren"
+msgstr ""
 
 #: source/class/feedreader/Application.js:149
 msgid "(%1) Reload the feeds."
-msgstr "(%1) Feeds aktualisieren."
+msgstr ""
 
 #: source/class/feedreader/Application.js:156
 #: source/class/feedreader/Application.js:158
 msgid "English"
-msgstr "Englisch"
+msgstr ""
 
 #: source/class/feedreader/Application.js:157
 msgid "German"
-msgstr "Deutsch"
+msgstr ""
 
 #: source/class/feedreader/Application.js:159
 msgid "Turkish"
-msgstr "Türkisch"
+msgstr ""
 
 #: source/class/feedreader/Application.js:160
 msgid "Italian"
-msgstr "Italienisch"
+msgstr ""
 
 #: source/class/feedreader/Application.js:161
 msgid "Spanish"
-msgstr "Spanisch"
+msgstr ""
 
 #: source/class/feedreader/Application.js:162
 msgid "Swedish"
-msgstr "Schwedisch"
+msgstr ""
 
 #: source/class/feedreader/Application.js:163
 msgid "Russian"
-msgstr "Russisch"
+msgstr ""
 
 #: source/class/feedreader/Application.js:186
 msgid "Help"
-msgstr "Hilfe"
+msgstr ""
 
 #: source/class/feedreader/Application.js:194
 msgid "News feeds"
-msgstr "Nachrichtenkanäle"
+msgstr ""
 
 #: source/class/feedreader/Application.js:215
 msgid "Subject"
-msgstr "Betreff"
+msgstr ""
 
 #: source/class/feedreader/Application.js:216
 msgid "Sender"
-msgstr "Absender"
+msgstr ""
 
 #: source/class/feedreader/Application.js:217
 msgid "Date"
-msgstr "Datum"
+msgstr ""
 
 #: source/class/feedreader/ArticleView.js:79
 msgid "read more ..."
-msgstr "weitere Informationen ..."
+msgstr ""
