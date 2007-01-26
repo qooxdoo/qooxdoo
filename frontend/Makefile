@@ -48,10 +48,6 @@ RELEASE_BUILD_DOS = release/temp/build/dos/qooxdoo-$(FRAMEWORK_VERSION)-build
 RELEASE_SDK_UNIX = release/temp/sdk/unix/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 RELEASE_SDK_DOS = release/temp/sdk/dos/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
-TEXT_FILES = -name "*.py" -o -name "*.sh" -o -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile -o -name AUTHORS -o -name LICENSE -o -name README -o -name RELEASENOTES -o -name TODO
-TEMP_FILES = -name "*.pyc" -o -name "*.bak" -o -name "*.old" -o -name "*~" -o -name "messages.pot"
-EXEC_FILES = -name "*.py" -o -name "*.sh"
-
 APPLICATIONS = apiviewer feedreader sample showcase webmail
 SDK_COPY = Makefile application/Makefile application/index.html
 
@@ -117,7 +113,7 @@ framework-distclean:
 	@$(CMD_REMOVE) $(FRAMEWORK_TRANSLATION_CLASS_PATH)
 	@$(CMD_REMOVE) application/skeleton.tar.gz
 	@$(CMD_REMOVE) application/skeleton.zip
-	@$(CMD_FIND) $(FRAMEWORK_PATH) $(TEMP_FILES) | xargs $(CMD_REMOVE)
+	@$(CMD_FIND) $(FRAMEWORK_PATH) $(FILES_TEMP) -exec $(CMD_REMOVE) {} \;
 	@$(CMD_REMOVE) $(FRAMEWORK_TOOL_PATH)/icon/temp
 
 
@@ -208,13 +204,13 @@ exec-skeleton-unix-collect:
 
 exec-skeleton-unix-archive:
 	@echo "  * Cleaning up target folders..."
-	@$(CMD_FIND) $(SKELETON_TEMP_UNIX) $(TEMP_FILES) | xargs $(CMD_REMOVE)
+	@$(CMD_FIND) $(SKELETON_TEMP_UNIX) $(FILES_TEMP) -exec $(CMD_REMOVE) {} \;
 
 	@echo "  * Switching to Unix line endings..."
-	@$(CMD_FIND) $(SKELETON_TEMP_UNIX) $(TEXT_FILES) $(CMD_ANY2UNIX)
+	@$(CMD_FIND) $(SKELETON_TEMP_UNIX) $(FILES_TEXT) $(CMD_ANY2UNIX)
 
 	@echo "  * Fixing executables..."
-	@$(CMD_FIND) $(SKELETON_TEMP_UNIX) $(EXEC_FILES) | xargs chmod a+rx
+	@$(CMD_FIND) $(SKELETON_TEMP_UNIX) $(FILES_EXEC) -exec chmod a+rx {} \;
 
 	@echo "  * Building skeleton archive..."
 	@$(CMD_REMOVE) $(SKELETON_TEMP_UNIX)/skeleton.tar.gz
@@ -231,13 +227,13 @@ exec-skeleton-dos-collect:
 
 exec-skeleton-dos-archive:
 	@echo "  * Cleaning up target folders..."
-	@$(CMD_FIND) $(SKELETON_TEMP_DOS) $(TEMP_FILES) | xargs $(CMD_REMOVE)
+	@$(CMD_FIND) $(SKELETON_TEMP_DOS) $(FILES_TEMP) -exec $(CMD_REMOVE) {} \;
 
 	@echo "  * Switching to DOS line endings..."
-	@$(CMD_FIND) $(SKELETON_TEMP_DOS) $(TEXT_FILES) $(CMD_ANY2DOS)
+	@$(CMD_FIND) $(SKELETON_TEMP_DOS) $(FILES_TEXT) $(CMD_ANY2DOS)
 
 	@echo "  * Fixing executables..."
-	@$(CMD_FIND) $(SKELETON_TEMP_DOS) $(EXEC_FILES) | xargs chmod a+rx
+	@$(CMD_FIND) $(SKELETON_TEMP_DOS) $(FILES_EXEC) -exec chmod a+rx {} \;
 
 	@echo "  * Building skeleton archive..."
 	@$(CMD_REMOVE) $(SKELETON_TEMP_DOS)/skeleton.zip
@@ -327,7 +323,7 @@ release-build-unix:
 		sed 's/class="build"//g' > $(RELEASE_BUILD_UNIX)/frontend/index.html
 
 	@echo "  * Switching to Unix line endings..."
-	@$(CMD_FIND) $(RELEASE_BUILD_UNIX) $(TEXT_FILES) $(CMD_ANY2UNIX)
+	@$(CMD_FIND) $(RELEASE_BUILD_UNIX) $(FILES_TEXT) $(CMD_ANY2UNIX)
 
 	@echo "  * Generating tar archive..."
 	@cd release/temp/build/unix; $(CMD_REMOVE) qooxdoo-$(FRAMEWORK_VERSION)-build.tar.gz; $(CMD_NICE) tar cfzp ../../../qooxdoo-$(FRAMEWORK_VERSION)-build.tar.gz qooxdoo-$(FRAMEWORK_VERSION)-build
@@ -361,7 +357,7 @@ release-build-dos:
 		sed 's/class="build"//g' > $(RELEASE_BUILD_DOS)/frontend/index.html
 
 	@echo "  * Switching to DOS line endings..."
-	@$(CMD_FIND) $(RELEASE_BUILD_DOS) $(TEXT_FILES) $(CMD_ANY2DOS)
+	@$(CMD_FIND) $(RELEASE_BUILD_DOS) $(FILES_TEXT) $(CMD_ANY2DOS)
 
 	@echo "  * Generating zip archive..."
 	@cd release/temp/build/dos; $(CMD_REMOVE) qooxdoo-$(FRAMEWORK_VERSION)-build.zip; $(CMD_NICE) zip -rq ../../../qooxdoo-$(FRAMEWORK_VERSION)-build.zip qooxdoo-$(FRAMEWORK_VERSION)-build
