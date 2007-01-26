@@ -1612,9 +1612,9 @@ qx.Proto._isSeeable = false;
 /**
  * If the widget is currently seeable which means that it:
  *
- *   * has a also seeable parent
- *   * visibility is true
- *   * display is true
+ * * has a also seeable parent
+ * * visibility is true
+ * * display is true
  */
 qx.Proto.isSeeable = function() {
   return this._isSeeable;

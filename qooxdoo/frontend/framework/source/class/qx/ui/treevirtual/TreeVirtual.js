@@ -285,9 +285,6 @@ qx.Proto.getJensLautenbacherMode = function()
 }
 
 
-
-
-/**
 /**
  * Set whether the open/close button should be displayed on a branch, even if
  * the branch has no children.
