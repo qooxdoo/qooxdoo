@@ -241,7 +241,8 @@ qx.Proto.setAlwaysShowOpenCloseSymbol = function(b)
 
 
 /**
- * Set whether drawing of first-level tree-node lines are disabled.
+ * Set whether drawing of first-level tree-node lines are disabled even if
+ * drawing of tree lines is enabled.  (See also @link {#setUseTreeLines})
  *
  * @param b {Boolean}
  *   <i>true</i> if first-level tree lines should be disabled;
@@ -274,7 +275,8 @@ qx.Proto.setJensLautenbacherMode = function(b)
 
 
 /**
- * Get whether drawing of first-level tree lines should be disabled
+ * Get whether drawing of first-level tree lines should be disabled even if
+ * drawing of tree lines is enabled.  (See also {@link #getUseTreeLines})
  *
  * @return {Boolean}
  *   <i>true</i> if tree lines are in use; <i>false</i> otherwise.
@@ -302,12 +304,36 @@ qx.Proto.getAlwaysShowOpenCloseSymbol = function()
 };
 
 
+/**
+ * Set the selection mode.
+ *
+ * @param mode {Integer}
+ *   The selection mode to be used.  It may be any of:
+ *   <pre>
+ *     qx.ui.treevirtual.SelectionMode.NONE:
+ *        Nothing can ever be selected.
+ *
+ *     qx.ui.treevirtual.SelectionMode.SINGLE
+ *        Allow only one selected item.
+ *
+ *     qx.ui.treevirtual.SelectionMode.SINGLE_INTERVAL
+ *        Allow one contiguous interval of selected items.
+ *
+ *     qx.ui.treevirtual.SelectionMode.MULTIPLE_INTERVAL
+ *        Allow any selected items, whether contiguous or not.
+ *   </pre>
+ */
 qx.Proto.setSelectionMode = function(mode)
 {
   this.getSelectionModel().setSelectionMode(mode);
 }
 
-
+/**
+ * Get the selection mode currently in use.
+ *
+ * @return {Integer}
+ *   One of the values documented in {@link #setSelectionMode}
+ */
 qx.Proto.getSelectionMode = function(mode)
 {
   return this.getSelectionModel().getSelectionMode();
@@ -366,12 +392,12 @@ qx.Proto.toggleOpened = function(node)
     this.getSelectionModel()._clearSelection();
 
     // Clear the old selections in the data model
-    this.getTableModel().clearSelections();
+    this.getTableModel()._clearSelections();
   }
 
   // Re-render the row data since formerly visible rows may now be invisible,
   // or vice versa.
-  this.getTableModel()._render();
+  this.getTableModel().setData();
 };
 
 
@@ -469,7 +495,7 @@ qx.Proto._onkeydown = function(evt)
 qx.Proto._onSelectionChanged = function(evt)
 {
   // Clear the old list of selected nodes
-  this.getTableModel().clearSelections();
+  this.getTableModel()._clearSelections();
 
   // If selections are allowed, pass an event to our listeners
   if (this.getSelectionMode() !=
@@ -550,6 +576,21 @@ qx.Proto._handleSelectEvent = function(index, evt)
 };
 
 
+/**
+ * Obtain the entire hierarchy of labels from the root down to the specified
+ * node.
+ *
+ * @param nodeId {Integer}
+ *   The node id of the node for which the hierarchy is desired.
+ *
+ * @return {Array}
+ *   The returned array contains one string for each label in the hierarchy of
+ *   the node specified by the parameter.  Element 0 of the array contains the
+ *   label of the root node, element 1 contains the label of the node
+ *   immediately below root in the specified node's hierarchy, etc., down to
+ *   the last element in the array contain the label of the node referenced by
+ *   the parameter.
+ */
 qx.Proto.getHierarchy = function(nodeId)
 {
   var _this = this;
@@ -579,6 +620,18 @@ qx.Proto.getHierarchy = function(nodeId)
 }
 
 
+/**
+ * Calculate and return the set of nodes which are currently selected by the
+ * user, on the screen.  In the process of calculating which nodes are
+ * selected, the nodes corresponding to the selected rows on the screen are
+ * marked as selected by setting their <i>bSelected</i> property to true, and
+ * all previously-selected nodes have their <i>bSelected</i> property reset to
+ * false.
+ *
+ * @return {Array}
+ *   An array of nodes matching the set of rows which are selected on the
+ *   screen. 
+ */
 qx.Proto._calculateSelectedNodes = function()
 {
   // Create an array of nodes that are now selected
