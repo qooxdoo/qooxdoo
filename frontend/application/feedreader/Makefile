@@ -55,8 +55,8 @@ APPLICATION_FILES = index.html
 #
 # Locales to include
 #
-#APPLICATION_LOCALES = en de tr it es sv ru
-APPLICATION_LOCALES = de es en fr
+#APPLICATION_LOCALES = en de tr it es sv ru fr
+APPLICATION_LOCALES = de es en
 
 
 
