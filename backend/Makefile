@@ -47,7 +47,7 @@ RELEASE_DOS = release/temp/dos/qooxdoo-$(FRAMEWORK_VERSION)-backend
 
 TEXT_FILES = -name "*.py" -o -name "*.sh" -o -name *.java -o -name *.xml -o -name *.sample -o -name *.php -o -name *.phps -o -name AUTHORS -o -name LICENSE -o -name README -o -name RELEASENOTES -o -name TODO -o -name SERVER_WRITER_GUIDE
 
-BACKEND_COPY = java php SERVER_WRITER_GUIDE
+BACKEND_COPY = java php perl SERVER_WRITER_GUIDE
 
 
 
