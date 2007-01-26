@@ -85,3 +85,13 @@ CMD_SYNC_ONLINE = $(CMD_NICE) rsync --checksum --compress --recursive --delete -
 
 # Optimized for local sync (same computer, filesystem)
 CMD_SYNC_OFFLINE = $(CMD_NICE) rsync --recursive --delete --inplace --links --safe-links --exclude .svn
+
+
+
+
+#
+# Configure files
+#
+FILES_TEXT = \( -name "*.py" -o -name "*.sh" -o -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile -o -name AUTHORS -o -name LICENSE -o -name README -o -name RELEASENOTES -o -name TODO \)
+FILES_TEMP = \( -name "*.pyc" -o -name "*.bak" -o -name "*.old" -o -name "*~" -o -name "messages.pot" \)
+FILES_EXEC = \( -name "*.py" -o -name "*.sh" \)
