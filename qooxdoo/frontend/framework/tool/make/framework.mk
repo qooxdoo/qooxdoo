@@ -79,6 +79,7 @@ CMD_TAR_CREATE = $(CMD_TAR) cfzp
 CMD_DIR = $(CMD_NICE) mkdir -p
 CMD_ANY2DOS = | xargs $(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/modules/textutil.py --command any2Dos
 CMD_ANY2UNIX = | xargs $(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/modules/textutil.py --command any2Unix
+CMD_MKEXEC = $(CMD_NICE) chmod a+rx
 
 # Optimized for remote sync (ssh etc.)
 CMD_SYNC_ONLINE = $(CMD_NICE) rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn
