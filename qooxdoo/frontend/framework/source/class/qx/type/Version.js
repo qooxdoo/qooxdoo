@@ -5,17 +5,19 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
      LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the qooxdoo top-level directory for details
 
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
    ________________________________________________________________________
 
-   This class may contain code based on the following work:
+   This class contains code based on the following work:
 
      SWFObject: Javascript Flash Player detection and embed script
      http://blog.deconcept.com/swfobject/
@@ -61,14 +63,14 @@
  * with the stored version string including checks to determine if this
  * version is smaller than or identical to the one stored.
  *
- * This class may contain code based on the following work:
- *   SWFObject: Javascript Flash Player detection and embed script
- *   http://blog.deconcept.com/swfobject/
+ * This class contains code based on the following work:<br/>
+ *   SWFObject: Javascript Flash Player detection and embed script<br/>
+ *   http://blog.deconcept.com/swfobject/<br/>
  *   Version: 1.4.4
  *
- * License:
- *   MIT: http://www.opensource.org/licenses/mit-license.php
- *   For more info, please consult the corresponding source file
+ * License:<br/>
+ *   MIT: http://www.opensource.org/licenses/mit-license.php<br/>
+ *   For more info, please see the corresponding source file.
  *
  * @param arrVersion {Array|String} array with three elements defining major,
  *   minor and revision number or an equivalent version string separated by '.'
