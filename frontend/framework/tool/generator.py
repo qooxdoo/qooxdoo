@@ -5,7 +5,9 @@ import sys, re, os, optparse, math
 # reconfigure path to import own modules from modules subfolder
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "modules"))
 
-import config, tokenizer, loader, api, tree, treegenerator, settings, resources, filetool, stringoptimizer, optparseext, variableoptimizer, obfuscator, compiler, migrator, textutil
+import config, tokenizer, loader, api, tree, treegenerator, settings, resources
+import filetool, stringoptimizer, optparseext, variableoptimizer, obfuscator, compiler
+import migrator, textutil, graph
 
 
 

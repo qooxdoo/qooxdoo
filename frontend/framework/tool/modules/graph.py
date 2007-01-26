@@ -1,8 +1,10 @@
+import os
+import math
 import filetool
 
 # Write dependencies to a Graphviz compatible file (http://www.graphviz.org/)
 
-def dotLine(fileId, depEntry, largetFileSize):
+def dotLine(fileDb, fileId, depEntry, largetFileSize):
   file = fileId.split(".")
   dep = depEntry.split(".")
   weight = 1
@@ -35,19 +37,19 @@ node [style=filled];
   for fileId in sortedIncludeList:
     if len(fileDb[fileId]["loadtimeDeps"]) > 0:
       for depEntry in fileDb[fileId]["loadtimeDeps"]:
-        content += dotLine(fileId, depEntry, largest)
+        content += dotLine(fileDb, fileId, depEntry, largest)
 
     if len(fileDb[fileId]["afterDeps"]) > 0:
       for depEntry in fileDb[fileId]["afterDeps"]:
-        content += dotLine(fileId, depEntry, largest)
+        content += dotLine(fileDb, fileId, depEntry, largest)
 
     if len(fileDb[fileId]["runtimeDeps"]) > 0:
       for depEntry in fileDb[fileId]["runtimeDeps"]:
-        content += dotLine(fileId, depEntry, largest)
+        content += dotLine(fileDb, fileId, depEntry, largest)
 
     if len(fileDb[fileId]["loadDeps"]) > 0:
       for depEntry in fileDb[fileId]["loadDeps"]:
-        content += dotLine(fileId, depEntry, largest)
+        content += dotLine(fileDb, fileId, depEntry, largest)
 
   content += '}'
   filetool.save(options.depDotFile, content)
