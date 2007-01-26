@@ -145,7 +145,7 @@ qx.Proto.getSortColumnIndex = function()
  * displayed using the SimpleTreeDataCellRenderer.  Other columns may be
  * provided which use different cell renderers.
  *
- * @param {Integer} columnIndex
+ * @param columnIndex {Integer}
  *   The index of the column in which the tree should be displayed.
  */
 qx.Proto.setTreeColumn = function(columnIndex)
@@ -154,8 +154,11 @@ qx.Proto.setTreeColumn = function(columnIndex)
 };
 
 
-/*
+/**
  * Get the column in which the tree is to be displayed.
+ *
+ * @return {Integer}
+ *   The column in whcih the tree is to be displayed
  */
 qx.Proto.getTreeColumn = function()
 {
