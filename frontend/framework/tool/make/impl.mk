@@ -37,7 +37,7 @@ exec-clean:
 
 exec-distclean:
 	@echo "  * Cleaning up..."
-	@$(CMD_FIND) . -name "*~" -o -name "*.bak" -o -name "*.old" | xargs rm -rf
+	@$(CMD_FIND) . $(FILES_TEMP) -exec $(CMD_REMOVE) {} \;
 	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)
 	@$(CMD_REMOVE) $(APPLICATION_BUILD_PATH)
 	@$(CMD_REMOVE) $(APPLICATION_API_PATH)
