@@ -20,28 +20,41 @@ document.write('<div id="demoFrame">&#160;</div>');
 (function(sitemap)
 {
   document.write('<select id="demoFiles" onchange="if(this.options[this.selectedIndex].value)window.location.href=this.options[this.selectedIndex].value">');
-  for (var cat in sitemap)
-  {
-    document.write('<optgroup label="' + cat + '">');
-    var pages = sitemap[cat];
-    pages.sort();
-    for( var i=0; i<pages.length; i++ )
-    {
-      var href = window.location.href;
-      var page = cat + "/" + pages[i];
-      var pageuri = "../" + page;
-      var pageid = pages[i].replace(".html", "").replace("_", " ");
-      document.write('<option value="' + pageuri + '"');
-      if(href.lastIndexOf(page) === href.length-page.length) {
-        document.write(' selected="selected"');
+  var url = window.location.pathname.split('/');
+  var basename = window.location.href.substring(0, window.location.href.lastIndexOf("/"));
+  var cat = url[url.length-2];
+  var file = url[url.length-1];
 
-      }
-      document.write('>' + pageid + '</option>');
+  var pages = sitemap[cat];
+  pages.sort();
+
+  var index = pages.indexOf(file);
+  
+  for( var i=0; i<pages.length; i++ )
+  {
+    var href = window.location.href;
+    var page = cat + "/" + pages[i];
+    var pageuri = "../" + page;
+    var pageid = pages[i].replace(".html", "").replace("_", " ");
+    document.write('<option value="' + pageuri + '"');
+    if(href.lastIndexOf(page) === href.length-page.length) {
+      document.write(' selected="selected"');
+    
     }
-    document.write('</optgroup>');
+    document.write('>' + pageid + '</option>');
   }
   document.write('</select>');
-})(--repl--);
+  
+  document.write('<div id="demoJump">');
+  if (index > 0) {
+    document.write("<button onclick='window.location.href=\\"" + basename + '/' + pages[index-1] + "\\"'>&lt;</button>");
+  }
+  if (index < pages.length-1) {
+    document.write("<button onclick='window.location.href=\\"" + basename + '/' + pages[index+1] + "\\"'>&gt;</button>");
+  }
+  document.write('</div>');
+ 
+})(%s);
 
 (function()
 {
@@ -109,7 +122,7 @@ def main(dist, scan):
   if not os.path.exists(distdir):
     os.makedirs(distdir)
 
-  content = basic.replace("--repl--", res);
+  content = basic % res #.replace("--repl--", res);
 
   outputFile = codecs.open(dist, encoding="utf-8", mode="w", errors="replace")
   outputFile.write(content)
