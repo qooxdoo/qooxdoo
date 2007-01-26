@@ -8,7 +8,7 @@
      2007 Derrell Lipman
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
      EPL: http://www.eclipse.org/org/documents/epl-v10.php
      See the LICENSE file in the project's top-level directory for details.
 
@@ -71,7 +71,7 @@ function()
                                 // index of this array is the index of
                                 // _nodeArr, and the values in this array are
                                 // the indexes into _rowArr.
-  
+
 
   this._treeColumn = 0;         // default column for tree nodes
 
