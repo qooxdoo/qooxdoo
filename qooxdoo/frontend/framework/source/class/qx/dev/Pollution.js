@@ -203,8 +203,8 @@ qx.Class.extract = function(object)
   var ext = [];
   var ign = qx.dev.Pollution.ignore[object];
   var clientInfos = qx.core.Client.getInstance();
-  
-  //IE offers a window[index] access to the frames of a window, i. e. 
+
+  //IE offers a window[index] access to the frames of a window, i. e.
   //for three frame, the window object will have attributes "0", "1" and "2"
   if (clientInfos.isMshtml() && (object == "window")){
     ign = ign.slice();
@@ -212,19 +212,19 @@ qx.Class.extract = function(object)
       ign.push("" + frameIndex);
     }
   }
-  
+
   var obj = qx.dev.Pollution.names[object];
 
   for (var key in obj)
   {
-    try        
+    try
     {
       //MS IE 7 crashes when doing typeof(window.external), catch here
       if ( clientInfos.isMshtml() && (clientInfos.getMajor() >= 7)
            && (object == "window") && (key == "external") ) {
         continue;
       }
-      
+
       // Ignore null or undefined values
       if (typeof obj[key] == "undefined" || obj[key] === null) {
         continue;
@@ -239,7 +239,7 @@ qx.Class.extract = function(object)
       if (qx.lang.Array.contains(ign, key)) {
         continue;
       }
-            
+
     }
     catch(ex)
     {
