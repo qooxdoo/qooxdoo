@@ -92,8 +92,10 @@ publish:
 clean:
 	@$(MAKE) -s -C application clean
 
-distclean: release-distclean framework-distclean
+distclean:
 	@$(MAKE) -s -C application distclean
+	@$(MAKE) -s release-distclean
+	@$(MAKE) -s framework-distclean
 
 
 
@@ -115,7 +117,8 @@ framework-distclean:
 	@$(CMD_REMOVE) $(FRAMEWORK_TRANSLATION_CLASS_PATH)
 	@$(CMD_REMOVE) application/skeleton.tar.gz
 	@$(CMD_REMOVE) application/skeleton.zip
-	@$(CMD_FIND) $(FRAMEWORK_PATH) $(TEMP_FILES) -exec $(CMD_REMOVE) {} \;
+	@$(CMD_FIND) $(FRAMEWORK_PATH) $(TEMP_FILES) | xargs $(CMD_REMOVE)
+	@$(CMD_REMOVE) $(FRAMEWORK_TOOL_PATH)/icon/temp
 
 
 framework-pretty:
@@ -211,7 +214,7 @@ exec-skeleton-unix-archive:
 	@$(CMD_FIND) $(SKELETON_TEMP_UNIX) $(TEXT_FILES) $(CMD_ANY2UNIX)
 
 	@echo "  * Fixing executables..."
-	@$(CMD_FIND) $(SKELETON_TEMP_UNIX) $(EXEC_FILES) -exec chmod a+rx {} \;
+	@$(CMD_FIND) $(SKELETON_TEMP_UNIX) $(EXEC_FILES) | xargs chmod a+rx
 
 	@echo "  * Building skeleton archive..."
 	@$(CMD_REMOVE) $(SKELETON_TEMP_UNIX)/skeleton.tar.gz
@@ -234,7 +237,7 @@ exec-skeleton-dos-archive:
 	@$(CMD_FIND) $(SKELETON_TEMP_DOS) $(TEXT_FILES) $(CMD_ANY2DOS)
 
 	@echo "  * Fixing executables..."
-	@$(CMD_FIND) $(SKELETON_TEMP_DOS) $(EXEC_FILES) -exec chmod a+rx {} \;
+	@$(CMD_FIND) $(SKELETON_TEMP_DOS) $(EXEC_FILES) | xargs chmod a+rx
 
 	@echo "  * Building skeleton archive..."
 	@$(CMD_REMOVE) $(SKELETON_TEMP_DOS)/skeleton.zip
