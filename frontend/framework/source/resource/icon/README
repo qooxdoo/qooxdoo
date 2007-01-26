@@ -1,22 +1,62 @@
-Available icon themes:
+Information On Available Icon Themes
+====================================
+
+Please make sure you read and understand the LICENSE file that is included in 
+each icon theme's directory.
+
+********************************************************************************
 
  * Vista-Inspirate
-   Author: Alexandre Moore (alexandre.moore@gmail.com)
-   License: GPL & LGPL/EPL
-   Home: http://www.kde-look.org/content/show.php?content=31585
-   Comment: Based on nuoveXT by the same author
+ 
+   Directory: 
+     VistaInspirate
+   Author:
+     Alexandre Moore (alexandre DOT moore AT gmail DOT com)
+   License: 
+     GPL & LGPL/EPL
+   Home: 
+     http://www.kde-look.org/content/show.php?content=31585
+   Comment: 
+     Based on nuoveXT by the same author
+
+********************************************************************************
 
  * nuoveXT
-   Author: Alexandre Moore (alexandre.moore@gmail.com)
-   License: GPL & LGPL/EPL
-   Home: http://www.kde-look.org/content/show.php?content=26449
+ 
+   Directory:
+     NuoveXT
+   Author:
+     Alexandre Moore (alexandre DOT moore AT gmail DOT com)
+   License:
+     GPL & LGPL/EPL
+   Home:
+     http://www.kde-look.org/content/show.php?content=26449
+
+********************************************************************************
 
  * Crystal Clear
-   Author: Everaldo (everaldo@everaldo.com)
-   License: LGPL
-   Home: http://www.kde-look.org/content/show.php?content=25668
+ 
+   Directory:
+     CrystalClear
+   Author:
+     Everaldo (everaldo AT everaldo DOT com)
+   License:
+     LGPL
+   Home:
+     http://www.kde-look.org/content/show.php?content=25668
+
+********************************************************************************
 
  * Nuvola
-   Author: David Vignoni (david@icon-king.com)
-   License: LGPL
-   Home: http://www.kde-look.org/content/show.php?content=5358
+
+   Directory:
+     Nuvola
+   Author: 
+     David Vignoni (david AT icon-king DOT com)
+   License:
+     LGPL
+   Home:
+     http://www.kde-look.org/content/show.php?content=5358
+
+********************************************************************************
+     
