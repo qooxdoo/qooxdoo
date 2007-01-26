@@ -188,6 +188,34 @@ qx.Proto._getContentHtml = function(cellInfo)
 };
 
 
+/**
+ * Determine the symbol to use for indentation of a tree row, at a particular
+ * column.  The indentation to use may be just white space or may be a tree
+ * line.  Tree lines come in numerous varieties, so the appropriate one is
+ * selected.
+ *
+ * @param column {Integer}
+ *   The column of indentation being requested, zero-relative
+ *
+ * @param node
+ *   The node being displayed in the row.  The properties of a node are
+ *   described in {@link qx.ui.treevirtual.SimpleTreeDataModel}
+ *
+ * @param bUseTreeLines {Boolean}
+ *   Whether to find an appropriate tree line icon, or simply provide white
+ *   space.
+ *
+ * @param bAlwaysShowOpenCloseSymbol {Boolean}
+ *   Whether to display the open/close icon for a node even if it has no
+ *   children.
+ *
+ * @param bJensLautenbacherMode {Boolean}
+ *   If bUseTreeLines is enabled, then further filtering of the left-most tree
+ *   line may be specified here.  If <i>true</i> then the left-most tree line,
+ *   between top-level siblings, will not be displayed.  If <i>false</i>, then
+ *   the left-most tree line wiill be displayed just like all of the other
+ *   tree lines.
+ */
 qx.Proto._getIndentSymbol = function(column,
                                      node,
                                      bUseTreeLines,
@@ -287,21 +315,8 @@ qx.Proto._getIndentSymbol = function(column,
   }
 
   return this.STATIC_IMAGE_URI + "blank.gif";
-}
-
-
-// overridden
-qx.Proto._createCellStyle_array_join = function(cellInfo, htmlArr)
-{
-  throw new Error("USE_ARRAY_JOIN not supported");
 };
 
-
-
-qx.Proto._createContentHtml_array_join = function(cellInfo, htmlArr)
-{
-  throw new Error("USE_ARRAY_JOIN not supported");
-};
 
 qx.Class.MAIN_DIV_STYLE =
   ';overflow:hidden;white-space:nowrap;border-right:1px solid #eeeeee;' +
