@@ -102,3 +102,6 @@ endif
 
 error:
 	@echo "  * Please configure QOOXDOO_PATH"
+
+distclean:
+	@rm -f source/index.xhtml
