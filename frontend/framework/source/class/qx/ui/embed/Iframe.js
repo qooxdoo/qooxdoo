@@ -156,7 +156,7 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
     qx.ui.embed.Iframe.initBlocker();
 
     // clone proto blocker
-    blockerNode = this.setBlockerNode(qx.ui.embed.Iframe._blocker.cloneNode(true));
+    var blockerNode = this.setBlockerNode(qx.ui.embed.Iframe._blocker.cloneNode(true));
 
     if (qx.core.Client.getInstance().isMshtml()) {
       iframeNode.onreadystatechange = this.__onreadystatechange;

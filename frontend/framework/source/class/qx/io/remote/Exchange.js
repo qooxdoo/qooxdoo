@@ -88,7 +88,7 @@ qx.io.remote.Exchange.initTypes = function()
 
   for (var vId in qx.io.remote.Exchange.typesAvailable)
   {
-    vTransporterImpl = qx.io.remote.Exchange.typesAvailable[vId];
+    var vTransporterImpl = qx.io.remote.Exchange.typesAvailable[vId];
 
     if (vTransporterImpl.isSupported()) {
       qx.io.remote.Exchange.typesSupported[vId] = vTransporterImpl;
