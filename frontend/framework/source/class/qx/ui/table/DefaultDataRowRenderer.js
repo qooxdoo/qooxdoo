@@ -128,16 +128,18 @@ qx.Proto._createRowStyle_array_join = function(rowInfo, htmlArr) {
  *    number (e.g. "#518ad3") or color name ("white") representing the color
  *    for that type of display.  The map may contain any or all of the
  *    following properties:
- *     - bgcolFocusedSelected
- *     - bgcolFocusedSelectedBlur
- *     - bgcolFocused
- *     - bgcolFocusedBlur
- *     - bgcolSelected
- *     - bgcolSelectedBlur
- *     - bgcolEven
- *     - bgcolOdd
- *     - colSelected
- *     - colNormal
+ *    <ul>
+ *      <li>bgcolFocusedSelected</li>
+ *      <li>bgcolFocusedSelectedBlur</li>
+ *      <li>bgcolFocused</li>
+ *      <li>bgcolFocusedBlur</li>
+ *      <li>bgcolSelected</li>
+ *      <li>bgcolSelectedBlur</li>
+ *      <li>bgcolEven</li>
+ *      <li>bgcolOdd</li>
+ *      <li>colSelected</li>
+ *      <li>colNormal</li>
+ *    </ul>
  */
 qx.Proto.setRowColors = function(colors)
 {
