@@ -160,7 +160,7 @@ qx.Class.mergeWith = function(vObjectA, vObjectB)
  * @return {Object} vObjectA with merged values from vObjectB
  */
 qx.Class.carefullyMergeWith = function(vObjectA, vObjectB) {
-  for (vKey in vObjectB)
+  for (var vKey in vObjectB)
   {
     if (typeof vObjectA[vKey] === "undefined") {
       vObjectA[vKey] = vObjectB[vKey];
