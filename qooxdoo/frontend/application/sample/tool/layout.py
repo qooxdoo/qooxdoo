@@ -122,7 +122,7 @@ def main(dist, scan):
   if not os.path.exists(distdir):
     os.makedirs(distdir)
 
-  content = basic % res #.replace("--repl--", res);
+  content = basic % res
 
   outputFile = codecs.open(dist, encoding="utf-8", mode="w", errors="replace")
   outputFile.write(content)
