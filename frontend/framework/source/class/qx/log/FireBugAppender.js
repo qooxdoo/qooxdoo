@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2006 by David Perez
+     2006 David Perez
 
    License:
      LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * David Perez (david-perez)

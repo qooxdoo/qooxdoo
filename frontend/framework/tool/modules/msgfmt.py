@@ -1,9 +1,27 @@
 #!/usr/bin/env python
+################################################################################
+#
+#  qooxdoo - the new era of web development
+#
+#  http://qooxdoo.org
+#
+#  Copyright:
+#    2006-2007 1&1 Internet AG, Germany, http://www.1and1.org
+#
+#  License:
+#    LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+#    EPL: http://www.eclipse.org/org/documents/epl-v10.php
+#    See the LICENSE file in the project's top-level directory for details.
+#
+#  Authors:
+#    * Fabian Jakobs (fjakobs)
+#
+################################################################################
 
 # -*- coding: iso-8859-1 -*-
 # Written by Martin v. Lwis <loewis@informatik.hu-berlin.de>
 # Plural forms support added by alexander smishlajev <alex@tycobka.lv>
-# Adapted to JavaScript by Fabian Jakobs <fabian DOT jakobs AT 1und1 DOT de>
+
 """
 Generate qooxdoo message catalog from textual translation description.
 

@@ -5,10 +5,12 @@
    http://qooxdoo.org
 
    Copyright:
-     2006, 2007 by Derrell Lipman
+     2006, 2007 Derrell Lipman
 
    License:
      LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Derrell Lipman (derrell)

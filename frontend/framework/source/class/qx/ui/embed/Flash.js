@@ -5,17 +5,19 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 by 1&1 Internet AG, Germany, http://www.1and1.org
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
      LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
    ________________________________________________________________________
 
-   This class may contain code based on the following work:
+   This class contains code based on the following work:
 
      SWFObject: Javascript Flash Player detection and embed script
      http://blog.deconcept.com/swfobject/
@@ -58,14 +60,14 @@
 /**
  * Flash Player detection and embed.
  *
- * This class may contain code based on the following work:
- *   SWFObject: Javascript Flash Player detection and embed script
- *   http://blog.deconcept.com/swfobject/
+ * This class contains code based on the following work:<br/>
+ *   SWFObject: Javascript Flash Player detection and embed script<br/>
+ *   http://blog.deconcept.com/swfobject/</br>
  *   Version: 1.4.4
  *
- * License:
- *   MIT: http://www.opensource.org/licenses/mit-license.php
- *   For more info, please consult the corresponding source file
+ * License:<br/>
+ *   MIT: http://www.opensource.org/licenses/mit-license.php<br/>
+ *   For more info, please see the corresponding source file.
  *
  * @param vSource {String} Url of the SWF file to embed
  * @param vVersion {String} Flash version of the SWF file
