@@ -225,6 +225,7 @@ qx.Proto._callInternal = function(args, callType, refreshSession) {
   var ex = null;
   var id = null;
   var result = null;
+  var response = null;
 
   var handleRequestFinished = function(eventType, eventTarget) {
     switch(callType)
@@ -239,7 +240,7 @@ qx.Proto._callInternal = function(args, callType, refreshSession) {
     case 2:                     // async with event listeners
       // Dispatch the event to our listeners.
       if (! ex) {
-        eventTarget.createDispatchDataEvent(eventType, result);
+        eventTarget.createDispatchDataEvent(eventType, response);
       } else {
         // Add the id to the exception
         ex.id = id;
@@ -307,18 +308,19 @@ qx.Proto._callInternal = function(args, callType, refreshSession) {
     handleRequestFinished("aborted", eventTarget);
   });
   req.addEventListener("completed", function(evt) {
-    result = evt.getData().getContent();
-    id = result["id"];
+    response = evt.getData().getContent();
+    id = response["id"];
     if (id != this.getSequenceNumber()) {
-      this.warn("Received id (" + id + ") does not match requested id (" + this.getSequenceNumber() + ")!");
+      this.warn("Received id (" + id + ") does not match requested id " +
+                "(" + this.getSequenceNumber() + ")!");
     }
-    var exTest = result["error"];
+    var exTest = response["error"];
     if (exTest != null) {
       result = null;
       addToStringToObject(exTest);
       ex = exTest;
     } else {
-      result = result["result"];
+      result = response["result"];
       if (refreshSession) {
         result = eval("(" + result + ")");
         var newSuffix = qx.core.ServerSettings.serverPathSuffix;
