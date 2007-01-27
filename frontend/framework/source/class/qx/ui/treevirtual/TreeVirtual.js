@@ -562,17 +562,19 @@ qx.Proto._handleSelectEvent = function(index, evt)
     {
       // Yup.  Toggle the opened state for this node.
       this.toggleOpened(node);
-      return true;
+      return this.openCloseClickSelectsRow() ? false : true;
+    }
+    else
+    {
+      return false;
     }
   }
   else
   {
     // Key event.  Toggle the open state
     this.toggleOpened(node);
-    return true;
+    return false;
   }
-
-  return this.openCloseClickSelectsRow() ? true : false;
 };
 
 
