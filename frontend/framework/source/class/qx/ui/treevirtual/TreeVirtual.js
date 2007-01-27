@@ -248,12 +248,12 @@ qx.Proto.setAlwaysShowOpenCloseSymbol = function(b)
  *   <i>true</i> if first-level tree lines should be disabled;
  *   <i>false</i> for normal operation.
  */
-qx.Proto.setJensLautenbacherMode = function(b)
+qx.Proto.setExcludeFirstLevelTreeLines = function(b)
 {
   var stdcm = this.getTableModel();
   var treeCol = stdcm.getTreeColumn();
   var dcr = this.getTableColumnModel().getDataCellRenderer(treeCol);
-  dcr.setJensLautenbacherMode(b);
+  dcr.setExcludeFirstLevelTreeLines(b);
 
   // Inform the listeners
   if (stdcm.hasEventListeners(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED))
@@ -281,11 +281,11 @@ qx.Proto.setJensLautenbacherMode = function(b)
  * @return {Boolean}
  *   <i>true</i> if tree lines are in use; <i>false</i> otherwise.
  */
-qx.Proto.getJensLautenbacherMode = function()
+qx.Proto.getExcludeFirstLevelTreeLines = function()
 {
   var treeCol = this.getTableModel().getTreeColumn();
   var dcr = this.getTableColumnModel().getDataCellRenderer(treeCol);
-  return dcr.getJensLautenbacherMode();
+  return dcr.getExcludeFirstLevelTreeLines();
 }
 
 
