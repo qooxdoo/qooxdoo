@@ -130,13 +130,13 @@
                          tree.setUseTreeLines(e.getData());
                        });
 
-    o = new qx.ui.form.CheckBox("Jens Lautenbacher mode?");
+    o = new qx.ui.form.CheckBox("Exclude first-level tree lines?");
     o.set({ top: 100, left: 0, checked: false });
     commandFrame.add(o);
     o.addEventListener("changeChecked",
                        function(e)
                        {
-                         tree.setJensLautenbacherMode(e.getData());
+                         tree.setExcludeFirstLevelTreeLines(e.getData());
                        });
 
     o = new qx.ui.form.CheckBox("Always show open/close symbol?");

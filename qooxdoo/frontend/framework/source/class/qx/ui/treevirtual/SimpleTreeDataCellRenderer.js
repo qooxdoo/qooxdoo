@@ -49,22 +49,23 @@ qx.OO.addProperty({
                     getAlias     : "useTreeLines"
                   });
 
+/*
+ * When true, exclude only the first-level tree lines, creating, effectively,
+ * multiple unrelated root nodes.
+ */
+qx.OO.addProperty({
+                    name         : "excludeFirstLevelTreeLines",
+                    type         : "boolean",
+                    defaultValue : false
+                  });
+
+
 /**
  * Set whether the open/close button should be displayed on a branch, even if
  * the branch has no children.
  */
 qx.OO.addProperty({
                     name         : "alwaysShowOpenCloseSymbol",
-                    type         : "boolean",
-                    defaultValue : false
-                  });
-
-/**
- * When true, exclude only the first-level tree lines, creating, effectively,
- * multiple unrelated root nodes.
- */
-qx.OO.addProperty({
-                    name         : "jensLautenbacherMode",
                     type         : "boolean",
                     defaultValue : false
                   });
@@ -135,7 +136,7 @@ qx.Proto._getContentHtml = function(cellInfo)
   // Generate the indentation.  Obtain icon determination values once rather
   // than each time through the loop.
   var bUseTreeLines = this.getUseTreeLines();
-  var bJensLautenbacherMode = this.getJensLautenbacherMode();
+  var bExcludeFirstLevelTreeLines = this.getExcludeFirstLevelTreeLines();
   var bAlwaysShowOpenCloseSymbol = this.getAlwaysShowOpenCloseSymbol();
 
   for (var i = 0; i < node.level; i++)
@@ -144,7 +145,7 @@ qx.Proto._getContentHtml = function(cellInfo)
                                      node,
                                      bUseTreeLines,
                                      bAlwaysShowOpenCloseSymbol,
-                                     bJensLautenbacherMode);
+                                     bExcludeFirstLevelTreeLines);
     html += addImage({
                        url         : imageUrl,
                        imageWidth  : 19,
@@ -209,7 +210,7 @@ qx.Proto._getContentHtml = function(cellInfo)
  *   Whether to display the open/close icon for a node even if it has no
  *   children.
  *
- * @param bJensLautenbacherMode {Boolean}
+ * @param bExcludeFirstLevelTreeLines {Boolean}
  *   If bUseTreeLines is enabled, then further filtering of the left-most tree
  *   line may be specified here.  If <i>true</i> then the left-most tree line,
  *   between top-level siblings, will not be displayed.  If <i>false</i>, then
@@ -220,11 +221,11 @@ qx.Proto._getIndentSymbol = function(column,
                                      node,
                                      bUseTreeLines,
                                      bAlwaysShowOpenCloseSymbol,
-                                     bJensLautenbacherMode)
+                                     bExcludeFirstLevelTreeLines)
 {
-  // If we're in column 0 and jensLautenbacherMode is enabled, then we treat
-  // this as if no tree lines were requested.
-  if (column == 0 && bJensLautenbacherMode)
+  // If we're in column 0 and excludeFirstLevelTreeLines is enabled, then
+  // we treat this as if no tree lines were requested.
+  if (column == 0 && bExcludeFirstLevelTreeLines)
   {
     bUseTreeLines = false;
   }
