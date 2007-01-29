@@ -12,11 +12,7 @@ qx.Clazz.define("qx.test.Animal",
 
   properties :
   {
-    hungry :
-    {
-      validation : "boolean",
-      init : true
-    }
+
   },
 
   members :

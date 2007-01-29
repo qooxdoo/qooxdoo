@@ -22,11 +22,11 @@ qx.Clazz.define("qx.test.Kitty",
 
   properties :
   {
-    /*
     color : {
-      init : "black"
+      compat : true,
+      type : "string",
+      defaultValue : "black"
     }
-    */
   },
 
   members :
