@@ -146,10 +146,18 @@ qx.Clazz.define = function(name, config)
         break;
 
       case "implement":
+        // Normalize to array structure
+        if (!(value instanceof Array)) {
+          value = [value];
+        }
         interfaces = value;
         break;
 
       case "include":
+        // Normalize to array structure
+        if (!(value instanceof Array)) {
+          value = [value];
+        }
         mixins = value;
         break;
 
@@ -316,31 +324,15 @@ qx.Clazz.define = function(name, config)
 
   if (mixins)
   {
-    var vMixinMembers;
+    var mixinMembers;
 
-    if (mixins instanceof Array)
-    {
-      for (i=0, l=mixins.length; i<l; i++)
-      {
-        if (!mixins[i]) {
-          throw new Error("Invalid mixin at position " + i);
-        }
-
-        // Attach members
-        vMixinMembers = mixins[i]._members;
-
-        for (var vProp in vMixinMembers) {
-          protoobj[vProp] = vMixinMembers[vProp];
-        }
-      }
-    }
-    else
+    for (var i=0, l=mixins.length; i<l; i++)
     {
       // Attach members
-      vMixinMembers = mixins._members;
+      mixinMembers = mixins[i]._members;
 
-      for (var vProp in vMixinMembers) {
-        protoobj[vProp] = vMixinMembers[vProp];
+      for (var key in mixinMembers) {
+        protoobj[key] = mixinMembers[key];
       }
     }
   }
@@ -424,43 +416,31 @@ qx.Clazz.define = function(name, config)
 
   if (interfaces)
   {
-    if (interfaces instanceof Array)
+    var vTotal = interfaces.length;
+    var vInterfaceMembers;
+
+    for (i=0; i<vTotal; i++)
     {
-      var vTotal = interfaces.length;
+      vInterfaceMembers = interfaces[i]._members;
 
-      var vInterfaceMembers;
-
-      for (i=0; i<vTotal; i++)
+      for (vProp in vInterfaceMembers)
       {
-        if (typeof interfaces[i] === "undefined" || !interfaces[i].isInterface) {
-          throw new Error("Interface no. " + (i + 1) + " to extend from is invalid.");
-        }
-
-        vInterfaceMembers = interfaces[i]._members;
-
-        for (vProp in vInterfaceMembers)
+        if (typeof vInterfaceMembers[vProp] === "function")
         {
-          if (typeof vInterfaceMembers[vProp] === "function")
-          {
-            if (typeof protoobj[vProp] === "undefined") {
-              throw new Error("Implementation of method " + vProp + "() missing in class " + name + " required by interface " + interfaces[i].name);
-            }
+          if (typeof protoobj[vProp] === "undefined") {
+            throw new Error("Implementation of method " + vProp + "() missing in class " + name + " required by interface " + interfaces[i].name);
           }
-          else if (typeof classobj[vProp] !== "undefined")
-          {
-            throw new Error("Existing property " + vProp + " in class " + name + " conflicts with interface " + interfaces[i].name);
-          }
-          else
-          {
-            // attach as class member. TODO: Does this make sense??
-            classobj[vProp] = vInterfaceMembers[vProp];
-          }
+        }
+        else if (typeof classobj[vProp] !== "undefined")
+        {
+          throw new Error("Existing property " + vProp + " in class " + name + " conflicts with interface " + interfaces[i].name);
+        }
+        else
+        {
+          // attach as class member. TODO: Does this make sense??
+          classobj[vProp] = vInterfaceMembers[vProp];
         }
       }
-    }
-    else
-    {
-      // TODO
     }
   }
 };
