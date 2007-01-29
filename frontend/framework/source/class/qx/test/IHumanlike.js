@@ -1,5 +1,4 @@
 /*
-#id(qx.test.IHumanlike)
 #require(qx.Interface)
 */
 

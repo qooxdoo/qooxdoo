@@ -1,5 +1,4 @@
 /*
-#id(qx.test.IPet)
 #require(qx.Interface)
 #require(qx.test.IHumanlike)
 #require(qx.test.IPlayable)
