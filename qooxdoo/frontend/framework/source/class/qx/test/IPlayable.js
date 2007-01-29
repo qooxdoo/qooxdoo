@@ -1,5 +1,4 @@
 /*
-#id(qx.test.IPlayable)
 #require(qx.Interface)
 */
 

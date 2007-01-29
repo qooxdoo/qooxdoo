@@ -1,5 +1,4 @@
 /*
-#id(qx.test.Lion)
 #require(qx.Clazz)
 */
 

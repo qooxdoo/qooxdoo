@@ -1,5 +1,4 @@
 /*
-#id(qx.test.MMoody)
 #require(qx.Mixin)
 */
 
