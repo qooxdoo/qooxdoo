@@ -29,7 +29,7 @@ document.write('<div id="demoFrame">&#160;</div>');
   pages.sort();
 
   var index = pages.indexOf(file);
-  
+
   for( var i=0; i<pages.length; i++ )
   {
     var href = window.location.href;
@@ -39,12 +39,12 @@ document.write('<div id="demoFrame">&#160;</div>');
     document.write('<option value="' + pageuri + '"');
     if(href.lastIndexOf(page) === href.length-page.length) {
       document.write(' selected="selected"');
-    
+
     }
     document.write('>' + pageid + '</option>');
   }
   document.write('</select>');
-  
+
   document.write('<div id="demoJump">');
   if (index > 0) {
     document.write("<button onclick='window.location.href=\\"" + basename + '/' + pages[index-1] + "\\"'>&lt;</button>");
@@ -53,7 +53,7 @@ document.write('<div id="demoFrame">&#160;</div>');
     document.write("<button onclick='window.location.href=\\"" + basename + '/' + pages[index+1] + "\\"'>&gt;</button>");
   }
   document.write('</div>');
- 
+
 })(%s);
 
 (function()
@@ -84,7 +84,7 @@ def main(dist, scan):
   res += "{"
 
   firstCategory = True
-  # for category in os.listdir(scan):
+
   for category in [ "example", "test", "performance" ]:
     if category == ".svn":
       continue
