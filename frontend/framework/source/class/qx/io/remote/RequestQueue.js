@@ -131,7 +131,8 @@ qx.Proto._check = function()
   // Debug output
   this._debug();
 
-  // Establish event connection between qx.io.remote.Exchange instance and qx.io.remote.Request
+  // Establish event connection between qx.io.remote.Exchange instance and
+  // qx.io.remote.Request
   vTransport.addEventListener("sending", vRequest._onsending, vRequest);
   vTransport.addEventListener("receiving", vRequest._onreceiving, vRequest);
   vTransport.addEventListener("completed", vRequest._oncompleted, vRequest);

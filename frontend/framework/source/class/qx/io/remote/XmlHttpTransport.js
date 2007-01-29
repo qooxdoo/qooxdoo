@@ -70,6 +70,7 @@ qx.io.remote.XmlHttpTransport.handles =
   asynchronous : true,
   crossDomain : false,
   fileUpload: false,
+  programaticFormFields: false,
   responseTypes : [
                     qx.util.Mime.TEXT,
                     qx.util.Mime.JAVASCRIPT,
@@ -236,6 +237,14 @@ qx.Proto.send = function()
   for (var vId in vRequestHeaders) {
     vRequest.setRequestHeader(vId, vRequestHeaders[vId]);
   }
+
+
+
+  // -----------------------------------------------------
+  //   Addinng requested form fields to user-provided data
+  // -----------------------------------------------------
+  var data = this.getData();
+  
 
 
 
