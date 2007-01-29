@@ -33,12 +33,23 @@
 /*
  * Bootstrapping needed to let qx.Clazz create itself
  */
-
 qx.Clazz = {};
 
-/** registers all defined classes */
-qx.Clazz.registry = { "qx.Clazz" : qx.Clazz };
 
+/**
+ * Registers all defined classes
+ */
+qx.Clazz.registry = {
+  "qx.Clazz" : qx.Clazz
+};
+
+
+/**
+ * Creates a given namespace and assigns the given object to the last part.
+ *
+ * @param name {String} The namespace including the last (class) name
+ * @param object {Object} The data to attach to the namespace
+ */
 qx.Clazz.createNamespace = function(name, object)
 {
   var splits = name.split(".");
@@ -63,6 +74,7 @@ qx.Clazz.createNamespace = function(name, object)
   return part
 }
 
+
 /**
  * Class config
  *
@@ -81,7 +93,7 @@ qx.Clazz.createNamespace = function(name, object)
  *
  *   "properties":
  *   {
- *     "tabIndex": {type: "number", init: -1}
+ *     "tabIndex": { compat : true, type: "number", defaultValue : -1 }
  *   },
  *
  *   "members":
@@ -226,7 +238,9 @@ qx.Clazz.define = function(name, config)
   // Store class reference in global class registry
   qx.Clazz.registry[name] = classobj;
 
-
+  // Compatibility to old properties etc.
+  qx.Class = classobj;
+  qx.Proto = null;
 
 
 
@@ -279,7 +293,7 @@ qx.Clazz.define = function(name, config)
 
   /*
   ---------------------------------------------------------------------------
-    Superclass
+    Superclass support
   ---------------------------------------------------------------------------
   */
 
@@ -310,6 +324,8 @@ qx.Clazz.define = function(name, config)
   // Store base constructor to constructor
   construct.base = superclass;
 
+  // Compatibility to old properties etc.
+  qx.Proto = protoobj;
 
 
 
@@ -318,7 +334,7 @@ qx.Clazz.define = function(name, config)
 
   /*
   ---------------------------------------------------------------------------
-    Merge in the mixins
+    Merge in the Mixins
   ---------------------------------------------------------------------------
   */
 
@@ -360,8 +376,10 @@ qx.Clazz.define = function(name, config)
         qx.OO.addFastProperty(value);
       } else if (value.cached) {
         qx.OO.addCachedProperty(value);
-      } else if (value.compatible) {
+      } else if (value.compat) {
         qx.OO.addProperty(value);
+      } else {
+        throw new Error("Could not handle property definition: " + key + " in Class " + name);
       }
     }
   }
@@ -416,16 +434,21 @@ qx.Clazz.define = function(name, config)
 
   if (interfaces)
   {
-    var vTotal = interfaces.length;
-    var vInterfaceMembers;
+    var interfaceMembers;
 
-    for (i=0; i<vTotal; i++)
+    for (var i=0, l=interfaces.length; i<l; i++)
     {
-      vInterfaceMembers = interfaces[i]._members;
+      interfaceMembers = interfaces[i]._members;
 
-      for (vProp in vInterfaceMembers)
+      for (vProp in interfaceMembers)
       {
-        if (typeof vInterfaceMembers[vProp] === "function")
+        // By Sebastian:
+        // What should this code do?
+        // Isn't it enough to compare the type of both protoobj and interfaceMember
+        // Why use protoobj in block1 and classobj in block2?
+        // What should the assignment do? Why?
+
+        if (typeof interfaceMembers[vProp] === "function")
         {
           if (typeof protoobj[vProp] === "undefined") {
             throw new Error("Implementation of method " + vProp + "() missing in class " + name + " required by interface " + interfaces[i].name);
@@ -438,12 +461,13 @@ qx.Clazz.define = function(name, config)
         else
         {
           // attach as class member. TODO: Does this make sense??
-          classobj[vProp] = vInterfaceMembers[vProp];
+          classobj[vProp] = interfaceMembers[vProp];
         }
       }
     }
   }
 };
+
 
 /**
  * Determine if class exists
@@ -456,4 +480,48 @@ qx.Clazz.define = function(name, config)
  */
 qx.Clazz.isDefined = function(name) {
   return this.registry[name] != null;
+};
+
+
+/**
+ * Include all features of the Mixin into the given Class. The Mixin must not include
+ * any functions or properties which are already available. This is only possible using
+ * the hackier patch method.
+ *
+ * @param target {Function} A class previously defined where the stuff should be attached.
+ * @param mixin {Mixin} Include all features of this Mixin
+ * @param overwrite {Boolean ? false} Overwrite existing functions and properties
+ */
+qx.Clazz.__mixin = function(target, mixin, overwrite)
+{
+  // Needs implementation
+
+
+};
+
+
+/**
+ * Include all features of the Mixin into the given Class. The Mixin must not include
+ * any functions or properties which are already available. This is only possible using
+ * the hackier patch method.
+ *
+ * @param target {Function} A class previously defined where the stuff should be attached.
+ * @param mixin {Mixin} Include all features of this Mixin
+ */
+qx.Clazz.include = function(target, mixin) {
+  return qx.Clazz.__mixin(target, mixin, false);
+};
+
+
+/**
+ * Include all features of the Mixin into the given Class. The Mixin can include features
+ * which are already defined in the target Class. Existing stuff gets overwritten. Please
+ * be aware that this functionality is not the preferred way. You can damage working
+ * Classes and features.
+ *
+ * @param target {Function} A class previously defined where the stuff should be attached.
+ * @param mixin {Mixin} Include all features of this Mixin
+ */
+qx.Clazz.patch = function(target, mixin) {
+  return qx.Clazz.__mixin(target, mixin, true);
 };

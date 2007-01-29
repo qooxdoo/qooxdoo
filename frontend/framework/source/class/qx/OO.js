@@ -40,7 +40,6 @@ qx.Class.setter = {};
 qx.Class.getter = {};
 qx.Class.resetter = {};
 qx.Class.values = {};
-qx.Class.propertyNumber = 0;
 
 
 
@@ -710,8 +709,6 @@ qx.Class.changeProperty = qx.OO._createProperty;
 
 qx.Class.addProperty = function(p)
 {
-  qx.OO.propertyNumber++;
-
   qx.OO._createProperty(p);
 
   // add property to (all) property list

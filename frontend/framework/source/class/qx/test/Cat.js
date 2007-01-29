@@ -17,17 +17,10 @@ qx.Clazz.define("qx.test.Cat",
 
   properties :
   {
-    /** This is the documentation for the color property */
     color : {
-      init : "red"
-    },
-
-    /** This is the documentation for the oldStyle property */
-    oldStyle : {
-      defaultValue : 1,
-      possibleValues : [ 1, 2, 3 ],
+      compat : true,
       type : "string",
-      instance : "qx.core.Object"
+      defaultValue : "brown"
     }
   },
 
