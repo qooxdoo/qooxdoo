@@ -450,121 +450,126 @@ release-sdk-dos:
 	@cd release/temp/sdk/dos; $(CMD_REMOVE) qooxdoo-$(FRAMEWORK_VERSION)-sdk.zip; $(CMD_ZIP_CREATE) ../../../qooxdoo-$(FRAMEWORK_VERSION)-sdk.zip qooxdoo-$(FRAMEWORK_VERSION)-sdk
 	
 ready:
-	@REQUIREMENTS="python make rsync gettext xgettext msginit msgmerge bash tar gzip zip unzip"; \
+	@BASE_REQUIREMENTS="python rsync"; \
+	I18N_REQUIREMENTS="gettext xgettext msginit msgmerge"; \
+	EXT_REQUIREMENTS="tar gzip zip unzip"; \
 	OPTIONALS="wget curl"; \
-	FAILED_REQS=; \
+	FAILED_BASE=; \
+	FAILED_I18N=; \
+	FAILED_EXT=; \
 	FAILED_OPTS=; \
 	echo ;\
 	echo "  CHECKING ENVIRONMENT"; \
 	echo "----------------------------------------------------------------------------"; \
 	echo ;\
-	# checking for requirements - remembering any unmet requirement \
-	for REQ in $$REQUIREMENTS; do \
-		check="    * checking for $$REQ ..."; \
+	# checking for base requirements - remembering any unmet requirement \
+	echo "    Checking for basic packages..."; \
+	for REQ in $$BASE_REQUIREMENTS; do \
 		if ! which $$REQ > /dev/null 2>&1; then \
-			FAILED_REQS="$$FAILED $$REQ"; \
-			echo "$$check no"; \
-		else \
-			echo "$$check yes"; \
+			FAILED_BASE="$$FAILED_BASE $$REQ"; \
+		fi \
+	done; \
+	\
+	# checking for i18n requirements - remembering any unmet requirement \
+	echo "    Checking for i18n packages..."; \
+	for REQ in $$I18N_REQUIREMENTS; do \
+		if ! which $$REQ > /dev/null 2>&1; then \
+			FAILED_I18N="$$FAILED_I18N $$REQ"; \
+		fi \
+	done; \
+	\
+	# checking for extended requirements - remembering any unmet requirement \
+	echo "    Checking for extended packages..."; \
+	for REQ in $$EXT_REQUIREMENTS; do \
+		if ! which $$REQ > /dev/null 2>&1; then \
+			FAILED_EXT="$$FAILED_EXT $$REQ"; \
 		fi \
 	done; \
 	\
 	# checking for optional software - remembering any not installed optional \
+	echo "    Checking for optional packages..."; \
 	for OPT in $$OPTIONALS; do \
-		check="    * checking for $$OPT..."; \
 		if ! which $$OPT > /dev/null 2>&1; then \
-			FAILED_OPTS="$$OPTS $$OPT"; \
-			echo "$$check no"; \
-		else \
-			echo "$$check yes"; \
+			FAILED_OPTS="$$FAILED_OPTS $$OPT"; \
 		fi \
 	done; \
 	\
-	# check for failed requirments - list all unmet requirements \
-	if [ $$FAILED_REQS ]; then \
+	echo ; \
+	# check for failed requirements - list all unmet requirements \
+	if [ "$$FAILED_BASE" ]; then \
 		echo ;\
-		echo "  FOLLOWING REQUIREMENTS FOR QOOXDOO ARE NOT MET:"; \
-		for FAILED_REQ in $$FAILED_REQS; do \
+		echo "    FOLLOWING BASE PACKAGES ARE MISSING:"; \
+		for FAILED_REQ in $$FAILED_BASE; do \
 			case $$FAILED_REQ in \
 				"python" ) \
-				echo "    * python (a script language, at least version 2.3)"; \
-				echo ;\
-				;;\
-				\
-				"make" ) \
-				echo "    * make (a build tool)"; \
-				echo ;\
+				echo "      * python (a script language, at least version 2.3)"; \
 				;;\
 				\
 				"rsync" ) \
-				echo "    * rsync (a file synchronizer)"; \
-				echo ;\
-				;;\
-				\
-				"gettext" ) \
-				echo "    * gettext (internationalization)"; \
-				echo ;\
-				;;\
-				\
-				"xgettext" ) \
-				echo "    * gettext-tools (xgettext)"; \
-				echo ;\
-				;;\
-				\
-				"msginit" ) \
-				echo "    * gettext-tools (msginit)"; \
-				echo ;\
-				;;\
-				\
-				"msgmerge" ) \
-				echo "    * gettext-tools (msgmerge)"; \
-				echo ;\
-				;;\
-				\
-				"bash" ) \
-				echo "    * bash (a command shell)"; \
-				echo ;\
-				;;\
-				\
-				"tar" ) \
-				echo "    * tar (compressor and decompressor)"; \
-				echo ;\
-				;;\
-				\
-				"gzip" ) \
-				echo "    * gzip (compressor and decompressor)"; \
-				echo ;\
-				;;\
-				\
-				"zip" ) \
-				echo "    * zip (compressor)"; \
-				echo ;\
-				;;\
-				\
-				"unzip" ) \
-				echo "    * unzip (decompressor)"; \
-				echo ;\
-				;;\
-			esac; \
-		done; \
-		echo "    Please take a look at the requirements page at http://qooxdoo.org/documentation/user_manual/requirements"; \
-	# list all not installed optional software packages \
-	elif [ $$FAILED_OPTS ]; then \
-		for FAILED_OPT in $$FAILED_OPTS; do \
-			case $$FAILED_OPT in \
-				"wget" | "curl" ) \
-				echo ; \
-				echo "  FOLLOWING SOFTWARE PACKAGES ARE OPTIONAL TO INSTALL:"; \
-				echo "    * wget or curl (for downloading additional locale information)"; \
+				echo "      * rsync (a file synchronizer)"; \
 				;;\
 			esac; \
 		done; \
 	fi; \
-	\
-	# if all requirements are met output an success message \
-	if [ ! $$FAILED_REQS ]; then \
+	if [ "$$FAILED_I18N" ]; then \
 		echo ;\
-		echo "  ALL REQUIREMENTS FOR QOOXDOO ARE MET"; \
+		echo "    FOLLOWING I18N PACKAGES ARE MISSING:"; \
+		for FAILED_REQ in $$FAILED_I18N; do \
+			case $$FAILED_REQ in \
+				"gettext" ) \
+				echo "      * gettext"; \
+				;;\
+				\
+				"xgettext" ) \
+				echo "      * xgettext (gettext-tools)"; \
+				;;\
+				\
+				"msginit" ) \
+				echo "      * msginit (gettext-tools)"; \
+				;;\
+				\
+				"msgmerge" ) \
+				echo "      * msgmerge (gettext-tools)"; \
+				;;\
+				\
+			esac; \
+		done; \
+	fi; \
+	if [ "$$FAILED_EXT" ]; then \
+		echo ;\
+		echo "    FOLLOWING EXTENDED PACKAGES ARE MISSING:"; \
+		for FAILED_REQ in $$FAILED_EXT; do \
+			case $$FAILED_REQ in \
+				"tar" ) \
+				echo "      * tar (compressor and decompressor)"; \
+				;;\
+				\
+				"gzip" ) \
+				echo "      * gzip (compressor and decompressor)"; \
+				;;\
+				\
+				"zip" ) \
+				echo "      * zip (compressor)"; \
+				;;\
+				\
+				"unzip" ) \
+				echo "      * unzip (decompressor)"; \
+				;;\
+			esac; \
+		done; \
+	fi; \
+	if [[ ! "$$FAILED_BASE" && ! "$$FAILED_I18N" && ! "$$FAILED_EXT" ]]; then \
+		echo ; \
+		echo "    *** ALL PACKAGES FOR QOOXDOO ARE INSTALLED ***"; \
+	else \
+		echo ; \
+		echo "    Please take a look at the requirements page at http://qooxdoo.org/documentation/user_manual/requirements"; \
+	fi;\
+	# list all not installed optional software packages \
+	if [ "$$FAILED_OPTS" ]; then \
+		echo ; \
+		echo "    FOLLOWING PACKAGES ARE OPTIONAL TO INSTALL:"; \
+		echo "      * wget or curl (for downloading additional locale information)"; \
 	fi; \
 	\
 	exit 0;
