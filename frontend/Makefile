@@ -448,3 +448,123 @@ release-sdk-dos:
 
 	@echo "  * Generating zip archive..."
 	@cd release/temp/sdk/dos; $(CMD_REMOVE) qooxdoo-$(FRAMEWORK_VERSION)-sdk.zip; $(CMD_ZIP_CREATE) ../../../qooxdoo-$(FRAMEWORK_VERSION)-sdk.zip qooxdoo-$(FRAMEWORK_VERSION)-sdk
+	
+ready:
+	@REQUIREMENTS="python make rsync gettext xgettext msginit msgmerge bash tar gzip zip unzip"; \
+	OPTIONALS="wget curl"; \
+	FAILED_REQS=; \
+	FAILED_OPTS=; \
+	echo ;\
+	echo "  CHECKING ENVIRONMENT"; \
+	echo "----------------------------------------------------------------------------"; \
+	echo ;\
+	# checking for requirements - remembering any unmet requirement \
+	for REQ in $$REQUIREMENTS; do \
+		check="    * checking for $$REQ ..."; \
+		if ! which $$REQ > /dev/null 2>&1; then \
+			FAILED_REQS="$$FAILED $$REQ"; \
+			echo "$$check no"; \
+		else \
+			echo "$$check yes"; \
+		fi \
+	done; \
+	\
+	# checking for optional software - remembering any not installed optional \
+	for OPT in $$OPTIONALS; do \
+		check="    * checking for $$OPT..."; \
+		if ! which $$OPT > /dev/null 2>&1; then \
+			FAILED_OPTS="$$OPTS $$OPT"; \
+			echo "$$check no"; \
+		else \
+			echo "$$check yes"; \
+		fi \
+	done; \
+	\
+	# check for failed requirments - list all unmet requirements \
+	if [ $$FAILED_REQS ]; then \
+		echo ;\
+		echo "  FOLLOWING REQUIREMENTS FOR QOOXDOO ARE NOT MET:"; \
+		for FAILED_REQ in $$FAILED_REQS; do \
+			case $$FAILED_REQ in \
+				"python" ) \
+				echo "    * python (a script language, at least version 2.3)"; \
+				echo ;\
+				;;\
+				\
+				"make" ) \
+				echo "    * make (a build tool)"; \
+				echo ;\
+				;;\
+				\
+				"rsync" ) \
+				echo "    * rsync (a file synchronizer)"; \
+				echo ;\
+				;;\
+				\
+				"gettext" ) \
+				echo "    * gettext (internationalization)"; \
+				echo ;\
+				;;\
+				\
+				"xgettext" ) \
+				echo "    * gettext-tools (xgettext)"; \
+				echo ;\
+				;;\
+				\
+				"msginit" ) \
+				echo "    * gettext-tools (msginit)"; \
+				echo ;\
+				;;\
+				\
+				"msgmerge" ) \
+				echo "    * gettext-tools (msgmerge)"; \
+				echo ;\
+				;;\
+				\
+				"bash" ) \
+				echo "    * bash (a command shell)"; \
+				echo ;\
+				;;\
+				\
+				"tar" ) \
+				echo "    * tar (compressor and decompressor)"; \
+				echo ;\
+				;;\
+				\
+				"gzip" ) \
+				echo "    * gzip (compressor and decompressor)"; \
+				echo ;\
+				;;\
+				\
+				"zip" ) \
+				echo "    * zip (compressor)"; \
+				echo ;\
+				;;\
+				\
+				"unzip" ) \
+				echo "    * unzip (decompressor)"; \
+				echo ;\
+				;;\
+			esac; \
+		done; \
+		echo "    Please take a look at the requirements page at http://qooxdoo.org/documentation/user_manual/requirements"; \
+	# list all not installed optional software packages \
+	elif [ $$FAILED_OPTS ]; then \
+		for FAILED_OPT in $$FAILED_OPTS; do \
+			case $$FAILED_OPT in \
+				"wget" | "curl" ) \
+				echo ; \
+				echo "  FOLLOWING SOFTWARE PACKAGES ARE OPTIONAL TO INSTALL:"; \
+				echo "    * wget or curl (for downloading additional locale information)"; \
+				;;\
+			esac; \
+		done; \
+	fi; \
+	\
+	# if all requirements are met output an success message \
+	if [ ! $$FAILED_REQS ]; then \
+		echo ;\
+		echo "  ALL REQUIREMENTS FOR QOOXDOO ARE MET"; \
+	fi; \
+	\
+	exit 0;
