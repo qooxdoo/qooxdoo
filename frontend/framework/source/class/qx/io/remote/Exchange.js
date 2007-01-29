@@ -417,6 +417,15 @@ qx.Proto.send = function()
     vNeeds.fileUpload = true;
   }
 
+  // See if there are any programtic form fields requested
+  for (var field in vRequest.getFormFields()) {
+    // There are.
+    vNeeds.programaticFormFields = true;
+
+    // No need to search further
+    break;
+  }
+
   var vTransportImpl, vTransport;
   for (var i=0, l=vUsage.length; i<l; i++)
   {
