@@ -20,6 +20,7 @@
 
 /* ************************************************************************
 
+#module(oo)
 #module(core)
 #require(qx.Clazz)
 
@@ -29,15 +30,18 @@ qx.Clazz.define("qx.Mixin",
 {
   statics :
   {
-    /** registers all defined mixins */
-    _registry : {},
+    /**
+     * Registers all defined Mixins
+     */
+    registry : {},
+
 
     /**
-     * Mixin definition
+     * Mixin config
      *
      * Example:
      * <pre>
-     * qx.Mixin.define("fullname",
+     * qx.Mixin.define("name",
      * {
      *   "includes": [SuperMixins],
      *
@@ -54,144 +58,168 @@ qx.Clazz.define("qx.Mixin",
      * });
      * </pre>
      *
-     * @type static
-     * @name define
-     * @access public
-     * @param fullname {String} name of the mixin
-     * @param definition {Map} definition structure
+     * @param name {String} name of the mixin
+     * @param config {Map} config structure
      * @return {void}
      * @throws TODOC
      */
-    define : function(fullname, definition)
+    define : function(name, config)
     {
+      var key, value;
+      var extend, properties = {}, members = {};
+
+
+
+
       /*
       ---------------------------------------------------------------------------
-        Setting up namespace
+        Read in configuration map
       ---------------------------------------------------------------------------
       */
 
-      var vSplitName = fullname.split(".");
-      var vNameLength = vSplitName.length;
-      var vTempObject = window;
-
-      // Setting up namespace
-      for (var i=0; i<vNameLength; i++)
+      for (key in config)
       {
-        if (typeof vTempObject[vSplitName[i]] === "undefined") {
-          vTempObject[vSplitName[i]] = {};
+        value = config[key];
+
+        if (value == null) {
+          throw new Error("Invalid key '" + key + "' in class '" + name + "'! The value is undefined/null!");
         }
 
-        vTempObject = vTempObject[vSplitName[i]];
-      }
-
-
-
-
-      /*
-      ---------------------------------------------------------------------------
-        Basic data structure
-      ---------------------------------------------------------------------------
-      */
-
-      qx._Mixin = vTempObject;
-      qx._Mixin._members = {};
-
-      var vProp;
-
-      if (typeof definition !== "undefined")
-      {
-        /*
-         * non-trivial mixin definition
-         */
-
-        /*
-        ---------------------------------------------------------------------------
-          Mixins to include
-        ---------------------------------------------------------------------------
-        */
-
-        var vSuper = definition["includes"];
-
-        if (typeof vSuper !== "undefined")
+        switch(key)
         {
-          if (vSuper instanceof Array)
-          {
-            var vTotal = vSuper.length;
-
-            for (i=0; i<vTotal; i++)
-            {
-              if (typeof vSuper[i] === "undefined" || !vSuper[i].isMixin) {
-                throw new Error("Could not modify mixin " + fullname + " due to invalid mixin no. " + (i + 1));
-              }
-
-              for (vProp in vSuper[i]._members) {
-                qx._Mixin._members[vProp] = vSuper[i]._members[vProp];
-              }
+          case "extend":
+            // Normalize to Array
+            if (!(value instanceof Array)) {
+              value = [value];
             }
-          }
-          else
-          {
-            throw new Error("Could not modify mixin " + fullname + "due to invalid mixin assignment.");
-          }
-        }
 
+            extend = value;
+            break;
 
+          case "properties":
+            properties = value;
+            break;
 
+          case "members":
+            members = value;
+            break;
 
-        /*
-        ---------------------------------------------------------------------------
-          Mixin members
-        ---------------------------------------------------------------------------
-        */
-
-        var vMembers = definition["members"];
-
-        if (typeof vMembers !== "undefined")
-        {
-          for (vProp in vMembers) {
-            qx._Mixin._members[vProp] = vMembers[vProp];
-          }
+          default:
+            throw new Error("The configuration key '" + key + "' in class '" + name + "' is not allowed!");
         }
       }
 
 
 
 
+
+
       /*
       ---------------------------------------------------------------------------
-        Mixin registration
+        Create Mixin
       ---------------------------------------------------------------------------
       */
 
-      qx.Mixin._registry[fullname] = qx._Mixin;
-      qx._Mixin.name = fullname;
-      qx._Mixin.isMixin = true;
+      // Initialize object
+      var obj = {};
+
+      // Create namespace
+      var basename = qx.Clazz.createNamespace(name, obj);
+
+      // Add to registry
+      qx.Mixin.registry[name] = obj;
+
+      // Attach data fields
+      obj.name = name;
+      obj.basename = basename;
+      obj.properties = properties;
+      obj.members = members;
+
+
+
+
+
+      /*
+      ---------------------------------------------------------------------------
+        Extend Mixin
+      ---------------------------------------------------------------------------
+      */
+
+      if (extend)
+      {
+        var emembers, eproperties;
+
+        if (qx.DEBUG) {
+          arguments.callee.statics.compatible(extend, 'extend list in Mixin "' + name + '".');
+        }
+
+        for (var i=0, l=extend.length; i<l; i++)
+        {
+          // Attach members
+          emembers = extend[i].members;
+          for (key in emembers) {
+            members[key] = emembers[key];
+          }
+
+          // Attach members
+          eproperties = extend[i].properties;
+          for (key in eproperties) {
+            properties[key] = eproperties[key];
+          }
+        }
+      }
     },
 
-    /**
-     * Returns a mixin by name
-     *
-     * @type static
-     * @name byName
-     * @access public
-     * @param fullname {String} mixin name to check
-     * @return {Object ? void} mixin object
-     */
-    byName : function(fullname) {
-      return arguments.callee.statics._registry[fullname];
-    },
 
     /**
-     * Determine if mixin exists
+     * Determine if Mixin exists
      *
-     * @type static
-     * @name isDefined
-     * @access public
-     * @param fullname {String} mixin name to check
-     * @return {Boolean} true if mixin exists
+     * @param name {String} Mixin name to check
+     * @return {Boolean} true if Mixin exists
      */
-    isDefined : function(fullname) {
-      return arguments.callee.statics.byName(fullname) !== undefined;
+    isDefined : function(name) {
+      return arguments.callee.statics.byName(name) !== undefined;
+    },
+
+
+    /**
+     * Checks a list of Mixins for conflicts.
+     *
+     * @param list {Array} List of Mixins
+     */
+    compatible : function(list, msg)
+    {
+      // Preflight check to test for double-definitions
+      if (list.length > 1)
+      {
+        var kmembers = {};
+        var kproperties = {};
+
+        for (var i=0, l=list.length; i<l; i++)
+        {
+          // Check members
+          emembers = list[i].members;
+          for (key in emembers)
+          {
+            if (key in kmembers) {
+              throw new Error('Double defintion of member "' + key + '" through ' + msg);
+            }
+
+            kmembers[key] = true;
+          }
+
+          // Check properties
+          eproperties = list[i].properties;
+          for (key in eproperties)
+          {
+            if (key in kproperties) {
+              throw new Error('Double defintion of property "' + key + '" through ' + msg);
+            }
+
+            kproperties[key] = true;
+          }
+        }
+      }
     }
   }
 });
