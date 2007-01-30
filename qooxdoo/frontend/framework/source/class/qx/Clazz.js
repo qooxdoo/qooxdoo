@@ -87,8 +87,11 @@ qx.Clazz.createNamespace = function(name, object)
  *
  *   statics:
  *   {
- *     static_property1: 3.141,
- *     static_method1: function() {}
+ *     CONSTANT : 3.141,
+ *
+ *     publicMethod: function() {},
+ *     _protectedMethod: function() {},
+ *     __privateMethod: function() {}
  *   },
  *
  *   properties:
@@ -98,11 +101,14 @@ qx.Clazz.createNamespace = function(name, object)
  *
  *   members:
  *   {
- *     public_property1: 3.141,
- *     public_method1: function() {},
+ *     publicProperty: "foo",
+ *     publicMethod: function() {},
  *
- *     _protected_property: 3.141,
- *     _protected_method1: function() {},
+ *     _protectedProperty: "bar",
+ *     _protectedMethod: function() {},
+ *
+ *     __privateProperty: "baz",
+ *     __privateMethod: function() {}
  *   }
  * });
  *
@@ -128,10 +134,8 @@ qx.Clazz.createNamespace = function(name, object)
  */
 qx.Clazz.define = function(name, config)
 {
-  console.log("Define: " + name);
-
   var key, value;
-  var superclass, interfaces, mixins, settings, construct, statics, properties, members;
+  var superclass, interfaces, mixins, settings, init, statics, properties, members;
 
 
 
@@ -178,7 +182,7 @@ qx.Clazz.define = function(name, config)
         break;
 
       case "init":
-        construct = value;
+        init = value;
         break;
 
       case "statics":
@@ -211,7 +215,7 @@ qx.Clazz.define = function(name, config)
 
   if (!superclass)
   {
-    if (construct) {
+    if (init) {
       throw new Error("Superclass is undefined, but constructor was given for class: " + name);
     }
 
@@ -220,12 +224,12 @@ qx.Clazz.define = function(name, config)
   }
   else
   {
-    if (!construct) {
+    if (!init) {
       throw new Error("Constructor is missing for class: " + name);
     }
 
     // Store class pointer
-    var classobj = construct;
+    var classobj = init;
   }
 
   // Create namespace
@@ -319,10 +323,10 @@ qx.Clazz.define = function(name, config)
   classobj.superclass = protoobj.superclass = superclass;
 
   // Store correct constructor
-  classobj.constructor = protoobj.constructor = construct;
+  classobj.constructor = protoobj.constructor = init;
 
   // Store base constructor to constructor
-  construct.base = superclass;
+  init.base = superclass;
 
   // Compatibility to old properties etc.
   qx.Proto = protoobj;
@@ -434,6 +438,8 @@ qx.Clazz.define = function(name, config)
 
   if (interfaces)
   {
+    // Only validate members in debug mode.
+    // There is nothing more needed for builds
     if (qx.DEBUG)
     {
       var interfaceMembers;
@@ -452,7 +458,8 @@ qx.Clazz.define = function(name, config)
       }
     }
 
-    // Copy statics
+    // Attach statics
+    // Validation is done in qx.Interface
     var interfaceStatics;
 
     for (var i=0, l=interfaces.length; i<l; i++)
