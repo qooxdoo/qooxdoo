@@ -88,11 +88,7 @@ qx.Proto.format = function(num) {
     num = Math.round(num * mover) / mover;
   }
 
-  if (num != 0) {
-    var integerDigits = String(Math.floor(num)).length;
-  } else {
-    integerDigits = 1;
-  }
+  var integerDigits = String(Math.floor(num)).length;
 
   var numStr = "" + num;
 
