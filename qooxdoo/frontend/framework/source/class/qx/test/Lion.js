@@ -9,6 +9,10 @@ qx.Clazz.define("qx.test.Lion",
     arguments.callee.base.call(this);
   },
 
+  include : [
+    qx.test.MFat
+  ],
+
   properties :
   {
     color : {

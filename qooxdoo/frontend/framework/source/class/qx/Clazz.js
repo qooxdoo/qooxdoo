@@ -20,11 +20,12 @@
 
 /* ************************************************************************
 
-#id(qx.Clazz)
+#module(oo)
 #module(core)
 #load(qx.Mixin)
 #load(qx.Interface)
 #load(qx.Settings)
+#load(qx.lang.Core)
 
 ************************************************************************ */
 
@@ -34,6 +35,12 @@
 if (!window.qx) {
   qx = {};
 }
+
+
+/**
+ * Enable debugging
+ */
+qx.DEBUG = true;
 
 
 /**
@@ -58,6 +65,7 @@ qx.Clazz.define("qx.Clazz",
      * Stores all defined classes
      */
     registry : {},
+
 
     /**
      * Creates a given namespace and assigns the given object to the last part.
@@ -88,6 +96,7 @@ qx.Clazz.define("qx.Clazz",
       // return last part name (e.g. classname)
       return part
     },
+
 
     /**
      * Class config
@@ -130,9 +139,9 @@ qx.Clazz.define("qx.Clazz",
      *
      * @param name {String} class name
      * @param config {Map ? null} config structure
-     * @param config.extend {Function ? null} superclass class
-     * @param config.implement {Array ? null} list of interfaces that need to be implemented
-     * @param config.include {Array ? null} list of mixins to include
+     * @param config.extend {Function ? null} extend class
+     * @param config.implement {Array ? null} list of implement that need to be implemented
+     * @param config.include {Array ? null} list of include to include
      * @param config.settings {Map ? null} hash of settings for this class
      * @param config.init {Function ? null} constructor method to run on each initialization
      * @param config.statics {Map ? null} hash of static properties and methods ("class members")
@@ -148,7 +157,7 @@ qx.Clazz.define("qx.Clazz",
     define : function(name, config)
     {
       var key, value;
-      var superclass, interfaces, mixins, settings, init, statics, properties, members;
+      var extend, implement, include, settings, init, statics, properties, members;
 
 
 
@@ -165,29 +174,31 @@ qx.Clazz.define("qx.Clazz",
         value = config[key];
 
         if (value == null) {
-          throw new Error("Invalid key '" + key + "' in class '" + name + "'! The value is undefined/null!");
+          throw new Error('Invalid key "' + key + '" in class "' + name + '"! The value is undefined/null!');
         }
 
         switch(key)
         {
           case "extend":
-            superclass = value;
+            extend = value;
             break;
 
           case "implement":
-            // Normalize to array structure
+            // Normalize to Array
             if (!(value instanceof Array)) {
               value = [value];
             }
-            interfaces = value;
+
+            implement = value;
             break;
 
           case "include":
-            // Normalize to array structure
+            // Normalize to Array
             if (!(value instanceof Array)) {
               value = [value];
             }
-            mixins = value;
+
+            include = value;
             break;
 
           case "settings":
@@ -211,7 +222,7 @@ qx.Clazz.define("qx.Clazz",
             break;
 
           default:
-            throw new Error("The configuration key '" + key + "' in class '" + name + "' is not allowed!");
+            throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
         }
       }
 
@@ -222,41 +233,41 @@ qx.Clazz.define("qx.Clazz",
 
       /*
       ---------------------------------------------------------------------------
-        Create class
+        Create Class
       ---------------------------------------------------------------------------
       */
 
-      if (!superclass)
+      if (!extend)
       {
         if (init) {
-          throw new Error("Superclass is undefined, but constructor was given for class: " + name);
+          throw new Error('Superclass is undefined, but constructor was given for class: "' + name + "'");
         }
 
         // Create empty/non-empty class
-        var classobj = {};
+        var obj = {};
       }
       else
       {
         if (!init) {
-          throw new Error("Constructor is missing for class: " + name);
+          throw new Error('Constructor is missing for class "' + name + "'");
         }
 
         // Store class pointer
-        var classobj = init;
+        var obj = init;
       }
 
       // Create namespace
-      var basename = qx.Clazz.createNamespace(name, classobj);
+      var basename = qx.Clazz.createNamespace(name, obj);
 
       // Store names in constructor/object
-      classobj.classname = name;
-      classobj.basename = basename;
+      obj.classname = name;
+      obj.basename = basename;
 
       // Store class reference in global class registry
-      qx.Clazz.registry[name] = classobj;
+      qx.Clazz.registry[name] = obj;
 
       // Compatibility to old properties etc.
-      qx.Class = classobj;
+      qx.Class = obj;
       qx.Proto = null;
 
 
@@ -291,13 +302,13 @@ qx.Clazz.define("qx.Clazz",
       {
         for (var vProp in statics)
         {
-          classobj[vProp] = statics[vProp];
+          obj[vProp] = statics[vProp];
 
           // Added helper stuff to functions
           if (typeof statics[vProp] == "function")
           {
             // Configure class
-            classobj[vProp].statics = classobj;
+            obj[vProp].statics = obj;
           }
         }
       }
@@ -315,34 +326,34 @@ qx.Clazz.define("qx.Clazz",
       */
 
       // For static classes we're done now
-      if (!superclass) {
+      if (!extend) {
         return;
       }
 
       // Use helper function/class to save the unnecessary constructor call while
       // setting up inheritance. Safari does not support "new Function"
       var helper = function() {};
-      helper.prototype = superclass.prototype;
-      var protoobj = new helper;
+      helper.prototype = extend.prototype;
+      var prot = new helper;
 
       // Apply prototype to new helper instance
-      classobj.prototype = protoobj;
+      obj.prototype = prot;
 
       // Store names in prototype
-      protoobj.classname = name;
-      protoobj.basename = basename;
+      prot.classname = name;
+      prot.basename = basename;
 
-      // Store reference to superclass class
-      classobj.superclass = protoobj.superclass = superclass;
+      // Store reference to extend class
+      obj.extend = prot.extend = extend;
 
       // Store correct constructor
-      classobj.constructor = protoobj.constructor = init;
+      obj.constructor = prot.constructor = init;
 
       // Store base constructor to constructor
-      init.base = superclass;
+      init.base = extend;
 
       // Compatibility to old properties etc.
-      qx.Proto = protoobj;
+      qx.Proto = prot;
 
 
 
@@ -355,17 +366,29 @@ qx.Clazz.define("qx.Clazz",
       ---------------------------------------------------------------------------
       */
 
-      if (mixins)
+      if (include)
       {
-        var mixinMembers;
+        var imembers, iproperties;
 
-        for (var i=0, l=mixins.length; i<l; i++)
+        if (qx.DEBUG) {
+          qx.Mixin.compatible(include, 'include list in Class "' + name + '".');
+        }
+
+        for (var i=0, l=include.length; i<l; i++)
         {
           // Attach members
-          mixinMembers = mixins[i]._members;
+          // Directly attach them. This is because we must not
+          // modify them e.g. attaching base etc. because they may
+          // used by multiple classes
+          imembers = include[i].members;
+          for (var key in imembers) {
+            prot[key] = imembers[key];
+          }
 
-          for (var key in mixinMembers) {
-            protoobj[key] = mixinMembers[key];
+          // Attach properties
+          iproperties = include[i].properties;
+          for (var key in iproperties) {
+            properties[key] = iproperties[key];
           }
         }
       }
@@ -396,7 +419,7 @@ qx.Clazz.define("qx.Clazz",
           } else if (value.compat) {
             qx.OO.addProperty(value);
           } else {
-            throw new Error("Could not handle property definition: " + key + " in Class " + name);
+            throw new Error('Could not handle property definition "' + key + '" in Class "' + name + "'");
           }
         }
       }
@@ -415,7 +438,7 @@ qx.Clazz.define("qx.Clazz",
 
       if (members)
       {
-        var superprotoobj = superclass.prototype;
+        var superprotoobj = extend.prototype;
 
         for (var key in members)
         {
@@ -435,19 +458,19 @@ qx.Clazz.define("qx.Clazz",
             }
           }
           // Attach member
-          value = protoobj[key] = members[key];
+          value = prot[key] = members[key];
 
           // Added helper stuff to functions
           if (typeof value === "function")
           {
             if (superprotoobj[key])
             {
-              // Configure superclass (named base here)
+              // Configure extend (named base here)
               value.base = superprotoobj[key];
             }
 
             // Configure class [TODO: find better name for statics here]
-            value.statics = classobj;
+            value.statics = obj;
           }
         }
       }
@@ -464,7 +487,7 @@ qx.Clazz.define("qx.Clazz",
       ---------------------------------------------------------------------------
       */
 
-      if (interfaces)
+      if (implement)
       {
         // Only validate members in debug mode.
         // There is nothing more needed for builds
@@ -472,15 +495,15 @@ qx.Clazz.define("qx.Clazz",
         {
           var interfaceMembers;
 
-          for (var i=0, l=interfaces.length; i<l; i++)
+          for (var i=0, l=implement.length; i<l; i++)
           {
             // Validate members
-            interfaceMembers = interfaces[i]._members;
+            interfaceMembers = implement[i]._members;
 
             for (key in interfaceMembers)
             {
-              if (typeof protoobj[key] != "function") {
-                throw new Error("Implementation of method " + key + "() is missing in Class " + name + " required by interface " + interfaces[i].name);
+              if (typeof prot[key] != "function") {
+                throw new Error('Implementation of method "' + key + '"() is missing in Class "' + name + '" required by interface "' + implement[i].name + "'");
               }
             }
           }
@@ -490,16 +513,17 @@ qx.Clazz.define("qx.Clazz",
         // Validation is done in qx.Interface
         var interfaceStatics;
 
-        for (var i=0, l=interfaces.length; i<l; i++)
+        for (var i=0, l=implement.length; i<l; i++)
         {
-          interfaceStatics = interfaces[i]._statics;
+          interfaceStatics = implement[i]._statics;
 
           for (key in interfaceStatics) {
-            classobj[key] = interfaceStatics[key];
+            obj[key] = interfaceStatics[key];
           }
         }
       }
     },
+
 
     /**
      * Determine if class exists
