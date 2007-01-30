@@ -707,6 +707,8 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     else:
       print "  * Optimizing variables: ",
     
+    print sortedIncludeList
+
     for fileId in sortedIncludeList:
       if options.verbose:
         print "    - %s" % fileId
@@ -719,7 +721,6 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     if not options.verbose:
       print
 
-    
     
   ######################################################################
   #  LOCAL VARIABLE OPTIMIZATION
