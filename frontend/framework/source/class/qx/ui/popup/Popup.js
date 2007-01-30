@@ -36,12 +36,12 @@ function()
   if (this._isFocusRoot) {
     this.activateFocusRoot();
   }
-  
-  // Firefox on OSX has a rendering bug regarding absolutely posiotionoed elements over
+
+  // Firefox on Mac OS X has a rendering bug regarding absolutely positioned elements over
   // scrollbars. Setting the overflow property to "auto" makes this bug less annoying.
   // http://bugzilla.qooxdoo.org/show_bug.cgi?id=277
   this.setOverflow("auto");
-  
+
 });
 
 qx.Proto._isFocusRoot = true;
@@ -230,7 +230,7 @@ qx.Proto._minZIndex = 1e6;
 
 qx.Proto.bringToFront = function()
 {
-	//this.setOverflow("auto");
+  //this.setOverflow("auto");
   this.forceZIndex(Infinity);
   this._sendTo();
 }
