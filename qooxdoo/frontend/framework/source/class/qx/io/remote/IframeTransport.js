@@ -133,29 +133,27 @@ qx.Proto.send = function()
 
 
   // --------------------------------------
-  //   Adding parameters, if not POST
+  //   Adding parameters
   // --------------------------------------
 
-  if (vMethod != qx.net.Http.METHOD_POST) {
-    var vParameters = this.getParameters();
-    var vParametersList = [];
-    for (var vId in vParameters) {
-      var value = vParameters[vId];
-      if (value instanceof Array) {
-        for (var i = 0; i < value.length; i++) {
-          vParametersList.push(encodeURIComponent(vId) + "=" +
-                               encodeURIComponent(value[i]));
-        }
-      } else {
+  var vParameters = this.getParameters();
+  var vParametersList = [];
+  for (var vId in vParameters) {
+    var value = vParameters[vId];
+    if (value instanceof Array) {
+      for (var i = 0; i < value.length; i++) {
         vParametersList.push(encodeURIComponent(vId) + "=" +
-                             encodeURIComponent(value));
+                             encodeURIComponent(value[i]));
       }
+    } else {
+      vParametersList.push(encodeURIComponent(vId) + "=" +
+                           encodeURIComponent(value));
     }
+  }
 
-    if (vParametersList.length > 0) {
-      vUrl += (vUrl.indexOf("?") >= 0 ?
-               "&" : "?") + vParametersList.join("&");
-    }
+  if (vParametersList.length > 0) {
+    vUrl += (vUrl.indexOf("?") >= 0 ?
+             "&" : "?") + vParametersList.join("&");
   }
 
 
