@@ -88,8 +88,8 @@ qx.Proto.format = function(num) {
     num = Math.round(num * mover) / mover;
   }
 
-  if (num != 0) { // Math.log(0) = -Infinity
-    var integerDigits = Math.max(parseInt(Math.log(num) / Math.LN10) + 1, 1);
+  if (num != 0) {
+    var integerDigits = String(Math.floor(num)).length;
   } else {
     integerDigits = 1;
   }
