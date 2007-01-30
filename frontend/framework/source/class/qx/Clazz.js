@@ -245,7 +245,7 @@ qx.Clazz.define("qx.Clazz",
       }
 
       // Create namespace
-      basename = qx.Clazz.createNamespace(name, classobj);
+      var basename = qx.Clazz.createNamespace(name, classobj);
 
       // Store names in constructor/object
       classobj.classname = name;
