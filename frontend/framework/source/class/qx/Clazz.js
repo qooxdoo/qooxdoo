@@ -32,7 +32,7 @@
 /**
  * Verify existing namespace
  */
-if (!qx) {
+if (!window.qx) {
   qx = {};
 }
 
