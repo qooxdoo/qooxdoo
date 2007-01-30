@@ -486,7 +486,11 @@ class Node:
 
     return found
 
+  def toXml(self,  prefix = "", childPrefix = "  ", newLine="\n", encoding="utf-8"):
+      return nodeToXmlString(self, prefix, childPrefix, newLine, encoding)
 
+  def toJson(self, prefix = "", childPrefix = "  ", newLine="\n"):
+      return nodeToJsonString(self, prefix, childPrefix, newLine)
 
 
 def nodeToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n", encoding="utf-8"):
