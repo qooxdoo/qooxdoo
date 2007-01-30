@@ -3,7 +3,6 @@
 #require(qx.test.IPet)
 #require(qx.test.MMoody)
 */
-
 qx.Clazz.define("qx.test.Kitty",
 {
   extend : qx.test.Cat,
