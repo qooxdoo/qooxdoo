@@ -94,6 +94,7 @@ qx.Clazz.define("qx.Clazz",
      * Class config
      *
      * Example:
+     * <pre>
      * qx.Clazz.define("name",
      * {
      *   extend: SuperClass,
@@ -126,6 +127,7 @@ qx.Clazz.define("qx.Clazz",
      *     __privateMethod: function() {}
      *   }
      * });
+     * </pre>
      *
      * @param name {String} class name
      * @param config {Map ? null} config structure
@@ -490,7 +492,6 @@ qx.Clazz.define("qx.Clazz",
      *
      * @param name {String} class name to check
      * @return {Boolean} true if class exists
-     * @signature function(a,x,z)
      */
     isDefined : function(name) {
       return this.registry[name] != null;
@@ -502,7 +503,7 @@ qx.Clazz.define("qx.Clazz",
      * any functions or properties which are already available. This is only possible using
      * the hackier patch method.
      *
-     * @param target {Function} A class previously defined where the stuff should be attached.
+     * @param target {Clazz} A class previously defined where the stuff should be attached.
      * @param mixin {Mixin} Include all features of this Mixin
      * @param overwrite {Boolean ? false} Overwrite existing functions and properties
      */
@@ -519,7 +520,7 @@ qx.Clazz.define("qx.Clazz",
      * any functions or properties which are already available. This is only possible using
      * the hackier patch method.
      *
-     * @param target {Function} A class previously defined where the stuff should be attached.
+     * @param target {Clazz} A class previously defined where the stuff should be attached.
      * @param mixin {Mixin} Include all features of this Mixin
      */
     include : function(target, mixin) {
@@ -533,7 +534,7 @@ qx.Clazz.define("qx.Clazz",
      * be aware that this functionality is not the preferred way. You can damage working
      * Classes and features.
      *
-     * @param target {Function} A class previously defined where the stuff should be attached.
+     * @param target {Clazz} A class previously defined where the stuff should be attached.
      * @param mixin {Mixin} Include all features of this Mixin
      */
     patch : function(target, mixin) {
