@@ -20,6 +20,7 @@
 
 /* ************************************************************************
 
+#module(oo)
 #module(core)
 #require(qx.Clazz)
 
@@ -29,15 +30,18 @@ qx.Clazz.define("qx.Interface",
 {
   statics :
   {
-    /** registers all defined interfaces */
+    /**
+     * Registers all defined interfaces
+     */
     registry : {},
 
+
     /**
-     * Interface definition
+     * Interface config
      *
      * Example:
      * <pre>
-     * qx.Interface.define("fullname",
+     * qx.Interface.define("name",
      * {
      *   extend: [SuperInterfaces],
      *
@@ -53,144 +57,180 @@ qx.Clazz.define("qx.Interface",
      * });
      * </pre>
      *
-     * @type static
-     * @name define
-     * @access public
-     * @param fullname {String} name of the interface
-     * @param definition {Map ? null} definition structure
+     * @param name {String} name of the interface
+     * @param config {Map ? null} config structure
      * @return {void}
      * @throws TODOC
      */
-    define : function(fullname, definition)
+    define : function(name, config)
     {
+      var key, value;
+      var extend, blacklist = {}, statics = {}, members = {};
+
+
+
+
       /*
       ---------------------------------------------------------------------------
-        Setting up namespace
+        Read in configuration map
       ---------------------------------------------------------------------------
       */
 
-      var vSplitName = fullname.split(".");
-      var vNameLength = vSplitName.length;
-      var vTempObject = window;
-
-      // Setting up namespace
-      for (var i=0; i<vNameLength; i++)
+      for (key in config)
       {
-        if (typeof vTempObject[vSplitName[i]] === "undefined") {
-          vTempObject[vSplitName[i]] = {};
+        value = config[key];
+
+        if (value == null) {
+          throw new Error("Invalid key '" + key + "' in class '" + name + "'! The value is undefined/null!");
         }
 
-        vTempObject = vTempObject[vSplitName[i]];
+        switch(key)
+        {
+          case "extend":
+            // Normalize to Array
+            if (!(value instanceof Array)) {
+              value = [value];
+            }
+
+            extend = value;
+            break;
+
+          case "statics":
+            statics = value;
+            break;
+
+          case "members":
+            members = value;
+            break;
+
+          default:
+            throw new Error("The configuration key '" + key + "' in class '" + name + "' is not allowed!");
+        }
       }
 
 
 
 
+
       /*
       ---------------------------------------------------------------------------
-        Basic data structure
+        Create Interface
       ---------------------------------------------------------------------------
       */
 
-      qx._Interface = vTempObject;
-      qx._Interface._members = {};
+      // Initialize object
+      var obj = {};
 
-      var vProp;
+      // Create namespace
+      var basename = qx.Clazz.createNamespace(name, obj);
 
-      if (typeof definition !== "undefined")
+      // Add to registry
+      qx.Interface.registry[name] = obj;
+
+      // Attach data fields
+      obj.name = name;
+      obj.basename = basename;
+      obj.blacklist = blacklist;
+      obj.statics = statics;
+      obj.members = members;
+
+
+
+
+
+
+      /*
+      ---------------------------------------------------------------------------
+        Validate local statics
+      ---------------------------------------------------------------------------
+      */
+
+      if (qx.DEBUG)
       {
-        /*
-         * non-trivial interface definition
-         */
-
-        /*
-        ---------------------------------------------------------------------------
-          Interfaces to extend from
-        ---------------------------------------------------------------------------
-        */
-
-        var vSuper = definition["extends"];
-
-        if (typeof vSuper !== "undefined")
+        if (statics)
         {
-          if (vSuper instanceof Array)
+          for (key in statics)
           {
-            var vTotal = vSuper.length;
+            // The key should be uppercase by convention
+            if (key.toUpperCase() !== key) {
+              throw new Error('Invalid key "' + key + '" for (final/constant) static member in interface "' + name + '"');
+            }
 
-            for (i=0; i<vTotal; i++)
-            {
-              if (typeof vSuper[i] === "undefined" || !vSuper[i].isInterface) {
-                throw new Error("Could not extend interface " + fullname + " due to invalid interface no. " + (i + 1));
-              }
-
-              for (vProp in vSuper[i]._members) {
-                qx._Interface._members[vProp] = vSuper[i]._members[vProp];
-              }
+            // Only allow boolean, string and number
+            if (statics[key] instanceof Object) {
+              throw new Error('Invalid value of static member "' + key + '" in interface "' + name + '". Only primitive types are allowed!');
             }
           }
-          else
-          {
-            throw new Error("Could not extend interface " + fullname + "due to invalid interface assignment.");
-          }
-        }
-
-
-
-
-        /*
-        ---------------------------------------------------------------------------
-          Interface members
-        ---------------------------------------------------------------------------
-        */
-
-        var vMembers = definition["members"];
-
-        if (typeof vMembers !== "undefined")
-        {
-          for (vProp in vMembers) {
-            qx._Interface._members[vProp] = vMembers[vProp];
-          }
         }
       }
 
 
 
 
+
       /*
       ---------------------------------------------------------------------------
-        Interface registration
+        Interfaces to extend from
       ---------------------------------------------------------------------------
       */
 
-      qx.Interface.registry[fullname] = qx._Interface;
-      qx._Interface.name = fullname;
-      qx._Interface.isInterface = true;
+      if (extend)
+      {
+        var eblacklist, emembers, estatics;
+
+        for (var i=0, l=extend.length; i<l; i++)
+        {
+          // Combine blacklist
+          eblacklist = extend[i].blacklist;
+          for (key in eblacklist) {
+            blacklist[key] = true;
+          }
+
+          // Copy members (instance verification)
+          emembers = extend[i].members;
+          for (key in emembers) {
+            members[key] = emembers[key];
+          }
+        }
+
+        // Separate loop because we must
+        // be sure that the blacklist is correct
+        // before proceding with copying of statics
+        for (var i=0, l=extend.length; i<l; i++)
+        {
+          estatics = extend[i].statics;
+
+          // Copy constants etc.
+          for (key in estatics)
+          {
+            if (key in blacklist) {
+              continue;
+            }
+
+            // Already in? Mark it in the blacklist and delete old entry
+            if (key in statics)
+            {
+              delete statics[key];
+              blacklist[key] = true;
+              continue;
+            }
+
+            // Finally copy entry
+            statics[key] = estatics[key];
+          }
+        }
+      }
     },
 
-    /**
-     * Returns a interface by name
-     *
-     * @type static
-     * @name byName
-     * @access public
-     * @param fullname {String} interface name to check
-     * @return {Object ? void} interface object
-     */
-    byName : function(fullname) {
-      return arguments.callee.statics.registry[fullname];
-    },
 
     /**
-     * Determine if interface exists
+     * Determine if Interface exists
      *
-     * @type static
-     * @name isDefined
-     * @access public
-     * @param fullname {String} interface name to check
-     * @return {Boolean} true if interface exists
+     * @param name {String} Interface name to check
+     * @return {Boolean} true if Interface exists
      */
-    isDefined : function(fullname) {
-      return arguments.callee.statics.byName(fullname) !== undefined;
+    isDefined : function(name) {
+      return arguments.callee.statics.byName(name) !== undefined;
     }
   }
 });

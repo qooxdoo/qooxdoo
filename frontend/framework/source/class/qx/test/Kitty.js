@@ -12,7 +12,7 @@ qx.Clazz.define("qx.test.Kitty",
   ],
 
   include : [
-    qx.test.MMoody
+    qx.test.MMoody /*, qx.test.MFat*/
   ],
 
   init : function() {
