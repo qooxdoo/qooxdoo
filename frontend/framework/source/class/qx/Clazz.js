@@ -25,7 +25,6 @@
 #load(qx.Mixin)
 #load(qx.Interface)
 #load(qx.Settings)
-#load(qx.Locale)
 
 ************************************************************************ */
 
@@ -420,6 +419,21 @@ qx.Clazz.define("qx.Clazz",
 
         for (var key in members)
         {
+          if (typeof(members[key]) === "function" && key.indexOf("$") > 0)
+          {
+            var nameParts = key.split("$");
+            var baseName = nameParts[0];
+            var patch = false;
+            for (var i=1; i<nameParts.length; i++) {
+              if (qx.core.Client.getInstance().getEngine() == nameParts[i]) {
+                patch = true;
+                break;
+              }
+            }
+            if (patch) {
+              protoobj[baseName] = members[key];
+            }
+          }
           // Attach member
           value = protoobj[key] = members[key];
 
