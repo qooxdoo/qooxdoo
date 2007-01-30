@@ -22,7 +22,7 @@
 import tree
 
 def search(node, targetBrowser, verbose=False):
-  calls = findCalls(node, u"qx.Clazz.define")
+  calls = findCalls(node, u"qx.Clazz.define", [])
   for call in calls:
     members = getMembers(call)
     if members == None:
@@ -32,18 +32,27 @@ def search(node, targetBrowser, verbose=False):
       if "$" in methodName:
         nameParts = methodName.split("$")
         baseName = nameParts[0]
+        switched = False
+        if targetBrowser in nameParts[1:]:
+          print "take: %s" % methodName
+          switchMethod(methods[baseName], methods[methodName])
+          switched = True
+        if switched:
+          continue
         for part in nameParts[1:]:
-          if targetBrowser == part:
-            print "take: %s" % methodName
-            switchMethod(methods[baseName], methods[methodName])
-            break
-          elif part in ["mshtml", "gecko", "opera", "webkit"]:
+          if part in ["mshtml", "gecko", "opera", "webkit"]:
             removeFunction(methods[methodName])
             print "remove: %s" % methodName
             break
 
+  variables = findVariable(node, "qx.BROWSER_OPTIMIZED", [])
+  print variables
+  for var in variables:
+    print var.toXml()
+    removeSurroundingIf(var)
+
  
-def findCalls(node, methodName, callNodes=[]):
+def findCalls(node, methodName, callNodes):
   
   if node.type == "call":
     try:
@@ -108,3 +117,31 @@ def removeFunction(functionNode):
   map = keyValue.parent
   map.removeChild(keyValue)
   
+      
+def findVariable(node, varName, varNodes):
+  
+  if node.type == "variable":
+    try:
+      nameParts = []
+      for child in node.children:
+        if child.type == "identifier":
+          nameParts.append(child.get("name"))
+        name = u".".join(nameParts)
+    except tree.NodeAccessException:
+      name = ""
+    if name == varName:
+      varNodes.append(node)
+      return varNodes
+  
+  if node.hasChildren():
+    for child in node.children:
+      varNodes = findVariable(child, varName, varNodes)
+      #if call
+  
+  return varNodes
+  
+  
+def removeSurroundingIf(node):
+  while node.type != 'loop':
+    node = node.parent
+  node.parent.removeChild(node)

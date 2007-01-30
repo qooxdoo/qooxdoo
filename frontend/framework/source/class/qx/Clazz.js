@@ -442,21 +442,28 @@ qx.Clazz.define("qx.Clazz",
 
         for (var key in members)
         {
-          if (typeof(members[key]) === "function" && key.indexOf("$") > 0)
-          {
-            var nameParts = key.split("$");
-            var baseName = nameParts[0];
-            var patch = false;
-            for (var i=1; i<nameParts.length; i++) {
-              if (qx.core.Client.getInstance().getEngine() == nameParts[i]) {
-                patch = true;
-                break;
+
+          // add marker for the generator script
+          if (!qx.BROWSER_OPTIMIZED) {
+          
+            // patch browser dependent methods
+            if (typeof(members[key]) === "function" && key.indexOf("$") > 0)
+            {
+              var nameParts = key.split("$");
+              var baseName = nameParts[0];
+              var patch = false;
+              for (var i=1; i<nameParts.length; i++) {
+                if (qx.core.Client.getInstance().getEngine() == nameParts[i]) {
+                  patch = true;
+                  break;
+                }
+              }
+              if (patch) {
+                protoobj[baseName] = members[key];
               }
             }
-            if (patch) {
-              protoobj[baseName] = members[key];
-            }
           }
+          
           // Attach member
           value = prot[key] = members[key];
 
