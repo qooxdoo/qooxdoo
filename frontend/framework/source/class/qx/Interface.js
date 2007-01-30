@@ -36,21 +36,22 @@ qx.Clazz.define("qx.Interface",
      * Interface definition
      *
      * Example:
-     * <pre><code>
+     * <pre>
      * qx.Interface.define("fullname",
      * {
      *   extend: [SuperInterfaces],
-     *   statics:
-     *   {
+     *
+     *   statics: {
      *     PI : 3.14
      *   }
+     *
      *   members:
      *   {
      *     meth1: function() {},
      *     meth2: function() {}
      *   }
      * });
-     * </code></pre>
+     * </pre>
      *
      * @type static
      * @name define
