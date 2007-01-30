@@ -97,7 +97,7 @@ qx.Clazz.define("qx.Clazz",
      * <pre>
      * qx.Clazz.define("name",
      * {
-     *   extend: SuperClass,
+     *   extend: Object, // superclass
      *   implement: [Interfaces],
      *   include : [Mixins],
      *
