@@ -81,22 +81,22 @@ qx.Clazz.createNamespace = function(name, object)
  * Example:
  * qx.Clazz.define("name",
  * {
- *   "extend": SuperClass,
- *   "implement": [Interfaces],
- *   "include" : [Mixins],
+ *   extend: SuperClass,
+ *   implement: [Interfaces],
+ *   include : [Mixins],
  *
- *   "statics":
+ *   statics:
  *   {
  *     static_property1: 3.141,
  *     static_method1: function() {}
  *   },
  *
- *   "properties":
+ *   properties:
  *   {
  *     "tabIndex": { compat : true, type: "number", defaultValue : -1 }
  *   },
  *
- *   "members":
+ *   members:
  *   {
  *     public_property1: 3.141,
  *     public_method1: function() {},
@@ -434,35 +434,33 @@ qx.Clazz.define = function(name, config)
 
   if (interfaces)
   {
-    var interfaceMembers;
+    if (qx.DEBUG)
+    {
+      var interfaceMembers;
+
+      for (var i=0, l=interfaces.length; i<l; i++)
+      {
+        // Validate members
+        interfaceMembers = interfaces[i]._members;
+
+        for (key in interfaceMembers)
+        {
+          if (typeof protoobj[key] != "function") {
+            throw new Error("Implementation of method " + key + "() is missing in Class " + name + " required by interface " + interfaces[i].name);
+          }
+        }
+      }
+    }
+
+    // Copy statics
+    var interfaceStatics;
 
     for (var i=0, l=interfaces.length; i<l; i++)
     {
-      interfaceMembers = interfaces[i]._members;
+      interfaceStatics = interfaces[i]._statics;
 
-      for (vProp in interfaceMembers)
-      {
-        // By Sebastian:
-        // What should this code do?
-        // Isn't it enough to compare the type of both protoobj and interfaceMember
-        // Why use protoobj in block1 and classobj in block2?
-        // What should the assignment do? Why?
-
-        if (typeof interfaceMembers[vProp] === "function")
-        {
-          if (typeof protoobj[vProp] === "undefined") {
-            throw new Error("Implementation of method " + vProp + "() missing in class " + name + " required by interface " + interfaces[i].name);
-          }
-        }
-        else if (typeof classobj[vProp] !== "undefined")
-        {
-          throw new Error("Existing property " + vProp + " in class " + name + " conflicts with interface " + interfaces[i].name);
-        }
-        else
-        {
-          // attach as class member. TODO: Does this make sense??
-          classobj[vProp] = interfaceMembers[vProp];
-        }
+      for (key in interfaceStatics) {
+        classobj[key] = interfaceStatics[key];
       }
     }
   }

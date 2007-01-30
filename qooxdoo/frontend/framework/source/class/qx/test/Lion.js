@@ -1,7 +1,6 @@
 /*
 #require(qx.Clazz)
 */
-
 qx.Clazz.define("qx.test.Lion",
 {
   extend : qx.test.Cat,

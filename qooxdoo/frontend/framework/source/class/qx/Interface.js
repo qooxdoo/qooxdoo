@@ -30,7 +30,7 @@ qx.Clazz.define("qx.Interface",
   statics :
   {
     /** registers all defined interfaces */
-    _registry : {},
+    registry : {},
 
     /**
      * Interface definition
@@ -39,10 +39,13 @@ qx.Clazz.define("qx.Interface",
      * <pre><code>
      * qx.Interface.define("fullname",
      * {
-     *   "extends": [SuperInterfaces],
-     *   "members":
+     *   extend: [SuperInterfaces],
+     *   statics:
      *   {
-     *     prop1: 3.141,
+     *     PI : 3.14
+     *   }
+     *   members:
+     *   {
      *     meth1: function() {},
      *     meth2: function() {}
      *   }
@@ -158,7 +161,7 @@ qx.Clazz.define("qx.Interface",
       ---------------------------------------------------------------------------
       */
 
-      qx.Interface._registry[fullname] = qx._Interface;
+      qx.Interface.registry[fullname] = qx._Interface;
       qx._Interface.name = fullname;
       qx._Interface.isInterface = true;
     },
@@ -173,7 +176,7 @@ qx.Clazz.define("qx.Interface",
      * @return {Object ? void} interface object
      */
     byName : function(fullname) {
-      return arguments.callee.statics._registry[fullname];
+      return arguments.callee.statics.registry[fullname];
     },
 
     /**

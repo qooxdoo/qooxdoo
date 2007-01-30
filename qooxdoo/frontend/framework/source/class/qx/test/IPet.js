@@ -6,11 +6,13 @@
 
 qx.Interface.define("qx.test.IPet",
 {
-  extend : [qx.test.IHumanlike, qx.test.IPlayable],
+  extend : [
+    qx.test.IHumanlike,
+    qx.test.IPlayable
+  ],
 
   members :
   {
-    isFriendly : true,
     smooch : function() {}
   }
 });
