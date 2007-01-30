@@ -1,3 +1,7 @@
+/**
+#require(qx.Clazz)
+*/
+
 qx.Clazz.define("qx.test.Browser", {
     extend: Object,
     
