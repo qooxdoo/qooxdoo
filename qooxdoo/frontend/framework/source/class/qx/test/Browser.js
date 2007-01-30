@@ -5,9 +5,10 @@ qx.Clazz.define("qx.test.Browser", {
     
     members: {
         getName: function() { return "unknown browser" },
-        getName$gecko: function() { return "Gecko" },
+        getName$gecko$opera: function() { return "Gecko" },
         getName$mshtml: function() { return "Internet Explorer" },
         getName$webkit: function() { return "Webkit" },
-        getName$opera: function() { return "Opera" }
+        //getName$opera: function() { return "Opera" },
+        getName$donttouchme: function() {}
     }
 });
