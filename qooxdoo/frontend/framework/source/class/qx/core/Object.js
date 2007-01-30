@@ -605,15 +605,13 @@ qx.Proto.dispose = function()
     if (qx.core.Object._disposeAll)
     {
       qx.core.Object._db[this._dbKey] = null;
-      this._hashCode = null;
-      this._dbKey = null;
     }
     else
     {
       delete qx.core.Object._db[this._dbKey];
-      delete this._hashCode;
-      delete this._dbKey;
     }
+    this._hashCode = null;
+    this._dbKey = null;
   }
 
   // Mark as disposed
