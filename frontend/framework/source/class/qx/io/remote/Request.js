@@ -44,7 +44,7 @@
  *   Target url to issue the request to.
  *
  * @param vMethod {String}
- *   Determines that type of request to issue (GET or POST). Default is GET. 
+ *   Determines that type of request to issue (GET or POST). Default is GET.
  *
  * @param vResponseType {String}
  *   The mime type of the response. Default is text/plain {@link qx.util.Mime}.
@@ -391,8 +391,6 @@ qx.Proto.isFailed = function() {
 
 /**
  * Event handler called when the request enters the queued state.
- *
- * WARNING: THIS APPEARS TO BE AN OBSOLETE METHOD; THERE IS NO 'queued' STATE
  *
  * @param e {qx.event.type.Event}
  *   Event indicating state change
@@ -818,6 +816,7 @@ qx.Proto.dispose = function()
 
   this._requestHeaders = null;
   this._parameters = null;
+  this._formFields = null;
 
   this.setTransport(null);
 
