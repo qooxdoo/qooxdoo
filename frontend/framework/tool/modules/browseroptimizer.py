@@ -46,9 +46,7 @@ def search(node, targetBrowser, verbose=False):
             break
 
   variables = findVariable(node, "qx.BROWSER_OPTIMIZED", [])
-  print variables
   for var in variables:
-    print var.toXml()
     removeSurroundingIf(var)
 
  
