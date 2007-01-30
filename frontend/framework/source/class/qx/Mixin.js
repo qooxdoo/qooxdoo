@@ -36,22 +36,23 @@ qx.Clazz.define("qx.Mixin",
      * Mixin definition
      *
      * Example:
-     * <pre><code>
+     * <pre>
      * qx.Mixin.define("fullname",
      * {
      *   "includes": [SuperMixins],
-     *   "properties":
-     *   {
+     *
+     *   "properties": {
      *     "tabIndex": {type: "number", init: -1}
      *   },
+     *
      *   "members":
      *   {
-     *     prop1: 3.141,
+     *     prop1: "foo",
      *     meth1: function() {},
      *     meth2: function() {}
      *   }
      * });
-     * </code></pre>
+     * </pre>
      *
      * @type static
      * @name define
