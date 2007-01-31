@@ -33,20 +33,13 @@
  * Home: http://www.kde-look.org/content/show.php?content=25668
  */
 qx.OO.defineClass("qx.theme.icon.CrystalClear", qx.renderer.theme.IconTheme,
-function() {
+function()
+{
   qx.renderer.theme.IconTheme.call(this, "CrystalClear");
+
+  this.uri = qx.core.Settings.get("qx.resourceUri") + "/icon/CrystalClear";
 });
 
-
-
-
-/*
----------------------------------------------------------------------------
-  DEFAULT SETTINGS
----------------------------------------------------------------------------
-*/
-
-qx.Settings.setDefault("imageUri", qx.Settings.getValueOfClass("qx.manager.object.AliasManager", "resourceUri") + "/icon/CrystalClear");
 
 
 

@@ -83,8 +83,8 @@ qx.Class.parse = function (text) {};
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefault("encodeUndefined", true);
-qx.Settings.setDefault("enableDebug", false);
+qx.core.Settings.set("qx.jsonEncodeUndefined", true);
+qx.core.Settings.set("qx.jsonDebugging", false);
 
 
 
@@ -272,7 +272,7 @@ qx.io.Json = function ()
 
       // AJ, DJL --
       undefined: function(x) {
-        if (qx.Settings.getValueOfClass("qx.io.Json", "encodeUndefined"))
+        if (qx.core.Settings.get("qx.jsonEncodeUndefined"))
           return 'null';
       }
       // -- AJ, DJL
@@ -308,7 +308,7 @@ qx.io.Json = function ()
       }
 
       // DJL --
-      if (qx.Settings.getValueOfClass("qx.io.Json", "enableDebug")) {
+      if (qx.core.Settings.get("qx.jsonDebugging")) {
         var logger = qx.log.Logger.getClassLogger(qx.core.Object);
         logger.debug("JSON request: " + ret);
       }

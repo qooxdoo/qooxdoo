@@ -490,8 +490,7 @@ qx.Proto.start = function()
   }
 
   var debugFunctions =
-    (qx.Settings.getValueOfClass("qx.util.fsm.FiniteStateMachine",
-                                 "debugFlags") &
+    (this._debugFlags &
      qx.util.fsm.FiniteStateMachine.DebugFlags.FUNCTION_DETAIL);
 
   // Run the actionsBeforeOnentry actions for the initial state
@@ -616,8 +615,7 @@ qx.Proto.enqueueEvent = function(event, bAddAtHead)
     this._eventQueue.unshift(event);
   }
 
-  if (qx.Settings.getValueOfClass("qx.util.fsm.FiniteStateMachine",
-                                  "debugFlags") &
+  if (this._debugFlags &
       qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS)
   {
     if (bAddAtHead)
@@ -726,9 +724,7 @@ qx.Proto._run = function(event)
   var action;
 
   // Get the debug flags
-  var debugFlags =
-    (qx.Settings.getValueOfClass("qx.util.fsm.FiniteStateMachine",
-                                 "debugFlags"));
+  var debugFlags = this._debugFlags;
 
   // Allow slightly faster access to determine if debug is enableda
   var debugEvents =
@@ -1070,13 +1066,11 @@ qx.Class.EventHandling =
  * Debug bitmask values.  Set the debug flags from the application by or-ing
  * together bits, akin to this:
  *
- *   qx.Settings.setCustomOfClass(
- *     "qx.util.fsm.FiniteStateMachine",
- *     "debugFlags",
- *     (qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS |
- *      qx.util.fsm.FiniteStateMachine.DebugFlags.TRANSITIONS |
- *      qx.util.fsm.FiniteStateMachine.DebugFlags.FUNCTION_DETAIL |
- *      qx.util.fsm.FiniteStateMachine.DebugFlags.OBJECT_NOT_FOUND));
+ * instanceOfFiniteStateMachine._debugFlags =
+ *   (qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS |
+ *    qx.util.fsm.FiniteStateMachine.DebugFlags.TRANSITIONS |
+ *    qx.util.fsm.FiniteStateMachine.DebugFlags.FUNCTION_DETAIL |
+ *    qx.util.fsm.FiniteStateMachine.DebugFlags.OBJECT_NOT_FOUND);
  */
 qx.Class.DebugFlags =
 {
@@ -1103,11 +1097,9 @@ qx.Class.DebugFlags =
 /**
  * Debug flags: bitmap of DebugFlags (see Class Constants).
  */
-qx.Settings.setDefault(
-  "debugFlags",
-  (qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS |
+qx.Proto._debugFlags = (qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS |
    qx.util.fsm.FiniteStateMachine.DebugFlags.TRANSITIONS |
-   qx.util.fsm.FiniteStateMachine.DebugFlags.OBJECT_NOT_FOUND));
+   qx.util.fsm.FiniteStateMachine.DebugFlags.OBJECT_NOT_FOUND);
 
 
 /*

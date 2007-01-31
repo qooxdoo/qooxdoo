@@ -87,10 +87,13 @@ qx.Proto._debug = function()
   // Debug output
   var vText = this._active.length + "/" + (this._queue.length+this._active.length);
 
-  if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug"))
+  if (qx.DEBUG)
   {
-    this.debug("Progress: " + vText);
-    window.status = "Request-Queue Progress: " + vText;
+    if (qx.core.Settings.get("qx.ioRemoteDebug"))
+    {
+      this.debug("Progress: " + vText);
+      window.status = "Request-Queue Progress: " + vText;
+    }
   }
 }
 
@@ -204,23 +207,29 @@ qx.Proto._activeCount = 0;
 
 qx.Proto._onsending = function(e)
 {
-  if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug"))
+  if (qx.DEBUG)
   {
-    this._activeCount++;
-    e.getTarget()._counted = true;
+    if (qx.core.Settings.get("qx.ioRemoteDebug"))
+    {
+      this._activeCount++;
+      e.getTarget()._counted = true;
 
-    this.debug("ActiveCount: " + this._activeCount);
+      this.debug("ActiveCount: " + this._activeCount);
+    }
   }
 }
 
 qx.Proto._oncompleted = function(e)
 {
-  if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug"))
+  if (qx.DEBUG)
   {
-    if (e.getTarget()._counted)
+    if (qx.core.Settings.get("qx.ioRemoteDebug"))
     {
-      this._activeCount--;
-      this.debug("ActiveCount: " + this._activeCount);
+      if (e.getTarget()._counted)
+      {
+        this._activeCount--;
+        this.debug("ActiveCount: " + this._activeCount);
+      }
     }
   }
 

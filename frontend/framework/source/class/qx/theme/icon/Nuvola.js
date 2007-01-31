@@ -33,20 +33,12 @@
  * Home: http://www.kde-look.org/content/show.php?content=5358
  */
 qx.OO.defineClass("qx.theme.icon.Nuvola", qx.renderer.theme.IconTheme,
-function() {
+function()
+{
   qx.renderer.theme.IconTheme.call(this, "Nuvola");
+
+  this.uri = qx.core.Settings.get("qx.resourceUri") + "/icon/Nuvola";
 });
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DEFAULT SETTINGS
----------------------------------------------------------------------------
-*/
-
-qx.Settings.setDefault("imageUri", qx.Settings.getValueOfClass("qx.manager.object.AliasManager", "resourceUri") + "/icon/Nuvola");
 
 
 

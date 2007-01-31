@@ -100,8 +100,8 @@ qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "cli
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefault("enableApplicationLayout", true);
-qx.Settings.setDefault("boxModelCorrection", true);
+qx.core.Settings.set("qx.enableApplicationLayout", true);
+qx.core.Settings.set("qx.boxModelCorrection", true);
 
 
 
@@ -299,13 +299,13 @@ qx.Proto.removeAllCssRules = function(vSheet) {
   CSS FIX
 ---------------------------------------------------------------------------
 */
-if (qx.Settings.getValueOfClass("qx.ui.core.ClientDocument", "boxModelCorrection")) {
+if (qx.core.Settings.get("qx.boxModelCorrection")) {
   qx.html.StyleSheet.createElement("html,body{margin:0;border:0;padding:0;}" +
     " html{border:0 none;} *{" + qx.core.Client.getInstance().getEngineBoxSizingAttribute() +
     ":border-box;} img{" + qx.core.Client.getInstance().getEngineBoxSizingAttribute() +
     ":content-box;}");
 }
-if (qx.Settings.getValueOfClass("qx.ui.core.ClientDocument", "enableApplicationLayout")) {
+if (qx.core.Settings.get("qx.enableApplicationLayout")) {
   qx.html.StyleSheet.createElement("html,body{width:100%;height:100%;overflow:hidden;}");
 }
 

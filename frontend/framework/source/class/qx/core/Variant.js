@@ -27,21 +27,21 @@ qx.Clazz.define("qx.core.Variant",
 {
     statics: {
         /**
-         * 
+         *
          */
         __variants : {},
-        
+
         /**
-         * 
+         *
          */
-        define : function (name, allowedValues) 
-        { 
+        define : function (name, allowedValues)
+        {
           if (typeof qx.core.Variant.__variants[name] !== "undefined") {
             throw new Error ("Variant \"" + name + "\" is already defined");
           }
-          
+
           qx.core.Variant.__variants[name] = {};
-          
+
           if (typeof allowedValues !== "undefined") {
             if (qx.util.Validation.isValidArray(allowedValues)) {
               qx.core.Variant.__variants[name].allowedValues = allowedValues;
@@ -52,27 +52,27 @@ qx.Clazz.define("qx.core.Variant",
         },
 
         /**
-         * 
+         *
          */
         set : function (name, value)
         {
           if (qx.util.Validation.isInvalidObject(qx.core.Variant.__variants[name])) {
             throw new Error ("Variant \"" + name + "\" is not defined");
           }
-          
+
           var allowedValues = qx.core.Variant.__variants[name].allowedValues;
           if (qx.util.Validation.isValidArray(allowedValues)) {
             if (!qx.lang.Array.contains (allowedValues, value)) {
-              throw new Error ("Value \"" + value + "\" for variant \"" + name + 
+              throw new Error ("Value \"" + value + "\" for variant \"" + name +
               "\" is not one of the allowed values \"" + allowedValues.join("\", \"") + "\"");
             }
           }
-          
+
           qx.core.Variant.__variants[name].value = value;
         },
-        
+
         /**
-         * 
+         *
          */
         get : function (name)
         {
@@ -82,18 +82,18 @@ qx.Clazz.define("qx.core.Variant",
             throw new Error ("Variant \"" + name + "\" is not defined");
           }
         },
-        
+
         /**
-         * 
+         *
          */
         select : function (name, variants)
         {
           if (qx.util.Validation.isInvalidObject(qx.core.Variant.__variants[name])) {
             throw new Error("Variant \"" + name + "\" is not defined");
           }
-          
+
           var value = qx.core.Variant.__variants[name].value;
-          
+
           for (var key in variants)
           {
             if (key !== "none" && value === key) {
@@ -104,10 +104,10 @@ qx.Clazz.define("qx.core.Variant",
           if (variants["none"]) {
             return variants["none"];
           }
-          
-          throw new Error ("No match for variant \"" + name + 
+
+          throw new Error ("No match for variant \"" + name +
             "\" found, and no default (\"none\") given");
-        },
+        }
     }
 });
 

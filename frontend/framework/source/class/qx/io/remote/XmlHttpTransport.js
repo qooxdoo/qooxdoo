@@ -316,8 +316,11 @@ qx.Proto._onreadystatechange = function(e)
     case "aborted":
     case "failed":
     case "timeout":
-      if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug")) {
-        this.warn("Ignore Ready State Change");
+      if (qx.DEBUG)
+      {
+        if (qx.core.Settings.get("qx.ioRemoteDebug")) {
+          this.warn("Ignore Ready State Change");
+        }
       }
       return;
   }
@@ -591,17 +594,21 @@ qx.Proto.getResponseContent = function()
 {
   if (this.getState() !== "completed")
   {
-    if (qx.Settings.getValueOfClass("qx.io.remote.Exchange",
-                                    "enableDebug")) {
-      this.warn("Transfer not complete, ignoring content!");
+    if (qx.DEBUG)
+    {
+      if (qx.core.Settings.get("qx.ioRemoteDebug")) {
+        this.warn("Transfer not complete, ignoring content!");
+      }
     }
 
     return null;
   }
 
-  if (qx.Settings.getValueOfClass("qx.io.remote.Exchange",
-                                  "enableDebug")) {
-    this.debug("Returning content for responseType: " + this.getResponseType());
+  if (qx.DEBUG)
+  {
+    if (qx.core.Settings.get("qx.ioRemoteDebug")) {
+      this.debug("Returning content for responseType: " + this.getResponseType());
+    }
   }
 
   var vText = this.getResponseText();
@@ -649,9 +656,11 @@ qx.Proto.getResponseContent = function()
 
 qx.Proto._modifyState = function(propValue, propOldValue, propData)
 {
-  if (qx.Settings.getValueOfClass("qx.io.remote.Exchange",
-                                  "enableDebug")) {
-    this.debug("State: " + propValue);
+  if (qx.DEBUG)
+  {
+    if (qx.core.Settings.get("qx.ioRemoteDebug")) {
+      this.debug("State: " + propValue);
+    }
   }
 
   switch(propValue)

@@ -80,7 +80,7 @@ function(vAutoDispose)
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefault("enableDisposerDebug", false);
+qx.core.Settings.set("qx.disposerDebugging", false);
 
 
 
@@ -574,7 +574,7 @@ qx.Proto.dispose = function()
     this._objectproperties = null;
   }
 
-  if (this.getSetting("enableDisposerDebug"))
+  if (qx.core.Settings.get("qx.disposerDebugging"))
   {
     for (var vKey in this)
     {

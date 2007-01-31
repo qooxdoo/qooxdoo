@@ -535,8 +535,11 @@ qx.Proto._onfailed = function(e)
 
 qx.Proto._modifyState = function(propValue, propOldValue, propData)
 {
-  if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug")) {
-    this.debug("State: " + propValue);
+  if (qx.DEBUG)
+  {
+    if (qx.core.Settings.get("qx.ioRemoteDebug")) {
+      this.debug("State: " + propValue);
+    }
   }
 
   return true;

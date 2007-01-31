@@ -75,7 +75,7 @@ function()
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefault("component", "qx.component.init.InterfaceInitComponent");
+qx.core.Settings.set("qx.initComponent", "qx.component.init.InterfaceInitComponent");
 
 
 
@@ -241,7 +241,7 @@ qx.Proto._onload = function(e)
   }
 
   // Init component from settings
-  this.setComponent(new qx.OO.classes[this.getSetting("component")](this));
+  this.setComponent(new qx.OO.classes[qx.core.Settings.get("qx.initComponent")](this));
 
   // Send onload
   return this.getComponent()._onload(e);

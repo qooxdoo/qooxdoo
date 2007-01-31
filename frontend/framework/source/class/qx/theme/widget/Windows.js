@@ -30,20 +30,13 @@
  * Default qooxdoo widget theme
  */
 qx.OO.defineClass("qx.theme.widget.Windows", qx.renderer.theme.WidgetTheme,
-function() {
+function()
+{
   qx.renderer.theme.WidgetTheme.call(this, "Windows");
+
+  this.uri = qx.core.Settings.get("qx.resourceUri") + "/widget/Windows";
 });
 
-
-
-
-/*
----------------------------------------------------------------------------
-  DEFAULT SETTINGS
----------------------------------------------------------------------------
-*/
-
-qx.Settings.setDefault("imageUri", qx.Settings.getValueOfClass("qx.manager.object.AliasManager", "resourceUri") + "/widget/windows");
 
 
 

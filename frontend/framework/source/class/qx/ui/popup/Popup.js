@@ -80,25 +80,25 @@ qx.Proto._hideTimeStamp = (new Date(0)).valueOf();
  * The minimum offset to the left of the page too keep when
  * {@link #restrictToPageOnOpen} is true (in pixels).
  */
-qx.Settings.setDefault("restrictToPageLeft", "0");
+qx.Proto._restrictToPageLeft = 0;
 
 /**
  * The minimum offset to the right of the page too keep when
  * {@link #restrictToPageOnOpen} is true (in pixels).
  */
-qx.Settings.setDefault("restrictToPageRight", "0");
+qx.Proto._restrictToPageRight = 0;
 
 /**
  * The minimum offset to the top of the page too keep when
  * {@link #restrictToPageOnOpen} is true (in pixels).
  */
-qx.Settings.setDefault("restrictToPageTop", "0");
+qx.Proto._restrictToPageTop = 0;
 
 /**
  * The minimum offset to the bottom of the page too keep when
  * {@link #restrictToPageOnOpen} is true (in pixels).
  */
-qx.Settings.setDefault("restrictToPageBottom", "0");
+qx.Proto._restrictToPageBottom = 0;
 
 
 
@@ -152,10 +152,10 @@ qx.Proto._afterAppear = function() {
     var doc = qx.ui.core.ClientDocument.getInstance();
     var docWidth = doc.getClientWidth();
     var docHeight = doc.getClientHeight();
-    var restrictToPageLeft   = parseInt(qx.Settings.getValueOfClass("qx.ui.popup.Popup", "restrictToPageLeft"));
-    var restrictToPageRight  = parseInt(qx.Settings.getValueOfClass("qx.ui.popup.Popup", "restrictToPageRight"));
-    var restrictToPageTop    = parseInt(qx.Settings.getValueOfClass("qx.ui.popup.Popup", "restrictToPageTop"));
-    var restrictToPageBottom = parseInt(qx.Settings.getValueOfClass("qx.ui.popup.Popup", "restrictToPageBottom"));
+    var restrictToPageLeft   = this._restrictToPageLeft;
+    var restrictToPageRight  = this._restrictToPageRight;
+    var restrictToPageTop    = this._restrictToPageTop;
+    var restrictToPageBottom = this._restrictToPageBottom;
     var left   = (this._wantedLeft == null) ? this.getLeft() : this._wantedLeft;
     var top    = this.getTop();
     var width  = this.getBoxWidth();
