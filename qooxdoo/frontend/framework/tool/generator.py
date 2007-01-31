@@ -81,7 +81,6 @@ def getparser():
   parser.add_option("--compiled-script-file", dest="compiledScriptFile", metavar="FILENAME", help="Name of output file from compiler.")
   parser.add_option("--api-documentation-json-file", dest="apiDocumentationJsonFile", metavar="FILENAME", help="Name of JSON API file.")
   parser.add_option("--api-documentation-xml-file", dest="apiDocumentationXmlFile", metavar="FILENAME", help="Name of XML API file.")
-  parser.add_option("--settings-script-file", dest="settingsScriptFile", metavar="FILENAME", help="Name of settings script file.")
 
   # Encoding
   parser.add_option("--script-output-encoding", dest="scriptOutputEncoding", default="utf-8", metavar="ENCODING", help="Defines the encoding used for script output files.")
@@ -102,7 +101,7 @@ def getparser():
   parser.add_option("--disable-internal-check", action="store_true", dest="disableInternalCheck", default=False, help="Disable check of modifications to internal files.")
 
   # Options for source and compiled version
-  parser.add_option("--define-runtime-setting", action="append", dest="defineRuntimeSetting", metavar="NAMESPACE.KEY:VALUE", default=[], help="Define a setting.")
+  parser.add_option("--define-setting", action="extend", dest="defineSetting", type="string", metavar="NAMESPACE.KEY:VALUE", default=[], help="Define a setting.")
   parser.add_option("--add-new-lines", action="store_true", dest="addNewLines", default=False, help="Keep newlines in compiled files.")
 
   # Options for compiled version
@@ -701,12 +700,12 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     print
     print "BROWSER SPECIFIC OPTIMIZATION:"
     print "----------------------------------------------------------------------------"
-    
+
     if options.verbose:
       print "  * Optimizing variables..."
     else:
       print "  * Optimizing variables: ",
-    
+
     print sortedIncludeList
 
     for fileId in sortedIncludeList:
@@ -715,13 +714,13 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
       else:
         sys.stdout.write(".")
         sys.stdout.flush()
-    
+
       browseroptimizer.search(loader.getTree(fileDb, fileId, options), options.optimizeBrowser, options.verbose)
-      
+
     if not options.verbose:
       print
 
-    
+
   ######################################################################
   #  LOCAL VARIABLE OPTIMIZATION
   ######################################################################
@@ -944,20 +943,13 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
   if options.generateSourceScript or options.generateCompiledScript:
     settingsStr = ""
 
-    if len(options.defineRuntimeSetting) != 0:
+    if len(options.defineSetting) != 0:
       print
       print "  GENERATION OF SETTINGS:"
       print "----------------------------------------------------------------------------"
 
       print "  * Processing input data..."
       settingsStr = settings.generate(options)
-
-      if options.settingsScriptFile:
-        print "   * Storing result to %s" % options.settingsScriptFile
-        filetool.save(options.settingsScriptFile, settingsStr)
-
-        # clear settings for build and source
-        settingsStr = ""
 
 
 
@@ -996,13 +988,10 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
     # Generating inline code...
     inlineCode = ""
-    if settingsStr != "":
-      inlineCode += settingsStr + sourceLineFeed
-    else:
-      inlineCode += "if(!window.qx){qx={};}" + sourceLineFeed
-
+    inlineCode += "if(!window.qx){qx={};}" + sourceLineFeed
     inlineCode += "qx.IS_SOURCE=true;%s" % sourceLineFeed
     inlineCode += "qx.VERSION=\"%s\";%s" % (options.version, sourceLineFeed)
+    inlineCode += settingsStr + sourceLineFeed
     inlineCode += "".join(additionalOutput)
 
 
@@ -1050,13 +1039,10 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
       buildLineFeed = "\n";
 
     inlineCode = ""
-    if settingsStr != "":
-      inlineCode += settingsStr + buildLineFeed
-    else:
-      inlineCode += "if(!window.qx){qx={};}" + buildLineFeed
-      
+    inlineCode += "if(!window.qx){qx={};}" + buildLineFeed
     inlineCode += "qx.IS_SOURCE=false;%s" % buildLineFeed
     inlineCode += "qx.VERSION=\"%s\";%s" % (options.version, buildLineFeed)
+    inlineCode += settingsStr + buildLineFeed
     inlineCode += "".join(additionalOutput)
 
     compiledOutput = inlineCode

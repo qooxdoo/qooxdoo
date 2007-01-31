@@ -19,63 +19,42 @@
 ################################################################################
 
 import sys, re, os, optparse
-import filetool
+import filetool, optparseext
 
 
 
 
 def generate(options):
-  if len(options.defineRuntimeSetting) == 0:
+  if len(options.defineSetting) == 0:
     return ""
 
   typeFloat = re.compile("^([0-9\-]+\.[0-9]+)$")
   typeNumber = re.compile("^([0-9\-])$")
 
-  settingsStr = ""
-
-  settingsStr += 'if(!window.qx)qx={};'
-
   if options.addNewLines:
-    settingsStr += "\n"
+    lineBreak = "\n"
+  else:
+    lineBreak = ""
 
-  settingsStr += 'if(!qx.Settings)qx.Settings={};'
+  settingsStr = 'window.qxsettings={' + lineBreak
 
-  if options.addNewLines:
-    settingsStr += "\n"
-
-  settingsStr += 'if(!qx.Settings._customSettings)qx.Settings._customSettings={};'
-
-  if options.addNewLines:
-    settingsStr += "\n"
-
-  for setting in options.defineRuntimeSetting:
+  first = True
+  for setting in options.defineSetting:
     settingSplit = setting.split(":")
     settingKey = settingSplit.pop(0)
     settingValue = ":".join(settingSplit)
 
-    settingKeySplit = settingKey.split(".")
-    settingKeyName = settingKeySplit.pop()
-    settingKeySpace = ".".join(settingKeySplit)
+    if not (settingValue == "false" or settingValue == "true" or typeFloat.match(settingValue) or typeNumber.match(settingValue)):
+      settingValue = '"%s"' % settingValue.replace("\"", "\\\"")
 
-    checkStr = 'if(!qx.Settings._customSettings["%s"])qx.Settings._customSettings["%s"]={};' % (settingKeySpace, settingKeySpace)
-    if not checkStr in settingsStr:
-      settingsStr += checkStr
+    if not first:
+      settingsStr += "," + lineBreak
 
-      if options.addNewLines:
-        settingsStr += "\n"
+    settingsStr += '"%s":%s' % (settingKey, settingValue)
+    first = False
 
-    settingsStr += 'qx.Settings._customSettings["%s"]["%s"]=' % (settingKeySpace, settingKeyName)
-
-    if settingValue == "false" or settingValue == "true" or typeFloat.match(settingValue) or typeNumber.match(settingValue):
-      settingsStr += '%s' % settingValue
-
-    else:
-      settingsStr += '"%s"' % settingValue.replace("\"", "\\\"")
-
-    settingsStr += ";"
-
-    if options.addNewLines:
-      settingsStr += "\n"
+  settingsStr += lineBreak
+  settingsStr += "};"
 
   return settingsStr
 
@@ -83,24 +62,19 @@ def generate(options):
 
 
 def main():
-  parser = optparse.OptionParser()
+  parser = optparse.OptionParser("usage: %prog [options]", option_class=optparseext.ExtendAction)
 
-  parser.add_option("-d", "--define-runtime-setting", action="append", dest="defineRuntimeSetting", metavar="NAMESPACE.KEY:VALUE", default=[], help="Define a setting.")
-  parser.add_option("-s", "--settings-script-file", dest="settingsScriptFile", metavar="FILENAME", help="Name of settings script file.")
+  parser.add_option("-d", "--define-setting", action="extend", dest="defineSetting", type="string", metavar="NAMESPACE.KEY:VALUE", default=[], help="Define a setting.")
+  parser.add_option("-o", "--output-file", dest="outputFile", metavar="FILENAME", help="Name of settings script file.")
   parser.add_option("-n", "--add-new-lines", action="store_true", dest="addNewLines", default=False, help="Keep newlines in compiled files.")
 
   (options, args) = parser.parse_args()
 
-  if options.settingsScriptFile == None:
-    print "  * Please define the output file!"
-    sys.exit(1)
-
-  if len(options.defineRuntimeSetting) == 0:
-    print "  * Please define at least one runtime setting!"
-    sys.exit(1)
-
-  print "   * Saving settings to %s" % options.settingsScriptFile
-  filetool.save(options.settingsScriptFile, generate(options))
+  if options.outputFile == None:
+    print generate(options)
+  else:
+    print "   * Saving settings to %s" % options.outputFile
+    filetool.save(options.outputFile, generate(options))
 
 
 

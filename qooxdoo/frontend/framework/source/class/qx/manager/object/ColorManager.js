@@ -49,7 +49,7 @@ function()
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefault("colorTheme", "qx.theme.color.WindowsRoyale");
+qx.core.Settings.set("qx.colorTheme", "qx.theme.color.WindowsRoyale");
 
 
 
@@ -77,7 +77,7 @@ qx.Proto.registerColorTheme = function(vThemeClass)
 {
   this._colorThemes[vThemeClass.classname] = vThemeClass;
 
-  if (vThemeClass.classname == this.getSetting("colorTheme")) {
+  if (vThemeClass.classname == qx.core.Settings.get("qx.colorTheme")) {
     this.setColorTheme(vThemeClass.getInstance());
   }
 }

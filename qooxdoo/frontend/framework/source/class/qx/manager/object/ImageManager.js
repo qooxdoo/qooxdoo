@@ -62,9 +62,9 @@ function()
   chose to receive the qooxdoo code under. For more information, please
   see the LICENSE file in the project's top-level directory.
  */
-qx.Settings.setDefault("iconTheme", "qx.theme.icon.Nuvola");
+qx.core.Settings.set("qx.iconTheme", "qx.theme.icon.Nuvola");
 
-qx.Settings.setDefault("widgetTheme", "qx.theme.widget.Windows");
+qx.core.Settings.set("qx.widgetTheme", "qx.theme.widget.Windows");
 
 
 
@@ -95,7 +95,7 @@ qx.Proto.registerIconTheme = function(vThemeClass)
 {
   this._iconThemes[vThemeClass.classname] = vThemeClass;
 
-  if (vThemeClass.classname == this.getSetting("iconTheme")) {
+  if (vThemeClass.classname == qx.core.Settings.get("qx.iconTheme")) {
     this.setIconTheme(vThemeClass.getInstance());
   }
 }
@@ -104,7 +104,7 @@ qx.Proto.registerWidgetTheme = function(vThemeClass)
 {
   this._widgetThemes[vThemeClass.classname] = vThemeClass;
 
-  if (vThemeClass.classname == this.getSetting("widgetTheme")) {
+  if (vThemeClass.classname == qx.core.Settings.get("qx.widgetTheme")) {
     this.setWidgetTheme(vThemeClass.getInstance());
   }
 }
@@ -146,13 +146,13 @@ qx.Proto._onaliaschange = function() {
 
 qx.Proto._modifyIconTheme = function(propValue, propOldValue, propData)
 {
-  propValue ? qx.manager.object.AliasManager.getInstance().add("icon", propValue.getSetting("imageUri")) : qx.manager.object.AliasManager.getInstance().remove("icon");
+  propValue ? qx.manager.object.AliasManager.getInstance().add("icon", propValue.uri) : qx.manager.object.AliasManager.getInstance().remove("icon");
   return true;
 }
 
 qx.Proto._modifyWidgetTheme = function(propValue, propOldValue, propData)
 {
-  propValue ? qx.manager.object.AliasManager.getInstance().add("widget", propValue.getSetting("imageUri")) : qx.manager.object.AliasManager.getInstance().remove("widget");
+  propValue ? qx.manager.object.AliasManager.getInstance().add("widget", propValue.uri) : qx.manager.object.AliasManager.getInstance().remove("widget");
   return true;
 }
 

@@ -110,8 +110,8 @@ function () {
 qx.OO.addProperty({ name:"docTree", type:"object" });
 
 
-qx.Settings.setDefault("title", "qooxdoo");
-qx.Settings.setDefault("initialTreeDepth", 1);
+qx.core.Settings.set("apiviewer.title", "qooxdoo");
+qx.core.Settings.set("apiviewer.initialTreeDepth", 1);
 
 
 // property checker
@@ -148,7 +148,7 @@ qx.Proto.load = function(url)
       }, 0);
     }
 
-    this._detailLoader.setHtml('<h1><div class="please">' + this.getSetting("title") +
+    this._detailLoader.setHtml('<h1><div class="please">' + qx.core.Settings.get("apiviewer.title") +
         '</div>API Documentation</h1>');
 
   }, this);
@@ -219,7 +219,7 @@ qx.Proto._fillPackageNode = function(treeNode, docNode, depth) {
       this._fillPackageNode(packageTreeNode, packageDocNode, depth+1);
 
       // Open the package node if it has child packages
-      if (depth < this.getSetting("initialTreeDepth") && TreeUtil.getChild(packageDocNode, "packages")) {
+      if (depth < qx.core.Settings.get("apiviewer.initialTreeDepth") && TreeUtil.getChild(packageDocNode, "packages")) {
         packageTreeNode.open();
       }
 

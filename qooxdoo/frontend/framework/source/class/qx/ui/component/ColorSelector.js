@@ -86,20 +86,6 @@ qx.OO.addProperty({ name : "hue", type : "number", defaultValue : 0 });
 qx.OO.addProperty({ name : "saturation", type : "number", defaultValue : 0 });
 qx.OO.addProperty({ name : "brightness", type : "number", defaultValue : 100 });
 
-/*
----------------------------------------------------------------------------
-  LOCALIZATION SUPPORT
----------------------------------------------------------------------------
-*/
-
-qx.Settings.setDefault("labelOK", "OK");
-qx.Settings.setDefault("labelCancel", "Cancel");
-qx.Settings.setDefault("labelPresets", "Presets");
-qx.Settings.setDefault("labelDetails", "Details");
-qx.Settings.setDefault("labelPreview", "Preview (Old/New)");
-qx.Settings.setDefault("labelRGB", "RGB");
-qx.Settings.setDefault("labelHSB", "HSB");
-qx.Settings.setDefault("labelHex", "Hex");
 
 
 
