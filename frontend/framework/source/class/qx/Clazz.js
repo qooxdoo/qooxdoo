@@ -102,7 +102,7 @@ qx.Clazz.define("qx.Clazz",
      * Class config
      *
      * Example:
-     * <pre>
+     * <pre><code>
      * qx.Clazz.define("name",
      * {
      *   extend: Object, // superclass
@@ -120,7 +120,8 @@ qx.Clazz.define("qx.Clazz",
      *
      *   properties:
      *   {
-     *     "tabIndex": { compat : true, type: "number", defaultValue : -1 }
+     *     "tabIndexOld": { type: "number", defaultValue : -1, compat : true }
+     *     "tabIndex": { type: "number", init : -1 }
      *   },
      *
      *   members:
@@ -135,7 +136,7 @@ qx.Clazz.define("qx.Clazz",
      *     __privateMethod: function() {}
      *   }
      * });
-     * </pre>
+     * </code></pre>
      *
      * @param name {String} class name
      * @param config {Map ? null} config structure
