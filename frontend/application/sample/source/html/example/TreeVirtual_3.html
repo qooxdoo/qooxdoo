@@ -23,7 +23,12 @@
   qx.core.Init.getInstance().defineMain(function()
   {
     // tree
-    var tree = new qx.ui.treevirtual.TreeVirtual([ "Tree", "Permissions" ]);
+    var tree = new qx.ui.treevirtual.TreeVirtual(
+        [
+          "Tree",
+          "Permissions",
+          "Last Accessed"
+        ]);
     with (tree)
     {
       set({
@@ -34,8 +39,9 @@
             border : qx.renderer.border.BorderPresets.getInstance().thinInset
           });
       setAlwaysShowOpenCloseSymbol(true);
-      setColumnWidth(0, 400);
-      setColumnWidth(1, 100);
+      setColumnWidth(0, 200);
+      setColumnWidth(1, 80);
+      setColumnWidth(2, 200);
     };
 
     tree.addToDocument();
@@ -59,8 +65,10 @@
     te1_1 = dataModel.addBranch(te1, "Workspace", true);
     te = dataModel.addLeaf(te1_1, "Windows (C:)");
     dataModel.setColumnData(te, 1, "-rwxr-xr-x");
+    dataModel.setColumnData(te, 2, "2007-01-30 22:54:03");
     te = dataModel.addLeaf(te1_1, "Documents (D:)");
     dataModel.setColumnData(te, 1, "-rwxr-xr-x");
+    dataModel.setColumnData(te, 2, "2007-01-30 22:54:03");
 
     dataModel.addBranch(te1, "Network", true);
 
