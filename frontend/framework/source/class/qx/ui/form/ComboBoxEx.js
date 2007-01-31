@@ -180,10 +180,6 @@ qx.Proto.getButton = function() {
   return this._button;
 }
 
-qx.Proto._getComboSetting = function(key) {
-  return qx.Settings.getValueOfClass('qx.ui.form.ComboBoxEx', key);
-}
-
 /**Gets the current selected row of the selection.
  * @return null if nothing selected or an array*/
 qx.Proto.getSelectedRow = function() {

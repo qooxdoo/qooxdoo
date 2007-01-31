@@ -24,9 +24,9 @@
 #module(core)
 #load(qx.Mixin)
 #load(qx.Interface)
-#load(qx.Settings)
 #load(qx.lang.Core)
 #load(qx.core.Settings)
+#load(qx.core.Variant)
 
 ************************************************************************ */
 
@@ -469,7 +469,7 @@ qx.Clazz.define("qx.Clazz",
                 }
               }
               if (patch) {
-                protoobj[baseName] = members[key];
+                prot[baseName] = members[key];
               }
             }
           }

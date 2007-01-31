@@ -262,16 +262,6 @@ qx.Proto.isDisposed = function() {
 }
 
 
-/**
- * Returns a settings from global setting definition
- *
- * @param vKey {String} the key
- * @return {Object} value of the global setting
- */
-qx.Proto.getSetting = function(vKey) {
-  return qx.Settings.getValueOfClass(this.classname, vKey);
-}
-
 
 /*
 ---------------------------------------------------------------------------
