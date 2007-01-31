@@ -20,8 +20,8 @@ document.write('<div id="demoFrame">&#160;</div>');
 (function(sitemap)
 {
   document.write('<select id="demoFiles" onchange="if(this.options[this.selectedIndex].value)window.location.href=this.options[this.selectedIndex].value">');
-  var url = window.location.pathname.split('/');
   var basename = window.location.href.substring(0, window.location.href.lastIndexOf("/"));
+  var url = window.location.href.split('/');
   var cat = url[url.length-2];
   var file = url[url.length-1];
 
@@ -29,7 +29,7 @@ document.write('<div id="demoFrame">&#160;</div>');
   pages.sort();
 
   var index = pages.indexOf(file);
-  
+
   for( var i=0; i<pages.length; i++ )
   {
     var href = window.location.href;
@@ -39,12 +39,12 @@ document.write('<div id="demoFrame">&#160;</div>');
     document.write('<option value="' + pageuri + '"');
     if(href.lastIndexOf(page) === href.length-page.length) {
       document.write(' selected="selected"');
-    
+
     }
     document.write('>' + pageid + '</option>');
   }
   document.write('</select>');
-  
+
   document.write('<div id="demoJump">');
   if (index > 0) {
     document.write("<button onclick='window.location.href=\\"" + basename + '/' + pages[index-1] + "\\"'>&lt;</button>");
@@ -53,7 +53,7 @@ document.write('<div id="demoFrame">&#160;</div>');
     document.write("<button onclick='window.location.href=\\"" + basename + '/' + pages[index+1] + "\\"'>&gt;</button>");
   }
   document.write('</div>');
- 
+
 })(%s);
 
 (function()
