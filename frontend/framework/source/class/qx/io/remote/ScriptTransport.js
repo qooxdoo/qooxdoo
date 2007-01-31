@@ -195,9 +195,13 @@ qx.Proto._switchReadyState = function(vReadyState)
 }
 qx.Class._requestFinished = function(id, content) {
   var vInstance = qx.io.remote.ScriptTransport._instanceRegistry[id];
-  if (vInstance == null) {
-    if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug")) {
-      this.warn("Request finished for an unknown instance (probably aborted or timed out before)");
+  if (vInstance == null)
+  {
+    if (qx.DEBUG)
+    {
+      if (qx.core.Settings.get("qx.ioRemoteDebug")) {
+        this.warn("Request finished for an unknown instance (probably aborted or timed out before)");
+      }
     }
   } else {
     vInstance._responseContent = content;
@@ -312,15 +316,21 @@ qx.Proto.getResponseContent = function()
 {
   if (this.getState() !== "completed")
   {
-    if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug")) {
-      this.warn("Transfer not complete, ignoring content!");
+    if (qx.DEBUG)
+    {
+      if (qx.core.Settings.get("qx.ioRemoteDebug")) {
+        this.warn("Transfer not complete, ignoring content!");
+      }
     }
 
     return null;
   }
 
-  if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug")) {
-    this.debug("Returning content for responseType: " + this.getResponseType());
+  if (qx.DEBUG)
+  {
+    if (qx.core.Settings.get("qx.ioRemoteDebug")) {
+      this.debug("Returning content for responseType: " + this.getResponseType());
+    }
   }
 
   switch(this.getResponseType())

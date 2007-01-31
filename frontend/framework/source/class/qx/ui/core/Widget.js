@@ -110,7 +110,7 @@ function()
 
 qx.Class.ABSTRACT_CLASS = "qx.ui.core.Widget";
 
-// Will be calculated later (TODO: Move to qx.Dom?)
+// Will be calculated later (TODO: Move to qx.html?)
 qx.Class.SCROLLBAR_SIZE = 16;
 
 
@@ -123,7 +123,7 @@ qx.Class.SCROLLBAR_SIZE = 16;
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefault("enableQueueDebug", false);
+qx.core.Settings.set("qx.widgetQueueDebugging", false);
 
 
 
@@ -599,100 +599,99 @@ qx.OO.addPropertyGroup({ name : "clip", members : [ "clipLeft", "clipTop", "clip
  */
 qx.ui.core.Widget.flushGlobalQueues = function() {};
 
-if (qx.Settings.getValueOfClass("qx.ui.core.Widget", "enableQueueDebug"))
+qx.ui.core.Widget.flushGlobalQueues = function()
 {
-  qx.ui.core.Widget.flushGlobalQueues = function()
+  if (qx.ui.core.Widget._inFlushGlobalQueues || !qx.core.Init.getInstance().getComponent().isUiReady()) {
+    return;
+  }
+
+  // Also used for inline event handling to seperate 'real' events
+  qx.ui.core.Widget._inFlushGlobalQueues = true;
+
+  qx.ui.core.Widget.flushGlobalWidgetQueue();
+  qx.ui.core.Widget.flushGlobalStateQueue();
+  qx.ui.core.Widget.flushGlobalElementQueue();
+  qx.ui.core.Widget.flushGlobalJobQueue();
+  qx.ui.core.Widget.flushGlobalLayoutQueue();
+  qx.ui.core.Widget.flushGlobalDisplayQueue();
+
+  delete qx.ui.core.Widget._inFlushGlobalQueues;
+}
+
+if(qx.DEBUG)
+{
+  if (qx.core.Settings.get("qx.widgetQueueDebugging"))
   {
-    if (qx.ui.core.Widget._inFlushGlobalQueues || !qx.core.Init.getInstance().getComponent().isUiReady()) {
-      return;
-    }
-
-    if (!(qx.ui.core.Widget._globalWidgetQueue.length > 0 || qx.ui.core.Widget._globalElementQueue.length > 0 ||
-        qx.ui.core.Widget._globalStateQueue.length > 0  || qx.ui.core.Widget._globalJobQueue.length > 0 ||
-        qx.ui.core.Widget._globalLayoutQueue.length > 0 || qx.ui.core.Widget._fastGlobalDisplayQueue.length > 0 ||
-        !qx.lang.Object.isEmpty(qx.ui.core.Widget._lazyGlobalDisplayQueue))) {
-      return;
-    }
-
-    var globalWidgetQueueLength      = qx.ui.core.Widget._globalWidgetQueue.length;
-    var globalElementQueueLength     = qx.ui.core.Widget._globalElementQueue.length;
-    var globalStateQueueLength       = qx.ui.core.Widget._globalStateQueue.length;
-    var globalJobQueueLength         = qx.ui.core.Widget._globalJobQueue.length;
-    var globalLayoutQueueLength      = qx.ui.core.Widget._globalLayoutQueue.length;
-    var fastGlobalDisplayQueueLength = qx.ui.core.Widget._fastGlobalDisplayQueue.length;
-    var lazyGlobalDisplayQueueLength = qx.ui.core.Widget._lazyGlobalDisplayQueue ? qx.ui.core.Widget._lazyGlobalDisplayQueue.length : 0;
-
-    // Also used for inline event handling to seperate 'real' events
-    qx.ui.core.Widget._inFlushGlobalQueues = true;
-
-    var vStart;
-
-    vStart = (new Date).valueOf();
-    qx.ui.core.Widget.flushGlobalWidgetQueue();
-    var vWidgetDuration = (new Date).valueOf() - vStart;
-
-    vStart = (new Date).valueOf();
-    qx.ui.core.Widget.flushGlobalStateQueue();
-    var vStateDuration = (new Date).valueOf() - vStart;
-
-    vStart = (new Date).valueOf();
-    qx.ui.core.Widget.flushGlobalElementQueue();
-    var vElementDuration = (new Date).valueOf() - vStart;
-
-    vStart = (new Date).valueOf();
-    qx.ui.core.Widget.flushGlobalJobQueue();
-    var vJobDuration = (new Date).valueOf() - vStart;
-
-    vStart = (new Date).valueOf();
-    qx.ui.core.Widget.flushGlobalLayoutQueue();
-    var vLayoutDuration = (new Date).valueOf() - vStart;
-
-    vStart = (new Date).valueOf();
-    qx.ui.core.Widget.flushGlobalDisplayQueue();
-    var vDisplayDuration = (new Date).valueOf() - vStart;
-
-    var vSum = vWidgetDuration + vStateDuration + vElementDuration + vJobDuration + vLayoutDuration + vDisplayDuration;
-
-    if (vSum > 0)
+    qx.ui.core.Widget.flushGlobalQueues = function()
     {
-      var logger = qx.log.Logger.getClassLogger(qx.ui.core.Widget);
-      logger.debug("Flush Global Queues");
-      logger.debug("Widgets: " + vWidgetDuration + "ms (" + globalWidgetQueueLength + ")");
-      logger.debug("State: " + vStateDuration + "ms (" + globalStateQueueLength + ")");
-      logger.debug("Element: " + vElementDuration + "ms (" + globalElementQueueLength + ")");
-      logger.debug("Job: " + vJobDuration + "ms (" + globalJobQueueLength + ")");
-      logger.debug("Layout: " + vLayoutDuration + "ms (" + globalLayoutQueueLength + ")");
-      logger.debug("Display: " + vDisplayDuration + "ms (fast:" + fastGlobalDisplayQueueLength + ",lazy:" + lazyGlobalDisplayQueueLength + ")");
+      if (qx.ui.core.Widget._inFlushGlobalQueues || !qx.core.Init.getInstance().getComponent().isUiReady()) {
+        return;
+      }
 
-      window.status = "Flush: Widget:" + vWidgetDuration + " State:" + vStateDuration + " Element:" + vElementDuration + " Job:" + vJobDuration + " Layout:" + vLayoutDuration + " Display:" + vDisplayDuration;
+      if (!(qx.ui.core.Widget._globalWidgetQueue.length > 0 || qx.ui.core.Widget._globalElementQueue.length > 0 ||
+          qx.ui.core.Widget._globalStateQueue.length > 0  || qx.ui.core.Widget._globalJobQueue.length > 0 ||
+          qx.ui.core.Widget._globalLayoutQueue.length > 0 || qx.ui.core.Widget._fastGlobalDisplayQueue.length > 0 ||
+          !qx.lang.Object.isEmpty(qx.ui.core.Widget._lazyGlobalDisplayQueue))) {
+        return;
+      }
+
+      var globalWidgetQueueLength      = qx.ui.core.Widget._globalWidgetQueue.length;
+      var globalElementQueueLength     = qx.ui.core.Widget._globalElementQueue.length;
+      var globalStateQueueLength       = qx.ui.core.Widget._globalStateQueue.length;
+      var globalJobQueueLength         = qx.ui.core.Widget._globalJobQueue.length;
+      var globalLayoutQueueLength      = qx.ui.core.Widget._globalLayoutQueue.length;
+      var fastGlobalDisplayQueueLength = qx.ui.core.Widget._fastGlobalDisplayQueue.length;
+      var lazyGlobalDisplayQueueLength = qx.ui.core.Widget._lazyGlobalDisplayQueue ? qx.ui.core.Widget._lazyGlobalDisplayQueue.length : 0;
+
+      // Also used for inline event handling to seperate 'real' events
+      qx.ui.core.Widget._inFlushGlobalQueues = true;
+
+      var vStart;
+
+      vStart = (new Date).valueOf();
+      qx.ui.core.Widget.flushGlobalWidgetQueue();
+      var vWidgetDuration = (new Date).valueOf() - vStart;
+
+      vStart = (new Date).valueOf();
+      qx.ui.core.Widget.flushGlobalStateQueue();
+      var vStateDuration = (new Date).valueOf() - vStart;
+
+      vStart = (new Date).valueOf();
+      qx.ui.core.Widget.flushGlobalElementQueue();
+      var vElementDuration = (new Date).valueOf() - vStart;
+
+      vStart = (new Date).valueOf();
+      qx.ui.core.Widget.flushGlobalJobQueue();
+      var vJobDuration = (new Date).valueOf() - vStart;
+
+      vStart = (new Date).valueOf();
+      qx.ui.core.Widget.flushGlobalLayoutQueue();
+      var vLayoutDuration = (new Date).valueOf() - vStart;
+
+      vStart = (new Date).valueOf();
+      qx.ui.core.Widget.flushGlobalDisplayQueue();
+      var vDisplayDuration = (new Date).valueOf() - vStart;
+
+      var vSum = vWidgetDuration + vStateDuration + vElementDuration + vJobDuration + vLayoutDuration + vDisplayDuration;
+
+      if (vSum > 0)
+      {
+        var logger = qx.log.Logger.getClassLogger(qx.ui.core.Widget);
+        logger.debug("Flush Global Queues");
+        logger.debug("Widgets: " + vWidgetDuration + "ms (" + globalWidgetQueueLength + ")");
+        logger.debug("State: " + vStateDuration + "ms (" + globalStateQueueLength + ")");
+        logger.debug("Element: " + vElementDuration + "ms (" + globalElementQueueLength + ")");
+        logger.debug("Job: " + vJobDuration + "ms (" + globalJobQueueLength + ")");
+        logger.debug("Layout: " + vLayoutDuration + "ms (" + globalLayoutQueueLength + ")");
+        logger.debug("Display: " + vDisplayDuration + "ms (fast:" + fastGlobalDisplayQueueLength + ",lazy:" + lazyGlobalDisplayQueueLength + ")");
+
+        window.status = "Flush: Widget:" + vWidgetDuration + " State:" + vStateDuration + " Element:" + vElementDuration + " Job:" + vJobDuration + " Layout:" + vLayoutDuration + " Display:" + vDisplayDuration;
+      }
+
+      delete qx.ui.core.Widget._inFlushGlobalQueues;
     }
-
-    delete qx.ui.core.Widget._inFlushGlobalQueues;
   }
 }
-else
-{
-  qx.ui.core.Widget.flushGlobalQueues = function()
-  {
-    if (qx.ui.core.Widget._inFlushGlobalQueues || !qx.core.Init.getInstance().getComponent().isUiReady()) {
-      return;
-    }
-
-    // Also used for inline event handling to seperate 'real' events
-    qx.ui.core.Widget._inFlushGlobalQueues = true;
-
-    qx.ui.core.Widget.flushGlobalWidgetQueue();
-    qx.ui.core.Widget.flushGlobalStateQueue();
-    qx.ui.core.Widget.flushGlobalElementQueue();
-    qx.ui.core.Widget.flushGlobalJobQueue();
-    qx.ui.core.Widget.flushGlobalLayoutQueue();
-    qx.ui.core.Widget.flushGlobalDisplayQueue();
-
-    delete qx.ui.core.Widget._inFlushGlobalQueues;
-  }
-}
-
-
 
 
 

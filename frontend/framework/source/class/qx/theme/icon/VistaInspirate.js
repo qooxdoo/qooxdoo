@@ -34,20 +34,13 @@
  * Comment: Based on nuoveXT by the same author
  */
 qx.OO.defineClass("qx.theme.icon.VistaInspirate", qx.renderer.theme.IconTheme,
-function() {
-  qx.renderer.theme.IconTheme.call(this, "Vista Inspirate");
+function()
+{
+  qx.renderer.theme.IconTheme.call(this, "VistaInspirate");
+
+  this.uri = qx.core.Settings.get("qx.resourceUri") + "/icon/VistaInspirate";
 });
 
-
-
-
-/*
----------------------------------------------------------------------------
-  DEFAULT SETTINGS
----------------------------------------------------------------------------
-*/
-
-qx.Settings.setDefault("imageUri", qx.Settings.getValueOfClass("qx.manager.object.AliasManager", "resourceUri") + "/icon/VistaInspirate");
 
 
 

@@ -41,22 +41,10 @@ function()
   this._uris = {};
 
   // Define static alias from setting
-  this.add("static", this.getSetting("staticUri"));
+  this.add("static", qx.core.Settings.get("qx.resourceUri") + "/static");
 });
 
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DEFAULT SETTINGS
----------------------------------------------------------------------------
-*/
-
-qx.Settings.setDefault("resourceUri", "../../resource");
-qx.Settings.setDefault("staticUri", qx.Settings.getValue("resourceUri") + "/static");
+qx.core.Settings.set("qx.resourceUri", "./resources");
 
 
 

@@ -134,8 +134,11 @@ qx.Proto.send = function() {
 
 qx.Proto.abort = function()
 {
-  if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug")) {
-    this.warn("Aborting...");
+  if (qx.DEBUG)
+  {
+    if (qx.core.Settings.get("qx.ioRemoteDebug")) {
+      this.warn("Aborting...");
+    }
   }
 
   this.setState("aborted");
@@ -146,8 +149,11 @@ qx.Proto.abort = function()
 */
 qx.Proto.timeout = function()
 {
-  if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug")) {
-    this.warn("Timeout...");
+  if (qx.DEBUG)
+  {
+    if (qx.core.Settings.get("qx.ioRemoteDebug")) {
+      this.warn("Timeout...");
+    }
   }
 
   this.setState("timeout");
@@ -161,8 +167,11 @@ qx.Proto.timeout = function()
 */
 qx.Proto.failed = function()
 {
-  if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug")) {
-    this.warn("Failed...");
+  if (qx.DEBUG)
+  {
+    if (qx.core.Settings.get("qx.ioRemoteDebug")) {
+      this.warn("Failed...");
+    }
   }
 
   this.setState("failed");
@@ -287,8 +296,11 @@ qx.Proto.getFetchedLength = function() {
 
 qx.Proto._modifyState = function(propValue, propOldValue, propData)
 {
-  if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug")) {
-    this.debug("State: " + propValue);
+  if (qx.DEBUG)
+  {
+    if (qx.core.Settings.get("qx.ioRemoteDebug")) {
+      this.debug("State: " + propValue);
+    }
   }
 
   switch(propValue)

@@ -65,7 +65,7 @@ exec-script-source:
 	  --generate-source-script \
 	  $(COMPUTED_TEMPLATE) \
 	  --source-script-file $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/$(APPLICATION_SCRIPT_FILENAME) \
-	  --define-runtime-setting $(FRAMEWORK_NAMESPACE).manager.object.AliasManager.resourceUri:$(FRAMEWORK_SOURCE_URI)/resource \
+	  --define-setting $(FRAMEWORK_NAMESPACE).resourceUri:$(FRAMEWORK_SOURCE_URI)/resource \
 	  $(COMPUTED_SOURCE_INCLUDE) \
 	  $(COMPUTED_SOURCE_LINEBREAKS)
 
@@ -332,9 +332,9 @@ exec-api-build:
 	  --resource-input $(APIVIEWER_SOURCE_PATH)/resource \
 	  --resource-output $(APPLICATION_API_PATH)/resource/$(APIVIEWER_NAMESPACE) \
 	  --enable-resource-filter \
-	  --define-runtime-setting $(FRAMEWORK_NAMESPACE).manager.object.AliasManager.resourceUri:resource/$(FRAMEWORK_NAMESPACE) \
-	  --define-runtime-setting $(APIVIEWER_NAMESPACE).Application.resourceUri:resource/$(APIVIEWER_NAMESPACE) \
-	  --define-runtime-setting $(APIVIEWER_NAMESPACE).Viewer.title:$(APPLICATION_API_TITLE)
+	  --define-setting $(FRAMEWORK_NAMESPACE).resourceUri:resource/$(FRAMEWORK_NAMESPACE) \
+	  --define-setting $(APIVIEWER_NAMESPACE).resourceUri:resource/$(APIVIEWER_NAMESPACE) \
+	  --define-setting $(APIVIEWER_NAMESPACE).title:$(APPLICATION_API_TITLE)
 
 
 

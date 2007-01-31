@@ -33,20 +33,12 @@
  * Home: http://www.kde-look.org/content/show.php?content=26449
  */
 qx.OO.defineClass("qx.theme.icon.NuoveXT", qx.renderer.theme.IconTheme,
-function() {
+function()
+{
   qx.renderer.theme.IconTheme.call(this, "NuoveXT");
+
+  this.uri = qx.core.Settings.get("qx.resourceUri") + "/icon/NuoveXT";
 });
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DEFAULT SETTINGS
----------------------------------------------------------------------------
-*/
-
-qx.Settings.setDefault("imageUri", qx.Settings.getValueOfClass("qx.manager.object.AliasManager", "resourceUri") + "/icon/NuoveXT");
 
 
 

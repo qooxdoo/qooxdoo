@@ -44,7 +44,7 @@ qx.OO.defineClass("qx.lang.Prototypes");
 ---------------------------------------------------------------------------
 */
 
-qx.Settings.setDefault("enable", false);
+qx.core.Settings.set("qx.extendNativeObjects", false);
 
 
 
@@ -86,6 +86,6 @@ qx.lang.Prototypes.init = function()
   }
 }
 
-if (qx.Settings.getValueOfClass("qx.lang.Prototypes", "enable")) {
+if (qx.core.Settings.get("qx.extendNativeObjects")) {
   qx.lang.Prototypes.init();
 }

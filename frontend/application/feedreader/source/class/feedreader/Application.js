@@ -49,7 +49,7 @@ function () {
 qx.OO.addProperty({name: "feeds"});
 qx.OO.addProperty({name: "selectedFeed"});
 
-qx.Settings.setDefault("resourceUri", "./resource");
+qx.core.Settings.set("feedreader.resourceUri", "./resource");
 
 
 
@@ -105,7 +105,7 @@ else
 qx.Proto.initialize = function(e)
 {
   // Define alias for custom resource path
-  qx.manager.object.AliasManager.getInstance().add("feedreader", qx.Settings.getValueOfClass("feedreader.Application", "resourceUri"));
+  qx.manager.object.AliasManager.getInstance().add("feedreader", qx.core.Settings.get("feedreader.resourceUri"));
 
   // Include CSS file
   qx.html.StyleSheet.includeFile(qx.manager.object.AliasManager.getInstance().resolvePath("feedreader/css/reader.css"));

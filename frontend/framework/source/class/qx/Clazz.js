@@ -26,6 +26,7 @@
 #load(qx.Interface)
 #load(qx.Settings)
 #load(qx.lang.Core)
+#load(qx.core.Settings)
 
 ************************************************************************ */
 
@@ -283,8 +284,16 @@ qx.Clazz.define("qx.Clazz",
 
       if (settings)
       {
-        for (var key in settings) {
-          qx.Settings.setDefault(key, settings[key]);
+        for (var key in settings)
+        {
+          if (qx.DEBUG)
+          {
+            if (key.substr(0, key.indexOf(".")) != name.substr(0, name.indexOf("."))) {
+              throw new Error('Forbidden setting "' + key + '" found in "' + name + '". It forbidden to define a default setting for an external namespace!');
+            }
+          }
+
+          qx.core.Settings.set(key, settings[key]);
         }
       }
 
@@ -446,7 +455,7 @@ qx.Clazz.define("qx.Clazz",
 
           // add marker for the generator script
           if (!qx.BROWSER_OPTIMIZED) {
-          
+
             // patch browser dependent methods
             if (typeof(members[key]) === "function" && key.indexOf("$") > 0)
             {
@@ -464,7 +473,7 @@ qx.Clazz.define("qx.Clazz",
               }
             }
           }
-          
+
           // Attach member
           value = prot[key] = members[key];
 
