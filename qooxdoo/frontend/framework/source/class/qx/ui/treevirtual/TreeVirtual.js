@@ -673,6 +673,18 @@ qx.Proto._calculateSelectedNodes = function()
 };
 
 
+/**
+ * Return the nodes that are currently selected.
+ *
+ * @return {Array}
+ *   An array containing the nodes that are currently selected.
+ */
+qx.Proto.getSelectedNodes = function()
+{
+  return this.getTableModel().getSelectedNodes();
+};
+
+
 /*
  * Selection Modes {int}
  *
