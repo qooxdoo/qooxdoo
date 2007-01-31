@@ -44,7 +44,7 @@ function()
   this.add("static", qx.core.Settings.get("qx.resourceUri") + "/static");
 });
 
-qx.core.Settings.set("qx.resourceUri", "./resources");
+qx.core.Settings.set("qx.resourceUri", "./resource");
 
 
 
