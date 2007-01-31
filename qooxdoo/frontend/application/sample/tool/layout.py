@@ -20,8 +20,8 @@ document.write('<div id="demoFrame">&#160;</div>');
 (function(sitemap)
 {
   document.write('<select id="demoFiles" onchange="if(this.options[this.selectedIndex].value)window.location.href=this.options[this.selectedIndex].value">');
-  var url = window.location.pathname.split('/');
   var basename = window.location.href.substring(0, window.location.href.lastIndexOf("/"));
+  var url = window.location.href.split('/');
   var cat = url[url.length-2];
   var file = url[url.length-1];
 
@@ -84,7 +84,7 @@ def main(dist, scan):
   res += "{"
 
   firstCategory = True
-
+  # for category in os.listdir(scan):
   for category in [ "example", "test", "performance" ]:
     if category == ".svn":
       continue
