@@ -376,7 +376,7 @@ qx.io.Json = function ()
 qx.io.Json.parseQx = function(text) {
   /* Convert the result text into a result primitive or object */
 
-  if (qx.Settings.getValueOfClass("qx.io.Json", "enableDebug")) {
+  if (qx.core.Settings.get("qx.jsonDebugging")) {
   var logger = qx.log.Logger.getClassLogger(qx.core.Object);
   logger.debug("JSON response: " + text);
   }

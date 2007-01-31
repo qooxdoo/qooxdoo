@@ -1,12 +1,13 @@
 /**
 #require(qx.Clazz)
+#require(qx.core.Variant)
 */
 
 qx.Clazz.define("qx.test.Browser", {
     extend: qx.core.Object,
-    
+
     init: function() {},
-    
+
     members: {
         getName: function() { return "unknown browser" },
         getName$gecko$opera: function() { return "Gecko" },
