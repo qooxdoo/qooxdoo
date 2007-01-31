@@ -996,7 +996,11 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
     # Generating inline code...
     inlineCode = ""
-    inlineCode += settingsStr + sourceLineFeed
+    if settingsStr != "":
+      inlineCode += settingsStr + sourceLineFeed
+    else:
+      inlineCode += "if(!window.qx){qx={};}" + sourceLineFeed
+
     inlineCode += "qx.IS_SOURCE=true;%s" % sourceLineFeed
     inlineCode += "qx.VERSION=\"%s\";%s" % (options.version, sourceLineFeed)
     inlineCode += "".join(additionalOutput)
@@ -1046,7 +1050,11 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
       buildLineFeed = "\n";
 
     inlineCode = ""
-    inlineCode += settingsStr + buildLineFeed
+    if settingsStr != "":
+      inlineCode += settingsStr + buildLineFeed
+    else:
+      inlineCode += "if(!window.qx){qx={};}" + buildLineFeed
+      
     inlineCode += "qx.IS_SOURCE=false;%s" % buildLineFeed
     inlineCode += "qx.VERSION=\"%s\";%s" % (options.version, buildLineFeed)
     inlineCode += "".join(additionalOutput)
