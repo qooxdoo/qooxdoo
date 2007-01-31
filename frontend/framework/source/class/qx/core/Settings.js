@@ -42,7 +42,7 @@ qx.Clazz.define("qx.core.Settings",
       if (qx.DEBUG)
       {
         if (typeof this.data[key] === "undefined") {
-          throw new Error('Setting key "' + key '" does not exist!");
+          throw new Error('Setting key "' + key + '" does not exist!');
         }
       }
 

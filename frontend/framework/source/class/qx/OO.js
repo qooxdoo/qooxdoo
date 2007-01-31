@@ -22,7 +22,6 @@
 
 #id(qx.OO)
 #module(core)
-#after(qx.Settings)
 #load(qx.lang.Core)
 #load(qx.lang.Function)
 #optional(qx.event.type.DataEvent)
