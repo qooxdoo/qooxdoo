@@ -3,7 +3,7 @@
 */
 
 qx.Clazz.define("qx.test.Browser", {
-    extend: Object,
+    extend: qx.core.Object,
     
     init: function() {},
     
@@ -13,6 +13,14 @@ qx.Clazz.define("qx.test.Browser", {
         getName$mshtml: function() { return "Internet Explorer" },
         getName$webkit: function() { return "Webkit" },
         //getName$opera: function() { return "Opera" },
-        getName$donttouchme: function() {}
+        getName$donttouchme: function() {},
+
+        getClient: qx.core.Variant.select("qx.client", {
+                   gecko : function() { return "Gecko" },
+                   mshtml : function() { return "Internet Explorer" },
+                   webkit : function() { return "Webkit" },
+                   opera : function() { return "Opera" },
+                   none : function() { return "unknown browser" }
+        })
     }
 });
