@@ -735,6 +735,24 @@ qx.Proto._clearSelections = function()
 };
 
 
+/**
+ * Return the nodes that are currently selected.
+ *
+ * @return {Array}
+ *   An array containing the nodes that are currently selected.
+ */
+qx.Proto.getSelectedNodes = function()
+{
+  var nodes = [ ];
+
+  for (var nodeId in this._selections)
+  {
+    nodes.push(this._nodeArr[nodeId]);
+  }
+
+  return nodes;
+};
+
 
 // We currently support these types of tree nodes
 qx.Class.Type = {};
