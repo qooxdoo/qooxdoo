@@ -77,6 +77,14 @@ function(headings)
   // Move the focus with the mouse
   this.setFocusCellOnMouseMove(true);
 
+  // We don't want rows selected based on keyboard focus change.  Use our own
+  // Selection Manager.
+  this._selectionManager = new qx.ui.treevirtual.SelectionManager();
+
+  // Since we reset the selection manager, we need to set the selection model
+  // manually.  (It was previously done in the Table constructor.)
+  this.setSelectionModel(new qx.ui.table.SelectionModel);
+
   // Change focus colors.  Make them less obtrusive.
   this.setRowColors(
     {
@@ -473,7 +481,8 @@ qx.Proto._onkeydown = function(evt)
   var identifier = evt.getKeyIdentifier();
 
   var consumed = false;
-  if (evt.getModifiers() == 0)
+  var modifiers = evt.getModifiers();
+  if (modifiers == 0)
   {
     switch (identifier)
     {
@@ -482,6 +491,95 @@ qx.Proto._onkeydown = function(evt)
                                                this.getFocusedRow());
 
       this.toggleOpened(node);
+      consumed = true;
+      break;
+    }
+  }
+  else if (modifiers == qx.event.type.DomEvent.CTRL_MASK)
+  {
+    switch (identifier)
+    {
+    case "Left":
+      // Get the focused node
+      var node = this.getTableModel().getValue(this.getFocusedColumn(),
+                                               this.getFocusedRow());
+
+      // If it's an open branch...
+      if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH &&
+          node.opened)
+      {
+        // ... then close it
+        this.toggleOpened(node);
+      }
+    
+      consumed = true;
+      break;
+
+    case "Right":
+      // Get the focused node
+      var node = this.getTableModel().getValue(this.getFocusedColumn(),
+                                               this.getFocusedRow());
+
+      // If it's a closed branch...
+      if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH &&
+          ! node.opened)
+      {
+        // ... then open it
+        this.toggleOpened(node);
+      }
+    
+      consumed = true;
+      break;
+    }
+  }
+  else if (modifiers == qx.event.type.DomEvent.SHIFT_MASK)
+  {
+    switch (identifier)
+    {
+      case "Left":
+      // Get the data model
+      var dm = this.getTableModel();
+
+      // Get the currently-focused node
+      var node = dm.getValue(this.getFocusedColumn(), this.getFocusedRow());
+
+      // If we're not at the top-level already...
+      if (node.parentNodeId)
+      {
+        // Find out what rendered row our parent node is at
+        var rowIndex = dm.getNodeRowMap()[node.parentNodeId];
+      
+        // Set the focus to our parent
+        this.setFocusedCell(this._focusedCol, rowIndex, true);
+      }
+      
+      consumed = true;
+      break;
+
+      case "Right":
+      // Get the data model
+      var dm = this.getTableModel();
+
+      // Get the currently-focused node
+      var node = dm.getValue(this.getFocusedColumn(), this.getFocusedRow());
+
+      // If we're on a branch...
+      if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH)
+      {
+        // ... then first ensure the branch is open
+        if (! node.opened)
+        {
+          this.toggleOpened(node);
+        }
+
+        // If this node has children...
+        if (node.children.length > 0)
+        {
+          // ... then move the focus to the first child
+          this.moveFocusedCell(0, 1);
+        }
+      }
+      
       consumed = true;
       break;
     }
@@ -586,9 +684,23 @@ qx.Proto._handleSelectEvent = function(index, evt)
   }
   else
   {
-    // Key event.  Toggle the open state
-    this.toggleOpened(node);
-    return false;
+    // See which key generated the event
+    var identifier = evt.getKeyIdentifier();
+    switch (identifier)
+    {
+    case "Space":
+      // This should only select the row, not toggle the opened state
+      return false;
+
+    case "Enter":
+      // Here we want to toggle the open state
+      this.toggleOpened(node);
+      return this.openCloseClickSelectsRow() ? false : true;
+
+    default:
+      // Unrecognized key.  Ignore it.
+      return true;
+    }
   }
 };
 
