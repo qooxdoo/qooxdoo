@@ -388,11 +388,26 @@ qx.Proto.toggleOpened = function(node)
     // Get the selection model
     var sm = this.getSelectionModel();
 
+    // Get the data model
+    var dm = this.getTableModel();
+
+    // Determine if this node was selected
+    var rowIndex = dm.getNodeRowMap()[node.nodeId];
+
+    // Is this row already selected?
+    var bSelected = sm.isSelectedIndex(rowIndex);
+
     // Clear the old selections in the tree
     this.getSelectionModel()._clearSelection();
 
     // Clear the old selections in the data model
-    this.getTableModel()._clearSelections();
+    dm._clearSelections();
+
+    // If this row was selected, re-select it
+    if (bSelected)
+    {
+      this.setState(node.nodeId, { bSelected : true });
+    }
   }
 
   // Re-render the row data since formerly visible rows may now be invisible,
