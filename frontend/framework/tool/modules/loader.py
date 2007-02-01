@@ -98,16 +98,6 @@ def extractSuperClass(data):
 def extractLoadtimeDeps(data, fileId=""):
   deps = []
 
-  # qooxdoo specific:
-  # store inheritance deps
-  superClass = extractSuperClass(data)
-  if superClass != None and superClass != "" and not superClass in config.JSBUILTIN:
-    deps.append("qx.OO")
-    deps.append(superClass)
-  elif "qx.OO.defineClass(" in data:
-    deps.append("qx.OO")
-
-
   # Adding explicit requirements
   for item in config.QXHEAD["require"].findall(data):
     if item == fileId:
@@ -318,6 +308,55 @@ def getStrings(fileDb, fileId, options):
 
 
 
+
+
+def detectDeps(node, optionalDeps, loadtimeDeps, runtimeDeps, fileId, fileDb, inFunction):
+  if node.type == "variable":
+    if node.hasChildren:
+      assembled = ""
+      first = True
+
+      for child in node.children:
+        if child.type == "identifier":
+          if not first:
+            assembled += "."
+
+          assembled += child.get("name")
+          first = False
+
+          if assembled != fileId and fileDb.has_key(assembled) and not assembled in optionalDeps:
+            if inFunction:
+              deps = runtimeDeps
+            else:
+              deps = loadtimeDeps
+
+            if assembled in deps:
+              return
+
+            # print "Found: %s" % assembled
+            deps.append(assembled)
+
+        else:
+          assembled = ""
+          break
+
+  elif node.type == "constant" and node.get("constantType") == "string":
+    value = "%s" % node.get("value")
+
+    if value != fileId and fileDb.has_key(value) and not value in optionalDeps and not value in runtimeDeps:
+      # print "Found: %s" % value
+      runtimeDeps.append(value)
+
+  elif node.type == "body" and node.parent.type == "function":
+    inFunction = True
+
+  if node.hasChildren():
+    for child in node.children:
+      detectDeps(child, optionalDeps, loadtimeDeps, runtimeDeps, fileId, fileDb, inFunction)
+
+
+
+
 def resolveAutoDeps(fileDb, options):
   ######################################################################
   #  DETECTION OF AUTO DEPENDENCIES
@@ -328,92 +367,39 @@ def resolveAutoDeps(fileDb, options):
   else:
     print "  * Resolving dependencies: ",
 
-  knownIds = []
-  depCounter = 0
-  hasMessage = False
-
   for fileId in fileDb:
-    knownIds.append(fileId)
+    if not options.verbose:
+      sys.stdout.write(".")
+      sys.stdout.flush()
 
-  for fileId in fileDb:
     fileEntry = fileDb[fileId]
 
     if fileEntry["autoDeps"] == True:
       continue
 
-    if not options.verbose:
-      sys.stdout.write(".")
-      sys.stdout.flush()
-
-    hasMessage = False
-
-    fileTokens = getTokens(fileDb, fileId, options)
-    fileDeps = []
-
-    assembledName = ""
-
-    for token in fileTokens:
-      if token["type"] == "name" or token["type"] == "builtin":
-        if assembledName == "":
-          assembledName = token["source"]
-        else:
-          assembledName += ".%s" % token["source"]
-
-        if assembledName in knownIds:
-          if assembledName != fileId and not assembledName in fileDeps:
-            fileDeps.append(assembledName)
-
-          assembledName = ""
-
-      elif not (token["type"] == "token" and token["source"] == "."):
-        if assembledName != "":
-          assembledName = ""
-
-        if token["type"] == "string" and token["source"] in knownIds and token["source"] != fileId and not token["source"] in fileDeps:
-          fileDeps.append(token["source"])
-
-
-    if options.verbose:
-      print "    - Analysing %s..." % fileId
-
-    # Updating lists...
+    # Getting lists...
     optionalDeps = fileEntry["optionalDeps"]
     loadtimeDeps = fileEntry["loadtimeDeps"]
     runtimeDeps = fileEntry["runtimeDeps"]
 
-    # Removing optional deps from list
-    for dep in optionalDeps:
-      if dep in fileDeps:
-        fileDeps.remove(dep)
+    # Detecting auto dependencies
+    detectDeps(getTree(fileDb, fileId, options), optionalDeps, loadtimeDeps, runtimeDeps, fileId, fileDb, False)
 
-    if options.verbose:
-
-      # Checking loadtime dependencies
-      for dep in loadtimeDeps:
-        if not dep in fileDeps:
-          print "    - Could not confirm #require(%s) in %s!" % (dep, fileId)
-
-      # Checking runtime dependencies
-      for dep in runtimeDeps:
-        if not dep in fileDeps:
-          print "    - Could not confirm #use(%s) in %s!" % (dep, fileId)
-
-    # Adding new content to runtime dependencies
-    for dep in fileDeps:
-      if not dep in runtimeDeps and not dep in loadtimeDeps:
-        if options.verbose:
-          print "      - Adding dependency: %s" % dep
-
-        runtimeDeps.append(dep)
-        depCounter += 1
-
-    # store flag to omit it the next run
+    # Store flag to omit it the next run
     fileEntry["autoDeps"] = True
 
-  if not hasMessage and not options.verbose:
+    """
+    print "====== %s =======" % fileId
+    print "    - Optional: %s" % ", ".join(optionalDeps)
+    print "    - Loadtime: %s" % ", ".join(loadtimeDeps)
+    print "    - Runtime: %s" % ", ".join(runtimeDeps)
+    """
+
+  if not options.verbose:
     print
 
-  # print "  * Added %s dependencies" % depCounter
+
+
 
 
 
@@ -619,9 +605,13 @@ Simple resolver, just try to add items and put missing stuff around
 the new one.
 """
 def addIdWithDepsToSortedList(sortedList, fileDb, fileId):
+  if fileId in sortedList:
+    return
+
   if not fileDb.has_key(fileId):
-    print "    * Error: Couldn't find required file: %s" % fileId
+    print "    - Error: Could not find class '%s'" % fileId
     return False
+
 
   # Test if already in
   if not fileId in sortedList:
@@ -657,9 +647,13 @@ Search for dependencies, but don't add them. Just use them to put
 the new class after the stuff which is required (if it's included, too)
 """
 def addIdWithoutDepsToSortedList(sortedList, fileDb, fileId):
+  if fileId in sortedList:
+    return
+
   if not fileDb.has_key(fileId):
-    print "    * Error: Couldn't find required file: %s" % fileId
+    print "    - Error: Could not find class '%s'" % fileId
     return False
+
 
   # Test if already in
   if not fileId in sortedList:

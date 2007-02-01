@@ -1,7 +1,3 @@
-/*
-#require(qx.Mixin)
-*/
-
 qx.Mixin.define("qx.test.MMoody",
 {
   members :

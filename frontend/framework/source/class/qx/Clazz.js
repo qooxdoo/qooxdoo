@@ -20,13 +20,7 @@
 
 /* ************************************************************************
 
-#module(oo)
 #module(core)
-#load(qx.Mixin)
-#load(qx.Interface)
-#load(qx.lang.Core)
-#load(qx.core.Settings)
-#load(qx.core.Variant)
 
 ************************************************************************ */
 
@@ -393,7 +387,7 @@ qx.Clazz.define("qx.Clazz",
           imembers = include[i].members;
 
           if (imembers == null) {
-            throw new Error('Invalid include in class "' + name + '"! The value is undefined/null!');            
+            throw new Error('Invalid include in class "' + name + '"! The value is undefined/null!');
           }
           for (var key in imembers) {
             prot[key] = imembers[key];
