@@ -83,8 +83,15 @@ qx.Proto.addToHistory = function(command, newTitle) {
     //       The browser will still cache commands loaded once.
     //       Without the onload-problem anchors would work, too.
     //       (Anchors would have the advantage that the helper is only loaded once)
-    var src = qx.manager.object.AliasManager.getInstance().resolve("static/history/historyHelper.html");
-    this._iframe.src = src + "?c=" + command;
+    var src = qx.manager.object.AliasManager.getInstance().resolvePath("static/history/historyHelper.html");
+    try
+    {
+      this._iframe.src = src + "?c=" + command;
+    }
+    catch(ex)
+    {
+      this.error("Could not load file: " + src);
+    }
   }
 }
 

@@ -106,7 +106,12 @@ qx.Proto.remove = function(vAlias)
  * @return {String} resource path/url
  */
 qx.Proto.resolve = function(vAlias) {
-  return this._aliases[vAlias];
+  var ret = this._aliases[vAlias];
+  if (ret != null) {
+    return ret;
+  }
+
+  this.error("Could not resolve alias: " + vAlias);
 }
 
 

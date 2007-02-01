@@ -35,13 +35,13 @@ function () {
 
   this.setEdge(0);
 
-  this._titlePrefix = this.getSetting("title") + " API Documentation";
+  this._titlePrefix = qx.core.Settings.get("apiviewer.title") + " API Documentation";
   document.title = this._titlePrefix;
 
   // create header
   var header = new qx.ui.embed.HtmlEmbed(
     "<h1>" +
-    "<span>" + this.getSetting("title") + "</span>"+
+    "<span>" + qx.core.Settings.get("apiviewer.title") + "</span>"+
     " API Documentation"+
     "</h1>" +
     "<div id='qxversion'>qooxdoo " + qx.core.Version.toString() + "</div>"
