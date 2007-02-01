@@ -82,7 +82,7 @@ def processVariantSelect(callNode, variantMap):
     #print loop.parent.toJavascript()
     
     variantValue = secondParam.get("value")
-    inlineIfStatement(loop, variantValue != variantMap[variantGroup])
+    inlineIfStatement(loop, variantValue == variantMap[variantGroup])
 
     #print
     #print "--- post ---"
@@ -105,16 +105,20 @@ def processVariantSet(callNode, variantMap):
   variantGroup = arg1.get("value");
 
   arg2 = params.getChildByPosition(1)
-  if variantMap[variantGroup]:
-    newNode = tree.Node("constant")
-    newNode.set("isComplex", "false")
-    newNode.set("detail", "doublequotes")
-    newNode.set("value", variantMap[variantGroup])
-    newNode.set("constantType", "string")
-    newNode.set("makeComplex", "false")
-    
-    arg2.parent.replaceChild(arg2, newNode)
-    return True
+  try:
+    if variantMap[variantGroup]:
+      newNode = tree.Node("constant")
+      newNode.set("isComplex", "false")
+      newNode.set("detail", "doublequotes")
+      newNode.set("value", variantMap[variantGroup])
+      newNode.set("constantType", "string")
+      newNode.set("makeComplex", "false")
+      
+      arg2.parent.replaceChild(arg2, newNode)
+      return True
+  except KeyError:
+    return False
+  
   return False
   
   
@@ -244,11 +248,16 @@ def findVariable(node, varName, varNodes=None):
 def inlineIfStatement(ifNode, conditionValue):
   if ifNode.type != "loop" or ifNode.get("loopType") != "IF":
     return False
-  if conditionValue:
-    #print "remove if case"
-    ifNode.parent.replaceChild(ifNode, ifNode.getChild("elseStatement").getFirstChild())
-  else:
-    #print "remove else case"
-    if ifNode.getChild("elseStatement"):
+  if ifNode.getChild("elseStatement", False):
+    if conditionValue:
+      #print "remove else case"
       ifNode.parent.replaceChild(ifNode, ifNode.getChild("statement").getFirstChild())
+    else:
+      #print "remove if case"
+      ifNode.parent.replaceChild(ifNode, ifNode.getChild("elseStatement").getFirstChild())
+  else:
+    if conditionValue:
+      ifNode.parent.replaceChild(ifNode, ifNode.getChild("statement").getFirstChild())
+    else:
+      ifNode.parent.removeChild(ifNode)
   
