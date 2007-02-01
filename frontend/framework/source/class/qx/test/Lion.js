@@ -1,5 +1,6 @@
 /*
 #require(qx.Clazz)
+#require(qx.test.MFat)
 */
 qx.Clazz.define("qx.test.Lion",
 {
