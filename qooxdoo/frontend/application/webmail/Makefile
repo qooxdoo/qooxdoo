@@ -90,8 +90,12 @@ APPLICATION_LINEBREAKS_SOURCE = false
 #
 APPLICATION_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$(APPLICATION_NAMESPACE)
 
-
-
+#
+# browser optimized builds
+#
+APPLICATION_OPTIMIZE_STRINGS = false
+APPLICATION_OPTIMIZE_VARIABLES = false
+APPLICATION_OPTIMIZE_BROWSER = true
 
 
 ################################################################################
