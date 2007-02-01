@@ -22,8 +22,9 @@
 /* ************************************************************************
 
 #require(qx.util.Validation)
+#require(qx.core.Client)
 
- * ************************************************************************ */
+/* ************************************************************************ */
 
 qx.Clazz.define("qx.core.Variant",
 {
@@ -90,6 +91,8 @@ qx.Clazz.define("qx.core.Variant",
          */
         select : function (name, variants)
         {
+          // WARINING: all changes to this function must be duplicated in the generator!!
+          // modules/variantoptimizer.py (processVariantSelect)
           if (qx.util.Validation.isInvalidObject(qx.core.Variant.__variants[name])) {
             throw new Error("Variant \"" + name + "\" is not defined");
           }

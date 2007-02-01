@@ -21,10 +21,11 @@
 /* ************************************************************************
 
 #module(core)
+#require(qx.Clazz)
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.Locale",
+qx.Clazz.define("qx.Locale", { statics: 
 {
   /** {var} TODOC */
   _registry : {},
@@ -95,5 +96,5 @@ qx.OO.defineClass("qx.Locale",
    */
   isDefined : function(fullname) {
     return qx.Locale.byName(fullname) !== undefined;
-  }
-});
+ }
+}});
