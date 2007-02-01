@@ -30,8 +30,8 @@ function(vValue)
   // this.debug("Value: " + vValue);
   this.setValue(vValue);
 
-  if(qx.manager.object.ColorManager.getInstance().has(this._value)) {
-    return qx.manager.object.ColorManager.getInstance().get(this._value);
+  if(qx.manager.object.ColorManager.getInstance().has(this.getValue())) {
+    return qx.manager.object.ColorManager.getInstance().get(this.getValue());
   }
 
   qx.core.Object.call(this);

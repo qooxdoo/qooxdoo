@@ -450,28 +450,21 @@ qx.Proto.getHex = function()
 
 qx.Proto._evalHex = function()
 {
-  if (this._isRgbColor)
-  {
-    var a = ["#"];
+  var a = ["#"];
 
-    var r = this.getRed();
-    a.push(qx.renderer.color.Color.m_hex[Math.floor(r/16)]);
-    a.push(qx.renderer.color.Color.m_hex[Math.floor(r%16)]);
+  var r = this.getRed();
+  a.push(qx.renderer.color.Color.m_hex[Math.floor(r/16)]);
+  a.push(qx.renderer.color.Color.m_hex[Math.floor(r%16)]);
 
-    var g = this.getGreen();
-    a.push(qx.renderer.color.Color.m_hex[Math.floor(g/16)]);
-    a.push(qx.renderer.color.Color.m_hex[Math.floor(g%16)]);
+  var g = this.getGreen();
+  a.push(qx.renderer.color.Color.m_hex[Math.floor(g/16)]);
+  a.push(qx.renderer.color.Color.m_hex[Math.floor(g%16)]);
 
-    var b = this.getBlue();
-    a.push(qx.renderer.color.Color.m_hex[Math.floor(b/16)]);
-    a.push(qx.renderer.color.Color.m_hex[Math.floor(b%16)]);
+  var b = this.getBlue();
+  a.push(qx.renderer.color.Color.m_hex[Math.floor(b/16)]);
+  a.push(qx.renderer.color.Color.m_hex[Math.floor(b%16)]);
 
-    this._hex = a.join("");
-  }
-  else
-  {
-    // TODO
-  }
+  this._hex = a.join("");
 }
 
 
