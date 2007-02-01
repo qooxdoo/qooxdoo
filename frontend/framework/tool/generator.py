@@ -110,7 +110,7 @@ def getparser():
   parser.add_option("--optimize-strings", action="store_true", dest="optimizeStrings", default=False, help="Optimize strings. Increase mshtml performance.")
   parser.add_option("--optimize-variables", action="store_true", dest="optimizeVariables", default=False, help="Optimize variables. Reducing size.")
   parser.add_option("--optimize-variables-skip-prefix", action="store", dest="optimizeVariablesSkipPrefix", metavar="PREFIX", default="", help="Skip optimization of variables beginning with PREFIX [default: optimize all variables].")
-  parser.add_option("--obfuscate-identifiers", action="store_true", dest="obfuscateIdentifiers", default=False, help="Obfuscate public names like function names. (ALPHA!)")
+  parser.add_option("--log-level", action="store_true", dest="logLevel", default="all", help="Define the log level like in qx.log.Logger.")
 
   # Options for resource copying
   parser.add_option("--enable-resource-filter", action="store_true", dest="enableResourceFilter", default=False, help="Enable filtering of resource files used by classes (based on #embed).")
@@ -254,22 +254,6 @@ def argparser(cmdlineargs):
     if len(fileargs) > 1:
       (fileDb, moduleDb) = load(getparser().parse_args(defaultargs)[0])
 
-      if options.obfuscateIdentifiers:
-        sharednames = {}
-
-        for filearg in fileargs:
-          if filearg == "default":
-            continue
-
-          combinedargs = []
-          combinedargs.extend(defaultargs)
-          combinedargs.extend(fileargs[filearg])
-
-          options = getparser().parse_args(defaultargs)[0]
-          findnames(fileDb, moduleDb, options, sharednames)
-
-        names = obfuscator.sort(sharednames)
-
       for filearg in fileargs:
         if filearg == "default":
           continue
@@ -286,20 +270,13 @@ def argparser(cmdlineargs):
         combinedargs.extend(fileargs[filearg])
 
         options = getparser().parse_args(combinedargs)[0]
-
-        if options.obfuscateIdentifiers:
-          execute(fileDb, moduleDb, options, filearg, names)
-        else:
-          execute(fileDb, moduleDb, options, filearg)
+        execute(fileDb, moduleDb, options, filearg)
 
     else:
       options = getparser().parse_args(defaultargs)[0]
       (fileDb, moduleDb) = load(options)
 
-      if options.obfuscateIdentifiers:
-        execute(fileDb, moduleDb, options, "", obfuscator.sort(findnames(fileDb, moduleDb, options)))
-      else:
-        execute(fileDb, moduleDb, options, "")
+      execute(fileDb, moduleDb, options, "")
 
   else:
     print
@@ -310,10 +287,7 @@ def argparser(cmdlineargs):
 
     (fileDb, moduleDb) = load(options)
 
-    if options.obfuscateIdentifiers:
-      execute(fileDb, moduleDb, options, options.packageId, obfuscator.sort(findnames(fileDb, moduleDb, options)))
-    else:
-      execute(fileDb, moduleDb, options, options.packageId)
+    execute(fileDb, moduleDb, options, options.packageId)
 
 
 
@@ -548,7 +522,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
 
   ######################################################################
-  #  GENERATION OF PRETTY PRINTED CODE
+  #  GENERATION OF FIXED CODE
   ######################################################################
 
   if options.fixSource:
@@ -633,6 +607,10 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
 
 
+
+
+
+
   ######################################################################
   #  STRING OPTIMIZATION
   ######################################################################
@@ -696,23 +674,52 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     additionalOutput.append(stringoptimizer.replacement(stringList, "$" + pkgid))
 
 
+
+
+
+
+  ######################################################################
+  #  SUPPORT FOR LOG LEVEL FILTERING
+  ######################################################################
+
+  if options.logLevel != "all":
+    print
+    print "  LOG LEVEL FILTER:"
+    print "----------------------------------------------------------------------------"
+
+    if options.verbose:
+      print "  * Optimizing for log level configuration..."
+    else:
+      print "  * Optimizing for log level configuration: ",
+
+
+
+
+
+
+
+  ######################################################################
+  #  SUPPORT FOR VARIANTS
+  ######################################################################
+
   if options.useVariants != []:
     print
-    print "BROWSER SPECIFIC OPTIMIZATION:"
+    print "  VARIANT OPTIMIZATION:"
     print "----------------------------------------------------------------------------"
 
     variantMap = {}
     for variant in options.useVariants:
       keyValue = variant.split(":")
       if len(keyValue) != 2:
-        print "Error: Variants must be specified as key value pair separated by ':'!"
-        return
+        print "  * Error: Variants must be specified as key value pair separated by ':'!"
+        sys.exit(1)
+
       variantMap[keyValue[0]] = keyValue[1]
 
     if options.verbose:
-      print "  * Optimizing variants..."
+      print "  * Optimizing for variant setup..."
     else:
-      print "  * Optimizing variants: ",
+      print "  * Optimizing for variant setup: ",
 
     for fileId in sortedIncludeList:
       if options.verbose:
@@ -725,6 +732,11 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
     if not options.verbose:
       print
+
+
+
+
+
 
 
   ######################################################################
@@ -754,39 +766,6 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
       print
 
 
-
-
-
-
-  ######################################################################
-  #  NAME OBFUSCATION
-  ######################################################################
-
-  if options.obfuscateIdentifiers:
-    print
-    print "  OBFUSCATE IDENTIFIERS:"
-    print "----------------------------------------------------------------------------"
-
-    if options.verbose:
-      print "  * Obfuscating identifiers..."
-    else:
-      print "  * Obfuscating identifiers: ",
-
-    counter = 0
-
-    for fileId in sortedIncludeList:
-      if options.verbose:
-        print "    - %s" % fileId
-      else:
-        sys.stdout.write(".")
-        sys.stdout.flush()
-
-      counter += obfuscator.update(loader.getTree(fileDb, fileId, options), names, "$$")
-
-    if not options.verbose:
-      print
-
-    print "  * Updated %s names" % counter
 
 
 
@@ -828,6 +807,9 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
 
 
+
+
+
   ######################################################################
   #  TREE STORAGE
   ######################################################################
@@ -859,6 +841,9 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
     if not options.verbose:
       print
+
+
+
 
 
 
@@ -920,6 +905,9 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
         jsonContent = tree.nodeToJsonString(docTree, "", "", "")
 
       filetool.save(options.apiDocumentationJsonFile, jsonContent, options.scriptOutputEncoding)
+
+
+
 
 
 
