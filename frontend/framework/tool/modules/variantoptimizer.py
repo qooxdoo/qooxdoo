@@ -38,12 +38,12 @@ def processVariantSelect(callNode, variantMap):
     return
   params = callNode.getChild("params")
   if len(params.children) != 2:
-    print "Warning: Expecting exactly two arguments for qx.core.Variant.select. Ignoring this occurrence."
+    print "    - Warning: Expecting exactly two arguments for qx.core.Variant.select. Ignoring this occurrence."
     return
 
   firstParam = params.getChildByPosition(0)
   if not isStringLiteral(firstParam):
-    print "Warning! First argument must be a string literal constant! Ignoring this occurrence."
+    print "    - Warning! First argument must be a string literal constant! Ignoring this occurrence."
     return
   
   variantGroup = firstParam.get("value");
@@ -72,7 +72,7 @@ def processVariantSelect(callNode, variantMap):
   elif isStringLiteral(secondParam):
     ifcondition =  secondParam.parent.parent.parent
     if ifcondition.type != "expression" or len(ifcondition.children) != 1 or ifcondition.parent.type != "loop":
-      print "Warning! Only processing qx.core.Variant.select directly inside of an if condition. Ignoring this occurrence."
+      print "    - Warning! Only processing qx.core.Variant.select directly inside of an if condition. Ignoring this occurrence."
       return
 
     loop = ifcondition.parent
@@ -90,7 +90,7 @@ def processVariantSelect(callNode, variantMap):
     #print
     return
 
-  print "Warning: The second parameter of qx.core.Variant.select must be a map or a string literal. Ignoring this occurrence."
+  print "    - Warning: The second parameter of qx.core.Variant.select must be a map or a string literal. Ignoring this occurrence."
 
 
 def processVariantSet(callNode, variantMap):
@@ -100,7 +100,7 @@ def processVariantSet(callNode, variantMap):
   params = callNode.getChild("params")
   arg1 = params.getChildByPosition(0)
   if not isStringLiteral(arg1):
-    print "Warning! First argument must be a string literal constant! Ignoring this occurrence."
+    print "    - Warning! First argument must be a string literal constant! Ignoring this occurrence."
     return
   variantGroup = arg1.get("value");
 

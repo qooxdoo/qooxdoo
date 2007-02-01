@@ -89,7 +89,28 @@ exec-resources-build:
 	  $(COMPUTED_RESOURCE) \
 	  $(COMPUTED_BUILD_INCLUDE)
 
+exec-browser-optimize:
+	@$(CMD_GENERATOR) \
+	  $(COMPUTED_BROWSER_BUILD) \
+	  --use-variant client:gecko \
+	  --compiled-script-file $(COMPUTED_BROWSER_SCRIPT_NAME:.js=_gecko.js)
 
+	@$(CMD_GENERATOR) \
+	  $(COMPUTED_BROWSER_BUILD) \
+	  --use-variant client:webkit \
+	  --compiled-script-file $(COMPUTED_BROWSER_SCRIPT_NAME:.js=_webkit.js)
+
+	@$(CMD_GENERATOR) \
+	  $(COMPUTED_BROWSER_BUILD) \
+	  --use-variant client:mshtml \
+	  --compiled-script-file $(COMPUTED_BROWSER_SCRIPT_NAME:.js=_mshtml.js)
+
+	@$(CMD_GENERATOR) \
+	  $(COMPUTED_BROWSER_BUILD) \
+	  --use-variant client:opera \
+	  --compiled-script-file $(COMPUTED_BROWSER_SCRIPT_NAME:.js=_opera.js)
+	  
+	@mv $(COMPUTED_BROWSER_SCRIPT_NAME) $(COMPUTED_BROWSER_SCRIPT_NAME:.js=_all.js)
 
 
 #
