@@ -19,60 +19,18 @@
 #
 ################################################################################
 
+import re
 import tree
+import compiler
 
-def search(node, targetBrowser, verbose=False):
-  calls = findCalls(node, u"qx.Clazz.define", [])
-  for call in calls:
-    members = getMembers(call)
-    if members == None:
-        continue
-    methods = getMethods(members)
-    for methodName in methods:
-      if "$" in methodName:
-        nameParts = methodName.split("$")
-        baseName = nameParts[0]
-        switched = False
-        if targetBrowser in nameParts[1:]:
-          print "take: %s" % methodName
-          switchMethod(methods[baseName], methods[methodName])
-          switched = True
-        if switched:
-          continue
-        for part in nameParts[1:]:
-          if part in ["mshtml", "gecko", "opera", "webkit"]:
-            removeFunction(methods[methodName])
-            print "remove: %s" % methodName
-            break
-
-  variables = findVariable(node, "qx.BROWSER_OPTIMIZED", [])
-  for var in variables:
-    removeSurroundingIf(var)
+def search(node, variantMap, verbose=False):
+  variants = findVariablePrefix(node, "qx.core.Variant")
+  for variant in variants:
+    variantMethod = selectNode(variant, "identifier[3]/@name")
+    if variantMethod == "select":
+      processVariantSelect(selectNode(variant, "../.."), variantMap)
 
  
-def findCalls(node, methodName, callNodes):
-  
-  if node.type == "call":
-    try:
-      nameNode = node.getChild("operand").getChild("variable")
-      nameParts = []
-      for child in nameNode.children:
-        if child.type == "identifier":
-          nameParts.append(child.get("name"))
-        name = u".".join(nameParts)
-    except tree.NodeAccessException:
-      name = ""
-    if name == methodName:
-      callNodes.append(node)
-      return callNodes
-  
-  if node.hasChildren():
-    for child in node.children:
-      callNodes = findCalls(child, methodName, callNodes)
-      #if call
-  
-  return callNodes
-
 
 def getMembers(callNode):
   if callNode.type != "call":
@@ -99,24 +57,75 @@ def getMethods(mapNode):
         methods[key] = value
   return methods
   
-def switchMethod(oldFunctionNode, newFunctionNode):
-  newFunctionParent = newFunctionNode.parent
-  
-  oldFunctionParent = oldFunctionNode.parent
-  oldFunctionParent.replaceChild(oldFunctionNode, newFunctionNode)
 
-  # remove old method definition
-  keyValue = newFunctionParent.parent
-  map = keyValue.parent
-  map.removeChild(keyValue)
-
-def removeFunction(functionNode):
-  keyValue = functionNode.parent.parent
-  map = keyValue.parent
-  map.removeChild(keyValue)
+def selectNode(node, path):
+  re_indexedNode = re.compile("^(.*)\[(\d+)\]$")
   
-      
-def findVariable(node, varName, varNodes):
+  pathParts = path.split("/")
+  for part in pathParts:
+    # parent node
+    if part == "..":
+      node = node.parent
+    else:
+      # indexed node
+      match = re_indexedNode.match(part)
+      if match:
+        type = match.group(1)
+        index = int(match.group(2))
+        i = 0
+        found = False
+        for child in node.children:
+          if child.type == type:
+            if index == i:
+              node = child
+              found = True
+              break
+            i += 1
+        if not found:
+          return None
+      # attribute
+      elif part[0] == "@":
+        return node.get(part[1:])
+      # normal node
+      else:
+        node = node.getChild(part)
+        
+  return node  
+  
+
+def findVariablePrefix(node, namePrefix, varNodes=None):
+  if varNodes == None:
+    varNodes = []
+
+  if node.type == "variable":
+    try:
+      nameParts = []
+      for child in node.children:
+        if child.type == "identifier":
+          nameParts.append(child.get("name"))
+    except tree.NodeAccessException:
+      nameParts = []
+    i = 0
+    found = True
+    for prefixPart in namePrefix.split("."):
+      if prefixPart != nameParts[i]:
+        found = False
+        break
+      i += 1
+    if found:
+      varNodes.append(node)
+      return varNodes
+  
+  if node.hasChildren():
+    for child in node.children:
+      varNodes = findVariablePrefix(child, namePrefix, varNodes)
+  
+  return varNodes
+
+  
+def findVariable(node, varName, varNodes=None):
+  if varNodes == None:
+    varNodes = []
   
   if node.type == "variable":
     try:
@@ -134,12 +143,69 @@ def findVariable(node, varName, varNodes):
   if node.hasChildren():
     for child in node.children:
       varNodes = findVariable(child, varName, varNodes)
-      #if call
   
   return varNodes
   
   
-def removeSurroundingIf(node):
-  while node.type != 'loop':
-    node = node.parent
-  node.parent.removeChild(node)
+def processVariantSelect(callNode, variantMap):
+  if callNode.type != "call":
+    return
+  params = callNode.getChild("params")
+  if len(params.children) != 2:
+    print "not enough arguments"
+    return
+
+  firstParam = params.getChildByPosition(0)
+  if firstParam.type != "constant" or firstParam.get("constantType") != "string":
+    print "First argument must be a string constant!"
+    return
+  
+  variantGroup = firstParam.get("value");
+  if not variantGroup in variantMap.keys():
+    return
+
+  secondParam = params.getChildByPosition(1)
+  if secondParam.type == "map":
+    for node in secondParam.children:
+      key = node.get("key")
+      value = node.getChild("value").getFirstChild()
+      if key == variantMap[variantGroup]:
+        callNode.parent.replaceChild(callNode, value)
+        break
+    return
+    
+  elif secondParam.type == "constant" and secondParam.get("constantType") == "string":
+    ifcondition =  secondParam.parent.parent.parent
+    if ifcondition.type != "expression" or len(ifcondition.children) != 1 or ifcondition.parent.type != "loop":
+      print "Warning! Only processing qx.Variant directly inside if conditions."
+      return
+
+    loop = ifcondition.parent
+
+    #print
+    #print "--- pre ---"
+    #print loop.parent.toJavascript()
+    
+    variantValue = secondParam.get("value")
+    inlineIfStatement(loop, variantValue != variantMap[variantGroup])
+
+    #print
+    #print "--- post ---"
+    #print loop.parent.toJavascript()
+    #print
+    return
+
+  print "Second parameter must be a map or a string constant"
+
+
+def inlineIfStatement(ifNode, conditionValue):
+  if ifNode.type != "loop" or ifNode.get("loopType") != "IF":
+    return False
+  if conditionValue:
+    #print "remove if case"
+    ifNode.parent.replaceChild(ifNode, ifNode.getChild("elseStatement").getFirstChild())
+  else:
+    #print "remove else case"
+    if ifNode.getChild("elseStatement"):
+      ifNode.parent.replaceChild(ifNode, ifNode.getChild("statement").getFirstChild())
+  
