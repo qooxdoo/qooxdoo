@@ -2,7 +2,9 @@
 #require(qx.Clazz)
 #require(qx.core.Variant)
 */
-var c = "qx.client";
+
+qx.core.Variant.define("qx.gecko.version", ["new", "old"]);
+qx.core.Variant.set("qx.gecko.version", "new");
 
 qx.Clazz.define("qx.test.Browser", {
 
@@ -11,21 +13,22 @@ qx.Clazz.define("qx.test.Browser", {
   init: function() {},
   
   members: {
-    getName: qx.Variant("qx.client", {
+    getName: qx.core.Variant.select("qx.client", {
       none: function() { return "unknown browser" },
       
-      gecko: qx.Variant("qx.gecko.version", {
+      gecko: qx.core.Variant.select("qx.gecko.version", {
         "new": function() { return "Gecko new" },
-        "old": function() { return "Gecko old" }
+        "old": function() { return "Gecko old" },
+        "none": function() {}
       }),
       
-      mshtml: function() { return "Internet Explorer" },
+      //mshtml: function() { return "Internet Explorer" },
       
       webkit: function() {
 
-        if (qx.Variant("debug", "full")) {
+        if (qx.core.Variant.select("debug", "full")) {
           alert("full");
-        } else if (qx.Variant("debug", "medium")) {
+        } else if (qx.core.Variant.select("debug", "medium")) {
           alert("medium");
         } else {
           alert("none")
@@ -33,7 +36,7 @@ qx.Clazz.define("qx.test.Browser", {
         return "Hurra, Webkit!"
       },
         
-      opera: function() { return "Opera" }
+      "opera|mshtml": function() { return "Opera" }
     }),
     
     getVersion: function() { return 2; } 
