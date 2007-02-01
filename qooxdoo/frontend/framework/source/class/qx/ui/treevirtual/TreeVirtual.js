@@ -92,6 +92,9 @@ function(headings)
       bgcolFocusedBlur         : "#f0f0f0"
     });
 
+  // Set the cell focus color
+  this.setCellFocusAttributes({ backgroundColor : "lightblue" });
+
 /*
   // Use this instead, to help determine which does what
   this.setRowColors(
@@ -105,24 +108,22 @@ function(headings)
     });
 */
 
-  // Remove the outline on focus.
-  //
-  // KLUDGE ALERT: I really want to remove the old appearance, but I don't
-  // know how to do that.  Instead, for the moment, I'll just use an existing
-  // appearance that won't affect the focus indicator, making the appearance
-  // effectively a no-op.
-  var scrollerArr = this._getPaneScrollerArr();
-  for (var i = 0; i < scrollerArr.length; i++)
-  {
-    scrollerArr[i]._focusIndicator.setAppearance("image");
+  // Get the list of pane scrollers
+  var scrollers = this._getPaneScrollerArr();
 
-    // Set the pane scrollers to handle the selection before displaying the
-    // focus, so we can manipulate the selected icon.
-    scrollerArr[i].setSelectBeforeFocus(true);
+  // For each scroller...
+  for (var i = 0; i < scrollers.length; i++)
+  {
+    // ... remove the outline on focus, 
+    scrollers[i]._focusIndicator.setAppearance("treevirtual-focus-indicator");
+
+    // ... and set the pane scrollers to handle the selection before
+    // displaying the focus, so we can manipulate the selected icon.
+    scrollers[i].setSelectBeforeFocus(true);
   }
 
   // Arrange to select events locally. Replace the selection manager's method
-  // with one that calls our _handleSelectEvent method first, and it it
+  // with one that calls our _handleSelectEvent method first, and if it
   // indicates we should actually select the row, then call the selection
   // manager's method.  Our method handles deciding if the click was on the
   // open/close button, and toggling the opened/closed state as necessary.
@@ -469,6 +470,41 @@ qx.Proto.setRowColors = function(colors)
 
 
 /**
+ * Set the attributes used to indicate the cell that has the focus.
+ *
+ * @param attributes {Map}
+ *   The set of attributes that the cell focus indicator should have.  This is
+ *   in the format required to call the <i>set()</i> method of a widget, e.g.
+ *   <p>
+ *   { backgroundColor: blue }
+ *   <p>
+ *   If not otherwise specified, the opacity is set to 0.2 so that the cell
+ *   data can be seen "through" the cell focus indicator which overlays it.
+ *   <p>
+ *   For no visible focus indicator, use { backgroundColor : "transparent" }
+ *   <p>
+ *   The focus indicator is a box the size of the cell, which overlays the
+ *   cell itself.  There is no text in the focus indicator itself, so it makes
+ *   no sense to set the color attribute or any other attribute that affects
+ *   fonts.
+ */
+qx.Proto.setCellFocusAttributes = function(attributes)
+{
+  // Add an opacity attribute so what's below the focus can be seen
+  if (! attributes.opacity)
+  {
+    attributes.opacity = 0.2;
+  }
+
+  var scrollers = this._getPaneScrollerArr();
+  for (var i = 0; i < scrollers.length; i++)
+  {
+    scrollers[i]._focusIndicator.set(attributes);
+  }  
+};
+
+
+/**
  * Event handler. Called when a key was pressed.
  *
  * We handle the Enter key to toggle opened/closed tree state.  All
@@ -498,6 +534,14 @@ qx.Proto._onkeydown = function(evt)
       this.toggleOpened(node);
       consumed = true;
       break;
+
+    case "Left":
+      this.moveFocusedCell(-1, 0);
+      break;
+
+    case "Right":
+      this.moveFocusedCell(1, 0);
+      break;
     }
   }
   else if (modifiers == qx.event.type.DomEvent.CTRL_MASK)
@@ -519,11 +563,11 @@ qx.Proto._onkeydown = function(evt)
       {
         // ... then close it
         this.toggleOpened(node);
-
-        // Reset the focus to the current node
-        this.setFocusedCell(treeCol, focusedRow, true);
       }
     
+      // Reset the focus to the current node
+      this.setFocusedCell(treeCol, focusedRow, true);
+
       consumed = true;
       break;
 
@@ -542,10 +586,10 @@ qx.Proto._onkeydown = function(evt)
       {
         // ... then open it
         this.toggleOpened(node);
-
-        // Reset the focus to the current node
-        this.setFocusedCell(treeCol, focusedRow, true);
       }
+
+      // Reset the focus to the current node
+      this.setFocusedCell(treeCol, focusedRow, true);
     
       consumed = true;
       break;
@@ -621,6 +665,35 @@ qx.Proto._onkeydown = function(evt)
     qx.ui.table.Table.prototype._onkeydown.call(this, evt);
   }
 };
+
+
+qx.Proto._onkeypress = function(evt)
+{
+  var consumed = false;
+
+  // Handle keys that are independant from the modifiers
+  var identifier = evt.getKeyIdentifier();
+  switch (identifier)
+  {
+    // Ignore events we already handled in _onkeydown
+    case "Left":
+    case "Right":
+      consumed = true;
+      break;
+  }
+
+  if (consumed)
+  {
+    evt.preventDefault();
+    evt.stopPropagation();
+  }
+  else
+  {
+    // Let our superclass handle this event
+    qx.ui.table.Table.prototype._onkeypress.call(this, evt);
+  }
+};
+
 
 
 /**
