@@ -391,6 +391,10 @@ qx.Clazz.define("qx.Clazz",
           // modify them e.g. attaching base etc. because they may
           // used by multiple classes
           imembers = include[i].members;
+
+          if (imembers == null) {
+            throw new Error('Invalid include in class "' + name + '"! The value is undefined/null!');            
+          }
           for (var key in imembers) {
             prot[key] = imembers[key];
           }
