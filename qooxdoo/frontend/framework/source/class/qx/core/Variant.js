@@ -97,30 +97,48 @@ qx.Clazz.define("qx.core.Variant",
             throw new Error("Variant \"" + name + "\" is not defined");
           }
 
-          var value = qx.core.Variant.__variants[name].value;
-
-          for (var key in variants)
+          if (qx.util.Validation.isValidString(variants))
           {
-            if (key.indexOf("|") > 0) {
-              var keyParts = key.split("|");
-            } else {
-              keyParts = [key];
-            }        
-            for (var i=0; i<keyParts.length; i++)
+            return qx.core.Variant.__matchKey(name, variants);
+          }
+          else if (qx.util.Validation.isValidObject(variants))
+          {
+            for (var key in variants)
             {
-              if (keyParts[i] !== "none" && value === keyParts[i]) {
+              if (qx.core.Variant.__matchKey(name, key)) {
                 return variants[key];
               }
             }
+  
+            if (variants["none"]) {
+              return variants["none"];
+            }
+  
+            throw new Error ("No match for variant \"" + name +
+              "\" found, and no default (\"none\") given");
           }
-
-          if (variants["none"]) {
-            return variants["none"];
+          else
+          {
+            throw new Error ("the second parameter must be a map or a string!")
           }
-
-          throw new Error ("No match for variant \"" + name +
-            "\" found, and no default (\"none\") given");
-        }
+        
+        },
+        
+        /**
+         * 
+         */
+         __matchKey: function(variantGroup, key)
+         {
+            var keyParts = key.split("|");
+            
+            for (var i=0; i<keyParts.length; i++)
+            {
+              if (keyParts[i] !== "none" && qx.core.Variant.get(variantGroup) === keyParts[i]) {
+                return true;
+              }
+            }
+            return false;
+         }
     }
 });
 
