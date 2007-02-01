@@ -657,7 +657,7 @@ qx.Proto._handleSelectEvent = function(index, evt)
 
     // Calculate the position of the beginning of the tree column
     var treeCol = this.getTableModel().getTreeColumn();
-    var left = 0;
+    var left = qx.html.Location.getClientBoxLeft(this.getElement());
     for (i = 0; i < columnPositions[treeCol].visX; i++)
     {
       left += tcm.getColumnWidth(columnPositions[i].visX);
