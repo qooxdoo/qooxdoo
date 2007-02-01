@@ -351,6 +351,10 @@ ifeq ($(APPLICATION_OPTIMIZE_VARIABLES),true)
   COMPUTED_BUILD_OPTIMIZATIONS += --optimize-variables
 endif
 
+ifneq ($(APPLICATION_LOGLEVEL),)
+  COMPUTED_BUILD_OPTIMIZATIONS += --log-level $(APPLICATION_LOGLEVEL)
+endif
+
 ifeq ($(APPLICATION_ENABLE_GUI),false)
   COMPUTED_COMMON_INIT = --define-setting initComponent:qx.component.init.BasicInitComponent
 endif

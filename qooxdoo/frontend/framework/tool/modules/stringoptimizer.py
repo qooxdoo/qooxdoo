@@ -71,7 +71,7 @@ def check(node, verbose=False):
     all = cu.getAllChildrenOfType("identifier")
 
     for ch in all:
-      if ch.get("name", False) in [ "Error", "debug", "info", "warning", "error", "alert" ]:
+      if ch.get("name", False) in [ "debug", "info", "warn", "error", "fatal", "Error", "alert" ]:
         if verbose:
           print "    - Ignore output statement at line: %s" % ch.get("line")
         return False
