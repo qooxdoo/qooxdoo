@@ -22,7 +22,6 @@
 
 #module(ui_core)
 #module(ui_layout)
-#require(qx.core.Client)
 
 ************************************************************************ */
 

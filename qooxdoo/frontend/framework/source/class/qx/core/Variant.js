@@ -21,9 +21,6 @@
 
 /* ************************************************************************
 
-#require(qx.util.Validation)
-#require(qx.core.Client)
-
 /* ************************************************************************ */
 
 qx.Clazz.define("qx.core.Variant",
@@ -109,11 +106,11 @@ qx.Clazz.define("qx.core.Variant",
                 return variants[key];
               }
             }
-  
+
             if (variants["none"]) {
               return variants["none"];
             }
-  
+
             throw new Error ("No match for variant \"" + name +
               "\" found, and no default (\"none\") given");
           }
@@ -121,16 +118,16 @@ qx.Clazz.define("qx.core.Variant",
           {
             throw new Error ("the second parameter must be a map or a string!")
           }
-        
+
         },
-        
+
         /**
-         * 
+         *
          */
          __matchKey: function(variantGroup, key)
          {
             var keyParts = key.split("|");
-            
+
             for (var i=0; i<keyParts.length; i++)
             {
               if (keyParts[i] !== "none" && qx.core.Variant.get(variantGroup) === keyParts[i]) {

@@ -21,11 +21,10 @@
 /* ************************************************************************
 
 #module(core)
-#require(qx.Clazz)
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.Locale", { statics: 
+qx.Clazz.define("qx.Locale", { statics:
 {
   /** {var} TODOC */
   _registry : {},

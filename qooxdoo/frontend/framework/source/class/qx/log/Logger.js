@@ -21,9 +21,7 @@
 
 #module(core)
 #module(log)
-#require(qx.log.WindowAppender)
-#require(qx.log.FireBugAppender)
-*
+
 ************************************************************************ */
 
 /**

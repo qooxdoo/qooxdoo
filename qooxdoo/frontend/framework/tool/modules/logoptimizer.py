@@ -36,7 +36,6 @@ def cleanup(node, remove, verbose):
         name = last.get("name")
 
         if name in remove:
-          verbose=True
           if verbose:
             print "        - Removing statement \"%s\" in line %s" % (name, node.get("line"))
 
@@ -51,7 +50,7 @@ def cleanup(node, remove, verbose):
             target.parent.removeChild(target)
             return
 
-          else:
+          elif verbose:
             print "          - Invalid parent node. Could not remove element securely!"
 
   if node.hasChildren():

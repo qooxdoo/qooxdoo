@@ -20,12 +20,7 @@
 
 /* ************************************************************************
 
-#id(qx.OO)
 #module(core)
-#load(qx.lang.Core)
-#load(qx.lang.Function)
-#optional(qx.event.type.DataEvent)
-#load(qx.core.Settings)
 
 ************************************************************************ */
 
