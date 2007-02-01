@@ -28,7 +28,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "
 
 import config, tokenizer, loader, api, tree, treegenerator, settings, resources
 import filetool, stringoptimizer, optparseext, variableoptimizer, obfuscator, compiler
-import migrator, textutil, graph, browseroptimizer
+import migrator, textutil, graph, variantoptimizer
 
 
 
@@ -103,6 +103,7 @@ def getparser():
   # Options for source and compiled version
   parser.add_option("--define-setting", action="extend", dest="defineSetting", type="string", metavar="NAMESPACE.KEY:VALUE", default=[], help="Define a setting.")
   parser.add_option("--add-new-lines", action="store_true", dest="addNewLines", default=False, help="Keep newlines in compiled files.")
+  parser.add_option("--use-variant", action="extend", dest="useVariants", type="string", metavar="NAMESPACE.KEY:VALUE", default=[], help="Optimize for the given variant.")
 
   # Options for compiled version
   parser.add_option("--add-file-ids", action="store_true", dest="addFileIds", default=False, help="Add file IDs to compiled output.")
@@ -110,7 +111,6 @@ def getparser():
   parser.add_option("--optimize-variables", action="store_true", dest="optimizeVariables", default=False, help="Optimize variables. Reducing size.")
   parser.add_option("--optimize-variables-skip-prefix", action="store", dest="optimizeVariablesSkipPrefix", metavar="PREFIX", default="", help="Skip optimization of variables beginning with PREFIX [default: optimize all variables].")
   parser.add_option("--obfuscate-identifiers", action="store_true", dest="obfuscateIdentifiers", default=False, help="Obfuscate public names like function names. (ALPHA!)")
-  parser.add_option("--optimize-browser", dest="optimizeBrowser", default="", choices=["", "mshtml", "gecko", "opera", "webkit"], help="Generate a custom build for a special browser. (ALPHA!)")
 
   # Options for resource copying
   parser.add_option("--enable-resource-filter", action="store_true", dest="enableResourceFilter", default=False, help="Enable filtering of resource files used by classes (based on #embed).")
@@ -696,17 +696,23 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     additionalOutput.append(stringoptimizer.replacement(stringList, "$" + pkgid))
 
 
-  if options.optimizeBrowser != "":
+  if options.useVariants != []:
     print
     print "BROWSER SPECIFIC OPTIMIZATION:"
     print "----------------------------------------------------------------------------"
 
-    if options.verbose:
-      print "  * Optimizing variables..."
-    else:
-      print "  * Optimizing variables: ",
+    variantMap = {}
+    for variant in options.useVariants:
+      keyValue = variant.split(":")
+      if len(keyValue) != 2:
+        print "Error: Variants must be specified as key value pair separated by ':'!"
+        return
+      variantMap[keyValue[0]] = keyValue[1]
 
-    print sortedIncludeList
+    if options.verbose:
+      print "  * Optimizing variants..."
+    else:
+      print "  * Optimizing variants: ",
 
     for fileId in sortedIncludeList:
       if options.verbose:
@@ -715,7 +721,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
         sys.stdout.write(".")
         sys.stdout.flush()
 
-      browseroptimizer.search(loader.getTree(fileDb, fileId, options), options.optimizeBrowser, options.verbose)
+      variantoptimizer.search(loader.getTree(fileDb, fileId, options), variantMap, options.verbose)
 
     if not options.verbose:
       print
