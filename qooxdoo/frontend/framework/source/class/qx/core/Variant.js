@@ -98,8 +98,16 @@ qx.Clazz.define("qx.core.Variant",
 
           for (var key in variants)
           {
-            if (key !== "none" && value === key) {
-              return variants[key];
+            if (key.indexOf("|") > 0) {
+              var keyParts = key.split("|");
+            } else {
+              keyParts = [key];
+            }        
+            for (var i=0; i<keyParts.length; i++)
+            {
+              if (keyParts[i] !== "none" && value === keyParts[i]) {
+                return variants[key];
+              }
             }
           }
 
