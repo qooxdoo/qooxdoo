@@ -58,7 +58,10 @@ APPLICATION_FILES = index.html
 APPLICATION_TEMPLATE_INPUT = index.xhtml.tmpl
 APPLICATION_TEMPLATE_OUTPUT = index.xhtml
 
-
+#
+# Reduce log level
+#
+APPLICATION_LOGLEVEL = error
 
 
 
