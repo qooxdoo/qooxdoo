@@ -487,8 +487,13 @@ qx.Proto._onkeydown = function(evt)
     switch (identifier)
     {
     case "Enter":
-      var node = this.getTableModel().getValue(this.getFocusedColumn(),
-                                               this.getFocusedRow());
+      // Get the data model
+      var dm = this.getTableModel();
+
+      // Get the focused node
+      var focusedRow = this.getFocusedRow();
+      var treeCol = dm.getTreeColumn();
+      var node = dm.getValue(treeCol, focusedRow);
 
       this.toggleOpened(node);
       consumed = true;
@@ -500,9 +505,13 @@ qx.Proto._onkeydown = function(evt)
     switch (identifier)
     {
     case "Left":
+      // Get the data model
+      var dm = this.getTableModel();
+
       // Get the focused node
-      var node = this.getTableModel().getValue(this.getFocusedColumn(),
-                                               this.getFocusedRow());
+      var focusedRow = this.getFocusedRow();
+      var treeCol = dm.getTreeColumn();
+      var node = dm.getValue(treeCol, focusedRow);
 
       // If it's an open branch...
       if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH &&
@@ -510,15 +519,22 @@ qx.Proto._onkeydown = function(evt)
       {
         // ... then close it
         this.toggleOpened(node);
+
+        // Reset the focus to the current node
+        this.setFocusedCell(treeCol, focusedRow, true);
       }
     
       consumed = true;
       break;
 
     case "Right":
+      // Get the data model
+      var dm = this.getTableModel();
+
       // Get the focused node
-      var node = this.getTableModel().getValue(this.getFocusedColumn(),
-                                               this.getFocusedRow());
+      var focusedRow = this.getFocusedRow();
+      var treeCol = dm.getTreeColumn();
+      var node = dm.getValue(treeCol, focusedRow);
 
       // If it's a closed branch...
       if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH &&
@@ -526,6 +542,9 @@ qx.Proto._onkeydown = function(evt)
       {
         // ... then open it
         this.toggleOpened(node);
+
+        // Reset the focus to the current node
+        this.setFocusedCell(treeCol, focusedRow, true);
       }
     
       consumed = true;
@@ -540,8 +559,10 @@ qx.Proto._onkeydown = function(evt)
       // Get the data model
       var dm = this.getTableModel();
 
-      // Get the currently-focused node
-      var node = dm.getValue(this.getFocusedColumn(), this.getFocusedRow());
+      // Get the focused node
+      var focusedRow = this.getFocusedRow();
+      var treeCol = dm.getTreeColumn();
+      var node = dm.getValue(treeCol, focusedRow);
 
       // If we're not at the top-level already...
       if (node.parentNodeId)
@@ -560,8 +581,10 @@ qx.Proto._onkeydown = function(evt)
       // Get the data model
       var dm = this.getTableModel();
 
-      // Get the currently-focused node
-      var node = dm.getValue(this.getFocusedColumn(), this.getFocusedRow());
+      // Get the focused node
+      var focusedRow = this.getFocusedRow();
+      var treeCol = dm.getTreeColumn();
+      var node = dm.getValue(treeCol, focusedRow);
 
       // If we're on a branch...
       if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH)
