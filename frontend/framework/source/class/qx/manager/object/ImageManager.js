@@ -23,7 +23,6 @@
 #module(ui_core)
 #optional(qx.ui.form.Button)
 #embed(qx.icontheme/16/apps/preferences-desktop-theme.png)
-#require(qx.manager.object.ImagePreloaderManager)
 
 ************************************************************************ */
 

@@ -20,7 +20,6 @@
 /* ************************************************************************
 
 #module(ui_table)
-#require(qx.ui.table.DefaultDataRowRenderer)
 #embed(qx.widgettheme/table/selectColumnOrder.png)
 
 ************************************************************************ */

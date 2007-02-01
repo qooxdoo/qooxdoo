@@ -1,7 +1,3 @@
-/*
-#require(qx.Clazz)
-*/
-
 qx.Clazz.define("qx.test.Animal",
 {
   extend : qx.core.Target,

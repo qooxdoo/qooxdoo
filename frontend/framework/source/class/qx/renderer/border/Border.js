@@ -21,9 +21,6 @@
 /* ************************************************************************
 
 #module(ui_core)
-#require(qx.core.Client)
-#require(qx.renderer.color.ColorCache)
-#load(qx.renderer.border.BorderObject)
 
 ************************************************************************ */
 

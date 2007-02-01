@@ -21,8 +21,6 @@
 /* ************************************************************************
 
 #module(ui_core)
-#require(qx.event.type.KeyEvent)
-#require(qx.event.handler.KeyEventHandler)
 #optional(qx.event.handler.DragAndDropHandler)
 #optional(qx.manager.object.MenuManager)
 #optional(qx.event.handler.FocusHandler)

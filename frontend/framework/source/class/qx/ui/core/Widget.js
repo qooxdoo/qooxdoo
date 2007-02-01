@@ -21,10 +21,7 @@
 /* ************************************************************************
 
 #module(ui_core)
-#require(qx.renderer.color.ColorCache)
-#require(qx.renderer.border.BorderCache)
-#require(qx.manager.object.AppearanceManager)
-#after(qx.component.init.InterfaceInitComponent)
+#load(qx.component.init.InterfaceInitComponent)
 #optional(qx.ui.core.Parent)
 #optional(qx.ui.form.Button)
 #optional(qx.client.Timer)

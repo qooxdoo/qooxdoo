@@ -21,8 +21,6 @@
 /* ************************************************************************
 
 #module(ui_core)
-#require(qx.html.StyleSheet)
-#require(qx.event.handler.EventHandler)
 #optional(qx.client.NativeWindow)
 #optional(qx.ui.window.Window)
 #optional(qx.manager.object.PopupManager)
