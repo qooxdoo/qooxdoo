@@ -29,9 +29,99 @@ def search(node, variantMap, verbose=False):
     variantMethod = selectNode(variant, "identifier[3]/@name")
     if variantMethod == "select":
       processVariantSelect(selectNode(variant, "../.."), variantMap)
+    elif variantMethod == "set":
+      processVariantSet(selectNode(variant, "../.."), variantMap)
 
- 
 
+def processVariantSelect(callNode, variantMap):
+  if callNode.type != "call":
+    return
+  params = callNode.getChild("params")
+  if len(params.children) != 2:
+    print "Warning: Expecting exactly two arguments for qx.core.Variant.select. Ignoring this occurrence."
+    return
+
+  firstParam = params.getChildByPosition(0)
+  if not isStringLiteral(firstParam):
+    print "Warning! First argument must be a string literal constant! Ignoring this occurrence."
+    return
+  
+  variantGroup = firstParam.get("value");
+  if not variantGroup in variantMap.keys():
+    return
+
+  secondParam = params.getChildByPosition(1)
+  default = None
+  found = False
+  if secondParam.type == "map":
+    for node in secondParam.children:
+      fullKey = node.get("key")
+      value = node.getChild("value").getFirstChild()
+      keys = fullKey.split("|")
+      for key in keys:
+        if key == variantMap[variantGroup]:
+          callNode.parent.replaceChild(callNode, value)
+          found = True
+          break
+        if key == "none":
+          default = value
+    if not found:
+      callNode.parent.replaceChild(callNode, default)
+    return
+    
+  elif isStringLiteral(secondParam):
+    ifcondition =  secondParam.parent.parent.parent
+    if ifcondition.type != "expression" or len(ifcondition.children) != 1 or ifcondition.parent.type != "loop":
+      print "Warning! Only processing qx.core.Variant.select directly inside of an if condition. Ignoring this occurrence."
+      return
+
+    loop = ifcondition.parent
+
+    #print
+    #print "--- pre ---"
+    #print loop.parent.toJavascript()
+    
+    variantValue = secondParam.get("value")
+    inlineIfStatement(loop, variantValue != variantMap[variantGroup])
+
+    #print
+    #print "--- post ---"
+    #print loop.parent.toJavascript()
+    #print
+    return
+
+  print "Warning: The second parameter of qx.core.Variant.select must be a map or a string literal. Ignoring this occurrence."
+
+
+def processVariantSet(callNode, variantMap):
+  if callNode.type != "call":
+    return False
+  
+  params = callNode.getChild("params")
+  arg1 = params.getChildByPosition(0)
+  if not isStringLiteral(arg1):
+    print "Warning! First argument must be a string literal constant! Ignoring this occurrence."
+    return
+  variantGroup = arg1.get("value");
+
+  arg2 = params.getChildByPosition(1)
+  if variantMap[variantGroup]:
+    newNode = tree.Node("constant")
+    newNode.set("isComplex", "false")
+    newNode.set("detail", "doublequotes")
+    newNode.set("value", variantMap[variantGroup])
+    newNode.set("constantType", "string")
+    newNode.set("makeComplex", "false")
+    
+    arg2.parent.replaceChild(arg2, newNode)
+    return True
+  return False
+  
+  
+def isStringLiteral(node):
+  return node.type == "constant" and node.get("constantType") == "string"
+  
+    
 def getMembers(callNode):
   if callNode.type != "call":
     return None
@@ -149,66 +239,6 @@ def findVariable(node, varName, varNodes=None):
       varNodes = findVariable(child, varName, varNodes)
   
   return varNodes
-  
-  
-def processVariantSelect(callNode, variantMap):
-  if callNode.type != "call":
-    return
-  params = callNode.getChild("params")
-  if len(params.children) != 2:
-    print "Warning: Expecting exactly two arguments for qx.core.Variant.select. Ignoring this occurrence."
-    return
-
-  firstParam = params.getChildByPosition(0)
-  if firstParam.type != "constant" or firstParam.get("constantType") != "string":
-    print "Warning! First argument must be a string constant! Ignoring this occurrence."
-    return
-  
-  variantGroup = firstParam.get("value");
-  if not variantGroup in variantMap.keys():
-    return
-
-  secondParam = params.getChildByPosition(1)
-  default = None
-  found = False
-  if secondParam.type == "map":
-    for node in secondParam.children:
-      fullKey = node.get("key")
-      value = node.getChild("value").getFirstChild()
-      keys = fullKey.split("|")
-      for key in keys:
-        if key == variantMap[variantGroup]:
-          callNode.parent.replaceChild(callNode, value)
-          found = True
-          break
-        if key == "none":
-          default = value
-    if not found:
-      callNode.parent.replaceChild(callNode, default)
-    return
-    
-  elif secondParam.type == "constant" and secondParam.get("constantType") == "string":
-    ifcondition =  secondParam.parent.parent.parent
-    if ifcondition.type != "expression" or len(ifcondition.children) != 1 or ifcondition.parent.type != "loop":
-      print "Warning! Only processing qx.core.Variant.select directly inside of an if condition. Ignoring this occurrence."
-      return
-
-    loop = ifcondition.parent
-
-    #print
-    #print "--- pre ---"
-    #print loop.parent.toJavascript()
-    
-    variantValue = secondParam.get("value")
-    inlineIfStatement(loop, variantValue != variantMap[variantGroup])
-
-    #print
-    #print "--- post ---"
-    #print loop.parent.toJavascript()
-    #print
-    return
-
-  print "Warning: The second parameter of qx.core.Variant.select must be a map or a string literal. Ignoring this occurrence."
 
 
 def inlineIfStatement(ifNode, conditionValue):
