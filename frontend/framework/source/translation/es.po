@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo framework\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-02-01 12:06+0100\n"
+"POT-Creation-Date: 2007-02-01 19:57+0100\n"
 "PO-Revision-Date: 2006-12-19 00:49-0500\n"
 "Last-Translator: Camilo Aguilar <camilo.aguilar@gmail.com>\n"
 "Language-Team:  <camilo.aguilar@gmail.com>\n"
@@ -269,42 +269,42 @@ msgstr "RGB"
 msgid "HSB"
 msgstr "HSB"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:52
+#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:51
 msgid "Last year"
 msgstr "Último año"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:53
+#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:52
 msgid "Last month"
 msgstr "Último mes"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:54
+#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:53
 msgid "Next month"
 msgstr "Mes siguiente"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:55
+#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:54
 msgid "Next year"
 msgstr "Año siguiente"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooserButton.js:91
+#: ../../../frontend/framework/source/class/qx/ui/component/DateChooserButton.js:89
 msgid "Choose a date"
 msgstr "Seleccione una fecha"
 
-#: ../../../frontend/framework/source/class/qx/ui/form/ComboBoxEx.js:67
+#: ../../../frontend/framework/source/class/qx/ui/form/ComboBoxEx.js:66
 msgid "Description"
 msgstr "Descripción"
 
-#: ../../../frontend/framework/source/class/qx/ui/form/ComboBoxEx.js:67
+#: ../../../frontend/framework/source/class/qx/ui/form/ComboBoxEx.js:66
 msgid "ID"
 msgstr "Código"
 
-#: ../../../frontend/framework/source/class/qx/ui/form/ComboBoxEx.js:616
+#: ../../../frontend/framework/source/class/qx/ui/form/ComboBoxEx.js:615
 msgid "Case sensitive"
 msgstr "Sensible a mayúscula"
 
-#: ../../../frontend/framework/source/class/qx/ui/form/ComboBoxEx.js:653
+#: ../../../frontend/framework/source/class/qx/ui/form/ComboBoxEx.js:652
 msgid "Search next occurrence"
 msgstr "Buscar siguiente"
 
-#: ../../../frontend/framework/source/class/qx/ui/form/ComboBoxEx.js:690
+#: ../../../frontend/framework/source/class/qx/ui/form/ComboBoxEx.js:689
 msgid "Search items in list"
 msgstr "Buscar elementos en la lista"
