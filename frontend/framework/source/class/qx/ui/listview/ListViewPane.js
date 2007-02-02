@@ -21,11 +21,11 @@
 /* ************************************************************************
 
 #module(ui_listview)
-#load(qx.ui.listview.ContentCellHtml)
-#load(qx.ui.listview.ContentCellIconHtml)
-#load(qx.ui.listview.ContentCellImage)
-#load(qx.ui.listview.ContentCellLink)
-#load(qx.ui.listview.ContentCellText)
+#use(qx.ui.listview.ContentCellHtml)
+#use(qx.ui.listview.ContentCellIconHtml)
+#use(qx.ui.listview.ContentCellImage)
+#use(qx.ui.listview.ContentCellLink)
+#use(qx.ui.listview.ContentCellText)
 
 ************************************************************************ */
 

@@ -70,27 +70,18 @@ def getInternalModTime(options):
 
 
 
-def extractFileContentId(data):
-  # TODO: Obsolete with 0.7
+
+
+
+
+def extractFileContentId(data, fileId=""):
+  # 0.6 class style
   for item in config.QXHEAD["defineClass"].findall(data):
     return item[0]
 
-  for item in config.QXHEAD["id"].findall(data):
-    return item
-
+  # 0.7 class style
   for item in config.QXHEAD["classDefine"].findall(data):
     return item[1]
-
-  return None
-
-
-def extractSuperClass(data):
-  # TODO: Obsolete with 0.7
-  for item in config.QXHEAD["defineClass"].findall(data):
-    return item[2]
-
-  for item in config.QXHEAD["superClass"].findall(data):
-    return item
 
   return None
 
@@ -98,27 +89,10 @@ def extractSuperClass(data):
 def extractLoadtimeDeps(data, fileId=""):
   deps = []
 
-  # Adding explicit requirements
   for item in config.QXHEAD["require"].findall(data):
     if item == fileId:
-      print "    - Self-referring load dependency: %s" % item
-    elif item in deps:
-      print "    - Double definition of load dependency: %s" % item
-    else:
-      deps.append(item)
-
-  return deps
-
-
-def extractAfterDeps(data, fileId=""):
-  deps = []
-
-  # Adding explicit after requirements
-  for item in config.QXHEAD["after"].findall(data):
-    if item == fileId:
-      print "    - Self-referring load dependency: %s" % item
-    elif item in deps:
-      print "    - Double definition of load dependency: %s" % item
+      print "    - Error: Self-referring load dependency: %s" % item
+      sys.exit(1)
     else:
       deps.append(item)
 
@@ -128,34 +102,16 @@ def extractAfterDeps(data, fileId=""):
 def extractRuntimeDeps(data, fileId=""):
   deps = []
 
-  # Adding explicit runtime requirements
   for item in config.QXHEAD["use"].findall(data):
     if item == fileId:
       print "    - Self-referring runtime dependency: %s" % item
-    elif item in deps:
-      print "    - Double definition of runtime dependency: %s" % item
     else:
       deps.append(item)
 
   return deps
 
 
-def extractLoadDeps(data, fileId=""):
-  deps = []
-
-  # Adding before requirements
-  for item in config.QXHEAD["load"].findall(data):
-    if item == fileId:
-      print "    - Self-referring runtime dependency: %s" % item
-    elif item in deps:
-      print "    - Double definition of runtime dependency: %s" % item
-    else:
-      deps.append(item)
-
-  return deps
-
-
-def extractOptional(data):
+def extractOptional(data, fileId=""):
   deps = []
 
   # Adding explicit requirements
@@ -166,7 +122,7 @@ def extractOptional(data):
   return deps
 
 
-def extractModules(data):
+def extractModules(data, fileId=""):
   mods = []
 
   for item in config.QXHEAD["module"].findall(data):
@@ -176,7 +132,7 @@ def extractModules(data):
   return mods
 
 
-def extractResources(data, fileId):
+def extractResources(data, fileId=""):
   res = []
 
   for item in config.QXHEAD["resource"].findall(data):
@@ -185,13 +141,19 @@ def extractResources(data, fileId):
   return res
 
 
-def extractEmbeds(data):
+def extractEmbeds(data, fileId=""):
   emb = []
 
   for item in config.QXHEAD["embed"].findall(data):
     emb.append({ "namespace" : item[0], "id" : item[1], "entry" : item[2] })
 
   return emb
+
+
+
+
+
+
 
 
 
@@ -310,6 +272,8 @@ def getStrings(fileDb, fileId, options):
 
 
 
+
+
 def detectDeps(node, optionalDeps, loadtimeDeps, runtimeDeps, fileId, fileDb, inFunction):
   if node.type == "variable":
     if node.hasChildren:
@@ -333,7 +297,6 @@ def detectDeps(node, optionalDeps, loadtimeDeps, runtimeDeps, fileId, fileDb, in
             if assembled in deps:
               return
 
-            # print "Found: %s" % assembled
             deps.append(assembled)
 
         else:
@@ -344,7 +307,6 @@ def detectDeps(node, optionalDeps, loadtimeDeps, runtimeDeps, fileId, fileDb, in
     value = "%s" % node.get("value")
 
     if value != fileId and fileDb.has_key(value) and not value in optionalDeps and not value in runtimeDeps:
-      # print "Found: %s" % value
       runtimeDeps.append(value)
 
   elif node.type == "body" and node.parent.type == "function":
@@ -355,12 +317,7 @@ def detectDeps(node, optionalDeps, loadtimeDeps, runtimeDeps, fileId, fileDb, in
       detectDeps(child, optionalDeps, loadtimeDeps, runtimeDeps, fileId, fileDb, inFunction)
 
 
-
-
 def resolveAutoDeps(fileDb, options):
-  ######################################################################
-  #  DETECTION OF AUTO DEPENDENCIES
-  ######################################################################
 
   if options.verbose:
     print "  * Resolving dependencies..."
@@ -372,31 +329,63 @@ def resolveAutoDeps(fileDb, options):
       sys.stdout.write(".")
       sys.stdout.flush()
 
+    # Cache entry
     fileEntry = fileDb[fileId]
 
+    # Ignore already complete ones
     if fileEntry["autoDeps"] == True:
       continue
 
-    # Getting lists...
-    optionalDeps = fileEntry["optionalDeps"]
-    loadtimeDeps = fileEntry["loadtimeDeps"]
-    runtimeDeps = fileEntry["runtimeDeps"]
+    # Creating empty lists
+    loadtimeDeps = []
+    runtimeDeps = []
 
     # Detecting auto dependencies
-    detectDeps(getTree(fileDb, fileId, options), optionalDeps, loadtimeDeps, runtimeDeps, fileId, fileDb, False)
+    detectDeps(getTree(fileDb, fileId, options), fileEntry["optionalDeps"], loadtimeDeps, runtimeDeps, fileId, fileDb, False)
+
+    # Detecting doubles
+    for dep in fileEntry["loadtimeDeps"]:
+      if dep in loadtimeDeps:
+        if not options.verbose:
+          print
+
+        print "    - Please remove #require(%s) from the class %s as this was already auto-detected." % (dep, fileId)
+      else:
+        loadtimeDeps.append(dep)
+
+    for dep in fileEntry["runtimeDeps"]:
+      if dep in runtimeDeps:
+        if not options.verbose:
+          print
+
+        print "    - Please remove #use(%s) from the class %s as this was already auto-detected." % (dep, fileId)
+      elif dep in loadtimeDeps:
+        if not options.verbose:
+          print
+
+        print "    - Please remove #require(%s) from the class %s as this was already auto-detected as loadtime dependency." % (dep, fileId)
+      else:
+        runtimeDeps.append(dep)
+
+    # Removing runtime entries which are already in loadtime table
+    for dep in loadtimeDeps:
+      if dep in runtimeDeps:
+        if options.verbose:
+          print "    - Removing runtime %s which is already defined in loadtime table." % dep
+
+        runtimeDeps.remove(dep)
+
+    # Store new tables
+    fileEntry["loadtimeDeps"] = loadtimeDeps
+    fileEntry["runtimeDeps"] = runtimeDeps
 
     # Store flag to omit it the next run
     fileEntry["autoDeps"] = True
 
-    """
-    print "====== %s =======" % fileId
-    print "    - Optional: %s" % ", ".join(optionalDeps)
-    print "    - Loadtime: %s" % ", ".join(loadtimeDeps)
-    print "    - Runtime: %s" % ", ".join(runtimeDeps)
-    """
-
   if not options.verbose:
     print
+
+
 
 
 
@@ -430,8 +419,6 @@ def storeEntryCache(fileDb, options):
     print "  * No classes were modified"
   else:
     print "  * %s classes were modified" % cacheCounter
-
-
 
 
 def indexFile(filePath, filePathId, classPath, listIndex, classEncoding, classUri, resourceInput, resourceOutput, options, fileDb={}, moduleDb={}):
@@ -483,14 +470,12 @@ def indexFile(filePath, filePathId, classPath, listIndex, classEncoding, classUr
       "autoDeps" : False,
       "cached" : False,
       "cachePath" : cachePath,
-      "optionalDeps" : extractOptional(fileContent),
+      "optionalDeps" : extractOptional(fileContent, fileId),
       "loadtimeDeps" : extractLoadtimeDeps(fileContent, fileId),
       "runtimeDeps" : extractRuntimeDeps(fileContent, fileId),
-      "afterDeps" : extractAfterDeps(fileContent, fileId),
-      "loadDeps" : extractLoadDeps(fileContent, fileId),
       "resources" : extractResources(fileContent, fileId),
-      "embeds" : extractEmbeds(fileContent),
-      "modules" : extractModules(fileContent)
+      "embeds" : extractEmbeds(fileContent, fileId),
+      "modules" : extractModules(fileContent, fileId)
     }
 
 
@@ -523,9 +508,6 @@ def indexFile(filePath, filePathId, classPath, listIndex, classEncoding, classUr
       moduleDb[moduleId].append(fileId)
     else:
       moduleDb[moduleId] = [ fileId ]
-
-
-
 
 
 def indexSingleScriptInput(classPath, listIndex, options, fileDb={}, moduleDb={}):
@@ -600,105 +582,66 @@ def indexScriptInput(options):
 
 
 
+
+
+
+
+
+
 """
 Simple resolver, just try to add items and put missing stuff around
 the new one.
 """
-def addIdWithDepsToSortedList(sortedList, fileDb, fileId):
-  if fileId in sortedList:
-    return
-
+def recursiveAddClass(fileDb, fileId, sortedList):
   if not fileDb.has_key(fileId):
     print "    - Error: Could not find class '%s'" % fileId
     return False
-
-
-  # Test if already in
-  if not fileId in sortedList:
-
-    # Including loadtime dependencies
-    for loadtimeDepId in fileDb[fileId]["loadtimeDeps"]:
-      if loadtimeDepId == fileId: break;
-      addIdWithDepsToSortedList(sortedList, fileDb, loadtimeDepId)
-
-    # Including after dependencies
-    for afterDepId in fileDb[fileId]["afterDeps"]:
-      if afterDepId == fileId: break;
-      addIdWithDepsToSortedList(sortedList, fileDb, afterDepId)
-
-    # Add myself
-    if not fileId in sortedList:
-      sortedList.append(fileId)
-
-    # Include runtime dependencies
-    for runtimeDepId in fileDb[fileId]["runtimeDeps"]:
-      addIdWithDepsToSortedList(sortedList, fileDb, runtimeDepId)
-
-    # Include load dependencies
-    for loadDepId in fileDb[fileId]["loadDeps"]:
-      addIdWithDepsToSortedList(sortedList, fileDb, loadDepId)
-
-
-
-
-
-"""
-Search for dependencies, but don't add them. Just use them to put
-the new class after the stuff which is required (if it's included, too)
-"""
-def addIdWithoutDepsToSortedList(sortedList, fileDb, fileId):
-  if fileId in sortedList:
-    return
-
-  if not fileDb.has_key(fileId):
-    print "    - Error: Could not find class '%s'" % fileId
-    return False
-
-
-  # Test if already in
-  if not fileId in sortedList:
-
-    # Search sortedList for files which needs this one and are already included
-    lowestIndex = None
-    currentIndex = 0
-    for lowId in sortedList:
-      for lowDepId in getResursiveLoadDeps([], fileDb, lowId, lowId):
-        if lowDepId == fileId and (lowestIndex == None or currentIndex < lowestIndex):
-          lowestIndex = currentIndex
-
-      currentIndex += 1
-
-    # Insert at defined index or just append new entry
-    if lowestIndex != None:
-      sortedList.insert(lowestIndex, fileId)
-    else:
-      sortedList.append(fileId)
-
-
-
-
-def getResursiveLoadDeps(deps, fileDb, fileId, ignoreId=None):
-  if fileId in deps:
-    return
-
-  if fileId != ignoreId:
-    deps.append(fileId)
 
   # Including loadtime dependencies
-  for loadtimeDepId in fileDb[fileId]["loadtimeDeps"]:
-    getResursiveLoadDeps(deps, fileDb, loadtimeDepId)
+  for dep in fileDb[fileId]["loadtimeDeps"]:
+    addClassWithDepsToSortedList(sortedList, fileDb, dep)
 
-  # Including after dependencies
-  for afterDepId in fileDb[fileId]["afterDeps"]:
-    getResursiveLoadDeps(deps, fileDb, afterDepId)
+  # Add myself
+  if not fileId in sortedList:
+    sortedList.append(fileId)
 
-  return deps
+    # Include runtime dependencies
+    for depId in fileDb[fileId]["runtimeDeps"]:
+      recursiveAddClass(fileDb, depId, sortedList)
 
 
+
+def addClass(fileDb, todo, result, dependencies=True):
+  if dependencies:
+    for fileId in todo:
+      recursiveAddClass(fileDb, fileId, result)
+
+  else:
+    for fileId in todo:
+      if fileId in result:
+        continue
+
+      if not fileDb.has_key(fileId):
+        print "    - Error: Could not find class '%s'" % fileId
+        return False
+
+      # Test if any of my load dependencies could be solved by the other entries
+      for depId in fileDb[fileId]["loadtimeDeps"]:
+        if depId in todo:
+          if not depId in result:
+            result.append(depId)
+
+      # Add myself
+      if not fileId in result:
+        result.append(fileId)
 
 
 
 def getSortedList(options, fileDb, moduleDb):
+
+  # PREPARATION
+
+  # Create empty lists
   includeWithDeps = []
   excludeWithDeps = []
   includeWithoutDeps = []
@@ -708,61 +651,46 @@ def getSortedList(options, fileDb, moduleDb):
   sortedExcludeList = []
 
 
-
-  # INCLUDE
-
-  # Add Modules and Files (with deps)
-  if options.includeWithDeps:
-    for include in options.includeWithDeps:
-      if include in moduleDb:
-        includeWithDeps.extend(moduleDb[include])
-
-      else:
-        regexp = textutil.toRegExp(include)
-
-        for fileId in fileDb:
-          if regexp.search(fileId):
-            if not fileId in includeWithDeps:
-              includeWithDeps.append(fileId)
-
-
-  # Add Modules and Files (without deps)
-  if options.includeWithoutDeps:
-    for include in options.includeWithoutDeps:
-      if include in moduleDb:
-        includeWithoutDeps.extend(moduleDb[include])
-
-      else:
-        regexp = textutil.toRegExp(include)
-
-        for fileId in fileDb:
-          if regexp.search(fileId):
-            if not fileId in includeWithoutDeps:
-              includeWithoutDeps.append(fileId)
-
-
-
-
-
+  # PROCESS INCLUDES
 
   # Add all if both lists are empty
   if len(options.includeWithDeps) == 0 and len(options.includeWithoutDeps) == 0:
-    for fileId in fileDb:
-      includeWithDeps.append(fileId)
+    includeWithDeps = fileDb.keys()
 
-  # Sorting include (with deps)
-  for fileId in includeWithDeps:
-    addIdWithDepsToSortedList(sortedIncludeList, fileDb, fileId)
+  else:
+    # Add modules and classes with dependencies
+    if options.includeWithDeps:
+      for include in options.includeWithDeps:
+        if include in moduleDb:
+          includeWithDeps.extend(moduleDb[include])
 
-  # Sorting include (without deps)
-  for fileId in includeWithoutDeps:
-    addIdWithoutDepsToSortedList(sortedIncludeList, fileDb, fileId)
+        else:
+          regexp = textutil.toRegExp(include)
+
+          for fileId in fileDb:
+            if regexp.search(fileId):
+              if not fileId in includeWithDeps:
+                includeWithDeps.append(fileId)
+
+    # Add modules and classes without dependencies
+    if options.includeWithoutDeps:
+      for include in options.includeWithoutDeps:
+        if include in moduleDb:
+          includeWithoutDeps.extend(moduleDb[include])
+
+        else:
+          regexp = textutil.toRegExp(include)
+
+          for fileId in fileDb:
+            if regexp.search(fileId):
+              if not fileId in includeWithoutDeps:
+                includeWithoutDeps.append(fileId)
 
 
 
-  # EXCLUDE
+  # PROCESS EXCLUDES
 
-  # Add Modules and Files (with deps)
+  # Add Modules and Files with dependencies
   if options.excludeWithDeps:
     for exclude in options.excludeWithDeps:
       if exclude in moduleDb:
@@ -776,8 +704,7 @@ def getSortedList(options, fileDb, moduleDb):
             if not fileId in excludeWithDeps:
               excludeWithDeps.append(fileId)
 
-
-  # Add Modules and Files (without deps)
+  # Add Modules and Files without dependencies
   if options.excludeWithoutDeps:
     for exclude in options.excludeWithoutDeps:
       if exclude in moduleDb:
@@ -793,21 +720,21 @@ def getSortedList(options, fileDb, moduleDb):
 
 
 
+  # SORTING INCLUDES
+
+  addClass(fileDb, includeWithDeps, sortedIncludeList, True)
+  addClass(fileDb, includeWithoutDeps, sortedIncludeList, False)
+
+
+  # SORTING EXCLUDES
+
+  addClass(fileDb, excludeWithDeps, sortedExcludeList, True)
+  addClass(fileDb, excludeWithoutDeps, sortedExcludeList, False)
 
 
 
-  # Sorting exclude (with deps)
-  for fileId in excludeWithDeps:
-    addIdWithDepsToSortedList(sortedExcludeList, fileDb, fileId)
 
-  # Sorting exclude (without deps)
-  for fileId in excludeWithoutDeps:
-    addIdWithoutDepsToSortedList(sortedExcludeList, fileDb, fileId)
-
-
-
-
-  # MERGE
+  # MERGE SORTED LISTS
 
   # Remove excluded files from included files list
   for fileId in sortedExcludeList:
@@ -816,6 +743,6 @@ def getSortedList(options, fileDb, moduleDb):
 
 
 
-  # RETURN
+  # DONE
 
   return sortedIncludeList
