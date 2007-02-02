@@ -134,10 +134,10 @@ def getparser():
   #################################################################################
 
   # Include/Exclude
-  parser.add_option("-i", "--include", action="extend", dest="includeWithDeps", metavar="ID", type="string", default=[], help="Include ID")
-  parser.add_option("-e", "--exclude", action="extend", dest="excludeWithDeps", metavar="ID", type="string", default=[], help="Exclude ID")
-  parser.add_option("--include-without-dependencies", action="extend", dest="includeWithoutDeps", metavar="ID", type="string", default=[], help="Include ID")
-  parser.add_option("--exclude-without-dependencies", action="extend", dest="excludeWithoutDeps", metavar="ID", type="string", default=[], help="Exclude ID")
+  parser.add_option("-i", "--include", action="extend", dest="include", metavar="ID", type="string", default=[], help="Include ID")
+  parser.add_option("-e", "--exclude", action="extend", dest="exclude", metavar="ID", type="string", default=[], help="Exclude ID")
+  parser.add_option("--include-without-dependencies", action="extend", dest="includePure", metavar="ID", type="string", default=[], help="Include ID")
+  parser.add_option("--exclude-without-dependencies", action="extend", dest="excludePure", metavar="ID", type="string", default=[], help="Exclude ID")
 
   # Include/Exclude options
   parser.add_option("--disable-auto-dependencies", action="store_false", dest="enableAutoDependencies", default=True, help="Disable detection of dependencies.")
@@ -430,10 +430,10 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
   print "----------------------------------------------------------------------------"
 
   if options.verbose:
-    print "  * Include (with dependencies): %s" % options.includeWithDeps
-    print "  * Include (without dependencies): %s" % options.includeWithoutDeps
-    print "  * Exclude (with dependencies): %s" % options.excludeWithDeps
-    print "  * Exclude (without dependencies): %s" % options.excludeWithoutDeps
+    print "  * Include with dependencies: %s" % options.include
+    print "  * Include without dependencies: %s" % options.includePure
+    print "  * Exclude with dependencies: %s" % options.exclude
+    print "  * Exclude without dependencies: %s" % options.excludePure
 
   print "  * Sorting %s classes..." % len(fileDb)
 
