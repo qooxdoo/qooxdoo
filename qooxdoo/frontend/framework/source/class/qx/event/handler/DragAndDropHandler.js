@@ -21,7 +21,7 @@
 /* ************************************************************************
 
 #module(ui_dragdrop)
-#load(qx.html.ElementFromPoint)
+#use(qx.html.ElementFromPoint)
 #embed(qx.widgettheme/cursors/*)
 
 ************************************************************************ */

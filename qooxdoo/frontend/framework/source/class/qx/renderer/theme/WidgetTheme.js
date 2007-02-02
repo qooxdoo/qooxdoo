@@ -21,7 +21,7 @@
 /* ************************************************************************
 
 #module(ui_core)
-#after(qx.manager.object.ImageManager)
+#require(qx.manager.object.ImageManager)
 
 ************************************************************************ */
 

@@ -21,7 +21,7 @@
 /* ************************************************************************
 
 #module(ui_popup)
-#load(qx.manager.object.ToolTipManager)
+#use(qx.manager.object.ToolTipManager)
 
 ************************************************************************ */
 
