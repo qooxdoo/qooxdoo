@@ -139,9 +139,6 @@ def getparser():
   parser.add_option("--include-without-dependencies", action="extend", dest="includePure", metavar="ID", type="string", default=[], help="Include ID")
   parser.add_option("--exclude-without-dependencies", action="extend", dest="excludePure", metavar="ID", type="string", default=[], help="Exclude ID")
 
-  # Include/Exclude options
-  parser.add_option("--disable-auto-dependencies", action="store_false", dest="enableAutoDependencies", default=True, help="Disable detection of dependencies.")
-
   return parser
 
 
