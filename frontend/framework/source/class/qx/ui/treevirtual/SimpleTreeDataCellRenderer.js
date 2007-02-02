@@ -248,11 +248,11 @@ qx.Proto._getIndentSymbol = function(column,
 
   var bLastChild = node.lastChild[node.lastChild.length - 1];
 
-  // Is this a branch node?
+  // Is this a branch node that does not have the open/close button hidden?
   if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH &&
-      (node.opened === true || node.opened === false))
+      ! node.bHideOpenClose)
   {
-    // Determine if this node has any children
+    // Yup.  Determine if this node has any children
     var child = null;
     for (child in node.children)
     {
@@ -268,7 +268,7 @@ qx.Proto._getIndentSymbol = function(column,
       if (! bUseTreeLines)
       {
         // ... then just use a plus or minus
-        return (node.opened
+        return (node.bOpened
                 ? this.WIDGET_TREE_URI + "minus.gif"
                 : this.WIDGET_TREE_URI + "plus.gif");
       }
@@ -280,14 +280,14 @@ qx.Proto._getIndentSymbol = function(column,
         if (bLastChild)
         {
           // ... then use no tree lines.
-          return (node.opened
+          return (node.bOpened
                   ? this.WIDGET_TREE_URI + "only_minus.gif"
                   : this.WIDGET_TREE_URI + "only_plus.gif");
         }
         else
         {
           // otherwise, use descender lines but no ascender.
-          return (node.opened
+          return (node.bOpened
                   ? this.WIDGET_TREE_URI + "start_minus.gif"
                   : this.WIDGET_TREE_URI + "start_plus.gif");
         }
@@ -297,16 +297,16 @@ qx.Proto._getIndentSymbol = function(column,
       // parent?
       if (bLastChild)
       {
-        // Yup.   Return an ending plus or minus, or blank if node.opened so
+        // Yup.   Return an ending plus or minus, or blank if node.bOpened so
         // indicates.
-        return (node.opened
+        return (node.bOpened
                 ? this.WIDGET_TREE_URI + "end_minus.gif"
                 : this.WIDGET_TREE_URI + "end_plus.gif");
       }
 
       // Otherwise, return a crossing plus or minus, or a blank if
-      // node.opened so indicates.
-      return (node.opened
+      // node.bOpened so indicates.
+      return (node.bOpened
               ? this.WIDGET_TREE_URI + "cross_minus.gif"
               : this.WIDGET_TREE_URI + "cross_plus.gif");
     }
