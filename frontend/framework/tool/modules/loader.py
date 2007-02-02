@@ -343,7 +343,7 @@ def resolveAutoDeps(fileDb, options):
     # Detecting auto dependencies
     detectDeps(getTree(fileDb, fileId, options), fileEntry["optionalDeps"], loadtimeDeps, runtimeDeps, fileId, fileDb, False)
 
-    # Detecting doubles
+    # Detecting doubles in loadtime data
     for dep in fileEntry["loadtimeDeps"]:
       if dep in loadtimeDeps:
         if not options.verbose:
@@ -351,8 +351,17 @@ def resolveAutoDeps(fileDb, options):
 
         print "    - Please remove #require(%s) from the class %s as this was already auto-detected." % (dep, fileId)
       else:
+        if dep in runtimeDeps:
+          if options.verbose:
+            print "    - Move #use(%s) to #require(%s) following user hint in %s" % (dep, dep, fileId)
+          runtimeDeps.remove(dep)
+
+        if options.verbose:
+          print "    - Following user hint, adding #require(%s) into class %s" % (dep, fileId)
+
         loadtimeDeps.append(dep)
 
+    # Detecting doubles in runtime data
     for dep in fileEntry["runtimeDeps"]:
       if dep in runtimeDeps:
         if not options.verbose:
@@ -365,6 +374,9 @@ def resolveAutoDeps(fileDb, options):
 
         print "    - Please remove #require(%s) from the class %s as this was already auto-detected as loadtime dependency." % (dep, fileId)
       else:
+        if options.verbose:
+          print "    - Following user hint, adding #use(%s) into class %s" % (dep, fileId)
+
         runtimeDeps.append(dep)
 
     # Removing runtime entries which are already in loadtime table
@@ -570,8 +582,8 @@ def indexScriptInput(options):
     print "      - %s classes were found" % counter
     listIndex += 1
 
-  if options.enableAutoDependencies:
-    resolveAutoDeps(fileDb, options)
+  # Resolving auto-deps
+  resolveAutoDeps(fileDb, options)
 
   if options.cacheDirectory != None:
     storeEntryCache(fileDb, options)
@@ -588,10 +600,6 @@ def indexScriptInput(options):
 
 
 
-"""
-Simple resolver, just try to add items and put missing stuff around
-the new one.
-"""
 def recursiveAddClass(fileDb, fileId, sortedList):
   if not fileDb.has_key(fileId):
     print "    - Error: Could not find class '%s'" % fileId
