@@ -642,107 +642,102 @@ def getSortedList(options, fileDb, moduleDb):
   # PREPARATION
 
   # Create empty lists
-  includeWithDeps = []
-  excludeWithDeps = []
-  includeWithoutDeps = []
-  excludeWithoutDeps = []
-
-  sortedIncludeList = []
-  sortedExcludeList = []
+  include = []
+  exclude = []
+  includePure = []
+  excludePure = []
+  sortedInclude = []
+  sortedExclude = []
 
 
   # PROCESS INCLUDES
 
   # Add all if both lists are empty
-  if len(options.includeWithDeps) == 0 and len(options.includeWithoutDeps) == 0:
-    includeWithDeps = fileDb.keys()
+  if len(options.include) == 0 and len(options.includePure) == 0:
+    include = fileDb.keys()
 
   else:
     # Add modules and classes with dependencies
-    if options.includeWithDeps:
-      for include in options.includeWithDeps:
+    if options.include:
+      for include in options.include:
         if include in moduleDb:
-          includeWithDeps.extend(moduleDb[include])
+          include.extend(moduleDb[include])
 
         else:
           regexp = textutil.toRegExp(include)
 
           for fileId in fileDb:
             if regexp.search(fileId):
-              if not fileId in includeWithDeps:
-                includeWithDeps.append(fileId)
+              if not fileId in include:
+                include.append(fileId)
 
     # Add modules and classes without dependencies
-    if options.includeWithoutDeps:
-      for include in options.includeWithoutDeps:
+    if options.includePure:
+      for include in options.includePure:
         if include in moduleDb:
-          includeWithoutDeps.extend(moduleDb[include])
+          includePure.extend(moduleDb[include])
 
         else:
           regexp = textutil.toRegExp(include)
 
           for fileId in fileDb:
             if regexp.search(fileId):
-              if not fileId in includeWithoutDeps:
-                includeWithoutDeps.append(fileId)
+              if not fileId in includePure:
+                includePure.append(fileId)
 
 
 
   # PROCESS EXCLUDES
 
   # Add Modules and Files with dependencies
-  if options.excludeWithDeps:
-    for exclude in options.excludeWithDeps:
+  if options.exclude:
+    for exclude in options.exclude:
       if exclude in moduleDb:
-        excludeWithDeps.extend(moduleDb[exclude])
+        exclude.extend(moduleDb[exclude])
 
       else:
         regexp = textutil.toRegExp(exclude)
 
         for fileId in fileDb:
           if regexp.search(fileId):
-            if not fileId in excludeWithDeps:
-              excludeWithDeps.append(fileId)
+            if not fileId in exclude:
+              exclude.append(fileId)
 
   # Add Modules and Files without dependencies
-  if options.excludeWithoutDeps:
-    for exclude in options.excludeWithoutDeps:
+  if options.excludePure:
+    for exclude in options.excludePure:
       if exclude in moduleDb:
-        excludeWithoutDeps.extend(moduleDb[exclude])
+        excludePure.extend(moduleDb[exclude])
 
       else:
         regexp = textutil.toRegExp(exclude)
 
         for fileId in fileDb:
           if regexp.search(fileId):
-            if not fileId in excludeWithDeps:
-              excludeWithoutDeps.append(fileId)
-
+            if not fileId in exclude:
+              excludePure.append(fileId)
 
 
   # SORTING INCLUDES
 
-  addClass(fileDb, includeWithDeps, sortedIncludeList, True)
-  addClass(fileDb, includeWithoutDeps, sortedIncludeList, False)
+  addClass(fileDb, include, sortedInclude, True)
+  addClass(fileDb, includePure, sortedInclude, False)
 
 
   # SORTING EXCLUDES
 
-  addClass(fileDb, excludeWithDeps, sortedExcludeList, True)
-  addClass(fileDb, excludeWithoutDeps, sortedExcludeList, False)
-
-
+  addClass(fileDb, exclude, sortedExclude, True)
+  addClass(fileDb, excludePure, sortedExclude, False)
 
 
   # MERGE SORTED LISTS
 
   # Remove excluded files from included files list
-  for fileId in sortedExcludeList:
-    if fileId in sortedIncludeList:
-      sortedIncludeList.remove(fileId)
-
+  for fileId in sortedExclude:
+    if fileId in sortedInclude:
+      sortedInclude.remove(fileId)
 
 
   # DONE
 
-  return sortedIncludeList
+  return sortedInclude
