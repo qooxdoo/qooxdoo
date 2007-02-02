@@ -650,6 +650,8 @@ def getSortedList(options, fileDb, moduleDb):
   sortedExclude = []
 
 
+
+
   # PROCESS INCLUDES
 
   # Add all if both lists are empty
@@ -659,12 +661,12 @@ def getSortedList(options, fileDb, moduleDb):
   else:
     # Add modules and classes with dependencies
     if options.include:
-      for include in options.include:
-        if include in moduleDb:
-          include.extend(moduleDb[include])
+      for entry in options.include:
+        if entry in moduleDb:
+          include.extend(moduleDb[entry])
 
         else:
-          regexp = textutil.toRegExp(include)
+          regexp = textutil.toRegExp(entry)
 
           for fileId in fileDb:
             if regexp.search(fileId):
@@ -673,12 +675,12 @@ def getSortedList(options, fileDb, moduleDb):
 
     # Add modules and classes without dependencies
     if options.includePure:
-      for include in options.includePure:
-        if include in moduleDb:
-          includePure.extend(moduleDb[include])
+      for entry in options.includePure:
+        if entry in moduleDb:
+          includePure.extend(moduleDb[entry])
 
         else:
-          regexp = textutil.toRegExp(include)
+          regexp = textutil.toRegExp(entry)
 
           for fileId in fileDb:
             if regexp.search(fileId):
@@ -691,12 +693,12 @@ def getSortedList(options, fileDb, moduleDb):
 
   # Add Modules and Files with dependencies
   if options.exclude:
-    for exclude in options.exclude:
-      if exclude in moduleDb:
-        exclude.extend(moduleDb[exclude])
+    for entry in options.exclude:
+      if entry in moduleDb:
+        exclude.extend(moduleDb[entry])
 
       else:
-        regexp = textutil.toRegExp(exclude)
+        regexp = textutil.toRegExp(entry)
 
         for fileId in fileDb:
           if regexp.search(fileId):
@@ -705,12 +707,12 @@ def getSortedList(options, fileDb, moduleDb):
 
   # Add Modules and Files without dependencies
   if options.excludePure:
-    for exclude in options.excludePure:
-      if exclude in moduleDb:
-        excludePure.extend(moduleDb[exclude])
+    for entry in options.excludePure:
+      if entry in moduleDb:
+        excludePure.extend(moduleDb[entry])
 
       else:
-        regexp = textutil.toRegExp(exclude)
+        regexp = textutil.toRegExp(entry)
 
         for fileId in fileDb:
           if regexp.search(fileId):
