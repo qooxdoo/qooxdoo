@@ -634,7 +634,6 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
   ######################################################################
   #  SUPPORT FOR VARIANTS
   ######################################################################
-
   if options.useVariants != []:
     print
     print "  VARIANT OPTIMIZATION:"
@@ -661,11 +660,12 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
         sys.stdout.write(".")
         sys.stdout.flush()
 
-      variantoptimizer.search(loader.getTree(fileDb, fileId, options), variantMap, options.verbose)
+      if variantoptimizer.search(loader.getTree(fileDb, fileId, options), variantMap, options.verbose):
+        if options.verbose:
+          print "      - Modified!"
 
     if not options.verbose:
       print
-
 
 
 
