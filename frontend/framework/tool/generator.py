@@ -465,19 +465,9 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
         for depEntry in fileDb[fileId]["loadtimeDeps"]:
           print "        - %s" % depEntry
 
-      if len(fileDb[fileId]["afterDeps"]) > 0:
-        print "      - After: "
-        for depEntry in fileDb[fileId]["afterDeps"]:
-          print "        - %s" % depEntry
-
       if len(fileDb[fileId]["runtimeDeps"]) > 0:
         print "      - Runtime: "
         for depEntry in fileDb[fileId]["runtimeDeps"]:
-          print "        - %s" % depEntry
-
-      if len(fileDb[fileId]["loadDeps"]) > 0:
-        print "      - Load: "
-        for depEntry in fileDb[fileId]["loadDeps"]:
           print "        - %s" % depEntry
 
       if len(fileDb[fileId]["optionalDeps"]) > 0:

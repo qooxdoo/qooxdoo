@@ -21,7 +21,7 @@
 /* ************************************************************************
 
 #module(ui_core)
-#after(qx.manager.object.ColorManager)
+#require(qx.manager.object.ColorManager)
 
 ************************************************************************ */
 
