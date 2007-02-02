@@ -5,7 +5,7 @@ qx.Clazz.define("qx.test.Browser", {
 
   extend: qx.core.Object,
 
-  init: function() {},
+  construct: function() {},
 
   members: {
     getName: qx.core.Variant.select("qx.client", {

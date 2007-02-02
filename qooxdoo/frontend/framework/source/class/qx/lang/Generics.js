@@ -74,7 +74,7 @@
  */
 qx.OO.defineClass("qx.lang.Generics",
 {
-  map :
+  __map :
   {
     "Array" : [
       "join", "reverse", "sort", "push", "pop", "shift", "unshift",
@@ -102,7 +102,7 @@ qx.OO.defineClass("qx.lang.Generics",
    * @return {Function} wrapped method. This function takes as first argument an
    *     instance of obj and as following arguments the arguments of the original method.
    */
-  _wrap : function(obj, func)
+  __wrap : function(obj, func)
   {
     return function(s) {
       return obj.prototype[func].apply(s, Array.prototype.slice.call(arguments, 1));
@@ -110,11 +110,11 @@ qx.OO.defineClass("qx.lang.Generics",
   },
 
   /**
-   * Initialize all gernic function defined in JavaScript 1.6.
+   * Initialize all generic functions as defined in JavaScript 1.6.
    */
   init : function()
   {
-    var map = qx.lang.Generics.map;
+    var map = qx.lang.Generics.__map;
 
 
 
@@ -128,7 +128,7 @@ qx.OO.defineClass("qx.lang.Generics",
         var func = arr[i];
 
         if (!obj[func]) {
-          obj[func] = qx.lang.Generics._wrap(obj, func);
+          obj[func] = qx.lang.Generics.__wrap(obj, func);
         }
       }
     }

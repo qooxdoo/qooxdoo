@@ -70,10 +70,9 @@ qx.Clazz.define("qx.core.Settings",
     },
 
     /**
-     * Import settings from global qxsettings
-     * into current environment
+     * Import settings from global qxsettings into current environment
      */
-    "import" : function()
+    init : function()
     {
       if (window.qxsettings)
       {
@@ -95,4 +94,4 @@ qx.Clazz.define("qx.core.Settings",
   }
 });
 
-qx.core.Settings["import"]();
+qx.core.Settings.init();
