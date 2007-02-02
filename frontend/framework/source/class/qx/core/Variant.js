@@ -21,6 +21,8 @@
 
 /* ************************************************************************
 
+#require(qx.util.Validation)
+
 /* ************************************************************************ */
 
 qx.Clazz.define("qx.core.Variant",
@@ -138,7 +140,3 @@ qx.Clazz.define("qx.core.Variant",
          }
     }
 });
-
-// TODO: remove after testing
-qx.core.Variant.define("qx.client", ["gecko", "mshtml", "opera", "webkit"]);
-qx.core.Variant.set("qx.client", qx.core.Client.getInstance().getEngine());

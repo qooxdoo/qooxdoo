@@ -312,7 +312,7 @@ qx.Proto.layoutChild_location_left = function(vChild, vJobs)
 
 
 
-if (qx.core.Client.getInstance().isMshtml() || qx.core.Client.getInstance().isOpera())
+if (qx.core.Variant.select("qx.client", "mshtml|opera"))
 {
   qx.Proto._applyComputedWidth = function(vChild)
   {
