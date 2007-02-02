@@ -40,8 +40,8 @@ class Usage(Exception):
 def getJavaScript(data, locale, language, territory="", namespace="qx.locale.data"):
 	str = "/*\n"
 	if territory != "":
-		str += "#load(%s.%s)\n" % (namespace, language)
-	str += '''#require(qx.Locale)
+		str += "#use(%s.%s)\n" % (namespace, language)
+	str += '''
 */
 qx.Locale.define("%s.%s", {
 ''' % (namespace, locale)
@@ -50,11 +50,11 @@ qx.Locale.define("%s.%s", {
 	keys.sort()
 	for key in keys:
 		lines.append('  cldr_%s: "%s"' % (key.replace("-", "_"), data[key].encode("UTF-8").replace("\n", "\n" + 4 * " ").replace('"', '\\"')) )
-		
+
 	body = ",\n".join(lines)
 	str += "%s\n});" % body
 	return str
-	
+
 
 def getLocale(calendarElement):
 	locale = calendarElement.find("identity/language").attrib["type"]
@@ -63,7 +63,7 @@ def getLocale(calendarElement):
 	if territoryNode != None:
 		territory = territoryNode.attrib["type"]
 	return (locale, territory)
-	
+
 
 def extractMonth(calendarElement):
 	data = {}
@@ -84,25 +84,25 @@ def extractDay(calendarElement):
 			if day.attrib.has_key("alt"): continue
 			data['day_%s_%s' % (dayType, day.attrib["type"])] = day.text
 	return data
-	
+
 def extractQuarter(calendarElement):
 	return {'': ''}
 
-	
+
 def extractAmPm(calendarElement):
 	data = {}
 
 	amNode = calendarElement.find(".//am")
 	if amNode != None:
 		data['am'] = amNode.text
-		
+
 	pmNode = calendarElement.find(".//pm")
 	if pmNode != None:
 		data["pm"] = pmNode.text
 
 	return data
 
-	
+
 def extractDateFormat(calendarElement):
 	data = {}
 	for dateFormatLength in calendarElement.findall(".//dateFormatLength"):
@@ -122,56 +122,56 @@ def extractTimeFormat(calendarElement):
 			data['time_format_%s' % timeType] = timeFormat.text
 	return data
 
-		
+
 def extractDateTimeFormat(calendarElement):
 	data = {}
 	for dateTimeFormat in calendarElement.findall(".//dateFormatItem"):
 		data["date_time_format_%s" % dateTimeFormat.attrib["id"]] = dateTimeFormat.text
 	return data
 
-	
+
 def extractFields(calendarElement):
 	fields = {}
 	for field in calendarElement.findall(".//fields/field"):
 		if not field.find("displayName"): break
 		fields[field.attrib["type"]] = field.find("displayName").text
-		
+
 	return fields
-	
+
 
 def extractDelimiter(tree):
 	delimiters = {}
 	for delimiter in tree.findall("delimiters/*"):
 		delimiters[delimiter.tag] = delimiter.text
-	
+
 	return delimiters
 
-		
+
 def extractNumber(tree):
 	data = {}
-	
+
 	decimalSeparatorNode = tree.find("numbers/symbols/decimal")
 	if decimalSeparatorNode != None:
 		data['number_decimal_separator'] = decimalSeparatorNode.text
-	
+
 	groupSeparator = ","
 	groupSeparatorNode = tree.find("numbers/symbols/group")
 	if groupSeparatorNode != None:
 		data['number_group_separator'] = groupSeparatorNode.text
-	
+
 	percentFormatNode = tree.find("numbers/percentFormats/percentFormatLength/percentFormat/pattern")
 	if percentFormatNode != None:
 		data['number_percent_format'] = percentFormatNode.text
 
 	return data
 
-	
+
 def parseCldrFile(filename, outputDirectory=None):
 	tree = ElementTree.parse(filename)
-	
+
 	language, territory = getLocale(tree)
 	data = {}
-	
+
 	for cal in tree.findall('dates/calendars/calendar'):
 		if not cal.attrib.has_key("type"): continue
 		if cal.attrib["type"] != "gregorian": continue
@@ -183,7 +183,7 @@ def parseCldrFile(filename, outputDirectory=None):
 		data.update(extractTimeFormat(cal))
 		data.update(extractDateTimeFormat(cal))
 		data.update(extractFields(cal))
-		
+
 	data.update(extractDelimiter(tree))
 	data.update(extractNumber(tree))
 
@@ -207,7 +207,7 @@ def main(argv=None):
             opts, args = getopt.getopt(argv[1:], "ho:v", ["help", "output="])
         except getopt.error, msg:
             raise Usage(msg)
-    
+
         output = None
         for option, value in opts:
             if option == "-v":
@@ -216,10 +216,10 @@ def main(argv=None):
                 raise Usage(help_message)
             if option in ("-o", "--output"):
                 output = value
-			
+
         for arg in args:
             parseCldrFile(arg, output)
-    
+
     except Usage, err:
         print >> sys.stderr, sys.argv[0].split("/")[-1] + ": " + str(err.msg)
         print >> sys.stderr, "\t for help use --help"
