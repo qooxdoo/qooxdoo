@@ -1267,6 +1267,11 @@ qx.Proto._updateFocusIndicator = function() {
       this._focusIndicator.setLeft(paneModel.getColumnLeft(this._focusedCol) - 2);
 
       this._focusIndicator.show();
+
+      // Force redisplay of the focus indicator right away.  Without this, it
+      // waits until the mouse stops moving for a while before updating, and
+      // appears as if it is slow to respond.
+      qx.ui.core.Widget.flushGlobalQueues();
     }
   }
 }
