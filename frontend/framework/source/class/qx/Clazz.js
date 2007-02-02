@@ -139,7 +139,7 @@ qx.Clazz.define("qx.Clazz",
      * @param config.implement {Array ? null} list of implement that need to be implemented
      * @param config.include {Array ? null} list of include to include
      * @param config.settings {Map ? null} hash of settings for this class
-     * @param config.init {Function ? null} constructor method to run on each initialization
+     * @param config.construct {Function ? null} constructor method to run on each initialization
      * @param config.statics {Map ? null} hash of static properties and methods ("class members")
      * @param config.properties {Map ? null} hash of properties with generated setters and getters
      * @param config.members {Map ? null} hash of regular properties and methods ("instance members")
@@ -153,7 +153,7 @@ qx.Clazz.define("qx.Clazz",
     define : function(name, config)
     {
       var key, value;
-      var extend, implement, include, settings, init, statics, properties, members;
+      var extend, implement, include, settings, construct, statics, properties, members;
 
 
 
@@ -201,8 +201,8 @@ qx.Clazz.define("qx.Clazz",
             settings = value;
             break;
 
-          case "init":
-            init = value;
+          case "construct":
+            construct = value;
             break;
 
           case "statics":
@@ -235,7 +235,7 @@ qx.Clazz.define("qx.Clazz",
 
       if (!extend)
       {
-        if (init) {
+        if (construct) {
           throw new Error('Superclass is undefined, but constructor was given for class: "' + name + "'");
         }
 
@@ -244,12 +244,12 @@ qx.Clazz.define("qx.Clazz",
       }
       else
       {
-        if (!init) {
+        if (!construct) {
           throw new Error('Constructor is missing for class "' + name + "'");
         }
 
         // Store class pointer
-        var obj = init;
+        var obj = construct;
       }
 
       // Create namespace
@@ -351,10 +351,10 @@ qx.Clazz.define("qx.Clazz",
       obj.extend = prot.extend = extend;
 
       // Store correct constructor
-      obj.constructor = prot.constructor = init;
+      obj.constructor = prot.constructor = construct;
 
       // Store base constructor to constructor
-      init.base = extend;
+      construct.base = extend;
 
       // Compatibility to old properties etc.
       qx.Proto = prot;

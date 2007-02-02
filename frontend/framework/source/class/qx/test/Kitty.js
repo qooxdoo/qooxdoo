@@ -10,7 +10,7 @@ qx.Clazz.define("qx.test.Kitty",
     qx.test.MMoody /*, qx.test.MFat*/
   ],
 
-  init : function() {
+  construct : function() {
     arguments.callee.base.call(this);
   },
 
