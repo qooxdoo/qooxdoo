@@ -19,36 +19,45 @@
 #
 ################################################################################
 
-import re
+import re, sys
 import tree
 import compiler
 
+
+def log(level, msg, node=None):
+  str = "      - %s: %s" % (level, msg);
+  if node != None:
+    str += " (Line %s)" % node.get("line")
+  print str
+
 def search(node, variantMap, verbose=False):
   variants = findVariablePrefix(node, "qx.core.Variant")
+  modified = False
   for variant in variants:
     variantMethod = selectNode(variant, "identifier[3]/@name")
     if variantMethod == "select":
-      processVariantSelect(selectNode(variant, "../.."), variantMap)
+      modified = processVariantSelect(selectNode(variant, "../.."), variantMap) or modified
     elif variantMethod == "set":
-      processVariantSet(selectNode(variant, "../.."), variantMap)
+      modified = processVariantSet(selectNode(variant, "../.."), variantMap) or modified
+  return modified
 
 
 def processVariantSelect(callNode, variantMap):
   if callNode.type != "call":
-    return
+    return False
   params = callNode.getChild("params")
   if len(params.children) != 2:
-    print "    - Warning: Expecting exactly two arguments for qx.core.Variant.select. Ignoring this occurrence."
-    return
+    log("Warning", "Expecting exactly two arguments for qx.core.Variant.select. Ignoring this occurrence.", params)
+    return False
 
   firstParam = params.getChildByPosition(0)
   if not isStringLiteral(firstParam):
-    print "    - Warning! First argument must be a string literal constant! Ignoring this occurrence."
-    return
+    log("Warning", "First argument must be a string literal constant! Ignoring this occurrence.", firstParam)
+    return False
   
   variantGroup = firstParam.get("value");
   if not variantGroup in variantMap.keys():
-    return
+    return False
 
   secondParam = params.getChildByPosition(1)
   default = None
@@ -66,14 +75,18 @@ def processVariantSelect(callNode, variantMap):
         if key == "none":
           default = value
     if not found:
-      callNode.parent.replaceChild(callNode, default)
-    return
+      if default != None:
+        callNode.parent.replaceChild(callNode, default)
+      else:
+        log("Error", "No default case found!", callNode)
+        sys.exit(1) 
+    return True
     
   elif isStringLiteral(secondParam):
     ifcondition =  secondParam.parent.parent.parent
     if ifcondition.type != "expression" or len(ifcondition.children) != 1 or ifcondition.parent.type != "loop":
-      print "    - Warning! Only processing qx.core.Variant.select directly inside of an if condition. Ignoring this occurrence."
-      return
+      log("Warning", "Only processing qx.core.Variant.select directly inside of an if condition. Ignoring this occurrence.", ifcondition)
+      return False
 
     loop = ifcondition.parent
 
@@ -82,17 +95,25 @@ def processVariantSelect(callNode, variantMap):
     #print loop.parent.toJavascript()
     
     variantValue = secondParam.get("value")
-    inlineIfStatement(loop, variantValue == variantMap[variantGroup])
+    inlineIfStatement(loop, __variantMatchKey(variantValue, variantMap, variantGroup))
 
     #print
     #print "--- post ---"
     #print loop.parent.toJavascript()
     #print
-    return
+    return True
 
-  print "    - Warning: The second parameter of qx.core.Variant.select must be a map or a string literal. Ignoring this occurrence."
+  log("Warning", "The second parameter of qx.core.Variant.select must be a map or a string literal. Ignoring this occurrence.", secondParam)
+  return False
 
 
+def __variantMatchKey(key, variantMap, variantGroup):
+  for keyPart in key.split("|"):
+    if variantMap[variantGroup] == keyPart:
+      return True
+  return False
+  
+  
 def processVariantSet(callNode, variantMap):
   if callNode.type != "call":
     return False
@@ -100,8 +121,8 @@ def processVariantSet(callNode, variantMap):
   params = callNode.getChild("params")
   arg1 = params.getChildByPosition(0)
   if not isStringLiteral(arg1):
-    print "    - Warning! First argument must be a string literal constant! Ignoring this occurrence."
-    return
+    log("Warning", "First argument must be a string literal constant! Ignoring this occurrence.", arg1)
+    return False
   variantGroup = arg1.get("value");
 
   arg2 = params.getChildByPosition(1)
@@ -246,18 +267,34 @@ def findVariable(node, varName, varNodes=None):
 
 
 def inlineIfStatement(ifNode, conditionValue):
+  
   if ifNode.type != "loop" or ifNode.get("loopType") != "IF":
     return False
   if ifNode.getChild("elseStatement", False):
     if conditionValue:
-      #print "remove else case"
-      ifNode.parent.replaceChild(ifNode, ifNode.getChild("statement").getFirstChild())
+      log("Information", "Remove else case,", ifNode)
+      replaceChildWithNodes(ifNode.parent, ifNode, ifNode.getChild("statement").children)
     else:
-      #print "remove if case"
-      ifNode.parent.replaceChild(ifNode, ifNode.getChild("elseStatement").getFirstChild())
+      log("Information", "Remove if case", ifNode)
+      replaceChildWithNodes(ifNode.parent, ifNode, ifNode.getChild("elseStatement").children)      
   else:
     if conditionValue:
-      ifNode.parent.replaceChild(ifNode, ifNode.getChild("statement").getFirstChild())
+      log("Information", "Remove else case", ifNode)
+      replaceChildWithNodes(ifNode.parent, ifNode, ifNode.getChild("statement").children)      
     else:
+      log("Information", "Remove if case", ifNode)
       ifNode.parent.removeChild(ifNode)
+
+
+def replaceChildWithNodes(node, oldChild, newChildren):
+  index = getNodeIndex(node, oldChild)
+  node.removeChild(oldChild)
+  # copy list
+  children = newChildren[:]
+  for child in children:
+    node.addChild(child, index)
+    index += 1
   
+
+def getNodeIndex(parent, node):
+  return parent.children.index(node)
