@@ -169,7 +169,8 @@
                             if (this.getChecked())
                             {
                               var node = e.getData();
-                              tree.setState(node.nodeId, { opened : null });
+                              tree.setState(node.nodeId,
+                                            { bOpened : ! node.bOpened });
                             }
                           },
                           o);

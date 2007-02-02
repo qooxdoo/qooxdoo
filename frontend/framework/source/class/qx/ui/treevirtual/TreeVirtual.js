@@ -359,15 +359,8 @@ qx.Proto.getSelectionMode = function(mode)
  */
 qx.Proto.toggleOpened = function(node)
 {
-  // Ignore toggle request if 'opened' is not a boolean (i.e. we've been
-  // told explicitely not to display the open/close button).
-  if (node.opened !== true && node.opened !== false)
-  {
-    return;
-  }
-
   // Are we opening or closing?
-  if (node.opened)
+  if (node.bOpened)
   {
     // We're closing.  If there are listeners, generate a treeClose event.
     this.createDispatchDataEvent("treeClose", node);
@@ -389,10 +382,10 @@ qx.Proto.toggleOpened = function(node)
   }
 
   // Event handler may have modified the opened state.  Check before toggling.
-  if (node.opened === true || node.opened === false)
+  if (! node.bHideOpenClose)
   {
     // It's still boolean.  Toggle the state
-    node.opened = ! node.opened;
+    node.bOpened = ! node.bOpened;
 
     // Get the selection model
     var sm = this.getSelectionModel();
@@ -531,7 +524,10 @@ qx.Proto._onkeydown = function(evt)
       var treeCol = dm.getTreeColumn();
       var node = dm.getValue(treeCol, focusedRow);
 
-      this.toggleOpened(node);
+      if (! node.bHideOpenClose)
+      {
+        this.toggleOpened(node);
+      }
       consumed = true;
       break;
 
@@ -557,9 +553,10 @@ qx.Proto._onkeydown = function(evt)
       var treeCol = dm.getTreeColumn();
       var node = dm.getValue(treeCol, focusedRow);
 
-      // If it's an open branch...
+      // If it's an open branch and open/close is allowed...
       if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH &&
-          node.opened)
+          ! node.bHideOpenClose &&
+          node.bOpened)
       {
         // ... then close it
         this.toggleOpened(node);
@@ -580,9 +577,10 @@ qx.Proto._onkeydown = function(evt)
       var treeCol = dm.getTreeColumn();
       var node = dm.getValue(treeCol, focusedRow);
 
-      // If it's a closed branch...
+      // If it's a closed branch and open/close is allowed...
       if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH &&
-          ! node.opened)
+          ! node.bHideOpenClose &&
+          ! node.bOpened)
       {
         // ... then open it
         this.toggleOpened(node);
@@ -630,11 +628,12 @@ qx.Proto._onkeydown = function(evt)
       var treeCol = dm.getTreeColumn();
       var node = dm.getValue(treeCol, focusedRow);
 
-      // If we're on a branch...
-      if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH)
+      // If we're on a branch and open/close is allowed...
+      if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH &&
+          ! node.bHideOpenClose)
       {
         // ... then first ensure the branch is open
-        if (! node.opened)
+        if (! node.bOpened)
         {
           this.toggleOpened(node);
         }
@@ -789,8 +788,11 @@ qx.Proto._handleSelectEvent = function(index, evt)
       return false;
 
     case "Enter":
-      // Here we want to toggle the open state
-      this.toggleOpened(node);
+      // Toggle the open state if open/close is allowed
+      if (! node.bHideOpenClose)
+      {
+        this.toggleOpened(node);
+      }
       return this.openCloseClickSelectsRow() ? false : true;
 
     default:
