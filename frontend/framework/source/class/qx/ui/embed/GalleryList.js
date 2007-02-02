@@ -259,7 +259,6 @@ qx.Proto.createView = function()
   return frame;
 }
 
-qx.Proto._mshtml = qx.core.Client.getInstance().isMshtml();
 
 qx.Proto.createImageCell = function(inode, d)
 {
@@ -272,7 +271,7 @@ qx.Proto.createImageCell = function(inode, d)
   inode.width = d.thumbWidth;
   inode.height = d.thumbHeight;
 
-  if (this._mshtml) {
+  if (qx.core.Variant.select("qx.client", "mshtml")) {
     inode.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + d.src + "',sizingMethod='scale')";
   } else {
     inode.src = d.src;

@@ -46,7 +46,7 @@ function()
   // Mshtml allows us to define a full HTML as a parameter for createElement.
   // Using this method is the only (known) working to register the frame
   // to the known elements of the Internet Explorer.
-  if (qx.core.Client.getInstance().isMshtml()) {
+  if (qx.core.Variant.select("qx.client", "mshtml")) {
     this._frame = document.createElement('<iframe name="' + vFrameName + '"></iframe>');
   } else {
     this._frame = document.createElement("iframe");
@@ -480,7 +480,7 @@ qx.Proto.dispose = function()
 
     // Reset source to a blank image for gecko
     // Otherwise it will switch into a load-without-end behaviour
-    if (qx.core.Client.getInstance().isGecko()) {
+    if (qx.core.Variant.select("qx.client", "gecko")) {
       this._frame.src = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
     }
 

@@ -21,6 +21,7 @@
 /* ************************************************************************
 
 #module(core)
+#require(qx.core.Variant)
 
 ************************************************************************ */
 
@@ -404,3 +405,10 @@ qx.Proto.supportsInnerText = function() {
  * Singleton Instance Getter
  */
 qx.Class.getInstance = qx.lang.Function.returnInstance;
+
+
+/**
+ * Browser switch
+ */
+qx.core.Variant.define("qx.client", ["gecko", "mshtml", "opera", "webkit"]);
+qx.core.Variant.set("qx.client", qx.core.Client.getInstance().getEngine());

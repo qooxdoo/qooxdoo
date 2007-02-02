@@ -91,7 +91,7 @@ qx.html.Dimension.getBoxHeight = function(el) {
 qx.html.Dimension.getAreaWidth = function(el) {};
 qx.html.Dimension.getAreaHeight = function(el) {};
 
-if (qx.core.Client.getInstance().isGecko())
+if (qx.core.Variant.select("qx.client", "gecko"))
 {
   qx.html.Dimension.getAreaWidth = function(el)
   {
@@ -172,7 +172,7 @@ qx.html.Dimension.getInsetTop    = function(el) {};
 qx.html.Dimension.getInsetRight  = function(el) {};
 qx.html.Dimension.getInsetBottom = function(el) {};
 
-if (qx.core.Client.getInstance().isMshtml())
+if (qx.core.Variant.select("qx.client", "mshtml"))
 {
   qx.html.Dimension.getInsetLeft   = function(el) { return el.clientLeft; }
   qx.html.Dimension.getInsetTop    = function(el) { return el.clientTop; }

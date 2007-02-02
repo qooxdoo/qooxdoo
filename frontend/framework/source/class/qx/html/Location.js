@@ -46,7 +46,7 @@ qx.html.Location.getPageBoxTop = function(el) {}
 qx.html.Location.getPageBoxRight = function(el) {}
 qx.html.Location.getPageBoxBottom = function(el) {}
 
-if (qx.core.Client.getInstance().isMshtml())
+if (qx.core.Variant.select("qx.client", "mshtml"))
 {
   qx.html.Location.getClientBoxLeft   = function(el) { return el.getBoundingClientRect().left; }
   qx.html.Location.getClientBoxTop    = function(el) { return el.getBoundingClientRect().top; }
@@ -54,7 +54,7 @@ if (qx.core.Client.getInstance().isMshtml())
   qx.html.Location.getPageBoxLeft     = function(el) { return qx.html.Location.getClientBoxLeft(el)  + qx.html.Scroll.getLeftSum(el); }
   qx.html.Location.getPageBoxTop      = function(el) { return qx.html.Location.getClientBoxTop(el)   + qx.html.Scroll.getTopSum(el); }
 }
-else if (qx.core.Client.getInstance().isGecko())
+else if (qx.core.Variant.select("qx.client", "gecko"))
 {
   qx.html.Location.getClientBoxLeft   = function(el) { return qx.html.Location.getClientAreaLeft(el) - qx.html.Style.getBorderLeft(el); }
   qx.html.Location.getClientBoxTop    = function(el) { return qx.html.Location.getClientAreaTop(el)  - qx.html.Style.getBorderTop(el); }
@@ -113,7 +113,7 @@ else
   }
 }
 
-if (qx.core.Client.getInstance().isMshtml())
+if (qx.core.Variant.select("qx.client", "mshtml"))
 {
   qx.html.Location.getClientBoxRight  = function(el) { return el.getBoundingClientRect().right; }
   qx.html.Location.getClientBoxBottom = function(el) { return el.getBoundingClientRect().bottom; }
@@ -136,7 +136,7 @@ qx.html.Location.getClientAreaTop = function(el) {};
 qx.html.Location.getPageAreaLeft = function(el) {};
 qx.html.Location.getPageAreaTop = function(el) {};
 
-if (qx.core.Client.getInstance().isGecko())
+if (qx.core.Variant.select("qx.client", "gecko"))
 {
   qx.html.Location.getPageAreaLeft = function(el) {
     return el.ownerDocument.getBoxObjectFor(el).x;
@@ -191,7 +191,7 @@ qx.html.Location.getPageInnerBottom   = function(el) { return qx.html.Location.g
 qx.html.Location.getScreenBoxLeft = function(el) {};
 qx.html.Location.getScreenBoxTop = function(el) {};
 
-if (qx.core.Client.getInstance().isGecko())
+if (qx.core.Variant.select("qx.client", "gecko"))
 {
   /*
     screenX and screenY seem to return the distance to the box
@@ -258,7 +258,7 @@ qx.html.Location.getScreenDocumentTop = function(el) {};
 qx.html.Location.getScreenDocumentRight = function(el) {};
 qx.html.Location.getScreenDocumentBottom = function(el) {};
 
-if (qx.core.Client.getInstance().isGecko())
+if (qx.core.Variant.select("qx.client", "gecko"))
 {
   /*
     Notice:

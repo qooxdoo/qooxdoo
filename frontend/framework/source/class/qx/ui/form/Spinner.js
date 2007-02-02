@@ -39,7 +39,7 @@ function(vMin, vValue, vMax)
   // ************************************************************************
   this.setTabIndex(-1);
 
-  if (qx.core.Client.getInstance().isMshtml()) {
+  if (qx.core.Variant.select("qx.client", "mshtml")) {
     this.setStyleProperty("fontSize", "0px");
   }
 
