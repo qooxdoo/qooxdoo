@@ -2,7 +2,7 @@ qx.Clazz.define("qx.test.Cat",
 {
   extend : qx.test.Animal,
 
-  init : function() {
+  construct : function() {
     arguments.callee.base.call(this);
   },
 
