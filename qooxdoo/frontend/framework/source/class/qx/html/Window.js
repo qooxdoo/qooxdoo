@@ -58,7 +58,7 @@ qx.html.Window.getScrollLeft = function(window) {};
 qx.html.Window.getScrollTop = function(window) {};
 
 
-if (qx.core.Client.getInstance().isMshtml())
+if (qx.core.Variant.select("qx.client", "mshtml"))
 {
   qx.html.Window.getInnerWidth = function(w)
   {

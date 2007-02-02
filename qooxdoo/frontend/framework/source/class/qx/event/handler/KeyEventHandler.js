@@ -406,7 +406,7 @@ qx.Proto._idealKeyHandler = function(keyCode, charCode, eventType, domEvent)
 ---------------------------------------------------------------------------
 */
 
-if (qx.core.Client.getInstance().isMshtml())
+if (qx.core.Variant.select("qx.client", "mshtml"))
 {
   qx.Proto._lastUpDownType = {};
 
@@ -461,7 +461,7 @@ if (qx.core.Client.getInstance().isMshtml())
 ---------------------------------------------------------------------------
 */
 
-else if (qx.core.Client.getInstance().isGecko())
+else if (qx.core.Variant.select("qx.client", "gecko"))
 {
   qx.Proto._lastUpDownType = {};
 
@@ -512,7 +512,7 @@ else if (qx.core.Client.getInstance().isGecko())
 ---------------------------------------------------------------------------
 */
 
-else if (qx.core.Client.getInstance().isWebkit())
+else if (qx.core.Variant.select("qx.client", "webkit"))
 {
   qx.Proto._charCode2KeyCode =
   {
@@ -598,7 +598,7 @@ else if (qx.core.Client.getInstance().isWebkit())
 ---------------------------------------------------------------------------
 */
 
-else if (qx.core.Client.getInstance().isOpera())
+else if (qx.core.Variant.select("qx.client", "opera"))
 {
   qx.Proto._onkeyupdown = function(domEvent) {
     this._idealKeyHandler(domEvent.keyCode, 0, domEvent.type, domEvent);

@@ -118,7 +118,6 @@ qx.Proto._syncResizeLine = function()
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._mshtml = qx.core.Client.getInstance().isMshtml();
 
 qx.Proto._onmousemove = function(e)
 {
@@ -129,7 +128,7 @@ qx.Proto._onmousemove = function(e)
   if (this._resizingActive)
   {
     // Slow down mshtml a bit
-    if (this._mshtml)
+    if (qx.core.Variant.select("qx.client", "mshtml"))
     {
       if ((new Date).valueOf() - this._last < 50) {
         return;

@@ -59,7 +59,7 @@ if (Boolean(document.defaultView) && Boolean(document.defaultView.getComputedSty
     }
   }
 }
-else if (qx.core.Client.getInstance().isMshtml())
+else if (qx.core.Variant.select("qx.client", "mshtml"))
 {
   qx.html.Style.getStyleProperty = function(el, prop)
   {

@@ -77,11 +77,11 @@ qx.OO.addProperty({ name : "focusRoot", type : "object", instance : "qx.ui.core.
 qx.Class.mouseEventTypes = [ "mouseover", "mousemove", "mouseout", "mousedown", "mouseup", "click", "dblclick", "contextmenu", qx.core.Client.getInstance().isMshtml() ? "mousewheel" : "DOMMouseScroll" ];
 qx.Class.keyEventTypes = [ "keydown", "keypress", "keyup" ];
 
-if (qx.core.Client.getInstance().isGecko())
+if (qx.core.Variant.select("qx.client", "gecko"))
 {
   qx.Class.dragEventTypes = [ "dragdrop", "dragover", "dragenter", "dragexit", "draggesture" ];
 }
-else if (qx.core.Client.getInstance().isMshtml())
+else if (qx.core.Variant.select("qx.client", "mshtml"))
 {
   qx.Class.dragEventTypes = [ "dragend", "dragover", "dragstart", "drag", "dragenter", "dragleave" ];
 }
@@ -325,7 +325,7 @@ qx.Class.getOriginalTargetObject = function(vNode)
   return vNode ? vNode.qx_Widget : null;
 }
 
-if (qx.core.Client.getInstance().isWebkit())
+if (qx.core.Variant.select("qx.client", "webkit"))
 {
   /**
    * extract the target node from a DOM event
@@ -346,7 +346,7 @@ if (qx.core.Client.getInstance().isWebkit())
     return vNode;
   };
 }
-else if (qx.core.Client.getInstance().isMshtml())
+else if (qx.core.Variant.select("qx.client", "mshtml"))
 {
   /**
    * extract the target node from a DOM event
@@ -460,7 +460,7 @@ qx.Class.getRelatedTargetObjectFromEvent = function(vDomEvent) {
  * @param vDomEvent {Element} DOM event object
  */
 qx.Class.stopDomEvent = function(vDomEvent) {};
-if (qx.core.Client.getInstance().isMshtml())
+if (qx.core.Variant.select("qx.client", "mshtml"))
 {
   qx.Class.stopDomEvent = function(vDomEvent) {
     vDomEvent.returnValue = false;
@@ -597,7 +597,7 @@ qx.Proto._onkeyevent_post = function(vDomEvent, vType, vKeyCode, vCharCode, vKey
   7. dblclick
 */
 
-if(qx.core.Client.getInstance().isMshtml())
+if(qx.core.Variant.select("qx.client", "mshtml"))
 {
   qx.Proto._onmouseevent = function(vDomEvent)
   {
@@ -695,7 +695,7 @@ Internet Explorer 6.0: The DOM-targets are identical and the click fires fine.
 Opera 9.01: The DOM-targets are different, but the click fires fine. Fires click successfull,
   even if the content under the cursor was moved away.
 */
-if (qx.core.Client.getInstance().isGecko())
+if (qx.core.Variant.select("qx.client", "gecko"))
 {
   qx.Proto._onmouseevent_click_fix = function(vDomTarget, vType, vDispatchTarget)
   {
@@ -957,7 +957,7 @@ qx.Proto._onmouseevent_special_post = function(vType, vTarget, vOriginalTarget, 
 }
 
 
-if (qx.core.Client.getInstance().isGecko())
+if (qx.core.Variant.select("qx.client", "gecko"))
 {
   qx.Proto._onmousewheel = function(vTarget, vEvent)
   {

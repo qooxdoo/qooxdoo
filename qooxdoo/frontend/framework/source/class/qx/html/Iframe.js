@@ -29,7 +29,7 @@ qx.OO.defineClass("qx.html.Iframe");
 qx.html.Iframe.getWindow = function(vIframe) {};
 qx.html.Iframe.getDocument = function(vIframe) {};
 
-if (qx.core.Client.getInstance().isMshtml())
+if (qx.core.Variant.select("qx.client", "mshtml"))
 {
   qx.html.Iframe.getWindow = function(vIframe)
   {

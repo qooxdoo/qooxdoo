@@ -32,13 +32,13 @@ function()
   this.setTagName("input");
   this.setSelectable(false);
 
-  if (qx.core.Client.getInstance().isMshtml())
+  if (qx.core.Variant.select("qx.client", "mshtml"))
   {
     // Take control over size of element (mshtml)
     this.setWidth(13);
     this.setHeight(13);
   }
-  else if (qx.core.Client.getInstance().isGecko())
+  else if (qx.core.Variant.select("qx.client", "gecko"))
   {
     // Remove gecko default margin
     this.setMargin(0);
@@ -73,7 +73,7 @@ qx.Proto.getBoxHeight = qx.Proto.getPreferredBoxHeight;
 qx.Proto.getInnerWidth = qx.Proto.getPreferredBoxWidth;
 qx.Proto.getInnerHeight = qx.Proto.getPreferredBoxHeight;
 
-if (qx.core.Client.getInstance().isMshtml())
+if (qx.core.Variant.select("qx.client", "mshtml"))
 {
   qx.Proto._afterAppear = function()
   {

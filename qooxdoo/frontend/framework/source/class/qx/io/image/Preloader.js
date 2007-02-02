@@ -52,7 +52,7 @@ function(vSource)
   this._element.qx_ImagePreloader = this;
 
   // Define handler if image events occurs
-  if (qx.core.Client.getInstance().isWebkit())
+  if (qx.core.Variant.select("qx.client", "webkit"))
   {
     // Webkit as of version 41xxx
     // does not get the target right. We need to help out a bit
@@ -76,7 +76,7 @@ function(vSource)
   this._element.src = vSource;
 
   // Set PNG State
-  if (qx.core.Client.getInstance().isMshtml()) {
+  if (qx.core.Variant.select("qx.client", "mshtml")) {
     this._isPng = /\.png$/i.test(this._element.nameProp);
   }
 
@@ -115,7 +115,7 @@ qx.Proto.isErroneous = function() { return this._isErroneous; };
 qx.Proto._isPng = false;
 qx.Proto.getIsPng = function() { return this._isPng; };
 
-if(qx.core.Client.getInstance().isGecko())
+if(qx.core.Variant.select("qx.client", "gecko"))
 {
   qx.Proto.getWidth = function() { return this._element.naturalWidth; };
   qx.Proto.getHeight = function() { return this._element.naturalHeight; };
