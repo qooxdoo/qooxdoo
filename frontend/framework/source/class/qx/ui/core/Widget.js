@@ -4530,7 +4530,7 @@ if (qx.core.Variant.select("qx.client", "mshtml"))
     return true;
   }
 }
-else if (qx.core.Variant.select("qx.client", "mshtml"))
+else if (qx.core.Variant.select("qx.client", "gecko"))
 {
   qx.Proto._modifyTabIndex = function(propValue, propOldValue, propData)
   {
