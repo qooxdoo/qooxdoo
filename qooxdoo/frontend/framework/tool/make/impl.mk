@@ -89,28 +89,39 @@ exec-resources-build:
 	  $(COMPUTED_RESOURCE) \
 	  $(COMPUTED_BUILD_INCLUDE)
 
-exec-browser-optimize:
+exec-browser-optimize: exec-browser-optimize-gecko exec-browser-optimize-opera exec-browser-optimize-mshtml exec-browser-optimize-webkit
+	@mv $(COMPUTED_BROWSER_SCRIPT_NAME) $(COMPUTED_BROWSER_SCRIPT_NAME:.js=_all.js)
+	
+	@cat $(FRAMEWORK_TOOL_PATH)/make/browser_loader.tmpl.js | \
+	  $(CMD_PYTHON) -c "import sys; lines = sys.stdin.readlines(); print ''.join(lines) % {'path': sys.argv[1], 'name': sys.argv[2]}" \
+	    $(APPLICATION_PAGE_TO_TOPLEVEL)/$(APPLICATION_SCRIPT_FOLDERNAME) \
+	    $(APPLICATION_SCRIPT_FILENAME:.js=) \
+	  > $(COMPUTED_BROWSER_SCRIPT_NAME)
+
+exec-browser-optimize-gecko:
 	@$(CMD_GENERATOR) \
 	  $(COMPUTED_BROWSER_BUILD) \
-	  --use-variant client:gecko \
+	  --use-variant qx.client:gecko \
 	  --compiled-script-file $(COMPUTED_BROWSER_SCRIPT_NAME:.js=_gecko.js)
 
+exec-browser-optimize-webkit:
 	@$(CMD_GENERATOR) \
 	  $(COMPUTED_BROWSER_BUILD) \
-	  --use-variant client:webkit \
+	  --use-variant qx.client:webkit \
 	  --compiled-script-file $(COMPUTED_BROWSER_SCRIPT_NAME:.js=_webkit.js)
 
+exec-browser-optimize-mshtml:
 	@$(CMD_GENERATOR) \
 	  $(COMPUTED_BROWSER_BUILD) \
-	  --use-variant client:mshtml \
+	  --use-variant qx.client:mshtml \
 	  --compiled-script-file $(COMPUTED_BROWSER_SCRIPT_NAME:.js=_mshtml.js)
 
+exec-browser-optimize-opera:
 	@$(CMD_GENERATOR) \
 	  $(COMPUTED_BROWSER_BUILD) \
-	  --use-variant client:opera \
+	  --use-variant qx.client:opera \
 	  --compiled-script-file $(COMPUTED_BROWSER_SCRIPT_NAME:.js=_opera.js)
-	  
-	@mv $(COMPUTED_BROWSER_SCRIPT_NAME) $(COMPUTED_BROWSER_SCRIPT_NAME:.js=_all.js)
+
 
 
 #
