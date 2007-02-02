@@ -598,8 +598,8 @@ def recursiveAddClass(fileDb, fileId, sortedList):
     return False
 
   # Including loadtime dependencies
-  for dep in fileDb[fileId]["loadtimeDeps"]:
-    addClassWithDepsToSortedList(sortedList, fileDb, dep)
+  for depId in fileDb[fileId]["loadtimeDeps"]:
+    recursiveAddClass(fileDb, depId, sortedList)
 
   # Add myself
   if not fileId in sortedList:
