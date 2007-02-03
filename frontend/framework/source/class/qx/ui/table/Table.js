@@ -124,6 +124,33 @@ qx.OO.addProperty({ name:"headerCellHeight", type:"number", defaultValue:16, all
 /** The renderer to use for styling the rows. */
 qx.OO.addProperty({ name:"dataRowRenderer", type:"object", instance:"qx.ui.table.DataRowRenderer", defaultValue:qx.Class.DEFAULT_DATA_ROW_RENDERER, allowNull:false });
 
+/** A function to instantiate a table pane scroller */
+qx.OO.addProperty(
+  {
+    name :
+      "newTablePaneScroller",
+    type :
+      "function",
+    defaultValue:
+      function(obj)
+      {
+        return new qx.ui.table.TablePaneScroller(obj);
+      }
+  });
+
+/** A function to instantiate a table pane model */
+qx.OO.addProperty(
+  {
+    name :
+      "newTablePaneModel",
+    type :
+      "function",
+    defaultValue:
+      function(columnModel)
+      {
+        return new qx.ui.table.TablePaneModel(columnModel);
+      }
+  });
 
 // property modifier
 qx.Proto._modifySelectionModel = function(propValue, propOldValue, propData) {
@@ -215,12 +242,12 @@ qx.Proto._modifyMetaColumnCounts = function(propValue, propOldValue, propData) {
     var columnModel = this.getTableColumnModel();
 
     for (var i = scrollerArr.length; i < metaColumnCounts.length; i++) {
-      var paneModel = new qx.ui.table.TablePaneModel(columnModel);
+      var paneModel = this.getNewTablePaneModel()(columnModel);
       paneModel.setFirstColumnX(leftX);
       paneModel.setMaxColumnCount(metaColumnCounts[i]);
       leftX += metaColumnCounts[i];
 
-      var paneScroller = new qx.ui.table.TablePaneScroller(this);
+      var paneScroller = this.getNewTablePaneScroller()(this);
       paneScroller.setTablePaneModel(paneModel);
 
       // Register event listener for vertical scrolling
@@ -275,6 +302,43 @@ qx.Proto._modifyHeaderCellHeight = function(propValue, propOldValue, propData) {
   for (var i = 0; i < scrollerArr.length; i++) {
     scrollerArr[i].getHeader().setHeight(propValue);
   }
+  return true;
+};
+
+// property modifier
+qx.Proto._modifyNewTablePaneScroller = function(propValue, propOldValue, propData) {
+  // Get the current meta column counts
+  var metaColumnCounts = this.getMetaColumnCounts();
+
+  // Remove all of the meta columns (panes)
+  this._cleanUpMetaColumns(0);
+
+  // Set an empty set of meta columns (to allow resetting the original set)
+  this.setMetaColumnCounts([]);
+
+  // Now establish the original set of meta columns, which will reallocate the
+  // table pane scrollers using the new function.
+  this.setMetaColumnCounts(metaColumnCounts);
+
+  return true;
+};
+
+
+// property modifier
+qx.Proto._modifyNewTablePaneModel = function(propValue, propOldValue, propData) {
+  // Get the current meta column counts
+  var metaColumnCounts = this.getMetaColumnCounts();
+
+  // Remove all of the meta columns (panes)
+  this._cleanUpMetaColumns(0);
+
+  // Set an empty set of meta columns (to allow resetting the original set)
+  this.setMetaColumnCounts([]);
+
+  // Now establish the original set of meta columns, which will reallocate the
+  // table pane models using the new function.
+  this.setMetaColumnCounts(metaColumnCounts);
+
   return true;
 };
 
