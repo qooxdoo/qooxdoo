@@ -192,6 +192,30 @@
                        {
                          tree.setEnabled(! e.getData());
                        });
+
+    o = new qx.ui.form.CheckBox("Display a cell focus indicator?");
+    o.set({ top: 200, left: 0, checked: true });
+    commandFrame.add(o);
+    o.addEventListener("changeChecked",
+                       function(e)
+                       {
+                         if (e.getData())
+                         {
+                           tree.setCellFocusAttributes(
+                             {
+                               backgroundColor : "lightblue"
+                             });
+                         }
+                         else
+                         {
+                           tree.setCellFocusAttributes(
+                             {
+                               backgroundColor : "transparent"
+                             });
+                         }
+                       });
+
+
   });
   </script>
 </body>
