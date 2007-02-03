@@ -507,6 +507,10 @@ qx.Proto.setCellFocusAttributes = function(attributes)
  */
 qx.Proto._onkeydown = function(evt)
 {
+  if (! this.getEnabled()) {
+    return;
+  }
+
   var identifier = evt.getKeyIdentifier();
 
   var consumed = false;
@@ -668,6 +672,10 @@ qx.Proto._onkeydown = function(evt)
 
 qx.Proto._onkeypress = function(evt)
 {
+  if (! this.getEnabled()) {
+    return;
+  }
+
   var consumed = false;
 
   // Handle keys that are independant from the modifiers

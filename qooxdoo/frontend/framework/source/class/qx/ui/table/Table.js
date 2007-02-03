@@ -407,6 +407,10 @@ qx.Proto._onScrollY = function(evt) {
  * @param evt {Map} the event.
  */
 qx.Proto._onkeydown = function(evt) {
+  if (! this.getEnabled()) {
+    return;
+  }
+
   var identifier = evt.getKeyIdentifier();
 
   var consumed = false;
@@ -493,6 +497,10 @@ qx.Proto._onkeydown = function(evt) {
 
 qx.Proto._onkeypress = function(evt)
 {
+  if (! this.getEnabled()) {
+    return;
+  }
+
   if (this.isEditing()) { return }
   // No editing mode
   var oldFocusedRow = this._focusedRow;
@@ -906,6 +914,10 @@ qx.Proto._onColumnVisibilityBtExecuted = function() {
  */
 qx.Proto._toggleColumnVisibilityMenu = function() {
   if (this._columnVisibilityMenu == null || !this._columnVisibilityMenu.isSeeable()) {
+    if (! this.getEnabled()) {
+      return;
+    }
+
     // Show the menu
 
     // Create the new menu

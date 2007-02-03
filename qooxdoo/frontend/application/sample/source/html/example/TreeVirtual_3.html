@@ -183,6 +183,15 @@
                        {
                          tree.setOpenCloseClickSelectsRow(e.getData());
                        });
+
+    o = new qx.ui.form.CheckBox("Disable the tree?");
+    o.set({ top: 180, left: 0, checked: false });
+    commandFrame.add(o);
+    o.addEventListener("changeChecked",
+                       function(e)
+                       {
+                         tree.setEnabled(! e.getData());
+                       });
   });
   </script>
 </body>
