@@ -48,27 +48,10 @@ function(tableModel) {
   this._columnVisibilityBt = new qx.ui.toolbar.Button(null, "widget/table/selectColumnOrder.png");
   this._columnVisibilityBt.addEventListener("execute", this._onColumnVisibilityBtExecuted, this);
 
-  //
   // Create the models
-  //
-
-  // If a subclass has not already assigned a selection manager...
-  if (! this._selectionManager) {
-    // ... then allocate one of our own.
-    this._selectionManager = new qx.ui.table.SelectionManager;
-  }
-
-  // If a subclass has not already assigned a selection model...
-  if (! this.getSelectionModel()) {
-    // ... then allocate one of our own.
-    this.setSelectionModel(new qx.ui.table.SelectionModel);
-  }
-
-  // If a subclass has not already assigned a table column model...
-  if (! this.getTableColumnModel()) {
-    // ... then allocate one of our own.
-    this.setTableColumnModel(new qx.ui.table.TableColumnModel);
-  }
+  this._selectionManager = this.getNewSelectionManager()(this);
+  this.setSelectionModel(this.getNewSelectionModel()(this));
+  this.setTableColumnModel(this.getNewTableColumnModel()(this));
 
   // If a table model was provided...
   if (tableModel != null) {
@@ -143,13 +126,119 @@ qx.OO.addProperty({ name:"headerCellHeight", type:"number", defaultValue:16, all
 /** The renderer to use for styling the rows. */
 qx.OO.addProperty({ name:"dataRowRenderer", type:"object", instance:"qx.ui.table.DataRowRenderer", defaultValue:qx.Class.DEFAULT_DATA_ROW_RENDERER, allowNull:false });
 
-/** A function to instantiate a table pane scroller */
+/**
+ * A function to instantiate a selection manager.  this allows subclasses of
+ * Table to subclass this internal class.  To take effect, this property must
+ * be set before calling the Table constructor.
+ */
+qx.OO.addProperty(
+  {
+    name :
+      "newSelectionManager",
+    type :
+      "function",
+    setOnlyOnce :
+      true,
+    defaultValue:
+      function(obj)
+      {
+        return new qx.ui.table.SelectionManager(obj);
+      }
+  });
+
+/**
+ * A function to instantiate a selection model.  this allows subclasses of
+ * Table to subclass this internal class.  To take effect, this property must
+ * be set before calling the Table constructor.
+ */
+qx.OO.addProperty(
+  {
+    name :
+      "newSelectionModel",
+    type :
+      "function",
+    setOnlyOnce :
+      true,
+    defaultValue:
+      function(obj)
+      {
+        return new qx.ui.table.SelectionModel(obj);
+      }
+  });
+
+/**
+ * A function to instantiate a selection model.  this allows subclasses of
+ * Table to subclass this internal class.  To take effect, this property must
+ * be set before calling the Table constructor.
+ */
+qx.OO.addProperty(
+  {
+    name :
+      "newTableColumnModel",
+    type :
+      "function",
+    setOnlyOnce :
+      true,
+    defaultValue:
+      function(obj)
+      {
+        return new qx.ui.table.TableColumnModel(obj);
+      }
+  });
+
+/**
+ * A function to instantiate a table pane.  this allows subclasses of Table to
+ * subclass this internal class.  To take effect, this property must be set
+ * before calling the Table constructor.
+ */
+qx.OO.addProperty(
+  {
+    name :
+      "newTablePane",
+    type :
+      "function",
+    setOnlyOnce :
+      true,
+    defaultValue:
+      function(obj)
+      {
+        return new qx.ui.table.TablePane(obj);
+      }
+  });
+
+/**
+ * A function to instantiate a table pane.  this allows subclasses of Table to
+ * subclass this internal class.  To take effect, this property must be set
+ * before calling the Table constructor.
+ */
+qx.OO.addProperty(
+  {
+    name :
+      "newTablePaneHeader",
+    type :
+      "function",
+    setOnlyOnce :
+      true,
+    defaultValue:
+      function(obj)
+      {
+        return new qx.ui.table.TablePaneHeader(obj);
+      }
+  });
+
+/**
+ * A function to instantiate a table pane scroller.  this allows subclasses of
+ * Table to subclass this internal class.  To take effect, this property must
+ * be set before calling the Table constructor.
+ */
 qx.OO.addProperty(
   {
     name :
       "newTablePaneScroller",
     type :
       "function",
+    setOnlyOnce :
+      true,
     defaultValue:
       function(obj)
       {
@@ -157,13 +246,19 @@ qx.OO.addProperty(
       }
   });
 
-/** A function to instantiate a table pane model */
+/**
+ * A function to instantiate a table pane model.  this allows subclasses of
+ * Table to subclass this internal class.  To take effect, this property must
+ * be set before calling the Table constructor.
+ */
 qx.OO.addProperty(
   {
     name :
       "newTablePaneModel",
     type :
       "function",
+    setOnlyOnce :
+      true,
     defaultValue:
       function(columnModel)
       {
@@ -323,44 +418,6 @@ qx.Proto._modifyHeaderCellHeight = function(propValue, propOldValue, propData) {
   }
   return true;
 };
-
-// property modifier
-qx.Proto._modifyNewTablePaneScroller = function(propValue, propOldValue, propData) {
-  // Get the current meta column counts
-  var metaColumnCounts = this.getMetaColumnCounts();
-
-  // Remove all of the meta columns (panes)
-  this._cleanUpMetaColumns(0);
-
-  // Set an empty set of meta columns (to allow resetting the original set)
-  this.setMetaColumnCounts([]);
-
-  // Now establish the original set of meta columns, which will reallocate the
-  // table pane scrollers using the new function.
-  this.setMetaColumnCounts(metaColumnCounts);
-
-  return true;
-};
-
-
-// property modifier
-qx.Proto._modifyNewTablePaneModel = function(propValue, propOldValue, propData) {
-  // Get the current meta column counts
-  var metaColumnCounts = this.getMetaColumnCounts();
-
-  // Remove all of the meta columns (panes)
-  this._cleanUpMetaColumns(0);
-
-  // Set an empty set of meta columns (to allow resetting the original set)
-  this.setMetaColumnCounts([]);
-
-  // Now establish the original set of meta columns, which will reallocate the
-  // table pane models using the new function.
-  this.setMetaColumnCounts(metaColumnCounts);
-
-  return true;
-};
-
 
 /**
  * Returns the selection manager.
