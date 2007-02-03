@@ -50,10 +50,11 @@ function(headings)
   }
   tableModel.setColumns(headings);
 
-  // We don't want rows selected based on keyboard focus change.  Assign our
-  // own Selection Manager.  This will prevent the superclass constructor from
-  // allocating its own.
-  this._selectionManager = new qx.ui.treevirtual.SelectionManager(this);
+  this.setNewSelectionManager(
+      function(obj)
+      {
+        return new qx.ui.treevirtual.SelectionManager(obj);
+      });
 
   // Call our superclass constructor
   qx.ui.table.Table.call(this, tableModel);

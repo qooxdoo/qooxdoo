@@ -51,7 +51,7 @@ function(table) {
   this._verScrollBar.addEventListener("changeValue", this._onScrollY, this);
 
   // init header
-  this._header = new qx.ui.table.TablePaneHeader(this);
+  this._header = this.getTable().getNewTablePaneHeader()(this);
   this._header.set({ width:"auto", height:"auto" });
 
   this._headerClipper = new qx.ui.layout.CanvasLayout;
@@ -67,7 +67,7 @@ function(table) {
   this._top.add(this._headerClipper, this._spacer);
 
   // init pane
-  this._tablePane = new qx.ui.table.TablePane(this);
+  this._tablePane = this.getTable().getNewTablePane()(this);
   this._tablePane.set({ width:"auto", height:"auto" });
 
   this._focusIndicator = new qx.ui.layout.HorizontalBoxLayout;
