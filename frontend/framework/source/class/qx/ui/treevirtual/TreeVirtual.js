@@ -50,6 +50,11 @@ function(headings)
   }
   tableModel.setColumns(headings);
 
+  // We don't want rows selected based on keyboard focus change.  Assign our
+  // own Selection Manager.  This will prevent the superclass constructor from
+  // allocating its own.
+  this._selectionManager = new qx.ui.treevirtual.SelectionManager(this);
+
   // Call our superclass constructor
   qx.ui.table.Table.call(this, tableModel);
 
@@ -76,14 +81,6 @@ function(headings)
 
   // Move the focus with the mouse
   this.setFocusCellOnMouseMove(true);
-
-  // We don't want rows selected based on keyboard focus change.  Use our own
-  // Selection Manager.
-  this._selectionManager = new qx.ui.treevirtual.SelectionManager();
-
-  // Since we reset the selection manager, we need to set the selection model
-  // manually.  (It was previously done in the Table constructor.)
-  this.setSelectionModel(new qx.ui.table.SelectionModel);
 
   // Change focus colors.  Make them less obtrusive.
   this.setRowColors(
@@ -121,29 +118,6 @@ function(headings)
     // displaying the focus, so we can manipulate the selected icon.
     scrollers[i].setSelectBeforeFocus(true);
   }
-
-  // Arrange to select events locally. Replace the selection manager's method
-  // with one that calls our _handleSelectEvent method first, and if it
-  // indicates we should actually select the row, then call the selection
-  // manager's method.  Our method handles deciding if the click was on the
-  // open/close button, and toggling the opened/closed state as necessary.
-  // The selection manager's method handles marking the selected row.
-  var _this = this;
-  this._getSelectionManager()._handleSelectEvent = function(index, evt)
-  {
-    var Sm = qx.ui.table.SelectionManager;
-    var Tv = qx.ui.treevirtual.TreeVirtual;
-
-    // Call our local method to toggle the open/close state, if necessary
-    var bNoSelect = Tv.prototype._handleSelectEvent.call(_this, index, evt);
-
-    // If we haven't been told not to do the selection...
-    if (! bNoSelect)
-    {
-      // then call the Selection Manager's method to do it.
-      Sm.prototype._handleSelectEvent.call(_this, index, evt);
-    }
-  };
 });
 
 
@@ -725,89 +699,6 @@ qx.Proto._onSelectionChanged = function(evt)
 
   // Call the superclass method
   qx.ui.table.Table.prototype._onSelectionChanged.call(this, evt);
-};
-
-
-/**
- * Handles the a selection event
- *
- * @param index {Integer}
- *   The row index the mouse is pointing at.
- *
- * @param evt {Map}
- *   The mouse event.
- *
- * @return {Boolean}
- *   Returns <i>true</i> if the event was a click on the open/close button,
- *   <i>false</i> otherwise.
- */
-qx.Proto._handleSelectEvent = function(index, evt)
-{
-  // Get the node to which this event applies
-  var node = this.getTableModel().getValue(this.getFocusedColumn(),
-                                           this.getFocusedRow());
-  if (! node)
-  {
-    return false;
-  }
-
-  // Was this a mouse event?
-  if (evt instanceof qx.event.type.MouseEvent)
-  {
-    // Yup.  Get the order of the columns
-    var tcm = this.getTableColumnModel();
-    var columnPositions = tcm._getColToXPosMap();
-
-    // Calculate the position of the beginning of the tree column
-    var treeCol = this.getTableModel().getTreeColumn();
-    var left = qx.html.Location.getClientBoxLeft(this.getElement());
-    for (i = 0; i < columnPositions[treeCol].visX; i++)
-    {
-      left += tcm.getColumnWidth(columnPositions[i].visX);
-    }
-
-    // Was the click on the open/close button?  That button begins at
-    // (node.level - 1) * 19 + 2 (the latter for padding), and has width 19.
-    // We add a bit of latitude to that.
-    var x = evt.getClientX();
-    var latitude = 2;
-
-    var buttonPos = left + (node.level - 1) * 19 + 2;
-
-    if (x >= buttonPos - latitude && x <= buttonPos + 19 + latitude)
-    {
-      // Yup.  Toggle the opened state for this node.
-      this.toggleOpened(node);
-      return this.openCloseClickSelectsRow() ? false : true;
-    }
-    else
-    {
-      return false;
-    }
-  }
-  else
-  {
-    // See which key generated the event
-    var identifier = evt.getKeyIdentifier();
-    switch (identifier)
-    {
-    case "Space":
-      // This should only select the row, not toggle the opened state
-      return false;
-
-    case "Enter":
-      // Toggle the open state if open/close is allowed
-      if (! node.bHideOpenClose)
-      {
-        this.toggleOpened(node);
-      }
-      return this.openCloseClickSelectsRow() ? false : true;
-
-    default:
-      // Unrecognized key.  Ignore it.
-      return true;
-    }
-  }
 };
 
 

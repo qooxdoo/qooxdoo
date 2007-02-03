@@ -48,12 +48,31 @@ function(tableModel) {
   this._columnVisibilityBt = new qx.ui.toolbar.Button(null, "widget/table/selectColumnOrder.png");
   this._columnVisibilityBt.addEventListener("execute", this._onColumnVisibilityBtExecuted, this);
 
+  //
   // Create the models
-  this._selectionManager = new qx.ui.table.SelectionManager;
+  //
 
-  this.setSelectionModel(new qx.ui.table.SelectionModel);
-  this.setTableColumnModel(new qx.ui.table.TableColumnModel);
+  // If a subclass has not already assigned a selection manager...
+  if (! this._selectionManager) {
+    // ... then allocate one of our own.
+    this._selectionManager = new qx.ui.table.SelectionManager;
+  }
+
+  // If a subclass has not already assigned a selection model...
+  if (! this.getSelectionModel()) {
+    // ... then allocate one of our own.
+    this.setSelectionModel(new qx.ui.table.SelectionModel);
+  }
+
+  // If a subclass has not already assigned a table column model...
+  if (! this.getTableColumnModel()) {
+    // ... then allocate one of our own.
+    this.setTableColumnModel(new qx.ui.table.TableColumnModel);
+  }
+
+  // If a table model was provided...
   if (tableModel != null) {
+    // ... then save it.
     this.setTableModel(tableModel);
   }
 
