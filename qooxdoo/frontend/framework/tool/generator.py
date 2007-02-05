@@ -377,39 +377,6 @@ def load(options):
 
 
 
-def findnames(fileDb, moduleDb, options, names={}):
-
-  print
-  print "  SEARCHING FOR IDENTIFIERS:"
-  print "----------------------------------------------------------------------------"
-
-  if options.verbose:
-    print "  * Searching..."
-  else:
-    print "  * Searching: ",
-
-
-  sortedIncludeList = loader.getSortedList(options, fileDb, moduleDb)
-
-  for fileId in sortedIncludeList:
-    if options.verbose:
-      print "    - %s" % fileId
-
-    else:
-      sys.stdout.write(".")
-      sys.stdout.flush()
-
-    obfuscator.search(loader.getTree(fileDb, fileId, options), names)
-
-  if not options.verbose:
-    print
-
-  return names
-
-
-
-
-
 
 
 
@@ -423,24 +390,14 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
   ######################################################################
 
   print
-  print "  SORT OF INCLUDE LIST:"
+  print "  GENERATE CLASS INCLUDE LIST:"
   print "----------------------------------------------------------------------------"
-
-  if options.verbose:
-    print "  * Include with dependencies: %s" % options.include
-    print "  * Include without dependencies: %s" % options.includePure
-    print "  * Exclude with dependencies: %s" % options.exclude
-    print "  * Exclude without dependencies: %s" % options.excludePure
-
-  print "  * Sorting %s classes..." % len(fileDb)
 
   sortedIncludeList = loader.getSortedList(options, fileDb, moduleDb)
 
   if len(sortedIncludeList) == 0:
-  	print "    - No class files to include. Exciting!"
+  	print "  * No classes to include. Exciting!"
   	sys.exit(1)
-  else:
-  	print "    - Including %s classes" % len(sortedIncludeList)
 
   if options.printIncludes:
     print
