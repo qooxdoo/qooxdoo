@@ -36,9 +36,8 @@ def generate(settingsList, newLines):
   else:
     lineBreak = ""
 
-  settingsStr = 'window.qxsettings={' + lineBreak
+  settingsStr = 'if(!window.qxsettings)qxsettings={};' + lineBreak
 
-  first = True
   for setting in settingsList:
     settingSplit = setting.split(":")
     settingKey = settingSplit.pop(0)
@@ -47,14 +46,8 @@ def generate(settingsList, newLines):
     if not (settingValue == "false" or settingValue == "true" or typeNumber.match(settingValue)):
       settingValue = '"%s"' % settingValue.replace("\"", "\\\"")
 
-    if not first:
-      settingsStr += "," + lineBreak
-
-    settingsStr += '"%s":%s' % (settingKey, settingValue)
-    first = False
-
-  settingsStr += lineBreak
-  settingsStr += "};"
+    settingsStr += 'if(window.qxsettings["%s"]==undefined)window.qxsettings["%s"]=%s;' % (settingKey, settingKey, settingValue)
+    settingsStr += lineBreak
 
   return settingsStr
 
