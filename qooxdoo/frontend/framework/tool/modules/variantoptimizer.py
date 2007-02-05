@@ -23,14 +23,29 @@ import re, sys
 import tree
 import compiler
 
+global verbose
 
 def log(level, msg, node=None):
-  str = "      - %s: %s" % (level, msg);
+  global verbose
+  global file
+  str = "%s: %s" % (level, msg);
   if node != None:
-    str += " (Line %s)" % node.get("line")
-  print str
+    if file != "":
+      str += " (%s:%s)" % (file, node.get("line", False))
+    else:
+      str += " (Line %s)" % node.get("line", False)
+  if verbose:
+    print "      - " + str
+  else:
+    if level != "Information":
+      print
+      print str
 
-def search(node, variantMap, verbose=False):
+def search(node, variantMap, fileId="", verb=False):
+  global verbose
+  global file
+  verbose = verb
+  file = fileId
   variants = findVariablePrefix(node, "qx.core.Variant")
   modified = False
   for variant in variants:
@@ -84,23 +99,31 @@ def processVariantSelect(callNode, variantMap):
     
   elif isStringLiteral(secondParam):
     ifcondition =  secondParam.parent.parent.parent
-    if ifcondition.type != "expression" or len(ifcondition.children) != 1 or ifcondition.parent.type != "loop":
-      log("Warning", "Only processing qx.core.Variant.select directly inside of an if condition. Ignoring this occurrence.", ifcondition)
+
+    # normal if then else
+    if ifcondition.type == "expression" and ifcondition.getChildrenLength(True) == 1 and ifcondition.parent.type == "loop":
+      loop = ifcondition.parent
+      variantValue = secondParam.get("value")
+      inlineIfStatement(loop, __variantMatchKey(variantValue, variantMap, variantGroup))
+
+    # ternery operator  .. ? .. : ..
+    elif (
+      ifcondition.type == "first" and
+      ifcondition.getChildrenLength(True) == 1 and
+      ifcondition.parent.type == "operation" and
+      ifcondition.parent.get("operator") == "HOOK"
+    ):
+      variantValue = secondParam.get("value")
+      if __variantMatchKey(variantValue, variantMap, variantGroup):
+        repleacement = selectNode(ifcondition, "../second")
+      else:
+        repleacement = selectNode(ifcondition, "../third")
+      replaceChildWithNodes(ifcondition.parent.parent, ifcondition.parent, repleacement.children)  
+  
+    else:
+      log("Warning", "Only processing qx.core.Variant.select directly inside of an if condition. Ignoring this occurrence.", secondParam)
       return False
-
-    loop = ifcondition.parent
-
-    #print
-    #print "--- pre ---"
-    #print loop.parent.toJavascript()
-    
-    variantValue = secondParam.get("value")
-    inlineIfStatement(loop, __variantMatchKey(variantValue, variantMap, variantGroup))
-
-    #print
-    #print "--- post ---"
-    #print loop.parent.toJavascript()
-    #print
+        
     return True
 
   log("Warning", "The second parameter of qx.core.Variant.select must be a map or a string literal. Ignoring this occurrence.", secondParam)
@@ -134,6 +157,7 @@ def processVariantSet(callNode, variantMap):
       newNode.set("value", variantMap[variantGroup])
       newNode.set("constantType", "string")
       newNode.set("makeComplex", "false")
+      newNode.set("line", arg2.get("line"))
       
       arg2.parent.replaceChild(arg2, newNode)
       return True
@@ -267,24 +291,57 @@ def findVariable(node, varName, varNodes=None):
 
 
 def inlineIfStatement(ifNode, conditionValue):
-  
+
   if ifNode.type != "loop" or ifNode.get("loopType") != "IF":
     return False
+
+  replacement = []
+  newDefinitions = []
+  reovedDefinitions = []
+
   if ifNode.getChild("elseStatement", False):
     if conditionValue:
       log("Information", "Remove else case,", ifNode)
-      replaceChildWithNodes(ifNode.parent, ifNode, ifNode.getChild("statement").children)
+      reovedDefinitions = getDefinitions(ifNode.getChild("elseStatement"))
+      newDefinitions = getDefinitions(ifNode.getChild("statement"))
+      replacement = ifNode.getChild("statement").children
     else:
       log("Information", "Remove if case", ifNode)
-      replaceChildWithNodes(ifNode.parent, ifNode, ifNode.getChild("elseStatement").children)      
+      reovedDefinitions = getDefinitions(ifNode.getChild("statement"))
+      newDefinitions = getDefinitions(ifNode.getChild("elseStatement"))
+      replacement = ifNode.getChild("elseStatement").children      
   else:
     if conditionValue:
       log("Information", "Remove else case", ifNode)
-      replaceChildWithNodes(ifNode.parent, ifNode, ifNode.getChild("statement").children)      
+      newDefinitions = getDefinitions(ifNode.getChild("statement"))
+      replacement = ifNode.getChild("statement").children
     else:
       log("Information", "Remove if case", ifNode)
-      ifNode.parent.removeChild(ifNode)
-
+      reovedDefinitions = getDefinitions(ifNode.getChild("statement"))
+  
+  newDefinitions = map(lambda x: x.get("identifier"), newDefinitions)
+  definitions = []
+  for definition in reovedDefinitions:
+    if not definition.get("identifier") in newDefinitions:
+      definitions.append(definition)
+  
+  if len(definitions) > 0:
+    defList = tree.Node("definitionList")
+    defList.set("line", ifNode.get("line"))
+    for definition in definitions:
+      if definition.hasChildren():
+        del definition.children
+      defList.addChild(definition)
+    replacement.append(defList)
+    log("Information", "Generating var statements.", ifNode)
+  
+  if replacement != []:
+    replaceChildWithNodes(ifNode.parent, ifNode, replacement)
+  else:
+    emptyBlock = tree.Node("block");
+    emptyBlock.set("line", ifNode.get("line"))
+    ifNode.parent.replaceChild(ifNode, emptyBlock)
+    
 
 def replaceChildWithNodes(node, oldChild, newChildren):
   index = getNodeIndex(node, oldChild)
@@ -298,3 +355,18 @@ def replaceChildWithNodes(node, oldChild, newChildren):
 
 def getNodeIndex(parent, node):
   return parent.children.index(node)
+  
+
+def getDefinitions(node, definitions=None):
+  if definitions == None:
+    definitions = []
+    
+  if node.type == "definition":
+    definitions.append(node)
+
+  if node.hasChildren():
+    for child in node.children:
+      if child.type != "function":
+        definitions = getDefinitions(child, definitions)
+  
+  return definitions

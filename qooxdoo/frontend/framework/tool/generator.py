@@ -614,7 +614,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
         sys.stdout.write(".")
         sys.stdout.flush()
 
-      if variantoptimizer.search(loader.getTree(fileDb, fileId, options), variantMap, options.verbose):
+      if variantoptimizer.search(loader.getTree(fileDb, fileId, options), variantMap, fileId, options.verbose):
         if options.verbose:
           print "      - Modified!"
 
