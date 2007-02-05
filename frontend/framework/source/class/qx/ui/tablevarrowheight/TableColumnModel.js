@@ -80,6 +80,5 @@ qx.OO.defineClass("qx.ui.tablevarrowheight.TableColumnModel",
                   qx.ui.table.TableColumnModel,
 function()
 {
-  this.debug("TableVarRowHeight::TableColumnModel");
   qx.ui.table.TableColumnModel.call(this);
 });

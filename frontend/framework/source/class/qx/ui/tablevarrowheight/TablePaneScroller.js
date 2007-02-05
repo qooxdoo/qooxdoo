@@ -35,6 +35,5 @@ qx.OO.defineClass("qx.ui.tablevarrowheight.TablePaneScroller",
                   qx.ui.table.TablePaneScroller,
 function(table)
 {
-  this.debug("TableVarRowHeight::TablePaneScroller");
   qx.ui.table.TablePaneScroller.call(this, table);
 });

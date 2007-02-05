@@ -52,6 +52,5 @@ qx.OO.defineClass("qx.ui.tablevarrowheight.TableModel",
                   qx.ui.table.TableModel,
 function()
 {
-  this.debug("TableVarRowHeight::TableModel");
   qx.ui.table.TableModel.call(this);
 });

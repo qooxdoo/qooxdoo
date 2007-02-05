@@ -30,6 +30,5 @@ qx.OO.defineClass("qx.ui.tablevarrowheight.SimpleTableModel",
                   qx.ui.table.SimpleTableModel,
 function()
 {
-  this.debug("TableVarRowHeight::SimpleTableModel");
   qx.ui.table.SimpleTableModel.call(this);
 });
