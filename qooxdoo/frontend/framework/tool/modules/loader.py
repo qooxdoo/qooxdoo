@@ -858,6 +858,7 @@ def getSortedList(options, fileDb, moduleDb):
 
 
 
+  #
   # DONE
-
+  #
   return result
