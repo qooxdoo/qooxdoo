@@ -81,14 +81,13 @@ qx.Proto._updateContent_orig = function(completeUpdate,
   var cellInfo = { table:table };
   tableModel.prefetchRows(firstRow, firstRow + rowCount - 1);
 
-/*
   // For now, remove all of the child nodes.  Later, we'll optimize and try
   // to reuse and resize existing nodes.
-  for (var i = childNodes.length - 1; i >= 0; i++)
+  var numChildren = childNodes.length;
+  for (var i = numChildren - 1; i >= 0; i--)
   {
     elem.removeChild(childNodes[i]);
   }
-*/
 
   for (var y = 0,
          cumulativeHeight = 0,
