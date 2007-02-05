@@ -4597,29 +4597,6 @@ qx.Proto.getCssClassName = function() {
 
 
 
-
-
-/*
----------------------------------------------------------------------------
-  WIDGET FROM POINT
----------------------------------------------------------------------------
-*/
-
-qx.Proto.getWidgetFromPoint = function(x, y)
-{
-  var ret = this.getWidgetFromPointHelper(x, y);
-  return ret && ret != this ? ret : null;
-}
-
-qx.Proto.getWidgetFromPointHelper = function(x, y) {
-  return this;
-}
-
-
-
-
-
-
 /*
 ---------------------------------------------------------------------------
   CAN SELECT
