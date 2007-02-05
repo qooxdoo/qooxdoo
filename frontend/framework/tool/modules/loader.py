@@ -122,6 +122,17 @@ def extractOptional(data, fileId=""):
   return deps
 
 
+def extractIgnore(data, fileId=""):
+  ignores = []
+
+  # Adding explicit requirements
+  for item in config.QXHEAD["ignore"].findall(data):
+    if not item in ignores:
+      ignores.append(item)
+
+  return ignores
+
+
 def extractModules(data, fileId=""):
   mods = []
 
@@ -290,14 +301,14 @@ def detectDeps(node, optionalDeps, loadtimeDeps, runtimeDeps, fileId, fileDb, in
 
           if assembled != fileId and fileDb.has_key(assembled) and not assembled in optionalDeps:
             if inFunction:
-              deps = runtimeDeps
+              targetDeps = runtimeDeps
             else:
-              deps = loadtimeDeps
+              targetDeps = loadtimeDeps
 
-            if assembled in deps:
+            if assembled in targetDeps:
               return
 
-            deps.append(assembled)
+            targetDeps.append(assembled)
 
         else:
           assembled = ""
@@ -333,7 +344,7 @@ def resolveAutoDeps(fileDb, options):
     fileEntry = fileDb[fileId]
 
     # Ignore already complete ones
-    if fileEntry["autoDeps"] == True:
+    if fileEntry["autoDependencies"] == True:
       continue
 
     # Creating empty lists
@@ -342,6 +353,13 @@ def resolveAutoDeps(fileDb, options):
 
     # Detecting auto dependencies
     detectDeps(getTree(fileDb, fileId, options), fileEntry["optionalDeps"], loadtimeDeps, runtimeDeps, fileId, fileDb, False)
+
+    # Handle ignore configuration
+    if "auto-load" in fileEntry["ignoreDeps"]:
+      loadtimeDeps = []
+
+    if "auto-use" in fileEntry["ignoreDeps"]:
+      runtimeDeps = []
 
     # Detecting doubles in loadtime data
     for dep in fileEntry["loadtimeDeps"]:
@@ -392,7 +410,7 @@ def resolveAutoDeps(fileDb, options):
     fileEntry["runtimeDeps"] = runtimeDeps
 
     # Store flag to omit it the next run
-    fileEntry["autoDeps"] = True
+    fileEntry["autoDependencies"] = True
 
   if not options.verbose:
     print
@@ -479,9 +497,10 @@ def indexFile(filePath, filePathId, classPath, listIndex, classEncoding, classUr
       sys.exit(1)
 
     fileEntry = {
-      "autoDeps" : False,
+      "autoDependencies" : False,
       "cached" : False,
       "cachePath" : cachePath,
+      "ignoreDeps" : extractIgnore(fileContent, fileId),
       "optionalDeps" : extractOptional(fileContent, fileId),
       "loadtimeDeps" : extractLoadtimeDeps(fileContent, fileId),
       "runtimeDeps" : extractRuntimeDeps(fileContent, fileId),
@@ -756,7 +775,7 @@ def getSortedList(options, fileDb, moduleDb):
 
 
 
-  #
+  # User feedback
   print "    - Include list contains %s classes" % len(includeCombined)
   print "    - Exclude list contains %s classes" % len(excludeCombined)
 
@@ -764,7 +783,6 @@ def getSortedList(options, fileDb, moduleDb):
 
 
   # MERGE LISTS
-
   # Remove excluded files from included files list
 
   if len(excludeCombined) > 0:
@@ -809,13 +827,16 @@ def getSortedList(options, fileDb, moduleDb):
     print "  * This package should work standalone"
   else:
     print "  * This package does not work standalone"
-    print "    - The following classes are missing at loadtime:"
-    for depId in excludedLoadtimeHints:
-      print "      - %s" % depId
 
-    print "    - The following classes are missing at runtime:"
-    for depId in excludedRuntimeHints:
-      print "      - %s" % depId
+    if len(excludedLoadtimeHints) > 0:
+      print "    - The following classes are missing at loadtime:"
+      for depId in excludedLoadtimeHints:
+        print "      - %s" % depId
+
+    if len(excludedRuntimeHints) > 0:
+      print "    - The following classes are missing at runtime:"
+      for depId in excludedRuntimeHints:
+        print "      - %s" % depId
 
 
 
@@ -831,9 +852,10 @@ def getSortedList(options, fileDb, moduleDb):
         optionalHints.append(depId)
 
   if len(optionalHints) > 0:
-    print "  * You can add more features if you add the following classes:"
+    print "  * The following add-on classes are maybe useful:"
     for depId in optionalHints:
       print "    - %s" % depId
+
 
 
   # DONE
