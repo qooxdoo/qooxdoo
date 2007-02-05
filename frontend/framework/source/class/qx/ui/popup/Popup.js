@@ -41,7 +41,7 @@ function()
   // scrollbars. Setting the overflow property to "auto" makes this bug less annoying.
   // http://bugzilla.qooxdoo.org/show_bug.cgi?id=277
   if (qx.core.Variant.select("qx.client", "gecko")) {
-    if (qx.core.Client.runsOnMacintosh()) {
+    if (qx.core.Client.getInstance().runsOnMacintosh()) {
       this.setOverflow("auto");
     }
   }
