@@ -52,6 +52,7 @@ QXHEAD = {
   "require" : re.compile("#require\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
   "use" : re.compile("#use\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
   "optional" : re.compile("#optional\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
+  "ignore" : re.compile("#ignore\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
 
   # Resource hints
   "resource" : re.compile("#resource\(\s*(.*?):(.*?)\s*\)", re.M),
