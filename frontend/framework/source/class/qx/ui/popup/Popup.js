@@ -40,7 +40,11 @@ function()
   // Firefox on Mac OS X has a rendering bug regarding absolutely positioned elements over
   // scrollbars. Setting the overflow property to "auto" makes this bug less annoying.
   // http://bugzilla.qooxdoo.org/show_bug.cgi?id=277
-  this.setOverflow("auto");
+  if (qx.core.Variant.select("qx.client", "gecko")) {
+    if (qx.core.Client.runsOnMacintosh()) {
+      this.setOverflow("auto");
+    }
+  }
 
 });
 
