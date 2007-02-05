@@ -74,7 +74,7 @@ qx.OO.addProperty({ name : "focusRoot", type : "object", instance : "qx.ui.core.
 
 
 
-qx.Class.mouseEventTypes = [ "mouseover", "mousemove", "mouseout", "mousedown", "mouseup", "click", "dblclick", "contextmenu", qx.core.Client.getInstance().isMshtml() ? "mousewheel" : "DOMMouseScroll" ];
+qx.Class.mouseEventTypes = [ "mouseover", "mousemove", "mouseout", "mousedown", "mouseup", "click", "dblclick", "contextmenu", qx.core.Variant.select("qx.client", "mshtml") ? "mousewheel" : "DOMMouseScroll" ];
 qx.Class.keyEventTypes = [ "keydown", "keypress", "keyup" ];
 
 if (qx.core.Variant.select("qx.client", "gecko"))

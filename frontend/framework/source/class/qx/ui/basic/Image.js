@@ -292,7 +292,9 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
         this.error("Failed while creating image #1", ex);
       }
 
-      if (!qx.core.Client.getInstance().isMshtml()) {
+      if (qx.core.Variant.select("qx.client", "mshtml")) {
+        // empty to help the generator removing this variant
+      } else {
         this._applyEnabled();
       }
     }
