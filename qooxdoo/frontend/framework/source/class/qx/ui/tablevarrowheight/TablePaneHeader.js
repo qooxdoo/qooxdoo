@@ -33,6 +33,5 @@ qx.OO.defineClass("qx.ui.tablevarrowheight.TablePaneHeader",
                   qx.ui.table.TablePaneHeader,
 function(paneScroller)
 {
-  this.debug("TableVarRowHeight::TablePaneHeader");
   qx.ui.table.TablePaneHeader.call(this, paneScroller);
 });
