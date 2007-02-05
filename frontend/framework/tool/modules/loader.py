@@ -600,109 +600,125 @@ def indexScriptInput(options):
 
 
 
-def recursiveAddClass(fileDb, fileId, sortedList):
+def addClass(fileDb, fileId, content):
   if not fileDb.has_key(fileId):
-    print "    - Error: Could not find class '%s'" % fileId
+    print '    - Error: Could not find class "%s" (%s)' % (fileId, len(fileDb))
     return False
+
+  # Including myself
+  if not fileId in content:
+    content.append(fileId)
 
   # Including loadtime dependencies
   for depId in fileDb[fileId]["loadtimeDeps"]:
-    recursiveAddClass(fileDb, depId, sortedList)
+    if not depId in content:
+      addClass(fileDb, depId, content)
 
-  # Add myself
-  if not fileId in sortedList:
-    sortedList.append(fileId)
-
-    # Include runtime dependencies
-    for depId in fileDb[fileId]["runtimeDeps"]:
-      recursiveAddClass(fileDb, depId, sortedList)
+  # Including runtime dependencies
+  for depId in fileDb[fileId]["runtimeDeps"]:
+    if not depId in content:
+      addClass(fileDb, depId, content)
 
 
 
-def addClass(fileDb, todo, result, dependencies=True):
-  if dependencies:
-    for fileId in todo:
-      recursiveAddClass(fileDb, fileId, result)
 
-  else:
-    for fileId in todo:
-      if fileId in result:
-        continue
 
-      if not fileDb.has_key(fileId):
-        print "    - Error: Could not find class '%s'" % fileId
-        return False
 
-      # Test if any of my load dependencies could be solved by the other entries
-      for depId in fileDb[fileId]["loadtimeDeps"]:
-        if depId in todo:
-          if not depId in result:
-            result.append(depId)
+def sortClass(fileDb, fileId, avail, result):
+  if fileId in result or not fileId in avail:
+    return
 
-      # Add myself
-      if not fileId in result:
-        result.append(fileId)
+  fileEntry = fileDb[fileId]
+
+  for depId in fileEntry["loadtimeDeps"]:
+    if not depId in result and depId in avail:
+      sortClass(fileDb, depId, avail, result)
+
+  if not fileId in result:
+    result.append(fileId)
+
+  for depId in fileEntry["runtimeDeps"]:
+    if not depId in result and depId in avail:
+      sortClass(fileDb, depId, avail, result)
+
+
 
 
 
 def getSortedList(options, fileDb, moduleDb):
 
-  # PREPARATION
+  print "  * Processing %s classes" % len(fileDb)
+  print "  * Processing %s modules" % len(moduleDb)
 
-  # Create empty lists
-  include = []
-  exclude = []
-  includePure = []
-  excludePure = []
-  sortedInclude = []
-  sortedExclude = []
+  if options.verbose:
+    print "  * Configuration:"
+    print "    - Include with dependencies: %s" % ", ".join(options.include)
+    print "    - Include without dependencies: %s" % ", ".join(options.includePure)
+    print "    - Exclude with dependencies: %s" % ", ".join(options.exclude)
+    print "    - Exclude without dependencies: %s" % ", ".join(options.excludePure)
 
-
-
+  print "  * Preparing list..."
 
   # PROCESS INCLUDES
 
-  # Add all if both lists are empty
+  # Include modules and classes with dependencies
+  include = []
+  if options.include:
+    for entry in options.include:
+      if moduleDb.has_key(entry):
+        include.extend(moduleDb[entry])
+
+      else:
+        regexp = textutil.toRegExp(entry)
+
+        for fileId in fileDb:
+          if regexp.search(fileId):
+            if not fileId in include:
+              include.append(fileId)
+
+  # Include modules and classes without dependencies
+  includePure = []
+  if options.includePure:
+    for entry in options.includePure:
+      if moduleDb.has_key(entry):
+        includePure.extend(moduleDb[entry])
+
+      else:
+        regexp = textutil.toRegExp(entry)
+
+        for fileId in fileDb:
+          if regexp.search(fileId):
+            if not fileId in includePure:
+              includePure.append(fileId)
+
+  # Fill combined include list
+  includeCombined = []
+  for fileId in include:
+    addClass(fileDb, fileId, includeCombined)
+
+  for fileId in includePure:
+    if not fileId in includeCombined:
+      includeCombined.append(fileId)
+
+  # Default include handling/check
   if len(options.include) == 0 and len(options.includePure) == 0:
-    include = fileDb.keys()
+    includeCombined = fileDb.keys()
 
-  else:
-    # Add modules and classes with dependencies
-    if options.include:
-      for entry in options.include:
-        if entry in moduleDb:
-          include.extend(moduleDb[entry])
+  if len(includeCombined) == 0:
+    print "    - Could not find any classes to include. Maybe malformed parameter set!"
+    sys.exit(1)
 
-        else:
-          regexp = textutil.toRegExp(entry)
 
-          for fileId in fileDb:
-            if regexp.search(fileId):
-              if not fileId in include:
-                include.append(fileId)
-
-    # Add modules and classes without dependencies
-    if options.includePure:
-      for entry in options.includePure:
-        if entry in moduleDb:
-          includePure.extend(moduleDb[entry])
-
-        else:
-          regexp = textutil.toRegExp(entry)
-
-          for fileId in fileDb:
-            if regexp.search(fileId):
-              if not fileId in includePure:
-                includePure.append(fileId)
 
 
 
   # PROCESS EXCLUDES
 
-  # Add Modules and Files with dependencies
+  # Exclude Modules and Files with dependencies
+  exclude = []
   if options.exclude:
     for entry in options.exclude:
-      if entry in moduleDb:
+      if moduleDb.has_key(entry):
         exclude.extend(moduleDb[entry])
 
       else:
@@ -713,10 +729,11 @@ def getSortedList(options, fileDb, moduleDb):
             if not fileId in exclude:
               exclude.append(fileId)
 
-  # Add Modules and Files without dependencies
+  # Exclude Modules and Files without dependencies
+  excludePure = []
   if options.excludePure:
     for entry in options.excludePure:
-      if entry in moduleDb:
+      if moduleDb.has_key(entry):
         excludePure.extend(moduleDb[entry])
 
       else:
@@ -727,27 +744,98 @@ def getSortedList(options, fileDb, moduleDb):
             if not fileId in exclude:
               excludePure.append(fileId)
 
+  # Fill combined exclude list
+  excludeCombined = []
+  for fileId in exclude:
+    addClass(fileDb, fileId, excludeCombined)
 
-  # SORTING INCLUDES
-
-  addClass(fileDb, include, sortedInclude, True)
-  addClass(fileDb, includePure, sortedInclude, False)
-
-
-  # SORTING EXCLUDES
-
-  addClass(fileDb, exclude, sortedExclude, True)
-  addClass(fileDb, excludePure, sortedExclude, False)
+  for fileId in excludePure:
+    if not fileId in excludeCombined:
+      excludeCombined.append(fileId)
 
 
-  # MERGE SORTED LISTS
+
+
+  #
+  print "    - Include list contains %s classes" % len(includeCombined)
+  print "    - Exclude list contains %s classes" % len(excludeCombined)
+
+
+
+
+  # MERGE LISTS
 
   # Remove excluded files from included files list
-  for fileId in sortedExclude:
-    if fileId in sortedInclude:
-      sortedInclude.remove(fileId)
+
+  if len(excludeCombined) > 0:
+    print "  * Filtering excludes..."
+
+    for fileId in excludeCombined:
+      if fileId in includeCombined:
+        includeCombined.remove(fileId)
+
+
+
+  #
+  # SORTING
+  #
+
+  print "  * Sorting %s classes..." % len(includeCombined)
+
+  result = []
+  for fileId in includeCombined:
+    sortClass(fileDb, fileId, includeCombined, result)
+
+
+
+  #
+  # EXCLUDED HINTS
+  #
+  excludedLoadtimeHints = []
+  for fileId in result:
+    fileEntry = fileDb[fileId]
+    for depId in fileEntry["loadtimeDeps"]:
+      if not depId in result and not depId in excludedLoadtimeHints:
+        excludedLoadtimeHints.append(depId)
+
+  excludedRuntimeHints = []
+  for fileId in result:
+    fileEntry = fileDb[fileId]
+    for depId in fileEntry["runtimeDeps"]:
+      if not depId in result and not depId in excludedRuntimeHints and not depId in excludedLoadtimeHints:
+        excludedRuntimeHints.append(depId)
+
+  if len(excludedLoadtimeHints) == 0 and len(excludedRuntimeHints) == 0:
+    print "  * This package should work standalone"
+  else:
+    print "  * This package does not work standalone"
+    print "    - The following classes are missing at loadtime:"
+    for depId in excludedLoadtimeHints:
+      print "      - %s" % depId
+
+    print "    - The following classes are missing at runtime:"
+    for depId in excludedRuntimeHints:
+      print "      - %s" % depId
+
+
+
+  #
+  # OPTIONAL HINTS
+  #
+  optionalHints = []
+
+  for fileId in result:
+    fileEntry = fileDb[fileId]
+    for depId in fileEntry["optionalDeps"]:
+      if not depId in result and not depId in optionalHints:
+        optionalHints.append(depId)
+
+  if len(optionalHints) > 0:
+    print "  * You can add more features if you add the following classes:"
+    for depId in optionalHints:
+      print "    - %s" % depId
 
 
   # DONE
 
-  return sortedInclude
+  return result
