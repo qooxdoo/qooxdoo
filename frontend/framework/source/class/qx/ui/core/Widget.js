@@ -4762,13 +4762,10 @@ qx.Proto._modifyCursor = function(propValue, propOldValue, propData)
 {
   if (propValue)
   {
-    if (propValue == "pointer" &&
-        qx.core.Client.getInstance().isMshtml()) {
-    this.setStyleProperty("cursor",
-                          "hand");
+    if (propValue == "pointer" && qx.core.Client.getInstance().isMshtml()) {
+      this.setStyleProperty("cursor", "hand");
     } else {
-    this.setStyleProperty("cursor",
-                          propValue);
+      this.setStyleProperty("cursor", propValue);
     }
   }
   else

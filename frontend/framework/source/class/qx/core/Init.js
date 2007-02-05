@@ -236,8 +236,10 @@ qx.Proto._onload = function(e)
   this.debug("client: " + cl.getEngine() + "-" + cl.getMajor() + "."
     + cl.getMinor() + "/" + cl.getPlatform() + "/" + cl.getLocale());
 
-  if (cl.isMshtml() && !cl.isInQuirksMode()) {
-    this.warn("Wrong box sizing: Please modify the document's DOCTYPE!");
+  if (qx.core.Variant.select("qx.client", "mshtml")) {
+    if(!cl.isInQuirksMode()) {
+      this.warn("Wrong box sizing: Please modify the document's DOCTYPE!");
+    }
   }
 
   // Init component from settings
