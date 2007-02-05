@@ -38,6 +38,5 @@ qx.OO.defineClass("qx.ui.tablevarrowheight.TablePaneModel",
                   qx.ui.table.TablePaneModel,
 function(tableColumnModel)
 {
-  this.debug("TableVarRowHeight::TablePaneModel");
   qx.ui.table.TablePaneModel.call(this, tableColumnModel);
 });

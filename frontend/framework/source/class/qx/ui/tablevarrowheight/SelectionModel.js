@@ -33,6 +33,5 @@ qx.OO.defineClass("qx.ui.tablevarrowheight.SelectionModel",
                   qx.ui.table.SelectionModel,
 function()
 {
-  this.debug("TableVarRowHeight::SelectionModel");
   qx.ui.table.SelectionModel.call(this);
 });

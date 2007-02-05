@@ -33,6 +33,5 @@ qx.OO.defineClass("qx.ui.tablevarrowheight.SelectionManager",
                   qx.ui.table.SelectionManager,
 function()
 {
-  this.debug("TableVarRowHeight::SelectionManager");
   qx.ui.table.SelectionManager.call(this);
 });
