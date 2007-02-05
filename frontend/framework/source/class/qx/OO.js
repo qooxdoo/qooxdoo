@@ -24,6 +24,14 @@
 
 ************************************************************************ */
 
+/**
+ * Verify existing namespace (Remove this later!)
+ */
+if (!window.qx) {
+  qx = {};
+}
+
+
 // Usage of this hacky construct to make qx.OO available inside the API viewer
 qx.OO = {};
 qx.OO.defineClass = function() {};
