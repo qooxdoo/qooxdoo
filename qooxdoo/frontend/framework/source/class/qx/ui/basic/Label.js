@@ -109,7 +109,6 @@ qx.OO.addProperty({ name : "wrap", type : "boolean", defaultValue : true });
 */
 
 qx.ui.basic.Label.SYMBOL_ELLIPSIS = String.fromCharCode(8230);
-qx.ui.basic.Label.SUPPORT_NATIVE_ELLIPSIS = qx.core.Client.getInstance().isMshtml();
 
 // these are the properties what will be copied to the measuring frame.
 qx.ui.basic.Label._fontProperties =
@@ -355,7 +354,7 @@ qx.Proto._postApply = function()
         {
           vElement.style.overflow = "hidden";
 
-          if (qx.ui.basic.Label.SUPPORT_NATIVE_ELLIPSIS)
+          if (qx.core.Variant.select("qx.client", "mshtml"))
           {
             vElement.style.textOverflow = "ellipsis";
             vHtml += this._mnemonicHtml;
@@ -466,7 +465,7 @@ qx.Proto._postApply = function()
       default:
         vElement.style.overflow = "";
 
-        if (qx.ui.basic.Label.SUPPORT_NATIVE_ELLIPSIS) {
+        if (qx.core.Variant.select("qx.client", "mshtml")) {
           vElement.style.textOverflow = "";
         }
     }

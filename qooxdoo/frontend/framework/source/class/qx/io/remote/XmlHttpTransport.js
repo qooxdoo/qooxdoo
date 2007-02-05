@@ -725,7 +725,9 @@ qx.Proto.dispose = function()
   {
     // Should be right,
     // but is not compatible to mshtml (throws an exception)
-    if (!qx.core.Client.getInstance().isMshtml()) {
+    if (qx.core.Variant.select("qx.client", "mshtml")) {
+      // empty to help the generator to optimize this variant
+    } else {
       vRequest.onreadystatechange = null;
     }
 

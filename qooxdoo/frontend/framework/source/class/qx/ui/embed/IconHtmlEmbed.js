@@ -84,8 +84,6 @@ qx.OO.addProperty({ name : "spacing", type : "number", defaultValue : 4, impl : 
 ---------------------------------------------------------------------------
 */
 
-qx.Proto._mshtml = qx.core.Client.getInstance().isMshtml();
-
 qx.Proto._syncHtml = function()
 {
   var vHtml = [];
@@ -93,7 +91,7 @@ qx.Proto._syncHtml = function()
   if (qx.util.Validation.isValidString(this.getIcon()))
   {
     vHtml.push("<img src=\"");
-    vHtml.push(qx.manager.object.AliasManager.getInstance().resolvePath(this._mshtml ? "static/image/blank.gif" : this.getIcon()));
+    vHtml.push(qx.manager.object.AliasManager.getInstance().resolvePath(qx.core.Variant.select("qx.client", "mshtml") ? "static/image/blank.gif" : this.getIcon()));
     vHtml.push("\" style=\"vertical-align:middle;");
 
     if (this.getSpacing() != null)
@@ -117,7 +115,7 @@ qx.Proto._syncHtml = function()
       vHtml.push("px;");
     }
 
-    if (this._mshtml)
+    if (qx.core.Variant.select("qx.client", "mshtml"))
     {
       vHtml.push("filter:");
       vHtml.push("progid:DXImageTransform.Microsoft.AlphaImageLoader(src='");
