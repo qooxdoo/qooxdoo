@@ -24,14 +24,14 @@ import filetool, optparseext
 
 
 
-def generate(options):
-  if len(options.defineSetting) == 0:
+def generate(settingsList, newLines):
+  if len(settingsList) == 0:
     return ""
 
   typeFloat = re.compile("^([0-9\-]+\.[0-9]+)$")
   typeNumber = re.compile("^([0-9\-])$")
 
-  if options.addNewLines:
+  if newLines:
     lineBreak = "\n"
   else:
     lineBreak = ""
@@ -39,12 +39,12 @@ def generate(options):
   settingsStr = 'window.qxsettings={' + lineBreak
 
   first = True
-  for setting in options.defineSetting:
+  for setting in settingsList:
     settingSplit = setting.split(":")
     settingKey = settingSplit.pop(0)
     settingValue = ":".join(settingSplit)
 
-    if not (settingValue == "false" or settingValue == "true" or typeFloat.match(settingValue) or typeNumber.match(settingValue)):
+    if not (settingValue == "false" or settingValue == "true" or typeNumber.match(settingValue)):
       settingValue = '"%s"' % settingValue.replace("\"", "\\\"")
 
     if not first:
@@ -71,7 +71,7 @@ def main():
   (options, args) = parser.parse_args()
 
   if options.outputFile == None:
-    print generate(options)
+    print generate(options.defineSetting, options.addNewLines)
   else:
     print "   * Saving settings to %s" % options.outputFile
     filetool.save(options.outputFile, generate(options))

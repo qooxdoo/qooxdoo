@@ -382,8 +382,6 @@ def load(options):
 
 def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
-  additionalOutput = []
-
 
   ######################################################################
   #  SORT OF INCLUDE LIST
@@ -553,6 +551,16 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
 
 
+  ######################################################################
+  #  INLINE CODE
+  ######################################################################
+
+  inlineSourceCode = []
+  inlineCompiledCode = []
+
+
+
+
 
 
   ######################################################################
@@ -585,10 +593,12 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
 
 
+
   ######################################################################
   #  SUPPORT FOR VARIANTS
   ######################################################################
-  if options.useVariants != []:
+
+  if len(options.useVariants) > 0:
     print
     print "  VARIANT OPTIMIZATION:"
     print "----------------------------------------------------------------------------"
@@ -686,11 +696,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
       print
 
     print "  * Generating replacement..."
-    additionalOutput.append(stringoptimizer.replacement(stringList, "$" + pkgid))
-
-
-
-
+    inlineCompiledCode.append(stringoptimizer.replacement(stringList, "$" + pkgid))
 
 
 
@@ -755,7 +761,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
       tokenString = tokenizer.convertTokensToString(loader.getTokens(fileDb, fileId, options))
 
       if options.verbose:
-        print "    * writing tokens for %s (%s KB)..." % (fileIdm, len(tokenString) / 1000.0)
+        print "    * Writing tokens for %s (%s KB)..." % (fileIdm, len(tokenString) / 1000.0)
       else:
         sys.stdout.write(".")
         sys.stdout.flush()
@@ -793,7 +799,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
       treeString = "<?xml version=\"1.0\" encoding=\"" + options.xmlOutputEncoding + "\"?>\n" + tree.nodeToXmlString(loader.getTree(fileDb, fileId, options))
 
       if options.verbose:
-        print "    * writing tree for %s (%s KB)..." % (fileId, len(treeString) / 1000.0)
+        print "    * Writing tree for %s (%s KB)..." % (fileId, len(treeString) / 1000.0)
       else:
         sys.stdout.write(".")
         sys.stdout.flush()
@@ -896,16 +902,25 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
   ######################################################################
 
   if options.generateSourceScript or options.generateCompiledScript:
-    settingsStr = ""
+    print
+    print "  GENERATION OF SETTINGS:"
+    print "----------------------------------------------------------------------------"
 
-    if len(options.defineSetting) != 0:
-      print
-      print "  GENERATION OF SETTINGS:"
-      print "----------------------------------------------------------------------------"
+    if options.generateSourceScript:
+      print "  * Generating settings of source version..."
 
-      print "  * Processing input data..."
-      settingsStr = settings.generate(options)
+      settingsArr = options.defineSetting[:]
+      settingsArr.append("qx.version:%s" % options.version)
+      settingsArr.append("qx.isSource:true")
+      inlineSourceCode.append(settings.generate(settingsArr, options.addNewLines))
 
+    if options.generateCompiledScript:
+      print "  * Generating settings of compiled version..."
+
+      settingsArr = options.defineSetting[:]
+      settingsArr.append("qx.version:%s" % options.version)
+      settingsArr.append("qx.isSource:false")
+      inlineCompiledCode.append(settings.generate(settingsArr, options.addNewLines))
 
 
 
@@ -940,19 +955,9 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     if options.addNewLines:
       sourceLineFeed = "\n";
 
-
-    # Generating inline code...
-    inlineCode = ""
-    inlineCode += "if(!window.qx){qx={};}" + sourceLineFeed
-    inlineCode += "qx.IS_SOURCE=true;%s" % sourceLineFeed
-    inlineCode += "qx.VERSION=\"%s\";%s" % (options.version, sourceLineFeed)
-    inlineCode += settingsStr + sourceLineFeed
-    inlineCode += "".join(additionalOutput)
-
-
     # Generating script block
     scriptBlocks = ""
-    scriptBlocks += '<script type="text/javascript">%s</script>' % inlineCode
+    scriptBlocks += '<script type="text/javascript">%s</script>' % "".join(inlineSourceCode)
     for fileId in sortedIncludeList:
       if fileDb[fileId]["classUri"] == None:
         print "  * Missing class URI definition for class path %s." % fileDb[fileId]["classPath"]
@@ -961,8 +966,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
       scriptBlocks += '<script type="text/javascript" src="%s%s"></script>' % (os.path.join(fileDb[fileId]["classUri"], fileDb[fileId]["pathId"].replace(".", os.sep)), config.JSEXT)
       scriptBlocks += sourceLineFeed
 
-
-
+    # Writing includer
     if options.sourceScriptFile != None:
       print "  * Storing includer as %s..." % options.sourceScriptFile
       sourceScript = "document.write('%s');" % scriptBlocks.replace("'", "\\'")
@@ -970,6 +974,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
         sourceScript = sourceScript.replace("\n", "\\\n")
       filetool.save(options.sourceScriptFile, sourceScript, options.scriptOutputEncoding)
 
+    # Patching template
     if options.sourceTemplateInputFile != None and options.sourceTemplateOutputFile != None:
       print "  * Patching template: %s => %s" % (options.sourceTemplateInputFile, options.sourceTemplateOutputFile)
       tmpl = filetool.read(options.sourceTemplateInputFile)
@@ -993,14 +998,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     if options.addNewLines:
       buildLineFeed = "\n";
 
-    inlineCode = ""
-    inlineCode += "if(!window.qx){qx={};}" + buildLineFeed
-    inlineCode += "qx.IS_SOURCE=false;%s" % buildLineFeed
-    inlineCode += "qx.VERSION=\"%s\";%s" % (options.version, buildLineFeed)
-    inlineCode += settingsStr + buildLineFeed
-    inlineCode += "".join(additionalOutput)
-
-    compiledOutput = inlineCode
+    compiledOutput = "".join(inlineCompiledCode)
 
     if options.compiledScriptFile == None:
       print "  * You must define the compiled script file!"
