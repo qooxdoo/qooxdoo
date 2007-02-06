@@ -22,7 +22,7 @@ function () {
   qx.component.AbstractApplication.call(this);
 });
 
-qx.core.Settings.set("custom.resourceUri", "./resource");
+qx.core.Settings.define("custom.resourceUri", "./resource");
 
 
 

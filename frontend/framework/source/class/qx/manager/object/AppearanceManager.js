@@ -44,7 +44,7 @@ function() {
 ---------------------------------------------------------------------------
 */
 
-qx.core.Settings.set("qx.appearanceTheme", "qx.theme.appearance.Classic");
+qx.core.Settings.define("qx.appearanceTheme", "qx.theme.appearance.Classic");
 
 
 

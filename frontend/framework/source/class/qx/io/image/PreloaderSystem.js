@@ -56,7 +56,7 @@ qx.Proto._stopped = false;
 ---------------------------------------------------------------------------
 */
 
-qx.core.Settings.set("qx.preloaderTimeout", 3000);
+qx.core.Settings.define("qx.preloaderTimeout", 3000);
 
 
 

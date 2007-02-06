@@ -120,7 +120,7 @@ qx.Class.SCROLLBAR_SIZE = 16;
 ---------------------------------------------------------------------------
 */
 
-qx.core.Settings.set("qx.widgetQueueDebugging", false);
+qx.core.Settings.define("qx.widgetQueueDebugging", false);
 
 
 

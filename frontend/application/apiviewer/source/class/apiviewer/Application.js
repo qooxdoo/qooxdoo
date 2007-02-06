@@ -37,7 +37,7 @@ function () {
   qx.component.AbstractApplication.call(this);
 });
 
-qx.core.Settings.set("apiviewer.resourceUri", "./resource");
+qx.core.Settings.define("apiviewer.resourceUri", "./resource");
 
 
 
