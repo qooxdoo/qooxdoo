@@ -47,10 +47,6 @@ qx.Clazz.define("qx.core.Settings",
      */
     define : function(key, defaultValue)
     {
-      if (!this.__isValidArray(allowedValues)) {
-        throw new Error("allowedValues is not an array");
-      }
-
       if (defaultValue == undefined) {
         throw new Error("defaultValue must be defined!");
       }

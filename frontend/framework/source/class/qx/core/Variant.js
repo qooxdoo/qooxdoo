@@ -49,11 +49,11 @@ qx.Clazz.define("qx.core.Variant",
     define : function(key, allowedValues, defaultValue)
     {
       if (!this.__isValidArray(allowedValues)) {
-        throw new Error("allowedValues is not an array");
+        throw new Error('Allowed values of variant "' + key + '" must be defined!');
       }
 
       if (defaultValue == undefined) {
-        throw new Error("defaultValue must be defined!");
+        throw new Error('Default value of variant "' + key + '" must be defined!');
       }
 
       if (!this.__variants[key]) {
@@ -77,11 +77,15 @@ qx.Clazz.define("qx.core.Variant",
      */
     get : function(key)
     {
-      if (this.__variants[key] !== undefined && this.__variants[key].defaultValue !== undefined) {
-        return this.__variants[key].value || this.__variants[key].defaultValue;
-      } else {
-        throw new Error("Variant \"" + key + "\" is not defined");
+      if (this.__variants[key] == undefined) {
+        throw new Error('Variant "' + key + '" is not defined.');
       }
+
+      if (this.__variants[key].defaultValue == undefined) {
+        throw new Error('Variant "' + key + '" is not supported by API.');
+      }
+
+      return this.__variants[key].value || this.__variants[key].defaultValue;
     },
 
     /**
