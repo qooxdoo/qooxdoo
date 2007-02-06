@@ -26,9 +26,9 @@ import sys, re, os, optparse, math
 # reconfigure path to import own modules from modules subfolder
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "modules"))
 
-import config, tokenizer, loader, api, tree, treegenerator, settings, resources
+import config, tokenizer, loader, api, tree, treegenerator, settings, variants, resources
 import filetool, stringoptimizer, optparseext, variableoptimizer, compiler
-import migrator, textutil, graph, variantoptimizer, logoptimizer
+import migrator, textutil, graph, logoptimizer
 
 
 
@@ -70,7 +70,7 @@ def getparser():
   parser.add_option("--print-modules", action="store_true", dest="printModules", default=False, help="Output known modules. (Debugging)")
   parser.add_option("--print-files-without-modules", action="store_true", dest="printFilesWithoutModules", default=False, help="Output files which have no module connection. (Debugging)")
   parser.add_option("--print-includes", action="store_true", dest="printIncludes", default=False, help="Output sorted file list. (Debugging)")
-  parser.add_option("--print-dependencies", action="store_true", dest="printDeps", default=False, help="Output dependencies of files. (Debugging)")
+  parser.add_option("--print-dependencies", action="store_true", dest="printDependencies", default=False, help="Output dependencies of files. (Debugging)")
   parser.add_option("--dependencies-graphviz-file", dest="depDotFile", metavar="FILENAME", help="Save dependencies as graphviz dot file. (Debugging)")
 
   # Output files
@@ -101,9 +101,9 @@ def getparser():
   parser.add_option("--disable-internal-check", action="store_true", dest="disableInternalCheck", default=False, help="Disable check of modifications to internal files.")
 
   # Options for source and compiled version
-  parser.add_option("--define-setting", action="extend", dest="defineSetting", type="string", metavar="NAMESPACE.KEY:VALUE", default=[], help="Define a setting.")
+  parser.add_option("--use-setting", action="extend", dest="useSetting", type="string", metavar="NAMESPACE.KEY:VALUE", default=[], help="Define a setting.")
+  parser.add_option("--use-variant", action="extend", dest="useVariant", type="string", metavar="NAMESPACE.KEY:VALUE", default=[], help="Optimize for the given variant.")
   parser.add_option("--add-new-lines", action="store_true", dest="addNewLines", default=False, help="Keep newlines in compiled files.")
-  parser.add_option("--use-variant", action="extend", dest="useVariants", type="string", metavar="NAMESPACE.KEY:VALUE", default=[], help="Optimize for the given variant.")
 
   # Options for compiled version
   parser.add_option("--add-file-ids", action="store_true", dest="addFileIds", default=False, help="Add file IDs to compiled output.")
@@ -405,7 +405,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     for fileId in sortedIncludeList:
       print "    - %s" % fileId
 
-  if options.printDeps:
+  if options.printDependencies:
     print
     print "  OUTPUT OF DEPENDENCIES:"
     print "----------------------------------------------------------------------------"
@@ -589,47 +589,6 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     if not options.verbose:
       print
 
-
-
-
-
-
-  ######################################################################
-  #  SUPPORT FOR VARIANTS
-  ######################################################################
-
-  if len(options.useVariants) > 0:
-    print
-    print "  VARIANT OPTIMIZATION:"
-    print "----------------------------------------------------------------------------"
-
-    variantMap = {}
-    for variant in options.useVariants:
-      keyValue = variant.split(":")
-      if len(keyValue) != 2:
-        print "  * Error: Variants must be specified as key value pair separated by ':'!"
-        sys.exit(1)
-
-      variantMap[keyValue[0]] = keyValue[1]
-
-    if options.verbose:
-      print "  * Optimizing for variant setup..."
-    else:
-      print "  * Optimizing for variant setup: ",
-
-    for fileId in sortedIncludeList:
-      if options.verbose:
-        print "    - %s" % fileId
-      else:
-        sys.stdout.write(".")
-        sys.stdout.flush()
-
-      if variantoptimizer.search(loader.getTree(fileDb, fileId, options), variantMap, fileId, options.verbose):
-        if options.verbose:
-          print "      - Modified!"
-
-    if not options.verbose:
-      print
 
 
 
@@ -903,24 +862,53 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
   if options.generateSourceScript or options.generateCompiledScript:
     print
-    print "  GENERATION OF SETTINGS:"
+    print "  INCLUSION OF SETTINGS:"
     print "----------------------------------------------------------------------------"
 
     if options.generateSourceScript:
-      print "  * Generating settings of source version..."
+      print "  * Processing settings of source version..."
 
-      settingsArr = options.defineSetting[:]
+      settingsArr = options.useSetting[:]
       settingsArr.append("qx.version:%s" % options.version)
       settingsArr.append("qx.isSource:true")
       inlineSourceCode.append(settings.generate(settingsArr, options.addNewLines))
 
     if options.generateCompiledScript:
-      print "  * Generating settings of compiled version..."
+      print "  * Processing settings of compiled version..."
 
-      settingsArr = options.defineSetting[:]
+      settingsArr = options.useSetting[:]
       settingsArr.append("qx.version:%s" % options.version)
       settingsArr.append("qx.isSource:false")
       inlineCompiledCode.append(settings.generate(settingsArr, options.addNewLines))
+
+
+
+
+
+
+  ######################################################################
+  #  GENERATION OF VARIANTS
+  ######################################################################
+
+  if options.generateSourceScript or options.generateCompiledScript:
+    print
+    print "  INCLUSION OF VARIANTS:"
+    print "----------------------------------------------------------------------------"
+
+    if options.generateSourceScript:
+      print "  * Processing variants of source version..."
+
+      variantsArr = options.useVariant[:]
+      inlineSourceCode.append(variants.generate(variantsArr, options.addNewLines))
+
+    if options.generateCompiledScript:
+      print "  * Processing variants of compiled version..."
+
+      variantsArr = options.useVariant[:]
+      inlineCompiledCode.append(variants.generate(variantsArr, options.addNewLines))
+
+
+
 
 
 
