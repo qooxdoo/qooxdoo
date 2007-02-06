@@ -65,7 +65,7 @@ qx.Clazz.define("qx.core.Settings",
      * @access public
      * @param key {String} Unique key
      * @param value {var} Any value supported by JavaScript
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     set : function(key, value)
@@ -88,7 +88,7 @@ qx.Clazz.define("qx.core.Settings",
      * @type static
      * @name init
      * @access public
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     init : function()
@@ -97,7 +97,7 @@ qx.Clazz.define("qx.core.Settings",
       {
         for (var key in qxsettings)
         {
-          // if (qx.core.Variant.select("qx.debug", "on"))
+          if (qx.core.Variant.select("qx.debug", "on"))
           {
 
             if ((key.split(".")).length !== 2) {
