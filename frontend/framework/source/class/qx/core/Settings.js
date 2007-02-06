@@ -70,11 +70,15 @@ qx.Clazz.define("qx.core.Settings",
      */
     get : function(key)
     {
-      if (this.__settings[key] !== undefined && this.__settings[key].defaultValue !== undefined) {
-        return this.__settings[key].value || this.__settings[key].defaultValue;
-      } else {
-        throw new Error("Setting \"" + key + "\" is not defined");
+      if (this.__settings[key] == undefined) {
+        throw new Error('Setting "' + key + '" is not defined.');
       }
+
+      if (this.__settings[key].defaultValue == undefined) {
+        throw new Error('Setting "' + key + '" is not supported by API.');
+      }
+
+      return this.__settings[key].value || this.__settings[key].defaultValue;
     },
 
     /**
