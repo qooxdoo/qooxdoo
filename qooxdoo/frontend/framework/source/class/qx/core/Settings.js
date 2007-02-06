@@ -47,8 +47,6 @@ qx.Clazz.define("qx.core.Settings",
      */
     define : function(key, defaultValue)
     {
-      console.log("Define Setting: " + key + "=" + defaultValue);
-
       if (defaultValue == undefined) {
         throw new Error('Default value of setting "' + key + '" must be defined!');
       }
