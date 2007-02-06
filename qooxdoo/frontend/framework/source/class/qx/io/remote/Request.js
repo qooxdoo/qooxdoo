@@ -533,7 +533,7 @@ qx.Proto._onfailed = function(e)
 
 qx.Proto._modifyState = function(propValue, propOldValue, propData)
 {
-  if (qx.DEBUG)
+  if (qx.core.Variant.select("qx.debug", "on"))
   {
     if (qx.core.Settings.get("qx.ioRemoteDebug")) {
       this.debug("State: " + propValue);

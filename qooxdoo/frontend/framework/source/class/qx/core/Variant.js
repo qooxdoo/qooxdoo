@@ -21,7 +21,8 @@
 
 /* ************************************************************************
 
-
+#require(qx.util.Validation)
+#require(qx.lang.Array)
 
 /* ************************************************************************ */
 
@@ -140,3 +141,10 @@ qx.Clazz.define("qx.core.Variant",
          }
     }
 });
+
+
+/**
+ * enable debugging
+ */
+qx.core.Variant.define("qx.debug", ["on", "off"]);
+qx.core.Variant.set("qx.debug", "on");

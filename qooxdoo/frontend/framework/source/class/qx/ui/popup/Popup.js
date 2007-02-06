@@ -304,10 +304,9 @@ qx.Proto.positionRelativeTo = function(el, offsetX, offsetY)
     el = el.getElement();
   }
   if (el) {
-    var gecko = qx.core.Client.getInstance().isGecko();
     var loc = qx.html.Location;
-    this.setLocation(loc.getClientAreaLeft(el) - (gecko ? qx.html.Style.getBorderLeft(el):0) + (offsetX || 0),
-      loc.getClientAreaTop(el) - (gecko ? qx.html.Style.getBorderTop(el):0) + (offsetY || 0));
+    this.setLocation(loc.getClientAreaLeft(el) - (qx.core.Variant.select("qx.client", "gecko") ? qx.html.Style.getBorderLeft(el):0) + (offsetX || 0),
+      loc.getClientAreaTop(el) - (qx.core.Variant.select("qx.client", "gecko") ? qx.html.Style.getBorderTop(el):0) + (offsetY || 0));
   } else {
     this.warn('Missing reference element');
   }

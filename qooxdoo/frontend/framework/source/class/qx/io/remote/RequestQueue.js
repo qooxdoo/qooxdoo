@@ -87,7 +87,7 @@ qx.Proto._debug = function()
   // Debug output
   var vText = this._active.length + "/" + (this._queue.length+this._active.length);
 
-  if (qx.DEBUG)
+  if (qx.core.Variant.select("qx.debug", "on"))
   {
     if (qx.core.Settings.get("qx.ioRemoteDebug"))
     {
@@ -207,7 +207,7 @@ qx.Proto._activeCount = 0;
 
 qx.Proto._onsending = function(e)
 {
-  if (qx.DEBUG)
+  if (qx.core.Variant.select("qx.debug", "on"))
   {
     if (qx.core.Settings.get("qx.ioRemoteDebug"))
     {
@@ -221,7 +221,7 @@ qx.Proto._onsending = function(e)
 
 qx.Proto._oncompleted = function(e)
 {
-  if (qx.DEBUG)
+  if (qx.core.Variant.select("qx.debug", "on"))
   {
     if (qx.core.Settings.get("qx.ioRemoteDebug"))
     {

@@ -314,7 +314,7 @@ qx.Proto._onreadystatechange = function(e)
     case "aborted":
     case "failed":
     case "timeout":
-      if (qx.DEBUG)
+      if (qx.core.Variant.select("qx.debug", "on"))
       {
         if (qx.core.Settings.get("qx.ioRemoteDebug")) {
           this.warn("Ignore Ready State Change");
@@ -592,7 +592,7 @@ qx.Proto.getResponseContent = function()
 {
   if (this.getState() !== "completed")
   {
-    if (qx.DEBUG)
+    if (qx.core.Variant.select("qx.debug", "on"))
     {
       if (qx.core.Settings.get("qx.ioRemoteDebug")) {
         this.warn("Transfer not complete, ignoring content!");
@@ -602,7 +602,7 @@ qx.Proto.getResponseContent = function()
     return null;
   }
 
-  if (qx.DEBUG)
+  if (qx.core.Variant.select("qx.debug", "on"))
   {
     if (qx.core.Settings.get("qx.ioRemoteDebug")) {
       this.debug("Returning content for responseType: " + this.getResponseType());
@@ -654,7 +654,7 @@ qx.Proto.getResponseContent = function()
 
 qx.Proto._modifyState = function(propValue, propOldValue, propData)
 {
-  if (qx.DEBUG)
+  if (qx.core.Variant.select("qx.debug", "on"))
   {
     if (qx.core.Settings.get("qx.ioRemoteDebug")) {
       this.debug("State: " + propValue);
