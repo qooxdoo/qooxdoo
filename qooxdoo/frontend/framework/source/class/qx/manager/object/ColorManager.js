@@ -49,7 +49,7 @@ function()
 ---------------------------------------------------------------------------
 */
 
-qx.core.Settings.set("qx.colorTheme", "qx.theme.color.WindowsRoyale");
+qx.core.Settings.define("qx.colorTheme", "qx.theme.color.WindowsRoyale");
 
 
 

@@ -75,7 +75,7 @@ function()
 ---------------------------------------------------------------------------
 */
 
-qx.core.Settings.set("qx.initComponent", "qx.component.init.InterfaceInitComponent");
+qx.core.Settings.define("qx.initComponent", "qx.component.init.InterfaceInitComponent");
 
 
 

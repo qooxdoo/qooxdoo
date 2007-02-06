@@ -110,8 +110,8 @@ function () {
 qx.OO.addProperty({ name:"docTree", type:"object" });
 
 
-qx.core.Settings.set("apiviewer.title", "qooxdoo");
-qx.core.Settings.set("apiviewer.initialTreeDepth", 1);
+qx.core.Settings.define("apiviewer.title", "qooxdoo");
+qx.core.Settings.define("apiviewer.initialTreeDepth", 1);
 
 
 // property checker

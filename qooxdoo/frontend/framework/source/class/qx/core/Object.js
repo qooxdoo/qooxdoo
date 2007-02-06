@@ -80,7 +80,7 @@ function(vAutoDispose)
 ---------------------------------------------------------------------------
 */
 
-qx.core.Settings.set("qx.disposerDebugging", false);
+qx.core.Settings.define("qx.disposerDebugging", false);
 
 
 

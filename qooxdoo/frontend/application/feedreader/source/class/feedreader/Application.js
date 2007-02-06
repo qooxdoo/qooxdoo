@@ -49,7 +49,7 @@ function () {
 qx.OO.addProperty({name: "feeds"});
 qx.OO.addProperty({name: "selectedFeed"});
 
-qx.core.Settings.set("feedreader.resourceUri", "./resource");
+qx.core.Settings.define("feedreader.resourceUri", "./resource");
 
 
 

@@ -98,8 +98,8 @@ qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "cli
 ---------------------------------------------------------------------------
 */
 
-qx.core.Settings.set("qx.enableApplicationLayout", true);
-qx.core.Settings.set("qx.boxModelCorrection", true);
+qx.core.Settings.define("qx.enableApplicationLayout", true);
+qx.core.Settings.define("qx.boxModelCorrection", true);
 
 
 

@@ -52,7 +52,7 @@ function(vRequest)
 ---------------------------------------------------------------------------
 */
 
-qx.core.Settings.set("qx.ioRemoteDebug", false);
+qx.core.Settings.define("qx.ioRemoteDebug", false);
 
 
 
