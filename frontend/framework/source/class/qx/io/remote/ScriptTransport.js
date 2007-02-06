@@ -198,7 +198,7 @@ qx.Class._requestFinished = function(id, content) {
   {
     if (qx.core.Variant.select("qx.debug", "on"))
     {
-      if (qx.core.Settings.get("qx.ioRemoteDebug")) {
+      if (qx.core.Setting.get("qx.ioRemoteDebug")) {
         this.warn("Request finished for an unknown instance (probably aborted or timed out before)");
       }
     }
@@ -317,7 +317,7 @@ qx.Proto.getResponseContent = function()
   {
     if (qx.core.Variant.select("qx.debug", "on"))
     {
-      if (qx.core.Settings.get("qx.ioRemoteDebug")) {
+      if (qx.core.Setting.get("qx.ioRemoteDebug")) {
         this.warn("Transfer not complete, ignoring content!");
       }
     }
@@ -327,7 +327,7 @@ qx.Proto.getResponseContent = function()
 
   if (qx.core.Variant.select("qx.debug", "on"))
   {
-    if (qx.core.Settings.get("qx.ioRemoteDebug")) {
+    if (qx.core.Setting.get("qx.ioRemoteDebug")) {
       this.debug("Returning content for responseType: " + this.getResponseType());
     }
   }

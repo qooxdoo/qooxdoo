@@ -22,7 +22,7 @@ function () {
   qx.component.AbstractApplication.call(this);
 });
 
-qx.core.Settings.define("custom.resourceUri", "./resource");
+qx.core.Setting.define("custom.resourceUri", "./resource");
 
 
 
@@ -37,7 +37,7 @@ qx.core.Settings.define("custom.resourceUri", "./resource");
 qx.Proto.initialize = function(e)
 {
   // Define alias for custom resource path
-  qx.manager.object.AliasManager.getInstance().add("custom", qx.core.Settings.get("custom.resourceUri"));
+  qx.manager.object.AliasManager.getInstance().add("custom", qx.core.Setting.get("custom.resourceUri"));
 };
 
 qx.Proto.main = function(e)

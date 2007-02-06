@@ -120,7 +120,7 @@ qx.Class.SCROLLBAR_SIZE = 16;
 ---------------------------------------------------------------------------
 */
 
-qx.core.Settings.define("qx.widgetQueueDebugging", false);
+qx.core.Setting.define("qx.widgetQueueDebugging", false);
 
 
 
@@ -617,7 +617,7 @@ qx.ui.core.Widget.flushGlobalQueues = function()
 
 if (qx.core.Variant.select("qx.debug", "on"))
 {
-  if (qx.core.Settings.get("qx.widgetQueueDebugging"))
+  if (qx.core.Setting.get("qx.widgetQueueDebugging"))
   {
     qx.ui.core.Widget.flushGlobalQueues = function()
     {

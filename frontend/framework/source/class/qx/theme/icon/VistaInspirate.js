@@ -38,7 +38,7 @@ function()
 {
   qx.renderer.theme.IconTheme.call(this, "VistaInspirate");
 
-  this.uri = qx.core.Settings.get("qx.resourceUri") + "/icon/VistaInspirate";
+  this.uri = qx.core.Setting.get("qx.resourceUri") + "/icon/VistaInspirate";
 });
 
 

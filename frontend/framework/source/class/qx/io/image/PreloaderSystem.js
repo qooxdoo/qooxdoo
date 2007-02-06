@@ -35,7 +35,7 @@ function(vPreloadList, vCallBack, vCallBackScope)
   this._list = vPreloadList;
 
   // Create timer
-  this._timer = new qx.client.Timer(qx.core.Settings.get("qx.preloaderTimeout"));
+  this._timer = new qx.client.Timer(qx.core.Setting.get("qx.preloaderTimeout"));
   this._timer.addEventListener("interval", this._oninterval, this);
 
   // If we use the compact syntax, automatically add an event listeners and start the loading process
@@ -56,7 +56,7 @@ qx.Proto._stopped = false;
 ---------------------------------------------------------------------------
 */
 
-qx.core.Settings.define("qx.preloaderTimeout", 3000);
+qx.core.Setting.define("qx.preloaderTimeout", 3000);
 
 
 
