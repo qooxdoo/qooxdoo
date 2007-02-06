@@ -24,7 +24,7 @@ import filetool, optparseext
 
 
 
-def generate(settingsList, newLines):
+def generate(variantsList, newLines):
   typeFloat = re.compile("^([0-9\-]+\.[0-9]+)$")
   typeNumber = re.compile("^([0-9\-])$")
 
@@ -33,19 +33,19 @@ def generate(settingsList, newLines):
   else:
     lineBreak = ""
 
-  settingsStr = 'if(!window.qxsettings)qxsettings={};' + lineBreak
+  variantsStr = 'if(!window.qxvariants)qxvariants={};' + lineBreak
 
-  for setting in settingsList:
-    settingSplit = setting.split(":")
-    settingKey = settingSplit.pop(0)
-    settingValue = ":".join(settingSplit)
+  for variant in variantsList:
+    variantSplit = variant.split(":")
+    variantKey = variantSplit.pop(0)
+    variantValue = ":".join(variantSplit)
 
-    if not (settingValue == "false" or settingValue == "true" or typeNumber.match(settingValue)):
-      settingValue = '"%s"' % settingValue.replace("\"", "\\\"")
+    if not (variantValue == "false" or variantValue == "true" or typeNumber.match(variantValue)):
+      variantValue = '"%s"' % variantValue.replace("\"", "\\\"")
 
-    settingsStr += 'if(qxsettings["%s"]==undefined)qxsettings["%s"]=%s;%s' % (settingKey, settingKey, settingValue, lineBreak)
+    variantsStr += 'if(qxvariants["%s"]==undefined)qxvariants["%s"]=%s;%s' % (variantKey, variantKey, variantValue, lineBreak)
 
-  return settingsStr
+  return variantsStr
 
 
 
@@ -53,16 +53,16 @@ def generate(settingsList, newLines):
 def main():
   parser = optparse.OptionParser("usage: %prog [options]", option_class=optparseext.ExtendAction)
 
-  parser.add_option("-d", "--use-setting", action="extend", dest="useSetting", type="string", metavar="NAMESPACE.KEY:VALUE", default=[], help="Define a setting.")
-  parser.add_option("-o", "--output-file", dest="outputFile", metavar="FILENAME", help="Name of settings script file.")
+  parser.add_option("-d", "--use-variant", action="extend", dest="useVariant", type="string", metavar="NAMESPACE.KEY:VALUE", default=[], help="Define a variant.")
+  parser.add_option("-o", "--output-file", dest="outputFile", metavar="FILENAME", help="Name of variants script file.")
   parser.add_option("-n", "--add-new-lines", action="store_true", dest="addNewLines", default=False, help="Keep newlines in compiled files.")
 
   (options, args) = parser.parse_args()
 
   if options.outputFile == None:
-    print generate(options.useSetting, options.addNewLines)
+    print generate(options.useVariant, options.addNewLines)
   else:
-    print "   * Saving settings to %s" % options.outputFile
+    print "   * Saving variants to %s" % options.outputFile
     filetool.save(options.outputFile, generate(options))
 
 

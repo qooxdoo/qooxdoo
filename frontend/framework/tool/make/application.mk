@@ -317,10 +317,10 @@ COMPUTED_CLASS_URI = --class-uri $(FRAMEWORK_SOURCE_URI)/class \
 COMPUTED_RESOURCE = --copy-resources \
   --resource-input $(FRAMEWORK_SOURCE_PATH)/resource \
   --resource-output $(APPLICATION_BUILD_PATH)/resource/qx \
-  --define-setting $(FRAMEWORK_NAMESPACE).resourceUri:$(APPLICATION_PAGE_TO_TOPLEVEL)/resource/qx \
+  --use-setting $(FRAMEWORK_NAMESPACE).resourceUri:$(APPLICATION_PAGE_TO_TOPLEVEL)/resource/qx \
   --resource-input $(APPLICATION_SOURCE_PATH)/resource \
   --resource-output $(APPLICATION_BUILD_PATH)/resource/$(APPLICATION_NAMESPACE) \
-  --define-setting $(APPLICATION_NAMESPACE).resourceUri:$(APPLICATION_PAGE_TO_TOPLEVEL)/resource/$(APPLICATION_NAMESPACE) \
+  --use-setting $(APPLICATION_NAMESPACE).resourceUri:$(APPLICATION_PAGE_TO_TOPLEVEL)/resource/$(APPLICATION_NAMESPACE) \
   $(APPLICATION_ADDITIONAL_RESOURCE)
 
 
@@ -364,19 +364,19 @@ ifeq ($(APPLICATION_OPTIMIZE_BROWSER),true)
    	  $(COMPUTED_COMMON_INIT) \
 	  $(COMPUTED_CLASS_PATH) \
 	  --generate-compiled-script \
-      --define-setting $(FRAMEWORK_NAMESPACE).resourceUri:$(APPLICATION_PAGE_TO_TOPLEVEL)/resource/qx \
-      --define-setting $(APPLICATION_NAMESPACE).resourceUri:$(APPLICATION_PAGE_TO_TOPLEVEL)/resource/$(APPLICATION_NAMESPACE) \
+      --use-setting $(FRAMEWORK_NAMESPACE).resourceUri:$(APPLICATION_PAGE_TO_TOPLEVEL)/resource/qx \
+      --use-setting $(APPLICATION_NAMESPACE).resourceUri:$(APPLICATION_PAGE_TO_TOPLEVEL)/resource/$(APPLICATION_NAMESPACE) \
 	  $(COMPUTED_BUILD_INCLUDE) \
 	  $(COMPUTED_BUILD_LINEBREAKS) \
 	  $(COMPUTED_BUILD_OPTIMIZATIONS) \
 	  $(COMPUTED_BUILD_USER_FLAGS)
   COMPUTED_BROWSER_SCRIPT_NAME = $(APPLICATION_BUILD_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/$(APPLICATION_SCRIPT_FILENAME)
-  
+
 build: exec-browser-optimize
 endif
 
 ifeq ($(APPLICATION_ENABLE_GUI),false)
-  COMPUTED_COMMON_INIT = --define-setting initComponent:qx.component.init.BasicInitComponent
+  COMPUTED_COMMON_INIT = --use-setting initComponent:qx.component.init.BasicInitComponent
 endif
 
 ifeq ($(APPLICATION_RESOURCE_FILTER),true)
