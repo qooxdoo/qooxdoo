@@ -47,8 +47,10 @@ qx.Clazz.define("qx.core.Settings",
      */
     define : function(key, defaultValue)
     {
+      console.log("Define Setting: " + key + "=" + defaultValue);
+
       if (defaultValue == undefined) {
-        throw new Error("defaultValue must be defined!");
+        throw new Error('Default value of setting "' + key + '" must be defined!');
       }
 
       if (!this.__settings[key]) {
@@ -113,3 +115,4 @@ qx.Clazz.define("qx.core.Settings",
 });
 
 qx.core.Settings.init();
+qx.core.Settings.define("qx.version", "0.0");
