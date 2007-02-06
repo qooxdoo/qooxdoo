@@ -43,7 +43,7 @@ qx.Clazz.define("qx.core.Variant",
      * @access public
      * @param key {var} TODOC
      * @param allowedValues {var} TODOC
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     define : function(key, allowedValues, defaultValue)
@@ -53,7 +53,7 @@ qx.Clazz.define("qx.core.Variant",
       }
 
       if (defaultValue == undefined) {
-        throw new Error("defaultValue must be defined!");        
+        throw new Error("defaultValue must be defined!");
       }
 
       if (!this.__variants[key]) {
@@ -77,7 +77,7 @@ qx.Clazz.define("qx.core.Variant",
      */
     get : function(key)
     {
-      if (this.__variants[key] != undefined && this.__variants[key].defaultValue != undefined) {
+      if (this.__variants[key] !== undefined && this.__variants[key].defaultValue !== undefined) {
         return this.__variants[key].value || this.__variants[key].defaultValue;
       } else {
         throw new Error("Variant \"" + key + "\" is not defined");
@@ -90,7 +90,7 @@ qx.Clazz.define("qx.core.Variant",
      * @type static
      * @name init
      * @access public
-     * @return {void} 
+     * @return {void}
      */
     init : function()
     {
@@ -111,7 +111,7 @@ qx.Clazz.define("qx.core.Variant",
         delete window.qxvariants;
       }
     },
-    
+
     /**
      * TODOC
      *
@@ -154,7 +154,7 @@ qx.Clazz.define("qx.core.Variant",
         throw new Error("the second parameter must be a map or a string!");
       }
     },
-    
+
     /**
      * TODOC
      *
@@ -234,12 +234,16 @@ qx.Clazz.define("qx.core.Variant",
 
       return false;
     }
+  },
+
+  variants :
+  {
+    "qx.debug" :
+    {
+      allowedValues : [ "on", "off" ],
+      defaultValue : "on"
+    }
   }
 });
 
-/**
- * enable debugging
- */
 qx.core.Variant.init();
-qx.core.Variant.define("qx.debug", [ "on", "off" ]);
-qx.core.Variant.set("qx.debug", "on");

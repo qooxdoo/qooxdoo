@@ -253,52 +253,6 @@ qx.Clazz.define("qx.Clazz",
 
 
 
-      /*
-      ---------------------------------------------------------------------------
-        Settings
-      ---------------------------------------------------------------------------
-      */
-
-      if (settings)
-      {
-        for (var key in settings)
-        {
-          if (qx.core.Variant.select("qx.debug", "on"))
-          {
-            if (key.substr(0, key.indexOf(".")) != name.substr(0, name.indexOf("."))) {
-              throw new Error('Forbidden setting "' + key + '" found in "' + name + '". It forbidden to define a default setting for an external namespace!');
-            }
-          }
-
-          qx.core.Settings.set(key, settings[key]);
-        }
-      }
-
-
-
-
-      /*
-      ---------------------------------------------------------------------------
-        Variants
-      ---------------------------------------------------------------------------
-      */
-
-      if (variants)
-      {
-        for (var key in variants)
-        {
-          if (qx.core.Variant.select("qx.debug", "on"))
-          {
-            if (key.substr(0, key.indexOf(".")) != name.substr(0, name.indexOf("."))) {
-              throw new Error('Forbidden setting "' + key + '" found in "' + name + '". It forbidden to define a default setting for an external namespace!');
-            }
-          }
-
-          qx.core.Variants.set(key, variants[key]);
-        }
-      }
-
-
 
 
       /*
@@ -321,6 +275,56 @@ qx.Clazz.define("qx.Clazz",
           }
         }
       }
+
+
+
+
+      /*
+      ---------------------------------------------------------------------------
+        Settings
+      ---------------------------------------------------------------------------
+      */
+
+      if (settings)
+      {
+        for (var key in settings)
+        {
+          if (qx.core.Variant.select("qx.debug", "on"))
+          {
+            if (key.substr(0, key.indexOf(".")) != name.substr(0, name.indexOf("."))) {
+              throw new Error('Forbidden setting "' + key + '" found in "' + name + '". It forbidden to define a default setting for an external namespace!');
+            }
+          }
+
+          qx.core.Settings.define(key, settings[key]);
+        }
+      }
+
+
+
+
+
+      /*
+      ---------------------------------------------------------------------------
+        Variants
+      ---------------------------------------------------------------------------
+      */
+
+      if (variants)
+      {
+        for (var key in variants)
+        {
+          if (qx.core.Variant.select("qx.debug", "on"))
+          {
+            if (key.substr(0, key.indexOf(".")) != name.substr(0, name.indexOf("."))) {
+              throw new Error('Forbidden setting "' + key + '" found in "' + name + '". It forbidden to define a default setting for an external namespace!');
+            }
+          }
+
+          qx.core.Variants.define(key, variants[key].allowedValues, variants[key].defaultValue);
+        }
+      }
+
 
 
 

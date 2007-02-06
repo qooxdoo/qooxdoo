@@ -31,11 +31,39 @@ qx.Clazz.define("qx.core.Settings",
 {
   statics :
   {
-    /** Define the defaults */
+    /** {var} TODOC */
     __settings : {},
 
     /**
-     * Get setting by key
+     * Define a setting
+     *
+     * @type static
+     * @name define
+     * @access public
+     * @param key {var} TODOC
+     * @param allowedValues {var} TODOC
+     * @return {void}
+     * @throws TODOC
+     */
+    define : function(key, defaultValue)
+    {
+      if (!this.__isValidArray(allowedValues)) {
+        throw new Error("allowedValues is not an array");
+      }
+
+      if (defaultValue == undefined) {
+        throw new Error("defaultValue must be defined!");
+      }
+
+      if (!this.__settings[key]) {
+        this.__settings[key] = {};
+      }
+
+      this.__settings[key].defaultValue = defaultValue;
+    },
+
+    /**
+     * TODOC
      *
      * @type static
      * @name get
@@ -46,39 +74,10 @@ qx.Clazz.define("qx.core.Settings",
      */
     get : function(key)
     {
-      if (qx.core.Variant.select("qx.debug", "on"))
-      {
-        if (typeof this.__settings[key] === "undefined") {
-          throw new Error('Setting key "' + key + '" does not exist!');
-        }
-      }
-
-      return this.__settings[key];
-    },
-
-    /**
-     * Set a value if not yet defined. This is only
-     * useful to setup defaults.
-     *
-     * @type static
-     * @name set
-     * @access public
-     * @param key {String} Unique key
-     * @param value {var} Any value supported by JavaScript
-     * @return {void}
-     * @throws TODOC
-     */
-    set : function(key, value)
-    {
-      if (qx.core.Variant.select("qx.debug", "on"))
-      {
-        if ((key.split(".")).length !== 2) {
-          throw new Error('Malformed settings key "' + key + '". Must be following the schema "namespace.key".');
-        }
-      }
-
-      if (typeof this.__settings[key] === "undefined") {
-        this.__settings[key] = value;
+      if (this.__settings[key] !== undefined && this.__settings[key].defaultValue !== undefined) {
+        return this.__settings[key].value || this.__settings[key].defaultValue;
+      } else {
+        throw new Error("Setting \"" + key + "\" is not defined");
       }
     },
 
@@ -99,7 +98,12 @@ qx.Clazz.define("qx.core.Settings",
           if ((key.split(".")).length !== 2) {
             throw new Error('Malformed settings key "' + key + '". Must be following the schema "namespace.key".');
           }
-          this.__settings[key] = qxsettings[key];
+
+          if (!this.__settings[key]) {
+            this.__settings[key] = {};
+          }
+
+          this.__settings[key].value = qxsettings[key];
         }
 
         delete window.qxsettings;
