@@ -116,7 +116,7 @@ qx.Proto._getContentHtml = function(cellInfo)
         '" style="filter:' +
         "progid:DXImageTransform.Microsoft.AlphaImageLoader(" +
         "  src='" +
-        AM.getInstance().resolvePath(urlAndToolTip.url) +
+        Am.getInstance().resolvePath(urlAndToolTip.url) +
         "',sizingMethod='scale')";
     }
     else
