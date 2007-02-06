@@ -213,7 +213,7 @@ qx.Class.extract = function(object)
       }
     }
   }
-  
+
   var obj = qx.dev.Pollution.names[object];
 
   for (var key in obj)

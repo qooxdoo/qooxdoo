@@ -45,7 +45,7 @@
  * @event visibilityChangedPre {qx.event.type.DataEvent}
  *   Fired when the visibility of a column has changed. This event is equal to
  *   "visibilityChanged", but is fired right before.
- *   
+ *
  * @event visibilityChanged {qx.event.type.DataEvent}
  *   Fired when the visibility of a column has changed. The data property of
  *   the event is a map having the following attributes:

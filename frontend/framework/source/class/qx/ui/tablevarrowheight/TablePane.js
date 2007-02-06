@@ -75,7 +75,7 @@ qx.Proto._updateContent_orig = function(completeUpdate,
   }
 
   var paneMaxHeight = this._paneScroller._paneClipper.getInnerHeight();
-  
+
   var elem = this.getElement();
   var childNodes = elem.childNodes;
   var cellInfo = { table:table };

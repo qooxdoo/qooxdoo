@@ -815,12 +815,12 @@ qx.Proto.layoutChild_locationY = function(vChild, vJobs)
   if (qx.core.Variant.select("qx.client", "gecko"))
   {
     if (vChild.getAllowStretchY() && vWidget.getStretchChildrenOrthogonalAxis() && vChild._computedHeightTypeNull)
-	  {
-	    vChild._applyRuntimeTop(vWidget.getPaddingTop() || 0);
-	    vChild._applyRuntimeBottom(vWidget.getPaddingBottom() || 0);
-	
-	    return;
-	  }
+    {
+      vChild._applyRuntimeTop(vWidget.getPaddingTop() || 0);
+      vChild._applyRuntimeBottom(vWidget.getPaddingBottom() || 0);
+
+      return;
+    }
   }
 
   // priority to childs internal alignment

@@ -262,7 +262,7 @@ qx.Proto.getColumnHeaders = function(propVal) {
  * <li>Column 1 represents the description, the text that the end user normally sees.</li>
  * <li>Columns > 1 will also be shown in the popup list, it you have set the appropiate column headers with {@link #setColumnHeaders}.</li>
  * </ul>
- * @param newValue	{String} optional, the new value to set.
+ * @param newValue  {String} optional, the new value to set.
  *                  If not specified or null, it will try to preserve the previous value.
  *                  Only used for non-editable combos */
 qx.Proto.setSelection = function(data, newValue) {
@@ -271,12 +271,12 @@ qx.Proto.setSelection = function(data, newValue) {
   this._model.setData(data);
   // Try to preserve currently selected value
   if (!this.getEditable()) {
-  	if (newValue != null && newValue != this.getValue()) {
+    if (newValue != null && newValue != this.getValue()) {
       this.setValue(newValue);
-  	} else {
-  	  // Checks if the value is in the list, and recalculates the selected index
+    } else {
+      // Checks if the value is in the list, and recalculates the selected index
       this._modifyValue(this.getValue());
-  	}
+    }
   }
 }
 

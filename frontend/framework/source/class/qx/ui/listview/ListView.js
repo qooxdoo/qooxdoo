@@ -197,14 +197,14 @@ qx.Proto.updateScrollBar = function() {
 */
 if (qx.core.Variant.select("qx.client", "gecko"))
 {
-  if (qx.core.Client.getInstance().getVersion() >= 1.8) 
+  if (qx.core.Client.getInstance().getVersion() >= 1.8)
   {
     qx.Proto._updateScrollBar = qx.Proto.updateScrollBar;
-  
+
     qx.Proto.updateScrollBar = function()
     {
       this._updateScrollBar();
-  
+
       this._scroll.setStyleProperty("height", "0px");
       this._scroll.forceHeight(0);
       this._scroll.setHeight(null);
