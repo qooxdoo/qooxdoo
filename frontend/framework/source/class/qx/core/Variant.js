@@ -48,6 +48,8 @@ qx.Clazz.define("qx.core.Variant",
      */
     define : function(key, allowedValues, defaultValue)
     {
+      console.log("Define Variant: " + key + "=" + defaultValue);
+
       if (!this.__isValidArray(allowedValues)) {
         throw new Error('Allowed values of variant "' + key + '" must be defined!');
       }
@@ -62,7 +64,6 @@ qx.Clazz.define("qx.core.Variant",
 
       this.__variants[key].allowedValues = allowedValues;
       this.__variants[key].defaultValue = defaultValue;
-
     },
 
     /**
@@ -109,6 +110,7 @@ qx.Clazz.define("qx.core.Variant",
           if (!this.__variants[key]) {
             this.__variants[key] = {};
           }
+
           this.__variants[key].value = qxvariants[key];
         }
 
@@ -238,16 +240,8 @@ qx.Clazz.define("qx.core.Variant",
 
       return false;
     }
-  },
-
-  variants :
-  {
-    "qx.debug" :
-    {
-      allowedValues : [ "on", "off" ],
-      defaultValue : "on"
-    }
   }
 });
 
 qx.core.Variant.init();
+qx.core.Variant.define("qx.debug", [ "on", "off" ], "on");
