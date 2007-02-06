@@ -55,6 +55,10 @@ qx.Clazz =
         qx.core.Settings = config.statics;
         break;
 
+      case "qx.Clazz":
+        qx.Clazz = config.statics;
+        break;
+
       default:
         throw new Error("Bootstrap: Could not create class: " + name);
     }
