@@ -57,16 +57,8 @@ node [style=filled];
       for depEntry in fileDb[fileId]["loadtimeDeps"]:
         content += dotLine(fileDb, fileId, depEntry, largest)
 
-    if len(fileDb[fileId]["afterDeps"]) > 0:
-      for depEntry in fileDb[fileId]["afterDeps"]:
-        content += dotLine(fileDb, fileId, depEntry, largest)
-
     if len(fileDb[fileId]["runtimeDeps"]) > 0:
       for depEntry in fileDb[fileId]["runtimeDeps"]:
-        content += dotLine(fileDb, fileId, depEntry, largest)
-
-    if len(fileDb[fileId]["loadDeps"]) > 0:
-      for depEntry in fileDb[fileId]["loadDeps"]:
         content += dotLine(fileDb, fileId, depEntry, largest)
 
   content += '}'
