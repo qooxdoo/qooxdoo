@@ -21,8 +21,10 @@
 
 /* ************************************************************************
 
-#require(qx.util.Validation)
-#require(qx.lang.Array)
+#module(core)
+#require(qx.core.Bootstrap)
+#ignore(auto-require)
+#ignore(auto-use)
 
 /* ************************************************************************ */
 

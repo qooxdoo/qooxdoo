@@ -355,7 +355,7 @@ def resolveAutoDeps(fileDb, options):
     detectDeps(getTree(fileDb, fileId, options), fileEntry["optionalDeps"], loadtimeDeps, runtimeDeps, fileId, fileDb, False)
 
     # Handle ignore configuration
-    if "auto-load" in fileEntry["ignoreDeps"]:
+    if "auto-require" in fileEntry["ignoreDeps"]:
       loadtimeDeps = []
 
     if "auto-use" in fileEntry["ignoreDeps"]:
@@ -643,22 +643,25 @@ def addClass(fileDb, fileId, content):
 
 
 
-def sortClass(fileDb, fileId, avail, result):
+def sortClass(fileDb, fileId, avail, result, verbose):
   if fileId in result or not fileId in avail:
     return
 
   fileEntry = fileDb[fileId]
 
+  if verbose:
+    print "ID: %s" % fileId
+
   for depId in fileEntry["loadtimeDeps"]:
     if not depId in result and depId in avail:
-      sortClass(fileDb, depId, avail, result)
+      sortClass(fileDb, depId, avail, result, verbose)
 
   if not fileId in result:
     result.append(fileId)
 
   for depId in fileEntry["runtimeDeps"]:
     if not depId in result and depId in avail:
-      sortClass(fileDb, depId, avail, result)
+      sortClass(fileDb, depId, avail, result, verbose)
 
 
 
@@ -802,7 +805,7 @@ def getSortedList(options, fileDb, moduleDb):
 
   result = []
   for fileId in includeCombined:
-    sortClass(fileDb, fileId, includeCombined, result)
+    sortClass(fileDb, fileId, includeCombined, result, options.verbose)
 
 
 
@@ -852,7 +855,7 @@ def getSortedList(options, fileDb, moduleDb):
         optionalHints.append(depId)
 
   if len(optionalHints) > 0:
-    print "  * The following add-on classes are maybe useful:"
+    print "  * The following add-on classes may be useful:"
     for depId in optionalHints:
       print "    - %s" % depId
 

@@ -21,27 +21,11 @@
 /* ************************************************************************
 
 #module(core)
+#require(qx.core.Bootstrap)
+#require(qx.core.Variant)
+#require(qx.core.Settings)
 
 ************************************************************************ */
-
-/**
- * Verify existing namespace
- */
-if (!window.qx) {
-  qx = {};
-}
-
-
-/**
- * Bootstrap qx.Clazz
- */
-qx.Clazz =
-{
-  define : function(name, config) {
-    qx.Clazz = config.statics;
-  }
-};
-
 
 /**
  * Stuff needed for qooxdoo's advanced JavaScript OO handling.
