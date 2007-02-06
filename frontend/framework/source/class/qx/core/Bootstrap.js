@@ -33,20 +33,10 @@ qx = { core : {} };
 
 /**
  * Bootstrap qx.Clazz to create myself
+ * This is needed for the API browser etc. to let them detect me
  */
 qx.Clazz =
 {
-  /**
-   * TODOC
-   *
-   * @type map
-   * @name define
-   * @access public
-   * @param name {var} TODOC
-   * @param config {var} TODOC
-   * @return {void} 
-   * @throws TODOC
-   */
   define : function(name, config)
   {
     switch(name)
@@ -80,7 +70,7 @@ qx.Clazz.define("qx.core.Bootstrap",
 {
   statics :
   {
-    /** {var} TODOC */
+    /** {Date} Timestamp of qooxdoo based application startup */
     LOADSTART : new Date
   }
 });
