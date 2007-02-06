@@ -44,7 +44,7 @@ function() {
 ---------------------------------------------------------------------------
 */
 
-qx.core.Settings.define("qx.appearanceTheme", "qx.theme.appearance.Classic");
+qx.core.Setting.define("qx.appearanceTheme", "qx.theme.appearance.Classic");
 
 
 
@@ -80,7 +80,7 @@ qx.Proto.registerAppearanceTheme = function(vThemeClass)
 {
   this._appearanceThemes[vThemeClass.classname] = vThemeClass;
 
-  if (vThemeClass.classname == qx.core.Settings.get("qx.appearanceTheme")) {
+  if (vThemeClass.classname == qx.core.Setting.get("qx.appearanceTheme")) {
     this.setAppearanceTheme(vThemeClass.getInstance());
   }
 }

@@ -27,7 +27,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.core.Settings",
+qx.Clazz.define("qx.core.Setting",
 {
   statics :
   {
@@ -114,5 +114,5 @@ qx.Clazz.define("qx.core.Settings",
   }
 });
 
-qx.core.Settings.init();
-qx.core.Settings.define("qx.version", "0.0");
+qx.core.Setting.init();
+qx.core.Setting.define("qx.version", "0.0");

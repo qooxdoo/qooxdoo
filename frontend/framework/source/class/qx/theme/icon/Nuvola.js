@@ -37,7 +37,7 @@ function()
 {
   qx.renderer.theme.IconTheme.call(this, "Nuvola");
 
-  this.uri = qx.core.Settings.get("qx.resourceUri") + "/icon/Nuvola";
+  this.uri = qx.core.Setting.get("qx.resourceUri") + "/icon/Nuvola";
 });
 
 

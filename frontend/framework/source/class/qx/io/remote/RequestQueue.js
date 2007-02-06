@@ -89,7 +89,7 @@ qx.Proto._debug = function()
 
   if (qx.core.Variant.select("qx.debug", "on"))
   {
-    if (qx.core.Settings.get("qx.ioRemoteDebug"))
+    if (qx.core.Setting.get("qx.ioRemoteDebug"))
     {
       this.debug("Progress: " + vText);
       window.status = "Request-Queue Progress: " + vText;
@@ -209,7 +209,7 @@ qx.Proto._onsending = function(e)
 {
   if (qx.core.Variant.select("qx.debug", "on"))
   {
-    if (qx.core.Settings.get("qx.ioRemoteDebug"))
+    if (qx.core.Setting.get("qx.ioRemoteDebug"))
     {
       this._activeCount++;
       e.getTarget()._counted = true;
@@ -223,7 +223,7 @@ qx.Proto._oncompleted = function(e)
 {
   if (qx.core.Variant.select("qx.debug", "on"))
   {
-    if (qx.core.Settings.get("qx.ioRemoteDebug"))
+    if (qx.core.Setting.get("qx.ioRemoteDebug"))
     {
       if (e.getTarget()._counted)
       {

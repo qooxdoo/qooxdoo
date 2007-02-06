@@ -49,8 +49,8 @@ qx.Clazz =
         qx.core.Variant = config.statics;
         break;
 
-      case "qx.core.Settings":
-        qx.core.Settings = config.statics;
+      case "qx.core.Setting":
+        qx.core.Setting = config.statics;
         break;
 
       case "qx.Clazz":

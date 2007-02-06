@@ -34,7 +34,7 @@ function()
 {
   qx.renderer.theme.WidgetTheme.call(this, "Windows");
 
-  this.uri = qx.core.Settings.get("qx.resourceUri") + "/widget/Windows";
+  this.uri = qx.core.Setting.get("qx.resourceUri") + "/widget/Windows";
 });
 
 
