@@ -30,7 +30,7 @@
  * Create namespace
  */
 qx = {
-  core : {}
+  core : {},
 };
 
 
@@ -70,5 +70,7 @@ qx.Clazz =
  * Bootstrap helper class
  */
 qx.Clazz.define("qx.core.Bootstrap", {
-	statics: {}
+	statics: {
+	  LOADSTART : new Date
+  }
 });
