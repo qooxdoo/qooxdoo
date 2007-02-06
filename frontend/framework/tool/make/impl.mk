@@ -65,7 +65,7 @@ exec-script-source:
 	  --generate-source-script \
 	  $(COMPUTED_TEMPLATE) \
 	  --source-script-file $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/$(APPLICATION_SCRIPT_FILENAME) \
-	  --define-setting $(FRAMEWORK_NAMESPACE).resourceUri:$(FRAMEWORK_SOURCE_URI)/resource \
+	  --use-setting $(FRAMEWORK_NAMESPACE).resourceUri:$(FRAMEWORK_SOURCE_URI)/resource \
 	  $(COMPUTED_SOURCE_INCLUDE) \
 	  $(COMPUTED_SOURCE_LINEBREAKS) \
 	  $(COMPUTED_SOURCE_USER_FLAGS)
@@ -91,7 +91,7 @@ exec-resources-build:
 
 exec-browser-optimize: exec-browser-optimize-gecko exec-browser-optimize-opera exec-browser-optimize-mshtml exec-browser-optimize-webkit
 	@mv $(COMPUTED_BROWSER_SCRIPT_NAME) $(COMPUTED_BROWSER_SCRIPT_NAME:.js=_all.js)
-	
+
 	@cat $(FRAMEWORK_TOOL_PATH)/make/browser_loader.tmpl.js | \
 	  $(CMD_PYTHON) -c "import sys; lines = sys.stdin.readlines(); print ''.join(lines) % {'path': sys.argv[1], 'name': sys.argv[2]}" \
 	    $(APPLICATION_PAGE_TO_TOPLEVEL)/$(APPLICATION_SCRIPT_FOLDERNAME) \
@@ -366,9 +366,9 @@ exec-api-build:
 	  --resource-input $(APIVIEWER_SOURCE_PATH)/resource \
 	  --resource-output $(APPLICATION_API_PATH)/resource/$(APIVIEWER_NAMESPACE) \
 	  --enable-resource-filter \
-	  --define-setting $(FRAMEWORK_NAMESPACE).resourceUri:resource/$(FRAMEWORK_NAMESPACE) \
-	  --define-setting $(APIVIEWER_NAMESPACE).resourceUri:resource/$(APIVIEWER_NAMESPACE) \
-	  --define-setting $(APIVIEWER_NAMESPACE).title:$(APPLICATION_API_TITLE)
+	  --use-setting $(FRAMEWORK_NAMESPACE).resourceUri:resource/$(FRAMEWORK_NAMESPACE) \
+	  --use-setting $(APIVIEWER_NAMESPACE).resourceUri:resource/$(APIVIEWER_NAMESPACE) \
+	  --use-setting $(APIVIEWER_NAMESPACE).title:$(APPLICATION_API_TITLE)
 
 
 
