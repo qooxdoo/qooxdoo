@@ -112,7 +112,7 @@ function(headings)
   // For each scroller...
   for (var i = 0; i < scrollers.length; i++)
   {
-    // ... remove the outline on focus, 
+    // ... remove the outline on focus,
     scrollers[i]._focusIndicator.setAppearance("treevirtual-focus-indicator");
 
     // ... and set the pane scrollers to handle the selection before
@@ -468,7 +468,7 @@ qx.Proto.setCellFocusAttributes = function(attributes)
   for (var i = 0; i < scrollers.length; i++)
   {
     scrollers[i]._focusIndicator.set(attributes);
-  }  
+  }
 };
 
 
@@ -540,7 +540,7 @@ qx.Proto._onkeydown = function(evt)
         // ... then close it
         this.toggleOpened(node);
       }
-    
+
       // Reset the focus to the current node
       this.setFocusedCell(treeCol, focusedRow, true);
 
@@ -567,7 +567,7 @@ qx.Proto._onkeydown = function(evt)
 
       // Reset the focus to the current node
       this.setFocusedCell(treeCol, focusedRow, true);
-    
+
       consumed = true;
       break;
     }
@@ -590,11 +590,11 @@ qx.Proto._onkeydown = function(evt)
       {
         // Find out what rendered row our parent node is at
         var rowIndex = dm.getNodeRowMap()[node.parentNodeId];
-      
+
         // Set the focus to our parent
         this.setFocusedCell(this._focusedCol, rowIndex, true);
       }
-      
+
       consumed = true;
       break;
 
@@ -624,7 +624,7 @@ qx.Proto._onkeydown = function(evt)
           this.moveFocusedCell(0, 1);
         }
       }
-      
+
       consumed = true;
       break;
     }
@@ -757,7 +757,7 @@ qx.Proto.getHierarchy = function(nodeId)
  *
  * @return {Array}
  *   An array of nodes matching the set of rows which are selected on the
- *   screen. 
+ *   screen.
  */
 qx.Proto._calculateSelectedNodes = function()
 {

@@ -40,7 +40,7 @@ qx.OO.defineClass("qx.util.Debug");
  *
  * @param maxLevel {Integer ? 10 }
  *   The maximum level of recursion.  Objects beyond this level will not be
- *   displayed. 
+ *   displayed.
  *
  * @param appender {Object, null}
  *   If not provided (or provided as null), the default appender of the root
