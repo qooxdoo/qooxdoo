@@ -27,15 +27,13 @@
 ************************************************************************ */
 
 /**
- * Verify existing namespace
+ * Create namespace
  */
-if (!window.qx) {
-  qx = {};
-}
+window.qx = {};
 
 
 /**
- * Bootstrap qx.Clazz
+ * Bootstrap qx.Clazz to create myself
  */
 qx.Clazz =
 {
@@ -46,6 +44,6 @@ qx.Clazz =
 
 
 /**
- *
+ * Bootstrap helper class
  */
 qx.Clazz.define("qx.core.Bootstrap");
