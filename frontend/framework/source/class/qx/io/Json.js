@@ -83,8 +83,8 @@ qx.Class.parse = function (text) {};
 ---------------------------------------------------------------------------
 */
 
-qx.core.Settings.set("qx.jsonEncodeUndefined", true);
-qx.core.Settings.set("qx.jsonDebugging", false);
+qx.core.Settings.define("qx.jsonEncodeUndefined", true);
+qx.core.Settings.define("qx.jsonDebugging", false);
 
 
 

@@ -61,9 +61,9 @@ function()
   chose to receive the qooxdoo code under. For more information, please
   see the LICENSE file in the project's top-level directory.
  */
-qx.core.Settings.set("qx.iconTheme", "qx.theme.icon.Nuvola");
+qx.core.Settings.define("qx.iconTheme", "qx.theme.icon.Nuvola");
 
-qx.core.Settings.set("qx.widgetTheme", "qx.theme.widget.Windows");
+qx.core.Settings.define("qx.widgetTheme", "qx.theme.widget.Windows");
 
 
 
