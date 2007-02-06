@@ -28,25 +28,22 @@ qx.Clazz.define("qx.Mixin",
 {
   statics :
   {
-    /**
-     * Registers all defined Mixins
-     */
+    /** Registers all defined Mixins */
     registry : {},
-
 
     /**
      * Mixin config
-     *
+     * 
      * Example:
      * <pre>
      * qx.Mixin.define("name",
      * {
      *   "includes": [SuperMixins],
-     *
+     * 
      *   "properties": {
      *     "tabIndex": {type: "number", init: -1}
      *   },
-     *
+     * 
      *   "members":
      *   {
      *     prop1: "foo",
@@ -56,9 +53,12 @@ qx.Clazz.define("qx.Mixin",
      * });
      * </pre>
      *
+     * @type static
+     * @name define
+     * @access public
      * @param name {String} name of the mixin
      * @param config {Map} config structure
-     * @return {void}
+     * @return {void} 
      * @throws TODOC
      */
     define : function(name, config)
@@ -88,7 +88,7 @@ qx.Clazz.define("qx.Mixin",
           case "extend":
             // Normalize to Array
             if (!(value instanceof Array)) {
-              value = [value];
+              value = [ value ];
             }
 
             extend = value;
@@ -106,8 +106,6 @@ qx.Clazz.define("qx.Mixin",
             throw new Error("The configuration key '" + key + "' in class '" + name + "' is not allowed!");
         }
       }
-
-
 
 
 
@@ -136,7 +134,6 @@ qx.Clazz.define("qx.Mixin",
 
 
 
-
       /*
       ---------------------------------------------------------------------------
         Extend Mixin
@@ -155,12 +152,14 @@ qx.Clazz.define("qx.Mixin",
         {
           // Attach members
           emembers = extend[i].members;
+
           for (key in emembers) {
             members[key] = emembers[key];
           }
 
           // Attach members
           eproperties = extend[i].properties;
+
           for (key in eproperties) {
             properties[key] = eproperties[key];
           }
@@ -168,10 +167,12 @@ qx.Clazz.define("qx.Mixin",
       }
     },
 
-
     /**
      * Determine if Mixin exists
      *
+     * @type static
+     * @name isDefined
+     * @access public
      * @param name {String} Mixin name to check
      * @return {Boolean} true if Mixin exists
      */
@@ -179,11 +180,16 @@ qx.Clazz.define("qx.Mixin",
       return arguments.callee.statics.byName(name) !== undefined;
     },
 
-
     /**
      * Checks a list of Mixins for conflicts.
      *
+     * @type static
+     * @name compatible
+     * @access public
      * @param list {Array} List of Mixins
+     * @param msg {var} TODOC
+     * @return {void} 
+     * @throws TODOC
      */
     compatible : function(list, msg)
     {
@@ -197,6 +203,7 @@ qx.Clazz.define("qx.Mixin",
         {
           // Check members
           emembers = list[i].members;
+
           for (key in emembers)
           {
             if (key in kmembers) {
@@ -208,6 +215,7 @@ qx.Clazz.define("qx.Mixin",
 
           // Check properties
           eproperties = list[i].properties;
+
           for (key in eproperties)
           {
             if (key in kproperties) {

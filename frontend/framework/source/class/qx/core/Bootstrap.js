@@ -29,16 +29,24 @@
 /**
  * Create namespace
  */
-qx = {
-  core : {},
-};
-
+qx = { core : {} };
 
 /**
  * Bootstrap qx.Clazz to create myself
  */
 qx.Clazz =
 {
+  /**
+   * TODOC
+   *
+   * @type map
+   * @name define
+   * @access public
+   * @param name {var} TODOC
+   * @param config {var} TODOC
+   * @return {void} 
+   * @throws TODOC
+   */
   define : function(name, config)
   {
     switch(name)
@@ -65,12 +73,14 @@ qx.Clazz =
   }
 };
 
-
 /**
  * Bootstrap helper class
  */
-qx.Clazz.define("qx.core.Bootstrap", {
-	statics: {
-	  LOADSTART : new Date
+qx.Clazz.define("qx.core.Bootstrap",
+{
+  statics :
+  {
+    /** {var} TODOC */
+    LOADSTART : new Date
   }
 });
