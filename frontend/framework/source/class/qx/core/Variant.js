@@ -142,10 +142,10 @@ qx.Clazz.define("qx.core.Variant",
       }
       else if (this.__isValidObject(variants))
       {
-        for (var key in variants)
+        for (var variant in variants)
         {
-          if (this.__matchKey(key, key)) {
-            return variants[key];
+          if (this.__matchKey(key, variant)) {
+            return variants[variant];
           }
         }
 
