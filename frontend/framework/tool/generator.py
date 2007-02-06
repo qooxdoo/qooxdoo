@@ -595,13 +595,13 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
   #  SUPPORT FOR VARIANTS
   ######################################################################
 
-  if len(options.useVariants) > 0:
+  if len(options.useVariant) > 0:
     print
     print "  VARIANT OPTIMIZATION:"
     print "----------------------------------------------------------------------------"
 
     variantMap = {}
-    for variant in options.useVariants:
+    for variant in options.useVariant:
       keyValue = variant.split(":")
       if len(keyValue) != 2:
         print "  * Error: Variants must be specified as key value pair separated by ':'!"
