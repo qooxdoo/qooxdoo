@@ -53,6 +53,8 @@ qx.Clazz.define("qx.core.Settings",
 
       if (!this.__settings[key]) {
         this.__settings[key] = {};
+      } else if (this.__settings[key].defaultValue !== undefined) {
+        throw new Error('Setting "' + key + '" is already defined!');
       }
 
       this.__settings[key].defaultValue = defaultValue;
