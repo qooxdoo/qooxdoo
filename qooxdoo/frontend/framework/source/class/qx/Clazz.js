@@ -34,17 +34,18 @@ qx.Clazz.define("qx.Clazz",
 {
   statics :
   {
-    /**
-     * Stores all defined classes
-     */
+    /** Stores all defined classes */
     registry : {},
-
 
     /**
      * Creates a given namespace and assigns the given object to the last part.
      *
+     * @type static
+     * @name createNamespace
+     * @access public
      * @param name {String} The namespace including the last (class) name
      * @param object {Object} The data to attach to the namespace
+     * @return {var} TODOC
      */
     createNamespace : function(name, object)
     {
@@ -53,7 +54,7 @@ qx.Clazz.define("qx.Clazz",
       var parent = window;
       var part = splits[0];
 
-      for (var i=0, l=len-1; i<l; i++)
+      for (var i=0, l=len - 1; i<l; i++)
       {
         if (!parent[part]) {
           parent[part] = {};
@@ -67,13 +68,12 @@ qx.Clazz.define("qx.Clazz",
       parent[part] = object;
 
       // return last part name (e.g. classname)
-      return part
+      return part;
     },
-
 
     /**
      * Class config
-     *
+     * 
      * Example:
      * <pre><code>
      * qx.Clazz.define("name",
@@ -81,58 +81,48 @@ qx.Clazz.define("qx.Clazz",
      *   extend: Object, // superclass
      *   implement: [Interfaces],
      *   include : [Mixins],
-     *
+     * 
      *   statics:
      *   {
      *     CONSTANT : 3.141,
-     *
+     * 
      *     publicMethod: function() {},
      *     _protectedMethod: function() {},
      *     __privateMethod: function() {}
      *   },
-     *
+     * 
      *   properties:
      *   {
      *     "tabIndexOld": { type: "number", defaultValue : -1, compat : true }
      *     "tabIndex": { type: "number", init : -1 }
      *   },
-     *
+     * 
      *   members:
      *   {
      *     publicProperty: "foo",
      *     publicMethod: function() {},
-     *
+     * 
      *     _protectedProperty: "bar",
      *     _protectedMethod: function() {},
-     *
+     * 
      *     __privateProperty: "baz",
      *     __privateMethod: function() {}
      *   }
      * });
      * </code></pre>
      *
+     * @type static
+     * @name define
+     * @access public
      * @param name {String} class name
-     * @param config {Map ? null} config structure
-     * @param config.extend {Function ? null} extend class
-     * @param config.implement {Array ? null} list of implement that need to be implemented
-     * @param config.include {Array ? null} list of include to include
-     * @param config.settings {Map ? null} hash of settings for this class
-     * @param config.construct {Function ? null} constructor method to run on each initialization
-     * @param config.statics {Map ? null} hash of static properties and methods ("class members")
-     * @param config.properties {Map ? null} hash of properties with generated setters and getters
-     * @param config.members {Map ? null} hash of regular properties and methods ("instance members")
-     * @param config.defer {Function ? null} function to be called for post-processing
-     * @param config.abstract {boolean ? false} is abstract class
-     * @param config.singleton {boolean ? false} is singleton class
-     * @param config.events {Array ? null} list of events the class is able to fire
-     * @return {void}
+     * @param config {Map} config structure
+     * @return {void} 
      * @throws TODOC
      */
     define : function(name, config)
     {
       var key, value;
       var extend, implement, include, settings, variants, construct, statics, properties, members;
-
 
 
 
@@ -160,7 +150,7 @@ qx.Clazz.define("qx.Clazz",
           case "implement":
             // Normalize to Array
             if (!(value instanceof Array)) {
-              value = [value];
+              value = [ value ];
             }
 
             implement = value;
@@ -169,7 +159,7 @@ qx.Clazz.define("qx.Clazz",
           case "include":
             // Normalize to Array
             if (!(value instanceof Array)) {
-              value = [value];
+              value = [ value ];
             }
 
             include = value;
@@ -203,8 +193,6 @@ qx.Clazz.define("qx.Clazz",
             throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
         }
       }
-
-
 
 
 
@@ -245,9 +233,11 @@ qx.Clazz.define("qx.Clazz",
       qx.Clazz.registry[name] = obj;
 
       // Compatibility to old properties etc.
+      /** {var} TODOC */
       qx.Class = obj;
-      qx.Proto = null;
 
+      /** {var} TODOC */
+      qx.Proto = null;
 
 
 
@@ -276,9 +266,6 @@ qx.Clazz.define("qx.Clazz",
 
 
 
-
-
-
       /*
       ---------------------------------------------------------------------------
         Variants
@@ -299,8 +286,6 @@ qx.Clazz.define("qx.Clazz",
           qx.core.Variants.set(key, variants[key]);
         }
       }
-
-
 
 
 
@@ -329,9 +314,6 @@ qx.Clazz.define("qx.Clazz",
 
 
 
-
-
-
       /*
       ---------------------------------------------------------------------------
         Superclass support
@@ -345,11 +327,20 @@ qx.Clazz.define("qx.Clazz",
 
       // Use helper function/class to save the unnecessary constructor call while
       // setting up inheritance. Safari does not support "new Function"
+      /**
+       * TODOC
+       *
+       * @type function
+       * @return {void} 
+       */
       var helper = function() {};
+
+      /** {var} TODOC */
       helper.prototype = extend.prototype;
       var prot = new helper;
 
       // Apply prototype to new helper instance
+      /** {var} TODOC */
       obj.prototype = prot;
 
       // Store names in prototype
@@ -363,12 +354,12 @@ qx.Clazz.define("qx.Clazz",
       obj.constructor = prot.constructor = construct;
 
       // Store base constructor to constructor
+      /** {var} TODOC */
       construct.base = extend;
 
       // Compatibility to old properties etc.
+      /** {var} TODOC */
       qx.Proto = prot;
-
-
 
 
 
@@ -398,20 +389,19 @@ qx.Clazz.define("qx.Clazz",
           if (imembers == null) {
             throw new Error('Invalid include in class "' + name + '"! The value is undefined/null!');
           }
+
           for (var key in imembers) {
             prot[key] = imembers[key];
           }
 
           // Attach properties
           iproperties = include[i].properties;
+
           for (var key in iproperties) {
             properties[key] = iproperties[key];
           }
         }
       }
-
-
-
 
 
 
@@ -444,9 +434,6 @@ qx.Clazz.define("qx.Clazz",
 
 
 
-
-
-
       /*
       ---------------------------------------------------------------------------
         Attach instance members
@@ -468,6 +455,7 @@ qx.Clazz.define("qx.Clazz",
             if (superprotoobj[key])
             {
               // Configure extend (named base here)
+              /** {var} TODOC */
               value.base = superprotoobj[key];
             }
 
@@ -476,9 +464,6 @@ qx.Clazz.define("qx.Clazz",
           }
         }
       }
-
-
-
 
 
 
@@ -526,10 +511,12 @@ qx.Clazz.define("qx.Clazz",
       }
     },
 
-
     /**
      * Determine if class exists
      *
+     * @type static
+     * @name isDefined
+     * @access public
      * @param name {String} class name to check
      * @return {Boolean} true if class exists
      */
@@ -537,36 +524,37 @@ qx.Clazz.define("qx.Clazz",
       return this.registry[name] != null;
     },
 
-
     /**
      * Include all features of the Mixin into the given Class. The Mixin must not include
      * any functions or properties which are already available. This is only possible using
      * the hackier patch method.
      *
+     * @type static
+     * @name __mixin
+     * @access private
      * @param target {Clazz} A class previously defined where the stuff should be attached.
      * @param mixin {Mixin} Include all features of this Mixin
-     * @param overwrite {Boolean ? false} Overwrite existing functions and properties
+     * @param overwrite {Boolean} Overwrite existing functions and properties
+     * @return {void} 
      */
-    __mixin : function(target, mixin, overwrite)
-    {
-      // Needs implementation
+    __mixin : function(target, mixin, overwrite) {},
 
-
-    },
-
-
+    // Needs implementation
     /**
      * Include all features of the Mixin into the given Class. The Mixin must not include
      * any functions or properties which are already available. This is only possible using
      * the hackier patch method.
      *
+     * @type static
+     * @name include
+     * @access public
      * @param target {Clazz} A class previously defined where the stuff should be attached.
      * @param mixin {Mixin} Include all features of this Mixin
+     * @return {call} TODOC
      */
     include : function(target, mixin) {
       return qx.Clazz.__mixin(target, mixin, false);
     },
-
 
     /**
      * Include all features of the Mixin into the given Class. The Mixin can include features
@@ -574,8 +562,12 @@ qx.Clazz.define("qx.Clazz",
      * be aware that this functionality is not the preferred way. You can damage working
      * Classes and features.
      *
+     * @type static
+     * @name patch
+     * @access public
      * @param target {Clazz} A class previously defined where the stuff should be attached.
      * @param mixin {Mixin} Include all features of this Mixin
+     * @return {call} TODOC
      */
     patch : function(target, mixin) {
       return qx.Clazz.__mixin(target, mixin, true);
