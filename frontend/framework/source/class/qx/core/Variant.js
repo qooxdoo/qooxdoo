@@ -36,61 +36,33 @@ qx.Clazz.define("qx.core.Variant",
     __variants : {},
 
     /**
-     * TODOC
+     * Define a variant
      *
      * @type static
      * @name define
      * @access public
-     * @param name {var} TODOC
+     * @param key {var} TODOC
      * @param allowedValues {var} TODOC
      * @return {void} 
      * @throws TODOC
      */
-    define : function(name, allowedValues)
+    define : function(key, allowedValues, defaultValue)
     {
-      if (typeof this.__variants[name] !== "undefined") {
-        throw new Error("Variant \"" + name + "\" is already defined");
+      if (!this.__isValidArray(allowedValues)) {
+        throw new Error("allowedValues is not an array");
       }
 
-      this.__variants[name] = {};
-
-      if (typeof allowedValues !== "undefined")
-      {
-        if (this.__isValidArray(allowedValues)) {
-          this.__variants[name].allowedValues = allowedValues;
-        } else {
-          throw new Error("allowedValues is not an array");
-        }
-      }
-    },
-
-    /**
-     * TODOC
-     *
-     * @type static
-     * @name set
-     * @access public
-     * @param name {var} TODOC
-     * @param value {var} TODOC
-     * @return {void} 
-     * @throws TODOC
-     */
-    set : function(name, value)
-    {
-      if (!this.__isValidObject(this.__variants[name])) {
-        throw new Error("Variant \"" + name + "\" is not defined");
+      if (defaultValue == undefined) {
+        throw new Error("defaultValue must be defined!");        
       }
 
-      var allowedValues = this.__variants[name].allowedValues;
-
-      if (this.__isValidArray(allowedValues))
-      {
-        if (!this.__arrayContains(allowedValues, value)) {
-          throw new Error("Value \"" + value + "\" for variant \"" + name + "\" is not one of the allowed values \"" + allowedValues.join("\", \"") + "\"");
-        }
+      if (!this.__variants[key]) {
+        this.__variants[key] = {};
       }
 
-      this.__variants[name].value = value;
+      this.__variants[key].allowedValues = allowedValues;
+      this.__variants[key].defaultValue = defaultValue;
+
     },
 
     /**
@@ -99,46 +71,74 @@ qx.Clazz.define("qx.core.Variant",
      * @type static
      * @name get
      * @access public
-     * @param name {var} TODOC
+     * @param key {var} TODOC
      * @return {var} TODOC
      * @throws TODOC
      */
-    get : function(name)
+    get : function(key)
     {
-      if (typeof this.__variants[name] !== "undefined") {
-        return this.__variants[name].value;
+      if (this.__variants[key] != undefined && this.__variants[key].defaultValue != undefined) {
+        return this.__variants[key].value || this.__variants[key].defaultValue;
       } else {
-        throw new Error("Variant \"" + name + "\" is not defined");
+        throw new Error("Variant \"" + key + "\" is not defined");
       }
     },
 
+    /**
+     * Import settings from global qxvariants into current environment
+     *
+     * @type static
+     * @name init
+     * @access public
+     * @return {void} 
+     */
+    init : function()
+    {
+      if (window.qxvariants)
+      {
+        for (var key in qxvariants)
+        {
+          if ((key.split(".")).length !== 2) {
+            throw new Error('Malformed settings key "' + key + '". Must be following the schema "namespace.key".');
+          }
+
+          if (!this.__variants[key]) {
+            this.__variants[key] = {};
+          }
+          this.__variants[key].value = qxvariants[key];
+        }
+
+        delete window.qxvariants;
+      }
+    },
+    
     /**
      * TODOC
      *
      * @type static
      * @name select
      * @access public
-     * @param name {var} TODOC
+     * @param key {var} TODOC
      * @param variants {var} TODOC
      * @return {call | var} TODOC
      * @throws TODOC
      */
-    select : function(name, variants)
+    select : function(key, variants)
     {
       // WARINING: all changes to this function must be duplicated in the generator!!
       // modules/variantoptimizer.py (processVariantSelect)
-      if (!this.__isValidObject(this.__variants[name])) {
-        throw new Error("Variant \"" + name + "\" is not defined");
+      if (!this.__isValidObject(this.__variants[key])) {
+        throw new Error("Variant \"" + key + "\" is not defined");
       }
 
       if (typeof variants === "string") {
-        return this.__matchKey(name, variants);
+        return this.__matchKey(key, variants);
       }
       else if (this.__isValidObject(variants))
       {
         for (var key in variants)
         {
-          if (this.__matchKey(name, key)) {
+          if (this.__matchKey(key, key)) {
             return variants[key];
           }
         }
@@ -147,14 +147,14 @@ qx.Clazz.define("qx.core.Variant",
           return variants["none"];
         }
 
-        throw new Error("No match for variant \"" + name + "\" found, and no default (\"none\") given");
+        throw new Error("No match for variant \"" + key + "\" found, and no default (\"none\") given");
       }
       else
       {
         throw new Error("the second parameter must be a map or a string!");
       }
     },
-
+    
     /**
      * TODOC
      *
@@ -240,5 +240,6 @@ qx.Clazz.define("qx.core.Variant",
 /**
  * enable debugging
  */
+qx.core.Variant.init();
 qx.core.Variant.define("qx.debug", [ "on", "off" ]);
 qx.core.Variant.set("qx.debug", "on");

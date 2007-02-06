@@ -32,7 +32,7 @@ qx.Clazz.define("qx.core.Settings",
   statics :
   {
     /** Define the defaults */
-    data : {},
+    __settings : {},
 
     /**
      * Get setting by key
@@ -48,12 +48,12 @@ qx.Clazz.define("qx.core.Settings",
     {
       if (qx.core.Variant.select("qx.debug", "on"))
       {
-        if (typeof this.data[key] === "undefined") {
+        if (typeof this.__settings[key] === "undefined") {
           throw new Error('Setting key "' + key + '" does not exist!');
         }
       }
 
-      return this.data[key];
+      return this.__settings[key];
     },
 
     /**
@@ -77,8 +77,8 @@ qx.Clazz.define("qx.core.Settings",
         }
       }
 
-      if (typeof this.data[key] === "undefined") {
-        this.data[key] = value;
+      if (typeof this.__settings[key] === "undefined") {
+        this.__settings[key] = value;
       }
     },
 
@@ -89,7 +89,6 @@ qx.Clazz.define("qx.core.Settings",
      * @name init
      * @access public
      * @return {void}
-     * @throws TODOC
      */
     init : function()
     {
@@ -97,15 +96,10 @@ qx.Clazz.define("qx.core.Settings",
       {
         for (var key in qxsettings)
         {
-          if (qx.core.Variant.select("qx.debug", "on"))
-          {
-
-            if ((key.split(".")).length !== 2) {
-              throw new Error('Malformed settings key "' + key + '". Must be following the schema "namespace.key".');
-            }
-          };
-
-          this.data[key] = qxsettings[key];
+          if ((key.split(".")).length !== 2) {
+            throw new Error('Malformed settings key "' + key + '". Must be following the schema "namespace.key".');
+          }
+          this.__settings[key] = qxsettings[key];
         }
 
         delete window.qxsettings;
