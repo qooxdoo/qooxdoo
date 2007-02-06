@@ -131,7 +131,7 @@ qx.Clazz.define("qx.Clazz",
     define : function(name, config)
     {
       var key, value;
-      var extend, implement, include, settings, construct, statics, properties, members;
+      var extend, implement, include, settings, variants, construct, statics, properties, members;
 
 
 
@@ -177,6 +177,10 @@ qx.Clazz.define("qx.Clazz",
 
           case "settings":
             settings = value;
+            break;
+
+          case "variants":
+            variants = value;
             break;
 
           case "construct":
@@ -266,6 +270,33 @@ qx.Clazz.define("qx.Clazz",
           }
 
           qx.core.Settings.set(key, settings[key]);
+        }
+      }
+
+
+
+
+
+
+
+      /*
+      ---------------------------------------------------------------------------
+        Variants
+      ---------------------------------------------------------------------------
+      */
+
+      if (variants)
+      {
+        for (var key in variants)
+        {
+          if (qx.core.Variant.select("qx.debug", "on"))
+          {
+            if (key.substr(0, key.indexOf(".")) != name.substr(0, name.indexOf("."))) {
+              throw new Error('Forbidden setting "' + key + '" found in "' + name + '". It forbidden to define a default setting for an external namespace!');
+            }
+          }
+
+          qx.core.Variants.set(key, variants[key]);
         }
       }
 
