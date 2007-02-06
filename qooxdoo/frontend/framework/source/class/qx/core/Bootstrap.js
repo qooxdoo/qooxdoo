@@ -29,7 +29,11 @@
 /**
  * Create namespace
  */
-window.qx = {};
+window.qx = {
+	core: {
+	}
+};
+
 
 
 /**
@@ -38,7 +42,7 @@ window.qx = {};
 qx.Clazz =
 {
   define : function(name, config) {
-    qx.Clazz = config.statics;
+		eval(name + "= config.statics");
   }
 };
 
@@ -46,4 +50,6 @@ qx.Clazz =
 /**
  * Bootstrap helper class
  */
-qx.Clazz.define("qx.core.Bootstrap");
+qx.Clazz.define("qx.core.Bootstrap", {
+	statics: {}
+});
