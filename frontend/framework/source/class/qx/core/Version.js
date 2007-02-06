@@ -84,7 +84,7 @@ qx.Class._init = function()
 {
   var vClass = qx.core.Version;
 
-  var vSplit = qx.VERSION.split(" ");
+  var vSplit = qx.core.Settings.get("qx.version").split(" ");
   var vVersion = vSplit.shift();
   var vInfos = vSplit.join(" ");
 
