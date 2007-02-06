@@ -247,10 +247,7 @@ qx.Clazz.define("qx.Clazz",
       qx.Clazz.registry[name] = obj;
 
       // Compatibility to old properties etc.
-      /** {var} TODOC */
       qx.Class = obj;
-
-      /** {var} TODOC */
       qx.Proto = null;
 
 
@@ -459,7 +456,6 @@ qx.Clazz.define("qx.Clazz",
             if (superprotoobj[key])
             {
               // Configure extend (named base here)
-              /** {var} TODOC */
               value.base = superprotoobj[key];
             }
 
