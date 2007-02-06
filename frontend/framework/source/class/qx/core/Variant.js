@@ -58,6 +58,8 @@ qx.Clazz.define("qx.core.Variant",
 
       if (!this.__variants[key]) {
         this.__variants[key] = {};
+      } else if (this.__variants[key].defaultValue !== undefined) {
+        throw new Error('Variant "' + key + '" is already defined!');
       }
 
       this.__variants[key].allowedValues = allowedValues;
