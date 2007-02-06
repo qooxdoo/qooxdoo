@@ -35,13 +35,13 @@ function () {
 
   this.setEdge(0);
 
-  this._titlePrefix = qx.core.Settings.get("apiviewer.title") + " API Documentation";
+  this._titlePrefix = qx.core.Setting.get("apiviewer.title") + " API Documentation";
   document.title = this._titlePrefix;
 
   // create header
   var header = new qx.ui.embed.HtmlEmbed(
     "<h1>" +
-    "<span>" + qx.core.Settings.get("apiviewer.title") + "</span>"+
+    "<span>" + qx.core.Setting.get("apiviewer.title") + "</span>"+
     " API Documentation"+
     "</h1>" +
     "<div id='qxversion'>qooxdoo " + qx.core.Version.toString() + "</div>"
@@ -110,8 +110,8 @@ function () {
 qx.OO.addProperty({ name:"docTree", type:"object" });
 
 
-qx.core.Settings.define("apiviewer.title", "qooxdoo");
-qx.core.Settings.define("apiviewer.initialTreeDepth", 1);
+qx.core.Setting.define("apiviewer.title", "qooxdoo");
+qx.core.Setting.define("apiviewer.initialTreeDepth", 1);
 
 
 // property checker
@@ -148,7 +148,7 @@ qx.Proto.load = function(url)
       }, 0);
     }
 
-    this._detailLoader.setHtml('<h1><div class="please">' + qx.core.Settings.get("apiviewer.title") +
+    this._detailLoader.setHtml('<h1><div class="please">' + qx.core.Setting.get("apiviewer.title") +
         '</div>API Documentation</h1>');
 
   }, this);
@@ -219,7 +219,7 @@ qx.Proto._fillPackageNode = function(treeNode, docNode, depth) {
       this._fillPackageNode(packageTreeNode, packageDocNode, depth+1);
 
       // Open the package node if it has child packages
-      if (depth < qx.core.Settings.get("apiviewer.initialTreeDepth") && TreeUtil.getChild(packageDocNode, "packages")) {
+      if (depth < qx.core.Setting.get("apiviewer.initialTreeDepth") && TreeUtil.getChild(packageDocNode, "packages")) {
         packageTreeNode.open();
       }
 

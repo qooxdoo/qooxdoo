@@ -406,7 +406,7 @@ qx.Proto.getResponseContent = function()
   {
     if (qx.core.Variant.select("qx.debug", "on"))
     {
-      if (qx.core.Settings.get("qx.ioRemoteDebug")) {
+      if (qx.core.Setting.get("qx.ioRemoteDebug")) {
         this.warn("Transfer not complete, ignoring content!");
       }
     }
@@ -416,7 +416,7 @@ qx.Proto.getResponseContent = function()
 
   if (qx.core.Variant.select("qx.debug", "on"))
   {
-    if (qx.core.Settings.get("qx.ioRemoteDebug")) {
+    if (qx.core.Setting.get("qx.ioRemoteDebug")) {
       this.debug("Returning content for responseType: " + this.getResponseType());
     }
   }

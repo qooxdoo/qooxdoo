@@ -52,7 +52,7 @@ function(vRequest)
 ---------------------------------------------------------------------------
 */
 
-qx.core.Settings.define("qx.ioRemoteDebug", false);
+qx.core.Setting.define("qx.ioRemoteDebug", false);
 
 
 
@@ -193,7 +193,7 @@ qx.io.remote.Exchange.wasSuccessful = function(vStatusCode, vReadyState, vIsLoca
       case -1:  // Not Available (OK for readystates: MSXML<4=1-3, MSXML>3=1-2, Gecko=1)
         if (qx.core.Variant.select("qx.debug", "on"))
         {
-          if (qx.core.Settings.get("qx.ioRemoteDebug") && vReadyState > 3) {
+          if (qx.core.Setting.get("qx.ioRemoteDebug") && vReadyState > 3) {
             qx.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Failed with statuscode: -1 at readyState " + vReadyState);
           }
         }
@@ -217,7 +217,7 @@ qx.io.remote.Exchange.wasSuccessful = function(vStatusCode, vReadyState, vIsLoca
       case 206: // Partial Content
         if (qx.core.Variant.select("qx.debug", "on"))
         {
-          if (qx.core.Settings.get("qx.ioRemoteDebug") && vReadyState === 4) {
+          if (qx.core.Setting.get("qx.ioRemoteDebug") && vReadyState === 4) {
             qx.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Failed with statuscode: 206 (Partial content while being complete!)");
           }
         }
@@ -254,7 +254,7 @@ qx.io.remote.Exchange.wasSuccessful = function(vStatusCode, vReadyState, vIsLoca
       case 505: // HTTP Version not supported
         if (qx.core.Variant.select("qx.debug", "on"))
         {
-          if (qx.core.Settings.get("qx.ioRemoteDebug")) {
+          if (qx.core.Setting.get("qx.ioRemoteDebug")) {
             qx.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Failed with typical HTTP statuscode: " + vStatusCode);
           }
         }
@@ -275,7 +275,7 @@ qx.io.remote.Exchange.wasSuccessful = function(vStatusCode, vReadyState, vIsLoca
       case 13030:
         if (qx.core.Variant.select("qx.debug", "on"))
         {
-          if (qx.core.Settings.get("qx.ioRemoteDebug")) {
+          if (qx.core.Setting.get("qx.ioRemoteDebug")) {
             qx.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Failed with MSHTML specific HTTP statuscode: " + vStatusCode);
           }
         }
@@ -453,7 +453,7 @@ qx.Proto.send = function()
       {
         if (qx.core.Variant.select("qx.debug", "on"))
         {
-          if (qx.core.Settings.get("qx.ioRemoteDebug")) {
+          if (qx.core.Setting.get("qx.ioRemoteDebug")) {
             this.debug("Using implementation: " + vTransportImpl.classname);
           }
         }
@@ -487,7 +487,7 @@ qx.Proto.abort = function()
   {
     if (qx.core.Variant.select("qx.debug", "on"))
     {
-      if (qx.core.Settings.get("qx.ioRemoteDebug")) {
+      if (qx.core.Setting.get("qx.ioRemoteDebug")) {
         this.debug("Abort: implementation " + vImplementation.toHashCode());
       }
     }
@@ -498,7 +498,7 @@ qx.Proto.abort = function()
   {
     if (qx.core.Variant.select("qx.debug", "on"))
     {
-      if (qx.core.Settings.get("qx.ioRemoteDebug")) {
+      if (qx.core.Setting.get("qx.ioRemoteDebug")) {
         this.debug("Abort: forcing state to be aborted");
       }
     }
@@ -625,7 +625,7 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
 
   if (qx.core.Variant.select("qx.debug", "on"))
   {
-    if (qx.core.Settings.get("qx.ioRemoteDebug")) {
+    if (qx.core.Setting.get("qx.ioRemoteDebug")) {
       this.debug("State: " + propOldValue + " => " + propValue);
     }
   }
@@ -666,7 +666,7 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
           // Nope.  Change COMPLETED to FAILED.
           if (qx.core.Variant.select("qx.debug", "on"))
           {
-            if (qx.core.Settings.get("qx.ioRemoteDebug")) {
+            if (qx.core.Setting.get("qx.ioRemoteDebug")) {
               this.debug("Altered State: " + propValue + " => failed");
             }
           }

@@ -83,8 +83,8 @@ qx.Class.parse = function (text) {};
 ---------------------------------------------------------------------------
 */
 
-qx.core.Settings.define("qx.jsonEncodeUndefined", true);
-qx.core.Settings.define("qx.jsonDebugging", false);
+qx.core.Setting.define("qx.jsonEncodeUndefined", true);
+qx.core.Setting.define("qx.jsonDebugging", false);
 
 
 
@@ -272,7 +272,7 @@ qx.io.Json = function ()
 
       // AJ, DJL --
       undefined: function(x) {
-        if (qx.core.Settings.get("qx.jsonEncodeUndefined"))
+        if (qx.core.Setting.get("qx.jsonEncodeUndefined"))
           return 'null';
       }
       // -- AJ, DJL
@@ -308,7 +308,7 @@ qx.io.Json = function ()
       }
 
       // DJL --
-      if (qx.core.Settings.get("qx.jsonDebugging")) {
+      if (qx.core.Setting.get("qx.jsonDebugging")) {
         var logger = qx.log.Logger.getClassLogger(qx.core.Object);
         logger.debug("JSON request: " + ret);
       }
@@ -376,7 +376,7 @@ qx.io.Json = function ()
 qx.io.Json.parseQx = function(text) {
   /* Convert the result text into a result primitive or object */
 
-  if (qx.core.Settings.get("qx.jsonDebugging")) {
+  if (qx.core.Setting.get("qx.jsonDebugging")) {
   var logger = qx.log.Logger.getClassLogger(qx.core.Object);
   logger.debug("JSON response: " + text);
   }

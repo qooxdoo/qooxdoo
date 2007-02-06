@@ -61,9 +61,9 @@ function()
   chose to receive the qooxdoo code under. For more information, please
   see the LICENSE file in the project's top-level directory.
  */
-qx.core.Settings.define("qx.iconTheme", "qx.theme.icon.Nuvola");
+qx.core.Setting.define("qx.iconTheme", "qx.theme.icon.Nuvola");
 
-qx.core.Settings.define("qx.widgetTheme", "qx.theme.widget.Windows");
+qx.core.Setting.define("qx.widgetTheme", "qx.theme.widget.Windows");
 
 
 
@@ -94,7 +94,7 @@ qx.Proto.registerIconTheme = function(vThemeClass)
 {
   this._iconThemes[vThemeClass.classname] = vThemeClass;
 
-  if (vThemeClass.classname == qx.core.Settings.get("qx.iconTheme")) {
+  if (vThemeClass.classname == qx.core.Setting.get("qx.iconTheme")) {
     this.setIconTheme(vThemeClass.getInstance());
   }
 }
@@ -103,7 +103,7 @@ qx.Proto.registerWidgetTheme = function(vThemeClass)
 {
   this._widgetThemes[vThemeClass.classname] = vThemeClass;
 
-  if (vThemeClass.classname == qx.core.Settings.get("qx.widgetTheme")) {
+  if (vThemeClass.classname == qx.core.Setting.get("qx.widgetTheme")) {
     this.setWidgetTheme(vThemeClass.getInstance());
   }
 }

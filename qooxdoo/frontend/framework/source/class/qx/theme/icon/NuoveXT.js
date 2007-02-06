@@ -37,7 +37,7 @@ function()
 {
   qx.renderer.theme.IconTheme.call(this, "NuoveXT");
 
-  this.uri = qx.core.Settings.get("qx.resourceUri") + "/icon/NuoveXT";
+  this.uri = qx.core.Setting.get("qx.resourceUri") + "/icon/NuoveXT";
 });
 
 
