@@ -29,11 +29,9 @@
 /**
  * Create namespace
  */
-window.qx = {
-	core: {
-	}
+qx = {
+  core : {}
 };
-
 
 
 /**
@@ -41,8 +39,22 @@ window.qx = {
  */
 qx.Clazz =
 {
-  define : function(name, config) {
-		eval(name + "= config.statics");
+  define : function(name, config)
+  {
+    switch(name)
+    {
+      case "qx.core.Bootstrap":
+        qx.core.Bootstrap = config.statics;
+        break;
+
+      case "qx.core.Variant":
+        qx.core.Variant = config.statics;
+        break;
+
+      case "qx.core.Settings":
+        qx.core.Settings = config.statics;
+        break;
+    }
   }
 };
 
