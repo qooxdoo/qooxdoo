@@ -296,7 +296,7 @@ qx.Clazz.define("qx.Clazz",
             }
           }
 
-          qx.core.Settings.define(key, settings[key]);
+          qx.core.Setting.define(key, settings[key]);
         }
       }
 
@@ -321,7 +321,7 @@ qx.Clazz.define("qx.Clazz",
             }
           }
 
-          qx.core.Variants.define(key, variants[key].allowedValues, variants[key].defaultValue);
+          qx.core.Variant.define(key, variants[key].allowedValues, variants[key].defaultValue);
         }
       }
 
