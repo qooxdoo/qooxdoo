@@ -28,25 +28,22 @@ qx.Clazz.define("qx.Interface",
 {
   statics :
   {
-    /**
-     * Registers all defined interfaces
-     */
+    /** Registers all defined interfaces */
     registry : {},
-
 
     /**
      * Interface config
-     *
+     * 
      * Example:
      * <pre>
      * qx.Interface.define("name",
      * {
      *   extend: [SuperInterfaces],
-     *
+     * 
      *   statics: {
      *     PI : 3.14
      *   }
-     *
+     * 
      *   members:
      *   {
      *     meth1: function() {},
@@ -55,9 +52,12 @@ qx.Clazz.define("qx.Interface",
      * });
      * </pre>
      *
+     * @type static
+     * @name define
+     * @access public
      * @param name {String} name of the interface
-     * @param config {Map ? null} config structure
-     * @return {void}
+     * @param config {Map} config structure
+     * @return {void} 
      * @throws TODOC
      */
     define : function(name, config)
@@ -87,7 +87,7 @@ qx.Clazz.define("qx.Interface",
           case "extend":
             // Normalize to Array
             if (!(value instanceof Array)) {
-              value = [value];
+              value = [ value ];
             }
 
             extend = value;
@@ -105,7 +105,6 @@ qx.Clazz.define("qx.Interface",
             throw new Error("The configuration key '" + key + "' in class '" + name + "' is not allowed!");
         }
       }
-
 
 
 
@@ -131,8 +130,6 @@ qx.Clazz.define("qx.Interface",
       obj.blacklist = blacklist;
       obj.statics = statics;
       obj.members = members;
-
-
 
 
 
@@ -165,7 +162,6 @@ qx.Clazz.define("qx.Interface",
 
 
 
-
       /*
       ---------------------------------------------------------------------------
         Interfaces to extend from
@@ -180,12 +176,14 @@ qx.Clazz.define("qx.Interface",
         {
           // Combine blacklist
           eblacklist = extend[i].blacklist;
+
           for (key in eblacklist) {
             blacklist[key] = true;
           }
 
           // Copy members (instance verification)
           emembers = extend[i].members;
+
           for (key in emembers) {
             members[key] = emembers[key];
           }
@@ -220,10 +218,12 @@ qx.Clazz.define("qx.Interface",
       }
     },
 
-
     /**
      * Determine if Interface exists
      *
+     * @type static
+     * @name isDefined
+     * @access public
      * @param name {String} Interface name to check
      * @return {Boolean} true if Interface exists
      */

@@ -31,13 +31,18 @@ qx.Clazz.define("qx.core.Settings",
 {
   statics :
   {
-    /**
-     * Define the defaults
-     */
+    /** Define the defaults */
     data : {},
 
     /**
      * Get setting by key
+     *
+     * @type static
+     * @name get
+     * @access public
+     * @param key {var} TODOC
+     * @return {var} TODOC
+     * @throws TODOC
      */
     get : function(key)
     {
@@ -55,8 +60,13 @@ qx.Clazz.define("qx.core.Settings",
      * Set a value if not yet defined. This is only
      * useful to setup defaults.
      *
+     * @type static
+     * @name set
+     * @access public
      * @param key {String} Unique key
      * @param value {var} Any value supported by JavaScript
+     * @return {void} 
+     * @throws TODOC
      */
     set : function(key, value)
     {
@@ -74,6 +84,12 @@ qx.Clazz.define("qx.core.Settings",
 
     /**
      * Import settings from global qxsettings into current environment
+     *
+     * @type static
+     * @name init
+     * @access public
+     * @return {void} 
+     * @throws TODOC
      */
     init : function()
     {
@@ -81,12 +97,13 @@ qx.Clazz.define("qx.core.Settings",
       {
         for (var key in qxsettings)
         {
-          //if (qx.core.Variant.select("qx.debug", "on"))
+          // if (qx.core.Variant.select("qx.debug", "on"))
           {
+
             if ((key.split(".")).length !== 2) {
               throw new Error('Malformed settings key "' + key + '". Must be following the schema "namespace.key".');
             }
-          }
+          };
 
           this.data[key] = qxsettings[key];
         }
