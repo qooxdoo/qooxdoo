@@ -196,7 +196,7 @@ qx.Class._requestFinished = function(id, content) {
   var vInstance = qx.io.remote.ScriptTransport._instanceRegistry[id];
   if (vInstance == null)
   {
-    if (qx.DEBUG)
+    if (qx.core.Variant.select("qx.debug", "on"))
     {
       if (qx.core.Settings.get("qx.ioRemoteDebug")) {
         this.warn("Request finished for an unknown instance (probably aborted or timed out before)");
@@ -315,7 +315,7 @@ qx.Proto.getResponseContent = function()
 {
   if (this.getState() !== "completed")
   {
-    if (qx.DEBUG)
+    if (qx.core.Variant.select("qx.debug", "on"))
     {
       if (qx.core.Settings.get("qx.ioRemoteDebug")) {
         this.warn("Transfer not complete, ignoring content!");
@@ -325,7 +325,7 @@ qx.Proto.getResponseContent = function()
     return null;
   }
 
-  if (qx.DEBUG)
+  if (qx.core.Variant.select("qx.debug", "on"))
   {
     if (qx.core.Settings.get("qx.ioRemoteDebug")) {
       this.debug("Returning content for responseType: " + this.getResponseType());

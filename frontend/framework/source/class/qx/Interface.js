@@ -143,7 +143,7 @@ qx.Clazz.define("qx.Interface",
       ---------------------------------------------------------------------------
       */
 
-      if (qx.DEBUG)
+      if (qx.core.Variant.select("qx.debug", "on"))
       {
         if (statics)
         {

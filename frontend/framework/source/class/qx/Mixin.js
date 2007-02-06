@@ -147,7 +147,7 @@ qx.Clazz.define("qx.Mixin",
       {
         var emembers, eproperties;
 
-        if (qx.DEBUG) {
+        if (qx.core.Variant.select("qx.debug", "on")) {
           arguments.callee.statics.compatible(extend, 'extend list in Mixin "' + name + '".');
         }
 
