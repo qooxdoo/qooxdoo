@@ -78,7 +78,7 @@ function()
 
   // Init Resize Helper
   /*
-  if (qx.core.Client.getInstance().isGecko())
+  if (qx.core.Variant.select("qx.client", "gecko"))
   {
     var o = this;
     this._resizeHelper = window.setInterval(function() { o._onresizehelper() }, 100);

@@ -258,7 +258,7 @@ qx.Proto.attachEventTypes = function(vEventTypes, vFunctionPointer)
     // I think they will fix this sometimes, and we should add a version check here.
     // Internet Explorer has problems to use 'window', so there we use the 'body' element
     // as previously.
-    var el = qx.core.Client.getInstance().isGecko() ? window : document.body;
+    var el = qx.core.Variant.select("qx.client", "gecko") ? window : document.body;
 
     for (var i=0, l=vEventTypes.length; i<l; i++) {
       qx.html.EventRegistration.addEventListener(el, vEventTypes[i], vFunctionPointer);
@@ -274,7 +274,7 @@ qx.Proto.detachEventTypes = function(vEventTypes, vFunctionPointer)
 {
   try
   {
-    var el = qx.core.Client.getInstance().isGecko() ? window : document.body;
+    var el = qx.core.Variant.select("qx.client", "gecko") ? window : document.body;
 
     for (var i=0, l=vEventTypes.length; i<l; i++) {
       qx.html.EventRegistration.removeEventListener(el, vEventTypes[i], vFunctionPointer);

@@ -67,7 +67,7 @@ qx.OO.defineClass("qx.event.handler.KeyEventHandler", qx.core.Target, function()
 /** attach the key event handler to the DOM events */
 qx.Proto._attachEvents = function()
 {
-  var el = qx.core.Client.getInstance().isGecko() ? window : document.body;
+  var el = qx.core.Variant.select("qx.client", "gecko") ? window : document.body;
 
   qx.html.EventRegistration.addEventListener(el, "keypress", this.__onkeypress);
   qx.html.EventRegistration.addEventListener(el, "keyup", this.__onkeyupdown);
@@ -77,7 +77,7 @@ qx.Proto._attachEvents = function()
 /** detach the key event handler from the DOM events */
 qx.Proto._detachEvents = function()
 {
-  var el = qx.core.Client.getInstance().isGecko() ? window : document.body;
+  var el = qx.core.Variant.select("qx.client", "gecko") ? window : document.body;
 
   // Unregister dom events
   qx.html.EventRegistration.removeEventListener(el, "keypress", this.__onkeypress);

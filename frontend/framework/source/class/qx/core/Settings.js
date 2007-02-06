@@ -38,7 +38,7 @@ qx.Clazz.define("qx.core.Settings",
      */
     get : function(key)
     {
-      if (qx.DEBUG)
+      if (qx.core.Variant.select("qx.debug", "on"))
       {
         if (typeof this.data[key] === "undefined") {
           throw new Error('Setting key "' + key + '" does not exist!');
@@ -57,7 +57,7 @@ qx.Clazz.define("qx.core.Settings",
      */
     set : function(key, value)
     {
-      if (qx.DEBUG)
+      if (qx.core.Variant.select("qx.debug", "on"))
       {
         if ((key.split(".")).length !== 2) {
           throw new Error('Malformed settings key "' + key + '". Must be following the schema "namespace.key".');
@@ -78,7 +78,7 @@ qx.Clazz.define("qx.core.Settings",
       {
         for (var key in qxsettings)
         {
-          if (qx.DEBUG)
+          //if (qx.core.Variant.select("qx.debug", "on"))
           {
             if ((key.split(".")).length !== 2) {
               throw new Error('Malformed settings key "' + key + '". Must be following the schema "namespace.key".');

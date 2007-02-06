@@ -615,7 +615,7 @@ qx.ui.core.Widget.flushGlobalQueues = function()
   delete qx.ui.core.Widget._inFlushGlobalQueues;
 }
 
-if(qx.DEBUG)
+if (qx.core.Variant.select("qx.debug", "on"))
 {
   if (qx.core.Settings.get("qx.widgetQueueDebugging"))
   {

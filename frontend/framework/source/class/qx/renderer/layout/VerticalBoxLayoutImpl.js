@@ -815,13 +815,16 @@ qx.Proto.layoutChild_locationX = function(vChild, vJobs)
   var vWidget = this.getWidget();
 
   // special stretching support
-  if (qx.core.Client.getInstance().isGecko() && vChild.getAllowStretchX() && vWidget.getStretchChildrenOrthogonalAxis() && vChild._computedWidthTypeNull)
+  if (qx.core.Variant.select("qx.client", "gecko"))
   {
-    vChild._applyRuntimeLeft(vWidget.getPaddingLeft() || 0);
-    vChild._applyRuntimeRight(vWidget.getPaddingRight() || 0);
-
-    return;
-  }
+    if (vChild.getAllowStretchX() && vWidget.getStretchChildrenOrthogonalAxis() && vChild._computedWidthTypeNull)
+	  {
+	    vChild._applyRuntimeLeft(vWidget.getPaddingLeft() || 0);
+	    vChild._applyRuntimeRight(vWidget.getPaddingRight() || 0);
+	
+	    return;
+	  }
+	}
 
   // priority to childs internal alignment
   var vAlign = vChild.getHorizontalAlign() || vWidget.getHorizontalChildrenAlign();

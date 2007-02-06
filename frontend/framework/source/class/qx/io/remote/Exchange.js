@@ -191,7 +191,7 @@ qx.io.remote.Exchange.wasSuccessful = function(vStatusCode, vReadyState, vIsLoca
     switch(vStatusCode)
     {
       case -1:  // Not Available (OK for readystates: MSXML<4=1-3, MSXML>3=1-2, Gecko=1)
-        if (qx.DEBUG)
+        if (qx.core.Variant.select("qx.debug", "on"))
         {
           if (qx.core.Settings.get("qx.ioRemoteDebug") && vReadyState > 3) {
             qx.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Failed with statuscode: -1 at readyState " + vReadyState);
@@ -215,7 +215,7 @@ qx.io.remote.Exchange.wasSuccessful = function(vStatusCode, vReadyState, vIsLoca
 
 
       case 206: // Partial Content
-        if (qx.DEBUG)
+        if (qx.core.Variant.select("qx.debug", "on"))
         {
           if (qx.core.Settings.get("qx.ioRemoteDebug") && vReadyState === 4) {
             qx.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Failed with statuscode: 206 (Partial content while being complete!)");
@@ -252,7 +252,7 @@ qx.io.remote.Exchange.wasSuccessful = function(vStatusCode, vReadyState, vIsLoca
       case 503: // Out of Resources
       case 504: // Gateway Time-Out
       case 505: // HTTP Version not supported
-        if (qx.DEBUG)
+        if (qx.core.Variant.select("qx.debug", "on"))
         {
           if (qx.core.Settings.get("qx.ioRemoteDebug")) {
             qx.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Failed with typical HTTP statuscode: " + vStatusCode);
@@ -273,7 +273,7 @@ qx.io.remote.Exchange.wasSuccessful = function(vStatusCode, vReadyState, vIsLoca
       case 12152:
       // See above comments for variable status.
       case 13030:
-        if (qx.DEBUG)
+        if (qx.core.Variant.select("qx.debug", "on"))
         {
           if (qx.core.Settings.get("qx.ioRemoteDebug")) {
             qx.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Failed with MSHTML specific HTTP statuscode: " + vStatusCode);
@@ -451,7 +451,7 @@ qx.Proto.send = function()
 
       try
       {
-        if (qx.DEBUG)
+        if (qx.core.Variant.select("qx.debug", "on"))
         {
           if (qx.core.Settings.get("qx.ioRemoteDebug")) {
             this.debug("Using implementation: " + vTransportImpl.classname);
@@ -485,7 +485,7 @@ qx.Proto.abort = function()
 
   if (vImplementation)
   {
-    if (qx.DEBUG)
+    if (qx.core.Variant.select("qx.debug", "on"))
     {
       if (qx.core.Settings.get("qx.ioRemoteDebug")) {
         this.debug("Abort: implementation " + vImplementation.toHashCode());
@@ -496,7 +496,7 @@ qx.Proto.abort = function()
   }
   else
   {
-    if (qx.DEBUG)
+    if (qx.core.Variant.select("qx.debug", "on"))
     {
       if (qx.core.Settings.get("qx.ioRemoteDebug")) {
         this.debug("Abort: forcing state to be aborted");
@@ -623,7 +623,7 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
 {
   var vRequest = this.getRequest();
 
-  if (qx.DEBUG)
+  if (qx.core.Variant.select("qx.debug", "on"))
   {
     if (qx.core.Settings.get("qx.ioRemoteDebug")) {
       this.debug("State: " + propOldValue + " => " + propValue);
@@ -664,7 +664,7 @@ qx.Proto._modifyState = function(propValue, propOldValue, propData)
          */
         if (vContent === null) {
           // Nope.  Change COMPLETED to FAILED.
-          if (qx.DEBUG)
+          if (qx.core.Variant.select("qx.debug", "on"))
           {
             if (qx.core.Settings.get("qx.ioRemoteDebug")) {
               this.debug("Altered State: " + propValue + " => failed");
