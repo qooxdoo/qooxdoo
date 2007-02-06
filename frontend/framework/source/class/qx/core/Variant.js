@@ -48,8 +48,6 @@ qx.Clazz.define("qx.core.Variant",
      */
     define : function(key, allowedValues, defaultValue)
     {
-      console.log("Define Variant: " + key + "=" + defaultValue);
-
       if (!this.__isValidArray(allowedValues)) {
         throw new Error('Allowed values of variant "' + key + '" must be defined!');
       }
