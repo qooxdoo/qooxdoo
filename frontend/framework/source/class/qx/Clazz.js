@@ -54,7 +54,7 @@ qx.Clazz.define("qx.Clazz",
       var parent = window;
       var part = splits[0];
 
-      for (var i=0, l=len - 1; i<l; i++)
+      for (var i=0, l=len-1; i<l; i++)
       {
         if (!parent[part]) {
           parent[part] = {};
@@ -73,7 +73,7 @@ qx.Clazz.define("qx.Clazz",
 
     /**
      * Class config
-     * 
+     *
      * Example:
      * <pre><code>
      * qx.Clazz.define("name",
@@ -81,30 +81,30 @@ qx.Clazz.define("qx.Clazz",
      *   extend: Object, // superclass
      *   implement: [Interfaces],
      *   include : [Mixins],
-     * 
+     *
      *   statics:
      *   {
      *     CONSTANT : 3.141,
-     * 
+     *
      *     publicMethod: function() {},
      *     _protectedMethod: function() {},
      *     __privateMethod: function() {}
      *   },
-     * 
+     *
      *   properties:
      *   {
      *     "tabIndexOld": { type: "number", defaultValue : -1, compat : true }
      *     "tabIndex": { type: "number", init : -1 }
      *   },
-     * 
+     *
      *   members:
      *   {
      *     publicProperty: "foo",
      *     publicMethod: function() {},
-     * 
+     *
      *     _protectedProperty: "bar",
      *     _protectedMethod: function() {},
-     * 
+     *
      *     __privateProperty: "baz",
      *     __privateMethod: function() {}
      *   }
@@ -116,7 +116,21 @@ qx.Clazz.define("qx.Clazz",
      * @access public
      * @param name {String} class name
      * @param config {Map} config structure
-     * @return {void} 
+     * @param config {Map ? null} config structure
+     * @param config.extend {Function ? null} extend class
+     * @param config.implement {Array ? null} list of implement that need to be implemented
+     * @param config.include {Array ? null} list of include to include
+     * @param config.settings {Map ? null} hash of settings for this class
+     * @param config.variants {Map ? null} hash of settings for this class
+     * @param config.construct {Function ? null} constructor method to run on each initialization
+     * @param config.statics {Map ? null} hash of static properties and methods ("class members")
+     * @param config.properties {Map ? null} hash of properties with generated setters and getters
+     * @param config.members {Map ? null} hash of regular properties and methods ("instance members")
+     * @param config.defer {Function ? null} function to be called for post-processing
+     * @param config.abstract {boolean ? false} is abstract class
+     * @param config.singleton {boolean ? false} is singleton class
+     * @param config.events {Array ? null} list of events the class is able to fire
+     * @return {void}
      * @throws TODOC
      */
     define : function(name, config)
@@ -327,20 +341,12 @@ qx.Clazz.define("qx.Clazz",
 
       // Use helper function/class to save the unnecessary constructor call while
       // setting up inheritance. Safari does not support "new Function"
-      /**
-       * TODOC
-       *
-       * @type function
-       * @return {void} 
-       */
       var helper = function() {};
 
-      /** {var} TODOC */
       helper.prototype = extend.prototype;
       var prot = new helper;
 
       // Apply prototype to new helper instance
-      /** {var} TODOC */
       obj.prototype = prot;
 
       // Store names in prototype
@@ -354,11 +360,9 @@ qx.Clazz.define("qx.Clazz",
       obj.constructor = prot.constructor = construct;
 
       // Store base constructor to constructor
-      /** {var} TODOC */
       construct.base = extend;
 
       // Compatibility to old properties etc.
-      /** {var} TODOC */
       qx.Proto = prot;
 
 
@@ -535,7 +539,7 @@ qx.Clazz.define("qx.Clazz",
      * @param target {Clazz} A class previously defined where the stuff should be attached.
      * @param mixin {Mixin} Include all features of this Mixin
      * @param overwrite {Boolean} Overwrite existing functions and properties
-     * @return {void} 
+     * @return {void}
      */
     __mixin : function(target, mixin, overwrite) {},
 
