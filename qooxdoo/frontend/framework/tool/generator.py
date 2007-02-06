@@ -28,7 +28,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "
 
 import config, tokenizer, loader, api, tree, treegenerator, settings, variants, resources
 import filetool, stringoptimizer, optparseext, variableoptimizer, compiler
-import migrator, textutil, graph, logoptimizer
+import migrator, textutil, graph, logoptimizer, variantoptimizer
 
 
 
@@ -369,8 +369,6 @@ def load(options):
       if not fileFound:
         print "    - %s" % fileEntry
 
-
-
   return fileDb, moduleDb
 
 
@@ -590,6 +588,45 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
       print
 
 
+
+
+
+  ######################################################################
+  #  SUPPORT FOR VARIANTS
+  ######################################################################
+
+  if len(options.useVariants) > 0:
+    print
+    print "  VARIANT OPTIMIZATION:"
+    print "----------------------------------------------------------------------------"
+
+    variantMap = {}
+    for variant in options.useVariants:
+      keyValue = variant.split(":")
+      if len(keyValue) != 2:
+        print "  * Error: Variants must be specified as key value pair separated by ':'!"
+        sys.exit(1)
+
+      variantMap[keyValue[0]] = keyValue[1]
+
+    if options.verbose:
+      print "  * Optimizing for variant setup..."
+    else:
+      print "  * Optimizing for variant setup: ",
+
+    for fileId in sortedIncludeList:
+      if options.verbose:
+        print "    - %s" % fileId
+      else:
+        sys.stdout.write(".")
+        sys.stdout.flush()
+
+      if variantoptimizer.search(loader.getTree(fileDb, fileId, options), variantMap, fileId, options.verbose):
+        if options.verbose:
+          print "      - Modified!"
+
+    if not options.verbose:
+      print
 
 
 
