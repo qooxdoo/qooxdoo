@@ -70,6 +70,11 @@ APPLICATION_TEMPLATE_OUTPUT = index.xhtml
 ################################################################################
 
 #
+# Select icon theme
+#
+APPLICATION_THEME_ICON = qx.theme.icon.CrystalClear
+
+#
 # Enable resource filtering in API viewer
 #
 APPLICATION_RESOURCE_FILTER = true
@@ -80,24 +85,10 @@ APPLICATION_RESOURCE_FILTER = true
 APPLICATION_COMPLETE_SOURCE = false
 
 #
-# Disable line breaks
-#
-APPLICATION_LINEBREAKS_BUILD = true
-APPLICATION_LINEBREAKS_SOURCE = true
-
-#
 # qooxdoo.org sync
 #
 APPLICATION_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$(APPLICATION_NAMESPACE)
 
-#
-# browser optimized builds
-#
-#APPLICATION_OPTIMIZE_STRINGS = false
-#APPLICATION_OPTIMIZE_VARIABLES = false
-#APPLICATION_OPTIMIZE_BROWSER = true
-
-#APPLICATION_BUILD_FLAGS = --disable-internal-check --use-variant qx.debug:off
 
 
 ################################################################################
