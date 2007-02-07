@@ -382,9 +382,17 @@ ifneq ($(APPLICATION_LOGLEVEL),)
   COMPUTED_BUILD_OPTIMIZATIONS += --log-level $(APPLICATION_LOGLEVEL)
 endif
 
-ifeq ($(APPLICATION_ENABLE_GUI),false)
-  COMPUTED_BUILD_SETTING += --use-setting qx.initComponent:qx.component.init.BasicInitComponent
+ifeq ($(APPLICATION_ENABLE_GUI),true)
+  COMPUTED_THEME_SETTING = --use-setting qx.colorTheme:$(APPLICATION_THEME_COLOR) \
+    --use-setting qx.iconTheme:$(APPLICATION_THEME_ICON) \
+    --use-setting qx.widgetTheme:$(APPLICATION_THEME_WIDGET) \
+    --use-setting qx.appearanceTheme:$(APPLICATION_THEME_APPEARANCE)
+
+  COMPUTED_SOURCE_SETTING += $(COMPUTED_THEME_SETTING)
+  COMPUTED_BUILD_SETTING += $(COMPUTED_THEME_SETTING)
+else
   COMPUTED_SOURCE_SETTING += --use-setting qx.initComponent:qx.component.init.BasicInitComponent
+  COMPUTED_BUILD_SETTING += --use-setting qx.initComponent:qx.component.init.BasicInitComponent
 endif
 
 ifeq ($(APPLICATION_OPTIMIZE_REMOVE_DEBUG),true)
