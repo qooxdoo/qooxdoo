@@ -655,7 +655,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
         sys.stdout.write(".")
         sys.stdout.flush()
 
-      localMap = loader.getStrings(fileDb, fileId, options)
+      localMap = stringoptimizer.search(loader.getTree(fileDb, fileId, options), options.verbose)
 
       for value in localMap:
         if value in stringMap:
@@ -672,7 +672,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
     stringList = stringoptimizer.sort(stringMap)
 
-    print "  * Found %s strings (used %s times)" % (len(stringMap), counter)
+    print "  * Found %s string instances (%s unique)" % (counter, len(stringMap))
 
     if options.verbose:
       print "  * Replacing strings..."

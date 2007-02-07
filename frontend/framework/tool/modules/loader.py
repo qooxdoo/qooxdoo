@@ -244,42 +244,6 @@ def getTree(fileDb, fileId, options):
 
 
 
-def getStrings(fileDb, fileId, options):
-  if not fileDb[fileId].has_key("strings"):
-    if options.verbose:
-      print "    - Searching for strings in %s..." % fileId
-
-    useCache = False
-    loadCache = False
-
-    fileEntry = fileDb[fileId]
-    filePath = fileEntry["path"]
-
-    if options.cacheDirectory != None:
-      cachePath = os.path.join(filetool.normalize(options.cacheDirectory), fileId + "-strings.pcl")
-      useCache = True
-
-      if not filetool.checkCache(filePath, cachePath, getInternalModTime(options)):
-        loadCache = True
-
-    if loadCache:
-      strings = filetool.readCache(cachePath)
-    else:
-      strings = stringoptimizer.search(getTree(fileDb, fileId, options), options.verbose)
-
-      if useCache:
-        if options.verbose:
-          print "    - Caching strings for %s..." % fileId
-
-        filetool.storeCache(cachePath, strings)
-
-    fileDb[fileId]["strings"] = strings
-
-  return fileDb[fileId]["strings"]
-
-
-
-
 
 
 
