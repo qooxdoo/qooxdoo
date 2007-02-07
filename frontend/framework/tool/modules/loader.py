@@ -278,12 +278,6 @@ def detectDeps(node, optionalDeps, loadtimeDeps, runtimeDeps, fileId, fileDb, in
           assembled = ""
           break
 
-  elif node.type == "constant" and node.get("constantType") == "string":
-    value = "%s" % node.get("value")
-
-    if value != fileId and fileDb.has_key(value) and not value in optionalDeps and not value in runtimeDeps:
-      runtimeDeps.append(value)
-
   elif node.type == "body" and node.parent.type == "function":
     inFunction = True
 
