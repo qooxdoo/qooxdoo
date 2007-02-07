@@ -27,27 +27,38 @@
 # Cleanup targets
 #
 
-
 exec-clean:
-	@echo "  * Cleaning up..."
-	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/$(APPLICATION_SCRIPT_FILENAME)
-	@$(CMD_REMOVE) $(APPLICATION_BUILD_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/$(APPLICATION_SCRIPT_FILENAME)
-	@$(CMD_REMOVE) $(APPLICATION_TRANSLATION_PATH)/messages.pot
-	@$(CMD_REMOVE) $(FRAMEWORK_TRANSLATION_PATH)/messages.pot
+	@echo "  * Cleaning up build..."
+	@$(CMD_REMOVE) $(APPLICATION_BUILD_PATH)/script/$(APPLICATION_SCRIPT_FILENAME)
+
+	@echo "  * Cleaning up source..."
+	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/script/$(APPLICATION_SCRIPT_FILENAME)
+	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/translation/messages.pot
+
+	@echo "  * Cleaning up framework..."
+	@$(CMD_REMOVE) $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot
 
 exec-distclean:
-	@echo "  * Cleaning up..."
-	@$(CMD_FIND) . $(FILES_TEMP) -exec $(CMD_REMOVE) {} \;
-	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)
+	@echo "  * Deleting build..."
 	@$(CMD_REMOVE) $(APPLICATION_BUILD_PATH)
+
+	@echo "  * Deleting api..."
 	@$(CMD_REMOVE) $(APPLICATION_API_PATH)
+
+	@echo "  * Deleting debug..."
 	@$(CMD_REMOVE) $(APPLICATION_DEBUG_PATH)
-	@$(CMD_REMOVE) $(APPLICATION_TRANSLATION_CLASS_PATH)
-	@$(CMD_REMOVE) $(APPLICATION_TRANSLATION_PATH)/messages.pot
-	@$(CMD_REMOVE) $(FRAMEWORK_TRANSLATION_PATH)/messages.pot
+
+	@echo "  * Cleaning up source..."
+	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/script
+	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/translation/messages.pot
+	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/class/$(APPLICATION_NAMESPACE_PATH)/translation
+	@$(CMD_FIND) $(APPLICATION_SOURCE_PATH) $(FILES_TEMP) -exec $(CMD_REMOVE) {} \;
+
+	@echo "  * Cleaning up framework..."
 	@$(CMD_REMOVE) $(FRAMEWORK_CACHE_PATH)
-	@$(CMD_REMOVE) $(FRAMEWORK_LOCALE_CLASS_PATH)
-	@$(CMD_REMOVE) $(FRAMEWORK_TRANSLATION_CLASS_PATH)
+	@$(CMD_REMOVE) $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot
+	@$(CMD_REMOVE) $(FRAMEWORK_SOURCE_PATH)/class/$(FRAMEWORK_NAMESPACE_PATH)/locale/data
+	@$(CMD_REMOVE) $(FRAMEWORK_SOURCE_PATH)/class/$(FRAMEWORK_NAMESPACE_PATH)/locale/translation
 
 
 
@@ -62,10 +73,10 @@ exec-script-source:
 	  $(COMPUTED_CLASS_PATH) \
 	  $(COMPUTED_CLASS_URI) \
 	  $(COMPUTED_SOURCE_SETTING) \
-	  $(COMPUTED_TEMPLATE) \
+	  $(COMPUTED_SOURCE_VARIANT) \
 	  $(COMPUTED_SOURCE_INCLUDE) \
-	  $(COMPUTED_SOURCE_LINEBREAKS) \
-	  $(COMPUTED_SOURCE_USER_FLAGS) \
+	  $(COMPUTED_SOURCE_OPTIONS) \
+	  $(COMPUTED_TEMPLATE) \
 	  --generate-source-script \
 	  --source-script-file $(COMPUTED_SOURCE_SCRIPT_NAME)
 
@@ -76,78 +87,47 @@ exec-script-build:
 	  $(COMPUTED_BUILD_SETTING) \
 	  $(COMPUTED_BUILD_VARIANT) \
 	  $(COMPUTED_BUILD_INCLUDE) \
-	  $(COMPUTED_BUILD_OPTIMIZATIONS) \
-	  $(COMPUTED_BUILD_LINEBREAKS) \
-	  $(COMPUTED_BUILD_USER_FLAGS) \
+	  $(COMPUTED_BUILD_OPTIONS) \
 	  --generate-compiled-script \
 	  --compiled-script-file $(COMPUTED_BUILD_SCRIPT_NAME)
 
-ifeq ($(APPLICATION_OPTIMIZE_BROWSER),true) 
-exec-script-build-opt: exec-browser-optimize
-else
-exec-script-build-opt: exec-none
-endif
 
-exec-browser-optimize: exec-browser-optimize-gecko exec-browser-optimize-opera exec-browser-optimize-mshtml exec-browser-optimize-webkit
+
+
+
+
+
+ifeq ($(APPLICATION_OPTIMIZE_BROWSER),true)
+exec-script-build-opt:
 	@mv $(COMPUTED_BUILD_SCRIPT_NAME) $(COMPUTED_BUILD_SCRIPT_NAME:.js=_all.js)
+
+	@for BROWSER in gecko mshtml webkit opera khtml; do \
+  	$(CMD_GENERATOR) \
+  	  $(COMPUTED_CLASS_PATH) \
+     	$(COMPUTED_BUILD_SETTING) \
+  	  $(COMPUTED_BUILD_VARIANT) \
+  	  $(COMPUTED_BUILD_INCLUDE) \
+  	  $(COMPUTED_BUILD_OPTIONS) \
+  	  --generate-compiled-script \
+  	  --use-variant qx.client:$$BROWSER \
+  	  --compiled-script-file $(COMPUTED_BUILD_SCRIPT_NAME:.js=_$$BROWSER.js) || exit 1; \
+  done
 
 	@cat $(FRAMEWORK_TOOL_PATH)/make/browser_loader.tmpl.js | \
 	  $(CMD_PYTHON) -c "import sys; lines = sys.stdin.readlines(); print ''.join(lines) % {'path': sys.argv[1], 'name': sys.argv[2]}" \
-	    $(APPLICATION_PAGE_TO_TOPLEVEL)/$(APPLICATION_SCRIPT_FOLDERNAME) \
+	    $(APPLICATION_PAGE_TO_TOPLEVEL)/script \
 	    $(APPLICATION_SCRIPT_FILENAME:.js=) \
 	  > $(COMPUTED_BUILD_SCRIPT_NAME)
 
-exec-browser-optimize-gecko:
-	@$(CMD_GENERATOR) \
-   	  $(COMPUTED_BUILD_SETTING) \
-	  $(COMPUTED_BUILD_VARIANT) \
-	  $(COMPUTED_CLASS_PATH) \
-	  $(COMPUTED_BUILD_INCLUDE) \
-	  $(COMPUTED_BUILD_LINEBREAKS) \
-	  $(COMPUTED_BUILD_OPTIMIZATIONS) \
-	  $(COMPUTED_BUILD_USER_FLAGS) \
-	  --generate-compiled-script \
-	  --use-variant qx.client:gecko \
-	  --compiled-script-file $(COMPUTED_BUILD_SCRIPT_NAME:.js=_gecko.js)
+else
 
-exec-browser-optimize-webkit:
-	@$(CMD_GENERATOR) \
-   	  $(COMPUTED_BUILD_SETTING) \
-	  $(COMPUTED_BUILD_VARIANT) \
-	  $(COMPUTED_CLASS_PATH) \
-	  $(COMPUTED_BUILD_INCLUDE) \
-	  $(COMPUTED_BUILD_LINEBREAKS) \
-	  $(COMPUTED_BUILD_OPTIMIZATIONS) \
-	  $(COMPUTED_BUILD_USER_FLAGS) \
-	  --generate-compiled-script \
-	  --use-variant qx.client:webkit \
-	  --compiled-script-file $(COMPUTED_BUILD_SCRIPT_NAME:.js=_webkit.js)
+exec-script-build-opt: exec-none
 
-exec-browser-optimize-mshtml:
-	@$(CMD_GENERATOR) \
-   	  $(COMPUTED_BUILD_SETTING) \
-	  $(COMPUTED_BUILD_VARIANT) \
-	  $(COMPUTED_CLASS_PATH) \
-	  $(COMPUTED_BUILD_INCLUDE) \
-	  $(COMPUTED_BUILD_LINEBREAKS) \
-	  $(COMPUTED_BUILD_OPTIMIZATIONS) \
-	  $(COMPUTED_BUILD_USER_FLAGS) \
-	  --generate-compiled-script \
-	  --use-variant qx.client:mshtml \
-	  --compiled-script-file $(COMPUTED_BUILD_SCRIPT_NAME:.js=_mshtml.js)
+endif
 
-exec-browser-optimize-opera:
-	@$(CMD_GENERATOR) \
-   	  $(COMPUTED_BUILD_SETTING) \
-	  $(COMPUTED_BUILD_VARIANT) \
-	  $(COMPUTED_CLASS_PATH) \
-	  $(COMPUTED_BUILD_INCLUDE) \
-	  $(COMPUTED_BUILD_LINEBREAKS) \
-	  $(COMPUTED_BUILD_OPTIMIZATIONS) \
-	  $(COMPUTED_BUILD_USER_FLAGS) \
-	  --generate-compiled-script \
-	  --use-variant qx.client:opera \
-	  --compiled-script-file $(COMPUTED_BUILD_SCRIPT_NAME:.js=_opera.js)
+
+
+
 
 
 
@@ -219,14 +199,14 @@ exec-framework-localization:
 	@echo "  PREPARING LOCALIZATION"
 	@$(CMD_LINE)
 	@mkdir -p $(FRAMEWORK_CACHE_PATH)
-	@mkdir -p $(FRAMEWORK_LOCALE_CLASS_PATH)
+	@mkdir -p $(FRAMEWORK_SOURCE_PATH)/class/$(FRAMEWORK_NAMESPACE_PATH)/locale/data
 	@echo "  * Processing locales..."
 	@for LOC in $(APPLICATION_LOCALES); do \
 	  echo "    - Locale: $$LOC"; \
 	  mod=0; \
-	  if [ ! -r $(FRAMEWORK_CACHE_PATH)/$$LOC.xml -a -r $(FRAMEWORK_LOCALE_PATH)/$$LOC.xml ]; then \
+	  if [ ! -r $(FRAMEWORK_CACHE_PATH)/$$LOC.xml -a -r $(FRAMEWORK_SOURCE_PATH)/locale/$$LOC.xml ]; then \
 	    echo "      - Copying $$LOC.xml..."; \
-	    cp -f $(FRAMEWORK_LOCALE_PATH)/$$LOC.xml $(FRAMEWORK_CACHE_PATH)/$$LOC.xml; \
+	    cp -f $(FRAMEWORK_SOURCE_PATH)/locale/$$LOC.xml $(FRAMEWORK_CACHE_PATH)/$$LOC.xml; \
 	    mod=1; \
 	  fi; \
 	  if [ ! -r $(FRAMEWORK_CACHE_PATH)/$$LOC.xml ]; then \
@@ -239,9 +219,9 @@ exec-framework-localization:
 		    exit 1; \
 		  fi; \
 	  fi; \
-	  if [ ! -r $(FRAMEWORK_LOCALE_CLASS_PATH)/$$LOC.js -o $$mod -eq 1 ]; then \
+	  if [ ! -r $(FRAMEWORK_SOURCE_PATH)/class/$(FRAMEWORK_NAMESPACE_PATH)/locale/data/$$LOC.js -o $$mod -eq 1 ]; then \
 	    echo "      - Generating $$LOC.js..."; \
-	    $(CMD_CLDR) -o $(FRAMEWORK_LOCALE_CLASS_PATH) $(FRAMEWORK_CACHE_PATH)/$$LOC.xml; \
+	    $(CMD_CLDR) -o $(FRAMEWORK_SOURCE_PATH)/class/$(FRAMEWORK_NAMESPACE_PATH)/locale/data $(FRAMEWORK_CACHE_PATH)/$$LOC.xml; \
 	  fi; \
 	done
 
@@ -254,38 +234,38 @@ exec-framework-translation:
 	@which msginit > /dev/null 2>&1 || (echo "    - Please install gettext tools (msginit)" && exit 1)
 	@which msgmerge > /dev/null 2>&1 || (echo "    - Please install gettext tools (msgmerge)" && exit 1)
 
-	@mkdir -p $(FRAMEWORK_TRANSLATION_PATH)
-	@mkdir -p $(FRAMEWORK_TRANSLATION_CLASS_PATH)
+	@mkdir -p $(FRAMEWORK_SOURCE_PATH)/translation
+	@mkdir -p $(FRAMEWORK_SOURCE_PATH)/class/$(FRAMEWORK_NAMESPACE_PATH)/locale/translation
 
-	@rm -f $(FRAMEWORK_TRANSLATION_PATH)/messages.pot
-	@touch $(FRAMEWORK_TRANSLATION_PATH)/messages.pot
-	@for file in `find $(FRAMEWORK_SOURCE_PATH)/$(FRAMEWORK_CLASS_FOLDERNAME) -name "*.js"`; do \
+	@rm -f $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot
+	@touch $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot
+	@for file in `find $(FRAMEWORK_SOURCE_PATH)/class -name "*.js"`; do \
 	  LC_ALL=C xgettext --language=Java --from-code=UTF-8 \
 	  -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 \
 	  -kManager.trc -kManager.tr -kManager.marktr -kManager.trn:1,2 \
 	  --sort-by-file --add-comments=TRANSLATION \
-	  -o $(FRAMEWORK_TRANSLATION_PATH)/messages.pot \
-	  `find $(FRAMEWORK_SOURCE_PATH)/$(FRAMEWORK_CLASS_FOLDERNAME) -name "*.js"` 2>&1 | grep -v warning; \
+	  -o $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot \
+	  `find $(FRAMEWORK_SOURCE_PATH)/class -name "*.js"` 2>&1 | grep -v warning; \
 	  break; done
 
 	@echo "  * Processing translations..."
 	@for LOC in $(APPLICATION_LOCALES); do \
 	  echo "    - Translation: $$LOC"; \
-	  if [ ! -r $(FRAMEWORK_TRANSLATION_PATH)/$$LOC.po ]; then \
+	  if [ ! -r $(FRAMEWORK_SOURCE_PATH)/translation/$$LOC.po ]; then \
   	    echo "      - Generating initial translation file..."; \
-	    msginit --locale $$LOC --no-translator -i $(FRAMEWORK_TRANSLATION_PATH)/messages.pot -o $(FRAMEWORK_TRANSLATION_PATH)/$$LOC.po > /dev/null 2>&1; \
+	    msginit --locale $$LOC --no-translator -i $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot -o $(FRAMEWORK_SOURCE_PATH)/translation/$$LOC.po > /dev/null 2>&1; \
 	  else \
 	    echo "      - Merging translation file..."; \
-	    msgmerge --update -q $(FRAMEWORK_TRANSLATION_PATH)/$$LOC.po $(FRAMEWORK_TRANSLATION_PATH)/messages.pot; \
+	    msgmerge --update -q $(FRAMEWORK_SOURCE_PATH)/translation/$$LOC.po $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot; \
 	  fi; \
 	  echo "      - Generating catalog..."; \
-	  mkdir -p $(FRAMEWORK_TRANSLATION_PATH); \
+	  mkdir -p $(FRAMEWORK_SOURCE_PATH)/translation; \
 	  $(CMD_MSGFMT) \
-	    -n $(FRAMEWORK_TRANSLATION_CLASS_NAMESPACE) \
-	    -d $(FRAMEWORK_TRANSLATION_CLASS_PATH) \
-	    $(FRAMEWORK_TRANSLATION_PATH)/$$LOC.po; \
+	    -n $(FRAMEWORK_NAMESPACE).locale.translation \
+	    -d $(FRAMEWORK_SOURCE_PATH)/class/$(FRAMEWORK_NAMESPACE_PATH)/locale/translation \
+	    $(FRAMEWORK_SOURCE_PATH)/translation/$$LOC.po; \
 	done
-	@rm -rf $(FRAMEWORK_TRANSLATION_PATH)/*~
+	@rm -rf $(FRAMEWORK_SOURCE_PATH)/translation/*~
 
 exec-application-translation:
 	@echo
@@ -297,38 +277,38 @@ exec-application-translation:
 	@which msginit > /dev/null 2>&1 || (echo "    - Please install gettext tools (msginit)" && exit 1)
 	@which msgmerge > /dev/null 2>&1 || (echo "    - Please install gettext tools (msgmerge)" && exit 1)
 
-	@mkdir -p $(APPLICATION_TRANSLATION_PATH)
-	@mkdir -p $(APPLICATION_TRANSLATION_CLASS_PATH)
+	@mkdir -p $(APPLICATION_SOURCE_PATH)/translation
+	@mkdir -p $(APPLICATION_SOURCE_PATH)/class/$(APPLICATION_NAMESPACE).translation
 
-	@rm -f $(APPLICATION_TRANSLATION_PATH)/messages.pot
-	@touch $(APPLICATION_TRANSLATION_PATH)/messages.pot
-	@for file in `find $(APPLICATION_SOURCE_PATH)/$(APPLICATION_CLASS_FOLDERNAME) -name "*.js"`; do \
+	@rm -f $(APPLICATION_SOURCE_PATH)/translation/messages.pot
+	@touch $(APPLICATION_SOURCE_PATH)/translation/messages.pot
+	@for file in `find $(APPLICATION_SOURCE_PATH)/class -name "*.js"`; do \
 	  LC_ALL=C xgettext --language=Java --from-code=UTF-8 \
 	  -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 \
 	  -kManager.trc -kManager.tr -kManager.marktr -kManager.trn:1,2 \
 	  --sort-by-file --add-comments=TRANSLATION \
-	  -o $(APPLICATION_TRANSLATION_PATH)/messages.pot \
-	  `find $(APPLICATION_SOURCE_PATH)/$(APPLICATION_CLASS_FOLDERNAME) -name "*.js"` 2>&1 | grep -v warning; \
+	  -o $(APPLICATION_SOURCE_PATH)/translation/messages.pot \
+	  `find $(APPLICATION_SOURCE_PATH)/class -name "*.js"` 2>&1 | grep -v warning; \
 	  break; done
 
 	@echo "  * Processing translations..."
 	@for LOC in $(APPLICATION_LOCALES); do \
 	  echo "    - Translation: $$LOC"; \
-	  if [ ! -r $(APPLICATION_TRANSLATION_PATH)/$$LOC.po ]; then \
+	  if [ ! -r $(APPLICATION_SOURCE_PATH)/translation/$$LOC.po ]; then \
   	    echo "      - Generating initial translation file..."; \
-	    msginit --locale $$LOC --no-translator -i $(APPLICATION_TRANSLATION_PATH)/messages.pot -o $(APPLICATION_TRANSLATION_PATH)/$$LOC.po > /dev/null 2>&1; \
+	    msginit --locale $$LOC --no-translator -i $(APPLICATION_SOURCE_PATH)/translation/messages.pot -o $(APPLICATION_SOURCE_PATH)/translation/$$LOC.po > /dev/null 2>&1; \
 	  else \
 	    echo "      - Merging translation file..."; \
-	    msgmerge --update -q $(APPLICATION_TRANSLATION_PATH)/$$LOC.po $(APPLICATION_TRANSLATION_PATH)/messages.pot; \
+	    msgmerge --update -q $(APPLICATION_SOURCE_PATH)/translation/$$LOC.po $(APPLICATION_SOURCE_PATH)/translation/messages.pot; \
 	  fi; \
 	  echo "      - Generating catalog..."; \
-	  mkdir -p $(APPLICATION_TRANSLATION_PATH); \
+	  mkdir -p $(APPLICATION_SOURCE_PATH)/translation; \
 	  $(CMD_MSGFMT) \
-	    -n $(APPLICATION_TRANSLATION_CLASS_NAMESPACE) \
-	    -d $(APPLICATION_TRANSLATION_CLASS_PATH) \
-	    $(APPLICATION_TRANSLATION_PATH)/$$LOC.po; \
+	    -n $(APPLICATION_NAMESPACE).translation \
+	    -d $(APPLICATION_SOURCE_PATH)/class/$(APPLICATION_NAMESPACE).translation \
+	    $(APPLICATION_SOURCE_PATH)/translation/$$LOC.po; \
 	done
-	@rm -rf $(APPLICATION_TRANSLATION_PATH)/*~
+	@rm -rf $(APPLICATION_SOURCE_PATH)/translation/*~
 
 
 
@@ -385,16 +365,16 @@ exec-api-build:
 	  --class-path $(APIVIEWER_SOURCE_PATH)/class \
 	  --include apiviewer \
 	  --generate-compiled-script \
-	  --compiled-script-file $(APPLICATION_API_PATH)/script/$(APIVIEWER_NAMESPACE).js \
+	  --compiled-script-file $(APPLICATION_API_PATH)/script/$(APIVIEWER_NAMESPACE_PATH).js \
 	  --optimize-strings --optimize-variables \
 	  --copy-resources \
 	  --resource-input $(FRAMEWORK_SOURCE_PATH)/resource \
-	  --resource-output $(APPLICATION_API_PATH)/resource/$(FRAMEWORK_NAMESPACE) \
+	  --resource-output $(APPLICATION_API_PATH)/resource/$(FRAMEWORK_NAMESPACE_PATH) \
 	  --resource-input $(APIVIEWER_SOURCE_PATH)/resource \
-	  --resource-output $(APPLICATION_API_PATH)/resource/$(APIVIEWER_NAMESPACE) \
+	  --resource-output $(APPLICATION_API_PATH)/resource/$(APIVIEWER_NAMESPACE_PATH) \
 	  --enable-resource-filter \
-	  --use-setting $(FRAMEWORK_NAMESPACE).resourceUri:resource/$(FRAMEWORK_NAMESPACE) \
-	  --use-setting $(APIVIEWER_NAMESPACE).resourceUri:resource/$(APIVIEWER_NAMESPACE) \
+	  --use-setting $(FRAMEWORK_NAMESPACE).resourceUri:resource/$(FRAMEWORK_NAMESPACE_PATH) \
+	  --use-setting $(APIVIEWER_NAMESPACE).resourceUri:resource/$(APIVIEWER_NAMESPACE_PATH) \
 	  --use-setting $(APIVIEWER_NAMESPACE).title:$(APPLICATION_API_TITLE)
 
 
