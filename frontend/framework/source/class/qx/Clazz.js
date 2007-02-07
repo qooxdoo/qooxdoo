@@ -249,6 +249,7 @@ qx.Clazz.define("qx.Clazz",
       // Compatibility to old properties etc.
       qx.Class = obj;
       qx.Proto = null;
+      qx.Super = null;
 
 
 
@@ -343,7 +344,6 @@ qx.Clazz.define("qx.Clazz",
       // Use helper function/class to save the unnecessary constructor call while
       // setting up inheritance. Safari does not support "new Function"
       var helper = function() {};
-
       helper.prototype = extend.prototype;
       var prot = new helper;
 
@@ -355,7 +355,7 @@ qx.Clazz.define("qx.Clazz",
       prot.basename = basename;
 
       // Store reference to extend class
-      obj.extend = prot.extend = extend;
+      obj.superclass = prot.superclass = extend;
 
       // Store correct constructor
       obj.constructor = prot.constructor = construct;
@@ -365,6 +365,7 @@ qx.Clazz.define("qx.Clazz",
 
       // Compatibility to old properties etc.
       qx.Proto = prot;
+      qx.Super = extend;
 
 
 
