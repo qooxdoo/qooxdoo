@@ -25,6 +25,9 @@
 /* ************************************************************************
 
 #module(io_remote)
+#use(qx.io.remote.XmlHttpTransport)
+#use(qx.io.remote.IframeTransport)
+#use(qx.io.remote.ScriptTransport)
 
 ************************************************************************ */
 
