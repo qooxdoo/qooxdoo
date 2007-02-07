@@ -59,68 +59,95 @@ exec-distclean:
 
 exec-script-source:
 	@$(CMD_GENERATOR) \
-	  $(COMPUTED_COMMON_INIT) \
 	  $(COMPUTED_CLASS_PATH) \
 	  $(COMPUTED_CLASS_URI) \
-	  --generate-source-script \
+	  $(COMPUTED_SOURCE_SETTING) \
 	  $(COMPUTED_TEMPLATE) \
-	  --source-script-file $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/$(APPLICATION_SCRIPT_FILENAME) \
-	  --use-setting $(FRAMEWORK_NAMESPACE).resourceUri:$(FRAMEWORK_SOURCE_URI)/resource \
 	  $(COMPUTED_SOURCE_INCLUDE) \
 	  $(COMPUTED_SOURCE_LINEBREAKS) \
-	  $(COMPUTED_SOURCE_USER_FLAGS)
+	  $(COMPUTED_SOURCE_USER_FLAGS) \
+	  --generate-source-script \
+	  --source-script-file $(COMPUTED_SOURCE_SCRIPT_NAME)
 
 exec-script-build:
 	@$(CMD_GENERATOR) \
-	  $(COMPUTED_COMMON_INIT) \
 	  $(COMPUTED_CLASS_PATH) \
-	  $(COMPUTED_RESOURCE) \
-	  --generate-compiled-script \
-	  --compiled-script-file $(APPLICATION_BUILD_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/$(APPLICATION_SCRIPT_FILENAME) \
+	  $(COMPUTED_BUILD_RESOURCE) \
+	  $(COMPUTED_BUILD_SETTING) \
+	  $(COMPUTED_BUILD_VARIANT) \
 	  $(COMPUTED_BUILD_INCLUDE) \
 	  $(COMPUTED_BUILD_OPTIMIZATIONS) \
 	  $(COMPUTED_BUILD_LINEBREAKS) \
-	  $(COMPUTED_BUILD_USER_FLAGS)
+	  $(COMPUTED_BUILD_USER_FLAGS) \
+	  --generate-compiled-script \
+	  --compiled-script-file $(COMPUTED_BUILD_SCRIPT_NAME)
 
-exec-resources-build:
-	@$(CMD_GENERATOR) \
-	  $(COMPUTED_COMMON_INIT) \
-	  $(COMPUTED_CLASS_PATH) \
-	  $(COMPUTED_RESOURCE) \
-	  $(COMPUTED_BUILD_INCLUDE)
+ifeq ($(APPLICATION_OPTIMIZE_BROWSER),true) 
+exec-script-build-opt: exec-browser-optimize
+else
+exec-script-build-opt: exec-none
+endif
 
 exec-browser-optimize: exec-browser-optimize-gecko exec-browser-optimize-opera exec-browser-optimize-mshtml exec-browser-optimize-webkit
-	@mv $(COMPUTED_BROWSER_SCRIPT_NAME) $(COMPUTED_BROWSER_SCRIPT_NAME:.js=_all.js)
+	@mv $(COMPUTED_BUILD_SCRIPT_NAME) $(COMPUTED_BUILD_SCRIPT_NAME:.js=_all.js)
 
 	@cat $(FRAMEWORK_TOOL_PATH)/make/browser_loader.tmpl.js | \
 	  $(CMD_PYTHON) -c "import sys; lines = sys.stdin.readlines(); print ''.join(lines) % {'path': sys.argv[1], 'name': sys.argv[2]}" \
 	    $(APPLICATION_PAGE_TO_TOPLEVEL)/$(APPLICATION_SCRIPT_FOLDERNAME) \
 	    $(APPLICATION_SCRIPT_FILENAME:.js=) \
-	  > $(COMPUTED_BROWSER_SCRIPT_NAME)
+	  > $(COMPUTED_BUILD_SCRIPT_NAME)
 
 exec-browser-optimize-gecko:
 	@$(CMD_GENERATOR) \
-	  $(COMPUTED_BROWSER_BUILD) \
+   	  $(COMPUTED_BUILD_SETTING) \
+	  $(COMPUTED_BUILD_VARIANT) \
+	  $(COMPUTED_CLASS_PATH) \
+	  $(COMPUTED_BUILD_INCLUDE) \
+	  $(COMPUTED_BUILD_LINEBREAKS) \
+	  $(COMPUTED_BUILD_OPTIMIZATIONS) \
+	  $(COMPUTED_BUILD_USER_FLAGS) \
+	  --generate-compiled-script \
 	  --use-variant qx.client:gecko \
-	  --compiled-script-file $(COMPUTED_BROWSER_SCRIPT_NAME:.js=_gecko.js)
+	  --compiled-script-file $(COMPUTED_BUILD_SCRIPT_NAME:.js=_gecko.js)
 
 exec-browser-optimize-webkit:
 	@$(CMD_GENERATOR) \
-	  $(COMPUTED_BROWSER_BUILD) \
+   	  $(COMPUTED_BUILD_SETTING) \
+	  $(COMPUTED_BUILD_VARIANT) \
+	  $(COMPUTED_CLASS_PATH) \
+	  $(COMPUTED_BUILD_INCLUDE) \
+	  $(COMPUTED_BUILD_LINEBREAKS) \
+	  $(COMPUTED_BUILD_OPTIMIZATIONS) \
+	  $(COMPUTED_BUILD_USER_FLAGS) \
+	  --generate-compiled-script \
 	  --use-variant qx.client:webkit \
-	  --compiled-script-file $(COMPUTED_BROWSER_SCRIPT_NAME:.js=_webkit.js)
+	  --compiled-script-file $(COMPUTED_BUILD_SCRIPT_NAME:.js=_webkit.js)
 
 exec-browser-optimize-mshtml:
 	@$(CMD_GENERATOR) \
-	  $(COMPUTED_BROWSER_BUILD) \
+   	  $(COMPUTED_BUILD_SETTING) \
+	  $(COMPUTED_BUILD_VARIANT) \
+	  $(COMPUTED_CLASS_PATH) \
+	  $(COMPUTED_BUILD_INCLUDE) \
+	  $(COMPUTED_BUILD_LINEBREAKS) \
+	  $(COMPUTED_BUILD_OPTIMIZATIONS) \
+	  $(COMPUTED_BUILD_USER_FLAGS) \
+	  --generate-compiled-script \
 	  --use-variant qx.client:mshtml \
-	  --compiled-script-file $(COMPUTED_BROWSER_SCRIPT_NAME:.js=_mshtml.js)
+	  --compiled-script-file $(COMPUTED_BUILD_SCRIPT_NAME:.js=_mshtml.js)
 
 exec-browser-optimize-opera:
 	@$(CMD_GENERATOR) \
-	  $(COMPUTED_BROWSER_BUILD) \
+   	  $(COMPUTED_BUILD_SETTING) \
+	  $(COMPUTED_BUILD_VARIANT) \
+	  $(COMPUTED_CLASS_PATH) \
+	  $(COMPUTED_BUILD_INCLUDE) \
+	  $(COMPUTED_BUILD_LINEBREAKS) \
+	  $(COMPUTED_BUILD_OPTIMIZATIONS) \
+	  $(COMPUTED_BUILD_USER_FLAGS) \
+	  --generate-compiled-script \
 	  --use-variant qx.client:opera \
-	  --compiled-script-file $(COMPUTED_BROWSER_SCRIPT_NAME:.js=_opera.js)
+	  --compiled-script-file $(COMPUTED_BUILD_SCRIPT_NAME:.js=_opera.js)
 
 
 
