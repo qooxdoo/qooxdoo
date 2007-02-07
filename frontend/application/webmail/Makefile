@@ -61,7 +61,7 @@ APPLICATION_TEMPLATE_OUTPUT = index.xhtml
 #
 # Reduce log level
 #
-APPLICATION_LOGLEVEL = error
+#APPLICATION_LOGLEVEL = error
 
 
 
@@ -93,9 +93,11 @@ APPLICATION_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VE
 #
 # browser optimized builds
 #
-APPLICATION_OPTIMIZE_STRINGS = false
-APPLICATION_OPTIMIZE_VARIABLES = false
-APPLICATION_OPTIMIZE_BROWSER = true
+#APPLICATION_OPTIMIZE_STRINGS = false
+#APPLICATION_OPTIMIZE_VARIABLES = false
+#APPLICATION_OPTIMIZE_BROWSER = true
+
+#APPLICATION_BUILD_FLAGS = --disable-internal-check --use-variant qx.debug:off
 
 
 ################################################################################
