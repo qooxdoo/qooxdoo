@@ -27,6 +27,10 @@ include $(QOOXDOO_PATH)/frontend/framework/tool/make/apiviewer.mk
 
 
 
+
+
+
+
 ####################################################################################
 # BASIC SETTINGS
 ####################################################################################
@@ -42,17 +46,44 @@ endif
 #
 # The same as above, but from the webserver point of view
 # Starting point is the application HTML file of the source folder.
-# In most cases just add a "/.." compared to above
+# In most cases just add a "/.." compared to above.
 #
 ifndef QOOXDOO_URI
   QOOXDOO_URI = $(QOOXDOO_PATH)/..
 endif
 
 #
+# Define the path of your application relative to the Makefile.
+# Normally the Makefile resists in the top-level directory of your application.
+# The default value "." is OK in the most cases.
+#
+ifndef APPLICATION_PATH
+  APPLICATION_PATH = .
+endif
+
+#
+# Define the URI of your application HTML relative to the Makefile.
+# Normally the Makefile resists in the top-level directory of your application.
+# The default value "." is OK in the most cases.
+#
+ifndef APPLICATION_URI
+  APPLICATION_URI = .
+endif
+
+#
 # Namespace of your application e.g. custom
+# Even complexer stuff is possible like: net.sf.custom
 #
 ifndef APPLICATION_NAMESPACE
   APPLICATION_NAMESPACE = custom
+endif
+
+#
+# Namespace of your application e.g. custom
+# Even complexer stuff is possible like: net/sf/custom
+#
+ifndef APPLICATION_NAMESPACE_PATH
+  APPLICATION_NAMESPACE_PATH = custom
 endif
 
 #
@@ -67,20 +98,92 @@ ifndef APPLICATION_API_TITLE
 endif
 
 #
-# Files that will be copied into the build directory
-# (space separated list) (no default)
+# Files that will be copied from the source directory into the build
+# directory (space separated list). The default list is empty.
 #
-# ifndef APPLICATION_FILES
-#   APPLICATION_FILES = index.html
-# endif
+ifndef APPLICATION_FILES
+   APPLICATION_FILES =
+endif
 
 #
 # Locales to use (space separated list)
 #
 ifndef APPLICATION_LOCALES
-  APPLICATION_LOCALES = C
-else
-  APPLICATION_LOCALES += C
+  APPLICATION_LOCALES =
+endif
+
+
+
+
+
+
+
+
+####################################################################################
+# GENERATOR OPTIONS
+####################################################################################
+
+#
+# Customize your application tailor mode
+#
+ifndef APPLICATION_COMPLETE_BUILD
+  APPLICATION_COMPLETE_BUILD = false
+endif
+
+ifndef APPLICATION_COMPLETE_SOURCE
+  APPLICATION_COMPLETE_SOURCE = true
+endif
+
+ifndef APPLICATION_COMPLETE_API
+  APPLICATION_COMPLETE_API = true
+endif
+
+#
+# Customize line break settings
+# If enabled code is better readable, but bigger, too.
+# Normally not useful for distribution.
+#
+ifndef APPLICATION_LINEBREAKS_BUILD
+  APPLICATION_LINEBREAKS_BUILD = true
+endif
+
+ifndef APPLICATION_LINEBREAKS_SOURCE
+  APPLICATION_LINEBREAKS_SOURCE = true
+endif
+
+#
+# Configure optimizer settings
+#
+ifndef APPLICATION_OPTIMIZE_STRINGS
+  APPLICATION_OPTIMIZE_STRINGS = true
+endif
+
+ifndef APPLICATION_OPTIMIZE_VARIABLES
+  APPLICATION_OPTIMIZE_VARIABLES = true
+endif
+
+ifndef APPLICATION_OPTIMIZE_BROWSER
+  APPLICATION_OPTIMIZE_BROWSER = true
+endif
+
+ifndef APPLICATION_OPTIMIZE_REMOVE_DEBUG
+  APPLICATION_OPTIMIZE_REMOVE_DEBUG = true
+endif
+
+#
+# Configure if support for widgets should be included
+#
+ifndef APPLICATION_ENABLE_GUI
+  APPLICATION_ENABLE_GUI = true
+endif
+
+#
+# Configure resource filter
+# If enabled all application classes needs a #embed
+# configuration, too.
+#
+ifndef APPLICATION_RESOURCE_FILTER
+  APPLICATION_RESOURCE_FILTER = false
 endif
 
 
@@ -89,27 +192,82 @@ endif
 
 
 ####################################################################################
-# ADVANCED SETTINGS
+# RUNTIME SETTINGS
 ####################################################################################
 
 #
-# Define folder path
+# Theme selection support
 #
-ifndef APPLICATION_PATH
-  APPLICATION_PATH = .
+ifndef APPLICATION_THEME_ICON
+  APPLICATION_THEME_ICON = qx.theme.icon.Nuvola
 endif
 
+ifndef APPLICATION_THEME_WIDGET
+  APPLICATION_THEME_WIDGET = qx.theme.widget.Windows
+endif
+
+ifndef APPLICATION_THEME_COLOR
+  APPLICATION_THEME_COLOR = qx.theme.color.WindowsRoyale
+endif
+
+ifndef APPLICATION_THEME_APPEARANCE
+  APPLICATION_THEME_APPEARANCE = qx.theme.appearance.Classic
+endif
+
+
+
+
+
+####################################################################################
+# SOURCE TEMPLATE SETUP
+####################################################################################
+
 #
-# Define deep folder paths
+# Template to patch (e.g. XHTML mode)
+#
+ifndef APPLICATION_TEMPLATE_INPUT
+  APPLICATION_TEMPLATE_INPUT =
+endif
+
+ifndef APPLICATION_TEMPLATE_OUTPUT
+  APPLICATION_TEMPLATE_OUTPUT =
+endif
+
+ifndef APPLICATION_TEMPLATE_REPLACE
+  APPLICATION_TEMPLATE_REPLACE = <!-- qooxdoo-script-block -->
+endif
+
+
+
+
+
+
+
+####################################################################################
+# DETAILED PATH CONFIGURATION
+####################################################################################
+
+#
+# The source folder of your application. This folder should contain all your
+# application class files and resources. The default is "./source".
 #
 ifndef APPLICATION_SOURCE_PATH
   APPLICATION_SOURCE_PATH = $(APPLICATION_PATH)/source
 endif
 
+#
+# The build folder of your application. This is the folder where the application
+# self-contained build is generated to. The default is "./build".
+#
 ifndef APPLICATION_BUILD_PATH
   APPLICATION_BUILD_PATH = $(APPLICATION_PATH)/build
 endif
 
+#
+# The API folder of your application. This is the destination target where the
+# self-contained API viewer should resist after a "make api".
+# The default is "./api".
+#
 ifndef APPLICATION_API_PATH
   APPLICATION_API_PATH = $(APPLICATION_PATH)/api
 endif
@@ -130,87 +288,17 @@ ifndef APPLICATION_DEBUG_PATH
   APPLICATION_DEBUG_PATH = $(APPLICATION_PATH)/debug
 endif
 
-#
-# Relation from HTML file to the top level directory (source or build).
-#
-ifndef APPLICATION_PAGE_TO_TOPLEVEL
-  APPLICATION_PAGE_TO_TOPLEVEL = .
-endif
 
-#
-# Configure resource handling
-#
-ifndef APPLICATION_RESOURCE_FILTER
-  APPLICATION_RESOURCE_FILTER = false
-endif
 
-#
-# Customize your build
-#
-ifndef APPLICATION_COMPLETE_BUILD
-  APPLICATION_COMPLETE_BUILD = false
-endif
 
-ifndef APPLICATION_COMPLETE_SOURCE
-  APPLICATION_COMPLETE_SOURCE = true
-endif
 
-ifndef APPLICATION_COMPLETE_API
-  APPLICATION_COMPLETE_API = true
-endif
 
-#
-# Customize your build
-#
-ifndef APPLICATION_LINEBREAKS_BUILD
-  APPLICATION_LINEBREAKS_BUILD = true
-endif
 
-ifndef APPLICATION_LINEBREAKS_SOURCE
-  APPLICATION_LINEBREAKS_SOURCE = true
-endif
 
-#
-# Configure optimizer
-#
-ifndef APPLICATION_OPTIMIZE_STRINGS
-  APPLICATION_OPTIMIZE_STRINGS = true
-endif
 
-ifndef APPLICATION_OPTIMIZE_VARIABLES
-  APPLICATION_OPTIMIZE_VARIABLES = true
-endif
-
-ifndef APPLICATION_OPTIMIZE_BROWSER
-  APPLICATION_OPTIMIZE_BROWSER = true
-endif
-
-ifndef APPLICATION_OPTIMIZE_REMOVE_DEBUG
-  APPLICATION_OPTIMIZE_REMOVE_DEBUG = true
-endif
-
-#
-# Include support for widgets
-#
-ifndef APPLICATION_ENABLE_GUI
-  APPLICATION_ENABLE_GUI = true
-endif
-
-#
-# Redefine folder names (inside build/source)
-# It is not recommended to change these fundamental settings.
-#
-ifndef APPLICATION_SCRIPT_FOLDERNAME
-  APPLICATION_SCRIPT_FOLDERNAME = script
-endif
-
-ifndef APPLICATION_CLASS_FOLDERNAME
-  APPLICATION_CLASS_FOLDERNAME = class
-endif
-
-ifndef APPLICATION_TRANSLATION_FOLDERNAME
-  APPLICATION_TRANSLATION_FOLDERNAME = translation
-endif
+####################################################################################
+# ADVANCED SETTINGS: OUTPUT OPTIONS
+####################################################################################
 
 #
 # Name of the generated script
@@ -226,201 +314,11 @@ ifndef APPLICATION_CLASSNAME
   APPLICATION_CLASSNAME = $(APPLICATION_NAMESPACE).Application
 endif
 
-#
-# Translation path
-#
-ifndef APPLICATION_TRANSLATION_PATH
-  APPLICATION_TRANSLATION_PATH = $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME)
-endif
-
-#
-# Namespace of translation classes
-#
-ifndef APPLICATION_TRANSLATION_CLASS_NAMESPACE
-  APPLICATION_TRANSLATION_CLASS_NAMESPACE = $(APPLICATION_NAMESPACE).$(APPLICATION_TRANSLATION_FOLDERNAME)
-endif
-
-#
-# Directory of translation classes
-#
-ifndef APPLICATION_TRANSLATION_CLASS_PATH
-  APPLICATION_TRANSLATION_CLASS_PATH = $(APPLICATION_SOURCE_PATH)/$(APPLICATION_CLASS_FOLDERNAME)/$(APPLICATION_NAMESPACE)/$(APPLICATION_TRANSLATION_FOLDERNAME)
-endif
-
-
-#
-# Template to patch (e.g. XHTML mode)
-#
-# (no default)
-# ifndef APPLICATION_TEMPLATE_INPUT
-#   APPLICATION_TEMPLATE_INPUT =
-# endif
-
-ifndef APPLICATION_TEMPLATE_OUTPUT
-  APPLICATION_TEMPLATE_OUTPUT = $(APPLICATION_TEMPLATE_INPUT).out
-endif
-
-ifndef APPLICATION_TEMPLATE_REPLACE
-  APPLICATION_TEMPLATE_REPLACE = <!-- qooxdoo-script-block -->
-endif
-
-#
-# Theme selection support
-#
-
-ifndef APPLICATION_THEME_ICON
-  APPLICATION_THEME_ICON = qx.theme.icon.Nuvola
-endif
-
-ifndef APPLICATION_THEME_WIDGET
-  APPLICATION_THEME_WIDGET = qx.theme.widget.Windows
-endif
-
-ifndef APPLICATION_THEME_COLOR
-  APPLICATION_THEME_COLOR = qx.theme.color.WindowsRoyale
-endif
-
-ifndef APPLICATION_THEME_APPEARANCE
-  APPLICATION_THEME_APPEARANCE = qx.theme.appearance.Classic
-endif
-
-
-
-
-###################################################################################
-# COMPUTED DEFAULTS
-###################################################################################
-
-COMPUTED_COMMON_INIT =
-
-COMPUTED_SOURCE_INCLUDE =
-COMPUTED_SOURCE_LINEBREAKS =
-
-COMPUTED_BUILD_INCLUDE =
-COMPUTED_BUILD_OPTIMIZATIONS =
-COMPUTED_BUILD_LINEBREAKS =
-
-COMPUTED_API_INCLUDE =
 
 
 
 
 
-
-###################################################################################
-# PROCESSING APPLICATION SETTINGS
-###################################################################################
-
-COMPUTED_BUILD_SCRIPT_NAME = $(APPLICATION_BUILD_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/$(APPLICATION_SCRIPT_FILENAME)
-COMPUTED_SOURCE_SCRIPT_NAME = $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/$(APPLICATION_SCRIPT_FILENAME)
-
-
-COMPUTED_CLASS_PATH = --class-path $(FRAMEWORK_SOURCE_PATH)/class \
-  --class-path $(APPLICATION_SOURCE_PATH)/$(APPLICATION_CLASS_FOLDERNAME)
-
-COMPUTED_CLASS_URI = --class-uri $(FRAMEWORK_SOURCE_URI)/class \
-  --class-uri $(APPLICATION_PAGE_TO_TOPLEVEL)/$(APPLICATION_CLASS_FOLDERNAME)
-
-COMPUTED_BUILD_RESOURCE = --copy-resources \
-  --resource-input $(FRAMEWORK_SOURCE_PATH)/resource \
-  --resource-output $(APPLICATION_BUILD_PATH)/resource/qx \
-  --resource-input $(APPLICATION_SOURCE_PATH)/resource \
-  --resource-output $(APPLICATION_BUILD_PATH)/resource/$(APPLICATION_NAMESPACE)
-
-COMPUTED_BUILD_SETTING = \
-  --use-setting $(FRAMEWORK_NAMESPACE).resourceUri:$(APPLICATION_PAGE_TO_TOPLEVEL)/resource/qx \
-  --use-setting $(APPLICATION_NAMESPACE).resourceUri:$(APPLICATION_PAGE_TO_TOPLEVEL)/resource/$(APPLICATION_NAMESPACE)
-
-COMPUTED_SOURCE_SETTING = \
-  --use-setting $(FRAMEWORK_NAMESPACE).resourceUri:$(FRAMEWORK_SOURCE_URI)/resource \
-
-COMPUTED_BUILD_VARIANT =
-COMPUTED_SOURCE_VARIANT =
-
-
-COMPUTED_FRAMEWORK_LOCALE_INCLUDE := $(APPLICATION_LOCALES:%= --include qx.locale.data.% )
-COMPUTED_FRAMEWORK_TRANSLATION_INCLUDE := $(APPLICATION_LOCALES:%= --include $(FRAMEWORK_TRANSLATION_CLASS_NAMESPACE).% )
-COMPUTED_APPLICATION_TRANSLATION_INCLUDE := $(APPLICATION_LOCALES:%= --include $(APPLICATION_TRANSLATION_CLASS_NAMESPACE).% )
-
-ifeq ($(APPLICATION_ENABLE_GUI),false)
-COMPUTED_THEMES_INCLUDE =
-else
-COMPUTED_THEMES_INCLUDE = --include $(APPLICATION_THEME_ICON),$(APPLICATION_THEME_WIDGET),$(APPLICATION_THEME_COLOR),$(APPLICATION_THEME_APPEARANCE)
-endif
-
-ifeq ($(APPLICATION_COMPLETE_SOURCE),false)
-  COMPUTED_SOURCE_INCLUDE = --include $(APPLICATION_CLASSNAME) \
-    $(COMPUTED_FRAMEWORK_LOCALE_INCLUDE) \
-    $(COMPUTED_FRAMEWORK_TRANSLATION_INCLUDE) \
-    $(COMPUTED_APPLICATION_TRANSLATION_INCLUDE) \
-    $(COMPUTED_THEMES_INCLUDE)
-endif
-
-ifneq ($(APPLICATION_COMPLETE_BUILD),true)
-  COMPUTED_BUILD_INCLUDE = --include $(APPLICATION_CLASSNAME) \
-    $(COMPUTED_FRAMEWORK_LOCALE_INCLUDE) \
-    $(COMPUTED_FRAMEWORK_TRANSLATION_INCLUDE) \
-    $(COMPUTED_APPLICATION_TRANSLATION_INCLUDE) \
-    $(COMPUTED_THEMES_INCLUDE)
-endif
-
-ifeq ($(APPLICATION_COMPLETE_API),false)
-  COMPUTED_API_INCLUDE = --include $(APPLICATION_CLASSNAME)
-endif
-
-
-ifeq ($(APPLICATION_OPTIMIZE_STRINGS),true)
-  COMPUTED_BUILD_OPTIMIZATIONS += --optimize-strings
-endif
-
-ifeq ($(APPLICATION_OPTIMIZE_VARIABLES),true)
-  COMPUTED_BUILD_OPTIMIZATIONS += --optimize-variables
-endif
-
-
-ifneq ($(APPLICATION_LOGLEVEL),)
-  COMPUTED_BUILD_OPTIMIZATIONS += --log-level $(APPLICATION_LOGLEVEL)
-endif
-
-ifeq ($(APPLICATION_ENABLE_GUI),true)
-  COMPUTED_THEME_SETTING = --use-setting qx.colorTheme:$(APPLICATION_THEME_COLOR) \
-    --use-setting qx.iconTheme:$(APPLICATION_THEME_ICON) \
-    --use-setting qx.widgetTheme:$(APPLICATION_THEME_WIDGET) \
-    --use-setting qx.appearanceTheme:$(APPLICATION_THEME_APPEARANCE)
-
-  COMPUTED_SOURCE_SETTING += $(COMPUTED_THEME_SETTING)
-  COMPUTED_BUILD_SETTING += $(COMPUTED_THEME_SETTING)
-else
-  COMPUTED_SOURCE_SETTING += --use-setting qx.initComponent:qx.component.init.BasicInitComponent
-  COMPUTED_BUILD_SETTING += --use-setting qx.initComponent:qx.component.init.BasicInitComponent
-endif
-
-ifeq ($(APPLICATION_OPTIMIZE_REMOVE_DEBUG),true)
-  COMPUTED_BUILD_VARIANT += --use-variant qx.debug:off
-endif
-
-ifeq ($(APPLICATION_RESOURCE_FILTER),true)
-  COMPUTED_BUILD_RESOURCE += --enable-resource-filter
-endif
-
-ifeq ($(APPLICATION_LINEBREAKS_SOURCE),true)
-  COMPUTED_SOURCE_LINEBREAKS = --add-new-lines --add-file-ids
-endif
-
-ifeq ($(APPLICATION_LINEBREAKS_BUILD),true)
-  COMPUTED_BUILD_LINEBREAKS = --add-new-lines --add-file-ids
-endif
-
-ifneq ($(APPLICATION_TEMPLATE_INPUT),)
-  COMPUTED_TEMPLATE = --source-template-input-file $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TEMPLATE_INPUT) --source-template-output-file $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TEMPLATE_OUTPUT)
-
-  ifneq ($(APPLICATION_TEMPLATE_REPLACE),)
-    COMPUTED_TEMPLATE += --source-template-replace "$(APPLICATION_TEMPLATE_REPLACE)"
-  endif
-endif
-
-COMPUTED_BUILD_USER_FLAGS = $(APPLICATION_BUILD_FLAGS)
-COMPUTED_SOURCE_USER_FLAGS = $(APPLICATION_SOURCE_FLAGS)
 
 
 
@@ -428,4 +326,5 @@ COMPUTED_SOURCE_USER_FLAGS = $(APPLICATION_SOURCE_FLAGS)
 # INCLUDE EXTERNAL MAKEFILES
 ###################################################################################
 
+include $(QOOXDOO_PATH)/frontend/framework/tool/make/compute.mk
 include $(QOOXDOO_PATH)/frontend/framework/tool/make/impl.mk
