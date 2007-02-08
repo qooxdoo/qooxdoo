@@ -200,7 +200,8 @@ exec-framework-localization:
 	@echo "  PREPARING LOCALIZATION"
 	@$(CMD_LINE)
 	@mkdir -p $(FRAMEWORK_CACHE_PATH)
-	@mkdir -p $(FRAMEWORK_SOURCE_PATH)/class/$(FRAMEWORK_NAMESPACE_PATH)/locale/data
+	@echo TEST: $(FRAMEWORK_NAMESPACE_PATH)
+	@echo mkdir -p $(FRAMEWORK_SOURCE_PATH)/class/$(FRAMEWORK_NAMESPACE_PATH)/locale/data
 	@echo "  * Processing locales..."
 	@for LOC in $(APPLICATION_LOCALES); do \
 	  echo "    - Locale: $$LOC"; \
@@ -279,7 +280,7 @@ exec-application-translation:
 	@which msgmerge > /dev/null 2>&1 || (echo "    - Please install gettext tools (msgmerge)" && exit 1)
 
 	@mkdir -p $(APPLICATION_SOURCE_PATH)/translation
-	@mkdir -p $(APPLICATION_SOURCE_PATH)/class/$(APPLICATION_NAMESPACE).translation
+	@mkdir -p $(APPLICATION_SOURCE_PATH)/class/$(APPLICATION_NAMESPACE_PATH)/translation
 
 	@rm -f $(APPLICATION_SOURCE_PATH)/translation/messages.pot
 	@touch $(APPLICATION_SOURCE_PATH)/translation/messages.pot
