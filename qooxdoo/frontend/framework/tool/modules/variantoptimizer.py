@@ -41,7 +41,9 @@ def log(level, msg, node=None):
       print
       print str
 
+
 def search(node, variantMap, fileId="", verb=False):
+  print variantMap
   global verbose
   global file
   verbose = verb
@@ -52,6 +54,10 @@ def search(node, variantMap, fileId="", verb=False):
     variantMethod = selectNode(variant, "identifier[3]/@name")
     if variantMethod == "select":
       modified = processVariantSelect(selectNode(variant, "../.."), variantMap) or modified
+    elif variantMethod == "isSet":
+      print "isSet"
+      modified = processVariantIsSet(selectNode(variant, "../.."), variantMap) or modified
+  
   return modified
 
 
@@ -95,7 +101,30 @@ def processVariantSelect(callNode, variantMap):
         sys.exit(1)
     return True
 
-  elif isStringLiteral(secondParam):
+  log("Warning", "The second parameter of qx.core.Variant.select must be a map or a string literal. Ignoring this occurrence.", secondParam)
+  return False
+
+
+def processVariantIsSet(callNode, variantMap):
+  if callNode.type != "call":
+    return False
+  params = callNode.getChild("params")
+  if len(params.children) != 2:
+    log("Warning", "Expecting exactly two arguments for qx.core.Variant.isSet. Ignoring this occurrence.", params)
+    return False
+
+  firstParam = params.getChildByPosition(0)
+  if not isStringLiteral(firstParam):
+    log("Warning", "First argument must be a string literal! Ignoring this occurrence.", firstParam)
+    return False
+
+  variantGroup = firstParam.get("value");
+  if not variantGroup in variantMap.keys():
+    return False
+
+  secondParam = params.getChildByPosition(1)
+
+  if isStringLiteral(secondParam):
     ifcondition =  secondParam.parent.parent.parent
 
     # normal if then else
@@ -119,15 +148,15 @@ def processVariantSelect(callNode, variantMap):
       replaceChildWithNodes(ifcondition.parent.parent, ifcondition.parent, repleacement.children)
 
     else:
-      log("Warning", "Only processing qx.core.Variant.select directly inside of an if condition. Ignoring this occurrence.", secondParam)
+      log("Warning", "Only processing qx.core.Variant.isSet directly inside of an if condition. Ignoring this occurrence.", secondParam)
       return False
 
     return True
 
-  log("Warning", "The second parameter of qx.core.Variant.select must be a map or a string literal. Ignoring this occurrence.", secondParam)
+  log("Warning", "The second parameter of qx.core.Variant.isSet must be a string literal. Ignoring this occurrence.", secondParam)
   return False
-
-
+  
+  
 def __variantMatchKey(key, variantMap, variantGroup):
   for keyPart in key.split("|"):
     if variantMap[variantGroup] == keyPart:
