@@ -238,12 +238,7 @@ endif
 # Compute priorities
 # ==============================================================================
 
-# Language features should be added with highest priority
-COMPUTED_SOURCE_PRIORITIES = --prioritize-class qx.core.Client,qx.lang.Core,qx.lang.Generics
-COMPUTED_BUILD_PRIORITIES = --prioritize-class qx.core.Client,qx.lang.Core,qx.lang.Generics
-
-# Make the appender available to have the ability to log at loadtime for many of
-# the following classes
+# Make the appender available to enable classes to log at load time
 ifneq ($(APPLICATION_SOURCE_LOG_APPENDER),)
   COMPUTED_SOURCE_PRIORITIES += --prioritize-class $(APPLICATION_SOURCE_LOG_APPENDER)
 else
@@ -256,13 +251,6 @@ else
   COMPUTED_BUILD_PRIORITIES += --prioritize-class qx.log.NativeAppender
 endif
 
-# Be sure that the logger is available fast
-COMPUTED_SOURCE_PRIORITIES += --prioritize-class qx.log.Logger
-COMPUTED_BUILD_PRIORITIES += --prioritize-class qx.log.Logger
-
-# Be sure that onload is assigned as earliest possible moment
-COMPUTED_SOURCE_PRIORITIES += --prioritize-class qx.core.Init
-COMPUTED_BUILD_PRIORITIES += --prioritize-class qx.core.Init
 
 
 
