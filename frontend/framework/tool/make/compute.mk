@@ -221,13 +221,13 @@ endif
 ifneq ($(APPLICATION_SOURCE_LOG_APPENDER),)
   COMPUTED_SOURCE_INCLUDE += --include $(APPLICATION_SOURCE_LOG_APPENDER)
 else
-  COMPUTED_SOURCE_INCLUDE += --include qx.log.WindowAppender
+  COMPUTED_SOURCE_INCLUDE += --include qx.log.NativeAppender
 endif
 
 ifneq ($(APPLICATION_BUILD_LOG_APPENDER),)
   COMPUTED_BUILD_INCLUDE += --include qx.logAppender:$(APPLICATION_BUILD_LOG_APPENDER)
 else
-  COMPUTED_BUILD_INCLUDE += --include qx.log.WindowAppender
+  COMPUTED_BUILD_INCLUDE += --include qx.log.NativeAppender
 endif
 
 
