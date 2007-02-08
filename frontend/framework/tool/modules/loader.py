@@ -577,31 +577,38 @@ def indexScriptInput(options):
 
 
 
-def addClass(fileDb, fileId, content):
+def addClass(fileDb, fileId, content, dynLoad, dynRun):
   if not fileDb.has_key(fileId):
     print '    - Error: Could not find class "%s" (%s)' % (fileId, len(fileDb))
     return False
+
+  fileEntry = fileDb[fileId]
+
+  # Concat static and dynamic deps
+  loadDeps = fileEntry["loadtimeDeps"]
+  if dynLoad.has_key(fileId):
+    loadDeps += dynLoad[fileId]
+
+  runDeps = fileEntry["runtimeDeps"]
+  if dynRun.has_key(fileId):
+    runDeps += dynRun[fileId]
 
   # Including myself
   if not fileId in content:
     content.append(fileId)
 
   # Including loadtime dependencies
-  for depId in fileDb[fileId]["loadtimeDeps"]:
+  for depId in loadDeps:
     if not depId in content:
-      addClass(fileDb, depId, content)
+      addClass(fileDb, depId, content, dynLoad, dynRun)
 
   # Including runtime dependencies
-  for depId in fileDb[fileId]["runtimeDeps"]:
+  for depId in runDeps:
     if not depId in content:
-      addClass(fileDb, depId, content)
+      addClass(fileDb, depId, content, dynLoad, dynRun)
 
 
-
-
-
-
-def sortClass(fileDb, fileId, avail, result, verbose):
+def sortClass(fileDb, fileId, avail, result, verbose, dynLoad, dynRun):
   if fileId in result or not fileId in avail:
     return
 
@@ -610,19 +617,31 @@ def sortClass(fileDb, fileId, avail, result, verbose):
   if verbose:
     print "    - Trying to include: %s" % fileId
 
-  for depId in fileEntry["loadtimeDeps"]:
-    if not depId in result and depId in avail:
-      sortClass(fileDb, depId, avail, result, verbose)
+  # Concat static and dynamic deps
+  loadDeps = fileEntry["loadtimeDeps"]
+  if dynLoad.has_key(fileId):
+    loadDeps += dynLoad[fileId]
 
+  runDeps = fileEntry["runtimeDeps"]
+  if dynRun.has_key(fileId):
+    runDeps += dynRun[fileId]
+
+  # Priorize loadtime dependencies
+  for depId in loadDeps:
+    if not depId in result and depId in avail:
+      sortClass(fileDb, depId, avail, result, verbose, dynLoad, dynRun)
+
+  # Insert myself
   if not fileId in result:
     if verbose:
       print "      - Including %s" % fileId
 
     result.append(fileId)
 
-  for depId in fileEntry["runtimeDeps"]:
+  # Finally load other used classes
+  for depId in runDeps:
     if not depId in result and depId in avail:
-      sortClass(fileDb, depId, avail, result, verbose)
+      sortClass(fileDb, depId, avail, result, verbose, dynLoad, dynRun)
 
 
 
@@ -644,7 +663,8 @@ def getSortedList(options, fileDb, moduleDb):
 
 
   print "  * Processing dynamic dependencies..."
-
+  
+  dynLoad = {}
   for pair in options.addRequire:
     class1 = pair.split(":")[0]
     class2 = pair.split(":")[1]
@@ -655,8 +675,12 @@ def getSortedList(options, fileDb, moduleDb):
 
     if not class2 in fileDb[class1]["loadtimeDeps"]:
       print "    - Adding #require(%s) to %s" % (class2, class1)
-      fileDb[class1]["loadtimeDeps"].append(class2)
+      if dynLoad.has_key(class1):
+        dynLoad[class1].append(class2)
+      else:
+        dynLoad[class1] = [class2]
 
+  dynRun = {}
   for pair in options.addUse:
     class1 = pair.split(":")[0]
     class2 = pair.split(":")[1]
@@ -667,7 +691,10 @@ def getSortedList(options, fileDb, moduleDb):
 
       if not class2 in fileDb[class1]["runtimeDeps"]:
         print "    - Adding #use(%s) to %s" % (class2, class1)
-        fileDb[class1]["runtimeDeps"].append(class2)
+        if dynRun.has_key(class1):
+          dynRun[class1].append(class2)
+        else:
+          dynRun[class1] = [class2]
 
 
 
@@ -708,7 +735,7 @@ def getSortedList(options, fileDb, moduleDb):
   # Fill combined include list
   includeCombined = []
   for fileId in include:
-    addClass(fileDb, fileId, includeCombined)
+    addClass(fileDb, fileId, includeCombined, dynLoad, dynRun)
 
   for fileId in includePure:
     if not fileId in includeCombined:
@@ -761,7 +788,7 @@ def getSortedList(options, fileDb, moduleDb):
   # Fill combined exclude list
   excludeCombined = []
   for fileId in exclude:
-    addClass(fileDb, fileId, excludeCombined)
+    addClass(fileDb, fileId, excludeCombined, dynLoad, dynRun)
 
   for fileId in excludePure:
     if not fileId in excludeCombined:
@@ -797,7 +824,7 @@ def getSortedList(options, fileDb, moduleDb):
 
   result = []
   for fileId in includeCombined:
-    sortClass(fileDb, fileId, includeCombined, result, options.verbose)
+    sortClass(fileDb, fileId, includeCombined, result, options.verbose, dynLoad, dynRun)
 
 
 
