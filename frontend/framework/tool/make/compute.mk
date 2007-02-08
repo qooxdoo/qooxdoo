@@ -235,20 +235,20 @@ endif
 
 
 # ==============================================================================
-# Compute priorities
+# Compute dependencies
 # ==============================================================================
 
 # Make the appender available to enable classes to log at load time
 ifneq ($(APPLICATION_SOURCE_LOG_APPENDER),)
-  COMPUTED_SOURCE_PRIORITIES += --prioritize-class $(APPLICATION_SOURCE_LOG_APPENDER)
+  COMPUTED_SOURCE_DEPENDENCIES += --add-require qx.log.Logger:$(APPLICATION_SOURCE_LOG_APPENDER)
 else
-  COMPUTED_SOURCE_PRIORITIES += --prioritize-class qx.log.NativeAppender
+  COMPUTED_SOURCE_DEPENDENCIES += --add-require qx.log.Logger:qx.log.NativeAppender
 endif
 
 ifneq ($(APPLICATION_BUILD_LOG_APPENDER),)
-  COMPUTED_BUILD_PRIORITIES += --prioritize-class $(APPLICATION_BUILD_LOG_APPENDER)
+  COMPUTED_BUILD_DEPENDENCIES += --add-require qx.log.Logger:$(APPLICATION_BUILD_LOG_APPENDER)
 else
-  COMPUTED_BUILD_PRIORITIES += --prioritize-class qx.log.NativeAppender
+  COMPUTED_BUILD_DEPENDENCIES += --add-require qx.log.Logger:qx.log.NativeAppender
 endif
 
 
@@ -304,12 +304,12 @@ ifneq ($(APPLICATION_ADDITIONAL_BUILD_OPTIONS),)
   COMPUTED_BUILD_OPTIONS += $(APPLICATION_ADDITIONAL_BUILD_OPTIONS)
 endif
 
-ifneq ($(COMPUTED_SOURCE_PRIORITIES),)
-  COMPUTED_SOURCE_OPTIONS += $(COMPUTED_SOURCE_PRIORITIES)
+ifneq ($(COMPUTED_SOURCE_DEPENDENCIES),)
+  COMPUTED_SOURCE_OPTIONS += $(COMPUTED_SOURCE_DEPENDENCIES)
 endif
 
-ifneq ($(COMPUTED_BUILD_PRIORITIES),)
-  COMPUTED_BUILD_OPTIONS += $(COMPUTED_BUILD_PRIORITIES)
+ifneq ($(COMPUTED_SOURCE_DEPENDENCIES),)
+  COMPUTED_BUILD_OPTIONS += $(COMPUTED_BUILD_DEPENDENCIES)
 endif
 
 
