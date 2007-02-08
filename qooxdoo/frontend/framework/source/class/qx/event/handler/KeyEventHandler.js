@@ -67,7 +67,7 @@ qx.OO.defineClass("qx.event.handler.KeyEventHandler", qx.core.Target, function()
 /** attach the key event handler to the DOM events */
 qx.Proto._attachEvents = function()
 {
-  var el = qx.core.Variant.select("qx.client", "gecko") ? window : document.body;
+  var el = qx.core.Variant.isSet("qx.client", "gecko") ? window : document.body;
 
   qx.html.EventRegistration.addEventListener(el, "keypress", this.__onkeypress);
   qx.html.EventRegistration.addEventListener(el, "keyup", this.__onkeyupdown);
@@ -77,7 +77,7 @@ qx.Proto._attachEvents = function()
 /** detach the key event handler from the DOM events */
 qx.Proto._detachEvents = function()
 {
-  var el = qx.core.Variant.select("qx.client", "gecko") ? window : document.body;
+  var el = qx.core.Variant.isSet("qx.client", "gecko") ? window : document.body;
 
   // Unregister dom events
   qx.html.EventRegistration.removeEventListener(el, "keypress", this.__onkeypress);
@@ -406,7 +406,7 @@ qx.Proto._idealKeyHandler = function(keyCode, charCode, eventType, domEvent)
 ---------------------------------------------------------------------------
 */
 
-if (qx.core.Variant.select("qx.client", "mshtml"))
+if (qx.core.Variant.isSet("qx.client", "mshtml"))
 {
   qx.Proto._lastUpDownType = {};
 
@@ -461,7 +461,7 @@ if (qx.core.Variant.select("qx.client", "mshtml"))
 ---------------------------------------------------------------------------
 */
 
-else if (qx.core.Variant.select("qx.client", "gecko"))
+else if (qx.core.Variant.isSet("qx.client", "gecko"))
 {
   qx.Proto._lastUpDownType = {};
 
@@ -512,7 +512,7 @@ else if (qx.core.Variant.select("qx.client", "gecko"))
 ---------------------------------------------------------------------------
 */
 
-else if (qx.core.Variant.select("qx.client", "webkit"))
+else if (qx.core.Variant.isSet("qx.client", "webkit"))
 {
   qx.Proto._charCode2KeyCode =
   {
@@ -598,7 +598,7 @@ else if (qx.core.Variant.select("qx.client", "webkit"))
 ---------------------------------------------------------------------------
 */
 
-else if (qx.core.Variant.select("qx.client", "opera"))
+else if (qx.core.Variant.isSet("qx.client", "opera"))
 {
   qx.Proto._onkeyupdown = function(domEvent) {
     this._idealKeyHandler(domEvent.keyCode, 0, domEvent.type, domEvent);

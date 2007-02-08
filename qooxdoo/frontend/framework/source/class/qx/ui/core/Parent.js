@@ -1036,7 +1036,7 @@ qx.Proto._layoutPost = qx.lang.Function.returnTrue;
 /*!
   Fix Operas Rendering Bugs
 */
-if (qx.core.Variant.select("qx.client", "opera"))
+if (qx.core.Variant.isSet("qx.client", "opera"))
 {
   qx.Proto._layoutChildOrig = qx.Proto._layoutChild;
 

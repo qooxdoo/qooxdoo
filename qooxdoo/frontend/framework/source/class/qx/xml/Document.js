@@ -52,7 +52,7 @@ if (document.implementation && document.implementation.createDocument) // The Mo
     return document.implementation.createDocument(namespaceUri || "", qualifiedName || "", null);
   }
 }
-else if (qx.core.Variant.select("qx.client", "mshtml"))   // The Microsoft style
+else if (qx.core.Variant.isSet("qx.client", "mshtml"))   // The Microsoft style
 {
   qx.Class.create = function(namespaceUri, qualifiedName)
   {
@@ -129,7 +129,7 @@ if (window.DOMParser)
     return dom;
   };
 }
-else if (qx.core.Variant.select("qx.client", "mshtml"))   // The Microsoft style
+else if (qx.core.Variant.isSet("qx.client", "mshtml"))   // The Microsoft style
 {
   qx.Class.fromString = function(str) {
     var dom = qx.xml.Document.create();

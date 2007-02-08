@@ -205,7 +205,7 @@ qx.Class.extract = function(object)
 
   //IE offers a window[index] access to the frames of a window, i. e.
   //for three frame, the window object will have attributes "0", "1" and "2"
-  if (qx.core.Variant.select("qx.client", "mshtml")) {
+  if (qx.core.Variant.isSet("qx.client", "mshtml")) {
     if (object == "window") {
       ign = ign.slice();
       for (var frameIndex = 0; frameIndex < window.length; frameIndex++){
@@ -221,7 +221,7 @@ qx.Class.extract = function(object)
     try
     {
       //MS IE 7 crashes when doing typeof(window.external), catch here
-      if ( qx.core.Variant.select("qx.client", "mshtml")) {
+      if ( qx.core.Variant.isSet("qx.client", "mshtml")) {
         if ( (clientInfos.getMajor() >= 7) && (object == "window") && (key == "external") ) {
           continue;
         }

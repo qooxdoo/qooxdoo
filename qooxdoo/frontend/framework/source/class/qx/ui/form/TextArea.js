@@ -40,7 +40,7 @@ qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "tex
 
 qx.OO.addProperty({ name : "wrap", type : "boolean" });
 
-if (qx.core.Variant.select("qx.client", "mshtml"))
+if (qx.core.Variant.isSet("qx.client", "mshtml"))
 {
   qx.Proto._modifyWrap = function(propValue, propOldValue, propData) {
     return this.setStyleProperty("whiteSpace", propValue ? "normal" : "nowrap");

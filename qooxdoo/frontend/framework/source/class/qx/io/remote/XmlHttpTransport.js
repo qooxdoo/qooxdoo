@@ -314,7 +314,7 @@ qx.Proto._onreadystatechange = function(e)
     case "aborted":
     case "failed":
     case "timeout":
-      if (qx.core.Variant.select("qx.debug", "on"))
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (qx.core.Setting.get("qx.ioRemoteDebug")) {
           this.warn("Ignore Ready State Change");
@@ -592,7 +592,7 @@ qx.Proto.getResponseContent = function()
 {
   if (this.getState() !== "completed")
   {
-    if (qx.core.Variant.select("qx.debug", "on"))
+    if (qx.core.Variant.isSet("qx.debug", "on"))
     {
       if (qx.core.Setting.get("qx.ioRemoteDebug")) {
         this.warn("Transfer not complete, ignoring content!");
@@ -602,7 +602,7 @@ qx.Proto.getResponseContent = function()
     return null;
   }
 
-  if (qx.core.Variant.select("qx.debug", "on"))
+  if (qx.core.Variant.isSet("qx.debug", "on"))
   {
     if (qx.core.Setting.get("qx.ioRemoteDebug")) {
       this.debug("Returning content for responseType: " + this.getResponseType());
@@ -654,7 +654,7 @@ qx.Proto.getResponseContent = function()
 
 qx.Proto._modifyState = function(propValue, propOldValue, propData)
 {
-  if (qx.core.Variant.select("qx.debug", "on"))
+  if (qx.core.Variant.isSet("qx.debug", "on"))
   {
     if (qx.core.Setting.get("qx.ioRemoteDebug")) {
       this.debug("State: " + propValue);
@@ -725,7 +725,7 @@ qx.Proto.dispose = function()
   {
     // Should be right,
     // but is not compatible to mshtml (throws an exception)
-    if (qx.core.Variant.select("qx.client", "mshtml")) {
+    if (qx.core.Variant.isSet("qx.client", "mshtml")) {
       // empty to help the generator to optimize this variant
     } else {
       vRequest.onreadystatechange = null;

@@ -615,7 +615,7 @@ qx.ui.core.Widget.flushGlobalQueues = function()
   delete qx.ui.core.Widget._inFlushGlobalQueues;
 }
 
-if (qx.core.Variant.select("qx.debug", "on"))
+if (qx.core.Variant.isSet("qx.debug", "on"))
 {
   if (qx.core.Setting.get("qx.widgetQueueDebugging"))
   {
@@ -1725,7 +1725,7 @@ qx.Proto.disconnect = function() {
 ---------------------------------------------------------------------------
 */
 
-if (qx.core.Variant.select("qx.client", "gecko"))
+if (qx.core.Variant.isSet("qx.client", "gecko"))
 {
   qx.Proto._createElementForEnhancedBorder = qx.lang.Function.returnTrue;
 }
@@ -1796,7 +1796,7 @@ else
 
 qx.Proto._isCreated = false;
 
-if (qx.core.Variant.select("qx.client", "gecko"))
+if (qx.core.Variant.isSet("qx.client", "gecko"))
 {
   qx.Proto._getTargetNode = function() {
     return this._element;
@@ -2180,7 +2180,7 @@ qx.ui.core.Widget.initApplyMethods = function()
   var pad = "padding";
   var upad = "Padding";
 
-  if (qx.core.Variant.select("qx.client", "gecko"))
+  if (qx.core.Variant.isSet("qx.client", "gecko"))
   {
     for (var i=0, fn=f+upad, rn=r+upad, sp=s+pad; i<4; i++)
     {
@@ -2216,7 +2216,7 @@ qx.ui.core.Widget.initApplyMethods = function()
     Now I've switched back to the conventional method
     to reset the value. This seems to work again.
   */
-  if (qx.core.Variant.select("qx.client", "mshtml"))
+  if (qx.core.Variant.isSet("qx.client", "mshtml"))
   {
     for (var i=0, tpos="pos", vset="=v"; i<6; i++)
     {
@@ -2466,7 +2466,7 @@ qx.Proto._recomputePercentY = function()
 ---------------------------------------------------------------------------
 */
 
-if (qx.core.Variant.select("qx.client", "mshtml|opera"))
+if (qx.core.Variant.isSet("qx.client", "mshtml|opera"))
 {
   qx.Proto._recomputeRangeX = function()
   {
@@ -2510,7 +2510,7 @@ else
 ---------------------------------------------------------------------------
 */
 
-if (qx.core.Variant.select("qx.client", "mshtml|opera"))
+if (qx.core.Variant.isSet("qx.client", "mshtml|opera"))
 {
   qx.Proto._recomputeStretchingX = function()
   {
@@ -3480,7 +3480,7 @@ qx.Proto._unitDetectionPixelPercent = function(propData, propValue)
 ---------------------------------------------------------------------------
 */
 
-if (qx.core.Variant.select("qx.client", "mshtml"))
+if (qx.core.Variant.isSet("qx.client", "mshtml"))
 {
   qx.ui.core.Widget.inlineEventMap =
   {
@@ -3965,14 +3965,14 @@ qx.Proto._resetAppearanceThemeWrapper = function(vNewAppearanceTheme, vOldAppear
   }
 }
 
-if (qx.core.Variant.select("qx.client", "mshtml"))
+if (qx.core.Variant.isSet("qx.client", "mshtml"))
 {
   /*
     Mshtml does not support outlines by css
   */
   qx.Proto._applyStateStyleFocus = function(vStates) {}
 }
-else if (qx.core.Variant.select("qx.client", "gecko"))
+else if (qx.core.Variant.isSet("qx.client", "gecko"))
 {
   qx.Proto._applyStateStyleFocus = function(vStates)
   {
@@ -4112,7 +4112,7 @@ qx.Proto.setHtmlProperty = function(propName, propValue)
   return true;
 }
 
-if (qx.core.Variant.select("qx.client", "mshtml"))
+if (qx.core.Variant.isSet("qx.client", "mshtml"))
 {
   qx.Proto.removeHtmlProperty = function(propName)
   {
@@ -4513,7 +4513,7 @@ qx.Proto._modifyZIndex = function(propValue, propOldValue, propData) {
 ---------------------------------------------------------------------------
 */
 
-if (qx.core.Variant.select("qx.client", "mshtml"))
+if (qx.core.Variant.isSet("qx.client", "mshtml"))
 {
   qx.Proto._modifyTabIndex = function(propValue, propOldValue, propData)
   {
@@ -4530,7 +4530,7 @@ if (qx.core.Variant.select("qx.client", "mshtml"))
     return true;
   }
 }
-else if (qx.core.Variant.select("qx.client", "gecko"))
+else if (qx.core.Variant.isSet("qx.client", "gecko"))
 {
   qx.Proto._modifyTabIndex = function(propValue, propOldValue, propData)
   {
@@ -4603,7 +4603,7 @@ qx.Proto.getCssClassName = function() {
 ---------------------------------------------------------------------------
 */
 
-if(qx.core.Variant.select("qx.client", "mshtml"))
+if(qx.core.Variant.isSet("qx.client", "mshtml"))
 {
   qx.Proto._modifySelectable = function(propValue, propOldValue, propData)
   {
@@ -4617,7 +4617,7 @@ if(qx.core.Variant.select("qx.client", "mshtml"))
     }
   }
 }
-else if(qx.core.Variant.select("qx.client", "gecko"))
+else if(qx.core.Variant.isSet("qx.client", "gecko"))
 {
   qx.Proto._modifySelectable = function(propValue, propOldValue, propData)
   {
@@ -4633,7 +4633,7 @@ else if(qx.core.Variant.select("qx.client", "gecko"))
     return true;
   };
 }
-else if (qx.core.Variant.select("qx.client", "opera"))
+else if (qx.core.Variant.isSet("qx.client", "opera"))
 {
   // No known method available for this client
   qx.Proto._modifySelectable = function(propValue, propOldValue, propData) {
@@ -4688,7 +4688,7 @@ Sets the opacity for the widget. Any child widget inside the widget will also
 become (semi-)transparent. The value should be a number between 0 and 1
 inclusive, where 1 means totally opaque and 0 invisible.
 */
-if(qx.core.Variant.select("qx.client", "mshtml"))
+if(qx.core.Variant.isSet("qx.client", "mshtml"))
 {
   qx.Proto._modifyOpacity = function(propValue, propOldValue, propData)
   {
@@ -4713,7 +4713,7 @@ else
   {
     if(propValue == null || propValue > 1)
     {
-      if (qx.core.Variant.select("qx.client", "gecko"))
+      if (qx.core.Variant.isSet("qx.client", "gecko"))
       {
         this.removeStyleProperty("MozOpacity");
       }
@@ -4731,7 +4731,7 @@ else
       // should we omit gecko's flickering here
       // and limit the max value to 0.99?
 
-      if (qx.core.Variant.select("qx.client", "gecko"))
+      if (qx.core.Variant.isSet("qx.client", "gecko"))
       {
         this.setStyleProperty("MozOpacity", propValue);
       }
@@ -4900,7 +4900,7 @@ qx.ui.core.Widget.initOverflow = function()
   qx.ui.core.Widget.initOverflowDone = true;
 }
 
-if (qx.core.Variant.select("qx.client", "gecko"))
+if (qx.core.Variant.isSet("qx.client", "gecko"))
 {
   qx.Proto._modifyOverflow = function(propValue, propOldValue, propData)
   {
@@ -4928,7 +4928,7 @@ if (qx.core.Variant.select("qx.client", "gecko"))
 
 // Mshtml conforms here to CSS3 Spec. Eventually there will be multiple
 // browsers which support these new overflowX overflowY properties.
-else if (qx.core.Variant.select("qx.client", "mshtml"))
+else if (qx.core.Variant.isSet("qx.client", "mshtml"))
 {
   qx.Proto._modifyOverflow = function(propValue, propOldValue, propData)
   {
@@ -5022,7 +5022,7 @@ qx.Proto.getOverflowY = function()
 ---------------------------------------------------------------------------
 */
 
-if (qx.core.Variant.select("qx.client", "mshtml"))
+if (qx.core.Variant.isSet("qx.client", "mshtml"))
 {
   qx.Proto._modifyHideFocus = function(propValue, propOldValue, propData)
   {

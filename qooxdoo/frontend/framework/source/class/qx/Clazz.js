@@ -289,7 +289,7 @@ qx.Clazz.define("qx.Clazz",
       {
         for (var key in settings)
         {
-          if (qx.core.Variant.select("qx.debug", "on"))
+          if (qx.core.Variant.isSet("qx.debug", "on"))
           {
             if (key.substr(0, key.indexOf(".")) != name.substr(0, name.indexOf("."))) {
               throw new Error('Forbidden setting "' + key + '" found in "' + name + '". It forbidden to define a default setting for an external namespace!');
@@ -314,7 +314,7 @@ qx.Clazz.define("qx.Clazz",
       {
         for (var key in variants)
         {
-          if (qx.core.Variant.select("qx.debug", "on"))
+          if (qx.core.Variant.isSet("qx.debug", "on"))
           {
             if (key.substr(0, key.indexOf(".")) != name.substr(0, name.indexOf("."))) {
               throw new Error('Forbidden setting "' + key + '" found in "' + name + '". It forbidden to define a default setting for an external namespace!');
@@ -379,7 +379,7 @@ qx.Clazz.define("qx.Clazz",
       {
         var imembers, iproperties;
 
-        if (qx.core.Variant.select("qx.debug", "on")) {
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
           qx.Mixin.compatible(include, 'include list in Class "' + name + '".');
         }
 
@@ -482,7 +482,7 @@ qx.Clazz.define("qx.Clazz",
       {
         // Only validate members in debug mode.
         // There is nothing more needed for builds
-        if (qx.core.Variant.select("qx.debug", "on"))
+        if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           var interfaceMembers;
 

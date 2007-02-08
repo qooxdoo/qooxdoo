@@ -431,7 +431,7 @@ qx.Proto.layoutChild_sizeLimitX = function(vChild, vJobs) {}
  */
 qx.Proto.layoutChild_sizeLimitY = function(vChild, vJobs) {}
 
-if (qx.core.Variant.select("qx.client", "mshtml"))
+if (qx.core.Variant.isSet("qx.client", "mshtml"))
 {
   qx.Proto.layoutChild_sizeLimitX = qx.lang.Function.returnTrue;
   qx.Proto.layoutChild_sizeLimitY = qx.lang.Function.returnTrue;
