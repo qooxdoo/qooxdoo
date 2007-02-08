@@ -6,7 +6,7 @@ if (window.opera) {
 	client = "webkit";
 } else if (agent.indexOf("KHTML") != -1) {
   client = "khtml";
-} else if (agent.indexOf("Gecko/" != -1) {
+} else if (agent.indexOf("Gecko/") != -1) {
 	client = "gecko";
 } else if (agent.indexOf("MSIE") != -1) {
 	client = "mshtml"
