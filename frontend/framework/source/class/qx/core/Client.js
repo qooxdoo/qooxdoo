@@ -409,4 +409,5 @@ qx.Class.getInstance = qx.lang.Function.returnInstance;
 /**
  * Browser switch
  */
-qx.core.Variant.define("qx.client", ["gecko", "mshtml", "opera", "webkit"], qx.core.Client.getInstance().getEngine());
+ 
+qx.core.Variant.define("qx.client", ["gecko", "mshtml", "opera", "webkit", "khtml"], qx.core.Client.getInstance().getEngine());

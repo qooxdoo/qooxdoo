@@ -108,7 +108,7 @@ qx.Clazz.define("qx.core.Setting",
           this.__settings[key].value = qxsettings[key];
         }
 
-        delete window.qxsettings;
+        window.qxsettings = null;
       }
     }
   }
