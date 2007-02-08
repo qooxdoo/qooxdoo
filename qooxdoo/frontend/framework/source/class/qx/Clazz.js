@@ -563,7 +563,7 @@ qx.Clazz.define("qx.Clazz",
       {
         var abstractConstructor = function() {
           if (this.classname == arguments.callee.$ABSTRACT) {
-            throw new Error("Abstract");
+            throw new Error("The class '" + className + "' is abstract! It is not possible to instantiate it.");
           }
           return construct.apply(this, arguments);
         }
