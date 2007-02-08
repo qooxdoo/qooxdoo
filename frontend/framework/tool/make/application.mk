@@ -78,7 +78,7 @@ endif
 # Normally the namespace given will be automatically translated.
 #
 ifndef APPLICATION_NAMESPACE_PATH
-  APPLICATION_NAMESPACE_PATH := $(shell echo $(APPLICATION_NAMESPACE_PATH) | sed s:\\.:/:g)
+  APPLICATION_NAMESPACE_PATH := $(shell echo $(APPLICATION_NAMESPACE) | sed s:\\.:/:g)
 endif
 
 #
