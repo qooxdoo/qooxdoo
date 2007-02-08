@@ -601,7 +601,7 @@ def addClass(fileDb, fileId, content):
 
 
 
-def sortClass(fileDb, fileId, avail, result, verbose, prio=False):
+def sortClass(fileDb, fileId, avail, result, verbose):
   if fileId in result or not fileId in avail:
     return
 
@@ -612,7 +612,7 @@ def sortClass(fileDb, fileId, avail, result, verbose, prio=False):
 
   for depId in fileEntry["loadtimeDeps"]:
     if not depId in result and depId in avail:
-      sortClass(fileDb, depId, avail, result, verbose, prio)
+      sortClass(fileDb, depId, avail, result, verbose)
 
   if not fileId in result:
     if verbose:
@@ -620,10 +620,9 @@ def sortClass(fileDb, fileId, avail, result, verbose, prio=False):
 
     result.append(fileId)
 
-  if not prio:
-    for depId in fileEntry["runtimeDeps"]:
-      if not depId in result and depId in avail:
-        sortClass(fileDb, depId, avail, result, verbose, prio)
+  for depId in fileEntry["runtimeDeps"]:
+    if not depId in result and depId in avail:
+      sortClass(fileDb, depId, avail, result, verbose)
 
 
 
@@ -641,7 +640,36 @@ def getSortedList(options, fileDb, moduleDb):
     print "    - Exclude with dependencies: %s" % ", ".join(options.exclude)
     print "    - Exclude without dependencies: %s" % ", ".join(options.excludePure)
 
-  print "  * Preparing list..."
+
+
+
+  print "  * Processing dynamic dependencies..."
+
+  for pair in options.addRequire:
+    class1 = pair.split(":")[0]
+    class2 = pair.split(":")[1]
+
+    if not class1 in fileDb or not class2 in fileDb:
+	    print "    - Invalid runtime dependency definition: %s" % pair
+	    continue
+
+    if not class2 in fileDb[class1]["loadtimeDeps"]:
+      fileDb[class1]["loadtimeDeps"].append(class2)
+
+  for pair in options.addUse:
+    class1 = pair.split(":")[0]
+    class2 = pair.split(":")[1]
+
+    if not class1 in fileDb or not class2 in fileDb:
+      print "    - Invalid loadtime dependency definition: %s" % pair
+      continue
+
+      if not class2 in fileDb[class1]["runtimeDeps"]:
+        fileDb[class1]["runtimeDeps"].append(class2)
+
+
+
+  print "  * Preparing lists..."
 
   # PROCESS INCLUDES
 
@@ -763,25 +791,9 @@ def getSortedList(options, fileDb, moduleDb):
   # SORTING
   #
 
-  print "  * Sorting %s classes (prioritized %s classes)..." % (len(includeCombined), len(options.prioritizeClass))
+  print "  * Sorting %s classes..." % len(includeCombined)
 
   result = []
-
-  if options.verbose:
-    print "  * Priority based sort..."
-
-  for fileId in options.prioritizeClass:
-    if fileId in includeCombined:
-      sortClass(fileDb, fileId, includeCombined, result, options.verbose, True)
-    else:
-      print "    - Warning: Class %s is prioritized, but should not be included!" % fileId
-
-  for fileId in result[:]:
-    sortClass(fileDb, fileId, includeCombined, result, options.verbose)
-      
-  if options.verbose:
-    print "  * List based sort..."
-
   for fileId in includeCombined:
     sortClass(fileDb, fileId, includeCombined, result, options.verbose)
 
