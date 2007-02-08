@@ -19,9 +19,9 @@
 #
 ################################################################################
 
-###################################################################################
+################################################################################
 # INCLUDE EXTERNAL MAKEFILES
-###################################################################################
+################################################################################
 
 include $(QOOXDOO_PATH)/frontend/framework/tool/make/framework.mk
 include $(QOOXDOO_PATH)/frontend/framework/tool/make/apiviewer.mk
@@ -31,44 +31,17 @@ include $(QOOXDOO_PATH)/frontend/framework/tool/make/apiviewer.mk
 
 
 
-
-####################################################################################
-# BASIC SETTINGS
-####################################################################################
+################################################################################
+# REQUIRED SETTINGS
+################################################################################
 
 #
 # Location of your qooxdoo distribution
 # Could be relative from this location or absolute
+# This should end with the last directory. Please omit a trailing slash.
 #
 ifndef QOOXDOO_PATH
   QOOXDOO_PATH = PLEASE_DEFINE_QOOXDOO_PATH
-endif
-
-#
-# The same as above, but from the webserver point of view
-# Starting point is the application HTML file of the source folder.
-# In most cases just add a "/.." compared to above.
-#
-ifndef QOOXDOO_URI
-  QOOXDOO_URI = $(QOOXDOO_PATH)/..
-endif
-
-#
-# Define the path of your application relative to the Makefile.
-# Normally the Makefile resists in the top-level directory of your application.
-# The default value "." is OK in the most cases.
-#
-ifndef APPLICATION_PATH
-  APPLICATION_PATH = .
-endif
-
-#
-# Define the URI of your application HTML relative to the Makefile.
-# Normally the Makefile resists in the top-level directory of your application.
-# The default value "." is OK in the most cases.
-#
-ifndef APPLICATION_URI
-  APPLICATION_URI = .
 endif
 
 #
@@ -79,23 +52,49 @@ ifndef APPLICATION_NAMESPACE
   APPLICATION_NAMESPACE = custom
 endif
 
+
+
+
+
+
+
+################################################################################
+# BASIC SETTINGS
+################################################################################
+
 #
-# Namespace of your application e.g. custom
+# The same as above, but from the webserver point of view
+# Starting point is the application HTML file of the source folder.
+# In most cases just add a "/.." compared to above.
+# This should end with the last directory. Please omit a trailing slash.
+#
+ifndef QOOXDOO_URI
+  QOOXDOO_URI = $(QOOXDOO_PATH)/..
+endif
+
+#
+# Namespace defined as a directory path.
 # Even complexer stuff is possible like: net/sf/custom
+# Normally the namespace given will be automatically translated.
 #
 ifndef APPLICATION_NAMESPACE_PATH
-  APPLICATION_NAMESPACE_PATH = custom
+  APPLICATION_NAMESPACE_PATH := $(shell echo $(APPLICATION_NAMESPACE_PATH) | sed s:'.':'/':g)
 endif
 
 #
-# Titles used in your API viewer and during the build process
+# Title used during the make process.
+# Default is the uppercase variant of your custom namespace.
 #
 ifndef APPLICATION_MAKE_TITLE
-  APPLICATION_MAKE_TITLE = CUSTOM
+  APPLICATION_MAKE_TITLE := $(shell echo $(APPLICATION_NAMESPACE) | tr "[:lower:]" "[:upper:]")
 endif
 
+#
+# Title used in your API viewer
+# Default is identical to your custom namespace.
+#
 ifndef APPLICATION_API_TITLE
-  APPLICATION_API_TITLE = Custom
+  APPLICATION_API_TITLE := $(APPLICATION_NAMESPACE)
 endif
 
 #
@@ -103,7 +102,7 @@ endif
 # directory (space separated list). The default list is empty.
 #
 ifndef APPLICATION_FILES
-   APPLICATION_FILES =
+  APPLICATION_FILES =
 endif
 
 #
@@ -113,6 +112,22 @@ ifndef APPLICATION_LOCALES
   APPLICATION_LOCALES =
 endif
 
+#
+# Defines the position of the HTML/PHP etc. file used to include your
+# application JavaScript code in relation to root directory. The root
+# directory meant here is your source or build directory. Even if we
+# this is about directories all the time, this setting configure the
+# URI and not a file system path.
+#
+# If your HTML file is placed directly in source/build you can simply use
+# the default "." (without quotation) here.
+#
+# If your HTML file is placed in source/html/page.html you can configure
+# this setting to "../" (without quotation) for example.
+#
+ifndef APPLICATION_HTML_TO_ROOT_URI
+  APPLICATION_HTML_TO_ROOT_URI = .
+endif
 
 
 
@@ -120,9 +135,9 @@ endif
 
 
 
-####################################################################################
+################################################################################
 # GENERATOR OPTIONS
-####################################################################################
+################################################################################
 
 #
 # Customize your application tailor mode
@@ -192,9 +207,9 @@ endif
 
 
 
-####################################################################################
+################################################################################
 # RUNTIME SETTINGS
-####################################################################################
+################################################################################
 
 #
 # Theme selection support
@@ -219,9 +234,10 @@ endif
 
 
 
-####################################################################################
+
+################################################################################
 # SOURCE TEMPLATE SETUP
-####################################################################################
+################################################################################
 
 #
 # Template to patch (e.g. XHTML mode)
@@ -244,49 +260,53 @@ endif
 
 
 
-####################################################################################
+################################################################################
 # DETAILED PATH CONFIGURATION
-####################################################################################
+################################################################################
 
 #
-# The source folder of your application. This folder should contain all your
-# application class files and resources. The default is "./source".
+# The source folder of your application from the directory which contains the
+# Makefile (if defined relatively). This folder should contain all your
+# application class files and resources. The default is ./source.
 #
 ifndef APPLICATION_SOURCE_PATH
-  APPLICATION_SOURCE_PATH = $(APPLICATION_PATH)/source
+  APPLICATION_SOURCE_PATH = ./source
 endif
 
 #
-# The build folder of your application. This is the folder where the application
-# self-contained build is generated to. The default is "./build".
+# The build folder of your application from the directory which contains the
+# Makefile (if defined relatively). This is the folder where the application
+# self-contained build is generated to. The default is ./build.
 #
 ifndef APPLICATION_BUILD_PATH
-  APPLICATION_BUILD_PATH = $(APPLICATION_PATH)/build
+  APPLICATION_BUILD_PATH = ./build
 endif
 
 #
-# The API folder of your application. This is the destination target where the
+# The API folder of your application from the directory which contains the
+# Makefile (if defined relatively). This is the destination target where the
 # self-contained API viewer should resist after a "make api".
-# The default is "./api".
+# The default is ./api.
 #
 ifndef APPLICATION_API_PATH
-  APPLICATION_API_PATH = $(APPLICATION_PATH)/api
+  APPLICATION_API_PATH = ./api
 endif
 
 #
-# Define the publishing location
-# Could be any rsync compatible url/path
-#
-ifndef APPLICATION_PUBLISH_PATH
-  APPLICATION_PUBLISH_PATH = $(APPLICATION_PATH)/publish
-endif
-
-#
-# Define the debug location
-# Could be any rsync compatible url/path
+# Define the debug location from the directory which contains the
+# Makefile (if defined relatively). The default is ./debug.
 #
 ifndef APPLICATION_DEBUG_PATH
-  APPLICATION_DEBUG_PATH = $(APPLICATION_PATH)/debug
+  APPLICATION_DEBUG_PATH = ./debug
+endif
+
+#
+# Define the publishing location from the directory which contains the
+# Makefile (if defined relatively). Could be any rsync compatible url/path
+# The default is ./publish.
+#
+ifndef APPLICATION_PUBLISH_PATH
+  APPLICATION_PUBLISH_PATH = ./publish
 endif
 
 
@@ -297,9 +317,10 @@ endif
 
 
 
-####################################################################################
+
+################################################################################
 # ADVANCED SETTINGS: OUTPUT OPTIONS
-####################################################################################
+################################################################################
 
 #
 # Name of the generated script
@@ -322,10 +343,9 @@ endif
 
 
 
-
-###################################################################################
+################################################################################
 # INCLUDE EXTERNAL MAKEFILES
-###################################################################################
+################################################################################
 
 include $(QOOXDOO_PATH)/frontend/framework/tool/make/compute.mk
 include $(QOOXDOO_PATH)/frontend/framework/tool/make/impl.mk
