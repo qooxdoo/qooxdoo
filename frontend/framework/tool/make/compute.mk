@@ -86,6 +86,69 @@ else
   COMPUTED_BUILD_SETTING += --use-setting qx.initComponent:qx.component.init.BasicInitComponent
 endif
 
+ifneq ($(APPLICATION_SOURCE_LOG_LEVEL),)
+  ifeq ($(APPLICATION_SOURCE_LOG_LEVEL),all)
+    JS_SOURCE_LOG_LEVEL = 0
+  endif
+  ifeq ($(APPLICATION_SOURCE_LOG_LEVEL),debug)
+    JS_SOURCE_LOG_LEVEL = 200
+  endif
+  ifeq ($(APPLICATION_SOURCE_LOG_LEVEL),info)
+    JS_SOURCE_LOG_LEVEL = 500
+  endif
+  ifeq ($(APPLICATION_SOURCE_LOG_LEVEL),warn)
+    JS_SOURCE_LOG_LEVEL = 600
+  endif
+  ifeq ($(APPLICATION_SOURCE_LOG_LEVEL),error)
+    JS_SOURCE_LOG_LEVEL = 700
+  endif
+  ifeq ($(APPLICATION_SOURCE_LOG_LEVEL),fatal)
+    JS_SOURCE_LOG_LEVEL = 800
+  endif
+  ifeq ($(APPLICATION_SOURCE_LOG_LEVEL),off)
+    JS_SOURCE_LOG_LEVEL = 1000
+  endif
+
+  ifneq ($(JS_SOURCE_LOG_LEVEL),)
+    COMPUTED_SOURCE_SETTING += --use-setting qx.minLogLevel:$(JS_SOURCE_LOG_LEVEL)
+  endif
+endif
+
+ifneq ($(APPLICATION_BUILD_LOG_LEVEL),)
+  ifeq ($(APPLICATION_BUILD_LOG_LEVEL),all)
+    JS_BUILD_LOG_LEVEL = 0
+  endif
+  ifeq ($(APPLICATION_BUILD_LOG_LEVEL),debug)
+    JS_BUILD_LOG_LEVEL = 200
+  endif
+  ifeq ($(APPLICATION_BUILD_LOG_LEVEL),info)
+    JS_BUILD_LOG_LEVEL = 500
+  endif
+  ifeq ($(APPLICATION_BUILD_LOG_LEVEL),warn)
+    JS_BUILD_LOG_LEVEL = 600
+  endif
+  ifeq ($(APPLICATION_BUILD_LOG_LEVEL),error)
+    JS_BUILD_LOG_LEVEL = 700
+  endif
+  ifeq ($(APPLICATION_BUILD_LOG_LEVEL),fatal)
+    JS_BUILD_LOG_LEVEL = 800
+  endif
+  ifeq ($(APPLICATION_BUILD_LOG_LEVEL),off)
+    JS_BUILD_LOG_LEVEL = 1000
+  endif
+
+  ifneq ($(JS_BUILD_LOG_LEVEL),)
+    COMPUTED_BUILD_SETTING += --use-setting qx.minLogLevel:$(JS_BUILD_LOG_LEVEL)
+  endif
+endif
+
+ifneq ($(APPLICATION_SOURCE_LOG_APPENDER),)
+  COMPUTED_SOURCE_SETTING += --use-setting qx.logAppender:$(APPLICATION_SOURCE_LOG_APPENDER)
+endif
+
+ifneq ($(APPLICATION_BUILD_LOG_APPENDER),)
+  COMPUTED_BUILD_SETTING += --use-setting qx.logAppender:$(APPLICATION_BUILD_LOG_APPENDER)
+endif
 
 
 
@@ -155,8 +218,51 @@ else
   COMPUTED_BUILD_INCLUDE += --include qx.component.init.BasicInitComponent
 endif
 
+ifneq ($(APPLICATION_SOURCE_LOG_APPENDER),)
+  COMPUTED_SOURCE_INCLUDE += --include $(APPLICATION_SOURCE_LOG_APPENDER)
+else
+  COMPUTED_SOURCE_INCLUDE += --include qx.log.WindowAppender
+endif
+
+ifneq ($(APPLICATION_BUILD_LOG_APPENDER),)
+  COMPUTED_BUILD_INCLUDE += --include qx.logAppender:$(APPLICATION_BUILD_LOG_APPENDER)
+else
+  COMPUTED_BUILD_INCLUDE += --include qx.log.WindowAppender
+endif
 
 
+
+
+
+# ==============================================================================
+# Compute priorities
+# ==============================================================================
+
+# Language features should be added with highest priority
+COMPUTED_SOURCE_PRIORITIES = --prioritize-class qx.core.Client,qx.lang.Core,qx.lang.Generics
+COMPUTED_BUILD_PRIORITIES = --prioritize-class qx.core.Client,qx.lang.Core,qx.lang.Generics
+
+# Make the appender available to have the ability to log at loadtime for many of
+# the following classes
+ifneq ($(APPLICATION_SOURCE_LOG_APPENDER),)
+  COMPUTED_SOURCE_PRIORITIES += --prioritize-class $(APPLICATION_SOURCE_LOG_APPENDER)
+else
+  COMPUTED_SOURCE_PRIORITIES += --prioritize-class qx.log.NativeAppender
+endif
+
+ifneq ($(APPLICATION_BUILD_LOG_APPENDER),)
+  COMPUTED_BUILD_PRIORITIES += --prioritize-class $(APPLICATION_BUILD_LOG_APPENDER)
+else
+  COMPUTED_BUILD_PRIORITIES += --prioritize-class qx.log.NativeAppender
+endif
+
+# Be sure that the logger is available fast
+COMPUTED_SOURCE_PRIORITIES += --prioritize-class qx.log.Logger
+COMPUTED_BUILD_PRIORITIES += --prioritize-class qx.log.Logger
+
+# Be sure that onload is assigned as earliest possible moment
+COMPUTED_SOURCE_PRIORITIES += --prioritize-class qx.core.Init
+COMPUTED_BUILD_PRIORITIES += --prioritize-class qx.core.Init
 
 
 
@@ -210,6 +316,13 @@ ifneq ($(APPLICATION_ADDITIONAL_BUILD_OPTIONS),)
   COMPUTED_BUILD_OPTIONS += $(APPLICATION_ADDITIONAL_BUILD_OPTIONS)
 endif
 
+ifneq ($(COMPUTED_SOURCE_PRIORITIES),)
+  COMPUTED_SOURCE_OPTIONS += $(COMPUTED_SOURCE_PRIORITIES)
+endif
+
+ifneq ($(COMPUTED_BUILD_PRIORITIES),)
+  COMPUTED_BUILD_OPTIONS += $(COMPUTED_BUILD_PRIORITIES)
+endif
 
 
 

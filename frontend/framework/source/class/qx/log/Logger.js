@@ -363,6 +363,9 @@ qx.Class.LEVEL_FATAL = 800;
 qx.Class.LEVEL_OFF = 1000;
 
 
+qx.core.Setting.define("qx.logAppender", "qx.log.NativeAppender");
+qx.core.Setting.define("qx.minLogLevel", qx.log.Logger.LEVEL_DEBUG);
+
 /**
  * {Logger} The root logger. This is the root of the logger tree. All loggers
  * should be a child or grand child of this root logger.
@@ -371,10 +374,5 @@ qx.Class.LEVEL_OFF = 1000;
  * window.
  */
 qx.Class.ROOT_LOGGER = new qx.log.Logger("root", null);
-qx.Class.ROOT_LOGGER.setMinLevel(qx.log.Logger.LEVEL_DEBUG);
-
-if (typeof console != 'undefined' && console.debug) {
-  qx.Class.ROOT_LOGGER.addAppender(new qx.log.FireBugAppender());
-} else {
-  qx.Class.ROOT_LOGGER.addAppender(new qx.log.WindowAppender());
-}
+qx.Class.ROOT_LOGGER.setMinLevel(qx.core.Setting.get("qx.minLogLevel"));
+qx.Class.ROOT_LOGGER.addAppender(new qx.OO.classes[qx.core.Setting.get("qx.logAppender")]);

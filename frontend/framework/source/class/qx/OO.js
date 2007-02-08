@@ -52,6 +52,12 @@ qx.Clazz.define("qx.OO",
 
 
 
+    toFirstUp : function(str) {
+      return str.charAt(0).toUpperCase() + str.substr(1);
+    },
+
+
+
 
     /*
     ---------------------------------------------------------------------------
@@ -147,7 +153,7 @@ qx.Clazz.define("qx.OO",
     addFastProperty : function(vConfig)
     {
       var vName = vConfig.name;
-      var vUpName = qx.lang.String.toFirstUp(vName);
+      var vUpName = this.toFirstUp(vName);
 
       var vStorageField = "_value" + vUpName;
       var vGetterName = "get" + vUpName;
@@ -206,7 +212,7 @@ qx.Clazz.define("qx.OO",
     addCachedProperty : function(p)
     {
       var vName = p.name;
-      var vUpName = qx.lang.String.toFirstUp(vName);
+      var vUpName = this.toFirstUp(vName);
 
       var vStorageField = "_cached" + vUpName;
       var vComputerName = "_compute" + vUpName;
@@ -288,7 +294,7 @@ qx.Clazz.define("qx.OO",
         throw new Error("Malformed input parameters: members needed!");
       }
 
-      p.method = qx.lang.String.toFirstUp(p.name);
+      p.method = this.toFirstUp(p.name);
 
       /* --------------------------------------------------------------------------------
           CACHING
@@ -298,11 +304,11 @@ qx.Clazz.define("qx.OO",
       p.setter = [];
 
       for (var i=0, l=p.members.length; i<l; i++) {
-        p.setter.push("set" + qx.lang.String.toFirstUp(p.members[i]));
+        p.setter.push("set" + this.toFirstUp(p.members[i]));
       }
 
       for (var i=0, l=p.members.length; i<l; i++) {
-        p.getter.push("get" + qx.lang.String.toFirstUp(p.members[i]));
+        p.getter.push("get" + this.toFirstUp(p.members[i]));
       }
 
       /* --------------------------------------------------------------------------------
@@ -394,8 +400,8 @@ qx.Clazz.define("qx.OO",
       // building shorter prototype access
       var pp = qx.Proto;
 
-      p.method = qx.lang.String.toFirstUp(p.name);
-      p.implMethod = p.impl ? qx.lang.String.toFirstUp(p.impl) : p.method;
+      p.method = this.toFirstUp(p.name);
+      p.implMethod = p.impl ? this.toFirstUp(p.impl) : p.method;
 
       var valueKey = "_value" + p.method;
 
@@ -438,8 +444,8 @@ qx.Clazz.define("qx.OO",
       // building shorter prototype access
       var pp = qx.Proto;
 
-      p.method = qx.lang.String.toFirstUp(p.name);
-      p.implMethod = p.impl ? qx.lang.String.toFirstUp(p.impl) : p.method;
+      p.method = this.toFirstUp(p.name);
+      p.implMethod = p.impl ? this.toFirstUp(p.impl) : p.method;
 
       if (p.defaultValue == undefined) {
         p.defaultValue = null;
@@ -513,7 +519,7 @@ qx.Clazz.define("qx.OO",
         pp[cu + "TypeAuto"] = false;
         pp[cu + "TypeFlex"] = false;
 
-        var unitDetectionKey = "_unitDetection" + qx.lang.String.toFirstUp(p.unitDetection);
+        var unitDetectionKey = "_unitDetection" + this.toFirstUp(p.unitDetection);
       }
 
       // apply default value

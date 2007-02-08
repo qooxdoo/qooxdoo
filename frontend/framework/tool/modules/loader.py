@@ -601,25 +601,29 @@ def addClass(fileDb, fileId, content):
 
 
 
-def sortClass(fileDb, fileId, avail, result, verbose):
+def sortClass(fileDb, fileId, avail, result, verbose, prio=False):
   if fileId in result or not fileId in avail:
     return
 
   fileEntry = fileDb[fileId]
 
   if verbose:
-    print "ID: %s" % fileId
+    print "    - Trying to include: %s" % fileId
 
   for depId in fileEntry["loadtimeDeps"]:
     if not depId in result and depId in avail:
-      sortClass(fileDb, depId, avail, result, verbose)
+      sortClass(fileDb, depId, avail, result, verbose, prio)
 
   if not fileId in result:
+    if verbose:
+      print "      - Including %s" % fileId
+
     result.append(fileId)
 
-  for depId in fileEntry["runtimeDeps"]:
-    if not depId in result and depId in avail:
-      sortClass(fileDb, depId, avail, result, verbose)
+  if not prio:
+    for depId in fileEntry["runtimeDeps"]:
+      if not depId in result and depId in avail:
+        sortClass(fileDb, depId, avail, result, verbose, prio)
 
 
 
@@ -759,9 +763,22 @@ def getSortedList(options, fileDb, moduleDb):
   # SORTING
   #
 
-  print "  * Sorting %s classes..." % len(includeCombined)
+  print "  * Sorting %s classes (prioritized %s classes)..." % (len(includeCombined), len(options.prioritizeClass))
 
   result = []
+
+  if options.verbose:
+    print "  * Priority based sort..."
+
+  for fileId in options.prioritizeClass:
+    if fileId in includeCombined:
+      sortClass(fileDb, fileId, includeCombined, result, options.verbose, True)
+    else:
+      print "  * Warning: Class %s is prioritized, but should not be included!"
+
+  if options.verbose:
+    print "  * List based sort..."
+
   for fileId in includeCombined:
     sortClass(fileDb, fileId, includeCombined, result, options.verbose)
 

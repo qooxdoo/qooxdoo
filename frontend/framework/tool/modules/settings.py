@@ -25,8 +25,7 @@ import filetool, optparseext
 
 
 def generate(settingsList, newLines):
-  typeFloat = re.compile("^([0-9\-]+\.[0-9]+)$")
-  typeNumber = re.compile("^([0-9\-])$")
+  typeNumber = re.compile("^([0-9\-]+)$")
 
   if newLines:
     lineBreak = "\n"
