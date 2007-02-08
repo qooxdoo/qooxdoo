@@ -43,7 +43,6 @@ def log(level, msg, node=None):
 
 
 def search(node, variantMap, fileId="", verb=False):
-  print variantMap
   global verbose
   global file
   verbose = verb
@@ -55,7 +54,6 @@ def search(node, variantMap, fileId="", verb=False):
     if variantMethod == "select":
       modified = processVariantSelect(selectNode(variant, "../.."), variantMap) or modified
     elif variantMethod == "isSet":
-      print "isSet"
       modified = processVariantIsSet(selectNode(variant, "../.."), variantMap) or modified
   
   return modified
