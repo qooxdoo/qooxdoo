@@ -650,10 +650,11 @@ def getSortedList(options, fileDb, moduleDb):
     class2 = pair.split(":")[1]
 
     if not class1 in fileDb or not class2 in fileDb:
-	    print "    - Invalid runtime dependency definition: %s" % pair
-	    continue
+      print "    - Invalid runtime dependency definition: %s" % pair
+      continue
 
     if not class2 in fileDb[class1]["loadtimeDeps"]:
+      print "    - Adding #require(%s) to %s" % (class2, class1)
       fileDb[class1]["loadtimeDeps"].append(class2)
 
   for pair in options.addUse:
@@ -665,6 +666,7 @@ def getSortedList(options, fileDb, moduleDb):
       continue
 
       if not class2 in fileDb[class1]["runtimeDeps"]:
+        print "    - Adding #use(%s) to %s" % (class2, class1)
         fileDb[class1]["runtimeDeps"].append(class2)
 
 
