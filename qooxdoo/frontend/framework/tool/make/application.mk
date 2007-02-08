@@ -36,10 +36,15 @@ include $(QOOXDOO_PATH)/frontend/framework/tool/make/apiviewer.mk
 ################################################################################
 
 #
-# Location of your qooxdoo distribution
-# Could be relative from this location or absolute.
+# Path to the folder of your qooxdoo distribution.
+# Can either be
+# a) a relative path to the location of this Makefile (preferred) or
+# b) an absolute path starting at the root of your file system
+# Example: If you put the skeleton folder next to the qooxdoo SDK folder,
+# you can use the following relative path:
+# QOOXDOO_PATH = ../qooxdoo-0.6.5-sdk
 # Please note that Windows users should always use relative paths.
-# This should end with the last directory. Please omit a trailing slash.
+# It should end with the last directory. Please omit a trailing slash.
 #
 ifndef QOOXDOO_PATH
   QOOXDOO_PATH = PLEASE_DEFINE_QOOXDOO_PATH
@@ -64,9 +69,18 @@ endif
 ################################################################################
 
 #
-# The same as above, but from the webserver point of view
-# Starting point is the application HTML file of the source folder.
-# In most cases just add a "/.." compared to above.
+# Full application classname
+#
+ifndef APPLICATION_CLASSNAME
+  APPLICATION_CLASSNAME = Application
+endif
+
+#
+# Similar to QOOXDOO_PATH, but from the webserver point of view.
+# Starting point is now the application HTML file of the source folder
+# (source/index.html by default). In most cases just prepend a "../" to
+# QOOXDOO_PATH from above.
+# Example: QOOXDOO_URI = ../../qooxdoo-0.6.5-sdk
 # This should end with the last directory. Please omit a trailing slash.
 #
 ifndef QOOXDOO_URI
@@ -108,6 +122,8 @@ endif
 
 #
 # Locales to use (space separated list)
+# To set a specific locale like "en_US" the generic locale "en" has to be added as well
+# Example: APPLICATION_LOCALES = en en_US de de_DE es
 #
 ifndef APPLICATION_LOCALES
   APPLICATION_LOCALES =
@@ -319,7 +335,7 @@ endif
 
 
 ################################################################################
-# ADVANCED SETTINGS: OUTPUT OPTIONS
+# OUTPUT OPTIONS
 ################################################################################
 
 #
@@ -329,12 +345,30 @@ ifndef APPLICATION_SCRIPT_FILENAME
   APPLICATION_SCRIPT_FILENAME = $(APPLICATION_NAMESPACE).js
 endif
 
+
+
+
+
+
+################################################################################
+# ADDITIONAL CONFIGURATION
+################################################################################
+
 #
-# Full application classname
+# Additional class paths and URIs.
+# These should be comma separated.
+# The generator option will be automatically added
 #
-ifndef APPLICATION_CLASSNAME
-  APPLICATION_CLASSNAME = $(APPLICATION_NAMESPACE).Application
+ifndef APPLICATION_ADDITIONAL_CLASS_PATH
+  APPLICATION_ADDITIONAL_CLASS_PATH =
 endif
+
+ifndef APPLICATION_ADDITIONAL_CLASS_URI
+  APPLICATION_ADDITIONAL_CLASS_URI =
+endif
+
+
+
 
 
 

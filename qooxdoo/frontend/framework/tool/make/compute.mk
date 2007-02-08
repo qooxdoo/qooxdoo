@@ -25,12 +25,12 @@
 
 
 
-# ========================================================
+# ==============================================================================
 # Compute basics
-# ========================================================
+# ==============================================================================
 
-COMPUTED_CLASS_PATH = --class-path $(FRAMEWORK_SOURCE_PATH)/class --class-path $(APPLICATION_SOURCE_PATH)/class
-COMPUTED_CLASS_URI = --class-uri $(FRAMEWORK_SOURCE_URI)/class --class-uri $(APPLICATION_HTML_TO_ROOT_URI)/class
+COMPUTED_CLASS_PATH = --class-path $(FRAMEWORK_SOURCE_PATH)/class,$(APPLICATION_SOURCE_PATH)/class,$(APPLICATION_ADDITIONAL_CLASS_PATH)
+COMPUTED_CLASS_URI = --class-uri $(FRAMEWORK_SOURCE_URI)/class,$(APPLICATION_HTML_TO_ROOT_URI)/class,$(APPLICATION_ADDITIONAL_CLASS_URI)
 
 COMPUTED_BUILD_SCRIPT_NAME = $(APPLICATION_BUILD_PATH)/script/$(APPLICATION_SCRIPT_FILENAME)
 COMPUTED_SOURCE_SCRIPT_NAME = $(APPLICATION_SOURCE_PATH)/script/$(APPLICATION_SCRIPT_FILENAME)
@@ -40,13 +40,14 @@ COMPUTED_SOURCE_SCRIPT_NAME = $(APPLICATION_SOURCE_PATH)/script/$(APPLICATION_SC
 
 
 
-# ========================================================
+
+# ==============================================================================
 # Compute resources
-# ========================================================
+# ==============================================================================
 
 COMPUTED_BUILD_RESOURCE = --copy-resources \
   --resource-input $(FRAMEWORK_SOURCE_PATH)/resource \
-  --resource-output $(APPLICATION_BUILD_PATH)/resource/qx \
+  --resource-output $(APPLICATION_BUILD_PATH)/resource/$(FRAMEWORK_NAMESPACE) \
   --resource-input $(APPLICATION_SOURCE_PATH)/resource \
   --resource-output $(APPLICATION_BUILD_PATH)/resource/$(APPLICATION_NAMESPACE)
 
@@ -59,9 +60,9 @@ endif
 
 
 
-# ========================================================
+# ==============================================================================
 # Compute settings
-# ========================================================
+# ==============================================================================
 
 COMPUTED_BUILD_SETTING = \
   --use-setting $(FRAMEWORK_NAMESPACE).resourceUri:$(APPLICATION_HTML_TO_ROOT_URI)/resource/$(FRAMEWORK_NAMESPACE) \
@@ -81,8 +82,8 @@ ifeq ($(APPLICATION_ENABLE_GUI),true)
   COMPUTED_SOURCE_SETTING += $(COMPUTED_THEME_SETTING)
   COMPUTED_BUILD_SETTING += $(COMPUTED_THEME_SETTING)
 else
-  COMPUTED_SOURCE_SETTING += --use-setting qx.initComponent:qx.component.init.BasicInitComponent --include qx.component.init.BasicInitComponent
-  COMPUTED_BUILD_SETTING += --use-setting qx.initComponent:qx.component.init.BasicInitComponent --include qx.component.init.BasicInitComponent
+  COMPUTED_SOURCE_SETTING += --use-setting qx.initComponent:qx.component.init.BasicInitComponent
+  COMPUTED_BUILD_SETTING += --use-setting qx.initComponent:qx.component.init.BasicInitComponent
 endif
 
 
@@ -90,9 +91,9 @@ endif
 
 
 
-# ========================================================
+# ==============================================================================
 # Compute locales
-# ========================================================
+# ==============================================================================
 
 ifndef APPLICATION_LOCALES
   COMPUTED_LOCALES = C
@@ -109,9 +110,9 @@ COMPUTED_APPLICATION_TRANSLATION_INCLUDE := $(COMPUTED_LOCALES:%= --include $(AP
 
 
 
-# ========================================================
+# ==============================================================================
 # Compute includes
-# ========================================================
+# ==============================================================================
 
 ifeq ($(APPLICATION_ENABLE_GUI),false)
 COMPUTED_THEMES_INCLUDE =
@@ -120,7 +121,7 @@ COMPUTED_THEMES_INCLUDE = --include $(APPLICATION_THEME_ICON),$(APPLICATION_THEM
 endif
 
 ifeq ($(APPLICATION_COMPLETE_SOURCE),false)
-  COMPUTED_SOURCE_INCLUDE = --include $(APPLICATION_CLASSNAME) \
+  COMPUTED_SOURCE_INCLUDE = --include $(APPLICATION_NAMESPACE).$(APPLICATION_CLASSNAME) \
     $(COMPUTED_FRAMEWORK_LOCALE_INCLUDE) \
     $(COMPUTED_FRAMEWORK_TRANSLATION_INCLUDE) \
     $(COMPUTED_APPLICATION_TRANSLATION_INCLUDE) \
@@ -130,7 +131,7 @@ else
 endif
 
 ifneq ($(APPLICATION_COMPLETE_BUILD),true)
-  COMPUTED_BUILD_INCLUDE = --include $(APPLICATION_CLASSNAME) \
+  COMPUTED_BUILD_INCLUDE = --include $(APPLICATION_NAMESPACE).$(APPLICATION_CLASSNAME) \
     $(COMPUTED_FRAMEWORK_LOCALE_INCLUDE) \
     $(COMPUTED_FRAMEWORK_TRANSLATION_INCLUDE) \
     $(COMPUTED_APPLICATION_TRANSLATION_INCLUDE) \
@@ -140,9 +141,17 @@ else
 endif
 
 ifeq ($(APPLICATION_COMPLETE_API),false)
-  COMPUTED_API_INCLUDE = --include $(APPLICATION_CLASSNAME)
+  COMPUTED_API_INCLUDE = --include $(APPLICATION_NAMESPACE).$(APPLICATION_CLASSNAME)
 else
   COMPUTED_API_INCLUDE =
+endif
+
+ifeq ($(APPLICATION_ENABLE_GUI),true)
+  COMPUTED_SOURCE_INCLUDE += --include qx.component.init.InterfaceInitComponent
+  COMPUTED_BUILD_INCLUDE += --include qx.component.init.InterfaceInitComponent
+else
+  COMPUTED_SOURCE_INCLUDE += --include qx.component.init.BasicInitComponent
+  COMPUTED_BUILD_INCLUDE += --include qx.component.init.BasicInitComponent
 endif
 
 
@@ -151,9 +160,10 @@ endif
 
 
 
-# ========================================================
+
+# ==============================================================================
 # Compute variant configuration
-# ========================================================
+# ==============================================================================
 
 COMPUTED_BUILD_VARIANT =
 COMPUTED_SOURCE_VARIANT =
@@ -168,9 +178,9 @@ endif
 
 
 
-# ========================================================
+# ==============================================================================
 # Compute options
-# ========================================================
+# ==============================================================================
 
 COMPUTED_SOURCE_OPTIONS =
 COMPUTED_BUILD_OPTIONS =
@@ -208,9 +218,9 @@ endif
 
 
 
-# ========================================================
+# ==============================================================================
 # Compute template configuration
-# ========================================================
+# ==============================================================================
 
 COMPUTED_TEMPLATE =
 

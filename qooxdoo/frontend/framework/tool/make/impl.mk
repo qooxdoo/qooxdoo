@@ -103,22 +103,22 @@ exec-script-build-opt:
 	@mv $(COMPUTED_BUILD_SCRIPT_NAME) $(COMPUTED_BUILD_SCRIPT_NAME:.js=_all.js)
 
 	@for BROWSER in gecko mshtml webkit opera; do \
-  	$(CMD_GENERATOR) \
-  	  $(COMPUTED_CLASS_PATH) \
+    $(CMD_GENERATOR) \
+      $(COMPUTED_CLASS_PATH) \
       $(COMPUTED_BUILD_SETTING) \
-  	  $(COMPUTED_BUILD_VARIANT) \
-  	  $(COMPUTED_BUILD_INCLUDE) \
-  	  $(COMPUTED_BUILD_OPTIONS) \
-  	  --generate-compiled-script \
-  	  --use-variant qx.client:$$BROWSER \
-  	  --compiled-script-file $(COMPUTED_BUILD_SCRIPT_NAME:.js=_$$BROWSER.js) || exit 1; \
+      $(COMPUTED_BUILD_VARIANT) \
+      $(COMPUTED_BUILD_INCLUDE) \
+      $(COMPUTED_BUILD_OPTIONS) \
+      --generate-compiled-script \
+      --use-variant qx.client:$$BROWSER \
+      --compiled-script-file $(COMPUTED_BUILD_SCRIPT_NAME:.js=_$$BROWSER.js) || exit 1; \
   done
 
 	@cat $(FRAMEWORK_TOOL_PATH)/make/browser_loader.tmpl.js | \
-	  $(CMD_PYTHON) -c "import sys; lines = sys.stdin.readlines(); print ''.join(lines) % {'path': sys.argv[1], 'name': sys.argv[2]}" \
-	    $(APPLICATION_HTML_TO_ROOT_URI)/script \
-	    $(APPLICATION_SCRIPT_FILENAME:.js=) \
-	  > $(COMPUTED_BUILD_SCRIPT_NAME)
+    $(CMD_PYTHON) -c "import sys; lines = sys.stdin.readlines(); print ''.join(lines) % {'path': sys.argv[1], 'name': sys.argv[2]}" \
+      $(APPLICATION_HTML_TO_ROOT_URI)/script \
+      $(APPLICATION_SCRIPT_FILENAME:.js=) \
+    > $(COMPUTED_BUILD_SCRIPT_NAME)
 
 else
 
