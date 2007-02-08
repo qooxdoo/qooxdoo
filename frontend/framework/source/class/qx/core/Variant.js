@@ -28,6 +28,20 @@
 
 /* ************************************************************************ */
 
+/**
+ * Variant Class
+ * 
+ * Variants enable the selection and removal of code from the build version.
+ * A variant consists of a collection of states from which exactly one is active
+ * at load time of the framework. The global map <code>qxvariants</code> can be 
+ * used to select a variant before the Framework is loades.
+ * 
+ * Depending on the selected variant a specific code
+ * path can be choosen using the <code>select</code> method.
+ * 
+ * The generator is able to set a variant and remove all code paths which are not
+ * selected by the variant.
+ */
 qx.Clazz.define("qx.core.Variant",
 {
   statics :
@@ -39,12 +53,11 @@ qx.Clazz.define("qx.core.Variant",
      * Define a variant
      *
      * @type static
-     * @name define
-     * @access public
-     * @param key {var} TODOC
-     * @param allowedValues {var} TODOC
-     * @return {void}
-     * @throws TODOC
+     * @param key {string} An Unique key for the variant. The key must be prefixed with a
+     *   namespace identifier (e.g. <code>"qx.debug"</code>)
+     * @param allowedValues {string[]} An array of all allowed values for this variant.
+     * @param defaultValue {string} Default value for the variant. Must be one of the values
+     *   defined in <code>defaultValues</code>.
      */
     define : function(key, allowedValues, defaultValue)
     {
@@ -67,14 +80,10 @@ qx.Clazz.define("qx.core.Variant",
     },
 
     /**
-     * TODOC
+     * Get the current value of a variant.
      *
-     * @type static
-     * @name get
-     * @access public
-     * @param key {var} TODOC
-     * @return {var} TODOC
-     * @throws TODOC
+     * @param key {string} name of the variant
+     * @return {string} current value of the variant
      */
     get : function(key)
     {
@@ -91,11 +100,6 @@ qx.Clazz.define("qx.core.Variant",
 
     /**
      * Import settings from global qxvariants into current environment
-     *
-     * @type static
-     * @name init
-     * @access public
-     * @return {void}
      */
     init : function()
     {
@@ -114,17 +118,14 @@ qx.Clazz.define("qx.core.Variant",
           this.__variants[key].value = qxvariants[key];
         }
 
-        delete window.qxvariants;
+        window.qxvariants = null;
       }
     },
 
     /**
-     * TODOC
+     * Select a code path 
      *
-     * @type static
-     * @name select
-     * @access public
-     * @param key {var} TODOC
+     * @param key {string} name of the variant
      * @param variants {var} TODOC
      * @return {call | var} TODOC
      * @throws TODOC
