@@ -89,7 +89,8 @@ exec-script-build:
 	  $(COMPUTED_BUILD_INCLUDE) \
 	  $(COMPUTED_BUILD_OPTIONS) \
 	  --generate-compiled-script \
-	  --compiled-script-file $(COMPUTED_BUILD_SCRIPT_NAME)
+	  --compiled-script-file $(COMPUTED_BUILD_SCRIPT_NAME) \
+	  $(APPLICATION_ADDITIONAL_SCRIPT_BUILD_OPTIONS)
 
 
 
