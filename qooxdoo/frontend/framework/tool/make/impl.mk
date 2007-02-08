@@ -200,8 +200,7 @@ exec-framework-localization:
 	@echo "  PREPARING LOCALIZATION"
 	@$(CMD_LINE)
 	@mkdir -p $(FRAMEWORK_CACHE_PATH)
-	@echo TEST: $(FRAMEWORK_NAMESPACE_PATH)
-	@echo mkdir -p $(FRAMEWORK_SOURCE_PATH)/class/$(FRAMEWORK_NAMESPACE_PATH)/locale/data
+	@mkdir -p $(FRAMEWORK_SOURCE_PATH)/class/$(FRAMEWORK_NAMESPACE_PATH)/locale/data
 	@echo "  * Processing locales..."
 	@for LOC in $(APPLICATION_LOCALES); do \
 	  echo "    - Locale: $$LOC"; \
