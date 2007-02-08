@@ -20,66 +20,21 @@
 ################################################################################
 
 ################################################################################
-# BASIC SETTINGS
+# SETTINGS
 ################################################################################
 
-#
-# Location of your qooxdoo distribution
-# Could be relative from this location or absolute
-#
 QOOXDOO_PATH = ../../..
-
-#
-# Namespace of your application e.g. custom
-#
 APPLICATION_NAMESPACE = webmail
-
-#
-# Titles used in your API viewer and during the build process
-#
 APPLICATION_API_TITLE = WebMail
-
-#
-# Additional files (space separated list)
-#
+APPLICATION_THEME_ICON = qx.theme.icon.CrystalClear
+APPLICATION_RESOURCE_FILTER = true
+APPLICATION_COMPLETE_SOURCE = false
+APPLICATION_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$(APPLICATION_NAMESPACE)
 APPLICATION_FILES = index.html
-
-#
-# XHTML support
-#
 APPLICATION_TEMPLATE_INPUT = index.xhtml.tmpl
 APPLICATION_TEMPLATE_OUTPUT = index.xhtml
 
-#
-# Reduce log level
-#
-#APPLICATION_LOGLEVEL = error
 
-
-
-################################################################################
-# ADVANCED SETTINGS
-################################################################################
-
-#
-# Select icon theme
-#
-APPLICATION_THEME_ICON = qx.theme.icon.CrystalClear
-
-#
-# Enable resource filtering in API viewer
-#
-APPLICATION_RESOURCE_FILTER = true
-
-#
-# We don't need the full source code
-#
-APPLICATION_COMPLETE_SOURCE = false
-
-#
-# qooxdoo.org sync
-#
-APPLICATION_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$(APPLICATION_NAMESPACE)
 
 
 

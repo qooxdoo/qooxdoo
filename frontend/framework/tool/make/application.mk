@@ -37,7 +37,8 @@ include $(QOOXDOO_PATH)/frontend/framework/tool/make/apiviewer.mk
 
 #
 # Location of your qooxdoo distribution
-# Could be relative from this location or absolute
+# Could be relative from this location or absolute.
+# Please note that Windows users should always use relative paths.
 # This should end with the last directory. Please omit a trailing slash.
 #
 ifndef QOOXDOO_PATH
