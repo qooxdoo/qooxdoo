@@ -46,7 +46,7 @@ qx.Clazz.define("qx.core.Variant",
 {
   statics :
   {
-    /** {var} TODOC */
+    /** {Map} stored variants */
     __variants : {},
 
 
@@ -141,7 +141,8 @@ qx.Clazz.define("qx.core.Variant",
      * is selected if the variant is "mshtml" or "opera" and the third function is selected if
      * none of the other keys match the variant. "none" is the default case. 
      *
-     * @param key {String} name of the variant
+     * @param key {String} name of the variant. To enable the generator to optimize
+     *   this selection, the key must be a string literal.
      * @param variantFunctionMap {Map} map with variant names as keys and functions as values.
      * @return {Function} The selected function from the map.
      */
@@ -173,13 +174,29 @@ qx.Clazz.define("qx.core.Variant",
 
     
     /**
-     * Check whether a variant is set to a given value.
+     * Check whether a variant is set to a given value. To enable the generator to optimize
+     * this selection, both parameters must be string literals.
+     * 
+     * This method is meant to be used in if statements to select code paths. If the condition of
+     * an if statement is only this method, the generator is able to optimize the if
+     * statement.
+     * 
+     * Example:
+     * <code>
+     * if (qx.core.Variant.isSet("qx.client", mshtml")) {
+     *   // some Internet Explorer specific code
+     * } else if(qx.core.Variant.isSet("qx.client", opera")){
+     *   // Opera specific code
+     * } else {
+     *   // common code for all other browsers
+     * }
+     * </code>
      *
-     * @param key {var} name of the variant
-     * @param variants {var} value to check for. Several values can be "or"-combined by separating
-     *   them with a "|" character. A value of "mshtml|opera" would for example check is the variant is
+     * @param key {String} name of the variant
+     * @param variants {String} value to check for. Several values can be "or"-combined by separating
+     *   them with a "|" character. A value of "mshtml|opera" would for example check if the variant is
      *   set to "mshtml" or "opera"
-     * @return {boolean} whether the variant is set to the given value
+     * @return {Boolean} whether the variant is set to the given value
      */
     isSet : function(key, variants)
     {
