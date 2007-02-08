@@ -4,8 +4,6 @@ if (window.opera) {
 	var client = "opera";
 } else if (agent.indexOf("AppleWebKit") != -1) {
 	client = "webkit";
-} else if (agent.indexOf("KHTML") != -1) {
-  client = "khtml";
 } else if (agent.indexOf("Gecko/") != -1) {
 	client = "gecko";
 } else if (agent.indexOf("MSIE") != -1) {
