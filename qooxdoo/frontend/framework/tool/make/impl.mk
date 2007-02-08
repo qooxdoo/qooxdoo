@@ -204,7 +204,7 @@ exec-framework-localization:
 	@mkdir -p $(FRAMEWORK_CACHE_PATH)
 	@mkdir -p $(FRAMEWORK_SOURCE_PATH)/class/$(FRAMEWORK_NAMESPACE_PATH)/locale/data
 	@echo "  * Processing locales..."
-	@for LOC in $(APPLICATION_LOCALES); do \
+	@for LOC in $(COMPUTED_LOCALES); do \
 	  echo "    - Locale: $$LOC"; \
 	  mod=0; \
 	  if [ ! -r $(FRAMEWORK_CACHE_PATH)/$$LOC.xml -a -r $(FRAMEWORK_SOURCE_PATH)/locale/$$LOC.xml ]; then \
@@ -252,7 +252,7 @@ exec-framework-translation:
 	  break; done
 
 	@echo "  * Processing translations..."
-	@for LOC in $(APPLICATION_LOCALES); do \
+	@for LOC in $(COMPUTED_LOCALES); do \
 	  echo "    - Translation: $$LOC"; \
 	  if [ ! -r $(FRAMEWORK_SOURCE_PATH)/translation/$$LOC.po ]; then \
   	    echo "      - Generating initial translation file..."; \
@@ -295,7 +295,7 @@ exec-application-translation:
 	  break; done
 
 	@echo "  * Processing translations..."
-	@for LOC in $(APPLICATION_LOCALES); do \
+	@for LOC in $(COMPUTED_LOCALES); do \
 	  echo "    - Translation: $$LOC"; \
 	  if [ ! -r $(APPLICATION_SOURCE_PATH)/translation/$$LOC.po ]; then \
   	    echo "      - Generating initial translation file..."; \
