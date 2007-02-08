@@ -23,7 +23,7 @@
 # API-Viewer Settings
 #
 APIVIEWER_NAMESPACE = apiviewer
-APIVIEWER_NAMESPACE_PATH = $(shell echo $(APIVIEWER_NAMESPACE) | sed s:'.':'/':g)
+APIVIEWER_NAMESPACE_PATH = $(shell echo $(APIVIEWER_NAMESPACE) | sed s:\\.:/:g)
 APIVIEWER_PATH = $(QOOXDOO_PATH)/frontend/application/apiviewer
 APIVIEWER_SOURCE_PATH = $(APIVIEWER_PATH)/source
 APIVIEWER_FILES = index.html
