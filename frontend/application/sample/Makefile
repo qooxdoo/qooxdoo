@@ -77,7 +77,7 @@ APPLICATION_COMPLETE_BUILD = true
 #
 # Relation from HTML file to the top level directory (source or build).
 #
-APPLICATION_PAGE_TO_TOPLEVEL = ../..
+APPLICATION_HTML_TO_ROOT_URI = ../..
 
 
 

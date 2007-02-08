@@ -19,9 +19,9 @@
 #
 ################################################################################
 
-###################################################################################
+################################################################################
 # EXEC TARGETS
-###################################################################################
+################################################################################
 
 #
 # Cleanup targets
@@ -98,6 +98,7 @@ exec-script-build:
 
 
 ifeq ($(APPLICATION_OPTIMIZE_BROWSER),true)
+
 exec-script-build-opt:
 	@mv $(COMPUTED_BUILD_SCRIPT_NAME) $(COMPUTED_BUILD_SCRIPT_NAME:.js=_all.js)
 
@@ -115,7 +116,7 @@ exec-script-build-opt:
 
 	@cat $(FRAMEWORK_TOOL_PATH)/make/browser_loader.tmpl.js | \
 	  $(CMD_PYTHON) -c "import sys; lines = sys.stdin.readlines(); print ''.join(lines) % {'path': sys.argv[1], 'name': sys.argv[2]}" \
-	    $(APPLICATION_PAGE_TO_TOPLEVEL)/script \
+	    $(APPLICATION_HTML_TO_ROOT_URI)/script \
 	    $(APPLICATION_SCRIPT_FILENAME:.js=) \
 	  > $(COMPUTED_BUILD_SCRIPT_NAME)
 
@@ -305,7 +306,7 @@ exec-application-translation:
 	  mkdir -p $(APPLICATION_SOURCE_PATH)/translation; \
 	  $(CMD_MSGFMT) \
 	    -n $(APPLICATION_NAMESPACE).translation \
-	    -d $(APPLICATION_SOURCE_PATH)/class/$(APPLICATION_NAMESPACE).translation \
+	    -d $(APPLICATION_SOURCE_PATH)/class/$(APPLICATION_NAMESPACE_PATH)/translation \
 	    $(APPLICATION_SOURCE_PATH)/translation/$$LOC.po; \
 	done
 	@rm -rf $(APPLICATION_SOURCE_PATH)/translation/*~
@@ -407,9 +408,9 @@ exec-none:
 
 
 
-###################################################################################
+################################################################################
 # INFO TARGETS
-###################################################################################
+################################################################################
 
 info-build:
 	@echo

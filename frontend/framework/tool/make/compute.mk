@@ -19,10 +19,9 @@
 #
 ################################################################################
 
-
-###################################################################################
+################################################################################
 # PROCESSING APPLICATION SETTINGS
-###################################################################################
+################################################################################
 
 
 
@@ -31,10 +30,11 @@
 # ========================================================
 
 COMPUTED_CLASS_PATH = --class-path $(FRAMEWORK_SOURCE_PATH)/class --class-path $(APPLICATION_SOURCE_PATH)/class
-COMPUTED_CLASS_URI = --class-uri $(FRAMEWORK_SOURCE_URI)/class --class-uri ./class
+COMPUTED_CLASS_URI = --class-uri $(FRAMEWORK_SOURCE_URI)/class --class-uri $(APPLICATION_HTML_TO_ROOT_URI)/class
 
 COMPUTED_BUILD_SCRIPT_NAME = $(APPLICATION_BUILD_PATH)/script/$(APPLICATION_SCRIPT_FILENAME)
 COMPUTED_SOURCE_SCRIPT_NAME = $(APPLICATION_SOURCE_PATH)/script/$(APPLICATION_SCRIPT_FILENAME)
+
 
 
 
@@ -64,14 +64,16 @@ endif
 # ========================================================
 
 COMPUTED_BUILD_SETTING = \
-  --use-setting $(FRAMEWORK_NAMESPACE).resourceUri:./resource/qx \
-  --use-setting $(APPLICATION_NAMESPACE).resourceUri:./resource/$(APPLICATION_NAMESPACE)
+  --use-setting $(FRAMEWORK_NAMESPACE).resourceUri:$(APPLICATION_HTML_TO_ROOT_URI)/resource/$(FRAMEWORK_NAMESPACE) \
+  --use-setting $(APPLICATION_NAMESPACE).resourceUri:$(APPLICATION_HTML_TO_ROOT_URI)/resource/$(APPLICATION_NAMESPACE)
 
 COMPUTED_SOURCE_SETTING = \
   --use-setting $(FRAMEWORK_NAMESPACE).resourceUri:$(FRAMEWORK_SOURCE_URI)/resource \
+  --use-setting $(APPLICATION_NAMESPACE).resourceUri:$(APPLICATION_HTML_TO_ROOT_URI)/resource
 
 ifeq ($(APPLICATION_ENABLE_GUI),true)
-  COMPUTED_THEME_SETTING = --use-setting qx.colorTheme:$(APPLICATION_THEME_COLOR) \
+  COMPUTED_THEME_SETTING = \
+    --use-setting qx.colorTheme:$(APPLICATION_THEME_COLOR) \
     --use-setting qx.iconTheme:$(APPLICATION_THEME_ICON) \
     --use-setting qx.widgetTheme:$(APPLICATION_THEME_WIDGET) \
     --use-setting qx.appearanceTheme:$(APPLICATION_THEME_APPEARANCE)
