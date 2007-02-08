@@ -135,7 +135,7 @@ qx.Clazz.define("qx.Clazz",
     define : function(name, config)
     {
       var key, value;
-      var extend, implement, include, settings, variants, construct, statics, properties, members;
+      var extend, implement, include, type, settings, variants, construct, statics, properties, members;
 
 
 
@@ -174,8 +174,11 @@ qx.Clazz.define("qx.Clazz",
             if (!(value instanceof Array)) {
               value = [ value ];
             }
-
             include = value;
+            break;
+            
+          case "type":
+            type = value;
             break;
 
           case "settings":
@@ -232,7 +235,11 @@ qx.Clazz.define("qx.Clazz",
         }
 
         // Store class pointer
-        var obj = construct;
+        if (type == "abstract") {
+          obj = this.__makeAbstract(name, construct);
+        } else {
+          obj = construct;
+        }
       }
 
       // Create namespace
@@ -542,6 +549,35 @@ qx.Clazz.define("qx.Clazz",
      * @return {void}
      */
     __mixin : function(target, mixin, overwrite) {},
+    
+    /**
+     * Convert a constructor into an abstract constructor.
+     * 
+     * @param className {String} fully qualified class name of the constructor.
+     * @param construct {Fuction} the original constructor
+     * @return {Function} abstract constructor
+     */
+    __makeAbstract: function(className, construct)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        var abstractConstructor = function() {
+          if (this.classname == arguments.callee.$ABSTRACT) {
+            throw new Error("Abstract");
+          }
+          return construct.apply(this, arguments);
+        }
+
+        abstractConstructor.$ABSTRACT = className;
+        return abstractConstructor;
+      }
+      else 
+      {
+        // in production code omit the check and just return the
+        // constructor
+        return construct;
+      }
+    },
 
     // Needs implementation
     /**
