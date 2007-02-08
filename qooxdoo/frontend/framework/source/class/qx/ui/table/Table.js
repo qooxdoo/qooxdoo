@@ -281,7 +281,7 @@ qx.Proto._modifySelectionModel = function(propValue, propOldValue, propData) {
 
 // property modifier
 qx.Proto._modifyTableModel = function(propValue, propOldValue, propData) {
-  this.getTableColumnModel().init(propValue.getColumnCount());
+  this.getTableColumnModel().init(propValue.getColumnCount(), this);
 
   if (propOldValue != null) {
     propOldValue.removeEventListener(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
