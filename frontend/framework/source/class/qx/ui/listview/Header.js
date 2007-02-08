@@ -128,7 +128,7 @@ qx.Proto._onmousemove = function(e)
   if (this._resizingActive)
   {
     // Slow down mshtml a bit
-    if (qx.core.Variant.select("qx.client", "mshtml"))
+    if (qx.core.Variant.isSet("qx.client", "mshtml"))
     {
       if ((new Date).valueOf() - this._last < 50) {
         return;

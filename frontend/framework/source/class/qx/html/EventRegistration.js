@@ -44,7 +44,7 @@ qx.html.EventRegistration.addEventListener = function(vElement, vType, vFunction
  */
 qx.html.EventRegistration.removeEventListener = function(vElement, vType, vFunction) {};
 
-if (qx.core.Variant.select("qx.client", "mshtml"))
+if (qx.core.Variant.isSet("qx.client", "mshtml"))
 {
   qx.html.EventRegistration.addEventListener = function(vElement, vType, vFunction) {
     vElement.attachEvent("on" + vType, vFunction);

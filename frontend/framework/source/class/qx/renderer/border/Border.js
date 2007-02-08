@@ -237,7 +237,7 @@ qx.Proto.setLeft = function(vWidth, vStyle, vColor)
 */
 
 
-if (qx.core.Variant.select("qx.client", "gecko"))
+if (qx.core.Variant.isSet("qx.client", "gecko"))
 {
   qx.Proto._initCache = function()
   {
@@ -703,7 +703,7 @@ qx.Proto._applyWidgetYCommon = function(vObject)
   }
 }
 
-if (qx.core.Variant.select("qx.client", "gecko"))
+if (qx.core.Variant.isSet("qx.client", "gecko"))
 {
   qx.Proto._applyWidgetX = qx.Proto._applyWidgetXCommon;
   qx.Proto._applyWidgetY = qx.Proto._applyWidgetYCommon;

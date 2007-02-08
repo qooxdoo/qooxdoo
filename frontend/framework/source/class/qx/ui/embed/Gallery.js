@@ -447,7 +447,7 @@ qx.Proto.createImageCell = function(inode, d)
     inode.gallery = this;
   }
 
-  if (qx.core.Variant.select("qx.client", "mshtml")) {
+  if (qx.core.Variant.isSet("qx.client", "mshtml")) {
     inode.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + d.src + "',sizingMethod='scale')";
   } else {
     inode.src = d.src;

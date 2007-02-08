@@ -354,7 +354,7 @@ qx.Proto._postApply = function()
         {
           vElement.style.overflow = "hidden";
 
-          if (qx.core.Variant.select("qx.client", "mshtml"))
+          if (qx.core.Variant.isSet("qx.client", "mshtml"))
           {
             vElement.style.textOverflow = "ellipsis";
             vHtml += this._mnemonicHtml;
@@ -465,7 +465,7 @@ qx.Proto._postApply = function()
       default:
         vElement.style.overflow = "";
 
-        if (qx.core.Variant.select("qx.client", "mshtml")) {
+        if (qx.core.Variant.isSet("qx.client", "mshtml")) {
           vElement.style.textOverflow = "";
         }
     }

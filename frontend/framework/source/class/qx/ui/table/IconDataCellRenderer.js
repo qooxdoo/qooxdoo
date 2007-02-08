@@ -121,7 +121,7 @@ qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
   // Set image and tooltip text
   var urlAndToolTip = this._getImageInfos(cellInfo);
   var img = cellElement.firstChild;
-  if (qx.core.Variant.select("qx.client", "mshtml")) {
+  if (qx.core.Variant.isSet("qx.client", "mshtml")) {
     if (/\.png$/i.test(urlAndToolTip.url)) {
       img.src = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
       img.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + urlAndToolTip.url + "',sizingMethod='scale')";
