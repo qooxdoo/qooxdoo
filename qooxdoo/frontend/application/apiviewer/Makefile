@@ -20,57 +20,17 @@
 ################################################################################
 
 ################################################################################
-# BASIC SETTINGS
+# SETTINGS
 ################################################################################
 
-#
-# Location of your qooxdoo distribution
-# Could be relative from this location or absolute
-#
 QOOXDOO_PATH = ../../..
-
-#
-# Namespace of your application e.g. custom
-#
 APPLICATION_NAMESPACE = apiviewer
-
-#
-# Titles used in your API viewer and during the build process
-#
 APPLICATION_API_TITLE = ApiViewer
-
-#
-# Additional files (space separated list)
-#
 APPLICATION_FILES = index.html
-
-
-
-
-
-################################################################################
-# ADVANCED SETTINGS
-################################################################################
-
-#
-# Enable resource filtering in API viewer
-#
 APPLICATION_RESOURCE_FILTER = true
-
-#
-# We don't need the full source code
-#
 APPLICATION_COMPLETE_SOURCE = false
-
-#
-# Disable line breaks
-#
 APPLICATION_LINEBREAKS_BUILD = false
 APPLICATION_LINEBREAKS_SOURCE = false
-
-#
-# qooxdoo.org sync
-#
 APPLICATION_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/api/$(FRAMEWORK_VERSION)
 
 
