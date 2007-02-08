@@ -776,6 +776,9 @@ def getSortedList(options, fileDb, moduleDb):
     else:
       print "    - Warning: Class %s is prioritized, but should not be included!" % fileId
 
+  for fileId in result[:]:
+    sortClass(fileDb, fileId, includeCombined, result, options.verbose)
+      
   if options.verbose:
     print "  * List based sort..."
 
