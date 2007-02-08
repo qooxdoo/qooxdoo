@@ -29,6 +29,8 @@ class ExtendAction(Option):
   def take_action(self, action, dest, opt, value, values, parser):
     if action == "extend":
       lvalue = value.split(",")
+      while "" in lvalue:
+        lvalue.remove("")
       values.ensure_value(dest, []).extend(lvalue)
     else:
       Option.take_action(
