@@ -78,8 +78,8 @@ qx.Clazz.define("qx.Clazz",
      * <pre><code>
      * qx.Clazz.define("name",
      * {
-     *   extend: Object, // superclass
-     *   implement: [Interfaces],
+     *   extend : Object, // superclass
+     *   implement : [Interfaces],
      *   include : [Mixins],
      *
      *   statics:
@@ -117,18 +117,17 @@ qx.Clazz.define("qx.Clazz",
      * @param name {String} class name
      * @param config {Map} config structure
      * @param config {Map ? null} config structure
+     * @param config.type {String ? null}  type of class ("abstract" | "static" | "singleton")
      * @param config.extend {Function ? null} extend class
      * @param config.implement {Array ? null} list of implement that need to be implemented
      * @param config.include {Array ? null} list of include to include
-     * @param config.settings {Map ? null} hash of settings for this class
-     * @param config.variants {Map ? null} hash of settings for this class
      * @param config.construct {Function ? null} constructor method to run on each initialization
      * @param config.statics {Map ? null} hash of static properties and methods ("class members")
      * @param config.properties {Map ? null} hash of properties with generated setters and getters
      * @param config.members {Map ? null} hash of regular properties and methods ("instance members")
      * @param config.defer {Function ? null} function to be called for post-processing
-     * @param config.abstract {boolean ? false} is abstract class
-     * @param config.singleton {boolean ? false} is singleton class
+     * @param config.settings {Map ? null} hash of settings for this class
+     * @param config.variants {Map ? null} hash of settings for this class
      * @param config.events {Array ? null} list of events the class is able to fire
      * @return {void}
      * @throws TODOC
