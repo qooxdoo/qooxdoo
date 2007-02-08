@@ -20,72 +20,23 @@
 ################################################################################
 
 ################################################################################
-# BASIC SETTINGS
+# SETTINGS
 ################################################################################
 
-#
-# Location of your qooxdoo distribution
-# Could be relative from this location or absolute
-#
 QOOXDOO_PATH = ../../..
-
-#
-# The same as above, but from the webserver point of view
-# Starting point is the application HTML file of the source folder.
-# In most cases just add a "/.." compared to above
-#
-QOOXDOO_URI = ../../../..
-
-#
-# Namespace of your application e.g. custom
-#
 APPLICATION_NAMESPACE = feedreader
-
-#
-# Titles used in your API viewer and during the build process
-#
-APPLICATION_MAKE_TITLE = FEEDREADER
 APPLICATION_API_TITLE = FeedReader
-
-#
-# Additional files (space separated list)
-#
 APPLICATION_FILES = index.html
+APPLICATION_RESOURCE_FILTER = true
+APPLICATION_COMPLETE_SOURCE = false
+APPLICATION_LINEBREAKS_BUILD = false
+APPLICATION_LINEBREAKS_SOURCE = false
+APPLICATION_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$(APPLICATION_NAMESPACE)
 
-#
-# Locales to include
-#
 #APPLICATION_LOCALES = en de tr it es sv ru fr
 APPLICATION_LOCALES = de es en
 
 
-
-
-
-################################################################################
-# ADVANCED SETTINGS
-################################################################################
-
-#
-# Enable resource filtering in API viewer
-#
-APPLICATION_RESOURCE_FILTER = true
-
-#
-# We don't need the full source code
-#
-APPLICATION_COMPLETE_SOURCE = false
-
-#
-# Disable line breaks
-#
-APPLICATION_LINEBREAKS_BUILD = false
-APPLICATION_LINEBREAKS_SOURCE = true
-
-#
-# qooxdoo.org sync
-#
-APPLICATION_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$(APPLICATION_NAMESPACE)
 
 
 
