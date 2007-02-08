@@ -84,7 +84,7 @@ qx.Proto.dispose = function() {}
 qx.Proto.toString = function() {}
 
 
-if (qx.core.Variant.select("qx.client", "mshtml"))
+if (qx.core.Variant.isSet("qx.client", "mshtml"))
 {
   qx.Proto.clear = function() {
     this._array = [];

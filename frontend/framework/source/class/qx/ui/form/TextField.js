@@ -212,7 +212,7 @@ qx.Proto._computePreferredInnerHeight = function() {
 ---------------------------------------------------------------------------
 */
 
-if (qx.core.Variant.select("qx.client", "mshtml"))
+if (qx.core.Variant.isSet("qx.client", "mshtml"))
 {
   qx.Proto._firstInputFixApplied = false;
 
@@ -283,7 +283,7 @@ qx.Proto._onblur = function(e)
 ---------------------------------------------------------------------------
 */
 
-if (qx.core.Variant.select("qx.client", "mshtml"))
+if (qx.core.Variant.isSet("qx.client", "mshtml"))
 {
   /*!
     Microsoft Documentation:

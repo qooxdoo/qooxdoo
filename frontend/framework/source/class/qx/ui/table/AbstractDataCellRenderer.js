@@ -118,7 +118,7 @@ qx.Class.MAIN_DIV_START_END = '">';
 qx.Class.MAIN_DIV_END = '</div>';
 /** main style */
 qx.Class.MAIN_DIV_STYLE = ';overflow:hidden;white-space:nowrap;border-right:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding-left:2px;padding-right:2px;cursor:default'
-  + (qx.core.Variant.select("qx.client", "mshtml") ? '' : ';-moz-user-select:none;');
+  + (qx.core.Variant.isSet("qx.client", "mshtml") ? '' : ';-moz-user-select:none;');
 
 qx.Class.ARRAY_JOIN_MAIN_DIV_LEFT = '<div style="position:absolute;left:';
 qx.Class.ARRAY_JOIN_MAIN_DIV_WIDTH = 'px;top:0px;width:';

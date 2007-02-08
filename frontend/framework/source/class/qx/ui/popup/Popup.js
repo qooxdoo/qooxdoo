@@ -40,7 +40,7 @@ function()
   // Firefox on Mac OS X has a rendering bug regarding absolutely positioned elements over
   // scrollbars. Setting the overflow property to "auto" makes this bug less annoying.
   // http://bugzilla.qooxdoo.org/show_bug.cgi?id=277
-  if (qx.core.Variant.select("qx.client", "gecko")) {
+  if (qx.core.Variant.isSet("qx.client", "gecko")) {
     if (qx.core.Client.getInstance().runsOnMacintosh()) {
       this.setOverflow("auto");
     }
@@ -305,8 +305,8 @@ qx.Proto.positionRelativeTo = function(el, offsetX, offsetY)
   }
   if (el) {
     var loc = qx.html.Location;
-    this.setLocation(loc.getClientAreaLeft(el) - (qx.core.Variant.select("qx.client", "gecko") ? qx.html.Style.getBorderLeft(el):0) + (offsetX || 0),
-      loc.getClientAreaTop(el) - (qx.core.Variant.select("qx.client", "gecko") ? qx.html.Style.getBorderTop(el):0) + (offsetY || 0));
+    this.setLocation(loc.getClientAreaLeft(el) - (qx.core.Variant.isSet("qx.client", "gecko") ? qx.html.Style.getBorderLeft(el):0) + (offsetX || 0),
+      loc.getClientAreaTop(el) - (qx.core.Variant.isSet("qx.client", "gecko") ? qx.html.Style.getBorderTop(el):0) + (offsetY || 0));
   } else {
     this.warn('Missing reference element');
   }

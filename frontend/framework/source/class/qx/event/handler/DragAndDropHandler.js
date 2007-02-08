@@ -681,7 +681,7 @@ qx.Proto.supportsDrop = function(vWidget)
 /*!
 #param e[qx.event.type.MouseEvent]: Current MouseEvent for dragdrop action
 */
-if (qx.core.Variant.select("qx.client", "gecko"))
+if (qx.core.Variant.isSet("qx.client", "gecko"))
 {
   qx.Proto.getDropTarget = function(e)
   {

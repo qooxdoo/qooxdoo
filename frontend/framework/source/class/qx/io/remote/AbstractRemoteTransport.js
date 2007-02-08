@@ -134,7 +134,7 @@ qx.Proto.send = function() {
 
 qx.Proto.abort = function()
 {
-  if (qx.core.Variant.select("qx.debug", "on"))
+  if (qx.core.Variant.isSet("qx.debug", "on"))
   {
     if (qx.core.Setting.get("qx.ioRemoteDebug")) {
       this.warn("Aborting...");
@@ -149,7 +149,7 @@ qx.Proto.abort = function()
 */
 qx.Proto.timeout = function()
 {
-  if (qx.core.Variant.select("qx.debug", "on"))
+  if (qx.core.Variant.isSet("qx.debug", "on"))
   {
     if (qx.core.Setting.get("qx.ioRemoteDebug")) {
       this.warn("Timeout...");
@@ -167,7 +167,7 @@ qx.Proto.timeout = function()
 */
 qx.Proto.failed = function()
 {
-  if (qx.core.Variant.select("qx.debug", "on"))
+  if (qx.core.Variant.isSet("qx.debug", "on"))
   {
     if (qx.core.Setting.get("qx.ioRemoteDebug")) {
       this.warn("Failed...");
@@ -296,7 +296,7 @@ qx.Proto.getFetchedLength = function() {
 
 qx.Proto._modifyState = function(propValue, propOldValue, propData)
 {
-  if (qx.core.Variant.select("qx.debug", "on"))
+  if (qx.core.Variant.isSet("qx.debug", "on"))
   {
     if (qx.core.Setting.get("qx.ioRemoteDebug")) {
       this.debug("State: " + propValue);

@@ -49,10 +49,10 @@ qx.Clazz.define("qx.core.Variant",
     /** {var} TODOC */
     __variants : {},
 
+
     /**
      * Define a variant
      *
-     * @type static
      * @param key {string} An Unique key for the variant. The key must be prefixed with a
      *   namespace identifier (e.g. <code>"qx.debug"</code>)
      * @param allowedValues {string[]} An array of all allowed values for this variant.
@@ -79,11 +79,12 @@ qx.Clazz.define("qx.core.Variant",
       this.__variants[key].defaultValue = defaultValue;
     },
 
+
     /**
      * Get the current value of a variant.
      *
-     * @param key {string} name of the variant
-     * @return {string} current value of the variant
+     * @param key {String} name of the variant
+     * @return {String} current value of the variant
      */
     get : function(key)
     {
@@ -97,6 +98,7 @@ qx.Clazz.define("qx.core.Variant",
 
       return this.__variants[key].value || this.__variants[key].defaultValue;
     },
+
 
     /**
      * Import settings from global qxvariants into current environment
@@ -122,15 +124,28 @@ qx.Clazz.define("qx.core.Variant",
       }
     },
 
+
     /**
-     * Select a code path 
+     * Select a function depending on the value of the variant.
+     * 
+     * Example:
+     * <code>
+     * var f = qx.Variant.select("qx.client", {
+     *   "gecko": fucntion() { ... },
+     *   "mshtml|opera": function() { ... },
+     *   "none": function() { ... }
+     * });
+     * </code>
+     * Depending on the value of the <code>"qx.client"</code> variant whit will select the 
+     * corresponding function. The first case is selected if the variant is "gecko", the second
+     * is selected if the variant is "mshtml" or "opera" and the third function is selected if
+     * none of the other keys match the variant. "none" is the default case. 
      *
-     * @param key {string} name of the variant
-     * @param variants {var} TODOC
-     * @return {call | var} TODOC
-     * @throws TODOC
+     * @param key {String} name of the variant
+     * @param variantFunctionMap {Map} map with variant names as keys and functions as values.
+     * @return {Function} The selected function from the map.
      */
-    select : function(key, variants)
+    select : function(key, variantFunctionMap)
     {
       // WARINING: all changes to this function must be duplicated in the generator!!
       // modules/variantoptimizer.py (processVariantSelect)
@@ -138,53 +153,48 @@ qx.Clazz.define("qx.core.Variant",
         throw new Error("Variant \"" + key + "\" is not defined");
       }
 
-      if (typeof variants === "string") {
-        return this.__matchKey(key, variants);
+      if (!this.__isValidObject(variantFunctionMap)) {
+        throw new Error("the second parameter must be a map!");
       }
-      else if (this.__isValidObject(variants))
+      
+      for (var variant in variantFunctionMap)
       {
-        for (var variant in variants)
-        {
-          if (this.__matchKey(key, variant)) {
-            return variants[variant];
-          }
+        if (this.isSet(key, variant)) {
+          return variantFunctionMap[variant];
         }
-
-        if (variants["none"]) {
-          return variants["none"];
-        }
-
-        throw new Error("No match for variant \"" + key + "\" found, and no default (\"none\") given");
       }
-      else
-      {
-        throw new Error("the second parameter must be a map or a string!");
+
+      if (variantFunctionMap["none"]) {
+        return variantFunctionMap["none"];
       }
+
+      throw new Error("No match for variant \"" + key + "\" found, and no default (\"none\") given");
     },
 
+    
     /**
-     * TODOC
+     * Check whether a variant is set to a given value.
      *
-     * @type static
-     * @name __matchKey
-     * @access private
-     * @param variantGroup {var} TODOC
-     * @param key {var} TODOC
-     * @return {boolean} TODOC
+     * @param key {var} name of the variant
+     * @param variants {var} value to check for. Several values can be "or"-combined by separating
+     *   them with a "|" character. A value of "mshtml|opera" would for example check is the variant is
+     *   set to "mshtml" or "opera"
+     * @return {boolean} whether the variant is set to the given value
      */
-    __matchKey : function(variantGroup, key)
+    isSet : function(key, variants)
     {
-      var keyParts = key.split("|");
+      var keyParts = variants.split("|");
 
       for (var i=0; i<keyParts.length; i++)
       {
-        if (keyParts[i] !== "none" && this.get(variantGroup) === keyParts[i]) {
+        if (keyParts[i] !== "none" && this.get(key) === keyParts[i]) {
           return true;
         }
       }
 
       return false;
     },
+
 
     /**
      * Whether a value is a valid array. Valid arrays are:
@@ -203,6 +213,7 @@ qx.Clazz.define("qx.core.Variant",
       return typeof v === "object" && v !== null && v instanceof Array;
     },
 
+
     /**
      * Whether a value is a valid object. Valid object are:
      * <ul>
@@ -219,6 +230,7 @@ qx.Clazz.define("qx.core.Variant",
     __isValidObject : function(v) {
       return typeof v === "object" && v !== null && !(v instanceof Array);
     },
+
 
     /**
      * Whether the array contains the given element

@@ -676,7 +676,7 @@ qx.Proto.layoutChild = function(vChild, vJobs)
   this.layoutChild_marginY(vChild, vJobs);
 }
 
-if (qx.core.Variant.select("qx.client", "mshtml|opera|webkit"))
+if (qx.core.Variant.isSet("qx.client", "mshtml|opera|webkit"))
 {
   qx.Proto.layoutChild_sizeX = function(vChild, vJobs)
   {
@@ -812,7 +812,7 @@ qx.Proto.layoutChild_locationY = function(vChild, vJobs)
   var vWidget = this.getWidget();
 
   // special stretching support
-  if (qx.core.Variant.select("qx.client", "gecko"))
+  if (qx.core.Variant.isSet("qx.client", "gecko"))
   {
     if (vChild.getAllowStretchY() && vWidget.getStretchChildrenOrthogonalAxis() && vChild._computedHeightTypeNull)
     {

@@ -76,7 +76,7 @@ qx.event.type.MouseEvent.getPageX   = function() { return qx.event.type.MouseEve
 qx.event.type.MouseEvent.getPageY   = function() { return qx.event.type.MouseEvent._pageY;   }
 qx.event.type.MouseEvent.getButton  = function() { return qx.event.type.MouseEvent._button;  }
 
-if (qx.core.Variant.select("qx.client", "mshtml"))
+if (qx.core.Variant.isSet("qx.client", "mshtml"))
 {
   qx.event.type.MouseEvent.buttons = { left : 1, right : 2, middle : 4 }
 }
@@ -121,7 +121,7 @@ qx.Proto.getScreenY = function() {
 ---------------------------------------------------------------------------
 */
 
-if (qx.core.Variant.select("qx.client", "mshtml"))
+if (qx.core.Variant.isSet("qx.client", "mshtml"))
 {
 qx.OO.addFastProperty({ name : "pageX", readOnly : true });
 qx.OO.addFastProperty({ name : "pageY", readOnly : true });
@@ -147,7 +147,7 @@ qx.OO.addFastProperty({ name : "pageY", readOnly : true });
     }
   }
 }
-else if (qx.core.Variant.select("qx.client", "gecko"))
+else if (qx.core.Variant.isSet("qx.client", "gecko"))
 {
   qx.Proto.getPageX = function() {
     return this.getDomEvent().pageX;
@@ -180,7 +180,7 @@ else
 ---------------------------------------------------------------------------
 */
 
-if (qx.core.Variant.select("qx.client", "mshtml|gecko"))
+if (qx.core.Variant.isSet("qx.client", "mshtml|gecko"))
 {
   qx.Proto.getClientX = function() {
     return this.getDomEvent().clientX;
@@ -219,7 +219,7 @@ qx.OO.addFastProperty({ name : "clientY", readOnly : true });
 qx.OO.addFastProperty({ name : "button", readOnly : true });
 
 // IE does not set e.button in click events
-if (qx.core.Variant.select("qx.client", "mshtml"))
+if (qx.core.Variant.isSet("qx.client", "mshtml"))
 {
   qx.Proto.isLeftButtonPressed = function() {
     if (this.getType() == "click") {
@@ -291,13 +291,13 @@ qx.Proto._computeButton = function() {
 
 qx.OO.addFastProperty({ name : "wheelDelta", readOnly : true });
 
-if(qx.core.Variant.select("qx.client", "mshtml"))
+if(qx.core.Variant.isSet("qx.client", "mshtml"))
 {
   qx.Proto._computeWheelDelta = function() {
     return this.getDomEvent().wheelDelta / 120;
   }
 }
-else if(qx.core.Variant.select("qx.client", "opera"))
+else if(qx.core.Variant.isSet("qx.client", "opera"))
 {
   qx.Proto._computeWheelDelta = function() {
     return -this.getDomEvent().wheelDelta / 120;

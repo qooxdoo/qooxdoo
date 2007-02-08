@@ -161,7 +161,7 @@ qx.Proto.isCtrlOrCommandPressed = function() {
 ---------------------------------------------------------------------------
 */
 
-if(qx.core.Variant.select("qx.client", "mshtml"))
+if(qx.core.Variant.isSet("qx.client", "mshtml"))
 {
   qx.Proto.setDefaultPrevented = function(vValue)
   {

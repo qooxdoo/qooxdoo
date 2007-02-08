@@ -158,7 +158,7 @@ qx.Proto._modifyElement = function(propValue, propOldValue, propData)
     // clone proto blocker
     var blockerNode = this.setBlockerNode(qx.ui.embed.Iframe._blocker.cloneNode(true));
 
-    if (qx.core.Variant.select("qx.client", "mshtml")) {
+    if (qx.core.Variant.isSet("qx.client", "mshtml")) {
       iframeNode.onreadystatechange = this.__onreadystatechange;
     } else {
       iframeNode.onload = this.__onload;
@@ -259,7 +259,7 @@ qx.Proto._onload = function()
 ---------------------------------------------------------------------------
 */
 
-if (qx.core.Variant.select("qx.client", "mshtml"))
+if (qx.core.Variant.isSet("qx.client", "mshtml"))
 {
   qx.Proto.getContentWindow = function()
   {
@@ -315,7 +315,7 @@ else
 
 qx.Proto._isLoaded = false;
 
-if (qx.core.Variant.select("qx.client", "mshtml"))
+if (qx.core.Variant.isSet("qx.client", "mshtml"))
 {
   qx.Proto.isLoaded = function()
   {
@@ -417,7 +417,7 @@ qx.ui.embed.Iframe.initBlocker = function()
 
   var b = qx.ui.embed.Iframe._blocker = document.createElement("div");
 
-  if (qx.core.Variant.select("qx.client", "mshtml")) {
+  if (qx.core.Variant.isSet("qx.client", "mshtml")) {
     b.style.backgroundImage = "url(" + qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif") + ")";
   }
 

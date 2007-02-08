@@ -325,7 +325,7 @@ qx.Proto.layoutChild = function(vChild, vJobs)
   this.layoutChild_location(vChild, vJobs);
 }
 
-if (qx.core.Variant.select("qx.client", "mshtml|opera"))
+if (qx.core.Variant.isSet("qx.client", "mshtml|opera"))
 {
   /*!
     We need to respect all dimension properties on the horizontal axis in
