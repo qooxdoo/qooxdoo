@@ -102,7 +102,7 @@ ifeq ($(APPLICATION_OPTIMIZE_BROWSER),true)
 exec-script-build-opt:
 	@mv $(COMPUTED_BUILD_SCRIPT_NAME) $(COMPUTED_BUILD_SCRIPT_NAME:.js=_all.js)
 
-	@for BROWSER in gecko mshtml webkit opera khtml; do \
+	@for BROWSER in gecko mshtml webkit opera; do \
   	$(CMD_GENERATOR) \
   	  $(COMPUTED_CLASS_PATH) \
      	$(COMPUTED_BUILD_SETTING) \
