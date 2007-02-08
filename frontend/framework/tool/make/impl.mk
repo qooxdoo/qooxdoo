@@ -30,6 +30,7 @@
 exec-clean:
 	@echo "  * Cleaning up build..."
 	@$(CMD_REMOVE) $(APPLICATION_BUILD_PATH)/script/$(APPLICATION_SCRIPT_FILENAME)
+	@$(CMD_REMOVE) $(APPLICATION_BUILD_PATH)/script/$(APPLICATION_SCRIPT_FILENAME:.js=)_*.js
 
 	@echo "  * Cleaning up source..."
 	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/script/$(APPLICATION_SCRIPT_FILENAME)

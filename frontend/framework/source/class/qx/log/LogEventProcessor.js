@@ -20,6 +20,7 @@
 /* ************************************************************************
 
 #module(core)
+#require(qx.log.DefaultFilter)
 
 ************************************************************************ */
 
@@ -72,7 +73,7 @@ qx.Proto.getHeadFilter = function() {
  */
 qx.Proto._getDefaultFilter = function() {
   var headFilter = this.getHeadFilter();
-  if (! (headFilter instanceof qx.log.DefaultFilter)) {
+  if (!(headFilter instanceof qx.log.DefaultFilter)) {
     // The head filter of the appender is no DefaultFilter
     // (or the appender has no filters at all)
     // -> Create a default handler and append it

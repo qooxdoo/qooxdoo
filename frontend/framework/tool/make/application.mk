@@ -249,6 +249,27 @@ endif
 
 
 
+#
+# Logging settings support
+#
+ifndef APPLICATION_SOURCE_LOG_LEVEL
+  APPLICATION_SOURCE_LOG_LEVEL = debug
+endif
+
+ifndef APPLICATION_BUILD_LOG_LEVEL
+  APPLICATION_BUILD_LOG_LEVEL = debug
+endif
+
+ifndef APPLICATION_SOURCE_LOG_APPENDER
+  APPLICATION_SOURCE_LOG_APPENDER = qx.log.NativeAppender
+endif
+
+ifndef APPLICATION_BUILD_LOG_APPENDER
+  APPLICATION_BUILD_LOG_APPENDER = qx.log.NativeAppender
+endif
+
+
+
 
 
 
