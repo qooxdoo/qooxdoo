@@ -58,7 +58,8 @@ qx.Proto.main = function(e)
   // Add an event listener
   button1.addEventListener("execute", function(e) {
     alert("Hello World!");
-  });
+    }
+  );
 };
 
 qx.Proto.finalize = function(e)
