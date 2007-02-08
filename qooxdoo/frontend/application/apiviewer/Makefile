@@ -62,11 +62,11 @@ error:
 source:
 	@$(CMD_GENERATOR) \
 	  --generate-api-documentation \
-	  --api-documentation-json-file $(APPLICATION_PATH)/source/script/apidata.js \
+	  --api-documentation-json-file ./source/script/apidata.js \
 	  --class-path $(FRAMEWORK_SOURCE_PATH)/class
 
 build:
 	@$(CMD_GENERATOR) \
 	  --generate-api-documentation \
-	  --api-documentation-json-file $(APPLICATION_PATH)/build/script/apidata.js \
+	  --api-documentation-json-file ./build/script/apidata.js \
 	  --class-path $(FRAMEWORK_SOURCE_PATH)/class
