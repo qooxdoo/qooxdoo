@@ -105,7 +105,7 @@ exec-script-build-opt:
 	@for BROWSER in gecko mshtml webkit opera; do \
   	$(CMD_GENERATOR) \
   	  $(COMPUTED_CLASS_PATH) \
-     	$(COMPUTED_BUILD_SETTING) \
+      $(COMPUTED_BUILD_SETTING) \
   	  $(COMPUTED_BUILD_VARIANT) \
   	  $(COMPUTED_BUILD_INCLUDE) \
   	  $(COMPUTED_BUILD_OPTIONS) \
