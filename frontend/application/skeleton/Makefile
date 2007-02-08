@@ -24,10 +24,15 @@
 ################################################################################
 
 #
-# Location of your qooxdoo distribution
-# Could be relative from this location or absolute.
+# Path to the folder of your qooxdoo distribution.
+# Can either be
+# a) a relative path to the location of this Makefile (preferred) or
+# b) an absolute path starting at the root of your file system
+# Example: If you put the skeleton folder next to the qooxdoo SDK folder,
+# you can use the following relative path:
+# QOOXDOO_PATH = ../qooxdoo-0.6.5-sdk
 # Please note that Windows users should always use relative paths.
-# This should end with the last directory. Please omit a trailing slash.
+# It should end with the last directory. Please omit a trailing slash.
 #
 QOOXDOO_PATH = PLEASE_DEFINE_QOOXDOO_PATH
 
