@@ -104,7 +104,8 @@ def getparser():
   parser.add_option("--use-setting", action="extend", dest="useSetting", type="string", metavar="NAMESPACE.KEY:VALUE", default=[], help="Define a setting.")
   parser.add_option("--use-variant", action="extend", dest="useVariant", type="string", metavar="NAMESPACE.KEY:VALUE", default=[], help="Optimize for the given variant.")
   parser.add_option("--add-new-lines", action="store_true", dest="addNewLines", default=False, help="Keep newlines in compiled files.")
-  parser.add_option("--prioritize-class", action="extend", dest="prioritizeClass", metavar="CLAZZ", type="string", default=[], help="Define classes to priorize (load first).")
+  parser.add_option("--add-require", action="extend", dest="addRequire", metavar="CLASS1:CLASS2", type="string", default=[], help="Define that CLASS1 requires CLASS2.")
+  parser.add_option("--add-use", action="extend", dest="addUse", metavar="CLASS1:CLASS2", type="string", default=[], help="Define that CLASS1 uses CLASS2.")
 
   # Options for compiled version
   parser.add_option("--add-file-ids", action="store_true", dest="addFileIds", default=False, help="Add file IDs to compiled output.")
