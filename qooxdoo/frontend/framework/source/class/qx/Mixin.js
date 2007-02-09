@@ -124,7 +124,7 @@ qx.Clazz.define("qx.Mixin",
       var obj = {};
 
       // Create namespace
-      var basename = qx.Clazz.createNamespace(name, obj);
+      var basename = qx.Clazz.createNamespace(name, obj, false);
 
       // Add to registry
       qx.Mixin.registry[name] = obj;
