@@ -37,39 +37,6 @@ qx.Clazz.define("qx.Clazz",
     /** Stores all defined classes */
     registry : {},
 
-    /**
-     * Creates a given namespace and assigns the given object to the last part.
-     *
-     * @type static
-     * @name createNamespace
-     * @access public
-     * @param name {String} The namespace including the last (class) name
-     * @param object {Object} The data to attach to the namespace
-     * @return {var} TODOC
-     */
-    createNamespace : function(name, object)
-    {
-      var splits = name.split(".");
-      var len = splits.length;
-      var parent = window;
-      var part = splits[0];
-
-      for (var i=0, l=len-1; i<l; i++)
-      {
-        if (!parent[part]) {
-          parent[part] = {};
-        }
-
-        parent = parent[part];
-        part = splits[i + 1];
-      }
-
-      // store object
-      parent[part] = object;
-
-      // return last part name (e.g. classname)
-      return part;
-    },
 
     /**
      * Class config
@@ -111,9 +78,6 @@ qx.Clazz.define("qx.Clazz",
      * });
      * </code></pre>
      *
-     * @type static
-     * @name define
-     * @access public
      * @param name {String} class name
      * @param config {Map} config structure
      * @param config {Map ? null} config structure
@@ -236,7 +200,23 @@ qx.Clazz.define("qx.Clazz",
 
         // Store class pointer
         if (type == "abstract") {
-          obj = this.__makeAbstract(name, construct);
+          obj = this.__createAbstractConstructor(name, construct);
+        } else if (type == "singleton") {
+          obj = this.__createSingletonConstructor(construct);
+          // two alternatives to implement singletons
+          if (true) {
+            // enfore the imlpementation of the interface qx.lang.ISingleton
+            if (!implement) {
+              implement = [];
+            }
+            implement.push(qx.lang.ISingleton);
+          } else {
+            // automagically add the getInstance method to the statics
+            if (!statics) {
+              statics = {}
+            }
+            statics.getInstance = qx.lang.MSingleton.statics.getInstance;
+          }
         } else {
           obj = construct;
         }
@@ -375,77 +355,6 @@ qx.Clazz.define("qx.Clazz",
 
 
 
-
-      /*
-      ---------------------------------------------------------------------------
-        Merge in the Mixins
-      ---------------------------------------------------------------------------
-      */
-
-      if (include)
-      {
-        var imembers, iproperties;
-
-        if (qx.core.Variant.isSet("qx.debug", "on")) {
-          qx.Mixin.compatible(include, 'include list in Class "' + name + '".');
-        }
-
-        for (var i=0, l=include.length; i<l; i++)
-        {
-          // Attach members
-          // Directly attach them. This is because we must not
-          // modify them e.g. attaching base etc. because they may
-          // used by multiple classes
-          imembers = include[i].members;
-
-          if (imembers == null) {
-            throw new Error('Invalid include in class "' + name + '"! The value is undefined/null!');
-          }
-
-          for (var key in imembers) {
-            prot[key] = imembers[key];
-          }
-
-          // Attach properties
-          iproperties = include[i].properties;
-
-          for (var key in iproperties) {
-            properties[key] = iproperties[key];
-          }
-        }
-      }
-
-
-
-
-      /*
-      ---------------------------------------------------------------------------
-        Attach properties
-      ---------------------------------------------------------------------------
-      */
-
-      if (properties)
-      {
-        for (var key in properties)
-        {
-          value = properties[key];
-          value.name = key;
-
-          if (value.fast) {
-            qx.OO.addFastProperty(value);
-          } else if (value.cached) {
-            qx.OO.addCachedProperty(value);
-          } else if (value.compat) {
-            qx.OO.addProperty(value);
-          } else {
-            throw new Error('Could not handle property definition "' + key + '" in Class "' + name + "'");
-          }
-        }
-      }
-
-
-
-
       /*
       ---------------------------------------------------------------------------
         Attach instance members
@@ -478,6 +387,39 @@ qx.Clazz.define("qx.Clazz",
 
 
 
+      /*
+      ---------------------------------------------------------------------------
+        Attach properties
+      ---------------------------------------------------------------------------
+      */
+
+      if (properties)
+      {
+        for (var key in properties) {
+          this.__addProperty(obj, key, properties[key]);
+        }
+      }
+      
+      
+      
+      /*
+      ---------------------------------------------------------------------------
+        Merge in the Mixins
+      ---------------------------------------------------------------------------
+      */
+
+      if (include)
+      {
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          qx.Mixin.compatible(include, 'include list in Class "' + name + '".');
+        }
+        for (var i=0, l=include.length; i<l; i++)
+        {
+          this.__mixin(obj, include[i], false);
+        }
+      }
+
+
 
       /*
       ---------------------------------------------------------------------------
@@ -491,36 +433,85 @@ qx.Clazz.define("qx.Clazz",
         // There is nothing more needed for builds
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          var interfaceMembers;
-
           for (var i=0, l=implement.length; i<l; i++)
           {
             // Validate members
-            interfaceMembers = implement[i]._members;
+            var interfaceMembers = implement[i].members;
 
             for (key in interfaceMembers)
             {
               if (typeof prot[key] != "function") {
-                throw new Error('Implementation of method "' + key + '"() is missing in Class "' + name + '" required by interface "' + implement[i].name + "'");
+                throw new Error('Implementation of method "' + key + '" is missing in Class "' + name + '" required by interface "' + implement[i].name + "'");
               }
             }
+            
+            // Validate statics
+            var interfaceStatics = implement[i].statics;
+            for (key in interfaceStatics)
+            {
+              if (typeof(interfaceStatics[key]) == "function") {
+                if (typeof obj[key] != "function") {
+                  throw new Error('Implementation of static method "' + key + '" is missing in Class "' + name + '" required by interface "' + implement[i].name + "'");
+                }
+              }             
+            }
+                
           }
         }
-
-        // Attach statics
-        // Validation is done in qx.Interface
-        var interfaceStatics;
 
         for (var i=0, l=implement.length; i<l; i++)
         {
-          interfaceStatics = implement[i]._statics;
+          var interfaceStatics = implement[i].statics;
 
           for (key in interfaceStatics) {
-            obj[key] = interfaceStatics[key];
+            if (typeof(interfaceStatics[key]) != "function") {
+              // Attach statics
+              // Validation is done in qx.Interface
+              obj[key] = interfaceStatics[key];
+            }
           }
         }
+        
+        // validate properties
+        
       }
     },
+
+
+    /**
+     * Creates a given namespace and assigns the given object to the last part.
+     *
+     * @type static
+     * @name createNamespace
+     * @access public
+     * @param name {String} The namespace including the last (class) name
+     * @param object {Object} The data to attach to the namespace
+     * @return {var} TODOC
+     */
+    createNamespace : function(name, object)
+    {
+      var splits = name.split(".");
+      var len = splits.length;
+      var parent = window;
+      var part = splits[0];
+
+      for (var i=0, l=len-1; i<l; i++)
+      {
+        if (!parent[part]) {
+          parent[part] = {};
+        }
+
+        parent = parent[part];
+        part = splits[i + 1];
+      }
+
+      // store object
+      parent[part] = object;
+
+      // return last part name (e.g. classname)
+      return part;
+    },
+
 
     /**
      * Determine if class exists
@@ -535,20 +526,97 @@ qx.Clazz.define("qx.Clazz",
       return this.registry[name] != null;
     },
 
+
     /**
-     * Include all features of the Mixin into the given Class. The Mixin must not include
-     * any functions or properties which are already available. This is only possible using
-     * the hackier patch method.
+     * Wrapper for qx.OO.addProperty. This is needed in two places so the code
+     * has been extracted. The global variables qx.Class, qx.Proto and qx.Super
+     * must be set before this method is called.
+     * 
+     * @param targetClass {Clazz} class to add the properties to
+     * @param name {String} Name of the property
+     * @param property {Map} new class style property definition
+     */
+    __addProperty: function(targetClass, name, property) {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        if (
+          (qx.Class != targetClass) ||
+          (qx.Proto != targetClass.prototype) ||
+          (qx.Super != targetClass.constructor.base)
+        ) {
+          throw new Error("The global variable qx.Proto, qx.Class and qx.Super must point to the target class!");
+        }
+      }
+      
+      var value = property;
+      value.name = name;
+
+      if (value.fast) {
+        qx.OO.addFastProperty(value);
+      } else if (value.cached) {
+        qx.OO.addCachedProperty(value);
+      } else if (value.compat) {
+        qx.OO.addProperty(value);
+      } else {
+        throw new Error('Could not handle property definition "' + key + '" in Class "' + qx.Proto.classname + "'");
+      }
+    },
+    
+    
+    /**
+     * Include all features of the Mixin into the given Class. 
      *
-     * @type static
-     * @name __mixin
      * @access private
-     * @param target {Clazz} A class previously defined where the stuff should be attached.
+     * @param targetClass {Clazz} A class previously defined where the mixin should be attached.
      * @param mixin {Mixin} Include all features of this Mixin
      * @param overwrite {Boolean} Overwrite existing functions and properties
-     * @return {void}
      */
-    __mixin : function(target, mixin, overwrite) {},
+    __mixin : function(targetClass, mixin, overwrite) {
+      // Attach members
+      // Directly attach them. This is because we must not
+      // modify them e.g. attaching base etc. because they may
+      // used by multiple classes
+      var imembers = mixin.members;
+      var proto = targetClass.prototype;
+
+      if (imembers == null) {
+        throw new Error('Invalid include in class "' + proto.classname + '"! The value is undefined/null!');
+      }
+
+      for (var key in imembers) {
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          if (!overwrite && proto[key] != undefined) {
+            throw new Error("Overwriting the member '" + key + "' is not allowed!");
+          }
+        }
+        proto[key] = imembers[key];
+      }
+
+      // Attach statics
+      var istatics = mixin.statics;
+      for (var key in istatics) {
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          if (!overwrite && targetClass[key] != undefined) {
+            throw new Error("Overwriting the static '" + key + "' is not allowed!");
+          }
+        }
+        targetClass[key] = istatics[key];
+      }
+
+      // Attach properties
+      var iproperties = mixin.properties;
+      for (var key in iproperties) {
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          if (!overwrite) {
+            var getterName = "get" + qx.OO.toFirstUp(key);
+            if (proto[getterName] != undefined) {
+              throw new Error("Overwriting the property '" + key + "' of class '" + proto.classname + "'is not allowed!");
+            }
+          }
+        }   
+      this.__addProperty(targetClass, key, iproperties[key]);
+      }    
+    },
+    
     
     /**
      * Convert a constructor into an abstract constructor.
@@ -557,7 +625,7 @@ qx.Clazz.define("qx.Clazz",
      * @param construct {Fuction} the original constructor
      * @return {Function} abstract constructor
      */
-    __makeAbstract: function(className, construct)
+    __createAbstractConstructor: function(className, construct)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -579,7 +647,34 @@ qx.Clazz.define("qx.Clazz",
       }
     },
 
-    // Needs implementation
+
+    /**
+     * Add a singleton check to a constructor. The constructor will only work if
+     * the static member <code>$ALLOWCONSTRUCT</code> of the class is set to true.
+     * 
+     * @param construct {Function} original constructor to wrap
+     * @return {Function} wrapped constructor
+     */
+    __createSingletonConstructor: function(construct) {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {      
+        var singletonConstruct = function() {
+          if (!arguments.callee.$ALLOWCONSTRUCT) {
+            throw new Error("Singleton");
+          }
+          return construct.apply(this, arguments);
+        }
+        return singletonConstruct;
+      } 
+      else
+      {
+        // in production code omit the check and just return the
+        // constructor
+        return construct;
+      }
+    },
+    
+    
     /**
      * Include all features of the Mixin into the given Class. The Mixin must not include
      * any functions or properties which are already available. This is only possible using
@@ -595,6 +690,7 @@ qx.Clazz.define("qx.Clazz",
     include : function(target, mixin) {
       return qx.Clazz.__mixin(target, mixin, false);
     },
+
 
     /**
      * Include all features of the Mixin into the given Class. The Mixin can include features

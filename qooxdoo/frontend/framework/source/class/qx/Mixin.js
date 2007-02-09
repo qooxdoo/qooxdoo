@@ -64,7 +64,7 @@ qx.Clazz.define("qx.Mixin",
     define : function(name, config)
     {
       var key, value;
-      var extend, properties = {}, members = {};
+      var extend, properties = {}, members = {}, statics = {};
 
 
 
@@ -101,6 +101,10 @@ qx.Clazz.define("qx.Mixin",
           case "members":
             members = value;
             break;
+            
+          case "statics":
+            statics = value;
+            break;        
 
           default:
             throw new Error("The configuration key '" + key + "' in class '" + name + "' is not allowed!");
@@ -130,6 +134,7 @@ qx.Clazz.define("qx.Mixin",
       obj.basename = basename;
       obj.properties = properties;
       obj.members = members;
+      obj.statics = statics;
 
 
 
@@ -140,6 +145,7 @@ qx.Clazz.define("qx.Mixin",
       ---------------------------------------------------------------------------
       */
 
+	    // TODO extend in mixins doesn't make really sense (fjakobs)
       if (extend)
       {
         var emembers, eproperties;
@@ -197,6 +203,7 @@ qx.Clazz.define("qx.Mixin",
       if (list.length > 1)
       {
         var kmembers = {};
+        var kstatics = {};
         var kproperties = {};
 
         for (var i=0, l=list.length; i<l; i++)
@@ -213,6 +220,18 @@ qx.Clazz.define("qx.Mixin",
             kmembers[key] = true;
           }
 
+          // Check statics
+          estatics = list[i].statics;
+
+          for (key in estatics)
+          {
+            if (key in kstatics) {
+              throw new Error('Double defintion of member "' + key + '" through ' + msg);
+            }
+
+            kstatics[key] = true;
+          }
+          
           // Check properties
           eproperties = list[i].properties;
 
