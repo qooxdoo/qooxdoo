@@ -37,6 +37,10 @@ qx.Clazz.define("qx.test.Kitty",
 
     play : function() {
      this.debug("I am playing.");
+    },
+    
+    hasSoul: function() {
+    	return true;
     }
   }
 });
