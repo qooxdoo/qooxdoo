@@ -70,7 +70,7 @@ exec-distclean:
 #
 
 exec-script-source:
-	@$(CMD_GENERATOR) \
+	$(SILENCE) $(CMD_GENERATOR) \
 	  $(COMPUTED_CLASS_PATH) \
 	  $(COMPUTED_CLASS_URI) \
 	  $(COMPUTED_SOURCE_SETTING) \
@@ -82,7 +82,7 @@ exec-script-source:
 	  --source-script-file $(COMPUTED_SOURCE_SCRIPT_NAME)
 
 exec-script-build:
-	@$(CMD_GENERATOR) \
+	$(SILENCE) $(CMD_GENERATOR) \
 	  $(COMPUTED_CLASS_PATH) \
 	  $(COMPUTED_BUILD_RESOURCE) \
 	  $(COMPUTED_BUILD_SETTING) \
@@ -104,7 +104,7 @@ ifeq ($(APPLICATION_OPTIMIZE_BROWSER),true)
 exec-script-build-opt:
 	@mv $(COMPUTED_BUILD_SCRIPT_NAME) $(COMPUTED_BUILD_SCRIPT_NAME:.js=_all.js)
 
-	@for BROWSER in gecko mshtml webkit opera; do \
+	$(SILENCE) for BROWSER in gecko mshtml webkit opera; do \
     $(CMD_GENERATOR) \
       $(COMPUTED_CLASS_PATH) \
       $(COMPUTED_BUILD_SETTING) \
@@ -116,7 +116,7 @@ exec-script-build-opt:
       --compiled-script-file $(COMPUTED_BUILD_SCRIPT_NAME:.js=_$$BROWSER.js) || exit 1; \
   done
 
-	@cat $(FRAMEWORK_TOOL_PATH)/make/browser_loader.tmpl.js | \
+	$(SILENCE) cat $(FRAMEWORK_TOOL_PATH)/make/browser_loader.tmpl.js | \
     $(CMD_PYTHON) -c "import sys; lines = sys.stdin.readlines(); print ''.join(lines) % {'path': sys.argv[1], 'name': sys.argv[2]}" \
       $(APPLICATION_HTML_TO_ROOT_URI)/script \
       $(APPLICATION_SCRIPT_FILENAME:.js=) \
@@ -138,13 +138,13 @@ endif
 # Utility targets
 #
 exec-pretty:
-	@$(CMD_GENERATOR) \
+	$(SILENCE) $(CMD_GENERATOR) \
 	  --include-without-dependencies $(APPLICATION_NAMESPACE).* \
 	  --pretty-print \
 	  $(COMPUTED_CLASS_PATH)
 
 exec-fix:
-	@$(CMD_GENERATOR) \
+	$(SILENCE) $(CMD_GENERATOR) \
 	  --include-without-dependencies $(APPLICATION_NAMESPACE).* \
 	  --fix-source \
 	  $(COMPUTED_CLASS_PATH)
@@ -159,14 +159,14 @@ exec-fix:
 # Debug targets
 #
 exec-tokenizer:
-	@$(CMD_GENERATOR) \
+	$(SILENCE) $(CMD_GENERATOR) \
 	  --include-without-dependencies $(APPLICATION_NAMESPACE).* \
 	  --store-tokens \
     --token-output-directory $(APPLICATION_DEBUG_PATH)/tokens \
 	  $(COMPUTED_CLASS_PATH)
 
 exec-treegenerator:
-	@$(CMD_GENERATOR) \
+	$(SILENCE) $(CMD_GENERATOR) \
 	  --include-without-dependencies $(APPLICATION_NAMESPACE).* \
 	  --store-tree \
     --tree-output-directory $(APPLICATION_DEBUG_PATH)/tree \
@@ -356,14 +356,14 @@ exec-files-api:
 #
 
 exec-api-data:
-	@$(CMD_GENERATOR) \
+	$(SILENCE) $(CMD_GENERATOR) \
 	  --generate-api-documentation \
 	  --api-documentation-json-file $(APPLICATION_API_PATH)/script/apidata.js \
 	  $(COMPUTED_CLASS_PATH) \
 	  $(COMPUTED_API_INCLUDE)
 
 exec-api-build:
-	@$(CMD_GENERATOR) \
+	$(SILENCE) $(CMD_GENERATOR) \
 	  --class-path $(FRAMEWORK_SOURCE_PATH)/class \
 	  --class-path $(APIVIEWER_SOURCE_PATH)/class \
 	  --include apiviewer \
@@ -391,7 +391,7 @@ exec-api-build:
 #
 exec-publish:
 	@echo "  * Syncing files..."
-	@$(CMD_SYNC_ONLINE) $(APPLICATION_BUILD_PATH)/* $(APPLICATION_PUBLISH_PATH)
+	$(SILENCE) $(CMD_SYNC_ONLINE) $(APPLICATION_BUILD_PATH)/* $(APPLICATION_PUBLISH_PATH)
 
 
 

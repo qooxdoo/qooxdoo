@@ -146,8 +146,14 @@ ifndef APPLICATION_HTML_TO_ROOT_URI
   APPLICATION_HTML_TO_ROOT_URI = .
 endif
 
-
-
+#
+# By default the complete command line of the called programs is
+# hidden. Setting VERBOSE to true shows the complete commands
+#
+SILENCE=
+ifneq ($(VERBOSE),true)
+SILENCE=@
+endif
 
 
 
