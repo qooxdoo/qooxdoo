@@ -81,6 +81,12 @@ qx.Proto._updateContent_orig = function(completeUpdate,
   var cellInfo = { table:table };
   tableModel.prefetchRows(firstRow, firstRow + rowCount - 1);
 
+  // Get the table pane top and bottom
+//  var y1 = qx.html.Location.getScreenDocumentTop(elem);
+//  var y2 = qx.html.Location.getScreenDocumentBottom(elem);
+  var y1 = qx.html.Dimension.getInnerHeight(elem);
+  this.debug("pane height=" + y1);
+
   // For now, remove all of the child nodes.  Later, we'll optimize and try
   // to reuse and resize existing nodes.
   var numChildren = childNodes.length;
@@ -92,7 +98,7 @@ qx.Proto._updateContent_orig = function(completeUpdate,
   for (var y = 0,
          cumulativeHeight = 0,
          row = firstRow + y;
-       row < modelRowCount && cumulativeHeight < paneMaxHeight;
+y <= 1 &&       row < modelRowCount && cumulativeHeight < paneMaxHeight;
        y++,
          row = firstRow + y)
   {
@@ -118,11 +124,10 @@ qx.Proto._updateContent_orig = function(completeUpdate,
     {
       var rowElem = document.createElement("div");
 
-      //rowElem.style.position = "relative";
-      rowElem.style.position = "absolute";
-      rowElem.style.left = "0px";
-      rowElem.style.top = cumulativeHeight + "px";
-      elem.appendChild(rowElem);
+      rowElem.style.position = "relative";
+//      rowElem.style.position = "absolute";
+//      rowElem.style.left = "0px";
+//      rowElem.style.top = cumulativeHeight + "px";
 
       recyleRowElem = false;
     }
@@ -164,10 +169,20 @@ qx.Proto._updateContent_orig = function(completeUpdate,
       if (! recyleRowElem)
       {
         rowElem.style.width = left + "px";
-        rowElem.innerHTML = html;
+        rowElem.innerHTML =
+          "<div style='position:relative;'>" +
+          html +
+          "</div>";
+        elem.appendChild(rowElem);
       }
     }
 
+
+var y3 = qx.html.Dimension.getInnerHeight(rowElem);
+this.debug("y3=" + y3);
+var y4 = qx.html.Dimension.getInnerHeight(elem);
+this.debug("y4=" + y4);
+    
     cumulativeHeight += qx.html.Dimension.getOuterHeight(rowElem);
   }
 
