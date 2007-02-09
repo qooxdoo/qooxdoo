@@ -63,7 +63,7 @@ qx.Clazz.define("qx.Interface",
     define : function(name, config)
     {
       var key, value;
-      var extend, blacklist = {}, statics = {}, members = {};
+      var extend, blacklist = {}, statics = {}, members = {}, properties;
 
 
 
@@ -95,6 +95,10 @@ qx.Clazz.define("qx.Interface",
 
           case "statics":
             statics = value;
+            break;
+            
+          case "properties":
+            properties = value;
             break;
 
           case "members":
@@ -132,7 +136,24 @@ qx.Clazz.define("qx.Interface",
       obj.members = members;
 
 
-
+      /*
+      ---------------------------------------------------------------------------
+        Process properties
+      ---------------------------------------------------------------------------
+      */
+      
+      // properties are only checked in source builds
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        if (properties) {
+          for (var key in properties) {
+            var getterName = "get" + qx.OO.toFirstUp(key);
+            var setterName = "set" + qx.OO.toFirstUp(key);
+            obj.members[getterName] = new Function();
+            obj.members[setterName] = new Function();
+          }
+        }
+      }
+      
 
       /*
       ---------------------------------------------------------------------------
@@ -147,13 +168,11 @@ qx.Clazz.define("qx.Interface",
           for (key in statics)
           {
             // The key should be uppercase by convention
-            if (key.toUpperCase() !== key) {
-              throw new Error('Invalid key "' + key + '" for (final/constant) static member in interface "' + name + '"');
-            }
-
-            // Only allow boolean, string and number
-            if (statics[key] instanceof Object) {
-              throw new Error('Invalid value of static member "' + key + '" in interface "' + name + '". Only primitive types are allowed!');
+            if (
+              typeof(statics[key]) != "function" &&
+              key.toUpperCase() !== key &&
+              (statics[key] instanceof Object)) {
+              throw new Error("Invalid key '" + key + "' in interface '" + name + "'! Static constants must be all uppercase and of type a primitive type.")
             }
           }
         }
@@ -230,5 +249,6 @@ qx.Clazz.define("qx.Interface",
     isDefined : function(name) {
       return arguments.callee.statics.byName(name) !== undefined;
     }
+    
   }
 });
