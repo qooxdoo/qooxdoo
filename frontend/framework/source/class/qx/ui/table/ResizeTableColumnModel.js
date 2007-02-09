@@ -83,13 +83,48 @@ qx.Proto.init = function(colCount, table)
   var d = qx.ui.core.ClientDocument.getInstance();
   d.addEventListener("windowresize", this._onwindowresize, this);
 
-  // ... and when columns are resized.
+  // ... when columns are resized, ...
   this.addEventListener("widthChanged", this._oncolumnwidthchanged, this);
+
+  // ... and when a column visibility changes.
+  this.addEventListener("visibilityChanged", this._onvisibilitychanged, this);
+
+  // We want to manipulate the button visibility menu
+  this._table.addEventListener("columnVisibilityMenuCreateEnd",
+                               this._addResetColumnWidthButton,
+                               this);
 
   // Call our superclass
   qx.ui.table.TableColumnModel.prototype.init.call(this, colCount);
 };
 
+
+/**
+ * Reset the column widths to their "onappear" defaults.
+ *
+ * @param event {qx.event.type.DataEvent}
+ *   The "columnVisibilityMenuCreateEnd" event indicating that the menu is
+ *   being generated.  The data is a map containing propeties <i>table</i> and
+ *   <i>menu</i>.
+ */
+qx.Proto._addResetColumnWidthButton = function(event)
+{
+  var data = event.getData();
+  var menu = data.menu;
+  var o;
+
+  var Am = qx.manager.object.AliasManager;
+  var icon = Am.getInstance().resolvePath("icon/16/actions/view-refresh.png");
+
+  // Add a separator between the column names and our reset button
+  o= new qx.ui.menu.Separator();
+  menu.add(o);
+
+  // Add a button to reset the column widths
+  o = new qx.ui.menu.Button("Reset column widths", icon);
+  menu.add(o);
+  o.addEventListener("execute", this._onappear, this);
+};
 
 /**
  * Event handler for the "onappear" event.
@@ -157,3 +192,27 @@ qx.Proto._oncolumnwidthchanged = function(event)
   this.getBehavior().onColumnWidthChanged(this, event);
   this._bInProgress = false;
 };
+
+
+/**
+ * Event handler for the "onvisibilitychangned" event.
+ *
+ * @param event {qx.event.type.DataEvent}
+ *   The "onvisibilitychanged" event object.
+ */
+qx.Proto._onvisibilitychanged = function(event)
+{
+  // Is this a recursive call or has the table not yet been rendered?
+  if (this._bInProgress || ! this._bAppeared)
+  {
+    // Yup.  Ignore it.
+    return;
+  }
+
+  this._bInProgress = true;
+  this.debug("onvisibilitychanged");
+  this.getBehavior().onVisibilityChanged(this, event);
+  this._bInProgress = false;
+};
+
+

@@ -27,8 +27,20 @@
 /**
  * A table.
  *
- * @param tableModel {qx.ui.table.TableModel, null} The table model to read the
- *        data from.
+ * @param tableModel {qx.ui.table.TableModel, null}
+ *   The table model to read the data from.
+ *
+ * @event columnVisibilityMenuCreateStart {qx.event.type.DataEvent}
+ *   Dispatched before adding the column list to the column visibility menu.
+ *   The event data is a map with two properties: table and menu.  Listeners
+ *   may add additional items to the menu, which appear at the top of the
+ *   menu.
+ *
+ * @event columnVisibilityMenuCreateEnd {qx.event.type.DataEvent}
+ *   Dispatched after adding the column list to the column visibility menu.
+ *   The event data is a map with two properties: table and menu.  Listeners
+ *   may add additional items to the menu, which appear at the bottom of the
+ *   menu.
  */
 qx.OO.defineClass("qx.ui.table.Table", qx.ui.layout.VerticalBoxLayout,
 function(tableModel) {
@@ -1069,6 +1081,20 @@ qx.Proto._toggleColumnVisibilityMenu = function() {
 
     var tableModel = this.getTableModel();
     var columnModel = this.getTableColumnModel();
+
+    // Inform listeners who may want to insert menu items at the beginning
+    if (this.hasEventListeners("columnVisibilityMenuCreateStart"))
+    {
+      var data =
+        {
+          table : this,
+          menu  : menu
+        };
+      var event =
+        new qx.event.type.DataEvent("columnVisibilityMenuCreateStart", data);
+      this.dispatchEvent(event, true);
+    }
+
     for (var x = 0; x < columnModel.getOverallColumnCount(); x++) {
       var col = columnModel.getOverallColumnAtX(x);
       var visible = columnModel.isColumnVisible(col);
@@ -1080,6 +1106,19 @@ qx.Proto._toggleColumnVisibilityMenu = function() {
       bt.addEventListener("execute", handler, this);
 
       menu.add(bt);
+    }
+
+    // Inform listeners who may want to insert menu items at the end
+    if (this.hasEventListeners("columnVisibilityMenuCreateEnd"))
+    {
+      var data =
+        {
+          table : this,
+          menu  : menu
+        };
+      var event =
+        new qx.event.type.DataEvent("columnVisibilityMenuCreateEnd", data);
+      this.dispatchEvent(event, true);
     }
 
     menu.setParent(this.getTopLevelWidget());

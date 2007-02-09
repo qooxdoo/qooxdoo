@@ -65,6 +65,11 @@ function()
 // overloaded
 qx.Proto.onAppear = function(tableColumnModel, event)
 {
+  // Get the initial available width so we know whether a resize caused an
+  // increase or decrease in the available space.
+  this._width = this._getAvailableWidth(tableColumnModel);
+
+  // Equalize the columns
   this._equalizeColumns(tableColumnModel, event);
 };
 
@@ -72,6 +77,7 @@ qx.Proto.onAppear = function(tableColumnModel, event)
 // overloaded
 qx.Proto.onWindowResize = function(tableColumnModel, event)
 {
+  // Equalize the columns
   this._equalizeColumns(tableColumnModel, event);
 };
 
@@ -79,13 +85,27 @@ qx.Proto.onWindowResize = function(tableColumnModel, event)
 // overloaded
 qx.Proto.onColumnWidthChanged = function(tableColumnModel, event)
 {
+  // Extend the next column to fill blank space
   this._extendNextColumn(tableColumnModel, event);
+};
+
+
+qx.Proto.onVisibilityChanged = function(tableColumnModel, event)
+{
+  // Extend the last column to fill blank space
+  this._extendLastColumn(tableColumnModel, event);
 };
 
 
 /**
  * Make all columns the same width.  The width of each column is determined by
- * dividing the inner width off the table by the number of visible columns.
+ * dividing the inner width of the table by the number of visible columns.
+ *
+ * @param tableColumnModel {qx.ui.table.ResizeTableColumnModel}
+ *   The table column model in use.
+ *
+ * @param event
+ *   The event object.
  */
 qx.Proto._equalizeColumns = function(tableColumnModel, event)
 {
@@ -118,10 +138,18 @@ qx.Proto._equalizeColumns = function(tableColumnModel, event)
  * visible column to the right of the column which just changed width is
  * extended to take up the width available within the inner width of the
  * table.
+ *
+ * @param tableColumnModel {qx.ui.table.ResizeTableColumnModel}
+ *   The table column model in use.
+ *
+ * @param event
+ *   The event object.
  */
 qx.Proto._extendNextColumn = function(tableColumnModel, event)
 {
+  // Event data properties: col, oldWidth, newWidth
   var data = event.getData();
+
   var visibleColumns = tableColumnModel._visibleColumnArr;
 
   // Determine the available width
@@ -131,7 +159,7 @@ qx.Proto._extendNextColumn = function(tableColumnModel, event)
   var numColumns = visibleColumns.length;
 
   // Is the last visible column being resized?
-  if (data.col == numColumns - 1)
+  if (data.col == visibleColumns[numColumns - 1])
   {
     // Yup.  Don't let them do that.
     tableColumnModel.setColumnWidth(data.col, data.oldWidth);
@@ -177,5 +205,64 @@ qx.Proto._extendNextColumn = function(tableColumnModel, event)
     var newWidth = (width - (widthUsed -
                              tableColumnModel.getColumnWidth(nextCol)));
     tableColumnModel.setColumnWidth(nextCol, newWidth);
+  }
+};
+
+
+/**
+ * If a column was just made invisible, extend the last column to fill any
+ * available space within the inner width of the table.  This means that if
+ * the sum of the widths of all columns exceeds the inner width of the table,
+ * no change is made.  If, on the other hand, the sum of the widths of all
+ * columns is less than the inner width of the table, the last column is
+ * extended to take up the width available within the inner width of the
+ * table.
+ *
+ * @param tableColumnModel {qx.ui.table.ResizeTableColumnModel}
+ *   The table column model in use.
+ *
+ * @param event
+ *   The event object.
+ */
+qx.Proto._extendLastColumn = function(tableColumnModel, event)
+{
+  // Event data properties: col, visible
+  var data = event.getData();
+
+  // If the column just became visible, don't make any width changes
+  if (data.visible)
+  {
+    return;
+  }
+
+  var visibleColumns = tableColumnModel._visibleColumnArr;
+
+  // Determine the available width
+  var width = this._getAvailableWidth(tableColumnModel);
+
+  // Determine the number of visible columns
+  var numColumns = visibleColumns.length;
+
+  // See if we no longer take up the full space that's available to us.
+  var i;
+  var lastCol;
+  var widthUsed = 0;
+  for (i = 0; i < numColumns; i++)
+  {
+    widthUsed +=
+      tableColumnModel.getColumnWidth(visibleColumns[i]);
+  }
+
+  // If the used width is less than the available width...
+  if (widthUsed < width)
+  {
+    // ... then get the last visible column
+    lastCol = visibleColumns[visibleColumns.length - 1];
+
+    // Make the last column take up the available space.
+    var oldWidth = tableColumnModel.getColumnWidth(lastCol);
+    var newWidth = (width - (widthUsed -
+                             tableColumnModel.getColumnWidth(lastCol)));
+    tableColumnModel.setColumnWidth(lastCol, newWidth);
   }
 };
