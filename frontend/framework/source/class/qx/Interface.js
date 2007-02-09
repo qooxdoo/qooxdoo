@@ -123,7 +123,7 @@ qx.Clazz.define("qx.Interface",
       var obj = {};
 
       // Create namespace
-      var basename = qx.Clazz.createNamespace(name, obj);
+      var basename = qx.Clazz.createNamespace(name, obj, false);
 
       // Add to registry
       qx.Interface.registry[name] = obj;
