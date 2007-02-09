@@ -92,6 +92,27 @@ qx.Proto.onColumnWidthChanged = function(tableColumnModel, event)
 };
 
 
+/**
+ * Called when a column visibility is changed.
+ *
+ * @param tableColumnModel {qx.ui.table.ResizeTableColumnModel}
+ *   The table column model in use.  Of particular interest is the property
+ *   <i>_table</i> which is a reference to the table widget.  This allows
+ *   access to any other features of the table, for use in calculating widths
+ *   of columns.
+ *
+ * @param event
+ *   The <i>visibilityChanged</i> event object.  This event has data, obtained
+ *   via event.getData(), which is an object with two properties: the column
+ *   which changed width (data.col) and the new visibility of the column
+ *   (data.visible).
+ */
+qx.Proto.onVisibilityChanged = function(tableColumnModel, event)
+{
+  throw new Error("onVisibilityChanged is abstract");
+};
+
+
 /*
  * Determine the inner width available to columns in the table.
  *
