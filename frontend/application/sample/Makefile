@@ -35,7 +35,10 @@ APPLICATION_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VE
 APPLICATION_COMPLETE_BUILD = true
 APPLICATION_HTML_TO_ROOT_URI = ../..
 
-
+# qx.log.DivAppender is used in the layout and cannot be detected
+# automatically
+APPLICATION_ADDITIONAL_SOURCE_OPTIONS = --include qx.log.DivAppender --disable-internal-check
+APPLICATION_ADDITIONAL_BUILD_OPTIONS = $(APPLICATION_ADDITIONAL_SOURCE_OPTIONS)
 
 
 
