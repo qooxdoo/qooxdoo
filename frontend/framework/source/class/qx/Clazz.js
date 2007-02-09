@@ -223,7 +223,7 @@ qx.Clazz.define("qx.Clazz",
       }
 
       // Create namespace
-      var basename = qx.Clazz.createNamespace(name, obj);
+      var basename = qx.Clazz.createNamespace(name, obj, false);
 
       // Store names in constructor/object
       obj.classname = name;
@@ -441,7 +441,10 @@ qx.Clazz.define("qx.Clazz",
             for (key in interfaceMembers)
             {
               if (typeof prot[key] != "function") {
-                throw new Error('Implementation of method "' + key + '" is missing in Class "' + name + '" required by interface "' + implement[i].name + "'");
+                throw new Error('Implementation of method "' + key + '" is missing in Class "' + name + '" required by interface "' + implement[i].name + '"');
+              }
+              if (typeof(interfaceMembers[key]) == "function") {
+                prot[key] = this.__wrapFunctionWithPrecondition(prot[key], key, interfaceMembers[key]);
               }
             }
             
@@ -451,7 +454,7 @@ qx.Clazz.define("qx.Clazz",
             {
               if (typeof(interfaceStatics[key]) == "function") {
                 if (typeof obj[key] != "function") {
-                  throw new Error('Implementation of static method "' + key + '" is missing in Class "' + name + '" required by interface "' + implement[i].name + "'");
+                  throw new Error('Implementation of static method "' + key + '" is missing in Class "' + name + '" required by interface "' + implement[i].name + '"');
                 }
               }             
             }
@@ -481,14 +484,13 @@ qx.Clazz.define("qx.Clazz",
     /**
      * Creates a given namespace and assigns the given object to the last part.
      *
-     * @type static
-     * @name createNamespace
-     * @access public
      * @param name {String} The namespace including the last (class) name
      * @param object {Object} The data to attach to the namespace
-     * @return {var} TODOC
+     * @param forceOverwrite {Boolean} whether an object should be overwritten if it already exists 
+     *   in the namespace.
+     * @return {Object} last part of the namespace (e.g. classname)
      */
-    createNamespace : function(name, object)
+    createNamespace : function(name, object, forceOverwrite)
     {
       var splits = name.split(".");
       var len = splits.length;
@@ -506,6 +508,9 @@ qx.Clazz.define("qx.Clazz",
       }
 
       // store object
+      if (!forceOverwrite && parent[part] != undefined) {
+        throw new Error("An object of the name '" + name + "' aready exists and overwriting is not allowed!");
+      }
       parent[part] = object;
 
       // return last part name (e.g. classname)
@@ -671,6 +676,21 @@ qx.Clazz.define("qx.Clazz",
         // in production code omit the check and just return the
         // constructor
         return construct;
+      }
+    },
+    
+    
+    __wrapFunctionWithPrecondition: function(method, name, preCondition) {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      { 
+        return function() {
+          if (!preCondition.apply(this, arguments)) {
+           throw new Error("Pre condition of method '" + name + "'failed: " + preCondition.toString());
+          }
+          method.apply(this, arguments);
+        }
+      } else {
+        return method;
       }
     },
     
