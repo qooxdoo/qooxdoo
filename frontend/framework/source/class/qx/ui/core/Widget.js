@@ -4640,7 +4640,7 @@ else if (qx.core.Variant.isSet("qx.client", "opera"))
     return true;
   }
 }
-else if (qx.core.Client.getInstance().isKhtml() || qx.core.Client.getInstance().isWebkit())
+else if (qx.core.Variant.isSet("qx.client", "khtml|webkit"))
 {
   qx.Proto._modifySelectable = function(propValue, propOldValue, propData)
   {
@@ -4717,7 +4717,7 @@ else
       {
         this.removeStyleProperty("MozOpacity");
       }
-      else if (qx.core.Client.getInstance().isKhtml())
+      else if (qx.core.Variant.isSet("qx.client", "khtml"))
       {
         this.removeStyleProperty("KhtmlOpacity");
       }
@@ -4735,7 +4735,7 @@ else
       {
         this.setStyleProperty("MozOpacity", propValue);
       }
-      else if (qx.core.Client.getInstance().isKhtml())
+      else if (qx.core.Variant.isSet("qx.client", "khtml"))
       {
         this.setStyleProperty("KhtmlOpacity", propValue);
       }
