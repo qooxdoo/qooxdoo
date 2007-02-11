@@ -38,10 +38,10 @@
     };
 
     // Create the initial data
-    var rowData = createRandomRows(50);
+    var rowData = createRandomRows(2);
 
     // Add some encoding relevant stuff
-    rowData[15][1] = "<b>A html &amp; entities escaping test</b>";
+    rowData[1][1] = "<b>A html &amp; entities escaping test</b>";
 
     // table model
     var tableModel = new qx.ui.tablevarrowheight.SimpleTableModel();
