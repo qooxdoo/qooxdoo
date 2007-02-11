@@ -59,6 +59,13 @@ qx.OO.addProperty(
     defaultValue : new qx.ui.table.DefaultResizeBehavior()
   });
 
+// Behavior modifier
+qx.Proto._modifyBehavior = function(propValue, propOldValue, propData)
+{
+  // Tell the new behavior how many columns there are
+  this.getBehavior()._setNumColumns(this._columnDataArr.length);
+  return true;
+};
 
 
 /**
@@ -71,8 +78,11 @@ qx.OO.addProperty(
  *   The table which this model is used for.  This allows us access to other
  *   aspects of the table, as the <i>behavior</i> sees fit.
  */
-qx.Proto.init = function(colCount, table)
+qx.Proto.init = function(numColumns, table)
 {
+  // Call our superclass
+  qx.ui.table.TableColumnModel.prototype.init.call(this, numColumns);
+
   // Save the table so we can get at its features, as necessary.
   this._table = table;
 
@@ -94,8 +104,8 @@ qx.Proto.init = function(colCount, table)
                                this._addResetColumnWidthButton,
                                this);
 
-  // Call our superclass
-  qx.ui.table.TableColumnModel.prototype.init.call(this, colCount);
+  // Tell the behavior how many columns there are
+  this.getBehavior()._setNumColumns(numColumns);
 };
 
 
@@ -214,5 +224,4 @@ qx.Proto._onvisibilitychanged = function(event)
   this.getBehavior().onVisibilityChanged(this, event);
   this._bInProgress = false;
 };
-
 
