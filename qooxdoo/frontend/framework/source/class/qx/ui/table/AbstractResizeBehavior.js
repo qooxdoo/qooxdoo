@@ -32,7 +32,24 @@ qx.OO.defineClass("qx.ui.table.AbstractResizeBehavior",
 function()
 {
   qx.core.Object.call(this);
+
+  this._resizeColumnData = [ ];
 });
+
+
+
+/**
+ * Called when the ResizeTableColumnModel is initialized, and upon loading of
+ * a new TableModel, to allow the Resize Behaviors to know how many columns
+ * are in use.
+ *
+ * @param numColumns {Integer}
+ *   The numbrer of columns in use.
+ */
+qx.Proto._setNumColumns = function(numColumns)
+{
+  throw new Error("_setNumColumns is abstract");
+};
 
 
 /**
