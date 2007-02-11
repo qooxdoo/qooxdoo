@@ -81,11 +81,7 @@ qx.Proto._updateContent_orig = function(completeUpdate,
   var cellInfo = { table:table };
   tableModel.prefetchRows(firstRow, firstRow + rowCount - 1);
 
-  // Get the table pane top and bottom
-//  var y1 = qx.html.Location.getScreenDocumentTop(elem);
-//  var y2 = qx.html.Location.getScreenDocumentBottom(elem);
-  var y1 = qx.html.Dimension.getInnerHeight(elem);
-  this.debug("pane height=" + y1);
+  this.debug("pane height=" + qx.html.Dimension.getInnerHeight(elem));
 
   // For now, remove all of the child nodes.  Later, we'll optimize and try
   // to reuse and resize existing nodes.
@@ -98,7 +94,7 @@ qx.Proto._updateContent_orig = function(completeUpdate,
   for (var y = 0,
          cumulativeHeight = 0,
          row = firstRow + y;
-y <= 1 &&       row < modelRowCount && cumulativeHeight < paneMaxHeight;
+       row < modelRowCount && cumulativeHeight < paneMaxHeight;
        y++,
          row = firstRow + y)
   {
@@ -124,10 +120,10 @@ y <= 1 &&       row < modelRowCount && cumulativeHeight < paneMaxHeight;
     {
       var rowElem = document.createElement("div");
 
-      rowElem.style.position = "relative";
-//      rowElem.style.position = "absolute";
-//      rowElem.style.left = "0px";
-//      rowElem.style.top = cumulativeHeight + "px";
+//      rowElem.style.position = "relative";
+      rowElem.style.position = "absolute";
+      rowElem.style.left = "0px";
+      rowElem.style.top = cumulativeHeight + "px";
 
       recyleRowElem = false;
     }
@@ -170,7 +166,7 @@ y <= 1 &&       row < modelRowCount && cumulativeHeight < paneMaxHeight;
       {
         rowElem.style.width = left + "px";
         rowElem.innerHTML =
-          "<div style='position:relative;'>" +
+          "<div style='position:absolute;'>" +
           html +
           "</div>";
         elem.appendChild(rowElem);
@@ -178,15 +174,13 @@ y <= 1 &&       row < modelRowCount && cumulativeHeight < paneMaxHeight;
     }
 
 
-var y3 = qx.html.Dimension.getInnerHeight(rowElem);
-this.debug("y3=" + y3);
-var y4 = qx.html.Dimension.getInnerHeight(elem);
-this.debug("y4=" + y4);
+    var rowHeight = qx.html.Dimension.getOuterHeight(rowElem);
+    this.debug("rowHeight=" + rowHeight);
     
-    cumulativeHeight += qx.html.Dimension.getOuterHeight(rowElem);
+    cumulativeHeight += rowHeight
   }
 
-  this.setHeight(rowCount * rowHeight);
+  this.setHeight(cumulativeHeight);
 
   this._lastColCount = colCount;
   this._lastRowCount = rowCount;
