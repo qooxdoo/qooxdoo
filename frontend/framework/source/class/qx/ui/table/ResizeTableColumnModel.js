@@ -49,8 +49,8 @@ function()
  * The behavior to use.
  *
  * The provided behavior must extend {link @AbstractResizeBehavior} and
- * implement the <i>onAppear</i>, <i>onWindowResize</i>, and
- * <i>onColumnWidthChanged</i> methods.
+ * implement the <i>onAppear</i>, <i>onWindowResize</i>,
+ * <i>onColumnWidthChanged</i> and <i>onVisibilityChanged</i>methods.
  */
 qx.OO.addProperty(
   {
