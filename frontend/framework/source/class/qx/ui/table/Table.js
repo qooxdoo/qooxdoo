@@ -320,6 +320,25 @@ qx.Proto._modifyTableColumnModel = function(propValue, propOldValue, propData) {
   propValue.addEventListener("widthChanged", this._onColWidthChanged, this);
   propValue.addEventListener("orderChanged", this._onColOrderChanged, this);
 
+  // Get the current table model
+  var tm = this.getTableModel();
+
+  // If one is already in effect...
+  if (tm)
+  {
+    // ... then initialize this new table column model now.
+    propValue.init(tm.getColumnCount(), this);
+  }
+
+  // Reset the table column model in each table pane model
+  var scrollerArr = this._getPaneScrollerArr();
+  for (var i = 0; i < scrollerArr.length; i++)
+  {
+    var paneScroller = scrollerArr[i];
+    var paneModel = paneScroller.getTablePaneModel();
+    paneModel._tableColumnModel = propValue;
+  }
+
   return true;
 };
 
