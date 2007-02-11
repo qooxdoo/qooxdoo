@@ -65,8 +65,9 @@ function(headings)
   // Call our superclass constructor
   qx.ui.table.Table.call(this, tableModel);
 
-  // By default, don't present the column visibility button
-  this.setColumnVisibilityButtonVisible(false);
+  // By default, present the column visibility button only if there are
+  // multiple columns.
+  this.setColumnVisibilityButtonVisible(headings.length > 1);
 
   // Set sizes
   this.setRowHeight(16);
