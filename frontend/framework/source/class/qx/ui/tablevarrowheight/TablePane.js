@@ -176,7 +176,7 @@ qx.Proto._updateContent_orig = function(completeUpdate,
 
     var rowHeight = qx.html.Dimension.getOuterHeight(rowElem);
     this.debug("rowHeight=" + rowHeight);
-    
+
     cumulativeHeight += rowHeight
   }
 

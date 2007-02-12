@@ -341,7 +341,7 @@ qx.Proto._computeColumnsFlexWidth = function(tableColumnModel, event)
   // *************************************************************
   // 4. Adjust flexible columns, taking min/max values into account
   // *************************************************************
-  
+
   bSomethingChanged = true;
   for (flexibleColumnsLength = flexibleColumns.length;
        bSomethingChanged && flexibleColumnsLength > 0;
