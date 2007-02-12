@@ -1567,7 +1567,8 @@ qx.Class.PRIMITIVES = { "var":true, "void":true, "undefined":true, "arguments":t
   "Number":true, "Integer":true, "Error":true,
   "RegExp":true, "Array":true, "Map":true, "Date":true, "Element":true,
   "Document":true, "Window":true, "Node":true, "Function":true, "Object":true,
-  "Event":true };
+  "Event":true,
+  "Class": true, "Mixin":true, "Interface": true };
 
 /**
  * {regexp} The regexp for parsing a item name
