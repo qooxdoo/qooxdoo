@@ -328,8 +328,9 @@ qx.Clazz.define("qx.Clazz",
       }
 
       // Use helper function/class to save the unnecessary constructor call while
-      // setting up inheritance. Safari does not support "new Function"
-      var helper = function() {};
+      // setting up inheritance.
+      var helper = this.__emptyFunction();
+      
       helper.prototype = extend.prototype;
       var prot = new helper;
 
@@ -393,11 +394,8 @@ qx.Clazz.define("qx.Clazz",
       ---------------------------------------------------------------------------
       */
 
-      if (properties)
-      {
-        for (var key in properties) {
-          this.__addProperty(obj, key, properties[key]);
-        }
+      if (properties) {
+        this.__addProperties(obj, properties);
       }
 
 
@@ -429,43 +427,18 @@ qx.Clazz.define("qx.Clazz",
 
       if (implement)
       {
-        // Only validate members in debug mode.
-        // There is nothing more needed for builds
-        if (qx.core.Variant.isSet("qx.debug", "on"))
-        {
-          for (var i=0, l=implement.length; i<l; i++)
-          {
-            // Validate members
-            var interfaceMembers = implement[i].members;
-
-            for (key in interfaceMembers)
-            {
-              if (typeof prot[key] != "function") {
-                throw new Error('Implementation of method "' + key + '" is missing in Class "' + name + '" required by interface "' + implement[i].name + '"');
-              }
-              if (typeof(interfaceMembers[key]) == "function") {
-                prot[key] = this.__wrapFunctionWithPrecondition(prot[key], key, interfaceMembers[key]);
-              }
-            }
-
-            // Validate statics
-            var interfaceStatics = implement[i].statics;
-            for (key in interfaceStatics)
-            {
-              if (typeof(interfaceStatics[key]) == "function") {
-                if (typeof obj[key] != "function") {
-                  throw new Error('Implementation of static method "' + key + '" is missing in Class "' + name + '" required by interface "' + implement[i].name + '"');
-                }
-              }
-            }
-
+        // initialize registry
+        obj.$$IMPLEMENTS = {};
+        
+        for (var i=0, l=implement.length; i<l; i++) {
+          // Only validate members in debug mode.
+          // There is nothing more needed for builds
+          if (qx.core.Variant.isSet("qx.debug", "on")) {
+            qx.Interface.assertInterface(obj, implement[i], true);
           }
-        }
-
-        for (var i=0, l=implement.length; i<l; i++)
-        {
+          
+          // copy primitive static fields
           var interfaceStatics = implement[i].statics;
-
           for (key in interfaceStatics) {
             if (typeof(interfaceStatics[key]) != "function") {
               // Attach statics
@@ -473,10 +446,10 @@ qx.Clazz.define("qx.Clazz",
               obj[key] = interfaceStatics[key];
             }
           }
-        }
-
-        // validate properties
-
+          
+          // save interface name
+          obj.$$IMPLEMENTS[implement[i].name] = implement[i];
+        }  
       }
     },
 
@@ -538,10 +511,9 @@ qx.Clazz.define("qx.Clazz",
      * must be set before this method is called.
      *
      * @param targetClass {Clazz} class to add the properties to
-     * @param name {String} Name of the property
-     * @param property {Map} new class style property definition
+     * @param properties {Map} new class style property definitions
      */
-    __addProperty: function(targetClass, name, property) {
+    __addProperties: function(targetClass, properties) {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         if (
           (qx.Class != targetClass) ||
@@ -552,17 +524,21 @@ qx.Clazz.define("qx.Clazz",
         }
       }
 
-      var value = property;
-      value.name = name;
-
-      if (value.fast) {
-        qx.OO.addFastProperty(value);
-      } else if (value.cached) {
-        qx.OO.addCachedProperty(value);
-      } else if (value.compat) {
-        qx.OO.addProperty(value);
-      } else {
-        throw new Error('Could not handle property definition "' + key + '" in Class "' + qx.Proto.classname + "'");
+      for (var name in properties) {
+        var property = properties[name];
+        
+        var value = property;
+        value.name = name;
+  
+        if (value.fast) {
+          qx.OO.addFastProperty(value);
+        } else if (value.cached) {
+          qx.OO.addCachedProperty(value);
+        } else if (value.compat) {
+          qx.OO.addProperty(value);
+        } else {
+          throw new Error('Could not handle property definition "' + key + '" in Class "' + qx.Proto.classname + "'");
+        }
       }
     },
 
@@ -609,8 +585,8 @@ qx.Clazz.define("qx.Clazz",
 
       // Attach properties
       var iproperties = mixin.properties;
-      for (var key in iproperties) {
-        if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        for (var key in iproperties) {
           if (!overwrite) {
             var getterName = "get" + qx.OO.toFirstUp(key);
             if (proto[getterName] != undefined) {
@@ -618,8 +594,8 @@ qx.Clazz.define("qx.Clazz",
             }
           }
         }
-      this.__addProperty(targetClass, key, iproperties[key]);
       }
+      this.__addProperties(targetClass, iproperties);
     },
 
 
@@ -635,13 +611,13 @@ qx.Clazz.define("qx.Clazz",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         var abstractConstructor = function() {
-          if (this.classname == arguments.callee.$ABSTRACT) {
+          if (this.classname == arguments.callee.$$ABSTRACT) {
             throw new Error("The class '" + className + "' is abstract! It is not possible to instantiate it.");
           }
           return construct.apply(this, arguments);
         }
 
-        abstractConstructor.$ABSTRACT = className;
+        abstractConstructor.$$ABSTRACT = className;
         return abstractConstructor;
       }
       else
@@ -664,7 +640,7 @@ qx.Clazz.define("qx.Clazz",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         var singletonConstruct = function() {
-          if (!arguments.callee.$ALLOWCONSTRUCT) {
+          if (!arguments.callee.$$ALLOWCONSTRUCT) {
             throw new Error("Singleton");
           }
           return construct.apply(this, arguments);
@@ -700,12 +676,8 @@ qx.Clazz.define("qx.Clazz",
      * any functions or properties which are already available. This is only possible using
      * the hackier patch method.
      *
-     * @type static
-     * @name include
-     * @access public
-     * @param target {Clazz} A class previously defined where the stuff should be attached.
+     * @param target {Class} A class previously defined where the stuff should be attached.
      * @param mixin {Mixin} Include all features of this Mixin
-     * @return {call} TODOC
      */
     include : function(target, mixin) {
       return qx.Clazz.__mixin(target, mixin, false);
@@ -718,15 +690,15 @@ qx.Clazz.define("qx.Clazz",
      * be aware that this functionality is not the preferred way. You can damage working
      * Classes and features.
      *
-     * @type static
-     * @name patch
-     * @access public
-     * @param target {Clazz} A class previously defined where the stuff should be attached.
+     * @param target {Class} A class previously defined where the stuff should be attached.
      * @param mixin {Mixin} Include all features of this Mixin
-     * @return {call} TODOC
      */
     patch : function(target, mixin) {
       return qx.Clazz.__mixin(target, mixin, true);
+    },
+    
+    __emptyFunction: function() {
+      return function() {};
     }
   }
 });
