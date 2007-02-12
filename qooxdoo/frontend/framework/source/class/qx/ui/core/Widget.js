@@ -141,7 +141,7 @@ qx.OO.addProperty({ name : "parent", type : "object", instance : "qx.ui.core.Par
 /*!
   The element node (if the widget is created, otherwise null)
 */
-qx.OO.addProperty({ name : "element" });
+qx.OO.addProperty({ name : "element", dispose : true });
 
 /*!
   Simple and fast switch of the visibility of a widget.

@@ -107,6 +107,15 @@ qx.Clazz.define("qx.OO",
 
         qx.Proto.classname = vConstructor.classname = vClassName;
         qx.Proto.constructor = vConstructor;
+
+        // Copy property lists
+        if (vSuper.prototype._properties) {
+          qx.Proto._properties = qx.lang.Object.copy(vSuper.prototype._properties);
+        }
+
+        if (vSuper.prototype._objectproperties) {
+          qx.Proto._objectproperties = qx.lang.Object.copy(vSuper.prototype._objectproperties);
+        }
       }
 
       // Store reference to global classname registry
@@ -193,23 +202,13 @@ qx.Clazz.define("qx.OO",
      * @deprecated: will be removed in qooxdoo 0.7
      * @param config {Map} Configuration map
      */
-    _createProperty : function(config) {
-      return qx.core.LegacyProperty._createProperty(config, qx.Proto);
-    },
-
-    /**
-     * Legacy property handling
-     *
-     * @deprecated: will be removed in qooxdoo 0.7
-     * @param config {Map} Configuration map
-     */
     changeProperty : function(config)
     {
       if (qx.core.Variant.isSet("qx.debug", "on") && window.console) {
         //console.warn(qx.Class.classname + ": Use of old changeProperty implementation for property " + config.name);
       }
 
-      return qx.core.LegacyProperty.changeProperty(config, qx.Proto);
+      return qx.core.LegacyProperty.addProperty(config, qx.Proto);
     },
 
     /**

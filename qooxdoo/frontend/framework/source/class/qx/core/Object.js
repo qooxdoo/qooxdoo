@@ -551,27 +551,41 @@ qx.Proto.dispose = function()
     this._userData = null;
   }
 
+  // Disposable properties
+  disposeProps = this._objectproperties;
+
+  // NextGen property stuff
+  this._user_values_ng = null;
+  this._appearance_values_ng = null;
+  this._real_values_ng = null;
+  this._properties_ng = null;
+  this._properties_init_ng = null;
+
+  // OldGen property stuff
+  this._properties = null;
+  this._objectproperties = null;
+
   // Finally cleanup properties
-  if (this._objectproperties)
+  if (disposeProps)
   {
-    var a = this._objectproperties.split(",");
-    var d = qx.OO.values;
+    var values = qx.core.LegacyProperty.values;
 
-    for (var i=0, l=a.length; i<l; i++) {
-      this[d[a[i]]] = null;
+    for (var name in disposeProps) {
+      this[values[name]] = null;
     }
-
-    this._objectproperties = null;
   }
 
-  if (qx.core.Setting.get("qx.disposerDebugging"))
+  if (qx.core.Variant.isSet("qx.debug", "on"))
   {
-    for (var vKey in this)
+    if (qx.core.Setting.get("qx.disposerDebugging"))
     {
-      if (this[vKey] !== null && typeof this[vKey] === "object")
+      for (var vKey in this)
       {
-        this.debug("Missing class implementation to dispose: " + vKey);
-        delete this[vKey];
+        if (this[vKey] !== null && typeof this[vKey] === "object")
+        {
+          this.warn("Missing class implementation to dispose: " + vKey);
+          delete this[vKey];
+        }
       }
     }
   }
