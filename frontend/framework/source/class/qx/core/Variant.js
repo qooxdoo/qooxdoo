@@ -200,6 +200,11 @@ qx.Clazz.define("qx.core.Variant",
      */
     isSet : function(key, variants)
     {
+      // fast path
+      if (variants.indexOf("|") < 0) {
+        return variants !== "none" && this.get(key) === variants;
+      }
+
       var keyParts = variants.split("|");
 
       for (var i=0; i<keyParts.length; i++)
