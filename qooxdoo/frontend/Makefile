@@ -124,7 +124,7 @@ framework-pretty:
 	@echo "****************************************************************************"
 	@$(CMD_GENERATOR) \
 	  --pretty-print \
-	  --class-path $(FRAMEWORK_SOURCE_PATH)/$(FRAMEWORK_CLASS_FOLDERNAME)
+	  --class-path $(FRAMEWORK_SOURCE_PATH)/class
 
 framework-fix:
 	@echo
@@ -133,7 +133,7 @@ framework-fix:
 	@echo "****************************************************************************"
 	@$(CMD_GENERATOR) \
 	  --fix-source \
-	  --class-path $(FRAMEWORK_SOURCE_PATH)/$(FRAMEWORK_CLASS_FOLDERNAME)
+	  --class-path $(FRAMEWORK_SOURCE_PATH)/class
 
 
 
@@ -448,7 +448,7 @@ release-sdk-dos:
 
 	@echo "  * Generating zip archive..."
 	@cd release/temp/sdk/dos; $(CMD_REMOVE) qooxdoo-$(FRAMEWORK_VERSION)-sdk.zip; $(CMD_ZIP_CREATE) ../../../qooxdoo-$(FRAMEWORK_VERSION)-sdk.zip qooxdoo-$(FRAMEWORK_VERSION)-sdk
-	
+
 ready:
 	@BASE_REQUIREMENTS="python rsync"; \
 	I18N_REQUIREMENTS="gettext xgettext msginit msgmerge"; \
