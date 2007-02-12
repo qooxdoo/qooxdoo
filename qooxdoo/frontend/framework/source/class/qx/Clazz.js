@@ -537,18 +537,21 @@ qx.Clazz.define("qx.Clazz",
       }
 
       var legacy = qx.core.LegacyProperty;
-      for (var name in properties) {
+      var proto = targetClass.prototype;
+
+      for (var name in properties)
+      {
         var property = properties[name];
 
         var value = property;
         value.name = name;
 
         if (value.fast) {
-          legacy.addFastProperty(value);
+          legacy.addFastProperty(value, proto);
         } else if (value.cached) {
-          legacy.addCachedProperty(value);
+          legacy.addCachedProperty(value, proto);
         } else if (value.compat) {
-          legacy.addProperty(value);
+          legacy.addProperty(value, proto);
         } else {
           throw new Error('Could not handle property definition "' + key + '" in Class "' + qx.Proto.classname + "'");
         }
