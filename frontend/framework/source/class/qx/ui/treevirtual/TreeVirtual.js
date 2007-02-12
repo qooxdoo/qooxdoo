@@ -71,7 +71,10 @@ function(headings)
 
   // Set sizes
   this.setRowHeight(16);
-  this.setMetaColumnCounts([1, -1]);
+  this.setMetaColumnCounts(headings.length > 1 ? [ 1, -1 ] : [ 1 ]);
+
+  // Overflow on trees is always hidden.  The internal elements scroll.
+  this.setOverflow("hidden");
 
   // Set the data cell render.  We use the SimpleTreeDataCellRenderer for the
   // tree column, and our DefaultDataCellRenderer for all other columns.
@@ -320,7 +323,7 @@ qx.Proto.getAlwaysShowOpenCloseSymbol = function()
 qx.Proto.setSelectionMode = function(mode)
 {
   this.getSelectionModel().setSelectionMode(mode);
-}
+};
 
 /**
  * Get the selection mode currently in use.
@@ -331,8 +334,17 @@ qx.Proto.setSelectionMode = function(mode)
 qx.Proto.getSelectionMode = function(mode)
 {
   return this.getSelectionModel().getSelectionMode();
-}
+};
 
+
+qx.Proto.setOverflow = function(s)
+{
+  if (s != "hidden")
+  {
+    throw new Error("Tree overflow must be hidden.  " +
+                    "The internal elements of it will scroll.");
+  }
+};
 
 /**
  * Toggle the opened state of the node: if the node is opened, close
@@ -742,7 +754,7 @@ qx.Proto.getHierarchy = function(nodeId)
 
   addHierarchy(nodeId);
   return components;
-}
+};
 
 
 /**
