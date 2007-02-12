@@ -13,7 +13,7 @@ QOOXDOO_PATH = ../../../
 # Starting point is the application HTML file of the source folder.
 # In most cases just add a "/.." compared to above
 #
-QOOXDOO_URI = ../../../
+QOOXDOO_URI = ../../../../../
 
 #
 # Namespace of your application e.g. custom
