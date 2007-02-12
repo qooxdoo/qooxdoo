@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.Property",
+qx.OO.defineClass("qx.core.Property",
 {
   validation :
   {
