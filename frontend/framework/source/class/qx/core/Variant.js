@@ -202,14 +202,14 @@ qx.Clazz.define("qx.core.Variant",
     {
       // fast path
       if (variants.indexOf("|") < 0) {
-        return variants !== "none" && this.get(key) === variants;
+        return this.get(key) === variants;
       }
 
       var keyParts = variants.split("|");
 
       for (var i=0; i<keyParts.length; i++)
       {
-        if (keyParts[i] !== "none" && this.get(key) === keyParts[i]) {
+        if (this.get(key) === keyParts[i]) {
           return true;
         }
       }
