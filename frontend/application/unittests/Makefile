@@ -49,6 +49,7 @@ APPLICATION_LINEBREAKS_SOURCE = true
 # Build/Integrate all features
 #
 APPLICATION_COMPLETE_BUILD = false
+APPLICATION_COMPLETE_SOURCE = false
 APPLICATION_ENABLE_GUI = false
 
 APPLICATION_HTML_TO_ROOT_URI=..
@@ -60,9 +61,9 @@ APPLICATION_OPTIMIZE_BROWSER = true
 APPLICATION_SOURCE_FLAGS = \
 
 APPLICATION_ADDITIONAL_SOURCE_OPTIONS = \
-  --include qxunit.* \
+  --include qxunit.Profile \
   --include qx.log.* \
-  --disable-internal-check
+  --print-includes
 
 APPLICATION_SOURCE_FLAGS = $(APPLICATION_BUILD_FLAGS)
 
