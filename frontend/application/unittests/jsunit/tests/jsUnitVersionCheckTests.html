@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>JsUnit Version Check Tests</title>
+<link rel="stylesheet" type="text/css" href="../css/jsUnitStyle.css">
+<script language="JavaScript" type="text/javascript" src="../app/jsUnitCore.js"></script>
+<script language="JavaScript" type="text/javascript" src="../app/jsUnitVersionCheck.js"></script>
+<script language="JavaScript" type="text/javascript">
+
+var versionLatestCalled;
+var versionNotLatestCalled;
+var versionCheckErrorCalled;
+var latestVersion;
+
+MockXmlHttpRequest = function() {
+}
+
+MockXmlHttpRequest.prototype.open = function (method, url, isAsync, userName, password) {
+    this.method = method;
+    this.url = url;
+    this.isAsync = isAsync;
+    this.userName = userName;
+    this.password = password;
+}
+
+MockXmlHttpRequest.prototype.send = function (data) {
+    this.sendCalled = true;
+    this.data = data;
+}
+
+function setUp() {
+    versionRequest = new MockXmlHttpRequest();
+    versionLatestCalled = false;
+    versionNotLatestCalled = false;
+    versionCheckErrorCalled = false;
+    latestVersion = null;
+}
+
+function createXmlHttpRequest() {
+    return versionRequest;
+}
+
+function versionNotLatest(aVersion) {
+    versionNotLatestCalled = true;
+    latestVersion = aVersion;
+}
+
+function versionLatest() {
+    versionLatestCalled = true;
+}
+
+function versionCheckError() {
+    versionCheckErrorCalled = true;
+}
+
+function testIsOutOfDate() {
+    assertTrue(isOutOfDate("" + (JSUNIT_VERSION + 1)));
+    assertFalse(isOutOfDate("" + JSUNIT_VERSION));
+    assertFalse(isOutOfDate("" + (JSUNIT_VERSION - 1)));
+}
+
+function testSendRequestForLatestVersion() {
+    sendRequestForLatestVersion("http://www.example.com/foo/bar/version.txt");
+    assertEquals("GET", versionRequest.method);
+    assertEquals("http://www.example.com/foo/bar/version.txt", versionRequest.url);
+    assertTrue(versionRequest.isAsync);
+    assertUndefined(versionRequest.userName);
+    assertUndefined(versionRequest.password);
+
+    assertTrue(versionRequest.sendCalled);
+    assertNull(versionRequest.data);
+
+    assertEquals(requestStateChanged, versionRequest.onreadystatechange);
+}
+
+function testBadResponse() {
+    versionRequest.readyState = 999;
+    versionRequest.status = 404;
+    requestStateChanged();
+    assertFalse("both bad", versionNotLatestCalled);
+    assertFalse("both bad", versionLatestCalled);
+    assertFalse(versionCheckErrorCalled);
+
+    versionRequest.status = 200;
+    requestStateChanged();
+    assertFalse("readyState bad", versionNotLatestCalled);
+    assertFalse("readyState bad", versionLatestCalled);
+    assertFalse(versionCheckErrorCalled);
+
+    versionRequest.readyState = 4;
+    versionRequest.status = 404;
+    requestStateChanged();
+    assertFalse("status bad", versionNotLatestCalled);
+    assertFalse("status bad", versionLatestCalled);
+    assertTrue(versionCheckErrorCalled);
+}
+
+function testReceiveNewerLatestVersion() {
+    versionRequest.readyState = 4;
+    versionRequest.status = 200;
+    versionRequest.responseText = "" + (JSUNIT_VERSION + 1);
+    requestStateChanged();
+    assertTrue(versionNotLatestCalled);
+    assertFalse(versionLatestCalled);
+    assertEquals("" + (JSUNIT_VERSION + 1), latestVersion);
+}
+
+function testReceiveSameLatestVersion() {
+    versionRequest.readyState = 4;
+    versionRequest.status = 200;
+    versionRequest.responseText = "" + JSUNIT_VERSION;
+    requestStateChanged();
+    assertFalse(versionNotLatestCalled);
+    assertTrue(versionLatestCalled);
+}
+
+function enablePrivileges() {
+}
+
+</script>
+</head>
+
+<body>
+<h1>JsUnit Version Check Tests</h1>
+
+<p>This page contains tests for the version checking code in JsUnit that looks to see whether a newer version of JsUnit
+    is available. To see them, take a look at the source.</p>
+</body>
+</html>
