@@ -35,7 +35,7 @@ qx.Clazz.define("qx.OO",
 
   statics :
   {
-    /** {var} TODOC */
+    /** {Map} Available classes created by defineClass */
     classes : {},
 
 
@@ -49,6 +49,7 @@ qx.Clazz.define("qx.OO",
      * define a new qooxdoo class
      * All classes should be defined in this way.
      *
+     * @deprecated Please switch to new qx.Clazz.define ASAP. This will be removed in qooxdoo 0.7
      * @type static
      * @name defineClass
      * @access public
@@ -113,8 +114,9 @@ qx.Clazz.define("qx.OO",
     },
 
     /**
-     * TODOC
+     * ??? Where is this used?
      *
+     * @deprecated Please switch to new qx.Clazz.define ASAP. This will be removed in qooxdoo 0.7
      * @type static
      * @name inheritField
      * @access public
@@ -129,8 +131,9 @@ qx.Clazz.define("qx.OO",
     },
 
     /**
-     * TODOC
+     * Returns if a class which is created by defineClass is available.
      *
+     * @deprecated Please switch to new qx.Clazz.define ASAP. This will be removed in qooxdoo 0.7
      * @type static
      * @name isAvailable
      * @access public
@@ -141,32 +144,102 @@ qx.Clazz.define("qx.OO",
       return qx.OO.classes[vClassName] != null;
     },
 
-    // qooxdoo 0.6.x emulation
+    /**
+     * Legacy property handling
+     *
+     * @deprecated: will be removed in qooxdoo 0.7
+     * @param config {Map} Configuration map
+     */
     addFastProperty : function(config) {
       return qx.core.LegacyProperty.addFastProperty(config, qx.Proto);
     },
+
+    /**
+     * Legacy property handling
+     *
+     * @deprecated: will be removed in qooxdoo 0.7
+     * @param config {Map} Configuration map
+     */
     addCachedProperty : function(config) {
       return qx.core.LegacyProperty.addCachedProperty(config, qx.Proto);
     },
+
+    /**
+     * Legacy property handling
+     *
+     * @deprecated: will be removed in qooxdoo 0.7
+     * @param config {Map} Configuration map
+     */
     addPropertyGroup : function(config) {
       return qx.core.LegacyProperty.addPropertyGroup(config, qx.Proto);
     },
+
+    /**
+     * Legacy property handling
+     *
+     * @deprecated: will be removed in qooxdoo 0.7
+     * @param config {Map} Configuration map
+     */
     removeProperty : function(config) {
       return qx.core.LegacyProperty.removeProperty(config, qx.Proto);
     },
+
+    /**
+     * Legacy property handling
+     *
+     * @deprecated: will be removed in qooxdoo 0.7
+     * @param config {Map} Configuration map
+     */
     _createProperty : function(config) {
       return qx.core.LegacyProperty._createProperty(config, qx.Proto);
     },
+
+    /**
+     * Legacy property handling
+     *
+     * @deprecated: will be removed in qooxdoo 0.7
+     * @param config {Map} Configuration map
+     */
     changeProperty : function(config) {
       return qx.core.LegacyProperty.changeProperty(config, qx.Proto);
     },
+
+    /**
+     * Legacy property handling
+     *
+     * @deprecated: will be removed in qooxdoo 0.7
+     * @param config {Map} Configuration map
+     */
     addProperty : function(config) {
       return qx.core.LegacyProperty.addProperty(config, qx.Proto);
     },
 
+    /**
+     * Internal field to optimize performance for legacy property handling
+     *
+     * @deprecated: will be removed in qooxdoo 0.7
+     */
     setter : qx.core.LegacyProperty.setter,
+
+    /**
+     * Internal field to optimize performance for legacy property handling
+     *
+     * @deprecated: will be removed in qooxdoo 0.7
+     */
     resetter : qx.core.LegacyProperty.resetter,
+
+    /**
+     * Internal field to optimize performance for legacy property handling
+     *
+     * @deprecated: will be removed in qooxdoo 0.7
+     */
     getter : qx.core.LegacyProperty.getter,
+
+    /**
+     * Internal field to optimize performance for legacy property handling
+     *
+     * @deprecated: will be removed in qooxdoo 0.7
+     */
     values : qx.core.LegacyProperty.values
   }
 });
