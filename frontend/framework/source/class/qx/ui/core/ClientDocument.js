@@ -404,6 +404,7 @@ qx.Proto.dispose = function()
     return;
   }
 
+  delete this._window;
   delete this._document;
   delete this._modalWidgets;
   delete this._modalNativeWindow;

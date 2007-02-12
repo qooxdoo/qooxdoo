@@ -39,6 +39,17 @@ function(name, parentLogger) {
   this._parentLogger = parentLogger;
 });
 
+qx.Proto.dispose = function()
+{
+  if (this.getDisposed()) {
+    return;
+  }
+
+  this._parentLogger = null;
+
+  return qx.log.LogEventProcessor.prototype.dispose.call(this);
+};
+
 
 /**
  * Returns the name of this logger. (Normally a class or package name)
