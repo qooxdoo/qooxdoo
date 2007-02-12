@@ -1,0 +1,405 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>JsUnit Assertion Tests</title>
+<link rel="stylesheet" type="text/css" href="../css/jsUnitStyle.css">
+<script language="JavaScript" type="text/javascript" src="../app/jsUnitCore.js"></script>
+<script language="JavaScript" type="text/javascript">
+
+function testAssert() {
+    assert("true should be true", true);
+    assert(true);
+}
+
+function testAssertTrue() {
+    assertTrue("true should be true", true);
+    assertTrue(true);
+}
+
+function testAssertFalse() {
+    assertFalse("false should be false", false);
+    assertFalse(false);
+}
+
+function testAssertEquals() {
+    assertEquals("1 should equal 1", 1, 1);
+    assertEquals(1, 1);
+}
+
+function testAssertNotEquals() {
+    assertNotEquals("1 should not equal 2", 1, 2);
+    assertNotEquals(1, 2);
+}
+
+function testAssertNull() {
+    assertNull("null should be null", null);
+    assertNull(null);
+}
+
+function testAssertNotNull() {
+    assertNotNull("1 should not be null", 1);
+    assertNotNull(1);
+}
+
+function testAssertUndefined() {
+    var myVar;
+    assertUndefined("A declared but unassigned variable should have the undefined value", myVar);
+    assertUndefined(myVar);
+}
+
+function testAssertNotUndefined() {
+    assertNotUndefined("1 should not be undefined", 1);
+    assertNotUndefined(1);
+}
+
+function testAssertNaN() {
+    assertNaN("a string should not be a number", "string");
+    assertNaN("string");
+}
+
+function testAssertNotNaN() {
+    assertNotNaN("1 should not be not a number", 1);
+    assertNotNaN(1);
+}
+
+function testFail() {
+    var excep = null;
+    try {
+        fail("Failure message");
+    } catch (e) {
+        excep = e;
+    }
+    assertJsUnitException("fail(string) should throw a JsUnitException", excep);
+}
+
+function testTooFewArguments() {
+    var excep = null;
+    try {
+        assert();
+    } catch (e1) {
+        excep = e1;
+    }
+    assertNonJsUnitException("Calling an assertion function with too few arguments should throw an exception", excep);
+}
+
+function testTooManyArguments() {
+    var excep = null;
+    try {
+        assertEquals("A comment", true, true, true);
+    } catch (e2) {
+        excep = e2;
+    }
+    assertNonJsUnitException("Calling an assertion function with too many arguments should throw an exception", excep);
+}
+
+function testInvalidCommentArgumentType() {
+    var excep = null;
+    try {
+        assertNull(1, true);
+    } catch (e3) {
+        excep = e3;
+    }
+    assertNonJsUnitException("Calling an assertion function with a non-string comment should throw an exception", excep);
+}
+
+function testInvalidArgumentType() {
+    var excep = null;
+    try {
+        assert("string");
+    } catch (e) {
+        excep = e;
+    }
+    assertNonJsUnitException("Calling an assertion function with an invalid argument should throw an exception", excep);
+}
+
+function testAssertArrayEquals() {
+    var array1 = Array();
+    array1[0] = "foo";
+    array1[1] = "bar";
+    array1[2] = "foobar";
+    var array2 = Array();
+    array2[0] = "foo";
+    array2[1] = "bar";
+    array2[2] = "foobar";
+    var array3 = Array();
+    array3[0] = "foo";
+    array3[1] = "bar";
+    var array4 = Array();
+    array4[0] = "bar";
+    array4[1] = "foo";
+    array4[2] = "foobar";
+
+    assertArrayEquals(array1, array1);
+    assertArrayEquals(array1, array2);
+    try {
+        assertArrayEquals(array1, array3);
+        fail("Should not be equal");
+    } catch (e) {
+        assertJsUnitException("Should be a JsUnitException", e);
+        if (e.comment == "Call to fail()")
+            fail(e.comment + e.jsUnitMessage); //tried fail is also caught
+    }
+    try {
+        assertArrayEquals(array1, array4);
+        fail("Should not be equal");
+    } catch (e) {
+        assertJsUnitException("Should be a JsUnitException", e);
+        if (e.comment == "Call to fail()")
+            fail(e.comment + e.jsUnitMessage); //tried fail is also caught
+    }
+    var array5 = ['foo', 'bar', ['nested', 'bar'], 'foobar'];
+    var array6 = ['foo', 'bar', ['nested', 'bar'], 'foobar'];
+    var array7 = ['foo', 'bar', ['nested', 'foo'], 'foobar'];
+    assertArrayEquals('Equal nested arrays', array5, array6);
+    try
+    {
+        assertArrayEquals(array5, array7);
+        var failure = 'Differing nested arrays found to be equal';
+        fail(failure);
+    }
+    catch (e)
+    {
+        assertJsUnitException("Should be a JsUnitException", e);
+        if (e.jsUnitMessage == failure)
+            fail(e.jsUnitMessage);
+    }
+}
+
+function testAssertObjectEquals()
+{
+    var failure;
+    var o1 = {foo:'bar'};
+    var o2 = {foo:'bar'};
+    assertObjectEquals('Single object', o1, o1);
+    assertObjectEquals('Same objects', o1, o2);
+    var o3 = {foo:'foo'};
+    var o4 = {foo:'foo',
+        bar: function () {
+            this.foo = 'bar';
+            delete this.bar
+        }};
+    var o5 = {foo:'foo',
+        bar: function () {
+            this.foo = 'foo';
+            delete this.bar
+        }};
+    try
+    {
+        assertObjectEquals(o1, o3);
+        fail(failure = 'Simple differing objects found to be the same');
+    }
+    catch (e)
+    {
+        assertJsUnitException("Should be a JsUnitException", e);
+        if (e.jsUnitMessage == failure)
+            fail(e.jsUnitMessage);
+    }
+    try
+    {
+        assertObjectEquals(o4, o5);
+        fail(failure = 'Objects with different methods found to be the same');
+    }
+    catch (e)
+    {
+        assertJsUnitException("Should be a JsUnitException", e);
+        if (e.jsUnitMessage == failure)
+            fail(e.jsUnitMessage);
+    }
+
+    o4.bar();
+    assertObjectEquals('Different objects, made to be the same', o1, o4);
+    try
+    {
+        assertObjectEquals({ts:new Date()}, {ts:new Date()});
+        fail(failure = 'Objects with different Date attributes found to be the same');
+    }
+    catch (e)
+    {
+        assertJsUnitException("Should be a JsUnitException", e);
+        if (e.jsUnitMessage == failure)
+            fail(e.jsUnitMessage);
+    }
+    try
+    {
+        assertObjectEquals(new Date(), new Date());
+        fail(failure = 'Different Date objects found to be the same');
+    }
+    catch (e)
+    {
+        assertJsUnitException("Should be a JsUnitException", e);
+        if (e.jsUnitMessage == failure)
+            fail(e.jsUnitMessage);
+    }
+    assertObjectEquals(/a/, new RegExp('a'));
+    assertObjectEquals(/a/i, new RegExp('a', 'i'));
+
+    try
+    {
+        assertObjectEquals(/a/i, new RegExp('a', 'g'));
+        fail(failure = 'RegExp with different flags found to be the same');
+    }
+    catch (e)
+    {
+        assertJsUnitException("Should be a JsUnitException", e);
+        if (e.jsUnitMessage == failure)
+            fail(e.jsUnitMessage);
+    }
+    try
+    {
+        assertObjectEquals(/a/, new RegExp('b'));
+        fail(failure = 'RegExp with different patterns found to be the same');
+    }
+    catch (e)
+    {
+        assertJsUnitException("Should be a JsUnitException", e);
+        if (e.jsUnitMessage == failure)
+            fail(e.jsUnitMessage);
+    }
+}
+
+function testAssertObjectEqualsOnStrings() {
+    var s1 = 'string1';
+    var s2 = 'string1';
+    var newS1 = new String('string1');
+    assertObjectEquals('Same Strings', s1, s2);
+    assertObjectEquals('Same Strings 1 with new', s1, newS1);
+}
+
+function testAssertObjectEqualsOnNumbers() {
+    var failure;
+    var n1 = 1;
+    var n2 = 1;
+    var newN1 = new Number(1);
+    assertObjectEquals('Same Numbers', n1, n2);
+    assertObjectEquals('Same Numbers 1 with new', n1, newN1);
+    var n3 = 2;
+    var newN3 = new Number(2);
+    try
+    {
+        assertObjectEquals(n1, n3);
+        fail(failure = 'Different Numbers');
+    }
+    catch (e)
+    {
+        assertJsUnitException("Should be a JsUnitException", e);
+        if (e.jsUnitMessage == failure)
+            fail(e.jsUnitMessage);
+    }
+    try
+    {
+        assertObjectEquals(newN1, newN3);
+        fail(failure = 'Different New Numbers');
+    }
+    catch (e)
+    {
+        assertJsUnitException("Should be a JsUnitException", e);
+        if (e.jsUnitMessage == failure)
+            fail(e.jsUnitMessage);
+    }
+
+}
+
+function testAssertEvaluatesToTrue() {
+    assertEvaluatesToTrue("foo");
+    assertEvaluatesToTrue(true);
+    assertEvaluatesToTrue(1);
+    try {
+        assertEvaluatesToTrue(null);
+        fail("Should have thrown a JsUnitException");
+    } catch (e) {
+        assertJsUnitException("Should be a JsUnitException", e);
+    }
+}
+
+function testAssertEvaluatesToFalse() {
+    assertEvaluatesToFalse("");
+    assertEvaluatesToFalse(null);
+    assertEvaluatesToFalse(false);
+    assertEvaluatesToFalse(0);
+    try {
+        assertEvaluatesToFalse("foo");
+        fail("Should have thrown a JsUnitException");
+    } catch (e) {
+        assertJsUnitException("Should be a JsUnitException", e);
+    }
+}
+
+function testAssertHTMLEquals() {
+    assertHTMLEquals("<div id=mydiv>foobar</div>", "<div id='mydiv'>foobar</div>");
+    assertHTMLEquals("<p/>", "<p></p>");
+    assertHTMLEquals("foo bar", "foo bar");
+    assertHTMLEquals("a comment", "<p id='foo'>foo bar</p>", "<p id=foo>foo bar</p>");
+}
+
+function testAssertHashEquals() {
+    var hash1 = new Array();
+    hash1["key1"] = "value1";
+    hash1["key2"] = "value2";
+
+    var hash2 = new Array();
+    try {
+        assertHashEquals(hash1, hash2);
+        fail();
+    } catch (e) {
+        assertJsUnitException("hash2 is empty", e);
+    }
+    hash2["key1"] = "value1";
+    try {
+        assertHashEquals(hash1, hash2);
+        fail();
+    } catch (e) {
+        assertJsUnitException("hash2 is a of a different size", e);
+    }
+    hash2["key2"] = "foo";
+    try {
+        assertHashEquals(hash1, hash2);
+        fail();
+    } catch (e) {
+        assertJsUnitException("hash2 has different values", e);
+    }
+    hash2["key2"] = "value2";
+    assertHashEquals(hash1, hash2);
+}
+
+function testAssertRoughlyEquals() {
+    assertRoughlyEquals(1, 1.1, 0.5);
+    assertRoughlyEquals(1, 5, 6);
+    assertRoughlyEquals(-4, -5, 2);
+    assertRoughlyEquals(-0.5, 0.1, 0.7);
+    try {
+        assertRoughlyEquals(1, 2, 0.5);
+    } catch (e) {
+        assertJsUnitException("1 and 2 are more than 0.5 apart", e);
+    }
+}
+
+function testAssertContains() {
+    assertContains("foo", "foobar");
+    assertContains("ooba", "foobar");
+    assertContains("bar", "foobar");
+}
+
+function assertJsUnitException(comment, allegedJsUnitException) {
+    assertNotNull(comment, allegedJsUnitException);
+    assert(comment, allegedJsUnitException.isJsUnitException);
+    assertNotUndefined(comment, allegedJsUnitException.comment);
+}
+
+function assertNonJsUnitException(comment, allegedNonJsUnitException) {
+    assertNotNull(comment, allegedNonJsUnitException);
+    assertUndefined(comment, allegedNonJsUnitException.isJsUnitException);
+    assertNotUndefined(comment, allegedNonJsUnitException.description);
+}
+</script>
+</head>
+
+<body>
+<h1>JsUnit Assertion Tests</h1>
+
+<p>This page contains tests for the JsUnit Assertion
+    functions. To see them, take a look at the source.</p>
+</body>
+</html>
