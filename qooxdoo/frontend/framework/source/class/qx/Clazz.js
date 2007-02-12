@@ -463,27 +463,26 @@ qx.Clazz.define("qx.Clazz",
      *   in the namespace.
      * @return {Object} last part of the namespace (e.g. classname)
      */
-    createNamespace : function(name, object, forceOverwrite)
+    createNamespace : function(name, object)
     {
       var splits = name.split(".");
-      var len = splits.length;
       var parent = window;
       var part = splits[0];
 
-      for (var i=0, l=len-1; i<l; i++)
+      for (var i=0, len=splits.length-1; i<len; i++, part=splits[i])
       {
         if (!parent[part]) {
           parent[part] = {};
         }
 
         parent = parent[part];
-        part = splits[i + 1];
       }
 
       // store object
-      if (!forceOverwrite && parent[part] != undefined) {
+      if (parent[part] !== undefined) {
         throw new Error("An object of the name '" + name + "' aready exists and overwriting is not allowed!");
       }
+
       parent[part] = object;
 
       // return last part name (e.g. classname)

@@ -34,56 +34,37 @@
 /**
  * Create namespace
  */
-qx = { core : {}, lang : {} };
-
-/**
- * Bootstrap qx.Clazz to create myself
- * This is needed for the API browser etc. to let them detect me
- */
-qx.Clazz =
+qx =
 {
-  define : function(name, config)
+  /**
+   * Bootstrap qx.Clazz to create myself later
+   * This is needed for the API browser etc. to let them detect me
+   */
+  Clazz :
   {
-    switch(name)
+    createNamespace : function(name, object)
     {
-      case "qx.core.Bootstrap":
-        qx.core.Bootstrap = config.statics;
-        break;
+      var splits = name.split(".");
+      var parent = window;
+      var part = splits[0];
 
-      case "qx.lang.Generics":
-        qx.lang.Generics = config.statics;
-        break;
+      for (var i=0, len=splits.length-1; i<len; i++, part=splits[i])
+      {
+        if (!parent[part]) {
+          parent[part] = {};
+        }
 
-      case "qx.lang.Core":
-        qx.lang.Core = config.statics;
-        break;
+        parent = parent[part];
+      }
 
-      case "qx.lang.String":
-        qx.lang.String = config.statics;
-        break;
+      parent[part] = object;
 
-      case "qx.lang.Object":
-        qx.lang.Object = config.statics;
-        break;
+      // return last part name (e.g. classname)
+      return part;
+    },
 
-      case "qx.lang.Array":
-        qx.lang.Array = config.statics;
-        break;
-
-      case "qx.core.Variant":
-        qx.core.Variant = config.statics;
-        break;
-
-      case "qx.core.Setting":
-        qx.core.Setting = config.statics;
-        break;
-
-      case "qx.Clazz":
-        qx.Clazz = config.statics;
-        break;
-
-      default:
-        throw new Error("Bootstrap: Could not create class: " + name);
+    define : function(name, config) {
+      this.createNamespace(name, config.statics);
     }
   }
 };
