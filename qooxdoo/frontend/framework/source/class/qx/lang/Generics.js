@@ -21,6 +21,7 @@
 /* ************************************************************************
 
 #module(core)
+#ignore(auto-require)
 #require(qx.lang.Core)
 
 ************************************************************************ */
@@ -72,63 +73,76 @@
  * * concat
  * * slice
  */
-qx.OO.defineClass("qx.lang.Generics",
+qx.Clazz.define("qx.lang.Generics",
 {
-  __map :
+  /*
+  *****************************************************************************
+  **** STATICS ****************************************************************
+  *****************************************************************************
+  */
+
+  statics :
   {
-    "Array" : [
-      "join", "reverse", "sort", "push", "pop", "shift", "unshift",
-      "splice", "concat", "slice", "indexOf", "lastIndexOf", "forEach",
-      "map", "filter", "some", "every"
-    ],
-
-    "String" : [
-      "quote", "substring", "toLowerCase", "toUpperCase", "charAt",
-      "charCodeAt", "indexOf", "lastIndexOf", "toLocaleLowerCase",
-      "toLocaleUpperCase", "localeCompare", "match", "search",
-      "replace", "split", "substr", "concat", "slice"
-    ]
-  },
-
-  /**
-   * Make a method of an object generic and return the generic functions.
-   * The generic function takes as first parameter the object the method operates on.
-   *
-   * TODO: maybe mode this function to qx.lang.Function
-   *
-   * @param obj {Object} the object in which prototype the function is defined.
-   * @param func {String} name of the method to wrap.
-   *
-   * @return {Function} wrapped method. This function takes as first argument an
-   *     instance of obj and as following arguments the arguments of the original method.
-   */
-  __wrap : function(obj, func)
-  {
-    return function(s) {
-      return obj.prototype[func].apply(s, Array.prototype.slice.call(arguments, 1));
-    }
-  },
-
-  /**
-   * Initialize all generic functions as defined in JavaScript 1.6.
-   */
-  init : function()
-  {
-    var map = qx.lang.Generics.__map;
-
-
-
-    for (var key in map)
+    /** {Map} Which methods to map */
+    __map :
     {
-      var obj = window[key];
-      var arr = map[key];
+      "Array" : [ "join", "reverse", "sort", "push", "pop", "shift", "unshift", "splice", "concat", "slice", "indexOf", "lastIndexOf", "forEach", "map", "filter", "some", "every" ],
+      "String" : [ "quote", "substring", "toLowerCase", "toUpperCase", "charAt", "charCodeAt", "indexOf", "lastIndexOf", "toLocaleLowerCase", "toLocaleUpperCase", "localeCompare", "match", "search", "replace", "split", "substr", "concat", "slice" ]
+    },
 
-      for (var i=0, l=arr.length; i<l; i++)
+    /**
+     * Make a method of an object generic and return the generic functions.
+     * The generic function takes as first parameter the object the method operates on.
+     *
+     * TODO: maybe mode this function to qx.lang.Function
+     *
+     * @type static
+     * @name __wrap
+     * @access private
+     * @param obj {Object} the object in which prototype the function is defined.
+     * @param func {String} name of the method to wrap.
+     * @return {Function} wrapped method. This function takes as first argument an
+     *       instance of obj and as following arguments the arguments of the original method.
+     */
+    __wrap : function(obj, func)
+    {
+      return
+      /**
+       * TODOC
+       *
+       * @type unknown TODOC
+       * @param s {String} TODOC
+       * @return {call} TODOC
+       */
+      function(s) {
+        return obj.prototype[func].apply(s, Array.prototype.slice.call(arguments, 1));
+      };
+    },
+
+    /**
+     * Initialize all generic functions as defined in JavaScript 1.6.
+     *
+     * @type static
+     * @name init
+     * @access public
+     * @return {void}
+     */
+    init : function()
+    {
+      var map = qx.lang.Generics.__map;
+
+      for (var key in map)
       {
-        var func = arr[i];
+        var obj = window[key];
+        var arr = map[key];
 
-        if (!obj[func]) {
-          obj[func] = qx.lang.Generics.__wrap(obj, func);
+        for (var i=0, l=arr.length; i<l; i++)
+        {
+          var func = arr[i];
+
+          if (!obj[func]) {
+            obj[func] = qx.lang.Generics.__wrap(obj, func);
+          }
         }
       }
     }
