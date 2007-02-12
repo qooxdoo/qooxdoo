@@ -23,13 +23,15 @@
 #module(core)
 #ignore(auto-require)
 #ignore(auto-use)
+#use(qx.lang.Core)
+#use(qx.lang.Generics)
 
 ************************************************************************ */
 
 /**
  * Create namespace
  */
-qx = { core : {} };
+qx = { core : {}, lang : {} };
 
 /**
  * Bootstrap qx.Clazz to create myself
@@ -43,6 +45,14 @@ qx.Clazz =
     {
       case "qx.core.Bootstrap":
         qx.core.Bootstrap = config.statics;
+        break;
+
+      case "qx.lang.Generics":
+        qx.lang.Generics = config.statics;
+        break;
+
+      case "qx.lang.Core":
+        qx.lang.Core = config.statics;
         break;
 
       case "qx.core.Variant":

@@ -140,7 +140,7 @@ qx.Clazz.define("qx.Clazz",
             }
             include = value;
             break;
-            
+
           case "type":
             type = value;
             break;
@@ -399,9 +399,9 @@ qx.Clazz.define("qx.Clazz",
           this.__addProperty(obj, key, properties[key]);
         }
       }
-      
-      
-      
+
+
+
       /*
       ---------------------------------------------------------------------------
         Merge in the Mixins
@@ -447,7 +447,7 @@ qx.Clazz.define("qx.Clazz",
                 prot[key] = this.__wrapFunctionWithPrecondition(prot[key], key, interfaceMembers[key]);
               }
             }
-            
+
             // Validate statics
             var interfaceStatics = implement[i].statics;
             for (key in interfaceStatics)
@@ -456,9 +456,9 @@ qx.Clazz.define("qx.Clazz",
                 if (typeof obj[key] != "function") {
                   throw new Error('Implementation of static method "' + key + '" is missing in Class "' + name + '" required by interface "' + implement[i].name + '"');
                 }
-              }             
+              }
             }
-                
+
           }
         }
 
@@ -474,9 +474,9 @@ qx.Clazz.define("qx.Clazz",
             }
           }
         }
-        
+
         // validate properties
-        
+
       }
     },
 
@@ -486,7 +486,7 @@ qx.Clazz.define("qx.Clazz",
      *
      * @param name {String} The namespace including the last (class) name
      * @param object {Object} The data to attach to the namespace
-     * @param forceOverwrite {Boolean} whether an object should be overwritten if it already exists 
+     * @param forceOverwrite {Boolean} whether an object should be overwritten if it already exists
      *   in the namespace.
      * @return {Object} last part of the namespace (e.g. classname)
      */
@@ -536,7 +536,7 @@ qx.Clazz.define("qx.Clazz",
      * Wrapper for qx.OO.addProperty. This is needed in two places so the code
      * has been extracted. The global variables qx.Class, qx.Proto and qx.Super
      * must be set before this method is called.
-     * 
+     *
      * @param targetClass {Clazz} class to add the properties to
      * @param name {String} Name of the property
      * @param property {Map} new class style property definition
@@ -551,7 +551,7 @@ qx.Clazz.define("qx.Clazz",
           throw new Error("The global variable qx.Proto, qx.Class and qx.Super must point to the target class!");
         }
       }
-      
+
       var value = property;
       value.name = name;
 
@@ -565,10 +565,10 @@ qx.Clazz.define("qx.Clazz",
         throw new Error('Could not handle property definition "' + key + '" in Class "' + qx.Proto.classname + "'");
       }
     },
-    
-    
+
+
     /**
-     * Include all features of the Mixin into the given Class. 
+     * Include all features of the Mixin into the given Class.
      *
      * @access private
      * @param targetClass {Clazz} A class previously defined where the mixin should be attached.
@@ -617,15 +617,15 @@ qx.Clazz.define("qx.Clazz",
               throw new Error("Overwriting the property '" + key + "' of class '" + proto.classname + "'is not allowed!");
             }
           }
-        }   
+        }
       this.__addProperty(targetClass, key, iproperties[key]);
-      }    
+      }
     },
-    
-    
+
+
     /**
      * Convert a constructor into an abstract constructor.
-     * 
+     *
      * @param className {String} fully qualified class name of the constructor.
      * @param construct {Fuction} the original constructor
      * @return {Function} abstract constructor
@@ -644,7 +644,7 @@ qx.Clazz.define("qx.Clazz",
         abstractConstructor.$ABSTRACT = className;
         return abstractConstructor;
       }
-      else 
+      else
       {
         // in production code omit the check and just return the
         // constructor
@@ -656,13 +656,13 @@ qx.Clazz.define("qx.Clazz",
     /**
      * Add a singleton check to a constructor. The constructor will only work if
      * the static member <code>$ALLOWCONSTRUCT</code> of the class is set to true.
-     * 
+     *
      * @param construct {Function} original constructor to wrap
      * @return {Function} wrapped constructor
      */
     __createSingletonConstructor: function(construct) {
       if (qx.core.Variant.isSet("qx.debug", "on"))
-      {      
+      {
         var singletonConstruct = function() {
           if (!arguments.callee.$ALLOWCONSTRUCT) {
             throw new Error("Singleton");
@@ -670,7 +670,7 @@ qx.Clazz.define("qx.Clazz",
           return construct.apply(this, arguments);
         }
         return singletonConstruct;
-      } 
+      }
       else
       {
         // in production code omit the check and just return the
@@ -678,11 +678,11 @@ qx.Clazz.define("qx.Clazz",
         return construct;
       }
     },
-    
-    
+
+
     __wrapFunctionWithPrecondition: function(method, name, preCondition) {
       if (qx.core.Variant.isSet("qx.debug", "on"))
-      { 
+      {
         return function() {
           if (!preCondition.apply(this, arguments)) {
            throw new Error("Pre condition of method '" + name + "'failed: " + preCondition.toString());
@@ -693,8 +693,8 @@ qx.Clazz.define("qx.Clazz",
         return method;
       }
     },
-    
-    
+
+
     /**
      * Include all features of the Mixin into the given Class. The Mixin must not include
      * any functions or properties which are already available. This is only possible using

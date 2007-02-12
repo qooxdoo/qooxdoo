@@ -21,6 +21,7 @@
 /* ************************************************************************
 
 #module(core)
+#ignore(auto-require)
 #use(qx.lang.Generics)
 
 ************************************************************************ */
@@ -48,7 +49,9 @@
  * * Array.every()
  * * String.quote()
  */
-qx.OO.defineClass("qx.lang.Core");
+qx.Clazz.define("qx.lang.Core", {});
+
+
 
 
 /*
@@ -63,14 +66,16 @@ if (!Error.prototype.toString)
    * Some browsers (e.g. Internet Explorer) do not support to stringify
    * error objects like other browsers usually do. This feature is added to
    * those browsers.
+   *
+   * @type member
+   * @name toString
+   * @access public
+   * @return {var} TODOC
    */
   Error.prototype.toString = function() {
     return this.message;
   };
 }
-
-
-
 
 
 
@@ -92,21 +97,22 @@ if (!Array.prototype.indexOf)
    * Natively supported in Gecko since version 1.8.
    * http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Objects:Array:indexOf
    *
+   * @type member
+   * @name indexOf
+   * @access public
    * @param searchElement {var} Element to locate in the array.
    * @param fromIndex {Integer} The index at which to begin the search. Defaults to 0, i.e. the whole
-   *   array will be searched. If the index is greater than or equal to the length of the array,
-   *   <code>-1</code> is returned, i.e. the array will not be searched. If negative, it is taken as the
-   *   offset from the end of the array. Note that even when the index is negative, the array is still
-   *   searched from front to back. If the calculated index is less than 0, the whole array will be searched.
+   *     array will be searched. If the index is greater than or equal to the length of the array,
+   *     <code>-1</code> is returned, i.e. the array will not be searched. If negative, it is taken as the
+   *     offset from the end of the array. Note that even when the index is negative, the array is still
+   *     searched from front to back. If the calculated index is less than 0, the whole array will be searched.
+   * @return {var} TODOC
    */
   Array.prototype.indexOf = function(searchElement, fromIndex)
   {
-    if (fromIndex == null)
-    {
+    if (fromIndex == null) {
       fromIndex = 0;
-    }
-    else if (fromIndex < 0)
-    {
+    } else if (fromIndex < 0) {
       fromIndex = Math.max(0, this.length + fromIndex);
     }
 
@@ -132,23 +138,24 @@ if (!Array.prototype.lastIndexOf)
    * Natively supported in Gecko since version 1.8.
    * http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Objects:Array:lastIndexOf
    *
+   * @type member
+   * @name lastIndexOf
+   * @access public
    * @param searchElement {var} Element to locate in the array.
    * @param fromIndex {Integer} The index at which to start searching backwards.
-   *   Defaults to the array's length, i.e. the whole array will be searched. If
-   *   the index is greater than or equal to the length of the array, the whole array
-   *   will be searched. If negative, it is taken as the offset from the end of the
-   *   array. Note that even when the index is negative, the array is still searched
-   *   from back to front. If the calculated index is less than 0, -1 is returned,
-   *   i.e. the array will not be searched.
+   *     Defaults to the array's length, i.e. the whole array will be searched. If
+   *     the index is greater than or equal to the length of the array, the whole array
+   *     will be searched. If negative, it is taken as the offset from the end of the
+   *     array. Note that even when the index is negative, the array is still searched
+   *     from back to front. If the calculated index is less than 0, -1 is returned,
+   *     i.e. the array will not be searched.
+   * @return {var} TODOC
    */
   Array.prototype.lastIndexOf = function(searchElement, fromIndex)
   {
-    if (fromIndex == null)
-    {
-      fromIndex = this.length-1;
-    }
-    else if (fromIndex < 0)
-    {
+    if (fromIndex == null) {
+      fromIndex = this.length - 1;
+    } else if (fromIndex < 0) {
       fromIndex = Math.max(0, this.length + fromIndex);
     }
 
@@ -192,8 +199,12 @@ if (!Array.prototype.forEach)
    * Natively supported in Gecko since version 1.8.
    * http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Objects:Array:forEach
    *
+   * @type member
+   * @name forEach
+   * @access public
    * @param callback {Function} Function to execute for each element.
    * @param obj {Object} Object to use as this when executing callback.
+   * @return {void}
    */
   Array.prototype.forEach = function(callback, obj)
   {
@@ -239,8 +250,12 @@ if (!Array.prototype.filter)
    * Natively supported in Gecko since version 1.8.
    * http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Objects:Array:filter
    *
+   * @type member
+   * @name filter
+   * @access public
    * @param callback {Function} Function to test each element of the array.
    * @param obj {Object} Object to use as <code>this</code> when executing <code>callback</code>.
+   * @return {var} TODOC
    */
   Array.prototype.filter = function(callback, obj)
   {
@@ -287,8 +302,12 @@ if (!Array.prototype.map)
    * Natively supported in Gecko since version 1.8.
    * http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Objects:Array:map
    *
+   * @type member
+   * @name map
+   * @access public
    * @param callback {Function} Function produce an element of the new Array from an element of the current one.
    * @param obj {Object} Object to use as <code>this</code> when executing <code>callback</code>.
+   * @return {var} TODOC
    */
   Array.prototype.map = function(callback, obj)
   {
@@ -335,8 +354,12 @@ if (!Array.prototype.some)
    * Natively supported in Gecko since version 1.8.
    * http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Objects:Array:some
    *
+   * @type member
+   * @name some
+   * @access public
    * @param callback {Function} Function to test for each element.
    * @param obj {Object} Object to use as <code>this</code> when executing <code>callback</code>.
+   * @return {boolean} TODOC
    */
   Array.prototype.some = function(callback, obj)
   {
@@ -384,10 +407,14 @@ if (!Array.prototype.every)
    * Natively supported in Gecko since version 1.8.
    * http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Objects:Array:every
    *
+   * @type member
+   * @name every
+   * @access public
    * @param callback {Function} Function to test for each element.
    * @param obj {Object} Object to use as <code>this</code> when executing <code>callback</code>.
+   * @return {boolean} TODOC
    */
-  Array.prototype.every = function (callback, obj)
+  Array.prototype.every = function(callback, obj)
   {
     // The array length should be fixed, like in the native implementation.
     var l = this.length;
@@ -402,9 +429,6 @@ if (!Array.prototype.every)
     return true;
   };
 }
-
-
-
 
 
 
@@ -424,8 +448,13 @@ if (!String.prototype.quote)
    * Note: Not part of ECMAScript Language Specification ECMA-262
    *       3rd edition (December 1999), but implemented by Gecko:
    *       http://lxr.mozilla.org/seamonkey/source/js/src/jsstr.c
+   *
+   * @type member
+   * @name quote
+   * @access public
+   * @return {var} TODOC
    */
-  String.prototype.quote = function () {
+  String.prototype.quote = function() {
     return '"' + this.replace(/\\/g, "\\\\").replace(/\"/g, "\\\"") + '"';
   };
 }
