@@ -152,6 +152,41 @@ qx.Proto.clearCache = function() {
 };
 
 
+/**
+ * Iterates through all cached rows.
+ * <p>
+ * The iterator will be called for each cached row with two parameters: The row
+ * index of the current row (Integer) and the row data of that row (var[]). If
+ * the iterator returns something this will be used as new row data.
+ * <p>
+ * The iterator is called in the same order as the rows are in the model
+ * (the row index is always ascending).
+ *
+ * @param iterator {Function} The iterator function to call.
+ */
+qx.Proto.iterateCachedRows = function(iterator, object) {
+  var blockSize = this.getBlockSize();
+  var blockCount = Math.ceil(this.getRowCount() / blockSize);
+
+  // Remove the row and move the rows of all following blocks
+  for (var block = 0; block <= blockCount; block++) {
+    var blockData = this._rowBlockCache[block];
+    if (blockData != null) {
+      var rowOffset = block * blockSize;
+      var rowDataArr = blockData.rowDataArr;
+      for (var relRow = 0; relRow < rowDataArr.length; relRow++) {
+        // Call the iterator for this row
+        var rowData = rowDataArr[relRow];
+        var newRowData = iterator.call(object, rowOffset + relRow, rowData);
+        if (newRowData != null) {
+          rowDataArr[relRow] = newRowData;
+        }
+      }
+    }
+  }
+};
+
+
 // overridden
 qx.Proto.prefetchRows = function(firstRowIndex, lastRowIndex) {
   // this.debug("Prefetch wanted: " + firstRowIndex + ".." + lastRowIndex);
