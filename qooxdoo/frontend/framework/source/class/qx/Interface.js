@@ -29,7 +29,7 @@ qx.Clazz.define("qx.Interface",
   statics :
   {
     /** Registers all defined interfaces */
-    registry : {},
+    __registry : {},
 
     /**
      * Interface config
@@ -126,7 +126,7 @@ qx.Clazz.define("qx.Interface",
       var basename = qx.Clazz.createNamespace(name, obj, false);
 
       // Add to registry
-      qx.Interface.registry[name] = obj;
+      qx.Interface.__registry[name] = obj;
 
       // Attach data fields
       obj.name = name;
@@ -237,6 +237,7 @@ qx.Clazz.define("qx.Interface",
       }
     },
 
+
     /**
      * Determine if Interface exists
      *
@@ -248,7 +249,109 @@ qx.Clazz.define("qx.Interface",
      */
     isDefined : function(name) {
       return arguments.callee.statics.byName(name) !== undefined;
-    }
+    },
 
+    
+    /**
+     * Whether a given class implements an interface.
+     * 
+     * @param vClass {Class} class to check
+     * @param vInterface {Interface} the interface to check for
+     * @return {Boolean} whether the class implements the interface 
+     */
+    hasInterface: function(vClass, vInterface)
+    {
+      var clazz = vClass.constructor || vClazz;
+      
+      try {
+        this.assertInterface(clazz, vInterface, false);
+      } catch (e) {
+        return false;
+      }
+      
+      return true;
+    },
+    
+    
+    /**
+     * Assert that the given class implements an interface. If the class doesn't implement
+     * the interface an exception is thrown. This method can optionally wrap the interface
+     * methods of the class with precondition checks from the interface.
+     * 
+     * @param vClass {Class} class to check
+     * @param vInterface {Interface} the interface the class must implement
+     * @param wrap {Boolean?true} whether the class chould be extended with precondition checks
+     *   from the interfaces.
+     */
+    assertInterface: function(vClass, vInterface, wrap)
+    {
+      if (!vClass.$$IMPLEMENTS) {
+        vClass.$$IMPLEMENTS = {};
+      }
+
+      // check whether the interface is in the registry of the class
+      if (vClass.$$IMPLEMENTS[vInterface.name]) {
+        return true;
+      }
+      
+      
+      // do the full check
+
+      // Validate members
+      var interfaceMembers = vInterface.members;
+      var prot = vClass.prototype;
+
+      for (key in interfaceMembers)
+      {
+        if (typeof prot[key] != "function") {
+          throw new Error('Implementation of method "' + key + '" is missing in Class "' + vClass.classname + '" required by interface "' + vInterface.name + '"');
+        }
+        if (wrap && typeof(interfaceMembers[key]) == "function") {
+          prot[key] = this.__wrapFunctionWithPrecondition(prot[key], key, interfaceMembers[key]);
+        }
+      }
+      
+      // Validate statics
+      var interfaceStatics = vInterface.statics;
+      for (key in interfaceStatics)
+      {
+        if (typeof(interfaceStatics[key]) == "function") {
+          if (typeof vClass[key] != "function") {
+            throw new Error('Implementation of static method "' + key + '" is missing in Class "' + vClass.classname + '" required by interface "' + vInterface.name + '"');
+          }
+          if (wrap) {
+            vClass[key] = this.__wrapFunctionWithPrecondition(vClass[key], key, interfaceStatics[key]);
+          }
+        }             
+      }
+      
+      vClass.$$IMPLEMENTS[vInterface.name] = vInterface;
+    },
+    
+    
+    /**
+     * Wrap a method with a precondition check.
+     * 
+     * @param method {Function} function to wrap.
+     * @param name {String} name of the function. (Used in error messages).
+     * @param preCondition {Fucntion}. This function gets called with the arguments of the
+     *   original function. If this fucntion return true the original function is called. 
+     *   Otherwhise an exception is thrown.
+     * @return {Function} wrapped function
+     */
+    __wrapFunctionWithPrecondition: function(method, name, preCondition) {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      { 
+        return function() {
+          if (!preCondition.apply(this, arguments)) {
+           throw new Error("Pre condition of method '" + name + "'failed: " + preCondition.toString());
+          }
+          return method.apply(this, arguments);
+        }
+      } else {
+        return method;
+      }
+    }    
+    
   }
 });
