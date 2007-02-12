@@ -114,23 +114,6 @@ qx.Clazz.define("qx.OO",
     },
 
     /**
-     * ??? Where is this used?
-     *
-     * @deprecated Please switch to new qx.Clazz.define ASAP. This will be removed in qooxdoo 0.7
-     * @type static
-     * @name inheritField
-     * @access public
-     * @param vField {var} TODOC
-     * @param vData {var} TODOC
-     * @return {void}
-     */
-    inheritField : function(vField, vData)
-    {
-      qx.lang.Object.carefullyMergeWith(vData, qx.Super.prototype[vField]);
-      qx.Proto[vField] = vData;
-    },
-
-    /**
      * Returns if a class which is created by defineClass is available.
      *
      * @deprecated Please switch to new qx.Clazz.define ASAP. This will be removed in qooxdoo 0.7
@@ -150,7 +133,12 @@ qx.Clazz.define("qx.OO",
      * @deprecated: will be removed in qooxdoo 0.7
      * @param config {Map} Configuration map
      */
-    addFastProperty : function(config) {
+    addFastProperty : function(config)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on") && window.console) {
+        //console.warn(qx.Class.classname + ": Use of old addFastProperty implementation for property " + config.name);
+      }
+
       return qx.core.LegacyProperty.addFastProperty(config, qx.Proto);
     },
 
@@ -160,7 +148,12 @@ qx.Clazz.define("qx.OO",
      * @deprecated: will be removed in qooxdoo 0.7
      * @param config {Map} Configuration map
      */
-    addCachedProperty : function(config) {
+    addCachedProperty : function(config)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on") && window.console) {
+        //console.warn(qx.Class.classname + ": Use of old addCachedProperty implementation for property " + config.name);
+      }
+
       return qx.core.LegacyProperty.addCachedProperty(config, qx.Proto);
     },
 
@@ -170,7 +163,12 @@ qx.Clazz.define("qx.OO",
      * @deprecated: will be removed in qooxdoo 0.7
      * @param config {Map} Configuration map
      */
-    addPropertyGroup : function(config) {
+    addPropertyGroup : function(config)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on") && window.console) {
+        //console.warn(qx.Class.classname + ": Use of old addPropertyGroup implementation for property " + config.name);
+      }
+
       return qx.core.LegacyProperty.addPropertyGroup(config, qx.Proto);
     },
 
@@ -180,7 +178,12 @@ qx.Clazz.define("qx.OO",
      * @deprecated: will be removed in qooxdoo 0.7
      * @param config {Map} Configuration map
      */
-    removeProperty : function(config) {
+    removeProperty : function(config)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on") && window.console) {
+        //console.warn(qx.Class.classname + ": Use of old removeProperty implementation for property " + config.name);
+      }
+
       return qx.core.LegacyProperty.removeProperty(config, qx.Proto);
     },
 
@@ -200,7 +203,12 @@ qx.Clazz.define("qx.OO",
      * @deprecated: will be removed in qooxdoo 0.7
      * @param config {Map} Configuration map
      */
-    changeProperty : function(config) {
+    changeProperty : function(config)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on") && window.console) {
+        //console.warn(qx.Class.classname + ": Use of old changeProperty implementation for property " + config.name);
+      }
+
       return qx.core.LegacyProperty.changeProperty(config, qx.Proto);
     },
 
@@ -210,7 +218,12 @@ qx.Clazz.define("qx.OO",
      * @deprecated: will be removed in qooxdoo 0.7
      * @param config {Map} Configuration map
      */
-    addProperty : function(config) {
+    addProperty : function(config)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on") && window.console) {
+        //console.warn(qx.Class.classname + ": Use of old addProperty implementation for property " + config.name);
+      }
+
       return qx.core.LegacyProperty.addProperty(config, qx.Proto);
     },
 
