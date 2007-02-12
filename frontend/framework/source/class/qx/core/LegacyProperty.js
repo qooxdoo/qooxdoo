@@ -54,12 +54,12 @@ qx.Clazz.define("qx.core.LegacyProperty",
      * @type static
      * @name addFastProperty
      * @access public
-     * @param vConfig {var} TODOC
+     * @param config {var} TODOC
      * @return {void}
      */
-    addFastProperty : function(vConfig)
+    addFastProperty : function(config, proto)
     {
-      var vName = vConfig.name;
+      var vName = config.name;
       var vUpName = qx.lang.String.toFirstUp(vName);
 
       var vStorageField = "_value" + vUpName;
@@ -67,24 +67,24 @@ qx.Clazz.define("qx.core.LegacyProperty",
       var vSetterName = "set" + vUpName;
       var vComputerName = "_compute" + vUpName;
 
-      qx.Proto[vStorageField] = typeof vConfig.defaultValue !== "undefined" ? vConfig.defaultValue : null;
+      proto[vStorageField] = typeof config.defaultValue !== "undefined" ? config.defaultValue : null;
 
-      if (vConfig.noCompute)
+      if (config.noCompute)
       {
-        qx.Proto[vGetterName] = function() {
+        proto[vGetterName] = function() {
           return this[vStorageField];
         };
       }
       else
       {
-        qx.Proto[vGetterName] = function() {
+        proto[vGetterName] = function() {
           return this[vStorageField] == null ? this[vStorageField] = this[vComputerName]() : this[vStorageField];
         };
       }
 
-      if (vConfig.setOnlyOnce)
+      if (config.setOnlyOnce)
       {
-        qx.Proto[vSetterName] = function(vValue)
+        proto[vSetterName] = function(vValue)
         {
           this[vStorageField] = vValue;
           this[vSetterName] = null;
@@ -94,14 +94,14 @@ qx.Clazz.define("qx.core.LegacyProperty",
       }
       else
       {
-        qx.Proto[vSetterName] = function(vValue) {
+        proto[vSetterName] = function(vValue) {
           return this[vStorageField] = vValue;
         };
       }
 
-      if (!vConfig.noCompute)
+      if (!config.noCompute)
       {
-        qx.Proto[vComputerName] = function() {
+        proto[vComputerName] = function() {
           return null;
         };
       }
@@ -113,23 +113,23 @@ qx.Clazz.define("qx.core.LegacyProperty",
      * @type static
      * @name addCachedProperty
      * @access public
-     * @param p {var} TODOC
+     * @param config {var} TODOC
      * @return {void}
      */
-    addCachedProperty : function(p)
+    addCachedProperty : function(config, proto)
     {
-      var vName = p.name;
+      var vName = config.name;
       var vUpName = qx.lang.String.toFirstUp(vName);
 
       var vStorageField = "_cached" + vUpName;
       var vComputerName = "_compute" + vUpName;
       var vChangeName = "_change" + vUpName;
 
-      if (typeof p.defaultValue !== "undefined") {
-        qx.Proto[vStorageField] = p.defaultValue;
+      if (typeof config.defaultValue !== "undefined") {
+        proto[vStorageField] = config.defaultValue;
       }
 
-      qx.Proto["get" + vUpName] = function()
+      proto["get" + vUpName] = function()
       {
         if (this[vStorageField] == null) {
           this[vStorageField] = this[vComputerName]();
@@ -138,19 +138,19 @@ qx.Clazz.define("qx.core.LegacyProperty",
         return this[vStorageField];
       };
 
-      qx.Proto["_invalidate" + vUpName] = function()
+      proto["_invalidate" + vUpName] = function()
       {
         if (this[vStorageField] != null)
         {
           this[vStorageField] = null;
 
-          if (p.addToQueueRuntime) {
-            this.addToQueueRuntime(p.name);
+          if (config.addToQueueRuntime) {
+            this.addToQueueRuntime(config.name);
           }
         }
       };
 
-      qx.Proto["_recompute" + vUpName] = function()
+      proto["_recompute" + vUpName] = function()
       {
         var vOld = this[vStorageField];
         var vNew = this[vComputerName]();
@@ -166,9 +166,9 @@ qx.Clazz.define("qx.core.LegacyProperty",
         return false;
       };
 
-      qx.Proto[vChangeName] = function(vNew, vOld) {};
+      proto[vChangeName] = function(vNew, vOld) {};
 
-      qx.Proto[vComputerName] = function() {
+      proto[vComputerName] = function() {
         return null;
       };
     },
@@ -179,53 +179,53 @@ qx.Clazz.define("qx.core.LegacyProperty",
      * @type static
      * @name addPropertyGroup
      * @access public
-     * @param p {var} TODOC
+     * @param config {var} TODOC
      * @return {void}
      * @throws TODOC
      */
-    addPropertyGroup : function(p)
+    addPropertyGroup : function(config, proto)
     {
       /* --------------------------------------------------------------------------------
           PRE-CHECKS
       -------------------------------------------------------------------------------- */
 
-      if (typeof p !== "object") {
+      if (typeof config !== "object") {
         throw new Error("Param should be an object!");
       }
 
-      if (typeof p.name != "string") {
+      if (typeof config.name != "string") {
         throw new Error("Malformed input parameters: name needed!");
       }
 
-      if (typeof p.members != "object") {
+      if (typeof config.members != "object") {
         throw new Error("Malformed input parameters: members needed!");
       }
 
-      p.method = qx.lang.String.toFirstUp(p.name);
+      config.method = qx.lang.String.toFirstUp(config.name);
 
       /* --------------------------------------------------------------------------------
           CACHING
       -------------------------------------------------------------------------------- */
 
-      p.getter = [];
-      p.setter = [];
+      config.getter = [];
+      config.setter = [];
 
-      for (var i=0, l=p.members.length; i<l; i++) {
-        p.setter.push("set" + qx.lang.String.toFirstUp(p.members[i]));
+      for (var i=0, l=config.members.length; i<l; i++) {
+        config.setter.push("set" + qx.lang.String.toFirstUp(config.members[i]));
       }
 
-      for (var i=0, l=p.members.length; i<l; i++) {
-        p.getter.push("get" + qx.lang.String.toFirstUp(p.members[i]));
+      for (var i=0, l=config.members.length; i<l; i++) {
+        config.getter.push("get" + qx.lang.String.toFirstUp(config.members[i]));
       }
 
       /* --------------------------------------------------------------------------------
           GETTER
       -------------------------------------------------------------------------------- */
 
-      qx.Proto["get" + p.method] = function()
+      proto["get" + config.method] = function()
       {
         var a = [];
-        var g = p.getter;
+        var g = config.getter;
 
         for (var i=0, l=g.length; i<l; i++) {
           a.push(this[g[i]]());
@@ -238,22 +238,22 @@ qx.Clazz.define("qx.core.LegacyProperty",
           SETTER
       -------------------------------------------------------------------------------- */
 
-      switch(p.mode)
+      switch(config.mode)
       {
         case "shorthand":
-          qx.Proto["set" + p.method] = function()
+          proto["set" + config.method] = function()
           {
             if (arguments.length > 4 || arguments.length == 0) {
-              throw new Error("Invalid number of arguments for property " + p.name + ": " + arguments);
+              throw new Error("Invalid number of arguments for property " + config.name + ": " + arguments);
             }
 
             try {
               var ret = qx.lang.Array.fromShortHand(qx.lang.Array.fromArguments(arguments));
             } catch(ex) {
-              throw new Error("Invalid shorthand values for property " + p.name + ": " + arguments + ": " + ex);
+              throw new Error("Invalid shorthand values for property " + config.name + ": " + arguments + ": " + ex);
             }
 
-            var s = p.setter;
+            var s = config.setter;
             var l = s.length;
 
             for (var i=0; i<l; i++) {
@@ -264,13 +264,13 @@ qx.Clazz.define("qx.core.LegacyProperty",
           break;
 
         default:
-          qx.Proto["set" + p.method] = function()
+          proto["set" + config.method] = function()
           {
-            var s = p.setter;
+            var s = config.setter;
             var l = s.length;
 
             if (arguments.length != l) {
-              throw new Error("Invalid number of arguments (needs: " + l + ", is: " + arguments.length + ") for property " + p.name + ": " + qx.lang.Array.fromArguments(arguments).toString());
+              throw new Error("Invalid number of arguments (needs: " + l + ", is: " + arguments.length + ") for property " + config.name + ": " + qx.lang.Array.fromArguments(arguments).toString());
             }
 
             for (var i=0; i<l; i++) {
@@ -286,46 +286,43 @@ qx.Clazz.define("qx.core.LegacyProperty",
      * @type static
      * @name removeProperty
      * @access public
-     * @param p {var} TODOC
+     * @param config {var} TODOC
      * @return {void}
      * @throws TODOC
      */
-    removeProperty : function(p)
+    removeProperty : function(config, proto)
     {
-      if (typeof qx.Proto._properties !== "string") {
+      if (typeof proto._properties !== "string") {
         throw new Error("Has no properties!");
       }
 
-      if (typeof p !== "object") {
+      if (typeof config !== "object") {
         throw new Error("Param should be an object!");
       }
 
-      if (typeof p.name !== "string") {
+      if (typeof config.name !== "string") {
         throw new Error("Malformed input parameters: name needed!");
       }
 
-      // building shorter prototype access
-      var pp = qx.Proto;
+      config.method = qx.lang.String.toFirstUp(config.name);
+      config.implMethod = config.impl ? qx.lang.String.toFirstUp(config.impl) : config.method;
 
-      p.method = qx.lang.String.toFirstUp(p.name);
-      p.implMethod = p.impl ? qx.lang.String.toFirstUp(p.impl) : p.method;
-
-      var valueKey = "_value" + p.method;
+      var valueKey = "_value" + config.method;
 
       // Remove property from list
-      pp._properties = qx.lang.String.removeListItem(pp._properties, p.name);
+      proto._properties = qx.lang.String.removeListItem(proto._properties, config.name);
 
       // Reset default value to null
-      pp[valueKey] = null;
+      proto[valueKey] = null;
 
       // Reset methods
-      pp["get" + p.method] = null;
-      pp["set" + p.method] = null;
-      pp["reset" + p.method] = null;
-      pp["apply" + p.method] = null;
-      pp["force" + p.method] = null;
-      pp["getDefault" + p.method] = null;
-      pp["setDefault" + p.method] = null;
+      proto["get" + config.method] = null;
+      proto["set" + config.method] = null;
+      proto["reset" + config.method] = null;
+      proto["apply" + config.method] = null;
+      proto["force" + config.method] = null;
+      proto["getDefault" + config.method] = null;
+      proto["setDefault" + config.method] = null;
     },
 
     /**
@@ -334,144 +331,141 @@ qx.Clazz.define("qx.core.LegacyProperty",
      * @type static
      * @name _createProperty
      * @access protected
-     * @param p {var} TODOC
+     * @param config {var} TODOC
      * @return {void}
      * @throws TODOC
      */
-    _createProperty : function(p)
+    _createProperty : function(config, proto)
     {
-      if (typeof p !== "object") {
+      if (typeof config !== "object") {
         throw new Error("AddProperty: Param should be an object!");
       }
 
-      if (typeof p.name !== "string") {
+      if (typeof config.name !== "string") {
         throw new Error("AddProperty: Malformed input parameters: name needed!");
       }
 
-      // building shorter prototype access
-      var pp = qx.Proto;
+      config.method = qx.lang.String.toFirstUp(config.name);
+      config.implMethod = config.impl ? qx.lang.String.toFirstUp(config.impl) : config.method;
 
-      p.method = qx.lang.String.toFirstUp(p.name);
-      p.implMethod = p.impl ? qx.lang.String.toFirstUp(p.impl) : p.method;
-
-      if (p.defaultValue == undefined) {
-        p.defaultValue = null;
+      if (config.defaultValue == undefined) {
+        config.defaultValue = null;
       }
 
-      p.allowNull = p.allowNull !== false;
-      p.allowMultipleArguments = p.allowMultipleArguments === true;
+      config.allowNull = config.allowNull !== false;
+      config.allowMultipleArguments = config.allowMultipleArguments === true;
 
-      if (typeof p.type === "string") {
-        p.hasType = true;
-      } else if (typeof p.type !== "undefined") {
-        throw new Error("AddProperty: Invalid type definition for property " + p.name + ": " + p.type);
+      if (typeof config.type === "string") {
+        config.hasType = true;
+      } else if (typeof config.type !== "undefined") {
+        throw new Error("AddProperty: Invalid type definition for property " + config.name + ": " + config.type);
       } else {
-        p.hasType = false;
+        config.hasType = false;
       }
 
-      if (typeof p.instance === "string") {
-        p.hasInstance = true;
-      } else if (typeof p.instance !== "undefined") {
-        throw new Error("AddProperty: Invalid instance definition for property " + p.name + ": " + p.instance);
+      if (typeof config.instance === "string") {
+        config.hasInstance = true;
+      } else if (typeof config.instance !== "undefined") {
+        throw new Error("AddProperty: Invalid instance definition for property " + config.name + ": " + config.instance);
       } else {
-        p.hasInstance = false;
+        config.hasInstance = false;
       }
 
-      if (typeof p.classname === "string") {
-        p.hasClassName = true;
-      } else if (typeof p.classname !== "undefined") {
-        throw new Error("AddProperty: Invalid classname definition for property " + p.name + ": " + p.classname);
+      if (typeof config.classname === "string") {
+        config.hasClassName = true;
+      } else if (typeof config.classname !== "undefined") {
+        throw new Error("AddProperty: Invalid classname definition for property " + config.name + ": " + config.classname);
       } else {
-        p.hasClassName = false;
+        config.hasClassName = false;
       }
 
-      p.hasConvert = p.convert != null;
-      p.hasPossibleValues = p.possibleValues != null;
-      p.hasUnitDetection = p.unitDetection != null;
+      config.hasConvert = config.convert != null;
+      config.hasPossibleValues = config.possibleValues != null;
+      config.hasUnitDetection = config.unitDetection != null;
 
-      p.addToQueue = p.addToQueue || false;
-      p.addToQueueRuntime = p.addToQueueRuntime || false;
+      config.addToQueue = config.addToQueue || false;
+      config.addToQueueRuntime = config.addToQueueRuntime || false;
 
       // upper-case name
-      p.up = p.name.toUpperCase();
+      config.up = config.name.toUpperCase();
 
       // register global uppercase name
-      this["PROPERTY_" + p.up] = p.name;
+      this["PROPERTY_" + config.up] = config.name;
 
-      var valueKey = "_value" + p.method;
-      var evalKey = "_eval" + p.method;
-      var changeKey = "change" + p.method;
-      var modifyKey = "_modify" + p.implMethod;
-      var checkKey = "_check" + p.implMethod;
+      var valueKey = "_value" + config.method;
+      var evalKey = "_eval" + config.method;
+      var changeKey = "change" + config.method;
+      var modifyKey = "_modify" + config.implMethod;
+      var checkKey = "_check" + config.implMethod;
 
-      if (!qx.core.LegacyProperty.setter[p.name])
+      if (!qx.core.LegacyProperty.setter[config.name])
       {
-        qx.core.LegacyProperty.setter[p.name] = "set" + p.method;
-        qx.core.LegacyProperty.getter[p.name] = "get" + p.method;
-        qx.core.LegacyProperty.resetter[p.name] = "reset" + p.method;
-        qx.core.LegacyProperty.values[p.name] = valueKey;
+        qx.core.LegacyProperty.setter[config.name] = "set" + config.method;
+        qx.core.LegacyProperty.getter[config.name] = "get" + config.method;
+        qx.core.LegacyProperty.resetter[config.name] = "reset" + config.method;
+        qx.core.LegacyProperty.values[config.name] = valueKey;
       }
 
       // unit detection support
-      if (p.hasUnitDetection)
+      if (config.hasUnitDetection)
       {
         // computed unit
-        var cu = "_computed" + p.method;
-        pp[cu + "Value"] = null;
-        pp[cu + "Parsed"] = null;
-        pp[cu + "Type"] = null;
-        pp[cu + "TypeNull"] = true;
-        pp[cu + "TypePixel"] = false;
-        pp[cu + "TypePercent"] = false;
-        pp[cu + "TypeAuto"] = false;
-        pp[cu + "TypeFlex"] = false;
+        var cu = "_computed" + config.method;
+        proto[cu + "Value"] = null;
+        proto[cu + "Parsed"] = null;
+        proto[cu + "Type"] = null;
+        proto[cu + "TypeNull"] = true;
+        proto[cu + "TypePixel"] = false;
+        proto[cu + "TypePercent"] = false;
+        proto[cu + "TypeAuto"] = false;
+        proto[cu + "TypeFlex"] = false;
 
-        var unitDetectionKey = "_unitDetection" + qx.lang.String.toFirstUp(p.unitDetection);
+        var unitDetectionKey = "_unitDetection" + qx.lang.String.toFirstUp(config.unitDetection);
       }
 
       // apply default value
-      pp[valueKey] = p.defaultValue;
+      proto[valueKey] = config.defaultValue;
 
       // building getFoo(): Returns current stored value
-      pp["get" + p.method] = function() {
+      proto["get" + config.method] = function() {
         return this[valueKey];
       };
 
       // building forceFoo(): Set (override) without do anything else
-      pp["force" + p.method] = function(newValue) {
+      proto["force" + config.method] = function(newValue) {
         return this[valueKey] = newValue;
       };
 
       // building resetFoo(): Reset value to default value
-      pp["reset" + p.method] = function() {
-        return this["set" + p.method](p.defaultValue);
+      proto["reset" + config.method] = function() {
+        return this["set" + config.method](config.defaultValue);
       };
 
       // building toggleFoo(): Switching between two boolean values
-      if (p.type === "boolean")
+      if (config.type === "boolean")
       {
-        pp["toggle" + p.method] = function(newValue) {
-          return this["set" + p.method](!this[valueKey]);
+        proto["toggle" + config.method] = function(newValue) {
+          return this["set" + config.method](!this[valueKey]);
         };
       }
 
-      if (p.allowMultipleArguments || p.hasConvert || p.hasInstance || p.hasClassName || p.hasPossibleValues || p.hasUnitDetection || p.addToQueue || p.addToQueueRuntime || p.addToStateQueue)
+      if (config.allowMultipleArguments || config.hasConvert || config.hasInstance || config.hasClassName || config.hasPossibleValues || config.hasUnitDetection || config.addToQueue || config.addToQueueRuntime || config.addToStateQueue)
       {
         // building setFoo(): Setup new value, do type and change detection, converting types, call unit detection, ...
-        pp["set" + p.method] = function(newValue)
+        proto["set" + config.method] = function(newValue)
         {
           // convert multiple arguments to array
-          if (p.allowMultipleArguments && arguments.length > 1) {
+          if (config.allowMultipleArguments && arguments.length > 1) {
             newValue = qx.lang.Array.fromArguments(arguments);
           }
 
           // support converter methods
-          if (p.hasConvert)
+          if (config.hasConvert)
           {
             try {
-              newValue = p.convert.call(this, newValue, p);
+              newValue = config.convert.call(this, newValue, config);
             } catch(ex) {
-              throw new Error("Attention! Could not convert new value for " + p.name + ": " + newValue + ": " + ex);
+              throw new Error("Attention! Could not convert new value for " + config.name + ": " + newValue + ": " + ex);
             }
           }
 
@@ -481,22 +475,22 @@ qx.Clazz.define("qx.core.LegacyProperty",
             return newValue;
           }
 
-          if (!(p.allowNull && newValue == null))
+          if (!(config.allowNull && newValue == null))
           {
-            if (p.hasType && typeof newValue !== p.type) {
-              return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be typeof \"" + p.type + "\" but is typeof \"" + typeof newValue + "\"!", new Error());
+            if (config.hasType && typeof newValue !== config.type) {
+              return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + config.name + "\" which must be typeof \"" + config.type + "\" but is typeof \"" + typeof newValue + "\"!", new Error());
             }
 
-            if (p.hasInstance && !(newValue instanceof (qx.Clazz.get(p.instance) || qx.OO.classes[p.instance]))) {
-              return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be an instance of \"" + p.instance + "\"!", new Error());
+            if (config.hasInstance && !(newValue instanceof (qx.Clazz.get(config.instance) || qx.OO.classes[config.instance]))) {
+              return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + config.name + "\" which must be an instance of \"" + config.instance + "\"!", new Error());
             }
 
-            if (p.hasClassName && newValue.classname != p.classname) {
-              return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be an object with the classname \"" + p.classname + "\"!", new Error());
+            if (config.hasClassName && newValue.classname != config.classname) {
+              return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + config.name + "\" which must be an object with the classname \"" + config.classname + "\"!", new Error());
             }
 
-            if (p.hasPossibleValues && newValue != null && !qx.lang.Array.contains(p.possibleValues, newValue)) {
-              return this.error("Failed to save value for " + p.name + ". '" + newValue + "' is not a possible value!", new Error());
+            if (config.hasPossibleValues && newValue != null && !qx.lang.Array.contains(config.possibleValues, newValue)) {
+              return this.error("Failed to save value for " + config.name + ". '" + newValue + "' is not a possible value!", new Error());
             }
           }
 
@@ -505,7 +499,7 @@ qx.Clazz.define("qx.core.LegacyProperty",
           {
             try
             {
-              newValue = this[checkKey](newValue, p);
+              newValue = this[checkKey](newValue, config);
 
               // Don't do anything if new value is indentical to old value
               if (newValue === oldValue) {
@@ -514,7 +508,7 @@ qx.Clazz.define("qx.core.LegacyProperty",
             }
             catch(ex)
             {
-              return this.error("Failed to check property " + p.name, ex);
+              return this.error("Failed to check property " + config.name, ex);
             }
           }
 
@@ -526,32 +520,32 @@ qx.Clazz.define("qx.core.LegacyProperty",
           {
             try
             {
-              var r = this[modifyKey](newValue, oldValue, p);
+              var r = this[modifyKey](newValue, oldValue, config);
 
               if (!r) {
-                return this.error("Modification of property \"" + p.name + "\" failed without exception (" + r + ")", new Error());
+                return this.error("Modification of property \"" + config.name + "\" failed without exception (" + r + ")", new Error());
               }
             }
             catch(ex)
             {
-              return this.error("Modification of property \"" + p.name + "\" failed with exception", ex);
+              return this.error("Modification of property \"" + config.name + "\" failed with exception", ex);
             }
           }
 
           // Unit detection support
-          if (p.hasUnitDetection) {
-            this[unitDetectionKey](p, newValue);
+          if (config.hasUnitDetection) {
+            this[unitDetectionKey](config, newValue);
           }
 
           // Auto queue addition support
-          if (p.addToQueue) {
-            this.addToQueue(p.name);
-          } else if (p.addToQueueRuntime) {
-            this.addToQueueRuntime(p.name);
+          if (config.addToQueue) {
+            this.addToQueue(config.name);
+          } else if (config.addToQueueRuntime) {
+            this.addToQueueRuntime(config.name);
           }
 
           // Auto state queue addition support
-          if (p.addToStateQueue) {
+          if (config.addToStateQueue) {
             this.addToStateQueue();
           }
 
@@ -561,7 +555,7 @@ qx.Clazz.define("qx.core.LegacyProperty",
             try {
               this.createDispatchDataEvent(changeKey, newValue);
             } catch(ex) {
-              throw new Error("Property " + p.name + " modified: Failed to dispatch change event: " + ex);
+              throw new Error("Property " + config.name + " modified: Failed to dispatch change event: " + ex);
             }
           }
 
@@ -571,19 +565,19 @@ qx.Clazz.define("qx.core.LegacyProperty",
       else
       {
         // building setFoo(): Setup new value, do type and change detection, converting types, call unit detection, ...
-        pp["set" + p.method] = function(newValue)
+        proto["set" + config.method] = function(newValue)
         {
-          // this.debug("Fast Setter: " + p.name);
+          // this.debug("Fast Setter: " + config.name);
           var oldValue = this[valueKey];
 
           if (newValue === oldValue) {
             return newValue;
           }
 
-          if (!(p.allowNull && newValue == null))
+          if (!(config.allowNull && newValue == null))
           {
-            if (p.hasType && typeof newValue !== p.type) {
-              return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + p.name + "\" which must be typeof \"" + p.type + "\" but is typeof \"" + typeof newValue + "\"!", new Error());
+            if (config.hasType && typeof newValue !== config.type) {
+              return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + config.name + "\" which must be typeof \"" + config.type + "\" but is typeof \"" + typeof newValue + "\"!", new Error());
             }
           }
 
@@ -592,7 +586,7 @@ qx.Clazz.define("qx.core.LegacyProperty",
           {
             try
             {
-              newValue = this[checkKey](newValue, p);
+              newValue = this[checkKey](newValue, config);
 
               // Don't do anything if new value is indentical to old value
               if (newValue === oldValue) {
@@ -601,7 +595,7 @@ qx.Clazz.define("qx.core.LegacyProperty",
             }
             catch(ex)
             {
-              return this.error("Failed to check property " + p.name, ex);
+              return this.error("Failed to check property " + config.name, ex);
             }
           }
 
@@ -613,18 +607,18 @@ qx.Clazz.define("qx.core.LegacyProperty",
           {
             try
             {
-              var r = this[modifyKey](newValue, oldValue, p);
+              var r = this[modifyKey](newValue, oldValue, config);
 
               if (!r)
               {
                 var valueStr = new String(newValue).substring(0, 50);
-                return this.error("Setting property \"" + p.name + "\" to \"" + valueStr + "\" failed without exception (" + r + ")", new Error());
+                return this.error("Setting property \"" + config.name + "\" to \"" + valueStr + "\" failed without exception (" + r + ")", new Error());
               }
             }
             catch(ex)
             {
               var valueStr = new String(newValue).substring(0, 50);
-              return this.error("Setting property \"" + p.name + "\" to \"" + valueStr + "\" failed with exception", ex);
+              return this.error("Setting property \"" + config.name + "\" to \"" + valueStr + "\" failed with exception", ex);
             }
           }
 
@@ -638,7 +632,7 @@ qx.Clazz.define("qx.core.LegacyProperty",
             try {
               this.dispatchEvent(vEvent, true);
             } catch(ex) {
-              throw new Error("Property " + p.name + " modified: Failed to dispatch change event: " + ex);
+              throw new Error("Property " + config.name + " modified: Failed to dispatch change event: " + ex);
             }
           }
 
@@ -647,13 +641,13 @@ qx.Clazz.define("qx.core.LegacyProperty",
       }
 
       // building user configured get alias for property
-      if (typeof p.getAlias === "string") {
-        pp[p.getAlias] = pp["get" + p.method];
+      if (typeof config.getAlias === "string") {
+        proto[config.getAlias] = proto["get" + config.method];
       }
 
       // building user configured set alias for property
-      if (typeof p.setAlias === "string") {
-        pp[p.setAlias] = pp["set" + p.method];
+      if (typeof config.setAlias === "string") {
+        proto[config.setAlias] = proto["set" + config.method];
       }
     },
 
@@ -663,11 +657,11 @@ qx.Clazz.define("qx.core.LegacyProperty",
      * @type static
      * @name addProperty
      * @access public
-     * @param p {var} TODOC
+     * @param config {var} TODOC
      * @return {void}
      */
-    changeProperty : function(p) {
-      this._createProperty(p);
+    changeProperty : function(config, proto) {
+      this._createProperty(config, proto);
     },
 
     /**
@@ -676,36 +670,36 @@ qx.Clazz.define("qx.core.LegacyProperty",
      * @type static
      * @name addProperty
      * @access public
-     * @param p {var} TODOC
+     * @param config {var} TODOC
      * @return {void}
      */
-    addProperty : function(p)
+    addProperty : function(config, proto)
     {
-      this._createProperty(p);
+      this._createProperty(config, proto);
 
       // add property to (all) property list
-      if (typeof qx.Proto._properties !== "string")
+      if (typeof proto._properties !== "string")
       {
-        qx.Proto._properties = p.name;
+        proto._properties = config.name;
       }
       else
       {
-        qx.Proto._properties += "," + p.name;
+        proto._properties += "," + config.name;
       }
 
       // add property to object property list
-      switch(p.type)
+      switch(config.type)
       {
         case undefined:
         case "object":
         case "function":
-          if (typeof qx.Proto._objectproperties !== "string")
+          if (typeof proto._objectproperties !== "string")
           {
-            qx.Proto._objectproperties = p.name;
+            proto._objectproperties = config.name;
           }
           else
           {
-            qx.Proto._objectproperties += "," + p.name;
+            proto._objectproperties += "," + config.name;
           }
       }
     }

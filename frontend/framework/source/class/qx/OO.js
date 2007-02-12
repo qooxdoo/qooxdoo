@@ -142,15 +142,31 @@ qx.Clazz.define("qx.OO",
     },
 
     // qooxdoo 0.6.x emulation
-    addFastProperty : qx.core.LegacyProperty.addFastProperty,
-    addCachedProperty : qx.core.LegacyProperty.addCachedProperty,
-    addPropertyGroup : qx.core.LegacyProperty.addPropertyGroup,
-    removeProperty : qx.core.LegacyProperty.removeProperty,
-    _createProperty : qx.core.LegacyProperty._createProperty,
-    changeProperty : qx.core.LegacyProperty.changeProperty,
-    addProperty : qx.core.LegacyProperty.addProperty,
+    addFastProperty : function(config) {
+      return qx.core.LegacyProperty.addFastProperty(config, qx.Proto);
+    },
+    addCachedProperty : function(config) {
+      return qx.core.LegacyProperty.addCachedProperty(config, qx.Proto);
+    },
+    addPropertyGroup : function(config) {
+      return qx.core.LegacyProperty.addPropertyGroup(config, qx.Proto);
+    },
+    removeProperty : function(config) {
+      return qx.core.LegacyProperty.removeProperty(config, qx.Proto);
+    },
+    _createProperty : function(config) {
+      return qx.core.LegacyProperty._createProperty(config, qx.Proto);
+    },
+    changeProperty : function(config) {
+      return qx.core.LegacyProperty.changeProperty(config, qx.Proto);
+    },
+    addProperty : function(config) {
+      return qx.core.LegacyProperty.addProperty(config, qx.Proto);
+    },
+
     setter : qx.core.LegacyProperty.setter,
     resetter : qx.core.LegacyProperty.resetter,
-    getter : qx.core.LegacyProperty.getter
+    getter : qx.core.LegacyProperty.getter,
+    values : qx.core.LegacyProperty.values
   }
 });
