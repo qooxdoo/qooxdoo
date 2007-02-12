@@ -330,7 +330,7 @@ qx.Clazz.define("qx.Clazz",
       // Use helper function/class to save the unnecessary constructor call while
       // setting up inheritance.
       var helper = this.__emptyFunction();
-      
+
       helper.prototype = extend.prototype;
       var prot = new helper;
 
@@ -429,14 +429,14 @@ qx.Clazz.define("qx.Clazz",
       {
         // initialize registry
         obj.$$IMPLEMENTS = {};
-        
+
         for (var i=0, l=implement.length; i<l; i++) {
           // Only validate members in debug mode.
           // There is nothing more needed for builds
           if (qx.core.Variant.isSet("qx.debug", "on")) {
             qx.Interface.assertInterface(obj, implement[i], true);
           }
-          
+
           // copy primitive static fields
           var interfaceStatics = implement[i].statics;
           for (key in interfaceStatics) {
@@ -446,10 +446,10 @@ qx.Clazz.define("qx.Clazz",
               obj[key] = interfaceStatics[key];
             }
           }
-          
+
           // save interface name
           obj.$$IMPLEMENTS[implement[i].name] = implement[i];
-        }  
+        }
       }
     },
 
@@ -526,10 +526,10 @@ qx.Clazz.define("qx.Clazz",
 
       for (var name in properties) {
         var property = properties[name];
-        
+
         var value = property;
         value.name = name;
-  
+
         if (value.fast) {
           qx.OO.addFastProperty(value);
         } else if (value.cached) {
@@ -588,7 +588,7 @@ qx.Clazz.define("qx.Clazz",
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         for (var key in iproperties) {
           if (!overwrite) {
-            var getterName = "get" + qx.OO.toFirstUp(key);
+            var getterName = "get" + qx.lang.String.toFirstUp(key);
             if (proto[getterName] != undefined) {
               throw new Error("Overwriting the property '" + key + "' of class '" + proto.classname + "'is not allowed!");
             }
@@ -696,7 +696,7 @@ qx.Clazz.define("qx.Clazz",
     patch : function(target, mixin) {
       return qx.Clazz.__mixin(target, mixin, true);
     },
-    
+
     __emptyFunction: function() {
       return function() {};
     }
