@@ -55,7 +55,20 @@ qx.OO.defineClass("qx.renderer.border.BorderPresets", qx.core.Object, function()
   this.info = new qx.renderer.border.BorderObject(1, "solid", "infotext");
 });
 
+qx.Proto.dispose = function()
+{
+  if (this.getDisposed()) {
+    return;
+  }
 
+  this.black = this.white = this.none =
+  this.inset = this.outset = this.groove = this.ridge =
+  this.thinInset = this.thinOutset =
+  this.verticalDivider = this.horizontalDivider =
+  this.shadow = this.lightShadow = this.info = null;
+
+  return qx.core.Object.prototype.dispose.call(this);
+};
 
 
 

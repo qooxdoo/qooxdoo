@@ -637,6 +637,9 @@ qx.Proto.dispose = function()
   // Detach keyboard events
   this._detachEvents();
 
+  this._specialCharCodeMap = this._keyCodeToIdentifierMap = this._numpadToCharCode = null;
+  this._identifierToKeyCodeMap = this._lastUpDownType = this._keyCodeFix = null;
+
   return qx.core.Target.prototype.dispose.call(this);
 };
 

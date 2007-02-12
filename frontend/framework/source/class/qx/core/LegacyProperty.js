@@ -335,7 +335,7 @@ qx.Clazz.define("qx.core.LegacyProperty",
      * @return {void}
      * @throws TODOC
      */
-    _createProperty : function(config, proto)
+    addProperty : function(config, proto)
     {
       if (typeof config !== "object") {
         throw new Error("AddProperty: Param should be an object!");
@@ -649,58 +649,33 @@ qx.Clazz.define("qx.core.LegacyProperty",
       if (typeof config.setAlias === "string") {
         proto[config.setAlias] = proto["set" + config.method];
       }
-    },
 
-    /**
-     * TODOC
-     *
-     * @type static
-     * @name addProperty
-     * @access public
-     * @param config {var} TODOC
-     * @return {void}
-     */
-    changeProperty : function(config, proto) {
-      this._createProperty(config, proto);
-    },
-
-    /**
-     * TODOC
-     *
-     * @type static
-     * @name addProperty
-     * @access public
-     * @param config {var} TODOC
-     * @return {void}
-     */
-    addProperty : function(config, proto)
-    {
-      this._createProperty(config, proto);
-
-      // add property to (all) property list
-      if (typeof proto._properties !== "string")
+      // register property
+      if (proto._properties === undefined)
       {
-        proto._properties = config.name;
-      }
-      else
-      {
-        proto._properties += "," + config.name;
+        proto._properties = {};
+        proto._objectproperties = {};
       }
 
-      // add property to object property list
-      switch(config.type)
+      if (proto._properties[config.name] === undefined)
       {
-        case undefined:
-        case "object":
-        case "function":
-          if (typeof proto._objectproperties !== "string")
+        // add property to property list
+        proto._properties[config.name] = true;
+
+        // add property to object property list (for disposer)
+        if (config.dispose)
+        {
+          proto._objectproperties[config.name] = true;
+        }
+        else if (config.type != null)
+        {
+          switch(config.type)
           {
-            proto._objectproperties = config.name;
+            case "object":
+            case "function":
+              proto._objectproperties[config.name] = true;
           }
-          else
-          {
-            proto._objectproperties += "," + config.name;
-          }
+        }
       }
     }
   }
