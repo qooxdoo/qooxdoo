@@ -30,15 +30,15 @@
 
 /**
  * Variant Class
- * 
+ *
  * Variants enable the selection and removal of code from the build version.
  * A variant consists of a collection of states from which exactly one is active
- * at load time of the framework. The global map <code>qxvariants</code> can be 
+ * at load time of the framework. The global map <code>qxvariants</code> can be
  * used to select a variant before the Framework is loades.
- * 
+ *
  * Depending on the selected variant a specific code
  * path can be choosen using the <code>select</code> method.
- * 
+ *
  * The generator is able to set a variant and remove all code paths which are not
  * selected by the variant.
  */
@@ -127,7 +127,7 @@ qx.Clazz.define("qx.core.Variant",
 
     /**
      * Select a function depending on the value of the variant.
-     * 
+     *
      * Example:
      * <code>
      * var f = qx.Variant.select("qx.client", {
@@ -136,10 +136,10 @@ qx.Clazz.define("qx.core.Variant",
      *   "none": function() { ... }
      * });
      * </code>
-     * Depending on the value of the <code>"qx.client"</code> variant whit will select the 
+     * Depending on the value of the <code>"qx.client"</code> variant whit will select the
      * corresponding function. The first case is selected if the variant is "gecko", the second
      * is selected if the variant is "mshtml" or "opera" and the third function is selected if
-     * none of the other keys match the variant. "none" is the default case. 
+     * none of the other keys match the variant. "none" is the default case.
      *
      * @param key {String} name of the variant. To enable the generator to optimize
      *   this selection, the key must be a string literal.
@@ -157,7 +157,7 @@ qx.Clazz.define("qx.core.Variant",
       if (!this.__isValidObject(variantFunctionMap)) {
         throw new Error("the second parameter must be a map!");
       }
-      
+
       for (var variant in variantFunctionMap)
       {
         if (this.isSet(key, variant)) {
@@ -172,15 +172,15 @@ qx.Clazz.define("qx.core.Variant",
       throw new Error("No match for variant \"" + key + "\" found, and no default (\"none\") given");
     },
 
-    
+
     /**
      * Check whether a variant is set to a given value. To enable the generator to optimize
      * this selection, both parameters must be string literals.
-     * 
+     *
      * This method is meant to be used in if statements to select code paths. If the condition of
      * an if statement is only this method, the generator is able to optimize the if
      * statement.
-     * 
+     *
      * Example:
      * <code>
      * if (qx.core.Variant.isSet("qx.client", mshtml")) {

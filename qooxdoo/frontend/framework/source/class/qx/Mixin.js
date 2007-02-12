@@ -33,17 +33,17 @@ qx.Clazz.define("qx.Mixin",
 
     /**
      * Mixin config
-     * 
+     *
      * Example:
      * <pre>
      * qx.Mixin.define("name",
      * {
      *   "includes": [SuperMixins],
-     * 
+     *
      *   "properties": {
      *     "tabIndex": {type: "number", init: -1}
      *   },
-     * 
+     *
      *   "members":
      *   {
      *     prop1: "foo",
@@ -58,7 +58,7 @@ qx.Clazz.define("qx.Mixin",
      * @access public
      * @param name {String} name of the mixin
      * @param config {Map} config structure
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     define : function(name, config)
@@ -101,10 +101,10 @@ qx.Clazz.define("qx.Mixin",
           case "members":
             members = value;
             break;
-            
+
           case "statics":
             statics = value;
-            break;        
+            break;
 
           default:
             throw new Error("The configuration key '" + key + "' in class '" + name + "' is not allowed!");
@@ -145,7 +145,7 @@ qx.Clazz.define("qx.Mixin",
       ---------------------------------------------------------------------------
       */
 
-	    // TODO extend in mixins doesn't make really sense (fjakobs)
+      // TODO extend in mixins doesn't make really sense (fjakobs)
       if (extend)
       {
         var emembers, eproperties;
@@ -194,7 +194,7 @@ qx.Clazz.define("qx.Mixin",
      * @access public
      * @param list {Array} List of Mixins
      * @param msg {var} TODOC
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     compatible : function(list, msg)
@@ -231,7 +231,7 @@ qx.Clazz.define("qx.Mixin",
 
             kstatics[key] = true;
           }
-          
+
           // Check properties
           eproperties = list[i].properties;
 

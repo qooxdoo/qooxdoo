@@ -33,17 +33,17 @@ qx.Clazz.define("qx.Interface",
 
     /**
      * Interface config
-     * 
+     *
      * Example:
      * <pre>
      * qx.Interface.define("name",
      * {
      *   extend: [SuperInterfaces],
-     * 
+     *
      *   statics: {
      *     PI : 3.14
      *   }
-     * 
+     *
      *   members:
      *   {
      *     meth1: function() {},
@@ -57,7 +57,7 @@ qx.Clazz.define("qx.Interface",
      * @access public
      * @param name {String} name of the interface
      * @param config {Map} config structure
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     define : function(name, config)
@@ -96,7 +96,7 @@ qx.Clazz.define("qx.Interface",
           case "statics":
             statics = value;
             break;
-            
+
           case "properties":
             properties = value;
             break;
@@ -141,7 +141,7 @@ qx.Clazz.define("qx.Interface",
         Process properties
       ---------------------------------------------------------------------------
       */
-      
+
       // properties are only checked in source builds
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         if (properties) {
@@ -153,7 +153,7 @@ qx.Clazz.define("qx.Interface",
           }
         }
       }
-      
+
 
       /*
       ---------------------------------------------------------------------------
@@ -249,6 +249,6 @@ qx.Clazz.define("qx.Interface",
     isDefined : function(name) {
       return arguments.callee.statics.byName(name) !== undefined;
     }
-    
+
   }
 });
