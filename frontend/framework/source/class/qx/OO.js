@@ -112,18 +112,6 @@ qx.Clazz.define("qx.OO",
       qx.OO.classes[vClassName] = qx.Class;
     },
 
-    // qooxdoo 0.6.x emulation
-    addFastProperty : qx.core.LegacyProperty.addFastProperty,
-    addCachedProperty : qx.core.LegacyProperty.addCachedProperty,
-    addPropertyGroup : qx.core.LegacyProperty.addPropertyGroup,
-    removeProperty : qx.core.LegacyProperty.removeProperty,
-    _createProperty : qx.core.LegacyProperty._createProperty,
-    changeProperty : qx.core.LegacyProperty.changeProperty,
-    addProperty : qx.core.LegacyProperty.addProperty,
-    setter : qx.core.LegacyProperty.setter,
-    resetter : qx.core.LegacyProperty.resetter,
-    getter : qx.core.LegacyProperty.getter,
-
     /**
      * TODOC
      *
@@ -151,6 +139,18 @@ qx.Clazz.define("qx.OO",
      */
     isAvailable : function(vClassName) {
       return qx.OO.classes[vClassName] != null;
-    }
+    },
+
+    // qooxdoo 0.6.x emulation
+    addFastProperty : qx.core.LegacyProperty.addFastProperty,
+    addCachedProperty : qx.core.LegacyProperty.addCachedProperty,
+    addPropertyGroup : qx.core.LegacyProperty.addPropertyGroup,
+    removeProperty : qx.core.LegacyProperty.removeProperty,
+    _createProperty : qx.core.LegacyProperty._createProperty,
+    changeProperty : qx.core.LegacyProperty.changeProperty,
+    addProperty : qx.core.LegacyProperty.addProperty,
+    setter : qx.core.LegacyProperty.setter,
+    resetter : qx.core.LegacyProperty.resetter,
+    getter : qx.core.LegacyProperty.getter
   }
 });
