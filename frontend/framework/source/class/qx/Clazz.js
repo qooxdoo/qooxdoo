@@ -330,7 +330,6 @@ qx.Clazz.define("qx.Clazz",
       // Use helper function/class to save the unnecessary constructor call while
       // setting up inheritance.
       var helper = this.__emptyFunction();
-
       helper.prototype = extend.prototype;
       var prot = new helper;
 
@@ -503,6 +502,18 @@ qx.Clazz.define("qx.Clazz",
       return this.registry[name] != null;
     },
 
+    /**
+     * Returns a class by name
+     *
+     * @type static
+     * @name get
+     * @access public
+     * @param name {String} class name to resolve
+     * @return {Class|undefined} the class
+     */
+    get : function(name) {
+      return this.registry[name];
+    },
 
     /**
      * Wrapper for qx.OO.addProperty. This is needed in two places so the code
@@ -512,8 +523,10 @@ qx.Clazz.define("qx.Clazz",
      * @param targetClass {Clazz} class to add the properties to
      * @param properties {Map} new class style property definitions
      */
-    __addProperties: function(targetClass, properties) {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+    __addProperties: function(targetClass, properties)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
         if (
           (qx.Class != targetClass) ||
           (qx.Proto != targetClass.prototype) ||
@@ -523,6 +536,7 @@ qx.Clazz.define("qx.Clazz",
         }
       }
 
+      var legacy = qx.core.LegacyProperty;
       for (var name in properties) {
         var property = properties[name];
 
@@ -530,11 +544,11 @@ qx.Clazz.define("qx.Clazz",
         value.name = name;
 
         if (value.fast) {
-          qx.OO.addFastProperty(value);
+          legacy.addFastProperty(value);
         } else if (value.cached) {
-          qx.OO.addCachedProperty(value);
+          legacy.addCachedProperty(value);
         } else if (value.compat) {
-          qx.OO.addProperty(value);
+          legacy.addProperty(value);
         } else {
           throw new Error('Could not handle property definition "' + key + '" in Class "' + qx.Proto.classname + "'");
         }
