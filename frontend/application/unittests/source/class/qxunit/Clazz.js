@@ -162,6 +162,64 @@ qx.Clazz.define("qxunit.Clazz", { statics : {
 		}
 		assertTrue("Direct instanctiation of singletons should fail!", error);		
 
-	}
+	},
+	
+	testSetting: function() {
+		qx.Clazz.define("test.Setting1", {
+			settings: {
+				"test.juhu": "kinners"
+			}
+		});
+		
+		assertEquals(
+			"kinners",
+			qx.core.Setting.get("test.juhu")
+		);
+		
+		
+		var error = false;
+		try {
+			qx.Clazz.define("test.Setting2", {
+				settings: {
+					"foo.juhu": "kinners"
+				}
+			});
+		} catch (e) {
+			error = e;
+		}
+		assertTrue(error.toString().match(/Forbidden setting/) ? true : false);
+	},
+	
+	testVariant: function() {
+		qx.Clazz.define("test.Variant1", {
+			variants: {
+				"test.juhu": {
+					allowedValues: ["kinners", "juhu"],
+					defaultValue: "kinners"
+				}
+			}
+		});
+		
+		assertEquals(
+			"kinners",
+			qx.core.Variant.get("test.juhu")
+		);
+		
+		
+		var error = false;
+		try {
+			qx.Clazz.define("test.Variant2", {
+				variants: {
+					"foo.juhu": {
+						allowedValues: ["kinners", "juhu"],
+						defaultValue: "kinners"
+					}
+				}
+			});
+		} catch (e) {
+			error = e;
+		}
+		assertTrue(error.toString().match(/Forbidden variant/) ? true : false);
+	}	
 	
 }});
