@@ -25,6 +25,9 @@
 #ignore(auto-use)
 #use(qx.lang.Core)
 #use(qx.lang.Generics)
+#use(qx.lang.Object)
+#use(qx.lang.String)
+#use(qx.lang.Array)
 
 ************************************************************************ */
 
@@ -53,6 +56,18 @@ qx.Clazz =
 
       case "qx.lang.Core":
         qx.lang.Core = config.statics;
+        break;
+
+      case "qx.lang.String":
+        qx.lang.String = config.statics;
+        break;
+
+      case "qx.lang.Object":
+        qx.lang.Object = config.statics;
+        break;
+
+      case "qx.lang.Array":
+        qx.lang.Array = config.statics;
         break;
 
       case "qx.core.Variant":
