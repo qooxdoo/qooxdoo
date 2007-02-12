@@ -636,11 +636,11 @@ qx.Proto.getData = function()
  * Add data to an additional column (a column other than the tree column) of
  * the tree.
  *
- * @param nodeId
+ * @param nodeId {Integer}
  *   A node identifier, as previously returned by {@link #addBranch} or {@link
  *   addLeaf}.
  *
- * @param columnIndex
+ * @param columnIndex {Integer}
  *   The column number to which the provided data applies
  *
  * @param data
@@ -649,7 +649,27 @@ qx.Proto.getData = function()
 qx.Proto.setColumnData = function(nodeId, columnIndex, data)
 {
   this._nodeArr[nodeId].columnData[columnIndex] = data;
-}
+};
+
+
+/**
+ * Retrieve the data from an additional column (a column other than the tree
+ * column) of the tree.
+ *
+ * @param nodeId {Integer}
+ *   A node identifier, as previously returned by {@link #addBranch} or {@link
+ *   addLeaf}.
+ *
+ * @param columnIndex {Integer}
+ *   The column number to which the provided data applies
+ *
+ * @return
+ *   The cell data for the specified column
+ */
+qx.Proto.getColumnData = function(nodeId, columnIndex, data)
+{
+  return this._nodeArr[nodeId].columnData[columnIndex];
+};
 
 
 /**
