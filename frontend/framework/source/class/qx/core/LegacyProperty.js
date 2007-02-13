@@ -292,16 +292,12 @@ qx.Clazz.define("qx.core.LegacyProperty",
      */
     removeProperty : function(config, proto)
     {
-      if (typeof proto._properties !== "string") {
-        throw new Error("Has no properties!" + proto);
-      }
-
       if (typeof config !== "object") {
-        throw new Error("Param should be an object!");
+        throw new Error("RemoveProperty: Param should be an object!");
       }
 
       if (typeof config.name !== "string") {
-        throw new Error("Malformed input parameters: name needed!");
+        throw new Error("RemoveProperty: Malformed input parameters: name needed!");
       }
 
       config.method = qx.lang.String.toFirstUp(config.name);
@@ -309,8 +305,9 @@ qx.Clazz.define("qx.core.LegacyProperty",
 
       var valueKey = "_value" + config.method;
 
-      // Remove property from list
-      proto._properties = qx.lang.String.removeListItem(proto._properties, config.name);
+      // Remove property list entries
+      delete proto._properties[config.name];
+      delete proto._objectproperties[config.name];
 
       // Reset default value to null
       proto[valueKey] = null;
