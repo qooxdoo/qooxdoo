@@ -1173,6 +1173,9 @@ qx.Proto._toggleColumnVisibilityMenu = function() {
     // NOTE: We have to show the menu in a timeout, otherwise it won't be shown
     //       at all.
     window.setTimeout(function() {
+      if (this.getDisposed()) {
+        return;
+      }
       menu.show();
       qx.ui.core.Widget.flushGlobalQueues();
 
@@ -1226,6 +1229,9 @@ qx.Proto.setColumnWidth = function(col, width) {
 qx.Proto._changeInnerWidth = function(newValue, oldValue) {
   var self = this;
   window.setTimeout(function() {
+    if (self.getDisposed()) {
+      return;
+    }
     self.createDispatchEvent("tableWidthChanged");
     self._updateScrollerWidths();
     self._updateScrollBarVisibility();
@@ -1240,6 +1246,9 @@ qx.Proto._changeInnerWidth = function(newValue, oldValue) {
 qx.Proto._changeInnerHeight = function(newValue, oldValue) {
   var self = this;
   window.setTimeout(function() {
+    if (self.getDisposed()) {
+      return;
+    }
     self._updateScrollBarVisibility();
     qx.ui.core.Widget.flushGlobalQueues();
   }, 0);
