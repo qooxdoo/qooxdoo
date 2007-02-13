@@ -57,14 +57,23 @@ qx.Clazz.define("qx.lang.Array",
      * @name fromArguments
      * @access public
      * @param args {arguments} arguments object
-     * @return {Array} TODOC
+     * @return {Array} a newly created array (copy) with the content of the arguments object.
      */
     fromArguments : function(args) {
       return Array.prototype.slice.call(args, 0);
     },
 
-    fromNodeCollection : function(args) {
-      return Array.prototype.slice.call(args, 0);
+    /**
+     * Convert a (node) collection into an array
+     *
+     * @type static
+     * @name fromCollection
+     * @access public
+     * @param args {arguments} node collection
+     * @return {Array} a newly created array (copy) with the content of the node collection.
+     */
+    fromCollection : function(coll) {
+      return Array.prototype.slice.call(coll, 0);
     },
 
     /**
@@ -75,7 +84,7 @@ qx.Clazz.define("qx.lang.Array",
      * @name fromShortHand
      * @access public
      * @param input {Array} array with one to four elements
-     * @return {Array} array with four elements
+     * @return {Array} an array with four elements
      */
     fromShortHand : function(input)
     {
