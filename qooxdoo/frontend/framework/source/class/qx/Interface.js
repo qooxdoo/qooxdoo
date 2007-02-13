@@ -62,55 +62,49 @@ qx.Clazz.define("qx.Interface",
      */
     define : function(name, config)
     {
-      var key, value;
-      var extend, blacklist = {}, statics = {}, members = {}, properties;
-
-
-
-
+      
       /*
       ---------------------------------------------------------------------------
-        Read in configuration map
+        Verify in configuration map
+      ---------------------------------------------------------------------------
+      */
+      
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {      
+        var allowedKeys = {
+          "extend": 1,
+          "statics": 1,
+          "members": 1,
+          "properties": 1
+        }
+  
+        for (var key in config) {
+          if (!allowedKeys[key]) {
+            throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
+          }
+          if (config[key] == null) {
+            throw new Error("Invalid key '" + key + "' in class '" + name + "'! The value is undefined/null!");
+          }
+        }
+      }
+     
+      
+     /*
+      ---------------------------------------------------------------------------
+        Initialize aliases
       ---------------------------------------------------------------------------
       */
 
-      for (key in config)
-      {
-        value = config[key];
-
-        if (value == null) {
-          throw new Error("Invalid key '" + key + "' in class '" + name + "'! The value is undefined/null!");
-        }
-
-        switch(key)
-        {
-          case "extend":
-            // Normalize to Array
-            if (!(value instanceof Array)) {
-              value = [ value ];
-            }
-
-            extend = value;
-            break;
-
-          case "statics":
-            statics = value;
-            break;
-
-          case "properties":
-            properties = value;
-            break;
-
-          case "members":
-            members = value;
-            break;
-
-          default:
-            throw new Error("The configuration key '" + key + "' in class '" + name + "' is not allowed!");
-        }
-      }
-
-
+      var extend = config.extent;
+    	if (extend && !(extend instanceof Array)) {
+      	extend = [ extend ];
+     	}
+   		         
+      var statics = config.statics || {};
+      var members = config.members || {};
+      var properties = config.properties;
+      
+      var blacklist = {};
 
 
       /*
@@ -146,8 +140,8 @@ qx.Clazz.define("qx.Interface",
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         if (properties) {
           for (var key in properties) {
-            var getterName = "get" + qx.OO.toFirstUp(key);
-            var setterName = "set" + qx.OO.toFirstUp(key);
+            var getterName = "get" + qx.lang.String.toFirstUp(key);
+            var setterName = "set" + qx.lang.String.toFirstUp(key);
             obj.members[getterName] = new Function();
             obj.members[setterName] = new Function();
           }
@@ -165,7 +159,7 @@ qx.Clazz.define("qx.Interface",
       {
         if (statics)
         {
-          for (key in statics)
+          for (var key in statics)
           {
             // The key should be uppercase by convention
             if (
@@ -196,14 +190,14 @@ qx.Clazz.define("qx.Interface",
           // Combine blacklist
           eblacklist = extend[i].blacklist;
 
-          for (key in eblacklist) {
+          for (var key in eblacklist) {
             blacklist[key] = true;
           }
 
           // Copy members (instance verification)
           emembers = extend[i].members;
 
-          for (key in emembers) {
+          for (var key in emembers) {
             members[key] = emembers[key];
           }
         }
@@ -216,7 +210,7 @@ qx.Clazz.define("qx.Interface",
           estatics = extend[i].statics;
 
           // Copy constants etc.
-          for (key in estatics)
+          for (var key in estatics)
           {
             if (key in blacklist) {
               continue;
@@ -301,7 +295,7 @@ qx.Clazz.define("qx.Interface",
       var interfaceMembers = vInterface.members;
       var prot = vClass.prototype;
 
-      for (key in interfaceMembers)
+      for (var key in interfaceMembers)
       {
         if (typeof prot[key] != "function") {
           throw new Error('Implementation of method "' + key + '" is missing in Class "' + vClass.classname + '" required by interface "' + vInterface.name + '"');
@@ -313,7 +307,7 @@ qx.Clazz.define("qx.Interface",
       
       // Validate statics
       var interfaceStatics = vInterface.statics;
-      for (key in interfaceStatics)
+      for (var key in interfaceStatics)
       {
         if (typeof(interfaceStatics[key]) == "function") {
           if (typeof vClass[key] != "function") {
