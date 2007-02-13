@@ -332,7 +332,7 @@ qx.Clazz.define("qx.Clazz",
       {
         // Use helper function/class to save the unnecessary constructor call while
         // setting up inheritance.
-        var helper = this.__emptyFunction();
+        var helper = this.__createEmptyFunction();
         helper.prototype = extend.prototype;
         var prot = new helper;
 
@@ -434,10 +434,10 @@ qx.Clazz.define("qx.Clazz",
      * has been extracted. The global variables qx.Class, qx.Proto and qx.Super
      * must be set before this method is called.
      *
-     * @param targetClass {Clazz} class to add the properties to
+     * @param clazz {Clazz} class to add the properties to
      * @param properties {Map} new class style property definitions
      */
-    __addProperties: function(targetClass, properties)
+    __addProperties: function(clazz, properties)
     {
       if (!properties) {
         return;
@@ -446,16 +446,16 @@ qx.Clazz.define("qx.Clazz",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (
-          (qx.Class != targetClass) ||
-          (qx.Proto != targetClass.prototype) ||
-          (qx.Super != targetClass.constructor.base)
+          (qx.Class != clazz) ||
+          (qx.Proto != clazz.prototype) ||
+          (qx.Super != clazz.constructor.base)
         ) {
           throw new Error("The global variable qx.Proto, qx.Class and qx.Super must point to the target class!");
         }
       }
 
       var legacy = qx.core.LegacyProperty;
-      var proto = targetClass.prototype;
+      var prot = clazz.prototype;
 
       for (var name in properties)
       {
@@ -465,11 +465,11 @@ qx.Clazz.define("qx.Clazz",
         value.name = name;
 
         if (value.fast) {
-          legacy.addFastProperty(value, proto);
+          legacy.addFastProperty(value, prot);
         } else if (value.cached) {
-          legacy.addCachedProperty(value, proto);
+          legacy.addCachedProperty(value, prot);
         } else if (value.compat) {
-          legacy.addProperty(value, proto);
+          legacy.addProperty(value, prot);
         } else {
           throw new Error('Could not handle property definition "' + key + '" in Class "' + qx.Proto.classname + "'");
         }
@@ -590,63 +590,63 @@ qx.Clazz.define("qx.Clazz",
      * Include all features of the Mixin into the given Class.
      *
      * @access private
-     * @param targetClass {Clazz} A class previously defined where the mixin should be attached.
+     * @param clazz {Clazz} A class previously defined where the mixin should be attached.
      * @param mixin {Mixin} Include all features of this Mixin
      * @param overwrite {Boolean} Overwrite existing functions and properties
      */
-    __mixin : function(targetClass, mixin, overwrite)
+    __mixin : function(clazz, mixin, overwrite)
     {
       // Attach members
       // Directly attach them. This is because we must not
       // modify them e.g. attaching base etc. because they may
       // used by multiple classes
-      var imembers = mixin.members;
-      var proto = targetClass.prototype;
+      var members = mixin.members;
+      var prot = clazz.prototype;
 
-      if (imembers == null) {
-        throw new Error('Invalid include in class "' + proto.classname + '"! The value is undefined/null!');
+      if (members == null) {
+        throw new Error('Invalid include in class "' + prot.classname + '"! The value is undefined/null!');
       }
 
-      for (var key in imembers)
+      for (var key in members)
        {
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          if (!overwrite && proto[key] != undefined) {
+          if (!overwrite && prot[key] != undefined) {
             throw new Error("Overwriting the member '" + key + "' is not allowed!");
           }
         }
-        proto[key] = imembers[key];
+        prot[key] = members[key];
       }
 
       // Attach statics
-      var istatics = mixin.statics;
-      for (var key in istatics)
+      var statics = mixin.statics;
+      for (var key in statics)
       {
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          if (!overwrite && targetClass[key] != undefined) {
+          if (!overwrite && clazz[key] != undefined) {
             throw new Error("Overwriting the static '" + key + "' is not allowed!");
           }
         }
-        targetClass[key] = istatics[key];
+        clazz[key] = statics[key];
       }
 
       // Attach properties
-      var iproperties = mixin.properties;
+      var properties = mixin.properties;
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        for (var key in iproperties)
+        for (var key in properties)
         {
           if (!overwrite)
           {
             var getterName = "get" + qx.lang.String.toFirstUp(key);
-            if (proto[getterName] != undefined) {
-              throw new Error("Overwriting the property '" + key + "' of class '" + proto.classname + "'is not allowed!");
+            if (prot[getterName] != undefined) {
+              throw new Error("Overwriting the property '" + key + "' of class '" + prot.classname + "'is not allowed!");
             }
           }
         }
       }
-      this.__addProperties(targetClass, iproperties);
+      this.__addProperties(clazz, properties);
     },
 
     /**
@@ -735,9 +735,9 @@ qx.Clazz.define("qx.Clazz",
     /**
      * Returns an empty function. This is needed to get an empty function with an empty closure.
      *
-     * @return {Fucntion} empty function
+     * @return {Function} empty function
      */
-    __emptyFunction: function() {
+    __createEmptyFunction: function() {
       return function() {};
     }
   }
