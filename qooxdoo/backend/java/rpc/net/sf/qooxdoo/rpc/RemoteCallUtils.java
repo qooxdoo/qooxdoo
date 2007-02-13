@@ -73,7 +73,8 @@ public class RemoteCallUtils {
         try {
             if (obj == JSONObject.NULL) {
                 if (targetType == Integer.TYPE || targetType == Double.TYPE ||
-                    targetType == Boolean.TYPE || targetType == Long.TYPE) {
+                    targetType == Boolean.TYPE || targetType == Long.TYPE ||
+                    targetType == Float.TYPE) {
                     // null does not work for primitive types
                     throw new Exception();
                 }
@@ -152,6 +153,9 @@ public class RemoteCallUtils {
                     Number.class.isAssignableFrom(sourceType)) {
                 return new Double(((Number)obj).doubleValue());
                 // TODO: maybe return obj directly if it's a Double 
+            } else if ((targetType == Float.TYPE || targetType == Float.class) &&
+                    Number.class.isAssignableFrom(sourceType)) {
+                return new Float(((Number)obj).floatValue());
             } else if ((targetType == Long.TYPE || targetType == Long.class) &&
                        Number.class.isAssignableFrom(sourceType)) {
                 return new Long(((Number)obj).longValue());
@@ -251,9 +255,12 @@ public class RemoteCallUtils {
             obj instanceof Boolean) {
             return obj;
         }
+        if (obj instanceof Float) {
+            return new Double(((Float)obj).doubleValue());
+        }
         // FIXME: find a better way to handle longs
         if (obj instanceof Long) {
-        	return new Double(((Long)obj).doubleValue());
+            return new Double(((Long)obj).doubleValue());
         }
         if (obj instanceof Object[]) {
             Object[] objectArray = (Object[])obj;
@@ -269,6 +276,14 @@ public class RemoteCallUtils {
             int[] intArray = (int[])obj;
             for (int i = 0; i < intArray.length; ++i) {
                 jsonArray.put(intArray[i]);
+            }
+            return jsonArray;
+        }
+        if (componentType == Float.TYPE) {
+            JSONArray jsonArray = new JSONArray();
+            float[] floatArray = (float[])obj;
+            for (int i = 0; i < floatArray.length; ++i) {
+                jsonArray.put((double)(floatArray[i]));
             }
             return jsonArray;
         }
