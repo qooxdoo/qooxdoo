@@ -200,7 +200,7 @@ qx.Clazz.define("qx.Mixin",
         for (var i=0, l=list.length; i<l; i++)
         {
           // Check members
-          emembers = list[i].members;
+          var emembers = list[i].members;
 
           for (var key in emembers)
           {
@@ -212,7 +212,7 @@ qx.Clazz.define("qx.Mixin",
           }
 
           // Check statics
-          estatics = list[i].statics;
+          var estatics = list[i].statics;
 
           for (var key in estatics)
           {
@@ -224,7 +224,7 @@ qx.Clazz.define("qx.Mixin",
           }
 
           // Check properties
-          eproperties = list[i].properties;
+          var eproperties = list[i].properties;
 
           for (var key in eproperties)
           {
