@@ -93,12 +93,6 @@ qx.Clazz.define("qx.Clazz",
      */
     define : function(name, config)
     {
-      /*
-      ---------------------------------------------------------------------------
-        Verify in configuration map
-      ---------------------------------------------------------------------------
-      */
-
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         var allowedKeys =
@@ -127,17 +121,6 @@ qx.Clazz.define("qx.Clazz",
         }
       }
 
-
-
-
-      /*
-      ---------------------------------------------------------------------------
-        Initialize aliases
-      ---------------------------------------------------------------------------
-      */
-
-      var extend = config.extend;
-
       var implement = config.implement;
       if (implement && !(implement instanceof Array)) {
         implement = [ implement ];
@@ -148,115 +131,17 @@ qx.Clazz.define("qx.Clazz",
         include = [ include ];
       };
 
-      var construct = config.construct;
-      var type = config.type;
-
-      var statics = config.statics;
-      var members = config.members;
-      var properties = config.properties;
-
-      var settings = config.settings;
-      var variants = config.variants;
-
-
-
-
-
-
-      /*
-      ---------------------------------------------------------------------------
-        Create Class
-      ---------------------------------------------------------------------------
-      */
-
-      if (!extend)
-      {
-        if (construct) {
-          throw new Error('Superclass is undefined, but constructor was given for class: "' + name + "'");
-        }
-
-        // Create empty/non-empty class
-        var obj = {};
-      }
-      else
-      {
-        if (!construct) {
-          throw new Error('Constructor is missing for class "' + name + "'");
-        }
-
-        // Store class pointer
-        if (type == "abstract")
-        {
-          obj = this.__createAbstractConstructor(name, construct);
-        }
-        else if (type == "singleton")
-        {
-          obj = this.__createSingletonConstructor(construct);
-
-          // three alternatives to implement singletons
-          if (true)
-          {
-            // automagically add the getInstance method to the statics
-            if (!statics) {
-              statics = {};
-            }
-
-            statics.getInstance = qx.Clazz.__getInstance;
-          }
-          else if (true)
-          {
-            // enfore the imlpementation of the interface qx.lang.ISingleton
-            if (!implement) {
-              implement = [];
-            }
-
-            implement.push(qx.lang.ISingleton);
-          }
-          else
-          {
-            // automagically add the getInstance method to the statics
-            if (!statics) {
-              statics = {};
-            }
-
-            statics.getInstance = qx.lang.MSingleton.statics.getInstance;
-          }
-        }
-        else
-        {
-          obj = construct;
-        }
-      }
-
-      // Create namespace
-      var basename = this.createNamespace(name, obj, false);
-
-      // Store names in constructor/object
-      obj.classname = name;
-      obj.basename = basename;
-
-      // Store class reference in global class registry
-      this.__registry[name] = obj;
-
-
-
-
-      /*
-      ---------------------------------------------------------------------------
-        Process configuration
-      ---------------------------------------------------------------------------
-      */
-
-      this.__processSettings(name, settings);
-      this.__processVariants(name, variants);
-      this.__addStatics(obj, statics);
+      var obj = this.__createClass(name, config.type, config.extend, config.construct, config.statics);
+      this.__processSettings(obj, config.settings);
+      this.__processVariants(obj, config.variants);
+      this.__addStatics(obj, config.statics);
 
       // For static classes we're done now
-      if (extend)
+      if (config.extend)
       {
-        this.__applyInheritance(obj, name, basename, extend, construct);
-        this.__addMembers(obj, members, extend);
-        this.__addProperties(obj, properties);
+        this.__applyInheritance(obj, config.extend, config.construct);
+        this.__addMembers(obj, config.members);
+        this.__addProperties(obj, config.properties);
         this.__addMixins(obj, include);
         this.__addInterfaces(obj, implement);
       }
@@ -375,7 +260,81 @@ qx.Clazz.define("qx.Clazz",
       return this.$$INSTANCE;
     },
 
-    __applyInheritance : function(obj, name, basename, extend, construct)
+    __createClass : function(name, type, extend, construct, statics)
+    {
+      if (!extend)
+      {
+        if (construct) {
+          throw new Error('Superclass is undefined, but constructor was given for class: "' + name + "'");
+        }
+
+        // Create empty/non-empty class
+        var obj = {};
+      }
+      else
+      {
+        if (!construct) {
+          throw new Error('Constructor is missing for class "' + name + "'");
+        }
+
+        // Store class pointer
+        if (type == "abstract")
+        {
+          obj = this.__createAbstractConstructor(name, construct);
+        }
+        else if (type == "singleton")
+        {
+          obj = this.__createSingletonConstructor(construct);
+
+          // three alternatives to implement singletons
+          if (true)
+          {
+            // automagically add the getInstance method to the statics
+            if (!statics) {
+              statics = {};
+            }
+
+            statics.getInstance = qx.Clazz.__getInstance;
+          }
+          else if (true)
+          {
+            // enfore the imlpementation of the interface qx.lang.ISingleton
+            if (!implement) {
+              implement = [];
+            }
+
+            implement.push(qx.lang.ISingleton);
+          }
+          else
+          {
+            // automagically add the getInstance method to the statics
+            if (!statics) {
+              statics = {};
+            }
+
+            statics.getInstance = qx.lang.MSingleton.statics.getInstance;
+          }
+        }
+        else
+        {
+          obj = construct;
+        }
+      }
+
+      // Create namespace
+      var basename = this.createNamespace(name, obj, false);
+
+      // Store names in constructor/object
+      obj.classname = name;
+      obj.basename = basename;
+
+      // Store class reference in global class registry
+      this.__registry[name] = obj;
+
+      return obj;
+    },
+
+    __applyInheritance : function(obj, extend, construct)
     {
       // Use helper function/class to save the unnecessary constructor call while
       // setting up inheritance.
@@ -387,8 +346,8 @@ qx.Clazz.define("qx.Clazz",
       obj.prototype = prot;
 
       // Store names in prototype
-      prot.classname = name;
-      prot.basename = basename;
+      prot.classname = obj.classname;
+      prot.basename = obj.basename;
 
       // Store reference to extend class
       obj.superclass = prot.superclass = extend;
@@ -485,31 +444,31 @@ qx.Clazz.define("qx.Clazz",
       }
     },
 
-    __addMembers: function(targetClass, members, superClass)
+    __addMembers: function(obj, members)
     {
       if (!members) {
         return;
       }
 
-      var superprotoobj = superClass.prototype;
-      var proto = targetClass.prototype;
+      var superprot = obj.superclass.prototype;
+      var prot = obj.prototype;
 
       for (var key in members)
       {
         // Attach member
-        var member = proto[key] = members[key];
+        var member = prot[key] = members[key];
 
         // Added helper stuff to functions
         if (typeof member === "function")
         {
-          if (superprotoobj[key])
+          if (superprot[key])
           {
             // Configure extend (named base here)
-            member.base = superprotoobj[key];
+            member.base = superprot[key];
           }
 
           // Configure class [TODO: find better name for statics here]
-          member.statics = targetClass;
+          member.statics = obj;
         }
       }
     },
@@ -736,7 +695,7 @@ qx.Clazz.define("qx.Clazz",
      * @param settings {Map ? null} Maps the setting name to the default value.
      * @param className {String} name of the class defining the setting
      */
-    __processSettings: function(className, settings)
+    __processSettings: function(obj, settings)
     {
       if (!settings) {
         return;
@@ -746,8 +705,8 @@ qx.Clazz.define("qx.Clazz",
       {
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          if (key.substr(0, key.indexOf(".")) != className.substr(0, className.indexOf("."))) {
-            throw new Error('Forbidden setting "' + key + '" found in "' + className + '". It is forbidden to define a default setting for an external namespace!');
+          if (key.substr(0, key.indexOf(".")) != obj.classname.substr(0, obj.classname.indexOf("."))) {
+            throw new Error('Forbidden setting "' + key + '" found in "' + obj.classname + '". It is forbidden to define a default setting for an external namespace!');
           }
         }
 
@@ -766,7 +725,7 @@ qx.Clazz.define("qx.Clazz",
      *   </ul>
      *  @param className {String} name of the class defining the variant.
      */
-    __processVariants: function(className, variants)
+    __processVariants: function(obj, variants)
     {
       if (!variants) {
         return;
@@ -776,8 +735,8 @@ qx.Clazz.define("qx.Clazz",
       {
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          if (key.substr(0, key.indexOf(".")) != className.substr(0, className.indexOf("."))) {
-            throw new Error('Forbidden variant "' + key + '" found in "' + className + '". It is forbidden to define a variant for an external namespace!');
+          if (key.substr(0, key.indexOf(".")) != obj.classname.substr(0, obj.classname.indexOf("."))) {
+            throw new Error('Forbidden variant "' + key + '" found in "' + obj.classname + '". It is forbidden to define a variant for an external namespace!');
           }
         }
 
