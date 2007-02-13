@@ -120,8 +120,14 @@ qx.Class.toHashCode = function(o)
  */
 qx.Class.dispose = function()
 {
-  // var logger = qx.log.Logger.getClassLogger(qx.core.Object);
-  // logger.debug("Disposing Application");
+  if (qx.core.Variant.isSet("qx.debug", "on"))
+  {
+    if (qx.core.Setting.get("qx.disposerDebugging"))
+    {
+      var disposeStart = new Date;
+      qx.core.Bootstrap.alert("Disposing qooxdoo application...");
+    }
+  }
 
   // var vStart = (new Date).valueOf();
   qx.core.Object._disposeAll = true;
@@ -131,14 +137,50 @@ qx.Class.dispose = function()
   {
     vObject = qx.core.Object._db[i];
 
-    if (vObject && vObject._disposed === false)
-    {
-      // logger.debug("Disposing: " + vObject);
+    if (vObject && vObject._disposed === false) {
       vObject.dispose();
     }
   }
 
-  // logger.debug("Done in: " + ((new Date).valueOf() - vStart) + "ms");
+  if (qx.core.Variant.isSet("qx.debug", "on"))
+  {
+    if (qx.core.Setting.get("qx.disposerDebugging"))
+    {
+      // check dom
+      var elems = qx.lang.Array.fromNodeCollection(document.getElementsByTagName("*"));
+      elems.push(window, document);
+
+      qx.core.Bootstrap.alert("Disposer: Checking " + elems.length + " elements for object references...");
+
+      for (var i=0, l=elems.length; i<l; i++)
+      {
+        var elem = elems[i];
+        for (var key in elem)
+        {
+          try
+          {
+            if (typeof elem[key] == "object")
+            {
+              if (elem[key] instanceof qx.core.Object || elem[key] instanceof Array) {
+                qx.core.Bootstrap.alert("Disposer: Found Object under key: " + key);
+              }
+            }
+          }
+          catch(ex)
+          {
+            qx.core.Bootstrap.alert("Disposer: Could not access key: " + key);
+          };
+        }
+      }
+    }
+  }
+
+  if (qx.core.Variant.isSet("qx.debug", "on"))
+  {
+    if (qx.core.Setting.get("qx.disposerDebugging")) {
+      qx.core.Bootstrap.alert("Disposing qooxdoo done in " + (new Date() - disposeStart) + "ms");
+    }
+  }
 }
 
 
@@ -583,27 +625,14 @@ qx.Proto.dispose = function()
     {
       for (var vKey in this)
       {
-        if (this[vKey] !== null && typeof this[vKey] === "object")
+        if (this[vKey] !== null && typeof this[vKey] === "object" && this.constructor.prototype[vKey] === undefined)
         {
-          this.warn("Missing class implementation to dispose: " + vKey);
+          qx.core.Bootstrap.alert("Missing class implementation to dispose: " + vKey);
           delete this[vKey];
         }
       }
     }
   }
-
-  /*
-  if (typeof CollectGarbage === "function") {
-    CollectGarbage();
-  }
-  */
-
-  /*
-  // see bug #258.
-  if(this._dbKey != this._hashCode) {
-    console.log("Disposing wrong entry: " + this._dbKey + " vs. " + this._hashCode);
-  }
-  */
 
   // Delete Entry from Object DB
   if (this._dbKey != null)
