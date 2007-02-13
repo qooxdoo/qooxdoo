@@ -293,7 +293,7 @@ qx.Clazz.define("qx.core.LegacyProperty",
     removeProperty : function(config, proto)
     {
       if (typeof proto._properties !== "string") {
-        throw new Error("Has no properties!");
+        throw new Error("Has no properties!" + proto);
       }
 
       if (typeof config !== "object") {
