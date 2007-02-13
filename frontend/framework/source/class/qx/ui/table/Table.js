@@ -1172,8 +1172,9 @@ qx.Proto._toggleColumnVisibilityMenu = function() {
 
     // NOTE: We have to show the menu in a timeout, otherwise it won't be shown
     //       at all.
+    var self = this;
     window.setTimeout(function() {
-      if (this.getDisposed()) {
+      if (self.getDisposed()) {
         return;
       }
       menu.show();
