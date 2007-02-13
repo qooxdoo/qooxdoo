@@ -693,10 +693,7 @@ if (qx.core.Variant.isSet("qx.client", "gecko"))
     // which was the one with the mousedown event before.
     if (vCurrent == this._dragCache.sourceWidget)
     {
-      // vCurrent = qx.event.handler.EventHandler.getTargetObject(qx.html.ElementFromPoint.getElementFromPoint(e.getPageX(), e.getPageY()));
-
-      // this is around 8-12 times faster as the above method
-      vCurrent = this._dragCache.sourceTopLevel.getWidgetFromPoint(e.getPageX(), e.getPageY());
+      vCurrent = qx.event.handler.EventHandler.getTargetObject(qx.html.ElementFromPoint.getElementFromPoint(e.getPageX(), e.getPageY()));
     }
     else
     {
