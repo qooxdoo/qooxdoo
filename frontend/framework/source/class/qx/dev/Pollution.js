@@ -30,13 +30,21 @@
  */
 qx.OO.defineClass("qx.dev.Pollution");
 
+/**
+ * Classes to check for pollution
+ */
 qx.Class.names =
 {
   "window" : window,
   "document" : document,
   "body" : document.body
-}
+};
 
+
+/**
+ * Known properties of the classes to check.
+ * These properties will not be reported as pollution
+ */
 qx.Class.ignore =
 {
   "window" :
@@ -187,9 +195,19 @@ qx.Class.ignore =
   ]
 }
 
-qx.Class.consoleInfo = function(object)
+/**
+ * Show the namespace pollution of a given object or the golbal namespace.
+ * 
+ * @param objectName {String?"window"} name of the object to inspect. Valid Names are:
+ *   <ul>
+ *     <li>window</li>
+ *     <li>document</li>
+ *     <li>body</li>
+ *   </ul>
+ */
+qx.Class.consoleInfo = function(objectName)
 {
-  var msg = qx.dev.Pollution.getTextList(object || "window");
+  var msg = qx.dev.Pollution.getTextList(objectName || "window");
 
   if (msg) {
     alert("Global namespace is polluted by the following unknown objects:\n\n" + msg);
@@ -198,15 +216,27 @@ qx.Class.consoleInfo = function(object)
   }
 }
 
-qx.Class.extract = function(object)
+
+/**
+ * Return a list of objects which are not supposed to be in the given object.
+ * 
+ * @param objectName {String} Name of the objects to inspect. Valid names are:
+ *   <ul>
+ *     <li>window</li>
+ *     <li>document</li>
+ *     <li>body</li>
+ *   </ul>
+ * @return {Map[]} Array of values, which are not supposed to be in the given object.
+ */
+qx.Class.extract = function(objectName)
 {
   var ext = [];
-  var ign = qx.dev.Pollution.ignore[object];
+  var ign = qx.dev.Pollution.ignore[objectName];
 
   //IE offers a window[index] access to the frames of a window, i. e.
   //for three frame, the window object will have attributes "0", "1" and "2"
   if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-    if (object == "window") {
+    if (objectName == "window") {
       ign = ign.slice();
       for (var frameIndex = 0; frameIndex < window.length; frameIndex++){
         ign.push("" + frameIndex);
@@ -214,7 +244,7 @@ qx.Class.extract = function(object)
     }
   }
 
-  var obj = qx.dev.Pollution.names[object];
+  var obj = qx.dev.Pollution.names[objectName];
 
   for (var key in obj)
   {
@@ -222,7 +252,7 @@ qx.Class.extract = function(object)
     {
       //MS IE 7 crashes when doing typeof(window.external), catch here
       if ( qx.core.Variant.isSet("qx.client", "mshtml")) {
-        if ( (clientInfos.getMajor() >= 7) && (object == "window") && (key == "external") ) {
+        if ( (clientInfos.getMajor() >= 7) && (objectName == "window") && (key == "external") ) {
           continue;
         }
       }
@@ -254,7 +284,19 @@ qx.Class.extract = function(object)
   return ext;
 }
 
-qx.Class.getHtmlTable = function(object)
+
+/**
+ * Format the global pollution list as a HTML fragment
+ * 
+ * @param objectName {String} Name of the objects to inspect. Valid names are:
+ *   <ul>
+ *     <li>window</li>
+ *     <li>document</li>
+ *     <li>body</li>
+ *   </ul>
+ * @return {String} HTML fragment
+ */
+qx.Class.getHtmlTable = function(objectName)
 {
   var all = [];
 
@@ -264,7 +306,7 @@ qx.Class.getHtmlTable = function(object)
 
   all.push("<table>");
 
-  var ext = this.extract(object);
+  var ext = this.extract(objectName);
 
   for (var i=0; i<ext.length; i++) {
     all.push(rowStart + ext[i].key + cellSplit + ext[i].value + rowEnd);
@@ -275,14 +317,26 @@ qx.Class.getHtmlTable = function(object)
   return all.join("");
 }
 
-qx.Class.getTextList = function(object)
+
+/**
+ * Format the global pollution list as a test list
+ * 
+ * @param objectName {String} Name of the objects to inspect. Valid names are:
+ *   <ul>
+ *     <li>window</li>
+ *     <li>document</li>
+ *     <li>body</li>
+ *   </ul>
+ * @return {String} global pollution list
+ */
+qx.Class.getTextList = function(objectName)
 {
   var all = [];
 
   var cellSplit = ": ";
   var rowEnd = "\n";
 
-  var ext = this.extract(object);
+  var ext = this.extract(objectName);
 
   for (var i=0; i<ext.length; i++) {
     all.push(ext[i].key + cellSplit + ext[i].value + rowEnd);
