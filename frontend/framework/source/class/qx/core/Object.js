@@ -595,7 +595,7 @@ qx.Proto.dispose = function()
   }
 
   // Disposable properties
-  disposeProps = this._objectproperties;
+  var disposeProps = this._objectproperties;
 
   // NextGen property stuff
   this._user_values_ng = null;
