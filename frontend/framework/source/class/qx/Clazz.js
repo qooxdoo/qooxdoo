@@ -94,90 +94,74 @@ qx.Clazz.define("qx.Clazz",
      */
     define : function(name, config)
     {
-      var key, value;
-      var extend, implement, include, type, settings, variants, construct, statics, properties, members;
-
-
-
 
       /*
       ---------------------------------------------------------------------------
-        Read in configuration map
+        Verify in configuration map
+      ---------------------------------------------------------------------------
+      */
+      
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {      
+        var allowedKeys = {
+          "extend": 1,
+          "implement": 1,
+          "include": 1,
+          "construct": 1,
+          "type": 1,
+          "statics": 1,
+          "members": 1,
+          "properties": 1,
+          "settings": 1,
+          "variants": 1          
+        }
+  
+        for (var key in config) {
+          if (!allowedKeys[key]) {
+            throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
+          }
+          if (config[key] == null) {
+            throw new Error("Invalid key '" + key + "' in class '" + name + "'! The value is undefined/null!");
+          }
+        }
+      }
+      
+
+      /*
+      ---------------------------------------------------------------------------
+        Initialize aliases
       ---------------------------------------------------------------------------
       */
 
-      for (key in config)
-      {
-        value = config[key];
+      var extend = config.extend;
 
-        if (value == null) {
-          throw new Error('Invalid key "' + key + '" in class "' + name + '"! The value is undefined/null!');
-        }
+      var implement = config.implement;
+      if (implement && !(implement instanceof Array)) { 
+        implement = [ implement ]
+      };
 
-        switch(key)
-        {
-          case "extend":
-            extend = value;
-            break;
+      var include = config.include;
+      if (include && !(include instanceof Array)) { 
+        include = [ include ]
+      };
+      
+      var construct = config.construct;
+      var type = config.type;
 
-          case "implement":
-            // Normalize to Array
-            if (!(value instanceof Array)) {
-              value = [ value ];
-            }
-
-            implement = value;
-            break;
-
-          case "include":
-            // Normalize to Array
-            if (!(value instanceof Array)) {
-              value = [ value ];
-            }
-            include = value;
-            break;
-
-          case "type":
-            type = value;
-            break;
-
-          case "settings":
-            settings = value;
-            break;
-
-          case "variants":
-            variants = value;
-            break;
-
-          case "construct":
-            construct = value;
-            break;
-
-          case "statics":
-            statics = value;
-            break;
-
-          case "properties":
-            properties = value;
-            break;
-
-          case "members":
-            members = value;
-            break;
-
-          default:
-            throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
-        }
-      }
-
-
-
-
+      var statics = config.statics;
+      var members = config.members;
+      var properties = config.properties;
+      
+      var settings = config.settings;
+      var variants = config.variants;
+      
+      
       /*
       ---------------------------------------------------------------------------
         Create Class
       ---------------------------------------------------------------------------
       */
+
 
       if (!extend)
       {
@@ -215,7 +199,7 @@ qx.Clazz.define("qx.Clazz",
           {
             // automagically add the getInstance method to the statics
             if (!statics) {
-              statics = {}
+              statics = {};
             }
             statics.getInstance = qx.lang.MSingleton.statics.getInstance;
           }
@@ -227,7 +211,7 @@ qx.Clazz.define("qx.Clazz",
       }
 
       // Create namespace
-      var basename = qx.Clazz.createNamespace(name, obj, false);
+      var basename = this.createNamespace(name, obj, false);
 
       // Store names in constructor/object
       obj.classname = name;
@@ -236,16 +220,22 @@ qx.Clazz.define("qx.Clazz",
       // Store class reference in global class registry
       this.__registry[name] = obj;
 
-      // Compatibility to old properties etc.
-      qx.Class = obj;
-      qx.Proto = null;
-      qx.Super = null;
 
+      /*
+      ---------------------------------------------------------------------------
+        Process settings nad variants
+      ---------------------------------------------------------------------------
+      */
 
+      if (settings) {
+        this.__processSettings(settings, name);
+      }
 
-
-
-
+      if (variants) {
+        this.__processVariants(variants, name);
+      }
+      
+      
       /*
       ---------------------------------------------------------------------------
         Attach static class members
@@ -266,58 +256,6 @@ qx.Clazz.define("qx.Clazz",
           }
         }
       }
-
-
-
-
-      /*
-      ---------------------------------------------------------------------------
-        Settings
-      ---------------------------------------------------------------------------
-      */
-
-      if (settings)
-      {
-        for (var key in settings)
-        {
-          if (qx.core.Variant.isSet("qx.debug", "on"))
-          {
-            if (key.substr(0, key.indexOf(".")) != name.substr(0, name.indexOf("."))) {
-              throw new Error('Forbidden setting "' + key + '" found in "' + name + '". It forbidden to define a default setting for an external namespace!');
-            }
-          }
-
-          qx.core.Setting.define(key, settings[key]);
-        }
-      }
-
-
-
-
-
-      /*
-      ---------------------------------------------------------------------------
-        Variants
-      ---------------------------------------------------------------------------
-      */
-
-      if (variants)
-      {
-        for (var key in variants)
-        {
-          if (qx.core.Variant.isSet("qx.debug", "on"))
-          {
-            if (key.substr(0, key.indexOf(".")) != name.substr(0, name.indexOf("."))) {
-              throw new Error('Forbidden setting "' + key + '" found in "' + name + '". It forbidden to define a default setting for an external namespace!');
-            }
-          }
-
-          qx.core.Variant.define(key, variants[key].allowedValues, variants[key].defaultValue);
-        }
-      }
-
-
-
 
 
       /*
@@ -354,6 +292,7 @@ qx.Clazz.define("qx.Clazz",
       construct.base = extend;
 
       // Compatibility to old properties etc.
+      qx.Class = obj;
       qx.Proto = prot;
       qx.Super = extend;
 
@@ -367,37 +306,15 @@ qx.Clazz.define("qx.Clazz",
       }
 
 
-
       /*
       ---------------------------------------------------------------------------
         Attach instance members
       ---------------------------------------------------------------------------
       */
 
-      if (members)
-      {
-        var superprotoobj = extend.prototype;
-
-        for (var key in members)
-        {
-          // Attach member
-          value = prot[key] = members[key];
-
-          // Added helper stuff to functions
-          if (typeof value === "function")
-          {
-            if (superprotoobj[key])
-            {
-              // Configure extend (named base here)
-              value.base = superprotoobj[key];
-            }
-
-            // Configure class [TODO: find better name for statics here]
-            value.statics = obj;
-          }
-        }
+      if (members) {
+        this.__addMembers(obj, members, extend);
       }
-
 
 
       /*
@@ -411,14 +328,13 @@ qx.Clazz.define("qx.Clazz",
       }
 
 
-
       /*
       ---------------------------------------------------------------------------
         Merge in the Mixins
       ---------------------------------------------------------------------------
       */
 
-      if (include)
+      if (config.include)
       {
         if (qx.core.Variant.isSet("qx.debug", "on")) {
           qx.Mixin.compatible(include, 'include list in Class "' + name + '".');
@@ -428,7 +344,6 @@ qx.Clazz.define("qx.Clazz",
           this.__mixin(obj, include[i], false);
         }
       }
-
 
 
       /*
@@ -441,14 +356,14 @@ qx.Clazz.define("qx.Clazz",
       {
         // initialize registry
         obj.$$IMPLEMENTS = {};
-
+        
         for (var i=0, l=implement.length; i<l; i++) {
           // Only validate members in debug mode.
           // There is nothing more needed for builds
           if (qx.core.Variant.isSet("qx.debug", "on")) {
             qx.Interface.assertInterface(obj, implement[i], true);
           }
-
+          
           // copy primitive static fields
           var interfaceStatics = implement[i].statics;
           for (key in interfaceStatics) {
@@ -458,10 +373,10 @@ qx.Clazz.define("qx.Clazz",
               obj[key] = interfaceStatics[key];
             }
           }
-
+          
           // save interface name
           obj.$$IMPLEMENTS[implement[i].name] = implement[i];
-        }
+        }  
       }
     },
 
@@ -474,26 +389,27 @@ qx.Clazz.define("qx.Clazz",
      *   in the namespace.
      * @return {Object} last part of the namespace (e.g. classname)
      */
-    createNamespace : function(name, object)
+    createNamespace : function(name, object, forceOverwrite)
     {
       var splits = name.split(".");
+      var len = splits.length;
       var parent = window;
       var part = splits[0];
 
-      for (var i=0, len=splits.length-1; i<len; i++, part=splits[i])
+      for (var i=0, l=len-1; i<l; i++)
       {
         if (!parent[part]) {
           parent[part] = {};
         }
 
         parent = parent[part];
+        part = splits[i + 1];
       }
 
       // store object
-      if (parent[part] !== undefined) {
+      if (!forceOverwrite && parent[part] != undefined) {
         throw new Error("An object of the name '" + name + "' aready exists and overwriting is not allowed!");
       }
-
       parent[part] = object;
 
       // return last part name (e.g. classname)
@@ -541,8 +457,9 @@ qx.Clazz.define("qx.Clazz",
     /**
      * Include all features of the Mixin into the given Class. The Mixin can include features
      * which are already defined in the target Class. Existing stuff gets overwritten. Please
-     * be aware that this functionality is not the preferred way. You can damage working
-     * Classes and features.
+     * be aware that this functionality is not the preferred way.
+     * 
+     * <b>WARNING</b>: You can damage working Classes and features.
      *
      * @param target {Class} A class previously defined where the stuff should be attached.
      * @param mixin {Mixin} Include all features of this Mixin
@@ -588,10 +505,10 @@ qx.Clazz.define("qx.Clazz",
       for (var name in properties)
       {
         var property = properties[name];
-
+        
         var value = property;
         value.name = name;
-
+  
         if (value.fast) {
           legacy.addFastProperty(value, proto);
         } else if (value.cached) {
@@ -604,6 +521,33 @@ qx.Clazz.define("qx.Clazz",
       }
     },
 
+
+    __addMembers: function(targetClass, members, superClass)
+    {
+      var superprotoobj = superClass.prototype;
+      var proto = targetClass.prototype;
+
+      for (var key in members)
+      {
+        // Attach member
+        var member = proto[key] = members[key];
+
+        // Added helper stuff to functions
+        if (typeof member === "function")
+        {
+          if (superprotoobj[key])
+          {
+            // Configure extend (named base here)
+            member.base = superprotoobj[key];
+          }
+
+          // Configure class [TODO: find better name for statics here]
+          member.statics = targetClass;
+        }
+      }
+    },
+    
+    
     /**
      * Include all features of the Mixin into the given Class.
      *
@@ -730,6 +674,12 @@ qx.Clazz.define("qx.Clazz",
     },
 
 
+    /**
+     * Returns an empty function.
+     * This make sure that the new function has an empty closure.
+     * 
+     * @return {Function} empty function
+     */
     __wrapFunctionWithPrecondition: function(method, name, preCondition)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -747,8 +697,64 @@ qx.Clazz.define("qx.Clazz",
       }
     },
 
+
+    /**
+     * Returns an empty function. This is needed to get an empty function with an empty closure.
+     * 
+     * @return {Fucntion} empty function
+     */
     __emptyFunction: function() {
       return function() {};
+    },
+    
+    
+    /**
+     * Define settings for a class
+     * 
+     * @param settings {Map} Maps the setting name to the default value.
+     * @param className {String} name of the class defining the setting
+     */
+    __processSettings: function(settings, className)
+    {
+      for (var key in settings)
+      {
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
+          if (key.substr(0, key.indexOf(".")) != className.substr(0, className.indexOf("."))) {
+            throw new Error('Forbidden setting "' + key + '" found in "' + className + '". It is forbidden to define a default setting for an external namespace!');
+          }
+        }
+  
+        qx.core.Setting.define(key, settings[key]);
+      }      
+    },
+    
+    
+    /**
+     * Define variants for a class
+     * 
+     * @param variants {Map} Map of definitions of variants. The key is the name of the variant.
+     *   The value is a map with the following keys:
+     *   <ul>
+     *     <li>allowedValues: array of allowed values</li>
+     *     <li>defaultValue: default value</li>
+     *   </ul>
+     *  @param className {String} name of the class defining the variant.
+     */
+    __processVariants: function(variants, className)
+    {
+      for (var key in variants)
+      {
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
+          if (key.substr(0, key.indexOf(".")) != className.substr(0, className.indexOf("."))) {
+            throw new Error('Forbidden variant "' + key + '" found in "' + className + '". It is forbidden to define a variant for an external namespace!');
+          }
+        }
+
+        qx.core.Variant.define(key, variants[key].allowedValues, variants[key].defaultValue);
+      }      
     }
+    
   }
 });

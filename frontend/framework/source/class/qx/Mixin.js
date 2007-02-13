@@ -63,58 +63,49 @@ qx.Clazz.define("qx.Mixin",
      */
     define : function(name, config)
     {
-      var key, value;
-      var extend, properties = {}, members = {}, statics = {};
-
-
-
-
       /*
       ---------------------------------------------------------------------------
-        Read in configuration map
+        Verify in configuration map
+      ---------------------------------------------------------------------------
+      */
+      
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {      
+        var allowedKeys = {
+          "extend": 1,
+          "statics": 1,
+          "members": 1,
+          "properties": 1
+        }
+  
+        for (var key in config) {
+          if (!allowedKeys[key]) {
+            throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
+          }
+          if (config[key] == null) {
+            throw new Error("Invalid key '" + key + "' in class '" + name + "'! The value is undefined/null!");
+          }
+        }
+      }
+      
+      
+     /*
+      ---------------------------------------------------------------------------
+        Initialize aliases
       ---------------------------------------------------------------------------
       */
 
-      for (key in config)
-      {
-        value = config[key];
-
-        if (value == null) {
-          throw new Error("Invalid key '" + key + "' in class '" + name + "'! The value is undefined/null!");
-        }
-
-        switch(key)
-        {
-          case "extend":
-            // Normalize to Array
-            if (!(value instanceof Array)) {
-              value = [ value ];
-            }
-
-            extend = value;
-            break;
-
-          case "properties":
-            properties = value;
-            break;
-
-          case "members":
-            members = value;
-            break;
-
-          case "statics":
-            statics = value;
-            break;
-
-          default:
-            throw new Error("The configuration key '" + key + "' in class '" + name + "' is not allowed!");
-        }
-      }
+      var extend = config.extent;
+    	if (extend && !(extend instanceof Array)) {
+      	extend = [ extend ];
+     	}
+   		         
+      var statics = config.statics || {};
+      var members = config.members || {};
+      var properties = config.properties || {};
 
 
-
-
-      /*
+     /*
       ---------------------------------------------------------------------------
         Create Mixin
       ---------------------------------------------------------------------------
@@ -159,14 +150,14 @@ qx.Clazz.define("qx.Mixin",
           // Attach members
           emembers = extend[i].members;
 
-          for (key in emembers) {
+          for (var key in emembers) {
             members[key] = emembers[key];
           }
 
           // Attach members
           eproperties = extend[i].properties;
 
-          for (key in eproperties) {
+          for (var key in eproperties) {
             properties[key] = eproperties[key];
           }
         }
@@ -211,7 +202,7 @@ qx.Clazz.define("qx.Mixin",
           // Check members
           emembers = list[i].members;
 
-          for (key in emembers)
+          for (var key in emembers)
           {
             if (key in kmembers) {
               throw new Error('Double defintion of member "' + key + '" through ' + msg);
@@ -223,7 +214,7 @@ qx.Clazz.define("qx.Mixin",
           // Check statics
           estatics = list[i].statics;
 
-          for (key in estatics)
+          for (var key in estatics)
           {
             if (key in kstatics) {
               throw new Error('Double defintion of member "' + key + '" through ' + msg);
@@ -235,7 +226,7 @@ qx.Clazz.define("qx.Mixin",
           // Check properties
           eproperties = list[i].properties;
 
-          for (key in eproperties)
+          for (var key in eproperties)
           {
             if (key in kproperties) {
               throw new Error('Double defintion of property "' + key + '" through ' + msg);
