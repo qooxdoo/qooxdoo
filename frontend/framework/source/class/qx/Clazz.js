@@ -353,6 +353,15 @@ qx.Clazz.define("qx.Clazz",
       qx.Proto = prot;
       qx.Super = extend;
 
+      // Copy property lists
+      if (extend.prototype._properties) {
+        prot._properties = qx.lang.Object.copy(extend.prototype._properties);
+      }
+
+      if (extend.prototype._objectproperties) {
+        prot._objectproperties = qx.lang.Object.copy(extend.prototype._objectproperties);
+      }
+
 
 
       /*
