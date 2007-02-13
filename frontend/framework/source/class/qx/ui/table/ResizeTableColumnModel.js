@@ -93,6 +93,11 @@ qx.Proto.init = function(numColumns, table)
   // ... when the inner width of the table changes, ...
   table.addEventListener("tableWidthChanged", this._ontablewidthchanged, this);
 
+  // ... when a vertical scroll bar appears or disappears
+  table.addEventListener("verticalScrollBarChanged",
+                         this._onverticalscrollbarchanged,
+                         this);
+
   // ... when columns are resized, ...
   this.addEventListener("widthChanged", this._oncolumnwidthchanged, this);
 
@@ -154,6 +159,12 @@ qx.Proto._onappear = function(event)
   this._bInProgress = true;
   this.debug("onappear");
   this.getBehavior().onAppear(this, event);
+  var _this = this;
+  window.setTimeout(function()
+                    {
+                      _this._table._updateScrollerWidths();
+                      _this._table._updateScrollBarVisibility();
+                    }, 0);
   this._bInProgress = false;
 
   this._bAppeared = true;
@@ -178,6 +189,35 @@ qx.Proto._ontablewidthchanged = function(event)
   this._bInProgress = true;
   this.debug("ontablewidthchanged");
   this.getBehavior().onTableWidthChanged(this, event);
+  this._bInProgress = false;
+};
+
+
+/**
+ * Event handler for the "verticalScrollBarChanged" event.
+ *
+ * @param event {qx.event.type.DataEvent}
+ *   The "verticalScrollBarChanged" event object.  The data is a boolean
+ *   indicating whether a vertical scroll bar is now present.
+ */
+qx.Proto._onverticalscrollbarchanged = function(event)
+{
+  // Is this a recursive call or has the table not yet been rendered?
+  if (this._bInProgress || ! this._bAppeared)
+  {
+    // Yup.  Ignore it.
+    return;
+  }
+
+  this._bInProgress = true;
+  this.debug("onverticalscrollbarchanged");
+  this.getBehavior().onVerticalScrollBarChanged(this, event);
+  var _this = this;
+  window.setTimeout(function()
+                    {
+                      _this._table._updateScrollerWidths();
+                      _this._table._updateScrollBarVisibility();
+                    }, 0);
   this._bInProgress = false;
 };
 
