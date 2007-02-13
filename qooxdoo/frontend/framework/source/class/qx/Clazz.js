@@ -93,57 +93,23 @@ qx.Clazz.define("qx.Clazz",
      */
     define : function(name, config)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        var allowedKeys =
-        {
-          "extend": 1,
-          "implement": 1,
-          "include": 1,
-          "construct": 1,
-          "type": 1,
-          "statics": 1,
-          "members": 1,
-          "properties": 1,
-          "settings": 1,
-          "variants": 1
-        };
+      // Validate incoming data
+      this.__validateConfig(name, config);
 
-        for (var key in config)
-        {
-          if (!allowedKeys[key]) {
-            throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
-          }
+      // Create class
+      var clazz = this.__createClass(name, config.type, config.extend, config.construct, config.statics);
 
-          if (config[key] == null) {
-            throw new Error("Invalid key '" + key + "' in class '" + name + "'! The value is undefined/null!");
-          }
-        }
-      }
+      // Process basics
+      this.__processSettings(clazz, config.settings);
+      this.__processVariants(clazz, config.variants);
 
-      var implement = config.implement;
-      if (implement && !(implement instanceof Array)) {
-        implement = [ implement ];
-      };
-
-      var include = config.include;
-      if (include && !(include instanceof Array)) {
-        include = [ include ];
-      };
-
-      var obj = this.__createClass(name, config.type, config.extend, config.construct, config.statics);
-      this.__processSettings(obj, config.settings);
-      this.__processVariants(obj, config.variants);
-      this.__addStatics(obj, config.statics);
-
-      // For static classes we're done now
+      // Continue only for non-static classes
       if (config.extend)
       {
-        this.__applyInheritance(obj, config.extend, config.construct);
-        this.__addMembers(obj, config.members);
-        this.__addProperties(obj, config.properties);
-        this.__addMixins(obj, include);
-        this.__addInterfaces(obj, implement);
+        this.__addMembers(clazz, config.members);
+        this.__addProperties(clazz, config.properties);
+        this.__addMixins(clazz, config.include);
+        this.__addInterfaces(clazz, config.implement);
       }
     },
 
@@ -246,6 +212,56 @@ qx.Clazz.define("qx.Clazz",
     __registry : {},
 
     /**
+     * Validates incoming configuration and checks keys and values
+     *
+     * @param name {String} The name of the class
+     * @param config {Map} Configuration map
+     */
+    __validateConfig : function(name, config)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        var allowedKeys =
+        {
+          "extend": 1,
+          "implement": 1,
+          "include": 1,
+          "construct": 1,
+          "type": 1,
+          "statics": 1,
+          "members": 1,
+          "properties": 1,
+          "settings": 1,
+          "variants": 1
+        };
+
+        for (var key in config)
+        {
+          if (!allowedKeys[key]) {
+            throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
+          }
+
+          if (config[key] == null) {
+            throw new Error('Invalid key "' + key + '" in class "' + name + '"! The value is undefined/null!');
+          }
+        }
+
+        if (!config.extend)
+        {
+          if (config.construct) {
+            throw new Error('Superclass is undefined, but constructor was given for class: "' + name + "'");
+          }
+        }
+        else
+        {
+          if (!config.construct) {
+            throw new Error('Constructor is missing for class "' + name + "'");
+          }
+        }
+      }
+    },
+
+    /**
      * Helper to handle singletons
      */
     __getInstance : function()
@@ -260,117 +276,96 @@ qx.Clazz.define("qx.Clazz",
       return this.$$INSTANCE;
     },
 
+    /**
+     *
+     *
+     */
     __createClass : function(name, type, extend, construct, statics)
     {
+      var clazz;
+
       if (!extend)
       {
-        if (construct) {
-          throw new Error('Superclass is undefined, but constructor was given for class: "' + name + "'");
-        }
-
         // Create empty/non-empty class
-        var obj = {};
+        clazz = statics || {};
       }
       else
       {
-        if (!construct) {
-          throw new Error('Constructor is missing for class "' + name + "'");
-        }
-
         // Store class pointer
         if (type == "abstract")
         {
-          obj = this.__createAbstractConstructor(name, construct);
+          clazz = this.__createAbstractConstructor(name, construct);
         }
         else if (type == "singleton")
         {
-          obj = this.__createSingletonConstructor(construct);
-
-          // three alternatives to implement singletons
-          if (true)
-          {
-            // automagically add the getInstance method to the statics
-            if (!statics) {
-              statics = {};
-            }
-
-            statics.getInstance = qx.Clazz.__getInstance;
-          }
-          else if (true)
-          {
-            // enfore the imlpementation of the interface qx.lang.ISingleton
-            if (!implement) {
-              implement = [];
-            }
-
-            implement.push(qx.lang.ISingleton);
-          }
-          else
-          {
-            // automagically add the getInstance method to the statics
-            if (!statics) {
-              statics = {};
-            }
-
-            statics.getInstance = qx.lang.MSingleton.statics.getInstance;
-          }
+          clazz = this.__createSingletonConstructor(construct);
+          clazz.getInstance = this.__getInstance;
         }
         else
         {
-          obj = construct;
+          clazz = construct;
+        }
+
+        // Copy statics
+        if (statics)
+        {
+          for (var key in statics) {
+            clazz[key] = statics[key];
+          }
         }
       }
 
       // Create namespace
-      var basename = this.createNamespace(name, obj, false);
+      var basename = this.createNamespace(name, clazz, false);
 
       // Store names in constructor/object
-      obj.classname = name;
-      obj.basename = basename;
+      clazz.classname = name;
+      clazz.basename = basename;
+
+      if (extend)
+      {
+        // Use helper function/class to save the unnecessary constructor call while
+        // setting up inheritance.
+        var helper = this.__emptyFunction();
+        helper.prototype = extend.prototype;
+        var prot = new helper;
+
+        // Apply prototype to new helper instance
+        clazz.prototype = prot;
+
+        // Store names in prototype
+        prot.classname = name;
+        prot.basename = basename;
+
+        // Store reference to extend class
+        clazz.superclass = prot.superclass = extend;
+
+        // Store correct constructor
+        clazz.constructor = prot.constructor = construct;
+
+        // Store base constructor to constructor
+        construct.base = extend;
+
+        // Compatibility to qooxdoo 0.6.x
+        qx.Class = clazz;
+        qx.Proto = prot;
+        qx.Super = extend;
+
+        // Copy property lists
+        if (extend.prototype._properties) {
+          prot._properties = qx.lang.Object.copy(extend.prototype._properties);
+        }
+
+        if (extend.prototype._objectproperties) {
+          prot._objectproperties = qx.lang.Object.copy(extend.prototype._objectproperties);
+        }
+      }
 
       // Store class reference in global class registry
-      this.__registry[name] = obj;
+      this.__registry[name] = clazz;
 
-      return obj;
-    },
-
-    __applyInheritance : function(obj, extend, construct)
-    {
-      // Use helper function/class to save the unnecessary constructor call while
-      // setting up inheritance.
-      var helper = this.__emptyFunction();
-      helper.prototype = extend.prototype;
-      var prot = new helper;
-
-      // Apply prototype to new helper instance
-      obj.prototype = prot;
-
-      // Store names in prototype
-      prot.classname = obj.classname;
-      prot.basename = obj.basename;
-
-      // Store reference to extend class
-      obj.superclass = prot.superclass = extend;
-
-      // Store correct constructor
-      obj.constructor = prot.constructor = construct;
-
-      // Store base constructor to constructor
-      construct.base = extend;
-
-      // Compatibility to old properties etc.
-      qx.Class = obj;
-      qx.Proto = prot;
-      qx.Super = extend;
-
-      // Copy property lists
-      if (extend.prototype._properties) {
-        prot._properties = qx.lang.Object.copy(extend.prototype._properties);
-      }
-
-      if (extend.prototype._objectproperties) {
-        prot._objectproperties = qx.lang.Object.copy(extend.prototype._objectproperties);
-      }
+      // Return final class object
+      return clazz;
     },
 
 
@@ -378,22 +373,16 @@ qx.Clazz.define("qx.Clazz",
 
 
 
-    __addStatics : function(obj, statics)
+
+
+    __addStatics : function(clazz, statics)
     {
       if (!statics) {
         return;
       }
 
-      for (var key in statics)
-      {
-        obj[key] = statics[key];
-
-        // Added helper stuff to functions
-        if (typeof statics[key] == "function")
-        {
-          // Configure class
-          obj[key].statics = obj;
-        }
+      for (var key in statics) {
+        clazz[key] = statics[key];
       }
     },
 
@@ -444,14 +433,14 @@ qx.Clazz.define("qx.Clazz",
       }
     },
 
-    __addMembers: function(obj, members)
+    __addMembers: function(clazz, members)
     {
       if (!members) {
         return;
       }
 
-      var superprot = obj.superclass.prototype;
-      var prot = obj.prototype;
+      var superprot = clazz.superclass.prototype;
+      var prot = clazz.prototype;
 
       for (var key in members)
       {
@@ -468,12 +457,12 @@ qx.Clazz.define("qx.Clazz",
           }
 
           // Configure class [TODO: find better name for statics here]
-          member.statics = obj;
+          member.statics = clazz;
         }
       }
     },
 
-    __addMixins : function(obj, include)
+    __addMixins : function(clazz, include)
     {
       if (!include) {
         return;
@@ -484,25 +473,25 @@ qx.Clazz.define("qx.Clazz",
       }
 
       for (var i=0, l=include.length; i<l; i++) {
-        this.__mixin(obj, include[i], false);
+        this.__mixin(clazz, include[i], false);
       }
     },
 
-    __addInterfaces : function(obj, interfaces)
+    __addInterfaces : function(clazz, interfaces)
     {
       if (!interfaces) {
         return;
       }
 
       // initialize registry
-      obj.$$IMPLEMENTS = {};
+      clazz.$$IMPLEMENTS = {};
 
       for (var i=0, l=interfaces.length; i<l; i++)
       {
         // Only validate members in debug mode.
         // There is nothing more needed for builds
         if (qx.core.Variant.isSet("qx.debug", "on")) {
-          qx.Interface.assertInterface(obj, interfaces[i], true);
+          qx.Interface.assertInterface(clazz, interfaces[i], true);
         }
 
         // copy primitive static fields
@@ -513,12 +502,12 @@ qx.Clazz.define("qx.Clazz",
           {
             // Attach statics
             // Validation is done in qx.Interface
-            obj[key] = interfaceStatics[key];
+            clazz[key] = interfaceStatics[key];
           }
         }
 
         // save interface name
-        obj.$$IMPLEMENTS[interfaces[i].name] = interfaces[i];
+        clazz.$$IMPLEMENTS[interfaces[i].name] = interfaces[i];
       }
     },
 
@@ -695,7 +684,7 @@ qx.Clazz.define("qx.Clazz",
      * @param settings {Map ? null} Maps the setting name to the default value.
      * @param className {String} name of the class defining the setting
      */
-    __processSettings: function(obj, settings)
+    __processSettings: function(clazz, settings)
     {
       if (!settings) {
         return;
@@ -705,8 +694,8 @@ qx.Clazz.define("qx.Clazz",
       {
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          if (key.substr(0, key.indexOf(".")) != obj.classname.substr(0, obj.classname.indexOf("."))) {
-            throw new Error('Forbidden setting "' + key + '" found in "' + obj.classname + '". It is forbidden to define a default setting for an external namespace!');
+          if (key.substr(0, key.indexOf(".")) != clazz.classname.substr(0, clazz.classname.indexOf("."))) {
+            throw new Error('Forbidden setting "' + key + '" found in "' + clazz.classname + '". It is forbidden to define a default setting for an external namespace!');
           }
         }
 
@@ -725,7 +714,7 @@ qx.Clazz.define("qx.Clazz",
      *   </ul>
      *  @param className {String} name of the class defining the variant.
      */
-    __processVariants: function(obj, variants)
+    __processVariants: function(clazz, variants)
     {
       if (!variants) {
         return;
@@ -735,8 +724,8 @@ qx.Clazz.define("qx.Clazz",
       {
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          if (key.substr(0, key.indexOf(".")) != obj.classname.substr(0, obj.classname.indexOf("."))) {
-            throw new Error('Forbidden variant "' + key + '" found in "' + obj.classname + '". It is forbidden to define a variant for an external namespace!');
+          if (key.substr(0, key.indexOf(".")) != clazz.classname.substr(0, clazz.classname.indexOf("."))) {
+            throw new Error('Forbidden variant "' + key + '" found in "' + clazz.classname + '". It is forbidden to define a variant for an external namespace!');
           }
         }
 
