@@ -34,10 +34,6 @@ qx.Clazz.define("qx.Clazz",
 {
   statics :
   {
-    /** Stores all defined classes */
-    registry : {},
-
-
     /**
      * Class config
      *
@@ -199,25 +195,33 @@ qx.Clazz.define("qx.Clazz",
         }
 
         // Store class pointer
-        if (type == "abstract") {
+        if (type == "abstract")
+        {
           obj = this.__createAbstractConstructor(name, construct);
-        } else if (type == "singleton") {
+        }
+        else if (type == "singleton")
+        {
           obj = this.__createSingletonConstructor(construct);
           // two alternatives to implement singletons
-          if (true) {
+          if (true)
+          {
             // enfore the imlpementation of the interface qx.lang.ISingleton
             if (!implement) {
               implement = [];
             }
             implement.push(qx.lang.ISingleton);
-          } else {
+          }
+          else
+          {
             // automagically add the getInstance method to the statics
             if (!statics) {
               statics = {}
             }
             statics.getInstance = qx.lang.MSingleton.statics.getInstance;
           }
-        } else {
+        }
+        else
+        {
           obj = construct;
         }
       }
@@ -230,7 +234,7 @@ qx.Clazz.define("qx.Clazz",
       obj.basename = basename;
 
       // Store class reference in global class registry
-      qx.Clazz.registry[name] = obj;
+      this.__registry[name] = obj;
 
       // Compatibility to old properties etc.
       qx.Class = obj;
@@ -419,8 +423,8 @@ qx.Clazz.define("qx.Clazz",
         if (qx.core.Variant.isSet("qx.debug", "on")) {
           qx.Mixin.compatible(include, 'include list in Class "' + name + '".');
         }
-        for (var i=0, l=include.length; i<l; i++)
-        {
+
+        for (var i=0, l=include.length; i<l; i++) {
           this.__mixin(obj, include[i], false);
         }
       }
@@ -461,7 +465,6 @@ qx.Clazz.define("qx.Clazz",
       }
     },
 
-
     /**
      * Creates a given namespace and assigns the given object to the last part.
      *
@@ -497,7 +500,6 @@ qx.Clazz.define("qx.Clazz",
       return part;
     },
 
-
     /**
      * Determine if class exists
      *
@@ -508,7 +510,7 @@ qx.Clazz.define("qx.Clazz",
      * @return {Boolean} true if class exists
      */
     isDefined : function(name) {
-      return this.registry[name] != null;
+      return this.__registry[name] != null;
     },
 
     /**
@@ -521,8 +523,43 @@ qx.Clazz.define("qx.Clazz",
      * @return {Class|undefined} the class
      */
     get : function(name) {
-      return this.registry[name];
+      return this.__registry[name];
     },
+
+    /**
+     * Include all features of the Mixin into the given Class. The Mixin must not include
+     * any functions or properties which are already available. This is only possible using
+     * the hackier patch method.
+     *
+     * @param target {Class} A class previously defined where the stuff should be attached.
+     * @param mixin {Mixin} Include all features of this Mixin
+     */
+    include : function(target, mixin) {
+      return qx.Clazz.__mixin(target, mixin, false);
+    },
+
+    /**
+     * Include all features of the Mixin into the given Class. The Mixin can include features
+     * which are already defined in the target Class. Existing stuff gets overwritten. Please
+     * be aware that this functionality is not the preferred way. You can damage working
+     * Classes and features.
+     *
+     * @param target {Class} A class previously defined where the stuff should be attached.
+     * @param mixin {Mixin} Include all features of this Mixin
+     */
+    patch : function(target, mixin) {
+      return qx.Clazz.__mixin(target, mixin, true);
+    },
+
+
+
+
+
+
+
+
+    /** Stores all defined classes */
+    __registry : {},
 
     /**
      * Wrapper for qx.OO.addProperty. This is needed in two places so the code
@@ -567,7 +604,6 @@ qx.Clazz.define("qx.Clazz",
       }
     },
 
-
     /**
      * Include all features of the Mixin into the given Class.
      *
@@ -576,7 +612,8 @@ qx.Clazz.define("qx.Clazz",
      * @param mixin {Mixin} Include all features of this Mixin
      * @param overwrite {Boolean} Overwrite existing functions and properties
      */
-    __mixin : function(targetClass, mixin, overwrite) {
+    __mixin : function(targetClass, mixin, overwrite)
+    {
       // Attach members
       // Directly attach them. This is because we must not
       // modify them e.g. attaching base etc. because they may
@@ -588,8 +625,10 @@ qx.Clazz.define("qx.Clazz",
         throw new Error('Invalid include in class "' + proto.classname + '"! The value is undefined/null!');
       }
 
-      for (var key in imembers) {
-        if (qx.core.Variant.isSet("qx.debug", "on")) {
+      for (var key in imembers)
+       {
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
           if (!overwrite && proto[key] != undefined) {
             throw new Error("Overwriting the member '" + key + "' is not allowed!");
           }
@@ -599,8 +638,10 @@ qx.Clazz.define("qx.Clazz",
 
       // Attach statics
       var istatics = mixin.statics;
-      for (var key in istatics) {
-        if (qx.core.Variant.isSet("qx.debug", "on")) {
+      for (var key in istatics)
+      {
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
           if (!overwrite && targetClass[key] != undefined) {
             throw new Error("Overwriting the static '" + key + "' is not allowed!");
           }
@@ -610,9 +651,12 @@ qx.Clazz.define("qx.Clazz",
 
       // Attach properties
       var iproperties = mixin.properties;
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        for (var key in iproperties) {
-          if (!overwrite) {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        for (var key in iproperties)
+        {
+          if (!overwrite)
+          {
             var getterName = "get" + qx.lang.String.toFirstUp(key);
             if (proto[getterName] != undefined) {
               throw new Error("Overwriting the property '" + key + "' of class '" + proto.classname + "'is not allowed!");
@@ -635,10 +679,12 @@ qx.Clazz.define("qx.Clazz",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        var abstractConstructor = function() {
+        var abstractConstructor = function()
+        {
           if (this.classname == arguments.callee.$$ABSTRACT) {
             throw new Error("The class '" + className + "' is abstract! It is not possible to instantiate it.");
           }
+
           return construct.apply(this, arguments);
         }
 
@@ -661,13 +707,16 @@ qx.Clazz.define("qx.Clazz",
      * @param construct {Function} original constructor to wrap
      * @return {Function} wrapped constructor
      */
-    __createSingletonConstructor: function(construct) {
+    __createSingletonConstructor: function(construct)
+    {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        var singletonConstruct = function() {
+        var singletonConstruct = function()
+        {
           if (!arguments.callee.$$ALLOWCONSTRUCT) {
             throw new Error("Singleton");
           }
+
           return construct.apply(this, arguments);
         }
         return singletonConstruct;
@@ -681,45 +730,21 @@ qx.Clazz.define("qx.Clazz",
     },
 
 
-    __wrapFunctionWithPrecondition: function(method, name, preCondition) {
+    __wrapFunctionWithPrecondition: function(method, name, preCondition)
+    {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        return function() {
+        return function()
+        {
           if (!preCondition.apply(this, arguments)) {
            throw new Error("Pre condition of method '" + name + "'failed: " + preCondition.toString());
           }
+
           method.apply(this, arguments);
         }
       } else {
         return method;
       }
-    },
-
-
-    /**
-     * Include all features of the Mixin into the given Class. The Mixin must not include
-     * any functions or properties which are already available. This is only possible using
-     * the hackier patch method.
-     *
-     * @param target {Class} A class previously defined where the stuff should be attached.
-     * @param mixin {Mixin} Include all features of this Mixin
-     */
-    include : function(target, mixin) {
-      return qx.Clazz.__mixin(target, mixin, false);
-    },
-
-
-    /**
-     * Include all features of the Mixin into the given Class. The Mixin can include features
-     * which are already defined in the target Class. Existing stuff gets overwritten. Please
-     * be aware that this functionality is not the preferred way. You can damage working
-     * Classes and features.
-     *
-     * @param target {Class} A class previously defined where the stuff should be attached.
-     * @param mixin {Mixin} Include all features of this Mixin
-     */
-    patch : function(target, mixin) {
-      return qx.Clazz.__mixin(target, mixin, true);
     },
 
     __emptyFunction: function() {
