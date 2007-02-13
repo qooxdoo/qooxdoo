@@ -207,7 +207,7 @@ qx.Clazz.define("qx.Interface",
         // before proceding with copying of statics
         for (var i=0, l=extend.length; i<l; i++)
         {
-          estatics = extend[i].statics;
+          var estatics = extend[i].statics;
 
           // Copy constants etc.
           for (var key in estatics)
