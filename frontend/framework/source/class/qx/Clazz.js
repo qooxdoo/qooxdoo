@@ -277,8 +277,14 @@ qx.Clazz.define("qx.Clazz",
     },
 
     /**
+     * Creates a class by type. Supports modern inheritance etc.
      *
-     *
+     * @param name {String} Full name of class
+     * @param type {String ? null} Name of the class
+     * @param extend {Class ? null} Superclass to inherit from
+     * @param construct {Function ? null} Constructor of new class
+     * @param statics {Map ? null} Static methods field
+     * @return {Class} The resulting class
      */
     __createClass : function(name, type, extend, construct, statics)
     {
@@ -368,21 +374,58 @@ qx.Clazz.define("qx.Clazz",
       return clazz;
     },
 
-
-
-
-
-
-
-
-    __addStatics : function(clazz, statics)
+    /**
+     * Define settings for a class
+     *
+     * @param settings {Map ? null} Maps the setting name to the default value.
+     * @param className {String} name of the class defining the setting
+     */
+    __processSettings: function(clazz, settings)
     {
-      if (!statics) {
+      if (!settings) {
         return;
       }
 
-      for (var key in statics) {
-        clazz[key] = statics[key];
+      for (var key in settings)
+      {
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
+          if (key.substr(0, key.indexOf(".")) != clazz.classname.substr(0, clazz.classname.indexOf("."))) {
+            throw new Error('Forbidden setting "' + key + '" found in "' + clazz.classname + '". It is forbidden to define a default setting for an external namespace!');
+          }
+        }
+
+        qx.core.Setting.define(key, settings[key]);
+      }
+    },
+
+    /**
+     * Define variants for a class
+     *
+     * @param variants {Map ? null} Map of definitions of variants. The key is the name of the variant.
+     *   The value is a map with the following keys:
+     *   <ul>
+     *     <li>allowedValues: array of allowed values</li>
+     *     <li>defaultValue: default value</li>
+     *   </ul>
+     *  @param className {String} name of the class defining the variant.
+     */
+    __processVariants: function(clazz, variants)
+    {
+      if (!variants) {
+        return;
+      }
+
+      for (var key in variants)
+      {
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
+          if (key.substr(0, key.indexOf(".")) != clazz.classname.substr(0, clazz.classname.indexOf("."))) {
+            throw new Error('Forbidden variant "' + key + '" found in "' + clazz.classname + '". It is forbidden to define a variant for an external namespace!');
+          }
+        }
+
+        qx.core.Variant.define(key, variants[key].allowedValues, variants[key].defaultValue);
       }
     },
 
@@ -433,6 +476,12 @@ qx.Clazz.define("qx.Clazz",
       }
     },
 
+    /**
+     * Attach members to a class
+     *
+     * @param clazz {Class} Class to add members to
+     * @param members {Map} The map of members to attach
+     */
     __addMembers: function(clazz, members)
     {
       if (!members) {
@@ -462,6 +511,12 @@ qx.Clazz.define("qx.Clazz",
       }
     },
 
+    /**
+     * Attach mixins to a class
+     *
+     * @param clazz {Class} Class to add mixins to
+     * @param members {Map} The map of mixins to attach
+     */
     __addMixins : function(clazz, include)
     {
       if (!include) {
@@ -477,6 +532,12 @@ qx.Clazz.define("qx.Clazz",
       }
     },
 
+    /**
+     * Attach interfaces to a class
+     *
+     * @param clazz {Class} Class to add interfaces to
+     * @param members {Map} The map of interfaces to attach/check
+     */
     __addInterfaces : function(clazz, interfaces)
     {
       if (!interfaces) {
@@ -510,6 +571,7 @@ qx.Clazz.define("qx.Clazz",
         clazz.$$IMPLEMENTS[interfaces[i].name] = interfaces[i];
       }
     },
+
 
 
 
@@ -669,68 +731,6 @@ qx.Clazz.define("qx.Clazz",
      */
     __emptyFunction: function() {
       return function() {};
-    },
-
-
-
-
-
-
-
-
-    /**
-     * Define settings for a class
-     *
-     * @param settings {Map ? null} Maps the setting name to the default value.
-     * @param className {String} name of the class defining the setting
-     */
-    __processSettings: function(clazz, settings)
-    {
-      if (!settings) {
-        return;
-      }
-
-      for (var key in settings)
-      {
-        if (qx.core.Variant.isSet("qx.debug", "on"))
-        {
-          if (key.substr(0, key.indexOf(".")) != clazz.classname.substr(0, clazz.classname.indexOf("."))) {
-            throw new Error('Forbidden setting "' + key + '" found in "' + clazz.classname + '". It is forbidden to define a default setting for an external namespace!');
-          }
-        }
-
-        qx.core.Setting.define(key, settings[key]);
-      }
-    },
-
-    /**
-     * Define variants for a class
-     *
-     * @param variants {Map ? null} Map of definitions of variants. The key is the name of the variant.
-     *   The value is a map with the following keys:
-     *   <ul>
-     *     <li>allowedValues: array of allowed values</li>
-     *     <li>defaultValue: default value</li>
-     *   </ul>
-     *  @param className {String} name of the class defining the variant.
-     */
-    __processVariants: function(clazz, variants)
-    {
-      if (!variants) {
-        return;
-      }
-
-      for (var key in variants)
-      {
-        if (qx.core.Variant.isSet("qx.debug", "on"))
-        {
-          if (key.substr(0, key.indexOf(".")) != clazz.classname.substr(0, clazz.classname.indexOf("."))) {
-            throw new Error('Forbidden variant "' + key + '" found in "' + clazz.classname + '". It is forbidden to define a variant for an external namespace!');
-          }
-        }
-
-        qx.core.Variant.define(key, variants[key].allowedValues, variants[key].defaultValue);
-      }
     }
   }
 });
