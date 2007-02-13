@@ -402,7 +402,8 @@ qx.Proto.set = function(propertyValues)
   {
     try
     {
-      this[qx.OO.setter[prop]](propertyValues[prop]);
+      // TODO: Access to private member (bad style) - please correct
+      this[qx.core.LegacyProperty.__setter[prop]](propertyValues[prop]);
     }
     catch(ex)
     {
@@ -568,7 +569,8 @@ qx.Proto.dispose = function()
   // Finally cleanup properties
   if (disposeProps)
   {
-    var values = qx.core.LegacyProperty.values;
+    // TODO: Access to private member (bad style) - please correct
+    var values = qx.core.LegacyProperty.__values;
 
     for (var name in disposeProps) {
       this[values[name]] = null;
