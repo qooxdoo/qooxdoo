@@ -667,7 +667,7 @@ qx.Clazz.define("qx.core.LegacyProperty",
         {
           proto._objectproperties[config.name] = true;
         }
-        else if (config.type != null)
+        else
         {
           switch(config.type)
           {
