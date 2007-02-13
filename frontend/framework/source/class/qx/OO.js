@@ -225,4 +225,5 @@ qx.Clazz.define("qx.OO",
 
       return qx.core.LegacyProperty.addProperty(config, qx.Proto);
     }
+  }
 });
