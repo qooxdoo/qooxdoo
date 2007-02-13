@@ -546,7 +546,7 @@ qx.Proto._onkeyevent_post = function(vDomEvent, vType, vKeyCode, vCharCode, vKey
   var vKeyEventObject = new qx.event.type.KeyEvent(vType, vDomEvent, vDomTarget, vTarget, null, vKeyCode, vCharCode, vKeyIdentifier);
 
   // Check for commands
-  if (vDomEvent.type == "keydown") {
+  if (vType == "keydown") {
     this._checkKeyEventMatch(vKeyEventObject);
   }
 
