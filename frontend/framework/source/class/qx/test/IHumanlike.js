@@ -1,6 +1,9 @@
 qx.Interface.define("qx.test.IHumanlike",
 {
-  members : {
-    hasSoul : function() {}
+  members :
+  {
+    hasSoul : function() {
+      return true;
+    }
   }
 });

@@ -128,6 +128,8 @@ qx.Clazz.define("qx.Clazz",
       }
 
 
+
+
       /*
       ---------------------------------------------------------------------------
         Initialize aliases
@@ -158,12 +160,14 @@ qx.Clazz.define("qx.Clazz",
 
 
 
+
+
+
       /*
       ---------------------------------------------------------------------------
         Create Class
       ---------------------------------------------------------------------------
       */
-
 
       if (!extend)
       {
@@ -235,162 +239,26 @@ qx.Clazz.define("qx.Clazz",
       this.__registry[name] = obj;
 
 
-      /*
-      ---------------------------------------------------------------------------
-        Process settings nad variants
-      ---------------------------------------------------------------------------
-      */
-
-      if (settings) {
-        this.__processSettings(settings, name);
-      }
-
-      if (variants) {
-        this.__processVariants(variants, name);
-      }
 
 
       /*
       ---------------------------------------------------------------------------
-        Attach static class members
+        Process configuration
       ---------------------------------------------------------------------------
       */
 
-      if (statics)
-      {
-        for (var vProp in statics)
-        {
-          obj[vProp] = statics[vProp];
-
-          // Added helper stuff to functions
-          if (typeof statics[vProp] == "function")
-          {
-            // Configure class
-            obj[vProp].statics = obj;
-          }
-        }
-      }
-
-
-      /*
-      ---------------------------------------------------------------------------
-        Superclass support
-      ---------------------------------------------------------------------------
-      */
+      this.__processSettings(name, settings);
+      this.__processVariants(name, variants);
+      this.__addStatics(obj, statics);
 
       // For static classes we're done now
-      if (!extend) {
-        return;
-      }
-
-      // Use helper function/class to save the unnecessary constructor call while
-      // setting up inheritance.
-      var helper = this.__emptyFunction();
-      helper.prototype = extend.prototype;
-      var prot = new helper;
-
-      // Apply prototype to new helper instance
-      obj.prototype = prot;
-
-      // Store names in prototype
-      prot.classname = name;
-      prot.basename = basename;
-
-      // Store reference to extend class
-      obj.superclass = prot.superclass = extend;
-
-      // Store correct constructor
-      obj.constructor = prot.constructor = construct;
-
-      // Store base constructor to constructor
-      construct.base = extend;
-
-      // Compatibility to old properties etc.
-      qx.Class = obj;
-      qx.Proto = prot;
-      qx.Super = extend;
-
-      // Copy property lists
-      if (extend.prototype._properties) {
-        prot._properties = qx.lang.Object.copy(extend.prototype._properties);
-      }
-
-      if (extend.prototype._objectproperties) {
-        prot._objectproperties = qx.lang.Object.copy(extend.prototype._objectproperties);
-      }
-
-
-      /*
-      ---------------------------------------------------------------------------
-        Attach instance members
-      ---------------------------------------------------------------------------
-      */
-
-      if (members) {
+      if (extend)
+      {
+        this.__applyInheritance(obj, name, basename, extend, construct);
         this.__addMembers(obj, members, extend);
-      }
-
-
-      /*
-      ---------------------------------------------------------------------------
-        Attach properties
-      ---------------------------------------------------------------------------
-      */
-
-      if (properties) {
         this.__addProperties(obj, properties);
-      }
-
-
-      /*
-      ---------------------------------------------------------------------------
-        Merge in the Mixins
-      ---------------------------------------------------------------------------
-      */
-
-      if (config.include)
-      {
-        if (qx.core.Variant.isSet("qx.debug", "on")) {
-          qx.Mixin.compatible(include, 'include list in Class "' + name + '".');
-        }
-
-        for (var i=0, l=include.length; i<l; i++) {
-          this.__mixin(obj, include[i], false);
-        }
-      }
-
-
-      /*
-      ---------------------------------------------------------------------------
-        Check interface implementation
-      ---------------------------------------------------------------------------
-      */
-
-      if (implement)
-      {
-        // initialize registry
-        obj.$$IMPLEMENTS = {};
-
-        for (var i=0, l=implement.length; i<l; i++) {
-          // Only validate members in debug mode.
-          // There is nothing more needed for builds
-          if (qx.core.Variant.isSet("qx.debug", "on")) {
-            qx.Interface.assertInterface(obj, implement[i], true);
-          }
-
-          // copy primitive static fields
-          var interfaceStatics = implement[i].statics;
-          for (key in interfaceStatics) {
-            if (typeof(interfaceStatics[key]) != "function") {
-              // Attach statics
-              // Validation is done in qx.Interface
-              obj[key] = interfaceStatics[key];
-            }
-          }
-
-          // save interface name
-          obj.$$IMPLEMENTS[implement[i].name] = implement[i];
-        }
+        this.__addMixins(obj, include);
+        this.__addInterfaces(obj, implement);
       }
     },
 
@@ -507,6 +375,69 @@ qx.Clazz.define("qx.Clazz",
       return this.$$INSTANCE;
     },
 
+    __applyInheritance : function(obj, name, basename, extend, construct)
+    {
+      // Use helper function/class to save the unnecessary constructor call while
+      // setting up inheritance.
+      var helper = this.__emptyFunction();
+      helper.prototype = extend.prototype;
+      var prot = new helper;
+
+      // Apply prototype to new helper instance
+      obj.prototype = prot;
+
+      // Store names in prototype
+      prot.classname = name;
+      prot.basename = basename;
+
+      // Store reference to extend class
+      obj.superclass = prot.superclass = extend;
+
+      // Store correct constructor
+      obj.constructor = prot.constructor = construct;
+
+      // Store base constructor to constructor
+      construct.base = extend;
+
+      // Compatibility to old properties etc.
+      qx.Class = obj;
+      qx.Proto = prot;
+      qx.Super = extend;
+
+      // Copy property lists
+      if (extend.prototype._properties) {
+        prot._properties = qx.lang.Object.copy(extend.prototype._properties);
+      }
+
+      if (extend.prototype._objectproperties) {
+        prot._objectproperties = qx.lang.Object.copy(extend.prototype._objectproperties);
+      }
+    },
+
+
+
+
+
+
+    __addStatics : function(obj, statics)
+    {
+      if (!statics) {
+        return;
+      }
+
+      for (var key in statics)
+      {
+        obj[key] = statics[key];
+
+        // Added helper stuff to functions
+        if (typeof statics[key] == "function")
+        {
+          // Configure class
+          obj[key].statics = obj;
+        }
+      }
+    },
+
     /**
      * Wrapper for qx.OO.addProperty. This is needed in two places so the code
      * has been extracted. The global variables qx.Class, qx.Proto and qx.Super
@@ -517,6 +448,10 @@ qx.Clazz.define("qx.Clazz",
      */
     __addProperties: function(targetClass, properties)
     {
+      if (!properties) {
+        return;
+      }
+
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (
@@ -552,6 +487,10 @@ qx.Clazz.define("qx.Clazz",
 
     __addMembers: function(targetClass, members, superClass)
     {
+      if (!members) {
+        return;
+      }
+
       var superprotoobj = superClass.prototype;
       var proto = targetClass.prototype;
 
@@ -574,6 +513,60 @@ qx.Clazz.define("qx.Clazz",
         }
       }
     },
+
+    __addMixins : function(obj, include)
+    {
+      if (!include) {
+        return;
+      }
+
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.Mixin.compatible(include, 'include list in Class "' + name + '".');
+      }
+
+      for (var i=0, l=include.length; i<l; i++) {
+        this.__mixin(obj, include[i], false);
+      }
+    },
+
+    __addInterfaces : function(obj, interfaces)
+    {
+      if (!interfaces) {
+        return;
+      }
+
+      // initialize registry
+      obj.$$IMPLEMENTS = {};
+
+      for (var i=0, l=interfaces.length; i<l; i++)
+      {
+        // Only validate members in debug mode.
+        // There is nothing more needed for builds
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          qx.Interface.assertInterface(obj, interfaces[i], true);
+        }
+
+        // copy primitive static fields
+        var interfaceStatics = interfaces[i].statics;
+        for (key in interfaceStatics)
+        {
+          if (typeof(interfaceStatics[key]) != "function")
+          {
+            // Attach statics
+            // Validation is done in qx.Interface
+            obj[key] = interfaceStatics[key];
+          }
+        }
+
+        // save interface name
+        obj.$$IMPLEMENTS[interfaces[i].name] = interfaces[i];
+      }
+    },
+
+
+
+
+
 
     /**
      * Include all features of the Mixin into the given Class.
@@ -730,14 +723,25 @@ qx.Clazz.define("qx.Clazz",
       return function() {};
     },
 
+
+
+
+
+
+
+
     /**
      * Define settings for a class
      *
-     * @param settings {Map} Maps the setting name to the default value.
+     * @param settings {Map ? null} Maps the setting name to the default value.
      * @param className {String} name of the class defining the setting
      */
-    __processSettings: function(settings, className)
+    __processSettings: function(className, settings)
     {
+      if (!settings) {
+        return;
+      }
+
       for (var key in settings)
       {
         if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -754,7 +758,7 @@ qx.Clazz.define("qx.Clazz",
     /**
      * Define variants for a class
      *
-     * @param variants {Map} Map of definitions of variants. The key is the name of the variant.
+     * @param variants {Map ? null} Map of definitions of variants. The key is the name of the variant.
      *   The value is a map with the following keys:
      *   <ul>
      *     <li>allowedValues: array of allowed values</li>
@@ -762,8 +766,12 @@ qx.Clazz.define("qx.Clazz",
      *   </ul>
      *  @param className {String} name of the class defining the variant.
      */
-    __processVariants: function(variants, className)
+    __processVariants: function(className, variants)
     {
+      if (!variants) {
+        return;
+      }
+
       for (var key in variants)
       {
         if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -776,6 +784,5 @@ qx.Clazz.define("qx.Clazz",
         qx.core.Variant.define(key, variants[key].allowedValues, variants[key].defaultValue);
       }
     }
-
   }
 });
