@@ -76,7 +76,6 @@ qx.Clazz.define("qx.Clazz",
      *
      * @param name {String} class name
      * @param config {Map} config structure
-     * @param config {Map ? null} config structure
      * @param config.type {String ? null}  type of class ("abstract" | "static" | "singleton")
      * @param config.extend {Function ? null} extend class
      * @param config.implement {Array ? null} list of implement that need to be implemented
