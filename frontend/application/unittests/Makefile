@@ -61,7 +61,7 @@ APPLICATION_OPTIMIZE_BROWSER = true
 APPLICATION_SOURCE_FLAGS = \
 
 APPLICATION_ADDITIONAL_SOURCE_OPTIONS = \
-  --include qxunit.Profile \
+  --include qxunit.* \
   --include qx.log.* \
   --print-includes
 
