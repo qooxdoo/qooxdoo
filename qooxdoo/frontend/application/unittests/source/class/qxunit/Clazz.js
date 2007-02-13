@@ -2,7 +2,7 @@
 qx.Clazz.define("qxunit.Clazz", { statics : {
 	
 	testEmptyClass: function() {
-	    qx.Clazz.define("test.Empty", {
+		qx.Clazz.define("test.Empty", {
 	        extend: Object,
 	        construct: function() {}
 	    });
