@@ -81,11 +81,32 @@ qx.Proto.onAppear = function(tableColumnModel, event)
  *   of columns.
  *
  * @param event
- *   The <i>ontablewidthchanged</i> event object.
+ *   The <i>tableWidthChanged</i> event object.
  */
 qx.Proto.onTableWidthChanged = function(tableColumnModel, event)
 {
   throw new Error("onTableWidthChanged is abstract");
+};
+
+
+/**
+ * Called when the use of vertical scroll bar in the table changes, either
+ * from present to not present, or vice versa.
+ *
+ * @param tableColumnModel {qx.ui.table.ResizeTableColumnModel}
+ *   The table column model in use.  Of particular interest is the property
+ *   <i>_table</i> which is a reference to the table widget.  This allows
+ *   access to any other features of the table, for use in calculating widths
+ *   of columns.
+ *
+ * @param event
+ *   The <i>verticalScrollBarChanged</i> event object.  This event has data,
+ *   obtained via event.getData(), which is a boolean indicating whether a
+ *   vertical scroll bar is now present.
+ */
+qx.Proto.onVerticalScrollBarChanged = function(tableColumnModel, event)
+{
+  throw new Error("onVerticalScrollBarChanged is abstract");
 };
 
 
@@ -159,9 +180,11 @@ qx.Proto._getAvailableWidth = function(tableColumnModel)
       (lastScroller._verScrollBar.getVisibility() &&
        lastScroller._verScrollBar.getWidth() == "auto"))
   {
-    width -= 16;
+    // provide width without scrollbar space; no scrollbar space available
+    return { width: width - 16, extraWidth: 0 };
   }
 
-  return width;
+  // provide width without scrollbar space; scrollbar space is available
+  return { width: width - 16, extraWidth: 16 };
 };
 
