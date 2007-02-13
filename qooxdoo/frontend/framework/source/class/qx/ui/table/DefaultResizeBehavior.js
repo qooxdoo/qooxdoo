@@ -206,6 +206,14 @@ qx.Proto.onTableWidthChanged = function(tableColumnModel, event)
 
 
 // overloaded
+qx.Proto.onVerticalScrollBarChanged = function(tableColumnModel, event)
+{
+  // Calculate column widths
+  this._computeColumnsFlexWidth(tableColumnModel, event);
+};
+
+
+// overloaded
 qx.Proto.onColumnWidthChanged = function(tableColumnModel, event)
 {
   // Extend the next column to fill blank space
@@ -270,7 +278,9 @@ qx.Proto._computeColumnsFlexWidth = function(tableColumnModel, event)
   var i;
 
   // Determine the available width
-  var width = this._getAvailableWidth(tableColumnModel);
+  var availableWidth = this._getAvailableWidth(tableColumnModel);
+  var width = availableWidth.width;
+  var extraWidth = availableWidth.extraWidth;
 
 
   // *************************************************************
@@ -473,6 +483,13 @@ qx.Proto._computeColumnsFlexWidth = function(tableColumnModel, event)
       colWidth = columnData.getWidth();
     }
 
+    // If this is the last column, add any available extra width (where the
+    // vertical scollbar will go if it's not there already)
+    if (i == visibleColumnsLength - 1)
+    {
+      colWidth += extraWidth;
+    }
+
     // Now that we've calculated the width, set it.
     tableColumnModel.setColumnWidth(visibleColumns[i], colWidth);
 
@@ -508,7 +525,9 @@ qx.Proto._extendNextColumn = function(tableColumnModel, event)
   var visibleColumns = tableColumnModel._visibleColumnArr;
 
   // Determine the available width
-  var width = this._getAvailableWidth(tableColumnModel);
+  var availableWidth = this._getAvailableWidth(tableColumnModel);
+  var width = availableWidth.width;
+  var extraWidth = availableWidth.extraWidth;
 
   // Determine the number of visible columns
   var numColumns = visibleColumns.length;
@@ -587,7 +606,9 @@ qx.Proto._extendLastColumn = function(tableColumnModel, event)
   var visibleColumns = tableColumnModel._visibleColumnArr;
 
   // Determine the available width
-  var width = this._getAvailableWidth(tableColumnModel);
+  var availableWidth = this._getAvailableWidth(tableColumnModel);
+  var width = availableWidth.width;
+  var extraWidth = availableWidth.extraWidth;
 
   // Determine the number of visible columns
   var numColumns = visibleColumns.length;

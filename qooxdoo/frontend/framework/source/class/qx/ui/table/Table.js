@@ -44,6 +44,11 @@
  *
  * @event tableWidthChanged {qx.event.type.Event}
  *   Dispatched when the inner width of the table has changed.
+ *
+ * @event verticalScrollBarChanged {qx.event.type.DataEvent}
+ *   Dispatched when updating scrollbars discovers that a vertical scrollbar
+ *   is needed when it previously was not, or vice versa.  The data is a
+ *   boolean indicating whether a vertical scrollbar is now being used.
  */
 qx.OO.defineClass("qx.ui.table.Table", qx.ui.layout.VerticalBoxLayout,
 function(tableModel) {
@@ -1018,10 +1023,6 @@ qx.Proto._updateStatusBar = function() {
  * Updates the widths of all scrollers.
  */
 qx.Proto._updateScrollerWidths = function() {
-/*  no longer needed, per Til, and removing it does not appear to add problems.
- *  qx.ui.core.Widget.flushGlobalQueues();
- */
-
   // Give all scrollers except for the last one the wanted width
   // (The last one has a flex with)
   var scrollerArr = this._getPaneScrollerArr();
@@ -1062,10 +1063,26 @@ qx.Proto._updateScrollBarVisibility = function() {
     // Set the needed scrollbars
     for (var i = 0; i < scrollerArr.length; i++) {
       var isLast = (i == (scrollerArr.length - 1));
+      var bHadVerticalScrollBar;
 
       // Only show the last vertical scrollbar
       scrollerArr[i].setHorizontalScrollBarVisible(horNeeded);
+
+      // If this is the last meta-column...
+      if (isLast)
+      {
+        // ... then get the current (old) use of vertical scroll bar
+        bHadVerticalScrollBar = scrollerArr[i].getVerticalScrollBarVisible();
+      }
       scrollerArr[i].setVerticalScrollBarVisible(isLast && verNeeded);
+
+      // If this is the last meta-column and the use of a vertical scroll bar
+      // has changed...
+      if (isLast && verNeeded != bHadVerticalScrollBar)
+      {
+        // ... then dispatch an event to any awaiting listeners
+        this.createDispatchDataEvent("verticalScrollBarChanged", verNeeded);
+      }
     }
   }
 }
