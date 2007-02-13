@@ -162,8 +162,11 @@ qx.Proto._onappear = function(event)
   var _this = this;
   window.setTimeout(function()
                     {
-                      _this._table._updateScrollerWidths();
-                      _this._table._updateScrollBarVisibility();
+                      if (! _this._table.getDisposed())
+                      {
+                        _this._table._updateScrollerWidths();
+                        _this._table._updateScrollBarVisibility();
+                      }
                     }, 0);
   this._bInProgress = false;
 
@@ -215,8 +218,11 @@ qx.Proto._onverticalscrollbarchanged = function(event)
   var _this = this;
   window.setTimeout(function()
                     {
-                      _this._table._updateScrollerWidths();
-                      _this._table._updateScrollBarVisibility();
+                      if (! _this._table.getDisposed())
+                      {
+                        _this._table._updateScrollerWidths();
+                        _this._table._updateScrollBarVisibility();
+                      }
                     }, 0);
   this._bInProgress = false;
 };
