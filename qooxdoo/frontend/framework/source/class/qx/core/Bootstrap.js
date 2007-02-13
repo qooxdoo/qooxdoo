@@ -77,6 +77,26 @@ qx.Clazz.define("qx.core.Bootstrap",
   statics :
   {
     /** {Date} Timestamp of qooxdoo based application startup */
-    LOADSTART : new Date
+    LOADSTART : new Date,
+
+    /**
+     * Boot and unload time debug feature.
+     *
+     * @param msg {String} The message to print out
+     */
+    alert : function(msg)
+    {
+      // Firebug & Firebug light support
+      if (window.console && console.log)
+      {
+        console.warn(msg);
+      }
+
+      // Other browsers
+      else
+      {
+        alert(msg);
+      }
+    }
   }
 });

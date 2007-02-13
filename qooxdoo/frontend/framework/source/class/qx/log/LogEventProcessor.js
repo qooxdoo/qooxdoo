@@ -142,3 +142,16 @@ qx.Proto.decideLogEvent = function(evt) {
 qx.Proto.handleLogEvent = function(evt) {
   throw new Error("handleLogEvent is abstract");
 }
+
+
+
+qx.Proto.dispose = function()
+{
+  if (this.getDisposed()) {
+    return;
+  }
+
+  this._filterArr = null;
+
+  return qx.core.Object.prototype.dispose.call(this);
+}
