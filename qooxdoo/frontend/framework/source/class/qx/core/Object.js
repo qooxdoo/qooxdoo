@@ -147,7 +147,7 @@ qx.Class.dispose = function()
     if (qx.core.Setting.get("qx.disposerDebugging"))
     {
       // check dom
-      var elems = qx.lang.Array.fromNodeCollection(document.getElementsByTagName("*"));
+      var elems = qx.lang.Array.fromCollection(document.getElementsByTagName("*"));
       elems.push(window, document);
 
       qx.core.Bootstrap.alert("Disposer: Checking " + elems.length + " elements for object references...");
