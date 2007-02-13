@@ -3956,8 +3956,9 @@ qx.Proto._resetAppearanceThemeWrapper = function(vNewAppearanceTheme, vOldAppear
 
     for (var vProp in vOldAppearanceProperties)
     {
+      // TODO: Access to private member (bad style) - please correct
       if (!(vProp in vNewAppearanceProperties)) {
-        this[qx.OO.resetter[vProp]]();
+        this[qx.core.LegacyProperty.__resetter[vProp]]();
       }
     }
 
@@ -4047,8 +4048,9 @@ qx.Proto._modifyAppearance = function(propValue, propOldValue, propData)
 
     for (var vProp in vOldAppearanceProperties)
     {
+      // TODO: Access to private member (bad style) - please correct
       if (!(vProp in vNewAppearanceProperties)) {
-        this[qx.OO.resetter[vProp]]();
+        this[qx.core.LegacyProperty.__resetter[vProp]]();
       }
     }
   }

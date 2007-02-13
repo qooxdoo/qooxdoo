@@ -224,34 +224,5 @@ qx.Clazz.define("qx.OO",
       }
 
       return qx.core.LegacyProperty.addProperty(config, qx.Proto);
-    },
-
-    /**
-     * Internal field to optimize performance for legacy property handling
-     *
-     * @deprecated: will be removed in qooxdoo 0.7
-     */
-    setter : qx.core.LegacyProperty.setter,
-
-    /**
-     * Internal field to optimize performance for legacy property handling
-     *
-     * @deprecated: will be removed in qooxdoo 0.7
-     */
-    resetter : qx.core.LegacyProperty.resetter,
-
-    /**
-     * Internal field to optimize performance for legacy property handling
-     *
-     * @deprecated: will be removed in qooxdoo 0.7
-     */
-    getter : qx.core.LegacyProperty.getter,
-
-    /**
-     * Internal field to optimize performance for legacy property handling
-     *
-     * @deprecated: will be removed in qooxdoo 0.7
-     */
-    values : qx.core.LegacyProperty.values
-  }
+    }
 });

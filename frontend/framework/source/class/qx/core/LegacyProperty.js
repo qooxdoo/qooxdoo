@@ -30,16 +30,16 @@ qx.Clazz.define("qx.core.LegacyProperty",
   statics :
   {
     /** {var} TODOC */
-    setter : {},
+    __setter : {},
 
     /** {var} TODOC */
-    getter : {},
+    __getter : {},
 
     /** {var} TODOC */
-    resetter : {},
+    __resetter : {},
 
     /** {var} TODOC */
-    values : {},
+    __values : {},
 
 
     /*
@@ -395,12 +395,12 @@ qx.Clazz.define("qx.core.LegacyProperty",
       var modifyKey = "_modify" + config.implMethod;
       var checkKey = "_check" + config.implMethod;
 
-      if (!qx.core.LegacyProperty.setter[config.name])
+      if (!qx.core.LegacyProperty.__setter[config.name])
       {
-        qx.core.LegacyProperty.setter[config.name] = "set" + config.method;
-        qx.core.LegacyProperty.getter[config.name] = "get" + config.method;
-        qx.core.LegacyProperty.resetter[config.name] = "reset" + config.method;
-        qx.core.LegacyProperty.values[config.name] = valueKey;
+        qx.core.LegacyProperty.__setter[config.name] = "set" + config.method;
+        qx.core.LegacyProperty.__getter[config.name] = "get" + config.method;
+        qx.core.LegacyProperty.__resetter[config.name] = "reset" + config.method;
+        qx.core.LegacyProperty.__values[config.name] = valueKey;
       }
 
       // unit detection support
