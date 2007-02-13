@@ -46,6 +46,7 @@ qx.Proto.dispose = function()
   }
 
   this._parentLogger = null;
+  this._appenderArr = null;
 
   return qx.log.LogEventProcessor.prototype.dispose.call(this);
 };

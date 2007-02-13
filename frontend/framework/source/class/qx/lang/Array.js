@@ -63,6 +63,10 @@ qx.Clazz.define("qx.lang.Array",
       return Array.prototype.slice.call(args, 0);
     },
 
+    fromNodeCollection : function(args) {
+      return Array.prototype.slice.call(args, 0);
+    },
+
     /**
      * Expand shorthand definition to a four element list.
      * This is an utility function for padding/margin and all other shorthand handling.

@@ -248,6 +248,20 @@ qx.Proto.translate = function(messageId, args, locale)
   return txt;
 };
 
+qx.Proto.dispose = function()
+{
+  if (this.getDisposed()) {
+    return;
+  }
+
+  this._translationCatalog = null;
+
+  return qx.core.Target.prototype.dispose.call(this);
+}
+
+
+
+
 
 /*
 ---------------------------------------------------------------------------
