@@ -515,20 +515,24 @@ qx.Clazz.define("qx.Clazz",
      * Attach mixins to a class
      *
      * @param clazz {Class} Class to add mixins to
-     * @param members {Map} The map of mixins to attach
+     * @param mixins {Map} The map of mixins to attach
      */
-    __addMixins : function(clazz, include)
+    __addMixins : function(clazz, mixins)
     {
-      if (!include) {
+      if (!mixins) {
         return;
       }
 
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        qx.Mixin.compatible(include, 'include list in Class "' + name + '".');
+      if (!(mixins instanceof Array)) {
+        mixins = [mixins];
       }
 
-      for (var i=0, l=include.length; i<l; i++) {
-        this.__mixin(clazz, include[i], false);
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.Mixin.compatible(mixins, 'include list in Class "' + name + '".');
+      }
+
+      for (var i=0, l=mixins.length; i<l; i++) {
+        this.__mixin(clazz, mixins[i], false);
       }
     },
 
@@ -536,12 +540,16 @@ qx.Clazz.define("qx.Clazz",
      * Attach interfaces to a class
      *
      * @param clazz {Class} Class to add interfaces to
-     * @param members {Map} The map of interfaces to attach/check
+     * @param interfaces {Map} The map of interfaces to attach/check
      */
     __addInterfaces : function(clazz, interfaces)
     {
       if (!interfaces) {
         return;
+      }
+
+      if (!(interfaces instanceof Array)) {
+        interfaces = [interfaces];
       }
 
       // initialize registry
