@@ -93,16 +93,16 @@ qx.Clazz.define("qx.Clazz",
      */
     define : function(name, config)
     {
-
       /*
       ---------------------------------------------------------------------------
         Verify in configuration map
       ---------------------------------------------------------------------------
       */
-      
+
       if (qx.core.Variant.isSet("qx.debug", "on"))
-      {      
-        var allowedKeys = {
+      {
+        var allowedKeys =
+        {
           "extend": 1,
           "implement": 1,
           "include": 1,
@@ -112,19 +112,21 @@ qx.Clazz.define("qx.Clazz",
           "members": 1,
           "properties": 1,
           "settings": 1,
-          "variants": 1          
-        }
-  
-        for (var key in config) {
+          "variants": 1
+        };
+
+        for (var key in config)
+        {
           if (!allowedKeys[key]) {
             throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
           }
+
           if (config[key] == null) {
             throw new Error("Invalid key '" + key + "' in class '" + name + "'! The value is undefined/null!");
           }
         }
       }
-      
+
 
       /*
       ---------------------------------------------------------------------------
@@ -135,26 +137,27 @@ qx.Clazz.define("qx.Clazz",
       var extend = config.extend;
 
       var implement = config.implement;
-      if (implement && !(implement instanceof Array)) { 
-        implement = [ implement ]
+      if (implement && !(implement instanceof Array)) {
+        implement = [ implement ];
       };
 
       var include = config.include;
-      if (include && !(include instanceof Array)) { 
-        include = [ include ]
+      if (include && !(include instanceof Array)) {
+        include = [ include ];
       };
-      
+
       var construct = config.construct;
       var type = config.type;
 
       var statics = config.statics;
       var members = config.members;
       var properties = config.properties;
-      
+
       var settings = config.settings;
       var variants = config.variants;
-      
-      
+
+
+
       /*
       ---------------------------------------------------------------------------
         Create Class
@@ -185,13 +188,24 @@ qx.Clazz.define("qx.Clazz",
         else if (type == "singleton")
         {
           obj = this.__createSingletonConstructor(construct);
-          // two alternatives to implement singletons
+
+          // three alternatives to implement singletons
           if (true)
+          {
+            // automagically add the getInstance method to the statics
+            if (!statics) {
+              statics = {};
+            }
+
+            statics.getInstance = qx.Clazz.__getInstance;
+          }
+          else if (true)
           {
             // enfore the imlpementation of the interface qx.lang.ISingleton
             if (!implement) {
               implement = [];
             }
+
             implement.push(qx.lang.ISingleton);
           }
           else
@@ -200,6 +214,7 @@ qx.Clazz.define("qx.Clazz",
             if (!statics) {
               statics = {};
             }
+
             statics.getInstance = qx.lang.MSingleton.statics.getInstance;
           }
         }
@@ -233,8 +248,8 @@ qx.Clazz.define("qx.Clazz",
       if (variants) {
         this.__processVariants(variants, name);
       }
-      
-      
+
+
       /*
       ---------------------------------------------------------------------------
         Attach static class members
@@ -355,14 +370,14 @@ qx.Clazz.define("qx.Clazz",
       {
         // initialize registry
         obj.$$IMPLEMENTS = {};
-        
+
         for (var i=0, l=implement.length; i<l; i++) {
           // Only validate members in debug mode.
           // There is nothing more needed for builds
           if (qx.core.Variant.isSet("qx.debug", "on")) {
             qx.Interface.assertInterface(obj, implement[i], true);
           }
-          
+
           // copy primitive static fields
           var interfaceStatics = implement[i].statics;
           for (key in interfaceStatics) {
@@ -372,10 +387,10 @@ qx.Clazz.define("qx.Clazz",
               obj[key] = interfaceStatics[key];
             }
           }
-          
+
           // save interface name
           obj.$$IMPLEMENTS[implement[i].name] = implement[i];
-        }  
+        }
       }
     },
 
@@ -457,7 +472,7 @@ qx.Clazz.define("qx.Clazz",
      * Include all features of the Mixin into the given Class. The Mixin can include features
      * which are already defined in the target Class. Existing stuff gets overwritten. Please
      * be aware that this functionality is not the preferred way.
-     * 
+     *
      * <b>WARNING</b>: You can damage working Classes and features.
      *
      * @param target {Class} A class previously defined where the stuff should be attached.
@@ -476,6 +491,21 @@ qx.Clazz.define("qx.Clazz",
 
     /** Stores all defined classes */
     __registry : {},
+
+    /**
+     * Helper to handle singletons
+     */
+    __getInstance : function()
+    {
+      if (!this.$$INSTANCE)
+      {
+        this.$$ALLOWCONSTRUCT = true;
+        this.$$INSTANCE = new this;
+        delete this.$$ALLOWCONSTRUCT;
+      }
+
+      return this.$$INSTANCE;
+    },
 
     /**
      * Wrapper for qx.OO.addProperty. This is needed in two places so the code
@@ -504,10 +534,10 @@ qx.Clazz.define("qx.Clazz",
       for (var name in properties)
       {
         var property = properties[name];
-        
+
         var value = property;
         value.name = name;
-  
+
         if (value.fast) {
           legacy.addFastProperty(value, proto);
         } else if (value.cached) {
@@ -519,7 +549,6 @@ qx.Clazz.define("qx.Clazz",
         }
       }
     },
-
 
     __addMembers: function(targetClass, members, superClass)
     {
@@ -545,8 +574,7 @@ qx.Clazz.define("qx.Clazz",
         }
       }
     },
-    
-    
+
     /**
      * Include all features of the Mixin into the given Class.
      *
@@ -610,7 +638,6 @@ qx.Clazz.define("qx.Clazz",
       this.__addProperties(targetClass, iproperties);
     },
 
-
     /**
      * Convert a constructor into an abstract constructor.
      *
@@ -642,7 +669,6 @@ qx.Clazz.define("qx.Clazz",
       }
     },
 
-
     /**
      * Add a singleton check to a constructor. The constructor will only work if
      * the static member <code>$ALLOWCONSTRUCT</code> of the class is set to true.
@@ -672,11 +698,10 @@ qx.Clazz.define("qx.Clazz",
       }
     },
 
-
     /**
      * Returns an empty function.
      * This make sure that the new function has an empty closure.
-     * 
+     *
      * @return {Function} empty function
      */
     __wrapFunctionWithPrecondition: function(method, name, preCondition)
@@ -696,20 +721,18 @@ qx.Clazz.define("qx.Clazz",
       }
     },
 
-
     /**
      * Returns an empty function. This is needed to get an empty function with an empty closure.
-     * 
+     *
      * @return {Fucntion} empty function
      */
     __emptyFunction: function() {
       return function() {};
     },
-    
-    
+
     /**
      * Define settings for a class
-     * 
+     *
      * @param settings {Map} Maps the setting name to the default value.
      * @param className {String} name of the class defining the setting
      */
@@ -723,15 +746,14 @@ qx.Clazz.define("qx.Clazz",
             throw new Error('Forbidden setting "' + key + '" found in "' + className + '". It is forbidden to define a default setting for an external namespace!');
           }
         }
-  
+
         qx.core.Setting.define(key, settings[key]);
-      }      
+      }
     },
-    
-    
+
     /**
      * Define variants for a class
-     * 
+     *
      * @param variants {Map} Map of definitions of variants. The key is the name of the variant.
      *   The value is a map with the following keys:
      *   <ul>
@@ -752,8 +774,8 @@ qx.Clazz.define("qx.Clazz",
         }
 
         qx.core.Variant.define(key, variants[key].allowedValues, variants[key].defaultValue);
-      }      
+      }
     }
-    
+
   }
 });
