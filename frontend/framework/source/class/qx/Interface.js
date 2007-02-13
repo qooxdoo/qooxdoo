@@ -62,22 +62,22 @@ qx.Clazz.define("qx.Interface",
      */
     define : function(name, config)
     {
-      
+
       /*
       ---------------------------------------------------------------------------
         Verify in configuration map
       ---------------------------------------------------------------------------
       */
-      
+
       if (qx.core.Variant.isSet("qx.debug", "on"))
-      {      
+      {
         var allowedKeys = {
           "extend": 1,
           "statics": 1,
           "members": 1,
           "properties": 1
         }
-  
+
         for (var key in config) {
           if (!allowedKeys[key]) {
             throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
@@ -87,8 +87,8 @@ qx.Clazz.define("qx.Interface",
           }
         }
       }
-     
-      
+
+
      /*
       ---------------------------------------------------------------------------
         Initialize aliases
@@ -99,11 +99,11 @@ qx.Clazz.define("qx.Interface",
     	if (extend && !(extend instanceof Array)) {
       	extend = [ extend ];
      	}
-   		         
+
       var statics = config.statics || {};
       var members = config.members || {};
       var properties = config.properties;
-      
+
       var blacklist = {};
 
 
@@ -245,33 +245,33 @@ qx.Clazz.define("qx.Interface",
       return arguments.callee.statics.byName(name) !== undefined;
     },
 
-    
+
     /**
      * Whether a given class implements an interface.
-     * 
+     *
      * @param vClass {Class} class to check
      * @param vInterface {Interface} the interface to check for
-     * @return {Boolean} whether the class implements the interface 
+     * @return {Boolean} whether the class implements the interface
      */
     hasInterface: function(vClass, vInterface)
     {
       var clazz = vClass.constructor || vClazz;
-      
+
       try {
         this.assertInterface(clazz, vInterface, false);
       } catch (e) {
         return false;
       }
-      
+
       return true;
     },
-    
-    
+
+
     /**
      * Assert that the given class implements an interface. If the class doesn't implement
      * the interface an exception is thrown. This method can optionally wrap the interface
      * methods of the class with precondition checks from the interface.
-     * 
+     *
      * @param vClass {Class} class to check
      * @param vInterface {Interface} the interface the class must implement
      * @param wrap {Boolean?true} whether the class chould be extended with precondition checks
@@ -287,8 +287,8 @@ qx.Clazz.define("qx.Interface",
       if (vClass.$$IMPLEMENTS[vInterface.name]) {
         return true;
       }
-      
-      
+
+
       // do the full check
 
       // Validate members
@@ -301,10 +301,10 @@ qx.Clazz.define("qx.Interface",
           throw new Error('Implementation of method "' + key + '" is missing in Class "' + vClass.classname + '" required by interface "' + vInterface.name + '"');
         }
         if (wrap && typeof(interfaceMembers[key]) == "function") {
-          prot[key] = this.__wrapFunctionWithPrecondition(prot[key], key, interfaceMembers[key]);
+          prot[key] = this.__wrapFunctionWithPrecondition(vInterface.name, prot[key], key, interfaceMembers[key]);
         }
       }
-      
+
       // Validate statics
       var interfaceStatics = vInterface.statics;
       for (var key in interfaceStatics)
@@ -314,38 +314,42 @@ qx.Clazz.define("qx.Interface",
             throw new Error('Implementation of static method "' + key + '" is missing in Class "' + vClass.classname + '" required by interface "' + vInterface.name + '"');
           }
           if (wrap) {
-            vClass[key] = this.__wrapFunctionWithPrecondition(vClass[key], key, interfaceStatics[key]);
+            vClass[key] = this.__wrapFunctionWithPrecondition(vInterface.name, vClass[key], key, interfaceStatics[key]);
           }
-        }             
+        }
       }
-      
+
       vClass.$$IMPLEMENTS[vInterface.name] = vInterface;
     },
-    
-    
+
+
     /**
      * Wrap a method with a precondition check.
-     * 
+     *
      * @param method {Function} function to wrap.
      * @param name {String} name of the function. (Used in error messages).
      * @param preCondition {Fucntion}. This function gets called with the arguments of the
-     *   original function. If this fucntion return true the original function is called. 
+     *   original function. If this fucntion return true the original function is called.
      *   Otherwhise an exception is thrown.
      * @return {Function} wrapped function
      */
-    __wrapFunctionWithPrecondition: function(method, name, preCondition) {
+    __wrapFunctionWithPrecondition: function(interfaceName, origFunction, functionName, preCondition)
+    {
       if (qx.core.Variant.isSet("qx.debug", "on"))
-      { 
-        return function() {
+      {
+        return function()
+        {
           if (!preCondition.apply(this, arguments)) {
-           throw new Error("Pre condition of method '" + name + "'failed: " + preCondition.toString());
+            throw new Error('Pre condition of method "' + functionName + '" defined by "' + interfaceName + '" failed.');
           }
-          return method.apply(this, arguments);
+
+          return origFunction.apply(this, arguments);
         }
-      } else {
-        return method;
       }
-    }    
-    
+      else
+      {
+        return origFunction;
+      }
+    }
   }
 });

@@ -7,6 +7,8 @@ qx.Interface.define("qx.test.IPet",
 
   members :
   {
-    smooch : function() {}
+    smooch : function() {
+      return true;
+    }
   }
 });

@@ -5,6 +5,8 @@ qx.Interface.define("qx.test.IPlayable",
   },
 
   members : {
-    play : function() {}
+    play : function() {
+      return true;
+    }
   }
 });
