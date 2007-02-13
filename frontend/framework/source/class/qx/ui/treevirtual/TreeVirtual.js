@@ -758,6 +758,126 @@ qx.Proto.getHierarchy = function(nodeId)
 
 
 /**
+ * Get the first child of the specified node.
+ *
+ * @param nodeId {Integer}
+ *   The node id of the node for which the first child is desired.
+ *
+ * @return {Integer}
+ *   The node id of the first child.
+ */
+qx.Proto.getFirstChild = function(nodeId)
+{
+  var node = this.getTableModel().getData()[nodeId];
+
+  if (node.children.length > 0)
+  {
+    return node.children[0];
+  }
+
+  return null;
+};
+
+
+/**
+ * Get the last child of the specified node.
+ *
+ * @param nodeId {Integer}
+ *   The node id of the node for which the last child is desired.
+ *
+ * @return {Integer}
+ *   The node id of the last child.
+ */
+qx.Proto.getLastChild = function(nodeId)
+{
+  var node = this.getTableModel().getData()[nodeId];
+
+  if (node.children.length > 0)
+  {
+    return node.children[children.length - 1];
+  }
+
+  return null;
+};
+
+
+/**
+ * Get the next sibling of the specified node.
+ *
+ * @param nodeId {Integer}
+ *   The node id of the node for which the next sibling is desired.
+ *
+ * @return {Integer}
+ *   The node id of the next sibling.
+ */
+qx.Proto.getNextSibling = function(nodeId)
+{
+  var nodes = this.getTableModel().getData();
+  var node = nodes[nodeId];
+  var myNodeId = node.nodeId;
+  var parentChildren = nodes[node.parentNodeId].children;
+
+  // Find this node id in our parent's children array
+  for (var i = 0; i < parentChildren.length; i++)
+  {
+    // Is this our id?
+    if (parentChildren[i] == myNodeId)
+    {
+      // Yup.  Ensure there is a next sibling.
+      if (i < parentChildren.length - 1)
+      {
+        // There is.  Return the next sibling.
+        return parentChildren[i + 1];
+      }
+
+      // There's no next sibling
+      return null;
+    }
+  }
+};
+
+
+/**
+ * Get the previous sibling of the specified node.
+ *
+ * @param nodeId {Integer}
+ *   The node id of the node for which the previous sibling is desired.
+ *
+ * @return {Integer}
+ *   The node id of the previous sibling.
+ */
+qx.Proto.getPrevSibling = function(nodeId)
+{
+  var nodes = this.getTableModel().getData();
+  var node = nodes[nodeId];
+  var myNodeId = node.nodeId;
+  var parentChildren = nodes[node.parentNodeId].children;
+
+  // Find this node id in our parent's children array
+  for (var i = 0; i < parentChildren.length; i++)
+  {
+    // Is this our id?
+    if (parentChildren[i] == myNodeId)
+    {
+      // Yup.  Ensure there is a previous sibling.
+      if (i > 0)
+      {
+        // There is.  Return the previous sibling.
+        return parentChildren[i - 1];
+      }
+
+      // There's no previous sibling
+      return null;
+    }
+  }
+};
+
+
+
+
+
+
+/**
  * Calculate and return the set of nodes which are currently selected by the
  * user, on the screen.  In the process of calculating which nodes are
  * selected, the nodes corresponding to the selected rows on the screen are
