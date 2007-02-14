@@ -28,7 +28,7 @@ def patch(node, known, prefix, verbose):
 
     if name != None and name.startswith("__") and not name in ignore:
       if not name in known:
-        known[name] = "______%s%s" % (prefix, len(known))
+        known[name] = "__%s%s" % (prefix, len(known))
 
       if verbose:
         print "      - Replace identifier: %s with %s" % (name, known[name])
@@ -40,7 +40,7 @@ def patch(node, known, prefix, verbose):
 
     if name != None and name.startswith("__") and not name in ignore:
       if not name in known:
-        known[name] = "______%s%s" % (prefix, len(known))
+        known[name] = "__%s%s" % (prefix, len(known))
 
       if verbose:
         print "      - Replace key: %s with %s" % (name, known[name])
