@@ -719,6 +719,8 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     else:
       print "  * Optimizing variables: ",
 
+    counter = 0
+
     for fileId in sortedIncludeList:
       if options.verbose:
         print "    - %s" % fileId
@@ -726,10 +728,13 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
         sys.stdout.write(".")
         sys.stdout.flush()
 
-      variableoptimizer.search(loader.getTree(fileDb, fileId, options), [], 0, "$", skipPrefix = options.optimizeVariablesSkipPrefix, debug = options.enableDebug)
+      counter += variableoptimizer.search(loader.getTree(fileDb, fileId, options), [], 0, 0, "$", skipPrefix = options.optimizeVariablesSkipPrefix, debug = options.enableDebug)
 
     if not options.verbose:
       print
+
+    print "  * Optimized %s variables" % counter
+
 
 
 
@@ -748,6 +753,8 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     else:
       print "  * Optimizing private members: ",
 
+    counter = 0
+
     for fileId in sortedIncludeList:
       if options.verbose:
         print "    - %s" % fileId
@@ -755,10 +762,12 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
         sys.stdout.write(".")
         sys.stdout.flush()
 
-      privateoptimizer.patch(loader.getTree(fileDb, fileId, options), {}, "$", options.verbose)
+      counter += privateoptimizer.patch(loader.getTree(fileDb, fileId, options), {}, "$", options.verbose)
 
     if not options.verbose:
       print
+
+    print "  * Optimized %s keys" % counter
 
 
 

@@ -50,3 +50,5 @@ def patch(node, known, prefix, verbose):
   if node.hasChildren():
     for child in node.children:
       patch(child, known, prefix, verbose)
+
+  return len(known)
