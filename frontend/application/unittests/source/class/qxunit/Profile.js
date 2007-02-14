@@ -22,7 +22,7 @@ qx.Clazz.define("qxunit.Profile", { statics : {
 
 		console.profile("object create complex");
 		for (var i=0; i<loops; i++) {
-			qx.Clazz.define("test.Empty2_"+i, {
+			qx.Clazz.define("qxunit.Empty2_"+i, {
 		        extend: qx.core.Object,
 		        construct: function() {},
 				type: "abstract",
@@ -50,7 +50,7 @@ qx.Clazz.define("qxunit.Profile", { statics : {
 
 		console.profile("object create complex without properties");
 		for (var i=0; i<loops; i++) {
-				qx.Clazz.define("test.Empty3_"+i, {
+				qx.Clazz.define("qxunit.Empty3_"+i, {
 		        extend: qx.core.Object,
 		        construct: function() {},
 				type: "abstract",

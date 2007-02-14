@@ -2,24 +2,25 @@
 qx.Clazz.define("qxunit.Clazz", { statics : {
 	
 	testEmptyClass: function() {
-		qx.Clazz.define("test.Empty", {
+		qx.Clazz.define("qxunit.Empty", {
 	        extend: Object,
 	        construct: function() {}
 	    });
 
-	    var empty = new test.Empty();
+	    var empty = new qxunit.Empty();
 	    assertEquals("object", typeof(empty));
+		assertTrue(empty instanceof qxunit.Empty);
 	},
 	
 	testSameNameClasses: function() {
-	    qx.Clazz.define("test.Same", {
+	    qx.Clazz.define("qxunit.Same", {
 	        extend: Object,
 	        construct: function() {}
 	    });
 	
 		error = false;
 		try {
-		    qx.Clazz.define("test.Same", {
+		    qx.Clazz.define("qxunit.Same", {
 	        	extend: Object,
 	        	construct: function() {}
 	    	});
@@ -28,13 +29,13 @@ qx.Clazz.define("qxunit.Clazz", { statics : {
 			error = e;
 		}
 		assertEquals(
-			new Error("An object of the name 'test.Same' aready exists and overwriting is not allowed!").toString(),
+			new Error("An object of the name 'qxunit.Same' aready exists and overwriting is not allowed!").toString(),
 			error.toString()
 		);
 	},
 
 	testSuperClassCall: function() {
-	    qx.Clazz.define("test.Car", {
+	    qx.Clazz.define("qxunit.Car", {
 	        extend: Object,
         
 	        construct: function (name) {
@@ -64,14 +65,14 @@ qx.Clazz.define("qxunit.Clazz", { statics : {
 	        }
 	    });
 
-	    var car = new test.Car("Audi");
+	    var car = new qxunit.Car("Audi");
 	    assertEquals("start", car.startEngine());
 	    assertEquals("stop", car.stopEngine());
 	    assertEquals("Audi", car.getName());
 
-	    qx.Clazz.define("test.Bmw", {
+	    qx.Clazz.define("qxunit.Bmw", {
         
-	        extend: test.Car,
+	        extend: qxunit.Car,
         
 	        construct: function(name, prize) {
 	            this.Super(arguments, name);
@@ -79,19 +80,19 @@ qx.Clazz.define("qxunit.Clazz", { statics : {
         
 	        members: {
 	            startEngine: function() {
-	                ret = this.Super(arguments);
+	                var ret = this.Super(arguments);
 	                return "brrr " + ret;
 	            },
             
 	            stopEngine: function() {
-	                ret = arguments.callee.base.call();
+	                var ret = arguments.callee.base.call();
 	                return "brrr " + ret;
 	            }
             
 	        }
 	    });
 
-	    var bmw = new test.Bmw("bmw", 44000);
+	    var bmw = new qxunit.Bmw("bmw", 44000);
 	    assertEquals("bmw", bmw.getName());
 	    assertEquals("brrr start", bmw.startEngine());
 	    assertEquals("brrr stop", bmw.stopEngine());
@@ -100,7 +101,7 @@ qx.Clazz.define("qxunit.Clazz", { statics : {
 	
 	testAbstract: function() {
 		
-		qx.Clazz.define("test.AbstractCar", {
+		qx.Clazz.define("qxunit.AbstractCar", {
 			extend: Object,
 			type: "abstract",
 			construct: function(color) {
@@ -114,21 +115,21 @@ qx.Clazz.define("qxunit.Clazz", { statics : {
 		// instantiating abstract classes should fail
 		var error = false;
 		try {
-			var car = new test.AbstractCar("blue");
+			var car = new qxunit.AbstractCar("blue");
 		} catch(e) {
 			error = true;
 		}
 		assertTrue("It is not permitted to instanciate an abstract class.", error);
 
 		// check if subclasses of abstract classes work
-		qx.Clazz.define("test.ConcreteCar", {
-			extend: test.AbstractCar,
+		qx.Clazz.define("qxunit.ConcreteCar", {
+			extend: qxunit.AbstractCar,
 			construct: function(color) {
 				arguments.callee.base.apply(this, arguments);
 			}
 		});
 
-		var car = new test.ConcreteCar("red");
+		var car = new qxunit.ConcreteCar("red");
 		assertNotUndefined(car);
 		assertEquals("red", car._color);
 	},
@@ -136,7 +137,7 @@ qx.Clazz.define("qxunit.Clazz", { statics : {
 	
 	testSingleton: function() {
 
-		qx.Clazz.define("test.Single1", {
+		qx.Clazz.define("qxunit.Single1", {
 			extend: Object,
 			type: "singleton",
 			include: qx.lang.MSingleton,
@@ -149,8 +150,8 @@ qx.Clazz.define("qxunit.Clazz", { statics : {
 
 		assertEquals(
 			"getInstance sould always return the same object!",
-			test.Single1.getInstance()._date,
-			test.Single1.getInstance()._date
+			qxunit.Single1.getInstance()._date,
+			qxunit.Single1.getInstance()._date
 		);
 		
 		// direct instanctiation should fail
@@ -165,21 +166,21 @@ qx.Clazz.define("qxunit.Clazz", { statics : {
 	},
 	
 	testSetting: function() {
-		qx.Clazz.define("test.Setting1", {
+		qx.Clazz.define("qxunit.Setting1", {
 			settings: {
-				"test.juhu": "kinners"
+				"qxunit.juhu": "kinners"
 			}
 		});
 		
 		assertEquals(
 			"kinners",
-			qx.core.Setting.get("test.juhu")
+			qx.core.Setting.get("qxunit.juhu")
 		);
 		
 		
 		var error = false;
 		try {
-			qx.Clazz.define("test.Setting2", {
+			qx.Clazz.define("qxunit.Setting2", {
 				settings: {
 					"foo.juhu": "kinners"
 				}
@@ -191,9 +192,9 @@ qx.Clazz.define("qxunit.Clazz", { statics : {
 	},
 	
 	testVariant: function() {
-		qx.Clazz.define("test.Variant1", {
+		qx.Clazz.define("qxunit.Variant1", {
 			variants: {
-				"test.juhu": {
+				"qxunit.juhu": {
 					allowedValues: ["kinners", "juhu"],
 					defaultValue: "kinners"
 				}
@@ -202,13 +203,12 @@ qx.Clazz.define("qxunit.Clazz", { statics : {
 		
 		assertEquals(
 			"kinners",
-			qx.core.Variant.get("test.juhu")
+			qx.core.Variant.get("qxunit.juhu")
 		);
-		
 		
 		var error = false;
 		try {
-			qx.Clazz.define("test.Variant2", {
+			qx.Clazz.define("qxunit.Variant2", {
 				variants: {
 					"foo.juhu": {
 						allowedValues: ["kinners", "juhu"],

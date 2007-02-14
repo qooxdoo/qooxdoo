@@ -2,7 +2,7 @@
 qx.Clazz.define("qxunit.Mixin", { statics : {
 	
 	testMixinBasic: function() {
-		qx.Mixin.define("test.MMix1", {
+		qx.Mixin.define("qxunit.MMix1", {
 			statics: {
 				foo: function() { return "foo"; }
 			},
@@ -14,28 +14,28 @@ qx.Clazz.define("qxunit.Mixin", { statics : {
 			}
 		});
 
-		qx.Mixin.define("test.MMix2", {
+		qx.Mixin.define("qxunit.MMix2", {
 			members: {
 				bar: function() { return "bar"; }
 			}
 		});
 
-		qx.Clazz.define("test.Mix", {
+		qx.Clazz.define("qxunit.Mix", {
 			extend: Object,
-			include: test.MMix1,
+			include: qxunit.MMix1,
 			construct: function() {}
 		});
-		assertEquals("foo", test.Mix.foo());
-		assertEquals("bar", new test.Mix().bar());
-		var mix = new test.Mix();
+		assertEquals("foo", qxunit.Mix.foo());
+		assertEquals("bar", new qxunit.Mix().bar());
+		var mix = new qxunit.Mix();
 		mix.setColor("red");
 		assertEquals("red", mix.getColor());		
 		
 		var error = false;
 		try {
-			qx.Clazz.define("test.Mix1", {
+			qx.Clazz.define("qxunit.Mix1", {
 				extend: Object,
-				include: [test.MMix1, test.MMix2],
+				include: [qxunit.MMix1, qxunit.MMix2],
 				construct: function() {}
 			});			
 		} catch (e) {
@@ -45,9 +45,9 @@ qx.Clazz.define("qxunit.Mixin", { statics : {
 
 		var error = false;
 		try {
-			qx.Clazz.define("test.Mix2", {
+			qx.Clazz.define("qxunit.Mix2", {
 				extend: Object,
-				include: test.MMix1,
+				include: qxunit.MMix1,
 				construct: function() {},
 				members: {
 					bar: function() { return "bar"; }
@@ -60,9 +60,9 @@ qx.Clazz.define("qxunit.Mixin", { statics : {
 
 		var error = false;
 		try {
-			qx.Clazz.define("test.Mix3", {
+			qx.Clazz.define("qxunit.Mix3", {
 				extend: Object,
-				include: test.MMix1,
+				include: qxunit.MMix1,
 				construct: function() {},
 				statics: {
 					foo: function() { return "foo"; }
@@ -75,9 +75,9 @@ qx.Clazz.define("qxunit.Mixin", { statics : {
 
 		var error = false;
 		try {
-			qx.Clazz.define("test.Mix4", {
+			qx.Clazz.define("qxunit.Mix4", {
 				extend: Object,
-				include: test.MMix1,
+				include: qxunit.MMix1,
 				construct: function() {},
 				properties: {
 					color: { compat: true }
@@ -93,7 +93,7 @@ qx.Clazz.define("qxunit.Mixin", { statics : {
 	
 	testInclude: function() {
 		
-		qx.Mixin.define("test.MLogger", {
+		qx.Mixin.define("qxunit.MLogger", {
 			members: {
 				log: function(msg) {
 					return msg;
@@ -102,16 +102,16 @@ qx.Clazz.define("qxunit.Mixin", { statics : {
 		});
 		
 		// normal usage
-		qx.Clazz.define("test.UseLog1", {
+		qx.Clazz.define("qxunit.UseLog1", {
 			extend: Object,
 			construct: function() {}
 		});
 		
-		qx.Clazz.include(test.UseLog1, test.MLogger);		
-		assertEquals("Juhu", new test.UseLog1().log("Juhu"));
+		qx.Clazz.include(qxunit.UseLog1, qxunit.MLogger);		
+		assertEquals("Juhu", new qxunit.UseLog1().log("Juhu"));
 		
 		// not allowed to overwrite!
-		qx.Clazz.define("test.UseLog2", {
+		qx.Clazz.define("qxunit.UseLog2", {
 			extend: Object,
 			construct: function() {},
 			members: {
@@ -121,7 +121,7 @@ qx.Clazz.define("qxunit.Mixin", { statics : {
 		
 		var error = true;
 		try {
-			qx.Clazz.include(test.UseLog2, test.MLogger);
+			qx.Clazz.include(qxunit.UseLog2, qxunit.MLogger);
 		} catch (e) {
 			error = e;
 		}
@@ -131,7 +131,7 @@ qx.Clazz.define("qxunit.Mixin", { statics : {
 		);
 		
 		// allowed to overwrite!
-		qx.Clazz.define("test.UseLog3", {
+		qx.Clazz.define("qxunit.UseLog3", {
 			extend: Object,
 			construct: function() {},
 			members: {
@@ -139,9 +139,9 @@ qx.Clazz.define("qxunit.Mixin", { statics : {
 			}
 		});
 		
-		assertEquals("foo", new test.UseLog3().log("Juhu"));		
-		qx.Clazz.patch(test.UseLog3, test.MLogger);
-		assertEquals("Juhu", new test.UseLog3().log("Juhu"));		
+		assertEquals("foo", new qxunit.UseLog3().log("Juhu"));		
+		qx.Clazz.patch(qxunit.UseLog3, qxunit.MLogger);
+		assertEquals("Juhu", new qxunit.UseLog3().log("Juhu"));		
 	}	
 	
 	
