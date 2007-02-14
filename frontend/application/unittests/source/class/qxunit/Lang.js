@@ -103,13 +103,11 @@ qx.Clazz.define("qxunit.Lang", { statics : {
           qx.html.String.escape("<div id='1'>&nbsp; €</div>")
         );
 
-
         // textToHtml
         assertEquals(
           "&lt;div id='1'&gt;<br> &nbsp;&amp;nbsp; &euro;&lt;/div&gt;",
           qx.html.String.fromText("<div id='1'>\n  &nbsp; €</div>")
         );
-
 
         // htmlToText
         assertEquals(
@@ -172,6 +170,5 @@ qx.Clazz.define("qxunit.Lang", { statics : {
              qx.xml.String.unescape("&quot;bread&quot; &amp; &quot;butter&quot;")
          );
     }
-
 
 }});

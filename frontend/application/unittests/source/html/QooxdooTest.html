@@ -2,22 +2,32 @@
 
 <html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>Variants</title>
-	<meta name="author" content="Fabian Jakobs">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Qooxdoo Test</title>
+    <meta name="author" content="">
     <link rel="stylesheet" type="text/css" href="../../jsunit/css/jsUnitStyle.css">
     <script language="JavaScript" type="text/javascript" src="../../jsunit/app/jsUnitCore.js"></script>
     <script language="JavaScript" type="text/javascript" src="../script/qxunit.js"></script>
     <script language="JavaScript" type="text/javascript" src="qooxdoo_jsunit.js"></script>
     <script language="JavaScript" type="text/javascript">
 
-    setupQooxdooTests("qxunit.NumberFormat", 1);
+    (function() {
+        var params = window.location.search;
+        var className = params.match(/[\?&]testclass=(.*?)[&$]/);
+        if (className) {
+            className = className[1]
+        } else {
+            className = "__unknown_class__";
+        }
 
+        setupQooxdooTests(className);
+    }) ();
+    
     </script>
     </head>
 
     <body>
-    <h1>NumberFormat</h1>
+    <h1>Qooxdoo Test</h1>
 
     <p></p>
     </body>

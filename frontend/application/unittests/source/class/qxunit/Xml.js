@@ -116,7 +116,7 @@ qx.Clazz.define("qxunit.Xml", { statics : {
             "<xsl:template match='*'></xsl:template><xsl:template match='@*'>"+
             "</xsl:template></xsl:stylesheet>";
 
-        nsDoc = qx.xml.Document.fromString(xmlStr);
+        var nsDoc = qx.xml.Document.fromString(xmlStr);
 
         var templates = qx.xml.Element.getElementsByTagNameNS(
             nsDoc,
