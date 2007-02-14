@@ -29,9 +29,21 @@ def patch(node, known, prefix, verbose):
         known[name] = "__%s%s" % (prefix, len(known))
 
       if verbose:
-        print "      - Replace: %s with %s" % (name, known[name])
+        print "      - Replace identifier: %s with %s" % (name, known[name])
 
       node.set("name", known[name])
+
+  elif node.type == "keyvalue":
+    name = node.get("key", False)
+
+    if name != None and name.startswith("__"):
+      if not name in known:
+        known[name] = "__%s%s" % (prefix, len(known))
+
+      if verbose:
+        print "      - Replace key: %s with %s" % (name, known[name])
+
+      node.set("key", known[name])
 
   if node.hasChildren():
     for child in node.children:
