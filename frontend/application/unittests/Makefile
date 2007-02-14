@@ -63,9 +63,10 @@ APPLICATION_SOURCE_FLAGS = \
 APPLICATION_ADDITIONAL_SOURCE_OPTIONS = \
   --include qxunit.* \
   --include qx.log.* \
+  --include qx.dev.Pollution \
   --print-includes
 
-APPLICATION_SOURCE_FLAGS = $(APPLICATION_BUILD_FLAGS)
+APPLICATION_ADDITIONAL_BUILD_OPTIONS = $(APPLICATION_ADDITIONAL_SOURCE_OPTIONS)
 
 
 ANT = /Users/fabianpb/Desktop/JAVA/apache-ant-1.7.0/bin/ant
@@ -83,4 +84,5 @@ error:
 	@echo "  * Please configure QOOXDOO_PATH"
 
 test: source
-	cd source/jsunit && $(ANT) standalone_test
+	cd jsunit && $(ANT) standalone_test
+	cd ..
