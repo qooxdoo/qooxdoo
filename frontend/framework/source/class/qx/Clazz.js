@@ -213,7 +213,7 @@ qx.Clazz.define("qx.Clazz",
      *
      * @param clazz {Class} the class to check.
      * @param superClass {Class} super class
-     * @param {Boolean} whether vClass is a sub class of vSuperClass.
+     * @return {Boolean} whether vClass is a sub class of vSuperClass.
      */
    isSubClassOf: function(clazz, superClass)
    {
