@@ -1,159 +1,162 @@
 
-qx.Clazz.define("qxunit.Xml", { statics : {
+qx.Clazz.define("qxunit.Xml", { 
+	extend: qxunit.TestCase,
 
-    serializeArray: function(arr) {
-        var ser = [];
-        for (var i=0; i<arr.length; i++) {
-            ser[i] = qx.xml.Element.serialize(arr[i]);
-        }
-        return ser.join(", ");
-    },
+	members : {
 
-    testParseSerializeXml: function() {
-        var doc = qx.xml.Document.create();
-        assertTrue(qx.xml.Document.isDocument(doc));
+	    serializeArray: function(arr) {
+	        var ser = [];
+	        for (var i=0; i<arr.length; i++) {
+	            ser[i] = qx.xml.Element.serialize(arr[i]);
+	        }
+	        return ser.join(", ");
+	    },
 
-        var div = doc.createElement("div");
-        assertEquals("div", div.tagName);
+	    testParseSerializeXml: function() {
+	        var doc = qx.xml.Document.create();
+	        this.assertTrue(qx.xml.Document.isDocument(doc));
 
-        var xmlStr =
-            '<html>' +
-            '<body>Juhu <em id="toll">Kinners</em>. Wie geht es <em>Euch</em>?</body>'+
-            '</html>';
+	        var div = doc.createElement("div");
+	        this.assertEquals("div", div.tagName);
 
-        var doc2 = qx.xml.Document.fromString(xmlStr);
-        assertTrue(qx.xml.Document.isDocument(doc2));
+	        var xmlStr =
+	            '<html>' +
+	            '<body>Juhu <em id="toll">Kinners</em>. Wie geht es <em>Euch</em>?</body>'+
+	            '</html>';
 
-        assertEquals(xmlStr, qx.xml.Element.serialize(doc2));
-    },
+	        var doc2 = qx.xml.Document.fromString(xmlStr);
+	        this.assertTrue(qx.xml.Document.isDocument(doc2));
 
-    testCreateDocument: function() {
-        var doc = qx.xml.Document.create("", "rss");
-        assertEquals(
-            'rss',
-            doc.documentElement.tagName
-        );
-        assertEquals(
-            0,
-            doc.documentElement.childNodes.length
-        );
+	        this.assertEquals(xmlStr, qx.xml.Element.serialize(doc2));
+	    },
 
-        var doc = qx.xml.Document.create("http://www.w3.org/1999/xhtml", "html");
-        assertEquals(
-            'http://www.w3.org/1999/xhtml',
-            doc.documentElement.namespaceURI
-        );
-        assertEquals(
-            'html',
-            doc.documentElement.tagName
-        );
-        assertEquals(
-            0,
-            doc.documentElement.childNodes.length
-        );
-    },
+	    testCreateDocument: function() {
+	        var doc = qx.xml.Document.create("", "rss");
+	        this.assertEquals(
+	            'rss',
+	            doc.documentElement.tagName
+	        );
+	        this.assertEquals(
+	            0,
+	            doc.documentElement.childNodes.length
+	        );
 
-    testXPath: function() {
-        var xmlStr = '<html><body>Juhu <em id="toll">Kinners</em>. Wie geht es <em>Euch</em>?</body></html>';
-        var doc2 = qx.xml.Document.fromString(xmlStr);
+	        var doc = qx.xml.Document.create("http://www.w3.org/1999/xhtml", "html");
+	        this.assertEquals(
+	            'http://www.w3.org/1999/xhtml',
+	            doc.documentElement.namespaceURI
+	        );
+	        this.assertEquals(
+	            'html',
+	            doc.documentElement.tagName
+	        );
+	        this.assertEquals(
+	            0,
+	            doc.documentElement.childNodes.length
+	        );
+	    },
 
-        var em = doc2.getElementsByTagName("em")[0];
-        assertEquals('<em id="toll">Kinners</em>', qx.xml.Element.serialize(em));
+	    testXPath: function() {
+	        var xmlStr = '<html><body>Juhu <em id="toll">Kinners</em>. Wie geht es <em>Euch</em>?</body></html>';
+	        var doc2 = qx.xml.Document.fromString(xmlStr);
 
-        assertEquals(
-            qx.xml.Element.serialize(em),
-            qx.xml.Element.serialize(qx.xml.Element.selectSingleNode(doc2, '//*[@id="toll"]'))
-        );
+	        var em = doc2.getElementsByTagName("em")[0];
+	        this.assertEquals('<em id="toll">Kinners</em>', qx.xml.Element.serialize(em));
 
-        assertEquals(
-            qx.xml.Element.serialize(doc2.getElementsByTagName("body")[0]),
-            qx.xml.Element.serialize(qx.xml.Element.selectSingleNode(doc2, '//body'))
-        );
+	        this.assertEquals(
+	            qx.xml.Element.serialize(em),
+	            qx.xml.Element.serialize(qx.xml.Element.selectSingleNode(doc2, '//*[@id="toll"]'))
+	        );
 
-        assertEquals(
-            qxunit.Xml.serializeArray(doc2.getElementsByTagName("em")),
-            qxunit.Xml.serializeArray(qx.xml.Element.selectNodes(doc2, '//em'))
-        );
+	        this.assertEquals(
+	            qx.xml.Element.serialize(doc2.getElementsByTagName("body")[0]),
+	            qx.xml.Element.serialize(qx.xml.Element.selectSingleNode(doc2, '//body'))
+	        );
 
-        assertEquals(
-            qxunit.Xml.serializeArray(doc2.getElementsByTagName("em")),
-            qxunit.Xml.serializeArray(qx.xml.Element.selectNodes(doc2.documentElement, '//em'))
-        );
-    },
+	        this.assertEquals(
+	            this.serializeArray(doc2.getElementsByTagName("em")),
+	            this.serializeArray(qx.xml.Element.selectNodes(doc2, '//em'))
+	        );
 
-    testXHR: function() {
+	        this.assertEquals(
+	            this.serializeArray(doc2.getElementsByTagName("em")),
+	            this.serializeArray(qx.xml.Element.selectNodes(doc2.documentElement, '//em'))
+	        );
+	    },
 
-        function error(msg) {
-            return function() {
-                failed = msg;
-            }
-        }
+	    testXHR: function() {
 
-        var req = new qx.io.remote.Request(
-            "../source/html/qooxdoo-blog.xml",
-            qx.net.Http.METHOD_GET, qx.util.Mime.XML
-        );
-        req.setAsynchronous(false);
-        var failed = "";
-        var xmlDocument;
-        req.addEventListener("aborted", error("aborted"));
-        req.addEventListener("failed", error("failed"));
-        req.addEventListener("timeout", error("timeout"));
-        req.addEventListener("completed", function(e) {
-            xmlDocument = e.getData().getContent();
-        });
-        req.send();
+	        function error(msg) {
+	            return function() {
+	                failed = msg;
+	            }
+	        }
 
-        assertEquals("", failed);
-        assertTrue(qx.xml.Document.isDocument(xmlDocument));
-        assertEquals("rss", xmlDocument.documentElement.tagName);
-    },
+	        var req = new qx.io.remote.Request(
+	            "../source/html/qooxdoo-blog.xml",
+	            qx.net.Http.METHOD_GET, qx.util.Mime.XML
+	        );
+	        req.setAsynchronous(false);
+	        var failed = "";
+	        var xmlDocument;
+	        req.addEventListener("aborted", error("aborted"));
+	        req.addEventListener("failed", error("failed"));
+	        req.addEventListener("timeout", error("timeout"));
+	        req.addEventListener("completed", function(e) {
+	            xmlDocument = e.getData().getContent();
+	        });
+	        req.send();
 
-    testGetElementsByTagNameNS: function() {
-        var xmlStr = "<?xml version='1.0' encoding='UTF-8'?>"+
-            "<xsl:stylesheet version='1.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>"+
-            "<xsl:output method='xml' version='1.0' encoding='UTF-8' indent='yes'/>"+
-            "<xsl:template match='*'></xsl:template><xsl:template match='@*'>"+
-            "</xsl:template></xsl:stylesheet>";
+	        this.assertEquals("", failed);
+	        this.assertTrue(qx.xml.Document.isDocument(xmlDocument));
+	        this.assertEquals("rss", xmlDocument.documentElement.tagName);
+	    },
 
-        var nsDoc = qx.xml.Document.fromString(xmlStr);
+	    testGetElementsByTagNameNS: function() {
+	        var xmlStr = "<?xml version='1.0' encoding='UTF-8'?>"+
+	            "<xsl:stylesheet version='1.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>"+
+	            "<xsl:output method='xml' version='1.0' encoding='UTF-8' indent='yes'/>"+
+	            "<xsl:template match='*'></xsl:template><xsl:template match='@*'>"+
+	            "</xsl:template></xsl:stylesheet>";
 
-        var templates = qx.xml.Element.getElementsByTagNameNS(
-            nsDoc,
-            "http://www.w3.org/1999/XSL/Transform",
-            "template"
-        );
+	        var nsDoc = qx.xml.Document.fromString(xmlStr);
 
-        debug(qx.xml.String.escape(qxunit.Xml.serializeArray(templates)));
-        assertEquals(
-            "getElementsByTagNameNS for XML documents failed!",
-            2,
-            templates.length
-        );
+	        var templates = qx.xml.Element.getElementsByTagNameNS(
+	            nsDoc,
+	            "http://www.w3.org/1999/XSL/Transform",
+	            "template"
+	        );
 
-        assertEquals(
-            "getElementsByTagNameNS for XML documents failed!",
-            "xsl:template",
-            templates[0].tagName
-        );
+	        debug(qx.xml.String.escape(this.serializeArray(templates)));
+	        this.assertEquals(
+	            "getElementsByTagNameNS for XML documents failed!",
+	            2,
+	            templates.length
+	        );
 
-        var templates = qx.xml.Element.getElementsByTagNameNS(
-            nsDoc.documentElement,
-            "http://www.w3.org/1999/XSL/Transform",
-            "template"
-        );
+	        this.assertEquals(
+	            "getElementsByTagNameNS for XML documents failed!",
+	            "xsl:template",
+	            templates[0].tagName
+	        );
 
-        assertEquals(
-            "getElementsByTagNameNS for element nodes failed!",
-            2,
-            templates.length
-        );
+	        var templates = qx.xml.Element.getElementsByTagNameNS(
+	            nsDoc.documentElement,
+	            "http://www.w3.org/1999/XSL/Transform",
+	            "template"
+	        );
 
-        assertEquals(
-            "getElementsByTagNameNS for element nodes failed!",
-            "xsl:template",
-            templates[0].tagName
-        );
-   }
+	        this.assertEquals(
+	            "getElementsByTagNameNS for element nodes failed!",
+	            2,
+	            templates.length
+	        );
 
-}});
+	        this.assertEquals(
+	            "getElementsByTagNameNS for element nodes failed!",
+	            "xsl:template",
+	            templates[0].tagName
+	        );
+	   }
+	}
+});

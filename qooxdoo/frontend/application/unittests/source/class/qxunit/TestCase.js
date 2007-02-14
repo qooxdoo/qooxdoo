@@ -21,6 +21,7 @@ qx.Clazz.define("qxunit.TestCase", {
 		},
 		
 		// maggings to the JsUnit functions
+		assert: function() { assert.apply(this, arguments); },
 		assertTrue: function() { assertTrue.apply(this, arguments); },
 		assertEquals: function() { assertEquals.apply(this, arguments); },
 		assertHTMLEquals: function() { assertHTMLEquals.apply(this, arguments); },
@@ -38,6 +39,10 @@ qx.Clazz.define("qxunit.TestCase", {
 		// assertions which are only evaluated if "qx.debug" if "on"
 		assertJsonEqualsDebugOn: qx.core.Variant.select("qx.debug", {
 			"on": function() { this.assertJsonEquals.apply(this, arguments); },
+			"off": function() {}
+		}),
+		assertDebugOn: qx.core.Variant.select("qx.debug", {
+			"on": function() { assert.apply(this, arguments); },
 			"off": function() {}
 		}),
 		assertTrueDebugOn: qx.core.Variant.select("qx.debug", {
