@@ -22,7 +22,7 @@
 import sys, string, re, optparse
 import config, tokenizer, filetool, treegenerator, variableoptimizer, comment, tree
 
-KEY = re.compile("^[A-Za-z0-9_]+$")
+KEY = re.compile("^[A-Za-z0-9_$]+$")
 INDENTSPACES = 2
 
 
@@ -1472,7 +1472,7 @@ def main():
     if options.write:
       if compiledString != "" and not compiledString.endswith("\n"):
         compiledString += "\n"
-        
+
       filetool.save(fileName + options.extension, compiledString)
 
     else:
