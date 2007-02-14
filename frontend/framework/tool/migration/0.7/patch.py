@@ -131,10 +131,10 @@ def patch(id, node):
         if mode in [ "members", "statics" ]:
           if mode == "members":
             pair = createPair(name, elem, child)
-            
+
             if breakBefore:
               pair.set("breakBefore", True)
-              
+
             membersMap.addChild(pair)
 
           elif mode == "statics":
@@ -147,13 +147,13 @@ def patch(id, node):
                 pair.set("breakBefore", True)
 
               classMap.addChild(pair, 1)
-              
+
             else:
               pair = createPair(name, elem, child)
-  
+
               if breakBefore:
                 pair.set("breakBefore", True)
-  
+
               staticsMap.addChild(pair)
 
           node.removeChild(child)
@@ -177,42 +177,44 @@ def patch(id, node):
                 definition.addChild(createPair("fast", createConstant("boolean", "true")))
               elif lastIdentifier.get("name") == "addCachedProperty":
                 definition.addChild(createPair("cached", createConstant("boolean", "true")))
+              elif lastIdentifier.get("name") == "addProperty":
+                definition.addChild(createPair("compat", createConstant("boolean", "true")))
 
               name = getAndRemovePropertyName(definition)
               pair = createPair(name, definition, child)
-              
+
               if breakBefore:
                 pair.set("breakBefore", True)
-                            
+
               propertiesMap.addChild(pair)
-    
+
               node.removeChild(child)
               pos -= 1
-              
+
           elif name == "setDefault":
             nameNode = params.getChildByPosition(0, True)
             valueNode = params.getChildByPosition(1, True)
-            
+
             name = nameNode.get("value")
-            
+
             pair = createPair(name, valueNode, child)
-            
+
             if breakBefore:
               pair.set("breakBefore", True)
 
             settingsMap.addChild(pair)
 
             node.removeChild(child)
-            pos -= 1            
+            pos -= 1
 
           elif name == "defineClass":
             if params.getFirstChild(False, True).get("value") != id:
               print "    - The class seems to have a wrong definition!"
-              
+
             # 3 params = name, superclass, constructor
             # 2 params = name, map
             # 1 param = name
-            
+
             # Move class comment
             if child.hasChild("commentsBefore"):
               classDefine.addChild(child.getChild("commentsBefore"))
@@ -234,20 +236,40 @@ def patch(id, node):
 
               extendPair = createPair("extend", ext)
               constructPair = createPair("construct", construct)
-              
+
               extendPair.addChild(createBlockComment("superclass"))
-              constructPair.addChild(createBlockComment("constructor"))              
-              
+              constructPair.addChild(createBlockComment("constructor"))
+
               classMap.addChild(extendPair, 0)
               classMap.addChild(constructPair, 1)
 
               node.removeChild(child)
               pos -= 1
-              
+
           elif name == "define":
-            if lastIdentifier.getPreviousSibling().get("name") in ["Clazz", "Class", "Mixin", "Interface"]:
-              print "      - Class is already up-to-date."
-              return False
+            prev = lastIdentifier.getPreviousSibling(False, True)
+
+            if prev.type == "identifier":
+              if prev.get("name") in ["Clazz", "Class", "Mixin", "Interface"]:
+                print "      - Class is already up-to-date."
+                return False
+
+              if prev.get("name") == "Setting":
+                nameNode = params.getChildByPosition(0, True)
+                valueNode = params.getChildByPosition(1, True)
+
+                name = nameNode.get("value")
+
+                pair = createPair(name, valueNode, child)
+                pair.set("quote", "doublequotes")
+
+                if breakBefore:
+                  pair.set("breakBefore", True)
+
+                settingsMap.addChild(pair)
+
+                node.removeChild(child)
+                pos -= 1
 
     # Post-Check
     if child.parent == node:
@@ -259,7 +281,7 @@ def patch(id, node):
   if settingsMap.getChildrenLength() == 0:
     keyvalue = settingsMap.parent.parent
     classMap.removeChild(keyvalue)
-      
+
   if propertiesMap.getChildrenLength() == 0:
     keyvalue = propertiesMap.parent.parent
     classMap.removeChild(keyvalue)
@@ -274,10 +296,10 @@ def patch(id, node):
 
   # Add new class definition
   node.addChild(classDefine, 0)
-  
-  
-  
-  
+
+
+
+
   if errorCounter > 0:
     print "      - Could not convert %s elements." % errorCounter
 
@@ -343,7 +365,7 @@ def createClassDefine(id):
 
   staticsMap = tree.Node("map")
   staticsPair = createPair("statics", staticsMap)
-  
+
   settingsPair.addChild(createBlockComment("settings"))
   propertiesPair.addChild(createBlockComment("properties"))
   membersPair.addChild(createBlockComment("members"))
@@ -359,24 +381,24 @@ def createClassDefine(id):
 
 def createBlockComment(txt):
   l = "*****************************************************************************"
-  
+
   s = ""
   s += "/*\n"
   s += "%s\n" % l
   s += "**** %s %s\n" % (txt.upper(), "*" * (len(l) - len(txt) - 6))
   s += "%s\n" % l
   s += "*/"
-  
+
   bef = tree.Node("commentsBefore")
   com = tree.Node("comment")
-  
+
   bef.addChild(com)
-  
+
   com.set("multiline", True)
   com.set("connection", "before")
   com.set("text", s)
   com.set("detail", comment.getFormat(s))
-  
+
   return bef
 
-  
+
