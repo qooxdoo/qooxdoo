@@ -392,8 +392,7 @@ qx.Clazz.define("qx.core.Object",
       {
         try
         {
-          // TODO: Access to private member (bad style) - please correct
-          this[qx.core.LegacyProperty.__setter[prop]](data[prop]);
+          this[qx.core.LegacyProperty.getSetterName(prop)](data[prop]);
         }
         catch(ex)
         {
@@ -499,11 +498,8 @@ qx.Clazz.define("qx.core.Object",
       // Finally cleanup properties
       if (disposeProps)
       {
-        // TODO: Access to private member (bad style) - please correct
-        var values = qx.core.LegacyProperty.__values;
-
         for (var name in disposeProps) {
-          this[values[name]] = null;
+          this[qx.core.LegacyProperty.getValueName(name)] = null;
         }
       }
 

@@ -651,7 +651,7 @@ qx.Proto.openSearchDialog = function() {
   var oldListSettings = {};
   for (var prop in newListSettings) {
     // TODO: Access to private member (bad style) - please correct
-    oldListSettings[prop] = this._list[qx.core.LegacyProperty.__getter[prop]]();
+    oldListSettings[prop] = this._list[qx.core.LegacyProperty.getGetterName(prop)]();
   }
   this._list.set(newListSettings);
 
