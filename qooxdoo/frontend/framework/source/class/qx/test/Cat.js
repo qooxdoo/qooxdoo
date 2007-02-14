@@ -2,8 +2,11 @@ qx.Clazz.define("qx.test.Cat",
 {
   extend : qx.test.Animal,
 
-  construct : function() {
+  construct : function()
+  {
     arguments.callee.base.call(this);
+
+    this.debug("SELF-STATIC: " + arguments.callee.self.static_prop1);
   },
 
   statics :

@@ -363,6 +363,9 @@ qx.Clazz.define("qx.Clazz",
         // Store base constructor to constructor
         construct.base = extend;
 
+        // Store static/constructor into constructor
+        construct.self = construct;
+
         // Compatibility to qooxdoo 0.6.x
         qx.Class = clazz;
         qx.Proto = proto;
@@ -512,7 +515,7 @@ qx.Clazz.define("qx.Clazz",
           }
 
           // Configure class [TODO: find better name for statics here]
-          member.statics = clazz;
+          member.self = clazz;
         }
       }
     },
@@ -533,8 +536,13 @@ qx.Clazz.define("qx.Clazz",
         mixins = [mixins];
       }
 
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        qx.Mixin.compatible(mixins, 'include list in Class "' + name + '".');
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        try {
+          qx.Mixin.areCompatible(mixins);
+        } catch(ex) {
+          throw new Error('The Mixins defined in the include list of "' + clazz.classname + '" are incompatible');
+        }
       }
 
       for (var i=0, l=mixins.length; i<l; i++) {

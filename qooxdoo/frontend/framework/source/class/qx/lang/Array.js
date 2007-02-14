@@ -269,7 +269,8 @@ qx.Clazz.define("qx.lang.Array",
      * @param a {Array} the elements of this array will be appended to the array
      * @return {Array} The modified array.
      */
-    append : function(arr, a) {
+    append : function(arr, a)
+    {
       Array.prototype.push.apply(arr, a);
       return arr;
     },

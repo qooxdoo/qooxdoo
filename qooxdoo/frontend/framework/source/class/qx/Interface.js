@@ -242,7 +242,7 @@ qx.Clazz.define("qx.Interface",
      * @return {Boolean} true if Interface exists
      */
     isDefined : function(name) {
-      return arguments.callee.statics.byName(name) !== undefined;
+      return arguments.callee.self.byName(name) !== undefined;
     },
 
 
