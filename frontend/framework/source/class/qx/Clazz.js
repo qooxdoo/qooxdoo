@@ -208,8 +208,23 @@ qx.Clazz.define("qx.Clazz",
       return qx.Clazz.__mixin(target, mixin, true);
     },
 
-
-
+    /**
+     * Check whether vClass is a sub class of vSuperClass
+     * 
+     * @param clazz {Class} the class to check.
+     * @param superClass {Class} super class
+     * @param {Boolean} whether vClass is a sub class of vSuperClass.
+     */
+   isSubClassOf: function(clazz, superClass)
+   {
+     while(clazz.superclass) {
+       if (clazz.superclass == superClass) {
+         return true;    
+       }
+       clazz = clazz.superclass;
+     }
+     return false;
+   },
 
 
 
@@ -230,16 +245,16 @@ qx.Clazz.define("qx.Clazz",
       {
         var allowedKeys =
         {
-          "extend": 1,
-          "implement": 1,
-          "include": 1,
-          "construct": 1,
-          "type": 1,
-          "statics": 1,
-          "members": 1,
-          "properties": 1,
-          "settings": 1,
-          "variants": 1
+          "extend": "function",
+          "implement": "object", // interface[], interface
+          "include": "object", // mixin[], mixin
+          "construct": "function",
+          "type": "string",
+          "statics": "object",
+          "members": "object",
+          "properties": "object",
+          "settings": "object",
+          "variants": "object"
         };
 
         for (var key in config)
@@ -251,6 +266,11 @@ qx.Clazz.define("qx.Clazz",
           if (config[key] == null) {
             throw new Error('Invalid key "' + key + '" in class "' + name + '"! The value is undefined/null!');
           }
+          
+          if (typeof(config[key]) != allowedKeys[key]) {
+            throw new Error('Invalid type of key "' + key + '" in class "' + name + '"! The type of the key must be "' + allowedKeys[key] + '"!');
+          }
+          
         }
 
         if (!config.extend)
@@ -259,13 +279,6 @@ qx.Clazz.define("qx.Clazz",
             throw new Error('Superclass is undefined, but Constructor was given for class: "' + name + '"!');
           }
         }
-        else
-        {
-          if (!config.construct) {
-            throw new Error('Constructor is missing for class "' + name + '"!');
-          }
-        }
-
         if (!config.extend && (config.members || config.properties || config.mixins)) {
           throw new Error('Members, Properties and Mixins are not allowed for static class: "' + name + '"!');
         }
@@ -308,6 +321,11 @@ qx.Clazz.define("qx.Clazz",
       }
       else
       {
+        // create default constructor
+        if (!construct) {
+          construct = this.__createDefaultConstructor();  
+        }
+        
         // Store class pointer
         if (type == "abstract")
         {
@@ -481,7 +499,7 @@ qx.Clazz.define("qx.Clazz",
         }
         else if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          throw new Error('Could not handle property definition "' + key + '" in Class "' + qx.Proto.classname + "'");
+          throw new Error('Could not handle property definition "' + name + '" in Class "' + qx.Proto.classname + "'");
         }
       }
     },
@@ -579,7 +597,7 @@ qx.Clazz.define("qx.Clazz",
 
         // copy primitive static fields
         var interfaceStatics = interfaces[i].statics;
-        for (key in interfaceStatics)
+        for (var key in interfaceStatics)
         {
           if (typeof(interfaceStatics[key]) != "function")
           {
@@ -669,6 +687,21 @@ qx.Clazz.define("qx.Clazz",
       this.__addProperties(clazz, properties);
     },
 
+
+    /**
+     * Returns the default constructor.
+     * This constructor just calles the constructor of the base class.
+     * 
+     * @return {Function} The default constructor.
+     */
+    __createDefaultConstructor: function()
+    {
+      return function() {
+        arguments.callee.base.apply(this, arguments);
+      }  
+    },
+    
+    
     /**
      * Convert a constructor into an abstract constructor.
      *
