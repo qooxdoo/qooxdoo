@@ -6,7 +6,7 @@ qx.Clazz.define("qx.test.Cat",
   {
     arguments.callee.base.call(this);
 
-    this.debug("SELF-STATIC: " + arguments.callee.self.static_prop1);
+    this.debug("Static property: " + arguments.callee.self.static_prop1);
   },
 
   statics :
@@ -33,8 +33,10 @@ qx.Clazz.define("qx.test.Cat",
     },
 
     /** This is the documentation for the play function */
-    play : function() {
-     this.debug("Don't know how to play!");
+    play : function()
+    {
+      this.debug("Don't know how to play! (" + arguments.callee.self.static_prop1 + ")");
+      this.debug("Don't know how to play! (" + this.self(arguments).static_prop1 + ")");
     }
   }
 });
