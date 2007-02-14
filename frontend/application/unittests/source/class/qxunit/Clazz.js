@@ -11,8 +11,8 @@ qx.Clazz.define("qxunit.Clazz", {
 		    });
 
 		    var empty = new qxunit.Empty();
-		    assertEquals("object", typeof(empty));
-			assertTrue(empty instanceof qxunit.Empty);
+		    this.assertEquals("object", typeof(empty));
+			this.assertTrue(empty instanceof qxunit.Empty);
 		},
 	
 		testSameNameClasses: function() {
@@ -31,7 +31,7 @@ qx.Clazz.define("qxunit.Clazz", {
 			catch (e) {
 				error = e;
 			}
-			assertEquals(
+			this.assertEquals(
 				new Error("An object of the name 'qxunit.Same' aready exists and overwriting is not allowed!").toString(),
 				error.toString()
 			);
@@ -62,16 +62,15 @@ qx.Clazz.define("qxunit.Clazz", {
 		    });
 
 		    var car = new qxunit.Car("Audi");
-		    assertEquals("start", car.startEngine());
-		    assertEquals("stop", car.stopEngine());
-		    assertEquals("Audi", car.getName());
+		    this.assertEquals("start", car.startEngine());
+		    this.assertEquals("stop", car.stopEngine());
+		    this.assertEquals("Audi", car.getName());
 
 		    qx.Clazz.define("qxunit.Bmw", {
         
 		        extend: qxunit.Car,
         
 		        construct: function(name, prize) {
-					arguments.callee.base.call(this, name);
 		            this.base(arguments, name);
 		        },
         
@@ -90,9 +89,9 @@ qx.Clazz.define("qxunit.Clazz", {
 		    });
 
 		    var bmw = new qxunit.Bmw("bmw", 44000);
-		    assertEquals("bmw", bmw.getName());
-		    assertEquals("brrr start", bmw.startEngine());
-		    assertEquals("brrr stop", bmw.stopEngine());
+		    this.assertEquals("bmw", bmw.getName());
+		    this.assertEquals("brrr start", bmw.startEngine());
+		    this.assertEquals("brrr stop", bmw.stopEngine());
 		},
 
 	
@@ -116,7 +115,7 @@ qx.Clazz.define("qxunit.Clazz", {
 			} catch(e) {
 				error = true;
 			}
-			assertTrue("It is not permitted to instanciate an abstract class.", error);
+			this.assertTrue("It is not permitted to instanciate an abstract class.", error);
 
 			// check if subclasses of abstract classes work
 			qx.Clazz.define("qxunit.ConcreteCar", {
@@ -127,8 +126,8 @@ qx.Clazz.define("qxunit.Clazz", {
 			});
 
 			var car = new qxunit.ConcreteCar("red");
-			assertNotUndefined(car);
-			assertEquals("red", car._color);
+			this.assertNotUndefined(car);
+			this.assertEquals("red", car._color);
 		},
 	
 	
@@ -144,7 +143,7 @@ qx.Clazz.define("qxunit.Clazz", {
 				}			
 			});
 
-			assertEquals(
+			this.assertEquals(
 				"getInstance sould always return the same object!",
 				qxunit.Single1.getInstance()._date,
 				qxunit.Single1.getInstance()._date
@@ -157,7 +156,7 @@ qx.Clazz.define("qxunit.Clazz", {
 			} catch(e) {
 				error = true;
 			}
-			assertTrue("Direct instanctiation of singletons should fail!", error);		
+			this.assertTrue("Direct instanctiation of singletons should fail!", error);		
 
 		},
 	
@@ -168,7 +167,7 @@ qx.Clazz.define("qxunit.Clazz", {
 				}
 			});
 		
-			assertEquals(
+			this.assertEquals(
 				"kinners",
 				qx.core.Setting.get("qxunit.juhu")
 			);
@@ -184,7 +183,7 @@ qx.Clazz.define("qxunit.Clazz", {
 			} catch (e) {
 				error = e;
 			}
-			assertTrue(error.toString().match(/Forbidden setting/) ? true : false);
+			this.assertTrue(error.toString().match(/Forbidden setting/) ? true : false);
 		},
 	
 		testVariant: function() {
@@ -197,7 +196,7 @@ qx.Clazz.define("qxunit.Clazz", {
 				}
 			});
 		
-			assertEquals(
+			this.assertEquals(
 				"kinners",
 				qx.core.Variant.get("qxunit.juhu")
 			);
@@ -215,7 +214,7 @@ qx.Clazz.define("qxunit.Clazz", {
 			} catch (e) {
 				error = e;
 			}
-			assertTrue(error.toString().match(/Forbidden variant/) ? true : false);
+			this.assertTrue(error.toString().match(/Forbidden variant/) ? true : false);
 		}	
-	
-}});
+	}
+});

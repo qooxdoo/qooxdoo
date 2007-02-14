@@ -1,12 +1,16 @@
 
-qx.Clazz.define("qxunit.Io", { statics : {
+qx.Clazz.define("qxunit.Io",{ 
+	extend: qxunit.TestCase,
 
-  testIO: function() {
-      assertNotUndefined(qx.io);
-  },
+	members : {
+		
+		testIO: function() {
+			this.assertNotUndefined(qx.io);
+		},
 
-  testJson: function() {
-      assertEquals('{"test":123}', qx.io.Json.stringify({test:123}, false));
-  }
+		testJson: function() {
+			this.assertEquals('{"test":123}', qx.io.Json.stringify({test:123}, false));
+		}
 
-}});
+	}
+});
