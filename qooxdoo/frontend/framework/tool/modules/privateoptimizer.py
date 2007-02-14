@@ -20,7 +20,7 @@
 
 import tree, mapper
 
-ignore = [ "__setter", "__getter", "__values", "__resetter" ]
+ignore = [ ]
 
 def patch(node, known, prefix, verbose):
   if node.type == "identifier":
