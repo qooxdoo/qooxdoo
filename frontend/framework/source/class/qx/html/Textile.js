@@ -30,7 +30,7 @@ qx.OO.defineClass("qx.html.Textile");
 
 /**
  * Textilizes a string
- * http://www.creatimation.net/journal/textile-live-preview (offline)
+ * http://www.textism.com/tools/textile/
  *
  * @param s {String} Text to be textilized.
  * @return {String} The textilized text.
