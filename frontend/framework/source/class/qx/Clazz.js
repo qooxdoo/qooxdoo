@@ -99,10 +99,6 @@ qx.Clazz.define("qx.Clazz",
       // Create class
       var clazz = this.__createClass(name, config.type, config.extend, config.construct, config.statics);
 
-      // Process basics
-      this.__processSettings(clazz, config.settings);
-      this.__processVariants(clazz, config.variants);
-
       // Members, Properties and Mixins are only available in static classes
       if (config.extend)
       {
@@ -113,6 +109,10 @@ qx.Clazz.define("qx.Clazz",
 
       // Interfaces are available in both
       this.__addInterfaces(clazz, config.implement);
+
+      // Process settings/variants
+      this.__processSettings(clazz, config.settings);
+      this.__processVariants(clazz, config.variants);
     },
 
     /**

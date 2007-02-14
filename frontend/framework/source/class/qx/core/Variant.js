@@ -69,6 +69,10 @@ qx.Clazz.define("qx.core.Variant",
         throw new Error('Default value of variant "' + key + '" must be defined!');
       }
 
+      if (typeof defaultValue == "function") {
+        defaultValue = defaultValue();
+      }
+
       if (!this.__variants[key]) {
         this.__variants[key] = {};
       } else if (this.__variants[key].defaultValue !== undefined) {
