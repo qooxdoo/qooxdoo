@@ -378,22 +378,22 @@ qx.Clazz.define("qx.core.Object",
      * Sets multiple properties at once by using a property list
      *
      * @type member
-     * @param propertyValues {Object} A hash of key-value pairs.
-     * @return {var} TODOC
-     * @throws TODOC
+     * @param data {Map} a map of property values. The key is the name of the property.
+     * @return {Object} this instance.
+     * @throws an error if the incoming data field is not a map.
      */
-    set : function(propertyValues)
+    set : function(data)
     {
-      if (typeof propertyValues !== "object") {
+      if (typeof data !== "object") {
         throw new Error("Please use a valid hash of property key-values pairs.");
       }
 
-      for (var prop in propertyValues)
+      for (var prop in data)
       {
         try
         {
           // TODO: Access to private member (bad style) - please correct
-          this[qx.core.LegacyProperty.__setter[prop]](propertyValues[prop]);
+          this[qx.core.LegacyProperty.__setter[prop]](data[prop]);
         }
         catch(ex)
         {
