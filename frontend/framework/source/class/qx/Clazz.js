@@ -75,7 +75,7 @@ qx.Clazz.define("qx.Clazz",
      * </code></pre>
      *
      * @param name {String} class name
-     * @param config {Map} config structure
+     * @param config {Map ? null} config structure
      * @param config.type {String ? null}  type of class ("abstract" | "static" | "singleton")
      * @param config.extend {Function ? null} extend class
      * @param config.implement {Array ? null} list of implement that need to be implemented
@@ -93,6 +93,10 @@ qx.Clazz.define("qx.Clazz",
      */
     define : function(name, config)
     {
+      if (!config) {
+        config = {};
+      }
+
       // Validate incoming data
       this.__validateConfig(name, config);
 
@@ -270,7 +274,6 @@ qx.Clazz.define("qx.Clazz",
           if (typeof(config[key]) != allowedKeys[key]) {
             throw new Error('Invalid type of key "' + key + '" in class "' + name + '"! The type of the key must be "' + allowedKeys[key] + '"!');
           }
-
         }
 
         if (!config.extend)
@@ -381,7 +384,7 @@ qx.Clazz.define("qx.Clazz",
         // Store base constructor to constructor
         construct.base = extend;
 
-        // Store static/constructor into constructor
+        // Store statics/constructor into constructor
         construct.self = clazz;
 
         // Copy property lists
