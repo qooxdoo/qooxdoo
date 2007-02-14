@@ -27,7 +27,7 @@ import sys, re, os, optparse, math
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "modules"))
 
 import config, tokenizer, loader, api, tree, treegenerator, settings, variants, resources
-import filetool, stringoptimizer, optparseext, variableoptimizer, compiler
+import filetool, stringoptimizer, optparseext, privateoptimizer, variableoptimizer, compiler
 import migrator, textutil, graph, logoptimizer, variantoptimizer
 
 
@@ -112,6 +112,7 @@ def getparser():
   parser.add_option("--optimize-strings", action="store_true", dest="optimizeStrings", default=False, help="Optimize strings. Increase mshtml performance.")
   parser.add_option("--optimize-variables", action="store_true", dest="optimizeVariables", default=False, help="Optimize variables. Reducing size.")
   parser.add_option("--optimize-variables-skip-prefix", action="store", dest="optimizeVariablesSkipPrefix", metavar="PREFIX", default="", help="Skip optimization of variables beginning with PREFIX [default: optimize all variables].")
+  parser.add_option("--optimize-private", action="store_true", dest="optimizePrivate", default=False, help="Optimize private members. Reducing size and testing private.")
   parser.add_option("--log-level", dest="logLevel", type="string", default="all", help="Define the log level like in qx.log.Logger.")
 
   # Options for resource copying
@@ -726,6 +727,35 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
         sys.stdout.flush()
 
       variableoptimizer.search(loader.getTree(fileDb, fileId, options), [], 0, "$", skipPrefix = options.optimizeVariablesSkipPrefix, debug = options.enableDebug)
+
+    if not options.verbose:
+      print
+
+
+
+
+  ######################################################################
+  #  PRIVATE MEMBER OPTIMIZATION
+  ######################################################################
+
+  if options.optimizePrivate:
+    print
+    print "  PRIVATE MEMBER OPTIMIZATION:"
+    print "----------------------------------------------------------------------------"
+
+    if options.verbose:
+      print "  * Optimizing private members..."
+    else:
+      print "  * Optimizing private members: ",
+
+    for fileId in sortedIncludeList:
+      if options.verbose:
+        print "    - %s" % fileId
+      else:
+        sys.stdout.write(".")
+        sys.stdout.flush()
+
+      privateoptimizer.patch(loader.getTree(fileDb, fileId, options), {}, "$", options.verbose)
 
     if not options.verbose:
       print
