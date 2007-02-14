@@ -208,6 +208,17 @@ qx.Clazz.define("qxunit.Variants", { statics : {
     }
     i = 2;
     assertEquals(2, i);
+  },
+
+  testVariantInElse2: function() {
+    if (false) {
+      var i = 3;
+    } else if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+	  i = 4;
+    } else {
+	  i = 5;
+	}
+    assertEquals(5, i);
   }
 
 }});

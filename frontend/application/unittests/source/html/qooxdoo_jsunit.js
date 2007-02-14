@@ -9,15 +9,31 @@ function setupQooxdooTests(testClassName) {
 	setupQooxdooTests.testClassNames.push(testClassName);
 	var evalClass = eval(testClassName);
 	setupQooxdooTests.testClasses.push(evalClass);
-	
-    for (var test in evalClass) {
-		if (evalClass.hasOwnProperty(test)) {
-            if (typeof(evalClass[test]) == "function" && test.indexOf("test") == 0) {
-                eval("$" + test + "="+testClassName+"."+test);
-                setupQooxdooTests.tests.push("$" + test);
-            }
-        }
-    }
+
+	if (qx.Clazz.isSubClassOf(evalClass, qxunit.TestCase))
+	{
+		for (var test in evalClass.prototype) {
+			if (evalClass.prototype.hasOwnProperty(test)) {
+	            if (typeof(evalClass.prototype[test]) == "function" && test.indexOf("test") == 0) {
+					var testFunctionName = "$test_" + testClassName.replace(".", "_") + "_" + test;
+					eval(testFunctionName + " = function() { (new " + testClassName +"())['"+test+"']() }");
+					setupQooxdooTests.tests.push(testFunctionName);
+				}
+			}
+		}
+	}
+	else
+	{
+	    for (var test in evalClass) {
+			if (evalClass.hasOwnProperty(test)) {
+	            if (typeof(evalClass[test]) == "function" && test.indexOf("test") == 0) {
+					var testFunctionName = "$test_" + testClassName.replace(".", "_") + "_" + test;
+	                eval(testFunctionName + "="+testClassName+"."+test);
+	                setupQooxdooTests.tests.push(testFunctionName);
+	            }
+	        }
+	    }
+	}
 };
 
 setupQooxdooTests.tests = ["$testExist"];
