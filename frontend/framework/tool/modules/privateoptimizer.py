@@ -20,13 +20,15 @@
 
 import tree, mapper
 
+ignore = [ "__setter", "__getter", "__values", "__resetter" ]
+
 def patch(node, known, prefix, verbose):
   if node.type == "identifier":
     name = node.get("name", False)
 
-    if name != None and name.startswith("__"):
+    if name != None and name.startswith("__") and not name in ignore:
       if not name in known:
-        known[name] = "__%s%s" % (prefix, len(known))
+        known[name] = "______%s%s" % (prefix, len(known))
 
       if verbose:
         print "      - Replace identifier: %s with %s" % (name, known[name])
@@ -36,9 +38,9 @@ def patch(node, known, prefix, verbose):
   elif node.type == "keyvalue":
     name = node.get("key", False)
 
-    if name != None and name.startswith("__"):
+    if name != None and name.startswith("__") and not name in ignore:
       if not name in known:
-        known[name] = "__%s%s" % (prefix, len(known))
+        known[name] = "______%s%s" % (prefix, len(known))
 
       if verbose:
         print "      - Replace key: %s with %s" % (name, known[name])
