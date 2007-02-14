@@ -41,6 +41,49 @@ qx.Clazz.define("qx.core.LegacyProperty",
     /** {var} TODOC */
     __values : {},
 
+    /**
+     * Converts the property name to the setter name
+     *
+     * @param name {String} name of a property
+     * @return {String} name of the setter for this property
+     */
+    getSetterName : function(name) {
+      return this.__setter[name];
+    },
+
+    /**
+     * Converts the property name to the getter name
+     *
+     * @param name {String} name of a property
+     * @return {String} name of the setter for this property
+     */
+    getGetterName : function(name) {
+      return this.__getter[name];
+    },
+
+    /**
+     * Converts the property name to the resetter name
+     *
+     * @param name {String} name of a property
+     * @return {String} name of the setter for this property
+     */
+    getResetterName : function(name) {
+      return this.__resetter[name];
+    },
+
+    /**
+     * Converts the property name to the value name
+     *
+     * @param name {String} name of a property
+     * @return {String} name of the setter for this property
+     */
+    getValueName : function(name) {
+      return this.__values[name];
+    },
+
+
+
+
 
     /*
     ---------------------------------------------------------------------------
