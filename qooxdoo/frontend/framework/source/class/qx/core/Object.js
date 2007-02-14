@@ -253,7 +253,6 @@ qx.Clazz.define("qx.core.Object",
      * @param messageId {String} message id (may contain format strings)
      * @param varargs {Object} variable number of argumes applied to the format string
      * @return {qx.locale.LocalizedString} TODOC
-     * @see
      */
     tr : function(messageId, varargs)
     {
@@ -273,7 +272,6 @@ qx.Clazz.define("qx.core.Object",
      * @param count {Integer} if greater than 1 the plural form otherwhise the singular form is returned.
      * @param varargs {Object} variable number of argumes applied to the format string
      * @return {call} {qx.locale.LocalizedString)
-     * @see
      */
     trn : function(singularMessageId, pluralMessageId, count, varargs)
     {
