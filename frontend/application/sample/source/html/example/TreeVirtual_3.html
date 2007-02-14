@@ -131,7 +131,7 @@
         selectedNodes = tree.getSelectedNodes();
         for (var i = 0; i < selectedNodes.length; i++)
         {
-          dataModel.prune(selectedNodes[i].nodeId);
+          dataModel.prune(selectedNodes[i].nodeId, true);
           dataModel.setData();
         }
       });
