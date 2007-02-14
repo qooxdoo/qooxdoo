@@ -187,7 +187,7 @@ qx.Clazz.define("qx.core.Object",
      *   the method of the base class.
      * @return {var} the return value of the method of the base class.
      */
-    base: function(args, varags)
+    base : function(args, varags)
     {
       if (arguments[1] == undefined) {
         return args.callee.base.call(this);
@@ -202,7 +202,7 @@ qx.Clazz.define("qx.core.Object",
      * @param args {arguments} the arguments variable of the calling method
      * @return {var} the return value of the method of the base class.
      */
-    self: function(args) {
+    self : function(args) {
       return args.callee.self;
     },
 
