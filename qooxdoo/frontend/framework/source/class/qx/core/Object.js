@@ -370,7 +370,7 @@ qx.Clazz.define("qx.core.Object",
 
     /*
     ---------------------------------------------------------------------------
-      COMMON SETTER/GETTER SUPPORT
+      COMMON SETTER SUPPORT
     ---------------------------------------------------------------------------
     */
 
@@ -404,71 +404,7 @@ qx.Clazz.define("qx.core.Object",
       return this;
     },
 
-    /**
-     * Gets multiple properties at once by using a property list
-     *
-     * @type member
-     * @param propertyNames {String | Array | Map} list of the properties to get
-     * @param outputHint {String} how should the values be returned. Possible values are "hash" and "array".
-     * @return {call | Map | var} TODOC
-     * @throws TODOC
-     */
-    get : function(propertyNames, outputHint)
-    {
-      switch(typeof propertyNames)
-      {
-        case "string":
-          return this["get" + qx.lang.String.toFirstUp(propertyNames)]();
 
-        case "object":
-          if (typeof propertyNames.length === "number")
-          {
-            if (outputHint == "hash")
-            {
-              var h = {};
-
-              propertyLength = propertyNames.length;
-
-              for (var i=0; i<propertyLength; i++)
-              {
-                try {
-                  h[propertyNames[i]] = this["get" + qx.lang.String.toFirstUp(propertyNames[i])]();
-                } catch(ex) {
-                  throw new Error("Could not get a valid value from property: " + propertyNames[i] + "! Is the property existing? (" + ex + ")");
-                }
-              }
-
-              return h;
-            }
-            else
-            {
-              propertyLength = propertyNames.length;
-
-              for (var i=0; i<propertyLength; i++)
-              {
-                try {
-                  propertyNames[i] = this["get" + qx.lang.String.toFirstUp(propertyNames[i])]();
-                } catch(ex) {
-                  throw new Error("Could not get a valid value from property: " + propertyNames[i] + "! Is the property existing? (" + ex + ")");
-                }
-              }
-
-              return propertyNames;
-            }
-          }
-          else
-          {
-            for (var i in propertyNames) {
-              propertyNames[i] = this["get" + qx.lang.String.toFirstUp(i)]();
-            }
-
-            return propertyNames;
-          }
-
-        default:
-          throw new Error("Please use a valid array, hash or string as parameter!");
-      }
-    },
 
 
 
