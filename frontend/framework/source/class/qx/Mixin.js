@@ -68,16 +68,16 @@ qx.Clazz.define("qx.Mixin",
         Verify in configuration map
       ---------------------------------------------------------------------------
       */
-      
+
       if (qx.core.Variant.isSet("qx.debug", "on"))
-      {      
+      {
         var allowedKeys = {
-          "extend": 1,
+          "include": 1,
           "statics": 1,
           "members": 1,
           "properties": 1
         }
-  
+
         for (var key in config) {
           if (!allowedKeys[key]) {
             throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
@@ -87,19 +87,19 @@ qx.Clazz.define("qx.Mixin",
           }
         }
       }
-      
-      
+
+
      /*
       ---------------------------------------------------------------------------
         Initialize aliases
       ---------------------------------------------------------------------------
       */
 
-      var extend = config.extent;
-    	if (extend && !(extend instanceof Array)) {
-      	extend = [ extend ];
+      var include = config.extent;
+    	if (include && !(include instanceof Array)) {
+      	include = [ include ];
      	}
-   		         
+
       var statics = config.statics || {};
       var members = config.members || {};
       var properties = config.properties || {};
@@ -136,26 +136,25 @@ qx.Clazz.define("qx.Mixin",
       ---------------------------------------------------------------------------
       */
 
-      // TODO extend in mixins doesn't make really sense (fjakobs)
-      if (extend)
+      if (include)
       {
         var emembers, eproperties;
 
         if (qx.core.Variant.isSet("qx.debug", "on")) {
-          arguments.callee.statics.compatible(extend, 'extend list in Mixin "' + name + '".');
+          arguments.callee.self.areCompatible(include);
         }
 
-        for (var i=0, l=extend.length; i<l; i++)
+        for (var i=0, l=include.length; i<l; i++)
         {
           // Attach members
-          emembers = extend[i].members;
+          emembers = include[i].members;
 
           for (var key in emembers) {
             members[key] = emembers[key];
           }
 
           // Attach members
-          eproperties = extend[i].properties;
+          eproperties = include[i].properties;
 
           for (var key in eproperties) {
             properties[key] = eproperties[key];
@@ -174,66 +173,66 @@ qx.Clazz.define("qx.Mixin",
      * @return {Boolean} true if Mixin exists
      */
     isDefined : function(name) {
-      return arguments.callee.statics.byName(name) !== undefined;
+      return arguments.callee.self.byName(name) !== undefined;
     },
 
     /**
      * Checks a list of Mixins for conflicts.
      *
      * @type static
-     * @name compatible
+     * @name areCompatible
      * @access public
      * @param list {Array} List of Mixins
      * @param msg {var} TODOC
      * @return {void}
      * @throws TODOC
      */
-    compatible : function(list, msg)
+    areCompatible : function(list)
     {
-      // Preflight check to test for double-definitions
-      if (list.length > 1)
+      if (list.length < 2) {
+        return true;
+      }
+
+      var kmembers = {};
+      var kstatics = {};
+      var kproperties = {};
+
+      for (var i=0, l=list.length; i<l; i++)
       {
-        var kmembers = {};
-        var kstatics = {};
-        var kproperties = {};
+        // Check members
+        var emembers = list[i].members;
 
-        for (var i=0, l=list.length; i<l; i++)
+        for (var key in emembers)
         {
-          // Check members
-          var emembers = list[i].members;
-
-          for (var key in emembers)
-          {
-            if (key in kmembers) {
-              throw new Error('Double defintion of member "' + key + '" through ' + msg);
-            }
-
-            kmembers[key] = true;
+          if (key in kmembers) {
+            throw new Error('Double defintion of member "' + key + '"');
           }
 
-          // Check statics
-          var estatics = list[i].statics;
+          kmembers[key] = true;
+        }
 
-          for (var key in estatics)
-          {
-            if (key in kstatics) {
-              throw new Error('Double defintion of member "' + key + '" through ' + msg);
-            }
+        // Check statics
+        var estatics = list[i].statics;
 
-            kstatics[key] = true;
+        for (var key in estatics)
+        {
+          if (key in kstatics) {
+            throw new Error('Double defintion of member "' + key + '"');
           }
 
-          // Check properties
-          var eproperties = list[i].properties;
+          kstatics[key] = true;
+        }
 
-          for (var key in eproperties)
-          {
-            if (key in kproperties) {
-              throw new Error('Double defintion of property "' + key + '" through ' + msg);
-            }
+        // Check properties
+        var eproperties = list[i].properties;
 
-            kproperties[key] = true;
+        for (var key in eproperties)
+        {
+          if (key in kproperties) {
+            throw new Error('Double defintion of property "' + key + '"');
           }
+
+          kproperties[key] = true;
         }
       }
     }
