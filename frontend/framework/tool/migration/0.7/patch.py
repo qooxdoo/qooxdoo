@@ -245,8 +245,9 @@ def patch(id, node):
               pos -= 1
               
           elif name == "define":
-            print "      - Class is already up-to-date."
-            return False
+            if lastIdentifier.getPreviousSibling().get("name") in ["Clazz", "Class", "Mixin", "Interface"]:
+              print "      - Class is already up-to-date."
+              return False
 
     # Post-Check
     if child.parent == node:
