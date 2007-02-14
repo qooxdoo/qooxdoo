@@ -110,7 +110,7 @@ def patch(id, node):
   if not node.hasChildren():
     return False
 
-  classDefine, className, classMap, settingsMap, propertiesMap, membersMap, staticsMap = createClassDefine(id)
+  classDefine, className, classMap, settingsMap, variantsMap, propertiesMap, membersMap, staticsMap = createClassDefine(id)
   errorCounter = 0
   pos = 0
 
@@ -140,13 +140,13 @@ def patch(id, node):
           elif mode == "statics":
             # Special Handling of old singleton definition
             if name == "getInstance":
-              pair = createPair("singleton", createConstant("boolean", "true"))
-              pair.addChild(createBlockComment("singleton"))
+              pair = createPair("type", createConstant("string", "singleton"))
+              #pair.addChild(createBlockComment("type"))
 
               if breakBefore:
                 pair.set("breakBefore", True)
 
-              classMap.addChild(pair, 1)
+              classMap.addChild(pair, 0)
 
             else:
               pair = createPair(name, elem, child)
@@ -237,7 +237,7 @@ def patch(id, node):
               extendPair = createPair("extend", ext)
               constructPair = createPair("construct", construct)
 
-              extendPair.addChild(createBlockComment("superclass"))
+              # extendPair.addChild(createBlockComment("superclass"))
               constructPair.addChild(createBlockComment("constructor"))
 
               classMap.addChild(extendPair, 0)
@@ -254,7 +254,7 @@ def patch(id, node):
                 print "      - Class is already up-to-date."
                 return False
 
-              if prev.get("name") == "Setting":
+              elif prev.get("name") == "Setting":
                 nameNode = params.getChildByPosition(0, True)
                 valueNode = params.getChildByPosition(1, True)
 
@@ -271,6 +271,28 @@ def patch(id, node):
                 node.removeChild(child)
                 pos -= 1
 
+              elif prev.get("name") == "Variant":
+                nameNode = params.getChildByPosition(0, True)
+                allowedNode = params.getChildByPosition(1, True)
+                defaultNode = params.getChildByPosition(2, True)
+
+                name = nameNode.get("value")
+
+                variantDef = tree.Node("map")
+                variantDef.addChild(createPair("allowedValues", allowedNode))
+                variantDef.addChild(createPair("defaultValue", defaultNode))
+
+                pair = createPair(name, variantDef, child)
+                pair.set("quote", "doublequotes")
+
+                if breakBefore:
+                  pair.set("breakBefore", True)
+
+                variantsMap.addChild(pair)
+
+                node.removeChild(child)
+                pos -= 1
+
     # Post-Check
     if child.parent == node:
       # print "      - Could not move element %s at line %s" % (child.type, child.get("line"))
@@ -280,6 +302,10 @@ def patch(id, node):
   # Remove empty maps
   if settingsMap.getChildrenLength() == 0:
     keyvalue = settingsMap.parent.parent
+    classMap.removeChild(keyvalue)
+
+  if variantsMap.getChildrenLength() == 0:
+    keyvalue = variantsMap.parent.parent
     classMap.removeChild(keyvalue)
 
   if propertiesMap.getChildrenLength() == 0:
@@ -357,6 +383,9 @@ def createClassDefine(id):
   settingsMap = tree.Node("map")
   settingsPair = createPair("settings", settingsMap)
 
+  variantsMap = tree.Node("map")
+  variantsPair = createPair("variants", variantsMap)
+
   propertiesMap = tree.Node("map")
   propertiesPair = createPair("properties", propertiesMap)
 
@@ -366,17 +395,19 @@ def createClassDefine(id):
   staticsMap = tree.Node("map")
   staticsPair = createPair("statics", staticsMap)
 
-  settingsPair.addChild(createBlockComment("settings"))
   propertiesPair.addChild(createBlockComment("properties"))
   membersPair.addChild(createBlockComment("members"))
   staticsPair.addChild(createBlockComment("statics"))
+  settingsPair.addChild(createBlockComment("settings"))
+  variantsPair.addChild(createBlockComment("variants"))
 
-  classMap.addChild(settingsPair)
+  classMap.addChild(staticsPair)
   classMap.addChild(propertiesPair)
   classMap.addChild(membersPair)
-  classMap.addChild(staticsPair)
+  classMap.addChild(settingsPair)
+  classMap.addChild(variantsPair)
 
-  return classDefine, className, classMap, settingsMap, propertiesMap, membersMap, staticsMap
+  return classDefine, className, classMap, settingsMap, variantsMap, propertiesMap, membersMap, staticsMap
 
 
 def createBlockComment(txt):
