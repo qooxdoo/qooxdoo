@@ -124,7 +124,7 @@ qx.Clazz.define("qx.Clazz",
      *   in the namespace.
      * @return {Object} last part of the namespace (e.g. classname)
      */
-    createNamespace : function(name, object, forceOverwrite)
+    createNamespace : function(name, object)
     {
       var splits = name.split(".");
       var len = splits.length;
@@ -141,10 +141,15 @@ qx.Clazz.define("qx.Clazz",
         part = splits[i + 1];
       }
 
-      // store object
-      if (!forceOverwrite && parent[part] != undefined) {
-        throw new Error("An object of the name '" + name + "' aready exists and overwriting is not allowed!");
+      // do not overwrite
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (parent[part] != undefined) {
+          throw new Error("An object of the name '" + name + "' aready exists and overwriting is not allowed!");
+        }
       }
+
+      // store object
       parent[part] = object;
 
       // return last part name (e.g. classname)
@@ -459,13 +464,20 @@ qx.Clazz.define("qx.Clazz",
         var value = property;
         value.name = name;
 
-        if (value.fast) {
+        if (value.fast)
+        {
           legacy.addFastProperty(value, proto);
-        } else if (value.cached) {
+        }
+        else if (value.cached)
+        {
           legacy.addCachedProperty(value, proto);
-        } else if (value.compat) {
+        }
+        else if (value.compat)
+        {
           legacy.addProperty(value, proto);
-        } else {
+        }
+        else if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
           throw new Error('Could not handle property definition "' + key + '" in Class "' + qx.Proto.classname + "'");
         }
       }
@@ -597,8 +609,11 @@ qx.Clazz.define("qx.Clazz",
       var members = mixin.members;
       var proto = clazz.prototype;
 
-      if (members == null) {
-        throw new Error('Invalid include in class "' + proto.classname + '"! The value is undefined/null!');
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (members == null) {
+          throw new Error('Invalid include in class "' + proto.classname + '"! The value is undefined/null!');
+        }
       }
 
       for (var key in members)
@@ -609,6 +624,7 @@ qx.Clazz.define("qx.Clazz",
             throw new Error("Overwriting the member '" + key + "' is not allowed!");
           }
         }
+
         proto[key] = members[key];
       }
 
@@ -622,6 +638,7 @@ qx.Clazz.define("qx.Clazz",
             throw new Error("Overwriting the static '" + key + "' is not allowed!");
           }
         }
+
         clazz[key] = statics[key];
       }
 
@@ -640,6 +657,7 @@ qx.Clazz.define("qx.Clazz",
           }
         }
       }
+
       this.__addProperties(clazz, properties);
     },
 
