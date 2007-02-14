@@ -210,7 +210,7 @@ qx.Clazz.define("qx.Clazz",
 
     /**
      * Check whether vClass is a sub class of vSuperClass
-     * 
+     *
      * @param clazz {Class} the class to check.
      * @param superClass {Class} super class
      * @param {Boolean} whether vClass is a sub class of vSuperClass.
@@ -219,7 +219,7 @@ qx.Clazz.define("qx.Clazz",
    {
      while(clazz.superclass) {
        if (clazz.superclass == superClass) {
-         return true;    
+         return true;
        }
        clazz = clazz.superclass;
      }
@@ -266,11 +266,11 @@ qx.Clazz.define("qx.Clazz",
           if (config[key] == null) {
             throw new Error('Invalid key "' + key + '" in class "' + name + '"! The value is undefined/null!');
           }
-          
+
           if (typeof(config[key]) != allowedKeys[key]) {
             throw new Error('Invalid type of key "' + key + '" in class "' + name + '"! The type of the key must be "' + allowedKeys[key] + '"!');
           }
-          
+
         }
 
         if (!config.extend)
@@ -323,9 +323,9 @@ qx.Clazz.define("qx.Clazz",
       {
         // create default constructor
         if (!construct) {
-          construct = this.__createDefaultConstructor();  
+          construct = this.__createDefaultConstructor();
         }
-        
+
         // Store class pointer
         if (type == "abstract")
         {
@@ -382,12 +382,7 @@ qx.Clazz.define("qx.Clazz",
         construct.base = extend;
 
         // Store static/constructor into constructor
-        construct.self = construct;
-
-        // Compatibility to qooxdoo 0.6.x
-        qx.Class = clazz;
-        qx.Proto = proto;
-        qx.Super = extend;
+        construct.self = clazz;
 
         // Copy property lists
         if (extend.prototype._properties) {
@@ -397,6 +392,11 @@ qx.Clazz.define("qx.Clazz",
         if (extend.prototype._objectproperties) {
           proto._objectproperties = qx.lang.Object.copy(extend.prototype._objectproperties);
         }
+
+        // Compatibility to qooxdoo 0.6.x
+        qx.Class = clazz;
+        qx.Proto = proto;
+        qx.Super = extend;
       }
 
       // Store class reference in global class registry
@@ -532,7 +532,6 @@ qx.Clazz.define("qx.Clazz",
             member.base = superproto[key];
           }
 
-          // Configure class [TODO: find better name for statics here]
           member.self = clazz;
         }
       }
@@ -691,17 +690,17 @@ qx.Clazz.define("qx.Clazz",
     /**
      * Returns the default constructor.
      * This constructor just calles the constructor of the base class.
-     * 
+     *
      * @return {Function} The default constructor.
      */
     __createDefaultConstructor: function()
     {
       return function() {
         arguments.callee.base.apply(this, arguments);
-      }  
+      }
     },
-    
-    
+
+
     /**
      * Convert a constructor into an abstract constructor.
      *

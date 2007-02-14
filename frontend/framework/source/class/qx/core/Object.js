@@ -125,10 +125,10 @@ qx.Clazz.define("qx.core.Object",
      */
     enabled :
     {
+      compat       : true,
       type         : "boolean",
       defaultValue : true,
-      getAlias     : "isEnabled",
-      compat       : true
+      getAlias     : "isEnabled"
     }
   },
 
@@ -181,18 +181,29 @@ qx.Clazz.define("qx.core.Object",
 
     /**
      * Call the same method of the super class.
-     * 
-     * @param args {Arguments} the arguments variable of the calling method
+     *
+     * @param args {arguments} the arguments variable of the calling method
      * @param varargs {var} variable arguments which are passed as arguments to
      *   the method of the base class.
      * @return {var} the return value of the method of the base class.
      */
-    base: function(args, varags) {
-        if (arguments[1] == undefined) {
-            return args.callee.base.call(this);
-        } else {
-            return args.callee.base.apply(this, Array.prototype.slice.call(arguments, 1));
-        }
+    base: function(args, varags)
+    {
+      if (arguments[1] == undefined) {
+        return args.callee.base.call(this);
+      } else {
+        return args.callee.base.apply(this, Array.prototype.slice.call(arguments, 1));
+      }
+    },
+
+    /**
+     * Returns the static class (to access static members of this class)
+     *
+     * @param args {arguments} the arguments variable of the calling method
+     * @return {var} the return value of the method of the base class.
+     */
+    self: function(args) {
+      return args.callee.self;
     },
 
     /**
@@ -253,7 +264,7 @@ qx.Clazz.define("qx.core.Object",
     /**
      * Translate a plural message
      * Mark the messages for translation.
-     * 
+     *
      * Depending on the third argument the plursl or the singular form is chosen.
      *
      * @type member
@@ -309,7 +320,7 @@ qx.Clazz.define("qx.core.Object",
      * @param msg {var} the message to log. If this is not a string, the
      *          object dump will be logged.
      * @param exc {var} the exception to log.
-     * @return {void} 
+     * @return {void}
      */
     debug : function(msg, exc) {
       this.getLogger().debug(msg, this._hashCode, exc);
@@ -322,7 +333,7 @@ qx.Clazz.define("qx.core.Object",
      * @param msg {var} the message to log. If this is not a string, the
      *      object dump will be logged.
      * @param exc {var} the exception to log.
-     * @return {void} 
+     * @return {void}
      */
     info : function(msg, exc) {
       this.getLogger().info(msg, this._hashCode, exc);
@@ -335,7 +346,7 @@ qx.Clazz.define("qx.core.Object",
      * @param msg {var} the message to log. If this is not a string, the
      *      object dump will be logged.
      * @param exc {var} the exception to log.
-     * @return {void} 
+     * @return {void}
      */
     warn : function(msg, exc) {
       this.getLogger().warn(msg, this._hashCode, exc);
@@ -348,7 +359,7 @@ qx.Clazz.define("qx.core.Object",
      * @param msg {var} the message to log. If this is not a string, the
      *      object dump will be logged.
      * @param exc {var} the exception to log.
-     * @return {void} 
+     * @return {void}
      */
     error : function(msg, exc) {
       this.getLogger().error(msg, this._hashCode, exc);
@@ -474,7 +485,7 @@ qx.Clazz.define("qx.core.Object",
      * @type member
      * @param vKey {String} the key
      * @param vValue {Object} the value of the user data
-     * @return {void} 
+     * @return {void}
      */
     setUserData : function(vKey, vValue)
     {
@@ -517,7 +528,7 @@ qx.Clazz.define("qx.core.Object",
      * Dispose this object
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     dispose : function()
     {
@@ -640,12 +651,12 @@ qx.Clazz.define("qx.core.Object",
 
     /**
      * Destructor. This method is called by qooxdoo on object destruction.
-     * 
+     *
      * Any class that holds resources like links to DOM nodes must overwrite
      * this method and free these resources.
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     dispose : function()
     {
