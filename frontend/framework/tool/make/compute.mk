@@ -288,6 +288,10 @@ ifeq ($(APPLICATION_OPTIMIZE_VARIABLES),true)
   COMPUTED_BUILD_OPTIONS += --optimize-variables
 endif
 
+ifeq ($(APPLICATION_OPTIMIZE_PRIVATE),true)
+  COMPUTED_BUILD_OPTIONS += --optimize-private
+endif
+
 ifeq ($(APPLICATION_LINEBREAKS_SOURCE),true)
   COMPUTED_SOURCE_OPTIONS += --add-new-lines --add-file-ids
 endif
