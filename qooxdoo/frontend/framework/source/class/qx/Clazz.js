@@ -103,14 +103,16 @@ qx.Clazz.define("qx.Clazz",
       this.__processSettings(clazz, config.settings);
       this.__processVariants(clazz, config.variants);
 
-      // Continue only for non-static classes
+      // Members, Properties and Mixins are only available in static classes
       if (config.extend)
       {
         this.__addMembers(clazz, config.members);
         this.__addProperties(clazz, config.properties);
         this.__addMixins(clazz, config.include);
-        this.__addInterfaces(clazz, config.implement);
       }
+
+      // Interfaces are available in both
+      this.__addInterfaces(clazz, config.implement);
     },
 
     /**
@@ -249,14 +251,18 @@ qx.Clazz.define("qx.Clazz",
         if (!config.extend)
         {
           if (config.construct) {
-            throw new Error('Superclass is undefined, but constructor was given for class: "' + name + "'");
+            throw new Error('Superclass is undefined, but Constructor was given for class: "' + name + '"!');
           }
         }
         else
         {
           if (!config.construct) {
-            throw new Error('Constructor is missing for class "' + name + "'");
+            throw new Error('Constructor is missing for class "' + name + '"!');
           }
+        }
+
+        if (!config.extend && (config.members || config.properties || config.mixins)) {
+          throw new Error('Members, Properties and Mixins are not allowed for static class: "' + name + '"!');
         }
       }
     },
@@ -334,36 +340,36 @@ qx.Clazz.define("qx.Clazz",
         // setting up inheritance.
         var helper = this.__createEmptyFunction();
         helper.prototype = extend.prototype;
-        var prot = new helper;
+        var proto = new helper;
 
         // Apply prototype to new helper instance
-        clazz.prototype = prot;
+        clazz.prototype = proto;
 
         // Store names in prototype
-        prot.classname = name;
-        prot.basename = basename;
+        proto.classname = name;
+        proto.basename = basename;
 
         // Store reference to extend class
-        clazz.superclass = prot.superclass = extend;
+        clazz.superclass = proto.superclass = extend;
 
         // Store correct constructor
-        clazz.constructor = prot.constructor = construct;
+        clazz.constructor = proto.constructor = construct;
 
         // Store base constructor to constructor
         construct.base = extend;
 
         // Compatibility to qooxdoo 0.6.x
         qx.Class = clazz;
-        qx.Proto = prot;
+        qx.Proto = proto;
         qx.Super = extend;
 
         // Copy property lists
         if (extend.prototype._properties) {
-          prot._properties = qx.lang.Object.copy(extend.prototype._properties);
+          proto._properties = qx.lang.Object.copy(extend.prototype._properties);
         }
 
         if (extend.prototype._objectproperties) {
-          prot._objectproperties = qx.lang.Object.copy(extend.prototype._objectproperties);
+          proto._objectproperties = qx.lang.Object.copy(extend.prototype._objectproperties);
         }
       }
 
@@ -408,7 +414,7 @@ qx.Clazz.define("qx.Clazz",
      *     <li>allowedValues: array of allowed values</li>
      *     <li>defaultValue: default value</li>
      *   </ul>
-     *  @param className {String} name of the class defining the variant.
+     * @param className {String} name of the class defining the variant.
      */
     __processVariants: function(clazz, variants)
     {
@@ -443,19 +449,8 @@ qx.Clazz.define("qx.Clazz",
         return;
       }
 
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (
-          (qx.Class != clazz) ||
-          (qx.Proto != clazz.prototype) ||
-          (qx.Super != clazz.constructor.base)
-        ) {
-          throw new Error("The global variable qx.Proto, qx.Class and qx.Super must point to the target class!");
-        }
-      }
-
       var legacy = qx.core.LegacyProperty;
-      var prot = clazz.prototype;
+      var proto = clazz.prototype;
 
       for (var name in properties)
       {
@@ -465,11 +460,11 @@ qx.Clazz.define("qx.Clazz",
         value.name = name;
 
         if (value.fast) {
-          legacy.addFastProperty(value, prot);
+          legacy.addFastProperty(value, proto);
         } else if (value.cached) {
-          legacy.addCachedProperty(value, prot);
+          legacy.addCachedProperty(value, proto);
         } else if (value.compat) {
-          legacy.addProperty(value, prot);
+          legacy.addProperty(value, proto);
         } else {
           throw new Error('Could not handle property definition "' + key + '" in Class "' + qx.Proto.classname + "'");
         }
@@ -488,21 +483,20 @@ qx.Clazz.define("qx.Clazz",
         return;
       }
 
-      var superprot = clazz.superclass.prototype;
-      var prot = clazz.prototype;
+      var proto = clazz.prototype;
+      var superproto = clazz.superclass.prototype;
 
       for (var key in members)
       {
         // Attach member
-        var member = prot[key] = members[key];
+        var member = proto[key] = members[key];
 
         // Added helper stuff to functions
         if (typeof member === "function")
         {
-          if (superprot[key])
-          {
-            // Configure extend (named base here)
-            member.base = superprot[key];
+          // Configure extend (named base here)
+          if (superproto[key]) {
+            member.base = superproto[key];
           }
 
           // Configure class [TODO: find better name for statics here]
@@ -601,21 +595,21 @@ qx.Clazz.define("qx.Clazz",
       // modify them e.g. attaching base etc. because they may
       // used by multiple classes
       var members = mixin.members;
-      var prot = clazz.prototype;
+      var proto = clazz.prototype;
 
       if (members == null) {
-        throw new Error('Invalid include in class "' + prot.classname + '"! The value is undefined/null!');
+        throw new Error('Invalid include in class "' + proto.classname + '"! The value is undefined/null!');
       }
 
       for (var key in members)
        {
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          if (!overwrite && prot[key] != undefined) {
+          if (!overwrite && proto[key] != undefined) {
             throw new Error("Overwriting the member '" + key + "' is not allowed!");
           }
         }
-        prot[key] = members[key];
+        proto[key] = members[key];
       }
 
       // Attach statics
@@ -640,8 +634,8 @@ qx.Clazz.define("qx.Clazz",
           if (!overwrite)
           {
             var getterName = "get" + qx.lang.String.toFirstUp(key);
-            if (prot[getterName] != undefined) {
-              throw new Error("Overwriting the property '" + key + "' of class '" + prot.classname + "'is not allowed!");
+            if (proto[getterName] != undefined) {
+              throw new Error("Overwriting the property '" + key + "' of class '" + proto.classname + "'is not allowed!");
             }
           }
         }
