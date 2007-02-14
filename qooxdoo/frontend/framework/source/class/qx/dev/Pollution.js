@@ -267,6 +267,23 @@ qx.Class.extract = function(objectName)
         continue;
       }
 
+      // Ignore native code
+      if (
+//        typeof obj[key] == "function" &&
+        typeof obj[key].constructor == "function"
+      ) {
+        //alert(obj[key].constructor.toString());
+        if (
+          (obj[key].constructor.toString().indexOf("[native code]") != -1) ||
+          (obj[key].constructor.toString().indexOf("[function]") != -1)
+        ) {
+          continue;
+        };
+      }
+      /*
+      EvalError, "RangeError", "ReferenceError", "SyntaxError", "TypeError", "URIError"
+      "HTMLFontElement", "HTMLBodyElement", "HTMLScriptElement", "DOMParser", "Document", "HTMLDivElement","value":{"prototype":{"DOCUMENT_FRAGMENT_NODE":11,"ENTITY_REFERENCE_NODE":5,"CDATA_SECTION_NODE":4,"TEXT_NODE":3,"COMMENT_NODE":8,"ELEMENT_NODE":1,"ATTRIBUTE_NODE":2,"ENTITY_NODE":6,"PROCESSING_INSTRUCTION_NODE":7,"DOCUMENT_NODE":9,"DOCUMENT_TYPE_NODE":10,"NOTATION_NODE":12}}},{"key":"HTMLLabelElement","value":{"prototype":{"DOCUMENT_FRAGMENT_NODE":11,"ENTITY_REFERENCE_NODE":5,"CDATA_SECTION_NODE":4,"TEXT_NODE":3,"COMMENT_NODE":8,"ELEMENT_NODE":1,"ATTRIBUTE_NODE":2,"ENTITY_NODE":6,"PROCESSING_INSTRUCTION_NODE":7,"DOCUMENT_NODE":9,"DOCUMENT_TYPE_NODE":10,"NOTATION_NODE":12}}},{"key":"HTMLIsIndexElement","value":{"prototype":{"DOCUMENT_FRAGMENT_NODE":11,"ENTITY_REFERENCE_NODE":5,"CDATA_SECTION_NODE":4,"TEXT_NODE":3,"COMMENT_NODE":8,"ELEMENT_NODE":1,"ATTRIBUTE_NODE":2,"ENTITY_NODE":6,"PROCESSING_INSTRUCTION_NODE":7,"DOCUMENT_NODE":9,"DOCUMENT_TYPE_NODE":10,"NOTATION_NODE":12}}},
+      */
       // Ignore if configured
       if (qx.lang.Array.contains(ign, key)) {
         continue;
