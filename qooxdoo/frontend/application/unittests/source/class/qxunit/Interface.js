@@ -2,7 +2,7 @@
 qx.Clazz.define("qxunit.Interface", { statics : {
 
 	testInterface: function() {
-	    qx.Interface.define("test.ICar", {
+		qx.Interface.define("qxunit.ICar", {
 	        members: {
 	            startEngine: function() { return true; }
 	        },
@@ -17,18 +17,19 @@ qx.Clazz.define("qxunit.Interface", { statics : {
     
 	    var error = false;
 	    try {
-	      var i = new test.ICar();
+	      var i = new qxunit.ICar();
 	    } catch (e) {
 	        error = true;
 	    }
 	   assertTrue("Interfaces cannot be instantiated!", error);
 
+
 		// test correct implementations
-	    qx.Clazz.define("test.Audi", {
+	    qx.Clazz.define("qxunit.Audi", {
 	        extend: Object,
 	        construct: function() {},
         
-	        implement: [test.ICar],
+	        implement: [qxunit.ICar],
         
 	        members: {
 	            startEngine: function() { return "start"}
@@ -41,33 +42,33 @@ qx.Clazz.define("qxunit.Interface", { statics : {
 			}
 	    });
     
-	    var audi = new test.Audi("audi");
-		assertEquals("honk", test.Audi.honk());
-		assertEquals(4, test.Audi.WHEELS);
+	    var audi = new qxunit.Audi("audi");
+		assertEquals("honk", qxunit.Audi.honk());
+		assertEquals(4, qxunit.Audi.WHEELS);
 		
 		// nothing defined
 		error = false;
 	    try {
-	        qx.Clazz.define("test.Audi1", {
+	        qx.Clazz.define("qxunit.Audi1", {
 	            extend: Object,
 	            construct: function() {},
-	            implement: [test.ICar]
+	            implement: [qxunit.ICar]
 	        });
 	    } catch (e) {
 	        error = e;
 	    }
 		assertEquals(
-			new Error('Implementation of method "startEngine" is missing in Class "test.Audi1" required by interface "test.ICar"').toString(),
+			new Error('Implementation of method "startEngine" is missing in Class "qxunit.Audi1" required by interface "qxunit.ICar"').toString(),
 			error.toString()
 		);
 
 		// members not defined
 		error = false;
 	    try {
-		    qx.Clazz.define("test.Audi2", {
+		    qx.Clazz.define("qxunit.Audi2", {
 		        extend: Object,
 		        construct: function() {},
-		        implement: [test.ICar],
+		        implement: [qxunit.ICar],
 				statics: {
 					honk: function() { return "honk"; }
 				},
@@ -79,7 +80,7 @@ qx.Clazz.define("qxunit.Interface", { statics : {
 	        error = e;
 	    }
 		assertEquals(
-			new Error('Implementation of method "startEngine" is missing in Class "test.Audi2" required by interface "test.ICar"').toString(),
+			new Error('Implementation of method "startEngine" is missing in Class "qxunit.Audi2" required by interface "qxunit.ICar"').toString(),
 			error.toString()
 		);
 
@@ -87,10 +88,10 @@ qx.Clazz.define("qxunit.Interface", { statics : {
 		// statics not defined
 		error = false;
 	    try {
-		    qx.Clazz.define("test.Audi3", {
+		    qx.Clazz.define("qxunit.Audi3", {
 		        extend: Object,
 		        construct: function() {},
-		        implement: [test.ICar],
+		        implement: [qxunit.ICar],
 		        members: {
 		            startEngine: function() { return "start"}
 		        },
@@ -102,17 +103,17 @@ qx.Clazz.define("qxunit.Interface", { statics : {
 	        error = e;
 	    }
 		assertEquals(
-			new Error('Implementation of static method "honk" is missing in Class "test.Audi3" required by interface "test.ICar"').toString(),
+			new Error('Implementation of static method "honk" is missing in Class "qxunit.Audi3" required by interface "qxunit.ICar"').toString(),
 			error.toString()
 		);
 
 		// property not defined
 		error = false;
 	    try {
-		    qx.Clazz.define("test.Audi4", {
+		    qx.Clazz.define("qxunit.Audi4", {
 		        extend: Object,
 		        construct: function() {},
-		        implement: [test.ICar],
+		        implement: [qxunit.ICar],
 				members: {
 		            startEngine: function() { return "start"}             
 		        },
@@ -124,18 +125,18 @@ qx.Clazz.define("qxunit.Interface", { statics : {
 	        error = e;
 	    }
 		assertEquals(
-			new Error('Implementation of method "getColor" is missing in Class "test.Audi4" required by interface "test.ICar"').toString(),
+			new Error('Implementation of method "getColor" is missing in Class "qxunit.Audi4" required by interface "qxunit.ICar"').toString(),
 			error.toString()
-		);	
+		);
 	},
 	
 	testAssertions: function() {
-		qx.Interface.define("test.IComplex", {
+		qx.Interface.define("qxunit.IComplex", {
 			members: {
 				add: function(a) {
 					return (
 						arguments.length == 1 &&
-						qx.Interface.hasInterface(a, test.IComplex)
+						qx.Interface.hasInterface(a, qxunit.IComplex)
 					);
 				},
 				setReal: function(r) {
@@ -147,9 +148,9 @@ qx.Clazz.define("qxunit.Interface", { statics : {
 			}
 		});
 		
-		qx.Clazz.define("test.Complex", {
+		qx.Clazz.define("qxunit.Complex", {
 			extend: Object,
-			implement: test.IComplex,
+			implement: qxunit.IComplex,
 			construct: function(real, imag) {
 				this._real = real;
 				this._imag = imag;
@@ -171,8 +172,8 @@ qx.Clazz.define("qxunit.Interface", { statics : {
 			}
 		});
 		
-		var a = new test.Complex(1,1);
-		var b = new test.Complex(2, -3.4);
+		var a = new qxunit.Complex(1,1);
+		var b = new qxunit.Complex(2, -3.4);
 
 		// valid usage
 		a.add(b);
@@ -226,7 +227,7 @@ qx.Clazz.define("qxunit.Interface", { statics : {
 		} catch (e) {
 			error = e;
 		}
-		//assertTrue(error.toString().match(/Pre condition of method/) ? true : false);
+		assertTrue(error.toString().match(/Pre condition of method/) ? true : false);
 
 	}
 		

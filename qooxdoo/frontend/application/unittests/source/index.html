@@ -19,7 +19,8 @@
                 if (links[i].className != "jsunit") {
                     continue;
                 }
-                runner.href = "../jsunit/testRunner.html?testPage=" + path + runner.getAttribute("url") + "&autoRun=true";
+                var test = encodeURI(runner.getAttribute("url").replace("?", "&"));
+                runner.href = "../jsunit/testRunner.html?testPage=" + path + test + "&autoRun=true";
             }
         }
         
@@ -29,16 +30,16 @@
 </head>
 <body>
     <a class="jsunit" url="/html/SuiteAll.html">run all tests</a><br>
-    <a class="jsunit" url="/html/NumberFormat.html">run NumberFormat tests</a><br>
+    <a class="jsunit" url="/html/QooxdooTest.html?testclass=qxunit.NumberFormat">run NumberFormat tests</a><br>
     <a class="jsunit" url="/html/Variants.html">run Variants tests</a><br>
-    <a class="jsunit" url="/html/Clazz.html">run Clazz tests</a><br>
-    <a class="jsunit" url="/html/Interface.html">run Interface tests</a><br>
-    <a class="jsunit" url="/html/Mixin.html">run Mixin tests</a><br>
-    <a class="jsunit" url="/html/Color.html">run Color tests</a><br>
-    <a class="jsunit" url="/html/Core.html">run Core tests</a><br>
-    <a class="jsunit" url="/html/Io.html">run IO tests</a><br>
-    <a class="jsunit" url="/html/Xml.html">run XML tests</a><br>
-    <a class="jsunit" url="/html/Lang.html">run qx.lang.* tests</a><br>
-    <a class="jsunit" url="/html/Profile.html">Profiling</a><br>
+    <a class="jsunit" url="/html/QooxdooTest.html?testclass=qxunit.Clazz">run Clazz tests</a><br>
+    <a class="jsunit" url="/html/QooxdooTest.html?testclass=qxunit.Interface">run Interface tests</a><br>
+    <a class="jsunit" url="/html/QooxdooTest.html?testclass=qxunit.Mixin">run Mixin tests</a><br>
+    <a class="jsunit" url="/html/QooxdooTest.html?testclass=qxunit.Color">run Color tests</a><br>
+    <a class="jsunit" url="/html/QooxdooTest.html?testclass=qxunit.Core">run Core tests</a><br>
+    <a class="jsunit" url="/html/QooxdooTest.html?testclass=qxunit.Io">run IO tests</a><br>
+    <a class="jsunit" url="/html/QooxdooTest.html?testclass=qxunit.Xml">run XML tests</a><br>
+    <a class="jsunit" url="/html/QooxdooTest.html?testclass=qxunit.Lang">run qx.lang.* tests</a><br>
+    <a class="jsunit" url="/html/QooxdooTest.html?testclass=qxunit.Profile">Profiling</a><br>
 </body>
 </html>
