@@ -24,7 +24,7 @@ import tree, mapper
 def skip(name, prefix):
 	return len(prefix) > 0 and name[:len(prefix)] == prefix
 
-def search(node, found, level=0, prefix="$", skipPrefix="", register=False, debug=False):
+def search(node, found, counter, level=0, prefix="$", skipPrefix="", register=False, debug=False):
   if node.type == "function":
     if register:
       name = node.get("name", False)
@@ -63,11 +63,11 @@ def search(node, found, level=0, prefix="$", skipPrefix="", register=False, debu
   if node.hasChildren():
     if node.type == "function":
       for child in node.children:
-        search(child, found, level+1, prefix, skipPrefix, register, debug)
+        counter += search(child, found, 0, level+1, prefix, skipPrefix, register, debug)
 
     else:
       for child in node.children:
-        search(child, found, level, prefix, skipPrefix, register, debug)
+        counter += search(child, found, 0, level, prefix, skipPrefix, register, debug)
 
   # Function closed
   if node.type == "function":
@@ -80,13 +80,14 @@ def search(node, found, level=0, prefix="$", skipPrefix="", register=False, debu
 
     # Iterate over content
     # Replace variables in current scope
-    update(node, found, prefix, skipPrefix, debug)
+    counter += update(node, found, 0, prefix, skipPrefix, debug)
     del found[foundLen:]
 
+  return counter
 
 
-def update(node, found, prefix="$", skipPrefix="", debug=False):
 
+def update(node, found, counter, prefix="$", skipPrefix="", debug=False):
   # Handle all identifiers
   if node.type == "identifier":
 
@@ -112,6 +113,7 @@ def update(node, found, prefix="$", skipPrefix="", debug=False):
       if idenName != None and idenName in found and not skip(idenName, skipPrefix):
         replName = "%s%s" % (prefix, mapper.convert(found.index(idenName)))
         node.set("name", replName)
+        counter += 1
 
         if debug:
           print "  - Replaced '%s' with '%s'" % (idenName, replName)
@@ -123,6 +125,7 @@ def update(node, found, prefix="$", skipPrefix="", debug=False):
     if idenName != None and idenName in found and not skip(idenName, skipPrefix):
       replName = "%s%s" % (prefix, mapper.convert(found.index(idenName)))
       node.set("identifier", replName)
+      counter += 1
 
       if debug:
         print "  - Replaced '%s' with '%s'" % (idenName, replName)
@@ -134,6 +137,7 @@ def update(node, found, prefix="$", skipPrefix="", debug=False):
     if idenName != None and idenName in found and not skip(idenName, skipPrefix):
       replName = "%s%s" % (prefix, mapper.convert(found.index(idenName)))
       node.set("name", replName)
+      counter += 1
 
       if debug:
         print "  - Replaced '%s' with '%s'" % (idenName, replName)
@@ -141,4 +145,6 @@ def update(node, found, prefix="$", skipPrefix="", debug=False):
   # Iterate over children
   if node.hasChildren():
     for child in node.children:
-      update(child, found, prefix, skipPrefix, debug)
+      counter += update(child, found, 0, prefix, skipPrefix, debug)
+
+  return counter
