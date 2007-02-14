@@ -633,43 +633,6 @@ def fromFunction(func, assignType, name, alternative, old=[]):
 
 
   #
-  # add @name and @access
-  ##############################################################
-  if name != None and name != "construct":
-    s += " * @name %s\n" % name
-
-    if name.startswith("__"):
-      s += " * @access private\n"
-    elif name.startswith("_"):
-      s += " * @access protected\n"
-    else:
-      s += " * @access public\n"
-
-
-
-  #
-  # add @alternative
-  ##############################################################
-  oldAlternative = getAttrib(old, "alternative")
-
-  if alternative:
-    if attribHas(oldAlternative, "text"):
-      newText = oldDesc["text"]
-    else:
-      newText = "TODOC"
-
-    s += " * @alternative%s" % splitText(newText)
-
-    if not s.endswith("\n"):
-      s += "\n"
-
-  elif oldAlternative:
-    print " * Removing old @alternative for %s" % name
-
-
-
-
-  #
   # add @abstract
   ##############################################################
   oldAbstract = getAttrib(old, "abstract")
