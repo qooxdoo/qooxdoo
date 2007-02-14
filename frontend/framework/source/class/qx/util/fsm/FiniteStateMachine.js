@@ -142,6 +142,29 @@ qx.OO.addProperty(
     defaultValue : 2
   });
 
+
+/**
+ * Debug flags, composed of the bitmask values in {@link #DebugFlags}.
+ *
+ * Set the debug flags from the application by or-ing together bits, akin to
+ * this:
+ *
+ * var FSM = qx.util.fsm.FiniteStateMachine;
+ * fsm.setDebugFlags(FSM.DebugFlags.EVENTS |
+ *                   FSM.DebugFlags.TRANSITIONS |
+ *                   FSM.DebugFlags.FUNCTION_DETAIL |
+ *                   FSM.DebugFlags.OBJECT_NOT_FOUND);
+ */
+qx.OO.addProperty(
+  {
+    name         : "debugFlags",
+    type         : "number",
+    defaultValue : (qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS |
+                    qx.util.fsm.FiniteStateMachine.DebugFlags.TRANSITIONS |
+                    qx.util.fsm.FiniteStateMachine.DebugFlags.OBJECT_NOT_FOUND)
+  });
+
+
 /*
 ---------------------------------------------------------------------------
   MODIFIER
@@ -432,7 +455,7 @@ qx.Proto.start = function()
   }
 
   var debugFunctions =
-    (this._debugFlags &
+    (this.getDebugFlags() &
      qx.util.fsm.FiniteStateMachine.DebugFlags.FUNCTION_DETAIL);
 
   // Run the actionsBeforeOnentry actions for the initial state
@@ -557,7 +580,7 @@ qx.Proto.enqueueEvent = function(event, bAddAtHead)
     this._eventQueue.unshift(event);
   }
 
-  if (this._debugFlags &
+  if (this.getDebugFlags() &
       qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS)
   {
     if (bAddAtHead)
@@ -666,7 +689,7 @@ qx.Proto._run = function(event)
   var action;
 
   // Get the debug flags
-  var debugFlags = this._debugFlags;
+  var debugFlags = this.getDebugFlags();
 
   // Allow slightly faster access to determine if debug is enableda
   var debugEvents =
@@ -1005,14 +1028,7 @@ qx.Class.EventHandling =
 };
 
 /**
- * Debug bitmask values.  Set the debug flags from the application by or-ing
- * together bits, akin to this:
- *
- * instanceOfFiniteStateMachine._debugFlags =
- *   (qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS |
- *    qx.util.fsm.FiniteStateMachine.DebugFlags.TRANSITIONS |
- *    qx.util.fsm.FiniteStateMachine.DebugFlags.FUNCTION_DETAIL |
- *    qx.util.fsm.FiniteStateMachine.DebugFlags.OBJECT_NOT_FOUND);
+ * Debug bitmask values.
  */
 qx.Class.DebugFlags =
 {
@@ -1030,18 +1046,6 @@ qx.Class.DebugFlags =
 };
 
 
-/*
----------------------------------------------------------------------------
-  CLASS DEFAULT SETTINGS
----------------------------------------------------------------------------
-*/
-
-/**
- * Debug flags: bitmap of DebugFlags (see Class Constants).
- */
-qx.Proto._debugFlags = (qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS |
-   qx.util.fsm.FiniteStateMachine.DebugFlags.TRANSITIONS |
-   qx.util.fsm.FiniteStateMachine.DebugFlags.OBJECT_NOT_FOUND);
 
 
 /*
