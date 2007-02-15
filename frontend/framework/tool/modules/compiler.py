@@ -98,9 +98,9 @@ def write(txt=""):
   if pretty:
     # handle new line wishes
     if afterArea:
-      nr = 9
-    elif afterDivider:
       nr = 5
+    elif afterDivider:
+      nr = 3
     elif afterBreak:
       nr = 2
     elif afterLine:
