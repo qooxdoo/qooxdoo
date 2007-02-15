@@ -62,7 +62,7 @@ qx.Class.EVENTPREFIX = "evt";
  */
 qx.Proto.addEventListener = function(vType, vFunction, vObject)
 {
-  if(this._disposed) {
+  if(this.getDisposed()) {
     return;
   }
 
@@ -101,7 +101,7 @@ qx.Proto.addEventListener = function(vType, vFunction, vObject)
  */
 qx.Proto.removeEventListener = function(vType, vFunction, vObject)
 {
-  if(this._disposed) {
+  if(this.getDisposed()) {
     return;
   }
 
