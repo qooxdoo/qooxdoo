@@ -91,7 +91,7 @@ qx.Clazz.define("qx.core.Setting",
      * @access public
      * @return {void}
      */
-    init : function()
+    __init : function()
     {
       if (window.qxsettings)
       {
@@ -111,8 +111,20 @@ qx.Clazz.define("qx.core.Setting",
         window.qxsettings = null;
       }
     }
+  },
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics) {
+    statics.__init();
   }
 });
 
-qx.core.Setting.init();
-qx.core.Setting.define("qx.version", "0.0");
+
+

@@ -586,7 +586,18 @@ qx.Clazz.define("qx.core.Client",
     supportsInnerText : function() {
       return this._supportsInnerText;
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics, members, properties) {
+    qx.core.Variant.define("qx.client", [ "gecko", "mshtml", "opera", "webkit", "khtml" ], qx.core.Client.getInstance().getEngine());
   }
 });
-
-qx.core.Variant.define("qx.client", [ "gecko", "mshtml", "opera", "webkit", "khtml" ], qx.core.Client.getInstance().getEngine());
