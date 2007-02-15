@@ -4,6 +4,7 @@ qx.Clazz.define("qxunit.TestSuite", {
 	extend: qx.core.Object,
 	
 	construct: function(testClassOrNamespace) {
+		qx.log.Logger.ROOT_LOGGER.removeAllAppenders();
 		if (testClassOrNamespace) {
 			this.add(testClassOrNamespace);
 		}
@@ -139,7 +140,11 @@ qx.Clazz.define("qxunit.TestSuite", {
 		
 		__createTestFunctionWrapper: function(clazz, functionName) {
 			return function() {
-				( (new clazz()) [functionName]) ();
+				try {
+					( (new clazz()) [functionName]) ();
+				} catch (e) {
+					fail("Uncatched exception: " + e.toString());
+				}
 			}
 		}		
 	}
