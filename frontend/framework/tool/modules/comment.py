@@ -773,7 +773,7 @@ def fromFunction(func, assignType, name, alternative, old=[]):
       if not s.endswith("\n"):
         s += "\n"
 
-    elif not cat in [ "description", "type", "name", "access", "alternative", "abstract", "param", "return", "throws" ]:
+    elif not cat in [ "description", "type", "abstract", "param", "return", "throws" ]:
       print " * Found unallowed attribute %s in comment for %s (function)" % (cat, name)
 
 
