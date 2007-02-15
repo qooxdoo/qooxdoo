@@ -11,7 +11,15 @@ qx.Clazz.define("qx.test.Cat",
 
   statics :
   {
-    static_prop1 : 3.141
+    static_prop1 : 3.141,
+
+    doSomething : function() {
+      return this.doSomethingElse();
+    },
+
+    doSomethingElse : function() {
+      return this.static_prop1;
+    }
   },
 
   properties :
@@ -35,8 +43,15 @@ qx.Clazz.define("qx.test.Cat",
     /** This is the documentation for the play function */
     play : function()
     {
-      this.debug("Don't know how to play! (" + arguments.callee.self.static_prop1 + ")");
-      this.debug("Don't know how to play! (" + this.self(arguments).static_prop1 + ")");
+      this.debug("Don't know how to play! [1] (" + arguments.callee.self.static_prop1 + ")");
+      this.debug("Don't know how to play! [2] (" + this.self(arguments).static_prop1 + ")");
+      this.debug("Don't know how to play! [3] (" + this.self(arguments).doSomethingElse() + ")");
     }
+  },
+
+  defer : function(statics, members, properties)
+  {
+    members.fooBar = members.makeSound;
+    properties.add("sound", { compat : true, type : "string" });
   }
 });

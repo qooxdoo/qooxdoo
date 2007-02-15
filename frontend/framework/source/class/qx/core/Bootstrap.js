@@ -63,8 +63,12 @@ qx =
       return part;
     },
 
-    define : function(name, config) {
+    define : function(name, config)
+    {
       this.createNamespace(name, config.statics);
+      if (config.defer) {
+        config.defer(config.statics);
+      }
     }
   }
 };

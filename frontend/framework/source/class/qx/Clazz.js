@@ -31,21 +31,21 @@
  * This class builds the basis for the qooxdoo class system and the qooxdoo
  * style of object oriented JavaScript. The define method is used to create
  * all classes.
- * 
+ *
  * Instances of classes defined with <code>qx.Clazz.define</code> have the
  * following keys attached to the constructor and the prototype:
- * 
+ *
  * <table>
  * <tr><th>classname</th><td>The fully qualified name of the class (e.g. "qx.ui.core.Widget").</td></tr>
  * <tr><th>basename</th><td>The namspace part of the class name (e.g. "qx.ui.core").</td></tr>
  * <tr><th>superclass</th><td>A pointer to the constructor of the super class.</td></tr>
  * <tr><th>constructor</th><td>A pointer to the constructor of the class.</td></tr>
  * </table>
- * 
+ *
  * Further each method, which overwrites a method of it's super class, has access to the overwritten
  * method by using the <code>base</code> property which is attached to the method's function object.
  * It can be accessed inside method by the <code>arguments.callee</code> variable:
- * 
+ *
  * <pre><code>
  * members: {
  *   ...
@@ -144,6 +144,9 @@ qx.Clazz.define("qx.Clazz",
       // Process settings/variants
       this.__processSettings(clazz, config.settings);
       this.__processVariants(clazz, config.variants);
+
+      // Process defer
+      this.__processDefer(clazz, config.defer);
     },
 
 
@@ -289,7 +292,8 @@ qx.Clazz.define("qx.Clazz",
           "members": "object",
           "properties": "object",
           "settings": "object",
-          "variants": "object"
+          "variants": "object",
+          "defer" : "function"
         };
 
         for (var key in config)
@@ -501,6 +505,29 @@ qx.Clazz.define("qx.Clazz",
 
 
     /**
+     * Process defer configuration
+     *
+     * @param clazz {Clazz} class to execute the defer function for
+     * @param defer {Function} defer function
+     */
+    __processDefer : function(clazz, defer)
+    {
+      if (!defer) {
+        return;
+      }
+
+      var properties =
+      {
+        add : function(name, config) {
+          qx.Clazz.__addProperty(clazz, name, config);
+        }
+      };
+
+      defer(clazz, clazz.prototype, properties);
+    },
+
+
+    /**
      * Wrapper for qx.OO.addProperty. This is needed in two places so the code
      * has been extracted. The global variables qx.Class, qx.Proto and qx.Super
      * must be set before this method is called.
@@ -514,32 +541,33 @@ qx.Clazz.define("qx.Clazz",
         return;
       }
 
+      for (var name in properties) {
+        this.__addProperty(clazz, name, properties[name]);
+      }
+    },
+
+    __addProperty : function(clazz, name, property)
+    {
       var legacy = qx.core.LegacyProperty;
       var proto = clazz.prototype;
 
-      for (var name in properties)
+      property.name = name;
+
+      if (property.fast)
       {
-        var property = properties[name];
-
-        var value = property;
-        value.name = name;
-
-        if (value.fast)
-        {
-          legacy.addFastProperty(value, proto);
-        }
-        else if (value.cached)
-        {
-          legacy.addCachedProperty(value, proto);
-        }
-        else if (value.compat)
-        {
-          legacy.addProperty(value, proto);
-        }
-        else if (qx.core.Variant.isSet("qx.debug", "on"))
-        {
-          throw new Error('Could not handle property definition "' + name + '" in Class "' + qx.Proto.classname + "'");
-        }
+        legacy.addFastProperty(property, proto);
+      }
+      else if (property.cached)
+      {
+        legacy.addCachedProperty(property, proto);
+      }
+      else if (property.compat)
+      {
+        legacy.addProperty(property, proto);
+      }
+      else if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        throw new Error('Could not handle property definition "' + name + '" in Class "' + qx.Proto.classname + "'");
       }
     },
 
@@ -607,7 +635,7 @@ qx.Clazz.define("qx.Clazz",
         this.__mixin(clazz, mixins[i], false);
       }
     },
-    
+
 
     /**
      * Attach interfaces to a class
@@ -670,10 +698,11 @@ qx.Clazz.define("qx.Clazz",
       // used by multiple classes
       var members = mixin.members;
       var proto = clazz.prototype;
-      
+
       if (!clazz.$$INCLUDES) {
-        clazz.$$INCLUDES;
+        clazz.$$INCLUDES = {};
       }
+
       if (clazz.$$INCLUDES[mixin.name]) {
         return;
       }

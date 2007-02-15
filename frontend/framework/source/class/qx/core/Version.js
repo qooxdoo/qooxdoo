@@ -42,66 +42,103 @@
   *  </li>
   * </ul>
  */
-qx.OO.defineClass("qx.core.Version");
-
-/** {Integer} Major version number */
-qx.Class.major = 0;
-
-/** {Integer} Minor version number */
-qx.Class.minor = 0;
-
-/** {Integer} Maintenance number */
-qx.Class.revision = 0;
-
-/** {String} Revision state */
-qx.Class.state = "";
-
-/** {Integer} Subversion revision number */
-qx.Class.svn = 0;
-
-/** {String} Subversion folder e.g. trunk, release_0_6_3, ... */
-qx.Class.folder = "";
-
-/**
- * returns the qooxdoo version string
- *
- * @return {String} qooxdoo version string
- */
-qx.Class.toString = function()
+qx.Clazz.define("qx.core.Version",
 {
-  var vClass = qx.core.Version;
-  return vClass.major + "." + vClass.minor
-    + (vClass.revision==0 ? "" : "." + vClass.revision)
-    + (vClass.state == "" ? "" : "-" + vClass.state)
-    + (vClass.svn==0 ? "" : " (r" + vClass.svn + ")")
-    + (vClass.folder == "" ? "" : " [" + vClass.folder + "]");
-};
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
 
-/**
- * Initialize class members
- */
-qx.Class._init = function()
-{
-  var vClass = qx.core.Version;
-
-  var vSplit = qx.core.Setting.get("qx.version").split(" ");
-  var vVersion = vSplit.shift();
-  var vInfos = vSplit.join(" ");
-
-  if (/([0-9]+)\.([0-9]+)(\.([0-9]))?(-([a-z]+))?/.test(vVersion))
+  statics :
   {
-    vClass.major = (RegExp.$1 != "" ? parseInt(RegExp.$1) : 0);
-    vClass.minor = (RegExp.$2 != "" ? parseInt(RegExp.$2) : 0);
-    vClass.revision = (RegExp.$4 != "" ? parseInt(RegExp.$4) : 0);
-    vClass.state = typeof RegExp.$6 == "string" ? RegExp.$6 : "";
-  }
+    /** Major version number */
+    major : 0,
 
-  if (/(\(r([0-9]+)\))?(\s\[(\w+)\])?/.test(vInfos))
-  {
-    vClass.svn = (RegExp.$2 != "" ? parseInt(RegExp.$2) : 0);
-    vClass.folder = typeof RegExp.$4 == "string" ? RegExp.$4 : "";
-  }
-};
 
-// Initialize at load time
-qx.Class._init();
+    /** Minor version number */
+    minor : 0,
+
+
+    /** Maintenance number */
+    revision : 0,
+
+
+    /** Revision state */
+    state : "",
+
+
+    /** Subversion revision number */
+    svn : 0,
+
+
+    /** Subversion folder e.g. trunk, release_0_6_3, ... */
+    folder : "",
+
+
+    /**
+     * returns the qooxdoo version string
+     *
+     * @type static
+     * @return {String} qooxdoo version string
+     */
+    toString : function() {
+      return this.major + "." + this.minor + (this.revision == 0 ? "" : "." + this.revision) + (this.state == "" ? "" : "-" + this.state) + (this.svn == 0 ? "" : " (r" + this.svn + ")") + (this.folder == "" ? "" : " [" + this.folder + "]");
+    },
+
+
+    /**
+     * Initialize class members
+     *
+     * @type static
+     * @return {void}
+     */
+    __init : function()
+    {
+      var vSplit = qx.core.Setting.get("qx.version").split(" ");
+      var vVersion = vSplit.shift();
+      var vInfos = vSplit.join(" ");
+
+      if (/([0-9]+)\.([0-9]+)(\.([0-9]))?(-([a-z]+))?/.test(vVersion))
+      {
+        this.major = (RegExp.$1 != "" ? parseInt(RegExp.$1) : 0);
+        this.minor = (RegExp.$2 != "" ? parseInt(RegExp.$2) : 0);
+        this.revision = (RegExp.$4 != "" ? parseInt(RegExp.$4) : 0);
+        this.state = typeof RegExp.$6 == "string" ? RegExp.$6 : "";
+      }
+
+      if (/(\(r([0-9]+)\))?(\s\[(\w+)\])?/.test(vInfos))
+      {
+        this.svn = (RegExp.$2 != "" ? parseInt(RegExp.$2) : 0);
+        this.folder = typeof RegExp.$4 == "string" ? RegExp.$4 : "";
+      }
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     SETTINGS
+  *****************************************************************************
+  */
+
+  settings : {
+    "qx.version" : "0.0"
+  },
+
+
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics) {
+    statics.__init();
+  }
+});
