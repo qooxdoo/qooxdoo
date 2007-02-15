@@ -367,7 +367,7 @@ qx.Clazz.define("qx.Interface",
             }
 
             // Already in? Mark it in the blacklist and delete old entry
-            if (key in statics)
+            if (key in interf.statics)
             {
               delete interf.statics[key];
               interf.blacklist[key] = true;
