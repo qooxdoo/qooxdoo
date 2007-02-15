@@ -516,14 +516,12 @@ qx.Clazz.define("qx.Clazz",
         return;
       }
 
-      var properties =
+      defer(clazz, clazz.prototype,
       {
         add : function(name, config) {
           qx.Clazz.__addProperty(clazz, name, config);
         }
-      };
-
-      defer(clazz, clazz.prototype, properties);
+      });
     },
 
 
