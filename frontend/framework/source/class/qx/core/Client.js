@@ -570,30 +570,8 @@ qx.Clazz.define("qx.core.Client",
     supportsInnerText : function() {
       return this._supportsInnerText;
     }
-  },
-
-
-
-
-
-
-
-
-  /*
-  *****************************************************************************
-  **** VARIANTS ***************************************************************
-  *****************************************************************************
-  */
-
-  variants :
-  {
-    /**
-     * Browser switch
-     */
-    "qx.client" :
-    {
-      allowedValues : [ "gecko", "mshtml", "opera", "webkit", "khtml" ],
-      defaultValue  : qx.core.Client.getInstance().getEngine()
-    }
   }
 });
+
+
+qx.core.Variant.define("qx.client", ["gecko", "mshtml", "opera", "webkit", "khtml"], qx.core.Client.getInstance().getEngine());
