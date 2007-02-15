@@ -544,28 +544,28 @@ qx.Clazz.define("qx.Clazz",
       }
     },
 
-    __addProperty : function(clazz, name, property)
+    __addProperty : function(clazz, name, config)
     {
       var legacy = qx.core.LegacyProperty;
       var proto = clazz.prototype;
 
-      property.name = name;
+      config.name = name;
 
-      if (property.fast)
+      if (config.fast)
       {
-        legacy.addFastProperty(property, proto);
+        legacy.addFastProperty(config, proto);
       }
-      else if (property.cached)
+      else if (config.cached)
       {
-        legacy.addCachedProperty(property, proto);
+        legacy.addCachedProperty(config, proto);
       }
-      else if (property.compat)
+      else if (config.compat)
       {
-        legacy.addProperty(property, proto);
+        legacy.addProperty(config, proto);
       }
       else if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        throw new Error('Could not handle property definition "' + name + '" in Class "' + qx.Proto.classname + "'");
+        throw new Error('Could not handle property definition "' + name + '" in Class "' + clazz.classname + "'");
       }
     },
 
