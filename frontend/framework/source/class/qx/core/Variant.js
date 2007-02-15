@@ -69,10 +69,6 @@ qx.Clazz.define("qx.core.Variant",
         throw new Error('Default value of variant "' + key + '" must be defined!');
       }
 
-      if (typeof defaultValue == "function") {
-        defaultValue = defaultValue();
-      }
-
       if (!this.__variants[key]) {
         this.__variants[key] = {};
       } else if (this.__variants[key].defaultValue !== undefined) {
@@ -107,7 +103,7 @@ qx.Clazz.define("qx.core.Variant",
     /**
      * Import settings from global qxvariants into current environment
      */
-    init : function()
+    __init : function()
     {
       if (window.qxvariants)
       {
@@ -279,8 +275,21 @@ qx.Clazz.define("qx.core.Variant",
 
       return false;
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics)
+  {
+    statics.define("qx.debug", [ "on", "off" ], "on");
+    statics.__init();
   }
 });
 
-qx.core.Variant.init();
-qx.core.Variant.define("qx.debug", [ "on", "off" ], "on");

@@ -97,8 +97,6 @@ qx.Clazz.define("qx.lang.Generics",
      * TODO: maybe mode this function to qx.lang.Function
      *
      * @type static
-     * @name __wrap
-     * @access private
      * @param obj {Object} the object in which prototype the function is defined.
      * @param func {String} name of the method to wrap.
      * @return {Function} wrapped method. This function takes as first argument an
@@ -115,11 +113,9 @@ qx.Clazz.define("qx.lang.Generics",
      * Initialize all generic functions as defined in JavaScript 1.6.
      *
      * @type static
-     * @name init
-     * @access public
      * @return {void}
      */
-    init : function()
+    __init : function()
     {
       var map = qx.lang.Generics.__map;
 
@@ -138,7 +134,18 @@ qx.Clazz.define("qx.lang.Generics",
         }
       }
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics) {
+    statics.__init();
   }
 });
-
-qx.lang.Generics.init();
