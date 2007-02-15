@@ -55,8 +55,6 @@ qx.Clazz.define("qx.lang.String",
      * <pre>qx.lang.String.toCamelCase("to-camel-case") == "toCamelCase"</pre>
      *
      * @type static
-     * @name toCamelCase
-     * @access public
      * @param str {String} string seperated by '-'
      * @return {String} camel case string
      */
@@ -79,12 +77,11 @@ qx.Clazz.define("qx.lang.String",
       return vNew;
     },
 
+
     /**
      * removes white space from the left side of a string
      *
      * @type static
-     * @name trimLeft
-     * @access public
      * @param str {String} the string to trim
      * @return {String} TODOC
      */
@@ -92,12 +89,11 @@ qx.Clazz.define("qx.lang.String",
       return str.replace(/^\s+/, "");
     },
 
+
     /**
      * removes white space from the right side of a string
      *
      * @type static
-     * @name trimRight
-     * @access public
      * @param str {String} the string to trim
      * @return {String} TODOC
      */
@@ -105,12 +101,11 @@ qx.Clazz.define("qx.lang.String",
       return str.replace(/\s+$/, "");
     },
 
+
     /**
      * removes white space from the left and the right side of a string
      *
      * @type static
-     * @name trim
-     * @access public
      * @param str {String} the string to trim
      * @return {String} TODOC
      */
@@ -118,12 +113,11 @@ qx.Clazz.define("qx.lang.String",
       return str.replace(/^\s+|\s+$/g, "");
     },
 
+
     /**
      * Check whether the string starts with the given substring
      *
      * @type static
-     * @name startsWith
-     * @access public
      * @param fullstr {String} the string to search in
      * @param substr {String} the substring to look for
      * @return {Boolean} whether the string starts with the given substring
@@ -132,12 +126,11 @@ qx.Clazz.define("qx.lang.String",
       return !fullstr.indexOf(substr);
     },
 
+
     /**
      * Check whether the string ends with the given substring
      *
      * @type static
-     * @name endsWith
-     * @access public
      * @param fullstr {String} the string to search in
      * @param substr {String} the substring to look for
      * @return {Boolean} whether the string ends with the given substring
@@ -146,12 +139,11 @@ qx.Clazz.define("qx.lang.String",
       return fullstr.lastIndexOf(substr) === fullstr.length - substr.length;
     },
 
+
     /**
      * Pad a string up to a given length. Padding characters are added to the left of the string.
      *
      * @type static
-     * @name pad
-     * @access public
      * @param str {String} the string to pad
      * @param length {Integer} the final length of the string
      * @param ch {String} character used to fill up the string
@@ -172,12 +164,11 @@ qx.Clazz.define("qx.lang.String",
       return temp + str;
     },
 
+
     /**
      * Convert the first character of the string to upper case.
      *
      * @type static
-     * @name toFirstUp
-     * @access public
      * @param str {String} the string
      * @return {String} the string with a upper case first character
      */
@@ -185,14 +176,13 @@ qx.Clazz.define("qx.lang.String",
       return str.charAt(0).toUpperCase() + str.substr(1);
     },
 
+
     /**
      * Add a list item to a serialized list string
      * Example:
      * <pre>qx.lang.String.addListItem("red, yellow, green", "blue", ", ") == "red, yellow, green, blue"</pre>
      *
      * @type static
-     * @name addListItem
-     * @access public
      * @param str {String} serialized list. The items are seperated by "sep"
      * @param item {String} list item to be added
      * @param sep {String} separator
@@ -221,14 +211,13 @@ qx.Clazz.define("qx.lang.String",
       }
     },
 
+
     /**
      * Remove a list item from a serialized list string
      * Example:
      * <pre>qx.lang.String.removeListItem("red, yellow, green", "yellow", ", ") == "red, green, blue"</pre>
      *
      * @type static
-     * @name removeListItem
-     * @access public
      * @param str {String} serialized list. The items are seperated by "sep"
      * @param item {String} list item to be removed
      * @param sep {String} separator
@@ -260,12 +249,11 @@ qx.Clazz.define("qx.lang.String",
       }
     },
 
+
     /**
      * Check whether the string contains a given substring
      *
      * @type static
-     * @name contains
-     * @access public
      * @param str {String} the string
      * @param substring {String} substring to search for
      * @return {Boolean} whether the string contains the substring
@@ -274,6 +262,7 @@ qx.Clazz.define("qx.lang.String",
       return str.indexOf(substring) != -1;
     },
 
+
     /**
      * Print a list of arguments using a format string
      * In the format string occurences of %n are replaced by the n'th element of the args list.
@@ -281,8 +270,6 @@ qx.Clazz.define("qx.lang.String",
      * <pre>qx.lang.String.format("Hello %1, my name is %2", ["Egon", "Franz"]) == "Hello Egon, my name is Franz"</pre>
      *
      * @type static
-     * @name format
-     * @access public
      * @param pattern {String} format string
      * @param args {Array} array of arguments to insert into the format string
      * @return {String} TODOC
@@ -298,12 +285,11 @@ qx.Clazz.define("qx.lang.String",
       return str;
     },
 
+
     /**
      * Escapes all chars that have a special meaning in regular expressions
      *
      * @type static
-     * @name escapeRegexpChars
-     * @access public
      * @param str {String} the string where to escape the chars.
      * @return {String} the string with the escaped chars.
      */

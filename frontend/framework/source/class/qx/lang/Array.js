@@ -44,7 +44,7 @@ qx.Clazz.define("qx.lang.Array",
 {
   /*
   *****************************************************************************
-  **** STATICS ****************************************************************
+     STATICS
   *****************************************************************************
   */
 
@@ -54,8 +54,6 @@ qx.Clazz.define("qx.lang.Array",
      * Convert an arguments object into an array
      *
      * @type static
-     * @name fromArguments
-     * @access public
      * @param args {arguments} arguments object
      * @return {Array} a newly created array (copy) with the content of the arguments object.
      */
@@ -63,26 +61,24 @@ qx.Clazz.define("qx.lang.Array",
       return Array.prototype.slice.call(args, 0);
     },
 
+
     /**
      * Convert a (node) collection into an array
      *
      * @type static
-     * @name fromCollection
-     * @access public
-     * @param args {arguments} node collection
+     * @param coll {var} TODOC
      * @return {Array} a newly created array (copy) with the content of the node collection.
      */
     fromCollection : function(coll) {
       return Array.prototype.slice.call(coll, 0);
     },
 
+
     /**
      * Expand shorthand definition to a four element list.
      * This is an utility function for padding/margin and all other shorthand handling.
      *
      * @type static
-     * @name fromShortHand
-     * @access public
      * @param input {Array} array with one to four elements
      * @return {Array} an array with four elements
      */
@@ -116,12 +112,11 @@ qx.Clazz.define("qx.lang.Array",
       return result;
     },
 
+
     /**
      * Return a copy of the given array
      *
      * @type static
-     * @name copy
-     * @access public
      * @param arr {Array} the array to copy
      * @return {Array} copy of the array
      */
@@ -129,13 +124,12 @@ qx.Clazz.define("qx.lang.Array",
       return arr.concat();
     },
 
+
     /**
      * Return a copy of the given array
      * The same as {@link qx.lang.Array.copy}
      *
      * @type static
-     * @name clone
-     * @access public
      * @param arr {Array} the array to copy
      * @return {Array} copy of the array
      */
@@ -143,12 +137,11 @@ qx.Clazz.define("qx.lang.Array",
       return arr.concat();
     },
 
+
     /**
      * Return the last element of an array
      *
      * @type static
-     * @name getLast
-     * @access public
      * @param arr {Array} the array
      * @return {var} the last element of the array
      */
@@ -156,12 +149,11 @@ qx.Clazz.define("qx.lang.Array",
       return arr[arr.length - 1];
     },
 
+
     /**
      * Return the first element of an array
      *
      * @type static
-     * @name getFirst
-     * @access public
      * @param arr {Array} the array
      * @return {var} the first element of the array
      */
@@ -169,12 +161,11 @@ qx.Clazz.define("qx.lang.Array",
       return arr[0];
     },
 
+
     /**
      * Insert an element at a given position into the array
      *
      * @type static
-     * @name insertAt
-     * @access public
      * @param arr {Array} the array
      * @param obj {var} the element to insert
      * @param i {Integer} position where to insert the element into the array
@@ -187,12 +178,11 @@ qx.Clazz.define("qx.lang.Array",
       return arr;
     },
 
+
     /**
      * Insert an element into the array before a given second element
      *
      * @type static
-     * @name insertBefore
-     * @access public
      * @param arr {Array} the array
      * @param obj {var} object to be inserted
      * @param obj2 {var} insert obj1 before this object
@@ -211,12 +201,11 @@ qx.Clazz.define("qx.lang.Array",
       return arr;
     },
 
+
     /**
      * Insert an element into the array after a given second element
      *
      * @type static
-     * @name insertAfter
-     * @access public
      * @param arr {Array} the array
      * @param obj {var} object to be inserted
      * @param obj2 {var} insert obj1 after this object
@@ -235,12 +224,11 @@ qx.Clazz.define("qx.lang.Array",
       return arr;
     },
 
+
     /**
      * Remove an element from the array at the given index
      *
      * @type static
-     * @name removeAt
-     * @access public
      * @param arr {Array} the array
      * @param i {Integer} index of the element to be removed
      * @return {Array} the array with the element removed
@@ -249,12 +237,11 @@ qx.Clazz.define("qx.lang.Array",
       return arr.splice(i, 1);
     },
 
+
     /**
      * Remmove all elements from the array
      *
      * @type static
-     * @name removeAll
-     * @access public
      * @param arr {Array} the array
      * @return {Array} empty array
      */
@@ -262,32 +249,36 @@ qx.Clazz.define("qx.lang.Array",
       return arr.splice(0, arr.length);
     },
 
+
     /**
      * Append the elements of an array to the array
      *
+     * @type static
      * @param arr {Array} the array
      * @param a {Array} the elements of this array will be appended to the array
      * @return {Array} The modified array.
+     * @throws TODOC
      */
     append : function(arr, a)
     {
       // this check is important because opera throws an uncatchable error if apply is called without
       // an array as second argument.
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        if ( !(typeof(a) == "object" && a instanceof Array) ) {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (!(typeof (a) == "object" && a instanceof Array)) {
           throw new Error("The second parameter must be an array!");
         }
       }
+
       Array.prototype.push.apply(arr, a);
       return arr;
     },
+
 
     /**
      * Remove an element from the array
      *
      * @type static
-     * @name remove
-     * @access public
      * @param arr {Array} the array
      * @param obj {var} element to be removed from the array
      * @return {Array} array with the element removed
@@ -301,12 +292,11 @@ qx.Clazz.define("qx.lang.Array",
       }
     },
 
+
     /**
      * Whether the array contains the given element
      *
      * @type static
-     * @name contains
-     * @access public
      * @param arr {Array} the array
      * @param obj {var} object to look for
      * @return {Boolean} whether the array contains the element
