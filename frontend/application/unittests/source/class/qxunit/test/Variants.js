@@ -2,7 +2,7 @@
 #require(qx.core.Client)
 */
 
-qx.Clazz.define("qxunit.Variants", { 
+qx.Clazz.define("qxunit.test.Variants", { 
 	extend: qxunit.TestCase,
 
 	members : {

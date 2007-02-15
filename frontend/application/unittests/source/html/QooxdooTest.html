@@ -8,19 +8,22 @@
     <link rel="stylesheet" type="text/css" href="../../jsunit/css/jsUnitStyle.css">
     <script language="JavaScript" type="text/javascript" src="../../jsunit/app/jsUnitCore.js"></script>
     <script language="JavaScript" type="text/javascript" src="../script/qxunit.js"></script>
-    <script language="JavaScript" type="text/javascript" src="qooxdoo_jsunit.js"></script>
     <script language="JavaScript" type="text/javascript">
 
     (function() {
         var params = window.location.search;
-        var className = params.match(/[\?&]testclass=(.*?)[&$]/);
+        var className = params.match(/[\?&]testclass=([A-Za-z0-9_\.]+)/);
         if (className) {
             className = className[1]
         } else {
             className = "__unknown_class__";
         }
 
-        setupQooxdooTests(className);
+        var suite = new qxunit.TestSuite();
+        suite.add(className);
+        suite.addPollutionCheck();
+        suite.exportToJsUnit();
+        
     }) ();
     
     </script>

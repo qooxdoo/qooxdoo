@@ -1,5 +1,5 @@
 
-qx.Clazz.define("qxunit.Interface", { 
+qx.Clazz.define("qxunit.test.Interface", { 
 	extend: qxunit.TestCase,
 
 	members : {
