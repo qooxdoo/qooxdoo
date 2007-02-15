@@ -271,6 +271,13 @@ qx.Clazz.define("qx.lang.Array",
      */
     append : function(arr, a)
     {
+      // this check is important because opera throws an uncatchable error if apply is called without
+      // an array as second argument.
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        if ( !(typeof(a) == "object" && a instanceof Array) ) {
+          throw new Error("The second parameter must be an array!");
+        }
+      }
       Array.prototype.push.apply(arr, a);
       return arr;
     },

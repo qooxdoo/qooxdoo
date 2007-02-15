@@ -106,15 +106,7 @@ qx.Clazz.define("qx.lang.Generics",
      */
     __wrap : function(obj, func)
     {
-      return
-      /**
-       * TODOC
-       *
-       * @type unknown TODOC
-       * @param s {String} TODOC
-       * @return {call} TODOC
-       */
-      function(s) {
+      return function(s) {
         return obj.prototype[func].apply(s, Array.prototype.slice.call(arguments, 1));
       };
     },
