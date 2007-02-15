@@ -43,8 +43,12 @@
 qx.Clazz.define("qx.core.Object",
 {
   extend : Object,
-
   include : [qx.locale.MTranslation, qx.log.MLogging],
+
+
+
+
+
 
   /*
   *****************************************************************************
@@ -86,318 +90,6 @@ qx.Clazz.define("qx.core.Object",
         // We need to use the current function
         this["force" + vEntry.upname](vEntry.init);
       }
-    }
-  },
-
-
-
-
-
-
-
-
-  /*
-  *****************************************************************************
-  **** SETTINGS ***************************************************************
-  *****************************************************************************
-  */
-
-  settings : { "qx.disposerDebugging" : false },
-
-
-
-
-
-
-
-
-  /*
-  *****************************************************************************
-  **** PROPERTIES *************************************************************
-  *****************************************************************************
-  */
-
-  properties :
-  {
-    /**
-     * Enable or disable the Object.
-     *
-     * The actual semantic of this property depends on concrete subclass of qx.core.Object.
-     */
-    enabled :
-    {
-      compat       : true,
-      type         : "boolean",
-      defaultValue : true,
-      getAlias     : "isEnabled"
-    }
-  },
-
-
-
-
-
-
-
-
-  /*
-  *****************************************************************************
-  **** MEMBERS ****************************************************************
-  *****************************************************************************
-  */
-
-  members :
-  {
-
-    /*
-    ---------------------------------------------------------------------------
-      UTILITIES
-    ---------------------------------------------------------------------------
-    */
-
-    /** {Map} Properties NG */
-    _properties_ng : {},
-
-    /** {Map} Properties NG */
-    _properties_init_ng : [],
-
-    /**
-     * Returns a string represantation of the qooxdoo object.
-     *
-     * @type member
-     * @return {String} string representation of the object
-     */
-    toString : function()
-    {
-      if (this.classname) {
-        return "[object " + this.classname + "]";
-      }
-
-      return "[object Object]";
-    },
-
-    /**
-     * Call the same method of the super class.
-     *
-     * @param args {arguments} the arguments variable of the calling method
-     * @param varargs {var} variable arguments which are passed as arguments to
-     *   the method of the base class.
-     * @return {var} the return value of the method of the base class.
-     */
-    base : function(args, varags)
-    {
-      if (arguments[1] == undefined) {
-        return args.callee.base.call(this);
-      } else {
-        return args.callee.base.apply(this, Array.prototype.slice.call(arguments, 1));
-      }
-    },
-
-    /**
-     * Returns the static class (to access static members of this class)
-     *
-     * @param args {arguments} the arguments variable of the calling method
-     * @return {var} the return value of the method of the base class.
-     */
-    self : function(args) {
-      return args.callee.self;
-    },
-
-    /**
-     * Return unique hash code of object
-     *
-     * @type member
-     * @return {Integer} unique hash code of the object
-     */
-    toHashCode : function() {
-      return this._hashCode;
-    },
-
-    /**
-     * Returns true if the object is disposed.
-     *
-     * @type member
-     * @return {Boolean} wether the object has been disposed
-     */
-    getDisposed : function() {
-      return this.__disposed;
-    },
-
-    /**
-     * Returns true if the object is disposed.
-     *
-     * @type member
-     * @return {Boolean} wether the object has been disposed
-     */
-    isDisposed : function() {
-      return this.__disposed;
-    },
-    
-
-    /*
-    ---------------------------------------------------------------------------
-      COMMON SETTER SUPPORT
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Sets multiple properties at once by using a property list
-     *
-     * @type member
-     * @param data {Map} a map of property values. The key is the name of the property.
-     * @return {Object} this instance.
-     * @throws an error if the incoming data field is not a map.
-     */
-    set : function(data)
-    {
-      if (typeof data !== "object") {
-        throw new Error("Please use a valid hash of property key-values pairs.");
-      }
-
-      for (var prop in data)
-      {
-        try
-        {
-          this[qx.core.LegacyProperty.getSetterName(prop)](data[prop]);
-        }
-        catch(ex)
-        {
-          this.error("Setter of property '" + prop + "' returned with an error", ex);
-        }
-      }
-
-      return this;
-    },
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      USER DATA
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Store user defined data inside the object.
-     *
-     * @type member
-     * @param vKey {String} the key
-     * @param vValue {Object} the value of the user data
-     * @return {void}
-     */
-    setUserData : function(vKey, vValue)
-    {
-      if (!this._userData) {
-        this._userData = {};
-      }
-
-      this._userData[vKey] = vValue;
-    },
-
-    /**
-     * Load user defined data from the object
-     *
-     * @type member
-     * @param vKey {String} the key
-     * @return {Object} the user data
-     */
-    getUserData : function(vKey)
-    {
-      if (!this._userData) {
-        return null;
-      }
-
-      return this._userData[vKey];
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /** {var} TODOC */
-    __disposed : false,
-
-    /**
-     * Dispose this object
-     *
-     * @type member
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      // Dispose user data
-      if (this._userData)
-      {
-        for (var vKey in this._userData) {
-          this._userData[vKey] = null;
-        }
-
-        this._userData = null;
-      }
-
-      // Disposable properties
-      var disposeProps = this._objectproperties;
-
-      // NextGen property stuff
-      this._user_values_ng = null;
-      this._appearance_values_ng = null;
-      this._real_values_ng = null;
-      this._properties_ng = null;
-      this._properties_init_ng = null;
-
-      // OldGen property stuff
-      this._properties = null;
-      this._objectproperties = null;
-
-      // Finally cleanup properties
-      if (disposeProps)
-      {
-        for (var name in disposeProps) {
-          this[qx.core.LegacyProperty.getValueName(name)] = null;
-        }
-      }
-
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (qx.core.Setting.get("qx.disposerDebugging"))
-        {
-          for (var vKey in this)
-          {
-            if (this[vKey] !== null && typeof this[vKey] === "object" && this.constructor.prototype[vKey] === undefined)
-            {
-              qx.core.Bootstrap.alert("Missing class implementation to dispose: " + vKey);
-              delete this[vKey];
-            }
-          }
-        }
-      }
-
-      // Delete Entry from Object DB
-      if (this.__dbKey != null)
-      {
-        if (qx.core.Object.__disposeAll) {
-          qx.core.Object.__db[this.__dbKey] = null;
-        } else {
-          delete qx.core.Object.__db[this.__dbKey];
-        }
-
-        this._hashCode = null;
-        this.__dbKey = null;
-      }
-
-      // Mark as disposed
-      this.__disposed = true;
     }
   },
 
@@ -569,5 +261,335 @@ qx.Clazz.define("qx.core.Object",
 
       return vMsg;
     }
-  }
+  },
+
+
+
+
+
+
+
+
+  /*
+  *****************************************************************************
+  **** PROPERTIES *************************************************************
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    /**
+     * Enable or disable the Object.
+     *
+     * The actual semantic of this property depends on concrete subclass of qx.core.Object.
+     */
+    enabled :
+    {
+      compat       : true,
+      type         : "boolean",
+      defaultValue : true,
+      getAlias     : "isEnabled"
+    }
+  },
+
+
+
+
+
+
+
+
+  /*
+  *****************************************************************************
+  **** MEMBERS ****************************************************************
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      BASICS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Return unique hash code of object
+     *
+     * @type member
+     * @return {Integer} unique hash code of the object
+     */
+    toHashCode : function() {
+      return this._hashCode;
+    },
+
+    /**
+     * Returns a string represantation of the qooxdoo object.
+     *
+     * @type member
+     * @return {String} string representation of the object
+     */
+    toString : function()
+    {
+      if (this.classname) {
+        return "[object " + this.classname + "]";
+      }
+
+      return "[object Object]";
+    },
+
+    /**
+     * Call the same method of the super class.
+     *
+     * @param args {arguments} the arguments variable of the calling method
+     * @param varargs {var} variable arguments which are passed as arguments to
+     *   the method of the base class.
+     * @return {var} the return value of the method of the base class.
+     */
+    base : function(args, varags)
+    {
+      if (arguments[1] == undefined) {
+        return args.callee.base.call(this);
+      } else {
+        return args.callee.base.apply(this, Array.prototype.slice.call(arguments, 1));
+      }
+    },
+
+    /**
+     * Returns the static class (to access static members of this class)
+     *
+     * @param args {arguments} the arguments variable of the calling method
+     * @return {var} the return value of the method of the base class.
+     */
+    self : function(args) {
+      return args.callee.self;
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTIES NG
+    ---------------------------------------------------------------------------
+    */
+
+    /** {Map} Properties NG */
+    _properties_ng : {},
+
+    /** {Map} Properties NG */
+    _properties_init_ng : [],
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      COMMON SETTER SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Sets multiple properties at once by using a property list
+     *
+     * @type member
+     * @param data {Map} a map of property values. The key is the name of the property.
+     * @return {Object} this instance.
+     * @throws an error if the incoming data field is not a map.
+     */
+    set : function(data)
+    {
+      if (typeof data !== "object") {
+        throw new Error("Please use a valid hash of property key-values pairs.");
+      }
+
+      for (var prop in data)
+      {
+        try
+        {
+          this[qx.core.LegacyProperty.getSetterName(prop)](data[prop]);
+        }
+        catch(ex)
+        {
+          this.error("Setter of property '" + prop + "' returned with an error", ex);
+        }
+      }
+
+      return this;
+    },
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      USER DATA
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Store user defined data inside the object.
+     *
+     * @type member
+     * @param vKey {String} the key
+     * @param vValue {Object} the value of the user data
+     * @return {void}
+     */
+    setUserData : function(vKey, vValue)
+    {
+      if (!this._userData) {
+        this._userData = {};
+      }
+
+      this._userData[vKey] = vValue;
+    },
+
+    /**
+     * Load user defined data from the object
+     *
+     * @type member
+     * @param vKey {String} the key
+     * @return {Object} the user data
+     */
+    getUserData : function(vKey)
+    {
+      if (!this._userData) {
+        return null;
+      }
+
+      return this._userData[vKey];
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DISPOSER
+    ---------------------------------------------------------------------------
+    */
+
+    /** {var} TODOC */
+    __disposed : false,
+
+    /**
+     * Returns true if the object is disposed.
+     *
+     * @type member
+     * @return {Boolean} wether the object has been disposed
+     */
+    getDisposed : function() {
+      return this.__disposed;
+    },
+
+    /**
+     * Returns true if the object is disposed.
+     *
+     * @type member
+     * @return {Boolean} wether the object has been disposed
+     */
+    isDisposed : function() {
+      return this.__disposed;
+    },
+
+    /**
+     * Dispose this object
+     *
+     * @type member
+     */
+    dispose : function()
+    {
+      if (this.getDisposed()) {
+        return;
+      }
+
+      // Dispose user data
+      if (this._userData)
+      {
+        for (var vKey in this._userData) {
+          this._userData[vKey] = null;
+        }
+
+        this._userData = null;
+      }
+
+      // Disposable properties
+      var disposeProps = this._objectproperties;
+
+      // NextGen property stuff
+      this._user_values_ng = null;
+      this._appearance_values_ng = null;
+      this._real_values_ng = null;
+      this._properties_ng = null;
+      this._properties_init_ng = null;
+
+      // OldGen property stuff
+      this._properties = null;
+      this._objectproperties = null;
+
+      // Finally cleanup properties
+      if (disposeProps)
+      {
+        for (var name in disposeProps) {
+          this[qx.core.LegacyProperty.getValueName(name)] = null;
+        }
+      }
+
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (qx.core.Setting.get("qx.disposerDebugging"))
+        {
+          for (var vKey in this)
+          {
+            if (this[vKey] !== null && typeof this[vKey] === "object" && this.constructor.prototype[vKey] === undefined)
+            {
+              qx.core.Bootstrap.alert("Missing class implementation to dispose: " + vKey);
+              delete this[vKey];
+            }
+          }
+        }
+      }
+
+      // Delete Entry from Object DB
+      if (this.__dbKey != null)
+      {
+        if (qx.core.Object.__disposeAll) {
+          qx.core.Object.__db[this.__dbKey] = null;
+        } else {
+          delete qx.core.Object.__db[this.__dbKey];
+        }
+
+        this._hashCode = null;
+        this.__dbKey = null;
+      }
+
+      // Mark as disposed
+      this.__disposed = true;
+    }
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+  /*
+  *****************************************************************************
+  **** SETTINGS ***************************************************************
+  *****************************************************************************
+  */
+
+  settings : { "qx.disposerDebugging" : false }
 });

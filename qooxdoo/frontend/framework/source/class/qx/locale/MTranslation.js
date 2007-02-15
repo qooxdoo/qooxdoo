@@ -40,7 +40,6 @@ qx.Mixin.define("qx.locale.MTranslation", {
      * @param messageId {String} message id (may contain format strings)
      * @param varargs {Object} variable number of argumes applied to the format string
      * @return {qx.locale.LocalizedString} TODOC
-     * @see
      */
     tr : function(messageId, varargs)
     {
@@ -51,7 +50,7 @@ qx.Mixin.define("qx.locale.MTranslation", {
     /**
      * Translate a plural message
      * Mark the messages for translation.
-     * 
+     *
      * Depending on the third argument the plursl or the singular form is chosen.
      *
      * @type member
@@ -60,7 +59,6 @@ qx.Mixin.define("qx.locale.MTranslation", {
      * @param count {Integer} if greater than 1 the plural form otherwhise the singular form is returned.
      * @param varargs {Object} variable number of argumes applied to the format string
      * @return {call} {qx.locale.LocalizedString)
-     * @see
      */
     trn : function(singularMessageId, pluralMessageId, count, varargs)
     {
