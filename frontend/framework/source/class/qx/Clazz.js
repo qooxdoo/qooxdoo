@@ -134,7 +134,14 @@ qx.Clazz.define("qx.Clazz",
       if (config.extend)
       {
         this.__addMembers(clazz, config.members);
-        this.__addProperties(clazz, config.properties);
+
+        if (config.properties) {
+          for (var name in config.properties) {
+            this.__addProperty(clazz, name, config.properties[name]);
+          }
+        }
+        
+        // must be the last to detect conflicts
         this.__addMixins(clazz, config.include);
       }
 
@@ -524,45 +531,34 @@ qx.Clazz.define("qx.Clazz",
 
 
     /**
-     * Wrapper for qx.OO.addProperty. This is needed in two places so the code
-     * has been extracted.
+     * Wrapper for qx.OO.addProperty.
      *
      * @param clazz {Clazz} class to add the properties to
-     * @param properties {Map} new class style property definitions
+     * @param propertyName {String} property name
+     * @param property {Map} new class style property definitions
      */
-    __addProperties: function(clazz, properties)
-    {
-      if (!properties) {
-        return;
-      }
-
-      for (var name in properties) {
-        this.__addProperty(clazz, name, properties[name]);
-      }
-    },
-
-    __addProperty : function(clazz, name, config)
+    __addProperty : function(clazz, propertyName, property)
     {
       var legacy = qx.core.LegacyProperty;
       var proto = clazz.prototype;
 
-      config.name = name;
+      property.name = propertyName;
 
-      if (config.fast)
+      if (property.fast)
       {
-        legacy.addFastProperty(config, proto);
+        legacy.addFastProperty(property, proto);
       }
-      else if (config.cached)
+      else if (property.cached)
       {
-        legacy.addCachedProperty(config, proto);
+        legacy.addCachedProperty(property, proto);
       }
-      else if (config.compat)
+      else if (property.compat)
       {
-        legacy.addProperty(config, proto);
+        legacy.addProperty(property, proto);
       }
       else if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        throw new Error('Could not handle property definition "' + name + '" in Class "' + clazz.classname + "'");
+        throw new Error('Could not handle property definition "' + propertyName + '" in Class "' + clazz.classname + "'");
       }
     },
 
@@ -748,10 +744,10 @@ qx.Clazz.define("qx.Clazz",
               throw new Error("Overwriting the property '" + key + "' of class '" + proto.classname + "'is not allowed!");
             }
           }
+          this.__addProperty(clazz, key, properties[key]);        
         }
       }
 
-      this.__addProperties(clazz, properties);
       clazz.$$INCLUDES[mixin.name] = mixin;
     },
 
