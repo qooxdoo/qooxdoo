@@ -17,18 +17,15 @@
     
     <script language="JavaScript" type="text/javascript" src="../../jsunit/app/jsUnitCore.js"></script>
     <script language="JavaScript" type="text/javascript" src="../script/qxunit.js"></script>
-    <script language="JavaScript" type="text/javascript" src="qooxdoo_jsunit.js"></script>
     <script language="JavaScript" type="text/javascript">
 
-    setupQooxdooTests("qxunit.Clazz");
-    setupQooxdooTests("qxunit.Interface");
-    setupQooxdooTests("qxunit.Mixin");
-    setupQooxdooTests("qxunit.Color");
-    setupQooxdooTests("qxunit.Io");
-    setupQooxdooTests("qxunit.Lang");
-    setupQooxdooTests("qxunit.Variants");
-    setupQooxdooTests("qxunit.Xml");
-
+    (function() {
+        var suite = new qxunit.TestSuite();
+        suite.add("qxunit.test");
+        suite.addPollutionCheck();
+        suite.exportToJsUnit();
+    })();
+    
     </script>
     </head>
 

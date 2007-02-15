@@ -1,5 +1,5 @@
 
-qx.Clazz.define("qxunit.Profile", { 
+qx.Clazz.define("qxunit.profile.Profile", { 
 	extend: qxunit.TestCase,
 
 	members : {

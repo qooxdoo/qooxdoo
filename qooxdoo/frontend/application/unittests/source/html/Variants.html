@@ -20,7 +20,11 @@
     <script language="JavaScript" type="text/javascript" src="qooxdoo_jsunit.js"></script>
     <script language="JavaScript" type="text/javascript">
 
-    setupQooxdooTests("qxunit.Variants");
+    (function() {
+        var suite = new qxunit.TestSuite();
+        suite.add(qxunit.test.Variants);
+        suite.exportToJsUnit();
+    })();
 
     </script>
     </head>
