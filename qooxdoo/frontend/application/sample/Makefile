@@ -34,10 +34,11 @@ APPLICATION_LINEBREAKS_SOURCE = false
 APPLICATION_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$(APPLICATION_NAMESPACE)
 APPLICATION_COMPLETE_BUILD = true
 APPLICATION_HTML_TO_ROOT_URI = ../..
+APPLICATION_OPTIMIZE_BROWSER = false
 
 # qx.log.DivAppender is used in the layout and cannot be detected
 # automatically
-APPLICATION_ADDITIONAL_SOURCE_OPTIONS = --include qx.log.DivAppender --disable-internal-check
+APPLICATION_ADDITIONAL_SOURCE_OPTIONS = --include qx.log.DivAppender
 APPLICATION_ADDITIONAL_BUILD_OPTIONS = $(APPLICATION_ADDITIONAL_SOURCE_OPTIONS)
 
 
