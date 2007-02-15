@@ -42,13 +42,21 @@ qx =
    */
   Clazz :
   {
+    /**
+     * TODOC
+     *
+     * @type map
+     * @param name {var} TODOC
+     * @param object {var} TODOC
+     * @return {var} TODOC
+     */
     createNamespace : function(name, object)
     {
       var splits = name.split(".");
       var parent = window;
       var part = splits[0];
 
-      for (var i=0, len=splits.length-1; i<len; i++, part=splits[i])
+      for (var i=0, len=splits.length - 1; i<len; i++, part=splits[i])
       {
         if (!parent[part]) {
           parent[part] = {};
@@ -63,15 +71,26 @@ qx =
       return part;
     },
 
+
+    /**
+     * TODOC
+     *
+     * @type map
+     * @param name {var} TODOC
+     * @param config {var} TODOC
+     * @return {void} 
+     */
     define : function(name, config)
     {
       this.createNamespace(name, config.statics);
+
       if (config.defer) {
         config.defer(config.statics);
       }
     }
   }
 };
+
 
 /**
  * Bootstrap helper class
@@ -80,25 +99,26 @@ qx.Clazz.define("qx.core.Bootstrap",
 {
   statics :
   {
-    /** {Date} Timestamp of qooxdoo based application startup */
+    /** Timestamp of qooxdoo based application startup */
     LOADSTART : new Date,
+
 
     /**
      * Boot and unload time debug feature.
      *
+     * @type static
      * @param msg {String} The message to print out
+     * @return {void} 
      */
     alert : function(msg)
     {
       // Firebug & Firebug light support
-      if (window.console && console.log)
-      {
+      if (window.console && console.log) {
         console.warn(msg);
       }
 
       // Other browsers
-      else
-      {
+      else {
         alert(msg);
       }
     }

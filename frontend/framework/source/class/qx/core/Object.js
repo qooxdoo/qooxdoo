@@ -43,7 +43,8 @@
 qx.Clazz.define("qx.core.Object",
 {
   extend : Object,
-  include : [qx.locale.MTranslation, qx.log.MLogging],
+  include : [ qx.locale.MTranslation, qx.log.MLogging ],
+
 
 
 
@@ -57,7 +58,7 @@ qx.Clazz.define("qx.core.Object",
    * Create a new instance
    *
    * @type constructor
-   * @param vAutoDispose {Boolean ? true} whether the object should be automatically disposed
+   * @param vAutoDispose {Boolean} whether the object should be automatically disposed
    */
   construct : function(vAutoDispose)
   {
@@ -101,15 +102,17 @@ qx.Clazz.define("qx.core.Object",
 
   statics :
   {
-
-    /** {var} TODOC */
+    /** TODOC */
     __availableHashCode : 0,
 
-    /** {var} TODOC */
+
+    /** TODOC */
     __db : [],
 
-    /** {var} TODOC */
+
+    /** TODOC */
     __disposeAll : false,
+
 
     /**
      * Returns an unique identifier for the given object. If such an identifier
@@ -128,14 +131,15 @@ qx.Clazz.define("qx.core.Object",
       return o._hashCode = qx.core.Object.__availableHashCode++;
     },
 
+
     /**
      * Destructor. This method is called by qooxdoo on object destruction.
-     *
+     * 
      * Any class that holds resources like links to DOM nodes must overwrite
      * this method and free these resources.
      *
      * @type static
-     * @return {void}
+     * @return {void} 
      */
     dispose : function()
     {
@@ -202,6 +206,7 @@ qx.Clazz.define("qx.core.Object",
         }
       }
     },
+
 
     /**
      * Summary of allocated objects
@@ -308,6 +313,7 @@ qx.Clazz.define("qx.core.Object",
       return this._hashCode;
     },
 
+
     /**
      * Returns a string represantation of the qooxdoo object.
      *
@@ -323,12 +329,13 @@ qx.Clazz.define("qx.core.Object",
       return "[object Object]";
     },
 
+
     /**
      * Call the same method of the super class.
      *
+     * @type member
      * @param args {arguments} the arguments variable of the calling method
-     * @param varargs {var} variable arguments which are passed as arguments to
-     *   the method of the base class.
+     * @param varags {var} TODOC
      * @return {var} the return value of the method of the base class.
      */
     base : function(args, varags)
@@ -340,9 +347,11 @@ qx.Clazz.define("qx.core.Object",
       }
     },
 
+
     /**
      * Returns the static class (to access static members of this class)
      *
+     * @type member
      * @param args {arguments} the arguments variable of the calling method
      * @return {var} the return value of the method of the base class.
      */
@@ -357,12 +366,12 @@ qx.Clazz.define("qx.core.Object",
     ---------------------------------------------------------------------------
     */
 
-    /** {Map} Properties NG */
+    /** Properties NG */
     _properties_ng : {},
 
-    /** {Map} Properties NG */
-    _properties_init_ng : [],
 
+    /** Properties NG */
+    _properties_init_ng : [],
 
 
     /*
@@ -387,19 +396,15 @@ qx.Clazz.define("qx.core.Object",
 
       for (var prop in data)
       {
-        try
-        {
+        try {
           this[qx.core.LegacyProperty.getSetterName(prop)](data[prop]);
-        }
-        catch(ex)
-        {
+        } catch(ex) {
           this.error("Setter of property '" + prop + "' returned with an error", ex);
         }
       }
 
       return this;
     },
-
 
 
     /*
@@ -414,7 +419,7 @@ qx.Clazz.define("qx.core.Object",
      * @type member
      * @param vKey {String} the key
      * @param vValue {Object} the value of the user data
-     * @return {void}
+     * @return {void} 
      */
     setUserData : function(vKey, vValue)
     {
@@ -424,6 +429,7 @@ qx.Clazz.define("qx.core.Object",
 
       this._userData[vKey] = vValue;
     },
+
 
     /**
      * Load user defined data from the object
@@ -442,15 +448,15 @@ qx.Clazz.define("qx.core.Object",
     },
 
 
-
     /*
     ---------------------------------------------------------------------------
       DISPOSER
     ---------------------------------------------------------------------------
     */
 
-    /** {var} TODOC */
+    /** TODOC */
     __disposed : false,
+
 
     /**
      * Returns true if the object is disposed.
@@ -462,6 +468,7 @@ qx.Clazz.define("qx.core.Object",
       return this.__disposed;
     },
 
+
     /**
      * Returns true if the object is disposed.
      *
@@ -472,10 +479,12 @@ qx.Clazz.define("qx.core.Object",
       return this.__disposed;
     },
 
+
     /**
      * Dispose this object
      *
      * @type member
+     * @return {void} 
      */
     dispose : function()
     {
@@ -547,6 +556,7 @@ qx.Clazz.define("qx.core.Object",
       this.__disposed = true;
     }
   },
+
 
 
 

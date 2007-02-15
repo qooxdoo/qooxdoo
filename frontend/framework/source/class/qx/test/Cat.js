@@ -2,6 +2,12 @@ qx.Clazz.define("qx.test.Cat",
 {
   extend : qx.test.Animal,
 
+
+  /**
+   * TODOC
+   *
+   * @type constructor
+   */
   construct : function()
   {
     arguments.callee.base.call(this);
@@ -11,12 +17,27 @@ qx.Clazz.define("qx.test.Cat",
 
   statics :
   {
+    /** {var} TODOC */
     static_prop1 : 3.141,
 
+
+    /**
+     * TODOC
+     *
+     * @type static
+     * @return {call} TODOC
+     */
     doSomething : function() {
       return this.doSomethingElse();
     },
 
+
+    /**
+     * TODOC
+     *
+     * @type static
+     * @return {var} TODOC
+     */
     doSomethingElse : function() {
       return this.static_prop1;
     }
@@ -24,23 +45,37 @@ qx.Clazz.define("qx.test.Cat",
 
   properties :
   {
-    color : {
-      compat : true,
-      type : "string",
+    color :
+    {
+      compat       : true,
+      type         : "string",
       defaultValue : "brown"
     }
   },
 
   members :
   {
+    /** {var} TODOC */
     name : "",
 
-    /** This is the documentation for the makeSound function */
+
+    /**
+     * This is the documentation for the makeSound function
+     *
+     * @type member
+     * @return {void} 
+     */
     makeSound : function() {
-     this.debug("MEOW! MEOW!");
+      this.debug("MEOW! MEOW!");
     },
 
-    /** This is the documentation for the play function */
+
+    /**
+     * This is the documentation for the play function
+     *
+     * @type member
+     * @return {void} 
+     */
     play : function()
     {
       this.debug("Don't know how to play! [1] (" + arguments.callee.self.static_prop1 + ")");
@@ -49,9 +84,24 @@ qx.Clazz.define("qx.test.Cat",
     }
   },
 
+
+  /**
+   * TODOC
+   *
+   * @type map
+   * @param statics {var} TODOC
+   * @param members {var} TODOC
+   * @param properties {var} TODOC
+   * @return {void} 
+   */
   defer : function(statics, members, properties)
   {
     members.fooBar = members.makeSound;
-    properties.add("sound", { compat : true, type : "string" });
+
+    properties.add("sound",
+    {
+      compat : true,
+      type   : "string"
+    });
   }
 });
