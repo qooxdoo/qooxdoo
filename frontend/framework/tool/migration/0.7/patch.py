@@ -416,7 +416,7 @@ def createBlockComment(txt):
   s = ""
   s += "/*\n"
   s += "%s\n" % l
-  s += "**** %s %s\n" % (txt.upper(), "*" * (len(l) - len(txt) - 6))
+  s += "   %s\n" % txt.upper()
   s += "%s\n" % l
   s += "*/"
 
