@@ -1,0 +1,223 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo &raquo; Sample</title>
+  <link type="text/css" rel="stylesheet" href="../../css/layout.css"/>
+  <!--[if IE]>
+  <link type="text/css" rel="stylesheet" href="../../css/layout_ie.css"/>
+  <![endif]-->
+  <script type="text/javascript" src="../../script/sample.js"></script>
+  <script type="text/javascript" src="Nitobi.js"></script>
+  <script type="text/javascript" src="Base.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../../script/layout.js"></script>
+
+  <script type="text/javascript">
+    // No overwrite detection
+    qx.Clazz.createNamespace = function(name, object)
+    {
+      var splits = name.split(".");
+      var len = splits.length;
+      var parent = window;
+      var part = splits[0];
+
+      for (var i=0, l=len-1; i<l; i++)
+      {
+        if (!parent[part]) {
+          parent[part] = {};
+        }
+
+        parent = parent[part];
+        part = splits[i + 1];
+      }
+
+      // store object
+      parent[part] = object;
+
+      // return last part name (e.g. classname)
+      return part;
+    };
+  </script>
+
+  <div id="demoDescription">
+    Tests new OO Layer performance
+  </div>
+
+  <script type="text/javascript">
+  function testNitobi()
+  {
+    function nitAnimal(name) {
+      this.name = name;
+    };
+    nitobi.extend(nitAnimal, Object);
+    nitAnimal.prototype.name = "";
+    nitAnimal.prototype.eat = function() {
+      this.say("Yum!");
+    };
+    nitAnimal.prototype.say = function(message) {
+      alert(this.name + ": " + message);
+    };
+
+    function nitCat() {
+      nitCat.baseConstructor.call(this, 'cat');
+    }
+    nitobi.extend(nitCat, nitAnimal);
+    nitCat.prototype.eat = function(food) {
+      if (food instanceof Mouse) nitCat.base.eat.call(this);
+      else this.say("Yuk! I only eat mice - not " + food.name);
+    };
+
+    function nitLion() {
+      nitLion.baseConstructor.call(this, 'lion');
+    }
+    nitobi.extend(nitLion, nitCat);
+  }
+
+  function testBase()
+  {
+    baseAnimal = Base.extend({
+      constructor : function(name) {
+        this.name = name;
+      },
+
+      name: "",
+
+      eat: function() {
+          this.say("Yum!");
+      },
+
+      say: function(message) {
+          alert(this.name + ": " + message);
+      }
+    });
+
+    baseCat = baseAnimal.extend({
+        constructor : function(name) {
+          this.base("cat");
+        },
+
+        eat: function(food) {
+            if (food instanceof Mouse) this.base();
+            else this.say("Yuk! I only eat mice.");
+        }
+    });
+
+    baseLion = baseCat.extend({
+        constructor : function(name) {
+          this.base("lion");
+        }
+    });
+  }
+
+  function testQooxdoo06()
+  {
+    qx.OO.defineClass("qx06Animal", Object, function(name) {
+      this.name = name;
+    });
+
+    qx.Proto.name = "";
+    qx.Proto.eat = function() {
+      this.say("Yum!");
+    };
+    qx.Proto.say = function(message) {
+      alert(this.name + ": " + message);
+    };
+
+    qx.OO.defineClass("qx06Cat", qx06Animal, function() {
+      qx06Animal.call(this, 'cat');
+    });
+    qx.Proto.eat = function(food) {
+      if (food instanceof Mouse) qx06Cat.base.eat.call(this);
+      else this.say("Yuk! I only eat mice - not " + food.name);
+    };
+
+    qx.OO.defineClass("qx06Lion", qx06Cat, function() {
+      qx06Cat.call(this, 'lion');
+    });
+  }
+
+  function testQooxdoo07()
+  {
+    qx.Clazz.define("qx07Animal",
+    {
+      extend : Object,
+      construct : function(name) {
+        this.name = name;
+      },
+      members : {
+        name : "",
+        eat : function() {
+          this.say("Yum!");
+        },
+        say : function(message) {
+          alert(this.name + ": " + message);
+        }
+      }
+    });
+
+    qx.Clazz.define("qx07Cat",
+    {
+      extend : qx07Animal,
+      construct : function(name) {
+        this.base(arguments, "cat");
+      },
+      members : {
+        eat : function(food) {
+          if (food instanceof Mouse) qx07Cat.base.eat.call(this);
+          else this.say("Yuk! I only eat mice - not " + food.name);
+        }
+      }
+    });
+
+    qx.Clazz.define("qx07Lion",
+    {
+      extend : qx07Cat,
+      construct : function(name) {
+        this.base(arguments, "lion");
+      }
+    });
+  }
+
+  qx.core.Init.getInstance().defineMain(function()
+  {
+    var btn = new qx.ui.form.Button("Run");
+    btn.setLocation(100, 100);
+    btn.addToDocument();
+
+    btn.addEventListener("execute", function(e)
+    {
+      loops = 1000;
+
+      Animal = Cat = Lion = null;
+      var start = new Date;
+      for (var i=0; i<loops; i++) {
+        testNitobi();
+      }
+      this.debug("Nitobi: " + ((new Date)-start) + "ms");
+
+      Animal = Cat = Lion = null;
+      var start = new Date;
+      for (var i=0; i<loops; i++) {
+        testBase();
+      }
+      this.debug("Base: " + ((new Date)-start) + "ms");
+
+      Animal = Cat = Lion = null;
+      var start = new Date;
+      for (var i=0; i<loops; i++) {
+        testQooxdoo06();
+      }
+      this.debug("qx 0.6: " + ((new Date)-start) + "ms");
+
+      Animal = Cat = Lion = null;
+      var start = new Date;
+      for (var i=0; i<loops; i++) {
+        testQooxdoo07();
+      }
+      this.debug("qx 0.7: " + ((new Date)-start) + "ms");
+    });
+  });
+  </script>
+</body>
+</html>
