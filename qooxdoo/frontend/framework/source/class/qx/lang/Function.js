@@ -31,7 +31,7 @@ qx.Clazz.define("qx.lang.Function",
 {
   /*
   *****************************************************************************
-  **** STATICS ****************************************************************
+     STATICS
   *****************************************************************************
   */
 
@@ -47,58 +47,52 @@ qx.Clazz.define("qx.lang.Function",
      * Simply return true.
      *
      * @type static
-     * @name returnTrue
-     * @access public
      * @return {Boolean} Always returns true.
      */
     returnTrue : function() {
       return true;
     },
 
+
     /**
      * Simply return false.
      *
      * @type static
-     * @name returnFalse
-     * @access public
      * @return {Boolean} Always returns false.
      */
     returnFalse : function() {
       return false;
     },
 
+
     /**
      * Simply return null.
      *
      * @type static
-     * @name returnNull
-     * @access public
      * @return {var} Always returns null.
      */
     returnNull : function() {
       return null;
     },
 
+
     /**
      * Return "this".
      *
      * @type static
-     * @name returnThis
-     * @access public
      * @return {Object} Always returns "this".
      */
     returnThis : function() {
       return this;
     },
 
+
     /**
      * Used to return a refernce to an singleton. Classes which should act as singletons can use this
      * function to implement the "getInstance" methods.
      *
      * @type static
-     * @name returnInstance
-     * @access public
-     * @return {var} TODOC
+     * @return {Object} TODOC
      */
     returnInstance : function()
     {
@@ -114,24 +108,22 @@ qx.Clazz.define("qx.lang.Function",
       return this._instance;
     },
 
+
     /**
      * Simply return 0.
      *
      * @type static
-     * @name returnZero
-     * @access public
      * @return {Number} Always returns 0.
      */
     returnZero : function() {
       return 0;
     },
 
+
     /**
      * Simply return a negative index (-1).
      *
      * @type static
-     * @name returnNegativeIndex
-     * @access public
      * @return {Number} Always returns -1.
      */
     returnNegativeIndex : function() {

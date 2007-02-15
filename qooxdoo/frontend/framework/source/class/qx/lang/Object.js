@@ -42,8 +42,6 @@ qx.Clazz.define("qx.lang.Object",
      * Check if the hash has any keys
      *
      * @type static
-     * @name isEmpty
-     * @access public
      * @param map {Object} the map to check
      * @return {Boolean} whether the map has any keys
      */
@@ -56,12 +54,11 @@ qx.Clazz.define("qx.lang.Object",
       return true;
     },
 
+
     /**
      * Check whether the number of objects in the maps is at least "lenght"
      *
      * @type static
-     * @name hasMinLength
-     * @access public
      * @param map {Object} the map to check
      * @param length {Integer} minimum number of objects in the map
      * @return {Boolean} whether the map contains at least "lenght" objects.
@@ -80,12 +77,11 @@ qx.Clazz.define("qx.lang.Object",
       return false;
     },
 
+
     /**
      * Get the number of objects in the map
      *
      * @type static
-     * @name getLength
-     * @access public
      * @param map {Object} the map
      * @return {Integer} number of objects in the map
      */
@@ -100,12 +96,11 @@ qx.Clazz.define("qx.lang.Object",
       return i;
     },
 
+
     /**
      * Get the keys of a map as array
      *
      * @type static
-     * @name getKeys
-     * @access public
      * @param map {Object} the map
      * @return {Array} array of the keys of the map
      */
@@ -120,26 +115,24 @@ qx.Clazz.define("qx.lang.Object",
       return r;
     },
 
+
     /**
      * Get the keys of a map as string
      *
      * @type static
-     * @name getKeysAsString
-     * @access public
      * @param map {Object} the map
      * @return {String} String of the keys of the map
-     *       The keys are separated by ", "
+     *         The keys are separated by ", "
      */
     getKeysAsString : function(map) {
       return qx.lang.Object.getKeys(map).join(", ");
     },
 
+
     /**
      * Get the values of a map as array
      *
      * @type static
-     * @name getValues
-     * @access public
      * @param map {Object} the map
      * @return {Array} array of the values of the map
      */
@@ -154,14 +147,13 @@ qx.Clazz.define("qx.lang.Object",
       return r;
     },
 
+
     /**
      * Merge two objects.
-     *
+     * 
      * If the Objects both have the same key, the value of the second object is taken.
      *
      * @type static
-     * @name mergeWith
-     * @access public
      * @param vObjectA {Object} target object
      * @param vObjectB {Object} object to be merged
      * @return {Object} ObjectA with merged values from ObjectB
@@ -175,14 +167,13 @@ qx.Clazz.define("qx.lang.Object",
       return vObjectA;
     },
 
+
     /**
      * Merge two objects. Existing values will not be overwritten.
-     *
+     * 
      * If the Objects both have the same key, the value of the first object is taken.
      *
      * @type static
-     * @name carefullyMergeWith
-     * @access public
      * @param vObjectA {Object} target object
      * @param vObjectB {Object} object to be merged
      * @return {Object} vObjectA with merged values from vObjectB
@@ -199,12 +190,11 @@ qx.Clazz.define("qx.lang.Object",
       return vObjectA;
     },
 
+
     /**
      * Merge a number of objects.
      *
      * @type static
-     * @name merge
-     * @access public
      * @param vObjectA {Object} target object
      * @param varargs {Object} variable number of objects to merged with vObjectA
      * @return {Object} vObjectA with merged values from the other objects
@@ -220,12 +210,11 @@ qx.Clazz.define("qx.lang.Object",
       return vObjectA;
     },
 
+
     /**
      * Return a copy of an Object
      *
      * @type static
-     * @name copy
-     * @access public
      * @param vObject {Object} Object to copy
      * @return {Object} copy of vObject
      */
@@ -233,14 +222,13 @@ qx.Clazz.define("qx.lang.Object",
       return qx.lang.Object.mergeWith({}, vObject);
     },
 
+
     /**
      * Inverts a Map by exchanging the keys with the values.
      * If the map has the same values for different keys, information will get lost.
      * The values will be converted to Strings using the toString methos.
      *
      * @type static
-     * @name invert
-     * @access public
      * @param vObject {Object} Map to invert
      * @return {Object} inverted Map
      */

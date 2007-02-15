@@ -83,12 +83,13 @@ qx.Clazz.define("qx.lang.Generics",
 
   statics :
   {
-    /** {Map} Which methods to map */
+    /** Which methods to map */
     __map :
     {
       "Array" : [ "join", "reverse", "sort", "push", "pop", "shift", "unshift", "splice", "concat", "slice", "indexOf", "lastIndexOf", "forEach", "map", "filter", "some", "every" ],
       "String" : [ "quote", "substring", "toLowerCase", "toUpperCase", "charAt", "charCodeAt", "indexOf", "lastIndexOf", "toLocaleLowerCase", "toLocaleUpperCase", "localeCompare", "match", "search", "replace", "split", "substr", "concat", "slice" ]
     },
+
 
     /**
      * Make a method of an object generic and return the generic functions.
@@ -100,7 +101,7 @@ qx.Clazz.define("qx.lang.Generics",
      * @param obj {Object} the object in which prototype the function is defined.
      * @param func {String} name of the method to wrap.
      * @return {Function} wrapped method. This function takes as first argument an
-     *       instance of obj and as following arguments the arguments of the original method.
+     *         instance of obj and as following arguments the arguments of the original method.
      */
     __wrap : function(obj, func)
     {
@@ -108,6 +109,7 @@ qx.Clazz.define("qx.lang.Generics",
         return obj.prototype[func].apply(s, Array.prototype.slice.call(arguments, 1));
       };
     },
+
 
     /**
      * Initialize all generic functions as defined in JavaScript 1.6.
