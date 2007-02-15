@@ -80,6 +80,68 @@ function(machineName)
 });
 
 
+
+
+/*
+---------------------------------------------------------------------------
+  CLASS CONSTANTS
+---------------------------------------------------------------------------
+*/
+
+/**
+ * Constants which may be values of the nextState member in the transitionInfo
+ * parameter of the Transition constructor.
+ */
+qx.Class.StateChange =
+{
+  /** When used as a nextState value, means remain in current state */
+  CURRENT_STATE   : 1,
+
+  /** When used as a nextState value, means go to most-recently pushed state */
+  POP_STATE_STACK : 2,
+
+  /** When used as a nextState value, means terminate this state machine */
+  TERMINATE       : 3
+};
+
+
+/**
+ * Constants for use in the events member of the transitionInfo parameter of
+ * the Transition constructor.
+ */
+qx.Class.EventHandling =
+{
+  /**
+   * This event is handled by this state, but the predicate of a transition
+   * will determine whether to use that transition.
+   */
+  PREDICATE : 1,
+
+  /** Enqueue this event for possible use by the next state */
+  BLOCKED   : 2
+};
+
+/**
+ * Debug bitmask values.
+ */
+qx.Class.DebugFlags =
+{
+  /** Show events */
+  EVENTS           : 1,
+
+  /** Show transitions */
+  TRANSITIONS      : 2,
+
+  /** Show individual function invocations during transitions */
+  FUNCTION_DETAIL  : 4,
+
+  /** When object friendly names are referenced but not found, show message */
+  OBJECT_NOT_FOUND : 8
+};
+
+
+
+
 /*
 ---------------------------------------------------------------------------
   PROPERTIES
@@ -987,63 +1049,6 @@ qx.Proto._run = function(event)
 */
 
 
-
-/*
----------------------------------------------------------------------------
-  CLASS CONSTANTS
----------------------------------------------------------------------------
-*/
-
-/**
- * Constants which may be values of the nextState member in the transitionInfo
- * parameter of the Transition constructor.
- */
-qx.Class.StateChange =
-{
-  /** When used as a nextState value, means remain in current state */
-  CURRENT_STATE   : 1,
-
-  /** When used as a nextState value, means go to most-recently pushed state */
-  POP_STATE_STACK : 2,
-
-  /** When used as a nextState value, means terminate this state machine */
-  TERMINATE       : 3
-};
-
-
-/**
- * Constants for use in the events member of the transitionInfo parameter of
- * the Transition constructor.
- */
-qx.Class.EventHandling =
-{
-  /**
-   * This event is handled by this state, but the predicate of a transition
-   * will determine whether to use that transition.
-   */
-  PREDICATE : 1,
-
-  /** Enqueue this event for possible use by the next state */
-  BLOCKED   : 2
-};
-
-/**
- * Debug bitmask values.
- */
-qx.Class.DebugFlags =
-{
-  /** Show events */
-  EVENTS           : 1,
-
-  /** Show transitions */
-  TRANSITIONS      : 2,
-
-  /** Show individual function invocations during transitions */
-  FUNCTION_DETAIL  : 4,
-
-  /** When object friendly names are referenced but not found, show message */
-  OBJECT_NOT_FOUND : 8
-};
 
 
 
