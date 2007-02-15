@@ -91,7 +91,7 @@ qx.Clazz.define("qx.core.Version",
      * Initialize class members
      *
      * @type static
-     * @return {void}
+     * @return {void} 
      */
     __init : function()
     {
@@ -124,10 +124,7 @@ qx.Clazz.define("qx.core.Version",
   *****************************************************************************
   */
 
-  settings : {
-    "qx.version" : "0.0"
-  },
-
+  settings : { "qx.version" : "0.0" },
 
 
 
@@ -138,6 +135,13 @@ qx.Clazz.define("qx.core.Version",
   *****************************************************************************
   */
 
+  /**
+   * TODOC
+   *
+   * @type map
+   * @param statics {var} TODOC
+   * @return {void} 
+   */
   defer : function(statics) {
     statics.__init();
   }

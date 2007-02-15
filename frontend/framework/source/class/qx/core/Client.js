@@ -250,7 +250,7 @@ qx.Clazz.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Boolean} if the client runs locally
      */
     getRunsLocally : function() {
       return this._runsLocally;
@@ -261,7 +261,7 @@ qx.Clazz.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {String} the engine identifier
      */
     getEngine : function() {
       return this._engineName;
@@ -272,7 +272,7 @@ qx.Clazz.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {String} TODOC
      */
     getVersion : function() {
       return this._engineVersion;
@@ -283,7 +283,7 @@ qx.Clazz.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Number} TODOC
      */
     getMajor : function() {
       return this._engineVersionMajor;
@@ -294,7 +294,7 @@ qx.Clazz.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Number} TODOC
      */
     getMinor : function() {
       return this._engineVersionMinor;
@@ -305,7 +305,7 @@ qx.Clazz.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Number} TODOC
      */
     getRevision : function() {
       return this._engineVersionRevision;
@@ -316,7 +316,7 @@ qx.Clazz.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Number} TODOC
      */
     getBuild : function() {
       return this._engineVersionBuild;
@@ -327,7 +327,7 @@ qx.Clazz.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {String} TODOC
      */
     getEmulation : function() {
       return this._engineEmulation;
@@ -338,7 +338,7 @@ qx.Clazz.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Boolean} TODOC
      */
     isMshtml : function() {
       return this._engineNameMshtml;
@@ -349,7 +349,7 @@ qx.Clazz.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Boolean} TODOC
      */
     isGecko : function() {
       return this._engineNameGecko;
@@ -360,7 +360,7 @@ qx.Clazz.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Boolean} TODOC
      */
     isOpera : function() {
       return this._engineNameOpera;
@@ -371,7 +371,7 @@ qx.Clazz.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Boolean} TODOC
      */
     isKhtml : function() {
       return this._engineNameKhtml;
@@ -382,7 +382,7 @@ qx.Clazz.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Boolean} TODOC
      */
     isWebkit : function() {
       return this._engineNameWebkit;
@@ -393,7 +393,7 @@ qx.Clazz.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Boolean} TODOC
      */
     isSafari2 : function() {
       return this._engineNameWebkit && (this._engineVersion < 420);
@@ -404,7 +404,7 @@ qx.Clazz.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Boolean} TODOC
      */
     isInQuirksMode : function() {
       return this._engineQuirksMode;
@@ -415,7 +415,7 @@ qx.Clazz.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {String} TODOC
      */
     getLocale : function() {
       return this._browserLocale;
@@ -426,7 +426,7 @@ qx.Clazz.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {String} TODOC
      */
     getLocaleVariant : function() {
       return this._browserLocaleVariant;
@@ -437,7 +437,7 @@ qx.Clazz.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {String} TODOC
      */
     getDefaultLocale : function() {
       return this._defaultLocale;
@@ -448,7 +448,7 @@ qx.Clazz.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Boolean} TODOC
      */
     usesDefaultLocale : function() {
       return this._browserLocale === this._defaultLocale;
@@ -470,7 +470,7 @@ qx.Clazz.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {String} TODOC
      */
     getPlatform : function() {
       return this._browserPlatform;
@@ -514,7 +514,7 @@ qx.Clazz.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Boolean} TODOC
      */
     supportsVml : function() {
       return this._gfxVml;
@@ -525,7 +525,7 @@ qx.Clazz.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Boolean} TODOC
      */
     supportsSvg : function() {
       return this._gfxSvg;
@@ -536,7 +536,7 @@ qx.Clazz.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Boolean} TODOC
      */
     usesSvgBuiltin : function() {
       return this._gfxSvgBuiltin;
@@ -547,7 +547,7 @@ qx.Clazz.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Boolean} TODOC
      */
     usesSvgPlugin : function() {
       return this._gfxSvgPlugin;

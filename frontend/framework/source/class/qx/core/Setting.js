@@ -31,18 +31,17 @@ qx.Clazz.define("qx.core.Setting",
 {
   statics :
   {
-    /** {var} TODOC */
+    /** TODOC */
     __settings : {},
+
 
     /**
      * Define a setting
      *
      * @type static
-     * @name define
-     * @access public
      * @param key {var} TODOC
-     * @param allowedValues {var} TODOC
-     * @return {void}
+     * @param defaultValue {var} TODOC
+     * @return {void} 
      * @throws TODOC
      */
     define : function(key, defaultValue)
@@ -60,12 +59,11 @@ qx.Clazz.define("qx.core.Setting",
       this.__settings[key].defaultValue = defaultValue;
     },
 
+
     /**
      * TODOC
      *
      * @type static
-     * @name get
-     * @access public
      * @param key {var} TODOC
      * @return {var} TODOC
      * @throws TODOC
@@ -83,13 +81,13 @@ qx.Clazz.define("qx.core.Setting",
       return this.__settings[key].value || this.__settings[key].defaultValue;
     },
 
+
     /**
      * Import settings from global qxsettings into current environment
      *
      * @type static
-     * @name init
-     * @access public
-     * @return {void}
+     * @return {void} 
+     * @throws TODOC
      */
     __init : function()
     {
@@ -115,16 +113,21 @@ qx.Clazz.define("qx.core.Setting",
 
 
 
+
   /*
   *****************************************************************************
      DEFER
   *****************************************************************************
   */
 
+  /**
+   * TODOC
+   *
+   * @type map
+   * @param statics {var} TODOC
+   * @return {void} 
+   */
   defer : function(statics) {
     statics.__init();
   }
 });
-
-
-

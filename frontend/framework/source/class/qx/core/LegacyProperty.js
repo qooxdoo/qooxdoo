@@ -30,21 +30,26 @@ qx.Clazz.define("qx.core.LegacyProperty",
 {
   statics :
   {
-    /** {var} TODOC */
+    /** TODOC */
     __setter : {},
 
-    /** {var} TODOC */
+
+    /** TODOC */
     __getter : {},
 
-    /** {var} TODOC */
+
+    /** TODOC */
     __resetter : {},
 
-    /** {var} TODOC */
+
+    /** TODOC */
     __values : {},
+
 
     /**
      * Converts the property name to the setter name
      *
+     * @type static
      * @param name {String} name of a property
      * @return {String} name of the setter for this property
      */
@@ -52,9 +57,11 @@ qx.Clazz.define("qx.core.LegacyProperty",
       return this.__setter[name];
     },
 
+
     /**
      * Converts the property name to the getter name
      *
+     * @type static
      * @param name {String} name of a property
      * @return {String} name of the setter for this property
      */
@@ -62,9 +69,11 @@ qx.Clazz.define("qx.core.LegacyProperty",
       return this.__getter[name];
     },
 
+
     /**
      * Converts the property name to the resetter name
      *
+     * @type static
      * @param name {String} name of a property
      * @return {String} name of the setter for this property
      */
@@ -72,18 +81,17 @@ qx.Clazz.define("qx.core.LegacyProperty",
       return this.__resetter[name];
     },
 
+
     /**
      * Converts the property name to the value name
      *
+     * @type static
      * @param name {String} name of a property
      * @return {String} name of the setter for this property
      */
     getValueName : function(name) {
       return this.__values[name];
     },
-
-
-
 
 
     /*
@@ -96,9 +104,8 @@ qx.Clazz.define("qx.core.LegacyProperty",
      * TODOC
      *
      * @type static
-     * @name addFastProperty
-     * @access public
      * @param config {var} TODOC
+     * @param proto {var} TODOC
      * @return {void}
      */
     addFastProperty : function(config, proto)
@@ -151,13 +158,13 @@ qx.Clazz.define("qx.core.LegacyProperty",
       }
     },
 
+
     /**
      * TODOC
      *
      * @type static
-     * @name addCachedProperty
-     * @access public
      * @param config {var} TODOC
+     * @param proto {var} TODOC
      * @return {void}
      */
     addCachedProperty : function(config, proto)
@@ -217,13 +224,13 @@ qx.Clazz.define("qx.core.LegacyProperty",
       };
     },
 
+
     /**
      * TODOC
      *
      * @type static
-     * @name addPropertyGroup
-     * @access public
      * @param config {var} TODOC
+     * @param proto {var} TODOC
      * @return {void}
      * @throws TODOC
      */
@@ -266,6 +273,12 @@ qx.Clazz.define("qx.core.LegacyProperty",
           GETTER
       -------------------------------------------------------------------------------- */
 
+      /**
+       * TODOC
+       *
+       * @type unknown TODOC
+       * @return {Array} TODOC
+       */
       proto["get" + config.method] = function()
       {
         var a = [];
@@ -324,13 +337,13 @@ qx.Clazz.define("qx.core.LegacyProperty",
       }
     },
 
+
     /**
      * TODOC
      *
      * @type static
-     * @name removeProperty
-     * @access public
      * @param config {var} TODOC
+     * @param proto {var} TODOC
      * @return {void}
      * @throws TODOC
      */
@@ -366,13 +379,13 @@ qx.Clazz.define("qx.core.LegacyProperty",
       proto["setDefault" + config.method] = null;
     },
 
+
     /**
      * TODOC
      *
      * @type static
-     * @name _createProperty
-     * @access protected
      * @param config {var} TODOC
+     * @param proto {var} TODOC
      * @return {void}
      * @throws TODOC
      */
@@ -704,8 +717,7 @@ qx.Clazz.define("qx.core.LegacyProperty",
         proto._properties[config.name] = true;
 
         // add property to object property list (for disposer)
-        if (config.dispose)
-        {
+        if (config.dispose) {
           proto._objectproperties[config.name] = true;
         }
         else
