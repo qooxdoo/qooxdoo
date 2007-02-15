@@ -66,7 +66,7 @@ qx.Clazz.define("qxunit.Lang",{
 	        this.assertNotUndefined(qx.lang.Array.append);
 	        var a = [1,2,3];
 	        qx.lang.Array.append(a, [4, 5, 6]);
-	        this.assertEquals(a.join(), [1,2,3,4,5,6].join());
+	        this.assertJsonEquals(a, [1,2,3,4,5,6]);
 
 	        var error = false;
 	        try {
@@ -86,9 +86,9 @@ qx.Clazz.define("qxunit.Lang",{
 	        this.assertNotUndefined(qx.lang.Object.invert);
 	        var Obj = qx.lang.Object;
 
-	        this.assertEquals(
-	            qx.io.Json.stringify({a: "1", "2": "b"}),
-	            qx.io.Json.stringify(Obj.invert({1: "a", b: 2}))
+	        this.assertJsonEquals(
+	            {a: "1", "2": "b"},
+	            Obj.invert({1: "a", b: 2})
 	        );
 	    },
 
