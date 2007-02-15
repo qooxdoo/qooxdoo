@@ -249,13 +249,13 @@ qx.Clazz.define("qx.Interface",
     /**
      * Whether a given class implements an interface.
      *
-     * @param vClass {Class} class to check
+     * @param clazz {Class} class to check
      * @param vInterface {Interface} the interface to check for
      * @return {Boolean} whether the class implements the interface
      */
-    hasInterface: function(vClass, vInterface)
+    hasInterface: function(clazz, vInterface)
     {
-      var clazz = vClass.constructor || vClazz;
+      var clazz = clazz.constructor || clazz;
 
       try {
         this.assertInterface(clazz, vInterface, false);
@@ -272,19 +272,19 @@ qx.Clazz.define("qx.Interface",
      * the interface an exception is thrown. This method can optionally wrap the interface
      * methods of the class with precondition checks from the interface.
      *
-     * @param vClass {Class} class to check
+     * @param clazz {Class} class to check
      * @param vInterface {Interface} the interface the class must implement
      * @param wrap {Boolean?true} whether the class chould be extended with precondition checks
      *   from the interfaces.
      */
-    assertInterface: function(vClass, vInterface, wrap)
+    assertInterface: function(clazz, vInterface, wrap)
     {
-      if (!vClass.$$IMPLEMENTS) {
-        vClass.$$IMPLEMENTS = {};
+      if (!clazz.$$IMPLEMENTS) {
+        clazz.$$IMPLEMENTS = {};
       }
 
       // check whether the interface is in the registry of the class
-      if (vClass.$$IMPLEMENTS[vInterface.name]) {
+      if (clazz.$$IMPLEMENTS[vInterface.name]) {
         return true;
       }
 
@@ -293,12 +293,12 @@ qx.Clazz.define("qx.Interface",
 
       // Validate members
       var interfaceMembers = vInterface.members;
-      var prot = vClass.prototype;
+      var prot = clazz.prototype;
 
       for (var key in interfaceMembers)
       {
         if (typeof prot[key] != "function") {
-          throw new Error('Implementation of method "' + key + '" is missing in Class "' + vClass.classname + '" required by interface "' + vInterface.name + '"');
+          throw new Error('Implementation of method "' + key + '" is missing in Class "' + clazz.classname + '" required by interface "' + vInterface.name + '"');
         }
         if (wrap && typeof(interfaceMembers[key]) == "function") {
           prot[key] = this.__wrapFunctionWithPrecondition(vInterface.name, prot[key], key, interfaceMembers[key]);
@@ -310,16 +310,16 @@ qx.Clazz.define("qx.Interface",
       for (var key in interfaceStatics)
       {
         if (typeof(interfaceStatics[key]) == "function") {
-          if (typeof vClass[key] != "function") {
-            throw new Error('Implementation of static method "' + key + '" is missing in Class "' + vClass.classname + '" required by interface "' + vInterface.name + '"');
+          if (typeof clazz[key] != "function") {
+            throw new Error('Implementation of static method "' + key + '" is missing in Class "' + clazz.classname + '" required by interface "' + vInterface.name + '"');
           }
           if (wrap) {
-            vClass[key] = this.__wrapFunctionWithPrecondition(vInterface.name, vClass[key], key, interfaceStatics[key]);
+            clazz[key] = this.__wrapFunctionWithPrecondition(vInterface.name, clazz[key], key, interfaceStatics[key]);
           }
         }
       }
 
-      vClass.$$IMPLEMENTS[vInterface.name] = vInterface;
+      clazz.$$IMPLEMENTS[vInterface.name] = vInterface;
     },
 
 
