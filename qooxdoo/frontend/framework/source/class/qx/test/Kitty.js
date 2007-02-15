@@ -1,45 +1,76 @@
 qx.Clazz.define("qx.test.Kitty",
 {
   extend : qx.test.Cat,
+  implement : [ qx.test.IPet ],
 
-  implement : [
-    qx.test.IPet
-  ],
+  include : [ qx.test.MMoody /* , qx.test.MFat */ ],
 
-  include : [
-    qx.test.MMoody /*, qx.test.MFat*/
-  ],
 
+  /**
+   * TODOC
+   *
+   * @type constructor
+   */
   construct : function() {
     arguments.callee.base.call(this);
   },
 
   properties :
   {
-    color : {
-      compat : true,
-      type : "string",
+    color :
+    {
+      compat       : true,
+      type         : "string",
       defaultValue : "black"
     }
   },
 
   members :
   {
+    /** {var} TODOC */
     name : "KittyName",
 
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
     makeSound : function() {
-     this.debug("RRRRRRRRRRH!");
+      this.debug("RRRRRRRRRRH!");
     },
 
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
     smooch : function() {
-     this.debug("Mmmh, I like smooching.");
+      this.debug("Mmmh, I like smooching.");
     },
 
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
     play : function() {
-     this.debug("I am playing.");
+      this.debug("I am playing.");
     },
 
-    hasSoul: function() {
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {boolean} TODOC
+     */
+    hasSoul : function() {
       return true;
     }
   }
