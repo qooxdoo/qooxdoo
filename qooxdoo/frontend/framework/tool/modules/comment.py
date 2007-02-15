@@ -582,6 +582,9 @@ def fromNode(node, assignType, name, alternative, old=[]):
   else:
     s = "/** %s */" % newText
 
+  s = s.replace("/**  ", "/** ").replace("  */", " */")
+
+
 
   #
   # other @attributes
@@ -591,7 +594,7 @@ def fromNode(node, assignType, name, alternative, old=[]):
     cat = attrib["category"]
 
     if cat != "description":
-      print " * Found unallowed attribute %s in comment for %s (node)" % (cat, name)
+      print "  * Found unallowed attribute %s in comment for %s (node)" % (cat, name)
 
   return s
 
@@ -752,7 +755,7 @@ def fromFunction(func, assignType, name, alternative, old=[]):
       s += "\n"
 
   elif oldThrows:
-    print " * Removing old @throw attribute in comment for %s" % name
+    print "  * Removing old @throw attribute in comment for %s" % name
 
 
 
@@ -774,7 +777,7 @@ def fromFunction(func, assignType, name, alternative, old=[]):
         s += "\n"
 
     elif not cat in [ "description", "type", "abstract", "param", "return", "throws" ]:
-      print " * Found unallowed attribute %s in comment for %s (function)" % (cat, name)
+      print "  * Found unallowed attribute %s in comment for %s (function)" % (cat, name)
 
 
 
