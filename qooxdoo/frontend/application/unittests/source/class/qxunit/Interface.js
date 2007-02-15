@@ -25,7 +25,7 @@ qx.Clazz.define("qxunit.Interface", {
 		    } catch (e) {
 		        error = true;
 		    }
-		   this.assertTrue("Interfaces cannot be instantiated!", error);
+		   this.assertTrueDebugOn("Interfaces cannot be instantiated!", error);
 
 			// test correct implementations
 		    qx.Clazz.define("qxunit.Audi", {
@@ -82,7 +82,7 @@ qx.Clazz.define("qxunit.Interface", {
 		    } catch (e) {
 		        error = e;
 		    }
-			this.assertEquals(
+			this.assertEqualsDebugOn(
 				new Error('Implementation of method "startEngine" is missing in Class "qxunit.Audi2" required by interface "qxunit.ICar"').toString(),
 				error.toString()
 			);
@@ -105,7 +105,7 @@ qx.Clazz.define("qxunit.Interface", {
 		    } catch (e) {
 		        error = e;
 		    }
-			this.assertEquals(
+			this.assertEqualsDebugOn(
 				new Error('Implementation of static method "honk" is missing in Class "qxunit.Audi3" required by interface "qxunit.ICar"').toString(),
 				error.toString()
 			);
@@ -127,7 +127,7 @@ qx.Clazz.define("qxunit.Interface", {
 		    } catch (e) {
 		        error = e;
 		    }
-			this.assertEquals(
+			this.assertEqualsDebugOn(
 				new Error('Implementation of method "getColor" is missing in Class "qxunit.Audi4" required by interface "qxunit.ICar"').toString(),
 				error.toString()
 			);
@@ -190,7 +190,7 @@ qx.Clazz.define("qxunit.Interface", {
 			} catch (e) {
 				error = e;
 			}
-			this.assertTrue(error.toString().match(/Pre condition of method/) ? true : false);
+			this.assertTrueDebugOn(error.toString().match(/Pre condition of method/) ? true : false);
 		
 			var error = false;
 			try {
@@ -198,7 +198,7 @@ qx.Clazz.define("qxunit.Interface", {
 			} catch (e) {
 				error = e;
 			}
-			this.assertTrue(error.toString().match(/Pre condition of method/) ? true : false);
+			this.assertTrueDebugOn(error.toString().match(/Pre condition of method/) ? true : false);
 
 			var error = false;
 			try {
@@ -206,7 +206,7 @@ qx.Clazz.define("qxunit.Interface", {
 			} catch (e) {
 				error = e;
 			}
-			this.assertTrue(error.toString().match(/Pre condition of method/) ? true : false);
+			this.assertTrueDebugOn(error.toString().match(/Pre condition of method/) ? true : false);
 
 			var error = false;
 			try {
@@ -214,7 +214,7 @@ qx.Clazz.define("qxunit.Interface", {
 			} catch (e) {
 				error = e;
 			}
-			this.assertTrue(error.toString().match(/Pre condition of method/) ? true : false);
+			this.assertTrueDebugOn(error.toString().match(/Pre condition of method/) ? true : false);
 
 			var error = false;
 			try {
@@ -222,7 +222,7 @@ qx.Clazz.define("qxunit.Interface", {
 			} catch (e) {
 				error = e;
 			}
-			this.assertTrue(error.toString().match(/Pre condition of method/) ? true : false);
+			this.assertTrueDebugOn(error.toString().match(/Pre condition of method/) ? true : false);
 
 			var error = false;
 			try {
@@ -230,7 +230,7 @@ qx.Clazz.define("qxunit.Interface", {
 			} catch (e) {
 				error = e;
 			}
-			this.assertTrue(error.toString().match(/Pre condition of method/) ? true : false);
+			this.assertTrueDebugOn(error.toString().match(/Pre condition of method/) ? true : false);
 
 		}
 	}

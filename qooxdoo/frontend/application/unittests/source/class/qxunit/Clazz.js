@@ -31,7 +31,7 @@ qx.Clazz.define("qxunit.Clazz", {
 			catch (e) {
 				error = e;
 			}
-			this.assertEquals(
+			this.assertEqualsDebugOn(
 				new Error("An object of the name 'qxunit.Same' aready exists and overwriting is not allowed!").toString(),
 				error.toString()
 			);
@@ -115,7 +115,7 @@ qx.Clazz.define("qxunit.Clazz", {
 			} catch(e) {
 				error = true;
 			}
-			this.assertTrue("It is not permitted to instanciate an abstract class.", error);
+			this.assertTrueDebugOn("It is not permitted to instanciate an abstract class.", error);
 
 			// check if subclasses of abstract classes work
 			qx.Clazz.define("qxunit.ConcreteCar", {
@@ -156,7 +156,7 @@ qx.Clazz.define("qxunit.Clazz", {
 			} catch(e) {
 				error = true;
 			}
-			this.assertTrue("Direct instanctiation of singletons should fail!", error);		
+			this.assertTrueDebugOn("Direct instanctiation of singletons should fail!", error);		
 
 		},
 	
@@ -183,7 +183,7 @@ qx.Clazz.define("qxunit.Clazz", {
 			} catch (e) {
 				error = e;
 			}
-			this.assertTrue(error.toString().match(/Forbidden setting/) ? true : false);
+			this.assertTrueDebugOn(error.toString().match(/Forbidden setting/) ? true : false);
 		},
 	
 		testVariant: function() {
@@ -214,7 +214,7 @@ qx.Clazz.define("qxunit.Clazz", {
 			} catch (e) {
 				error = e;
 			}
-			this.assertTrue(error.toString().match(/Forbidden variant/) ? true : false);
+			this.assertTrueDebugOn(error.toString().match(/Forbidden variant/) ? true : false);
 		}	
 	}
 });

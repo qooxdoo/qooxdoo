@@ -44,7 +44,7 @@ qx.Clazz.define("qxunit.Mixin", {
 			} catch (e) {
 				error = true;
 			}
-			this.assertTrue("MMix1 and MMix2 are incompatible.", error);
+			this.assertTrueDebugOn("MMix1 and MMix2 are incompatible.", error);
 
 			var error = false;
 			try {
@@ -59,7 +59,7 @@ qx.Clazz.define("qxunit.Mixin", {
 			} catch (e) {
 				error = true;
 			}
-			this.assertTrue("Mix and MMix1 have incompatible members.", error);
+			this.assertTrueDebugOn("Mix and MMix1 have incompatible members.", error);
 
 			var error = false;
 			try {
@@ -74,7 +74,7 @@ qx.Clazz.define("qxunit.Mixin", {
 			} catch (e) {
 				error = true;
 			}
-			this.assertTrue("Mix and MMix1 have incompatible statics.", error);
+			this.assertTrueDebugOn("Mix and MMix1 have incompatible statics.", error);
 
 			var error = false;
 			try {
@@ -89,7 +89,7 @@ qx.Clazz.define("qxunit.Mixin", {
 			} catch (e) {
 				error = true;
 			}
-			this.assertTrue("Mix and MMix1 have incompatible properties.", error);
+			this.assertTrueDebugOn("Mix and MMix1 have incompatible properties.", error);
 
 		},
 	
@@ -128,7 +128,7 @@ qx.Clazz.define("qxunit.Mixin", {
 			} catch (e) {
 				error = e;
 			}
-			this.assertEquals(
+			this.assertEqualsDebugOn(
 				new Error("Overwriting the member 'log' is not allowed!").toString(),
 				error.toString()
 			);
