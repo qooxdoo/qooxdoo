@@ -46,8 +46,6 @@ qx.Clazz.define("qx.lang.Number",
      * Check whether the number is in a given range
      *
      * @type static
-     * @name isInRange
-     * @access public
      * @param nr {Number} the number to check
      * @param vmin {Integer} lower bound of the range
      * @param vmax {Integer} upper bound of the range
@@ -57,12 +55,11 @@ qx.Clazz.define("qx.lang.Number",
       return nr >= vmin && nr <= vmax;
     },
 
+
     /**
      * Check whether the number is between a given range
      *
      * @type static
-     * @name isBetweenRange
-     * @access public
      * @param nr {Number} the number to check
      * @param vmin {Integer} lower bound of the range
      * @param vmax {Integer} upper bound of the range
@@ -72,16 +69,15 @@ qx.Clazz.define("qx.lang.Number",
       return nr > vmin && nr < vmax;
     },
 
+
     /**
      * Limit the nuber to a given range
-     *
+     * 
      * * If the number is greater than the upper bound, the upper bound is returned
      * * If the number is smaller than the lower bound, the lower bound is returned
      * * If the number is in the range, the number is retuned
      *
      * @type static
-     * @name limit
-     * @access public
      * @param nr {Number} the number to limit
      * @param vmin {Integer} lower bound of the range
      * @param vmax {Integer} upper bound of the range
