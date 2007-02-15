@@ -15,6 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
+     * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
 
@@ -38,12 +39,12 @@
  *   <li> settings </li>
  *   <li> internationalization </li>
  * </ul>
- *
- * @param vAutoDispose {Boolean ? true} whether the object should be automatically disposed
  */
 qx.Clazz.define("qx.core.Object",
 {
   extend : Object,
+
+  include : [qx.locale.MTranslation, qx.log.MLogging],
 
   /*
   *****************************************************************************
@@ -52,10 +53,10 @@ qx.Clazz.define("qx.core.Object",
   */
 
   /**
-   * TODOC
+   * Create a new instance
    *
    * @type constructor
-   * @param vAutoDispose {var} TODOC
+   * @param vAutoDispose {Boolean ? true} whether the object should be automatically disposed
    */
   construct : function(vAutoDispose)
   {
@@ -147,9 +148,6 @@ qx.Clazz.define("qx.core.Object",
 
   members :
   {
-    /* ************************************************************************
-       Instance data, properties and methods
-    ************************************************************************ */
 
     /*
     ---------------------------------------------------------------------------
@@ -157,11 +155,10 @@ qx.Clazz.define("qx.core.Object",
     ---------------------------------------------------------------------------
     */
 
-    // Properties NG
-    /** {var} TODOC */
+    /** {Map} Properties NG */
     _properties_ng : {},
 
-    /** {var} TODOC */
+    /** {Map} Properties NG */
     _properties_init_ng : [],
 
     /**
@@ -223,7 +220,7 @@ qx.Clazz.define("qx.core.Object",
      * @return {Boolean} wether the object has been disposed
      */
     getDisposed : function() {
-      return this._disposed;
+      return this.__disposed;
     },
 
     /**
@@ -233,138 +230,9 @@ qx.Clazz.define("qx.core.Object",
      * @return {Boolean} wether the object has been disposed
      */
     isDisposed : function() {
-      return this._disposed;
+      return this.__disposed;
     },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      I18N INTERFACE
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Translate a message
-     * Mark the message for translation.
-     *
-     * @type member
-     * @param messageId {String} message id (may contain format strings)
-     * @param varargs {Object} variable number of argumes applied to the format string
-     * @return {qx.locale.LocalizedString} TODOC
-     */
-    tr : function(messageId, varargs)
-    {
-      var nlsManager = qx.locale.Manager;
-      return nlsManager.tr.apply(nlsManager, arguments);
-    },
-
-    /**
-     * Translate a plural message
-     * Mark the messages for translation.
-     *
-     * Depending on the third argument the plursl or the singular form is chosen.
-     *
-     * @type member
-     * @param singularMessageId {String} message id of the singular form (may contain format strings)
-     * @param pluralMessageId {String} message id of the plural form (may contain format strings)
-     * @param count {Integer} if greater than 1 the plural form otherwhise the singular form is returned.
-     * @param varargs {Object} variable number of argumes applied to the format string
-     * @return {call} {qx.locale.LocalizedString)
-     */
-    trn : function(singularMessageId, pluralMessageId, count, varargs)
-    {
-      var nlsManager = qx.locale.Manager;
-      return nlsManager.trn.apply(nlsManager, arguments);
-    },
-
-    /**
-     * Mark the message for translation but return the original message.
-     *
-     * @type member
-     * @param messageId {String} the message ID
-     * @return {String} messageId
-     */
-    marktr : function(messageId)
-    {
-      var nlsManager = qx.locale.Manager;
-      return nlsManager.marktr.apply(nlsManager, arguments);
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      LOGGING INTERFACE
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Returns the logger of this class.
-     *
-     * @type member
-     * @return {qx.log.Logger} the logger of this class.
-     */
-    getLogger : function() {
-      return qx.log.Logger.getClassLogger(this.constructor);
-    },
-
-    /**
-     * Logs a debug message.
-     *
-     * @type member
-     * @param msg {var} the message to log. If this is not a string, the
-     *          object dump will be logged.
-     * @param exc {var} the exception to log.
-     * @return {void}
-     */
-    debug : function(msg, exc) {
-      this.getLogger().debug(msg, this._hashCode, exc);
-    },
-
-    /**
-     * Logs an info message.
-     *
-     * @type member
-     * @param msg {var} the message to log. If this is not a string, the
-     *      object dump will be logged.
-     * @param exc {var} the exception to log.
-     * @return {void}
-     */
-    info : function(msg, exc) {
-      this.getLogger().info(msg, this._hashCode, exc);
-    },
-
-    /**
-     * Logs a warning message.
-     *
-     * @type member
-     * @param msg {var} the message to log. If this is not a string, the
-     *      object dump will be logged.
-     * @param exc {var} the exception to log.
-     * @return {void}
-     */
-    warn : function(msg, exc) {
-      this.getLogger().warn(msg, this._hashCode, exc);
-    },
-
-    /**
-     * Logs an error message.
-     *
-     * @type member
-     * @param msg {var} the message to log. If this is not a string, the
-     *      object dump will be logged.
-     * @param exc {var} the exception to log.
-     * @return {void}
-     */
-    error : function(msg, exc) {
-      this.getLogger().error(msg, this._hashCode, exc);
-    },
-
-
-
+    
 
     /*
     ---------------------------------------------------------------------------
@@ -455,13 +323,12 @@ qx.Clazz.define("qx.core.Object",
     */
 
     /** {var} TODOC */
-    _disposed : false,
+    __disposed : false,
 
     /**
      * Dispose this object
      *
      * @type member
-     * @return {void}
      */
     dispose : function()
     {
@@ -530,7 +397,7 @@ qx.Clazz.define("qx.core.Object",
       }
 
       // Mark as disposed
-      this._disposed = true;
+      this.__disposed = true;
     }
   },
 
@@ -549,9 +416,6 @@ qx.Clazz.define("qx.core.Object",
 
   statics :
   {
-    /* ************************************************************************
-       Class data, properties and methods
-    ************************************************************************ */
 
     /** {var} TODOC */
     __availableHashCode : 0,
@@ -607,7 +471,7 @@ qx.Clazz.define("qx.core.Object",
       {
         vObject = qx.core.Object.__db[i];
 
-        if (vObject && vObject._disposed === false) {
+        if (vObject && vObject.__disposed === false) {
           vObject.dispose();
         }
       }
@@ -670,7 +534,7 @@ qx.Clazz.define("qx.core.Object",
       {
         vObject = qx.core.Object.__db[i];
 
-        if (vObject && vObject._disposed === false)
+        if (vObject && vObject.__disposed === false)
         {
           if (vData[vObject.classname] == null) {
             vData[vObject.classname] = 1;
