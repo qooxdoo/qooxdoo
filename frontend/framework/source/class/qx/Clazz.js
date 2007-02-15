@@ -101,7 +101,7 @@ qx.Clazz.define("qx.Clazz",
      * </code></pre>
      *
      * @param name {String} class name
-     * @param config {Map} class definition structure. The configuration map has the following keys:
+     * @param config {Map} Class definition structure. The configuration map has the following keys:
      *   <table>
      *     <tr><th>Name</th><th>Type</th><th>Description</th></tr>
      *     <tr><th>type</th><td>String</td><td>type of the class. Valid types are "abstract", "static" and "singleton"</td></tr>
@@ -155,8 +155,6 @@ qx.Clazz.define("qx.Clazz",
      *
      * @param name {String} The namespace including the last (class) name
      * @param object {Object} The data to attach to the namespace
-     * @param forceOverwrite {Boolean} whether an object should be overwritten if it already exists
-     *   in the namespace.
      * @return {Object} last part of the namespace (e.g. classname)
      */
     createNamespace : function(name, object)
@@ -343,7 +341,7 @@ qx.Clazz.define("qx.Clazz",
     /**
      * Creates a class by type. Supports modern inheritance etc.
      *
-     * @param name {String} Full name of class
+     * @param name {String} Full name of the class
      * @param type {String ? null} type of the class.
      * @param extend {Class ? null} Superclass to inherit from
      * @param construct {Function ? null} Constructor of the new class
@@ -450,8 +448,8 @@ qx.Clazz.define("qx.Clazz",
     /**
      * Define settings for a class
      *
-     * @param settings {Map ? null} Maps the setting name to the default value.
-     * @param className {String} name of the class defining the setting
+     * @param clazz {Class} The class to define the setting for
+     * @param settings {Map} Maps the setting name to the default value.
      */
     __processSettings: function(clazz, settings)
     {
@@ -476,13 +474,13 @@ qx.Clazz.define("qx.Clazz",
     /**
      * Define variants for a class
      *
-     * @param variants {Map ? null} Map of definitions of variants. The key is the name of the variant.
+     * @param clazz {Class} The class to define the variant for
+     * @param variants {Map} Map of definitions of variants. The key is the name of the variant.
      *   The value is a map with the following keys:
      *   <ul>
      *     <li>allowedValues: array of allowed values</li>
      *     <li>defaultValue: default value</li>
      *   </ul>
-     * @param className {String} name of the class defining the variant.
      */
     __processVariants: function(clazz, variants)
     {
@@ -527,8 +525,7 @@ qx.Clazz.define("qx.Clazz",
 
     /**
      * Wrapper for qx.OO.addProperty. This is needed in two places so the code
-     * has been extracted. The global variables qx.Class, qx.Proto and qx.Super
-     * must be set before this method is called.
+     * has been extracted.
      *
      * @param clazz {Clazz} class to add the properties to
      * @param properties {Map} new class style property definitions
@@ -608,7 +605,7 @@ qx.Clazz.define("qx.Clazz",
      * Attach mixins to a class
      *
      * @param clazz {Class} Class to add mixins to
-     * @param mixins {Map} The map of mixins to attach
+     * @param mixins {Mixin[]} The map of mixins to attach
      */
     __addMixins : function(clazz, mixins)
     {
@@ -831,30 +828,6 @@ qx.Clazz.define("qx.Clazz",
         // in production code omit the check and just return the
         // constructor
         return construct;
-      }
-    },
-
-
-    /**
-     * Returns an empty function.
-     * This make sure that the new function has an empty closure.
-     *
-     * @return {Function} empty function
-     */
-    __wrapFunctionWithPrecondition: function(method, name, preCondition)
-    {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        return function()
-        {
-          if (!preCondition.apply(this, arguments)) {
-           throw new Error("Pre condition of method '" + name + "'failed: " + preCondition.toString());
-          }
-
-          method.apply(this, arguments);
-        }
-      } else {
-        return method;
       }
     },
 
