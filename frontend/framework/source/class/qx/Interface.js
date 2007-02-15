@@ -37,8 +37,8 @@ qx.Clazz.define("qx.Interface",
      * main difference is that the function body of functions defined in <code>members</code>
      * and <code>statics</code> are treated as preconditions the the methods
      * implementing the interface. These are typically used for parameter checks.
-     * 
-     * Primitive statics written all uppercase are copied into the classes implementing 
+     *
+     * Primitive statics written all uppercase are copied into the classes implementing
      * the interface.
      *
      * For properties only the names are required so the property key expects an array
@@ -54,7 +54,7 @@ qx.Clazz.define("qx.Interface",
      *     PI : 3.14,
      *     staticMethod: function(z) { return typeof(z) == "string"; }
      *   },
-     * 
+     *
      *   properties: ["color", "name"],
      *
      *   members:
@@ -184,7 +184,7 @@ qx.Clazz.define("qx.Interface",
     /**
      * Wrap a method with a precondition check.
      *
-     * @param interfaceName {String} Name of the interface, where the pre condition 
+     * @param interfaceName {String} Name of the interface, where the pre condition
      *   was defined. (Used in error messages).
      * @param origFunction {Function} function to wrap.
      * @param functionName {String} name of the function. (Used in error messages).
@@ -211,7 +211,7 @@ qx.Clazz.define("qx.Interface",
         return origFunction;
       }
     },
-    
+
 
     /**
      * Validates incoming configuration and checks keys and values
@@ -238,10 +238,10 @@ qx.Clazz.define("qx.Interface",
             throw new Error("Invalid key '" + key + "' in class '" + name + "'! The value is undefined/null!");
           }
         }
-      }    
+      }
     },
 
-    
+
     /**
      * Creates an interface.
      *
@@ -267,15 +267,15 @@ qx.Clazz.define("qx.Interface",
       interf.blacklist = {};
       interf.statics = statics || {};
       interf.members = members || {};
-      
+
       return interf;
     },
-    
-    
+
+
     /**
      * Convert properties defined in the interface to checks for their
      * getter and setter.
-     * 
+     *
      * @param interf {Interface} The interface
      * @param properties {String[]} list of proerty names
      */
@@ -290,13 +290,13 @@ qx.Clazz.define("qx.Interface",
             interf.members[getterName] = interf.members[setterName] = function() {};
           }
         }
-      }      
+      }
     },
-    
-    
+
+
     /**
      * Check the statics
-     * 
+     *
      * @param name {String} name of the interface
      * @param statics {Map} Map the the statics
      */
@@ -320,10 +320,10 @@ qx.Clazz.define("qx.Interface",
       }
     },
 
-    
+
     /**
      * Import mebers, statics from the inherited interfaces
-     * 
+     *
      * @param interf {Interface} the target interface
      * @param extend {Interface[]} List of interfaces to import
      */
@@ -334,7 +334,7 @@ qx.Clazz.define("qx.Interface",
       	if (!(extend instanceof Array)) {
         	extend = [ extend ];
        	}
-       	
+
         for (var i=0, l=extend.length; i<l; i++)
         {
           // Combine blacklist
@@ -349,7 +349,7 @@ qx.Clazz.define("qx.Interface",
 
           for (var key in emembers) {
             interf.members[key] = emembers[key];
-          }         
+          }
         }
 
         // Separate loop because we must
@@ -362,7 +362,7 @@ qx.Clazz.define("qx.Interface",
           // Copy constants etc.
           for (var key in estatics)
           {
-            if (key in blacklist) {
+            if (key in eblacklist) {
               continue;
             }
 
@@ -378,8 +378,8 @@ qx.Clazz.define("qx.Interface",
             interf.statics[key] = estatics[key];
           }
         }
-      }      
+      }
     }
-    
+
   }
 });
