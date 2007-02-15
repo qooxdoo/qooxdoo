@@ -26,7 +26,7 @@
 
 /**
  * Basic client detection implementation
- * 
+ *
  *  Version shemes following wikipedia: major.minor[.revision[.build]]
  *  http://en.wikipedia.org/wiki/Software_version
  */
@@ -38,13 +38,9 @@ qx.Clazz.define("qx.core.Client",
 
 
 
-
-
-
-
   /*
   *****************************************************************************
-  **** CONSTRUCTOR ************************************************************
+     CONSTRUCTOR
   *****************************************************************************
   */
 
@@ -242,24 +238,14 @@ qx.Clazz.define("qx.core.Client",
 
 
 
-
-
-
-
   /*
   *****************************************************************************
-  **** MEMBERS ****************************************************************
+     MEMBERS
   *****************************************************************************
   */
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      METHODS
-    ---------------------------------------------------------------------------
-    */
-
     /**
      * TODOC
      *
@@ -269,6 +255,7 @@ qx.Clazz.define("qx.core.Client",
     getRunsLocally : function() {
       return this._runsLocally;
     },
+
 
     /**
      * TODOC
@@ -280,6 +267,7 @@ qx.Clazz.define("qx.core.Client",
       return this._engineName;
     },
 
+
     /**
      * TODOC
      *
@@ -289,6 +277,7 @@ qx.Clazz.define("qx.core.Client",
     getVersion : function() {
       return this._engineVersion;
     },
+
 
     /**
      * TODOC
@@ -300,6 +289,7 @@ qx.Clazz.define("qx.core.Client",
       return this._engineVersionMajor;
     },
 
+
     /**
      * TODOC
      *
@@ -309,6 +299,7 @@ qx.Clazz.define("qx.core.Client",
     getMinor : function() {
       return this._engineVersionMinor;
     },
+
 
     /**
      * TODOC
@@ -320,6 +311,7 @@ qx.Clazz.define("qx.core.Client",
       return this._engineVersionRevision;
     },
 
+
     /**
      * TODOC
      *
@@ -329,6 +321,7 @@ qx.Clazz.define("qx.core.Client",
     getBuild : function() {
       return this._engineVersionBuild;
     },
+
 
     /**
      * TODOC
@@ -340,6 +333,7 @@ qx.Clazz.define("qx.core.Client",
       return this._engineEmulation;
     },
 
+
     /**
      * TODOC
      *
@@ -349,6 +343,7 @@ qx.Clazz.define("qx.core.Client",
     isMshtml : function() {
       return this._engineNameMshtml;
     },
+
 
     /**
      * TODOC
@@ -360,6 +355,7 @@ qx.Clazz.define("qx.core.Client",
       return this._engineNameGecko;
     },
 
+
     /**
      * TODOC
      *
@@ -369,6 +365,7 @@ qx.Clazz.define("qx.core.Client",
     isOpera : function() {
       return this._engineNameOpera;
     },
+
 
     /**
      * TODOC
@@ -380,6 +377,7 @@ qx.Clazz.define("qx.core.Client",
       return this._engineNameKhtml;
     },
 
+
     /**
      * TODOC
      *
@@ -389,6 +387,7 @@ qx.Clazz.define("qx.core.Client",
     isWebkit : function() {
       return this._engineNameWebkit;
     },
+
 
     /**
      * TODOC
@@ -400,6 +399,7 @@ qx.Clazz.define("qx.core.Client",
       return this._engineNameWebkit && (this._engineVersion < 420);
     },
 
+
     /**
      * TODOC
      *
@@ -409,6 +409,7 @@ qx.Clazz.define("qx.core.Client",
     isInQuirksMode : function() {
       return this._engineQuirksMode;
     },
+
 
     /**
      * TODOC
@@ -420,6 +421,7 @@ qx.Clazz.define("qx.core.Client",
       return this._browserLocale;
     },
 
+
     /**
      * TODOC
      *
@@ -429,6 +431,7 @@ qx.Clazz.define("qx.core.Client",
     getLocaleVariant : function() {
       return this._browserLocaleVariant;
     },
+
 
     /**
      * TODOC
@@ -440,6 +443,7 @@ qx.Clazz.define("qx.core.Client",
       return this._defaultLocale;
     },
 
+
     /**
      * TODOC
      *
@@ -449,6 +453,7 @@ qx.Clazz.define("qx.core.Client",
     usesDefaultLocale : function() {
       return this._browserLocale === this._defaultLocale;
     },
+
 
     /**
      * Returns the CSS attribute name for box-sizing if supported.
@@ -460,6 +465,7 @@ qx.Clazz.define("qx.core.Client",
       return this._engineBoxSizingAttribute;
     },
 
+
     /**
      * TODOC
      *
@@ -469,6 +475,7 @@ qx.Clazz.define("qx.core.Client",
     getPlatform : function() {
       return this._browserPlatform;
     },
+
 
     /**
      * Returns whether the client platform is a Windows machine.
@@ -480,6 +487,7 @@ qx.Clazz.define("qx.core.Client",
       return this._browserPlatformWindows;
     },
 
+
     /**
      * Returns whether the client platform is a Macintosh machine.
      *
@@ -489,6 +497,7 @@ qx.Clazz.define("qx.core.Client",
     runsOnMacintosh : function() {
       return this._browserPlatformMacintosh;
     },
+
 
     /**
      * Returns whether the client platform is a X11 powered machine.
@@ -500,6 +509,7 @@ qx.Clazz.define("qx.core.Client",
       return this._browserPlatformUnix;
     },
 
+
     /**
      * TODOC
      *
@@ -509,6 +519,7 @@ qx.Clazz.define("qx.core.Client",
     supportsVml : function() {
       return this._gfxVml;
     },
+
 
     /**
      * TODOC
@@ -520,6 +531,7 @@ qx.Clazz.define("qx.core.Client",
       return this._gfxSvg;
     },
 
+
     /**
      * TODOC
      *
@@ -530,6 +542,7 @@ qx.Clazz.define("qx.core.Client",
       return this._gfxSvgBuiltin;
     },
 
+
     /**
      * TODOC
      *
@@ -539,6 +552,7 @@ qx.Clazz.define("qx.core.Client",
     usesSvgPlugin : function() {
       return this._gfxSvgPlugin;
     },
+
 
     /**
      * Retuns whether the Mozilla FireBug extension is installed and active
@@ -551,6 +565,7 @@ qx.Clazz.define("qx.core.Client",
       return this._fireBugActive;
     },
 
+
     /**
      * Returns whether the client supports the W3C property textContent of DOM element nodes.
      *
@@ -560,6 +575,7 @@ qx.Clazz.define("qx.core.Client",
     supportsTextContent : function() {
       return this._supportsTextContent;
     },
+
 
     /**
      * Returns whether the client supports the W3C property innerText of DOM element nodes.
@@ -573,5 +589,4 @@ qx.Clazz.define("qx.core.Client",
   }
 });
 
-
-qx.core.Variant.define("qx.client", ["gecko", "mshtml", "opera", "webkit", "khtml"], qx.core.Client.getInstance().getEngine());
+qx.core.Variant.define("qx.client", [ "gecko", "mshtml", "opera", "webkit", "khtml" ], qx.core.Client.getInstance().getEngine());

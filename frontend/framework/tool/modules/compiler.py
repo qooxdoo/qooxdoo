@@ -358,7 +358,10 @@ def compileNode(node):
           divide()
 
         elif not isFirst:
-          sep()
+          if docComment:
+            divide()
+          else:
+            sep()
 
         elif inOperation:
           sep()
