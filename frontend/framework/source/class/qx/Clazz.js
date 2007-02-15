@@ -28,14 +28,40 @@
 ************************************************************************ */
 
 /**
- * Stuff needed for qooxdoo's advanced JavaScript OO handling.
+ * This class builds the basis for the qooxdoo class system and the qooxdoo
+ * style of object oriented JavaScript. The define method is used to create
+ * all classes.
+ * 
+ * Instances of classes defined with <code>qx.Clazz.define</code> have the
+ * following keys attached to the constructor and the prototype:
+ * 
+ * <table>
+ * <tr><th>classname</th><td>The fully qualified name of the class (e.g. "qx.ui.core.Widget").</td></tr>
+ * <tr><th>basename</th><td>The namspace part of the class name (e.g. "qx.ui.core").</td></tr>
+ * <tr><th>superclass</th><td>A pointer to the constructor of the super class.</td></tr>
+ * <tr><th>constructor</th><td>A pointer to the constructor of the class.</td></tr>
+ * </table>
+ * 
+ * Further each method, which overwrites a method of it's super class, has access to the overwritten
+ * method by using the <code>base</code> property which is attached to the method's function object.
+ * It can be accessed inside method by the <code>arguments.callee</code> variable:
+ * 
+ * <pre><code>
+ * members: {
+ *   ...
+ *   foo: function() {
+ *     var overWrittenMethod = argument.calle.base;
+ *   }
+ * }
+ * </code></pre>
  */
 qx.Clazz.define("qx.Clazz",
 {
   statics :
   {
     /**
-     * Class config
+     * Define a new class using the qooxdoo class system. This sets up the namespace for the class and
+     * constructs the class from the definition map.
      *
      * Example:
      * <pre><code>
@@ -75,21 +101,22 @@ qx.Clazz.define("qx.Clazz",
      * </code></pre>
      *
      * @param name {String} class name
-     * @param config {Map ? null} config structure
-     * @param config.type {String ? null}  type of class ("abstract" | "static" | "singleton")
-     * @param config.extend {Function ? null} extend class
-     * @param config.implement {Array ? null} list of implement that need to be implemented
-     * @param config.include {Array ? null} list of include to include
-     * @param config.construct {Function ? null} constructor method to run on each initialization
-     * @param config.statics {Map ? null} hash of static properties and methods ("class members")
-     * @param config.properties {Map ? null} hash of properties with generated setters and getters
-     * @param config.members {Map ? null} hash of regular properties and methods ("instance members")
-     * @param config.defer {Function ? null} function to be called for post-processing
-     * @param config.settings {Map ? null} hash of settings for this class
-     * @param config.variants {Map ? null} hash of settings for this class
-     * @param config.events {Array ? null} list of events the class is able to fire
-     * @return {void}
-     * @throws TODOC
+     * @param config {Map} class definition structure. The configuration map has the following keys:
+     *   <table>
+     *     <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+     *     <tr><th>type</th><td>String</td><td>type of the class. Valid types are "abstract", "static" and "singleton"</td></tr>
+     *     <tr><th>extend</th><td>Class</td><td>The spuer class the class inherits from.</td></tr>
+     *     <tr><th>implement</th><td>Interface[]</td><td>Array of interfaces the class implements.</td></tr>
+     *     <tr><th>include</th><td>Mixin[]</td><td>Array of mixins, which will be merged into the class.</td></tr>
+     *     <tr><th>construct</th><td>Function</td><td>The constructor of the class.</td></tr>
+     *     <tr><th>statics</th><td>Map</td><td>Map of statics of the class.</td></tr>
+     *     <tr><th>members</th><td>Map</td><td>Map of members of the class.</td></tr>
+     *     <tr><th>properties</th><td>Map</td><td>Map of property definitions. Format of the map: TODOC</td></tr>
+     *     <tr><th>settings</th><td>Map</td><td>Map of settings for this class. Format of the map: TODOC</td></tr>
+     *     <tr><th>variants</th><td>Map</td><td>Map of settings for this class. Format of the map: TODOC</td></tr>
+     *     <tr><th>events</th><td>String[]</td><td>List of events the class fires.</td></tr>
+     *     <tr><th>defer</th><td>Function</td><td>TODOC</td></tr>
+     *   </table>
      */
     define : function(name, config)
     {
@@ -118,6 +145,7 @@ qx.Clazz.define("qx.Clazz",
       this.__processSettings(clazz, config.settings);
       this.__processVariants(clazz, config.variants);
     },
+
 
     /**
      * Creates a given namespace and assigns the given object to the last part.
@@ -160,6 +188,7 @@ qx.Clazz.define("qx.Clazz",
       return part;
     },
 
+
     /**
      * Determine if class exists
      *
@@ -172,6 +201,7 @@ qx.Clazz.define("qx.Clazz",
     isDefined : function(name) {
       return this.__registry[name] != null;
     },
+
 
     /**
      * Returns a class by name
@@ -186,6 +216,7 @@ qx.Clazz.define("qx.Clazz",
       return this.__registry[name];
     },
 
+
     /**
      * Include all features of the Mixin into the given Class. The Mixin must not include
      * any functions or properties which are already available. This is only possible using
@@ -197,6 +228,7 @@ qx.Clazz.define("qx.Clazz",
     include : function(target, mixin) {
       return qx.Clazz.__mixin(target, mixin, false);
     },
+
 
     /**
      * Include all features of the Mixin into the given Class. The Mixin can include features
@@ -211,6 +243,7 @@ qx.Clazz.define("qx.Clazz",
     patch : function(target, mixin) {
       return qx.Clazz.__mixin(target, mixin, true);
     },
+
 
     /**
      * Check whether vClass is a sub class of vSuperClass
@@ -231,11 +264,9 @@ qx.Clazz.define("qx.Clazz",
    },
 
 
-
-
-
     /** Stores all defined classes */
     __registry : {},
+
 
     /**
      * Validates incoming configuration and checks keys and values
@@ -288,6 +319,7 @@ qx.Clazz.define("qx.Clazz",
       }
     },
 
+
     /**
      * Helper to handle singletons
      */
@@ -303,13 +335,14 @@ qx.Clazz.define("qx.Clazz",
       return this.$$INSTANCE;
     },
 
+
     /**
      * Creates a class by type. Supports modern inheritance etc.
      *
      * @param name {String} Full name of class
-     * @param type {String ? null} Name of the class
+     * @param type {String ? null} type of the class.
      * @param extend {Class ? null} Superclass to inherit from
-     * @param construct {Function ? null} Constructor of new class
+     * @param construct {Function ? null} Constructor of the new class
      * @param statics {Map ? null} Static methods field
      * @return {Class} The resulting class
      */
@@ -409,6 +442,7 @@ qx.Clazz.define("qx.Clazz",
       return clazz;
     },
 
+
     /**
      * Define settings for a class
      *
@@ -433,6 +467,7 @@ qx.Clazz.define("qx.Clazz",
         qx.core.Setting.define(key, settings[key]);
       }
     },
+
 
     /**
      * Define variants for a class
@@ -463,6 +498,7 @@ qx.Clazz.define("qx.Clazz",
         qx.core.Variant.define(key, variants[key].allowedValues, variants[key].defaultValue);
       }
     },
+
 
     /**
      * Wrapper for qx.OO.addProperty. This is needed in two places so the code
@@ -507,6 +543,7 @@ qx.Clazz.define("qx.Clazz",
       }
     },
 
+
     /**
      * Attach members to a class
      *
@@ -540,6 +577,7 @@ qx.Clazz.define("qx.Clazz",
       }
     },
 
+
     /**
      * Attach mixins to a class
      *
@@ -569,6 +607,7 @@ qx.Clazz.define("qx.Clazz",
         this.__mixin(clazz, mixins[i], false);
       }
     },
+    
 
     /**
      * Attach interfaces to a class
@@ -615,11 +654,6 @@ qx.Clazz.define("qx.Clazz",
     },
 
 
-
-
-
-
-
     /**
      * Include all features of the Mixin into the given Class.
      *
@@ -636,6 +670,13 @@ qx.Clazz.define("qx.Clazz",
       // used by multiple classes
       var members = mixin.members;
       var proto = clazz.prototype;
+      
+      if (!clazz.$$INCLUDES) {
+        clazz.$$INCLUDES;
+      }
+      if (clazz.$$INCLUDES[mixin.name]) {
+        return;
+      }
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -687,6 +728,7 @@ qx.Clazz.define("qx.Clazz",
       }
 
       this.__addProperties(clazz, properties);
+      clazz.$$INCLUDES[mixin.name] = mixin;
     },
 
 
@@ -735,6 +777,7 @@ qx.Clazz.define("qx.Clazz",
       }
     },
 
+
     /**
      * Add a singleton check to a constructor. The constructor will only work if
      * the static member <code>$ALLOWCONSTRUCT</code> of the class is set to true.
@@ -764,6 +807,7 @@ qx.Clazz.define("qx.Clazz",
       }
     },
 
+
     /**
      * Returns an empty function.
      * This make sure that the new function has an empty closure.
@@ -786,6 +830,7 @@ qx.Clazz.define("qx.Clazz",
         return method;
       }
     },
+
 
     /**
      * Returns an empty function. This is needed to get an empty function with an empty closure.

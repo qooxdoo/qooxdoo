@@ -235,6 +235,20 @@ qx.Clazz.define("qx.Mixin",
           kproperties[key] = true;
         }
       }
+    },
+    
+
+    /**
+     * Whether a given class includes a mixin.
+     *
+     * @param clazz {Class} class to check
+     * @param mixin {Mixin} the mixin to check for
+     * @return {Boolean} whether the class includes the mixin.
+     */    
+    hasMixin: function(clazz, mixin)
+    {
+    	return (clazz.$$INCLUDES[mixin.name] ? true : false);
     }
+    
   }
 });
