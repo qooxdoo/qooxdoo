@@ -82,8 +82,7 @@ qx.Clazz.define("qxunit.test.core.Variants", {
 	  testInlineSwitch: function() {
 	    debug("test testInlineSwitch");
 
-	    qx.core.Variant.define("test.animal", ["dog", "cat", "snake"], "dog");
-	    // variant is set to "snake" by the loader script
+	    qx.core.Variant.define("test.animal", ["dog", "cat", "snake"], "snake");
 	    this.assertEquals("snake", qx.core.Variant.get("test.animal"));
 
 	    var c;
