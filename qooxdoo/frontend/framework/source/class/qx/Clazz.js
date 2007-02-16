@@ -141,7 +141,7 @@ qx.Clazz.define("qx.Clazz",
       // Create class
       var clazz = this.__createClass(name, config.type, config.extend, config.construct, config.statics);
 
-      // Members, Properties and Mixins are not available in static classes
+      // Members, Properties, Events and Mixins are not available in static classes
       if (config.extend)
       {
         // Attach members
@@ -155,6 +155,11 @@ qx.Clazz.define("qx.Clazz",
           for (var name in config.properties) {
             this.__addProperty(clazz, name, config.properties[name]);
           }
+        }
+
+        // Process Events
+        if (config.events) {
+          this.__addEvents(clazz, config.events);
         }
 
         // Must be the last here to detect conflicts
@@ -390,7 +395,7 @@ qx.Clazz.define("qx.Clazz",
         "settings"   : "object",    // Map
         "variants"   : "object",    // Map
         "defer"      : "function",  // Function
-        "event"      : "object"     // Array
+        "events"      : "object"     // Array
       };
 
       for (var key in config)
@@ -559,6 +564,31 @@ qx.Clazz.define("qx.Clazz",
        PRIVATE ADD HELPERS
     ---------------------------------------------------------------------------
     */
+
+
+    /**
+     * Attach events to the clazz
+     * 
+     * @param clazz {Class} class to add the events to
+     * @param events{String[]} list of event names the class fires. 
+     */
+    __addEvents : function(clazz, events)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (!qx.core.Target) {
+          throw new Error("The class 'qx.core.Target' must be availabe to use events!");
+        }
+        if (!this.isSubClassOf(clazz, qx.core.Target)) {
+          throw new Error("The 'events' key can only be used for sub classes of 'qx.core.Target'!");
+        }
+      } 
+      clazz.$$EVENTS = {};
+      for (var i=0; i<events.length; i++) {
+        clazz.$$EVENTS[events[i]] = 1;
+      }
+    },
+    
 
     /**
      * Wrapper for qx.OO.addProperty.
