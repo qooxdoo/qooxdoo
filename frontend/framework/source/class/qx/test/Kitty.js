@@ -1,9 +1,13 @@
+/*
+#require(qx.test.MFat)
+*/
+
 qx.Clazz.define("qx.test.Kitty",
 {
   extend : qx.test.Cat,
   implement : [ qx.test.IPet ],
 
-  include : [ qx.test.MMoody /* , qx.test.MFat */ ],
+  include : [ qx.test.MMoody /*, qx.test.MFat*/ ],
 
 
   /**
@@ -35,7 +39,7 @@ qx.Clazz.define("qx.test.Kitty",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     makeSound : function() {
       this.debug("RRRRRRRRRRH!");
@@ -46,7 +50,7 @@ qx.Clazz.define("qx.test.Kitty",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     smooch : function() {
       this.debug("Mmmh, I like smooching.");
@@ -57,7 +61,7 @@ qx.Clazz.define("qx.test.Kitty",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     play : function() {
       this.debug("I am playing.");
