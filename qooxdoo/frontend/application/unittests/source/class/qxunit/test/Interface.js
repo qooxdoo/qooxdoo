@@ -5,7 +5,6 @@ qx.Clazz.define("qxunit.test.Interface", {
 	members : {
 
 		testInterface: function() {
-			
 			qx.Interface.define("qxunit.ICar", {
 		        members: {
 		            startEngine: function() { return true; }
@@ -127,10 +126,7 @@ qx.Clazz.define("qxunit.test.Interface", {
 		    } catch (e) {
 		        error = e;
 		    }
-			this.assertEqualsDebugOn(
-				new Error('Implementation of method "getColor" is missing in Class "qxunit.Audi4" required by interface "qxunit.ICar"').toString(),
-				error.toString()
-			);
+			this.assertTrueDebugOn(error.toString().indexOf("Implementation of method") >= 0);
 		},
 	
 		testAssertions: function() {
@@ -232,6 +228,38 @@ qx.Clazz.define("qxunit.test.Interface", {
 			}
 			this.assertTrueDebugOn(error.toString().match(/Pre condition of method/) ? true : false);
 
+		},
+		
+		testIncludes: function() {
+			qx.Interface.define("qxunit.IMember", {
+				members: {
+					sayJuhu: function() { return true; }
+				}
+			});
+
+			qx.Interface.define("qxunit.IStatics", {
+				statics: {
+					PI: 3.14,
+					sayHello: function() { return true; }
+				}
+			});
+
+			qx.Interface.define("qxunit.IProperties", {
+				properties: {"color": {}, "name": {} }
+			});
+
+			qx.Interface.define("qxunit.IAll", {
+				extend: [qxunit.IMember, qxunit.IStatics, qxunit.IProperties]
+			});
+			
+			console.log("%o", qxunit.IAll);
+			assertEquals(qxunit.IMember.members.sayJuhu, qxunit.IAll.members.sayJuhu);
+			assertEquals(qxunit.IStatics.statics.sayHello, qxunit.IAll.statics.sayHello);
+			assertEquals(qxunit.IStatics.statics.PI, qxunit.IAll.statics.PI);
+			
+			assertNotUndefined(qxunit.IProperties.members.getColor)
+			assertEquals(qxunit.IProperties.members.getColor, qxunit.IAll.members.getColor);
+			assertEquals(qxunit.IProperties.members.setName, qxunit.IAll.members.setName);
 		}
 	}
 });
