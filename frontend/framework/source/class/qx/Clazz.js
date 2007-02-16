@@ -108,7 +108,7 @@ qx.Clazz.define("qx.Clazz",
      *
      * @type static
      * @param name {String} class name
-     * @param config {Map} Class definition structure. The configuration map has the following keys:
+     * @param config {Map ? null} Class definition structure. The configuration map has the following keys:
      *     <table>
      *       <tr><th>Name</th><th>Type</th><th>Description</th></tr>
      *       <tr><th>type</th><td>String</td><td>type of the class. Valid types are "abstract", "static" and "singleton"</td></tr>
@@ -380,8 +380,8 @@ qx.Clazz.define("qx.Clazz",
       var allowedKeys =
       {
         "extend"     : "function",  // Function
-        "implement"  : "object",    // Interface[], Interface
-        "include"    : "object",    // Mixin[], Mixin
+        "implement"  : "object",    // Interface | Interface[]
+        "include"    : "object",    // Mixin | Mixin[]
         "construct"  : "function",  // Function
         "type"       : "string",    // String
         "statics"    : "object",    // Map
@@ -403,7 +403,7 @@ qx.Clazz.define("qx.Clazz",
           throw new Error('Invalid key "' + key + '" in class "' + name + '"! The value is undefined/null!');
         }
 
-        if (typeof (config[key]) != allowedKeys[key]) {
+        if (typeof config[key] !== allowedKeys[key]) {
           throw new Error('Invalid type of key "' + key + '" in class "' + name + '"! The type of the key must be "' + allowedKeys[key] + '"!');
         }
       }

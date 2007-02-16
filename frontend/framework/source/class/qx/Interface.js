@@ -70,7 +70,7 @@ qx.Clazz.define("qx.Interface",
      *
      * @type static
      * @param name {String} name of the interface
-     * @param config {Map} Interface definition structure. The configuration map has the following keys:
+     * @param config {Map ? null} Interface definition structure. The configuration map has the following keys:
      *   <table>
      *     <tr><th>Name</th><th>Type</th><th>Description</th></tr>
      *     <tr><th>extend</th><td>Class</td><td>The interfaces this interface inherits from.</td></tr>
@@ -81,15 +81,20 @@ qx.Clazz.define("qx.Interface",
      */
     define : function(name, config)
     {
+      if (!config) {
+        var config = {};
+      }
 
       // Validate incoming data
-      this.__validateConfig(name, config);
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        this.__validateConfig(name, config);
+      }
 
-      var obj = this.__createInterface(name, config.statics, config.members);
+      var iface = this.__createInterface(name, config.statics, config.members);
 
-      this.__processProperties(obj, config.properties);
+      this.__processProperties(iface, config.properties);
       this.__checkStatics(name, config.statics);
-      this.__processExtends(obj, config.extend);
+      this.__processExtends(iface, config.extend);
     },
 
 
