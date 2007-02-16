@@ -100,7 +100,7 @@ def write(txt=""):
     if afterArea:
       nr = 5
     elif afterDivider:
-      nr = 3
+      nr = 5
     elif afterBreak:
       nr = 2
     elif afterLine:

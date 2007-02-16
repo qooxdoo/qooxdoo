@@ -288,13 +288,13 @@ qx.Clazz.define("qx.Clazz",
 
 
     /**
-     * Returns a class by name
+     * Returns a Class by name
      *
      * @type static
      * @param name {String} class name to resolve
-     * @return {clazz | undefined} the class
+     * @return {Class} the class
      */
-    get : function(name) {
+    getByName : function(name) {
       return this.__registry[name];
     },
 
@@ -352,6 +352,8 @@ qx.Clazz.define("qx.Clazz",
 
       return false;
     },
+
+
 
 
     /*
@@ -550,6 +552,8 @@ qx.Clazz.define("qx.Clazz",
     },
 
 
+
+
     /*
     ---------------------------------------------------------------------------
        PRIVATE ADD HELPERS
@@ -736,6 +740,8 @@ qx.Clazz.define("qx.Clazz",
       // Save mixin name
       clazz.$$INCLUDES[mixin.name] = mixin;
     },
+
+
 
 
     /*
