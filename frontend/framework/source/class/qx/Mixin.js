@@ -201,13 +201,13 @@ qx.Clazz.define("qx.Mixin",
      */
     checkCompatibility : function(mixins)
     {
-      if (mixins.isMixin) {
-        mixins = [mixins];
-      }
-
       var statics = {};
       var properties = {};
       var members = {};
+
+      if (mixins.isMixin) {
+        mixins = [mixins];
+      }
 
       for (var i=0, l=mixins.length; i<l; i++) {
         this.__checkCompatibilityRecurser(mixins[i], statics, properties, members);
@@ -254,8 +254,10 @@ qx.Clazz.define("qx.Mixin",
 
       if (mixin.include)
       {
-        for (var i=0, l=mixin.include; i<l; i++) {
-          this.__checkCompatibilityRecurser(mixin.include[i], statics, properties, members);
+        var includes = mixins.isMixin ? [mixins.isMixin] : mixins.isMixin;
+
+        for (var i=0, l=includes.length; i<l; i++) {
+          this.__checkCompatibilityRecurser(includes[i], statics, properties, members);
         }
       }
     }

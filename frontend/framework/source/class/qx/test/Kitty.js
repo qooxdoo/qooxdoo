@@ -7,7 +7,7 @@ qx.Clazz.define("qx.test.Kitty",
   extend : qx.test.Cat,
   implement : [ qx.test.IPet ],
 
-  include : [ qx.test.MMoody /*, qx.test.MFat*/ ],
+  include : [ qx.test.MMoody /*, qx.test.MFat */ ],
 
 
   /**
