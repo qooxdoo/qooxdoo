@@ -59,6 +59,12 @@ qx.Clazz.define("qx.Clazz",
 {
   statics :
   {
+    /*
+    ---------------------------------------------------------------------------
+       PUBLIC METHODS
+    ---------------------------------------------------------------------------
+    */
+
     /**
      * Define a new class using the qooxdoo class system. This sets up the namespace for the class and
      * constructs the class from the definition map.
@@ -345,6 +351,11 @@ qx.Clazz.define("qx.Clazz",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+       PRIVATE BASICS
+    ---------------------------------------------------------------------------
+    */
 
     /** Stores all defined classes */
     __registry : {},
@@ -535,6 +546,11 @@ qx.Clazz.define("qx.Clazz",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+       PRIVATE ADD HELPERS
+    ---------------------------------------------------------------------------
+    */
 
     /**
      * Wrapper for qx.OO.addProperty.
@@ -711,6 +727,11 @@ qx.Clazz.define("qx.Clazz",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+       PRIVATE FUNCTION HELPERS
+    ---------------------------------------------------------------------------
+    */
 
     /**
      * Returns the default constructor.
@@ -737,7 +758,7 @@ qx.Clazz.define("qx.Clazz",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        var abstractConstructor = function()
+        function abstractConstructor()
         {
           if (this.classname == arguments.callee.$$ABSTRACT) {
             throw new Error("The class '" + className + "' is abstract! It is not possible to instantiate it.");
@@ -769,7 +790,7 @@ qx.Clazz.define("qx.Clazz",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        var singletonConstruct = function()
+        function singletonConstruct()
         {
           if (!arguments.callee.$$ALLOWCONSTRUCT) {
             throw new Error("Singleton");
@@ -777,6 +798,7 @@ qx.Clazz.define("qx.Clazz",
 
           return construct.apply(this, arguments);
         }
+
         return singletonConstruct;
       }
       else
