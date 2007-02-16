@@ -106,23 +106,26 @@ qx.Clazz.define("qx.Clazz",
      * });
      * </code></pre>
      *
+     * @type static
      * @param name {String} class name
      * @param config {Map} Class definition structure. The configuration map has the following keys:
-     *   <table>
-     *     <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-     *     <tr><th>type</th><td>String</td><td>type of the class. Valid types are "abstract", "static" and "singleton"</td></tr>
-     *     <tr><th>extend</th><td>Class</td><td>The spuer class the class inherits from.</td></tr>
-     *     <tr><th>implement</th><td>Interface[]</td><td>Array of interfaces the class implements.</td></tr>
-     *     <tr><th>include</th><td>Mixin[]</td><td>Array of mixins, which will be merged into the class.</td></tr>
-     *     <tr><th>construct</th><td>Function</td><td>The constructor of the class.</td></tr>
-     *     <tr><th>statics</th><td>Map</td><td>Map of statics of the class.</td></tr>
-     *     <tr><th>members</th><td>Map</td><td>Map of members of the class.</td></tr>
-     *     <tr><th>properties</th><td>Map</td><td>Map of property definitions. Format of the map: TODOC</td></tr>
-     *     <tr><th>settings</th><td>Map</td><td>Map of settings for this class. Format of the map: TODOC</td></tr>
-     *     <tr><th>variants</th><td>Map</td><td>Map of settings for this class. Format of the map: TODOC</td></tr>
-     *     <tr><th>events</th><td>String[]</td><td>List of events the class fires.</td></tr>
-     *     <tr><th>defer</th><td>Function</td><td>TODOC</td></tr>
-     *   </table>
+     *     <table>
+     *       <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+     *       <tr><th>type</th><td>String</td><td>type of the class. Valid types are "abstract", "static" and "singleton"</td></tr>
+     *       <tr><th>extend</th><td>Class</td><td>The spuer class the class inherits from.</td></tr>
+     *       <tr><th>implement</th><td>Interface[]</td><td>Array of interfaces the class implements.</td></tr>
+     *       <tr><th>include</th><td>Mixin[]</td><td>Array of mixins, which will be merged into the class.</td></tr>
+     *       <tr><th>construct</th><td>Function</td><td>The constructor of the class.</td></tr>
+     *       <tr><th>statics</th><td>Map</td><td>Map of statics of the class.</td></tr>
+     *       <tr><th>members</th><td>Map</td><td>Map of members of the class.</td></tr>
+     *       <tr><th>properties</th><td>Map</td><td>Map of property definitions. Format of the map: TODOC</td></tr>
+     *       <tr><th>settings</th><td>Map</td><td>Map of settings for this class. Format of the map: TODOC</td></tr>
+     *       <tr><th>variants</th><td>Map</td><td>Map of settings for this class. Format of the map: TODOC</td></tr>
+     *       <tr><th>events</th><td>String[]</td><td>List of events the class fires.</td></tr>
+     *       <tr><th>defer</th><td>Function</td><td>TODOC</td></tr>
+     *     </table>
+     * @return {void}
+     * @throws TODOC
      */
     define : function(name, config)
     {
@@ -159,8 +162,7 @@ qx.Clazz.define("qx.Clazz",
         {
           var incoming = config.include;
 
-          if (incoming.isMixin)
-          {
+          if (incoming.isMixin) {
             this.__addMixin(clazz, incoming, false);
           }
           else
@@ -177,8 +179,7 @@ qx.Clazz.define("qx.Clazz",
       {
         var incoming = config.implement;
 
-        if (incoming.isInterface)
-        {
+        if (incoming.isInterface) {
           this.__addInterface(clazz, incoming);
         }
         else
@@ -237,9 +238,11 @@ qx.Clazz.define("qx.Clazz",
     /**
      * Creates a given namespace and assigns the given object to the last part.
      *
+     * @type static
      * @param name {String} The namespace including the last (class) name
      * @param object {Object} The data to attach to the namespace
      * @return {Object} last part of the namespace (e.g. classname)
+     * @throws TODOC
      */
     createNamespace : function(name, object)
     {
@@ -276,8 +279,6 @@ qx.Clazz.define("qx.Clazz",
      * Determine if class exists
      *
      * @type static
-     * @name isDefined
-     * @access public
      * @param name {String} class name to check
      * @return {Boolean} true if class exists
      */
@@ -290,10 +291,8 @@ qx.Clazz.define("qx.Clazz",
      * Returns a class by name
      *
      * @type static
-     * @name get
-     * @access public
      * @param name {String} class name to resolve
-     * @return {clazz|undefined} the class
+     * @return {clazz | undefined} the class
      */
     get : function(name) {
       return this.__registry[name];
@@ -305,8 +304,10 @@ qx.Clazz.define("qx.Clazz",
      * any functions or properties which are already available. This is only possible using
      * the hackier patch method.
      *
+     * @type static
      * @param target {Class} A class previously defined where the stuff should be attached.
      * @param mixin {Mixin} Include all features of this Mixin
+     * @return {call} TODOC
      */
     include : function(target, mixin) {
       return qx.Clazz.__addMixin(target, mixin, false);
@@ -320,8 +321,10 @@ qx.Clazz.define("qx.Clazz",
      *
      * <b>WARNING</b>: You can damage working Classes and features.
      *
+     * @type static
      * @param target {Class} A class previously defined where the stuff should be attached.
      * @param mixin {Mixin} Include all features of this Mixin
+     * @return {call} TODOC
      */
     patch : function(target, mixin) {
       return qx.Clazz.__addMixin(target, mixin, true);
@@ -331,24 +334,24 @@ qx.Clazz.define("qx.Clazz",
     /**
      * Check whether vClass is a sub class of vSuperClass
      *
+     * @type static
      * @param clazz {Class} the class to check.
      * @param superClass {Class} super class
      * @return {Boolean} whether vClass is a sub class of vSuperClass.
      */
-   isSubClassOf: function(clazz, superClass)
-   {
-     while(clazz.superclass) {
-       if (clazz.superclass == superClass) {
-         return true;
-       }
-       clazz = clazz.superclass;
-     }
-     return false;
-   },
+    isSubClassOf : function(clazz, superClass)
+    {
+      while (clazz.superclass)
+      {
+        if (clazz.superclass == superClass) {
+          return true;
+        }
 
+        clazz = clazz.superclass;
+      }
 
-
-
+      return false;
+    },
 
 
     /*
@@ -364,25 +367,28 @@ qx.Clazz.define("qx.Clazz",
     /**
      * Validates incoming configuration and checks keys and values
      *
+     * @type static
      * @param name {String} The name of the class
      * @param config {Map} Configuration map
+     * @return {void}
+     * @throws TODOC
      */
     __validateConfig : function(name, config)
     {
       var allowedKeys =
       {
-        "extend": "function",
-        "implement": "object", // interface[], interface
-        "include": "object", // mixin[], mixin
-        "construct": "function",
-        "type": "string",
-        "statics": "object", // Map
-        "members": "object", // Map
-        "properties": "object", // Map
-        "settings": "object", // Map
-        "variants": "object", // Map
-        "defer" : "function",
-        "event" : "object" // Array
+        "extend"     : "function",  // Function
+        "implement"  : "object",    // Interface[], Interface
+        "include"    : "object",    // Mixin[], Mixin
+        "construct"  : "function",  // Function
+        "type"       : "string",    // String
+        "statics"    : "object",    // Map
+        "members"    : "object",    // Map
+        "properties" : "object",    // Map
+        "settings"   : "object",    // Map
+        "variants"   : "object",    // Map
+        "defer"      : "function",  // Function
+        "event"      : "object"     // Array
       };
 
       for (var key in config)
@@ -395,7 +401,7 @@ qx.Clazz.define("qx.Clazz",
           throw new Error('Invalid key "' + key + '" in class "' + name + '"! The value is undefined/null!');
         }
 
-        if (typeof(config[key]) != allowedKeys[key]) {
+        if (typeof (config[key]) != allowedKeys[key]) {
           throw new Error('Invalid type of key "' + key + '" in class "' + name + '"! The type of the key must be "' + allowedKeys[key] + '"!');
         }
       }
@@ -406,6 +412,7 @@ qx.Clazz.define("qx.Clazz",
           throw new Error('Superclass is undefined, but Constructor was given for class: "' + name + '"!');
         }
       }
+
       if (!config.extend && (config.members || config.properties || config.mixins)) {
         throw new Error('Members, Properties and Mixins are not allowed for static class: "' + name + '"!');
       }
@@ -418,6 +425,9 @@ qx.Clazz.define("qx.Clazz",
 
     /**
      * Helper to handle singletons
+     *
+     * @type static
+     * @return {var} TODOC
      */
     __getInstance : function()
     {
@@ -435,11 +445,12 @@ qx.Clazz.define("qx.Clazz",
     /**
      * Creates a class by type. Supports modern inheritance etc.
      *
+     * @type static
      * @param name {String} Full name of the class
-     * @param type {String ? null} type of the class.
-     * @param extend {clazz ? null} Superclass to inherit from
-     * @param construct {Function ? null} Constructor of the new class
-     * @param statics {Map ? null} Static methods field
+     * @param type {String} type of the class.
+     * @param extend {clazz} Superclass to inherit from
+     * @param construct {Function} Constructor of the new class
+     * @param statics {Map} Static methods field
      * @return {Class} The resulting class
      */
     __createClass : function(name, type, extend, construct, statics)
@@ -459,12 +470,9 @@ qx.Clazz.define("qx.Clazz",
         }
 
         // Store class pointer
-        if (!type || type == "static")
-        {
+        if (!type || type == "static") {
           clazz = construct;
-        }
-        else if (type == "abstract")
-        {
+        } else if (type == "abstract") {
           clazz = this.__createAbstractConstructor(name, construct);
         }
         else if (type == "singleton")
@@ -542,10 +550,6 @@ qx.Clazz.define("qx.Clazz",
     },
 
 
-
-
-
-
     /*
     ---------------------------------------------------------------------------
        PRIVATE ADD HELPERS
@@ -555,9 +559,12 @@ qx.Clazz.define("qx.Clazz",
     /**
      * Wrapper for qx.OO.addProperty.
      *
+     * @type static
      * @param clazz {Clazz} class to add the properties to
      * @param propertyName {String} property name
      * @param property {Map} new class style property definitions
+     * @return {void}
+     * @throws TODOC
      */
     __addProperty : function(clazz, propertyName, property)
     {
@@ -566,20 +573,13 @@ qx.Clazz.define("qx.Clazz",
 
       property.name = propertyName;
 
-      if (property.fast)
-      {
+      if (property.fast) {
         legacy.addFastProperty(property, proto);
-      }
-      else if (property.cached)
-      {
+      } else if (property.cached) {
         legacy.addCachedProperty(property, proto);
-      }
-      else if (property.compat)
-      {
+      } else if (property.compat) {
         legacy.addProperty(property, proto);
-      }
-      else if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
+      } else if (qx.core.Variant.isSet("qx.debug", "on")) {
         throw new Error('Could not handle property definition "' + propertyName + '" in clazz "' + clazz.classname + "'");
       }
     },
@@ -588,10 +588,12 @@ qx.Clazz.define("qx.Clazz",
     /**
      * Attach members to a class
      *
+     * @type static
      * @param clazz {Class} clazz to add members to
      * @param members {Map} The map of members to attach
+     * @return {void}
      */
-    __addMembers: function(clazz, members)
+    __addMembers : function(clazz, members)
     {
       var proto = clazz.prototype;
       var superproto = clazz.superclass.prototype;
@@ -605,7 +607,9 @@ qx.Clazz.define("qx.Clazz",
         if (typeof member === "function")
         {
           // Configure extend (named base here)
-          if (superproto[key]) {
+          if (superproto[key])
+          {
+            /** {var} TODOC */
             member.base = superproto[key];
           }
 
@@ -614,11 +618,14 @@ qx.Clazz.define("qx.Clazz",
       }
     },
 
+
     /**
      * Add a single interface to a class
      *
+     * @type static
      * @param clazz {Class} clazz to add interface to
      * @param iface {Interface} the Interface to add
+     * @return {void}
      */
     __addInterface : function(clazz, iface)
     {
@@ -639,11 +646,12 @@ qx.Clazz.define("qx.Clazz",
 
       // Copy primitive static fields
       var statics = iface.statics;
+
       for (var key in statics)
       {
         // Attach statics
         // Validation is done in qx.Interface
-        if (typeof(statics[key]) != "function") {
+        if (typeof (statics[key]) != "function") {
           clazz[key] = statics[key];
         }
       }
@@ -656,9 +664,12 @@ qx.Clazz.define("qx.Clazz",
     /**
      * Include all features of the Mixin into the given clazz.
      *
+     * @type static
      * @param clazz {Clazz} A class previously defined where the mixin should be attached.
      * @param mixin {Mixin} Include all features of this Mixin
      * @param overwrite {Boolean} Overwrite existing functions and properties
+     * @return {void}
+     * @throws TODOC
      */
     __addMixin : function(clazz, mixin, overwrite)
     {
@@ -674,8 +685,9 @@ qx.Clazz.define("qx.Clazz",
       // Attach members
       var members = mixin.members;
       var proto = clazz.prototype;
+
       for (var key in members)
-       {
+      {
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           if (!overwrite && proto[key] != undefined) {
@@ -688,6 +700,7 @@ qx.Clazz.define("qx.Clazz",
 
       // Attach statics
       var statics = mixin.statics;
+
       for (var key in statics)
       {
         if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -702,6 +715,7 @@ qx.Clazz.define("qx.Clazz",
 
       // Attach properties
       var properties = mixin.properties;
+
       for (var key in properties)
       {
         if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -709,6 +723,7 @@ qx.Clazz.define("qx.Clazz",
           if (!overwrite)
           {
             var getterName = "get" + qx.lang.String.toFirstUp(key);
+
             if (proto[getterName] != undefined) {
               throw new Error("Overwriting the property '" + key + "' of class '" + proto.classname + "'is not allowed!");
             }
@@ -723,10 +738,6 @@ qx.Clazz.define("qx.Clazz",
     },
 
 
-
-
-
-
     /*
     ---------------------------------------------------------------------------
        PRIVATE FUNCTION HELPERS
@@ -737,24 +748,27 @@ qx.Clazz.define("qx.Clazz",
      * Returns the default constructor.
      * This constructor just calles the constructor of the base class.
      *
+     * @type static
      * @return {Function} The default constructor.
      */
-    __createDefaultConstructor: function()
+    __createDefaultConstructor : function()
     {
       return function() {
         arguments.callee.base.apply(this, arguments);
-      }
+      };
     },
 
 
     /**
      * Convert a constructor into an abstract constructor.
      *
+     * @type static
      * @param className {String} fully qualified class name of the constructor.
      * @param construct {Fuction} the original constructor
      * @return {Function} abstract constructor
+     * @throws TODOC
      */
-    __createAbstractConstructor: function(className, construct)
+    __createAbstractConstructor : function(className, construct)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -783,10 +797,12 @@ qx.Clazz.define("qx.Clazz",
      * Add a singleton check to a constructor. The constructor will only work if
      * the static member <code>$ALLOWCONSTRUCT</code> of the class is set to true.
      *
+     * @type static
      * @param construct {Function} original constructor to wrap
      * @return {Function} wrapped constructor
+     * @throws TODOC
      */
-    __createSingletonConstructor: function(construct)
+    __createSingletonConstructor : function(construct)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -813,9 +829,10 @@ qx.Clazz.define("qx.Clazz",
     /**
      * Returns an empty function. This is needed to get an empty function with an empty closure.
      *
+     * @type static
      * @return {Function} empty function
      */
-    __createEmptyFunction: function() {
+    __createEmptyFunction : function() {
       return function() {};
     }
   }
