@@ -201,6 +201,14 @@ def selectNode(node, path):
     if part == "..":
       node = node.parent
     else:
+      # only index
+      try:
+        position = int(part)
+        node = node.getChildByPosition(position)
+        continue
+      except ValueError:
+        pass
+    
       # indexed node
       match = re_indexedNode.match(part)
       if match:
