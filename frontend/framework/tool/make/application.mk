@@ -77,14 +77,15 @@ endif
 
 #
 # Similar to QOOXDOO_PATH, but from the webserver point of view.
-# Starting point is now the application HTML file of the source folder
+# Starting point is now the application HTML file in the source folder
 # (source/index.html by default). In most cases just prepend a "../" to
 # QOOXDOO_PATH from above.
 # Example: QOOXDOO_URI = ../../qooxdoo-0.6.5-sdk
-# This should end with the last directory. Please omit a trailing slash.
+# The assigned value should end in a directory name. Please omit trailing 
+# slashes.
 #
 ifndef QOOXDOO_URI
-  QOOXDOO_URI = $(QOOXDOO_PATH)/..
+  QOOXDOO_URI = ../$(QOOXDOO_PATH)
 endif
 
 #
