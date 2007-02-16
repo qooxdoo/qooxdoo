@@ -313,12 +313,21 @@ qx.Clazz.define("qx.Clazz",
      * the hackier patch method.
      *
      * @type static
-     * @param target {Class} A class previously defined where the stuff should be attached.
+     * @param clazz {Class} A class previously defined where the stuff should be attached.
      * @param mixin {Mixin} Include all features of this Mixin
      * @return {call} TODOC
      */
-    include : function(target, mixin) {
-      return qx.Clazz.__addMixin(target, mixin, false);
+    include : function(clazz, mixin)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        // TODO: Polishing
+        var a = qx.lang.Array.copy(clazz.$$INCLUDES);
+        a.push(mixin);
+        qx.Mixin.checkCompatibility(a);
+      }
+
+      return qx.Clazz.__addMixin(clazz, mixin, false);
     },
 
 
@@ -330,12 +339,21 @@ qx.Clazz.define("qx.Clazz",
      * <b>WARNING</b>: You can damage working Classes and features.
      *
      * @type static
-     * @param target {Class} A class previously defined where the stuff should be attached.
+     * @param clazz {Class} A class previously defined where the stuff should be attached.
      * @param mixin {Mixin} Include all features of this Mixin
      * @return {call} TODOC
      */
-    patch : function(target, mixin) {
-      return qx.Clazz.__addMixin(target, mixin, true);
+    patch : function(clazz, mixin)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        // TODO: Polishing
+        var a = qx.lang.Array.copy(clazz.$$INCLUDES);
+        a.push(mixin);
+        qx.Mixin.checkCompatibility(a);
+      }
+
+      return qx.Clazz.__addMixin(clazz, mixin, true);
     },
 
 
@@ -437,7 +455,7 @@ qx.Clazz.define("qx.Clazz",
         try {
           qx.Mixin.checkCompatibility(config.include);
         } catch(ex) {
-          throw new Error('Invalid include list for class "' + name + '"! ' + ex.message);
+          throw new Error('Error in include definition of class "' + name + '"! ' + ex.message);
         }
       }
     },
@@ -654,9 +672,7 @@ qx.Clazz.define("qx.Clazz",
         if (typeof member === "function")
         {
           // Configure extend (named base here)
-          if (superproto[key])
-          {
-            /** {var} TODOC */
+          if (superproto[key]) {
             member.base = superproto[key];
           }
 
@@ -729,6 +745,9 @@ qx.Clazz.define("qx.Clazz",
         throw new Error('Mixin "' + mixin.name + '" is already included into Class "' + clazz.name + '"!');
       }
 
+      var superclazz = clazz.superclass;
+      var proto = clazz.prototype;
+
       // Attach includes
       var includes = mixin.include;
       if (includes)
@@ -738,33 +757,72 @@ qx.Clazz.define("qx.Clazz",
         }
       }
 
-      // Attach members
-      var members = mixin.members;
-      if (members)
-      {
-        var proto = clazz.prototype;
-        for (var key in members) {
-          proto[key] = members[key];
-        }
-      }
-
       // Attach statics
       var statics = mixin.statics;
       if (statics)
       {
-        for (var key in statics) {
-          clazz[key] = statics[key];
+        if (patch)
+        {
+          for (var key in statics) {
+            clazz[key] = statics[key];
+          }
+        }
+        else
+        {
+          for (var key in statics)
+          {
+            if (clazz[key] === undefined) {
+              clazz[key] = statics[key];
+            } else {
+              throw new Error('Overwriting static member "' + key + '" of Class "' + clazz.name + '" by Mixin "' + mixin.name + '" is not allowed!');
+            }
+          }
         }
       }
 
       // Attach properties
+      // TODO: Properties NG
       var properties = mixin.properties;
       if (properties)
       {
-        for (var key in properties)
+        if (patch)
         {
-          if (qx.core.Variant.isSet("qx.debug", "on")) {
+          for (var key in properties) {
             this.__addProperty(clazz, key, properties[key]);
+          }
+        }
+        else
+        {
+          for (var key in properties)
+          {
+            if (proto._properties[key]) {
+              this.__addProperty(clazz, key, properties[key]);
+            } else {
+              throw new Error('Overwriting property "' + key + '" of Class "' + clazz.name + '" by Mixin "' + mixin.name + '" is not allowed!');
+            }
+          }
+        }
+      }
+
+      // Attach members
+      var members = mixin.members;
+      if (members)
+      {
+        if (patch)
+        {
+          for (var key in members) {
+            proto[key] = members[key];
+          }
+        }
+        else
+        {
+          for (var key in members)
+          {
+            if (proto[key] === undefined) {
+              proto[key] = members[key];
+            } else {
+              throw new Error('Overwriting member "' + key + '" of Class "' + clazz.name + '" by Mixin "' + mixin.name + '" is not allowed!');
+            }
           }
         }
       }
