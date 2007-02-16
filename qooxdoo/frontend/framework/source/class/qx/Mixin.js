@@ -26,7 +26,7 @@
 
 /**
  * This class is used to define mixins.
- * 
+ *
  * Mixins are collections of code and variables, which can be merged into
  * other classes. They are similar to classes but don't support inheritence
  * and don't have a constructor.
@@ -39,7 +39,7 @@ qx.Clazz.define("qx.Mixin",
     registry : {},
 
     /**
-     * Define a new mixin. 
+     * Define a new mixin.
      *
      * Example:
      * <pre><code>
@@ -76,14 +76,14 @@ qx.Clazz.define("qx.Mixin",
 
       // Validate incoming data
       this.__validateConfig(name, config);
-      
-      // create mixin      
+
+      // create mixin
       var mixin = this.__createMixin(name, config.members, config.statics, config.properties);
 
       // add includes
       if (config.include)
       {
-        this.__addMixins(mixin, config.includes);        
+        this.__addMixins(mixin, config.includes);
       }
     },
 
@@ -104,7 +104,7 @@ qx.Clazz.define("qx.Mixin",
 
     /**
      * Check if a list of mixins are disjunct. Disjunct here means that
-     * two different interfaces have no members, statics or properties 
+     * two different interfaces have no members, statics or properties
      * of the same name.
      *
      * @type static
@@ -160,7 +160,7 @@ qx.Clazz.define("qx.Mixin",
         }
       }
     },
-    
+
 
     /**
      * Whether a given class includes a mixin.
@@ -168,13 +168,13 @@ qx.Clazz.define("qx.Mixin",
      * @param clazz {Class} class to check
      * @param mixin {Mixin} the mixin to check for
      * @return {Boolean} whether the class includes the mixin.
-     */    
+     */
     hasMixin: function(clazz, mixin)
     {
     	return (clazz.$$INCLUDES[mixin.name] ? true : false);
     },
-    
-    
+
+
     /**
      * Validates incoming configuration and checks keys and values
      *
@@ -182,7 +182,7 @@ qx.Clazz.define("qx.Mixin",
      * @param config {Map} Configuration map
      */
     __validateConfig : function(name, config)
-    {    
+    {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         var allowedKeys = {
@@ -202,7 +202,7 @@ qx.Clazz.define("qx.Mixin",
         }
       }
     },
-    
+
 
     /**
      * Creates a mixin.
@@ -212,7 +212,7 @@ qx.Clazz.define("qx.Mixin",
      * @param statics {Map} Map of statics of the of the mixin
      * @param properties {Map} Map of property definitions.
      * @return {Mixin} The resulting mixin
-     */    
+     */
     __createMixin: function(name, members, statics, properties)
     {
       // Initialize object
@@ -225,28 +225,29 @@ qx.Clazz.define("qx.Mixin",
       qx.Mixin.registry[name] = mixin;
 
       // Attach data fields
+      mixin.isMixin = true;
       mixin.name = name;
       mixin.basename = basename;
       mixin.properties = properties || {};
       mixin.members = members || {};
       mixin.statics = statics || {};
-      
+
       return mixin;
     },
-    
-    
+
+
     /**
      * Attach mixins to this mixin
      *
      * @param mixin {Mixin} Class to add mixins to
      * @param includes {Mixin[]} The map of mixins to attach
-     */    
+     */
     __addMixins: function(mixin, includes)
     {
     	if (includes && !(includes instanceof Array)) {
       	includes = [ includes ];
      	}
-     	
+
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         arguments.callee.self.areCompatible(include);
       }
@@ -275,6 +276,6 @@ qx.Clazz.define("qx.Mixin",
         }
       }
     }
-    
+
   }
 });
