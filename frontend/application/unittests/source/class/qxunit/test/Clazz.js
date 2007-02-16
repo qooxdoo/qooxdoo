@@ -215,6 +215,29 @@ qx.Clazz.define("qxunit.test.Clazz", {
 				error = e;
 			}
 			this.assertTrueDebugOn(error.toString().match(/Forbidden variant/) ? true : false);
-		}	
-	}
+		},	
+		
+		testDefer: function() {
+			// this is BAD practice, don't code like this!
+			qx.Clazz.define("qxunit.Defer", {
+				extend: qx.core.Object,
+				
+				defer: function(statics, prot, settings) {
+					statics.FOO = 12;
+					statics.sayHello = function() { return "Hello"; };
+					prot.sayJuhu = function() { return "Juhu"; };
+					settings.add("color", {compat: true });
+				}				
+			});
+			
+			assertEquals(12, qxunit.Defer.FOO);
+			assertEquals("Hello", qxunit.Defer.sayHello());
+
+			var defer = new qxunit.Defer();
+			assertEquals("Juhu", defer.sayJuhu());
+
+			defer.setColor("red");
+			assertEquals("red", defer.getColor());		
+		}
+	}	
 });
