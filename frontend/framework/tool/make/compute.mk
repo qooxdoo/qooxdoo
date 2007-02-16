@@ -288,6 +288,10 @@ ifeq ($(APPLICATION_OPTIMIZE_VARIABLES),true)
   COMPUTED_BUILD_OPTIONS += --optimize-variables
 endif
 
+ifeq ($(APPLICATION_OPTIMIZE_BASE_CALL),true)
+  COMPUTED_BUILD_OPTIONS += --optimize-base-call
+endif
+
 ifeq ($(APPLICATION_OPTIMIZE_PRIVATE),true)
   COMPUTED_BUILD_OPTIONS += --optimize-private
 endif
