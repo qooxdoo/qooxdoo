@@ -125,7 +125,9 @@ qx.Clazz.define("qx.Clazz",
       }
 
       // Validate incoming data
-      this.__validateConfig(name, config);
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        this.__validateConfig(name, config);
+      }
 
       // Create class
       var clazz = this.__createClass(name, config.type, config.extend, config.construct, config.statics);
@@ -133,27 +135,42 @@ qx.Clazz.define("qx.Clazz",
       // Members, Properties and Mixins are only available in static classes
       if (config.extend)
       {
-        this.__addMembers(clazz, config.members);
+        if (config.members) {
+          this.__addMembers(clazz, config.members);
+        }
 
-        if (config.properties) {
+        if (config.properties)
+        {
           for (var name in config.properties) {
             this.__addProperty(clazz, name, config.properties[name]);
           }
         }
-        
+
         // must be the last to detect conflicts
-        this.__addMixins(clazz, config.include);
+        if (config.include) {
+          this.__addMixins(clazz, config.include);
+        }
       }
 
       // Interfaces are available in both
-      this.__addInterfaces(clazz, config.implement);
+      if (config.implement) {
+        this.__addInterfaces(clazz, config.implement);
+      }
 
-      // Process settings/variants
-      this.__processSettings(clazz, config.settings);
-      this.__processVariants(clazz, config.variants);
+      // Process settings
+      if (config.settings) {
+        this.__processSettings(clazz, config.settings);
+      }
+
+      // Process variants
+      if (config.variants) {
+        this.__processVariants(clazz, config.variants);
+      }
 
       // Process defer
-      this.__processDefer(clazz, config.defer);
+      if (config.defer) {
+        this.__processDefer(clazz, config.defer);
+      }
     },
 
 
@@ -167,18 +184,16 @@ qx.Clazz.define("qx.Clazz",
     createNamespace : function(name, object)
     {
       var splits = name.split(".");
-      var len = splits.length;
       var parent = window;
       var part = splits[0];
 
-      for (var i=0, l=len-1; i<l; i++)
+      for (var i=0, l=splits.length-1; i<l; i++, part=splits[i])
       {
         if (!parent[part]) {
-          parent[part] = {};
+          parent = parent[part] = {};
+        } else {
+          parent = parent[part];
         }
-
-        parent = parent[part];
-        part = splits[i + 1];
       }
 
       // do not overwrite
@@ -284,47 +299,48 @@ qx.Clazz.define("qx.Clazz",
      */
     __validateConfig : function(name, config)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      var allowedKeys =
       {
-        var allowedKeys =
-        {
-          "extend": "function",
-          "implement": "object", // interface[], interface
-          "include": "object", // mixin[], mixin
-          "construct": "function",
-          "type": "string",
-          "statics": "object",
-          "members": "object",
-          "properties": "object",
-          "settings": "object",
-          "variants": "object",
-          "defer" : "function"
-        };
+        "extend": "function",
+        "implement": "object", // interface[], interface
+        "include": "object", // mixin[], mixin
+        "construct": "function",
+        "type": "string",
+        "statics": "object",
+        "members": "object",
+        "properties": "object",
+        "settings": "object",
+        "variants": "object",
+        "defer" : "function"
+      };
 
-        for (var key in config)
-        {
-          if (!allowedKeys[key]) {
-            throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
-          }
-
-          if (config[key] == null) {
-            throw new Error('Invalid key "' + key + '" in class "' + name + '"! The value is undefined/null!');
-          }
-
-          if (typeof(config[key]) != allowedKeys[key]) {
-            throw new Error('Invalid type of key "' + key + '" in class "' + name + '"! The type of the key must be "' + allowedKeys[key] + '"!');
-          }
+      for (var key in config)
+      {
+        if (!allowedKeys[key]) {
+          throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
         }
 
-        if (!config.extend)
-        {
-          if (config.construct) {
-            throw new Error('Superclass is undefined, but Constructor was given for class: "' + name + '"!');
-          }
+        if (config[key] == null) {
+          throw new Error('Invalid key "' + key + '" in class "' + name + '"! The value is undefined/null!');
         }
-        if (!config.extend && (config.members || config.properties || config.mixins)) {
-          throw new Error('Members, Properties and Mixins are not allowed for static class: "' + name + '"!');
+
+        if (typeof(config[key]) != allowedKeys[key]) {
+          throw new Error('Invalid type of key "' + key + '" in class "' + name + '"! The type of the key must be "' + allowedKeys[key] + '"!');
         }
+      }
+
+      if (!config.extend)
+      {
+        if (config.construct) {
+          throw new Error('Superclass is undefined, but Constructor was given for class: "' + name + '"!');
+        }
+      }
+      if (!config.extend && (config.members || config.properties || config.mixins)) {
+        throw new Error('Members, Properties and Mixins are not allowed for static class: "' + name + '"!');
+      }
+
+      if (config.type && !(config.type == "static" || config.type == "abstract" || config.type == "singleton")) {
+        throw new Error('Invalid type "' + type + '" definition for class "' + name + '"!');
       }
     },
 
@@ -372,7 +388,11 @@ qx.Clazz.define("qx.Clazz",
         }
 
         // Store class pointer
-        if (type == "abstract")
+        if (!type || type == "static")
+        {
+          clazz = construct;
+        }
+        else if (type == "abstract")
         {
           clazz = this.__createAbstractConstructor(name, construct);
         }
@@ -380,10 +400,6 @@ qx.Clazz.define("qx.Clazz",
         {
           clazz = this.__createSingletonConstructor(construct);
           clazz.getInstance = this.__getInstance;
-        }
-        else
-        {
-          clazz = construct;
         }
 
         // Copy statics
@@ -417,19 +433,19 @@ qx.Clazz.define("qx.Clazz",
         proto.classname = name;
         proto.basename = basename;
 
-        // Store reference to extend class
-        clazz.superclass = proto.superclass = extend;
+        /*
+          - Store base constructor to constructor-
+          - Store reference to extend class
+        */
+        construct.base = clazz.superclass = proto.superclass = extend;
 
-        // Store correct constructor
-        clazz.constructor = proto.constructor = construct;
+        /*
+          - Store statics/constructor into constructor
+          - Store correct constructor
+        */
+        construct.self = clazz.constructor = proto.constructor = clazz;
 
-        // Store base constructor to constructor
-        construct.base = extend;
-
-        // Store statics/constructor into constructor
-        construct.self = clazz;
-
-        // Copy property lists
+        // Copy property lists (qooxdoo 0.6 properties)
         if (extend.prototype._properties) {
           proto._properties = qx.lang.Object.copy(extend.prototype._properties);
         }
@@ -438,7 +454,10 @@ qx.Clazz.define("qx.Clazz",
           proto._objectproperties = qx.lang.Object.copy(extend.prototype._objectproperties);
         }
 
+        // TODO: Copy qooxodo 0.7 properties
+
         // Compatibility to qooxdoo 0.6.x
+        // TODO: Remove this before 0.7 final
         qx.Class = clazz;
         qx.Proto = proto;
         qx.Super = extend;
@@ -744,7 +763,7 @@ qx.Clazz.define("qx.Clazz",
               throw new Error("Overwriting the property '" + key + "' of class '" + proto.classname + "'is not allowed!");
             }
           }
-          this.__addProperty(clazz, key, properties[key]);        
+          this.__addProperty(clazz, key, properties[key]);
         }
       }
 
