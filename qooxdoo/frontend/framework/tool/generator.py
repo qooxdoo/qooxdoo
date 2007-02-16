@@ -28,7 +28,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "
 
 import config, tokenizer, loader, api, tree, treegenerator, settings, variants, resources
 import filetool, stringoptimizer, optparseext, privateoptimizer, variableoptimizer, compiler
-import migrator, textutil, graph, logoptimizer, variantoptimizer
+import migrator, textutil, graph, logoptimizer, variantoptimizer, basecalloptimizer
 
 
 
@@ -112,6 +112,7 @@ def getparser():
   parser.add_option("--optimize-strings", action="store_true", dest="optimizeStrings", default=False, help="Optimize strings. Increase mshtml performance.")
   parser.add_option("--optimize-variables", action="store_true", dest="optimizeVariables", default=False, help="Optimize variables. Reducing size.")
   parser.add_option("--optimize-variables-skip-prefix", action="store", dest="optimizeVariablesSkipPrefix", metavar="PREFIX", default="", help="Skip optimization of variables beginning with PREFIX [default: optimize all variables].")
+  parser.add_option("--optimize-base-call", action="store_true", dest="optimizeBaseCall", default=False, help="Optimize call to 'this.base'. Optimizing runtime of super class calls.")
   parser.add_option("--optimize-private", action="store_true", dest="optimizePrivate", default=False, help="Optimize private members. Reducing size and testing private.")
   parser.add_option("--log-level", dest="logLevel", type="string", default="all", help="Define the log level like in qx.log.Logger.")
 
@@ -735,6 +736,39 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
     print "  * Optimized %s variables" % counter
 
+
+
+
+
+  ######################################################################
+  #  BASE CALL OPTIMIZATION
+  ######################################################################
+
+  if options.optimizeBaseCall:
+    print
+    print "  BASE CALL OPTIMIZATION:"
+    print "----------------------------------------------------------------------------"
+
+    if options.verbose:
+      print "  * Optimizing this.base calls..."
+    else:
+      print "  * Optimizing this.base calls: ",
+
+    counter = 0
+
+    for fileId in sortedIncludeList:
+      if options.verbose:
+        print "    - %s" % fileId
+      else:
+        sys.stdout.write(".")
+        sys.stdout.flush()
+
+      counter += basecalloptimizer.patch(loader.getTree(fileDb, fileId, options), fileId, options.verbose)
+
+    if not options.verbose:
+      print
+
+    print "  * Optimized %s keys" % counter
 
 
 
