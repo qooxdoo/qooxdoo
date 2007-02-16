@@ -167,11 +167,14 @@ qx.Clazz.define("qx.Clazz",
         {
           var incoming = config.include;
 
-          if (incoming.isMixin) {
+          if (incoming.isMixin)
+          {
+            // Add Mixin
             this.__addMixin(clazz, incoming, false);
           }
           else
           {
+            // Add Mixins
             for (var i=0, l=incoming.length; i<l; i++) {
               this.__addMixin(clazz, incoming[i], false);
             }
@@ -427,6 +430,11 @@ qx.Clazz.define("qx.Clazz",
       if (config.type && !(config.type == "static" || config.type == "abstract" || config.type == "singleton")) {
         throw new Error('Invalid type "' + type + '" definition for class "' + name + '"!');
       }
+
+      // Check Mixin compatiblity
+      if (config.include) {
+        qx.Mixin.checkCompatibility(config.include);
+      }
     },
 
 
@@ -523,13 +531,13 @@ qx.Clazz.define("qx.Clazz",
           - Store base constructor to constructor-
           - Store reference to extend class
         */
-        construct.base = clazz.superclass = proto.superclass = extend;
+        construct.base = clazz.superclass = extend;
 
         /*
           - Store statics/constructor into constructor
           - Store correct constructor
         */
-        construct.self = clazz.constructor = proto.constructor = clazz;
+        construct.self = clazz.constructor = clazz;
 
         // Copy property lists (qooxdoo 0.6 properties)
         if (extend.prototype._properties) {
@@ -568,9 +576,9 @@ qx.Clazz.define("qx.Clazz",
 
     /**
      * Attach events to the clazz
-     * 
+     *
      * @param clazz {Class} class to add the events to
-     * @param events{String[]} list of event names the class fires. 
+     * @param events{String[]} list of event names the class fires.
      */
     __addEvents : function(clazz, events)
     {
@@ -582,13 +590,13 @@ qx.Clazz.define("qx.Clazz",
         if (!this.isSubClassOf(clazz, qx.core.Target)) {
           throw new Error("The 'events' key can only be used for sub classes of 'qx.core.Target'!");
         }
-      } 
+      }
       clazz.$$EVENTS = {};
       for (var i=0; i<events.length; i++) {
         clazz.$$EVENTS[events[i]] = 1;
       }
     },
-    
+
 
     /**
      * Wrapper for qx.OO.addProperty.
@@ -701,11 +709,11 @@ qx.Clazz.define("qx.Clazz",
      * @type static
      * @param clazz {Clazz} A class previously defined where the mixin should be attached.
      * @param mixin {Mixin} Include all features of this Mixin
-     * @param overwrite {Boolean} Overwrite existing functions and properties
+     * @param patch {Boolean} Overwrite existing fields, functions and properties
      * @return {void}
      * @throws TODOC
      */
-    __addMixin : function(clazz, mixin, overwrite)
+    __addMixin : function(clazz, mixin, patch)
     {
       // Pre check registry
       if (!clazz.$$INCLUDES) {
@@ -713,57 +721,46 @@ qx.Clazz.define("qx.Clazz",
       }
 
       if (clazz.$$INCLUDES[mixin.name]) {
-        return;
+        throw new Error('Mixin "' + mixin.name + '" is already included into Class "' + clazz.name + '"!');
+      }
+
+      // Attach includes
+      var includes = mixin.include;
+      if (includes)
+      {
+        for (var i=0, l=includes.length; i<l; i++) {
+          this.__addMixin(clazz, includes[i], patch);
+        }
       }
 
       // Attach members
       var members = mixin.members;
-      var proto = clazz.prototype;
-
-      for (var key in members)
+      if (members)
       {
-        if (qx.core.Variant.isSet("qx.debug", "on"))
-        {
-          if (!overwrite && proto[key] != undefined) {
-            throw new Error("Overwriting the member '" + key + "' is not allowed!");
-          }
+        var proto = clazz.prototype;
+        for (var key in members) {
+          proto[key] = members[key];
         }
-
-        proto[key] = members[key];
       }
 
       // Attach statics
       var statics = mixin.statics;
-
-      for (var key in statics)
+      if (statics)
       {
-        if (qx.core.Variant.isSet("qx.debug", "on"))
-        {
-          if (!overwrite && clazz[key] != undefined) {
-            throw new Error("Overwriting the static '" + key + "' is not allowed!");
-          }
+        for (var key in statics) {
+          clazz[key] = statics[key];
         }
-
-        clazz[key] = statics[key];
       }
 
       // Attach properties
       var properties = mixin.properties;
-
-      for (var key in properties)
+      if (properties)
       {
-        if (qx.core.Variant.isSet("qx.debug", "on"))
+        for (var key in properties)
         {
-          if (!overwrite)
-          {
-            var getterName = "get" + qx.lang.String.toFirstUp(key);
-
-            if (proto[getterName] != undefined) {
-              throw new Error("Overwriting the property '" + key + "' of class '" + proto.classname + "'is not allowed!");
-            }
+          if (qx.core.Variant.isSet("qx.debug", "on")) {
+            this.__addProperty(clazz, key, properties[key]);
           }
-
-          this.__addProperty(clazz, key, properties[key]);
         }
       }
 

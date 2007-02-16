@@ -76,31 +76,26 @@ qx.Clazz.define("qx.Mixin",
      */
     define : function(name, config)
     {
-      if (!config) {
-        var config = {};
-      }
-
-      // Validate incoming data
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        this.__validateConfig(name, config);
-      }
-
-      // create mixin
-      var mixin = this.__createMixin(name, config.members, config.statics, config.properties);
-
-      // add includes
-      if (config.include)
+      if (config)
       {
-        if (config.include.isMixin) {
-          this.__addMixin(mixin, config.include);
+        // Validate incoming data
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          this.__validateConfig(name, config);
         }
-        else
-        {
-          for (var i=0, l=config.include.length; i<l; i++) {
-            this.__addMixin(mixin, config.include[i]);
-          }
-        }
+
+        var mixin = config;
       }
+      else
+      {
+        var mixin = {};
+      }
+
+      mixin.isMixin = true;
+      mixin.name = name;
+      mixin.basename = qx.Clazz.createNamespace(name, mixin);
+
+      // Store class reference in global mixin registry
+      this.__registry[name] = mixin;
 
       // Return final class object
       return mixin;
@@ -188,75 +183,80 @@ qx.Clazz.define("qx.Mixin",
           throw new Error('Invalid type of key "' + key + '" in class "' + name + '"! The type of the key must be "' + allowedKeys[key] + '"!');
         }
       }
+
+      if (config.include)
+      {
+        if (config.include.isMixin) {
+          this.__checkCompatibility(config.include);
+        } else {
+          this.__checkCompatibility.apply(this, config.include);
+        }
+      }
     },
 
-
     /**
-     * Creates a mixin.
+     * Check compatiblity between Mixins (including their includes)
      *
-     * @type static
-     * @param name {String} Full name of mixin
-     * @param members {Map} Map of members of the mixin
-     * @param statics {Map} Map of statics of the of the mixin
-     * @param properties {Map} Map of property definitions.
-     * @return {Mixin} The resulting mixin
+     * @param mixins {Mixin | Mixin[]} A single Mixin or an Array of Mixins
      */
-    __createMixin: function(name, members, statics, properties)
+    checkCompatibility : function(mixins)
     {
-      // Initialize object
-      var mixin = {};
+      if (mixins.isMixin) {
+        mixins = [mixins];
+      }
 
-      // Create namespace
-      var basename = qx.Clazz.createNamespace(name, mixin, false);
+      var statics = {};
+      var properties = {};
+      var members = {};
 
-      // Store class reference in global mixin registry
-      this.__registry[name] = mixin;
-
-      // Attach data fields
-      mixin.isMixin = true;
-      mixin.name = name;
-      mixin.basename = basename;
-
-      // Attach functionality fields
-      mixin.properties = properties || {};
-      mixin.members = members || {};
-      mixin.statics = statics || {};
-
-      return mixin;
+      for (var i=0, l=mixins.length; i<l; i++) {
+        this.__checkCompatibilityRecurser(mixins[i], statics, properties, members);
+      }
     },
 
-
     /**
-     * Adds a Mixin to another Mixin
+     * Check compatiblity between Mixins
      *
-     * @type static
-     * @param to {Mixin} The target Mixin
-     * @param from {Mixin} The source Mixin
+     * @param mixin {Mixin} the mixin to test
+     * @param statics {Map} successive build Map of already found static fields
+     * @param properties {Map} successive build Map of already found properties
+     * @param members {Map} successive build Map of already found members
+     * @see checkCompatibility
      */
-    __addMixin : function(to, from)
+    __checkCompatibilityRecurser : function(mixin, statics, properties, members)
     {
-      // Attach members
-      var to_members = to.members;
-      var from_members = from.members;
+      for (var key in mixin.statics)
+      {
+        if(statics[key]) {
+          throw new Error('Conflict between Mixin "' + mixin.name + '" and "' + statics[key] + '" in static field "' + key + '"!');
+        }
 
-      for (var key in from_members) {
-        to_members[key] = from_members[key];
+        statics[key] = mixin.name;
       }
 
-      // Attach statics
-      var to_statics = to.statics;
-      var from_statics = from.statics;
+      for (var key in mixin.properties)
+      {
+        if(properties[key]) {
+          throw new Error('Conflict between Mixin "' + mixin.name + '" and "' + properties[key] + '" in property "' + key + '"!');
+        }
 
-      for (var key in from_statics) {
-        to_statics[key] = from_statics[key];
+        properties[key] = mixin.name;
       }
 
-      // Attach properties
-      var to_properties = to.properties;
-      var from_properties = from.properties;
+      for (var key in mixin.members)
+      {
+        if(members[key]) {
+          throw new Error('Conflict between Mixin "' + mixin.name + '" and "' + members[key] + '" in member "' + key + '"!');
+        }
 
-      for (var key in from_properties) {
-        to_properties[key] = from_properties[key];
+        members[key] = mixin.name;
+      }
+
+      if (mixin.include)
+      {
+        for (var i=0, l=mixin.include; i<l; i++) {
+          this.__checkCompatibilityRecurser(mixin.include[i], statics, properties, members);
+        }
       }
     }
   }
