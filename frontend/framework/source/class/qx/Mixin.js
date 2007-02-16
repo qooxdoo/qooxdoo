@@ -35,8 +35,11 @@ qx.Clazz.define("qx.Mixin",
 {
   statics :
   {
-    /** Registers all defined Mixins */
-    registry : {},
+    /*
+    ---------------------------------------------------------------------------
+       PUBLIC API
+    ---------------------------------------------------------------------------
+    */
 
     /**
      * Define a new mixin.
@@ -89,6 +92,18 @@ qx.Clazz.define("qx.Mixin",
 
 
     /**
+     * Returns a Mixin by name
+     *
+     * @type static
+     * @param name {String} class name to resolve
+     * @return {Class} the class
+     */
+    getByName : function(name) {
+      return this.__registry[name];
+    },
+
+
+    /**
      * Determine if Mixin exists
      *
      * @type static
@@ -98,7 +113,7 @@ qx.Clazz.define("qx.Mixin",
      * @return {Boolean} true if Mixin exists
      */
     isDefined : function(name) {
-      return arguments.callee.self.byName(name) !== undefined;
+      return arguments.callee.self.getByName(name) !== undefined;
     },
 
 
@@ -169,11 +184,21 @@ qx.Clazz.define("qx.Mixin",
      * @param mixin {Mixin} the mixin to check for
      * @return {Boolean} whether the class includes the mixin.
      */
-    hasMixin: function(clazz, mixin)
-    {
+    hasMixin: function(clazz, mixin) {
     	return (clazz.$$INCLUDES[mixin.name] ? true : false);
     },
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+       PRIVATE FUNCTIONS AND DATA
+    ---------------------------------------------------------------------------
+    */
+
+    /** Registers all defined Mixins */
+    registry : {},
 
     /**
      * Validates incoming configuration and checks keys and values

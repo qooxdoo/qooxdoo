@@ -28,9 +28,11 @@ qx.Clazz.define("qx.Interface",
 {
   statics :
   {
-    /** Registry of all defined interfaces */
-    __registry : {},
-
+    /*
+    ---------------------------------------------------------------------------
+       PUBLIC API
+    ---------------------------------------------------------------------------
+    */
 
     /**
      * Define a new interface. Interface definitions look much like class definitions. The
@@ -92,6 +94,18 @@ qx.Clazz.define("qx.Interface",
 
 
     /**
+     * Returns a Interface by name
+     *
+     * @type static
+     * @param name {String} class name to resolve
+     * @return {Class} the class
+     */
+    getByName : function(name) {
+      return this.__registry[name];
+    },
+
+
+    /**
      * Determine if Interface exists
      *
      * @type static
@@ -101,7 +115,7 @@ qx.Clazz.define("qx.Interface",
      * @return {Boolean} true if Interface exists
      */
     isDefined : function(name) {
-      return arguments.callee.self.byName(name) !== undefined;
+      return arguments.callee.self.getByName(name) !== undefined;
     },
 
 
@@ -181,6 +195,17 @@ qx.Clazz.define("qx.Interface",
     },
 
 
+
+
+    /*
+    ---------------------------------------------------------------------------
+       PRIVATE FUNCTIONS AND DATA
+    ---------------------------------------------------------------------------
+    */
+
+    /** Registry of all defined interfaces */
+    __registry : {},
+
     /**
      * Wrap a method with a precondition check.
      *
@@ -242,8 +267,10 @@ qx.Clazz.define("qx.Interface",
 
         // check extends
         var extend = config.extend
-        if (extend && extend instanceof Array) {
-          for (var i=0; i<extend.length; i++) {
+        if (extend && extend instanceof Array)
+        {
+          for (var i=0; i<extend.length; i++)
+          {
             if (!extend[i]) {
               throw new Error("The extend number '" + i+1 + "' in interface '" + name + "' is undefined!");
             }
@@ -392,6 +419,5 @@ qx.Clazz.define("qx.Interface",
         }
       }
     }
-
   }
 });
