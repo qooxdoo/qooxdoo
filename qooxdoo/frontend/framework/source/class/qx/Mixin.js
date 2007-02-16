@@ -228,7 +228,7 @@ qx.Clazz.define("qx.Mixin",
       for (var key in mixin.statics)
       {
         if(statics[key]) {
-          throw new Error('Conflict between Mixin "' + mixin.name + '" and "' + statics[key] + '" in static field "' + key + '"!');
+          throw new Error('Conflict between Mixin "' + mixin.name + '" and "' + statics[key] + '" in static member "' + key + '"!');
         }
 
         statics[key] = mixin.name;
