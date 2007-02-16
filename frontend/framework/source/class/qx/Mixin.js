@@ -65,7 +65,7 @@ qx.Clazz.define("qx.Mixin",
      *
      * @type static
      * @param name {String} name of the mixin
-     * @param config {Map} Mixin definition structure. The configuration map has the following keys:
+     * @param config {Map ? null} Mixin definition structure. The configuration map has the following keys:
      *   <table>
      *     <tr><th>Name</th><th>Type</th><th>Description</th></tr>
      *     <tr><th>include</th><td>Mixin[]</td><td>Array of mixins, which will be merged into the mixin.</td></tr>
@@ -76,9 +76,14 @@ qx.Clazz.define("qx.Mixin",
      */
     define : function(name, config)
     {
+      if (!config) {
+        var config = {};
+      }
 
       // Validate incoming data
-      this.__validateConfig(name, config);
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        this.__validateConfig(name, config);
+      }
 
       // create mixin
       var mixin = this.__createMixin(name, config.members, config.statics, config.properties);
@@ -86,8 +91,19 @@ qx.Clazz.define("qx.Mixin",
       // add includes
       if (config.include)
       {
-        this.__addMixins(mixin, config.includes);
+        if (config.include.isMixin) {
+          this.__addMixin(mixin, config.include);
+        }
+        else
+        {
+          for (var i=0, l=config.include.length; i<l; i++) {
+            this.__addMixin(mixin, config.include[i]);
+          }
+        }
       }
+
+      // Return final class object
+      return mixin;
     },
 
 
@@ -118,68 +134,9 @@ qx.Clazz.define("qx.Mixin",
 
 
     /**
-     * Check if a list of mixins are disjunct. Disjunct here means that
-     * two different interfaces have no members, statics or properties
-     * of the same name.
-     *
-     * @type static
-     * @param mixins {Mixin[]} List of Mixins to check.
-     * @return {Boolean} whether the interfaces are compatibble.
-     */
-    areCompatible : function(mixins)
-    {
-      if (mixins.length < 2) {
-        return true;
-      }
-
-      var kmembers = {};
-      var kstatics = {};
-      var kproperties = {};
-
-      for (var i=0, l=mixins.length; i<l; i++)
-      {
-        // Check members
-        var emembers = mixins[i].members;
-
-        for (var key in emembers)
-        {
-          if (key in kmembers) {
-            throw new Error('Double defintion of member "' + key + '"');
-          }
-
-          kmembers[key] = true;
-        }
-
-        // Check statics
-        var estatics = mixins[i].statics;
-
-        for (var key in estatics)
-        {
-          if (key in kstatics) {
-            throw new Error('Double defintion of member "' + key + '"');
-          }
-
-          kstatics[key] = true;
-        }
-
-        // Check properties
-        var eproperties = mixins[i].properties;
-
-        for (var key in eproperties)
-        {
-          if (key in kproperties) {
-            throw new Error('Double defintion of property "' + key + '"');
-          }
-
-          kproperties[key] = true;
-        }
-      }
-    },
-
-
-    /**
      * Whether a given class includes a mixin.
      *
+     * @type static
      * @param clazz {Class} class to check
      * @param mixin {Mixin} the mixin to check for
      * @return {Boolean} whether the class includes the mixin.
@@ -198,32 +155,37 @@ qx.Clazz.define("qx.Mixin",
     */
 
     /** Registers all defined Mixins */
-    registry : {},
+    __registry : {},
 
     /**
      * Validates incoming configuration and checks keys and values
      *
+     * @type static
      * @param name {String} The name of the class
      * @param config {Map} Configuration map
      */
     __validateConfig : function(name, config)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      var allowedKeys =
       {
-        var allowedKeys = {
-          "include": 1,
-          "statics": 1,
-          "members": 1,
-          "properties": 1
+        "include"    : "object", // Mixin | Mixin[]
+        "statics"    : "object", // Map
+        "members"    : "object", // Map
+        "properties" : "object"  // Map
+      }
+
+      for (var key in config)
+      {
+        if (!allowedKeys[key]) {
+          throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
         }
 
-        for (var key in config) {
-          if (!allowedKeys[key]) {
-            throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
-          }
-          if (config[key] == null) {
-            throw new Error("Invalid key '" + key + "' in class '" + name + "'! The value is undefined/null!");
-          }
+        if (config[key] == null) {
+          throw new Error('Invalid key "' + key + '" in class "' + name + '"! The value is undefined/null!');
+        }
+
+        if (typeof config[key] !== allowedKeys[key]) {
+          throw new Error('Invalid type of key "' + key + '" in class "' + name + '"! The type of the key must be "' + allowedKeys[key] + '"!');
         }
       }
     },
@@ -232,6 +194,7 @@ qx.Clazz.define("qx.Mixin",
     /**
      * Creates a mixin.
      *
+     * @type static
      * @param name {String} Full name of mixin
      * @param members {Map} Map of members of the mixin
      * @param statics {Map} Map of statics of the of the mixin
@@ -246,13 +209,15 @@ qx.Clazz.define("qx.Mixin",
       // Create namespace
       var basename = qx.Clazz.createNamespace(name, mixin, false);
 
-      // Add to registry
-      qx.Mixin.registry[name] = mixin;
+      // Store class reference in global mixin registry
+      this.__registry[name] = mixin;
 
       // Attach data fields
       mixin.isMixin = true;
       mixin.name = name;
       mixin.basename = basename;
+
+      // Attach functionality fields
       mixin.properties = properties || {};
       mixin.members = members || {};
       mixin.statics = statics || {};
@@ -262,45 +227,37 @@ qx.Clazz.define("qx.Mixin",
 
 
     /**
-     * Attach mixins to this mixin
+     * Adds a Mixin to another Mixin
      *
-     * @param mixin {Mixin} Class to add mixins to
-     * @param includes {Mixin[]} The map of mixins to attach
+     * @type static
+     * @param to {Mixin} The target Mixin
+     * @param from {Mixin} The source Mixin
      */
-    __addMixins: function(mixin, includes)
+    __addMixin : function(to, from)
     {
-    	if (includes && !(includes instanceof Array)) {
-      	includes = [ includes ];
-     	}
+      // Attach members
+      var to_members = to.members;
+      var from_members = from.members;
 
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        arguments.callee.self.areCompatible(include);
+      for (var key in from_members) {
+        to_members[key] = from_members[key];
       }
 
-      for (var i=0, l=includes.length; i<l; i++)
-      {
-        // Attach members
-        var emembers = includes[i].members;
+      // Attach statics
+      var to_statics = to.statics;
+      var from_statics = from.statics;
 
-        for (var key in emembers) {
-          mixin.members[key] = emembers[key];
-        }
+      for (var key in from_statics) {
+        to_statics[key] = from_statics[key];
+      }
 
-        // Attach statics
-        var estatics = includes[i].statics;
+      // Attach properties
+      var to_properties = to.properties;
+      var from_properties = from.properties;
 
-        for (var key in emembers) {
-          mixin.statics[key] = estatics[key];
-        }
-
-        // Attach properties
-        var eproperties = includes[i].properties;
-
-        for (var key in eproperties) {
-          mixin.properties[key] = eproperties[key];
-        }
+      for (var key in from_properties) {
+        to_properties[key] = from_properties[key];
       }
     }
-
   }
 });
