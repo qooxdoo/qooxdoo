@@ -432,8 +432,13 @@ qx.Clazz.define("qx.Clazz",
       }
 
       // Check Mixin compatiblity
-      if (config.include) {
-        qx.Mixin.checkCompatibility(config.include);
+      if (config.include)
+      {
+        try {
+          qx.Mixin.checkCompatibility(config.include);
+        } catch(ex) {
+          throw new Error('Invalid include list for class "' + name + '"! ' + ex.message);
+        }
       }
     },
 
