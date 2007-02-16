@@ -5,6 +5,21 @@ qx.Clazz.define("qxunit.TestCase", {
 
 	members: {
 		
+		profile: function(msg) {
+			this._msg = msg || "";
+			this._start = new Date();
+		},
+		
+		profileEnd: function() {
+			var end = new Date();
+			if (this._start) {
+				// use jsunit logging 
+				info(this._msg + ": " + (end - this._start) + "ms");
+				//qx.log.Logger.ROOT_LOGGER.debug(this._msg + ": " + (end - this._start) + "ms");
+			}
+		},
+		
+		
 		assertJsonEquals: function() {
 			if (arguments.length == 3) {
 				assertEquals(
@@ -97,6 +112,13 @@ qx.Clazz.define("qxunit.TestCase", {
 			"on": function() { assertNull.apply(this, arguments); },
 			"off": function() {}
 		})
+	},
+	
+	defer: function(statics, proto) {
+		if (window.console) {
+			proto.profile = console.profile;
+			proto.profileEnd = console.profileEnd;
+		}
 	}
 });
 

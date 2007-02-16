@@ -83,15 +83,22 @@ qx.Clazz.define("qxunit.test.Clazz", {
 		            stopEngine: function() {
 		                var ret = arguments.callee.base.call();
 		                return "brrr " + ret;
-		            }
-            
-		        }
+		            },
+		    		getWheels: function() {
+						return this.self(arguments).WHEELS;
+					}
+		        },
+		
+				statics: {
+					WHEELS: 4
+				}
 		    });
 
 		    var bmw = new qxunit.Bmw("bmw", 44000);
 		    this.assertEquals("bmw", bmw.getName());
 		    this.assertEquals("brrr start", bmw.startEngine());
 		    this.assertEquals("brrr stop", bmw.stopEngine());
+			this.assertEquals(4, bmw.getWheels());
 		},
 
 	

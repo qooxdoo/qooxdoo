@@ -54,6 +54,28 @@ qx.Class.EVENTPREFIX = "evt";
 */
 
 /**
+ * Whether the objects supports the given event type
+ * 
+ * @param eventName {String} name of the event to check for
+ * @return {Boolean} whether the object support the given event.
+ */
+qx.Proto.supportsEvent = function(eventName) {
+	// old style classes can't be checked
+	if (!this.constructor.base) {
+		return true;
+	}
+	
+	var clazz = this.constructor;
+	while (clazz.superclass) {
+		if (clazz.$$EVENTS && clazz.$$EVENTS[eventName]) {
+			return true;
+		}
+		clazz = clazz.superclass;
+	}
+	return false;
+}
+
+/**
  * Add event listener to an object.
  *
  * @param vType {String} name of the event type
@@ -62,6 +84,12 @@ qx.Class.EVENTPREFIX = "evt";
  */
 qx.Proto.addEventListener = function(vType, vFunction, vObject)
 {
+	if (qx.core.Variant.isSet("qx.debug", "on")) {
+		if (!this.supportsEvent(vType)) {
+			throw new Error("Objects of class '"+this.constructor.classname+"' do not support the event '"+ vType +"'");
+		}
+	}
+  
   if(this.getDisposed()) {
     return;
   }
