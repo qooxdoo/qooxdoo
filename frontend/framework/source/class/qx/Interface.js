@@ -237,9 +237,9 @@ qx.Clazz.define("qx.Interface",
           if (config[key] == null) {
             throw new Error("Invalid key '" + key + "' in interface '" + name + "'! The value is undefined/null!");
           }
-          
+
         }
-        
+
         // check extends
         var extend = config.extend
         if (extend && extend instanceof Array) {
@@ -273,6 +273,7 @@ qx.Clazz.define("qx.Interface",
       qx.Interface.__registry[name] = interf;
 
       // Attach data fields
+      interf.isInterface = true;
       interf.name = name;
       interf.basename = basename;
       interf.blacklist = {};
