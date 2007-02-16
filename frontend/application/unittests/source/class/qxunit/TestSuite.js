@@ -140,11 +140,7 @@ qx.Clazz.define("qxunit.TestSuite", {
 		
 		__createTestFunctionWrapper: function(clazz, functionName) {
 			return function() {
-				try {
-					( (new clazz()) [functionName]) ();
-				} catch (e) {
-					fail("Uncatched exception: " + e.toString());
-				}
+				( (new clazz()) [functionName]) ();
 			}
 		}		
 	}
