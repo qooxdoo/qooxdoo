@@ -152,7 +152,7 @@ qx.Clazz.define("qx.Interface",
      *
      * @param clazz {Class} class to check
      * @param vInterface {Interface} the interface the class must implement
-     * @param wrap {Boolean?true} whether the class chould be extended with precondition checks
+     * @param wrap {Boolean?true} whether the class should be extended with precondition checks
      *   from the interfaces.
      */
     assertInterface: function(clazz, vInterface, wrap)
