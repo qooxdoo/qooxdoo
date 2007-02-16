@@ -252,7 +252,6 @@ qx.Clazz.define("qxunit.test.Interface", {
 				extend: [qxunit.IMember, qxunit.IStatics, qxunit.IProperties]
 			});
 			
-			console.log("%o", qxunit.IAll);
 			assertEquals(qxunit.IMember.members.sayJuhu, qxunit.IAll.members.sayJuhu);
 			assertEquals(qxunit.IStatics.statics.sayHello, qxunit.IAll.statics.sayHello);
 			assertEquals(qxunit.IStatics.statics.PI, qxunit.IAll.statics.PI);
