@@ -41,8 +41,8 @@ qx.Clazz.define("qx.Interface",
      * Primitive statics written all uppercase are copied into the classes implementing
      * the interface.
      *
-     * For properties only the names are required so the property key expects an array
-     * of property names.
+     * For properties only the names are required so the value of the properties
+     * can be empty maps.
      *
      * Example:
      * <pre>
@@ -55,7 +55,7 @@ qx.Clazz.define("qx.Interface",
      *     staticMethod: function(z) { return typeof(z) == "string"; }
      *   },
      *
-     *   properties: ["color", "name"],
+     *   properties: {"color": {}, "name": {} },
      *
      *   members:
      *   {
@@ -74,7 +74,7 @@ qx.Clazz.define("qx.Interface",
      *     <tr><th>extend</th><td>Class</td><td>The interfaces this interface inherits from.</td></tr>
      *     <tr><th>members</th><td>Map</td><td>Map of members of the interface.</td></tr>
      *     <tr><th>statics</th><td>Map</td><td>Map of statics of the interface.</td></tr>
-     *     <tr><th>properties</th><td>String[]</td><td>Array of property names.</td></tr>
+     *     <tr><th>properties</th><td>Map</td><td>Map of properties.</td></tr>
      *   </table>
      */
     define : function(name, config)
@@ -235,7 +235,18 @@ qx.Clazz.define("qx.Interface",
             throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
           }
           if (config[key] == null) {
-            throw new Error("Invalid key '" + key + "' in class '" + name + "'! The value is undefined/null!");
+            throw new Error("Invalid key '" + key + "' in interface '" + name + "'! The value is undefined/null!");
+          }
+          
+        }
+        
+        // check extends
+        var extend = config.extend
+        if (extend && extend instanceof Array) {
+          for (var i=0; i<extend.length; i++) {
+            if (!extend[i]) {
+              throw new Error("The extend number '" + i+1 + "' in interface '" + name + "' is undefined!");
+            }
           }
         }
       }
@@ -335,7 +346,7 @@ qx.Clazz.define("qx.Interface",
         	extend = [ extend ];
        	}
 
-        for (var i=0, l=extend.length; i<l; i++)
+        for (var i=0; i<extend.length; i++)
         {
           // Combine blacklist
           var eblacklist = extend[i].blacklist;
