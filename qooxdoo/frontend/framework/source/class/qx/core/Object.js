@@ -258,7 +258,19 @@ qx.Clazz.define("qx.core.Object",
       }
 
       return vMsg;
-    }
+    },
+    
+    
+    /**
+     * Returns whether a global dispose (page unload) is currently taking place.
+     * 
+     * @type static
+     * @return {Boolean} whether a global dispose is taking place.
+     */
+    inGlobalDispose : function()
+    {
+      return qx.core.Object.__disposeAll;
+    }    
   },
 
 
