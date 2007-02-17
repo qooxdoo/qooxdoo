@@ -634,8 +634,6 @@ qx.ui.core.Widget._autoFlushHelper = function()
 /**
  * Flush all global queues
  */
-qx.ui.core.Widget.flushGlobalQueues = function() {};
-
 qx.ui.core.Widget.flushGlobalQueues = function()
 {
   if (qx.ui.core.Widget._autoFlushTimeout != null) {
