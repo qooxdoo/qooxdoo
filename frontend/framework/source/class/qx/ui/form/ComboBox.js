@@ -796,7 +796,7 @@ qx.Proto.dispose = function()
   if (this._popup)
   {
     this._popup.removeEventListener("appear", this._onpopupappear, this);
-    if (!qx.core.Object._disposeAll) {
+    if (!qx.core.Object.inGlobalDispose()) {
       this._popup.setParent(null);
       // If this is not a page unload, we have to reset the parent. Otherwise,
       // disposing a ComboBox that was clicked at least once would mean that
