@@ -591,6 +591,46 @@ qx.OO.addPropertyGroup({ name : "clip", members : [ "clipLeft", "clipTop", "clip
 ---------------------------------------------------------------------------
 */
 
+qx.ui.core.Widget._autoFlushTimeout = null;
+
+
+/**
+ * Creates an auto-flush timeout.
+ */
+qx.ui.core.Widget._initAutoFlush = function()
+{
+  if (qx.ui.core.Widget._autoFlushTimeout == null) {
+    qx.ui.core.Widget._autoFlushTimeout = window.setTimeout(qx.ui.core.Widget._autoFlushHelper, 0);
+  }
+}
+
+
+/**
+ * Removes an auto-flush timeout.
+ */
+qx.ui.core.Widget._removeAutoFlush = function()
+{
+  if (qx.ui.core.Widget._autoFlushTimeout != null) {
+    window.clearTimeout(qx.ui.core.Widget._autoFlushTimeout);
+    qx.ui.core.Widget._autoFlushTimeout = null;
+  }
+}
+
+
+/**
+ * Helper function for auto flush.
+ */
+qx.ui.core.Widget._autoFlushHelper = function()
+{
+  qx.ui.core.Widget._autoFlushTimeout = null;
+  if (!qx.core.Object.inGlobalDispose()) {
+    // make sure we only flush the queues if the framework is not currently
+    // being disposed
+    qx.ui.core.Widget.flushGlobalQueues();
+  }
+}
+
+
 /**
  * Flush all global queues
  */
@@ -598,6 +638,9 @@ qx.ui.core.Widget.flushGlobalQueues = function() {};
 
 qx.ui.core.Widget.flushGlobalQueues = function()
 {
+  if (qx.ui.core.Widget._autoFlushTimeout != null) {
+    qx.ui.core.Widget._removeAutoFlush();
+  }
   if (qx.ui.core.Widget._inFlushGlobalQueues || !qx.core.Init.getInstance().getComponent().isUiReady()) {
     return;
   }
@@ -708,6 +751,9 @@ qx.ui.core.Widget.addToGlobalWidgetQueue = function(vWidget)
 {
   if (!vWidget._isInGlobalWidgetQueue && vWidget._isDisplayable)
   {
+    if (qx.ui.core.Widget._autoFlushTimeout == null) {
+      qx.ui.core.Widget._initAutoFlush();
+    }
     qx.ui.core.Widget._globalWidgetQueue.push(vWidget);
     vWidget._isInGlobalWidgetQueue = true;
   }
@@ -762,6 +808,9 @@ qx.ui.core.Widget.addToGlobalElementQueue = function(vWidget)
 {
   if (!vWidget._isInGlobalElementQueue && vWidget._isDisplayable)
   {
+    if (qx.ui.core.Widget._autoFlushTimeout == null) {
+      qx.ui.core.Widget._initAutoFlush();
+    }
     qx.ui.core.Widget._globalElementQueue.push(vWidget);
     vWidget._isInGlobalElementQueue = true;
   }
@@ -813,6 +862,9 @@ qx.ui.core.Widget.addToGlobalStateQueue = function(vWidget)
 {
   if (!vWidget._isInGlobalStateQueue && vWidget._isDisplayable)
   {
+    if (qx.ui.core.Widget._autoFlushTimeout == null) {
+      qx.ui.core.Widget._initAutoFlush();
+    }
     qx.ui.core.Widget._globalStateQueue.push(vWidget);
     vWidget._isInGlobalStateQueue = true;
   }
@@ -866,6 +918,9 @@ qx.ui.core.Widget.addToGlobalJobQueue = function(vWidget)
 {
   if (!vWidget._isInGlobalJobQueue && vWidget._isDisplayable)
   {
+    if (qx.ui.core.Widget._autoFlushTimeout == null) {
+      qx.ui.core.Widget._initAutoFlush();
+    }
     qx.ui.core.Widget._globalJobQueue.push(vWidget);
     vWidget._isInGlobalJobQueue = true;
   }
@@ -917,6 +972,9 @@ qx.ui.core.Widget.addToGlobalLayoutQueue = function(vParent)
 {
   if (!vParent._isInGlobalLayoutQueue && vParent._isDisplayable)
   {
+    if (qx.ui.core.Widget._autoFlushTimeout == null) {
+      qx.ui.core.Widget._initAutoFlush();
+    }
     qx.ui.core.Widget._globalLayoutQueue.push(vParent);
     vParent._isInGlobalLayoutQueue = true;
   }
@@ -970,6 +1028,10 @@ qx.ui.core.Widget.addToGlobalDisplayQueue = function(vWidget)
 {
   if (!vWidget._isInGlobalDisplayQueue && vWidget._isDisplayable)
   {
+    if (qx.ui.core.Widget._autoFlushTimeout == null) {
+      qx.ui.core.Widget._initAutoFlush();
+    }
+
     var vParent = vWidget.getParent();
 
     if (vParent.isSeeable())
