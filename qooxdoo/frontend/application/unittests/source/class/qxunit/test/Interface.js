@@ -18,13 +18,9 @@ qx.Clazz.define("qxunit.test.Interface", {
 				}
 		    });
     
-		    var error = false;
-		    try {
-		      var i = new qxunit.ICar();
-		    } catch (e) {
-		        error = true;
-		    }
-		   this.assertTrueDebugOn("Interfaces cannot be instantiated!", error);
+		    this.assertExceptionDebugOn(function() {
+		  		var i = new qxunit.ICar();
+			}, Error, "is not a constructor");
 
 			// test correct implementations
 		    qx.Clazz.define("qxunit.Audi", {
@@ -49,24 +45,16 @@ qx.Clazz.define("qxunit.test.Interface", {
 			this.assertEquals(4, qxunit.Audi.WHEELS);
 		
 			// nothing defined
-			error = false;
-		    try {
+			this.assertExceptionDebugOn(function() {
 		        qx.Clazz.define("qxunit.Audi1", {
 		            extend: Object,
 		            construct: function() {},
 		            implement: [qxunit.ICar]
 		        });
-		    } catch (e) {
-		        error = e;
-		    }
-			this.assertEqualsDebugOn(
-				new Error('Implementation of method "startEngine" is missing in Class "qxunit.Audi1" required by interface "qxunit.ICar"').toString(),
-				error.toString()
-			);
+		    }, Error, new RegExp('Implementation of method .* is missing'));
 
 			// members not defined
-			error = false;
-		    try {
+			this.assertExceptionDebugOn(function() {
 			    qx.Clazz.define("qxunit.Audi2", {
 			        extend: Object,
 			        construct: function() {},
@@ -78,18 +66,10 @@ qx.Clazz.define("qxunit.test.Interface", {
 						color: { compat: true }
 					}
 			    });
-		    } catch (e) {
-		        error = e;
-		    }
-			this.assertEqualsDebugOn(
-				new Error('Implementation of method "startEngine" is missing in Class "qxunit.Audi2" required by interface "qxunit.ICar"').toString(),
-				error.toString()
-			);
-
+		    }, Error, 'Implementation of method "startEngine" is missing');
 		
 			// statics not defined
-			error = false;
-		    try {
+			this.assertExceptionDebugOn(function() {
 			    qx.Clazz.define("qxunit.Audi3", {
 			        extend: Object,
 			        construct: function() {},
@@ -101,17 +81,10 @@ qx.Clazz.define("qxunit.test.Interface", {
 						color: { compat: true }
 					}
 			    });
-		    } catch (e) {
-		        error = e;
-		    }
-			this.assertEqualsDebugOn(
-				new Error('Implementation of static method "honk" is missing in Class "qxunit.Audi3" required by interface "qxunit.ICar"').toString(),
-				error.toString()
-			);
+		    }, Error, 'Implementation of static method "honk" is missing');
 
 			// property not defined
-			error = false;
-		    try {
+			this.assertExceptionDebugOn(function() {
 			    qx.Clazz.define("qxunit.Audi4", {
 			        extend: Object,
 			        construct: function() {},
@@ -122,11 +95,8 @@ qx.Clazz.define("qxunit.test.Interface", {
 					statics: {
 						honk: function() { return "honk"; }
 					}
-			    });
-		    } catch (e) {
-		        error = e;
-		    }
-			this.assertTrueDebugOn(error.toString().indexOf("Implementation of method") >= 0);
+			    })
+		    }, Error, "Implementation of method");
 		},
 	
 		testAssertions: function() {
@@ -179,55 +149,30 @@ qx.Clazz.define("qxunit.test.Interface", {
 			a.setReal(20);
 			a.abs();
 		
-			// invalig usage		
-			var error = false;
-			try {
+			// invalid usage		
+			this.assertExceptionDebugOn(function() {
 				a.add(b,b);
-			} catch (e) {
-				error = e;
-			}
-			this.assertTrueDebugOn(error.toString().match(/Pre condition of method/) ? true : false);
+			}, Error, "Pre condition of method");
 		
-			var error = false;
-			try {
+			this.assertExceptionDebugOn(function() {
 				a.setReal()
-			} catch (e) {
-				error = e;
-			}
-			this.assertTrueDebugOn(error.toString().match(/Pre condition of method/) ? true : false);
+			}, Error, "Pre condition of method");
 
-			var error = false;
-			try {
+			this.assertExceptionDebugOn(function() {
 				a.setReal(1,2)
-			} catch (e) {
-				error = e;
-			}
-			this.assertTrueDebugOn(error.toString().match(/Pre condition of method/) ? true : false);
-
-			var error = false;
-			try {
+			}, Error, "Pre condition of method");
+			
+			this.assertExceptionDebugOn(function() {
 				a.setReal("Juhu");
-			} catch (e) {
-				error = e;
-			}
-			this.assertTrueDebugOn(error.toString().match(/Pre condition of method/) ? true : false);
-
-			var error = false;
-			try {
+			}, Error, "Pre condition of method");
+			
+			this.assertExceptionDebugOn(function() {
 				a.abs({});
-			} catch (e) {
-				error = e;
-			}
-			this.assertTrueDebugOn(error.toString().match(/Pre condition of method/) ? true : false);
-
-			var error = false;
-			try {
+			}, Error, "Pre condition of method");
+			
+			this.assertExceptionDebugOn(function() {
 				a.add("Juhu");
-			} catch (e) {
-				error = e;
-			}
-			this.assertTrueDebugOn(error.toString().match(/Pre condition of method/) ? true : false);
-
+			}, Error, "Pre condition of method");
 		},
 		
 		testIncludes: function() {
@@ -252,13 +197,66 @@ qx.Clazz.define("qxunit.test.Interface", {
 				extend: [qxunit.IMember, qxunit.IStatics, qxunit.IProperties]
 			});
 			
-			assertEquals(qxunit.IMember.members.sayJuhu, qxunit.IAll.members.sayJuhu);
-			assertEquals(qxunit.IStatics.statics.sayHello, qxunit.IAll.statics.sayHello);
-			assertEquals(qxunit.IStatics.statics.PI, qxunit.IAll.statics.PI);
+			qx.Interface.define("qxunit.IOther", {
+				members: {
+					bar: function() {return true;}
+				}
+			});
 			
-			assertNotUndefined(qxunit.IProperties.members.getColor)
-			assertEquals(qxunit.IProperties.members.getColor, qxunit.IAll.members.getColor);
-			assertEquals(qxunit.IProperties.members.setName, qxunit.IAll.members.setName);
+			var classDef = {
+				extend: Object,
+				implement: qxunit.IAll,
+				members: {
+					sayJuhu: function() {}
+				},
+				statics: {
+					sayHello: function() { return true; }
+				},
+				properties: {"color": { compat: true }, "name": { compat: true} }				
+			}
+			
+			// all implemented
+			var def = qx.lang.Object.copy(classDef);
+			qx.Clazz.define("qxunit.Implement1", def)
+
+			assertTrue(qx.Interface.hasInterface(qxunit.Implement1, qxunit.IAll));
+			assertTrue(qx.Interface.hasInterface(qxunit.Implement1, qxunit.IMember));
+			assertTrue(qx.Interface.hasInterface(qxunit.Implement1, qxunit.IStatics));
+			assertTrue(qx.Interface.hasInterface(qxunit.Implement1, qxunit.IProperties));
+
+			assertFalse(qx.Interface.hasInterface(qxunit.Implement1, qxunit.IOther));
+			
+			// no members
+			var def = qx.lang.Object.copy(classDef);
+			delete(def.members);
+			this.assertExceptionDebugOn(function() {
+				qx.Clazz.define("qxunit.Implement2", def)
+			}, Error, "Implementation of method");
+
+			// no statics
+			var def = qx.lang.Object.copy(classDef);
+			delete(def.statics);			
+			this.assertExceptionDebugOn(function() {
+				qx.Clazz.define("qxunit.Implement3", def)
+			}, Error, "Implementation of static method");	
+			
+			// no properties
+			var def = qx.lang.Object.copy(classDef);
+			delete(def.properties);
+			this.assertExceptionDebugOn(function() {
+				qx.Clazz.define("qxunit.Implement4", def)
+			}, Error, "Implementation of method");				
+			
+			// check copying of static fields
+			assertEquals(3.14, qxunit.Implement1.PI);
+
+			var def = qx.lang.Object.copy(classDef);			
+			def.statics.PI = 4;
+			this.assertException(function() {
+				qx.Clazz.define("qxunit.Implement5", def)
+			}, Error, "Overwriting static member");				
+				
+
 		}
 	}
 });

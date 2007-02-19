@@ -34,20 +34,15 @@ qx.Clazz.define("qxunit.test.Mixin", {
 			mix.setColor("red");
 			this.assertEquals("red", mix.getColor());		
 		
-			var error = false;
-			try {
+			this.assertExceptionDebugOn(function() {
 				qx.Clazz.define("qxunit.Mix1", {
 					extend: Object,
 					include: [qxunit.MMix1, qxunit.MMix2],
 					construct: function() {}
 				});			
-			} catch (e) {
-				error = true;
-			}
-			this.assertTrueDebugOn("MMix1 and MMix2 are incompatible.", error);
+			}, Error, "Error in include definition");
 
-			var error = false;
-			try {
+			this.assertExceptionDebugOn(function() {
 				qx.Clazz.define("qxunit.Mix2", {
 					extend: Object,
 					include: qxunit.MMix1,
@@ -56,13 +51,9 @@ qx.Clazz.define("qxunit.test.Mixin", {
 						bar: function() { return "bar"; }
 					}
 				});			
-			} catch (e) {
-				error = true;
-			}
-			this.assertTrueDebugOn("Mix and MMix1 have incompatible members.", error);
+			}, Error, "Overwriting member");
 
-			var error = false;
-			try {
+			this.assertExceptionDebugOn(function() {
 				qx.Clazz.define("qxunit.Mix3", {
 					extend: Object,
 					include: qxunit.MMix1,
@@ -71,13 +62,9 @@ qx.Clazz.define("qxunit.test.Mixin", {
 						foo: function() { return "foo"; }
 					}
 				});			
-			} catch (e) {
-				error = true;
-			}
-			this.assertTrueDebugOn("Mix and MMix1 have incompatible statics.", error);
+			}, Error, "Overwriting static member");
 
-			var error = false;
-			try {
+			this.assertExceptionDebugOn(function() {
 				qx.Clazz.define("qxunit.Mix4", {
 					extend: Object,
 					include: qxunit.MMix1,
@@ -86,10 +73,7 @@ qx.Clazz.define("qxunit.test.Mixin", {
 						color: { compat: true }
 					}
 				});			
-			} catch (e) {
-				error = true;
-			}
-			this.assertTrueDebugOn("Mix and MMix1 have incompatible properties.", error);
+			}, Error, "Overwriting property");
 
 		},
 	
@@ -109,7 +93,6 @@ qx.Clazz.define("qxunit.test.Mixin", {
 				extend: Object,
 				construct: function() {}
 			});
-		
 			qx.Clazz.include(qxunit.UseLog1, qxunit.MLogger);		
 			this.assertEquals("Juhu", new qxunit.UseLog1().log("Juhu"));
 		
@@ -122,17 +105,11 @@ qx.Clazz.define("qxunit.test.Mixin", {
 				}
 			});
 		
-			var error = true;
-			try {
+
+			this.assertExceptionDebugOn(function() {
 				qx.Clazz.include(qxunit.UseLog2, qxunit.MLogger);
-			} catch (e) {
-				error = e;
-			}
-			this.assertEqualsDebugOn(
-				new Error("Overwriting the member 'log' is not allowed!").toString(),
-				error.toString()
-			);
-		
+			}, Error, "Overwriting member");
+
 			// allowed to overwrite!
 			qx.Clazz.define("qxunit.UseLog3", {
 				extend: Object,
