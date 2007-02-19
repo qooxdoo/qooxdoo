@@ -172,16 +172,27 @@ qx.Clazz.define("qx.Mixin",
       for (var key in config)
       {
         if (!allowedKeys[key]) {
-          throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
+          throw new Error('The configuration key "' + key + '" in mixin "' + name + '" is not allowed!');
         }
 
         if (config[key] == null) {
-          throw new Error('Invalid key "' + key + '" in class "' + name + '"! The value is undefined/null!');
+          throw new Error('Invalid key "' + key + '" in mixin "' + name + '"! The value is undefined/null!');
         }
 
         if (typeof config[key] !== allowedKeys[key]) {
-          throw new Error('Invalid type of key "' + key + '" in class "' + name + '"! The type of the key must be "' + allowedKeys[key] + '"!');
+          throw new Error('Invalid type of key "' + key + '" in mixin "' + name + '"! The type of the key must be "' + allowedKeys[key] + '"!');
         }
+      }
+
+      if (config.include instanceof Array)
+      {
+        for (var i=0; i<config.include.length; i++) {
+          if (!config.include[i].isMixin) {
+            throw new Error("Includes of mixins must be mixins. Include number '"+i+"' in mixin '"+name+"'is not a mixin!");
+          }
+        }
+      } else if (config.include && !config.include.isMixin) {
+        throw new Error("Includes of mixins must be mixins. The include in mixin '"+name+"' is not a mixin!");        
       }
 
       if (config.include)
