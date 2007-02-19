@@ -67,7 +67,7 @@ qx.Proto.supportsEvent = function(eventName) {
 	
 	var clazz = this.constructor;
 	while (clazz.superclass) {
-		if (clazz.$$EVENTS && clazz.$$EVENTS[eventName]) {
+		if (clazz.$$events && clazz.$$events[eventName]) {
 			return true;
 		}
 		clazz = clazz.superclass;
