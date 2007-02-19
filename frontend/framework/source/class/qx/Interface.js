@@ -157,12 +157,12 @@ qx.Clazz.define("qx.Interface",
      */
     assertInterface: function(clazz, vInterface, wrap)
     {
-      if (!clazz.$$IMPLEMENTS) {
-        clazz.$$IMPLEMENTS = {};
+      if (!clazz.$$implements) {
+        clazz.$$implements = {};
       }
 
       // check whether the interface is in the registry of the class
-      if (clazz.$$IMPLEMENTS[vInterface.name]) {
+      if (clazz.$$implements[vInterface.name]) {
         return true;
       }
 
@@ -196,7 +196,7 @@ qx.Clazz.define("qx.Interface",
         }
       }
 
-      clazz.$$IMPLEMENTS[vInterface.name] = vInterface;
+      clazz.$$implements[vInterface.name] = vInterface;
     },
 
 
