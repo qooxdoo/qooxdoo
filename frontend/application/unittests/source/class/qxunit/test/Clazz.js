@@ -21,20 +21,12 @@ qx.Clazz.define("qxunit.test.Clazz", {
 		        construct: function() {}
 		    });
 	
-			error = false;
-			try {
+			this.assertExceptionDebugOn(function() {
 			    qx.Clazz.define("qxunit.Same", {
 		        	extend: Object,
 		        	construct: function() {}
 		    	});
-			}
-			catch (e) {
-				error = e;
-			}
-			this.assertEqualsDebugOn(
-				new Error("An object of the name 'qxunit.Same' aready exists and overwriting is not allowed!").toString(),
-				error.toString()
-			);
+			}, Error, "An object of the name 'qxunit.Same' aready exists and overwriting is not allowed!");
 		},
 
 		testSuperClassCall: function() {
@@ -116,13 +108,9 @@ qx.Clazz.define("qxunit.test.Clazz", {
 			});
 
 			// instantiating abstract classes should fail
-			var error = false;
-			try {
+			this.assertExceptionDebugOn(function() {
 				var car = new qxunit.AbstractCar("blue");
-			} catch(e) {
-				error = true;
-			}
-			this.assertTrueDebugOn("It is not permitted to instanciate an abstract class.", error);
+			}, Error, new RegExp("The class .* is abstract"));
 
 			// check if subclasses of abstract classes work
 			qx.Clazz.define("qxunit.ConcreteCar", {
@@ -157,13 +145,9 @@ qx.Clazz.define("qxunit.test.Clazz", {
 			);
 		
 			// direct instanctiation should fail
-			var error = false;
-			try {
-				var s = new test.Single1();
-			} catch(e) {
-				error = true;
-			}
-			this.assertTrueDebugOn("Direct instanctiation of singletons should fail!", error);		
+			this.assertExceptionDebugOn(function() {
+				var s = new qxunit.Single1();
+			}, Error, new RegExp("The class .* is a singleton"));
 
 		},
 	
@@ -180,17 +164,13 @@ qx.Clazz.define("qxunit.test.Clazz", {
 			);
 		
 		
-			var error = false;
-			try {
+			this.assertExceptionDebugOn(function() {
 				qx.Clazz.define("qxunit.Setting2", {
 					settings: {
 						"foo.juhu": "kinners"
 					}
 				});
-			} catch (e) {
-				error = e;
-			}
-			this.assertTrueDebugOn(error.toString().match(/Forbidden setting/) ? true : false);
+			}, Error, "Forbidden setting");
 		},
 	
 		testVariant: function() {
@@ -208,8 +188,7 @@ qx.Clazz.define("qxunit.test.Clazz", {
 				qx.core.Variant.get("qxunit.juhu")
 			);
 		
-			var error = false;
-			try {
+			this.assertExceptionDebugOn(function() {
 				qx.Clazz.define("qxunit.Variant2", {
 					variants: {
 						"foo.juhu": {
@@ -218,10 +197,7 @@ qx.Clazz.define("qxunit.test.Clazz", {
 						}
 					}
 				});
-			} catch (e) {
-				error = e;
-			}
-			this.assertTrueDebugOn(error.toString().match(/Forbidden variant/) ? true : false);
+			}, Error, "Forbidden variant");
 		},	
 		
 		testDefer: function() {

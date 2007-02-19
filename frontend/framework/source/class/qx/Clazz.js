@@ -469,14 +469,14 @@ qx.Clazz.define("qx.Clazz",
      */
     __getInstance : function()
     {
-      if (!this.$$INSTANCE)
+      if (!this.$$instance)
       {
-        this.$$ALLOWCONSTRUCT = true;
-        this.$$INSTANCE = new this;
-        delete this.$$ALLOWCONSTRUCT;
+        this.$$allowconstruct = true;
+        this.$$instance = new this;
+        delete this.$$allowconstruct;
       }
 
-      return this.$$INSTANCE;
+      return this.$$instance;
     },
 
 
@@ -515,7 +515,7 @@ qx.Clazz.define("qx.Clazz",
         }
         else if (type == "singleton")
         {
-          clazz = this.__createSingletonConstructor(construct);
+          clazz = this.__createSingletonConstructor(name, construct);
           clazz.getInstance = this.__getInstance;
         }
 
@@ -883,18 +883,18 @@ qx.Clazz.define("qx.Clazz",
      * the static member <code>$ALLOWCONSTRUCT</code> of the class is set to true.
      *
      * @type static
+     * @param className {String} fully qualified class name of the constructor.
      * @param construct {Function} original constructor to wrap
      * @return {Function} wrapped constructor
-     * @throws TODOC
      */
-    __createSingletonConstructor : function(construct)
+    __createSingletonConstructor : function(className, construct)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         function singletonConstruct()
         {
-          if (!arguments.callee.$$ALLOWCONSTRUCT) {
-            throw new Error("Singleton");
+          if (!arguments.callee.$$allowconstruct) {
+            throw new Error("The class '" + className + "' is a singleton! It is not possible to instantiate it directly. Use the static 'getInstance' method instead.");
           }
 
           return construct.apply(this, arguments);
