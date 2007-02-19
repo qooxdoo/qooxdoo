@@ -708,17 +708,8 @@ qx.Clazz.define("qx.Clazz",
       }
 
       // Copy primitive static fields
-      var statics = iface.statics;
-
-      for (var key in statics)
-      {
-        // Attach statics
-        // Validation is done in qx.Interface
-        if (typeof (statics[key]) != "function") {
-          clazz[key] = statics[key];
-        }
-      }
-
+      qx.Interface.copyPrimitiveStaticFields(clazz, iface, false);
+      
       // Save interface name
       clazz.$$implements[iface.name] = iface;
     },
