@@ -70,7 +70,6 @@ import sys
 import re
 import xml.dom.minidom
 
-#(set 'pattern "^#")
 comment = re.compile(r'^#')
 include = re.compile(r'^\s*include')
 var     = re.compile(r'^(\s*)([A-Z_]+)\s*:?=\s*(.*)$')
@@ -79,7 +78,6 @@ first_part = 1
 # - Makefile Parser -------------------------------------------------------
 
 def main():
-  #(dolist (file-name (2 (main-args)))
   impl = xml.dom.minidom.getDOMImplementation()
   newdoc = impl.createDocument(None,"mak",None)
   topEl = newdoc.documentElement
@@ -88,18 +86,14 @@ def main():
   in_comment= 0
   in_ptitle = 0
   f = open(file_name,'r')
-  #(println "file ---> " file-name)
   for line in f:
-    #line.rstrip('#\r\n')
     line1 = line.rstrip()
     if comment.search(line1):
       if (not in_comment):
-        #print "\n"
         in_comment=1
         if re.search(r'^#{60,}$',line1):  # its a part title
           if (not in_ptitle):
             in_ptitle = 1
-            #curr = topEl
             e=newdoc.createElement("part")
             topEl.appendChild(e)
             de=newdoc.createElement("title")
@@ -125,20 +119,16 @@ def main():
     else:
       in_comment=0
       in_ptitle =0
-      #curr=topEl
       if include.search(line1): # handle include's
-        #print line1
         e=newdoc.createElement("incl")
         t=newdoc.createTextNode(line1.partition("include ")[2])
         e.appendChild(t)
         curr.appendChild(e)
       elif var.search(line1):  # handle var's
         mo = var.search(line1)
-        #print mo.group(1),mo.group(2),"\t(default:",mo.group(3),")"
         s= mo.group(1)+mo.group(2)+"\t(default:"+mo.group(3)+")"
         v=newdoc.createElement("var")
         curr.appendChild(v)
-        #t=newdoc.createTextNode(s)
         n=newdoc.createElement("name")
         v.appendChild(n)
         t=newdoc.createTextNode(mo.group(2))
@@ -148,7 +138,6 @@ def main():
         t=newdoc.createTextNode(mo.group(3))
         d.appendChild(t)
   f.close()
-  #push cont{"includes"}, include
   topEl.writexml(sys.stdout)
   #print topEl.toprettyxml("  ")
   #output(topEl)
