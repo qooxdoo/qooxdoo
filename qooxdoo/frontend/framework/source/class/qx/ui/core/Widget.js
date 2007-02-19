@@ -2217,49 +2217,55 @@ qx.Proto._isHeightEssential = qx.lang.Function.returnTrue;
 ---------------------------------------------------------------------------
 */
 
-qx.ui.core.Widget.initApplyMethods = function()
+qx.ui.core.Widget.initApplyMethods = function(proto)
 {
-  var f = "_applyRuntime";
-  var r = "_resetRuntime";
-  var s = "this._style.";
-  var e = "=''";
-  var v = "=((v==null)?0:v)+'px'";
-  var vpar = "v";
+  var applyRuntime = "_applyRuntime";
+  var resetRuntime = "_resetRuntime";
+  var style = "this._style.";
+  var cssValue = "=((v==null)?0:v)+'px'";
+  var parameter = "v";
 
-  var props = ["left", "right", "top", "bottom", "width", "height",
-               "minWidth", "maxWidth", "minHeight", "maxHeight"];
-  var propsup = ["Left", "Right", "Top", "Bottom", "Width", "Height",
-                 "MinWidth", "MaxWidth", "MinHeight", "MaxHeight"];
+  var properties = [
+    "left", "right", "top", "bottom", "width", "height",
+    "minWidth", "maxWidth", "minHeight", "maxHeight"
+  ];
+  
+  var propertiesUpper = [
+    "Left", "Right", "Top", "Bottom", "Width", "Height",
+    "MinWidth", "MaxWidth", "MinHeight", "MaxHeight"
+  ];
 
-  for (var i=0, fn=f+"Margin", rn=r+"Margin", sp=s+"margin"; i<4; i++)
+  var applyMargin = applyRuntime + "Margin";
+  var resetMargin = resetRuntime + "Margin";
+  var styleMargin = style + "margin";
+  for (var i=0; i<4; i++)
   {
-    qx.Proto[fn+propsup[i]] = new Function(vpar, sp + propsup[i] + v);
-    qx.Proto[rn+propsup[i]] = new Function(sp + propsup[i] + e);
+    proto[applyMargin + propertiesUpper[i]] = new Function(parameter, styleMargin + propertiesUpper[i] + cssValue);
+    proto[resetMargin + propertiesUpper[i]] = new Function(styleMargin + propertiesUpper[i] + "=''");
   }
 
-  var pad = "padding";
-  var upad = "Padding";
-
+  var applyPadding = applyRuntime + "Padding";
+  var resetPadding = resetRuntime + "Padding";
+  var stylePadding = style + "padding";
   if (qx.core.Variant.isSet("qx.client", "gecko"))
   {
-    for (var i=0, fn=f+upad, rn=r+upad, sp=s+pad; i<4; i++)
+    for (var i=0; i<4; i++)
     {
-      qx.Proto[fn+propsup[i]] = new Function(vpar, sp + propsup[i] + v);
-      qx.Proto[rn+propsup[i]] = new Function(sp + propsup[i] + e);
+      proto[applyPadding+propertiesUpper[i]] = new Function(parameter, stylePadding + propertiesUpper[i] + cssValue);
+      proto[resetPadding+propertiesUpper[i]] = new Function(stylePadding + propertiesUpper[i] + "=''");
     }
   }
   else
   {
     // need to use setStyleProperty to keep compatibility with enhanced cross browser borders
-    var s1="this.setStyleProperty('padding";
-    var s2="', ((v==null)?0:v)+'px')";
-    var s3="this.removeStyleProperty('padding";
-    var s4="')";
-
-    for (var i=0, fn=f+upad, rn=r+upad, sp=s+pad; i<4; i++)
+    for (var i=0; i<4; i++)
     {
-      qx.Proto[fn+propsup[i]] = new Function(vpar, s1 + propsup[i] + s2);
-      qx.Proto[rn+propsup[i]] = new Function(s3 + propsup[i] + s4);
+      proto[applyPadding+propertiesUpper[i]] = new Function(parameter, 
+        "this.setStyleProperty('padding" + propertiesUpper[i] + "', ((v==null)?0:v)+'px')"
+      );
+      proto[resetPadding+propertiesUpper[i]] = new Function(
+        "this.removeStyleProperty('padding" + propertiesUpper[i] + "')"
+      );
     }
   }
 
@@ -2278,14 +2284,14 @@ qx.ui.core.Widget.initApplyMethods = function()
   */
   if (qx.core.Variant.isSet("qx.client", "mshtml"))
   {
-    for (var i=0, tpos="pos", vset="=v"; i<6; i++)
+    for (var i=0; i<6; i++)
     {
       // to debug the values which will be applied use this instead of the
       // first line:
-      // qx.Proto[f+propsup[i]] = new Function(vpar, "this.debug('v: ' + v); " + s + tpos + propsup[i] + vset);
+      // qx.Proto[applyRuntime+propertiesUpper[i]] = new Function(parameter, "this.debug('v: ' + v); " + style + "pos" + propertiesUpper[i] + "=v");
 
-      qx.Proto[f+propsup[i]] = new Function(vpar, s + tpos + propsup[i] + vset);
-      qx.Proto[r+propsup[i]] = new Function(s + props[i] + e);
+      proto[applyRuntime+propertiesUpper[i]] = new Function(parameter, style + "pos" + propertiesUpper[i] + "=v");
+      proto[resetRuntime+propertiesUpper[i]] = new Function(style + properties[i] + "=''");
     }
   }
   else
@@ -2294,15 +2300,15 @@ qx.ui.core.Widget.initApplyMethods = function()
     {
       // to debug the values which will be applied use this instead of the
       // first line:
-      // qx.Proto[f+propsup[i]] = new Function(vpar, "this.debug('v: ' + v); " + s + props[i] + v);
+      // qx.Proto[applyRuntime+propertiesUpper[i]] = new Function(parameter, "this.debug('v: ' + v); " + style + properties[i] + cssValue);
 
-      qx.Proto[f+propsup[i]] = new Function(vpar, s + props[i] + v);
-      qx.Proto[r+propsup[i]] = new Function(s + props[i] + e);
+      proto[applyRuntime+propertiesUpper[i]] = new Function(parameter, style + properties[i] + cssValue);
+      proto[resetRuntime+propertiesUpper[i]] = new Function(style + properties[i] + "=''");
     }
   }
 }
 
-qx.ui.core.Widget.initApplyMethods();
+qx.ui.core.Widget.initApplyMethods(qx.Proto);
 
 
 
