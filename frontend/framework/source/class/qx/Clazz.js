@@ -322,7 +322,7 @@ qx.Clazz.define("qx.Clazz",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         // TODO: Polishing
-        var a = qx.lang.Array.copy(clazz.$$INCLUDES);
+        var a = qx.lang.Array.copy(clazz.$$INCLUDES || []);
         a.push(mixin);
         qx.Mixin.checkCompatibility(a);
       }
@@ -348,7 +348,7 @@ qx.Clazz.define("qx.Clazz",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         // TODO: Polishing
-        var a = qx.lang.Array.copy(clazz.$$INCLUDES);
+        var a = qx.lang.Array.copy(clazz.$$INCLUDES || []);
         a.push(mixin);
         qx.Mixin.checkCompatibility(a);
       }
@@ -557,10 +557,10 @@ qx.Clazz.define("qx.Clazz",
         construct.base = clazz.superclass = extend;
 
         /*
-          - Store statics/constructor into constructor
+          - Store statics/constructor into constructor/prototype
           - Store correct constructor
         */
-        construct.self = clazz.constructor = clazz;
+        construct.self = clazz.constructor = proto.constructor = clazz;
 
         // Copy property lists (qooxdoo 0.6 properties)
         if (extend.prototype._properties) {
@@ -725,14 +725,12 @@ qx.Clazz.define("qx.Clazz",
 
 
     /**
-     * Include all features of the Mixin into the given clazz.
+     * Include all features of the Mixin into the given class.
      *
      * @type static
      * @param clazz {Clazz} A class previously defined where the mixin should be attached.
      * @param mixin {Mixin} Include all features of this Mixin
      * @param patch {Boolean} Overwrite existing fields, functions and properties
-     * @return {void}
-     * @throws TODOC
      */
     __addMixin : function(clazz, mixin, patch)
     {
@@ -742,7 +740,7 @@ qx.Clazz.define("qx.Clazz",
       }
 
       if (clazz.$$INCLUDES[mixin.name]) {
-        throw new Error('Mixin "' + mixin.name + '" is already included into Class "' + clazz.name + '"!');
+        throw new Error('Mixin "' + mixin.name + '" is already included into Class "' + clazz.classname + '"!');
       }
 
       var superclazz = clazz.superclass;
@@ -774,7 +772,7 @@ qx.Clazz.define("qx.Clazz",
             if (clazz[key] === undefined) {
               clazz[key] = statics[key];
             } else {
-              throw new Error('Overwriting static member "' + key + '" of Class "' + clazz.name + '" by Mixin "' + mixin.name + '" is not allowed!');
+              throw new Error('Overwriting static member "' + key + '" of Class "' + clazz.classname + '" by Mixin "' + mixin.name + '" is not allowed!');
             }
           }
         }
@@ -795,10 +793,10 @@ qx.Clazz.define("qx.Clazz",
         {
           for (var key in properties)
           {
-            if (proto._properties[key]) {
+            if (!proto._properties || !proto._properties[key]) {
               this.__addProperty(clazz, key, properties[key]);
             } else {
-              throw new Error('Overwriting property "' + key + '" of Class "' + clazz.name + '" by Mixin "' + mixin.name + '" is not allowed!');
+              throw new Error('Overwriting property "' + key + '" of Class "' + clazz.classname + '" by Mixin "' + mixin.name + '" is not allowed!');
             }
           }
         }
@@ -821,7 +819,7 @@ qx.Clazz.define("qx.Clazz",
             if (proto[key] === undefined) {
               proto[key] = members[key];
             } else {
-              throw new Error('Overwriting member "' + key + '" of Class "' + clazz.name + '" by Mixin "' + mixin.name + '" is not allowed!');
+              throw new Error('Overwriting member "' + key + '" of Class "' + clazz.classname + '" by Mixin "' + mixin.name + '" is not allowed!');
             }
           }
         }
