@@ -322,7 +322,7 @@ qx.Clazz.define("qx.Clazz",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         // TODO: Polishing
-        var a = qx.lang.Array.copy(clazz.$$INCLUDES || []);
+        var a = qx.lang.Array.copy(clazz.$$includes || []);
         a.push(mixin);
         qx.Mixin.checkCompatibility(a);
       }
@@ -348,7 +348,7 @@ qx.Clazz.define("qx.Clazz",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         // TODO: Polishing
-        var a = qx.lang.Array.copy(clazz.$$INCLUDES || []);
+        var a = qx.lang.Array.copy(clazz.$$includes || []);
         a.push(mixin);
         qx.Mixin.checkCompatibility(a);
       }
@@ -614,9 +614,9 @@ qx.Clazz.define("qx.Clazz",
           throw new Error("The 'events' key can only be used for sub classes of 'qx.core.Target'!");
         }
       }
-      clazz.$$EVENTS = {};
+      clazz.$$events = {};
       for (var i=0; i<events.length; i++) {
-        clazz.$$EVENTS[events[i]] = 1;
+        clazz.$$events[events[i]] = 1;
       }
     },
 
@@ -693,11 +693,11 @@ qx.Clazz.define("qx.Clazz",
     __addInterface : function(clazz, iface)
     {
       // Pre check registry
-      if (!clazz.$$IMPLEMENTS) {
-        clazz.$$IMPLEMENTS = {};
+      if (!clazz.$$implements) {
+        clazz.$$implements = {};
       }
 
-      if (clazz.$$IMPLEMENTS[iface.name]) {
+      if (clazz.$$implements[iface.name]) {
         return;
       }
 
@@ -720,7 +720,7 @@ qx.Clazz.define("qx.Clazz",
       }
 
       // Save interface name
-      clazz.$$IMPLEMENTS[iface.name] = iface;
+      clazz.$$implements[iface.name] = iface;
     },
 
 
@@ -735,11 +735,11 @@ qx.Clazz.define("qx.Clazz",
     __addMixin : function(clazz, mixin, patch)
     {
       // Pre check registry
-      if (!clazz.$$INCLUDES) {
-        clazz.$$INCLUDES = {};
+      if (!clazz.$$includes) {
+        clazz.$$includes = {};
       }
 
-      if (clazz.$$INCLUDES[mixin.name]) {
+      if (clazz.$$includes[mixin.name]) {
         throw new Error('Mixin "' + mixin.name + '" is already included into Class "' + clazz.classname + '"!');
       }
 
@@ -826,7 +826,7 @@ qx.Clazz.define("qx.Clazz",
       }
 
       // Save mixin name
-      clazz.$$INCLUDES[mixin.name] = mixin;
+      clazz.$$includes[mixin.name] = mixin;
     },
 
 

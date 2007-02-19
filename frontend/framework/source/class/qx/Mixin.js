@@ -137,7 +137,7 @@ qx.Clazz.define("qx.Mixin",
      * @return {Boolean} whether the class includes the mixin.
      */
     hasMixin: function(clazz, mixin) {
-    	return (clazz.$$INCLUDES[mixin.name] ? true : false);
+    	return (clazz.$$includes[mixin.name] ? true : false);
     },
 
 
