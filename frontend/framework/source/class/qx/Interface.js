@@ -90,11 +90,10 @@ qx.Clazz.define("qx.Interface",
         this.__validateConfig(name, config);
       }
 
-      var iface = this.__createInterface(name, config.statics, config.members);
+      var iface = this.__createInterface(name, config);
 
       this.__processProperties(iface, config.properties);
-      this.__checkStatics(name, config.statics);
-      this.__processExtends(iface, config.extend);
+      this.__checkStatics(name, iface.statics);
     },
 
 
@@ -114,8 +113,6 @@ qx.Clazz.define("qx.Interface",
      * Determine if Interface exists
      *
      * @type static
-     * @name isDefined
-     * @access public
      * @param name {String} Interface name to check
      * @return {Boolean} true if Interface exists
      */
@@ -128,15 +125,15 @@ qx.Clazz.define("qx.Interface",
      * Whether a given class implements an interface.
      *
      * @param clazz {Class} class to check
-     * @param vInterface {Interface} the interface to check for
+     * @param iface {Interface} the interface to check for
      * @return {Boolean} whether the class implements the interface
      */
-    hasInterface: function(clazz, vInterface)
+    hasInterface: function(clazz, iface)
     {
       var clazz = clazz.constructor || clazz;
 
       try {
-        this.assertInterface(clazz, vInterface, false);
+        this.assertInterface(clazz, iface, false);
       } catch (e) {
         return false;
       }
@@ -169,37 +166,56 @@ qx.Clazz.define("qx.Interface",
       // do the full check
 
       // Validate members
-      var interfaceMembers = vInterface.members;
       var prot = clazz.prototype;
 
-      for (var key in interfaceMembers)
-      {
+      this.__membersIterator(vInterface, function(key, member) {
         if (typeof prot[key] != "function") {
           throw new Error('Implementation of method "' + key + '" is missing in Class "' + clazz.classname + '" required by interface "' + vInterface.name + '"');
         }
-        if (wrap && typeof(interfaceMembers[key]) == "function") {
-          prot[key] = this.__wrapFunctionWithPrecondition(vInterface.name, prot[key], key, interfaceMembers[key]);
+        if (wrap && typeof(member) == "function") {
+          prot[key] = qx.Interface.__wrapFunctionWithPrecondition(vInterface.name, prot[key], key, member);
         }
-      }
+      });
 
       // Validate statics
-      var interfaceStatics = vInterface.statics;
-      for (var key in interfaceStatics)
-      {
-        if (typeof(interfaceStatics[key]) == "function") {
+      this.__staticsIterator(vInterface, function(key, vStatic) {
+        if (typeof vStatic == "function") {
           if (typeof clazz[key] != "function") {
             throw new Error('Implementation of static method "' + key + '" is missing in Class "' + clazz.classname + '" required by interface "' + vInterface.name + '"');
           }
           if (wrap) {
-            clazz[key] = this.__wrapFunctionWithPrecondition(vInterface.name, clazz[key], key, interfaceStatics[key]);
+            clazz[key] = qx.Interface.__wrapFunctionWithPrecondition(vInterface.name, clazz[key], key, vStatic);
           }
         }
-      }
+      });
 
-      clazz.$$implements[vInterface.name] = vInterface;
+      this.__extendsIterator(vInterface, function(iface) {
+        clazz.$$implements[iface.name] = iface;      
+      });
     },
 
 
+    /**
+     * Copy all primitive static fields of the interface (including inherited fields)
+     * from the interface to the statics of the given class.
+     * 
+     * @param clazz {Class} Class to attach the statics to
+     * @param iface {Interface} Interface to copy the statics from
+     * @param forceOverwrite {Boolean?false} whether existing fields should be overwritten.
+     */
+    copyPrimitiveStaticFields: function(clazz, iface, forceOverwrite) 
+    {
+      this.__staticsIterator(iface, function(name, vStatic) {
+        // Attach statics
+        // Validation is done in qx.Interface
+        if (typeof (vStatic) != "function") {
+          if (!forceOverwrite && clazz[name]) {
+            throw new Error('Overwriting static member "' + name + '" of Class "' + clazz.classname + '" by interface "' + iface.name + '" is not allowed!');            
+          }
+          clazz[name] = vStatic;
+        }
+      });
+    },
 
 
     /*
@@ -289,14 +305,13 @@ qx.Clazz.define("qx.Interface",
      * Creates an interface.
      *
      * @param name {String} Full name of the interface
-     * @param members {Map} Map of members of the mixin
-     * @param statics {Map} Map of statics of the of the mixin
+     * @param config {Map} Interface definition map
      * @return {Interface} The resulting interface
      */
-    __createInterface : function(name, statics, members)
+    __createInterface : function(name, config)
     {
       // Initialize the interface
-      var interf = {};
+      var interf = config;
 
       // Create namespace
       var basename = qx.Clazz.createNamespace(name, interf, false);
@@ -308,9 +323,13 @@ qx.Clazz.define("qx.Interface",
       interf.isInterface = true;
       interf.name = name;
       interf.basename = basename;
-      interf.blacklist = {};
-      interf.statics = statics || {};
-      interf.members = members || {};
+      interf.statics = interf.statics || {};
+      interf.members = interf.members || {};
+
+    	if (interf.extend && !(interf.extend instanceof Array)) {
+       	interf.extend = [ interf.extend ];
+     	}
+      interf.extend = interf.extend || [];      
 
       return interf;
     },
@@ -331,7 +350,7 @@ qx.Clazz.define("qx.Interface",
           for (var key in properties) {
             var getterName = "get" + qx.lang.String.toFirstUp(key);
             var setterName = "set" + qx.lang.String.toFirstUp(key);
-            interf.members[getterName] = interf.members[setterName] = function() {};
+            interf.members[getterName] = interf.members[setterName] = function() { return true; };
           }
         }
       }
@@ -366,63 +385,53 @@ qx.Clazz.define("qx.Interface",
 
 
     /**
-     * Import mebers, statics from the inherited interfaces
-     *
-     * @param interf {Interface} the target interface
-     * @param extend {Interface[]} List of interfaces to import
+     * Iterate over all members of the interface and it's inherited interfaces
+     * 
+     * @param iface {Interface} the Interface to iterate over
+     * @param callback {Function} function(memberName, member) is called for every member
      */
-    __processExtends: function(interf, extend)
+    __membersIterator: function(iface, callback)
     {
-      if (extend)
-      {
-      	if (!(extend instanceof Array)) {
-        	extend = [ extend ];
-       	}
-
-        for (var i=0; i<extend.length; i++)
-        {
-          // Combine blacklist
-          var eblacklist = extend[i].blacklist;
-
-          for (var key in eblacklist) {
-            interf.blacklist[key] = true;
-          }
-
-          // Copy members (instance verification)
-          var emembers = extend[i].members;
-
-          for (var key in emembers) {
-            interf.members[key] = emembers[key];
-          }
-        }
-
-        // Separate loop because we must
-        // be sure that the blacklist is correct
-        // before proceding with copying of statics
-        for (var i=0, l=extend.length; i<l; i++)
-        {
-          var estatics = extend[i].statics;
-
-          // Copy constants etc.
-          for (var key in estatics)
-          {
-            if (key in eblacklist) {
-              continue;
-            }
-
-            // Already in? Mark it in the blacklist and delete old entry
-            if (key in interf.statics)
-            {
-              delete interf.statics[key];
-              interf.blacklist[key] = true;
-              continue;
-            }
-
-            // Finally copy entry
-            interf.statics[key] = estatics[key];
-          }
-        }
+      for (memberName in iface.members) {
+        callback(memberName, iface.members[memberName]);
       }
-    }
+      for (var i=0; i<iface.extend.length; i++) {
+        this.__membersIterator(iface.extend[i], callback);
+      }
+    },
+    
+
+    /**
+     * Iterate over all statics of the interface and it's inherited interfaces
+     * 
+     * @param iface {Interface} the Interface to iterate over
+     * @param callback {Function} function(memberName, member) is called for every static
+     */
+    __staticsIterator: function(iface, callback)
+    {
+      for (staticName in iface.statics) {
+        callback(staticName, iface.statics[staticName]);
+      }
+      for (var i=0; i<iface.extend.length; i++) {
+        this.__staticsIterator(iface.extend[i], callback);
+      }
+    },
+    
+
+    /**
+     * Call a callback on the interface and recursively all interfaces the interface extends.
+     * 
+     * @param iface {Interface} the Interface to iterate over
+     * @param callback {Function} function(interface) is called for every interface
+     */    
+    __extendsIterator: function(iface, callback)
+    {
+      callback(iface);
+      
+      for (var i=0; i<iface.extend.length; i++) {
+        this.__extendsIterator(iface.extend[i], callback);
+      }
+    }    
+
   }
 });

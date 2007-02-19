@@ -14,14 +14,13 @@ qx.Clazz.define("qxunit.test.core.Target", {
 			var target = new qxunit.Event();
 			target.addEventListener("click", function() {});
 			
-			var error = false;
+			var error = "";
 			try {
 				target.addEventListener("blur", function() {});				
 			} catch (e) {
-				error = true;
+				error = e;
 			}
-			this.assertTrueDebugOn(error);
-		
+			this.assertMatchDebugOn(error.toString(), "do not support the event");
 		}
 	}
 	
