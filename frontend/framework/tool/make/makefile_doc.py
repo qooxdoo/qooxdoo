@@ -1,7 +1,70 @@
-#!/usr/bin/python
+#!/usr/bin/env python
+################################################################################
+#                                                                               
+#  qooxdoo - the new era of web development                                     
+#                                                                               
+#  http://qooxdoo.org                                                           
+#                                                                               
+#  Copyright:                                                                   
+#    2006-2007 1&1 Internet AG, Germany, http://www.1and1.org                   
+#                                                                               
+#  License:                                                                     
+#    LGPL: http://www.gnu.org/licenses/lgpl.html                                
+#    EPL: http://www.eclipse.org/org/documents/epl-v10.php                      
+#    See the LICENSE file in the project's top-level directory for details.     
+#                                                                               
+#  Authors:                                                                     
+#    * Thomas Herchenroeder (thron7)
+#                                                                               
+################################################################################
 
-# usage: makefile_doc.py  <file>
-#  -- as data structure
+##
+# NAME
+#  makefile_doc.py  -- extract information from qooxdoo Makefiles for
+#                      documentation
+#
+# SYNTAX
+#  makefile_doc.py  <name>.mk
+#
+#
+# DESCRIPTION
+#  Extracts documentation from qooxdoo Makefiles, to be included in qooxdoo
+#  documenation.
+#
+#  The makefile contents is parsed into a structured representation consisting
+#  of parts, sections, variables and includes. A part is signified by a comment
+#  block enclosed by hash lines ("#....#"), a section by a comment block without
+#  these lines. Sections are nested in parts, variables and includes can appear
+#  both on the part level as well as the section level.
+#
+#  Here is a more formal description of the expected Makefile format (This
+#  description uses Perl Regexp to express string literals and multiplicity):
+#
+#    makefile ::= {part}+
+#    part     ::= pdescr {section|var|incl}
+#    pdescr   ::= "^#{60,}$" {comment}+ "^#{60,}$"
+#    comment  ::= "^#.*"
+#    section  ::= sdescr {var|incl}
+#    sdescr   ::= {comment}+
+#    var      ::= <name> "=" default
+#    default  ::= "" | <string>
+#    incl     ::= "include" <path>
+#
+#  The current output is XML. To include the extracted information in the
+#  DokuWiki documentation, run the output through an XSLT processor using the
+#  'makefile_doc.xsl transformation file (see EXAMPLES).
+#
+#
+# EXAMPLES
+#  python makefile_doc.py application.mk | xsltproc makefile_doc.xsl > mak.out
+#
+#
+# CAVEATES
+#  - Currently only tested with 'application.mk'
+#  - The standard qooxdoo file header "qooxdoo - the new era of web development
+#    ..." is included. If you don't like this, you have to strip this section
+#    from the output by hand.
+##
 
 import sys
 import re
