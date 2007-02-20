@@ -90,14 +90,17 @@ qx.Clazz.define("qx.Mixin",
         var mixin = {};
       }
 
+      // Add basics
       mixin.isMixin = true;
       mixin.name = name;
+
+      // Assign to namespace
       mixin.basename = qx.Clazz.createNamespace(name, mixin);
 
       // Store class reference in global mixin registry
       this.__registry[name] = mixin;
 
-      // Return final class object
+      // Return final Mixin
       return mixin;
     },
 
@@ -136,8 +139,42 @@ qx.Clazz.define("qx.Mixin",
      * @param mixin {Mixin} the mixin to check for
      * @return {Boolean} whether the class includes the mixin.
      */
-    hasMixin: function(clazz, mixin) {
-    	return (clazz.$$includes[mixin.name] ? true : false);
+    hasOwnMixin: function(clazz, mixin)
+    {
+      if (!clazz.$$includes) {
+        return false;
+      }
+
+    	return clazz.$$includes[mixin.name] ? true : false;
+    },
+
+
+    /**
+     * Whether a given class includes a mixin (recursive).
+     *
+     * @type static
+     * @param clazz {Class} class to check
+     * @param mixin {Mixin} the mixin to check for
+     * @return {Boolean} whether the class includes the mixin.
+     */
+    hasMixin: function(clazz, mixin)
+    {
+      if (!clazz.$$includes) {
+        return false;
+      }
+
+      if (clazz.$$includes[mixin.name]) {
+        return true;
+      }
+
+      for (var key in clazz.$$includes)
+      {
+        if (qx.Mixin.hasMixin(clazz, clazz.$$includes[key])) {
+          return true;
+        }
+      }
+
+      return false;
     },
 
 
@@ -184,23 +221,26 @@ qx.Clazz.define("qx.Mixin",
         }
       }
 
-      if (config.include instanceof Array)
-      {
-        for (var i=0; i<config.include.length; i++) {
-          if (!config.include[i].isMixin) {
-            throw new Error("Includes of mixins must be mixins. Include number '"+i+"' in mixin '"+name+"'is not a mixin!");
-          }
-        }
-      } else if (config.include && !config.include.isMixin) {
-        throw new Error("Includes of mixins must be mixins. The include in mixin '"+name+"' is not a mixin!");        
-      }
-
       if (config.include)
       {
-        if (config.include.isMixin) {
-          this.__checkCompatibility(config.include);
-        } else {
+        if (config.include instanceof Array)
+        {
+          for (var i=0; i<config.include.length; i++)
+          {
+            if (!config.include[i].isMixin) {
+              throw new Error("Includes of Mixins must be Mixins. Include number '" + i + "' in mixin '"+name + "'is not a Mixin!");
+            }
+          }
+
           this.__checkCompatibility.apply(this, config.include);
+        }
+        else if (!config.include.isMixin)
+        {
+          throw new Error("Includes of Mixins must be Mixins. The include in Mixin '" + name + "' is not a Mixin!");
+        }
+        else
+        {
+          this.__checkCompatibility(config.include);
         }
       }
     },
