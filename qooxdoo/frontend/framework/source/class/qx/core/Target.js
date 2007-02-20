@@ -86,7 +86,7 @@ qx.Proto.addEventListener = function(vType, vFunction, vObject)
 {
 	if (qx.core.Variant.isSet("qx.debug", "on")) {
 		if (!this.supportsEvent(vType)) {
-			throw new Error("Objects of class '"+this.constructor.classname+"' do not support the event '"+ vType +"'");
+			throw new Error("Objects of class '"+this.constructor.name+"' do not support the event '"+ vType +"'");
 		}
 	}
   

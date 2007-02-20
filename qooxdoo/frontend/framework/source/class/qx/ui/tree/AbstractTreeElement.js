@@ -29,7 +29,7 @@
 qx.OO.defineClass("qx.ui.tree.AbstractTreeElement", qx.ui.layout.BoxLayout,
 function(vLabel, vIcon, vIconSelected)
 {
-  if (this.classname == qx.ui.tree.AbstractTreeElement.ABSTRACT_CLASS) {
+  if (this.name == qx.ui.tree.AbstractTreeElement.ABSTRACT_CLASS) {
     throw new Error("Please omit the usage of qx.ui.tree.AbstractTreeElement directly. Choose between qx.ui.tree.TreeFolder and qx.ui.tree.TreeFile instead!");
   }
 

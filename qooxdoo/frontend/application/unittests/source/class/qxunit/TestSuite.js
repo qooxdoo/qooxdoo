@@ -45,13 +45,13 @@ qx.Clazz.define("qxunit.TestSuite", {
 			if (qx.Clazz.isSubClassOf(clazz, qxunit.TestCase))
 			{
 				var proto = clazz.prototype;
-				var classname = clazz.classname;
-				this.__testClassNames.push(classname);
+				var name = clazz.name;
+				this.__testClassNames.push(name);
 				
 				for (var test in proto) {
 					if (proto.hasOwnProperty(test)) {
 			            if (typeof(proto[test]) == "function" && test.indexOf("test") == 0) {
-							var testFunctionName = "$test_" + classname.replace(".", "_") + "_" + test;
+							var testFunctionName = "$test_" + name.replace(".", "_") + "_" + test;
 							this.__testFunctions[testFunctionName] = this.__createTestFunctionWrapper(clazz, test);
 						}
 					}
@@ -60,7 +60,7 @@ qx.Clazz.define("qxunit.TestSuite", {
 		},
 		
 		addTestNamespace: function(namespace) {
-			if (typeof(namespace) == "function" && namespace.classname) {
+			if (typeof(namespace) == "function" && namespace.name) {
 				this.addTestClass(namespace);
 				return;
 			} else if (typeof(namespace) == "object" && !(namespace instanceof Array)) {

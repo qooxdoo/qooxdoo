@@ -308,8 +308,8 @@ qx.Class.getClassLogger = function(clazz) {
   var logger = clazz._logger;
   if (logger == null) {
     // Get the parent logger
-    var classname = clazz.classname;
-    var splits = classname.split(".");
+    var name = clazz.name;
+    var splits = name.split(".");
     var currPackage = window;
     var currPackageName = "";
     var parentLogger = qx.log.Logger.ROOT_LOGGER;
@@ -325,7 +325,7 @@ qx.Class.getClassLogger = function(clazz) {
     }
 
     // Create the class logger
-    logger = new qx.log.Logger(classname, parentLogger);
+    logger = new qx.log.Logger(name, parentLogger);
     clazz._logger = logger;
   }
   return logger;
