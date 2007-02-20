@@ -284,7 +284,7 @@ qx.Clazz.define("qx.Interface",
         var properties = iface.properties;
         if (properties)
         {
-          var clazzproperties = clazz.prototype._properties;
+          var clazzproperties = clazz.prototype.$$properties;
 
           for (var key in properties)
           {

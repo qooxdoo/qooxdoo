@@ -363,8 +363,8 @@ qx.Clazz.define("qx.core.LegacyProperty",
       var valueKey = "_value" + config.method;
 
       // Remove property list entries
-      delete proto._properties[config.name];
-      delete proto._objectproperties[config.name];
+      delete proto.$$properties[config.name];
+      delete proto.$$objectproperties[config.name];
 
       // Reset default value to null
       proto[valueKey] = null;
@@ -705,20 +705,20 @@ qx.Clazz.define("qx.core.LegacyProperty",
       }
 
       // register property
-      if (proto._properties === undefined)
+      if (proto.$$properties === undefined)
       {
-        proto._properties = {};
-        proto._objectproperties = {};
+        proto.$$properties = {};
+        proto.$$objectproperties = {};
       }
 
-      if (proto._properties[config.name] === undefined)
+      if (proto.$$properties[config.name] === undefined)
       {
         // add property to property list
-        proto._properties[config.name] = true;
+        proto.$$properties[config.name] = true;
 
         // add property to object property list (for disposer)
         if (config.dispose) {
-          proto._objectproperties[config.name] = true;
+          proto.$$objectproperties[config.name] = true;
         }
         else
         {
@@ -726,7 +726,7 @@ qx.Clazz.define("qx.core.LegacyProperty",
           {
             case "object":
             case "function":
-              proto._objectproperties[config.name] = true;
+              proto.$$objectproperties[config.name] = true;
           }
         }
       }

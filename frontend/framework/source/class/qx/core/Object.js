@@ -515,7 +515,7 @@ qx.Clazz.define("qx.core.Object",
       }
 
       // Disposable properties
-      var disposeProps = this._objectproperties;
+      var disposeProps = this.$$objectproperties;
 
       // NextGen property stuff
       this._user_values_ng = null;
@@ -525,8 +525,8 @@ qx.Clazz.define("qx.core.Object",
       this._properties_init_ng = null;
 
       // OldGen property stuff
-      this._properties = null;
-      this._objectproperties = null;
+      this.$$properties = null;
+      this.$$objectproperties = null;
 
       // Finally cleanup properties
       if (disposeProps)

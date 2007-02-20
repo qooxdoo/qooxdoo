@@ -109,12 +109,12 @@ qx.Clazz.define("qx.OO",
         qx.Proto.constructor = vConstructor;
 
         // Copy property lists
-        if (vSuper.prototype._properties) {
-          qx.Proto._properties = qx.lang.Object.copy(vSuper.prototype._properties);
+        if (vSuper.prototype.$$properties) {
+          qx.Proto.$$properties = qx.lang.Object.copy(vSuper.prototype.$$properties);
         }
 
-        if (vSuper.prototype._objectproperties) {
-          qx.Proto._objectproperties = qx.lang.Object.copy(vSuper.prototype._objectproperties);
+        if (vSuper.prototype.$$objectproperties) {
+          qx.Proto.$$objectproperties = qx.lang.Object.copy(vSuper.prototype.$$objectproperties);
         }
       }
 
