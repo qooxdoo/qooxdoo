@@ -1059,7 +1059,8 @@ qx.Clazz.define("qx.Clazz",
           // Firefox and Webkit define arguments.callee.caller
           var caller = arguments.caller ? arguments.caller.callee : arguments.callee.caller;
           if (!qx.Clazz.isSubClassOf(caller.self, clazz)) {
-            throw new Error("Protected method '"+name+"' of class '"+clazz.classname+"' called!");
+            var callerName = caller.self ? caller.self.classname : caller.toString();
+            throw new Error("Protected method '"+name+"' of class '"+clazz.classname+"' called from '" + callerName + "'!");
           }
           return method.apply(this, arguments);
         };
