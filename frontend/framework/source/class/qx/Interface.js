@@ -330,8 +330,8 @@ qx.Clazz.define("qx.Interface",
     },
 
     /**
-     * Checks if an interface given exists somewhere in this object including
-     * inheritance inside the interfaces themselve.
+     * Checks if an interface given exists somewhere in this class
+     * including inheritance of the interfaces.
      *
      * @param map {Map} Map of known interface names
      * @param iface {Interface} Interface to check (recursively)
@@ -346,8 +346,7 @@ qx.Clazz.define("qx.Interface",
       var extend = iface.extend;
       if (extend)
       {
-        if (extend.isInterface)
-        {
+        if (extend.isInterface) {
           return this.__hasInterfaceRecurser(map, extend);
         }
         else
