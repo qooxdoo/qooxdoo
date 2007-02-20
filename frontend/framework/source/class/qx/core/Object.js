@@ -226,10 +226,10 @@ qx.Clazz.define("qx.core.Object",
 
         if (vObject && vObject.__disposed === false)
         {
-          if (vData[vObject.classname] == null) {
-            vData[vObject.classname] = 1;
+          if (vData[vObject.name] == null) {
+            vData[vObject.name] = 1;
           } else {
-            vData[vObject.classname]++;
+            vData[vObject.name]++;
           }
 
           vCounter++;
@@ -242,7 +242,7 @@ qx.Clazz.define("qx.core.Object",
       {
         vArrData.push(
         {
-          classname : vClassName,
+          name : vClassName,
           number    : vData[vClassName]
         });
       }
@@ -254,7 +254,7 @@ qx.Clazz.define("qx.core.Object",
       var vMsg = "Summary: (" + vCounter + " Objects)\n\n";
 
       for (var i=0; i<vArrData.length; i++) {
-        vMsg += vArrData[i].number + ": " + vArrData[i].classname + "\n";
+        vMsg += vArrData[i].number + ": " + vArrData[i].name + "\n";
       }
 
       return vMsg;
@@ -334,8 +334,8 @@ qx.Clazz.define("qx.core.Object",
      */
     toString : function()
     {
-      if (this.classname) {
-        return "[object " + this.classname + "]";
+      if (this.name) {
+        return "[object " + this.name + "]";
       }
 
       return "[object Object]";

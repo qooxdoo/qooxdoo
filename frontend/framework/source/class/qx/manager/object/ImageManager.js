@@ -92,18 +92,18 @@ qx.OO.addProperty({ name : "widgetTheme", type : "object", instance : "qx.render
 
 qx.Proto.registerIconTheme = function(vThemeClass)
 {
-  this._iconThemes[vThemeClass.classname] = vThemeClass;
+  this._iconThemes[vThemeClass.name] = vThemeClass;
 
-  if (vThemeClass.classname == qx.core.Setting.get("qx.iconTheme")) {
+  if (vThemeClass.name == qx.core.Setting.get("qx.iconTheme")) {
     this.setIconTheme(vThemeClass.getInstance());
   }
 }
 
 qx.Proto.registerWidgetTheme = function(vThemeClass)
 {
-  this._widgetThemes[vThemeClass.classname] = vThemeClass;
+  this._widgetThemes[vThemeClass.name] = vThemeClass;
 
-  if (vThemeClass.classname == qx.core.Setting.get("qx.widgetTheme")) {
+  if (vThemeClass.name == qx.core.Setting.get("qx.widgetTheme")) {
     this.setWidgetTheme(vThemeClass.getInstance());
   }
 }

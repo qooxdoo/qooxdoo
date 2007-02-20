@@ -36,8 +36,8 @@
  * following keys attached to the constructor and the prototype:
  *
  * <table>
- * <tr><th>classname</th><td>The fully qualified name of the class (e.g. "qx.ui.core.Widget").</td></tr>
- * <tr><th>basename</th><td>The namspace part of the class name (e.g. "qx.ui.core").</td></tr>
+ * <tr><th>name</th><td>The fully qualified name of the class (e.g. "qx.ui.core.Widget").</td></tr>
+ * <tr><th>basename</th><td>The last part of the class name (e.g. "Widget").</td></tr>
  * <tr><th>superclass</th><td>A pointer to the constructor of the super class.</td></tr>
  * <tr><th>constructor</th><td>A pointer to the constructor of the class.</td></tr>
  * </table>
@@ -141,9 +141,20 @@ qx.Clazz.define("qx.Clazz",
       // Create class
       var clazz = this.__createClass(name, config.type, config.extend, config.construct, config.statics);
 
-      // Members, Properties, Events and Mixins are not available in static classes
+      // Members, properties, events and mixins are not available in static classes
       if (config.extend)
       {
+        // Copy known interfaces and mixins
+        if (config.extend.$$includes) {
+          clazz.$$includes = qx.lang.Object.copy(config.extend.$$includes);
+          console.log('Copy ' + qx.lang.Object.getLength(config.extend.$$includes) + ' includes from "' + config.extend.name + '" to "' + name + '"');
+        }
+
+        if (config.extend.$$implements) {
+          clazz.$$implements = qx.lang.Object.copy(config.extend.$$implements);
+          console.log('Copy ' + qx.lang.Object.getLength(config.extend.$$implements) + ' implements from "' + config.extend.name + '" to "' + name + '"');
+        }
+
         // Attach members
         if (config.members) {
           this.__addMembers(clazz, config.members);
@@ -204,8 +215,8 @@ qx.Clazz.define("qx.Clazz",
         {
           if (qx.core.Variant.isSet("qx.debug", "on"))
           {
-            if (key.substr(0, key.indexOf(".")) != clazz.classname.substr(0, clazz.classname.indexOf("."))) {
-              throw new Error('Forbidden setting "' + key + '" found in "' + clazz.classname + '". It is forbidden to define a default setting for an external namespace!');
+            if (key.substr(0, key.indexOf(".")) != clazz.name.substr(0, clazz.name.indexOf("."))) {
+              throw new Error('Forbidden setting "' + key + '" found in "' + clazz.name + '". It is forbidden to define a default setting for an external namespace!');
             }
           }
 
@@ -220,8 +231,8 @@ qx.Clazz.define("qx.Clazz",
         {
           if (qx.core.Variant.isSet("qx.debug", "on"))
           {
-            if (key.substr(0, key.indexOf(".")) != clazz.classname.substr(0, clazz.classname.indexOf("."))) {
-              throw new Error('Forbidden variant "' + key + '" found in "' + clazz.classname + '". It is forbidden to define a variant for an external namespace!');
+            if (key.substr(0, key.indexOf(".")) != clazz.name.substr(0, clazz.name.indexOf("."))) {
+              throw new Error('Forbidden variant "' + key + '" found in "' + clazz.name + '". It is forbidden to define a variant for an external namespace!');
             }
           }
 
@@ -248,7 +259,7 @@ qx.Clazz.define("qx.Clazz",
      * @type static
      * @param name {String} The namespace including the last (class) name
      * @param object {Object} The data to attach to the namespace
-     * @return {Object} last part of the namespace (e.g. classname)
+     * @return {Object} last part of the namespace (e.g. name)
      * @throws TODOC
      */
     createNamespace : function(name, object)
@@ -277,7 +288,7 @@ qx.Clazz.define("qx.Clazz",
       // store object
       parent[part] = object;
 
-      // return last part name (e.g. classname)
+      // return last part name (e.g. name)
       return part;
     },
 
@@ -543,7 +554,7 @@ qx.Clazz.define("qx.Clazz",
       var basename = this.createNamespace(name, clazz, false);
 
       // Store names in constructor/object
-      clazz.classname = name;
+      clazz.name = name;
       clazz.basename = basename;
 
       if (extend)
@@ -558,7 +569,7 @@ qx.Clazz.define("qx.Clazz",
         clazz.prototype = proto;
 
         // Store names in prototype
-        proto.classname = name;
+        proto.name = name;
         proto.basename = basename;
 
         /*
@@ -581,8 +592,6 @@ qx.Clazz.define("qx.Clazz",
         if (extend.prototype._objectproperties) {
           proto._objectproperties = qx.lang.Object.copy(extend.prototype._objectproperties);
         }
-
-        // TODO: Copy qooxodo 0.7 properties
 
         // Compatibility to qooxdoo 0.6.x
         // TODO: Remove this before 0.7 final
@@ -625,8 +634,9 @@ qx.Clazz.define("qx.Clazz",
           throw new Error("The 'events' key can only be used for sub classes of 'qx.core.Target'!");
         }
       }
+
       clazz.$$events = {};
-      for (var i=0; i<events.length; i++) {
+      for (var i=0, l=events.length; i<l; i++) {
         clazz.$$events[events[i]] = 1;
       }
     },
@@ -656,7 +666,7 @@ qx.Clazz.define("qx.Clazz",
       } else if (property.compat) {
         legacy.addProperty(property, proto);
       } else if (qx.core.Variant.isSet("qx.debug", "on")) {
-        throw new Error('Could not handle property definition "' + propertyName + '" in clazz "' + clazz.classname + "'");
+        throw new Error('Could not handle property definition "' + propertyName + '" in clazz "' + clazz.name + "'");
       }
     },
 
@@ -707,7 +717,7 @@ qx.Clazz.define("qx.Clazz",
       if (!clazz.$$implements) {
         clazz.$$implements = {};
       } else if (clazz.$$implements[iface.name]) {
-        throw new Error('Interface "' + iface.name + '" is already used by Class "' + clazz.classname + '"!');
+        throw new Error('Interface "' + iface.name + '" is already used by Class "' + clazz.name + '"!');
       }
 
       // Check properties and members
@@ -732,7 +742,7 @@ qx.Clazz.define("qx.Clazz",
       if (!clazz.$$includes) {
         clazz.$$includes = {};
       } else if (clazz.$$includes[mixin.name]) {
-        throw new Error('Mixin "' + mixin.name + '" is already included into Class "' + clazz.classname + '"!');
+        throw new Error('Mixin "' + mixin.name + '" is already included into Class "' + clazz.name + '"!');
       }
 
       // Attach statics, properties and members
@@ -788,7 +798,7 @@ qx.Clazz.define("qx.Clazz",
             if (clazz[key] === undefined) {
               clazz[key] = statics[key];
             } else {
-              throw new Error('Overwriting static member "' + key + '" of Class "' + clazz.classname + '" by Mixin "' + mixin.name + '" is not allowed!');
+              throw new Error('Overwriting static member "' + key + '" of Class "' + clazz.name + '" by Mixin "' + mixin.name + '" is not allowed!');
             }
           }
         }
@@ -811,7 +821,7 @@ qx.Clazz.define("qx.Clazz",
             if (!proto._properties || !proto._properties[key]) {
               this.__addProperty(clazz, key, properties[key]);
             } else {
-              throw new Error('Overwriting property "' + key + '" of Class "' + clazz.classname + '" by Mixin "' + mixin.name + '" is not allowed!');
+              throw new Error('Overwriting property "' + key + '" of Class "' + clazz.name + '" by Mixin "' + mixin.name + '" is not allowed!');
             }
           }
         }
@@ -834,7 +844,7 @@ qx.Clazz.define("qx.Clazz",
             if (proto[key] === undefined) {
               proto[key] = members[key];
             } else {
-              throw new Error('Overwriting member "' + key + '" of Class "' + clazz.classname + '" by Mixin "' + mixin.name + '" is not allowed!');
+              throw new Error('Overwriting member "' + key + '" of Class "' + clazz.name + '" by Mixin "' + mixin.name + '" is not allowed!');
             }
           }
         }
@@ -880,7 +890,7 @@ qx.Clazz.define("qx.Clazz",
       {
         function abstractConstructor()
         {
-          if (this.classname == arguments.callee.$$abstract) {
+          if (this.name == arguments.callee.$$abstract) {
             throw new Error("The class '" + className + "' is abstract! It is not possible to instantiate it.");
           }
 
