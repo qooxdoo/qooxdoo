@@ -219,12 +219,12 @@ qx.Clazz.define("qxunit.test.Interface", {
 			var def = qx.lang.Object.copy(classDef);
 			qx.Clazz.define("qxunit.Implement1", def)
 
-			assertTrue(qx.Interface.hasInterface(qxunit.Implement1, qxunit.IAll));
-			assertTrue(qx.Interface.hasInterface(qxunit.Implement1, qxunit.IMember));
-			assertTrue(qx.Interface.hasInterface(qxunit.Implement1, qxunit.IStatics));
-			assertTrue(qx.Interface.hasInterface(qxunit.Implement1, qxunit.IProperties));
+			this.assertTrue(qx.Interface.hasInterface(qxunit.Implement1, qxunit.IAll));
+			this.assertTrue(qx.Interface.hasInterface(qxunit.Implement1, qxunit.IMember));
+			this.assertTrue(qx.Interface.hasInterface(qxunit.Implement1, qxunit.IStatics));
+			this.assertTrue(qx.Interface.hasInterface(qxunit.Implement1, qxunit.IProperties));
 
-			assertFalse(qx.Interface.hasInterface(qxunit.Implement1, qxunit.IOther));
+			this.assertFalse(qx.Interface.hasInterface(qxunit.Implement1, qxunit.IOther));
 			
 			// no members
 			var def = qx.lang.Object.copy(classDef);
@@ -248,7 +248,7 @@ qx.Clazz.define("qxunit.test.Interface", {
 			}, Error, "Implementation of method");				
 			
 			// check copying of static fields
-			assertEquals(3.14, qxunit.Implement1.PI);
+			this.assertEquals(3.14, qxunit.Implement1.PI);
 
 			var def = qx.lang.Object.copy(classDef);			
 			def.statics.PI = 4;

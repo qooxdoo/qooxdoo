@@ -324,11 +324,17 @@ qx.Clazz.define("qx.Interface",
     {
       return function()
       {
-        if (!preCondition.apply(this, arguments)) {
-          throw new Error('Pre condition of method "' + functionName + '" defined by "' + ifaceName + '" failed.');
-        }
+        wrappedFunction = function()
+        {
+          if (!preCondition.apply(this, arguments)) {
+            throw new Error('Pre condition of method "' + functionName + '" defined by "' + interfaceName + '" failed.');
+          }
 
-        return origFunction.apply(this, arguments);
+          return origFunction.apply(this, arguments);
+        }
+        // set self to keep private members working
+        wrappedFunction.self = origFunction.self;
+        return wrappedFunction;
       }
     },
 
