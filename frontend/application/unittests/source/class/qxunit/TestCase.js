@@ -33,11 +33,10 @@ qx.Clazz.define("qxunit.TestCase", {
 		},
 		
 		assertMatch: function(str, re, msg) {
-			var msg = msg || "The String '"+str+"' does not match the regular expression '"+re.toString()+"'!"
-			this.assertTrue(str.search(re) >= 0 ? true : false, msg);
+			this.__assert(str.search(re) >= 0 ? true : false, msg || "", "The String '"+str+"' does not match the regular expression '"+re.toString()+"'!");
 		},
 		
-		assertException: function(callback, exception, re) {
+		assertException: function(callback, exception, re, msg) {
 			var exception = exception || Error;
 			var error;
 			try {
@@ -46,11 +45,11 @@ qx.Clazz.define("qxunit.TestCase", {
 				error = e;
 			}
 			if (error == null) {
-				this.fail("The function did not raise an exception!");
+				this.__assert(false, msg || "", "The function did not raise an exception!");	
 			}
-			this.assertTrue(error instanceof exception, "The raised exception does not have the expected type!");
+			this.__assert(error instanceof exception, msg || "", "The raised exception does not have the expected type!");
 			if (re) {
-				this.assertMatch(error.toString(), re);
+				this.assertMatch(error.toString(), re, msg);
 			}
 		},
 		
