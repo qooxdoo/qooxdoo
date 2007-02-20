@@ -71,11 +71,12 @@ def space(force=True):
   global pretty
   global afterLine
   global afterBreak
+  global afterDoc
 
   if not force and not pretty:
     return
 
-  if afterBreak or afterLine or result.endswith(" ") or result.endswith("\n"):
+  if afterDoc or afterBreak or afterLine or result.endswith(" ") or result.endswith("\n"):
     return
 
   result += " "
@@ -88,6 +89,7 @@ def write(txt=""):
   global breaks
   global afterLine
   global afterBreak
+  global afterDoc
   global afterDivider
   global afterArea
 
@@ -101,6 +103,8 @@ def write(txt=""):
       nr = 5
     elif afterDivider:
       nr = 5
+    elif afterDoc:
+      nr = 3
     elif afterBreak:
       nr = 2
     elif afterLine:
@@ -112,12 +116,13 @@ def write(txt=""):
       result += "\n"
 
   elif breaks and not result.endswith("\n"):
-    if afterArea or afterDivider or afterBreak or afterLine:
+    if afterArea or afterDivider or afterDoc or afterBreak or afterLine:
       result += "\n"
 
   # reset
   afterLine = False
   afterBreak = False
+  afterDoc = False
   afterDivider = False
   afterArea = False
 
@@ -144,6 +149,11 @@ def sep():
   afterBreak = True
 
 
+def doc():
+  global afterDoc
+  afterDoc = True
+
+
 def nosep():
   global afterBreak
   afterBreak = False
@@ -159,11 +169,13 @@ def noline():
   global afterBreak
   global afterDivider
   global afterArea
+  global afterDoc
 
   afterLine = False
   afterBreak = False
   afterDivider = False
   afterArea = False
+  afterDoc = False
 
 
 def plus():
@@ -261,6 +273,7 @@ def compile(node, enablePretty=True, enableBreaks=False, enableDebug=False):
   global breaks
   global afterLine
   global afterBreak
+  global afterDoc
   global afterDivider
   global afterArea
 
@@ -271,6 +284,7 @@ def compile(node, enablePretty=True, enableBreaks=False, enableDebug=False):
   breaks = enableBreaks
   afterLine = False
   afterBreak = False
+  afterDoc = False
   afterDivider = False
   afterArea = False
 
@@ -359,7 +373,7 @@ def compileNode(node):
 
         elif not isFirst:
           if docComment:
-            divide()
+            doc()
           else:
             sep()
 
