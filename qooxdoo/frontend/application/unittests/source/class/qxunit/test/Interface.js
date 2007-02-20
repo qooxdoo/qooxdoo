@@ -130,7 +130,6 @@ qx.Clazz.define("qxunit.test.Interface", {
 
 			// invalid usage		
 			this.assertExceptionDebugOn(function() {
-				debugger;
 				a.add(b,b);
 			}, Error, "Pre condition of method");
 		
@@ -203,14 +202,14 @@ qx.Clazz.define("qxunit.test.Interface", {
 			delete(def.members);
 			this.assertExceptionDebugOn(function() {
 				qx.Clazz.define("qxunit.Implement2", def)
-			}, Error, "Implementation of method");
+			}, Error, "Implementation of method", "No members defined.");
 			
 			// no properties
 			var def = qx.lang.Object.copy(classDef);
 			delete(def.properties);
 			this.assertExceptionDebugOn(function() {
 				qx.Clazz.define("qxunit.Implement4", def)
-			}, Error, "Implementation of method");				
+			}, Error, new RegExp("property .* is not supported"), "No properties defined.");
 			
 		}
 	}
