@@ -5355,7 +5355,7 @@ qx.Proto.clone = function(cloneRecursive, customPropertyList)
   var propertyIngoreList = this._clonePropertyIgnoreList.split(",");
 
   // Build new filtered property list
-  var sourcePropertyList = customPropertyList != null ? customPropertyList : this._properties.split(",");
+  var sourcePropertyList = customPropertyList != null ? customPropertyList : this.$$properties.split(",");
   var sourcePropertyListLength = sourcePropertyList.length-1;
   do {
     propertyName = sourcePropertyList[sourcePropertyListLength];
