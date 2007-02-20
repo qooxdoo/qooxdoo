@@ -58,7 +58,7 @@ qx.Clazz.define("qx.lang.Core", {});
 ---------------------------------------------------------------------------
 */
 
-if (!Error.prototype.toString)
+if (!Error.prototype.toString || Error.prototype.toString() == "[object Error]")
 {
   /**
    * Some browsers (e.g. Internet Explorer) do not support to stringify
