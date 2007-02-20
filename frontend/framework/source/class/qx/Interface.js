@@ -284,7 +284,7 @@ qx.Clazz.define("qx.Interface",
         var properties = iface.properties;
         if (properties)
         {
-          var clazzproperties = clazz.prototype.$$properties;
+          var clazzproperties = clazz.prototype.$$properties || {};
 
           for (var key in properties)
           {
@@ -322,20 +322,17 @@ qx.Clazz.define("qx.Interface",
      */
     __wrapInterfaceMember : function(ifaceName, origFunction, functionName, preCondition)
     {
-      return function()
+      wrappedFunction = function()
       {
-        wrappedFunction = function()
-        {
-          if (!preCondition.apply(this, arguments)) {
-            throw new Error('Pre condition of method "' + functionName + '" defined by "' + interfaceName + '" failed.');
-          }
-
-          return origFunction.apply(this, arguments);
+        if (!preCondition.apply(this, arguments)) {
+          throw new Error('Pre condition of method "' + functionName + '" defined by "' + ifaceName + '" failed.');
         }
-        // set self to keep private members working
-        wrappedFunction.self = origFunction.self;
-        return wrappedFunction;
+
+        return origFunction.apply(this, arguments);
       }
+      // set self to keep private members working
+      wrappedFunction.self = origFunction.self;
+      return wrappedFunction;
     },
 
 
