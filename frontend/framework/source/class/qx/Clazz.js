@@ -753,7 +753,10 @@ qx.Clazz.define("qx.Clazz",
       }
 
       // Check properties and members
-      qx.Interface.assertInterface(clazz, iface, true);
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        qx.Interface.assertInterface(clazz, iface, true);
+      }
 
       // Save interface
       clazz.$$implements[iface.name] = iface;
