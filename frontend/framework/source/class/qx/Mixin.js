@@ -163,15 +163,8 @@ qx.Clazz.define("qx.Mixin",
         return false;
       }
 
-      if (clazz.$$includes[mixin.name]) {
+      if (this.__hasMixinRecurser(clazz.$$includes, mixin)) {
         return true;
-      }
-
-      for (var key in clazz.$$includes)
-      {
-        if (qx.Mixin.hasMixin(clazz, clazz.$$includes[key])) {
-          return true;
-        }
       }
 
       return false;
@@ -244,6 +237,42 @@ qx.Clazz.define("qx.Mixin",
         }
       }
     },
+
+
+    /**
+     * Checks if a mixin given exists somewhere in this class including
+     * the included mixins (recursively).
+     *
+     * @param map {Map} Map of known mixin names
+     * @param mixin {Mixin} Mixin to check (recursively)
+     * @return {Boolean} true if the mixin is defined by this map
+     */
+    __hasMixinRecurser : function(map, mixin)
+    {
+      if (map[mixin.name]) {
+        return true;
+      }
+
+      var include = mixin.include;
+      if (extend)
+      {
+        if (extend.isMixin) {
+          return this.__hasMixinRecurser(map, extend);
+        }
+        else
+        {
+          for (var i=0, l=extend.length; i<l; i++)
+          {
+            if (this.__hasMixinRecurser(map, extend[i])) {
+              return true;
+            }
+          }
+        }
+      }
+
+      return false;
+    },
+
 
     /**
      * Check compatiblity between Mixins (including their includes)
