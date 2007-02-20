@@ -9,10 +9,6 @@ qx.Clazz.define("qxunit.test.Interface", {
 		        members: {
 		            startEngine: function() { return true; }
 		        },
-				statics: {
-					WHEELS: 4,
-					honk: function() { return true; }
-				},
 				properties: {
 					color: {}
 				}
@@ -41,8 +37,6 @@ qx.Clazz.define("qxunit.test.Interface", {
 		    });
     
 		    var audi = new qxunit.Audi("audi");
-			this.assertEquals("honk", qxunit.Audi.honk());
-			this.assertEquals(4, qxunit.Audi.WHEELS);
 		
 			// nothing defined
 			this.assertExceptionDebugOn(function() {
@@ -68,21 +62,6 @@ qx.Clazz.define("qxunit.test.Interface", {
 			    });
 		    }, Error, 'Implementation of method "startEngine" is missing');
 		
-			// statics not defined
-			this.assertExceptionDebugOn(function() {
-			    qx.Clazz.define("qxunit.Audi3", {
-			        extend: Object,
-			        construct: function() {},
-			        implement: [qxunit.ICar],
-			        members: {
-			            startEngine: function() { return "start"}
-			        },
-					properties: {
-						color: { compat: true }
-					}
-			    });
-		    }, Error, 'Implementation of static method "honk" is missing');
-
 			// property not defined
 			this.assertExceptionDebugOn(function() {
 			    qx.Clazz.define("qxunit.Audi4", {
@@ -96,7 +75,7 @@ qx.Clazz.define("qxunit.test.Interface", {
 						honk: function() { return "honk"; }
 					}
 			    })
-		    }, Error, "Implementation of method");
+		    }, Error, new RegExp("property .* not supported"));
 		},
 	
 		testAssertions: function() {
@@ -105,7 +84,7 @@ qx.Clazz.define("qxunit.test.Interface", {
 					add: function(a) {
 						return (
 							arguments.length == 1 &&
-							qx.Interface.hasInterface(a, qxunit.IComplex)
+							qx.Interface.implementsInterface(a, qxunit.IComplex)
 						);
 					},
 					setReal: function(r) {
@@ -148,9 +127,10 @@ qx.Clazz.define("qxunit.test.Interface", {
 			a.add(b);
 			a.setReal(20);
 			a.abs();
-		
+
 			// invalid usage		
 			this.assertExceptionDebugOn(function() {
+				debugger;
 				a.add(b,b);
 			}, Error, "Pre condition of method");
 		
@@ -182,19 +162,12 @@ qx.Clazz.define("qxunit.test.Interface", {
 				}
 			});
 
-			qx.Interface.define("qxunit.IStatics", {
-				statics: {
-					PI: 3.14,
-					sayHello: function() { return true; }
-				}
-			});
-
 			qx.Interface.define("qxunit.IProperties", {
 				properties: {"color": {}, "name": {} }
 			});
 
 			qx.Interface.define("qxunit.IAll", {
-				extend: [qxunit.IMember, qxunit.IStatics, qxunit.IProperties]
+				extend: [qxunit.IMember, qxunit.IProperties]
 			});
 			
 			qx.Interface.define("qxunit.IOther", {
@@ -219,12 +192,11 @@ qx.Clazz.define("qxunit.test.Interface", {
 			var def = qx.lang.Object.copy(classDef);
 			qx.Clazz.define("qxunit.Implement1", def)
 
-			this.assertTrue(qx.Interface.hasInterface(qxunit.Implement1, qxunit.IAll));
-			this.assertTrue(qx.Interface.hasInterface(qxunit.Implement1, qxunit.IMember));
-			this.assertTrue(qx.Interface.hasInterface(qxunit.Implement1, qxunit.IStatics));
-			this.assertTrue(qx.Interface.hasInterface(qxunit.Implement1, qxunit.IProperties));
+			this.assertTrue(qx.Interface.implementsInterface(qxunit.Implement1, qxunit.IAll), "implements IAll");
+			this.assertTrue(qx.Interface.implementsInterface(qxunit.Implement1, qxunit.IMember), "implements IMember");
+			this.assertTrue(qx.Interface.implementsInterface(qxunit.Implement1, qxunit.IProperties), "implements IProperties");
 
-			this.assertFalse(qx.Interface.hasInterface(qxunit.Implement1, qxunit.IOther));
+			this.assertFalse(qx.Interface.implementsInterface(qxunit.Implement1, qxunit.IOther), "not implements IOther");
 			
 			// no members
 			var def = qx.lang.Object.copy(classDef);
@@ -232,13 +204,6 @@ qx.Clazz.define("qxunit.test.Interface", {
 			this.assertExceptionDebugOn(function() {
 				qx.Clazz.define("qxunit.Implement2", def)
 			}, Error, "Implementation of method");
-
-			// no statics
-			var def = qx.lang.Object.copy(classDef);
-			delete(def.statics);			
-			this.assertExceptionDebugOn(function() {
-				qx.Clazz.define("qxunit.Implement3", def)
-			}, Error, "Implementation of static method");	
 			
 			// no properties
 			var def = qx.lang.Object.copy(classDef);
@@ -247,16 +212,6 @@ qx.Clazz.define("qxunit.test.Interface", {
 				qx.Clazz.define("qxunit.Implement4", def)
 			}, Error, "Implementation of method");				
 			
-			// check copying of static fields
-			this.assertEquals(3.14, qxunit.Implement1.PI);
-
-			var def = qx.lang.Object.copy(classDef);			
-			def.statics.PI = 4;
-			this.assertException(function() {
-				qx.Clazz.define("qxunit.Implement5", def)
-			}, Error, "Overwriting static member");				
-				
-
 		}
 	}
 });

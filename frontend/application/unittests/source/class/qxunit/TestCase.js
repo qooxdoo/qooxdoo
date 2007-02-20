@@ -73,7 +73,7 @@ qx.Clazz.define("qxunit.TestCase", {
 		},
 
 		assertFalse: function(bool, msg) {
-			this.__assert(bool == false, msg || "", "Called assertTrue with 'false'");
+			this.__assert(bool == false, msg || "", "Called assertFalse with 'true'");
 		},
 		
 		assertEquals: function(expected, found, msg) {
