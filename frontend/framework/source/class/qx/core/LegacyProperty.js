@@ -535,8 +535,17 @@ qx.Clazz.define("qx.core.LegacyProperty",
               throw new Error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + config.name + "\" which must be typeof \"" + config.type + "\" but is typeof \"" + typeof newValue + "\"!");
             }
 
-            if (config.hasInstance && !(newValue instanceof (qx.Clazz.getByName(config.instance) || (qx.OO && qx.OO.classes[config.instance])))) {
-              throw new Error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + config.name + "\" which must be an instance of \"" + config.instance + "\"!");
+            if (qx.Clazz.getByName(config.instance))
+            {
+              if (config.hasInstance && !(newValue instanceof qx.Clazz.getByName(config.instance))) {
+                throw new Error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + config.name + "\" which must be an instance of \"" + config.instance + "\"!");
+              }
+            }
+            else
+            {
+              if (config.hasInstance && !(newValue instanceof qx.OO.classes[config.instance])) {
+                throw new Error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + config.name + "\" which must be an instance of \"" + config.instance + "\"!");
+              }
             }
 
             if (config.hasClassName && newValue.classname != config.classname) {
@@ -693,6 +702,9 @@ qx.Clazz.define("qx.core.LegacyProperty",
           return newValue;
         };
       }
+
+      // Attach self to handle protected protection
+      proto["set" + config.method].self = proto.constructor;
 
       // building user configured get alias for property
       if (typeof config.getAlias === "string") {
