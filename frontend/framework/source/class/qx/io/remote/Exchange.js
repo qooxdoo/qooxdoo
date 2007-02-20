@@ -457,7 +457,7 @@ qx.Proto.send = function()
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           if (qx.core.Setting.get("qx.ioRemoteDebug")) {
-            this.debug("Using implementation: " + vTransportImpl.name);
+            this.debug("Using implementation: " + vTransportImpl.classname);
           }
         }
 
