@@ -425,10 +425,10 @@ qx.Clazz.define("qx.core.LegacyProperty",
         config.hasInstance = false;
       }
 
-      if (typeof config.classname === "string") {
+      if (typeof config.name === "string") {
         config.hasClassName = true;
-      } else if (typeof config.classname !== "undefined") {
-        throw new Error("AddProperty: Invalid classname definition for property " + config.name + ": " + config.classname);
+      } else if (typeof config.name !== "undefined") {
+        throw new Error("AddProperty: Invalid name definition for property " + config.name + ": " + config.name);
       } else {
         config.hasClassName = false;
       }
@@ -539,8 +539,8 @@ qx.Clazz.define("qx.core.LegacyProperty",
               return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + config.name + "\" which must be an instance of \"" + config.instance + "\"!", new Error());
             }
 
-            if (config.hasClassName && newValue.classname != config.classname) {
-              return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + config.name + "\" which must be an object with the classname \"" + config.classname + "\"!", new Error());
+            if (config.hasClassName && newValue.name != config.name) {
+              return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + config.name + "\" which must be an object with the name \"" + config.name + "\"!", new Error());
             }
 
             if (config.hasPossibleValues && newValue != null && !qx.lang.Array.contains(config.possibleValues, newValue)) {

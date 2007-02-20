@@ -281,7 +281,7 @@ qx.Proto._buildWidgetFromNode = function(parent, node) {
   Set a widget's property using a propertyEditor
 */
 qx.Proto._setWidgetProperty = function(widget, name, value) {
-  var editor = this._findPropertyEditor(widget.classname, name);
+  var editor = this._findPropertyEditor(widget.name, name);
   if (!editor) {
     editor = this._coercePropertyEditor;
   }
@@ -298,8 +298,8 @@ qx.Proto._findPropertyEditor = function(className, propertyName) {
 
   // try the widget's superclass
   var w = qx.OO.classes[className];
-  if (w && w.superclass && w.superclass.prototype.classname) {
-    return this._findPropertyEditor(w.superclass.prototype.classname, propertyName);
+  if (w && w.superclass && w.superclass.prototype.name) {
+    return this._findPropertyEditor(w.superclass.prototype.name, propertyName);
   }
 
   return null;
