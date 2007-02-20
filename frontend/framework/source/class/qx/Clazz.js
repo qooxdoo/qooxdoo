@@ -169,12 +169,10 @@ qx.Clazz.define("qx.Clazz",
 
           if (incoming.isMixin)
           {
-            // Add Mixin
             this.__addMixin(clazz, incoming, false);
           }
           else
           {
-            // Add Mixins
             for (var i=0, l=incoming.length; i<l; i++) {
               this.__addMixin(clazz, incoming[i], false);
             }
@@ -187,7 +185,8 @@ qx.Clazz.define("qx.Clazz",
       {
         var incoming = config.implement;
 
-        if (incoming.isInterface) {
+        if (incoming.isInterface)
+        {
           this.__addInterface(clazz, incoming);
         }
         else
@@ -321,10 +320,16 @@ qx.Clazz.define("qx.Clazz",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        // TODO: Polishing
-        var a = qx.lang.Array.copy(clazz.$$includes || []);
-        a.push(mixin);
-        qx.Mixin.checkCompatibility(a);
+        // Build a pseudo temporary mixin array and check for compatibility of all
+        if (clazz.$$includes)
+        {
+          var temp = [mixin];
+          for (var key in clazz.$$includes) {
+            temp.push(clazz.$$includes[key]);
+          }
+
+          qx.Mixin.checkCompatibility(temp);
+        }
       }
 
       return qx.Clazz.__addMixin(clazz, mixin, false);
@@ -347,10 +352,16 @@ qx.Clazz.define("qx.Clazz",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        // TODO: Polishing
-        var a = qx.lang.Array.copy(clazz.$$includes || []);
-        a.push(mixin);
-        qx.Mixin.checkCompatibility(a);
+        // Build a pseudo temporary mixin array and check for compatibility of all
+        if (clazz.$$includes)
+        {
+          var temp = [mixin];
+          for (var key in clazz.$$includes) {
+            temp.push(clazz.$$includes[key]);
+          }
+
+          qx.Mixin.checkCompatibility(temp);
+        }
       }
 
       return qx.Clazz.__addMixin(clazz, mixin, true);
@@ -358,12 +369,12 @@ qx.Clazz.define("qx.Clazz",
 
 
     /**
-     * Check whether vClass is a sub class of vSuperClass
+     * Check whether clazz is a sub class of vSuperClass
      *
      * @type static
      * @param clazz {Class} the class to check.
      * @param superClass {Class} super class
-     * @return {Boolean} whether vClass is a sub class of vSuperClass.
+     * @return {Boolean} whether clazz is a sub class of vSuperClass.
      */
     isSubClassOf : function(clazz, superClass)
     {
@@ -686,7 +697,7 @@ qx.Clazz.define("qx.Clazz",
      * Add a single interface to a class
      *
      * @type static
-     * @param clazz {Class} clazz to add interface to
+     * @param clazz {Class} class to add interface to
      * @param iface {Interface} the Interface to add
      * @return {void}
      */
@@ -695,28 +706,20 @@ qx.Clazz.define("qx.Clazz",
       // Pre check registry
       if (!clazz.$$implements) {
         clazz.$$implements = {};
+      } else if (clazz.$$implements[iface.name]) {
+        throw new Error('Interface "' + iface.name + '" is already used by Class "' + clazz.classname + '"!');
       }
 
-      if (clazz.$$implements[iface.name]) {
-        return;
-      }
+      // Check properties and members
+      qx.Interface.assertInterface(clazz, iface, true);
 
-      // Only validate members in debug mode.
-      // There is nothing more needed for builds
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        qx.Interface.assertInterface(clazz, iface, true);
-      }
-
-      // Copy primitive static fields
-      qx.Interface.copyPrimitiveStaticFields(clazz, iface, false);
-      
-      // Save interface name
+      // Save interface
       clazz.$$implements[iface.name] = iface;
     },
 
 
     /**
-     * Include all features of the Mixin into the given class.
+     * Include all features of the Mixin into the given class (recursive).
      *
      * @type static
      * @param clazz {Clazz} A class previously defined where the mixin should be attached.
@@ -728,21 +731,43 @@ qx.Clazz.define("qx.Clazz",
       // Pre check registry
       if (!clazz.$$includes) {
         clazz.$$includes = {};
-      }
-
-      if (clazz.$$includes[mixin.name]) {
+      } else if (clazz.$$includes[mixin.name]) {
         throw new Error('Mixin "' + mixin.name + '" is already included into Class "' + clazz.classname + '"!');
       }
 
+      // Attach statics, properties and members
+      this.__attachMixinContent(clazz, mixin, patch);
+
+      // Save Mixin
+      clazz.$$includes[mixin.name] = mixin;
+    },
+
+    /**
+     * Attach fields of Mixins (recursively) to a class without assignment.
+     *
+     * @type static
+     * @param clazz {Clazz} A class previously defined where the mixin should be attached.
+     * @param mixin {Mixin} Include all features of this Mixin
+     * @param patch {Boolean} Overwrite existing fields, functions and properties
+     */
+    __attachMixinContent : function(clazz, mixin, patch)
+    {
       var superclazz = clazz.superclass;
       var proto = clazz.prototype;
 
-      // Attach includes
+      // Attach includes, recursive
       var includes = mixin.include;
       if (includes)
       {
-        for (var i=0, l=includes.length; i<l; i++) {
-          this.__addMixin(clazz, includes[i], patch);
+        if (includes.isMixin)
+        {
+          this.__attachMixinContent(clazz, includes, patch);
+        }
+        else
+        {
+          for (var i=0, l=includes.length; i<l; i++) {
+            this.__attachMixinContent(clazz, includes[i], patch);
+          }
         }
       }
 
@@ -770,7 +795,6 @@ qx.Clazz.define("qx.Clazz",
       }
 
       // Attach properties
-      // TODO: Properties NG
       var properties = mixin.properties;
       if (properties)
       {
@@ -815,9 +839,6 @@ qx.Clazz.define("qx.Clazz",
           }
         }
       }
-
-      // Save mixin name
-      clazz.$$includes[mixin.name] = mixin;
     },
 
 

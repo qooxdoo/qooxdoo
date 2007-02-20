@@ -81,19 +81,45 @@ qx.Clazz.define("qx.Interface",
      */
     define : function(name, config)
     {
-      if (!config) {
-        var config = {};
+      if (config)
+      {
+        // Validate incoming data
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          this.__validateConfig(name, config);
+        }
+
+        // Create Interface from statics
+        var iface = config.statics ? config.statics : {};
+
+        // Attach configuration
+        if (config.extend) {
+          iface.extend = config.extend;
+        }
+        if (config.properties) {
+          iface.properties = config.properties;
+        }
+        if (config.members) {
+          iface.members = config.members;
+        }
+      }
+      else
+      {
+        // Create empty Interface
+        var iface = {};
       }
 
-      // Validate incoming data
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        this.__validateConfig(name, config);
-      }
+      // Add basics
+      iface.isInterface = true;
+      iface.name = name;
 
-      var iface = this.__createInterface(name, config);
+      // Assign to namespace
+      iface.basename = qx.Clazz.createNamespace(name, iface);
 
-      this.__processProperties(iface, config.properties);
-      this.__checkStatics(name, iface.statics);
+      // Add to registry
+      qx.Interface.__registry[name] = iface;
+
+      // Return final Interface
+      return iface;
     },
 
 
@@ -122,100 +148,141 @@ qx.Clazz.define("qx.Interface",
 
 
     /**
-     * Whether a given class implements an interface.
+     * Whether a given class includes a interface.
      *
+     * @type static
      * @param clazz {Class} class to check
-     * @param iface {Interface} the interface to check for
-     * @return {Boolean} whether the class implements the interface
+     * @param mixin {Mixin} the mixin to check for
+     * @return {Boolean} whether the class includes the mixin.
      */
-    hasInterface: function(clazz, iface)
+    hasOwnInterface : function(clazz, iface)
     {
-      var clazz = clazz.constructor || clazz;
-
-      try {
-        this.assertInterface(clazz, iface, false);
-      } catch (e) {
+      if (!clazz.$$implements) {
         return false;
       }
 
-      return true;
+    	return clazz.$$implements[iface.name] ? true : false;
     },
 
 
     /**
-     * Assert that the given class implements an interface. If the class doesn't implement
-     * the interface an exception is thrown. This method can optionally wrap the interface
-     * methods of the class with precondition checks from the interface.
+     * Whether a given class includes a interface (recursive).
      *
+     * @type static
      * @param clazz {Class} class to check
-     * @param vInterface {Interface} the interface the class must implement
-     * @param wrap {Boolean?true} whether the class should be extended with precondition checks
-     *   from the interfaces.
+     * @param mixin {Mixin} the mixin to check for
+     * @return {Boolean} whether the class includes the mixin.
      */
-    assertInterface: function(clazz, vInterface, wrap)
+    hasInterface : function(clazz, iface)
     {
       if (!clazz.$$implements) {
-        clazz.$$implements = {};
+        return false;
       }
 
-      // check whether the interface is in the registry of the class
-      if (clazz.$$implements[vInterface.name]) {
+      if (clazz.$$implements[iface.name]) {
         return true;
       }
 
-      // do the full check
-
-      // Validate members
-      var prot = clazz.prototype;
-
-      this.__membersIterator(vInterface, function(key, member) {
-        if (typeof prot[key] != "function") {
-          throw new Error('Implementation of method "' + key + '" is missing in Class "' + clazz.classname + '" required by interface "' + vInterface.name + '"');
+      for (var key in clazz.$$implements)
+      {
+        if (qx.Interface.hasInterface(clazz, clazz.$$implements[key])) {
+          return true;
         }
-        if (wrap && typeof(member) == "function") {
-          prot[key] = qx.Interface.__wrapFunctionWithPrecondition(vInterface.name, prot[key], key, member);
-        }
-      });
+      }
 
-      // Validate statics
-      this.__staticsIterator(vInterface, function(key, vStatic) {
-        if (typeof vStatic == "function") {
-          if (typeof clazz[key] != "function") {
-            throw new Error('Implementation of static method "' + key + '" is missing in Class "' + clazz.classname + '" required by interface "' + vInterface.name + '"');
-          }
-          if (wrap) {
-            clazz[key] = qx.Interface.__wrapFunctionWithPrecondition(vInterface.name, clazz[key], key, vStatic);
-          }
-        }
-      });
-
-      this.__extendsIterator(vInterface, function(iface) {
-        clazz.$$implements[iface.name] = iface;      
-      });
+      return false;
     },
 
 
     /**
-     * Copy all primitive static fields of the interface (including inherited fields)
-     * from the interface to the statics of the given class.
-     * 
-     * @param clazz {Class} Class to attach the statics to
-     * @param iface {Interface} Interface to copy the statics from
-     * @param forceOverwrite {Boolean?false} whether existing fields should be overwritten.
+     * Wether a given class conforms to an interface (included or not)
+     *
+     * @type static
+     * @param clazz {Class} class to check
+     * @param mixin {Mixin} the mixin to check for
+     * @return {Boolean} whether the class includes the mixin.
      */
-    copyPrimitiveStaticFields: function(clazz, iface, forceOverwrite) 
+    implementsInterface : function(clazz, iface)
     {
-      this.__staticsIterator(iface, function(name, vStatic) {
-        // Attach statics
-        // Validation is done in qx.Interface
-        if (typeof (vStatic) != "function") {
-          if (!forceOverwrite && clazz[name]) {
-            throw new Error('Overwriting static member "' + name + '" of Class "' + clazz.classname + '" by interface "' + iface.name + '" is not allowed!');            
-          }
-          clazz[name] = vStatic;
-        }
-      });
+      if (this.hasInterface(clazz, iface)) {
+        return true;
+      }
+
+      try
+      {
+        this.assertInterface(clazz, iface);
+        return true;
+      }
+      catch(ex)
+      {
+        return false;
+      }
     },
+
+
+    /**
+     * Checks if a interface is implemented by a class
+     *
+     * @type static
+     * @param clazz {Class} class to check interface for
+     * @param iface {Interface} the Interface to verify
+     * @param wrap {Boolean ? false} wrap functions required by interface to check parameters etc.
+     * @return {void}
+     */
+    assertInterface : function(clazz, iface, wrap)
+    {
+      // Check extends, recursive
+      var extend = iface.extend;
+      if (extend)
+      {
+        if (extend.isInterface)
+        {
+          this.implementsInterface(clazz, extend);
+        }
+        else
+        {
+          for (var i=0, l=extend.length; i<l; i++) {
+            this.implementsInterface(clazz, extend[i]);
+          }
+        }
+      }
+
+      // Validate members
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        var members = iface.members;
+        if (members)
+        {
+          var proto = clazz.prototype;
+
+          for (var key in members)
+          {
+            if (typeof members[key] === "function")
+            {
+              if (typeof proto[key] !== "function") {
+                throw new Error('Implementation of method "' + key + '" is missing in Class "' + clazz.classname + '" required by interface "' + iface.name + '"');
+              }
+
+              if (wrap === true) {
+                proto[key] = this.__wrapInterfaceMember(iface.name, proto[key], key, members[key]);
+              }
+            }
+            else
+            {
+              // Other members are not checked more detailed because of
+              // JavaScript's loose type handling
+              if (typeof proto[key] === undefined)
+              {
+                if (typeof proto[key] !== "function") {
+                  throw new Error('Implementation of member "' + key + '" is missing in Class "' + clazz.classname + '" required by interface "' + iface.name + '"');
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
 
 
     /*
@@ -227,10 +294,11 @@ qx.Clazz.define("qx.Interface",
     /** Registry of all defined interfaces */
     __registry : {},
 
+
     /**
      * Wrap a method with a precondition check.
      *
-     * @param interfaceName {String} Name of the interface, where the pre condition
+     * @param ifaceName {String} Name of the interface, where the pre condition
      *   was defined. (Used in error messages).
      * @param origFunction {Function} function to wrap.
      * @param functionName {String} name of the function. (Used in error messages).
@@ -239,22 +307,15 @@ qx.Clazz.define("qx.Interface",
      *   Otherwhise an exception is thrown.
      * @return {Function} wrapped function
      */
-    __wrapFunctionWithPrecondition: function(interfaceName, origFunction, functionName, preCondition)
+    __wrapInterfaceMember : function(ifaceName, origFunction, functionName, preCondition)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      return function()
       {
-        return function()
-        {
-          if (!preCondition.apply(this, arguments)) {
-            throw new Error('Pre condition of method "' + functionName + '" defined by "' + interfaceName + '" failed.');
-          }
-
-          return origFunction.apply(this, arguments);
+        if (!preCondition.apply(this, arguments)) {
+          throw new Error('Pre condition of method "' + functionName + '" defined by "' + ifaceName + '" failed.');
         }
-      }
-      else
-      {
-        return origFunction;
+
+        return origFunction.apply(this, arguments);
       }
     },
 
@@ -269,169 +330,58 @@ qx.Clazz.define("qx.Interface",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        var allowedKeys = {
-          "extend": 1,
-          "statics": 1,
-          "members": 1,
-          "properties": 1
+        var allowedKeys =
+        {
+          "extend"     : 1, // Interface | Interface[]
+          "statics"    : 1, // Map
+          "members"    : 1, // Map
+          "properties" : 1  // Map
         }
 
-        for (var key in config) {
+        for (var key in config)
+        {
           if (!allowedKeys[key]) {
             throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
           }
+
           if (config[key] == null) {
             throw new Error("Invalid key '" + key + "' in interface '" + name + "'! The value is undefined/null!");
           }
-
         }
 
-        // check extends
-        var extend = config.extend
-        if (extend && extend instanceof Array)
+        // Check extends
+        if (config.extend && config.extend instanceof Array)
         {
-          for (var i=0; i<extend.length; i++)
+          for (var i=0; i<config.extend.length; i++)
           {
-            if (!extend[i]) {
+            if (!config.extend[i]) {
               throw new Error("The extend number '" + i+1 + "' in interface '" + name + "' is undefined!");
             }
           }
         }
-      }
-    },
 
-
-    /**
-     * Creates an interface.
-     *
-     * @param name {String} Full name of the interface
-     * @param config {Map} Interface definition map
-     * @return {Interface} The resulting interface
-     */
-    __createInterface : function(name, config)
-    {
-      // Initialize the interface
-      var interf = config;
-
-      // Create namespace
-      var basename = qx.Clazz.createNamespace(name, interf, false);
-
-      // Add to registry
-      qx.Interface.__registry[name] = interf;
-
-      // Attach data fields
-      interf.isInterface = true;
-      interf.name = name;
-      interf.basename = basename;
-      interf.statics = interf.statics || {};
-      interf.members = interf.members || {};
-
-    	if (interf.extend && !(interf.extend instanceof Array)) {
-       	interf.extend = [ interf.extend ];
-     	}
-      interf.extend = interf.extend || [];      
-
-      return interf;
-    },
-
-
-    /**
-     * Convert properties defined in the interface to checks for their
-     * getter and setter.
-     *
-     * @param interf {Interface} The interface
-     * @param properties {String[]} list of proerty names
-     */
-    __processProperties: function(interf, properties)
-    {
-      // properties are only checked in source builds
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        if (properties) {
-          for (var key in properties) {
-            var getterName = "get" + qx.lang.String.toFirstUp(key);
-            var setterName = "set" + qx.lang.String.toFirstUp(key);
-            interf.members[getterName] = interf.members[setterName] = function() { return true; };
-          }
-        }
-      }
-    },
-
-
-    /**
-     * Check the statics
-     *
-     * @param name {String} name of the interface
-     * @param statics {Map} Map the the statics
-     */
-    __checkStatics: function(name, statics)
-    {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (statics)
+        // Check statics
+        if (config.statics)
         {
-          for (var key in statics)
+          for (var key in config.statics)
           {
-            // The key should be uppercase by convention
-            if (
-              typeof(statics[key]) != "function" &&
-              key.toUpperCase() !== key &&
-              (statics[key] instanceof Object)) {
-              throw new Error("Invalid key '" + key + "' in interface '" + name + "'! Static constants must be all uppercase and of type a primitive type.")
+            if (key.toUpperCase() !== key) {
+              throw new Error('Invalid key "' + key + '" in interface "' + name + '"! Static constants must be all uppercase.');
+            }
+
+            switch(typeof config.statics[key])
+            {
+              case "boolean":
+              case "string":
+              case "number":
+                break;
+
+              default:
+                throw new Error('Invalid key "' + key + '" in interface "' + name + '"! Static constants must be all of a primitive type.')
             }
           }
         }
       }
-    },
-
-
-    /**
-     * Iterate over all members of the interface and it's inherited interfaces
-     * 
-     * @param iface {Interface} the Interface to iterate over
-     * @param callback {Function} function(memberName, member) is called for every member
-     */
-    __membersIterator: function(iface, callback)
-    {
-      for (memberName in iface.members) {
-        callback(memberName, iface.members[memberName]);
-      }
-      for (var i=0; i<iface.extend.length; i++) {
-        this.__membersIterator(iface.extend[i], callback);
-      }
-    },
-    
-
-    /**
-     * Iterate over all statics of the interface and it's inherited interfaces
-     * 
-     * @param iface {Interface} the Interface to iterate over
-     * @param callback {Function} function(memberName, member) is called for every static
-     */
-    __staticsIterator: function(iface, callback)
-    {
-      for (staticName in iface.statics) {
-        callback(staticName, iface.statics[staticName]);
-      }
-      for (var i=0; i<iface.extend.length; i++) {
-        this.__staticsIterator(iface.extend[i], callback);
-      }
-    },
-    
-
-    /**
-     * Call a callback on the interface and recursively all interfaces the interface extends.
-     * 
-     * @param iface {Interface} the Interface to iterate over
-     * @param callback {Function} function(interface) is called for every interface
-     */    
-    __extendsIterator: function(iface, callback)
-    {
-      callback(iface);
-      
-      for (var i=0; i<iface.extend.length; i++) {
-        this.__extendsIterator(iface.extend[i], callback);
-      }
-    }    
-
+    }
   }
 });
