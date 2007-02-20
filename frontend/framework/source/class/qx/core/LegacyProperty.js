@@ -222,6 +222,10 @@ qx.Clazz.define("qx.core.LegacyProperty",
       proto[vComputerName] = function() {
         return null;
       };
+
+      proto["get" + vUpName].self = proto.constructor;
+      proto["_invalidate" + vUpName].self = proto.constructor;
+      proto["_recompute" + vUpName].self = proto.constructor;
     },
 
 
