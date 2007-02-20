@@ -67,7 +67,7 @@ qx =
 
       parent[part] = object;
 
-      // return last part name (e.g. name)
+      // return last part name (e.g. classname)
       return part;
     },
 

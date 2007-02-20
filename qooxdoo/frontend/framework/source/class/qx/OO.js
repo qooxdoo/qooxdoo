@@ -105,7 +105,7 @@ qx.Clazz.define("qx.OO",
         qx.Proto = vConstructor.prototype = new vHelperConstructor;
         qx.Super = vConstructor.superclass = vSuper;
 
-        qx.Proto.name = vConstructor.name = vClassName;
+        qx.Proto.classname = vConstructor.classname = vClassName;
         qx.Proto.constructor = vConstructor;
 
         // Copy property lists
@@ -118,7 +118,7 @@ qx.Clazz.define("qx.OO",
         }
       }
 
-      // Store reference to global name registry
+      // Store reference to global classname registry
       qx.OO.classes[vClassName] = qx.Class;
     },
 
@@ -145,7 +145,7 @@ qx.Clazz.define("qx.OO",
     addFastProperty : function(config)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        //qx.core.Bootstrap.alert(qx.Class.name + ": Use of old addFastProperty implementation for property " + config.name);
+        //qx.core.Bootstrap.alert(qx.Class.classname + ": Use of old addFastProperty implementation for property " + config.name);
       }
 
       return qx.core.LegacyProperty.addFastProperty(config, qx.Proto);
@@ -160,7 +160,7 @@ qx.Clazz.define("qx.OO",
     addCachedProperty : function(config)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        //qx.core.Bootstrap.alert(qx.Class.name + ": Use of old addCachedProperty implementation for property " + config.name);
+        //qx.core.Bootstrap.alert(qx.Class.classname + ": Use of old addCachedProperty implementation for property " + config.name);
       }
 
       return qx.core.LegacyProperty.addCachedProperty(config, qx.Proto);
@@ -175,7 +175,7 @@ qx.Clazz.define("qx.OO",
     addPropertyGroup : function(config)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        //qx.core.Bootstrap.alert(qx.Class.name + ": Use of old addPropertyGroup implementation for property " + config.name);
+        //qx.core.Bootstrap.alert(qx.Class.classname + ": Use of old addPropertyGroup implementation for property " + config.name);
       }
 
       return qx.core.LegacyProperty.addPropertyGroup(config, qx.Proto);
@@ -190,7 +190,7 @@ qx.Clazz.define("qx.OO",
     removeProperty : function(config)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        //qx.core.Bootstrap.alert(qx.Class.name + ": Use of old removeProperty implementation for property " + config.name);
+        //qx.core.Bootstrap.alert(qx.Class.classname + ": Use of old removeProperty implementation for property " + config.name);
       }
 
       return qx.core.LegacyProperty.removeProperty(config, qx.Proto);
@@ -205,7 +205,7 @@ qx.Clazz.define("qx.OO",
     changeProperty : function(config)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        //qx.core.Bootstrap.alert(qx.Class.name + ": Use of old changeProperty implementation for property " + config.name);
+        //qx.core.Bootstrap.alert(qx.Class.classname + ": Use of old changeProperty implementation for property " + config.name);
       }
 
       return qx.core.LegacyProperty.addProperty(config, qx.Proto);
@@ -220,7 +220,7 @@ qx.Clazz.define("qx.OO",
     addProperty : function(config)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        //qx.core.Bootstrap.alert(qx.Class.name + ": Use of old addProperty implementation for property " + config.name);
+        //qx.core.Bootstrap.alert(qx.Class.classname + ": Use of old addProperty implementation for property " + config.name);
       }
 
       return qx.core.LegacyProperty.addProperty(config, qx.Proto);

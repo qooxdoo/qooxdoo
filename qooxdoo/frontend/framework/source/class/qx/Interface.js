@@ -260,7 +260,7 @@ qx.Clazz.define("qx.Interface",
             if (typeof members[key] === "function")
             {
               if (typeof proto[key] !== "function") {
-                throw new Error('Implementation of method "' + key + '" is missing in Class "' + clazz.name + '" required by interface "' + iface.name + '"');
+                throw new Error('Implementation of method "' + key + '" is missing in Class "' + clazz.classname + '" required by interface "' + iface.name + '"');
               }
 
               if (wrap === true) {
@@ -274,7 +274,7 @@ qx.Clazz.define("qx.Interface",
               if (typeof proto[key] === undefined)
               {
                 if (typeof proto[key] !== "function") {
-                  throw new Error('Implementation of member "' + key + '" is missing in Class "' + clazz.name + '" required by interface "' + iface.name + '"');
+                  throw new Error('Implementation of member "' + key + '" is missing in Class "' + clazz.classname + '" required by interface "' + iface.name + '"');
                 }
               }
             }

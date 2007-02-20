@@ -73,7 +73,7 @@
 qx.OO.defineClass("qx.ui.core.Widget", qx.core.Target,
 function()
 {
-  if (this.name == qx.ui.core.Widget.ABSTRACT_CLASS) {
+  if (this.classname == qx.ui.core.Widget.ABSTRACT_CLASS) {
     throw new Error("Please omit the usage of qx.ui.core.Widget directly. Choose between qx.ui.core.Parent and qx.ui.basic.Terminator instead!");
   }
 
@@ -86,7 +86,7 @@ function()
   // Allows the user to setup styles and attributes without a
   // need to have the target element created already.
   /*
-  this._htmlProperties = { className : this.name }
+  this._htmlProperties = { className : this.classname }
   this._htmlAttributes = { qxhashcode : this._hashCode }
   */
   this._styleProperties = { position : "absolute" }
