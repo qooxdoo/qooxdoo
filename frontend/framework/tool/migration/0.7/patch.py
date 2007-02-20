@@ -221,7 +221,11 @@ def patch(id, node):
 
             childrenLength = params.getChildrenLength(True)
 
-            if childrenLength == 2:
+            if childrenLength == 1:
+              node.removeChild(child)
+              pos -= 1
+
+            elif childrenLength == 2:
               statics_new = params.getChildByPosition(1, True, True)
 
               while statics_new.hasChildren():
