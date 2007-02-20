@@ -252,17 +252,17 @@ qx.Clazz.define("qxunit.test.Clazz", {
 			qxunit.CallerSuper.sayFoo();
 			this.assertException(function() {
 				qxunit.CallerSuper.__staticFoo();
-			}, Error, "Private member");
+			}, Error, "Private method");
 			
 			var caller = new qxunit.CallerSuper();
 			caller.juhu();
 			this.assertException(function() {
 				caller._bar();
-			}, Error, "Protected member");
+			}, Error, "Protected method");
 
 			this.assertException(function() {
 				caller.__foo();
-			}, Error, "Private member");
+			}, Error, "Private method");
 		
 			// test protected
 			qx.Clazz.define("qxunit.CallerChild", {
@@ -282,7 +282,7 @@ qx.Clazz.define("qxunit.test.Clazz", {
 			
 			this.assertException(function() {			
 				caller.kinners();
-			}, Error, "Private member");			
+			}, Error, "Private method");			
 			
 		}
 		
