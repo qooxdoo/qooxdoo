@@ -747,8 +747,8 @@ qx.Proto._createPropertyInfo = function(node, nodeType, fromClassNode, showDetai
     var allowedValue = null;
     if (node.attributes.possibleValues) {
       allowedValue = node.attributes.possibleValues;
-    } else if (node.attributes.name) {
-      allowedValue = "instances of " + node.attributes.name;
+    } else if (node.attributes.classname) {
+      allowedValue = "instances of " + node.attributes.classname;
     } else if (node.attributes.instance) {
       allowedValue = "instances of " + node.attributes.instance + " or sub classes";
     } else if (node.attributes.unitDetection) {

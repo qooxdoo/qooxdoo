@@ -78,9 +78,9 @@ qx.OO.addProperty({ name : "appearanceTheme", type : "object", allowNull : false
  */
 qx.Proto.registerAppearanceTheme = function(vThemeClass)
 {
-  this._appearanceThemes[vThemeClass.name] = vThemeClass;
+  this._appearanceThemes[vThemeClass.classname] = vThemeClass;
 
-  if (vThemeClass.name == qx.core.Setting.get("qx.appearanceTheme")) {
+  if (vThemeClass.classname == qx.core.Setting.get("qx.appearanceTheme")) {
     this.setAppearanceTheme(vThemeClass.getInstance());
   }
 }

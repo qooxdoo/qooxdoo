@@ -35,7 +35,7 @@
 qx.OO.defineClass("qx.ui.core.Parent", qx.ui.core.Widget,
 function()
 {
-  if (this.name == qx.ui.core.Parent.ABSTRACT_CLASS) {
+  if (this.classname == qx.ui.core.Parent.ABSTRACT_CLASS) {
     throw new Error("Please omit the usage of qx.ui.core.Parent directly. Choose between any widget which inherits from qx.ui.core.Parent and so comes with a layout implementation!");
   }
 

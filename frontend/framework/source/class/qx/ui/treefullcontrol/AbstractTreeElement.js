@@ -31,7 +31,7 @@
 qx.OO.defineClass("qx.ui.treefullcontrol.AbstractTreeElement", qx.ui.layout.BoxLayout,
 function(treeRowStructure)
 {
-  if (this.name == qx.ui.treefullcontrol.AbstractTreeElement.ABSTRACT_CLASS) {
+  if (this.classname == qx.ui.treefullcontrol.AbstractTreeElement.ABSTRACT_CLASS) {
     throw new Error("Please omit the usage of qx.ui.treefullcontrol.AbstractTreeElement directly. Choose between qx.ui.treefullcontrol.TreeFolder, qx.ui.treefullcontrol.TreeFolderSimple, qx.ui.treefullcontrol.TreeFile and qx.ui.treefullcontrol.TreeFileSimple instead!");
   }
 

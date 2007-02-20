@@ -75,9 +75,9 @@ qx.OO.addProperty({ name : "colorTheme", type : "object", allowNull : false, ins
 
 qx.Proto.registerColorTheme = function(vThemeClass)
 {
-  this._colorThemes[vThemeClass.name] = vThemeClass;
+  this._colorThemes[vThemeClass.classname] = vThemeClass;
 
-  if (vThemeClass.name == qx.core.Setting.get("qx.colorTheme")) {
+  if (vThemeClass.classname == qx.core.Setting.get("qx.colorTheme")) {
     this.setColorTheme(vThemeClass.getInstance());
   }
 }
