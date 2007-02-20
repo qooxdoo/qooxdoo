@@ -144,6 +144,15 @@ qx.Clazz.define("qx.Clazz",
       // Members, Properties, Events and Mixins are not available in static classes
       if (config.extend)
       {
+        // Copy known interfaces and mixins from superclass
+        if (config.extend.$$includes) {
+          clazz.$$includes = qx.lang.Object.copy(config.extend.$$includes);
+        }
+
+        if (config.extend.$$implements) {
+          clazz.$$implements = qx.lang.Object.copy(config.extend.$$implements);
+        }
+
         // Attach members
         if (config.members) {
           this.__addMembers(clazz, config.members);
@@ -176,23 +185,6 @@ qx.Clazz.define("qx.Clazz",
             for (var i=0, l=incoming.length; i<l; i++) {
               this.__addMixin(clazz, incoming[i], false);
             }
-          }
-        }
-      }
-
-      // Interfaces are available in both
-      if (config.implement)
-      {
-        var incoming = config.implement;
-
-        if (incoming.isInterface)
-        {
-          this.__addInterface(clazz, incoming);
-        }
-        else
-        {
-          for (var i=0, l=incoming.length; i<l; i++) {
-            this.__addInterface(clazz, incoming[i]);
           }
         }
       }
@@ -238,6 +230,32 @@ qx.Clazz.define("qx.Clazz",
             qx.Clazz.__addProperty(clazz, name, config);
           }
         });
+      }
+
+      // Interfaces are available in all types of classes
+      if (config.implement)
+      {
+        var incoming = config.implement;
+
+        if (incoming.isInterface)
+        {
+          this.__addInterface(clazz, incoming);
+        }
+        else
+        {
+          for (var i=0, l=incoming.length; i<l; i++) {
+            this.__addInterface(clazz, incoming[i]);
+          }
+        }
+      }
+
+      // Verify inherited interfaces
+      if (config.extend && config.extend.$$implements)
+      {
+        var inheritedImplements = config.extend.$$implements;
+        for (var key in inheritedImplements) {
+          qx.Interface.assertInterface(clazz, inheritedImplements[key], false);
+        }
       }
     },
 
