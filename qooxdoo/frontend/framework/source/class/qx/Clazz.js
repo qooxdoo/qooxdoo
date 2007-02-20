@@ -592,12 +592,12 @@ qx.Clazz.define("qx.Clazz",
         construct.self = clazz.constructor = proto.constructor = clazz;
 
         // Copy property lists (qooxdoo 0.6 properties)
-        if (extend.prototype._properties) {
-          proto._properties = qx.lang.Object.copy(extend.prototype._properties);
+        if (extend.prototype.$$properties) {
+          proto.$$properties = qx.lang.Object.copy(extend.prototype.$$properties);
         }
 
-        if (extend.prototype._objectproperties) {
-          proto._objectproperties = qx.lang.Object.copy(extend.prototype._objectproperties);
+        if (extend.prototype.$$objectproperties) {
+          proto.$$objectproperties = qx.lang.Object.copy(extend.prototype.$$objectproperties);
         }
 
         // TODO: Copy qooxodo 0.7 properties
@@ -826,7 +826,7 @@ qx.Clazz.define("qx.Clazz",
         {
           for (var key in properties)
           {
-            if (!proto._properties || !proto._properties[key]) {
+            if (!proto.$$properties || !proto.$$properties[key]) {
               this.__addProperty(clazz, key, properties[key]);
             } else {
               throw new Error('Overwriting property "' + key + '" of Class "' + clazz.classname + '" by Mixin "' + mixin.name + '" is not allowed!');
