@@ -995,24 +995,24 @@ qx.Clazz.define("qx.Clazz",
      * starting with '_' will be wrapped as protected. All other functions
      * are returned unmodified.
      * 
-     * @param member {Function} Function to protect
+     * @param method {Function} Function to protect
      * @param functionName {String} name of the Function
      * @param clazz {Class} The class the function is defined in.
      */
-    __addAccessProtection: function(member, functionName, clazz)
+    __addAccessProtection: function(method, functionName, clazz)
     {
       if (functionName.indexOf("__") == 0) {
-        return this.__createPrivateMember(member, functionName, clazz);
+        return this.__createPrivateMember(method, functionName, clazz);
       } else if (functionName.indexOf("_") == 0) {
-        return  this.__createProtectedMember(member, functionName, clazz);            
+        return  this.__createProtectedMember(method, functionName, clazz);            
       } else {
-        return member;
+        return method;
       }
     },
     
 
     /**
-     * Wraps a method so that only members of the same class are allowed to call it.
+     * Wraps a method so that only methods of the same class are allowed to call it.
      * No wrapper will be created for Opera, since Opera does not support 'caller'.
      * 
      * @param method {Function} method to wrap
@@ -1028,9 +1028,8 @@ qx.Clazz.define("qx.Clazz",
           // IE defines arguments.caller.callee
           // Firefox and Webkit define arguments.callee.caller
           var caller = arguments.caller ? arguments.caller.callee : arguments.callee.caller;
-          var callerClass = caller.self;
-          if (callerClass != clazz) {
-            throw new Error("Private member '"+name+"' of class '"+clazz.classname+"' called!");
+          if (caller.self != clazz) {
+            throw new Error("Private method '"+name+"' of class '"+clazz.classname+"' called!");
           }
           return method.apply(this, arguments);
         };
@@ -1043,7 +1042,7 @@ qx.Clazz.define("qx.Clazz",
 
 
     /**
-     * Wraps a method so that only members of the same class and sub classes of the class
+     * Wraps a method so that only methods of the same class and sub classes of the class
      * are allowed to call it.
      * No wrapper will be created for Opera, since Opera does not support 'caller'.
      * 
@@ -1059,9 +1058,8 @@ qx.Clazz.define("qx.Clazz",
           // IE defines arguments.caller.callee
           // Firefox and Webkit define arguments.callee.caller
           var caller = arguments.caller ? arguments.caller.callee : arguments.callee.caller;
-          var callerClass = caller.self;
-          if (!qx.Clazz.isSubClassOf(callerClass, clazz)) {
-            throw new Error("Protected member '"+name+"' of class '"+clazz.classname+"' called!");
+          if (!qx.Clazz.isSubClassOf(caller.self, clazz)) {
+            throw new Error("Protected method '"+name+"' of class '"+clazz.classname+"' called!");
           }
           return method.apply(this, arguments);
         };
