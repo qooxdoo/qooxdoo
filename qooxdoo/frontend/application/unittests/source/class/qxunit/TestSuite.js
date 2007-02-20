@@ -4,7 +4,7 @@ qx.Clazz.define("qxunit.TestSuite", {
 	extend: qx.core.Object,
 	
 	construct: function(testClassOrNamespace) {
-		qx.log.Logger.ROOT_LOGGER.removeAllAppenders();
+		//qx.log.Logger.ROOT_LOGGER.removeAllAppenders();
 		if (testClassOrNamespace) {
 			this.add(testClassOrNamespace);
 		}
@@ -77,11 +77,16 @@ qx.Clazz.define("qxunit.TestSuite", {
 			this.__testFunctions[name] = fcn;
 		},
 		
+		bind: function(fcn, self, args) {
+			var boundFunction = function() {
+				fcn.call(self);
+			}
+			boundFunction.self = self.constructor;
+			return boundFunction;
+		},
+		
 		addPollutionCheck: function() {
-			var self = this;
-			this.addTestFunction("$pollutionCheck", function() {
-				self.__pollutionCheck();
-			});
+			this.addTestFunction("$pollutionCheck", this.bind(this.__pollutionCheck, this));
 		},
 		
 		addFail: function(functionName, message) {
@@ -90,15 +95,25 @@ qx.Clazz.define("qxunit.TestSuite", {
 			});
 		},
 		
+		runAll: function() {
+			for (var testName in this.__testFunctions) {
+				this.debug("Runinng test '" + testName + "'");
+				(this.__testFunctions[testName]) ();
+			}
+		},
+		
 		exportToJsUnit: function() {
 			var names = [];
 			for (var testName in this.__testFunctions) {
 				names.push(testName);
 				window[testName] = this.__testFunctions[testName];
 			}
+			// global
 			window.exposeTestFunctionNames = function() {
 				return names;
 			}
+			// global
+			window.isTestPageLoaded = true;	        
 		},
 		
 		
@@ -132,7 +147,7 @@ qx.Clazz.define("qxunit.TestSuite", {
 			qx.lang.Array.append(qx.dev.Pollution.ignore.window, ["exposeTestFunctionNames"]);
 
 			var pollution = qx.dev.Pollution.extract("window");
-			assertEquals(
+			new qxunit.TestCase().assertEquals(
 				qx.io.Json.stringify([]),
 				qx.io.Json.stringify(pollution)
 			);			

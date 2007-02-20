@@ -6,7 +6,6 @@
     <title>Qooxdoo Test</title>
     <meta name="author" content="">
     <link rel="stylesheet" type="text/css" href="../../jsunit/css/jsUnitStyle.css">
-    <script language="JavaScript" type="text/javascript" src="../../jsunit/app/jsUnitCore.js"></script>
     <script language="JavaScript" type="text/javascript" src="../script/qxunit.js"></script>
     <script language="JavaScript" type="text/javascript">
 
@@ -23,7 +22,19 @@
         var suite = new qxunit.TestSuite();
         suite.add(className);
         suite.addPollutionCheck();
-        suite.exportToJsUnit();
+        
+        if (window.top.jsUnitTestSuite) {
+            suite.exportToJsUnit();
+        } else {
+            try {
+                suite.runAll();
+            } catch (e) {
+                if (e instanceof qxunit.AssertionError) {
+                    alert(e.getMessage() + ": " + e.getComment());
+                }
+                alert(e);
+            }
+        }
         
     }) ();
     

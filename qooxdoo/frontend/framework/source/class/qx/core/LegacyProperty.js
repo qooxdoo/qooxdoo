@@ -532,19 +532,19 @@ qx.Clazz.define("qx.core.LegacyProperty",
           if (!(config.allowNull && newValue == null))
           {
             if (config.hasType && typeof newValue !== config.type) {
-              return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + config.name + "\" which must be typeof \"" + config.type + "\" but is typeof \"" + typeof newValue + "\"!", new Error());
+              throw new Error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + config.name + "\" which must be typeof \"" + config.type + "\" but is typeof \"" + typeof newValue + "\"!");
             }
 
             if (config.hasInstance && !(newValue instanceof (qx.Clazz.getByName(config.instance) || (qx.OO && qx.OO.classes[config.instance])))) {
-              return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + config.name + "\" which must be an instance of \"" + config.instance + "\"!", new Error());
+              throw new Error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + config.name + "\" which must be an instance of \"" + config.instance + "\"!");
             }
 
             if (config.hasClassName && newValue.classname != config.classname) {
-              return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + config.name + "\" which must be an object with the classname \"" + config.classname + "\"!", new Error());
+              throw new Error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + config.name + "\" which must be an object with the classname \"" + config.classname + "\"!");
             }
 
             if (config.hasPossibleValues && newValue != null && !qx.lang.Array.contains(config.possibleValues, newValue)) {
-              return this.error("Failed to save value for " + config.name + ". '" + newValue + "' is not a possible value!", new Error());
+              throw new Error("Failed to save value for " + config.name + ". '" + newValue + "' is not a possible value!");
             }
           }
 
@@ -631,7 +631,7 @@ qx.Clazz.define("qx.core.LegacyProperty",
           if (!(config.allowNull && newValue == null))
           {
             if (config.hasType && typeof newValue !== config.type) {
-              return this.error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + config.name + "\" which must be typeof \"" + config.type + "\" but is typeof \"" + typeof newValue + "\"!", new Error());
+              throw new Error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + config.name + "\" which must be typeof \"" + config.type + "\" but is typeof \"" + typeof newValue + "\"!");
             }
           }
 

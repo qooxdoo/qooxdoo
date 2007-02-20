@@ -16,7 +16,7 @@ qx.Clazz.define("qxunit.test.Clazz", {
 		},
 	
 		testSameNameClasses: function() {
-		    qx.Clazz.define("qxunit.Same", {
+			qx.Clazz.define("qxunit.Same", {
 		        extend: Object,
 		        construct: function() {}
 		    });
@@ -139,9 +139,9 @@ qx.Clazz.define("qxunit.test.Clazz", {
 			});
 
 			this.assertEquals(
-				"getInstance sould always return the same object!",
 				qxunit.Single1.getInstance()._date,
-				qxunit.Single1.getInstance()._date
+				qxunit.Single1.getInstance()._date,
+				"getInstance sould always return the same object!"
 			);
 		
 			// direct instanctiation should fail
@@ -213,14 +213,78 @@ qx.Clazz.define("qxunit.test.Clazz", {
 				}				
 			});
 			
-			assertEquals(12, qxunit.Defer.FOO);
-			assertEquals("Hello", qxunit.Defer.sayHello());
+			this.assertEquals(12, qxunit.Defer.FOO);
+			this.assertEquals("Hello", qxunit.Defer.sayHello());
 
 			var defer = new qxunit.Defer();
-			assertEquals("Juhu", defer.sayJuhu());
+			this.assertEquals("Juhu", defer.sayJuhu());
 
 			defer.setColor("red");
-			assertEquals("red", defer.getColor());		
+			this.assertEquals("red", defer.getColor());		
+		},
+		
+		testCaller: function() {
+			
+			qx.Clazz.define("qxunit.CallerSuper", {
+				extend: qx.core.Object,
+				members: {
+					__foo: function() {
+						this.debug("foo");
+					},
+					_bar: function() {
+						this.__foo();
+					},
+					juhu: function() {
+						this._bar();
+					}
+				},
+				statics: {
+					sayFoo: function() {
+						this.__staticFoo();
+					},
+					__staticFoo: function() {
+						new qx.core.Object().debug("static foo");
+					}
+				}
+			});
+			
+			// statics
+			qxunit.CallerSuper.sayFoo();
+			this.assertException(function() {
+				qxunit.CallerSuper.__staticFoo();
+			}, Error, "Private member");
+			
+			var caller = new qxunit.CallerSuper();
+			caller.juhu();
+			this.assertException(function() {
+				caller._bar();
+			}, Error, "Protected member");
+
+			this.assertException(function() {
+				caller.__foo();
+			}, Error, "Private member");
+		
+			// test protected
+			qx.Clazz.define("qxunit.CallerChild", {
+				extend: qxunit.CallerSuper,
+				members: {
+					juhu: function() {
+						this._bar();
+					},
+					kinners: function() {
+						this.__foo();
+					}
+				}
+			});
+
+			var caller = new qxunit.CallerChild();
+			caller.juhu();
+			
+			this.assertException(function() {			
+				caller.kinners();
+			}, Error, "Private member");			
+			
 		}
+		
 	}	
 });

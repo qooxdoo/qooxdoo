@@ -224,6 +224,7 @@ qx.Clazz.define("qx.Clazz",
       // Process defer
       if (config.defer)
       {
+        config.defer.self = clazz;
         config.defer(clazz, clazz.prototype,
         {
           add : function(name, config) {
@@ -396,15 +397,15 @@ qx.Clazz.define("qx.Clazz",
      */
     isSubClassOf : function(clazz, superClass)
     {
-      while (clazz.superclass)
-      {
-        if (clazz.superclass == superClass) {
-          return true;
-        }
-
-        clazz = clazz.superclass;
+      if (!clazz) {
+        return false;
+      } 
+      if (clazz == superClass) {
+        return true;
+      } 
+      if (clazz.prototype instanceof superClass) {
+        return true;
       }
-
       return false;
     },
 
@@ -554,9 +555,9 @@ qx.Clazz.define("qx.Clazz",
           for (var key in statics) {
             clazz[key] = statics[key];
           }
-        }
+        }                  
       }
-
+      
       // Create namespace
       var basename = this.createNamespace(name, clazz, false);
 
@@ -607,6 +608,22 @@ qx.Clazz.define("qx.Clazz",
         qx.Class = clazz;
         qx.Proto = proto;
         qx.Super = extend;
+      }
+
+      // add statics protection
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (statics)
+        {
+          for (var name in statics)
+          {        
+            var staticMember = clazz[name];
+            if (typeof(staticMember) == "function") {
+              staticMember.self = clazz;
+              clazz[name] = this.__addAccessProtection(staticMember, name, clazz);
+            }
+          }
+        }
       }
 
       // Store class reference in global class registry
@@ -689,24 +706,31 @@ qx.Clazz.define("qx.Clazz",
      */
     __addMembers : function(clazz, members)
     {
-      var proto = clazz.prototype;
-      var superproto = clazz.superclass.prototype;
-
       for (var key in members)
       {
-        // Attach member
-        var member = proto[key] = members[key];
-
+        var member = members[key];
+        
         // Added helper stuff to functions
         if (typeof member === "function")
         {
           // Configure extend (named base here)
+          var superproto = clazz.superclass.prototype;
           if (superproto[key]) {
             member.base = superproto[key];
           }
 
           member.self = clazz;
+
+          // add member protection
+          if (qx.core.Variant.isSet("qx.debug", "on")) {
+            member = this.__addAccessProtection(member, key, clazz);
+          }
+                    
         }
+        
+        // Attach member
+        clazz.prototype[key] = member;
+        
       }
     },
 
@@ -842,15 +866,30 @@ qx.Clazz.define("qx.Clazz",
         if (patch)
         {
           for (var key in members) {
-            proto[key] = members[key];
+            var member = members[key];
+
+            // add member protection
+            if (qx.core.Variant.isSet("qx.debug", "on")) {
+              member = this.__addAccessProtection(member, key, clazz);
+            }
+
+            proto[key] = member;
           }
         }
         else
         {
           for (var key in members)
           {
-            if (proto[key] === undefined) {
-              proto[key] = members[key];
+            if (proto[key] === undefined)
+            {
+              var member = members[key];
+  
+              // add member protection
+              if (qx.core.Variant.isSet("qx.debug", "on")) {
+                member = this.__addAccessProtection(member, key, clazz);
+              }
+  
+              proto[key] = member;
             } else {
               throw new Error('Overwriting member "' + key + '" of Class "' + clazz.classname + '" by Mixin "' + mixin.name + '" is not allowed!');
             }
@@ -946,6 +985,90 @@ qx.Clazz.define("qx.Clazz",
         // in production code omit the check and just return the
         // constructor
         return construct;
+      }
+    },
+
+
+    /**
+     * Applies access protection to the function based on the function name.
+     * Functions starting with '__' will be wrapped as private, functions 
+     * starting with '_' will be wrapped as protected. All other functions
+     * are returned unmodified.
+     * 
+     * @param member {Function} Function to protect
+     * @param functionName {String} name of the Function
+     * @param clazz {Class} The class the function is defined in.
+     */
+    __addAccessProtection: function(member, functionName, clazz)
+    {
+      if (functionName.indexOf("__") == 0) {
+        return this.__createPrivateMember(member, functionName, clazz);
+      } else if (functionName.indexOf("_") == 0) {
+        return  this.__createProtectedMember(member, functionName, clazz);            
+      } else {
+        return member;
+      }
+    },
+    
+
+    /**
+     * Wraps a method so that only members of the same class are allowed to call it.
+     * No wrapper will be created for Opera, since Opera does not support 'caller'.
+     * 
+     * @param method {Function} method to wrap
+     * @param name {String} name of the method (for error messages)
+     * @param clazz {Class} Class which should be allowed to call the wrapped method
+     * @return {Function} wrapped method
+     */
+    __createPrivateMember : function(method, name, clazz)
+    {
+      if (arguments.caller || arguments.callee.caller)  // check if caller is available
+      {
+        return function() {
+          // IE defines arguments.caller.callee
+          // Firefox and Webkit define arguments.callee.caller
+          var caller = arguments.caller ? arguments.caller.callee : arguments.callee.caller;
+          var callerClass = caller.self;
+          if (callerClass != clazz) {
+            throw new Error("Private member '"+name+"' of class '"+clazz.classname+"' called!");
+          }
+          return method.apply(this, arguments);
+        };
+      }
+      else
+      {
+        return method; 
+      }
+    },
+
+
+    /**
+     * Wraps a method so that only members of the same class and sub classes of the class
+     * are allowed to call it.
+     * No wrapper will be created for Opera, since Opera does not support 'caller'.
+     * 
+     * @param method {Function} method to wrap
+     * @param name {String} name of the method (for error messages)
+     * @param clazz {Class} Base class of the classes, which are allowed to call the wrapped method
+     * @return {Function} wrapped method
+     */    
+    __createProtectedMember : function(method, name, clazz) {    
+      if (arguments.caller || arguments.callee.caller)  // check if caller is available
+      {
+        return function() {
+          // IE defines arguments.caller.callee
+          // Firefox and Webkit define arguments.callee.caller
+          var caller = arguments.caller ? arguments.caller.callee : arguments.callee.caller;
+          var callerClass = caller.self;
+          if (!qx.Clazz.isSubClassOf(callerClass, clazz)) {
+            throw new Error("Protected member '"+name+"' of class '"+clazz.classname+"' called!");
+          }
+          return method.apply(this, arguments);
+        };
+      }
+      else
+      {
+        return method; 
       }
     },
 
