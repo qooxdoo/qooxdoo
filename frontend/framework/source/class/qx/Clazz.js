@@ -575,7 +575,7 @@ qx.Clazz.define("qx.Clazz",
 
         // Compatibility to qooxdoo 0.6.x
         // TODO: Remove this before 0.7 final
-        qx.clazz = clazz;
+        qx.Class = clazz;
         qx.Proto = proto;
         qx.Super = extend;
       }
@@ -859,14 +859,14 @@ qx.Clazz.define("qx.Clazz",
       {
         function abstractConstructor()
         {
-          if (this.classname == arguments.callee.$$ABSTRACT) {
+          if (this.classname == arguments.callee.$$abstract) {
             throw new Error("The class '" + className + "' is abstract! It is not possible to instantiate it.");
           }
 
           return construct.apply(this, arguments);
         }
 
-        abstractConstructor.$$ABSTRACT = className;
+        abstractConstructor.$$abstract = className;
         return abstractConstructor;
       }
       else
