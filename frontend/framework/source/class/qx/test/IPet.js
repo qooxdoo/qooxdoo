@@ -2,6 +2,11 @@ qx.Interface.define("qx.test.IPet",
 {
   extend : [ qx.test.IHumanlike, qx.test.IPlayable ],
 
+  properties :
+  {
+    "color" : true
+  },
+
   members :
   {
     /**
