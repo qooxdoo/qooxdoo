@@ -8,7 +8,7 @@ qx.Clazz.define("qxunit.test.core.Variants", {
 	members : {
 
   	testBrowserAllDefined: function() {
-	    debug("test testBrowserAllDefined");
+	    this.debug("test testBrowserAllDefined");
 
 	    qx.Clazz.define("qx.test.Browser1", {
 	          extend: Object,
@@ -40,7 +40,7 @@ qx.Clazz.define("qxunit.test.core.Variants", {
 	  },
 
 	  testBrowserOrDefined: function() {
-	    debug("test testBrowserOrDefined");
+	    this.debug("test testBrowserOrDefined");
 
 	      qx.Clazz.define("qx.test.Browser2", {
 	          extend: Object,
@@ -60,7 +60,7 @@ qx.Clazz.define("qxunit.test.core.Variants", {
 	  },
 
 	  testBrowserOneDefined: function() {
-	    debug("test testBrowserOneDefined");
+	    this.debug("test testBrowserOneDefined");
 
 	      qx.Clazz.define("qx.test.Browser3", {
 	          extend: Object,
@@ -80,7 +80,7 @@ qx.Clazz.define("qxunit.test.core.Variants", {
 	  },
 
 	  testInlineSwitch: function() {
-	    debug("test testInlineSwitch");
+	    this.debug("test testInlineSwitch");
 
 	    qx.core.Variant.define("test.animal", ["dog", "cat", "snake"], "snake");
 	    this.assertEquals("snake", qx.core.Variant.get("test.animal"));
@@ -101,7 +101,7 @@ qx.Clazz.define("qxunit.test.core.Variants", {
 	  },
 
 	  testIfWithComment: function() {
-	    debug("test testIfWithComment");
+	    this.debug("test testIfWithComment");
 
 	    var b;
 
@@ -163,7 +163,7 @@ qx.Clazz.define("qxunit.test.core.Variants", {
 	  },
 
 	  testInlineOr: function() {
-	    debug("test testInlineOr");
+	    this.debug("test testInlineOr");
 
 	    var c;
 	    if (qx.core.Variant.isSet("qx.client", "mshtml|opera|webkit|gecko"))
@@ -177,7 +177,6 @@ qx.Clazz.define("qxunit.test.core.Variants", {
 	  },
 
 	  testTernary: function() {
-	    info("Juhu Kinners");
 	    var a = qx.core.Variant.isSet("qx.client", "mshtml") ? "mshtml" : "other";
 	    if (qx.core.Client.getInstance().isMshtml()) {
 	      this.assertEquals("mshtml", a);

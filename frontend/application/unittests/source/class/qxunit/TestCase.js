@@ -1,6 +1,5 @@
 
 qx.Clazz.define("qxunit.TestCase", {
-	type: "abstract",
 	extend: qx.core.Object,
 
 	members: {
@@ -13,9 +12,7 @@ qx.Clazz.define("qxunit.TestCase", {
 		profileEnd: function() {
 			var end = new Date();
 			if (this._start) {
-				// use jsunit logging 
-				info(this._msg + ": " + (end - this._start) + "ms");
-				//qx.log.Logger.ROOT_LOGGER.debug(this._msg + ": " + (end - this._start) + "ms");
+				this.info(this._msg + ": " + (end - this._start) + "ms");
 			}
 		},
 		
@@ -37,7 +34,7 @@ qx.Clazz.define("qxunit.TestCase", {
 		
 		assertMatch: function(str, re, msg) {
 			var msg = msg || "The String '"+str+"' does not match the regular expression '"+re.toString()+"'!"
-			this.assertTrue(msg, str.search(re) >= 0 ? true : false);
+			this.assertTrue(str.search(re) >= 0 ? true : false, msg);
 		},
 		
 		assertException: function(callback, exception, re) {
@@ -49,29 +46,55 @@ qx.Clazz.define("qxunit.TestCase", {
 				error = e;
 			}
 			if (error == null) {
-				fail("The function did not raise an exception!");
+				this.fail("The function did not raise an exception!");
 			}
-			this.assertTrue("The raised exception does not have the expected type!", error instanceof exception);
+			this.assertTrue(error instanceof exception, "The raised exception does not have the expected type!");
 			if (re) {
 				this.assertMatch(error.toString(), re);
 			}
 		},
 		
-		// maggings to the JsUnit functions
-		assert: function() { assert.apply(this, arguments); },
-		assertTrue: function() { assertTrue.apply(this, arguments); },
-		assertEquals: function() { assertEquals.apply(this, arguments); },
-		assertHTMLEquals: function() { assertHTMLEquals.apply(this, arguments); },
-		assertEvaluatesToFalse: function() { assertEvaluatesToFalse.apply(this, arguments); },
-		assertEvaluatesToTrue: function() { assertEvaluatesToTrue.apply(this, arguments); },
-		assertArrayEquals: function() { assertArrayEquals.apply(this, arguments); },
-		assertObjectEquals: function() { assertObjectEquals.apply(this, arguments); },
-		assertNotNaN: function() { assertNotNaN.apply(this, arguments); },
-		assertNaN: function() { assertNaN.apply(this, arguments); },
-		assertNotUndefined: function() { assertNotUndefined.apply(this, arguments); },
-		assertUndefined: function() { assertUndefined.apply(this, arguments); },
-		assertNotNull: function() { assertNotNull.apply(this, arguments); },
-		assertNull: function() { assertNull.apply(this, arguments); },
+		__assert: function(condition, comment, failMsg) {
+			if (!condition) {
+				throw new qxunit.AssertionError(comment, failMsg);
+			}
+		},
+
+		assert: function(bool, msg) {
+			this.__assert(bool == true, msg || "", "Called assert with 'false'");
+		},
+		
+		fail: function(msg) {
+			this.__assert(false, msg || "", "Called fail().");			
+		},
+				
+		assertTrue: function(bool, msg) {
+			this.__assert(bool == true, msg || "", "Called assertTrue with 'false'");
+		},
+
+		assertFalse: function(bool, msg) {
+			this.__assert(bool == false, msg || "", "Called assertTrue with 'false'");
+		},
+		
+		assertEquals: function(expected, found, msg) {
+			this.__assert(expected == found, msg || "", "Expected '"+expected+"' but found '"+found+"'!");
+		},
+		
+		assertNotUndefined: function(value, msg) {
+			this.__assert(value != undefined, msg || "", "Expected value not to be undefined but found '"+value+"'!");
+		},
+		
+		assertUndefined: function(value, msg) { 
+			this.__assert(value == undefined, msg || "", "Expected value to be undefined but found '"+value+"'!");
+		},
+		
+		assertNotNull: function() { 
+			this.__assert(value != null, msg || "", "Expected value not to be null but found '"+value+"'!");
+		},
+
+		assertNull: function() {
+			this.__assert(value == null, msg || "", "Expected value to be null but found '"+value+"'!");
+		},
 		
 		// assertions which are only evaluated if "qx.debug" if "on"
 		assertJsonEqualsDebugOn: qx.core.Variant.select("qx.debug", {
@@ -96,34 +119,6 @@ qx.Clazz.define("qxunit.TestCase", {
 		}),
 		assertEqualsDebugOn: qx.core.Variant.select("qx.debug", {
 			"on": function() { this.assertEquals.apply(this, arguments); },
-			"off": function() {}
-		}),
-		assertHTMLEqualsDebugOn: qx.core.Variant.select("qx.debug", {
-			"on": function() { this.assertHTMLEquals.apply(this, arguments); },
-			"off": function() {}
-		}),
-		assertEvaluatesToFalseDebugOn: qx.core.Variant.select("qx.debug", {
-			"on": function() { this.assertEvaluatesToFalse.apply(this, arguments); },
-			"off": function() {}
-		}),
-		assertEvaluatesToTrueDebugOn: qx.core.Variant.select("qx.debug", {
-			"on": function() { this.assertEvaluatesToTrue.apply(this, arguments); },
-			"off": function() {}
-		}),
-		assertArrayEqualsDebugOn: qx.core.Variant.select("qx.debug", {
-			"on": function() { this.assertArrayEquals.apply(this, arguments); },
-			"off": function() {}
-		}),
-		assertObjectEqualsDebugOn: qx.core.Variant.select("qx.debug", {
-			"on": function() { this.assertObjectEquals.apply(this, arguments); },
-			"off": function() {}
-		}),
-		assertNotNaNDebugOn: qx.core.Variant.select("qx.debug", {
-			"on": function() { this.assertNotNaN.apply(this, arguments); },
-			"off": function() {}
-		}),
-		assertNaNDebugOn: qx.core.Variant.select("qx.debug", {
-			"on": function() { this.assertNaN.apply(this, arguments); },
 			"off": function() {}
 		}),
 		assertNotUndefinedDebugOn: qx.core.Variant.select("qx.debug", {

@@ -127,17 +127,17 @@ qx.Clazz.define("qxunit.test.Xml", {
 	            "template"
 	        );
 
-	        debug(qx.xml.String.escape(this.serializeArray(templates)));
+	        this.debug(qx.xml.String.escape(this.serializeArray(templates)));
 	        this.assertEquals(
-	            "getElementsByTagNameNS for XML documents failed!",
 	            2,
-	            templates.length
+	            templates.length,
+	            "getElementsByTagNameNS for XML documents failed!"
 	        );
 
 	        this.assertEquals(
-	            "getElementsByTagNameNS for XML documents failed!",
 	            "xsl:template",
-	            templates[0].tagName
+	            templates[0].tagName,
+	            "getElementsByTagNameNS for XML documents failed!"
 	        );
 
 	        var templates = qx.xml.Element.getElementsByTagNameNS(
@@ -147,15 +147,15 @@ qx.Clazz.define("qxunit.test.Xml", {
 	        );
 
 	        this.assertEquals(
-	            "getElementsByTagNameNS for element nodes failed!",
 	            2,
-	            templates.length
+	            templates.length,
+	            "getElementsByTagNameNS for element nodes failed!"
 	        );
 
 	        this.assertEquals(
-	            "getElementsByTagNameNS for element nodes failed!",
 	            "xsl:template",
-	            templates[0].tagName
+	            templates[0].tagName,
+	            "getElementsByTagNameNS for element nodes failed!"
 	        );
 	   }
 	}
