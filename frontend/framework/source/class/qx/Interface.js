@@ -179,15 +179,8 @@ qx.Clazz.define("qx.Interface",
         return false;
       }
 
-      if (clazz.$$implements[iface.name]) {
+      if (this.__hasInterfaceRecurser(clazz.$$implements, iface)) {
         return true;
-      }
-
-      for (var key in clazz.$$implements)
-      {
-        if (qx.Interface.hasInterface(clazz, clazz.$$implements[key])) {
-          return true;
-        }
       }
 
       return false;
@@ -247,9 +240,9 @@ qx.Clazz.define("qx.Interface",
         }
       }
 
-      // Validate members
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
+        // Validate members
         var members = iface.members;
         if (members)
         {
@@ -281,6 +274,7 @@ qx.Clazz.define("qx.Interface",
           }
         }
 
+        // Validate properties
         var properties = iface.properties;
         if (properties)
         {
@@ -333,6 +327,41 @@ qx.Clazz.define("qx.Interface",
       // set self to keep private members working
       wrappedFunction.self = origFunction.self;
       return wrappedFunction;
+    },
+
+    /**
+     * Checks if an interface given exists somewhere in this object including
+     * inheritance inside the interfaces themselve.
+     *
+     * @param map {Map} Map of known interface names
+     * @param iface {Interface} Interface to check (recursively)
+     * @return {Boolean} true if the interface is defined by this map
+     */
+    __hasInterfaceRecurser : function(map, iface)
+    {
+      if (map[iface.name]) {
+        return true;
+      }
+
+      var extend = iface.extend;
+      if (extend)
+      {
+        if (extend.isInterface)
+        {
+          return this.__hasInterfaceRecurser(map, extend);
+        }
+        else
+        {
+          for (var i=0, l=extend.length; i<l; i++)
+          {
+            if (this.__hasInterfaceRecurser(map, extend[i])) {
+              return true;
+            }
+          }
+        }
+      }
+
+      return false;
     },
 
 
