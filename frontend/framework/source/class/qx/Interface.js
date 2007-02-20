@@ -151,12 +151,14 @@ qx.Clazz.define("qx.Interface",
      * Whether a given class includes a interface.
      *
      * @type static
-     * @param clazz {Class} class to check
+     * @param clazz {Class|Object} class or instance to check
      * @param mixin {Mixin} the mixin to check for
      * @return {Boolean} whether the class includes the mixin.
      */
     hasOwnInterface : function(clazz, iface)
     {
+      var clazz = clazz.constructor || clazz;
+
       if (!clazz.$$implements) {
         return false;
       }
@@ -169,12 +171,14 @@ qx.Clazz.define("qx.Interface",
      * Whether a given class includes a interface (recursive).
      *
      * @type static
-     * @param clazz {Class} class to check
+     * @param clazz {Class|Object} class or instance to check
      * @param mixin {Mixin} the mixin to check for
      * @return {Boolean} whether the class includes the mixin.
      */
     hasInterface : function(clazz, iface)
     {
+      var clazz = clazz.constructor || clazz;
+
       if (!clazz.$$implements) {
         return false;
       }
@@ -191,12 +195,14 @@ qx.Clazz.define("qx.Interface",
      * Wether a given class conforms to an interface (included or not)
      *
      * @type static
-     * @param clazz {Class} class to check
+     * @param clazz {Class|Object} class or instance to check
      * @param mixin {Mixin} the mixin to check for
      * @return {Boolean} whether the class includes the mixin.
      */
     implementsInterface : function(clazz, iface)
     {
+      var clazz = clazz.constructor || clazz;
+      
       if (this.hasInterface(clazz, iface)) {
         return true;
       }
@@ -230,61 +236,58 @@ qx.Clazz.define("qx.Interface",
       {
         if (extend.isInterface)
         {
-          this.implementsInterface(clazz, extend);
+          this.assertInterface(clazz, extend, wrap);
         }
         else
         {
           for (var i=0, l=extend.length; i<l; i++) {
-            this.implementsInterface(clazz, extend[i]);
+            this.assertInterface(clazz, extend[i], wrap);
           }
         }
       }
 
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      // Validate members
+      var members = iface.members;
+      if (members)
       {
-        // Validate members
-        var members = iface.members;
-        if (members)
-        {
-          var proto = clazz.prototype;
+        var proto = clazz.prototype;
 
-          for (var key in members)
+        for (var key in members)
+        {
+          if (typeof members[key] === "function")
           {
-            if (typeof members[key] === "function")
+            if (typeof proto[key] !== "function") {
+              throw new Error('Implementation of method "' + key + '" is missing in Class "' + clazz.classname + '" required by interface "' + iface.name + '"');
+            }
+
+            if (wrap === true) {
+              proto[key] = this.__wrapInterfaceMember(iface.name, proto[key], key, members[key]);
+            }
+          }
+          else
+          {
+            // Other members are not checked more detailed because of
+            // JavaScript's loose type handling
+            if (typeof proto[key] === undefined)
             {
               if (typeof proto[key] !== "function") {
-                throw new Error('Implementation of method "' + key + '" is missing in Class "' + clazz.classname + '" required by interface "' + iface.name + '"');
-              }
-
-              if (wrap === true) {
-                proto[key] = this.__wrapInterfaceMember(iface.name, proto[key], key, members[key]);
-              }
-            }
-            else
-            {
-              // Other members are not checked more detailed because of
-              // JavaScript's loose type handling
-              if (typeof proto[key] === undefined)
-              {
-                if (typeof proto[key] !== "function") {
-                  throw new Error('Implementation of member "' + key + '" is missing in Class "' + clazz.classname + '" required by interface "' + iface.name + '"');
-                }
+                throw new Error('Implementation of member "' + key + '" is missing in Class "' + clazz.classname + '" required by interface "' + iface.name + '"');
               }
             }
           }
         }
+      }
 
-        // Validate properties
-        var properties = iface.properties;
-        if (properties)
+      // Validate properties
+      var properties = iface.properties;
+      if (properties)
+      {
+        var clazzproperties = clazz.prototype.$$properties || {};
+
+        for (var key in properties)
         {
-          var clazzproperties = clazz.prototype.$$properties || {};
-
-          for (var key in properties)
-          {
-            if (!clazzproperties[key]) {
-              throw new Error('The property "' + key + '" is not supported by Class "' + clazz.classname + '"!');
-            }
+          if (!clazzproperties[key]) {
+            throw new Error('The property "' + key + '" is not supported by Class "' + clazz.classname + '"!');
           }
         }
       }
