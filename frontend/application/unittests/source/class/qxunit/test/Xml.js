@@ -1,5 +1,5 @@
 
-qx.Clazz.define("qxunit.test.Xml", { 
+qx.Clazz.define("qxunit.test.Xml", {
 	extend: qxunit.TestCase,
 
 	members : {
@@ -84,7 +84,7 @@ qx.Clazz.define("qxunit.test.Xml", {
 	        );
 	    },
 
-	    testXHR: function() {
+	    __testXHR: function() {
 
 	        function error(msg) {
 	            return function() {
