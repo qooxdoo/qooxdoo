@@ -689,7 +689,6 @@ qx.Clazz.define("qx.Clazz",
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Attach events to the clazz
      *
@@ -774,7 +773,6 @@ qx.Clazz.define("qx.Clazz",
           if (qx.core.Variant.isSet("qx.debug", "on")) {
             member = this.__addAccessProtectionMembers(member, key, clazz);
           }
-
         }
 
         // Attach member
@@ -801,8 +799,7 @@ qx.Clazz.define("qx.Clazz",
       }
 
       // Check properties and members
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
         qx.Interface.assertInterface(clazz, iface, true);
       }
 
@@ -863,9 +860,9 @@ qx.Clazz.define("qx.Clazz",
           }
         }
       }
-     
+
       // TODO add protection !!!!
-      
+
       // Attach statics
       var statics = mixin.statics;
       if (statics)
@@ -1054,7 +1051,7 @@ qx.Clazz.define("qx.Clazz",
         return this.__createPublicMember(method);
       }
     },
-    
+
 
     /**
      * Applies access protection to the function based on the function name.
@@ -1078,7 +1075,8 @@ qx.Clazz.define("qx.Clazz",
     },
 
 
-    __createPublicMember: function(method) {
+    __createPublicMember: function(method)
+    {
       var wrapper = function() {
         method.context = this;
         return method.apply(this, arguments);
@@ -1086,7 +1084,7 @@ qx.Clazz.define("qx.Clazz",
       method.wrapper = wrapper;
       return wrapper;
     },
-    
+
 
     /**
      * Wraps a method so that only methods of the same class are allowed to call it.
@@ -1141,7 +1139,8 @@ qx.Clazz.define("qx.Clazz",
      * @param clazz {Class} Base class of the classes, which are allowed to call the wrapped method
      * @return {Function} wrapped method
      */
-    __createProtectedMember : function(method, name, clazz) {
+    __createProtectedMember : function(method, name, clazz)
+    {
       if (arguments.caller || arguments.callee.caller)  // check if caller is available
       {
         var protectedMember = function() {
@@ -1172,8 +1171,8 @@ qx.Clazz.define("qx.Clazz",
         return method;
       }
     },
-    
-    
+
+
     /**
      * Wraps a method so that only methods of the same class are allowed to call it.
      * No wrapper will be created for Opera, since Opera does not support 'caller'.
@@ -1227,7 +1226,8 @@ qx.Clazz.define("qx.Clazz",
      * @param clazz {Class} Base class of the classes, which are allowed to call the wrapped method
      * @return {Function} wrapped method
      */
-    __createProtectedStatic : function(method, name, clazz) {
+    __createProtectedStatic : function(method, name, clazz)
+    {
       if (arguments.caller || arguments.callee.caller)  // check if caller is available
       {
         var protectedMember = function() {
