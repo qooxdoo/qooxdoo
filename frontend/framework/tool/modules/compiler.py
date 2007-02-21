@@ -307,6 +307,9 @@ def compile(node, enablePretty=True, enableBreaks=False, enableDebug=False):
 
   compileNode(node)
 
+  if not result.endswith("\n"):
+    result += "\n"
+
   return result
 
 
