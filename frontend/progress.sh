@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PATHS="framework/source/class application/*/source/class"
+PATHS="framework/source/class"
 
 echo -n "  * Old style classes: "
 find $PATHS -name "*.js" | xargs grep "qx.OO.defineClass(" | wc -l 
