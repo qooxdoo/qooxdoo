@@ -264,6 +264,20 @@ def postProcessMap(m):
 
 
 
+def inForLoop(node):
+  while node:
+    if node.type in [ "first", "second", "third" ] and node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
+      return True
+
+    if not node.hasParent():
+      return False
+
+    node = node.parent
+
+  return False
+
+
+
 
 def compile(node, enablePretty=True, enableBreaks=False, enableDebug=False):
   global indent
@@ -593,10 +607,8 @@ def compileNode(node):
     if node.parent.type == "definition":
       oper = node.get("operator", False)
 
-      realNode = node.parent.parent
-
       # be compact in for-loops
-      compact = realNode.hasParent() and realNode.parent.type in [ "first", "second", "third" ] and realNode.parent.parent.type == "loop" and realNode.parent.parent.get("loopType") == "FOR"
+      compact = inForLoop(node)
       compileToken(oper, compact)
 
 
@@ -1105,13 +1117,8 @@ def compileNode(node):
     if node.hasParent() and node.parent.type == "assignment":
       oper = node.parent.get("operator", False)
 
-      if node.parent.parent.type == "statementList":
-        realNode = node.parent.parent
-      else:
-        realNode = node.parent
-
       # be compact in for-loops
-      compact = realNode.hasParent() and realNode.parent.type in [ "first", "second", "third" ] and realNode.parent.parent.type == "loop" and realNode.parent.parent.get("loopType") == "FOR"
+      compact = inForLoop(node)
       compileToken(oper, compact)
 
 
@@ -1347,12 +1354,8 @@ def compileNode(node):
     elif node.parent.type == "operation" and node.parent.get("left", False) != True:
       oper = node.parent.get("operator")
 
-      if node.parent.parent.type == "statementList":
-        realNode = node.parent.parent
-      else:
-        realNode = node.parent
-
-      compact = realNode.hasParent() and realNode.parent.type in [ "first", "second", "third" ] and realNode.parent.parent.type == "loop" and realNode.parent.parent.get("loopType") == "FOR"
+      # be compact in for loops
+      compact = inForLoop(node)
       compileToken(oper, compact)
 
 

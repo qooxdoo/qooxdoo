@@ -378,7 +378,7 @@ def parseDetail(attrib, format=True):
 
     if attrib["category"] in [ "param", "event", "see" ]:
       attrib["name"] = mtch.group(1)
-      # print ">>> NAME: %s" % mtch.group(1)
+      #print ">>> NAME: %s" % mtch.group(1)
       remain = mtch.group(3)
     else:
       remain = mtch.group(2)
@@ -386,9 +386,9 @@ def parseDetail(attrib, format=True):
     if remain != None:
       defIndex = remain.rfind("?")
       if defIndex != -1:
-        attrib["default"] = remain[defIndex+1:].strip()
+        attrib["defaultValue"] = remain[defIndex+1:].strip()
         remain = remain[0:defIndex].strip()
-        # print ">>> DEFAULT: %s" % attrib["default"]
+        #print ">>> DEFAULT: %s" % attrib["defaultValue"]
 
       typValues = []
       for typ in remain.split("|"):
@@ -405,7 +405,7 @@ def parseDetail(attrib, format=True):
 
       if len(typValues) > 0:
         attrib["type"] = typValues
-        # print ">>> TYPE: %s" % attrib["type"]
+        #print ">>> TYPE: %s" % attrib["type"]
 
   if format:
     attrib["text"] = formatText(text)
@@ -682,7 +682,7 @@ def fromFunction(func, assignType, name, alternative, old=[]):
             newTypeText = parseType(oldParam["type"])
 
           if attribHas(oldParam, "defaultValue"):
-            newDefault = oldParam["defaultValue"]
+            newDefault = " ? %s" % oldParam["defaultValue"]
 
           if attribHas(oldParam, "text"):
             newText = oldParam["text"].strip()
