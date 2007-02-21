@@ -129,24 +129,36 @@ qx.Clazz.define("qx.lang.Function",
     returnNegativeIndex : function() {
       return -1;
     },
-    
-    
+
+
     /**
      * Bind a function to an object. Each time the bound method is called the
      * 'this' variable is guaranteed to be 'self'.
-     * 
+     *
      * @param fcn {Function} function to bind
      * @param self {Object} object, which shuold act as the 'this' variable inside the bound function
      * @return {Function} the bound function
      */
     bind: function(fcn, self)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (typeof fcn !== "function") {
+          throw new Error("First parameter to bind() needs to be of type function!");
+        }
+
+        if (typeof self !== "object") {
+          throw new Error("Second parameter to bind() needs to be of type object!");
+        }
+      }
+
       var boundFunction = function() {
         fcn.call(self);
       }
+
       boundFunction.self = fcn.self = self.constructor;
+
       return boundFunction;
     }
-
   }
 });
