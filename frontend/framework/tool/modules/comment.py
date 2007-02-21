@@ -863,7 +863,7 @@ def fill(node):
           assignType = "static"
 
     # filter stuff, only add comments to member and static values and to all functions
-    if assignType in [ "member", "static" ] or node.type == "function":
+    if assignType in [ "member", "static" ] and node.type == "function":
 
       if not hasattr(target, "documentationAdded") and target.parent.type != "params":
         old = []
@@ -886,10 +886,14 @@ def fill(node):
         # create comment node
         commentNode = tree.Node("comment")
 
+        """
         if node.type == "function":
           commentNode.set("text", fromFunction(node, assignType, name, alternative, old))
         else:
           commentNode.set("text", fromNode(node, assignType, name, alternative, old))
+        """
+
+        commentNode.set("text", fromFunction(node, assignType, name, alternative, old))
 
         commentNode.set("detail", "javadoc")
         commentNode.set("multiline", True)
