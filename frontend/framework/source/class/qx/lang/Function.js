@@ -128,6 +128,25 @@ qx.Clazz.define("qx.lang.Function",
      */
     returnNegativeIndex : function() {
       return -1;
+    },
+    
+    
+    /**
+     * Bind a function to an object. Each time the bound method is called the
+     * 'this' variable is guaranteed to be 'self'.
+     * 
+     * @param fcn {Function} function to bind
+     * @param self {Object} object, which shuold act as the 'this' variable inside the bound function
+     * @return {Function} the bound function
+     */
+    bind: function(fcn, self)
+    {
+      var boundFunction = function() {
+        fcn.call(self);
+      }
+      boundFunction.self = fcn.self = self.constructor;
+      return boundFunction;
     }
+
   }
 });
