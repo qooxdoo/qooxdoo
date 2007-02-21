@@ -1128,8 +1128,12 @@ qx.Clazz.define("qx.Clazz",
           }
 
           if (!qx.Clazz.isSubClassOf(caller.self, clazz)) {
-            var callerName = caller.self ? caller.self.classname : caller.toString();
-            throw new Error("Protected method '"+name+"' of class '"+clazz.classname+"' called from '" + callerName + "'!");
+            if (caller.self) {
+              var from = caller.self.classname + ":" + (qx.Clazz.getFunctionName(caller) || "unknown") + "()";
+            } else {
+              from = "unknown"
+            }
+            throw new Error("Protected method '"+name+"' of class '"+clazz.classname+"' called from '" + from + "'!");
           }
           return method.apply(this, arguments);
         };

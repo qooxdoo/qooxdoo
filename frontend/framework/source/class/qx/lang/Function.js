@@ -159,6 +159,19 @@ qx.Clazz.define("qx.lang.Function",
       boundFunction.self = fcn.self = self.constructor;
 
       return boundFunction;
+    },
+    
+    
+    /**
+     * Extract the caller of a function from the arguments variable.
+     * This will not work in Opera.
+     * 
+     * @param args {arguments} The local arguments variable
+     * @return {Function|undefined} A reference to the calling function or "undefined" if caller is not supported.
+     */
+    getCaller: function(args)
+    {
+      return args.caller ? args.caller.callee : args.callee.caller;
     }
   }
 });
