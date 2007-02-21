@@ -177,11 +177,11 @@ def patch(id, node):
 
             if definition.type == "map":
               if lastIdentifier.get("name") == "addFastProperty":
-                definition.addChild(createPair("fast", createConstant("boolean", "true")))
+                definition.addChild(createPair("_fast", createConstant("boolean", "true")), 0)
               elif lastIdentifier.get("name") == "addCachedProperty":
-                definition.addChild(createPair("cached", createConstant("boolean", "true")))
+                definition.addChild(createPair("_cached", createConstant("boolean", "true")), 0)
               elif lastIdentifier.get("name") == "addProperty" or lastIdentifier.get("name") == "changeProperty":
-                definition.addChild(createPair("compat", createConstant("boolean", "true")))
+                definition.addChild(createPair("_legacy", createConstant("boolean", "true")), 0)
 
               name = getAndRemovePropertyName(definition)
               pair = createPair(name, definition, child)

@@ -76,7 +76,7 @@ qx.Clazz.define("qx.core.Init",
     {
       type     : "object",
       instance : "qx.component.init.BasicInitComponent",
-      compat   : true
+      _legacy  : true
     },
 
 
@@ -88,7 +88,7 @@ qx.Clazz.define("qx.core.Init",
     application :
     {
       type   : "function",
-      compat : true
+      _legacy : true
     }
   },
 

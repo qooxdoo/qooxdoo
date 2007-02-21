@@ -68,7 +68,7 @@ qx.Clazz.define("qx.client.NativeWindow",
     {
       type         : "boolean",
       defaultValue : false,
-      compat       : true
+      _legacy      : true
     },
 
 
@@ -78,7 +78,7 @@ qx.Clazz.define("qx.client.NativeWindow",
       type         : "number",
       defaultValue : 400,
       impl         : "dimension",
-      compat       : true
+      _legacy      : true
     },
 
 
@@ -88,7 +88,7 @@ qx.Clazz.define("qx.client.NativeWindow",
       type         : "number",
       defaultValue : 250,
       impl         : "dimension",
-      compat       : true
+      _legacy      : true
     },
 
 
@@ -98,7 +98,7 @@ qx.Clazz.define("qx.client.NativeWindow",
       type         : "number",
       defaultValue : 100,
       impl         : "position",
-      compat       : true
+      _legacy      : true
     },
 
 
@@ -108,7 +108,7 @@ qx.Clazz.define("qx.client.NativeWindow",
       type         : "number",
       defaultValue : 200,
       impl         : "position",
-      compat       : true
+      _legacy      : true
     },
 
 
@@ -117,7 +117,7 @@ qx.Clazz.define("qx.client.NativeWindow",
     {
       type         : "boolean",
       defaultValue : false,
-      compat       : true
+      _legacy      : true
     },
 
 
@@ -126,7 +126,7 @@ qx.Clazz.define("qx.client.NativeWindow",
     {
       type         : "boolean",
       defaultValue : true,
-      compat       : true
+      _legacy      : true
     },
 
 
@@ -134,7 +134,7 @@ qx.Clazz.define("qx.client.NativeWindow",
     url :
     {
       type   : "string",
-      compat : true
+      _legacy : true
     },
 
 
@@ -142,7 +142,7 @@ qx.Clazz.define("qx.client.NativeWindow",
     name :
     {
       type   : "string",
-      compat : true
+      _legacy : true
     },
 
 
@@ -151,7 +151,7 @@ qx.Clazz.define("qx.client.NativeWindow",
     {
       type         : "string",
       defaultValue : "Ready",
-      compat       : true
+      _legacy      : true
     },
 
 
@@ -160,7 +160,7 @@ qx.Clazz.define("qx.client.NativeWindow",
     {
       type         : "boolean",
       defaultValue : false,
-      compat       : true
+      _legacy      : true
     },
 
 
@@ -169,7 +169,7 @@ qx.Clazz.define("qx.client.NativeWindow",
     {
       type         : "boolean",
       defaultValue : false,
-      compat       : true
+      _legacy      : true
     },
 
 
@@ -178,7 +178,7 @@ qx.Clazz.define("qx.client.NativeWindow",
     {
       type         : "boolean",
       defaultValue : false,
-      compat       : true
+      _legacy      : true
     },
 
 
@@ -187,7 +187,7 @@ qx.Clazz.define("qx.client.NativeWindow",
     {
       type         : "boolean",
       defaultValue : false,
-      compat       : true
+      _legacy      : true
     },
 
 
@@ -196,7 +196,7 @@ qx.Clazz.define("qx.client.NativeWindow",
     {
       type         : "boolean",
       defaultValue : true,
-      compat       : true
+      _legacy      : true
     },
 
 
@@ -205,7 +205,15 @@ qx.Clazz.define("qx.client.NativeWindow",
     {
       type         : "boolean",
       defaultValue : true,
-      compat       : true
+      _legacy      : true
+    },
+
+    location : {
+      group : [ "left", "right" ]
+    },
+
+    dimension : {
+      group : [ "width", "height" ]
     }
   },
 

@@ -47,7 +47,7 @@ qx.Clazz.define("qx.test.Cat",
   {
     color :
     {
-      compat       : true,
+      _legacy      : true,
       type         : "string",
       defaultValue : "brown"
     }
@@ -100,7 +100,7 @@ qx.Clazz.define("qx.test.Cat",
 
     properties.add("sound",
     {
-      compat : true,
+      _legacy : true,
       type   : "string"
     });
   }

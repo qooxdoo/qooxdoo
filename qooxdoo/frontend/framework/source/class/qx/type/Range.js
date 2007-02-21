@@ -62,7 +62,7 @@ qx.Clazz.define("qx.type.Range",
     {
       type         : "number",
       defaultValue : 0,
-      compat       : true
+      _legacy      : true
     },
 
     /** minimal value of the Range object */
@@ -70,7 +70,7 @@ qx.Clazz.define("qx.type.Range",
     {
       type         : "number",
       defaultValue : 0,
-      compat       : true
+      _legacy      : true
     },
 
     /** maximal value of the Range object */
@@ -78,7 +78,7 @@ qx.Clazz.define("qx.type.Range",
     {
       type         : "number",
       defaultValue : 100,
-      compat       : true
+      _legacy      : true
     },
 
     /** Step size for increments/decrements of the value property */
@@ -86,7 +86,7 @@ qx.Clazz.define("qx.type.Range",
     {
       type         : "number",
       defaultValue : 1,
-      compat       : true
+      _legacy      : true
     }
   },
 

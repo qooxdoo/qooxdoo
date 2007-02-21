@@ -178,7 +178,7 @@ qx.Clazz.define("qx.OO",
         //qx.core.Bootstrap.alert(qx.Class.classname + ": Use of old addPropertyGroup implementation for property " + config.name);
       }
 
-      return qx.core.LegacyProperty.addPropertyGroup(config, qx.Proto);
+      return qx.Clazz.addPropertyGroup(config, qx.Proto);
     },
 
     /**
