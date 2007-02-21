@@ -47,9 +47,9 @@ qx.Clazz.define("qx.net.HttpRequest",
         return new XMLHttpRequest;
       },
 
-      mshtml : qx.lang.Object.select(window.XMLHttpRequest ? "native" : "activeX",
+      mshtml : qx.lang.Object.select(window.XMLHttpRequest ? "browser" : "activeX",
       {
-        native : function() {
+        browser : function() {
           return new XMLHttpRequest;
         },
 
