@@ -23,11 +23,20 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.net.Http",
+qx.Clazz.define("qx.net.Http",
 {
-  METHOD_GET : "GET",
-  METHOD_POST : "POST",
-  METHOD_PUT : "PUT",
-  METHOD_HEAD : "HEAD",
-  METHOD_DELETE : "DELETE"
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics :
+  {
+    METHOD_GET    : "GET",
+    METHOD_POST   : "POST",
+    METHOD_PUT    : "PUT",
+    METHOD_HEAD   : "HEAD",
+    METHOD_DELETE : "DELETE"
+  }
 });
