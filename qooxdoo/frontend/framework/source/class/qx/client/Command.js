@@ -44,6 +44,7 @@
 qx.Clazz.define("qx.client.Command",
 {
   extend : qx.core.Target,
+  events : [ "execute" ],
 
 
 
