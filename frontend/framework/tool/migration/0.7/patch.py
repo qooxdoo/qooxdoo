@@ -32,6 +32,9 @@ def getMode(var, classname):
   last = var.getLastChild(False, True)
   prev = last.getPreviousSibling(False, True)
 
+  if not prev:
+    return None
+
   if prev.type == "identifier":
     mode = prev.get("name")
 
