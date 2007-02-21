@@ -60,13 +60,15 @@ qx.Clazz.define("qx.net.HttpRequest",
            it is recommended to check for availability of MSXML versions 6.0 and 3.0.
            Other versions are included for completeness, 5.0 is excluded as it is
            "off-by-default" in IE7 (which could trigger a goldbar).
-            http://blogs.msdn.com/xmlteam/archive/2006/10/23/using-the-right-version-of-msxml-in-internet-explorer.aspx
+
+           http://blogs.msdn.com/xmlteam/archive/2006/10/23/using-the-right-version-of-msxml-in-internet-explorer.aspx
            http://msdn.microsoft.com/library/default.asp?url=/library/en-us/xmlsdk/html/aabe29a2-bad2-4cea-8387-314174252a74.asp
-            MSXML 3 is preferred over MSXML 6 because the IE7 native XMLHttpRequest returns
+
+           MSXML 3 is preferred over MSXML 6 because the IE7 native XMLHttpRequest returns
            a MSXML 3 document and so does not properly work with other types of xml documents.
           */
 
-          var vServers =
+          var servers =
           [
             "MSXML2.XMLHTTP.3.0",
             "MSXML2.XMLHTTP.6.0",
@@ -75,29 +77,29 @@ qx.Clazz.define("qx.net.HttpRequest",
             "Microsoft.XMLHTTP"  // v2.x
           ];
 
-          var vObject;
-          var vServer;
+          var obj;
+          var server;
 
-          for (var i=0, l=vServers.length; i<l; i++)
+          for (var i=0, l=servers.length; i<l; i++)
           {
-            vServer = vServers[i];
+            server = servers[i];
 
             try
             {
-              vObject = new ActiveXObject(vServer);
+              obj = new ActiveXObject(server);
               break;
             }
             catch(ex)
             {
-              vObject = null;
+              obj = null;
             }
           }
 
-          if (vObject) {
-            this.__server = vServer;
+          if (obj) {
+            this.__server = server;
           }
 
-          return vObject;
+          return obj;
         }
       }),
 
