@@ -95,7 +95,7 @@ def createDoc(syntaxTree, docTree = None):
             currClassNode = handleClassDefinition(docTree, item, var.children[1].get("name").lower())
 
 
-  except Exception:
+  except DocException:
     exc = sys.exc_info()[1]
     msg = ""
 
