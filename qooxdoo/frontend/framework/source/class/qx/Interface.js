@@ -327,8 +327,7 @@ qx.Clazz.define("qx.Interface",
 
         return origFunction.apply(this, arguments);
       }
-      // set self to keep private members working
-      wrappedFunction.self = origFunction.self;
+      origFunction.wrapper = wrappedFunction;
       return wrappedFunction;
     },
 
