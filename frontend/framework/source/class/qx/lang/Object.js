@@ -243,6 +243,26 @@ qx.Clazz.define("qx.lang.Object",
       }
 
       return result;
-    }
+    },
+    
+        
+    /**
+     * Get the key of the given value from a map.
+     * If the map has more than one key matching the value the fist match is returned.
+     * If the map does not contain the value <code>null</code> is returned.
+     * 
+     * @param vObject {Object} Map to search for the key
+     * @param value {var} Value to look for
+     * @return {String|null} Name of the key (null if not found).
+     */
+     getKeyFromValue: function(vObject, value)
+     {
+       for (var key in vObject) {
+         if (vObject[key] === value) {
+           return key;
+         }
+       }
+       return null;
+     }
   }
 });
