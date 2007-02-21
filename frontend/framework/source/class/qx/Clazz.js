@@ -314,6 +314,17 @@ qx.Clazz.define("qx.Clazz",
 
 
     /**
+     * Determine the number of classes which are defined
+     *
+     * @type static
+     * @return {Number} the number of classes
+     */
+    getNumber : function() {
+      return qx.lang.Object.getLength(this.__registry);
+    },
+
+
+    /**
      * Returns a Class by name
      *
      * @type static

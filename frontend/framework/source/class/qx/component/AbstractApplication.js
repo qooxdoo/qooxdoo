@@ -24,7 +24,12 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.component.AbstractApplication", qx.component.AbstractComponent,
-function() {
-  qx.component.AbstractComponent.call(this);
+qx.Clazz.define("qx.component.AbstractApplication",
+{
+  type : "abstract",
+  extend : qx.component.AbstractComponent,
+
+  construct : function() {
+    qx.component.AbstractComponent.call(this);
+  }
 });
