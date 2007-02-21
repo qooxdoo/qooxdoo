@@ -291,16 +291,16 @@ def compile(node, enablePretty=True, enableBreaks=False, enableDebug=False):
   global afterDivider
   global afterArea
 
-  indent = 0
-  result = u""
-  pretty = enablePretty
-  debug = enableDebug
-  breaks = enableBreaks
-  afterLine = False
-  afterBreak = False
-  afterDoc = False
+  indent       = 0
+  result       = u""
+  pretty       = enablePretty
+  debug        = enableDebug
+  breaks       = enableBreaks
+  afterLine    = False
+  afterBreak   = False
+  afterDoc     = False
   afterDivider = False
-  afterArea = False
+  afterArea    = False
 
   if enablePretty:
     comment.fill(node)
