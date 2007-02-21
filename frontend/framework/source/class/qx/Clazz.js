@@ -88,7 +88,7 @@ qx.Clazz.define("qx.Clazz",
      *
      *   properties:
      *   {
-     *     "tabIndexOld": { type: "number", defaultValue : -1, compat : true }
+     *     "tabIndexOld": { type: "number", defaultValue : -1, _legacy : true }
      *     "tabIndex": { type: "number", init : -1 }
      *   },
      *
@@ -730,14 +730,14 @@ qx.Clazz.define("qx.Clazz",
 
       property.name = propertyName;
 
-      if (property.fast) {
+      if (property._fast) {
         legacy.addFastProperty(property, proto);
-      } else if (property.cached) {
+      } else if (property._cached) {
         legacy.addCachedProperty(property, proto);
-      } else if (property.compat) {
+      } else if (property._legacy) {
         legacy.addProperty(property, proto);
-      } else if (property.members) {
-        legacy.addPropertyGroup(property, proto);
+      } else if (property.group) {
+        this.addPropertyGroup(property, proto);
       } else if (qx.core.Variant.isSet("qx.debug", "on")) {
         throw new Error('Could not handle property definition "' + propertyName + '" in clazz "' + clazz.classname + "'");
       }
@@ -948,6 +948,108 @@ qx.Clazz.define("qx.Clazz",
       }
     },
 
+
+
+    /*
+    ---------------------------------------------------------------------------
+       PROPERTY GROUPS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param config {var} TODOC
+     * @param proto {var} TODOC
+     * @return {void}
+     * @throws TODOC
+     */
+    addPropertyGroup : function(config, proto)
+    {
+      if (typeof config !== "object") {
+        throw new Error("Param should be an object!");
+      }
+
+      if (typeof config.name != "string") {
+        throw new Error("Malformed input parameters: name needed!");
+      }
+
+      // qooxdoo 0.7 style property groups
+      if (config.group) {
+        config.members = config.group;
+      }
+
+      if (typeof config.members != "object") {
+        throw new Error("Malformed input parameters: members needed!");
+      }
+
+      config.method = qx.lang.String.toFirstUp(config.name);
+
+      config.getter = [];
+      config.setter = [];
+
+      for (var i=0, l=config.members.length; i<l; i++) {
+        config.setter.push("set" + qx.lang.String.toFirstUp(config.members[i]));
+      }
+
+      for (var i=0, l=config.members.length; i<l; i++) {
+        config.getter.push("get" + qx.lang.String.toFirstUp(config.members[i]));
+      }
+
+      proto["get" + config.method] = function()
+      {
+        var a = [];
+        var g = config.getter;
+
+        for (var i=0, l=g.length; i<l; i++) {
+          a.push(this[g[i]]());
+        }
+
+        return a;
+      };
+
+      switch(config.mode)
+      {
+        case "shorthand":
+          proto["set" + config.method] = function()
+          {
+            if (arguments.length > 4 || arguments.length == 0) {
+              throw new Error("Invalid number of arguments for property " + config.name + ": " + arguments);
+            }
+
+            try {
+              var ret = qx.lang.Array.fromShortHand(qx.lang.Array.fromArguments(arguments));
+            } catch(ex) {
+              throw new Error("Invalid shorthand values for property " + config.name + ": " + arguments + ": " + ex);
+            }
+
+            var s = config.setter;
+            var l = s.length;
+
+            for (var i=0; i<l; i++) {
+              this[s[i]](ret[i]);
+            }
+          };
+
+          break;
+
+        default:
+          proto["set" + config.method] = function()
+          {
+            var s = config.setter;
+            var l = s.length;
+
+            if (arguments.length != l) {
+              throw new Error("Invalid number of arguments (needs: " + l + ", is: " + arguments.length + ") for property " + config.name + ": " + qx.lang.Array.fromArguments(arguments).toString());
+            }
+
+            for (var i=0; i<l; i++) {
+              this[s[i]](arguments[i]);
+            }
+          };
+      }
+    },
 
 
 

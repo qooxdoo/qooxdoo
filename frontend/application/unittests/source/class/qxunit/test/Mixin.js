@@ -13,7 +13,7 @@ qx.Clazz.define("qxunit.test.Mixin", {
 					bar: function() { return "bar"; }
 				},
 				properties: {
-					color: { compat: true }
+					color: { _legacy: true }
 				}
 			});
 
@@ -70,7 +70,7 @@ qx.Clazz.define("qxunit.test.Mixin", {
 					include: qxunit.MMix1,
 					construct: function() {},
 					properties: {
-						color: { compat: true }
+						color: { _legacy: true }
 					}
 				});			
 			}, Error, "Overwriting property");

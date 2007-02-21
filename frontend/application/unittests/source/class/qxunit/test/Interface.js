@@ -32,7 +32,7 @@ qx.Clazz.define("qxunit.test.Interface", {
 					honk: function() { return "honk"; }
 				},
 				properties: {
-					color: { compat: true }
+					color: { _legacy: true }
 				}
 		    });
     
@@ -57,7 +57,7 @@ qx.Clazz.define("qxunit.test.Interface", {
 						honk: function() { return "honk"; }
 					},
 					properties: {
-						color: { compat: true }
+						color: { _legacy: true }
 					}
 			    });
 		    }, Error, 'Implementation of method "startEngine" is missing');
@@ -184,7 +184,7 @@ qx.Clazz.define("qxunit.test.Interface", {
 				statics: {
 					sayHello: function() { return true; }
 				},
-				properties: {"color": { compat: true }, "name": { compat: true} }				
+				properties: {"color": { _legacy: true }, "name": { _legacy: true} }				
 			}
 			
 			// all implemented

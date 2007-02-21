@@ -101,7 +101,7 @@ qx.Clazz.define("qx.client.Command",
     shortcut :
     {
       type   : "string",
-      compat : true
+      _legacy : true
     },
 
 
@@ -114,14 +114,14 @@ qx.Clazz.define("qx.client.Command",
     keyCode :
     {
       type   : "number",
-      compat : true
+      _legacy : true
     },
 
     /** KeyIdentifier */
     keyIdentifier :
     {
       type   : "string",
-      compat : true
+      _legacy : true
     }
   },
 

@@ -291,7 +291,7 @@ qx.Clazz.define("qx.core.Object",
      */
     enabled :
     {
-      compat       : true,
+      _legacy      : true,
       type         : "boolean",
       defaultValue : true,
       getAlias     : "isEnabled"

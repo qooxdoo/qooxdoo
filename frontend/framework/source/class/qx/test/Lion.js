@@ -18,7 +18,7 @@ qx.Clazz.define("qx.test.Lion",
   {
     color :
     {
-      compat       : true,
+      _legacy      : true,
       type         : "string",
       defaultValue : "yellow"
     }
