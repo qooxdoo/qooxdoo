@@ -27,58 +27,83 @@
 /**
  * Abstract application initializer
  */
-qx.OO.defineClass("qx.component.init.AbstractInitComponent", qx.component.AbstractComponent,
-function() {
-  qx.component.AbstractComponent.call(this);
+qx.Clazz.define("qx.component.init.AbstractInitComponent",
+{
+  type : "abstract",
+  extend : qx.component.AbstractComponent,
+
+  construct : function() {
+    qx.component.AbstractComponent.call(this);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /**
+     * Run initialisation part of component creation.
+     *
+     * @type member
+     * @param e {Event} event object
+     * @return {var} TODOC
+     */
+    initialize : function(e) {
+      return qx.core.Init.getInstance().getApplicationInstance().initialize(e);
+    },
+
+
+    /**
+     * Run main  part of component creation.
+     *
+     * @type member
+     * @param e {Event} event object
+     * @return {var} TODOC
+     */
+    main : function(e) {
+      return qx.core.Init.getInstance().getApplicationInstance().main(e);
+    },
+
+
+    /**
+     * Run finalization part of component creation.
+     *
+     * @type member
+     * @param e {Event} event object
+     * @return {var} TODOC
+     */
+    finalize : function(e) {
+      return qx.core.Init.getInstance().getApplicationInstance().finalize(e);
+    },
+
+
+    /**
+     * Terminate this component.
+     *
+     * @type member
+     * @param e {Event} event object
+     * @return {var} TODOC
+     */
+    close : function(e) {
+      return qx.core.Init.getInstance().getApplicationInstance().close(e);
+    },
+
+
+    /**
+     * Terminate this component.
+     *
+     * @type member
+     * @param e {Event} event object
+     * @return {var} TODOC
+     */
+    terminate : function(e) {
+      return qx.core.Init.getInstance().getApplicationInstance().terminate(e);
+    }
+  }
 });
-
-
-
-/**
- * Run initialisation part of component creation.
- *
- * @param e {Event} event object
- */
-qx.Proto.initialize = function(e) {
-  return qx.core.Init.getInstance().getApplicationInstance().initialize(e);
-};
-
-
-/**
- * Run main  part of component creation.
- *
- * @param e {Event} event object
- */
-qx.Proto.main = function(e) {
-  return qx.core.Init.getInstance().getApplicationInstance().main(e);
-};
-
-
-/**
- * Run finalization part of component creation.
- *
- * @param e {Event} event object
- */
-qx.Proto.finalize = function(e) {
-  return qx.core.Init.getInstance().getApplicationInstance().finalize(e);
-};
-
-
-/**
- * Terminate this component.
- *
- * @param e {Event} event object
- */
-qx.Proto.close = function(e) {
-  return qx.core.Init.getInstance().getApplicationInstance().close(e);
-};
-
-
-/**
- * Terminate this component.
- *
- * @param e {Event} event object
- */
-qx.Proto.terminate = function(e) {
-  return qx.core.Init.getInstance().getApplicationInstance().terminate(e);
-};
