@@ -238,7 +238,7 @@ def getReturns(node, found):
         val = "Function"
 
       elif expr.hasChild("call"):
-        val = "call"
+        val = "var"
 
     if not val in found:
       found.append(val)
@@ -720,7 +720,7 @@ def fromFunction(func, assignType, name, alternative, old=[]):
       if len(returns) > 0:
         newType = " | ".join(returns)
       elif name != None and name.startswith("is") and name[3].isupper():
-        newType = "boolean"
+        newType = "Boolean"
 
     # Add documentation hint in non void cases
     if newType != "void" and newText == "":
