@@ -114,7 +114,7 @@ def getparser():
   parser.add_option("--optimize-variables-skip-prefix", action="store", dest="optimizeVariablesSkipPrefix", metavar="PREFIX", default="", help="Skip optimization of variables beginning with PREFIX [default: optimize all variables].")
   parser.add_option("--optimize-base-call", action="store_true", dest="optimizeBaseCall", default=False, help="Optimize call to 'this.base'. Optimizing runtime of super class calls.")
   parser.add_option("--optimize-private", action="store_true", dest="optimizePrivate", default=False, help="Optimize private members. Reducing size and testing private.")
-  parser.add_option("--obfuscate", action="store_true", dest="obfuscate", default=True, help="Enable obfuscation")
+  parser.add_option("--obfuscate", action="store_true", dest="obfuscate", default=False, help="Enable obfuscation")
   parser.add_option("--log-level", dest="logLevel", type="string", default="all", help="Define the log level like in qx.log.Logger.")
 
   # Options for resource copying
