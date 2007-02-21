@@ -1099,7 +1099,8 @@ qx.Clazz.define("qx.Clazz",
     {
       if (arguments.caller || arguments.callee.caller)  // check if caller is available
       {
-        var privateMember = function() {
+        var privateMember = function()
+        {
           // IE defines arguments.caller.callee
           // Firefox and Webkit define arguments.callee.caller
           var caller = arguments.caller ? arguments.caller.callee : arguments.callee.caller;
@@ -1109,7 +1110,8 @@ qx.Clazz.define("qx.Clazz",
             caller = caller.caller;
           }
 
-          if (caller.context.constructor != clazz) {
+          if (caller.context.constructor != clazz)
+          {
             if (caller.context) {
               var from = caller.context.classname + ":" + (qx.Clazz.getFunctionName(caller) || "unknown") + "()";
             } else {
@@ -1117,9 +1119,12 @@ qx.Clazz.define("qx.Clazz",
             }
             throw new Error("Private method '"+name+"' of class '"+clazz.classname+"' called from '"+from+"'!");
           }
+
           return method.apply(this, arguments);
         };
+
         method.wrapper = privateMember;
+
         return privateMember;
       }
       else
@@ -1143,7 +1148,8 @@ qx.Clazz.define("qx.Clazz",
     {
       if (arguments.caller || arguments.callee.caller)  // check if caller is available
       {
-        var protectedMember = function() {
+        var protectedMember = function()
+        {
           // IE defines arguments.caller.callee
           // Firefox and Webkit define arguments.callee.caller
           var caller = arguments.caller ? arguments.caller.callee : arguments.callee.caller;
@@ -1153,16 +1159,20 @@ qx.Clazz.define("qx.Clazz",
             caller = caller.caller;
           }
 
-          if (!caller.context instanceof clazz) {
+          if (!caller.context instanceof clazz)
+          {
             if (caller.context) {
               var from = caller.context.classname + ":" + (qx.Clazz.getFunctionName(caller) || "unknown") + "()";
             } else {
               from = "unknown"
             }
+
             throw new Error("Protected method '"+name+"' of class '"+clazz.classname+"' called from '" + from + "'!");
           }
+
           return method.apply(this, arguments);
         };
+
         method.wrapper = protectedMember;
         return protectedMember;
       }
@@ -1186,7 +1196,8 @@ qx.Clazz.define("qx.Clazz",
     {
       if (arguments.caller || arguments.callee.caller)  // check if caller is available
       {
-        var privateMember = function() {
+        var privateMember = function()
+        {
           // IE defines arguments.caller.callee
           // Firefox and Webkit define arguments.callee.caller
           var caller = arguments.caller ? arguments.caller.callee : arguments.callee.caller;
@@ -1196,17 +1207,21 @@ qx.Clazz.define("qx.Clazz",
             caller = caller.caller;
           }
 
-          if (caller.self != clazz) {
+          if (caller.self != clazz)
+          {
             if (caller.self) {
               var from = caller.self.classname + ":" + (qx.Clazz.getFunctionName(caller) || "unknown") + "()";
             } else {
               from = "unknown"
             }
+
             throw new Error("Private method '"+name+"' of class '"+clazz.classname+"' called from '"+from+"'!");
           }
           return method.apply(this, arguments);
         };
+
         method.wrapper = privateMember;
+
         return privateMember;
       }
       else
