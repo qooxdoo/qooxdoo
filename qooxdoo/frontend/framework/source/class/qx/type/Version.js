@@ -75,111 +75,140 @@
  * @param arrVersion {Array|String} array with three elements defining major,
  *   minor and revision number or an equivalent version string separated by '.'
  */
-qx.OO.defineClass("qx.type.Version", qx.core.Object,
-function(arrVersion)
+qx.Clazz.define("qx.type.Version",
 {
-  qx.core.Object.call(this);
+  extend : qx.core.Object,
 
-  if (typeof arrVersion === "string") {
-    arrVersion = arrVersion.split(".");
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(arrVersion)
+  {
+    qx.core.Object.call(this);
+
+    if (typeof arrVersion === "string") {
+      arrVersion = arrVersion.split(".");
+    }
+
+    this._major = parseInt(arrVersion[0]) || 0;
+    this._minor = parseInt(arrVersion[1]) || 0;
+    this._rev = parseInt(arrVersion[2]) || 0;
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      DATA FIELDS
+    ---------------------------------------------------------------------------
+    */
+
+    _major : 0,
+    _minor : 0,
+    _rev : 0,
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      USER VERSION ACCESS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Comapres the Version with another version number.
+     * Returns true if this version instance has a bigger version number
+     *
+     * @type member
+     * @param fv {qx.type.Version} Version number to compare with
+     * @return {Boolean} whether the version instance has a bigger version numbers.
+     */
+    versionIsValid : function(fv)
+    {
+      if (this.getMajor() < fv.getMajor()) return false;
+      if (this.getMajor() > fv.getMajor()) return true;
+
+      if (this.getMinor() < fv.getMinor()) return false;
+      if (this.getMinor() > fv.getMinor()) return true;
+
+      if (this.getRev() < fv.getRev()) return false;
+
+      return true;
+    },
+
+
+    /**
+     * Return major version number
+     *
+     * @type member
+     * @return {String | Integer} major version number
+     */
+    getMajor : function() {
+      return this._major;
+    },
+
+
+    /**
+     * Return minor version number
+     *
+     * @type member
+     * @return {String | Integer} minor version number
+     */
+    getMinor : function() {
+      return this._minor;
+    },
+
+
+    /**
+     * Return revision number
+     *
+     * @type member
+     * @return {String | Integer} revision number
+     */
+    getRev : function() {
+      return this._rev;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DISPOSER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Destructor
+     *
+     * @type member
+     * @return {void} 
+     */
+    dispose : function()
+    {
+      if (this.getDisposed()) {
+        return;
+      }
+
+      this._major = this._minor = this._rev = null;
+
+      qx.core.Object.prototype.dispose.call(this);
+    }
   }
-
-  this._major = parseInt(arrVersion[0]) || 0;
-  this._minor = parseInt(arrVersion[1]) || 0;
-  this._rev = parseInt(arrVersion[2]) || 0;
 });
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DATA FIELDS
----------------------------------------------------------------------------
-*/
-
-qx.Proto._major = 0;
-qx.Proto._minor = 0;
-qx.Proto._rev = 0;
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  USER VERSION ACCESS
----------------------------------------------------------------------------
-*/
-
-/**
- * Comapres the Version with another version number.
- * Returns true if this version instance has a bigger version number
- *
- * @param fv {qx.type.Version} Version number to compare with
- * @return {Boolean} whether the version instance has a bigger version numbers.
- */
-qx.Proto.versionIsValid = function(fv)
-{
-  if (this.getMajor() < fv.getMajor()) return false;
-  if (this.getMajor() > fv.getMajor()) return true;
-
-  if (this.getMinor() < fv.getMinor()) return false;
-  if (this.getMinor() > fv.getMinor()) return true;
-
-  if (this.getRev() < fv.getRev()) return false;
-
-  return true;
-};
-
-
-/**
- * Return major version number
- *
- * @return {String|Integer} major version number
- */
-qx.Proto.getMajor = function() {
-  return this._major;
-};
-
-
-/**
- * Return minor version number
- *
- * @return {String|Integer} minor version number
- */
-qx.Proto.getMinor = function() {
-  return this._minor;
-};
-
-
-/**
- * Return revision number
- *
- * @return {String|Integer} revision number
- */
-qx.Proto.getRev = function() {
-  return this._rev;
-};
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DISPOSER
----------------------------------------------------------------------------
-*/
-
-/** Destructor */
-qx.Proto.dispose = function()
-{
-  if (this.getDisposed()) {
-    return;
-  }
-
-  this._major = this._minor = this._rev = null;
-
-  qx.core.Object.prototype.dispose.call(this);
-}
