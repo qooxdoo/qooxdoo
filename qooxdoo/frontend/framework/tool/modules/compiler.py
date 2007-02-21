@@ -1489,7 +1489,7 @@ def main():
     restree = treegenerator.createSyntaxTree(tokenizer.parseFile(fileName, "", options.encoding))
 
     if options.optimizeVariables:
-      variableoptimizer.search(restree, [], 0, "$")
+      variableoptimizer.search(restree, [], 0, 0, "$")
 
     compiledString = compile(restree, not options.compress)
     if options.write:
