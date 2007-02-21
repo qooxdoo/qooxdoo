@@ -28,62 +28,173 @@
  *
  * @event change {qx.event.type.Event}
  */
-qx.OO.defineClass("qx.type.Range", qx.core.Target,
-function() {
-  qx.core.Target.call(this);
+qx.Clazz.define("qx.type.Range",
+{
+  extend : qx.core.Target,
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function() {
+    qx.core.Target.call(this);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+
+    /** current value of the Range object */
+    value :
+    {
+      type         : "number",
+      defaultValue : 0,
+      compat       : true
+    },
+
+    /** minimal value of the Range object */
+    min :
+    {
+      type         : "number",
+      defaultValue : 0,
+      compat       : true
+    },
+
+    /** maximal value of the Range object */
+    max :
+    {
+      type         : "number",
+      defaultValue : 100,
+      compat       : true
+    },
+
+    /** Step size for increments/decrements of the value property */
+    step :
+    {
+      type         : "number",
+      defaultValue : 1,
+      compat       : true
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @return {call} TODOC
+     */
+    _checkValue : function(propValue) {
+      return Math.max(this.getMin(), Math.min(this.getMax(), Math.floor(propValue)));
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {boolean} TODOC
+     */
+    _modifyValue : function(propValue, propOldValue, propData)
+    {
+      if (this.hasEventListeners("change")) {
+        this.dispatchEvent(new qx.event.type.Event("change"), true);
+      }
+
+      return true;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @return {call} TODOC
+     */
+    _checkMax : function(propValue) {
+      return Math.floor(propValue);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {boolean} TODOC
+     */
+    _modifyMax : function(propValue, propOldValue, propData)
+    {
+      this.setValue(Math.min(this.getValue(), propValue));
+
+      if (this.hasEventListeners("change")) {
+        this.dispatchEvent(new qx.event.type.Event("change"), true);
+      }
+
+      return true;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @return {call} TODOC
+     */
+    _checkMin : function(propValue) {
+      return Math.floor(propValue);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {boolean} TODOC
+     */
+    _modifyMin : function(propValue, propOldValue, propData)
+    {
+      this.setValue(Math.max(this.getValue(), propValue));
+
+      if (this.hasEventListeners("change")) {
+        this.dispatchEvent(new qx.event.type.Event("change"), true);
+      }
+
+      return true;
+    }
+  }
 });
-
-/** current value of the Range object */
-qx.OO.addProperty({ name : "value", type : "number", defaultValue : 0 });
-
-/** minimal value of the Range object */
-qx.OO.addProperty({ name : "min", type : "number", defaultValue : 0 });
-
-/** maximal value of the Range object */
-qx.OO.addProperty({ name : "max", type : "number", defaultValue : 100 });
-
-/** Step size for increments/decrements of the value property */
-qx.OO.addProperty({ name : "step", type : "number", defaultValue : 1 });
-
-qx.Proto._checkValue = function(propValue) {
-  return Math.max(this.getMin(), Math.min(this.getMax(), Math.floor(propValue)));
-}
-
-qx.Proto._modifyValue = function(propValue, propOldValue, propData)
-{
-  if (this.hasEventListeners("change")) {
-    this.dispatchEvent(new qx.event.type.Event("change"), true);
-  }
-
-  return true;
-}
-
-qx.Proto._checkMax = function(propValue) {
-  return Math.floor(propValue);
-}
-
-qx.Proto._modifyMax = function(propValue, propOldValue, propData)
-{
-  this.setValue(Math.min(this.getValue(), propValue));
-
-  if (this.hasEventListeners("change")) {
-    this.dispatchEvent(new qx.event.type.Event("change"), true);
-  }
-
-  return true;
-}
-
-qx.Proto._checkMin = function(propValue) {
-  return Math.floor(propValue);
-}
-
-qx.Proto._modifyMin = function(propValue, propOldValue, propData)
-{
-  this.setValue(Math.max(this.getValue(), propValue));
-
-  if (this.hasEventListeners("change")) {
-    this.dispatchEvent(new qx.event.type.Event("change"), true);
-  }
-
-  return true;
-}
