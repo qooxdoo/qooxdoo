@@ -23,15 +23,23 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.net.Protocol",
+qx.Clazz.define("qx.net.Protocol",
 {
-  HTTP : "http",
-  HTTPS : "https",
-  FTP : "ftp",
-  FILE : "file",
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
 
-  URI_HTTP : "http://",
-  URI_HTTPS : "https://",
-  URI_FTP : "ftp://",
-  URI_FILE : "file://"
+  statics :
+  {
+    HTTP      : "http",
+    HTTPS     : "https",
+    FTP       : "ftp",
+    FILE      : "file",
+    URI_HTTP  : "http://",
+    URI_HTTPS : "https://",
+    URI_FTP   : "ftp://",
+    URI_FILE  : "file://"
+  }
 });
