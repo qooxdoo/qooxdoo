@@ -52,15 +52,10 @@ qx.Clazz.define("qx.core.Init",
   {
     qx.core.Target.call(this, false);
 
-    // Bind Dom event handlers to this
-    this.__onload = qx.lang.Function.bind(this._onload, this);
-    this.__onbeforeunload = qx.lang.Function.bind(this._onbeforeunload, this);
-    this.__onunload = qx.lang.Function.bind(this._onunload, this);
-
-    // Attach events
-    qx.html.EventRegistration.addEventListener(window, "load", this.__onload);
-    qx.html.EventRegistration.addEventListener(window, "beforeunload", this.__onbeforeunload);
-    qx.html.EventRegistration.addEventListener(window, "unload", this.__onunload);
+    // Attach DOM events
+    qx.html.EventRegistration.addEventListener(window, "load", qx.lang.Function.bind(this._onload, this));
+    qx.html.EventRegistration.addEventListener(window, "beforeunload", qx.lang.Function.bind(this._onbeforeunload, this));
+    qx.html.EventRegistration.addEventListener(window, "unload", qx.lang.Function.bind(this._onunload, this));
   },
 
 
@@ -74,12 +69,6 @@ qx.Clazz.define("qx.core.Init",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
     /**
      * Instance of the component initializer.
      */
