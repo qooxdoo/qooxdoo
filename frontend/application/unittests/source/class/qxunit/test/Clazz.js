@@ -209,7 +209,7 @@ qx.Clazz.define("qxunit.test.Clazz", {
 					statics.FOO = 12;
 					statics.sayHello = function() { return "Hello"; };
 					prot.sayJuhu = function() { return "Juhu"; };
-					settings.add("color", {compat: true });
+					settings.add("color", {_legacy: true });
 				}				
 			});
 			

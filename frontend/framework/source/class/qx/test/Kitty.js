@@ -23,7 +23,7 @@ qx.Clazz.define("qx.test.Kitty",
   {
     color :
     {
-      compat       : true,
+      _legacy      : true,
       type         : "string",
       defaultValue : "black"
     }

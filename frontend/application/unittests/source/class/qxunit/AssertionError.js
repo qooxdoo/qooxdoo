@@ -8,8 +8,8 @@ qx.Clazz.define("qxunit.AssertionError", {
 	},
 	
 	properties: {
-		comment: { type: "string", compat: true },
-		message: { type: "string", compat: true }
+		comment: { type: "string", _legacy: true },
+		message: { type: "string", _legacy: true }
 	},
 	
 	members: {

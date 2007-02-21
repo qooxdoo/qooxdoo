@@ -113,7 +113,7 @@ qx.Clazz.define("qx.client.Timer",
     {
       type         : "number",
       defaultValue : 1000,
-      compat       : true
+      _legacy      : true
     }
   },
 

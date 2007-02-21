@@ -42,10 +42,10 @@ qx.Clazz.define("qxunit.profile.Profile", {
 						d: function() {}
 					},
 					properties: {
-						prop1: {compat: true},
-						prop2: {compat: true},
-						prop3: {compat: true},
-						prop4: {compat: true}
+						prop1: {_legacy: true},
+						prop2: {_legacy: true},
+						prop3: {_legacy: true},
+						prop4: {_legacy: true}
 					}
 			    });
 		    }
