@@ -29,7 +29,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "
 import config, tokenizer, loader, api, tree, treegenerator, settings, variants, resources
 import filetool, stringoptimizer, optparseext, privateoptimizer, variableoptimizer, compiler
 import migrator, textutil, graph, logoptimizer, variantoptimizer, basecalloptimizer
-
+import obfuscator
 
 
 
@@ -114,6 +114,7 @@ def getparser():
   parser.add_option("--optimize-variables-skip-prefix", action="store", dest="optimizeVariablesSkipPrefix", metavar="PREFIX", default="", help="Skip optimization of variables beginning with PREFIX [default: optimize all variables].")
   parser.add_option("--optimize-base-call", action="store_true", dest="optimizeBaseCall", default=False, help="Optimize call to 'this.base'. Optimizing runtime of super class calls.")
   parser.add_option("--optimize-private", action="store_true", dest="optimizePrivate", default=False, help="Optimize private members. Reducing size and testing private.")
+  parser.add_option("--obfuscate", action="store_true", dest="obfuscate", default=True, help="Enable obfuscation")
   parser.add_option("--log-level", dest="logLevel", type="string", default="all", help="Define the log level like in qx.log.Logger.")
 
   # Options for resource copying
@@ -710,7 +711,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
   #  LOCAL VARIABLE OPTIMIZATION
   ######################################################################
 
-  if options.optimizeVariables:
+  if options.optimizeVariables or options.obfuscate:
     print
     print "  LOCAL VARIABLE OPTIMIZATION:"
     print "----------------------------------------------------------------------------"
@@ -768,7 +769,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     if not options.verbose:
       print
 
-    print "  * Optimized %s keys" % counter
+    print "  * Optimized %s calls" % counter
 
 
 
@@ -805,6 +806,44 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
 
 
+
+
+  ######################################################################
+  #  OBFUSCATION
+  ######################################################################
+
+  if options.obfuscate:
+    print
+    print "  OBFUSCATION:"
+    print "----------------------------------------------------------------------------"
+
+    if options.verbose:
+      print "  * Searching for assignments..."
+    else:
+      print "  * Searching for assignments: ",
+
+    identifiers = {}
+
+    for fileId in sortedIncludeList:
+      if options.verbose:
+        print "    - %s" % fileId
+      else:
+        sys.stdout.write(".")
+        sys.stdout.flush()
+
+      obfuscator.search(loader.getTree(fileDb, fileId, options), identifiers, options.verbose)
+
+    for fileId in sortedIncludeList:
+      if options.verbose:
+        print "    - %s" % fileId
+      else:
+        sys.stdout.write(".")
+        sys.stdout.flush()
+      
+      obfuscator.patch(loader.getTree(fileDb, fileId, options), identifiers, options.verbose)
+
+    if not options.verbose:
+      print
 
 
 
