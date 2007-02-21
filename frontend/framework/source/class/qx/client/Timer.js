@@ -27,157 +27,271 @@
  *
  * @event interval {qx.event.type.Event}
  */
-qx.OO.defineClass("qx.client.Timer", qx.core.Target,
-function(vInterval)
+qx.Clazz.define("qx.client.Timer",
 {
-  qx.core.Target.call(this);
+  extend : qx.core.Target,
 
-  this.setEnabled(false);
 
-  if (vInterval != null) {
-    this.setInterval(vInterval);
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(interval)
+  {
+    qx.core.Target.call(this);
+
+    this.setEnabled(false);
+
+    if (interval != null) {
+      this.setInterval(interval);
+    }
+
+    // Object wrapper to timer event
+    var o = this;
+
+    this.__oninterval = function() {
+      o._oninterval();
+    };
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics :
+  {
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param func {Function} TODOC
+     * @param obj {Object} TODOC
+     * @param timeout {Number} TODOC
+     * @return {void}
+     */
+    once : function(func, obj, timeout)
+    {
+      // Create time instance
+      var timer = new qx.client.Timer(timeout);
+
+      // Add event listener to interval
+      timer.addEventListener("interval", function(e)
+      {
+        func.call(obj, e);
+        timer.dispose();
+
+        obj = null;
+      },
+      obj);
+
+      // Directly start timer
+      timer.start();
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    interval :
+    {
+      type         : "number",
+      defaultValue : 1000,
+      compat       : true
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    __intervalHandler : null,
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      MODIFIER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {boolean} TODOC
+     */
+    _modifyEnabled : function(propValue, propOldValue, propData)
+    {
+      if (propOldValue)
+      {
+        window.clearInterval(this.__intervalHandler);
+        this.__intervalHandler = null;
+      }
+      else if (propValue)
+      {
+        this.__intervalHandler = window.setInterval(this.__oninterval, this.getInterval());
+      }
+
+      return true;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      USER-ACCESS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void}
+     */
+    start : function() {
+      this.setEnabled(true);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param interval {var} TODOC
+     * @return {void}
+     */
+    startWith : function(interval)
+    {
+      this.setInterval(interval);
+      this.start();
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void}
+     */
+    stop : function() {
+      this.setEnabled(false);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void}
+     */
+    restart : function()
+    {
+      this.stop();
+      this.start();
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param interval {var} TODOC
+     * @return {void}
+     */
+    restartWith : function(interval)
+    {
+      this.stop();
+      this.startWith(interval);
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT-MAPPER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void}
+     */
+    _oninterval : function()
+    {
+      if (this.getEnabled()) {
+        this.createDispatchEvent("interval");
+      }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DISPOSER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void | var} TODOC
+     */
+    dispose : function()
+    {
+      if (this.getDisposed()) {
+        return;
+      }
+
+      // Stop interval
+      this.stop();
+
+      // Clear handle
+      if (this.__intervalHandler)
+      {
+        window.clearInterval(this.__intervalHandler);
+        this.__intervalHandler = null;
+      }
+
+      // Clear object wrapper function
+      this.__oninterval = null;
+
+      // Call qx.core.Target to do the other dispose work
+      return qx.core.Target.prototype.dispose.call(this);
+    }
   }
-
-  // Object wrapper to timer event
-  var o = this;
-  this.__oninterval = function() { o._oninterval(); }
 });
-
-qx.OO.addProperty({ name : "interval", type : "number", defaultValue : 1000 });
-
-qx.Proto._intervalHandle = null;
-
-
-
-/*
----------------------------------------------------------------------------
-  MODIFIER
----------------------------------------------------------------------------
-*/
-
-qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
-{
-  if (propOldValue)
-  {
-    window.clearInterval(this._intervalHandle);
-    this._intervalHandle = null;
-  }
-  else if (propValue)
-  {
-    this._intervalHandle = window.setInterval(this.__oninterval, this.getInterval());
-  }
-
-  return true;
-}
-
-
-
-
-/*
----------------------------------------------------------------------------
-  USER-ACCESS
----------------------------------------------------------------------------
-*/
-
-qx.Proto.start = function() {
-  this.setEnabled(true);
-}
-
-qx.Proto.startWith = function(vInterval)
-{
-  this.setInterval(vInterval);
-  this.start();
-}
-
-qx.Proto.stop = function() {
-  this.setEnabled(false);
-}
-
-qx.Proto.restart = function()
-{
-  this.stop();
-  this.start();
-}
-
-qx.Proto.restartWith = function(vInterval)
-{
-  this.stop();
-  this.startWith(vInterval);
-}
-
-
-
-
-/*
----------------------------------------------------------------------------
-  EVENT-MAPPER
----------------------------------------------------------------------------
-*/
-
-qx.Proto._oninterval = function()
-{
-  if (this.getEnabled()) {
-    this.createDispatchEvent("interval");
-  }
-}
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DISPOSER
----------------------------------------------------------------------------
-*/
-
-qx.Proto.dispose = function()
-{
-  if(this.getDisposed()) {
-    return;
-  }
-
-  // Stop interval
-  this.stop();
-
-  // Clear handle
-  if (this._intervalHandler)
-  {
-    window.clearInterval(this._intervalHandle);
-    this._intervalHandler = null;
-  }
-
-  // Clear object wrapper function
-  this.__oninterval = null;
-
-  // Call qx.core.Target to do the other dispose work
-  return qx.core.Target.prototype.dispose.call(this);
-}
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  HELPER
----------------------------------------------------------------------------
-*/
-
-qx.client.Timer.once = function(vFunction, vObject, vTimeout)
-{
-  // Create time instance
-  var vTimer = new qx.client.Timer(vTimeout);
-
-  // Add event listener to interval
-  vTimer.addEventListener("interval", function(e)
-  {
-    vFunction.call(vObject, e);
-    vTimer.dispose();
-
-    vObject = null;
-  }, vObject);
-
-  // Directly start timer
-  vTimer.start();
-}
