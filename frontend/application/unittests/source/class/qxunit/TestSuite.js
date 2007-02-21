@@ -81,7 +81,7 @@ qx.Clazz.define("qxunit.TestSuite", {
 			var boundFunction = function() {
 				fcn.call(self);
 			}
-			boundFunction.self = self.constructor;
+			boundFunction.self = fcn.self = self.constructor;
 			return boundFunction;
 		},
 		

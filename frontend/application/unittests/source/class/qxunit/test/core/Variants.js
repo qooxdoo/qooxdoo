@@ -209,17 +209,7 @@ qx.Clazz.define("qxunit.test.core.Variants", {
 	    }
 	    i = 2;
 	    this.assertEquals(2, i);
-	  },
-
-	  testVariantInElse2: function() {
-	    if (false) {
-	      var i = 3;
-	    } else if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-		  i = 4;
-	    } else {
-		  i = 5;
-		}
-	    this.assertEquals(5, i);
 	  }
+
 	}
 });

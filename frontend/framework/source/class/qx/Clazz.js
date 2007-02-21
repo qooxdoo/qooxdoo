@@ -410,7 +410,39 @@ qx.Clazz.define("qx.Clazz",
     },
 
 
-
+    /**
+     * Get the name of a member/static function or constructor defined using the new style class definition.
+     * If the function could not be found <code>null</code> is returned.
+     * 
+     * This function uses a linear search, so don't use it in performance critical
+     * code.
+     * 
+     * @param func {Function} member function to get the name of.
+     * @return {String|null} Name of the function (null if not found).
+     */
+    getFunctionName: function(func)
+    {
+      var clazz = func.self;
+      if (!clazz) {
+        return null;
+      }
+      
+      // unwrap
+      while(func.wrapper) {
+        func = func.wrapper;
+      }
+      
+      // constructor
+      if (func == clazz) {
+        return "construct";                
+      }
+      return (
+        qx.lang.Object.getKeyFromValue(clazz.prototype, func) ||
+        qx.lang.Object.getKeyFromValue(clazz, func) ||
+        null
+      );
+    },
+        
 
     /*
     ---------------------------------------------------------------------------
@@ -947,6 +979,7 @@ qx.Clazz.define("qx.Clazz",
           return construct.apply(this, arguments);
         }
 
+        construct.wrapper = abstractConstructor;
         abstractConstructor.$$abstract = className;
         return abstractConstructor;
       }
@@ -980,7 +1013,7 @@ qx.Clazz.define("qx.Clazz",
 
           return construct.apply(this, arguments);
         }
-
+        construct.wrapper = singletonConstruct;
         return singletonConstruct;
       }
       else
@@ -1027,15 +1060,28 @@ qx.Clazz.define("qx.Clazz",
     {
       if (arguments.caller || arguments.callee.caller)  // check if caller is available
       {
-        return function() {
+        var privateMember = function() {
           // IE defines arguments.caller.callee
           // Firefox and Webkit define arguments.callee.caller
           var caller = arguments.caller ? arguments.caller.callee : arguments.callee.caller;
+
+          // if this is a wrapped function get the caller of the wrapper
+          for (var fcn=arguments.callee; fcn.wrapper; fcn=fcn.wrapper) {
+            caller = caller.caller;
+          }
+
           if (caller.self != clazz) {
-            throw new Error("Private method '"+name+"' of class '"+clazz.classname+"' called!");
+            if (caller.self) {
+              var from = caller.self.classname + ":" + (qx.Clazz.getFunctionName(caller) || "unknown") + "()";
+            } else {
+              from = "unknown"
+            }
+            throw new Error("Private method '"+name+"' of class '"+clazz.classname+"' called from '"+from+"'!");
           }
           return method.apply(this, arguments);
         };
+        method.wrapper = privateMember;
+        return privateMember;
       }
       else
       {
@@ -1057,16 +1103,24 @@ qx.Clazz.define("qx.Clazz",
     __createProtectedMember : function(method, name, clazz) {
       if (arguments.caller || arguments.callee.caller)  // check if caller is available
       {
-        return function() {
+        var protectedMember = function() {
           // IE defines arguments.caller.callee
           // Firefox and Webkit define arguments.callee.caller
           var caller = arguments.caller ? arguments.caller.callee : arguments.callee.caller;
+
+          // if this is a wrapped function get the caller of the wrapper
+          for (var fcn=arguments.callee; fcn.wrapper; fcn=fcn.wrapper) {
+            caller = caller.caller;
+          }
+
           if (!qx.Clazz.isSubClassOf(caller.self, clazz)) {
             var callerName = caller.self ? caller.self.classname : caller.toString();
             throw new Error("Protected method '"+name+"' of class '"+clazz.classname+"' called from '" + callerName + "'!");
           }
           return method.apply(this, arguments);
         };
+        method.wrapper = protectedMember;
+        return protectedMember;
       }
       else
       {
