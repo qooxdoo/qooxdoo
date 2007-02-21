@@ -120,7 +120,7 @@ qx.Clazz.define("qx.type.Range",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyValue : function(propValue, propOldValue, propData)
     {
@@ -151,7 +151,7 @@ qx.Clazz.define("qx.type.Range",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyMax : function(propValue, propOldValue, propData)
     {
@@ -184,7 +184,7 @@ qx.Clazz.define("qx.type.Range",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyMin : function(propValue, propOldValue, propData)
     {
