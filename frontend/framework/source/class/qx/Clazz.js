@@ -413,10 +413,10 @@ qx.Clazz.define("qx.Clazz",
     /**
      * Get the name of a member/static function or constructor defined using the new style class definition.
      * If the function could not be found <code>null</code> is returned.
-     * 
+     *
      * This function uses a linear search, so don't use it in performance critical
      * code.
-     * 
+     *
      * @param func {Function} member function to get the name of.
      * @param functionType {String?"all"} Where to look for the function. Possible values are "members", "statics", "constructor", "all"
      * @return {String|null} Name of the function (null if not found).
@@ -427,36 +427,36 @@ qx.Clazz.define("qx.Clazz",
       if (!clazz) {
         return null;
       }
-      
+
       // unwrap
       while(func.wrapper) {
         func = func.wrapper;
       }
-      
+
       switch (functionType) {
         case "construct":
           return func == clazz ? "construct" : null;
-        
+
         case "members":
           return qx.lang.Object.getKeyFromValue(clazz, func);
-          
+
         case "statics":
           return qx.lang.Object.getKeyFromValue(clazz.prototype, func);
-          
+
         default:
           // constructor
           if (func == clazz) {
-            return "construct";                
+            return "construct";
           }
-   
+
           return (
             qx.lang.Object.getKeyFromValue(clazz.prototype, func) ||
             qx.lang.Object.getKeyFromValue(clazz, func) ||
             null
-          );               
+          );
       }
     },
-    
+
 
     /*
     ---------------------------------------------------------------------------
@@ -715,7 +715,7 @@ qx.Clazz.define("qx.Clazz",
 
 
     /**
-     * Wrapper for qx.OO.addProperty.
+     * Wrapper for qx.core.LegacyProperty
      *
      * @type static
      * @param clazz {Clazz} class to add the properties to
@@ -737,6 +737,8 @@ qx.Clazz.define("qx.Clazz",
         legacy.addCachedProperty(property, proto);
       } else if (property.compat) {
         legacy.addProperty(property, proto);
+      } else if (property.members) {
+        legacy.addPropertyGroup(property, proto);
       } else if (qx.core.Variant.isSet("qx.debug", "on")) {
         throw new Error('Could not handle property definition "' + propertyName + '" in clazz "' + clazz.classname + "'");
       }
