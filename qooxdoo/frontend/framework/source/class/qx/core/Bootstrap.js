@@ -28,6 +28,7 @@
 #use(qx.lang.Object)
 #use(qx.lang.String)
 #use(qx.lang.Array)
+#use(qx.lang.Function)
 
 ************************************************************************ */
 
