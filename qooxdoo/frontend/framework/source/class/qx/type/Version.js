@@ -96,9 +96,9 @@ qx.Clazz.define("qx.type.Version",
       arrVersion = arrVersion.split(".");
     }
 
-    this._major = parseInt(arrVersion[0]) || 0;
-    this._minor = parseInt(arrVersion[1]) || 0;
-    this._rev = parseInt(arrVersion[2]) || 0;
+    this.__major = parseInt(arrVersion[0]) || 0;
+    this.__minor = parseInt(arrVersion[1]) || 0;
+    this.__rev = parseInt(arrVersion[2]) || 0;
   },
 
 
@@ -118,9 +118,9 @@ qx.Clazz.define("qx.type.Version",
     ---------------------------------------------------------------------------
     */
 
-    _major : 0,
-    _minor : 0,
-    _rev : 0,
+    __major : 0,
+    __minor : 0,
+    __rev : 0,
 
 
 
@@ -160,7 +160,7 @@ qx.Clazz.define("qx.type.Version",
      * @return {String | Integer} major version number
      */
     getMajor : function() {
-      return this._major;
+      return this.__major;
     },
 
 
@@ -171,7 +171,7 @@ qx.Clazz.define("qx.type.Version",
      * @return {String | Integer} minor version number
      */
     getMinor : function() {
-      return this._minor;
+      return this.__minor;
     },
 
 
@@ -182,7 +182,7 @@ qx.Clazz.define("qx.type.Version",
      * @return {String | Integer} revision number
      */
     getRev : function() {
-      return this._rev;
+      return this.__rev;
     },
 
 
@@ -198,7 +198,7 @@ qx.Clazz.define("qx.type.Version",
      * Destructor
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     dispose : function()
     {
@@ -206,7 +206,7 @@ qx.Clazz.define("qx.type.Version",
         return;
       }
 
-      this._major = this._minor = this._rev = null;
+      this.__major = this.__minor = this.__rev = null;
 
       qx.core.Object.prototype.dispose.call(this);
     }

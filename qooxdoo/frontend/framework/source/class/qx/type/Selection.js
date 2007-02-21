@@ -27,7 +27,7 @@
 /**
  * Helper for qx.manager.selection.SelectionManager, contains data for selections
  *
- * @param vManager {Object} a class which implements a getItemHashCode(oItem) method
+ * @param mgr {Object} a class which implements a getItemHashCode(item) method
  */
 qx.Clazz.define("qx.type.Selection",
 {
@@ -42,11 +42,11 @@ qx.Clazz.define("qx.type.Selection",
   *****************************************************************************
   */
 
-  construct : function(vManager)
+  construct : function(mgr)
   {
     qx.core.Object.call(this);
 
-    this._manager = vManager;
+    this.__manager = mgr;
     this.removeAll();
   },
 
@@ -71,11 +71,11 @@ qx.Clazz.define("qx.type.Selection",
      * Add an item to the selection
      *
      * @type member
-     * @param oItem {var} item to add
-     * @return {void} 
+     * @param item {var} item to add
+     * @return {void}
      */
-    add : function(oItem) {
-      this._storage[this.getItemHashCode(oItem)] = oItem;
+    add : function(item) {
+      this.__storage[this.getItemHashCode(item)] = item;
     },
 
 
@@ -83,11 +83,11 @@ qx.Clazz.define("qx.type.Selection",
      * Remove an item from the selection
      *
      * @type member
-     * @param oItem {var} item to remove
-     * @return {void} 
+     * @param item {var} item to remove
+     * @return {void}
      */
-    remove : function(oItem) {
-      delete this._storage[this.getItemHashCode(oItem)];
+    remove : function(item) {
+      delete this.__storage[this.getItemHashCode(item)];
     },
 
 
@@ -95,10 +95,10 @@ qx.Clazz.define("qx.type.Selection",
      * Remove all items from the selection
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     removeAll : function() {
-      this._storage = {};
+      this.__storage = {};
     },
 
 
@@ -106,11 +106,11 @@ qx.Clazz.define("qx.type.Selection",
      * Check whether the selection contains a given item
      *
      * @type member
-     * @param oItem {var} item to check for
+     * @param item {var} item to check for
      * @return {Boolean} whether the selection contains the item
      */
-    contains : function(oItem) {
-      return this.getItemHashCode(oItem) in this._storage;
+    contains : function(item) {
+      return this.getItemHashCode(item) in this.__storage;
     },
 
 
@@ -124,8 +124,8 @@ qx.Clazz.define("qx.type.Selection",
     {
       var res = [];
 
-      for (var key in this._storage) {
-        res.push(this._storage[key]);
+      for (var key in this.__storage) {
+        res.push(this.__storage[key]);
       }
 
       return res;
@@ -140,8 +140,8 @@ qx.Clazz.define("qx.type.Selection",
      */
     getFirst : function()
     {
-      for (var key in this._storage) {
-        return this._storage[key];
+      for (var key in this.__storage) {
+        return this.__storage[key];
       }
     },
 
@@ -156,8 +156,8 @@ qx.Clazz.define("qx.type.Selection",
     {
       var sb = [];
 
-      for (var hc in this._storage) {
-        sb.push(hc);
+      for (var key in this.__storage) {
+        sb.push(key);
       }
 
       sb.sort();
@@ -169,11 +169,11 @@ qx.Clazz.define("qx.type.Selection",
      * Compute a hash code for an item using the manager
      *
      * @type member
-     * @param oItem {var} the item
+     * @param item {var} the item
      * @return {var} unique hash code for the item
      */
-    getItemHashCode : function(oItem) {
-      return this._manager.getItemHashCode(oItem);
+    getItemHashCode : function(item) {
+      return this.__manager.getItemHashCode(item);
     },
 
 
@@ -184,7 +184,7 @@ qx.Clazz.define("qx.type.Selection",
      * @return {Boolean} whether the selection is empty
      */
     isEmpty : function() {
-      return qx.lang.Object.isEmpty(this._storage);
+      return qx.lang.Object.isEmpty(this.__storage);
     },
 
 
@@ -200,7 +200,7 @@ qx.Clazz.define("qx.type.Selection",
      * Destructor
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     dispose : function()
     {
@@ -208,8 +208,8 @@ qx.Clazz.define("qx.type.Selection",
         return;
       }
 
-      this._storage = null;
-      this._manager = null;
+      this.__storage = null;
+      this.__manager = null;
 
       qx.core.Object.prototype.dispose.call(this);
     }
