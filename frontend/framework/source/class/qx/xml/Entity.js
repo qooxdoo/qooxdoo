@@ -25,18 +25,35 @@
 /**
  * XML Entities
  */
-qx.OO.defineClass("qx.xml.Entity");
+qx.Clazz.define("qx.xml.Entity",
+{
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
 
+  statics :
+  {
 
-/** Mapping of XML entity names to the corresponding char code */
-qx.Class.TO_CHARCODE = {
-  "quot": 34, // " - double-quote
-  "amp": 38, // &
-  "lt": 60, // <
-  "gt": 62, // >
-  "apos": 39 // XML apostrophe
-};
+    /** Mapping of XML entity names to the corresponding char code */
+    TO_CHARCODE :
+    {
+      "quot" : 34, // " - double-quote
+      "amp"  : 38, // &
+      "lt"   : 60, // <
+      "gt"   : 62, // >
+      "apos" : 39 // XML apostrophe
+    },
 
-
-/** Mapping of char codes to XML entity names */
-qx.Class.FROM_CHARCODE = qx.lang.Object.invert(qx.Class.TO_CHARCODE);
+    /** Mapping of char codes to XML entity names */
+    FROM_CHARCODE :
+    {
+      34: "quot", // " - double-quote
+      38: "amp",  // &
+      60: "lt",   // <
+      62: "gt",   // >
+      39: "apos"  // XML apostrophe      
+    }
+  }
+});
