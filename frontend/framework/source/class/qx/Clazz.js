@@ -418,9 +418,10 @@ qx.Clazz.define("qx.Clazz",
      * code.
      * 
      * @param func {Function} member function to get the name of.
+     * @param functionType {String?"all"} Where to look for the function. Possible values are "members", "statics", "constructor", "all"
      * @return {String|null} Name of the function (null if not found).
      */
-    getFunctionName: function(func)
+    getFunctionName: function(func, functionType)
     {
       var clazz = func.self;
       if (!clazz) {
@@ -432,17 +433,30 @@ qx.Clazz.define("qx.Clazz",
         func = func.wrapper;
       }
       
-      // constructor
-      if (func == clazz) {
-        return "construct";                
-      }
-      return (
-        qx.lang.Object.getKeyFromValue(clazz.prototype, func) ||
-        qx.lang.Object.getKeyFromValue(clazz, func) ||
-        null
-      );
-    },
+      switch (functionType) {
+        case "construct":
+          return func == clazz ? "construct" : null;
         
+        case "members":
+          return qx.lang.Object.getKeyFromValue(clazz, func);
+          
+        case "statics":
+          return qx.lang.Object.getKeyFromValue(clazz.prototype, func);
+          
+        default:
+          // constructor
+          if (func == clazz) {
+            return "construct";                
+          }
+   
+          return (
+            qx.lang.Object.getKeyFromValue(clazz.prototype, func) ||
+            qx.lang.Object.getKeyFromValue(clazz, func) ||
+            null
+          );               
+      }
+    },
+    
 
     /*
     ---------------------------------------------------------------------------
