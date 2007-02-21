@@ -667,7 +667,7 @@ qx.Clazz.define("qx.Clazz",
             if (typeof(staticMember) == "function")
             {
               staticMember.self = clazz;
-              clazz[key] = this.__addAccessProtection(staticMember, key, clazz);
+              clazz[key] = this.__addAccessProtectionStatics(staticMember, key, clazz);
             }
           }
         }
@@ -772,7 +772,7 @@ qx.Clazz.define("qx.Clazz",
 
           // add member protection
           if (qx.core.Variant.isSet("qx.debug", "on")) {
-            member = this.__addAccessProtection(member, key, clazz);
+            member = this.__addAccessProtectionMembers(member, key, clazz);
           }
 
         }
@@ -863,7 +863,9 @@ qx.Clazz.define("qx.Clazz",
           }
         }
       }
-
+     
+      // TODO add protection !!!!
+      
       // Attach statics
       var statics = mixin.statics;
       if (statics)
@@ -921,7 +923,7 @@ qx.Clazz.define("qx.Clazz",
 
             // add member protection
             if (qx.core.Variant.isSet("qx.debug", "on")) {
-              member = this.__addAccessProtection(member, key, clazz);
+              member = this.__addAccessProtectionMembers(member, key, clazz);
             }
 
             proto[key] = member;
@@ -937,7 +939,7 @@ qx.Clazz.define("qx.Clazz",
 
               // add member protection
               if (qx.core.Variant.isSet("qx.debug", "on")) {
-                member = this.__addAccessProtection(member, key, clazz);
+                member = this.__addAccessProtectionMembers(member, key, clazz);
               }
 
               proto[key] = member;
@@ -1041,6 +1043,19 @@ qx.Clazz.define("qx.Clazz",
     },
 
 
+    __addAccessProtectionMembers: function(method, functionName, clazz)
+    {
+      return method;
+      if (functionName.indexOf("__") == 0) {
+        return this.__createPrivateStatic(method, functionName, clazz);
+      } else if (functionName.indexOf("_") == 0) {
+        return  this.__createProtectedMember(method, functionName, clazz);
+      } else {
+        return this.__createPublicMember(method);
+      }
+    },
+    
+
     /**
      * Applies access protection to the function based on the function name.
      * Functions starting with '__' will be wrapped as private, functions
@@ -1051,17 +1066,27 @@ qx.Clazz.define("qx.Clazz",
      * @param functionName {String} name of the Function
      * @param clazz {Class} The class the function is defined in.
      */
-    __addAccessProtection: function(method, functionName, clazz)
+    __addAccessProtectionStatics: function(method, functionName, clazz)
     {
       if (functionName.indexOf("__") == 0) {
-        return this.__createPrivateMember(method, functionName, clazz);
+        return this.__createPrivateStatic(method, functionName, clazz);
       } else if (functionName.indexOf("_") == 0) {
-        return  this.__createProtectedMember(method, functionName, clazz);
+        return  this.__createProtectedStatic(method, functionName, clazz);
       } else {
         return method;
       }
     },
 
+
+    __createPublicMember: function(method) {
+      var wrapper = function() {
+        method.context = this;
+        return method.apply(this, arguments);
+      }
+      method.wrapper = wrapper;
+      return wrapper;
+    },
+    
 
     /**
      * Wraps a method so that only methods of the same class are allowed to call it.
@@ -1073,6 +1098,92 @@ qx.Clazz.define("qx.Clazz",
      * @return {Function} wrapped method
      */
     __createPrivateMember : function(method, name, clazz)
+    {
+      if (arguments.caller || arguments.callee.caller)  // check if caller is available
+      {
+        var privateMember = function() {
+          // IE defines arguments.caller.callee
+          // Firefox and Webkit define arguments.callee.caller
+          var caller = arguments.caller ? arguments.caller.callee : arguments.callee.caller;
+
+          // if this is a wrapped function get the caller of the wrapper
+          for (var fcn=arguments.callee; fcn.wrapper; fcn=fcn.wrapper) {
+            caller = caller.caller;
+          }
+
+          if (caller.context.constructor != clazz) {
+            if (caller.context) {
+              var from = caller.context.classname + ":" + (qx.Clazz.getFunctionName(caller) || "unknown") + "()";
+            } else {
+              from = "unknown"
+            }
+            throw new Error("Private method '"+name+"' of class '"+clazz.classname+"' called from '"+from+"'!");
+          }
+          return method.apply(this, arguments);
+        };
+        method.wrapper = privateMember;
+        return privateMember;
+      }
+      else
+      {
+        return method;
+      }
+    },
+
+
+    /**
+     * Wraps a method so that only methods of the same class and sub classes of the class
+     * are allowed to call it.
+     * No wrapper will be created for Opera, since Opera does not support 'caller'.
+     *
+     * @param method {Function} method to wrap
+     * @param name {String} name of the method (for error messages)
+     * @param clazz {Class} Base class of the classes, which are allowed to call the wrapped method
+     * @return {Function} wrapped method
+     */
+    __createProtectedMember : function(method, name, clazz) {
+      if (arguments.caller || arguments.callee.caller)  // check if caller is available
+      {
+        var protectedMember = function() {
+          // IE defines arguments.caller.callee
+          // Firefox and Webkit define arguments.callee.caller
+          var caller = arguments.caller ? arguments.caller.callee : arguments.callee.caller;
+
+          // if this is a wrapped function get the caller of the wrapper
+          for (var fcn=arguments.callee; fcn.wrapper; fcn=fcn.wrapper) {
+            caller = caller.caller;
+          }
+
+          if (!caller.context instanceof clazz) {
+            if (caller.context) {
+              var from = caller.context.classname + ":" + (qx.Clazz.getFunctionName(caller) || "unknown") + "()";
+            } else {
+              from = "unknown"
+            }
+            throw new Error("Protected method '"+name+"' of class '"+clazz.classname+"' called from '" + from + "'!");
+          }
+          return method.apply(this, arguments);
+        };
+        method.wrapper = protectedMember;
+        return protectedMember;
+      }
+      else
+      {
+        return method;
+      }
+    },
+    
+    
+    /**
+     * Wraps a method so that only methods of the same class are allowed to call it.
+     * No wrapper will be created for Opera, since Opera does not support 'caller'.
+     *
+     * @param method {Function} method to wrap
+     * @param name {String} name of the method (for error messages)
+     * @param clazz {Class} Class which should be allowed to call the wrapped method
+     * @return {Function} wrapped method
+     */
+    __createPrivateStatic : function(method, name, clazz)
     {
       if (arguments.caller || arguments.callee.caller)  // check if caller is available
       {
@@ -1116,17 +1227,13 @@ qx.Clazz.define("qx.Clazz",
      * @param clazz {Class} Base class of the classes, which are allowed to call the wrapped method
      * @return {Function} wrapped method
      */
-    __createProtectedMember : function(method, name, clazz) {
+    __createProtectedStatic : function(method, name, clazz) {
       if (arguments.caller || arguments.callee.caller)  // check if caller is available
       {
         var protectedMember = function() {
           // IE defines arguments.caller.callee
           // Firefox and Webkit define arguments.callee.caller
           var caller = arguments.caller ? arguments.caller.callee : arguments.callee.caller;
-
-          if (!caller) {
-            throw new Error("Private mthod called from unknown caller!");
-          }
 
           // if this is a wrapped function get the caller of the wrapper
           for (var fcn=arguments.callee; fcn.wrapper; fcn=fcn.wrapper) {
