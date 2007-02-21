@@ -24,45 +24,84 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.component.AbstractComponent", qx.core.Target,
-function()
+qx.Clazz.define("qx.component.AbstractComponent",
 {
-  qx.core.Target.call(this);
+  type : "abstract",
+  extend : qx.core.Target,
 
-});
-
-
-/*!
-  Run initialisation part of component creation.
-*/
-qx.Proto.initialize = function() {};
-
-/*!
-  Run main  part of component creation.
-*/
-qx.Proto.main = function() {};
-
-/*!
-  Run finalization part of component creation.
-*/
-qx.Proto.finalize = function() {};
-
-/*!
-  Terminate this component.
-*/
-qx.Proto.close = function() {};
-
-/*!
-  Terminate this component.
-*/
-qx.Proto.terminate = function() {};
+  construct : function() {
+    qx.core.Target.call(this);
+  },
 
 
-qx.Proto.dispose = function()
-{
-  if (this.getDisposed()) {
-    return;
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /**
+     * Run initialisation part of component creation.
+     *
+     * @type member
+     * @return {void}
+     */
+    initialize : function() {},
+
+
+    /**
+     * Run main  part of component creation.
+     *
+     * @type member
+     * @return {void}
+     */
+    main : function() {},
+
+
+    /**
+     * Run finalization part of component creation.
+     *
+     * @type member
+     * @return {void}
+     */
+    finalize : function() {},
+
+
+    /**
+     * Terminate this component.
+     *
+     * @type member
+     * @return {void}
+     */
+    close : function() {},
+
+
+    /**
+     * Terminate this component.
+     *
+     * @type member
+     * @return {void}
+     */
+    terminate : function() {},
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void | var} TODOC
+     */
+    dispose : function()
+    {
+      if (this.getDisposed()) {
+        return;
+      }
+
+      return qx.core.Target.prototype.dispose.call(this);
+    }
   }
-
-  return qx.core.Target.prototype.dispose.call(this);
-}
+});

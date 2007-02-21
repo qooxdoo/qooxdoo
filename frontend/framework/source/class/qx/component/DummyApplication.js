@@ -24,20 +24,11 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.component.DummyApplication", qx.component.AbstractApplication,
-function() {
-  qx.component.AbstractApplication.call(this);
+qx.Clazz.define("qx.component.DummyApplication",
+{
+  extend : qx.component.AbstractApplication,
+
+  construct : function() {
+    qx.component.AbstractApplication.call(this);
+  }
 });
-
-
-
-/*
----------------------------------------------------------------------------
-  DIRECT SINGLETON INSTANCE
----------------------------------------------------------------------------
-*/
-
-/**
- * Singleton Instance Getter
- */
-qx.Class.getInstance = qx.lang.Function.returnInstance;

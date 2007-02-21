@@ -245,7 +245,8 @@ qx.Clazz.define("qx.core.Init",
       this.debug("qooxdoo " + qx.core.Version.toString());
 
       // Print out class information
-      this.debug("loaded " + qx.lang.Object.getLength(qx.OO.classes) + " classes");
+      this.debug("loaded " + qx.lang.Object.getLength(qx.OO.classes) + " old classes");
+      this.debug("loaded " + qx.Clazz.getNumber() + " new classes");
 
       // Print browser information
       var cl = qx.core.Client.getInstance();
@@ -259,7 +260,8 @@ qx.Clazz.define("qx.core.Init",
       }
 
       // Init component from settings
-      this.setComponent(new qx.OO.classes[qx.core.Setting.get("qx.initComponent")](this));
+      var clazz = qx.Clazz.getByName(qx.core.Setting.get("qx.initComponent"));
+      this.setComponent(new clazz(this));
 
       // Send onload
       return this.getComponent()._onload(e);

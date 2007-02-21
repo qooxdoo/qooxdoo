@@ -24,32 +24,61 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.component.init.BasicInitComponent", qx.component.init.AbstractInitComponent,
-function() {
-  qx.component.init.AbstractInitComponent.call(this);
-});
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  EVENT HANDLER
----------------------------------------------------------------------------
-*/
-
-qx.Proto._onload = function(e)
+qx.Clazz.define("qx.component.init.BasicInitComponent",
 {
-  this.initialize(e);
-  this.main(e);
-  this.finalize(e);
-}
+  extend : qx.component.init.AbstractInitComponent,
 
-qx.Proto._onbeforeunload = function(e) {
-  this.close(e);
-}
+  construct : function() {
+    qx.component.init.AbstractInitComponent.call(this);
+  },
 
-qx.Proto._onunload = function(e) {
-  this.terminate(e);
-}
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void}
+     */
+    _onload : function(e)
+    {
+      this.initialize(e);
+      this.main(e);
+      this.finalize(e);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void}
+     */
+    _onbeforeunload : function(e) {
+      this.close(e);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void}
+     */
+    _onunload : function(e) {
+      this.terminate(e);
+    }
+  }
+});

@@ -24,160 +24,228 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.component.init.InterfaceInitComponent", qx.component.init.BasicInitComponent,
-function() {
-  qx.component.init.BasicInitComponent.call(this);
-});
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  READY STATE
----------------------------------------------------------------------------
-*/
-
-qx.Proto._uiReady = false;
-
-qx.Proto.isUiReady = function() {
-  return this._uiReady;
-}
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  STATE MODIFIER
----------------------------------------------------------------------------
-*/
-
-qx.Proto.initialize = function()
+qx.Clazz.define("qx.component.init.InterfaceInitComponent",
 {
-  // Force creation of event handler
-  qx.event.handler.EventHandler.getInstance();
+  extend : qx.component.init.BasicInitComponent,
 
-  // Force creation of client document
-  qx.ui.core.ClientDocument.getInstance();
-
-  // Start real initialisation
-  var start = (new Date).valueOf();
-  qx.component.init.BasicInitComponent.prototype.initialize.call(this);
-  this.info("initialize runtime: " + ((new Date).valueOf() - start) + "ms");
-};
-
-qx.Proto.main = function()
-{
-  // Start real main process
-  var start = (new Date).valueOf();
-  qx.component.init.BasicInitComponent.prototype.main.call(this);
-  this.info("main runtime: " + ((new Date).valueOf() - start) + "ms");
-
-  this.debug("preloading visible images...");
-  new qx.io.image.PreloaderSystem(qx.manager.object.ImageManager.getInstance().getPreloadImageList(), this.finalize, this);
-};
-
-
-qx.Proto.finalize = function()
-{
-  var start = (new Date).valueOf();
-
-  this._printPreloadComplete();
-  this._uiReady = true;
-
-  // Show initial widgets
-  qx.ui.core.Widget.flushGlobalQueues();
-
-  // Finally attach event to make the GUI ready for the user
-  qx.event.handler.EventHandler.getInstance().attachEvents();
-
-  qx.component.init.BasicInitComponent.prototype.finalize.call(this);
-
-  this.info("finalize runtime: " + ((new Date).valueOf() - start) + "ms");
-};
-
-qx.Proto.close = function()
-{
-  var start = (new Date).valueOf();
-  qx.component.init.BasicInitComponent.prototype.close.call(this);
-
-  this.info("close runtime: " + ((new Date).valueOf() - start) + "ms");
-};
-
-qx.Proto.terminate = function()
-{
-  var start = (new Date).valueOf();
-  qx.component.init.BasicInitComponent.prototype.terminate.call(this);
-
-  this.info("terminate runtime: " + ((new Date).valueOf() - start) + "ms");
-};
+  construct : function() {
+    qx.component.init.BasicInitComponent.call(this);
+  },
 
 
 
 
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
 
-/*
----------------------------------------------------------------------------
-  PRELOAD UTILITIES
----------------------------------------------------------------------------
-*/
-
-qx.Proto.preload = function()
-{
-  if (!this._preloadDone)
+  members :
   {
-    this.debug("preloading hidden images...");
-    new qx.io.image.PreloaderSystem(qx.manager.object.ImageManager.getInstance().getPostPreloadImageList(), this._printPreloadComplete, this);
-    this._preloadDone = true;
+    /*
+    ---------------------------------------------------------------------------
+      READY STATE
+    ---------------------------------------------------------------------------
+    */
+
+    _uiReady : false,
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    isUiReady : function() {
+      return this._uiReady;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      STATE MODIFIER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void}
+     */
+    initialize : function()
+    {
+      // Force creation of event handler
+      qx.event.handler.EventHandler.getInstance();
+
+      // Force creation of client document
+      qx.ui.core.ClientDocument.getInstance();
+
+      // Start real initialisation
+      var start = (new Date).valueOf();
+      qx.component.init.BasicInitComponent.prototype.initialize.call(this);
+      this.info("initialize runtime: " + ((new Date).valueOf() - start) + "ms");
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void}
+     */
+    main : function()
+    {
+      // Start real main process
+      var start = (new Date).valueOf();
+      qx.component.init.BasicInitComponent.prototype.main.call(this);
+      this.info("main runtime: " + ((new Date).valueOf() - start) + "ms");
+
+      this.debug("preloading visible images...");
+      new qx.io.image.PreloaderSystem(qx.manager.object.ImageManager.getInstance().getPreloadImageList(), this.finalize, this);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void}
+     */
+    finalize : function()
+    {
+      var start = (new Date).valueOf();
+
+      this._printPreloadComplete();
+      this._uiReady = true;
+
+      // Show initial widgets
+      qx.ui.core.Widget.flushGlobalQueues();
+
+      // Finally attach event to make the GUI ready for the user
+      qx.event.handler.EventHandler.getInstance().attachEvents();
+
+      qx.component.init.BasicInitComponent.prototype.finalize.call(this);
+
+      this.info("finalize runtime: " + ((new Date).valueOf() - start) + "ms");
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void}
+     */
+    close : function()
+    {
+      var start = (new Date).valueOf();
+      qx.component.init.BasicInitComponent.prototype.close.call(this);
+
+      this.info("close runtime: " + ((new Date).valueOf() - start) + "ms");
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void}
+     */
+    terminate : function()
+    {
+      var start = (new Date).valueOf();
+      qx.component.init.BasicInitComponent.prototype.terminate.call(this);
+
+      this.info("terminate runtime: " + ((new Date).valueOf() - start) + "ms");
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PRELOAD UTILITIES
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void}
+     */
+    preload : function()
+    {
+      if (!this._preloadDone)
+      {
+        this.debug("preloading hidden images...");
+        new qx.io.image.PreloaderSystem(qx.manager.object.ImageManager.getInstance().getPostPreloadImageList(), this._printPreloadComplete, this);
+        this._preloadDone = true;
+      }
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void}
+     */
+    _printPreloadComplete : function() {
+      this.debug("preloading complete");
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT HANDLER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void}
+     */
+    _onload : function(e)
+    {
+      this.initialize();
+      this.main();
+    },
+
+    // Note: finalize will be called through image preloader
+
+    /*
+    ---------------------------------------------------------------------------
+      DISPOSER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void | var} TODOC
+     */
+    dispose : function()
+    {
+      if (this.getDisposed()) {
+        return;
+      }
+
+      this._preloadDone = null;
+      this._uiReady = null;
+
+      return qx.component.init.BasicInitComponent.prototype.dispose.call(this);
+    }
   }
-}
-
-qx.Proto._printPreloadComplete = function() {
-  this.debug("preloading complete");
-}
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  EVENT HANDLER
----------------------------------------------------------------------------
-*/
-
-qx.Proto._onload = function(e)
-{
-  this.initialize();
-  this.main();
-
-  // Note: finalize will be called through image preloader
-}
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DISPOSER
----------------------------------------------------------------------------
-*/
-
-qx.Proto.dispose = function()
-{
-  if (this.getDisposed()) {
-    return;
-  }
-
-  this._preloadDone = null;
-  this._uiReady = null;
-
-  return qx.component.init.BasicInitComponent.prototype.dispose.call(this);
-}
+});
