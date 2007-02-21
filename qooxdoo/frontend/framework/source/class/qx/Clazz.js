@@ -1255,17 +1255,22 @@ qx.Clazz.define("qx.Clazz",
             caller = caller.caller;
           }
 
-          if (!qx.Clazz.isSubClassOf(caller.self, clazz)) {
+          if (!qx.Clazz.isSubClassOf(caller.self, clazz))
+          {
             if (caller.self) {
               var from = caller.self.classname + ":" + (qx.Clazz.getFunctionName(caller) || "unknown") + "()";
             } else {
               from = "unknown"
             }
+
             throw new Error("Protected method '"+name+"' of class '"+clazz.classname+"' called from '" + from + "'!");
           }
+
           return method.apply(this, arguments);
         };
+
         method.wrapper = protectedMember;
+
         return protectedMember;
       }
       else
