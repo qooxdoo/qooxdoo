@@ -37,10 +37,10 @@ qx.Clazz.define("qx.xml.String",
   {
     /**
      * Escapes the characters in a <code>String</code> using XML entities.
-     * 
+     *
      * For example: <tt>"bread" & "butter"</tt> =>
      * <tt>&amp;quot;bread&amp;quot; &amp;amp; &amp;quot;butter&amp;quot;</tt>.
-     * 
+     *
      * Supports only the four basic XML entities (gt, lt, quot, amp).
      * Does not support DTDs or external entities.
      * Note that unicode characters greater than 0x7f are currently escaped to their numerical \\u equivalent.
@@ -48,7 +48,6 @@ qx.Clazz.define("qx.xml.String",
      * @type static
      * @param str {String} the string to be escaped
      * @return {String} the escaped string
-     * @see
      */
     escape : function(str) {
       return qx.dom.String.escapeEntities(str, qx.xml.Entity.FROM_CHARCODE);
@@ -59,14 +58,13 @@ qx.Clazz.define("qx.xml.String",
      * Unescapes a string containing XML entity escapes to a string
      * containing the actual Unicode characters corresponding to the
      * escapes.
-     * 
+     *
      * Supports only the four basic XML entities (gt, lt, quot, amp).
      * Does not support DTDs or external entities.
      *
      * @type static
      * @param str {String} the string to be unescaped
      * @return {String} the unescaped string
-     * @see
      */
     unescape : function(str) {
       return qx.dom.String.unescapeEntities(str, qx.xml.Entity.TO_CHARCODE);
