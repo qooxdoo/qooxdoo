@@ -43,13 +43,17 @@ qx.Clazz.define("qx.net.HttpRequest",
      */
     create : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : qx.lang.Object.select(window.XMLHttpRequest ? "native" : "activeX",
+      none : function() {
+        return new XMLHttpRequest;
+      },
+
+      mshtml : qx.lang.Object.select(window.XMLHttpRequest ? "native" : "activeX",
       {
-        "native" : function() {
+        native : function() {
           return new XMLHttpRequest;
         },
 
-        "activeX" : function()
+        activeX : function()
         {
           if (this.__server) {
             return new ActiveXObject(this.__server);
@@ -101,11 +105,7 @@ qx.Clazz.define("qx.net.HttpRequest",
 
           return obj;
         }
-      }),
-
-      "none" : function() {
-        return new XMLHttpRequest;
-      }
+      })
     })
   }
 });
