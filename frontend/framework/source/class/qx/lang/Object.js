@@ -263,6 +263,19 @@ qx.Clazz.define("qx.lang.Object",
          }
        }
        return null;
-     }
+     },
+     
+     
+     /**
+      * Selects the value with the given key from the map.
+      * 
+      * @param key {String} name of the key to get the value from
+      * @param map {Object} map to get the value from
+      * @return {var} value for the given key from the map
+      */
+     select: function(key, map)
+     {
+       return map[key];
+     } 
   }
 });
