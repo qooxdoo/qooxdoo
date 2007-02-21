@@ -87,12 +87,12 @@ qx.Clazz.define("qxunit.TestCase", {
 			this.__assert(value == undefined, msg || "", "Expected value to be undefined but found '"+value+"'!");
 		},
 		
-		assertNotNull: function() { 
-			this.__assert(value != null, msg || "", "Expected value not to be null but found '"+value+"'!");
+		assertNotNull: function(value, msg) { 
+			this.__assert(value !== null, msg || "", "Expected value not to be null but found '"+value+"'!");
 		},
 
-		assertNull: function() {
-			this.__assert(value == null, msg || "", "Expected value to be null but found '"+value+"'!");
+		assertNull: function(value, msg) {
+			this.__assert(value === null, msg || "", "Expected value to be null but found '"+value+"'!");
 		},
 		
 		// assertions which are only evaluated if "qx.debug" if "on"

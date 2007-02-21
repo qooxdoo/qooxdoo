@@ -312,8 +312,8 @@ qx.Clazz.define("qxunit.test.Clazz", {
 		},
 		
 		testGetFunctionName: function() {
-			self = this;
-			
+			var self = this;
+		
 			qx.Clazz.define("qxunit.FuncName", {
 				extend: qx.core.Object,
 				construct: function() {
@@ -323,7 +323,7 @@ qx.Clazz.define("qxunit.test.Clazz", {
 				
 				members: {
 					__foo: function() {
-						self.assertEquals("__foo", qx.Clazz.getFunctionName(arguments.callee));						
+						self.assertEqualsDebugOn("__foo", qx.Clazz.getFunctionName(arguments.callee));						
 					},
 
 					_bar: function() {
@@ -340,6 +340,7 @@ qx.Clazz.define("qxunit.test.Clazz", {
 			
 			var funcName = new qxunit.FuncName();
 			funcName.sayFooBar();
+			this.assertNull(qx.Clazz.getFunctionName(function() {}));
 			
 		}
 		
