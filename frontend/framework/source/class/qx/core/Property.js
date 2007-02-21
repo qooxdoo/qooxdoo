@@ -24,176 +24,183 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.core.Property",
+qx.Clazz.define("qx.core.Property",
 {
-  validation :
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics :
   {
-    "defined" : 'vNew != undefined',
-    "null"    : 'vNew === null',
-    "string"  : 'typeof vNew == "string"',
-    "boolean" : 'typeof vNew == "boolean"',
-    "number"  : 'typeof vNew == "number" && !isNaN(vNew)',
-    "object"  : 'vNew != null && typeof vNew == "object"',
-    "array"   : 'vNew instanceof Array'
-  },
-
-  getterFieldOrder : [ "_user_values_ng", "_appearance_values_ng" ],
-
-  /**
-   * TODOC
-   *
-   * @type map
-   * @name generateGetter
-   * @access public
-   * @param vObject {var} TODOC
-   * @param vName {var} TODOC
-   * @return {call} TODOC
-   */
-  generateGetter : function(vObject, vName)
-  {
-    var vConf = vObject._properties_ng[vName];
-    var vProto = vConf.proto;
-
-    vProto.debug("Creating real getter for " + vName);
-
-    // Starting code generation
-    var vCode = new qx.util.StringBuilder;
-
-    // Including user and appearance values
-    for (var i=0, a=this.getterFieldOrder, l=a.length; i<l; i++)
+    validation :
     {
-      vCode.add("if(this.");
-      vCode.add(a[i]);
-      vCode.add(".");
-      vCode.add(vName);
-      vCode.add("!==undefined)return this.");
-      vCode.add(a[i]);
-      vCode.add(".");
-      vCode.add(vName);
-      vCode.add(";");
-    }
+      "defined" : 'newValue != undefined',
+      "null"    : 'newValue === null',
+      "string"  : 'typeof newValue == "string"',
+      "boolean" : 'typeof newValue == "boolean"',
+      "number"  : 'typeof newValue == "number" && !isNaN(newValue)',
+      "object"  : 'newValue != null && typeof newValue == "object"',
+      "array"   : 'newValue instanceof Array'
+    },
 
-    // Including code for default value
-    vCode.add("return this._properties_ng.");
-    vCode.add(vName);
-    vCode.add(".init");
+    getterFieldOrder : [ "_user_values_ng", "_appearance_values_ng" ],
 
-    // Output generate code
-    // alert("Code:\n\n" + vCode);
-    // Generate new function from code
-    var vGetter = new Function("vNew", vCode.toString());
 
-    // Overriding temporary setter
-    vProto["get" + vConf.upname] = vGetter;
-
-    // Executing new setter
-    return vObject["get" + vConf.upname]();
-  },
-
-  /**
-   * TODOC
-   *
-   * @type map
-   * @name generateSetter
-   * @access public
-   * @param vObject {var} TODOC
-   * @param vMode {var} TODOC
-   * @param vName {var} TODOC
-   * @param vValue {var} TODOC
-   * @return {call} TODOC
-   */
-  generateSetter : function(vObject, vMode, vName, vValue)
-  {
-    var vConf = vObject._properties_ng[vName];
-    var vProto = vConf.proto;
-
-    vProto.debug("Creating setter for " + vMode + "/" + vName);
-
-    // Starting code generation
-    var vCode = new qx.util.StringBuilder;
-
-    // Debug output
-    // vCode.add("this.debug('Property: " + vName + ": ' + vNew);");
-    // Validation and value compare should only be used in the real setter
-    if (vMode === "set")
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param obj {var} TODOC
+     * @param name {var} TODOC
+     * @return {call} TODOC
+     */
+    generateGetter : function(obj, name)
     {
-      // Read old value
-      vCode.add("var vOld=this._user_values_ng.");
-      vCode.add(vName);
-      vCode.add(";");
+      var config = obj._properties_ng[name];
+      var proto = config.proto;
 
-      // Check value change
-      vCode.add("if(vOld===vNew)return;");
+      proto.debug("Creating real getter for " + name);
 
-      // TODO: Implement check()
-      // Validation code
-      if (vConf.validation != undefined)
+      // Starting code generation
+      var code = new qx.util.StringBuilder;
+
+      // Including user and appearance values
+      for (var i=0, a=this.getterFieldOrder, l=a.length; i<l; i++)
       {
-        // TODO: Replace with new registry
-        if (vConf.validation in qx.OO.classes)
+        code.add("if(this.");
+        code.add(a[i]);
+        code.add(".");
+        code.add(name);
+        code.add("!==undefined)return this.");
+        code.add(a[i]);
+        code.add(".");
+        code.add(name);
+        code.add(";");
+      }
+
+      // Including code for default value
+      code.add("return this._properties_ng.");
+      code.add(name);
+      code.add(".init");
+
+      // Output generate code
+      // alert("Code:\n\n" + code);
+      // Generate new function from code
+      var vGetter = new Function("newValue", code.toString());
+
+      // Overriding temporary setter
+      proto["get" + config.upname] = vGetter;
+
+      // Executing new setter
+      return obj["get" + config.upname]();
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param obj {var} TODOC
+     * @param mode {var} TODOC
+     * @param name {var} TODOC
+     * @param vValue {var} TODOC
+     * @return {call} TODOC
+     */
+    generateSetter : function(obj, mode, name, vValue)
+    {
+      var config = obj._properties_ng[name];
+      var proto = config.proto;
+
+      proto.debug("Creating setter for " + mode + "/" + name);
+
+      // Starting code generation
+      var code = new qx.util.StringBuilder;
+
+      // Debug output
+      // code.add("this.debug('Property: " + name + ": ' + newValue);");
+      // Validation and value compare should only be used in the real setter
+      if (mode === "set")
+      {
+        // Read oldValue value
+        code.add("var oldValue=this._user_values_ng.");
+        code.add(name);
+        code.add(";");
+
+        // Check value change
+        code.add("if(oldValue===newValue)return;");
+
+        // TODO: Implement check()
+        // Validation code
+        if (config.validation != undefined)
         {
-          vCode.add("if(!(vNew instanceof ");
-          vCode.add(vConf.validation);
-          vCode.add("))this.error('Invalid value for property ");
-          vCode.add(vName);
-          vCode.add(": ' + vNew);");
-        }
-        else if (vConf.validation in this.validation)
-        {
-          vCode.add("if(!(");
-          vCode.add(this.validation[vConf.validation]);
-          vCode.add("))this.error('Invalid value for property ");
-          vCode.add(vName);
-          vCode.add(": ' + vNew);");
-        }
-        else
-        {
-          this.error("Could not add validation to property " + vName + ". Invalid method.");
+          // TODO: Replace with new registry
+          if (config.validation in qx.OO.classes)
+          {
+            code.add("if(!(newValue instanceof ");
+            code.add(config.validation);
+            code.add("))this.error('Invalid value for property ");
+            code.add(name);
+            code.add(": ' + newValue);");
+          }
+          else if (config.validation in this.validation)
+          {
+            code.add("if(!(");
+            code.add(this.validation[config.validation]);
+            code.add("))this.error('Invalid value for property ");
+            code.add(name);
+            code.add(": ' + newValue);");
+          }
+          else
+          {
+            this.error("Could not add validation to property " + name + ". Invalid method.");
+          }
         }
       }
-    }
 
-    if (vMode === "toggle")
-    {
-      // Toggle current value
-      vCode.add("this._user_values_ng.");
-      vCode.add(vName);
-      vCode.add("=!this._user_values_ng.");
-      vCode.add(vName);
-      vCode.add(";");
-    }
-    else
-    {
-      // Store new value
-      vCode.add("this._user_values_ng.");
-      vCode.add(vName);
-      vCode.add("=vNew;");
-    }
-
-    // TODO: Implement modifier()
-    // Add event dispatcher
-    if (vMode === "set")
-    {
-      // Needs to be fired if
-      // * the value was configured (also null is OK) and was reconfigured now (no additional check)
-      // * the value was undefined and is configured now (compare real value with old value first)
-      if (vConf.fire !== false && vProto.createDispatchDataEvent)
+      if (mode === "toggle")
       {
-        vCode.add("this.createDispatchDataEvent('change");
-        vCode.add(vConf.upname);
-        vCode.add("', vNew, vOld);");
+        // Toggle current value
+        code.add("this._user_values_ng.");
+        code.add(name);
+        code.add("=!this._user_values_ng.");
+        code.add(name);
+        code.add(";");
       }
+      else
+      {
+        // Store new value
+        code.add("this._user_values_ng.");
+        code.add(name);
+        code.add("=newValue;");
+      }
+
+      // TODO: Implement modifier()
+      // Add event dispatcher
+      if (mode === "set")
+      {
+        // Needs to be fired if
+        // * the value was configured (also null is OK) and was reconfigured now (no additional check)
+        // * the value was undefined and is configured now (compare real value with oldValue value first)
+        if (config.fire !== false && proto.createDispatchDataEvent)
+        {
+          code.add("this.createDispatchDataEvent('change");
+          code.add(config.upname);
+          code.add("', newValue, oldValue);");
+        }
+      }
+
+      // Output generate code
+      // alert("Code:\n\n" + code);
+      // Generate new function from code
+      var setter = new Function("newValue", code.toString());
+
+      // Overriding temporary setter
+      proto[mode + config.upname] = setter;
+
+      // Executing new setter
+      return obj[mode + config.upname](vValue);
     }
-
-    // Output generate code
-    // alert("Code:\n\n" + vCode);
-    // Generate new function from code
-    var vSetter = new Function("vNew", vCode.toString());
-
-    // Overriding temporary setter
-    vProto[vMode + vConf.upname] = vSetter;
-
-    // Executing new setter
-    return vObject[vMode + vConf.upname](vValue);
   }
 });

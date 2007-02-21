@@ -22,7 +22,6 @@
 
 #module(core)
 #require(qx.html.EventRegistration)
-#optional(qx.component.init.InterfaceInitComponent)
 
 ************************************************************************ */
 
@@ -35,297 +34,340 @@
  * Make shure you set the application to your application before the load event is fired:
  * <pre>qx.core.Init.getInstance().setApplication(YourApplication)</pre>
  */
-qx.OO.defineClass("qx.core.Init", qx.core.Target,
-function()
+qx.Clazz.define("qx.core.Init",
 {
-  qx.core.Target.call(this, false);
-
-  // Object Wrapper to Events (Needed for DOM-Events)
-  var o = this;
-
-  /**
-   * private
-   * @param e {Object} event
-   */
-  this.__onload = function(e) { return o._onload(e); }
-  /**
-   * private
-   * @param e {Object} event
-   */
-  this.__onbeforeunload = function(e) { return o._onbeforeunload(e); }
-  /**
-   * private
-   * @param e {Object} event
-   */
-  this.__onunload = function(e) { return o._onunload(e); }
-
-  // Attach events
-  qx.html.EventRegistration.addEventListener(window, "load", this.__onload);
-  qx.html.EventRegistration.addEventListener(window, "beforeunload", this.__onbeforeunload);
-  qx.html.EventRegistration.addEventListener(window, "unload", this.__onunload);
-});
+  type : "singleton",
+  extend : qx.core.Target,
 
 
 
 
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
-/*
----------------------------------------------------------------------------
-  DEFAULT SETTINGS
----------------------------------------------------------------------------
-*/
+  construct : function()
+  {
+    qx.core.Target.call(this, false);
 
-qx.core.Setting.define("qx.initComponent", "qx.component.init.InterfaceInitComponent");
+    // Bind Dom event handlers to this
+    this.__onload = qx.lang.Function.bind(this._onload, this);
+    this.__onbeforeunload = qx.lang.Function.bind(this._onbeforeunload, this);
+    this.__onunload = qx.lang.Function.bind(this._onunload, this);
 
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  PROPERTIES
----------------------------------------------------------------------------
-*/
-
-/**
- * Instance of the component initializer.
- */
-qx.OO.addProperty({ name : "component", type : "object", instance : "qx.component.init.BasicInitComponent" });
-
-/**
- * Reference to the constructor of the main application.
- *
- * Set this before the onload event is fired.
- */
-qx.OO.addProperty({ name : "application", type : "function" });
+    // Attach events
+    qx.html.EventRegistration.addEventListener(window, "load", this.__onload);
+    qx.html.EventRegistration.addEventListener(window, "beforeunload", this.__onbeforeunload);
+    qx.html.EventRegistration.addEventListener(window, "unload", this.__onunload);
+  },
 
 
 
 
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Instance of the component initializer.
+     */
+    component :
+    {
+      type     : "object",
+      instance : "qx.component.init.BasicInitComponent",
+      compat   : true
+    },
 
 
-
-/*
----------------------------------------------------------------------------
-  MODIFIER
----------------------------------------------------------------------------
-*/
-
-qx.Proto._modifyApplication = function(propValue, propOldValue, propData)
-{
-  if (propValue) {
-    this._applicationInstance = new propValue;
-  }
-
-  return true;
-};
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  INTERNAL PROPERTIES
----------------------------------------------------------------------------
-*/
-
-/**
- * Returns an instance of the current qooxdoo Application
- *
- * @return {qx.component.AbstractApplication} instance of the current qooxdoo application
- */
-qx.Proto.getApplicationInstance = function()
-{
-  if (!this.getApplication()) {
-    this.setApplication(qx.component.DummyApplication);
-  }
-
-  return this._applicationInstance;
-};
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  COMPONENT BINDING
----------------------------------------------------------------------------
-*/
-
-/**
- * define the initialisation function
- * Don't use this method directly. Use setApplication instead!
- *
- * @param vFunc {Function} callback function
- */
-qx.Proto.defineInitialize = function(vFunc) {
-  this.getApplicationInstance().initialize = vFunc;
-}
-
-/**
- * define the main function
- * Don't use this method directly. Use setApplication instead!
- *
- * @param vFunc {Function} callback function
- */
-qx.Proto.defineMain = function(vFunc) {
-  this.getApplicationInstance().main = vFunc;
-}
-
-/**
- * define the finalize function
- * Don't use this method directly. Use setApplication instead!
- *
- * @param vFunc {Function} callback function
- */
-qx.Proto.defineFinalize = function(vFunc) {
-  this.getApplicationInstance().finalize = vFunc;
-}
-
-/**
- * define the close function
- * Don't use this method directly. Use setApplication instead!
- *
- * @param vFunc {Function} callback function
- */
-qx.Proto.defineClose = function(vFunc) {
-  this.getApplicationInstance().close = vFunc;
-}
-
-/**
- * define the terminate function
- * Don't use this method directly. Use setApplication instead!
- *
- * @param vFunc {Function} callback function
- */
-qx.Proto.defineTerminate = function(vFunc) {
-  this.getApplicationInstance().terminate = vFunc;
-}
-
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  EVENT HANDLER
----------------------------------------------------------------------------
-*/
-
-/**
- * load event handler
- *
- * @param e {Object} event
- */
-qx.Proto._onload = function(e)
-{
-  this.debug("qooxdoo " + qx.core.Version.toString());
-
-  // Print out class information
-  this.debug("loaded " + qx.lang.Object.getLength(qx.OO.classes) + " classes");
-
-  // Print browser information
-  var cl = qx.core.Client.getInstance();
-  this.debug("client: " + cl.getEngine() + "-" + cl.getMajor() + "."
-    + cl.getMinor() + "/" + cl.getPlatform() + "/" + cl.getLocale());
-
-  if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-    if(!cl.isInQuirksMode()) {
-      this.warn("Wrong box sizing: Please modify the document's DOCTYPE!");
+    /**
+     * Reference to the constructor of the main application.
+     *
+     * Set this before the onload event is fired.
+     */
+    application :
+    {
+      type   : "function",
+      compat : true
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      MODIFIER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {boolean} TODOC
+     */
+    _modifyApplication : function(propValue, propOldValue, propData)
+    {
+      if (propValue) {
+        this._applicationInstance = new propValue;
+      }
+
+      return true;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      INTERNAL PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Returns an instance of the current qooxdoo Application
+     *
+     * @type member
+     * @return {qx.component.AbstractApplication} instance of the current qooxdoo application
+     */
+    getApplicationInstance : function()
+    {
+      if (!this.getApplication()) {
+        this.setApplication(qx.component.DummyApplication);
+      }
+
+      return this._applicationInstance;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      COMPONENT BINDING
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * define the initialisation function
+     * Don't use this method directly. Use setApplication instead!
+     *
+     * @type member
+     * @param vFunc {Function} callback function
+     * @return {void}
+     */
+    defineInitialize : function(vFunc) {
+      this.getApplicationInstance().initialize = vFunc;
+    },
+
+
+    /**
+     * define the main function
+     * Don't use this method directly. Use setApplication instead!
+     *
+     * @type member
+     * @param vFunc {Function} callback function
+     * @return {void}
+     */
+    defineMain : function(vFunc) {
+      this.getApplicationInstance().main = vFunc;
+    },
+
+
+    /**
+     * define the finalize function
+     * Don't use this method directly. Use setApplication instead!
+     *
+     * @type member
+     * @param vFunc {Function} callback function
+     * @return {void}
+     */
+    defineFinalize : function(vFunc) {
+      this.getApplicationInstance().finalize = vFunc;
+    },
+
+
+    /**
+     * define the close function
+     * Don't use this method directly. Use setApplication instead!
+     *
+     * @type member
+     * @param vFunc {Function} callback function
+     * @return {void}
+     */
+    defineClose : function(vFunc) {
+      this.getApplicationInstance().close = vFunc;
+    },
+
+
+    /**
+     * define the terminate function
+     * Don't use this method directly. Use setApplication instead!
+     *
+     * @type member
+     * @param vFunc {Function} callback function
+     * @return {void}
+     */
+    defineTerminate : function(vFunc) {
+      this.getApplicationInstance().terminate = vFunc;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT HANDLER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * load event handler
+     *
+     * @type member
+     * @param e {Object} event
+     * @return {var} TODOC
+     */
+    _onload : function(e)
+    {
+      this.debug("qooxdoo " + qx.core.Version.toString());
+
+      // Print out class information
+      this.debug("loaded " + qx.lang.Object.getLength(qx.OO.classes) + " classes");
+
+      // Print browser information
+      var cl = qx.core.Client.getInstance();
+      this.debug("client: " + cl.getEngine() + "-" + cl.getMajor() + "." + cl.getMinor() + "/" + cl.getPlatform() + "/" + cl.getLocale());
+
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        if (!cl.isInQuirksMode()) {
+          this.warn("Wrong box sizing: Please modify the document's DOCTYPE!");
+        }
+      }
+
+      // Init component from settings
+      this.setComponent(new qx.OO.classes[qx.core.Setting.get("qx.initComponent")](this));
+
+      // Send onload
+      return this.getComponent()._onload(e);
+    },
+
+
+    /**
+     * beforeunload event handler
+     *
+     * @type member
+     * @param e {Object} event
+     * @return {var} TODOC
+     */
+    _onbeforeunload : function(e)
+    {
+      // Send onbeforeunload event (can be cancelled)
+      return this.getComponent()._onbeforeunload(e);
+    },
+
+
+    /**
+     * unload event handler
+     *
+     * @type member
+     * @param e {Object} event
+     * @return {void}
+     */
+    _onunload : function(e)
+    {
+      // Send onunload event (last event)
+      this.getComponent()._onunload(e);
+
+      // Dispose all qooxdoo objects
+      qx.core.Object.dispose();
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DISPOSER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Destructor
+     *
+     * @type member
+     * @return {void}
+     */
+    dispose : function()
+    {
+      if (this.getDisposed()) {
+        return;
+      }
+
+      // Detach Events
+      qx.html.EventRegistration.removeEventListener(window, "load", this.__onload);
+      qx.html.EventRegistration.removeEventListener(window, "beforeunload", this.__onbeforeunload);
+      qx.html.EventRegistration.removeEventListener(window, "unload", this.__onunload);
+
+      // Reset inline functions
+      this.__onload = this.__onbeforeunload = this.__onunload = null;
+
+      if (this._applicationInstance)
+      {
+        this._applicationInstance.dispose();
+        this._applicationInstance = null;
+      }
+
+      qx.core.Target.prototype.dispose.call(this);
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     SETTINGS
+  *****************************************************************************
+  */
+
+  settings : { "qx.initComponent" : "qx.component.init.InterfaceInitComponent" },
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics, proto, properties)
+  {
+    // Force direct creation
+    statics.getInstance();
   }
-
-  // Init component from settings
-  this.setComponent(new qx.OO.classes[qx.core.Setting.get("qx.initComponent")](this));
-
-  // Send onload
-  return this.getComponent()._onload(e);
-}
-
-
-/**
- * beforeunload event handler
- *
- * @param e {Object} event
- */
-qx.Proto._onbeforeunload = function(e)
-{
-  // Send onbeforeunload event (can be cancelled)
-  return this.getComponent()._onbeforeunload(e);
-}
-
-
-/**
- * unload event handler
- *
- * @param e {Object} event
- */
-qx.Proto._onunload = function(e)
-{
-  // Send onunload event (last event)
-  this.getComponent()._onunload(e);
-
-  // Dispose all qooxdoo objects
-  qx.core.Object.dispose();
-}
-
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DISPOSER
----------------------------------------------------------------------------
-*/
-
-/**
- * Destructor
- */
-qx.Proto.dispose = function()
-{
-  if (this.getDisposed()) {
-    return;
-  }
-
-  // Detach Events
-  qx.html.EventRegistration.removeEventListener(window, "load", this.__onload);
-  qx.html.EventRegistration.removeEventListener(window, "beforeunload", this.__onbeforeunload);
-  qx.html.EventRegistration.removeEventListener(window, "unload", this.__onunload);
-
-  // Reset inline functions
-  this.__onload = this.__onbeforeunload = this.__onunload = null;
-
-  if (this._applicationInstance) {
-    this._applicationInstance.dispose();
-    this._applicationInstance = null;
-  }
-
-  qx.core.Target.prototype.dispose.call(this);
-}
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DIRECT SINGLETON INSTANCE
----------------------------------------------------------------------------
-*/
-
-/**
- * Singleton Instance Getter
- */
-qx.Class.getInstance = qx.lang.Function.returnInstance;
-
-// Force direct creation
-qx.Class.getInstance();
+});
