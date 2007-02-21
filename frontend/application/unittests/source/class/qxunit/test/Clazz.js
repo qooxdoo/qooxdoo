@@ -284,6 +284,63 @@ qx.Clazz.define("qxunit.test.Clazz", {
 				caller.kinners();
 			}, Error, "Private method");			
 			
+		},
+		
+		testWrappedPrivate: function() {
+			qx.Interface.define("qxunit.IWrappedPrivate", {
+				members: {
+					__foo: function() { return true; }
+				}
+			});
+			
+			// private/protected should not be part of an interface
+			qx.Clazz.define("qxunit.WrappedPrivate", {
+				extend: qx.core.Object,
+				implement: [qxunit.IWrappedPrivate],
+				members: {					
+					__foo: function() { this.debug("foo"); },
+					sayFoo: function() { this.__foo(); }
+				}
+			});
+			
+			var wp = new qxunit.WrappedPrivate();
+			this.assertException(function() {
+				wp.__foo();
+			}, Error, "Private method");
+			
+			wp.sayFoo();
+		},
+		
+		testGetFunctionName: function() {
+			self = this;
+			
+			qx.Clazz.define("qxunit.FuncName", {
+				extend: qx.core.Object,
+				construct: function() {
+					this.base(arguments);
+					self.assertEquals("construct", qx.Clazz.getFunctionName(arguments.callee));
+				},
+				
+				members: {
+					__foo: function() {
+						self.assertEquals("__foo", qx.Clazz.getFunctionName(arguments.callee));						
+					},
+
+					_bar: function() {
+						self.assertEquals("_bar", qx.Clazz.getFunctionName(arguments.callee));						
+					},
+					
+					sayFooBar: function() {
+						self.assertEquals("sayFooBar", qx.Clazz.getFunctionName(arguments.callee));
+						this.__foo();
+						this._bar();
+					}
+				}
+			});
+			
+			var funcName = new qxunit.FuncName();
+			funcName.sayFooBar();
+			
 		}
 		
 	}	

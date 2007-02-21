@@ -16,7 +16,7 @@ qx.Clazz.define("qxunit.test.Interface", {
     
 		    this.assertExceptionDebugOn(function() {
 		  		var i = new qxunit.ICar();
-			}, Error, "is not a constructor");
+			}, Error);
 
 			// test correct implementations
 		    qx.Clazz.define("qxunit.Audi", {
@@ -37,7 +37,7 @@ qx.Clazz.define("qxunit.test.Interface", {
 		    });
     
 		    var audi = new qxunit.Audi("audi");
-		
+
 			// nothing defined
 			this.assertExceptionDebugOn(function() {
 		        qx.Clazz.define("qxunit.Audi1", {
