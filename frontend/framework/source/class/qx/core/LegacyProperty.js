@@ -30,19 +30,9 @@ qx.Clazz.define("qx.core.LegacyProperty",
 {
   statics :
   {
-    /** TODOC */
     __setter : {},
-
-
-    /** TODOC */
     __getter : {},
-
-
-    /** TODOC */
     __resetter : {},
-
-
-    /** TODOC */
     __values : {},
 
 
