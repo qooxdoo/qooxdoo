@@ -55,22 +55,17 @@ qx.Clazz.define("qx.core.Version",
     /** Major version number */
     major : 0,
 
-
     /** Minor version number */
     minor : 0,
-
 
     /** Maintenance number */
     revision : 0,
 
-
     /** Revision state */
     state : "",
 
-
     /** Subversion revision number */
     svn : 0,
-
 
     /** Subversion folder e.g. trunk, release_0_6_3, ... */
     folder : "",
@@ -91,7 +86,7 @@ qx.Clazz.define("qx.core.Version",
      * Initialize class members
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     __init : function()
     {
@@ -140,7 +135,7 @@ qx.Clazz.define("qx.core.Version",
    *
    * @type map
    * @param statics {var} TODOC
-   * @return {void} 
+   * @return {void}
    */
   defer : function(statics) {
     statics.__init();
