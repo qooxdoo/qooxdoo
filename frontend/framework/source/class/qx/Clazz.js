@@ -1122,6 +1122,10 @@ qx.Clazz.define("qx.Clazz",
           // Firefox and Webkit define arguments.callee.caller
           var caller = arguments.caller ? arguments.caller.callee : arguments.callee.caller;
 
+          if (!caller) {
+            throw new Error("Private mthod called from unknown caller!");
+          }
+
           // if this is a wrapped function get the caller of the wrapper
           for (var fcn=arguments.callee; fcn.wrapper; fcn=fcn.wrapper) {
             caller = caller.caller;
