@@ -39,9 +39,8 @@ function(vSource)
   this.setSelectable(false);
   this.setTabIndex(0);
 
-  var o = this;
-  this.__onreadystatechange = function(e) { return o._onreadystatechange(e); }
-  this.__onload = function(e) { return o._onload(e); }
+  this.__onreadystatechange = qx.lang.Function.bind(this._onreadystatechange, this);
+  this.__onload = qx.lang.Function.bind(this._onload, this);
 
   if (vSource != undefined) {
     this.setSource(vSource);
