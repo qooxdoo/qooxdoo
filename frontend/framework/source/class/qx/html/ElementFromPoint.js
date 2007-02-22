@@ -23,102 +23,154 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.html.ElementFromPoint");
-
-qx.html.ElementFromPoint.getElementFromPoint = function(x, y) {
-  return qx.html.ElementFromPoint.getElementFromPointHandler(document.body, x, y);
-}
-
-qx.html.ElementFromPoint.getElementFromPointHandler = function(node, x, y, recursive)
+qx.Clazz.define("qx.html.ElementFromPoint",
 {
-  var ch = node.childNodes;
-  var chl = ch.length-1;
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
 
-  if (chl < 0) {
-    return null;
-  }
-
-  var chc, subres, ret;
-
-  do
+  statics :
   {
-    chc = ch[chl];
-    ret = qx.html.ElementFromPoint.getElementFromPointChecker(chc, x, y);
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param x {var} TODOC
+     * @param y {var} TODOC
+     * @return {var} TODOC
+     */
+    getElementFromPoint : function(x, y) {
+      return qx.html.ElementFromPoint.getElementFromPointHandler(document.body, x, y);
+    },
 
-    if (ret)
+
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param node {Node} TODOC
+     * @param x {var} TODOC
+     * @param y {var} TODOC
+     * @param recursive {var} TODOC
+     * @return {null | var} TODOC
+     */
+    getElementFromPointHandler : function(node, x, y, recursive)
     {
-      if (typeof recursive === "boolean" && recursive == false)
-      {
-        return chc;
+      var ch = node.childNodes;
+      var chl = ch.length - 1;
+
+      if (chl < 0) {
+        return null;
       }
-      else
+
+      var chc, subres, ret;
+
+      do
       {
-        subres = qx.html.ElementFromPoint.getElementFromPointHandler(chc, x-ret[0]-qx.html.Style.getBorderLeft(chc), y-ret[2]-qx.html.Style.getBorderTop(chc));
-        return subres ? subres : chc;
-      }
-    }
-  }
-  while(chl--);
+        chc = ch[chl];
+        ret = qx.html.ElementFromPoint.getElementFromPointChecker(chc, x, y);
 
-  return null;
-}
-
-qx.html.ElementFromPoint.getElementFromPointChecker = function(chc, x, y)
-{
-  var xstart, ystart, xstop, ystop;
-
-  if (chc.nodeType != 1) {
-    return false;
-  }
-
-  xstart = qx.html.Offset.getLeft(chc);
-  if (x > xstart)
-  {
-    ystart = qx.html.Offset.getTop(chc);
-    if (y > ystart)
-    {
-      xstop = xstart + chc.offsetWidth;
-
-      if (x < xstop)
-      {
-        ystop = ystart + chc.offsetHeight;
-        if (y < ystop)
+        if (ret)
         {
-          return [ xstart, xstop, ystart, ystop ];
+          if (typeof recursive === "boolean" && recursive == false) {
+            return chc;
+          }
+          else
+          {
+            subres = qx.html.ElementFromPoint.getElementFromPointHandler(chc, x - ret[0] - qx.html.Style.getBorderLeft(chc), y - ret[2] - qx.html.Style.getBorderTop(chc));
+            return subres ? subres : chc;
+          }
         }
       }
-    }
-  }
+      while (chl--);
 
-  return false;
-}
+      return null;
+    },
 
-qx.html.ElementFromPoint.getElementAbsolutePointChecker = function(chc, x, y)
-{
-  var xstart, ystart, xstop, ystop;
 
-  if (!chc || chc.nodeType != 1) {
-    return false;
-  }
-
-  xstart = qx.html.Location.getPageBoxLeft(chc);
-  if (x > xstart)
-  {
-    ystart = qx.html.Location.getPageBoxTop(chc);
-    if (y > ystart)
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param chc {var} TODOC
+     * @param x {var} TODOC
+     * @param y {var} TODOC
+     * @return {boolean | Array} TODOC
+     */
+    getElementFromPointChecker : function(chc, x, y)
     {
-      xstop = xstart + chc.offsetWidth;
+      var xstart, ystart, xstop, ystop;
 
-      if (x < xstop)
+      if (chc.nodeType != 1) {
+        return false;
+      }
+
+      xstart = qx.html.Offset.getLeft(chc);
+
+      if (x > xstart)
       {
-        ystop = ystart + chc.offsetHeight;
-        if (y < ystop)
+        ystart = qx.html.Offset.getTop(chc);
+
+        if (y > ystart)
         {
-          return [ xstart, xstop, ystart, ystop ];
+          xstop = xstart + chc.offsetWidth;
+
+          if (x < xstop)
+          {
+            ystop = ystart + chc.offsetHeight;
+
+            if (y < ystop) {
+              return [ xstart, xstop, ystart, ystop ];
+            }
+          }
         }
       }
+
+      return false;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param chc {var} TODOC
+     * @param x {var} TODOC
+     * @param y {var} TODOC
+     * @return {boolean | Array} TODOC
+     */
+    getElementAbsolutePointChecker : function(chc, x, y)
+    {
+      var xstart, ystart, xstop, ystop;
+
+      if (!chc || chc.nodeType != 1) {
+        return false;
+      }
+
+      xstart = qx.html.Location.getPageBoxLeft(chc);
+
+      if (x > xstart)
+      {
+        ystart = qx.html.Location.getPageBoxTop(chc);
+
+        if (y > ystart)
+        {
+          xstop = xstart + chc.offsetWidth;
+
+          if (x < xstop)
+          {
+            ystop = ystart + chc.offsetHeight;
+
+            if (y < ystop) {
+              return [ xstart, xstop, ystart, ystop ];
+            }
+          }
+        }
+      }
+
+      return false;
     }
   }
-
-  return false;
-}
+});

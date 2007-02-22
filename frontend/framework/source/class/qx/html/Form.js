@@ -24,88 +24,139 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.html.Form");
-
-qx.Class.ignoreInputTypes = [ "file", "submit", "image", "reset", "button" ];
-qx.Class.ignoreElementTypes = [ "fieldset" ];
-qx.Class.checkElementTypes = [ "radio", "checkbox" ];
-qx.Class.multiSelectType = "select-multiple";
-
-qx.Class.inputFilter = function(vNode)
+qx.Clazz.define("qx.html.Form",
 {
-  if (vNode.disabled) {
-    return false;
-  }
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
 
-  var vTag = (vNode.tagName || "").toLowerCase();
-
-  if (qx.lang.Array.contains(qx.html.Form.ignoreElementTypes, vTag)) {
-    return false;
-  }
-
-  var vType = vNode.type.toLowerCase();
-
-  if (qx.lang.Array.contains(qx.html.Form.ignoreInputTypes, vType)) {
-    return false;
-  }
-
-  if (!vNode.checked && qx.lang.Array.contains(qx.html.Form.checkElementTypes, vType)) {
-    return false;
-  }
-
-  return true;
-}
-
-qx.Class.getFields = function(vForm) {
-  return Array.filter(vForm.elements, qx.html.Form.inputFilter);
-}
-
-qx.Class.encodeField = function(vNode)
-{
-  var vName = vNode.name || "";
-  var vType = (vNode.type || "").toLowerCase();
-
-  if(vType === qx.html.Form.multiSelectType)
+  statics :
   {
-    var vValues = [];
+    ignoreInputTypes : [ "file", "submit", "image", "reset", "button" ],
+    ignoreElementTypes : [ "fieldset" ],
+    checkElementTypes : [ "radio", "checkbox" ],
+    multiSelectType : "select-multiple",
 
-    for(var i=0; i<vNode.options.length; i++)
+
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param vNode {var} TODOC
+     * @return {boolean} TODOC
+     */
+    inputFilter : function(vNode)
     {
-      if(vNode.options[i].selected) {
-        vValues.push(vName + "=" + vNode.options[i].value);
+      if (vNode.disabled) {
+        return false;
       }
+
+      var vTag = (vNode.tagName || "").toLowerCase();
+
+      if (qx.lang.Array.contains(qx.html.Form.ignoreElementTypes, vTag)) {
+        return false;
+      }
+
+      var vType = vNode.type.toLowerCase();
+
+      if (qx.lang.Array.contains(qx.html.Form.ignoreInputTypes, vType)) {
+        return false;
+      }
+
+      if (!vNode.checked && qx.lang.Array.contains(qx.html.Form.checkElementTypes, vType)) {
+        return false;
+      }
+
+      return true;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param vForm {var} TODOC
+     * @return {var} TODOC
+     */
+    getFields : function(vForm) {
+      return Array.filter(vForm.elements, qx.html.Form.inputFilter);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param vNode {var} TODOC
+     * @return {var} TODOC
+     */
+    encodeField : function(vNode)
+    {
+      var vName = vNode.name || "";
+      var vType = (vNode.type || "").toLowerCase();
+
+      if (vType === qx.html.Form.multiSelectType)
+      {
+        var vValues = [];
+
+        for (var i=0; i<vNode.options.length; i++)
+        {
+          if (vNode.options[i].selected) {
+            vValues.push(vName + "=" + vNode.options[i].value);
+          }
+        }
+
+        return vValues.join("&");
+      }
+      else
+      {
+        return vName + "=" + vNode.value;
+      }
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param vForm {var} TODOC
+     * @return {var} TODOC
+     */
+    encodeForm : function(vForm)
+    {
+      var vFields = qx.html.Form.getFields(vForm);
+      var vAll = [];
+
+      for (var i=0, l=vFields.length; i<l; i++) {
+        vAll.push(qx.html.Form.encodeField(vFields[i]));
+      }
+
+      return vAll.join("&");
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param vForm {var} TODOC
+     * @param vMethod {var} TODOC
+     * @return {void} 
+     */
+    bind : function(vForm, vMethod)
+    {
+      qx.html.EventRegistration.addEventListener(vForm, "submit", function(e)
+      {
+        e.returnValue = false;
+
+        if (typeof e.preventDefault === "function") {
+          e.preventDefault();
+        }
+
+        return vMethod(e);
+      });
     }
-
-    return vValues.join("&");
   }
-  else
-  {
-    return vName + "=" + vNode.value;
-  }
-}
-
-qx.Class.encodeForm = function(vForm)
-{
-  var vFields = qx.html.Form.getFields(vForm);
-  var vAll = [];
-
-  for (var i=0, l=vFields.length; i<l; i++) {
-    vAll.push(qx.html.Form.encodeField(vFields[i]));
-  }
-
-  return vAll.join("&");
-}
-
-qx.Class.bind = function(vForm, vMethod)
-{
-  qx.html.EventRegistration.addEventListener(vForm, "submit", function(e)
-  {
-    e.returnValue = false;
-
-    if (typeof e.preventDefault === "function") {
-      e.preventDefault();
-    }
-
-    return vMethod(e);
-  });
-}
+});

@@ -24,173 +24,171 @@
 
 ************************************************************************ */
 
-/**
- * Functions to scroll DOM elements into the visible area of the parent element
- */
-qx.OO.defineClass("qx.html.ScrollIntoView");
 
 // Internet Explorer has invented scrollIntoView, but does not behave the same like in Mozilla (which would be better)
 // Mozilla has a native well working method scrollIntoView
 // Safari does not support scrollIntoView (but it can be found in Webkit since May 2005)
 // Opera does not support scrollIntoView
 
-/** the documents body tag name */
-qx.dom.BODY_TAG_NAME = "body";
-
 
 /**
- * Scroll the parent DOM element so that the element's so that the x coordinate is inside
- * the visible area of the parent.
- *
- * @param vElement {Element} DOM node to be scrolled into view
- * @param vAlignLeft {Boolean} whether the element should be left aligned
+ * Functions to scroll DOM elements into the visible area of the parent element
  */
-qx.html.ScrollIntoView.scrollX = function(vElement, vAlignLeft)
+qx.Clazz.define("qx.html.ScrollIntoView",
 {
-  var vParentWidth, vParentScrollLeft, vWidth, vHasScroll;
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
 
-  var vParent = vElement.parentNode;
-  var vOffset = vElement.offsetLeft;
-  var vWidth = vElement.offsetWidth;
-
-  while(vParent)
+  statics :
   {
-    switch(qx.html.Style.getStyleProperty(vParent, "overflow"))
+    /**
+     * Scroll the parent DOM element so that the element's so that the x coordinate is inside
+     * the visible area of the parent.
+     *
+     * @type static
+     * @param vElement {Element} DOM node to be scrolled into view
+     * @param vAlignLeft {Boolean} whether the element should be left aligned
+     * @return {boolean} TODOC
+     */
+    scrollX : function(vElement, vAlignLeft)
     {
-      case "scroll":
-      case "auto":
-      case "-moz-scrollbars-horizontal":
-        vHasScroll = true;
-        break;
+      var vParentWidth, vParentScrollLeft, vWidth, vHasScroll;
 
-      default:
-        switch(qx.html.Style.getStyleProperty(vParent, "overflowX"))
+      var vParent = vElement.parentNode;
+      var vOffset = vElement.offsetLeft;
+      var vWidth = vElement.offsetWidth;
+
+      while (vParent)
+      {
+        switch(qx.html.Style.getStyleProperty(vParent, "overflow"))
         {
           case "scroll":
           case "auto":
+          case "-moz-scrollbars-horizontal":
             vHasScroll = true;
             break;
 
           default:
-            vHasScroll = false;
+            switch(qx.html.Style.getStyleProperty(vParent, "overflowX"))
+            {
+              case "scroll":
+              case "auto":
+                vHasScroll = true;
+                break;
+
+              default:
+                vHasScroll = false;
+            }
         }
-    }
 
-    if (vHasScroll)
+        if (vHasScroll)
+        {
+          vParentWidth = vParent.clientWidth;
+          vParentScrollLeft = vParent.scrollLeft;
+
+          if (vAlignLeft) {
+            vParent.scrollLeft = vOffset;
+          } else if (vAlignLeft == false) {
+            vParent.scrollLeft = vOffset + vWidth - vParentWidth;
+          } else if (vWidth > vParentWidth || vOffset < vParentScrollLeft) {
+            vParent.scrollLeft = vOffset;
+          } else if ((vOffset + vWidth) > (vParentScrollLeft + vParentWidth)) {
+            vParent.scrollLeft = vOffset + vWidth - vParentWidth;
+          }
+
+          vOffset = vParent.offsetLeft;
+          vWidth = vParent.offsetWidth;
+        }
+        else
+        {
+          vOffset += vParent.offsetLeft;
+        }
+
+        if (vParent.tagName.toLowerCase() == "body") {
+          break;
+        }
+
+        vParent = vParent.parentNode;
+      }
+
+      return true;
+    },
+
+
+    /**
+     * Scroll the parent DOM element so that the element's so that the y coordinate is inside
+     * the visible area of the parent.
+     *
+     * @type static
+     * @param vElement {Element} DOM node to be scrolled into view
+     * @param vAlignTop {Boolean} whether the element should be top aligned
+     * @return {boolean} TODOC
+     */
+    scrollY : function(vElement, vAlignTop)
     {
-      vParentWidth = vParent.clientWidth;
-      vParentScrollLeft = vParent.scrollLeft;
+      var vParentHeight, vParentScrollTop, vHeight, vHasScroll;
 
-      if (vAlignLeft)
+      var vParent = vElement.parentNode;
+      var vOffset = vElement.offsetTop;
+      var vHeight = vElement.offsetHeight;
+
+      while (vParent)
       {
-        vParent.scrollLeft = vOffset;
-      }
-      else if (vAlignLeft == false)
-      {
-        vParent.scrollLeft = vOffset + vWidth - vParentWidth;
-      }
-      else if (vWidth > vParentWidth || vOffset < vParentScrollLeft)
-      {
-        vParent.scrollLeft = vOffset;
-      }
-      else if ((vOffset + vWidth) > (vParentScrollLeft + vParentWidth))
-      {
-        vParent.scrollLeft = vOffset + vWidth - vParentWidth;
-      }
-
-      vOffset = vParent.offsetLeft;
-      vWidth = vParent.offsetWidth;
-    }
-    else
-    {
-      vOffset += vParent.offsetLeft;
-    }
-
-    if (vParent.tagName.toLowerCase() == qx.dom.BODY_TAG_NAME) {
-      break;
-    }
-
-    vParent = vParent.parentNode;
-  }
-
-  return true;
-}
-
-
-/**
- * Scroll the parent DOM element so that the element's so that the y coordinate is inside
- * the visible area of the parent.
- *
- * @param vElement {Element} DOM node to be scrolled into view
- * @param vAlignTop {Boolean} whether the element should be top aligned
- */
-qx.html.ScrollIntoView.scrollY = function(vElement, vAlignTop)
-{
-  var vParentHeight, vParentScrollTop, vHeight, vHasScroll;
-
-  var vParent = vElement.parentNode;
-  var vOffset = vElement.offsetTop;
-  var vHeight = vElement.offsetHeight;
-
-  while(vParent)
-  {
-    switch(qx.html.Style.getStyleProperty(vParent, "overflow"))
-    {
-      case "scroll":
-      case "auto":
-      case "-moz-scrollbars-vertical":
-        vHasScroll = true;
-        break;
-
-      default:
-        switch(qx.html.Style.getStyleProperty(vParent, "overflowY"))
+        switch(qx.html.Style.getStyleProperty(vParent, "overflow"))
         {
           case "scroll":
           case "auto":
+          case "-moz-scrollbars-vertical":
             vHasScroll = true;
             break;
 
           default:
-            vHasScroll = false;
+            switch(qx.html.Style.getStyleProperty(vParent, "overflowY"))
+            {
+              case "scroll":
+              case "auto":
+                vHasScroll = true;
+                break;
+
+              default:
+                vHasScroll = false;
+            }
         }
-    }
 
-    if (vHasScroll)
-    {
-      vParentHeight = vParent.clientHeight;
-      vParentScrollTop = vParent.scrollTop;
+        if (vHasScroll)
+        {
+          vParentHeight = vParent.clientHeight;
+          vParentScrollTop = vParent.scrollTop;
 
-      if (vAlignTop)
-      {
-        vParent.scrollTop = vOffset;
+          if (vAlignTop) {
+            vParent.scrollTop = vOffset;
+          } else if (vAlignTop == false) {
+            vParent.scrollTop = vOffset + vHeight - vParentHeight;
+          } else if (vHeight > vParentHeight || vOffset < vParentScrollTop) {
+            vParent.scrollTop = vOffset;
+          } else if ((vOffset + vHeight) > (vParentScrollTop + vParentHeight)) {
+            vParent.scrollTop = vOffset + vHeight - vParentHeight;
+          }
+
+          vOffset = vParent.offsetTop;
+          vHeight = vParent.offsetHeight;
+        }
+        else
+        {
+          vOffset += vParent.offsetTop;
+        }
+
+        if (vParent.tagName.toLowerCase() == "body") {
+          break;
+        }
+
+        vParent = vParent.parentNode;
       }
-      else if (vAlignTop == false)
-      {
-        vParent.scrollTop = vOffset + vHeight - vParentHeight;
-      }
-      else if (vHeight > vParentHeight || vOffset < vParentScrollTop)
-      {
-        vParent.scrollTop = vOffset;
-      }
-      else if ((vOffset + vHeight) > (vParentScrollTop + vParentHeight))
-      {
-        vParent.scrollTop = vOffset + vHeight - vParentHeight;
-      }
 
-      vOffset = vParent.offsetTop;
-      vHeight = vParent.offsetHeight;
+      return true;
     }
-    else
-    {
-      vOffset += vParent.offsetTop;
-    }
-
-    if (vParent.tagName.toLowerCase() == qx.dom.BODY_TAG_NAME) {
-      break;
-    }
-
-    vParent = vParent.parentNode;
   }
-
-  return true;
-}
+});
