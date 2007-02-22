@@ -348,7 +348,7 @@ qx.Clazz.define("qx.html.Entity",
 
       // rsaquo is proposed but not yet ISO standardized
       "euro"     : 8364 //  -- euro sign, U+20AC NEW
-    },
+    }
   },
 
 
