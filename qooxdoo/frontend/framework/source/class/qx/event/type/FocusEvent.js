@@ -24,25 +24,29 @@
 
 ************************************************************************ */
 
-/*!
-  This event handles all focus events.
-
-  The four supported types are:
-  1+2: focus and blur also propagate the target object
-  3+4: focusout and focusin are bubbling to the parent objects
-*/
-qx.OO.defineClass("qx.event.type.FocusEvent", qx.event.type.Event,
-function(vType, vTarget)
+/**
+ * This event handles all focus events.
+ *
+ *  The four supported types are:
+ *  1+2: focus and blur also propagate the target object
+ *  3+4: focusout and focusin are bubbling to the parent objects
+ */
+qx.Clazz.define("qx.event.type.FocusEvent",
 {
-  qx.event.type.Event.call(this, vType);
+  extend : qx.event.type.Event,
 
-  this.setTarget(vTarget);
-
-  switch(vType)
+  construct : function(type, target)
   {
-    case "focusin":
-    case "focusout":
-      this.setBubbles(true);
-      this.setPropagationStopped(false);
+    qx.event.type.Event.call(this, type);
+
+    this.setTarget(target);
+
+    switch(type)
+    {
+      case "focusin":
+      case "focusout":
+        this.setBubbles(true);
+        this.setPropagationStopped(false);
+    }
   }
 });
