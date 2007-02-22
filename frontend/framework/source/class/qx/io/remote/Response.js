@@ -24,89 +24,120 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.io.remote.Response", qx.core.Target,
-function() {
-  qx.core.Target.call(this);
+qx.Clazz.define("qx.io.remote.Response",
+{
+  extend : qx.core.Target,
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function() {
+    qx.core.Target.call(this);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    state :
+    {
+      _legacy : true,
+      type    : "number"
+    },
+
+
+    /** Status code of the response. */
+    statusCode :
+    {
+      _legacy : true,
+      type    : "number"
+    },
+
+    content : { _legacy : true },
+
+    responseHeaders :
+    {
+      _legacy : true,
+      type    : "object"
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      USER METHODS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vHeader {var} TODOC
+     * @return {var | null} TODOC
+     */
+    getResponseHeader : function(vHeader)
+    {
+      var vAll = this.getResponseHeaders();
+
+      if (vAll) {
+        return vAll[vHeader] || null;
+      }
+
+      return null;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DISPOSER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void | var} TODOC
+     */
+    dispose : function()
+    {
+      if (this.getDisposed()) {
+        return;
+      }
+
+      return qx.core.Target.prototype.dispose.call(this);
+    }
+  }
 });
-
-
-
-
-/*
----------------------------------------------------------------------------
-  PROPERTIES
----------------------------------------------------------------------------
-*/
-
-qx.OO.addProperty({ name : "state", type : "number" });
-/*!
-  Status code of the response.
-*/
-qx.OO.addProperty({ name : "statusCode", type : "number" });
-qx.OO.addProperty({ name : "content" });
-qx.OO.addProperty({ name : "responseHeaders", type : "object" });
-
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  MODIFIERS
----------------------------------------------------------------------------
-*/
-
-/*
-qx.Proto._modifyResponseHeaders = function(propValue, propOldValue, propData)
-{
-  for (vKey in propValue) {
-    this.debug("R-Header: " + vKey + "=" + propValue[vKey]);
-  }
-
-  return true;
-}
-*/
-
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  USER METHODS
----------------------------------------------------------------------------
-*/
-
-qx.Proto.getResponseHeader = function(vHeader)
-{
-  var vAll = this.getResponseHeaders();
-  if (vAll) {
-    return vAll[vHeader] || null;
-  }
-
-  return null;
-}
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DISPOSER
----------------------------------------------------------------------------
-*/
-
-qx.Proto.dispose = function()
-{
-  if (this.getDisposed()) {
-    return;
-  }
-
-  return qx.core.Target.prototype.dispose.call(this);
-}
