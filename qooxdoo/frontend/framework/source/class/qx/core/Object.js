@@ -23,6 +23,7 @@
 
 #module(core)
 #use(qx.core.Init)
+#require(qx.core.LegacyProperty)
 #resource(static:static)
 
 ************************************************************************ */
@@ -134,12 +135,12 @@ qx.Clazz.define("qx.core.Object",
 
     /**
      * Destructor. This method is called by qooxdoo on object destruction.
-     * 
+     *
      * Any class that holds resources like links to DOM nodes must overwrite
      * this method and free these resources.
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     dispose : function()
     {
@@ -259,18 +260,18 @@ qx.Clazz.define("qx.core.Object",
 
       return vMsg;
     },
-    
-    
+
+
     /**
      * Returns whether a global dispose (page unload) is currently taking place.
-     * 
+     *
      * @type static
      * @return {Boolean} whether a global dispose is taking place.
      */
     inGlobalDispose : function()
     {
       return qx.core.Object.__disposeAll;
-    }    
+    }
   },
 
 
@@ -431,7 +432,7 @@ qx.Clazz.define("qx.core.Object",
      * @type member
      * @param vKey {String} the key
      * @param vValue {Object} the value of the user data
-     * @return {void} 
+     * @return {void}
      */
     setUserData : function(vKey, vValue)
     {
@@ -496,7 +497,7 @@ qx.Clazz.define("qx.core.Object",
      * Dispose this object
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     dispose : function()
     {
