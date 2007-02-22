@@ -456,7 +456,7 @@ qx.Clazz.define("qx.util.fsm.State",
     name :
     {
       type   : "string",
-      compat : true
+      _legacy: true
     },
 
 
@@ -469,7 +469,7 @@ qx.Clazz.define("qx.util.fsm.State",
     onentry :
     {
       defaultValue : function(fsm, event) {},
-      compat       : true
+      _legacy      : true,
     },
 
 
@@ -482,7 +482,7 @@ qx.Clazz.define("qx.util.fsm.State",
     onexit :
     {
       defaultValue : function(fsm, event) {},
-      compat       : true
+      _legacy       : true
     },
 
 
@@ -515,7 +515,7 @@ qx.Clazz.define("qx.util.fsm.State",
     autoActionsBeforeOnentry :
     {
       defaultValue : function(fsm, event) {},
-      compat       : true
+      _legacy       : true
     },
 
 
@@ -548,7 +548,7 @@ qx.Clazz.define("qx.util.fsm.State",
     autoActionsAfterOnentry :
     {
       defaultValue : function(fsm, event) {},
-      compat       : true
+      _legacy       : true
     },
 
 
@@ -581,7 +581,7 @@ qx.Clazz.define("qx.util.fsm.State",
     autoActionsBeforeOnexit :
     {
       defaultValue : function(fsm, event) {},
-      compat       : true
+      _legacy       : true
     },
 
 
@@ -614,7 +614,7 @@ qx.Clazz.define("qx.util.fsm.State",
     autoActionsAfterOnexit :
     {
       defaultValue : function(fsm, event) {},
-      compat       : true
+      _legacy       : true
     },
 
 
@@ -624,7 +624,7 @@ qx.Clazz.define("qx.util.fsm.State",
      * constructor's stateInfo object, but it is also possible (but highly NOT
      * recommended) to change this dynamically.
      */
-    events : { compat : true }
+    events : { _legacy: true }
   },
 
 

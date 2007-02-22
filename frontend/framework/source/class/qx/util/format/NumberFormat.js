@@ -105,7 +105,7 @@ qx.Clazz.define("qx.util.format.NumberFormat",
       type         : "number",
       defaultValue : 0,
       allowNull    : false,
-      compat       : true
+      _legacy       : true
     },
 
 
@@ -117,7 +117,7 @@ qx.Clazz.define("qx.util.format.NumberFormat",
     {
       type         : "number",
       defaultValue : null,
-      compat       : true
+      _legacy       : true
     },
 
 
@@ -130,7 +130,7 @@ qx.Clazz.define("qx.util.format.NumberFormat",
       type         : "number",
       defaultValue : 0,
       allowNull    : false,
-      compat       : true
+      _legacy       : true
     },
 
 
@@ -142,7 +142,7 @@ qx.Clazz.define("qx.util.format.NumberFormat",
     {
       type         : "number",
       defaultValue : null,
-      compat       : true
+      _legacy       : true
     },
 
     /** Whether thousand groupings should be used {e.g. "1,432,234.65"}. */
@@ -151,7 +151,7 @@ qx.Clazz.define("qx.util.format.NumberFormat",
       type         : "boolean",
       defaultValue : true,
       allowNull    : false,
-      compat       : true
+      _legacy       : true
     },
 
     /** The prefix to put before the number {"EUR " -> "EUR 12.31"}. */
@@ -160,7 +160,7 @@ qx.Clazz.define("qx.util.format.NumberFormat",
       type         : "string",
       defaultValue : "",
       allowNull    : false,
-      compat       : true
+      _legacy       : true
     },
 
     /** Sets the postfix to put after the number {" %" -> "56.13 %"}. */
@@ -169,7 +169,7 @@ qx.Clazz.define("qx.util.format.NumberFormat",
       type         : "string",
       defaultValue : "",
       allowNull    : false,
-      compat       : true
+      _legacy       : true
     }
   },
 

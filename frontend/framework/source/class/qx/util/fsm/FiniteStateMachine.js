@@ -195,7 +195,7 @@ qx.Clazz.define("qx.util.fsm.FiniteStateMachine",
     name :
     {
       type   : "string",
-      compat : true
+      _legacy: true
     },
 
 
@@ -205,7 +205,7 @@ qx.Clazz.define("qx.util.fsm.FiniteStateMachine",
     state :
     {
       type   : "string",
-      compat : true
+      _legacy: true
     },
 
 
@@ -218,7 +218,7 @@ qx.Clazz.define("qx.util.fsm.FiniteStateMachine",
     previousState :
     {
       type   : "string",
-      compat : true
+      _legacy: true
     },
 
 
@@ -230,7 +230,7 @@ qx.Clazz.define("qx.util.fsm.FiniteStateMachine",
     nextState :
     {
       type   : "string",
-      compat : true
+      _legacy: true
     },
 
 
@@ -245,7 +245,7 @@ qx.Clazz.define("qx.util.fsm.FiniteStateMachine",
     {
       type         : "number",
       defaultValue : 2,
-      compat       : true
+      _legacy       : true
     },
 
 
@@ -265,7 +265,7 @@ qx.Clazz.define("qx.util.fsm.FiniteStateMachine",
     {
       type         : "number",
       defaultValue : 7, // (qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS | qx.util.fsm.FiniteStateMachine.DebugFlags.TRANSITIONS | qx.util.fsm.FiniteStateMachine.DebugFlags.OBJECT_NOT_FOUND),
-      compat       : true
+      _legacy       : true
     }
   },
 
