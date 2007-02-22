@@ -22,37 +22,49 @@
 /**
  * Create a new instance of qx.locale.Number
  */
-qx.OO.defineClass("qx.locale.Number");
+qx.Clazz.define("qx.locale.Number",
+{
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics :
+  {
+    /**
+     * Get deciaml separator for number formatting
+     *
+     * @type static
+     * @param locale {String} optional locale to be used
+     * @return {qx.locale.LocalizedString} deciaml separator.
+     */
+    getDecimalSeparator : function(locale) {
+      return new qx.locale.LocalizedString("cldr_number_decimal_separator", [], locale);
+    },
 
 
-/**
- * Get deciaml separator for number formatting
- *
- * @param locale {String} optional locale to be used
- * @return {qx.locale.LocalizedString} deciaml separator.
- */
-qx.Class.getDecimalSeparator = function(locale) {
-  return new qx.locale.LocalizedString("cldr_number_decimal_separator", [], locale);
-};
+    /**
+     * Get thousand grouping separator for number formatting
+     *
+     * @type static
+     * @param locale {String} optional locale to be used
+     * @return {qx.locale.LocalizedString} group separator.
+     */
+    getGroupSeparator : function(locale) {
+      return new qx.locale.LocalizedString("cldr_number_group_separator", [], locale);
+    },
 
 
-/**
- * Get thousand grouping separator for number formatting
- *
- * @param locale {String} optional locale to be used
- * @return {qx.locale.LocalizedString} group separator.
- */
-qx.Class.getGroupSeparator = function(locale) {
-  return new qx.locale.LocalizedString("cldr_number_group_separator", [], locale);
-};
-
-
-/**
- * Get percent format string
- *
- * @param locale {String} optional locale to be used
- * @return {qx.locale.LocalizedString} percent format string.
- */
-qx.Class.getPercentFormat = function(locale) {
-  return new qx.locale.LocalizedString("cldr_number_percent_format", [], locale);
-};
+    /**
+     * Get percent format string
+     *
+     * @type static
+     * @param locale {String} optional locale to be used
+     * @return {qx.locale.LocalizedString} percent format string.
+     */
+    getPercentFormat : function(locale) {
+      return new qx.locale.LocalizedString("cldr_number_percent_format", [], locale);
+    }
+  }
+});
