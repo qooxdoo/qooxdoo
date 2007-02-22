@@ -27,14 +27,22 @@
 /**
  * Mime type constants
  */
-qx.OO.defineClass("qx.util.Mime",
+qx.Clazz.define("qx.util.Mime",
 {
-  JAVASCRIPT: "text/javascript",
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
 
-  /** this has been changed from text/json to application/json */
-  JSON: "application/json",
+  statics :
+  {
+    JAVASCRIPT : "text/javascript",
 
-  XML: "application/xml",
-  TEXT: "text/plain",
-  HTML: "text/html"
+    /** this has been changed from text/json to application/json */
+    JSON       : "application/json",
+    XML        : "application/xml",
+    TEXT       : "text/plain",
+    HTML       : "text/html"
+  }
 });

@@ -139,474 +139,548 @@
  *     this.getUserData("<propertyName>") during the state's onentry and
  *     onexit functions.
  */
-qx.OO.defineClass("qx.util.fsm.State", qx.core.Object,
-function(stateName, stateInfo)
+qx.Clazz.define("qx.util.fsm.State",
 {
-  // Call our superclass' constructor
-  qx.core.Object.call(this, true);
+  extend : qx.core.Object,
 
-  // Save the state name
-  this.setName(stateName);
 
-  // Ensure they passed in an object
-  if (typeof(stateInfo) != "object")
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(stateName, stateInfo)
   {
-    throw new Error("State info must be an object");
-  }
+    // Call our superclass' constructor
+    qx.core.Object.call(this, true);
 
-  // Save data from the stateInfo object
-  for (var field in stateInfo)
-  {
-    // If we find one of our properties, call its setter.
-    switch(field)
-    {
-    case "onentry":
-      this.setOnentry(stateInfo[field]);
-      break;
+    // Save the state name
+    this.setName(stateName);
 
-    case "onexit":
-      this.setOnexit(stateInfo[field]);
-      break;
-
-    case "autoActionsBeforeOnentry":
-      this.setAutoActionsBeforeOnentry(stateInfo[field]);
-      break;
-
-    case "autoActionsAfterOnentry":
-      this.setAutoActionsAfterOnentry(stateInfo[field]);
-      break;
-
-    case "autoActionsBeforeOnexit":
-      this.setAutoActionsBeforeOnexit(stateInfo[field]);
-      break;
-
-    case "autoActionsAfterOnexit":
-      this.setAutoActionsAfterOnexit(stateInfo[field]);
-      break;
-
-    case "events":
-      this.setEvents(stateInfo[field]);
-      break;
-
-    default:
-      // Anything else is user-provided data for their own use.  Save it.
-      this.setUserData(field, stateInfo[field]);
-
-      // Log it in case it was a typo and they intended a built-in field
-      this.debug("State " + stateName + ": " +
-                 "Adding user-provided field to state: " + field);
-
-      break;
+    // Ensure they passed in an object
+    if (typeof (stateInfo) != "object") {
+      throw new Error("State info must be an object");
     }
-  }
 
-
-  // Check for required but missing properties
-  if (! this.getEvents())
-  {
-    throw new Error("The events object must be provided in new state info");
-  }
-
-
-  // Initialize the transition list
-  this.transitions = { };
-});
-
-
-
-
-/*
----------------------------------------------------------------------------
-  PROPERTIES
----------------------------------------------------------------------------
-*/
-
-/**
- * The name of this state.  This name may be used as a Transition's nextState
- * value, or an explicit next state in the 'events' handling list in a State.
- */
-qx.OO.addProperty(
-  {
-    name         : "name",
-    type         : "string"
-  });
-
-/**
- * The onentry function for this state.  This is documented in the
- * constructor, and is typically provided through the constructor's stateInfo
- * object, but it is also possible (but highly NOT recommended) to change this
- * dynamically.
- */
-qx.OO.addProperty(
-  {
-    name         : "onentry",
-    defaultValue : function(fsm, event) { }
-  });
-
-/**
- * The onexit function for this state.  This is documented in the constructor,
- * and is typically provided through the constructor's stateInfo object, but
- * it is also possible (but highly NOT recommended) to change this
- * dynamically.
- */
-qx.OO.addProperty(
-  {
-    name         : "onexit",
-    defaultValue : function(fsm, event) { }
-  });
-
-/**
- * Automatic actions to take prior to calling the state's onentry function.
- *
- * The value passed to setAutoActionsBeforeOnentry() should like something
- * akin to:
- *
- *     "autoActionsBeforeOnentry" :
- *     {
- *       // The name of a function.  This would become "setEnabled("
- *       "enabled" :
- *       [
- *         {
- *           // The parameter value, thus "setEnabled(true);"
- *           "parameters" : [ true ],
- *
- *           // The function would be called on each object:
- *           //  this.getObject("obj1").setEnabled(true);
- *           //  this.getObject("obj2").setEnabled(true);
- *           "objects" : [ "obj1", "obj2" ]
- *
- *           // And similarly for each object in each specified group.
- *           "groups"  : [ "group1", "group2" ],
- *         }
- *       ];
- *     };
- */
-qx.OO.addProperty(
-  {
-    name         : "autoActionsBeforeOnentry",
-    defaultValue : function(fsm, event) { }
-  });
-
-/**
- * Automatic actions to take after return from the state's onentry function.
- *
- * The value passed to setAutoActionsAfterOnentry() should like something akin
- * to:
- *
- *     "autoActionsAfterOnentry" :
- *     {
- *       // The name of a function.  This would become "setEnabled("
- *       "enabled" :
- *       [
- *         {
- *           // The parameter value, thus "setEnabled(true);"
- *           "parameters" : [ true ],
- *
- *           // The function would be called on each object:
- *           //  this.getObject("obj1").setEnabled(true);
- *           //  this.getObject("obj2").setEnabled(true);
- *           "objects" : [ "obj1", "obj2" ]
- *
- *           // And similarly for each object in each specified group.
- *           "groups"  : [ "group1", "group2" ],
- *         }
- *       ];
- *     };
- */
-qx.OO.addProperty(
-  {
-    name         : "autoActionsAfterOnentry",
-    defaultValue : function(fsm, event) { }
-  });
-
-/**
- * Automatic actions to take prior to calling the state's onexit function.
- *
- * The value passed to setAutoActionsBeforeOnexit() should like something akin
- * to:
- *
- *     "autoActionsBeforeOnexit" :
- *     {
- *       // The name of a function.  This would become "setEnabled("
- *       "enabled" :
- *       [
- *         {
- *           // The parameter value, thus "setEnabled(true);"
- *           "parameters" : [ true ],
- *
- *           // The function would be called on each object:
- *           //  this.getObject("obj1").setEnabled(true);
- *           //  this.getObject("obj2").setEnabled(true);
- *           "objects" : [ "obj1", "obj2" ]
- *
- *           // And similarly for each object in each specified group.
- *           "groups"  : [ "group1", "group2" ],
- *         }
- *       ];
- *     };
- */
-qx.OO.addProperty(
-  {
-    name         : "autoActionsBeforeOnexit",
-    defaultValue : function(fsm, event) { }
-  });
-
-
-/**
- * Automatic actions to take after returning from the state's onexit function.
- *
- * The value passed to setAutoActionsAfterOnexit() should like something akin
- * to:
- *
- *     "autoActionsBeforeOnexit" :
- *     {
- *       // The name of a function.  This would become "setEnabled("
- *       "enabled" :
- *       [
- *         {
- *           // The parameter value, thus "setEnabled(true);"
- *           "parameters" : [ true ],
- *
- *           // The function would be called on each object:
- *           //  this.getObject("obj1").setEnabled(true);
- *           //  this.getObject("obj2").setEnabled(true);
- *           "objects" : [ "obj1", "obj2" ]
- *
- *           // And similarly for each object in each specified group.
- *           "groups"  : [ "group1", "group2" ],
- *         }
- *       ];
- *     };
- */
-qx.OO.addProperty(
-  {
-    name         : "autoActionsAfterOnexit",
-    defaultValue : function(fsm, event) { }
-  });
-
-
-/**
- * The object representing handled and blocked events for this state.  This is
- * documented in the constructor, and is typically provided through the
- * constructor's stateInfo object, but it is also possible (but highly NOT
- * recommended) to change this dynamically.
- */
-qx.OO.addProperty(
-  {
-    name         : "events"
-  });
-
-
-
-/*
----------------------------------------------------------------------------
-  MODIFIER
----------------------------------------------------------------------------
-*/
-
-qx.Proto._checkName = function(propValue, propData)
-{
-  // Ensure that we got a valid state name
-  if (typeof(propValue) != "string" || propValue.length < 1)
-  {
-    throw new Error("Invalid state name");
-  }
-
-  return propValue;
-};
-
-qx.Proto._checkOnentry = function(propValue, propData)
-{
-  // Validate the onentry function
-  switch(typeof(propValue))
-  {
-  case "undefined":
-    // None provided.  Convert it to a null function
-    return function(fsm, event) {};
-
-  case "function":
-    // We're cool.  No changes required
-    return propValue;
-
-  default:
-    throw new Error("Invalid onentry type: " + typeof(propValue));
-    return null;
-  }
-};
-
-qx.Proto._checkOnexit = function(propValue, propData)
-{
-  // Validate the onexit function
-  switch(typeof(propValue))
-  {
-  case "undefined":
-    // None provided.  Convert it to a null function
-    return function(fsm, event) {};
-
-  case "function":
-    // We're cool.  No changes required
-    return propValue;
-
-  default:
-    throw new Error("Invalid onexit type: " + typeof(propValue));
-    return null;
-  }
-};
-
-qx.Proto._checkEvents = function(propValue, propData)
-{
-  // Validate that events is an object
-  if (typeof(propValue) != "object")
-  {
-    throw new Error("events must be an object");
-  }
-
-  // Confirm that each property is a valid value
-  // The property value should be one of:
-  //
-  // (a) qx.util.fsm.FiniteStateMachine.EventHandling.PREDICATE
-  //
-  // (b) qx.util.fsm.FiniteStateMachine.EventHandling.BLOCKED
-  //
-  // (c) a string containing the name of an explicit Transition to use
-  //
-  // (d) an object where each property name is the Friendly Name of an
-  //     object (meaning that this rule applies if both the event and
-  //     the event's target object's Friendly Name match), and its
-  //     property value is one of (a), (b) or (c), above.
-  for (var e in propValue)
-  {
-    var action = propValue[e];
-    if (typeof(action) == "number" &&
-        action != qx.util.fsm.FiniteStateMachine.EventHandling.PREDICATE &&
-        action != qx.util.fsm.FiniteStateMachine.EventHandling.BLOCKED)
+    // Save data from the stateInfo object
+    for (var field in stateInfo)
     {
-      throw new Error("Invalid numeric value in events object: " +
-                      e + ": " + action);
-    }
-    else if (typeof(action) == "object")
-    {
-      for (action_e in action)
+      // If we find one of our properties, call its setter.
+      switch(field)
       {
-        if (typeof(action[action_e]) == "number" &&
-            action[action_e] !=
-              qx.util.fsm.FiniteStateMachine.EventHandling.PREDICATE &&
-            action[action_e] !=
-              qx.util.fsm.FiniteStateMachine.EventHandling.BLOCKED)
-        {
-          throw new Error("Invalid numeric value in events object " +
-                          "(" + e + "): " +
-                          action_e + ": " + action[action_e]);
-        }
-        else if (typeof(action[action_e]) != "string" &&
-                 typeof(action[action_e]) != "number")
-        {
-          throw new Error("Invalid value in events object " +
-                          "(" + e + "): " +
-                          action_e + ": " + action[action_e]);
-        }
+        case "onentry":
+          this.setOnentry(stateInfo[field]);
+          break;
+
+        case "onexit":
+          this.setOnexit(stateInfo[field]);
+          break;
+
+        case "autoActionsBeforeOnentry":
+          this.setAutoActionsBeforeOnentry(stateInfo[field]);
+          break;
+
+        case "autoActionsAfterOnentry":
+          this.setAutoActionsAfterOnentry(stateInfo[field]);
+          break;
+
+        case "autoActionsBeforeOnexit":
+          this.setAutoActionsBeforeOnexit(stateInfo[field]);
+          break;
+
+        case "autoActionsAfterOnexit":
+          this.setAutoActionsAfterOnexit(stateInfo[field]);
+          break;
+
+        case "events":
+          this.setEvents(stateInfo[field]);
+          break;
+
+        default:
+          // Anything else is user-provided data for their own use.  Save it.
+          this.setUserData(field, stateInfo[field]);
+
+          // Log it in case it was a typo and they intended a built-in field
+          this.debug("State " + stateName + ": " + "Adding user-provided field to state: " + field);
+
+          break;
       }
     }
-    else if (typeof(action) != "string" && typeof(action) != "number")
+
+    // Check for required but missing properties
+    if (!this.getEvents()) {
+      throw new Error("The events object must be provided in new state info");
+    }
+
+    // Initialize the transition list
+    this.transitions = {};
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * The name of this state.  This name may be used as a Transition's nextState
+     * value, or an explicit next state in the 'events' handling list in a State.
+     */
+    name :
     {
-      throw new Error("Invalid value in events object: " +
-                      e + ": " + propValue[e]);
+      type   : "string",
+      compat : true
+    },
+
+
+    /**
+     * The onentry function for this state.  This is documented in the
+     * constructor, and is typically provided through the constructor's stateInfo
+     * object, but it is also possible (but highly NOT recommended) to change this
+     * dynamically.
+     */
+    onentry :
+    {
+      defaultValue : function(fsm, event) {},
+      compat       : true
+    },
+
+
+    /**
+     * The onexit function for this state.  This is documented in the constructor,
+     * and is typically provided through the constructor's stateInfo object, but
+     * it is also possible (but highly NOT recommended) to change this
+     * dynamically.
+     */
+    onexit :
+    {
+      defaultValue : function(fsm, event) {},
+      compat       : true
+    },
+
+
+    /**
+     * Automatic actions to take prior to calling the state's onentry function.
+     *
+     * The value passed to setAutoActionsBeforeOnentry() should like something
+     * akin to:
+     *
+     *     "autoActionsBeforeOnentry" :
+     *     {
+     *       // The name of a function.  This would become "setEnabled("
+     *       "enabled" :
+     *       [
+     *         {
+     *           // The parameter value, thus "setEnabled(true);"
+     *           "parameters" : [ true ],
+     *
+     *           // The function would be called on each object:
+     *           //  this.getObject("obj1").setEnabled(true);
+     *           //  this.getObject("obj2").setEnabled(true);
+     *           "objects" : [ "obj1", "obj2" ]
+     *
+     *           // And similarly for each object in each specified group.
+     *           "groups"  : [ "group1", "group2" ],
+     *         }
+     *       ];
+     *     };
+     */
+    autoActionsBeforeOnentry :
+    {
+      defaultValue : function(fsm, event) {},
+      compat       : true
+    },
+
+
+    /**
+     * Automatic actions to take after return from the state's onentry function.
+     *
+     * The value passed to setAutoActionsAfterOnentry() should like something akin
+     * to:
+     *
+     *     "autoActionsAfterOnentry" :
+     *     {
+     *       // The name of a function.  This would become "setEnabled("
+     *       "enabled" :
+     *       [
+     *         {
+     *           // The parameter value, thus "setEnabled(true);"
+     *           "parameters" : [ true ],
+     *
+     *           // The function would be called on each object:
+     *           //  this.getObject("obj1").setEnabled(true);
+     *           //  this.getObject("obj2").setEnabled(true);
+     *           "objects" : [ "obj1", "obj2" ]
+     *
+     *           // And similarly for each object in each specified group.
+     *           "groups"  : [ "group1", "group2" ],
+     *         }
+     *       ];
+     *     };
+     */
+    autoActionsAfterOnentry :
+    {
+      defaultValue : function(fsm, event) {},
+      compat       : true
+    },
+
+
+    /**
+     * Automatic actions to take prior to calling the state's onexit function.
+     *
+     * The value passed to setAutoActionsBeforeOnexit() should like something akin
+     * to:
+     *
+     *     "autoActionsBeforeOnexit" :
+     *     {
+     *       // The name of a function.  This would become "setEnabled("
+     *       "enabled" :
+     *       [
+     *         {
+     *           // The parameter value, thus "setEnabled(true);"
+     *           "parameters" : [ true ],
+     *
+     *           // The function would be called on each object:
+     *           //  this.getObject("obj1").setEnabled(true);
+     *           //  this.getObject("obj2").setEnabled(true);
+     *           "objects" : [ "obj1", "obj2" ]
+     *
+     *           // And similarly for each object in each specified group.
+     *           "groups"  : [ "group1", "group2" ],
+     *         }
+     *       ];
+     *     };
+     */
+    autoActionsBeforeOnexit :
+    {
+      defaultValue : function(fsm, event) {},
+      compat       : true
+    },
+
+
+    /**
+     * Automatic actions to take after returning from the state's onexit function.
+     *
+     * The value passed to setAutoActionsAfterOnexit() should like something akin
+     * to:
+     *
+     *     "autoActionsBeforeOnexit" :
+     *     {
+     *       // The name of a function.  This would become "setEnabled("
+     *       "enabled" :
+     *       [
+     *         {
+     *           // The parameter value, thus "setEnabled(true);"
+     *           "parameters" : [ true ],
+     *
+     *           // The function would be called on each object:
+     *           //  this.getObject("obj1").setEnabled(true);
+     *           //  this.getObject("obj2").setEnabled(true);
+     *           "objects" : [ "obj1", "obj2" ]
+     *
+     *           // And similarly for each object in each specified group.
+     *           "groups"  : [ "group1", "group2" ],
+     *         }
+     *       ];
+     *     };
+     */
+    autoActionsAfterOnexit :
+    {
+      defaultValue : function(fsm, event) {},
+      compat       : true
+    },
+
+
+    /**
+     * The object representing handled and blocked events for this state.  This is
+     * documented in the constructor, and is typically provided through the
+     * constructor's stateInfo object, but it is also possible (but highly NOT
+     * recommended) to change this dynamically.
+     */
+    events : { compat : true }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      MODIFIER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propData {var} Property configuration map
+     * @return {var} TODOC
+     * @throws TODOC
+     */
+    _checkName : function(propValue, propData)
+    {
+      // Ensure that we got a valid state name
+      if (typeof (propValue) != "string" || propValue.length < 1) {
+        throw new Error("Invalid state name");
+      }
+
+      return propValue;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propData {var} Property configuration map
+     * @return {Function | var | null} TODOC
+     * @throws TODOC
+     */
+    _checkOnentry : function(propValue, propData)
+    {
+      // Validate the onentry function
+      switch(typeof (propValue))
+      {
+        case "undefined":
+          // None provided.  Convert it to a null function
+          return function(fsm, event) {};
+
+        case "function":
+          // We're cool.  No changes required
+          return propValue;
+
+        default:
+          throw new Error("Invalid onentry type: " + typeof (propValue));
+          return null;
+      }
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propData {var} Property configuration map
+     * @return {Function | var | null} TODOC
+     * @throws TODOC
+     */
+    _checkOnexit : function(propValue, propData)
+    {
+      // Validate the onexit function
+      switch(typeof (propValue))
+      {
+        case "undefined":
+          // None provided.  Convert it to a null function
+          return function(fsm, event) {};
+
+        case "function":
+          // We're cool.  No changes required
+          return propValue;
+
+        default:
+          throw new Error("Invalid onexit type: " + typeof (propValue));
+          return null;
+      }
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propData {var} Property configuration map
+     * @return {var} TODOC
+     * @throws TODOC
+     */
+    _checkEvents : function(propValue, propData)
+    {
+      // Validate that events is an object
+      if (typeof (propValue) != "object") {
+        throw new Error("events must be an object");
+      }
+
+      // Confirm that each property is a valid value
+      // The property value should be one of:
+      //
+      // (a) qx.util.fsm.FiniteStateMachine.EventHandling.PREDICATE
+      //
+      // (b) qx.util.fsm.FiniteStateMachine.EventHandling.BLOCKED
+      //
+      // (c) a string containing the name of an explicit Transition to use
+      //
+      // (d) an object where each property name is the Friendly Name of an
+      //     object (meaning that this rule applies if both the event and
+      //     the event's target object's Friendly Name match), and its
+      //     property value is one of (a), (b) or (c), above.
+      for (var e in propValue)
+      {
+        var action = propValue[e];
+
+        if (typeof (action) == "number" && action != qx.util.fsm.FiniteStateMachine.EventHandling.PREDICATE && action != qx.util.fsm.FiniteStateMachine.EventHandling.BLOCKED) {
+          throw new Error("Invalid numeric value in events object: " + e + ": " + action);
+        }
+        else if (typeof (action) == "object")
+        {
+          for (action_e in action)
+          {
+            if (typeof (action[action_e]) == "number" && action[action_e] != qx.util.fsm.FiniteStateMachine.EventHandling.PREDICATE && action[action_e] != qx.util.fsm.FiniteStateMachine.EventHandling.BLOCKED) {
+              throw new Error("Invalid numeric value in events object " + "(" + e + "): " + action_e + ": " + action[action_e]);
+            } else if (typeof (action[action_e]) != "string" && typeof (action[action_e]) != "number") {
+              throw new Error("Invalid value in events object " + "(" + e + "): " + action_e + ": " + action[action_e]);
+            }
+          }
+        }
+        else if (typeof (action) != "string" && typeof (action) != "number")
+        {
+          throw new Error("Invalid value in events object: " + e + ": " + propValue[e]);
+        }
+      }
+
+      // We're cool.  No changes required.
+      return propValue;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propData {var} Property configuration map
+     * @return {var} TODOC
+     */
+    _checkAutoActionsBeforeOnentry : function(propValue, propData) {
+      return qx.util.fsm.FiniteStateMachine._commonCheckAutoActions("autoActionsBeforeOnentry", propValue, propData);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propData {var} Property configuration map
+     * @return {var} TODOC
+     */
+    _checkAutoActionsAfterOnentry : function(propValue, propData) {
+      return qx.util.fsm.FiniteStateMachine._commonCheckAutoActions("autoActionsAfterOnentry", propValue, propData);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propData {var} Property configuration map
+     * @return {var} TODOC
+     */
+    _checkAutoActionsBeforeOnexit : function(propValue, propData) {
+      return qx.util.fsm.FiniteStateMachine._commonCheckAutoActions("autoActionsBeforeOnexit", propValue, propData);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propData {var} Property configuration map
+     * @return {var} TODOC
+     */
+    _checkAutoActionsAfterOnexit : function(propValue, propData) {
+      return qx.util.fsm.FiniteStateMachine._commonCheckAutoActions("autoActionsAfterOnexit", propValue, propData);
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      UTILITIES
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Add a transition to a state
+     *
+     * @type member
+     * @param trans {qx.util.fsm.Transition} An object of class qx.util.fsm.Transition representing a
+     *     transition which is to be a part of this state.
+     * @return {void} 
+     * @throws TODOC
+     */
+    addTransition : function(trans)
+    {
+      // Ensure that we got valid transition info
+      if (!trans instanceof qx.util.fsm.Transition) {
+        throw new Error("Invalid transition: not an instance of " + "qx.util.fsm.Transition");
+      }
+
+      // Add the new transition object to the state
+      this.transitions[trans.getName()] = trans;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT LISTENERS
+    ---------------------------------------------------------------------------
+    */
+
+    /*
+    ---------------------------------------------------------------------------
+      CLASS CONSTANTS
+    ---------------------------------------------------------------------------
+    */
+
+    /*
+    ---------------------------------------------------------------------------
+      DISPOSER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {boolean | var} TODOC
+     */
+    dispose : function()
+    {
+      if (this.getDisposed()) {
+        return true;
+      }
+
+      return qx.core.Object.prototype.dispose.call(this);
     }
   }
-
-  // We're cool.  No changes required.
-  return propValue;
-};
-
-qx.Proto._checkAutoActionsBeforeOnentry = function(propValue, propData)
-{
-  return qx.util.fsm.FiniteStateMachine._commonCheckAutoActions(
-    "autoActionsBeforeOnentry",
-    propValue,
-    propData);
-};
-
-qx.Proto._checkAutoActionsAfterOnentry = function(propValue, propData)
-{
-  return qx.util.fsm.FiniteStateMachine._commonCheckAutoActions(
-    "autoActionsAfterOnentry",
-    propValue,
-    propData);
-};
-
-qx.Proto._checkAutoActionsBeforeOnexit = function(propValue, propData)
-{
-  return qx.util.fsm.FiniteStateMachine._commonCheckAutoActions(
-    "autoActionsBeforeOnexit",
-    propValue,
-    propData);
-};
-
-qx.Proto._checkAutoActionsAfterOnexit = function(propValue, propData)
-{
-  return qx.util.fsm.FiniteStateMachine._commonCheckAutoActions(
-    "autoActionsAfterOnexit",
-    propValue,
-    propData);
-};
-
-
-/*
----------------------------------------------------------------------------
-  UTILITIES
----------------------------------------------------------------------------
-*/
-
-/**
- * Add a transition to a state
- *
- * @param trans {qx.util.fsm.Transition}
- *   An object of class qx.util.fsm.Transition representing a
- *   transition which is to be a part of this state.
- */
-qx.Proto.addTransition = function(trans)
-{
-  // Ensure that we got valid transition info
-  if (! trans instanceof qx.util.fsm.Transition)
-  {
-    throw new Error("Invalid transition: not an instance of " +
-                    "qx.util.fsm.Transition");
-  }
-
-  // Add the new transition object to the state
-  this.transitions[trans.getName()] = trans;
-};
-
-
-
-
-/*
----------------------------------------------------------------------------
-  EVENT LISTENERS
----------------------------------------------------------------------------
-*/
-
-
-
-/*
----------------------------------------------------------------------------
-  CLASS CONSTANTS
----------------------------------------------------------------------------
-*/
-
-
-
-/*
----------------------------------------------------------------------------
-  DISPOSER
----------------------------------------------------------------------------
-*/
-
-qx.Proto.dispose = function()
-{
-  if (this.getDisposed()) {
-    return true;
-  }
-
-  return qx.core.Object.prototype.dispose.call(this);
-}
+});

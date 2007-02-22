@@ -37,110 +37,149 @@
  * So this class seems to be the best compromise to handle
  * string concatenation.</p>
  */
-qx.OO.defineClass("qx.util.StringBuilder", qx.core.Object,
-function()
+qx.Clazz.define("qx.util.StringBuilder",
 {
-  qx.core.Object.call(this);
+  extend : qx.core.Object,
 
-  this.init();
-  this.add.apply(this, arguments);
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function()
+  {
+    qx.core.Object.call(this);
+
+    this.init();
+    this.add.apply(this, arguments);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /**
+     * Resets the contents of the Stringbuilder
+     * equivalent to <pre>str = ""; </pre>
+     *
+     * @type member
+     * @return {void} 
+     */
+    clear : qx.core.Variant.select("qx.client", {
+    	none : function() {
+        return this._string;
+      },
+      
+    	mshtml : function()	{
+        this._array = [];
+      }
+    }),
+
+
+    /**
+     * Returns the contents of the concatenated string
+     *
+     * @type member
+     * @return {String} string content
+     */
+    get : qx.core.Variant.select("qx.client", {
+    	none : function() {
+        return this._string;
+      },
+  
+    	mshtml : function() {
+        return this._array.join("");
+      }
+    }),
+
+
+    /**
+     * Append a variable number of string arguments
+     *
+     * @type member
+     * @param varargs {String} variable number os strings to be added
+     * @return {void} 
+     */
+    add : qx.core.Variant.select("qx.client", {
+    	none : function() {
+        this._string += Array.prototype.join.call(arguments, "");
+      },
+      
+    	mshtml : function() {
+        this._array.push.apply(this._array, arguments);
+      }
+    }),
+    
+
+    /**
+     * Initializes the contents of the Stringbuilder
+     * equivalent to <pre>str = ""; </pre>
+     *
+     * @type member
+     * @return {void} 
+     */
+    init : qx.core.Variant.select("qx.client", {
+    	none : function() {
+        this._string = "";
+      },
+      
+    	mshtml :function() {
+        this._array = [];
+      }
+    }),
+    
+
+    /**
+     * Destructor
+     *
+     * @type member
+     * @return {void} 
+     */
+    dispose : qx.core.Variant.select("qx.client", {
+    	none : function()
+      {
+        if (this.getDisposed()) {
+          return;
+        }
+    
+        this._string = null;
+    
+        qx.core.Object.prototype.dispose.call(this);
+      },
+      
+    	mshtml : function()
+      {
+        if (this.getDisposed()) {
+          return;
+        }
+    
+        this._array = null;
+    
+        qx.core.Object.prototype.dispose.call(this);
+      }
+    }),
+
+
+    /**
+     * Returns the contents of the concatenated string
+     *
+     * @type member
+     * @return {String} string content
+     */
+    toString : function() {
+      return this.get();
+    }
+
+  }
 });
-
-
-/**
- * Resets the contents of the Stringbuilder
- * equivalent to <pre>str = ""; </pre>
- */
-qx.Proto.clear = function() {}
-
-/**
- * Returns the contents of the concatenated string
- *
- * @return {String} string content
- */
-qx.Proto.get = function() {}
-
-/**
- * Append a variable number of string arguments
- *
- * @param varargs {String} variable number os strings to be added
- */
-qx.Proto.add = function(varargs) {}
-
-/**
- * Initializes the contents of the Stringbuilder
- * equivalent to <pre>str = ""; </pre>
- */
-qx.Proto.init = function() {}
-
-/** Destructor */
-qx.Proto.dispose = function() {}
-
-/**
- * Returns the contents of the concatenated string
- *
- * @return {String} string content
- */
-qx.Proto.toString = function() {}
-
-
-if (qx.core.Variant.isSet("qx.client", "mshtml"))
-{
-  qx.Proto.clear = function() {
-    this._array = [];
-  }
-
-  qx.Proto.get = function() {
-    return this._array.join("");
-  }
-
-  qx.Proto.add = function() {
-    this._array.push.apply(this._array, arguments);
-  }
-
-  qx.Proto.init = function() {
-    this._array = [];
-  }
-
-  qx.Proto.dispose = function()
-  {
-    if (this.getDisposed()) {
-      return;
-    }
-
-    this._array = null;
-
-    qx.core.Object.prototype.dispose.call(this);
-  }
-}
-else
-{
-  qx.Proto.clear = function() {
-    this._string = "";
-  }
-
-  qx.Proto.get = function() {
-    return this._string;
-  }
-
-  qx.Proto.add = function() {
-    this._string += Array.prototype.join.call(arguments, "");
-  }
-
-  qx.Proto.init = function() {
-    this._string = "";
-  }
-
-  qx.Proto.dispose = function()
-  {
-    if (this.getDisposed()) {
-      return;
-    }
-
-    this._string = null;
-
-    qx.core.Object.prototype.dispose.call(this);
-  }
-}
-
-qx.Proto.toString = qx.Proto.get;
