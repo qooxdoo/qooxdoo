@@ -208,10 +208,12 @@ qx.Clazz.define("qx.client.NativeWindow",
       _legacy      : true
     },
 
+    /** Location (left, right) of the window */
     location : {
       group : [ "left", "right" ]
     },
 
+    /** Dimension (width, height) of the window */
     dimension : {
       group : [ "width", "height" ]
     }
@@ -841,25 +843,4 @@ qx.Clazz.define("qx.client.NativeWindow",
       return qx.core.Target.prototype.dispose.call(this);
     }
   }
-});
-
-
-
-
-/*
----------------------------------------------------------------------------
-  PROPERTY GROUPS
----------------------------------------------------------------------------
-*/
-
-qx.OO.addPropertyGroup(
-{
-  name    : "location",
-  members : [ "left", "top" ]
-});
-
-qx.OO.addPropertyGroup(
-{
-  name    : "dimension",
-  members : [ "width", "height" ]
 });
