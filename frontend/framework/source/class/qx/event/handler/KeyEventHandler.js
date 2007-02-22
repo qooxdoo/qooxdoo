@@ -209,7 +209,7 @@ qx.Clazz.define("qx.event.handler.KeyEventHandler",
       }
     }),
 
-    _onkeypress : qx.core.Variant.select("qx.client,
+    _onkeypress : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(domEvent)
       {
