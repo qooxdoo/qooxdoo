@@ -1368,6 +1368,8 @@ qx.Clazz.define("qx.Clazz",
      */
     __createProtectedStatic : function(method, name, clazz)
     {
+      return method;
+
       if (arguments.caller || arguments.callee.caller)  // check if caller is available
       {
         var protectedMember = function()
