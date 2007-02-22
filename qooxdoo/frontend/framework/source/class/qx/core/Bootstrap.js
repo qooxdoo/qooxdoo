@@ -79,10 +79,14 @@ qx =
      * @type map
      * @param name {var} TODOC
      * @param config {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     define : function(name, config)
     {
+      if (!config) {
+        var config = { statics : {} };
+      }
+
       this.createNamespace(name, config.statics);
 
       if (config.defer) {
@@ -109,7 +113,7 @@ qx.Clazz.define("qx.core.Bootstrap",
      *
      * @type static
      * @param msg {String} The message to print out
-     * @return {void} 
+     * @return {void}
      */
     alert : function(msg)
     {
