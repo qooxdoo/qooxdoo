@@ -242,7 +242,7 @@ qx.Clazz.define("qx.client.Command",
      * @param e {qx.event.type.KeyEvent} the key event object
      * @return {Boolean} wether the commands shortcut matches the key event
      */
-    __matchesKeyEvent : function(e)
+    matchesKeyEvent : function(e)
     {
       var key = this.__key || this.getKeyIdentifier();
 
