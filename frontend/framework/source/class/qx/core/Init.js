@@ -52,7 +52,7 @@ qx.Clazz.define("qx.core.Init",
   {
     qx.core.Target.call(this, false);
 
-    // Attach DOM events
+    // Attach DOM events    
     qx.html.EventRegistration.addEventListener(window, "load", qx.lang.Function.bind(this._onload, this));
     qx.html.EventRegistration.addEventListener(window, "beforeunload", qx.lang.Function.bind(this._onbeforeunload, this));
     qx.html.EventRegistration.addEventListener(window, "unload", qx.lang.Function.bind(this._onunload, this));
@@ -318,14 +318,6 @@ qx.Clazz.define("qx.core.Init",
       if (this.getDisposed()) {
         return;
       }
-
-      // Detach Events
-      qx.html.EventRegistration.removeEventListener(window, "load", this.__onload);
-      qx.html.EventRegistration.removeEventListener(window, "beforeunload", this.__onbeforeunload);
-      qx.html.EventRegistration.removeEventListener(window, "unload", this.__onunload);
-
-      // Reset inline functions
-      this.__onload = this.__onbeforeunload = this.__onunload = null;
 
       if (this._applicationInstance)
       {

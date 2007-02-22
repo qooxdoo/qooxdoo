@@ -1178,6 +1178,10 @@ qx.Clazz.define("qx.Clazz",
      */
     __addAccessProtectionStatics: function(method, functionName, clazz)
     {
+      // RegExp are typeof "function" ;-(
+      if (method instanceof RegExp) {
+        return method;
+      }
       if (functionName.indexOf("__") == 0) {
         return this.__createPrivateStatic(method, functionName, clazz);
       } else if (functionName.indexOf("_") == 0) {
@@ -1190,11 +1194,16 @@ qx.Clazz.define("qx.Clazz",
 
     __createPublicMember: function(method)
     {
+      // RegExp are typeof "function" ;-(
+      if (method instanceof RegExp) {
+        return method;
+      }      
       var wrapper = function() {
         method.context = this;
         return method.apply(this, arguments);
       }
       method.wrapper = wrapper;
+      wrapper.self = method.self;
       return wrapper;
     },
 
@@ -1233,8 +1242,8 @@ qx.Clazz.define("qx.Clazz",
 
             throw new Error("Private method '"+name+"' of class '"+clazz.classname+"' called from '"+from+"'!");
           }
-
-          return method.apply(this, arguments);
+          // save context
+          method.context = this;
         };
 
         method.wrapper = privateMember;
@@ -1268,13 +1277,7 @@ qx.Clazz.define("qx.Clazz",
           // Firefox and Webkit define arguments.callee.caller
           var caller = arguments.caller ? arguments.caller.callee : arguments.callee.caller;
 
-          // if this is a wrapped function get the caller of the wrapper
-          for (var fcn=arguments.callee; fcn.wrapper; fcn=fcn.wrapper) {
-            caller = caller.caller;
-          }
-
-          if (!caller.context instanceof clazz)
-          {
+          if (!(caller.context instanceof clazz)) {
             if (caller.context) {
               var from = caller.context.classname + ":" + (qx.Clazz.getFunctionName(caller) || "unknown") + "()";
             } else {
@@ -1283,11 +1286,13 @@ qx.Clazz.define("qx.Clazz",
 
             throw new Error("Protected method '"+name+"' of class '"+clazz.classname+"' called from '" + from + "'!");
           }
-
+          // save context
+          method.context = this;
           return method.apply(this, arguments);
         };
 
         method.wrapper = protectedMember;
+        protectedMember.self = method.self;
         return protectedMember;
       }
       else
@@ -1321,7 +1326,7 @@ qx.Clazz.define("qx.Clazz",
             caller = caller.caller;
           }
 
-          if (caller.self != clazz)
+          if (!caller.self || caller.self.classname != clazz.classname)
           {
             if (caller.self) {
               var from = caller.self.classname + ":" + (qx.Clazz.getFunctionName(caller) || "unknown") + "()";
@@ -1331,7 +1336,8 @@ qx.Clazz.define("qx.Clazz",
 
             throw new Error("Private method '"+name+"' of class '"+clazz.classname+"' called from '"+from+"'!");
           }
-
+          // save context
+          method.context = this;
           return method.apply(this, arguments);
         };
 
@@ -1362,6 +1368,9 @@ qx.Clazz.define("qx.Clazz",
       {
         var protectedMember = function()
         {
+          // save context
+          method.context = this;
+
           // IE defines arguments.caller.callee
           // Firefox and Webkit define arguments.callee.caller
           var caller = arguments.caller ? arguments.caller.callee : arguments.callee.caller;
