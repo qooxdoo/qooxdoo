@@ -28,130 +28,184 @@
  * Processes log events. May be configured with filters in order to specify
  * which log events should be processed.
  */
-qx.OO.defineClass("qx.log.LogEventProcessor", qx.core.Object,
-function() {
-  qx.core.Object.call(this);
-});
+qx.Clazz.define("qx.log.LogEventProcessor",
+{
+  extend : qx.core.Object,
 
 
-/**
- * Appends a filter to the filter chain.
- *
- * @param filter {Filter} The filter to append.
- */
-qx.Proto.addFilter = function(filter) {
-  if (this._filterArr == null) {
-    this._filterArr = []
-  }
-  this._filterArr.push(filter);
-}
 
 
-/**
- * Clears the filter chain.
- */
-qx.Proto.clearFilters = function() {
-  this._filterArr = null;
-}
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function() {
+    qx.core.Object.call(this);
+  },
 
 
-/**
- * Returns the head filter from the chain. Returns null if there are no filters.
- *
- * @return {Filter} the head filter from the chain.
- */
-qx.Proto.getHeadFilter = function() {
-  return (this._filterArr == null || this._filterArr.length == 0) ? null : this._filterArr[0];
-}
 
 
-/**
- * Returns the default filter from the chain. If the head filter is no default
- * filter, the chain will be cleared and a default filter will be created.
- *
- * @return {Filter} the default filter.
- */
-qx.Proto._getDefaultFilter = function() {
-  var headFilter = this.getHeadFilter();
-  if (!(headFilter instanceof qx.log.DefaultFilter)) {
-    // The head filter of the appender is no DefaultFilter
-    // (or the appender has no filters at all)
-    // -> Create a default handler and append it
-    this.clearFilters();
-    headFilter = new qx.log.DefaultFilter();
-    this.addFilter(headFilter);
-  }
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
 
-  return headFilter;
-}
-
-
-/**
- * Sets whether event processing should be enabled.
- * <p>
- * Note: This will clear all custom filters.
- *
- * @param enabled {Boolean} whether event processing should be enabled.
- */
-qx.Proto.setEnabled = function(enabled) {
-  this._getDefaultFilter().setEnabled(enabled);
-}
-
-
-/**
- * Sets the min level an event must have in order to be processed.
- * <p>
- * Note: This will clear all custom filters.
- *
- * @param minLevel {Integer} the new min level.
- */
-qx.Proto.setMinLevel = function(minLevel) {
-  this._getDefaultFilter().setMinLevel(minLevel);
-}
-
-
-/**
- * Decides whether a log event is processed.
- *
- * @param evt {Map} the event to check.
- * @return {Integer} {@link Filter#ACCEPT}, {@link Filter#DENY} or
- *     {@link Filter#NEUTRAL}.
- */
-qx.Proto.decideLogEvent = function(evt) {
-  var NEUTRAL = qx.log.Filter.NEUTRAL;
-
-  if (this._filterArr != null) {
-    for (var i = 0; i < this._filterArr.length; i++) {
-      var decision = this._filterArr[i].decide(evt);
-      if (decision != NEUTRAL) {
-        return decision;
+  members :
+  {
+    /**
+     * Appends a filter to the filter chain.
+     *
+     * @type member
+     * @param filter {Filter} The filter to append.
+     * @return {void} 
+     */
+    addFilter : function(filter)
+    {
+      if (this._filterArr == null) {
+        this._filterArr = [];
       }
+
+      this._filterArr.push(filter);
+    },
+
+
+    /**
+     * Clears the filter chain.
+     *
+     * @type member
+     * @return {void} 
+     */
+    clearFilters : function() {
+      this._filterArr = null;
+    },
+
+
+    /**
+     * Returns the head filter from the chain. Returns null if there are no filters.
+     *
+     * @type member
+     * @return {Filter} the head filter from the chain.
+     */
+    getHeadFilter : function() {
+      return (this._filterArr == null || this._filterArr.length == 0) ? null : this._filterArr[0];
+    },
+
+
+    /**
+     * Returns the default filter from the chain. If the head filter is no default
+     * filter, the chain will be cleared and a default filter will be created.
+     *
+     * @type member
+     * @return {Filter} the default filter.
+     */
+    _getDefaultFilter : function()
+    {
+      var headFilter = this.getHeadFilter();
+
+      if (!(headFilter instanceof qx.log.DefaultFilter))
+      {
+        // The head filter of the appender is no DefaultFilter
+        // (or the appender has no filters at all)
+        // -> Create a default handler and append it
+        this.clearFilters();
+        headFilter = new qx.log.DefaultFilter();
+        this.addFilter(headFilter);
+      }
+
+      return headFilter;
+    },
+
+
+    /**
+     * Sets whether event processing should be enabled.
+     * 
+     * Note: This will clear all custom filters.
+     *
+     * @type member
+     * @param enabled {Boolean} whether event processing should be enabled.
+     * @return {void} 
+     */
+    setEnabled : function(enabled) {
+      this._getDefaultFilter().setEnabled(enabled);
+    },
+
+
+    /**
+     * Sets the min level an event must have in order to be processed.
+     * 
+     * Note: This will clear all custom filters.
+     *
+     * @type member
+     * @param minLevel {Integer} the new min level.
+     * @return {void} 
+     */
+    setMinLevel : function(minLevel) {
+      this._getDefaultFilter().setMinLevel(minLevel);
+    },
+
+
+    /**
+     * Decides whether a log event is processed.
+     *
+     * @type member
+     * @param evt {Map} the event to check.
+     * @return {Integer} {@link Filter#ACCEPT}, {@link Filter#DENY} or
+     *       {@link Filter#NEUTRAL}.
+     */
+    decideLogEvent : function(evt)
+    {
+      var NEUTRAL = qx.log.Filter.NEUTRAL;
+
+      if (this._filterArr != null)
+      {
+        for (var i=0; i<this._filterArr.length; i++)
+        {
+          var decision = this._filterArr[i].decide(evt);
+
+          if (decision != NEUTRAL) {
+            return decision;
+          }
+        }
+      }
+
+      // All filters are neutral, so are we
+      return NEUTRAL;
+    },
+
+
+    /**
+     * Processes a log event.
+     *
+     * @type member
+     * @abstract 
+     * @param evt {Map} The log event to process.
+     * @return {void} 
+     * @throws the abstract function warning.
+     */
+    handleLogEvent : function(evt) {
+      throw new Error("handleLogEvent is abstract");
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void | var} TODOC
+     */
+    dispose : function()
+    {
+      if (this.getDisposed()) {
+        return;
+      }
+
+      this._filterArr = null;
+
+      return qx.core.Object.prototype.dispose.call(this);
     }
   }
-
-  // All filters are neutral, so are we
-  return NEUTRAL;
-}
-
-
-/**
- * Processes a log event.
- *
- * @param evt {Map} The log event to process.
- */
-qx.Proto.handleLogEvent = function(evt) {
-  throw new Error("handleLogEvent is abstract");
-}
-
-
-
-qx.Proto.dispose = function()
-{
-  if (this.getDisposed()) {
-    return;
-  }
-
-  this._filterArr = null;
-
-  return qx.core.Object.prototype.dispose.call(this);
-}
+});

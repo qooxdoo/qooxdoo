@@ -31,44 +31,84 @@
  * are problems with widgets or when the widgets are not yet initialized.
  * </p>
  */
-qx.OO.defineClass('qx.log.FireBugAppender', qx.log.Appender, function() {
-  qx.log.Appender.call(this);
-});
-
-qx.Proto.appendLogEvent = function(evt)
+qx.Clazz.define("qx.log.FireBugAppender",
 {
-  if (typeof console != 'undefined')
-  {
-    var log = qx.log.Logger;
-    var msg = this.formatLogEvent(evt);
+  extend : qx.log.Appender,
 
-    switch (evt.level)
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function() {
+    qx.log.Appender.call(this);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param evt {Event} TODOC
+     * @return {void} 
+     */
+    appendLogEvent : function(evt)
     {
-      case log.LEVEL_DEBUG:
-        if (console.debug) {
-          console.debug(msg);
+      if (typeof console != 'undefined')
+      {
+        var log = qx.log.Logger;
+        var msg = this.formatLogEvent(evt);
+
+        switch(evt.level)
+        {
+          case log.LEVEL_DEBUG:
+            if (console.debug) {
+              console.debug(msg);
+            }
+
+            break;
+
+          case log.LEVEL_INFO:
+            if (console.info) {
+              console.info(msg);
+            }
+
+            break;
+
+          case log.LEVEL_WARN:
+            if (console.warn) {
+              console.warn(msg);
+            }
+
+            break;
+
+          default:
+            if (console.error) {
+              console.error(msg);
+            }
+
+            break;
         }
-        break;
-      case log.LEVEL_INFO:
-        if (console.info) {
-          console.info(msg);
+
+        // Force a stack dump, for helping locating the error
+        if (evt.level > log.LEVEL_WARN && (!evt.throwable || !evt.throwable.stack) && console.trace) {
+          console.trace();
         }
-        break;
-      case log.LEVEL_WARN:
-        if (console.warn) {
-          console.warn(msg);
-        }
-        break;
-      default:
-        if (console.error) {
-          console.error(msg);
-        }
-        break;
-    }
-    // Force a stack dump, for helping locating the error
-    if (evt.level > log.LEVEL_WARN && (!evt.throwable || !evt.throwable.stack) && console.trace)
-    {
-        console.trace();
+      }
     }
   }
-}
+});

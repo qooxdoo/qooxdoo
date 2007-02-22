@@ -27,33 +27,90 @@
 /**
  * The default filter. Has a minimum level and can be enabled or disabled.
  */
-qx.OO.defineClass("qx.log.DefaultFilter", qx.log.Filter,
-function() {
-  qx.log.Filter.call(this);
-});
+qx.Clazz.define("qx.log.DefaultFilter",
+{
+  extend : qx.log.Filter,
 
 
-/**
- * Whether the filter should be enabled. If set to false all log events
- * will be denied.
- */
-qx.OO.addProperty({ name:"enabled", type:"boolean", defaultValue:true, allowNull:false, getAlias:"isEnabled" });
-
-/**
- * The minimum log level. If set only log messages with a level greater or equal
- * to the set level will be accepted.
- */
-qx.OO.addProperty({ name:"minLevel", type:"number", defaultValue:null });
 
 
-// overridden
-qx.Proto.decide = function(evt) {
-  var Filter = qx.log.Filter;
-  if (! this.isEnabled()) {
-    return Filter.DENY;
-  } else if (this.getMinLevel() == null) {
-    return Filter.NEUTRAL;
-  } else {
-    return (evt.level >= this.getMinLevel()) ? Filter.ACCEPT : Filter.DENY;
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function() {
+    qx.log.Filter.call(this);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    /**
+     * Whether the filter should be enabled. If set to false all log events
+     * will be denied.
+     */
+    enabled :
+    {
+      _legacy      : true,
+      type         : "boolean",
+      defaultValue : true,
+      allowNull    : false,
+      getAlias     : "isEnabled"
+    },
+
+
+    /**
+     * The minimum log level. If set only log messages with a level greater or equal
+     * to the set level will be accepted.
+     */
+    minLevel :
+    {
+      _legacy      : true,
+      type         : "number",
+      defaultValue : null
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    // overridden
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param evt {Event} TODOC
+     * @return {var} TODOC
+     */
+    decide : function(evt)
+    {
+      var Filter = qx.log.Filter;
+
+      if (!this.isEnabled()) {
+        return Filter.DENY;
+      } else if (this.getMinLevel() == null) {
+        return Filter.NEUTRAL;
+      } else {
+        return (evt.level >= this.getMinLevel()) ? Filter.ACCEPT : Filter.DENY;
+      }
+    }
   }
-}
+});

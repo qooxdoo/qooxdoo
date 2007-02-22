@@ -35,33 +35,89 @@
  * window temporarily halts the regular program execution. That way even
  * the dispose process can easily be debugged.
  */
-qx.OO.defineClass("qx.log.AlertAppender", qx.log.Appender,
-function() {
-  qx.log.Appender.call(this);
+qx.Clazz.define("qx.log.AlertAppender",
+{
+  extend : qx.log.Appender,
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function() {
+    qx.log.Appender.call(this);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    // overridden
+    useLongFormat :
+    {
+      _legacy      : true,
+      type         : "boolean",
+      defaultValue : false,
+      allowNull    : false
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    // overridden
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param evt {Event} TODOC
+     * @return {void} 
+     */
+    appendLogEvent : function(evt)
+    {
+      // Append the message
+      var text = evt.logger.getName();
+
+      if (evt.instanceId != null) {
+        text += " (" + evt.instanceId + ")";
+      }
+
+      alert("\n" + text + "\n" + this.formatLogEvent(evt));
+    },
+
+    // overridden
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {boolean | var} TODOC
+     */
+    dispose : function()
+    {
+      if (this.getDisposed()) {
+        return true;
+      }
+
+      return qx.log.Appender.prototype.dispose.call(this);
+    }
+  }
 });
-
-
-// overridden
-qx.OO.changeProperty({ name:"useLongFormat", type:"boolean", defaultValue:false, allowNull:false });
-
-// overridden
-qx.Proto.appendLogEvent = function(evt) {
-
-  // Append the message
-  var text = evt.logger.getName();
-  if (evt.instanceId != null) {
-     text += " (" + evt.instanceId + ")";
-  }
-
-  alert("\n" + text + "\n" + this.formatLogEvent(evt));
-}
-
-
-// overridden
-qx.Proto.dispose = function() {
-  if (this.getDisposed()) {
-      return true;
-  }
-
-  return qx.log.Appender.prototype.dispose.call(this);
-}
