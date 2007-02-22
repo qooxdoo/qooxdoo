@@ -24,88 +24,98 @@
 
 ************************************************************************ */
 
-/*!
-  This singleton manages multiple instances of qx.ui.menu.Menu and their state.
-*/
-qx.OO.defineClass("qx.manager.object.MenuManager", qx.manager.object.ObjectManager,
-function(){
-  qx.manager.object.ObjectManager.call(this);
-});
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  METHODS
----------------------------------------------------------------------------
-*/
-
-qx.Proto.update = function(vTarget, vEventName)
+/** This singleton manages multiple instances of qx.ui.menu.Menu and their state. */
+qx.Clazz.define("qx.manager.object.MenuManager",
 {
-  var vMenu, vHashCode;
-  var vAll = this.getAll();
+  type : "singleton",
+  extend : qx.manager.object.ObjectManager,
 
-  for (vHashCode in vAll)
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function() {
+    qx.manager.object.ObjectManager.call(this);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
   {
-    vMenu = vAll[vHashCode];
+    /*
+    ---------------------------------------------------------------------------
+      METHODS
+    ---------------------------------------------------------------------------
+    */
 
-    if(!vMenu.getAutoHide()) {
-      continue;
-    }
-
-    if (vTarget && vTarget.getMenu && vTarget.getMenu()) {
-      continue;
-    }
-
-    // Hide on global events (mouseup, window focus, window blur, ...)
-    if (!vTarget)
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vTarget {var} TODOC
+     * @param vEventName {var} TODOC
+     * @return {void} 
+     */
+    update : function(vTarget, vEventName)
     {
-      vMenu.hide();
-      continue;
-    }
+      var vMenu, vHashCode;
+      var vAll = this.getAll();
 
-    // Hide only if the target is not a button inside this
-    // or any sub menu and is not the opener
-    var isMouseDown = vEventName == "mousedown";
-    var isMouseUp = vEventName == "mouseup";
+      for (vHashCode in vAll)
+      {
+        vMenu = vAll[vHashCode];
 
-    //Close menu if the target is not the opener button...
-    if (vMenu.getOpener() !== vTarget
+        if (!vMenu.getAutoHide()) {
+          continue;
+        }
+
+        if (vTarget && vTarget.getMenu && vTarget.getMenu()) {
+          continue;
+        }
+
+        // Hide on global events (mouseup, window focus, window blur, ...)
+        if (!vTarget)
+        {
+          vMenu.hide();
+          continue;
+        }
+
+        // Hide only if the target is not a button inside this
+        // or any sub menu and is not the opener
+        var isMouseDown = vEventName == "mousedown";
+        var isMouseUp = vEventName == "mouseup";
+
+        // Close menu if the target is not the opener button...
+        if (vMenu.getOpener() !==
 
         //  and
-        && ( vTarget &&
-             // the event is a mouse down on a non-child of the menu
-             (!vMenu.isSubElement(vTarget) && isMouseDown)
+        vTarget &&
+        (vTarget &&
 
-             // or the event is a mouse up on a child button of the menu
-             || (vMenu.isSubElement(vTarget, true) && isMouseUp)
+        // or the event is a mouse up on a child button of the menu
 
-             // or the event is a key (esc) event
-             || (!isMouseDown && !isMouseUp )))
+        // the event is a mouse down on a non-child of the menu
+        (!vMenu.isSubElement(vTarget) && isMouseDown) ||
 
-
-    {
-      vMenu.hide();
-      continue;
+        // or the event is a key (esc) event
+        (vMenu.isSubElement(vTarget, true) && isMouseUp) || (!isMouseDown && !isMouseUp)))
+        {
+          vMenu.hide();
+          continue;
+        }
+      }
     }
   }
-}
-
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DEFER SINGLETON INSTANCE
----------------------------------------------------------------------------
-*/
-
-/**
- * Singleton Instance Getter
- */
-qx.Class.getInstance = qx.lang.Function.returnInstance;
+});

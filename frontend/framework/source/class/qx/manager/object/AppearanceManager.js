@@ -27,128 +27,163 @@
 /**
  * This singleton manages the current theme
  */
-qx.OO.defineClass("qx.manager.object.AppearanceManager", qx.manager.object.ObjectManager,
-function() {
-  qx.manager.object.ObjectManager.call(this);
+qx.Clazz.define("qx.manager.object.AppearanceManager",
+{
+  type : "singleton",
+  extend : qx.manager.object.ObjectManager,
 
-  // Themes
-  this._appearanceThemes = {};
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function()
+  {
+    qx.manager.object.ObjectManager.call(this);
+
+    // Themes
+    this._appearanceThemes = {};
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    /** currently used apperance theme */
+    appearanceTheme :
+    {
+      _legacy   : true,
+      type      : "object",
+      allowNull : false,
+      instance  : "qx.renderer.theme.AppearanceTheme"
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      REGISTRATION
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Register an theme class.
+     * The theme is applied if it is the default apperance
+     *
+     * @type member
+     * @param vThemeClass {qx.renderer.theme.AppearanceTheme} TODOC
+     * @return {void} 
+     */
+    registerAppearanceTheme : function(vThemeClass)
+    {
+      this._appearanceThemes[vThemeClass.classname] = vThemeClass;
+
+      if (vThemeClass.classname == qx.core.Setting.get("qx.appearanceTheme")) {
+        this.setAppearanceTheme(vThemeClass.getInstance());
+      }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      MODIFIER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {boolean} TODOC
+     */
+    _modifyAppearanceTheme : function(propValue, propOldValue, propData)
+    {
+      var vComp = qx.core.Init.getInstance().getComponent();
+
+      if (vComp && vComp.isUiReady()) {
+        qx.ui.core.ClientDocument.getInstance()._recursiveAppearanceThemeUpdate(propValue, propOldValue);
+      }
+
+      return true;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DISPOSER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Disposer
+     *
+     * @type member
+     * @return {void | var} TODOC
+     */
+    dispose : function()
+    {
+      if (this.getDisposed()) {
+        return;
+      }
+
+      // Themes
+      this._appearanceThemes = null;
+
+      return qx.manager.object.ObjectManager.prototype.dispose.call(this);
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     SETTINGS
+  *****************************************************************************
+  */
+
+  settings :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      DEFAULT SETTINGS
+    ---------------------------------------------------------------------------
+    */
+
+    "qx.appearanceTheme" : "qx.theme.appearance.Classic"
+  }
 });
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DEFAULT SETTINGS
----------------------------------------------------------------------------
-*/
-
-qx.core.Setting.define("qx.appearanceTheme", "qx.theme.appearance.Classic");
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  PROPERTIES
----------------------------------------------------------------------------
-*/
-
-/** currently used apperance theme */
-qx.OO.addProperty({ name : "appearanceTheme", type : "object", allowNull : false, instance : "qx.renderer.theme.AppearanceTheme" });
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  REGISTRATION
----------------------------------------------------------------------------
-*/
-
-/**
- * Register an theme class.
- * The theme is applied if it is the default apperance
- *
- * @param vThemeClass {qx.renderer.theme.AppearanceTheme}
- */
-qx.Proto.registerAppearanceTheme = function(vThemeClass)
-{
-  this._appearanceThemes[vThemeClass.classname] = vThemeClass;
-
-  if (vThemeClass.classname == qx.core.Setting.get("qx.appearanceTheme")) {
-    this.setAppearanceTheme(vThemeClass.getInstance());
-  }
-}
-
-
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  MODIFIER
----------------------------------------------------------------------------
-*/
-
-qx.Proto._modifyAppearanceTheme = function(propValue, propOldValue, propData)
-{
-  var vComp = qx.core.Init.getInstance().getComponent();
-
-  if (vComp && vComp.isUiReady()) {
-    qx.ui.core.ClientDocument.getInstance()._recursiveAppearanceThemeUpdate(propValue, propOldValue);
-  }
-
-  return true;
-}
-
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DISPOSER
----------------------------------------------------------------------------
-*/
-
-/**
- * Disposer
- */
-qx.Proto.dispose = function()
-{
-  if (this.getDisposed()) {
-    return;
-  }
-
-  // Themes
-  this._appearanceThemes = null;
-
-  return qx.manager.object.ObjectManager.prototype.dispose.call(this);
-}
-
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DEFER SINGLETON INSTANCE
----------------------------------------------------------------------------
-*/
-
-/**
- * Singleton Instance Getter
- */
-qx.Class.getInstance = qx.lang.Function.returnInstance;
