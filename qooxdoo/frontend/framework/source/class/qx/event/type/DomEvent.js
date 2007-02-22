@@ -173,15 +173,6 @@ qx.Clazz.define("qx.event.type.DomEvent",
 
 
     /**
-     * Returns whether the the ctrl key is pressed.
-     *
-     * @return {Boolean} whether the the ctrl key is pressed.
-     * @deprecated Use {@link #isCtrlPressed} instead.
-     */
-    getCtrlKey : qx.Proto.isCtrlPressed,
-
-
-    /**
      * Returns whether the the shift key is pressed.
      *
      * @type member
@@ -193,15 +184,6 @@ qx.Clazz.define("qx.event.type.DomEvent",
 
 
     /**
-     * Returns whether the the shift key is pressed.
-     *
-     * @return {Boolean} whether the the shift key is pressed.
-     * @deprecated Use {@link #isShiftPressed} instead.
-     */
-    getShiftKey : qx.Proto.isShiftPressed,
-
-
-    /**
      * Returns whether the the alt key is pressed.
      *
      * @type member
@@ -210,15 +192,6 @@ qx.Clazz.define("qx.event.type.DomEvent",
     isAltPressed : function() {
       return this.getDomEvent().altKey;
     },
-
-
-    /**
-     * Returns whether the the alt key is pressed.
-     *
-     * @return {Boolean} whether the the alt key is pressed.
-     * @deprecated Use {@link #isAltPressed} instead.
-     */
-    getAltKey : qx.Proto.isAltPressed,
 
 
     /**
