@@ -24,27 +24,73 @@
 
 ************************************************************************ */
 
-/*!
-  Event object for property changes.
-*/
-qx.OO.defineClass("qx.event.type.DataEvent", qx.event.type.Event,
-function(vType, vData)
+/** Event object for property changes. */
+qx.Clazz.define("qx.event.type.DataEvent",
 {
-  qx.event.type.Event.call(this, vType);
+  extend : qx.event.type.Event,
 
-  this.setData(vData);
-});
 
-qx.OO.addFastProperty({ name : "propagationStopped", defaultValue : false });
-qx.OO.addFastProperty({ name : "data" });
 
-qx.Proto.dispose = function()
-{
-  if(this.getDisposed()) {
-    return;
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(vType, vData)
+  {
+    qx.event.type.Event.call(this, vType);
+
+    this.setData(vData);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    propagationStopped :
+    {
+      _fast        : true,
+      defaultValue : false
+    },
+
+    data : { _fast : true }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void | var} TODOC
+     */
+    dispose : function()
+    {
+      if (this.getDisposed()) {
+        return;
+      }
+
+      this._valueData = null;
+
+      return qx.event.type.Event.prototype.dispose.call(this);
+    }
   }
-
-  this._valueData = null;
-
-  return qx.event.type.Event.prototype.dispose.call(this);
-}
+});
