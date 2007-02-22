@@ -264,7 +264,7 @@ qx.Proto._onmouseup = function(e)
 
 qx.Proto._onmousemove = function(e)
 {
-  if (qx.OO.isAvailable("qx.manager.object.ToolTipManager")) {
+  if (qx.Clazz.isDefined("qx.manager.object.ToolTipManager")) {
     return;
   }
 
