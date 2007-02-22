@@ -24,49 +24,67 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.renderer.font.FontCache");
-
-qx.renderer.font.FontCache = function(propValue, propData)
+qx.Clazz.define("qx.renderer.font.FontCache",
 {
-  var propKey;
-  var propKeyAsStyle = false;
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
 
-  switch(typeof propValue)
+  statics :
   {
-    case "string":
-      if (propValue != "")
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param propValue {var} Current value
+     * @param propData {var} Property configuration map
+     * @return {var} TODOC
+     */
+    convert : function(propValue, propData)
+    {
+      var propKey;
+      var propKeyAsStyle = false;
+
+      switch(typeof propValue)
       {
-        propValue = propKey = propValue.toLowerCase();
-        break;
+        case "string":
+          if (propValue != "")
+          {
+            propValue = propKey = propValue.toLowerCase();
+            break;
+          }
+
+          return propValue;
+
+        case "number":
+          propKey = propValue.toString();
+          break;
+
+        case "object":
+          if (propValue == null || propValue instanceof qx.renderer.font.Font) {
+            return propValue;
+          }
+
+          // Try to detect array of RGB values
+          if (typeof propValue.join === "function")
+          {
+            propKey = propValue.join(" ").toLowerCase();
+            break;
+          }
+
+        default:
+          return propValue;
       }
 
-      return propValue;
-
-    case "number":
-      propKey = propValue.toString();
-      break;
-
-    case "object":
-      if (propValue == null || propValue instanceof qx.renderer.font.Font) {
-        return propValue;
+      if (qx.renderer.font.FontCache._data[propKey]) {
+        return qx.renderer.font.FontCache._data[propKey];
       }
 
-      // Try to detect array of RGB values
-      if (typeof propValue.join === "function")
-      {
-        propKey = propValue.join(" ").toLowerCase();
-        break;
-      }
+      return qx.renderer.font.FontCache._data[propKey] = qx.renderer.font.Font.fromString(propKey);
+    },
 
-    default:
-      return propValue;
+    _data : {}
   }
-
-  if (qx.renderer.font.FontCache._data[propKey]) {
-    return qx.renderer.font.FontCache._data[propKey];
-  }
-
-  return qx.renderer.font.FontCache._data[propKey] = qx.renderer.font.Font.fromString(propKey);
-}
-
-qx.renderer.font.FontCache._data = {};
+});
