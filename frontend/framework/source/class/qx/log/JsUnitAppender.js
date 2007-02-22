@@ -31,31 +31,67 @@
  * are problems with widgets or when the widgets are not yet initialized.
  * </p>
  */
-qx.OO.defineClass('qx.log.JsUnitAppender', qx.log.Appender, function() {
-  qx.log.Appender.call(this);
-});
-
-qx.Proto.appendLogEvent = function(evt)
+qx.Clazz.define("qx.log.JsUnitAppender",
 {
-  if (window.warn && window.inform && window.debug)
-  {
-    var log = qx.log.Logger;
-    var msg = qx.html.String.fromText(this.formatLogEvent(evt));
+  extend : qx.log.Appender,
 
-    switch (evt.level)
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function() {
+    qx.log.Appender.call(this);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param evt {Event} TODOC
+     * @return {void} 
+     */
+    appendLogEvent : function(evt)
     {
-      case log.LEVEL_DEBUG:
-        debug(msg);
-        break;
-      case log.LEVEL_INFO:
-        inform(msg);
-        break;
-      default:
-        warn(msg);
-        break;
-    }
-    if (evt.level > log.LEVEL_WARN) {
-      fail(msg);
+      if (window.warn && window.inform && window.debug)
+      {
+        var log = qx.log.Logger;
+        var msg = qx.html.String.fromText(this.formatLogEvent(evt));
+
+        switch(evt.level)
+        {
+          case log.LEVEL_DEBUG:
+            debug(msg);
+            break;
+
+          case log.LEVEL_INFO:
+            inform(msg);
+            break;
+
+          default:
+            warn(msg);
+            break;
+        }
+
+        if (evt.level > log.LEVEL_WARN) {
+          fail(msg);
+        }
+      }
     }
   }
-}
+});

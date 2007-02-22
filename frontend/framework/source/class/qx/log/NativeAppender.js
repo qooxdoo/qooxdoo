@@ -30,33 +30,72 @@
  * An appender that writes all messages to the best possible target in
  * this client e.g. it uses Firebug in Firefox browsers.
  */
-qx.OO.defineClass("qx.log.NativeAppender", qx.log.Appender,
-function(name) {
-  qx.log.Appender.call(this);
+qx.Clazz.define("qx.log.NativeAppender",
+{
+  extend : qx.log.Appender,
 
-  if (typeof console != 'undefined' && console.debug)
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(name)
   {
-    this._appender = new qx.log.FireBugAppender;
-  } else {
-    this._appender = new qx.log.WindowAppender;
+    qx.log.Appender.call(this);
+
+    if (typeof console != 'undefined' && console.debug) {
+      this._appender = new qx.log.FireBugAppender;
+    } else {
+      this._appender = new qx.log.WindowAppender;
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param evt {Event} TODOC
+     * @return {var} TODOC
+     */
+    appendLogEvent : function(evt) {
+      return this._appender.appendLogEvent(evt);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void | var} TODOC
+     */
+    dispose : function()
+    {
+      if (this.getDisposed()) {
+        return;
+      }
+
+      if (this._appender)
+      {
+        this._appender.dispose();
+        this._appender = null;
+      }
+
+      return qx.log.Appender.call(this);
+    }
   }
 });
-
-qx.Proto.appendLogEvent = function(evt) {
-  return this._appender.appendLogEvent(evt);
-};
-
-qx.Proto.dispose = function()
-{
-  if (this.getDisposed()) {
-    return;
-  }
-
-  if (this._appender)
-  {
-    this._appender.dispose();
-    this._appender = null;
-  }
-
-  return qx.log.Appender.call(this);
-};

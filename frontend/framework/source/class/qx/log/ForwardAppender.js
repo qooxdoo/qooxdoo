@@ -29,15 +29,47 @@
  * @param targetProcessor {LogEventProcessor} The log event processor Where to
  *    pass the log events.
  */
-qx.OO.defineClass("qx.log.ForwardAppender", qx.log.Appender,
-function(targetProcessor) {
-  qx.log.Appender.call(this);
+qx.Clazz.define("qx.log.ForwardAppender",
+{
+  extend : qx.log.Appender,
 
-  this._targetProcessor = targetProcessor;
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(targetProcessor)
+  {
+    qx.log.Appender.call(this);
+
+    this._targetProcessor = targetProcessor;
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    // overridden
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param evt {Event} TODOC
+     * @return {void} 
+     */
+    appendLogEvent : function(evt) {
+      this._targetProcessor.handleLogEvent(evt);
+    }
+  }
 });
-
-
-// overridden
-qx.Proto.appendLogEvent = function(evt) {
-  this._targetProcessor.handleLogEvent(evt);
-}
