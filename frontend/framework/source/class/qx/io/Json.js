@@ -166,11 +166,11 @@ qx.Clazz.define("qx.io.Json",
       for (var i=0, l=incoming.length; i<l; i++)
       {
         obj = incoming[i];
-        func = qx.io.Json.__converterTable[typeof obj];
+        func = this.__map[typeof obj];
 
         if (func)
         {
-          obj = func(obj);
+          obj = this[func](obj);
 
           if (typeof obj == "string")
           {
@@ -290,14 +290,14 @@ qx.Clazz.define("qx.io.Json",
         stringBuilder.push(qx.io.Json.__indent);
       }
 
-      for (key in incoming)
+      for (var key in incoming)
       {
         obj = incoming[key];
-        func = qx.io.Json.__converterTable[typeof obj];
+        func = this.__map[typeof obj];
 
         if (func)
         {
-          obj = func(obj);
+          obj = this[func](obj);
 
           if (typeof obj == "string")
           {
@@ -310,7 +310,7 @@ qx.Clazz.define("qx.io.Json",
               }
             }
 
-            stringBuilder.push(qx.io.Json.__converterTable.string(key), ":", obj);
+            stringBuilder.push(this.__convertString(key), ":", obj);
             first = false;
           }
         }
@@ -323,6 +323,8 @@ qx.Clazz.define("qx.io.Json",
       }
 
       stringBuilder.push("}");
+
+      return stringBuilder.join("");
     },
 
 
@@ -383,14 +385,7 @@ qx.Clazz.define("qx.io.Json",
       this.__indent = this.BEAUTIFYING_LINE_END;
 
       // Start convertion
-      var func = this.__converterTable[typeof obj];
-      var result;
-
-      if (func) {
-        console.log("START");
-        result = func(obj);
-        console.log("STOP: " + result);
-      }
+      var result = this[this.__map[typeof obj]](obj);
 
       if (typeof result != "string") {
         result = null;
@@ -425,6 +420,69 @@ qx.Clazz.define("qx.io.Json",
       } catch(ex) {
         throw new Error("Could not evaluate JSON string: " + ex.message);
       }
+    },
+
+    // /*
+    //  * Recursively descend through an object looking for any class hints.  Right
+    //  * now, the only class hint we support is 'Date' which can not be easily sent
+    //  * from javascript to an arbitrary (e.g. PHP) JSON-RPC server and back again
+    //  * without truncation or modification.
+    //  */
+    // _fixObj : function(obj) {
+    //   /* If there's a class hint... */
+    //   if (obj.__jsonclass__)
+    //   {
+    //   /* ... then check for supported classes.  We support only Date. */
+    //   if (obj.__jsonclass__ == "Date" && obj.secSinceEpoch && obj.msAdditional)
+    //   {
+    //     /* Found a Date.  Replace class hint object with a Date object. */
+    //     obj = new Date((obj.secSinceEpoch * 1000) + obj.msAdditional);
+    //     return obj;
+    //   }
+    //   }
+    //
+    //   /*
+    //    * It wasn't something with a supported class hint, so recursively descend
+    //    */
+    //   for (var member in obj) {
+    //   thisObj = obj[member];
+    //   if (typeof thisObj == 'object' && thisObj !== null) {
+    //     obj[member] = qx.io.Json._fixObj(thisObj);
+    //   }
+    //   }
+    //
+    //   return obj;
+    // }
+
+    /**
+     * Parse a JSON text, producing a JavaScript value.
+     * It triggers an exception if there is a syntax error.
+     *
+     * @param text {String} JSON string
+     * @return {var} evaluated JSON string.
+     */
+    parseQx : function(text)
+    {
+      /* Convert the result text into a result primitive or object */
+
+      if (qx.Settings.getValueOfClass("qx.io.Json", "enableDebug")) {
+        qx.log.Logger.getClassLogger(qx.io.Json).debug("JSON response: " + text);
+      }
+
+      var obj = (text && text.length > 0) ? eval('(' + text + ')') : null;
+
+      // /*
+      //  * Something like this fixObj() call may be used later when we want to
+      //  * support class hints.  For now, ignore that code
+      //  */
+      //
+      // /* If it's an object, not null, and contains a "result" field.. */
+      // if (typeof obj == 'object' && obj !== null && obj.result) {
+      // /* ... then 'fix' the result by handling any supported class hints */
+      // obj.result = qx.io.Json._fixObj(obj.result);
+      // }
+
+      return obj;
     }
   },
 
@@ -454,13 +512,13 @@ qx.Clazz.define("qx.io.Json",
 
   defer : function(statics, members, properties)
   {
-    statics.__converterTable =
+    statics.__map =
     {
-      "boolean"   : statics.__convertBoolean,
-      "number"    : statics.__convertNumber,
-      "string"    : statics.__convertString,
-      "object"    : statics.__convertObject,
-      "undefined" : statics.__convertUndefined
+      "boolean"   : "__convertBoolean",
+      "number"    : "__convertNumber",
+      "string"    : "__convertString",
+      "object"    : "__convertObject",
+      "undefined" : "__convertUndefined"
     };
   }
 });
