@@ -66,7 +66,7 @@ qx.Clazz.define("qx.manager.object.MenuManager",
      * @type member
      * @param vTarget {var} TODOC
      * @param vEventName {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     update : function(vTarget, vEventName)
     {

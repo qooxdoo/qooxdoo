@@ -220,7 +220,7 @@ qx.Proto.block = function(vActiveChild)
     this._getBlocker().setZIndex(vOrigIndex);
     vActiveChild.setZIndex(vOrigIndex+1);
   }
-  else if (qx.OO.isAvailable("qx.client.NativeWindow") && vActiveChild instanceof qx.client.NativeWindow)
+  else if (qx.Clazz.isDefined("qx.client.NativeWindow") && vActiveChild instanceof qx.client.NativeWindow)
   {
     this._modalNativeWindow = vActiveChild;
     this._getBlocker().setZIndex(1e7);
@@ -233,7 +233,7 @@ qx.Proto.release = function(vActiveChild)
 
   if (vActiveChild)
   {
-    if (qx.OO.isAvailable("qx.client.NativeWindow") && vActiveChild instanceof qx.client.NativeWindow)
+    if (qx.Clazz.isDefined("qx.client.NativeWindow") && vActiveChild instanceof qx.client.NativeWindow)
     {
       this._modalNativeWindow = null;
     }
@@ -348,7 +348,7 @@ qx.Proto._modifyGlobalCursor = function(propValue, propOldValue, propData)
 qx.Proto._onwindowresize = function(e)
 {
   // Hide popups, tooltips, ...
-  if (qx.OO.isAvailable("qx.manager.object.PopupManager")) {
+  if (qx.Clazz.isDefined("qx.manager.object.PopupManager")) {
     qx.manager.object.PopupManager.getInstance().update();
   }
 
