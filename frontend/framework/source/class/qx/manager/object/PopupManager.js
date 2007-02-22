@@ -86,7 +86,7 @@ qx.Clazz.define("qx.manager.object.PopupManager",
           continue;
         }
 
-        if (qx.OO.isAvailable("qx.ui.popup.ToolTip") && vTarget instanceof qx.ui.popup.ToolTip && !(vPopup instanceof qx.ui.popup.ToolTip)) {
+        if (qx.Clazz.isDefined("qx.ui.popup.ToolTip") && vTarget instanceof qx.ui.popup.ToolTip && !(vPopup instanceof qx.ui.popup.ToolTip)) {
           continue;
         }
 

@@ -287,7 +287,7 @@ qx.Clazz.define("qx.util.GuiBuilder",
         return;
       }
 
-      var classConstructor = qx.OO.classes[className];
+      var classConstructor = qx.Clazz.getByName(className);
 
       if (!classConstructor) {
         throw this._newError("constructor not found", { className : className });
@@ -388,7 +388,7 @@ qx.Clazz.define("qx.util.GuiBuilder",
       }
 
       // try the widget's superclass
-      var w = qx.OO.classes[className];
+      var w = qx.Clazz.getByName(className);
 
       if (w && w.superclass && w.superclass.prototype.classname) {
         return this._findPropertyEditor(w.superclass.prototype.classname, propertyName);

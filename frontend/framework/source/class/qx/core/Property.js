@@ -135,8 +135,7 @@ qx.Clazz.define("qx.core.Property",
         // Validation code
         if (config.validation != undefined)
         {
-          // TODO: Replace with new registry
-          if (config.validation in qx.OO.classes)
+          if (qx.Clazz.isDefined(config.validation))
           {
             code.add("if(!(newValue instanceof ");
             code.add(config.validation);
