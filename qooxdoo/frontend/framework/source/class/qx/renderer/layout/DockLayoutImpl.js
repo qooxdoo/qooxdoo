@@ -65,7 +65,7 @@ qx.Clazz.define("qx.renderer.layout.DockLayoutImpl",
      *  [09] FLUSH LAYOUT QUEUES OF CHILDREN
      *  [10] LAYOUT CHILD
      *  [11] DISPOSER
-     * 
+     *
      *  Inherits from qx.renderer.layout.LayoutImpl:
      *  [02] COMPUTE NEEDED DIMENSIONS FOR AN INDIVIDUAL CHILD
      *  [03] COMPUTE NEEDED DIMENSIONS FOR ALL CHILDREN
@@ -247,7 +247,7 @@ qx.Clazz.define("qx.renderer.layout.DockLayoutImpl",
      *
      * @type member
      * @param vQueue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     updateChildrenOnJobQueueFlush : function(vQueue)
     {
@@ -272,7 +272,7 @@ qx.Clazz.define("qx.renderer.layout.DockLayoutImpl",
      *
      * @type member
      * @param vChildrenQueue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     flushChildrenQueue : function(vChildrenQueue)
     {
@@ -334,7 +334,7 @@ qx.Clazz.define("qx.renderer.layout.DockLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     layoutChild : function(vChild, vJobs)
     {
@@ -357,7 +357,7 @@ qx.Clazz.define("qx.renderer.layout.DockLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     layoutChild_location_top : function(vChild, vJobs)
     {
@@ -376,7 +376,7 @@ qx.Clazz.define("qx.renderer.layout.DockLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     layoutChild_location_left : function(vChild, vJobs)
     {
@@ -394,7 +394,7 @@ qx.Clazz.define("qx.renderer.layout.DockLayoutImpl",
      *
      * @type member
      * @param vChild {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _applyComputedWidth : qx.core.Variant.select("qx.client",
     {
@@ -403,22 +403,22 @@ qx.Clazz.define("qx.renderer.layout.DockLayoutImpl",
         // direct recompute (need to be done, while layouting as the
         // _last* variable changes during layout process)
         vChild._recomputeBoxWidth();
-    
+
         // wrong: simple invalidates are enough here
         // correct: needs recompute to inform children (to update centering for example)
         vChild._recomputeOuterWidth();
         vChild._recomputeInnerWidth();
-    
+
         // apply calculated width
         vChild._applyRuntimeWidth(vChild.getBoxWidth());
       },
-      
+
       "none" : function(vChild)
       {
         // direct recompute (need to be done, while layouting as the
         // _last* variable changes during layout process)
         vChild._recomputeBoxWidth();
-    
+
         // wrong: simple invalidates are enough here
         // correct: needs recompute to inform children (to update centering for example)
         vChild._recomputeOuterWidth();
@@ -432,7 +432,7 @@ qx.Clazz.define("qx.renderer.layout.DockLayoutImpl",
      *
      * @type member
      * @param vChild {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _applyComputedHeight : qx.core.Variant.select("qx.client",
     {
@@ -441,22 +441,22 @@ qx.Clazz.define("qx.renderer.layout.DockLayoutImpl",
         // direct recompute (need to be done, while layouting as the
         // _last* variable changes during layout process)
         vChild._recomputeBoxHeight();
-    
+
         // wrong: simple invalidates are enough here
         // correct: needs recompute to inform children (to update centering for example)
         vChild._recomputeOuterHeight();
         vChild._recomputeInnerHeight();
-    
+
         // apply calculated height
         vChild._applyRuntimeHeight(vChild.getBoxHeight());
       },
-      
+
       "none" : function(vChild)
       {
         // direct recompute (need to be done, while layouting as the
         // _last* variable changes during layout process)
         vChild._recomputeBoxHeight();
-    
+
         // wrong: simple invalidates are enough here
         // correct: needs recompute to inform children (to update centering for example)
         vChild._recomputeOuterHeight();
@@ -471,7 +471,7 @@ qx.Clazz.define("qx.renderer.layout.DockLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     layoutChild_sizeX : qx.core.Variant.select("qx.client",
     {
@@ -482,7 +482,7 @@ qx.Clazz.define("qx.renderer.layout.DockLayoutImpl",
           vChild._computedWidthTypeNull && vChild._computedMinWidthTypeNull && vChild._computedMaxWidthTypeNull ? vChild._resetRuntimeWidth() : vChild._applyRuntimeWidth(vChild.getBoxWidth());
         }
       },
-      
+
       "none" : function(vChild, vJobs)
       {
         if (vJobs.initial || vJobs.width) {
@@ -498,7 +498,7 @@ qx.Clazz.define("qx.renderer.layout.DockLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     layoutChild_sizeY : qx.core.Variant.select("qx.client",
     {
@@ -509,7 +509,7 @@ qx.Clazz.define("qx.renderer.layout.DockLayoutImpl",
           vChild._computedHeightTypeNull && vChild._computedMinHeightTypeNull && vChild._computedMaxHeightTypeNull ? vChild._resetRuntimeHeight() : vChild._applyRuntimeHeight(vChild.getBoxHeight());
         }
       },
-      
+
       "none" : function(vChild, vJobs)
       {
         if (vJobs.initial || vJobs.height) {
@@ -524,14 +524,14 @@ qx.Clazz.define("qx.renderer.layout.DockLayoutImpl",
      *
      * @type member
      * @param vChild {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     layoutChild_location_horizontal : qx.core.Variant.select("qx.client",
     {
       "mshtml|opera" : function(vChild) {
         this._applyComputedWidth(vChild);
       },
-      
+
       "none" : function(vChild)
       {
         this._applyComputedWidth(vChild);
@@ -545,14 +545,14 @@ qx.Clazz.define("qx.renderer.layout.DockLayoutImpl",
      *
      * @type member
      * @param vChild {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     layoutChild_location_vertical : qx.core.Variant.select("qx.client",
     {
       "mshtml|opera" : function(vChild) {
         this._applyComputedHeight(vChild);
       },
-      
+
       "none" :  function(vChild)
       {
         this._applyComputedHeight(vChild);
@@ -567,7 +567,7 @@ qx.Clazz.define("qx.renderer.layout.DockLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     layoutChild_location_right : qx.core.Variant.select("qx.client",
     {
@@ -575,19 +575,19 @@ qx.Clazz.define("qx.renderer.layout.DockLayoutImpl",
       {
         vChild._applyRuntimeLeft(this.getWidget().getInnerWidth() - this._lastRight - vChild.getBoxWidth());
         vChild._applyRuntimeTop(this._lastTop);
-    
+
         this.layoutChild_location_vertical(vChild);
-    
+
         this._lastRight += vChild.getBoxWidth();
       },
-      
+
       "none" : function(vChild, vJobs)
       {
         vChild._applyRuntimeRight(this._lastRight);
         vChild._applyRuntimeTop(this._lastTop);
-    
+
         this.layoutChild_location_vertical(vChild);
-    
+
         this._lastRight += vChild.getBoxWidth();
       }
     }),
@@ -599,7 +599,7 @@ qx.Clazz.define("qx.renderer.layout.DockLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     layoutChild_location_bottom : qx.core.Variant.select("qx.client",
     {
@@ -607,19 +607,19 @@ qx.Clazz.define("qx.renderer.layout.DockLayoutImpl",
       {
         vChild._applyRuntimeTop(this.getWidget().getInnerHeight() - this._lastBottom - vChild.getBoxHeight());
         vChild._applyRuntimeLeft(this._lastLeft);
-    
+
         this.layoutChild_location_horizontal(vChild);
-    
+
         this._lastBottom += vChild.getBoxHeight();
       },
-      
+
       "none" : function(vChild, vJobs)
       {
         vChild._applyRuntimeBottom(this._lastBottom);
         vChild._applyRuntimeLeft(this._lastLeft);
-    
+
         this.layoutChild_location_horizontal(vChild);
-    
+
         this._lastBottom += vChild.getBoxHeight();
       }
     }),
@@ -631,37 +631,37 @@ qx.Clazz.define("qx.renderer.layout.DockLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     layoutChild_location_default : qx.core.Variant.select("qx.client",
     {
       "mshtml|opera" : function(vChild, vJobs)
       {
         var vWidget = this.getWidget();
-    
+
         vChild._resetRuntimeRight();
         vChild._resetRuntimeBottom();
-    
+
         vChild._applyRuntimeTop(this._lastTop);
         vChild._applyRuntimeLeft(this._lastLeft);
-    
+
         this._applyComputedWidth(vChild);
         this._applyComputedHeight(vChild);
       },
-      
+
       "none" :  function(vChild, vJobs)
       {
         vChild._resetRuntimeWidth();
         vChild._resetRuntimeHeight();
-    
+
         vChild._applyRuntimeTop(this._lastTop);
         vChild._applyRuntimeRight(this._lastRight);
         vChild._applyRuntimeBottom(this._lastBottom);
         vChild._applyRuntimeLeft(this._lastLeft);
-    
+
         this._applyComputedWidth(vChild);
         this._applyComputedHeight(vChild);
       }
-    }),
+    })
   }
 });
