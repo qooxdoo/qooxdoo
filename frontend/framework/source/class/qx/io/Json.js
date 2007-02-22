@@ -65,6 +65,14 @@ qx.Clazz.define("qx.io.Json",
     /** new line string for JSON pretty printing */
     BEAUTIFYING_LINE_END : "\n",
 
+    __map :
+    {
+      "boolean"   : "__convertBoolean",
+      "number"    : "__convertNumber",
+      "string"    : "__convertString",
+      "object"    : "__convertObject",
+      "undefined" : "__convertUndefined"
+    },
 
     /**
      * TODOC
@@ -499,26 +507,5 @@ qx.Clazz.define("qx.io.Json",
   {
     "qx.jsonEncodeUndefined" : true,
     "qx.jsonDebugging"       : false
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
-
-  defer : function(statics, members, properties)
-  {
-    statics.__map =
-    {
-      "boolean"   : "__convertBoolean",
-      "number"    : "__convertNumber",
-      "string"    : "__convertString",
-      "object"    : "__convertObject",
-      "undefined" : "__convertUndefined"
-    };
   }
 });
