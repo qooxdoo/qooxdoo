@@ -249,7 +249,7 @@ qx.Proto._sendTo = function()
 {
   var vPopups = qx.lang.Object.getValues(qx.manager.object.PopupManager.getInstance().getAll());
 
-  if (qx.OO.isAvailable("qx.manager.object.MenuManager"))
+  if (qx.Clazz.isDefined("qx.manager.object.MenuManager"))
   {
     var vMenus = qx.lang.Object.getValues(qx.manager.object.MenuManager.getInstance().getAll());
     var vAll = vPopups.concat(vMenus).sort(qx.util.Compare.byZIndex);
