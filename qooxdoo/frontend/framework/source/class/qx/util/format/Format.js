@@ -25,29 +25,59 @@
 /**
  * Superclass for formatters and parsers.
  */
-qx.OO.defineClass("qx.util.format.Format", qx.core.Object,
-function() {
-  qx.core.Object.call(this);
+qx.Clazz.define("qx.util.format.Format",
+{
+  extend : qx.core.Object,
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function() {
+    qx.core.Object.call(this);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /**
+     * Formats an object.
+     *
+     * @type member
+     * @abstract 
+     * @param obj {var} The object to format.
+     * @return {String} the formatted object.
+     * @throws the abstract function warning.
+     */
+    format : function(obj) {
+      throw new Error("format is abstract");
+    },
+
+
+    /**
+     * Parses an object.
+     *
+     * @type member
+     * @abstract 
+     * @param str {String} the string to parse.
+     * @return {var} the parsed object.
+     * @throws the abstract function warning.
+     */
+    parse : function(str) {
+      throw new Error("parse is abstract");
+    }
+  }
 });
-
-
-/**
- * Formats an object.
- *
- * @param obj {var} The object to format.
- * @return {String} the formatted object.
- */
-qx.Proto.format = function(obj) {
-  throw new Error("format is abstract");
-}
-
-
-/**
- * Parses an object.
- *
- * @param str {String} the string to parse.
- * @return {var} the parsed object.
- */
-qx.Proto.parse = function(str) {
-  throw new Error("parse is abstract");
-}

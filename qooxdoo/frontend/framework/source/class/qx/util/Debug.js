@@ -26,125 +26,128 @@
 /**
  * Useful debug capabilities
  */
-qx.OO.defineClass("qx.util.Debug");
-
-
-/**
- * Recursively display an object (as debug messages)
- *
- * @param obj {Object}
- *   The object to be recursively displayed
- *
- * @param initialMessage {String, null}
- *   The initial message to be displayed.
- *
- * @param maxLevel {Integer ? 10 }
- *   The maximum level of recursion.  Objects beyond this level will not be
- *   displayed.
- *
- * @param appender {Object, null}
- *   If not provided (or provided as null), the default appender of the root
- *   will be used.  If provided, this should be an instance of an appender to
- *   which the object debug will be sent.  For example, you might pass, for
- *   this parameter, <code>new qx.log.WindowAppender()</code>.
- */
-qx.Class.debugObject = function(obj, initialMessage, maxLevel, appender)
+qx.Clazz.define("qx.util.Debug",
 {
-  // Get a new logger
-  logger = new qx.log.Logger("Debug", qx.log.Logger.ROOT_LOGGER);
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
 
-  // If a maximum recursion level was not specified...
-  if (! maxLevel)
+  statics :
   {
-    // ... then create one arbitrarily
-    maxLevel = 10;
-  }
-
-  // If an appender was provided...
-  if (appender)
-  {
-    // ... then remove all existing appenders (the defaults), ...
-    logger.removeAllAppenders();
-
-    // ... and add the provided one.
-    logger.addAppender(appender);
-  }
-
-  // Initialize an empty message to be displayed
-  var message = "";
-
-  // Function to recursively display an object
-  var displayObj = function(obj, level, maxLevel)
-  {
-    // Calculate the indentation for this level
-    var indentStr = "";
-    for (var i = 0; i < level; i++)
+    /**
+     * Recursively display an object (as debug messages)
+     *
+     * @type static
+     * @param obj {Object} The object to be recursively displayed
+     * @param initialMessage {String, null} The initial message to be displayed.
+     * @param maxLevel {Integer ? 10} The maximum level of recursion.  Objects beyond this level will not be
+     *     displayed.
+     * @param appender {Object, null} If not provided (or provided as null), the default appender of the root
+     *     will be used.  If provided, this should be an instance of an appender to
+     *     which the object debug will be sent.  For example, you might pass, for
+     *     this parameter, <code>new qx.log.WindowAppender()</code>.
+     * @return {void} 
+     */
+    debugObject : function(obj, initialMessage, maxLevel, appender)
     {
-      indentStr += "  ";
-    }
+      // Get a new logger
+      logger = new qx.log.Logger("Debug", qx.log.Logger.ROOT_LOGGER);
 
-    // If we've exceeded the maximum recursion level...
-    if (level > maxLevel)
-    {
-      // ... then tell 'em so, and get outta dodge.
-      message += indentStr + "*** TOO MUCH RECURSION: not displaying ***\n";
-      return;
-    }
-
-    // Is this an ordinary non-recursive item?
-    if (typeof(obj) != "object")
-    {
-      // Yup.  Just add it to the message.
-      message += indentStr + obj + "\n";
-      return;
-    }
-
-    // We have an object  or array.  For each child...
-    for (var prop in obj)
-    {
-      // Is this child a recursive item?
-      if (typeof(obj[prop]) == "object")
+      // If a maximum recursion level was not specified...
+      if (!maxLevel)
       {
-        // Yup.  Determine the type and add it to the message
-        if (obj[prop] instanceof Array)
-        {
-          message += indentStr + prop + ": " + "Array" + "\n";
-        }
-        else
-        {
-          message += indentStr + prop + ": "  + "Object" + "\n";
+        // ... then create one arbitrarily
+        maxLevel = 10;
+      }
+
+      // If an appender was provided...
+      if (appender)
+      {
+        // ... then remove all existing appenders (the defaults), ...
+        logger.removeAllAppenders();
+
+        // ... and add the provided one.
+        logger.addAppender(appender);
+      }
+
+      // Initialize an empty message to be displayed
+      var message = "";
+
+      // Function to recursively display an object
+      var displayObj = function(obj, level, maxLevel)
+      {
+        // Calculate the indentation for this level
+        var indentStr = "";
+
+        for (var i=0; i<level; i++) {
+          indentStr += "  ";
         }
 
-        // Recurse into it to display its children.
-        displayObj(obj[prop], level + 1, maxLevel);
-      }
-      else
+        // If we've exceeded the maximum recursion level...
+        if (level > maxLevel)
+        {
+          // ... then tell 'em so, and get outta dodge.
+          message += indentStr + "*** TOO MUCH RECURSION: not displaying ***\n";
+          return;
+        }
+
+        // Is this an ordinary non-recursive item?
+        if (typeof (obj) != "object")
+        {
+          // Yup.  Just add it to the message.
+          message += indentStr + obj + "\n";
+          return;
+        }
+
+        // We have an object  or array.  For each child...
+        for (var prop in obj)
+        {
+          // Is this child a recursive item?
+          if (typeof (obj[prop]) == "object")
+          {
+            // Yup.  Determine the type and add it to the message
+            if (obj[prop] instanceof Array) {
+              message += indentStr + prop + ": " + "Array" + "\n";
+            } else {
+              message += indentStr + prop + ": " + "Object" + "\n";
+            }
+
+            // Recurse into it to display its children.
+            displayObj(obj[prop], level + 1, maxLevel);
+          }
+          else
+          {
+            // We have an ordinary non-recursive item.  Add it to the message.
+            message += indentStr + prop + ": " + obj[prop] + "\n";
+          }
+        }
+      };
+
+      // Was an initial message provided?
+      if (initialMessage)
       {
-        // We have an ordinary non-recursive item.  Add it to the message.
-        message += indentStr + prop + ": " + obj[prop] + "\n";
+        // Yup.  Add it to the displayable message.
+        message += initialMessage + "\n";
       }
+
+      message += "------------------------------------------------------------\n";
+
+      try
+      {
+        // Recursively display this object
+        displayObj(obj, 0, maxLevel);
+      }
+      catch(ex)
+      {
+        message += "*** EXCEPTION (" + ex + ") ***\n";
+      }
+
+      message += "------------------------------------------------------------\n";
+
+      // We've compiled the complete message.  Give 'em what they came for!
+      logger.debug(message);
     }
   }
-
-  // Was an initial message provided?
-  if (initialMessage)
-  {
-    // Yup.  Add it to the displayable message.
-    message += initialMessage + "\n";
-  }
-
-  message += "------------------------------------------------------------\n";
-  try
-  {
-    // Recursively display this object
-    displayObj(obj, 0, maxLevel);
-  }
-  catch(ex)
-  {
-    message += "*** EXCEPTION (" + ex + ") ***\n";
-  }
-  message += "------------------------------------------------------------\n";
-
-  // We've compiled the complete message.  Give 'em what they came for!
-  logger.debug(message);
-};
+});

@@ -120,261 +120,341 @@
  *     this.getUserData("<propertyName>") during the transition's predicate
  *     and ontransition functions.
  */
-qx.OO.defineClass("qx.util.fsm.Transition", qx.core.Object,
-function(transitionName, transitionInfo)
+qx.Clazz.define("qx.util.fsm.Transition",
 {
-  // Call our superclass' constructor
-  qx.core.Object.call(this, true);
+  extend : qx.core.Object,
 
-  // Save the state name
-  this.setName(transitionName);
 
-  // Save data from the transitionInfo object
-  for (var field in transitionInfo)
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(transitionName, transitionInfo)
   {
-    // If we find one of our properties, call its setter.
-    switch(field)
+    // Call our superclass' constructor
+    qx.core.Object.call(this, true);
+
+    // Save the state name
+    this.setName(transitionName);
+
+    // Save data from the transitionInfo object
+    for (var field in transitionInfo)
     {
-    case "predicate":
-      this.setPredicate(transitionInfo[field]);
-      break;
+      // If we find one of our properties, call its setter.
+      switch(field)
+      {
+        case "predicate":
+          this.setPredicate(transitionInfo[field]);
+          break;
 
-    case "nextState":
-      this.setNextState(transitionInfo[field]);
-      break;
+        case "nextState":
+          this.setNextState(transitionInfo[field]);
+          break;
 
-    case "autoActionsBeforeOntransition":
-      this.setAutoActionsBeforeOntransition(transitionInfo[field]);
-      break;
+        case "autoActionsBeforeOntransition":
+          this.setAutoActionsBeforeOntransition(transitionInfo[field]);
+          break;
 
-    case "autoActionsAfterOntransition":
-      this.setAutoActionsAfterOntransition(transitionInfo[field]);
-      break;
+        case "autoActionsAfterOntransition":
+          this.setAutoActionsAfterOntransition(transitionInfo[field]);
+          break;
 
-    case "ontransition":
-      this.setOntransition(transitionInfo[field]);
-      break;
+        case "ontransition":
+          this.setOntransition(transitionInfo[field]);
+          break;
 
-    default:
-      // Anything else is user-provided data for their own use.  Save it.
-      this.setUserData(field, transitionInfo[field]);
+        default:
+          // Anything else is user-provided data for their own use.  Save it.
+          this.setUserData(field, transitionInfo[field]);
 
-      // Log it in case it was a typo and they intended a built-in field
-      this.debug("Transition " + transitionName + ": " +
-                 "Adding user-provided field to transition: " + field);
+          // Log it in case it was a typo and they intended a built-in field
+          this.debug("Transition " + transitionName + ": " + "Adding user-provided field to transition: " + field);
 
-      break;
+          break;
+      }
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * The name of this transition
+     */
+    name :
+    {
+      type   : "string",
+      compat : true
+    },
+
+
+    /**
+     * The predicate function for this transition.  This is documented in the
+     * constructor, and is typically provided through the constructor's
+     * transitionInfo object, but it is also possible (but highly NOT recommended)
+     * to change this dynamically.
+     */
+    predicate :
+    {
+      defaultValue : function(fsm, event) {
+        return true;
+      },
+
+      compat : true
+    },
+
+
+    /**
+     * The state to transition to, if the predicate determines that this
+     * transition is acceptable.  This is documented in the constructor, and is
+     * typically provided through the constructor's transitionInfo object, but it
+     * is also possible (but highly NOT recommended) to change this dynamically.
+     */
+    nextState :
+    {
+      defaultValue : qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE,
+      compat       : true
+    },
+
+
+    /**
+     * Automatic actions to take prior to calling the transition's ontransition
+     * function.  This is documented in the constructor, and is typically provided
+     * through the constructor's transitionInfo object, but it is also possible
+     * (but highly NOT recommended) to change this dynamically.
+     */
+    autoActionsBeforeOntransition :
+    {
+      defaultValue : function(fsm, event) {},
+      compat       : true
+    },
+
+
+    /**
+     * Automatic actions to take immediately after calling the transition's
+     * ontransition function.  This is documented in the constructor, and is
+     * typically provided through the constructor's transitionInfo object, but it
+     * is also possible (but highly NOT recommended) to change this dynamically.
+     */
+    autoActionsAfterOntransition :
+    {
+      defaultValue : function(fsm, event) {},
+      compat       : true
+    },
+
+
+    /**
+     * The function run when the transition is accepted.  This is documented in
+     * the constructor, and is typically provided through the constructor's
+     * transitionInfo object, but it is also possible (but highly NOT recommended)
+     * to change this dynamically.
+     */
+    ontransition :
+    {
+      defaultValue : function(fsm, event) {},
+      compat       : true
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      MODIFIER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propData {var} Property configuration map
+     * @return {var} TODOC
+     * @throws TODOC
+     */
+    _checkName : function(propValue, propData)
+    {
+      // Ensure that we got a valid state name
+      if (typeof (propValue) != "string" || propValue.length < 1) {
+        throw new Error("Invalid transition name");
+      }
+
+      return propValue;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propData {var} Property configuration map
+     * @return {Function | var} TODOC
+     * @throws TODOC
+     */
+    _checkPredicate : function(propValue, propData)
+    {
+      // Validate the predicate.  Convert all valid types to function.
+      switch(typeof (propValue))
+      {
+        case "undefined":
+          // No predicate means predicate passes
+          return function(fsm, event) {
+            return true;
+          };
+
+        case "boolean":
+          // Convert boolean predicate to a function which returns that value
+          return function(fsm, event) {
+            return propValue;
+          };
+
+        case "function":
+          // Use user-provided function.
+          return propValue;
+
+        default:
+          throw new Error("Invalid transition predicate type: " + typeof (propValue));
+          break;
+      }
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propData {var} Property configuration map
+     * @return {var} TODOC
+     * @throws TODOC
+     */
+    _checkNextState : function(propValue, propData)
+    {
+      // Validate nextState.  It must be a string or a number.
+      switch(typeof (propValue))
+      {
+        case "string":
+          return propValue;
+
+        case "number":
+          // Ensure that it's one of the possible state-change constants
+          switch(propValue)
+          {
+            case qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE:
+            case qx.util.fsm.FiniteStateMachine.StateChange.POP_STATE_STACK:
+            case qx.util.fsm.FiniteStateMachine.StateChange.TERMINATE:
+              return propValue;
+
+            default:
+              throw new Error("Invalid transition nextState value: " + propValue + ": nextState must be an explicit state name, " + "or one of the Fsm.StateChange constants");
+          }
+
+          break;
+
+        default:
+          throw new Error("Invalid transition nextState type: " + typeof (propValue));
+          break;
+      }
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propData {var} Property configuration map
+     * @return {Function | var} TODOC
+     * @throws TODOC
+     */
+    _checkOntransition : function(propValue, propData)
+    {
+      // Validate the ontransition function.  Convert undefined to function.
+      switch(typeof (propValue))
+      {
+        case "undefined":
+          // No provided function just means do nothing.  Use a null function.
+          return function(fsm, event) {};
+
+        case "function":
+          // Use user-provided function.
+          return propValue;
+
+        default:
+          throw new Error("Invalid ontransition type: " + typeof (propValue));
+          break;
+      }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      UTILITIES
+    ---------------------------------------------------------------------------
+    */
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT LISTENERS
+    ---------------------------------------------------------------------------
+    */
+
+    /*
+    ---------------------------------------------------------------------------
+      CLASS CONSTANTS
+    ---------------------------------------------------------------------------
+    */
+
+    /*
+    ---------------------------------------------------------------------------
+      DISPOSER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {boolean | var} TODOC
+     */
+    dispose : function()
+    {
+      if (this.getDisposed()) {
+        return true;
+      }
+
+      return qx.core.Object.prototype.dispose.call(this);
     }
   }
 });
-
-
-
-
-/*
----------------------------------------------------------------------------
-  PROPERTIES
----------------------------------------------------------------------------
-*/
-
-/**
- * The name of this transition
- */
-qx.OO.addProperty(
-  {
-    name         : "name",
-    type         : "string"
-  });
-
-/**
- * The predicate function for this transition.  This is documented in the
- * constructor, and is typically provided through the constructor's
- * transitionInfo object, but it is also possible (but highly NOT recommended)
- * to change this dynamically.
- */
-qx.OO.addProperty(
-  {
-    name         : "predicate",
-    defaultValue : function(fsm, event) { return true; }
-  });
-
-/**
- * The state to transition to, if the predicate determines that this
- * transition is acceptable.  This is documented in the constructor, and is
- * typically provided through the constructor's transitionInfo object, but it
- * is also possible (but highly NOT recommended) to change this dynamically.
- */
-qx.OO.addProperty(
-  {
-    name         : "nextState",
-    defaultValue : qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE
-  });
-
-/**
- * Automatic actions to take prior to calling the transition's ontransition
- * function.  This is documented in the constructor, and is typically provided
- * through the constructor's transitionInfo object, but it is also possible
- * (but highly NOT recommended) to change this dynamically.
- */
-qx.OO.addProperty(
-  {
-    name         : "autoActionsBeforeOntransition",
-    defaultValue : function(fsm, event) { }
-  });
-
-/**
- * Automatic actions to take immediately after calling the transition's
- * ontransition function.  This is documented in the constructor, and is
- * typically provided through the constructor's transitionInfo object, but it
- * is also possible (but highly NOT recommended) to change this dynamically.
- */
-qx.OO.addProperty(
-  {
-    name         : "autoActionsAfterOntransition",
-    defaultValue : function(fsm, event) { }
-  });
-
-
-/**
- * The function run when the transition is accepted.  This is documented in
- * the constructor, and is typically provided through the constructor's
- * transitionInfo object, but it is also possible (but highly NOT recommended)
- * to change this dynamically.
- */
-qx.OO.addProperty(
-  {
-    name         : "ontransition",
-    defaultValue : function(fsm, event) { }
-  });
-
-
-
-
-/*
----------------------------------------------------------------------------
-  MODIFIER
----------------------------------------------------------------------------
-*/
-
-qx.Proto._checkName = function(propValue, propData)
-{
-  // Ensure that we got a valid state name
-  if (typeof(propValue) != "string" || propValue.length < 1)
-  {
-    throw new Error("Invalid transition name");
-  }
-
-  return propValue;
-};
-
-qx.Proto._checkPredicate = function(propValue, propData)
-{
-  // Validate the predicate.  Convert all valid types to function.
-  switch(typeof(propValue))
-  {
-    case "undefined":
-      // No predicate means predicate passes
-      return function(fsm, event) { return true; };
-
-    case "boolean":
-      // Convert boolean predicate to a function which returns that value
-      return function(fsm, event) { return propValue; };
-
-    case "function":
-      // Use user-provided function.
-      return propValue;
-
-    default:
-      throw new Error("Invalid transition predicate type: " +
-                      typeof(propValue));
-      break;
-  }
-};
-
-qx.Proto._checkNextState = function(propValue, propData)
-{
-  // Validate nextState.  It must be a string or a number.
-  switch(typeof(propValue))
-  {
-  case "string":
-    return propValue;
-
-  case "number":
-    // Ensure that it's one of the possible state-change constants
-    switch(propValue)
-    {
-    case qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE:
-    case qx.util.fsm.FiniteStateMachine.StateChange.POP_STATE_STACK:
-    case qx.util.fsm.FiniteStateMachine.StateChange.TERMINATE:
-      return propValue;
-
-    default:
-      throw new Error("Invalid transition nextState value: " +
-                      propValue +
-                      ": nextState must be an explicit state name, " +
-                      "or one of the Fsm.StateChange constants");
-    }
-    break;
-
-  default:
-    throw new Error("Invalid transition nextState type: " + typeof(propValue));
-    break;
-  }
-};
-
-qx.Proto._checkOntransition = function(propValue, propData)
-{
-  // Validate the ontransition function.  Convert undefined to function.
-  switch(typeof(propValue) )
-  {
-  case "undefined":
-    // No provided function just means do nothing.  Use a null function.
-    return function(fsm, event) { };
-
-  case "function":
-    // Use user-provided function.
-    return propValue;
-
-  default:
-    throw new Error("Invalid ontransition type: " + typeof(propValue));
-    break;
-  }
-};
-
-/*
----------------------------------------------------------------------------
-  UTILITIES
----------------------------------------------------------------------------
-*/
-
-
-/*
----------------------------------------------------------------------------
-  EVENT LISTENERS
----------------------------------------------------------------------------
-*/
-
-
-
-/*
----------------------------------------------------------------------------
-  CLASS CONSTANTS
----------------------------------------------------------------------------
-*/
-
-
-
-/*
----------------------------------------------------------------------------
-  DISPOSER
----------------------------------------------------------------------------
-*/
-
-qx.Proto.dispose = function()
-{
-  if (this.getDisposed()) {
-    return true;
-  }
-
-  return qx.core.Object.prototype.dispose.call(this);
-}
