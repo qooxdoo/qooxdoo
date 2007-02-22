@@ -70,10 +70,6 @@ qx.Clazz.define("qx.renderer.border.Border",
 
   statics :
   {
-    enhancedCrossBrowserMode : true,
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -543,20 +539,17 @@ qx.Clazz.define("qx.renderer.border.Border",
           borderBottom : ""
         };
     
-        if (qx.renderer.border.Border.enhancedCrossBrowserMode)
+        this._enhancedDefsX =
         {
-          this._enhancedDefsX =
-          {
-            borderLeft  : "",
-            borderRight : ""
-          };
-    
-          this._enhancedDefsY =
-          {
-            borderTop    : "",
-            borderBottom : ""
-          };
-        }
+          borderLeft  : "",
+          borderRight : ""
+        };
+  
+        this._enhancedDefsY =
+        {
+          borderTop    : "",
+          borderBottom : ""
+        };
       }
     }),
 
@@ -576,34 +569,20 @@ qx.Clazz.define("qx.renderer.border.Border",
      * @param vProp {var} TODOC
      * @return {void} 
      */
-    _addToThemed3DColors : qx.lang.Object.select((qx.core.Client.getInstance().isGecko() || qx.renderer.border.Border.enhancedCrossBrowserMode) ? "enhancedBorder" : "noEnhancedBorder",
+    _addToThemed3DColors : function(vProp)
     {
-      enhancedBorder : function(vProp)
+      var needRegistering = qx.lang.Object.isEmpty(this._themedEdges);
+  
+      this._themedEdges[vProp] = true;
+  
+      if (needRegistering)
       {
-        var needRegistering = qx.lang.Object.isEmpty(this._themedEdges);
-    
-        this._themedEdges[vProp] = true;
-    
-        if (needRegistering)
-        {
-          (new qx.renderer.color.ColorObject("ThreeDDarkShadow")).add(this);
-          (new qx.renderer.color.ColorObject("ThreeDShadow")).add(this);
-          (new qx.renderer.color.ColorObject("ThreeDLightShadow")).add(this);
-          (new qx.renderer.color.ColorObject("ThreeDHighlight")).add(this);
-        }
-      },
-      
-      noEnhancedBorder : function(vProp)
-      {
-        var needRegistering = qx.lang.Object.isEmpty(this._themedEdges);
-    
-        this._themedEdges[vProp] = true;
-    
-        if (needRegistering) {
-          (new qx.renderer.color.ColorObject("ThreeDLightShadow")).add(this);
-        }
+        (new qx.renderer.color.ColorObject("ThreeDDarkShadow")).add(this);
+        (new qx.renderer.color.ColorObject("ThreeDShadow")).add(this);
+        (new qx.renderer.color.ColorObject("ThreeDLightShadow")).add(this);
+        (new qx.renderer.color.ColorObject("ThreeDHighlight")).add(this);
       }
-    }),
+    },
 
 
     /**
@@ -613,31 +592,19 @@ qx.Clazz.define("qx.renderer.border.Border",
      * @param vProp {var} TODOC
      * @return {void} 
      */
-    _removeFromThemed3DColors : qx.lang.Object.select((qx.core.Client.getInstance().isGecko() || qx.renderer.border.Border.enhancedCrossBrowserMode) ? "enhancedBorder" : "noEnhancedBorder",
+    _removeFromThemed3DColors : function(vProp)
+    {
+      delete this._themedEdges[vProp];
+  
+      if (qx.lang.Object.isEmpty(this._themedEdges))
       {
-      enhancedBorder : function(vProp)
-      {
-        delete this._themedEdges[vProp];
-    
-        if (qx.lang.Object.isEmpty(this._themedEdges))
-        {
-          (new qx.renderer.color.ColorObject("ThreeDDarkShadow")).remove(this);
-          (new qx.renderer.color.ColorObject("ThreeDShadow")).remove(this);
-          (new qx.renderer.color.ColorObject("ThreeDLightShadow")).remove(this);
-          (new qx.renderer.color.ColorObject("ThreeDHighlight")).remove(this);
-        }
-      },
-      
-      noEnhancedBorder : function(vProp)
-      {
-        delete this._themedEdges[vProp];
-    
-        if (qx.lang.Object.isEmpty(this._themedEdges)) {
-          (new qx.renderer.color.ColorObject("ThreeDLightShadow")).remove(this);
-        }
+        (new qx.renderer.color.ColorObject("ThreeDDarkShadow")).remove(this);
+        (new qx.renderer.color.ColorObject("ThreeDShadow")).remove(this);
+        (new qx.renderer.color.ColorObject("ThreeDLightShadow")).remove(this);
+        (new qx.renderer.color.ColorObject("ThreeDHighlight")).remove(this);
       }
-    }),
-
+    },
+    
 
     /**
      * TODOC
@@ -996,7 +963,7 @@ qx.Clazz.define("qx.renderer.border.Border",
         vObject._style[i] = this._defsX[i];
       }
 
-      if (!qx.core.Client.getInstance().isGecko() && qx.renderer.border.Border.enhancedCrossBrowserMode)
+      if (qx.core.Variant.isSet("qx.client", "gecko")) { /* empty */ } else
       {
         if (this.getUseEnhancedCrossBrowserMode()) {
           vObject._createElementForEnhancedBorder();
@@ -1033,7 +1000,7 @@ qx.Clazz.define("qx.renderer.border.Border",
         vObject._style[i] = this._defsY[i];
       }
 
-      if (!qx.core.Client.getInstance().isGecko() && qx.renderer.border.Border.enhancedCrossBrowserMode)
+      if (qx.core.Variant.isSet("qx.client", "gecko")) { /* empty */ } else      
       {
         if (this.getUseEnhancedCrossBrowserMode()) {
           vObject._createElementForEnhancedBorder();
@@ -1065,17 +1032,14 @@ qx.Clazz.define("qx.renderer.border.Border",
       {
         this.applyWidgetXCommon(vObject);
     
-        if (qx.renderer.border.Border.enhancedCrossBrowserMode)
+        if (this.getUseEnhancedCrossBrowserMode()) {
+          vObject._createElementForEnhancedBorder();
+        }
+  
+        if (vObject._borderStyle)
         {
-          if (this.getUseEnhancedCrossBrowserMode()) {
-            vObject._createElementForEnhancedBorder();
-          }
-    
-          if (vObject._borderStyle)
-          {
-            for (var i in this._enhancedDefsX) {
-              vObject._borderStyle[i] = this._enhancedDefsX[i];
-            }
+          for (var i in this._enhancedDefsX) {
+            vObject._borderStyle[i] = this._enhancedDefsX[i];
           }
         }
       }
@@ -1098,17 +1062,14 @@ qx.Clazz.define("qx.renderer.border.Border",
       {
         this.applyWidgetYCommon(vObject);
     
-        if (qx.renderer.border.Border.enhancedCrossBrowserMode)
+        if (this.getUseEnhancedCrossBrowserMode()) {
+          vObject._createElementForEnhancedBorder();
+        }
+  
+        if (vObject._borderStyle)
         {
-          if (this.getUseEnhancedCrossBrowserMode()) {
-            vObject._createElementForEnhancedBorder();
-          }
-    
-          if (vObject._borderStyle)
-          {
-            for (var i in this._enhancedDefsY) {
-              vObject._borderStyle[i] = this._enhancedDefsY[i];
-            }
+          for (var i in this._enhancedDefsY) {
+            vObject._borderStyle[i] = this._enhancedDefsY[i];
           }
         }
       }
@@ -1199,32 +1160,25 @@ qx.Clazz.define("qx.renderer.border.Border",
               case "inset":
               case "groove":
               case "ridge":
-                if (qx.renderer.border.Border.enhancedCrossBrowserMode)
+                try
                 {
-                  try
+                  var c = qx.renderer.border.Border.data[vTopWidth][vTopStyle]["top"];
+  
+                  if (typeof c === "object")
                   {
-                    var c = qx.renderer.border.Border.data[vTopWidth][vTopStyle]["top"];
-    
-                    if (typeof c === "object")
-                    {
-                      vTopStyle = "solid";
-                      vTopWidth = 1;
-                      vTopColor = (new qx.renderer.color.ColorObject(c[1]));
-    
-                      this._enhancedDefsY.borderTop = this._generateDefString(vTopWidth, vTopStyle, vTopColor);
-    
-                      vTopColor = (new qx.renderer.color.ColorObject(c[0]));
-                    }
-                  }
-                  catch(ex)
-                  {
-                    this.error("Failed to compile top border", ex);
-                    this.warn("Details: Width=" + vTopWidth + ", Style=" + vTopStyle);
+                    vTopStyle = "solid";
+                    vTopWidth = 1;
+                    vTopColor = (new qx.renderer.color.ColorObject(c[1]));
+  
+                    this._enhancedDefsY.borderTop = this._generateDefString(vTopWidth, vTopStyle, vTopColor);
+  
+                    vTopColor = (new qx.renderer.color.ColorObject(c[0]));
                   }
                 }
-                else
+                catch(ex)
                 {
-                  vTopColor = (new qx.renderer.color.ColorObject("threedlightshadow"));
+                  this.error("Failed to compile top border", ex);
+                  this.warn("Details: Width=" + vTopWidth + ", Style=" + vTopStyle);
                 }
             }
     
@@ -1281,32 +1235,25 @@ qx.Clazz.define("qx.renderer.border.Border",
               case "inset":
               case "groove":
               case "ridge":
-                if (qx.renderer.border.Border.enhancedCrossBrowserMode)
+                try
                 {
-                  try
+                  var c = qx.renderer.border.Border.data[vRightWidth][vRightStyle]["right"];
+  
+                  if (typeof c === "object")
                   {
-                    var c = qx.renderer.border.Border.data[vRightWidth][vRightStyle]["right"];
-    
-                    if (typeof c === "object")
-                    {
-                      vRightStyle = "solid";
-                      vRightWidth = 1;
-                      vRightColor = (new qx.renderer.color.ColorObject(c[1]));
-    
-                      this._enhancedDefsX.borderRight = this._generateDefString(vRightWidth, vRightStyle, vRightColor);
-    
-                      vRightColor = (new qx.renderer.color.ColorObject(c[0]));
-                    }
-                  }
-                  catch(ex)
-                  {
-                    this.error("Failed to compile right border", ex);
-                    this.warn("Details: Width=" + vRightWidth + ", Style=" + vRightStyle);
+                    vRightStyle = "solid";
+                    vRightWidth = 1;
+                    vRightColor = (new qx.renderer.color.ColorObject(c[1]));
+  
+                    this._enhancedDefsX.borderRight = this._generateDefString(vRightWidth, vRightStyle, vRightColor);
+  
+                    vRightColor = (new qx.renderer.color.ColorObject(c[0]));
                   }
                 }
-                else
+                catch(ex)
                 {
-                  vRightColor = (new qx.renderer.color.ColorObject("threedlightshadow"));
+                  this.error("Failed to compile right border", ex);
+                  this.warn("Details: Width=" + vRightWidth + ", Style=" + vRightStyle);
                 }
             }
     
@@ -1363,32 +1310,25 @@ qx.Clazz.define("qx.renderer.border.Border",
               case "inset":
               case "groove":
               case "ridge":
-                if (qx.renderer.border.Border.enhancedCrossBrowserMode)
+                try
                 {
-                  try
+                  var c = qx.renderer.border.Border.data[vBottomWidth][vBottomStyle]["bottom"];
+  
+                  if (typeof c === "object")
                   {
-                    var c = qx.renderer.border.Border.data[vBottomWidth][vBottomStyle]["bottom"];
-    
-                    if (typeof c === "object")
-                    {
-                      vBottomStyle = "solid";
-                      vBottomWidth = 1;
-                      vBottomColor = (new qx.renderer.color.ColorObject(c[1]));
-    
-                      this._enhancedDefsY.borderBottom = this._generateDefString(vBottomWidth, vBottomStyle, vBottomColor);
-    
-                      vBottomColor = (new qx.renderer.color.ColorObject(c[0]));
-                    }
-                  }
-                  catch(ex)
-                  {
-                    this.error("Failed to compile bottom border", ex);
-                    this.warn("Details: Width=" + vBottomWidth + ", Style=" + vBottomStyle);
+                    vBottomStyle = "solid";
+                    vBottomWidth = 1;
+                    vBottomColor = (new qx.renderer.color.ColorObject(c[1]));
+  
+                    this._enhancedDefsY.borderBottom = this._generateDefString(vBottomWidth, vBottomStyle, vBottomColor);
+  
+                    vBottomColor = (new qx.renderer.color.ColorObject(c[0]));
                   }
                 }
-                else
+                catch(ex)
                 {
-                  vBottomColor = (new qx.renderer.color.ColorObject("threedlightshadow"));
+                  this.error("Failed to compile bottom border", ex);
+                  this.warn("Details: Width=" + vBottomWidth + ", Style=" + vBottomStyle);
                 }
             }
     
@@ -1445,32 +1385,25 @@ qx.Clazz.define("qx.renderer.border.Border",
               case "inset":
               case "groove":
               case "ridge":
-                if (qx.renderer.border.Border.enhancedCrossBrowserMode)
+                try
                 {
-                  try
+                  var c = qx.renderer.border.Border.data[vLeftWidth][vLeftStyle]["left"];
+  
+                  if (typeof c === "object")
                   {
-                    var c = qx.renderer.border.Border.data[vLeftWidth][vLeftStyle]["left"];
-    
-                    if (typeof c === "object")
-                    {
-                      vLeftStyle = "solid";
-                      vLeftWidth = 1;
-                      vLeftColor = (new qx.renderer.color.ColorObject(c[1]));
-    
-                      this._enhancedDefsX.borderLeft = this._generateDefString(vLeftWidth, vLeftStyle, vLeftColor);
-    
-                      vLeftColor = (new qx.renderer.color.ColorObject(c[0]));
-                    }
-                  }
-                  catch(ex)
-                  {
-                    this.error("Failed to compile left border", ex);
-                    this.warn("Details: Width=" + vLeftWidth + ", Style=" + vLeftStyle);
+                    vLeftStyle = "solid";
+                    vLeftWidth = 1;
+                    vLeftColor = (new qx.renderer.color.ColorObject(c[1]));
+  
+                    this._enhancedDefsX.borderLeft = this._generateDefString(vLeftWidth, vLeftStyle, vLeftColor);
+  
+                    vLeftColor = (new qx.renderer.color.ColorObject(c[0]));
                   }
                 }
-                else
+                catch(ex)
                 {
-                  vLeftColor = (new qx.renderer.color.ColorObject("threedlightshadow"));
+                  this.error("Failed to compile left border", ex);
+                  this.warn("Details: Width=" + vLeftWidth + ", Style=" + vLeftStyle);
                 }
             }
     
@@ -1503,13 +1436,10 @@ qx.Clazz.define("qx.renderer.border.Border",
         var s = o._style;
         s.borderLeft = s.borderRight = "0px none";
     
-        if (qx.renderer.border.Border.enhancedCrossBrowserMode)
-        {
-          s = o._borderStyle;
-    
-          if (s) {
-            s.borderLeft = s.borderRight = "0px none";
-          }
+        s = o._borderStyle;
+  
+        if (s) {
+          s.borderLeft = s.borderRight = "0px none";
         }
       }
     }),
@@ -1535,13 +1465,10 @@ qx.Clazz.define("qx.renderer.border.Border",
         var s = o._style;
         s.borderTop = s.borderBottom = "0px none";
     
-        if (qx.renderer.border.Border.enhancedCrossBrowserMode)
-        {
-          s = o._borderStyle;
-    
-          if (s) {
-            s.borderTop = s.borderBottom = "0px none";
-          }
+        s = o._borderStyle;
+  
+        if (s) {
+          s.borderTop = s.borderBottom = "0px none";
         }
       }
     }),
@@ -1584,26 +1511,23 @@ qx.Clazz.define("qx.renderer.border.Border",
 
       delete this._defsY;
 
-      if (qx.renderer.border.Border.enhancedCrossBrowserMode)
+      if (typeof this._enhancedDefsX === "object")
       {
-        if (typeof this._enhancedDefsX === "object")
-        {
-          for (var i in this._enhancedDefsX) {
-            delete this._enhancedDefsX[i];
-          }
+        for (var i in this._enhancedDefsX) {
+          delete this._enhancedDefsX[i];
         }
-
-        delete this._enhancedDefsX;
-
-        if (typeof this._enhancedDefsY === "object")
-        {
-          for (var i in this._enhancedDefsY) {
-            delete this._enhancedDefsY[i];
-          }
-        }
-
-        delete this._enhancedDefsY;
       }
+
+      delete this._enhancedDefsX;
+
+      if (typeof this._enhancedDefsY === "object")
+      {
+        for (var i in this._enhancedDefsY) {
+          delete this._enhancedDefsY[i];
+        }
+      }
+
+      delete this._enhancedDefsY;
 
       delete this._themedEdges;
 
