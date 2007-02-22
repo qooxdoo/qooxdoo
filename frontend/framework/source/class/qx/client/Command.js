@@ -30,9 +30,6 @@
  *
  * Each command could be assigned to multiple widgets.
  *
- * @event execute {qx.event.type.DataEvent} when the command is executed. Sets the
- *     "data" property of the event to the object that issued the command.
- *
  * @param shortcut {String} shortcuts can be composed of optional modifier
  *    keys Control, Alt, Shift, Meta and a non modifier key.
  *    If no non modifier key is specified, the second paramater is evaluated.
@@ -44,7 +41,15 @@
 qx.Clazz.define("qx.client.Command",
 {
   extend : qx.core.Target,
-  events : [ "execute" ],
+  
+  events :
+  {
+    /**
+     * Fired when the command is executed. Sets the "data" property of the event to
+     * the object that issued the command. 
+     */
+    "execute" : qx.event.type.DataEvent
+  },
 
 
 
