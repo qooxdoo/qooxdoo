@@ -194,7 +194,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      * @param o {Object} TODOC
      * @return {void} 
      */
-    _resetBorderX : function(o) {},
+    resetBorderX : function(o) {},
 
 
     /**
@@ -204,7 +204,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      * @param o {Object} TODOC
      * @return {void} 
      */
-    _resetBorderY : function(o) {}
+    resetBorderY : function(o) {}
   },
 
 
@@ -294,7 +294,7 @@ qx.Clazz.define("qx.renderer.border.Border",
       impl     : "borderTopProperty",
       type     : "object",
       instance : "qx.renderer.color.Color",
-      convert  : qx.renderer.color.ColorCache
+      convert  : qx.renderer.color.ColorCache.convert
     },
 
     rightColor :
@@ -303,7 +303,7 @@ qx.Clazz.define("qx.renderer.border.Border",
       impl     : "borderRightProperty",
       type     : "object",
       instance : "qx.renderer.color.Color",
-      convert  : qx.renderer.color.ColorCache
+      convert  : qx.renderer.color.ColorCache.convert
     },
 
     bottomColor :
@@ -312,7 +312,7 @@ qx.Clazz.define("qx.renderer.border.Border",
       impl     : "borderBottomProperty",
       type     : "object",
       instance : "qx.renderer.color.Color",
-      convert  : qx.renderer.color.ColorCache
+      convert  : qx.renderer.color.ColorCache.convert
     },
 
     leftColor :
@@ -321,7 +321,7 @@ qx.Clazz.define("qx.renderer.border.Border",
       impl     : "borderLeftProperty",
       type     : "object",
       instance : "qx.renderer.color.Color",
-      convert  : qx.renderer.color.ColorCache
+      convert  : qx.renderer.color.ColorCache.convert
     }
   },
 
@@ -932,8 +932,8 @@ qx.Clazz.define("qx.renderer.border.Border",
      */
     _applyWidget : function(o)
     {
-      this._applyWidgetX(o);
-      this._applyWidgetY(o);
+      this.applyWidgetX(o);
+      this.applyWidgetY(o);
     },
 
 
@@ -959,7 +959,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      * @return {var} TODOC
      */
     _resetWidgetX : function(o) {
-      return qx.renderer.border.Border._resetBorderX(o);
+      return qx.renderer.border.Border.resetBorderX(o);
     },
 
 
@@ -971,7 +971,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      * @return {var} TODOC
      */
     _resetWidgetY : function(o) {
-      return qx.renderer.border.Border._resetBorderY(o);
+      return qx.renderer.border.Border.resetBorderY(o);
     },
 
 
@@ -982,7 +982,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      * @param vObject {var} TODOC
      * @return {void} 
      */
-    _applyWidgetXCommon : function(vObject)
+    applyWidgetXCommon : function(vObject)
     {
       if (this._needsCompilationLeft) {
         this._compileLeft();
@@ -1019,7 +1019,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      * @param vObject {var} TODOC
      * @return {void} 
      */
-    _applyWidgetYCommon : function(vObject)
+    applyWidgetYCommon : function(vObject)
     {
       if (this._needsCompilationTop) {
         this._compileTop();
@@ -1056,14 +1056,14 @@ qx.Clazz.define("qx.renderer.border.Border",
      * @param vObject {var} TODOC
      * @return {void} 
      */
-    _applyWidgetX : qx.core.Variant.select("qx.client",
+    applyWidgetX : qx.core.Variant.select("qx.client",
     {
       //alias will be set in defer
       gecko : null,
       
       none : function(vObject)
       {
-        this._applyWidgetXCommon(vObject);
+        this.applyWidgetXCommon(vObject);
     
         if (qx.renderer.border.Border.enhancedCrossBrowserMode)
         {
@@ -1089,14 +1089,14 @@ qx.Clazz.define("qx.renderer.border.Border",
      * @param vObject {var} TODOC
      * @return {void} 
      */
-    _applyWidgetY : qx.core.Variant.select("qx.client",
+    applyWidgetY : qx.core.Variant.select("qx.client",
     {
       //alias will be set in defer
       gecko : null,
       
       none : function(vObject)
       {
-        this._applyWidgetYCommon(vObject);
+        this.applyWidgetYCommon(vObject);
     
         if (qx.renderer.border.Border.enhancedCrossBrowserMode)
         {
@@ -1490,7 +1490,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      * @param o {var} TODOC
      * @return {void} 
      */
-    _resetBorderX : qx.core.Variant.select("qx.client",
+    resetBorderX : qx.core.Variant.select("qx.client",
     {
       gecko : function(o)
       {
@@ -1522,7 +1522,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      * @param o {var} TODOC
      * @return {void} 
      */
-    _resetBorderY : qx.core.Variant.select("qx.client",
+    resetBorderY : qx.core.Variant.select("qx.client",
     {
       gecko : function(o)
       {
@@ -1616,8 +1616,8 @@ qx.Clazz.define("qx.renderer.border.Border",
     gecko: function(clazz, proto)
     {
       // set up alias
-      proto._applyWidgetX = proto._applyWidgetXCommon;
-      proto._applyWidgetY = proto._applyWidgetYCommon;
+      proto.applyWidgetX = proto.applyWidgetXCommon;
+      proto.applyWidgetY = proto.applyWidgetYCommon;
     },
     
     none: function() {

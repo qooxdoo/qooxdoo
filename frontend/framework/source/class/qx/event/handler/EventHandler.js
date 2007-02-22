@@ -178,7 +178,7 @@ qx.Proto._checkKeyEventMatch = function(e)
   {
     vCommand = this._commands[vHash];
 
-    if (vCommand.getEnabled() && vCommand._matchesKeyEvent(e))
+    if (vCommand.getEnabled() && vCommand.matchesKeyEvent(e))
     {
       // allow the user to stop the event
       // through the execute event.
