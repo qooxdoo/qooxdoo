@@ -49,7 +49,7 @@ qx.Clazz.define("qx.html.String",
      * @type static
      * @param str {String} the String to escape
      * @return {String} a new escaped String
-     * @see
+     * @see #unescape
      */
     escape : function(str) {
       return qx.dom.String.escapeEntities(str, qx.html.Entity.FROM_CHARCODE);
@@ -71,7 +71,7 @@ qx.Clazz.define("qx.html.String",
      * @type static
      * @param str {String} the String to unescape, may be null
      * @return {var} a new unescaped String
-     * @see
+     * @see #escape
      */
     unescape : function(str) {
       return qx.dom.String.unescapeEntities(str, qx.html.Entity.TO_CHARCODE);
@@ -86,7 +86,7 @@ qx.Clazz.define("qx.html.String",
      * @type static
      * @param str {String} the String to convert
      * @return {String} a new converted String
-     * @see
+     * @see #escape
      */
     fromText : function(str)
     {
