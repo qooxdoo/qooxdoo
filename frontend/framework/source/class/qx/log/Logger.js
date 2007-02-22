@@ -218,11 +218,11 @@ qx.Clazz.define("qx.log.Logger",
 
     /**
      * Indents all following log messages by one.
-     * 
+     *
      * This affects all log messages. Even those of other loggers.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     indent : function() {
       qx.log.Logger._indent++;
@@ -231,11 +231,11 @@ qx.Clazz.define("qx.log.Logger",
 
     /**
      * Unindents all following log messages by one.
-     * 
+     *
      * This affects all log messages. Even those of other loggers.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     unindent : function() {
       qx.log.Logger._indent--;
@@ -244,14 +244,14 @@ qx.Clazz.define("qx.log.Logger",
 
     /**
      * Adds an appender.
-     * 
+     *
      * If a logger has an appender, log events will not be passed to the
      * appenders of parent loggers. If you want this behaviour, also append a
      * {@link ForwardAppender}.
      *
      * @type member
      * @param appender {Appender} the appender to add.
-     * @return {void} 
+     * @return {void}
      */
     addAppender : function(appender)
     {
@@ -268,7 +268,7 @@ qx.Clazz.define("qx.log.Logger",
      *
      * @type member
      * @param appender {Appender} the appender to remove.
-     * @return {void} 
+     * @return {void}
      */
     removeAppender : function(appender)
     {
@@ -282,7 +282,7 @@ qx.Clazz.define("qx.log.Logger",
      * Removes all appenders.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     removeAllAppenders : function() {
       this._appenderArr = null;
@@ -294,7 +294,7 @@ qx.Clazz.define("qx.log.Logger",
      *
      * @type member
      * @param evt {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     handleLogEvent : function(evt)
     {
@@ -321,7 +321,7 @@ qx.Clazz.define("qx.log.Logger",
      *
      * @type member
      * @param evt {Map} The event to append.
-     * @return {void} 
+     * @return {void}
      */
     appendLogEvent : function(evt)
     {
@@ -347,7 +347,7 @@ qx.Clazz.define("qx.log.Logger",
      *      object dump will be logged.
      * @param instanceId {var ? null} the ID of the instance the log message comes from.
      * @param exc {var ? null} the exception to log.
-     * @return {void} 
+     * @return {void}
      */
     log : function(level, msg, instanceId, exc)
     {
@@ -373,7 +373,7 @@ qx.Clazz.define("qx.log.Logger",
      *      object dump will be logged.
      * @param instanceId {var ? null} the ID of the instance the log message comes from.
      * @param exc {var ? null} the exception to log.
-     * @return {void} 
+     * @return {void}
      */
     debug : function(msg, instanceId, exc) {
       this.log(qx.log.Logger.LEVEL_DEBUG, msg, instanceId, exc);
@@ -388,7 +388,7 @@ qx.Clazz.define("qx.log.Logger",
      *      object dump will be logged.
      * @param instanceId {var ? null} the ID of the instance the log message comes from.
      * @param exc {var ? null} the exception to log.
-     * @return {void} 
+     * @return {void}
      */
     info : function(msg, instanceId, exc) {
       this.log(qx.log.Logger.LEVEL_INFO, msg, instanceId, exc);
@@ -403,7 +403,7 @@ qx.Clazz.define("qx.log.Logger",
      *      object dump will be logged.
      * @param instanceId {var ? null} the ID of the instance the log message comes from.
      * @param exc {var ? null} the exception to log.
-     * @return {void} 
+     * @return {void}
      */
     warn : function(msg, instanceId, exc) {
       this.log(qx.log.Logger.LEVEL_WARN, msg, instanceId, exc);
@@ -418,7 +418,7 @@ qx.Clazz.define("qx.log.Logger",
      *      object dump will be logged.
      * @param instanceId {var ? null} the ID of the instance the log message comes from.
      * @param exc {var ? null} the exception to log.
-     * @return {void} 
+     * @return {void}
      */
     error : function(msg, instanceId, exc) {
       this.log(qx.log.Logger.LEVEL_ERROR, msg, instanceId, exc);
@@ -433,7 +433,7 @@ qx.Clazz.define("qx.log.Logger",
      *      object dump will be logged.
      * @param instanceId {var ? null} the ID of the instance the log message comes from.
      * @param exc {var ? null} the exception to log.
-     * @return {void} 
+     * @return {void}
      */
     fatal : function(msg, instanceId, exc) {
       this.log(qx.log.Logger.LEVEL_FATAL, msg, instanceId, exc);
@@ -444,8 +444,7 @@ qx.Clazz.define("qx.log.Logger",
      * Resets the measure timer.
      *
      * @type member
-     * @return {void} 
-     * @see ()
+     * @return {void}
      */
     measureReset : function()
     {
@@ -465,7 +464,7 @@ qx.Clazz.define("qx.log.Logger",
      * @param msg {String} the message to log.
      * @param instanceId {var ? null} the ID of the instance the log message comes from.
      * @param exc {var ? null} the exception to log.
-     * @return {void} 
+     * @return {void}
      */
     measure : function(msg, instanceId, exc)
     {
@@ -494,7 +493,7 @@ qx.Clazz.define("qx.log.Logger",
      * Logs the current stack trace as a debug message.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     printStackTrace : function()
     {
@@ -520,13 +519,13 @@ qx.Clazz.define("qx.log.Logger",
     "qx.logAppender" : "qx.log.NativeAppender",
     "qx.minLogLevel" : 200 // qx.log.Logger.LEVEL_DEBUG
   },
-  
-  
+
+
   defer : function(clazz, proto) {
     clazz.ROOT_LOGGER = new clazz("root", null);
     clazz.ROOT_LOGGER.setMinLevel(qx.core.Setting.get("qx.minLogLevel"));
-    clazz.ROOT_LOGGER.addAppender(new (qx.Clazz.getByName(qx.core.Setting.get("qx.logAppender"))));    
+    clazz.ROOT_LOGGER.addAppender(new (qx.Clazz.getByName(qx.core.Setting.get("qx.logAppender"))));
   }
-  
+
 });
 
