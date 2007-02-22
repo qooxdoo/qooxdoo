@@ -165,8 +165,8 @@ qx.Clazz.define("qx.core.Variant",
         }
       }
 
-      if (variantFunctionMap["none"]) {
-        return variantFunctionMap["none"];
+      if (variantFunctionMap.none) {
+        return variantFunctionMap.none;
       }
 
       throw new Error("No match for variant \"" + key + "\" found, and no default (\"none\") given");

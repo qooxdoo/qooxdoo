@@ -123,6 +123,8 @@ qx.Clazz.define("qx.core.LegacyProperty",
         };
       }
 
+      proto[vGetterName].self = proto.constructor;
+
       if (config.setOnlyOnce)
       {
         proto[vSetterName] = function(vValue)
@@ -140,11 +142,15 @@ qx.Clazz.define("qx.core.LegacyProperty",
         };
       }
 
+      proto[vSetterName].self = proto.constructor;
+
       if (!config.noCompute)
       {
         proto[vComputerName] = function() {
           return null;
         };
+
+        proto[vComputerName].self = proto.constructor;
       }
     },
 

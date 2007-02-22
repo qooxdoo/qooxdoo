@@ -66,15 +66,15 @@ qx.Clazz.define("qx.dom.Element",
      */
     getTextContent : qx.lang.Object.select(qx.core.Client.getInstance().supportsTextContent() ? "textContent" : qx.core.Client.getInstance().supportsInnerText() ? "innerText" : "none",
     {
-      "innerText" : function(el, val) {
+      innerText : function(el, val) {
         return el.innerText;
       },
 
-      "textContent" : function(el, val) {
+      textContent : function(el, val) {
         return el.textContent;
       },
 
-      "none" : function() {
+      none : function() {
         throw new Error("This browser does not support any form of text content handling!");
       }
     }),
@@ -91,15 +91,15 @@ qx.Clazz.define("qx.dom.Element",
      */
     setTextContent : qx.lang.Object.select(qx.core.Client.getInstance().supportsTextContent() ? "textContent" : qx.core.Client.getInstance().supportsInnerText() ? "innerText" : "none",
     {
-      "innerText" : function(el, val) {
+      innerText : function(el, val) {
         el.innerText = val;
       },
 
-      "textContent" : function(el, val) {
+      textContent : function(el, val) {
         el.textContent = val;
       },
 
-      "none" : function() {
+      none : function() {
         throw new Error("This browser does not support any form of text content handling!");
       }
     })

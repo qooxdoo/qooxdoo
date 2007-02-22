@@ -24,67 +24,158 @@
 
 ************************************************************************ */
 
-/*!
-  The qooxdoo core event object. Each event object for qx.core.Targets should extend this class.
-*/
-qx.OO.defineClass("qx.event.type.Event", qx.core.Object,
-function(vType)
+/** The qooxdoo core event object. Each event object for qx.core.Targets should extend this class. */
+qx.Clazz.define("qx.event.type.Event",
 {
-  qx.core.Object.call(this, false);
-
-  this.setType(vType);
-});
-
-qx.OO.addFastProperty({ name : "type", setOnlyOnce : true });
-
-qx.OO.addFastProperty({ name : "originalTarget", setOnlyOnce : true });
-qx.OO.addFastProperty({ name : "target", setOnlyOnce : true });
-qx.OO.addFastProperty({ name : "relatedTarget", setOnlyOnce : true });
-qx.OO.addFastProperty({ name : "currentTarget" });
-
-qx.OO.addFastProperty({ name : "bubbles", defaultValue : false, noCompute : true });
-qx.OO.addFastProperty({ name : "propagationStopped", defaultValue : true, noCompute : true });
-qx.OO.addFastProperty({ name : "defaultPrevented", defaultValue : false, noCompute : true });
-
-/** If the event object should automatically be disposed by the dispatcher */
-qx.OO.addFastProperty({ name : "autoDispose", defaultValue : false });
+  extend : qx.core.Object,
 
 
 
 
-/*
----------------------------------------------------------------------------
-  SHORTCUTS
----------------------------------------------------------------------------
-*/
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
-qx.Proto.preventDefault = function() {
-  this.setDefaultPrevented(true);
-}
+  construct : function(vType)
+  {
+    qx.core.Object.call(this, false);
 
-qx.Proto.stopPropagation = function() {
-  this.setPropagationStopped(true);
-}
-
+    this.setType(vType);
+  },
 
 
 
-/*
----------------------------------------------------------------------------
-  DISPOSER
----------------------------------------------------------------------------
-*/
 
-qx.Proto.dispose = function()
-{
-  if(this.getDisposed()) {
-    return;
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    type :
+    {
+      _fast       : true,
+      setOnlyOnce : true
+    },
+
+    originalTarget :
+    {
+      _fast       : true,
+      setOnlyOnce : true
+    },
+
+    target :
+    {
+      _fast       : true,
+      setOnlyOnce : true
+    },
+
+    relatedTarget :
+    {
+      _fast       : true,
+      setOnlyOnce : true
+    },
+
+    currentTarget : { _fast : true },
+
+    bubbles :
+    {
+      _fast        : true,
+      defaultValue : false,
+      noCompute    : true
+    },
+
+    propagationStopped :
+    {
+      _fast        : true,
+      defaultValue : true,
+      noCompute    : true
+    },
+
+    defaultPrevented :
+    {
+      _fast        : true,
+      defaultValue : false,
+      noCompute    : true
+    },
+
+    /** If the event object should automatically be disposed by the dispatcher */
+    autoDispose :
+    {
+      _fast        : true,
+      defaultValue : false
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      SHORTCUTS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    preventDefault : function() {
+      this.setDefaultPrevented(true);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    stopPropagation : function() {
+      this.setPropagationStopped(true);
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DISPOSER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void | var} TODOC
+     */
+    dispose : function()
+    {
+      if (this.getDisposed()) {
+        return;
+      }
+
+      this._valueOriginalTarget = null;
+      this._valueTarget = null;
+      this._valueRelatedTarget = null;
+      this._valueCurrentTarget = null;
+
+      return qx.core.Object.prototype.dispose.call(this);
+    }
   }
-
-  this._valueOriginalTarget = null;
-  this._valueTarget = null;
-  this._valueRelatedTarget = null;
-  this._valueCurrentTarget = null;
-
-  return qx.core.Object.prototype.dispose.call(this);
-}
+});
