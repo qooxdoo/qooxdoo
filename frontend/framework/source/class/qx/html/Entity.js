@@ -349,8 +349,19 @@ qx.Clazz.define("qx.html.Entity",
       // rsaquo is proposed but not yet ISO standardized
       "euro"     : 8364 //  -- euro sign, U+20AC NEW
     },
+  },
 
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics, members, properties)
+  {
     /** Mapping of char codes to HTML entity names */
-    FROM_CHARCODE : qx.lang.Object.invert(qx.Class.TO_CHARCODE)
+    statics.FROM_CHARCODE = qx.lang.Object.invert(statics.TO_CHARCODE)
   }
 });
