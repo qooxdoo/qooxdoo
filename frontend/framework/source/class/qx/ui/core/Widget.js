@@ -1794,9 +1794,7 @@ else
   qx.Proto._createElementForEnhancedBorder = function()
   {
     // Enhanced Border Test (for IE and Opera)
-    if (qx.renderer.border.Border.enhancedCrossBrowserMode &&
-        this.getTagName() == "div" &&
-        !this._borderElement)
+    if (this.getTagName() == "div" && !this._borderElement)
     {
       var el = this.getElement();
       var cl = this._borderElement = document.createElement("div");
