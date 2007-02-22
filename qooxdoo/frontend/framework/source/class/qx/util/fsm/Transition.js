@@ -202,7 +202,7 @@ qx.Clazz.define("qx.util.fsm.Transition",
     name :
     {
       type   : "string",
-      compat : true
+      _legacy: true
     },
 
 
@@ -218,7 +218,7 @@ qx.Clazz.define("qx.util.fsm.Transition",
         return true;
       },
 
-      compat : true
+      _legacy: true
     },
 
 
@@ -231,7 +231,7 @@ qx.Clazz.define("qx.util.fsm.Transition",
     nextState :
     {
       defaultValue : qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE,
-      compat       : true
+      _legacy       : true
     },
 
 
@@ -244,7 +244,7 @@ qx.Clazz.define("qx.util.fsm.Transition",
     autoActionsBeforeOntransition :
     {
       defaultValue : function(fsm, event) {},
-      compat       : true
+      _legacy       : true
     },
 
 
@@ -257,7 +257,7 @@ qx.Clazz.define("qx.util.fsm.Transition",
     autoActionsAfterOntransition :
     {
       defaultValue : function(fsm, event) {},
-      compat       : true
+      _legacy       : true
     },
 
 
@@ -270,7 +270,7 @@ qx.Clazz.define("qx.util.fsm.Transition",
     ontransition :
     {
       defaultValue : function(fsm, event) {},
-      compat       : true
+      _legacy       : true
     }
   },
 
