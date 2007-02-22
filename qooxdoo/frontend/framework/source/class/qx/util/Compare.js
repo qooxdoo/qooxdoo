@@ -140,8 +140,6 @@ qx.Clazz.define("qx.util.Compare",
       return a - b;
     },
 
-    byInteger : qx.util.Compare.byNumber = qx.util.Compare.byFloat,
-
 
     /**
      * Compare two Strings representing integers. First convert the strings to  an interger.
@@ -171,8 +169,6 @@ qx.Clazz.define("qx.util.Compare",
     byFloatString : function(a, b) {
       return parseFloat(a) - parseFloat(b);
     },
-
-    byNumberString : qx.util.Compare.byFloatString,
 
 
     /**
@@ -218,5 +214,13 @@ qx.Clazz.define("qx.util.Compare",
     byZIndex : function(a, b) {
       return a.getZIndex() - b.getZIndex();
     }
+  },
+  
+  defer : function(clazz, proto)
+  {
+    // define alias
+    clazz.byInteger = clazz.byNumber = clazz.byFloat;
+    clazz.byNumberString = clazz.byFloatString;
   }
+   
 });
