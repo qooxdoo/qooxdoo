@@ -28,7 +28,7 @@
 qx.Clazz.define("qx.util.format.Format",
 {
   extend : qx.core.Object,
-
+	type : "abstract",
 
 
 

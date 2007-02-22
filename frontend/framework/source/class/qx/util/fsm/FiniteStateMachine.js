@@ -170,217 +170,6 @@ qx.Clazz.define("qx.util.fsm.FiniteStateMachine",
       EVENT LISTENERS
     ---------------------------------------------------------------------------
     */
-
-    /*
-    ---------------------------------------------------------------------------
-      CLASS FUNCTIONS
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Common function used by {qx.util.fsm.State} and
-     * {qx.util.fsm.Transition} for checking the value provided for
-     * auto actions.
-     * 
-     * Auto-action property values passed to us look akin to:
-     * 
-     *     <pre>
-     *     {
-     *       // The name of a function.
-     *       "setEnabled" :
-     *       [
-     *         {
-     *           // The parameter value(s), thus "setEnabled(true);"
-     *           "parameters"   : [ true ],
-     * 
-     *           // The function would be called on each object:
-     *           //  this.getObject("obj1").setEnabled(true);
-     *           //  this.getObject("obj2").setEnabled(true);
-     *           "objects" : [ "obj1", "obj2" ]
-     * 
-     *           // And similarly for each object in each specified group.
-     *           "groups"  : [ "group1", "group2" ],
-     *         }
-     *       ];
-     * 
-     *       "setColor" :
-     *       [
-     *         {
-     *           "parameters" : [ "blue" ]
-     *           "groups"     : [ "group3", "group4" ],
-     *           "objects"    : [ "obj3", "obj4" ]
-     *         }
-     *       ];
-     *     };
-     *     </pre>
-     *
-     * @type static
-     * @param actionType {String} The name of the action being validated (for debug messages)
-     * @param propValue {Object} The property value which is being validated
-     * @param propData {var} Not used
-     * @return {var} TODOC
-     * @throws TODOC
-     */
-    _commonCheckAutoActions : function(actionType, propValue, propData)
-    {
-      // Validate that we received an object property value
-      if (typeof (propValue) != "object") {
-        throw new Error("Invalid " + actionType + " value: " + typeof (propValue));
-      }
-
-      // We'll create a function to do the requested actions.  Initialize the
-      // string into which we'll generate the common fragment added to the
-      // function for each object.
-      var funcFragment;
-
-      // Here, we'll keep the function body.  Initialize a try block.
-      var func = "try" + "{";
-
-      var param;
-      var objectAndGroupList;
-
-      // Retrieve the function request, e.g.
-      // "enabled" :
-      for (var f in propValue)
-      {
-        // Get the function request value object, e.g.
-        // "setEnabled" :
-        // [
-        //   {
-        //     "parameters"   : [ true ],
-        //     "objects" : [ "obj1", "obj2" ]
-        //     "groups"  : [ "group1", "group2" ],
-        //   }
-        // ];
-        var functionRequest = propValue[f];
-
-        // The function request value should be an object
-        if (!functionRequest instanceof Array) {
-          throw new Error("Invalid function request type: " + "expected array, found " + typeof (functionRequest));
-        }
-
-        // For each function request...
-        for (var i=0; i<functionRequest.length; i++)
-        {
-          // Retreive the object and group list object
-          objectAndGroupList = functionRequest[i];
-
-          // The object and group list should be an object, e.g.
-          // {
-          //   "parameters"   : [ true ],
-          //   "objects" : [ "obj1", "obj2" ]
-          //   "groups"  : [ "group1", "group2" ],
-          // }
-          if (typeof (objectAndGroupList) != "object") {
-            throw new Error("Invalid function request parameter type: " + "expected object, found " + typeof (functionRequest[param]));
-          }
-
-          // Retrieve the parameter list
-          params = objectAndGroupList["parameters"];
-
-          // If it didn't exist, ...
-          if (!params)
-          {
-            // ... use an empty array.
-            params = [];
-          }
-          else
-          {
-            // otherwise, ensure we got an array
-            if (!params instanceof Array) {
-              throw new Error("Invalid function parameters: " + "expected array, found " + typeof (params));
-            }
-          }
-
-          // Create the function to call on each object.  The object on which the
-          // function is called will be prepended later.
-          funcFragment = f + "(";
-
-          // For each parameter...
-          for (var j=0; j<params.length; j++)
-          {
-            // If this isn't the first parameter, add a separator
-            if (j != 0) {
-              funcFragment += ",";
-            }
-
-            if (typeof (params[j]) == "function")
-            {
-              // If the parameter is a function, arrange for it to be called
-              // at run time.
-              funcFragment += "(" + params[j] + ")(fsm)";
-            }
-            else if (typeof (params[j]) == "string")
-            {
-              // If the parameter is a string, quote it.
-              funcFragment += '"' + params[j] + '"';
-            }
-            else
-            {
-              // Otherwise, just add the parameter's literal value
-              funcFragment += params[j];
-            }
-          }
-
-          // Complete the function call
-          funcFragment += ")";
-
-          // Get the "objects" list, e.g.
-          //   "objects" : [ "obj1", "obj2" ]
-          var a = objectAndGroupList["objects"];
-
-          // Was there an "objects" list?
-          if (!a)
-          {
-            // Nope.  Simplify code by creating an empty array.
-            a = [];
-          }
-          else if (!a instanceof Array)
-          {
-            throw new Error("Invalid 'objects' list: expected array, got " + typeof (a));
-          }
-
-          for (var j=0; j<a.length; j++)
-          {
-            // Ensure we got a string
-            if (typeof (a[j]) != "string") {
-              throw new Error("Invalid friendly name in 'objects' list: " + a[j]);
-            }
-
-            func += " fsm.getObject('" + a[j] + "')." + funcFragment + ";";
-          }
-
-          // Get the "groups" list, e.g.
-          //   "groups" : [ "group1, "group2" ]
-          var g = objectAndGroupList["groups"];
-
-          // Was a "groups" list found?
-          if (g)
-          {
-            // Yup.  Ensure it's an array.
-            if (!g instanceof Array) {
-              throw new Error("Invalid 'groups' list: expected array, got " + typeof (g));
-            }
-
-            for (var groupName in g)
-            {
-              // Arrange to call the function on each object in each group
-              func += "  var groupObjects = " + "    fsm.getGroupObjects('" + g[groupName] + "');" + "  for (var i = 0; i < groupObjects.length; i++)" + "  {" + "    var objName = groupObjects[i];" + "    fsm.getObject(objName)." + funcFragment + ";" + "  }";
-            }
-          }
-        }
-      }
-
-      // Terminate the try block for function invocations
-      func += "}" + "catch(e)" + "{" + "  fsm.debug(e);" + "}";
-
-      //  o = new qx.core.Object();
-      //  o.debug("Dynamically created " + actionType + "(fsm) { " + func + " }");
-      // We've now built the entire body of a function that implements calls to
-      // each of the requested automatic actions.  Create and return the function,
-      // which will become the property value.
-      return new Function("fsm", func);
-    }
   },
 
 
@@ -475,7 +264,7 @@ qx.Clazz.define("qx.util.fsm.FiniteStateMachine",
     debugFlags :
     {
       type         : "number",
-      defaultValue : (qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS | qx.util.fsm.FiniteStateMachine.DebugFlags.TRANSITIONS | qx.util.fsm.FiniteStateMachine.DebugFlags.OBJECT_NOT_FOUND),
+      defaultValue : 7, // (qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS | qx.util.fsm.FiniteStateMachine.DebugFlags.TRANSITIONS | qx.util.fsm.FiniteStateMachine.DebugFlags.OBJECT_NOT_FOUND),
       compat       : true
     }
   },
@@ -910,7 +699,7 @@ qx.Clazz.define("qx.util.fsm.FiniteStateMachine",
       this.enqueueEvent(e, false);
 
       // Process events
-      this._processEvents();
+      this.__processEvents();
     },
 
 
@@ -920,7 +709,7 @@ qx.Clazz.define("qx.util.fsm.FiniteStateMachine",
      * @type member
      * @return {void} 
      */
-    _processEvents : function()
+    __processEvents : function()
     {
       // eventListener() can potentially be called while we're processing events
       if (this._eventProcessingInProgress)
@@ -939,7 +728,7 @@ qx.Clazz.define("qx.util.fsm.FiniteStateMachine",
         var event = this._eventQueue.pop();
 
         // Run the finite state machine with this event
-        var bDispose = this._run(event);
+        var bDispose = this.__run(event);
 
         // If we didn't block (and re-queue) the event, dispose it.
         if (bDispose) {
@@ -964,7 +753,7 @@ qx.Clazz.define("qx.util.fsm.FiniteStateMachine",
      *     back onto the event queue, and it should not be disposed.
      * @throws TODOC
      */
-    _run : function(event)
+    __run : function(event)
     {
       // For use in generated functions...
       var fsm = this;
