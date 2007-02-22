@@ -1777,7 +1777,7 @@ qx.Proto.disconnect = function() {
 
 
 
-
+qx.Proto._createElementForEnhancedBorder = function() {};
 
 /*
 ---------------------------------------------------------------------------
@@ -1853,6 +1853,8 @@ else
 */
 
 qx.Proto._isCreated = false;
+
+qx.Proto._getTargetNode = function() {};
 
 if (qx.core.Variant.isSet("qx.client", "gecko"))
 {
@@ -2530,6 +2532,10 @@ qx.Proto._recomputePercentY = function()
 ---------------------------------------------------------------------------
 */
 
+qx.Proto._recomputeRangeX = function() {};
+qx.Proto._recomputeRangeY = function() {};
+
+
 if (qx.core.Variant.isSet("qx.client", "mshtml|opera"))
 {
   qx.Proto._recomputeRangeX = function()
@@ -2573,6 +2579,9 @@ else
   RECOMPUTE STRETCHING
 ---------------------------------------------------------------------------
 */
+
+qx.Proto._recomputeStretchingX = function() {};
+qx.Proto._recomputeStretchingY = function() {};
 
 if (qx.core.Variant.isSet("qx.client", "mshtml|opera"))
 {
@@ -3544,6 +3553,12 @@ qx.Proto._unitDetectionPixelPercent = function(propData, propValue)
 ---------------------------------------------------------------------------
 */
 
+qx.ui.core.Widget.inlineEventMap = {};
+qx.Proto.enableInlineEvent = function(vEventName) {};
+qx.Proto.disableInlineEvent = function(vEventName) {};
+qx.Proto._addInlineEvents = function(vElement) {};
+qx.Proto._removeInlineEvents = function(vElement) {};
+
 if (qx.core.Variant.isSet("qx.client", "mshtml"))
 {
   qx.ui.core.Widget.inlineEventMap =
@@ -4030,6 +4045,8 @@ qx.Proto._resetAppearanceThemeWrapper = function(vNewAppearanceTheme, vOldAppear
   }
 }
 
+qx.Proto._applyStateStyleFocus = function(vStates) {}
+
 if (qx.core.Variant.isSet("qx.client", "mshtml"))
 {
   /*
@@ -4177,6 +4194,8 @@ qx.Proto.setHtmlProperty = function(propName, propValue)
 
   return true;
 }
+
+qx.Proto.removeHtmlProperty = function(propName) {};
 
 if (qx.core.Variant.isSet("qx.client", "mshtml"))
 {
@@ -4579,6 +4598,8 @@ qx.Proto._modifyZIndex = function(propValue, propOldValue, propData) {
 ---------------------------------------------------------------------------
 */
 
+qx.Proto._modifyTabIndex = function(propValue, propOldValue, propData) {};
+
 if (qx.core.Variant.isSet("qx.client", "mshtml"))
 {
   qx.Proto._modifyTabIndex = function(propValue, propOldValue, propData)
@@ -4669,6 +4690,8 @@ qx.Proto.getCssClassName = function() {
 ---------------------------------------------------------------------------
 */
 
+qx.Proto._modifySelectable = function(propValue, propOldValue, propData) {};
+
 if(qx.core.Variant.isSet("qx.client", "mshtml"))
 {
   qx.Proto._modifySelectable = function(propValue, propOldValue, propData)
@@ -4754,6 +4777,9 @@ Sets the opacity for the widget. Any child widget inside the widget will also
 become (semi-)transparent. The value should be a number between 0 and 1
 inclusive, where 1 means totally opaque and 0 invisible.
 */
+
+qx.Proto._modifyOpacity = function(propValue, propOldValue, propData) {};
+
 if(qx.core.Variant.isSet("qx.client", "mshtml"))
 {
   qx.Proto._modifyOpacity = function(propValue, propOldValue, propData)
@@ -4966,6 +4992,8 @@ qx.ui.core.Widget.initOverflow = function()
   qx.ui.core.Widget.initOverflowDone = true;
 }
 
+qx.Proto._modifyOverflow = function(propValue, propOldValue, propData) {};
+
 if (qx.core.Variant.isSet("qx.client", "gecko"))
 {
   qx.Proto._modifyOverflow = function(propValue, propOldValue, propData)
@@ -5088,6 +5116,8 @@ qx.Proto.getOverflowY = function()
 ---------------------------------------------------------------------------
 */
 
+qx.Proto._modifyHideFocus = function(propValue, propOldValue, propData) {};
+
 if (qx.core.Variant.isSet("qx.client", "mshtml"))
 {
   qx.Proto._modifyHideFocus = function(propValue, propOldValue, propData)
@@ -5095,6 +5125,8 @@ if (qx.core.Variant.isSet("qx.client", "mshtml"))
     this.setHtmlProperty(propData.name, propValue);
     return true;
   }
+} else {
+  qx.Proto._modifyHideFocus = qx.lang.Function.returnTrue;
 }
 
 // Need no implementation for others then mshtml, because
