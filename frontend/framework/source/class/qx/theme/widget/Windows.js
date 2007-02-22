@@ -29,38 +29,30 @@
 /**
  * Default qooxdoo widget theme
  */
-qx.OO.defineClass("qx.theme.widget.Windows", qx.renderer.theme.WidgetTheme,
-function()
+qx.Clazz.define("qx.theme.widget.Windows",
 {
-  qx.renderer.theme.WidgetTheme.call(this, "Windows");
+  type : "singleton",
+  extend : qx.renderer.theme.WidgetTheme,
 
-  this.uri = qx.core.Setting.get("qx.resourceUri") + "/widget/Windows";
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function()
+  {
+    qx.renderer.theme.WidgetTheme.call(this, "Windows");
+
+    this.uri = qx.core.Setting.get("qx.resourceUri") + "/widget/Windows";
+  },
+  
+  defer : function(clazz)
+  {
+    qx.manager.object.ImageManager.getInstance().registerWidgetTheme(clazz);    
+  }
+    
 });
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DEFER SINGLETON INSTANCE
----------------------------------------------------------------------------
-*/
-
-/**
- * Singleton Instance Getter
- */
-qx.Class.getInstance = qx.lang.Function.returnInstance;
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  REGISTER TO MANAGER
----------------------------------------------------------------------------
-*/
-
-qx.manager.object.ImageManager.getInstance().registerWidgetTheme(qx.Class);

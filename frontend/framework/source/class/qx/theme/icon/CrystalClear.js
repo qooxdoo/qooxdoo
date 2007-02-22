@@ -32,38 +32,31 @@
  * License: LGPL
  * Home: http://www.kde-look.org/content/show.php?content=25668
  */
-qx.OO.defineClass("qx.theme.icon.CrystalClear", qx.renderer.theme.IconTheme,
-function()
+qx.Clazz.define("qx.theme.icon.CrystalClear",
 {
-  qx.renderer.theme.IconTheme.call(this, "CrystalClear");
+  type : "singleton",
+  extend : qx.renderer.theme.IconTheme,
 
-  this.uri = qx.core.Setting.get("qx.resourceUri") + "/icon/CrystalClear";
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function()
+  {
+    qx.renderer.theme.IconTheme.call(this, "CrystalClear");
+
+    this.uri = qx.core.Setting.get("qx.resourceUri") + "/icon/CrystalClear";
+  },
+  
+  defer : function(clazz)
+  {
+    qx.manager.object.ImageManager.getInstance().registerIconTheme(clazz);    
+  }
+    
 });
 
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DEFER SINGLETON INSTANCE
----------------------------------------------------------------------------
-*/
-
-/**
- * Singleton Instance Getter
- */
-qx.Class.getInstance = qx.lang.Function.returnInstance;
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  REGISTER TO MANAGER
----------------------------------------------------------------------------
-*/
-
-qx.manager.object.ImageManager.getInstance().registerIconTheme(qx.Class);
