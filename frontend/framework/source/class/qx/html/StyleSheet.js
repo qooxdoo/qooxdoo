@@ -351,6 +351,6 @@ qx.Clazz.define("qx.html.StyleSheet",
           }
         }
       }
-    }),
+    })
   }
 });

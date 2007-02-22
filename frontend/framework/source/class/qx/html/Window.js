@@ -52,7 +52,7 @@ qx.Clazz.define("qx.html.Window",
         return 0;
       },
       
-      "none" : function(vWindow) {
+      "default" : function(vWindow) {
         return vWindow.innerWidth;
       }
     }),
@@ -78,7 +78,7 @@ qx.Clazz.define("qx.html.Window",
         return 0;
       },
       
-      "none" : function(vWindow) {
+      "default" : function(vWindow) {
         return vWindow.innerHeight;
       }
     }),
@@ -104,7 +104,7 @@ qx.Clazz.define("qx.html.Window",
         return 0;
       },
       
-      "none" : function(vWindow) {
+      "default" : function(vWindow) {
         return vWindow.document.body.scrollLeft;
       }
     }),
@@ -130,7 +130,7 @@ qx.Clazz.define("qx.html.Window",
         return 0;
       },
       
-      "none" : function(vWindow) {
+      "default" : function(vWindow) {
         return vWindow.document.body.scrollTop;
       }
     })

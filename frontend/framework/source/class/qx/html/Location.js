@@ -147,7 +147,7 @@ qx.Clazz.define("qx.html.Location",
         return qx.html.Location.getClientAreaLeft(el) - qx.html.Style.getBorderLeft(el);
       },
 	
-      "none" : function(el)
+      "default" : function(el)
       {
         var sum = el.offsetLeft;
     
@@ -179,7 +179,7 @@ qx.Clazz.define("qx.html.Location",
         return qx.html.Location.getClientAreaTop(el) - qx.html.Style.getBorderTop(el);
       },
 	
-      "none" : function(el)
+      "default" : function(el)
       {
         var sum = el.offsetTop;
     
@@ -207,7 +207,7 @@ qx.Clazz.define("qx.html.Location",
         return el.getBoundingClientRect().right;
       },
       
-      "none" : function(el) {
+      "default" : function(el) {
         return qx.html.Location.getClientBoxLeft(el) + qx.html.Dimension.getBoxWidth(el);
       }
     }),
@@ -226,7 +226,7 @@ qx.Clazz.define("qx.html.Location",
         return el.getBoundingClientRect().bottom;
       },
       
-      "none" : function(el) {
+      "default" : function(el) {
         return qx.html.Location.getClientBoxTop(el) + qx.html.Dimension.getBoxHeight(el);
       }
     }),
@@ -249,7 +249,7 @@ qx.Clazz.define("qx.html.Location",
         return qx.html.Location.getPageAreaLeft(el) - qx.html.Style.getBorderLeft(el);
       },
 	
-      "none" : function(el)
+      "default" : function(el)
       {
         var sum = el.offsetLeft;
     
@@ -281,7 +281,7 @@ qx.Clazz.define("qx.html.Location",
         return qx.html.Location.getPageAreaTop(el) - qx.html.Style.getBorderTop(el);
       },
 	
-      "none" : function(el)
+      "default" : function(el)
       {
         var sum = el.offsetTop;
     
@@ -309,7 +309,7 @@ qx.Clazz.define("qx.html.Location",
         return qx.html.Location.getClientBoxRight(el) + qx.html.Scroll.getLeftSum(el);
       },
       
-      "none" : function(el) {
+      "default" : function(el) {
         return qx.html.Location.getPageBoxLeft(el) + qx.html.Dimension.getBoxWidth(el);
       }
     }),
@@ -328,7 +328,7 @@ qx.Clazz.define("qx.html.Location",
         return qx.html.Location.getClientBoxBottom(el) + qx.html.Scroll.getTopSum(el);
       },
       
-      "none" : function(el) {
+      "default" : function(el) {
         return qx.html.Location.getPageBoxTop(el) + qx.html.Dimension.getBoxHeight(el);
       }
     }),
@@ -348,7 +348,7 @@ qx.Clazz.define("qx.html.Location",
         return qx.html.Location.getPageAreaLeft(el) - qx.html.Scroll.getLeftSum(el);
       },
       
-      "none" : function(el) {
+      "default" : function(el) {
         return qx.html.Location.getClientBoxLeft(el) + qx.html.Style.getBorderLeft(el);
       }
     }),
@@ -368,7 +368,7 @@ qx.Clazz.define("qx.html.Location",
         return qx.html.Location.getPageAreaTop(el) - qx.html.Scroll.getTopSum(el);
       },
       
-      "none" : function(el) {
+      "default" : function(el) {
         return qx.html.Location.getClientBoxTop(el) + qx.html.Style.getBorderTop(el);
       }
     }),
@@ -411,7 +411,7 @@ qx.Clazz.define("qx.html.Location",
         return el.ownerDocument.getBoxObjectFor(el).x;
       },
       
-      "none" : function(el) {
+      "default" : function(el) {
         return qx.html.Location.getPageBoxLeft(el) + qx.html.Style.getBorderLeft(el);
       }
     }),
@@ -430,7 +430,7 @@ qx.Clazz.define("qx.html.Location",
         return el.ownerDocument.getBoxObjectFor(el).y;
       },
       
-      "none" : function(el) {
+      "default" : function(el) {
         return qx.html.Location.getPageBoxTop(el) + qx.html.Style.getBorderTop(el);
       }
     }),
@@ -585,7 +585,7 @@ qx.Clazz.define("qx.html.Location",
         return el.ownerDocument.getBoxObjectFor(el).screenX - sum;
       },
       
-      "none" : function(el) {
+      "default" : function(el) {
         // Hope this works in khtml, too (opera 7.6p3 seems to be ok)
         return qx.html.Location.getScreenDocumentLeft(el) + qx.html.Location.getPageBoxLeft(el);
       }
@@ -617,7 +617,7 @@ qx.Clazz.define("qx.html.Location",
         return el.ownerDocument.getBoxObjectFor(el).screenY - sum;
       },
       
-      "none" : function(el) {
+      "default" : function(el) {
         return qx.html.Location.getScreenDocumentTop(el) + qx.html.Location.getPageBoxTop(el);
       }
     }),
@@ -809,7 +809,7 @@ qx.Clazz.define("qx.html.Location",
         return qx.html.Location.getScreenOuterLeft(el.ownerDocument.body);
       },
       
-      "none" : function(el) {
+      "default" : function(el) {
         // Tested in Opera 7.6b3 and Mshtml 6.0 (XP-SP2)
         // What's up with khtml (Safari/Konq)?
         return el.document.parentWindow.screenLeft;
@@ -830,7 +830,7 @@ qx.Clazz.define("qx.html.Location",
         return qx.html.Location.getScreenOuterTop(el.ownerDocument.body);
       },
       
-      "none" : function(el) {
+      "default" : function(el) {
         return el.document.parentWindow.screenTop;
       }
     }),
@@ -849,7 +849,7 @@ qx.Clazz.define("qx.html.Location",
         return qx.html.Location.getScreenOuterRight(el.ownerDocument.body);
       },
       
-      "none" : function(el) {}
+      "default" : function(el) {}
     }),
 
 
@@ -866,7 +866,7 @@ qx.Clazz.define("qx.html.Location",
         return qx.html.Location.getScreenOuterBottom(el.ownerDocument.body);
       },
       
-      "none" : function(el) {}
+      "default" : function(el) {}
     })
   }
 });

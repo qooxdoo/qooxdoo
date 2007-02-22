@@ -52,7 +52,7 @@ qx.Clazz.define("qx.html.Iframe",
 		    }
 		  },
       
-      "none" : function(vIframe)
+      "default" : function(vIframe)
 		  {
 		    try
 		    {
@@ -89,7 +89,7 @@ qx.Clazz.define("qx.html.Iframe",
 		    }
 		  },
       
-      "none" : function(vIframe)
+      "default" : function(vIframe)
 		  {
 		    try {
 		      return vIframe.contentDocument;

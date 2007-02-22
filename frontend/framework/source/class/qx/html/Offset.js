@@ -88,7 +88,7 @@ qx.Clazz.define("qx.html.Offset",
 		    return val;
 		  },
       
-      "none" : function(el) {
+      "default" : function(el) {
 		    return el.offsetLeft;
 		  }
     }),
@@ -141,9 +141,9 @@ qx.Clazz.define("qx.html.Offset",
 		    return val;
 		  },
       
-      "none" : function(el) {
+      "default" : function(el) {
 		    return el.offsetTop;
 		  }
-    }),
+    })
   }
 });
