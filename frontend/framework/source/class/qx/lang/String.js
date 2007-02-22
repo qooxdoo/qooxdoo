@@ -169,6 +169,18 @@ qx.Clazz.define("qx.lang.String",
     toFirstUp : function(str) {
       return str.charAt(0).toUpperCase() + str.substr(1);
     },
+    
+
+    /**
+     * Convert the first character of the string to lower case.
+     *
+     * @type static
+     * @param str {String} the string
+     * @return {String} the string with a lower case first character
+     */
+    toFirstLower : function(str) {
+      return str.charAt(0).toLowerCase() + str.substr(1);
+    },    
 
 
     /**

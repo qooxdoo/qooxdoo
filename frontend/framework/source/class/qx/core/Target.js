@@ -97,6 +97,13 @@ qx.Clazz.define("qx.core.Target",
         return true;
       }
 
+			if (eventName.indexOf("change") == 0) {
+				var propName = qx.lang.String.toFirstLower(eventName.slice(6));
+				if (this.$$properties[propName]) {
+					return true;
+				}
+			}
+
       var clazz = this.constructor;
 
       while (clazz.superclass)

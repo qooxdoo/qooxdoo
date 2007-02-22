@@ -25,8 +25,6 @@
 
 /**
  * This manager is used by all objects which needs ranges like qx.ui.form.Spinner, ...
- *
- * @event change {qx.event.type.Event}
  */
 qx.Clazz.define("qx.type.Range",
 {
@@ -54,7 +52,9 @@ qx.Clazz.define("qx.type.Range",
   *****************************************************************************
   */
 
-	events: ["change"],
+	events: {
+		"change" : qx.event.type.Event
+  },
 
 
   /*
