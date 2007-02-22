@@ -22,115 +22,117 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.html.Window");
-
-
-/**
- * Get the inner width of the given browser window
- *
- * @param window {window} browser window
- * @return {Integer} the window's inner width
- */
-qx.html.Window.getInnerWidth = function(window) {};
-
-/**
- * Get the inner height of the given browser window
- *
- * @param window {window} browser window
- * @return {Integer} the window's inner height
- */
-qx.html.Window.getInnerHeight = function(window) {};
-
-/**
- * Get the left scroll position of the given browser window
- *
- * @param window {window} browser window
- * @return {Integer} the window's left scroll position
- */
-qx.html.Window.getScrollLeft = function(window) {};
-
-/**
- * Get the top scroll position of the given browser window
- *
- * @param window {window} browser window
- * @return {Integer} the window's top scroll position
- */
-qx.html.Window.getScrollTop = function(window) {};
-
-
-if (qx.core.Variant.isSet("qx.client", "mshtml"))
+qx.Clazz.define("qx.html.Window",
 {
-  qx.html.Window.getInnerWidth = function(w)
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics :
   {
-    if (w.document.documentElement && w.document.documentElement.clientWidth)
+    /**
+     * Get the inner width of the given browser window
+     *
+     * @type static
+     * @param vWindow {window} browser window
+     * @return {Integer} the window's inner width
+     */
+    getInnerWidth  : qx.core.Variant.select("qx.client",
     {
-      return w.document.documentElement.clientWidth;
-    }
-    else if (w.document.body)
+      "mshtml" : function(vWindow)
+      {
+        if (vWindow.document.documentElement && vWindow.document.documentElement.clientWidth) {
+          return vWindow.document.documentElement.clientWidth;
+        } else if (vWindow.document.body) {
+          return vWindow.document.body.clientWidth;
+        }
+    
+        return 0;
+      },
+      
+      "none" : function(vWindow) {
+        return vWindow.innerWidth;
+      }
+    }),
+
+
+    /**
+     * Get the inner height of the given browser window
+     *
+     * @type static
+     * @param window {window} browser window
+     * @return {Integer} the window's inner height
+     */
+    getInnerHeight : qx.core.Variant.select("qx.client",
     {
-      return w.document.body.clientWidth;
-    }
+      "mshtml" : function(vWindow)
+      {
+        if (vWindow.document.documentElement && vWindow.document.documentElement.clientHeight) {
+          return vWindow.document.documentElement.clientHeight;
+        } else if (vWindow.document.body) {
+          return vWindow.document.body.clientHeight;
+        }
+    
+        return 0;
+      },
+      
+      "none" : function(vWindow) {
+        return vWindow.innerHeight;
+      }
+    }),
+    
 
-    return 0;
-  }
-
-  qx.html.Window.getInnerHeight = function(w)
-  {
-    if (w.document.documentElement && w.document.documentElement.clientHeight)
+    /**
+     * Get the left scroll position of the given browser window
+     *
+     * @type static
+     * @param window {window} browser window
+     * @return {Integer} the window's left scroll position
+     */
+    getScrollLeft  : qx.core.Variant.select("qx.client",
     {
-      return w.document.documentElement.clientHeight;
-    }
-    else if (w.document.body)
+      "mshtml" : function(vWindow)
+      {
+        if (vWindow.document.documentElement && vWindow.document.documentElement.scrollLeft) {
+          return vWindow.document.documentElement.scrollLeft;
+        } else if (vWindow.document.body) {
+          return vWindow.document.body.scrollTop;
+        }
+    
+        return 0;
+      },
+      
+      "none" : function(vWindow) {
+        return vWindow.document.body.scrollLeft;
+      }
+    }),
+
+
+    /**
+     * Get the top scroll position of the given browser window
+     *
+     * @type static
+     * @param window {window} browser window
+     * @return {Integer} the window's top scroll position
+     */
+    getScrollTop   : qx.core.Variant.select("qx.client",
     {
-      return w.document.body.clientHeight;
-    }
-
-    return 0;
+      "mshtml" : function(vWindow)
+      {
+        if (vWindow.document.documentElement && vWindow.document.documentElement.scrollTop) {
+          return vWindow.document.documentElement.scrollTop;
+        } else if (vWindow.document.body) {
+          return vWindow.document.body.scrollTop;
+        }
+    
+        return 0;
+      },
+      
+      "none" : function(vWindow) {
+        return vWindow.document.body.scrollTop;
+      }
+    })
   }
-
-  qx.html.Window.getScrollLeft = function(w)
-  {
-    if (w.document.documentElement && w.document.documentElement.scrollLeft)
-    {
-      return w.document.documentElement.scrollLeft;
-    }
-    else if (w.document.body)
-    {
-      return w.document.body.scrollTop;
-    }
-
-    return 0;
-  }
-
-  qx.html.Window.getScrollTop = function(w)
-  {
-    if (w.document.documentElement && w.document.documentElement.scrollTop)
-    {
-      return w.document.documentElement.scrollTop;
-    }
-    else if (w.document.body)
-    {
-      return w.document.body.scrollTop;
-    }
-
-    return 0;
-  }
-}
-else
-{
-  qx.html.Window.getInnerWidth = function(w) {
-    return w.innerWidth;
-  }
-
-  qx.html.Window.getInnerHeight = function(w) {
-    return w.innerHeight;
-  }
-
-  qx.html.Window.getScrollLeft = function(w) {
-    return w.document.body.scrollLeft;
-  }
-
-  qx.html.Window.getScrollTop = function(w) {
-    return w.document.body.scrollTop;
-  }
-}
+});

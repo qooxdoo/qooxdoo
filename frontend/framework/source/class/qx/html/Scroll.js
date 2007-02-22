@@ -24,32 +24,57 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.html.Scroll");
-
-qx.html.Scroll.getLeftSum = function(el)
+qx.Clazz.define("qx.html.Scroll",
 {
-  var sum = 0;
-  var p = el.parentNode;
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
 
-  while (p.nodeType == 1)
+  statics :
   {
-    sum += p.scrollLeft;
-    p = p.parentNode;
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param el {Element} TODOC
+     * @return {var} TODOC
+     */
+    getLeftSum : function(el)
+    {
+      var sum = 0;
+      var p = el.parentNode;
+
+      while (p.nodeType == 1)
+      {
+        sum += p.scrollLeft;
+        p = p.parentNode;
+      }
+
+      return sum;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param el {Element} TODOC
+     * @return {var} TODOC
+     */
+    getTopSum : function(el)
+    {
+      var sum = 0;
+      var p = el.parentNode;
+
+      while (p.nodeType == 1)
+      {
+        sum += p.scrollTop;
+        p = p.parentNode;
+      }
+
+      return sum;
+    }
   }
-
-  return sum;
-}
-
-qx.html.Scroll.getTopSum = function(el)
-{
-  var sum = 0;
-  var p = el.parentNode;
-
-  while (p.nodeType == 1)
-  {
-    sum += p.scrollTop;
-    p = p.parentNode;
-  }
-
-  return sum;
-}
+});
