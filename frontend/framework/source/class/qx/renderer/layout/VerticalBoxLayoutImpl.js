@@ -778,7 +778,7 @@ qx.Clazz.define("qx.renderer.layout.VerticalBoxLayoutImpl",
         }
       },
       
-      none : function(vChild, vJobs)
+      "default" : function(vChild, vJobs)
       {
         if (vJobs.initial || vJobs.width)
         {
@@ -814,7 +814,7 @@ qx.Clazz.define("qx.renderer.layout.VerticalBoxLayoutImpl",
         }
       },
       
-      none : function(vChild, vJobs)
+      "default" : function(vChild, vJobs)
       {
         if (vJobs.initial || vJobs.height)
         {

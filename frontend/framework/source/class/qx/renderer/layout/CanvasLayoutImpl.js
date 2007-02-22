@@ -277,7 +277,7 @@ qx.Clazz.define("qx.renderer.layout.CanvasLayoutImpl",
         }
       },
       
-      none : function(vChild, vJobs)
+      "default" : function(vChild, vJobs)
       {
         if (vJobs.initial || vJobs.width) {
           vChild._computedWidthTypeNull ? vChild._resetRuntimeWidth() : vChild._applyRuntimeWidth(vChild.getWidthValue());
@@ -308,7 +308,7 @@ qx.Clazz.define("qx.renderer.layout.CanvasLayoutImpl",
         }
       },
       
-      none : function(vChild, vJobs)
+      "default" : function(vChild, vJobs)
       {
         if (vJobs.initial || vJobs.height) {
           vChild._computedHeightTypeNull ? vChild._resetRuntimeHeight() : vChild._applyRuntimeHeight(vChild.getHeightValue());

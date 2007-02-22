@@ -53,20 +53,20 @@ qx.Clazz.define("qx.xml.Document",
      */
     create : qx.core.Variant.select("qx.client",
     {
-    	none: qx.lang.Object.select((document.implementation && document.implementation.createDocument) ? "hasDom2" : "noDom2",
+    	"default": qx.lang.Object.select((document.implementation && document.implementation.createDocument) ? "hasDom2" : "noDom2",
 	    {
-				hasDom2: function(namespaceUri, qualifiedName)
+				"hasDom2": function(namespaceUri, qualifiedName)
 				{
 	    		return document.implementation.createDocument(namespaceUri || "", qualifiedName || "", null);
 	  		},
 	  		
-				noDom2: function(namespaceUri, qualifiedName)
+				"noDom2": function(namespaceUri, qualifiedName)
 				{
 					throw new Error("This browser does not support xml dom creation.");
 				}
 			}),
 			
-			mshtml: function(namespaceUri, qualifiedName)
+			"mshtml": function(namespaceUri, qualifiedName)
  			{
 		    /*
 		     According to information on the Microsoft XML Team's WebLog
@@ -128,7 +128,7 @@ qx.Clazz.define("qx.xml.Document",
      */
     fromString : qx.core.Variant.select("qx.client",
     {
-    	none: qx.lang.Object.select(window.DOMParser ? "hasDomParser" : "noDomParser",
+    	"default": qx.lang.Object.select(window.DOMParser ? "hasDomParser" : "noDomParser",
     	{
     		"hasDomParser":	function(str) 
 			  {
@@ -141,7 +141,7 @@ qx.Clazz.define("qx.xml.Document",
 			  }
 			}),
 			
-			mshtml: function(str)
+			"mshtml": function(str)
 		  {
 		    var dom = qx.xml.Document.create();
 		    dom.loadXML(str);

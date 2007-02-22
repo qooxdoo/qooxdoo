@@ -413,7 +413,7 @@ qx.Clazz.define("qx.renderer.layout.DockLayoutImpl",
         vChild._applyRuntimeWidth(vChild.getBoxWidth());
       },
 
-      "none" : function(vChild)
+      "default" : function(vChild)
       {
         // direct recompute (need to be done, while layouting as the
         // _last* variable changes during layout process)
@@ -451,7 +451,7 @@ qx.Clazz.define("qx.renderer.layout.DockLayoutImpl",
         vChild._applyRuntimeHeight(vChild.getBoxHeight());
       },
 
-      "none" : function(vChild)
+      "default" : function(vChild)
       {
         // direct recompute (need to be done, while layouting as the
         // _last* variable changes during layout process)
@@ -483,7 +483,7 @@ qx.Clazz.define("qx.renderer.layout.DockLayoutImpl",
         }
       },
 
-      "none" : function(vChild, vJobs)
+      "default" : function(vChild, vJobs)
       {
         if (vJobs.initial || vJobs.width) {
           vChild._computedWidthTypeNull ? vChild._resetRuntimeWidth() : vChild._applyRuntimeWidth(vChild.getWidthValue());
@@ -510,7 +510,7 @@ qx.Clazz.define("qx.renderer.layout.DockLayoutImpl",
         }
       },
 
-      "none" : function(vChild, vJobs)
+      "default" : function(vChild, vJobs)
       {
         if (vJobs.initial || vJobs.height) {
           vChild._computedHeightTypeNull ? vChild._resetRuntimeHeight() : vChild._applyRuntimeHeight(vChild.getHeightValue());
@@ -532,7 +532,7 @@ qx.Clazz.define("qx.renderer.layout.DockLayoutImpl",
         this._applyComputedWidth(vChild);
       },
 
-      "none" : function(vChild)
+      "default" : function(vChild)
       {
         this._applyComputedWidth(vChild);
         vChild._applyRuntimeRight(this._lastRight);
@@ -553,7 +553,7 @@ qx.Clazz.define("qx.renderer.layout.DockLayoutImpl",
         this._applyComputedHeight(vChild);
       },
 
-      "none" :  function(vChild)
+      "default" :  function(vChild)
       {
         this._applyComputedHeight(vChild);
         vChild._applyRuntimeBottom(this._lastBottom);
@@ -581,7 +581,7 @@ qx.Clazz.define("qx.renderer.layout.DockLayoutImpl",
         this._lastRight += vChild.getBoxWidth();
       },
 
-      "none" : function(vChild, vJobs)
+      "default" : function(vChild, vJobs)
       {
         vChild._applyRuntimeRight(this._lastRight);
         vChild._applyRuntimeTop(this._lastTop);
@@ -613,7 +613,7 @@ qx.Clazz.define("qx.renderer.layout.DockLayoutImpl",
         this._lastBottom += vChild.getBoxHeight();
       },
 
-      "none" : function(vChild, vJobs)
+      "default" : function(vChild, vJobs)
       {
         vChild._applyRuntimeBottom(this._lastBottom);
         vChild._applyRuntimeLeft(this._lastLeft);
@@ -649,7 +649,7 @@ qx.Clazz.define("qx.renderer.layout.DockLayoutImpl",
         this._applyComputedHeight(vChild);
       },
 
-      "none" :  function(vChild, vJobs)
+      "default" :  function(vChild, vJobs)
       {
         vChild._resetRuntimeWidth();
         vChild._resetRuntimeHeight();
