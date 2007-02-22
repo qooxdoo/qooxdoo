@@ -24,68 +24,93 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.html.Iframe");
-
-qx.html.Iframe.getWindow = function(vIframe) {};
-qx.html.Iframe.getDocument = function(vIframe) {};
-
-if (qx.core.Variant.isSet("qx.client", "mshtml"))
+qx.Clazz.define("qx.html.Iframe",
 {
-  qx.html.Iframe.getWindow = function(vIframe)
-  {
-    try
-    {
-      return vIframe.contentWindow;
-    }
-    catch(ex)
-    {
-      return null;
-    }
-  }
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
 
-  qx.html.Iframe.getDocument = function(vIframe)
+  statics :
   {
-    try
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param vIframe {var} TODOC
+     * @return {void} 
+     */
+    getWindow : qx.core.Variant.select("qx.client",
     {
-      var vWin = qx.html.Iframe.getWindow(vIframe);
-      return vWin ? vWin.document : null;
-    }
-    catch(ex)
+      "mshtml" : function(vIframe)
+		  {
+		    try {
+		      return vIframe.contentWindow;
+		    } catch(ex) {
+		      return null;
+		    }
+		  },
+      
+      "none" : function(vIframe)
+		  {
+		    try
+		    {
+		      var vDoc = qx.html.Iframe.getDocument(vIframe);
+		      return vDoc ? vDoc.defaultView : null;
+		    }
+		    catch(ex)
+		    {
+		      return null;
+		    }
+		  }
+    }),
+
+
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param vIframe {var} TODOC
+     * @return {void} 
+     */
+    getDocument : qx.core.Variant.select("qx.client",
     {
-      return null;
-    }
-  }
-}
-else
-{
-  qx.html.Iframe.getWindow = function(vIframe)
-  {
-    try
+      "mshtml" : function(vIframe)
+		  {
+		    try
+		    {
+		      var vWin = qx.html.Iframe.getWindow(vIframe);
+		      return vWin ? vWin.document : null;
+		    }
+		    catch(ex)
+		    {
+		      return null;
+		    }
+		  },
+      
+      "none" : function(vIframe)
+		  {
+		    try {
+		      return vIframe.contentDocument;
+		    } catch(ex) {
+		      return null;
+		    }
+		  }
+    }),
+
+
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param vIframe {var} TODOC
+     * @return {var} TODOC
+     */
+    getBody : function(vIframe)
     {
       var vDoc = qx.html.Iframe.getDocument(vIframe);
-      return vDoc ? vDoc.defaultView : null;
-    }
-    catch(ex)
-    {
-      return null;
+      return vDoc ? vDoc.getElementsByTagName("body")[0] : null;
     }
   }
-
-  qx.html.Iframe.getDocument = function(vIframe)
-  {
-    try
-    {
-      return vIframe.contentDocument;
-    }
-    catch(ex)
-    {
-      return null;
-    }
-  }
-}
-
-qx.html.Iframe.getBody = function(vIframe)
-{
-  var vDoc = qx.html.Iframe.getDocument(vIframe);
-  return vDoc ? vDoc.getElementsByTagName("body")[0] : null;
-}
+});

@@ -25,43 +25,55 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.html.EventRegistration");
-
-/**
- * Assign a function to an event.
- *
- * @param vElement {Element} DOM Element
- * @param vType {String} Name of the event
- * @param vFunction {Function} The pointer to the function to assign
- */
-qx.html.EventRegistration.addEventListener = function(vElement, vType, vFunction) {};
-
-/**
- * Unassign a function from an event.
- *
- * @param vElement {Element} DOM Element
- * @param vType {String} Name of the event
- * @param vFunction {Function} The pointer to the function to assign
- */
-qx.html.EventRegistration.removeEventListener = function(vElement, vType, vFunction) {};
-
-if (qx.core.Variant.isSet("qx.client", "mshtml"))
+qx.Clazz.define("qx.html.EventRegistration",
 {
-  qx.html.EventRegistration.addEventListener = function(vElement, vType, vFunction) {
-    vElement.attachEvent("on" + vType, vFunction);
-  }
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
 
-  qx.html.EventRegistration.removeEventListener = function(vElement, vType, vFunction) {
-    vElement.detachEvent("on" + vType, vFunction);
-  }
-}
-else
-{
-  qx.html.EventRegistration.addEventListener = function(vElement, vType, vFunction) {
-    vElement.addEventListener(vType, vFunction, false);
-  }
+  statics :
+  {
+    /**
+     * Assign a function to an event.
+     *
+     * @type static
+     * @param vElement {Element} DOM Element
+     * @param vType {String} Name of the event
+     * @param vFunction {Function} The pointer to the function to assign
+     * @return {void} 
+     */
+    addEventListener : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(vElement, vType, vFunction) {
+        vElement.attachEvent("on" + vType, vFunction);
+      },
+      
+      "none" : function(vElement, vType, vFunction) {
+        vElement.addEventListener(vType, vFunction, false);
+      }
+    }),
 
-  qx.html.EventRegistration.removeEventListener = function(vElement, vType, vFunction) {
-    vElement.removeEventListener(vType, vFunction, false);
+
+    /**
+     * Unassign a function from an event.
+     *
+     * @type static
+     * @param vElement {Element} DOM Element
+     * @param vType {String} Name of the event
+     * @param vFunction {Function} The pointer to the function to assign
+     * @return {void} 
+     */
+    removeEventListener : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(vElement, vType, vFunction) {
+        vElement.detachEvent("on" + vType, vFunction);
+      },
+      
+      "none" :  function(vElement, vType, vFunction) {
+        vElement.removeEventListener(vType, vFunction, false);
+      }
+    }),
   }
-}
+});
