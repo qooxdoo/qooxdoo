@@ -26,7 +26,7 @@
 
 qx.OO.defineClass("qx.renderer.color.ColorCache");
 
-qx.renderer.color.ColorCache = function(propValue)
+qx.Class.convert = function(propValue)
 {
   var propKey;
   var propKeyAsStyle = false;

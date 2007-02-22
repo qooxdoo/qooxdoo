@@ -217,13 +217,13 @@ qx.OO.addProperty({ name : "zIndex", type : "number" });
   The backgroundColor style property of the rendered widget.
   As input are allowed any instance of qx.renderer.color.Color or a string which defines the color itself.
 */
-qx.OO.addProperty({ name : "backgroundColor", type : "object", instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache, allowMultipleArguments : true });
+qx.OO.addProperty({ name : "backgroundColor", type : "object", instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache.convert, allowMultipleArguments : true });
 
 /*!
   The color style property of the rendered widget.
   As input are allowed any instance of qx.renderer.color.Color or a string which defines the color itself.
 */
-qx.OO.addProperty({ name : "color", type : "object", instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache, allowMultipleArguments : true });
+qx.OO.addProperty({ name : "color", type : "object", instance : "qx.renderer.color.Color", convert : qx.renderer.color.ColorCache.convert, allowMultipleArguments : true });
 
 /*!
   The border property describes how to paint the border on the widget.
@@ -231,7 +231,7 @@ qx.OO.addProperty({ name : "color", type : "object", instance : "qx.renderer.col
   This should be used with caution since in some cases (mostly complex widgets)
   this might give unrespected results.
 */
-qx.OO.addProperty({ name : "border", type : "object", instance : "qx.renderer.border.Border", convert : qx.renderer.border.BorderCache, allowMultipleArguments : true });
+qx.OO.addProperty({ name : "border", type : "object", instance : "qx.renderer.border.Border", convert : qx.renderer.border.BorderCache.convert, allowMultipleArguments : true });
 
 /*!
   Mapping to native style property opacity.
@@ -3069,13 +3069,13 @@ qx.Proto.addToQueueRuntime = function(p) {
 qx.Proto._applyBorderX = function(vChild, vChanges, vStyle)
 {
   var vBorder = vChild.getBorder();
-  vBorder ? vBorder._applyWidgetX(vChild) : qx.renderer.border.Border._resetBorderX(vChild);
+  vBorder ? vBorder.applyWidgetX(vChild) : qx.renderer.border.Border.resetBorderX(vChild);
 }
 
 qx.Proto._applyBorderY = function(vChild, vChanges, vStyle)
 {
   var vBorder = vChild.getBorder();
-  vBorder ? vBorder._applyWidgetY(vChild) : qx.renderer.border.Border._resetBorderY(vChild);
+  vBorder ? vBorder.applyWidgetY(vChild) : qx.renderer.border.Border.resetBorderY(vChild);
 }
 
 qx.Proto._applyPaddingX = qx.lang.Function.returnTrue;

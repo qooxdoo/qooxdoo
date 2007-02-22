@@ -302,7 +302,7 @@ qx.Proto._onSelectorButtonExecute = function(e)
 qx.Proto._onColorSelectorOk = function(e)
 {
   var sel = this._colorSelector;
-  this.setValue(qx.renderer.color.ColorCache([sel.getRed(), sel.getGreen(), sel.getBlue()]));
+  this.setValue(qx.renderer.color.ColorCache.convert([sel.getRed(), sel.getGreen(), sel.getBlue()]));
   this._colorSelectorWindow.close();
 }
 
