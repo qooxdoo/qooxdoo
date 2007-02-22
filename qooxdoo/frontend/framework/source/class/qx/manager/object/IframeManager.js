@@ -26,52 +26,76 @@
  * The solution: In order to be able to track mouse events over iframes, this
  * manager will block all iframes during a drag with a glasspane.
  */
-qx.OO.defineClass("qx.manager.object.IframeManager", qx.manager.object.ObjectManager,
-function(){
-  qx.manager.object.ObjectManager.call(this);
+qx.Clazz.define("qx.manager.object.IframeManager",
+{
+  type : "singleton",
+  extend : qx.manager.object.ObjectManager,
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function() {
+    qx.manager.object.ObjectManager.call(this);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      METHODS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param evt {Event} TODOC
+     * @return {void} 
+     */
+    handleMouseDown : function(evt)
+    {
+      var iframeMap = this.getAll();
+
+      for (var key in iframeMap)
+      {
+        var iframe = iframeMap[key];
+        iframe.block();
+      }
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param evt {Event} TODOC
+     * @return {void} 
+     */
+    handleMouseUp : function(evt)
+    {
+      var iframeMap = this.getAll();
+
+      for (var key in iframeMap)
+      {
+        var iframe = iframeMap[key];
+        iframe.release();
+      }
+    }
+  }
 });
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  METHODS
----------------------------------------------------------------------------
-*/
-
-qx.Proto.handleMouseDown = function(evt) {
-  var iframeMap = this.getAll();
-
-  for (var key in iframeMap) {
-    var iframe = iframeMap[key];
-    iframe.block();
-  }
-}
-
-qx.Proto.handleMouseUp = function(evt) {
-  var iframeMap = this.getAll();
-
-  for (var key in iframeMap) {
-    var iframe = iframeMap[key];
-    iframe.release();
-  }
-}
-
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DEFER SINGLETON INSTANCE
----------------------------------------------------------------------------
-*/
-
-/**
- * Singleton Instance Getter
- */
-qx.Class.getInstance = qx.lang.Function.returnInstance;
