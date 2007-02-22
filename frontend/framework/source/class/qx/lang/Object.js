@@ -30,12 +30,6 @@
  */
 qx.Clazz.define("qx.lang.Object",
 {
-  /*
-  *****************************************************************************
-  **** STATICS ****************************************************************
-  *****************************************************************************
-  */
-
   statics :
   {
     /**
@@ -150,7 +144,7 @@ qx.Clazz.define("qx.lang.Object",
 
     /**
      * Merge two objects.
-     * 
+     *
      * If the Objects both have the same key, the value of the second object is taken.
      *
      * @type static
@@ -170,7 +164,7 @@ qx.Clazz.define("qx.lang.Object",
 
     /**
      * Merge two objects. Existing values will not be overwritten.
-     * 
+     *
      * If the Objects both have the same key, the value of the first object is taken.
      *
      * @type static
@@ -244,38 +238,38 @@ qx.Clazz.define("qx.lang.Object",
 
       return result;
     },
-    
-        
+
+
     /**
      * Get the key of the given value from a map.
      * If the map has more than one key matching the value the fist match is returned.
      * If the map does not contain the value <code>null</code> is returned.
-     * 
-     * @param vObject {Object} Map to search for the key
+     *
+     * @param obj {Object} Map to search for the key
      * @param value {var} Value to look for
      * @return {String|null} Name of the key (null if not found).
      */
-     getKeyFromValue: function(vObject, value)
+     getKeyFromValue: function(obj, value)
      {
-       for (var key in vObject) {
-         if (vObject[key] === value) {
+       for (var key in obj) {
+         if (obj[key] === value) {
            return key;
          }
        }
+
        return null;
      },
-     
-     
+
+
      /**
       * Selects the value with the given key from the map.
-      * 
+      *
       * @param key {String} name of the key to get the value from
       * @param map {Object} map to get the value from
       * @return {var} value for the given key from the map
       */
-     select: function(key, map)
-     {
+     select: function(key, map) {
        return map[key];
-     } 
+     }
   }
 });

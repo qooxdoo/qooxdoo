@@ -34,12 +34,6 @@
  */
 qx.Clazz.define("qx.lang.Number",
 {
-  /*
-  *****************************************************************************
-  **** STATICS ****************************************************************
-  *****************************************************************************
-  */
-
   statics :
   {
     /**
@@ -72,7 +66,7 @@ qx.Clazz.define("qx.lang.Number",
 
     /**
      * Limit the nuber to a given range
-     * 
+     *
      * * If the number is greater than the upper bound, the upper bound is returned
      * * If the number is smaller than the lower bound, the lower bound is returned
      * * If the number is in the range, the number is retuned
