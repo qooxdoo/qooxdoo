@@ -25,60 +25,73 @@
 
 ************************************************************************ */
 
-/*!
-  This singleton is used to manager multiple instances of popups and their state.
-*/
-qx.OO.defineClass("qx.manager.object.PopupManager", qx.manager.object.ObjectManager,
-function() {
-  qx.manager.object.ObjectManager.call(this);
-});
-
-
-
-/*
----------------------------------------------------------------------------
-  METHODS
----------------------------------------------------------------------------
-*/
-
-qx.Proto.update = function(vTarget)
+/** This singleton is used to manager multiple instances of popups and their state. */
+qx.Clazz.define("qx.manager.object.PopupManager",
 {
-  // be sure that target is correctly set (needed for contains() later)
-  if (!(vTarget instanceof qx.ui.core.Widget)) {
-    vTarget = null;
-  }
+  type : "singleton",
+  extend : qx.manager.object.ObjectManager,
 
-  var vPopup, vHashCode;
-  var vAll = this.getAll();
 
-  for (vHashCode in vAll)
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function() {
+    qx.manager.object.ObjectManager.call(this);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
   {
-    vPopup = vAll[vHashCode];
+    /*
+    ---------------------------------------------------------------------------
+      METHODS
+    ---------------------------------------------------------------------------
+    */
 
-    if(!vPopup.getAutoHide() || vTarget == vPopup || vPopup.contains(vTarget)) {
-      continue;
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vTarget {var} TODOC
+     * @return {void} 
+     */
+    update : function(vTarget)
+    {
+      // be sure that target is correctly set (needed for contains() later)
+      if (!(vTarget instanceof qx.ui.core.Widget)) {
+        vTarget = null;
+      }
+
+      var vPopup, vHashCode;
+      var vAll = this.getAll();
+
+      for (vHashCode in vAll)
+      {
+        vPopup = vAll[vHashCode];
+
+        if (!vPopup.getAutoHide() || vTarget == vPopup || vPopup.contains(vTarget)) {
+          continue;
+        }
+
+        if (qx.OO.isAvailable("qx.ui.popup.ToolTip") && vTarget instanceof qx.ui.popup.ToolTip && !(vPopup instanceof qx.ui.popup.ToolTip)) {
+          continue;
+        }
+
+        vPopup.hide();
+      }
     }
-
-    if (qx.OO.isAvailable("qx.ui.popup.ToolTip") && vTarget instanceof qx.ui.popup.ToolTip && !(vPopup instanceof qx.ui.popup.ToolTip)) {
-      continue;
-    }
-
-    vPopup.hide();
   }
-}
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DEFER SINGLETON INSTANCE
----------------------------------------------------------------------------
-*/
-
-/**
- * Singleton Instance Getter
- */
-qx.Class.getInstance = qx.lang.Function.returnInstance;
+});

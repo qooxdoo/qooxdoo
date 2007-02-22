@@ -24,61 +24,104 @@
 
 ************************************************************************ */
 
-/*!
-  This singleton manage all qx.io.image.Preloader instances.
-*/
-qx.OO.defineClass("qx.manager.object.ImagePreloaderManager", qx.manager.object.ObjectManager,
-function() {
-  qx.manager.object.ObjectManager.call(this);
-});
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  METHODS
----------------------------------------------------------------------------
-*/
-
-qx.Proto.add = function(vObject) {
-  this._objects[vObject.getUri()] = vObject;
-}
-
-qx.Proto.remove = function(vObject) {
-  delete this._objects[vObject.getUri()];
-}
-
-qx.Proto.has = function(vSource) {
-  return this._objects[vSource] != null;
-}
-
-qx.Proto.get = function(vSource) {
-  return this._objects[vSource];
-}
-
-qx.Proto.create = function(vSource)
+/** This singleton manage all qx.io.image.Preloader instances. */
+qx.Clazz.define("qx.manager.object.ImagePreloaderManager",
 {
-  if (this._objects[vSource]) {
-    return this._objects[vSource];
+  type : "singleton",
+  extend : qx.manager.object.ObjectManager,
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function() {
+    qx.manager.object.ObjectManager.call(this);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      METHODS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vObject {var} TODOC
+     * @return {void} 
+     */
+    add : function(vObject) {
+      this._objects[vObject.getUri()] = vObject;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vObject {var} TODOC
+     * @return {void} 
+     */
+    remove : function(vObject) {
+      delete this._objects[vObject.getUri()];
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vSource {var} TODOC
+     * @return {var} TODOC
+     */
+    has : function(vSource) {
+      return this._objects[vSource] != null;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vSource {var} TODOC
+     * @return {var} TODOC
+     */
+    get : function(vSource) {
+      return this._objects[vSource];
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vSource {var} TODOC
+     * @return {var} TODOC
+     */
+    create : function(vSource)
+    {
+      if (this._objects[vSource]) {
+        return this._objects[vSource];
+      }
+
+      return new qx.io.image.Preloader(vSource);
+    }
   }
-
-  return new qx.io.image.Preloader(vSource);
-}
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DEFER SINGLETON INSTANCE
----------------------------------------------------------------------------
-*/
-
-/**
- * Singleton Instance Getter
- */
-qx.Class.getInstance = qx.lang.Function.returnInstance;
+});

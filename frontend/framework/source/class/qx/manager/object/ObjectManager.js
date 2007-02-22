@@ -23,97 +23,173 @@
 
 ************************************************************************ */
 
-/*!
-  This class allows basic managment of assigned objects.
-*/
-qx.OO.defineClass("qx.manager.object.ObjectManager", qx.core.Target,
-function()
+/** This class allows basic managment of assigned objects. */
+qx.Clazz.define("qx.manager.object.ObjectManager",
 {
-  qx.core.Target.call(this);
-
-  this._objects = {};
-});
+  extend : qx.core.Target,
 
 
 
 
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
-/*
----------------------------------------------------------------------------
-  USER API
----------------------------------------------------------------------------
-*/
-
-qx.Proto.add = function(vObject)
-{
-  if (this.getDisposed()) {
-    return;
-  }
-
-  this._objects[vObject.toHashCode()] = vObject;
-  return true;
-}
-
-qx.Proto.remove = function(vObject)
-{
-  if (this.getDisposed()) {
-    return;
-  }
-
-  delete this._objects[vObject.toHashCode()];
-  return true;
-}
-
-qx.Proto.has = function(vObject) {
-  return this._objects[vObject.toHashCode()] != null;
-}
-
-qx.Proto.get = function(vObject) {
-  return this._objects[vObject.toHashCode()];
-}
-
-qx.Proto.getAll = function() {
-  return this._objects;
-}
-
-qx.Proto.enableAll = function()
-{
-  for (var vHashCode in this._objects) {
-    this._objects[vHashCode].setEnabled(true);
-  };
-};
-
-qx.Proto.disableAll = function()
-{
-  for (var vHashCode in this._objects) {
-    this._objects[vHashCode].setEnabled(false);
-  };
-};
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DISPOSER
----------------------------------------------------------------------------
-*/
-
-qx.Proto.dispose = function()
-{
-  if(this.getDisposed()) {
-    return;
-  }
-
-  if (this._objects)
+  construct : function()
   {
-    for (var i in this._objects) {
-      delete this._objects[i];
+    qx.core.Target.call(this);
+
+    this._objects = {};
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      USER API
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vObject {var} TODOC
+     * @return {void | boolean} TODOC
+     */
+    add : function(vObject)
+    {
+      if (this.getDisposed()) {
+        return;
+      }
+
+      this._objects[vObject.toHashCode()] = vObject;
+      return true;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vObject {var} TODOC
+     * @return {void | boolean} TODOC
+     */
+    remove : function(vObject)
+    {
+      if (this.getDisposed()) {
+        return;
+      }
+
+      delete this._objects[vObject.toHashCode()];
+      return true;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vObject {var} TODOC
+     * @return {var} TODOC
+     */
+    has : function(vObject) {
+      return this._objects[vObject.toHashCode()] != null;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vObject {var} TODOC
+     * @return {var} TODOC
+     */
+    get : function(vObject) {
+      return this._objects[vObject.toHashCode()];
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getAll : function() {
+      return this._objects;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    enableAll : function()
+    {
+      for (var vHashCode in this._objects) {
+        this._objects[vHashCode].setEnabled(true);
+      }
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    disableAll : function()
+    {
+      for (var vHashCode in this._objects) {
+        this._objects[vHashCode].setEnabled(false);
+      }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DISPOSER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void | var} TODOC
+     */
+    dispose : function()
+    {
+      if (this.getDisposed()) {
+        return;
+      }
+
+      if (this._objects)
+      {
+        for (var i in this._objects) {
+          delete this._objects[i];
+        }
+
+        delete this._objects;
+      }
+
+      return qx.core.Target.prototype.dispose.call(this);
     }
-
-    delete this._objects;
   }
-
-  return qx.core.Target.prototype.dispose.call(this);
-}
+});

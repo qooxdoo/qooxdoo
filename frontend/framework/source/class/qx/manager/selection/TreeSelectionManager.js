@@ -24,177 +24,268 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.manager.selection.TreeSelectionManager", qx.manager.selection.SelectionManager,
-function(vBoundedWidget) {
-  qx.manager.selection.SelectionManager.call(this, vBoundedWidget);
-});
-
-/*!
-Should multiple selection be allowed?
-*/
-qx.OO.changeProperty({ name : "multiSelection", type : "boolean", defaultValue : false });
-
-/*!
-Enable drag selection?
-*/
-qx.OO.changeProperty({ name : "dragSelection", type : "boolean", defaultValue : false });
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  MAPPING TO BOUNDED WIDGET
----------------------------------------------------------------------------
-*/
-
-qx.Proto._getFirst = function() {
-  return qx.lang.Array.getFirst(this.getItems());
-}
-
-qx.Proto._getLast = function() {
-  return qx.lang.Array.getLast(this.getItems());
-}
-
-qx.Proto.getItems = function() {
-  return this.getBoundedWidget().getItems();
-}
-
-qx.Proto.getNext = function(vItem)
+qx.Clazz.define("qx.manager.selection.TreeSelectionManager",
 {
-  if (vItem)
+  extend : qx.manager.selection.SelectionManager,
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(vBoundedWidget) {
+    qx.manager.selection.SelectionManager.call(this, vBoundedWidget);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
   {
-    if (qx.ui.tree.Tree.isOpenTreeFolder(vItem))
+    /** Should multiple selection be allowed? */
+    multiSelection :
     {
-      return vItem.getFirstVisibleChildOfFolder();
-    }
-    else if (vItem.isLastVisibleChild())
-    {
-      var vCurrent = vItem;
+      _legacy      : true,
+      type         : "boolean",
+      defaultValue : false
+    },
 
-      while(vCurrent && vCurrent.isLastVisibleChild()) {
-        vCurrent = vCurrent.getParentFolder();
-      }
 
-      if (vCurrent && vCurrent instanceof qx.ui.tree.AbstractTreeElement && vCurrent.getNextVisibleSibling() && vCurrent.getNextVisibleSibling() instanceof qx.ui.tree.AbstractTreeElement) {
-        return vCurrent.getNextVisibleSibling();
-      }
-    }
-    else
+    /** Enable drag selection? */
+    dragSelection :
     {
-      return vItem.getNextVisibleSibling();
+      _legacy      : true,
+      type         : "boolean",
+      defaultValue : false
     }
-  }
-  else
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
   {
-    return this.getBoundedWidget().getFirstTreeChild();
-  }
-}
+    /*
+    ---------------------------------------------------------------------------
+      MAPPING TO BOUNDED WIDGET
+    ---------------------------------------------------------------------------
+    */
 
-qx.Proto.getPrevious = function(vItem)
-{
-  if (vItem)
-  {
-    if (vItem == this.getBoundedWidget())
-    {
-      return;
-    }
-    else if (vItem.isFirstVisibleChild())
-    {
-      if (vItem.getParentFolder() instanceof qx.ui.tree.TreeFolder) {
-        return vItem.getParentFolder();
-      }
-    }
-    else
-    {
-      var vPrev = vItem.getPreviousVisibleSibling();
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    _getFirst : function() {
+      return qx.lang.Array.getFirst(this.getItems());
+    },
 
-      while (vPrev instanceof qx.ui.tree.AbstractTreeElement)
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    _getLast : function() {
+      return qx.lang.Array.getLast(this.getItems());
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getItems : function() {
+      return this.getBoundedWidget().getItems();
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vItem {var} TODOC
+     * @return {var} TODOC
+     */
+    getNext : function(vItem)
+    {
+      if (vItem)
       {
-        if (qx.ui.tree.Tree.isOpenTreeFolder(vPrev))
+        if (qx.ui.tree.Tree.isOpenTreeFolder(vItem)) {
+          return vItem.getFirstVisibleChildOfFolder();
+        }
+        else if (vItem.isLastVisibleChild())
         {
-          vPrev = vPrev.getLastVisibleChildOfFolder();
+          var vCurrent = vItem;
+
+          while (vCurrent && vCurrent.isLastVisibleChild()) {
+            vCurrent = vCurrent.getParentFolder();
+          }
+
+          if (vCurrent && vCurrent instanceof qx.ui.tree.AbstractTreeElement && vCurrent.getNextVisibleSibling() && vCurrent.getNextVisibleSibling() instanceof qx.ui.tree.AbstractTreeElement) {
+            return vCurrent.getNextVisibleSibling();
+          }
         }
         else
         {
-          break;
+          return vItem.getNextVisibleSibling();
         }
       }
+      else
+      {
+        return this.getBoundedWidget().getFirstTreeChild();
+      }
+    },
 
-      return vPrev;
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vItem {var} TODOC
+     * @return {void | var} TODOC
+     */
+    getPrevious : function(vItem)
+    {
+      if (vItem)
+      {
+        if (vItem == this.getBoundedWidget()) {
+          return;
+        }
+        else if (vItem.isFirstVisibleChild())
+        {
+          if (vItem.getParentFolder() instanceof qx.ui.tree.TreeFolder) {
+            return vItem.getParentFolder();
+          }
+        }
+        else
+        {
+          var vPrev = vItem.getPreviousVisibleSibling();
+
+          while (vPrev instanceof qx.ui.tree.AbstractTreeElement)
+          {
+            if (qx.ui.tree.Tree.isOpenTreeFolder(vPrev)) {
+              vPrev = vPrev.getLastVisibleChildOfFolder();
+            } else {
+              break;
+            }
+          }
+
+          return vPrev;
+        }
+      }
+      else
+      {
+        return this.getBoundedWidget().getLastTreeChild();
+      }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      MAPPING TO ITEM DIMENSIONS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vItem {var} TODOC
+     * @return {var} TODOC
+     */
+    getItemTop : function(vItem)
+    {
+      // Alternate method:
+      // return qx.html.Location.getPageBoxTop(vItem.getElement()) - qx.html.Location.getPageInnerTop(this.getBoundedWidget().getElement());
+      var vBoundedWidget = this.getBoundedWidget();
+      var vElement = vItem.getElement();
+      var vOffset = 0;
+
+      while (vElement && vElement.qx_Widget != vBoundedWidget)
+      {
+        vOffset += vElement.offsetTop;
+        vElement = vElement.parentNode;
+      }
+
+      return vOffset;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vItem {var} TODOC
+     * @return {var} TODOC
+     */
+    getItemHeight : function(vItem)
+    {
+      if (vItem instanceof qx.ui.tree.TreeFolder && vItem._horizontalLayout) {
+        return vItem._horizontalLayout.getOffsetHeight();
+      } else {
+        return vItem.getOffsetHeight();
+      }
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vItem {var} TODOC
+     * @return {var} TODOC
+     */
+    scrollItemIntoView : function(vItem)
+    {
+      if (vItem instanceof qx.ui.tree.TreeFolder && vItem._horizontalLayout) {
+        return vItem._horizontalLayout.scrollIntoView();
+      } else {
+        return vItem.scrollIntoView();
+      }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      ITEM STATE MANAGMENT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vItem {var} TODOC
+     * @param vIsSelected {var} TODOC
+     * @return {void} 
+     */
+    renderItemSelectionState : function(vItem, vIsSelected) {
+      vItem.setSelected(vIsSelected);
     }
   }
-  else
-  {
-    return this.getBoundedWidget().getLastTreeChild();
-  }
-}
-
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  MAPPING TO ITEM DIMENSIONS
----------------------------------------------------------------------------
-*/
-
-qx.Proto.getItemTop = function(vItem)
-{
-  // Alternate method:
-  // return qx.html.Location.getPageBoxTop(vItem.getElement()) - qx.html.Location.getPageInnerTop(this.getBoundedWidget().getElement());
-
-  var vBoundedWidget = this.getBoundedWidget();
-  var vElement = vItem.getElement();
-  var vOffset = 0;
-
-  while (vElement && vElement.qx_Widget != vBoundedWidget)
-  {
-    vOffset += vElement.offsetTop;
-    vElement = vElement.parentNode;
-  }
-
-  return vOffset;
-}
-
-qx.Proto.getItemHeight = function(vItem)
-{
-  if (vItem instanceof qx.ui.tree.TreeFolder && vItem._horizontalLayout)
-  {
-    return vItem._horizontalLayout.getOffsetHeight();
-  }
-  else
-  {
-    return vItem.getOffsetHeight();
-  }
-}
-
-qx.Proto.scrollItemIntoView = function(vItem)
-{
-  if (vItem instanceof qx.ui.tree.TreeFolder && vItem._horizontalLayout)
-  {
-    return vItem._horizontalLayout.scrollIntoView();
-  }
-  else
-  {
-    return vItem.scrollIntoView();
-  }
-}
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  ITEM STATE MANAGMENT
----------------------------------------------------------------------------
-*/
-
-qx.Proto.renderItemSelectionState = function(vItem, vIsSelected) {
-  vItem.setSelected(vIsSelected);
-}
+});
