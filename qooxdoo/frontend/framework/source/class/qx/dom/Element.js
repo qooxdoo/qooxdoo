@@ -77,7 +77,7 @@ qx.Clazz.define("qx.dom.Element",
       "none" : function() {
         throw new Error("This browser does not support any form of text content handling!");
       }
-    })
+    }),
 
 
     /**
