@@ -91,8 +91,18 @@ def getAndRemovePropertyName(definition):
       keyValue.parent.removeChild(keyValue)
       return name
 
-  print " * Could not extract property name!"
+  print "  * Could not extract property name!"
   return None
+
+
+def replaceMapKey(definition, searchKey, replaceKey):
+  for keyValue in definition.children:
+    if keyValue.type == "keyvalue" and keyValue.get("key") == searchKey:
+      keyValue.set("key", replaceKey)
+      return
+
+  print "  * Could not replace key %s with %s" % (searchKey, replaceKey)
+
 
 
 def createPair(key, value, commentParent=None):
@@ -182,6 +192,8 @@ def patch(id, node):
                 definition.addChild(createPair("_cached", createConstant("boolean", "true")), 0)
               elif lastIdentifier.get("name") == "addProperty" or lastIdentifier.get("name") == "changeProperty":
                 definition.addChild(createPair("_legacy", createConstant("boolean", "true")), 0)
+              elif lastIdentifier.get("name") == "addPropertyGroup":
+                replaceMapKey(definition, "members", "group")
 
               name = getAndRemovePropertyName(definition)
               pair = createPair(name, definition, child)
