@@ -30,7 +30,10 @@
 qx.Clazz.define("qx.client.Timer",
 {
   extend : qx.core.Target,
-  events : [ "interval" ],
+
+  events : {
+  	"interval" : qx.event.type.Event
+  },
 
 
 

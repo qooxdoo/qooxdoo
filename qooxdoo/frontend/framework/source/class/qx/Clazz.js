@@ -121,7 +121,7 @@ qx.Clazz.define("qx.Clazz",
      *       <tr><th>properties</th><td>Map</td><td>Map of property definitions. Format of the map: TODOC</td></tr>
      *       <tr><th>settings</th><td>Map</td><td>Map of settings for this class. Format of the map: TODOC</td></tr>
      *       <tr><th>variants</th><td>Map</td><td>Map of settings for this class. Format of the map: TODOC</td></tr>
-     *       <tr><th>events</th><td>String[]</td><td>List of events the class fires.</td></tr>
+     *       <tr><th>events</th><td>Map</td><td>Map of events the class fires. the keys are the names of the events and the values the event types (classes).</td></tr>
      *       <tr><th>defer</th><td>Function</td><td>TODOC</td></tr>
      *     </table>
      * @return {void}
@@ -503,7 +503,7 @@ qx.Clazz.define("qx.Clazz",
         "settings"   : "object",    // Map
         "variants"   : "object",    // Map
         "defer"      : "function",  // Function
-        "events"      : "object"     // Array
+        "events"      : "object"     // Map
       };
 
       for (var key in config)
@@ -716,11 +716,11 @@ qx.Clazz.define("qx.Clazz",
         if (!this.isSubClassOf(clazz, qx.core.Target)) {
           throw new Error("The 'events' key can only be used for sub classes of 'qx.core.Target'!");
         }
+        if (events instanceof Array) {
+          throw new Error("The events must be defined as map!.");
+        }
       }
-      clazz.$$events = {};
-      for (var i=0; i<events.length; i++) {
-        clazz.$$events[events[i]] = 1;
-      }
+      clazz.$$events = events;
     },
 
 
