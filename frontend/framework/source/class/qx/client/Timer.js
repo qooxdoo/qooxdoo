@@ -53,12 +53,7 @@ qx.Clazz.define("qx.client.Timer",
       this.setInterval(interval);
     }
 
-    // Object wrapper to timer event
-    var o = this;
-
-    this.__oninterval = function() {
-      o._oninterval();
-    };
+    this.__oninterval = qx.lang.Function.bind(this._oninterval, this);
   },
 
 

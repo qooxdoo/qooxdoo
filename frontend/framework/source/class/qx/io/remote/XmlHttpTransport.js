@@ -44,9 +44,7 @@ function()
 
   this._req = qx.io.remote.XmlHttpTransport.createRequestObject();
 
-  var o = this;
-  this._req.onreadystatechange =
-      function(e) { return o._onreadystatechange(e); }
+  this._req.onreadystatechange = qx.lang.Function.bind(this._onreadystatechange, this);
 });
 
 

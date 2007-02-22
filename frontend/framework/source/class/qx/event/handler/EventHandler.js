@@ -54,34 +54,15 @@ qx.Clazz.define("qx.event.handler.EventHandler",
   {
     qx.core.Target.call(this);
 
-    // Object Wrapper to Events (Needed for DOM-Events)
-    var o = this;
-
     // User Events
-    this.__onmouseevent = function(e) {
-      return o._onmouseevent(e);
-    };
-
-    this.__ondragevent = function(e) {
-      return o._ondragevent(e);
-    };
-
-    this.__onselectevent = function(e) {
-      return o._onselectevent(e);
-    };
+    this.__onmouseevent = qx.lang.Function.bind(this._onmouseevent, this);
+    this.__ondragevent = qx.lang.Function.bind(this._ondragevent, this);
+    this.__onselectevent = qx.lang.Function.bind(this._onselectevent, this);
 
     // Window Events
-    this.__onwindowblur = function(e) {
-      return o._onwindowblur(e);
-    };
-
-    this.__onwindowfocus = function(e) {
-      return o._onwindowfocus(e);
-    };
-
-    this.__onwindowresize = function(e) {
-      return o._onwindowresize(e);
-    };
+    this.__onwindowblur = qx.lang.Function.bind(this._onwindowblur, this);
+    this.__onwindowfocus = qx.lang.Function.bind(this._onwindowfocus, this);
+    this.__onwindowresize = qx.lang.Function.bind(this._onwindowresize, this);
 
     // Init Command Interface
     this._commands = {};

@@ -54,7 +54,7 @@ function()
 
   this._frame.src = "javascript:void(0)";
   this._frame.id = this._frame.name = vFrameName;
-  this._frame.onload = function(e) { return o._onload(e); }
+  this._frame.onload = qx.lang.Function.bind(this._onload, this);
 
   this._frame.style.display = "none";
 
@@ -72,8 +72,7 @@ function()
   this._data.id = this._data.name = "_data_";
   this._form.appendChild(this._data);
 
-  var o = this;
-  this._frame.onreadystatechange = function(e) { return o._onreadystatechange(e); }
+  this._frame.onreadystatechange = qx.lang.Function.bind(this._onreadystatechange, this);
 });
 
 qx.Proto._lastReadyState = 0;
