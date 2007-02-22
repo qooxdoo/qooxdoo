@@ -838,7 +838,7 @@ qx.Proto._onmouseevent_post = function(vDomEvent, vType, vDomTarget)
 
     // Store last Event in MouseEvent Constructor
     // Needed for Tooltips, ...
-    qx.event.type.MouseEvent._storeEventState(vEventObject);
+    qx.event.type.MouseEvent.storeEventState(vEventObject);
 
 
     if (vTargetIsEnabled) {

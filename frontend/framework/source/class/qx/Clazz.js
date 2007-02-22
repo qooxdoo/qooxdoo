@@ -153,17 +153,17 @@ qx.Clazz.define("qx.Clazz",
           clazz.$$implements = qx.lang.Object.copy(config.extend.$$implements);
         }
 
-        // Attach members
-        if (config.members) {
-          this.__addMembers(clazz, config.members);
-        }
-
         // Attach properties
         if (config.properties)
         {
           for (var name in config.properties) {
             this.__addProperty(clazz, name, config.properties[name]);
           }
+        }
+
+        // Attach members
+        if (config.members) {
+          this.__addMembers(clazz, config.members);
         }
 
         // Process Events
@@ -1197,7 +1197,7 @@ qx.Clazz.define("qx.Clazz",
       // RegExp are typeof "function" ;-(
       if (method instanceof RegExp) {
         return method;
-      }      
+      }
       var wrapper = function() {
         method.context = this;
         return method.apply(this, arguments);
