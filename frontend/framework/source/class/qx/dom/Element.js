@@ -64,7 +64,7 @@ qx.Clazz.define("qx.dom.Element",
      * @param el {Element} DOM element
      * @return {String} The text content of the element
      */
-    getTextContent : qx.lang.Object.select(qx.core.Client.getInstance().supportsTextContent() ? "textContent" : qx.core.Client.getInstance().supportsInnerText() ? "innerText" : "none",
+    getTextContent : qx.lang.Object.select(qx.core.Client.getInstance().supportsTextContent() ? "textContent" : qx.core.Client.getInstance().supportsInnerText() ? "innerText" : "default",
     {
       innerText : function(el, val) {
         return el.innerText;
@@ -74,7 +74,7 @@ qx.Clazz.define("qx.dom.Element",
         return el.textContent;
       },
 
-      none : function() {
+      "default" : function() {
         throw new Error("This browser does not support any form of text content handling!");
       }
     }),
@@ -89,7 +89,7 @@ qx.Clazz.define("qx.dom.Element",
      * @param val {String} the new text content of the element
      * @return {void}
      */
-    setTextContent : qx.lang.Object.select(qx.core.Client.getInstance().supportsTextContent() ? "textContent" : qx.core.Client.getInstance().supportsInnerText() ? "innerText" : "none",
+    setTextContent : qx.lang.Object.select(qx.core.Client.getInstance().supportsTextContent() ? "textContent" : qx.core.Client.getInstance().supportsInnerText() ? "innerText" : "default",
     {
       innerText : function(el, val) {
         el.innerText = val;
@@ -99,7 +99,7 @@ qx.Clazz.define("qx.dom.Element",
         el.textContent = val;
       },
 
-      none : function() {
+      "default" : function() {
         throw new Error("This browser does not support any form of text content handling!");
       }
     })

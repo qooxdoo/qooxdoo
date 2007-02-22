@@ -265,7 +265,7 @@ qx.Clazz.define("qx.event.type.DomEvent",
      */
     setDefaultPrevented : qx.core.Variant.select("qx.client",
     {
-      mshtml : function(vValue)
+      "mshtml" : function(vValue)
       {
         if (!vValue) {
           return this.error("It is not possible to set preventDefault to false if it was true before!", "setDefaultPrevented");
@@ -276,7 +276,7 @@ qx.Clazz.define("qx.event.type.DomEvent",
         qx.event.type.Event.prototype.setDefaultPrevented.call(this, vValue);
       },
 
-      none : function(vValue)
+      "default" : function(vValue)
       {
         if (!vValue) {
           return this.error("It is not possible to set preventDefault to false if it was true before!", "setDefaultPrevented");

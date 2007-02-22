@@ -17,11 +17,11 @@ qx.Clazz.define("qxunit.test.core.Variants", {
 
 	          members: {
 	              getName: qx.core.Variant.select("qx.client", {
-	                  none: function() { return "unknown browser" },
-	                  gecko: function() { return "Gecko" },
-	                  mshtml: function() { return "Internet Explorer" },
-	                  webkit: function() { return "Webkit" },
-	                  opera: function() { return "Opera" }
+	                  "default": function() { return "unknown browser" },
+	                  "gecko": function() { return "Gecko" },
+	                  "mshtml": function() { return "Internet Explorer" },
+	                  "webkit": function() { return "Webkit" },
+	                  "opera": function() { return "Opera" }
 	              })
 	          }
 	      });
@@ -49,7 +49,7 @@ qx.Clazz.define("qxunit.test.core.Variants", {
 
 	          members: {
 	              getName: qx.core.Variant.select("qx.client", {
-	                  none: function() { return "unknown browser" },
+	                  "default": function() { return "unknown browser" },
 	                  "gecko|mshtml|webkit|opera": function() { return "known browser" }
 	              })
 	          }
@@ -69,14 +69,14 @@ qx.Clazz.define("qxunit.test.core.Variants", {
 
 	          members: {
 	              getName: qx.core.Variant.select("qx.client", {
-	                  "none": function() { return "none browser" },
-	                  "unknown": function() { return "known browser" }
+	                  "default": function() { return "default browser" },
+	                  "unknown": function() { return "unknown browser" }
 	              })
 	          }
 	      });
 
 	      var b = new qx.test.Browser3();
-	      this.assertEquals("none browser", b.getName());
+	      this.assertEquals("default browser", b.getName());
 	  },
 
 	  testInlineSwitch: function() {
@@ -94,7 +94,7 @@ qx.Clazz.define("qxunit.test.core.Variants", {
 	      }
 	    } else if (qx.core.Variant.isSet("test.animal", "cat")) {
 	      c = "cat"
-	    } if (qx.core.Variant.isSet("test.animal", "none")) {
+	    } if (qx.core.Variant.isSet("test.animal", "default")) {
 	      c = "snake"
 	    }
 	    this.assertEquals(qx.core.Variant.get("test.animal"), c);
