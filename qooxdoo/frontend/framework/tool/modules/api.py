@@ -134,7 +134,12 @@ def handleClassDefinition(docTree, item, variant):
   params = item.getChild("params")
 
   className = params.children[0].get("value")
-  classMap = params.children[1]
+
+  if len(params.children) > 1:
+    classMap = params.children[1]
+  else:
+    classMap = {}
+
   classNode = getClassNode(docTree, className)
 
   #print className
@@ -235,6 +240,9 @@ def handleProperties(item, classNode):
 def handleMembers(item, classNode):
   if item.hasChildren():
     for keyvalue in item.children:
+      if keyvalue.type != "keyvalue":
+        continue
+
       key = keyvalue.get("key")
       value = keyvalue.getFirstChild(True, True).getFirstChild(True, True)
       commentAttributes = comment.parseNode(keyvalue)
@@ -278,7 +286,7 @@ def handleClassDefinitionOld(docTree, item):
 
   className = params.children[0].get("value")
   classNode = getClassNode(docTree, className)
-  
+
   if superClassName != "Object":
     superClassNode = getClassNode(docTree, superClassName)
     childClasses = superClassNode.get("childClasses", False)
@@ -291,7 +299,7 @@ def handleClassDefinitionOld(docTree, item):
     classNode.set("superClass", superClassName)
 
   commentAttributes = comment.parseNode(item)
-  
+
   for attrib in commentAttributes:
     if attrib["category"] == "event":
       # Add the event
@@ -444,10 +452,10 @@ def handleConstantDefinition(item, classNode):
 
   if not name.isupper():
     return
-  
-  node = tree.Node("constant")      
+
+  node = tree.Node("constant")
   node.set("name", name)
-  
+
   value = None
   if valueNode.hasChild("constant"):
       node.set("value", valueNode.getChild("constant").get("value"))
@@ -602,7 +610,7 @@ def addTypeInfo(node, commentAttrib=None, item=None):
   if commentAttrib == None:
     if node.type == "constant" and node.get("value", False):
         pass
-    
+
     elif node.type == "param":
       addError(node, "Parameter <code>%s</code> in not documented." % commentAttrib.get("name"), item)
 
