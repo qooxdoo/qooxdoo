@@ -164,7 +164,7 @@ def patch(id, node):
 
     elif child.type == "call":
       oper = child.getChild("operand")
-      var = oper.getChild("variable")
+      var = oper.getChild("variable", False)
 
       if var:
         lastIdentifier = var.getLastChild(False, True)
