@@ -223,7 +223,7 @@ qx.Clazz.define("qxunit.test.Clazz", {
 			this.assertEquals("red", defer.getColor());		
 		},
 		
-		testCaller: function() {
+		__testCaller: function() {
 			
 			qx.Clazz.define("qxunit.CallerSuper", {
 				extend: qx.core.Object,
@@ -232,6 +232,8 @@ qx.Clazz.define("qxunit.test.Clazz", {
 						this.debug("foo");
 					},
 					_bar: function() {
+						console.log("%o", arguments.callee.context);
+						debugger;
 						this.__foo();
 					},
 					juhu: function() {
@@ -252,25 +254,31 @@ qx.Clazz.define("qxunit.test.Clazz", {
 			qxunit.CallerSuper.sayFoo();
 			this.assertException(function() {
 				qxunit.CallerSuper.__staticFoo();
-			}, Error, "Private method");
+			}, Error, "Private method", "call private static");
 			
 			var caller = new qxunit.CallerSuper();
-			caller.juhu();
+			//caller.juhu();
+			
 			this.assertException(function() {
 				caller._bar();
-			}, Error, "Protected method");
+			}, Error, "Protected method", "call protected member");
 
 			this.assertException(function() {
 				caller.__foo();
-			}, Error, "Private method");
+			}, Error, "Private method", "call private member");
 		
 			// test protected
 			qx.Clazz.define("qxunit.CallerChild", {
 				extend: qxunit.CallerSuper,
 				members: {
+					__foo: function() {
+						this.debug("child foo");
+					},
+					/*
 					juhu: function() {
 						this._bar();
 					},
+					*/
 					kinners: function() {
 						this.__foo();
 					}
@@ -282,11 +290,11 @@ qx.Clazz.define("qxunit.test.Clazz", {
 			
 			this.assertException(function() {			
 				caller.kinners();
-			}, Error, "Private method");			
+			}, Error, "Private method", "call private member of super class");			
 			
 		},
 		
-		testWrappedPrivate: function() {
+		__testWrappedPrivate: function() {
 			qx.Interface.define("qxunit.IWrappedPrivate", {
 				members: {
 					__foo: function() { return true; }
@@ -343,6 +351,5 @@ qx.Clazz.define("qxunit.test.Clazz", {
 			this.assertNull(qx.Clazz.getFunctionName(function() {}));
 			
 		}
-		
 	}	
 });
