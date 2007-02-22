@@ -137,12 +137,14 @@ qx.Clazz.define("qx.core.Target",
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (!this.supportsEvent(type)) {
-          throw new Error("Objects of class '" + this.constructor.classname + "' do not support the event '" + type + "'");
+        if (typeof func !== "function")
+        {
+          this.warn("qx.core.Target: addEventListener(" + type + "): '" + func + "' is not a function!");
+          return;
         }
 
-        if (typeof func !== "function") {
-          throw new Error("qx.core.Target: addEventListener(" + type + "): '" + func + "' is not a function!");
+        if (!this.supportsEvent(type)) {
+          this.error("Objects of class '" + this.constructor.classname + "' do not support the event '" + type + "'");
         }
       }
 
