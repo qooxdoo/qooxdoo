@@ -62,7 +62,7 @@ qx.Clazz.define("qx.locale.Manager",
      * @param messageId {String} message id (may contain format strings)
      * @param varargs {Object} variable number of argumes applied to the format string
      * @return {qx.locale.LocalizedString} TODOC
-     * @see
+     * @see qx.lang.String.format
      */
     tr : function(messageId, varargs)
     {
@@ -84,7 +84,7 @@ qx.Clazz.define("qx.locale.Manager",
      * @param count {Integer} if greater than 1 the plural form otherwhise the singular form is returned.
      * @param varargs {Object} variable number of argumes applied to the format string
      * @return {qx.locale.LocalizedString} TODOC
-     * @see
+     * @see qx.lang.String.format
      */
     trn : function(singularMessageId, pluralMessageId, count, varargs)
     {
@@ -109,7 +109,7 @@ qx.Clazz.define("qx.locale.Manager",
      * @param messageId {String} message id (may contain format strings)
      * @param varargs {Object} variable number of argumes applied to the format string
      * @return {qx.locale.LocalizedString} TODOC
-     * @see
+     * @see qx.lang.String.format
      */
     trc : function(hint, messageId, varargs)
     {

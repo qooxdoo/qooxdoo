@@ -770,7 +770,10 @@ def fromFunction(func, assignType, name, alternative, old=[]):
     if cat in [ "see", "author", "deprecated", "exception", "since", "version", "abstract", "overridden" ]:
       s += " * @%s" % cat
 
-      if attribHas(attrib, "text"):
+      if cat == "see":
+        if attribHas(attrib, "name"):
+          s += splitText(attrib["name"])
+      elif attribHas(attrib, "text"):
         s += splitText(attrib["text"])
 
       if not s.endswith("\n"):
