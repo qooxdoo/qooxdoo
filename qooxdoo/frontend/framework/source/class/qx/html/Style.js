@@ -81,7 +81,7 @@ qx.Clazz.define("qx.html.Style",
           }
         },
         
-        "none" : function(el, prop) {
+        "default" : function(el, prop) {
           return !el ? null : el.style[prop];
         }
       })
@@ -118,7 +118,7 @@ qx.Clazz.define("qx.html.Style",
           }
         },
         
-        "none" : function(el, prop)
+        "default" : function(el, prop)
         {
           try {
             return el.style[prop];

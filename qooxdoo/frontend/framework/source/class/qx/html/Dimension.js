@@ -178,7 +178,7 @@ qx.Clazz.define("qx.html.Dimension",
         }
       },
       
-      "none" : function(el)
+      "default" : function(el)
         {
           // 0 in clientWidth could mean both: That it is really 0 or
           // that the element is not rendered by the browser and
@@ -214,7 +214,7 @@ qx.Clazz.define("qx.html.Dimension",
         }
       },
       
-      "none" : function(el)
+      "default" : function(el)
       {
         // 0 in clientHeight could mean both: That it is really 0 or
         // that the element is not rendered by the browser and
@@ -261,7 +261,7 @@ qx.Clazz.define("qx.html.Dimension",
         return el.clientLeft;
       },
       
-      "none" : function(el) {
+      "default" : function(el) {
         return qx.html.Style.getBorderLeft(el);
       }
     }),
@@ -280,7 +280,7 @@ qx.Clazz.define("qx.html.Dimension",
         return el.clientTop;
       },
       
-      "none" : function(el) {
+      "default" : function(el) {
         return qx.html.Style.getBorderTop(el);
       }
     }),
@@ -304,7 +304,7 @@ qx.Clazz.define("qx.html.Dimension",
         return Math.max(0, el.offsetWidth - el.clientLeft - el.clientWidth);
       },
       
-      "none" : function(el)
+      "default" : function(el)
       {
         // Alternative method if clientWidth is unavailable
         // clientWidth == 0 could mean both: unavailable or really 0
@@ -338,7 +338,7 @@ qx.Clazz.define("qx.html.Dimension",
         return Math.max(0, el.offsetHeight - el.clientTop - el.clientHeight);
       },
       
-      "none" : function(el)
+      "default" : function(el)
       {
         // Alternative method if clientHeight is unavailable
         // clientHeight == 0 could mean both: unavailable or really 0

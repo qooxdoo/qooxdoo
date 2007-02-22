@@ -50,7 +50,7 @@ qx.Clazz.define("qx.html.EventRegistration",
         vElement.attachEvent("on" + vType, vFunction);
       },
       
-      "none" : function(vElement, vType, vFunction) {
+      "default" : function(vElement, vType, vFunction) {
         vElement.addEventListener(vType, vFunction, false);
       }
     }),
@@ -71,9 +71,9 @@ qx.Clazz.define("qx.html.EventRegistration",
         vElement.detachEvent("on" + vType, vFunction);
       },
       
-      "none" :  function(vElement, vType, vFunction) {
+      "default" :  function(vElement, vType, vFunction) {
         vElement.removeEventListener(vType, vFunction, false);
       }
-    }),
+    })
   }
 });
