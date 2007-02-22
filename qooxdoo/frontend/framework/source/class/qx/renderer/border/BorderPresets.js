@@ -24,63 +24,75 @@
 
 ************************************************************************ */
 
-/*!
-  Some common used border styles.
-*/
-qx.OO.defineClass("qx.renderer.border.BorderPresets", qx.core.Object, function()
+/** Some common used border styles. */
+qx.Clazz.define("qx.renderer.border.BorderPresets",
 {
-  qx.core.Object.call(this);
+  type : "singleton",
+  extend : qx.core.Object,
 
-  this.black = new qx.renderer.border.Border(1, "solid", "black");
-  this.white = new qx.renderer.border.Border(1, "solid", "white");
-  this.none = new qx.renderer.border.Border(0, "none");
 
-  this.inset = new qx.renderer.border.BorderObject(2, "inset");
-  this.outset = new qx.renderer.border.BorderObject(2, "outset");
-  this.groove = new qx.renderer.border.BorderObject(2, "groove");
-  this.ridge = new qx.renderer.border.BorderObject(2, "ridge");
-  this.thinInset = new qx.renderer.border.BorderObject(1, "inset");
-  this.thinOutset = new qx.renderer.border.BorderObject(1, "outset");
 
-  this.verticalDivider = new qx.renderer.border.BorderObject(1, "inset");
-  this.verticalDivider.setLeftWidth(0);
-  this.verticalDivider.setRightWidth(0);
 
-  this.horizontalDivider = new qx.renderer.border.BorderObject(1, "inset");
-  this.horizontalDivider.setTopWidth(0);
-  this.horizontalDivider.setBottomWidth(0);
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
-  this.shadow = new qx.renderer.border.BorderObject(1, "solid", "threedshadow");
-  this.lightShadow = new qx.renderer.border.BorderObject(1, "solid", "threedlightshadow");
-  this.info = new qx.renderer.border.BorderObject(1, "solid", "infotext");
-});
+  construct : function()
+  {
+    qx.core.Object.call(this);
 
-qx.Proto.dispose = function()
-{
-  if (this.getDisposed()) {
-    return;
+    this.black = new qx.renderer.border.Border(1, "solid", "black");
+    this.white = new qx.renderer.border.Border(1, "solid", "white");
+    this.none = new qx.renderer.border.Border(0, "none");
+
+    this.inset = new qx.renderer.border.BorderObject(2, "inset");
+    this.outset = new qx.renderer.border.BorderObject(2, "outset");
+    this.groove = new qx.renderer.border.BorderObject(2, "groove");
+    this.ridge = new qx.renderer.border.BorderObject(2, "ridge");
+    this.thinInset = new qx.renderer.border.BorderObject(1, "inset");
+    this.thinOutset = new qx.renderer.border.BorderObject(1, "outset");
+
+    this.verticalDivider = new qx.renderer.border.BorderObject(1, "inset");
+    this.verticalDivider.setLeftWidth(0);
+    this.verticalDivider.setRightWidth(0);
+
+    this.horizontalDivider = new qx.renderer.border.BorderObject(1, "inset");
+    this.horizontalDivider.setTopWidth(0);
+    this.horizontalDivider.setBottomWidth(0);
+
+    this.shadow = new qx.renderer.border.BorderObject(1, "solid", "threedshadow");
+    this.lightShadow = new qx.renderer.border.BorderObject(1, "solid", "threedlightshadow");
+    this.info = new qx.renderer.border.BorderObject(1, "solid", "infotext");
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void | var} TODOC
+     */
+    dispose : function()
+    {
+      if (this.getDisposed()) {
+        return;
+      }
+
+      this.black = this.white = this.none = this.inset = this.outset = this.groove = this.ridge = this.thinInset = this.thinOutset = this.verticalDivider = this.horizontalDivider = this.shadow = this.lightShadow = this.info = null;
+
+      return qx.core.Object.prototype.dispose.call(this);
+    }
   }
-
-  this.black = this.white = this.none =
-  this.inset = this.outset = this.groove = this.ridge =
-  this.thinInset = this.thinOutset =
-  this.verticalDivider = this.horizontalDivider =
-  this.shadow = this.lightShadow = this.info = null;
-
-  return qx.core.Object.prototype.dispose.call(this);
-};
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DEFER SINGLETON INSTANCE
----------------------------------------------------------------------------
-*/
-
-/**
- * Singleton Instance Getter
- */
-qx.Class.getInstance = qx.lang.Function.returnInstance;
+});
