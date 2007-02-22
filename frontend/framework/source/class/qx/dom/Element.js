@@ -29,67 +29,64 @@ qx.Clazz.define("qx.dom.Element",
      * Removes whitespace-only text node children
      *
      * @type static
-     * @param vElement {Element} DOM element
+     * @param el {Element} DOM el
      * @return {void}
      */
-    cleanWhitespace : function(vElement)
+    cleanWhitespace : function(el)
     {
-      for (var i=0; i<vElement.childNodes.length; i++)
+      for (var i=0; i<el.childNodes.length; i++)
       {
-        var node = vElement.childNodes[i];
+        var node = el.childNodes[i];
 
         if (node.nodeType == qx.dom.Node.TEXT && !/\S/.test(node.nodeValue)) {
-          vElement.removeChild(node);
+          el.removeChild(node);
         }
       }
     },
 
 
     /**
-     * Checks if a element has no content
+     * Checks if a el has no content
      *
      * @type static
-     * @param vElement {Element} DOM element
+     * @param el {Element} DOM el
      * @return {var} TODOC
      */
-    isEmpty : function(vElement) {
-      return vElement.innerHTML.match(/^\s*$/);
+    isEmpty : function(el) {
+      return el.innerHTML.match(/^\s*$/);
     },
 
 
     /**
      * Returns the text content of a DOM element
-     * http://developer.mozilla.org/en/docs/DOM:element.textContent
-     *
-     * @type static
-     * @param element {Element} DOM element
-     * @return {String} TODOC
-     */
-    getTextContent : function(element)
-    {
-      var text = "";
-      var childNodes = element.childNodes;
-
-      for (var i=0; i<childNodes.length; i++)
-      {
-        var node = childNodes[i];
-
-        if (node.nodeType == qx.dom.Node.TEXT || node.nodeType == qx.dom.Node.CDATA_SECTION) {
-          text += node.nodeValue;
-        }
-      }
-
-      return text;
-    },
-
-
-    /**
-     * Sets the textValue of the given DOM element (http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#Node3-textContent).
-     * Wrapper for element.innerText and element.textContent.
      *
      * @type static
      * @param el {Element} DOM element
-     * @param val {String} the value
+     * @return {String} The text content of the element
+     */
+    getTextContent : qx.lang.Object.select(qx.core.Client.getInstance().supportsTextContent() ? "textContent" : qx.core.Client.getInstance().supportsInnerText() ? "innerText" : "none",
+    {
+      "innerText" : function(el, val) {
+        return el.innerText;
+      },
+
+      "textContent" : function(el, val) {
+        return el.textContent;
+      },
+
+      "none" : function() {
+        throw new Error("This browser does not support any form of text content handling!");
+      }
+    })
+
+
+    /**
+     * Sets the textValue of the given DOM el (http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#Node3-textContent).
+     * Wrapper for el.innerText and el.textContent.
+     *
+     * @type static
+     * @param el {Element} DOM element
+     * @param val {String} the new text content of the element
      * @return {void}
      */
     setTextContent : qx.lang.Object.select(qx.core.Client.getInstance().supportsTextContent() ? "textContent" : qx.core.Client.getInstance().supportsInnerText() ? "innerText" : "none",
