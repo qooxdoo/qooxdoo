@@ -89,7 +89,7 @@ def processVariantSelect(callNode, variantMap):
           callNode.parent.replaceChild(callNode, value)
           found = True
           break
-        if key == "none":
+        if key == "default":
           default = value
     if not found:
       if default != None:

@@ -506,7 +506,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      */
     _initCache : qx.core.Variant.select("qx.client",
     {
-      gecko : function()
+      "gecko" : function()
       {
         this._defsX =
         {
@@ -525,7 +525,7 @@ qx.Clazz.define("qx.renderer.border.Border",
         };
       },
   
-      none : function()
+      "default" : function()
       {
         this._defsX =
         {
@@ -1026,9 +1026,9 @@ qx.Clazz.define("qx.renderer.border.Border",
     applyWidgetX : qx.core.Variant.select("qx.client",
     {
       //alias will be set in defer
-      gecko : null,
+      "gecko" : null,
       
-      none : function(vObject)
+      "default" : function(vObject)
       {
         this.applyWidgetXCommon(vObject);
     
@@ -1056,9 +1056,9 @@ qx.Clazz.define("qx.renderer.border.Border",
     applyWidgetY : qx.core.Variant.select("qx.client",
     {
       //alias will be set in defer
-      gecko : null,
+      "gecko" : null,
       
-      none : function(vObject)
+      "default" : function(vObject)
       {
         this.applyWidgetYCommon(vObject);
     
@@ -1087,7 +1087,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      */
     _generateMozColorDefString : qx.core.Variant.select("qx.client",
     {
-      gecko : function(vWidth, vStyle, vEdge)
+      "gecko" : function(vWidth, vStyle, vEdge)
       {
         try
         {
@@ -1112,7 +1112,7 @@ qx.Clazz.define("qx.renderer.border.Border",
         return "";
       },
       
-      none : function() {}
+      "default" : function() {}
     }),
 
 
@@ -1124,7 +1124,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      */
     _compileTop : qx.core.Variant.select("qx.client",
     {
-      gecko :  function()
+      "gecko" :  function()
       {
         var w = this.getTopWidth(), s = this.getTopStyle(), d = this._defsY;
     
@@ -1134,7 +1134,7 @@ qx.Clazz.define("qx.renderer.border.Border",
         this._needsCompilationTop = false;
       },
       
-      none : function()
+      "default" : function()
       {
         var vTopWidth = this.getTopWidth();
         var vTopStyle = this.getTopStyle();
@@ -1199,7 +1199,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      */
     _compileRight : qx.core.Variant.select("qx.client",
     {
-      gecko : function()
+      "gecko" : function()
       {
         var w = this.getRightWidth(), s = this.getRightStyle(), d = this._defsX;
     
@@ -1209,7 +1209,7 @@ qx.Clazz.define("qx.renderer.border.Border",
         this._needsCompilationRight = false;
       },
       
-      none : function()
+      "default" : function()
       {
         var vRightWidth = this.getRightWidth();
         var vRightStyle = this.getRightStyle();
@@ -1274,7 +1274,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      */
     _compileBottom : qx.core.Variant.select("qx.client",
     {
-      gecko : function()
+      "gecko" : function()
       {
         var w = this.getBottomWidth(), s = this.getBottomStyle(), d = this._defsY;
     
@@ -1284,7 +1284,7 @@ qx.Clazz.define("qx.renderer.border.Border",
         this._needsCompilationBottom = false;
       },
       
-      none : function()
+      "default" : function()
       {
         var vBottomWidth = this.getBottomWidth();
         var vBottomStyle = this.getBottomStyle();
@@ -1349,7 +1349,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      */
     _compileLeft : qx.core.Variant.select("qx.client",
     {
-      gecko : function()
+      "gecko" : function()
       {
         var w = this.getLeftWidth(), s = this.getLeftStyle(), d = this._defsX;
     
@@ -1359,7 +1359,7 @@ qx.Clazz.define("qx.renderer.border.Border",
         this._needsCompilationLeft = false;
       },
       
-      none : function()
+      "default" : function()
       {
         var vLeftWidth = this.getLeftWidth();
         var vLeftStyle = this.getLeftStyle();
@@ -1425,13 +1425,13 @@ qx.Clazz.define("qx.renderer.border.Border",
      */
     resetBorderX : qx.core.Variant.select("qx.client",
     {
-      gecko : function(o)
+      "gecko" : function(o)
       {
         var s = o._style;
         s.borderLeft = s.borderRight = s.MozBorderLeftColors = s.MozBorderRightColors = "";
       },
       
-      none : function(o)
+      "default" : function(o)
       {
         var s = o._style;
         s.borderLeft = s.borderRight = "0px none";
@@ -1454,13 +1454,13 @@ qx.Clazz.define("qx.renderer.border.Border",
      */
     resetBorderY : qx.core.Variant.select("qx.client",
     {
-      gecko : function(o)
+      "gecko" : function(o)
       {
         var s = o._style;
         s.borderTop = s.borderBottom = s.MozBorderTopColors = s.MozBorderBottomColors = "";
       },
       
-      none : function(o)
+      "default" : function(o)
       {
         var s = o._style;
         s.borderTop = s.borderBottom = "0px none";
@@ -1537,14 +1537,14 @@ qx.Clazz.define("qx.renderer.border.Border",
   
   defer : qx.core.Variant.select("qx.client",
   {
-    gecko: function(clazz, proto)
+    "gecko": function(clazz, proto)
     {
       // set up alias
       proto.applyWidgetX = proto.applyWidgetXCommon;
       proto.applyWidgetY = proto.applyWidgetYCommon;
     },
     
-    none: function() {
+    "default": function() {
     }
   })
   

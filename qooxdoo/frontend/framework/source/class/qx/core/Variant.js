@@ -133,13 +133,13 @@ qx.Clazz.define("qx.core.Variant",
      * var f = qx.Variant.select("qx.client", {
      *   "gecko": fucntion() { ... },
      *   "mshtml|opera": function() { ... },
-     *   "none": function() { ... }
+     *   "default": function() { ... }
      * });
      * </code>
      * Depending on the value of the <code>"qx.client"</code> variant whit will select the
      * corresponding function. The first case is selected if the variant is "gecko", the second
      * is selected if the variant is "mshtml" or "opera" and the third function is selected if
-     * none of the other keys match the variant. "none" is the default case.
+     * none of the other keys match the variant. "default" is the default case.
      *
      * @param key {String} name of the variant. To enable the generator to optimize
      *   this selection, the key must be a string literal.
@@ -165,11 +165,13 @@ qx.Clazz.define("qx.core.Variant",
         }
       }
 
-      if (variantFunctionMap.none) {
-        return variantFunctionMap.none;
+      if (variantFunctionMap["default"]) {
+        return variantFunctionMap["default"];
       }
 
-      throw new Error("No match for variant \"" + key + "\" found, and no default (\"none\") given");
+      throw new Error('No match for variant "' + key + 
+        '" in variants ["' + qx.lang.Object.getKeys(variantFunctionMap).join('\", "') + 
+        '"] found, and no default ("default") given');
     },
 
 

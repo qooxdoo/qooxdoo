@@ -470,9 +470,9 @@ qx.Clazz.define("qx.renderer.layout.LayoutImpl",
      */
     layoutChild_sizeLimitX : qx.core.Variant.select("qx.client", 
     {
-      mshtml : qx.lang.Function.returnTrue,
+      "mshtml" : qx.lang.Function.returnTrue,
       
-      none : function(vChild, vJobs)
+      "default" : function(vChild, vJobs)
       {
         if (vJobs.minWidth) {
           vChild._computedMinWidthTypeNull ? vChild._resetRuntimeMinWidth() : vChild._applyRuntimeMinWidth(vChild.getMinWidthValue());
@@ -501,9 +501,9 @@ qx.Clazz.define("qx.renderer.layout.LayoutImpl",
      */
     layoutChild_sizeLimitY :  qx.core.Variant.select("qx.client", 
     {
-      mshtml : qx.lang.Function.returnTrue,
+      "mshtml" : qx.lang.Function.returnTrue,
       
-      none : function(vChild, vJobs)
+      "default" : function(vChild, vJobs)
       {
         if (vJobs.minHeight) {
           vChild._computedMinHeightTypeNull ? vChild._resetRuntimeMinHeight() : vChild._applyRuntimeMinHeight(vChild.getMinHeightValue());

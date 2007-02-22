@@ -262,7 +262,7 @@ qx.Clazz.define("qx.event.handler.DragAndDropHandler",
 
     getDropTarget : qx.core.Variant.select("qx.client",
     {
-      gecko : function(e)
+      "gecko" : function(e)
       {
         var vCurrent = e.getTarget();
 
@@ -292,7 +292,7 @@ qx.Clazz.define("qx.event.handler.DragAndDropHandler",
         return null;
       },
 
-      none : function(e)
+      "default" : function(e)
       {
         var vCurrent = e.getTarget();
 

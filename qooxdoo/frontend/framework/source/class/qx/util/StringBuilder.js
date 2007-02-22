@@ -77,11 +77,11 @@ qx.Clazz.define("qx.util.StringBuilder",
      * @return {void} 
      */
     clear : qx.core.Variant.select("qx.client", {
-    	none : function() {
+    	"default" : function() {
         return this._string;
       },
       
-    	mshtml : function()	{
+    	"mshtml" : function()	{
         this._array = [];
       }
     }),
@@ -94,11 +94,11 @@ qx.Clazz.define("qx.util.StringBuilder",
      * @return {String} string content
      */
     get : qx.core.Variant.select("qx.client", {
-    	none : function() {
+    	"default" : function() {
         return this._string;
       },
   
-    	mshtml : function() {
+    	"mshtml" : function() {
         return this._array.join("");
       }
     }),
@@ -112,11 +112,11 @@ qx.Clazz.define("qx.util.StringBuilder",
      * @return {void} 
      */
     add : qx.core.Variant.select("qx.client", {
-    	none : function() {
+    	"default" : function() {
         this._string += Array.prototype.join.call(arguments, "");
       },
       
-    	mshtml : function() {
+    	"mshtml" : function() {
         this._array.push.apply(this._array, arguments);
       }
     }),
@@ -130,11 +130,11 @@ qx.Clazz.define("qx.util.StringBuilder",
      * @return {void} 
      */
     init : qx.core.Variant.select("qx.client", {
-    	none : function() {
+    	"default" : function() {
         this._string = "";
       },
       
-    	mshtml :function() {
+    	"mshtml" :function() {
         this._array = [];
       }
     }),
@@ -147,7 +147,7 @@ qx.Clazz.define("qx.util.StringBuilder",
      * @return {void} 
      */
     dispose : qx.core.Variant.select("qx.client", {
-    	none : function()
+    	"default" : function()
       {
         if (this.getDisposed()) {
           return;
@@ -158,7 +158,7 @@ qx.Clazz.define("qx.util.StringBuilder",
         qx.core.Object.prototype.dispose.call(this);
       },
       
-    	mshtml : function()
+    	"mshtml" : function()
       {
         if (this.getDisposed()) {
           return;

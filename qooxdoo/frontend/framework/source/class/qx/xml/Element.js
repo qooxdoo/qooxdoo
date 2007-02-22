@@ -51,13 +51,13 @@ qx.Clazz.define("qx.xml.Element",
      */
     serialize : qx.lang.Object.select(window.XMLSerializer ? "hasXMLSerializer" : "noXMLSerializer", {
 
-      hasXMLSerializer: function(element)
+      "hasXMLSerializer": function(element)
       {
         var element = qx.xml.Document.isDocument(element) ? element.documentElement : element;
         return (new XMLSerializer()).serializeToString(element);
       },
 
-      noXMLSerializer: function(element)
+      "noXMLSerializer": function(element)
       {
         var element = qx.xml.Document.isDocument(element) ? element.documentElement : element;
         return element.xml || element.outerHTML;
@@ -75,14 +75,14 @@ qx.Clazz.define("qx.xml.Element",
      */
     selectSingleNode : qx.core.Variant.select("qx.client", {
 
-      "none": qx.lang.Object.select(window.XPathEvaluator ? "hasXPath" : "noXPath", {
-        hasXPath: function(element, query)
+      "default": qx.lang.Object.select(window.XPathEvaluator ? "hasXPath" : "noXPath", {
+        "hasXPath": function(element, query)
         {
           var xpe = new XPathEvaluator();
           return xpe.evaluate(query, element, xpe.createNSResolver(element), XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
         },
         
-        noXPath: function() {
+        "noXPath": function() {
           throw new Error("The browser does not support 'window.XPathEvaluator'");
         }
            
@@ -105,8 +105,8 @@ qx.Clazz.define("qx.xml.Element",
      */
     selectNodes : qx.core.Variant.select("qx.client", {
 
-      "none": qx.lang.Object.select(window.XPathEvaluator ? "hasXPath" : "noXPath", {
-        hasXPath: function(element, query)
+      "default": qx.lang.Object.select(window.XPathEvaluator ? "hasXPath" : "noXPath", {
+        "hasXPath": function(element, query)
         {
           var xpe = new XPathEvaluator();
           var result = xpe.evaluate(query, element, xpe.createNSResolver(element), XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
@@ -119,7 +119,7 @@ qx.Clazz.define("qx.xml.Element",
           return nodes;
         },
         
-        noXPath: function() {
+        "noXPath": function() {
           throw new Error("The browser does not support 'window.XPathEvaluator'");
         }
            
@@ -145,19 +145,19 @@ qx.Clazz.define("qx.xml.Element",
      */
     getElementsByTagNameNS : qx.core.Variant.select("qx.client",
     {
-      none: qx.lang.Object.select(document.getElementsByTagNameNS ? "hasGetByNs" : "noGetByNs",
+      "default": qx.lang.Object.select(document.getElementsByTagNameNS ? "hasGetByNs" : "noGetByNs",
       {
-        hasGetByNs: function(element, namespaceURI, tagname)
+        "hasGetByNs": function(element, namespaceURI, tagname)
         {
           return element.getElementsByTagNameNS(namespaceURI, tagname);
         },
         
-        noGetByNs: function() {
+        "noGetByNs": function() {
           throw new Error("The browser does not support 'document.getElementsByTagNameNS'");
         }
       }),
       
-      mshtml: function(element, namespaceURI, tagname)
+      "mshtml": function(element, namespaceURI, tagname)
       {
         var doc = element.ownerDocument || element;
         doc.setProperty("SelectionLanguage", "XPath");

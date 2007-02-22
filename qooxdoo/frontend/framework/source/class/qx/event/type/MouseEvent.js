@@ -79,7 +79,7 @@ qx.Clazz.define("qx.event.type.MouseEvent",
         middle : 4
       },
 
-      "none" : {
+      "default" : {
         left   : 0,
         right  : 2,
         middle : 1
@@ -232,22 +232,22 @@ qx.Clazz.define("qx.event.type.MouseEvent",
      */
     getPageX : qx.core.Variant.select("qx.client",
     {
-      mshtml : qx.lang.Object.select(qx.core.Client.getInstance().isInQuirksMode() ? "quirks" : "standard",
+      "mshtml" : qx.lang.Object.select(qx.core.Client.getInstance().isInQuirksMode() ? "quirks" : "standard",
       {
-        quirks : function() {
+        "quirks" : function() {
           return this.getDomEvent().clientX + document.documentElement.scrollLeft;
         },
 
-        standard : function() {
+        "standard" : function() {
           return this.getDomEvent().clientX + document.body.scrollLeft;
         }
       }),
 
-      gecko : function() {
+      "gecko" : function() {
         return this.getDomEvent().pageX;
       },
 
-      none : function() {
+     "default": function() {
         return this.getDomEvent().clientX;
       }
     }),
@@ -260,22 +260,22 @@ qx.Clazz.define("qx.event.type.MouseEvent",
      */
     getPageY : qx.core.Variant.select("qx.client",
     {
-      mshtml : qx.lang.Object.select(qx.core.Client.getInstance().isInQuirksMode() ? "quirks" : "standard",
+      "mshtml" : qx.lang.Object.select(qx.core.Client.getInstance().isInQuirksMode() ? "quirks" : "standard",
       {
-        quirks : function() {
+        "quirks" : function() {
           return this.getDomEvent().clientY + document.documentElement.scrollTop;
         },
 
-        standard : function() {
+        "standard" : function() {
           return this.getDomEvent().clientY + document.body.scrollTop;
         }
       }),
 
-      gecko : function() {
+      "gecko" : function() {
         return this.getDomEvent().pageY;
       },
 
-      none : function() {
+     "default": function() {
         return this.getDomEvent().clientY;
       }
     }),
@@ -294,7 +294,7 @@ qx.Clazz.define("qx.event.type.MouseEvent",
         return this.getDomEvent().clientX;
       },
 
-      "none" : function() {
+      "default" : function() {
         return this.getDomEvent().clientX + (document.body && document.body.scrollLeft != null ? document.body.scrollLeft : 0);
       }
     }),
@@ -305,7 +305,7 @@ qx.Clazz.define("qx.event.type.MouseEvent",
         return this.getDomEvent().clientY;
       },
 
-      "none" : function() {
+      "default" : function() {
         return this.getDomEvent().clientY + (document.body && document.body.scrollTop != null ? document.body.scrollTop : 0);
       }
     }),
@@ -358,7 +358,7 @@ qx.Clazz.define("qx.event.type.MouseEvent",
      */
     isLeftButtonPressed : qx.core.Variant.select("qx.client",
     {
-      mshtml : function()
+      "mshtml" : function()
       {
         // IE does not set e.button in click events
         if (this.getType() == "click") {
@@ -368,7 +368,7 @@ qx.Clazz.define("qx.event.type.MouseEvent",
         }
       },
 
-      none : function() {
+     "default": function() {
         return this.getButton() === qx.event.type.MouseEvent.C_BUTTON_LEFT;
       }
     }),
@@ -461,7 +461,7 @@ qx.Clazz.define("qx.event.type.MouseEvent",
         return this.getDomEvent().wheelDelta / 120;
       },
 
-      "none" : function() {
+      "default" : function() {
         return -(this.getDomEvent().detail / 3);
       }
     })
