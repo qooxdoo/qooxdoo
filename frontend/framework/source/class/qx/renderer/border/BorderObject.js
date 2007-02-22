@@ -24,128 +24,191 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.renderer.border.BorderObject", qx.renderer.border.Border,
-function(vWidth, vStyle, vColor)
+qx.Clazz.define("qx.renderer.border.BorderObject",
 {
-  this._dependentObjects = {};
-
-  qx.renderer.border.Border.call(this, vWidth, vStyle, vColor);
-});
+  extend : qx.renderer.border.Border,
 
 
 
-/*
----------------------------------------------------------------------------
-  UTILITY
----------------------------------------------------------------------------
-*/
 
-qx.renderer.border.BorderObject.fromString = function(vDefString)
-{
-  var vBorder = new qx.renderer.border.BorderObject;
-  var vAllParts = vDefString.split(/\s+/);
-  var vPart, vTemp;
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
-  for (var i=0; i<vAllParts.length; i++)
+  construct : function(vWidth, vStyle, vColor)
   {
-    vPart = vAllParts[i];
+    this._dependentObjects = {};
 
-    switch(vPart)
+    qx.renderer.border.Border.call(this, vWidth, vStyle, vColor);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      UTILITY
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param vDefString {var} TODOC
+     * @return {var} TODOC
+     */
+    fromString : function(vDefString)
     {
-      case "groove":
-      case "ridge":
-      case "inset":
-      case "outset":
-      case "solid":
-      case "dotted":
-      case "dashed":
-      case "double":
-      case "none":
-        vBorder.setStyle(vPart);
-        break;
+      var vBorder = new qx.renderer.border.BorderObject;
+      var vAllParts = vDefString.split(/\s+/);
+      var vPart, vTemp;
 
-      default:
-        vTemp = parseFloat(vPart);
+      for (var i=0; i<vAllParts.length; i++)
+      {
+        vPart = vAllParts[i];
 
-        if(vTemp == vPart || qx.lang.String.contains(vPart, "px"))
+        switch(vPart)
         {
-          vBorder.setWidth(vTemp);
+          case "groove":
+          case "ridge":
+          case "inset":
+          case "outset":
+          case "solid":
+          case "dotted":
+          case "dashed":
+          case "double":
+          case "none":
+            vBorder.setStyle(vPart);
+            break;
+
+          default:
+            vTemp = parseFloat(vPart);
+
+            if (vTemp == vPart || qx.lang.String.contains(vPart, "px")) {
+              vBorder.setWidth(vTemp);
+            }
+            else
+            {
+              vPart = vPart.toLowerCase();
+              vBorder.setColor(qx.renderer.color.Color.themedNames[vPart] ? new qx.renderer.color.ColorObject(vPart) : new qx.renderer.color.Color(vPart));
+            }
+
+            break;
         }
-        else
-        {
-          vPart = vPart.toLowerCase();
-          vBorder.setColor(qx.renderer.color.Color.themedNames[vPart] ? new qx.renderer.color.ColorObject(vPart) : new qx.renderer.color.Color(vPart));
+      }
+
+      return vBorder;
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      WIDGET CONNECTION
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param o {Object} TODOC
+     * @return {void} 
+     */
+    addListenerWidget : function(o) {
+      this._dependentObjects[o.toHashCode()] = o;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param o {Object} TODOC
+     * @return {void} 
+     */
+    removeListenerWidget : function(o) {
+      delete this._dependentObjects[o.toHashCode()];
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vEdge {var} TODOC
+     * @return {void} 
+     */
+    _sync : function(vEdge)
+    {
+      var vAll = this._dependentObjects;
+      var vCurrent;
+
+      for (vKey in vAll)
+      {
+        vCurrent = vAll[vKey];
+
+        if (vCurrent.isCreated()) {
+          vCurrent._updateBorder(vEdge);
+        }
+      }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DISPOSER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void | var} TODOC
+     */
+    dispose : function()
+    {
+      if (this.getDisposed()) {
+        return;
+      }
+
+      if (typeof this._dependentObjects === "object")
+      {
+        var vAll = this._dependentObjects;
+
+        for (vKey in vAll) {
+          delete vAll[vKey];
         }
 
-        break;
+        vAll = null;
+        delete this._dependentObjects;
+      }
+
+      return qx.renderer.border.Border.prototype.dispose.call(this);
     }
   }
-
-  return vBorder;
-}
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  WIDGET CONNECTION
----------------------------------------------------------------------------
-*/
-
-qx.Proto.addListenerWidget = function(o) {
-  this._dependentObjects[o.toHashCode()] = o;
-}
-
-qx.Proto.removeListenerWidget = function(o) {
-  delete this._dependentObjects[o.toHashCode()];
-}
-
-qx.Proto._sync = function(vEdge)
-{
-  var vAll = this._dependentObjects;
-  var vCurrent;
-
-  for (vKey in vAll)
-  {
-    vCurrent = vAll[vKey];
-
-    if (vCurrent.isCreated()) {
-      vCurrent._updateBorder(vEdge);
-    }
-  }
-}
-
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DISPOSER
----------------------------------------------------------------------------
-*/
-
-qx.Proto.dispose = function()
-{
-  if (this.getDisposed()) {
-    return;
-  }
-
-  if (typeof this._dependentObjects === "object")
-  {
-    var vAll = this._dependentObjects;
-    for (vKey in vAll) {
-      delete vAll[vKey];
-    }
-
-    vAll = null;
-    delete this._dependentObjects;
-  }
-
-  return qx.renderer.border.Border.prototype.dispose.call(this);
-}
+});

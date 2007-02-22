@@ -24,41 +24,50 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.renderer.border.BorderCache");
-
-qx.renderer.border.BorderCache = function(propValue, propData)
+qx.Clazz.define("qx.renderer.border.BorderCache",
 {
-  if (qx.util.Validation.isValidArray(propValue) && propValue.length > 1)
-  {
-    propString = "";
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
 
-    for (var i=0, l=propValue.length, p; i<l; i++)
+  statics : {
+    __data : {},
+  
+    convert: function(propValue, propData)
     {
-      p = propValue[i];
-
-      propString += p;
-
-      if (typeof p === "number") {
-        propString += "px";
+      if (qx.util.Validation.isValidArray(propValue) && propValue.length > 1)
+      {
+        propString = "";
+    
+        for (var i=0, l=propValue.length, p; i<l; i++)
+        {
+          p = propValue[i];
+    
+          propString += p;
+    
+          if (typeof p === "number") {
+            propString += "px";
+          }
+    
+          if (i < (l - 1)) {
+            propString += " ";
+          }
+        }
+    
+        propValue = propString;
       }
-
-      if (i<(l-1)) {
-        propString += " ";
+      else if (qx.util.Validation.isInvalidString(propValue))
+      {
+        return propValue;
       }
+    
+      if (qx.renderer.border.BorderCache._data[propValue]) {
+        return qx.renderer.border.BorderCache._data[propValue];
+      }
+    
+      return qx.renderer.border.BorderCache._data[propValue] = qx.renderer.border.BorderObject.fromString(propValue);
     }
-
-    propValue = propString;
   }
-  else if (qx.util.Validation.isInvalidString(propValue))
-  {
-    return propValue;
-  }
-
-  if (qx.renderer.border.BorderCache._data[propValue]) {
-    return qx.renderer.border.BorderCache._data[propValue];
-  }
-
-  return qx.renderer.border.BorderCache._data[propValue] = qx.renderer.border.BorderObject.fromString(propValue);
-}
-
-qx.renderer.border.BorderCache._data = {};
+});
