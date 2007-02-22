@@ -469,7 +469,7 @@ qx.Clazz.define("qx.util.fsm.State",
     onentry :
     {
       defaultValue : function(fsm, event) {},
-      _legacy      : true,
+      _legacy      : true
     },
 
 

@@ -27,33 +27,32 @@
 /**
  * System color theme
  */
-qx.OO.defineClass("qx.theme.color.System", qx.renderer.theme.ColorTheme,
-function() {
-  qx.renderer.theme.ColorTheme.call(this, "Operating System Default");
+qx.Clazz.define("qx.theme.color.System",
+{
+  type : "singleton",
+  extend : qx.renderer.theme.ColorTheme,
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function() {
+    qx.renderer.theme.ColorTheme.call(this, "Operating System Default");
+  },
+  
+  defer : function(clazz)
+  {
+    qx.manager.object.ColorManager.getInstance().registerColorTheme(clazz);    
+  }
+  
 });
 
 
 
 
-/*
----------------------------------------------------------------------------
-  DEFER SINGLETON INSTANCE
----------------------------------------------------------------------------
-*/
 
-/**
- * Singleton Instance Getter
- */
-qx.Class.getInstance = qx.lang.Function.returnInstance;
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  REGISTER TO MANAGER
----------------------------------------------------------------------------
-*/
-
-qx.manager.object.ColorManager.getInstance().registerColorTheme(qx.Class);

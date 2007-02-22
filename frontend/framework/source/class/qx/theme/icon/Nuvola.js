@@ -25,43 +25,36 @@
 
 ************************************************************************ */
 
-
 /**
  * Nuvola
  * Author: David Vignoni (david@icon-king.com)
  * License: LGPL
  * Home: http://www.kde-look.org/content/show.php?content=5358
  */
-qx.OO.defineClass("qx.theme.icon.Nuvola", qx.renderer.theme.IconTheme,
-function()
+qx.Clazz.define("qx.theme.icon.Nuvola",
 {
-  qx.renderer.theme.IconTheme.call(this, "Nuvola");
+  type : "singleton",
+  extend : qx.renderer.theme.IconTheme,
 
-  this.uri = qx.core.Setting.get("qx.resourceUri") + "/icon/Nuvola";
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function()
+  {
+    qx.renderer.theme.IconTheme.call(this, "Nuvola");
+
+    this.uri = qx.core.Setting.get("qx.resourceUri") + "/icon/Nuvola";
+  },
+  
+  defer : function(clazz)
+  {
+    qx.manager.object.ImageManager.getInstance().registerIconTheme(clazz);    
+  }
+    
 });
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DEFER SINGLETON INSTANCE
----------------------------------------------------------------------------
-*/
-
-/**
- * Singleton Instance Getter
- */
-qx.Class.getInstance = qx.lang.Function.returnInstance;
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  REGISTER TO MANAGER
----------------------------------------------------------------------------
-*/
-
-qx.manager.object.ImageManager.getInstance().registerIconTheme(qx.Class);

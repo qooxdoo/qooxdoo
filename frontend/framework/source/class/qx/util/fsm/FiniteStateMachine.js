@@ -160,7 +160,7 @@ qx.Clazz.define("qx.util.fsm.FiniteStateMachine",
 
       /** When object friendly names are referenced but not found, show message */
       OBJECT_NOT_FOUND : 8
-    },
+    }
 
 
 
@@ -245,7 +245,7 @@ qx.Clazz.define("qx.util.fsm.FiniteStateMachine",
     {
       type         : "number",
       defaultValue : 2,
-      _legacy       : true
+      _legacy      : true
     },
 
 
@@ -265,7 +265,7 @@ qx.Clazz.define("qx.util.fsm.FiniteStateMachine",
     {
       type         : "number",
       defaultValue : 7, // (qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS | qx.util.fsm.FiniteStateMachine.DebugFlags.TRANSITIONS | qx.util.fsm.FiniteStateMachine.DebugFlags.OBJECT_NOT_FOUND),
-      _legacy       : true
+      _legacy      : true
     }
   },
 
