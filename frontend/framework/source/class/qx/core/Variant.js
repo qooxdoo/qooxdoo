@@ -165,13 +165,13 @@ qx.Clazz.define("qx.core.Variant",
         }
       }
 
-      if (variantFunctionMap["default"]) {
+      if (variantFunctionMap["default"] !== undefined) {
         return variantFunctionMap["default"];
       }
 
-      throw new Error('No match for variant "' + key + 
-        '" in variants ["' + qx.lang.Object.getKeys(variantFunctionMap).join('\", "') + 
-        '"] found, and no default ("default") given');
+      throw new Error('No match for variant "' + key +
+        '" in variants [' + qx.lang.Object.getKeysAsString(variantFunctionMap) +
+        '] found, and no default ("default") given');
     },
 
 

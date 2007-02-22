@@ -118,8 +118,14 @@ qx.Clazz.define("qx.lang.Object",
      * @return {String} String of the keys of the map
      *         The keys are separated by ", "
      */
-    getKeysAsString : function(map) {
-      return qx.lang.Object.getKeys(map).join(", ");
+    getKeysAsString : function(map, divider)
+    {
+      var keys = qx.lang.Object.getKeys(map);
+      if (keys.length == 0) {
+        return "";
+      }
+
+      return '"' + keys.join('\", "') + '"';
     },
 
 
