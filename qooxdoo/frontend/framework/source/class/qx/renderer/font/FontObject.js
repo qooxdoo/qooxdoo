@@ -24,72 +24,120 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.renderer.font.FontObject", qx.renderer.font.Font,
-function(vSize, vName)
+qx.Clazz.define("qx.renderer.font.FontObject",
 {
-  this._dependentObjects = {};
+  extend : qx.renderer.font.Font,
 
-  qx.renderer.font.Font.call(this, vSize, vName);
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(vSize, vName)
+  {
+    this._dependentObjects = {};
+
+    qx.renderer.font.Font.call(this, vSize, vName);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      WIDGET CONNECTION
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param o {Object} TODOC
+     * @return {void} 
+     */
+    addListenerWidget : function(o) {
+      this._dependentObjects[o.toHashCode()] = o;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param o {Object} TODOC
+     * @return {void} 
+     */
+    removeListenerWidget : function(o) {
+      delete this._dependentObjects[o.toHashCode()];
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vEdge {var} TODOC
+     * @return {void} 
+     */
+    _sync : function(vEdge)
+    {
+      var vAll = this._dependentObjects;
+      var vCurrent;
+
+      for (vKey in vAll)
+      {
+        vCurrent = vAll[vKey];
+
+        if (vCurrent.isCreated()) {
+          vCurrent._updateFont(vEdge);
+        }
+      }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DISPOSER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void | var} TODOC
+     */
+    dispose : function()
+    {
+      if (this.getDisposed()) {
+        return;
+      }
+
+      if (typeof this._dependentObjects === "object")
+      {
+        for (vKey in this._dependentObjects) {
+          delete this._dependentObjects[vKey];
+        }
+
+        delete this._dependentObjects;
+      }
+
+      return qx.renderer.font.Font.prototype.dispose.call(this);
+    }
+  }
 });
-
-
-
-
-/*
----------------------------------------------------------------------------
-  WIDGET CONNECTION
----------------------------------------------------------------------------
-*/
-
-qx.Proto.addListenerWidget = function(o) {
-  this._dependentObjects[o.toHashCode()] = o;
-}
-
-qx.Proto.removeListenerWidget = function(o) {
-  delete this._dependentObjects[o.toHashCode()];
-}
-
-qx.Proto._sync = function(vEdge)
-{
-  var vAll = this._dependentObjects;
-  var vCurrent;
-
-  for (vKey in vAll)
-  {
-    vCurrent = vAll[vKey];
-
-    if (vCurrent.isCreated()) {
-      vCurrent._updateFont(vEdge);
-    }
-  }
-}
-
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DISPOSER
----------------------------------------------------------------------------
-*/
-
-qx.Proto.dispose = function()
-{
-  if (this.getDisposed()) {
-    return;
-  }
-
-  if (typeof this._dependentObjects === "object")
-  {
-    for (vKey in this._dependentObjects) {
-      delete this._dependentObjects[vKey];
-    }
-
-    delete this._dependentObjects;
-  }
-
-  return qx.renderer.font.Font.prototype.dispose.call(this);
-}

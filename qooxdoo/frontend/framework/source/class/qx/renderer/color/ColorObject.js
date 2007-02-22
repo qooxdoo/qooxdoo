@@ -24,133 +24,216 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.renderer.color.ColorObject", qx.renderer.color.Color,
-function(vValue)
+qx.Clazz.define("qx.renderer.color.ColorObject",
 {
-  // this.debug("Value: " + vValue);
-  this.setValue(vValue);
-
-  if(qx.manager.object.ColorManager.getInstance().has(this.getValue())) {
-    return qx.manager.object.ColorManager.getInstance().get(this.getValue());
-  }
-
-  qx.core.Object.call(this);
-
-  // Register this color object to manager instance
-  qx.manager.object.ColorManager.getInstance().add(this);
-
-  // Here will all objects with a dependency to this
-  // color stored.
-  this._dependentObjects = {};
-});
+  extend : qx.renderer.color.Color,
 
 
 
 
-/*
----------------------------------------------------------------------------
-  UTILITY
----------------------------------------------------------------------------
-*/
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
-qx.renderer.color.ColorObject.fromString = function(vDefString) {
-  return new qx.renderer.color.ColorObject(vDefString);
-}
-
-
-
-
-/*
----------------------------------------------------------------------------
-  PUBLIC METHODS
----------------------------------------------------------------------------
-*/
-
-/*!
-  Set a new value from selected theme (only for Operating System Colors)
-*/
-qx.Proto._updateTheme = function(vTheme)
-{
-  if (!this._isThemedColor) {
-    throw new Error("Could not redefine themed value of non os colors!");
-  }
-
-  this._applyThemedValue();
-  this._syncObjects();
-}
-
-qx.Proto._applyThemedValue = function()
-{
-  var vTheme = qx.manager.object.ColorManager.getInstance().getColorTheme();
-  var vRgb = vTheme.getValueByName(this._value);
-
-  if (vRgb)
+  construct : function(vValue)
   {
-    this._red = vRgb[0];
-    this._green = vRgb[1];
-    this._blue = vRgb[2];
-  }
+    // this.debug("Value: " + vValue);
+    this.setValue(vValue);
 
-  this._style = vTheme.getStyleByName(this._value);
-  this._hex = null;
-}
-
-qx.Proto._syncObjects = function()
-{
-  for (var i in this._dependentObjects) {
-    this._dependentObjects[i]._updateColors(this, this._style);
-  }
-}
-
-qx.Proto.setValue = function(vValue)
-{
-  this._normalize(vValue);
-  this._syncObjects();
-}
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  OBJECT MANAGMENT
----------------------------------------------------------------------------
-*/
-
-qx.Proto.add = function(vObject) {
-  this._dependentObjects[vObject.toHashCode()] = vObject;
-}
-
-qx.Proto.remove = function(vObject) {
-  delete this._dependentObjects[vObject.toHashCode()];
-}
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DISPOSER
----------------------------------------------------------------------------
-*/
-
-qx.Proto.dispose = function()
-{
-  if (this.getDisposed()) {
-    return true;
-  }
-
-  if (this._dependentObjects)
-  {
-    for (var i in this._dependentObjects) {
-      delete this._dependentObjects[i];
+    if (qx.manager.object.ColorManager.getInstance().has(this.getValue())) {
+      return qx.manager.object.ColorManager.getInstance().get(this.getValue());
     }
 
-    delete this._dependentObjects;
-  }
+    qx.core.Object.call(this);
 
-  return qx.renderer.color.Color.prototype.dispose.call(this);
-}
+    // Register this color object to manager instance
+    qx.manager.object.ColorManager.getInstance().add(this);
+
+    // Here will all objects with a dependency to this
+    // color stored.
+    this._dependentObjects = {};
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      UTILITY
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param vDefString {var} TODOC
+     * @return {var} TODOC
+     */
+    fromString : function(vDefString) {
+      return new qx.renderer.color.ColorObject(vDefString);
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      PUBLIC METHODS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Set a new value from selected theme (only for Operating System Colors)
+     *
+     * @type member
+     * @param vTheme {var} TODOC
+     * @return {void} 
+     * @throws TODOC
+     */
+    _updateTheme : function(vTheme)
+    {
+      if (!this._isThemedColor) {
+        throw new Error("Could not redefine themed value of non os colors!");
+      }
+
+      this._applyThemedValue();
+      this._syncObjects();
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    _applyThemedValue : function()
+    {
+      var vTheme = qx.manager.object.ColorManager.getInstance().getColorTheme();
+      var vRgb = vTheme.getValueByName(this._value);
+
+      if (vRgb)
+      {
+        this._red = vRgb[0];
+        this._green = vRgb[1];
+        this._blue = vRgb[2];
+      }
+
+      this._style = vTheme.getStyleByName(this._value);
+      this._hex = null;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    _syncObjects : function()
+    {
+      for (var i in this._dependentObjects) {
+        this._dependentObjects[i]._updateColors(this, this._style);
+      }
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vValue {var} TODOC
+     * @return {void} 
+     */
+    setValue : function(vValue)
+    {
+      this._normalize(vValue);
+      this._syncObjects();
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      OBJECT MANAGMENT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vObject {var} TODOC
+     * @return {void} 
+     */
+    add : function(vObject) {
+      this._dependentObjects[vObject.toHashCode()] = vObject;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vObject {var} TODOC
+     * @return {void} 
+     */
+    remove : function(vObject) {
+      delete this._dependentObjects[vObject.toHashCode()];
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DISPOSER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {boolean | var} TODOC
+     */
+    dispose : function()
+    {
+      if (this.getDisposed()) {
+        return true;
+      }
+
+      if (this._dependentObjects)
+      {
+        for (var i in this._dependentObjects) {
+          delete this._dependentObjects[i];
+        }
+
+        delete this._dependentObjects;
+      }
+
+      return qx.renderer.color.Color.prototype.dispose.call(this);
+    }
+  }
+});

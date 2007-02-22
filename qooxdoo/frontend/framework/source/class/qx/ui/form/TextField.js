@@ -81,7 +81,7 @@ qx.OO.addProperty({ name : "validator", type : "function" });
 /*!
   The font property describes how to paint the font on the widget.
 */
-qx.OO.addProperty({ name : "font", type : "object", instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache, allowMultipleArguments : true });
+qx.OO.addProperty({ name : "font", type : "object", instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache.convert, allowMultipleArguments : true });
 
 
 
