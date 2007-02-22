@@ -358,7 +358,7 @@ class Node:
   def getChildByAttribute(self, key, value, mandatory = True):
     if self.hasChildren():
       for child in self.children:
-        if child.get(key) == value:
+        if child.get(key,mandatory) == value:
           return child
 
     if mandatory:
@@ -367,7 +367,7 @@ class Node:
   def getChildByTypeAndAttribute(self, type, key, value, mandatory = True):
     if self.hasChildren():
       for child in self.children:
-        if child.type == type and child.get(key) == value:
+        if child.type == type and child.get(key,mandatory) == value:
           return child
 
     if mandatory:
