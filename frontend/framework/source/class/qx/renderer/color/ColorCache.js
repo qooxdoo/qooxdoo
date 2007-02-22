@@ -24,62 +24,79 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.renderer.color.ColorCache");
-
-qx.Class.convert = function(propValue)
+qx.Clazz.define("qx.renderer.color.ColorCache",
 {
-  var propKey;
-  var propKeyAsStyle = false;
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
 
-  switch(typeof propValue)
+  statics :
   {
-    case "string":
-      if (propValue != "") {
-        propValue = propKey = propValue.toLowerCase();
-        break;
-      }
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param propValue {var} Current value
+     * @return {var} TODOC
+     */
+    convert : function(propValue)
+    {
+      var propKey;
+      var propKeyAsStyle = false;
 
-      return propValue;
-
-    case "number":
-      if (propValue >= 0 && propValue <= 255)
+      switch(typeof propValue)
       {
-        propKey = propValue.toString();
-        break;
+        case "string":
+          if (propValue != "")
+          {
+            propValue = propKey = propValue.toLowerCase();
+            break;
+          }
+
+          return propValue;
+
+        case "number":
+          if (propValue >= 0 && propValue <= 255)
+          {
+            propKey = propValue.toString();
+            break;
+          }
+
+          return propValue;
+
+        case "object":
+          if (propValue == null || propValue instanceof qx.renderer.color.Color) {
+            return propValue;
+          }
+
+          // Try to detect array of RGB values
+          if (typeof propValue.join === "function" && propValue.length == 3)
+          {
+            propKey = "rgb(" + propValue.join(",") + ")";
+            propKeyAsStyle = true;
+            break;
+          }
+
+        default:
+          return propValue;
       }
 
-      return propValue;
-
-    case "object":
-      if (propValue == null || propValue instanceof qx.renderer.color.Color) {
-        return propValue;
+      if (qx.renderer.color.ColorCache._data[propKey]) {
+        return qx.renderer.color.ColorCache._data[propKey];
       }
 
-      // Try to detect array of RGB values
-      if (typeof propValue.join === "function" && propValue.length == 3)
-      {
-        propKey = "rgb(" + propValue.join(",") + ")";
-        propKeyAsStyle = true;
-        break;
+      // this.debug("Create new color instance: " + propKey);
+      var vColorObject = qx.renderer.color.ColorCache._data[propKey] = qx.renderer.color.Color.themedNames[propValue] ? new qx.renderer.color.ColorObject(propValue) : new qx.renderer.color.Color(propValue);
+
+      if (propKeyAsStyle) {
+        vColorObject._style = propKey;
       }
 
-    default:
-      return propValue;
+      return vColorObject;
+    },
+
+    _data : {}
   }
-
-  if (qx.renderer.color.ColorCache._data[propKey]) {
-    return qx.renderer.color.ColorCache._data[propKey];
-  }
-
-  // this.debug("Create new color instance: " + propKey);
-
-  var vColorObject = qx.renderer.color.ColorCache._data[propKey] = qx.renderer.color.Color.themedNames[propValue] ? new qx.renderer.color.ColorObject(propValue) : new qx.renderer.color.Color(propValue);
-
-  if (propKeyAsStyle) {
-    vColorObject._style = propKey;
-  }
-
-  return vColorObject;
-}
-
-qx.renderer.color.ColorCache._data = {};
+});

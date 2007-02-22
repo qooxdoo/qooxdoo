@@ -24,12 +24,43 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.renderer.theme.WidgetTheme", qx.core.Object,
-function(vTitle)
+qx.Clazz.define("qx.renderer.theme.WidgetTheme",
 {
-  qx.core.Object.call(this);
+  extend : qx.core.Object,
 
-  this.setTitle(vTitle);
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(vTitle)
+  {
+    qx.core.Object.call(this);
+
+    this.setTitle(vTitle);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    title :
+    {
+      _legacy      : true,
+      type         : "string",
+      allowNull    : false,
+      defaultValue : ""
+    }
+  }
 });
-
-qx.OO.addProperty({ name : "title", type : "string", allowNull : false, defaultValue : "" });

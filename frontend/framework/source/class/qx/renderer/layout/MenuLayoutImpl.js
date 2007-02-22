@@ -24,79 +24,100 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.renderer.layout.MenuLayoutImpl", qx.renderer.layout.VerticalBoxLayoutImpl,
-function(vWidget)
+qx.Clazz.define("qx.renderer.layout.MenuLayoutImpl",
 {
-  qx.renderer.layout.VerticalBoxLayoutImpl.call(this, vWidget);
-
-  // We don't need flex support, should make things a bit faster,
-  // as this omits some additional loops in qx.renderer.layout.HorizontalBoxLayoutImpl.
-  this.setEnableFlexSupport(false);
-});
-
-
-/*!
-  Global Structure:
-  [01] COMPUTE BOX DIMENSIONS FOR AN INDIVIDUAL CHILD
-  [02] COMPUTE NEEDED DIMENSIONS FOR AN INDIVIDUAL CHILD
-  [03] COMPUTE NEEDED DIMENSIONS FOR ALL CHILDREN
-  [04] UPDATE LAYOUT WHEN A CHILD CHANGES ITS OUTER DIMENSIONS
-  [05] UPDATE CHILD ON INNER DIMENSION CHANGES OF LAYOUT
-  [06] UPDATE LAYOUT ON JOB QUEUE FLUSH
-  [07] UPDATE CHILDREN ON JOB QUEUE FLUSH
-  [08] CHILDREN ADD/REMOVE/MOVE HANDLING
-  [09] FLUSH LAYOUT QUEUES OF CHILDREN
-  [10] LAYOUT CHILD
-  [11] DISPOSER
-
-
-  Inherits from qx.renderer.layout.VerticalBoxLayoutImpl:
-  [01] COMPUTE BOX DIMENSIONS FOR AN INDIVIDUAL CHILD
-  [02] COMPUTE NEEDED DIMENSIONS FOR AN INDIVIDUAL CHILD
-  [03] COMPUTE NEEDED DIMENSIONS FOR ALL CHILDREN
-  [04] UPDATE LAYOUT WHEN A CHILD CHANGES ITS OUTER DIMENSIONS
-  [05] UPDATE CHILD ON INNER DIMENSION CHANGES OF LAYOUT
-  [06] UPDATE LAYOUT ON JOB QUEUE FLUSH
-  [08] CHILDREN ADD/REMOVE/MOVE HANDLING
-  [09] FLUSH LAYOUT QUEUES OF CHILDREN
-  [10] LAYOUT CHILD
-  [11] DISPOSER
-*/
+  extend : qx.renderer.layout.VerticalBoxLayoutImpl,
 
 
 
 
-/*
----------------------------------------------------------------------------
-  [07] UPDATE CHILDREN ON JOB QUEUE FLUSH
----------------------------------------------------------------------------
-*/
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
-/*!
-  Updates children on special jobs
-*/
-qx.Proto.updateChildrenOnJobQueueFlush = function(vQueue)
-{
-  var vWidget = this.getWidget();
-  var ch, chc;
-
-  if (vQueue.preferredInnerWidth)
+  construct : function(vWidget)
   {
-    var ch = vWidget.getChildren(), chl = ch.length, chc;
-    var sch, schl;
+    qx.renderer.layout.VerticalBoxLayoutImpl.call(this, vWidget);
 
-    for (var i=0; i<chl; i++)
+    // We don't need flex support, should make things a bit faster,
+    // as this omits some additional loops in qx.renderer.layout.HorizontalBoxLayoutImpl.
+    this.setEnableFlexSupport(false);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      [07] UPDATE CHILDREN ON JOB QUEUE FLUSH
+    ---------------------------------------------------------------------------
+    */
+
+    /** Updates children on special jobs */
+    /**
+     * Global Structure:
+     *  [01] COMPUTE BOX DIMENSIONS FOR AN INDIVIDUAL CHILD
+     *  [02] COMPUTE NEEDED DIMENSIONS FOR AN INDIVIDUAL CHILD
+     *  [03] COMPUTE NEEDED DIMENSIONS FOR ALL CHILDREN
+     *  [04] UPDATE LAYOUT WHEN A CHILD CHANGES ITS OUTER DIMENSIONS
+     *  [05] UPDATE CHILD ON INNER DIMENSION CHANGES OF LAYOUT
+     *  [06] UPDATE LAYOUT ON JOB QUEUE FLUSH
+     *  [07] UPDATE CHILDREN ON JOB QUEUE FLUSH
+     *  [08] CHILDREN ADD/REMOVE/MOVE HANDLING
+     *  [09] FLUSH LAYOUT QUEUES OF CHILDREN
+     *  [10] LAYOUT CHILD
+     *  [11] DISPOSER
+     * 
+     *  Inherits from qx.renderer.layout.VerticalBoxLayoutImpl:
+     *  [01] COMPUTE BOX DIMENSIONS FOR AN INDIVIDUAL CHILD
+     *  [02] COMPUTE NEEDED DIMENSIONS FOR AN INDIVIDUAL CHILD
+     *  [03] COMPUTE NEEDED DIMENSIONS FOR ALL CHILDREN
+     *  [04] UPDATE LAYOUT WHEN A CHILD CHANGES ITS OUTER DIMENSIONS
+     *  [05] UPDATE CHILD ON INNER DIMENSION CHANGES OF LAYOUT
+     *  [06] UPDATE LAYOUT ON JOB QUEUE FLUSH
+     *  [08] CHILDREN ADD/REMOVE/MOVE HANDLING
+     *  [09] FLUSH LAYOUT QUEUES OF CHILDREN
+     *  [10] LAYOUT CHILD
+     *  [11] DISPOSER
+     *
+     * @type member
+     * @param vQueue {var} TODOC
+     * @return {var} TODOC
+     */
+    updateChildrenOnJobQueueFlush : function(vQueue)
     {
-      chc = ch[i];
-      sch = chc.getChildren();
-      schl = sch.length;
+      var vWidget = this.getWidget();
+      var ch, chc;
 
-      for (var j=0; j<schl; j++) {
-        sch[j].addToLayoutChanges("locationX");
+      if (vQueue.preferredInnerWidth)
+      {
+        var ch = vWidget.getChildren(), chl = ch.length, chc;
+        var sch, schl;
+
+        for (var i=0; i<chl; i++)
+        {
+          chc = ch[i];
+          sch = chc.getChildren();
+          schl = sch.length;
+
+          for (var j=0; j<schl; j++) {
+            sch[j].addToLayoutChanges("locationX");
+          }
+        }
       }
+
+      // Call superclass implementation
+      return qx.renderer.layout.VerticalBoxLayoutImpl.prototype.updateChildrenOnJobQueueFlush.call(this, vQueue);
     }
   }
-
-  // Call superclass implementation
-  return qx.renderer.layout.VerticalBoxLayoutImpl.prototype.updateChildrenOnJobQueueFlush.call(this, vQueue);
-}
+});
