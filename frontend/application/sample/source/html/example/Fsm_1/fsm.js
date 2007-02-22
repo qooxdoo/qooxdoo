@@ -19,13 +19,12 @@ function initFsm()
   var fsm = new qx.util.fsm.FiniteStateMachine("Fsm_1");
 
   // For this simple example application, show all debug messages.
-  qx.Settings.setCustomOfClass(
-    "qx.util.fsm.FiniteStateMachine",
-    "debugFlags",
-    (qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS |
+  fsm.setDebugFlags(
+     qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS |
      qx.util.fsm.FiniteStateMachine.DebugFlags.TRANSITIONS |
      qx.util.fsm.FiniteStateMachine.DebugFlags.FUNCTION_DETAIL |
-     qx.util.fsm.FiniteStateMachine.DebugFlags.OBJECT_NOT_FOUND));
+     qx.util.fsm.FiniteStateMachine.DebugFlags.OBJECT_NOT_FOUND
+  );
 
   /*
    * State: Idle

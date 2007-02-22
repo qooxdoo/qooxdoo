@@ -77,16 +77,9 @@ qx.Clazz.define("qxunit.TestSuite", {
 			this.__testFunctions[name] = fcn;
 		},
 		
-		bind: function(fcn, self, args) {
-			var boundFunction = function() {
-				fcn.call(self);
-			}
-			boundFunction.self = fcn.self = self.constructor;
-			return boundFunction;
-		},
 		
 		addPollutionCheck: function() {
-			this.addTestFunction("$pollutionCheck", this.bind(this.__pollutionCheck, this));
+			this.addTestFunction("$pollutionCheck", qx.lang.Function.bind(this.__pollutionCheck, this));
 		},
 		
 		addFail: function(functionName, message) {

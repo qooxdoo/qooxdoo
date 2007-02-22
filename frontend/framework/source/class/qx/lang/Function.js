@@ -154,11 +154,10 @@ qx.Clazz.define("qx.lang.Function",
       }
 
       var boundFunction = function() {
-        fcn.call(self);
+        fcn.context = self;
+        return fcn.apply(self, arguments);
       }
-
-      boundFunction.self = fcn.self = self.constructor;
-
+      boundFunction.self = fcn.self ? fcn.self.constructor : self;
       return boundFunction;
     },
     

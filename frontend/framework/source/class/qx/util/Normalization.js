@@ -39,9 +39,9 @@ qx.Clazz.define("qx.util.Normalization",
     ---------------------------------------------------------------------------
     */
 
-    _umlautsRegExp : /[\xE4\xF6\xFC\xDF\xC4\xD6\xDC]/g,
+    __umlautsRegExp : new RegExp("[\xE4\xF6\xFC\xDF\xC4\xD6\xDC]", "g"),
 
-    _umlautsShortData :
+    __umlautsShortData :
     {
       "\xC4" : "A",
       "\xD6" : "O",
@@ -60,8 +60,8 @@ qx.Clazz.define("qx.util.Normalization",
      * @param vChar {String} char to convert
      * @return {String} TODOC
      */
-    _umlautsShort : function(vChar) {
-      return qx.util.Normalization._umlautsShortData[vChar];
+    __umlautsShort : function(vChar) {
+      return qx.util.Normalization.__umlautsShortData[vChar];
     },
 
 
@@ -74,10 +74,13 @@ qx.Clazz.define("qx.util.Normalization",
      * @return {String} normalized string
      */
     umlautsShort : function(vString) {
-      return vString.replace(qx.util.Normalization._umlautsRegExp, qx.util.Normalization._umlautsShort);
+      return vString.replace(
+        qx.util.Normalization.__umlautsRegExp,
+        qx.lang.Function.bind(this.__umlautsShort, this)
+      );
     },
 
-    _umlautsLongData :
+    __umlautsLongData :
     {
       "\xC4" : "Ae",
       "\xD6" : "Oe",
@@ -96,8 +99,8 @@ qx.Clazz.define("qx.util.Normalization",
      * @param vChar {String} char to convert
      * @return {String} TODOC
      */
-    _umlautsLong : function(vChar) {
-      return qx.util.Normalization._umlautsLongData[vChar];
+    __umlautsLong : function(vChar) {
+      return qx.util.Normalization.__umlautsLongData[vChar];
     },
 
 
@@ -110,7 +113,10 @@ qx.Clazz.define("qx.util.Normalization",
      * @return {String} normalized string
      */
     umlautsLong : function(vString) {
-      return vString.replace(qx.util.Normalization._umlautsRegExp, qx.util.Normalization._umlautsLong);
+      return vString.replace(
+        qx.util.Normalization.__umlautsRegExp,
+        qx.lang.Function.bind(this.__umlautsLong, this)
+      );
     }
   }
 });

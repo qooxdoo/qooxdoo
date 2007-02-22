@@ -154,7 +154,7 @@ qx.Clazz.define("qx.util.format.DateFormat",
      * @param minSize {Integer} the minimum size the returned string should have.
      * @return {String} the filled number as string.
      */
-    _fillNumber : function(number, minSize)
+    __fillNumber : function(number, minSize)
     {
       var str = "" + number;
 
@@ -173,7 +173,7 @@ qx.Clazz.define("qx.util.format.DateFormat",
      * @param date {Date} the date.
      * @return {Integer} the day in year.
      */
-    _getDayInYear : function(date)
+    __getDayInYear : function(date)
     {
       var helpDate = new Date(date.getTime());
       var day = helpDate.getDate();
@@ -196,7 +196,7 @@ qx.Clazz.define("qx.util.format.DateFormat",
      * @param date {Date} the date to get the thursday of.
      * @return {Date} the thursday in the same week as the date.
      */
-    _thursdayOfSameWeek : function(date) {
+    __thursdayOfSameWeek : function(date) {
       return new Date(date.getTime() + (3 - ((date.getDay() + 6) % 7)) * 86400000);
     },
 
@@ -208,7 +208,7 @@ qx.Clazz.define("qx.util.format.DateFormat",
      * @param date {Date} the date to get the week in year of.
      * @return {Integer} the week in year.
      */
-    _getWeekInYear : function(date)
+    __getWeekInYear : function(date)
     {
       // This algorithm gets the correct calendar week after ISO 8601.
       // This standard is used in almost all european countries.
@@ -216,14 +216,14 @@ qx.Clazz.define("qx.util.format.DateFormat",
       // See http://www.merlyn.demon.co.uk/weekinfo.htm
       // The following algorithm comes from http://www.salesianer.de/util/kalwoch.html
       // Get the thursday of the week the date belongs to
-      var thursdayDate = this._thursdayOfSameWeek(date);
+      var thursdayDate = this.__thursdayOfSameWeek(date);
 
       // Get the year the thursday (and therefor the week) belongs to
       var weekYear = thursdayDate.getFullYear();
 
       // Get the thursday of the week january 4th belongs to
       // (which defines week 1 of a year)
-      var thursdayWeek1 = this._thursdayOfSameWeek(new Date(weekYear, 0, 4));
+      var thursdayWeek1 = this.__thursdayOfSameWeek(new Date(weekYear, 0, 4));
 
       // Calculate the calendar week
       return Math.floor(1.5 + (thursdayDate.getTime() - thursdayWeek1.getTime()) / 86400000 / 7);
@@ -257,12 +257,12 @@ qx.Clazz.define("qx.util.format.DateFormat",
       var timezone = date.getTimezoneOffset() / 60;
 
       // Create the output
-      this._initFormatTree();
+      this.__initFormatTree();
       var output = "";
 
-      for (var i=0; i<this._formatTree.length; i++)
+      for (var i=0; i<this.__formatTree.length; i++)
       {
-        var currAtom = this._formatTree[i];
+        var currAtom = this.__formatTree[i];
 
         if (currAtom.type == "literal") {
           output += currAtom.text;
@@ -283,7 +283,7 @@ qx.Clazz.define("qx.util.format.DateFormat",
               // TODO: F - Day of week in month (e.g.   2). Problem: What is this?
             case 'y': // Year
               if (wildcardSize == 2) {
-                replacement = this._fillNumber(fullYear % 100, 2);
+                replacement = this.__fillNumber(fullYear % 100, 2);
               } else if (wildcardSize == 4) {
                 replacement = fullYear;
               }
@@ -291,15 +291,15 @@ qx.Clazz.define("qx.util.format.DateFormat",
               break;
 
             case 'D': // Day in year (e.g. 189)
-              replacement = this._fillNumber(this._getDayInYear(date), wildcardSize);
+              replacement = this.__fillNumber(this.__getDayInYear(date), wildcardSize);
               break;
 
             case 'd': // Day in month
-              replacement = this._fillNumber(dayOfMonth, wildcardSize);
+              replacement = this.__fillNumber(dayOfMonth, wildcardSize);
               break;
 
             case 'w': // Week in year (e.g. 27)
-              replacement = this._fillNumber(this._getWeekInYear(date), wildcardSize);
+              replacement = this.__fillNumber(this.__getWeekInYear(date), wildcardSize);
               break;
 
             case 'E': // Day in week
@@ -315,7 +315,7 @@ qx.Clazz.define("qx.util.format.DateFormat",
 
             case 'M': // Month
               if (wildcardSize == 1 || wildcardSize == 2) {
-                replacement = this._fillNumber(month + 1, wildcardSize);
+                replacement = this.__fillNumber(month + 1, wildcardSize);
               } else if (wildcardSize == 3) {
                 replacement = qx.locale.Date.getMonthName("abbreviated", month, locale);
               } else if (wildcardSize == 4) {
@@ -330,36 +330,36 @@ qx.Clazz.define("qx.util.format.DateFormat",
               break;
 
             case 'H': // Hour in day (0-23)
-              replacement = this._fillNumber(hours, wildcardSize);
+              replacement = this.__fillNumber(hours, wildcardSize);
               break;
 
             case 'k': // Hour in day (1-24)
-              replacement = this._fillNumber((hours == 0) ? 24 : hours, wildcardSize);
+              replacement = this.__fillNumber((hours == 0) ? 24 : hours, wildcardSize);
               break;
 
             case 'K': // Hour in am/pm (0-11)
-              replacement = this._fillNumber(hours % 12, wildcardSize);
+              replacement = this.__fillNumber(hours % 12, wildcardSize);
               break;
 
             case 'h': // Hour in am/pm (1-12)
-              replacement = this._fillNumber(((hours % 12) == 0) ? 12 : (hours % 12), wildcardSize);
+              replacement = this.__fillNumber(((hours % 12) == 0) ? 12 : (hours % 12), wildcardSize);
               break;
 
             case 'm': // Minute in hour
-              replacement = this._fillNumber(minutes, wildcardSize);
+              replacement = this.__fillNumber(minutes, wildcardSize);
               break;
 
             case 's': // Second in minute
-              replacement = this._fillNumber(seconds, wildcardSize);
+              replacement = this.__fillNumber(seconds, wildcardSize);
               break;
 
             case 'S': // Millisecond
-              replacement = this._fillNumber(ms, wildcardSize);
+              replacement = this.__fillNumber(ms, wildcardSize);
               break;
 
             case 'z': // Time zone
               if (wildcardSize == 1) {
-                replacement = "GMT" + ((timezone < 0) ? "-" : "+") + this._fillNumber(timezone) + ":00";
+                replacement = "GMT" + ((timezone < 0) ? "-" : "+") + this.__fillNumber(timezone) + ":00";
               } else if (wildcardSize == 2) {
                 replacement = DateFormat.MEDIUM_TIMEZONE_NAMES[timezone];
               } else if (wildcardSize == 3) {
@@ -369,7 +369,7 @@ qx.Clazz.define("qx.util.format.DateFormat",
               break;
 
             case 'Z': // RFC 822 time zone
-              replacement = ((timezone < 0) ? "-" : "+") + this._fillNumber(timezone, 2) + "00";
+              replacement = ((timezone < 0) ? "-" : "+") + this.__fillNumber(timezone, 2) + "00";
           }
 
           output += replacement;
@@ -395,7 +395,7 @@ qx.Clazz.define("qx.util.format.DateFormat",
      */
     parse : function(dateStr)
     {
-      this._initParseFeed();
+      this.__initParseFeed();
 
       // Apply the regex
       var hit = this._parseFeed.regex.exec(dateStr);
@@ -453,13 +453,13 @@ qx.Clazz.define("qx.util.format.DateFormat",
      * @type member
      * @return {void} 
      */
-    _initFormatTree : function()
+    __initFormatTree : function()
     {
-      if (this._formatTree != null) {
+      if (this.__formatTree != null) {
         return;
       }
 
-      this._formatTree = [];
+      this.__formatTree = [];
 
       var currWildcardChar;
       var currWildcardSize = 0;
@@ -527,7 +527,7 @@ qx.Clazz.define("qx.util.format.DateFormat",
             else
             {
               // It does not -> The current wildcard is done
-              this._formatTree.push(
+              this.__formatTree.push(
               {
                 type      : "wildcard",
                 character : currWildcardChar,
@@ -581,7 +581,7 @@ qx.Clazz.define("qx.util.format.DateFormat",
               // Add the literal
               if (currLiteral.length > 0)
               {
-                this._formatTree.push(
+                this.__formatTree.push(
                 {
                   type : "literal",
                   text : currLiteral
@@ -604,7 +604,7 @@ qx.Clazz.define("qx.util.format.DateFormat",
       // Add the last wildcard or literal
       if (currWildcardChar != null)
       {
-        this._formatTree.push(
+        this.__formatTree.push(
         {
           type      : "wildcard",
           character : currWildcardChar,
@@ -613,7 +613,7 @@ qx.Clazz.define("qx.util.format.DateFormat",
       }
       else if (currLiteral.length > 0)
       {
-        this._formatTree.push(
+        this.__formatTree.push(
         {
           type : "literal",
           text : currLiteral
@@ -632,7 +632,7 @@ qx.Clazz.define("qx.util.format.DateFormat",
      * @return {Map} the parse feed.
      * @throws TODOC
      */
-    _initParseFeed : function()
+    __initParseFeed : function()
     {
       if (this._parseFeed != null)
       {
@@ -644,16 +644,16 @@ qx.Clazz.define("qx.util.format.DateFormat",
       var format = this._format;
 
       // Initialize the rules
-      this._initParseRules();
-      this._initFormatTree();
+      this.__initParseRules();
+      this.__initFormatTree();
 
       // Get the used rules and construct the regex pattern
       var usedRules = [];
       var pattern = "^";
 
-      for (var atomIdx=0; atomIdx<this._formatTree.length; atomIdx++)
+      for (var atomIdx=0; atomIdx<this.__formatTree.length; atomIdx++)
       {
-        var currAtom = this._formatTree[atomIdx];
+        var currAtom = this.__formatTree[atomIdx];
 
         if (currAtom.type == "literal") {
           pattern += qx.lang.String.escapeRegexpChars(currAtom.text);
@@ -727,7 +727,7 @@ qx.Clazz.define("qx.util.format.DateFormat",
      * @type member
      * @return {void} 
      */
-    _initParseRules : function()
+    __initParseRules : function()
     {
       var DateFormat = qx.util.format.DateFormat;
 
