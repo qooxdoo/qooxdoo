@@ -1313,6 +1313,8 @@ qx.Clazz.define("qx.Clazz",
      */
     __createPrivateStatic : function(method, name, clazz)
     {
+      return method;
+
       if (arguments.caller || arguments.callee.caller)  // check if caller is available
       {
         var privateMember = function()
@@ -1336,8 +1338,10 @@ qx.Clazz.define("qx.Clazz",
 
             throw new Error("Private method '"+name+"' of class '"+clazz.classname+"' called from '"+from+"'!");
           }
+
           // save context
           method.context = this;
+
           return method.apply(this, arguments);
         };
 
