@@ -24,10 +24,23 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.basic.VerticalSpacer", qx.ui.basic.Terminator,
-function()
+qx.Clazz.define("qx.ui.basic.VerticalSpacer",
 {
-  qx.ui.basic.Terminator.call(this);
+  extend : qx.ui.basic.Terminator,
 
-  this.setHeight("1*");
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function()
+  {
+    qx.ui.basic.Terminator.call(this);
+
+    this.setHeight("1*");
+  }
 });
