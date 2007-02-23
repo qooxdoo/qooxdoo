@@ -26,9 +26,6 @@
 
 /**
  * This is the preloader used from qx.ui.basic.Image instances.
- *
- * @event load {qx.event.type.Event}
- * @event error {qx.event.type.Event}
  */
 qx.Clazz.define("qx.io.image.Preloader",
 {
@@ -100,6 +97,22 @@ qx.Clazz.define("qx.io.image.Preloader",
 
 
 
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  
+  events: {
+   "load" : "qx.event.type.Event",
+   "error" : "qx.event.type.Event"
+  },
+  
+  
+  
+  
+  
   /*
   *****************************************************************************
      STATICS

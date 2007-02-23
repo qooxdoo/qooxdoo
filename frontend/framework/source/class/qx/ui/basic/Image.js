@@ -28,7 +28,6 @@
 /**
  * This widget represents an image.
  *
- * @event error {qx.event.type.Event}
  */
 qx.Clazz.define("qx.ui.basic.Image",
 {
@@ -60,6 +59,19 @@ qx.Clazz.define("qx.ui.basic.Image",
 
     // Prohibit selection
     this.setSelectable(false);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events : {
+    "error" : "qx.event.type.Event"
   },
 
 

@@ -53,7 +53,7 @@ qx.Clazz.define("qx.type.Range",
   */
 
 	events: {
-		"change" : qx.event.type.Event
+		"change" : "qx.event.type.Event"
   },
 
 
