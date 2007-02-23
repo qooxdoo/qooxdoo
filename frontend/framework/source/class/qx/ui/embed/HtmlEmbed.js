@@ -24,89 +24,170 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.embed.HtmlEmbed", qx.ui.basic.Terminator,
-function(vHtml)
+qx.Clazz.define("qx.ui.embed.HtmlEmbed",
 {
-  qx.ui.basic.Terminator.call(this);
+  extend : qx.ui.basic.Terminator,
 
-  if (vHtml != null) {
-    this.setHtml(vHtml);
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(vHtml)
+  {
+    qx.ui.basic.Terminator.call(this);
+
+    if (vHtml != null) {
+      this.setHtml(vHtml);
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    /** Any text string which can contain HTML, too */
+    html :
+    {
+      _legacy : true,
+      type    : "string"
+    },
+
+
+    /** The font property describes how to paint the font on the widget. */
+    font :
+    {
+      _legacy                : true,
+      type                   : "object",
+      instance               : "qx.renderer.font.Font",
+      convert                : qx.renderer.font.FontCache.convert,
+      allowMultipleArguments : true
+    },
+
+
+    /** Wrap the text? */
+    wrap :
+    {
+      _legacy      : true,
+      type         : "boolean",
+      defaultValue : true
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      MODIFIER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {boolean} TODOC
+     */
+    _modifyHtml : function()
+    {
+      if (this._isCreated) {
+        this._syncHtml();
+      }
+
+      return true;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {boolean} TODOC
+     */
+    _modifyFont : function(propValue, propOldValue, propData)
+    {
+      if (propValue) {
+        propValue._applyWidget(this);
+      } else if (propOldValue) {
+        propOldValue._resetWidget(this);
+      }
+
+      return true;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {boolean} TODOC
+     */
+    _modifyWrap : function(propValue, propOldValue, propData)
+    {
+      this.setStyleProperty("whiteSpace", propValue ? "normal" : "nowrap");
+      return true;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      ELEMENT HANDLING
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    _applyElementData : function() {
+      this._syncHtml();
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    _syncHtml : function() {
+      this.getElement().innerHTML = this.getHtml();
+    }
   }
 });
-
-
-
-
-/*
----------------------------------------------------------------------------
-  PROPERTIES
----------------------------------------------------------------------------
-*/
-
-/*!
-  Any text string which can contain HTML, too
-*/
-qx.OO.addProperty({ name : "html", type : "string" });
-
-/*!
-  The font property describes how to paint the font on the widget.
-*/
-qx.OO.addProperty({ name : "font", type : "object", instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache.convert, allowMultipleArguments : true });
-
-/*!
-  Wrap the text?
-*/
-qx.OO.addProperty({ name : "wrap", type : "boolean", defaultValue : true });
-
-
-
-
-/*
----------------------------------------------------------------------------
-  MODIFIER
----------------------------------------------------------------------------
-*/
-
-qx.Proto._modifyHtml = function()
-{
-  if (this._isCreated) {
-    this._syncHtml();
-  }
-
-  return true;
-}
-
-qx.Proto._modifyFont = function(propValue, propOldValue, propData)
-{
-  if (propValue) {
-    propValue._applyWidget(this);
-  } else if (propOldValue) {
-    propOldValue._resetWidget(this);
-  }
-
-  return true;
-}
-
-qx.Proto._modifyWrap = function(propValue, propOldValue, propData)
-{
-  this.setStyleProperty("whiteSpace", propValue ? "normal" : "nowrap");
-  return true;
-}
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  ELEMENT HANDLING
----------------------------------------------------------------------------
-*/
-
-qx.Proto._applyElementData = function() {
-  this._syncHtml();
-}
-
-qx.Proto._syncHtml = function() {
-  this.getElement().innerHTML = this.getHtml();
-}
