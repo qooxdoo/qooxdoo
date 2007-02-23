@@ -125,13 +125,15 @@ VARDESC = {
 
 
 
-def outdent(source, indent):
+def outdent(source, indent): # indent is number!
   return re.compile("\n\s{%s}" % indent).sub("\n", source)
 
 
 
-def indent(source, indent):
-  return re.compile("\n").sub("\n" + (" " * indent), source)
+#def indent(source, indent):
+#  return re.compile("\n").sub("\n" + (" " * indent), source)
+def indent(source, indent):  # indent is string!
+  return re.compile("\n").sub("\n" + indent, source)
 
 
 
