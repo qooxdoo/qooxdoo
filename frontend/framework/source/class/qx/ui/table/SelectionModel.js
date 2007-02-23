@@ -89,29 +89,6 @@ qx.Clazz.define("qx.ui.table.SelectionModel",
 
 
 
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-    /**
-     * (int) the selection mode.
-     */
-    selectionMode :
-    {
-      _legacy        : true,
-      type           : "number",
-      defaultValue   : qx.Class.SINGLE_SELECTION,
-      allowNull      : false,
-      possibleValues : [ qx.Class.NO_SELECTION, qx.Class.SINGLE_SELECTION, qx.Class.SINGLE_INTERVAL_SELECTION, qx.Class.MULTIPLE_INTERVAL_SELECTION ]
-    }
-  },
-
-
-
 
   /*
   *****************************************************************************
@@ -140,14 +117,14 @@ qx.Clazz.define("qx.ui.table.SelectionModel",
 
 
     /**
-     * 
+     *
      * Activates / Deactivates batch mode. In batch mode, no change events will be thrown but
      * will be collected instead. When batch mode is turned off again and any events have
-     * been collected, one event is thrown to inform the listeners. 
-     * 
+     * been collected, one event is thrown to inform the listeners.
+     *
      * This method supports nested calling, i. e. batch mode can be turned more than once.
      * In this case, batch mode will not end until it has been turned off once for each
-     * turning on. 
+     * turning on.
      *
      * @type member
      * @param batchMode {Boolean} true to activate batch mode, false to deactivate
@@ -179,8 +156,8 @@ qx.Clazz.define("qx.ui.table.SelectionModel",
 
 
     /**
-     * 
-     * Returns whether batch mode is active. See setter for a description of batch mode. 
+     *
+     * Returns whether batch mode is active. See setter for a description of batch mode.
      *
      * @type member
      * @return {Boolean} true if batch mode is active, false otherwise
@@ -218,7 +195,7 @@ qx.Clazz.define("qx.ui.table.SelectionModel",
      * Clears the selection.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     clearSelection : function()
     {
@@ -311,7 +288,7 @@ qx.Clazz.define("qx.ui.table.SelectionModel",
 
     /**
      * Calls a iterator function for each selected index.
-     * 
+     *
      * Usage Example:
      * <pre>
      * var selectedRowData = [];
@@ -325,7 +302,7 @@ qx.Clazz.define("qx.ui.table.SelectionModel",
      *          Gets the current index as parameter.
      * @param object {var ? null} the object to use when calling the handler.
      *          (this object will be available via "this" in the iterator)
-     * @return {void} 
+     * @return {void}
      */
     iterateSelection : function(iterator, object)
     {
@@ -344,7 +321,7 @@ qx.Clazz.define("qx.ui.table.SelectionModel",
      * @type member
      * @param fromIndex {Integer} the first index of the selection (including).
      * @param toIndex {Integer} the last index of the selection (including).
-     * @return {void} 
+     * @return {void}
      */
     setSelectionInterval : function(fromIndex, toIndex)
     {
@@ -373,7 +350,7 @@ qx.Clazz.define("qx.ui.table.SelectionModel",
      * @type member
      * @param fromIndex {Integer} the first index of the selection (including).
      * @param toIndex {Integer} the last index of the selection (including).
-     * @return {void} 
+     * @return {void}
      */
     addSelectionInterval : function(fromIndex, toIndex)
     {
@@ -402,7 +379,7 @@ qx.Clazz.define("qx.ui.table.SelectionModel",
      * @type member
      * @param fromIndex {Integer} the first index of the interval (including).
      * @param toIndex {Integer} the last index of the interval (including).
-     * @return {void} 
+     * @return {void}
      */
     removeSelectionInterval : function(fromIndex, toIndex)
     {
@@ -474,7 +451,7 @@ qx.Clazz.define("qx.ui.table.SelectionModel",
      * Clears the selection, but doesn't inform the listeners.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _clearSelection : function()
     {
@@ -491,7 +468,7 @@ qx.Clazz.define("qx.ui.table.SelectionModel",
      * @type member
      * @param fromIndex {Integer} the first index of the selection (including).
      * @param toIndex {Integer} the last index of the selection (including).
-     * @return {void} 
+     * @return {void}
      */
     _addSelectionInterval : function(fromIndex, toIndex)
     {
@@ -550,7 +527,7 @@ qx.Clazz.define("qx.ui.table.SelectionModel",
      * Logs the current ranges for debug perposes.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _dumpRanges : function()
     {
@@ -571,7 +548,7 @@ qx.Clazz.define("qx.ui.table.SelectionModel",
      * currently is in batch mode, only one event will be thrown when batch mode is ended.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _fireChangeSelection : function()
     {
@@ -585,5 +562,26 @@ qx.Clazz.define("qx.ui.table.SelectionModel",
         this.dispatchEvent(new qx.event.type.Event("changeSelection"), true);
       }
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics, members, properties)
+  {
+    properties.add(selectionMode,
+    {
+      _legacy        : true,
+      type           : "number",
+      defaultValue   : statics.SINGLE_SELECTION,
+      allowNull      : false,
+      possibleValues : [ statics.NO_SELECTION, statics.SINGLE_SELECTION, statics.SINGLE_INTERVAL_SELECTION, statics.MULTIPLE_INTERVAL_SELECTION ]
+    });
   }
 });
