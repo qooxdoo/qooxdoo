@@ -24,41 +24,82 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.tree.TreeFile", qx.ui.tree.AbstractTreeElement,
-function(vLabel, vIcon, vIconSelected) {
-  qx.ui.tree.AbstractTreeElement.call(this, vLabel, vIcon, vIconSelected);
-});
-
-
-
-
-/*
----------------------------------------------------------------------------
-  INDENT HELPER
----------------------------------------------------------------------------
-*/
-
-qx.Proto.getIndentSymbol = function(vUseTreeLines, vIsLastColumn)
+qx.Clazz.define("qx.ui.tree.TreeFile",
 {
-  if (vUseTreeLines)
+  extend : qx.ui.tree.AbstractTreeElement,
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(vLabel, vIcon, vIconSelected) {
+    qx.ui.tree.AbstractTreeElement.call(this, vLabel, vIcon, vIconSelected);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
   {
-    if (vIsLastColumn)
+    /*
+    ---------------------------------------------------------------------------
+      INDENT HELPER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vUseTreeLines {var} TODOC
+     * @param vIsLastColumn {var} TODOC
+     * @return {var | string | null} TODOC
+     */
+    getIndentSymbol : function(vUseTreeLines, vIsLastColumn)
     {
-      return this.isLastChild() ? "end" : "cross";
-    }
-    else
-    {
-      return "line";
+      if (vUseTreeLines)
+      {
+        if (vIsLastColumn) {
+          return this.isLastChild() ? "end" : "cross";
+        } else {
+          return "line";
+        }
+      }
+
+      return null;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    _updateIndent : function() {
+      this.addToTreeQueue();
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {Array} TODOC
+     */
+    getItems : function() {
+      return [ this ];
     }
   }
-
-  return null;
-}
-
-qx.Proto._updateIndent = function() {
-  this.addToTreeQueue();
-}
-
-qx.Proto.getItems = function() {
-  return [this];
-}
+});
