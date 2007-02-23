@@ -25,205 +25,208 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.OO",
+if (qx.core.Variant.isSet("qx.compatibility", "on"))
 {
-  /*
-  *****************************************************************************
-  **** STATICS ****************************************************************
-  *****************************************************************************
-  */
-
-  statics :
+  qx.Clazz.define("qx.OO",
   {
-    /** {Map} Available classes created by defineClass */
-    classes : {},
-
-
     /*
-    ---------------------------------------------------------------------------
-      DEFINE CLASS IMPLEMENTATION
-    ---------------------------------------------------------------------------
+    *****************************************************************************
+    **** STATICS ****************************************************************
+    *****************************************************************************
     */
 
-    /**
-     * define a new qooxdoo class
-     * All classes should be defined in this way.
-     *
-     * @deprecated Please switch to new qx.Clazz.define ASAP. This will be removed in qooxdoo 0.7
-     * @type static
-     * @name defineClass
-     * @access public
-     * @param vClassName {String} fully qualified class name (e.g. "qx.ui.form.Button")
-     * @param vSuper {Object} super class
-     * @param vConstructor {Function} the constructor of the new class
-     * @return {void}
-     * @throws TODOC
-     */
-    defineClass : function(vClassName, vSuper, vConstructor)
+    statics :
     {
-      var vSplitName = vClassName.split(".");
-      var vNameLength = vSplitName.length - 1;
-      var vTempObject = window;
+      /** {Map} Available classes created by defineClass */
+      classes : {},
 
-      // Setting up namespace
-      for (var i=0; i<vNameLength; i++)
+
+      /*
+      ---------------------------------------------------------------------------
+        DEFINE CLASS IMPLEMENTATION
+      ---------------------------------------------------------------------------
+      */
+
+      /**
+       * define a new qooxdoo class
+       * All classes should be defined in this way.
+       *
+       * @deprecated Please switch to new qx.Clazz.define ASAP. This will be removed in qooxdoo 0.7
+       * @type static
+       * @name defineClass
+       * @access public
+       * @param vClassName {String} fully qualified class name (e.g. "qx.ui.form.Button")
+       * @param vSuper {Object} super class
+       * @param vConstructor {Function} the constructor of the new class
+       * @return {void}
+       * @throws TODOC
+       */
+      defineClass : function(vClassName, vSuper, vConstructor)
       {
-        if (typeof vTempObject[vSplitName[i]] === "undefined") {
-          vTempObject[vSplitName[i]] = {};
+        var vSplitName = vClassName.split(".");
+        var vNameLength = vSplitName.length - 1;
+        var vTempObject = window;
+
+        // Setting up namespace
+        for (var i=0; i<vNameLength; i++)
+        {
+          if (typeof vTempObject[vSplitName[i]] === "undefined") {
+            vTempObject[vSplitName[i]] = {};
+          }
+
+          vTempObject = vTempObject[vSplitName[i]];
         }
 
-        vTempObject = vTempObject[vSplitName[i]];
-      }
+        // Instantiate objects/inheritance
+        if (typeof vSuper === "undefined")
+        {
+          if (typeof vConstructor !== "undefined") {
+            throw new Error("SuperClass is undefined, but constructor was given for class: " + vClassName);
+          }
 
-      // Instantiate objects/inheritance
-      if (typeof vSuper === "undefined")
-      {
-        if (typeof vConstructor !== "undefined") {
-          throw new Error("SuperClass is undefined, but constructor was given for class: " + vClassName);
+          qx.Class = vTempObject[vSplitName[i]] = {};
+          qx.Proto = null;
+          qx.Super = null;
+        }
+        else if (typeof vConstructor === "undefined")
+        {
+          qx.Class = vTempObject[vSplitName[i]] = vSuper;
+          qx.Proto = null;
+          qx.Super = vSuper;
+        }
+        else
+        {
+          qx.Class = vTempObject[vSplitName[i]] = vConstructor;
+
+          // build helper function
+          // this omits the initial constructor call while inherit properties
+          var vHelperConstructor = function() {};
+
+          vHelperConstructor.prototype = vSuper.prototype;
+
+          qx.Proto = vConstructor.prototype = new vHelperConstructor;
+          qx.Super = vConstructor.superclass = vSuper;
+
+          qx.Proto.classname = vConstructor.classname = vClassName;
+          qx.Proto.constructor = vConstructor;
+
+          // Copy property lists
+          if (vSuper.prototype.$$properties) {
+            qx.Proto.$$properties = qx.lang.Object.copy(vSuper.prototype.$$properties);
+          }
+
+          if (vSuper.prototype.$$objectproperties) {
+            qx.Proto.$$objectproperties = qx.lang.Object.copy(vSuper.prototype.$$objectproperties);
+          }
         }
 
-        qx.Class = vTempObject[vSplitName[i]] = {};
-        qx.Proto = null;
-        qx.Super = null;
-      }
-      else if (typeof vConstructor === "undefined")
+        // Store reference to global classname registry
+        qx.OO.classes[vClassName] = qx.Class;
+      },
+
+      /**
+       * Returns if a class which is created by defineClass is available.
+       *
+       * @deprecated Please switch to new qx.Clazz.define ASAP. This will be removed in qooxdoo 0.7
+       * @type static
+       * @name isAvailable
+       * @access public
+       * @param vClassName {var} TODOC
+       * @return {var} TODOC
+       */
+      isAvailable : function(vClassName) {
+        return qx.OO.classes[vClassName] != null;
+      },
+
+      /**
+       * Legacy property handling
+       *
+       * @deprecated: will be removed in qooxdoo 0.7
+       * @param config {Map} Configuration map
+       */
+      addFastProperty : function(config)
       {
-        qx.Class = vTempObject[vSplitName[i]] = vSuper;
-        qx.Proto = null;
-        qx.Super = vSuper;
-      }
-      else
-      {
-        qx.Class = vTempObject[vSplitName[i]] = vConstructor;
-
-        // build helper function
-        // this omits the initial constructor call while inherit properties
-        var vHelperConstructor = function() {};
-
-        vHelperConstructor.prototype = vSuper.prototype;
-
-        qx.Proto = vConstructor.prototype = new vHelperConstructor;
-        qx.Super = vConstructor.superclass = vSuper;
-
-        qx.Proto.classname = vConstructor.classname = vClassName;
-        qx.Proto.constructor = vConstructor;
-
-        // Copy property lists
-        if (vSuper.prototype.$$properties) {
-          qx.Proto.$$properties = qx.lang.Object.copy(vSuper.prototype.$$properties);
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          //qx.core.Bootstrap.alert(qx.Class.classname + ": Use of old addFastProperty implementation for property " + config.name);
         }
 
-        if (vSuper.prototype.$$objectproperties) {
-          qx.Proto.$$objectproperties = qx.lang.Object.copy(vSuper.prototype.$$objectproperties);
+        return qx.core.LegacyProperty.addFastProperty(config, qx.Proto);
+      },
+
+      /**
+       * Legacy property handling
+       *
+       * @deprecated: will be removed in qooxdoo 0.7
+       * @param config {Map} Configuration map
+       */
+      addCachedProperty : function(config)
+      {
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          //qx.core.Bootstrap.alert(qx.Class.classname + ": Use of old addCachedProperty implementation for property " + config.name);
         }
+
+        return qx.core.LegacyProperty.addCachedProperty(config, qx.Proto);
+      },
+
+      /**
+       * Legacy property handling
+       *
+       * @deprecated: will be removed in qooxdoo 0.7
+       * @param config {Map} Configuration map
+       */
+      addPropertyGroup : function(config)
+      {
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          //qx.core.Bootstrap.alert(qx.Class.classname + ": Use of old addPropertyGroup implementation for property " + config.name);
+        }
+
+        return qx.Clazz.addPropertyGroup(config, qx.Proto);
+      },
+
+      /**
+       * Legacy property handling
+       *
+       * @deprecated: will be removed in qooxdoo 0.7
+       * @param config {Map} Configuration map
+       */
+      removeProperty : function(config)
+      {
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          //qx.core.Bootstrap.alert(qx.Class.classname + ": Use of old removeProperty implementation for property " + config.name);
+        }
+
+        return qx.core.LegacyProperty.removeProperty(config, qx.Proto);
+      },
+
+      /**
+       * Legacy property handling
+       *
+       * @deprecated: will be removed in qooxdoo 0.7
+       * @param config {Map} Configuration map
+       */
+      changeProperty : function(config)
+      {
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          //qx.core.Bootstrap.alert(qx.Class.classname + ": Use of old changeProperty implementation for property " + config.name);
+        }
+
+        return qx.core.LegacyProperty.addProperty(config, qx.Proto);
+      },
+
+      /**
+       * Legacy property handling
+       *
+       * @deprecated: will be removed in qooxdoo 0.7
+       * @param config {Map} Configuration map
+       */
+      addProperty : function(config)
+      {
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          //qx.core.Bootstrap.alert(qx.Class.classname + ": Use of old addProperty implementation for property " + config.name);
+        }
+
+        return qx.core.LegacyProperty.addProperty(config, qx.Proto);
       }
-
-      // Store reference to global classname registry
-      qx.OO.classes[vClassName] = qx.Class;
-    },
-
-    /**
-     * Returns if a class which is created by defineClass is available.
-     *
-     * @deprecated Please switch to new qx.Clazz.define ASAP. This will be removed in qooxdoo 0.7
-     * @type static
-     * @name isAvailable
-     * @access public
-     * @param vClassName {var} TODOC
-     * @return {var} TODOC
-     */
-    isAvailable : function(vClassName) {
-      return qx.OO.classes[vClassName] != null;
-    },
-
-    /**
-     * Legacy property handling
-     *
-     * @deprecated: will be removed in qooxdoo 0.7
-     * @param config {Map} Configuration map
-     */
-    addFastProperty : function(config)
-    {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        //qx.core.Bootstrap.alert(qx.Class.classname + ": Use of old addFastProperty implementation for property " + config.name);
-      }
-
-      return qx.core.LegacyProperty.addFastProperty(config, qx.Proto);
-    },
-
-    /**
-     * Legacy property handling
-     *
-     * @deprecated: will be removed in qooxdoo 0.7
-     * @param config {Map} Configuration map
-     */
-    addCachedProperty : function(config)
-    {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        //qx.core.Bootstrap.alert(qx.Class.classname + ": Use of old addCachedProperty implementation for property " + config.name);
-      }
-
-      return qx.core.LegacyProperty.addCachedProperty(config, qx.Proto);
-    },
-
-    /**
-     * Legacy property handling
-     *
-     * @deprecated: will be removed in qooxdoo 0.7
-     * @param config {Map} Configuration map
-     */
-    addPropertyGroup : function(config)
-    {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        //qx.core.Bootstrap.alert(qx.Class.classname + ": Use of old addPropertyGroup implementation for property " + config.name);
-      }
-
-      return qx.Clazz.addPropertyGroup(config, qx.Proto);
-    },
-
-    /**
-     * Legacy property handling
-     *
-     * @deprecated: will be removed in qooxdoo 0.7
-     * @param config {Map} Configuration map
-     */
-    removeProperty : function(config)
-    {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        //qx.core.Bootstrap.alert(qx.Class.classname + ": Use of old removeProperty implementation for property " + config.name);
-      }
-
-      return qx.core.LegacyProperty.removeProperty(config, qx.Proto);
-    },
-
-    /**
-     * Legacy property handling
-     *
-     * @deprecated: will be removed in qooxdoo 0.7
-     * @param config {Map} Configuration map
-     */
-    changeProperty : function(config)
-    {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        //qx.core.Bootstrap.alert(qx.Class.classname + ": Use of old changeProperty implementation for property " + config.name);
-      }
-
-      return qx.core.LegacyProperty.addProperty(config, qx.Proto);
-    },
-
-    /**
-     * Legacy property handling
-     *
-     * @deprecated: will be removed in qooxdoo 0.7
-     * @param config {Map} Configuration map
-     */
-    addProperty : function(config)
-    {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        //qx.core.Bootstrap.alert(qx.Class.classname + ": Use of old addProperty implementation for property " + config.name);
-      }
-
-      return qx.core.LegacyProperty.addProperty(config, qx.Proto);
     }
-  }
-});
+  });
+}
