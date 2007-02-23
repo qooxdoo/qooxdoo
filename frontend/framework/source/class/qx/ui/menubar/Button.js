@@ -24,7 +24,20 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.menubar.Button", qx.ui.toolbar.MenuButton,
-function(vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash) {
-  qx.ui.toolbar.MenuButton.call(this, vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash);
+qx.Clazz.define("qx.ui.menubar.Button",
+{
+  extend : qx.ui.toolbar.MenuButton,
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash) {
+    qx.ui.toolbar.MenuButton.call(this, vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash);
+  }
 });
