@@ -24,18 +24,60 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.listview.ContentCellIconHtml", qx.ui.embed.IconHtmlEmbed,
-function(vHtml, vIcon, vIconWidth, vIconHeight)
+qx.Clazz.define("qx.ui.listview.ContentCellIconHtml",
 {
-  qx.ui.embed.IconHtmlEmbed.call(this, vHtml, vIcon, vIconWidth, vIconHeight);
+  extend : qx.ui.embed.IconHtmlEmbed,
 
-  this.setSelectable(false);
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(vHtml, vIcon, vIconWidth, vIconHeight)
+  {
+    qx.ui.embed.IconHtmlEmbed.call(this, vHtml, vIcon, vIconWidth, vIconHeight);
+
+    this.setSelectable(false);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics :
+  {
+    empty :
+    {
+      icon : "",
+      html : ""
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    appearance :
+    {
+      _legacy      : true,
+      type         : "string",
+      defaultValue : "list-view-content-cell-icon-html"
+    }
+  }
 });
-
-qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "list-view-content-cell-icon-html" });
-
-qx.ui.listview.ContentCellIconHtml.empty =
-{
-  icon : "",
-  html : ""
-}

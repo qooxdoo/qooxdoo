@@ -24,19 +24,56 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.listview.ContentCellText", qx.ui.embed.TextEmbed,
-function(vText)
+qx.Clazz.define("qx.ui.listview.ContentCellText",
 {
-  qx.ui.embed.TextEmbed.call(this, vText);
+  extend : qx.ui.embed.TextEmbed,
 
-  this.setStyleProperty("whiteSpace", "nowrap");
-  this.setStyleProperty("textOverflow", "ellipsis");
 
-  this.setSelectable(false);
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(vText)
+  {
+    qx.ui.embed.TextEmbed.call(this, vText);
+
+    this.setStyleProperty("whiteSpace", "nowrap");
+    this.setStyleProperty("textOverflow", "ellipsis");
+
+    this.setSelectable(false);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics : { empty : { text : "" } },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    appearance :
+    {
+      _legacy      : true,
+      type         : "string",
+      defaultValue : "list-view-content-cell-text"
+    }
+  }
 });
-
-qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "list-view-content-cell-text" });
-
-qx.ui.listview.ContentCellText.empty = {
-  text : ""
-}
