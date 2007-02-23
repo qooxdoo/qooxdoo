@@ -25,7 +25,20 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.layout.HorizontalBoxLayout", qx.ui.layout.BoxLayout,
-function() {
-  qx.ui.layout.BoxLayout.call(this, "horizontal");
+qx.Clazz.define("qx.ui.layout.HorizontalBoxLayout",
+{
+  extend : qx.ui.layout.BoxLayout,
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function() {
+    qx.ui.layout.BoxLayout.call(this, "horizontal");
+  }
 });
