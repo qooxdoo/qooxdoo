@@ -33,6 +33,7 @@
 qx.Theme.define("qx.theme.icon.NuoveXT",
 {
   title : "NuoveXT",
+  
   icons : {
     uri : qx.core.Setting.get("qx.resourceUri") + "/icon/NuoveXT"
   }

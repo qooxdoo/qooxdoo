@@ -33,6 +33,7 @@
 qx.Theme.define("qx.theme.icon.Nuvola",
 {
   title : "Nuvola",
+  
   icons : {
     uri : qx.core.Setting.get("qx.resourceUri") + "/icon/Nuvola"
   }

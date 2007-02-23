@@ -30,6 +30,7 @@
 qx.Theme.define("qx.theme.widget.Windows",
 {
   title : "Windows",
+  
   widgets : {
     uri : qx.core.Setting.get("qx.resourceUri") + "/widget/Windows"
   }
