@@ -27,103 +27,173 @@
 /**
  * @event execute {qx.event.type.Event}
  */
-qx.OO.defineClass("qx.ui.form.RepeatButton", qx.ui.form.Button,
-function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
+qx.Clazz.define("qx.ui.form.RepeatButton",
 {
-  qx.ui.form.Button.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
-
-  this._timer = new qx.client.Timer;
-  this._timer.setInterval(this.getInterval());
-  this._timer.addEventListener("interval", this._oninterval, this);
-});
-
-
-/*
----------------------------------------------------------------------------
-  PROPERTIES
----------------------------------------------------------------------------
-*/
-
-qx.OO.addProperty({ name : "interval", type : "number", defaultValue : 100 });
-qx.OO.addProperty({ name : "firstInterval", type : "number", defaultValue : 500 });
+  extend : qx.ui.form.Button,
 
 
 
 
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
-/*
----------------------------------------------------------------------------
-  EVENT HANDLER
----------------------------------------------------------------------------
-*/
-
-qx.Proto._onmousedown = function(e)
-{
-  if (e.getTarget() != this || !e.isLeftButtonPressed()) {
-    return;
-  }
-
-  this._executed = false;
-
-  this._timer.setInterval(this.getFirstInterval());
-  this._timer.start();
-
-  this.removeState("abandoned");
-  this.addState("pressed");
-}
-
-qx.Proto._onmouseup = function(e)
-{
-  this.setCapture(false);
-
-  if (!this.hasState("abandoned"))
+  construct : function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
   {
-    this.addState("over");
+    qx.ui.form.Button.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
 
-    if (this.hasState("pressed") && !this._executed) {
-      this.execute();
+    this._timer = new qx.client.Timer;
+    this._timer.setInterval(this.getInterval());
+    this._timer.addEventListener("interval", this._oninterval, this);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    interval :
+    {
+      _legacy      : true,
+      type         : "number",
+      defaultValue : 100
+    },
+
+    firstInterval :
+    {
+      _legacy      : true,
+      type         : "number",
+      defaultValue : 500
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      EVENT HANDLER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
+    _onmousedown : function(e)
+    {
+      if (e.getTarget() != this || !e.isLeftButtonPressed()) {
+        return;
+      }
+
+      this._executed = false;
+
+      this._timer.setInterval(this.getFirstInterval());
+      this._timer.start();
+
+      this.removeState("abandoned");
+      this.addState("pressed");
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
+    _onmouseup : function(e)
+    {
+      this.setCapture(false);
+
+      if (!this.hasState("abandoned"))
+      {
+        this.addState("over");
+
+        if (this.hasState("pressed") && !this._executed) {
+          this.execute();
+        }
+      }
+
+      this._timer.stop();
+
+      this.removeState("abandoned");
+      this.removeState("pressed");
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
+    _oninterval : function(e)
+    {
+      this._timer.stop();
+      this._timer.setInterval(this.getInterval());
+      this._timer.start();
+
+      this._executed = true;
+      this.createDispatchEvent("execute");
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DISPOSER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {boolean | var} TODOC
+     */
+    dispose : function()
+    {
+      if (this.getDisposed()) {
+        return true;
+      }
+
+      if (this._timer)
+      {
+        this._timer.stop();
+        this._timer.dispose();
+        this._timer = null;
+      }
+
+      return qx.ui.form.Button.prototype.dispose.call(this);
     }
   }
-
-  this._timer.stop();
-
-  this.removeState("abandoned");
-  this.removeState("pressed");
-}
-
-qx.Proto._oninterval = function(e)
-{
-  this._timer.stop();
-  this._timer.setInterval(this.getInterval());
-  this._timer.start();
-
-  this._executed = true;
-  this.createDispatchEvent("execute");
-}
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DISPOSER
----------------------------------------------------------------------------
-*/
-
-qx.Proto.dispose = function()
-{
-  if (this.getDisposed()) {
-    return true;
-  }
-
-  if (this._timer)
-  {
-    this._timer.stop();
-    this._timer.dispose();
-    this._timer = null;
-  }
-
-  return qx.ui.form.Button.prototype.dispose.call(this);
-}
+});

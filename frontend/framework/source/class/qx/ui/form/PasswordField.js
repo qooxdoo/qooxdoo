@@ -24,10 +24,23 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.form.PasswordField", qx.ui.form.TextField,
-function(vText)
+qx.Clazz.define("qx.ui.form.PasswordField",
 {
-  qx.ui.form.TextField.call(this, vText);
+  extend : qx.ui.form.TextField,
 
-  this.setHtmlProperty("type", "password");
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(vText)
+  {
+    qx.ui.form.TextField.call(this, vText);
+
+    this.setHtmlProperty("type", "password");
+  }
 });

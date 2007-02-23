@@ -23,6 +23,7 @@
 #module(ui_form)
 
 ************************************************************************ */
+
 /**
  * A button.
  *
@@ -30,179 +31,238 @@
  * @state {over}
  * @state {pressed}
  */
-qx.OO.defineClass("qx.ui.form.Button", qx.ui.basic.Atom,
-function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
+qx.Clazz.define("qx.ui.form.Button",
 {
-  // ************************************************************************
-  //   INIT
-  // ************************************************************************
-  qx.ui.basic.Atom.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
-
-  // Make focusable
-  this.setTabIndex(1);
-
-
-  // ************************************************************************
-  //   MOUSE EVENTS
-  // ************************************************************************
-  this.addEventListener("mouseover", this._onmouseover);
-  this.addEventListener("mouseout", this._onmouseout);
-  this.addEventListener("mousedown", this._onmousedown);
-  this.addEventListener("mouseup", this._onmouseup);
-
-
-  // ************************************************************************
-  //   KEY EVENTS
-  // ************************************************************************
-  this.addEventListener("keydown", this._onkeydown);
-  this.addEventListener("keyup", this._onkeyup);
-});
-
-qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "button" });
+  extend : qx.ui.basic.Atom,
 
 
 
-/*
----------------------------------------------------------------------------
-  EVENT HANDLER
----------------------------------------------------------------------------
-*/
 
-qx.Proto._onmouseover = function(e)
-{
-  if (e.getTarget() != this) {
-    return;
-  }
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
-  if (this.hasState("abandoned"))
+  construct : function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
   {
-    this.removeState("abandoned");
-    this.addState("pressed");
-  }
+    qx.ui.basic.Atom.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
 
-  this.addState("over");
-}
+    // Make focusable
+    this.setTabIndex(1);
 
-qx.Proto._onmouseout = function(e)
-{
-  if (e.getTarget() != this) {
-    return;
-  }
+    this.addEventListener("mouseover", this._onmouseover);
+    this.addEventListener("mouseout", this._onmouseout);
+    this.addEventListener("mousedown", this._onmousedown);
+    this.addEventListener("mouseup", this._onmouseup);
 
-  this.removeState("over");
+    this.addEventListener("keydown", this._onkeydown);
+    this.addEventListener("keyup", this._onkeyup);
+  },
 
-  if (this.hasState("pressed"))
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
   {
-    // Activate capturing if the button get a mouseout while
-    // the button is pressed.
-    this.setCapture(true);
-
-    this.removeState("pressed");
-    this.addState("abandoned");
-  }
-}
-
-qx.Proto._onmousedown = function(e)
-{
-  if (e.getTarget() != this || !e.isLeftButtonPressed()) {
-    return;
-  }
-
-  this.removeState("abandoned");
-  this.addState("pressed");
-}
-
-qx.Proto._onmouseup = function(e)
-{
-  this.setCapture(false);
-
-  // We must remove the states before executing the command
-  // because in cases were the window lost the focus while
-  // executing we get the capture phase back (mouseout).
-  var hasPressed = this.hasState("pressed");
-  var hasAbandoned = this.hasState("abandoned");
-
-  if (hasPressed) {
-    this.removeState("pressed");
-  }
-
-  if (hasAbandoned) {
-    this.removeState("abandoned");
-  }
-
-  if (!hasAbandoned)
-  {
-    this.addState("over");
-
-    if (hasPressed) {
-      this.execute();
+    appearance :
+    {
+      _legacy      : true,
+      type         : "string",
+      defaultValue : "button"
     }
-  }
-}
+  },
 
-qx.Proto._onkeydown = function(e)
-{
-  switch(e.getKeyIdentifier())
-  {
-    case "Enter":
-    case "Space":
-      this.removeState("abandoned");
-      this.addState("pressed");
-  }
-}
 
-qx.Proto._onkeyup = function(e)
-{
-  switch(e.getKeyIdentifier())
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
   {
-    case "Enter":
-    case "Space":
-      if (this.hasState("pressed"))
+    /*
+    ---------------------------------------------------------------------------
+      EVENT HANDLER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
+    _onmouseover : function(e)
+    {
+      if (e.getTarget() != this) {
+        return;
+      }
+
+      if (this.hasState("abandoned"))
       {
         this.removeState("abandoned");
-        this.removeState("pressed");
-        this.execute();
+        this.addState("pressed");
       }
+
+      this.addState("over");
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
+    _onmouseout : function(e)
+    {
+      if (e.getTarget() != this) {
+        return;
+      }
+
+      this.removeState("over");
+
+      if (this.hasState("pressed"))
+      {
+        // Activate capturing if the button get a mouseout while
+        // the button is pressed.
+        this.setCapture(true);
+
+        this.removeState("pressed");
+        this.addState("abandoned");
+      }
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
+    _onmousedown : function(e)
+    {
+      if (e.getTarget() != this || !e.isLeftButtonPressed()) {
+        return;
+      }
+
+      this.removeState("abandoned");
+      this.addState("pressed");
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
+    _onmouseup : function(e)
+    {
+      this.setCapture(false);
+
+      // We must remove the states before executing the command
+      // because in cases were the window lost the focus while
+      // executing we get the capture phase back (mouseout).
+      var hasPressed = this.hasState("pressed");
+      var hasAbandoned = this.hasState("abandoned");
+
+      if (hasPressed) {
+        this.removeState("pressed");
+      }
+
+      if (hasAbandoned) {
+        this.removeState("abandoned");
+      }
+
+      if (!hasAbandoned)
+      {
+        this.addState("over");
+
+        if (hasPressed) {
+          this.execute();
+        }
+      }
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
+    _onkeydown : function(e)
+    {
+      switch(e.getKeyIdentifier())
+      {
+        case "Enter":
+        case "Space":
+          this.removeState("abandoned");
+          this.addState("pressed");
+      }
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
+    _onkeyup : function(e)
+    {
+      switch(e.getKeyIdentifier())
+      {
+        case "Enter":
+        case "Space":
+          if (this.hasState("pressed"))
+          {
+            this.removeState("abandoned");
+            this.removeState("pressed");
+            this.execute();
+          }
+      }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DISPOSER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void | var} TODOC
+     */
+    dispose : function()
+    {
+      if (this.getDisposed()) {
+        return;
+      }
+
+      return qx.ui.basic.Atom.prototype.dispose.call(this);
+    }
   }
-}
-
-
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DISPOSER
----------------------------------------------------------------------------
-*/
-
-qx.Proto.dispose = function()
-{
-  if (this.getDisposed()) {
-    return;
-  }
-
-  // ************************************************************************
-  //   MOUSE EVENTS
-  // ************************************************************************
-  this.removeEventListener("mouseover", this._onmouseover, this);
-  this.removeEventListener("mouseout", this._onmouseout, this);
-  this.removeEventListener("mousedown", this._onmousedown, this);
-  this.removeEventListener("mouseup", this._onmouseup, this);
-
-
-  // ************************************************************************
-  //   KEY EVENTS
-  // ************************************************************************
-  this.removeEventListener("keydown", this._onkeydown, this);
-  this.removeEventListener("keyup", this._onkeyup, this);
-
-
-  // ************************************************************************
-  //   SUPER CLASS
-  // ************************************************************************
-  return qx.ui.basic.Atom.prototype.dispose.call(this);
-}
+});
