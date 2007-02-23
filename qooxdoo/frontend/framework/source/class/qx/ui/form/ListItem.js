@@ -24,9 +24,7 @@
 
 ************************************************************************ */
 
-/**
- * @event action {qx.event.type.Event} (Fired by {@link qx.ui.form.List})
- */
+
 qx.Clazz.define("qx.ui.form.ListItem",
 {
   extend : qx.ui.basic.Atom,
@@ -52,6 +50,19 @@ qx.Clazz.define("qx.ui.form.ListItem",
     //   EVENT LISTENER
     // ************************************************************************
     this.addEventListener("dblclick", this._ondblclick);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  
+  events: {
+    "action" : "qx.event.type.Event" /** (Fired by {@link qx.ui.form.List}) */
   },
 
 

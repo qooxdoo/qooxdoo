@@ -29,26 +29,6 @@
  *
  * @param tableModel {qx.ui.table.TableModel, null}
  *   The table model to read the data from.
- *
- * @event columnVisibilityMenuCreateStart {qx.event.type.DataEvent}
- *   Dispatched before adding the column list to the column visibility menu.
- *   The event data is a map with two properties: table and menu.  Listeners
- *   may add additional items to the menu, which appear at the top of the
- *   menu.
- *
- * @event columnVisibilityMenuCreateEnd {qx.event.type.DataEvent}
- *   Dispatched after adding the column list to the column visibility menu.
- *   The event data is a map with two properties: table and menu.  Listeners
- *   may add additional items to the menu, which appear at the bottom of the
- *   menu.
- *
- * @event tableWidthChanged {qx.event.type.Event}
- *   Dispatched when the inner width of the table has changed.
- *
- * @event verticalScrollBarChanged {qx.event.type.DataEvent}
- *   Dispatched when updating scrollbars discovers that a vertical scrollbar
- *   is needed when it previously was not, or vice versa.  The data is a
- *   boolean indicating whether a vertical scrollbar is now being used.
  */
 qx.Clazz.define("qx.ui.table.Table",
 {
@@ -106,6 +86,45 @@ qx.Clazz.define("qx.ui.table.Table",
     this._focusedRow = 0;
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  
+  events : {
+    
+    /**
+     * Dispatched before adding the column list to the column visibility menu.
+     * The event data is a map with two properties: table and menu.  Listeners
+     * may add additional items to the menu, which appear at the top of the
+     * menu.
+     */ 
+  	"columnVisibilityMenuCreateStart" : "qx.event.type.DataEvent",
+
+    /**
+     * Dispatched after adding the column list to the column visibility menu.
+     * The event data is a map with two properties: table and menu.  Listeners
+     * may add additional items to the menu, which appear at the bottom of the
+     * menu.
+     */ 
+    "columnVisibilityMenuCreateEnd" : "qx.event.type.DataEvent",
+
+     /**
+      * Dispatched when the inner width of the table has changed.
+      */ 
+    "tableWidthChanged" : "qx.event.type.DataEvent",
+
+    /**
+     * Dispatched when updating scrollbars discovers that a vertical scrollbar
+     * is needed when it previously was not, or vice versa.  The data is a
+     * boolean indicating whether a vertical scrollbar is now being used.
+     */ 
+    "verticalScrollBarChanged" : "qx.event.type.DataEvent"
+  },
 
 
 

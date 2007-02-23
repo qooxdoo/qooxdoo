@@ -24,10 +24,7 @@
 
 ************************************************************************ */
 
-/**
- * @event beforeToolTipAppear {qx.event.type.Event}
- * @event loadComplete {qx.event.type.Event}
- */
+
 qx.Clazz.define("qx.ui.embed.Gallery",
 {
   extend : qx.ui.basic.Terminator,
@@ -66,6 +63,20 @@ qx.Clazz.define("qx.ui.embed.Gallery",
     this.addEventListener("dblclick", this._ondblclick);
 
     this.addEventListener("keypress", this._onkeypress);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  
+  events: {
+  	"beforeToolTipAppear"     : "qx.event.type.Event",
+    "loadComplete"            : "qx.event.type.Event"
   },
 
 

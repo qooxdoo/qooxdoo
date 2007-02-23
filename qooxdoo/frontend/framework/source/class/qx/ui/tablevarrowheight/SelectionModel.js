@@ -24,10 +24,7 @@
 ************************************************************************ */
 
 /**
- * A selection model.
- *
- * @event changeSelection {qx.event.type.Event}
- *   Fired when the selection has changed.
+ * A selection model.  .
  */
 qx.Clazz.define("qx.ui.tablevarrowheight.SelectionModel",
 {
@@ -45,4 +42,18 @@ qx.Clazz.define("qx.ui.tablevarrowheight.SelectionModel",
   construct : function() {
     qx.ui.table.SelectionModel.call(this);
   }
+
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  
+  events : {
+    "changeSelection" : "qx.event.type.Event" /** Fired when the selection has changed. */
+  }
+  
 });

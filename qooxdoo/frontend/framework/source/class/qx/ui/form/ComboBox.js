@@ -38,8 +38,6 @@
  * <li>Images inside the list</li>
  * <li>Images and text inside the list</li>
  * </ul>
- *
- * @event beforeInitialOpen {qx.event.type.Event}
  */
 qx.Clazz.define("qx.ui.form.ComboBox",
 {
@@ -147,6 +145,19 @@ qx.Clazz.define("qx.ui.form.ComboBox",
     //   REMAPPING
     // ************************************************************************
     this.remapChildrenHandlingTo(l);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  
+  events: {
+    "beforeInitialOpen" : "qx.event.type.Event"
   },
 
 

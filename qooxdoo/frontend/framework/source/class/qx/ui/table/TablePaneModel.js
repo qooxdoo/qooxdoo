@@ -30,8 +30,6 @@
  *
  * @param tableColumnModel {TableColumnModel} The TableColumnModel of which this
  *    model is the proxy.
- *
- * @event modelChanged {qx.event.type.Event} Fired when the model changed.
  */
 qx.Clazz.define("qx.ui.table.TablePaneModel",
 {
@@ -55,6 +53,18 @@ qx.Clazz.define("qx.ui.table.TablePaneModel",
     this._tableColumnModel = tableColumnModel;
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  
+  events : {
+    "modelChanged" : "qx.event.type.Event" /** Fired when the model changed. */
+  },
 
 
 

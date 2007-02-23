@@ -26,11 +26,6 @@
 /**
  * A "virtual" tree
  *
- * @event treeOpenWithContent {qx.event.type.DataEvent}
- * @event treeOpenWhileEmpty {qx.event.type.DataEvent}
- * @event treeClose {qx.event.type.DataEvent}
- * @event changeSelection {qx.event.type.Event}
- *
  * WARNING: This widget is in active development and the interface to it is
  *          very likely to change, possibly on a daily basis, for a while.  Do
  *          not use this widget yet.
@@ -142,6 +137,22 @@ qx.Clazz.define("qx.ui.treevirtual.TreeVirtual",
     }
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  
+  events : {
+    "treeOpenWithContent" : "qx.event.type.DataEvent",
+    "treeOpenWhileEmpty" : "qx.event.type.DataEvent",
+    "treeClose" : "qx.event.type.DataEvent",
+    "changeSelection" : "qx.event.type.DataEvent"
+  },
+  
 
 
 

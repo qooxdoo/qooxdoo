@@ -26,9 +26,7 @@
 
 ************************************************************************ */
 
-/**
- * @event change {qx.event.type.Event}
- */
+
 qx.Clazz.define("qx.ui.form.Spinner",
 {
   extend : qx.ui.layout.HorizontalBoxLayout,
@@ -126,6 +124,18 @@ qx.Clazz.define("qx.ui.form.Spinner",
     }
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  
+  events: {
+    "change" : "qx.event.type.Event"
+  },
 
 
 

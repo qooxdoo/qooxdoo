@@ -24,9 +24,7 @@
 
 ************************************************************************ */
 
-/**
- * @event loadComplete {qx.event.type.Event}
- */
+
 qx.Clazz.define("qx.ui.embed.GalleryList",
 {
   extend : qx.ui.basic.Terminator,
@@ -62,6 +60,18 @@ qx.Clazz.define("qx.ui.embed.GalleryList",
     this.addEventListener("keypress", this._onkeypress);
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  
+  events: {
+    "loadComplete"            : "qx.event.type.Event"
+  },
 
 
 

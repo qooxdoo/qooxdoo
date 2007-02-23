@@ -48,8 +48,6 @@
  * <li>Images inside the list</li>
  * <li>Autocomplete on key input</li>
  * </ul>
- *
- * @event beforeInitialOpen {qx.event.type.Event}
  */
 qx.Clazz.define("qx.ui.form.ComboBoxEx",
 {
@@ -139,6 +137,18 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
     this._popup.addEventListener("appear", this._onpopupappear, this);
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  
+  events: {
+    "beforeInitialOpen" : "qx.event.type.Event"
+  },
 
 
 
