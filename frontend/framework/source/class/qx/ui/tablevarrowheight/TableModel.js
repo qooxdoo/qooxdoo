@@ -48,9 +48,20 @@
  * @event metaDataChanged {qx.event.type.Event}
  *   Fired when the meta data changed (the stuff shown in the table header).
  */
-qx.OO.defineClass("qx.ui.tablevarrowheight.TableModel",
-                  qx.ui.table.TableModel,
-function()
+qx.Clazz.define("qx.ui.tablevarrowheight.TableModel",
 {
-  qx.ui.table.TableModel.call(this);
+  extend : qx.ui.table.TableModel,
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function() {
+    qx.ui.table.TableModel.call(this);
+  }
 });

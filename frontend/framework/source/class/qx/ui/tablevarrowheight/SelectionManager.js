@@ -29,9 +29,20 @@
  *
  * @see SelectionModel
  */
-qx.OO.defineClass("qx.ui.tablevarrowheight.SelectionManager",
-                  qx.ui.table.SelectionManager,
-function()
+qx.Clazz.define("qx.ui.tablevarrowheight.SelectionManager",
 {
-  qx.ui.table.SelectionManager.call(this);
+  extend : qx.ui.table.SelectionManager,
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function() {
+    qx.ui.table.SelectionManager.call(this);
+  }
 });

@@ -29,9 +29,20 @@
  * @param paneScroller {TablePaneScroller}
  *   The TablePaneScroller the header belongs to.
  */
-qx.OO.defineClass("qx.ui.tablevarrowheight.TablePaneHeader",
-                  qx.ui.table.TablePaneHeader,
-function(paneScroller)
+qx.Clazz.define("qx.ui.tablevarrowheight.TablePaneHeader",
 {
-  qx.ui.table.TablePaneHeader.call(this, paneScroller);
+  extend : qx.ui.table.TablePaneHeader,
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(paneScroller) {
+    qx.ui.table.TablePaneHeader.call(this, paneScroller);
+  }
 });
