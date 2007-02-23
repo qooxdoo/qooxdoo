@@ -775,65 +775,70 @@ qx.Clazz.define("qx.Clazz",
      */
     __addMembers : qx.core.Variant.select("qx.client",
     {
-      "default" :     function(clazz, members)
+      "default" : function(clazz, members)
       {
+        var superproto = clazz.superclass.prototype;
+        var proto = clazz.prototype;
+
         for (var key in members)
         {
           var member = members[key];
-  
+
           // Added helper stuff to functions
           if (typeof member === "function")
           {
             // Configure extend (named base here)
-            var superproto = clazz.superclass.prototype;
             if (superproto[key]) {
               member.base = superproto[key];
             }
-  
+
             member.self = clazz;
-  
+
             // add member protection
             if (qx.core.Variant.isSet("qx.debug", "on")) {
               member = this.__addAccessProtectionMembers(member, key, clazz);
             }
           }
-  
+
           // Attach member
-          clazz.prototype[key] = member;
+          proto[key] = member;
         }
       },
-      
+
       "mshtml" : function(clazz, members)
       {
         var memberNames = qx.lang.Object.getKeys(members);
-        for (var i=0; i<memberNames.length; i++)
+        var superproto = clazz.superclass.prototype;
+        var proto = clazz.prototype;
+
+        for (var i=0, l=memberNames.length; i<l; i++)
         {
           var key = memberNames[i];
           var member = members[key];
-  
+
           // Added helper stuff to functions
           if (typeof member === "function")
           {
             // Configure extend (named base here)
-            var superproto = clazz.superclass.prototype;
+
             if (superproto[key]) {
               member.base = superproto[key];
             }
-  
+
             member.self = clazz;
-  
+
             // add member protection
             if (qx.core.Variant.isSet("qx.debug", "on")) {
               member = this.__addAccessProtectionMembers(member, key, clazz);
             }
           }
-  
+
           // Attach member
-          clazz.prototype[key] = member;
+          proto[key] = member;
         }
       }
     }),
-    
+
 
     /**
      * Add a single interface to a class
@@ -974,33 +979,33 @@ qx.Clazz.define("qx.Clazz",
           {
             var key = memberNames[i];
             var member = members[key];
-            
+
             if (proto[key] !== undefined && !patch) {
-              throw new Error('Overwriting member "' + key + '" of Class "' + clazz.classname + '" by Mixin "' + mixin.name + '" is not allowed!');              
+              throw new Error('Overwriting member "' + key + '" of Class "' + clazz.classname + '" by Mixin "' + mixin.name + '" is not allowed!');
             }
-  
+
             // add member protection
             if (qx.core.Variant.isSet("qx.debug", "on")) {
               member = this.__addAccessProtectionMembers(member, key, clazz);
             }
-  
+
             proto[key] = member;
-          }          
+          }
         }
         else
         {
           for (var key in members)
           {
             if (proto[key] !== undefined && !patch) {
-              throw new Error('Overwriting member "' + key + '" of Class "' + clazz.classname + '" by Mixin "' + mixin.name + '" is not allowed!');              
+              throw new Error('Overwriting member "' + key + '" of Class "' + clazz.classname + '" by Mixin "' + mixin.name + '" is not allowed!');
             }
             var member = members[key];
-  
+
             // add member protection
             if (qx.core.Variant.isSet("qx.debug", "on")) {
               member = this.__addAccessProtectionMembers(member, key, clazz);
             }
-  
+
             proto[key] = member;
           }
         }
