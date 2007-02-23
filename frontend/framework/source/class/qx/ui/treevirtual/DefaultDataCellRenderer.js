@@ -27,21 +27,48 @@
  * The default data cell renderer for a virtual tree (columns other than the
  * tree column)
  */
-qx.OO.defineClass("qx.ui.treevirtual.DefaultDataCellRenderer",
-                  qx.ui.table.DefaultDataCellRenderer,
-function()
+qx.Clazz.define("qx.ui.treevirtual.DefaultDataCellRenderer",
 {
-  qx.ui.table.DefaultDataCellRenderer.call(this);
+  extend : qx.ui.table.DefaultDataCellRenderer,
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function() {
+    qx.ui.table.DefaultDataCellRenderer.call(this);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    // overridden
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param cellInfo {var} TODOC
+     * @return {var} TODOC
+     */
+    _getCellStyle : function(cellInfo)
+    {
+      // Return the style for the div for the cell.  If there's cell-specific
+      // style information provided, append it.
+      var html = cellInfo.style + qx.ui.treevirtual.SimpleTreeDataCellRenderer.MAIN_DIV_STYLE;
+      return html;
+    }
+  }
 });
-
-
-// overridden
-qx.Proto._getCellStyle = function(cellInfo)
-{
-  // Return the style for the div for the cell.  If there's cell-specific
-  // style information provided, append it.
-  var html =
-    cellInfo.style +
-    qx.ui.treevirtual.SimpleTreeDataCellRenderer.MAIN_DIV_STYLE;
-  return html;
-};
