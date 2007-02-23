@@ -29,31 +29,63 @@
 /**
  * Shows the class details.
  */
-qx.OO.defineClass("apiviewer.InfoViewer", qx.ui.embed.HtmlEmbed,
-function() {
-  qx.ui.embed.HtmlEmbed.call(this);
-
-  this.setOverflow("auto");
-  this.setPadding(20);
-  this.setEdge(0);
-  this.setHtmlProperty("id", "InfoViewer");
-  this.setVisibility(false);
-
-  apiviewer.InfoViewer.instance = this;
-});
-
-qx.Proto.showInfo = function(classNode)
+qx.Clazz.define("apiviewer.InfoViewer",
 {
-  var vHtml = "";
+  extend : qx.ui.embed.HtmlEmbed,
 
-  // Title
-  vHtml += '<h1>';
-  vHtml += '<div class="pkgtitle">package</div>';
-  vHtml += classNode.attributes.fullName;
-  vHtml += '</h1>';
 
-  // TODO: Overview of classes in this package
 
-  // Apply HTML
-  this.setHtml(vHtml);
-}
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function()
+  {
+    qx.ui.embed.HtmlEmbed.call(this);
+
+    this.setOverflow("auto");
+    this.setPadding(20);
+    this.setEdge(0);
+    this.setHtmlProperty("id", "InfoViewer");
+    this.setVisibility(false);
+
+    apiviewer.InfoViewer.instance = this;
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param classNode {var} TODOC
+     * @return {void} 
+     */
+    showInfo : function(classNode)
+    {
+      var vHtml = "";
+
+      // Title
+      vHtml += '<h1>';
+      vHtml += '<div class="pkgtitle">package</div>';
+      vHtml += classNode.attributes.fullName;
+      vHtml += '</h1>';
+
+      // TODO: Overview of classes in this package
+      // Apply HTML
+      this.setHtml(vHtml);
+    }
+  }
+});
