@@ -22,6 +22,7 @@
 
 #module(core)
 #ignore(auto-require)
+#require(qx.core.Client)
 
 ************************************************************************ */
 
@@ -92,23 +93,54 @@ qx.Clazz.define("qx.lang.Object",
 
 
     /**
-     * Get the keys of a map as array
+     * Get the keys of a map as array as returned by a "for ... in" statement.
      *
      * @type static
      * @param map {Object} the map
      * @return {Array} array of the keys of the map
      */
-    getKeys : function(map)
+    getKeys : qx.core.Variant.select("qx.client",
     {
-      var r = [];
-
-      for (var s in map) {
-        r.push(s);
+      "mshtml" : function(map)
+      {
+        var r = [];
+  
+        for (var s in map) {
+          r.push(s);
+        }
+        
+        // IE does not return "shadowed" keys even if they are defined directly
+        // in the object. This is incompatible to the ECMA standard!!
+        // This is why this checks are needed.
+        var ownProp = Object.prototype.hasOwnProperty;  
+        ieShadowProps = [
+          "isPrototypeOf",
+          "hasOwnProperty",
+          "toLocaleString",
+          "toString",
+          "valueOf"
+        ];
+        for (var i=0; i<ieShadowProps.length; i++) {
+        	if(ownProp.call(map, ieShadowProps[i])) {
+        		r.push(ieShadowProps[i]);
+        	}
+        }
+        
+        return r;
+			},
+      
+      "default" : function(map)
+      {
+        var r = [];
+  
+        for (var s in map) {
+          r.push(s);
+        }
+  
+        return r;
       }
-
-      return r;
-    },
-
+    }),
+    
 
     /**
      * Get the keys of a map as string

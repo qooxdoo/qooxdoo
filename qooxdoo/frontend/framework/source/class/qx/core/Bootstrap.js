@@ -25,6 +25,7 @@
 #ignore(auto-use)
 #use(qx.lang.Core)
 #use(qx.lang.Generics)
+#use(qx.lang.Client)
 #use(qx.lang.Object)
 #use(qx.lang.String)
 #use(qx.lang.Array)
