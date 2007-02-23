@@ -24,18 +24,49 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.groupbox.CheckGroupBox", qx.ui.groupbox.GroupBox,
-function(vLegend) {
-  qx.ui.groupbox.GroupBox.call(this, vLegend);
-});
-
-qx.Proto._createLegendObject = function()
+qx.Clazz.define("qx.ui.groupbox.CheckGroupBox",
 {
-  this._legendObject = new qx.ui.form.CheckBox;
-  this._legendObject.setAppearance("check-box-field-set-legend");
-  this._legendObject.setChecked(true);
+  extend : qx.ui.groupbox.GroupBox,
 
-  this.add(this._legendObject);
-}
 
-qx.Proto.setIcon = qx.Proto.getIcon = null;
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(vLegend) {
+    qx.ui.groupbox.GroupBox.call(this, vLegend);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    _createLegendObject : function()
+    {
+      this._legendObject = new qx.ui.form.CheckBox;
+      this._legendObject.setAppearance("check-box-field-set-legend");
+      this._legendObject.setChecked(true);
+
+      this.add(this._legendObject);
+    },
+
+    setIcon : qx.Proto.getIcon = null
+  }
+});

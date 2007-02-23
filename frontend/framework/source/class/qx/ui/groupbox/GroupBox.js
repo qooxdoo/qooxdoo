@@ -24,135 +24,227 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.groupbox.GroupBox", qx.ui.layout.CanvasLayout,
-function(vLegend, vIcon)
+qx.Clazz.define("qx.ui.groupbox.GroupBox",
 {
-  qx.ui.layout.CanvasLayout.call(this);
+  extend : qx.ui.layout.CanvasLayout,
 
 
-  // ************************************************************************
-  //   SUB WIDGETS
-  // ************************************************************************
-  this._createFrameObject();
-  this._createLegendObject();
 
 
-  // ************************************************************************
-  //   INIT
-  // ************************************************************************
-  this.setLegend(vLegend);
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
-  if (vIcon != null) {
-    this.setIcon(vIcon);
+  construct : function(vLegend, vIcon)
+  {
+    qx.ui.layout.CanvasLayout.call(this);
+
+    // ************************************************************************
+    //   SUB WIDGETS
+    // ************************************************************************
+    this._createFrameObject();
+    this._createLegendObject();
+
+    // ************************************************************************
+    //   INIT
+    // ************************************************************************
+    this.setLegend(vLegend);
+
+    if (vIcon != null) {
+      this.setIcon(vIcon);
+    }
+
+    // ************************************************************************
+    //   REMAPPING
+    // ************************************************************************
+    this.remapChildrenHandlingTo(this._frameObject);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    appearance :
+    {
+      _legacy      : true,
+      type         : "string",
+      defaultValue : "field-set"
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      SUB WIDGET CREATION
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    _createLegendObject : function()
+    {
+      this._legendObject = new qx.ui.basic.Atom;
+      this._legendObject.setAppearance("field-set-legend");
+
+      this.add(this._legendObject);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    _createFrameObject : function()
+    {
+      this._frameObject = new qx.ui.layout.CanvasLayout;
+      this._frameObject.setAppearance("field-set-frame");
+
+      this.add(this._frameObject);
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      GETTER FOR SUB WIDGETS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getFrameObject : function() {
+      return this._frameObject;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getLegendObject : function() {
+      return this._legendObject;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      SETTER/GETTER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vLegend {var} TODOC
+     * @return {void} 
+     */
+    setLegend : function(vLegend) {
+      this._legendObject.setLabel(vLegend);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getLegend : function() {
+      return this._legendObject.getLabel();
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vIcon {var} TODOC
+     * @return {void} 
+     */
+    setIcon : function(vIcon) {
+      this._legendObject.setIcon(vIcon);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    getIcon : function() {
+      this._legendObject.getIcon();
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DISPOSER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {boolean | var} TODOC
+     */
+    dispose : function()
+    {
+      if (this.getDisposed()) {
+        return true;
+      }
+
+      if (this._legendObject)
+      {
+        this._legendObject.dispose();
+        this._legendObject = null;
+      }
+
+      if (this._frameObject)
+      {
+        this._frameObject.dispose();
+        this._frameObject = null;
+      }
+
+      return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
+    }
   }
-
-
-  // ************************************************************************
-  //   REMAPPING
-  // ************************************************************************
-  this.remapChildrenHandlingTo(this._frameObject);
 });
-
-qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "field-set" });
-
-
-
-
-/*
----------------------------------------------------------------------------
-  SUB WIDGET CREATION
----------------------------------------------------------------------------
-*/
-
-qx.Proto._createLegendObject = function()
-{
-  this._legendObject = new qx.ui.basic.Atom;
-  this._legendObject.setAppearance("field-set-legend");
-
-  this.add(this._legendObject);
-}
-
-qx.Proto._createFrameObject = function()
-{
-  this._frameObject = new qx.ui.layout.CanvasLayout;
-  this._frameObject.setAppearance("field-set-frame");
-
-  this.add(this._frameObject);
-}
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  GETTER FOR SUB WIDGETS
----------------------------------------------------------------------------
-*/
-
-qx.Proto.getFrameObject = function() {
-  return this._frameObject;
-}
-
-qx.Proto.getLegendObject = function() {
-  return this._legendObject;
-}
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  SETTER/GETTER
----------------------------------------------------------------------------
-*/
-
-qx.Proto.setLegend = function(vLegend) {
-  this._legendObject.setLabel(vLegend);
-}
-
-qx.Proto.getLegend = function() {
-  return this._legendObject.getLabel();
-}
-
-qx.Proto.setIcon = function(vIcon) {
-  this._legendObject.setIcon(vIcon);
-}
-
-qx.Proto.getIcon = function() {
-  this._legendObject.getIcon();
-}
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DISPOSER
----------------------------------------------------------------------------
-*/
-
-qx.Proto.dispose = function()
-{
-  if (this.getDisposed()) {
-    return true;
-  }
-
-  if (this._legendObject)
-  {
-    this._legendObject.dispose();
-    this._legendObject = null;
-  }
-
-  if (this._frameObject)
-  {
-    this._frameObject.dispose();
-    this._frameObject = null;
-  }
-
-  return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
-}
