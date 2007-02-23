@@ -125,7 +125,7 @@ qx.Clazz.define("qx.ui.form.CheckBox",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createIcon : function()
     {
@@ -185,6 +185,10 @@ qx.Clazz.define("qx.ui.form.CheckBox",
       return qx.ui.basic.Atom.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
     },
 
+    // The user can't control the icon in checkboxes
+    _modifyIcon : null,
+    _modifyDisabledIcon : null,
+
 
 
 
@@ -198,7 +202,7 @@ qx.Clazz.define("qx.ui.form.CheckBox",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _handleIcon : function()
     {
@@ -234,7 +238,7 @@ qx.Clazz.define("qx.ui.form.CheckBox",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onclick : function(e) {
       this.toggleChecked();
@@ -246,7 +250,7 @@ qx.Clazz.define("qx.ui.form.CheckBox",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeydown : function(e)
     {
@@ -261,7 +265,7 @@ qx.Clazz.define("qx.ui.form.CheckBox",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeyup : function(e)
     {
@@ -297,15 +301,5 @@ qx.Clazz.define("qx.ui.form.CheckBox",
 
       return qx.ui.basic.Atom.prototype.dispose.call(this);
     }
-  },
-  
-  defer : function(clazz, proto)
-  {
-    // TODO using remove property is really ugly. Either enhance Atom or base Checkbox on a different super class
-    qx.OO.removeProperty({ name : "icon" });
-    qx.OO.removeProperty({ name : "disabledIcon" });    
   }
-  
 });
-
-
