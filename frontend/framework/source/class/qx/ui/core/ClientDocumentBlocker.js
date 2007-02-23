@@ -24,18 +24,48 @@
 
 ************************************************************************ */
 
-/*!
-  qx.ui.core.ClientDocumentBlocker blocks the inputs from the user.
-  This will be used internally to allow better modal dialogs for example.
-*/
-qx.OO.defineClass("qx.ui.core.ClientDocumentBlocker", qx.ui.basic.Terminator,
-function()
+/**
+ * qx.ui.core.ClientDocumentBlocker blocks the inputs from the user.
+ *  This will be used internally to allow better modal dialogs for example.
+ */
+qx.Clazz.define("qx.ui.core.ClientDocumentBlocker",
 {
-  qx.ui.basic.Terminator.call(this);
+  extend : qx.ui.basic.Terminator,
 
-  this.setEdge(0);
-  this.setZIndex(1e8);
-  this.setDisplay(false);
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function()
+  {
+    qx.ui.basic.Terminator.call(this);
+
+    this.setEdge(0);
+    this.setZIndex(1e8);
+    this.setDisplay(false);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    appearance :
+    {
+      _legacy      : true,
+      type         : "string",
+      defaultValue : "blocker"
+    }
+  }
 });
-
-qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "blocker" });
