@@ -56,7 +56,7 @@ qx.Clazz.define("qx.ui.groupbox.CheckGroupBox",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createLegendObject : function()
     {
@@ -67,6 +67,7 @@ qx.Clazz.define("qx.ui.groupbox.CheckGroupBox",
       this.add(this._legendObject);
     },
 
-    setIcon : qx.Proto.getIcon = null
+    setIcon : null,
+    getIcon : null
   }
 });

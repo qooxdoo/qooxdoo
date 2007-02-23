@@ -56,7 +56,7 @@ qx.Clazz.define("qx.ui.groupbox.RadioGroupBox",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createLegendObject : function()
     {
@@ -67,6 +67,7 @@ qx.Clazz.define("qx.ui.groupbox.RadioGroupBox",
       this.add(this._legendObject);
     },
 
-    setIcon : qx.Proto.getIcon = null
+    setIcon : null,
+    getIcon : null
   }
 });
