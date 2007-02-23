@@ -428,7 +428,7 @@ qx.Clazz.define("qx.core.LegacyProperty",
                 throw new Error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + config.name + "\" which must be an instance of \"" + config.instance + "\"!");
               }
             }
-            else
+            else if (qx.core.Variant.isSet("qx.compatibility", "on"))
             {
               if (config.hasInstance && !(newValue instanceof qx.OO.classes[config.instance])) {
                 throw new Error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + config.name + "\" which must be an instance of \"" + config.instance + "\"!");

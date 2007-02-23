@@ -81,7 +81,7 @@ endif
 # (source/index.html by default). In most cases just prepend a "../" to
 # QOOXDOO_PATH from above.
 # Example: QOOXDOO_URI = ../../qooxdoo-0.6.5-sdk
-# The assigned value should end in a directory name. Please omit trailing 
+# The assigned value should end in a directory name. Please omit trailing
 # slashes.
 #
 ifndef QOOXDOO_URI
@@ -216,6 +216,10 @@ endif
 
 ifndef APPLICATION_OPTIMIZE_REMOVE_DEBUG
   APPLICATION_OPTIMIZE_REMOVE_DEBUG = true
+endif
+
+ifndef APPLICATION_OPTIMIZE_REMOVE_COMPATIBILITY
+  APPLICATION_OPTIMIZE_REMOVE_COMPATIBILITY = true
 endif
 
 #
