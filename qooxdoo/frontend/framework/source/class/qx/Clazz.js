@@ -658,13 +658,23 @@ qx.Clazz.define("qx.Clazz",
           proto.$$objectproperties = qx.lang.Object.copy(extend.prototype.$$objectproperties);
         }
 
-        // TODO: Copy qooxodo 0.7 properties
-
-        // Compatibility to qooxdoo 0.6.x
-        // TODO: Remove this before 0.7 final
-        qx.Class = clazz;
-        qx.Proto = proto;
-        qx.Super = extend;
+        if (qx.core.Variant.isSet("qx.compatibility", "on"))
+        {
+          // Compatibility to qooxdoo 0.6.x
+          qx.Class = clazz;
+          qx.Proto = proto;
+          qx.Super = extend;
+        }
+      }
+      else
+      {
+        if (qx.core.Variant.isSet("qx.compatibility", "on"))
+        {
+          // Compatibility to qooxdoo 0.6.x
+          qx.Class = clazz;
+          qx.Proto = null;
+          qx.Super = null;
+        }
       }
 
       // add statics protection

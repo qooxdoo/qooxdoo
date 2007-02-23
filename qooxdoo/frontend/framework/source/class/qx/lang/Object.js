@@ -250,8 +250,15 @@ qx.Clazz.define("qx.lang.Object",
      * @param vObject {Object} Object to copy
      * @return {Object} copy of vObject
      */
-    copy : function(vObject) {
-      return qx.lang.Object.mergeWith({}, vObject);
+    copy : function(vObject)
+    {
+      var vCopy = {};
+
+      for (var vKey in vObject) {
+        vCopy[vKey] = vObject[vKey];
+      }
+
+      return vCopy;
     },
 
 
