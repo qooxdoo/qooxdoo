@@ -575,7 +575,7 @@ qx.Clazz.define("qx.ui.table.SelectionModel",
 
   defer : function(statics, members, properties)
   {
-    properties.add(selectionMode,
+    properties.add("selectionMode",
     {
       _legacy        : true,
       type           : "number",
