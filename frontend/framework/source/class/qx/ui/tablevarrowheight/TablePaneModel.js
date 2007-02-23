@@ -46,7 +46,7 @@ qx.Clazz.define("qx.ui.tablevarrowheight.TablePaneModel",
 
   construct : function(tableColumnModel) {
     qx.ui.table.TablePaneModel.call(this, tableColumnModel);
-  }
+  },
   
   
 
