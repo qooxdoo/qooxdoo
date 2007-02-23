@@ -220,34 +220,34 @@ qx.Clazz.define("qx.ui.core.ClientDocument",
      * @return {var} TODOC
      */
     getParent : qx.lang.Function.returnNull,
-    
-    
+
+
     /**
      * TODOC
      *
      * @type member
      * @return {var} TODOC
-     */    
+     */
     getToolTip : qx.lang.Function.returnNull,
-    
-    
+
+
     /**
      * TODOC
      *
      * @type member
      * @return {Boolean} TODOC
-     */    
+     */
     isMaterialized : qx.lang.Function.returnTrue,
-    
-    
+
+
     /**
      * TODOC
      *
      * @type member
      * @return {Boolean} TODOC
-     */    
+     */
     isSeeable : qx.lang.Function.returnTrue,
-    
+
 
     _isDisplayable : true,
     _hasParent : false,
@@ -292,7 +292,7 @@ qx.Clazz.define("qx.ui.core.ClientDocument",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     blockHelper : function(e)
     {
@@ -315,7 +315,7 @@ qx.Clazz.define("qx.ui.core.ClientDocument",
      *
      * @type member
      * @param vActiveChild {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     block : function(vActiveChild)
     {
@@ -343,7 +343,7 @@ qx.Clazz.define("qx.ui.core.ClientDocument",
      *
      * @type member
      * @param vActiveChild {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     release : function(vActiveChild)
     {
@@ -480,7 +480,7 @@ qx.Clazz.define("qx.ui.core.ClientDocument",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onwindowresize : function(e)
     {
@@ -501,17 +501,17 @@ qx.Clazz.define("qx.ui.core.ClientDocument",
     // but it seems so, that mozilla stops javascript execution while the user
     // resize windows. Bad.
     /*
-    qx.Proto._onwindowresizehelper = function()
+    _onwindowresizehelper : function()
     {
       // Test for changes
       var t1 = this._recomputeInnerWidth();
       var t2 = this._recomputeInnerHeight();
-    
+
       // Flush queues
       if (t1 || t2) {
         qx.ui.core.Widget.flushGlobalQueues();
       }
-    }
+    },
     */
 
     /**
@@ -601,19 +601,19 @@ qx.Clazz.define("qx.ui.core.ClientDocument",
     "qx.enableApplicationLayout" : true,
     "qx.boxModelCorrection"      : true
   },
-  
-  defer : function() 
+
+  defer : function()
   {
-    // CSS fix    
+    // CSS fix
     if (qx.core.Setting.get("qx.boxModelCorrection")) {
       qx.html.StyleSheet.createElement("html,body{margin:0;border:0;padding:0;}" + " html{border:0 none;} *{" + qx.core.Client.getInstance().getEngineBoxSizingAttribute() + ":border-box;} img{" + qx.core.Client.getInstance().getEngineBoxSizingAttribute() + ":content-box;}");
     }
-    
+
     if (qx.core.Setting.get("qx.enableApplicationLayout")) {
       qx.html.StyleSheet.createElement("html,body{width:100%;height:100%;overflow:hidden;}");
-    }    
+    }
   }
-  
+
 });
 
 
