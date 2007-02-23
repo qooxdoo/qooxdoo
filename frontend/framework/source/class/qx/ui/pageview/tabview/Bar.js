@@ -24,12 +24,42 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.pageview.tabview.Bar", qx.ui.pageview.AbstractBar,
-function()
+qx.Clazz.define("qx.ui.pageview.tabview.Bar",
 {
-  qx.ui.pageview.AbstractBar.call(this);
+  extend : qx.ui.pageview.AbstractBar,
 
-  this.setZIndex(2);
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function()
+  {
+    qx.ui.pageview.AbstractBar.call(this);
+
+    this.setZIndex(2);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    appearance :
+    {
+      _legacy      : true,
+      type         : "string",
+      defaultValue : "tab-view-bar"
+    }
+  }
 });
-
-qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "tab-view-bar" });

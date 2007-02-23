@@ -24,54 +24,105 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.pageview.buttonview.Bar", qx.ui.pageview.AbstractBar,
-function() {
-  qx.ui.pageview.AbstractBar.call(this);
-});
-
-qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "bar-view-bar" });
-
-
-
-
-/*
----------------------------------------------------------------------------
-  EVENTS
----------------------------------------------------------------------------
-*/
-
-qx.Proto.getWheelDelta = function(e)
+qx.Clazz.define("qx.ui.pageview.buttonview.Bar",
 {
-  var vWheelDelta = e.getWheelDelta();
+  extend : qx.ui.pageview.AbstractBar,
 
-  switch(this.getParent().getBarPosition())
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function() {
+    qx.ui.pageview.AbstractBar.call(this);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
   {
-    case "left":
-    case "right":
-      vWheelDelta *= -1;
+    appearance :
+    {
+      _legacy      : true,
+      type         : "string",
+      defaultValue : "bar-view-bar"
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      EVENTS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {var} TODOC
+     */
+    getWheelDelta : function(e)
+    {
+      var vWheelDelta = e.getWheelDelta();
+
+      switch(this.getParent().getBarPosition())
+      {
+        case "left":
+        case "right":
+          vWheelDelta *= -1;
+      }
+
+      return vWheelDelta;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      APPEARANCE ADDITIONS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    _applyStateAppearance : function()
+    {
+      var vPos = this.getParent().getBarPosition();
+
+      this._states.barLeft = vPos === "left";
+      this._states.barRight = vPos === "right";
+      this._states.barTop = vPos === "top";
+      this._states.barBottom = vPos === "bottom";
+
+      qx.ui.pageview.AbstractButton.prototype._applyStateAppearance.call(this);
+    }
   }
-
-  return vWheelDelta;
-}
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  APPEARANCE ADDITIONS
----------------------------------------------------------------------------
-*/
-
-qx.Proto._applyStateAppearance = function()
-{
-  var vPos = this.getParent().getBarPosition();
-
-  this._states.barLeft = vPos === "left";
-  this._states.barRight = vPos === "right";
-  this._states.barTop = vPos === "top";
-  this._states.barBottom = vPos === "bottom";
-
-  qx.ui.pageview.AbstractButton.prototype._applyStateAppearance.call(this);
-}
+});

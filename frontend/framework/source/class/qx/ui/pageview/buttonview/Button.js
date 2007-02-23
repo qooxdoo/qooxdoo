@@ -24,99 +24,144 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.pageview.buttonview.Button", qx.ui.pageview.AbstractButton,
-function(vText, vIcon, vIconWidth, vIconHeight, vFlash) {
-  qx.ui.pageview.AbstractButton.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
-});
-
-qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "bar-view-button" });
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  EVENT HANDLER
----------------------------------------------------------------------------
-*/
-
-qx.Proto._onkeypress = function(e)
+qx.Clazz.define("qx.ui.pageview.buttonview.Button",
 {
-  switch(this.getView().getBarPosition())
+  extend : qx.ui.pageview.AbstractButton,
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(vText, vIcon, vIconWidth, vIconHeight, vFlash) {
+    qx.ui.pageview.AbstractButton.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
   {
-    case "top":
-    case "bottom":
-      switch(e.getKeyIdentifier())
+    appearance :
+    {
+      _legacy      : true,
+      type         : "string",
+      defaultValue : "bar-view-button"
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      EVENT HANDLER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
+    _onkeypress : function(e)
+    {
+      switch(this.getView().getBarPosition())
       {
-        case "Left":
-          var vPrevious = true;
+        case "top":
+        case "bottom":
+          switch(e.getKeyIdentifier())
+          {
+            case "Left":
+              var vPrevious = true;
+              break;
+
+            case "Right":
+              var vPrevious = false;
+              break;
+
+            default:
+              return;
+          }
+
           break;
 
-        case "Right":
-          var vPrevious = false;
+        case "left":
+        case "right":
+          switch(e.getKeyIdentifier())
+          {
+            case "Up":
+              var vPrevious = true;
+              break;
+
+            case "Down":
+              var vPrevious = false;
+              break;
+
+            default:
+              return;
+          }
+
           break;
 
         default:
           return;
       }
 
-      break;
+      var vChild = vPrevious ? this.isFirstChild() ? this.getParent().getLastChild() : this.getPreviousSibling() : this.isLastChild() ? this.getParent().getFirstChild() : this.getNextSibling();
 
-    case "left":
-    case "right":
-      switch(e.getKeyIdentifier())
-      {
-        case "Up":
-          var vPrevious = true;
-          break;
+      // focus next/previous button
+      vChild.setFocused(true);
 
-        case "Down":
-          var vPrevious = false;
-          break;
+      // and naturally also check it
+      vChild.setChecked(true);
+    },
 
-        default:
-          return;
-      }
 
-      break;
 
-    default:
-      return;
+
+    /*
+    ---------------------------------------------------------------------------
+      APPEARANCE ADDITIONS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    _applyStateAppearance : function()
+    {
+      var vPos = this.getView().getBarPosition();
+
+      this._states.barLeft = vPos === "left";
+      this._states.barRight = vPos === "right";
+      this._states.barTop = vPos === "top";
+      this._states.barBottom = vPos === "bottom";
+
+      qx.ui.pageview.AbstractButton.prototype._applyStateAppearance.call(this);
+    }
   }
-
-  var vChild = vPrevious ? this.isFirstChild() ? this.getParent().getLastChild() : this.getPreviousSibling() : this.isLastChild() ? this.getParent().getFirstChild() : this.getNextSibling();
-
-  // focus next/previous button
-  vChild.setFocused(true);
-
-  // and naturally also check it
-  vChild.setChecked(true);
-}
-
-
-
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  APPEARANCE ADDITIONS
----------------------------------------------------------------------------
-*/
-
-qx.Proto._applyStateAppearance = function()
-{
-  var vPos = this.getView().getBarPosition();
-
-  this._states.barLeft = vPos === "left";
-  this._states.barRight = vPos === "right";
-  this._states.barTop = vPos === "top";
-  this._states.barBottom = vPos === "bottom";
-
-  qx.ui.pageview.AbstractButton.prototype._applyStateAppearance.call(this);
-}
+});

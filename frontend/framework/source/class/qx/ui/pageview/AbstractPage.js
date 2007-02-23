@@ -23,55 +23,102 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.pageview.AbstractPage", qx.ui.layout.CanvasLayout,
-function(vButton)
+qx.Clazz.define("qx.ui.pageview.AbstractPage",
 {
-  qx.ui.layout.CanvasLayout.call(this);
+  extend : qx.ui.layout.CanvasLayout,
 
-  if (vButton != null) {
-    this.setButton(vButton);
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(vButton)
+  {
+    qx.ui.layout.CanvasLayout.call(this);
+
+    if (vButton != null) {
+      this.setButton(vButton);
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    /** The attached tab of this page. */
+    button :
+    {
+      _legacy : true,
+      type    : "object"
+    },
+
+
+    /**
+     * Make element displayed (if switched to true the widget will be created, if needed, too).
+     *  Instead of qx.ui.core.Widget, the default is false here.
+     */
+    display :
+    {
+      _legacy      : true,
+      type         : "boolean",
+      defaultValue : false
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      MODIFIER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {boolean} TODOC
+     */
+    _modifyButton : function(propValue, propOldValue, propData)
+    {
+      if (propOldValue) {
+        propOldValue.setPage(null);
+      }
+
+      if (propValue) {
+        propValue.setPage(this);
+      }
+
+      return true;
+    }
   }
 });
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  PROPERTIES
----------------------------------------------------------------------------
-*/
-
-/*!
-  The attached tab of this page.
-*/
-qx.OO.addProperty({ name : "button", type : "object" });
-
-/*!
-  Make element displayed (if switched to true the widget will be created, if needed, too).
-  Instead of qx.ui.core.Widget, the default is false here.
-*/
-qx.OO.changeProperty({ name : "display", type : "boolean", defaultValue : false });
-
-
-
-
-/*
----------------------------------------------------------------------------
-  MODIFIER
----------------------------------------------------------------------------
-*/
-
-qx.Proto._modifyButton = function(propValue, propOldValue, propData)
-{
-  if (propOldValue) {
-    propOldValue.setPage(null);
-  }
-
-  if (propValue) {
-    propValue.setPage(this);
-  }
-
-  return true;
-}

@@ -24,65 +24,127 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.pageview.tabview.TabView", qx.ui.pageview.AbstractPageView,
-function() {
-  qx.ui.pageview.AbstractPageView.call(this, qx.ui.pageview.tabview.Bar, qx.ui.pageview.tabview.Pane);
-});
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  PROPERTIES
----------------------------------------------------------------------------
-*/
-
-qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "tab-view" });
-
-qx.OO.addProperty({ name : "alignTabsToLeft", type : "boolean", defaultValue : true });
-qx.OO.addProperty({ name : "placeBarOnTop", type : "boolean", defaultValue : true });
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  MODIFIER
----------------------------------------------------------------------------
-*/
-
-qx.Proto._modifyAlignTabsToLeft = function(propValue, propOldValue, propData)
+qx.Clazz.define("qx.ui.pageview.tabview.TabView",
 {
-  var vBar = this._bar;
+  extend : qx.ui.pageview.AbstractPageView,
 
-  vBar.setHorizontalChildrenAlign(propValue ? "left" : "right");
 
-  // force re-apply of states for all tabs
-  vBar._addChildrenToStateQueue();
 
-  return true;
-}
 
-qx.Proto._modifyPlaceBarOnTop = function(propValue, propOldValue, propData)
-{
-  // This does not work if we use flexible zones
-  // this.setReverseChildrenOrder(!propValue);
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
-  var vBar = this._bar;
+  construct : function() {
+    qx.ui.pageview.AbstractPageView.call(this, qx.ui.pageview.tabview.Bar, qx.ui.pageview.tabview.Pane);
+  },
 
-  // move bar around
-  if (propValue) {
-    vBar.moveSelfToBegin();
-  } else {
-    vBar.moveSelfToEnd();
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    appearance :
+    {
+      _legacy      : true,
+      type         : "string",
+      defaultValue : "tab-view"
+    },
+
+    alignTabsToLeft :
+    {
+      _legacy      : true,
+      type         : "boolean",
+      defaultValue : true
+    },
+
+    placeBarOnTop :
+    {
+      _legacy      : true,
+      type         : "boolean",
+      defaultValue : true
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      MODIFIER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {boolean} TODOC
+     */
+    _modifyAlignTabsToLeft : function(propValue, propOldValue, propData)
+    {
+      var vBar = this._bar;
+
+      vBar.setHorizontalChildrenAlign(propValue ? "left" : "right");
+
+      // force re-apply of states for all tabs
+      vBar._addChildrenToStateQueue();
+
+      return true;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {boolean} TODOC
+     */
+    _modifyPlaceBarOnTop : function(propValue, propOldValue, propData)
+    {
+      // This does not work if we use flexible zones
+      // this.setReverseChildrenOrder(!propValue);
+      var vBar = this._bar;
+
+      // move bar around
+      if (propValue) {
+        vBar.moveSelfToBegin();
+      } else {
+        vBar.moveSelfToEnd();
+      }
+
+      // force re-apply of states for all tabs
+      vBar._addChildrenToStateQueue();
+
+      return true;
+    }
   }
-
-  // force re-apply of states for all tabs
-  vBar._addChildrenToStateQueue();
-
-  return true;
-}
+});

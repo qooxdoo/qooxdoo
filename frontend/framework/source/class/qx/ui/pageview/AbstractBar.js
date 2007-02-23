@@ -23,109 +23,156 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.pageview.AbstractBar", qx.ui.layout.BoxLayout,
-function()
+qx.Clazz.define("qx.ui.pageview.AbstractBar",
 {
-  qx.ui.layout.BoxLayout.call(this);
+  extend : qx.ui.layout.BoxLayout,
 
-  this._manager = new qx.manager.selection.RadioManager;
 
-  this.addEventListener("mousewheel", this._onmousewheel);
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function()
+  {
+    qx.ui.layout.BoxLayout.call(this);
+
+    this._manager = new qx.manager.selection.RadioManager;
+
+    this.addEventListener("mousewheel", this._onmousewheel);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      UTILITY
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getManager : function() {
+      return this._manager;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENTS
+    ---------------------------------------------------------------------------
+    */
+
+    _lastDate : (new Date(0)).valueOf(),
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
+    _onmousewheel : function(e)
+    {
+      // Make it a bit lazier than it could be
+      // Hopefully this is a better behaviour for fast scrolling users
+      var vDate = (new Date).valueOf();
+
+      if ((vDate - 50) < this._lastDate) {
+        return;
+      }
+
+      this._lastDate = vDate;
+
+      var vManager = this.getManager();
+      var vItems = vManager.getEnabledItems();
+      var vPos = vItems.indexOf(vManager.getSelected());
+
+      if (this.getWheelDelta(e) > 0)
+      {
+        var vNext = vItems[vPos + 1];
+
+        if (!vNext) {
+          vNext = vItems[0];
+        }
+      }
+      else if (vPos > 0)
+      {
+        var vNext = vItems[vPos - 1];
+
+        if (!vNext) {
+          vNext = vItems[0];
+        }
+      }
+      else
+      {
+        vNext = vItems[vItems.length - 1];
+      }
+
+      vManager.setSelected(vNext);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {var} TODOC
+     */
+    getWheelDelta : function(e) {
+      return e.getWheelDelta();
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DISPOSER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void | var} TODOC
+     */
+    dispose : function()
+    {
+      if (this.getDisposed()) {
+        return;
+      }
+
+      if (this._manager)
+      {
+        this._manager.dispose();
+        this._manager = null;
+      }
+
+      this.removeEventListener("mousewheel", this._onmousewheel);
+
+      return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
+    }
+  }
 });
-
-
-
-
-/*
----------------------------------------------------------------------------
-  UTILITY
----------------------------------------------------------------------------
-*/
-
-qx.Proto.getManager = function() {
-  return this._manager;
-}
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  EVENTS
----------------------------------------------------------------------------
-*/
-
-qx.Proto._lastDate = (new Date(0)).valueOf();
-
-qx.Proto._onmousewheel = function(e)
-{
-  // Make it a bit lazier than it could be
-  // Hopefully this is a better behaviour for fast scrolling users
-  var vDate = (new Date).valueOf();
-
-  if ((vDate - 50) < this._lastDate) {
-    return;
-  }
-
-  this._lastDate = vDate;
-
-  var vManager = this.getManager();
-  var vItems = vManager.getEnabledItems();
-  var vPos = vItems.indexOf(vManager.getSelected());
-
-  if (this.getWheelDelta(e) > 0)
-  {
-    var vNext = vItems[vPos+1];
-
-    if (!vNext) {
-      vNext = vItems[0];
-    }
-  }
-  else if (vPos > 0)
-  {
-    var vNext = vItems[vPos-1];
-
-    if (!vNext) {
-      vNext = vItems[0];
-    }
-  }
-  else
-  {
-    vNext = vItems[vItems.length-1];
-  }
-
-  vManager.setSelected(vNext);
-}
-
-qx.Proto.getWheelDelta = function(e) {
-  return e.getWheelDelta();
-}
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DISPOSER
----------------------------------------------------------------------------
-*/
-
-qx.Proto.dispose = function()
-{
-  if (this.getDisposed()) {
-    return;
-  }
-
-  if (this._manager)
-  {
-    this._manager.dispose();
-    this._manager = null;
-  }
-
-  this.removeEventListener("mousewheel", this._onmousewheel);
-
-  return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
-}
