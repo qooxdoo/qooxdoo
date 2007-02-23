@@ -24,32 +24,71 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.popup.PopupAtom", qx.ui.popup.Popup,
-function(vLabel, vIcon)
+qx.Clazz.define("qx.ui.popup.PopupAtom",
 {
-  qx.ui.popup.Popup.call(this);
+  extend : qx.ui.popup.Popup,
 
-  this._atom = new qx.ui.basic.Atom(vLabel, vIcon);
-  this._atom.setParent(this);
-});
 
-qx.Proto._isFocusRoot = false;
 
-qx.Proto.getAtom = function() {
-  return this._atom;
-}
 
-qx.Proto.dispose = function()
-{
-  if (this.getDisposed()) {
-    return;
-  }
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
-  if (this._atom)
+  construct : function(vLabel, vIcon)
   {
-    this._atom.dispose();
-    this._atom = null;
-  }
+    qx.ui.popup.Popup.call(this);
 
-  return qx.ui.popup.Popup.prototype.dispose.call(this);
-}
+    this._atom = new qx.ui.basic.Atom(vLabel, vIcon);
+    this._atom.setParent(this);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    _isFocusRoot : false,
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getAtom : function() {
+      return this._atom;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void | var} TODOC
+     */
+    dispose : function()
+    {
+      if (this.getDisposed()) {
+        return;
+      }
+
+      if (this._atom)
+      {
+        this._atom.dispose();
+        this._atom = null;
+      }
+
+      return qx.ui.popup.Popup.prototype.dispose.call(this);
+    }
+  }
+});
