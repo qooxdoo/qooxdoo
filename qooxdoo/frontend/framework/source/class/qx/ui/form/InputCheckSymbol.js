@@ -24,72 +24,177 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.form.InputCheckSymbol", qx.ui.basic.Terminator,
-function()
+qx.Clazz.define("qx.ui.form.InputCheckSymbol",
 {
-  qx.ui.basic.Terminator.call(this);
+  extend : qx.ui.basic.Terminator,
 
-  this.setTagName("input");
-  this.setSelectable(false);
 
-  if (qx.core.Variant.isSet("qx.client", "mshtml"))
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function()
   {
-    // Take control over size of element (mshtml)
-    this.setWidth(13);
-    this.setHeight(13);
-  }
-  else if (qx.core.Variant.isSet("qx.client", "gecko"))
-  {
-    // Remove gecko default margin
-    this.setMargin(0);
-  }
+    qx.ui.basic.Terminator.call(this);
 
-  // we need to be sure that the dom protection of this is added
-  this.forceTabIndex(1);
-  this.setTabIndex(-1);
-  this.setChecked(false);
-});
+    this.setTagName("input");
+    this.setSelectable(false);
 
-qx.OO.addProperty({ name : "name", type : "string", impl : "apply" });
-qx.OO.addProperty({ name : "value", impl : "apply" });
-qx.OO.addProperty({ name : "type", impl : "apply" });
-qx.OO.addProperty({ name : "checked", type : "boolean", impl : "apply", getAlias : "isChecked" });
-
-qx.Proto._modifyApply = function(propValue, propOldValue, propData) {
-  return this.setHtmlProperty(propData.name, propValue);
-}
-
-qx.Proto.getPreferredBoxWidth = function() {
-  return 13;
-}
-
-qx.Proto.getPreferredBoxHeight = function() {
-  return 13;
-}
-
-qx.Proto.getBoxWidth = qx.Proto.getPreferredBoxWidth;
-qx.Proto.getBoxHeight = qx.Proto.getPreferredBoxHeight;
-
-qx.Proto.getInnerWidth = qx.Proto.getPreferredBoxWidth;
-qx.Proto.getInnerHeight = qx.Proto.getPreferredBoxHeight;
-
-if (qx.core.Variant.isSet("qx.client", "mshtml"))
-{
-  qx.Proto._afterAppear = function()
-  {
-    qx.ui.basic.Terminator.prototype._afterAppear.call(this);
-
-    var vElement = this.getElement();
-    vElement.checked = this.getChecked();
-
-    if (!this.getEnabled()) {
-      vElement.disabled = true;
+    if (qx.core.Variant.isSet("qx.client", "mshtml"))
+    {
+      // Take control over size of element (mshtml)
+      this.setWidth(13);
+      this.setHeight(13);
     }
-  }
-}
+    else if (qx.core.Variant.isSet("qx.client", "gecko"))
+    {
+      // Remove gecko default margin
+      this.setMargin(0);
+    }
 
-qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
-{
-  propValue ? this.removeHtmlAttribute("disabled") : this.setHtmlAttribute("disabled", "disabled");
-  return qx.ui.basic.Terminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
-}
+    // we need to be sure that the dom protection of this is added
+    this.forceTabIndex(1);
+    this.setTabIndex(-1);
+    this.setChecked(false);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    name :
+    {
+      _legacy : true,
+      type    : "string",
+      impl    : "apply"
+    },
+
+    value :
+    {
+      _legacy : true,
+      impl    : "apply"
+    },
+
+    type :
+    {
+      _legacy : true,
+      impl    : "apply"
+    },
+
+    checked :
+    {
+      _legacy  : true,
+      type     : "boolean",
+      impl     : "apply",
+      getAlias : "isChecked"
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {var} TODOC
+     */
+    _modifyApply : function(propValue, propOldValue, propData) {
+      return this.setHtmlProperty(propData.name, propValue);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {int} TODOC
+     */
+    getPreferredBoxWidth : function() {
+      return 13;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {int} TODOC
+     */
+    getPreferredBoxHeight : function() {
+      return 13;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    _afterAppear : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function()
+		  {
+		    qx.ui.basic.Terminator.prototype._afterAppear.call(this);
+		
+		    var vElement = this.getElement();
+		    vElement.checked = this.getChecked();
+		
+		    if (!this.getEnabled()) {
+		      vElement.disabled = true;
+		    }
+		  },
+		      
+      "default" : qx.lang.Function.returnTrue
+    }),
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {var} TODOC
+     */
+    _modifyEnabled : function(propValue, propOldValue, propData)
+    {
+      propValue ? this.removeHtmlAttribute("disabled") : this.setHtmlAttribute("disabled", "disabled");
+      return qx.ui.basic.Terminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
+    }
+  },
+  
+  defer : function(clazz, proto)
+  {
+    proto.getBoxWidth = proto.getPreferredBoxWidth;
+    proto.getBoxHeight = proto.getPreferredBoxHeight;
+
+    proto.getInnerWidth = proto.getPreferredBoxWidth;
+    proto.getInnerHeight = proto.getPreferredBoxHeight;  
+  }
+  
+});

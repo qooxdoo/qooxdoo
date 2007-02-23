@@ -27,32 +27,92 @@
 /**
  * @param vValue {String} this string is ddisplayed as the value of the TextArea.
  */
-qx.OO.defineClass("qx.ui.form.TextArea", qx.ui.form.TextField,
-function(vValue)
+qx.Clazz.define("qx.ui.form.TextArea",
 {
-  qx.ui.form.TextField.call(this, vValue);
+  extend : qx.ui.form.TextField,
 
-  this.setTagName("textarea");
-  this.removeHtmlProperty("type");
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(vValue)
+  {
+    qx.ui.form.TextField.call(this, vValue);
+
+    this.setTagName("textarea");
+    this.removeHtmlProperty("type");
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    appearance :
+    {
+      _legacy      : true,
+      type         : "string",
+      defaultValue : "text-area"
+    },
+
+    wrap :
+    {
+      _legacy : true,
+      type    : "boolean"
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {void} 
+     */
+    _modifyWrap : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(propValue, propOldValue, propData) {
+		    return this.setStyleProperty("whiteSpace", propValue ? "normal" : "nowrap");
+		  },
+      
+      "default" : function(propValue, propOldValue, propData) {
+		    return this.setHtmlProperty("wrap", propValue ? "soft" : "off");
+		  }
+    }),
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {int} TODOC
+     */
+    _computePreferredInnerHeight : function() {
+      return 60;
+    }
+  }
 });
-
-qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "text-area" });
-
-qx.OO.addProperty({ name : "wrap", type : "boolean" });
-
-if (qx.core.Variant.isSet("qx.client", "mshtml"))
-{
-  qx.Proto._modifyWrap = function(propValue, propOldValue, propData) {
-    return this.setStyleProperty("whiteSpace", propValue ? "normal" : "nowrap");
-  }
-}
-else
-{
-  qx.Proto._modifyWrap = function(propValue, propOldValue, propData) {
-    return this.setHtmlProperty("wrap", propValue ? "soft" : "off");
-  }
-}
-
-qx.Proto._computePreferredInnerHeight = function() {
-  return 60;
-}
