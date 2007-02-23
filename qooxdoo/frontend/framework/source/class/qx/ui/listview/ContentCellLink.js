@@ -24,19 +24,61 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.listview.ContentCellLink", qx.ui.embed.LinkEmbed,
-function(vHtml)
+qx.Clazz.define("qx.ui.listview.ContentCellLink",
 {
-  qx.ui.embed.LinkEmbed.call(this, vHtml);
+  extend : qx.ui.embed.LinkEmbed,
 
-  // selectable = false will break links in gecko based browsers
-  this.setSelectable(true);
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(vHtml)
+  {
+    qx.ui.embed.LinkEmbed.call(this, vHtml);
+
+    // selectable = false will break links in gecko based browsers
+    this.setSelectable(true);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics :
+  {
+    empty :
+    {
+      html : "",
+      uri  : "#"
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    appearance :
+    {
+      _legacy      : true,
+      type         : "string",
+      defaultValue : "list-view-content-cell-link"
+    }
+  }
 });
-
-qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "list-view-content-cell-link" });
-
-qx.ui.listview.ContentCellLink.empty =
-{
-  html : "",
-  uri : "#"
-}

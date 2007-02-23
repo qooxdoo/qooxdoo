@@ -25,36 +25,87 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.listview.ContentCellImage", qx.ui.basic.Image,
-function(vSource, vWidth, vHeight) {
-  qx.ui.basic.Image.call(this, vSource, vWidth, vHeight);
-});
-
-qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "list-view-content-cell-image" });
-
-qx.ui.listview.ContentCellImage.empty = {
-  source : "static/image/blank.gif"
-}
-
-
-
-/*
----------------------------------------------------------------------------
-  CUSTOM SETTER
----------------------------------------------------------------------------
-*/
-
-qx.Proto.setSource = function(vSource)
+qx.Clazz.define("qx.ui.listview.ContentCellImage",
 {
-  if (this._initialLayoutDone)
-  {
-    return this._updateContent(qx.manager.object.AliasManager.getInstance().resolvePath(vSource == "" ? "static/image/blank.gif" : vSource));
-  }
-  else
-  {
-    return qx.ui.basic.Image.prototype.setSource.call(this, vSource);
-  }
-}
+  extend : qx.ui.basic.Image,
 
-// Omit dimension setup in list-view
-qx.Proto._postApplyDimensions = qx.lang.Function.returnTrue;
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(vSource, vWidth, vHeight) {
+    qx.ui.basic.Image.call(this, vSource, vWidth, vHeight);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics : { empty : { source : "static/image/blank.gif" } },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    appearance :
+    {
+      _legacy      : true,
+      type         : "string",
+      defaultValue : "list-view-content-cell-image"
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      CUSTOM SETTER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vSource {var} TODOC
+     * @return {var} TODOC
+     */
+    setSource : function(vSource)
+    {
+      if (this._initialLayoutDone) {
+        return this._updateContent(qx.manager.object.AliasManager.getInstance().resolvePath(vSource == "" ? "static/image/blank.gif" : vSource));
+      } else {
+        return qx.ui.basic.Image.prototype.setSource.call(this, vSource);
+      }
+    },
+
+    // Omit dimension setup in list-view
+    _postApplyDimensions : qx.lang.Function.returnTrue
+  }
+});

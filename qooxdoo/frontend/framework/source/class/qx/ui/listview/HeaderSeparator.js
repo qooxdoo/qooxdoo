@@ -24,9 +24,39 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.listview.HeaderSeparator", qx.ui.basic.Terminator,
-function() {
-  qx.ui.basic.Terminator.call(this);
-});
+qx.Clazz.define("qx.ui.listview.HeaderSeparator",
+{
+  extend : qx.ui.basic.Terminator,
 
-qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "list-view-header-separator" });
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function() {
+    qx.ui.basic.Terminator.call(this);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    appearance :
+    {
+      _legacy      : true,
+      type         : "string",
+      defaultValue : "list-view-header-separator"
+    }
+  }
+});
