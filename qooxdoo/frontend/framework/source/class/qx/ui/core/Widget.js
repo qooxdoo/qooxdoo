@@ -90,40 +90,41 @@ qx.Clazz.define("qx.ui.core.Widget",
   */
   
   events: {
-    "beforeAppear" : qx.event.type.Event,
-    "appear" : qx.event.type.Event,
-    "beforeDisappear" : qx.event.type.Event,
-    "disappear" : qx.event.type.Event,
-    "beforeInsertDom" : qx.event.type.Event,
-    "insertDom" : qx.event.type.Event,
-    "beforeRemoveDom" : qx.event.type.Event,
-    "removeDom" : qx.event.type.Event,
-    "create" : qx.event.type.Event,
-    "execute" : qx.event.type.Event,
-    "FADE_FINISHED" : qx.event.type.DataEvent,
-    "mouseover" : qx.event.type.MouseEvent, /**  (Fired by {@link qx.event.handler.EventHandler}) */
-    "mousemove" : qx.event.type.MouseEvent, /**  (Fired by {@link qx.event.handler.EventHandler}) */
-    "mouseout" : qx.event.type.MouseEvent, /**  (Fired by {@link qx.event.handler.EventHandler}) */
-    "mousedown" : qx.event.type.MouseEvent, /**  (Fired by {@link qx.event.handler.EventHandler}) */
-    "mouseup" : qx.event.type.MouseEvent, /**  (Fired by {@link qx.event.handler.EventHandler}) */    
-    "mousewheel" : qx.event.type.MouseEvent, /**  (Fired by {@link qx.event.handler.EventHandler}) */    
-    "click" : qx.event.type.MouseEvent, /**  (Fired by {@link qx.event.handler.EventHandler}) */    
-    "dblclick" : qx.event.type.MouseEvent, /**  (Fired by {@link qx.event.handler.EventHandler}) */    
-    "contextmenu" : qx.event.type.MouseEvent, /**  (Fired by {@link qx.event.handler.EventHandler}) */    
-    "keydown" : qx.event.type.KeyEvent, /**  (Fired by {@link qx.event.handler.EventHandler}) */    
-    "keypress" : qx.event.type.KeyEvent, /**  (Fired by {@link qx.event.handler.EventHandler}) */    
-    "keyinput" : qx.event.type.KeyEvent, /**  (Fired by {@link qx.event.handler.EventHandler}) */    
-    "keyup" : qx.event.type.KeyEvent, /**  (Fired by {@link qx.event.handler.EventHandler}) */    
-    "focusout" : qx.event.type.FocusEvent, /**  (Fired by {@link qx.ui.core.Parent}) */    
-    "focusin" : qx.event.type.FocusEvent, /**  (Fired by {@link qx.ui.core.Parent}) */    
-    "blur" : qx.event.type.FocusEvent, /**  (Fired by {@link qx.ui.core.Parent}) */    
-    "focus" : qx.event.type.FocusEvent, /**  (Fired by {@link qx.ui.core.Parent}) */    
-    "dragdrop" : qx.event.type.DragEvent, /**  (Fired by {@link qx.event.handler.DragAndDropHandler}) */    
-    "dragout" : qx.event.type.DragEvent, /**  (Fired by {@link qx.event.handler.DragAndDropHandler}) */    
-    "dragover" : qx.event.type.DragEvent, /**  (Fired by {@link qx.event.handler.DragAndDropHandler}) */    
-    "dragmove" : qx.event.type.DragEvent, /**  (Fired by {@link qx.event.handler.DragAndDropHandler}) */    
-    "dragstart" : qx.event.type.DragEvent, /**  (Fired by {@link qx.event.handler.DragAndDropHandler}) */    
-    "dragend" : qx.event.type.DragEvent /**  (Fired by {@link qx.event.handler.DragAndDropHandler}) */
+    "beforeAppear" : "qx.event.type.Event",
+    "appear" : "qx.event.type.Event",
+    "beforeDisappear" : "qx.event.type.Event",
+    "disappear" : "qx.event.type.Event",
+    "beforeInsertDom" : "qx.event.type.Event",
+    "insertDom" : "x.event.type.Event",
+    "beforeRemoveDom" : "qx.event.type.Event",
+    "removeDom" : "qx.event.type.Event",
+    "create" : "qx.event.type.Event",
+    "execute" : "qx.event.type.Event",
+    "FADE_FINISHED" : "qx.event.type.DataEvent",
+    "mouseover" : "qx.event.type.MouseEvent", /** (Fired by {@link "qx.event.handler.Event"Handler}) */
+    "mousemove" : "qx.event.type.MouseEvent", /** (Fired by {@link "qx.event.handler.Event"Handler}) */
+    "mouseout" : "qx.event.type.MouseEvent", /** (Fired by {@link "qx.event.handler.Event"Handler}) */
+    "mousedown" : "qx.event.type.MouseEvent", /** (Fired by {@link "qx.event.handler.Event"Handler}) */
+    "mouseup" : "qx.event.type.MouseEvent", /** (Fired by {@link "qx.event.handler.Event"Handler}) */    
+    "mousewheel" : "qx.event.type.MouseEvent", /** (Fired by {@link "qx.event.handler.Event"Handler}) */    
+    "click" : "qx.event.type.MouseEvent", /** (Fired by {@link "qx.event.handler.Event"Handler}) */    
+    "dblclick" : "qx.event.type.MouseEvent", /** (Fired by {@link "qx.event.handler.Event"Handler}) */    
+    "contextmenu" : "qx.event.type.MouseEvent", /** (Fired by {@link "qx.event.handler.Event"Handler}) */    
+    "keydown" : "qx.event.type.KeyEvent", /** (Fired by {@link "qx.event.handler.Event"Handler}) */    
+    "keypress" : "qx.event.type.KeyEvent", /** (Fired by {@link "qx.event.handler.Event"Handler}) */    
+    "keyinput" : "qx.event.type.KeyEvent", /** (Fired by {@link "qx.event.handler.Event"Handler}) */    
+    "keyup" : "qx.event.type.KeyEvent", /** (Fired by {@link "qx.event.handler.Event"Handler}) */    
+    "focusout" : "qx.event.type.FocusEvent", /** (Fired by {@link qx.ui.core.Parent}) */    
+    "focusin" : "qx.event.type.FocusEvent", /** (Fired by {@link qx.ui.core.Parent}) */    
+    "blur" : "qx.event.type.FocusEvent", /** (Fired by {@link qx.ui.core.Parent}) */    
+    "focus" : "qx.event.type.FocusEvent", /** (Fired by {@link qx.ui.core.Parent}) */    
+    "dragdrop" : "qx.event.type.DragEvent", /** (Fired by {@link qx.event.handler.DragAndDropHandler}) */    
+    "dragout" : "qx.event.type.DragEvent", /** (Fired by {@link qx.event.handler.DragAndDropHandler}) */    
+    "dragover" : "qx.event.type.DragEvent", /** (Fired by {@link qx.event.handler.DragAndDropHandler}) */    
+    "dragmove" : "qx.event.type.DragEvent", /** (Fired by {@link qx.event.handler.DragAndDropHandler}) */    
+    "dragstart" : "qx.event.type.DragEvent", /** (Fired by {@link qx.event.handler.DragAndDropHandler}) */    
+    "dragend" : "qx.event.type.DragEvent", /** (Fired by {@link qx.event.handler.DragAndDropHandler}) */
+    "scroll" : "qx.event.type.Event" /** Inline event. The event must be enabled using <code>enableInlineEvent("scroll")</code> before it can be used*/
   },
   
   
