@@ -20,7 +20,6 @@
 
 /* ************************************************************************
 
-#module(theme_icon)
 #resource(icontheme:icon/Nuvola)
 
 ************************************************************************ */
@@ -31,30 +30,10 @@
  * License: LGPL
  * Home: http://www.kde-look.org/content/show.php?content=5358
  */
-qx.Clazz.define("qx.theme.icon.Nuvola",
+qx.Theme.define("qx.theme.icon.Nuvola",
 {
-  type : "singleton",
-  extend : qx.renderer.theme.IconTheme,
-
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function()
-  {
-    qx.renderer.theme.IconTheme.call(this, "Nuvola");
-
-    this.uri = qx.core.Setting.get("qx.resourceUri") + "/icon/Nuvola";
-  },
-  
-  defer : function(clazz)
-  {
-    qx.manager.object.ImageManager.getInstance().registerIconTheme(clazz);    
+  title : "Nuvola",
+  icons : {
+    uri : qx.core.Setting.get("qx.resourceUri") + "/icon/Nuvola"
   }
-    
 });

@@ -52,7 +52,7 @@ qx.Clazz.define("qx.core.Init",
   {
     qx.core.Target.call(this, false);
 
-    // Attach DOM events    
+    // Attach DOM events
     qx.html.EventRegistration.addEventListener(window, "load", qx.lang.Function.bind(this._onload, this));
     qx.html.EventRegistration.addEventListener(window, "beforeunload", qx.lang.Function.bind(this._onbeforeunload, this));
     qx.html.EventRegistration.addEventListener(window, "unload", qx.lang.Function.bind(this._onunload, this));
@@ -245,8 +245,11 @@ qx.Clazz.define("qx.core.Init",
       this.debug("qooxdoo " + qx.core.Version.toString());
 
       // Print out class information
-      this.debug("loaded " + qx.lang.Object.getLength(qx.OO.classes) + " old classes");
-      this.debug("loaded " + qx.Clazz.getNumber() + " new classes");
+      this.debug("loaded " + qx.Clazz.getNumber() + " classes");
+      this.debug("loaded " + qx.Interface.getNumber() + " interfaces");
+      this.debug("loaded " + qx.Mixin.getNumber() + " mixins");
+      this.debug("loaded " + qx.Locale.getNumber() + " locales");
+      this.debug("loaded " + qx.Theme.getNumber() + " themes");
 
       // Print browser information
       var cl = qx.core.Client.getInstance();

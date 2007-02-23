@@ -20,39 +20,16 @@
 
 /* ************************************************************************
 
-#module(theme_color)
-
 ************************************************************************ */
 
 /**
  * System color theme
  */
-qx.Clazz.define("qx.theme.color.System",
+qx.Theme.define("qx.theme.color.System",
 {
-  type : "singleton",
-  extend : qx.renderer.theme.ColorTheme,
+  title : "Operating System Default",
 
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function() {
-    qx.renderer.theme.ColorTheme.call(this, "Operating System Default");
-  },
-  
-  defer : function(clazz)
-  {
-    qx.manager.object.ColorManager.getInstance().registerColorTheme(clazz);    
+  colors : {
+    // empty: use system colors
   }
-  
 });
-
-
-
-
-

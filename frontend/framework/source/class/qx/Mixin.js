@@ -132,6 +132,17 @@ qx.Clazz.define("qx.Mixin",
 
 
     /**
+     * Determine the number of mixins which are defined
+     *
+     * @type static
+     * @return {Number} the number of classes
+     */
+    getNumber : function() {
+      return qx.lang.Object.getLength(this.__registry);
+    },
+
+
+    /**
      * Whether a given class includes a mixin.
      *
      * @type static

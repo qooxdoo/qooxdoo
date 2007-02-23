@@ -20,8 +20,6 @@
 
 /* ************************************************************************
 
-#module(ui_core)
-#module(theme_icon)
 #resource(icontheme:icon/CrystalClear)
 
 ************************************************************************ */
@@ -32,31 +30,10 @@
  * License: LGPL
  * Home: http://www.kde-look.org/content/show.php?content=25668
  */
-qx.Clazz.define("qx.theme.icon.CrystalClear",
+qx.Theme.define("qx.theme.icon.CrystalClear",
 {
-  type : "singleton",
-  extend : qx.renderer.theme.IconTheme,
-
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function()
-  {
-    qx.renderer.theme.IconTheme.call(this, "CrystalClear");
-
-    this.uri = qx.core.Setting.get("qx.resourceUri") + "/icon/CrystalClear";
-  },
-  
-  defer : function(clazz)
-  {
-    qx.manager.object.ImageManager.getInstance().registerIconTheme(clazz);    
+  title : "CrystalClear",
+  icons : {
+    uri : qx.core.Setting.get("qx.resourceUri") + "/icon/CrystalClear"
   }
-    
 });
-

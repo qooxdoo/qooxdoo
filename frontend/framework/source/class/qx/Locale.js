@@ -24,76 +24,76 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.Locale", { statics:
+qx.Clazz.define("qx.Locale",
 {
-  /** {var} TODOC */
-  _registry : {},
-
-  /**
-   * Locale definition
-   *
-   * Example:
-   * <pre><code>
-   * qx.Locale.define("fullname",
-   * {
-   *   "msgId": "msgText",
-   *   ...
-   * });
-   * </code></pre>
-   *
-   * @type static
-   * @name define
-   * @access public
-   * @param fullname {String} name of the mixin
-   * @param definition {Map} definition structure
-   * @return {void}
-   */
-  define : function(fullname, definition)
+  statics:
   {
-    var vSplitName = fullname.split(".");
-    var vLength = vSplitName.length;
-    var vParentPackage = window;
-    var vPartName = vSplitName[0];
-
-    for (var i=0, l=vSplitName.length - 1; i<l; i++)
+    /**
+     * Locale config
+     *
+     * Example:
+     * <pre><code>
+     * qx.Locale.define("name",
+     * {
+     *   "msgId": "msgText",
+     *   ...
+     * });
+     * </code></pre>
+     *
+     * @type static
+     * @param name {String} name of the mixin
+     * @param config {Map} config structure
+     * @return {void}
+     */
+    define : function(name, config)
     {
-      if (!vParentPackage[vPartName]) {
-        vParentPackage[vPartName] = {};
-      }
+      // Assign to namespace
+      var basename = qx.Clazz.createNamespace(name, config);
 
-      vParentPackage = vParentPackage[vPartName];
-      vPartName = vSplitName[i + 1];
-    }
+      // Register to manager
+      qx.locale.Manager.getInstance().addTranslation(basename, config);
 
-    vParentPackage[vPartName] = definition;
-    qx.locale.Manager.getInstance().addTranslation(vPartName, definition);
+      // Store class reference in global class registry
+      this.__registry[name] = config;
+    },
 
-    qx.Locale._registry[fullname] = definition;
-  },
 
-  /**
-   * Returns a locale by name
-   *
-   * @type static
-   * @name byName
-   * @access public
-   * @param fullname {String} locale name to check
-   * @return {Object ? void} locale object
-   */
-  byName : function(fullname) {
-    return qx.Locale._registry[fullname];
-  },
+    /**
+     * Returns a locale by name
+     *
+     * @type static
+     * @param name {String} locale name to check
+     * @return {Object ? void} locale object
+     */
+    getByName : function(name) {
+      return this.__registry[name];
+    },
 
-  /**
-   * Determine if locale exists
-   *
-   * @type static
-   * @name isDefined
-   * @access public
-   * @param fullname {String} locale name to check
-   * @return {Boolean} true if locale exists
-   */
-  isDefined : function(fullname) {
-    return qx.Locale.byName(fullname) !== undefined;
- }
-}});
+
+    /**
+     * Determine if locale exists
+     *
+     * @type static
+     * @param name {String} locale name to check
+     * @return {Boolean} true if locale exists
+     */
+    isDefined : function(name) {
+      return this.getByName(name) !== undefined;
+    },
+
+
+    /**
+     * Determine the number of locales which are defined
+     *
+     * @type static
+     * @return {Number} the number of classes
+     */
+    getNumber : function() {
+      return qx.lang.Object.getLength(this.__registry);
+    },
+
+
+    /** {var} TODOC */
+    __registry : {}
+  }
+});

@@ -107,7 +107,7 @@ qx.Clazz.define("qx.renderer.color.ColorObject",
      *
      * @type member
      * @param vTheme {var} TODOC
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     _updateTheme : function(vTheme)
@@ -125,12 +125,12 @@ qx.Clazz.define("qx.renderer.color.ColorObject",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _applyThemedValue : function()
     {
       var vTheme = qx.manager.object.ColorManager.getInstance().getColorTheme();
-      var vRgb = vTheme.getValueByName(this._value);
+      var vRgb = vTheme.colors[this._value];
 
       if (vRgb)
       {
@@ -139,7 +139,7 @@ qx.Clazz.define("qx.renderer.color.ColorObject",
         this._blue = vRgb[2];
       }
 
-      this._style = vTheme.getStyleByName(this._value);
+      this._style = vTheme._compiledColors[this._value];
       this._hex = null;
     },
 
@@ -148,7 +148,7 @@ qx.Clazz.define("qx.renderer.color.ColorObject",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _syncObjects : function()
     {
@@ -163,7 +163,7 @@ qx.Clazz.define("qx.renderer.color.ColorObject",
      *
      * @type member
      * @param vValue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setValue : function(vValue)
     {
@@ -185,7 +185,7 @@ qx.Clazz.define("qx.renderer.color.ColorObject",
      *
      * @type member
      * @param vObject {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     add : function(vObject) {
       this._dependentObjects[vObject.toHashCode()] = vObject;
@@ -197,7 +197,7 @@ qx.Clazz.define("qx.renderer.color.ColorObject",
      *
      * @type member
      * @param vObject {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     remove : function(vObject) {
       delete this._dependentObjects[vObject.toHashCode()];
