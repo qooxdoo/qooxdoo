@@ -623,10 +623,12 @@ qx.Clazz.define("qx.Clazz",
 
       if (extend)
       {
+        var superproto = extend.prototype;
+        
         // Use helper function/class to save the unnecessary constructor call while
         // setting up inheritance.
         var helper = this.__createEmptyFunction();
-        helper.prototype = extend.prototype;
+        helper.prototype = superproto;
         var proto = new helper;
 
         // Apply prototype to new helper instance
@@ -649,12 +651,12 @@ qx.Clazz.define("qx.Clazz",
         construct.self = clazz.constructor = proto.constructor = clazz;
 
         // Copy property lists (qooxdoo 0.6 properties)
-        if (extend.prototype.$$properties) {
-          proto.$$properties = qx.lang.Object.copy(extend.prototype.$$properties);
+        if (superproto.$$properties) {
+          proto.$$properties = qx.lang.Object.copy(superproto.$$properties);
         }
 
-        if (extend.prototype.$$objectproperties) {
-          proto.$$objectproperties = qx.lang.Object.copy(extend.prototype.$$objectproperties);
+        if (superproto.$$objectproperties) {
+          proto.$$objectproperties = qx.lang.Object.copy(superproto.$$objectproperties);
         }
 
         if (qx.core.Variant.isSet("qx.compatibility", "on"))
