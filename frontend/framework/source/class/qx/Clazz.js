@@ -773,34 +773,67 @@ qx.Clazz.define("qx.Clazz",
      * @param members {Map} The map of members to attach
      * @return {void}
      */
-    __addMembers : function(clazz, members)
+    __addMembers : qx.core.Variant.select("qx.client",
     {
-      for (var key in members)
+      "default" :     function(clazz, members)
       {
-        var member = members[key];
-
-        // Added helper stuff to functions
-        if (typeof member === "function")
+        for (var key in members)
         {
-          // Configure extend (named base here)
-          var superproto = clazz.superclass.prototype;
-          if (superproto[key]) {
-            member.base = superproto[key];
+          var member = members[key];
+  
+          // Added helper stuff to functions
+          if (typeof member === "function")
+          {
+            // Configure extend (named base here)
+            var superproto = clazz.superclass.prototype;
+            if (superproto[key]) {
+              member.base = superproto[key];
+            }
+  
+            member.self = clazz;
+  
+            // add member protection
+            if (qx.core.Variant.isSet("qx.debug", "on")) {
+              member = this.__addAccessProtectionMembers(member, key, clazz);
+            }
           }
-
-          member.self = clazz;
-
-          // add member protection
-          if (qx.core.Variant.isSet("qx.debug", "on")) {
-            member = this.__addAccessProtectionMembers(member, key, clazz);
-          }
+  
+          // Attach member
+          clazz.prototype[key] = member;
         }
-
-        // Attach member
-        clazz.prototype[key] = member;
+      },
+      
+      "mshtml" : function(clazz, members)
+      {
+        var memberNames = qx.lang.Object.getKeys(members);
+        for (var i=0; i<memberNames.length; i++)
+        {
+          var key = memberNames[i];
+          var member = members[key];
+  
+          // Added helper stuff to functions
+          if (typeof member === "function")
+          {
+            // Configure extend (named base here)
+            var superproto = clazz.superclass.prototype;
+            if (superproto[key]) {
+              member.base = superproto[key];
+            }
+  
+            member.self = clazz;
+  
+            // add member protection
+            if (qx.core.Variant.isSet("qx.debug", "on")) {
+              member = this.__addAccessProtectionMembers(member, key, clazz);
+            }
+          }
+  
+          // Attach member
+          clazz.prototype[key] = member;
+        }
       }
-    },
-
+    }),
+    
 
     /**
      * Add a single interface to a class
@@ -934,36 +967,41 @@ qx.Clazz.define("qx.Clazz",
       var members = mixin.members;
       if (members)
       {
-        if (patch)
+        if (qx.core.Variant.isSet("qx.client", mshtml))
         {
-          for (var key in members) {
+        var memberNames = qx.lang.Object.getKeys(members);
+        for (var i=0; i<memberNames.length; i++)
+        {
+            var key = memberNames[i];
             var member = members[key];
-
+            
+            if (proto[key] !== undefined && !patch) {
+              throw new Error('Overwriting member "' + key + '" of Class "' + clazz.classname + '" by Mixin "' + mixin.name + '" is not allowed!');              
+            }
+  
             // add member protection
             if (qx.core.Variant.isSet("qx.debug", "on")) {
               member = this.__addAccessProtectionMembers(member, key, clazz);
             }
-
+  
             proto[key] = member;
-          }
+          }          
         }
         else
         {
           for (var key in members)
           {
-            if (proto[key] === undefined)
-            {
-              var member = members[key];
-
-              // add member protection
-              if (qx.core.Variant.isSet("qx.debug", "on")) {
-                member = this.__addAccessProtectionMembers(member, key, clazz);
-              }
-
-              proto[key] = member;
-            } else {
-              throw new Error('Overwriting member "' + key + '" of Class "' + clazz.classname + '" by Mixin "' + mixin.name + '" is not allowed!');
+            if (proto[key] !== undefined && !patch) {
+              throw new Error('Overwriting member "' + key + '" of Class "' + clazz.classname + '" by Mixin "' + mixin.name + '" is not allowed!');              
             }
+            var member = members[key];
+  
+            // add member protection
+            if (qx.core.Variant.isSet("qx.debug", "on")) {
+              member = this.__addAccessProtectionMembers(member, key, clazz);
+            }
+  
+            proto[key] = member;
           }
         }
       }
