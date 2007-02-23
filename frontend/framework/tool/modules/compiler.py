@@ -21,10 +21,14 @@
 
 import sys, string, re, optparse
 import config, tokenizer, filetool, treegenerator, variableoptimizer, comment, tree
+import path
 
 KEY = re.compile("^[A-Za-z0-9_$]+$")
 INDENTSPACES = 2
-
+opts = path.Path()  # create a new Path object, to capture various options
+opts.prettyp.openCurly.onNewLine      = True # PrettyPrint: Force "{" on new lines
+opts.prettyp.closingCurly.onNewLine   = True # PrettyPrint: Force "}" on new lines
+opts.prettyp.comments.TODOC           = False # PrettyPrint: Don`t insert TODOC block comments
 
 
 def compileToken(name, compact=False):
@@ -766,7 +770,7 @@ def compileNode(node):
       if node.hasParent() and node.parent.type == "expression" and node.parent.parent.type == "return":
         pass
 
-      elif node.isComplex():
+      elif node.isComplex() or opts.prettyp.openCurly.onNewLine:
         line()
 
     write("{")
@@ -826,7 +830,7 @@ def compileNode(node):
 
   elif node.type == "block":
     if pretty:
-      if node.isComplex():
+      if node.isComplex() or opts.prettyp.openCurly.onNewLine:
         line()
       else:
         space()
