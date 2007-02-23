@@ -31,9 +31,6 @@
  * A typical color selector as known from native applications.
  *
  * Includes support for RGB and HSB color areas.
- *
- * @event dialogok {qx.event.type.Event}
- * @event dialogcancel {qx.event.type.Event}
  */
 qx.Clazz.define("qx.ui.component.ColorSelector",
 {
@@ -85,6 +82,20 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
     }
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  
+  events: {
+  	"dialogok"     : "qx.event.type.Event",
+    "dialogcancel" : "qx.event.type.Event"
+  },
+  
 
 
 

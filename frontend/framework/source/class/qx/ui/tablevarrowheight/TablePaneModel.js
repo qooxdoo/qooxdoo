@@ -29,10 +29,7 @@
  * {@link TablePane}.
  *
  * @param tableColumnModel {TableColumnModel}
- *   The TableColumnModel of which this model is the proxy.
- *
- * @event modelChanged {qx.event.type.Event}
- *   Fired when the model changed.
+ *   The TableColumnModel of which this model is the proxy..
  */
 qx.Clazz.define("qx.ui.tablevarrowheight.TablePaneModel",
 {
@@ -50,4 +47,23 @@ qx.Clazz.define("qx.ui.tablevarrowheight.TablePaneModel",
   construct : function(tableColumnModel) {
     qx.ui.table.TablePaneModel.call(this, tableColumnModel);
   }
+  
+  
+
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  
+  events : {
+    /**
+     * Fired when the model changed.
+     */
+    "modelChanged" : "qx.event.type.Event"  
+  }
+  
 });

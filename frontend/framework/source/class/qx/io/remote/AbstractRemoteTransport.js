@@ -24,16 +24,7 @@
 
 ************************************************************************ */
 
-/**
- * @event created {qx.event.type.Event}
- * @event configured {qx.event.type.Event}
- * @event sending {qx.event.type.Event}
- * @event receiving {qx.event.type.Event}
- * @event completed {qx.event.type.Event}
- * @event aborted {qx.event.type.Event}
- * @event failed {qx.event.type.Event}
- * @event timeout {qx.event.type.Event}
- */
+
 qx.Clazz.define("qx.io.remote.AbstractRemoteTransport",
 {
   extend : qx.core.Target,
@@ -51,6 +42,25 @@ qx.Clazz.define("qx.io.remote.AbstractRemoteTransport",
     qx.core.Target.call(this);
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  
+  events : {
+    "created" : "qx.event.type.Event",
+    "configured" : "qx.event.type.Event",
+    "sending" : "qx.event.type.Event",
+    "receiving" : "qx.event.type.Event",
+    "completed" : "qx.event.type.Event",
+    "aborted" : "qx.event.type.Event",
+    "failed" : "qx.event.type.Event",
+    "timeout" : "qx.event.type.Event"
+  },
 
 
 

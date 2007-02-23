@@ -24,16 +24,11 @@
 
 /**
  * Global timer support. Simplifies javascript intervals for objects.
- *
- * @event interval {qx.event.type.Event}
  */
 qx.Clazz.define("qx.client.Timer",
 {
   extend : qx.core.Target,
 
-  events : {
-  	"interval" : "qx.event.type.Event"
-  },
 
 
 
@@ -56,6 +51,20 @@ qx.Clazz.define("qx.client.Timer",
     this.__oninterval = qx.lang.Function.bind(this._oninterval, this);
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  
+  events : {
+  	"interval" : "qx.event.type.Event"
+  },
+
+  
 
 
 

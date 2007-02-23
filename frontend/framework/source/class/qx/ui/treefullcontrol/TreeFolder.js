@@ -36,10 +36,6 @@
  * treeRowStructure -
  *   An instance of qx.ui.treefullcontrol.TreeRowStructure, defining the
  *   structure of this tree row.
- *
- * @event treeOpenWithContent {qx.event.type.DataEvent}
- * @event treeOpenWhileEmpty {qx.event.type.DataEvent}
- * @event treeClose {qx.event.type.DataEvent}
  */
 qx.Clazz.define("qx.ui.treefullcontrol.TreeFolder",
 {
@@ -74,6 +70,21 @@ qx.Clazz.define("qx.ui.treefullcontrol.TreeFolder",
     this.addAtBegin = this.addAtBeginToFolder;
     this.addAtEnd = this.addAtEndToFolder;
   },
+
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  
+  events : {
+    "treeOpenWithContent" : "qx.event.type.DataEvent",
+    "treeOpenWhileEmpty" : "qx.event.type.DataEvent",
+    "treeClose" : "qx.event.type.DataEvent"
+  }
 
 
 

@@ -25,9 +25,6 @@
 
 /**
  * A selection model.
- *
- * @event changeSelection {qx.event.type.Event} Fired when the selection has
- *        changed.
  */
 qx.Clazz.define("qx.ui.table.SelectionModel",
 {
@@ -53,6 +50,17 @@ qx.Clazz.define("qx.ui.table.SelectionModel",
     this._hadChangeEventInBatchMode = false;
   },
 
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  
+  events: {
+  	"changeSelection" : "qx.event.type.Event" /** Fired when the selection has changed. */
+  },
 
 
 

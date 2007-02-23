@@ -28,9 +28,6 @@
  *
  * @param date {Date ? null} The initial date to show. If <code>null</code>
  *        the current day (today) is shown.
- *
- * @event select {qx.event.type.DataEvent} Fired when a date was selected. The
- *        event holds the new selected date in its data property.
  */
 qx.Clazz.define("qx.ui.component.DateChooser",
 {
@@ -236,6 +233,19 @@ qx.Clazz.define("qx.ui.component.DateChooser",
     // Add the main widgets
     this.add(navBar);
     this.add(datePane);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  
+  events: {
+  	"select"     : "qx.event.type.DataEvent" /** Fired when a date was selected. The event holds the new selected date in its data property.*/
   },
 
 

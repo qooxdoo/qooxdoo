@@ -61,11 +61,6 @@
  *                                      qualified name of the class that offers
  *                                      the service methods
  *                                      (e.g. "my.pkg.MyService").
- *
- * @event completed (qx.event.type.DataEvent)
- * @event failed (qx.event.type.DataEvent)
- * @event timeout (qx.event.type.DataEvent)
- * @event aborted (qx.event.type.DataEvent)
  */
 qx.Clazz.define("qx.io.remote.Rpc",
 {
@@ -98,6 +93,21 @@ qx.Clazz.define("qx.io.remote.Rpc",
     }
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  
+  events : {
+    "completed" : "qx.event.type.Event",
+    "aborted" : "qx.event.type.Event",
+    "failed" : "qx.event.type.Event",
+    "timeout" : "qx.event.type.Event"
+  },
 
 
 
