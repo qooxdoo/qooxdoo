@@ -32,44 +32,97 @@
 /**
  * Your custom application
  */
-qx.OO.defineClass("apiviewer.Application", qx.component.AbstractApplication,
-function () {
-  qx.component.AbstractApplication.call(this);
+qx.Clazz.define("apiviewer.Application",
+{
+  extend : qx.component.AbstractApplication,
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function() {
+    qx.component.AbstractApplication.call(this);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      METHODS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
+    initialize : function(e)
+    {
+      // Define alias for custom resource path
+      qx.manager.object.AliasManager.getInstance().add("api", qx.core.Setting.get("apiviewer.resourceUri"));
+
+      // Reduce log level
+      qx.log.Logger.ROOT_LOGGER.setMinLevel(qx.log.Logger.LEVEL_WARN);
+
+      // Include CSS file
+      qx.html.StyleSheet.includeFile(qx.manager.object.AliasManager.getInstance().resolvePath("api/css/apiviewer.css"));
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
+    main : function(e)
+    {
+      // Initialize the viewer
+      this.viewer = new apiviewer.Viewer;
+      this.viewer.addToDocument();
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
+    finalize : function(e)
+    {
+      // Finally load the data
+      this.viewer.load("script/apidata.js");
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     SETTINGS
+  *****************************************************************************
+  */
+
+  settings : { "apiviewer.resourceUri" : "./resource" }
 });
-
-qx.core.Setting.define("apiviewer.resourceUri", "./resource");
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  METHODS
----------------------------------------------------------------------------
-*/
-
-qx.Proto.initialize = function(e)
-{
-  // Define alias for custom resource path
-  qx.manager.object.AliasManager.getInstance().add("api", qx.core.Setting.get("apiviewer.resourceUri"));
-
-  // Reduce log level
-  qx.log.Logger.ROOT_LOGGER.setMinLevel(qx.log.Logger.LEVEL_WARN);
-
-  // Include CSS file
-  qx.html.StyleSheet.includeFile(qx.manager.object.AliasManager.getInstance().resolvePath("api/css/apiviewer.css"));
-};
-
-qx.Proto.main = function(e)
-{
-  // Initialize the viewer
-  this.viewer = new apiviewer.Viewer;
-  this.viewer.addToDocument();
-};
-
-qx.Proto.finalize = function(e)
-{
-  // Finally load the data
-  this.viewer.load("script/apidata.js");
-};
