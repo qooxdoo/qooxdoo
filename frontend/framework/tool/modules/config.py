@@ -45,7 +45,7 @@ QXHEAD = {
   "defineClass" : re.compile('qx.OO.defineClass\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\'](\s*\,\s*([\.a-zA-Z0-9_-]+))?', re.M),
 
   # 0.7 class style
-  "classDefine" : re.compile('qx.(Clazz|Locale|Mixin|Interface).define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M),
+  "classDefine" : re.compile('qx.(Clazz|Locale|Mixin|Interface|Theme).define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M),
 
   # Loader hints
   "module" : re.compile("#module\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
@@ -195,7 +195,7 @@ JSPROTECTED = {
   "char": "FUTURE_RESERVED_WORD",
   "final": "FUTURE_RESERVED_WORD",
   "native": "FUTURE_RESERVED_WORD",
-  "synchronized": "FUTURE_RESERVED_WORD", 
+  "synchronized": "FUTURE_RESERVED_WORD",
   "class": "FUTURE_RESERVED_WORD",
   "float": "FUTURE_RESERVED_WORD",
   "package": "FUTURE_RESERVED_WORD",

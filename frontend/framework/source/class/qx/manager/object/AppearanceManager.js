@@ -71,8 +71,7 @@ qx.Clazz.define("qx.manager.object.AppearanceManager",
     {
       _legacy   : true,
       type      : "object",
-      allowNull : false,
-      instance  : "qx.renderer.theme.AppearanceTheme"
+      allowNull : false
     }
   },
 
@@ -99,14 +98,14 @@ qx.Clazz.define("qx.manager.object.AppearanceManager",
      *
      * @type member
      * @param vThemeClass {qx.renderer.theme.AppearanceTheme} TODOC
-     * @return {void} 
+     * @return {void}
      */
     registerAppearanceTheme : function(vThemeClass)
     {
-      this._appearanceThemes[vThemeClass.classname] = vThemeClass;
+      this._appearanceThemes[vThemeClass.name] = vThemeClass;
 
-      if (vThemeClass.classname == qx.core.Setting.get("qx.appearanceTheme")) {
-        this.setAppearanceTheme(vThemeClass.getInstance());
+      if (vThemeClass.name == qx.core.Setting.get("qx.appearanceTheme")) {
+        this.setAppearanceTheme(vThemeClass);
       }
     },
 

@@ -32,7 +32,9 @@ APPLICATION_FILES = index.html html css
 APPLICATION_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$(APPLICATION_NAMESPACE)
 APPLICATION_COMPLETE_BUILD = true
 APPLICATION_HTML_TO_ROOT_URI = ../..
-APPLICATION_OPTIMIZE_BROWSER = false
+APPLICATION_OPTIMIZE_BROWSER = true
+APPLICATION_OPTIMIZE_VARIABLES = false
+APPLICATION_OPTIMIZE_PRIVATE = false
 
 # qx.log.DivAppender is used in the layout and cannot be detected
 # automatically

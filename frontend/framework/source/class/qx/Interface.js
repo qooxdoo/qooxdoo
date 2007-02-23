@@ -148,6 +148,17 @@ qx.Clazz.define("qx.Interface",
 
 
     /**
+     * Determine the number of interfaces which are defined
+     *
+     * @type static
+     * @return {Number} the number of classes
+     */
+    getNumber : function() {
+      return qx.lang.Object.getLength(this.__registry);
+    },
+
+
+    /**
      * Whether a given class includes a interface.
      *
      * @type static
@@ -202,7 +213,7 @@ qx.Clazz.define("qx.Interface",
     implementsInterface : function(clazz, iface)
     {
       var clazz = clazz.constructor || clazz;
-      
+
       if (this.hasInterface(clazz, iface)) {
         return true;
       }
