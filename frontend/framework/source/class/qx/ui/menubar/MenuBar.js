@@ -24,7 +24,20 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.menubar.MenuBar", qx.ui.toolbar.ToolBar,
-function() {
-  qx.ui.toolbar.ToolBar.call(this);
+qx.Clazz.define("qx.ui.menubar.MenuBar",
+{
+  extend : qx.ui.toolbar.ToolBar,
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function() {
+    qx.ui.toolbar.ToolBar.call(this);
+  }
 });
