@@ -26,12 +26,24 @@
 /**
  * All of the resizing information about a column.
  */
-qx.OO.defineClass("qx.ui.table.ResizeBehaviorColumnData",
-                  qx.ui.core.Widget,
-function()
+qx.Clazz.define("qx.ui.table.ResizeBehaviorColumnData",
 {
-  qx.ui.core.Widget.call(this);
+  extend : qx.ui.core.Widget,
 
-  // Assume equal flex width for all columns
-  this.setWidth("1*");
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function()
+  {
+    qx.ui.core.Widget.call(this);
+
+    // Assume equal flex width for all columns
+    this.setWidth("1*");
+  }
 });

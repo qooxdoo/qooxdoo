@@ -33,54 +33,118 @@
  *                             icon
  *
  */
-qx.OO.defineClass("qx.ui.table.IconHeaderCellRenderer", qx.ui.table.DefaultHeaderCellRenderer,
-function(iconUrl, tooltip) {
-  qx.ui.table.DefaultHeaderCellRenderer.call(this);
-  if (iconUrl == null){
-    iconUrl = "";
-  }
-  this.setIconUrl(iconUrl);
-  this.setToolTip(tooltip);
-});
+qx.Clazz.define("qx.ui.table.IconHeaderCellRenderer",
+{
+  extend : qx.ui.table.DefaultHeaderCellRenderer,
 
-/**
- * URL of the icon to show
- */
-qx.OO.addProperty({ name:"iconUrl", type:"string", defaultValue:"", allowNull:false });
 
-/**
- * ToolTip to show if the mouse hovers of the icon
- */
-qx.OO.addProperty({ name:"toolTip", type:"string", defaultValue:null, allowNull:true });
 
-// overridden
-qx.Proto.updateHeaderCell = function(cellInfo, cellWidget) {
-  qx.ui.table.DefaultHeaderCellRenderer.prototype.updateHeaderCell.call(this, cellInfo, cellWidget);
 
-  // Set URL to icon
-  var img = cellWidget.getUserData("qx_ui_table_IconHeaderCellRenderer_icon");
-  if (img == null){
-    img = new qx.ui.basic.Image();
-    cellWidget.setUserData("qx_ui_table_IconHeaderCellRenderer_icon", img);
-    cellWidget.addAtBegin(img);
-  }
-  img.setSource(this.getIconUrl());
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
-  // Set image tooltip if given
-  var widgetToolTip = cellWidget.getToolTip();
-  if (this.getToolTip() != null){
+  construct : function(iconUrl, tooltip)
+  {
+    qx.ui.table.DefaultHeaderCellRenderer.call(this);
 
-    //Create tooltip if necessary
-    if (true || widgetToolTip == null ){
-      widgetToolTip = new qx.ui.popup.ToolTip(this.getToolTip());
-      cellWidget.setToolTip(widgetToolTip);
-      //this.debug("Creating tooltip");
+    if (iconUrl == null) {
+      iconUrl = "";
     }
 
-    //Set tooltip text
-    widgetToolTip.getAtom().setLabel(this.getToolTip());
-    //this.debug("Setting tooltip text " + this.getToolTip());
+    this.setIconUrl(iconUrl);
+    this.setToolTip(tooltip);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    /**
+     * URL of the icon to show
+     */
+    iconUrl :
+    {
+      _legacy      : true,
+      type         : "string",
+      defaultValue : "",
+      allowNull    : false
+    },
+
+
+    /**
+     * ToolTip to show if the mouse hovers of the icon
+     */
+    toolTip :
+    {
+      _legacy      : true,
+      type         : "string",
+      defaultValue : null,
+      allowNull    : true
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    // overridden
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param cellInfo {var} TODOC
+     * @param cellWidget {var} TODOC
+     * @return {void} 
+     */
+    updateHeaderCell : function(cellInfo, cellWidget)
+    {
+      qx.ui.table.DefaultHeaderCellRenderer.prototype.updateHeaderCell.call(this, cellInfo, cellWidget);
+
+      // Set URL to icon
+      var img = cellWidget.getUserData("qx_ui_table_IconHeaderCellRenderer_icon");
+
+      if (img == null)
+      {
+        img = new qx.ui.basic.Image();
+        cellWidget.setUserData("qx_ui_table_IconHeaderCellRenderer_icon", img);
+        cellWidget.addAtBegin(img);
+      }
+
+      img.setSource(this.getIconUrl());
+
+      // Set image tooltip if given
+      var widgetToolTip = cellWidget.getToolTip();
+
+      if (this.getToolTip() != null)
+      {
+        // Create tooltip if necessary
+        if (true || widgetToolTip == null)
+        {
+          widgetToolTip = new qx.ui.popup.ToolTip(this.getToolTip());
+          cellWidget.setToolTip(widgetToolTip);
+        }
+
+        // this.debug("Creating tooltip");
+        // Set tooltip text
+        widgetToolTip.getAtom().setLabel(this.getToolTip());
+      }
+    }
   }
-
-}
-
+});

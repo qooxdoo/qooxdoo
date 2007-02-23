@@ -26,46 +26,95 @@
 /**
  * A cell renderer for header cells.
  */
-qx.OO.defineClass("qx.ui.table.HeaderCellRenderer", qx.core.Object,
-function() {
-  qx.core.Object.call(this);
+qx.Clazz.define("qx.ui.table.HeaderCellRenderer",
+{
+  extend : qx.core.Object,
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function() {
+    qx.core.Object.call(this);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+
+    /** The preferred height of cells created by this header renderer. */
+    prefferedCellHeight :
+    {
+      _legacy      : true,
+      type         : "number",
+      defaultValue : 16,
+      allowNull    : false
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /**
+     * Creates a header cell.
+     * 
+     * The cellInfo map contains the following properties:
+     * <ul>
+     * <li>col (int): the model index of the column.</li>
+     * <li>xPos (int): the x position of the column in the table pane.</li>
+     * <li>name (string): the name of the column.</li>
+     * <li>editable (boolean): whether the column is editable.</li>
+     * <li>sorted (boolean): whether the column is sorted.</li>
+     * <li>sortedAscending (boolean): whether sorting is ascending.</li>
+     * </ul>
+     *
+     * @type member
+     * @abstract 
+     * @param cellInfo {Map} A map containing the information about the cell to
+     *      create.
+     * @return {qx.ui.core.Widget} the widget that renders the header cell.
+     * @throws the abstract function warning.
+     */
+    createHeaderCell : function(cellInfo) {
+      throw new Error("createHeaderCell is abstract");
+    },
+
+
+    /**
+     * Updates a header cell.
+     *
+     * @type member
+     * @abstract 
+     * @param cellInfo {Map} A map containing the information about the cell to
+     *      create. This map has the same structure as in {@link #createHeaderCell}.
+     * @param cellWidget {qx.ui.core.Widget} the widget that renders the header cell. This is
+     *      the same widget formally created by {@link #createHeaderCell}.
+     * @return {void} 
+     * @throws the abstract function warning.
+     */
+    updateHeaderCell : function(cellInfo, cellWidget) {
+      throw new Error("updateHeaderCell is abstract");
+    }
+  }
 });
-
-
-/**
- * Creates a header cell.
- * <p>
- * The cellInfo map contains the following properties:
- * <ul>
- * <li>col (int): the model index of the column.</li>
- * <li>xPos (int): the x position of the column in the table pane.</li>
- * <li>name (string): the name of the column.</li>
- * <li>editable (boolean): whether the column is editable.</li>
- * <li>sorted (boolean): whether the column is sorted.</li>
- * <li>sortedAscending (boolean): whether sorting is ascending.</li>
- * </ul>
- *
- * @param cellInfo {Map} A map containing the information about the cell to
- *    create.
- * @return {qx.ui.core.Widget} the widget that renders the header cell.
- */
-qx.Proto.createHeaderCell = function(cellInfo) {
-  throw new Error("createHeaderCell is abstract");
-}
-
-
-/**
- * Updates a header cell.
- *
- * @param cellInfo {Map} A map containing the information about the cell to
- *    create. This map has the same structure as in {@link #createHeaderCell}.
- * @param cellWidget {qx.ui.core.Widget} the widget that renders the header cell. This is
- *    the same widget formally created by {@link #createHeaderCell}.
- */
-qx.Proto.updateHeaderCell = function(cellInfo, cellWidget) {
-  throw new Error("updateHeaderCell is abstract");
-}
-
-
-/** The preferred height of cells created by this header renderer. */
-qx.OO.addProperty({ name:"prefferedCellHeight", type:"number", defaultValue:16, allowNull:false });

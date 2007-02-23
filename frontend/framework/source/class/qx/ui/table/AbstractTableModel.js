@@ -27,126 +27,191 @@
  * An abstract table model that performs the column handling, so subclasses only
  * need to care for row handling.
  */
-qx.OO.defineClass("qx.ui.table.AbstractTableModel", qx.ui.table.TableModel,
-function() {
-  qx.ui.table.TableModel.call(this);
+qx.Clazz.define("qx.ui.table.AbstractTableModel",
+{
+  extend : qx.ui.table.TableModel,
 
-  this._columnIdArr = [];
-  this._columnNameArr = [];
-  this._columnIndexMap = {};
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function()
+  {
+    qx.ui.table.TableModel.call(this);
+
+    this._columnIdArr = [];
+    this._columnNameArr = [];
+    this._columnIndexMap = {};
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    // overridden
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getColumnCount : function() {
+      return this._columnIdArr.length;
+    },
+
+    // overridden
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param columnId {var} TODOC
+     * @return {var} TODOC
+     */
+    getColumnIndexById : function(columnId) {
+      return this._columnIndexMap[columnId];
+    },
+
+    // overridden
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param columnIndex {var} TODOC
+     * @return {var} TODOC
+     */
+    getColumnId : function(columnIndex) {
+      return this._columnIdArr[columnIndex];
+    },
+
+    // overridden
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param columnIndex {var} TODOC
+     * @return {var} TODOC
+     */
+    getColumnName : function(columnIndex) {
+      return this._columnNameArr[columnIndex];
+    },
+
+
+    /**
+     * Sets the column IDs. These IDs may be used internally to identify a column.
+     * 
+     * Note: This will clear previously set column names.
+     *  
+     *
+     * @type member
+     * @param columnIdArr {String[]} the IDs of the columns.
+     * @return {void} 
+     * @see #setColumns
+     */
+    setColumnIds : function(columnIdArr)
+    {
+      this._columnIdArr = columnIdArr;
+
+      // Create the reverse map
+      this._columnIndexMap = {};
+
+      for (var i=0; i<columnIdArr.length; i++) {
+        this._columnIndexMap[columnIdArr[i]] = i;
+      }
+
+      this._columnNameArr = new Array(columnIdArr.length);
+
+      // Inform the listeners
+      if (!this._internalChange) {
+        this.createDispatchEvent(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED);
+      }
+    },
+
+
+    /**
+     * Sets the column names. These names will be shown to the user.
+     * 
+     * Note: The column IDs have to be defined before.
+     *  
+     *
+     * @type member
+     * @param columnNameArr {String[]} the names of the columns.
+     * @return {void} 
+     * @throws TODOC
+     * @see #setColumnIds
+     */
+    setColumnNamesByIndex : function(columnNameArr)
+    {
+      if (this._columnIdArr.length != columnNameArr.length) {
+        throw new Error("this._columnIdArr and columnNameArr have different length: " + this._columnIdArr.length + " != " + columnNameArr.length);
+      }
+
+      this._columnNameArr = columnNameArr;
+
+      // Inform the listeners
+      this.createDispatchEvent(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED);
+    },
+
+
+    /**
+     * Sets the column names. These names will be shown to the user.
+     * 
+     * Note: The column IDs have to be defined before.
+     *  
+     *
+     * @type member
+     * @param columnNameMap {Map} a map containing the column IDs as keys and the
+     *          column name as values.
+     * @return {void} 
+     * @see #setColumnIds
+     */
+    setColumnNamesById : function(columnNameMap)
+    {
+      this._columnNameArr = new Array(this._columnIdArr.length);
+
+      for (var i=0; i<this._columnIdArr.length; ++i) {
+        this._columnNameArr[i] = columnNameMap[this._columnIdArr[i]];
+      }
+    },
+
+
+    /**
+     * Sets the columns.
+     *
+     * @type member
+     * @param columnNameArr {String[]} The column names. These names will be shown to
+     *          the user.
+     * @param columnIdArr {String[] ? null} The column IDs. These IDs may be used
+     *          internally to identify a column. If null, the column names are used as
+     *          IDs.
+     * @return {void} 
+     * @throws TODOC
+     */
+    setColumns : function(columnNameArr, columnIdArr)
+    {
+      if (columnIdArr == null) {
+        columnIdArr = columnNameArr;
+      }
+
+      if (columnIdArr.length != columnNameArr.length) {
+        throw new Error("columnIdArr and columnNameArr have different length: " + columnIdArr.length + " != " + columnNameArr.length);
+      }
+
+      this._internalChange = true;
+      this.setColumnIds(columnIdArr);
+      this._internalChange = false;
+      this.setColumnNamesByIndex(columnNameArr);
+    }
+  }
 });
-
-
-// overridden
-qx.Proto.getColumnCount = function() {
-  return this._columnIdArr.length;
-}
-
-
-// overridden
-qx.Proto.getColumnIndexById = function(columnId) {
-  return this._columnIndexMap[columnId];
-}
-
-
-// overridden
-qx.Proto.getColumnId = function(columnIndex) {
-  return this._columnIdArr[columnIndex];
-}
-
-
-// overridden
-qx.Proto.getColumnName = function(columnIndex) {
-  return this._columnNameArr[columnIndex];
-}
-
-
-/**
- * Sets the column IDs. These IDs may be used internally to identify a column.
- * <p>
- * Note: This will clear previously set column names.
- * </p>
- *
- * @param columnIdArr {String[]} the IDs of the columns.
- * @see #setColumns
- */
-qx.Proto.setColumnIds = function(columnIdArr) {
-  this._columnIdArr = columnIdArr;
-
-  // Create the reverse map
-  this._columnIndexMap = {};
-  for (var i = 0; i < columnIdArr.length; i++) {
-    this._columnIndexMap[columnIdArr[i]] = i;
-  }
-  this._columnNameArr = new Array(columnIdArr.length);
-
-  // Inform the listeners
-  if (!this._internalChange) {
-    this.createDispatchEvent(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED);
-  }
-}
-
-
-/**
- * Sets the column names. These names will be shown to the user.
- * <p>
- * Note: The column IDs have to be defined before.
- * </p>
- *
- * @param columnNameArr {String[]} the names of the columns.
- * @see #setColumnIds
- */
-qx.Proto.setColumnNamesByIndex = function(columnNameArr) {
-  if (this._columnIdArr.length != columnNameArr.length) {
-    throw new Error("this._columnIdArr and columnNameArr have different length: "
-      + this._columnIdArr.length + " != " + columnNameArr.length);
-  }
-  this._columnNameArr = columnNameArr;
-
-  // Inform the listeners
-  this.createDispatchEvent(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED);
-}
-
-
-/**
- * Sets the column names. These names will be shown to the user.
- * <p>
- * Note: The column IDs have to be defined before.
- * </p>
- *
- * @param columnNameMap {Map} a map containing the column IDs as keys and the
- *        column name as values.
- * @see #setColumnIds
- */
-qx.Proto.setColumnNamesById = function(columnNameMap) {
-  this._columnNameArr = new Array(this._columnIdArr.length);
-  for (var i = 0; i < this._columnIdArr.length; ++i) {
-    this._columnNameArr[i] = columnNameMap[this._columnIdArr[i]];
-  }
-}
-
-
-/**
- * Sets the columns.
- *
- * @param columnNameArr {String[]} The column names. These names will be shown to
- *        the user.
- * @param columnIdArr {String[] ? null} The column IDs. These IDs may be used
- *        internally to identify a column. If null, the column names are used as
- *        IDs.
- */
-qx.Proto.setColumns = function(columnNameArr, columnIdArr) {
-  if (columnIdArr == null) {
-    columnIdArr = columnNameArr;
-  }
-
-  if (columnIdArr.length != columnNameArr.length) {
-    throw new Error("columnIdArr and columnNameArr have different length: "
-      + columnIdArr.length + " != " + columnNameArr.length);
-  }
-
-  this._internalChange = true;
-  this.setColumnIds(columnIdArr);
-  this._internalChange = false;
-  this.setColumnNamesByIndex(columnNameArr);
-}
