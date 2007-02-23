@@ -24,11 +24,16 @@ import config, tokenizer, filetool, treegenerator, variableoptimizer, comment, t
 import path
 
 KEY = re.compile("^[A-Za-z0-9_$]+$")
-INDENTSPACES = 2
+
 opts = path.Path()  # create a new Path object, to capture various options
-opts.prettyp.openCurly.onNewLine      = True # PrettyPrint: Force "{" on new lines
-opts.prettyp.closingCurly.onNewLine   = True # PrettyPrint: Force "}" on new lines
-opts.prettyp.comments.TODOC           = False # PrettyPrint: Don`t insert TODOC block comments
+# PrettyPrint options
+opts.prettyp.indent.string            = "  "  # could be "\t" or similar
+opts.prettyp.openCurly.newline.before = True  # Force "{" on new lines
+#opts.prettyp.openCurly.newline.after  = True
+opts.prettyp.openCurly.indent.before  = True  # indent before "{"
+opts.prettyp.openCurly.indent.after   = True  # indent after "{"
+opts.prettyp.closingCurly.onNewLine   = True  # Force "}" on new lines
+#opts.prettyp.comments.TODOC           = True  # Insert TODOC block comments
 
 
 def compileToken(name, compact=False):
@@ -132,7 +137,8 @@ def write(txt=""):
 
   # add indent (if needed)
   if pretty and result.endswith("\n"):
-    result += (" " * (INDENTSPACES * indent))
+    #result += (" " * (INDENTSPACES * indent))
+    result += (opts.prettyp.indent.string * indent)
 
   # append given text
   result += txt
@@ -410,7 +416,8 @@ def compileNode(node):
         if child.get("detail") == "qtdoc":
           text = comment.qt2javadoc(text)
 
-        write(comment.indent(text, INDENTSPACES * indent))
+        #write(comment.indent(text, INDENTSPACES * indent))
+        write(comment.indent(text, opts.prettyp.indent.string * indent))
 
         if singleLineBlock:
           if docComment:
@@ -770,8 +777,11 @@ def compileNode(node):
       if node.hasParent() and node.parent.type == "expression" and node.parent.parent.type == "return":
         pass
 
-      elif node.isComplex() or opts.prettyp.openCurly.onNewLine:
+      elif node.isComplex() or opts.prettyp.openCurly.newline.before:
         line()
+
+      if opts.prettyp.openCurly.indent.before:
+        plus()
 
     write("{")
 
@@ -830,10 +840,13 @@ def compileNode(node):
 
   elif node.type == "block":
     if pretty:
-      if node.isComplex() or opts.prettyp.openCurly.onNewLine:
+      if node.isComplex() or opts.prettyp.openCurly.newline.before:
         line()
       else:
         space()
+
+      if opts.prettyp.openCurly.indent.before:
+        plus()
 
     write("{")
 
@@ -1198,7 +1211,9 @@ def compileNode(node):
 
     write("}")
 
-
+    if pretty:
+        if opts.prettyp.openCurly.indent.before:
+          minus()
 
 
 
@@ -1219,6 +1234,8 @@ def compileNode(node):
       if pretty:
         commentNode(node)
         line()
+        if opts.prettyp.openCurly.indent.before:
+          minus()
 
     # Force a additinal line feed after each switch/try
     if pretty and not node.isLastChild():
@@ -1274,6 +1291,9 @@ def compileNode(node):
 
         else:
           line()
+
+      if opts.prettyp.openCurly.indent.before:
+        minus()
 
 
   #
@@ -1336,6 +1356,9 @@ def compileNode(node):
       if pretty:
         commentNode(node)
         line()
+        if opts.prettyp.openCurly.indent.before:
+          plus()
+
 
       write("{")
 
