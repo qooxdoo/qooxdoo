@@ -30,24 +30,73 @@
 /**
  * A data cell renderer for boolean values.
  */
-qx.OO.defineClass("qx.ui.table.BooleanDataCellRenderer", qx.ui.table.IconDataCellRenderer,
-function() {
-  qx.ui.table.IconDataCellRenderer.call(this);
+qx.Clazz.define("qx.ui.table.BooleanDataCellRenderer",
+{
+  extend : qx.ui.table.IconDataCellRenderer,
 
-  this._iconUrlTrue  = qx.manager.object.AliasManager.getInstance().resolvePath("widget/table/boolean-true.png");
-  this._iconUrlFalse = qx.manager.object.AliasManager.getInstance().resolvePath("widget/table/boolean-false.png");
-  this._iconUrlNull  = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
 
-});
 
-//overridden
-qx.Proto._identifyImage = function(cellInfo) {
-  var IconDataCellRenderer = qx.ui.table.IconDataCellRenderer;
-  var imageHints = { imageWidth:11, imageHeight:11 };
-  switch (cellInfo.value) {
-    case true:  imageHints.url = this._iconUrlTrue;  break;
-    case false: imageHints.url = this._iconUrlFalse; break;
-    default:    imageHints.url = this._iconUrlNull;  break;
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function()
+  {
+    qx.ui.table.IconDataCellRenderer.call(this);
+
+    this._iconUrlTrue = qx.manager.object.AliasManager.getInstance().resolvePath("widget/table/boolean-true.png");
+    this._iconUrlFalse = qx.manager.object.AliasManager.getInstance().resolvePath("widget/table/boolean-false.png");
+    this._iconUrlNull = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    // overridden
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param cellInfo {var} TODOC
+     * @return {var} TODOC
+     */
+    _identifyImage : function(cellInfo)
+    {
+      var IconDataCellRenderer = qx.ui.table.IconDataCellRenderer;
+
+      var imageHints =
+      {
+        imageWidth  : 11,
+        imageHeight : 11
+      };
+
+      switch(cellInfo.value)
+      {
+        case true:
+          imageHints.url = this._iconUrlTrue;
+          break;
+
+        case false:
+          imageHints.url = this._iconUrlFalse;
+          break;
+
+        default:
+          imageHints.url = this._iconUrlNull;
+          break;
+      }
+
+      return imageHints;
+    }
   }
-  return imageHints;
-}
+});
