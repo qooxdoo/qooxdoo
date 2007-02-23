@@ -24,35 +24,72 @@
 
 ************************************************************************ */
 
-/*!
-  A small helper class to create a special layout handler for qx.ui.menu.Menus
-*/
-qx.OO.defineClass("qx.ui.menu.Layout", qx.ui.layout.VerticalBoxLayout,
-function()
+/** A small helper class to create a special layout handler for qx.ui.menu.Menus */
+qx.Clazz.define("qx.ui.menu.Layout",
 {
-  qx.ui.layout.VerticalBoxLayout.call(this);
+  extend : qx.ui.layout.VerticalBoxLayout,
 
-  this.setAnonymous(true);
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function()
+  {
+    qx.ui.layout.VerticalBoxLayout.call(this);
+
+    this.setAnonymous(true);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    /** Appearance of the widget */
+    appearance :
+    {
+      _legacy      : true,
+      type         : "string",
+      defaultValue : "menu-layout"
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      INIT LAYOUT IMPL
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * This creates an new instance of the layout impl this widget uses
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    _createLayoutImpl : function() {
+      return new qx.renderer.layout.MenuLayoutImpl(this);
+    }
+  }
 });
-
-
-/*!
-  Appearance of the widget
-*/
-qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "menu-layout" });
-
-
-
-
-/*
----------------------------------------------------------------------------
-  INIT LAYOUT IMPL
----------------------------------------------------------------------------
-*/
-
-/*!
-  This creates an new instance of the layout impl this widget uses
-*/
-qx.Proto._createLayoutImpl = function() {
-  return new qx.renderer.layout.MenuLayoutImpl(this);
-}

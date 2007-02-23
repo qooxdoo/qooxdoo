@@ -26,64 +26,129 @@
 
 ************************************************************************ */
 
-/*!
-  A checkbox for the menu system.
-*/
-qx.OO.defineClass("qx.ui.menu.CheckBox", qx.ui.menu.Button,
-function(vLabel, vCommand, vChecked)
+/** A checkbox for the menu system. */
+qx.Clazz.define("qx.ui.menu.CheckBox",
 {
-  qx.ui.menu.Button.call(this, vLabel, "static/image/blank.gif", vCommand);
+  extend : qx.ui.menu.Button,
 
-  if (vChecked != null) {
-    this.setChecked(vChecked);
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(vLabel, vCommand, vChecked)
+  {
+    qx.ui.menu.Button.call(this, vLabel, "static/image/blank.gif", vCommand);
+
+    if (vChecked != null) {
+      this.setChecked(vChecked);
+    }
+
+    qx.manager.object.ImageManager.getInstance().preload("widget/menu/checkbox.gif");
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    appearance :
+    {
+      _legacy      : true,
+      type         : "string",
+      defaultValue : "menu-check-box"
+    },
+
+    name :
+    {
+      _legacy : true,
+      type    : "string"
+    },
+
+    value :
+    {
+      _legacy : true,
+      type    : "string"
+    },
+
+    checked :
+    {
+      _legacy      : true,
+      type         : "boolean",
+      defaultValue : false,
+      getAlias     : "isChecked"
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      MODIFIERS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {boolean} TODOC
+     */
+    _modifyChecked : function(propValue, propOldValue, propData)
+    {
+      propValue ? this.addState("checked") : this.removeState("checked");
+      this.getIconObject().setSource(propValue ? "widget/menu/checkbox.gif" : "static/image/blank.gif");
+
+      return true;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EXECUTE
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    execute : function()
+    {
+      this.setChecked(!this.getChecked());
+      qx.ui.menu.Button.prototype.execute.call(this);
+    }
   }
-
-  qx.manager.object.ImageManager.getInstance().preload("widget/menu/checkbox.gif");
 });
-
-
-
-/*
----------------------------------------------------------------------------
-  PROPERTIES
----------------------------------------------------------------------------
-*/
-
-qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "menu-check-box" });
-qx.OO.addProperty({ name : "name", type : "string" });
-qx.OO.addProperty({ name : "value", type : "string" });
-qx.OO.addProperty({ name : "checked", type : "boolean", defaultValue : false, getAlias : "isChecked" });
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  MODIFIERS
----------------------------------------------------------------------------
-*/
-
-qx.Proto._modifyChecked = function(propValue, propOldValue, propData)
-{
-  propValue ? this.addState("checked") : this.removeState("checked");
-  this.getIconObject().setSource(propValue ? "widget/menu/checkbox.gif" : "static/image/blank.gif");
-
-  return true;
-}
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  EXECUTE
----------------------------------------------------------------------------
-*/
-
-qx.Proto.execute = function()
-{
-  this.setChecked(!this.getChecked());
-  qx.ui.menu.Button.prototype.execute.call(this);
-}
