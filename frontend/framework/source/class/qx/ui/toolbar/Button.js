@@ -24,26 +24,64 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.toolbar.Button", qx.ui.form.Button,
-function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
+qx.Clazz.define("qx.ui.toolbar.Button",
 {
-  qx.ui.form.Button.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
+  extend : qx.ui.form.Button,
 
-  // Omit focus
-  this.setTabIndex(-1);
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
+  {
+    qx.ui.form.Button.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
+
+    // Omit focus
+    this.setTabIndex(-1);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    appearance :
+    {
+      _legacy      : true,
+      type         : "string",
+      defaultValue : "toolbar-button"
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      EVENT HANDLER
+    ---------------------------------------------------------------------------
+    */
+
+    _onkeydown : qx.lang.Function.returnTrue,
+    _onkeyup   : qx.lang.Function.returnTrue
+  }
 });
-
-qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "toolbar-button" });
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  EVENT HANDLER
----------------------------------------------------------------------------
-*/
-
-qx.Proto._onkeydown = qx.lang.Function.returnTrue;
-qx.Proto._onkeyup = qx.lang.Function.returnTrue;

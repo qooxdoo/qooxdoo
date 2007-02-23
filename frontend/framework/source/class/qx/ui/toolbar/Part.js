@@ -24,61 +24,112 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.toolbar.Part", qx.ui.layout.HorizontalBoxLayout,
-function()
+qx.Clazz.define("qx.ui.toolbar.Part",
 {
-  qx.ui.layout.HorizontalBoxLayout.call(this);
-
-  this._handle = new qx.ui.toolbar.PartHandle;
-  this.add(this._handle);
-});
-
-qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "toolbar-part" });
+  extend : qx.ui.layout.HorizontalBoxLayout,
 
 
 
 
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
-/*
----------------------------------------------------------------------------
-  CLONE
----------------------------------------------------------------------------
-*/
+  construct : function()
+  {
+    qx.ui.layout.HorizontalBoxLayout.call(this);
 
-// Omit recursive cloning of qx.ui.toolbar.PartHandle
-qx.Proto._cloneRecursive = function(cloneInstance)
-{
-  var vChildren = this.getChildren();
-  var vLength = vChildren.length;
+    this._handle = new qx.ui.toolbar.PartHandle;
+    this.add(this._handle);
+  },
 
-  for (var i=0; i<vLength; i++) {
-    if (!(vChildren[i] instanceof qx.ui.toolbar.PartHandle)) {
-      cloneInstance.add(vChildren[i].clone(true));
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    appearance :
+    {
+      _legacy      : true,
+      type         : "string",
+      defaultValue : "toolbar-part"
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      CLONE
+    ---------------------------------------------------------------------------
+    */
+
+    // Omit recursive cloning of qx.ui.toolbar.PartHandle
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param cloneInstance {var} TODOC
+     * @return {void} 
+     */
+    _cloneRecursive : function(cloneInstance)
+    {
+      var vChildren = this.getChildren();
+      var vLength = vChildren.length;
+
+      for (var i=0; i<vLength; i++)
+      {
+        if (!(vChildren[i] instanceof qx.ui.toolbar.PartHandle)) {
+          cloneInstance.add(vChildren[i].clone(true));
+        }
+      }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DISPOSER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void | var} TODOC
+     */
+    dispose : function()
+    {
+      if (this.getDisposed()) {
+        return;
+      }
+
+      if (this._handle)
+      {
+        this._handle.dispose();
+        this._handle = null;
+      }
+
+      return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
     }
   }
-}
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DISPOSER
----------------------------------------------------------------------------
-*/
-
-qx.Proto.dispose = function()
-{
-  if (this.getDisposed()) {
-    return;
-  }
-
-  if (this._handle)
-  {
-    this._handle.dispose();
-    this._handle = null;
-  }
-
-  return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
-}
+});

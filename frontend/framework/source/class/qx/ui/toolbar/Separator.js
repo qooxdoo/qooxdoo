@@ -24,14 +24,44 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.toolbar.Separator", qx.ui.layout.CanvasLayout,
-function()
+qx.Clazz.define("qx.ui.toolbar.Separator",
 {
-  qx.ui.layout.CanvasLayout.call(this);
+  extend : qx.ui.layout.CanvasLayout,
 
-  var l = new qx.ui.basic.Terminator;
-  l.setAppearance("toolbar-separator-line");
-  this.add(l);
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function()
+  {
+    qx.ui.layout.CanvasLayout.call(this);
+
+    var l = new qx.ui.basic.Terminator;
+    l.setAppearance("toolbar-separator-line");
+    this.add(l);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    appearance :
+    {
+      _legacy      : true,
+      type         : "string",
+      defaultValue : "toolbar-separator"
+    }
+  }
 });
-
-qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "toolbar-separator" });
