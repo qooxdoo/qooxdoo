@@ -24,65 +24,117 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.toolbar.CheckBox", qx.ui.toolbar.Button,
-function(vText, vIcon, vChecked)
+qx.Clazz.define("qx.ui.toolbar.CheckBox",
 {
-  qx.ui.toolbar.Button.call(this, vText, vIcon);
+  extend : qx.ui.toolbar.Button,
 
-  if (vChecked != null) {
-    this.setChecked(vChecked);
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(vText, vIcon, vChecked)
+  {
+    qx.ui.toolbar.Button.call(this, vText, vIcon);
+
+    if (vChecked != null) {
+      this.setChecked(vChecked);
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    checked :
+    {
+      _legacy      : true,
+      type         : "boolean",
+      defaultValue : false,
+      getAlias     : "isChecked"
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      MODIFIER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {boolean} TODOC
+     */
+    _modifyChecked : function(propValue, propOldValue, propData)
+    {
+      propValue ? this.addState("checked") : this.removeState("checked");
+      return true;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENTS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
+    _onmouseup : function(e)
+    {
+      this.setCapture(false);
+
+      if (!this.hasState("abandoned"))
+      {
+        this.addState("over");
+        this.setChecked(!this.getChecked());
+        this.execute();
+      }
+
+      this.removeState("abandoned");
+      this.removeState("pressed");
+
+      e.stopPropagation();
+    }
   }
 });
-
-
-
-/*
----------------------------------------------------------------------------
-  PROPERTIES
----------------------------------------------------------------------------
-*/
-
-qx.OO.addProperty({ name : "checked", type : "boolean", defaultValue : false, getAlias:"isChecked" });
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  MODIFIER
----------------------------------------------------------------------------
-*/
-
-qx.Proto._modifyChecked = function(propValue, propOldValue, propData)
-{
-  propValue ? this.addState("checked") : this.removeState("checked");
-  return true;
-}
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  EVENTS
----------------------------------------------------------------------------
-*/
-
-qx.Proto._onmouseup = function(e)
-{
-  this.setCapture(false);
-
-  if (!this.hasState("abandoned"))
-  {
-    this.addState("over");
-    this.setChecked(!this.getChecked());
-    this.execute();
-  }
-
-  this.removeState("abandoned");
-  this.removeState("pressed");
-
-  e.stopPropagation();
-}

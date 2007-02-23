@@ -24,95 +24,163 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.toolbar.RadioButton", qx.ui.toolbar.CheckBox,
-function(vText, vIcon, vChecked) {
-  qx.ui.toolbar.CheckBox.call(this, vText, vIcon, vChecked);
-});
-
-
-
-
-/*
----------------------------------------------------------------------------
-  PROPERTIES
----------------------------------------------------------------------------
-*/
-
-/*!
-  The assigned qx.manager.selection.RadioManager which handles the switching between registered buttons
-*/
-qx.OO.addProperty({ name : "manager", type : "object", instance : "qx.manager.selection.RadioManager", allowNull : true });
-
-/*!
-  The name of the radio group. All the radio elements in a group (registered by the same manager)
-  have the same name (and could have a different value).
-*/
-qx.OO.addProperty({ name : "name", type : "string" });
-
-/*!
-  Prohibit the deselction of the checked radio button when clicked on it.
-*/
-qx.OO.addProperty({ name : "disableUncheck", type : "boolean", defaultValue : false });
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  MODIFIER
----------------------------------------------------------------------------
-*/
-
-qx.Proto._modifyChecked = function(propValue, propOldValue, propData)
+qx.Clazz.define("qx.ui.toolbar.RadioButton",
 {
-  qx.ui.toolbar.CheckBox.prototype._modifyChecked.call(this, propValue, propOldValue, propData);
-
-  var vManager = this.getManager();
-  if (vManager) {
-    vManager.handleItemChecked(this, propValue);
-  }
-
-  return true;
-}
-
-qx.Proto._modifyManager = function(propValue, propOldValue, propData)
-{
-  if (propOldValue) {
-    propOldValue.remove(this);
-  }
-
-  if (propValue) {
-    propValue.add(this);
-  }
-
-  return true;
-}
+  extend : qx.ui.toolbar.CheckBox,
 
 
 
 
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
-/*
----------------------------------------------------------------------------
-  EVENTS
----------------------------------------------------------------------------
-*/
+  construct : function(vText, vIcon, vChecked) {
+    qx.ui.toolbar.CheckBox.call(this, vText, vIcon, vChecked);
+  },
 
-qx.Proto._onmouseup = function(e)
-{
-  this.setCapture(false);
 
-  if (!this.hasState("abandoned"))
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
   {
-    this.addState("over");
-    this.setChecked(this.getDisableUncheck() || !this.getChecked());
-    this.execute();
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    /** The assigned qx.manager.selection.RadioManager which handles the switching between registered buttons */
+    manager :
+    {
+      _legacy   : true,
+      type      : "object",
+      instance  : "qx.manager.selection.RadioManager",
+      allowNull : true
+    },
+
+
+    /**
+     * The name of the radio group. All the radio elements in a group (registered by the same manager)
+     *  have the same name (and could have a different value).
+     */
+    name :
+    {
+      _legacy : true,
+      type    : "string"
+    },
+
+
+    /** Prohibit the deselction of the checked radio button when clicked on it. */
+    disableUncheck :
+    {
+      _legacy      : true,
+      type         : "boolean",
+      defaultValue : false
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      MODIFIER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {boolean} TODOC
+     */
+    _modifyChecked : function(propValue, propOldValue, propData)
+    {
+      qx.ui.toolbar.CheckBox.prototype._modifyChecked.call(this, propValue, propOldValue, propData);
+
+      var vManager = this.getManager();
+
+      if (vManager) {
+        vManager.handleItemChecked(this, propValue);
+      }
+
+      return true;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {boolean} TODOC
+     */
+    _modifyManager : function(propValue, propOldValue, propData)
+    {
+      if (propOldValue) {
+        propOldValue.remove(this);
+      }
+
+      if (propValue) {
+        propValue.add(this);
+      }
+
+      return true;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENTS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
+    _onmouseup : function(e)
+    {
+      this.setCapture(false);
+
+      if (!this.hasState("abandoned"))
+      {
+        this.addState("over");
+        this.setChecked(this.getDisableUncheck() || !this.getChecked());
+        this.execute();
+      }
+
+      this.removeState("abandoned");
+      this.removeState("pressed");
+
+      e.stopPropagation();
+    }
   }
-
-  this.removeState("abandoned");
-  this.removeState("pressed");
-
-  e.stopPropagation();
-}
+});

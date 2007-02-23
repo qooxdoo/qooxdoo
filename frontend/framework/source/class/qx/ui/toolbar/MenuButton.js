@@ -25,230 +25,345 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.toolbar.MenuButton", qx.ui.toolbar.Button,
-function(vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash)
+qx.Clazz.define("qx.ui.toolbar.MenuButton",
 {
-  qx.ui.toolbar.Button.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
+  extend : qx.ui.toolbar.Button,
 
-  if (vMenu != null) {
-    this.setMenu(vMenu);
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash)
+  {
+    qx.ui.toolbar.Button.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
+
+    if (vMenu != null) {
+      this.setMenu(vMenu);
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    menu :
+    {
+      _legacy  : true,
+      type     : "object",
+      instance : "qx.ui.menu.Menu"
+    },
+
+    direction :
+    {
+      _legacy        : true,
+      type           : "string",
+      allowNull      : false,
+      possibleValues : [ "up", "down" ],
+      defaultValue   : "down"
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      UTILITIES
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getParentToolBar : function()
+    {
+      var vParent = this.getParent();
+
+      if (vParent instanceof qx.ui.toolbar.Part) {
+        vParent = vParent.getParent();
+      }
+
+      return vParent instanceof qx.ui.toolbar.ToolBar ? vParent : null;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vFromKeyEvent {var} TODOC
+     * @return {void} 
+     */
+    _showMenu : function(vFromKeyEvent)
+    {
+      var vMenu = this.getMenu();
+
+      if (vMenu)
+      {
+        // Caching common stuff
+        var vMenuParent = vMenu.getParent();
+        var vMenuParentElement = vMenuParent.getElement();
+        var vButtonElement = this.getElement();
+        var vButtonHeight = qx.html.Dimension.getBoxHeight(vButtonElement);
+
+        // Apply X-Location
+        var vMenuParentLeft = qx.html.Location.getPageBoxLeft(vMenuParentElement);
+        var vButtonLeft = qx.html.Location.getPageBoxLeft(vButtonElement);
+
+        vMenu.setLeft(vButtonLeft - vMenuParentLeft);
+
+        // Apply Y-Location
+        switch(this.getDirection())
+        {
+          case "up":
+            var vBodyHeight = qx.html.Dimension.getInnerHeight(document.body);
+            var vMenuParentBottom = qx.html.Location.getPageBoxBottom(vMenuParentElement);
+            var vButtonBottom = qx.html.Location.getPageBoxBottom(vButtonElement);
+
+            vMenu.setBottom(vButtonHeight + (vBodyHeight - vButtonBottom) - (vBodyHeight - vMenuParentBottom));
+            vMenu.setTop(null);
+            break;
+
+          case "down":
+            var vButtonTop = qx.html.Location.getPageBoxTop(vButtonElement);
+
+            vMenu.setTop(vButtonTop + vButtonHeight);
+            vMenu.setBottom(null);
+            break;
+        }
+
+        this.addState("pressed");
+
+        // If this show is called from a key event occured, we want to highlight
+        // the first menubutton inside.
+        if (vFromKeyEvent) {
+          vMenu.setHoverItem(vMenu.getFirstActiveChild());
+        }
+
+        vMenu.show();
+      }
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    _hideMenu : function()
+    {
+      var vMenu = this.getMenu();
+
+      if (vMenu) {
+        vMenu.hide();
+      }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      MODIFIERS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {boolean} TODOC
+     */
+    _modifyMenu : function(propValue, propOldValue, propData)
+    {
+      if (propOldValue)
+      {
+        propOldValue.setOpener(null);
+
+        propOldValue.removeEventListener("appear", this._onmenuappear, this);
+        propOldValue.removeEventListener("disappear", this._onmenudisappear, this);
+      }
+
+      if (propValue)
+      {
+        propValue.setOpener(this);
+
+        propValue.addEventListener("appear", this._onmenuappear, this);
+        propValue.addEventListener("disappear", this._onmenudisappear, this);
+      }
+
+      return true;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENTS: MOUSE
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
+    _onmousedown : function(e)
+    {
+      if (e.getTarget() != this || !e.isLeftButtonPressed()) {
+        return;
+      }
+
+      this.hasState("pressed") ? this._hideMenu() : this._showMenu();
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
+    _onmouseup : function(e) {},
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
+    _onmouseout : function(e)
+    {
+      if (e.getTarget() != this) {
+        return;
+      }
+
+      this.removeState("over");
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {var} TODOC
+     */
+    _onmouseover : function(e)
+    {
+      var vToolBar = this.getParentToolBar();
+
+      if (vToolBar)
+      {
+        var vMenu = this.getMenu();
+
+        switch(vToolBar.getOpenMenu())
+        {
+          case null:
+          case vMenu:
+            break;
+
+          default:
+            // hide other menus
+            qx.manager.object.MenuManager.getInstance().update();
+
+            // show this menu
+            this._showMenu();
+        }
+      }
+
+      return qx.ui.toolbar.Button.prototype._onmouseover.call(this, e);
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENTS: MENU
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
+    _onmenuappear : function(e)
+    {
+      var vToolBar = this.getParentToolBar();
+
+      if (!vToolBar) {
+        return;
+      }
+
+      var vMenu = this.getMenu();
+
+      vToolBar.setOpenMenu(vMenu);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
+    _onmenudisappear : function(e)
+    {
+      var vToolBar = this.getParentToolBar();
+
+      if (!vToolBar) {
+        return;
+      }
+
+      var vMenu = this.getMenu();
+
+      if (vToolBar.getOpenMenu() == vMenu) {
+        vToolBar.setOpenMenu(null);
+      }
+    }
   }
 });
-
-
-
-
-/*
----------------------------------------------------------------------------
-  PROPERTIES
----------------------------------------------------------------------------
-*/
-
-qx.OO.addProperty({ name : "menu", type : "object", instance : "qx.ui.menu.Menu" });
-qx.OO.addProperty({ name : "direction", type : "string", allowNull : false, possibleValues : [ "up", "down" ], defaultValue : "down" });
-
-
-
-
-/*
----------------------------------------------------------------------------
-  UTILITIES
----------------------------------------------------------------------------
-*/
-
-qx.Proto.getParentToolBar = function()
-{
-  var vParent = this.getParent();
-
-  if (vParent instanceof qx.ui.toolbar.Part) {
-    vParent = vParent.getParent();
-  }
-
-  return vParent instanceof qx.ui.toolbar.ToolBar ? vParent : null;
-}
-
-qx.Proto._showMenu = function(vFromKeyEvent)
-{
-  var vMenu = this.getMenu();
-
-  if (vMenu)
-  {
-    // Caching common stuff
-    var vMenuParent = vMenu.getParent();
-    var vMenuParentElement = vMenuParent.getElement();
-    var vButtonElement = this.getElement();
-    var vButtonHeight = qx.html.Dimension.getBoxHeight(vButtonElement);
-
-    // Apply X-Location
-    var vMenuParentLeft = qx.html.Location.getPageBoxLeft(vMenuParentElement);
-    var vButtonLeft = qx.html.Location.getPageBoxLeft(vButtonElement);
-
-    vMenu.setLeft(vButtonLeft - vMenuParentLeft);
-
-    // Apply Y-Location
-    switch(this.getDirection())
-    {
-      case "up":
-        var vBodyHeight = qx.html.Dimension.getInnerHeight(document.body);
-        var vMenuParentBottom = qx.html.Location.getPageBoxBottom(vMenuParentElement);
-        var vButtonBottom = qx.html.Location.getPageBoxBottom(vButtonElement);
-
-        vMenu.setBottom(vButtonHeight + (vBodyHeight - vButtonBottom) - (vBodyHeight - vMenuParentBottom));
-        vMenu.setTop(null);
-        break;
-
-      case "down":
-        var vButtonTop = qx.html.Location.getPageBoxTop(vButtonElement);
-
-        vMenu.setTop(vButtonTop + vButtonHeight);
-        vMenu.setBottom(null);
-        break;
-    }
-
-    this.addState("pressed");
-
-    // If this show is called from a key event occured, we want to highlight
-    // the first menubutton inside.
-    if (vFromKeyEvent) {
-      vMenu.setHoverItem(vMenu.getFirstActiveChild());
-    }
-
-    vMenu.show();
-  }
-}
-
-qx.Proto._hideMenu = function()
-{
-  var vMenu = this.getMenu();
-
-  if (vMenu) {
-    vMenu.hide();
-  }
-}
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  MODIFIERS
----------------------------------------------------------------------------
-*/
-
-qx.Proto._modifyMenu = function(propValue, propOldValue, propData)
-{
-  if (propOldValue)
-  {
-    propOldValue.setOpener(null);
-
-    propOldValue.removeEventListener("appear", this._onmenuappear, this);
-    propOldValue.removeEventListener("disappear", this._onmenudisappear, this);
-  }
-
-  if (propValue)
-  {
-    propValue.setOpener(this);
-
-    propValue.addEventListener("appear", this._onmenuappear, this);
-    propValue.addEventListener("disappear", this._onmenudisappear, this);
-  }
-
-  return true;
-}
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  EVENTS: MOUSE
----------------------------------------------------------------------------
-*/
-
-qx.Proto._onmousedown = function(e)
-{
-  if (e.getTarget() != this || !e.isLeftButtonPressed()) {
-    return;
-  }
-
-  this.hasState("pressed") ? this._hideMenu() : this._showMenu();
-}
-
-qx.Proto._onmouseup = function(e) {}
-
-qx.Proto._onmouseout = function(e)
-{
-  if (e.getTarget() != this) {
-    return;
-  }
-
-  this.removeState("over");
-}
-
-qx.Proto._onmouseover = function(e)
-{
-  var vToolBar = this.getParentToolBar();
-
-  if (vToolBar)
-  {
-    var vMenu = this.getMenu();
-
-    switch(vToolBar.getOpenMenu())
-    {
-      case null:
-      case vMenu:
-        break;
-
-      default:
-        // hide other menus
-        qx.manager.object.MenuManager.getInstance().update();
-
-        // show this menu
-        this._showMenu();
-    }
-  }
-
-  return qx.ui.toolbar.Button.prototype._onmouseover.call(this, e);
-}
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  EVENTS: MENU
----------------------------------------------------------------------------
-*/
-
-qx.Proto._onmenuappear = function(e)
-{
-  var vToolBar = this.getParentToolBar();
-
-  if (!vToolBar) {
-    return;
-  }
-
-  var vMenu = this.getMenu();
-
-  vToolBar.setOpenMenu(vMenu);
-}
-
-qx.Proto._onmenudisappear = function(e)
-{
-  var vToolBar = this.getParentToolBar();
-
-  if (!vToolBar) {
-    return;
-  }
-
-  var vMenu = this.getMenu();
-
-  if (vToolBar.getOpenMenu() == vMenu) {
-    vToolBar.setOpenMenu(null);
-  }
-}
