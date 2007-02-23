@@ -25,336 +25,498 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.menu.Button", qx.ui.layout.HorizontalBoxLayout,
-function(vLabel, vIcon, vCommand, vMenu)
+qx.Clazz.define("qx.ui.menu.Button",
 {
-  qx.ui.layout.HorizontalBoxLayout.call(this);
-
-
-  // ************************************************************************
-  //   LAYOUT
-  // ************************************************************************
-
-  var io = this._iconObject = new qx.ui.basic.Image;
-  io.setWidth(16);
-  io.setAnonymous(true);
-
-  var lo = this._labelObject = new qx.ui.basic.Label;
-  lo.setAnonymous(true);
-  lo.setSelectable(false);
-
-  var so = this._shortcutObject = new qx.ui.basic.Label;
-  so.setAnonymous(true);
-  so.setSelectable(false);
-
-  var ao = this._arrowObject = new qx.ui.basic.Image("widget/arrows/next.gif");
-  ao.setAnonymous(true);
-
-
-  // ************************************************************************
-  //   INIT
-  // ************************************************************************
-
-  if (vLabel != null) {
-    this.setLabel(vLabel);
-  }
-
-  if (vIcon != null) {
-    this.setIcon(vIcon);
-  }
-
-  if (vCommand != null) {
-    this.setCommand(vCommand);
-    qx.locale.Manager.getInstance().addEventListener("changeLocale", function(e) {
-      this._modifyCommand(vCommand, vCommand);
-    }, this)
-  }
-
-  if (vMenu != null) {
-    this.setMenu(vMenu);
-  }
-
-
-  // ************************************************************************
-  //   EVENTS
-  // ************************************************************************
-
-  this.addEventListener("mouseup", this._onmouseup);
-});
-
-
-
-/*
----------------------------------------------------------------------------
-  PROPERTIES
----------------------------------------------------------------------------
-*/
-
-qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "menu-button" });
-
-qx.OO.addProperty({ name : "icon", type : "string" });
-qx.OO.addProperty({ name : "label" });
-qx.OO.addProperty({ name : "menu", type : "object" });
+  extend : qx.ui.layout.HorizontalBoxLayout,
 
 
 
 
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
-
-/*
----------------------------------------------------------------------------
-  UTILITIES
----------------------------------------------------------------------------
-*/
-
-qx.Proto._hasIcon = false;
-qx.Proto._hasLabel = false;
-qx.Proto._hasShortcut = false;
-qx.Proto._hasMenu = false;
-
-qx.Proto.hasIcon = function() {
-  return this._hasIcon;
-}
-
-qx.Proto.hasLabel = function() {
-  return this._hasLabel;
-}
-
-qx.Proto.hasShortcut = function() {
-  return this._hasShortcut;
-}
-
-qx.Proto.hasMenu = function() {
-  return this._hasMenu;
-}
-
-qx.Proto.getIconObject = function() {
-  return this._iconObject;
-}
-
-qx.Proto.getLabelObject = function() {
-  return this._labelObject;
-}
-
-qx.Proto.getShortcutObject = function() {
-  return this._shortcutObject;
-}
-
-qx.Proto.getArrowObject = function() {
-  return this._arrowObject;
-}
-
-qx.Proto.getParentMenu = function()
-{
-  var vParent = this.getParent();
-  if (vParent)
+  construct : function(vLabel, vIcon, vCommand, vMenu)
   {
-    vParent = vParent.getParent();
+    qx.ui.layout.HorizontalBoxLayout.call(this);
 
-    if (vParent && vParent instanceof qx.ui.menu.Menu) {
-      return vParent;
+    // ************************************************************************
+    //   LAYOUT
+    // ************************************************************************
+    var io = this._iconObject = new qx.ui.basic.Image;
+    io.setWidth(16);
+    io.setAnonymous(true);
+
+    var lo = this._labelObject = new qx.ui.basic.Label;
+    lo.setAnonymous(true);
+    lo.setSelectable(false);
+
+    var so = this._shortcutObject = new qx.ui.basic.Label;
+    so.setAnonymous(true);
+    so.setSelectable(false);
+
+    var ao = this._arrowObject = new qx.ui.basic.Image("widget/arrows/next.gif");
+    ao.setAnonymous(true);
+
+    // ************************************************************************
+    //   INIT
+    // ************************************************************************
+    if (vLabel != null) {
+      this.setLabel(vLabel);
     }
-  }
 
-  return null;
-}
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  INIT LAYOUT IMPL
----------------------------------------------------------------------------
-*/
-
-/*!
-  This creates an new instance of the layout impl this widget uses
-*/
-qx.Proto._createLayoutImpl = function() {
-  return new qx.renderer.layout.MenuButtonLayoutImpl(this);
-}
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  MODIFIERS
----------------------------------------------------------------------------
-*/
-
-qx.Proto._modifyEnabled = function(propValue, propOldValue, propData)
-{
-  if (this._iconObject) {
-    this._iconObject.setEnabled(propValue);
-  }
-
-  if (this._labelObject) {
-    this._labelObject.setEnabled(propValue);
-  }
-
-  if (this._shortcutObject) {
-     this._shortcutObject.setEnabled(propValue);
-  }
-
-  return qx.ui.layout.HorizontalBoxLayout.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
-}
-
-qx.Proto._modifyIcon = function(propValue, propOldValue, propData)
-{
-  this._iconObject.setSource(propValue);
-
-  if (qx.util.Validation.isValidString(propValue))
-  {
-    this._hasIcon = true;
-
-    if (qx.util.Validation.isInvalidString(propOldValue)) {
-      this.addAtBegin(this._iconObject);
+    if (vIcon != null) {
+      this.setIcon(vIcon);
     }
-  }
-  else
-  {
-    this._hasIcon = false;
-    this.remove(this._iconObject);
-  }
 
-  return true;
-}
-
-qx.Proto._modifyLabel = function(propValue, propOldValue, propData)
-{
-  this._labelObject.setHtml(propValue);
-
-  if ((typeof propValue == "string" && propValue != "") || propValue instanceof qx.locale.LocalizedString)
-  {
-    this._hasLabel = true;
-
-    if (!((typeof propOldValue == "string" && propOldValue != "") || propOldValue instanceof qx.locale.LocalizedString)) {
-      this.addAt(this._labelObject, this.getFirstChild() == this._iconObject ? 1 : 0);
-    }
-  }
-  else
-  {
-    this._hasLabel = false;
-    this.remove(this._labelObject);
-  }
-
-  return true;
-}
-
-qx.Proto._modifyCommand = function(propValue, propOldValue, propData)
-{
-  var vHtml = propValue ? propValue.toString() : "";
-
-  this._shortcutObject.setHtml(vHtml);
-
-  if (qx.util.Validation.isValidString(vHtml))
-  {
-    this._hasShortcut = true;
-
-    var vOldHtml = propOldValue ? propOldValue.getShortcut() : "";
-
-    if (qx.util.Validation.isInvalidString(vOldHtml))
+    if (vCommand != null)
     {
-      if (this.getLastChild() == this._arrowObject)
+      this.setCommand(vCommand);
+
+      qx.locale.Manager.getInstance().addEventListener("changeLocale", function(e) {
+        this._modifyCommand(vCommand, vCommand);
+      }, this);
+    }
+
+    if (vMenu != null) {
+      this.setMenu(vMenu);
+    }
+
+    // ************************************************************************
+    //   EVENTS
+    // ************************************************************************
+    this.addEventListener("mouseup", this._onmouseup);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    appearance :
+    {
+      _legacy      : true,
+      type         : "string",
+      defaultValue : "menu-button"
+    },
+
+    icon :
+    {
+      _legacy : true,
+      type    : "string"
+    },
+
+    label : { _legacy : true },
+
+    menu :
+    {
+      _legacy : true,
+      type    : "object"
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      UTILITIES
+    ---------------------------------------------------------------------------
+    */
+
+    _hasIcon : false,
+    _hasLabel : false,
+    _hasShortcut : false,
+    _hasMenu : false,
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    hasIcon : function() {
+      return this._hasIcon;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    hasLabel : function() {
+      return this._hasLabel;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    hasShortcut : function() {
+      return this._hasShortcut;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    hasMenu : function() {
+      return this._hasMenu;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getIconObject : function() {
+      return this._iconObject;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getLabelObject : function() {
+      return this._labelObject;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getShortcutObject : function() {
+      return this._shortcutObject;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getArrowObject : function() {
+      return this._arrowObject;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var | null} TODOC
+     */
+    getParentMenu : function()
+    {
+      var vParent = this.getParent();
+
+      if (vParent)
       {
-        this.addBefore(this._shortcutObject, this._arrowObject);
+        vParent = vParent.getParent();
+
+        if (vParent && vParent instanceof qx.ui.menu.Menu) {
+          return vParent;
+        }
+      }
+
+      return null;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      INIT LAYOUT IMPL
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * This creates an new instance of the layout impl this widget uses
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    _createLayoutImpl : function() {
+      return new qx.renderer.layout.MenuButtonLayoutImpl(this);
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      MODIFIERS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {var} TODOC
+     */
+    _modifyEnabled : function(propValue, propOldValue, propData)
+    {
+      if (this._iconObject) {
+        this._iconObject.setEnabled(propValue);
+      }
+
+      if (this._labelObject) {
+        this._labelObject.setEnabled(propValue);
+      }
+
+      if (this._shortcutObject) {
+        this._shortcutObject.setEnabled(propValue);
+      }
+
+      return qx.ui.layout.HorizontalBoxLayout.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {boolean} TODOC
+     */
+    _modifyIcon : function(propValue, propOldValue, propData)
+    {
+      this._iconObject.setSource(propValue);
+
+      if (qx.util.Validation.isValidString(propValue))
+      {
+        this._hasIcon = true;
+
+        if (qx.util.Validation.isInvalidString(propOldValue)) {
+          this.addAtBegin(this._iconObject);
+        }
       }
       else
       {
-        this.addAtEnd(this._shortcutObject);
+        this._hasIcon = false;
+        this.remove(this._iconObject);
       }
+
+      return true;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {boolean} TODOC
+     */
+    _modifyLabel : function(propValue, propOldValue, propData)
+    {
+      this._labelObject.setHtml(propValue);
+
+      if ((typeof propValue == "string" && propValue != "") || propValue instanceof qx.locale.LocalizedString)
+      {
+        this._hasLabel = true;
+
+        if (!((typeof propOldValue == "string" && propOldValue != "") || propOldValue instanceof qx.locale.LocalizedString)) {
+          this.addAt(this._labelObject, this.getFirstChild() == this._iconObject ? 1 : 0);
+        }
+      }
+      else
+      {
+        this._hasLabel = false;
+        this.remove(this._labelObject);
+      }
+
+      return true;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {boolean} TODOC
+     */
+    _modifyCommand : function(propValue, propOldValue, propData)
+    {
+      var vHtml = propValue ? propValue.toString() : "";
+
+      this._shortcutObject.setHtml(vHtml);
+
+      if (qx.util.Validation.isValidString(vHtml))
+      {
+        this._hasShortcut = true;
+
+        var vOldHtml = propOldValue ? propOldValue.getShortcut() : "";
+
+        if (qx.util.Validation.isInvalidString(vOldHtml))
+        {
+          if (this.getLastChild() == this._arrowObject) {
+            this.addBefore(this._shortcutObject, this._arrowObject);
+          } else {
+            this.addAtEnd(this._shortcutObject);
+          }
+        }
+      }
+      else
+      {
+        this._hasShortcut = false;
+        this.remove(this._shortcutObject);
+      }
+
+      return true;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {boolean} TODOC
+     */
+    _modifyMenu : function(propValue, propOldValue, propData)
+    {
+      if (propValue)
+      {
+        this._hasMenu = true;
+
+        if (qx.util.Validation.isInvalidObject(propOldValue)) {
+          this.addAtEnd(this._arrowObject);
+        }
+      }
+      else
+      {
+        this._hasMenu = false;
+        this.remove(this._arrowObject);
+      }
+
+      return true;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENTS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
+    _onmouseup : function(e) {
+      this.execute();
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DISPOSER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void | var} TODOC
+     */
+    dispose : function()
+    {
+      if (this.getDisposed()) {
+        return;
+      }
+
+      // Dispose children
+      if (this._iconObject)
+      {
+        this._iconObject.dispose();
+        this._iconObject = null;
+      }
+
+      if (this._labelObject)
+      {
+        this._labelObject.dispose();
+        this._labelObject = null;
+      }
+
+      if (this._shortcutObject)
+      {
+        this._shortcutObject.dispose();
+        this._shortcutObject = null;
+      }
+
+      if (this._arrowObject)
+      {
+        this._arrowObject.dispose();
+        this._arrowObject = null;
+      }
+
+      // Remove event listeners
+      this.removeEventListener("mouseup", this._onmouseup);
+
+      return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
     }
   }
-  else
-  {
-    this._hasShortcut = false;
-    this.remove(this._shortcutObject);
-  }
-
-  return true;
-}
-
-qx.Proto._modifyMenu = function(propValue, propOldValue, propData)
-{
-  if (propValue)
-  {
-    this._hasMenu = true;
-
-    if (qx.util.Validation.isInvalidObject(propOldValue)) {
-      this.addAtEnd(this._arrowObject);
-    }
-  }
-  else
-  {
-    this._hasMenu = false;
-    this.remove(this._arrowObject);
-  }
-
-  return true;
-}
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  EVENTS
----------------------------------------------------------------------------
-*/
-
-qx.Proto._onmouseup = function(e) {
-  this.execute();
-}
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DISPOSER
----------------------------------------------------------------------------
-*/
-
-qx.Proto.dispose = function()
-{
-  if (this.getDisposed()) {
-    return;
-  }
-
-  // Dispose children
-  if (this._iconObject)
-  {
-    this._iconObject.dispose();
-    this._iconObject = null;
-  }
-
-  if (this._labelObject)
-  {
-    this._labelObject.dispose();
-    this._labelObject = null;
-  }
-
-  if (this._shortcutObject)
-  {
-    this._shortcutObject.dispose();
-    this._shortcutObject = null;
-  }
-
-  if (this._arrowObject)
-  {
-    this._arrowObject.dispose();
-    this._arrowObject = null;
-  }
-
-  // Remove event listeners
-  this.removeEventListener("mouseup", this._onmouseup);
-
-  return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
-}
+});
