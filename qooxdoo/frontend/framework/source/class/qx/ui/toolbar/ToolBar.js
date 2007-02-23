@@ -24,221 +24,282 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.toolbar.ToolBar", qx.ui.layout.HorizontalBoxLayout,
-function()
+qx.Clazz.define("qx.ui.toolbar.ToolBar",
 {
-  qx.ui.layout.HorizontalBoxLayout.call(this);
+  extend : qx.ui.layout.HorizontalBoxLayout,
 
-  this.addEventListener("keypress", this._onkeypress);
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function()
+  {
+    qx.ui.layout.HorizontalBoxLayout.call(this);
+
+    this.addEventListener("keypress", this._onkeypress);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    openMenu :
+    {
+      _legacy  : true,
+      type     : "object",
+      instance : "qx.ui.menu.Menu"
+    },
+
+
+    /** Appearance of the widget */
+    appearance :
+    {
+      _legacy      : true,
+      type         : "string",
+      defaultValue : "toolbar"
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      UTILITIES
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getAllButtons : function()
+    {
+      var vChildren = this.getChildren();
+      var vLength = vChildren.length;
+      var vDeepChildren = [];
+      var vCurrent;
+
+      for (var i=0; i<vLength; i++)
+      {
+        vCurrent = vChildren[i];
+
+        if (vCurrent instanceof qx.ui.toolbar.MenuButton) {
+          vDeepChildren.push(vCurrent);
+        } else if (vCurrent instanceof qx.ui.toolbar.Part) {
+          vDeepChildren = vDeepChildren.concat(vCurrent.getChildren());
+        }
+      }
+
+      return vDeepChildren;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENTS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Wraps key events to target functions
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {var} TODOC
+     */
+    _onkeypress : function(e)
+    {
+      switch(e.getKeyIdentifier())
+      {
+        case "Left":
+          return this._onkeypress_left();
+
+        case "Right":
+          return this._onkeypress_right();
+      }
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    _onkeypress_left : function()
+    {
+      var vMenu = this.getOpenMenu();
+
+      if (!vMenu) {
+        return;
+      }
+
+      var vOpener = vMenu.getOpener();
+
+      if (!vOpener) {
+        return;
+      }
+
+      var vChildren = this.getAllButtons();
+      var vChildrenLength = vChildren.length;
+      var vIndex = vChildren.indexOf(vOpener);
+      var vCurrent;
+      var vPrevButton = null;
+
+      for (var i=vIndex-1; i>=0; i--)
+      {
+        vCurrent = vChildren[i];
+
+        if (vCurrent instanceof qx.ui.toolbar.MenuButton && vCurrent.getEnabled())
+        {
+          vPrevButton = vCurrent;
+          break;
+        }
+      }
+
+      // If none found, try again from the begin (looping)
+      if (!vPrevButton)
+      {
+        for (var i=vChildrenLength-1; i>vIndex; i--)
+        {
+          vCurrent = vChildren[i];
+
+          if (vCurrent instanceof qx.ui.toolbar.MenuButton && vCurrent.getEnabled())
+          {
+            vPrevButton = vCurrent;
+            break;
+          }
+        }
+      }
+
+      if (vPrevButton)
+      {
+        // hide other menus
+        qx.manager.object.MenuManager.getInstance().update();
+
+        // show previous menu
+        vPrevButton._showMenu(true);
+      }
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    _onkeypress_right : function()
+    {
+      var vMenu = this.getOpenMenu();
+
+      if (!vMenu) {
+        return;
+      }
+
+      var vOpener = vMenu.getOpener();
+
+      if (!vOpener) {
+        return;
+      }
+
+      var vChildren = this.getAllButtons();
+      var vChildrenLength = vChildren.length;
+      var vIndex = vChildren.indexOf(vOpener);
+      var vCurrent;
+      var vNextButton = null;
+
+      for (var i=vIndex+1; i<vChildrenLength; i++)
+      {
+        vCurrent = vChildren[i];
+
+        if (vCurrent instanceof qx.ui.toolbar.MenuButton && vCurrent.getEnabled())
+        {
+          vNextButton = vCurrent;
+          break;
+        }
+      }
+
+      // If none found, try again from the begin (looping)
+      if (!vNextButton)
+      {
+        for (var i=0; i<vIndex; i++)
+        {
+          vCurrent = vChildren[i];
+
+          if (vCurrent instanceof qx.ui.toolbar.MenuButton && vCurrent.getEnabled())
+          {
+            vNextButton = vCurrent;
+            break;
+          }
+        }
+      }
+
+      if (vNextButton)
+      {
+        // hide other menus
+        qx.manager.object.MenuManager.getInstance().update();
+
+        // show next menu
+        vNextButton._showMenu(true);
+      }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DISPOSER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void | var} TODOC
+     */
+    dispose : function()
+    {
+      if (this.getDisposed()) {
+        return;
+      }
+
+      this.removeEventListener("keypress", this._onkeypress);
+
+      return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
+    }
+  }
 });
-
-
-
-/*
----------------------------------------------------------------------------
-  PROPERTIES
----------------------------------------------------------------------------
-*/
-
-qx.OO.addProperty({ name : "openMenu", type : "object", instance : "qx.ui.menu.Menu" });
-
-/*!
-  Appearance of the widget
-*/
-qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "toolbar" });
-
-
-
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  UTILITIES
----------------------------------------------------------------------------
-*/
-
-qx.Proto.getAllButtons = function()
-{
-  var vChildren = this.getChildren();
-  var vLength = vChildren.length;
-  var vDeepChildren = [];
-  var vCurrent;
-
-  for (var i=0; i<vLength; i++)
-  {
-    vCurrent = vChildren[i];
-
-    if (vCurrent instanceof qx.ui.toolbar.MenuButton)
-    {
-      vDeepChildren.push(vCurrent);
-    }
-    else if (vCurrent instanceof qx.ui.toolbar.Part)
-    {
-      vDeepChildren = vDeepChildren.concat(vCurrent.getChildren());
-    }
-  }
-
-  return vDeepChildren;
-}
-
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  EVENTS
----------------------------------------------------------------------------
-*/
-
-/*!
-  Wraps key events to target functions
-*/
-qx.Proto._onkeypress = function(e)
-{
-  switch(e.getKeyIdentifier())
-  {
-    case "Left":
-      return this._onkeypress_left();
-
-    case "Right":
-      return this._onkeypress_right();
-  }
-}
-
-qx.Proto._onkeypress_left = function()
-{
-  var vMenu = this.getOpenMenu();
-  if (!vMenu) {
-    return;
-  }
-
-  var vOpener = vMenu.getOpener();
-  if (!vOpener) {
-    return;
-  }
-
-  var vChildren = this.getAllButtons();
-  var vChildrenLength = vChildren.length;
-  var vIndex = vChildren.indexOf(vOpener);
-  var vCurrent;
-  var vPrevButton = null;
-
-  for (var i=vIndex-1; i>=0; i--)
-  {
-    vCurrent = vChildren[i];
-
-    if (vCurrent instanceof qx.ui.toolbar.MenuButton && vCurrent.getEnabled())
-    {
-      vPrevButton = vCurrent;
-      break;
-    }
-  }
-
-  // If none found, try again from the begin (looping)
-  if (!vPrevButton)
-  {
-    for (var i=vChildrenLength-1; i>vIndex; i--)
-    {
-      vCurrent = vChildren[i];
-
-      if (vCurrent instanceof qx.ui.toolbar.MenuButton && vCurrent.getEnabled())
-      {
-        vPrevButton = vCurrent;
-        break;
-      }
-    }
-  }
-
-  if (vPrevButton)
-  {
-    // hide other menus
-    qx.manager.object.MenuManager.getInstance().update();
-
-    // show previous menu
-    vPrevButton._showMenu(true);
-  }
-}
-
-qx.Proto._onkeypress_right = function()
-{
-  var vMenu = this.getOpenMenu();
-  if (!vMenu) {
-    return;
-  }
-
-  var vOpener = vMenu.getOpener();
-  if (!vOpener) {
-    return;
-  }
-
-  var vChildren = this.getAllButtons();
-  var vChildrenLength = vChildren.length;
-  var vIndex = vChildren.indexOf(vOpener);
-  var vCurrent;
-  var vNextButton = null;
-
-  for (var i=vIndex+1; i<vChildrenLength; i++)
-  {
-    vCurrent = vChildren[i];
-
-    if (vCurrent instanceof qx.ui.toolbar.MenuButton && vCurrent.getEnabled())
-    {
-      vNextButton = vCurrent;
-      break;
-    }
-  }
-
-  // If none found, try again from the begin (looping)
-  if (!vNextButton)
-  {
-    for (var i=0; i<vIndex; i++)
-    {
-      vCurrent = vChildren[i];
-
-      if (vCurrent instanceof qx.ui.toolbar.MenuButton && vCurrent.getEnabled())
-      {
-        vNextButton = vCurrent;
-        break;
-      }
-    }
-  }
-
-  if (vNextButton)
-  {
-    // hide other menus
-    qx.manager.object.MenuManager.getInstance().update();
-
-    // show next menu
-    vNextButton._showMenu(true);
-  }
-}
-
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DISPOSER
----------------------------------------------------------------------------
-*/
-
-qx.Proto.dispose = function()
-{
-  if (this.getDisposed()) {
-    return;
-  }
-
-  this.removeEventListener("keypress", this._onkeypress);
-
-  return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
-}
