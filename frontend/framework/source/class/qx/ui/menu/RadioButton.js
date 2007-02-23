@@ -26,97 +26,169 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.menu.RadioButton", qx.ui.menu.CheckBox,
-function(vLabel, vCommand, vChecked)
+qx.Clazz.define("qx.ui.menu.RadioButton",
 {
-  qx.ui.menu.CheckBox.call(this, vLabel, vCommand, vChecked);
-
-  qx.manager.object.ImageManager.getInstance().preload("widget/menu/radiobutton.gif");
-});
-
-
-/*
----------------------------------------------------------------------------
-  PROPERTIES
----------------------------------------------------------------------------
-*/
-
-qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "menu-radio-button" });
-
-/*!
-  The assigned qx.manager.selection.RadioManager which handles the switching between registered buttons
-*/
-qx.OO.addProperty({ name : "manager", type : "object", instance : "qx.manager.selection.RadioManager", allowNull : true });
+  extend : qx.ui.menu.CheckBox,
 
 
 
 
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
-
-/*
----------------------------------------------------------------------------
-  MODIFIER
----------------------------------------------------------------------------
-*/
-
-qx.Proto._modifyChecked = function(propValue, propOldValue, propData)
-{
-  var vManager = this.getManager();
-
-  if (vManager)
+  construct : function(vLabel, vCommand, vChecked)
   {
-    if (propValue)
+    qx.ui.menu.CheckBox.call(this, vLabel, vCommand, vChecked);
+
+    qx.manager.object.ImageManager.getInstance().preload("widget/menu/radiobutton.gif");
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    appearance :
     {
-      vManager.setSelected(this);
-    }
-    else if (vManager.getSelected() == this)
+      _legacy      : true,
+      type         : "string",
+      defaultValue : "menu-radio-button"
+    },
+
+
+    /** The assigned qx.manager.selection.RadioManager which handles the switching between registered buttons */
+    manager :
     {
-      vManager.setSelected(null);
+      _legacy   : true,
+      type      : "object",
+      instance  : "qx.manager.selection.RadioManager",
+      allowNull : true
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      MODIFIER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {boolean} TODOC
+     */
+    _modifyChecked : function(propValue, propOldValue, propData)
+    {
+      var vManager = this.getManager();
+
+      if (vManager)
+      {
+        if (propValue) {
+          vManager.setSelected(this);
+        } else if (vManager.getSelected() == this) {
+          vManager.setSelected(null);
+        }
+      }
+
+      propValue ? this.addState("checked") : this.removeState("checked");
+      this.getIconObject().setSource(propValue ? "widget/menu/radiobutton.gif" : "static/image/blank.gif");
+
+      return true;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {boolean} TODOC
+     */
+    _modifyManager : function(propValue, propOldValue, propData)
+    {
+      if (propOldValue) {
+        propOldValue.remove(this);
+      }
+
+      if (propValue) {
+        propValue.add(this);
+      }
+
+      return true;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {boolean} TODOC
+     */
+    _modifyName : function(propValue, propOldValue, propData)
+    {
+      if (this.getManager()) {
+        this.getManager().setName(propValue);
+      }
+
+      return true;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EXECUTE
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    execute : function()
+    {
+      this.setChecked(true);
+
+      // Intentionally bypass superclass and call super.super.execute
+      qx.ui.menu.Button.prototype.execute.call(this);
     }
   }
-
-  propValue ? this.addState("checked") : this.removeState("checked");
-  this.getIconObject().setSource(propValue ? "widget/menu/radiobutton.gif" : "static/image/blank.gif");
-
-  return true;
-}
-
-qx.Proto._modifyManager = function(propValue, propOldValue, propData)
-{
-  if (propOldValue) {
-    propOldValue.remove(this);
-  }
-
-  if (propValue) {
-    propValue.add(this);
-  }
-
-  return true;
-}
-
-qx.Proto._modifyName = function(propValue, propOldValue, propData)
-{
-  if (this.getManager()) {
-    this.getManager().setName(propValue);
-  }
-
-  return true;
-}
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  EXECUTE
----------------------------------------------------------------------------
-*/
-
-qx.Proto.execute = function()
-{
-  this.setChecked(true);
-
-  // Intentionally bypass superclass and call super.super.execute
-  qx.ui.menu.Button.prototype.execute.call(this);
-}
+});
