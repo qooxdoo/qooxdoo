@@ -34,6 +34,7 @@
 qx.Theme.define("qx.theme.icon.VistaInspirate",
 {
   title : "VistaInspirate",
+  
   icons : {
     uri : qx.core.Setting.get("qx.resourceUri") + "/icon/VistaInspirate"
   }
