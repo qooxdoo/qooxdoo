@@ -30,56 +30,53 @@
  * @param tableModel {qx.ui.table.TableModel, null}
  *   The table model to read the data from.
  */
-qx.OO.defineClass("qx.ui.tablevarrowheight.TableVarRowHeight",
-                  qx.ui.table.Table,
-function(tableModel)
+qx.Clazz.define("qx.ui.tablevarrowheight.TableVarRowHeight",
 {
-  //
-  // Specify our local subclasses of some of Table's internal classes
-  //
+  extend : qx.ui.table.Table,
 
-  this.setNewSelectionManager(
-      function(obj)
-      {
-        return new qx.ui.tablevarrowheight.SelectionManager(obj);
-      });
 
-  this.setNewSelectionModel(
-      function(obj)
-      {
-        return new qx.ui.tablevarrowheight.SelectionModel(obj);
-      });
 
-  this.setNewTableColumnModel(
-      function(obj)
-      {
-        return new qx.ui.tablevarrowheight.TableColumnModel(obj);
-      });
 
-  this.setNewTablePane(
-      function(obj)
-      {
-        return new qx.ui.tablevarrowheight.TablePane(obj);
-      });
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
-  this.setNewTablePaneHeader(
-      function(obj)
-      {
-        return new qx.ui.tablevarrowheight.TablePaneHeader(obj);
-      });
+  construct : function(tableModel)
+  {
+    //
+    // Specify our local subclasses of some of Table's internal classes
+    //
+    this.setNewSelectionManager(function(obj) {
+      return new qx.ui.tablevarrowheight.SelectionManager(obj);
+    });
 
-  this.setNewTablePaneScroller(
-      function(obj)
-      {
-        return new qx.ui.tablevarrowheight.TablePaneScroller(obj);
-      });
+    this.setNewSelectionModel(function(obj) {
+      return new qx.ui.tablevarrowheight.SelectionModel(obj);
+    });
 
-  this.setNewTablePaneModel(
-      function(columnModel)
-      {
-        return new qx.ui.tablevarrowheight.TablePaneModel(columnModel);
-      });
+    this.setNewTableColumnModel(function(obj) {
+      return new qx.ui.tablevarrowheight.TableColumnModel(obj);
+    });
 
-  // Call our superclass
-  qx.ui.table.Table.call(this, tableModel);
+    this.setNewTablePane(function(obj) {
+      return new qx.ui.tablevarrowheight.TablePane(obj);
+    });
+
+    this.setNewTablePaneHeader(function(obj) {
+      return new qx.ui.tablevarrowheight.TablePaneHeader(obj);
+    });
+
+    this.setNewTablePaneScroller(function(obj) {
+      return new qx.ui.tablevarrowheight.TablePaneScroller(obj);
+    });
+
+    this.setNewTablePaneModel(function(columnModel) {
+      return new qx.ui.tablevarrowheight.TablePaneModel(columnModel);
+    });
+
+    // Call our superclass
+    qx.ui.table.Table.call(this, tableModel);
+  }
 });

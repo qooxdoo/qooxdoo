@@ -34,9 +34,20 @@
  * @event modelChanged {qx.event.type.Event}
  *   Fired when the model changed.
  */
-qx.OO.defineClass("qx.ui.tablevarrowheight.TablePaneModel",
-                  qx.ui.table.TablePaneModel,
-function(tableColumnModel)
+qx.Clazz.define("qx.ui.tablevarrowheight.TablePaneModel",
 {
-  qx.ui.table.TablePaneModel.call(this, tableColumnModel);
+  extend : qx.ui.table.TablePaneModel,
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(tableColumnModel) {
+    qx.ui.table.TablePaneModel.call(this, tableColumnModel);
+  }
 });
