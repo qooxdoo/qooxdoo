@@ -24,98 +24,196 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.embed.TextEmbed", qx.ui.basic.Terminator,
-function(vText)
+qx.Clazz.define("qx.ui.embed.TextEmbed",
 {
-  qx.ui.basic.Terminator.call(this);
+  extend : qx.ui.basic.Terminator,
 
-  if (vText != null) {
-    this.setText(vText);
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(vText)
+  {
+    qx.ui.basic.Terminator.call(this);
+
+    if (vText != null) {
+      this.setText(vText);
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    /** Any text string which can contain TEXT, too */
+    text :
+    {
+      _legacy : true,
+      type    : "string"
+    },
+
+
+    /** The font property describes how to paint the font on the widget. */
+    font :
+    {
+      _legacy                : true,
+      type                   : "object",
+      instance               : "qx.renderer.font.Font",
+      convert                : qx.renderer.font.FontCache.convert,
+      allowMultipleArguments : true
+    },
+
+
+    /** Wrap the text? */
+    wrap :
+    {
+      _legacy      : true,
+      type         : "boolean",
+      defaultValue : true
+    },
+
+    /** The horizontal alignment of the text. */
+    textAlign :
+    {
+      _legacy        : true,
+      type           : "string",
+      defaultValue   : "left",
+      possibleValues : [ "left", "center", "right", "justify" ],
+      allowNull      : false
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      MODIFIER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {boolean} TODOC
+     */
+    _modifyText : function()
+    {
+      if (this._isCreated) {
+        this._syncText();
+      }
+
+      return true;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {boolean} TODOC
+     */
+    _modifyFont : function(propValue, propOldValue, propData)
+    {
+      if (propValue) {
+        propValue._applyWidget(this);
+      } else if (propOldValue) {
+        propOldValue._resetWidget(this);
+      }
+
+      return true;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {boolean} TODOC
+     */
+    _modifyWrap : function(propValue, propOldValue, propData)
+    {
+      this.setStyleProperty("whiteSpace", propValue ? "normal" : "nowrap");
+      return true;
+    },
+
+    // property modifier
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {boolean} TODOC
+     */
+    _modifyTextAlign : function(propValue, propOldValue, propData)
+    {
+      this.setStyleProperty("textAlign", propValue);
+      return true;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      ELEMENT HANDLING
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    _applyElementData : function() {
+      this.getElement().appendChild(document.createTextNode(this.getText()));
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    _syncText : function() {
+      this.getElement().firstChild.nodeValue = this.getText();
+    }
   }
 });
-
-
-
-
-/*
----------------------------------------------------------------------------
-  PROPERTIES
----------------------------------------------------------------------------
-*/
-
-/*!
-  Any text string which can contain TEXT, too
-*/
-qx.OO.addProperty({ name : "text", type : "string" });
-
-/*!
-  The font property describes how to paint the font on the widget.
-*/
-qx.OO.addProperty({ name : "font", type : "object", instance : "qx.renderer.font.Font", convert : qx.renderer.font.FontCache.convert, allowMultipleArguments : true });
-
-/*!
-  Wrap the text?
-*/
-qx.OO.addProperty({ name : "wrap", type : "boolean", defaultValue : true });
-
-/** The horizontal alignment of the text. */
-qx.OO.addProperty({ name : "textAlign", type : "string", defaultValue : "left", possibleValues : [ "left", "center", "right", "justify" ], allowNull : false });
-
-
-
-
-/*
----------------------------------------------------------------------------
-  MODIFIER
----------------------------------------------------------------------------
-*/
-
-qx.Proto._modifyText = function()
-{
-  if (this._isCreated) {
-    this._syncText();
-  }
-
-  return true;
-}
-
-qx.Proto._modifyFont = function(propValue, propOldValue, propData)
-{
-  if (propValue) {
-    propValue._applyWidget(this);
-  } else if (propOldValue) {
-    propOldValue._resetWidget(this);
-  }
-
-  return true;
-}
-
-qx.Proto._modifyWrap = function(propValue, propOldValue, propData)
-{
-  this.setStyleProperty("whiteSpace", propValue ? "normal" : "nowrap");
-  return true;
-}
-
-// property modifier
-qx.Proto._modifyTextAlign = function(propValue, propOldValue, propData) {
-  this.setStyleProperty("textAlign", propValue);
-  return true;
-}
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  ELEMENT HANDLING
----------------------------------------------------------------------------
-*/
-
-qx.Proto._applyElementData = function() {
-  this.getElement().appendChild(document.createTextNode(this.getText()));
-}
-
-qx.Proto._syncText = function() {
-  this.getElement().firstChild.nodeValue = this.getText();
-}

@@ -24,27 +24,75 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.embed.NodeEmbed", qx.ui.basic.Terminator,
-function(vId)
+qx.Clazz.define("qx.ui.embed.NodeEmbed",
 {
-  qx.ui.basic.Terminator.call(this);
+  extend : qx.ui.basic.Terminator,
 
-  if (vId != null) {
-    this.setSourceNodeId(vId);
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(vId)
+  {
+    qx.ui.basic.Terminator.call(this);
+
+    if (vId != null) {
+      this.setSourceNodeId(vId);
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    sourceNodeId :
+    {
+      _legacy : true,
+      type    : "string"
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     * @throws TODOC
+     */
+    _createElementImpl : function()
+    {
+      var vNode = document.getElementById(this.getSourceNodeId());
+
+      if (!vNode) {
+        throw new Error("Could not find source node with ID: " + this.getSourceNodeId());
+      }
+
+      vNode.style.display = "";
+
+      return this.setElement(vNode);
+    }
   }
 });
-
-qx.OO.addProperty({ name : "sourceNodeId", type : "string" });
-
-qx.Proto._createElementImpl = function()
-{
-  var vNode = document.getElementById(this.getSourceNodeId());
-
-  if (!vNode) {
-    throw new Error("Could not find source node with ID: " + this.getSourceNodeId());
-  }
-
-  vNode.style.display = "";
-
-  return this.setElement(vNode);
-}
