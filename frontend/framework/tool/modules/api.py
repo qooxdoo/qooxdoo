@@ -477,6 +477,9 @@ def handleFunction(funcItem, commentAttributes, classNode):
   params = funcItem.getChild("params", False)
   if params and params.hasChildren():
     for param in params.children:
+      if param.type != "variable":
+        continue
+
       paramNode = tree.Node("param")
       paramNode.set("name", param.getFirstChild().get("name"))
       node.addListChild("params", paramNode)
