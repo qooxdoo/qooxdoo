@@ -160,8 +160,20 @@ qx.Clazz.define("qx.ui.resizer.Resizer",
      * @type member
      * @return {Boolean} TODOC
      */
-    isResizeable : qx.Proto.getResizeable = function() {
+    isResizeable : function() {
       return this.getResizeableWest() || this.getResizeableEast() || this.getResizeableNorth() || this.getResizeableSouth();
+    },
+
+
+    /**
+     * Adjust so that it returns a boolean instead of an array.
+     * Wrapper around isResizeable. Please use isResizeable instead.
+     *
+     * @type member
+     * @return {Boolean} TODOC
+     */
+    getResizeable : function() {
+      return this.isResizeable();
     },
 
 
@@ -169,7 +181,7 @@ qx.Clazz.define("qx.ui.resizer.Resizer",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _registerResizeEvents : function()
     {
@@ -184,7 +196,7 @@ qx.Clazz.define("qx.ui.resizer.Resizer",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmousedown : function(e)
     {
@@ -289,7 +301,7 @@ qx.Clazz.define("qx.ui.resizer.Resizer",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseup : function(e)
     {
@@ -385,7 +397,7 @@ qx.Clazz.define("qx.ui.resizer.Resizer",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmousemove : function(e)
     {
