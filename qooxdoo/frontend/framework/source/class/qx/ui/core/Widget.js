@@ -7509,7 +7509,7 @@ qx.Clazz.define("qx.ui.core.Widget",
   defer : function(statics, members)
   {
     statics.__initApplyMethods(members);
-    statics.__initLayoutProperties();
+    statics.__initLayoutProperties(statics);
 
     // TODO there must be a better way to define this
     if (qx.core.Variant.isSet("qx.debug", "on"))
