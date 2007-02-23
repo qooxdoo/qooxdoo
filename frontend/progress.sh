@@ -4,11 +4,11 @@ PATHS="framework/source/class"
 
 echo -n "  * Old style classes: "
 FILES_OLD=`find $PATHS -name "*.js" -exec grep -lE "qx\.OO\.defineClass\s*\(" {} \; | sed 's/^.*$/&\\\n/g' | head -n -1 - `
-echo -e ${FILES_OLD} | wc -l
+echo -en ${FILES_OLD} | wc -l
 
 echo -n "  * New style classes: "
 FILES_NEW=`find $PATHS -name "*.js" -exec grep -lE "qx\.Clazz\.define\s*\(" {} \; | sed 's/^.*$/&\\\n/g' | head -n -1 - `
-echo -e ${FILES_NEW} | wc -l
+echo -en ${FILES_NEW} | wc -l
 
 echo -e "\n--------------------------------------------------------------------------------"
 echo -e "  Potential errors in new-style classes:"
