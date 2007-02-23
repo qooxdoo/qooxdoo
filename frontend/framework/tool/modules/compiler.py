@@ -28,11 +28,11 @@ KEY = re.compile("^[A-Za-z0-9_$]+$")
 opts = path.Path()  # create a new Path object, to capture various options
 # PrettyPrint options
 opts.prettyp.indent.string            = "  "  # could be "\t" or similar
-opts.prettyp.openCurly.newline.before = True  # Force "{" on new lines
+opts.prettyp.openCurly.newline.before = False # Force "{" on new lines
 #opts.prettyp.openCurly.newline.after  = True
-opts.prettyp.openCurly.indent.before  = True  # indent before "{"
-opts.prettyp.openCurly.indent.after   = True  # indent after "{"
-opts.prettyp.closingCurly.onNewLine   = True  # Force "}" on new lines
+opts.prettyp.openCurly.indent.before  = False # indent before "{"
+#opts.prettyp.openCurly.indent.after   = True  # indent after "{"
+#opts.prettyp.closingCurly.newline.before   = True  # Force "}" on new lines
 #opts.prettyp.comments.TODOC           = True  # Insert TODOC block comments
 
 
