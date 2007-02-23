@@ -66,7 +66,7 @@ qx.Clazz.define("qx.ui.basic.Terminator",
      * @param vParent {var} TODOC
      * @param vChanges {var} TODOC
      * @param vStyle {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _applyPaddingX : function(vParent, vChanges, vStyle)
     {
@@ -87,7 +87,7 @@ qx.Clazz.define("qx.ui.basic.Terminator",
      * @param vParent {var} TODOC
      * @param vChanges {var} TODOC
      * @param vStyle {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _applyPaddingY : function(vParent, vChanges, vStyle)
     {
@@ -113,7 +113,7 @@ qx.Clazz.define("qx.ui.basic.Terminator",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _applyContent : function()
     {
@@ -145,7 +145,7 @@ qx.Clazz.define("qx.ui.basic.Terminator",
      *
      * @type member
      * @param vChanges {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _layoutPost : function(vChanges)
     {
@@ -165,8 +165,13 @@ qx.Clazz.define("qx.ui.basic.Terminator",
     ---------------------------------------------------------------------------
     */
 
-    _computeBoxWidthFallback : qx.Proto.getPreferredBoxWidth,
-    _computeBoxHeightFallback : qx.Proto.getPreferredBoxHeight,
+    _computeBoxWidthFallback : function() {
+      return this.getPreferredBoxWidth();
+    },
+
+    _computeBoxHeightFallback : function() {
+      return this.getPreferredBoxHeight();
+    },
 
     _computePreferredInnerWidth : qx.lang.Function.returnZero,
     _computePreferredInnerHeight : qx.lang.Function.returnZero,
