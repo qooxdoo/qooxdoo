@@ -68,7 +68,7 @@ qx.Clazz.define("qx.ui.basic.Atom",
     this.setLabel(vLabel);
 
     // Simple flash wrapper
-    if (qx.OO.isAvailable("qx.ui.embed.Flash") && vFlash != null && vIconWidth != null && vIconHeight != null && qx.ui.embed.Flash.getPlayerVersion().getMajor() > 0)
+    if (qx.Clazz.isDefined("qx.ui.embed.Flash") && vFlash != null && vIconWidth != null && vIconHeight != null && qx.ui.embed.Flash.getPlayerVersion().getMajor() > 0)
     {
       this._flashMode = true;
 
@@ -231,7 +231,7 @@ qx.Clazz.define("qx.ui.basic.Atom",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createLabel : function()
     {
@@ -249,11 +249,11 @@ qx.Clazz.define("qx.ui.basic.Atom",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createIcon : function()
     {
-      if (this._flashMode && qx.OO.isAvailable("qx.ui.embed.Flash")) {
+      if (this._flashMode && qx.Clazz.isDefined("qx.ui.embed.Flash")) {
         var i = this._iconObject = new qx.ui.embed.Flash(this.getIcon());
       } else {
         var i = this._iconObject = new qx.ui.basic.Image();
@@ -271,7 +271,7 @@ qx.Clazz.define("qx.ui.basic.Atom",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _updateIcon : function()
     {
@@ -503,7 +503,7 @@ qx.Clazz.define("qx.ui.basic.Atom",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _handleLabel : function()
     {
@@ -530,7 +530,7 @@ qx.Clazz.define("qx.ui.basic.Atom",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _handleIcon : function()
     {
