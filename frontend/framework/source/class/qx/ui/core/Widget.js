@@ -704,7 +704,7 @@ qx.Clazz.define("qx.ui.core.Widget",
       }
 
       // Work on lazy queues: Inline widgets
-      if (qx.OO.isAvailable("qx.ui.basic.Inline"))
+      if (qx.Clazz.isDefined("qx.ui.basic.Inline"))
       {
         for (vKey in vLazyQueues)
         {
@@ -2545,7 +2545,7 @@ qx.Clazz.define("qx.ui.core.Widget",
       // Remove any hover/pressed styles
       this.removeState("over");
 
-      if (qx.OO.isAvailable("qx.ui.form.Button"))
+      if (qx.Clazz.isDefined("qx.ui.form.Button"))
       {
         this.removeState("pressed");
         this.removeState("abandoned");
@@ -5090,7 +5090,7 @@ qx.Clazz.define("qx.ui.core.Widget",
         // Also reset some states to be sure a pressed/hovered button gets reset
         this.removeState("over");
 
-        if (qx.OO.isAvailable("qx.ui.form.Button"))
+        if (qx.Clazz.isDefined("qx.ui.form.Button"))
         {
           this.removeState("abandoned");
           this.removeState("pressed");
