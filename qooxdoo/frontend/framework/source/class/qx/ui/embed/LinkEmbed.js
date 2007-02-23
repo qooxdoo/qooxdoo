@@ -23,68 +23,122 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.embed.LinkEmbed", qx.ui.embed.HtmlEmbed,
-function(vHtml, vUri, vTarget)
+qx.Clazz.define("qx.ui.embed.LinkEmbed",
 {
-  qx.ui.embed.HtmlEmbed.call(this, vHtml);
+  extend : qx.ui.embed.HtmlEmbed,
 
-  if (typeof vUri != "undefined") {
-    this.setUri(vUri);
-  }
 
-  if (typeof vTarget != "undefined") {
-    this.setTarget(vTarget);
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(vHtml, vUri, vTarget)
+  {
+    qx.ui.embed.HtmlEmbed.call(this, vHtml);
+
+    if (typeof vUri != "undefined") {
+      this.setUri(vUri);
+    }
+
+    if (typeof vTarget != "undefined") {
+      this.setTarget(vTarget);
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      UTILITIES
+    ---------------------------------------------------------------------------
+    */
+
+    LINK_START : "<a target='",
+    HREF_START : "' href='",
+    HREF_STOP  : "'>",
+    LINK_STOP  : "</a>"
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    /** Any valid html URI */
+    uri :
+    {
+      _legacy      : true,
+      type         : "string",
+      defaultValue : "#",
+      impl         : "html"
+    },
+
+
+    /** Any valid html target */
+    target :
+    {
+      _legacy      : true,
+      type         : "string",
+      defaultValue : "_blank",
+      impl         : "html"
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    _syncHtml : function()
+    {
+      var vHtml = [];
+
+      vHtml.push(qx.ui.embed.LinkEmbed.LINK_START);
+      vHtml.push(this.getTarget());
+      vHtml.push(qx.ui.embed.LinkEmbed.HREF_START);
+      vHtml.push(this.getUri());
+      vHtml.push(qx.ui.embed.LinkEmbed.HREF_STOP);
+      vHtml.push(this.getHtml());
+      vHtml.push(qx.ui.embed.LinkEmbed.LINK_STOP);
+
+      this.getElement().innerHTML = vHtml.join("");
+    }
   }
 });
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  PROPERTIES
----------------------------------------------------------------------------
-*/
-
-/*!
-  Any valid html URI
-*/
-qx.OO.addProperty({ name : "uri", type : "string", defaultValue : "#", impl : "html" });
-
-/*!
-  Any valid html target
-*/
-qx.OO.addProperty({ name : "target", type : "string", defaultValue : "_blank", impl : "html" });
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  UTILITIES
----------------------------------------------------------------------------
-*/
-
-qx.ui.embed.LinkEmbed.LINK_START = "<a target='";
-qx.ui.embed.LinkEmbed.HREF_START = "' href='";
-qx.ui.embed.LinkEmbed.HREF_STOP = "'>";
-qx.ui.embed.LinkEmbed.LINK_STOP = "</a>";
-
-qx.Proto._syncHtml = function()
-{
-  var vHtml = [];
-
-  vHtml.push(qx.ui.embed.LinkEmbed.LINK_START);
-  vHtml.push(this.getTarget());
-  vHtml.push(qx.ui.embed.LinkEmbed.HREF_START);
-  vHtml.push(this.getUri());
-  vHtml.push(qx.ui.embed.LinkEmbed.HREF_STOP);
-  vHtml.push(this.getHtml());
-  vHtml.push(qx.ui.embed.LinkEmbed.LINK_STOP);
-
-  this.getElement().innerHTML = vHtml.join("");
-}
