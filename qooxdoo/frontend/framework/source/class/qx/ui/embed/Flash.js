@@ -346,7 +346,7 @@ qx.Clazz.define("qx.ui.embed.Flash",
     ---------------------------------------------------------------------------
     */
 
-    generateHTML : qx.core.Object.select(navigator.plugins && navigator.mimeTypes && navigator.mimeTypes.length ? "plugin" : "activeX",
+    generateHTML : qx.lang.Object.select(navigator.plugins && navigator.mimeTypes && navigator.mimeTypes.length ? "plugin" : "activeX",
     {
       // Netscape Plugin Architecture
       "plugin" : function()
