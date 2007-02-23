@@ -63,7 +63,7 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
 
   events: {
     /** sets the data property of the event object to an arryas of selected items. */
-    "changeSelection" : qx.event.type.DataEvent
+    "changeSelection" : "qx.event.type.DataEvent"
   },
 
 

@@ -137,15 +137,17 @@ qx.Clazz.define("qx.core.Target",
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
+        if (!this.supportsEvent(type)) {
+          //throw new Error("Objects of class '" + this.constructor.classname + "' do not support the event '" + type + "'");
+          this.warn("Objects of class '" + this.constructor.classname + "' do not support the event '" + type + "'");
+        }
+        
         if (typeof func !== "function")
         {
           this.warn("qx.core.Target: addEventListener(" + type + "): '" + func + "' is not a function!");
           return;
         }
 
-        if (!this.supportsEvent(type)) {
-          this.error("Objects of class '" + this.constructor.classname + "' do not support the event '" + type + "'");
-        }
       }
 
       // If this is the first event of given type, we need to create a subobject

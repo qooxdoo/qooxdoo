@@ -1178,6 +1178,7 @@ qx.Clazz.define("qx.Clazz",
      */
     __addAccessProtectionStatics: function(method, functionName, clazz)
     {
+      //return method;
       // RegExp are typeof "function" ;-(
       if (method instanceof RegExp) {
         return method;
@@ -1386,7 +1387,7 @@ qx.Clazz.define("qx.Clazz",
             caller = caller.caller;
           }
 
-          if (!qx.Clazz.isSubClassOf(caller.self, clazz))
+          if (!caller || !qx.Clazz.isSubClassOf(caller.self, clazz))
           {
             if (caller.self) {
               var from = caller.self.classname + ":" + (qx.Clazz.getFunctionName(caller) || "unknown") + "()";
