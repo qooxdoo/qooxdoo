@@ -134,6 +134,13 @@ qx.Clazz.define("qx.event.handler.EventHandler",
       }
     }),
 
+    /**
+     * stops further propagation of the event
+     *
+     * @type static
+     * @param vDomEvent {Element} DOM event object
+     * @return {void}
+     */
     stopDomEvent : function(vDomEvent)
     {
       if (vDomEvent.preventDefault) {
@@ -291,17 +298,7 @@ qx.Clazz.define("qx.event.handler.EventHandler",
       }
 
       return qx.event.handler.EventHandler.getTargetObject(target);
-    },
-
-
-    /**
-     * stops further propagation of the event
-     *
-     * @type static
-     * @param vDomEvent {Element} DOM event object
-     * @return {void}
-     */
-    stopDomEvent : function(vDomEvent) {}
+    }
   },
 
 
