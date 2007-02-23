@@ -66,14 +66,14 @@ qx.Clazz.define("qx.io.image.PreloaderSystem",
      EVENTS
   *****************************************************************************
   */
-  
+
   events: {
-   "completed" : "qx.event.type.Event",
+   "completed" : "qx.event.type.Event"
   },
-  
-  
-  
-  
+
+
+
+
   /*
   *****************************************************************************
      MEMBERS
