@@ -24,16 +24,53 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.listview.ContentCellHtml", qx.ui.embed.HtmlEmbed,
-function(vHtml)
+qx.Clazz.define("qx.ui.listview.ContentCellHtml",
 {
-  qx.ui.embed.HtmlEmbed.call(this, vHtml);
+  extend : qx.ui.embed.HtmlEmbed,
 
-  this.setSelectable(false);
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(vHtml)
+  {
+    qx.ui.embed.HtmlEmbed.call(this, vHtml);
+
+    this.setSelectable(false);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics : { empty : { html : "" } },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    appearance :
+    {
+      _legacy      : true,
+      type         : "string",
+      defaultValue : "list-view-content-cell-html"
+    }
+  }
 });
-
-qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "list-view-content-cell-html" });
-
-qx.ui.listview.ContentCellHtml.empty = {
-  html : ""
-}
