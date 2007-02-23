@@ -969,9 +969,9 @@ qx.Clazz.define("qx.Clazz",
       {
         if (qx.core.Variant.isSet("qx.client", "mshtml"))
         {
-        var memberNames = qx.lang.Object.getKeys(members);
-        for (var i=0; i<memberNames.length; i++)
-        {
+          var memberNames = qx.lang.Object.getKeys(members);
+          for (var i=0; i<memberNames.length; i++)
+          {
             var key = memberNames[i];
             var member = members[key];
             
