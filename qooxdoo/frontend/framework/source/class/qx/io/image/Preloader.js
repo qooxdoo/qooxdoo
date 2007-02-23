@@ -31,6 +31,12 @@ qx.Clazz.define("qx.io.image.Preloader",
 {
   extend : qx.core.Target,
 
+  events :
+  {
+    "load" : "qx.event.type.Event",
+    "error" : "qx.event.type.Event"
+  },
+
 
 
 
