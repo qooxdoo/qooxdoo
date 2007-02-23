@@ -22,7 +22,6 @@
 
 #module(core)
 #require(qx.core.Bootstrap)
-#require(qx.core.Variant)
 #require(qx.core.Setting)
 
 ************************************************************************ */

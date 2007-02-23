@@ -409,7 +409,6 @@ qx.Clazz.define("qx.manager.object.ImageManager",
      */
 
     "qx.iconTheme"   : "qx.theme.icon.Nuvola",
-
     "qx.widgetTheme" : "qx.theme.widget.Windows"
   }
 });
