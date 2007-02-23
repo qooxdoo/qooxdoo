@@ -35,49 +35,88 @@
  *   An instance of qx.ui.treefullcontrol.TreeRowStructure, defining the
  *   structure  of this tree row.
  */
-qx.OO.defineClass("qx.ui.treefullcontrol.TreeFile", qx.ui.treefullcontrol.AbstractTreeElement,
-function(treeRowStructure)
+qx.Clazz.define("qx.ui.treefullcontrol.TreeFile",
 {
-  qx.ui.treefullcontrol.AbstractTreeElement.call(this, treeRowStructure);
-});
+  extend : qx.ui.treefullcontrol.AbstractTreeElement,
 
 
 
 
-/*
----------------------------------------------------------------------------
-  INDENT HELPER
----------------------------------------------------------------------------
-*/
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
-qx.Proto.getIndentSymbol = function(vUseTreeLines,
-                                    vColumn,
-                                    vFirstColumn,
-                                    vLastColumn)
-{
-  var vLevel = this.getLevel();
-  var vExcludeList = this.getTree().getExcludeSpecificTreeLines();
-  var vExclude = vExcludeList[vLastColumn - vColumn - 1];
+  construct : function(treeRowStructure) {
+    qx.ui.treefullcontrol.AbstractTreeElement.call(this, treeRowStructure);
+  },
 
-  if (vUseTreeLines && ! (vExclude === true))
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
   {
-    if (vColumn == vFirstColumn)
+    /*
+    ---------------------------------------------------------------------------
+      INDENT HELPER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vUseTreeLines {var} TODOC
+     * @param vColumn {var} TODOC
+     * @param vFirstColumn {var} TODOC
+     * @param vLastColumn {var} TODOC
+     * @return {var | string | null} TODOC
+     */
+    getIndentSymbol : function(vUseTreeLines, vColumn, vFirstColumn, vLastColumn)
     {
-      return this.isLastChild() ? "end" : "cross";
-    }
-    else
-    {
-      return "line";
+      var vLevel = this.getLevel();
+      var vExcludeList = this.getTree().getExcludeSpecificTreeLines();
+      var vExclude = vExcludeList[vLastColumn - vColumn - 1];
+
+      if (vUseTreeLines && !(vExclude === true))
+      {
+        if (vColumn == vFirstColumn) {
+          return this.isLastChild() ? "end" : "cross";
+        } else {
+          return "line";
+        }
+      }
+
+      return null;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    _updateIndent : function() {
+      this.addToTreeQueue();
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {Array} TODOC
+     */
+    getItems : function() {
+      return [ this ];
     }
   }
-
-  return null;
-}
-
-qx.Proto._updateIndent = function() {
-  this.addToTreeQueue();
-}
-
-qx.Proto.getItems = function() {
-  return [this];
-}
+});

@@ -111,158 +111,223 @@
  * treeRowStructure.addObject(obj, true);
  * </pre>
  */
-
-qx.OO.defineClass("qx.ui.treefullcontrol.TreeRowStructure", qx.core.Object,
-function()
+qx.Clazz.define("qx.ui.treefullcontrol.TreeRowStructure",
 {
-  qx.core.Object.call(this);
+  type : "singleton",
+  extend : qx.core.Object,
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function() {
+    qx.core.Object.call(this);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /**
+     * Prepare to define a new row.
+     * 
+     * This reinitializes the singleton TreeRowStructure so that it is ready to
+     * define a new tree row.
+     *
+     * @type member
+     * @return {var} The singleton itself, purely for convenience.
+     */
+    newRow : function()
+    {
+
+      /* Create the indent, icon, and label objects */
+
+      this._indentObject = new qx.ui.embed.HtmlEmbed;
+      this._iconObject = new qx.ui.basic.Image;
+      this._labelObject = new qx.ui.basic.Label;
+
+      /* Create an object to hold the ordering of row objects */
+
+      this._fields = new Array;
+
+      /* Create an object to hold the icon names */
+
+      this._icons = new Object;
+
+      /* Initially assume that indentation goes at the beginning of the row */
+
+      this._fields.push(this._indentObject);
+
+      /* Set initial flags */
+
+      this._indentAdded = false;
+      this._iconAdded = false;
+      this._labelAdded = false;
+
+      /* Return the singleton (from which we were called) */
+
+      return this;
+    },
+
+
+    /**
+     * Define a new row with the 'standard' structure.
+     * 
+     * This reinitializes the singleton TreeRowStructure to the state of a
+     * standard'or traditional tree row:
+     *   - indentation
+     *   - icon
+     *   - label
+     * 
+     * The icon parameters may be omitted in which case the defaults will be
+     * used.  If the label parameter is omitted, no label will appear.
+     *
+     * @type member
+     * @param vLabel {String} The label text
+     * @param vIcon {String} Relative path to the 'non-selected' icon
+     * @param vIconSelected {String} Relative path to the 'selected' icon
+     * @return {var} The singleton itself, purely for convenience.
+     */
+    standard : function(vLabel, vIcon, vIconSelected)
+    {
+      this.newRow();
+      this.addIcon(vIcon, vIconSelected);
+      this.addLabel(vLabel);
+
+      return this;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     * @throws TODOC
+     */
+    addIndent : function()
+    {
+
+      /* If the assumed indent object is in use... */
+
+      if (!this._indentAdded)
+      {
+
+        /* ... then remove it. */
+
+        this._fields.shift();
+        this._indentAdded = true;
+      }
+      else
+      {
+        throw new Error("Indent object added more than once.");
+      }
+
+      /* Add the indentation to the structure */
+
+      this._fields.push(this._indentObject);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vIcon {var} TODOC
+     * @param vIconSelected {var} TODOC
+     * @return {void} 
+     * @throws TODOC
+     */
+    addIcon : function(vIcon, vIconSelected)
+    {
+
+      /* Ensure only one standard icon is added */
+
+      if (!this._iconAdded) {
+        this._iconAdded = true;
+      } else {
+        throw new Error("Icon object added more than once.");
+      }
+
+      /* Track the two icon names */
+
+      this._icons.unselected = vIcon;
+      this._icons.selected = vIconSelected;
+
+      /* Add the icon to the structure */
+
+      this._fields.push(this._iconObject);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vLabel {var} TODOC
+     * @return {void} 
+     * @throws TODOC
+     */
+    addLabel : function(vLabel)
+    {
+
+      /* Ensure only one standard label is added */
+
+      if (!this._labelAdded) {
+        this._labelAdded = true;
+      } else {
+        throw new Error("Label added more than once.");
+      }
+
+      /* Track the label text */
+
+      this._label = vLabel;
+
+      /* Add the label to the structure */
+
+      this._fields.push(this._labelObject);
+    },
+
+    /*
+     * Add an object to the tree row structure.  For convenience, vAnonymous can
+     * be provided, and if a boolean value is provided, vObj.setAnonymous() is
+     * called with the provided value.  If the object has already been
+     * setAnonymous or if there is no need to do so, then provide no value for
+     * vAnonymous or pass 'null'.
+     */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vObj {var} TODOC
+     * @param vAnonymous {var} TODOC
+     * @return {void} 
+     */
+    addObject : function(vObj, vAnonymous)
+    {
+
+      /* Is requested, set this object's anonymous state */
+
+      if (typeof vAnonymous == "boolean") {
+        vObj.setAnonymous(vAnonymous);
+      }
+
+      /* Add this user-specified object to the structure */
+
+      this._fields.push(vObj);
+    }
+  }
 });
-
-
-/**
- * Prepare to define a new row.
- *
- * This reinitializes the singleton TreeRowStructure so that it is ready to
- * define a new tree row.
- *
- * @return The singleton itself, purely for convenience.
- */
-qx.Proto.newRow = function()
-{
-  /* Create the indent, icon, and label objects */
-  this._indentObject = new qx.ui.embed.HtmlEmbed;
-  this._iconObject = new qx.ui.basic.Image;
-  this._labelObject = new qx.ui.basic.Label;
-
-  /* Create an object to hold the ordering of row objects */
-  this._fields = new Array;
-
-  /* Create an object to hold the icon names */
-  this._icons = new Object;
-
-  /* Initially assume that indentation goes at the beginning of the row */
-  this._fields.push(this._indentObject);
-
-  /* Set initial flags */
-  this._indentAdded = false;
-  this._iconAdded = false;
-  this._labelAdded = false;
-
-  /* Return the singleton (from which we were called) */
-  return this;
-}
-
-/**
- * Define a new row with the 'standard' structure.
- *
- * This reinitializes the singleton TreeRowStructure to the state of a
- * standard'or traditional tree row:
- *   - indentation
- *   - icon
- *   - label
- *
- * The icon parameters may be omitted in which case the defaults will be
- * used.  If the label parameter is omitted, no label will appear.
- *
- * @param vLabel {String} The label text
- * @param vIcon {String} Relative path to the 'non-selected' icon
- * @param vIconSelected {String} Relative path to the 'selected' icon
- *
- * @return The singleton itself, purely for convenience.
- */
-qx.Proto.standard = function(vLabel, vIcon, vIconSelected)
-{
-  this.newRow();
-  this.addIcon(vIcon, vIconSelected);
-  this.addLabel(vLabel);
-
-  return this;
-}
-
-qx.Proto.addIndent = function()
-{
-  /* If the assumed indent object is in use... */
-  if (! this._indentAdded)
-  {
-    /* ... then remove it. */
-    this._fields.shift();
-    this._indentAdded = true;
-  }
-  else
-  {
-    throw new Error("Indent object added more than once.");
-  }
-
-  /* Add the indentation to the structure */
-  this._fields.push(this._indentObject);
-}
-
-qx.Proto.addIcon = function(vIcon, vIconSelected)
-{
-  /* Ensure only one standard icon is added */
-  if (! this._iconAdded)
-  {
-    this._iconAdded = true;
-  }
-  else
-  {
-    throw new Error("Icon object added more than once.");
-  }
-
-  /* Track the two icon names */
-  this._icons.unselected = vIcon;
-  this._icons.selected = vIconSelected;
-
-  /* Add the icon to the structure */
-  this._fields.push(this._iconObject);
-}
-
-qx.Proto.addLabel = function(vLabel)
-{
-  /* Ensure only one standard label is added */
-  if (! this._labelAdded)
-  {
-    this._labelAdded = true;
-  }
-  else
-  {
-    throw new Error("Label added more than once.");
-  }
-
-  /* Track the label text */
-  this._label = vLabel;
-
-  /* Add the label to the structure */
-  this._fields.push(this._labelObject);
-}
-
-/*
- * Add an object to the tree row structure.  For convenience, vAnonymous can
- * be provided, and if a boolean value is provided, vObj.setAnonymous() is
- * called with the provided value.  If the object has already been
- * setAnonymous or if there is no need to do so, then provide no value for
- * vAnonymous or pass 'null'.
- */
-qx.Proto.addObject = function(vObj, vAnonymous)
-{
-  /* Is requested, set this object's anonymous state */
-  if (typeof vAnonymous == "boolean")
-  {
-    vObj.setAnonymous(vAnonymous);
-  }
-
-  /* Add this user-specified object to the structure */
-  this._fields.push(vObj);
-}
-
-
-/*
----------------------------------------------------------------------------
-  DEFER SINGLETON INSTANCE
----------------------------------------------------------------------------
-*/
-
-/**
- * Singleton Instance Getter
- */
-qx.Class.getInstance = qx.lang.Function.returnInstance;
