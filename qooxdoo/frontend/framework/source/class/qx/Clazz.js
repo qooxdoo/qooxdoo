@@ -704,22 +704,32 @@ qx.Clazz.define("qx.Clazz",
      * Attach events to the clazz
      *
      * @param clazz {Class} class to add the events to
-     * @param events{String[]} list of event names the class fires.
+     * @param events {String[]} list of event names the class fires.
      */
     __addEvents : function(clazz, events)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (!qx.core.Target) {
-          throw new Error("The class 'qx.core.Target' must be availabe to use events!");
+          throw new Error(clazz.classname + ": the class 'qx.core.Target' must be availabe to use events!");
         }
+
         if (!this.isSubClassOf(clazz, qx.core.Target)) {
-          throw new Error("The 'events' key can only be used for sub classes of 'qx.core.Target'!");
+          throw new Error(clazz.classname + ": the 'events' key can only be used for sub classes of 'qx.core.Target'!");
         }
-        if (events instanceof Array) {
-          throw new Error("The events must be defined as map!.");
+
+        if (typeof events != "object" || events instanceof Array) {
+          throw new Error(clazz.classname + ": the events must be defined as map!");
+        }
+
+        for (var key in events)
+        {
+          if (typeof events[key] !== "string") {
+            throw new Error(clazz.classname + "/" + key + ": the event value needs to be a string with the class name of the event object which will be fired.");
+          }
         }
       }
+
       clazz.$$events = events;
     },
 
