@@ -88,7 +88,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      EVENTS
   *****************************************************************************
   */
-  
+
   events: {
     "beforeAppear"    : "qx.event.type.Event",
     "appear"          : "qx.event.type.Event",
@@ -105,32 +105,32 @@ qx.Clazz.define("qx.ui.core.Widget",
     "mousemove"       : "qx.event.type.MouseEvent", /** (Fired by {@link "qx.event.handler.Event"Handler}) */
     "mouseout"        : "qx.event.type.MouseEvent", /** (Fired by {@link "qx.event.handler.Event"Handler}) */
     "mousedown"       : "qx.event.type.MouseEvent", /** (Fired by {@link "qx.event.handler.Event"Handler}) */
-    "mouseup"         : "qx.event.type.MouseEvent", /** (Fired by {@link "qx.event.handler.Event"Handler}) */    
-    "mousewheel"      : "qx.event.type.MouseEvent", /** (Fired by {@link "qx.event.handler.Event"Handler}) */    
-    "click"           : "qx.event.type.MouseEvent", /** (Fired by {@link "qx.event.handler.Event"Handler}) */    
-    "dblclick"        : "qx.event.type.MouseEvent", /** (Fired by {@link "qx.event.handler.Event"Handler}) */    
-    "contextmenu"     : "qx.event.type.MouseEvent", /** (Fired by {@link "qx.event.handler.Event"Handler}) */    
-    "keydown"         : "qx.event.type.KeyEvent",   /** (Fired by {@link "qx.event.handler.Event"Handler}) */    
-    "keypress"        : "qx.event.type.KeyEvent",   /** (Fired by {@link "qx.event.handler.Event"Handler}) */    
-    "keyinput"        : "qx.event.type.KeyEvent",   /** (Fired by {@link "qx.event.handler.Event"Handler}) */    
-    "keyup"           : "qx.event.type.KeyEvent",   /** (Fired by {@link "qx.event.handler.Event"Handler}) */    
-    "focusout"        : "qx.event.type.FocusEvent", /** (Fired by {@link qx.ui.core.Parent}) */    
-    "focusin"         : "qx.event.type.FocusEvent", /** (Fired by {@link qx.ui.core.Parent}) */    
-    "blur"            : "qx.event.type.FocusEvent", /** (Fired by {@link qx.ui.core.Parent}) */    
-    "focus"           : "qx.event.type.FocusEvent", /** (Fired by {@link qx.ui.core.Parent}) */    
-    "dragdrop"        : "qx.event.type.DragEvent",  /** (Fired by {@link qx.event.handler.DragAndDropHandler}) */    
-    "dragout"         : "qx.event.type.DragEvent",  /** (Fired by {@link qx.event.handler.DragAndDropHandler}) */    
-    "dragover"        : "qx.event.type.DragEvent",  /** (Fired by {@link qx.event.handler.DragAndDropHandler}) */    
-    "dragmove"        : "qx.event.type.DragEvent",  /** (Fired by {@link qx.event.handler.DragAndDropHandler}) */    
-    "dragstart"       : "qx.event.type.DragEvent",  /** (Fired by {@link qx.event.handler.DragAndDropHandler}) */    
+    "mouseup"         : "qx.event.type.MouseEvent", /** (Fired by {@link "qx.event.handler.Event"Handler}) */
+    "mousewheel"      : "qx.event.type.MouseEvent", /** (Fired by {@link "qx.event.handler.Event"Handler}) */
+    "click"           : "qx.event.type.MouseEvent", /** (Fired by {@link "qx.event.handler.Event"Handler}) */
+    "dblclick"        : "qx.event.type.MouseEvent", /** (Fired by {@link "qx.event.handler.Event"Handler}) */
+    "contextmenu"     : "qx.event.type.MouseEvent", /** (Fired by {@link "qx.event.handler.Event"Handler}) */
+    "keydown"         : "qx.event.type.KeyEvent",   /** (Fired by {@link "qx.event.handler.Event"Handler}) */
+    "keypress"        : "qx.event.type.KeyEvent",   /** (Fired by {@link "qx.event.handler.Event"Handler}) */
+    "keyinput"        : "qx.event.type.KeyEvent",   /** (Fired by {@link "qx.event.handler.Event"Handler}) */
+    "keyup"           : "qx.event.type.KeyEvent",   /** (Fired by {@link "qx.event.handler.Event"Handler}) */
+    "focusout"        : "qx.event.type.FocusEvent", /** (Fired by {@link qx.ui.core.Parent}) */
+    "focusin"         : "qx.event.type.FocusEvent", /** (Fired by {@link qx.ui.core.Parent}) */
+    "blur"            : "qx.event.type.FocusEvent", /** (Fired by {@link qx.ui.core.Parent}) */
+    "focus"           : "qx.event.type.FocusEvent", /** (Fired by {@link qx.ui.core.Parent}) */
+    "dragdrop"        : "qx.event.type.DragEvent",  /** (Fired by {@link qx.event.handler.DragAndDropHandler}) */
+    "dragout"         : "qx.event.type.DragEvent",  /** (Fired by {@link qx.event.handler.DragAndDropHandler}) */
+    "dragover"        : "qx.event.type.DragEvent",  /** (Fired by {@link qx.event.handler.DragAndDropHandler}) */
+    "dragmove"        : "qx.event.type.DragEvent",  /** (Fired by {@link qx.event.handler.DragAndDropHandler}) */
+    "dragstart"       : "qx.event.type.DragEvent",  /** (Fired by {@link qx.event.handler.DragAndDropHandler}) */
     "dragend"         : "qx.event.type.DragEvent",  /** (Fired by {@link qx.event.handler.DragAndDropHandler}) */
     "scroll"          : "qx.event.type.Event",      /** Inline event. The event must be enabled using <code>enableInlineEvent("scroll")</code> before it can be used*/
     "input"           : "qx.event.type.Event"       /** Inline event. The event must be enabled using <code>enableInlineEvent("input")</code> before it can be used*/
   },
-  
-  
-  
- 
+
+
+
+
   /*
   *****************************************************************************
      STATICS
@@ -161,7 +161,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * Creates an auto-flush timeout.
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     _initAutoFlush : function()
     {
@@ -175,7 +175,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * Removes an auto-flush timeout.
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     _removeAutoFlush : function()
     {
@@ -191,7 +191,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * Helper function for auto flush.
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     _autoFlushHelper : function()
     {
@@ -210,7 +210,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * Flush all global queues
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     flushGlobalQueues : function()
     {
@@ -241,7 +241,7 @@ qx.Clazz.define("qx.ui.core.Widget",
     /*
     ---------------------------------------------------------------------------
       WIDGET QUEUE
-    
+
       Allows widgets to register to the widget queue to do multiple things
       before the other queues will be flushed
     ---------------------------------------------------------------------------
@@ -255,7 +255,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type static
      * @param vWidget {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     addToGlobalWidgetQueue : function(vWidget)
     {
@@ -276,7 +276,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type static
      * @param vWidget {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     removeFromGlobalWidgetQueue : function(vWidget)
     {
@@ -292,7 +292,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     flushGlobalWidgetQueue : function()
     {
@@ -318,7 +318,7 @@ qx.Clazz.define("qx.ui.core.Widget",
     /*
     ---------------------------------------------------------------------------
       ELEMENT QUEUE
-    
+
       Contains the widgets which should be (dom-)created
     ---------------------------------------------------------------------------
     */
@@ -331,7 +331,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type static
      * @param vWidget {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     addToGlobalElementQueue : function(vWidget)
     {
@@ -352,7 +352,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type static
      * @param vWidget {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     removeFromGlobalElementQueue : function(vWidget)
     {
@@ -368,7 +368,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     flushGlobalElementQueue : function()
     {
@@ -394,7 +394,7 @@ qx.Clazz.define("qx.ui.core.Widget",
     /*
     ---------------------------------------------------------------------------
       STATE QUEUE
-    
+
       Contains the widgets which recently changed their state
     ---------------------------------------------------------------------------
     */
@@ -407,7 +407,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type static
      * @param vWidget {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     addToGlobalStateQueue : function(vWidget)
     {
@@ -428,7 +428,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type static
      * @param vWidget {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     removeFromGlobalStateQueue : function(vWidget)
     {
@@ -444,7 +444,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     flushGlobalStateQueue : function()
     {
@@ -471,7 +471,7 @@ qx.Clazz.define("qx.ui.core.Widget",
     /*
     ---------------------------------------------------------------------------
       JOBS QUEUE
-    
+
       Contains the widgets which need a update after they were visible before
     ---------------------------------------------------------------------------
     */
@@ -484,7 +484,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type static
      * @param vWidget {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     addToGlobalJobQueue : function(vWidget)
     {
@@ -505,7 +505,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type static
      * @param vWidget {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     removeFromGlobalJobQueue : function(vWidget)
     {
@@ -521,7 +521,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     flushGlobalJobQueue : function()
     {
@@ -547,7 +547,7 @@ qx.Clazz.define("qx.ui.core.Widget",
     /*
     ---------------------------------------------------------------------------
       LAYOUT QUEUE
-    
+
       Contains the parents (qx.ui.core.Parent) of the children which needs layout updates
     ---------------------------------------------------------------------------
     */
@@ -560,7 +560,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type static
      * @param vParent {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     addToGlobalLayoutQueue : function(vParent)
     {
@@ -581,7 +581,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type static
      * @param vParent {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     removeFromGlobalLayoutQueue : function(vParent)
     {
@@ -597,7 +597,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     flushGlobalLayoutQueue : function()
     {
@@ -623,7 +623,7 @@ qx.Clazz.define("qx.ui.core.Widget",
     /*
     ---------------------------------------------------------------------------
       DISPLAY QUEUE
-    
+
       Contains the widgets which should initially become visible
     ---------------------------------------------------------------------------
     */
@@ -637,7 +637,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type static
      * @param vWidget {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     addToGlobalDisplayQueue : function(vWidget)
     {
@@ -674,7 +674,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type static
      * @param vWidget {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     removeFromGlobalDisplayQueue : function(vWidget) {},
 
@@ -683,7 +683,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     flushGlobalDisplayQueue : function()
     {
@@ -900,10 +900,10 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type static
-     * @param proto {var} TODOC
-     * @return {void} 
+     * @param members {var} TODOC
+     * @return {void}
      */
-    __initApplyMethods : function(proto)
+    __initApplyMethods : function(members)
     {
       var applyRuntime = "_applyRuntime";
       var resetRuntime = "_resetRuntime";
@@ -921,8 +921,8 @@ qx.Clazz.define("qx.ui.core.Widget",
 
       for (var i=0; i<4; i++)
       {
-        proto[applyMargin + propertiesUpper[i]] = new Function(parameter, styleMargin + propertiesUpper[i] + cssValue);
-        proto[resetMargin + propertiesUpper[i]] = new Function(styleMargin + propertiesUpper[i] + "=''");
+        members[applyMargin + propertiesUpper[i]] = new Function(parameter, styleMargin + propertiesUpper[i] + cssValue);
+        members[resetMargin + propertiesUpper[i]] = new Function(styleMargin + propertiesUpper[i] + "=''");
       }
 
       var applyPadding = applyRuntime + "Padding";
@@ -933,8 +933,8 @@ qx.Clazz.define("qx.ui.core.Widget",
       {
         for (var i=0; i<4; i++)
         {
-          proto[applyPadding + propertiesUpper[i]] = new Function(parameter, stylePadding + propertiesUpper[i] + cssValue);
-          proto[resetPadding + propertiesUpper[i]] = new Function(stylePadding + propertiesUpper[i] + "=''");
+          members[applyPadding + propertiesUpper[i]] = new Function(parameter, stylePadding + propertiesUpper[i] + cssValue);
+          members[resetPadding + propertiesUpper[i]] = new Function(stylePadding + propertiesUpper[i] + "=''");
         }
       }
       else
@@ -942,8 +942,8 @@ qx.Clazz.define("qx.ui.core.Widget",
         // need to use setStyleProperty to keep compatibility with enhanced cross browser borders
         for (var i=0; i<4; i++)
         {
-          proto[applyPadding + propertiesUpper[i]] = new Function(parameter, "this.setStyleProperty('padding" + propertiesUpper[i] + "', ((v==null)?0:v)+'px')");
-          proto[resetPadding + propertiesUpper[i]] = new Function("this.removeStyleProperty('padding" + propertiesUpper[i] + "')");
+          members[applyPadding + propertiesUpper[i]] = new Function(parameter, "this.setStyleProperty('padding" + propertiesUpper[i] + "', ((v==null)?0:v)+'px')");
+          members[resetPadding + propertiesUpper[i]] = new Function("this.removeStyleProperty('padding" + propertiesUpper[i] + "')");
         }
       }
 
@@ -965,9 +965,9 @@ qx.Clazz.define("qx.ui.core.Widget",
         {
           // to debug the values which will be applied use this instead of the
           // first line:
-          // qx.Proto[applyRuntime+propertiesUpper[i]] = new Function(parameter, "this.debug('v: ' + v); " + style + "pos" + propertiesUpper[i] + "=v");
-          proto[applyRuntime + propertiesUpper[i]] = new Function(parameter, style + "pos" + propertiesUpper[i] + "=v");
-          proto[resetRuntime + propertiesUpper[i]] = new Function(style + properties[i] + "=''");
+          // members[applyRuntime+propertiesUpper[i]] = new Function(parameter, "this.debug('v: ' + v); " + style + "pos" + propertiesUpper[i] + "=v");
+          members[applyRuntime + propertiesUpper[i]] = new Function(parameter, style + "pos" + propertiesUpper[i] + "=v");
+          members[resetRuntime + propertiesUpper[i]] = new Function(style + properties[i] + "=''");
         }
       }
       else
@@ -976,9 +976,9 @@ qx.Clazz.define("qx.ui.core.Widget",
         {
           // to debug the values which will be applied use this instead of the
           // first line:
-          // qx.Proto[applyRuntime+propertiesUpper[i]] = new Function(parameter, "this.debug('v: ' + v); " + style + properties[i] + cssValue);
-          proto[applyRuntime + propertiesUpper[i]] = new Function(parameter, style + properties[i] + cssValue);
-          proto[resetRuntime + propertiesUpper[i]] = new Function(style + properties[i] + "=''");
+          // members[applyRuntime+propertiesUpper[i]] = new Function(parameter, "this.debug('v: ' + v); " + style + properties[i] + cssValue);
+          members[applyRuntime + propertiesUpper[i]] = new Function(parameter, style + properties[i] + cssValue);
+          members[resetRuntime + propertiesUpper[i]] = new Function(style + properties[i] + "=''");
         }
       }
     },
@@ -1014,9 +1014,9 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
-    __initLayoutProperties : function()
+    __initLayoutProperties : function(statics)
     {
       var a = [ "width", "height", "minWidth", "maxWidth", "minHeight", "maxHeight", "left", "right", "top", "bottom" ];
 
@@ -1026,7 +1026,7 @@ qx.Clazz.define("qx.ui.core.Widget",
         b = "_computed" + qx.lang.String.toFirstUp(p);
         t = b + "Type";
 
-        qx.ui.core.Widget.layoutPropertyTypes[p] =
+        statics.layoutPropertyTypes[p] =
         {
           dataType    : t,
           dataParsed  : b + "Parsed",
@@ -1059,7 +1059,7 @@ qx.Clazz.define("qx.ui.core.Widget",
         focus  : "onfocus",
         blur   : "onblur"
       },
-      
+
       "default" : null
     }),
 
@@ -1099,7 +1099,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     initOverflow : function()
     {
@@ -1221,7 +1221,7 @@ qx.Clazz.define("qx.ui.core.Widget",
 
     /**
      * This is used by many layout managers to control the individual horizontal alignment of this widget inside this parent.
-     * 
+     *
      *  This should be used with caution since in some cases
      *  this might give unrespected results.
      */
@@ -1234,7 +1234,7 @@ qx.Clazz.define("qx.ui.core.Widget",
 
     /**
      * This is used by many layout managers to control the individual vertical alignment of this widget inside this parent.
-     * 
+     *
      *  This should be used with caution since in some cases
      *  this might give unrespected results.
      */
@@ -1279,7 +1279,7 @@ qx.Clazz.define("qx.ui.core.Widget",
 
     /**
      * Mapping to native style property z-index.
-     * 
+     *
      *  This should be used with caution since in some cases
      *  this might give unrespected results.
      */
@@ -1320,7 +1320,7 @@ qx.Clazz.define("qx.ui.core.Widget",
 
     /**
      * The border property describes how to paint the border on the widget.
-     * 
+     *
      *  This should be used with caution since in some cases (mostly complex widgets)
      *  this might give unrespected results.
      */
@@ -1336,7 +1336,7 @@ qx.Clazz.define("qx.ui.core.Widget",
 
     /**
      * Mapping to native style property opacity.
-     * 
+     *
      *  The uniform opacity setting to be applied across an entire object. Behaves like the new CSS-3 Property.
      *  Any values outside the range 0.0 (fully transparent) to 1.0 (fully opaque) will be clamped to this range.
      */
@@ -1349,10 +1349,10 @@ qx.Clazz.define("qx.ui.core.Widget",
 
     /**
      * Mapping to native style property cursor.
-     * 
+     *
      *  The name of the cursor to show when the mouse pointer is over the widget.
      *  This is any valid CSS2 cursor name defined by W3C.
-     * 
+     *
      *  The following values are possible:
      *  <ul><li>default</li>
      *  <li>crosshair</li>
@@ -1381,7 +1381,7 @@ qx.Clazz.define("qx.ui.core.Widget",
 
     /**
      * Mapping to native style property background-image.
-     * 
+     *
      *  The URI of the image file to use as background image.
      */
     backgroundImage :
@@ -1458,7 +1458,7 @@ qx.Clazz.define("qx.ui.core.Widget",
     /**
      * Set this to a positive value makes the widget able to get the focus.
      *  It even is reachable through the usage of the tab-key.
-     * 
+     *
      *  Widgets with the same tabIndex are handled through there position
      *  in the document.
      */
@@ -1490,10 +1490,10 @@ qx.Clazz.define("qx.ui.core.Widget",
 
     /**
      * Handle focus state of this widget.
-     * 
+     *
      *  someWidget.setFocused(true) set the current focus to this widget.
      *  someWidget.setFocused(false) remove the current focus and leave it blank.
-     * 
+     *
      *  Normally you didn't need to set this directly.
      */
     focused :
@@ -1660,7 +1660,7 @@ qx.Clazz.define("qx.ui.core.Widget",
 
     /**
      * The distance from the outer left border to the parent left area edge.
-     * 
+     *
      *  You could only set two of the three horizonal dimension properties (boxLeft, boxRight, boxWidth)
      *  at the same time. This will be omitted during the setup of the new third value. To reset a value
      *  you didn't want anymore, set it to null.
@@ -1675,7 +1675,7 @@ qx.Clazz.define("qx.ui.core.Widget",
 
     /**
      * The distance from the outer right border to the parent right area edge.
-     * 
+     *
      *  You could only set two of the three horizonal dimension properties (boxLeft, boxRight, boxWidth)
      *  at the same time. This will be omitted during the setup of the new third value. To reset a value
      *  you didn't want anymore, set it to null.
@@ -1690,7 +1690,7 @@ qx.Clazz.define("qx.ui.core.Widget",
 
     /**
      * The width of the box (including padding and border).
-     * 
+     *
      *  You could only set two of the three horizonal dimension properties (boxLeft, boxRight, boxWidth)
      *  at the same time. This will be omitted during the setup of the new third value. To reset a value
      *  you didn't want anymore, set it to null.
@@ -1705,7 +1705,7 @@ qx.Clazz.define("qx.ui.core.Widget",
 
     /**
      * The minimum width of the box (including padding and border).
-     * 
+     *
      *  Set this to omit the shrinking of the box width under this value.
      */
     minWidth :
@@ -1718,7 +1718,7 @@ qx.Clazz.define("qx.ui.core.Widget",
 
     /**
      * The maximum width of the box (including padding and border).
-     * 
+     *
      *  Set this to omit the expanding of the box width above this value.
      */
     maxWidth :
@@ -1739,7 +1739,7 @@ qx.Clazz.define("qx.ui.core.Widget",
 
     /**
      * The distance from the outer top border to the parent top area edge.
-     * 
+     *
      *  You could only set two of the three vertical dimension properties (boxTop, boxBottom, boxHeight)
      *  at the same time. This will be omitted during the setup of the new third value. To reset a value
      *  you didn't want anymore, set it to null.
@@ -1754,7 +1754,7 @@ qx.Clazz.define("qx.ui.core.Widget",
 
     /**
      * The distance from the outer bottom border to the parent bottom area edge.
-     * 
+     *
      *  You could only set two of the three vertical dimension properties (boxTop, boxBottom, boxHeight)
      *  at the same time. This will be omitted during the setup of the new third value. To reset a value
      *  you didn't want anymore, set it to null.
@@ -1769,7 +1769,7 @@ qx.Clazz.define("qx.ui.core.Widget",
 
     /**
      * The height of the box (including padding and border).
-     * 
+     *
      *  You could only set two of the three vertical dimension properties (boxTop, boxBottom, boxHeight)
      *  at the same time. This will be omitted during the setup of the new third value. To reset a value
      *  you didn't want anymore, set it to null.
@@ -1784,7 +1784,7 @@ qx.Clazz.define("qx.ui.core.Widget",
 
     /**
      * The minimum height of the box (including padding and border).
-     * 
+     *
      *  Set this to omit the shrinking of the box height under this value.
      */
     minHeight :
@@ -1797,7 +1797,7 @@ qx.Clazz.define("qx.ui.core.Widget",
 
     /**
      * The maximum height of the box (including padding and border).
-     * 
+     *
      *  Set this to omit the expanding of the box height above this value.
      */
     maxHeight :
@@ -2111,7 +2111,7 @@ qx.Clazz.define("qx.ui.core.Widget",
       var el = this._element;
       return (
         this._initialLayoutDone &&
-        this._isDisplayable && 
+        this._isDisplayable &&
         qx.html.Style.getStyleProperty(el, "display") != "none" &&
         qx.html.Style.getStyleProperty(el, "visibility") != "hidden" &&
         el.offsetWidth > 0 && el.offsetHeight > 0
@@ -2123,7 +2123,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * A single setup to the current preferred pixel values of the widget
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     pack : function()
     {
@@ -2137,7 +2137,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *  sync if the content or requirements of the widget changes
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     auto : function()
     {
@@ -2510,7 +2510,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _beforeAppear : function()
     {
@@ -2523,7 +2523,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _afterAppear : function()
     {
@@ -2537,7 +2537,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _beforeDisappear : function()
     {
@@ -2560,7 +2560,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _afterDisappear : function()
     {
@@ -2574,7 +2574,7 @@ qx.Clazz.define("qx.ui.core.Widget",
 
     /**
      * If the widget is currently seeable which means that it:
-     * 
+     *
      * * has a also seeable parent
      * * visibility is true
      * * display is true
@@ -2610,7 +2610,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _beforeInsertDom : function()
     {
@@ -2623,7 +2623,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _afterInsertDom : function()
     {
@@ -2636,7 +2636,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _beforeRemoveDom : function()
     {
@@ -2649,7 +2649,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _afterRemoveDom : function()
     {
@@ -2710,7 +2710,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     show : function()
     {
@@ -2723,7 +2723,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     hide : function() {
       this.setVisibility(false);
@@ -2734,7 +2734,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     connect : function() {
       this.setDisplay(true);
@@ -2745,7 +2745,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     disconnect : function() {
       this.setDisplay(false);
@@ -2756,12 +2756,12 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createElementForEnhancedBorder : qx.core.Variant.select("qx.client",
     {
       "gecko" : qx.lang.Function.returnTrue,
-      
+
       "default" : function()
       {
         // Enhanced Border Test (for IE and Opera)
@@ -2769,13 +2769,13 @@ qx.Clazz.define("qx.ui.core.Widget",
         {
           var el = this.getElement();
           var cl = this._borderElement = document.createElement("div");
-    
+
           var es = el.style;
           var cs = this._borderStyle = cl.style;
-    
+
           cs.width = cs.height = "100%";
           cs.position = "absolute";
-    
+
           for (var i in this._styleProperties)
           {
             switch(i)
@@ -2785,13 +2785,13 @@ qx.Clazz.define("qx.ui.core.Widget",
               case "filter":
               case "display":
                 break;
-    
+
               default:
                 cs[i] = this._styleProperties[i];
                 es[i] = "";
             }
           }
-    
+
           for (var i in this._htmlProperties)
           {
             switch(i)
@@ -2800,12 +2800,12 @@ qx.Clazz.define("qx.ui.core.Widget",
                 cl.unselectable = this._htmlProperties[i];
             }
           }
-    
+
           // Move existing children
           while (el.firstChild) {
             cl.appendChild(el.firstChild);
           }
-    
+
           el.appendChild(cl);
         }
       }
@@ -2827,14 +2827,14 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _getTargetNode : qx.core.Variant.select("qx.client",
     {
       "gecko" : function() {
         return this._element;
       },
-      
+
       "default" : function() {
         return this._borderElement || this._element;
       }
@@ -2845,7 +2845,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     addToDocument : function() {
       qx.ui.core.ClientDocument.getInstance().add(this);
@@ -2867,7 +2867,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * Create widget with empty element (of specified tagname).
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createElementImpl : function() {
       this.setElement(this.getTopLevelWidget().getDocumentElement().createElement(this.getTagName()));
@@ -2960,7 +2960,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param q {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _flushJobQueue : function(q)
     {
@@ -3473,7 +3473,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _recomputeRangeX : qx.core.Variant.select("qx.client",
     {
@@ -3482,11 +3482,11 @@ qx.Clazz.define("qx.ui.core.Widget",
         if (this._computedLeftTypeNull || this._computedRightTypeNull) {
           return false;
         }
-    
+
         this.addToLayoutChanges("width");
         return true;
       },
-      
+
       "default" : function() {
         return !(this._computedLeftTypeNull || this._computedRightTypeNull);
       }
@@ -3497,7 +3497,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _recomputeRangeY : qx.core.Variant.select("qx.client",
     {
@@ -3506,11 +3506,11 @@ qx.Clazz.define("qx.ui.core.Widget",
         if (this._computedTopTypeNull || this._computedBottomTypeNull) {
           return false;
         }
-    
+
         this.addToLayoutChanges("height");
         return true;
       },
-      
+
       "default" : function() {
         return !(this._computedTopTypeNull || this._computedBottomTypeNull);
       }
@@ -3529,9 +3529,9 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
-    _recomputeStretchingX : qx.core.Variant.select("qx.client", 
+    _recomputeStretchingX : qx.core.Variant.select("qx.client",
     {
       "mshtml|opera" : function()
       {
@@ -3539,19 +3539,19 @@ qx.Clazz.define("qx.ui.core.Widget",
         {
           this._computedWidthValue = null;
           this.addToLayoutChanges("width");
-    
+
           return true;
         }
-    
+
         return false;
       },
-      
+
       "default" : function()
       {
         if (this.getAllowStretchX() && this._computedWidthTypeNull) {
           return true;
         }
-    
+
         return false;
       }
     }),
@@ -3561,7 +3561,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _recomputeStretchingY : qx.core.Variant.select("qx.client",
     {
@@ -3571,19 +3571,19 @@ qx.Clazz.define("qx.ui.core.Widget",
         {
           this._computedHeightValue = null;
           this.addToLayoutChanges("height");
-    
+
           return true;
         }
-    
+
         return false;
       },
-      
+
       "default" : function()
       {
         if (this.getAllowStretchY() && this._computedHeightTypeNull) {
           return true;
         }
-    
+
         return false;
       }
     }),
@@ -4045,7 +4045,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _invalidateFrameDimensions : function()
     {
@@ -4058,7 +4058,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _invalidatePreferredInnerDimensions : function()
     {
@@ -4132,7 +4132,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param p {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     addToQueue : function(p) {
       this._initialLayoutDone ? this.addToJobQueue(p) : this.addToLayoutChanges(p);
@@ -4166,7 +4166,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @param vChild {var} TODOC
      * @param vChanges {var} TODOC
      * @param vStyle {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _applyBorderX : function(vChild, vChanges, vStyle)
     {
@@ -4182,7 +4182,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @param vChild {var} TODOC
      * @param vChanges {var} TODOC
      * @param vStyle {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _applyBorderY : function(vChild, vChanges, vStyle)
     {
@@ -4367,7 +4367,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @type member
      * @param propData {var} Property configuration map
      * @param propValue {var} Current value
-     * @return {void} 
+     * @return {void}
      */
     _unitDetectionPixelPercentAutoFlex : function(propData, propValue)
     {
@@ -4486,7 +4486,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @type member
      * @param propData {var} Property configuration map
      * @param propValue {var} Current value
-     * @return {void} 
+     * @return {void}
      */
     _unitDetectionPixelPercentAuto : function(propData, propValue)
     {
@@ -4581,7 +4581,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @type member
      * @param propData {var} Property configuration map
      * @param propValue {var} Current value
-     * @return {void} 
+     * @return {void}
      */
     _unitDetectionPixelPercent : function(propData, propValue)
     {
@@ -4648,25 +4648,25 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param vEventName {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     enableInlineEvent : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(vEventName)
       {
         var vEventType = qx.ui.core.Widget.inlineEventMap[vEventName];
-    
+
         if (!this._inlineEvents) {
           this._inlineEvents = [ vEventType ];
         } else {
           this._inlineEvents.push(vEventType);
         }
-    
+
         if (this._isCreated) {
           this.getElement()[vEventType] = qx.ui.core.Widget.__oninlineevent;
         }
       },
-      
+
       "default" : function(vEventName)
       {
         if (!this._inlineEvents) {
@@ -4674,7 +4674,7 @@ qx.Clazz.define("qx.ui.core.Widget",
         } else {
           this._inlineEvents.push(vEventName);
         }
-    
+
         if (this._isCreated) {
           this.getElement().addEventListener(vEventName, qx.ui.core.Widget.__oninlineevent, false);
         }
@@ -4687,29 +4687,29 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param vEventName {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     disableInlineEvent : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(vEventName)
       {
         var vEventType = qx.ui.core.Widget.inlineEventMap[vEventName];
-    
+
         if (this._inlineEvents) {
           qx.lang.Array.remove(this._inlineEvents, vEventType);
         }
-    
+
         if (this._isCreated) {
           this.getElement()[vEventType] = null;
         }
       },
-      
+
       "default" : function(vEventName)
       {
         if (this._inlineEvents) {
           qx.lang.Array.remove(this._inlineEvents, vEventName);
         }
-    
+
         if (this._isCreated) {
           this.getElement().removeEventListener(vEventName, qx.ui.core.Widget.__oninlineevent, false);
         }
@@ -4722,7 +4722,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param vElement {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _addInlineEvents : qx.core.Variant.select("qx.client",
     {
@@ -4735,7 +4735,7 @@ qx.Clazz.define("qx.ui.core.Widget",
           }
         }
       },
-      
+
       "default" : function(vElement)
       {
         if (this._inlineEvents)
@@ -4753,7 +4753,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param vElement {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _removeInlineEvents : qx.core.Variant.select("qx.client",
     {
@@ -4766,7 +4766,7 @@ qx.Clazz.define("qx.ui.core.Widget",
           }
         }
       },
-      
+
       "default" : function(vElement)
       {
         if (this._inlineEvents)
@@ -4784,7 +4784,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _oninlineevent : function(e)
     {
@@ -4814,7 +4814,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _oninlineinput : function(e)
     {
@@ -4834,7 +4834,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _oninlineproperty : function(e)
     {
@@ -4876,7 +4876,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param vBefore {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     moveSelfBefore : function(vBefore) {
       this.getParent().addBefore(this, vBefore);
@@ -4888,7 +4888,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param vAfter {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     moveSelfAfter : function(vAfter) {
       this.getParent().addAfter(this, vAfter);
@@ -4899,7 +4899,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * Move myself to the head of the list: make me the first child.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     moveSelfToBegin : function() {
       this.getParent().addAtBegin(this);
@@ -4910,7 +4910,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * Move myself to the end of the list: make me the last child.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     moveSelfToEnd : function() {
       this.getParent().addAtEnd(this);
@@ -5126,7 +5126,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param vState {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     addState : function(vState)
     {
@@ -5146,7 +5146,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param vState {String} the state to clear.
-     * @return {void} 
+     * @return {void}
      */
     removeState : function(vState)
     {
@@ -5168,7 +5168,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @param state {String} the state to set or clear.
      * @param enabled {Boolean} whether the state should be set.
      *          If false it will be cleared.
-     * @return {void} 
+     * @return {void}
      */
     setState : function(state, enabled)
     {
@@ -5192,7 +5192,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _applyInitialAppearance : function()
     {
@@ -5220,7 +5220,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _applyStateAppearance : function()
     {
@@ -5254,7 +5254,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @type member
      * @param vNewAppearanceTheme {var} TODOC
      * @param vOldAppearanceTheme {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _resetAppearanceThemeWrapper : function(vNewAppearanceTheme, vOldAppearanceTheme)
     {
@@ -5286,7 +5286,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param vStates {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _applyStateStyleFocus : qx.core.Variant.select("qx.client",
     {
@@ -5305,7 +5305,7 @@ qx.Clazz.define("qx.ui.core.Widget",
           this.removeStyleProperty("MozOutline");
         }
       },
-	
+
       "default" : function(vStates)
       {
         if (vStates.focused)
@@ -5326,7 +5326,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     addToStateQueue : function() {
       qx.ui.core.Widget.addToGlobalStateQueue(this);
@@ -5337,7 +5337,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     recursiveAddToStateQueue : function() {
       this.addToStateQueue();
@@ -5400,7 +5400,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @type member
      * @param vNewAppearanceTheme {var} TODOC
      * @param vOldAppearanceTheme {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _recursiveAppearanceThemeUpdate : function(vNewAppearanceTheme, vOldAppearanceTheme)
     {
@@ -5425,7 +5425,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param el {Element} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _applyElementData : function(el) {},
 
@@ -5467,7 +5467,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param propName {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     removeHtmlProperty : qx.core.Variant.select("qx.client",
     {
@@ -5476,30 +5476,30 @@ qx.Clazz.define("qx.ui.core.Widget",
         if (!this._htmlProperties) {
           return;
         }
-    
+
         delete this._htmlProperties[propName];
-    
+
         if (this._isCreated) {
           this.getElement().removeAttribute(propName);
         }
-    
+
         return true;
       },
-      
+
       "default" : function(propName)
       {
         if (!this._htmlProperties) {
           return;
         }
-    
+
         delete this._htmlProperties[propName];
-    
+
         if (this._isCreated)
         {
           this.getElement().removeAttribute(propName);
           delete this.getElement()[propName];
         }
-    
+
         return true;
       }
     }),
@@ -5527,7 +5527,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param vElement {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _applyHtmlProperties : function(vElement)
     {
@@ -5622,7 +5622,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param vElement {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _applyHtmlAttributes : function(vElement)
     {
@@ -5746,7 +5746,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param vElement {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _applyStyleProperties : function(vElement)
     {
@@ -5934,7 +5934,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     focus : function()
     {
@@ -5947,7 +5947,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     blur : function()
     {
@@ -6024,7 +6024,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {void} 
+     * @return {void}
      */
     _modifyTabIndex : qx.core.Variant.select("qx.client",
     {
@@ -6035,36 +6035,36 @@ qx.Clazz.define("qx.ui.core.Widget",
         } else {
           this.removeHtmlProperty("unselectable");
         }
-    
+
         this.setHtmlProperty("tabIndex", propValue < 0 ? -1 : 1);
-    
+
         return true;
       },
 
       "gecko" : function(propValue, propOldValue, propData)
       {
         this.setStyleProperty("MozUserFocus", (propValue < 0 ? "ignore" : "normal"));
-    
+
         // be forward compatible (CSS 3 Draft)
         this.setStyleProperty("userFocus", (propValue < 0 ? "ignore" : "normal"));
-    
+
         return true;
       },
-	
+
       "default" : function(propValue, propOldValue, propData)
       {
         // CSS 3 Draft
         this.setStyleProperty("userFocus", (propValue < 0 ? "ignore" : "normal"));
-    
+
         // IE Backward Compatible
         if (propValue < 0 || !this.getEnabled()) {
           this.setHtmlProperty("unselectable", "on");
         } else {
           this.removeHtmlProperty("unselectable");
         }
-    
+
         this.setHtmlProperty("tabIndex", propValue < 0 ? -1 : 1);
-    
+
         return true;
       }
     }),
@@ -6083,7 +6083,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param propValue {var} Current value
-     * @return {void} 
+     * @return {void}
      */
     setCssClassName : function(propValue) {
       this.setHtmlProperty("className", propValue);
@@ -6116,7 +6116,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {void} 
+     * @return {void}
      */
     _modifySelectable : qx.core.Variant.select("qx.client",
     {
@@ -6136,12 +6136,12 @@ qx.Clazz.define("qx.ui.core.Widget",
         } else {
           this.setStyleProperty("MozUserSelect", "none");
         }
-    
+
         return true;
       },
-	
+
       "opera" : qx.lang.Function.returnTrue,
-      
+
       "webkit|khtml" : function(propValue, propOldValue, propData)
       {
         // Be forward compatible and use both userSelect and KhtmlUserSelect
@@ -6150,10 +6150,10 @@ qx.Clazz.define("qx.ui.core.Widget",
         } else {
           this.setStyleProperty("KhtmlUserSelect", "none");
         }
-    
+
         return true;
       },
-      
+
       "default" : function(propValue, propOldValue, propData)
       {
         if (propValue) {
@@ -6182,7 +6182,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {void} 
+     * @return {void}
      */
     _modifyOpacity : qx.core.Variant.select("qx.client",
     {
@@ -6193,10 +6193,10 @@ qx.Clazz.define("qx.ui.core.Widget",
         } else {
           this.setStyleProperty("filter", ("Alpha(Opacity=" + Math.round(propValue * 100) + ")"));
         }
-    
+
         return true;
       },
-      
+
       "default" : function(propValue, propOldValue, propData)
       {
         if (propValue == null || propValue > 1)
@@ -6206,13 +6206,13 @@ qx.Clazz.define("qx.ui.core.Widget",
           } else if (qx.core.Variant.isSet("qx.client", "khtml")) {
             this.removeStyleProperty("KhtmlOpacity");
           }
-    
+
           this.removeStyleProperty("opacity");
         }
         else
         {
           propValue = qx.lang.Number.limit(propValue, 0, 1);
-    
+
           // should we omit gecko's flickering here
           // and limit the max value to 0.99?
           if (qx.core.Variant.isSet("qx.client", "gecko")) {
@@ -6220,10 +6220,10 @@ qx.Clazz.define("qx.ui.core.Widget",
           } else if (qx.core.Variant.isSet("qx.client", "khtml")) {
             this.setStyleProperty("KhtmlOpacity", propValue);
           }
-    
+
           this.setStyleProperty("opacity", propValue);
         }
-    
+
         return true;
       }
     }),
@@ -6357,7 +6357,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {void} 
+     * @return {void}
      */
     _modifyOverflow : qx.core.Variant.select("qx.client",
     {
@@ -6367,30 +6367,30 @@ qx.Clazz.define("qx.ui.core.Widget",
         // browsers which support these new overflowX overflowY properties.
         var pv = propValue;
         var pn = propData.name;
-    
+
         switch(pv)
         {
           case "scrollX":
             pn = "overflowX";
             pv = "scroll";
             break;
-    
+
           case "scrollY":
             pn = "overflowY";
             pv = "scroll";
             break;
         }
-    
+
         // Clear up concurrenting rules
         var a = [ "overflow", "overflowX", "overflowY" ];
-    
+
         for (var i=0; i<a.length; i++)
         {
           if (a[i] != pn) {
             this.removeStyleProperty(a[i]);
           }
         }
-    
+
         return this._applyOverflow(pn, pv, propValue, propOldValue);
       },
 
@@ -6398,25 +6398,25 @@ qx.Clazz.define("qx.ui.core.Widget",
       {
         var pv = propValue;
         var pn = propData.name;
-    
+
         switch(pv)
         {
           case "hidden":
             pv = "-moz-scrollbars-none";
             break;
-    
+
           case "scrollX":
             pv = "-moz-scrollbars-horizontal";
             break;
-    
+
           case "scrollY":
             pv = "-moz-scrollbars-vertical";
             break;
         }
-    
+
         return this._applyOverflow(pn, pv, propValue, propOldValue);
       },
-	
+
       "default" : function(propValue, propOldValue, propData)
       {
         // Opera/Khtml Mode...
@@ -6425,7 +6425,7 @@ qx.Clazz.define("qx.ui.core.Widget",
         // and also not if we switch to IE emulation mode
         var pv = propValue;
         var pn = propData.name;
-    
+
         switch(pv)
         {
           case "scrollX":
@@ -6433,7 +6433,7 @@ qx.Clazz.define("qx.ui.core.Widget",
             pv = "scroll";
             break;
         }
-    
+
         return this._applyOverflow(pn, pv, propValue, propOldValue);
       }
     }),
@@ -6503,7 +6503,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {void} 
+     * @return {void}
      */
     _modifyHideFocus : qx.core.Variant.select("qx.client",
     {
@@ -6515,7 +6515,7 @@ qx.Clazz.define("qx.ui.core.Widget",
 
       // Need no implementation for others then mshtml, because
       // all these browsers support css outlines and do not
-      // have an attribute "hideFocus" as IE.      
+      // have an attribute "hideFocus" as IE.
       "default" : qx.lang.Function.returnTrue
     }),
 
@@ -6590,7 +6590,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @type member
      * @param vColor {var} TODOC
      * @param vNewValue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _updateColors : function(vColor, vNewValue)
     {
@@ -6609,7 +6609,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param vNewValue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _applyColor : function(vNewValue) {
       this.setStyleProperty("color", vNewValue);
@@ -6621,7 +6621,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param vNewValue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _applyBackgroundColor : function(vNewValue) {
       this.setStyleProperty("backgroundColor", vNewValue);
@@ -6633,7 +6633,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param vNewValue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _resetColor : function(vNewValue) {
       this.removeStyleProperty("color");
@@ -6644,7 +6644,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _resetBackgroundColor : function() {
       this.removeStyleProperty("backgroundColor");
@@ -6770,7 +6770,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param vEdge {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _updateBorder : function(vEdge)
     {
@@ -6861,7 +6861,7 @@ qx.Clazz.define("qx.ui.core.Widget",
     // TODO: Needs modification to work with new codebase
     /**
      * Returns a cloned copy of the current instance of qx.ui.core.Widget.
-     * 
+     *
      * #param cloneRecursive[Boolean]: Should the widget cloned recursive (including all childs)?
      * #param customPropertyList[Array]: Optional (reduced) list of properties to copy through
      *
@@ -6926,7 +6926,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param cloneInstance {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _cloneRecursive : function(cloneInstance) {},
 
@@ -6943,7 +6943,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     execute : function()
     {
@@ -6969,7 +6969,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     _visualPropertyCheck : function()
@@ -6985,7 +6985,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param nScrollLeft {Number} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setScrollLeft : function(nScrollLeft)
     {
@@ -6999,7 +6999,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param nScrollTop {Number} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setScrollTop : function(nScrollTop)
     {
@@ -7151,7 +7151,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param vAlignTopLeft {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     scrollIntoView : function(vAlignTopLeft)
     {
@@ -7220,7 +7220,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @type member
      * @param vSteps {var} TODOC
      * @param vTime {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     fadeIn : function(vSteps, vTime)
     {
@@ -7239,7 +7239,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @type member
      * @param vSteps {var} TODOC
      * @param vTime {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     fadeOut : function(vSteps, vTime)
     {
@@ -7274,7 +7274,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     resetFader : function()
     {
@@ -7296,7 +7296,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onInterval : function(e)
     {
@@ -7504,67 +7504,67 @@ qx.Clazz.define("qx.ui.core.Widget",
   {
     "qx.widgetQueueDebugging" : false
   },
-  
-  
-  defer : function(clazz, proto)
+
+
+  defer : function(statics, members)
   {
-    clazz.__initApplyMethods(qx.Proto);
-    clazz.__initLayoutProperties();
-    
+    statics.__initApplyMethods(members);
+    statics.__initLayoutProperties();
+
     // TODO there must be a better way to define this
     if (qx.core.Variant.isSet("qx.debug", "on"))
     {
       if (qx.core.Setting.get("qx.widgetQueueDebugging"))
       {
-        clazz.flushGlobalQueues = function()
+        statics.flushGlobalQueues = function()
         {
-          if (clazz._inFlushGlobalQueues || !qx.core.Init.getInstance().getComponent().isUiReady()) {
+          if (statics._inFlushGlobalQueues || !qx.core.Init.getInstance().getComponent().isUiReady()) {
             return;
           }
-    
+
           if (!(qx.ui.core.Widget._globalWidgetQueue.length > 0 || qx.ui.core.Widget._globalElementQueue.length > 0 || qx.ui.core.Widget._globalStateQueue.length > 0 || qx.ui.core.Widget._globalJobQueue.length > 0 || qx.ui.core.Widget._globalLayoutQueue.length > 0 || qx.ui.core.Widget._fastGlobalDisplayQueue.length > 0 || !qx.lang.Object.isEmpty(qx.ui.core.Widget._lazyGlobalDisplayQueue))) {
             return;
           }
-    
-          var globalWidgetQueueLength = clazz._globalWidgetQueue.length;
-          var globalElementQueueLength = clazz._globalElementQueue.length;
-          var globalStateQueueLength = clazz._globalStateQueue.length;
-          var globalJobQueueLength = clazz._globalJobQueue.length;
-          var globalLayoutQueueLength = clazz._globalLayoutQueue.length;
-          var fastGlobalDisplayQueueLength = clazz._fastGlobalDisplayQueue.length;
-          var lazyGlobalDisplayQueueLength = clazz._lazyGlobalDisplayQueue ? qx.ui.core.Widget._lazyGlobalDisplayQueue.length : 0;
-    
+
+          var globalWidgetQueueLength = statics._globalWidgetQueue.length;
+          var globalElementQueueLength = statics._globalElementQueue.length;
+          var globalStateQueueLength = statics._globalStateQueue.length;
+          var globalJobQueueLength = statics._globalJobQueue.length;
+          var globalLayoutQueueLength = statics._globalLayoutQueue.length;
+          var fastGlobalDisplayQueueLength = statics._fastGlobalDisplayQueue.length;
+          var lazyGlobalDisplayQueueLength = statics._lazyGlobalDisplayQueue ? qx.ui.core.Widget._lazyGlobalDisplayQueue.length : 0;
+
           // Also used for inline event handling to seperate 'real' events
           qx.ui.core.Widget._inFlushGlobalQueues = true;
-    
+
           var vStart;
-    
+
           vStart = (new Date).valueOf();
-          clazz.flushGlobalWidgetQueue();
+          statics.flushGlobalWidgetQueue();
           var vWidgetDuration = (new Date).valueOf() - vStart;
-    
+
           vStart = (new Date).valueOf();
-          clazz.flushGlobalStateQueue();
+          statics.flushGlobalStateQueue();
           var vStateDuration = (new Date).valueOf() - vStart;
-    
+
           vStart = (new Date).valueOf();
-          clazz.flushGlobalElementQueue();
+          statics.flushGlobalElementQueue();
           var vElementDuration = (new Date).valueOf() - vStart;
-    
+
           vStart = (new Date).valueOf();
-          clazz.flushGlobalJobQueue();
+          statics.flushGlobalJobQueue();
           var vJobDuration = (new Date).valueOf() - vStart;
-    
+
           vStart = (new Date).valueOf();
-          clazz.flushGlobalLayoutQueue();
+          statics.flushGlobalLayoutQueue();
           var vLayoutDuration = (new Date).valueOf() - vStart;
-    
+
           vStart = (new Date).valueOf();
-          clazz.flushGlobalDisplayQueue();
+          statics.flushGlobalDisplayQueue();
           var vDisplayDuration = (new Date).valueOf() - vStart;
-    
+
           var vSum = vWidgetDuration + vStateDuration + vElementDuration + vJobDuration + vLayoutDuration + vDisplayDuration;
-    
+
           if (vSum > 0)
           {
             var logger = qx.log.Logger.getClassLogger(qx.ui.core.Widget);
@@ -7575,17 +7575,17 @@ qx.Clazz.define("qx.ui.core.Widget",
             logger.debug("Job: " + vJobDuration + "ms (" + globalJobQueueLength + ")");
             logger.debug("Layout: " + vLayoutDuration + "ms (" + globalLayoutQueueLength + ")");
             logger.debug("Display: " + vDisplayDuration + "ms (fast:" + fastGlobalDisplayQueueLength + ",lazy:" + lazyGlobalDisplayQueueLength + ")");
-    
+
             window.status = "Flush: Widget:" + vWidgetDuration + " State:" + vStateDuration + " Element:" + vElementDuration + " Job:" + vJobDuration + " Layout:" + vLayoutDuration + " Display:" + vDisplayDuration;
           }
-    
-          delete clazz._inFlushGlobalQueues;
+
+          delete statics._inFlushGlobalQueues;
         };
       }
     }
-        
+
   }
-  
+
 });
 
 
