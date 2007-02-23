@@ -147,7 +147,7 @@ qx.Clazz.define("qx.manager.object.ImageManager",
      * @return {void}
      */
     setIconThemeById : function(vId) {
-      this.setIconTheme(this._iconThemes[vId].getInstance());
+      this.setIconTheme(this._iconThemes[vId]);
     },
 
 
@@ -159,7 +159,7 @@ qx.Clazz.define("qx.manager.object.ImageManager",
      * @return {void}
      */
     setWidgetThemeById : function(vId) {
-      this.setWidgetTheme(this._widgetThemes[vId].getInstance());
+      this.setWidgetTheme(this._widgetThemes[vId]);
     },
 
 
@@ -332,7 +332,7 @@ qx.Clazz.define("qx.manager.object.ImageManager",
 
       for (var vId in vThemes)
       {
-        var vObj = vThemes[vId].getInstance();
+        var vObj = vThemes[vId];
         var vButton = new qx.ui.form.Button(vPrefix + vObj.title, vIcon);
 
         vButton.setLocation(xCor, yCor);

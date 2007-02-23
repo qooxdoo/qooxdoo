@@ -119,7 +119,7 @@ qx.Clazz.define("qx.manager.object.ColorManager",
      * @return {void}
      */
     setColorThemeById : function(vId) {
-      this.setColorTheme(this._colorThemes[vId].getInstance());
+      this.setColorTheme(this._colorThemes[vId]);
     },
 
 
@@ -275,7 +275,7 @@ qx.Clazz.define("qx.manager.object.ColorManager",
 
       for (var vId in vThemes)
       {
-        var vObj = vThemes[vId].getInstance();
+        var vObj = vThemes[vId];
         var vButton = new qx.ui.form.Button(vPrefix + vObj.title, vIcon);
 
         vButton.setLocation(xCor, yCor);
