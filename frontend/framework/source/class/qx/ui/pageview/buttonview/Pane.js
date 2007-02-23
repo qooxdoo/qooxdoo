@@ -24,30 +24,72 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.pageview.buttonview.Pane", qx.ui.pageview.AbstractPane,
-function() {
-  qx.ui.pageview.AbstractPane.call(this);
-});
-
-qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "bar-view-pane" });
-
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  APPEARANCE ADDITIONS
----------------------------------------------------------------------------
-*/
-
-qx.Proto._applyStateAppearance = function()
+qx.Clazz.define("qx.ui.pageview.buttonview.Pane",
 {
-  var vPos = this.getParent().getBarPosition();
+  extend : qx.ui.pageview.AbstractPane,
 
-  this._states.barHorizontal = vPos === "top" || vPos === "bottom";
 
-  qx.ui.pageview.AbstractButton.prototype._applyStateAppearance.call(this);
-}
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function() {
+    qx.ui.pageview.AbstractPane.call(this);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    appearance :
+    {
+      _legacy      : true,
+      type         : "string",
+      defaultValue : "bar-view-pane"
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      APPEARANCE ADDITIONS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    _applyStateAppearance : function()
+    {
+      var vPos = this.getParent().getBarPosition();
+
+      this._states.barHorizontal = vPos === "top" || vPos === "bottom";
+
+      qx.ui.pageview.AbstractButton.prototype._applyStateAppearance.call(this);
+    }
+  }
+});

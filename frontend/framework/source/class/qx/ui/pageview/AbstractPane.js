@@ -23,7 +23,20 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.pageview.AbstractPane", qx.ui.layout.CanvasLayout,
-function() {
-  qx.ui.layout.CanvasLayout.call(this);
+qx.Clazz.define("qx.ui.pageview.AbstractPane",
+{
+  extend : qx.ui.layout.CanvasLayout,
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function() {
+    qx.ui.layout.CanvasLayout.call(this);
+  }
 });
