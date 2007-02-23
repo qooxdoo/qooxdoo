@@ -33,28 +33,53 @@
  * @param firstSize {String} The size of the top pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
  * @param secondSize {String} The size of the bottom pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
  */
-qx.OO.defineClass("qx.ui.splitpane.VerticalSplitPane", qx.ui.splitpane.SplitPane,
-function(firstSize, secondSize) {
-  qx.ui.splitpane.SplitPane.call(this, "vertical", firstSize, secondSize);
-});
+qx.Clazz.define("qx.ui.splitpane.VerticalSplitPane",
+{
+  extend : qx.ui.splitpane.SplitPane,
 
 
 
 
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
-/*
-------------------------------------------------------------------------------------
-  DISPOSER
-------------------------------------------------------------------------------------
- */
+  construct : function(firstSize, secondSize) {
+    qx.ui.splitpane.SplitPane.call(this, "vertical", firstSize, secondSize);
+  },
 
-/**
- * Garbage collection
- */
-qx.Proto.dispose = function() {
-  if (this.getDisposed()) {
-    return true;
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ------------------------------------------------------------------------------------
+      DISPOSER
+    ------------------------------------------------------------------------------------
+     */
+
+    /**
+     * Garbage collection
+     *
+     * @type member
+     * @return {boolean | var} TODOC
+     */
+    dispose : function()
+    {
+      if (this.getDisposed()) {
+        return true;
+      }
+
+      return qx.ui.splitpane.SplitPane.prototype.dispose.call(this);
+    }
   }
-
-  return qx.ui.splitpane.SplitPane.prototype.dispose.call(this);
-}
+});
