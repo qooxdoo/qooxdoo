@@ -31,10 +31,6 @@
 
 /**
  * This manager registers and manage all incoming key and mouse events.
- *
- * @event error {qx.event.type.DataEvent} Fired when an exception was thrown
- *        when dispatching the event to the listeners. The event's property
- *        "data" holds the exception.
  */
 qx.Clazz.define("qx.event.handler.EventHandler",
 {
@@ -68,6 +64,23 @@ qx.Clazz.define("qx.event.handler.EventHandler",
     this._commands = {};
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  
+  events : {
+     /**
+      * Fired when an exception was thrown when dispatching the event to the listeners.
+      * The event's property "data" holds the exception.
+      */
+  	"error" : "qx.event.type.DataEvent"
+  },
+  
 
 
 

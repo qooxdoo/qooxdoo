@@ -24,9 +24,6 @@
 
 ************************************************************************ */
 
-/**
- * @event execute {qx.event.type.Event}
- */
 qx.Clazz.define("qx.ui.form.RepeatButton",
 {
   extend : qx.ui.form.Button,
@@ -49,6 +46,18 @@ qx.Clazz.define("qx.ui.form.RepeatButton",
     this._timer.addEventListener("interval", this._oninterval, this);
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  
+  events: {
+    "execute" : "qx.event.type.Event"
+  },
 
 
 

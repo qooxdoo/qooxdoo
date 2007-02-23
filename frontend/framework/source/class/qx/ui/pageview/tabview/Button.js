@@ -25,9 +25,7 @@
 
 ************************************************************************ */
 
-/**
- * @event closetab {qx.event.type.DataEvent}
- */
+
 qx.Clazz.define("qx.ui.pageview.tabview.Button",
 {
   extend : qx.ui.pageview.AbstractButton,
@@ -43,6 +41,19 @@ qx.Clazz.define("qx.ui.pageview.tabview.Button",
 
   construct : function(vText, vIcon, vIconWidth, vIconHeight, vFlash) {
     qx.ui.pageview.AbstractButton.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  
+  events: {
+    "closetab" : "qx.event.type.Event"
   },
 
 

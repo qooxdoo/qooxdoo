@@ -23,9 +23,7 @@
 ************************************************************************ */
 
 /**
- * This singleton manage global resource aliases
- *
- * @event change {qx.event.type.Event}
+ * This singleton manages global resource aliases
  */
 qx.Clazz.define("qx.manager.object.AliasManager",
 {
@@ -55,6 +53,18 @@ qx.Clazz.define("qx.manager.object.AliasManager",
     this.add("static", qx.core.Setting.get("qx.resourceUri") + "/static");
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  
+  events: {
+    "change" : "qx.event.type.Event"
+  },
 
 
 

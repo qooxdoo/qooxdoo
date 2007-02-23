@@ -29,15 +29,6 @@
 /**
  * This class is used to send HTTP requests to the server.
  *
- * @event created {qx.event.type.Event}
- * @event configured {qx.event.type.Event}
- * @event sending {qx.event.type.Event}
- * @event receiving {qx.event.type.Event}
- * @event completed {qx.event.type.Event}
- * @event failed {qx.event.type.Event}
- * @event aborted {qx.event.type.Event}
- * @event timeout {qx.event.type.Event}
- *
  * @param vUrl {String}
  *   Target url to issue the request to.
  *
@@ -82,6 +73,25 @@ qx.Clazz.define("qx.io.remote.Request",
     this._seqNum = ++qx.io.remote.Request._seqNum;
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  
+  events : {
+    "created" : "qx.event.type.Event",
+    "configured" : "qx.event.type.Event",
+    "sending" : "qx.event.type.Event",
+    "receiving" : "qx.event.type.Event",
+    "completed" : "qx.event.type.Event",
+    "aborted" : "qx.event.type.Event",
+    "failed" : "qx.event.type.Event",
+    "timeout" : "qx.event.type.Event"
+  },
 
 
 

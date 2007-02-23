@@ -31,10 +31,6 @@
  * Adds entries to the browser history and fires a "request" event when one of
  * the entries was requested by the user (e.g. by clicking on the back button).
  * </p>
- *
- * @event request {qx.event.type.DataEvent} Fired when the user moved in the
- *        history. The data property of the event holds the command, which was
- *        passed to {@link #addToHistory}.
  */
 qx.Clazz.define("qx.client.History",
 {
@@ -57,6 +53,22 @@ qx.Clazz.define("qx.client.History",
     this.__pageFlag = true;
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  
+  events: {
+    /**
+     * Fired when the user moved in the history. The data property of the event
+     * holds the command, which was passed to {@link #addToHistory}.
+     */
+    "request" : "qx.event.type.DataEvent" 
+  },
 
 
 
