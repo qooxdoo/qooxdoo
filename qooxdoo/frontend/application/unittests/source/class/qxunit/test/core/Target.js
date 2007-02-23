@@ -8,19 +8,18 @@ qx.Clazz.define("qxunit.test.core.Target", {
 			
 			qx.Clazz.define("qxunit.Event", {
 				extend: qx.core.Target,
-				events: ["click"]
+				events: {"click": "qx.event.type.Event"}
 			});
 			
 			var target = new qxunit.Event();
 			target.addEventListener("click", function() {});
 			
-			var error = "";
-			try {
+			// this will only issue a warning!
+			/*
+			this.assertException(function() {
 				target.addEventListener("blur", function() {});				
-			} catch (e) {
-				error = e;
-			}
-			this.assertMatchDebugOn(error.toString(), "do not support the event");
+			}, Error, "JUHU");
+			*/
 		}
 	}
 	
