@@ -71,7 +71,7 @@ qx.Clazz.define("qx.ui.listview.Header",
       }
 
       // store some additional data
-      vColumns[vCol].contentClass = qx.OO.classes["qx.ui.listview.ContentCell" + qx.lang.String.toFirstUp(vColumns[vCol].type || "text")];
+      vColumns[vCol].contentClass = qx.Clazz.getByName("qx.ui.listview.ContentCell" + qx.lang.String.toFirstUp(vColumns[vCol].type || "text"));
       vColumns[vCol].headerCell = vHeadCell;
     }
 
@@ -125,7 +125,7 @@ qx.Clazz.define("qx.ui.listview.Header",
      *
      * @type member
      * @param vWidth {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _syncColumnWidth : function(vWidth)
     {
@@ -140,7 +140,7 @@ qx.Clazz.define("qx.ui.listview.Header",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _syncResizeLine : function()
     {
@@ -173,7 +173,7 @@ qx.Clazz.define("qx.ui.listview.Header",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmousemove : function(e)
     {
@@ -265,7 +265,7 @@ qx.Clazz.define("qx.ui.listview.Header",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmousedown : function(e)
     {
@@ -290,7 +290,7 @@ qx.Clazz.define("qx.ui.listview.Header",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseup : function(e)
     {
@@ -318,7 +318,7 @@ qx.Clazz.define("qx.ui.listview.Header",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseout : function(e)
     {
@@ -332,7 +332,7 @@ qx.Clazz.define("qx.ui.listview.Header",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _cleanupResizing : function()
     {
