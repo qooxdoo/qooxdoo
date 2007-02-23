@@ -111,22 +111,6 @@ qx.Clazz.define("qx.ui.table.Table",
 
   /*
   *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-
-    /** The default row renderer to use when {@link #dataRowRenderer} is null. */
-    DEFAULT_DATA_ROW_RENDERER : new qx.ui.table.DefaultDataRowRenderer()
-  },
-
-
-
-
-  /*
-  *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
@@ -245,7 +229,7 @@ qx.Clazz.define("qx.ui.table.Table",
       _legacy      : true,
       type         : "object",
       instance     : "qx.ui.table.DataRowRenderer",
-      defaultValue : qx.Class.DEFAULT_DATA_ROW_RENDERER,
+      defaultValue : new qx.ui.table.DefaultDataRowRenderer(),
       allowNull    : false
     },
 
@@ -694,7 +678,7 @@ qx.Clazz.define("qx.ui.table.Table",
      * @param fromMetaColumn {Integer} the first meta column to clean up. All following
      *      meta columns will be cleaned up, too. All previous meta columns will
      *      stay unchanged. If 0 all meta columns will be cleaned up.
-     * @return {void} 
+     * @return {void}
      */
     _cleanUpMetaColumns : function(fromMetaColumn)
     {
@@ -718,7 +702,7 @@ qx.Clazz.define("qx.ui.table.Table",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onSelectionChanged : function(evt)
     {
@@ -737,7 +721,7 @@ qx.Clazz.define("qx.ui.table.Table",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onTableModelMetaDataChanged : function(evt)
     {
@@ -756,7 +740,7 @@ qx.Clazz.define("qx.ui.table.Table",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onTableModelDataChanged : function(evt)
     {
@@ -783,7 +767,7 @@ qx.Clazz.define("qx.ui.table.Table",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onScrollY : function(evt)
     {
@@ -808,7 +792,7 @@ qx.Clazz.define("qx.ui.table.Table",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onkeydown : function(evt)
     {
@@ -932,7 +916,7 @@ qx.Clazz.define("qx.ui.table.Table",
      *
      * @type member
      * @param evt {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeypress : function(evt)
     {
@@ -1007,7 +991,7 @@ qx.Clazz.define("qx.ui.table.Table",
      *
      * @type member
      * @param evt {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onFocusChanged : function(evt)
     {
@@ -1024,7 +1008,7 @@ qx.Clazz.define("qx.ui.table.Table",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onColVisibilityChanged : function(evt)
     {
@@ -1044,7 +1028,7 @@ qx.Clazz.define("qx.ui.table.Table",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onColWidthChanged : function(evt)
     {
@@ -1064,7 +1048,7 @@ qx.Clazz.define("qx.ui.table.Table",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onColOrderChanged : function(evt)
     {
@@ -1104,7 +1088,7 @@ qx.Clazz.define("qx.ui.table.Table",
      * @param row {Integer} the model index of the focused cell's row.
      * @param scrollVisible {Boolean ? false} whether to scroll the new focused cell
      *          visible.
-     * @return {void} 
+     * @return {void}
      * @see TablePaneScrollerPool
      */
     setFocusedCell : function(col, row, scrollVisible)
@@ -1155,7 +1139,7 @@ qx.Clazz.define("qx.ui.table.Table",
      * @type member
      * @param deltaX {Integer} The delta by which the focus should be moved on the x axis.
      * @param deltaY {Integer} The delta by which the focus should be moved on the y axis.
-     * @return {void} 
+     * @return {void}
      */
     moveFocusedCell : function(deltaX, deltaY)
     {
@@ -1187,7 +1171,7 @@ qx.Clazz.define("qx.ui.table.Table",
      * @type member
      * @param col {Integer} the model index of the column the cell belongs to.
      * @param row {Integer} the model index of the row the cell belongs to.
-     * @return {void} 
+     * @return {void}
      */
     scrollCellVisible : function(col, row)
     {
@@ -1243,7 +1227,7 @@ qx.Clazz.define("qx.ui.table.Table",
      * Stops editing and writes the editor's value to the model.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     stopEditing : function()
     {
@@ -1260,7 +1244,7 @@ qx.Clazz.define("qx.ui.table.Table",
      * Stops editing without writing the editor's value to the model.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     cancelEditing : function()
     {
@@ -1329,7 +1313,7 @@ qx.Clazz.define("qx.ui.table.Table",
      * Updates the text shown in the status bar.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _updateStatusBar : function()
     {
@@ -1355,7 +1339,7 @@ qx.Clazz.define("qx.ui.table.Table",
      * Updates the widths of all scrollers.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _updateScrollerWidths : function()
     {
@@ -1376,7 +1360,7 @@ qx.Clazz.define("qx.ui.table.Table",
      * Updates the visibility of the scrollbars in the meta columns.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _updateScrollBarVisibility : function()
     {
@@ -1440,7 +1424,7 @@ qx.Clazz.define("qx.ui.table.Table",
      * Event handler. Called when the column visibiliy button was executed.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _onColumnVisibilityBtExecuted : function()
     {
@@ -1454,7 +1438,7 @@ qx.Clazz.define("qx.ui.table.Table",
      * Toggels the visibility of the menu used to change the visibility of columns.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _toggleColumnVisibilityMenu : function()
     {
@@ -1556,7 +1540,7 @@ qx.Clazz.define("qx.ui.table.Table",
      * Cleans up the column visibility menu.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _cleanupColumnVisibilityMenu : function()
     {
@@ -1591,7 +1575,7 @@ qx.Clazz.define("qx.ui.table.Table",
      * @type member
      * @param col {Integer} the model index of column.
      * @param width {Integer} the new width in pixels.
-     * @return {void} 
+     * @return {void}
      */
     setColumnWidth : function(col, width) {
       this.getTableColumnModel().setColumnWidth(col, width);
@@ -1658,7 +1642,7 @@ qx.Clazz.define("qx.ui.table.Table",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _afterAppear : function()
     {
