@@ -403,12 +403,6 @@ qx.Clazz.define("qx.manager.object.ImageManager",
   settings :
   {
     /*
-    ---------------------------------------------------------------------------
-      DEFAULT SETTINGS
-    ---------------------------------------------------------------------------
-    */
-
-    /*
       Make sure to select an icon theme that is compatible to the license you
       chose to receive the qooxdoo code under. For more information, please
       see the LICENSE file in the project's top-level directory.
