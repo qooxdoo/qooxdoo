@@ -84,7 +84,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.TreeFolder",
     "treeOpenWithContent" : "qx.event.type.DataEvent",
     "treeOpenWhileEmpty" : "qx.event.type.DataEvent",
     "treeClose" : "qx.event.type.DataEvent"
-  }
+  },
 
 
 
