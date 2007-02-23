@@ -29,9 +29,20 @@
  * @event changeSelection {qx.event.type.Event}
  *   Fired when the selection has changed.
  */
-qx.OO.defineClass("qx.ui.tablevarrowheight.SelectionModel",
-                  qx.ui.table.SelectionModel,
-function()
+qx.Clazz.define("qx.ui.tablevarrowheight.SelectionModel",
 {
-  qx.ui.table.SelectionModel.call(this);
+  extend : qx.ui.table.SelectionModel,
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function() {
+    qx.ui.table.SelectionModel.call(this);
+  }
 });

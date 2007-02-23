@@ -31,157 +31,176 @@
  * @param paneScroller {TablePaneScroller}
  *   The TablePaneScroller the pane belongs to.
  */
-qx.OO.defineClass("qx.ui.tablevarrowheight.TablePane",
-                  qx.ui.table.TablePane,
-function(paneScroller)
+qx.Clazz.define("qx.ui.tablevarrowheight.TablePane",
 {
-  qx.ui.table.TablePane.call(this, paneScroller);
-});
+  extend : qx.ui.table.TablePane,
 
 
-// overloaded
-qx.Proto._updateContent_orig = function(completeUpdate,
-                                        onlyRow,
-                                        onlySelectionOrFocusChanged)
-{
-  var TablePane = qx.ui.table.TablePane;
 
-  var table = this.getTable();
 
-  var alwaysUpdateCells = table.getAlwaysUpdateCells();
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
-  var selectionModel = table.getSelectionModel();
-  var tableModel = table.getTableModel();
-  var columnModel = table.getTableColumnModel();
-  var paneModel = this.getPaneScroller().getTablePaneModel();
-  var rowRenderer = table.getDataRowRenderer();
+  construct : function(paneScroller) {
+    qx.ui.table.TablePane.call(this, paneScroller);
+  },
 
-  var colCount = paneModel.getColumnCount();
-  var rowHeight;
 
-  var firstRow = this.getFirstVisibleRow();
-  var rowCount = this.getVisibleRowCount();
-  var modelRowCount = tableModel.getRowCount();
-  if (firstRow + rowCount > modelRowCount)
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
   {
-    rowCount = Math.max(0, modelRowCount - firstRow);
-  }
-
-  // Remove the rows that are not needed any more
-  if (completeUpdate || this._lastRowCount > rowCount)
-  {
-    var firstRowToRemove = completeUpdate ? 0 : rowCount;
-    this._cleanUpRows(firstRowToRemove);
-  }
-
-  var paneMaxHeight = this._paneScroller._paneClipper.getInnerHeight();
-
-  var elem = this.getElement();
-  var childNodes = elem.childNodes;
-  var cellInfo = { table:table };
-  tableModel.prefetchRows(firstRow, firstRow + rowCount - 1);
-
-  this.debug("pane height=" + qx.html.Dimension.getInnerHeight(elem));
-
-  // For now, remove all of the child nodes.  Later, we'll optimize and try
-  // to reuse and resize existing nodes.
-  var numChildren = childNodes.length;
-  for (var i = numChildren - 1; i >= 0; i--)
-  {
-    elem.removeChild(childNodes[i]);
-  }
-
-  for (var y = 0,
-         cumulativeHeight = 0,
-         row = firstRow + y;
-       row < modelRowCount && cumulativeHeight < paneMaxHeight;
-       y++,
-         row = firstRow + y)
-  {
-    if ((onlyRow != null) && (row != onlyRow))
+    // overloaded
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param completeUpdate {var} TODOC
+     * @param onlyRow {var} TODOC
+     * @param onlySelectionOrFocusChanged {var} TODOC
+     * @return {void} 
+     */
+    _updateContent_orig : function(completeUpdate, onlyRow, onlySelectionOrFocusChanged)
     {
-      continue;
-    }
+      var TablePane = qx.ui.table.TablePane;
 
-    cellInfo.row = row;
-    cellInfo.selected = selectionModel.isSelectedIndex(row);
-    cellInfo.focusedRow = (this._focusedRow == row);
-    cellInfo.rowData = tableModel.getRowData(row);
+      var table = this.getTable();
 
-    // Update this row
-    var rowElem;
-    var recyleRowElem;
-    if (y < childNodes.length)
-    {
-      rowElem = childNodes[y];
-      recyleRowElem = true
-    }
-    else
-    {
-      var rowElem = document.createElement("div");
+      var alwaysUpdateCells = table.getAlwaysUpdateCells();
 
-//      rowElem.style.position = "relative";
-      rowElem.style.position = "absolute";
-      rowElem.style.left = "0px";
-      rowElem.style.top = cumulativeHeight + "px";
+      var selectionModel = table.getSelectionModel();
+      var tableModel = table.getTableModel();
+      var columnModel = table.getTableColumnModel();
+      var paneModel = this.getPaneScroller().getTablePaneModel();
+      var rowRenderer = table.getDataRowRenderer();
 
-      recyleRowElem = false;
-    }
+      var colCount = paneModel.getColumnCount();
+      var rowHeight;
 
-    rowRenderer.updateDataRowElement(cellInfo, rowElem);
+      var firstRow = this.getFirstVisibleRow();
+      var rowCount = this.getVisibleRowCount();
+      var modelRowCount = tableModel.getRowCount();
 
-    if (alwaysUpdateCells || !recyleRowElem || !onlySelectionOrFocusChanged)
-    {
-      var html = "";
-      var left = 0;
-      for (var x = 0; x < colCount; x++)
+      if (firstRow + rowCount > modelRowCount) {
+        rowCount = Math.max(0, modelRowCount - firstRow);
+      }
+
+      // Remove the rows that are not needed any more
+      if (completeUpdate || this._lastRowCount > rowCount)
       {
-        var col = paneModel.getColumnAtX(x);
-        cellInfo.xPos = x;
-        cellInfo.col = col;
-        cellInfo.editable = tableModel.isColumnEditable(col);
-        cellInfo.focusedCol = (this._focusedCol == col);
-        cellInfo.value = tableModel.getValue(col, row);
-        var width = columnModel.getColumnWidth(col);
-        cellInfo.style =
-          'position:absolute;left:' + left +
-          'px;top:0px;width:' + width +
-          'px';
+        var firstRowToRemove = completeUpdate ? 0 : rowCount;
+        this._cleanUpRows(firstRowToRemove);
+      }
 
-        var cellRenderer = columnModel.getDataCellRenderer(col);
-        if (recyleRowElem)
+      var paneMaxHeight = this._paneScroller._paneClipper.getInnerHeight();
+
+      var elem = this.getElement();
+      var childNodes = elem.childNodes;
+      var cellInfo = { table : table };
+      tableModel.prefetchRows(firstRow, firstRow + rowCount - 1);
+
+      this.debug("pane height=" + qx.html.Dimension.getInnerHeight(elem));
+
+      // For now, remove all of the child nodes.  Later, we'll optimize and try
+      // to reuse and resize existing nodes.
+      var numChildren = childNodes.length;
+
+      for (var i=numChildren-1; i>=0; i--) {
+        elem.removeChild(childNodes[i]);
+      }
+
+      for (var y=0, cumulativeHeight=0, row=firstRow+y; row<modelRowCount&&cumulativeHeight<paneMaxHeight; y++, row=firstRow+y)
+      {
+        if ((onlyRow != null) && (row != onlyRow)) {
+          continue;
+        }
+
+        cellInfo.row = row;
+        cellInfo.selected = selectionModel.isSelectedIndex(row);
+        cellInfo.focusedRow = (this._focusedRow == row);
+        cellInfo.rowData = tableModel.getRowData(row);
+
+        // Update this row
+        var rowElem;
+        var recyleRowElem;
+
+        if (y < childNodes.length)
         {
-          var cellElem = rowElem.childNodes[x];
-          cellRenderer.updateDataCellElement(cellInfo, cellElem);
+          rowElem = childNodes[y];
+          recyleRowElem = true;
         }
         else
         {
-          html += cellRenderer.createDataCellHtml(cellInfo);
+          var rowElem = document.createElement("div");
+
+          //      rowElem.style.position = "relative";
+          rowElem.style.position = "absolute";
+          rowElem.style.left = "0px";
+          rowElem.style.top = cumulativeHeight + "px";
+
+          recyleRowElem = false;
         }
 
-        left += width;
+        rowRenderer.updateDataRowElement(cellInfo, rowElem);
+
+        if (alwaysUpdateCells || !recyleRowElem || !onlySelectionOrFocusChanged)
+        {
+          var html = "";
+          var left = 0;
+
+          for (var x=0; x<colCount; x++)
+          {
+            var col = paneModel.getColumnAtX(x);
+            cellInfo.xPos = x;
+            cellInfo.col = col;
+            cellInfo.editable = tableModel.isColumnEditable(col);
+            cellInfo.focusedCol = (this._focusedCol == col);
+            cellInfo.value = tableModel.getValue(col, row);
+            var width = columnModel.getColumnWidth(col);
+            cellInfo.style = 'position:absolute;left:' + left + 'px;top:0px;width:' + width + 'px';
+
+            var cellRenderer = columnModel.getDataCellRenderer(col);
+
+            if (recyleRowElem)
+            {
+              var cellElem = rowElem.childNodes[x];
+              cellRenderer.updateDataCellElement(cellInfo, cellElem);
+            }
+            else
+            {
+              html += cellRenderer.createDataCellHtml(cellInfo);
+            }
+
+            left += width;
+          }
+
+          if (!recyleRowElem)
+          {
+            rowElem.style.width = left + "px";
+            rowElem.innerHTML = "<div style='position:absolute;'>" + html + "</div>";
+            elem.appendChild(rowElem);
+          }
+        }
+
+        var rowHeight = qx.html.Dimension.getOuterHeight(rowElem);
+        this.debug("rowHeight=" + rowHeight);
+
+        cumulativeHeight += rowHeight;
       }
 
-      if (! recyleRowElem)
-      {
-        rowElem.style.width = left + "px";
-        rowElem.innerHTML =
-          "<div style='position:absolute;'>" +
-          html +
-          "</div>";
-        elem.appendChild(rowElem);
-      }
+      this.setHeight(cumulativeHeight);
+
+      this._lastColCount = colCount;
+      this._lastRowCount = rowCount;
     }
-
-
-    var rowHeight = qx.html.Dimension.getOuterHeight(rowElem);
-    this.debug("rowHeight=" + rowHeight);
-
-    cumulativeHeight += rowHeight
   }
-
-  this.setHeight(cumulativeHeight);
-
-  this._lastColCount = colCount;
-  this._lastRowCount = rowCount;
-}
+});

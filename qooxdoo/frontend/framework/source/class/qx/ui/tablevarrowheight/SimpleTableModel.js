@@ -26,9 +26,20 @@
 /**
  * A simple table model that provides an API for changing the model data.
  */
-qx.OO.defineClass("qx.ui.tablevarrowheight.SimpleTableModel",
-                  qx.ui.table.SimpleTableModel,
-function()
+qx.Clazz.define("qx.ui.tablevarrowheight.SimpleTableModel",
 {
-  qx.ui.table.SimpleTableModel.call(this);
+  extend : qx.ui.table.SimpleTableModel,
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function() {
+    qx.ui.table.SimpleTableModel.call(this);
+  }
 });

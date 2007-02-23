@@ -31,9 +31,20 @@
  * @param table {Table}
  *   The table the scroller belongs to.
  */
-qx.OO.defineClass("qx.ui.tablevarrowheight.TablePaneScroller",
-                  qx.ui.table.TablePaneScroller,
-function(table)
+qx.Clazz.define("qx.ui.tablevarrowheight.TablePaneScroller",
 {
-  qx.ui.table.TablePaneScroller.call(this, table);
+  extend : qx.ui.table.TablePaneScroller,
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(table) {
+    qx.ui.table.TablePaneScroller.call(this, table);
+  }
 });

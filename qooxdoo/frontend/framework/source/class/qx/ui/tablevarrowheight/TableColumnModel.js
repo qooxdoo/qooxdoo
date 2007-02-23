@@ -76,9 +76,20 @@
  *
  * @see qx.ui.table.TableModel
  */
-qx.OO.defineClass("qx.ui.tablevarrowheight.TableColumnModel",
-                  qx.ui.table.TableColumnModel,
-function()
+qx.Clazz.define("qx.ui.tablevarrowheight.TableColumnModel",
 {
-  qx.ui.table.TableColumnModel.call(this);
+  extend : qx.ui.table.TableColumnModel,
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function() {
+    qx.ui.table.TableColumnModel.call(this);
+  }
 });
