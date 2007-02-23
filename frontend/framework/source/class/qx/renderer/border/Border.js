@@ -187,20 +187,59 @@ qx.Clazz.define("qx.renderer.border.Border",
      * TODOC
      *
      * @type static
-     * @param o {Object} TODOC
+     * @param o {var} TODOC
      * @return {void} 
      */
-    resetBorderX : function(o) {},
-
+    resetBorderX : qx.core.Variant.select("qx.client",
+    {
+      "gecko" : function(o)
+      {
+        var s = o._style;
+        s.borderLeft = s.borderRight = s.MozBorderLeftColors = s.MozBorderRightColors = "";
+      },
+      
+      "default" : function(o)
+      {
+        var s = o._style;
+        s.borderLeft = s.borderRight = "0px none";
+    
+        s = o._borderStyle;
+  
+        if (s) {
+          s.borderLeft = s.borderRight = "0px none";
+        }
+      }
+    }),
+    
 
     /**
      * TODOC
      *
      * @type static
-     * @param o {Object} TODOC
+     * @param o {var} TODOC
      * @return {void} 
      */
-    resetBorderY : function(o) {}
+    resetBorderY : qx.core.Variant.select("qx.client",
+    {
+      "gecko" : function(o)
+      {
+        var s = o._style;
+        s.borderTop = s.borderBottom = s.MozBorderTopColors = s.MozBorderBottomColors = "";
+      },
+      
+      "default" : function(o)
+      {
+        var s = o._style;
+        s.borderTop = s.borderBottom = "0px none";
+    
+        s = o._borderStyle;
+  
+        if (s) {
+          s.borderTop = s.borderBottom = "0px none";
+        }
+      }
+    })
+  
   },
 
 
@@ -1412,64 +1451,6 @@ qx.Clazz.define("qx.renderer.border.Border",
     
         this._defsX.borderLeft = this._generateDefString(vLeftWidth, vLeftStyle, vLeftColor);
         this._needsCompilationLeft = false;
-      }
-    }),
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param o {var} TODOC
-     * @return {void} 
-     */
-    resetBorderX : qx.core.Variant.select("qx.client",
-    {
-      "gecko" : function(o)
-      {
-        var s = o._style;
-        s.borderLeft = s.borderRight = s.MozBorderLeftColors = s.MozBorderRightColors = "";
-      },
-      
-      "default" : function(o)
-      {
-        var s = o._style;
-        s.borderLeft = s.borderRight = "0px none";
-    
-        s = o._borderStyle;
-  
-        if (s) {
-          s.borderLeft = s.borderRight = "0px none";
-        }
-      }
-    }),
-    
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param o {var} TODOC
-     * @return {void} 
-     */
-    resetBorderY : qx.core.Variant.select("qx.client",
-    {
-      "gecko" : function(o)
-      {
-        var s = o._style;
-        s.borderTop = s.borderBottom = s.MozBorderTopColors = s.MozBorderBottomColors = "";
-      },
-      
-      "default" : function(o)
-      {
-        var s = o._style;
-        s.borderTop = s.borderBottom = "0px none";
-    
-        s = o._borderStyle;
-  
-        if (s) {
-          s.borderTop = s.borderBottom = "0px none";
-        }
       }
     }),
         
