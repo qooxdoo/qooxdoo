@@ -28,6 +28,10 @@ qx.Clazz.define("qx.io.image.PreloaderSystem",
 {
   extend : qx.core.Target,
 
+  events : {
+    "completed" : "qx.event.type.Event"
+  },
+
 
 
 
@@ -93,7 +97,7 @@ qx.Clazz.define("qx.io.image.PreloaderSystem",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     start : function()
     {
@@ -137,7 +141,7 @@ qx.Clazz.define("qx.io.image.PreloaderSystem",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onload : function(e)
     {
@@ -151,7 +155,7 @@ qx.Clazz.define("qx.io.image.PreloaderSystem",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onerror : function(e)
     {
@@ -165,7 +169,7 @@ qx.Clazz.define("qx.io.image.PreloaderSystem",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _oninterval : function(e)
     {
@@ -190,7 +194,7 @@ qx.Clazz.define("qx.io.image.PreloaderSystem",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _check : function()
     {
