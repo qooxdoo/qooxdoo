@@ -23,200 +23,350 @@
 
  ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.pageview.AbstractButton", qx.ui.basic.Atom,
-function(vText, vIcon, vIconWidth, vIconHeight, vFlash) {
-  qx.ui.basic.Atom.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
-
-  this.setTabIndex(1);
-
-  // ************************************************************************
-  //   MOUSE EVENTS
-  // ************************************************************************
-  this.addEventListener("mouseover", this._onmouseover);
-  this.addEventListener("mouseout", this._onmouseout);
-  this.addEventListener("mousedown", this._onmousedown);
-
-  // ************************************************************************
-  //   KEY EVENTS
-  // ************************************************************************
-  this.addEventListener("keydown", this._onkeydown);
-  this.addEventListener("keypress", this._onkeypress);
-});
+qx.Clazz.define("qx.ui.pageview.AbstractButton",
+{
+  extend : qx.ui.basic.Atom,
 
 
 
 
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
-/*
----------------------------------------------------------------------------
-  PROPERTIES
----------------------------------------------------------------------------
- */
+  construct : function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
+  {
+    qx.ui.basic.Atom.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
 
-/*!
-  If this tab is the currently selected/active one
- */
-qx.OO.addProperty({ name : "checked", type : "boolean", defaultValue : false });
+    this.setTabIndex(1);
 
-/*!
-  The attached page of this tab
- */
-qx.OO.addProperty({ name : "page", type : "object" });
+    // ************************************************************************
+    //   MOUSE EVENTS
+    // ************************************************************************
+    this.addEventListener("mouseover", this._onmouseover);
+    this.addEventListener("mouseout", this._onmouseout);
+    this.addEventListener("mousedown", this._onmousedown);
 
-/*!
-  The assigned qx.manager.selection.RadioManager which handles the switching between registered buttons
- */
-qx.OO.addProperty({ name : "manager", type : "object", instance : "qx.manager.selection.RadioManager", allowNull : true });
-
-/*!
-  The name of the radio group. All the radio elements in a group (registered by the same manager)
-  have the same name (and could have a different value).
- */
-qx.OO.addProperty({ name : "name", type : "string" });
+    // ************************************************************************
+    //   KEY EVENTS
+    // ************************************************************************
+    this.addEventListener("keydown", this._onkeydown);
+    this.addEventListener("keypress", this._onkeypress);
+  },
 
 
 
 
-/*
----------------------------------------------------------------------------
-  UTILITIES
----------------------------------------------------------------------------
- */
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
 
-qx.Proto.getView = function() {
-  return this.getParent().getParent();
-};
+  properties :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTIES
+    ---------------------------------------------------------------------------
+     */
+
+    /** If this tab is the currently selected/active one */
+    checked :
+    {
+      _legacy      : true,
+      type         : "boolean",
+      defaultValue : false
+    },
+
+
+    /** The attached page of this tab */
+    page :
+    {
+      _legacy : true,
+      type    : "object"
+    },
+
+
+    /** The assigned qx.manager.selection.RadioManager which handles the switching between registered buttons */
+    manager :
+    {
+      _legacy   : true,
+      type      : "object",
+      instance  : "qx.manager.selection.RadioManager",
+      allowNull : true
+    },
+
+
+    /**
+     * The name of the radio group. All the radio elements in a group (registered by the same manager)
+     *  have the same name (and could have a different value).
+     */
+    name :
+    {
+      _legacy : true,
+      type    : "string"
+    }
+  },
 
 
 
 
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
 
-/*
----------------------------------------------------------------------------
-  MODIFIER
----------------------------------------------------------------------------
- */
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      UTILITIES
+    ---------------------------------------------------------------------------
+     */
 
-qx.Proto._modifyManager = function(propValue, propOldValue, propData) {
-  if (propOldValue) {
-    propOldValue.remove(this);
-  }
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getView : function() {
+      return this.getParent().getParent();
+    },
 
-  if (propValue) {
-    propValue.add(this);
-  }
 
-  return true;
-};
 
-qx.Proto._modifyParent = function(propValue, propOldValue, propData) {
-  if (propOldValue) {
-    propOldValue.getManager().remove(this);
-  }
 
-  if (propValue) {
-    propValue.getManager().add(this);
-  }
+    /*
+    ---------------------------------------------------------------------------
+      MODIFIER
+    ---------------------------------------------------------------------------
+     */
 
-  return qx.ui.basic.Atom.prototype._modifyParent.call(this, propValue, propOldValue, propData);
-};
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {boolean} TODOC
+     */
+    _modifyManager : function(propValue, propOldValue, propData)
+    {
+      if (propOldValue) {
+        propOldValue.remove(this);
+      }
 
-qx.Proto._modifyPage = function(propValue, propOldValue, propData) {
-  if (propOldValue) {
-    propOldValue.setButton(null);
-  }
+      if (propValue) {
+        propValue.add(this);
+      }
 
-  if (propValue) {
-    propValue.setButton(this);
-    this.getChecked() ? propValue.show() : propValue.hide();
-  }
+      return true;
+    },
 
-  return true;
-};
 
-qx.Proto._modifyChecked = function(propValue, propOldValue, propData) {
-  if (this._hasParent) {
-    var vManager = this.getManager();
-    if (vManager) {
-      vManager.handleItemChecked(this, propValue);
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {var} TODOC
+     */
+    _modifyParent : function(propValue, propOldValue, propData)
+    {
+      if (propOldValue) {
+        propOldValue.getManager().remove(this);
+      }
+
+      if (propValue) {
+        propValue.getManager().add(this);
+      }
+
+      return qx.ui.basic.Atom.prototype._modifyParent.call(this, propValue, propOldValue, propData);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {boolean} TODOC
+     */
+    _modifyPage : function(propValue, propOldValue, propData)
+    {
+      if (propOldValue) {
+        propOldValue.setButton(null);
+      }
+
+      if (propValue)
+      {
+        propValue.setButton(this);
+        this.getChecked() ? propValue.show() : propValue.hide();
+      }
+
+      return true;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {boolean} TODOC
+     */
+    _modifyChecked : function(propValue, propOldValue, propData)
+    {
+      if (this._hasParent)
+      {
+        var vManager = this.getManager();
+
+        if (vManager) {
+          vManager.handleItemChecked(this, propValue);
+        }
+      }
+
+      propValue ? this.addState("checked") : this.removeState("checked");
+
+      var vPage = this.getPage();
+
+      if (vPage) {
+        this.getChecked() ? vPage.show() : vPage.hide();
+      }
+
+      return true;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {boolean} TODOC
+     */
+    _modifyName : function(propValue, propOldValue, propData)
+    {
+      if (this.getManager()) {
+        this.getManager().setName(propValue);
+      }
+
+      return true;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT HANDLER
+    ---------------------------------------------------------------------------
+     */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
+    _onmousedown : function(e) {
+      this.setChecked(true);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
+    _onmouseover : function(e) {
+      this.addState("over");
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
+    _onmouseout : function(e) {
+      this.removeState("over");
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
+    _onkeydown : function(e) {},
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
+    _onkeypress : function(e) {},
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DISPOSER
+    ---------------------------------------------------------------------------
+     */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void | var} TODOC
+     */
+    dispose : function()
+    {
+      if (this.getDisposed()) {
+        return;
+      }
+
+      // ************************************************************************
+      //   MOUSE EVENTS
+      // ************************************************************************
+      this.removeEventListener("mouseover", this._onmouseover);
+      this.removeEventListener("mouseout", this._onmouseout);
+      this.removeEventListener("mousedown", this._onmousedown);
+
+      // ************************************************************************
+      //   KEY EVENTS
+      // ************************************************************************
+      this.removeEventListener("keydown", this._onkeydown);
+      this.removeEventListener("keypress", this._onkeypress);
+
+      return qx.ui.basic.Atom.prototype.dispose.call(this);
     }
   }
-
-  propValue ? this.addState("checked") : this.removeState("checked");
-
-  var vPage = this.getPage();
-  if (vPage) {
-    this.getChecked() ? vPage.show() : vPage.hide();
-  }
-
-  return true;
-};
-
-qx.Proto._modifyName = function(propValue, propOldValue, propData) {
-  if (this.getManager()) {
-    this.getManager().setName(propValue);
-  }
-
-  return true;
-};
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  EVENT HANDLER
----------------------------------------------------------------------------
- */
-
-qx.Proto._onmousedown = function(e) {
-  this.setChecked(true);
-};
-
-qx.Proto._onmouseover = function(e) {
-  this.addState("over");
-};
-
-qx.Proto._onmouseout = function(e) {
-  this.removeState("over");
-};
-
-qx.Proto._onkeydown = function(e) {};
-qx.Proto._onkeypress = function(e) {};
-
-
-
-
-
-
-/*
----------------------------------------------------------------------------
-  DISPOSER
----------------------------------------------------------------------------
- */
-
-qx.Proto.dispose = function()
-{
-  if (this.getDisposed()) {
-    return;
-  }
-
-
-  // ************************************************************************
-  //   MOUSE EVENTS
-  // ************************************************************************
-  this.removeEventListener("mouseover", this._onmouseover);
-  this.removeEventListener("mouseout", this._onmouseout);
-  this.removeEventListener("mousedown", this._onmousedown);
-
-
-  // ************************************************************************
-  //   KEY EVENTS
-  // ************************************************************************
-  this.removeEventListener("keydown", this._onkeydown);
-  this.removeEventListener("keypress", this._onkeypress);
-
-
-  return qx.ui.basic.Atom.prototype.dispose.call(this);
-};
+});

@@ -24,9 +24,39 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.pageview.tabview.Page", qx.ui.pageview.AbstractPage,
-function(vButton) {
-  qx.ui.pageview.AbstractPage.call(this, vButton);
-});
+qx.Clazz.define("qx.ui.pageview.tabview.Page",
+{
+  extend : qx.ui.pageview.AbstractPage,
 
-qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "tab-view-page" });
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(vButton) {
+    qx.ui.pageview.AbstractPage.call(this, vButton);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    appearance :
+    {
+      _legacy      : true,
+      type         : "string",
+      defaultValue : "tab-view-page"
+    }
+  }
+});
