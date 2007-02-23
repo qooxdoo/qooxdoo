@@ -182,7 +182,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      * Let the widget use its own focus handler
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     activateFocusRoot : function() {
       this.setFocusHandler(new qx.event.handler.FocusHandler(this));
@@ -194,7 +194,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onfocuskeyevent : function(e) {
       this.getFocusHandler()._onkeyevent(this, e);
@@ -378,9 +378,9 @@ qx.Clazz.define("qx.ui.core.Parent",
 
     /**
      * abstract method. Create layout implementation.
-     * 
+     *
      * This method must be overwritten by all subclasses
-     * 
+     *
      * return {qx.renderer.layout.LayoutImpl}
      *
      * @type member
@@ -393,7 +393,7 @@ qx.Clazz.define("qx.ui.core.Parent",
 
     /**
      * Return the layout implementation.
-     * 
+     *
      * return {qx.renderer.layout.LayoutImpl}
      *
      * @type member
@@ -497,7 +497,7 @@ qx.Clazz.define("qx.ui.core.Parent",
     /*
     ---------------------------------------------------------------------------
       CHILDREN MANAGMENT: MANAGE VISIBLE ONES
-    
+
       uses a cached private property
     ---------------------------------------------------------------------------
     */
@@ -602,7 +602,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      * @type member
      * @param vChild {var} TODOC
      * @param vIndex {var} TODOC
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     addAt : function(vChild, vIndex)
@@ -735,7 +735,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      * Remove one or multiple childrens.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     remove : function()
@@ -760,7 +760,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      *
      * @type member
      * @param vIndex {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     removeAt : function(vIndex)
     {
@@ -779,7 +779,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      * Remove all childrens.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     removeAll : function()
     {
@@ -891,7 +891,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      *
      * @type member
      * @param vFunc {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     forEachChild : function(vFunc)
     {
@@ -908,7 +908,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      *
      * @type member
      * @param vFunc {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     forEachVisibleChild : function(vFunc)
     {
@@ -932,7 +932,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _beforeAppear : function()
     {
@@ -951,7 +951,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _afterAppear : function()
     {
@@ -970,7 +970,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _beforeDisappear : function()
     {
@@ -989,7 +989,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _afterDisappear : function()
     {
@@ -1016,7 +1016,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _beforeInsertDom : function()
     {
@@ -1035,7 +1035,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _afterInsertDom : function()
     {
@@ -1054,7 +1054,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _beforeRemoveDom : function()
     {
@@ -1073,7 +1073,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _afterRemoveDom : function()
     {
@@ -1103,7 +1103,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      * @param vDisplayable {var} TODOC
      * @param vParent {var} TODOC
      * @param vHint {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _handleDisplayableCustom : function(vDisplayable, vParent, vHint)
     {
@@ -1125,7 +1125,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _addChildrenToStateQueue : function()
     {
@@ -1139,7 +1139,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     recursiveAddToStateQueue : function()
     {
@@ -1157,7 +1157,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      * @type member
      * @param vNewAppearanceTheme {var} TODOC
      * @param vOldAppearanceTheme {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _recursiveAppearanceThemeUpdate : function(vNewAppearanceTheme, vOldAppearanceTheme)
     {
@@ -1182,7 +1182,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      *
      * @type member
      * @param vChild {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _addChildToChildrenQueue : function(vChild)
     {
@@ -1208,7 +1208,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      *
      * @type member
      * @param vChild {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _removeChildFromChildrenQueue : function(vChild)
     {
@@ -1227,7 +1227,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _flushChildrenQueue : function()
     {
@@ -1252,7 +1252,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      *
      * @type member
      * @param p {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _addChildrenToLayoutQueue : function(p)
     {
@@ -1267,7 +1267,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      *
      * @type member
      * @param vChild {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _layoutChild : function(vChild)
     {
@@ -1386,7 +1386,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      * @type member
      * @param vNew {var} TODOC
      * @param vOld {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _changeInnerWidth : function(vNew, vOld)
     {
@@ -1413,7 +1413,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      * @type member
      * @param vNew {var} TODOC
      * @param vOld {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _changeInnerHeight : function(vNew, vOld)
     {
@@ -1471,7 +1471,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      *
      * @type member
      * @param cloneInstance {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _cloneRecursive : function(cloneInstance)
     {
@@ -1506,7 +1506,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      *
      * @type member
      * @param vTarget {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     remapChildrenHandlingTo : function(vTarget)
     {
@@ -1583,35 +1583,42 @@ qx.Clazz.define("qx.ui.core.Parent",
       return qx.ui.core.Widget.prototype.dispose.call(this);
     }
   },
-  
-  defer : function()
+
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics, members, properties)
   {
     // TODO There must be a better way than to define this in defer
 
     // Fix Operas Rendering Bugs
     if (qx.core.Variant.isSet("qx.client", "opera"))
     {
-      qx.Proto._layoutChildOrig = qx.Proto._layoutChild;
-    
-      qx.Proto._layoutChild = function(vChild)
+      members._layoutChildOrig = members._layoutChild;
+
+      members._layoutChild = function(vChild)
       {
         if (!vChild._initialLayoutDone || !vChild._layoutChanges.borderX || !vChild._layoutChanges.borderY) {
           return this._layoutChildOrig(vChild);
         }
-    
+
         var vStyle = vChild.getElement().style;
-    
+
         var vOldDisplay = vStyle.display;
         vStyle.display = "none";
         var vRet = this._layoutChildOrig(vChild);
         vStyle.display = vOldDisplay;
-    
+
         return vRet;
       };
     }
-    
   }
-  
 });
 
 
