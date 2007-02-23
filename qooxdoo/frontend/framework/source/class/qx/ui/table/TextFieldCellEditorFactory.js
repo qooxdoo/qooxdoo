@@ -26,35 +26,75 @@
 /**
  * A cell editor factory creating text fields.
  */
-qx.OO.defineClass("qx.ui.table.TextFieldCellEditorFactory", qx.ui.table.CellEditorFactory,
-function() {
-  qx.ui.table.CellEditorFactory.call(this);
-});
+qx.Clazz.define("qx.ui.table.TextFieldCellEditorFactory",
+{
+  extend : qx.ui.table.CellEditorFactory,
 
 
-// overridden
-qx.Proto.createCellEditor = function(cellInfo) {
-  var cellEditor = new qx.ui.form.TextField;
-  cellEditor.setAppearance("table-editor-textfield");
-  cellEditor.originalValue = cellInfo.value;
-  cellEditor.setValue("" + cellInfo.value);
-
-  cellEditor.addEventListener("appear", function() {
-    this.selectAll();
-  });
-
-  return cellEditor;
-}
 
 
-// overridden
-qx.Proto.getCellEditorValue = function(cellEditor) {
-  // Workaround: qx.ui.form.TextField.getValue() delivers the old value, so we use the
-  //             value property of the DOM element directly
-  var value = cellEditor.getElement().value;
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
-  if (typeof cellEditor.originalValue == "number") {
-    value = parseFloat(value);
+  construct : function() {
+    qx.ui.table.CellEditorFactory.call(this);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    // overridden
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param cellInfo {var} TODOC
+     * @return {var} TODOC
+     */
+    createCellEditor : function(cellInfo)
+    {
+      var cellEditor = new qx.ui.form.TextField;
+      cellEditor.setAppearance("table-editor-textfield");
+      cellEditor.originalValue = cellInfo.value;
+      cellEditor.setValue("" + cellInfo.value);
+
+      cellEditor.addEventListener("appear", function() {
+        this.selectAll();
+      });
+
+      return cellEditor;
+    },
+
+    // overridden
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param cellEditor {var} TODOC
+     * @return {var} TODOC
+     */
+    getCellEditorValue : function(cellEditor)
+    {
+      // Workaround: qx.ui.form.TextField.getValue() delivers the old value, so we use the
+      //             value property of the DOM element directly
+      var value = cellEditor.getElement().value;
+
+      if (typeof cellEditor.originalValue == "number") {
+        value = parseFloat(value);
+      }
+
+      return value;
+    }
   }
-  return value;
-}
+});

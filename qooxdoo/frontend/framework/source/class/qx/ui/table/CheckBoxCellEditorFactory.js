@@ -26,19 +26,60 @@
 /**
  * For editing boolean data in a checkbox.  It is advisable to use this in conjuntion with BooleanDataCellRenderer.
  */
-qx.OO.defineClass("qx.ui.table.CheckBoxCellEditorFactory", qx.ui.table.CellEditorFactory, function() {
-  qx.ui.table.CellEditorFactory.call(this);
+qx.Clazz.define("qx.ui.table.CheckBoxCellEditorFactory",
+{
+  extend : qx.ui.table.CellEditorFactory,
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function() {
+    qx.ui.table.CellEditorFactory.call(this);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    // overridden
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param cellInfo {var} TODOC
+     * @return {var} TODOC
+     */
+    createCellEditor : function(cellInfo)
+    {
+      var editor = new qx.ui.form.CheckBox;
+      editor.setChecked(cellInfo.value);
+
+      return editor;
+    },
+
+    // overridden
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param cellEditor {var} TODOC
+     * @return {var} TODOC
+     */
+    getCellEditorValue : function(cellEditor) {
+      return cellEditor.getChecked();
+    }
+  }
 });
-
-// overridden
-qx.Proto.createCellEditor = function(cellInfo) {
-  var editor = new qx.ui.form.CheckBox;
-  editor.setChecked(cellInfo.value);
-
-  return editor;
-}
-
-// overridden
-qx.Proto.getCellEditorValue = function(cellEditor) {
-   return cellEditor.getChecked();
-}
