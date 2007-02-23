@@ -7509,6 +7509,7 @@ qx.Clazz.define("qx.ui.core.Widget",
     clazz.__initApplyMethods(qx.Proto);
     clazz.__initLayoutProperties();
     
+    // TODO there must be a better way to define this
     if (qx.core.Variant.isSet("qx.debug", "on"))
     {
       if (qx.core.Setting.get("qx.widgetQueueDebugging"))
@@ -7580,12 +7581,6 @@ qx.Clazz.define("qx.ui.core.Widget",
         };
       }
     }
-
-
-
-
-
-
         
   }
   
