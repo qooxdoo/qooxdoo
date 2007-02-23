@@ -55,7 +55,7 @@ def search(node, variantMap, fileId="", verb=False):
       modified = processVariantSelect(selectNode(variant, "../.."), variantMap) or modified
     elif variantMethod == "isSet":
       modified = processVariantIsSet(selectNode(variant, "../.."), variantMap) or modified
-  
+
   return modified
 
 
@@ -81,6 +81,9 @@ def processVariantSelect(callNode, variantMap):
   found = False
   if secondParam.type == "map":
     for node in secondParam.children:
+      if node.type != "keyvalue":
+        continue
+
       fullKey = node.get("key")
       value = node.getChild("value").getFirstChild()
       keys = fullKey.split("|")
@@ -153,8 +156,8 @@ def processVariantIsSet(callNode, variantMap):
 
   log("Warning", "The second parameter of qx.core.Variant.isSet must be a string literal. Ignoring this occurrence.", secondParam)
   return False
-  
-  
+
+
 def __variantMatchKey(key, variantMap, variantGroup):
   for keyPart in key.split("|"):
     if variantMap[variantGroup] == keyPart:
@@ -208,7 +211,7 @@ def selectNode(node, path):
         continue
       except ValueError:
         pass
-    
+
       # indexed node
       match = re_indexedNode.match(part)
       if match:
