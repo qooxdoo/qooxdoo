@@ -25,23 +25,48 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.layout.CanvasLayout", qx.ui.core.Parent,
-function() {
-  qx.ui.core.Parent.call(this);
+qx.Clazz.define("qx.ui.layout.CanvasLayout",
+{
+  extend : qx.ui.core.Parent,
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function() {
+    qx.ui.core.Parent.call(this);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      INIT LAYOUT IMPL
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * This creates an new instance of the layout impl this widget uses
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    _createLayoutImpl : function() {
+      return new qx.renderer.layout.CanvasLayoutImpl(this);
+    }
+  }
 });
-
-
-
-
-/*
----------------------------------------------------------------------------
-  INIT LAYOUT IMPL
----------------------------------------------------------------------------
-*/
-
-/*!
-  This creates an new instance of the layout impl this widget uses
-*/
-qx.Proto._createLayoutImpl = function() {
-  return new qx.renderer.layout.CanvasLayoutImpl(this);
-}

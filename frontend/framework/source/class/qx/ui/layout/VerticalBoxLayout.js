@@ -25,7 +25,20 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.layout.VerticalBoxLayout", qx.ui.layout.BoxLayout,
-function() {
-  qx.ui.layout.BoxLayout.call(this, "vertical");
+qx.Clazz.define("qx.ui.layout.VerticalBoxLayout",
+{
+  extend : qx.ui.layout.BoxLayout,
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function() {
+    qx.ui.layout.BoxLayout.call(this, "vertical");
+  }
 });
