@@ -16,7 +16,7 @@ echo -e "-----------------------------------------------------------------------
 
 FILES_NEW_LIST=`echo -e ${FILES_NEW} | grep -Ev 'qx\/OO\.js|qx\/Clazz\.js' | sed 's/&\\\n/ /g'`
 for i in ${FILES_NEW_LIST}; do \
-  grep -EH "qx\.OO\.|qx\.Class\b|qx\.Proto\b" $i ;
+  grep -EH "qx\.OO\.|qx\.Class\b|qx\.Proto\b|qx\.Super\b" $i ;
 done
 
 
