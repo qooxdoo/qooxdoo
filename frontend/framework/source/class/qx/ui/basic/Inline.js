@@ -24,16 +24,45 @@
 
 ************************************************************************ */
 
-qx.OO.defineClass("qx.ui.basic.Inline", qx.ui.layout.CanvasLayout,
-function(vId)
+qx.Clazz.define("qx.ui.basic.Inline",
 {
-  qx.ui.layout.CanvasLayout.call(this);
+  extend : qx.ui.layout.CanvasLayout,
 
-  this.setStyleProperty("position", "relative");
 
-  if (vId != null) {
-    this.setInlineNodeId(vId);
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(vId)
+  {
+    qx.ui.layout.CanvasLayout.call(this);
+
+    this.setStyleProperty("position", "relative");
+
+    if (vId != null) {
+      this.setInlineNodeId(vId);
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    inlineNodeId :
+    {
+      _legacy : true,
+      type    : "string"
+    }
   }
 });
-
-qx.OO.addProperty({ name : "inlineNodeId", type : "string" });
