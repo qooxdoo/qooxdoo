@@ -267,6 +267,9 @@ ifeq ($(APPLICATION_OPTIMIZE_REMOVE_DEBUG),true)
   COMPUTED_BUILD_VARIANT += --use-variant qx.debug:off
 endif
 
+ifeq ($(APPLICATION_OPTIMIZE_REMOVE_COMPATIBILITY),true)
+  COMPUTED_BUILD_VARIANT += --use-variant qx.compatibility:off
+endif
 
 
 
