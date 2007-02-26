@@ -5367,28 +5367,47 @@ qx.Clazz.define("qx.ui.core.Widget",
 
       var vNewAppearanceProperties = vAppearanceThemeObject.initialFrom(propValue);
 
-      if (this.isCreated()) {
-        qx.lang.Object.mergeWith(vNewAppearanceProperties, vAppearanceThemeObject.stateFrom(propValue, this._states));
+      if (!vNewAppearanceProperties) {
+        vNewAppearanceProperties = {};
+      }
+
+      if (this.isCreated())
+      {
+        vNewAppearanceStateProperties = vAppearanceThemeObject.stateFrom(propValue, this._states);
+
+        if (vNewAppearanceStateProperties) {
+          qx.lang.Object.mergeWith(vNewAppearanceProperties, vNewAppearanceStateProperties);
+        }
       }
 
       if (propOldValue)
       {
         var vOldAppearanceProperties = vAppearanceThemeObject.initialFrom(propOldValue);
 
-        if (this.isCreated()) {
-          qx.lang.Object.mergeWith(vOldAppearanceProperties, vAppearanceThemeObject.stateFrom(propOldValue, this._states));
+        if (!vOldAppearanceProperties) {
+          vOldAppearanceProperties = {};
+        }
+
+        if (this.isCreated())
+        {
+          vOldAppearanceStateProperties = AppearanceThemeObject.stateFrom(propOldValue, this._states);
+
+          if (vOldAppearanceStateProperties) {
+            qx.lang.Object.mergeWith(vOldAppearanceProperties, vOldAppearanceStateProperties);
+          }
         }
 
         for (var vProp in vOldAppearanceProperties)
         {
-          // TODO: Access to private member (bad style) - please correct
           if (!(vProp in vNewAppearanceProperties)) {
             this[qx.core.LegacyProperty.getResetterName(vProp)]();
           }
         }
       }
 
-      this.set(vNewAppearanceProperties);
+      if (vNewAppearanceProperties) {
+        this.set(vNewAppearanceProperties);
+      }
 
       return true;
     },
