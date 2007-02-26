@@ -127,24 +127,32 @@ qx.Clazz.define("qx.Theme",
     {
       var appearance = this.appearances[id];
 
-      if (appearance)
-      {
-        if (appearance.setup)
-        {
-          appearance.setup(this);
-          appearance.setup = null;
-        }
-
-        try {
-          return appearance.initial ? appearance.initial(this) : {};
-        } catch(ex) {
-          this.error("Couldn't apply initial appearance", ex);
-        }
-      }
-      else
-      {
+      if (!appearance) {
         return this.error("Missing appearance: " + id);
       }
+
+      if (appearance.setup)
+      {
+        appearance.setup(this);
+        appearance.setup = null;
+      }
+
+      var ret;
+
+      if (appearance.initial)
+      {
+        ret = appearance.initial(this);
+
+        if (appearance.extend) {
+          ret = qx.lang.Object.carefullyMergeWith(ret, this.initialFrom(appearance.extend));
+        }
+      }
+      else if (appearance.extend)
+      {
+        ret = this.initialFrom(appearance.extend);
+      }
+
+      return ret;
     },
 
 
@@ -160,24 +168,32 @@ qx.Clazz.define("qx.Theme",
     {
       var appearance = this.appearances[id];
 
-      if (appearance)
-      {
-        if (appearance.setup)
-        {
-          appearance.setup(this);
-          appearance.setup = null;
-        }
-
-        try {
-          return appearance.state ? appearance.state(this, states) : {};
-        } catch(ex) {
-          this.error("Couldn't apply state appearance", ex);
-        }
-      }
-      else
-      {
+      if (!appearance) {
         return this.error("Missing appearance: " + id);
       }
+
+      if (appearance.setup)
+      {
+        appearance.setup(this);
+        appearance.setup = null;
+      }
+
+      var ret;
+
+      if (appearance.state)
+      {
+        ret = appearance.state(this, states);
+
+        if (appearance.extend) {
+          ret = qx.lang.Object.carefullyMergeWith(ret, this.stateFrom(appearance.extend, states));
+        }
+      }
+      else if (appearance.extend)
+      {
+        ret = this.stateFrom(appearance.extend, states);
+      }
+
+      return ret;
     },
 
 
