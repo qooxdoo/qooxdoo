@@ -112,16 +112,18 @@ qx.Clazz.define("qx.lang.Object",
         // IE does not return "shadowed" keys even if they are defined directly
         // in the object. This is incompatible to the ECMA standard!!
         // This is why this checks are needed.
-        var ownProp = Object.prototype.hasOwnProperty;
-        ieShadowProps = [
+        ieShadowProps = 
+        [
           "isPrototypeOf",
           "hasOwnProperty",
           "toLocaleString",
           "toString",
           "valueOf"
         ];
-        for (var i=0; i<ieShadowProps.length; i++) {
-          if(ownProp.call(map, ieShadowProps[i])) {
+
+        for (var i=0; i<ieShadowProps.length; i++) 
+        {
+          if (map.hasOwnProperty(ieShadowProps[i])) {
             r.push(ieShadowProps[i]);
           }
         }
