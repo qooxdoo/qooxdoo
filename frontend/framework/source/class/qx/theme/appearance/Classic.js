@@ -128,13 +128,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "htmlcontainer" :
     {
-      initial : function(vTheme) {
-        return vTheme.initialFrom("label");
-      },
-
-      state : function(vTheme, vStates) {
-        return vTheme.stateFrom("label", vStates);
-      }
+      extend : "label"
     },
 
     "popup" :
@@ -150,6 +144,8 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "tool-tip" :
     {
+      extend : "popup",
+
       setup : function()
       {
         this.bgcolor = new qx.renderer.color.ColorObject("InfoBackground");
@@ -158,8 +154,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
       initial : function(vTheme)
       {
-        return qx.lang.Object.mergeWith(vTheme.initialFrom("popup"),
-        {
+        return {
           backgroundColor : this.bgcolor,
           color           : this.color,
           border          : qx.renderer.border.BorderPresets.getInstance().info,
@@ -167,7 +162,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
           paddingRight    : 3,
           paddingBottom   : 2,
           paddingLeft     : 3
-        });
+        };
       }
     },
 
@@ -189,6 +184,8 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "button" :
     {
+      extend : "atom",
+
       setup : function()
       {
         this.bgcolor_default = new qx.renderer.color.ColorObject("buttonface");
@@ -197,10 +194,6 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
         this.border_pressed = qx.renderer.border.BorderPresets.getInstance().inset;
         this.border_default = qx.renderer.border.BorderPresets.getInstance().outset;
-      },
-
-      initial : function(vTheme) {
-        return vTheme.initialFrom("atom");
       },
 
       state : function(vTheme, vStates)
@@ -520,6 +513,8 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "bar-view-button" :
     {
+      extend : "atom",
+
       setup : function()
       {
         this.background_color_normal = null;
@@ -541,8 +536,11 @@ qx.Theme.define("qx.theme.appearance.Classic",
         this.border_right_checked.setLeft(3, "solid", this.border_color_checked);
       },
 
-      initial : function(vTheme) {
-        return qx.lang.Object.mergeWith(vTheme.initialFrom("atom"), { iconPosition : "top" });
+      initial : function(vTheme)
+      {
+        return {
+          iconPosition : "top"
+        };
       },
 
       state : function(vTheme, vStates)
@@ -716,13 +714,11 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "window-captionbar-button" :
     {
-      initial : function(vTheme) {
-        return vTheme.initialFrom("button");
-      },
+      extend : "button",
 
       state : function(vTheme, vStates)
       {
-        var vReturn = vTheme.stateFrom("button", vStates);
+        var vReturn = {};
 
         if (vStates.pressed || vStates.abandoned)
         {
@@ -743,45 +739,25 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "window-captionbar-minimize-button" :
     {
-      initial : function(vTheme) {
-        return vTheme.initialFrom("window-captionbar-button");
-      },
-
-      state : function(vTheme, vStates) {
-        return vTheme.stateFrom("window-captionbar-button", vStates);
-      }
+      extend : "window-captionbar-button"
     },
 
     "window-captionbar-restore-button" :
     {
-      initial : function(vTheme) {
-        return vTheme.initialFrom("window-captionbar-button");
-      },
-
-      state : function(vTheme, vStates) {
-        return vTheme.stateFrom("window-captionbar-button", vStates);
-      }
+      extend : "window-captionbar-button"
     },
 
     "window-captionbar-maximize-button" :
     {
-      initial : function(vTheme) {
-        return vTheme.initialFrom("window-captionbar-button");
-      },
-
-      state : function(vTheme, vStates) {
-        return vTheme.stateFrom("window-captionbar-button", vStates);
-      }
+      extend : "window-captionbar-button"
     },
 
     "window-captionbar-close-button" :
     {
-      initial : function(vTheme) {
-        return qx.lang.Object.mergeWith(vTheme.initialFrom("window-captionbar-button"), { marginLeft : 2 });
-      },
+      extend : "window-captionbar-button",
 
-      state : function(vTheme, vStates) {
-        return vTheme.stateFrom("window-captionbar-button", vStates);
+      initial : function(vTheme) {
+        return { marginLeft : 2 };
       }
     },
 
@@ -914,24 +890,12 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "menu-check-box" :
     {
-      initial : function(vTheme) {
-        return vTheme.initialFrom("menu-button");
-      },
-
-      state : function(vTheme, vStates) {
-        return vTheme.stateFrom("menu-button", vStates);
-      }
+      extend : "menu-button"
     },
 
     "menu-radio-button" :
     {
-      initial : function(vTheme) {
-        return vTheme.initialFrom("menu-button");
-      },
-
-      state : function(vTheme, vStates) {
-        return vTheme.stateFrom("menu-button", vStates);
-      }
+      extend : "menu-button"
     },
 
     "menu-separator" :
@@ -1030,7 +994,9 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "text-field" :
     {
-      setup : function() {
+      setup : function()
+      {
+        this.color_disabled = new qx.renderer.color.ColorObject("graytext");
         this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
       },
 
@@ -1052,26 +1018,23 @@ qx.Theme.define("qx.theme.appearance.Classic",
       },
 
       state : function(vTheme, vStates) {
-        return vTheme.stateFrom("label", vStates);
+        return { color : vStates.disabled ? this.color_disabled : null };
       }
     },
 
     "text-area" :
     {
+      extend : "text-field",
+
       initial : function(vTheme)
       {
-        return qx.lang.Object.mergeWith(vTheme.initialFrom("text-field"),
-        {
+        return {
           overflow     : "auto",
 
           // gecko automatically defines a marginTop/marginBottom of 1px. We need to reset these values.
           marginTop    : 0,
           marginBottom : 0
-        });
-      },
-
-      state : function(vTheme, vStates) {
-        return vTheme.stateFrom("text-field", vStates);
+        };
       }
     },
 
@@ -1123,26 +1086,28 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "combo-box-list" :
     {
+      extend : "list",
+
       initial : function(vTheme)
       {
-        return qx.lang.Object.mergeWith(vTheme.initialFrom("list"),
-        {
+        return {
           top      : 0,
           right    : 0,
           bottom   : 0,
           left     : 0,
           border   : null,
           overflow : "scrollY"
-        });
+        };
       }
     },
 
     "combo-box-ex-list" :
     {
+      extend : "list",
+
       initial : function(vTheme)
       {
-        return qx.lang.Object.mergeWith(vTheme.initialFrom("list"),
-        {
+        return {
           statusBarVisible              : false,
           columnVisibilityButtonVisible : false,
           height                        : 'auto',
@@ -1150,92 +1115,96 @@ qx.Theme.define("qx.theme.appearance.Classic",
           top                           : 0,
           left                          : 0,
           border                        : null
-        });
+        };
       }
     },
 
     "combo-box-popup" :
     {
+      extend : "list",
+
       initial : function(vTheme)
       {
-        return qx.lang.Object.mergeWith(vTheme.initialFrom("list"),
-        {
+        return {
           height    : "auto",
           maxHeight : 150,
           border    : qx.renderer.border.BorderPresets.getInstance().shadow
-        });
+        };
       }
     },
 
     "combo-box-ex-popup" :
     {
+      extend : "list",
+
       initial : function(vTheme)
       {
-        return qx.lang.Object.mergeWith(vTheme.initialFrom("list"),
-        {
+        return {
           width  : "auto",
           height : "auto",
           border : qx.renderer.border.BorderPresets.getInstance().shadow
-        });
+        };
       }
     },
 
     "combo-box-text-field" :
     {
+      extend : "text-field",
+
       setup : function() {
         this.bgcolor = new qx.renderer.color.Color("transparent");
       },
 
       initial : function(vTheme)
       {
-        return qx.lang.Object.mergeWith(vTheme.initialFrom("text-field"),
-        {
+        return {
           border          : qx.renderer.border.BorderPresets.getInstance().none,
           width           : "1*",
           backgroundColor : this.bgcolor
-        });
+        };
       }
     },
 
     "combo-box-ex-text-field" :
     {
+      extend : "text-field",
+
       setup : function() {
         this.bgcolor = new qx.renderer.color.Color("transparent");
       },
 
       initial : function(vTheme)
       {
-        return qx.lang.Object.mergeWith(vTheme.initialFrom("text-field"),
-        {
+        return {
           border          : qx.renderer.border.BorderPresets.getInstance().none,
           minWidth        : 30,
           width           : 100,
           backgroundColor : this.bgcolor
-        });
+        };
       }
     },
 
     // Used both for ComboBox and ComboBoxEx
     "combo-box-button" :
     {
+      extend : "button",
+
       initial : function(vTheme)
       {
-        return qx.lang.Object.mergeWith(vTheme.initialFrom("button"),
-        {
+        return {
           height        : null,
           allowStretchY : true
-        });
+        };
       },
 
       state : function(vTheme, vStates)
       {
-        return qx.lang.Object.mergeWith(vTheme.stateFrom("button", vStates),
-        {
+        return {
           paddingTop    : 0,
           paddingRight  : 3,
           paddingBottom : 0,
           paddingLeft   : 2
-        });
+        };
       }
     },
 
@@ -1248,7 +1217,9 @@ qx.Theme.define("qx.theme.appearance.Classic",
     ---------------------------------------------------------------------------
     */
 
-    "treevirtual-focus-indicator" : {},
+    "treevirtual-focus-indicator" :
+    {
+    },
 
 
 
@@ -1283,6 +1254,8 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "tree-element-label" :
     {
+      extend : "label",
+
       setup : function()
       {
         this.bgcolor_selected = new qx.renderer.color.ColorObject("highlight");
@@ -1291,8 +1264,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
       initial : function(vTheme)
       {
-        return qx.lang.Object.mergeWith(vTheme.initialFrom("label"),
-        {
+        return {
           cursor        : "default",
           marginLeft    : 3,
           height        : 15,
@@ -1301,28 +1273,21 @@ qx.Theme.define("qx.theme.appearance.Classic",
           paddingBottom : 2,
           paddingLeft   : 2,
           allowStretchY : false
-        });
+        };
       },
 
       state : function(vTheme, vStates)
       {
-        return qx.lang.Object.mergeWith(vTheme.stateFrom("label", vStates),
-        {
+        return {
           backgroundColor : vStates.selected ? this.bgcolor_selected : null,
           color           : vStates.selected ? this.color_selected : null
-        });
+        };
       }
     },
 
     "tree-folder" :
     {
-      initial : function(vTheme) {
-        return vTheme.initialFrom("tree-element");
-      },
-
-      state : function(vTheme, vStates) {
-        return vTheme.stateFrom("tree-element", vStates);
-      }
+      extend : "tree-element"
     },
 
     "tree-folder-icon" :
@@ -1338,46 +1303,22 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "tree-folder-label" :
     {
-      initial : function(vTheme) {
-        return vTheme.initialFrom("tree-element-label");
-      },
-
-      state : function(vTheme, vStates) {
-        return vTheme.stateFrom("tree-element-label", vStates);
-      }
+      extend : "tree-element-label"
     },
 
     "tree" :
     {
-      initial : function(vTheme) {
-        return vTheme.initialFrom("tree-folder");
-      },
-
-      state : function(vTheme, vStates) {
-        return vTheme.stateFrom("tree-folder", vStates);
-      }
+      extend : "tree-folder"
     },
 
     "tree-icon" :
     {
-      initial : function(vTheme) {
-        return vTheme.initialFrom("tree-folder-icon");
-      },
-
-      state : function(vTheme, vStates) {
-        return vTheme.stateFrom("tree-folder-icon", vStates);
-      }
+      extend : "tree-folder-icon"
     },
 
     "tree-label" :
     {
-      initial : function(vTheme) {
-        return vTheme.initialFrom("tree-folder-label");
-      },
-
-      state : function(vTheme, vStates) {
-        return vTheme.stateFrom("tree-folder-label", vStates);
-      }
+      extend : "tree-folder-label"
     },
 
     "tree-container" :
@@ -1530,67 +1471,50 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "list-view-content-cell-image" :
     {
+      extend : "list-view-content-cell",
+
       initial : function(vTheme)
       {
         return {
           paddingLeft  : 6,
           paddingRight : 6
         };
-      },
-
-      state : function(vTheme, vStates) {
-        return vTheme.stateFrom("list-view-content-cell", vStates);
       }
     },
 
     "list-view-content-cell-text" :
     {
-      initial : function(vTheme)
+      extend : "list-view-content-cell",
+
+      setup : function(vTheme)
       {
-        return qx.lang.Object.mergeWith(vTheme.initialFrom("htmlcontainer"),
-        {
-          overflow     : "hidden",
-          paddingLeft  : 6,
-          paddingRight : 6
-        });
+        this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
       },
 
-      state : function(vTheme, vStates) {
-        return qx.lang.Object.mergeWith(vTheme.stateFrom("htmlcontainer", vStates), vTheme.stateFrom("list-view-content-cell", vStates));
+      initial : function(vTheme)
+      {
+        return {
+          overflow     : "hidden",
+          paddingLeft  : 6,
+          paddingRight : 6,
+          font         : this.font
+        };
       }
     },
 
     "list-view-content-cell-html" :
     {
-      initial : function(vTheme) {
-        return vTheme.initialFrom("list-view-content-cell-text");
-      },
-
-      state : function(vTheme, vStates) {
-        return vTheme.stateFrom("list-view-content-cell-text", vStates);
-      }
+      extend : "list-view-content-cell-text"
     },
 
     "list-view-content-cell-icon-html" :
     {
-      initial : function(vTheme) {
-        return vTheme.initialFrom("list-view-content-cell-text");
-      },
-
-      state : function(vTheme, vStates) {
-        return vTheme.stateFrom("list-view-content-cell-text", vStates);
-      }
+      extend : "list-view-content-cell-text"
     },
 
     "list-view-content-cell-link" :
     {
-      initial : function(vTheme) {
-        return vTheme.initialFrom("list-view-content-cell-text");
-      },
-
-      state : function(vTheme, vStates) {
-        return vTheme.stateFrom("list-view-content-cell-text", vStates);
-      }
+      extend : "list-view-content-cell-text"
     },
 
 
@@ -1653,6 +1577,8 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "tab-view-button" :
     {
+      extend : "atom",
+
       setup : function()
       {
         this.bgcolor_normal = new qx.renderer.color.ColorObject("#E1EEFF");
@@ -1671,10 +1597,6 @@ qx.Theme.define("qx.theme.appearance.Classic",
         this.border_bottom_checked = new qx.renderer.border.Border(1, "solid", "#91A5BD");
         this.border_bottom_checked.setTopWidth(0);
         this.border_bottom_checked.setBottom(3, "solid", "#FEC83C");
-      },
-
-      initial : function(vTheme) {
-        return vTheme.initialFrom("atom");
       },
 
       state : function(vTheme, vStates)
@@ -1789,21 +1711,22 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "field-set-legend" :
     {
+      extend : "atom",
+
       setup : function() {
         this.bgcolor = new qx.renderer.color.ColorObject("threedface");
       },
 
       initial : function(vTheme)
       {
-        return qx.lang.Object.mergeWith(vTheme.initialFrom("atom"),
-        {
+        return {
           top             : 1,
           left            : 10,
           backgroundColor : this.bgcolor,
           paddingRight    : 3,
           paddingLeft     : 4,
           marginRight     : 10
-        });
+        };
       }
     },
 
@@ -1827,27 +1750,26 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "check-box-field-set-legend" :
     {
+      extend : "atom",
+
       setup : function() {
         this.bgcolor = new qx.renderer.color.ColorObject("threedface");
       },
 
       initial : function(vTheme)
       {
-        return qx.lang.Object.mergeWith(vTheme.initialFrom("atom"),
-        {
+        return {
           top             : 1,
           left            : 10,
           backgroundColor : this.bgcolor,
           paddingRight    : 3
-        });
+        };
       }
     },
 
     "radio-button-field-set-legend" :
     {
-      initial : function(vTheme) {
-        return vTheme.initialFrom("check-box-field-set-legend");
-      }
+      extend : "check-box-field-set-legend"
     },
 
 
@@ -1878,65 +1800,66 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "spinner-field" :
     {
+      extend : "text-field",
+
       initial : function(vTheme)
       {
-        return qx.lang.Object.mergeWith(vTheme.initialFrom("text-field"),
-        {
+        return {
           width  : "1*",
           border : qx.renderer.border.BorderPresets.getInstance().none
-        });
-      },
-
-      state : function(vTheme, vStates) {
-        return vTheme.stateFrom("text-field", vStates);
+        };
       }
     },
 
     "spinner-button-up" :
     {
+      extend : "button",
+
       initial : function(vTheme)
       {
-        return qx.lang.Object.mergeWith(vTheme.initialFrom("image"),
-        {
+        return {
+          allowStretchX : false,
+          allowStretchY : false,
           height          : "1*",
           width           : 16,
           backgroundColor : new qx.renderer.color.ColorObject("threedface")
-        });
+        };
       },
 
       state : function(vTheme, vStates)
       {
-        return qx.lang.Object.mergeWith(vTheme.stateFrom("button", vStates),
-        {
+        return {
           paddingTop    : 0,
           paddingRight  : 0,
           paddingBottom : 0,
           paddingLeft   : 3
-        });
+        };
       }
     },
 
     "spinner-button-down" :
     {
+      extend : "button",
+
       initial : function(vTheme)
       {
-        return qx.lang.Object.mergeWith(vTheme.initialFrom("image"),
-        {
+        return {
+          allowStretchX : false,
+          allowStretchY : false,
           height          : "1*",
           width           : 16,
           backgroundColor : new qx.renderer.color.ColorObject("threedface")
-        });
+        };
       },
 
       state : function(vTheme, vStates)
       {
-        return qx.lang.Object.mergeWith(vTheme.stateFrom("button", vStates),
-        {
+        return {
           paddingTop    : 1,
           paddingRight  : 0,
           paddingBottom : 0,
           paddingLeft   : 3
-        });
+        };
       }
     },
 
