@@ -76,8 +76,8 @@ qx.Clazz.define("qx.Theme",
       {
         qx.manager.object.AppearanceManager.getInstance().registerAppearanceTheme(theme);
 
-        theme.initialFrom = this._initialAppearanceFrom;
-        theme.stateFrom = this._stateAppearanceFrom;
+        theme.initialFrom = this._initialFrom;
+        theme.stateFrom = this._stateFrom;
       }
 
       if (theme.colors) {
@@ -123,16 +123,17 @@ qx.Clazz.define("qx.Theme",
      * @param id {String} id of the apperance (e.g. "button", "label", ...)
      * @return {Map} map of widget properties as returned by the "initial" function
      */
-    _initialAppearanceFrom : function(id)
+    _initialFrom : function(id)
     {
       var appearance = this.appearances[id];
 
       if (!appearance) {
-        return this.error("Missing appearance: " + id);
+        throw new Error("Missing appearance: " + id);
       }
 
       if (appearance.setup)
       {
+        // console.log("Executing deprecated setup() in appearance '" + id + "'");
         appearance.setup(this);
         appearance.setup = null;
       }
@@ -142,14 +143,18 @@ qx.Clazz.define("qx.Theme",
       if (appearance.initial)
       {
         ret = appearance.initial(this);
-
-        if (appearance.extend) {
-          ret = qx.lang.Object.carefullyMergeWith(ret, this.initialFrom(appearance.extend));
-        }
       }
-      else if (appearance.extend)
+
+      if (appearance.extend)
       {
-        ret = this.initialFrom(appearance.extend);
+        if (ret)
+        {
+          qx.lang.Object.carefullyMergeWith(ret, this.initialFrom(appearance.extend));
+        }
+        else
+        {
+          ret = this.initialFrom(appearance.extend);
+        }
       }
 
       return ret;
@@ -164,16 +169,17 @@ qx.Clazz.define("qx.Theme",
      * @param states {Map} hash map defining the set states
      * @return {Map} map of widget properties as returned by the "state" function
      */
-    _stateAppearanceFrom : function(id, states)
+    _stateFrom : function(id, states)
     {
       var appearance = this.appearances[id];
 
       if (!appearance) {
-        return this.error("Missing appearance: " + id);
+        throw new Error("Missing appearance: " + id);
       }
 
       if (appearance.setup)
       {
+        // console.log("Executing deprecated setup() in appearance '" + id + "'");
         appearance.setup(this);
         appearance.setup = null;
       }
@@ -183,14 +189,18 @@ qx.Clazz.define("qx.Theme",
       if (appearance.state)
       {
         ret = appearance.state(this, states);
-
-        if (appearance.extend) {
-          ret = qx.lang.Object.carefullyMergeWith(ret, this.stateFrom(appearance.extend, states));
-        }
       }
-      else if (appearance.extend)
+
+      if (appearance.extend)
       {
-        ret = this.stateFrom(appearance.extend, states);
+        if (ret)
+        {
+          qx.lang.Object.carefullyMergeWith(ret, this.stateFrom(appearance.extend, states));
+        }
+        else
+        {
+          ret = this.stateFrom(appearance.extend, states);
+        }
       }
 
       return ret;

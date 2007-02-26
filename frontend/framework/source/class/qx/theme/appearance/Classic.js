@@ -14,9 +14,9 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
- * Sebastian Werner (wpbasti)
- * Andreas Ecker (ecker)
- * Til Schneider (til132)
+   * Sebastian Werner (wpbasti)
+   * Andreas Ecker (ecker)
+   * Til Schneider (til132)
 
  ************************************************************************ */
 
@@ -56,17 +56,11 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "client-document" :
     {
-      setup : function()
-      {
-        this.bgcolor = new qx.renderer.color.ColorObject("threedface");
-        this.color = new qx.renderer.color.ColorObject("windowtext");
-      },
-
       initial : function(vTheme)
       {
         return {
-          backgroundColor    : this.bgcolor,
-          color              : this.color,
+          backgroundColor    : "threedface",
+          color              : "windowtext",
           hideFocus          : true,
           enableElementFocus : false
         };
@@ -107,22 +101,16 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "label" :
     {
-      setup : function()
-      {
-        this.color_disabled = new qx.renderer.color.ColorObject("graytext");
-        this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
-      },
-
       initial : function(vTheme)
       {
         return {
-          font : this.font,
+          font : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
           wrap : false
         };
       },
 
       state : function(vTheme, vStates) {
-        return { color : vStates.disabled ? this.color_disabled : null };
+        return { color : vStates.disabled ? "graytext" : null };
       }
     },
 
@@ -146,17 +134,11 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "popup",
 
-      setup : function()
-      {
-        this.bgcolor = new qx.renderer.color.ColorObject("InfoBackground");
-        this.color = new qx.renderer.color.ColorObject("InfoText");
-      },
-
       initial : function(vTheme)
       {
         return {
-          backgroundColor : this.bgcolor,
-          color           : this.color,
+          backgroundColor : "InfoBackground",
+          color           : "InfoText",
           border          : qx.renderer.border.BorderPresets.getInstance().info,
           paddingTop      : 1,
           paddingRight    : 3,
@@ -186,23 +168,20 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "atom",
 
-      setup : function()
-      {
-        this.bgcolor_default = new qx.renderer.color.ColorObject("buttonface");
-        this.bgcolor_over = new qx.renderer.color.Color("#87BCE5");
-        this.bgcolor_left = new qx.renderer.color.Color("#FFF0C9");
-
-        this.border_pressed = qx.renderer.border.BorderPresets.getInstance().inset;
-        this.border_default = qx.renderer.border.BorderPresets.getInstance().outset;
-      },
-
       state : function(vTheme, vStates)
       {
-        var vReturn =
-        {
-          backgroundColor : vStates.abandoned ? this.bgcolor_left : vStates.over ? this.bgcolor_over : this.bgcolor_default,
-          border          : vStates.pressed || vStates.checked || vStates.abandoned ? this.border_pressed : this.border_default
+        var vReturn = {
+          backgroundColor : vStates.abandoned ? "#FFF0C9" : vStates.over ? "#87BCE5" : "buttonface",
         };
+
+        if (vStates.pressed || vStates.checked || vStates.abandoned)
+        {
+          vReturn.border = qx.renderer.border.BorderPresets.getInstance().inset;
+        }
+        else
+        {
+          vReturn.border = qx.renderer.border.BorderPresets.getInstance().outset;
+        }
 
         if (vStates.pressed || vStates.abandoned)
         {
@@ -232,15 +211,11 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "toolbar" :
     {
-      setup : function() {
-        this.bgcolor = new qx.renderer.color.ColorObject("threedface");
-      },
-
       initial : function(vTheme)
       {
         return {
           border          : qx.renderer.border.BorderPresets.getInstance().thinOutset,
-          backgroundColor : this.bgcolor,
+          backgroundColor : "threedface",
           height          : "auto"
         };
       }
@@ -313,18 +288,6 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "toolbar-button" :
     {
-      setup : function()
-      {
-        this.bgcolor_default = new qx.renderer.color.ColorObject("buttonface");
-        this.bgcolor_left = new qx.renderer.color.Color("#FFF0C9");
-
-        this.border_pressed = qx.renderer.border.BorderPresets.getInstance().thinInset;
-        this.border_over = qx.renderer.border.BorderPresets.getInstance().thinOutset;
-        this.border_default = qx.renderer.border.BorderPresets.getInstance().none;
-
-        this.checked_background = "static/image/dotted_white.gif";
-      },
-
       initial : function(vTheme)
       {
         return {
@@ -339,13 +302,13 @@ qx.Theme.define("qx.theme.appearance.Classic",
       {
         var vReturn =
         {
-          backgroundColor : vStates.abandoned ? this.bgcolor_left : this.bgcolor_default,
-          backgroundImage : vStates.checked && !vStates.over ? this.checked_background : null
+          backgroundColor : vStates.abandoned ? "#FFF0C9" : "buttonface",
+          backgroundImage : vStates.checked && !vStates.over ? "static/image/dotted_white.gif" : null
         };
 
         if (vStates.pressed || vStates.checked || vStates.abandoned)
         {
-          vReturn.border = this.border_pressed;
+          vReturn.border = qx.renderer.border.BorderPresets.getInstance().thinInset;
 
           vReturn.paddingTop = 3;
           vReturn.paddingRight = 2;
@@ -354,14 +317,14 @@ qx.Theme.define("qx.theme.appearance.Classic",
         }
         else if (vStates.over)
         {
-          vReturn.border = this.border_over;
+          vReturn.border = qx.renderer.border.BorderPresets.getInstance().thinOutset;
 
           vReturn.paddingTop = vReturn.paddingBottom = 2;
           vReturn.paddingLeft = vReturn.paddingRight = 3;
         }
         else
         {
-          vReturn.border = this.border_default;
+          vReturn.border = qx.renderer.border.BorderPresets.getInstance().none;
 
           vReturn.paddingTop = vReturn.paddingBottom = 3;
           vReturn.paddingLeft = vReturn.paddingRight = 4;
@@ -382,14 +345,10 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "bar-view" :
     {
-      setup : function() {
-        this.background = new qx.renderer.color.ColorObject("#FAFBFE");
-      },
-
       initial : function(vTheme)
       {
         return {
-          backgroundColor : this.background,
+          backgroundColor : "#FAFBFE",
           border          : qx.renderer.border.BorderPresets.getInstance().shadow
         };
       }
@@ -433,25 +392,24 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       setup : function()
       {
-        this.background_color = new qx.renderer.color.ColorObject("#E1EEFF");
-
-        this.border_color = new qx.renderer.color.ColorObject("threedshadow");
-
         this.border_top = new qx.renderer.border.BorderObject;
-        this.border_top.setBottom(1, "solid", this.border_color);
+        this.border_top.setBottom(1, "solid", "threedshadow");
 
         this.border_bottom = new qx.renderer.border.BorderObject;
-        this.border_bottom.setTop(1, "solid", this.border_color);
+        this.border_bottom.setTop(1, "solid", "threedshadow");
 
         this.border_left = new qx.renderer.border.BorderObject;
-        this.border_left.setRight(1, "solid", this.border_color);
+        this.border_left.setRight(1, "solid", "threedshadow");
 
         this.border_right = new qx.renderer.border.BorderObject;
-        this.border_right.setLeft(1, "solid", this.border_color);
+        this.border_right.setLeft(1, "solid", "threedshadow");
       },
 
-      initial : function(vTheme) {
-        return { backgroundColor : this.background_color };
+      initial : function(vTheme)
+      {
+        return {
+          backgroundColor : "#E1EEFF"
+        };
       },
 
       state : function(vTheme, vStates)
@@ -517,23 +475,17 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
       setup : function()
       {
-        this.background_color_normal = null;
-        this.background_color_checked = new qx.renderer.color.ColorObject("#FAFBFE");
+        this.border_top_checked = new qx.renderer.border.Border(1, "solid", "threedshadow");
+        this.border_top_checked.setBottom(3, "solid", "#FEC83C");
 
-        this.border_color = new qx.renderer.color.ColorObject("threedshadow");
-        this.border_color_checked = new qx.renderer.color.ColorObject("#FEC83C");
+        this.border_bottom_checked = new qx.renderer.border.Border(1, "solid", "threedshadow");
+        this.border_bottom_checked.setTop(3, "solid", "#FEC83C");
 
-        this.border_top_checked = new qx.renderer.border.Border(1, "solid", this.border_color);
-        this.border_top_checked.setBottom(3, "solid", this.border_color_checked);
+        this.border_left_checked = new qx.renderer.border.Border(1, "solid", "threedshadow");
+        this.border_left_checked.setRight(3, "solid", "#FEC83C");
 
-        this.border_bottom_checked = new qx.renderer.border.Border(1, "solid", this.border_color);
-        this.border_bottom_checked.setTop(3, "solid", this.border_color_checked);
-
-        this.border_left_checked = new qx.renderer.border.Border(1, "solid", this.border_color);
-        this.border_left_checked.setRight(3, "solid", this.border_color_checked);
-
-        this.border_right_checked = new qx.renderer.border.Border(1, "solid", this.border_color);
-        this.border_right_checked.setLeft(3, "solid", this.border_color_checked);
+        this.border_right_checked = new qx.renderer.border.Border(1, "solid", "threedshadow");
+        this.border_right_checked.setLeft(3, "solid", "#FEC83C");
       },
 
       initial : function(vTheme)
@@ -547,7 +499,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
       {
         var vReturn =
         {
-          backgroundColor : vStates.checked ? this.background_color_checked : this.background_color_normal,
+          backgroundColor : vStates.checked ? "#FAFBFE" : null,
           allowStretchX   : true,
           allowStretchY   : true
         };
@@ -624,17 +576,11 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "window" :
     {
-      setup : function()
-      {
-        this.bgcolor = new qx.renderer.color.ColorObject("threedface");
-        this.color = new qx.renderer.color.ColorObject("windowtext");
-      },
-
       initial : function(vTheme)
       {
         return {
-          backgroundColor : this.bgcolor,
-          color           : this.color,
+          backgroundColor : "threedface",
+          color           : "windowtext",
           paddingTop      : 1,
           paddingRight    : 1,
           paddingBottom   : 1,
@@ -649,14 +595,6 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "window-captionbar" :
     {
-      setup : function()
-      {
-        this.bgcolor_active = new qx.renderer.color.ColorObject("activecaption");
-        this.color_active = new qx.renderer.color.ColorObject("captiontext");
-        this.bgcolor_inactive = new qx.renderer.color.ColorObject("inactivecaption");
-        this.color_inactive = new qx.renderer.color.ColorObject("inactivecaptiontext");
-      },
-
       initial : function(vTheme)
       {
         return {
@@ -673,8 +611,8 @@ qx.Theme.define("qx.theme.appearance.Classic",
       state : function(vTheme, vStates)
       {
         return {
-          backgroundColor : vStates.active ? this.bgcolor_active : this.bgcolor_inactive,
-          color           : vStates.active ? this.color_active : this.color_inactive
+          backgroundColor : vStates.active ? "activecaption" : "inactivecaption",
+          color           : vStates.active ? "captiontext" : "inactivecaptiontext"
         };
       }
     },
@@ -695,17 +633,11 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "window-captionbar-title" :
     {
-      setup : function()
-      {
-        this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
-        this.font.setBold(true);
-      },
-
       initial : function(vTheme)
       {
         return {
           cursor      : "default",
-          font        : this.font,
+          font        : '11px bold "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
           marginRight : 2,
           wrap        : false
         };
@@ -820,16 +752,12 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "menu" :
     {
-      setup : function() {
-        this.bgcolor = new qx.renderer.color.ColorObject("menu");
-      },
-
       initial : function(vTheme)
       {
         return {
           width           : "auto",
           height          : "auto",
-          backgroundColor : this.bgcolor,
+          backgroundColor : "menu",
           border          : qx.renderer.border.BorderPresets.getInstance().outset,
           paddingTop      : 1,
           paddingRight    : 1,
@@ -854,15 +782,6 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "menu-button" :
     {
-      setup : function()
-      {
-        this.BGCOLOR_OVER = new qx.renderer.color.ColorObject("highlight");
-        this.BGCOLOR_OUT = null;
-
-        this.COLOR_OVER = new qx.renderer.color.ColorObject("highlighttext");
-        this.COLOR_OUT = null;
-      },
-
       initial : function(vTheme)
       {
         return {
@@ -882,8 +801,8 @@ qx.Theme.define("qx.theme.appearance.Classic",
       state : function(vTheme, vStates)
       {
         return {
-          backgroundColor : vStates.over ? this.BGCOLOR_OVER : this.BGCOLOR_OUT,
-          color           : vStates.over ? this.COLOR_OVER : this.COLOR_OUT
+          backgroundColor : vStates.over ? "highlight" : null,
+          color           : vStates.over ? "highlighttext" : null
         };
       }
     },
@@ -936,28 +855,18 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "list" :
     {
-      setup : function() {
-        this.bgcolor = new qx.renderer.color.Color("white");
-      },
-
       initial : function(vTheme)
       {
         return {
           overflow        : "hidden",
           border          : qx.renderer.border.BorderPresets.getInstance().thinInset,
-          backgroundColor : this.bgcolor
+          backgroundColor : "white"
         };
       }
     },
 
     "list-item" :
     {
-      setup : function()
-      {
-        this.bgcolor_selected = new qx.renderer.color.ColorObject("highlight");
-        this.color_selected = new qx.renderer.color.ColorObject("highlighttext");
-      },
-
       initial : function(vTheme)
       {
         return {
@@ -977,8 +886,8 @@ qx.Theme.define("qx.theme.appearance.Classic",
       state : function(vTheme, vStates)
       {
         return {
-          backgroundColor : vStates.selected ? this.bgcolor_selected : null,
-          color           : vStates.selected ? this.color_selected : null
+          backgroundColor : vStates.selected ? "highlight" : null,
+          color           : vStates.selected ? "highlighttext" : null
         };
       }
     },
@@ -994,12 +903,6 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "text-field" :
     {
-      setup : function()
-      {
-        this.color_disabled = new qx.renderer.color.ColorObject("graytext");
-        this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
-      },
-
       initial : function(vTheme)
       {
         return {
@@ -1011,14 +914,14 @@ qx.Theme.define("qx.theme.appearance.Classic",
           paddingLeft   : 3,
           allowStretchY : false,
           allowStretchX : true,
-          font          : this.font,
+          font          : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
           width         : "auto",
           height        : "auto"
         };
       },
 
       state : function(vTheme, vStates) {
-        return { color : vStates.disabled ? this.color_disabled : null };
+        return { color : vStates.disabled ? "graytext" : null };
       }
     },
 
@@ -1049,10 +952,6 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "combo-box" :
     {
-      setup : function() {
-        this.bgcolor = new qx.renderer.color.Color("white");
-      },
-
       initial : function(vTheme)
       {
         return {
@@ -1060,7 +959,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
           width           : 120,
           height          : "auto",
           border          : qx.renderer.border.BorderPresets.getInstance().inset,
-          backgroundColor : this.bgcolor,
+          backgroundColor : "white",
           allowStretchY   : false
         };
       }
@@ -1068,17 +967,13 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "combo-box-ex" :
     {
-      setup : function() {
-        this.bgcolor = new qx.renderer.color.Color("white");
-      },
-
       initial : function(vTheme)
       {
         return {
           width           : "auto",
           height          : "auto",
           border          : qx.renderer.border.BorderPresets.getInstance().inset,
-          backgroundColor : this.bgcolor,
+          backgroundColor : "white",
           allowStretchY   : false
         };
       }
@@ -1151,16 +1046,12 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "text-field",
 
-      setup : function() {
-        this.bgcolor = new qx.renderer.color.Color("transparent");
-      },
-
       initial : function(vTheme)
       {
         return {
           border          : qx.renderer.border.BorderPresets.getInstance().none,
           width           : "1*",
-          backgroundColor : this.bgcolor
+          backgroundColor : "transparent"
         };
       }
     },
@@ -1169,17 +1060,13 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "text-field",
 
-      setup : function() {
-        this.bgcolor = new qx.renderer.color.Color("transparent");
-      },
-
       initial : function(vTheme)
       {
         return {
           border          : qx.renderer.border.BorderPresets.getInstance().none,
           minWidth        : 30,
           width           : 100,
-          backgroundColor : this.bgcolor
+          backgroundColor : "transparent"
         };
       }
     },
@@ -1256,12 +1143,6 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "label",
 
-      setup : function()
-      {
-        this.bgcolor_selected = new qx.renderer.color.ColorObject("highlight");
-        this.color_selected = new qx.renderer.color.ColorObject("highlighttext");
-      },
-
       initial : function(vTheme)
       {
         return {
@@ -1279,8 +1160,8 @@ qx.Theme.define("qx.theme.appearance.Classic",
       state : function(vTheme, vStates)
       {
         return {
-          backgroundColor : vStates.selected ? this.bgcolor_selected : null,
-          color           : vStates.selected ? this.color_selected : null
+          backgroundColor : vStates.selected ? "highlight" : null,
+          color           : vStates.selected ? "highlighttext" : null
         };
       }
     },
@@ -1377,8 +1258,6 @@ qx.Theme.define("qx.theme.appearance.Classic",
       {
         this.border = new qx.renderer.border.Border;
         this.border.setBottom(1, "solid", "#e2e2e2");
-
-        this.bgcolor = new qx.renderer.color.Color("#f2f2f2");
       },
 
       initial : function(vTheme)
@@ -1387,7 +1266,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
           height          : "auto",
           overflow        : "hidden",
           border          : this.border,
-          backgroundColor : this.bgcolor
+          backgroundColor : "#f2f2f2"
         };
       }
     },
@@ -1398,8 +1277,6 @@ qx.Theme.define("qx.theme.appearance.Classic",
       {
         this.border_hover = new qx.renderer.border.Border;
         this.border_hover.setBottom(2, "solid", "#F9B119");
-
-        this.bgcolor_hover = new qx.renderer.color.Color("white");
       },
 
       initial : function(vTheme)
@@ -1419,7 +1296,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         if (vStates.over)
         {
           return {
-            backgroundColor : this.bgcolor_hover,
+            backgroundColor : "white",
             paddingBottom   : 0,
             border          : this.border_hover
           };
@@ -1437,14 +1314,10 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "list-view-header-separator" :
     {
-      setup : function() {
-        this.bgcolor = new qx.renderer.color.Color("#D6D5D9");
-      },
-
       initial : function(vTheme)
       {
         return {
-          backgroundColor : this.bgcolor,
+          backgroundColor : "#D6D5D9",
           width           : 1,
           marginTop       : 1,
           marginBottom    : 1
@@ -1454,17 +1327,11 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "list-view-content-cell" :
     {
-      setup : function()
-      {
-        this.bgcolor_selected = new qx.renderer.color.ColorObject("highlight");
-        this.color_selected = new qx.renderer.color.ColorObject("highlighttext");
-      },
-
       state : function(vTheme, vStates)
       {
         return {
-          backgroundColor : vStates.selected ? this.bgcolor_selected : null,
-          color           : vStates.selected ? this.color_selected : null
+          backgroundColor : vStates.selected ? "highlight" : null,
+          color           : vStates.selected ? "highlighttext" : null
         };
       }
     },
@@ -1486,18 +1353,13 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "list-view-content-cell",
 
-      setup : function(vTheme)
-      {
-        this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
-      },
-
       initial : function(vTheme)
       {
         return {
           overflow     : "hidden",
           paddingLeft  : 6,
           paddingRight : 6,
-          font         : this.font
+          font         : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif'
         };
       }
     },
@@ -1542,18 +1404,12 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "tab-view-pane" :
     {
-      setup : function()
-      {
-        this.border = new qx.renderer.border.Border(1, "solid", "#91A5BD");
-        this.bgcolor = new qx.renderer.color.ColorObject("#FAFBFE");
-      },
-
       initial : function(vTheme)
       {
         return {
           height          : "1*",
-          backgroundColor : this.bgcolor,
-          border          : this.border,
+          backgroundColor : "#FAFBFE",
+          border          : "1px solid #91A5BD",
           paddingTop      : 10,
           paddingRight    : 10,
           paddingBottom   : 10,
@@ -1581,9 +1437,6 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
       setup : function()
       {
-        this.bgcolor_normal = new qx.renderer.color.ColorObject("#E1EEFF");
-        this.bgcolor_checked = new qx.renderer.color.ColorObject("#FAFBFE");
-
         this.border_top_normal = new qx.renderer.border.Border(1, "solid", "#91A5BD");
         this.border_top_normal.setBottomWidth(0);
 
@@ -1607,7 +1460,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         {
           vReturn =
           {
-            backgroundColor : this.bgcolor_checked,
+            backgroundColor : "#FAFBFE",
             zIndex          : 1,
             paddingTop      : 2,
             paddingBottom   : 4,
@@ -1643,7 +1496,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         {
           vReturn =
           {
-            backgroundColor : vStates.over ? this.bgcolor_checked : this.bgcolor_normal,
+            backgroundColor : vStates.over ? "#FAFBFE" : "#E1EEFF",
             zIndex          : 0,
             paddingTop      : 2,
             paddingBottom   : 2,
@@ -1700,12 +1553,8 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "field-set" :
     {
-      setup : function() {
-        this.bgcolor = new qx.renderer.color.ColorObject("threedface");
-      },
-
       initial : function(vTheme) {
-        return { backgroundColor : this.bgcolor };
+        return { backgroundColor : "threedface" };
       }
     },
 
@@ -1713,16 +1562,12 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "atom",
 
-      setup : function() {
-        this.bgcolor = new qx.renderer.color.ColorObject("threedface");
-      },
-
       initial : function(vTheme)
       {
         return {
           top             : 1,
           left            : 10,
-          backgroundColor : this.bgcolor,
+          backgroundColor : "threedface",
           paddingRight    : 3,
           paddingLeft     : 4,
           marginRight     : 10
@@ -1752,16 +1597,12 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "atom",
 
-      setup : function() {
-        this.bgcolor = new qx.renderer.color.ColorObject("threedface");
-      },
-
       initial : function(vTheme)
       {
         return {
           top             : 1,
           left            : 10,
-          backgroundColor : this.bgcolor,
+          backgroundColor : "threedface",
           paddingRight    : 3
         };
       }
@@ -1783,17 +1624,13 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "spinner" :
     {
-      setup : function() {
-        this.bgcolor = new qx.renderer.color.Color("white");
-      },
-
       initial : function(vTheme)
       {
         return {
           width           : 60,
           height          : 22,
           border          : qx.renderer.border.BorderPresets.getInstance().inset,
-          backgroundColor : this.bgcolor
+          backgroundColor : "white"
         };
       }
     },
@@ -1874,14 +1711,10 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "colorselector" :
     {
-      setup : function() {
-        this.border = qx.renderer.border.BorderPresets.getInstance().outset;
-      },
-
       initial : function(vTheme)
       {
         return {
-          border : this.border,
+          border : qx.renderer.border.BorderPresets.getInstance().outset,
           width  : "auto",
           height : "auto"
         };
@@ -1901,18 +1734,6 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "datechooser-toolbar-button" :
     {
-      setup : function()
-      {
-        this.bgcolor_default = new qx.renderer.color.ColorObject("buttonface");
-        this.bgcolor_left = new qx.renderer.color.Color("#FFF0C9");
-
-        this.border_pressed = qx.renderer.border.BorderPresets.getInstance().thinInset;
-        this.border_over = qx.renderer.border.BorderPresets.getInstance().thinOutset;
-        this.border_default = null;
-
-        this.checked_background = "static/image/dotted_white.gif";
-      },
-
       initial : function(vTheme)
       {
         return {
@@ -1927,16 +1748,16 @@ qx.Theme.define("qx.theme.appearance.Classic",
       {
         var vReturn =
         {
-          backgroundColor : vStates.abandoned ? this.bgcolor_left : this.bgcolor_default,
-          backgroundImage : (vStates.checked && !vStates.over) ? this.checked_background : null
+          backgroundColor : vStates.abandoned ? "#FFF0C9" : "buttonface",
+          backgroundImage : (vStates.checked && !vStates.over) ? "static/image/dotted_white.gif" : null
         };
 
         if (vStates.pressed || vStates.checked || vStates.abandoned) {
-          vReturn.border = this.border_pressed;
+          vReturn.border = qx.renderer.border.BorderPresets.getInstance().thinInset;
         } else if (vStates.over) {
-          vReturn.border = this.border_over;
+          vReturn.border = qx.renderer.border.BorderPresets.getInstance().thinOutset;
         } else {
-          vReturn.border = this.border_default;
+          vReturn.border = null;
         }
 
         if (vStates.pressed || vStates.checked || vStates.abandoned)
@@ -1963,14 +1784,10 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "datechooser-monthyear" :
     {
-      setup : function() {
-        this.font = new qx.renderer.font.Font(13, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
-      },
-
       initial : function(vTheme)
       {
         return {
-          font          : this.font,
+          font          : '13px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
           textAlign     : "center",
           verticalAlign : "middle"
         };
@@ -1979,17 +1796,11 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "datechooser-datepane" :
     {
-      setup : function()
-      {
-        this.border = new qx.renderer.border.Border(1, "solid", "gray");
-        this.bgcolor = new qx.renderer.color.ColorObject("window");
-      },
-
       initial : function(vTheme)
       {
         return {
-          border          : this.border,
-          backgroundColor : this.bgcolor
+          border          : "1px solid gray",
+          backgroundColor : "window"
         };
       }
     },
@@ -1999,25 +1810,14 @@ qx.Theme.define("qx.theme.appearance.Classic",
       setup : function()
       {
         this.border = new qx.renderer.border.Border;
-
-        this.border.set(
-        {
-          bottomColor : "gray",
-          bottomStyle : "solid",
-          bottomWidth : 1
-        });
-
-        this.color = new qx.renderer.color.ColorObject("window");
-        this.bgcolor = new qx.renderer.color.ColorObject("#6285BA");
-        this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
-        this.font.setBold(true);
+        this.border.setBottom(1, "solid", "gray");
       },
 
       initial : function(vTheme)
       {
         return {
           border    : this.border,
-          font      : this.font,
+          font      : '11px bold "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
           textAlign : "center"
         };
       },
@@ -2025,33 +1825,20 @@ qx.Theme.define("qx.theme.appearance.Classic",
       state : function(vTheme, vStates)
       {
         return {
-          color           : vStates.weekend ? this.bgcolor : this.color,
-          backgroundColor : vStates.weekend ? this.color : this.bgcolor
+          color           : vStates.weekend ? "#6285BA" : "window",
+          backgroundColor : vStates.weekend ? "window" : "#6285BA"
         };
       }
     },
 
     "datechooser-day" :
     {
-      setup : function()
-      {
-        this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
-
-        this.selectedColor = new qx.renderer.color.ColorObject("highlightText");
-        this.selectedBgColor = new qx.renderer.color.ColorObject("highlight");
-        this.color = new qx.renderer.color.ColorObject("windowText");
-        this.otherMonthColor = new qx.renderer.color.ColorObject("grayText");
-
-        this.transparentBorder = new qx.renderer.border.Border(1, "none");
-      },
-
       initial : function(vTheme)
       {
         return {
           cursor        : "default",
-          border        : this.border,
-          color         : this.color,
-          font          : this.font,
+          color         : "windowText",
+          font          : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
           textAlign     : "center",
           verticalAlign : "middle",
           selectable    : false
@@ -2061,9 +1848,9 @@ qx.Theme.define("qx.theme.appearance.Classic",
       state : function(vTheme, vStates)
       {
         return {
-          border          : vStates.today ? qx.renderer.border.BorderPresets.getInstance().black : this.transparentBorder,
-          color           : vStates.selected ? this.selectedColor : (vStates.otherMonth ? this.otherMonthColor : this.color),
-          backgroundColor : vStates.selected ? this.selectedBgColor : null
+          border          : vStates.today ? qx.renderer.border.BorderPresets.getInstance().black : "1px none",
+          color           : vStates.selected ? "highlightText" : vStates.otherMonth ? "graytext" : "windowText",
+          backgroundColor : vStates.selected ? "highlight" : null
         };
       }
     },
@@ -2073,42 +1860,27 @@ qx.Theme.define("qx.theme.appearance.Classic",
       setup : function()
       {
         this.border = new qx.renderer.border.Border;
-
-        this.border.set(
-        {
-          rightColor : "gray",
-          rightStyle : "solid",
-          rightWidth : 1
-        });
+        this.border.setRight(1, "solid", "gray");
 
         this.headerBorder = new qx.renderer.border.Border;
-
-        this.headerBorder.set(
-        {
-          rightColor  : "gray",
-          rightStyle  : "solid",
-          rightWidth  : 1,
-          bottomColor : "gray",
-          bottomStyle : "solid",
-          bottomWidth : 1
-        });
-
-        this.color = new qx.renderer.color.ColorObject("#6285BA");
-        this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
+        this.headerBorder.setRight(1, "solid", "gray");
+        this.headerBorder.setBottom(1, "solid", "gray");
       },
 
       initial : function(vTheme)
       {
         return {
-          border      : this.border,
-          font        : this.font,
-          color       : this.color,
+          font        : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
+          color       : "#6285BA",
           paddingLeft : 2
         };
       },
 
-      state : function(vTheme, vStates) {
-        return { border : vStates.header ? this.headerBorder : this.border };
+      state : function(vTheme, vStates)
+      {
+        return {
+          border : vStates.header ? this.headerBorder : this.border
+        };
       }
     },
 
@@ -2125,21 +1897,14 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       setup : function()
       {
-        this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
         this.border = new qx.renderer.border.Border;
-
-        this.border.set(
-        {
-          topColor : "threedshadow",
-          topStyle : "solid",
-          topWidth : 1
-        });
+        this.border.setTop(1, "solid", "threedshadow");
       },
 
       initial : function(vTheme)
       {
         return {
-          font         : this.font,
+          font         : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
           border       : this.border,
           paddingLeft  : 2,
           paddingRight : 2
@@ -2156,21 +1921,20 @@ qx.Theme.define("qx.theme.appearance.Classic",
         this.editingBorder = new qx.renderer.border.Border(2, "solid", "#b3d9ff");
       },
 
-      state : function(vTheme, vStates) {
-        return { border : vStates.editing ? this.editingBorder : (vStates.tableHasFocus ? this.border : this.blurBorder) };
+      state : function(vTheme, vStates)
+      {
+        return {
+          border : vStates.editing ? this.editingBorder : (vStates.tableHasFocus ? this.border : this.blurBorder)
+        };
       }
     },
 
     "table-editor-textfield" :
     {
-      setup : function() {
-        this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
-      },
-
       initial : function(vTheme)
       {
         return {
-          font          : this.font,
+          font          : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
           border        : qx.renderer.border.BorderPresets.getInstance().none,
           paddingLeft   : 2,
           paddingRight  : 2,
@@ -2185,7 +1949,6 @@ qx.Theme.define("qx.theme.appearance.Classic",
       setup : function()
       {
         this.border = new qx.renderer.border.Border;
-
         this.border.set(
         {
           rightColor  : "#d6d2c2",
@@ -2197,7 +1960,6 @@ qx.Theme.define("qx.theme.appearance.Classic",
         });
 
         this.mouseOverBorder = new qx.renderer.border.Border;
-
         this.mouseOverBorder.set(
         {
           rightColor  : "#d6d2c2",
@@ -2207,22 +1969,17 @@ qx.Theme.define("qx.theme.appearance.Classic",
           bottomStyle : "solid",
           bottomWidth : 2
         });
-
-        this.mouseOverBackground = new qx.renderer.color.ColorObject("white");
-        this.background = new qx.renderer.color.ColorObject("#ebeadb");
       },
 
       initial : function(vTheme)
       {
         return {
           cursor                : "default",
-          border                : this.border,
           paddingLeft           : 2,
           paddingRight          : 2,
           spacing               : 2,
           overflow              : "hidden",
           selectable            : false,
-          backgroundColor       : this.background,
           iconPosition          : "right",
           verticalChildrenAlign : "middle"
         };
@@ -2231,7 +1988,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
       state : function(vTheme, vStates)
       {
         return {
-          backgroundColor : vStates.mouseover ? this.mouseOverBackground : this.background,
+          backgroundColor : vStates.mouseover ? "white" : "#ebeadb",
           border          : vStates.mouseover ? this.mouseOverBorder : this.border
         };
       }
@@ -2255,15 +2012,11 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "splitpane-glasspane" :
     {
-      setup : function() {
-        this.background = new qx.renderer.color.ColorObject("threedshadow");
-      },
-
       initial : function(vTheme)
       {
         return {
           zIndex          : 1e7,
-          backgroundColor : this.background
+          backgroundColor : "threedshadow"
         };
       },
 
