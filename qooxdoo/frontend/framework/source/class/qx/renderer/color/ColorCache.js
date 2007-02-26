@@ -83,12 +83,12 @@ qx.Clazz.define("qx.renderer.color.ColorCache",
           return propValue;
       }
 
-      if (qx.renderer.color.ColorCache._data[propKey]) {
-        return qx.renderer.color.ColorCache._data[propKey];
+      if (qx.renderer.color.ColorCache.__data[propKey]) {
+        return qx.renderer.color.ColorCache.__data[propKey];
       }
 
       // this.debug("Create new color instance: " + propKey);
-      var vColorObject = qx.renderer.color.ColorCache._data[propKey] = qx.renderer.color.Color.themedNames[propValue] ? new qx.renderer.color.ColorObject(propValue) : new qx.renderer.color.Color(propValue);
+      var vColorObject = qx.renderer.color.ColorCache.__data[propKey] = qx.renderer.color.Color.themedNames[propValue] ? new qx.renderer.color.ColorObject(propValue) : new qx.renderer.color.Color(propValue);
 
       if (propKeyAsStyle) {
         vColorObject._style = propKey;
@@ -97,6 +97,6 @@ qx.Clazz.define("qx.renderer.color.ColorCache",
       return vColorObject;
     },
 
-    _data : {}
+    __data : {}
   }
 });
