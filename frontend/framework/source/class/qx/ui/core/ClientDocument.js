@@ -24,7 +24,6 @@
 #optional(qx.client.NativeWindow)
 #optional(qx.ui.window.Window)
 #optional(qx.manager.object.PopupManager)
-#require(qx.html.StyleSheet)
 
 ************************************************************************ */
 
