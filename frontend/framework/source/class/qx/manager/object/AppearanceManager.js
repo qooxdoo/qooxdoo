@@ -143,6 +143,141 @@ qx.Clazz.define("qx.manager.object.AppearanceManager",
 
     /*
     ---------------------------------------------------------------------------
+      THEME HELPER
+    ---------------------------------------------------------------------------
+    */
+
+
+    /**
+     * Get the result of the "initial" function for a given id
+     *
+     * @type member
+     * @param theme {Object} appearance theme
+     * @param id {String} id of the apperance (e.g. "button", "label", ...)
+     * @return {Map} map of widget properties as returned by the "initial" function
+     */
+    initialFrom : function(id) {
+      return this.initialFromTheme(this.getAppearanceTheme(), id);
+    },
+
+
+    /**
+     * Get the result of the "state" function for a given id and states
+     *
+     * @type member
+     * @param theme {Object} appearance theme
+     * @param id {String} id of the apperance (e.g. "button", "label", ...)
+     * @param states {Map} hash map defining the set states
+     * @return {Map} map of widget properties as returned by the "state" function
+     */
+    stateFrom : function(id, states) {
+      return this.stateFromTheme(this.getAppearanceTheme(), id, states);
+    },
+
+
+    /**
+     * Get the result of the "initial" function for a given id
+     *
+     * @type member
+     * @param theme {Object} appearance theme
+     * @param id {String} id of the apperance (e.g. "button", "label", ...)
+     * @return {Map} map of widget properties as returned by the "initial" function
+     */
+    initialFromTheme : function(theme, id)
+    {
+      var entry = theme.appearances[id];
+
+      if (!entry) {
+        throw new Error("Missing appearance entry: " + id);
+      }
+
+      if (entry.setup)
+      {
+        this.warn("Executing deprecated setup() in appearance entry '" + id + "'");
+
+        entry.setup(this);
+        entry.setup = null;
+      }
+
+      var ret;
+
+      if (entry.initial)
+      {
+        ret = entry.initial(this);
+      }
+
+      if (entry.extend)
+      {
+        var extend = this.initialFromTheme(theme, entry.extend);
+
+        if (ret)
+        {
+          qx.lang.Object.carefullyMergeWith(ret, extend);
+        }
+        else
+        {
+          ret = extend;
+        }
+      }
+
+      return ret;
+    },
+
+
+    /**
+     * Get the result of the "state" function for a given id and states
+     *
+     * @type member
+     * @param theme {Object} appearance theme
+     * @param id {String} id of the apperance (e.g. "button", "label", ...)
+     * @param states {Map} hash map defining the set states
+     * @return {Map} map of widget properties as returned by the "state" function
+     */
+    stateFromTheme : function(theme, id, states)
+    {
+      var entry = theme.appearances[id];
+
+      if (!entry) {
+        throw new Error("Missing appearance entry: " + id);
+      }
+
+      if (entry.setup)
+      {
+        this.warn("Executing deprecated setup() in appearance entry '" + id + "'");
+
+        entry.setup(this);
+        entry.setup = null;
+      }
+
+      var ret;
+
+      if (entry.state)
+      {
+        ret = entry.state(this, states);
+      }
+
+      if (entry.extend)
+      {
+        var extend = this.stateFromTheme(theme, entry.extend, states);
+
+        if (ret)
+        {
+          qx.lang.Object.carefullyMergeWith(ret, extend);
+        }
+        else
+        {
+          ret = extend;
+        }
+      }
+
+      return ret;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
       DISPOSER
     ---------------------------------------------------------------------------
     */
