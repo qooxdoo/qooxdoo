@@ -130,7 +130,7 @@ qx.Clazz.define("qx.io.remote.RequestQueue",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _debug : function()
     {
@@ -152,7 +152,7 @@ qx.Clazz.define("qx.io.remote.RequestQueue",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _check : function()
     {
@@ -225,7 +225,7 @@ qx.Clazz.define("qx.io.remote.RequestQueue",
      *
      * @type member
      * @param vTransport {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _remove : function(vTransport)
     {
@@ -273,7 +273,7 @@ qx.Clazz.define("qx.io.remote.RequestQueue",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onsending : function(e)
     {
@@ -295,7 +295,7 @@ qx.Clazz.define("qx.io.remote.RequestQueue",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _oncompleted : function(e)
     {
@@ -328,7 +328,7 @@ qx.Clazz.define("qx.io.remote.RequestQueue",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _oninterval : function(e)
     {
@@ -420,7 +420,7 @@ qx.Clazz.define("qx.io.remote.RequestQueue",
      *
      * @type member
      * @param vRequest {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     add : function(vRequest)
     {
@@ -437,7 +437,7 @@ qx.Clazz.define("qx.io.remote.RequestQueue",
 
     /**
      * Remove the request from the pending requests queue.
-     * 
+     *
      *  The underlying transport of the request is forced into the aborted
      *  state ("aborted") and listeners of the "aborted"
      *  signal are notified about the event. If the request isn't in the
@@ -445,7 +445,7 @@ qx.Clazz.define("qx.io.remote.RequestQueue",
      *
      * @type member
      * @param vRequest {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     abort : function(vRequest)
     {

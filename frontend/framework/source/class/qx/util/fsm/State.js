@@ -231,9 +231,9 @@ qx.Clazz.define("qx.util.fsm.State",
     /**
      * Common function for checking the value provided for
      * auto actions.
-     * 
+     *
      * Auto-action property values passed to us look akin to:
-     * 
+     *
      *     <pre>
      *     {
      *       // The name of a function.
@@ -242,17 +242,17 @@ qx.Clazz.define("qx.util.fsm.State",
      *         {
      *           // The parameter value(s), thus "setEnabled(true);"
      *           "parameters"   : [ true ],
-     * 
+     *
      *           // The function would be called on each object:
      *           //  this.getObject("obj1").setEnabled(true);
      *           //  this.getObject("obj2").setEnabled(true);
      *           "objects" : [ "obj1", "obj2" ]
-     * 
+     *
      *           // And similarly for each object in each specified group.
      *           "groups"  : [ "group1", "group2" ],
      *         }
      *       ];
-     * 
+     *
      *       "setColor" :
      *       [
      *         {
@@ -432,8 +432,8 @@ qx.Clazz.define("qx.util.fsm.State",
       return new Function("fsm", func);
     }
   },
-  
-  
+
+
 
   /*
   *****************************************************************************
@@ -846,7 +846,7 @@ qx.Clazz.define("qx.util.fsm.State",
      * @type member
      * @param trans {qx.util.fsm.Transition} An object of class qx.util.fsm.Transition representing a
      *     transition which is to be a part of this state.
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     addTransition : function(trans)

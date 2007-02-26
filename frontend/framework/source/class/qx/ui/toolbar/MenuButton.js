@@ -121,7 +121,7 @@ qx.Clazz.define("qx.ui.toolbar.MenuButton",
      *
      * @type member
      * @param vFromKeyEvent {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _showMenu : function(vFromKeyEvent)
     {
@@ -178,7 +178,7 @@ qx.Clazz.define("qx.ui.toolbar.MenuButton",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _hideMenu : function()
     {
@@ -242,7 +242,7 @@ qx.Clazz.define("qx.ui.toolbar.MenuButton",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmousedown : function(e)
     {
@@ -259,7 +259,7 @@ qx.Clazz.define("qx.ui.toolbar.MenuButton",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseup : function(e) {},
 
@@ -269,7 +269,7 @@ qx.Clazz.define("qx.ui.toolbar.MenuButton",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseout : function(e)
     {
@@ -328,7 +328,7 @@ qx.Clazz.define("qx.ui.toolbar.MenuButton",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmenuappear : function(e)
     {
@@ -349,7 +349,7 @@ qx.Clazz.define("qx.ui.toolbar.MenuButton",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmenudisappear : function(e)
     {

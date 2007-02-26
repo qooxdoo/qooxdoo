@@ -202,7 +202,7 @@ qx.Clazz.define("qx.ui.form.RadioButton",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeydown : function(e)
     {
@@ -247,7 +247,7 @@ qx.Clazz.define("qx.ui.form.RadioButton",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onclick : function(e) {
       this.setChecked(true);
@@ -259,7 +259,7 @@ qx.Clazz.define("qx.ui.form.RadioButton",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeyup : function(e)
     {

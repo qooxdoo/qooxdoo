@@ -75,14 +75,14 @@ qx.Clazz.define("qx.util.format.NumberFormat",
 
       return NumberFormat._integerInstance;
     },
-    
+
     /**
      * Return an instance of NumberFormat
-     * 
+     *
      * @return {qx.util.format.NumberFormat} an instance
      */
     getInstance : qx.lang.Function.returnInstance
-    
+
   },
 
 
@@ -313,6 +313,6 @@ qx.Clazz.define("qx.util.format.NumberFormat",
 
       return parseFloat(asStr);
     }
-         
+
   }
 });

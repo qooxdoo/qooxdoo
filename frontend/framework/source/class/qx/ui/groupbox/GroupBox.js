@@ -102,7 +102,7 @@ qx.Clazz.define("qx.ui.groupbox.GroupBox",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createLegendObject : function()
     {
@@ -117,7 +117,7 @@ qx.Clazz.define("qx.ui.groupbox.GroupBox",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createFrameObject : function()
     {
@@ -171,7 +171,7 @@ qx.Clazz.define("qx.ui.groupbox.GroupBox",
      *
      * @type member
      * @param vLegend {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setLegend : function(vLegend) {
       this._legendObject.setLabel(vLegend);
@@ -194,7 +194,7 @@ qx.Clazz.define("qx.ui.groupbox.GroupBox",
      *
      * @type member
      * @param vIcon {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setIcon : function(vIcon) {
       this._legendObject.setIcon(vIcon);
@@ -205,7 +205,7 @@ qx.Clazz.define("qx.ui.groupbox.GroupBox",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     getIcon : function() {
       this._legendObject.getIcon();

@@ -237,7 +237,7 @@ qx.Clazz.define("qx.renderer.font.Font",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _compile : function()
     {
@@ -272,7 +272,7 @@ qx.Clazz.define("qx.renderer.font.Font",
      *
      * @type member
      * @param vWidget {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _applyWidget : function(vWidget)
     {
@@ -293,7 +293,7 @@ qx.Clazz.define("qx.renderer.font.Font",
      *
      * @type member
      * @param vWidget {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _resetWidget : function(vWidget)
     {

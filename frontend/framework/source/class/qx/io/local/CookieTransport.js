@@ -88,7 +88,7 @@ qx.Clazz.define("qx.io.local.CookieTransport",
      *
      * @type static
      * @param vName {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     del : function(vName)
     {
@@ -103,7 +103,7 @@ qx.Clazz.define("qx.io.local.CookieTransport",
      *
      * @type static
      * @param vHash {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setAll : function(vHash)
     {
@@ -129,7 +129,7 @@ qx.Clazz.define("qx.io.local.CookieTransport",
      *
      * @type static
      * @param vHash {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     replaceAll : function(vHash) {
       qx.io.local.CookieTransport._setAll(vHash);
@@ -140,7 +140,7 @@ qx.Clazz.define("qx.io.local.CookieTransport",
      * TODOC
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     delAll : function() {
       qx.io.local.CookieTransport.replaceAll({});
@@ -247,7 +247,7 @@ qx.Clazz.define("qx.io.local.CookieTransport",
      * @type static
      * @param vIndex {var} TODOC
      * @param vString {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _setCookie : function(vIndex, vString)
     {
@@ -261,7 +261,7 @@ qx.Clazz.define("qx.io.local.CookieTransport",
      *
      * @type static
      * @param vIndex {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _delCookie : function(vIndex)
     {

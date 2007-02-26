@@ -81,7 +81,7 @@ qx.Clazz.define("qx.io.remote.Request",
      EVENTS
   *****************************************************************************
   */
-  
+
   events : {
     "created" : "qx.event.type.Event",
     "configured" : "qx.event.type.Event",
@@ -331,12 +331,12 @@ qx.Clazz.define("qx.io.remote.Request",
 
     /**
      * Schedule this request for transport to server.
-     * 
+     *
      * The request is added to the singleton class qx.io.remote.RequestQueue's
      * list of pending requests.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     send : function() {
       qx.io.remote.RequestQueue.getInstance().add(this);
@@ -345,13 +345,13 @@ qx.Clazz.define("qx.io.remote.Request",
 
     /**
      * Abort sending this request.
-     * 
+     *
      * The request is removed from the singleton class qx.io.remote.RequestQueue's
      * list of pending events. If the request haven't been scheduled this
      * method is a noop.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     abort : function() {
       qx.io.remote.RequestQueue.getInstance().abort(this);
@@ -362,7 +362,7 @@ qx.Clazz.define("qx.io.remote.Request",
      * Abort sending this request if it has not already been aborted.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     reset : function()
     {
@@ -490,7 +490,7 @@ qx.Clazz.define("qx.io.remote.Request",
      *
      * @type member
      * @param e {qx.event.type.Event} Event indicating state change
-     * @return {void} 
+     * @return {void}
      */
     _onqueued : function(e)
     {
@@ -507,7 +507,7 @@ qx.Clazz.define("qx.io.remote.Request",
      *
      * @type member
      * @param e {qx.event.type.Event} Event indicating state change
-     * @return {void} 
+     * @return {void}
      */
     _onsending : function(e)
     {
@@ -524,7 +524,7 @@ qx.Clazz.define("qx.io.remote.Request",
      *
      * @type member
      * @param e {qx.event.type.Event} Event indicating state change
-     * @return {void} 
+     * @return {void}
      */
     _onreceiving : function(e)
     {
@@ -541,7 +541,7 @@ qx.Clazz.define("qx.io.remote.Request",
      *
      * @type member
      * @param e {qx.event.type.Event} Event indicating state change
-     * @return {void} 
+     * @return {void}
      */
     _oncompleted : function(e)
     {
@@ -561,7 +561,7 @@ qx.Clazz.define("qx.io.remote.Request",
      *
      * @type member
      * @param e {qx.event.type.Event} Event indicating state change
-     * @return {void} 
+     * @return {void}
      */
     _onaborted : function(e)
     {
@@ -581,7 +581,7 @@ qx.Clazz.define("qx.io.remote.Request",
      *
      * @type member
      * @param e {qx.event.type.Event} Event indicating state change
-     * @return {void} 
+     * @return {void}
      */
     _ontimeout : function(e)
     {
@@ -615,7 +615,7 @@ qx.Clazz.define("qx.io.remote.Request",
      *
      * @type member
      * @param e {qx.event.type.Event} Event indicating state change
-     * @return {void} 
+     * @return {void}
      */
     _onfailed : function(e)
     {
@@ -742,13 +742,13 @@ qx.Clazz.define("qx.io.remote.Request",
 
     /**
      * Add a request header to the request.
-     * 
+     *
      * Example: request.setRequestHeader("Content-Type", qx.util.Mime.HTML)
      *
      * @type member
      * @param vId {String} The identifier to use for this added header
      * @param vValue {String} The value to use for this added header
-     * @return {void} 
+     * @return {void}
      */
     setRequestHeader : function(vId, vValue) {
       this._requestHeaders[vId] = vValue;
@@ -760,7 +760,7 @@ qx.Clazz.define("qx.io.remote.Request",
      *
      * @type member
      * @param vId {String} The id of the header to be removed
-     * @return {void} 
+     * @return {void}
      */
     removeRequestHeader : function(vId) {
       delete this._requestHeaders[vId];
@@ -808,7 +808,7 @@ qx.Clazz.define("qx.io.remote.Request",
      * @param vValue {var} Value of parameter. May be a string (for one parameter) or an array of
      *     strings (for setting multiple parameter values with the same parameter
      *     name).
-     * @return {void} 
+     * @return {void}
      */
     setParameter : function(vId, vValue) {
       this._parameters[vId] = vValue;
@@ -820,7 +820,7 @@ qx.Clazz.define("qx.io.remote.Request",
      *
      * @type member
      * @param vId {String} Identifier of the parameter to remove.
-     * @return {void} 
+     * @return {void}
      */
     removeParameter : function(vId) {
       delete this._parameters[vId];
@@ -862,10 +862,10 @@ qx.Clazz.define("qx.io.remote.Request",
 
     /**
      * Add a form field to the POST request.
-     * 
+     *
      * NOTE: Adding any programatic form fields using this method will switch the
      *       Transport implementation to IframeTransport.
-     * 
+     *
      * NOTE: Use of these programatic form fields disallow use of synchronous
      *       requests and cross-domain requests.  Be sure that you do not need
      *       those features when setting these programatic form fields.
@@ -873,7 +873,7 @@ qx.Clazz.define("qx.io.remote.Request",
      * @type member
      * @param vId {String} String identifier of the form field to add.
      * @param vValue {String} Value of form field
-     * @return {void} 
+     * @return {void}
      */
     setFormField : function(vId, vValue) {
       this._formFields[vId] = vValue;
@@ -885,7 +885,7 @@ qx.Clazz.define("qx.io.remote.Request",
      *
      * @type member
      * @param vId {String} Identifier of the form field to remove.
-     * @return {void} 
+     * @return {void}
      */
     removeFormField : function(vId) {
       delete this._formFields[vId];

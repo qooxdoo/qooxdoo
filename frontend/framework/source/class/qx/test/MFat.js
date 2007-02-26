@@ -6,7 +6,7 @@ qx.Mixin.define("qx.test.MFat",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     snore : function() {
       this.debug("CCRRROOOOOOOCCRROOOOO");
@@ -17,7 +17,7 @@ qx.Mixin.define("qx.test.MFat",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     hiss : function() {
       this.debug("BOOOOOAAAAH");

@@ -382,7 +382,7 @@ qx.Clazz.define("qx.ui.form.TextField",
      * Fix IE's input event for filled text fields
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _ieFirstInputFix : qx.core.Variant.select("qx.client",
     {
@@ -393,7 +393,7 @@ qx.Clazz.define("qx.ui.form.TextField",
         this._firstInputFixApplied = true;
         delete this._inValueProperty;
       },
-      
+
       "default" : null
     }),
 
@@ -402,19 +402,19 @@ qx.Clazz.define("qx.ui.form.TextField",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _afterAppear : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function()
       {
         qx.ui.basic.Terminator.prototype._afterAppear.call(this);
-    
+
         if (!this._firstInputFixApplied) {
           qx.client.Timer.once(this._ieFirstInputFix, this, 1);
         }
       },
-      
+
       "default" : qx.lang.Function.returnTrue
     }),
 
@@ -438,7 +438,7 @@ qx.Clazz.define("qx.ui.form.TextField",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _ontabfocus : function(e) {
       this.selectAll();
@@ -450,7 +450,7 @@ qx.Clazz.define("qx.ui.form.TextField",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onfocus : function(e) {
       this._textOnFocus = this.getComputedValue();
@@ -462,7 +462,7 @@ qx.Clazz.define("qx.ui.form.TextField",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onblur : function(e)
     {
@@ -492,7 +492,7 @@ qx.Clazz.define("qx.ui.form.TextField",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _getRange : qx.core.Variant.select("qx.client",
     {
@@ -501,7 +501,7 @@ qx.Clazz.define("qx.ui.form.TextField",
         this._visualPropertyCheck();
         return this.getElement().createTextRange();
       },
-      
+
       "default" : null
     }),
 
@@ -510,7 +510,7 @@ qx.Clazz.define("qx.ui.form.TextField",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _getSelectionRange : qx.core.Variant.select("qx.client",
     {
@@ -519,7 +519,7 @@ qx.Clazz.define("qx.ui.form.TextField",
         this._visualPropertyCheck();
         return this.getTopLevelWidget().getDocumentElement().selection.createRange();
       },
-      
+
       "default" : null
     }),
 
@@ -529,39 +529,39 @@ qx.Clazz.define("qx.ui.form.TextField",
      *
      * @type member
      * @param vStart {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setSelectionStart : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(vStart)
       {
         this._visualPropertyCheck();
-    
+
         var vText = this.getElement().value;
-    
+
         // a bit hacky, special handling for line-breaks
         var i = 0;
-    
+
         while (i < vStart)
         {
           // find next line break
           i = vText.indexOf("\r\n", i);
-    
+
           if (i == -1) {
             break;
           }
-    
+
           vStart--;
           i++;
         }
-    
+
         var vRange = this._getRange();
-    
+
         vRange.collapse();
         vRange.move("character", vStart);
         vRange.select();
   },
-      
+
       "default" : function(vStart)
       {
         this._visualPropertyCheck();
@@ -574,26 +574,26 @@ qx.Clazz.define("qx.ui.form.TextField",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     getSelectionStart : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function()
       {
         this._visualPropertyCheck();
-    
+
         var vSelectionRange = this._getSelectionRange();
-    
+
         if (!this.getElement().contains(vSelectionRange.parentElement())) {
           return -1;
         }
-    
+
         var vRange = this._getRange();
-    
+
         vRange.setEndPoint("EndToStart", vSelectionRange);
         return vRange.text.length;
       },
-      
+
       "default" : function()
       {
         this._visualPropertyCheck();
@@ -607,31 +607,31 @@ qx.Clazz.define("qx.ui.form.TextField",
      *
      * @type member
      * @param vLength {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setSelectionLength : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(vLength)
       {
         this._visualPropertyCheck();
-    
+
         var vSelectionRange = this._getSelectionRange();
-    
+
         if (!this.getElement().contains(vSelectionRange.parentElement())) {
           return;
         }
-    
+
         vSelectionRange.collapse();
         vSelectionRange.moveEnd("character", vLength);
         vSelectionRange.select();
       },
-      
+
       "default" : function(vLength)
       {
         this._visualPropertyCheck();
-    
+
         var el = this.getElement();
-    
+
         if (qx.util.Validation.isValidString(el.value)) {
           el.selectionEnd = el.selectionStart + vLength;
         }
@@ -643,27 +643,27 @@ qx.Clazz.define("qx.ui.form.TextField",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     getSelectionLength : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function()
       {
         this._visualPropertyCheck();
-    
+
         var vSelectionRange = this._getSelectionRange();
-    
+
         if (!this.getElement().contains(vSelectionRange.parentElement())) {
           return 0;
         }
-    
+
         return vSelectionRange.text.length;
       },
-      
+
       "default" : function()
       {
         this._visualPropertyCheck();
-    
+
         var el = this.getElement();
         return el.selectionEnd - el.selectionStart;
       }
@@ -675,54 +675,54 @@ qx.Clazz.define("qx.ui.form.TextField",
      *
      * @type member
      * @param vText {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setSelectionText : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(vText)
       {
         this._visualPropertyCheck();
-    
+
         var vStart = this.getSelectionStart();
         var vSelectionRange = this._getSelectionRange();
-    
+
         if (!this.getElement().contains(vSelectionRange.parentElement())) {
           return;
         }
-    
+
         vSelectionRange.text = vText;
-    
+
         // apply text to internal storage
         this.setValue(this.getElement().value);
-    
+
         // recover selection (to behave the same gecko does)
         this.setSelectionStart(vStart);
         this.setSelectionLength(vText.length);
-    
+
         return true;
       },
-      
+
       "default" : function(vText)
       {
         this._visualPropertyCheck();
-    
+
         var el = this.getElement();
-    
+
         var vOldText = el.value;
         var vStart = el.selectionStart;
-    
+
         var vOldTextBefore = vOldText.substr(0, vStart);
         var vOldTextAfter = vOldText.substr(el.selectionEnd);
-    
+
         var vValue = el.value = vOldTextBefore + vText + vOldTextAfter;
-    
+
         // recover selection
         el.selectionStart = vStart;
         el.selectionEnd = vStart + vText.length;
-    
+
         // apply new value to internal cache
         this.setValue(vValue);
-    
+
         return true;
       }
     }),
@@ -733,27 +733,27 @@ qx.Clazz.define("qx.ui.form.TextField",
      *
      * @type member
      * @param vText {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     getSelectionText : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function()
       {
         this._visualPropertyCheck();
-    
+
         var vSelectionRange = this._getSelectionRange();
-    
+
         if (!this.getElement().contains(vSelectionRange.parentElement())) {
           return "";
         }
-    
+
         return vSelectionRange.text;
       },
-      
+
       "default" : function()
       {
         this._visualPropertyCheck();
-    
+
         return this.getElement().value.substr(this.getSelectionStart(), this.getSelectionLength());
       }
     }),
@@ -763,28 +763,28 @@ qx.Clazz.define("qx.ui.form.TextField",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     selectAll : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function()
       {
         this._visualPropertyCheck();
-    
+
         if (this.getValue() != null)
         {
           this.setSelectionStart(0);
           this.setSelectionLength(this.getValue().length);
         }
-    
+
         // to be sure we get the element selected
         this.getElement().select();
       },
-      
+
       "default" : function()
       {
         this._visualPropertyCheck();
-    
+
         this.getElement().select();
       }
     }),
@@ -796,22 +796,22 @@ qx.Clazz.define("qx.ui.form.TextField",
      * @type member
      * @param vStart {var} TODOC
      * @param vEnd {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     selectFromTo : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(vStart, vEnd)
       {
         this._visualPropertyCheck();
-    
+
         this.setSelectionStart(vStart);
         this.setSelectionLength(vEnd - vStart);
       },
-      
+
       "default" : function(vStart, vEnd)
       {
         this._visualPropertyCheck();
-    
+
         var el = this.getElement();
         el.selectionStart = vStart;
         el.selectionEnd = vEnd;
@@ -831,7 +831,7 @@ qx.Clazz.define("qx.ui.form.TextField",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     dispose : function()
     {

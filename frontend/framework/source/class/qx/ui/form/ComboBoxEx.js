@@ -145,7 +145,7 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
      EVENTS
   *****************************************************************************
   */
-  
+
   events: {
     "beforeInitialOpen" : "qx.event.type.Event"
   },
@@ -326,7 +326,7 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
      *
      * @type member
      * @param columns {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _createList : function(columns)
     {
@@ -380,7 +380,7 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
      *
      * @type member
      * @param columns {String[]} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setColumnHeaders : function(columns)
     {
@@ -443,7 +443,7 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
      * @param newValue {String} optional, the new value to set.
      *                     If not specified or null, it will try to preserve the previous value.
      *                     Only used for non-editable combos
-     * @return {void} 
+     * @return {void}
      */
     setSelection : function(data, newValue)
     {
@@ -714,7 +714,7 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _openPopup : function()
     {
@@ -751,7 +751,7 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
      * Hide the popup list.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _closePopup : function() {
       this._popup.hide();
@@ -762,7 +762,7 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
      * Hide the popup list only when needed.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _testClosePopup : function()
     {
@@ -776,7 +776,7 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
      * Toggle the visibility of the popup list.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _togglePopup : function() {
       this._popup.isSeeable() ? this._closePopup() : this._openPopup();
@@ -795,7 +795,7 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
      * Sizes the width of the text field component to the needed value to show any selection item.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     sizeTextFieldToContent : function()
     {
@@ -808,7 +808,7 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
      * Calculates the needed dimensions for the text field and list components
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _calculateDimensions : function()
     {
@@ -944,7 +944,7 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
      * @param startIndex {number} Start index, 0 based
      * @param txt {String} Text to find
      * @param caseSens {Boolean} Case sensivity flag.
-     * @return {void} 
+     * @return {void}
      */
     _search : function(startIndex, txt, caseSens)
     {
@@ -1000,7 +1000,7 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
      *  This dialog is triggered by double clicking the combo, pressing F3 or Ctrl+F.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     openSearchDialog : function()
     {
@@ -1198,7 +1198,7 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onChangeSelection : function(e)
     {
@@ -1241,7 +1241,7 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onpopupappear : function(e)
     {
@@ -1258,7 +1258,7 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _oninput : function(e)
     {
@@ -1282,7 +1282,7 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmousedown : function(e)
     {
@@ -1311,7 +1311,7 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseup : function(e)
     {
@@ -1338,7 +1338,7 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmousewheel : function(e)
     {
@@ -1361,7 +1361,7 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeydown : function(e)
     {
@@ -1448,7 +1448,7 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeypress : function(e)
     {

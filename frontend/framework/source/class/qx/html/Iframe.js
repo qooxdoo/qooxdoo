@@ -39,31 +39,31 @@ qx.Clazz.define("qx.html.Iframe",
      *
      * @type static
      * @param vIframe {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     getWindow : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(vIframe)
-		  {
-		    try {
-		      return vIframe.contentWindow;
-		    } catch(ex) {
-		      return null;
-		    }
-		  },
-      
+      {
+        try {
+          return vIframe.contentWindow;
+        } catch(ex) {
+          return null;
+        }
+      },
+
       "default" : function(vIframe)
-		  {
-		    try
-		    {
-		      var vDoc = qx.html.Iframe.getDocument(vIframe);
-		      return vDoc ? vDoc.defaultView : null;
-		    }
-		    catch(ex)
-		    {
-		      return null;
-		    }
-		  }
+      {
+        try
+        {
+          var vDoc = qx.html.Iframe.getDocument(vIframe);
+          return vDoc ? vDoc.defaultView : null;
+        }
+        catch(ex)
+        {
+          return null;
+        }
+      }
     }),
 
 
@@ -72,31 +72,31 @@ qx.Clazz.define("qx.html.Iframe",
      *
      * @type static
      * @param vIframe {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     getDocument : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(vIframe)
-		  {
-		    try
-		    {
-		      var vWin = qx.html.Iframe.getWindow(vIframe);
-		      return vWin ? vWin.document : null;
-		    }
-		    catch(ex)
-		    {
-		      return null;
-		    }
-		  },
-      
+      {
+        try
+        {
+          var vWin = qx.html.Iframe.getWindow(vIframe);
+          return vWin ? vWin.document : null;
+        }
+        catch(ex)
+        {
+          return null;
+        }
+      },
+
       "default" : function(vIframe)
-		  {
-		    try {
-		      return vIframe.contentDocument;
-		    } catch(ex) {
-		      return null;
-		    }
-		  }
+      {
+        try {
+          return vIframe.contentDocument;
+        } catch(ex) {
+          return null;
+        }
+      }
     }),
 
 

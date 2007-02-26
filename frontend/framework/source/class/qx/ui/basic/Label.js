@@ -257,7 +257,7 @@ qx.Clazz.define("qx.ui.basic.Label",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _updateHtml : function()
     {
@@ -367,7 +367,7 @@ qx.Clazz.define("qx.ui.basic.Label",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _computeObjectNeededDimensions : function()
     {
@@ -640,7 +640,7 @@ qx.Clazz.define("qx.ui.basic.Label",
      * @param vElement {var} TODOC
      * @param vHtml {var} TODOC
      * @param vMnemonicMode {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _postApplyHtml : function(vElement, vHtml, vMnemonicMode)
     {

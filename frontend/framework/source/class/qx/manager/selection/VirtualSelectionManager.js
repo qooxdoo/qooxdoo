@@ -159,7 +159,7 @@ qx.Clazz.define("qx.manager.selection.VirtualSelectionManager",
      * @type member
      * @param vItem {var} TODOC
      * @param vTopLeft {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     scrollItemIntoView : function(vItem, vTopLeft) {
       this.getBoundedWidget().scrollItemIntoView(vItem, vTopLeft);
@@ -240,7 +240,7 @@ qx.Clazz.define("qx.manager.selection.VirtualSelectionManager",
      * @type member
      * @param vItem {var} TODOC
      * @param vIsSelected {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     renderItemSelectionState : function(vItem, vIsSelected) {
       this.getBoundedWidget()._updateSelectionState(vItem, vIsSelected);
@@ -253,7 +253,7 @@ qx.Clazz.define("qx.manager.selection.VirtualSelectionManager",
      * @type member
      * @param vItem {var} TODOC
      * @param vIsAnchor {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     renderItemAnchorState : function(vItem, vIsAnchor) {
       this.getBoundedWidget()._updateAnchorState(vItem, vIsAnchor);
@@ -266,7 +266,7 @@ qx.Clazz.define("qx.manager.selection.VirtualSelectionManager",
      * @type member
      * @param vItem {var} TODOC
      * @param vIsLead {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     renderItemLeadState : function(vItem, vIsLead) {
       this.getBoundedWidget()._updateLeadState(vItem, vIsLead);

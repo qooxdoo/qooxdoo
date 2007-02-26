@@ -66,7 +66,7 @@ qx.Clazz.define("qx.renderer.font.FontObject",
      *
      * @type member
      * @param o {Object} TODOC
-     * @return {void} 
+     * @return {void}
      */
     addListenerWidget : function(o) {
       this._dependentObjects[o.toHashCode()] = o;
@@ -78,7 +78,7 @@ qx.Clazz.define("qx.renderer.font.FontObject",
      *
      * @type member
      * @param o {Object} TODOC
-     * @return {void} 
+     * @return {void}
      */
     removeListenerWidget : function(o) {
       delete this._dependentObjects[o.toHashCode()];
@@ -90,7 +90,7 @@ qx.Clazz.define("qx.renderer.font.FontObject",
      *
      * @type member
      * @param vEdge {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _sync : function(vEdge)
     {

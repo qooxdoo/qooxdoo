@@ -187,7 +187,7 @@ qx.Clazz.define("qx.ui.form.List",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseover : function(e)
     {
@@ -204,7 +204,7 @@ qx.Clazz.define("qx.ui.form.List",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmousedown : function(e)
     {
@@ -221,7 +221,7 @@ qx.Clazz.define("qx.ui.form.List",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseup : function(e)
     {
@@ -238,7 +238,7 @@ qx.Clazz.define("qx.ui.form.List",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onclick : function(e)
     {
@@ -255,7 +255,7 @@ qx.Clazz.define("qx.ui.form.List",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _ondblclick : function(e)
     {
@@ -280,7 +280,7 @@ qx.Clazz.define("qx.ui.form.List",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeydown : function(e)
     {
@@ -302,7 +302,7 @@ qx.Clazz.define("qx.ui.form.List",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeypress : function(e)
     {
@@ -318,7 +318,7 @@ qx.Clazz.define("qx.ui.form.List",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeyinput : function(e)
     {
@@ -502,7 +502,7 @@ qx.Clazz.define("qx.ui.form.List",
      *
      * @type member
      * @param vReverse {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     sortItemsByString : function(vReverse)
     {
@@ -535,7 +535,7 @@ qx.Clazz.define("qx.ui.form.List",
      *
      * @type member
      * @param vReverse {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     sortItemsByValue : function(vReverse)
     {

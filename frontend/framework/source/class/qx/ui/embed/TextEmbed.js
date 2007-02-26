@@ -199,7 +199,7 @@ qx.Clazz.define("qx.ui.embed.TextEmbed",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _applyElementData : function() {
       this.getElement().appendChild(document.createTextNode(this.getText()));
@@ -210,7 +210,7 @@ qx.Clazz.define("qx.ui.embed.TextEmbed",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _syncText : function() {
       this.getElement().firstChild.nodeValue = this.getText();

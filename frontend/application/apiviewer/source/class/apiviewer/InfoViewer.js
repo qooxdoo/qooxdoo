@@ -71,7 +71,7 @@ qx.Clazz.define("apiviewer.InfoViewer",
      *
      * @type member
      * @param classNode {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     showInfo : function(classNode)
     {

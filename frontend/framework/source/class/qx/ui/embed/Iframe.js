@@ -64,7 +64,7 @@ qx.Clazz.define("qx.ui.embed.Iframe",
      EVENTS
   *****************************************************************************
   */
-  
+
   events: {
     "load" : "qx.event.type.Event"
   },

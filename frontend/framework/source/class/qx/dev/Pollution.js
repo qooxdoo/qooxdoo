@@ -190,7 +190,7 @@ qx.Clazz.define("qx.dev.Pollution",
               continue;
             }
           }
-          
+
           // Ignore if configured
           if (qx.lang.Array.contains(ign, key)) {
             continue;

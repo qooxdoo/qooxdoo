@@ -155,7 +155,7 @@ qx.Clazz.define("qx.ui.table.DefaultDataRowRenderer",
      * @type member
      * @param rowInfo {var} TODOC
      * @param rowElem {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     updateDataRowElement : function(rowInfo, rowElem)
     {
@@ -196,7 +196,7 @@ qx.Clazz.define("qx.ui.table.DefaultDataRowRenderer",
      * @type member
      * @param rowInfo {var} TODOC
      * @param htmlArr {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _createRowStyle_array_join : function(rowInfo, htmlArr)
     {
@@ -256,7 +256,7 @@ qx.Clazz.define("qx.ui.table.DefaultDataRowRenderer",
      *        <li>colSelected</li>
      *        <li>colNormal</li>
      *      </ul>
-     * @return {void} 
+     * @return {void}
      */
     setRowColors : function(colors)
     {

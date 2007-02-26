@@ -91,7 +91,7 @@ qx.Clazz.define("qx.util.GuiBuilder",
      * @type member
      * @param parent {qx.ui.core.Widget} can either be the application instance, or a widget to append the xml toplevel widgets to
      * @param url {String} URL of the XML files
-     * @return {void} 
+     * @return {void}
      */
     buildFromUrl : function(parent, url)
     {
@@ -114,7 +114,7 @@ qx.Clazz.define("qx.util.GuiBuilder",
      * @type member
      * @param parent {qx.ui.core.Widget} can either be the application instance, or a widget to append the xml toplevel widgets to
      * @param node {String | Document | Element} can be either a xml string, or a xml dom document or fragment
-     * @return {void} 
+     * @return {void}
      */
     build : function(parent, node)
     {
@@ -139,7 +139,7 @@ qx.Clazz.define("qx.util.GuiBuilder",
      * @type member
      * @param parent {var} TODOC
      * @param nodes {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _buildNodes : function(parent, nodes)
     {
@@ -164,7 +164,7 @@ qx.Clazz.define("qx.util.GuiBuilder",
      * @param widget {var} TODOC
      * @param args {var} TODOC
      * @param text {var} TODOC
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     _buildEventListener : function(widget, args, text)
@@ -233,7 +233,7 @@ qx.Clazz.define("qx.util.GuiBuilder",
      * @type member
      * @param parent {qx.ui.core.Widget} can either be the application instance, or a widget to append the xml toplevel widgets to
      * @param node {String | Document | Element} can be either a xml string, or a xml dom document or fragment
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     _buildWidgetFromNode : function(parent, node)
@@ -355,7 +355,7 @@ qx.Clazz.define("qx.util.GuiBuilder",
      * @param widget {var} TODOC
      * @param name {var} TODOC
      * @param value {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _setWidgetProperty : function(widget, name, value)
     {
@@ -405,7 +405,7 @@ qx.Clazz.define("qx.util.GuiBuilder",
      * @param className {var} TODOC
      * @param propertyName {var} TODOC
      * @param editor {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     registerPropertyEditor : function(className, propertyName, editor)
     {
@@ -418,7 +418,7 @@ qx.Clazz.define("qx.util.GuiBuilder",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _registerDefaultPropertyEditors : function()
     {
@@ -550,7 +550,7 @@ qx.Clazz.define("qx.util.GuiBuilder",
      * @param widget {var} TODOC
      * @param name {var} TODOC
      * @param value {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _setProperty : function(widget, name, value) {
       this._setProperties(widget, name, [ value ]);
@@ -564,7 +564,7 @@ qx.Clazz.define("qx.util.GuiBuilder",
      * @param widget {var} TODOC
      * @param name {var} TODOC
      * @param value {var} TODOC
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     _setProperties : function(widget, name, value)

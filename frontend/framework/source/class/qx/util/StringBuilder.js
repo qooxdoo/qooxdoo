@@ -74,14 +74,14 @@ qx.Clazz.define("qx.util.StringBuilder",
      * equivalent to <pre>str = ""; </pre>
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     clear : qx.core.Variant.select("qx.client", {
-    	"default" : function() {
+      "default" : function() {
         return this._string;
       },
-      
-    	"mshtml" : function()	{
+
+      "mshtml" : function()  {
         this._array = [];
       }
     }),
@@ -94,11 +94,11 @@ qx.Clazz.define("qx.util.StringBuilder",
      * @return {String} string content
      */
     get : qx.core.Variant.select("qx.client", {
-    	"default" : function() {
+      "default" : function() {
         return this._string;
       },
-  
-    	"mshtml" : function() {
+
+      "mshtml" : function() {
         return this._array.join("");
       }
     }),
@@ -109,63 +109,63 @@ qx.Clazz.define("qx.util.StringBuilder",
      *
      * @type member
      * @param varargs {String} variable number os strings to be added
-     * @return {void} 
+     * @return {void}
      */
     add : qx.core.Variant.select("qx.client", {
-    	"default" : function() {
+      "default" : function() {
         this._string += Array.prototype.join.call(arguments, "");
       },
-      
-    	"mshtml" : function() {
+
+      "mshtml" : function() {
         this._array.push.apply(this._array, arguments);
       }
     }),
-    
+
 
     /**
      * Initializes the contents of the Stringbuilder
      * equivalent to <pre>str = ""; </pre>
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     init : qx.core.Variant.select("qx.client", {
-    	"default" : function() {
+      "default" : function() {
         this._string = "";
       },
-      
-    	"mshtml" :function() {
+
+      "mshtml" :function() {
         this._array = [];
       }
     }),
-    
+
 
     /**
      * Destructor
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     dispose : qx.core.Variant.select("qx.client", {
-    	"default" : function()
+      "default" : function()
       {
         if (this.getDisposed()) {
           return;
         }
-    
+
         this._string = null;
-    
+
         qx.core.Object.prototype.dispose.call(this);
       },
-      
-    	"mshtml" : function()
+
+      "mshtml" : function()
       {
         if (this.getDisposed()) {
           return;
         }
-    
+
         this._array = null;
-    
+
         qx.core.Object.prototype.dispose.call(this);
       }
     }),

@@ -425,7 +425,7 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
      * @type member
      * @param vItem {var} TODOC
      * @param vTopLeft {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     scrollItemIntoView : function(vItem, vTopLeft) {
       vItem.scrollIntoView(vTopLeft);
@@ -506,7 +506,7 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
      * @type member
      * @param vItem {var} TODOC
      * @param vIsSelected {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     renderItemSelectionState : function(vItem, vIsSelected)
     {
@@ -524,7 +524,7 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
      * @type member
      * @param vItem {var} TODOC
      * @param vIsAnchor {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     renderItemAnchorState : function(vItem, vIsAnchor)
     {
@@ -542,7 +542,7 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
      * @type member
      * @param vItem {var} TODOC
      * @param vIsLead {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     renderItemLeadState : function(vItem, vIsLead)
     {
@@ -576,14 +576,14 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
 
     /**
      * Make a single item selected / not selected
-     * 
+     *
      * #param vItem[qx.ui.core.Widget]: Item which should be selected / not selected
      * #param vSelected[Boolean]: Should this item be selected?
      *
      * @type member
      * @param vItem {var} TODOC
      * @param vSelected {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setItemSelected : function(vItem, vSelected)
     {
@@ -690,12 +690,12 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
 
     /**
      * Select given items
-     * 
+     *
      * #param vItems[Array of Widgets]: Items to select
      *
      * @type member
      * @param vItems {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setSelectedItems : function(vItems)
     {
@@ -742,7 +742,7 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
      *
      * @type member
      * @param vItem {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setSelectedItem : function(vItem)
     {
@@ -783,7 +783,7 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
      * Select all items.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     selectAll : function()
     {
@@ -849,7 +849,7 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
      * Deselect all items.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     deselectAll : function()
     {
@@ -895,14 +895,14 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
 
     /**
      * Select a range of items.
-     * 
+     *
      * #param vItem1[qx.ui.core.Widget]: Start item
      * #param vItem2[qx.ui.core.Widget]: Stop item
      *
      * @type member
      * @param vItem1 {var} TODOC
      * @param vItem2 {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     selectItemRange : function(vItem1, vItem2)
     {
@@ -928,7 +928,7 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
     /**
      * Sub method for selectItemRange. Handles the real work
      * to select a range of items.
-     * 
+     *
      * #param vItem1[qx.ui.core.Widget]: Start item
      * #param vItem2[qx.ui.core.Widget]: Stop item
      * #param vDelect[Boolean]: Deselect currently selected items first?
@@ -981,7 +981,7 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
 
     /**
      * Internal method for deselection of ranges.
-     * 
+     *
      * #param vItem1[qx.ui.core.Widget]: Start item
      * #param vItem2[qx.ui.core.Widget]: Stop item
      *
@@ -1035,7 +1035,7 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
      * @type member
      * @param vItem {var} TODOC
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     handleMouseDown : function(vItem, e)
     {
@@ -1080,7 +1080,7 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _ondragup : function(e)
     {
@@ -1096,7 +1096,7 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
      * @type member
      * @param vItem {var} TODOC
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     handleMouseUp : function(vItem, e)
     {
@@ -1122,7 +1122,7 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
      * @type member
      * @param oItem {Object} TODOC
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     handleMouseOver : function(oItem, e)
     {
@@ -1140,7 +1140,7 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
      * @type member
      * @param vItem {var} TODOC
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     handleClick : function(vItem, e) {},
 
@@ -1151,7 +1151,7 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
      * @type member
      * @param vItem {var} TODOC
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     handleDblClick : function(vItem, e) {},
 
@@ -1163,7 +1163,7 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
      * @param oItem {Object} TODOC
      * @param e {Event} TODOC
      * @param bOver {Boolean} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseevent : function(oItem, e, bOver)
     {
@@ -1340,7 +1340,7 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
      *
      * @type member
      * @param vDomEvent {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     handleKeyDown : function(vDomEvent)
     {
@@ -1354,7 +1354,7 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
      *
      * @type member
      * @param vDomEvent {qx.event.type.KeyEvent} event object
-     * @return {void} 
+     * @return {void}
      */
     handleKeyPress : function(vDomEvent)
     {
@@ -1531,7 +1531,7 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _dispatchChange : function()
     {
@@ -1670,9 +1670,9 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
      * TODOC
      *
      * @type member
-     * @abstract 
+     * @abstract
      * @param vItem {var} TODOC
-     * @return {void} 
+     * @return {void}
      * @throws the abstract function warning.
      */
     getAbove : function(vItem) {
@@ -1684,9 +1684,9 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
      * TODOC
      *
      * @type member
-     * @abstract 
+     * @abstract
      * @param vItem {var} TODOC
-     * @return {void} 
+     * @return {void}
      * @throws the abstract function warning.
      */
     getUnder : function(vItem) {
@@ -1704,7 +1704,7 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
 
     /**
      * Jump a "page" up.
-     * 
+     *
      * #param vItem[qx.ui.core.Widget]: Relative to this widget
      *
      * @type member
@@ -1767,7 +1767,7 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
 
     /**
      * Jump a "page" down.
-     * 
+     *
      * #param vItem[qx.ui.core.Widget]: Relative to this widget
      *
      * @type member

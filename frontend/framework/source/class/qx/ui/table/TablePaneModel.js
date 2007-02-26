@@ -61,7 +61,7 @@ qx.Clazz.define("qx.ui.table.TablePaneModel",
      EVENTS
   *****************************************************************************
   */
-  
+
   events : {
     "modelChanged" : "qx.event.type.Event" /** Fired when the model changed. */
   },
@@ -165,7 +165,7 @@ qx.Clazz.define("qx.ui.table.TablePaneModel",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onColVisibilityChanged : function(evt)
     {
@@ -242,7 +242,7 @@ qx.Clazz.define("qx.ui.table.TablePaneModel",
     /**
      * Gets the position of the left side of a column (in pixels, relative to the
      * left side of the table pane).
-     * 
+     *
      * This value corresponds to the sum of the widths of all columns left of the
      * column.
      *

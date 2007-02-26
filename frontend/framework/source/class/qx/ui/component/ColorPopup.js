@@ -124,7 +124,7 @@ qx.Clazz.define("qx.ui.component.ColorPopup",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createLayout : function()
     {
@@ -141,7 +141,7 @@ qx.Clazz.define("qx.ui.component.ColorPopup",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createAutoBtn : function()
     {
@@ -163,7 +163,7 @@ qx.Clazz.define("qx.ui.component.ColorPopup",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createBoxes : function()
     {
@@ -209,7 +209,7 @@ qx.Clazz.define("qx.ui.component.ColorPopup",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createPreview : function()
     {
@@ -242,7 +242,7 @@ qx.Clazz.define("qx.ui.component.ColorPopup",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createSelectorBtn : function()
     {
@@ -259,7 +259,7 @@ qx.Clazz.define("qx.ui.component.ColorPopup",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createColorSelector : function()
     {
@@ -327,7 +327,7 @@ qx.Clazz.define("qx.ui.component.ColorPopup",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _rotatePreviousColors : function()
     {
@@ -380,7 +380,7 @@ qx.Clazz.define("qx.ui.component.ColorPopup",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onFieldMouseDown : function(e)
     {
@@ -398,7 +398,7 @@ qx.Clazz.define("qx.ui.component.ColorPopup",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onFieldMouseOver : function(e) {
       this._currentPreview.setBackgroundColor(e.getTarget().getBackgroundColor());
@@ -410,7 +410,7 @@ qx.Clazz.define("qx.ui.component.ColorPopup",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onAutomaticBtnExecute : function(e)
     {
@@ -424,7 +424,7 @@ qx.Clazz.define("qx.ui.component.ColorPopup",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onSelectorButtonExecute : function(e)
     {
@@ -444,7 +444,7 @@ qx.Clazz.define("qx.ui.component.ColorPopup",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onColorSelectorOk : function(e)
     {
@@ -459,7 +459,7 @@ qx.Clazz.define("qx.ui.component.ColorPopup",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onColorSelectorCancel : function(e) {
       this._colorSelectorWindow.close();
@@ -471,7 +471,7 @@ qx.Clazz.define("qx.ui.component.ColorPopup",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onBeforeAppear : function(e) {
       this._currentPreview.setBackgroundColor(null);

@@ -183,7 +183,7 @@ qx.Clazz.define("qx.locale.Date",
 
     /**
      * Try to localize a date/time format string.
-     * 
+     *
      * If now localization is availible take the fallback format string
      *
      * @type static
@@ -242,7 +242,7 @@ qx.Clazz.define("qx.locale.Date",
 
     /**
      * Return the day the week starts with
-     * 
+     *
      * Reference: Common Locale Data Repository (cldr) supplementalData.xml
      *
      * @type static
@@ -330,7 +330,7 @@ qx.Clazz.define("qx.locale.Date",
 
     /**
      * Return the day the weekend starts with
-     * 
+     *
      * Reference: Common Locale Data Repository (cldr) supplementalData.xml
      *
      * @type static
@@ -372,7 +372,7 @@ qx.Clazz.define("qx.locale.Date",
 
     /**
      * Return the day the weekend ends with
-     * 
+     *
      * Reference: Common Locale Data Repository (cldr) supplementalData.xml
      *
      * @type static

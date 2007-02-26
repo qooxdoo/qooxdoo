@@ -66,7 +66,7 @@ qx.Clazz.define("qx.log.ForwardAppender",
      *
      * @type member
      * @param evt {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     appendLogEvent : function(evt) {
       this._targetProcessor.handleLogEvent(evt);

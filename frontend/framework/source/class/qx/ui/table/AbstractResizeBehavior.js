@@ -64,9 +64,9 @@ qx.Clazz.define("qx.ui.table.AbstractResizeBehavior",
      * are in use.
      *
      * @type member
-     * @abstract 
+     * @abstract
      * @param numColumns {Integer} The numbrer of columns in use.
-     * @return {void} 
+     * @return {void}
      * @throws the abstract function warning.
      */
     _setNumColumns : function(numColumns) {
@@ -78,13 +78,13 @@ qx.Clazz.define("qx.ui.table.AbstractResizeBehavior",
      * Called when the table has first been rendered.
      *
      * @type member
-     * @abstract 
+     * @abstract
      * @param tableColumnModel {qx.ui.table.ResizeTableColumnModel} The table column model in use.  Of particular interest is the property
      *     <i>_table</i> which is a reference to the table widget.  This allows
      *     access to any other features of the table, for use in calculating widths
      *     of columns.
      * @param event {var} The <i>onappear</i> event object.
-     * @return {void} 
+     * @return {void}
      * @throws the abstract function warning.
      */
     onAppear : function(tableColumnModel, event) {
@@ -97,13 +97,13 @@ qx.Clazz.define("qx.ui.table.AbstractResizeBehavior",
      * or a parent object changing size causing the table to change size.
      *
      * @type member
-     * @abstract 
+     * @abstract
      * @param tableColumnModel {qx.ui.table.ResizeTableColumnModel} The table column model in use.  Of particular interest is the property
      *     <i>_table</i> which is a reference to the table widget.  This allows
      *     access to any other features of the table, for use in calculating widths
      *     of columns.
      * @param event {var} The <i>tableWidthChanged</i> event object.
-     * @return {void} 
+     * @return {void}
      * @throws the abstract function warning.
      */
     onTableWidthChanged : function(tableColumnModel, event) {
@@ -116,7 +116,7 @@ qx.Clazz.define("qx.ui.table.AbstractResizeBehavior",
      * from present to not present, or vice versa.
      *
      * @type member
-     * @abstract 
+     * @abstract
      * @param tableColumnModel {qx.ui.table.ResizeTableColumnModel} The table column model in use.  Of particular interest is the property
      *     <i>_table</i> which is a reference to the table widget.  This allows
      *     access to any other features of the table, for use in calculating widths
@@ -124,7 +124,7 @@ qx.Clazz.define("qx.ui.table.AbstractResizeBehavior",
      * @param event {var} The <i>verticalScrollBarChanged</i> event object.  This event has data,
      *     obtained via event.getData(), which is a boolean indicating whether a
      *     vertical scroll bar is now present.
-     * @return {void} 
+     * @return {void}
      * @throws the abstract function warning.
      */
     onVerticalScrollBarChanged : function(tableColumnModel, event) {
@@ -136,7 +136,7 @@ qx.Clazz.define("qx.ui.table.AbstractResizeBehavior",
      * Called when a column width is changed.
      *
      * @type member
-     * @abstract 
+     * @abstract
      * @param tableColumnModel {qx.ui.table.ResizeTableColumnModel} The table column model in use.  Of particular interest is the property
      *     <i>_table</i> which is a reference to the table widget.  This allows
      *     access to any other features of the table, for use in calculating widths
@@ -145,7 +145,7 @@ qx.Clazz.define("qx.ui.table.AbstractResizeBehavior",
      *     event.getData(), which is an object with three properties: the column
      *     which changed width (data.col), the old width (data.oldWidth) and the new
      *     width (data.newWidth).
-     * @return {void} 
+     * @return {void}
      * @throws the abstract function warning.
      */
     onColumnWidthChanged : function(tableColumnModel, event) {
@@ -157,7 +157,7 @@ qx.Clazz.define("qx.ui.table.AbstractResizeBehavior",
      * Called when a column visibility is changed.
      *
      * @type member
-     * @abstract 
+     * @abstract
      * @param tableColumnModel {qx.ui.table.ResizeTableColumnModel} The table column model in use.  Of particular interest is the property
      *     <i>_table</i> which is a reference to the table widget.  This allows
      *     access to any other features of the table, for use in calculating widths
@@ -166,7 +166,7 @@ qx.Clazz.define("qx.ui.table.AbstractResizeBehavior",
      *     via event.getData(), which is an object with two properties: the column
      *     which changed width (data.col) and the new visibility of the column
      *     (data.visible).
-     * @return {void} 
+     * @return {void}
      * @throws the abstract function warning.
      */
     onVisibilityChanged : function(tableColumnModel, event) {

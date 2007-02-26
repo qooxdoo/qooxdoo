@@ -41,12 +41,12 @@
 qx.Clazz.define("qx.client.Command",
 {
   extend : qx.core.Target,
-  
+
   events :
   {
     /**
      * Fired when the command is executed. Sets the "data" property of the event to
-     * the object that issued the command. 
+     * the object that issued the command.
      */
     "execute" : "qx.event.type.DataEvent"
   },

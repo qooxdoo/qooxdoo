@@ -110,13 +110,13 @@ qx.Clazz.define("qx.ui.table.AbstractTableModel",
 
     /**
      * Sets the column IDs. These IDs may be used internally to identify a column.
-     * 
+     *
      * Note: This will clear previously set column names.
-     *  
+     *
      *
      * @type member
      * @param columnIdArr {String[]} the IDs of the columns.
-     * @return {void} 
+     * @return {void}
      * @see #setColumns
      */
     setColumnIds : function(columnIdArr)
@@ -141,13 +141,13 @@ qx.Clazz.define("qx.ui.table.AbstractTableModel",
 
     /**
      * Sets the column names. These names will be shown to the user.
-     * 
+     *
      * Note: The column IDs have to be defined before.
-     *  
+     *
      *
      * @type member
      * @param columnNameArr {String[]} the names of the columns.
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      * @see #setColumnIds
      */
@@ -166,14 +166,14 @@ qx.Clazz.define("qx.ui.table.AbstractTableModel",
 
     /**
      * Sets the column names. These names will be shown to the user.
-     * 
+     *
      * Note: The column IDs have to be defined before.
-     *  
+     *
      *
      * @type member
      * @param columnNameMap {Map} a map containing the column IDs as keys and the
      *          column name as values.
-     * @return {void} 
+     * @return {void}
      * @see #setColumnIds
      */
     setColumnNamesById : function(columnNameMap)
@@ -195,7 +195,7 @@ qx.Clazz.define("qx.ui.table.AbstractTableModel",
      * @param columnIdArr {String[] ? null} The column IDs. These IDs may be used
      *          internally to identify a column. If null, the column names are used as
      *          IDs.
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     setColumns : function(columnNameArr, columnIdArr)

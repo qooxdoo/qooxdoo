@@ -86,7 +86,7 @@ qx.Clazz.define("feedreader.ArticleView",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _applyElementData : function()
     {

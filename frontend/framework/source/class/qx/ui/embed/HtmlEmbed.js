@@ -173,7 +173,7 @@ qx.Clazz.define("qx.ui.embed.HtmlEmbed",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _applyElementData : function() {
       this._syncHtml();
@@ -184,7 +184,7 @@ qx.Clazz.define("qx.ui.embed.HtmlEmbed",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _syncHtml : function() {
       this.getElement().innerHTML = this.getHtml();

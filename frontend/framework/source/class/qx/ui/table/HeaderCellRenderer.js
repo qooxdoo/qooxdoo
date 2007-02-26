@@ -78,7 +78,7 @@ qx.Clazz.define("qx.ui.table.HeaderCellRenderer",
   {
     /**
      * Creates a header cell.
-     * 
+     *
      * The cellInfo map contains the following properties:
      * <ul>
      * <li>col (int): the model index of the column.</li>
@@ -90,7 +90,7 @@ qx.Clazz.define("qx.ui.table.HeaderCellRenderer",
      * </ul>
      *
      * @type member
-     * @abstract 
+     * @abstract
      * @param cellInfo {Map} A map containing the information about the cell to
      *      create.
      * @return {qx.ui.core.Widget} the widget that renders the header cell.
@@ -105,12 +105,12 @@ qx.Clazz.define("qx.ui.table.HeaderCellRenderer",
      * Updates a header cell.
      *
      * @type member
-     * @abstract 
+     * @abstract
      * @param cellInfo {Map} A map containing the information about the cell to
      *      create. This map has the same structure as in {@link #createHeaderCell}.
      * @param cellWidget {qx.ui.core.Widget} the widget that renders the header cell. This is
      *      the same widget formally created by {@link #createHeaderCell}.
-     * @return {void} 
+     * @return {void}
      * @throws the abstract function warning.
      */
     updateHeaderCell : function(cellInfo, cellWidget) {

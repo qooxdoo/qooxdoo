@@ -186,7 +186,7 @@ qx.Clazz.define("qx.ui.listview.HeaderCell",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     updateSort : function()
     {
@@ -275,7 +275,7 @@ qx.Clazz.define("qx.ui.listview.HeaderCell",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseover : function(e) {
       this.addState("over");
@@ -287,7 +287,7 @@ qx.Clazz.define("qx.ui.listview.HeaderCell",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseout : function(e) {
       this.removeState("over");
@@ -299,7 +299,7 @@ qx.Clazz.define("qx.ui.listview.HeaderCell",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseup : function(e)
     {

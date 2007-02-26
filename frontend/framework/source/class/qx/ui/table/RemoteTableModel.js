@@ -156,13 +156,13 @@ qx.Clazz.define("qx.ui.table.RemoteTableModel",
 
     /**
      * Loads the row count from the server.
-     * 
+     *
      * Implementing classes have to call {@link _onRowDataLoaded()} when the server
      * response arrived. That method has to be called! Even when there was an error.
      *
      * @type member
-     * @abstract 
-     * @return {void} 
+     * @abstract
+     * @return {void}
      * @throws the abstract function warning.
      */
     _loadRowCount : function() {
@@ -172,12 +172,12 @@ qx.Clazz.define("qx.ui.table.RemoteTableModel",
 
     /**
      * Sets the row count.
-     * 
+     *
      * Has to be called by {@link _loadRowCount()}.
      *
      * @type member
      * @param rowCount {Integer} the number of rows in this model or null if loading.
-     * @return {void} 
+     * @return {void}
      */
     _onRowCountLoaded : function(rowCount)
     {
@@ -205,7 +205,7 @@ qx.Clazz.define("qx.ui.table.RemoteTableModel",
      * Reloads the model and clears the local cache.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     reloadData : function()
     {
@@ -231,7 +231,7 @@ qx.Clazz.define("qx.ui.table.RemoteTableModel",
      * Clears the cache.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     clearCache : function()
     {
@@ -242,18 +242,18 @@ qx.Clazz.define("qx.ui.table.RemoteTableModel",
 
     /**
      * Iterates through all cached rows.
-     * 
+     *
      * The iterator will be called for each cached row with two parameters: The row
      * index of the current row (Integer) and the row data of that row (var[]). If
      * the iterator returns something this will be used as new row data.
-     * 
+     *
      * The iterator is called in the same order as the rows are in the model
      * (the row index is always ascending).
      *
      * @type member
      * @param iterator {Function} The iterator function to call.
      * @param object {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     iterateCachedRows : function(iterator, object)
     {
@@ -291,7 +291,7 @@ qx.Clazz.define("qx.ui.table.RemoteTableModel",
      * @type member
      * @param firstRowIndex {var} TODOC
      * @param lastRowIndex {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     prefetchRows : function(firstRowIndex, lastRowIndex)
     {
@@ -357,15 +357,15 @@ qx.Clazz.define("qx.ui.table.RemoteTableModel",
 
     /**
      * Loads some row data from the server.
-     * 
+     *
      * Implementing classes have to call {@link _onRowDataLoaded()} when the server
      * response arrived. That method has to be called! Even when there was an error.
      *
      * @type member
-     * @abstract 
+     * @abstract
      * @param firstRow {Integer} The index of the first row to load.
      * @param lastRow {Integer} The index of the last row to load.
-     * @return {void} 
+     * @return {void}
      * @throws the abstract function warning.
      */
     _loadRowData : function(firstRow, lastRow) {
@@ -375,12 +375,12 @@ qx.Clazz.define("qx.ui.table.RemoteTableModel",
 
     /**
      * Sets row data.
-     * 
+     *
      * Has to be called by {@link _loadRowData()}.
      *
      * @type member
      * @param rowDataArr {Map[]} the loaded row data or null if there was an error.
-     * @return {void} 
+     * @return {void}
      */
     _onRowDataLoaded : function(rowDataArr)
     {
@@ -441,7 +441,7 @@ qx.Clazz.define("qx.ui.table.RemoteTableModel",
      * @type member
      * @param block {Integer} the index of the block.
      * @param rowDataArr {var[][]} the data to set.
-     * @return {void} 
+     * @return {void}
      */
     _setRowBlockData : function(block, rowDataArr)
     {
@@ -489,7 +489,7 @@ qx.Clazz.define("qx.ui.table.RemoteTableModel",
      *
      * @type member
      * @param rowIndex {Integer} the index of the row to remove.
-     * @return {void} 
+     * @return {void}
      */
     removeRow : function(rowIndex)
     {
@@ -581,8 +581,8 @@ qx.Clazz.define("qx.ui.table.RemoteTableModel",
 
 
     /**
-     * 
-     * See overridden method for details. 
+     *
+     * See overridden method for details.
      *
      * @type member
      * @param rowIndex {Integer} the model index of the row.
@@ -642,7 +642,7 @@ qx.Clazz.define("qx.ui.table.RemoteTableModel",
      * @type member
      * @param columnIndex {Integer} the column of which to set the sortable state.
      * @param sortable {Boolean} whether the column should be sortable.
-     * @return {void} 
+     * @return {void}
      */
     setColumnSortable : function(columnIndex, sortable)
     {
@@ -677,7 +677,7 @@ qx.Clazz.define("qx.ui.table.RemoteTableModel",
      * @type member
      * @param columnIndex {var} TODOC
      * @param ascending {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     sortByColumn : function(columnIndex, ascending)
     {

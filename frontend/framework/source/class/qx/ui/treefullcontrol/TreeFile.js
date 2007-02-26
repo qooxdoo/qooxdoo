@@ -102,7 +102,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.TreeFile",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _updateIndent : function() {
       this.addToTreeQueue();

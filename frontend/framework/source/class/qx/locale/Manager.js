@@ -75,7 +75,7 @@ qx.Clazz.define("qx.locale.Manager",
 
     /**
      * Translate a plural message
-     * 
+     *
      * Depending on the third argument the plursl or the singular form is chosen.
      *
      * @type static
@@ -101,7 +101,7 @@ qx.Clazz.define("qx.locale.Manager",
 
     /**
      * Translate a message with translation hint
-     * 
+     *
      * Depending on the third argument the plursl or the singular form is chosen.
      *
      * @type static
@@ -164,7 +164,7 @@ qx.Clazz.define("qx.locale.Manager",
 
     /**
      * Get the language code of the currnt locale
-     * 
+     *
      * This is the first part of a locale definition. The language for "de_DE" would be "de"
      *
      * @type member
@@ -177,7 +177,7 @@ qx.Clazz.define("qx.locale.Manager",
 
     /**
      * Get the territory code of the currnt locale
-     * 
+     *
      * This is the second part of a locale definition. The territory for "de_DE" would be "DE"
      *
      * @type member
@@ -190,7 +190,7 @@ qx.Clazz.define("qx.locale.Manager",
 
     /**
      * Return the available application locales
-     * 
+     *
      * This corresponds to the Makefile APPLICATION_LOCALES setting
      *
      * @type member
@@ -259,7 +259,7 @@ qx.Clazz.define("qx.locale.Manager",
      * @type member
      * @param languageCode {String} language code of the translation like de, de_AT, en, en_GB, fr, ...
      * @param translationMap {Map} mapping of message identifiers (english text) to the target language
-     * @return {void} 
+     * @return {void}
      */
     addTranslation : function(languageCode, translationMap)
     {

@@ -218,7 +218,7 @@ qx.Clazz.define("qx.ui.popup.ToolTip",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _beforeAppear : function()
     {
@@ -233,7 +233,7 @@ qx.Clazz.define("qx.ui.popup.ToolTip",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _beforeDisappear : function()
     {
@@ -255,7 +255,7 @@ qx.Clazz.define("qx.ui.popup.ToolTip",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _startShowTimer : function()
     {
@@ -269,7 +269,7 @@ qx.Clazz.define("qx.ui.popup.ToolTip",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _startHideTimer : function()
     {
@@ -283,7 +283,7 @@ qx.Clazz.define("qx.ui.popup.ToolTip",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _stopShowTimer : function()
     {
@@ -297,7 +297,7 @@ qx.Clazz.define("qx.ui.popup.ToolTip",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _stopHideTimer : function()
     {
@@ -320,7 +320,7 @@ qx.Clazz.define("qx.ui.popup.ToolTip",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseover : function(e)
     {

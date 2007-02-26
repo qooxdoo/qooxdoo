@@ -90,12 +90,12 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      EVENTS
   *****************************************************************************
   */
-  
+
   events: {
-  	"dialogok"     : "qx.event.type.Event",
+    "dialogok"     : "qx.event.type.Event",
     "dialogcancel" : "qx.event.type.Event"
   },
-  
+
 
 
 
@@ -189,7 +189,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createControlBar : function()
     {
@@ -203,7 +203,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createButtonBar : function()
     {
@@ -236,7 +236,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createControlPane : function()
     {
@@ -252,7 +252,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createHueSaturationPane : function()
     {
@@ -284,7 +284,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createBrightnessPane : function()
     {
@@ -324,7 +324,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createPresetFieldSet : function()
     {
@@ -375,7 +375,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createInputFieldSet : function()
     {
@@ -394,7 +394,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createPreviewFieldSet : function()
     {
@@ -423,7 +423,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createHexField : function()
     {
@@ -453,7 +453,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createRgbSpinner : function()
     {
@@ -488,7 +488,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createHsbSpinner : function()
     {
@@ -531,7 +531,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createPreviewContent : function()
     {
@@ -835,7 +835,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onBrightnessHandleMouseDown : function(e)
     {
@@ -855,7 +855,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onBrightnessHandleMouseUp : function(e)
     {
@@ -869,7 +869,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onBrightnessHandleMouseMove : function(e)
     {
@@ -885,7 +885,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onBrightnessFieldMouseDown : function(e)
     {
@@ -905,7 +905,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onBrightnessPaneMouseWheel : function(e) {
       this.setBrightness(qx.lang.Number.limit(this.getBrightness() + e.getWheelDelta(), 0, 100));
@@ -917,7 +917,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _setBrightnessOnFieldEvent : function(e)
     {
@@ -942,7 +942,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onButtonOkExecute : function(e) {
       this.createDispatchEvent("dialogok");
@@ -954,7 +954,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onButtonCancelExecute : function(e) {
       this.createDispatchEvent("dialogcancel");
@@ -974,7 +974,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onHueSaturationHandleMouseDown : function(e)
     {
@@ -995,7 +995,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onHueSaturationHandleMouseUp : function(e)
     {
@@ -1009,7 +1009,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onHueSaturationHandleMouseMove : function(e)
     {
@@ -1025,7 +1025,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onHueSaturationFieldMouseDown : function(e)
     {
@@ -1046,7 +1046,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onHueSaturationPaneMouseWheel : function(e) {
       this.setSaturation(qx.lang.Number.limit(this.getSaturation() + e.getWheelDelta(), 0, 100));
@@ -1058,7 +1058,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _setHueSaturationOnFieldEvent : function(e)
     {
@@ -1097,7 +1097,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _setRedFromSpinner : function()
     {
@@ -1115,7 +1115,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _setGreenFromSpinner : function()
     {
@@ -1133,7 +1133,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _setBlueFromSpinner : function()
     {
@@ -1159,7 +1159,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _setHueFromSpinner : function()
     {
@@ -1177,7 +1177,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _setSaturationFromSpinner : function()
     {
@@ -1195,7 +1195,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _setBrightnessFromSpinner : function()
     {
@@ -1274,7 +1274,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _setHexFromRgb : function() {
       this._hexField.setValue(qx.lang.String.pad(this.getRed().toString(16).toUpperCase(), 2) + qx.lang.String.pad(this.getGreen().toString(16).toUpperCase(), 2) + qx.lang.String.pad(this.getBlue().toString(16).toUpperCase(), 2));
@@ -1322,7 +1322,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _setHueFromRgb : function()
     {
@@ -1347,7 +1347,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _setRgbFromHue : function()
     {
@@ -1379,7 +1379,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _setPreviewFromRgb : function()
     {
@@ -1402,7 +1402,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      * @param vRed {var} TODOC
      * @param vGreen {var} TODOC
      * @param vBlue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setPreviousColor : function(vRed, vGreen, vBlue)
     {

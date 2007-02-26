@@ -56,7 +56,7 @@ qx.Clazz.define("qx.ui.table.DataRowRenderer",
   {
     /**
      * Updates a data row.
-     * 
+     *
      * The rowInfo map contains the following properties:
      * <ul>
      * <li>rowData (var): contains the row data for the row.
@@ -69,12 +69,12 @@ qx.Clazz.define("qx.ui.table.DataRowRenderer",
      * </ul>
      *
      * @type member
-     * @abstract 
+     * @abstract
      * @param rowInfo {Map} A map containing the information about the row to
      *      update. This map has the same structure as in {@link #createDataCell}.
      * @param rowElement {element} the DOM element that renders the data rot. This
      *      is the same element formally created by the HTML from {@link #createDataCell}.
-     * @return {void} 
+     * @return {void}
      * @throws the abstract function warning.
      */
     updateDataRowElement : function(rowInfo, rowElement) {

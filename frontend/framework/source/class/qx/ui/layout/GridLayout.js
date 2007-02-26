@@ -183,7 +183,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * @param vChild {var} TODOC
      * @param vCol {var} TODOC
      * @param vRow {var} TODOC
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     add : function(vChild, vCol, vRow)
@@ -240,7 +240,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * @param vData {var} TODOC
      * @param vOldLength {var} TODOC
      * @param vNewLength {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _syncDataFields : function(vData, vOldLength, vNewLength)
     {
@@ -273,7 +273,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      *
      * @type member
      * @param vCount {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setColumnCount : function(vCount)
     {
@@ -297,7 +297,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     addColumn : function()
     {
@@ -310,7 +310,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     removeColumn : function()
     {
@@ -326,7 +326,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _syncColumnDataFields : function()
     {
@@ -354,7 +354,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      *
      * @type member
      * @param vCount {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setRowCount : function(vCount)
     {
@@ -378,7 +378,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     addRow : function()
     {
@@ -391,7 +391,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     removeRow : function()
     {
@@ -407,7 +407,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _syncRowDataFields : function()
     {
@@ -455,7 +455,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * @param vColumnIndex {var} TODOC
      * @param vProperty {var} TODOC
      * @param vValue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _setupColumnProperty : function(vColumnIndex, vProperty, vValue)
     {
@@ -471,7 +471,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * @param vColumnIndex {var} TODOC
      * @param vProperty {var} TODOC
      * @param vValue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _removeColumnProperty : function(vColumnIndex, vProperty, vValue)
     {
@@ -484,7 +484,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _invalidateColumnLayout : function()
     {
@@ -534,7 +534,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * @param vRowIndex {var} TODOC
      * @param vProperty {var} TODOC
      * @param vValue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _setupRowProperty : function(vRowIndex, vProperty, vValue)
     {
@@ -550,7 +550,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * @param vRowIndex {var} TODOC
      * @param vProperty {var} TODOC
      * @param vValue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _removeRowProperty : function(vRowIndex, vProperty, vValue)
     {
@@ -563,7 +563,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _invalidateRowLayout : function()
     {
@@ -592,7 +592,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * @type member
      * @param vIndex {var} TODOC
      * @param vValue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setColumnWidth : function(vIndex, vValue)
     {
@@ -635,7 +635,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * @type member
      * @param vIndex {var} TODOC
      * @param vValue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setRowHeight : function(vIndex, vValue)
     {
@@ -854,7 +854,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * @type member
      * @param vIndex {var} TODOC
      * @param vValue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setColumnHorizontalAlignment : function(vIndex, vValue) {
       this._setupColumnProperty(vIndex, "horizontalAlignment", vValue);
@@ -867,7 +867,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * @type member
      * @param vIndex {var} TODOC
      * @param vValue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setColumnVerticalAlignment : function(vIndex, vValue) {
       this._setupColumnProperty(vIndex, "verticalAlignment", vValue);
@@ -880,7 +880,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * @type member
      * @param vIndex {var} TODOC
      * @param vValue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setRowHorizontalAlignment : function(vIndex, vValue) {
       this._setupRowProperty(vIndex, "horizontalAlignment", vValue);
@@ -893,7 +893,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * @type member
      * @param vIndex {var} TODOC
      * @param vValue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setRowVerticalAlignment : function(vIndex, vValue) {
       this._setupRowProperty(vIndex, "verticalAlignment", vValue);
@@ -963,7 +963,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * @type member
      * @param vIndex {var} TODOC
      * @param vValue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setColumnPaddingTop : function(vIndex, vValue) {
       this._setupColumnProperty(vIndex, "paddingTop", vValue);
@@ -976,7 +976,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * @type member
      * @param vIndex {var} TODOC
      * @param vValue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setColumnPaddingRight : function(vIndex, vValue) {
       this._setupColumnProperty(vIndex, "paddingRight", vValue);
@@ -989,7 +989,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * @type member
      * @param vIndex {var} TODOC
      * @param vValue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setColumnPaddingBottom : function(vIndex, vValue) {
       this._setupColumnProperty(vIndex, "paddingBottom", vValue);
@@ -1002,7 +1002,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * @type member
      * @param vIndex {var} TODOC
      * @param vValue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setColumnPaddingLeft : function(vIndex, vValue) {
       this._setupColumnProperty(vIndex, "paddingLeft", vValue);
@@ -1015,7 +1015,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * @type member
      * @param vIndex {var} TODOC
      * @param vValue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setRowPaddingTop : function(vIndex, vValue) {
       this._setupRowProperty(vIndex, "paddingTop", vValue);
@@ -1028,7 +1028,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * @type member
      * @param vIndex {var} TODOC
      * @param vValue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setRowPaddingRight : function(vIndex, vValue) {
       this._setupRowProperty(vIndex, "paddingRight", vValue);
@@ -1041,7 +1041,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * @type member
      * @param vIndex {var} TODOC
      * @param vValue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setRowPaddingBottom : function(vIndex, vValue) {
       this._setupRowProperty(vIndex, "paddingBottom", vValue);
@@ -1054,7 +1054,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * @type member
      * @param vIndex {var} TODOC
      * @param vValue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setRowPaddingLeft : function(vIndex, vValue) {
       this._setupRowProperty(vIndex, "paddingLeft", vValue);
@@ -1171,7 +1171,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * @type member
      * @param vNew {var} TODOC
      * @param vOld {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _changeInnerWidth : function(vNew, vOld)
     {
@@ -1192,7 +1192,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * @type member
      * @param vNew {var} TODOC
      * @param vOld {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _changeInnerHeight : function(vNew, vOld)
     {

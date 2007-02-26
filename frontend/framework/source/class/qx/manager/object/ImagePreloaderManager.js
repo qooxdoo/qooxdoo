@@ -65,7 +65,7 @@ qx.Clazz.define("qx.manager.object.ImagePreloaderManager",
      *
      * @type member
      * @param vObject {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     add : function(vObject) {
       this._objects[vObject.getUri()] = vObject;
@@ -77,7 +77,7 @@ qx.Clazz.define("qx.manager.object.ImagePreloaderManager",
      *
      * @type member
      * @param vObject {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     remove : function(vObject) {
       delete this._objects[vObject.getUri()];

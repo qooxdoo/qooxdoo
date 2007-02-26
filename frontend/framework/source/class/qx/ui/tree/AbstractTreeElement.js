@@ -333,23 +333,23 @@ qx.Clazz.define("qx.ui.tree.AbstractTreeElement",
 
 
     /**
-     * 
+     *
      * deselects, disconnects, removes and disposes the
      *    current tree element and its content.
-     *  
-     * 
+     *
+     *
      * destroys the current item (TreeFile or TreeFolder)
      * and all its subitems. The destruction of the subitems
      * is done by calling destroyContent. This is done if the
      * subitem has the method destroyContent which is true if the
      * subitem is a TreeFolder (or one of its subclasses).
-     *  
-     * 
+     *
+     *
      * The method destroyContent is defined in the TreeFolder class.
-     *  
+     *
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     destroy : function()
     {
@@ -420,7 +420,7 @@ qx.Clazz.define("qx.ui.tree.AbstractTreeElement",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     addToTreeQueue : function()
     {
@@ -436,7 +436,7 @@ qx.Clazz.define("qx.ui.tree.AbstractTreeElement",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     removeFromTreeQueue : function()
     {
@@ -453,7 +453,7 @@ qx.Clazz.define("qx.ui.tree.AbstractTreeElement",
      *
      * @type member
      * @param vHint {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     addToCustomQueues : function(vHint)
     {
@@ -468,7 +468,7 @@ qx.Clazz.define("qx.ui.tree.AbstractTreeElement",
      *
      * @type member
      * @param vHint {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     removeFromCustomQueues : function(vHint)
     {
@@ -520,7 +520,7 @@ qx.Clazz.define("qx.ui.tree.AbstractTreeElement",
      * @param vDisplayable {var} TODOC
      * @param vParent {var} TODOC
      * @param vHint {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _handleDisplayableCustom : function(vDisplayable, vParent, vHint)
     {
@@ -573,7 +573,7 @@ qx.Clazz.define("qx.ui.tree.AbstractTreeElement",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmousedown : function(e)
     {
@@ -596,7 +596,7 @@ qx.Clazz.define("qx.ui.tree.AbstractTreeElement",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     flushTree : function()
     {

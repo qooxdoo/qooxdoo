@@ -153,7 +153,7 @@ qx.Clazz.define("qx.ui.layout.DockLayout",
      * Add multiple childrens and make them left aligned
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     addLeft : function() {
       this._addAlignedHorizontal("left", arguments);
@@ -164,7 +164,7 @@ qx.Clazz.define("qx.ui.layout.DockLayout",
      * Add multiple childrens and make them right aligned
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     addRight : function() {
       this._addAlignedHorizontal("right", arguments);
@@ -175,7 +175,7 @@ qx.Clazz.define("qx.ui.layout.DockLayout",
      * Add multiple childrens and make them top aligned
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     addTop : function() {
       this._addAlignedVertical("top", arguments);
@@ -186,7 +186,7 @@ qx.Clazz.define("qx.ui.layout.DockLayout",
      * Add multiple childrens and make them bottom aligned
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     addBottom : function() {
       this._addAlignedVertical("bottom", arguments);
@@ -199,7 +199,7 @@ qx.Clazz.define("qx.ui.layout.DockLayout",
      * @type member
      * @param vAlign {var} TODOC
      * @param vArgs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _addAlignedVertical : function(vAlign, vArgs)
     {
@@ -217,7 +217,7 @@ qx.Clazz.define("qx.ui.layout.DockLayout",
      * @type member
      * @param vAlign {var} TODOC
      * @param vArgs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _addAlignedHorizontal : function(vAlign, vArgs)
     {

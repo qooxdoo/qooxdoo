@@ -181,7 +181,7 @@ qx.Clazz.define("qx.ui.popup.Popup",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _beforeAppear : function()
     {
@@ -218,7 +218,7 @@ qx.Clazz.define("qx.ui.popup.Popup",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _beforeDisappear : function()
     {
@@ -234,7 +234,7 @@ qx.Clazz.define("qx.ui.popup.Popup",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _afterAppear : function()
     {
@@ -303,7 +303,7 @@ qx.Clazz.define("qx.ui.popup.Popup",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _makeActive : function() {
       this.getFocusRoot().setActiveChild(this);
@@ -314,7 +314,7 @@ qx.Clazz.define("qx.ui.popup.Popup",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _makeInactive : function()
     {
@@ -342,7 +342,7 @@ qx.Clazz.define("qx.ui.popup.Popup",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     bringToFront : function()
     {
@@ -356,7 +356,7 @@ qx.Clazz.define("qx.ui.popup.Popup",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     sendToBack : function()
     {
@@ -369,7 +369,7 @@ qx.Clazz.define("qx.ui.popup.Popup",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _sendTo : function()
     {
@@ -439,7 +439,7 @@ qx.Clazz.define("qx.ui.popup.Popup",
      * @param el {var} Reference DOM element/widget.
      * @param offsetX {Integer} Offset in pixels in X direction (optional).
      * @param offsetY {Integer} Offset in pixels in Y direction (optional).
-     * @return {void} 
+     * @return {void}
      */
     positionRelativeTo : function(el, offsetX, offsetY)
     {
@@ -463,7 +463,7 @@ qx.Clazz.define("qx.ui.popup.Popup",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     centerToBrowser : function()
     {

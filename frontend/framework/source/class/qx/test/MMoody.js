@@ -6,7 +6,7 @@ qx.Mixin.define("qx.test.MMoody",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     hiss : function() {
       this.debug("CCCCCCCCCHHHHHH!!");

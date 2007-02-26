@@ -142,7 +142,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.TreeRowStructure",
   {
     /**
      * Prepare to define a new row.
-     * 
+     *
      * This reinitializes the singleton TreeRowStructure so that it is ready to
      * define a new tree row.
      *
@@ -184,13 +184,13 @@ qx.Clazz.define("qx.ui.treefullcontrol.TreeRowStructure",
 
     /**
      * Define a new row with the 'standard' structure.
-     * 
+     *
      * This reinitializes the singleton TreeRowStructure to the state of a
      * standard'or traditional tree row:
      *   - indentation
      *   - icon
      *   - label
-     * 
+     *
      * The icon parameters may be omitted in which case the defaults will be
      * used.  If the label parameter is omitted, no label will appear.
      *
@@ -214,7 +214,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.TreeRowStructure",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     addIndent : function()
@@ -247,7 +247,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.TreeRowStructure",
      * @type member
      * @param vIcon {var} TODOC
      * @param vIconSelected {var} TODOC
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     addIcon : function(vIcon, vIconSelected)
@@ -277,7 +277,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.TreeRowStructure",
      *
      * @type member
      * @param vLabel {var} TODOC
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     addLabel : function(vLabel)
@@ -314,7 +314,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.TreeRowStructure",
      * @type member
      * @param vObj {var} TODOC
      * @param vAnonymous {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     addObject : function(vObj, vAnonymous)
     {

@@ -79,7 +79,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.TreeFolder",
      EVENTS
   *****************************************************************************
   */
-  
+
   events : {
     "treeOpenWithContent" : "qx.event.type.DataEvent",
     "treeOpenWhileEmpty" : "qx.event.type.DataEvent",
@@ -169,7 +169,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.TreeFolder",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     open : function()
     {
@@ -207,7 +207,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.TreeFolder",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     close : function()
     {
@@ -226,7 +226,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.TreeFolder",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     toggle : function() {
       this.getOpen() ? this.close() : this.open();
@@ -237,7 +237,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.TreeFolder",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _openCallback : function()
     {
@@ -259,7 +259,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.TreeFolder",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createChildrenStructure : function()
     {
@@ -313,7 +313,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.TreeFolder",
      * @param vChild {var} TODOC
      * @param vRelationIndex {var} TODOC
      * @param vRelationChild {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _handleChildMove : function(vChild, vRelationIndex, vRelationChild)
     {
@@ -632,7 +632,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.TreeFolder",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _updateLastColumn : function()
     {
@@ -660,7 +660,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.TreeFolder",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmousedown : function(e)
     {
@@ -700,7 +700,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.TreeFolder",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseup : function(e)
     {
@@ -726,7 +726,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.TreeFolder",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _ondblclick : function(e)
     {
@@ -824,7 +824,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.TreeFolder",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _updateIndent : function()
     {

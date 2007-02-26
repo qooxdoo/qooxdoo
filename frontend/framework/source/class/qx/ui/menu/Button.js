@@ -461,7 +461,7 @@ qx.Clazz.define("qx.ui.menu.Button",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseup : function(e) {
       this.execute();

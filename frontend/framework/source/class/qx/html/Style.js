@@ -43,15 +43,15 @@ qx.Clazz.define("qx.html.Style",
      * @type static
      * @param vElement {var} TODOC
      * @param propertyName {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     getStylePropertySure : qx.lang.Object.select((document.defaultView && document.defaultView.getComputedStyle) ? "hasComputed" : "noComputed",
     {
       "hasComputed" : function(el, prop) {
         return !el ? null : el.ownerDocument ? el.ownerDocument.defaultView.getComputedStyle(el, "")[prop] : el.style[prop];
       },
-      
-      "noComputed" : qx.core.Variant.select("qx.client", 
+
+      "noComputed" : qx.core.Variant.select("qx.client",
       {
         "mshtml" : function(el, prop)
         {
@@ -60,18 +60,18 @@ qx.Clazz.define("qx.html.Style",
             if (!el) {
               return null;
             }
-      
+
             if (el.parentNode && el.currentStyle) {
               return el.currentStyle[prop];
             }
             else
             {
               var v1 = el.runtimeStyle[prop];
-      
+
               if (v1 != null && typeof v1 != "undefined" && v1 != "") {
                 return v1;
               }
-      
+
               return el.style[prop];
             }
           }
@@ -80,7 +80,7 @@ qx.Clazz.define("qx.html.Style",
             throw new Error("Could not evaluate computed style: " + el + "[" + prop + "]: " + ex);
           }
         },
-        
+
         "default" : function(el, prop) {
           return !el ? null : el.style[prop];
         }
@@ -106,8 +106,8 @@ qx.Clazz.define("qx.html.Style",
           throw new Error("Could not evaluate computed style: " + el + "[" + prop + "]: " + ex);
         }
       },
-      
-      "noComputed" : qx.core.Variant.select("qx.client", 
+
+      "noComputed" : qx.core.Variant.select("qx.client",
       {
         "mshtml" : function(el, prop)
         {
@@ -117,7 +117,7 @@ qx.Clazz.define("qx.html.Style",
             throw new Error("Could not evaluate computed style: " + el + "[" + prop + "]: " + ex);
           }
         },
-        
+
         "default" : function(el, prop)
         {
           try {
