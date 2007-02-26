@@ -193,8 +193,11 @@ qx.Clazz.define("qx.manager.object.AppearanceManager",
 
       // Creating cache-able ID
       var helper = [];
-			for (var state in states) {
-				helper.push(state);
+			for (var state in states) 
+			{
+				if (states[state]) {
+					helper.push(state);
+				}
 			}
 			helper.sort().unshift(id);
 			var unique = helper.join(":");
