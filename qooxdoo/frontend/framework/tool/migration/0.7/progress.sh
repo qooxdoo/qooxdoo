@@ -1,7 +1,7 @@
 #!/bin/bash
 
-chdir `basedir $0`
-PATHS="../../../framework/source/class"
+cd  `dirname $0`
+PATHS="../../../source/class"
 
 echo -n "  * Old style classes: "
 FILES_OLD=`find $PATHS -name "*.js" -exec grep -lE "qx\.OO\.defineClass\s*\(" {} \; | sed 's/^.*$/&\\\n/g' | head -n -1 - `
