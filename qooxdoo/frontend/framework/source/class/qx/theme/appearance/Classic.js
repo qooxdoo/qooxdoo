@@ -401,7 +401,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         if (states.barTop)
         {
           return {
-						backgroundColor : "#E1EEFF",
+            backgroundColor : "#E1EEFF",
             paddingTop    : 1,
             paddingRight  : 0,
             paddingBottom : 1,
@@ -415,7 +415,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         else if (states.barBottom)
         {
           return {
-						backgroundColor : "#E1EEFF",
+            backgroundColor : "#E1EEFF",
             paddingTop    : 1,
             paddingRight  : 0,
             paddingBottom : 1,
@@ -429,7 +429,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         else if (states.barLeft)
         {
           return {
-						backgroundColor : "#E1EEFF",
+            backgroundColor : "#E1EEFF",
             paddingTop    : 0,
             paddingRight  : 1,
             paddingBottom : 0,
@@ -443,7 +443,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         else if (states.barRight)
         {
           return {
-						backgroundColor : "#E1EEFF",
+            backgroundColor : "#E1EEFF",
             paddingTop    : 0,
             paddingRight  : 1,
             paddingBottom : 0,
@@ -567,9 +567,9 @@ qx.Theme.define("qx.theme.appearance.Classic",
           paddingRight    : 1,
           paddingBottom   : 1,
           paddingLeft     : 1,
-          border : states.maximized ? 
-            qx.renderer.border.BorderPresets.getInstance().none : 
-						qx.renderer.border.BorderPresets.getInstance().outset
+          border : states.maximized ?
+            qx.renderer.border.BorderPresets.getInstance().none :
+            qx.renderer.border.BorderPresets.getInstance().outset
         };
       }
     },
@@ -770,8 +770,8 @@ qx.Theme.define("qx.theme.appearance.Classic",
           cursor                : "default",
           verticalChildrenAlign : "middle",
           allowStretchX         : true,
-          backgroundColor 			: states.over ? "highlight" : null,
-          color           			: states.over ? "highlighttext" : null
+          backgroundColor       : states.over ? "highlight" : null,
+          color                 : states.over ? "highlighttext" : null
         };
       }
     },
@@ -849,8 +849,8 @@ qx.Theme.define("qx.theme.appearance.Classic",
           paddingBottom           : 3,
           paddingLeft             : 5,
           minWidth                : "auto",
-          backgroundColor 				: states.selected ? "highlight" : null,
-          color           				: states.selected ? "highlighttext" : null
+          backgroundColor         : states.selected ? "highlight" : null,
+          color                   : states.selected ? "highlighttext" : null
         };
       }
     },
@@ -880,7 +880,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
           font          : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
           width         : "auto",
           height        : "auto",
-          color 				: states.disabled ? "graytext" : null
+          color         : states.disabled ? "graytext" : null
         };
       }
     },
@@ -1595,7 +1595,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
           paddingLeft   : 3,
           border : states.pressed || states.checked || states.abandoned ?
             qx.renderer.border.BorderPresets.getInstance().inset :
-						qx.renderer.border.BorderPresets.getInstance().outset
+            qx.renderer.border.BorderPresets.getInstance().outset
         };
       }
     },
@@ -1616,7 +1616,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
           paddingLeft   : 3,
           border : states.pressed || states.checked || states.abandoned ?
             qx.renderer.border.BorderPresets.getInstance().inset :
-						qx.renderer.border.BorderPresets.getInstance().outset
+            qx.renderer.border.BorderPresets.getInstance().outset
         };
       }
     },
@@ -1774,7 +1774,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
           font        : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
           color       : "#6285BA",
           paddingLeft : 2,
-					border : states.header ? this.headerBorder : this.border
+          border : states.header ? this.headerBorder : this.border
         };
       }
     },
@@ -1906,19 +1906,19 @@ qx.Theme.define("qx.theme.appearance.Classic",
         return {
           zIndex          : 1e7,
           backgroundColor : "threedshadow",
-					opacity : states.visible ? 0.2 : 0
+          opacity : states.visible ? 0.2 : 0
         };
       }
     },
 
     "splitpane-splitter" :
     {
-      style : function(states) 
-			{
-        return { 
-					backgroundColor : "threedface",
-					cursor : states.horizontal ? "col-resize" : "row-resize"
-				};
+      style : function(states)
+      {
+        return {
+          backgroundColor : "threedface",
+          cursor : states.horizontal ? "col-resize" : "row-resize"
+        };
       }
     },
 
@@ -1929,7 +1929,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         return {
           opacity : 0.5,
           zIndex  : 1e8,
-					backgroundColor : states.dragging ? "threeddarkshadow" : "threedface"
+          backgroundColor : states.dragging ? "threeddarkshadow" : "threedface"
         };
       }
     },

@@ -114,10 +114,10 @@ qx.Clazz.define("qx.event.type.KeyEvent",
       numpad_minus    : 109,
       numpad_plus     : 107
     },
-    
+
     /**
      * Mapping of the key codes to the key identifiers
-     */ 
+     */
     codes : {}
   },
 

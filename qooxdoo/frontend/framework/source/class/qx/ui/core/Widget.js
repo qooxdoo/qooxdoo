@@ -3703,11 +3703,11 @@ qx.Clazz.define("qx.ui.core.Widget",
           return this._computedWidthValue = this.getPreferredBoxWidth();
 
         case qx.ui.core.Widget.TYPE_FLEX:
-				  if (this.getParent().getLayoutImpl().computeChildrenFlexWidth === undefined) {
-					  throw new Error("Widget " + this + ": having horizontal flex size (width=" + this.getWidth() + ") but parent layout " + this.getParent() + " does not support it");
-					}
+          if (this.getParent().getLayoutImpl().computeChildrenFlexWidth === undefined) {
+            throw new Error("Widget " + this + ": having horizontal flex size (width=" + this.getWidth() + ") but parent layout " + this.getParent() + " does not support it");
+          }
 
-					this.getParent().getLayoutImpl().computeChildrenFlexWidth();
+          this.getParent().getLayoutImpl().computeChildrenFlexWidth();
           return this._computedWidthValue = this._computedWidthFlexValue;
       }
 
@@ -3858,7 +3858,7 @@ qx.Clazz.define("qx.ui.core.Widget",
             throw new Error("Widget " + this + ": having vertical flex size (height=" + this.getHeight() + ") but parent layout " + this.getParent() + " does not support it");
           }
 
-				  this.getParent().getLayoutImpl().computeChildrenFlexHeight();
+          this.getParent().getLayoutImpl().computeChildrenFlexHeight();
           return this._computedHeightValue = this._computedHeightFlexValue;
       }
 
@@ -5327,8 +5327,8 @@ qx.Clazz.define("qx.ui.core.Widget",
 
       if (propValue)
       {
-	      var vNewAppearanceProperties = vAppearanceManager.styleFrom(propValue, this._states) || {};
-			}
+        var vNewAppearanceProperties = vAppearanceManager.styleFrom(propValue, this._states) || {};
+      }
 
       if (propOldValue)
       {
@@ -7487,12 +7487,12 @@ qx.Clazz.define("qx.ui.core.Widget",
             return;
           }
 
-          if (!(statics._globalWidgetQueue.length > 0 || 
-                statics._globalElementQueue.length > 0 || 
-                statics._globalStateQueue.length > 0 || 
-                statics._globalJobQueue.length > 0 || 
-                statics._globalLayoutQueue.length > 0 || 
-                statics._fastGlobalDisplayQueue.length > 0 || 
+          if (!(statics._globalWidgetQueue.length > 0 ||
+                statics._globalElementQueue.length > 0 ||
+                statics._globalStateQueue.length > 0 ||
+                statics._globalJobQueue.length > 0 ||
+                statics._globalLayoutQueue.length > 0 ||
+                statics._fastGlobalDisplayQueue.length > 0 ||
                 !qx.lang.Object.isEmpty(statics._lazyGlobalDisplayQueue))) {
             return;
           }
