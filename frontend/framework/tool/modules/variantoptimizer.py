@@ -197,44 +197,66 @@ def getMethods(mapNode):
 
 def selectNode(node, path):
   re_indexedNode = re.compile("^(.*)\[(\d+)\]$")
+  re_attributeNode = re.compile("^(.*)\[@(.+)=\'(.*)\'\]$")
 
-  pathParts = path.split("/")
-  for part in pathParts:
-    # parent node
-    if part == "..":
-      node = node.parent
-    else:
-      # only index
-      try:
-        position = int(part)
-        node = node.getChildByPosition(position)
-        continue
-      except ValueError:
-        pass
-
-      # indexed node
-      match = re_indexedNode.match(part)
-      if match:
-        type = match.group(1)
-        index = int(match.group(2))
-        i = 0
-        found = False
-        for child in node.children:
-          if child.type == type:
-            if index == i:
-              node = child
-              found = True
-              break
-            i += 1
-        if not found:
-          return None
-      # attribute
-      elif part[0] == "@":
-        return node.get(part[1:])
-      # normal node
-      else:
-        node = node.getChild(part)
-
+  try:
+      pathParts = path.split("/")
+      for part in pathParts:
+        # parent node
+        if part == "..":
+          node = node.parent
+        else:
+          # only index
+          try:
+            position = int(part)
+            node = node.getChildByPosition(position)
+            continue
+          except ValueError:
+            pass
+    
+          # indexed node
+          match = re_indexedNode.match(part)
+          if match:
+            type = match.group(1)
+            index = int(match.group(2))
+            i = 0
+            found = False
+            for child in node.children:
+              if child.type == type:
+                if index == i:
+                  node = child
+                  found = True
+                  break
+                i += 1
+            if not found:
+              return None
+          
+          match = re_attributeNode.match(part)
+          if match:
+            type = match.group(1)
+            attribName = match.group(2)
+            attribType = match.group(3)
+            found = False
+            for child in node.children:
+              if child.type == type:
+                if child.get(attribName) == attribType:
+                  node = child
+                  found = True
+            if not found:
+              return None
+                        
+                
+                
+          # attribute
+          elif part[0] == "@":
+            return node.get(part[1:])
+          # normal node
+          else:
+            node = node.getChild(part)
+  
+  except tree.NodeAccessException:
+      return None
+  
   return node
 
 
@@ -294,6 +316,18 @@ def findVariable(node, varName, varNodes=None):
       varNodes = findVariable(child, varName, varNodes)
 
   return varNodes
+
+
+def mapNodeToMap(mapNode):
+  if mapNode.type != "map":
+    return None
+
+  keys = {}
+  for child in mapNode.children:
+    if child.type == "keyvalue":
+      keys[child.get("key")] = child.getChild("value")
+    
+  return keys
 
 
 def inlineIfStatement(ifNode, conditionValue):
