@@ -22,8 +22,6 @@ qx.Clazz.define("custom.Application",
   extend : qx.component.AbstractApplication,
 
 
-
-
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -35,8 +33,6 @@ qx.Clazz.define("custom.Application",
   },
 
 
-
-
   /*
   *****************************************************************************
      MEMBERS
@@ -45,12 +41,6 @@ qx.Clazz.define("custom.Application",
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      METHODS
-    ---------------------------------------------------------------------------
-    */
-
     /**
      * TODOC
      *
@@ -101,9 +91,11 @@ qx.Clazz.define("custom.Application",
      * @param e {Event} TODOC
      * @return {void} 
      */
-    finalize : function(e) {},
+    finalize : function(e)
+    {
+      // After initial rendering...
+    },
 
-    // After initial rendering...
     /**
      * TODOC
      *
@@ -111,10 +103,12 @@ qx.Clazz.define("custom.Application",
      * @param e {Event} TODOC
      * @return {void} 
      */
-    close : function(e) {},
+    close : function(e)
+    {
+      // Prompt user
+      // e.returnValue = "[qooxdoo application: Do you really want to close the application?]";  
+    },
 
-    // Prompt user
-    // e.returnValue = "[qooxdoo application: Do you really want to close the application?]";
     /**
      * TODOC
      *
@@ -124,8 +118,6 @@ qx.Clazz.define("custom.Application",
      */
     terminate : function(e) {}
   },
-
-
 
 
   /*
