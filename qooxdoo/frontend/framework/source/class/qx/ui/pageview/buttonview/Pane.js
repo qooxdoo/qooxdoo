@@ -81,7 +81,7 @@ qx.Clazz.define("qx.ui.pageview.buttonview.Pane",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _applyStateAppearance : function()
     {

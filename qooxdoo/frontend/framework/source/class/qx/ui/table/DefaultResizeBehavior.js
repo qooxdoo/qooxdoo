@@ -129,7 +129,7 @@ qx.Clazz.define("qx.ui.table.DefaultResizeBehavior",
      *     number of pixels (e.g. 100), a string representing percentage of the
      *     inner width of the Table (e.g. "25%"), or a string representing a flex
      *     width (e.g. "1*").
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     setWidth : function(col, width)
@@ -150,7 +150,7 @@ qx.Clazz.define("qx.ui.table.DefaultResizeBehavior",
      * @type member
      * @param col {Integer} The column whose minimum width is to be set
      * @param width {Integer} The minimum width of the specified column.
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     setMinWidth : function(col, width)
@@ -171,7 +171,7 @@ qx.Clazz.define("qx.ui.table.DefaultResizeBehavior",
      * @type member
      * @param col {Integer} The column whose maximum width is to be set
      * @param width {Integer} The maximum width of the specified column.
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     setMaxWidth : function(col, width)
@@ -196,7 +196,7 @@ qx.Clazz.define("qx.ui.table.DefaultResizeBehavior",
      *     and "maxWidth".  The property values are as described for
      *     {@link #setWidth}, {@link #setMinWidth} and {@link #setMaxWidth}
      *     respectively.
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     set : function(col, map)
@@ -230,7 +230,7 @@ qx.Clazz.define("qx.ui.table.DefaultResizeBehavior",
      * @type member
      * @param tableColumnModel {var} TODOC
      * @param event {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     onAppear : function(tableColumnModel, event)
     {
@@ -249,7 +249,7 @@ qx.Clazz.define("qx.ui.table.DefaultResizeBehavior",
      * @type member
      * @param tableColumnModel {var} TODOC
      * @param event {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     onTableWidthChanged : function(tableColumnModel, event)
     {
@@ -264,7 +264,7 @@ qx.Clazz.define("qx.ui.table.DefaultResizeBehavior",
      * @type member
      * @param tableColumnModel {var} TODOC
      * @param event {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     onVerticalScrollBarChanged : function(tableColumnModel, event)
     {
@@ -279,7 +279,7 @@ qx.Clazz.define("qx.ui.table.DefaultResizeBehavior",
      * @type member
      * @param tableColumnModel {var} TODOC
      * @param event {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     onColumnWidthChanged : function(tableColumnModel, event)
     {
@@ -294,7 +294,7 @@ qx.Clazz.define("qx.ui.table.DefaultResizeBehavior",
      * @type member
      * @param tableColumnModel {var} TODOC
      * @param event {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     onVisibilityChanged : function(tableColumnModel, event)
     {
@@ -308,7 +308,7 @@ qx.Clazz.define("qx.ui.table.DefaultResizeBehavior",
      *
      * @type member
      * @param numColumns {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _setNumColumns : function(numColumns)
     {
@@ -337,7 +337,7 @@ qx.Clazz.define("qx.ui.table.DefaultResizeBehavior",
      * @type member
      * @param tableColumnModel {qx.ui.table.ResizeTableColumnModel} The table column model in use.
      * @param event {var} The event object.
-     * @return {void} 
+     * @return {void}
      */
     _computeColumnsFlexWidth : function(tableColumnModel, event)
     {
@@ -575,7 +575,7 @@ qx.Clazz.define("qx.ui.table.DefaultResizeBehavior",
      * @type member
      * @param tableColumnModel {qx.ui.table.ResizeTableColumnModel} The table column model in use.
      * @param event {var} The event object.
-     * @return {void} 
+     * @return {void}
      */
     _extendNextColumn : function(tableColumnModel, event)
     {
@@ -646,7 +646,7 @@ qx.Clazz.define("qx.ui.table.DefaultResizeBehavior",
      * @type member
      * @param tableColumnModel {qx.ui.table.ResizeTableColumnModel} The table column model in use.
      * @param event {var} The event object.
-     * @return {void} 
+     * @return {void}
      */
     _extendLastColumn : function(tableColumnModel, event)
     {

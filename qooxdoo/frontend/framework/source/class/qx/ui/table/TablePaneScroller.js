@@ -411,7 +411,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onColVisibilityChanged : function(evt)
     {
@@ -425,7 +425,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onColWidthChanged : function(evt)
     {
@@ -450,7 +450,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onColOrderChanged : function(evt)
     {
@@ -466,7 +466,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onTableModelDataChanged : function(evt)
     {
@@ -497,7 +497,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onSelectionChanged : function(evt) {
       this._tablePane._onSelectionChanged(evt);
@@ -509,7 +509,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onFocusChanged : function(evt)
     {
@@ -524,7 +524,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onTableModelMetaDataChanged : function(evt)
     {
@@ -538,7 +538,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onPaneModelChanged : function(evt)
     {
@@ -552,7 +552,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      * total width of the columns in the table pane.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _updateHorScrollBarMaximum : function() {
       this._horScrollBar.setMaximum(this.getTablePaneModel().getTotalWidth());
@@ -564,7 +564,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      * number of rows in the table.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _updateVerScrollBarMaximum : function()
     {
@@ -584,7 +584,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      * changed.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _onKeepFirstVisibleRowCompleteChanged : function()
     {
@@ -614,7 +614,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _afterAppear : function()
     {
@@ -635,7 +635,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onScrollX : function(evt)
     {
@@ -652,7 +652,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onScrollY : function(evt)
     {
@@ -666,7 +666,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onmousewheel : function(evt)
     {
@@ -690,7 +690,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onmousemove : function(evt)
     {
@@ -812,7 +812,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onmousedown : function(evt)
     {
@@ -882,7 +882,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onmouseup : function(evt)
     {
@@ -966,7 +966,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onclick : function(evt)
     {
@@ -1015,7 +1015,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _ondblclick : function(evt)
     {
@@ -1032,7 +1032,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onmouseout : function(evt)
     {
@@ -1065,7 +1065,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      * @type member
      * @param x {Integer} the position where to show the line (in pixels, relative to
      *      the left side of the pane).
-     * @return {void} 
+     * @return {void}
      */
     _showResizeLine : function(x)
     {
@@ -1093,7 +1093,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      * Hides the resize line.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _hideResizeLine : function() {
       this._resizeLine.setStyleProperty("visibility", "hidden");
@@ -1151,7 +1151,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      * Hides the feedback shown while a column is moved by the user.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     hideColumnMoveFeedback : function() {
       this._hideResizeLine();
@@ -1166,7 +1166,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      * @type member
      * @param pageX {Integer} the x position in the page (in pixels).
      * @param pageY {Integer} the y position in the page (in pixels).
-     * @return {void} 
+     * @return {void}
      */
     _focusCellAtPagePos : function(pageX, pageY)
     {
@@ -1190,7 +1190,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      * @type member
      * @param col {Integer} the model index of the focused cell's column.
      * @param row {Integer} the model index of the focused cell's row.
-     * @return {void} 
+     * @return {void}
      */
     setFocusedCell : function(col, row)
     {
@@ -1237,7 +1237,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      * @type member
      * @param col {Integer} the model index of the column the cell belongs to.
      * @param row {Integer} the model index of the row the cell belongs to.
-     * @return {void} 
+     * @return {void}
      */
     scrollCellVisible : function(col, row)
     {
@@ -1352,7 +1352,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      * Stops editing and writes the editor's value to the model.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     stopEditing : function()
     {
@@ -1365,7 +1365,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      * Writes the editor's value to the model.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     flushEditor : function()
     {
@@ -1383,7 +1383,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      * Stops editing without writing the editor's value to the model.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     cancelEditing : function()
     {
@@ -1405,7 +1405,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onCellEditorFocusChanged : function(evt)
     {
@@ -1537,13 +1537,13 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
 
     /**
      * Sets the widget that should be shown in the top right corner.
-     * 
+     *
      * The widget will not be disposed, when this table scroller is disposed. So the
      * caller has to dispose it.
      *
      * @type member
      * @param widget {qx.ui.core.Widget} The widget to set. May be null.
-     * @return {void} 
+     * @return {void}
      */
     setTopRightWidget : function(widget)
     {
@@ -1654,7 +1654,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      * Does a postponed update of the content.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      * @see #_updateContent
      */
     _postponedUpdateContent : function()
@@ -1685,7 +1685,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      * does the scrolling.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _updateContent : function()
     {
@@ -1731,7 +1731,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      * Updates the location and the visibility of the focus indicator.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _updateFocusIndicator : function()
     {

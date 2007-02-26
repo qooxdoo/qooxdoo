@@ -61,7 +61,7 @@ qx.Clazz.define("qx.ui.treevirtual.SimpleTreeDataRowRenderer",
      * @type member
      * @param rowInfo {var} TODOC
      * @param rowElem {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     updateDataRowElement : function(rowInfo, rowElem)
     {

@@ -61,7 +61,7 @@ qx.Clazz.define("qx.manager.object.AliasManager",
      EVENTS
   *****************************************************************************
   */
-  
+
   events: {
     "change" : "qx.event.type.Event"
   },
@@ -88,7 +88,7 @@ qx.Clazz.define("qx.manager.object.AliasManager",
      * @type member
      * @param vAlias {String} alias name for the resource path/url
      * @param vUriStart {String} first part of URI for all images which use this alias
-     * @return {void} 
+     * @return {void}
      */
     add : function(vAlias, vUriStart)
     {
@@ -112,7 +112,7 @@ qx.Clazz.define("qx.manager.object.AliasManager",
      *
      * @type member
      * @param vAlias {String} alias name for the resource path/url
-     * @return {void} 
+     * @return {void}
      */
     remove : function(vAlias)
     {
@@ -161,7 +161,7 @@ qx.Clazz.define("qx.manager.object.AliasManager",
     /**
      * Resolve a path name to a resource URI taking the defined aliases into account
      * and cache the result.
-     * 
+     *
      * If the first part of the path is a defined alias, the alias is resolved.
      * Otherwhise the path is returned unmodified.
      *
@@ -185,7 +185,7 @@ qx.Clazz.define("qx.manager.object.AliasManager",
 
     /**
      * Resolve a path name to a resource URI taking the defined aliases into account.
-     * 
+     *
      * If the first part of the path is a defined alias, the alias is resolved.
      * Otherwhise the path is returned unmodified.
      *

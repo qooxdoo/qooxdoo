@@ -282,7 +282,7 @@ qx.Clazz.define("qx.ui.pageview.AbstractButton",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmousedown : function(e) {
       this.setChecked(true);
@@ -294,7 +294,7 @@ qx.Clazz.define("qx.ui.pageview.AbstractButton",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseover : function(e) {
       this.addState("over");
@@ -306,7 +306,7 @@ qx.Clazz.define("qx.ui.pageview.AbstractButton",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseout : function(e) {
       this.removeState("over");
@@ -318,7 +318,7 @@ qx.Clazz.define("qx.ui.pageview.AbstractButton",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeydown : function(e) {},
 
@@ -328,7 +328,7 @@ qx.Clazz.define("qx.ui.pageview.AbstractButton",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeypress : function(e) {},
 

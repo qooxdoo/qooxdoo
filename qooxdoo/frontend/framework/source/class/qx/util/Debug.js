@@ -48,7 +48,7 @@ qx.Clazz.define("qx.util.Debug",
      *     will be used.  If provided, this should be an instance of an appender to
      *     which the object debug will be sent.  For example, you might pass, for
      *     this parameter, <code>new qx.log.WindowAppender()</code>.
-     * @return {void} 
+     * @return {void}
      */
     debugObject : function(obj, initialMessage, maxLevel, appender)
     {

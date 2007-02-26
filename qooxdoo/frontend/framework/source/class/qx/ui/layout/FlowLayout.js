@@ -149,7 +149,7 @@ qx.Clazz.define("qx.ui.layout.FlowLayout",
      * @type member
      * @param vNew {var} TODOC
      * @param vOld {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _changeInnerWidth : function(vNew, vOld)
     {

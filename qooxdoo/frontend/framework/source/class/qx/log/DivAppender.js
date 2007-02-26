@@ -172,7 +172,7 @@ qx.Clazz.define("qx.log.DivAppender",
      *
      * @type member
      * @param evt {Event} TODOC
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     appendLogEvent : function(evt)

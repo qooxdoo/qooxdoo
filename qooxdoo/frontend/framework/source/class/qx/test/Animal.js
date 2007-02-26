@@ -24,7 +24,7 @@ qx.Clazz.define("qx.test.Animal",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     makeSound : function() {}
   }

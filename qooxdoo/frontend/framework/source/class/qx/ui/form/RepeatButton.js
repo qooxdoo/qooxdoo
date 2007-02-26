@@ -54,7 +54,7 @@ qx.Clazz.define("qx.ui.form.RepeatButton",
      EVENTS
   *****************************************************************************
   */
-  
+
   events: {
     "execute" : "qx.event.type.Event"
   },
@@ -112,7 +112,7 @@ qx.Clazz.define("qx.ui.form.RepeatButton",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmousedown : function(e)
     {
@@ -135,7 +135,7 @@ qx.Clazz.define("qx.ui.form.RepeatButton",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseup : function(e)
     {
@@ -162,7 +162,7 @@ qx.Clazz.define("qx.ui.form.RepeatButton",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _oninterval : function(e)
     {

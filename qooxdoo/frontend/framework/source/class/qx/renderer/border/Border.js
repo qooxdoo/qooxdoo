@@ -188,7 +188,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      *
      * @type static
      * @param o {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     resetBorderX : qx.core.Variant.select("qx.client",
     {
@@ -197,27 +197,27 @@ qx.Clazz.define("qx.renderer.border.Border",
         var s = o._style;
         s.borderLeft = s.borderRight = s.MozBorderLeftColors = s.MozBorderRightColors = "";
       },
-      
+
       "default" : function(o)
       {
         var s = o._style;
         s.borderLeft = s.borderRight = "0px none";
-    
+
         s = o._borderStyle;
-  
+
         if (s) {
           s.borderLeft = s.borderRight = "0px none";
         }
       }
     }),
-    
+
 
     /**
      * TODOC
      *
      * @type static
      * @param o {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     resetBorderY : qx.core.Variant.select("qx.client",
     {
@@ -226,20 +226,20 @@ qx.Clazz.define("qx.renderer.border.Border",
         var s = o._style;
         s.borderTop = s.borderBottom = s.MozBorderTopColors = s.MozBorderBottomColors = "";
       },
-      
+
       "default" : function(o)
       {
         var s = o._style;
         s.borderTop = s.borderBottom = "0px none";
-    
+
         s = o._borderStyle;
-  
+
         if (s) {
           s.borderTop = s.borderBottom = "0px none";
         }
       }
     })
-  
+
   },
 
 
@@ -541,7 +541,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _initCache : qx.core.Variant.select("qx.client",
     {
@@ -554,7 +554,7 @@ qx.Clazz.define("qx.renderer.border.Border",
           MozBorderLeftColors  : "",
           MozBorderRightColors : ""
         };
-    
+
         this._defsY =
         {
           borderTop             : "",
@@ -563,7 +563,7 @@ qx.Clazz.define("qx.renderer.border.Border",
           MozBorderBottomColors : ""
         };
       },
-  
+
       "default" : function()
       {
         this._defsX =
@@ -571,19 +571,19 @@ qx.Clazz.define("qx.renderer.border.Border",
           borderLeft  : "",
           borderRight : ""
         };
-    
+
         this._defsY =
         {
           borderTop    : "",
           borderBottom : ""
         };
-    
+
         this._enhancedDefsX =
         {
           borderLeft  : "",
           borderRight : ""
         };
-  
+
         this._enhancedDefsY =
         {
           borderTop    : "",
@@ -606,14 +606,14 @@ qx.Clazz.define("qx.renderer.border.Border",
      *
      * @type member
      * @param vProp {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _addToThemed3DColors : function(vProp)
     {
       var needRegistering = qx.lang.Object.isEmpty(this._themedEdges);
-  
+
       this._themedEdges[vProp] = true;
-  
+
       if (needRegistering)
       {
         (new qx.renderer.color.ColorObject("ThreeDDarkShadow")).add(this);
@@ -629,12 +629,12 @@ qx.Clazz.define("qx.renderer.border.Border",
      *
      * @type member
      * @param vProp {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _removeFromThemed3DColors : function(vProp)
     {
       delete this._themedEdges[vProp];
-  
+
       if (qx.lang.Object.isEmpty(this._themedEdges))
       {
         (new qx.renderer.color.ColorObject("ThreeDDarkShadow")).remove(this);
@@ -643,7 +643,7 @@ qx.Clazz.define("qx.renderer.border.Border",
         (new qx.renderer.color.ColorObject("ThreeDHighlight")).remove(this);
       }
     },
-    
+
 
     /**
      * TODOC
@@ -685,7 +685,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      * @type member
      * @param vColorObject {var} TODOC
      * @param vNewValue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _updateColors : function(vColorObject, vNewValue)
     {
@@ -708,7 +708,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {void} 
+     * @return {void}
      */
     _handleColorRegistration : function(propValue, propOldValue, propData)
     {
@@ -934,7 +934,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      *
      * @type member
      * @param o {Object} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _applyWidget : function(o)
     {
@@ -948,7 +948,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      *
      * @type member
      * @param o {Object} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _resetWidget : function(o)
     {
@@ -986,7 +986,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      *
      * @type member
      * @param vObject {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     applyWidgetXCommon : function(vObject)
     {
@@ -1023,7 +1023,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      *
      * @type member
      * @param vObject {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     applyWidgetYCommon : function(vObject)
     {
@@ -1039,7 +1039,7 @@ qx.Clazz.define("qx.renderer.border.Border",
         vObject._style[i] = this._defsY[i];
       }
 
-      if (qx.core.Variant.isSet("qx.client", "gecko")) { /* empty */ } else      
+      if (qx.core.Variant.isSet("qx.client", "gecko")) { /* empty */ } else
       {
         if (this.getUseEnhancedCrossBrowserMode()) {
           vObject._createElementForEnhancedBorder();
@@ -1060,21 +1060,21 @@ qx.Clazz.define("qx.renderer.border.Border",
      *
      * @type member
      * @param vObject {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     applyWidgetX : qx.core.Variant.select("qx.client",
     {
       //alias will be set in defer
       "gecko" : null,
-      
+
       "default" : function(vObject)
       {
         this.applyWidgetXCommon(vObject);
-    
+
         if (this.getUseEnhancedCrossBrowserMode()) {
           vObject._createElementForEnhancedBorder();
         }
-  
+
         if (vObject._borderStyle)
         {
           for (var i in this._enhancedDefsX) {
@@ -1090,21 +1090,21 @@ qx.Clazz.define("qx.renderer.border.Border",
      *
      * @type member
      * @param vObject {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     applyWidgetY : qx.core.Variant.select("qx.client",
     {
       //alias will be set in defer
       "gecko" : null,
-      
+
       "default" : function(vObject)
       {
         this.applyWidgetYCommon(vObject);
-    
+
         if (this.getUseEnhancedCrossBrowserMode()) {
           vObject._createElementForEnhancedBorder();
         }
-  
+
         if (vObject._borderStyle)
         {
           for (var i in this._enhancedDefsY) {
@@ -1122,7 +1122,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      * @param vWidth {var} TODOC
      * @param vStyle {var} TODOC
      * @param vEdge {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _generateMozColorDefString : qx.core.Variant.select("qx.client",
     {
@@ -1133,13 +1133,13 @@ qx.Clazz.define("qx.renderer.border.Border",
           try {
             var a = qx.renderer.border.Border.data[vWidth][vStyle][vEdge];
           } catch(ex) {}
-    
+
           if (typeof a === "object")
           {
             for (var i=0, s=[], l=a.length; i<l; i++) {
               s.push((new qx.renderer.color.ColorObject(a[i]).getStyle()));
             }
-    
+
             return s.join(" ");
           }
         }
@@ -1147,10 +1147,10 @@ qx.Clazz.define("qx.renderer.border.Border",
         {
           this.error("Failed to generate Mozilla Color Definition Strings", ex);
         }
-    
+
         return "";
       },
-      
+
       "default" : function() {}
     }),
 
@@ -1159,26 +1159,26 @@ qx.Clazz.define("qx.renderer.border.Border",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _compileTop : qx.core.Variant.select("qx.client",
     {
       "gecko" :  function()
       {
         var w = this.getTopWidth(), s = this.getTopStyle(), d = this._defsY;
-    
+
         d.borderTop = this._generateDefString(w, s, this.getTopColor());
         d.MozBorderTopColors = this._generateMozColorDefString(w, s, "top");
-    
+
         this._needsCompilationTop = false;
       },
-      
+
       "default" : function()
       {
         var vTopWidth = this.getTopWidth();
         var vTopStyle = this.getTopStyle();
         var vTopColor = this.getTopColor();
-    
+
         switch(vTopWidth)
         {
           case 1:
@@ -1189,9 +1189,9 @@ qx.Clazz.define("qx.renderer.border.Border",
                 vTopColor = (new qx.renderer.color.ColorObject(qx.renderer.border.Border.data[vTopWidth][vTopStyle]["top"][0]));
                 vTopStyle = "solid";
             }
-    
+
             break;
-    
+
           case 2:
             switch(vTopStyle)
             {
@@ -1202,15 +1202,15 @@ qx.Clazz.define("qx.renderer.border.Border",
                 try
                 {
                   var c = qx.renderer.border.Border.data[vTopWidth][vTopStyle]["top"];
-  
+
                   if (typeof c === "object")
                   {
                     vTopStyle = "solid";
                     vTopWidth = 1;
                     vTopColor = (new qx.renderer.color.ColorObject(c[1]));
-  
+
                     this._enhancedDefsY.borderTop = this._generateDefString(vTopWidth, vTopStyle, vTopColor);
-  
+
                     vTopColor = (new qx.renderer.color.ColorObject(c[0]));
                   }
                 }
@@ -1220,10 +1220,10 @@ qx.Clazz.define("qx.renderer.border.Border",
                   this.warn("Details: Width=" + vTopWidth + ", Style=" + vTopStyle);
                 }
             }
-    
+
             break;
         }
-    
+
         this._defsY.borderTop = this._generateDefString(vTopWidth, vTopStyle, vTopColor);
         this._needsCompilationTop = false;
       }
@@ -1234,26 +1234,26 @@ qx.Clazz.define("qx.renderer.border.Border",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _compileRight : qx.core.Variant.select("qx.client",
     {
       "gecko" : function()
       {
         var w = this.getRightWidth(), s = this.getRightStyle(), d = this._defsX;
-    
+
         d.borderRight = this._generateDefString(w, s, this.getRightColor());
         d.MozBorderRightColors = this._generateMozColorDefString(w, s, "right");
-    
+
         this._needsCompilationRight = false;
       },
-      
+
       "default" : function()
       {
         var vRightWidth = this.getRightWidth();
         var vRightStyle = this.getRightStyle();
         var vRightColor = this.getRightColor();
-    
+
         switch(vRightWidth)
         {
           case 1:
@@ -1264,9 +1264,9 @@ qx.Clazz.define("qx.renderer.border.Border",
                 vRightColor = (new qx.renderer.color.ColorObject(qx.renderer.border.Border.data[vRightWidth][vRightStyle]["right"][0]));
                 vRightStyle = "solid";
             }
-    
+
             break;
-    
+
           case 2:
             switch(vRightStyle)
             {
@@ -1277,15 +1277,15 @@ qx.Clazz.define("qx.renderer.border.Border",
                 try
                 {
                   var c = qx.renderer.border.Border.data[vRightWidth][vRightStyle]["right"];
-  
+
                   if (typeof c === "object")
                   {
                     vRightStyle = "solid";
                     vRightWidth = 1;
                     vRightColor = (new qx.renderer.color.ColorObject(c[1]));
-  
+
                     this._enhancedDefsX.borderRight = this._generateDefString(vRightWidth, vRightStyle, vRightColor);
-  
+
                     vRightColor = (new qx.renderer.color.ColorObject(c[0]));
                   }
                 }
@@ -1295,10 +1295,10 @@ qx.Clazz.define("qx.renderer.border.Border",
                   this.warn("Details: Width=" + vRightWidth + ", Style=" + vRightStyle);
                 }
             }
-    
+
             break;
         }
-    
+
         this._defsX.borderRight = this._generateDefString(vRightWidth, vRightStyle, vRightColor);
         this._needsCompilationRight = false;
       }
@@ -1309,26 +1309,26 @@ qx.Clazz.define("qx.renderer.border.Border",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _compileBottom : qx.core.Variant.select("qx.client",
     {
       "gecko" : function()
       {
         var w = this.getBottomWidth(), s = this.getBottomStyle(), d = this._defsY;
-    
+
         d.borderBottom = this._generateDefString(w, s, this.getBottomColor());
         d.MozBorderBottomColors = this._generateMozColorDefString(w, s, "bottom");
-    
+
         this._needsCompilationBottom = false;
       },
-      
+
       "default" : function()
       {
         var vBottomWidth = this.getBottomWidth();
         var vBottomStyle = this.getBottomStyle();
         var vBottomColor = this.getBottomColor();
-    
+
         switch(vBottomWidth)
         {
           case 1:
@@ -1339,9 +1339,9 @@ qx.Clazz.define("qx.renderer.border.Border",
                 vBottomColor = (new qx.renderer.color.ColorObject(qx.renderer.border.Border.data[vBottomWidth][vBottomStyle]["bottom"][0]));
                 vBottomStyle = "solid";
             }
-    
+
             break;
-    
+
           case 2:
             switch(vBottomStyle)
             {
@@ -1352,15 +1352,15 @@ qx.Clazz.define("qx.renderer.border.Border",
                 try
                 {
                   var c = qx.renderer.border.Border.data[vBottomWidth][vBottomStyle]["bottom"];
-  
+
                   if (typeof c === "object")
                   {
                     vBottomStyle = "solid";
                     vBottomWidth = 1;
                     vBottomColor = (new qx.renderer.color.ColorObject(c[1]));
-  
+
                     this._enhancedDefsY.borderBottom = this._generateDefString(vBottomWidth, vBottomStyle, vBottomColor);
-  
+
                     vBottomColor = (new qx.renderer.color.ColorObject(c[0]));
                   }
                 }
@@ -1370,10 +1370,10 @@ qx.Clazz.define("qx.renderer.border.Border",
                   this.warn("Details: Width=" + vBottomWidth + ", Style=" + vBottomStyle);
                 }
             }
-    
+
             break;
         }
-    
+
         this._defsY.borderBottom = this._generateDefString(vBottomWidth, vBottomStyle, vBottomColor);
         this._needsCompilationBottom = false;
       }
@@ -1384,26 +1384,26 @@ qx.Clazz.define("qx.renderer.border.Border",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _compileLeft : qx.core.Variant.select("qx.client",
     {
       "gecko" : function()
       {
         var w = this.getLeftWidth(), s = this.getLeftStyle(), d = this._defsX;
-    
+
         d.borderLeft = this._generateDefString(w, s, this.getLeftColor());
         d.MozBorderLeftColors = this._generateMozColorDefString(w, s, "left");
-    
+
         this._needsCompilationLeft = false;
       },
-      
+
       "default" : function()
       {
         var vLeftWidth = this.getLeftWidth();
         var vLeftStyle = this.getLeftStyle();
         var vLeftColor = this.getLeftColor();
-    
+
         switch(vLeftWidth)
         {
           case 1:
@@ -1414,9 +1414,9 @@ qx.Clazz.define("qx.renderer.border.Border",
                 vLeftColor = (new qx.renderer.color.ColorObject(qx.renderer.border.Border.data[vLeftWidth][vLeftStyle]["left"][0]));
                 vLeftStyle = "solid";
             }
-    
+
             break;
-    
+
           case 2:
             switch(vLeftStyle)
             {
@@ -1427,15 +1427,15 @@ qx.Clazz.define("qx.renderer.border.Border",
                 try
                 {
                   var c = qx.renderer.border.Border.data[vLeftWidth][vLeftStyle]["left"];
-  
+
                   if (typeof c === "object")
                   {
                     vLeftStyle = "solid";
                     vLeftWidth = 1;
                     vLeftColor = (new qx.renderer.color.ColorObject(c[1]));
-  
+
                     this._enhancedDefsX.borderLeft = this._generateDefString(vLeftWidth, vLeftStyle, vLeftColor);
-  
+
                     vLeftColor = (new qx.renderer.color.ColorObject(c[0]));
                   }
                 }
@@ -1445,15 +1445,15 @@ qx.Clazz.define("qx.renderer.border.Border",
                   this.warn("Details: Width=" + vLeftWidth + ", Style=" + vLeftStyle);
                 }
             }
-    
+
             break;
         }
-    
+
         this._defsX.borderLeft = this._generateDefString(vLeftWidth, vLeftStyle, vLeftColor);
         this._needsCompilationLeft = false;
       }
     }),
-        
+
 
 
     /*
@@ -1515,7 +1515,7 @@ qx.Clazz.define("qx.renderer.border.Border",
       return qx.core.Object.prototype.dispose.call(this);
     }
   },
-  
+
   defer : qx.core.Variant.select("qx.client",
   {
     "gecko": function(clazz, proto)
@@ -1524,9 +1524,9 @@ qx.Clazz.define("qx.renderer.border.Border",
       proto.applyWidgetX = proto.applyWidgetXCommon;
       proto.applyWidgetY = proto.applyWidgetYCommon;
     },
-    
+
     "default": function() {
     }
   })
-  
+
 });

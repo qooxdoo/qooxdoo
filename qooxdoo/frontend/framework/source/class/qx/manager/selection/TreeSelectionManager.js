@@ -282,7 +282,7 @@ qx.Clazz.define("qx.manager.selection.TreeSelectionManager",
      * @type member
      * @param vItem {var} TODOC
      * @param vIsSelected {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     renderItemSelectionState : function(vItem, vIsSelected) {
       vItem.setSelected(vIsSelected);

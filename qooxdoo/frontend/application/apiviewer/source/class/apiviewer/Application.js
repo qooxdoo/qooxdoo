@@ -71,7 +71,7 @@ qx.Clazz.define("apiviewer.Application",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     initialize : function(e)
     {
@@ -91,7 +91,7 @@ qx.Clazz.define("apiviewer.Application",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     main : function(e)
     {
@@ -106,7 +106,7 @@ qx.Clazz.define("apiviewer.Application",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     finalize : function(e)
     {

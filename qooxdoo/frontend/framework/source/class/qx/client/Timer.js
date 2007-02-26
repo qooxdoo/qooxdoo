@@ -59,12 +59,12 @@ qx.Clazz.define("qx.client.Timer",
      EVENTS
   *****************************************************************************
   */
-  
+
   events : {
-  	"interval" : "qx.event.type.Event"
+    "interval" : "qx.event.type.Event"
   },
 
-  
+
 
 
 

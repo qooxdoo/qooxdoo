@@ -263,12 +263,12 @@ qx.Clazz.define("qx.renderer.layout.LayoutImpl",
     /**
      * Things to do and layout when any of the childs changes its outer width.
      * Needed by layouts where the children depend on each other, like flow or box layouts.
-     * 
+     *
      * Subclasses might implement this method
      *
      * @type member
      * @param vChild {qx.ui.core.Widget} changed child widget
-     * @return {void} 
+     * @return {void}
      */
     updateSelfOnChildOuterWidthChange : function(vChild) {},
 
@@ -276,12 +276,12 @@ qx.Clazz.define("qx.renderer.layout.LayoutImpl",
     /**
      * Things to do and layout when any of the childs changes its outer height.
      * Needed by layouts where the children depend on each other, like flow or box layouts.
-     * 
+     *
      * Subclasses might implement this method
      *
      * @type member
      * @param vChild {qx.ui.core.Widget} changed child widget
-     * @return {void} 
+     * @return {void}
      */
     updateSelfOnChildOuterHeightChange : function(vChild) {},
 
@@ -297,12 +297,12 @@ qx.Clazz.define("qx.renderer.layout.LayoutImpl",
     /**
      * Actions that should be done if the inner width of the layout widget has changed.
      * Normally this includes updates to percent values and ranges.
-     * 
+     *
      * Subclasses might implement this method
      *
      * @type member
      * @param vChild {qx.ui.core.Widget} changed child widget
-     * @return {void} 
+     * @return {void}
      */
     updateChildOnInnerWidthChange : function(vChild) {},
 
@@ -310,12 +310,12 @@ qx.Clazz.define("qx.renderer.layout.LayoutImpl",
     /**
      * Actions that should be done if the inner height of the layout widget has changed.
      * Normally this includes updates to percent values and ranges.
-     * 
+     *
      * Subclasses might implement this method
      *
      * @type member
      * @param vChild {qx.ui.core.Widget} changed child widget
-     * @return {void} 
+     * @return {void}
      */
     updateChildOnInnerHeightChange : function(vChild) {},
 
@@ -331,12 +331,12 @@ qx.Clazz.define("qx.renderer.layout.LayoutImpl",
     /**
      * Invalidate and recompute cached data according to job queue.
      * This is executed at the beginning of the job queue handling.
-     * 
+     *
      * Subclasses might implement this method
      *
      * @type member
      * @param vJobQueue {Object} TODOC
-     * @return {void} 
+     * @return {void}
      */
     updateSelfOnJobQueueFlush : function(vJobQueue) {},
 
@@ -352,12 +352,12 @@ qx.Clazz.define("qx.renderer.layout.LayoutImpl",
     /**
      * Updates children on job queue flush.
      * This is executed at the end of the job queue handling.
-     * 
+     *
      * Subclasses might implement this method
      *
      * @type member
      * @param vJobQueue {Object} TODOC
-     * @return {void} 
+     * @return {void}
      */
     updateChildrenOnJobQueueFlush : function(vJobQueue) {},
 
@@ -372,13 +372,13 @@ qx.Clazz.define("qx.renderer.layout.LayoutImpl",
 
     /**
      * Add child to current layout. Rarely needed by some layout implementations.
-     * 
+     *
      * Subclasses might implement this method
      *
      * @type member
      * @param vChild {qx.ui.core.Widget} newly added child
      * @param vIndex {Integer} index of the child
-     * @return {void} 
+     * @return {void}
      */
     updateChildrenOnAddChild : function(vChild, vIndex) {},
 
@@ -386,13 +386,13 @@ qx.Clazz.define("qx.renderer.layout.LayoutImpl",
     /**
      * Remove child from current layout.
      *  Needed by layouts where the children depend on each other, like flow or box layouts.
-     * 
+     *
      *  Subclasses might implement this method
      *
      * @type member
      * @param vChild {qx.ui.core.Widget} newly added child
      * @param vIndex {Integer} index of the child
-     * @return {void} 
+     * @return {void}
      */
     updateChildrenOnRemoveChild : function(vChild, vIndex) {},
 
@@ -400,14 +400,14 @@ qx.Clazz.define("qx.renderer.layout.LayoutImpl",
     /**
      * Move child within its parent to a new position.
      *  Needed by layouts where the children depend on each other, like flow or box layouts.
-     * 
+     *
      * Subclasses might implement this method
      *
      * @type member
      * @param vChild {qx.ui.core.Widget} newly added child
      * @param vIndex {Integer} new index of the child
      * @param vOldIndex {Integer} old index of the child
-     * @return {void} 
+     * @return {void}
      */
     updateChildrenOnMoveChild : function(vChild, vIndex, vOldIndex) {},
 
@@ -426,7 +426,7 @@ qx.Clazz.define("qx.renderer.layout.LayoutImpl",
      *
      * @type member
      * @param vChildrenQueue {Object} TODOC
-     * @return {void} 
+     * @return {void}
      */
     flushChildrenQueue : function(vChildrenQueue)
     {
@@ -453,7 +453,7 @@ qx.Clazz.define("qx.renderer.layout.LayoutImpl",
      * @type member
      * @param vChild {qx.ui.core.Widget} child to layout
      * @param vJobs {Set} layout changes to perform
-     * @return {void} 
+     * @return {void}
      */
     layoutChild : function(vChild, vJobs) {},
 
@@ -466,12 +466,12 @@ qx.Clazz.define("qx.renderer.layout.LayoutImpl",
      * @type member
      * @param vChild {qx.ui.core.Widget} child to layout
      * @param vJobs {Set} layout changes to perform
-     * @return {void} 
+     * @return {void}
      */
-    layoutChild_sizeLimitX : qx.core.Variant.select("qx.client", 
+    layoutChild_sizeLimitX : qx.core.Variant.select("qx.client",
     {
       "mshtml" : qx.lang.Function.returnTrue,
-      
+
       "default" : function(vChild, vJobs)
       {
         if (vJobs.minWidth) {
@@ -479,7 +479,7 @@ qx.Clazz.define("qx.renderer.layout.LayoutImpl",
         } else if (vJobs.initial && !vChild._computedMinWidthTypeNull) {
           vChild._applyRuntimeMinWidth(vChild.getMinWidthValue());
         }
-    
+
         if (vJobs.maxWidth) {
           vChild._computedMaxWidthTypeNull ? vChild._resetRuntimeMaxWidth() : vChild._applyRuntimeMaxWidth(vChild.getMaxWidthValue());
         } else if (vJobs.initial && !vChild._computedMaxWidthTypeNull) {
@@ -497,12 +497,12 @@ qx.Clazz.define("qx.renderer.layout.LayoutImpl",
      * @type member
      * @param vChild {qx.ui.core.Widget} child to layout
      * @param vJobs {Set} layout changes to perform
-     * @return {void} 
+     * @return {void}
      */
-    layoutChild_sizeLimitY :  qx.core.Variant.select("qx.client", 
+    layoutChild_sizeLimitY :  qx.core.Variant.select("qx.client",
     {
       "mshtml" : qx.lang.Function.returnTrue,
-      
+
       "default" : function(vChild, vJobs)
       {
         if (vJobs.minHeight) {
@@ -510,7 +510,7 @@ qx.Clazz.define("qx.renderer.layout.LayoutImpl",
         } else if (vJobs.initial && !vChild._computedMinHeightTypeNull) {
           vChild._applyRuntimeMinHeight(vChild.getMinHeightValue());
         }
-    
+
         if (vJobs.maxHeight) {
           vChild._computedMaxHeightTypeNull ? vChild._resetRuntimeMaxHeight() : vChild._applyRuntimeMaxHeight(vChild.getMaxHeightValue());
         } else if (vJobs.initial && !vChild._computedMaxHeightTypeNull) {
@@ -526,7 +526,7 @@ qx.Clazz.define("qx.renderer.layout.LayoutImpl",
      * @type member
      * @param vChild {qx.ui.core.Widget} child to layout
      * @param vJobs {Set} layout changes to perform
-     * @return {void} 
+     * @return {void}
      */
     layoutChild_marginX : function(vChild, vJobs)
     {
@@ -550,7 +550,7 @@ qx.Clazz.define("qx.renderer.layout.LayoutImpl",
      * @type member
      * @param vChild {qx.ui.core.Widget} child to layout
      * @param vJobs {Set} layout changes to perform
-     * @return {void} 
+     * @return {void}
      */
     layoutChild_marginY : function(vChild, vJobs)
     {
@@ -619,11 +619,11 @@ qx.Clazz.define("qx.renderer.layout.LayoutImpl",
       qx.core.Object.prototype.dispose.call(this);
     }
   },
-  
+
   defer : function(clazz, proto)
   {
     proto.computeChildrenNeededWidth = proto.computeChildrenNeededWidth_max;
-    proto.computeChildrenNeededHeight = proto.computeChildrenNeededHeight_max;    
-  } 
-  
+    proto.computeChildrenNeededHeight = proto.computeChildrenNeededHeight_max;
+  }
+
 });

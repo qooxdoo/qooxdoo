@@ -61,13 +61,13 @@ qx.Clazz.define("qx.client.History",
      EVENTS
   *****************************************************************************
   */
-  
+
   events: {
     /**
      * Fired when the user moved in the history. The data property of the event
      * holds the command, which was passed to {@link #addToHistory}.
      */
-    "request" : "qx.event.type.DataEvent" 
+    "request" : "qx.event.type.DataEvent"
   },
 
 

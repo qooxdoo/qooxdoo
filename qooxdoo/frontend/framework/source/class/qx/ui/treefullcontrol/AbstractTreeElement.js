@@ -397,7 +397,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.AbstractTreeElement",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     addToTreeQueue : function()
     {
@@ -413,7 +413,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.AbstractTreeElement",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     removeFromTreeQueue : function()
     {
@@ -430,7 +430,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.AbstractTreeElement",
      *
      * @type member
      * @param vHint {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     addToCustomQueues : function(vHint)
     {
@@ -445,7 +445,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.AbstractTreeElement",
      *
      * @type member
      * @param vHint {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     removeFromCustomQueues : function(vHint)
     {
@@ -499,7 +499,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.AbstractTreeElement",
      * @param vDisplayable {var} TODOC
      * @param vParent {var} TODOC
      * @param vHint {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _handleDisplayableCustom : function(vDisplayable, vParent, vHint)
     {
@@ -552,7 +552,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.AbstractTreeElement",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmousedown : function(e)
     {
@@ -575,7 +575,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.AbstractTreeElement",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     flushTree : function()
     {

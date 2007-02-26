@@ -61,7 +61,7 @@ qx.Clazz.define("qx.io.remote.Exchange",
      EVENTS
   *****************************************************************************
   */
-  
+
   events : {
     "sending" : "qx.event.type.Event",
     "receiving" : "qx.event.type.Event",
@@ -105,7 +105,7 @@ qx.Clazz.define("qx.io.remote.Exchange",
      * @type static
      * @param vClass {var} TODOC
      * @param vId {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     registerType : function(vClass, vId) {
       qx.io.remote.Exchange.typesAvailable[vId] = vClass;
@@ -116,7 +116,7 @@ qx.Clazz.define("qx.io.remote.Exchange",
      * TODOC
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     initTypes : function()
@@ -178,19 +178,19 @@ qx.Clazz.define("qx.io.remote.Exchange",
 
     /*
     http://msdn.microsoft.com/library/default.asp?url=/library/en-us/xmlsdk/html/0e6a34e4-f90c-489d-acff-cb44242fafc6.asp
-    
+
     0: UNINITIALIZED
     The object has been created, but not initialized (the open method has not been called).
-    
+
     1: LOADING
     The object has been created, but the send method has not been called.
-    
+
     2: LOADED
     The send method has been called, but the status and headers are not yet available.
-    
+
     3: INTERACTIVE
     Some data has been received. Calling the responseBody and responseText properties at this state to obtain partial results will return an error, because status and response headers are not fully available.
-    
+
     4: COMPLETED
     All the data has been received, and the complete data is available in the
     */
@@ -511,7 +511,7 @@ qx.Clazz.define("qx.io.remote.Exchange",
 
     /**
      * Set the implementation to use to send the request with.
-     * 
+     *
      *  The implementation should be a subclass of qx.io.remote.AbstractRemoteTransport and
      *  must implement all methods in the transport API.
      */
@@ -643,7 +643,7 @@ qx.Clazz.define("qx.io.remote.Exchange",
      *  state.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     abort : function()
     {
@@ -678,7 +678,7 @@ qx.Clazz.define("qx.io.remote.Exchange",
      * Force the transport into the timeout state.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     timeout : function()
     {
@@ -715,7 +715,7 @@ qx.Clazz.define("qx.io.remote.Exchange",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onsending : function(e) {
       this.setState("sending");
@@ -727,7 +727,7 @@ qx.Clazz.define("qx.io.remote.Exchange",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onreceiving : function(e) {
       this.setState("receiving");
@@ -739,7 +739,7 @@ qx.Clazz.define("qx.io.remote.Exchange",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _oncompleted : function(e) {
       this.setState("completed");
@@ -751,7 +751,7 @@ qx.Clazz.define("qx.io.remote.Exchange",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onabort : function(e) {
       this.setState("aborted");
@@ -763,7 +763,7 @@ qx.Clazz.define("qx.io.remote.Exchange",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onfailed : function(e) {
       this.setState("failed");
@@ -775,7 +775,7 @@ qx.Clazz.define("qx.io.remote.Exchange",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _ontimeout : function(e) {
       this.setState("timeout");

@@ -89,7 +89,7 @@ qx.Clazz.define("qx.ui.table.SelectionManager",
      * @type member
      * @param index {Integer} the index the mouse is pointing at.
      * @param evt {Map} the mouse event.
-     * @return {void} 
+     * @return {void}
      */
     handleMouseDown : function(index, evt)
     {
@@ -128,7 +128,7 @@ qx.Clazz.define("qx.ui.table.SelectionManager",
      * @type member
      * @param index {Integer} the index the mouse is pointing at.
      * @param evt {Map} the mouse event.
-     * @return {void} 
+     * @return {void}
      */
     handleMouseUp : function(index, evt)
     {
@@ -144,7 +144,7 @@ qx.Clazz.define("qx.ui.table.SelectionManager",
      * @type member
      * @param index {Integer} the index the mouse is pointing at.
      * @param evt {Map} the mouse event.
-     * @return {void} 
+     * @return {void}
      */
     handleClick : function(index, evt) {},
 
@@ -156,7 +156,7 @@ qx.Clazz.define("qx.ui.table.SelectionManager",
      * @type member
      * @param index {Integer} the index that is currently focused.
      * @param evt {Map} the key event.
-     * @return {void} 
+     * @return {void}
      */
     handleSelectKeyDown : function(index, evt) {
       this._handleSelectEvent(index, evt);
@@ -169,7 +169,7 @@ qx.Clazz.define("qx.ui.table.SelectionManager",
      * @type member
      * @param index {Integer} the index that is currently focused.
      * @param evt {Map} the key event.
-     * @return {void} 
+     * @return {void}
      */
     handleMoveKeyDown : function(index, evt)
     {
@@ -201,7 +201,7 @@ qx.Clazz.define("qx.ui.table.SelectionManager",
      * @type member
      * @param index {Integer} the index the event is pointing at.
      * @param evt {Map} the mouse event.
-     * @return {void} 
+     * @return {void}
      */
     _handleSelectEvent : function(index, evt)
     {

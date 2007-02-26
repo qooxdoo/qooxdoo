@@ -48,10 +48,10 @@ qx.Clazz.define("qx.html.Window",
         } else if (vWindow.document.body) {
           return vWindow.document.body.clientWidth;
         }
-    
+
         return 0;
       },
-      
+
       "default" : function(vWindow) {
         return vWindow.innerWidth;
       }
@@ -74,15 +74,15 @@ qx.Clazz.define("qx.html.Window",
         } else if (vWindow.document.body) {
           return vWindow.document.body.clientHeight;
         }
-    
+
         return 0;
       },
-      
+
       "default" : function(vWindow) {
         return vWindow.innerHeight;
       }
     }),
-    
+
 
     /**
      * Get the left scroll position of the given browser window
@@ -100,10 +100,10 @@ qx.Clazz.define("qx.html.Window",
         } else if (vWindow.document.body) {
           return vWindow.document.body.scrollTop;
         }
-    
+
         return 0;
       },
-      
+
       "default" : function(vWindow) {
         return vWindow.document.body.scrollLeft;
       }
@@ -126,10 +126,10 @@ qx.Clazz.define("qx.html.Window",
         } else if (vWindow.document.body) {
           return vWindow.document.body.scrollTop;
         }
-    
+
         return 0;
       },
-      
+
       "default" : function(vWindow) {
         return vWindow.document.body.scrollTop;
       }

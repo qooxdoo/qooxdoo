@@ -215,12 +215,12 @@ qx.Clazz.define("qx.util.Compare",
       return a.getZIndex() - b.getZIndex();
     }
   },
-  
+
   defer : function(clazz, proto)
   {
     // define alias
     clazz.byInteger = clazz.byNumber = clazz.byFloat;
     clazz.byNumberString = clazz.byFloatString;
   }
-   
+
 });

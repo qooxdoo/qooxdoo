@@ -119,7 +119,7 @@ qx.Clazz.define("qx.ui.table.ResizeTableColumnModel",
      * @param numColumns {var} TODOC
      * @param table {qx.ui.table.Table} The table which this model is used for.  This allows us access to other
      *     aspects of the table, as the <i>behavior</i> sees fit.
-     * @return {void} 
+     * @return {void}
      */
     init : function(numColumns, table)
     {
@@ -159,7 +159,7 @@ qx.Clazz.define("qx.ui.table.ResizeTableColumnModel",
      * @param event {qx.event.type.DataEvent} The "columnVisibilityMenuCreateEnd" event indicating that the menu is
      *     being generated.  The data is a map containing propeties <i>table</i> and
      *     <i>menu</i>.
-     * @return {void} 
+     * @return {void}
      */
     _addResetColumnWidthButton : function(event)
     {
@@ -186,7 +186,7 @@ qx.Clazz.define("qx.ui.table.ResizeTableColumnModel",
      *
      * @type member
      * @param event {qx.event.type.Event} The "onappear" event object.
-     * @return {void} 
+     * @return {void}
      */
     _onappear : function(event)
     {
@@ -223,7 +223,7 @@ qx.Clazz.define("qx.ui.table.ResizeTableColumnModel",
      *
      * @type member
      * @param event {qx.event.type.Event} The "onwidowresize" event object.
-     * @return {void} 
+     * @return {void}
      */
     _ontablewidthchanged : function(event)
     {
@@ -247,7 +247,7 @@ qx.Clazz.define("qx.ui.table.ResizeTableColumnModel",
      * @type member
      * @param event {qx.event.type.DataEvent} The "verticalScrollBarChanged" event object.  The data is a boolean
      *     indicating whether a vertical scroll bar is now present.
-     * @return {void} 
+     * @return {void}
      */
     _onverticalscrollbarchanged : function(event)
     {
@@ -282,7 +282,7 @@ qx.Clazz.define("qx.ui.table.ResizeTableColumnModel",
      *
      * @type member
      * @param event {qx.event.type.DataEvent} The "widthChanged" event object.
-     * @return {void} 
+     * @return {void}
      */
     _oncolumnwidthchanged : function(event)
     {
@@ -305,7 +305,7 @@ qx.Clazz.define("qx.ui.table.ResizeTableColumnModel",
      *
      * @type member
      * @param event {qx.event.type.DataEvent} The "visibilityChanged" event object.
-     * @return {void} 
+     * @return {void}
      */
     _onvisibilitychanged : function(event)
     {

@@ -34,7 +34,7 @@ qx.Clazz.define("qx.test.Lion",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     makeSound : function() {
       this.debug("WOOOOOAAAAAHH!!!");
@@ -45,7 +45,7 @@ qx.Clazz.define("qx.test.Lion",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     play : function() {
       arguments.callee.base.call(this);

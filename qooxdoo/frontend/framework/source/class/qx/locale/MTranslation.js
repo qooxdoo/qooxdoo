@@ -30,7 +30,7 @@
  * of qooxdoo.
  */
 qx.Mixin.define("qx.locale.MTranslation", {
-	members: {
+  members: {
 
     /**
      * Translate a message
@@ -79,5 +79,5 @@ qx.Mixin.define("qx.locale.MTranslation", {
       return nlsManager.marktr.apply(nlsManager, arguments);
     }
 
-	}
+  }
 });

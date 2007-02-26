@@ -53,7 +53,7 @@ qx.Clazz.define("qx.xml.Entity",
       38: "amp",  // &
       60: "lt",   // <
       62: "gt",   // >
-      39: "apos"  // XML apostrophe      
+      39: "apos"  // XML apostrophe
     }
   }
 });

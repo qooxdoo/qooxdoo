@@ -86,7 +86,7 @@ qx.Clazz.define("qx.ui.table.TablePaneHeader",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onColWidthChanged : function(evt)
     {
@@ -100,7 +100,7 @@ qx.Clazz.define("qx.ui.table.TablePaneHeader",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onColOrderChanged : function(evt) {
       this._updateContent(true);
@@ -112,7 +112,7 @@ qx.Clazz.define("qx.ui.table.TablePaneHeader",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onPaneModelChanged : function(evt) {
       this._updateContent(true);
@@ -124,7 +124,7 @@ qx.Clazz.define("qx.ui.table.TablePaneHeader",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onTableModelMetaDataChanged : function(evt) {
       this._updateContent();
@@ -137,7 +137,7 @@ qx.Clazz.define("qx.ui.table.TablePaneHeader",
      * @type member
      * @param col {Integer} the column to change the width for.
      * @param width {Integer} the new width.
-     * @return {void} 
+     * @return {void}
      */
     setColumnWidth : function(col, width)
     {
@@ -156,7 +156,7 @@ qx.Clazz.define("qx.ui.table.TablePaneHeader",
      * @type member
      * @param col {Integer} the model index of the column the mouse is currently over or
      *      null if the mouse is over no column.
-     * @return {void} 
+     * @return {void}
      */
     setMouseOverColumn : function(col)
     {
@@ -190,7 +190,7 @@ qx.Clazz.define("qx.ui.table.TablePaneHeader",
      * @param col {Integer} the model index of the column to show the move feedback for.
      * @param x {Integer} the x position the left side of the feeback should have
      *      (in pixels, relative to the left side of the header).
-     * @return {void} 
+     * @return {void}
      */
     showColumnMoveFeedback : function(col, x)
     {
@@ -238,7 +238,7 @@ qx.Clazz.define("qx.ui.table.TablePaneHeader",
      * Hides the feedback shown while a column is moved by the user.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     hideColumnMoveFeedback : function()
     {
@@ -268,7 +268,7 @@ qx.Clazz.define("qx.ui.table.TablePaneHeader",
      * @type member
      * @param completeUpdate {Boolean} if true a complete update is performed. On a
      *      complete update all header widgets are recreated.
-     * @return {void} 
+     * @return {void}
      */
     _updateContent : function(completeUpdate)
     {
@@ -336,7 +336,7 @@ qx.Clazz.define("qx.ui.table.TablePaneHeader",
      * Cleans up all header cells.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _cleanUpCells : function()
     {

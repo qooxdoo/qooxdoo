@@ -88,7 +88,7 @@ qx.Clazz.define("qx.io.local.CookieApi",
      * @param vPath {var} TODOC
      * @param vDomain {var} TODOC
      * @param vSecure {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     set : function(vName, vValue, vExpires, vPath, vDomain, vSecure)
     {
@@ -140,7 +140,7 @@ qx.Clazz.define("qx.io.local.CookieApi",
      * @param vName {var} TODOC
      * @param vPath {var} TODOC
      * @param vDomain {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     del : function(vName, vPath, vDomain)
     {

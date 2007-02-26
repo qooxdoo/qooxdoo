@@ -77,7 +77,7 @@ qx.Clazz.define("qx.renderer.layout.MenuButtonLayoutImpl",
      *  [09] FLUSH LAYOUT QUEUES OF CHILDREN
      *  [10] LAYOUT CHILD
      *  [11] DISPOSER
-     * 
+     *
      *  Inherits from qx.renderer.layout.HorizontalBoxLayoutImpl:
      *  [01] COMPUTE BOX DIMENSIONS FOR AN INDIVIDUAL CHILD
      *  [02] COMPUTE NEEDED DIMENSIONS FOR AN INDIVIDUAL CHILD
@@ -167,7 +167,7 @@ qx.Clazz.define("qx.renderer.layout.MenuButtonLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     layoutChild_locationX : function(vChild, vJobs)
     {

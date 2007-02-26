@@ -152,22 +152,22 @@ qx.Clazz.define("qx.ui.form.InputCheckSymbol",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _afterAppear : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function()
-		  {
-		    qx.ui.basic.Terminator.prototype._afterAppear.call(this);
-		
-		    var vElement = this.getElement();
-		    vElement.checked = this.getChecked();
-		
-		    if (!this.getEnabled()) {
-		      vElement.disabled = true;
-		    }
-		  },
-		      
+      {
+        qx.ui.basic.Terminator.prototype._afterAppear.call(this);
+
+        var vElement = this.getElement();
+        vElement.checked = this.getChecked();
+
+        if (!this.getEnabled()) {
+          vElement.disabled = true;
+        }
+      },
+
       "default" : qx.lang.Function.returnTrue
     }),
 
@@ -187,14 +187,14 @@ qx.Clazz.define("qx.ui.form.InputCheckSymbol",
       return qx.ui.basic.Terminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
     }
   },
-  
+
   defer : function(clazz, proto)
   {
     proto.getBoxWidth = proto.getPreferredBoxWidth;
     proto.getBoxHeight = proto.getPreferredBoxHeight;
 
     proto.getInnerWidth = proto.getPreferredBoxWidth;
-    proto.getInnerHeight = proto.getPreferredBoxHeight;  
+    proto.getInnerHeight = proto.getPreferredBoxHeight;
   }
-  
+
 });

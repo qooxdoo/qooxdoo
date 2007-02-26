@@ -66,7 +66,7 @@ qx.Clazz.define("qx.manager.object.PopupManager",
      *
      * @type member
      * @param vTarget {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     update : function(vTarget)
     {

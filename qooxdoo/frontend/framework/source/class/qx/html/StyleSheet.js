@@ -41,7 +41,7 @@ qx.Clazz.define("qx.html.StyleSheet",
      *
      * @type static
      * @param vHref {String} Href value
-     * @return {void} 
+     * @return {void}
      */
     includeFile : function(vHref)
     {
@@ -60,31 +60,31 @@ qx.Clazz.define("qx.html.StyleSheet",
      *
      * @type static
      * @param vCssText {String} optional string of css rules
-     * @return {void} 
+     * @return {void}
      */
     createElement : qx.lang.Object.select(document.createStyleSheet ? "ie4+" : "other",
     {
       "ie4+" : function(vCssText)
       {
         var vSheet = document.createStyleSheet();
-    
+
         if (vCssText) {
           vSheet.cssText = vCssText;
         }
-    
+
         return vSheet;
       },
-      
+
       "other" : function(vCssText)
       {
         var vElement = document.createElement("style");
         vElement.type = "text/css";
-    
+
         // Safari 2.0 doesn't like empty stylesheets
         vElement.appendChild(document.createTextNode(vCssText || "body {}"));
-    
+
         document.getElementsByTagName("head")[0].appendChild(vElement);
-    
+
         if (vElement.sheet) {
           return vElement.sheet;
         }
@@ -92,7 +92,7 @@ qx.Clazz.define("qx.html.StyleSheet",
         {
           // Safari 2.0 doesn't support element.sheet so we neet a workaround
           var styles = document.styleSheets;
-    
+
           for (var i=styles.length-1; i>=0; i--)
           {
             if (styles[i].ownerNode == vElement) {
@@ -100,7 +100,7 @@ qx.Clazz.define("qx.html.StyleSheet",
             }
           }
         }
-    
+
         throw "Error: Could not get a reference to the sheet object";
       }
     }),
@@ -113,7 +113,7 @@ qx.Clazz.define("qx.html.StyleSheet",
      * @param vSheet {Object} the target Stylesheet object
      * @param vSelector {String} the selector
      * @param vStyle {String} style rule
-     * @return {void} 
+     * @return {void}
      */
     addRule : qx.lang.Object.select(document.createStyleSheet ? "ie4+" : "other",
     {
@@ -129,7 +129,7 @@ qx.Clazz.define("qx.html.StyleSheet",
           if (!vSheet._qxRules) {
             vSheet._qxRules = {};
           }
-      
+
           if (!vSheet._qxRules[vSelector])
           {
             var ruleNode = document.createTextNode(vSelector + "{" + vStyle + "}");
@@ -137,7 +137,7 @@ qx.Clazz.define("qx.html.StyleSheet",
             vSheet._qxRules[vSelector] = ruleNode;
           }
         },
-  
+
         "other" : function(vSheet, vSelector, vStyle) {
           vSheet.insertRule(vSelector + "{" + vStyle + "}", vSheet.cssRules.length);
         }
@@ -151,7 +151,7 @@ qx.Clazz.define("qx.html.StyleSheet",
      * @type static
      * @param vSheet {Object} the Stylesheet
      * @param vSelector {String} the Selector of the rule to remove
-     * @return {void} 
+     * @return {void}
      */
     removeRule : qx.lang.Object.select(document.createStyleSheet ? "ie4+" : "other",
     {
@@ -159,7 +159,7 @@ qx.Clazz.define("qx.html.StyleSheet",
       {
         var vRules = vSheet.rules;
         var vLength = vRules.length;
-    
+
         for (var i=vLength-1; i>=0; i--)
         {
           if (vRules[i].selectorText == vSelector) {
@@ -175,13 +175,13 @@ qx.Clazz.define("qx.html.StyleSheet",
           var warn = function() {
             qx.log.Logger.ROOT_LOGGER.warn("In Safari/Webkit you can only remove rules that are created using qx.html.StyleSheet.addRule");
           };
-      
+
           if (!vSheet._qxRules) {
             warn();
           }
-      
+
           var ruleNode = vSheet._qxRules[vSelector];
-      
+
           if (ruleNode)
           {
             vSheet.ownerNode.removeChild(ruleNode);
@@ -192,12 +192,12 @@ qx.Clazz.define("qx.html.StyleSheet",
             warn();
           }
         },
-  
+
         "other" : function(vSheet, vSelector)
         {
           var vRules = vSheet.cssRules;
           var vLength = vRules.length;
-      
+
           for (var i=vLength-1; i>=0; i--)
           {
             if (vRules[i].selectorText == vSelector) {
@@ -214,7 +214,7 @@ qx.Clazz.define("qx.html.StyleSheet",
      *
      * @type static
      * @param vSheet {Object} the stylesheet object
-     * @return {void} 
+     * @return {void}
      */
     removeAllRules : qx.lang.Object.select(document.createStyleSheet ? "ie4+" : "other",
     {
@@ -222,7 +222,7 @@ qx.Clazz.define("qx.html.StyleSheet",
       {
         var vRules = vSheet.rules;
         var vLength = vRules.length;
-    
+
         for (var i=vLength-1; i>=0; i--) {
           vSheet.removeRule(i);
         }
@@ -234,24 +234,24 @@ qx.Clazz.define("qx.html.StyleSheet",
         {
           var node = vSheet.ownerNode;
           var rules = node.childNodes;
-      
+
           while (rules.length > 0) {
             node.removeChild(rules[0]);
           }
         },
-  
+
         "other" : function(vSheet)
         {
           var vRules = vSheet.cssRules;
           var vLength = vRules.length;
-      
+
           for (var i=vLength-1; i>=0; i--) {
             vSheet.deleteRule(i);
           }
         }
       })
     }),
-    
+
 
     // TODO import functions are not working crossbrowser (Safari) !!
     // see CSS_1.html test
@@ -261,7 +261,7 @@ qx.Clazz.define("qx.html.StyleSheet",
      * @type static
      * @param vSheet {Object} the stylesheet object
      * @param vUrl {String} URL of the external stylesheet file
-     * @return {void} 
+     * @return {void}
      */
     addImport : qx.lang.Object.select(document.createStyleSheet ? "ie4+" : "other",
     {
@@ -274,7 +274,7 @@ qx.Clazz.define("qx.html.StyleSheet",
         "safari2+" : function(vSheet, vUrl) {
           vSheet.ownerNode.appendChild(document.createTextNode('@import "' + vUrl + '";'));
         },
-  
+
         "other" : function(vSheet, vUrl) {
           vSheet.insertRule('@import "' + vUrl + '";', vSheet.cssRules.length);
         }
@@ -288,7 +288,7 @@ qx.Clazz.define("qx.html.StyleSheet",
      * @type static
      * @param vSheet {Object} the stylesheet object
      * @param vUrl {String} URL of the importet CSS file
-     * @return {void} 
+     * @return {void}
      */
     removeImport : qx.lang.Object.select(document.createStyleSheet ? "ie4+" : "other",
     {
@@ -296,7 +296,7 @@ qx.Clazz.define("qx.html.StyleSheet",
       {
         var vImports = vSheet.imports;
         var vLength = vImports.length;
-    
+
         for (var i=vLength-1; i>=0; i--)
         {
           if (vImports[i].href == vUrl) {
@@ -309,7 +309,7 @@ qx.Clazz.define("qx.html.StyleSheet",
       {
         var vRules = vSheet.cssRules;
         var vLength = vRules.length;
-    
+
         for (var i=vLength-1; i>=0; i--)
         {
           if (vRules[i].href == vUrl) {
@@ -325,7 +325,7 @@ qx.Clazz.define("qx.html.StyleSheet",
      *
      * @type static
      * @param vSheet {Object} the stylesheet object
-     * @return {void} 
+     * @return {void}
      */
     removeAllImports : qx.lang.Object.select(document.createStyleSheet ? "ie4+" : "other",
     {
@@ -333,7 +333,7 @@ qx.Clazz.define("qx.html.StyleSheet",
       {
         var vImports = vSheet.imports;
         var vLength = vImports.length;
-    
+
         for (var i=vLength-1; i>=0; i--) {
           vSheet.removeImport(i);
         }
@@ -343,7 +343,7 @@ qx.Clazz.define("qx.html.StyleSheet",
       {
         var vRules = vSheet.cssRules;
         var vLength = vRules.length;
-    
+
         for (var i=vLength-1; i>=0; i--)
         {
           if (vRules[i].type == vRules[i].IMPORT_RULE) {

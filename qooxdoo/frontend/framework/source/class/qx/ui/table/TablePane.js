@@ -149,7 +149,7 @@ qx.Clazz.define("qx.ui.table.TablePane",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _afterAppear : function()
     {
@@ -195,7 +195,7 @@ qx.Clazz.define("qx.ui.table.TablePane",
      * @param row {Integer} the model index of the focused cell's row.
      * @param massUpdate {Boolean ? false} Whether other updates are planned as well.
      *          If true, no repaint will be done.
-     * @return {void} 
+     * @return {void}
      */
     setFocusedCell : function(col, row, massUpdate)
     {
@@ -222,7 +222,7 @@ qx.Clazz.define("qx.ui.table.TablePane",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onSelectionChanged : function(evt) {
       this._updateContent(false, null, true);
@@ -234,7 +234,7 @@ qx.Clazz.define("qx.ui.table.TablePane",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onFocusChanged : function(evt) {
       this._updateContent(false, null, true);
@@ -246,7 +246,7 @@ qx.Clazz.define("qx.ui.table.TablePane",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onColWidthChanged : function(evt) {
       this._updateContent(true);
@@ -258,7 +258,7 @@ qx.Clazz.define("qx.ui.table.TablePane",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onColOrderChanged : function(evt) {
       this._updateContent(true);
@@ -270,7 +270,7 @@ qx.Clazz.define("qx.ui.table.TablePane",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onPaneModelChanged : function(evt) {
       this._updateContent(true);
@@ -282,7 +282,7 @@ qx.Clazz.define("qx.ui.table.TablePane",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onTableModelDataChanged : function(evt)
     {
@@ -304,7 +304,7 @@ qx.Clazz.define("qx.ui.table.TablePane",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onTableModelMetaDataChanged : function(evt) {
       this._updateContent();
@@ -320,7 +320,7 @@ qx.Clazz.define("qx.ui.table.TablePane",
      * @param onlyRow {Integer ? null} if set only the specified row will be updated.
      * @param onlySelectionOrFocusChanged {Boolean ? false} if true, cell values won't
      *          be updated. Only the row background will.
-     * @return {void} 
+     * @return {void}
      */
     _updateContent : function(completeUpdate, onlyRow, onlySelectionOrFocusChanged)
     {
@@ -347,7 +347,7 @@ qx.Clazz.define("qx.ui.table.TablePane",
      * @param onlyRow {Integer ? null} if set only the specified row will be updated.
      * @param onlySelectionOrFocusChanged {Boolean ? false} if true, cell values won't
      *          be updated. Only the row background will.
-     * @return {void} 
+     * @return {void}
      */
     _updateContent_array_join : function(completeUpdate, onlyRow, onlySelectionOrFocusChanged)
     {
@@ -486,7 +486,7 @@ qx.Clazz.define("qx.ui.table.TablePane",
      * @param onlyRow {Integer ? null} if set only the specified row will be updated.
      * @param onlySelectionOrFocusChanged {Boolean ? false} if true, cell values won't
      *          be updated. Only the row background will.
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     _updateContent_orig : function(completeUpdate, onlyRow, onlySelectionOrFocusChanged)
@@ -620,7 +620,7 @@ qx.Clazz.define("qx.ui.table.TablePane",
      * @type member
      * @param firstRowToRemove {Integer} the visible index of the first row to clean up.
      *      All following rows will be cleaned up, too.
-     * @return {void} 
+     * @return {void}
      */
     _cleanUpRows : function(firstRowToRemove)
     {

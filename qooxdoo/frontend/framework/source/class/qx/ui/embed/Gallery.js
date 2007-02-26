@@ -73,9 +73,9 @@ qx.Clazz.define("qx.ui.embed.Gallery",
      EVENTS
   *****************************************************************************
   */
-  
+
   events: {
-  	"beforeToolTipAppear"     : "qx.event.type.Event",
+    "beforeToolTipAppear"     : "qx.event.type.Event",
     "loadComplete"            : "qx.event.type.Event"
   },
 
@@ -94,7 +94,7 @@ qx.Clazz.define("qx.ui.embed.Gallery",
      * TODOC
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     imageOnLoad : function()
     {
@@ -109,7 +109,7 @@ qx.Clazz.define("qx.ui.embed.Gallery",
      * TODOC
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     imageOnError : function()
     {
@@ -194,7 +194,7 @@ qx.Clazz.define("qx.ui.embed.Gallery",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _applyElementData : function() {
       this.getElement().appendChild(this.createView());
@@ -236,7 +236,7 @@ qx.Clazz.define("qx.ui.embed.Gallery",
      *
      * @type member
      * @param vGalleryList {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     update : function(vGalleryList)
     {
@@ -253,7 +253,7 @@ qx.Clazz.define("qx.ui.embed.Gallery",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     removeAll : function()
     {
@@ -270,7 +270,7 @@ qx.Clazz.define("qx.ui.embed.Gallery",
      * @param vSrc {var} TODOC
      * @param vWidth {var} TODOC
      * @param vHeight {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     updateImageById : function(vId, vSrc, vWidth, vHeight)
     {
@@ -286,7 +286,7 @@ qx.Clazz.define("qx.ui.embed.Gallery",
      * @param vId {var} TODOC
      * @param vWidth {var} TODOC
      * @param vHeight {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     updateImageDimensionsById : function(vId, vWidth, vHeight) {
       this.updateImageDimensionsByPosition(this.getPositionById(vId), vWidth, vHeight);
@@ -300,7 +300,7 @@ qx.Clazz.define("qx.ui.embed.Gallery",
      * @param vPos {var} TODOC
      * @param vWidth {var} TODOC
      * @param vHeight {var} TODOC
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     updateImageDimensionsByPosition : function(vPos, vWidth, vHeight)
@@ -329,7 +329,7 @@ qx.Clazz.define("qx.ui.embed.Gallery",
      * @type member
      * @param vId {var} TODOC
      * @param vSrc {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     updateImageSrcById : function(vId, vSrc) {
       this.updateImageSrcByPosition(this.getPositionById(vId), vSrc);
@@ -342,7 +342,7 @@ qx.Clazz.define("qx.ui.embed.Gallery",
      * @type member
      * @param vPos {var} TODOC
      * @param vSrc {var} TODOC
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     updateImageSrcByPosition : function(vPos, vSrc)
@@ -363,7 +363,7 @@ qx.Clazz.define("qx.ui.embed.Gallery",
      *
      * @type member
      * @param vId {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     deleteById : function(vId) {
       this.deleteByPosition(this.getPositionById(vId));
@@ -375,7 +375,7 @@ qx.Clazz.define("qx.ui.embed.Gallery",
      *
      * @type member
      * @param vPos {var} TODOC
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     deleteByPosition : function(vPos)
@@ -481,7 +481,7 @@ qx.Clazz.define("qx.ui.embed.Gallery",
      *
      * @type member
      * @param vPartialList {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     addFromPartialList : function(vPartialList)
     {
@@ -498,7 +498,7 @@ qx.Clazz.define("qx.ui.embed.Gallery",
      *
      * @type member
      * @param vNewList {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     addFromUpdatedList : function(vNewList)
     {
@@ -523,7 +523,7 @@ qx.Clazz.define("qx.ui.embed.Gallery",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmousedown : function(e)
     {
@@ -540,7 +540,7 @@ qx.Clazz.define("qx.ui.embed.Gallery",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseup : function(e)
     {
@@ -557,7 +557,7 @@ qx.Clazz.define("qx.ui.embed.Gallery",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmousemove : function(e)
     {
@@ -604,7 +604,7 @@ qx.Clazz.define("qx.ui.embed.Gallery",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onclick : function(e)
     {
@@ -621,7 +621,7 @@ qx.Clazz.define("qx.ui.embed.Gallery",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _ondblclick : function(e)
     {
@@ -638,7 +638,7 @@ qx.Clazz.define("qx.ui.embed.Gallery",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeypress : function(e) {
       this._manager.handleKeyPress(e);
@@ -679,7 +679,7 @@ qx.Clazz.define("qx.ui.embed.Gallery",
      *
      * @type member
      * @param vItem {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     scrollItemIntoView : function(vItem)
     {
@@ -693,7 +693,7 @@ qx.Clazz.define("qx.ui.embed.Gallery",
      *
      * @type member
      * @param vItem {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     scrollItemIntoViewX : function(vItem) {
       qx.html.ScrollIntoView.scrollX(vItem);
@@ -705,7 +705,7 @@ qx.Clazz.define("qx.ui.embed.Gallery",
      *
      * @type member
      * @param vItem {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     scrollItemIntoViewY : function(vItem) {
       qx.html.ScrollIntoView.scrollY(vItem);
@@ -826,7 +826,7 @@ qx.Clazz.define("qx.ui.embed.Gallery",
      * @type member
      * @param inode {var} TODOC
      * @param d {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     createImageCell : function(inode, d)
     {
@@ -854,7 +854,7 @@ qx.Clazz.define("qx.ui.embed.Gallery",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     imageOnComplete : function()
     {
@@ -870,7 +870,7 @@ qx.Clazz.define("qx.ui.embed.Gallery",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     createProtoCell : function()
     {

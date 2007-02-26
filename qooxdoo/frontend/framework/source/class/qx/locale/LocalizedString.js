@@ -83,8 +83,8 @@ qx.Clazz.define("qx.locale.LocalizedString",
 
     /** message id */
     id   : {
-    	_legacy : true,
-    	type : "string"
+      _legacy : true,
+      type : "string"
     },
 
     /** list of arguments to be applied to the format string */
@@ -111,6 +111,6 @@ qx.Clazz.define("qx.locale.LocalizedString",
     toString : function() {
       return qx.locale.Manager.getInstance().translate(this.getId(), this.getArgs(), this._locale);
     }
-    
-  }  
+
+  }
 });

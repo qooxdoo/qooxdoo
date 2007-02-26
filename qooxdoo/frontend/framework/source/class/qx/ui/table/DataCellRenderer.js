@@ -56,7 +56,7 @@ qx.Clazz.define("qx.ui.table.DataCellRenderer",
   {
     /**
      * Creates the HTML for a data cell.
-     * 
+     *
      * The cellInfo map contains the following properties:
      * <ul>
      * <li>value (var): the cell's value.</li>
@@ -78,7 +78,7 @@ qx.Clazz.define("qx.ui.table.DataCellRenderer",
      * </ul>
      *
      * @type member
-     * @abstract 
+     * @abstract
      * @param cellInfo {Map} A map containing the information about the cell to
      *      create.
      * @return {String} the HTML of the data cell.
@@ -93,10 +93,10 @@ qx.Clazz.define("qx.ui.table.DataCellRenderer",
      * Updates the content of the pane.
      *
      * @type member
-     * @abstract 
+     * @abstract
      * @param cellInfo {var} TODOC
      * @param cellElement {var} TODOC
-     * @return {void} 
+     * @return {void}
      * @throws the abstract function warning.
      */
     updateDataCellElement : function(cellInfo, cellElement) {
@@ -108,10 +108,10 @@ qx.Clazz.define("qx.ui.table.DataCellRenderer",
      * Updates the content of the pane using array joins.
      *
      * @type member
-     * @abstract 
+     * @abstract
      * @param cellInfo {var} TODOC
      * @param htmlArr {var} TODOC
-     * @return {void} 
+     * @return {void}
      * @throws the abstract function warning.
      */
     createDataCellHtml_array_join : function(cellInfo, htmlArr) {

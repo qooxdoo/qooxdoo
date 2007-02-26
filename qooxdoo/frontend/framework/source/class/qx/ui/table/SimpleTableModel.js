@@ -62,8 +62,8 @@ qx.Clazz.define("qx.ui.table.SimpleTableModel",
   members :
   {
     /**
-     * 
-     * See overridden method for details. 
+     *
+     * See overridden method for details.
      *
      * @type member
      * @param rowIndex {Integer} the model index of the row.
@@ -100,7 +100,7 @@ qx.Clazz.define("qx.ui.table.SimpleTableModel",
      *
      * @type member
      * @param editable {Boolean} whether all columns are editable.
-     * @return {void} 
+     * @return {void}
      */
     setEditable : function(editable)
     {
@@ -120,7 +120,7 @@ qx.Clazz.define("qx.ui.table.SimpleTableModel",
      * @type member
      * @param columnIndex {Integer} the column of which to set the editable state.
      * @param editable {Boolean} whether the column should be editable.
-     * @return {void} 
+     * @return {void}
      */
     setColumnEditable : function(columnIndex, editable)
     {
@@ -167,7 +167,7 @@ qx.Clazz.define("qx.ui.table.SimpleTableModel",
      * @type member
      * @param columnIndex {var} TODOC
      * @param ascending {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     sortByColumn : function(columnIndex, ascending)
     {
@@ -207,7 +207,7 @@ qx.Clazz.define("qx.ui.table.SimpleTableModel",
      * Clears the sorting.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _clearSorting : function()
     {
@@ -280,7 +280,7 @@ qx.Clazz.define("qx.ui.table.SimpleTableModel",
      * @param columnIndex {var} TODOC
      * @param rowIndex {var} TODOC
      * @param value {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setValue : function(columnIndex, rowIndex, value)
     {
@@ -316,7 +316,7 @@ qx.Clazz.define("qx.ui.table.SimpleTableModel",
      * @param rowArr {var[][]} An array containing an array for each row. Each
      *          row-array contains the values in that row in the order of the columns
      *          in this model.
-     * @return {void} 
+     * @return {void}
      */
     setData : function(rowArr)
     {
@@ -333,7 +333,7 @@ qx.Clazz.define("qx.ui.table.SimpleTableModel",
 
     /**
      * Returns the data of this model.
-     * 
+     *
      * Warning: Do not alter this array! If you want to change the data use
      * {@link #setData}, {@link #setDataAsMapArray} or {@link #setValue} instead.
      *
@@ -353,7 +353,7 @@ qx.Clazz.define("qx.ui.table.SimpleTableModel",
      * @type member
      * @param mapArr {Map[]} An array containing a map for each row. Each
      *          row-map contains the column IDs as key and the cell values as value.
-     * @return {void} 
+     * @return {void}
      */
     setDataAsMapArray : function(mapArr) {
       this.setData(this._mapArray2RowArr(mapArr));
@@ -362,7 +362,7 @@ qx.Clazz.define("qx.ui.table.SimpleTableModel",
 
     /**
      * Adds some rows to the model.
-     * 
+     *
      * Warning: The given array will be altered!
      *
      * @type member
@@ -371,7 +371,7 @@ qx.Clazz.define("qx.ui.table.SimpleTableModel",
      *          in this model.
      * @param startIndex {Integer ? null} The index where to insert the new rows. If null,
      *          the rows are appended to the end.
-     * @return {void} 
+     * @return {void}
      */
     addRows : function(rowArr, startIndex)
     {
@@ -405,7 +405,7 @@ qx.Clazz.define("qx.ui.table.SimpleTableModel",
 
     /**
      * Adds some rows to the model.
-     * 
+     *
      * Warning: The given array (mapArr) will be altered!
      *
      * @type member
@@ -413,7 +413,7 @@ qx.Clazz.define("qx.ui.table.SimpleTableModel",
      *          row-map contains the column IDs as key and the cell values as value.
      * @param startIndex {Integer ? null} The index where to insert the new rows. If null,
      *          the rows are appended to the end.
-     * @return {void} 
+     * @return {void}
      */
     addRowsAsMapArray : function(mapArr, startIndex) {
       this.addRows(this._mapArray2RowArr(mapArr), startIndex);
@@ -426,7 +426,7 @@ qx.Clazz.define("qx.ui.table.SimpleTableModel",
      * @type member
      * @param startIndex {Integer} the index of the first row to remove.
      * @param howMany {Integer} the number of rows to remove.
-     * @return {void} 
+     * @return {void}
      */
     removeRows : function(startIndex, howMany)
     {

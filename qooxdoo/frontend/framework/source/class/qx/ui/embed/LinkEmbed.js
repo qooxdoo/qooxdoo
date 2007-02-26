@@ -124,7 +124,7 @@ qx.Clazz.define("qx.ui.embed.LinkEmbed",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _syncHtml : function()
     {

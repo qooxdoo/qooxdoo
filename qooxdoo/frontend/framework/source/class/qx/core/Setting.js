@@ -41,7 +41,7 @@ qx.Clazz.define("qx.core.Setting",
      * @type static
      * @param key {var} TODOC
      * @param defaultValue {var} TODOC
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     define : function(key, defaultValue)
@@ -86,7 +86,7 @@ qx.Clazz.define("qx.core.Setting",
      * Import settings from global qxsettings into current environment
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     __init : function()
@@ -125,7 +125,7 @@ qx.Clazz.define("qx.core.Setting",
    *
    * @type map
    * @param statics {var} TODOC
-   * @return {void} 
+   * @return {void}
    */
   defer : function(statics) {
     statics.__init();

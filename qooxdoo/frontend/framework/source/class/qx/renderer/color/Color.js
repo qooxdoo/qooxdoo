@@ -472,7 +472,7 @@ qx.Clazz.define("qx.renderer.color.Color",
      *
      * @type member
      * @param vValue {var} TODOC
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     setValue : function(vValue)
@@ -516,7 +516,7 @@ qx.Clazz.define("qx.renderer.color.Color",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _evalStyle : function()
     {
@@ -552,7 +552,7 @@ qx.Clazz.define("qx.renderer.color.Color",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _evalHex : function()
     {
@@ -626,7 +626,7 @@ qx.Clazz.define("qx.renderer.color.Color",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     _evalRgb : function()

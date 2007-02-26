@@ -624,7 +624,7 @@ qx.Clazz.define("qx.Clazz",
       if (extend)
       {
         var superproto = extend.prototype;
-        
+
         // Use helper function/class to save the unnecessary constructor call while
         // setting up inheritance.
         var helper = this.__createEmptyFunction();

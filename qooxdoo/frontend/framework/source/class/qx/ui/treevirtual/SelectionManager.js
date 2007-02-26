@@ -67,7 +67,7 @@ qx.Clazz.define("qx.ui.treevirtual.SelectionManager",
      * @type member
      * @param index {Integer} the index that is currently focused.
      * @param evt {Map} the key event.
-     * @return {void} 
+     * @return {void}
      */
     handleMoveKeyDown : function(index, evt)
     {
@@ -102,7 +102,7 @@ qx.Clazz.define("qx.ui.treevirtual.SelectionManager",
      * @type member
      * @param index {Integer} the index the event is pointing at.
      * @param evt {Map} the mouse event.
-     * @return {void} 
+     * @return {void}
      */
     _handleSelectEvent : function(index, evt)
     {

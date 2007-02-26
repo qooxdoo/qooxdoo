@@ -90,7 +90,7 @@ qx.Clazz.define("qx.log.AlertAppender",
      *
      * @type member
      * @param evt {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     appendLogEvent : function(evt)
     {

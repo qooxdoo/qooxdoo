@@ -502,7 +502,7 @@ qx.Clazz.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     close : function() {
       this.hide();
@@ -514,7 +514,7 @@ qx.Clazz.define("qx.ui.window.Window",
      *
      * @type member
      * @param vOpener {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     open : function(vOpener)
     {
@@ -534,7 +534,7 @@ qx.Clazz.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     focus : function() {
       this.setActive(true);
@@ -545,7 +545,7 @@ qx.Clazz.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     blur : function() {
       this.setActive(false);
@@ -556,7 +556,7 @@ qx.Clazz.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     maximize : function() {
       this.setMode("maximized");
@@ -567,7 +567,7 @@ qx.Clazz.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     minimize : function() {
       this.setMode("minimized");
@@ -578,7 +578,7 @@ qx.Clazz.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     restore : function() {
       this.setMode(null);
@@ -597,7 +597,7 @@ qx.Clazz.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _beforeAppear : function()
     {
@@ -619,7 +619,7 @@ qx.Clazz.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _beforeDisappear : function()
     {
@@ -662,7 +662,7 @@ qx.Clazz.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _sendTo : function()
     {
@@ -1098,7 +1098,7 @@ qx.Clazz.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _minimize : function()
     {
@@ -1111,7 +1111,7 @@ qx.Clazz.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _restoreFromMaximized : function()
     {
@@ -1146,7 +1146,7 @@ qx.Clazz.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _restoreFromMinimized : function()
     {
@@ -1163,7 +1163,7 @@ qx.Clazz.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _maximize : function()
     {
@@ -1218,7 +1218,7 @@ qx.Clazz.define("qx.ui.window.Window",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onwindowmousedown : function(e)
     {
@@ -1324,7 +1324,7 @@ qx.Clazz.define("qx.ui.window.Window",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onwindowmouseup : function(e)
     {
@@ -1410,7 +1410,7 @@ qx.Clazz.define("qx.ui.window.Window",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onwindowmousemove : function(e)
     {
@@ -1534,7 +1534,7 @@ qx.Clazz.define("qx.ui.window.Window",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onwindowclick : function(e)
     {
@@ -1556,7 +1556,7 @@ qx.Clazz.define("qx.ui.window.Window",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onbuttonmousedown : function(e) {
       e.stopPropagation();
@@ -1568,7 +1568,7 @@ qx.Clazz.define("qx.ui.window.Window",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onminimizebuttonclick : function(e)
     {
@@ -1589,7 +1589,7 @@ qx.Clazz.define("qx.ui.window.Window",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onrestorebuttonclick : function(e)
     {
@@ -1610,7 +1610,7 @@ qx.Clazz.define("qx.ui.window.Window",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmaximizebuttonclick : function(e)
     {
@@ -1631,7 +1631,7 @@ qx.Clazz.define("qx.ui.window.Window",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onclosebuttonclick : function(e)
     {
@@ -1660,7 +1660,7 @@ qx.Clazz.define("qx.ui.window.Window",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _oncaptionmousedown : function(e)
     {
@@ -1727,7 +1727,7 @@ qx.Clazz.define("qx.ui.window.Window",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _oncaptionmouseup : function(e)
     {
@@ -1771,7 +1771,7 @@ qx.Clazz.define("qx.ui.window.Window",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _oncaptionmousemove : function(e)
     {

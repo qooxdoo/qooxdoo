@@ -155,7 +155,7 @@ qx.Clazz.define("qx.ui.toolbar.ToolBar",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _onkeypress_left : function()
     {
@@ -218,7 +218,7 @@ qx.Clazz.define("qx.ui.toolbar.ToolBar",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _onkeypress_right : function()
     {

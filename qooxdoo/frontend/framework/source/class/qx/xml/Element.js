@@ -81,13 +81,13 @@ qx.Clazz.define("qx.xml.Element",
           var xpe = new XPathEvaluator();
           return xpe.evaluate(query, element, xpe.createNSResolver(element), XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
         },
-        
+
         "noXPath": function() {
           throw new Error("The browser does not support 'window.XPathEvaluator'");
         }
-           
+
       }),
-      
+
       "mshtml|opera": function(element, query)
       {
         return element.selectSingleNode(query);
@@ -111,20 +111,20 @@ qx.Clazz.define("qx.xml.Element",
           var xpe = new XPathEvaluator();
           var result = xpe.evaluate(query, element, xpe.createNSResolver(element), XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
           var nodes = [];
-      
+
           for (var i=0; i<result.snapshotLength; i++) {
             nodes[i] = result.snapshotItem(i);
           }
-      
+
           return nodes;
         },
-        
+
         "noXPath": function() {
           throw new Error("The browser does not support 'window.XPathEvaluator'");
         }
-           
+
       }),
-      
+
       "mshtml|opera": function(element, query)
       {
         return element.selectNodes(query);;
@@ -151,12 +151,12 @@ qx.Clazz.define("qx.xml.Element",
         {
           return element.getElementsByTagNameNS(namespaceURI, tagname);
         },
-        
+
         "noGetByNs": function() {
           throw new Error("The browser does not support 'document.getElementsByTagNameNS'");
         }
       }),
-      
+
       "mshtml": function(element, namespaceURI, tagname)
       {
         var doc = element.ownerDocument || element;

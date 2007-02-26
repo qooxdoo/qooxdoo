@@ -104,15 +104,15 @@ qx.Clazz.define("qx.lang.Object",
       "mshtml" : function(map)
       {
         var r = [];
-  
+
         for (var s in map) {
           r.push(s);
         }
-        
+
         // IE does not return "shadowed" keys even if they are defined directly
         // in the object. This is incompatible to the ECMA standard!!
         // This is why this checks are needed.
-        var ownProp = Object.prototype.hasOwnProperty;  
+        var ownProp = Object.prototype.hasOwnProperty;
         ieShadowProps = [
           "isPrototypeOf",
           "hasOwnProperty",
@@ -121,26 +121,26 @@ qx.Clazz.define("qx.lang.Object",
           "valueOf"
         ];
         for (var i=0; i<ieShadowProps.length; i++) {
-        	if(ownProp.call(map, ieShadowProps[i])) {
-        		r.push(ieShadowProps[i]);
-        	}
+          if(ownProp.call(map, ieShadowProps[i])) {
+            r.push(ieShadowProps[i]);
+          }
         }
-        
+
         return r;
-			},
-      
+      },
+
       "default" : function(map)
       {
         var r = [];
-  
+
         for (var s in map) {
           r.push(s);
         }
-  
+
         return r;
       }
     }),
-    
+
 
     /**
      * Get the keys of a map as string

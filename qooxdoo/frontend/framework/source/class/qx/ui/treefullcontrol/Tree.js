@@ -163,7 +163,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.Tree",
      *  having set an element to <i>true</i> and desiring to reset the default
      *  behavior, you should 'delete' the element rather than setting it to some
      *  value other than <i>true</i>.)
-     * 
+     *
      *  If useTreeLines is <i>false</i>, then all tree lines are excluded and this
      *  property is ignored.
      */
@@ -255,7 +255,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.Tree",
      *
      * @type member
      * @param vChild {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     addChildToTreeQueue : function(vChild)
     {
@@ -283,7 +283,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.Tree",
      *
      * @type member
      * @param vChild {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     removeChildFromTreeQueue : function(vChild)
     {
@@ -302,7 +302,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.Tree",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     flushWidgetQueue : function() {
       this.flushTreeQueue();
@@ -313,7 +313,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.Tree",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     flushTreeQueue : function()
     {
@@ -610,7 +610,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.Tree",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeyup : function(e)
     {
@@ -669,7 +669,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.Tree",
      *
      * @type member
      * @param vElement {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setSelectedElement : function(vElement)
     {

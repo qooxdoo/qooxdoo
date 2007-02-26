@@ -51,20 +51,20 @@ qx.Clazz.define("qx.ui.table.TableModel",
      EVENTS
   *****************************************************************************
   */
-  
+
   events : {
     /**
      * Fired when the table data changed (the stuff shown in the table body).
      * The data property of the event may be null or a map having the following attributes:
-		 * <ul>
-		 *   <li>firstRow: The index of the first row that has changed.</li>
-		 *   <li>lastRow: The index of the last row that has changed.</li>
-		 *   <li>firstColumn: The model index of the first column that has changed.</li>
-		 *   <li>lastColumn: The model index of the last column that has changed.</li>
-		 * </ul>
-		 */
+     * <ul>
+     *   <li>firstRow: The index of the first row that has changed.</li>
+     *   <li>lastRow: The index of the last row that has changed.</li>
+     *   <li>firstColumn: The model index of the first column that has changed.</li>
+     *   <li>lastColumn: The model index of the last column that has changed.</li>
+     * </ul>
+     */
     "dataChanged" : "qx.event.type.DataEvent",
-    
+
     /**
      * Fired when the meta data changed (the stuff shown in the table header).
      */
@@ -104,7 +104,7 @@ qx.Clazz.define("qx.ui.table.TableModel",
      * Returns the number of rows in the model.
      *
      * @type member
-     * @abstract 
+     * @abstract
      * @return {Integer} the number of rows.
      * @throws the abstract function warning.
      */
@@ -114,13 +114,13 @@ qx.Clazz.define("qx.ui.table.TableModel",
 
 
     /**
-     * 
+     *
      * Returns the data of one row. This function may be overriden by models which hold
      * all data of a row in one object. By using this function, clients have a way of
-     * quickly retrieving the entire row data. 
-     * 
+     * quickly retrieving the entire row data.
+     *
      * <b>Important:</b>Models which do not have their row data accessible in one object
-     * may return null. 
+     * may return null.
      *
      * @type member
      * @param rowIndex {Integer} the model index of the row.
@@ -137,7 +137,7 @@ qx.Clazz.define("qx.ui.table.TableModel",
      * Returns the number of columns in the model.
      *
      * @type member
-     * @abstract 
+     * @abstract
      * @return {Integer} the number of columns.
      * @throws the abstract function warning.
      */
@@ -152,7 +152,7 @@ qx.Clazz.define("qx.ui.table.TableModel",
      * columns when saving the width of a column.
      *
      * @type member
-     * @abstract 
+     * @abstract
      * @param columnIndex {Integer} the index of the column.
      * @return {String} the ID of the column.
      * @throws the abstract function warning.
@@ -166,7 +166,7 @@ qx.Clazz.define("qx.ui.table.TableModel",
      * Returns the index of a column.
      *
      * @type member
-     * @abstract 
+     * @abstract
      * @param columnId {String} the ID of the column.
      * @return {Integer} the index of the column.
      * @throws the abstract function warning.
@@ -181,7 +181,7 @@ qx.Clazz.define("qx.ui.table.TableModel",
      * table header.
      *
      * @type member
-     * @abstract 
+     * @abstract
      * @param columnIndex {Integer} the index of the column.
      * @return {String} the name of the column.
      * @throws the abstract function warning.
@@ -221,7 +221,7 @@ qx.Clazz.define("qx.ui.table.TableModel",
      * @type member
      * @param columnIndex {Integer} the column to sort by.
      * @param ascending {Boolean} whether to sort ascending.
-     * @return {void} 
+     * @return {void}
      */
     sortByColumn : function(columnIndex, ascending) {},
 
@@ -256,7 +256,7 @@ qx.Clazz.define("qx.ui.table.TableModel",
      * @type member
      * @param firstRowIndex {Integer} the index of first row.
      * @param lastRowIndex {Integer} the index of last row.
-     * @return {void} 
+     * @return {void}
      */
     prefetchRows : function(firstRowIndex, lastRowIndex) {},
 
@@ -265,7 +265,7 @@ qx.Clazz.define("qx.ui.table.TableModel",
      * Returns a cell value by column index.
      *
      * @type member
-     * @abstract 
+     * @abstract
      * @param columnIndex {Integer} the index of the column.
      * @param rowIndex {Integer} the index of the row.
      * @return {var} The value of the cell.
@@ -279,7 +279,7 @@ qx.Clazz.define("qx.ui.table.TableModel",
 
     /**
      * Returns a cell value by column ID.
-     * 
+     *
      * Whenever you have the choice, use {@link #getValue()} instead,
      * because this should be faster.
      *
@@ -297,11 +297,11 @@ qx.Clazz.define("qx.ui.table.TableModel",
      * Sets a cell value by column index.
      *
      * @type member
-     * @abstract 
+     * @abstract
      * @param columnIndex {Integer} The index of the column.
      * @param rowIndex {Integer} the index of the row.
      * @param value {var} The new value.
-     * @return {void} 
+     * @return {void}
      * @throws the abstract function warning.
      * @see #setValueById
      */
@@ -312,7 +312,7 @@ qx.Clazz.define("qx.ui.table.TableModel",
 
     /**
      * Sets a cell value by column ID.
-     * 
+     *
      * Whenever you have the choice, use {@link #setValue()} instead,
      * because this should be faster.
      *

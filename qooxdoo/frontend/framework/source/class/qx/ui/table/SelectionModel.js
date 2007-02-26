@@ -57,9 +57,9 @@ qx.Clazz.define("qx.ui.table.SelectionModel",
      EVENTS
   *****************************************************************************
   */
-  
+
   events: {
-  	"changeSelection" : "qx.event.type.Event" /** Fired when the selection has changed. */
+    "changeSelection" : "qx.event.type.Event" /** Fired when the selection has changed. */
   },
 
 

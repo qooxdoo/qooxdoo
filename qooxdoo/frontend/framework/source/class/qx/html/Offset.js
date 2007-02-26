@@ -51,46 +51,46 @@ qx.Clazz.define("qx.html.Offset",
     getLeft : qx.core.Variant.select("qx.client",
     {
       "gecko" : function(el)
-		  {
-		    var val = el.offsetLeft;
-		    var pa = el.parentNode;
+      {
+        var val = el.offsetLeft;
+        var pa = el.parentNode;
 
-		    var pose = qx.html.Style.getStyleProperty(el, "position");
-		    var posp = qx.html.Style.getStyleProperty(pa, "position");
+        var pose = qx.html.Style.getStyleProperty(el, "position");
+        var posp = qx.html.Style.getStyleProperty(pa, "position");
 
-		    // If element is positioned non-static: Substract the border of the element
-		    if (pose != "absolute" && pose != "fixed") {
-		      val -= qx.html.Style.getBorderLeft(pa);
-		    }
+        // If element is positioned non-static: Substract the border of the element
+        if (pose != "absolute" && pose != "fixed") {
+          val -= qx.html.Style.getBorderLeft(pa);
+        }
 
-		    // If parent is positioned static: Substract the border of the first
-		    // parent element which is ab positioned non-static.
-		    if (posp != "absolute" && posp != "fixed")
-		    {
-		      while (pa)
-		      {
-		        pa = pa.parentNode;
+        // If parent is positioned static: Substract the border of the first
+        // parent element which is ab positioned non-static.
+        if (posp != "absolute" && posp != "fixed")
+        {
+          while (pa)
+          {
+            pa = pa.parentNode;
 
-		        if (!pa || typeof pa.tagName !== "string") {
-		          break;
-		        }
+            if (!pa || typeof pa.tagName !== "string") {
+              break;
+            }
 
-		        var posi = qx.html.Style.getStyleProperty(pa, "position");
+            var posi = qx.html.Style.getStyleProperty(pa, "position");
 
-		        if (posi == "absolute" || posi == "fixed")
-		        {
-		          val -= qx.html.Style.getBorderLeft(pa) + qx.html.Style.getPaddingLeft(pa);
-		          break;
-		        }
-		      }
-		    }
+            if (posi == "absolute" || posi == "fixed")
+            {
+              val -= qx.html.Style.getBorderLeft(pa) + qx.html.Style.getPaddingLeft(pa);
+              break;
+            }
+          }
+        }
 
-		    return val;
-		  },
+        return val;
+      },
 
       "default" : function(el) {
-		    return el.offsetLeft;
-		  }
+        return el.offsetLeft;
+      }
     }),
 
 
@@ -104,46 +104,46 @@ qx.Clazz.define("qx.html.Offset",
     getTop  : qx.core.Variant.select("qx.client",
     {
       "gecko" : function(el)
-		  {
-		    var val = el.offsetTop;
-		    var pa = el.parentNode;
+      {
+        var val = el.offsetTop;
+        var pa = el.parentNode;
 
-		    var pose = qx.html.Style.getStyleProperty(el, "position");
-		    var posp = qx.html.Style.getStyleProperty(pa, "position");
+        var pose = qx.html.Style.getStyleProperty(el, "position");
+        var posp = qx.html.Style.getStyleProperty(pa, "position");
 
-		    // If element is positioned non-static: Substract the border of the element
-		    if (pose != "absolute" && pose != "fixed") {
-		      val -= qx.html.Style.getBorderTop(pa);
-		    }
+        // If element is positioned non-static: Substract the border of the element
+        if (pose != "absolute" && pose != "fixed") {
+          val -= qx.html.Style.getBorderTop(pa);
+        }
 
-		    // If parent is positioned static: Substract the border of the first
-		    // parent element which is ab positioned non-static.
-		    if (posp != "absolute" && posp != "fixed")
-		    {
-		      while (pa)
-		      {
-		        pa = pa.parentNode;
+        // If parent is positioned static: Substract the border of the first
+        // parent element which is ab positioned non-static.
+        if (posp != "absolute" && posp != "fixed")
+        {
+          while (pa)
+          {
+            pa = pa.parentNode;
 
-		        if (!pa || typeof pa.tagName !== "string") {
-		          break;
-		        }
+            if (!pa || typeof pa.tagName !== "string") {
+              break;
+            }
 
-		        var posi = qx.html.Style.getStyleProperty(pa, "position");
+            var posi = qx.html.Style.getStyleProperty(pa, "position");
 
-		        if (posi == "absolute" || posi == "fixed")
-		        {
-		          val -= qx.html.Style.getBorderTop(pa) + qx.html.Style.getPaddingTop(pa);
-		          break;
-		        }
-		      }
-		    }
+            if (posi == "absolute" || posi == "fixed")
+            {
+              val -= qx.html.Style.getBorderTop(pa) + qx.html.Style.getPaddingTop(pa);
+              break;
+            }
+          }
+        }
 
-		    return val;
-		  },
+        return val;
+      },
 
       "default" : function(el) {
-		    return el.offsetTop;
-		  }
+        return el.offsetTop;
+      }
     })
   }
 });

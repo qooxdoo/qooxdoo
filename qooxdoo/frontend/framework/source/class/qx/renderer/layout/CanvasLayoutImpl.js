@@ -73,7 +73,7 @@ qx.Clazz.define("qx.renderer.layout.CanvasLayoutImpl",
      *  [09] FLUSH LAYOUT QUEUES OF CHILDREN
      *  [10] LAYOUT CHILD
      *  [11] DISPOSER
-     * 
+     *
      *  Inherits from qx.renderer.layout.LayoutImpl:
      *  [03] COMPUTE NEEDED DIMENSIONS FOR ALL CHILDREN
      *  [04] UPDATE LAYOUT WHEN A CHILD CHANGES ITS OUTER DIMENSIONS
@@ -237,7 +237,7 @@ qx.Clazz.define("qx.renderer.layout.CanvasLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     layoutChild : function(vChild, vJobs)
     {
@@ -261,9 +261,9 @@ qx.Clazz.define("qx.renderer.layout.CanvasLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
-    layoutChild_sizeX : qx.core.Variant.select("qx.client", 
+    layoutChild_sizeX : qx.core.Variant.select("qx.client",
     {
       "mshtml|opera" : function(vChild, vJobs)
       {
@@ -276,7 +276,7 @@ qx.Clazz.define("qx.renderer.layout.CanvasLayoutImpl",
           }
         }
       },
-      
+
       "default" : function(vChild, vJobs)
       {
         if (vJobs.initial || vJobs.width) {
@@ -292,9 +292,9 @@ qx.Clazz.define("qx.renderer.layout.CanvasLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
-    layoutChild_sizeY : qx.core.Variant.select("qx.client", 
+    layoutChild_sizeY : qx.core.Variant.select("qx.client",
     {
       "mshtml|opera" : function(vChild, vJobs)
       {
@@ -307,7 +307,7 @@ qx.Clazz.define("qx.renderer.layout.CanvasLayoutImpl",
           }
         }
       },
-      
+
       "default" : function(vChild, vJobs)
       {
         if (vJobs.initial || vJobs.height) {
@@ -323,7 +323,7 @@ qx.Clazz.define("qx.renderer.layout.CanvasLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     layoutChild_locationX : function(vChild, vJobs)
     {
@@ -345,7 +345,7 @@ qx.Clazz.define("qx.renderer.layout.CanvasLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     layoutChild_locationY : function(vChild, vJobs)
     {

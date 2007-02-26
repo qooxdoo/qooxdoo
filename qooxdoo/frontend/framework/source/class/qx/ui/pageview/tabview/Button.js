@@ -51,7 +51,7 @@ qx.Clazz.define("qx.ui.pageview.tabview.Button",
      EVENTS
   *****************************************************************************
   */
-  
+
   events: {
     "closetab" : "qx.event.type.Event"
   },
@@ -123,7 +123,7 @@ qx.Clazz.define("qx.ui.pageview.tabview.Button",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeydown : function(e)
     {
@@ -142,7 +142,7 @@ qx.Clazz.define("qx.ui.pageview.tabview.Button",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeypress : function(e)
     {
@@ -192,7 +192,7 @@ qx.Clazz.define("qx.ui.pageview.tabview.Button",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _ontabclose : function(e) {
       this.createDispatchDataEvent("closetab", this);
@@ -269,7 +269,7 @@ qx.Clazz.define("qx.ui.pageview.tabview.Button",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _applyStateAppearance : function()
     {

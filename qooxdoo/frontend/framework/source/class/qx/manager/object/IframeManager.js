@@ -66,7 +66,7 @@ qx.Clazz.define("qx.manager.object.IframeManager",
      *
      * @type member
      * @param evt {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     handleMouseDown : function(evt)
     {
@@ -85,7 +85,7 @@ qx.Clazz.define("qx.manager.object.IframeManager",
      *
      * @type member
      * @param evt {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     handleMouseUp : function(evt)
     {

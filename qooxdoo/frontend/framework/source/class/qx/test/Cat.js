@@ -63,7 +63,7 @@ qx.Clazz.define("qx.test.Cat",
      * This is the documentation for the makeSound function
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     makeSound : function() {
       this.debug("MEOW! MEOW!");
@@ -74,7 +74,7 @@ qx.Clazz.define("qx.test.Cat",
      * This is the documentation for the play function
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     play : function()
     {
@@ -92,7 +92,7 @@ qx.Clazz.define("qx.test.Cat",
    * @param statics {var} TODOC
    * @param members {var} TODOC
    * @param properties {var} TODOC
-   * @return {void} 
+   * @return {void}
    */
   defer : function(statics, members, properties)
   {

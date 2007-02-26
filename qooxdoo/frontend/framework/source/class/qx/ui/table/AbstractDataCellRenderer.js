@@ -104,7 +104,7 @@ qx.Clazz.define("qx.ui.table.AbstractDataCellRenderer",
      * @type member
      * @param cellInfo {var} TODOC
      * @param cellElement {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     updateDataCellElement : function(cellInfo, cellElement) {
       cellElement.innerHTML = this._getContentHtml(cellInfo);
@@ -143,7 +143,7 @@ qx.Clazz.define("qx.ui.table.AbstractDataCellRenderer",
      * @type member
      * @param cellInfo {var} TODOC
      * @param htmlArr {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     createDataCellHtml_array_join : function(cellInfo, htmlArr)
     {
@@ -186,7 +186,7 @@ qx.Clazz.define("qx.ui.table.AbstractDataCellRenderer",
      * @type member
      * @param cellInfo {var} TODOC
      * @param htmlArr {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _createCellStyle_array_join : function(cellInfo, htmlArr) {
       htmlArr.push(qx.ui.table.AbstractDataCellRenderer.MAIN_DIV_STYLE);
@@ -199,7 +199,7 @@ qx.Clazz.define("qx.ui.table.AbstractDataCellRenderer",
      * @type member
      * @param cellInfo {var} TODOC
      * @param htmlArr {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _createContentHtml_array_join : function(cellInfo, htmlArr) {
       htmlArr.push(cellInfo.value);

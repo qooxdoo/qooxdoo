@@ -28,7 +28,7 @@
 qx.Clazz.define("qx.util.format.Format",
 {
   extend : qx.core.Object,
-	type : "abstract",
+  type : "abstract",
 
 
 
@@ -57,7 +57,7 @@ qx.Clazz.define("qx.util.format.Format",
      * Formats an object.
      *
      * @type member
-     * @abstract 
+     * @abstract
      * @param obj {var} The object to format.
      * @return {String} the formatted object.
      * @throws the abstract function warning.
@@ -71,7 +71,7 @@ qx.Clazz.define("qx.util.format.Format",
      * Parses an object.
      *
      * @type member
-     * @abstract 
+     * @abstract
      * @param str {String} the string to parse.
      * @return {var} the parsed object.
      * @throws the abstract function warning.

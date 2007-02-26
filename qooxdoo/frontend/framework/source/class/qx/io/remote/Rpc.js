@@ -101,7 +101,7 @@ qx.Clazz.define("qx.io.remote.Rpc",
      EVENTS
   *****************************************************************************
   */
-  
+
   events : {
     "completed" : "qx.event.type.Event",
     "aborted" : "qx.event.type.Event",
@@ -204,7 +204,7 @@ qx.Clazz.define("qx.io.remote.Rpc",
 
     /**
       Indicate that the request is cross domain.
-    
+
       A request is cross domain if the request's URL points to a host other
       than the local host. This switches the concrete implementation that
       is used for sending the request from qx.io.remote.XmlHttpTransport to
@@ -561,19 +561,19 @@ qx.Clazz.define("qx.io.remote.Rpc",
      * Makes a synchronous server call. The method arguments (if any) follow
      * after the method name (as normal JavaScript arguments, separated by commas,
      * not as an array).
-     * 
+     *
      * If a problem occurs when making the call, an exception is thrown.
-     *  
-     * 
+     *
+     *
      * WARNING.  With some browsers, the synchronous interface
      * causes the browser to hang while awaiting a response!  If the server
      * decides to pause for a minute or two, your browser may do nothing
      * (including refreshing following window changes) until the response is
      * received.  Instead, use the asynchronous interface.
-     *  
-     * 
+     *
+     *
      * YOU HAVE BEEN WARNED.
-     *  
+     *
      *
      * @type member
      * @param methodName {String} the name of the method to call.
@@ -588,28 +588,28 @@ qx.Clazz.define("qx.io.remote.Rpc",
      * Makes an asynchronous server call. The method arguments (if any) follow
      * after the method name (as normal JavaScript arguments, separated by commas,
      * not as an array).
-     * 
+     *
      * When an answer from the server arrives, the <code>handler</code> function
      * is called with the result of the call as the first,  an exception as the
      * second parameter, and the id (aka sequence number) of the invoking request
      * as the third parameter. If the call was successful, the second parameter is
      * <code>null</code>. If there was a problem, the second parameter contains an
      * exception, and the first one is <code>null</code>.
-     *  
-     * 
+     *
+     *
      * The return value of this method is a call reference that you can store if
      * you want to abort the request later on. This value should be treated as
      * opaque and can change completely in the future! The only thing you can rely
      * on is that the <code>abort</code> method will accept this reference and
      * that you can retrieve the sequence number of the request by invoking the
      * getSequenceNumber() method (see below).
-     *  
-     * 
+     *
+     *
      * If a specific method is being called, asynchronously, a number of times in
      * succession, the getSequenceNumber() method may be used to disambiguate
      * which request a response corresponds to.  The sequence number value is a
      * value which increments with each request.)
-     *  
+     *
      *
      * @type member
      * @param handler {Function} the callback function.
@@ -625,36 +625,36 @@ qx.Clazz.define("qx.io.remote.Rpc",
      * Makes an asynchronous server call and dispatch an event upon completion or
      * failure. The method arguments (if any) follow after the method name (as
      * normal JavaScript arguments, separated by commas, not as an array).
-     * 
+     *
      * When an answer from the server arrives (or fails to arrive on time), if an
      * exception occurred, a "failed", "timeout" or "aborted" event, as
      * appropriate, is dispatched to any waiting event listeners.  If no exception
      * occurred, a "completed" event is dispatched.
-     *  
-     * 
+     *
+     *
      * When a "failed", "timeout" or "aborted" event is dispatched, the event data
      * contains an object with the properties 'origin', 'code', 'message' and
      * 'id'.  The object has a toString() function which may be called to convert
      * the exception to a string.
-     *  
-     * 
+     *
+     *
      * When a "completed" event is dispatched, the event data contains the
      * JSON-RPC result.
-     *  
-     * 
+     *
+     *
      * The return value of this method is a call reference that you can store if
      * you want to abort the request later on. This value should be treated as
      * opaque and can change completely in the future! The only thing you can rely
      * on is that the <code>abort</code> method will accept this reference and
      * that you can retrieve the sequence number of the request by invoking the
      * getSequenceNumber() method (see below).
-     *  
-     * 
+     *
+     *
      * If a specific method is being called, asynchronously, a number of times in
      * succession, the getSequenceNumber() method may be used to disambiguate
      * which request a response corresponds to.  The sequence number value is a
      * value which increments with each request.)
-     *  
+     *
      *
      * @type member
      * @param coalesce {Boolean} coalesce all failure types ("failed",
@@ -673,7 +673,7 @@ qx.Clazz.define("qx.io.remote.Rpc",
     /**
      * Refreshes a server session by retrieving the session id again from the
      * server.
-     * 
+     *
      * The specified handler function is called when the refresh is complete. The
      * first parameter can be <code>true</code> (indicating that a refresh either
      * wasn't necessary at this time or it was successful) or <code>false</code>
@@ -681,12 +681,12 @@ qx.Clazz.define("qx.io.remote.Rpc",
      * because the server backend doesn't support it). If there is a non-null
      * second parameter, it's an exception indicating that there was an error when
      * refreshing the session.
-     *  
+     *
      *
      * @type member
      * @param handler {Function} a callback function that is called when the
      *                                    refresh is complete (or failed).
-     * @return {void} 
+     * @return {void}
      */
     refreshSession : function(handler)
     {
@@ -727,7 +727,7 @@ qx.Clazz.define("qx.io.remote.Rpc",
      * @param opaqueCallRef {var} the call reference as returned by
      *                                        <code>callAsync</code> or
      *                                        <code>callAsyncListeners</code>
-     * @return {void} 
+     * @return {void}
      */
     abort : function(opaqueCallRef) {
       opaqueCallRef.abort();

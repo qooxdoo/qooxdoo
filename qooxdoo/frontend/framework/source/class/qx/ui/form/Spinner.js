@@ -132,7 +132,7 @@ qx.Clazz.define("qx.ui.form.Spinner",
      EVENTS
   *****************************************************************************
   */
-  
+
   events: {
     "change" : "qx.event.type.Event"
   },
@@ -145,7 +145,7 @@ qx.Clazz.define("qx.ui.form.Spinner",
      EVENTS
   *****************************************************************************
   */
-  
+
   events: {
    "change" : "qx.event.type.Event"
   },
@@ -317,7 +317,7 @@ qx.Clazz.define("qx.ui.form.Spinner",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeypress : function(e)
     {
@@ -367,7 +367,7 @@ qx.Clazz.define("qx.ui.form.Spinner",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeydown : function(e)
     {
@@ -412,7 +412,7 @@ qx.Clazz.define("qx.ui.form.Spinner",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeyup : function(e)
     {
@@ -446,7 +446,7 @@ qx.Clazz.define("qx.ui.form.Spinner",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmousedown : function(e)
     {
@@ -479,7 +479,7 @@ qx.Clazz.define("qx.ui.form.Spinner",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseup : function(e)
     {
@@ -503,7 +503,7 @@ qx.Clazz.define("qx.ui.form.Spinner",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmousewheel : function(e)
     {
@@ -525,7 +525,7 @@ qx.Clazz.define("qx.ui.form.Spinner",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _oninput : function(e) {
       this._checkValue(true, true);
@@ -537,7 +537,7 @@ qx.Clazz.define("qx.ui.form.Spinner",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onchange : function(e)
     {
@@ -578,7 +578,7 @@ qx.Clazz.define("qx.ui.form.Spinner",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onblur : function(e) {
       this._checkValue(false);
@@ -598,7 +598,7 @@ qx.Clazz.define("qx.ui.form.Spinner",
      *
      * @type member
      * @param nValue {Number} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setValue : function(nValue) {
       this._manager.setValue(nValue);
@@ -691,7 +691,7 @@ qx.Clazz.define("qx.ui.form.Spinner",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _oninterval : function(e)
     {
@@ -741,7 +741,7 @@ qx.Clazz.define("qx.ui.form.Spinner",
      * @type member
      * @param acceptEmpty {var} TODOC
      * @param acceptEdit {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _checkValue : function(acceptEmpty, acceptEdit)
     {
@@ -838,7 +838,7 @@ qx.Clazz.define("qx.ui.form.Spinner",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _increment : function() {
       this._manager.setValue(this._manager.getValue() + ((this._intervalIncrease ? 1 : -1) * this._computedIncrementAmount));
@@ -849,7 +849,7 @@ qx.Clazz.define("qx.ui.form.Spinner",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _pageIncrement : function() {
       this._manager.setValue(this._manager.getValue() + ((this._intervalIncrease ? 1 : -1) * this.getPageIncrementAmount()));
@@ -860,7 +860,7 @@ qx.Clazz.define("qx.ui.form.Spinner",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _resetIncrements : function()
     {

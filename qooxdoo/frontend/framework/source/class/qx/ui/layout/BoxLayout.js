@@ -164,9 +164,9 @@ qx.Clazz.define("qx.ui.layout.BoxLayout",
     ---------------------------------------------------------------------------
       ACCUMULATED CHILDREN WIDTH/HEIGHT
     --------------------------------------------------------------------------------
-    
+
       Needed for center/middle and right/bottom alignment
-    
+
     ---------------------------------------------------------------------------
     */
 
@@ -266,7 +266,7 @@ qx.Clazz.define("qx.ui.layout.BoxLayout",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _updateLayoutMode : function()
     {
@@ -282,7 +282,7 @@ qx.Clazz.define("qx.ui.layout.BoxLayout",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _invalidateLayoutMode : function() {
       this._layoutMode = null;
@@ -418,7 +418,7 @@ qx.Clazz.define("qx.ui.layout.BoxLayout",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _recomputeChildrenStretchingX : function()
     {
@@ -437,7 +437,7 @@ qx.Clazz.define("qx.ui.layout.BoxLayout",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _recomputeChildrenStretchingY : function()
     {
