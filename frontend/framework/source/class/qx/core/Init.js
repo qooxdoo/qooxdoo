@@ -245,9 +245,9 @@ qx.Clazz.define("qx.core.Init",
       this.debug("qooxdoo " + qx.core.Version.toString());
 
       // Print out class information
-			if (qx.core.Variant.isSet("qx.compatibility", "on")) {
-	      this.debug("loaded " + qx.lang.Object.getLength(qx.OO.classes) + " old classes");
-      }      
+      if (qx.core.Variant.isSet("qx.compatibility", "on")) {
+        this.debug("loaded " + qx.lang.Object.getLength(qx.OO.classes) + " old classes");
+      }
       this.debug("loaded " + qx.Clazz.getNumber() + " classes");
       this.debug("loaded " + qx.Interface.getNumber() + " interfaces");
       this.debug("loaded " + qx.Mixin.getNumber() + " mixins");

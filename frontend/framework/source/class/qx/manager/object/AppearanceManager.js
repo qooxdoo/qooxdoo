@@ -135,10 +135,10 @@ qx.Clazz.define("qx.manager.object.AppearanceManager",
         qx.ui.core.ClientDocument.getInstance()._recursiveAppearanceThemeUpdate(propValue, propOldValue);
       }
 
-			// Reset cache
-			if (propValue) {
-				this.__cache = {};
-			}
+      // Reset cache
+      if (propValue) {
+        this.__cache = {};
+      }
 
       return true;
     },
@@ -179,65 +179,65 @@ qx.Clazz.define("qx.manager.object.AppearanceManager",
      */
     styleFromTheme : function(theme, id, states)
     {
-			var cache = this.__cache;
+      var cache = this.__cache;
       var entry = theme.appearances[id];
 
       if (!entry) {
         throw new Error("Missing appearance entry: " + id);
       }
 
-			// Fast fallback to super entry
-			if (!entry.style && entry.extend) {
-				return this.styleFromTheme(theme, entry.extend, states);
-			}
+      // Fast fallback to super entry
+      if (!entry.style && entry.extend) {
+        return this.styleFromTheme(theme, entry.extend, states);
+      }
 
       // Creating cache-able ID
       var helper = [];
-			for (var state in states) 
-			{
-				if (states[state]) {
-					helper.push(state);
-				}
-			}
-			helper.sort().unshift(id);
-			var unique = helper.join(":");
- 
+      for (var state in states)
+      {
+        if (states[state]) {
+          helper.push(state);
+        }
+      }
+      helper.sort().unshift(id);
+      var unique = helper.join(":");
+
       // Using cache if available
       if (cache[unique] !== undefined) {
-				return cache[unique];
-			}
-			
+        return cache[unique];
+      }
+
       // Otherwise "compile" the appearance
       var ret;
 
       // This is the place where we really call the appearance theme
       if (entry.style)
       {
-				// Execute setup routine (deprecated)
-				if (entry.setup) 
-				{
-					this.debug("Use of deprecated setup method in appearance '" + id + "'");
-					entry.setup();
-					delete entry.setup;
-				}
-				
-				// Executing appearance theme style definition
+        // Execute setup routine (deprecated)
+        if (entry.setup)
+        {
+          this.debug("Use of deprecated setup method in appearance '" + id + "'");
+          entry.setup();
+          delete entry.setup;
+        }
+
+        // Executing appearance theme style definition
         ret = entry.style(states);
 
-	      // Fill with data from inheritance
-	      if (entry.extend) {
-					qx.lang.Object.carefullyMergeWith(ret, this.styleFromTheme(theme, entry.extend, states));
-	      }
+        // Fill with data from inheritance
+        if (entry.extend) {
+          qx.lang.Object.carefullyMergeWith(ret, this.styleFromTheme(theme, entry.extend, states));
+        }
       }
 
-			// Normalize to null (needed for caching)
-			ret = ret || null;
+      // Normalize to null (needed for caching)
+      ret = ret || null;
 
       // Cache new entry
-			cache[unique] = ret;
-			
-			// Debug
-			this.debug("Cached: " + qx.lang.Object.getLength(cache) + " :: " + unique);
+      cache[unique] = ret;
+
+      // Debug
+      this.debug("Cached: " + qx.lang.Object.getLength(cache) + " :: " + unique);
 
       return ret;
     },
