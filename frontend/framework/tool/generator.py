@@ -396,10 +396,6 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
   sortedIncludeList = loader.getSortedList(options, fileDb, moduleDb)
 
-  if len(sortedIncludeList) == 0:
-  	print "  * No classes to include. Exciting!"
-  	sys.exit(1)
-
   if options.printIncludes:
     print
     print "  PRINT OF INCLUDE ORDER:"
