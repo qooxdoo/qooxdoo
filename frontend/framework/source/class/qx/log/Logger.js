@@ -534,6 +534,6 @@ qx.Clazz.define("qx.log.Logger",
     statics.ROOT_LOGGER.setMinLevel(qx.core.Setting.get("qx.minLogLevel"));
     statics.ROOT_LOGGER.addAppender(new (qx.Clazz.getByName(qx.core.Setting.get("qx.logAppender"))));
   }
-  
+
 });
 
