@@ -298,4 +298,3 @@ qx.Clazz.define("qx.core.Variant",
     statics.__init();
   }
 });
-
