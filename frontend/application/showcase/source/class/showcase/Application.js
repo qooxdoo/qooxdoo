@@ -72,7 +72,7 @@ qx.Clazz.define("showcase.Application",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     main : function(e)
     {

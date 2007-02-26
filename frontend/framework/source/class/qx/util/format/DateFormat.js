@@ -232,7 +232,7 @@ qx.Clazz.define("qx.util.format.DateFormat",
 
     /**
      * Formats a date.
-     * 
+     *
      * Uses the same syntax as
      * <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/text/SimpleDateFormat.html" target="_blank">
      * the SimpleDateFormat class in Java</a>.
@@ -382,7 +382,7 @@ qx.Clazz.define("qx.util.format.DateFormat",
 
     /**
      * Parses a date.
-     * 
+     *
      * Uses the same syntax as
      * <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/text/SimpleDateFormat.html" target="_blank">
      * the SimpleDateFormat class in Java</a>.
@@ -451,7 +451,7 @@ qx.Clazz.define("qx.util.format.DateFormat",
      * Parses the date format.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     __initFormatTree : function()
     {
@@ -624,7 +624,7 @@ qx.Clazz.define("qx.util.format.DateFormat",
 
     /**
      * Initializes the parse feed.
-     * 
+     *
      * The parse contains everything needed for parsing: The regular expression
      * (in compiled and uncompiled form) and the used rules.
      *
@@ -725,7 +725,7 @@ qx.Clazz.define("qx.util.format.DateFormat",
      * Initializes the static parse rules.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     __initParseRules : function()
     {

@@ -193,7 +193,7 @@ qx.Clazz.define("qx.ui.tree.Tree",
      *
      * @type member
      * @param vChild {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     addChildToTreeQueue : function(vChild)
     {
@@ -221,7 +221,7 @@ qx.Clazz.define("qx.ui.tree.Tree",
      *
      * @type member
      * @param vChild {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     removeChildFromTreeQueue : function(vChild)
     {
@@ -240,7 +240,7 @@ qx.Clazz.define("qx.ui.tree.Tree",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     flushWidgetQueue : function() {
       this.flushTreeQueue();
@@ -251,7 +251,7 @@ qx.Clazz.define("qx.ui.tree.Tree",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     flushTreeQueue : function()
     {
@@ -460,7 +460,7 @@ qx.Clazz.define("qx.ui.tree.Tree",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeyup : function(e)
     {
@@ -516,7 +516,7 @@ qx.Clazz.define("qx.ui.tree.Tree",
      *
      * @type member
      * @param vElement {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setSelectedElement : function(vElement)
     {

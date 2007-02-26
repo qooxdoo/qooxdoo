@@ -126,7 +126,7 @@ qx.Clazz.define("qx.manager.object.ToolTipManager",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     handleMouseOver : function(e)
     {
@@ -158,7 +158,7 @@ qx.Clazz.define("qx.manager.object.ToolTipManager",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     handleMouseOut : function(e)
     {
@@ -200,7 +200,7 @@ qx.Clazz.define("qx.manager.object.ToolTipManager",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     handleFocus : function(e)
     {
@@ -225,7 +225,7 @@ qx.Clazz.define("qx.manager.object.ToolTipManager",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     handleBlur : function(e)
     {

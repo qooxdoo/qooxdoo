@@ -189,7 +189,7 @@ qx.Clazz.define("apiviewer.Viewer",
      *
      * @type member
      * @param url {String} the URL.
-     * @return {void} 
+     * @return {void}
      */
     load : function(url)
     {
@@ -231,7 +231,7 @@ qx.Clazz.define("apiviewer.Viewer",
      *
      * @type member
      * @param docTree {Map} the documentation tree to use for updating.
-     * @return {void} 
+     * @return {void}
      */
     _updateTree : function(docTree)
     {
@@ -272,7 +272,7 @@ qx.Clazz.define("apiviewer.Viewer",
      * @param treeNode {qx.ui.tree.TreeFolder} the package tree node.
      * @param docNode {Map} the documentation node of the package.
      * @param depth {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _fillPackageNode : function(treeNode, docNode, depth)
     {
@@ -336,7 +336,7 @@ qx.Clazz.define("apiviewer.Viewer",
      * @param parentTreeNode {var} TODOC
      * @param classDocNode {Map} the documentation node of the class.
      * @param docTree {Map} the documentation tree.
-     * @return {void} 
+     * @return {void}
      */
     _createInheritanceNode : function(parentTreeNode, classDocNode, docTree)
     {
@@ -374,7 +374,7 @@ qx.Clazz.define("apiviewer.Viewer",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onTreeSelectionChange : function(evt)
     {
@@ -400,7 +400,7 @@ qx.Clazz.define("apiviewer.Viewer",
      *
      * @type member
      * @param evt {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onHistoryRequest : function(evt) {
       this.showClassByName(evt.getData());
@@ -412,7 +412,7 @@ qx.Clazz.define("apiviewer.Viewer",
      *
      * @type member
      * @param vTreeNode {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _selectTreeNode : function(vTreeNode)
     {
@@ -445,7 +445,7 @@ qx.Clazz.define("apiviewer.Viewer",
      * @type member
      * @param fullItemName {String} the full name of the item to select.
      *          (e.g. "qx.mypackage.MyClass" or "qx.mypackage.MyClass#myProperty")
-     * @return {void} 
+     * @return {void}
      */
     selectItem : function(fullItemName)
     {
@@ -478,7 +478,7 @@ qx.Clazz.define("apiviewer.Viewer",
      *
      * @type member
      * @param className {String} the name of the class to show.
-     * @return {void} 
+     * @return {void}
      */
     showClassByName : function(className)
     {

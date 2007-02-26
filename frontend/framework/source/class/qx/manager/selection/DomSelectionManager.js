@@ -275,7 +275,7 @@ qx.Clazz.define("qx.manager.selection.DomSelectionManager",
      *
      * @type member
      * @param vItem {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     scrollItemIntoView : function(vItem) {
       this.getBoundedWidget().scrollItemIntoView(vItem);
@@ -376,7 +376,7 @@ qx.Clazz.define("qx.manager.selection.DomSelectionManager",
      * @param vItem {var} TODOC
      * @param vState {var} TODOC
      * @param vIsState {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _updateState : function(vItem, vState, vIsState)
     {
@@ -393,7 +393,7 @@ qx.Clazz.define("qx.manager.selection.DomSelectionManager",
      * @type member
      * @param vItem {var} TODOC
      * @param vIsSelected {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     renderItemSelectionState : function(vItem, vIsSelected) {
       this._updateState(vItem, "Selected", vIsSelected);
@@ -406,7 +406,7 @@ qx.Clazz.define("qx.manager.selection.DomSelectionManager",
      * @type member
      * @param vItem {var} TODOC
      * @param vIsAnchor {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     renderItemAnchorState : function(vItem, vIsAnchor) {
       this._updateState(vItem, "Anchor", vIsAnchor);
@@ -419,7 +419,7 @@ qx.Clazz.define("qx.manager.selection.DomSelectionManager",
      * @type member
      * @param vItem {var} TODOC
      * @param vIsLead {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     renderItemLeadState : function(vItem, vIsLead) {
       this._updateState(vItem, "Lead", vIsLead);

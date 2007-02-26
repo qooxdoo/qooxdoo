@@ -167,7 +167,7 @@ qx.Clazz.define("qx.log.WindowAppender",
      * Creates and opens the log window if it doesn't alread exist.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     openWindow : function()
     {
@@ -240,7 +240,7 @@ qx.Clazz.define("qx.log.WindowAppender",
      * Closes the log window.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     closeWindow : function()
     {
@@ -259,7 +259,7 @@ qx.Clazz.define("qx.log.WindowAppender",
      * is is unloaded). Will only close the window if the autoClose***-Properties allow it
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _autoCloseWindow : function()
     {
@@ -279,7 +279,7 @@ qx.Clazz.define("qx.log.WindowAppender",
      *
      * @type member
      * @param msg {String} message to show, may be HTML
-     * @return {void} 
+     * @return {void}
      */
     _showMessageInLog : function(msg)
     {
@@ -302,7 +302,7 @@ qx.Clazz.define("qx.log.WindowAppender",
      *
      * @type member
      * @param evt {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     appendLogEvent : function(evt)
     {

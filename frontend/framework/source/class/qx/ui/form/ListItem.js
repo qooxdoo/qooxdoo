@@ -60,7 +60,7 @@ qx.Clazz.define("qx.ui.form.ListItem",
      EVENTS
   *****************************************************************************
   */
-  
+
   events: {
     "action" : "qx.event.type.Event" /** (Fired by {@link qx.ui.form.List}) */
   },
@@ -107,7 +107,7 @@ qx.Clazz.define("qx.ui.form.ListItem",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     handleStateChange : function()
     {
@@ -129,7 +129,7 @@ qx.Clazz.define("qx.ui.form.ListItem",
      *
      * @type member
      * @param vStates {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _applyStateStyleFocus : function(vStates) {},
 
@@ -203,7 +203,7 @@ qx.Clazz.define("qx.ui.form.ListItem",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _ondblclick : function(e)
     {

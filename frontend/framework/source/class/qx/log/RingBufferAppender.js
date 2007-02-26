@@ -92,7 +92,7 @@ qx.Clazz.define("qx.log.RingBufferAppender",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {void} 
+     * @return {void}
      */
     _modifyMaxMessages : function(propValue, propOldValue, propData)
     {
@@ -106,7 +106,7 @@ qx.Clazz.define("qx.log.RingBufferAppender",
      *
      * @type member
      * @param evt {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     appendLogEvent : function(evt)
     {

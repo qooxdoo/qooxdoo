@@ -298,7 +298,7 @@ qx.Clazz.define("qx.util.fsm.FiniteStateMachine",
      * @type member
      * @param state {qx.util.fsm.State} An object of class qx.util.fsm.State representing a state
      *     which is to be a part of this finite state machine.
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     addState : function(state)
@@ -372,7 +372,7 @@ qx.Clazz.define("qx.util.fsm.FiniteStateMachine",
      * @param friendlyName {String} The friendly name to used for access to the object being added.
      * @param obj {Object} The object to associate with the specified friendly name
      * @param groupNames {Array} An optional list of group names of which this object is a member.
-     * @return {void} 
+     * @return {void}
      */
     addObject : function(friendlyName, obj, groupNames)
     {
@@ -426,7 +426,7 @@ qx.Clazz.define("qx.util.fsm.FiniteStateMachine",
      * @type member
      * @param friendlyName {String} The friendly name associated with an object, specifying which object is
      *     to be removed.
-     * @return {void} 
+     * @return {void}
      */
     removeObject : function(friendlyName)
     {
@@ -503,7 +503,7 @@ qx.Clazz.define("qx.util.fsm.FiniteStateMachine",
      * Display all of the saved objects and their reverse mappings.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     displayAllObjects : function()
     {
@@ -525,7 +525,7 @@ qx.Clazz.define("qx.util.fsm.FiniteStateMachine",
      * to the finite state machine.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     start : function()
@@ -573,9 +573,9 @@ qx.Clazz.define("qx.util.fsm.FiniteStateMachine",
     /**
      * Save the current or previous state on the saved-state stack.  A future
      * transition can then provide, as its nextState value, the class constant:
-     * 
+     *
      *   qx.util.fsm.FiniteStateMachine.StateChange.POP_STATE_STACK
-     * 
+     *
      * which will cause the next state to be whatever is at the top of the
      * saved-state stack, and remove that top element from the saved-state stack.
      *
@@ -584,7 +584,7 @@ qx.Clazz.define("qx.util.fsm.FiniteStateMachine",
      *     be used in a transition, before the state has changed.  When
      *     <i>false</i>, then push the previous state onto the stack.  This might be
      *     used in an on entry function to save the previous state to return to.
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     pushState : function(bCurrent)
@@ -615,7 +615,7 @@ qx.Clazz.define("qx.util.fsm.FiniteStateMachine",
      *
      * @type member
      * @param event {qx.event.type.Event} The event to add to the event queue for processing after state change.
-     * @return {void} 
+     * @return {void}
      */
     postponeEvent : function(event)
     {
@@ -652,7 +652,7 @@ qx.Clazz.define("qx.util.fsm.FiniteStateMachine",
      * @param bAddAtHead {Boolean} If <i>true</i>, put the event at the head of the queue for immediate
      *     processing.  If <i>false</i>, place the event at the tail of the queue so
      *     that it receives in-order processing.
-     * @return {void} 
+     * @return {void}
      */
     enqueueEvent : function(event, bAddAtHead)
     {
@@ -684,7 +684,7 @@ qx.Clazz.define("qx.util.fsm.FiniteStateMachine",
      *
      * @type member
      * @param event {qx.event.type.Event} The event that was dispatched.
-     * @return {void} 
+     * @return {void}
      */
     eventListener : function(event)
     {
@@ -707,7 +707,7 @@ qx.Clazz.define("qx.util.fsm.FiniteStateMachine",
      * Process all of the events on the event queue.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     __processEvents : function()
     {

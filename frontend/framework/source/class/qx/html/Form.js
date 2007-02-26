@@ -143,7 +143,7 @@ qx.Clazz.define("qx.html.Form",
      * @type static
      * @param vForm {var} TODOC
      * @param vMethod {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     bind : function(vForm, vMethod)
     {

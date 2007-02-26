@@ -54,50 +54,50 @@ qx.Clazz.define("qx.ui.table.TableColumnModel",
      EVENTS
   *****************************************************************************
   */
-  
+
   events : {
-    
+
     /**
-		 * Fired when the width of a column has changed. The data property of the event is
-		 * a map having the following attributes:
-		 * <ul>
-		 *   <li>col: The model index of the column the width of which has changed.</li>
-		 *   <li>newWidth: The new width of the column in pixels.</li>
-		 *   <li>oldWidth: The old width of the column in pixels.</li>
-		 * </ul>
-     */ 
-  	"widthChanged" : "qx.event.type.DataEvent",
+     * Fired when the width of a column has changed. The data property of the event is
+     * a map having the following attributes:
+     * <ul>
+     *   <li>col: The model index of the column the width of which has changed.</li>
+     *   <li>newWidth: The new width of the column in pixels.</li>
+     *   <li>oldWidth: The old width of the column in pixels.</li>
+     * </ul>
+     */
+    "widthChanged" : "qx.event.type.DataEvent",
 
     /**
      * Fired when the visibility of a column has changed. This event is equal to
- 		 * "visibilityChanged", but is fired right before.
-     */ 
+      * "visibilityChanged", but is fired right before.
+     */
     "visibilityChangedPre" : "qx.event.type.DataEvent",
 
     /**
      * Fired when the visibility of a column has changed. The data property of the
-		 * event is a map having the following attributes:
-		 * <ul>
-		 *   <li>col: The model index of the column the visibility of which has changed.</li>
-		 *   <li>visible: Whether the column is now visible.</li>
-		 * </ul>
-     */ 
+     * event is a map having the following attributes:
+     * <ul>
+     *   <li>col: The model index of the column the visibility of which has changed.</li>
+     *   <li>visible: Whether the column is now visible.</li>
+     * </ul>
+     */
     "visibilityChanged" : "qx.event.type.DataEvent",
 
     /**
      * Fired when the column order has changed. The data property of the
-		 * event is a map having the following attributes:
-		 * <ul>
-		 *   <li>col: The model index of the column that was moved.</li>
-		 *   <li>fromOverXPos: The old overall x position of the column.</li>
-		 *   <li>toOverXPos: The new overall x position of the column.</li>
-		 * </ul>
-     */ 
+     * event is a map having the following attributes:
+     * <ul>
+     *   <li>col: The model index of the column that was moved.</li>
+     *   <li>fromOverXPos: The old overall x position of the column.</li>
+     *   <li>toOverXPos: The new overall x position of the column.</li>
+     * </ul>
+     */
     "orderChanged" : "qx.event.type.DataEvent"
   },
-  
-  
-  
+
+
+
 
   /*
   *****************************************************************************
@@ -137,7 +137,7 @@ qx.Clazz.define("qx.ui.table.TableColumnModel",
      *
      * @type member
      * @param colCount {Integer} the number of columns the model should have.
-     * @return {void} 
+     * @return {void}
      */
     init : function(colCount)
     {
@@ -174,7 +174,7 @@ qx.Clazz.define("qx.ui.table.TableColumnModel",
      * @type member
      * @param col {Integer} the model index of the column.
      * @param width {Integer} the new width the column should get in pixels.
-     * @return {void} 
+     * @return {void}
      */
     setColumnWidth : function(col, width)
     {
@@ -218,7 +218,7 @@ qx.Clazz.define("qx.ui.table.TableColumnModel",
      * @param col {Integer} the model index of the column.
      * @param renderer {HeaderCellRenderer} the new header renderer the column
      *      should get.
-     * @return {void} 
+     * @return {void}
      */
     setHeaderCellRenderer : function(col, renderer) {
       this._columnDataArr[col].headerRenderer = renderer;
@@ -243,7 +243,7 @@ qx.Clazz.define("qx.ui.table.TableColumnModel",
      * @type member
      * @param col {Integer} the model index of the column.
      * @param renderer {DataCellRenderer} the new data renderer the column should get.
-     * @return {void} 
+     * @return {void}
      */
     setDataCellRenderer : function(col, renderer) {
       this._columnDataArr[col].dataRenderer = renderer;
@@ -268,7 +268,7 @@ qx.Clazz.define("qx.ui.table.TableColumnModel",
      * @type member
      * @param col {Integer} the model index of the column.
      * @param factory {CellEditorFactory} the new cell editor factory the column should get.
-     * @return {void} 
+     * @return {void}
      */
     setCellEditorFactory : function(col, factory) {
       this._columnDataArr[col].editorFactory = factory;
@@ -289,7 +289,7 @@ qx.Clazz.define("qx.ui.table.TableColumnModel",
 
     /**
      * Returns the map that translates model indexes to x positions.
-     * 
+     *
      * The returned map contains for a model index (int) a map having two
      * properties: overX (the overall x position of the column, int) and
      * visX (the visible x position of the column, int). visX is missing for
@@ -409,7 +409,7 @@ qx.Clazz.define("qx.ui.table.TableColumnModel",
      * @type member
      * @param col {Integer} the model index of the column.
      * @param visible {Boolean} whether the column should be visible.
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     setColumnVisible : function(col, visible)
@@ -495,7 +495,7 @@ qx.Clazz.define("qx.ui.table.TableColumnModel",
      * @param fromOverXPos {Integer} the overall x postion of the column to move.
      * @param toOverXPos {Integer} the overall x postion of where the column should be
      *      moved to.
-     * @return {void} 
+     * @return {void}
      */
     moveColumn : function(fromOverXPos, toOverXPos)
     {

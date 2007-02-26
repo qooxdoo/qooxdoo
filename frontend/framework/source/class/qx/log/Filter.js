@@ -81,7 +81,7 @@ qx.Clazz.define("qx.log.Filter",
      * Decidies whether a log event is accepted.
      *
      * @type member
-     * @abstract 
+     * @abstract
      * @param evt {Map} The event to check.
      * @return {Integer} {@link #ACCEPT}, {@link #DENY} or {@link #NEUTRAL}.
      * @throws the abstract function warning.

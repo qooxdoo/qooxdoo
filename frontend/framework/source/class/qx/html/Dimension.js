@@ -157,7 +157,7 @@ qx.Clazz.define("qx.html.Dimension",
      *
      * @type static
      * @param el {Element} TODOC
-     * @return {void} 
+     * @return {void}
      */
     getAreaWidth : qx.core.Variant.select("qx.client",
     {
@@ -177,7 +177,7 @@ qx.Clazz.define("qx.html.Dimension",
           return qx.html.Dimension.getBoxWidth(el) - qx.html.Dimension.getInsetLeft(el) - qx.html.Dimension.getInsetRight(el);
         }
       },
-      
+
       "default" : function(el)
         {
           // 0 in clientWidth could mean both: That it is really 0 or
@@ -193,7 +193,7 @@ qx.Clazz.define("qx.html.Dimension",
      *
      * @type static
      * @param el {Element} TODOC
-     * @return {void} 
+     * @return {void}
      */
     getAreaHeight : qx.core.Variant.select("qx.client",
     {
@@ -213,7 +213,7 @@ qx.Clazz.define("qx.html.Dimension",
           return qx.html.Dimension.getBoxHeight(el) - qx.html.Dimension.getInsetTop(el) - qx.html.Dimension.getInsetBottom(el);
         }
       },
-      
+
       "default" : function(el)
       {
         // 0 in clientHeight could mean both: That it is really 0 or
@@ -253,14 +253,14 @@ qx.Clazz.define("qx.html.Dimension",
      *
      * @type static
      * @param el {Element} TODOC
-     * @return {void} 
+     * @return {void}
      */
     getInsetLeft : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(el) {
         return el.clientLeft;
       },
-      
+
       "default" : function(el) {
         return qx.html.Style.getBorderLeft(el);
       }
@@ -272,14 +272,14 @@ qx.Clazz.define("qx.html.Dimension",
      *
      * @type static
      * @param el {Element} TODOC
-     * @return {void} 
+     * @return {void}
      */
     getInsetTop : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(el) {
         return el.clientTop;
       },
-      
+
       "default" : function(el) {
         return qx.html.Style.getBorderTop(el);
       }
@@ -291,7 +291,7 @@ qx.Clazz.define("qx.html.Dimension",
      *
      * @type static
      * @param el {Element} TODOC
-     * @return {void} 
+     * @return {void}
      */
     getInsetRight : qx.core.Variant.select("qx.client",
     {
@@ -300,10 +300,10 @@ qx.Clazz.define("qx.html.Dimension",
         if (qx.html.Style.getStyleProperty(el, "overflowY") == "hidden" || el.clientWidth == 0) {
           return qx.html.Style.getBorderRight(el);
         }
-    
+
         return Math.max(0, el.offsetWidth - el.clientLeft - el.clientWidth);
       },
-      
+
       "default" : function(el)
       {
         // Alternative method if clientWidth is unavailable
@@ -314,7 +314,7 @@ qx.Clazz.define("qx.html.Dimension",
           var sbv = ov == "scroll" || ov == "-moz-scrollbars-vertical" ? 16 : 0;
           return Math.max(0, qx.html.Style.getBorderRight(el) + sbv);
         }
-    
+
         return Math.max(0, el.offsetWidth - el.clientWidth - qx.html.Style.getBorderLeft(el));
       }
     }),
@@ -325,7 +325,7 @@ qx.Clazz.define("qx.html.Dimension",
      *
      * @type static
      * @param el {Element} TODOC
-     * @return {void} 
+     * @return {void}
      */
     getInsetBottom : qx.core.Variant.select("qx.client",
     {
@@ -334,10 +334,10 @@ qx.Clazz.define("qx.html.Dimension",
         if (qx.html.Style.getStyleProperty(el, "overflowX") == "hidden" || el.clientHeight == 0) {
           return qx.html.Style.getBorderBottom(el);
         }
-    
+
         return Math.max(0, el.offsetHeight - el.clientTop - el.clientHeight);
       },
-      
+
       "default" : function(el)
       {
         // Alternative method if clientHeight is unavailable
@@ -348,7 +348,7 @@ qx.Clazz.define("qx.html.Dimension",
           var sbv = ov == "scroll" || ov == "-moz-scrollbars-horizontal" ? 16 : 0;
           return Math.max(0, qx.html.Style.getBorderBottom(el) + sbv);
         }
-    
+
         return Math.max(0, el.offsetHeight - el.clientHeight - qx.html.Style.getBorderTop(el));
       }
     }),

@@ -61,7 +61,7 @@ qx.Clazz.define("qx.renderer.layout.GridLayoutImpl",
     /** Compute and return the box width of the given child. */
     /**
      * Global Structure:
-     * 
+     *
      *  [01] COMPUTE BOX DIMENSIONS FOR AN INDIVIDUAL CHILD
      *  [03] COMPUTE NEEDED DIMENSIONS FOR ALL CHILDREN
      *  [04] UPDATE LAYOUT WHEN A CHILD CHANGES ITS OUTER DIMENSIONS
@@ -72,9 +72,9 @@ qx.Clazz.define("qx.renderer.layout.GridLayoutImpl",
      *  [09] FLUSH LAYOUT QUEUES OF CHILDREN
      *  [10] LAYOUT CHILD
      *  [11] DISPOSER
-     * 
+     *
      *  Inherits from qx.renderer.layout.LayoutImpl:
-     * 
+     *
      *  [04] UPDATE LAYOUT WHEN A CHILD CHANGES ITS OUTER DIMENSIONS
      *  [06] UPDATE LAYOUT ON JOB QUEUE FLUSH
      *  [07] UPDATE CHILDREN ON JOB QUEUE FLUSH
@@ -260,7 +260,7 @@ qx.Clazz.define("qx.renderer.layout.GridLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     layoutChild : function(vChild, vJobs)
     {
@@ -286,7 +286,7 @@ qx.Clazz.define("qx.renderer.layout.GridLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     layoutChild_sizeX : function(vChild, vJobs) {
       vChild._applyRuntimeWidth(vChild.getBoxWidth());
@@ -299,7 +299,7 @@ qx.Clazz.define("qx.renderer.layout.GridLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     layoutChild_sizeY : function(vChild, vJobs) {
       vChild._applyRuntimeHeight(vChild.getBoxHeight());
@@ -312,7 +312,7 @@ qx.Clazz.define("qx.renderer.layout.GridLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     layoutChild_locationX : function(vChild, vJobs)
     {
@@ -345,7 +345,7 @@ qx.Clazz.define("qx.renderer.layout.GridLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     layoutChild_locationY : function(vChild, vJobs)
     {

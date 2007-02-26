@@ -87,7 +87,7 @@ qx.Clazz.define("qx.ui.toolbar.Part",
      *
      * @type member
      * @param cloneInstance {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _cloneRecursive : function(cloneInstance)
     {

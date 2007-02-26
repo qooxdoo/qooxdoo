@@ -53,71 +53,71 @@ qx.Clazz.define("qx.xml.Document",
      */
     create : qx.core.Variant.select("qx.client",
     {
-    	"default": qx.lang.Object.select((document.implementation && document.implementation.createDocument) ? "hasDom2" : "noDom2",
-	    {
-				"hasDom2": function(namespaceUri, qualifiedName)
-				{
-	    		return document.implementation.createDocument(namespaceUri || "", qualifiedName || "", null);
-	  		},
-	  		
-				"noDom2": function(namespaceUri, qualifiedName)
-				{
-					throw new Error("This browser does not support xml dom creation.");
-				}
-			}),
-			
-			"mshtml": function(namespaceUri, qualifiedName)
- 			{
-		    /*
-		     According to information on the Microsoft XML Team's WebLog
-		     it is recommended to check for availability of MSXML versions 6.0 and 3.0.
-		     Other versions are included for completeness, 5.0 is excluded as it is
-		     "off-by-default" in IE7 (which could trigger a goldbar).
-		      http://blogs.msdn.com/xmlteam/archive/2006/10/23/using-the-right-version-of-msxml-in-internet-explorer.aspx
-		     http://msdn.microsoft.com/library/default.asp?url=/library/en-us/xmlsdk/html/aabe29a2-bad2-4cea-8387-314174252a74.asp
-		     */
-		
-		    var vServers = [ "MSXML2.DOMDocument.3.0", "MSXML2.DOMDocument.6.0", "MSXML2.DOMDocument.4.0", "MSXML2.DOMDocument", // v3.0
-		    "MSXML.DOMDocument", // v2.x
-		    "Microsoft.XMLDOM" // v2.x
-		    ];
-		
-		    var vObject;
-		
-		    for (var i=0, l=vServers.length; i<l; i++)
-		    {
-		      try
-		      {
-		        vObject = new ActiveXObject(vServers[i]);
-		        break;
-		      }
-		      catch(ex)
-		      {
-		        vObject = null;
-		      }
-		    }
-		
-		    if (qualifiedName && vObject)
-		    {
-		      xmlStr = new qx.util.StringBuilder();
-		      xmlStr.add("<?xml version='1.0' encoding='UTF-8'?>\n<");
-		      xmlStr.add(qualifiedName);
-		
-		      if (namespaceUri)
-		      {
-		        xmlStr.add(" xmlns='");
-		        xmlStr.add(namespaceUri);
-		        xmlStr.add("'");
-		      }
-		
-		      xmlStr.add(" />");
-		      vObject.loadXML(xmlStr.toString());
-		    }
-		
-		    return vObject;
-		  }
+      "default": qx.lang.Object.select((document.implementation && document.implementation.createDocument) ? "hasDom2" : "noDom2",
+      {
+        "hasDom2": function(namespaceUri, qualifiedName)
+        {
+          return document.implementation.createDocument(namespaceUri || "", qualifiedName || "", null);
+        },
+
+        "noDom2": function(namespaceUri, qualifiedName)
+        {
+          throw new Error("This browser does not support xml dom creation.");
+        }
+      }),
+
+      "mshtml": function(namespaceUri, qualifiedName)
+       {
+        /*
+         According to information on the Microsoft XML Team's WebLog
+         it is recommended to check for availability of MSXML versions 6.0 and 3.0.
+         Other versions are included for completeness, 5.0 is excluded as it is
+         "off-by-default" in IE7 (which could trigger a goldbar).
+          http://blogs.msdn.com/xmlteam/archive/2006/10/23/using-the-right-version-of-msxml-in-internet-explorer.aspx
+         http://msdn.microsoft.com/library/default.asp?url=/library/en-us/xmlsdk/html/aabe29a2-bad2-4cea-8387-314174252a74.asp
+         */
+
+        var vServers = [ "MSXML2.DOMDocument.3.0", "MSXML2.DOMDocument.6.0", "MSXML2.DOMDocument.4.0", "MSXML2.DOMDocument", // v3.0
+        "MSXML.DOMDocument", // v2.x
+        "Microsoft.XMLDOM" // v2.x
+        ];
+
+        var vObject;
+
+        for (var i=0, l=vServers.length; i<l; i++)
+        {
+          try
+          {
+            vObject = new ActiveXObject(vServers[i]);
+            break;
+          }
+          catch(ex)
+          {
+            vObject = null;
+          }
+        }
+
+        if (qualifiedName && vObject)
+        {
+          xmlStr = new qx.util.StringBuilder();
+          xmlStr.add("<?xml version='1.0' encoding='UTF-8'?>\n<");
+          xmlStr.add(qualifiedName);
+
+          if (namespaceUri)
+          {
+            xmlStr.add(" xmlns='");
+            xmlStr.add(namespaceUri);
+            xmlStr.add("'");
+          }
+
+          xmlStr.add(" />");
+          vObject.loadXML(xmlStr.toString());
+        }
+
+        return vObject;
+      }
     }),
-    
+
 
     /**
      * The string passed in is parsed into a DOM document.
@@ -128,25 +128,25 @@ qx.Clazz.define("qx.xml.Document",
      */
     fromString : qx.core.Variant.select("qx.client",
     {
-    	"default": qx.lang.Object.select(window.DOMParser ? "hasDomParser" : "noDomParser",
-    	{
-    		"hasDomParser":	function(str) 
-			  {
-			    var dom = (new DOMParser()).parseFromString(str, "text/xml");
-			    return dom;
-			  },
-			  
-			  "noDomParser": function() {
-				  throw new Error("This browser does not support xml dom creation from string.");
-			  }
-			}),
-			
-			"mshtml": function(str)
-		  {
-		    var dom = qx.xml.Document.create();
-		    dom.loadXML(str);
-		    return dom;
-		  }
+      "default": qx.lang.Object.select(window.DOMParser ? "hasDomParser" : "noDomParser",
+      {
+        "hasDomParser":  function(str)
+        {
+          var dom = (new DOMParser()).parseFromString(str, "text/xml");
+          return dom;
+        },
+
+        "noDomParser": function() {
+          throw new Error("This browser does not support xml dom creation from string.");
+        }
+      }),
+
+      "mshtml": function(str)
+      {
+        var dom = qx.xml.Document.create();
+        dom.loadXML(str);
+        return dom;
+      }
     }),
 
 

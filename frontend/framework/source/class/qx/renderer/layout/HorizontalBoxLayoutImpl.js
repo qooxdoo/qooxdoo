@@ -92,7 +92,7 @@ qx.Clazz.define("qx.renderer.layout.HorizontalBoxLayoutImpl",
      *  [09] FLUSH LAYOUT QUEUES OF CHILDREN
      *  [10] LAYOUT CHILD
      *  [11] DISPOSER
-     * 
+     *
      *  Inherits from qx.renderer.layout.LayoutImpl:
      *  [02] COMPUTE NEEDED DIMENSIONS FOR AN INDIVIDUAL CHILD
      *  [11] DISPOSER
@@ -127,7 +127,7 @@ qx.Clazz.define("qx.renderer.layout.HorizontalBoxLayoutImpl",
      * Computes the width of all flexible children.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     computeChildrenFlexWidth : function()
     {
@@ -355,7 +355,7 @@ qx.Clazz.define("qx.renderer.layout.HorizontalBoxLayoutImpl",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     invalidateChildrenFlexWidth : function() {
       delete this._childrenFlexWidthComputed;
@@ -397,7 +397,7 @@ qx.Clazz.define("qx.renderer.layout.HorizontalBoxLayoutImpl",
      *
      * @type member
      * @param vChild {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     updateSelfOnChildOuterWidthChange : function(vChild)
     {
@@ -475,7 +475,7 @@ qx.Clazz.define("qx.renderer.layout.HorizontalBoxLayoutImpl",
      *
      * @type member
      * @param vJobQueue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     updateSelfOnJobQueueFlush : function(vJobQueue)
     {
@@ -556,7 +556,7 @@ qx.Clazz.define("qx.renderer.layout.HorizontalBoxLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @param vIndex {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     updateChildrenOnRemoveChild : function(vChild, vIndex)
     {
@@ -617,7 +617,7 @@ qx.Clazz.define("qx.renderer.layout.HorizontalBoxLayoutImpl",
      * @param vChild {var} TODOC
      * @param vIndex {var} TODOC
      * @param vOldIndex {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     updateChildrenOnMoveChild : function(vChild, vIndex, vOldIndex)
     {
@@ -647,7 +647,7 @@ qx.Clazz.define("qx.renderer.layout.HorizontalBoxLayoutImpl",
      *
      * @type member
      * @param vChildrenQueue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     flushChildrenQueue : function(vChildrenQueue)
     {
@@ -738,7 +738,7 @@ qx.Clazz.define("qx.renderer.layout.HorizontalBoxLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     layoutChild : function(vChild, vJobs)
     {
@@ -762,9 +762,9 @@ qx.Clazz.define("qx.renderer.layout.HorizontalBoxLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
-    layoutChild_sizeX : qx.core.Variant.select("qx.client", 
+    layoutChild_sizeX : qx.core.Variant.select("qx.client",
     {
       "mshtml|opera|webkit" : function(vChild, vJobs)
       {
@@ -777,7 +777,7 @@ qx.Clazz.define("qx.renderer.layout.HorizontalBoxLayoutImpl",
           }
         }
       },
-      
+
       "default" : function(vChild, vJobs)
       {
         if (vJobs.initial || vJobs.width)
@@ -798,9 +798,9 @@ qx.Clazz.define("qx.renderer.layout.HorizontalBoxLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
-    layoutChild_sizeY : qx.core.Variant.select("qx.client", 
+    layoutChild_sizeY : qx.core.Variant.select("qx.client",
     {
       "mshtml|opera|webkit" : function(vChild, vJobs)
       {
@@ -813,7 +813,7 @@ qx.Clazz.define("qx.renderer.layout.HorizontalBoxLayoutImpl",
           }
         }
       },
-      
+
       "default" : function(vChild, vJobs)
       {
         if (vJobs.initial || vJobs.height)
@@ -834,7 +834,7 @@ qx.Clazz.define("qx.renderer.layout.HorizontalBoxLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     layoutChild_locationX : function(vChild, vJobs)
     {
@@ -909,7 +909,7 @@ qx.Clazz.define("qx.renderer.layout.HorizontalBoxLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     layoutChild_locationY : function(vChild, vJobs)
     {

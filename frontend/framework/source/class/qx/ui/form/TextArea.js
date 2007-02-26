@@ -91,17 +91,17 @@ qx.Clazz.define("qx.ui.form.TextArea",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {void} 
+     * @return {void}
      */
     _modifyWrap : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(propValue, propOldValue, propData) {
-		    return this.setStyleProperty("whiteSpace", propValue ? "normal" : "nowrap");
-		  },
-      
+        return this.setStyleProperty("whiteSpace", propValue ? "normal" : "nowrap");
+      },
+
       "default" : function(propValue, propOldValue, propData) {
-		    return this.setHtmlProperty("wrap", propValue ? "soft" : "off");
-		  }
+        return this.setHtmlProperty("wrap", propValue ? "soft" : "off");
+      }
     }),
 
 

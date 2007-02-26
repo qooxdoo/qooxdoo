@@ -78,7 +78,7 @@ qx.Clazz.define("qx.renderer.layout.FlowLayoutImpl",
     /** Compute and return the width needed by all children of this widget */
     /**
      * Global Structure:
-     * 
+     *
      *  [01] COMPUTE BOX DIMENSIONS FOR AN INDIVIDUAL CHILD
      *  [03] COMPUTE NEEDED DIMENSIONS FOR ALL CHILDREN
      *  [04] UPDATE LAYOUT WHEN A CHILD CHANGES ITS OUTER DIMENSIONS
@@ -89,9 +89,9 @@ qx.Clazz.define("qx.renderer.layout.FlowLayoutImpl",
      *  [09] FLUSH LAYOUT QUEUES OF CHILDREN
      *  [10] LAYOUT CHILD
      *  [11] DISPOSER
-     * 
+     *
      *  Inherits from qx.renderer.layout.LayoutImpl:
-     * 
+     *
      *  [01] COMPUTE BOX DIMENSIONS FOR AN INDIVIDUAL CHILD
      *  [02] COMPUTE NEEDED DIMENSIONS FOR AN INDIVIDUAL CHILD
      *  [06] UPDATE LAYOUT ON JOB QUEUE FLUSH
@@ -166,7 +166,7 @@ qx.Clazz.define("qx.renderer.layout.FlowLayoutImpl",
      *
      * @type member
      * @param vChild {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     updateSelfOnChildOuterWidthChange : function(vChild)
     {
@@ -232,7 +232,7 @@ qx.Clazz.define("qx.renderer.layout.FlowLayoutImpl",
      *
      * @type member
      * @param vQueue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     updateChildrenOnJobQueueFlush : function(vQueue)
     {
@@ -257,7 +257,7 @@ qx.Clazz.define("qx.renderer.layout.FlowLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @param vIndex {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     updateChildrenOnRemoveChild : function(vChild, vIndex)
     {
@@ -289,7 +289,7 @@ qx.Clazz.define("qx.renderer.layout.FlowLayoutImpl",
      * @param vChild {var} TODOC
      * @param vIndex {var} TODOC
      * @param vOldIndex {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     updateChildrenOnMoveChild : function(vChild, vIndex, vOldIndex)
     {
@@ -314,7 +314,7 @@ qx.Clazz.define("qx.renderer.layout.FlowLayoutImpl",
      *
      * @type member
      * @param vChildrenQueue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     flushChildrenQueue : function(vChildrenQueue)
     {
@@ -371,7 +371,7 @@ qx.Clazz.define("qx.renderer.layout.FlowLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     layoutChild : function(vChild, vJobs)
     {
@@ -394,9 +394,9 @@ qx.Clazz.define("qx.renderer.layout.FlowLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
-    layoutChild_sizeX : qx.core.Variant.select("qx.client", 
+    layoutChild_sizeX : qx.core.Variant.select("qx.client",
     {
       "mshtml|opera" : function(vChild, vJobs)
       {
@@ -404,7 +404,7 @@ qx.Clazz.define("qx.renderer.layout.FlowLayoutImpl",
           vChild._computedWidthTypeNull && vChild._computedMinWidthTypeNull && vChild._computedMaxWidthTypeNull ? vChild._resetRuntimeWidth() : vChild._applyRuntimeWidth(vChild.getBoxWidth());
         }
       },
-      
+
       "default" : function(vChild, vJobs)
       {
         if (vJobs.initial || vJobs.width) {
@@ -420,9 +420,9 @@ qx.Clazz.define("qx.renderer.layout.FlowLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
-    layoutChild_sizeY : qx.core.Variant.select("qx.client", 
+    layoutChild_sizeY : qx.core.Variant.select("qx.client",
     {
       "mshtml|opera" : function(vChild, vJobs)
       {
@@ -430,7 +430,7 @@ qx.Clazz.define("qx.renderer.layout.FlowLayoutImpl",
           vChild._computedHeightTypeNull && vChild._computedMinHeightTypeNull && vChild._computedMaxHeightTypeNull ? vChild._resetRuntimeHeight() : vChild._applyRuntimeHeight(vChild.getBoxHeight());
         }
       },
-      
+
       "default" : function(vChild, vJobs)
       {
         if (vJobs.initial || vJobs.height) {
@@ -446,7 +446,7 @@ qx.Clazz.define("qx.renderer.layout.FlowLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     layoutChild_location : function(vChild, vJobs)
     {

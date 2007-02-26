@@ -94,7 +94,7 @@ qx.Clazz.define("qx.event.type.DragEvent",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     startDrag : function()
@@ -122,7 +122,7 @@ qx.Clazz.define("qx.event.type.DragEvent",
      * @type member
      * @param sType {String} TODOC
      * @param oData {Object} TODOC
-     * @return {void} 
+     * @return {void}
      */
     addData : function(sType, oData) {
       qx.event.handler.DragAndDropHandler.getInstance().addData(sType, oData);
@@ -145,7 +145,7 @@ qx.Clazz.define("qx.event.type.DragEvent",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     clearData : function() {
       qx.event.handler.DragAndDropHandler.getInstance().clearData();
@@ -176,7 +176,7 @@ qx.Clazz.define("qx.event.type.DragEvent",
      *
      * @type member
      * @param sAction {String} TODOC
-     * @return {void} 
+     * @return {void}
      */
     addAction : function(sAction) {
       qx.event.handler.DragAndDropHandler.getInstance().addAction(sAction);
@@ -188,7 +188,7 @@ qx.Clazz.define("qx.event.type.DragEvent",
      *
      * @type member
      * @param sAction {String} TODOC
-     * @return {void} 
+     * @return {void}
      */
     removeAction : function(sAction) {
       qx.event.handler.DragAndDropHandler.getInstance().removeAction(sAction);
@@ -210,7 +210,7 @@ qx.Clazz.define("qx.event.type.DragEvent",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     clearActions : function() {
       qx.event.handler.DragAndDropHandler.getInstance().clearActions();
@@ -237,7 +237,7 @@ qx.Clazz.define("qx.event.type.DragEvent",
      *          should be away from the mouse cursor in y direction.
      * @param autoDisposeWidget {boolean} whether the widget should be disposed when
      *          dragging is finished or cancelled.
-     * @return {void} 
+     * @return {void}
      */
     setFeedbackWidget : function(widget, deltaX, deltaY, autoDisposeWidget) {
       qx.event.handler.DragAndDropHandler.getInstance().setFeedbackWidget(widget, deltaX, deltaY, autoDisposeWidget);
@@ -261,7 +261,7 @@ qx.Clazz.define("qx.event.type.DragEvent",
      *          cursor feedback should be away from the mouse cursor in x direction.
      * @param deltaY {int} The number of pixels the top-left corner of the
      *          cursor feedback should be away from the mouse cursor in y direction.
-     * @return {void} 
+     * @return {void}
      */
     setCursorPosition : function(deltaX, deltaY) {
       qx.event.handler.DragAndDropHandler.getInstance().setCursorPosition(deltaX, deltaY);

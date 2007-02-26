@@ -136,7 +136,7 @@ qx.Clazz.define("qx.manager.object.ObjectManager",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     enableAll : function()
     {
@@ -150,7 +150,7 @@ qx.Clazz.define("qx.manager.object.ObjectManager",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     disableAll : function()
     {

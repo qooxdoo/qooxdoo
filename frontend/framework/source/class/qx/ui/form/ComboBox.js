@@ -155,7 +155,7 @@ qx.Clazz.define("qx.ui.form.ComboBox",
      EVENTS
   *****************************************************************************
   */
-  
+
   events: {
     "beforeInitialOpen" : "qx.event.type.Event"
   },
@@ -434,7 +434,7 @@ qx.Clazz.define("qx.ui.form.ComboBox",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _openPopup : function()
     {
@@ -465,7 +465,7 @@ qx.Clazz.define("qx.ui.form.ComboBox",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _closePopup : function()
     {
@@ -478,7 +478,7 @@ qx.Clazz.define("qx.ui.form.ComboBox",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _testClosePopup : function()
     {
@@ -492,7 +492,7 @@ qx.Clazz.define("qx.ui.form.ComboBox",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _togglePopup : function() {
       this._popup.isSeeable() ? this._closePopup() : this._openPopup();
@@ -512,7 +512,7 @@ qx.Clazz.define("qx.ui.form.ComboBox",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onpopupappear : function(e)
     {
@@ -529,7 +529,7 @@ qx.Clazz.define("qx.ui.form.ComboBox",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _oninput : function(e)
     {
@@ -552,7 +552,7 @@ qx.Clazz.define("qx.ui.form.ComboBox",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onbeforedisappear : function(e) {
       this._testClosePopup();
@@ -572,7 +572,7 @@ qx.Clazz.define("qx.ui.form.ComboBox",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmousedown : function(e)
     {
@@ -619,7 +619,7 @@ qx.Clazz.define("qx.ui.form.ComboBox",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseup : function(e)
     {
@@ -644,7 +644,7 @@ qx.Clazz.define("qx.ui.form.ComboBox",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseover : function(e)
     {
@@ -669,7 +669,7 @@ qx.Clazz.define("qx.ui.form.ComboBox",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmousewheel : function(e)
     {
@@ -720,7 +720,7 @@ qx.Clazz.define("qx.ui.form.ComboBox",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeydown : function(e)
     {
@@ -781,7 +781,7 @@ qx.Clazz.define("qx.ui.form.ComboBox",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeypress : function(e)
     {
@@ -867,7 +867,7 @@ qx.Clazz.define("qx.ui.form.ComboBox",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeyinput : function(e)
     {

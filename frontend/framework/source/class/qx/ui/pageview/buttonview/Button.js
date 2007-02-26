@@ -82,7 +82,7 @@ qx.Clazz.define("qx.ui.pageview.buttonview.Button",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeypress : function(e)
     {
@@ -150,7 +150,7 @@ qx.Clazz.define("qx.ui.pageview.buttonview.Button",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _applyStateAppearance : function()
     {

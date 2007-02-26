@@ -97,12 +97,12 @@ qx.Clazz.define("qx.core.Target",
         return true;
       }
 
-			if (eventName.indexOf("change") == 0) {
-				var propName = qx.lang.String.toFirstLower(eventName.slice(6));
-				if (this.$$properties[propName]) {
-					return true;
-				}
-			}
+      if (eventName.indexOf("change") == 0) {
+        var propName = qx.lang.String.toFirstLower(eventName.slice(6));
+        if (this.$$properties[propName]) {
+          return true;
+        }
+      }
 
       var clazz = this.constructor;
 
@@ -141,7 +141,7 @@ qx.Clazz.define("qx.core.Target",
           //throw new Error("Objects of class '" + this.constructor.classname + "' do not support the event '" + type + "'");
           this.warn("Objects of class '" + this.constructor.classname + "' do not support the event '" + type + "'");
         }
-        
+
         if (typeof func !== "function")
         {
           this.warn("qx.core.Target: addEventListener(" + type + "): '" + func + "' is not a function!");

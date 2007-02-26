@@ -70,7 +70,7 @@ qx.Clazz.define("webmail.Application",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     main : function(e)
     {

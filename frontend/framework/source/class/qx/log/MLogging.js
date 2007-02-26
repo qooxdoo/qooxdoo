@@ -26,12 +26,12 @@
 
 /**
  * The logging interface.
- * 
+ *
  * Convenience functions to use the logging system of qooxdoo.
  */
 qx.Mixin.define("qx.log.MLogging", {
   members: {
-     
+
     /**
      * Returns the logger of this class.
      *
@@ -49,7 +49,7 @@ qx.Mixin.define("qx.log.MLogging", {
      * @param msg {var} the message to log. If this is not a string, the
      *          object dump will be logged.
      * @param exc {var} the exception to log.
-     * @return {void} 
+     * @return {void}
      */
     debug : function(msg, exc) {
       this.getLogger().debug(msg, this._hashCode, exc);
@@ -62,7 +62,7 @@ qx.Mixin.define("qx.log.MLogging", {
      * @param msg {var} the message to log. If this is not a string, the
      *      object dump will be logged.
      * @param exc {var} the exception to log.
-     * @return {void} 
+     * @return {void}
      */
     info : function(msg, exc) {
       this.getLogger().info(msg, this._hashCode, exc);
@@ -75,7 +75,7 @@ qx.Mixin.define("qx.log.MLogging", {
      * @param msg {var} the message to log. If this is not a string, the
      *      object dump will be logged.
      * @param exc {var} the exception to log.
-     * @return {void} 
+     * @return {void}
      */
     warn : function(msg, exc) {
       this.getLogger().warn(msg, this._hashCode, exc);
@@ -88,7 +88,7 @@ qx.Mixin.define("qx.log.MLogging", {
      * @param msg {var} the message to log. If this is not a string, the
      *      object dump will be logged.
      * @param exc {var} the exception to log.
-     * @return {void} 
+     * @return {void}
      */
     error : function(msg, exc) {
       this.getLogger().error(msg, this._hashCode, exc);

@@ -181,7 +181,7 @@ qx.Clazz.define("qx.ui.menu.RadioButton",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     execute : function()
     {

@@ -305,7 +305,7 @@ qx.Clazz.define("qx.ui.menu.Menu",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _beforeAppear : function()
     {
@@ -327,7 +327,7 @@ qx.Clazz.define("qx.ui.menu.Menu",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _beforeDisappear : function()
     {
@@ -670,7 +670,7 @@ qx.Clazz.define("qx.ui.menu.Menu",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _invalidateMaxIconWidth : function()
     {
@@ -685,7 +685,7 @@ qx.Clazz.define("qx.ui.menu.Menu",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _invalidateMaxLabelWidth : function()
     {
@@ -702,7 +702,7 @@ qx.Clazz.define("qx.ui.menu.Menu",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _invalidateMaxShortcutWidth : function()
     {
@@ -718,7 +718,7 @@ qx.Clazz.define("qx.ui.menu.Menu",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _invalidateMaxLabelWidth : function()
     {
@@ -731,7 +731,7 @@ qx.Clazz.define("qx.ui.menu.Menu",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _invalidateLabelPosition : function()
     {
@@ -744,7 +744,7 @@ qx.Clazz.define("qx.ui.menu.Menu",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _invalidateShortcutPosition : function()
     {
@@ -821,7 +821,7 @@ qx.Clazz.define("qx.ui.menu.Menu",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseover : function(e)
     {
@@ -920,7 +920,7 @@ qx.Clazz.define("qx.ui.menu.Menu",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseout : function(e)
     {
@@ -944,7 +944,7 @@ qx.Clazz.define("qx.ui.menu.Menu",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onopentimer : function(e)
     {
@@ -965,7 +965,7 @@ qx.Clazz.define("qx.ui.menu.Menu",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onclosetimer : function(e)
     {
@@ -982,7 +982,7 @@ qx.Clazz.define("qx.ui.menu.Menu",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeydown : function(e)
     {
@@ -999,7 +999,7 @@ qx.Clazz.define("qx.ui.menu.Menu",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeypress : function(e)
     {
@@ -1035,7 +1035,7 @@ qx.Clazz.define("qx.ui.menu.Menu",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeypress_up : function(e)
     {
@@ -1051,7 +1051,7 @@ qx.Clazz.define("qx.ui.menu.Menu",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeypress_down : function(e)
     {
@@ -1067,7 +1067,7 @@ qx.Clazz.define("qx.ui.menu.Menu",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeypress_left : function(e)
     {
@@ -1103,7 +1103,7 @@ qx.Clazz.define("qx.ui.menu.Menu",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeypress_right : function(e)
     {
@@ -1187,7 +1187,7 @@ qx.Clazz.define("qx.ui.menu.Menu",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeydown_enter : function(e)
     {

@@ -101,7 +101,7 @@ qx.Clazz.define("qx.ui.form.Button",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseover : function(e)
     {
@@ -124,7 +124,7 @@ qx.Clazz.define("qx.ui.form.Button",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseout : function(e)
     {
@@ -151,7 +151,7 @@ qx.Clazz.define("qx.ui.form.Button",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmousedown : function(e)
     {
@@ -169,7 +169,7 @@ qx.Clazz.define("qx.ui.form.Button",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseup : function(e)
     {
@@ -205,7 +205,7 @@ qx.Clazz.define("qx.ui.form.Button",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeydown : function(e)
     {
@@ -224,7 +224,7 @@ qx.Clazz.define("qx.ui.form.Button",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeyup : function(e)
     {

@@ -37,10 +37,10 @@ qx.Clazz.define("qx.html.String",
   {
     /**
      * Escapes the characters in a <code>String</code> using HTML entities.
-     * 
+     *
      * For example: <tt>"bread" & "butter"</tt> => <tt>&amp;quot;bread&amp;quot; &amp;amp; &amp;quot;butter&amp;quot;</tt>.
      * Supports all known HTML 4.0 entities, including funky accents.
-     * 
+     *
      * * <a href="http://www.w3.org/TR/REC-html32#latin1">HTML 3.2 Character Entities for ISO Latin-1</a>
      * * <a href="http://www.w3.org/TR/REC-html40/sgml/entities.html">HTML 4.0 Character entity references</a>
      * * <a href="http://www.w3.org/TR/html401/charset.html#h-5.3">HTML 4.01 Character References</a>
@@ -60,10 +60,10 @@ qx.Clazz.define("qx.html.String",
      * Unescapes a string containing entity escapes to a string
      * containing the actual Unicode characters corresponding to the
      * escapes. Supports HTML 4.0 entities.
-     * 
+     *
      * For example, the string "&amp;lt;Fran&amp;ccedil;ais&amp;gt;"
      * will become "&lt;Fran&ccedil;ais&gt;"
-     * 
+     *
      * If an entity is unrecognized, it is left alone, and inserted
      * verbatim into the result string. e.g. "&amp;gt;&amp;zzzz;x" will
      * become "&gt;&amp;zzzz;x".
@@ -105,7 +105,7 @@ qx.Clazz.define("qx.html.String",
 
     /**
      * Converts HTML to plain text.
-     * 
+     *
      * * Strips all HTML tags
      * * converts <tt>&lt:br&gt:</tt> to new line
      * * unescapes HTML entities

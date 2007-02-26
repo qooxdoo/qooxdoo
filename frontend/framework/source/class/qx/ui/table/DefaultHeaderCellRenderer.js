@@ -104,7 +104,7 @@ qx.Clazz.define("qx.ui.table.DefaultHeaderCellRenderer",
      * @type member
      * @param cellInfo {var} TODOC
      * @param cellWidget {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     updateHeaderCell : function(cellInfo, cellWidget)
     {

@@ -101,7 +101,7 @@ qx.Clazz.define("qx.ui.menu.Separator",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmousedown : function(e) {
       e.stopPropagation();

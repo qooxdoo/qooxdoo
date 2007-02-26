@@ -61,7 +61,7 @@ qx.Clazz.define("qx.log.LogEventProcessor",
      *
      * @type member
      * @param filter {Filter} The filter to append.
-     * @return {void} 
+     * @return {void}
      */
     addFilter : function(filter)
     {
@@ -77,7 +77,7 @@ qx.Clazz.define("qx.log.LogEventProcessor",
      * Clears the filter chain.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     clearFilters : function() {
       this._filterArr = null;
@@ -122,12 +122,12 @@ qx.Clazz.define("qx.log.LogEventProcessor",
 
     /**
      * Sets whether event processing should be enabled.
-     * 
+     *
      * Note: This will clear all custom filters.
      *
      * @type member
      * @param enabled {Boolean} whether event processing should be enabled.
-     * @return {void} 
+     * @return {void}
      */
     setEnabled : function(enabled) {
       this._getDefaultFilter().setEnabled(enabled);
@@ -136,12 +136,12 @@ qx.Clazz.define("qx.log.LogEventProcessor",
 
     /**
      * Sets the min level an event must have in order to be processed.
-     * 
+     *
      * Note: This will clear all custom filters.
      *
      * @type member
      * @param minLevel {Integer} the new min level.
-     * @return {void} 
+     * @return {void}
      */
     setMinLevel : function(minLevel) {
       this._getDefaultFilter().setMinLevel(minLevel);
@@ -181,9 +181,9 @@ qx.Clazz.define("qx.log.LogEventProcessor",
      * Processes a log event.
      *
      * @type member
-     * @abstract 
+     * @abstract
      * @param evt {Map} The log event to process.
-     * @return {void} 
+     * @return {void}
      * @throws the abstract function warning.
      */
     handleLogEvent : function(evt) {

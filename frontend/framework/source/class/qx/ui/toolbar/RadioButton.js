@@ -164,7 +164,7 @@ qx.Clazz.define("qx.ui.toolbar.RadioButton",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseup : function(e)
     {

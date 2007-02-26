@@ -143,7 +143,7 @@ qx.Clazz.define("qx.ui.menu.CheckBox",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     execute : function()
     {

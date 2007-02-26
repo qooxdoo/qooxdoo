@@ -111,7 +111,7 @@ qx.Clazz.define("qx.ui.table.IconHeaderCellRenderer",
      * @type member
      * @param cellInfo {var} TODOC
      * @param cellWidget {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     updateHeaderCell : function(cellInfo, cellWidget)
     {

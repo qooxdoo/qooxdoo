@@ -123,7 +123,7 @@ qx.Clazz.define("qx.manager.object.WindowManager",
      *
      * @type member
      * @param oTarget {Object} TODOC
-     * @return {void} 
+     * @return {void}
      */
     update : function(oTarget)
     {
@@ -179,7 +179,7 @@ qx.Clazz.define("qx.manager.object.WindowManager",
      *
      * @type member
      * @param vWindow {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     add : function(vWindow)
     {
@@ -195,7 +195,7 @@ qx.Clazz.define("qx.manager.object.WindowManager",
      *
      * @type member
      * @param vWindow {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     remove : function(vWindow)
     {

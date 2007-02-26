@@ -135,7 +135,7 @@ qx.Clazz.define("qx.html.Location",
      *
      * @type static
      * @param el {Element} TODOC
-     * @return {void} 
+     * @return {void}
      */
     getClientBoxLeft : qx.core.Variant.select("qx.client",
     {
@@ -146,17 +146,17 @@ qx.Clazz.define("qx.html.Location",
       "gecko" : function(el) {
         return qx.html.Location.getClientAreaLeft(el) - qx.html.Style.getBorderLeft(el);
       },
-	
+
       "default" : function(el)
       {
         var sum = el.offsetLeft;
-    
+
         while (el.tagName.toLowerCase() != "body")
         {
           el = el.offsetParent;
           sum += el.offsetLeft - el.scrollLeft;
         }
-    
+
         return sum;
       }
     }),
@@ -167,7 +167,7 @@ qx.Clazz.define("qx.html.Location",
      *
      * @type static
      * @param el {Element} TODOC
-     * @return {void} 
+     * @return {void}
      */
     getClientBoxTop : qx.core.Variant.select("qx.client",
     {
@@ -178,17 +178,17 @@ qx.Clazz.define("qx.html.Location",
       "gecko" : function(el) {
         return qx.html.Location.getClientAreaTop(el) - qx.html.Style.getBorderTop(el);
       },
-	
+
       "default" : function(el)
       {
         var sum = el.offsetTop;
-    
+
         while (el.tagName.toLowerCase() != "body")
         {
           el = el.offsetParent;
           sum += el.offsetTop - el.scrollTop;
         }
-    
+
         return sum;
       }
     }),
@@ -199,14 +199,14 @@ qx.Clazz.define("qx.html.Location",
      *
      * @type static
      * @param el {Element} TODOC
-     * @return {void} 
+     * @return {void}
      */
     getClientBoxRight : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(el) {
         return el.getBoundingClientRect().right;
       },
-      
+
       "default" : function(el) {
         return qx.html.Location.getClientBoxLeft(el) + qx.html.Dimension.getBoxWidth(el);
       }
@@ -218,14 +218,14 @@ qx.Clazz.define("qx.html.Location",
      *
      * @type static
      * @param el {Element} TODOC
-     * @return {void} 
+     * @return {void}
      */
     getClientBoxBottom : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(el) {
         return el.getBoundingClientRect().bottom;
       },
-      
+
       "default" : function(el) {
         return qx.html.Location.getClientBoxTop(el) + qx.html.Dimension.getBoxHeight(el);
       }
@@ -237,7 +237,7 @@ qx.Clazz.define("qx.html.Location",
      *
      * @type static
      * @param el {Element} TODOC
-     * @return {void} 
+     * @return {void}
      */
     getPageBoxLeft : qx.core.Variant.select("qx.client",
     {
@@ -248,17 +248,17 @@ qx.Clazz.define("qx.html.Location",
       "gecko" : function(el) {
         return qx.html.Location.getPageAreaLeft(el) - qx.html.Style.getBorderLeft(el);
       },
-	
+
       "default" : function(el)
       {
         var sum = el.offsetLeft;
-    
+
         while (el.tagName.toLowerCase() != "body")
         {
           el = el.offsetParent;
           sum += el.offsetLeft;
         }
-    
+
         return sum;
       }
     }),
@@ -269,7 +269,7 @@ qx.Clazz.define("qx.html.Location",
      *
      * @type static
      * @param el {Element} TODOC
-     * @return {void} 
+     * @return {void}
      */
     getPageBoxTop : qx.core.Variant.select("qx.client",
     {
@@ -280,17 +280,17 @@ qx.Clazz.define("qx.html.Location",
       "gecko" : function(el) {
         return qx.html.Location.getPageAreaTop(el) - qx.html.Style.getBorderTop(el);
       },
-	
+
       "default" : function(el)
       {
         var sum = el.offsetTop;
-    
+
         while (el.tagName.toLowerCase() != "body")
         {
           el = el.offsetParent;
           sum += el.offsetTop;
         }
-    
+
         return sum;
       }
     }),
@@ -301,14 +301,14 @@ qx.Clazz.define("qx.html.Location",
      *
      * @type static
      * @param el {Element} TODOC
-     * @return {void} 
+     * @return {void}
      */
     getPageBoxRight : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(el) {
         return qx.html.Location.getClientBoxRight(el) + qx.html.Scroll.getLeftSum(el);
       },
-      
+
       "default" : function(el) {
         return qx.html.Location.getPageBoxLeft(el) + qx.html.Dimension.getBoxWidth(el);
       }
@@ -320,14 +320,14 @@ qx.Clazz.define("qx.html.Location",
      *
      * @type static
      * @param el {Element} TODOC
-     * @return {void} 
+     * @return {void}
      */
     getPageBoxBottom : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(el) {
         return qx.html.Location.getClientBoxBottom(el) + qx.html.Scroll.getTopSum(el);
       },
-      
+
       "default" : function(el) {
         return qx.html.Location.getPageBoxTop(el) + qx.html.Dimension.getBoxHeight(el);
       }
@@ -339,15 +339,15 @@ qx.Clazz.define("qx.html.Location",
      *
      * @type static
      * @param el {Element} TODOC
-     * @return {void} 
+     * @return {void}
      */
     getClientAreaLeft : qx.core.Variant.select("qx.client",
     {
       "gecko" : function(el) {
-        // We need to subtract the scroll position of all parent containers (bug #186229).        
+        // We need to subtract the scroll position of all parent containers (bug #186229).
         return qx.html.Location.getPageAreaLeft(el) - qx.html.Scroll.getLeftSum(el);
       },
-      
+
       "default" : function(el) {
         return qx.html.Location.getClientBoxLeft(el) + qx.html.Style.getBorderLeft(el);
       }
@@ -359,7 +359,7 @@ qx.Clazz.define("qx.html.Location",
      *
      * @type static
      * @param el {Element} TODOC
-     * @return {void} 
+     * @return {void}
      */
     getClientAreaTop : qx.core.Variant.select("qx.client",
     {
@@ -367,7 +367,7 @@ qx.Clazz.define("qx.html.Location",
         // We need to subtract the scroll position of all parent containers (bug #186229).
         return qx.html.Location.getPageAreaTop(el) - qx.html.Scroll.getTopSum(el);
       },
-      
+
       "default" : function(el) {
         return qx.html.Location.getClientBoxTop(el) + qx.html.Style.getBorderTop(el);
       }
@@ -396,21 +396,21 @@ qx.Clazz.define("qx.html.Location",
     getClientAreaBottom : function(el) {
       return qx.html.Location.getClientAreaTop(el) + qx.html.Dimension.getAreaHeight(el);
     },
-    
-    
+
+
     /**
      * TODOC
      *
      * @type static
      * @param el {Element} TODOC
-     * @return {void} 
+     * @return {void}
      */
     getPageAreaLeft : qx.core.Variant.select("qx.client",
     {
       "gecko" : function(el) {
         return el.ownerDocument.getBoxObjectFor(el).x;
       },
-      
+
       "default" : function(el) {
         return qx.html.Location.getPageBoxLeft(el) + qx.html.Style.getBorderLeft(el);
       }
@@ -422,14 +422,14 @@ qx.Clazz.define("qx.html.Location",
      *
      * @type static
      * @param el {Element} TODOC
-     * @return {void} 
+     * @return {void}
      */
     getPageAreaTop : qx.core.Variant.select("qx.client",
     {
       "gecko" : function(el) {
         return el.ownerDocument.getBoxObjectFor(el).y;
       },
-      
+
       "default" : function(el) {
         return qx.html.Location.getPageBoxTop(el) + qx.html.Style.getBorderTop(el);
       }
@@ -561,7 +561,7 @@ qx.Clazz.define("qx.html.Location",
      *
      * @type static
      * @param el {Element} TODOC
-     * @return {void} 
+     * @return {void}
      */
     getScreenBoxLeft : qx.core.Variant.select("qx.client",
     {
@@ -570,21 +570,21 @@ qx.Clazz.define("qx.html.Location",
         // screenX and screenY seem to return the distance to the box
         // and not to the area. Confusing, especially as the x and y properties
         // of the BoxObject return the distance to the area.
-        
+
         // We need to subtract the scroll position of all
         // parent containers (bug #186229).
         var sum = 0;
         var p = el.parentNode;
-    
+
         while (p.nodeType == 1)
         {
           sum += p.scrollLeft;
           p = p.parentNode;
         }
-    
+
         return el.ownerDocument.getBoxObjectFor(el).screenX - sum;
       },
-      
+
       "default" : function(el) {
         // Hope this works in khtml, too (opera 7.6p3 seems to be ok)
         return qx.html.Location.getScreenDocumentLeft(el) + qx.html.Location.getPageBoxLeft(el);
@@ -597,7 +597,7 @@ qx.Clazz.define("qx.html.Location",
      *
      * @type static
      * @param el {Element} TODOC
-     * @return {void} 
+     * @return {void}
      */
     getScreenBoxTop : qx.core.Variant.select("qx.client",
     {
@@ -607,16 +607,16 @@ qx.Clazz.define("qx.html.Location",
         // parent containers (bug #186229).
         var sum = 0;
         var p = el.parentNode;
-    
+
         while (p.nodeType == 1)
         {
           sum += p.scrollTop;
           p = p.parentNode;
         }
-    
+
         return el.ownerDocument.getBoxObjectFor(el).screenY - sum;
       },
-      
+
       "default" : function(el) {
         return qx.html.Location.getScreenDocumentTop(el) + qx.html.Location.getPageBoxTop(el);
       }
@@ -796,19 +796,19 @@ qx.Clazz.define("qx.html.Location",
      *
      * @type static
      * @param el {Element} TODOC
-     * @return {void} 
+     * @return {void}
      */
     getScreenDocumentLeft : qx.core.Variant.select("qx.client",
     {
       "gecko" : function(el) {
-        // Tested in Gecko 1.7.5        
+        // Tested in Gecko 1.7.5
         //
         //  Notice:
         //    This doesn't work like the mshtml method:
         //    el.ownerDocument.defaultView.screenX;
         return qx.html.Location.getScreenOuterLeft(el.ownerDocument.body);
       },
-      
+
       "default" : function(el) {
         // Tested in Opera 7.6b3 and Mshtml 6.0 (XP-SP2)
         // What's up with khtml (Safari/Konq)?
@@ -822,14 +822,14 @@ qx.Clazz.define("qx.html.Location",
      *
      * @type static
      * @param el {Element} TODOC
-     * @return {void} 
+     * @return {void}
      */
     getScreenDocumentTop : qx.core.Variant.select("qx.client",
     {
       "gecko" : function(el) {
         return qx.html.Location.getScreenOuterTop(el.ownerDocument.body);
       },
-      
+
       "default" : function(el) {
         return el.document.parentWindow.screenTop;
       }
@@ -841,14 +841,14 @@ qx.Clazz.define("qx.html.Location",
      *
      * @type static
      * @param el {Element} TODOC
-     * @return {void} 
+     * @return {void}
      */
     getScreenDocumentRight : qx.core.Variant.select("qx.client",
     {
       "gecko" : function(el) {
         return qx.html.Location.getScreenOuterRight(el.ownerDocument.body);
       },
-      
+
       "default" : function(el) {}
     }),
 
@@ -858,14 +858,14 @@ qx.Clazz.define("qx.html.Location",
      *
      * @type static
      * @param el {Element} TODOC
-     * @return {void} 
+     * @return {void}
      */
     getScreenDocumentBottom : qx.core.Variant.select("qx.client",
     {
       "gecko" : function(el) {
         return qx.html.Location.getScreenOuterBottom(el.ownerDocument.body);
       },
-      
+
       "default" : function(el) {}
     })
   }

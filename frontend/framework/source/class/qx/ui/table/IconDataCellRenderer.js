@@ -82,7 +82,7 @@ qx.Clazz.define("qx.ui.table.IconDataCellRenderer",
      * Identifies the Image to show.
      *
      * @type member
-     * @abstract 
+     * @abstract
      * @param cellInfo {Map} The information about the cell.
      *          See {@link #createDataCellHtml}.
      * @return {Map} A map having the following attributes:
@@ -190,7 +190,7 @@ qx.Clazz.define("qx.ui.table.IconDataCellRenderer",
      * @type member
      * @param cellInfo {var} TODOC
      * @param cellElement {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     updateDataCellElement : function(cellInfo, cellElement)
     {
@@ -234,7 +234,7 @@ qx.Clazz.define("qx.ui.table.IconDataCellRenderer",
      * @type member
      * @param cellInfo {var} TODOC
      * @param htmlArr {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _createCellStyle_array_join : function(cellInfo, htmlArr)
     {
@@ -250,7 +250,7 @@ qx.Clazz.define("qx.ui.table.IconDataCellRenderer",
      * @type member
      * @param cellInfo {var} TODOC
      * @param htmlArr {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _createContentHtml_array_join : function(cellInfo, htmlArr)
     {

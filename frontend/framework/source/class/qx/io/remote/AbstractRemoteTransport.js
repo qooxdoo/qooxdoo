@@ -50,7 +50,7 @@ qx.Clazz.define("qx.io.remote.AbstractRemoteTransport",
      EVENTS
   *****************************************************************************
   */
-  
+
   events : {
     "created" : "qx.event.type.Event",
     "configured" : "qx.event.type.Event",
@@ -191,8 +191,8 @@ qx.Clazz.define("qx.io.remote.AbstractRemoteTransport",
      * TODOC
      *
      * @type member
-     * @abstract 
-     * @return {void} 
+     * @abstract
+     * @return {void}
      * @throws the abstract function warning.
      */
     send : function() {
@@ -204,7 +204,7 @@ qx.Clazz.define("qx.io.remote.AbstractRemoteTransport",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     abort : function()
     {
@@ -223,7 +223,7 @@ qx.Clazz.define("qx.io.remote.AbstractRemoteTransport",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     timeout : function()
     {
@@ -240,11 +240,11 @@ qx.Clazz.define("qx.io.remote.AbstractRemoteTransport",
 
     /**
      * Force the transport into the failed state ("failed").
-     * 
+     *
      *  Listeners of the "failed" signal are notified about the event.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     failed : function()
     {
@@ -269,15 +269,15 @@ qx.Clazz.define("qx.io.remote.AbstractRemoteTransport",
 
     /**
      * Add a request header to this transports qx.io.remote.Request.
-     * 
+     *
      *  This method is virtual and concrete subclasses are supposed to
      *  implement it.
      *
      * @type member
-     * @abstract 
+     * @abstract
      * @param vLabel {var} TODOC
      * @param vValue {var} TODOC
-     * @return {void} 
+     * @return {void}
      * @throws the abstract function warning.
      */
     setRequestHeader : function(vLabel, vValue) {
@@ -297,9 +297,9 @@ qx.Clazz.define("qx.io.remote.AbstractRemoteTransport",
      * TODOC
      *
      * @type member
-     * @abstract 
+     * @abstract
      * @param vLabel {var} TODOC
-     * @return {void} 
+     * @return {void}
      * @throws the abstract function warning.
      */
     getResponseHeader : function(vLabel) {
@@ -311,8 +311,8 @@ qx.Clazz.define("qx.io.remote.AbstractRemoteTransport",
      * Provides an hash of all response headers.
      *
      * @type member
-     * @abstract 
-     * @return {void} 
+     * @abstract
+     * @return {void}
      * @throws the abstract function warning.
      */
     getResponseHeaders : function() {
@@ -332,8 +332,8 @@ qx.Clazz.define("qx.io.remote.AbstractRemoteTransport",
      * Returns the current status code of the request if available or -1 if not.
      *
      * @type member
-     * @abstract 
-     * @return {void} 
+     * @abstract
+     * @return {void}
      * @throws the abstract function warning.
      */
     getStatusCode : function() {
@@ -345,8 +345,8 @@ qx.Clazz.define("qx.io.remote.AbstractRemoteTransport",
      * Provides the status text for the current request if available and null otherwise.
      *
      * @type member
-     * @abstract 
-     * @return {void} 
+     * @abstract
+     * @return {void}
      * @throws the abstract function warning.
      */
     getStatusText : function() {
@@ -368,8 +368,8 @@ qx.Clazz.define("qx.io.remote.AbstractRemoteTransport",
      *  be made available to the caller.
      *
      * @type member
-     * @abstract 
-     * @return {void} 
+     * @abstract
+     * @return {void}
      * @throws the abstract function warning.
      */
     getResponseText : function() {
@@ -383,8 +383,8 @@ qx.Clazz.define("qx.io.remote.AbstractRemoteTransport",
      *  be made available to the caller.
      *
      * @type member
-     * @abstract 
-     * @return {void} 
+     * @abstract
+     * @return {void}
      * @throws the abstract function warning.
      */
     getResponseXml : function() {
@@ -396,8 +396,8 @@ qx.Clazz.define("qx.io.remote.AbstractRemoteTransport",
      * Returns the length of the content as fetched thus far
      *
      * @type member
-     * @abstract 
-     * @return {void} 
+     * @abstract
+     * @return {void}
      * @throws the abstract function warning.
      */
     getFetchedLength : function() {

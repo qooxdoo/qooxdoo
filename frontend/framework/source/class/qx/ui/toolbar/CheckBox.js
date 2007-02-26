@@ -118,7 +118,7 @@ qx.Clazz.define("qx.ui.toolbar.CheckBox",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseup : function(e)
     {

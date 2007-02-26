@@ -83,7 +83,7 @@ qx.Clazz.define("qx.log.Appender",
      *
      * @type member
      * @param evt {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     handleLogEvent : function(evt)
     {
@@ -97,9 +97,9 @@ qx.Clazz.define("qx.log.Appender",
      * Appends a log event to the log.
      *
      * @type member
-     * @abstract 
+     * @abstract
      * @param evt {Map} The event to append.
-     * @return {void} 
+     * @return {void}
      * @throws the abstract function warning.
      */
     appendLogEvent : function(evt) {

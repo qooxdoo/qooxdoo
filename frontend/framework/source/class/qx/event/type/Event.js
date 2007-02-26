@@ -132,7 +132,7 @@ qx.Clazz.define("qx.event.type.Event",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     preventDefault : function() {
       this.setDefaultPrevented(true);
@@ -143,7 +143,7 @@ qx.Clazz.define("qx.event.type.Event",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     stopPropagation : function() {
       this.setPropagationStopped(true);

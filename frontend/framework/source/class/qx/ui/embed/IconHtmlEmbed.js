@@ -136,7 +136,7 @@ qx.Clazz.define("qx.ui.embed.IconHtmlEmbed",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _syncHtml : function()
     {

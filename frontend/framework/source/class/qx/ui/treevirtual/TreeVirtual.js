@@ -145,14 +145,14 @@ qx.Clazz.define("qx.ui.treevirtual.TreeVirtual",
      EVENTS
   *****************************************************************************
   */
-  
+
   events : {
     "treeOpenWithContent" : "qx.event.type.DataEvent",
     "treeOpenWhileEmpty" : "qx.event.type.DataEvent",
     "treeClose" : "qx.event.type.DataEvent",
     "changeSelection" : "qx.event.type.DataEvent"
   },
-  
+
 
 
 
@@ -240,7 +240,7 @@ qx.Clazz.define("qx.ui.treevirtual.TreeVirtual",
      *
      * @type member
      * @param b {Boolean} <i>true</i> if tree lines should be shown; <i>false</i> otherwise.
-     * @return {void} 
+     * @return {void}
      */
     setUseTreeLines : function(b)
     {
@@ -286,7 +286,7 @@ qx.Clazz.define("qx.ui.treevirtual.TreeVirtual",
      * @type member
      * @param b {Boolean} <i>true</i> if the open/close button should be shown; <i>false</i>
      *     otherwise.
-     * @return {void} 
+     * @return {void}
      */
     setAlwaysShowOpenCloseSymbol : function(b)
     {
@@ -318,7 +318,7 @@ qx.Clazz.define("qx.ui.treevirtual.TreeVirtual",
      * @type member
      * @param b {Boolean} <i>true</i> if first-level tree lines should be disabled;
      *     <i>false</i> for normal operation.
-     * @return {void} 
+     * @return {void}
      */
     setExcludeFirstLevelTreeLines : function(b)
     {
@@ -381,17 +381,17 @@ qx.Clazz.define("qx.ui.treevirtual.TreeVirtual",
      *     <pre>
      *       qx.ui.treevirtual.SelectionMode.NONE:
      *          Nothing can ever be selected.
-     *   
+     *
      *       qx.ui.treevirtual.SelectionMode.SINGLE
      *          Allow only one selected item.
-     *   
+     *
      *       qx.ui.treevirtual.SelectionMode.SINGLE_INTERVAL
      *          Allow one contiguous interval of selected items.
-     *   
+     *
      *       qx.ui.treevirtual.SelectionMode.MULTIPLE_INTERVAL
      *          Allow any selected items, whether contiguous or not.
      *     </pre>
-     * @return {void} 
+     * @return {void}
      */
     setSelectionMode : function(mode) {
       this.getSelectionModel().setSelectionMode(mode);
@@ -415,7 +415,7 @@ qx.Clazz.define("qx.ui.treevirtual.TreeVirtual",
      *
      * @type member
      * @param s {String} TODOC
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     setOverflow : function(s)
@@ -433,7 +433,7 @@ qx.Clazz.define("qx.ui.treevirtual.TreeVirtual",
      * @type member
      * @param node {Object} The object representing the node to have its opened/closed state
      *     toggled.
-     * @return {void} 
+     * @return {void}
      */
     toggleOpened : function(node)
     {
@@ -492,7 +492,7 @@ qx.Clazz.define("qx.ui.treevirtual.TreeVirtual",
      *     the node for which attributes are being set.
      * @param attributes {Map} Map with the node properties to be set.  The map may contain any of the
      *     properties described in {@link qx.ui.treevirtual.SimpleTreeDataModel}
-     * @return {void} 
+     * @return {void}
      */
     setState : function(nodeId, attributes) {
       this.getTableModel().setState(nodeId, attributes);
@@ -519,7 +519,7 @@ qx.Clazz.define("qx.ui.treevirtual.TreeVirtual",
      *        <li>colSelected</li>
      *        <li>colNormal</li>
      *      </ul>
-     * @return {void} 
+     * @return {void}
      */
     setRowColors : function(colors) {
       this.getDataRowRenderer().setRowColors(colors);
@@ -532,23 +532,23 @@ qx.Clazz.define("qx.ui.treevirtual.TreeVirtual",
      * @type member
      * @param attributes {Map} The set of attributes that the cell focus indicator should have.  This is
      *     in the format required to call the <i>set()</i> method of a widget, e.g.
-     *     
-     *   
+     *
+     *
      *     { backgroundColor: blue }
-     *     
-     *   
+     *
+     *
      *     If not otherwise specified, the opacity is set to 0.2 so that the cell
      *     data can be seen "through" the cell focus indicator which overlays it.
-     *     
-     *   
+     *
+     *
      *     For no visible focus indicator, use { backgroundColor : "transparent" }
-     *     
-     *   
+     *
+     *
      *     The focus indicator is a box the size of the cell, which overlays the
      *     cell itself.  There is no text in the focus indicator itself, so it makes
      *     no sense to set the color attribute or any other attribute that affects
      *     fonts.
-     * @return {void} 
+     * @return {void}
      */
     setCellFocusAttributes : function(attributes)
     {
@@ -567,13 +567,13 @@ qx.Clazz.define("qx.ui.treevirtual.TreeVirtual",
 
     /**
      * Event handler. Called when a key was pressed.
-     * 
+     *
      * We handle the Enter key to toggle opened/closed tree state.  All
      * other keydown events are passed to our superclass.
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onkeydown : function(evt)
     {
@@ -740,7 +740,7 @@ qx.Clazz.define("qx.ui.treevirtual.TreeVirtual",
      *
      * @type member
      * @param evt {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeypress : function(evt)
     {
@@ -780,7 +780,7 @@ qx.Clazz.define("qx.ui.treevirtual.TreeVirtual",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onSelectionChanged : function(evt)
     {

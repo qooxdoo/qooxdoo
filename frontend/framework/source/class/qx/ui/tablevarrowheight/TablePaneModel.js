@@ -47,8 +47,8 @@ qx.Clazz.define("qx.ui.tablevarrowheight.TablePaneModel",
   construct : function(tableColumnModel) {
     qx.ui.table.TablePaneModel.call(this, tableColumnModel);
   },
-  
-  
+
+
 
 
 
@@ -58,12 +58,12 @@ qx.Clazz.define("qx.ui.tablevarrowheight.TablePaneModel",
      EVENTS
   *****************************************************************************
   */
-  
+
   events : {
     /**
      * Fired when the model changed.
      */
-    "modelChanged" : "qx.event.type.Event"  
+    "modelChanged" : "qx.event.type.Event"
   }
-  
+
 });

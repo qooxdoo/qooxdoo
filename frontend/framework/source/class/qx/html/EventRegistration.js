@@ -42,14 +42,14 @@ qx.Clazz.define("qx.html.EventRegistration",
      * @param vElement {Element} DOM Element
      * @param vType {String} Name of the event
      * @param vFunction {Function} The pointer to the function to assign
-     * @return {void} 
+     * @return {void}
      */
     addEventListener : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(vElement, vType, vFunction) {
         vElement.attachEvent("on" + vType, vFunction);
       },
-      
+
       "default" : function(vElement, vType, vFunction) {
         vElement.addEventListener(vType, vFunction, false);
       }
@@ -63,14 +63,14 @@ qx.Clazz.define("qx.html.EventRegistration",
      * @param vElement {Element} DOM Element
      * @param vType {String} Name of the event
      * @param vFunction {Function} The pointer to the function to assign
-     * @return {void} 
+     * @return {void}
      */
     removeEventListener : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(vElement, vType, vFunction) {
         vElement.detachEvent("on" + vType, vFunction);
       },
-      
+
       "default" :  function(vElement, vType, vFunction) {
         vElement.removeEventListener(vType, vFunction, false);
       }

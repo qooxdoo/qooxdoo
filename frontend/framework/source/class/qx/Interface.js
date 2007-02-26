@@ -174,7 +174,7 @@ qx.Clazz.define("qx.Interface",
         return false;
       }
 
-    	return clazz.$$implements[iface.name] ? true : false;
+      return clazz.$$implements[iface.name] ? true : false;
     },
 
 

@@ -156,7 +156,7 @@ qx.Clazz.define("qx.Mixin",
         return false;
       }
 
-    	return clazz.$$includes[mixin.name] ? true : false;
+      return clazz.$$includes[mixin.name] ? true : false;
     },
 
 

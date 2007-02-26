@@ -55,10 +55,10 @@ qx.Clazz.define("qx.io.remote.XmlHttpTransport",
      EVENTS
   *****************************************************************************
   */
-  
+
   events : {
     "created" : "qx.event.type.Event",
-    "configured" : "qx.event.type.Event",    
+    "configured" : "qx.event.type.Event",
     "sending" : "qx.event.type.Event",
     "receiving" : "qx.event.type.Event",
     "completed" : "qx.event.type.Event",

@@ -546,7 +546,7 @@ qx.Clazz.define("qx.ui.splitpane.SplitPane",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _syncFirstSize : function()
     {
@@ -567,7 +567,7 @@ qx.Clazz.define("qx.ui.splitpane.SplitPane",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _syncSecondSize : function()
     {
@@ -588,7 +588,7 @@ qx.Clazz.define("qx.ui.splitpane.SplitPane",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _syncSplitterSize : function()
     {
@@ -618,7 +618,7 @@ qx.Clazz.define("qx.ui.splitpane.SplitPane",
      *
      * @type member
      * @param e {qx.event.MouseEvent} The event itself.
-     * @return {void} 
+     * @return {void}
      */
     _onSplitterMouseDownX : function(e)
     {
@@ -645,7 +645,7 @@ qx.Clazz.define("qx.ui.splitpane.SplitPane",
      *
      * @type member
      * @param e {qx.event.MouseEvent} The event itself.
-     * @return {void} 
+     * @return {void}
      */
     _onSplitterMouseDownY : function(e)
     {
@@ -672,7 +672,7 @@ qx.Clazz.define("qx.ui.splitpane.SplitPane",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _commonMouseDown : function()
     {
@@ -697,7 +697,7 @@ qx.Clazz.define("qx.ui.splitpane.SplitPane",
      *
      * @type member
      * @param e {qx.event.MouseEvent} The event itself.
-     * @return {void} 
+     * @return {void}
      */
     _onSplitterMouseMoveX : function(e)
     {
@@ -715,7 +715,7 @@ qx.Clazz.define("qx.ui.splitpane.SplitPane",
      *
      * @type member
      * @param e {qx.event.MouseEvent} The event itself.
-     * @return {void} 
+     * @return {void}
      */
     _onSplitterMouseMoveY : function(e)
     {
@@ -733,7 +733,7 @@ qx.Clazz.define("qx.ui.splitpane.SplitPane",
      *
      * @type member
      * @param e {qx.event.MouseEvent} The event itself.
-     * @return {void} 
+     * @return {void}
      */
     _onSplitterMouseUpX : function(e)
     {
@@ -754,7 +754,7 @@ qx.Clazz.define("qx.ui.splitpane.SplitPane",
      *
      * @type member
      * @param e {qx.event.MouseEvent} The event itself.
-     * @return {void} 
+     * @return {void}
      */
     _onSplitterMouseUpY : function(e)
     {
@@ -774,7 +774,7 @@ qx.Clazz.define("qx.ui.splitpane.SplitPane",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _commonMouseUp : function()
     {
@@ -798,7 +798,7 @@ qx.Clazz.define("qx.ui.splitpane.SplitPane",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _syncX : function(e)
     {
@@ -814,7 +814,7 @@ qx.Clazz.define("qx.ui.splitpane.SplitPane",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _syncY : function(e)
     {
@@ -831,7 +831,7 @@ qx.Clazz.define("qx.ui.splitpane.SplitPane",
      * @type member
      * @param first {var} TODOC
      * @param second {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _syncCommon : function(first, second)
     {

@@ -26,7 +26,7 @@
 
 /**
  * One of the widgets which could be used to structurize the interface.
- * 
+ *
  *  qx.ui.pageview.buttonview.ButtonView creates the typical apple-like tabview-replacements which could also
  *  be found in more modern versions of the settings dialog in Mozilla Firefox.
  */

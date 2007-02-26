@@ -247,7 +247,7 @@ qx.Clazz.define("apiviewer.ClassViewer",
      *
      * @type member
      * @param el {Element} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _fixLinks : function(el)
     {
@@ -267,7 +267,7 @@ qx.Clazz.define("apiviewer.ClassViewer",
      * HtmlEmbed element initialization routine.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _syncHtml : function()
     {
@@ -398,7 +398,7 @@ qx.Clazz.define("apiviewer.ClassViewer",
      *
      * @type member
      * @param classNode {Map} the doc node of the class to show.
-     * @return {void} 
+     * @return {void}
      */
     showClass : function(classNode)
     {
@@ -531,7 +531,7 @@ qx.Clazz.define("apiviewer.ClassViewer",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _updateInfoViewers : function()
     {
@@ -546,7 +546,7 @@ qx.Clazz.define("apiviewer.ClassViewer",
      *
      * @type member
      * @param classNode {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     showInfo : function(classNode)
     {
@@ -580,7 +580,7 @@ qx.Clazz.define("apiviewer.ClassViewer",
      *
      * @type member
      * @param itemName {String} the name of the item to highlight.
-     * @return {void} 
+     * @return {void}
      */
     showItem : function(itemName)
     {
@@ -625,7 +625,7 @@ qx.Clazz.define("apiviewer.ClassViewer",
      *
      * @type member
      * @param nodeType {Integer} the node type of which to update the info panel.
-     * @return {void} 
+     * @return {void}
      */
     _updateInfoPanel : function(nodeType)
     {
@@ -803,7 +803,7 @@ qx.Clazz.define("apiviewer.ClassViewer",
      * @param name {String} the name of the item.
      * @param fromClassName {String} the name of the class the item the item was
      *          defined in.
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     _onShowItemDetailClicked : function(nodeType, name, fromClassName)
@@ -855,7 +855,7 @@ qx.Clazz.define("apiviewer.ClassViewer",
      * Event handler. Called when the user clicked on the "show inherited ..." checkbox.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _onInheritedCheckBoxClick : function()
     {
@@ -868,7 +868,7 @@ qx.Clazz.define("apiviewer.ClassViewer",
      * Event handler. Called when the user clicked on the "show protected ..." checkbox.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _onProtectedCheckBoxClick : function()
     {
@@ -884,7 +884,7 @@ qx.Clazz.define("apiviewer.ClassViewer",
      * @type member
      * @param nodeType {Integer} the node type of which the show/hide-body-button was
      *          clicked.
-     * @return {void} 
+     * @return {void}
      */
     _onShowInfoPanelBodyClicked : function(nodeType)
     {
@@ -934,7 +934,7 @@ qx.Clazz.define("apiviewer.ClassViewer",
      *
      * @type member
      * @param itemName {String} the name of the item.
-     * @return {void} 
+     * @return {void}
      * @see ApiViewer#selectItem
      */
     _selectItem : function(itemName)

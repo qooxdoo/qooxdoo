@@ -328,7 +328,7 @@ qx.Clazz.define("qx.ui.core.ScrollBar",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onscroll : function(evt)
     {
@@ -364,7 +364,7 @@ qx.Clazz.define("qx.ui.core.ScrollBar",
      *
      * @type member
      * @param value {Integer} The value where to postion the scroll bar.
-     * @return {void} 
+     * @return {void}
      */
     _positionKnob : function(value)
     {
@@ -380,7 +380,7 @@ qx.Clazz.define("qx.ui.core.ScrollBar",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _afterAppear : function()
     {

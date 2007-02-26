@@ -243,9 +243,9 @@ qx.Clazz.define("qx.ui.component.DateChooser",
      EVENTS
   *****************************************************************************
   */
-  
+
   events: {
-  	"select"     : "qx.event.type.DataEvent" /** Fired when a date was selected. The event holds the new selected date in its data property.*/
+    "select"     : "qx.event.type.DataEvent" /** Fired when a date was selected. The event holds the new selected date in its data property.*/
   },
 
 
@@ -398,7 +398,7 @@ qx.Clazz.define("qx.ui.component.DateChooser",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onNavButtonClicked : function(evt)
     {
@@ -447,7 +447,7 @@ qx.Clazz.define("qx.ui.component.DateChooser",
      *
      * @type member
      * @param evt {Map} the event.
-     * @return {void} 
+     * @return {void}
      */
     _onDayClicked : function(evt)
     {
@@ -460,7 +460,7 @@ qx.Clazz.define("qx.ui.component.DateChooser",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _onDayDblClicked : function() {
       this.createDispatchDataEvent("select", this.getDate());
@@ -571,7 +571,7 @@ qx.Clazz.define("qx.ui.component.DateChooser",
      *      will remain the same.
      * @param year {Integer ? null} the year to show. If not set the year will remain the
      *      same.
-     * @return {void} 
+     * @return {void}
      */
     showMonth : function(month, year)
     {
@@ -594,7 +594,7 @@ qx.Clazz.define("qx.ui.component.DateChooser",
      * Updates the date pane.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _updateDatePane : function()
     {

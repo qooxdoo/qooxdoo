@@ -109,7 +109,7 @@ qx.Clazz.define("qx.ui.basic.Image",
 
     /**
      * The loading status.
-     * 
+     *
      *  True if the image is loaded correctly. False if no image is loaded
      *  or the one that should be loaded is currently loading or not available.
      */
@@ -160,7 +160,7 @@ qx.Clazz.define("qx.ui.basic.Image",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _onload : function() {
       this.setLoaded(true);
@@ -171,7 +171,7 @@ qx.Clazz.define("qx.ui.basic.Image",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _onerror : function()
     {
@@ -446,7 +446,7 @@ qx.Clazz.define("qx.ui.basic.Image",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _postApply : function()
     {
@@ -468,7 +468,7 @@ qx.Clazz.define("qx.ui.basic.Image",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {void} 
+     * @return {void}
      */
     _modifyEnabled : qx.core.Variant.select("qx.client",
     {
@@ -477,16 +477,16 @@ qx.Clazz.define("qx.ui.basic.Image",
         if (this._image) {
           this._applyEnabled();
         }
-    
+
         return qx.ui.basic.Terminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
       },
-      
+
       "default" : function(propValue, propOldValue, propData)
       {
         if (this._image) {
           this._applyEnabled();
         }
-    
+
         return qx.ui.basic.Terminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
       }
     }),
@@ -497,7 +497,7 @@ qx.Clazz.define("qx.ui.basic.Image",
      *
      * @type member
      * @param vSource {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _updateContent : qx.core.Variant.select("qx.client",
     {
@@ -505,7 +505,7 @@ qx.Clazz.define("qx.ui.basic.Image",
       {
         var i = this._image;
         var pl = this.getPreloader();
-    
+
         if (pl.getIsPng() && this.getEnabled())
         {
           i.src = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
@@ -517,7 +517,7 @@ qx.Clazz.define("qx.ui.basic.Image",
           i.style.filter = this.getEnabled() ? "" : "Gray() Alpha(Opacity=30)";
         }
       },
-      
+
       "default" : function(vSource) {
         this._image.src = vSource || this.getPreloader().getSource();
       }
@@ -528,18 +528,18 @@ qx.Clazz.define("qx.ui.basic.Image",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _resetContent : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function()
       {
         var i = this._image;
-    
+
         i.src = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
         i.style.filter = "";
       },
-      
+
       "default" : function() {
         this._image.src = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
       }
@@ -550,19 +550,19 @@ qx.Clazz.define("qx.ui.basic.Image",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _applyEnabled : qx.core.Variant.select("qx.client",
     {
       "mshtml" : null, // alias will be set to "_postApply" in defer
-      
+
       "default" : function()
       {
         if (this._image)
         {
           var o = this.getEnabled() ? "" : 0.3;
           var s = this._image.style;
-    
+
           s.opacity = s.KhtmlOpacity = s.MozOpacity = o;
         }
       }
@@ -637,7 +637,7 @@ qx.Clazz.define("qx.ui.basic.Image",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _applyContent : function()
     {
@@ -653,7 +653,7 @@ qx.Clazz.define("qx.ui.basic.Image",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _postApplyDimensions : qx.core.Variant.select("qx.client",
     {
@@ -662,7 +662,7 @@ qx.Clazz.define("qx.ui.basic.Image",
         try
         {
           var vImageStyle = this._image.style;
-    
+
           if (this.getResizeToInner())
           {
             vImageStyle.pixelWidth = this.getInnerWidth();
@@ -679,13 +679,13 @@ qx.Clazz.define("qx.ui.basic.Image",
           this.error("postApplyDimensions failed", ex);
         }
       },
-      
+
       "default" : function()
       {
         try
         {
           var vImageNode = this._image;
-    
+
           if (this.getResizeToInner())
           {
             vImageNode.width = this.getInnerWidth();
@@ -719,7 +719,7 @@ qx.Clazz.define("qx.ui.basic.Image",
      * @type member
      * @param vNew {var} TODOC
      * @param vOld {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _changeInnerWidth : qx.core.Variant.select("qx.client",
     {
@@ -729,7 +729,7 @@ qx.Clazz.define("qx.ui.basic.Image",
           this._image.style.pixelWidth = vNew;
         }
       },
-      
+
       "default" : function(vNew, vOld)
       {
         if (this.getResizeToInner()) {
@@ -745,7 +745,7 @@ qx.Clazz.define("qx.ui.basic.Image",
      * @type member
      * @param vNew {var} TODOC
      * @param vOld {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _changeInnerHeight : qx.core.Variant.select("qx.client",
     {
@@ -755,7 +755,7 @@ qx.Clazz.define("qx.ui.basic.Image",
           this._image.style.pixelHeight = vNew;
         }
       },
-      
+
       "default" : function(vNew, vOld)
       {
         if (this.getResizeToInner()) {
@@ -808,12 +808,12 @@ qx.Clazz.define("qx.ui.basic.Image",
       return qx.ui.basic.Terminator.prototype.dispose.call(this);
     }
   },
-  
-  defer : function(clazz, proto) 
+
+  defer : function(clazz, proto)
   {
     if (qx.core.Variant.isSet("qx.client", "mshtml")) {
       proto._applyEnabled = proto._postApply;
     }
   }
-  
+
 });

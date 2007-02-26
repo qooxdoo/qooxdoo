@@ -72,15 +72,15 @@ qx.Clazz.define("qx.event.handler.EventHandler",
      EVENTS
   *****************************************************************************
   */
-  
+
   events : {
      /**
       * Fired when an exception was thrown when dispatching the event to the listeners.
       * The event's property "data" holds the exception.
       */
-  	"error" : "qx.event.type.DataEvent"
+    "error" : "qx.event.type.DataEvent"
   },
-  
+
 
 
 

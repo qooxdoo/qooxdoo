@@ -141,7 +141,7 @@ qx.Clazz.define("qx.ui.tree.TreeFolder",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     open : function()
     {
@@ -165,7 +165,7 @@ qx.Clazz.define("qx.ui.tree.TreeFolder",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     close : function() {
       this.setOpen(false);
@@ -176,7 +176,7 @@ qx.Clazz.define("qx.ui.tree.TreeFolder",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     toggle : function() {
       this.getOpen() ? this.close() : this.open();
@@ -187,7 +187,7 @@ qx.Clazz.define("qx.ui.tree.TreeFolder",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _openCallback : function()
     {
@@ -209,7 +209,7 @@ qx.Clazz.define("qx.ui.tree.TreeFolder",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createChildrenStructure : function()
     {
@@ -257,7 +257,7 @@ qx.Clazz.define("qx.ui.tree.TreeFolder",
      * @param vChild {var} TODOC
      * @param vRelationIndex {var} TODOC
      * @param vRelationChild {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _handleChildMove : function(vChild, vRelationIndex, vRelationChild)
     {
@@ -503,18 +503,18 @@ qx.Clazz.define("qx.ui.tree.TreeFolder",
 
 
     /**
-     * 
+     *
      * deselects, disconnects, removes and disposes the
      *    content of the folder and its subfolders.
-     *  
-     * 
+     *
+     *
      * the current items subitems (and the subitems of each
      * subitem) are destroyed going top down the TreeFolder
      * hierarchy. The current item is left as is.
-     *  
+     *
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     destroyContent : function()
     {
@@ -667,7 +667,7 @@ qx.Clazz.define("qx.ui.tree.TreeFolder",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _updateLastColumn : function()
     {
@@ -695,7 +695,7 @@ qx.Clazz.define("qx.ui.tree.TreeFolder",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmousedown : function(e)
     {
@@ -742,7 +742,7 @@ qx.Clazz.define("qx.ui.tree.TreeFolder",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseup : function(e)
     {
@@ -768,7 +768,7 @@ qx.Clazz.define("qx.ui.tree.TreeFolder",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _ondblclick : function(e)
     {
@@ -827,7 +827,7 @@ qx.Clazz.define("qx.ui.tree.TreeFolder",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _updateIndent : function()
     {

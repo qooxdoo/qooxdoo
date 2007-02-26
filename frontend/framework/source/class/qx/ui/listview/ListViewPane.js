@@ -146,7 +146,7 @@ qx.Clazz.define("qx.ui.listview.ListViewPane",
      *
      * @type member
      * @param vUpdate {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _updateLayout : function(vUpdate)
     {
@@ -232,7 +232,7 @@ qx.Clazz.define("qx.ui.listview.ListViewPane",
      *
      * @type member
      * @param vForce {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _updateRendering : function(vForce)
     {
@@ -258,7 +258,7 @@ qx.Clazz.define("qx.ui.listview.ListViewPane",
      *
      * @type member
      * @param vRelativeRow {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _updateRow : function(vRelativeRow)
     {
@@ -297,7 +297,7 @@ qx.Clazz.define("qx.ui.listview.ListViewPane",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onscroll : function(e) {
       this._updateRendering();
@@ -459,7 +459,7 @@ qx.Clazz.define("qx.ui.listview.ListViewPane",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmousewheel : function(e)
     {
@@ -473,7 +473,7 @@ qx.Clazz.define("qx.ui.listview.ListViewPane",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseover : function(e)
     {
@@ -490,7 +490,7 @@ qx.Clazz.define("qx.ui.listview.ListViewPane",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmousedown : function(e)
     {
@@ -507,7 +507,7 @@ qx.Clazz.define("qx.ui.listview.ListViewPane",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmouseup : function(e)
     {
@@ -524,7 +524,7 @@ qx.Clazz.define("qx.ui.listview.ListViewPane",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onclick : function(e)
     {
@@ -541,7 +541,7 @@ qx.Clazz.define("qx.ui.listview.ListViewPane",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _ondblclick : function(e)
     {
@@ -566,7 +566,7 @@ qx.Clazz.define("qx.ui.listview.ListViewPane",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onkeypress : function(e)
     {
@@ -589,7 +589,7 @@ qx.Clazz.define("qx.ui.listview.ListViewPane",
      * @type member
      * @param vItem {var} TODOC
      * @param vIsSelected {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _updateSelectionState : function(vItem, vIsSelected)
     {
@@ -604,7 +604,7 @@ qx.Clazz.define("qx.ui.listview.ListViewPane",
      * @type member
      * @param vItem {var} TODOC
      * @param vIsAnchor {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _updateAnchorState : function(vItem, vIsAnchor)
     {
@@ -619,7 +619,7 @@ qx.Clazz.define("qx.ui.listview.ListViewPane",
      * @type member
      * @param vItem {var} TODOC
      * @param vIsLead {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _updateLeadState : function(vItem, vIsLead)
     {
@@ -634,7 +634,7 @@ qx.Clazz.define("qx.ui.listview.ListViewPane",
      * @type member
      * @param vItem {var} TODOC
      * @param vAlignLeftTop {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     scrollItemIntoView : function(vItem, vAlignLeftTop)
     {
@@ -649,7 +649,7 @@ qx.Clazz.define("qx.ui.listview.ListViewPane",
      * @type member
      * @param vItem {var} TODOC
      * @param vAlignLeft {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     scrollItemIntoViewX : function(vItem, vAlignLeft) {},
 
@@ -660,7 +660,7 @@ qx.Clazz.define("qx.ui.listview.ListViewPane",
      * @type member
      * @param vItem {var} TODOC
      * @param vAlignTop {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     scrollItemIntoViewY : function(vItem, vAlignTop)
     {
@@ -695,7 +695,7 @@ qx.Clazz.define("qx.ui.listview.ListViewPane",
      *
      * @type member
      * @param vScrollTop {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setScrollTop : function(vScrollTop)
     {
@@ -719,7 +719,7 @@ qx.Clazz.define("qx.ui.listview.ListViewPane",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     setScrollLeft : function() {
       this.error("Not implemented in qx.ui.listview.ListViewPane!");
@@ -775,7 +775,7 @@ qx.Clazz.define("qx.ui.listview.ListViewPane",
      *
      * @type member
      * @param vItem {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _updateItem : function(vItem)
     {

@@ -148,7 +148,7 @@ qx.Clazz.define("qx.manager.selection.RadioManager",
      * @type member
      * @param vItem {var} TODOC
      * @param vChecked {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     handleItemChecked : function(vItem, vChecked)
     {
@@ -173,7 +173,7 @@ qx.Clazz.define("qx.manager.selection.RadioManager",
      *
      * @type member
      * @param varargs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     add : function(varargs)
     {
@@ -214,7 +214,7 @@ qx.Clazz.define("qx.manager.selection.RadioManager",
      *
      * @type member
      * @param vItem {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     remove : function(vItem)
     {
@@ -313,7 +313,7 @@ qx.Clazz.define("qx.manager.selection.RadioManager",
      *
      * @type member
      * @param vItem {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     selectNext : function(vItem)
     {
@@ -344,7 +344,7 @@ qx.Clazz.define("qx.manager.selection.RadioManager",
      *
      * @type member
      * @param vItem {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     selectPrevious : function(vItem)
     {
@@ -375,7 +375,7 @@ qx.Clazz.define("qx.manager.selection.RadioManager",
      *
      * @type member
      * @param vIndex {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _selectByIndex : function(vIndex)
     {

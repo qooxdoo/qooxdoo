@@ -51,9 +51,9 @@ qx.Clazz.define("qx.ui.tablevarrowheight.SelectionModel",
      EVENTS
   *****************************************************************************
   */
-  
+
   events : {
     "changeSelection" : "qx.event.type.Event" /** Fired when the selection has changed. */
   }
-  
+
 });

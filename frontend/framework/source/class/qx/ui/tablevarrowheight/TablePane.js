@@ -67,7 +67,7 @@ qx.Clazz.define("qx.ui.tablevarrowheight.TablePane",
      * @param completeUpdate {var} TODOC
      * @param onlyRow {var} TODOC
      * @param onlySelectionOrFocusChanged {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _updateContent_orig : function(completeUpdate, onlyRow, onlySelectionOrFocusChanged)
     {

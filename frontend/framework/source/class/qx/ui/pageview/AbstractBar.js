@@ -89,7 +89,7 @@ qx.Clazz.define("qx.ui.pageview.AbstractBar",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _onmousewheel : function(e)
     {

@@ -176,7 +176,7 @@ qx.Clazz.define("qx.ui.component.DateChooserButton",
      * Create the popup window with for the date chooser and add the date chooser to it.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createChooserWindow : function()
     {
@@ -209,7 +209,7 @@ qx.Clazz.define("qx.ui.component.DateChooserButton",
      * Create the date chooser
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createChooser : function()
     {
@@ -234,7 +234,7 @@ qx.Clazz.define("qx.ui.component.DateChooserButton",
      *
      * @type member
      * @param e {Event} the received event
-     * @return {void} 
+     * @return {void}
      * @throws exception if the target widget is not instance of qx.ui.core.Widget or does not have setter and getter for property value
      */
     _executeHandler : function(e)
@@ -260,7 +260,7 @@ qx.Clazz.define("qx.ui.component.DateChooserButton",
      *
      * @type member
      * @param e {Event} the received event
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     _changeLocale : function(e)
@@ -291,7 +291,7 @@ qx.Clazz.define("qx.ui.component.DateChooserButton",
      *
      * @type member
      * @param e {Event} the received key event
-     * @return {void} 
+     * @return {void}
      */
     _chooserWindowKeydownHandler : function(e)
     {
@@ -310,7 +310,7 @@ qx.Clazz.define("qx.ui.component.DateChooserButton",
      *
      * @type member
      * @param e {Event} the received appear event
-     * @return {void} 
+     * @return {void}
      */
     _chooserWindowAppearHandler : function(e)
     {
@@ -324,7 +324,7 @@ qx.Clazz.define("qx.ui.component.DateChooserButton",
      *
      * @type member
      * @param e {Event} the select event
-     * @return {void} 
+     * @return {void}
      */
     _chooserSelectHandler : function(e)
     {
