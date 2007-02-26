@@ -76,10 +76,8 @@ qx.Clazz.define("qx.Theme",
       {
         qx.manager.object.AppearanceManager.getInstance().registerAppearanceTheme(theme);
 
-        theme.getAppearance = this.getAppearance;
-        theme.setupAppearance = this.setupAppearance;
-        theme.initialFrom = this.initialAppearanceFrom;
-        theme.stateFrom = this.stateAppearanceFrom;
+        theme.initialFrom = this._initialAppearanceFrom;
+        theme.stateFrom = this._stateAppearanceFrom;
       }
 
       if (theme.colors) {
@@ -118,64 +116,34 @@ qx.Clazz.define("qx.Theme",
 
 
 
-
-
-
-    /**
-     * Return the apperance object for a specific apperance id.
-     *
-     * @type member
-     * @param vId {String} id of the apperance (e.g. "button", "label", ...)
-     * @return {Object} appearance map
-     */
-    getAppearance : function(vId) {
-      return this.appearances[vId];
-    },
-
-
-    /**
-     * Call the "setup" function of the apperance
-     *
-     * @type member
-     * @param vAppearance {Object} appearance map
-     * @return {void}
-     */
-    setupAppearance : function(vAppearance)
-    {
-      if (!vAppearance._setupDone)
-      {
-        if (vAppearance.setup) {
-          vAppearance.setup(this);
-        }
-
-        vAppearance._setupDone = true;
-      }
-    },
-
     /**
      * Get the result of the "initial" function for a given id
      *
      * @type member
-     * @param vId {String} id of the apperance (e.g. "button", "label", ...)
+     * @param id {String} id of the apperance (e.g. "button", "label", ...)
      * @return {Map} map of widget properties as returned by the "initial" function
      */
-    initialAppearanceFrom : function(vId)
+    _initialAppearanceFrom : function(id)
     {
-      var vAppearance = this.getAppearance(vId);
+      var appearance = this.appearances[id];
 
-      if (vAppearance)
+      if (appearance)
       {
-        this.setupAppearance(vAppearance);
+        if (appearance.setup)
+        {
+          appearance.setup(this);
+          appearance.setup = null;
+        }
 
         try {
-          return vAppearance.initial ? vAppearance.initial(this) : {};
+          return appearance.initial ? appearance.initial(this) : {};
         } catch(ex) {
           this.error("Couldn't apply initial appearance", ex);
         }
       }
       else
       {
-        return this.error("Missing appearance: " + vId);
+        return this.error("Missing appearance: " + id);
       }
     },
 
@@ -184,27 +152,31 @@ qx.Clazz.define("qx.Theme",
      * Get the result of the "state" function for a given id and states
      *
      * @type member
-     * @param vId {String} id of the apperance (e.g. "button", "label", ...)
-     * @param vStates {Map} hash map defining the set states
+     * @param id {String} id of the apperance (e.g. "button", "label", ...)
+     * @param states {Map} hash map defining the set states
      * @return {Map} map of widget properties as returned by the "state" function
      */
-    stateAppearanceFrom : function(vId, vStates)
+    _stateAppearanceFrom : function(id, states)
     {
-      var vAppearance = this.getAppearance(vId);
+      var appearance = this.appearances[id];
 
-      if (vAppearance)
+      if (appearance)
       {
-        this.setupAppearance(vAppearance);
+        if (appearance.setup)
+        {
+          appearance.setup(this);
+          appearance.setup = null;
+        }
 
         try {
-          return vAppearance.state ? vAppearance.state(this, vStates) : {};
+          return appearance.state ? appearance.state(this, states) : {};
         } catch(ex) {
           this.error("Couldn't apply state appearance", ex);
         }
       }
       else
       {
-        return this.error("Missing appearance: " + vId);
+        return this.error("Missing appearance: " + id);
       }
     },
 
