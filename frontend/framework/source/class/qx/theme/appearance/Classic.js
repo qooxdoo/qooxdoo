@@ -171,7 +171,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
       state : function(vTheme, vStates)
       {
         var vReturn = {
-          backgroundColor : vStates.abandoned ? "#FFF0C9" : vStates.over ? "#87BCE5" : "buttonface",
+          backgroundColor : vStates.abandoned ? "#FFF0C9" : vStates.over ? "#87BCE5" : "buttonface"
         };
 
         if (vStates.pressed || vStates.checked || vStates.abandoned)
