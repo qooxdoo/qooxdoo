@@ -20,6 +20,7 @@
 
 import sys, string, re, os, random, cPickle, codecs
 import config, tokenizer, treegenerator, filetool, stringoptimizer, textutil
+import variantoptimizer
 
 internalModTime = 0
 
@@ -286,6 +287,15 @@ def detectDeps(node, optionalDeps, loadtimeDeps, runtimeDeps, fileId, fileDb, in
       detectDeps(child, optionalDeps, loadtimeDeps, runtimeDeps, fileId, fileDb, inFunction)
 
 
+def detectDepsDefer(node, optionalDeps, loadtimeDeps, runtimeDeps, fileId, fileDb):
+  classes = variantoptimizer.findVariable(node, "qx.Clazz.define")
+  for cls in classes:
+    if cls.parent.type == "operand" and cls.parent.parent.type == "call":
+      deferNode = variantoptimizer.selectNode(cls, "../../params/1/keyvalue[@key='defer']/value/function/body/block")
+      if deferNode != None:
+        detectDeps(deferNode, optionalDeps, loadtimeDeps, runtimeDeps, fileId, fileDb, False)
+    
+
 def resolveAutoDeps(fileDb, options):
 
   if options.verbose:
@@ -311,6 +321,10 @@ def resolveAutoDeps(fileDb, options):
 
     # Detecting auto dependencies
     detectDeps(getTree(fileDb, fileId, options), fileEntry["optionalDeps"], loadtimeDeps, runtimeDeps, fileId, fileDb, False)
+
+    # detecting dependencies in defer    
+    detectDepsDefer(getTree(fileDb, fileId, options), fileEntry["optionalDeps"], loadtimeDeps, runtimeDeps, fileId, fileDb)
+    
 
     # Handle ignore configuration
     if "auto-require" in fileEntry["ignoreDeps"]:
