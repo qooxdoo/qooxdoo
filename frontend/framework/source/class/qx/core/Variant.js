@@ -88,15 +88,17 @@ qx.Clazz.define("qx.core.Variant",
      */
     get : function(key)
     {
-      if (this.__variants[key] == undefined) {
+      var data = this.__variants[key];
+
+      if (data === undefined) {
         throw new Error('Variant "' + key + '" is not defined.');
       }
 
-      if (this.__variants[key].defaultValue == undefined) {
+      if (data.defaultValue === undefined) {
         throw new Error('Variant "' + key + '" is not supported by API.');
       }
 
-      return this.__variants[key].value || this.__variants[key].defaultValue;
+      return data.value || data.defaultValue;
     },
 
 
@@ -185,9 +187,9 @@ qx.Clazz.define("qx.core.Variant",
      *
      * Example:
      * <code>
-     * if (qx.core.Variant.isSet("qx.client", mshtml")) {
+     * if (qx.core.Variant.isSet("qx.client", "mshtml")) {
      *   // some Internet Explorer specific code
-     * } else if(qx.core.Variant.isSet("qx.client", opera")){
+     * } else if(qx.core.Variant.isSet("qx.client", "opera")){
      *   // Opera specific code
      * } else {
      *   // common code for all other browsers
@@ -209,7 +211,7 @@ qx.Clazz.define("qx.core.Variant",
 
       var keyParts = variants.split("|");
 
-      for (var i=0; i<keyParts.length; i++)
+      for (var i=0, l=keyParts.length; i<l; i++)
       {
         if (this.get(key) === keyParts[i]) {
           return true;
