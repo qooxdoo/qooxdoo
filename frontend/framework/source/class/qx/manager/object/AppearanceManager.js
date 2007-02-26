@@ -152,86 +152,23 @@ qx.Clazz.define("qx.manager.object.AppearanceManager",
     ---------------------------------------------------------------------------
     */
 
-
-    /**
-     * Get the result of the "initial" function for a given id
-     *
-     * @type member
-     * @param theme {Object} appearance theme
-     * @param id {String} id of the apperance (e.g. "button", "label", ...)
-     * @return {Map} map of widget properties as returned by the "initial" function
-     */
-    initialFrom : function(id) {
-      return this.initialFromTheme(this.getAppearanceTheme(), id);
-    },
-
-
-    /**
-     * Get the result of the "state" function for a given id and states
-     *
-     * @type member
-     * @param theme {Object} appearance theme
-     * @param id {String} id of the apperance (e.g. "button", "label", ...)
-     * @param states {Map} hash map defining the set states
-     * @return {Map} map of widget properties as returned by the "state" function
-     */
-    stateFrom : function(id, states) {
-      return this.stateFromTheme(this.getAppearanceTheme(), id, states);
-    },
-
-
-    /**
-     * Get the result of the "initial" function for a given id
-     *
-     * @type member
-     * @param theme {Object} appearance theme
-     * @param id {String} id of the apperance (e.g. "button", "label", ...)
-     * @return {Map} map of widget properties as returned by the "initial" function
-     */
-    initialFromTheme : function(theme, id)
-    {
-      var entry = theme.appearances[id];
-
-      if (!entry) {
-        throw new Error("Missing appearance entry: " + id);
-      }
-
-      if (entry.setup)
-      {
-        this.warn("Executing deprecated setup() in appearance entry '" + id + "'");
-
-        entry.setup(this);
-        entry.setup = null;
-      }
-
-      var ret;
-
-      if (entry.initial)
-      {
-        ret = entry.initial();
-      }
-
-      if (entry.extend)
-      {
-        var extend = this.initialFromTheme(theme, entry.extend);
-
-        if (ret)
-        {
-          qx.lang.Object.carefullyMergeWith(ret, extend);
-        }
-        else
-        {
-          ret = extend;
-        }
-      }
-
-      return ret;
-    },
-
     __cache : {},
 
 
     /**
+     * Get the result of the "initial" function for a given id
+     *
+     * @type member
+     * @param theme {Object} appearance theme
+     * @param id {String} id of the apperance (e.g. "button", "label", ...)
+     * @return {Map} map of widget properties as returned by the "initial" function
+     */
+    styleFrom : function(id, states) {
+      return this.styleFromTheme(this.getAppearanceTheme(), id, states);
+    },
+
+
+    /**
      * Get the result of the "state" function for a given id and states
      *
      * @type member
@@ -240,7 +177,7 @@ qx.Clazz.define("qx.manager.object.AppearanceManager",
      * @param states {Map} hash map defining the set states
      * @return {Map} map of widget properties as returned by the "state" function
      */
-    stateFromTheme : function(theme, id, states)
+    styleFromTheme : function(theme, id, states)
     {
 			var cache = this.__cache;
       var entry = theme.appearances[id];
@@ -249,13 +186,10 @@ qx.Clazz.define("qx.manager.object.AppearanceManager",
         throw new Error("Missing appearance entry: " + id);
       }
 
-      if (entry.setup)
-      {
-        this.warn("Executing deprecated setup() in appearance entry '" + id + "'");
-
-        entry.setup(this);
-        entry.setup = null;
-      }
+			// Fast fallback to super entry
+			if (!entry.style && entry.extend) {
+				return this.styleFromTheme(theme, entry.extend, states);
+			}
 
       // Creating cache-able ID
       var helper = [];
@@ -274,29 +208,33 @@ qx.Clazz.define("qx.manager.object.AppearanceManager",
       var ret;
 
       // This is the place where we really call the appearance theme
-      if (entry.state)
+      if (entry.style)
       {
-        ret = entry.state(states);
+				// Execute setup routine (deprecated)
+				if (entry.setup) 
+				{
+					this.debug("Use of deprecated setup method in appearance '" + id + "'");
+					entry.setup();
+					delete entry.setup;
+				}
+				
+				// Executing appearance theme style definition
+        ret = entry.style(states);
+
+	      // Fill with data from inheritance
+	      if (entry.extend) {
+					qx.lang.Object.carefullyMergeWith(ret, this.styleFromTheme(theme, entry.extend, states));
+	      }
       }
 
-      // Fill data with data from inheritance
-      if (entry.extend)
-      {
-        var extend = this.stateFromTheme(theme, entry.extend, states);
-
-        if (ret)
-        {
-          qx.lang.Object.carefullyMergeWith(ret, extend);
-        }
-        else
-        {
-          ret = extend;
-        }
-      }
+			// Normalize to null (needed for caching)
+			ret = ret || null;
 
       // Cache new entry
-			cache[unique] = ret || null;
-			//console.log("Cached: " + qx.lang.Object.getLength(cache) + " :: " + unique);
+			cache[unique] = ret;
+			
+			// Debug
+			this.debug("Cached: " + qx.lang.Object.getLength(cache) + " :: " + unique);
 
       return ret;
     },

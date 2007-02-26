@@ -83,13 +83,13 @@ qx.Clazz.define("qx.ui.pageview.buttonview.Pane",
      * @type member
      * @return {void}
      */
-    _applyStateAppearance : function()
+    _applyAppearance : function()
     {
       var vPos = this.getParent().getBarPosition();
 
       this._states.barHorizontal = vPos === "top" || vPos === "bottom";
 
-      qx.ui.pageview.AbstractButton.prototype._applyStateAppearance.call(this);
+      qx.ui.pageview.AbstractButton.prototype._applyAppearance.call(this);
     }
   }
 });
