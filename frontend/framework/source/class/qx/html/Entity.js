@@ -19,6 +19,7 @@
 
 /* ************************************************************************
 
+#require(qx.lang.Object)
 
 ************************************************************************ */
 
@@ -342,10 +343,8 @@ qx.Clazz.define("qx.html.Entity",
       "Dagger"   : 8225, // double dagger, U+2021 ISOpub
       "permil"   : 8240, // per mille sign, U+2030 ISOtech
       "lsaquo"   : 8249, // single left-pointing angle quotation mark,U+2039 ISO proposed
-
       // lsaquo is proposed but not yet ISO standardized
       "rsaquo"   : 8250, // single right-pointing angle quotation mark,U+203A ISO proposed
-
       // rsaquo is proposed but not yet ISO standardized
       "euro"     : 8364 //  -- euro sign, U+20AC NEW
     }

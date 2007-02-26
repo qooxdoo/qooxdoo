@@ -620,10 +620,19 @@ qx.Clazz.define("qx.renderer.layout.LayoutImpl",
     }
   },
 
-  defer : function(clazz, proto)
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics, members)
   {
-    proto.computeChildrenNeededWidth = proto.computeChildrenNeededWidth_max;
-    proto.computeChildrenNeededHeight = proto.computeChildrenNeededHeight_max;
+    members.computeChildrenNeededWidth = members.computeChildrenNeededWidth_max;
+    members.computeChildrenNeededHeight = members.computeChildrenNeededHeight_max;
   }
 
 });

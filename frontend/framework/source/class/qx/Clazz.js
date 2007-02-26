@@ -110,18 +110,18 @@ qx.Clazz.define("qx.Clazz",
      * @param config {Map ? null} Class definition structure. The configuration map has the following keys:
      *     <table>
      *       <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-     *       <tr><th>type</th><td>String</td><td>type of the class. Valid types are "abstract", "static" and "singleton"</td></tr>
-     *       <tr><th>extend</th><td>Class</td><td>The spuer class the class inherits from.</td></tr>
-     *       <tr><th>implement</th><td>Interface[]</td><td>Array of interfaces the class implements.</td></tr>
-     *       <tr><th>include</th><td>Mixin[]</td><td>Array of mixins, which will be merged into the class.</td></tr>
+     *       <tr><th>type</th><td>String</td><td>Type of the class. Valid types are "abstract", "static" and "singleton"</td></tr>
+     *       <tr><th>extend</th><td>Class</td><td>The super class the current class inherits from.</td></tr>
+     *       <tr><th>implement</th><td>Interface | Interface[]</td><td>Single interface or array of interfaces the class implements.</td></tr>
+     *       <tr><th>include</th><td>Mixin | Mixin[]</td><td>Single mixin or array of mixins, which will be merged into the class.</td></tr>
      *       <tr><th>construct</th><td>Function</td><td>The constructor of the class.</td></tr>
-     *       <tr><th>statics</th><td>Map</td><td>Map of statics of the class.</td></tr>
-     *       <tr><th>members</th><td>Map</td><td>Map of members of the class.</td></tr>
+     *       <tr><th>statics</th><td>Map</td><td>Map of static members of the class.</td></tr>
+     *       <tr><th>members</th><td>Map</td><td>Map of instance members of the class.</td></tr>
      *       <tr><th>properties</th><td>Map</td><td>Map of property definitions. Format of the map: TODOC</td></tr>
      *       <tr><th>settings</th><td>Map</td><td>Map of settings for this class. Format of the map: TODOC</td></tr>
      *       <tr><th>variants</th><td>Map</td><td>Map of settings for this class. Format of the map: TODOC</td></tr>
-     *       <tr><th>events</th><td>Map</td><td>Map of events the class fires. the keys are the names of the events and the values the event types (classes).</td></tr>
-     *       <tr><th>defer</th><td>Function</td><td>TODOC</td></tr>
+     *       <tr><th>events</th><td>Map</td><td>Map of events the class fires. The keys are the names of the events and the values are corresponding event type classes.</td></tr>
+     *       <tr><th>defer</th><td>Function</td><td>Function that is to be called after at the end of the class declaration that allows access to the statics, members, properties.</td></tr>
      *     </table>
      * @return {void}
      * @throws TODOC

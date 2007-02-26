@@ -21,6 +21,8 @@
 /* ************************************************************************
 
 #module(ui_core)
+#require(qx.core.Init)
+#require(qx.lang.Object)
 #use(qx.component.init.InterfaceInitComponent)
 #optional(qx.ui.core.Parent)
 #optional(qx.ui.form.Button)
@@ -7527,6 +7529,14 @@ qx.Clazz.define("qx.ui.core.Widget",
   },
 
 
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
   defer : function(statics, members)
   {
     statics.__initApplyMethods(members);
@@ -7543,7 +7553,13 @@ qx.Clazz.define("qx.ui.core.Widget",
             return;
           }
 
-          if (!(qx.ui.core.Widget._globalWidgetQueue.length > 0 || qx.ui.core.Widget._globalElementQueue.length > 0 || qx.ui.core.Widget._globalStateQueue.length > 0 || qx.ui.core.Widget._globalJobQueue.length > 0 || qx.ui.core.Widget._globalLayoutQueue.length > 0 || qx.ui.core.Widget._fastGlobalDisplayQueue.length > 0 || !qx.lang.Object.isEmpty(qx.ui.core.Widget._lazyGlobalDisplayQueue))) {
+          if (!(statics._globalWidgetQueue.length > 0 || 
+                statics._globalElementQueue.length > 0 || 
+                statics._globalStateQueue.length > 0 || 
+                statics._globalJobQueue.length > 0 || 
+                statics._globalLayoutQueue.length > 0 || 
+                statics._fastGlobalDisplayQueue.length > 0 || 
+                !qx.lang.Object.isEmpty(statics._lazyGlobalDisplayQueue))) {
             return;
           }
 
@@ -7553,10 +7569,10 @@ qx.Clazz.define("qx.ui.core.Widget",
           var globalJobQueueLength = statics._globalJobQueue.length;
           var globalLayoutQueueLength = statics._globalLayoutQueue.length;
           var fastGlobalDisplayQueueLength = statics._fastGlobalDisplayQueue.length;
-          var lazyGlobalDisplayQueueLength = statics._lazyGlobalDisplayQueue ? qx.ui.core.Widget._lazyGlobalDisplayQueue.length : 0;
+          var lazyGlobalDisplayQueueLength = statics._lazyGlobalDisplayQueue ? statics._lazyGlobalDisplayQueue.length : 0;
 
           // Also used for inline event handling to seperate 'real' events
-          qx.ui.core.Widget._inFlushGlobalQueues = true;
+          statics._inFlushGlobalQueues = true;
 
           var vStart;
 
