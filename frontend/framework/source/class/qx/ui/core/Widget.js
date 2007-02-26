@@ -5202,7 +5202,7 @@ qx.Clazz.define("qx.ui.core.Widget",
       {
         try
         {
-          var r = qx.manager.object.AppearanceManager.getInstance().getAppearanceTheme().initialFrom(vAppearance);
+          var r = qx.manager.object.AppearanceManager.getInstance().initialFrom(vAppearance);
 
           if (r) {
             this.set(r);
@@ -5234,7 +5234,7 @@ qx.Clazz.define("qx.ui.core.Widget",
       {
         try
         {
-          var r = qx.manager.object.AppearanceManager.getInstance().getAppearanceTheme().stateFrom(vAppearance, this._states);
+          var r = qx.manager.object.AppearanceManager.getInstance().stateFrom(vAppearance, this._states);
 
           if (r) {
             this.set(r);
@@ -5262,11 +5262,13 @@ qx.Clazz.define("qx.ui.core.Widget",
 
       if (vAppearance)
       {
-        var vOldAppearanceThemeObject = qx.manager.object.AppearanceManager.getInstance().getThemeById(vOldAppearanceTheme);
-        var vNewAppearanceThemeObject = qx.manager.object.AppearanceManager.getInstance().getThemeById(vNewAppearanceTheme);
+        var vAppearanceManager = qx.manager.object.AppearanceManager.getInstance();
 
-        var vOldAppearanceProperties = qx.lang.Object.mergeWith(vOldAppearanceThemeObject.initialFrom(vAppearance), vOldAppearanceThemeObject.stateFrom(vAppearance, this._states));
-        var vNewAppearanceProperties = qx.lang.Object.mergeWith(vNewAppearanceThemeObject.initialFrom(vAppearance), vNewAppearanceThemeObject.stateFrom(vAppearance, this._states));
+        var vOldAppearanceThemeObject = vAppearanceManager.getThemeById(vOldAppearanceTheme);
+        var vNewAppearanceThemeObject = vAppearanceManager.getThemeById(vNewAppearanceTheme);
+
+        var vOldAppearanceProperties = qx.lang.Object.mergeWith(vAppearanceManager.initialFromTheme(vOldAppearanceThemeObject, vAppearance), vAppearanceManager.stateFromTheme(vOldAppearanceThemeObject, vAppearance, this._states));
+        var vNewAppearanceProperties = qx.lang.Object.mergeWith(vAppearanceManager.initialFromTheme(vNewAppearanceThemeObject, vAppearance), vAppearanceManager.stateFromTheme(vNewAppearanceThemeObject, vAppearance, this._states));
 
         for (var vProp in vOldAppearanceProperties)
         {
@@ -5363,9 +5365,8 @@ qx.Clazz.define("qx.ui.core.Widget",
      */
     _modifyAppearance : function(propValue, propOldValue, propData)
     {
-      var vAppearanceThemeObject = qx.manager.object.AppearanceManager.getInstance().getAppearanceTheme();
-
-      var vNewAppearanceProperties = vAppearanceThemeObject.initialFrom(propValue);
+      var vAppearanceManager = qx.manager.object.AppearanceManager.getInstance();
+      var vNewAppearanceProperties = vAppearanceManager.initialFrom(propValue);
 
       if (!vNewAppearanceProperties) {
         vNewAppearanceProperties = {};
@@ -5373,7 +5374,7 @@ qx.Clazz.define("qx.ui.core.Widget",
 
       if (this.isCreated())
       {
-        vNewAppearanceStateProperties = vAppearanceThemeObject.stateFrom(propValue, this._states);
+        vNewAppearanceStateProperties = vAppearanceManager.stateFrom(propValue, this._states);
 
         if (vNewAppearanceStateProperties) {
           qx.lang.Object.mergeWith(vNewAppearanceProperties, vNewAppearanceStateProperties);
@@ -5382,7 +5383,7 @@ qx.Clazz.define("qx.ui.core.Widget",
 
       if (propOldValue)
       {
-        var vOldAppearanceProperties = vAppearanceThemeObject.initialFrom(propOldValue);
+        var vOldAppearanceProperties = vAppearanceManager.initialFrom(propOldValue);
 
         if (!vOldAppearanceProperties) {
           vOldAppearanceProperties = {};
@@ -5390,7 +5391,7 @@ qx.Clazz.define("qx.ui.core.Widget",
 
         if (this.isCreated())
         {
-          vOldAppearanceStateProperties = AppearanceThemeObject.stateFrom(propOldValue, this._states);
+          vOldAppearanceStateProperties = vAppearanceManager.stateFrom(propOldValue, this._states);
 
           if (vOldAppearanceStateProperties) {
             qx.lang.Object.mergeWith(vOldAppearanceProperties, vOldAppearanceStateProperties);

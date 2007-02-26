@@ -72,12 +72,8 @@ qx.Clazz.define("qx.Theme",
       theme.isTheme = true;
 
       // Register to managers
-      if (theme.appearances)
-      {
+      if (theme.appearances) {
         qx.manager.object.AppearanceManager.getInstance().registerAppearanceTheme(theme);
-
-        theme.initialFrom = this._initialFrom;
-        theme.stateFrom = this._stateFrom;
       }
 
       if (theme.colors) {
@@ -108,108 +104,31 @@ qx.Clazz.define("qx.Theme",
      */
     __validateConfig : function(name, config)
     {
+      var allowedKeys =
+      {
+        "title"       : "string",    // String
+        "extend"      : "object",    // Theme-Object
+        "colors"      : "object",    // Map
+        "icons"       : "object",    // Map
+        "widgets"     : "object",    // Map
+        "appearances" : "object"     // Map
+      };
 
+      for (var key in config)
+      {
+        if (!allowedKeys[key]) {
+          throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
+        }
 
+        if (config[key] == null) {
+          throw new Error('Invalid key "' + key + '" in class "' + name + '"! The value is undefined/null!');
+        }
+
+        if (typeof config[key] !== allowedKeys[key]) {
+          throw new Error('Invalid type of key "' + key + '" in class "' + name + '"! The type of the key must be "' + allowedKeys[key] + '"!');
+        }
+      }
     },
-
-
-
-
-
-    /**
-     * Get the result of the "initial" function for a given id
-     *
-     * @type member
-     * @param id {String} id of the apperance (e.g. "button", "label", ...)
-     * @return {Map} map of widget properties as returned by the "initial" function
-     */
-    _initialFrom : function(id)
-    {
-      var appearance = this.appearances[id];
-
-      if (!appearance) {
-        throw new Error("Missing appearance: " + id);
-      }
-
-      if (appearance.setup)
-      {
-        // console.log("Executing deprecated setup() in appearance '" + id + "'");
-        appearance.setup(this);
-        appearance.setup = null;
-      }
-
-      var ret;
-
-      if (appearance.initial)
-      {
-        ret = appearance.initial(this);
-      }
-
-      if (appearance.extend)
-      {
-        if (ret)
-        {
-          qx.lang.Object.carefullyMergeWith(ret, this.initialFrom(appearance.extend));
-        }
-        else
-        {
-          ret = this.initialFrom(appearance.extend);
-        }
-      }
-
-      return ret;
-    },
-
-
-    /**
-     * Get the result of the "state" function for a given id and states
-     *
-     * @type member
-     * @param id {String} id of the apperance (e.g. "button", "label", ...)
-     * @param states {Map} hash map defining the set states
-     * @return {Map} map of widget properties as returned by the "state" function
-     */
-    _stateFrom : function(id, states)
-    {
-      var appearance = this.appearances[id];
-
-      if (!appearance) {
-        throw new Error("Missing appearance: " + id);
-      }
-
-      if (appearance.setup)
-      {
-        // console.log("Executing deprecated setup() in appearance '" + id + "'");
-        appearance.setup(this);
-        appearance.setup = null;
-      }
-
-      var ret;
-
-      if (appearance.state)
-      {
-        ret = appearance.state(this, states);
-      }
-
-      if (appearance.extend)
-      {
-        if (ret)
-        {
-          qx.lang.Object.carefullyMergeWith(ret, this.stateFrom(appearance.extend, states));
-        }
-        else
-        {
-          ret = this.stateFrom(appearance.extend, states);
-        }
-      }
-
-      return ret;
-    },
-
-
-
-
-
 
 
     /**
