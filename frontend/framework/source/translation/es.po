@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo framework\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-02-23 12:30+0100\n"
+"POT-Creation-Date: 2007-02-26 18:11+0100\n"
 "PO-Revision-Date: 2006-12-19 00:49-0500\n"
 "Last-Translator: Camilo Aguilar <camilo.aguilar@gmail.com>\n"
 "Language-Team:  <camilo.aguilar@gmail.com>\n"
@@ -15,212 +15,212 @@ msgstr ""
 "X-Poedit-Country: COLOMBIA\n"
 
 #. TRANSLATION: short representation of key names
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:77
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:81
 msgid "key_short_Backspace"
 msgstr "Retroceso"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:78
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:82
 msgid "key_short_Tab"
 msgstr "Tab"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:79
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:83
 msgid "key_short_Space"
 msgstr "Espacio"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:80
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:84
 msgid "key_short_Enter"
 msgstr "Intro"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:81
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:85
 msgid "key_short_Shift"
 msgstr "Mayús"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:82
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:86
 msgid "key_short_Control"
 msgstr "Ctrl"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:83
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:87
 msgid "key_short_Alt"
 msgstr "Alt"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:84
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:88
 msgid "key_short_CapsLock"
 msgstr "BloqMayús"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:85
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:89
 msgid "key_short_Meta"
 msgstr "Meta"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:86
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:90
 msgid "key_short_Escape"
 msgstr "Esc"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:87
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:91
 msgid "key_short_Left"
 msgstr "Izquierda"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:88
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:92
 msgid "key_short_Up"
 msgstr "Arriba"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:89
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:93
 msgid "key_short_Right"
 msgstr "Derecha"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:90
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:94
 msgid "key_short_Down"
 msgstr "Abajo"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:91
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:95
 msgid "key_short_PageUp"
 msgstr "RePág"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:92
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:96
 msgid "key_short_PageDown"
 msgstr "AvPág"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:93
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:97
 msgid "key_short_End"
 msgstr "Fin"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:94
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:98
 msgid "key_short_Home"
 msgstr "Inicio"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:95
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:99
 msgid "key_short_Insert"
 msgstr "Insert"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:96
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:100
 msgid "key_short_Delete"
 msgstr "Supr"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:97
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:101
 msgid "key_short_NumLock"
 msgstr "BloqNum"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:98
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:102
 msgid "key_short_PrintScreen"
 msgstr "ImprPant"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:99
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:103
 msgid "key_short_Scroll"
 msgstr "BloqDespl"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:100
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:104
 msgid "key_short_Pause"
 msgstr "Pausa"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:101
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:105
 msgid "key_short_Win"
 msgstr "Win"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:102
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:106
 msgid "key_short_Apps"
 msgstr "Aplic"
 
 #. TRANSLATION: full/long representation of key names
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:105
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:109
 msgid "key_full_Backspace"
 msgstr "Retroceso"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:106
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:110
 msgid "key_full_Tab"
 msgstr "Tabulador"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:107
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:111
 msgid "key_full_Space"
 msgstr "Espacio"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:108
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:112
 msgid "key_full_Enter"
 msgstr "Intro"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:109
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:113
 msgid "key_full_Shift"
 msgstr "Mayúscula"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:110
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:114
 msgid "key_full_Control"
 msgstr "Control"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:111
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:115
 msgid "key_full_Alt"
 msgstr "Alt"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:112
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:116
 msgid "key_full_CapsLock"
 msgstr "Bloqueo Mayúsculas"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:113
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:117
 msgid "key_full_Meta"
 msgstr "Meta"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:114
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:118
 msgid "key_full_Escape"
 msgstr "Escape"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:115
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:119
 msgid "key_full_Left"
 msgstr "Flecha izquierda"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:116
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:120
 msgid "key_full_Up"
 msgstr "Flecha arriba"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:117
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:121
 msgid "key_full_Right"
 msgstr "Flecha derecha"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:118
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:122
 msgid "key_full_Down"
 msgstr "Flecha abajo"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:119
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:123
 msgid "key_full_PageUp"
 msgstr "Retroceder Página"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:120
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:124
 msgid "key_full_PageDown"
 msgstr "Avanzar Página"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:121
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:125
 msgid "key_full_End"
 msgstr "Fin"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:122
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:126
 msgid "key_full_Home"
 msgstr "Inicio"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:123
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:127
 msgid "key_full_Insert"
 msgstr "Insertar"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:124
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:128
 msgid "key_full_Delete"
 msgstr "Suprimir"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:125
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:129
 msgid "key_full_NumLock"
 msgstr "Bloqueo Numérico"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:126
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:130
 msgid "key_full_PrintScreen"
 msgstr "Imprimir Pantalla"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:127
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:131
 msgid "key_full_Scroll"
 msgstr "Bloq. Despl."
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:128
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:132
 msgid "key_full_Pause"
 msgstr "Pausa"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:129
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:133
 msgid "key_full_Win"
 msgstr "Windows"
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:130
+#: ../../../frontend/framework/source/class/qx/locale/Key.js:134
 msgid "key_full_Apps"
 msgstr "Aplicaciones"
 
