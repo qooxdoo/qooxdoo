@@ -216,7 +216,7 @@ qx.Clazz.define("qx.lang.Object",
     {
       for (var vKey in vObjectB)
       {
-        if (typeof vObjectA[vKey] === "undefined") {
+        if (vObjectA[vKey] === undefined) {
           vObjectA[vKey] = vObjectB[vKey];
         }
       }
