@@ -839,9 +839,6 @@ qx.Clazz.define("qx.ui.form.TextField",
         return;
       }
 
-      this.removeEventListener("blur", this._onblur);
-      this.removeEventListener("focus", this._onfocus);
-
       qx.ui.basic.Terminator.prototype.dispose.call(this);
     }
   }

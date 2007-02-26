@@ -63,11 +63,11 @@ qx.Clazz.define("qx.renderer.border.BorderCache",
         return propValue;
       }
 
-      if (qx.renderer.border.BorderCache._data[propValue]) {
-        return qx.renderer.border.BorderCache._data[propValue];
+      if (qx.renderer.border.BorderCache.__data[propValue]) {
+        return qx.renderer.border.BorderCache.__data[propValue];
       }
 
-      return qx.renderer.border.BorderCache._data[propValue] = qx.renderer.border.BorderObject.fromString(propValue);
+      return qx.renderer.border.BorderCache.__data[propValue] = qx.renderer.border.BorderObject.fromString(propValue);
     }
   }
 });
