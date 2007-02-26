@@ -404,7 +404,7 @@ qx.Clazz.define("qx.core.Object",
     set : function(data)
     {
       if (typeof data !== "object") {
-        throw new Error("Please use a valid hash of property key-values pairs.");
+        throw new Error("Please use a valid hash of property key-values pairs. Incoming value was: '" + data + "'");
       }
 
       for (var prop in data)
