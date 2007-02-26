@@ -45,7 +45,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "image" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           allowStretchX : false,
@@ -56,7 +56,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "client-document" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           backgroundColor    : "threedface",
@@ -69,7 +69,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "blocker" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         // You could also use: "static/image/dotted_white.gif" for example as backgroundImage here
         // (Visible) background tiles could be dramatically slow down mshtml!
@@ -83,7 +83,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "atom" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           cursor                        : "default",
@@ -101,7 +101,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "label" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           font : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
@@ -109,8 +109,8 @@ qx.Theme.define("qx.theme.appearance.Classic",
         };
       },
 
-      state : function(vTheme, vStates) {
-        return { color : vStates.disabled ? "graytext" : null };
+      state : function(states) {
+        return { color : states.disabled ? "graytext" : null };
       }
     },
 
@@ -121,7 +121,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "popup" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           width  : "auto",
@@ -134,7 +134,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "popup",
 
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           backgroundColor : "InfoBackground",
@@ -150,7 +150,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "iframe" :
     {
-      initial : function(vTheme) {
+      initial : function() {
         return { border : qx.renderer.border.BorderPresets.getInstance().inset };
       }
     },
@@ -168,13 +168,13 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "atom",
 
-      state : function(vTheme, vStates)
+      state : function(states)
       {
         var vReturn = {
-          backgroundColor : vStates.abandoned ? "#FFF0C9" : vStates.over ? "#87BCE5" : "buttonface"
+          backgroundColor : states.abandoned ? "#FFF0C9" : states.over ? "#87BCE5" : "buttonface"
         };
 
-        if (vStates.pressed || vStates.checked || vStates.abandoned)
+        if (states.pressed || states.checked || states.abandoned)
         {
           vReturn.border = qx.renderer.border.BorderPresets.getInstance().inset;
         }
@@ -183,7 +183,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
           vReturn.border = qx.renderer.border.BorderPresets.getInstance().outset;
         }
 
-        if (vStates.pressed || vStates.abandoned)
+        if (states.pressed || states.abandoned)
         {
           vReturn.paddingTop = 4;
           vReturn.paddingRight = 3;
@@ -211,7 +211,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "toolbar" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           border          : qx.renderer.border.BorderPresets.getInstance().thinOutset,
@@ -223,21 +223,21 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "toolbar-part" :
     {
-      initial : function(vTheme) {
+      initial : function() {
         return { width : "auto" };
       }
     },
 
     "toolbar-part-handle" :
     {
-      initial : function(vTheme) {
+      initial : function() {
         return { width : 10 };
       }
     },
 
     "toolbar-part-handle-line" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           top    : 2,
@@ -251,7 +251,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "toolbar-separator" :
     {
-      initial : function(vTheme) {
+      initial : function() {
         return { width : 8 };
       }
     },
@@ -274,7 +274,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         b.setBottomWidth(0);
       },
 
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           top    : 2,
@@ -288,7 +288,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "toolbar-button" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           cursor                : "default",
@@ -298,15 +298,15 @@ qx.Theme.define("qx.theme.appearance.Classic",
         };
       },
 
-      state : function(vTheme, vStates)
+      state : function(states)
       {
         var vReturn =
         {
-          backgroundColor : vStates.abandoned ? "#FFF0C9" : "buttonface",
-          backgroundImage : vStates.checked && !vStates.over ? "static/image/dotted_white.gif" : null
+          backgroundColor : states.abandoned ? "#FFF0C9" : "buttonface",
+          backgroundImage : states.checked && !states.over ? "static/image/dotted_white.gif" : null
         };
 
-        if (vStates.pressed || vStates.checked || vStates.abandoned)
+        if (states.pressed || states.checked || states.abandoned)
         {
           vReturn.border = qx.renderer.border.BorderPresets.getInstance().thinInset;
 
@@ -315,7 +315,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
           vReturn.paddingBottom = 1;
           vReturn.paddingLeft = 4;
         }
-        else if (vStates.over)
+        else if (states.over)
         {
           vReturn.border = qx.renderer.border.BorderPresets.getInstance().thinOutset;
 
@@ -345,7 +345,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "bar-view" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           backgroundColor : "#FAFBFE",
@@ -356,9 +356,9 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "bar-view-pane" :
     {
-      state : function(vTheme, vStates)
+      state : function(states)
       {
-        if (vStates.barHorizontal)
+        if (states.barHorizontal)
         {
           return {
             width  : null,
@@ -377,7 +377,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "bar-view-page" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           left   : 10,
@@ -405,16 +405,16 @@ qx.Theme.define("qx.theme.appearance.Classic",
         this.border_right.setLeft(1, "solid", "threedshadow");
       },
 
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           backgroundColor : "#E1EEFF"
         };
       },
 
-      state : function(vTheme, vStates)
+      state : function(states)
       {
-        if (vStates.barTop)
+        if (states.barTop)
         {
           return {
             paddingTop    : 1,
@@ -427,7 +427,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
             orientation   : "horizontal"
           };
         }
-        else if (vStates.barBottom)
+        else if (states.barBottom)
         {
           return {
             paddingTop    : 1,
@@ -440,7 +440,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
             orientation   : "horizontal"
           };
         }
-        else if (vStates.barLeft)
+        else if (states.barLeft)
         {
           return {
             paddingTop    : 0,
@@ -453,7 +453,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
             orientation   : "vertical"
           };
         }
-        else if (vStates.barRight)
+        else if (states.barRight)
         {
           return {
             paddingTop    : 0,
@@ -488,25 +488,25 @@ qx.Theme.define("qx.theme.appearance.Classic",
         this.border_right_checked.setLeft(3, "solid", "#FEC83C");
       },
 
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           iconPosition : "top"
         };
       },
 
-      state : function(vTheme, vStates)
+      state : function(states)
       {
         var vReturn =
         {
-          backgroundColor : vStates.checked ? "#FAFBFE" : null,
+          backgroundColor : states.checked ? "#FAFBFE" : null,
           allowStretchX   : true,
           allowStretchY   : true
         };
 
-        if (vStates.checked || vStates.over)
+        if (states.checked || states.over)
         {
-          if (vStates.barTop)
+          if (states.barTop)
           {
             vReturn.border = this.border_top_checked;
             vReturn.paddingTop = 3;
@@ -514,7 +514,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
             vReturn.paddingBottom = 1;
             vReturn.paddingLeft = 6;
           }
-          else if (vStates.barBottom)
+          else if (states.barBottom)
           {
             vReturn.border = this.border_bottom_checked;
             vReturn.paddingTop = 1;
@@ -522,7 +522,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
             vReturn.paddingBottom = 3;
             vReturn.paddingLeft = 6;
           }
-          else if (vStates.barLeft)
+          else if (states.barLeft)
           {
             vReturn.border = this.border_left_checked;
             vReturn.paddingTop = 3;
@@ -530,7 +530,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
             vReturn.paddingBottom = 3;
             vReturn.paddingLeft = 6;
           }
-          else if (vStates.barRight)
+          else if (states.barRight)
           {
             vReturn.border = this.border_right_checked;
             vReturn.paddingTop = 3;
@@ -546,14 +546,14 @@ qx.Theme.define("qx.theme.appearance.Classic",
           vReturn.paddingRight = vReturn.paddingLeft = 7;
         }
 
-        if (vStates.barTop || vStates.barBottom)
+        if (states.barTop || states.barBottom)
         {
           vReturn.marginTop = vReturn.marginBottom = 0;
           vReturn.marginRight = vReturn.marginLeft = 1;
           vReturn.width = "auto";
           vReturn.height = null;
         }
-        else if (vStates.barLeft || vStates.barRight)
+        else if (states.barLeft || states.barRight)
         {
           vReturn.marginTop = vReturn.marginBottom = 1;
           vReturn.marginRight = vReturn.marginLeft = 0;
@@ -576,7 +576,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "window" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           backgroundColor : "threedface",
@@ -588,14 +588,14 @@ qx.Theme.define("qx.theme.appearance.Classic",
         };
       },
 
-      state : function(vTheme, vStates) {
-        return { border : vStates.maximized ? qx.renderer.border.BorderPresets.getInstance().none : qx.renderer.border.BorderPresets.getInstance().outset };
+      state : function(states) {
+        return { border : states.maximized ? qx.renderer.border.BorderPresets.getInstance().none : qx.renderer.border.BorderPresets.getInstance().outset };
       }
     },
 
     "window-captionbar" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           paddingTop            : 1,
@@ -608,32 +608,32 @@ qx.Theme.define("qx.theme.appearance.Classic",
         };
       },
 
-      state : function(vTheme, vStates)
+      state : function(states)
       {
         return {
-          backgroundColor : vStates.active ? "activecaption" : "inactivecaption",
-          color           : vStates.active ? "captiontext" : "inactivecaptiontext"
+          backgroundColor : states.active ? "activecaption" : "inactivecaption",
+          color           : states.active ? "captiontext" : "inactivecaptiontext"
         };
       }
     },
 
     "window-resize-frame" :
     {
-      initial : function(vTheme) {
+      initial : function() {
         return { border : qx.renderer.border.BorderPresets.getInstance().shadow };
       }
     },
 
     "window-captionbar-icon" :
     {
-      initial : function(vTheme) {
+      initial : function() {
         return { marginRight : 2 };
       }
     },
 
     "window-captionbar-title" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           cursor      : "default",
@@ -648,11 +648,11 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "button",
 
-      state : function(vTheme, vStates)
+      state : function(states)
       {
         var vReturn = {};
 
-        if (vStates.pressed || vStates.abandoned)
+        if (states.pressed || states.abandoned)
         {
           vReturn.paddingTop = 2;
           vReturn.paddingRight = 1;
@@ -688,14 +688,14 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "window-captionbar-button",
 
-      initial : function(vTheme) {
+      initial : function() {
         return { marginLeft : 2 };
       }
     },
 
     "window-statusbar" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           border : qx.renderer.border.BorderPresets.getInstance().thinInset,
@@ -706,7 +706,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "window-statusbar-text" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           paddingTop    : 1,
@@ -729,14 +729,14 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "resizer" :
     {
-      initial : function(vTheme) {
+      initial : function() {
         return { border : qx.renderer.border.BorderPresets.getInstance().outset };
       }
     },
 
     "resizer-frame" :
     {
-      initial : function(vTheme) {
+      initial : function() {
         return { border : qx.renderer.border.BorderPresets.getInstance().shadow };
       }
     },
@@ -752,7 +752,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "menu" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           width           : "auto",
@@ -769,7 +769,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "menu-layout" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           top    : 0,
@@ -782,7 +782,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "menu-button" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           minWidth              : "auto",
@@ -798,11 +798,11 @@ qx.Theme.define("qx.theme.appearance.Classic",
         };
       },
 
-      state : function(vTheme, vStates)
+      state : function(states)
       {
         return {
-          backgroundColor : vStates.over ? "highlight" : null,
-          color           : vStates.over ? "highlighttext" : null
+          backgroundColor : states.over ? "highlight" : null,
+          color           : states.over ? "highlighttext" : null
         };
       }
     },
@@ -819,7 +819,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "menu-separator" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           height       : "auto",
@@ -833,7 +833,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "menu-separator-line" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           right  : 0,
@@ -855,7 +855,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "list" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           overflow        : "hidden",
@@ -867,7 +867,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "list-item" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           cursor                  : "default",
@@ -883,11 +883,11 @@ qx.Theme.define("qx.theme.appearance.Classic",
         };
       },
 
-      state : function(vTheme, vStates)
+      state : function(states)
       {
         return {
-          backgroundColor : vStates.selected ? "highlight" : null,
-          color           : vStates.selected ? "highlighttext" : null
+          backgroundColor : states.selected ? "highlight" : null,
+          color           : states.selected ? "highlighttext" : null
         };
       }
     },
@@ -903,7 +903,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "text-field" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           hideFocus     : true,
@@ -920,8 +920,8 @@ qx.Theme.define("qx.theme.appearance.Classic",
         };
       },
 
-      state : function(vTheme, vStates) {
-        return { color : vStates.disabled ? "graytext" : null };
+      state : function(states) {
+        return { color : states.disabled ? "graytext" : null };
       }
     },
 
@@ -929,7 +929,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "text-field",
 
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           overflow     : "auto",
@@ -952,7 +952,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "combo-box" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           minWidth        : 40,
@@ -967,7 +967,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "combo-box-ex" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           width           : "auto",
@@ -983,7 +983,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "list",
 
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           top      : 0,
@@ -1000,7 +1000,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "list",
 
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           statusBarVisible              : false,
@@ -1018,7 +1018,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "list",
 
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           height    : "auto",
@@ -1032,7 +1032,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "list",
 
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           width  : "auto",
@@ -1046,7 +1046,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "text-field",
 
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           border          : qx.renderer.border.BorderPresets.getInstance().none,
@@ -1060,7 +1060,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "text-field",
 
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           border          : qx.renderer.border.BorderPresets.getInstance().none,
@@ -1076,7 +1076,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "button",
 
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           height        : null,
@@ -1084,7 +1084,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         };
       },
 
-      state : function(vTheme, vStates)
+      state : function(states)
       {
         return {
           paddingTop    : 0,
@@ -1119,7 +1119,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "tree-element" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           height                : 16,
@@ -1130,7 +1130,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "tree-element-icon" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           width  : 16,
@@ -1143,7 +1143,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "label",
 
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           cursor        : "default",
@@ -1157,11 +1157,11 @@ qx.Theme.define("qx.theme.appearance.Classic",
         };
       },
 
-      state : function(vTheme, vStates)
+      state : function(states)
       {
         return {
-          backgroundColor : vStates.selected ? "highlight" : null,
-          color           : vStates.selected ? "highlighttext" : null
+          backgroundColor : states.selected ? "highlight" : null,
+          color           : states.selected ? "highlighttext" : null
         };
       }
     },
@@ -1173,7 +1173,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "tree-folder-icon" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           width  : 16,
@@ -1204,14 +1204,14 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "tree-container" :
     {
-      initial : function(vTheme) {
+      initial : function() {
         return { verticalChildrenAlign : "top" };
       }
     },
 
     "tree-folder-container" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           height                : "auto",
@@ -1231,7 +1231,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "list-view" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           cursor   : "default",
@@ -1242,7 +1242,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "list-view-pane" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           width             : "1*",
@@ -1260,7 +1260,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         this.border.setBottom(1, "solid", "#e2e2e2");
       },
 
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           height          : "auto",
@@ -1279,7 +1279,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         this.border_hover.setBottom(2, "solid", "#F9B119");
       },
 
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           overflow      : "hidden",
@@ -1291,9 +1291,9 @@ qx.Theme.define("qx.theme.appearance.Classic",
         };
       },
 
-      state : function(vTheme, vStates)
+      state : function(states)
       {
-        if (vStates.over)
+        if (states.over)
         {
           return {
             backgroundColor : "white",
@@ -1314,7 +1314,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "list-view-header-separator" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           backgroundColor : "#D6D5D9",
@@ -1327,11 +1327,11 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "list-view-content-cell" :
     {
-      state : function(vTheme, vStates)
+      state : function(states)
       {
         return {
-          backgroundColor : vStates.selected ? "highlight" : null,
-          color           : vStates.selected ? "highlighttext" : null
+          backgroundColor : states.selected ? "highlight" : null,
+          color           : states.selected ? "highlighttext" : null
         };
       }
     },
@@ -1340,7 +1340,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "list-view-content-cell",
 
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           paddingLeft  : 6,
@@ -1353,7 +1353,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "list-view-content-cell",
 
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           overflow     : "hidden",
@@ -1390,21 +1390,21 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "tab-view" :
     {
-      initial : function(vTheme) {
+      initial : function() {
         return { spacing : -1 };
       }
     },
 
     "tab-view-bar" :
     {
-      initial : function(vTheme) {
+      initial : function() {
         return { height : "auto" };
       }
     },
 
     "tab-view-pane" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           height          : "1*",
@@ -1420,7 +1420,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "tab-view-page" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           top    : 0,
@@ -1452,11 +1452,11 @@ qx.Theme.define("qx.theme.appearance.Classic",
         this.border_bottom_checked.setBottom(3, "solid", "#FEC83C");
       },
 
-      state : function(vTheme, vStates)
+      state : function(states)
       {
         var vReturn;
 
-        if (vStates.checked)
+        if (states.checked)
         {
           vReturn =
           {
@@ -1466,16 +1466,16 @@ qx.Theme.define("qx.theme.appearance.Classic",
             paddingBottom   : 4,
             paddingLeft     : 7,
             paddingRight    : 8,
-            border          : vStates.barTop ? this.border_top_checked : this.border_bottom_checked,
+            border          : states.barTop ? this.border_top_checked : this.border_bottom_checked,
             marginTop       : 0,
             marginBottom    : 0,
             marginRight     : -1,
             marginLeft      : -2
           };
 
-          if (vStates.alignLeft)
+          if (states.alignLeft)
           {
-            if (vStates.firstChild)
+            if (states.firstChild)
             {
               vReturn.paddingLeft = 6;
               vReturn.paddingRight = 7;
@@ -1484,7 +1484,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
           }
           else
           {
-            if (vStates.lastChild)
+            if (states.lastChild)
             {
               vReturn.paddingLeft = 8;
               vReturn.paddingRight = 5;
@@ -1496,7 +1496,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         {
           vReturn =
           {
-            backgroundColor : vStates.over ? "#FAFBFE" : "#E1EEFF",
+            backgroundColor : states.over ? "#FAFBFE" : "#E1EEFF",
             zIndex          : 0,
             paddingTop      : 2,
             paddingBottom   : 2,
@@ -1506,9 +1506,9 @@ qx.Theme.define("qx.theme.appearance.Classic",
             marginLeft      : 0
           };
 
-          if (vStates.alignLeft)
+          if (states.alignLeft)
           {
-            if (vStates.firstChild)
+            if (states.firstChild)
             {
               vReturn.paddingLeft = 6;
               vReturn.paddingRight = 5;
@@ -1516,7 +1516,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
           }
           else
           {
-            if (vStates.lastChild)
+            if (states.lastChild)
             {
               vReturn.paddingLeft = 6;
               vReturn.paddingRight = 5;
@@ -1524,7 +1524,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
             }
           }
 
-          if (vStates.barTop)
+          if (states.barTop)
           {
             vReturn.border = this.border_top_normal;
             vReturn.marginTop = 3;
@@ -1553,7 +1553,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "field-set" :
     {
-      initial : function(vTheme) {
+      initial : function() {
         return { backgroundColor : "threedface" };
       }
     },
@@ -1562,7 +1562,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "atom",
 
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           top             : 1,
@@ -1577,7 +1577,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "field-set-frame" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           top           : 8,
@@ -1597,7 +1597,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "atom",
 
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           top             : 1,
@@ -1624,7 +1624,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "spinner" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           width           : 60,
@@ -1639,7 +1639,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "text-field",
 
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           width  : "1*",
@@ -1652,7 +1652,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "button",
 
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           allowStretchX : false,
@@ -1663,7 +1663,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         };
       },
 
-      state : function(vTheme, vStates)
+      state : function(states)
       {
         return {
           paddingTop    : 0,
@@ -1678,7 +1678,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "button",
 
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           allowStretchX : false,
@@ -1689,7 +1689,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         };
       },
 
-      state : function(vTheme, vStates)
+      state : function(states)
       {
         return {
           paddingTop    : 1,
@@ -1711,7 +1711,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "colorselector" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           border : qx.renderer.border.BorderPresets.getInstance().outset,
@@ -1720,7 +1720,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         };
       },
 
-      state : function(vTheme, vStates) {}
+      state : function(states) {}
     },
 
 
@@ -1734,7 +1734,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "datechooser-toolbar-button" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           cursor                : "default",
@@ -1744,30 +1744,30 @@ qx.Theme.define("qx.theme.appearance.Classic",
         };
       },
 
-      state : function(vTheme, vStates)
+      state : function(states)
       {
         var vReturn =
         {
-          backgroundColor : vStates.abandoned ? "#FFF0C9" : "buttonface",
-          backgroundImage : (vStates.checked && !vStates.over) ? "static/image/dotted_white.gif" : null
+          backgroundColor : states.abandoned ? "#FFF0C9" : "buttonface",
+          backgroundImage : (states.checked && !states.over) ? "static/image/dotted_white.gif" : null
         };
 
-        if (vStates.pressed || vStates.checked || vStates.abandoned) {
+        if (states.pressed || states.checked || states.abandoned) {
           vReturn.border = qx.renderer.border.BorderPresets.getInstance().thinInset;
-        } else if (vStates.over) {
+        } else if (states.over) {
           vReturn.border = qx.renderer.border.BorderPresets.getInstance().thinOutset;
         } else {
           vReturn.border = null;
         }
 
-        if (vStates.pressed || vStates.checked || vStates.abandoned)
+        if (states.pressed || states.checked || states.abandoned)
         {
           vReturn.paddingTop = 2;
           vReturn.paddingRight = 0;
           vReturn.paddingBottom = 0;
           vReturn.paddingLeft = 2;
         }
-        else if (vStates.over)
+        else if (states.over)
         {
           vReturn.paddingTop = vReturn.paddingBottom = 1;
           vReturn.paddingLeft = vReturn.paddingRight = 1;
@@ -1784,7 +1784,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "datechooser-monthyear" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           font          : '13px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
@@ -1796,7 +1796,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "datechooser-datepane" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           border          : "1px solid gray",
@@ -1813,7 +1813,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         this.border.setBottom(1, "solid", "gray");
       },
 
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           border    : this.border,
@@ -1822,18 +1822,18 @@ qx.Theme.define("qx.theme.appearance.Classic",
         };
       },
 
-      state : function(vTheme, vStates)
+      state : function(states)
       {
         return {
-          color           : vStates.weekend ? "#6285BA" : "window",
-          backgroundColor : vStates.weekend ? "window" : "#6285BA"
+          color           : states.weekend ? "#6285BA" : "window",
+          backgroundColor : states.weekend ? "window" : "#6285BA"
         };
       }
     },
 
     "datechooser-day" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           cursor        : "default",
@@ -1845,12 +1845,12 @@ qx.Theme.define("qx.theme.appearance.Classic",
         };
       },
 
-      state : function(vTheme, vStates)
+      state : function(states)
       {
         return {
-          border          : vStates.today ? qx.renderer.border.BorderPresets.getInstance().black : "1px none",
-          color           : vStates.selected ? "highlightText" : vStates.otherMonth ? "graytext" : "windowText",
-          backgroundColor : vStates.selected ? "highlight" : null
+          border          : states.today ? qx.renderer.border.BorderPresets.getInstance().black : "1px none",
+          color           : states.selected ? "highlightText" : states.otherMonth ? "graytext" : "windowText",
+          backgroundColor : states.selected ? "highlight" : null
         };
       }
     },
@@ -1867,7 +1867,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         this.headerBorder.setBottom(1, "solid", "gray");
       },
 
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           font        : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
@@ -1876,10 +1876,10 @@ qx.Theme.define("qx.theme.appearance.Classic",
         };
       },
 
-      state : function(vTheme, vStates)
+      state : function(states)
       {
         return {
-          border : vStates.header ? this.headerBorder : this.border
+          border : states.header ? this.headerBorder : this.border
         };
       }
     },
@@ -1901,7 +1901,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         this.border.setTop(1, "solid", "threedshadow");
       },
 
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           font         : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
@@ -1921,17 +1921,17 @@ qx.Theme.define("qx.theme.appearance.Classic",
         this.editingBorder = new qx.renderer.border.Border(2, "solid", "#b3d9ff");
       },
 
-      state : function(vTheme, vStates)
+      state : function(states)
       {
         return {
-          border : vStates.editing ? this.editingBorder : (vStates.tableHasFocus ? this.border : this.blurBorder)
+          border : states.editing ? this.editingBorder : (states.tableHasFocus ? this.border : this.blurBorder)
         };
       }
     },
 
     "table-editor-textfield" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           font          : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
@@ -1971,7 +1971,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         });
       },
 
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           cursor                : "default",
@@ -1985,11 +1985,11 @@ qx.Theme.define("qx.theme.appearance.Classic",
         };
       },
 
-      state : function(vTheme, vStates)
+      state : function(states)
       {
         return {
-          backgroundColor : vStates.mouseover ? "white" : "#ebeadb",
-          border          : vStates.mouseover ? this.mouseOverBorder : this.border
+          backgroundColor : states.mouseover ? "white" : "#ebeadb",
+          border          : states.mouseover ? this.mouseOverBorder : this.border
         };
       }
     },
@@ -2005,14 +2005,14 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "splitpane" :
     {
-      initial : function(vTheme) {
+      initial : function() {
         return { overflow : "hidden" };
       }
     },
 
     "splitpane-glasspane" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           zIndex          : 1e7,
@@ -2020,25 +2020,25 @@ qx.Theme.define("qx.theme.appearance.Classic",
         };
       },
 
-      state : function(vTheme, vStates) {
-        return { opacity : vStates.visible ? 0.2 : 0 };
+      state : function(states) {
+        return { opacity : states.visible ? 0.2 : 0 };
       }
     },
 
     "splitpane-splitter" :
     {
-      initial : function(vTheme) {
+      initial : function() {
         return { backgroundColor : "threedface" };
       },
 
-      state : function(vTheme, vStates) {
-        return { cursor : vStates.horizontal ? "col-resize" : "row-resize" };
+      state : function(states) {
+        return { cursor : states.horizontal ? "col-resize" : "row-resize" };
       }
     },
 
     "splitpane-slider" :
     {
-      initial : function(vTheme)
+      initial : function()
       {
         return {
           opacity : 0.5,
@@ -2046,18 +2046,18 @@ qx.Theme.define("qx.theme.appearance.Classic",
         };
       },
 
-      state : function(vTheme, vStates) {
-        return { backgroundColor : vStates.dragging ? "threeddarkshadow" : "threedface" };
+      state : function(states) {
+        return { backgroundColor : states.dragging ? "threeddarkshadow" : "threedface" };
       }
     },
 
     "splitpane-knob" :
     {
-      state : function(vTheme, vStates)
+      state : function(states)
       {
-        var vReturn = { opacity : vStates.dragging ? 0.5 : 1.0 };
+        var vReturn = { opacity : states.dragging ? 0.5 : 1.0 };
 
-        if (vStates.horizontal)
+        if (states.horizontal)
         {
           vReturn.top = "33%";
           vReturn.left = null;
@@ -2065,7 +2065,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
           vReturn.marginTop = 0;
           vReturn.cursor = "col-resize";
         }
-        else if (vStates.vertical)
+        else if (states.vertical)
         {
           vReturn.top = null;
           vReturn.left = "33%";
