@@ -761,7 +761,7 @@ def getSortedList(options, fileDb, moduleDb):
 
   if len(includeCombined) == 0:
     print "    - Could not find any classes to include. Maybe malformed parameter set!"
-    sys.exit(1)
+    # sys.exit(1)
 
 
 
