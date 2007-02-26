@@ -809,10 +809,19 @@ qx.Clazz.define("qx.ui.basic.Image",
     }
   },
 
-  defer : function(clazz, proto)
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics, members)
   {
     if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-      proto._applyEnabled = proto._postApply;
+      members._applyEnabled = members._postApply;
     }
   }
 
