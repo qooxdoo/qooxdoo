@@ -1518,11 +1518,11 @@ qx.Clazz.define("qx.renderer.border.Border",
 
   defer : qx.core.Variant.select("qx.client",
   {
-    "gecko": function(clazz, proto)
+    "gecko": function(statics, members)
     {
       // set up alias
-      proto.applyWidgetX = proto.applyWidgetXCommon;
-      proto.applyWidgetY = proto.applyWidgetYCommon;
+      members.applyWidgetX = members.applyWidgetXCommon;
+      members.applyWidgetY = members.applyWidgetYCommon;
     },
 
     "default": function() {

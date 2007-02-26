@@ -50,7 +50,9 @@ qx.Clazz.define("feedreader.ArticleView",
   *****************************************************************************
   */
 
-  properties : { article : { _legacy : true } },
+  properties : { 
+    article : { _legacy : true } 
+  },
 
 
 
