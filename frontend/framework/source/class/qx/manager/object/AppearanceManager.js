@@ -208,7 +208,7 @@ qx.Clazz.define("qx.manager.object.AppearanceManager",
 
       if (entry.initial)
       {
-        ret = entry.initial(this);
+        ret = entry.initial();
       }
 
       if (entry.extend)
@@ -273,11 +273,13 @@ qx.Clazz.define("qx.manager.object.AppearanceManager",
       // Otherwise "compile" the appearance
       var ret;
 
+      // This is the place where we really call the appearance theme
       if (entry.state)
       {
-        ret = entry.state(this, states);
+        ret = entry.state(states);
       }
 
+      // Fill data with data from inheritance
       if (entry.extend)
       {
         var extend = this.stateFromTheme(theme, entry.extend, states);
@@ -292,6 +294,7 @@ qx.Clazz.define("qx.manager.object.AppearanceManager",
         }
       }
 
+      // Cache new entry
 			cache[unique] = ret || null;
 			//console.log("Cached: " + qx.lang.Object.getLength(cache) + " :: " + unique);
 
