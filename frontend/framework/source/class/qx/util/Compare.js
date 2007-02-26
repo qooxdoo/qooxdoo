@@ -216,11 +216,20 @@ qx.Clazz.define("qx.util.Compare",
     }
   },
 
-  defer : function(clazz, proto)
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics)
   {
     // define alias
-    clazz.byInteger = clazz.byNumber = clazz.byFloat;
-    clazz.byNumberString = clazz.byFloatString;
+    statics.byInteger = statics.byNumber = statics.byFloat;
+    statics.byNumberString = statics.byFloatString;
   }
 
 });

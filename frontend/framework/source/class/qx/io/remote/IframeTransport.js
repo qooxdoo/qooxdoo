@@ -26,6 +26,7 @@
 
 #module(io_remote)
 #embed(qx.static/image/blank.gif)
+#require(qx.io.remote.Exchange)
 
 ************************************************************************ */
 

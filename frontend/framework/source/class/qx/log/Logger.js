@@ -521,11 +521,19 @@ qx.Clazz.define("qx.log.Logger",
   },
 
 
-  defer : function(clazz, proto) {
-    clazz.ROOT_LOGGER = new clazz("root", null);
-    clazz.ROOT_LOGGER.setMinLevel(qx.core.Setting.get("qx.minLogLevel"));
-    clazz.ROOT_LOGGER.addAppender(new (qx.Clazz.getByName(qx.core.Setting.get("qx.logAppender"))));
-  }
 
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics) {
+    statics.ROOT_LOGGER = new statics("root", null);
+    statics.ROOT_LOGGER.setMinLevel(qx.core.Setting.get("qx.minLogLevel"));
+    statics.ROOT_LOGGER.addAppender(new (qx.Clazz.getByName(qx.core.Setting.get("qx.logAppender"))));
+  }
+  
 });
 

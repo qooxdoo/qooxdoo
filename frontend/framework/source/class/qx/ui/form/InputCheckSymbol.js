@@ -188,13 +188,22 @@ qx.Clazz.define("qx.ui.form.InputCheckSymbol",
     }
   },
 
-  defer : function(clazz, proto)
-  {
-    proto.getBoxWidth = proto.getPreferredBoxWidth;
-    proto.getBoxHeight = proto.getPreferredBoxHeight;
 
-    proto.getInnerWidth = proto.getPreferredBoxWidth;
-    proto.getInnerHeight = proto.getPreferredBoxHeight;
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics, members)
+  {
+    members.getBoxWidth = members.getPreferredBoxWidth;
+    members.getBoxHeight = members.getPreferredBoxHeight;
+
+    members.getInnerWidth = members.getPreferredBoxWidth;
+    members.getInnerHeight = members.getPreferredBoxHeight;
   }
 
 });

@@ -113,7 +113,12 @@ qx.Clazz.define("qx.event.type.KeyEvent",
       numpad_multiply : 106,
       numpad_minus    : 109,
       numpad_plus     : 107
-    }
+    },
+    
+    /**
+     * Mapping of the key codes to the key identifiers
+     */ 
+    codes : {}
   },
 
 
@@ -217,13 +222,11 @@ qx.Clazz.define("qx.event.type.KeyEvent",
   *****************************************************************************
   */
 
-  defer : function()
+  defer : function(statics)
   {
     // create dynamic codes copy
-    qx.event.type.KeyEvent.codes = {};
-
-    for (var i in qx.event.type.KeyEvent.keys) {
-      qx.event.type.KeyEvent.codes[qx.event.type.KeyEvent.keys[i]] = i;
+    for (var i in statics.keys) {
+      statics.codes[statics.keys[i]] = i;
     }
   }
 });
