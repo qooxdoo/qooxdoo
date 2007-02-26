@@ -46,7 +46,7 @@ qx.Clazz.define("qx.manager.object.AppearanceManager",
     qx.manager.object.ObjectManager.call(this);
 
     // Themes
-    this._appearanceThemes = {};
+    this.__themes = {};
   },
 
 
@@ -102,7 +102,7 @@ qx.Clazz.define("qx.manager.object.AppearanceManager",
      */
     registerAppearanceTheme : function(vThemeClass)
     {
-      this._appearanceThemes[vThemeClass.name] = vThemeClass;
+      this.__themes[vThemeClass.name] = vThemeClass;
 
       if (vThemeClass.name == qx.core.Setting.get("qx.appearanceTheme")) {
         this.setAppearanceTheme(vThemeClass);
@@ -134,6 +134,11 @@ qx.Clazz.define("qx.manager.object.AppearanceManager",
       if (vComp && vComp.isUiReady()) {
         qx.ui.core.ClientDocument.getInstance()._recursiveAppearanceThemeUpdate(propValue, propOldValue);
       }
+
+			// Reset cache
+			if (propValue) {
+				this.__cache = {};
+			}
 
       return true;
     },
@@ -223,6 +228,8 @@ qx.Clazz.define("qx.manager.object.AppearanceManager",
       return ret;
     },
 
+    __cache : {},
+
 
     /**
      * Get the result of the "state" function for a given id and states
@@ -235,6 +242,7 @@ qx.Clazz.define("qx.manager.object.AppearanceManager",
      */
     stateFromTheme : function(theme, id, states)
     {
+			var cache = this.__cache;
       var entry = theme.appearances[id];
 
       if (!entry) {
@@ -249,6 +257,20 @@ qx.Clazz.define("qx.manager.object.AppearanceManager",
         entry.setup = null;
       }
 
+      // Creating cache-able ID
+      var helper = [];
+			for (var state in states) {
+				helper.push(state);
+			}
+			helper.sort().unshift(id);
+			var unique = helper.join(":");
+ 
+      // Using cache if available
+      if (cache[unique] !== undefined) {
+				return cache[unique];
+			}
+			
+      // Otherwise "compile" the appearance
       var ret;
 
       if (entry.state)
@@ -269,6 +291,9 @@ qx.Clazz.define("qx.manager.object.AppearanceManager",
           ret = extend;
         }
       }
+
+			cache[unique] = ret || null;
+			//console.log("Cached: " + qx.lang.Object.getLength(cache) + " :: " + unique);
 
       return ret;
     },
@@ -294,8 +319,8 @@ qx.Clazz.define("qx.manager.object.AppearanceManager",
         return;
       }
 
-      // Themes
-      this._appearanceThemes = null;
+      this.__cache = null;
+      this.__themes = null;
 
       return qx.manager.object.ObjectManager.prototype.dispose.call(this);
     }
