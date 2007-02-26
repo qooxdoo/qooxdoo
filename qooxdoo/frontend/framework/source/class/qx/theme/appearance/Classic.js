@@ -45,7 +45,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "image" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           allowStretchX : false,
@@ -56,7 +56,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "client-document" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           backgroundColor    : "threedface",
@@ -69,7 +69,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "blocker" :
     {
-      initial : function()
+      style : function(states)
       {
         // You could also use: "static/image/dotted_white.gif" for example as backgroundImage here
         // (Visible) background tiles could be dramatically slow down mshtml!
@@ -83,7 +83,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "atom" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           cursor                        : "default",
@@ -101,16 +101,13 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "label" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           font : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
-          wrap : false
+          wrap : false,
+          color : states.disabled ? "graytext" : null
         };
-      },
-
-      state : function(states) {
-        return { color : states.disabled ? "graytext" : null };
       }
     },
 
@@ -121,7 +118,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "popup" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           width  : "auto",
@@ -134,7 +131,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "popup",
 
-      initial : function()
+      style : function(states)
       {
         return {
           backgroundColor : "InfoBackground",
@@ -150,7 +147,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "iframe" :
     {
-      initial : function() {
+      style : function(states) {
         return { border : qx.renderer.border.BorderPresets.getInstance().inset };
       }
     },
@@ -168,35 +165,35 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "atom",
 
-      state : function(states)
+      style : function(states)
       {
-        var vReturn = {
+        var result = {
           backgroundColor : states.abandoned ? "#FFF0C9" : states.over ? "#87BCE5" : "buttonface"
         };
 
         if (states.pressed || states.checked || states.abandoned)
         {
-          vReturn.border = qx.renderer.border.BorderPresets.getInstance().inset;
+          result.border = qx.renderer.border.BorderPresets.getInstance().inset;
         }
         else
         {
-          vReturn.border = qx.renderer.border.BorderPresets.getInstance().outset;
+          result.border = qx.renderer.border.BorderPresets.getInstance().outset;
         }
 
         if (states.pressed || states.abandoned)
         {
-          vReturn.paddingTop = 4;
-          vReturn.paddingRight = 3;
-          vReturn.paddingBottom = 2;
-          vReturn.paddingLeft = 5;
+          result.paddingTop = 4;
+          result.paddingRight = 3;
+          result.paddingBottom = 2;
+          result.paddingLeft = 5;
         }
         else
         {
-          vReturn.paddingTop = vReturn.paddingBottom = 3;
-          vReturn.paddingRight = vReturn.paddingLeft = 4;
+          result.paddingTop = result.paddingBottom = 3;
+          result.paddingRight = result.paddingLeft = 4;
         }
 
-        return vReturn;
+        return result;
       }
     },
 
@@ -211,7 +208,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "toolbar" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           border          : qx.renderer.border.BorderPresets.getInstance().thinOutset,
@@ -223,21 +220,21 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "toolbar-part" :
     {
-      initial : function() {
+      style : function(states) {
         return { width : "auto" };
       }
     },
 
     "toolbar-part-handle" :
     {
-      initial : function() {
+      style : function(states) {
         return { width : 10 };
       }
     },
 
     "toolbar-part-handle-line" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           top    : 2,
@@ -251,7 +248,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "toolbar-separator" :
     {
-      initial : function() {
+      style : function(states) {
         return { width : 8 };
       }
     },
@@ -274,7 +271,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         b.setBottomWidth(0);
       },
 
-      initial : function()
+      style : function(states)
       {
         return {
           top    : 2,
@@ -288,49 +285,43 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "toolbar-button" :
     {
-      initial : function()
+      style : function(states)
       {
-        return {
+        var result =
+        {
           cursor                : "default",
           spacing               : 4,
           width                 : "auto",
-          verticalChildrenAlign : "middle"
-        };
-      },
-
-      state : function(states)
-      {
-        var vReturn =
-        {
-          backgroundColor : states.abandoned ? "#FFF0C9" : "buttonface",
-          backgroundImage : states.checked && !states.over ? "static/image/dotted_white.gif" : null
+          verticalChildrenAlign : "middle",
+          backgroundColor       : states.abandoned ? "#FFF0C9" : "buttonface",
+          backgroundImage       : states.checked && !states.over ? "static/image/dotted_white.gif" : null
         };
 
         if (states.pressed || states.checked || states.abandoned)
         {
-          vReturn.border = qx.renderer.border.BorderPresets.getInstance().thinInset;
+          result.border = qx.renderer.border.BorderPresets.getInstance().thinInset;
 
-          vReturn.paddingTop = 3;
-          vReturn.paddingRight = 2;
-          vReturn.paddingBottom = 1;
-          vReturn.paddingLeft = 4;
+          result.paddingTop = 3;
+          result.paddingRight = 2;
+          result.paddingBottom = 1;
+          result.paddingLeft = 4;
         }
         else if (states.over)
         {
-          vReturn.border = qx.renderer.border.BorderPresets.getInstance().thinOutset;
+          result.border = qx.renderer.border.BorderPresets.getInstance().thinOutset;
 
-          vReturn.paddingTop = vReturn.paddingBottom = 2;
-          vReturn.paddingLeft = vReturn.paddingRight = 3;
+          result.paddingTop = result.paddingBottom = 2;
+          result.paddingLeft = result.paddingRight = 3;
         }
         else
         {
-          vReturn.border = qx.renderer.border.BorderPresets.getInstance().none;
+          result.border = qx.renderer.border.BorderPresets.getInstance().none;
 
-          vReturn.paddingTop = vReturn.paddingBottom = 3;
-          vReturn.paddingLeft = vReturn.paddingRight = 4;
+          result.paddingTop = result.paddingBottom = 3;
+          result.paddingLeft = result.paddingRight = 4;
         }
 
-        return vReturn;
+        return result;
       }
     },
 
@@ -345,7 +336,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "bar-view" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           backgroundColor : "#FAFBFE",
@@ -356,7 +347,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "bar-view-pane" :
     {
-      state : function(states)
+      style : function(states)
       {
         if (states.barHorizontal)
         {
@@ -377,7 +368,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "bar-view-page" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           left   : 10,
@@ -405,18 +396,12 @@ qx.Theme.define("qx.theme.appearance.Classic",
         this.border_right.setLeft(1, "solid", "threedshadow");
       },
 
-      initial : function()
-      {
-        return {
-          backgroundColor : "#E1EEFF"
-        };
-      },
-
-      state : function(states)
+      style : function(states)
       {
         if (states.barTop)
         {
           return {
+						backgroundColor : "#E1EEFF",
             paddingTop    : 1,
             paddingRight  : 0,
             paddingBottom : 1,
@@ -430,6 +415,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         else if (states.barBottom)
         {
           return {
+						backgroundColor : "#E1EEFF",
             paddingTop    : 1,
             paddingRight  : 0,
             paddingBottom : 1,
@@ -443,6 +429,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         else if (states.barLeft)
         {
           return {
+						backgroundColor : "#E1EEFF",
             paddingTop    : 0,
             paddingRight  : 1,
             paddingBottom : 0,
@@ -456,6 +443,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         else if (states.barRight)
         {
           return {
+						backgroundColor : "#E1EEFF",
             paddingTop    : 0,
             paddingRight  : 1,
             paddingBottom : 0,
@@ -488,80 +476,74 @@ qx.Theme.define("qx.theme.appearance.Classic",
         this.border_right_checked.setLeft(3, "solid", "#FEC83C");
       },
 
-      initial : function()
+      style : function(states)
       {
-        return {
-          iconPosition : "top"
-        };
-      },
-
-      state : function(states)
-      {
-        var vReturn =
+        var result =
         {
           backgroundColor : states.checked ? "#FAFBFE" : null,
           allowStretchX   : true,
-          allowStretchY   : true
+          allowStretchY   : true,
+          iconPosition : "top"
         };
 
         if (states.checked || states.over)
         {
           if (states.barTop)
           {
-            vReturn.border = this.border_top_checked;
-            vReturn.paddingTop = 3;
-            vReturn.paddingRight = 6;
-            vReturn.paddingBottom = 1;
-            vReturn.paddingLeft = 6;
+            result.border = this.border_top_checked;
+            result.paddingTop = 3;
+            result.paddingRight = 6;
+            result.paddingBottom = 1;
+            result.paddingLeft = 6;
           }
           else if (states.barBottom)
           {
-            vReturn.border = this.border_bottom_checked;
-            vReturn.paddingTop = 1;
-            vReturn.paddingRight = 6;
-            vReturn.paddingBottom = 3;
-            vReturn.paddingLeft = 6;
+            result.border = this.border_bottom_checked;
+            result.paddingTop = 1;
+            result.paddingRight = 6;
+            result.paddingBottom = 3;
+            result.paddingLeft = 6;
           }
           else if (states.barLeft)
           {
-            vReturn.border = this.border_left_checked;
-            vReturn.paddingTop = 3;
-            vReturn.paddingRight = 4;
-            vReturn.paddingBottom = 3;
-            vReturn.paddingLeft = 6;
+            result.border = this.border_left_checked;
+            result.paddingTop = 3;
+            result.paddingRight = 4;
+            result.paddingBottom = 3;
+            result.paddingLeft = 6;
           }
           else if (states.barRight)
           {
-            vReturn.border = this.border_right_checked;
-            vReturn.paddingTop = 3;
-            vReturn.paddingRight = 6;
-            vReturn.paddingBottom = 3;
-            vReturn.paddingLeft = 4;
+            result.border = this.border_right_checked;
+            result.paddingTop = 3;
+            result.paddingRight = 6;
+            result.paddingBottom = 3;
+            result.paddingLeft = 4;
           }
         }
         else
         {
-          vReturn.border = qx.renderer.border.BorderPresets.getInstance().none;
-          vReturn.paddingTop = vReturn.paddingBottom = 4;
-          vReturn.paddingRight = vReturn.paddingLeft = 7;
+          result.border = qx.renderer.border.BorderPresets.getInstance().none;
+          result.paddingTop = result.paddingBottom = 4;
+          result.paddingRight = result.paddingLeft = 7;
         }
 
         if (states.barTop || states.barBottom)
         {
-          vReturn.marginTop = vReturn.marginBottom = 0;
-          vReturn.marginRight = vReturn.marginLeft = 1;
-          vReturn.width = "auto";
-          vReturn.height = null;
+          result.marginTop = result.marginBottom = 0;
+          result.marginRight = result.marginLeft = 1;
+          result.width = "auto";
+          result.height = null;
         }
         else if (states.barLeft || states.barRight)
         {
-          vReturn.marginTop = vReturn.marginBottom = 1;
-          vReturn.marginRight = vReturn.marginLeft = 0;
-          vReturn.height = "auto";
-          vReturn.width = null;
+          result.marginTop = result.marginBottom = 1;
+          result.marginRight = result.marginLeft = 0;
+          result.height = "auto";
+          result.width = null;
         }
 
-        return vReturn;
+        return result;
       }
     },
 
@@ -576,7 +558,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "window" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           backgroundColor : "threedface",
@@ -584,18 +566,17 @@ qx.Theme.define("qx.theme.appearance.Classic",
           paddingTop      : 1,
           paddingRight    : 1,
           paddingBottom   : 1,
-          paddingLeft     : 1
+          paddingLeft     : 1,
+          border : states.maximized ? 
+            qx.renderer.border.BorderPresets.getInstance().none : 
+						qx.renderer.border.BorderPresets.getInstance().outset
         };
-      },
-
-      state : function(states) {
-        return { border : states.maximized ? qx.renderer.border.BorderPresets.getInstance().none : qx.renderer.border.BorderPresets.getInstance().outset };
       }
     },
 
     "window-captionbar" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           paddingTop            : 1,
@@ -604,13 +585,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
           paddingLeft           : 2,
           verticalChildrenAlign : "middle",
           height                : "auto",
-          overflow              : "hidden"
-        };
-      },
-
-      state : function(states)
-      {
-        return {
+          overflow              : "hidden",
           backgroundColor : states.active ? "activecaption" : "inactivecaption",
           color           : states.active ? "captiontext" : "inactivecaptiontext"
         };
@@ -619,21 +594,21 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "window-resize-frame" :
     {
-      initial : function() {
+      style : function(states) {
         return { border : qx.renderer.border.BorderPresets.getInstance().shadow };
       }
     },
 
     "window-captionbar-icon" :
     {
-      initial : function() {
+      style : function(states) {
         return { marginRight : 2 };
       }
     },
 
     "window-captionbar-title" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           cursor      : "default",
@@ -648,24 +623,24 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "button",
 
-      state : function(states)
+      style : function(states)
       {
-        var vReturn = {};
+        var result = {};
 
         if (states.pressed || states.abandoned)
         {
-          vReturn.paddingTop = 2;
-          vReturn.paddingRight = 1;
-          vReturn.paddingBottom = 0;
-          vReturn.paddingLeft = 3;
+          result.paddingTop = 2;
+          result.paddingRight = 1;
+          result.paddingBottom = 0;
+          result.paddingLeft = 3;
         }
         else
         {
-          vReturn.paddingTop = vReturn.paddingBottom = 1;
-          vReturn.paddingRight = vReturn.paddingLeft = 2;
+          result.paddingTop = result.paddingBottom = 1;
+          result.paddingRight = result.paddingLeft = 2;
         }
 
-        return vReturn;
+        return result;
       }
     },
 
@@ -688,14 +663,14 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "window-captionbar-button",
 
-      initial : function() {
+      style : function(states) {
         return { marginLeft : 2 };
       }
     },
 
     "window-statusbar" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           border : qx.renderer.border.BorderPresets.getInstance().thinInset,
@@ -706,7 +681,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "window-statusbar-text" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           paddingTop    : 1,
@@ -729,14 +704,14 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "resizer" :
     {
-      initial : function() {
+      style : function(states) {
         return { border : qx.renderer.border.BorderPresets.getInstance().outset };
       }
     },
 
     "resizer-frame" :
     {
-      initial : function() {
+      style : function(states) {
         return { border : qx.renderer.border.BorderPresets.getInstance().shadow };
       }
     },
@@ -752,7 +727,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "menu" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           width           : "auto",
@@ -769,7 +744,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "menu-layout" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           top    : 0,
@@ -782,7 +757,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "menu-button" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           minWidth              : "auto",
@@ -794,15 +769,9 @@ qx.Theme.define("qx.theme.appearance.Classic",
           paddingLeft           : 4,
           cursor                : "default",
           verticalChildrenAlign : "middle",
-          allowStretchX         : true
-        };
-      },
-
-      state : function(states)
-      {
-        return {
-          backgroundColor : states.over ? "highlight" : null,
-          color           : states.over ? "highlighttext" : null
+          allowStretchX         : true,
+          backgroundColor 			: states.over ? "highlight" : null,
+          color           			: states.over ? "highlighttext" : null
         };
       }
     },
@@ -819,7 +788,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "menu-separator" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           height       : "auto",
@@ -833,7 +802,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "menu-separator-line" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           right  : 0,
@@ -855,7 +824,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "list" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           overflow        : "hidden",
@@ -867,7 +836,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "list-item" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           cursor                  : "default",
@@ -879,15 +848,9 @@ qx.Theme.define("qx.theme.appearance.Classic",
           paddingRight            : 5,
           paddingBottom           : 3,
           paddingLeft             : 5,
-          minWidth                : "auto"
-        };
-      },
-
-      state : function(states)
-      {
-        return {
-          backgroundColor : states.selected ? "highlight" : null,
-          color           : states.selected ? "highlighttext" : null
+          minWidth                : "auto",
+          backgroundColor 				: states.selected ? "highlight" : null,
+          color           				: states.selected ? "highlighttext" : null
         };
       }
     },
@@ -903,7 +866,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "text-field" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           hideFocus     : true,
@@ -916,12 +879,9 @@ qx.Theme.define("qx.theme.appearance.Classic",
           allowStretchX : true,
           font          : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
           width         : "auto",
-          height        : "auto"
+          height        : "auto",
+          color 				: states.disabled ? "graytext" : null
         };
-      },
-
-      state : function(states) {
-        return { color : states.disabled ? "graytext" : null };
       }
     },
 
@@ -929,7 +889,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "text-field",
 
-      initial : function()
+      style : function(states)
       {
         return {
           overflow     : "auto",
@@ -952,7 +912,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "combo-box" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           minWidth        : 40,
@@ -967,7 +927,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "combo-box-ex" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           width           : "auto",
@@ -983,7 +943,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "list",
 
-      initial : function()
+      style : function(states)
       {
         return {
           top      : 0,
@@ -1000,7 +960,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "list",
 
-      initial : function()
+      style : function(states)
       {
         return {
           statusBarVisible              : false,
@@ -1018,7 +978,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "list",
 
-      initial : function()
+      style : function(states)
       {
         return {
           height    : "auto",
@@ -1032,7 +992,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "list",
 
-      initial : function()
+      style : function(states)
       {
         return {
           width  : "auto",
@@ -1046,7 +1006,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "text-field",
 
-      initial : function()
+      style : function(states)
       {
         return {
           border          : qx.renderer.border.BorderPresets.getInstance().none,
@@ -1060,7 +1020,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "text-field",
 
-      initial : function()
+      style : function(states)
       {
         return {
           border          : qx.renderer.border.BorderPresets.getInstance().none,
@@ -1076,17 +1036,11 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "button",
 
-      initial : function()
+      style : function(states)
       {
         return {
           height        : null,
-          allowStretchY : true
-        };
-      },
-
-      state : function(states)
-      {
-        return {
+          allowStretchY : true,
           paddingTop    : 0,
           paddingRight  : 3,
           paddingBottom : 0,
@@ -1119,7 +1073,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "tree-element" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           height                : 16,
@@ -1130,7 +1084,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "tree-element-icon" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           width  : 16,
@@ -1143,7 +1097,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "label",
 
-      initial : function()
+      style : function(states)
       {
         return {
           cursor        : "default",
@@ -1153,13 +1107,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
           paddingRight  : 2,
           paddingBottom : 2,
           paddingLeft   : 2,
-          allowStretchY : false
-        };
-      },
-
-      state : function(states)
-      {
-        return {
+          allowStretchY : false,
           backgroundColor : states.selected ? "highlight" : null,
           color           : states.selected ? "highlighttext" : null
         };
@@ -1173,7 +1121,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "tree-folder-icon" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           width  : 16,
@@ -1204,14 +1152,14 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "tree-container" :
     {
-      initial : function() {
+      style : function(states) {
         return { verticalChildrenAlign : "top" };
       }
     },
 
     "tree-folder-container" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           height                : "auto",
@@ -1231,7 +1179,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "list-view" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           cursor   : "default",
@@ -1242,7 +1190,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "list-view-pane" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           width             : "1*",
@@ -1260,7 +1208,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         this.border.setBottom(1, "solid", "#e2e2e2");
       },
 
-      initial : function()
+      style : function(states)
       {
         return {
           height          : "auto",
@@ -1279,7 +1227,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         this.border_hover.setBottom(2, "solid", "#F9B119");
       },
 
-      initial : function()
+      style : function(states)
       {
         return {
           overflow      : "hidden",
@@ -1287,34 +1235,17 @@ qx.Theme.define("qx.theme.appearance.Classic",
           paddingRight  : 6,
           paddingBottom : 2,
           paddingLeft   : 6,
-          spacing       : 4
+          spacing       : 4,
+          backgroundColor : states.over ? "white" : null,
+          paddingBottom   : states.over ? 0 : 2,
+          border          : states.over ? this.border_hover : null
         };
-      },
-
-      state : function(states)
-      {
-        if (states.over)
-        {
-          return {
-            backgroundColor : "white",
-            paddingBottom   : 0,
-            border          : this.border_hover
-          };
-        }
-        else
-        {
-          return {
-            backgroundColor : null,
-            paddingBottom   : 2,
-            border          : null
-          };
-        }
       }
     },
 
     "list-view-header-separator" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           backgroundColor : "#D6D5D9",
@@ -1327,7 +1258,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "list-view-content-cell" :
     {
-      state : function(states)
+      style : function(states)
       {
         return {
           backgroundColor : states.selected ? "highlight" : null,
@@ -1340,7 +1271,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "list-view-content-cell",
 
-      initial : function()
+      style : function(states)
       {
         return {
           paddingLeft  : 6,
@@ -1353,7 +1284,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "list-view-content-cell",
 
-      initial : function()
+      style : function(states)
       {
         return {
           overflow     : "hidden",
@@ -1390,21 +1321,21 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "tab-view" :
     {
-      initial : function() {
+      style : function(states) {
         return { spacing : -1 };
       }
     },
 
     "tab-view-bar" :
     {
-      initial : function() {
+      style : function(states) {
         return { height : "auto" };
       }
     },
 
     "tab-view-pane" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           height          : "1*",
@@ -1420,7 +1351,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "tab-view-page" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           top    : 0,
@@ -1452,13 +1383,13 @@ qx.Theme.define("qx.theme.appearance.Classic",
         this.border_bottom_checked.setBottom(3, "solid", "#FEC83C");
       },
 
-      state : function(states)
+      style : function(states)
       {
-        var vReturn;
+        var result;
 
         if (states.checked)
         {
-          vReturn =
+          result =
           {
             backgroundColor : "#FAFBFE",
             zIndex          : 1,
@@ -1477,24 +1408,24 @@ qx.Theme.define("qx.theme.appearance.Classic",
           {
             if (states.firstChild)
             {
-              vReturn.paddingLeft = 6;
-              vReturn.paddingRight = 7;
-              vReturn.marginLeft = 0;
+              result.paddingLeft = 6;
+              result.paddingRight = 7;
+              result.marginLeft = 0;
             }
           }
           else
           {
             if (states.lastChild)
             {
-              vReturn.paddingLeft = 8;
-              vReturn.paddingRight = 5;
-              vReturn.marginRight = 0;
+              result.paddingLeft = 8;
+              result.paddingRight = 5;
+              result.marginRight = 0;
             }
           }
         }
         else
         {
-          vReturn =
+          result =
           {
             backgroundColor : states.over ? "#FAFBFE" : "#E1EEFF",
             zIndex          : 0,
@@ -1510,35 +1441,35 @@ qx.Theme.define("qx.theme.appearance.Classic",
           {
             if (states.firstChild)
             {
-              vReturn.paddingLeft = 6;
-              vReturn.paddingRight = 5;
+              result.paddingLeft = 6;
+              result.paddingRight = 5;
             }
           }
           else
           {
             if (states.lastChild)
             {
-              vReturn.paddingLeft = 6;
-              vReturn.paddingRight = 5;
-              vReturn.marginRight = 0;
+              result.paddingLeft = 6;
+              result.paddingRight = 5;
+              result.marginRight = 0;
             }
           }
 
           if (states.barTop)
           {
-            vReturn.border = this.border_top_normal;
-            vReturn.marginTop = 3;
-            vReturn.marginBottom = 1;
+            result.border = this.border_top_normal;
+            result.marginTop = 3;
+            result.marginBottom = 1;
           }
           else
           {
-            vReturn.border = this.border_bottom_normal;
-            vReturn.marginTop = 1;
-            vReturn.marginBottom = 3;
+            result.border = this.border_bottom_normal;
+            result.marginTop = 1;
+            result.marginBottom = 3;
           }
         }
 
-        return vReturn;
+        return result;
       }
     },
 
@@ -1553,7 +1484,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "field-set" :
     {
-      initial : function() {
+      style : function(states) {
         return { backgroundColor : "threedface" };
       }
     },
@@ -1562,7 +1493,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "atom",
 
-      initial : function()
+      style : function(states)
       {
         return {
           top             : 1,
@@ -1577,7 +1508,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "field-set-frame" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           top           : 8,
@@ -1597,7 +1528,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "atom",
 
-      initial : function()
+      style : function(states)
       {
         return {
           top             : 1,
@@ -1624,7 +1555,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "spinner" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           width           : 60,
@@ -1639,7 +1570,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       extend : "text-field",
 
-      initial : function()
+      style : function(states)
       {
         return {
           width  : "1*",
@@ -1650,52 +1581,42 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "spinner-button-up" :
     {
-      extend : "button",
-
-      initial : function()
+      style : function(states)
       {
         return {
           allowStretchX : false,
           allowStretchY : false,
           height          : "1*",
           width           : 16,
-          backgroundColor : new qx.renderer.color.ColorObject("threedface")
-        };
-      },
-
-      state : function(states)
-      {
-        return {
+          backgroundColor : new qx.renderer.color.ColorObject("threedface"),
           paddingTop    : 0,
           paddingRight  : 0,
           paddingBottom : 0,
-          paddingLeft   : 3
+          paddingLeft   : 3,
+          border : states.pressed || states.checked || states.abandoned ?
+            qx.renderer.border.BorderPresets.getInstance().inset :
+						qx.renderer.border.BorderPresets.getInstance().outset
         };
       }
     },
 
     "spinner-button-down" :
     {
-      extend : "button",
-
-      initial : function()
+      style : function(states)
       {
         return {
           allowStretchX : false,
           allowStretchY : false,
           height          : "1*",
           width           : 16,
-          backgroundColor : new qx.renderer.color.ColorObject("threedface")
-        };
-      },
-
-      state : function(states)
-      {
-        return {
+          backgroundColor : new qx.renderer.color.ColorObject("threedface"),
           paddingTop    : 1,
           paddingRight  : 0,
           paddingBottom : 0,
-          paddingLeft   : 3
+          paddingLeft   : 3,
+          border : states.pressed || states.checked || states.abandoned ?
+            qx.renderer.border.BorderPresets.getInstance().inset :
+						qx.renderer.border.BorderPresets.getInstance().outset
         };
       }
     },
@@ -1711,16 +1632,14 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "colorselector" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           border : qx.renderer.border.BorderPresets.getInstance().outset,
           width  : "auto",
           height : "auto"
         };
-      },
-
-      state : function(states) {}
+      }
     },
 
 
@@ -1734,57 +1653,51 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "datechooser-toolbar-button" :
     {
-      initial : function()
+      style : function(states)
       {
-        return {
+        var result =
+        {
+          backgroundColor : states.abandoned ? "#FFF0C9" : "buttonface",
+          backgroundImage : (states.checked && !states.over) ? "static/image/dotted_white.gif" : null,
           cursor                : "default",
           spacing               : 4,
           width                 : "auto",
           verticalChildrenAlign : "middle"
         };
-      },
-
-      state : function(states)
-      {
-        var vReturn =
-        {
-          backgroundColor : states.abandoned ? "#FFF0C9" : "buttonface",
-          backgroundImage : (states.checked && !states.over) ? "static/image/dotted_white.gif" : null
-        };
 
         if (states.pressed || states.checked || states.abandoned) {
-          vReturn.border = qx.renderer.border.BorderPresets.getInstance().thinInset;
+          result.border = qx.renderer.border.BorderPresets.getInstance().thinInset;
         } else if (states.over) {
-          vReturn.border = qx.renderer.border.BorderPresets.getInstance().thinOutset;
+          result.border = qx.renderer.border.BorderPresets.getInstance().thinOutset;
         } else {
-          vReturn.border = null;
+          result.border = null;
         }
 
         if (states.pressed || states.checked || states.abandoned)
         {
-          vReturn.paddingTop = 2;
-          vReturn.paddingRight = 0;
-          vReturn.paddingBottom = 0;
-          vReturn.paddingLeft = 2;
+          result.paddingTop = 2;
+          result.paddingRight = 0;
+          result.paddingBottom = 0;
+          result.paddingLeft = 2;
         }
         else if (states.over)
         {
-          vReturn.paddingTop = vReturn.paddingBottom = 1;
-          vReturn.paddingLeft = vReturn.paddingRight = 1;
+          result.paddingTop = result.paddingBottom = 1;
+          result.paddingLeft = result.paddingRight = 1;
         }
         else
         {
-          vReturn.paddingTop = vReturn.paddingBottom = 2;
-          vReturn.paddingLeft = vReturn.paddingRight = 2;
+          result.paddingTop = result.paddingBottom = 2;
+          result.paddingLeft = result.paddingRight = 2;
         }
 
-        return vReturn;
+        return result;
       }
     },
 
     "datechooser-monthyear" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           font          : '13px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
@@ -1796,7 +1709,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "datechooser-datepane" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           border          : "1px solid gray",
@@ -1813,18 +1726,12 @@ qx.Theme.define("qx.theme.appearance.Classic",
         this.border.setBottom(1, "solid", "gray");
       },
 
-      initial : function()
+      style : function(states)
       {
         return {
           border    : this.border,
           font      : '11px bold "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
-          textAlign : "center"
-        };
-      },
-
-      state : function(states)
-      {
-        return {
+          textAlign : "center",
           color           : states.weekend ? "#6285BA" : "window",
           backgroundColor : states.weekend ? "window" : "#6285BA"
         };
@@ -1833,7 +1740,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "datechooser-day" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           cursor        : "default",
@@ -1841,13 +1748,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
           font          : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
           textAlign     : "center",
           verticalAlign : "middle",
-          selectable    : false
-        };
-      },
-
-      state : function(states)
-      {
-        return {
+          selectable    : false,
           border          : states.today ? qx.renderer.border.BorderPresets.getInstance().black : "1px none",
           color           : states.selected ? "highlightText" : states.otherMonth ? "graytext" : "windowText",
           backgroundColor : states.selected ? "highlight" : null
@@ -1867,19 +1768,13 @@ qx.Theme.define("qx.theme.appearance.Classic",
         this.headerBorder.setBottom(1, "solid", "gray");
       },
 
-      initial : function()
+      style : function(states)
       {
         return {
           font        : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
           color       : "#6285BA",
-          paddingLeft : 2
-        };
-      },
-
-      state : function(states)
-      {
-        return {
-          border : states.header ? this.headerBorder : this.border
+          paddingLeft : 2,
+					border : states.header ? this.headerBorder : this.border
         };
       }
     },
@@ -1901,7 +1796,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         this.border.setTop(1, "solid", "threedshadow");
       },
 
-      initial : function()
+      style : function(states)
       {
         return {
           font         : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
@@ -1921,7 +1816,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         this.editingBorder = new qx.renderer.border.Border(2, "solid", "#b3d9ff");
       },
 
-      state : function(states)
+      style : function(states)
       {
         return {
           border : states.editing ? this.editingBorder : (states.tableHasFocus ? this.border : this.blurBorder)
@@ -1931,7 +1826,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "table-editor-textfield" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           font          : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
@@ -1971,7 +1866,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         });
       },
 
-      initial : function()
+      style : function(states)
       {
         return {
           cursor                : "default",
@@ -1981,13 +1876,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
           overflow              : "hidden",
           selectable            : false,
           iconPosition          : "right",
-          verticalChildrenAlign : "middle"
-        };
-      },
-
-      state : function(states)
-      {
-        return {
+          verticalChildrenAlign : "middle",
           backgroundColor : states.mouseover ? "white" : "#ebeadb",
           border          : states.mouseover ? this.mouseOverBorder : this.border
         };
@@ -2005,76 +1894,70 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "splitpane" :
     {
-      initial : function() {
+      style : function(states) {
         return { overflow : "hidden" };
       }
     },
 
     "splitpane-glasspane" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           zIndex          : 1e7,
-          backgroundColor : "threedshadow"
+          backgroundColor : "threedshadow",
+					opacity : states.visible ? 0.2 : 0
         };
-      },
-
-      state : function(states) {
-        return { opacity : states.visible ? 0.2 : 0 };
       }
     },
 
     "splitpane-splitter" :
     {
-      initial : function() {
-        return { backgroundColor : "threedface" };
-      },
-
-      state : function(states) {
-        return { cursor : states.horizontal ? "col-resize" : "row-resize" };
+      style : function(states) 
+			{
+        return { 
+					backgroundColor : "threedface",
+					cursor : states.horizontal ? "col-resize" : "row-resize"
+				};
       }
     },
 
     "splitpane-slider" :
     {
-      initial : function()
+      style : function(states)
       {
         return {
           opacity : 0.5,
-          zIndex  : 1e8
+          zIndex  : 1e8,
+					backgroundColor : states.dragging ? "threeddarkshadow" : "threedface"
         };
-      },
-
-      state : function(states) {
-        return { backgroundColor : states.dragging ? "threeddarkshadow" : "threedface" };
       }
     },
 
     "splitpane-knob" :
     {
-      state : function(states)
+      style : function(states)
       {
-        var vReturn = { opacity : states.dragging ? 0.5 : 1.0 };
+        var result = { opacity : states.dragging ? 0.5 : 1.0 };
 
         if (states.horizontal)
         {
-          vReturn.top = "33%";
-          vReturn.left = null;
-          vReturn.marginLeft = -6;
-          vReturn.marginTop = 0;
-          vReturn.cursor = "col-resize";
+          result.top = "33%";
+          result.left = null;
+          result.marginLeft = -6;
+          result.marginTop = 0;
+          result.cursor = "col-resize";
         }
         else if (states.vertical)
         {
-          vReturn.top = null;
-          vReturn.left = "33%";
-          vReturn.marginTop = -6;
-          vReturn.marginLeft = 0;
-          vReturn.cursor = "row-resize";
+          result.top = null;
+          result.left = "33%";
+          result.marginTop = -6;
+          result.marginLeft = 0;
+          result.cursor = "row-resize";
         }
 
-        return vReturn;
+        return result;
       }
     }
   }
