@@ -126,14 +126,6 @@ qx.Clazz.define("showcase.Application",
       var page = new qx.ui.pageview.buttonview.Page(bt);
       barView.getPane().add(page);
 
-      page.set(
-      {
-        left   : 0,
-        right  : 0,
-        top    : 0,
-        bottom : 0
-      });
-
       widget.setLocation(0, 0);
 
       widget.set(
