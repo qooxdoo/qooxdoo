@@ -172,6 +172,18 @@ qx.Class.summary = function()
 };
 
 /**
+ * Returns whether a global dispose (page unload) is currently taking place.
+ * 
+ * @type static
+ * @return {Boolean} whether a global dispose is taking place.
+ */
+qx.Class.inGlobalDispose = function()
+{
+  return qx.core.Object._disposeAll;
+};
+
+
+/**
  * Enable or disable the Object.
  *
  * The actual semantic of this property depends on concrete subclass of qx.core.Object.
