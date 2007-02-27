@@ -42,7 +42,7 @@ qx.Clazz.define("qx.ui.table.AbstractResizeBehavior",
 
   construct : function()
   {
-    qx.core.Object.call(this);
+    this.base(arguments);
 
     this._resizeColumnData = [];
   },

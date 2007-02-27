@@ -47,7 +47,7 @@ qx.Clazz.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
 
   construct : function()
   {
-    qx.ui.table.AbstractDataCellRenderer.call(this);
+    this.base(arguments);
 
     // Base URL used for indent images
     var Am = qx.manager.object.AliasManager;

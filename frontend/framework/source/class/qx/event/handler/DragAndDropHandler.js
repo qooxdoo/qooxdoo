@@ -44,7 +44,7 @@ qx.Clazz.define("qx.event.handler.DragAndDropHandler",
 
   construct : function()
   {
-    qx.core.Target.call(this);
+    this.base(arguments);
 
     this._data = {};
     this._actions = {};
@@ -1109,7 +1109,7 @@ qx.Clazz.define("qx.event.handler.DragAndDropHandler",
         this._cursors = null;
       }
 
-      return qx.manager.object.ObjectManager.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

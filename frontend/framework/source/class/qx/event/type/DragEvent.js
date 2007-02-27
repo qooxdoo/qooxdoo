@@ -51,7 +51,7 @@ qx.Clazz.define("qx.event.type.DragEvent",
         vOriginalTarget = vMouseEvent.getOriginalTarget();
     }
 
-    qx.event.type.MouseEvent.call(this, vType, vMouseEvent.getDomEvent(), vTarget.getElement(), vTarget, vOriginalTarget, vRelatedTarget);
+    this.base(arguments, vType, vMouseEvent.getDomEvent(), vTarget.getElement(), vTarget, vOriginalTarget, vRelatedTarget);
   },
 
 
@@ -290,7 +290,7 @@ qx.Clazz.define("qx.event.type.DragEvent",
 
       this._mouseEvent = null;
 
-      return qx.event.type.MouseEvent.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

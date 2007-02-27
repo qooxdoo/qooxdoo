@@ -42,7 +42,7 @@ qx.Clazz.define("qx.ui.form.Spinner",
 
   construct : function(vMin, vValue, vMax)
   {
-    qx.ui.layout.HorizontalBoxLayout.call(this);
+    this.base(arguments);
 
     // ************************************************************************
     //   BEHAVIOR
@@ -913,7 +913,7 @@ qx.Clazz.define("qx.ui.form.Spinner",
         this._manager = null;
       }
 
-      return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

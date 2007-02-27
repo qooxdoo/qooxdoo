@@ -45,7 +45,7 @@ qx.Clazz.define("qx.renderer.layout.LayoutImpl",
 
   construct : function(vWidget)
   {
-    qx.core.Object.call(this);
+    this.base(arguments);
 
     this._widget = vWidget;
   },
@@ -616,7 +616,7 @@ qx.Clazz.define("qx.renderer.layout.LayoutImpl",
 
       this._widget = null;
 
-      qx.core.Object.prototype.dispose.call(this);
+      this.base(arguments);
     }
   },
 

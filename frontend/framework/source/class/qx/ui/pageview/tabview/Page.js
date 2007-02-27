@@ -38,7 +38,7 @@ qx.Clazz.define("qx.ui.pageview.tabview.Page",
   */
 
   construct : function(vButton) {
-    qx.ui.pageview.AbstractPage.call(this, vButton);
+    this.base(arguments, vButton);
   },
 
 

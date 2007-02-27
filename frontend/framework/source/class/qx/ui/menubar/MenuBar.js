@@ -38,6 +38,6 @@ qx.Clazz.define("qx.ui.menubar.MenuBar",
   */
 
   construct : function() {
-    qx.ui.toolbar.ToolBar.call(this);
+    this.base(arguments);
   }
 });

@@ -39,7 +39,7 @@ qx.Clazz.define("qx.manager.object.WindowManager",
   */
 
   construct : function() {
-    qx.manager.object.ObjectManager.call(this);
+    this.base(arguments);
   },
 
 
@@ -183,7 +183,7 @@ qx.Clazz.define("qx.manager.object.WindowManager",
      */
     add : function(vWindow)
     {
-      qx.manager.object.ObjectManager.prototype.add.call(this, vWindow);
+      this.base(arguments, vWindow);
 
       // this.debug("Add: " + vWindow);
       this.setActiveWindow(vWindow);
@@ -199,7 +199,7 @@ qx.Clazz.define("qx.manager.object.WindowManager",
      */
     remove : function(vWindow)
     {
-      qx.manager.object.ObjectManager.prototype.remove.call(this, vWindow);
+      this.base(arguments, vWindow);
 
       // this.debug("Remove: " + vWindow);
       if (this.getActiveWindow() == vWindow)

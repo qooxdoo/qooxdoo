@@ -43,7 +43,7 @@ qx.Clazz.define("qx.ui.table.IconDataCellRenderer",
 
   construct : function()
   {
-    qx.ui.table.AbstractDataCellRenderer.call(this);
+    this.base(arguments);
     this.IMG_BLANK_URL = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
   },
 

@@ -52,7 +52,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.TreeFolder",
 
   construct : function(treeRowStructure)
   {
-    qx.ui.treefullcontrol.AbstractTreeElement.call(this, treeRowStructure);
+    this.base(arguments, treeRowStructure);
 
     // Save the tree row field order. We'll need it to create children structure.
     this._treeRowStructureFields = treeRowStructure._fields;
@@ -877,7 +877,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.TreeFolder",
         this._containerObject = null;
       }
 
-      return qx.ui.treefullcontrol.AbstractTreeElement.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

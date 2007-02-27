@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.form.PasswordField",
 
   construct : function(vText)
   {
-    qx.ui.form.TextField.call(this, vText);
+    this.base(arguments, vText);
 
     this.setHtmlProperty("type", "password");
   }

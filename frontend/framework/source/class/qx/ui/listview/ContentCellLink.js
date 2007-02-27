@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.listview.ContentCellLink",
 
   construct : function(vHtml)
   {
-    qx.ui.embed.LinkEmbed.call(this, vHtml);
+    this.base(arguments, vHtml);
 
     // selectable = false will break links in gecko based browsers
     this.setSelectable(true);

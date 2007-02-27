@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.popup.PopupAtom",
 
   construct : function(vLabel, vIcon)
   {
-    qx.ui.popup.Popup.call(this);
+    this.base(arguments);
 
     this._atom = new qx.ui.basic.Atom(vLabel, vIcon);
     this._atom.setParent(this);
@@ -88,7 +88,7 @@ qx.Clazz.define("qx.ui.popup.PopupAtom",
         this._atom = null;
       }
 
-      return qx.ui.popup.Popup.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

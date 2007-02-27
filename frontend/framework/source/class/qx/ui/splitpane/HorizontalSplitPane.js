@@ -47,7 +47,7 @@ qx.Clazz.define("qx.ui.splitpane.HorizontalSplitPane",
   */
 
   construct : function(firstSize, secondSize) {
-    qx.ui.splitpane.SplitPane.call(this, "horizontal", firstSize, secondSize);
+    this.base(arguments, "horizontal", firstSize, secondSize);
   },
 
 
@@ -79,7 +79,7 @@ qx.Clazz.define("qx.ui.splitpane.HorizontalSplitPane",
         return true;
       }
 
-      return qx.ui.splitpane.SplitPane.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

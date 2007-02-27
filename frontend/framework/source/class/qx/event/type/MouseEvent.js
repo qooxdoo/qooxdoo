@@ -40,7 +40,7 @@ qx.Clazz.define("qx.event.type.MouseEvent",
 
   construct : function(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vRelatedTarget)
   {
-    qx.event.type.DomEvent.call(this, vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget);
+    this.base(arguments, vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget);
 
     if (vRelatedTarget) {
       this.setRelatedTarget(vRelatedTarget);

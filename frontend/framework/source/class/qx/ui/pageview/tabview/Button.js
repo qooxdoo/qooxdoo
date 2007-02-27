@@ -40,7 +40,7 @@ qx.Clazz.define("qx.ui.pageview.tabview.Button",
   */
 
   construct : function(vText, vIcon, vIconWidth, vIconHeight, vFlash) {
-    qx.ui.pageview.AbstractButton.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
+    this.base(arguments, vText, vIcon, vIconWidth, vIconHeight, vFlash);
   },
 
 
@@ -278,7 +278,7 @@ qx.Clazz.define("qx.ui.pageview.tabview.Button",
       this._states.alignLeft = this.getView().getAlignTabsToLeft();
       this._states.barTop = this.getView().getPlaceBarOnTop();
 
-      qx.ui.pageview.AbstractButton.prototype._applyStateAppearance.call(this);
+      this.base(arguments);
     },
 
 
@@ -308,7 +308,7 @@ qx.Clazz.define("qx.ui.pageview.tabview.Button",
         this._closeButtonImage = null;
       }
 
-      return qx.ui.pageview.AbstractButton.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

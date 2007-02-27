@@ -41,7 +41,7 @@ qx.Clazz.define("qx.ui.treevirtual.DefaultDataCellRenderer",
   */
 
   construct : function() {
-    qx.ui.table.DefaultDataCellRenderer.call(this);
+    this.base(arguments);
   },
 
 

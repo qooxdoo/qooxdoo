@@ -41,7 +41,7 @@ qx.Clazz.define("qx.ui.table.ResizeBehaviorColumnData",
 
   construct : function()
   {
-    qx.ui.core.Widget.call(this);
+    this.base(arguments);
 
     // Assume equal flex width for all columns
     this.setWidth("1*");

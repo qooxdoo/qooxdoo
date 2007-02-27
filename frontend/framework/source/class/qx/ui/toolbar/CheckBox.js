@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.toolbar.CheckBox",
 
   construct : function(vText, vIcon, vChecked)
   {
-    qx.ui.toolbar.Button.call(this, vText, vIcon);
+    this.base(arguments, vText, vIcon);
 
     if (vChecked != null) {
       this.setChecked(vChecked);

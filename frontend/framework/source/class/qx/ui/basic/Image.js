@@ -44,7 +44,7 @@ qx.Clazz.define("qx.ui.basic.Image",
 
   construct : function(vSource, vWidth, vHeight)
   {
-    qx.ui.basic.Terminator.call(this);
+    this.base(arguments);
 
     // Reset Alt and Title
     this.setHtmlProperty("alt", "");
@@ -207,7 +207,7 @@ qx.Clazz.define("qx.ui.basic.Image",
         qx.manager.object.ImageManager.getInstance()._sources[vSource]++;
       }
 
-      return qx.ui.basic.Terminator.prototype._beforeAppear.call(this);
+      return this.base(arguments);
     },
 
 
@@ -230,7 +230,7 @@ qx.Clazz.define("qx.ui.basic.Image",
         }
       }
 
-      return qx.ui.basic.Terminator.prototype._beforeDisappear.call(this);
+      return this.base(arguments);
     },
 
 
@@ -409,7 +409,7 @@ qx.Clazz.define("qx.ui.basic.Image",
       }
 
       // call widget implmentation
-      qx.ui.basic.Terminator.prototype._modifyElement.call(this, propValue, propOldValue, propData);
+      this.base(arguments, propValue, propOldValue, propData);
 
       if (propValue)
       {
@@ -478,7 +478,7 @@ qx.Clazz.define("qx.ui.basic.Image",
           this._applyEnabled();
         }
 
-        return qx.ui.basic.Terminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
+        return this.base(arguments, propValue, propOldValue, propData);
       },
 
       "default" : function(propValue, propOldValue, propData)
@@ -487,7 +487,7 @@ qx.Clazz.define("qx.ui.basic.Image",
           this._applyEnabled();
         }
 
-        return qx.ui.basic.Terminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
+        return this.base(arguments, propValue, propOldValue, propData);
       }
     }),
 
@@ -641,7 +641,7 @@ qx.Clazz.define("qx.ui.basic.Image",
      */
     _applyContent : function()
     {
-      qx.ui.basic.Terminator.prototype._applyContent.call(this);
+      this.base(arguments);
 
       // Images load asyncron, so we need to force flushing here
       // to get an up-to-date view when an image is loaded.
@@ -805,7 +805,7 @@ qx.Clazz.define("qx.ui.basic.Image",
 
       qx.manager.object.ImageManager.getInstance().remove(this);
 
-      return qx.ui.basic.Terminator.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   },
 

@@ -46,7 +46,7 @@ qx.Clazz.define("qx.renderer.color.ColorObject",
       return qx.manager.object.ColorManager.getInstance().get(this.getValue());
     }
 
-    qx.core.Object.call(this);
+    this.base(arguments);
 
     // Register this color object to manager instance
     qx.manager.object.ColorManager.getInstance().add(this);
@@ -233,7 +233,7 @@ qx.Clazz.define("qx.renderer.color.ColorObject",
         delete this._dependentObjects;
       }
 
-      return qx.renderer.color.Color.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

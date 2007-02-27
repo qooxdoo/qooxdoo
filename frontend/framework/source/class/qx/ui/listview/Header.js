@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.listview.Header",
 
   construct : function(vColumns)
   {
-    qx.ui.layout.HorizontalBoxLayout.call(this);
+    this.base(arguments);
 
     // This fixes the innerWidth calculation difference between the grid(pane) and the head.
     this.setPaddingRight(qx.ui.core.Widget.SCROLLBAR_SIZE);
@@ -374,7 +374,7 @@ qx.Clazz.define("qx.ui.listview.Header",
 
       this._columns = null;
 
-      return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

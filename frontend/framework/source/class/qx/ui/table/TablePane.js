@@ -45,7 +45,7 @@ qx.Clazz.define("qx.ui.table.TablePane",
 
   construct : function(paneScroller)
   {
-    qx.ui.basic.Terminator.call(this);
+    this.base(arguments);
 
     this._paneScroller = paneScroller;
 
@@ -153,7 +153,7 @@ qx.Clazz.define("qx.ui.table.TablePane",
      */
     _afterAppear : function()
     {
-      qx.ui.basic.Terminator.prototype._afterAppear.call(this);
+      this.base(arguments);
 
       if (this._updateWantedWhileInvisible)
       {
@@ -653,7 +653,7 @@ qx.Clazz.define("qx.ui.table.TablePane",
 
       this._cleanUpRows(0);
 
-      return qx.ui.basic.Terminator.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

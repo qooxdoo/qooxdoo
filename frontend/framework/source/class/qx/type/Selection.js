@@ -44,7 +44,7 @@ qx.Clazz.define("qx.type.Selection",
 
   construct : function(mgr)
   {
-    qx.core.Object.call(this);
+    this.base(arguments);
 
     this.__manager = mgr;
     this.removeAll();
@@ -211,7 +211,7 @@ qx.Clazz.define("qx.type.Selection",
       this.__storage = null;
       this.__manager = null;
 
-      qx.core.Object.prototype.dispose.call(this);
+      this.base(arguments);
     }
   }
 });

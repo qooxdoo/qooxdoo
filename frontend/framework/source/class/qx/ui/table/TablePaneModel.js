@@ -46,7 +46,7 @@ qx.Clazz.define("qx.ui.table.TablePaneModel",
 
   construct : function(tableColumnModel)
   {
-    qx.core.Target.call(this);
+    this.base(arguments);
 
     tableColumnModel.addEventListener("visibilityChangedPre", this._onColVisibilityChanged, this);
 

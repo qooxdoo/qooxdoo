@@ -40,7 +40,7 @@ qx.Clazz.define("qx.ui.treevirtual.SimpleTreeDataRowRenderer",
   */
 
   construct : function() {
-    qx.ui.table.DefaultDataRowRenderer.call(this);
+    this.base(arguments);
   },
 
 

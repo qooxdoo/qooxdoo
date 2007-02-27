@@ -49,7 +49,7 @@ qx.Clazz.define("qx.util.fsm.FiniteStateMachine",
   construct : function(machineName)
   {
     // Call our superclass' constructor
-    qx.core.Target.call(this);
+    this.base(arguments);
 
     // Save the machine name
     this.setName(machineName);
@@ -1102,7 +1102,7 @@ qx.Clazz.define("qx.util.fsm.FiniteStateMachine",
 
       this._states = null;
 
-      return qx.core.Target.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

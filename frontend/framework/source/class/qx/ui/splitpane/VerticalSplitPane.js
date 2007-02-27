@@ -47,7 +47,7 @@ qx.Clazz.define("qx.ui.splitpane.VerticalSplitPane",
   */
 
   construct : function(firstSize, secondSize) {
-    qx.ui.splitpane.SplitPane.call(this, "vertical", firstSize, secondSize);
+    this.base(arguments, "vertical", firstSize, secondSize);
   },
 
 
@@ -79,7 +79,7 @@ qx.Clazz.define("qx.ui.splitpane.VerticalSplitPane",
         return true;
       }
 
-      return qx.ui.splitpane.SplitPane.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

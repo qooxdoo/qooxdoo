@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.basic.Inline",
 
   construct : function(vId)
   {
-    qx.ui.layout.CanvasLayout.call(this);
+    this.base(arguments);
 
     this.setStyleProperty("position", "relative");
 

@@ -40,7 +40,7 @@ qx.Clazz.define("qx.event.type.DataEvent",
 
   construct : function(vType, vData)
   {
-    qx.event.type.Event.call(this, vType);
+    this.base(arguments, vType);
 
     this.setData(vData);
   },
@@ -90,7 +90,7 @@ qx.Clazz.define("qx.event.type.DataEvent",
 
       this._valueData = null;
 
-      return qx.event.type.Event.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

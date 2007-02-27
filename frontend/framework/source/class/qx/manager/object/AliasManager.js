@@ -41,7 +41,7 @@ qx.Clazz.define("qx.manager.object.AliasManager",
 
   construct : function()
   {
-    qx.core.Target.call(this);
+    this.base(arguments);
 
     // Contains defined aliases (like icons/, widgets/, application/, ...)
     this._aliases = {};
@@ -241,7 +241,7 @@ qx.Clazz.define("qx.manager.object.AliasManager",
       this._aliases = null;
       this._uris = null;
 
-      return qx.core.Target.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   },
 

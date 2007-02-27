@@ -48,7 +48,7 @@ qx.Clazz.define("qx.event.handler.EventHandler",
 
   construct : function()
   {
-    qx.core.Target.call(this);
+    this.base(arguments);
 
     // User Events
     this.__onmouseevent = qx.lang.Function.bind(this._onmouseevent, this);
@@ -1324,7 +1324,7 @@ qx.Clazz.define("qx.event.handler.EventHandler",
         this._commands = null;
       }
 
-      qx.core.Target.prototype.dispose.call(this);
+      this.base(arguments);
     }
   }
 });

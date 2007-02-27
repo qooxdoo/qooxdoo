@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.listview.ContentCellImage",
   */
 
   construct : function(vSource, vWidth, vHeight) {
-    qx.ui.basic.Image.call(this, vSource, vWidth, vHeight);
+    this.base(arguments, vSource, vWidth, vHeight);
   },
 
 
@@ -101,7 +101,7 @@ qx.Clazz.define("qx.ui.listview.ContentCellImage",
       if (this._initialLayoutDone) {
         return this._updateContent(qx.manager.object.AliasManager.getInstance().resolvePath(vSource == "" ? "static/image/blank.gif" : vSource));
       } else {
-        return qx.ui.basic.Image.prototype.setSource.call(this, vSource);
+        return this.base(arguments, vSource);
       }
     },
 

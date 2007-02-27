@@ -38,7 +38,7 @@ qx.Clazz.define("qx.ui.pageview.AbstractPageView",
 
   construct : function(vBarClass, vPaneClass)
   {
-    qx.ui.layout.BoxLayout.call(this);
+    this.base(arguments);
 
     this._bar = new vBarClass;
     this._pane = new vPaneClass;
@@ -118,7 +118,7 @@ qx.Clazz.define("qx.ui.pageview.AbstractPageView",
         this._pane = null;
       }
 
-      return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

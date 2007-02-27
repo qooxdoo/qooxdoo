@@ -41,7 +41,7 @@ qx.Clazz.define("qx.renderer.font.FontObject",
   {
     this._dependentObjects = {};
 
-    qx.renderer.font.Font.call(this, vSize, vName);
+    this.base(arguments, vSize, vName);
   },
 
 
@@ -137,7 +137,7 @@ qx.Clazz.define("qx.renderer.font.FontObject",
         delete this._dependentObjects;
       }
 
-      return qx.renderer.font.Font.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

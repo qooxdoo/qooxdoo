@@ -42,7 +42,7 @@ qx.Clazz.define("qx.log.LogEventProcessor",
   */
 
   construct : function() {
-    qx.core.Object.call(this);
+    this.base(arguments);
   },
 
 
@@ -205,7 +205,7 @@ qx.Clazz.define("qx.log.LogEventProcessor",
 
       this._filterArr = null;
 
-      return qx.core.Object.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

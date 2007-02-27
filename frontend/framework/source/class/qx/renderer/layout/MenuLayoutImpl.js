@@ -39,7 +39,7 @@ qx.Clazz.define("qx.renderer.layout.MenuLayoutImpl",
 
   construct : function(vWidget)
   {
-    qx.renderer.layout.VerticalBoxLayoutImpl.call(this, vWidget);
+    this.base(arguments, vWidget);
 
     // We don't need flex support, should make things a bit faster,
     // as this omits some additional loops in qx.renderer.layout.HorizontalBoxLayoutImpl.
@@ -117,7 +117,7 @@ qx.Clazz.define("qx.renderer.layout.MenuLayoutImpl",
       }
 
       // Call superclass implementation
-      return qx.renderer.layout.VerticalBoxLayoutImpl.prototype.updateChildrenOnJobQueueFlush.call(this, vQueue);
+      return this.base(arguments, vQueue);
     }
   }
 });

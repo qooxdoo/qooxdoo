@@ -38,7 +38,7 @@ qx.Clazz.define("qx.locale.Manager",
 
   construct : function()
   {
-    qx.core.Target.call(this);
+    this.base(arguments);
 
     this._translationCatalog = {};
     this.setLocale(qx.core.Client.getInstance().getLocale() || this._defaultLocale);
@@ -336,7 +336,7 @@ qx.Clazz.define("qx.locale.Manager",
 
       this._translationCatalog = null;
 
-      return qx.core.Target.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

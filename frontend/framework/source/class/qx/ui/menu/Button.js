@@ -40,7 +40,7 @@ qx.Clazz.define("qx.ui.menu.Button",
 
   construct : function(vLabel, vIcon, vCommand, vMenu)
   {
-    qx.ui.layout.HorizontalBoxLayout.call(this);
+    this.base(arguments);
 
     // ************************************************************************
     //   LAYOUT
@@ -313,7 +313,7 @@ qx.Clazz.define("qx.ui.menu.Button",
         this._shortcutObject.setEnabled(propValue);
       }
 
-      return qx.ui.layout.HorizontalBoxLayout.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
+      return this.base(arguments, propValue, propOldValue, propData);
     },
 
 
@@ -516,7 +516,7 @@ qx.Clazz.define("qx.ui.menu.Button",
       // Remove event listeners
       this.removeEventListener("mouseup", this._onmouseup);
 
-      return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

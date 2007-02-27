@@ -52,7 +52,7 @@ qx.Clazz.define("qx.util.StringBuilder",
 
   construct : function()
   {
-    qx.core.Object.call(this);
+    this.base(arguments);
 
     this.init();
     this.add.apply(this, arguments);
@@ -155,7 +155,7 @@ qx.Clazz.define("qx.util.StringBuilder",
 
         this._string = null;
 
-        qx.core.Object.prototype.dispose.call(this);
+        this.base(arguments);
       },
 
       "mshtml" : function()
@@ -166,7 +166,7 @@ qx.Clazz.define("qx.util.StringBuilder",
 
         this._array = null;
 
-        qx.core.Object.prototype.dispose.call(this);
+        this.base(arguments);
       }
     }),
 

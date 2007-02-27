@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.basic.Terminator",
   */
 
   construct : function() {
-    qx.ui.core.Widget.call(this);
+    this.base(arguments);
   },
 
 

@@ -77,7 +77,7 @@ qx.Clazz.define("qx.io.remote.Rpc",
 
   construct : function(url, serviceName)
   {
-    qx.core.Target.call(this);
+    this.base(arguments);
 
     this.setUrl(url);
 

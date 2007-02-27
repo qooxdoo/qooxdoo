@@ -40,7 +40,7 @@ qx.Clazz.define("qx.ui.component.ColorPopup",
 
   construct : function(tables)
   {
-    qx.ui.popup.Popup.call(this);
+    this.base(arguments);
 
     this.setPadding(4);
     this.auto();
@@ -555,7 +555,7 @@ qx.Clazz.define("qx.ui.component.ColorPopup",
         this._colorSelector = null;
       }
 
-      return qx.ui.popup.Popup.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

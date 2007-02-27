@@ -38,7 +38,7 @@ qx.Clazz.define("qx.ui.pageview.AbstractPage",
 
   construct : function(vButton)
   {
-    qx.ui.layout.CanvasLayout.call(this);
+    this.base(arguments);
 
     if (vButton != null) {
       this.setButton(vButton);

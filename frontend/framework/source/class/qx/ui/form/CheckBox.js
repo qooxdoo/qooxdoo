@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.form.CheckBox",
 
   construct : function(vText, vValue, vName, vChecked)
   {
-    qx.ui.basic.Atom.call(this, vText);
+    this.base(arguments, vText);
 
     this.setTabIndex(1);
     this.setPadding(2, 3);
@@ -182,7 +182,7 @@ qx.Clazz.define("qx.ui.form.CheckBox",
         this._iconObject.setEnabled(propValue);
       }
 
-      return qx.ui.basic.Atom.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
+      return this.base(arguments, propValue, propOldValue, propData);
     },
 
     // The user can't control the icon in checkboxes
@@ -299,7 +299,7 @@ qx.Clazz.define("qx.ui.form.CheckBox",
       this.removeEventListener("keydown", this._onkeydown);
       this.removeEventListener("keyup", this._onkeyup);
 
-      return qx.ui.basic.Atom.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

@@ -43,6 +43,6 @@ qx.Clazz.define("qx.ui.tablevarrowheight.SelectionManager",
   */
 
   construct : function() {
-    qx.ui.table.SelectionManager.call(this);
+    this.base(arguments);
   }
 });

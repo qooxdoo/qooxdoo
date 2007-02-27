@@ -37,7 +37,7 @@ qx.Clazz.define("qx.event.type.FocusEvent",
 
   construct : function(type, target)
   {
-    qx.event.type.Event.call(this, type);
+    this.base(arguments, type);
 
     this.setTarget(target);
 

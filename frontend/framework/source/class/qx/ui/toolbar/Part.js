@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.toolbar.Part",
 
   construct : function()
   {
-    qx.ui.layout.HorizontalBoxLayout.call(this);
+    this.base(arguments);
 
     this._handle = new qx.ui.toolbar.PartHandle;
     this.add(this._handle);
@@ -129,7 +129,7 @@ qx.Clazz.define("qx.ui.toolbar.Part",
         this._handle = null;
       }
 
-      return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

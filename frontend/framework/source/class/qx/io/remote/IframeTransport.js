@@ -49,7 +49,7 @@ qx.Clazz.define("qx.io.remote.IframeTransport",
 
   construct : function()
   {
-    qx.io.remote.AbstractRemoteTransport.call(this);
+    this.base(arguments);
 
     var vUniqueId = (new Date).valueOf();
     var vFrameName = "frame_" + vUniqueId;
@@ -565,7 +565,7 @@ qx.Clazz.define("qx.io.remote.IframeTransport",
         this._form = null;
       }
 
-      return qx.io.remote.AbstractRemoteTransport.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   },
 

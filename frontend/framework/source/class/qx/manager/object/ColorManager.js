@@ -42,7 +42,7 @@ qx.Clazz.define("qx.manager.object.ColorManager",
 
   construct : function()
   {
-    qx.manager.object.ObjectManager.call(this);
+    this.base(arguments);
 
     // Themes
     this._colorThemes = {};
@@ -290,7 +290,7 @@ qx.Clazz.define("qx.manager.object.ColorManager",
 
       delete this._dependentObjects;
 
-      return qx.manager.object.ObjectManager.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   },
 

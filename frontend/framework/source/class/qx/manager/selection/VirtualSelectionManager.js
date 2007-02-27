@@ -39,7 +39,7 @@ qx.Clazz.define("qx.manager.selection.VirtualSelectionManager",
   */
 
   construct : function(vBoundedWidget) {
-    qx.manager.selection.SelectionManager.call(this, vBoundedWidget);
+    this.base(arguments, vBoundedWidget);
   },
 
 

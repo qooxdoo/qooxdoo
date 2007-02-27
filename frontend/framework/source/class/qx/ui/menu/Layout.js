@@ -40,7 +40,7 @@ qx.Clazz.define("qx.ui.menu.Layout",
 
   construct : function()
   {
-    qx.ui.layout.VerticalBoxLayout.call(this);
+    this.base(arguments);
 
     this.setAnonymous(true);
   },

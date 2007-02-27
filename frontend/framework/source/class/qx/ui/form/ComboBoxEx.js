@@ -64,7 +64,7 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
 
   construct : function()
   {
-    qx.ui.layout.HorizontalBoxLayout.call(this);
+    this.base(arguments);
 
     // ************************************************************************
     //   POPUP
@@ -1626,7 +1626,7 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
         this._button = null;
       }
 
-      return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

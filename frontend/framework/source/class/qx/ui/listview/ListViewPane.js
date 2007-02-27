@@ -44,7 +44,7 @@ qx.Clazz.define("qx.ui.listview.ListViewPane",
 
   construct : function(vData, vColumns)
   {
-    qx.ui.layout.GridLayout.call(this);
+    this.base(arguments);
 
     // ************************************************************************
     //   DATA
@@ -325,7 +325,7 @@ qx.Clazz.define("qx.ui.listview.ListViewPane",
       this._updateLayout(true);
       this._updateRendering(true);
 
-      return qx.ui.layout.GridLayout.prototype._changeInnerHeight.call(this, vNew, vOld);
+      return this.base(arguments, vNew, vOld);
     },
 
 
@@ -841,7 +841,7 @@ qx.Clazz.define("qx.ui.listview.ListViewPane",
         this._manager = null;
       }
 
-      return qx.ui.layout.GridLayout.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

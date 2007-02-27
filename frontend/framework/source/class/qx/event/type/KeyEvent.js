@@ -43,7 +43,7 @@ qx.Clazz.define("qx.event.type.KeyEvent",
 
   construct : function(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vKeyCode, vCharCode, vKeyIdentifier)
   {
-    qx.event.type.DomEvent.call(this, vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget);
+    this.base(arguments, vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget);
 
     this.setKeyCode(vKeyCode);
     this.setCharCode(vCharCode);

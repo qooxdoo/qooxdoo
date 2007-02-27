@@ -43,7 +43,7 @@ qx.Clazz.define("qx.ui.tablevarrowheight.TableColumnModel",
   */
 
   construct : function() {
-    qx.ui.table.TableColumnModel.call(this);
+    this.base(arguments);
   },
 
 

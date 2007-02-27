@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.embed.TextEmbed",
 
   construct : function(vText)
   {
-    qx.ui.basic.Terminator.call(this);
+    this.base(arguments);
 
     if (vText != null) {
       this.setText(vText);

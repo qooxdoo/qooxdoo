@@ -38,7 +38,7 @@ qx.Clazz.define("qx.ui.pageview.tabview.TabView",
   */
 
   construct : function() {
-    qx.ui.pageview.AbstractPageView.call(this, qx.ui.pageview.tabview.Bar, qx.ui.pageview.tabview.Pane);
+    this.base(arguments, qx.ui.pageview.tabview.Bar, qx.ui.pageview.tabview.Pane);
   },
 
 

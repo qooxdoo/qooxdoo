@@ -126,7 +126,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.TreeRowStructure",
   */
 
   construct : function() {
-    qx.core.Object.call(this);
+    this.base(arguments);
   },
 
 

@@ -40,7 +40,7 @@ qx.Clazz.define("qx.ui.form.ListItem",
 
   construct : function(vText, vIcon, vValue)
   {
-    qx.ui.basic.Atom.call(this, vText, vIcon);
+    this.base(arguments, vText, vIcon);
 
     if (vValue != null) {
       this.setValue(vValue);

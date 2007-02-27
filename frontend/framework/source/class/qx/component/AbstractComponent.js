@@ -30,7 +30,7 @@ qx.Clazz.define("qx.component.AbstractComponent",
   extend : qx.core.Target,
 
   construct : function() {
-    qx.core.Target.call(this);
+    this.base(arguments);
   },
 
 
@@ -101,7 +101,7 @@ qx.Clazz.define("qx.component.AbstractComponent",
         return;
       }
 
-      return qx.core.Target.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

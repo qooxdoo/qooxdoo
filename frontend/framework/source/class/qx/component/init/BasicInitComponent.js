@@ -29,7 +29,7 @@ qx.Clazz.define("qx.component.init.BasicInitComponent",
   extend : qx.component.init.AbstractInitComponent,
 
   construct : function() {
-    qx.component.init.AbstractInitComponent.call(this);
+    this.base(arguments);
   },
 
 

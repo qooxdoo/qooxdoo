@@ -40,7 +40,7 @@ qx.Clazz.define("qx.ui.toolbar.MenuButton",
 
   construct : function(vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash)
   {
-    qx.ui.toolbar.Button.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
+    this.base(arguments, vText, vIcon, vIconWidth, vIconHeight, vFlash);
 
     if (vMenu != null) {
       this.setMenu(vMenu);
@@ -311,7 +311,7 @@ qx.Clazz.define("qx.ui.toolbar.MenuButton",
         }
       }
 
-      return qx.ui.toolbar.Button.prototype._onmouseover.call(this, e);
+      return this.base(arguments, e);
     },
 
 

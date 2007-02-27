@@ -42,7 +42,7 @@ qx.Clazz.define("qx.ui.form.TextArea",
 
   construct : function(vValue)
   {
-    qx.ui.form.TextField.call(this, vValue);
+    this.base(arguments, vValue);
 
     this.setTagName("textarea");
     this.removeHtmlProperty("type");

@@ -39,7 +39,7 @@ qx.Clazz.define("qx.renderer.layout.CanvasLayoutImpl",
   */
 
   construct : function(vWidget) {
-    qx.renderer.layout.LayoutImpl.call(this, vWidget);
+    this.base(arguments, vWidget);
   },
 
 
