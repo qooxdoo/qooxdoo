@@ -140,7 +140,7 @@ function()
     vPlatformWindows = true;
     vPlatform = "win";
   }
-  else if (vBrowserPlatform.indexOf("Macintosh") != -1 || vBrowserPlatform.indexOf("MacIntel") != -1)
+  else if (vBrowserPlatform.indexOf("Macintosh") != -1 || vBrowserPlatform.indexOf("MacPPC") != -1 || vBrowserPlatform.indexOf("MacIntel") != -1)
   {
     vPlatformMacintosh = true;
     vPlatform = "mac";
