@@ -56,7 +56,7 @@ qx.Clazz.define("qx.ui.pageview.buttonview.Bar",
     {
       _legacy      : true,
       type         : "string",
-      defaultValue : "bar-view-bar"
+      defaultValue : "button-view-bar"
     }
   },
 
