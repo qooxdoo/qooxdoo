@@ -21,6 +21,7 @@
 
 #module(table)
 #embed(qx.icontheme/16/actions/view-refresh.png)
+#require(qx.ui.table.DefaultResizeBehavior)
 
 ************************************************************************ */
 
