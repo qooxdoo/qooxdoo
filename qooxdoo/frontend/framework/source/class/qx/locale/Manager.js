@@ -23,9 +23,9 @@
 /**
  * Create a new instance of qx.locale.Manager
  */
-qx.OO.defineClass("qx.locale.Manager", qx.manager.object.ObjectManager,
+qx.OO.defineClass("qx.locale.Manager", qx.core.Target,
 function() {
-  qx.manager.object.ObjectManager.call(this);
+  qx.core.Target.call(this);
 
   this._translationCatalog = {};
   this.setLocale(qx.core.Client.getInstance().getLocale() || this._defaultLocale);

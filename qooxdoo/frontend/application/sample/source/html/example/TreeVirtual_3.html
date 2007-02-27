@@ -12,7 +12,11 @@
   <script type="text/javascript" src="../../script/layout.js"></script>
 
   <div id="demoDescription">
-    <p>Demonstrate use of multiple columns in a tree.</p>
+    <p>
+      Demonstrate use of multiple columns in a tree, and the use of the
+      getHierarchy() method to retrieve the entire tree path of a node.
+      Allows various options to be manipulated.
+    </p>
   </div>
 
   <script type="text/javascript">
@@ -130,13 +134,13 @@
                          tree.setUseTreeLines(e.getData());
                        });
 
-    o = new qx.ui.form.CheckBox("Jens Lautenbacher mode?");
+    o = new qx.ui.form.CheckBox("Exclude first-level tree lines?");
     o.set({ top: 100, left: 0, checked: false });
     commandFrame.add(o);
     o.addEventListener("changeChecked",
                        function(e)
                        {
-                         tree.setJensLautenbacherMode(e.getData());
+                         tree.setExcludeFirstLevelTreeLines(e.getData());
                        });
 
     o = new qx.ui.form.CheckBox("Always show open/close symbol?");

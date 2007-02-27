@@ -84,7 +84,7 @@ def main(dist, scan):
   res += "{"
 
   firstCategory = True
-  # for category in os.listdir(scan):
+
   for category in [ "example", "test", "performance" ]:
     if category == ".svn":
       continue
