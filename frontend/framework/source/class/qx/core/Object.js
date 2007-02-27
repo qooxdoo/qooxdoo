@@ -525,10 +525,6 @@ qx.Clazz.define("qx.core.Object",
       this._properties_ng = null;
       this._properties_init_ng = null;
 
-      // OldGen property stuff
-      this.$$properties = null;
-      this.$$objectproperties = null;
-
       // Finally cleanup properties
       if (disposeProps)
       {

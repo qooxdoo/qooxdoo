@@ -6836,8 +6836,7 @@ qx.Clazz.define("qx.ui.core.Widget",
       var propertyIngoreList = this._clonePropertyIgnoreList.split(",");
 
       // Build new filtered property list
-      // FIXME: $$properties in not a string, but map
-      var sourcePropertyList = customPropertyList != null ? customPropertyList : this.$$properties.split(",");
+      var sourcePropertyList = customPropertyList != null ? customPropertyList : qx.lang.Object.getKeys(this.self(arguments).$$properties);
       var sourcePropertyListLength = sourcePropertyList.length - 1;
 
       do
