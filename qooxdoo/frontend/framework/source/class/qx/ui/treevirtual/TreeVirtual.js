@@ -56,8 +56,18 @@ function(headings)
         return new qx.ui.treevirtual.SelectionManager(obj);
       });
 
+  this.setNewTableColumnModel(
+      function(obj)
+      {
+        return new qx.ui.table.ResizeTableColumnModel(obj);
+      });
+
   // Call our superclass constructor
   qx.ui.table.Table.call(this, tableModel);
+
+  // By default, present the column visibility button only if there are
+  // multiple columns.
+  this.setColumnVisibilityButtonVisible(headings.length > 1);
 
   // Set sizes
   this.setRowHeight(16);

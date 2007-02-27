@@ -55,10 +55,38 @@
     with (table) {
       set({ width:"100%", height:"1*", border:qx.renderer.border.BorderPresets.getInstance().thinInset });
       getSelectionModel().setSelectionMode(qx.ui.table.SelectionModel.MULTIPLE_INTERVAL_SELECTION);
-      getTableColumnModel().setDataCellRenderer(3, new qx.ui.table.BooleanDataCellRenderer());
-      setColumnWidth(0, 80);
-      setColumnWidth(1, 200);
-      setColumnWidth(2, 150);
+
+      // Use a table column model that resizes columns by a specified behavior.
+      var rtcm = new qx.ui.table.ResizeTableColumnModel();
+
+      // The table column model MUST be set for the table before specifying
+      // the resize behavior.
+      setTableColumnModel(rtcm);
+
+      //
+      // Specify the resize behavior...
+      //
+
+      // Obtain a behavior object to manipulate
+      var resizeBehavior = rtcm.getBehavior();
+
+      // This uses the set() method to set all attriutes at once; uses flex
+      resizeBehavior.set(0, { width:"1*", minWidth:40, maxWidth:80  });
+
+      // We could also set them individually:
+      resizeBehavior.setWidth(1, "50%");
+      resizeBehavior.setMinWidth(1, 100);
+      resizeBehavior.setMaxWidth(1, 320);
+
+      // The default is { width:"1*" } so this one is not necessary:
+      // resizeBehavior.set(2, { width:"1*" });
+
+      // Set one fixed width column
+      resizeBehavior.set(3, { width:100 });
+
+      // Display a checkbox in column 3
+      rtcm.setDataCellRenderer(3, new qx.ui.table.BooleanDataCellRenderer());
+
     };
     main.add(table);
 

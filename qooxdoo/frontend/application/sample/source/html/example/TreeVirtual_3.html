@@ -34,14 +34,18 @@
       set({
             left   : 10,
             top    : 30,
-            width  : 506,
+            width  : "40%",
             bottom : 30,
             border : qx.renderer.border.BorderPresets.getInstance().thinInset
           });
       setAlwaysShowOpenCloseSymbol(true);
-      setColumnWidth(0, 200);
-      setColumnWidth(1, 80);
-      setColumnWidth(2, 200);
+      setColumnVisibilityButtonVisible(true);
+
+      // Obtain the resize behavior object to manipulate
+      var resizeBehavior = tree.getTableColumnModel().getBehavior();
+
+      // Ensure that the tree column remains sufficiently wide
+      resizeBehavior.set(0, { width:"1*", minWidth:180  });
     };
 
     tree.addToDocument();

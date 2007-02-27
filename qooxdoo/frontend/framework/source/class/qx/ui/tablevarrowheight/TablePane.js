@@ -81,6 +81,8 @@ qx.Proto._updateContent_orig = function(completeUpdate,
   var cellInfo = { table:table };
   tableModel.prefetchRows(firstRow, firstRow + rowCount - 1);
 
+  this.debug("pane height=" + qx.html.Dimension.getInnerHeight(elem));
+
   // For now, remove all of the child nodes.  Later, we'll optimize and try
   // to reuse and resize existing nodes.
   var numChildren = childNodes.length;
@@ -118,11 +120,10 @@ qx.Proto._updateContent_orig = function(completeUpdate,
     {
       var rowElem = document.createElement("div");
 
-      //rowElem.style.position = "relative";
+//      rowElem.style.position = "relative";
       rowElem.style.position = "absolute";
       rowElem.style.left = "0px";
       rowElem.style.top = cumulativeHeight + "px";
-      elem.appendChild(rowElem);
 
       recyleRowElem = false;
     }
@@ -164,14 +165,22 @@ qx.Proto._updateContent_orig = function(completeUpdate,
       if (! recyleRowElem)
       {
         rowElem.style.width = left + "px";
-        rowElem.innerHTML = html;
+        rowElem.innerHTML =
+          "<div style='position:absolute;'>" +
+          html +
+          "</div>";
+        elem.appendChild(rowElem);
       }
     }
 
-    cumulativeHeight += qx.html.Dimension.getOuterHeight(rowElem);
+
+    var rowHeight = qx.html.Dimension.getOuterHeight(rowElem);
+    this.debug("rowHeight=" + rowHeight);
+    
+    cumulativeHeight += rowHeight
   }
 
-  this.setHeight(rowCount * rowHeight);
+  this.setHeight(cumulativeHeight);
 
   this._lastColCount = colCount;
   this._lastRowCount = rowCount;
