@@ -41,7 +41,6 @@ qx.OO.defineClass("feedreader.Application", qx.component.AbstractApplication,
 function () {
   qx.component.AbstractApplication.call(this);
 
-  qx.manager.object.ImageManager.getInstance().setIconTheme(qx.theme.icon.VistaInspirate.getInstance());
   //this.fetchFeedDesc();
   this.setFeeds([]);
 });
