@@ -111,12 +111,12 @@ if (qx.core.Variant.isSet("qx.compatibility", "on"))
           qx.Proto.constructor = vConstructor;
 
           // Copy property lists
-          if (vSuper.prototype.$$properties) {
-            qx.Proto.$$properties = qx.lang.Object.copy(vSuper.prototype.$$properties);
+          if (vSuper.$$properties) {
+            qx.Class.$$properties = qx.lang.Object.copy(vSuper.$$properties);
           }
 
-          if (vSuper.prototype.$$objectproperties) {
-            qx.Proto.$$objectproperties = qx.lang.Object.copy(vSuper.prototype.$$objectproperties);
+          if (vSuper.$$objectproperties) {
+            qx.Class.$$objectproperties = qx.lang.Object.copy(vSuper.$$objectproperties);
           }
         }
 

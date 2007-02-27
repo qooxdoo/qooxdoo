@@ -647,16 +647,17 @@ qx.Clazz.define("qx.Clazz",
         /*
           - Store statics/constructor into constructor/prototype
           - Store correct constructor
+          - Store statics onto prototype
         */
         construct.self = clazz.constructor = proto.constructor = clazz;
 
         // Copy property lists (qooxdoo 0.6 properties)
-        if (superproto.$$properties) {
-          proto.$$properties = qx.lang.Object.copy(superproto.$$properties);
+        if (extend.$$properties) {
+          clazz.$$properties = qx.lang.Object.copy(extend.$$properties);
         }
 
-        if (superproto.$$objectproperties) {
-          proto.$$objectproperties = qx.lang.Object.copy(superproto.$$objectproperties);
+        if (extend.$$objectproperties) {
+          clazz.$$objectproperties = qx.lang.Object.copy(extend.$$objectproperties);
         }
 
         if (qx.core.Variant.isSet("qx.compatibility", "on"))
@@ -755,23 +756,51 @@ qx.Clazz.define("qx.Clazz",
      * @return {void}
      * @throws TODOC
      */
-    __addProperty : function(clazz, propertyName, property)
+    __addProperty : function(clazz, name, config)
     {
       var legacy = qx.core.LegacyProperty;
       var proto = clazz.prototype;
 
-      property.name = propertyName;
+      config.name = name;
 
-      if (property._fast) {
-        legacy.addFastProperty(property, proto);
-      } else if (property._cached) {
-        legacy.addCachedProperty(property, proto);
-      } else if (property._legacy) {
-        legacy.addProperty(property, proto);
-      } else if (property.group) {
-        this.addPropertyGroup(property, proto);
+      if (config._fast) {
+        legacy.addFastProperty(config, proto);
+      } else if (config._cached) {
+        legacy.addCachedProperty(config, proto);
+      } else if (config._legacy) {
+        legacy.addProperty(config, proto);
+      } else if (config.group) {
+        this.addPropertyGroup(config, proto);
       } else if (qx.core.Variant.isSet("qx.debug", "on")) {
-        throw new Error('Could not handle property definition "' + propertyName + '" in clazz "' + clazz.classname + "'");
+        throw new Error('Could not handle config definition "' + name + '" in clazz "' + clazz.classname + "'");
+      }
+
+      // register config
+      if (clazz.$$properties === undefined)
+      {
+        clazz.$$properties = {};
+        clazz.$$objectproperties = {};
+      }
+
+      if (clazz.$$properties[name] === undefined)
+      {
+        // add config to config list
+        clazz.$$properties[name] = true;
+
+        // add config to object config list (for disposer)
+        if (config.dispose)
+        {
+          clazz.$$objectproperties[name] = true;
+        }
+        else
+        {
+          switch(config.type)
+          {
+            case "object":
+            case "function":
+              clazz.$$objectproperties[name] = true;
+          }
+        }
       }
     },
 
@@ -970,7 +999,7 @@ qx.Clazz.define("qx.Clazz",
         {
           for (var key in properties)
           {
-            if (!proto.$$properties || !proto.$$properties[key]) {
+            if (!clazz.$$properties || !clazz.$$properties[key]) {
               this.__addProperty(clazz, key, properties[key]);
             } else {
               throw new Error('Overwriting property "' + key + '" of Class "' + clazz.classname + '" by Mixin "' + mixin.name + '" is not allowed!');

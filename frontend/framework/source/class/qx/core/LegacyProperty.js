@@ -234,48 +234,6 @@ qx.Clazz.define("qx.core.LegacyProperty",
      * @return {void}
      * @throws TODOC
      */
-    removeProperty : function(config, proto)
-    {
-      if (typeof config !== "object") {
-        throw new Error("RemoveProperty: Param should be an object!");
-      }
-
-      if (typeof config.name !== "string") {
-        throw new Error("RemoveProperty: Malformed input parameters: name needed!");
-      }
-
-      config.method = qx.lang.String.toFirstUp(config.name);
-      config.implMethod = config.impl ? qx.lang.String.toFirstUp(config.impl) : config.method;
-
-      var valueKey = "_value" + config.method;
-
-      // Remove property list entries
-      delete proto.$$properties[config.name];
-      delete proto.$$objectproperties[config.name];
-
-      // Reset default value to null
-      proto[valueKey] = null;
-
-      // Reset methods
-      proto["get" + config.method] = null;
-      proto["set" + config.method] = null;
-      proto["reset" + config.method] = null;
-      proto["apply" + config.method] = null;
-      proto["force" + config.method] = null;
-      proto["getDefault" + config.method] = null;
-      proto["setDefault" + config.method] = null;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type static
-     * @param config {var} TODOC
-     * @param proto {var} TODOC
-     * @return {void}
-     * @throws TODOC
-     */
     addProperty : function(config, proto)
     {
       if (typeof config !== "object") {
@@ -601,33 +559,6 @@ qx.Clazz.define("qx.core.LegacyProperty",
       // building user configured set alias for property
       if (typeof config.setAlias === "string") {
         proto[config.setAlias] = proto["set" + config.method];
-      }
-
-      // register property
-      if (proto.$$properties === undefined)
-      {
-        proto.$$properties = {};
-        proto.$$objectproperties = {};
-      }
-
-      if (proto.$$properties[config.name] === undefined)
-      {
-        // add property to property list
-        proto.$$properties[config.name] = true;
-
-        // add property to object property list (for disposer)
-        if (config.dispose) {
-          proto.$$objectproperties[config.name] = true;
-        }
-        else
-        {
-          switch(config.type)
-          {
-            case "object":
-            case "function":
-              proto.$$objectproperties[config.name] = true;
-          }
-        }
       }
     }
   }

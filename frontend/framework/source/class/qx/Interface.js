@@ -257,12 +257,12 @@ qx.Clazz.define("qx.Interface",
         }
       }
 
-      var proto = clazz.prototype;
-
       // Validate members
       var members = iface.members;
       if (members)
       {
+        var proto = clazz.prototype;
+
         for (var key in members)
         {
           if (typeof members[key] === "function")
@@ -293,7 +293,7 @@ qx.Clazz.define("qx.Interface",
       var properties = iface.properties;
       if (properties)
       {
-        var clazzproperties = proto.$$properties || {};
+        var clazzproperties = clazz.$$properties || {};
 
         for (var key in properties)
         {
