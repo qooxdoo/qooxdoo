@@ -62,7 +62,8 @@ qx.Clazz.define("qx.ui.form.ListItem",
   */
 
   events: {
-    "action" : "qx.event.type.Event" /** (Fired by {@link qx.ui.form.List}) */
+    /** (Fired by {@link qx.ui.form.List}) */
+    "action" : "qx.event.type.Event" 
   },
 
 
