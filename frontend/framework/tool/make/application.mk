@@ -52,7 +52,7 @@ endif
 
 #
 # Namespace of your application e.g. custom
-# Even complexer stuff is possible like: net.sf.custom
+# Even complexer namespaces are possible like: net.sf.custom
 #
 ifndef APPLICATION_NAMESPACE
   APPLICATION_NAMESPACE = custom
@@ -149,7 +149,7 @@ endif
 
 #
 # By default the complete command line of the called programs is
-# hidden. Setting VERBOSE to true shows the complete commands
+# hidden. Setting VERBOSE to true shows the complete commands.
 #
 SILENCE=
 ifneq ($(VERBOSE),true)
@@ -164,12 +164,17 @@ endif
 ################################################################################
 
 #
-# Customize your application tailor mode
+# Whether all JavaScript files of only the files needed by the application
+# should be included into the build version of the program. 
 #
 ifndef APPLICATION_COMPLETE_BUILD
   APPLICATION_COMPLETE_BUILD = false
 endif
 
+#
+# Whether all JavaScript files of only the files needed by the application
+# should be included into the source version of the program. 
+#
 ifndef APPLICATION_COMPLETE_SOURCE
   APPLICATION_COMPLETE_SOURCE = true
 endif
@@ -180,50 +185,96 @@ endif
 
 #
 # Customize line break settings
-# If enabled code is better readable, but bigger, too.
-# Normally not useful for distribution.
+# If enabled line breaks are inserted into the compiled application.
+# This makes the generated code better readable and produces saner error
+# messages, but bigger, too.
 #
 ifndef APPLICATION_LINEBREAKS_BUILD
   APPLICATION_LINEBREAKS_BUILD = true
 endif
 
+#
+# Customize line break settings
+# If enabled line breaks are added to the loader script of the source version.
+#
 ifndef APPLICATION_LINEBREAKS_SOURCE
   APPLICATION_LINEBREAKS_SOURCE = true
 endif
 
 #
-# Configure optimizer settings
+# Enables string optimization for the build version.
+# String optimization gives a perforcmance boost on the Internet Explorer 6,
+# obfuscates the code and may reduce the size. This should always be enabled for
+# deployment versions.
 #
 ifndef APPLICATION_OPTIMIZE_STRINGS
   APPLICATION_OPTIMIZE_STRINGS = true
 endif
 
+#
+# Renames local variables to shorter names for the build version.
+# This option reduces the code size and obfuscates the code.
+# Warning: If local variable names are used inside of "eval" statement
+# this may break the code.
+#
 ifndef APPLICATION_OPTIMIZE_VARIABLES
   APPLICATION_OPTIMIZE_VARIABLES = true
 endif
 
+#
+# Inlines calls to "this.base(arguments)" to speed up calls to the super class.
+# It is safe to enable this setting.
+#
 ifndef APPLICATION_OPTIMIZE_BASE_CALL
   APPLICATION_OPTIMIZE_BASE_CALL = true
 endif
 
+#
+# Renames private methods and fields (methods/fields starting with "__") to shorter names.
+# This makes it impossible for other classes to call private methods because the new names
+# of the private members is unknown outside the class.
+#
+# This setting obfuscates the code and can help to enforce the privacy of methods.
+#
 ifndef APPLICATION_OPTIMIZE_PRIVATE
   APPLICATION_OPTIMIZE_PRIVATE = true
 endif
 
+#
+# If enabled optimized builds for each supported browser (IE, Firefox, WebKit, Opera)
+# and a generic loader script are generated.
+# 
+# This increases the time to build the application but optimizes both code size and runtime
+# of the application
+#
 ifndef APPLICATION_OPTIMIZE_BROWSER
   APPLICATION_OPTIMIZE_BROWSER = true
 endif
 
+#
+# Remove debug statements.
+#
+# This will set the variant qx.debug to "off" and removes all code paths for qx.debug "on".
+# Production code shouls set this always to true bacause qooxdoo uses extensive runtime
+# checks, which will be disabled by this setting.
+#
 ifndef APPLICATION_OPTIMIZE_REMOVE_DEBUG
   APPLICATION_OPTIMIZE_REMOVE_DEBUG = true
 endif
 
+#
+# Remove compatibility for qooxdoo 0.6 style class declarations.
+#
 ifndef APPLICATION_OPTIMIZE_REMOVE_COMPATIBILITY
   APPLICATION_OPTIMIZE_REMOVE_COMPATIBILITY = true
 endif
 
 #
 # Configure if support for widgets should be included
+#
+# If enabled qooxdoo initializes the whole widget and event stack.
+# Disable this if you don't need the qooxdoo widgets but want to use only
+# the core functionality of qooxdoo (e.g. RPC, Ajax, DOM, XML, ...)
 #
 ifndef APPLICATION_ENABLE_GUI
   APPLICATION_ENABLE_GUI = true
@@ -248,20 +299,29 @@ endif
 ################################################################################
 
 #
-# Theme selection support
+# Set the default icon theme
 #
 ifndef APPLICATION_THEME_ICON
   APPLICATION_THEME_ICON = qx.theme.icon.Nuvola
 endif
 
+#
+# Set the default widget theme
+#
 ifndef APPLICATION_THEME_WIDGET
   APPLICATION_THEME_WIDGET = qx.theme.widget.Windows
 endif
 
+#
+# Set the default color theme.
+#
 ifndef APPLICATION_THEME_COLOR
   APPLICATION_THEME_COLOR = qx.theme.color.WindowsRoyale
 endif
 
+#
+# Set the default appearance theme.
+#
 ifndef APPLICATION_THEME_APPEARANCE
   APPLICATION_THEME_APPEARANCE = qx.theme.appearance.Classic
 endif
@@ -269,20 +329,29 @@ endif
 
 
 #
-# Logging settings support
+# Set the default log level for the source version
 #
 ifndef APPLICATION_SOURCE_LOG_LEVEL
   APPLICATION_SOURCE_LOG_LEVEL = debug
 endif
 
+#
+# Set the default log level for the build version
+#
 ifndef APPLICATION_BUILD_LOG_LEVEL
   APPLICATION_BUILD_LOG_LEVEL = debug
 endif
 
+#
+# Set the default log appender for the source version
+#
 ifndef APPLICATION_SOURCE_LOG_APPENDER
   APPLICATION_SOURCE_LOG_APPENDER = qx.log.NativeAppender
 endif
 
+#
+# Set the default log appender for the build version
+#
 ifndef APPLICATION_BUILD_LOG_APPENDER
   APPLICATION_BUILD_LOG_APPENDER = qx.log.NativeAppender
 endif
@@ -379,7 +448,7 @@ endif
 ################################################################################
 
 #
-# Name of the generated script
+# File name of the generated script
 #
 ifndef APPLICATION_SCRIPT_FILENAME
   APPLICATION_SCRIPT_FILENAME = $(APPLICATION_NAMESPACE).js
@@ -407,10 +476,18 @@ ifndef APPLICATION_ADDITIONAL_CLASS_URI
   APPLICATION_ADDITIONAL_CLASS_URI =
 endif
 
+#
+# Aditional options to pass to the generator call of the source version.
+# e.g. "--script-output-encoding=ISO-8859-1"
+#
 ifndef APPLICATION_ADDITIONAL_SOURCE_OPTIONS
   APPLICATION_ADDITIONAL_SCRIPT_OPTIONS =
 endif
 
+#
+# Aditional options to pass to the generator call of the build version.
+# e.g. "--script-output-encoding=ISO-8859-1"
+#
 ifndef APPLICATION_ADDITIONAL_BUILD_OPTIONS
   APPLICATION_ADDITIONAL_BUILD_OPTIONS =
 endif
