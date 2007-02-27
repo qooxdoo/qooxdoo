@@ -41,7 +41,7 @@ qx.Clazz.define("qx.ui.table.DefaultDataRowRenderer",
 
   construct : function()
   {
-    qx.ui.table.DataRowRenderer.call(this);
+    this.base(arguments);
 
     var Ddrr = qx.ui.table.DefaultDataRowRenderer;
 

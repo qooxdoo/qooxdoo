@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.pageview.tabview.Bar",
 
   construct : function()
   {
-    qx.ui.pageview.AbstractBar.call(this);
+    this.base(arguments);
 
     this.setZIndex(2);
   },

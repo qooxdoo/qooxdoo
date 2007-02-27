@@ -38,7 +38,7 @@ qx.Clazz.define("qx.ui.pageview.buttonview.Pane",
   */
 
   construct : function() {
-    qx.ui.pageview.AbstractPane.call(this);
+    this.base(arguments);
   },
 
 

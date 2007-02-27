@@ -41,7 +41,7 @@ qx.Clazz.define("qx.ui.table.SelectionModel",
 
   construct : function()
   {
-    qx.core.Target.call(this);
+    this.base(arguments);
 
     this._selectedRangeArr = [];
     this._anchorSelectionIndex = -1;

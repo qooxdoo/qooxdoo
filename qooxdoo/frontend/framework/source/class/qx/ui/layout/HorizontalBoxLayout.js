@@ -39,6 +39,6 @@ qx.Clazz.define("qx.ui.layout.HorizontalBoxLayout",
   */
 
   construct : function() {
-    qx.ui.layout.BoxLayout.call(this, "horizontal");
+    this.base(arguments, "horizontal");
   }
 });

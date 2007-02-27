@@ -49,7 +49,7 @@ qx.Clazz.define("qx.core.Target",
    * @param autoDispose {Boolean ? true} wether the object should be disposed automatically by qooxdoo
    */
   construct : function(autoDispose) {
-    qx.core.Object.call(this, autoDispose);
+    this.base(arguments, autoDispose);
   },
 
 
@@ -391,7 +391,7 @@ qx.Clazz.define("qx.core.Target",
 
       this.__listeners = null;
 
-      return qx.core.Object.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

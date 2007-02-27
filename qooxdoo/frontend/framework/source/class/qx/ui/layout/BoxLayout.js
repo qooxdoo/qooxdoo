@@ -40,7 +40,7 @@ qx.Clazz.define("qx.ui.layout.BoxLayout",
 
   construct : function(vOrientation)
   {
-    qx.ui.core.Parent.call(this);
+    this.base(arguments);
 
     // apply orientation
     if (vOrientation != null) {

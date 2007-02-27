@@ -54,7 +54,7 @@ qx.Clazz.define("qx.ui.form.ComboBox",
 
   construct : function()
   {
-    qx.ui.layout.HorizontalBoxLayout.call(this);
+    this.base(arguments);
 
     // ************************************************************************
     //   LIST
@@ -415,7 +415,7 @@ qx.Clazz.define("qx.ui.form.ComboBox",
         this._field.setEnabled(propValue);
       }
 
-      return qx.ui.layout.HorizontalBoxLayout.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
+      return this.base(arguments, propValue, propOldValue, propData);
     },
 
 
@@ -1033,7 +1033,7 @@ qx.Clazz.define("qx.ui.form.ComboBox",
         this._button = null;
       }
 
-      return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

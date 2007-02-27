@@ -41,7 +41,7 @@ qx.Clazz.define("qx.manager.selection.RadioManager",
   construct : function(vName, vMembers)
   {
     // we don't need the manager data structures
-    qx.core.Target.call(this);
+    this.base(arguments);
 
     // create item array
     this._items = [];
@@ -421,7 +421,7 @@ qx.Clazz.define("qx.manager.selection.RadioManager",
         delete this._items;
       }
 
-      return qx.core.Target.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

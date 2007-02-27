@@ -45,7 +45,7 @@ qx.Clazz.define("qx.event.handler.KeyEventHandler",
 
   construct : function()
   {
-    qx.core.Target.call(this);
+    this.base(arguments);
 
     // DOM event wrapper
     this.__onkeypress = qx.lang.Function.bind(this._onkeypress, this);
@@ -608,7 +608,7 @@ qx.Clazz.define("qx.event.handler.KeyEventHandler",
       this._specialCharCodeMap = this._keyCodeToIdentifierMap = this._numpadToCharCode = null;
       this._identifierToKeyCodeMap = this._lastUpDownType = this._keyCodeFix = null;
 
-      return qx.core.Target.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   },
 

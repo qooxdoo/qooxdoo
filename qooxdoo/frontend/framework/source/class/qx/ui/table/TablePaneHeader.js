@@ -43,7 +43,7 @@ qx.Clazz.define("qx.ui.table.TablePaneHeader",
 
   construct : function(paneScroller)
   {
-    qx.ui.layout.HorizontalBoxLayout.call(this);
+    this.base(arguments);
 
     this._paneScroller = paneScroller;
   },
@@ -365,7 +365,7 @@ qx.Clazz.define("qx.ui.table.TablePaneHeader",
         return true;
       }
 
-      return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

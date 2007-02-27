@@ -43,7 +43,7 @@ qx.Clazz.define("qx.ui.embed.Iframe",
     // **********************************************************************
     //   INIT
     // **********************************************************************
-    qx.ui.basic.Terminator.call(this);
+    this.base(arguments);
 
     this.setSelectable(false);
     this.setTabIndex(0);
@@ -436,7 +436,7 @@ qx.Clazz.define("qx.ui.embed.Iframe",
       propValue.appendChild(blockerNode);
 
       // create basic widget
-      qx.ui.basic.Terminator.prototype._modifyElement.call(this, propValue, propOldValue, propData);
+      this.base(arguments, propValue, propOldValue, propData);
 
       return true;
     },
@@ -450,7 +450,7 @@ qx.Clazz.define("qx.ui.embed.Iframe",
      */
     _beforeAppear : function()
     {
-      qx.ui.basic.Terminator.prototype._beforeAppear.call(this);
+      this.base(arguments);
 
       // register to iframe manager as active widget
       qx.manager.object.IframeManager.getInstance().add(this);
@@ -465,7 +465,7 @@ qx.Clazz.define("qx.ui.embed.Iframe",
      */
     _beforeDisappear : function()
     {
-      qx.ui.basic.Terminator.prototype._beforeDisappear.call(this);
+      this.base(arguments);
 
       // deregister from iframe manager
       qx.manager.object.IframeManager.getInstance().remove(this);
@@ -607,7 +607,7 @@ qx.Clazz.define("qx.ui.embed.Iframe",
         this._iframeNode = null;
       }
 
-      qx.ui.basic.Terminator.prototype.dispose.call(this);
+      this.base(arguments);
     }
   }
 });

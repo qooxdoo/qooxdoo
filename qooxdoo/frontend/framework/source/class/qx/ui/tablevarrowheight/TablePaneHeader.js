@@ -43,6 +43,6 @@ qx.Clazz.define("qx.ui.tablevarrowheight.TablePaneHeader",
   */
 
   construct : function(paneScroller) {
-    qx.ui.table.TablePaneHeader.call(this, paneScroller);
+    this.base(arguments, paneScroller);
   }
 });

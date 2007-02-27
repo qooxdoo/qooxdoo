@@ -48,7 +48,7 @@ qx.Clazz.define("qx.client.History",
 
   construct : function()
   {
-    qx.core.Target.call(this);
+    this.base(arguments);
 
     this.__pageFlag = true;
   },

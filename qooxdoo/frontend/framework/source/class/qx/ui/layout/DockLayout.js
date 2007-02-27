@@ -38,7 +38,7 @@ qx.Clazz.define("qx.ui.layout.DockLayout",
   */
 
   construct : function() {
-    qx.ui.core.Parent.call(this);
+    this.base(arguments);
   },
 
 

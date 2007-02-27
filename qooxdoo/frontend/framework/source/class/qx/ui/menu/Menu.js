@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.menu.Menu",
 
   construct : function()
   {
-    qx.ui.popup.Popup.call(this);
+    this.base(arguments);
 
     // ************************************************************************
     //   LAYOUT
@@ -1247,7 +1247,7 @@ qx.Clazz.define("qx.ui.menu.Menu",
       this.removeEventListener("keydown", this._onkeydown);
       this.removeEventListener("keypress", this._onkeypress);
 
-      return qx.ui.popup.Popup.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

@@ -87,7 +87,7 @@ qx.Clazz.define("qx.ui.embed.Flash",
 
   construct : function(vSource, vVersion)
   {
-    qx.ui.basic.Terminator.call(this);
+    this.base(arguments);
 
     // Use background handling of qx.ui.core.Widget instead
     this._params = {};
@@ -306,7 +306,7 @@ qx.Clazz.define("qx.ui.embed.Flash",
      */
     _applyElementData : function(el)
     {
-      qx.ui.basic.Terminator.prototype._applyElementData.call(this, el);
+      this.base(arguments, el);
 
       // Check for ExpressInstall
       this._expressInstall = false;
@@ -745,7 +745,7 @@ qx.Clazz.define("qx.ui.embed.Flash",
         this._version = null;
       }
 
-      qx.ui.basic.Terminator.prototype.dispose.call(this);
+      this.base(arguments);
     }
   }
 });

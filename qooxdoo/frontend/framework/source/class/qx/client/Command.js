@@ -62,7 +62,7 @@ qx.Clazz.define("qx.client.Command",
 
   construct : function(shortcut, keyCode)
   {
-    qx.core.Target.call(this);
+    this.base(arguments);
 
     this.__modifier = {};
     this.__key = null;
@@ -432,7 +432,7 @@ qx.Clazz.define("qx.client.Command",
         mgr.removeCommand(this);
       }
 
-      return qx.core.Target.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

@@ -65,7 +65,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.AbstractTreeElement",
     this._labelObject.setSelectable(false);
     this._labelObject.setStyleProperty("lineHeight", "100%");
 
-    qx.ui.layout.BoxLayout.call(this, "horizontal");
+    this.base(arguments, "horizontal");
 
     if (qx.util.Validation.isValid(treeRowStructure._label)) {
       this.setLabel(treeRowStructure._label);
@@ -436,7 +436,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.AbstractTreeElement",
     {
       this.addToTreeQueue();
 
-      qx.ui.layout.BoxLayout.prototype.addToCustomQueues.call(this, vHint);
+      this.base(arguments, vHint);
     },
 
 
@@ -451,7 +451,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.AbstractTreeElement",
     {
       this.removeFromTreeQueue();
 
-      qx.ui.layout.BoxLayout.prototype.removeFromCustomQueues.call(this, vHint);
+      this.base(arguments, vHint);
     },
 
 
@@ -474,7 +474,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.AbstractTreeElement",
      */
     _modifyParent : function(propValue, propOldValue, propData)
     {
-      qx.ui.layout.BoxLayout.prototype._modifyParent.call(this, propValue, propOldValue, propData);
+      this.base(arguments, propValue, propOldValue, propData);
 
       // Be sure to update previous folder also if it is closed currently
       // (plus/minus symbol)
@@ -503,7 +503,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.AbstractTreeElement",
      */
     _handleDisplayableCustom : function(vDisplayable, vParent, vHint)
     {
-      qx.ui.layout.BoxLayout.prototype._handleDisplayableCustom.call(this, vDisplayable, vParent, vHint);
+      this.base(arguments, vDisplayable, vParent, vHint);
 
       if (vHint)
       {
@@ -676,7 +676,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.AbstractTreeElement",
       this.removeEventListener("mousedown", this._onmousedown);
       this.removeEventListener("mouseup", this._onmouseup);
 
-      return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

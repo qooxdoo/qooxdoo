@@ -78,7 +78,7 @@ qx.Clazz.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
   construct : function()
   {
-    qx.ui.table.AbstractTableModel.call(this);
+    this.base(arguments);
 
     this._rowArr = []; // rows, resorted into tree order as necessary
     this._nodeArr = []; // tree nodes, organized with hierarchy

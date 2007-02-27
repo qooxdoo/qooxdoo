@@ -43,7 +43,7 @@ qx.Clazz.define("qx.locale.LocalizedString",
 
   construct : function(messageId, args, locale)
   {
-    qx.core.Object.call(this);
+    this.base(arguments);
 
     this.setId(messageId);
     this._locale = locale;

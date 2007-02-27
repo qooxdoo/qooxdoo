@@ -136,7 +136,7 @@ qx.Clazz.define("qx.util.fsm.Transition",
   construct : function(transitionName, transitionInfo)
   {
     // Call our superclass' constructor
-    qx.core.Object.call(this, true);
+    this.base(arguments, true);
 
     // Save the state name
     this.setName(transitionName);
@@ -454,7 +454,7 @@ qx.Clazz.define("qx.util.fsm.Transition",
         return true;
       }
 
-      return qx.core.Object.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

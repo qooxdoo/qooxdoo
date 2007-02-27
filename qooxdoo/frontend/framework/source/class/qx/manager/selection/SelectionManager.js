@@ -44,7 +44,7 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
 
   construct : function(vBoundedWidget)
   {
-    qx.core.Target.call(this);
+    this.base(arguments);
 
     this._selectedItems = new qx.type.Selection(this);
 
@@ -1859,7 +1859,7 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
         this._selectedItems = null;
       }
 
-      return qx.core.Target.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

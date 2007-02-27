@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.layout.CanvasLayout",
   */
 
   construct : function() {
-    qx.ui.core.Parent.call(this);
+    this.base(arguments);
   },
 
 

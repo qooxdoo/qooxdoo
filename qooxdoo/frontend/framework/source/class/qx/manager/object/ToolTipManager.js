@@ -40,7 +40,7 @@ qx.Clazz.define("qx.manager.object.ToolTipManager",
   */
 
   construct : function() {
-    qx.manager.object.ObjectManager.call(this);
+    this.base(arguments);
   },
 
 

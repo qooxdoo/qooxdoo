@@ -49,7 +49,7 @@ qx.Clazz.define("qx.log.AlertAppender",
   */
 
   construct : function() {
-    qx.log.Appender.call(this);
+    this.base(arguments);
   },
 
 
@@ -117,7 +117,7 @@ qx.Clazz.define("qx.log.AlertAppender",
         return true;
       }
 
-      return qx.log.Appender.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

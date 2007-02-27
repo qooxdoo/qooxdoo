@@ -48,7 +48,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.Tree",
 
   construct : function(treeRowStructure)
   {
-    qx.ui.treefullcontrol.TreeFolder.call(this, treeRowStructure);
+    this.base(arguments, treeRowStructure);
 
     // ************************************************************************
     //   INITILISIZE MANAGER
@@ -756,7 +756,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.Tree",
 
       delete this._oldItem;
 
-      return qx.ui.treefullcontrol.TreeFolder.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

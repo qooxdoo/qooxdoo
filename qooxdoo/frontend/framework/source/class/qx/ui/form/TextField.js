@@ -42,7 +42,7 @@ qx.Clazz.define("qx.ui.form.TextField",
     // ************************************************************************
     //   INIT
     // ************************************************************************
-    qx.ui.basic.Terminator.call(this);
+    this.base(arguments);
 
     if (typeof vValue === "string") {
       this.setValue(vValue);
@@ -218,7 +218,7 @@ qx.Clazz.define("qx.ui.form.TextField",
     _modifyEnabled : function(propValue, propOldValue, propData)
     {
       propValue ? this.removeHtmlAttribute("disabled") : this.setHtmlAttribute("disabled", "disabled");
-      return qx.ui.basic.Terminator.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
+      return this.base(arguments, propValue, propOldValue, propData);
     },
 
 
@@ -408,7 +408,7 @@ qx.Clazz.define("qx.ui.form.TextField",
     {
       "mshtml" : function()
       {
-        qx.ui.basic.Terminator.prototype._afterAppear.call(this);
+        this.base(arguments);
 
         if (!this._firstInputFixApplied) {
           qx.client.Timer.once(this._ieFirstInputFix, this, 1);
@@ -839,7 +839,7 @@ qx.Clazz.define("qx.ui.form.TextField",
         return;
       }
 
-      qx.ui.basic.Terminator.prototype.dispose.call(this);
+      this.base(arguments);
     }
   }
 });

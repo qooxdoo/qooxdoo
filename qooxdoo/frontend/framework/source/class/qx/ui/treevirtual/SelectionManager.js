@@ -45,7 +45,7 @@ qx.Clazz.define("qx.ui.treevirtual.SelectionManager",
 
   construct : function(table)
   {
-    qx.ui.table.SelectionManager.call(this);
+    this.base(arguments);
 
     this._table = table;
   },

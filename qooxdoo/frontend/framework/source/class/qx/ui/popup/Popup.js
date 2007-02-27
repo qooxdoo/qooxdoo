@@ -40,7 +40,7 @@ qx.Clazz.define("qx.ui.popup.Popup",
 
   construct : function()
   {
-    qx.ui.layout.CanvasLayout.call(this);
+    this.base(arguments);
 
     this.setZIndex(this._minZIndex);
 
@@ -185,7 +185,7 @@ qx.Clazz.define("qx.ui.popup.Popup",
      */
     _beforeAppear : function()
     {
-      qx.ui.layout.CanvasLayout.prototype._beforeAppear.call(this);
+      this.base(arguments);
 
       if (this.getRestrictToPageOnOpen())
       {
@@ -222,7 +222,7 @@ qx.Clazz.define("qx.ui.popup.Popup",
      */
     _beforeDisappear : function()
     {
-      qx.ui.layout.CanvasLayout.prototype._beforeDisappear.call(this);
+      this.base(arguments);
 
       qx.manager.object.PopupManager.getInstance().remove(this);
 
@@ -238,7 +238,7 @@ qx.Clazz.define("qx.ui.popup.Popup",
      */
     _afterAppear : function()
     {
-      qx.ui.layout.CanvasLayout.prototype._afterAppear.call(this);
+      this.base(arguments);
 
       if (this.getRestrictToPageOnOpen())
       {
@@ -500,7 +500,7 @@ qx.Clazz.define("qx.ui.popup.Popup",
       this._showTimeStamp = null;
       this._hideTimeStamp = null;
 
-      return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

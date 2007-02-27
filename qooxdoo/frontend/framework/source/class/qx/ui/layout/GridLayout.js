@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
 
   construct : function()
   {
-    qx.ui.core.Parent.call(this);
+    this.base(arguments);
 
     this._columnData = [];
     this._rowData = [];
@@ -195,7 +195,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
         throw new Error("Could not insert child " + vChild + " into a fill cell: " + vCol + "x" + vRow);
       }
 
-      qx.ui.core.Parent.prototype.add.call(this, vChild);
+      this.base(arguments, vChild);
     },
 
 
@@ -1182,7 +1182,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
         }
       }
 
-      qx.ui.core.Parent.prototype._changeInnerWidth.call(this, vNew, vOld);
+      this.base(arguments, vNew, vOld);
     },
 
 
@@ -1203,7 +1203,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
         }
       }
 
-      qx.ui.core.Parent.prototype._changeInnerHeight.call(this, vNew, vOld);
+      this.base(arguments, vNew, vOld);
     },
 
 
@@ -1443,7 +1443,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
 
       delete this._spans;
 
-      return qx.ui.core.Parent.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

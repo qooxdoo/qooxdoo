@@ -38,7 +38,7 @@ qx.Clazz.define("qx.ui.groupbox.CheckGroupBox",
   */
 
   construct : function(vLegend) {
-    qx.ui.groupbox.GroupBox.call(this, vLegend);
+    this.base(arguments, vLegend);
   },
 
 

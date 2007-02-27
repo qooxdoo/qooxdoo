@@ -43,7 +43,7 @@ qx.Clazz.define("qx.ui.table.TableColumnModel",
   */
 
   construct : function() {
-    qx.core.Target.call(this);
+    this.base(arguments);
   },
 
 

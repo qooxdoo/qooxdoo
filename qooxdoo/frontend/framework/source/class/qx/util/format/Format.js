@@ -39,7 +39,7 @@ qx.Clazz.define("qx.util.format.Format",
   */
 
   construct : function() {
-    qx.core.Object.call(this);
+    this.base(arguments);
   },
 
 

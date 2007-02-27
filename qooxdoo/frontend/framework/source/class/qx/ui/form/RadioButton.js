@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.form.RadioButton",
 
   construct : function(vText, vValue, vName, vChecked)
   {
-    qx.ui.form.CheckBox.call(this, vText, vValue, vName, vChecked);
+    this.base(arguments, vText, vValue, vName, vChecked);
 
     this.addEventListener("keypress", this._onkeypress);
   },
@@ -289,7 +289,7 @@ qx.Clazz.define("qx.ui.form.RadioButton",
         return;
       }
 
-      return qx.ui.form.CheckBox.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

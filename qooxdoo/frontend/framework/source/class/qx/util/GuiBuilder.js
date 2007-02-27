@@ -49,7 +49,7 @@ qx.Clazz.define("qx.util.GuiBuilder",
 
   construct : function(flags)
   {
-    qx.core.Target.call(this);
+    this.base(arguments);
 
     // map<className, map<propertyName, function>>
     this._propertyEditors = {};

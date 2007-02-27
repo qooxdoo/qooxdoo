@@ -40,7 +40,7 @@ qx.Clazz.define("qx.renderer.border.Border",
 
   construct : function(vWidth, vStyle, vColor)
   {
-    qx.core.Object.call(this);
+    this.base(arguments);
 
     this._themedEdges = {};
     this._initCache();
@@ -1512,7 +1512,7 @@ qx.Clazz.define("qx.renderer.border.Border",
 
       delete this._themedEdges;
 
-      return qx.core.Object.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   },
 

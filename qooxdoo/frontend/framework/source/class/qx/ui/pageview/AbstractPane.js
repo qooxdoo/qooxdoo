@@ -37,6 +37,6 @@ qx.Clazz.define("qx.ui.pageview.AbstractPane",
   */
 
   construct : function() {
-    qx.ui.layout.CanvasLayout.call(this);
+    this.base(arguments);
   }
 });

@@ -45,7 +45,7 @@ qx.Clazz.define("qx.ui.table.BooleanDataCellRenderer",
 
   construct : function()
   {
-    qx.ui.table.IconDataCellRenderer.call(this);
+    this.base(arguments);
 
     this._iconUrlTrue = qx.manager.object.AliasManager.getInstance().resolvePath("widget/table/boolean-true.png");
     this._iconUrlFalse = qx.manager.object.AliasManager.getInstance().resolvePath("widget/table/boolean-false.png");

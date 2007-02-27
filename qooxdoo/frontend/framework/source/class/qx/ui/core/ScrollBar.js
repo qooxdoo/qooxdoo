@@ -43,7 +43,7 @@ qx.Clazz.define("qx.ui.core.ScrollBar",
 
   construct : function(horizontal)
   {
-    qx.ui.layout.BoxLayout.call(this, horizontal ? "horizontal" : "vertical");
+    this.base(arguments, horizontal ? "horizontal" : "vertical");
 
     this._horizontal = (horizontal == true);
 
@@ -272,7 +272,7 @@ qx.Clazz.define("qx.ui.core.ScrollBar",
         this._positionKnob(this.getValue());
       }
 
-      return qx.ui.layout.BoxLayout.prototype._modifyVisibility.call(this, propValue, propOldValue, propData);
+      return this.base(arguments, propValue, propOldValue, propData);
     },
 
     // overridden
@@ -384,7 +384,7 @@ qx.Clazz.define("qx.ui.core.ScrollBar",
      */
     _afterAppear : function()
     {
-      qx.ui.layout.BoxLayout.prototype._afterAppear.call(this);
+      this.base(arguments);
 
       // this.debug("Setting to value: " + this.getValue());
       this._positionKnob(this.getValue());
@@ -409,7 +409,7 @@ qx.Clazz.define("qx.ui.core.ScrollBar",
         this._scrollContent = null;
       }
 
-      return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

@@ -40,7 +40,7 @@ qx.Clazz.define("qx.dev.TimeTracker",
 
   construct : function()
   {
-    qx.core.Object.call(this);
+    this.base(arguments);
 
     this._functions = qx.lang.Array.fromArguments(arguments);
 
@@ -359,7 +359,7 @@ qx.Clazz.define("qx.dev.TimeTracker",
 
       this._functions = null;
 
-      return qx.core.Object.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

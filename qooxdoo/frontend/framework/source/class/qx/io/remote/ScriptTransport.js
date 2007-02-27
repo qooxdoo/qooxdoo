@@ -48,7 +48,7 @@ qx.Clazz.define("qx.io.remote.ScriptTransport",
 
   construct : function()
   {
-    qx.io.remote.AbstractRemoteTransport.call(this);
+    this.base(arguments);
 
     var vUniqueId = ++qx.io.remote.ScriptTransport._uniqueId;
 
@@ -429,7 +429,7 @@ qx.Clazz.define("qx.io.remote.ScriptTransport",
         this._element = null;
       }
 
-      return qx.io.remote.AbstractRemoteTransport.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   },
 

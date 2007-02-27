@@ -40,7 +40,7 @@ qx.Clazz.define("qx.ui.table.TableModel",
   */
 
   construct : function() {
-    qx.core.Target.call(this);
+    this.base(arguments);
   },
 
 

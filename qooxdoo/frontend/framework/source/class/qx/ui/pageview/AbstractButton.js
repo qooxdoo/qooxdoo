@@ -38,7 +38,7 @@ qx.Clazz.define("qx.ui.pageview.AbstractButton",
 
   construct : function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
   {
-    qx.ui.basic.Atom.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
+    this.base(arguments, vText, vIcon, vIconWidth, vIconHeight, vFlash);
 
     this.setTabIndex(1);
 
@@ -189,7 +189,7 @@ qx.Clazz.define("qx.ui.pageview.AbstractButton",
         propValue.getManager().add(this);
       }
 
-      return qx.ui.basic.Atom.prototype._modifyParent.call(this, propValue, propOldValue, propData);
+      return this.base(arguments, propValue, propOldValue, propData);
     },
 
 
@@ -366,7 +366,7 @@ qx.Clazz.define("qx.ui.pageview.AbstractButton",
       this.removeEventListener("keydown", this._onkeydown);
       this.removeEventListener("keypress", this._onkeypress);
 
-      return qx.ui.basic.Atom.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

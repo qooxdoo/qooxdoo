@@ -48,7 +48,7 @@ qx.Clazz.define("qx.io.remote.RequestQueue",
 
   construct : function()
   {
-    qx.core.Target.call(this);
+    this.base(arguments);
 
     this._queue = [];
     this._active = [];
@@ -496,7 +496,7 @@ qx.Clazz.define("qx.io.remote.RequestQueue",
 
       this._queue = null;
 
-      return qx.core.Target.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

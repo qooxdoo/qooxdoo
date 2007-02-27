@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.listview.ContentCellHtml",
 
   construct : function(vHtml)
   {
-    qx.ui.embed.HtmlEmbed.call(this, vHtml);
+    this.base(arguments, vHtml);
 
     this.setSelectable(false);
   },

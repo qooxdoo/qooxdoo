@@ -40,6 +40,6 @@ qx.Clazz.define("qx.ui.tablevarrowheight.SimpleTableModel",
   */
 
   construct : function() {
-    qx.ui.table.SimpleTableModel.call(this);
+    this.base(arguments);
   }
 });

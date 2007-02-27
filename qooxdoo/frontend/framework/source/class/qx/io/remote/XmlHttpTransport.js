@@ -41,7 +41,7 @@ qx.Clazz.define("qx.io.remote.XmlHttpTransport",
 
   construct : function()
   {
-    qx.io.remote.AbstractRemoteTransport.call(this);
+    this.base(arguments);
 
     this._req = qx.io.remote.XmlHttpTransport.createRequestObject();
     this._req.onreadystatechange = qx.lang.Function.bind(this._onreadystatechange, this);
@@ -825,7 +825,7 @@ qx.Clazz.define("qx.io.remote.XmlHttpTransport",
         this._req = null;
       }
 
-      return qx.io.remote.AbstractRemoteTransport.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   },
 

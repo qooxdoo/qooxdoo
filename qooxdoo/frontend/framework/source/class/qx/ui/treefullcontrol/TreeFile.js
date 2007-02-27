@@ -49,7 +49,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.TreeFile",
   */
 
   construct : function(treeRowStructure) {
-    qx.ui.treefullcontrol.AbstractTreeElement.call(this, treeRowStructure);
+    this.base(arguments, treeRowStructure);
   },
 
 

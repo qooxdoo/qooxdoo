@@ -59,7 +59,7 @@ qx.Clazz.define("qx.ui.core.ClientDocument",
     // would not be added initially to the state queue
     this.addToStateQueue();
 
-    qx.ui.layout.CanvasLayout.call(this);
+    this.base(arguments);
 
     // Don't use widget styles
     this._styleProperties = {};
@@ -583,7 +583,7 @@ qx.Clazz.define("qx.ui.core.ClientDocument",
       }
       */
 
-      return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   },
 

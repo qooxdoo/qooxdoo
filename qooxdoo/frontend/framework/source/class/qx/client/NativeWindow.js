@@ -38,7 +38,7 @@ qx.Clazz.define("qx.client.NativeWindow",
 
   construct : function(url, name)
   {
-    qx.core.Target.call(this);
+    this.base(arguments);
 
     this._timer = new qx.client.Timer(100);
     this._timer.addEventListener("interval", this._oninterval, this);
@@ -840,7 +840,7 @@ qx.Clazz.define("qx.client.NativeWindow",
         this._window = null;
       }
 
-      return qx.core.Target.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

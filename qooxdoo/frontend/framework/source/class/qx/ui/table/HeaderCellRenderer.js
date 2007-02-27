@@ -40,7 +40,7 @@ qx.Clazz.define("qx.ui.table.HeaderCellRenderer",
   */
 
   construct : function() {
-    qx.core.Object.call(this);
+    this.base(arguments);
   },
 
 

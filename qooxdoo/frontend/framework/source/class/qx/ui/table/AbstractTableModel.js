@@ -42,7 +42,7 @@ qx.Clazz.define("qx.ui.table.AbstractTableModel",
 
   construct : function()
   {
-    qx.ui.table.TableModel.call(this);
+    this.base(arguments);
 
     this._columnIdArr = [];
     this._columnNameArr = [];

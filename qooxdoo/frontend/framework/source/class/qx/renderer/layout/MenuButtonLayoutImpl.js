@@ -39,7 +39,7 @@ qx.Clazz.define("qx.renderer.layout.MenuButtonLayoutImpl",
 
   construct : function(vWidget)
   {
-    qx.renderer.layout.HorizontalBoxLayoutImpl.call(this, vWidget);
+    this.base(arguments, vWidget);
 
     // We don't need flex support, should make things a bit faster,
     // as this omits some additional loops in qx.renderer.layout.HorizontalBoxLayoutImpl.
@@ -149,7 +149,7 @@ qx.Clazz.define("qx.renderer.layout.MenuButtonLayoutImpl",
       }
 
       // Call superclass implementation
-      return qx.renderer.layout.HorizontalBoxLayoutImpl.prototype.updateSelfOnChildOuterWidthChange.call(this, vChild);
+      return this.base(arguments, vChild);
     },
 
 

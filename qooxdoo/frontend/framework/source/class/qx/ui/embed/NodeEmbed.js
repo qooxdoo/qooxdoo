@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.embed.NodeEmbed",
 
   construct : function(vId)
   {
-    qx.ui.basic.Terminator.call(this);
+    this.base(arguments);
 
     if (vId != null) {
       this.setSourceNodeId(vId);

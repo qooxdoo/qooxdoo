@@ -41,7 +41,7 @@ qx.Clazz.define("qx.log.Filter",
   */
 
   construct : function() {
-    qx.core.Object.call(this);
+    this.base(arguments);
   },
 
 

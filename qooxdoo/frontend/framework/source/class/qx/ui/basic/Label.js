@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.basic.Label",
 
   construct : function(vHtml, vMnemonic)
   {
-    qx.ui.basic.Terminator.call(this);
+    this.base(arguments);
 
     // Apply constructor arguments
     if (vHtml != null) {

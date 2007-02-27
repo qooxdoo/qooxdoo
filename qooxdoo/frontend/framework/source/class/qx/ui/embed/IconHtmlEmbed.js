@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.embed.IconHtmlEmbed",
 
   construct : function(vHtml, vIcon, vIconWidth, vIconHeight)
   {
-    qx.ui.embed.HtmlEmbed.call(this, vHtml);
+    this.base(arguments, vHtml);
 
     if (vIcon != null)
     {

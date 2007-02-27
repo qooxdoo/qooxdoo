@@ -41,7 +41,7 @@ qx.Clazz.define("qx.ui.table.SimpleTableModel",
 
   construct : function()
   {
-    qx.ui.table.AbstractTableModel.call(this);
+    this.base(arguments);
 
     this._rowArr = [];
     this._sortColumnIndex = -1;

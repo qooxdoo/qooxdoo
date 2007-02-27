@@ -40,7 +40,7 @@ qx.Clazz.define("qx.ui.window.Window",
 
   construct : function(vCaption, vIcon, vWindowManager)
   {
-    qx.ui.popup.Popup.call(this);
+    this.base(arguments);
 
     // ************************************************************************
     //   FUNCTIONAL STYLE
@@ -1909,7 +1909,7 @@ qx.Clazz.define("qx.ui.window.Window",
         this._statusText = null;
       }
 
-      return qx.ui.popup.Popup.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

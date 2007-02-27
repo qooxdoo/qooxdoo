@@ -43,7 +43,7 @@ qx.Clazz.define("qx.ui.core.ClientDocumentBlocker",
 
   construct : function()
   {
-    qx.ui.basic.Terminator.call(this);
+    this.base(arguments);
 
     this.setEdge(0);
     this.setZIndex(1e8);

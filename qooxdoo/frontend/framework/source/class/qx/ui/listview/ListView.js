@@ -58,7 +58,7 @@ qx.Clazz.define("qx.ui.listview.ListView",
     // ************************************************************************
     //   SUPERCLASS CONSTRUCTOR
     // ************************************************************************
-    qx.ui.layout.VerticalBoxLayout.call(this);
+    this.base(arguments);
 
     // ************************************************************************
     //   HEADER
@@ -445,7 +445,7 @@ qx.Clazz.define("qx.ui.listview.ListView",
      */
     _handleDisplayableCustom : function(vDisplayable, vParent, vHint)
     {
-      qx.ui.layout.VerticalBoxLayout.prototype._handleDisplayableCustom.call(this, vDisplayable, vParent, vHint);
+      this.base(arguments, vDisplayable, vParent, vHint);
 
       if (vDisplayable)
       {
@@ -517,7 +517,7 @@ qx.Clazz.define("qx.ui.listview.ListView",
 
       this.removeEventListener("mousedown", this._onmousedown);
 
-      return qx.ui.layout.VerticalBoxLayout.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

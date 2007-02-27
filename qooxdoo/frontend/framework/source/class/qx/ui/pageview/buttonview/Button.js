@@ -38,7 +38,7 @@ qx.Clazz.define("qx.ui.pageview.buttonview.Button",
   */
 
   construct : function(vText, vIcon, vIconWidth, vIconHeight, vFlash) {
-    qx.ui.pageview.AbstractButton.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
+    this.base(arguments, vText, vIcon, vIconWidth, vIconHeight, vFlash);
   },
 
 
@@ -161,7 +161,7 @@ qx.Clazz.define("qx.ui.pageview.buttonview.Button",
       this._states.barTop = vPos === "top";
       this._states.barBottom = vPos === "bottom";
 
-      qx.ui.pageview.AbstractButton.prototype._applyStateAppearance.call(this);
+      this.base(arguments);
     }
   }
 });

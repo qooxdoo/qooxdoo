@@ -39,7 +39,7 @@ qx.Clazz.define("qx.io.remote.AbstractRemoteTransport",
   */
 
   construct : function() {
-    qx.core.Target.call(this);
+    this.base(arguments);
   },
 
 

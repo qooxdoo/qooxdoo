@@ -41,7 +41,7 @@ qx.Clazz.define("qx.ui.menu.RadioButton",
 
   construct : function(vLabel, vCommand, vChecked)
   {
-    qx.ui.menu.CheckBox.call(this, vLabel, vCommand, vChecked);
+    this.base(arguments, vLabel, vCommand, vChecked);
 
     qx.manager.object.ImageManager.getInstance().preload("widget/menu/radiobutton.gif");
   },
@@ -188,7 +188,7 @@ qx.Clazz.define("qx.ui.menu.RadioButton",
       this.setChecked(true);
 
       // Intentionally bypass superclass and call super.super.execute
-      qx.ui.menu.Button.prototype.execute.call(this);
+      this.base(arguments);
     }
   }
 });

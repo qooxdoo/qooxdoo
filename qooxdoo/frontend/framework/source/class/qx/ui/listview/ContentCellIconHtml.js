@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.listview.ContentCellIconHtml",
 
   construct : function(vHtml, vIcon, vIconWidth, vIconHeight)
   {
-    qx.ui.embed.IconHtmlEmbed.call(this, vHtml, vIcon, vIconWidth, vIconHeight);
+    this.base(arguments, vHtml, vIcon, vIconWidth, vIconHeight);
 
     this.setSelectable(false);
   },

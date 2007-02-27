@@ -40,7 +40,7 @@ qx.Clazz.define("qx.ui.table.CheckBoxCellEditorFactory",
   */
 
   construct : function() {
-    qx.ui.table.CellEditorFactory.call(this);
+    this.base(arguments);
   },
 
 

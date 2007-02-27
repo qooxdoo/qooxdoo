@@ -38,7 +38,7 @@ qx.Clazz.define("qx.ui.pageview.AbstractBar",
 
   construct : function()
   {
-    qx.ui.layout.BoxLayout.call(this);
+    this.base(arguments);
 
     this._manager = new qx.manager.selection.RadioManager;
 
@@ -172,7 +172,7 @@ qx.Clazz.define("qx.ui.pageview.AbstractBar",
 
       this.removeEventListener("mousewheel", this._onmousewheel);
 
-      return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

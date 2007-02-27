@@ -38,6 +38,6 @@ qx.Clazz.define("qx.ui.menubar.Button",
   */
 
   construct : function(vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash) {
-    qx.ui.toolbar.MenuButton.call(this, vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash);
+    this.base(arguments, vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash);
   }
 });

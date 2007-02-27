@@ -16,7 +16,7 @@ qx.Clazz.define("qx.test.Kitty",
    * @type constructor
    */
   construct : function() {
-    arguments.callee.base.call(this);
+    this.base(arguments);
   },
 
   properties :

@@ -47,7 +47,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
 
   construct : function(vPreviousRed, vPreviousGreen, vPreviousBlue)
   {
-    qx.ui.layout.VerticalBoxLayout.call(this);
+    this.base(arguments);
 
     // ********************************************
     //   CREATE CHILDREN
@@ -1652,7 +1652,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
         this._newColorPreview = null;
       }
 
-      return qx.ui.layout.VerticalBoxLayout.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

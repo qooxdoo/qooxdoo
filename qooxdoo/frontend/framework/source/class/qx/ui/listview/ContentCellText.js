@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.listview.ContentCellText",
 
   construct : function(vText)
   {
-    qx.ui.embed.TextEmbed.call(this, vText);
+    this.base(arguments, vText);
 
     this.setStyleProperty("whiteSpace", "nowrap");
     this.setStyleProperty("textOverflow", "ellipsis");

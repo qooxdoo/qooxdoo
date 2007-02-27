@@ -47,7 +47,7 @@ qx.Clazz.define("qx.ui.table.SelectionManager",
   */
 
   construct : function() {
-    qx.core.Object.call(this);
+    this.base(arguments);
   },
 
 

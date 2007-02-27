@@ -41,7 +41,7 @@ qx.Clazz.define("qx.renderer.border.BorderObject",
   {
     this._dependentObjects = {};
 
-    qx.renderer.border.Border.call(this, vWidth, vStyle, vColor);
+    this.base(arguments, vWidth, vStyle, vColor);
   },
 
 
@@ -208,7 +208,7 @@ qx.Clazz.define("qx.renderer.border.BorderObject",
         delete this._dependentObjects;
       }
 
-      return qx.renderer.border.Border.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });
