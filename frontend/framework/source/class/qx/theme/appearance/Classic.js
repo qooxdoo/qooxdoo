@@ -1710,8 +1710,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         var border = new qx.renderer.border.Border;
         border.setBottom(1, "solid", "gray");
 
-        return
-        {
+        return {
           border          : border,
           font            : '11px bold "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
           textAlign       : "center",
@@ -1794,7 +1793,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         {
           result.border = new qx.renderer.border.Border(2, "solid", "#b3d9ff");
         }
-        else (states.tableHasFocus)
+        else if (states.tableHasFocus)
         {
           result.border = new qx.renderer.border.Border(3, "solid", "#b3d9ff");
         }
@@ -1862,7 +1861,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
           selectable            : false,
           iconPosition          : "right",
           verticalChildrenAlign : "middle",
-          border                : border
+          border                : border,
           backgroundColor       : states.mouseover ? "white" : "#ebeadb",
         };
       }
