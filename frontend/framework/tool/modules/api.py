@@ -140,7 +140,8 @@ def handleClassDefinition(docTree, item, variant):
   else:
     classMap = {}
 
-  classNode = getClassNode(docTree, className)
+  commentAttributes = comment.parseNode(item)
+  classNode = getClassNode(docTree, className, commentAttributes)
 
   #print className
 
@@ -732,7 +733,10 @@ def getType(item):
     raise DocException("Can't gess type. type is neither string nor variable: " + item.type, item)
 
 
-def getClassNode(docTree, className):
+def getClassNode(docTree, className, commentAttributes = None):
+  if commentAttributes == None:
+    commentAttributes = {}
+    
   splits = className.split(".")
 
   currPackage = docTree
@@ -751,7 +755,7 @@ def getClassNode(docTree, className):
         childPackage.set("name", split)
         childPackage.set("fullName", childPackageName)
         childPackage.set("packageName", childPackageName.replace("." + split, ""))
-
+        
         currPackage.addListChild("packages", childPackage)
 
       # Update current package
@@ -766,6 +770,22 @@ def getClassNode(docTree, className):
         classNode.set("name", split)
         classNode.set("fullName", className)
         classNode.set("packageName", className.replace("." + split, ""))
+
+        # Read all description, param and return attributes
+        for attrib in commentAttributes:
+          # Add description
+          if attrib["category"] == "description":
+            if attrib.has_key("text"):
+              descNode = tree.Node("desc").set("text", attrib["text"])
+              classNode.addChild(descNode)
+
+          elif attrib["category"] == "see":
+            if not attrib.has_key("name"):
+              raise DocException("Missing target for see.", classNode)
+
+            seeNode = tree.Node("see").set("name", attrib["name"])
+            classNode.addChild(seeNode)
+        
         currPackage.addListChild("classes", classNode)
 
       return classNode
