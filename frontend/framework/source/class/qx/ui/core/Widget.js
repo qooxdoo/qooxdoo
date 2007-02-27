@@ -102,43 +102,43 @@ qx.Clazz.define("qx.ui.core.Widget",
     "execute"         : "qx.event.type.Event",
     "FADE_FINISHED"   : "qx.event.type.DataEvent",
 
-    /** (Fired by {@link "qx.event.handler.Event"Handler}) */
+    /** (Fired by {@link qx.event.handler.EventHandler}) */
     "mouseover"       : "qx.event.type.MouseEvent",
     
-    /** (Fired by {@link "qx.event.handler.Event"Handler}) */ 
+    /** (Fired by {@link qx.event.handler.EventHandler}) */ 
     "mousemove"       : "qx.event.type.MouseEvent",
     
-    /** (Fired by {@link "qx.event.handler.Event"Handler}) */
+    /** (Fired by {@link qx.event.handler.EventHandler}) */
     "mouseout"        : "qx.event.type.MouseEvent",
     
-    /** (Fired by {@link "qx.event.handler.Event"Handler}) */
+    /** (Fired by {@link qx.event.handler.EventHandler}) */
     "mousedown"       : "qx.event.type.MouseEvent",
     
-    /** (Fired by {@link "qx.event.handler.Event"Handler}) */
+    /** (Fired by {@link qx.event.handler.EventHandler}) */
     "mouseup"         : "qx.event.type.MouseEvent",
     
-    /** (Fired by {@link "qx.event.handler.Event"Handler}) */
+    /** (Fired by {@link qx.event.handler.EventHandler}) */
     "mousewheel"      : "qx.event.type.MouseEvent",
     
-    /** (Fired by {@link "qx.event.handler.Event"Handler}) */
+    /** (Fired by {@link qx.event.handler.EventHandler}) */
     "click"           : "qx.event.type.MouseEvent",
     
-    /** (Fired by {@link "qx.event.handler.Event"Handler}) */
+    /** (Fired by {@link qx.event.handler.EventHandler}) */
     "dblclick"        : "qx.event.type.MouseEvent",
     
-    /** (Fired by {@link "qx.event.handler.Event"Handler}) */
+    /** (Fired by {@link qx.event.handler.EventHandler}) */
     "contextmenu"     : "qx.event.type.MouseEvent",
     
-    /** (Fired by {@link "qx.event.handler.Event"Handler}) */
+    /** (Fired by {@link qx.event.handler.EventHandler}) */
     "keydown"         : "qx.event.type.KeyEvent",
     
-    /** (Fired by {@link "qx.event.handler.Event"Handler}) */
+    /** (Fired by {@link qx.event.handler.EventHandler}) */
     "keypress"        : "qx.event.type.KeyEvent",
     
-    /** (Fired by {@link "qx.event.handler.Event"Handler}) */
+    /** (Fired by {@link qx.event.handler.EventHandler}) */
     "keyinput"        : "qx.event.type.KeyEvent",
     
-    /** (Fired by {@link "qx.event.handler.Event"Handler}) */
+    /** (Fired by {@link qx.event.handler.EventHandler}) */
     "keyup"           : "qx.event.type.KeyEvent",
     
     /** (Fired by {@link qx.ui.core.Parent}) */
