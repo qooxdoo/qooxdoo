@@ -159,17 +159,17 @@ def handleClassDefinition(docTree, item, variant):
     if key == "extend":
       if variant in [ "class", "clazz" ]:
         superClassName = assembleVariable(valueItem)
-        superClassNode = getClassNode(docTree, superClassName)
-        childClasses = superClassNode.get("childClasses", False)
+        if superClassName not in ["Array", "Boolean", "Date", "Error", "Function", "Math", "Number" "Object", "RegExp", "String"]:
+          superClassNode = getClassNode(docTree, superClassName)
+          childClasses = superClassNode.get("childClasses", False)
 
-        if childClasses:
-          childClasses += "," + className
-        else:
-          childClasses = className
+          if childClasses:
+            childClasses += "," + className
+          else:
+            childClasses = className
 
-        superClassNode.set("childClasses", childClasses)
-
-        classNode.set("superClass", superClassName)
+          superClassNode.set("childClasses", childClasses)
+          classNode.set("superClass", superClassName)
 
       elif variant == "interface":
         pass
