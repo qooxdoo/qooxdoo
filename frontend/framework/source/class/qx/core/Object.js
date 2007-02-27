@@ -353,7 +353,7 @@ qx.Clazz.define("qx.core.Object",
      */
     base : function(args, varags)
     {
-      if (arguments[1] == undefined) {
+      if (arguments.length == 1) {
         return args.callee.base.call(this);
       } else {
         return args.callee.base.apply(this, Array.prototype.slice.call(arguments, 1));
