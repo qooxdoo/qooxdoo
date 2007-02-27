@@ -332,7 +332,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     ---------------------------------------------------------------------------
     */
 
-    "bar-view" :
+    "button-view" :
     {
       style : function(states)
       {
@@ -343,7 +343,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
       }
     },
 
-    "bar-view-pane" :
+    "button-view-pane" :
     {
       style : function(states)
       {
@@ -364,7 +364,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
       }
     },
 
-    "bar-view-page" :
+    "button-view-page" :
     {
       style : function(states)
       {
@@ -377,7 +377,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
       }
     },
 
-    "bar-view-bar" :
+    "button-view-bar" :
     {
       style : function(states)
       {
@@ -460,7 +460,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
       }
     },
 
-    "bar-view-button" :
+    "button-view-button" :
     {
       extend : "atom",
 
