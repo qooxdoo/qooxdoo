@@ -403,6 +403,7 @@ qx.Clazz.define("qx.ui.popup.ToolTip",
       }
 
       return this.base(arguments);
+
     }
   }
 });

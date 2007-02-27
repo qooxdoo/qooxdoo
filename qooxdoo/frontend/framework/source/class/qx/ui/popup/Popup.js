@@ -48,16 +48,6 @@ qx.Clazz.define("qx.ui.popup.Popup",
     if (this._isFocusRoot) {
       this.activateFocusRoot();
     }
-
-    // Firefox on Mac OS X has a rendering bug regarding absolutely positioned elements over
-    // scrollbars. Setting the overflow property to "auto" makes this bug less annoying.
-    // http://bugzilla.qooxdoo.org/show_bug.cgi?id=277
-    if (qx.core.Variant.isSet("qx.client", "gecko"))
-    {
-      if (qx.core.Client.getInstance().runsOnMacintosh()) {
-        this.setOverflow("auto");
-      }
-    }
   },
 
 
