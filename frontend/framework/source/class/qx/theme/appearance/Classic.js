@@ -819,7 +819,6 @@ qx.Theme.define("qx.theme.appearance.Classic",
       style : function(states)
       {
         return {
-          overflow        : "hidden",
           border          : qx.renderer.border.BorderPresets.getInstance().thinInset,
           backgroundColor : "white"
         };
