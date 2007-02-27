@@ -87,6 +87,7 @@ qx.Proto._getCellStyle = function(cellInfo)
   // Return the style for the div for the cell.  If there's cell-specific
   // style information provided, append it.
   var html =
+    cellInfo.style +
     qx.ui.treevirtual.SimpleTreeDataCellRenderer.MAIN_DIV_STYLE +
     (node.cellStyle ? node.cellStyle + ";" : "");
   return html;
