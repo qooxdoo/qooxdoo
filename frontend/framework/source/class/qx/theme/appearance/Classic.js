@@ -1862,7 +1862,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
           iconPosition          : "right",
           verticalChildrenAlign : "middle",
           border                : border,
-          backgroundColor       : states.mouseover ? "white" : "#ebeadb",
+          backgroundColor       : states.mouseover ? "white" : "#ebeadb"
         };
       }
     },
