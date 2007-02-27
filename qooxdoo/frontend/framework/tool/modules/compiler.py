@@ -1340,6 +1340,9 @@ def compileNode(node):
       # e.g. a if-construct without a block {}
       if node.parent.getChild("statement").hasChild("block"):
         pass
+    
+      elif node.parent.getChild("statement").hasChild("emptyStatement"):
+        pass    
 
       elif node.parent.type == "loop" and node.parent.get("loopType") == "DO":
         pass
@@ -1438,7 +1441,7 @@ def compileNode(node):
             space()
 
     # Semicolon handling
-    elif node.type in [ "group", "block", "assignment", "call", "operation", "definitionList", "return", "break", "continue", "delete", "accessor", "instantiation", "throw", "variable" ]:
+    elif node.type in [ "group", "block", "assignment", "call", "operation", "definitionList", "return", "break", "continue", "delete", "accessor", "instantiation", "throw", "variable", "emptyStatement" ]:
 
       # Default semicolon handling
       if node.parent.type in [ "block", "file" ]:
@@ -1463,7 +1466,11 @@ def compileNode(node):
             sep()
 
       # Special handling for loops (e.g. if) without blocks {}
-      elif node.parent.type in [ "statement", "elseStatement" ] and not node.parent.hasChild("block") and node.parent.parent.type == "loop":
+      elif (
+        node.parent.type in [ "statement", "elseStatement"] and
+        not node.parent.hasChild("block") and
+        node.parent.parent.type == "loop"
+      ):
         semicolon()
 
         if pretty:
