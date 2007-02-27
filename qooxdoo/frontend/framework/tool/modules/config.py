@@ -42,10 +42,10 @@ DIRIGNORE = [ ".svn", "CVS" ]
 
 QXHEAD = {
   # TODO: Obsolete since 0.7
-  "defineClass" : re.compile('qx.OO.defineClass\(\s*["\']([\.a-zA-Z0-9_-]+)["\'](\s*\,\s*([\.a-zA-Z0-9_-]+))?', re.M),
+  "defineClass" : re.compile('qx.OO.defineClass\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\'](\s*\,\s*([\.a-zA-Z0-9_-]+))?', re.M),
 
   # 0.7 API
-  "classDefine" : re.compile('qx.(Clazz|Locale|Mixin|Interface).define\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M),
+  "classDefine" : re.compile('qx.(Clazz|Locale|Mixin|Interface).define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M),
   "superClass" : re.compile('extend\s*:\s*([\.a-zA-Z0-9_-]+)', re.M),
 
   "id" : re.compile("#id\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),

@@ -189,7 +189,7 @@ qx.Class.ignore =
 
 qx.Class.consoleInfo = function(object)
 {
-  var msg = qx.dev.Pollution.getTextList(object);
+  var msg = qx.dev.Pollution.getTextList(object || "window");
 
   if (msg) {
     alert("Global namespace is polluted by the following unknown objects:\n\n" + msg);
