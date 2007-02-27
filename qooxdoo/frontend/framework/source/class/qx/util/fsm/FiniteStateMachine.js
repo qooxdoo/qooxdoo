@@ -409,64 +409,6 @@ qx.Proto.displayAllObjects = function()
 
 
 /**
- * Recursively display an object (as debug messages)
- *
- * @param obj {Object}
- *   The object to be recursively displayed
- * @param initialMessage {String}
- *   The initial message to be displayed.
- */
-qx.Proto.debugObject = function(obj, initialMessage)
-{
-  thisClass = this;
-
-  var displayObj = function(obj, level)
-  {
-    var indentStr = "";
-    for (var i = 0; i < level; i++)
-    {
-      indentStr += "  ";
-    }
-
-    if (typeof(obj) != "object")
-    {
-      thisClass.debug(indentStr, obj);
-      return;
-    }
-
-    for (var prop in obj)
-    {
-      if (typeof(obj[prop]) == "object")
-      {
-        if (obj[prop] instanceof Array)
-        {
-          thisClass.debug(indentStr + prop + ": "  + "Array");
-        }
-        else
-        {
-          thisClass.debug(indentStr + prop + ": "  + "Object");
-        }
-
-        displayObj(obj[prop], level + 1);
-      }
-      else
-      {
-        thisClass.debug(indentStr + prop + ": " + obj[prop]);
-      }
-    }
-  }
-
-  if (initialMessage)
-  {
-    this.debug(initialMessage);
-  }
-
-  displayObj(obj, 0);
-};
-
-
-
-/**
  * Start (or restart, after it has terminated) the finite state machine from
  * the starting state.  The starting state is defined as the first state added
  * to the finite state machine.
