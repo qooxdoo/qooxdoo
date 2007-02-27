@@ -229,7 +229,7 @@ qx.Clazz.define("qx.manager.object.AppearanceManager",
       cache[unique] = ret;
 
       // Debug
-      this.debug("Cached: " + qx.lang.Object.getLength(cache) + " :: " + unique);
+      // this.debug("Cached: " + qx.lang.Object.getLength(cache) + " :: " + unique);
 
       return ret;
     },
