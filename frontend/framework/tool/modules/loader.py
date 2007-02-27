@@ -278,6 +278,14 @@ def detectDeps(node, optionalDeps, loadtimeDeps, runtimeDeps, fileId, fileDb, in
         else:
           assembled = ""
           break
+      
+        # treat dependencies in defer as requires 
+        if assembled == "qx.Clazz.define":
+          if node.parent.type == "operand" and node.parent.parent.type == "call":
+            deferNode = variantoptimizer.selectNode(node, "../../params/1/keyvalue[@key='defer']/value/function/body/block")
+            if deferNode != None:
+              detectDeps(deferNode, optionalDeps, loadtimeDeps, runtimeDeps, fileId, fileDb, False)
+          
 
   elif node.type == "body" and node.parent.type == "function":
     inFunction = True
@@ -286,15 +294,6 @@ def detectDeps(node, optionalDeps, loadtimeDeps, runtimeDeps, fileId, fileDb, in
     for child in node.children:
       detectDeps(child, optionalDeps, loadtimeDeps, runtimeDeps, fileId, fileDb, inFunction)
 
-
-def detectDepsDefer(node, optionalDeps, loadtimeDeps, runtimeDeps, fileId, fileDb):
-  classes = variantoptimizer.findVariable(node, "qx.Clazz.define")
-  for cls in classes:
-    if cls.parent.type == "operand" and cls.parent.parent.type == "call":
-      deferNode = variantoptimizer.selectNode(cls, "../../params/1/keyvalue[@key='defer']/value/function/body/block")
-      if deferNode != None:
-        detectDeps(deferNode, optionalDeps, loadtimeDeps, runtimeDeps, fileId, fileDb, False)
-    
 
 def resolveAutoDeps(fileDb, options):
 
@@ -321,10 +320,6 @@ def resolveAutoDeps(fileDb, options):
 
     # Detecting auto dependencies
     detectDeps(getTree(fileDb, fileId, options), fileEntry["optionalDeps"], loadtimeDeps, runtimeDeps, fileId, fileDb, False)
-
-    # detecting dependencies in defer    
-    detectDepsDefer(getTree(fileDb, fileId, options), fileEntry["optionalDeps"], loadtimeDeps, runtimeDeps, fileId, fileDb)
-    
 
     # Handle ignore configuration
     if "auto-require" in fileEntry["ignoreDeps"]:
