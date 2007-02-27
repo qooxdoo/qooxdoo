@@ -38,7 +38,7 @@ qx.Clazz.define("qx.ui.tree.TreeFile",
   */
 
   construct : function(vLabel, vIcon, vIconSelected) {
-    qx.ui.tree.AbstractTreeElement.call(this, vLabel, vIcon, vIconSelected);
+    this.base(arguments, vLabel, vIcon, vIconSelected);
   },
 
 

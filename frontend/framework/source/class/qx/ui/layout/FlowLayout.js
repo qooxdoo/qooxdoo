@@ -38,7 +38,7 @@ qx.Clazz.define("qx.ui.layout.FlowLayout",
   */
 
   construct : function() {
-    qx.ui.core.Parent.call(this);
+    this.base(arguments);
   },
 
 
@@ -153,7 +153,7 @@ qx.Clazz.define("qx.ui.layout.FlowLayout",
      */
     _changeInnerWidth : function(vNew, vOld)
     {
-      qx.ui.core.Parent.prototype._changeInnerWidth.call(this, vNew, vOld);
+      this.base(arguments, vNew, vOld);
 
       // allow 'auto' values for height to update when the inner width changes
       this._invalidatePreferredInnerHeight();

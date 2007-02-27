@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.toolbar.ToolBar",
 
   construct : function()
   {
-    qx.ui.layout.HorizontalBoxLayout.call(this);
+    this.base(arguments);
 
     this.addEventListener("keypress", this._onkeypress);
   },
@@ -299,7 +299,7 @@ qx.Clazz.define("qx.ui.toolbar.ToolBar",
 
       this.removeEventListener("keypress", this._onkeypress);
 
-      return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

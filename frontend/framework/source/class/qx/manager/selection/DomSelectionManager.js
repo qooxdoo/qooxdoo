@@ -38,7 +38,7 @@ qx.Clazz.define("qx.manager.selection.DomSelectionManager",
 
   construct : function(vBoundedWidget)
   {
-    qx.manager.selection.SelectionManager.call(this, vBoundedWidget);
+    this.base(arguments, vBoundedWidget);
 
     // the children does not fire onmouseover events so we could
     // not enable this and make it functional

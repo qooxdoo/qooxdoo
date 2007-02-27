@@ -38,7 +38,7 @@ qx.Clazz.define("qx.ui.embed.LinkEmbed",
 
   construct : function(vHtml, vUri, vTarget)
   {
-    qx.ui.embed.HtmlEmbed.call(this, vHtml);
+    this.base(arguments, vHtml);
 
     if (typeof vUri != "undefined") {
       this.setUri(vUri);

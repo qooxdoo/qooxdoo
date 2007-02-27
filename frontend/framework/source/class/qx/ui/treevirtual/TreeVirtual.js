@@ -66,7 +66,7 @@ qx.Clazz.define("qx.ui.treevirtual.TreeVirtual",
     });
 
     // Call our superclass constructor
-    qx.ui.table.Table.call(this, tableModel);
+    this.base(arguments, tableModel);
 
     // By default, present the column visibility button only if there are
     // multiple columns.
@@ -730,7 +730,7 @@ qx.Clazz.define("qx.ui.treevirtual.TreeVirtual",
       else
       {
         // It's not one of ours.  Let our superclass handle this event
-        qx.ui.table.Table.prototype._onkeydown.call(this, evt);
+        this.base(arguments, evt);
       }
     },
 
@@ -770,7 +770,7 @@ qx.Clazz.define("qx.ui.treevirtual.TreeVirtual",
       else
       {
         // Let our superclass handle this event
-        qx.ui.table.Table.prototype._onkeypress.call(this, evt);
+        this.base(arguments, evt);
       }
     },
 
@@ -797,7 +797,7 @@ qx.Clazz.define("qx.ui.treevirtual.TreeVirtual",
       }
 
       // Call the superclass method
-      qx.ui.table.Table.prototype._onSelectionChanged.call(this, evt);
+      this.base(arguments, evt);
     },
 
 

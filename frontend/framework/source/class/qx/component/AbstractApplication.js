@@ -30,6 +30,6 @@ qx.Clazz.define("qx.component.AbstractApplication",
   extend : qx.component.AbstractComponent,
 
   construct : function() {
-    qx.component.AbstractComponent.call(this);
+    this.base(arguments);
   }
 });

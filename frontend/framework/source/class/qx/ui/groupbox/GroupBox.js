@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.groupbox.GroupBox",
 
   construct : function(vLegend, vIcon)
   {
-    qx.ui.layout.CanvasLayout.call(this);
+    this.base(arguments);
 
     // ************************************************************************
     //   SUB WIDGETS
@@ -244,7 +244,7 @@ qx.Clazz.define("qx.ui.groupbox.GroupBox",
         this._frameObject = null;
       }
 
-      return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

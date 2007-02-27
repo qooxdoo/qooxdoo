@@ -40,7 +40,7 @@ qx.Clazz.define("qx.renderer.font.Font",
 
   construct : function(vSize, vName)
   {
-    qx.core.Object.call(this);
+    this.base(arguments);
 
     this._defs = {};
 
@@ -327,7 +327,7 @@ qx.Clazz.define("qx.renderer.font.Font",
 
       delete this._defs;
 
-      return qx.core.Object.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

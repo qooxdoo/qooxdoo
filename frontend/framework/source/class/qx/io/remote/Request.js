@@ -53,7 +53,7 @@ qx.Clazz.define("qx.io.remote.Request",
 
   construct : function(vUrl, vMethod, vResponseType)
   {
-    qx.core.Target.call(this);
+    this.base(arguments);
 
     this._requestHeaders = {};
     this._parameters = {};
@@ -954,7 +954,7 @@ qx.Clazz.define("qx.io.remote.Request",
 
       this.setTransport(null);
 
-      return qx.core.Target.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

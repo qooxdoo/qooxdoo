@@ -41,7 +41,7 @@ qx.Clazz.define("qx.ui.listview.HeaderCell",
 
   construct : function(vConfig, vId)
   {
-    qx.ui.basic.Atom.call(this, vConfig.label, vConfig.icon, vConfig.iconWidth, vConfig.iconHeight, vConfig.flash);
+    this.base(arguments, vConfig.label, vConfig.icon, vConfig.iconWidth, vConfig.iconHeight, vConfig.flash);
 
     // Text Overflow
     this.setStyleProperty("textOverflow", "ellipsis");
@@ -356,7 +356,7 @@ qx.Clazz.define("qx.ui.listview.HeaderCell",
       this.removeEventListener("mouseover", this._onmouseover);
       this.removeEventListener("mouseout", this._onmouseout);
 
-      return qx.ui.basic.Atom.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

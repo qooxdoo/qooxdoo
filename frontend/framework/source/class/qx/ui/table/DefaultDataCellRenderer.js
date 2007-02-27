@@ -40,7 +40,7 @@ qx.Clazz.define("qx.ui.table.DefaultDataCellRenderer",
   */
 
   construct : function() {
-    qx.ui.table.AbstractDataCellRenderer.call(this);
+    this.base(arguments);
   },
 
 

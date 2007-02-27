@@ -45,7 +45,7 @@ qx.Clazz.define("qx.ui.table.ResizeTableColumnModel",
 
   construct : function()
   {
-    qx.ui.table.TableColumnModel.call(this);
+    this.base(arguments);
 
     // We don't want to recursively call ourself based on our resetting of
     // column sizes.  Track when we're resizing.
@@ -124,7 +124,7 @@ qx.Clazz.define("qx.ui.table.ResizeTableColumnModel",
     init : function(numColumns, table)
     {
       // Call our superclass
-      qx.ui.table.TableColumnModel.prototype.init.call(this, numColumns);
+      this.base(arguments, numColumns);
 
       // Save the table so we can get at its features, as necessary.
       this._table = table;

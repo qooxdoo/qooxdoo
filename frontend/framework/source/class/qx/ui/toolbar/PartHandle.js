@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.toolbar.PartHandle",
 
   construct : function()
   {
-    qx.ui.layout.CanvasLayout.call(this);
+    this.base(arguments);
 
     var l = new qx.ui.basic.Terminator;
     l.setAppearance("toolbar-part-handle-line");

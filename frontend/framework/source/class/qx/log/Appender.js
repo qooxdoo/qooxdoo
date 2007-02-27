@@ -41,7 +41,7 @@ qx.Clazz.define("qx.log.Appender",
   */
 
   construct : function() {
-    qx.log.LogEventProcessor.call(this);
+    this.base(arguments);
   },
 
 

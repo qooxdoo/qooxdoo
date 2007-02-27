@@ -42,7 +42,7 @@ qx.Clazz.define("qx.ui.table.DefaultHeaderCellRenderer",
   */
 
   construct : function() {
-    qx.ui.table.HeaderCellRenderer.call(this);
+    this.base(arguments);
   },
 
 

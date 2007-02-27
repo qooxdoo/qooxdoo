@@ -42,7 +42,7 @@ qx.Clazz.define("qx.util.format.NumberFormat",
 
   construct : function(locale)
   {
-    qx.util.format.Format.call(this);
+    this.base(arguments);
     this._locale = locale;
   },
 

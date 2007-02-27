@@ -39,6 +39,6 @@ qx.Clazz.define("qx.ui.layout.VerticalBoxLayout",
   */
 
   construct : function() {
-    qx.ui.layout.BoxLayout.call(this, "vertical");
+    this.base(arguments, "vertical");
   }
 });

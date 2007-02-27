@@ -54,7 +54,7 @@ qx.Clazz.define("qx.ui.core.Widget",
       throw new Error("Please omit the usage of qx.ui.core.Widget directly. Choose between qx.ui.core.Parent and qx.ui.basic.Terminator instead!");
     }
 
-    qx.core.Target.call(this, true);
+    this.base(arguments, true);
 
     // ************************************************************************
     //   HTML MAPPING DATA STRUCTURES
@@ -7543,7 +7543,7 @@ qx.Clazz.define("qx.ui.core.Widget",
         this._fadeTimer = null;
       }
 
-      return qx.core.Target.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   },
 

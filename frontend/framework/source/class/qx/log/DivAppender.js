@@ -47,7 +47,7 @@ qx.Clazz.define("qx.log.DivAppender",
 
   construct : function(divId)
   {
-    qx.log.Appender.call(this);
+    this.base(arguments);
 
     this._divId = divId ? divId : "qx_log";
   },
@@ -278,7 +278,7 @@ qx.Clazz.define("qx.log.DivAppender",
 
       this._logElem = null;
 
-      return qx.log.Appender.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

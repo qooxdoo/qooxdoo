@@ -39,7 +39,7 @@ qx.Clazz.define("qx.manager.object.ObjectManager",
 
   construct : function()
   {
-    qx.core.Target.call(this);
+    this.base(arguments);
 
     this._objects = {};
   },
@@ -189,7 +189,7 @@ qx.Clazz.define("qx.manager.object.ObjectManager",
         delete this._objects;
       }
 
-      return qx.core.Target.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

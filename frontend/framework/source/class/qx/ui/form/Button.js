@@ -46,7 +46,7 @@ qx.Clazz.define("qx.ui.form.Button",
 
   construct : function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
   {
-    qx.ui.basic.Atom.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
+    this.base(arguments, vText, vIcon, vIconWidth, vIconHeight, vFlash);
 
     // Make focusable
     this.setTabIndex(1);
@@ -262,7 +262,7 @@ qx.Clazz.define("qx.ui.form.Button",
         return;
       }
 
-      return qx.ui.basic.Atom.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

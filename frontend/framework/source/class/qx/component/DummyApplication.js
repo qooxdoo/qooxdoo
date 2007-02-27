@@ -29,6 +29,6 @@ qx.Clazz.define("qx.component.DummyApplication",
   extend : qx.component.AbstractApplication,
 
   construct : function() {
-    qx.component.AbstractApplication.call(this);
+    this.base(arguments);
   }
 });

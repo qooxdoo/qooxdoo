@@ -68,7 +68,7 @@ qx.Clazz.define("qx.ui.table.DefaultResizeBehavior",
   */
 
   construct : function() {
-    qx.ui.table.AbstractResizeBehavior.call(this);
+    this.base(arguments);
   },
 
 

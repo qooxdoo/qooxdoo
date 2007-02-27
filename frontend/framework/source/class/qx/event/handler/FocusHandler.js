@@ -42,7 +42,7 @@ qx.Clazz.define("qx.event.handler.FocusHandler",
 
   construct : function(vWidget)
   {
-    qx.core.Target.call(this);
+    this.base(arguments);
 
     if (vWidget != null) {
       this._attachedWidget = vWidget;
@@ -463,7 +463,7 @@ qx.Clazz.define("qx.event.handler.FocusHandler",
 
       this._attachedWidget = null;
 
-      qx.core.Target.prototype.dispose.call(this);
+      this.base(arguments);
     }
   }
 });

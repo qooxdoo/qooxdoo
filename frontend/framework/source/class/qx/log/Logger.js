@@ -46,7 +46,7 @@ qx.Clazz.define("qx.log.Logger",
 
   construct : function(name, parentLogger)
   {
-    qx.log.LogEventProcessor.call(this);
+    this.base(arguments);
 
     this._name = name;
     this._parentLogger = parentLogger;
@@ -190,7 +190,7 @@ qx.Clazz.define("qx.log.Logger",
       this._parentLogger = null;
       this._appenderArr = null;
 
-      return qx.log.LogEventProcessor.prototype.dispose.call(this);
+      return this.base(arguments);
     },
 
 

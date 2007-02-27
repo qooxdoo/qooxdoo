@@ -38,7 +38,7 @@ qx.Clazz.define("qx.ui.listview.HeaderSeparator",
   */
 
   construct : function() {
-    qx.ui.basic.Terminator.call(this);
+    this.base(arguments);
   },
 
 

@@ -9,7 +9,7 @@ qx.Clazz.define("qx.test.Lion",
    * @type constructor
    */
   construct : function() {
-    arguments.callee.base.call(this);
+    this.base(arguments);
   },
 
   include : [ qx.test.MFat ],
@@ -48,7 +48,7 @@ qx.Clazz.define("qx.test.Lion",
      * @return {void}
      */
     play : function() {
-      arguments.callee.base.call(this);
+      this.base(arguments);
     }
   }
 });

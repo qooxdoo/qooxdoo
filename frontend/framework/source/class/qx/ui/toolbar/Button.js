@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.toolbar.Button",
 
   construct : function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
   {
-    qx.ui.form.Button.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
+    this.base(arguments, vText, vIcon, vIconWidth, vIconHeight, vFlash);
 
     // Omit focus
     this.setTabIndex(-1);

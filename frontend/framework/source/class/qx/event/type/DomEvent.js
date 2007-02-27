@@ -39,7 +39,7 @@ qx.Clazz.define("qx.event.type.DomEvent",
 
   construct : function(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget)
   {
-    qx.event.type.Event.call(this, vType);
+    this.base(arguments, vType);
 
     this.setDomEvent(vDomEvent);
     this.setDomTarget(vDomTarget);
@@ -246,7 +246,7 @@ qx.Clazz.define("qx.event.type.DomEvent",
 
         this.getDomEvent().returnValue = false;
 
-        qx.event.type.Event.prototype.setDefaultPrevented.call(this, vValue);
+        this.base(arguments, vValue);
       },
 
       "default" : function(vValue)
@@ -258,7 +258,7 @@ qx.Clazz.define("qx.event.type.DomEvent",
         this.getDomEvent().preventDefault();
         this.getDomEvent().returnValue = false;
 
-        qx.event.type.Event.prototype.setDefaultPrevented.call(this, vValue);
+        this.base(arguments, vValue);
       }
     }),
 
@@ -286,7 +286,7 @@ qx.Clazz.define("qx.event.type.DomEvent",
       this._valueDomEvent = null;
       this._valueDomTarget = null;
 
-      return qx.event.type.Event.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

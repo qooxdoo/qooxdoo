@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.basic.HorizontalSpacer",
 
   construct : function()
   {
-    qx.ui.basic.Terminator.call(this);
+    this.base(arguments);
 
     this.setWidth("1*");
   }

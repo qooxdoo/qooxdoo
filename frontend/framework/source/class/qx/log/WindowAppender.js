@@ -47,7 +47,7 @@ qx.Clazz.define("qx.log.WindowAppender",
 
   construct : function(name)
   {
-    qx.log.Appender.call(this);
+    this.base(arguments);
 
     this._id = qx.log.WindowAppender.register(this);
     this._name = (name == null) ? "qx_log" : name;
@@ -412,7 +412,7 @@ qx.Clazz.define("qx.log.WindowAppender",
 
       this._autoCloseWindow();
 
-      return qx.log.Appender.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

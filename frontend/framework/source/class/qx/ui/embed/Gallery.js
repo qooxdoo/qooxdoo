@@ -40,7 +40,7 @@ qx.Clazz.define("qx.ui.embed.Gallery",
 
   construct : function(vGalleryList)
   {
-    qx.ui.basic.Terminator.call(this);
+    this.base(arguments);
 
     this._blank = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
     this._list = vGalleryList;
@@ -947,7 +947,7 @@ qx.Clazz.define("qx.ui.embed.Gallery",
 
       this.removeEventListener("keypress", this._onkeypress);
 
-      return qx.ui.basic.Terminator.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

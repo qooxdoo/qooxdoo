@@ -41,7 +41,7 @@ qx.Clazz.define("qx.ui.tree.TreeFolder",
 
   construct : function(vLabel, vIcon, vIconSelected)
   {
-    qx.ui.tree.AbstractTreeElement.call(this, vLabel, vIcon, vIconSelected);
+    this.base(arguments, vLabel, vIcon, vIconSelected);
 
     this._iconObject.setAppearance("tree-folder-icon");
     this._labelObject.setAppearance("tree-folder-label");
@@ -880,7 +880,7 @@ qx.Clazz.define("qx.ui.tree.TreeFolder",
         this._containerObject = null;
       }
 
-      return qx.ui.tree.AbstractTreeElement.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

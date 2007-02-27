@@ -56,7 +56,7 @@ qx.Clazz.define("qx.io.image.Preloader",
       return qx.manager.object.ImagePreloaderManager.getInstance().get(vSource);
     }
 
-    qx.core.Target.call(this);
+    this.base(arguments);
 
     // Create Image-Node
     // Does not work with document.createElement("img") in Webkit. Interesting.
@@ -354,7 +354,7 @@ qx.Clazz.define("qx.io.image.Preloader",
 
       this._isLoaded = this._isErroneous = this._isPng = false;
 
-      return qx.core.Target.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

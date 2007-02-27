@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.embed.HtmlEmbed",
 
   construct : function(vHtml)
   {
-    qx.ui.basic.Terminator.call(this);
+    this.base(arguments);
 
     if (vHtml != null) {
       this.setHtml(vHtml);

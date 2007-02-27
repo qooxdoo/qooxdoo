@@ -45,7 +45,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
 
   construct : function(table)
   {
-    qx.ui.layout.VerticalBoxLayout.call(this);
+    this.base(arguments);
 
     this._table = table;
 
@@ -606,7 +606,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
       // The height has changed -> Update content
       this._postponedUpdateContent();
 
-      return qx.ui.layout.VerticalBoxLayout.prototype._changeInnerHeight.call(this, newValue, oldValue);
+      return this.base(arguments, newValue, oldValue);
     },
 
     // overridden
@@ -618,7 +618,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      */
     _afterAppear : function()
     {
-      qx.ui.layout.VerticalBoxLayout.prototype._afterAppear.call(this);
+      this.base(arguments);
 
       var self = this;
       this.getElement().onselectstart = qx.lang.Function.returnFalse;
@@ -1817,7 +1817,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
         tablePaneModel.removeEventListener("modelChanged", this._onPaneModelChanged, this);
       }
 
-      return qx.ui.layout.VerticalBoxLayout.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

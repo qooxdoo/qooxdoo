@@ -45,7 +45,7 @@ qx.Clazz.define("qx.ui.table.Table",
 
   construct : function(tableModel)
   {
-    qx.ui.layout.VerticalBoxLayout.call(this);
+    this.base(arguments);
 
     // Create the child widgets
     this._scrollerParent = new qx.ui.layout.HorizontalBoxLayout;
@@ -1626,7 +1626,7 @@ qx.Clazz.define("qx.ui.table.Table",
       },
       0);
 
-      return qx.ui.layout.VerticalBoxLayout.prototype._changeInnerWidth.call(this, newValue, oldValue);
+      return this.base(arguments, newValue, oldValue);
     },
 
     // overridden
@@ -1653,7 +1653,7 @@ qx.Clazz.define("qx.ui.table.Table",
       },
       0);
 
-      return qx.ui.layout.VerticalBoxLayout.prototype._changeInnerHeight.call(this, newValue, oldValue);
+      return this.base(arguments, newValue, oldValue);
     },
 
     // overridden
@@ -1665,7 +1665,7 @@ qx.Clazz.define("qx.ui.table.Table",
      */
     _afterAppear : function()
     {
-      qx.ui.layout.VerticalBoxLayout.prototype._afterAppear.call(this);
+      this.base(arguments);
 
       this._updateScrollBarVisibility();
     },
@@ -1720,7 +1720,7 @@ qx.Clazz.define("qx.ui.table.Table",
       this.removeEventListener("keydown", this._onkeydown);
       this.removeEventListener("keypress", this._onkeypress);
 
-      return qx.ui.layout.VerticalBoxLayout.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

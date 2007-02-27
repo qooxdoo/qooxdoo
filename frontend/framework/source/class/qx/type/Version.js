@@ -90,7 +90,7 @@ qx.Clazz.define("qx.type.Version",
 
   construct : function(arrVersion)
   {
-    qx.core.Object.call(this);
+    this.base(arguments);
 
     if (typeof arrVersion === "string") {
       arrVersion = arrVersion.split(".");
@@ -208,7 +208,7 @@ qx.Clazz.define("qx.type.Version",
 
       this.__major = this.__minor = this.__rev = null;
 
-      qx.core.Object.prototype.dispose.call(this);
+      this.base(arguments);
     }
   }
 });

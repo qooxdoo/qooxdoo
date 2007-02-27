@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.menu.Separator",
 
   construct : function()
   {
-    qx.ui.layout.CanvasLayout.call(this);
+    this.base(arguments);
 
     // Fix IE Styling Issues
     this.setStyleProperty("fontSize", "0");
@@ -126,7 +126,7 @@ qx.Clazz.define("qx.ui.menu.Separator",
         this._line = null;
       }
 
-      return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

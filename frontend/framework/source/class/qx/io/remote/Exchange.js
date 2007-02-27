@@ -47,7 +47,7 @@ qx.Clazz.define("qx.io.remote.Exchange",
 
   construct : function(vRequest)
   {
-    qx.core.Target.call(this);
+    this.base(arguments);
 
     this.setRequest(vRequest);
     vRequest.setTransport(this);
@@ -977,7 +977,7 @@ qx.Clazz.define("qx.io.remote.Exchange",
 
       this.setRequest(null);
 
-      return qx.core.Target.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   },
 

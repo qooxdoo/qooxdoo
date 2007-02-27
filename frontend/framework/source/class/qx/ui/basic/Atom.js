@@ -52,7 +52,7 @@ qx.Clazz.define("qx.ui.basic.Atom",
 
   construct : function(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)
   {
-    qx.ui.layout.BoxLayout.call(this);
+    this.base(arguments);
 
     if (this.getOrientation() == null) {
       this.setOrientation("horizontal");
@@ -347,7 +347,7 @@ qx.Clazz.define("qx.ui.basic.Atom",
         this._labelObject.setEnabled(propValue);
       }
 
-      return qx.ui.layout.BoxLayout.prototype._modifyEnabled.call(this, propValue, propOldValue, propData);
+      return this.base(arguments, propValue, propOldValue, propData);
     },
 
 
@@ -597,7 +597,7 @@ qx.Clazz.define("qx.ui.basic.Atom",
         this._labelObject = null;
       }
 
-      return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

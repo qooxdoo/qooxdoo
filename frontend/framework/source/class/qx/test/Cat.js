@@ -10,7 +10,7 @@ qx.Clazz.define("qx.test.Cat",
    */
   construct : function()
   {
-    arguments.callee.base.call(this);
+    this.base(arguments);
 
     this.debug("Static property: " + arguments.callee.self.static_prop1);
   },

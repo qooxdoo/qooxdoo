@@ -48,7 +48,7 @@ qx.Clazz.define("qx.ui.table.IconHeaderCellRenderer",
 
   construct : function(iconUrl, tooltip)
   {
-    qx.ui.table.DefaultHeaderCellRenderer.call(this);
+    this.base(arguments);
 
     if (iconUrl == null) {
       iconUrl = "";
@@ -115,7 +115,7 @@ qx.Clazz.define("qx.ui.table.IconHeaderCellRenderer",
      */
     updateHeaderCell : function(cellInfo, cellWidget)
     {
-      qx.ui.table.DefaultHeaderCellRenderer.prototype.updateHeaderCell.call(this, cellInfo, cellWidget);
+      this.base(arguments, cellInfo, cellWidget);
 
       // Set URL to icon
       var img = cellWidget.getUserData("qx_ui_table_IconHeaderCellRenderer_icon");

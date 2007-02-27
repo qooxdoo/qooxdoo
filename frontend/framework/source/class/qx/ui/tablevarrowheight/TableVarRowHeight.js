@@ -77,6 +77,6 @@ qx.Clazz.define("qx.ui.tablevarrowheight.TableVarRowHeight",
     });
 
     // Call our superclass
-    qx.ui.table.Table.call(this, tableModel);
+    this.base(arguments, tableModel);
   }
 });

@@ -49,7 +49,7 @@ qx.Clazz.define("qx.ui.table.RemoteTableModel",
 
   construct : function()
   {
-    qx.ui.table.AbstractTableModel.call(this);
+    this.base(arguments);
 
     this._sortColumnIndex = -1;
     this._sortAscending = true;

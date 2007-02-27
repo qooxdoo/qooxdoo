@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.tree.Tree",
 
   construct : function(vLabel, vIcon, vIconSelected)
   {
-    qx.ui.tree.TreeFolder.call(this, vLabel, vIcon, vIconSelected);
+    this.base(arguments, vLabel, vIcon, vIconSelected);
 
     // ************************************************************************
     //   INITILISIZE MANAGER
@@ -559,7 +559,7 @@ qx.Clazz.define("qx.ui.tree.Tree",
 
       delete this._oldItem;
 
-      return qx.ui.tree.TreeFolder.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

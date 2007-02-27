@@ -42,7 +42,7 @@ qx.Clazz.define("qx.ui.menu.CheckBox",
 
   construct : function(vLabel, vCommand, vChecked)
   {
-    qx.ui.menu.Button.call(this, vLabel, "static/image/blank.gif", vCommand);
+    this.base(arguments, vLabel, "static/image/blank.gif", vCommand);
 
     if (vChecked != null) {
       this.setChecked(vChecked);
@@ -148,7 +148,7 @@ qx.Clazz.define("qx.ui.menu.CheckBox",
     execute : function()
     {
       this.setChecked(!this.getChecked());
-      qx.ui.menu.Button.prototype.execute.call(this);
+      this.base(arguments);
     }
   }
 });

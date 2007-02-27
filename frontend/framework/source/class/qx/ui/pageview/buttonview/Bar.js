@@ -38,7 +38,7 @@ qx.Clazz.define("qx.ui.pageview.buttonview.Bar",
   */
 
   construct : function() {
-    qx.ui.pageview.AbstractBar.call(this);
+    this.base(arguments);
   },
 
 

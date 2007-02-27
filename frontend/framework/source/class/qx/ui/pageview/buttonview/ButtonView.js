@@ -45,7 +45,7 @@ qx.Clazz.define("qx.ui.pageview.buttonview.ButtonView",
 
   construct : function()
   {
-    qx.ui.pageview.AbstractPageView.call(this, qx.ui.pageview.buttonview.Bar, qx.ui.pageview.buttonview.Pane);
+    this.base(arguments, qx.ui.pageview.buttonview.Bar, qx.ui.pageview.buttonview.Pane);
 
     this.setOrientation("vertical");
   },

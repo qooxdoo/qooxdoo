@@ -43,7 +43,7 @@ qx.Clazz.define("qx.renderer.color.Color",
       this.setValue(vValue);
     }
 
-    qx.core.Object.call(this);
+    this.base(arguments);
   },
 
 
@@ -794,7 +794,7 @@ qx.Clazz.define("qx.renderer.color.Color",
       delete this._isHtmlColor;
       delete this._isThemedColor;
 
-      return qx.core.Object.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

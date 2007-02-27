@@ -51,7 +51,7 @@ qx.Clazz.define("qx.ui.core.Parent",
       throw new Error("Please omit the usage of qx.ui.core.Parent directly. Choose between any widget which inherits from qx.ui.core.Parent and so comes with a layout implementation!");
     }
 
-    qx.ui.core.Widget.call(this);
+    this.base(arguments);
 
     // Contains all children
     this._children = [];
@@ -936,7 +936,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      */
     _beforeAppear : function()
     {
-      qx.ui.core.Widget.prototype._beforeAppear.call(this);
+      this.base(arguments);
 
       this.forEachVisibleChild(function()
       {
@@ -955,7 +955,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      */
     _afterAppear : function()
     {
-      qx.ui.core.Widget.prototype._afterAppear.call(this);
+      this.base(arguments);
 
       this.forEachVisibleChild(function()
       {
@@ -974,7 +974,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      */
     _beforeDisappear : function()
     {
-      qx.ui.core.Widget.prototype._beforeDisappear.call(this);
+      this.base(arguments);
 
       this.forEachVisibleChild(function()
       {
@@ -993,7 +993,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      */
     _afterDisappear : function()
     {
-      qx.ui.core.Widget.prototype._afterDisappear.call(this);
+      this.base(arguments);
 
       this.forEachVisibleChild(function()
       {
@@ -1020,7 +1020,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      */
     _beforeInsertDom : function()
     {
-      qx.ui.core.Widget.prototype._beforeInsertDom.call(this);
+      this.base(arguments);
 
       this.forEachVisibleChild(function()
       {
@@ -1039,7 +1039,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      */
     _afterInsertDom : function()
     {
-      qx.ui.core.Widget.prototype._afterInsertDom.call(this);
+      this.base(arguments);
 
       this.forEachVisibleChild(function()
       {
@@ -1058,7 +1058,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      */
     _beforeRemoveDom : function()
     {
-      qx.ui.core.Widget.prototype._beforeRemoveDom.call(this);
+      this.base(arguments);
 
       this.forEachVisibleChild(function()
       {
@@ -1077,7 +1077,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      */
     _afterRemoveDom : function()
     {
-      qx.ui.core.Widget.prototype._afterRemoveDom.call(this);
+      this.base(arguments);
 
       this.forEachVisibleChild(function()
       {
@@ -1161,7 +1161,7 @@ qx.Clazz.define("qx.ui.core.Parent",
      */
     _recursiveAppearanceThemeUpdate : function(vNewAppearanceTheme, vOldAppearanceTheme)
     {
-      qx.ui.core.Widget.prototype._recursiveAppearanceThemeUpdate.call(this, vNewAppearanceTheme, vOldAppearanceTheme);
+      this.base(arguments, vNewAppearanceTheme, vOldAppearanceTheme);
 
       this.forEachVisibleChild(function() {
         this._recursiveAppearanceThemeUpdate(vNewAppearanceTheme, vOldAppearanceTheme);
@@ -1580,7 +1580,7 @@ qx.Clazz.define("qx.ui.core.Parent",
         this.forceFocusHandler(null);
       }
 
-      return qx.ui.core.Widget.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   },
 

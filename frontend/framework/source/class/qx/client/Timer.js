@@ -40,7 +40,7 @@ qx.Clazz.define("qx.client.Timer",
 
   construct : function(interval)
   {
-    qx.core.Target.call(this);
+    this.base(arguments);
 
     this.setEnabled(false);
 
@@ -298,7 +298,7 @@ qx.Clazz.define("qx.client.Timer",
       this.__oninterval = null;
 
       // Call qx.core.Target to do the other dispose work
-      return qx.core.Target.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

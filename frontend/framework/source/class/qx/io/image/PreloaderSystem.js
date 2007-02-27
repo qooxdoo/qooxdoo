@@ -43,7 +43,7 @@ qx.Clazz.define("qx.io.image.PreloaderSystem",
 
   construct : function(vPreloadList, vCallBack, vCallBackScope)
   {
-    qx.core.Target.call(this);
+    this.base(arguments);
 
     this._list = vPreloadList;
 
@@ -244,7 +244,7 @@ qx.Clazz.define("qx.io.image.PreloaderSystem",
         this._timer = null;
       }
 
-      return qx.core.Target.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   },
 

@@ -38,7 +38,7 @@ qx.Clazz.define("qx.renderer.layout.FlowLayoutImpl",
   */
 
   construct : function(vWidget) {
-    qx.renderer.layout.LayoutImpl.call(this, vWidget);
+    this.base(arguments, vWidget);
   },
 
 

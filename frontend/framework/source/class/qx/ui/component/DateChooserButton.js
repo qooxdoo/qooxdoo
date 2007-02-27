@@ -53,7 +53,7 @@ qx.Clazz.define("qx.ui.component.DateChooserButton",
       vIcon = 'icon/16/apps/accessories-date.png';
     }
 
-    qx.ui.form.Button.call(this, vButtonLabel, vIcon, vIconWidth, vIconHeight, vFlash);
+    this.base(arguments, vButtonLabel, vIcon, vIconWidth, vIconHeight, vFlash);
     this.set({ height : 20 });
 
     // create the subwidgets
@@ -369,7 +369,7 @@ qx.Clazz.define("qx.ui.component.DateChooserButton",
 
       this.removeEventListener("execute", this._executeHandler);
 
-      return qx.ui.form.Button.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

@@ -50,7 +50,7 @@ qx.Clazz.define("qx.core.Init",
 
   construct : function()
   {
-    qx.core.Target.call(this, false);
+    this.base(arguments, false);
 
     // Attach DOM events
     qx.html.EventRegistration.addEventListener(window, "load", qx.lang.Function.bind(this._onload, this));
@@ -331,7 +331,7 @@ qx.Clazz.define("qx.core.Init",
         this._applicationInstance = null;
       }
 
-      qx.core.Target.prototype.dispose.call(this);
+      this.base(arguments);
     }
   },
 

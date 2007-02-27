@@ -41,7 +41,7 @@ qx.Clazz.define("qx.manager.object.PopupManager",
   */
 
   construct : function() {
-    qx.manager.object.ObjectManager.call(this);
+    this.base(arguments);
   },
 
 

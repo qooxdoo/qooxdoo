@@ -9,7 +9,7 @@ qx.Clazz.define("qx.test.Animal",
    * @type constructor
    */
   construct : function() {
-    arguments.callee.base.call(this);
+    this.base(arguments);
   },
 
   properties : {},

@@ -43,7 +43,7 @@ qx.Clazz.define("qx.manager.object.ImageManager",
 
   construct : function()
   {
-    qx.manager.object.ObjectManager.call(this);
+    this.base(arguments);
 
     // Themes
     this._iconThemes = {};
@@ -389,7 +389,7 @@ qx.Clazz.define("qx.manager.object.ImageManager",
       this._iconThemes = null;
       this._widgetThemes = null;
 
-      return qx.manager.object.ObjectManager.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   },
 

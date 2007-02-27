@@ -155,7 +155,7 @@ qx.Clazz.define("qx.util.fsm.State",
   construct : function(stateName, stateInfo)
   {
     // Call our superclass' constructor
-    qx.core.Object.call(this, true);
+    this.base(arguments, true);
 
     // Save the state name
     this.setName(stateName);
@@ -893,7 +893,7 @@ qx.Clazz.define("qx.util.fsm.State",
         return true;
       }
 
-      return qx.core.Object.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

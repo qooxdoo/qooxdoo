@@ -44,7 +44,7 @@ qx.Clazz.define("qx.log.RingBufferAppender",
 
   construct : function()
   {
-    qx.log.Appender.call(this);
+    this.base(arguments);
 
     this._history = [];
     this._nextIndexToStoreTo = 0;
@@ -196,7 +196,7 @@ qx.Clazz.define("qx.log.RingBufferAppender",
         return true;
       }
 
-      return qx.log.Appender.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

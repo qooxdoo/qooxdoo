@@ -29,7 +29,7 @@ qx.Clazz.define("qx.component.init.InterfaceInitComponent",
   extend : qx.component.init.BasicInitComponent,
 
   construct : function() {
-    qx.component.init.BasicInitComponent.call(this);
+    this.base(arguments);
   },
 
 
@@ -87,7 +87,7 @@ qx.Clazz.define("qx.component.init.InterfaceInitComponent",
 
       // Start real initialisation
       var start = (new Date).valueOf();
-      qx.component.init.BasicInitComponent.prototype.initialize.call(this);
+      this.base(arguments);
       this.info("initialize runtime: " + ((new Date).valueOf() - start) + "ms");
     },
 
@@ -102,7 +102,7 @@ qx.Clazz.define("qx.component.init.InterfaceInitComponent",
     {
       // Start real main process
       var start = (new Date).valueOf();
-      qx.component.init.BasicInitComponent.prototype.main.call(this);
+      this.base(arguments);
       this.info("main runtime: " + ((new Date).valueOf() - start) + "ms");
 
       this.debug("preloading visible images...");
@@ -129,7 +129,7 @@ qx.Clazz.define("qx.component.init.InterfaceInitComponent",
       // Finally attach event to make the GUI ready for the user
       qx.event.handler.EventHandler.getInstance().attachEvents();
 
-      qx.component.init.BasicInitComponent.prototype.finalize.call(this);
+      this.base(arguments);
 
       this.info("finalize runtime: " + ((new Date).valueOf() - start) + "ms");
     },
@@ -144,7 +144,7 @@ qx.Clazz.define("qx.component.init.InterfaceInitComponent",
     close : function()
     {
       var start = (new Date).valueOf();
-      qx.component.init.BasicInitComponent.prototype.close.call(this);
+      this.base(arguments);
 
       this.info("close runtime: " + ((new Date).valueOf() - start) + "ms");
     },
@@ -159,7 +159,7 @@ qx.Clazz.define("qx.component.init.InterfaceInitComponent",
     terminate : function()
     {
       var start = (new Date).valueOf();
-      qx.component.init.BasicInitComponent.prototype.terminate.call(this);
+      this.base(arguments);
 
       this.info("terminate runtime: " + ((new Date).valueOf() - start) + "ms");
     },
@@ -245,7 +245,7 @@ qx.Clazz.define("qx.component.init.InterfaceInitComponent",
       this._preloadDone = null;
       this._uiReady = null;
 
-      return qx.component.init.BasicInitComponent.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

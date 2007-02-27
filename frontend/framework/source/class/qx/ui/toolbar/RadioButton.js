@@ -38,7 +38,7 @@ qx.Clazz.define("qx.ui.toolbar.RadioButton",
   */
 
   construct : function(vText, vIcon, vChecked) {
-    qx.ui.toolbar.CheckBox.call(this, vText, vIcon, vChecked);
+    this.base(arguments, vText, vIcon, vChecked);
   },
 
 
@@ -116,7 +116,7 @@ qx.Clazz.define("qx.ui.toolbar.RadioButton",
      */
     _modifyChecked : function(propValue, propOldValue, propData)
     {
-      qx.ui.toolbar.CheckBox.prototype._modifyChecked.call(this, propValue, propOldValue, propData);
+      this.base(arguments, propValue, propOldValue, propData);
 
       var vManager = this.getManager();
 

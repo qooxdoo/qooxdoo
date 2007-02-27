@@ -45,7 +45,7 @@ qx.Clazz.define("qx.util.format.DateFormat",
 
   construct : function(format, locale)
   {
-    qx.util.format.Format.call(this);
+    this.base(arguments);
 
     if (format != null) {
       this._format = format.toString();

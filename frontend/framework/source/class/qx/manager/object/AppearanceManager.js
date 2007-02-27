@@ -43,7 +43,7 @@ qx.Clazz.define("qx.manager.object.AppearanceManager",
 
   construct : function()
   {
-    qx.manager.object.ObjectManager.call(this);
+    this.base(arguments);
 
     // Themes
     this._appearanceThemes = {};
@@ -163,7 +163,7 @@ qx.Clazz.define("qx.manager.object.AppearanceManager",
       // Themes
       this._appearanceThemes = null;
 
-      return qx.manager.object.ObjectManager.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   },
 

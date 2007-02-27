@@ -43,7 +43,7 @@ qx.Clazz.define("qx.ui.popup.ToolTip",
     // ************************************************************************
     //   INIT
     // ************************************************************************
-    qx.ui.popup.PopupAtom.call(this, vLabel, vIcon);
+    this.base(arguments, vLabel, vIcon);
 
     // Apply shadow
     this.setStyleProperty("filter", "progid:DXImageTransform.Microsoft.Shadow(color='Gray', Direction=135, Strength=4)");
@@ -222,7 +222,7 @@ qx.Clazz.define("qx.ui.popup.ToolTip",
      */
     _beforeAppear : function()
     {
-      qx.ui.popup.PopupAtom.prototype._beforeAppear.call(this);
+      this.base(arguments);
 
       this._stopShowTimer();
       this._startHideTimer();
@@ -237,7 +237,7 @@ qx.Clazz.define("qx.ui.popup.ToolTip",
      */
     _beforeDisappear : function()
     {
-      qx.ui.popup.PopupAtom.prototype._beforeDisappear.call(this);
+      this.base(arguments);
 
       this._stopHideTimer();
     },
@@ -402,7 +402,7 @@ qx.Clazz.define("qx.ui.popup.ToolTip",
         this._hideTimer = null;
       }
 
-      return qx.ui.popup.PopupAtom.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

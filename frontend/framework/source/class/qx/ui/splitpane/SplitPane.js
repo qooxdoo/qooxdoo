@@ -52,7 +52,7 @@ qx.Clazz.define("qx.ui.splitpane.SplitPane",
 
   construct : function(orientation, firstSize, secondSize)
   {
-    qx.ui.layout.CanvasLayout.call(this);
+    this.base(arguments);
 
     // CREATE INNER BOX LAYOUT
     var box = this._box = new qx.ui.layout.BoxLayout;
@@ -966,7 +966,7 @@ qx.Clazz.define("qx.ui.splitpane.SplitPane",
         this._knob = null;
       }
 
-      return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

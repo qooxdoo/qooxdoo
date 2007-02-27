@@ -45,7 +45,7 @@ qx.Clazz.define("qx.log.JsUnitAppender",
   */
 
   construct : function() {
-    qx.log.Appender.call(this);
+    this.base(arguments);
   },
 
 

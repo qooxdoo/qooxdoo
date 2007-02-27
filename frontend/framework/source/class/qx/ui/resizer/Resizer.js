@@ -45,7 +45,7 @@ qx.Clazz.define("qx.ui.resizer.Resizer",
 
   construct : function(child)
   {
-    qx.ui.layout.CanvasLayout.call(this);
+    this.base(arguments);
 
     this._frame = new qx.ui.basic.Terminator;
     this._frame.setAppearance("resizer-frame");
@@ -542,7 +542,7 @@ qx.Clazz.define("qx.ui.resizer.Resizer",
         this._frame = null;
       }
 
-      return qx.ui.layout.CanvasLayout.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

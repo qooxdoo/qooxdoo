@@ -44,7 +44,7 @@ qx.Clazz.define("qx.ui.component.DateChooser",
 
   construct : function(date)
   {
-    qx.ui.layout.BoxLayout.call(this);
+    this.base(arguments);
 
     this.setOrientation("vertical");
 
@@ -743,7 +743,7 @@ qx.Clazz.define("qx.ui.component.DateChooser",
 
       this.removeEventListener("keypress", this._onkeypress);
 
-      return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

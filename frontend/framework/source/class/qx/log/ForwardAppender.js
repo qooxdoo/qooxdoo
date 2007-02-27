@@ -44,7 +44,7 @@ qx.Clazz.define("qx.log.ForwardAppender",
 
   construct : function(targetProcessor)
   {
-    qx.log.Appender.call(this);
+    this.base(arguments);
 
     this._targetProcessor = targetProcessor;
   },

@@ -41,7 +41,7 @@ qx.Clazz.define("qx.renderer.border.BorderPresets",
 
   construct : function()
   {
-    qx.core.Object.call(this);
+    this.base(arguments);
 
     this.black = new qx.renderer.border.Border(1, "solid", "black");
     this.white = new qx.renderer.border.Border(1, "solid", "white");
@@ -92,7 +92,7 @@ qx.Clazz.define("qx.renderer.border.BorderPresets",
 
       this.black = this.white = this.none = this.inset = this.outset = this.groove = this.ridge = this.thinInset = this.thinOutset = this.verticalDivider = this.horizontalDivider = this.shadow = this.lightShadow = this.info = null;
 
-      return qx.core.Object.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

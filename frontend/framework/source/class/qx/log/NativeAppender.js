@@ -45,7 +45,7 @@ qx.Clazz.define("qx.log.NativeAppender",
 
   construct : function(name)
   {
-    qx.log.Appender.call(this);
+    this.base(arguments);
 
     if (typeof console != 'undefined' && console.debug) {
       this._appender = new qx.log.FireBugAppender;
@@ -95,7 +95,7 @@ qx.Clazz.define("qx.log.NativeAppender",
         this._appender = null;
       }
 
-      return qx.log.Appender.call(this);
+      return this.base(arguments);
     }
   }
 });

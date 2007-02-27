@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.form.List",
 
   construct : function()
   {
-    qx.ui.layout.VerticalBoxLayout.call(this);
+    this.base(arguments);
 
     // ************************************************************************
     //   INITILISIZE MANAGER
@@ -590,7 +590,7 @@ qx.Clazz.define("qx.ui.form.List",
         this._manager = null;
       }
 
-      return qx.ui.layout.VerticalBoxLayout.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });

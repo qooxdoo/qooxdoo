@@ -39,7 +39,7 @@ qx.Clazz.define("qx.ui.form.RepeatButton",
 
   construct : function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
   {
-    qx.ui.form.Button.call(this, vText, vIcon, vIconWidth, vIconHeight, vFlash);
+    this.base(arguments, vText, vIcon, vIconWidth, vIconHeight, vFlash);
 
     this._timer = new qx.client.Timer;
     this._timer.setInterval(this.getInterval());
@@ -202,7 +202,7 @@ qx.Clazz.define("qx.ui.form.RepeatButton",
         this._timer = null;
       }
 
-      return qx.ui.form.Button.prototype.dispose.call(this);
+      return this.base(arguments);
     }
   }
 });
