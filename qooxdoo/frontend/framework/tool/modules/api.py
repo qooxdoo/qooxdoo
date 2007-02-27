@@ -194,10 +194,15 @@ def handleClassDefinition(docTree, item, variant):
 
     elif key == "members":
       handleMembers(valueItem, classNode)
+      
+    elif key == "events":
+      handleEvents(valueItem, classNode)
+      
 
 def handleMixins(item, classNode):
   #print "  - Found Mixin"
   pass
+
 
 def handleInterfaces(item, classNode):
   #print "  - Found Interface"
@@ -206,6 +211,7 @@ def handleInterfaces(item, classNode):
 def handleConstructor(item, classNode):
   #print "  - Found Constructor"
   pass
+
 
 def handleStatics(item, classNode):
   if item.hasChildren():
@@ -228,6 +234,7 @@ def handleStatics(item, classNode):
       elif key.isupper():
         handleConstantDefinition(keyvalue, classNode)
 
+
 def handleProperties(item, classNode):
   if item.hasChildren():
     for keyvalue in item.children:
@@ -237,6 +244,7 @@ def handleProperties(item, classNode):
 
       # TODO: New handling for new properties needed
       handlePropertyDefinitionOldCommon(keyvalue, classNode, key, value)
+
 
 def handleMembers(item, classNode):
   if item.hasChildren():
@@ -259,8 +267,33 @@ def handleMembers(item, classNode):
         classNode.addListChild("methods", node)
 
 
+def handleEvents(item, classNode):
+  if item.hasChildren():
+    for keyvalue in item.children:
+      if keyvalue.type != "keyvalue":
+        continue
 
+      node = tree.Node("event")
+    
+      key = keyvalue.get("key")
+      value = keyvalue.getFirstChild(True, True).getFirstChild(True, True).get("value")
+      try:
+        desc = comment.parseNode(keyvalue)[0]["text"]
+      except IndexError, KeyError:
+        desc = None
+        addError(node, "Documentation is missing.", item)
 
+      if desc != None:
+        node.addChild(tree.Node("desc").set("text", desc))
+
+      node.set("name", key)
+      typesNode = tree.Node("types")
+      node.addChild(typesNode)
+      itemNode = tree.Node("entry")
+      typesNode.addChild(itemNode)
+      itemNode.set("type", value)
+
+      classNode.addListChild("events", node)      
 
 
 ########################################################################################
@@ -503,6 +536,8 @@ def handleFunction(funcItem, commentAttributes, classNode):
     # Add description
     if attrib["category"] == "description":
       if attrib.has_key("text"):
+        if "TODOC" in attrib["text"]:
+          addError(node, "Documentation is missing.", funcItem)
         descNode = tree.Node("desc").set("text", attrib["text"])
         node.addChild(descNode)
 
@@ -669,6 +704,8 @@ def addEventNode(classNode, classItem, commentAttrib):
     for item in commentAttrib["type"]:
       itemNode = tree.Node("entry")
       typesNode.addChild(itemNode)
+
+      print item
 
       itemNode.set("type", item["type"])
 

@@ -321,7 +321,7 @@ qx.Clazz.define("apiviewer.TreeUtil",
 
     /** {string} The icon URL of an event. */
     ICON_EVENT : "api/image/event18.gif",
-
+    
     /** {string} The icon URL of a public method. */
     ICON_METHOD_PUB : "api/image/method_public18.gif",
 
@@ -348,6 +348,9 @@ qx.Clazz.define("apiviewer.TreeUtil",
   {
     /** {string[]} The icon URL of an inherited event. */
     statics.ICON_EVENT_INHERITED = [statics.ICON_EVENT, statics.OVERLAY_INHERITED ];
+    
+    /** {string} The icon URL of an event. */
+    statics.ICON_EVENT_ERROR = [statics.ICON_EVENT, statics.OVERLAY_ERROR ];
 
     /** {string[]} The icon URL of a property with warning. */
     statics.ICON_PROPERTY_WARN = [statics.ICON_PROPERTY, statics.OVERLAY_WARN ];

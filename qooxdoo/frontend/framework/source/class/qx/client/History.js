@@ -150,7 +150,7 @@ qx.Clazz.define("qx.client.History",
      *          helper page.
      * @return {void}
      */
-    __onHistoryLoad : function(location)
+    _onHistoryLoad : function(location)
     {
       try
       {
