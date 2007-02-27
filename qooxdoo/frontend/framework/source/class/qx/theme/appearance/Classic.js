@@ -1787,7 +1787,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       style : function(states)
       {
-        var result;
+        var result = {};
 
         if (states.editing)
         {
