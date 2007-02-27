@@ -21,8 +21,6 @@
 /* ************************************************************************
 
 #module(ui_core)
-#require(qx.core.Init)
-#require(qx.lang.Object)
 #use(qx.component.init.InterfaceInitComponent)
 #optional(qx.ui.core.Parent)
 #optional(qx.ui.form.Button)
@@ -79,7 +77,7 @@ qx.Clazz.define("qx.ui.core.Widget",
     //   APPEARANCE
     // ************************************************************************
     this._states = {};
-    this._applyAppearance();
+    this._applyInitialAppearance();
   },
 
 
@@ -514,7 +512,7 @@ qx.Clazz.define("qx.ui.core.Widget",
         {
           vWidget = vQueue[i];
 
-          vWidget._applyAppearance();
+          vWidget._applyStateAppearance();
 
           delete vWidget._isInGlobalStateQueue;
         }
@@ -3760,11 +3758,18 @@ qx.Clazz.define("qx.ui.core.Widget",
           return this._computedWidthValue = this.getPreferredBoxWidth();
 
         case qx.ui.core.Widget.TYPE_FLEX:
-          if (this.getParent().getLayoutImpl().computeChildrenFlexWidth === undefined) {
-            throw new Error("Widget " + this + ": having horizontal flex size (width=" + this.getWidth() + ") but parent layout " + this.getParent() + " does not support it");
+          try {
+            this.getParent().getLayoutImpl().computeChildrenFlexWidth();
+          }
+          catch(e)
+          {
+            if (this.getParent().getLayoutImpl()["computeChildrenFlexWidth"] == null) {
+              throw new Error("Widget " + this + ": having flex size but parent layout does not support it");
+            } else {
+              throw e;
+            }
           }
 
-          this.getParent().getLayoutImpl().computeChildrenFlexWidth();
           return this._computedWidthValue = this._computedWidthFlexValue;
       }
 
@@ -3911,11 +3916,18 @@ qx.Clazz.define("qx.ui.core.Widget",
           return this._computedHeightValue = this.getPreferredBoxHeight();
 
         case qx.ui.core.Widget.TYPE_FLEX:
-          if (this.getParent().getLayoutImpl().computeChildrenFlexHeight === undefined) {
-            throw new Error("Widget " + this + ": having vertical flex size (height=" + this.getHeight() + ") but parent layout " + this.getParent() + " does not support it");
+          try {
+            this.getParent().getLayoutImpl().computeChildrenFlexHeight();
+          }
+          catch(e)
+          {
+            if (this.getParent().getLayoutImpl()["computeChildrenFlexHeight"] == null) {
+              throw new Error("Widget " + this + ": having flex size but parent layout does not support it");
+            } else {
+              throw e;
+            }
           }
 
-          this.getParent().getLayoutImpl().computeChildrenFlexHeight();
           return this._computedHeightValue = this._computedHeightFlexValue;
       }
 
@@ -5238,7 +5250,35 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @type member
      * @return {void}
      */
-    _applyAppearance : function()
+    _applyInitialAppearance : function()
+    {
+      var vAppearance = this.getAppearance();
+
+      if (vAppearance)
+      {
+        try
+        {
+          var r = qx.manager.object.AppearanceManager.getInstance().getAppearanceTheme().initialFrom(vAppearance);
+
+          if (r) {
+            this.set(r);
+          }
+        }
+        catch(ex)
+        {
+          this.error("Could not apply initial appearance", ex);
+        }
+      }
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void}
+     */
+    _applyStateAppearance : function()
     {
       // HACK: Is there a cleaner way to implement this?
       // Maybe not use the appearance for this, but a simple property and event handler combination?
@@ -5250,7 +5290,7 @@ qx.Clazz.define("qx.ui.core.Widget",
       {
         try
         {
-          var r = qx.manager.object.AppearanceManager.getInstance().styleFrom(vAppearance, this._states);
+          var r = qx.manager.object.AppearanceManager.getInstance().getAppearanceTheme().stateFrom(vAppearance, this._states);
 
           if (r) {
             this.set(r);
@@ -5278,16 +5318,15 @@ qx.Clazz.define("qx.ui.core.Widget",
 
       if (vAppearance)
       {
-        var vAppearanceManager = qx.manager.object.AppearanceManager.getInstance();
+        var vOldAppearanceThemeObject = qx.manager.object.AppearanceManager.getInstance().getThemeById(vOldAppearanceTheme);
+        var vNewAppearanceThemeObject = qx.manager.object.AppearanceManager.getInstance().getThemeById(vNewAppearanceTheme);
 
-        var vOldAppearanceThemeObject = vAppearanceManager.getThemeById(vOldAppearanceTheme);
-        var vNewAppearanceThemeObject = vAppearanceManager.getThemeById(vNewAppearanceTheme);
-
-        var vOldAppearanceProperties = vAppearanceManager.styleFromTheme(vOldAppearanceThemeObject, vAppearance);
-        var vNewAppearanceProperties = vAppearanceManager.styleFromTheme(vNewAppearanceThemeObject, vAppearance);
+        var vOldAppearanceProperties = qx.lang.Object.mergeWith(vOldAppearanceThemeObject.initialFrom(vAppearance), vOldAppearanceThemeObject.stateFrom(vAppearance, this._states));
+        var vNewAppearanceProperties = qx.lang.Object.mergeWith(vNewAppearanceThemeObject.initialFrom(vAppearance), vNewAppearanceThemeObject.stateFrom(vAppearance, this._states));
 
         for (var vProp in vOldAppearanceProperties)
         {
+          // TODO: Access to private member (bad style) - please correct
           if (!(vProp in vNewAppearanceProperties)) {
             this[qx.core.LegacyProperty.getResetterName(vProp)]();
           }
@@ -5380,28 +5419,32 @@ qx.Clazz.define("qx.ui.core.Widget",
      */
     _modifyAppearance : function(propValue, propOldValue, propData)
     {
-      var vAppearanceManager = qx.manager.object.AppearanceManager.getInstance();
+      var vAppearanceThemeObject = qx.manager.object.AppearanceManager.getInstance().getAppearanceTheme();
 
-      if (propValue)
-      {
-        var vNewAppearanceProperties = vAppearanceManager.styleFrom(propValue, this._states) || {};
+      var vNewAppearanceProperties = vAppearanceThemeObject.initialFrom(propValue);
+
+      if (this.isCreated()) {
+        qx.lang.Object.mergeWith(vNewAppearanceProperties, vAppearanceThemeObject.stateFrom(propValue, this._states));
       }
 
       if (propOldValue)
       {
-        var vOldAppearanceProperties = vAppearanceManager.styleFrom(propOldValue, this._states) || {};
+        var vOldAppearanceProperties = vAppearanceThemeObject.initialFrom(propOldValue);
+
+        if (this.isCreated()) {
+          qx.lang.Object.mergeWith(vOldAppearanceProperties, vAppearanceThemeObject.stateFrom(propOldValue, this._states));
+        }
 
         for (var vProp in vOldAppearanceProperties)
         {
+          // TODO: Access to private member (bad style) - please correct
           if (!(vProp in vNewAppearanceProperties)) {
             this[qx.core.LegacyProperty.getResetterName(vProp)]();
           }
         }
       }
 
-      if (vNewAppearanceProperties) {
-        this.set(vNewAppearanceProperties);
-      }
+      this.set(vNewAppearanceProperties);
 
       return true;
     },
@@ -7519,14 +7562,6 @@ qx.Clazz.define("qx.ui.core.Widget",
   },
 
 
-
-
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
-
   defer : function(statics, members)
   {
     statics.__initApplyMethods(members);
@@ -7543,13 +7578,7 @@ qx.Clazz.define("qx.ui.core.Widget",
             return;
           }
 
-          if (!(statics._globalWidgetQueue.length > 0 ||
-                statics._globalElementQueue.length > 0 ||
-                statics._globalStateQueue.length > 0 ||
-                statics._globalJobQueue.length > 0 ||
-                statics._globalLayoutQueue.length > 0 ||
-                statics._fastGlobalDisplayQueue.length > 0 ||
-                !qx.lang.Object.isEmpty(statics._lazyGlobalDisplayQueue))) {
+          if (!(qx.ui.core.Widget._globalWidgetQueue.length > 0 || qx.ui.core.Widget._globalElementQueue.length > 0 || qx.ui.core.Widget._globalStateQueue.length > 0 || qx.ui.core.Widget._globalJobQueue.length > 0 || qx.ui.core.Widget._globalLayoutQueue.length > 0 || qx.ui.core.Widget._fastGlobalDisplayQueue.length > 0 || !qx.lang.Object.isEmpty(qx.ui.core.Widget._lazyGlobalDisplayQueue))) {
             return;
           }
 
@@ -7559,10 +7588,10 @@ qx.Clazz.define("qx.ui.core.Widget",
           var globalJobQueueLength = statics._globalJobQueue.length;
           var globalLayoutQueueLength = statics._globalLayoutQueue.length;
           var fastGlobalDisplayQueueLength = statics._fastGlobalDisplayQueue.length;
-          var lazyGlobalDisplayQueueLength = statics._lazyGlobalDisplayQueue ? statics._lazyGlobalDisplayQueue.length : 0;
+          var lazyGlobalDisplayQueueLength = statics._lazyGlobalDisplayQueue ? qx.ui.core.Widget._lazyGlobalDisplayQueue.length : 0;
 
           // Also used for inline event handling to seperate 'real' events
-          statics._inFlushGlobalQueues = true;
+          qx.ui.core.Widget._inFlushGlobalQueues = true;
 
           var vStart;
 

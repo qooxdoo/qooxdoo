@@ -134,10 +134,8 @@ qx.Clazz.define("qx.ui.pageview.AbstractButton",
      * @type member
      * @return {var} TODOC
      */
-    getView : function()
-    {
-      var pa = this.getParent();
-      return pa ? pa.getParent() : null;
+    getView : function() {
+      return this.getParent().getParent();
     },
 
 

@@ -20,6 +20,8 @@
 
 /* ************************************************************************
 
+#module(ui_core)
+#module(theme_widget)
 #resource(widgettheme:widget/Windows)
 
 ************************************************************************ */
@@ -27,11 +29,30 @@
 /**
  * Default qooxdoo widget theme
  */
-qx.Theme.define("qx.theme.widget.Windows",
+qx.Clazz.define("qx.theme.widget.Windows",
 {
-  title : "Windows",
+  type : "singleton",
+  extend : qx.renderer.theme.WidgetTheme,
 
-  widgets : {
-    uri : qx.core.Setting.get("qx.resourceUri") + "/widget/Windows"
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function()
+  {
+    qx.renderer.theme.WidgetTheme.call(this, "Windows");
+
+    this.uri = qx.core.Setting.get("qx.resourceUri") + "/widget/Windows";
+  },
+  
+  defer : function(clazz)
+  {
+    qx.manager.object.ImageManager.getInstance().registerWidgetTheme(clazz);    
   }
+    
 });

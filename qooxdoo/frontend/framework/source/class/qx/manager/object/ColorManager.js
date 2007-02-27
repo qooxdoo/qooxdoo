@@ -73,7 +73,8 @@ qx.Clazz.define("qx.manager.object.ColorManager",
     {
       _legacy   : true,
       type      : "object",
-      allowNull : false
+      allowNull : false,
+      instance  : "qx.renderer.theme.ColorTheme"
     }
   },
 
@@ -99,14 +100,14 @@ qx.Clazz.define("qx.manager.object.ColorManager",
      *
      * @type member
      * @param vThemeClass {var} TODOC
-     * @return {void}
+     * @return {void} 
      */
     registerColorTheme : function(vThemeClass)
     {
-      this._colorThemes[vThemeClass.name] = vThemeClass;
+      this._colorThemes[vThemeClass.classname] = vThemeClass;
 
-      if (vThemeClass.name == qx.core.Setting.get("qx.colorTheme")) {
-        this.setColorTheme(vThemeClass);
+      if (vThemeClass.classname == qx.core.Setting.get("qx.colorTheme")) {
+        this.setColorTheme(vThemeClass.getInstance());
       }
     },
 
@@ -116,10 +117,10 @@ qx.Clazz.define("qx.manager.object.ColorManager",
      *
      * @type member
      * @param vId {var} TODOC
-     * @return {void}
+     * @return {void} 
      */
     setColorThemeById : function(vId) {
-      this.setColorTheme(this._colorThemes[vId]);
+      this.setColorTheme(this._colorThemes[vId].getInstance());
     },
 
 
@@ -136,7 +137,7 @@ qx.Clazz.define("qx.manager.object.ColorManager",
      *
      * @type member
      * @param oObject {Object} TODOC
-     * @return {void}
+     * @return {void} 
      */
     add : function(oObject)
     {
@@ -155,7 +156,7 @@ qx.Clazz.define("qx.manager.object.ColorManager",
      *
      * @type member
      * @param oObject {Object} TODOC
-     * @return {void}
+     * @return {void} 
      */
     remove : function(oObject)
     {
@@ -209,42 +210,13 @@ qx.Clazz.define("qx.manager.object.ColorManager",
      */
     _modifyColorTheme : function(propValue, propOldValue, propData)
     {
-      this._compileTheme(propValue);
+      propValue.compile();
 
       for (var i in this._dependentObjects) {
         this._dependentObjects[i]._updateTheme(propValue);
       }
 
       return true;
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PROTECTED METHODS
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    _compileTheme : function(theme)
-    {
-      if (theme._compiledColors) {
-        return;
-      }
-
-      var colors = theme.colors;
-      var compiled = theme._compiledColors = {};
-
-      for (var name in qx.renderer.color.Color.themedNames) {
-        compiled[name] = colors[name] ? qx.renderer.color.Color.rgb2style.apply(this, colors[name]) : name;
-      }
     },
 
 
@@ -263,7 +235,7 @@ qx.Clazz.define("qx.manager.object.ColorManager",
      * @param vParent {var} TODOC
      * @param xCor {var} TODOC
      * @param yCor {var} TODOC
-     * @return {void}
+     * @return {void} 
      */
     createThemeList : function(vParent, xCor, yCor)
     {
@@ -275,8 +247,8 @@ qx.Clazz.define("qx.manager.object.ColorManager",
 
       for (var vId in vThemes)
       {
-        var vObj = vThemes[vId];
-        var vButton = new qx.ui.form.Button(vPrefix + vObj.title, vIcon);
+        var vObj = vThemes[vId].getInstance();
+        var vButton = new qx.ui.form.Button(vPrefix + vObj.getTitle(), vIcon);
 
         vButton.setLocation(xCor, yCor);
         vButton.addEventListener(vEvent, new Function("qx.manager.object.ColorManager.getInstance().setColorThemeById('" + vId + "')"));
@@ -331,7 +303,14 @@ qx.Clazz.define("qx.manager.object.ColorManager",
   *****************************************************************************
   */
 
-  settings : {
+  settings :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      DEFAULT SETTINGS
+    ---------------------------------------------------------------------------
+    */
+
     "qx.colorTheme" : "qx.theme.color.WindowsRoyale"
   }
 });
