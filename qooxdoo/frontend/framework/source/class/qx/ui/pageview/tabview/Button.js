@@ -273,10 +273,13 @@ qx.Clazz.define("qx.ui.pageview.tabview.Button",
      */
     _applyAppearance : function()
     {
-      this._states.firstChild = this.isFirstVisibleChild();
-      this._states.lastChild = this.isLastVisibleChild();
-      this._states.alignLeft = this.getView().getAlignTabsToLeft();
-      this._states.barTop = this.getView().getPlaceBarOnTop();
+      if (this.getView())
+      {
+        this._states.firstChild = this.isFirstVisibleChild();
+        this._states.lastChild = this.isLastVisibleChild();
+        this._states.alignLeft = this.getView().getAlignTabsToLeft();
+        this._states.barTop = this.getView().getPlaceBarOnTop();
+      }
 
       qx.ui.pageview.AbstractButton.prototype._applyAppearance.call(this);
     },
