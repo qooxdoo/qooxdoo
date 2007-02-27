@@ -99,6 +99,10 @@ def parseElement(element):
     obj = { "type" : "number", "detail" : "int", "source" : element, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId }
 
   elif element.startswith("_"):
+    # print "PROTECTED NAME: %s" % content
+    obj = { "type" : "name", "detail" : "protected", "source" : element, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId }
+
+  elif element.startswith("__"):
     # print "PRIVATE NAME: %s" % content
     obj = { "type" : "name", "detail" : "private", "source" : element, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId }
 
