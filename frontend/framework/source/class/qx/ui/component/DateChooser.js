@@ -245,7 +245,8 @@ qx.Clazz.define("qx.ui.component.DateChooser",
   */
 
   events: {
-    "select"     : "qx.event.type.DataEvent" /** Fired when a date was selected. The event holds the new selected date in its data property.*/
+    /** Fired when a date was selected. The event holds the new selected date in its data property.*/
+    "select"     : "qx.event.type.DataEvent" 
   },
 
 

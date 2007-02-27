@@ -91,10 +91,17 @@ qx.Clazz.define("qx.ui.core.ClientDocument",
   */
 
   events: {
-    "windowblur"    : "qx.event.type.Event", /** Fired when the window looses the */
-    "focus"         : "qx.event.type.Event", /** (Fired by {@link qx.event.handler.EventHandler}) */
-    "windowfocus"   : "qx.event.type.Event", /**  Fired when the window gets the focus. (Fired by {@link qx.event.handler.EventHandler}) */
-    "windowresize"  : "qx.event.type.Event"  /** Fired when the window has been resized. (Fired by {@link qx.event.handler.EventHandler}) */
+    /** Fired when the window looses the */
+    "windowblur"    : "qx.event.type.Event", 
+    
+    /** (Fired by {@link qx.event.handler.EventHandler}) */
+    "focus"         : "qx.event.type.Event",
+    
+    /**  Fired when the window gets the focus (Fired by {@link qx.event.handler.EventHandler}) */ 
+    "windowfocus"   : "qx.event.type.Event",
+    
+    /** Fired when the window has been resized (Fired by {@link qx.event.handler.EventHandler}) */
+    "windowresize"  : "qx.event.type.Event"  
   },
 
 
