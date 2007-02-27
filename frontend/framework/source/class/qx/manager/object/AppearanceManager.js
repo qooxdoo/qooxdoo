@@ -213,14 +213,6 @@ qx.Clazz.define("qx.manager.object.AppearanceManager",
       // This is the place where we really call the appearance theme
       if (entry.style)
       {
-        // Execute setup routine (deprecated)
-        if (entry.setup)
-        {
-          this.debug("Use of deprecated setup method in appearance '" + id + "'");
-          entry.setup();
-          delete entry.setup;
-        }
-
         // Executing appearance theme style definition
         ret = entry.style(states);
 
