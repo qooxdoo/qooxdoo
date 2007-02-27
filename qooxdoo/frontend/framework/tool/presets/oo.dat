@@ -7,9 +7,9 @@
 class-path = framework/source/class
 cache-directory = framework/.cache
 generate-compiled-script
-compiled-script-file = io.js
+compiled-script-file = oo.js
 optimize-strings
 optimize-variables
 add-file-ids
 
-include = qx.io.remote.*
+include = qx.Clazz
