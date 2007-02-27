@@ -20,6 +20,8 @@
 
 /* ************************************************************************
 
+#module(ui_core)
+#module(theme_icon)
 #resource(icontheme:icon/VistaInspirate)
 
 ************************************************************************ */
@@ -31,11 +33,30 @@
  * Home: http://www.kde-look.org/content/show.php?content=31585
  * Comment: Based on nuoveXT by the same author
  */
-qx.Theme.define("qx.theme.icon.VistaInspirate",
+qx.Clazz.define("qx.theme.icon.VistaInspirate",
 {
-  title : "VistaInspirate",
+  type : "singleton",
+  extend : qx.renderer.theme.IconTheme,
 
-  icons : {
-    uri : qx.core.Setting.get("qx.resourceUri") + "/icon/VistaInspirate"
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function()
+  {
+    qx.renderer.theme.IconTheme.call(this, "VistaInspirate");
+
+    this.uri = qx.core.Setting.get("qx.resourceUri") + "/icon/VistaInspirate";
+  },
+  
+  defer : function(clazz)
+  {
+    qx.manager.object.ImageManager.getInstance().registerIconTheme(clazz);    
   }
+    
 });

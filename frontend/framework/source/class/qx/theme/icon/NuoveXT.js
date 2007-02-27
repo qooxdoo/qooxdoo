@@ -20,6 +20,8 @@
 
 /* ************************************************************************
 
+#module(ui_core)
+#module(theme_icon)
 #resource(icontheme:icon/NuoveXT)
 
 ************************************************************************ */
@@ -30,11 +32,30 @@
  * License: GPL & LGPL/EPL
  * Home: http://www.kde-look.org/content/show.php?content=26449
  */
-qx.Theme.define("qx.theme.icon.NuoveXT",
+qx.Clazz.define("qx.theme.icon.NuoveXT",
 {
-  title : "NuoveXT",
+  type : "singleton",
+  extend : qx.renderer.theme.IconTheme,
 
-  icons : {
-    uri : qx.core.Setting.get("qx.resourceUri") + "/icon/NuoveXT"
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function()
+  {
+    qx.renderer.theme.IconTheme.call(this, "NuoveXT");
+
+    this.uri = qx.core.Setting.get("qx.resourceUri") + "/icon/NuoveXT";
+  },
+  
+  defer : function(clazz)
+  {
+    qx.manager.object.ImageManager.getInstance().registerIconTheme(clazz);    
   }
+    
 });

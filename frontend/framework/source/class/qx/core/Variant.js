@@ -293,7 +293,7 @@ qx.Clazz.define("qx.core.Variant",
   defer : function(statics)
   {
     statics.define("qx.debug", [ "on", "off" ], "on");
-    statics.define("qx.compatibility", [ "on", "off" ], "off");
+    statics.define("qx.compatibility", [ "on", "off" ], "on");
 
     statics.__init();
   }
