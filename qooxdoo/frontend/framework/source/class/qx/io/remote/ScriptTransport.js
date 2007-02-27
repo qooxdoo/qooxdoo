@@ -75,7 +75,12 @@ qx.io.remote.ScriptTransport.handles =
   asynchronous : true,
   crossDomain : true,
   fileUpload: false,
-  responseTypes : [ qx.util.Mime.TEXT, qx.util.Mime.JAVASCRIPT, qx.util.Mime.JSON ]
+  programaticFormFields: false,
+  responseTypes : [
+                    qx.util.Mime.TEXT,
+                    qx.util.Mime.JAVASCRIPT,
+                    qx.util.Mime.JSON
+                  ]
 }
 
 qx.io.remote.ScriptTransport.isSupported = function() {

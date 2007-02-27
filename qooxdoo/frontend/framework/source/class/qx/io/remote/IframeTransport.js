@@ -100,7 +100,14 @@ qx.io.remote.IframeTransport.handles =
   asynchronous : true,
   crossDomain : false,
   fileUpload: true,
-  responseTypes : [ qx.util.Mime.TEXT, qx.util.Mime.JAVASCRIPT, qx.util.Mime.JSON, qx.util.Mime.XML, qx.util.Mime.HTML ]
+  programaticFormFields: true,
+  responseTypes : [
+                    qx.util.Mime.TEXT,
+                    qx.util.Mime.JAVASCRIPT,
+                    qx.util.Mime.JSON,
+                    qx.util.Mime.XML,
+                    qx.util.Mime.HTML
+                  ]
 }
 
 qx.io.remote.IframeTransport.isSupported = function() {
@@ -146,7 +153,20 @@ qx.Proto.send = function()
 
   if (vParametersList.length > 0) {
     vUrl += (vUrl.indexOf("?") >= 0 ?
-      "&" : "?") + vParametersList.join("&");
+             "&" : "?") + vParametersList.join("&");
+  }
+
+
+  // --------------------------------------
+  //   Adding form fields
+  // --------------------------------------
+
+  var vFormFields = this.getFormFields();
+  for (var vId in vFormFields) {
+    var vField = document.createElement("textarea");
+    vField.name = vId;
+    vField.appendChild(document.createTextNode(vFormFields[vId]));
+    this._form.appendChild(vField);
   }
 
 

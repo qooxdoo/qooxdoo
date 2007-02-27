@@ -70,6 +70,7 @@ qx.io.remote.XmlHttpTransport.handles =
   asynchronous : true,
   crossDomain : false,
   fileUpload: false,
+  programaticFormFields: false,
   responseTypes : [
                     qx.util.Mime.TEXT,
                     qx.util.Mime.JAVASCRIPT,
