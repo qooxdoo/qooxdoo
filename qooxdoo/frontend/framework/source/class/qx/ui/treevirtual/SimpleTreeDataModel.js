@@ -34,17 +34,18 @@
  * {
  *   // USER-PROVIDED ATTRIBUTES
  *   // ------------------------
- *   type          : qx.ui.treevirtual.Type.LEAF,
- *   parentNodeId  : 23,   // index in _nodeArr of the parent node
- *   label         : "My Documents",
- *   bSelected     : true, // true if node is selected; false otherwise
- *   opened        : null, // true (-), false (+), or null (no +/-)
- *   icon          : "images/folder.gif",
- *   iconSelected  : "images/folder_selected.gif",
- *   children      : [ ],  // each value is an index into _nodeArr
+ *   type           : qx.ui.treevirtual.Type.LEAF,
+ *   parentNodeId   : 23,    // index in _nodeArr of the parent node
+ *   label          : "My Documents",
+ *   bSelected      : true,  // true if node is selected; false otherwise
+ *   bOpened        : true,  // true (-), false (+)
+ *   bHideOpenClose : false, // whether to hide the open/close button
+ *   icon           : "images/folder.gif",
+ *   iconSelected   : "images/folder_selected.gif",
+ *   children       : [ ],   // each value is an index into _nodeArr
  *
- *   cellStyle     : "background-color:cyan"
- *   labelStyle    : "background-color:red;color:white"
+ *   cellStyle      : "background-color:cyan"
+ *   labelStyle     : "background-color:red;color:white"
  *
  *   // INTERNALLY-CALCULATED ATTRIBUTES
  *   // --------------------------------
@@ -52,15 +53,15 @@
  *   // caller, but are automatically calculated.  Some are used internally,
  *   // while others may be of use to event listeners.
  *
- *   nodeId        : 42,   // The index in _nodeArr, useful to event listeners
+ *   nodeId         : 42,   // The index in _nodeArr, useful to event listeners
  *
- *   level         : 2,    // The indentation level of this tree node
+ *   level          : 2,    // The indentation level of this tree node
  *
- *   bFirstChild   : true,
- *   lastChild     : [ false ],  // Array where the index is the column of
- *                               // indentation, and the value is a boolean.
- *                               // These are used to locate the
- *                               // appropriate "tree line" icon.
+ *   bFirstChild    : true,
+ *   lastChild      : [ false ],  // Array where the index is the column of
+ *                                // indentation, and the value is a boolean.
+ *                                // These are used to locate the
+ *                                // appropriate "tree line" icon.
  * }
  * </pre>
  */
@@ -86,7 +87,7 @@ function()
   this._nodeArr.push(           // the root node, needed to store its children
     {
       label     : "<virtual root>",
-      opened    : true,
+      bOpened   : true,
       children  : [ ]
     });
 });
@@ -219,25 +220,13 @@ qx.Proto.getValue = function(columnIndex, rowIndex)
  * @param label {String}
  *   The string to display as the label for this node
  *
- * @param opened {boolean ? null}
- *   This is a tri-state boolean which indicates:
- *   <dl>
- *     <dt>true</dt>
- *     <dd>
- *       The branch should be displayed in its opened state with a '-'
- *       clickable '-' icon to enable closing the branch.
- *     </dd>
- *     <dt>false</dt>
- *     <dd>
- *       The branch should be displayed in its closed state with a clickable
- *       '+' icon to enable opening the branch.
- *     </dd>
- *     <dt>null</dt>
- *     <dd>
- *       The node should be displayed in its closed state, without no
- *       open/close icon shown.
- *     </li>
- *   </dl>
+ * @param bOpened {Integer}
+ *   <i>true</i> if the tree should be rendered in its opened state;
+ *   <i>false</i> otherwise.
+ *
+ * @param bHideOpenCloseButton
+ *   <i>true</i> if the open/close button should be hidden (not displayed);
+ *   </i>false</i> to display the open/close button for this node.
  *
  * @param type {Integer}
  *   The type of node being added.  The type determines whether children may
@@ -267,7 +256,8 @@ qx.Proto.getValue = function(columnIndex, rowIndex)
  */
 qx.Proto._addNode = function(parentNodeId,
                              label,
-                             opened,
+                             bOpened,
+                             bHideOpenCloseButton,
                              type,
                              icon,
                              iconSelected)
@@ -296,10 +286,12 @@ qx.Proto._addNode = function(parentNodeId,
     parentNodeId = 0;
   }
 
-  // If this is a file, we don't present open/close icon
-  if (type == qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF && opened)
+  // If this is a leaf, we don't present open/close icon
+  if (type == qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF)
   {
-    throw new Error("Attempt to display a LEAF opened [" + label + "]");
+    // mask off the opened bit but retain the hide open/close button bit
+    bOpened = false;
+    bHideOpenClose = false;
   }
 
   // Determine the node id of this new node
@@ -308,15 +300,16 @@ qx.Proto._addNode = function(parentNodeId,
   // Set the data for this node.
   var node =
     {
-      type         : type,
-      parentNodeId : parentNodeId,
-      label        : label,
-      bSelected    : false,
-      opened       : opened,
-      icon         : icon,
-      iconSelected : iconSelected,
-      children     : [ ],
-      columnData   : [ ]
+      type           : type,
+      parentNodeId   : parentNodeId,
+      label          : label,
+      bSelected      : false,
+      bOpened        : bOpened,
+      bHideOpenClose : bHideOpenCloseButton,
+      icon           : icon,
+      iconSelected   : iconSelected,
+      children       : [ ],
+      columnData     : [ ]
     };
 
   // Add this node to the array
@@ -340,25 +333,13 @@ qx.Proto._addNode = function(parentNodeId,
  * @param label {String}
  *   The string to display as the label for this node
  *
- * @param opened {boolean ? null}
- *   This is a tri-state boolean which indicates:
- *   <dl>
- *     <dt>true</dt>
- *     <dd>
- *       The branch should be displayed in its opened state with a '-'
- *       clickable '-' icon to enable closing the branch.
- *     </dd>
- *     <dt>false</dt>
- *     <dd>
- *       The branch should be displayed in its closed state with a clickable
- *       '+' icon to enable opening the branch.
- *     </dd>
- *     <dt>null</dt>
- *     <dd>
- *       The node should be displayed in its closed state, without no
- *       open/close icon shown.
- *     </li>
- *   </dl>
+ * @param bOpened {Boolean}
+ *   <i>True</i> if the branch should be rendered in its opened state;
+ *   <i>false</i> otherwise.
+ *
+ * @param bHideOpenCloseButton {Boolean}
+ *   <i>True</i> if the open/close button should not be displayed;
+ *   <i>false</i> if the open/close button should be displayed
  *
  * @param icon {String}
  *   The relative (subject to alias expansion) or full path of the icon to
@@ -373,13 +354,15 @@ qx.Proto._addNode = function(parentNodeId,
  */
 qx.Proto.addBranch = function(parentNodeId,
                               label,
-                              opened,
+                              bOpened,
+                              bHideOpenCloseButton,
                               icon,
                               iconSelected)
 {
   return this._addNode(parentNodeId,
                        label,
-                       opened,
+                       bOpened,
+                       bHideOpenCloseButton,
                        qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
                        icon,
                        iconSelected);
@@ -413,6 +396,7 @@ qx.Proto.addLeaf = function(parentNodeId,
 {
   return this._addNode(parentNodeId,
                        label,
+                       false,
                        false,
                        qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF,
                        icon,
@@ -574,7 +558,7 @@ qx.Proto.setData = function(nodeArr)
         _this._rowArr.push(rowData)
 
         // If this child is opened, ...
-        if (child.opened)
+        if (child.bOpened)
         {
           // ... then add its children too.
           inorder(childNodeId, level + 1);
