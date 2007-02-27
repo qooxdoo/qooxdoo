@@ -79,6 +79,7 @@ qx.Clazz.define("qx.ui.core.Widget",
     //   APPEARANCE
     // ************************************************************************
     this._states = {};
+    this._applyAppearance();
   },
 
 

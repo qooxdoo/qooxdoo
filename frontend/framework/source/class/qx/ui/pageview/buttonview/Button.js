@@ -154,12 +154,15 @@ qx.Clazz.define("qx.ui.pageview.buttonview.Button",
      */
     _applyAppearance : function()
     {
-      var vPos = this.getView().getBarPosition();
+      if (this.getView())
+      {
+        var vPos = this.getView().getBarPosition();
 
-      this._states.barLeft = vPos === "left";
-      this._states.barRight = vPos === "right";
-      this._states.barTop = vPos === "top";
-      this._states.barBottom = vPos === "bottom";
+        this._states.barLeft = vPos === "left";
+        this._states.barRight = vPos === "right";
+        this._states.barTop = vPos === "top";
+        this._states.barBottom = vPos === "bottom";
+      }
 
       qx.ui.pageview.AbstractButton.prototype._applyAppearance.call(this);
     }

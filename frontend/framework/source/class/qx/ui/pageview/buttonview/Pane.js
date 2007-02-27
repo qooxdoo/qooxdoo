@@ -85,9 +85,12 @@ qx.Clazz.define("qx.ui.pageview.buttonview.Pane",
      */
     _applyAppearance : function()
     {
-      var vPos = this.getParent().getBarPosition();
+      if (this.getParent())
+      {
+        var vPos = this.getParent().getBarPosition();
 
-      this._states.barHorizontal = vPos === "top" || vPos === "bottom";
+        this._states.barHorizontal = vPos === "top" || vPos === "bottom";
+      }
 
       qx.ui.pageview.AbstractButton.prototype._applyAppearance.call(this);
     }
