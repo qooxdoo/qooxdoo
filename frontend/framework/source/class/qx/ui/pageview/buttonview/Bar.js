@@ -56,7 +56,7 @@ qx.Clazz.define("qx.ui.pageview.buttonview.Bar",
     {
       _legacy      : true,
       type         : "string",
-      defaultValue : "button-view-bar"
+      defaultValue : "bar-view-bar"
     }
   },
 
@@ -113,19 +113,16 @@ qx.Clazz.define("qx.ui.pageview.buttonview.Bar",
      * @type member
      * @return {void}
      */
-    _applyAppearance : function()
+    _applyStateAppearance : function()
     {
-      if (this.getParent())
-      {
-        var vPos = this.getParent().getBarPosition();
+      var vPos = this.getParent().getBarPosition();
 
-        this._states.barLeft = vPos === "left";
-        this._states.barRight = vPos === "right";
-        this._states.barTop = vPos === "top";
-        this._states.barBottom = vPos === "bottom";
-      }
+      this._states.barLeft = vPos === "left";
+      this._states.barRight = vPos === "right";
+      this._states.barTop = vPos === "top";
+      this._states.barBottom = vPos === "bottom";
 
-      qx.ui.pageview.AbstractButton.prototype._applyAppearance.call(this);
+      qx.ui.pageview.AbstractButton.prototype._applyStateAppearance.call(this);
     }
   }
 });

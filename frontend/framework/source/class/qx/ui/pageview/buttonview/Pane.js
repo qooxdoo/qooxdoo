@@ -56,7 +56,7 @@ qx.Clazz.define("qx.ui.pageview.buttonview.Pane",
     {
       _legacy      : true,
       type         : "string",
-      defaultValue : "button-view-pane"
+      defaultValue : "bar-view-pane"
     }
   },
 
@@ -83,16 +83,13 @@ qx.Clazz.define("qx.ui.pageview.buttonview.Pane",
      * @type member
      * @return {void}
      */
-    _applyAppearance : function()
+    _applyStateAppearance : function()
     {
-      if (this.getParent())
-      {
-        var vPos = this.getParent().getBarPosition();
+      var vPos = this.getParent().getBarPosition();
 
-        this._states.barHorizontal = vPos === "top" || vPos === "bottom";
-      }
+      this._states.barHorizontal = vPos === "top" || vPos === "bottom";
 
-      qx.ui.pageview.AbstractButton.prototype._applyAppearance.call(this);
+      qx.ui.pageview.AbstractButton.prototype._applyStateAppearance.call(this);
     }
   }
 });

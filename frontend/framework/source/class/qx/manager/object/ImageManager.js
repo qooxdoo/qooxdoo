@@ -78,13 +78,15 @@ qx.Clazz.define("qx.manager.object.ImageManager",
     iconTheme :
     {
       _legacy  : true,
-      type     : "object"
+      type     : "object",
+      instance : "qx.renderer.theme.IconTheme"
     },
 
     widgetTheme :
     {
       _legacy  : true,
-      type     : "object"
+      type     : "object",
+      instance : "qx.renderer.theme.WidgetTheme"
     }
   },
 
@@ -110,14 +112,14 @@ qx.Clazz.define("qx.manager.object.ImageManager",
      *
      * @type member
      * @param vThemeClass {var} TODOC
-     * @return {void}
+     * @return {void} 
      */
     registerIconTheme : function(vThemeClass)
     {
-      this._iconThemes[vThemeClass.name] = vThemeClass;
+      this._iconThemes[vThemeClass.classname] = vThemeClass;
 
-      if (vThemeClass.name == qx.core.Setting.get("qx.iconTheme")) {
-        this.setIconTheme(vThemeClass);
+      if (vThemeClass.classname == qx.core.Setting.get("qx.iconTheme")) {
+        this.setIconTheme(vThemeClass.getInstance());
       }
     },
 
@@ -127,14 +129,14 @@ qx.Clazz.define("qx.manager.object.ImageManager",
      *
      * @type member
      * @param vThemeClass {var} TODOC
-     * @return {void}
+     * @return {void} 
      */
     registerWidgetTheme : function(vThemeClass)
     {
-      this._widgetThemes[vThemeClass.name] = vThemeClass;
+      this._widgetThemes[vThemeClass.classname] = vThemeClass;
 
-      if (vThemeClass.name == qx.core.Setting.get("qx.widgetTheme")) {
-        this.setWidgetTheme(vThemeClass);
+      if (vThemeClass.classname == qx.core.Setting.get("qx.widgetTheme")) {
+        this.setWidgetTheme(vThemeClass.getInstance());
       }
     },
 
@@ -144,10 +146,10 @@ qx.Clazz.define("qx.manager.object.ImageManager",
      *
      * @type member
      * @param vId {var} TODOC
-     * @return {void}
+     * @return {void} 
      */
     setIconThemeById : function(vId) {
-      this.setIconTheme(this._iconThemes[vId]);
+      this.setIconTheme(this._iconThemes[vId].getInstance());
     },
 
 
@@ -156,10 +158,10 @@ qx.Clazz.define("qx.manager.object.ImageManager",
      *
      * @type member
      * @param vId {var} TODOC
-     * @return {void}
+     * @return {void} 
      */
     setWidgetThemeById : function(vId) {
-      this.setWidgetTheme(this._widgetThemes[vId]);
+      this.setWidgetTheme(this._widgetThemes[vId].getInstance());
     },
 
 
@@ -175,7 +177,7 @@ qx.Clazz.define("qx.manager.object.ImageManager",
      * TODOC
      *
      * @type member
-     * @return {void}
+     * @return {void} 
      */
     _onaliaschange : function() {
       this._updateImages();
@@ -201,7 +203,7 @@ qx.Clazz.define("qx.manager.object.ImageManager",
      */
     _modifyIconTheme : function(propValue, propOldValue, propData)
     {
-      propValue ? qx.manager.object.AliasManager.getInstance().add("icon", propValue.icons.uri) : qx.manager.object.AliasManager.getInstance().remove("icon");
+      propValue ? qx.manager.object.AliasManager.getInstance().add("icon", propValue.uri) : qx.manager.object.AliasManager.getInstance().remove("icon");
       return true;
     },
 
@@ -217,7 +219,7 @@ qx.Clazz.define("qx.manager.object.ImageManager",
      */
     _modifyWidgetTheme : function(propValue, propOldValue, propData)
     {
-      propValue ? qx.manager.object.AliasManager.getInstance().add("widget", propValue.widgets.uri) : qx.manager.object.AliasManager.getInstance().remove("widget");
+      propValue ? qx.manager.object.AliasManager.getInstance().add("widget", propValue.uri) : qx.manager.object.AliasManager.getInstance().remove("widget");
       return true;
     },
 
@@ -320,7 +322,7 @@ qx.Clazz.define("qx.manager.object.ImageManager",
      * @param vParent {var} TODOC
      * @param xCor {var} TODOC
      * @param yCor {var} TODOC
-     * @return {void}
+     * @return {void} 
      */
     createThemeList : function(vParent, xCor, yCor)
     {
@@ -332,8 +334,8 @@ qx.Clazz.define("qx.manager.object.ImageManager",
 
       for (var vId in vThemes)
       {
-        var vObj = vThemes[vId];
-        var vButton = new qx.ui.form.Button(vPrefix + vObj.title, vIcon);
+        var vObj = vThemes[vId].getInstance();
+        var vButton = new qx.ui.form.Button(vPrefix + vObj.getTitle(), vIcon);
 
         vButton.setLocation(xCor, yCor);
         vButton.addEventListener(vEvent, new Function("qx.manager.object.ImageManager.getInstance().setIconThemeById('" + vId + "')"));
@@ -350,7 +352,7 @@ qx.Clazz.define("qx.manager.object.ImageManager",
      *
      * @type member
      * @param vPath {var} TODOC
-     * @return {void}
+     * @return {void} 
      */
     preload : function(vPath) {
       qx.manager.object.ImagePreloaderManager.getInstance().create(qx.manager.object.AliasManager.getInstance().resolvePath(vPath));
@@ -403,12 +405,19 @@ qx.Clazz.define("qx.manager.object.ImageManager",
   settings :
   {
     /*
+    ---------------------------------------------------------------------------
+      DEFAULT SETTINGS
+    ---------------------------------------------------------------------------
+    */
+
+    /*
       Make sure to select an icon theme that is compatible to the license you
       chose to receive the qooxdoo code under. For more information, please
       see the LICENSE file in the project's top-level directory.
      */
 
     "qx.iconTheme"   : "qx.theme.icon.Nuvola",
+
     "qx.widgetTheme" : "qx.theme.widget.Windows"
   }
 });
