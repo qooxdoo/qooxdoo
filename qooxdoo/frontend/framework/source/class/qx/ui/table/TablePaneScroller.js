@@ -959,7 +959,11 @@ qx.Proto.startEditing = function() {
 
     // Workaround: Calling focus() directly has no effect
     var editor = this._cellEditor;
+    var self = this;
     window.setTimeout(function() {
+      if (self.getDisposed()) {
+        return;
+      }
       editor.focus();
     }, 0);
 
@@ -1231,6 +1235,9 @@ qx.Proto._postponedUpdateContent = function() {
   if (! this._updateContentPlanned) {
     var self = this;
     window.setTimeout(function() {
+      if (self.getDisposed()) {
+        return;
+      }
       self._updateContent();
       self._updateContentPlanned = false;
       qx.ui.core.Widget.flushGlobalQueues();
