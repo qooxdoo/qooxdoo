@@ -51,6 +51,7 @@ qx.Clazz.define("qx.ui.form.List",
     // ************************************************************************
     this.setSelectable(false);
     this.setTabIndex(1);
+    this.setOverflow("hidden");
 
     // ************************************************************************
     //   MOUSE EVENT LISTENER
