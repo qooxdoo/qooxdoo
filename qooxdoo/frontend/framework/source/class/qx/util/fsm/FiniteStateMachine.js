@@ -80,6 +80,68 @@ function(machineName)
 });
 
 
+
+
+/*
+---------------------------------------------------------------------------
+  CLASS CONSTANTS
+---------------------------------------------------------------------------
+*/
+
+/**
+ * Constants which may be values of the nextState member in the transitionInfo
+ * parameter of the Transition constructor.
+ */
+qx.Class.StateChange =
+{
+  /** When used as a nextState value, means remain in current state */
+  CURRENT_STATE   : 1,
+
+  /** When used as a nextState value, means go to most-recently pushed state */
+  POP_STATE_STACK : 2,
+
+  /** When used as a nextState value, means terminate this state machine */
+  TERMINATE       : 3
+};
+
+
+/**
+ * Constants for use in the events member of the transitionInfo parameter of
+ * the Transition constructor.
+ */
+qx.Class.EventHandling =
+{
+  /**
+   * This event is handled by this state, but the predicate of a transition
+   * will determine whether to use that transition.
+   */
+  PREDICATE : 1,
+
+  /** Enqueue this event for possible use by the next state */
+  BLOCKED   : 2
+};
+
+/**
+ * Debug bitmask values.
+ */
+qx.Class.DebugFlags =
+{
+  /** Show events */
+  EVENTS           : 1,
+
+  /** Show transitions */
+  TRANSITIONS      : 2,
+
+  /** Show individual function invocations during transitions */
+  FUNCTION_DETAIL  : 4,
+
+  /** When object friendly names are referenced but not found, show message */
+  OBJECT_NOT_FOUND : 8
+};
+
+
+
+
 /*
 ---------------------------------------------------------------------------
   PROPERTIES
@@ -140,6 +202,28 @@ qx.OO.addProperty(
     name         : "maxSavedStates",
     type         : "number",
     defaultValue : 2
+  });
+
+
+/**
+ * Debug flags, composed of the bitmask values in {@link #DebugFlags}.
+ *
+ * Set the debug flags from the application by or-ing together bits, akin to
+ * this:
+ *
+ * var FSM = qx.util.fsm.FiniteStateMachine;
+ * fsm.setDebugFlags(FSM.DebugFlags.EVENTS |
+ *                   FSM.DebugFlags.TRANSITIONS |
+ *                   FSM.DebugFlags.FUNCTION_DETAIL |
+ *                   FSM.DebugFlags.OBJECT_NOT_FOUND);
+ */
+qx.OO.addProperty(
+  {
+    name         : "debugFlags",
+    type         : "number",
+    defaultValue : (qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS |
+                    qx.util.fsm.FiniteStateMachine.DebugFlags.TRANSITIONS |
+                    qx.util.fsm.FiniteStateMachine.DebugFlags.OBJECT_NOT_FOUND)
   });
 
 /*
@@ -432,8 +516,7 @@ qx.Proto.start = function()
   }
 
   var debugFunctions =
-    (qx.Settings.getValueOfClass("qx.util.fsm.FiniteStateMachine",
-                                 "debugFlags") &
+    (this.getDebugFlags() &
      qx.util.fsm.FiniteStateMachine.DebugFlags.FUNCTION_DETAIL);
 
   // Run the actionsBeforeOnentry actions for the initial state
@@ -558,8 +641,7 @@ qx.Proto.enqueueEvent = function(event, bAddAtHead)
     this._eventQueue.unshift(event);
   }
 
-  if (qx.Settings.getValueOfClass("qx.util.fsm.FiniteStateMachine",
-                                  "debugFlags") &
+  if (this.getDebugFlags() &
       qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS)
   {
     if (bAddAtHead)
@@ -668,9 +750,7 @@ qx.Proto._run = function(event)
   var action;
 
   // Get the debug flags
-  var debugFlags =
-    (qx.Settings.getValueOfClass("qx.util.fsm.FiniteStateMachine",
-                                 "debugFlags"));
+  var debugFlags = this.getDebugFlags();
 
   // Allow slightly faster access to determine if debug is enableda
   var debugEvents =
@@ -967,73 +1047,6 @@ qx.Proto._run = function(event)
 ---------------------------------------------------------------------------
 */
 
-
-
-/*
----------------------------------------------------------------------------
-  CLASS CONSTANTS
----------------------------------------------------------------------------
-*/
-
-/**
- * Constants which may be values of the nextState member in the transitionInfo
- * parameter of the Transition constructor.
- */
-qx.Class.StateChange =
-{
-  /** When used as a nextState value, means remain in current state */
-  CURRENT_STATE   : 1,
-
-  /** When used as a nextState value, means go to most-recently pushed state */
-  POP_STATE_STACK : 2,
-
-  /** When used as a nextState value, means terminate this state machine */
-  TERMINATE       : 3
-};
-
-
-/**
- * Constants for use in the events member of the transitionInfo parameter of
- * the Transition constructor.
- */
-qx.Class.EventHandling =
-{
-  /**
-   * This event is handled by this state, but the predicate of a transition
-   * will determine whether to use that transition.
-   */
-  PREDICATE : 1,
-
-  /** Enqueue this event for possible use by the next state */
-  BLOCKED   : 2
-};
-
-/**
- * Debug bitmask values.  Set the debug flags from the application by or-ing
- * together bits, akin to this:
- *
- *   qx.Settings.setCustomOfClass(
- *     "qx.util.fsm.FiniteStateMachine",
- *     "debugFlags",
- *     (qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS |
- *      qx.util.fsm.FiniteStateMachine.DebugFlags.TRANSITIONS |
- *      qx.util.fsm.FiniteStateMachine.DebugFlags.FUNCTION_DETAIL |
- *      qx.util.fsm.FiniteStateMachine.DebugFlags.OBJECT_NOT_FOUND));
- */
-qx.Class.DebugFlags =
-{
-  /** Show events */
-  EVENTS           : 1,
-
-  /** Show transitions */
-  TRANSITIONS      : 2,
-
-  /** Show individual function invocations during transitions */
-  FUNCTION_DETAIL  : 4,
-
-  /** When object friendly names are referenced but not found, show message */
-  OBJECT_NOT_FOUND : 8
-};
 
 
 /*
