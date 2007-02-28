@@ -63,19 +63,21 @@ error:
 # EXTENSIONS
 ################################################################################
 
-layout-source:
+source:
 	@echo
 	@echo "  GENERATION OF SAMPLE LAYOUT"
 	@$(CMD_LINE)
 	@echo "  * Generating source/script/layout.js..."
 	@$(CMD_PYTHON) tool/layout.py source/script/layout.js source/html
 
-layout-build:
+build:
 	@echo
 	@echo "  GENERATION OF SAMPLE LAYOUT"
 	@$(CMD_LINE)
 	@echo "  * Generating build/script/layout.js..."
 	@$(CMD_PYTHON) tool/layout.py build/script/layout.js build/html
 
-build: layout-build
-source: layout-source
+clean:
+	@$(CMD_REMOVE) source/script/layout.js
+	@$(CMD_REMOVE) build/script/layout.js
+
