@@ -473,7 +473,7 @@ qx.Clazz.define("qx.io.Json",
     {
       /* Convert the result text into a result primitive or object */
 
-      if (qx.Settings.getValueOfClass("qx.io.Json", "enableDebug")) {
+      if (qx.core.Setting.get("qx.jsonDebugging")) {
         qx.log.Logger.getClassLogger(qx.io.Json).debug("JSON response: " + text);
       }
 
