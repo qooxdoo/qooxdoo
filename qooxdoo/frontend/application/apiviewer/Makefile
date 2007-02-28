@@ -118,3 +118,7 @@ build:
 	  --generate-api-documentation \
 	  --api-documentation-json-file $(APPLICATION_PATH)/build/script/apidata.js \
 	  --class-path $(FRAMEWORK_SOURCE_PATH)/class
+
+clean:
+	@$(CMD_REMOVE) source/script/apidata.js
+	@$(CMD_REMOVE) build/script/apidata.js
