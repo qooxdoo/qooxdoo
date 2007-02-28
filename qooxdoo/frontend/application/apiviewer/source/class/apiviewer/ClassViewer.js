@@ -1222,7 +1222,7 @@ qx.Clazz.define("apiviewer.ClassViewer",
             info.titleHtml += '<span class="separator">,</span> ';
           }
 
-          info.titleHtml += '<span class="parameterType">' + this._createTypeHtml(param, fromClassNode, "var") + "</span> " + param.attributes.name;
+          info.titleHtml += '<span class="parameterType">' + this._createTypeHtml(param, fromClassNode, "var") + '</span> <span class="parameterName">' + param.attributes.name + '</span>';
 
           if (param.attributes.defaultValue) {
             info.titleHtml += "?";
