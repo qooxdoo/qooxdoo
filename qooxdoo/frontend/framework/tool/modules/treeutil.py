@@ -34,9 +34,9 @@ def selectNode(node, path):
     """
     Selects a node using a XPath like path expresseion.
     This function returns None if no matching node was found.
-    
+
     Warning: This function usys a depth first search without backtracking!!
-    
+
     ".."          navigates to the parent node
     "nodeName"    navigates to the first child node of type nodeName
     "nodeName[3]" navigates to the third child node of type nodeName
@@ -45,9 +45,9 @@ def selectNode(node, path):
     "4"           navigates to the fourth child node
     "@key"        returns the value of the attribute "key" of the current node.
                   This must be the last statement.
-    
+
     Example: "../../params/1/keyvalue[@key='defer']/value/function/body/block"
-    
+
     """
     re_indexedNode = re.compile("^(.*)\[(\d+)\]$")
     re_attributeNode = re.compile("^(.*)\[@(.+)=\'(.*)\'\]$")
@@ -66,7 +66,7 @@ def selectNode(node, path):
                         continue
                     except ValueError:
                         pass
-        
+
                     # indexed node
                     match = re_indexedNode.match(part)
                     if match:
@@ -83,33 +83,36 @@ def selectNode(node, path):
                                 i += 1
                         if not found:
                             return None
-                    
+
                     match = re_attributeNode.match(part)
                     if match:
                         type = match.group(1)
                         attribName = match.group(2)
                         attribType = match.group(3)
                         found = False
-                        for child in node.children:
-                            if child.type == type:
-                                if child.get(attribName) == attribType:
-                                    node = child
-                                    found = True
+
+                        if node.hasChildren():
+                          for child in node.children:
+                              if child.type == type:
+                                  if child.get(attribName) == attribType:
+                                      node = child
+                                      found = True
+
                         if not found:
                             return None
-                                                
-                                
-                                
+
+
+
                     # attribute
                     elif part[0] == "@":
                         return node.get(part[1:])
                     # normal node
                     else:
                         node = node.getChild(part)
-    
+
     except tree.NodeAccessException:
             return None
-    
+
     return node
 
 
@@ -188,13 +191,13 @@ def mapNodeToMap(mapNode):
     for child in mapNode.children:
         if child.type == "keyvalue":
             keys[child.get("key")] = child.getChild("value")
-        
+
     return keys
 
 
 def inlineIfStatement(ifNode, conditionValue):
     """
-    Inline an if statement assuming that the condition of the if 
+    Inline an if statement assuming that the condition of the if
     statement evaluates to "conditionValue" (True/False")
     """
 
@@ -269,15 +272,15 @@ def getNodeIndex(parent, node):
     TODO: mode to tree?
     """
     return parent.children.index(node)
-    
-    
+
+
 def isStringLiteral(node):
     """
     Whether a node is a string literal
     """
     return node.type == "constant" and node.get("constantType") == "string"
-    
-    
+
+
 def assembleVariable(variableItem):
     if variableItem.type != "variable":
         raise tree.NodeAccessException("'variableItem' is no variable node", variableItem)
@@ -289,10 +292,10 @@ def assembleVariable(variableItem):
         assembled += child.get("name")
 
     return assembled
-    
-    
+
+
 def compileString(jsString):
     """
-    Compile a string containing a JavaScript fragment into a syntax tree. 
+    Compile a string containing a JavaScript fragment into a syntax tree.
     """
     return treegenerator.createSyntaxTree(tokenizer.parseStream(jsString)).getFirstChild()

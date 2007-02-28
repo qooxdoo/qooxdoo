@@ -62,7 +62,7 @@ FRAMEWORK_CLDR_DOWNLOAD_URI = http://unicode.org/cldr/data/common/main
 #
 CMD_LINE = echo "----------------------------------------------------------------------------"
 CMD_NICE = nice -n 10
-CMD_PYTHON = $(CMD_NICE) python
+CMD_PYTHON = $(CMD_NICE) python -t -O
 CMD_GENERATOR = $(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/generator.py --cache-directory $(FRAMEWORK_CACHE_PATH) --version "$(FRAMEWORK_FULL_VERSION)"
 CMD_CLDR = $(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/modules/cldr.py
 CMD_MSGFMT = $(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/modules/msgfmt.py
@@ -91,5 +91,5 @@ CMD_SYNC_OFFLINE = $(CMD_NICE) rsync --recursive --delete --inplace --links --sa
 # Configure files
 #
 FILES_TEXT = \( -name "*.py" -o -name "*.sh" -o -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile -o -name AUTHORS -o -name LICENSE -o -name README -o -name RELEASENOTES -o -name TODO \)
-FILES_TEMP = \( -name "*.pyc" -o -name "*.bak" -o -name "*.old" -o -name "*~" -o -name "messages.pot" \)
+FILES_TEMP = \( -name "*.pyc" -o -name "*.pyo" -o -name "*.bak" -o -name "*.old" -o -name "*~" -o -name "messages.pot" \)
 FILES_EXEC = \( -name "*.py" -o -name "*.sh" \)
