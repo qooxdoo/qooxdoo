@@ -279,7 +279,6 @@
 
 
 
-
 #ClassViewer div.item-detail-headline {
   font-weight: bold;
   color: #1D65B3;
@@ -315,6 +314,13 @@
   margin-top: 8px;
   margin-bottom: 8px;
 }
+
+#ClassViewer b,
+#ClassViewer strong{
+  font-weight: bold;
+  color: #535256;
+}
+
 
 
 
