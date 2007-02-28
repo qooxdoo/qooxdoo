@@ -88,7 +88,7 @@ qx.Clazz._init = function()
   var vVersion = vSplit.shift();
   var vInfos = vSplit.join(" ");
 
-  if (/([0-9]+)\.([0-9]+)(\.([0-9]))?(-([a-z]+))?/.test(vVersion))
+  if (/([0-9]+)\.([0-9]+)(\.([0-9]))?(-([a-z0-9]+))?/.test(vVersion))
   {
     vClass.major = (RegExp.$1 != "" ? parseInt(RegExp.$1) : 0);
     vClass.minor = (RegExp.$2 != "" ? parseInt(RegExp.$2) : 0);
