@@ -42,5 +42,5 @@
 # @return The root node of a qooxdoo AST representing the source code.
 
 def parse(file_hd):
-  pass
+    pass
 

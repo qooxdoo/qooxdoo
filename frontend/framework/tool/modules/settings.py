@@ -25,53 +25,53 @@ import filetool, optparseext
 
 
 def generate(settingsList, newLines):
-  typeNumber = re.compile("^([0-9\-]+)$")
+    typeNumber = re.compile("^([0-9\-]+)$")
 
-  if newLines:
-    lineBreak = "\n"
-  else:
-    lineBreak = ""
+    if newLines:
+        lineBreak = "\n"
+    else:
+        lineBreak = ""
 
-  settingsStr = 'if(!window.qxsettings)qxsettings={};' + lineBreak
+    settingsStr = 'if(!window.qxsettings)qxsettings={};' + lineBreak
 
-  for setting in settingsList:
-    settingSplit = setting.split(":")
-    settingKey = settingSplit.pop(0)
-    settingValue = ":".join(settingSplit)
+    for setting in settingsList:
+        settingSplit = setting.split(":")
+        settingKey = settingSplit.pop(0)
+        settingValue = ":".join(settingSplit)
 
-    if not (settingValue == "false" or settingValue == "true" or typeNumber.match(settingValue)):
-      settingValue = '"%s"' % settingValue.replace("\"", "\\\"")
+        if not (settingValue == "false" or settingValue == "true" or typeNumber.match(settingValue)):
+            settingValue = '"%s"' % settingValue.replace("\"", "\\\"")
 
-    settingsStr += 'if(qxsettings["%s"]==undefined)qxsettings["%s"]=%s;%s' % (settingKey, settingKey, settingValue, lineBreak)
+        settingsStr += 'if(qxsettings["%s"]==undefined)qxsettings["%s"]=%s;%s' % (settingKey, settingKey, settingValue, lineBreak)
 
-  return settingsStr
+    return settingsStr
 
 
 
 
 def main():
-  parser = optparse.OptionParser("usage: %prog [options]", option_class=optparseext.ExtendAction)
+    parser = optparse.OptionParser("usage: %prog [options]", option_class=optparseext.ExtendAction)
 
-  parser.add_option("-d", "--use-setting", action="extend", dest="useSetting", type="string", metavar="NAMESPACE.KEY:VALUE", default=[], help="Define a setting.")
-  parser.add_option("-o", "--output-file", dest="outputFile", metavar="FILENAME", help="Name of settings script file.")
-  parser.add_option("-n", "--add-new-lines", action="store_true", dest="addNewLines", default=False, help="Keep newlines in compiled files.")
+    parser.add_option("-d", "--use-setting", action="extend", dest="useSetting", type="string", metavar="NAMESPACE.KEY:VALUE", default=[], help="Define a setting.")
+    parser.add_option("-o", "--output-file", dest="outputFile", metavar="FILENAME", help="Name of settings script file.")
+    parser.add_option("-n", "--add-new-lines", action="store_true", dest="addNewLines", default=False, help="Keep newlines in compiled files.")
 
-  (options, args) = parser.parse_args()
+    (options, args) = parser.parse_args()
 
-  if options.outputFile == None:
-    print generate(options.useSetting, options.addNewLines)
-  else:
-    print "   * Saving settings to %s" % options.outputFile
-    filetool.save(options.outputFile, generate(options))
+    if options.outputFile == None:
+        print generate(options.useSetting, options.addNewLines)
+    else:
+        print "   * Saving settings to %s" % options.outputFile
+        filetool.save(options.outputFile, generate(options))
 
 
 
 
 if __name__ == '__main__':
-  try:
-    main()
+    try:
+        main()
 
-  except KeyboardInterrupt:
-    print
-    print "  * Keyboard Interrupt"
-    sys.exit(1)
+    except KeyboardInterrupt:
+        print
+        print "  * Keyboard Interrupt"
+        sys.exit(1)
