@@ -26,14 +26,25 @@ import path
 KEY = re.compile("^[A-Za-z0-9_$]+$")
 
 opts = path.Path()  # create a new Path object, to capture various options
-# PrettyPrint options
+# PRETTYPRINT OPTIONS
+# General
 opts.prettyp.indent.string            = "  "  # could be "\t" or similar
+
+# Curly Braces
 opts.prettyp.openCurly.newline.before = False # Force "{" on new lines
 #opts.prettyp.openCurly.newline.after  = True
 opts.prettyp.openCurly.indent.before  = False # indent before "{"
 #opts.prettyp.openCurly.indent.after   = True  # indent after "{"
 #opts.prettyp.closingCurly.newline.before   = True  # Force "}" on new lines
+
+# Comments
 #opts.prettyp.comments.TODOC           = True  # Insert TODOC block comments
+#opts.prettyp.comments.inline.keepColumn.p   = True # keep inline comments on
+                                                    # their orig. column if possible
+#opts.prettyp.comments.inline.commentPadding = None # string before inline comment
+opts.prettyp.comments.inline.commentPadding = "  " # string before inline comment
+#opts.prettyp.comments.inline.commentCol._1  = 49   # first comment column
+#opts.prettyp.comments.inline.commentCol._2  = 60   # second comment column (add arbit. more)
 
 
 def compileToken(name, compact=False):
@@ -233,7 +244,12 @@ def commentNode(node):
         commentIsInline = True
 
     if commentText != "":
-      space()
+      if opts.prettyp.comments.inline.commentPadding:
+        commentText.strip()
+        commentText = opts.prettyp.comments.inline.commentPadding + commentText
+      else:
+        space()
+      ##space()
       write(commentText)
 
       if commentIsInline:
@@ -585,17 +601,24 @@ def compileNode(node):
 
   elif node.type == "comment":
     if pretty:
+      commentText = node.get("text")
       # insert a space before and no newline in the case of after comments
       if node.get("connection") == "after":
         noline()
-        space()
+        if opts.prettyp.comments.inline.commentPadding:
+          commentText.strip()
+          commentText = opts.prettyp.comments.inline.commentPadding + commentText
+        else:
+          space()
+        ##space()
 
-      write(node.get("text"))
+      ##write(node.get("text"))
+      write(commentText)
 
       # new line after inline comment (for example for syntactical reasons)
-      if node.get("detail") == "inline":
+      #if (node.get("detail") == "inline") or (node.get("multiline") == False):
+      if (node.get("detail") == "inline") or (node.get("end") == True):
         line()
-
       else:
         space()
 
