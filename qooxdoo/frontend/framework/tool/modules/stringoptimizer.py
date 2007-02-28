@@ -23,176 +23,176 @@ import tree
 
 
 def search(node, verbose=False):
-  return search_loop(node, {}, verbose)
+    return search_loop(node, {}, verbose)
 
 
 def search_loop(node, stringMap={}, verbose=False):
-  if node.type == "constant" and node.get("constantType") == "string":
+    if node.type == "constant" and node.get("constantType") == "string":
 
-    if verbose:
-      pvalue = node.get("value")
-      if isinstance(pvalue, unicode):
-        pvalue = pvalue.encode("utf-8")
-      print "    - Found: %s" % pvalue
+        if verbose:
+            pvalue = node.get("value")
+            if isinstance(pvalue, unicode):
+                pvalue = pvalue.encode("utf-8")
+            print "    - Found: %s" % pvalue
 
-    if node.get("detail") == "singlequotes":
-      quote = "'"
-    elif node.get("detail") == "doublequotes":
-      quote = '"'
+        if node.get("detail") == "singlequotes":
+            quote = "'"
+        elif node.get("detail") == "doublequotes":
+            quote = '"'
 
-    value = "%s%s%s" % (quote, node.get("value"), quote)
+        value = "%s%s%s" % (quote, node.get("value"), quote)
 
-    if value in stringMap:
-      stringMap[value] += 1
-    else:
-      stringMap[value] = 1
+        if value in stringMap:
+            stringMap[value] += 1
+        else:
+            stringMap[value] = 1
 
-  if check(node, verbose):
-    for child in node.children:
-      search_loop(child, stringMap, verbose)
+    if check(node, verbose):
+        for child in node.children:
+            search_loop(child, stringMap, verbose)
 
-  return stringMap
+    return stringMap
 
 
 
 def check(node, verbose=False):
-  # Needs children
-  if not node.hasChildren():
-    return False
-
-  # Try to find all output statements
-  if node.type == "call":
-    cu = node
-    nx = cu.getChild("operand", False)
-
-    if nx != None:
-      cu = nx
-
-    all = cu.getAllChildrenOfType("identifier")
-
-    for ch in all:
-      if ch.get("name", False) in [ "debug", "info", "warn", "error", "fatal", "Error", "alert" ]:
-        if verbose:
-          print "    - Ignore output statement at line: %s" % ch.get("line")
+    # Needs children
+    if not node.hasChildren():
         return False
 
-  # Try to find all constant assignments (ns.UPPER = string)
-  elif node.type == "assignment":
-    left = node.getChild("left", False)
-    if left != None:
-      var = left.getChild("variable", False)
+    # Try to find all output statements
+    if node.type == "call":
+        cu = node
+        nx = cu.getChild("operand", False)
 
-      if var != None:
-        last = var.getLastChild()
+        if nx != None:
+            cu = nx
 
-        if last.type == "identifier" and last.get("name").isupper():
-          if verbose:
-            print "    - Ignore constant assignment at line: %s" % last.get("line")
-          return False
+        all = cu.getAllChildrenOfType("identifier")
 
-  # Try to find all constant assignments from Maps ({ UPPER : string })
-  elif node.type == "keyvalue":
-    if node.get("key").isupper():
-      if verbose:
-        print "    - Ignore constant key value at line: %s" % node.get("line")
-      return False
+        for ch in all:
+            if ch.get("name", False) in ["debug", "info", "warn", "error", "fatal", "Error", "alert"]:
+                if verbose:
+                    print "    - Ignore output statement at line: %s" % ch.get("line")
+                return False
 
-  return True
+    # Try to find all constant assignments (ns.UPPER = string)
+    elif node.type == "assignment":
+        left = node.getChild("left", False)
+        if left != None:
+            var = left.getChild("variable", False)
+
+            if var != None:
+                last = var.getLastChild()
+
+                if last.type == "identifier" and last.get("name").isupper():
+                    if verbose:
+                        print "    - Ignore constant assignment at line: %s" % last.get("line")
+                    return False
+
+    # Try to find all constant assignments from Maps ({ UPPER : string })
+    elif node.type == "keyvalue":
+        if node.get("key").isupper():
+            if verbose:
+                print "    - Ignore constant key value at line: %s" % node.get("line")
+            return False
+
+    return True
 
 
 
 def sort(stringMap):
-  stringList = []
+    stringList = []
 
-  for value in stringMap:
-    stringList.append({ "value" : value, "number" : stringMap[value] })
+    for value in stringMap:
+        stringList.append({ "value" : value, "number" : stringMap[value] })
 
-  stringList.sort(lambda x, y: y["number"]-x["number"])
+    stringList.sort(lambda x, y: y["number"]-x["number"])
 
-  return stringList
+    return stringList
 
 
 
 
 def replace(node, stringList, var="$", verbose=False):
-  if node.type == "constant" and node.get("constantType") == "string":
-    if node.get("detail") == "singlequotes":
-      quote = "'"
-    elif node.get("detail") == "doublequotes":
-      quote = '"'
+    if node.type == "constant" and node.get("constantType") == "string":
+        if node.get("detail") == "singlequotes":
+            quote = "'"
+        elif node.get("detail") == "doublequotes":
+            quote = '"'
 
-    oldvalue = "%s%s%s" % (quote, node.get("value"), quote)
+        oldvalue = "%s%s%s" % (quote, node.get("value"), quote)
 
-    pos = 0
-    for item in stringList:
-      if item["value"] == oldvalue:
-        newvalue = "%s[%s]" % (var, pos)
+        pos = 0
+        for item in stringList:
+            if item["value"] == oldvalue:
+                newvalue = "%s[%s]" % (var, pos)
 
-        if verbose:
-          poldvalue = oldvalue
-          if isinstance(poldvalue, unicode):
-            poldvalue = poldvalue.encode("utf-8")
-          print "    - Replace: %s => %s" % (poldvalue, newvalue)
+                if verbose:
+                    poldvalue = oldvalue
+                    if isinstance(poldvalue, unicode):
+                        poldvalue = poldvalue.encode("utf-8")
+                    print "    - Replace: %s => %s" % (poldvalue, newvalue)
 
-        line = node.get("line")
-
-
-        # GENERATE IDENTIFIER
-
-        newidentifier = tree.Node("identifier")
-        newidentifier.set("line", line)
-
-        childidentifier = tree.Node("identifier")
-        childidentifier.set("line", line)
-        childidentifier.set("name", var)
-
-        newidentifier.addChild(childidentifier)
+                line = node.get("line")
 
 
+                # GENERATE IDENTIFIER
 
-        # GENERATE KEY
+                newidentifier = tree.Node("identifier")
+                newidentifier.set("line", line)
 
-        newkey = tree.Node("key")
-        newkey.set("line", line)
+                childidentifier = tree.Node("identifier")
+                childidentifier.set("line", line)
+                childidentifier.set("name", var)
 
-        newconstant = tree.Node("constant")
-        newconstant.set("line", line)
-        newconstant.set("constantType", "number")
-        newconstant.set("value", "%s" % pos)
-
-        newkey.addChild(newconstant)
+                newidentifier.addChild(childidentifier)
 
 
 
-        # COMBINE CHILDREN
+                # GENERATE KEY
 
-        newnode = tree.Node("accessor")
-        newnode.set("line", line)
-        newnode.set("optimized", True)
-        newnode.set("original", oldvalue)
-        newnode.addChild(newidentifier)
-        newnode.addChild(newkey)
+                newkey = tree.Node("key")
+                newkey.set("line", line)
+
+                newconstant = tree.Node("constant")
+                newconstant.set("line", line)
+                newconstant.set("constantType", "number")
+                newconstant.set("value", "%s" % pos)
+
+                newkey.addChild(newconstant)
 
 
-        # REPLACE NODE
 
-        node.parent.replaceChild(node, newnode)
-        break
+                # COMBINE CHILDREN
 
-      pos += 1
+                newnode = tree.Node("accessor")
+                newnode.set("line", line)
+                newnode.set("optimized", True)
+                newnode.set("original", oldvalue)
+                newnode.addChild(newidentifier)
+                newnode.addChild(newkey)
 
-  if check(node, verbose):
-    for child in node.children:
-      replace(child, stringList, var, verbose)
+
+                # REPLACE NODE
+
+                node.parent.replaceChild(node, newnode)
+                break
+
+            pos += 1
+
+    if check(node, verbose):
+        for child in node.children:
+            replace(child, stringList, var, verbose)
 
 
 
 def replacement(stringList, var="$"):
-  repl = "%s=[" % var
+    repl = "%s=[" % var
 
-  for item in stringList:
-    repl += "%s," % (item["value"])
+    for item in stringList:
+        repl += "%s," % (item["value"])
 
-  repl = repl[:-1] + "];"
+    repl = repl[:-1] + "];"
 
-  return repl
+    return repl
