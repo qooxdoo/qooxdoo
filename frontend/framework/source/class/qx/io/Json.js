@@ -371,7 +371,7 @@ qx.Clazz.define("qx.io.Json",
      */
     __convertUndefined : function(incoming)
     {
-      if (qx.lang.Object.select(qx.core.Setting.get("qx.jsonEncodeUndefined"))) {
+      if (qx.core.Setting.get("qx.jsonEncodeUndefined")) {
         return "null";
       }
     },
