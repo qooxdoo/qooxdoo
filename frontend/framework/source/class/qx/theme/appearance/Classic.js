@@ -2441,15 +2441,15 @@ qx.Clazz.define("qx.theme.appearance.Classic",
     ---------------------------------------------------------------------------
     */
 
-    qx.Super.prototype._appearances)
-    
+    qx.renderer.theme.AppearanceTheme.prototype._appearances)
+
   },
-      
+
   defer : function(clazz)
   {
-    qx.manager.object.AppearanceManager.getInstance().registerAppearanceTheme(clazz);     
+    qx.manager.object.AppearanceManager.getInstance().registerAppearanceTheme(clazz);
   }
-  
+
 });
 
 
