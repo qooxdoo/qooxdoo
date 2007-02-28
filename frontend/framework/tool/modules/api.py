@@ -22,7 +22,7 @@
 
 import sys, os, re, optparse
 import tree, treegenerator, tokenizer, comment
-from treeutil import assembleVariable
+from treeutil import *
 
 
 
@@ -53,9 +53,15 @@ def createDoc(syntaxTree, docTree = None):
                 leftItem = item.getFirstListChild("left")
                 rightItem = item.getFirstListChild("right")
                 if leftItem.type == "variable":
-                    if currClassNode and len(leftItem.children) == 3 and leftItem.children[0].get("name") == "qx":
+                    if (
+                        currClassNode and len(leftItem.children) == 3 and
+                        leftItem.children[0].get("name") == "qx"
+                       ):
 
-                        if leftItem.children[1].get("name") == "Proto" and rightItem.type == "function":
+                        if (
+                            leftItem.children[1].get("name") == "Proto" and
+                            rightItem.type == "function"
+                           ):
                             # It's a method definition
                             handleMethodDefinitionOld(item, False, currClassNode)
 
@@ -66,7 +72,10 @@ def createDoc(syntaxTree, docTree = None):
                             elif leftItem.children[2].get("name").isupper():
                                 handleConstantDefinition(item, currClassNode)
 
-                    elif currClassNode and assembleVariable(leftItem).startswith(currClassNode.get("fullName")):
+                    elif (
+                          currClassNode and
+                          assembleVariable(leftItem).startswith(currClassNode.get("fullName"))
+                         ):
                         # This is definition of the type "mypackage.MyClass.bla = ..."
                         if rightItem.type == "function":
                             handleMethodDefinitionOld(item, True, currClassNode)
@@ -92,7 +101,17 @@ def createDoc(syntaxTree, docTree = None):
                             handlePropertyDefinitionOld(item, currClassNode)
 
                     # qooxdoo >= 0.7
-                    elif var and len(var.children) == 3 and var.children[0].get("name") == "qx" and var.children[1].get("name") in ["Class", "Clazz", "Locale", "Interface", "Mixin"] and var.children[2].get("name") == "define":
+                    elif (
+                          var and
+                          len(var.children) == 3 and
+                          var.children[0].get("name") == "qx" and
+                          var.children[1].get("name") in [
+                                                          "Class", "Clazz",
+                                                          "Locale", "Interface",
+                                                          "Mixin"
+                                                         ] and
+                          var.children[2].get("name") == "define"
+                         ):
                         currClassNode = handleClassDefinition(docTree, item, var.children[1].get("name").lower())
 
 
@@ -144,7 +163,7 @@ def handleClassDefinition(docTree, item, variant):
     commentAttributes = comment.parseNode(item)
     classNode = getClassNode(docTree, className, commentAttributes)
     if variant in ["class", "clazz"]:
-        type = treeutil.getNode(params, "1/keyvalue[@key='type']/value")
+        type = getNode(params, "1/keyvalue[@key='type']/value")
         classNode.set("type", "class")
     else:
         classNode.set("type", variant)  
@@ -166,7 +185,11 @@ def handleClassDefinition(docTree, item, variant):
         if key == "extend":
             if variant in ["class", "clazz"]:
                 superClassName = assembleVariable(valueItem)
-                if superClassName not in ["Array", "Boolean", "Date", "Error", "Function", "Math", "Number" "Object", "RegExp", "String"]:
+                if superClassName not in [
+                                          "Array", "Boolean", "Date", "Error",
+                                          "Function", "Math", "Number",
+                                          "Object", "RegExp", "String"
+                                         ]:
                     superClassNode = getClassNode(docTree, superClassName)
                     childClasses = superClassNode.get("childClasses", False)
 
@@ -394,7 +417,15 @@ def handleClassDefinitionOld(docTree, item):
                     rightItem = item.getFirstListChild("right")
 
                     # It's a method definition
-                    if leftItem.type == "variable" and len(leftItem.children) == 2 and (leftItem.children[0].get("name") == "this" or leftItem.children[0].get("name") == "self") and rightItem.type == "function":
+                    if (
+                        leftItem.type == "variable" and
+                        len(leftItem.children) == 2 and
+                        (
+                             leftItem.children[0].get("name") == "this" or
+                             leftItem.children[0].get("name") == "self"
+                        ) and
+                        rightItem.type == "function"
+                    ):
                         handleMethodDefinitionOld(item, False, classNode)
 
     elif ctorItem and ctorItem.type == "map":
