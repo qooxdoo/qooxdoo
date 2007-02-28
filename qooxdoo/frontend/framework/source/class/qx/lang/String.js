@@ -49,7 +49,7 @@ qx.OO.defineClass("qx.lang.String");
  * @param str {String} string seperated by '-'
  * @return {String} camel case string
  */
-qx.Class.toCamelCase = function(str)
+qx.Clazz.toCamelCase = function(str)
 {
   var vArr = str.split("-"), vLength = vArr.length;
 
@@ -75,7 +75,7 @@ qx.Class.toCamelCase = function(str)
  * @param str {String} the string to trim
  * @return {String}
  */
-qx.Class.trimLeft = function(str) {
+qx.Clazz.trimLeft = function(str) {
   return str.replace(/^\s+/, "");
 };
 
@@ -86,7 +86,7 @@ qx.Class.trimLeft = function(str) {
  * @param str {String} the string to trim
  * @return {String}
  */
-qx.Class.trimRight = function(str) {
+qx.Clazz.trimRight = function(str) {
   return str.replace(/\s+$/, "");
 };
 
@@ -97,7 +97,7 @@ qx.Class.trimRight = function(str) {
  * @param str {String} the string to trim
  * @return {String}
  */
-qx.Class.trim = function(str) {
+qx.Clazz.trim = function(str) {
   return str.replace(/^\s+|\s+$/g, "");
 };
 
@@ -109,7 +109,7 @@ qx.Class.trim = function(str) {
  * @param substr {String} the substring to look for
  * @return {Boolean} whether the string starts with the given substring
  */
-qx.Class.startsWith = function(fullstr, substr) {
+qx.Clazz.startsWith = function(fullstr, substr) {
   return !fullstr.indexOf(substr);
 };
 
@@ -121,7 +121,7 @@ qx.Class.startsWith = function(fullstr, substr) {
  * @param substr {String} the substring to look for
  * @return {Boolean} whether the string ends with the given substring
  */
-qx.Class.endsWith = function(fullstr, substr) {
+qx.Clazz.endsWith = function(fullstr, substr) {
   return fullstr.lastIndexOf(substr) === fullstr.length-substr.length;
 };
 
@@ -134,7 +134,7 @@ qx.Class.endsWith = function(fullstr, substr) {
  * @param ch {String?"0"} character used to fill up the string
  * @return {String} paddded string
  */
-qx.Class.pad = function(str, length, ch)
+qx.Clazz.pad = function(str, length, ch)
 {
   if (typeof ch === "undefined") {
     ch = "0";
@@ -156,7 +156,7 @@ qx.Class.pad = function(str, length, ch)
  * @param str {String} the string
  * @return {String} the string with a upper case first character
  */
-qx.Class.toFirstUp = function(str) {
+qx.Clazz.toFirstUp = function(str) {
   return str.charAt(0).toUpperCase() + str.substr(1);
 };
 
@@ -171,7 +171,7 @@ qx.Class.toFirstUp = function(str) {
  * @param sep {String?","} separator
  * @return {String} the string with the added item
  */
-qx.Class.addListItem = function(str, item, sep)
+qx.Clazz.addListItem = function(str, item, sep)
 {
   if (str == item || str == "")
   {
@@ -207,7 +207,7 @@ qx.Class.addListItem = function(str, item, sep)
  * @param sep {String?","} separator
  * @return {String} the string with the removed item
  */
-qx.Class.removeListItem = function(str, item, sep)
+qx.Clazz.removeListItem = function(str, item, sep)
 {
   if (str == item || str == "")
   {
@@ -241,7 +241,7 @@ qx.Class.removeListItem = function(str, item, sep)
  * @param substring {String} substring to search for
  * @return {Boolean} whether the string contains the substring
  */
-qx.Class.contains = function(str, substring) {
+qx.Clazz.contains = function(str, substring) {
   return str.indexOf(substring) != -1;
 };
 
@@ -256,7 +256,7 @@ qx.Class.contains = function(str, substring) {
  * @param args {Array} array of arguments to insert into the format string
  * @return {String}
  */
-qx.Class.format = function(pattern, args)
+qx.Clazz.format = function(pattern, args)
 {
   var str = pattern;
 
@@ -274,6 +274,6 @@ qx.Class.format = function(pattern, args)
  * @param str {String} the string where to escape the chars.
  * @return {String} the string with the escaped chars.
  */
-qx.Class.escapeRegexpChars = function(str) {
+qx.Clazz.escapeRegexpChars = function(str) {
   return str.replace(/([\\\.\(\)\[\]\{\}\^\$\?\+\*])/g, "\\$1");
 };

@@ -45,29 +45,29 @@
 qx.OO.defineClass("qx.core.Version");
 
 /** {Integer} Major version number */
-qx.Class.major = 0;
+qx.Clazz.major = 0;
 
 /** {Integer} Minor version number */
-qx.Class.minor = 0;
+qx.Clazz.minor = 0;
 
 /** {Integer} Maintenance number */
-qx.Class.revision = 0;
+qx.Clazz.revision = 0;
 
 /** {String} Revision state */
-qx.Class.state = "";
+qx.Clazz.state = "";
 
 /** {Integer} Subversion revision number */
-qx.Class.svn = 0;
+qx.Clazz.svn = 0;
 
 /** {String} Subversion folder e.g. trunk, release_0_6_3, ... */
-qx.Class.folder = "";
+qx.Clazz.folder = "";
 
 /**
  * returns the qooxdoo version string
  *
  * @return {String} qooxdoo version string
  */
-qx.Class.toString = function()
+qx.Clazz.toString = function()
 {
   var vClass = qx.core.Version;
   return vClass.major + "." + vClass.minor
@@ -80,7 +80,7 @@ qx.Class.toString = function()
 /**
  * Initialize class members
  */
-qx.Class._init = function()
+qx.Clazz._init = function()
 {
   var vClass = qx.core.Version;
 
@@ -104,4 +104,4 @@ qx.Class._init = function()
 };
 
 // Initialize at load time
-qx.Class._init();
+qx.Clazz._init();

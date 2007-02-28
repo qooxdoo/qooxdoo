@@ -1366,16 +1366,16 @@ qx.Proto.dispose = function() {
 
 
 /** {int} The minimum width a colum could get in pixels. */
-qx.Class.MIN_COLUMN_WIDTH = 10;
+qx.Clazz.MIN_COLUMN_WIDTH = 10;
 
 /** {int} The radius of the resize region in pixels. */
-qx.Class.RESIZE_REGION_RADIUS = 5;
+qx.Clazz.RESIZE_REGION_RADIUS = 5;
 
 /**
  * (int) The number of pixels the mouse may move between mouse down and mouse up
  * in order to count as a click.
  */
-qx.Class.CLICK_TOLERANCE = 5;
+qx.Clazz.CLICK_TOLERANCE = 5;
 
 /**
  * (int) The mask for the horizontal scroll bar.
@@ -1383,7 +1383,7 @@ qx.Class.CLICK_TOLERANCE = 5;
  *
  * @see #getNeededScrollBars
  */
-qx.Class.HORIZONTAL_SCROLLBAR = 1;
+qx.Clazz.HORIZONTAL_SCROLLBAR = 1;
 
 /**
  * (int) The mask for the vertical scroll bar.
@@ -1391,10 +1391,10 @@ qx.Class.HORIZONTAL_SCROLLBAR = 1;
  *
  * @see #getNeededScrollBars
  */
-qx.Class.VERTICAL_SCROLLBAR = 2;
+qx.Clazz.VERTICAL_SCROLLBAR = 2;
 
 /**
  * (string) The correct value for the CSS style attribute "cursor" for the
  * horizontal resize cursor.
  */
-qx.Class.CURSOR_RESIZE_HORIZONTAL = (qx.core.Client.getInstance().isGecko() && (qx.core.Client.getInstance().getMajor() > 1 || qx.core.Client.getInstance().getMinor() >= 8)) ? "ew-resize" : "e-resize";
+qx.Clazz.CURSOR_RESIZE_HORIZONTAL = (qx.core.Client.getInstance().isGecko() && (qx.core.Client.getInstance().getMajor() > 1 || qx.core.Client.getInstance().getMinor() >= 8)) ? "ew-resize" : "e-resize";

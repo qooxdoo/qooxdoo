@@ -53,7 +53,7 @@ function(vWidth, vStyle, vColor)
 });
 
 
-qx.Class.enhancedCrossBrowserMode = true;
+qx.Clazz.enhancedCrossBrowserMode = true;
 
 qx.Proto._needsCompilationTop = true;
 qx.Proto._needsCompilationRight = true;
@@ -1178,10 +1178,10 @@ qx.Proto.dispose = function()
 */
 
 /*
-qx.Class.presets =
+qx.Clazz.presets =
 {
-  black : new qx.Class(1, "solid", "black"),
-  white : new qx.Class(1, "solid", "white"),
-  none : new qx.Class(0, "none")
+  black : new qx.Clazz(1, "solid", "black"),
+  white : new qx.Clazz(1, "solid", "white"),
+  none : new qx.Clazz(0, "none")
 }
 */

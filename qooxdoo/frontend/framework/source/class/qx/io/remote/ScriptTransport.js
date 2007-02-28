@@ -48,11 +48,11 @@ function()
   this._uniqueId = vUniqueId;
 });
 
-qx.Class._uniqueId = 0;
-qx.Class._instanceRegistry = {};
-qx.Class.ScriptTransport_PREFIX = "_ScriptTransport_";
-qx.Class.ScriptTransport_ID_PARAM = qx.Class.ScriptTransport_PREFIX + "id";
-qx.Class.ScriptTransport_DATA_PARAM = qx.Class.ScriptTransport_PREFIX + "data";
+qx.Clazz._uniqueId = 0;
+qx.Clazz._instanceRegistry = {};
+qx.Clazz.ScriptTransport_PREFIX = "_ScriptTransport_";
+qx.Clazz.ScriptTransport_ID_PARAM = qx.Clazz.ScriptTransport_PREFIX + "id";
+qx.Clazz.ScriptTransport_DATA_PARAM = qx.Clazz.ScriptTransport_PREFIX + "data";
 qx.Proto._lastReadyState = 0;
 
 
@@ -193,7 +193,7 @@ qx.Proto._switchReadyState = function(vReadyState)
     this.setState(qx.io.remote.Exchange._nativeMap[++this._lastReadyState]);
   }
 }
-qx.Class._requestFinished = function(id, content) {
+qx.Clazz._requestFinished = function(id, content) {
   var vInstance = qx.io.remote.ScriptTransport._instanceRegistry[id];
   if (vInstance == null) {
     if (qx.Settings.getValueOfClass("qx.io.remote.Exchange", "enableDebug")) {

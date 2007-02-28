@@ -60,7 +60,7 @@ qx.Settings.setDefault("resourceUri", "./resource");
 
 if (qx.core.Client.getInstance().getRunsLocally())
 {
-  qx.Class._feedDesc = [
+  qx.Clazz._feedDesc = [
     {
       url: "feedreader/feeds/qooxdoo-news.xml",
       name: "qooxdoo-blog"
@@ -81,7 +81,7 @@ if (qx.core.Client.getInstance().getRunsLocally())
 }
 else
 {
-  qx.Class._feedDesc = [
+  qx.Clazz._feedDesc = [
     {
       url: "feedreader/proxy/proxy.php?proxy=" + encodeURIComponent("http://feeds.feedburner.com/qooxdoo/blog/content"),
       name: "qooxdoo-blog"

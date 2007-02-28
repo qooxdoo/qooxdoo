@@ -88,8 +88,8 @@ function(vConfig, vId)
 qx.OO.changeProperty({ name : "appearance", type : "string", defaultValue : "list-view-header-cell" });
 qx.OO.addProperty({ name : "sortOrder", type : "string", allowNull : true, possibleValues : [ "ascending", "descending" ] });
 
-qx.Class.C_SORT_ASCENDING = "ascending";
-qx.Class.C_SORT_DESCENDING = "descending";
+qx.Clazz.C_SORT_ASCENDING = "ascending";
+qx.Clazz.C_SORT_DESCENDING = "descending";
 
 
 

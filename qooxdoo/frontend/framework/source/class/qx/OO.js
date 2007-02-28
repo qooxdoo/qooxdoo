@@ -32,15 +32,15 @@
 // Usage of this hacky construct to make qx.OO available inside the API viewer
 qx.OO = {};
 qx.OO.defineClass = function() {};
-qx.Class = qx.OO;
+qx.Clazz = qx.OO;
 qx.OO.defineClass("qx.OO");
 
-qx.Class.classes = {};
-qx.Class.setter = {};
-qx.Class.getter = {};
-qx.Class.resetter = {};
-qx.Class.values = {};
-qx.Class.propertyNumber = 0;
+qx.Clazz.classes = {};
+qx.Clazz.setter = {};
+qx.Clazz.getter = {};
+qx.Clazz.resetter = {};
+qx.Clazz.values = {};
+qx.Clazz.propertyNumber = 0;
 
 
 
@@ -59,7 +59,7 @@ qx.Class.propertyNumber = 0;
  * @param vSuper {Object} super class
  * @param vConstructor {Function} the constructor of the new class
  */
-qx.Class.defineClass = function(vClassName, vSuper, vConstructor)
+qx.Clazz.defineClass = function(vClassName, vSuper, vConstructor)
 {
   var vSplitName = vClassName.split(".");
   var vNameLength = vSplitName.length-1;
@@ -82,19 +82,19 @@ qx.Class.defineClass = function(vClassName, vSuper, vConstructor)
       throw new Error("SuperClass is undefined, but constructor was given for class: " + vClassName);
     }
 
-    qx.Class = vTempObject[vSplitName[i]] = {};
+    qx.Clazz = vTempObject[vSplitName[i]] = {};
     qx.Proto = null;
     qx.Super = null;
   }
   else if (typeof vConstructor === "undefined")
   {
-    qx.Class = vTempObject[vSplitName[i]] = vSuper;
+    qx.Clazz = vTempObject[vSplitName[i]] = vSuper;
     qx.Proto = null;
     qx.Super = vSuper;
   }
   else
   {
-    qx.Class = vTempObject[vSplitName[i]] = vConstructor;
+    qx.Clazz = vTempObject[vSplitName[i]] = vConstructor;
 
     // build helper function
     // this omits the initial constructor call while inherit properties
@@ -109,7 +109,7 @@ qx.Class.defineClass = function(vClassName, vSuper, vConstructor)
   }
 
   // Store reference to global classname registry
-  qx.OO.classes[vClassName] = qx.Class;
+  qx.OO.classes[vClassName] = qx.Clazz;
 }
 
 
@@ -123,7 +123,7 @@ qx.Class.defineClass = function(vClassName, vSuper, vConstructor)
 ---------------------------------------------------------------------------
 */
 
-qx.Class.addFastProperty = function(vConfig)
+qx.Clazz.addFastProperty = function(vConfig)
 {
   var vName = vConfig.name;
   var vUpName = qx.lang.String.toFirstUp(vName);
@@ -227,7 +227,7 @@ qx.OO.addCachedProperty = function(p)
   qx.Proto[vComputerName] = function() { return null; };
 }
 
-qx.Class.addPropertyGroup = function(p)
+qx.Clazz.addPropertyGroup = function(p)
 {
   /* --------------------------------------------------------------------------------
       PRE-CHECKS
@@ -325,7 +325,7 @@ qx.Class.addPropertyGroup = function(p)
   }
 }
 
-qx.Class.removeProperty = function(p)
+qx.Clazz.removeProperty = function(p)
 {
   if (typeof qx.Proto._properties !== "string") {
     throw new Error("Has no properties!");
@@ -363,7 +363,7 @@ qx.Class.removeProperty = function(p)
   pp["setDefault" + p.method] = null;
 }
 
-qx.Class._createProperty = function(p)
+qx.Clazz._createProperty = function(p)
 {
   if(typeof p !== "object") {
     throw new Error("AddProperty: Param should be an object!");
@@ -706,9 +706,9 @@ qx.Class._createProperty = function(p)
   }
 }
 
-qx.Class.changeProperty = qx.OO._createProperty;
+qx.Clazz.changeProperty = qx.OO._createProperty;
 
-qx.Class.addProperty = function(p)
+qx.Clazz.addProperty = function(p)
 {
   qx.OO.propertyNumber++;
 
@@ -735,12 +735,12 @@ qx.Class.addProperty = function(p)
   }
 }
 
-qx.Class.inheritField = function(vField, vData)
+qx.Clazz.inheritField = function(vField, vData)
 {
   qx.lang.Object.carefullyMergeWith(vData, qx.Super.prototype[vField]);
   qx.Proto[vField] = vData;
 }
 
-qx.Class.isAvailable = function(vClassName) {
+qx.Clazz.isAvailable = function(vClassName) {
   return qx.OO.classes[vClassName] != null;
 }

@@ -952,7 +952,7 @@ qx.Proto.getSelectedNodes = function()
  *   MULTIPLE_INTERVAL
  *     Allow any set of selected items, whether contiguous or not.
  */
-qx.Class.SelectionMode =
+qx.Clazz.SelectionMode =
 {
   NONE              :
     qx.ui.table.SelectionModel.NO_SELECTION,

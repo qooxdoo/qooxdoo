@@ -35,7 +35,7 @@ qx.OO.defineClass("qx.lang.Object");
  * @param map {Object} the map to check
  * @return {Boolean} whether the map has any keys
  */
-qx.Class.isEmpty = function(map)
+qx.Clazz.isEmpty = function(map)
 {
   for (var s in map) {
     return false;
@@ -52,7 +52,7 @@ qx.Class.isEmpty = function(map)
  * @param length {Integer} minimum number of objects in the map
  * @return {Boolean} whether the map contains at least "lenght" objects.
  */
-qx.Class.hasMinLength = function(map, length)
+qx.Clazz.hasMinLength = function(map, length)
 {
   var i=0;
 
@@ -73,7 +73,7 @@ qx.Class.hasMinLength = function(map, length)
  * @param map {Object} the map
  * @return {Integer} number of objects in the map
  */
-qx.Class.getLength = function(map)
+qx.Clazz.getLength = function(map)
 {
   var i=0;
 
@@ -91,7 +91,7 @@ qx.Class.getLength = function(map)
  * @param map {Object} the map
  * @return {Array} array of the keys of the map
  */
-qx.Class.getKeys = function(map)
+qx.Clazz.getKeys = function(map)
 {
   var r = [];
   for (var s in map) {
@@ -109,7 +109,7 @@ qx.Class.getKeys = function(map)
  * @return {String} String of the keys of the map
  *     The keys are separated by ", "
  */
-qx.Class.getKeysAsString = function(map) {
+qx.Clazz.getKeysAsString = function(map) {
   return qx.lang.Object.getKeys(map).join(", ");
 };
 
@@ -120,7 +120,7 @@ qx.Class.getKeysAsString = function(map) {
  * @param map {Object} the map
  * @return {Array} array of the values of the map
  */
-qx.Class.getValues = function(map)
+qx.Clazz.getValues = function(map)
 {
   var r = [];
   for (var s in map) {
@@ -140,7 +140,7 @@ qx.Class.getValues = function(map)
  * @param vObjectB {Object} object to be merged
  * @return {Object} ObjectA with merged values from ObjectB
  */
-qx.Class.mergeWith = function(vObjectA, vObjectB)
+qx.Clazz.mergeWith = function(vObjectA, vObjectB)
 {
   for (var vKey in vObjectB) {
     vObjectA[vKey] = vObjectB[vKey];
@@ -159,7 +159,7 @@ qx.Class.mergeWith = function(vObjectA, vObjectB)
  * @param vObjectB {Object} object to be merged
  * @return {Object} vObjectA with merged values from vObjectB
  */
-qx.Class.carefullyMergeWith = function(vObjectA, vObjectB) {
+qx.Clazz.carefullyMergeWith = function(vObjectA, vObjectB) {
   for (var vKey in vObjectB)
   {
     if (typeof vObjectA[vKey] === "undefined") {
@@ -178,7 +178,7 @@ qx.Class.carefullyMergeWith = function(vObjectA, vObjectB) {
  * @param varargs {Object} variable number of objects to merged with vObjectA
  * @return {Object} vObjectA with merged values from the other objects
  */
-qx.Class.merge = function(vObjectA, varargs)
+qx.Clazz.merge = function(vObjectA, varargs)
 {
   var vLength = arguments.length;
 
@@ -196,7 +196,7 @@ qx.Class.merge = function(vObjectA, varargs)
  * @param vObject {Object} Object to copy
  * @return {Object} copy of vObject
  */
-qx.Class.copy = function(vObject) {
+qx.Clazz.copy = function(vObject) {
   return qx.lang.Object.mergeWith({}, vObject);
 };
 
@@ -209,7 +209,7 @@ qx.Class.copy = function(vObject) {
  * @param vObject {Object} Map to invert
  * @return {Object} inverted Map
  */
-qx.Class.invert = function(vObject) {
+qx.Clazz.invert = function(vObject) {
   var result = {};
   for (var key in vObject) {
     var value = vObject[key].toString();

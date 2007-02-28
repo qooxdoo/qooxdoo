@@ -59,9 +59,9 @@ qx.Proto.updateHeaderCell = function(cellInfo, cellWidget) {
 /**
  * (string) The state which will be set for header cells of sorted columns.
  */
-qx.Class.STATE_SORTED = "sorted";
+qx.Clazz.STATE_SORTED = "sorted";
 
 /**
  * (string) The state which will be set when sorting is ascending.
  */
-qx.Class.STATE_SORTED_ASCENDING = "sortedAscending";
+qx.Clazz.STATE_SORTED_ASCENDING = "sortedAscending";

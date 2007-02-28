@@ -570,7 +570,7 @@ qx.Proto.abort = function(opaqueCallRef) {
  * @return {String}                    the url.
  */
 
-qx.Class.makeServerURL = function(instanceId) {
+qx.Clazz.makeServerURL = function(instanceId) {
   var retVal = null;
   if (qx.core.ServerSettings) {
     retVal = qx.core.ServerSettings.serverPathPrefix + "/.qxrpc" +

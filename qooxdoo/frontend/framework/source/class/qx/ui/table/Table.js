@@ -95,7 +95,7 @@ function(tableModel) {
 
 
 /** The default row renderer to use when {@link #dataRowRenderer} is null. */
-qx.Class.DEFAULT_DATA_ROW_RENDERER = new qx.ui.table.DefaultDataRowRenderer();
+qx.Clazz.DEFAULT_DATA_ROW_RENDERER = new qx.ui.table.DefaultDataRowRenderer();
 
 
 /** The selection model. */
@@ -145,7 +145,7 @@ qx.OO.addProperty({ name:"alwaysUpdateCells", type:"boolean", defaultValue:false
 qx.OO.addProperty({ name:"headerCellHeight", type:"number", defaultValue:16, allowNull:false });
 
 /** The renderer to use for styling the rows. */
-qx.OO.addProperty({ name:"dataRowRenderer", type:"object", instance:"qx.ui.table.DataRowRenderer", defaultValue:qx.Class.DEFAULT_DATA_ROW_RENDERER, allowNull:false });
+qx.OO.addProperty({ name:"dataRowRenderer", type:"object", instance:"qx.ui.table.DataRowRenderer", defaultValue:qx.Clazz.DEFAULT_DATA_ROW_RENDERER, allowNull:false });
 
 /**
  * A function to instantiate a selection manager.  this allows subclasses of

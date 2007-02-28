@@ -389,13 +389,13 @@ qx.Proto.moveColumn = function(fromOverXPos, toOverXPos) {
 
 
 /** {int} the default width of a column in pixels. */
-qx.Class.DEFAULT_WIDTH = 100;
+qx.Clazz.DEFAULT_WIDTH = 100;
 
 /** {DefaultDataCellRenderer} the default header cell renderer. */
-qx.Class.DEFAULT_HEADER_RENDERER = new qx.ui.table.DefaultHeaderCellRenderer;
+qx.Clazz.DEFAULT_HEADER_RENDERER = new qx.ui.table.DefaultHeaderCellRenderer;
 
 /** {DefaultDataCellRenderer} the default data cell renderer. */
-qx.Class.DEFAULT_DATA_RENDERER = new qx.ui.table.DefaultDataCellRenderer;
+qx.Clazz.DEFAULT_DATA_RENDERER = new qx.ui.table.DefaultDataCellRenderer;
 
 /** {TextFieldCellEditorFactory} the default editor factory. */
-qx.Class.DEFAULT_EDITOR_FACTORY = new qx.ui.table.TextFieldCellEditorFactory;
+qx.Clazz.DEFAULT_EDITOR_FACTORY = new qx.ui.table.TextFieldCellEditorFactory;

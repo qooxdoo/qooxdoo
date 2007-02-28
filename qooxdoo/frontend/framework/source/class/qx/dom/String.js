@@ -39,7 +39,7 @@ qx.OO.defineClass("qx.dom.String");
  * @param str {String} string to escape
  * @param charcodeToEntities {Map} entity to charcode map
  */
-qx.Class.escapeEntities = function(str, charcodeToEntities) {
+qx.Clazz.escapeEntities = function(str, charcodeToEntities) {
   var result = [];
   for (var i=0; i<str.length; i++) {
     var chr = str.charAt(i);
@@ -65,7 +65,7 @@ qx.Class.escapeEntities = function(str, charcodeToEntities) {
  * @param str {String} string to unescape
  * @param entitiesToCharCode {Map} charcode to entity map
  */
-qx.Class.unescapeEntities = function(str, entitiesToCharCode) {
+qx.Clazz.unescapeEntities = function(str, entitiesToCharCode) {
   return str.replace(/&[#\w]+;/gi, function(entity) {
     var chr = entity;
     var entity = entity.substring(1, entity.length-1);
@@ -102,7 +102,7 @@ qx.Class.unescapeEntities = function(str, entitiesToCharCode) {
  * @param str {String} string containing tags
  * @return {String} the string with stripped tags
  */
-qx.Class.stripTags = function(str) {
+qx.Clazz.stripTags = function(str) {
   return str.replace(/<\/?[^>]+>/gi, "");
 };
 

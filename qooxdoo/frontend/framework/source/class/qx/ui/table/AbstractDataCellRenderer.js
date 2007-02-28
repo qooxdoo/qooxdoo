@@ -113,18 +113,18 @@ qx.Proto._createContentHtml_array_join = function(cellInfo, htmlArr) {
 }
 
 
-qx.Class.MAIN_DIV_START = '<div style="';
-qx.Class.MAIN_DIV_START_END = '">';
-qx.Class.MAIN_DIV_END = '</div>';
+qx.Clazz.MAIN_DIV_START = '<div style="';
+qx.Clazz.MAIN_DIV_START_END = '">';
+qx.Clazz.MAIN_DIV_END = '</div>';
 /** main style */
-qx.Class.MAIN_DIV_STYLE = ';overflow:hidden;white-space:nowrap;border-right:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding-left:2px;padding-right:2px;cursor:default'
+qx.Clazz.MAIN_DIV_STYLE = ';overflow:hidden;white-space:nowrap;border-right:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding-left:2px;padding-right:2px;cursor:default'
   + (qx.core.Client.getInstance().isMshtml() ? '' : ';-moz-user-select:none;');
 
-qx.Class.ARRAY_JOIN_MAIN_DIV_LEFT = '<div style="position:absolute;left:';
-qx.Class.ARRAY_JOIN_MAIN_DIV_WIDTH = 'px;top:0px;width:';
-qx.Class.ARRAY_JOIN_MAIN_DIV_HEIGHT = 'px;height:';
-qx.Class.ARRAY_JOIN_MAIN_DIV_START_END = '">';
-qx.Class.ARRAY_JOIN_MAIN_DIV_END = '</div>';
+qx.Clazz.ARRAY_JOIN_MAIN_DIV_LEFT = '<div style="position:absolute;left:';
+qx.Clazz.ARRAY_JOIN_MAIN_DIV_WIDTH = 'px;top:0px;width:';
+qx.Clazz.ARRAY_JOIN_MAIN_DIV_HEIGHT = 'px;height:';
+qx.Clazz.ARRAY_JOIN_MAIN_DIV_START_END = '">';
+qx.Clazz.ARRAY_JOIN_MAIN_DIV_END = '</div>';
 
-qx.Class.TABLE_TD = '<td style="height:';
-qx.Class.TABLE_TD_END = '</td>';
+qx.Clazz.TABLE_TD = '<td style="height:';
+qx.Clazz.TABLE_TD_END = '</td>';

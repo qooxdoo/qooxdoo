@@ -305,7 +305,7 @@ qx.Proto.printStackTrace = function() {
  *
  * @param clazz {Function} The class of which to return the logger.
  */
-qx.Class.getClassLogger = function(clazz) {
+qx.Clazz.getClassLogger = function(clazz) {
   var logger = clazz._logger;
   if (logger == null) {
     // Get the parent logger
@@ -334,46 +334,46 @@ qx.Class.getClassLogger = function(clazz) {
 
 
 /** {Integer} The current indent. */
-qx.Class._indent = 0;
+qx.Clazz._indent = 0;
 
 /**
  * {Integer} The ALL level has the lowest possible rank and is intended to turn on
  * all logging.
  */
-qx.Class.LEVEL_ALL = 0;
+qx.Clazz.LEVEL_ALL = 0;
 
 /**
  * {Integer} The DEBUG Level designates fine-grained informational events that are
  * most useful to debug an application.
  */
-qx.Class.LEVEL_DEBUG = 200;
+qx.Clazz.LEVEL_DEBUG = 200;
 
 /**
  * {Integer} The INFO level designates informational messages that highlight the
  * progress of the application at coarse-grained level.
  */
-qx.Class.LEVEL_INFO = 500;
+qx.Clazz.LEVEL_INFO = 500;
 
 /** {Integer} The WARN level designates potentially harmful situations. */
-qx.Class.LEVEL_WARN = 600;
+qx.Clazz.LEVEL_WARN = 600;
 
 /**
  * {Integer} The ERROR level designates error events that might still allow the
  * application to continue running.
  */
-qx.Class.LEVEL_ERROR = 700;
+qx.Clazz.LEVEL_ERROR = 700;
 
 /**
  * {Integer} The FATAL level designates very severe error events that will
  * presumably lead the application to abort.
  */
-qx.Class.LEVEL_FATAL = 800;
+qx.Clazz.LEVEL_FATAL = 800;
 
 /**
  * {Integer} The OFF has the highest possible rank and is intended to turn off
  * logging.
  */
-qx.Class.LEVEL_OFF = 1000;
+qx.Clazz.LEVEL_OFF = 1000;
 
 
 /**
@@ -383,11 +383,11 @@ qx.Class.LEVEL_OFF = 1000;
  * This logger logs by default everything greater than level INFO to a log
  * window.
  */
-qx.Class.ROOT_LOGGER = new qx.log.Logger("root", null);
-qx.Class.ROOT_LOGGER.setMinLevel(qx.log.Logger.LEVEL_DEBUG);
+qx.Clazz.ROOT_LOGGER = new qx.log.Logger("root", null);
+qx.Clazz.ROOT_LOGGER.setMinLevel(qx.log.Logger.LEVEL_DEBUG);
 
 if (typeof console != 'undefined' && console.debug) {
-  qx.Class.ROOT_LOGGER.addAppender(new qx.log.FireBugAppender());
+  qx.Clazz.ROOT_LOGGER.addAppender(new qx.log.FireBugAppender());
 } else {
-  qx.Class.ROOT_LOGGER.addAppender(new qx.log.WindowAppender());
+  qx.Clazz.ROOT_LOGGER.addAppender(new qx.log.WindowAppender());
 }

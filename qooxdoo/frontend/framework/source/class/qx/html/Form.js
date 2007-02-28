@@ -26,12 +26,12 @@
 
 qx.OO.defineClass("qx.html.Form");
 
-qx.Class.ignoreInputTypes = [ "file", "submit", "image", "reset", "button" ];
-qx.Class.ignoreElementTypes = [ "fieldset" ];
-qx.Class.checkElementTypes = [ "radio", "checkbox" ];
-qx.Class.multiSelectType = "select-multiple";
+qx.Clazz.ignoreInputTypes = [ "file", "submit", "image", "reset", "button" ];
+qx.Clazz.ignoreElementTypes = [ "fieldset" ];
+qx.Clazz.checkElementTypes = [ "radio", "checkbox" ];
+qx.Clazz.multiSelectType = "select-multiple";
 
-qx.Class.inputFilter = function(vNode)
+qx.Clazz.inputFilter = function(vNode)
 {
   if (vNode.disabled) {
     return false;
@@ -56,11 +56,11 @@ qx.Class.inputFilter = function(vNode)
   return true;
 }
 
-qx.Class.getFields = function(vForm) {
+qx.Clazz.getFields = function(vForm) {
   return Array.filter(vForm.elements, qx.html.Form.inputFilter);
 }
 
-qx.Class.encodeField = function(vNode)
+qx.Clazz.encodeField = function(vNode)
 {
   var vName = vNode.name || "";
   var vType = (vNode.type || "").toLowerCase();
@@ -84,7 +84,7 @@ qx.Class.encodeField = function(vNode)
   }
 }
 
-qx.Class.encodeForm = function(vForm)
+qx.Clazz.encodeForm = function(vForm)
 {
   var vFields = qx.html.Form.getFields(vForm);
   var vAll = [];
@@ -96,7 +96,7 @@ qx.Class.encodeForm = function(vForm)
   return vAll.join("&");
 }
 
-qx.Class.bind = function(vForm, vMethod)
+qx.Clazz.bind = function(vForm, vMethod)
 {
   qx.html.EventRegistration.addEventListener(vForm, "submit", function(e)
   {

@@ -187,7 +187,7 @@ qx.Proto.parse = function(str) {
  *
  * @return {NumberFormat} the default number format.
  */
-qx.Class.getInstance = qx.lang.Function.returnInstance;
+qx.Clazz.getInstance = qx.lang.Function.returnInstance;
 
 
 /**
@@ -195,7 +195,7 @@ qx.Class.getInstance = qx.lang.Function.returnInstance;
  *
  * @return {NumberFormat} an integer number format.
  */
-qx.Class.getIntegerInstance = function() {
+qx.Clazz.getIntegerInstance = function() {
   var NumberFormat = qx.util.format.NumberFormat;
   if (NumberFormat._integerInstance == null) {
     NumberFormat._integerInstance = new NumberFormat();

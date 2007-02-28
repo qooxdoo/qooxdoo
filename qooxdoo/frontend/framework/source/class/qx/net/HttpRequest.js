@@ -32,18 +32,18 @@ qx.OO.defineClass("qx.net.HttpRequest");
  *
  * @return {HttpRequest}
  */
-qx.Class.create = function() { return null };
+qx.Clazz.create = function() { return null };
 
 if (window.XMLHttpRequest)
 {
-  qx.Class.create = function()
+  qx.Clazz.create = function()
   {
     return new XMLHttpRequest;
   };
 }
 else if (window.ActiveXObject)
 {
-  qx.Class.create = function()
+  qx.Clazz.create = function()
   {
     /*
      According to information on the Microsoft XML Team's WebLog

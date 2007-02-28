@@ -48,7 +48,7 @@ function(vHtml, vMnemonic)
   this.auto();
 });
 
-qx.Class._measureNodes = {};
+qx.Clazz._measureNodes = {};
 
 
 

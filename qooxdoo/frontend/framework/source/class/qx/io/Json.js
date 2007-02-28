@@ -66,7 +66,7 @@ qx.OO.defineClass("qx.io.Json");
  *        by adding some white space that indents objects and arrays.
  * @return {String} the serialized object.
  */
-qx.Class.stringify = function (v, beautify) {};
+qx.Clazz.stringify = function (v, beautify) {};
 
 /**
  * Parse a JSON text, producing a JavaScript value.
@@ -75,7 +75,7 @@ qx.Class.stringify = function (v, beautify) {};
  * @param text {String} JSON string
  * @return {var} evaluated JSON string.
  */
-qx.Class.parse = function (text) {};
+qx.Clazz.parse = function (text) {};
 
 /*
 ---------------------------------------------------------------------------

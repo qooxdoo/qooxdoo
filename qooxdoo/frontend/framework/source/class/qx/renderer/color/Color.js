@@ -50,7 +50,7 @@ function(vValue)
 ---------------------------------------------------------------------------
 */
 
-qx.Class.rgb2style = function(r, g, b) {
+qx.Clazz.rgb2style = function(r, g, b) {
   return "rgb(" + r + "," + g + "," + b + ")";
 }
 
@@ -80,7 +80,7 @@ qx.renderer.color.Color.r_percent = /^[0-9]{1,3}\.{0,1}[0-9]*%$/;
  *
  * This includes all classic HTML Color names (http://www.w3.org/TR/css3-color/#html4) and the <code>transparent</code> keyword.
  */
-qx.Class.htmlNames =
+qx.Clazz.htmlNames =
 {
   transparent : [-1,-1,-1],
   aliceblue : [ 240,248,255 ],
@@ -272,7 +272,7 @@ qx.Class.htmlNames =
  * WindowFrame: Window frame.
  * WindowText: Text in windows.
  */
-qx.Class.themedNames =
+qx.Clazz.themedNames =
 {
   activeborder : 1,
   activecaption : 1,
@@ -320,11 +320,11 @@ qx.Class.themedNames =
 ---------------------------------------------------------------------------
 */
 
-qx.Class.fromString = function(vDefString) {
+qx.Clazz.fromString = function(vDefString) {
   return new qx.renderer.color.Color(vDefString);
 }
 
-qx.Class.fromRandom = function() {
+qx.Clazz.fromRandom = function() {
   return new qx.renderer.color.Color([Math.round(255*Math.random()), Math.round(255*Math.random()), Math.round(255*Math.random())]);
 }
 

@@ -178,4 +178,4 @@ qx.Proto.getTotalWidth = function() {
 
 
 /** {string} The type of the event fired when the model changed. */
-qx.Class.EVENT_TYPE_MODEL_CHANGED = "modelChanged";
+qx.Clazz.EVENT_TYPE_MODEL_CHANGED = "modelChanged";

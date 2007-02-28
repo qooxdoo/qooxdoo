@@ -239,7 +239,7 @@ qx.Proto.setValueById = function(columnId, rowIndex, value) {
 
 
 /** {string} The type of the event fired when the data changed. */
-qx.Class.EVENT_TYPE_DATA_CHANGED = "dataChanged";
+qx.Clazz.EVENT_TYPE_DATA_CHANGED = "dataChanged";
 
 /** {string} The type of the event fired when the meta data changed. */
-qx.Class.EVENT_TYPE_META_DATA_CHANGED = "metaDataChanged";
+qx.Clazz.EVENT_TYPE_META_DATA_CHANGED = "metaDataChanged";

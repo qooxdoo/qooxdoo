@@ -502,10 +502,10 @@ qx.Proto.dispose = function() {
 }
 
 
-qx.Class.USE_ARRAY_JOIN = false;
-qx.Class.USE_TABLE = false;
+qx.Clazz.USE_ARRAY_JOIN = false;
+qx.Clazz.USE_TABLE = false;
 
 
-qx.Class.CONTENT_ROW_FONT_FAMILY_TEST = "'Segoe UI', Corbel, Calibri, Tahoma, 'Lucida Sans Unicode', sans-serif";
-qx.Class.CONTENT_ROW_FONT_SIZE_TEST = "11px";
+qx.Clazz.CONTENT_ROW_FONT_FAMILY_TEST = "'Segoe UI', Corbel, Calibri, Tahoma, 'Lucida Sans Unicode', sans-serif";
+qx.Clazz.CONTENT_ROW_FONT_SIZE_TEST = "11px";
 

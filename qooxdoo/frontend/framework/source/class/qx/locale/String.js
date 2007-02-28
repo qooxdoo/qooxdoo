@@ -31,7 +31,7 @@ qx.OO.defineClass("qx.locale.String");
  * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString} quotation start sign
  */
-qx.Class.getQuotationStart = function(locale) {
+qx.Clazz.getQuotationStart = function(locale) {
   return new qx.locale.LocalizedString("cldr_quotationStart", [], locale);
 };
 
@@ -42,7 +42,7 @@ qx.Class.getQuotationStart = function(locale) {
  * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString} quotation end sign
  */
-qx.Class.getQuotationEnd = function(locale) {
+qx.Clazz.getQuotationEnd = function(locale) {
   return new qx.locale.LocalizedString("cldr_quotationEnd", [], locale);
 };
 
@@ -53,7 +53,7 @@ qx.Class.getQuotationEnd = function(locale) {
  * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString} alternative quotation start sign
  */
-qx.Class.getQuotationStart = function(locale) {
+qx.Clazz.getQuotationStart = function(locale) {
   return new qx.locale.LocalizedString("cldr_alternateQuotationStart", [], locale);
 };
 
@@ -64,6 +64,6 @@ qx.Class.getQuotationStart = function(locale) {
  * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString} alternative quotation end sign
  */
-qx.Class.getQuotationEnd = function(locale) {
+qx.Clazz.getQuotationEnd = function(locale) {
   return new qx.locale.LocalizedString("cldr_alternateQuotationEnd", [], locale);
 };

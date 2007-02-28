@@ -48,7 +48,7 @@ qx.OO.defineClass("qx.util.Debug");
  *   which the object debug will be sent.  For example, you might pass, for
  *   this parameter, <code>new qx.log.WindowAppender()</code>.
  */
-qx.Class.debugObject = function(obj, initialMessage, maxLevel, appender)
+qx.Clazz.debugObject = function(obj, initialMessage, maxLevel, appender)
 {
   // Get a new logger
   logger = new qx.log.Logger("Debug", qx.log.Logger.ROOT_LOGGER);

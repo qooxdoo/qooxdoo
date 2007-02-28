@@ -43,18 +43,18 @@ qx.OO.defineClass("qx.xml.Document");
  *
  * @return {Document} empty XML document
  */
-qx.Class.create = function(namespaceUri, qualifiedName) {};
+qx.Clazz.create = function(namespaceUri, qualifiedName) {};
 
 if (document.implementation && document.implementation.createDocument) // The Mozilla style
 {
-  qx.Class.create = function(namespaceUri, qualifiedName)
+  qx.Clazz.create = function(namespaceUri, qualifiedName)
   {
     return document.implementation.createDocument(namespaceUri || "", qualifiedName || "", null);
   }
 }
 else if (qx.core.Client.getInstance().isMshtml())   // The Microsoft style
 {
-  qx.Class.create = function(namespaceUri, qualifiedName)
+  qx.Clazz.create = function(namespaceUri, qualifiedName)
   {
     /*
      According to information on the Microsoft XML Team's WebLog
@@ -120,18 +120,18 @@ else
  *
  * TODO: move to create()
  */
-qx.Class.fromString = function(str) {};
+qx.Clazz.fromString = function(str) {};
 
 if (window.DOMParser)
 {
-  qx.Class.fromString = function(str) {
+  qx.Clazz.fromString = function(str) {
     var dom = (new DOMParser()).parseFromString(str, "text/xml");
     return dom;
   };
 }
 else if (qx.core.Client.getInstance().isMshtml())   // The Microsoft style
 {
-  qx.Class.fromString = function(str) {
+  qx.Clazz.fromString = function(str) {
     var dom = qx.xml.Document.create();
     dom.loadXML(str);
     return dom;
@@ -149,6 +149,6 @@ else
  * @param obj {Object} object to check
  * @return {Boolean} whether the object is a Document instance
  */
-qx.Class.isDocument = function(obj) {
+qx.Clazz.isDocument = function(obj) {
   return (obj.nodeType == qx.dom.Node.DOCUMENT);
 };

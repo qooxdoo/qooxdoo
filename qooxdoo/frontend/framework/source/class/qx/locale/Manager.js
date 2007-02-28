@@ -137,7 +137,7 @@ qx.Proto.addTranslation = function(languageCode, translationMap) {
  * @param varargs {Object} variable number of argumes applied to the format string
  * @return {qx.locale.LocalizedString}
  */
-qx.Class.tr = function(messageId, varargs)
+qx.Clazz.tr = function(messageId, varargs)
 {
   var args = qx.lang.Array.fromArguments(arguments);
   args.splice(0, 1);
@@ -159,7 +159,7 @@ qx.Class.tr = function(messageId, varargs)
  * @param varargs {Object} variable number of argumes applied to the format string
  * @return {qx.locale.LocalizedString}
  */
-qx.Class.trn = function(singularMessageId, pluralMessageId, count, varargs)
+qx.Clazz.trn = function(singularMessageId, pluralMessageId, count, varargs)
 {
   var args = qx.lang.Array.fromArguments(arguments);
   args.splice(0, 3);
@@ -187,7 +187,7 @@ qx.Class.trn = function(singularMessageId, pluralMessageId, count, varargs)
  * @param varargs {Object} variable number of argumes applied to the format string
  * @return {qx.locale.LocalizedString}
  */
-qx.Class.trc = function(hint, messageId, varargs)
+qx.Clazz.trc = function(hint, messageId, varargs)
 {
   var args = qx.lang.Array.fromArguments(arguments);
   args.splice(0, 2);
@@ -202,7 +202,7 @@ qx.Class.trc = function(hint, messageId, varargs)
  * @param messageId {String} the message ID
  * @return {String} messageId
  */
-qx.Class.marktr = function(messageId) {
+qx.Clazz.marktr = function(messageId) {
   return messageId;
 };
 
@@ -258,4 +258,4 @@ qx.Proto.translate = function(messageId, args, locale)
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = qx.lang.Function.returnInstance;
+qx.Clazz.getInstance = qx.lang.Function.returnInstance;

@@ -42,34 +42,34 @@ function() {
 
 
 /** {int} The selection mode "none". Nothing can ever be selected. */
-qx.Class.NO_SELECTION = 1;
+qx.Clazz.NO_SELECTION = 1;
 
 /** {int} The selection mode "single". This mode only allows one selected item. */
-qx.Class.SINGLE_SELECTION = 2;
+qx.Clazz.SINGLE_SELECTION = 2;
 
 /**
  * (int) The selection mode "single interval". This mode only allows one
  * continuous interval of selected items.
  */
-qx.Class.SINGLE_INTERVAL_SELECTION = 3;
+qx.Clazz.SINGLE_INTERVAL_SELECTION = 3;
 
 /**
  * (int) The selection mode "multiple interval". This mode only allows any
  * selection.
  */
-qx.Class.MULTIPLE_INTERVAL_SELECTION = 4;
+qx.Clazz.MULTIPLE_INTERVAL_SELECTION = 4;
 
 
 /**
  * (int) the selection mode.
  */
 qx.OO.addProperty({ name:"selectionMode", type:"number",
-  defaultValue:qx.Class.SINGLE_SELECTION,
+  defaultValue:qx.Clazz.SINGLE_SELECTION,
   allowNull:false,
-  possibleValues:[ qx.Class.NO_SELECTION,
-           qx.Class.SINGLE_SELECTION,
-           qx.Class.SINGLE_INTERVAL_SELECTION,
-           qx.Class.MULTIPLE_INTERVAL_SELECTION  ] });
+  possibleValues:[ qx.Clazz.NO_SELECTION,
+           qx.Clazz.SINGLE_SELECTION,
+           qx.Clazz.SINGLE_INTERVAL_SELECTION,
+           qx.Clazz.MULTIPLE_INTERVAL_SELECTION  ] });
 
 // selectionMode property modifier
 qx.Proto._modifySelectionMode = function(selectionMode) {

@@ -31,7 +31,7 @@ qx.OO.defineClass("qx.locale.Date");
  * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString} translated AM marker.
  */
-qx.Class.getAmMarker = function(locale) {
+qx.Clazz.getAmMarker = function(locale) {
   return new qx.locale.LocalizedString("cldr_am", [], locale);
 };
 
@@ -42,7 +42,7 @@ qx.Class.getAmMarker = function(locale) {
  * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString} translated PM marker.
  */
-qx.Class.getPmMarker = function(locale) {
+qx.Clazz.getPmMarker = function(locale) {
   return new qx.locale.LocalizedString("cldr_pm", [], locale);
 };
 
@@ -55,7 +55,7 @@ qx.Class.getPmMarker = function(locale) {
  * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString[]} array of localized day names starting with sunday.
  */
-qx.Class.getDayNames = function(length, locale) {
+qx.Clazz.getDayNames = function(length, locale) {
   if (
     length != "abbreviated" &&
     length != "narrow" &&
@@ -82,7 +82,7 @@ qx.Class.getDayNames = function(length, locale) {
  * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString} localized day name
  */
-qx.Class.getDayName = function(length, day, locale) {
+qx.Clazz.getDayName = function(length, day, locale) {
   if (
     length != "abbreviated" &&
     length != "narrow" &&
@@ -104,7 +104,7 @@ qx.Class.getDayName = function(length, day, locale) {
  * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString[]} array of localized month names starting with january.
  */
-qx.Class.getMonthNames = function(length, locale) {
+qx.Clazz.getMonthNames = function(length, locale) {
   if (
     length != "abbreviated" &&
     length != "narrow" &&
@@ -130,7 +130,7 @@ qx.Class.getMonthNames = function(length, locale) {
  * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString} localized month name
  */
-qx.Class.getMonthName = function(length, month, locale) {
+qx.Clazz.getMonthName = function(length, month, locale) {
   if (
     length != "abbreviated" &&
     length != "narrow" &&
@@ -151,7 +151,7 @@ qx.Class.getMonthName = function(length, month, locale) {
  * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString} localized date format string
  */
-qx.Class.getDateFormat = function(size, locale) {
+qx.Clazz.getDateFormat = function(size, locale) {
   if (
     size != "short" &&
     size != "medium" &&
@@ -176,7 +176,7 @@ qx.Class.getDateFormat = function(size, locale) {
  * @param locale {String} optional locale to be used
  * @return {String} best matching format string
  */
-qx.Class.getDateTimeFormat = function(canonical, fallback, locale) {
+qx.Clazz.getDateTimeFormat = function(canonical, fallback, locale) {
   var key = "cldr_date_time_format_" + canonical;
   var localizedFormat = qx.locale.Manager.getInstance().translate(key, [], locale);
   if (localizedFormat == key) {
@@ -194,7 +194,7 @@ qx.Class.getDateTimeFormat = function(canonical, fallback, locale) {
  * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString} localized time format string
  */
-qx.Class.getTimeFormat = function(size, locale) {
+qx.Clazz.getTimeFormat = function(size, locale) {
   if (
     size != "short" &&
     size != "medium" &&
@@ -228,7 +228,7 @@ qx.Class.getTimeFormat = function(size, locale) {
  * @param locale {String} optional locale to be used
  * @return {Integer} index of the first day of the week. 0=sunday, 1=monday, ...
  */
-qx.Class.getWeekStart = function(locale) {
+qx.Clazz.getWeekStart = function(locale) {
   var weekStart = {
     // default is monday
 
@@ -315,7 +315,7 @@ qx.Class.getWeekStart = function(locale) {
  * @param locale {String} optional locale to be used
  * @return {Integer} index of the first day of the weekend. 0=sunday, 1=monday, ...
  */
-qx.Class.getWeekendStart = function(locale) {
+qx.Clazz.getWeekendStart = function(locale) {
   var weekendStart = {
     // default is saturday
 
@@ -355,7 +355,7 @@ qx.Class.getWeekendStart = function(locale) {
  * @param locale {String} optional locale to be used
  * @return {Integer} index of the last day of the weekend. 0=sunday, 1=monday, ...
  */
-qx.Class.getWeekendEnd = function(locale) {
+qx.Clazz.getWeekendEnd = function(locale) {
   var weekendEnd = {
     // default is sunday
 
@@ -394,7 +394,7 @@ qx.Class.getWeekendEnd = function(locale) {
  * @param locale {String} optional locale to be used
  * @return {Boolean} whether the given day is a weekend day
  */
-qx.Class.isWeekend = function(day, locale) {
+qx.Clazz.isWeekend = function(day, locale) {
   var weekendStart = qx.locale.Date.getWeekendStart(locale);
   var weekendEnd = qx.locale.Date.getWeekendEnd(locale);
   if (weekendEnd > weekendStart) {
@@ -417,7 +417,7 @@ qx.Class.isWeekend = function(day, locale) {
  * @param locale {String} the locale
  * @return {String} territory
  */
-qx.Class._getTerritory = function(locale) {
+qx.Clazz._getTerritory = function(locale) {
   if (locale) {
     var territory = locale.split("_")[1] || locale;
   } else {

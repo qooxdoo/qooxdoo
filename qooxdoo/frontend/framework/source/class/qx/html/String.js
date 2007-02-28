@@ -45,7 +45,7 @@ qx.OO.defineClass("qx.html.String");
  * @param str {String} the String to escape
  * @return {String} a new escaped String
  */
-qx.Class.escape = function(str) {
+qx.Clazz.escape = function(str) {
   return qx.dom.String.escapeEntities(
     str,
     qx.html.Entity.FROM_CHARCODE
@@ -70,7 +70,7 @@ qx.Class.escape = function(str) {
  * @param str {String} the String to unescape, may be null
  * @return a new unescaped String
  */
-qx.Class.unescape = function(str) {
+qx.Clazz.unescape = function(str) {
   return qx.dom.String.unescapeEntities(
     str,
     qx.html.Entity.TO_CHARCODE
@@ -88,7 +88,7 @@ qx.Class.unescape = function(str) {
  * @param str {String} the String to convert
  * @return {String} a new converted String
  */
-qx.Class.fromText = function(str) {
+qx.Clazz.fromText = function(str) {
   return qx.html.String.escape(str).replace(/(  |\n)/g, function(chr) {
     var map = {
       "  ": " &nbsp;",
@@ -109,7 +109,7 @@ qx.Class.fromText = function(str) {
  * @param str {String} HTML string to converts
  * @return {String} plain text representaion of the HTML string
  */
-qx.Class.toText = function(str) {
+qx.Clazz.toText = function(str) {
   return qx.html.String.unescape(str.replace(/\s+|<([^>])+>/gi, function(chr) {
     if (/\s+/.test(chr)) {
       return " ";

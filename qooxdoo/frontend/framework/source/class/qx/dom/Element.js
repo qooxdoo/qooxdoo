@@ -29,7 +29,7 @@ qx.OO.defineClass("qx.dom.Element");
  *
  * @param vElement {Element} DOM element
  */
-qx.Class.cleanWhitespace = function(vElement)
+qx.Clazz.cleanWhitespace = function(vElement)
 {
   for (var i=0; i<vElement.childNodes.length; i++)
   {
@@ -47,7 +47,7 @@ qx.Class.cleanWhitespace = function(vElement)
  *
  * @param vElement {Element} DOM element
  */
-qx.Class.isEmpty = function(vElement) {
+qx.Clazz.isEmpty = function(vElement) {
   return vElement.innerHTML.match(/^\s*$/);
 }
 
@@ -59,7 +59,7 @@ qx.Class.isEmpty = function(vElement) {
  * @param element {Element} DOM element
  * @return {String}
  */
- qx.Class.getTextContent = function(element) {
+ qx.Clazz.getTextContent = function(element) {
   var text = "";
   var childNodes = element.childNodes;
   for (var i=0; i<childNodes.length; i++) {
@@ -79,18 +79,18 @@ qx.Class.isEmpty = function(vElement) {
  * @param vElement {Element} DOM element
  * @param sValue {String} the value
  */
-qx.Class.setTextContent = function(vElement, sValue) {};
+qx.Clazz.setTextContent = function(vElement, sValue) {};
 
 if (qx.core.Client.getInstance().supportsTextContent()) {
-  qx.Class.setTextContent = function(vElement, sValue) {
+  qx.Clazz.setTextContent = function(vElement, sValue) {
     vElement.textContent = sValue;
   };
 } else if (qx.core.Client.getInstance().supportsInnerText()) {
-  qx.Class.setTextContent = function(vElement, sValue) {
+  qx.Clazz.setTextContent = function(vElement, sValue) {
     vElement.innerText = sValue;
   };
 } else {
-  qx.Class.setTextContent = function(vElement, sValue) {
+  qx.Clazz.setTextContent = function(vElement, sValue) {
     vElement.innerHTML = qx.html.String.escape(sValue);
   };
 }

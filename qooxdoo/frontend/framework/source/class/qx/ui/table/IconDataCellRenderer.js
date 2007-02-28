@@ -175,11 +175,11 @@ qx.Proto._createContentHtml_array_join = function(cellInfo, htmlArr) {
   }
 }
 
-qx.Class.MAIN_DIV_STYLE = ';text-align:center;padding-top:1px;';
-qx.Class.IMG_START = '<img src="';
-qx.Class.IMG_END = '"/>';
-qx.Class.IMG_TITLE_START = '" title="';
-qx.Class.TABLE_DIV = '<div style="overflow:hidden;height:';
-qx.Class.TABLE_DIV_CLOSE = 'px">';
-qx.Class.TABLE_DIV_END = '</div>';
+qx.Clazz.MAIN_DIV_STYLE = ';text-align:center;padding-top:1px;';
+qx.Clazz.IMG_START = '<img src="';
+qx.Clazz.IMG_END = '"/>';
+qx.Clazz.IMG_TITLE_START = '" title="';
+qx.Clazz.TABLE_DIV = '<div style="overflow:hidden;height:';
+qx.Clazz.TABLE_DIV_CLOSE = 'px">';
+qx.Clazz.TABLE_DIV_END = '</div>';
 

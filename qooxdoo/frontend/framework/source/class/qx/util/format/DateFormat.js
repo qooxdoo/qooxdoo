@@ -542,7 +542,7 @@ qx.Proto._initParseRules = function() {
  *
  * @return {String} the date/time instance.
  */
-qx.Class.getDateTimeInstance = function() {
+qx.Clazz.getDateTimeInstance = function() {
   var DateFormat = qx.util.format.DateFormat;
 
   var format = qx.locale.Date.getDateFormat("long") + " " + qx.locale.Date.getDateTimeFormat("HHmmss", "HH:mm:ss");
@@ -562,7 +562,7 @@ qx.Class.getDateTimeInstance = function() {
  *
  * @return {String} the date instance.
  */
-qx.Class.getDateInstance = function() {
+qx.Clazz.getDateInstance = function() {
   var DateFormat = qx.util.format.DateFormat;
 
   var format = qx.locale.Date.getDateFormat("short") + "";
@@ -582,23 +582,23 @@ qx.Class.getDateInstance = function() {
  * assumed to belong to the 20th century (e.g. 88 -> 1988). Years over 100 will be
  * used unchanged (e.g. 1792 -> 1792).
  */
-qx.Class.ASSUME_YEAR_2000_THRESHOLD = 30;
+qx.Clazz.ASSUME_YEAR_2000_THRESHOLD = 30;
 
 /** {string} The date format used for logging. */
-qx.Class.LOGGING_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+qx.Clazz.LOGGING_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
 /** {string} The am marker. */
-qx.Class.AM_MARKER = "am"
+qx.Clazz.AM_MARKER = "am"
 
 /** {string} The pm marker. */
-qx.Class.PM_MARKER = "pm";
+qx.Clazz.PM_MARKER = "pm";
 
 /** {string[]} The medium (three letter) timezone names. */
-qx.Class.MEDIUM_TIMEZONE_NAMES = [
+qx.Clazz.MEDIUM_TIMEZONE_NAMES = [
   "GMT" // TODO: fill up
 ];
 
 /** {string[]} The full timezone names. */
-qx.Class.FULL_TIMEZONE_NAMES = [
+qx.Clazz.FULL_TIMEZONE_NAMES = [
   "Greenwich Mean Time" // TODO: fill up
 ];

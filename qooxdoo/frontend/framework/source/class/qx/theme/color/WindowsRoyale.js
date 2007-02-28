@@ -86,7 +86,7 @@ qx.Proto._colors = qx.lang.Object.carefullyMergeWith({
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = qx.lang.Function.returnInstance;
+qx.Clazz.getInstance = qx.lang.Function.returnInstance;
 
 
 
@@ -97,4 +97,4 @@ qx.Class.getInstance = qx.lang.Function.returnInstance;
 ---------------------------------------------------------------------------
 */
 
-qx.manager.object.ColorManager.getInstance().registerColorTheme(qx.Class);
+qx.manager.object.ColorManager.getInstance().registerColorTheme(qx.Clazz);

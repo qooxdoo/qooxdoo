@@ -44,7 +44,7 @@ qx.OO.defineClass("qx.xml.String");
  * @param str {String} the string to be escaped
  * @return {String} the escaped string
  */
-qx.Class.escape = function(str) {
+qx.Clazz.escape = function(str) {
   return qx.dom.String.escapeEntities(
     str,
     qx.xml.Entity.FROM_CHARCODE
@@ -65,7 +65,7 @@ qx.Class.escape = function(str) {
  * @param str {String} the string to be unescaped
  * @return {String} the unescaped string
  */
-qx.Class.unescape = function(str) {
+qx.Clazz.unescape = function(str) {
   return qx.dom.String.unescapeEntities(
     str,
     qx.xml.Entity.TO_CHARCODE

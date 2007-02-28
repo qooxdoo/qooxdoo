@@ -42,7 +42,7 @@ function(vAutoDispose) {
 /**
  * @private
  */
-qx.Class.EVENTPREFIX = "evt";
+qx.Clazz.EVENTPREFIX = "evt";
 
 
 

@@ -217,13 +217,13 @@ qx.Proto.dispose = function()
 
 
 /** {int} The modifier mask for the shift key. */
-qx.Class.SHIFT_MASK = 1;
+qx.Clazz.SHIFT_MASK = 1;
 
 /** {int} The modifier mask for the control key. */
-qx.Class.CTRL_MASK = 2;
+qx.Clazz.CTRL_MASK = 2;
 
 /** {int} The modifier mask for the alt key. */
-qx.Class.ALT_MASK = 4;
+qx.Clazz.ALT_MASK = 4;
 
 /** {int} The modifier mask for the meta key (e.g. apple key on Macs). */
-qx.Class.META_MASK = 8;
+qx.Clazz.META_MASK = 8;

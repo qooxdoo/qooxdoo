@@ -41,17 +41,17 @@ qx.OO.defineClass("qx.xml.Element");
  * @param element {Element|Document} The root of the subtree to be serialized. This could be any node, including a Document.
  * @return {String}
  */
-qx.Class.serialize = function(element) {}
+qx.Clazz.serialize = function(element) {}
 
 if (window.XMLSerializer) {
-  qx.Class.serialize = function(element) {
+  qx.Clazz.serialize = function(element) {
     var element = qx.xml.Document.isDocument(element) ? element.documentElement : element;
     return (new XMLSerializer()).serializeToString(element);
   };
 }
 else
 {
-  qx.Class.serialize = function(element) {
+  qx.Clazz.serialize = function(element) {
     var element = qx.xml.Document.isDocument(element) ? element.documentElement : element;
     return element.xml || element.outerHTML;
   };
@@ -65,18 +65,18 @@ else
  * @param query {String}  XPath query
  * @return {Element} first matching element
  */
- qx.Class.selectSingleNode = function(element, query) {};
+ qx.Clazz.selectSingleNode = function(element, query) {};
 
 if (window.XPathEvaluator)
 {
-  qx.Class.selectSingleNode = function(element, query) {
+  qx.Clazz.selectSingleNode = function(element, query) {
     var xpe = new XPathEvaluator();
     return xpe.evaluate(query, element, xpe.createNSResolver(element), XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
   };
 }
 else if(qx.core.Client.getInstance().isMshtml() || document.selectSingleNode) // IE and Opera
 {
-  qx.Class.selectSingleNode = function(element, query) {
+  qx.Clazz.selectSingleNode = function(element, query) {
     return element.selectSingleNode(query);
   };
 }
@@ -89,11 +89,11 @@ else if(qx.core.Client.getInstance().isMshtml() || document.selectSingleNode) //
  * @param query {String}  XPath query
  * @return {Element[]} List of matching elements
  */
- qx.Class.selectNodes = function(element, query) {};
+ qx.Clazz.selectNodes = function(element, query) {};
 
 if (window.XPathEvaluator)
 {
-  qx.Class.selectNodes = function(element, query) {
+  qx.Clazz.selectNodes = function(element, query) {
     var xpe = new XPathEvaluator();
     var result = xpe.evaluate(query, element, xpe.createNSResolver(element), XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
     var nodes = [];
@@ -107,7 +107,7 @@ if (window.XPathEvaluator)
 }
 else if(qx.core.Client.getInstance().isMshtml() || document.selectNodes) // IE and Opera
 {
-  qx.Class.selectNodes = function(element, query) {
+  qx.Clazz.selectNodes = function(element, query) {
     return element.selectNodes(query);
   };
 }
@@ -123,17 +123,17 @@ else if(qx.core.Client.getInstance().isMshtml() || document.selectNodes) // IE a
  * @param tagname {String} the tagname to look for
  * @return {Element[]} a list of found elements in the order they appear in the tree.
  */
-qx.Class.getElementsByTagNameNS = function(element, namespaceURI, tagname) {};
+qx.Clazz.getElementsByTagNameNS = function(element, namespaceURI, tagname) {};
 
 if (document.getElementsByTagNameNS)
 {
-  qx.Class.getElementsByTagNameNS = function(element, namespaceURI, tagname) {
+  qx.Clazz.getElementsByTagNameNS = function(element, namespaceURI, tagname) {
    return element.getElementsByTagNameNS(namespaceURI, tagname);
   };
 }
 else if (qx.core.Client.getInstance().isMshtml())
 {
-  qx.Class.getElementsByTagNameNS = function(element, namespaceURI, tagname) {
+  qx.Clazz.getElementsByTagNameNS = function(element, namespaceURI, tagname) {
     var doc = element.ownerDocument || element;
     doc.setProperty("SelectionLanguage", "XPath");
     doc.setProperty("SelectionNamespaces", "xmlns:ns='" + namespaceURI + "'");

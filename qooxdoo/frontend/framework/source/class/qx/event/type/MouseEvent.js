@@ -37,10 +37,10 @@ function(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vRelatedTarget)
   }
 });
 
-qx.Class.C_BUTTON_LEFT = "left";
-qx.Class.C_BUTTON_MIDDLE = "middle";
-qx.Class.C_BUTTON_RIGHT = "right";
-qx.Class.C_BUTTON_NONE = "none";
+qx.Clazz.C_BUTTON_LEFT = "left";
+qx.Clazz.C_BUTTON_MIDDLE = "middle";
+qx.Clazz.C_BUTTON_RIGHT = "right";
+qx.Clazz.C_BUTTON_NONE = "none";
 
 
 

@@ -40,4 +40,4 @@ function() {
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = qx.lang.Function.returnInstance;
+qx.Clazz.getInstance = qx.lang.Function.returnInstance;

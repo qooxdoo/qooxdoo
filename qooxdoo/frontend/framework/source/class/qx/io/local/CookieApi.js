@@ -42,7 +42,7 @@ qx.OO.defineClass("qx.io.local.CookieApi",
 ---------------------------------------------------------------------------
 */
 
-qx.Class.get = function(vName)
+qx.Clazz.get = function(vName)
 {
   var start = document.cookie.indexOf(vName + "=");
   var len = start + vName.length + 1;
@@ -64,7 +64,7 @@ qx.Class.get = function(vName)
   return unescape(document.cookie.substring(len, end));
 }
 
-qx.Class.set = function(vName, vValue, vExpires, vPath, vDomain, vSecure)
+qx.Clazz.set = function(vName, vValue, vExpires, vPath, vDomain, vSecure)
 {
   var today = new Date();
   today.setTime(today.getTime());
@@ -106,7 +106,7 @@ qx.Class.set = function(vName, vValue, vExpires, vPath, vDomain, vSecure)
   document.cookie = vCookie.join("");
 }
 
-qx.Class.del = function(vName, vPath, vDomain)
+qx.Clazz.del = function(vName, vPath, vDomain)
 {
   if (!qx.io.local.CookieApi.get(vName)) {
     return;

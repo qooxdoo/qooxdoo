@@ -158,12 +158,12 @@ qx.Proto._createContentHtml_array_join = function(cellInfo, htmlArr) {
 }
 
 
-qx.Class._numberFormat = new qx.util.format.NumberFormat();
-qx.Class._numberFormat.setMaximumFractionDigits(2);
+qx.Clazz._numberFormat = new qx.util.format.NumberFormat();
+qx.Clazz._numberFormat.setMaximumFractionDigits(2);
 
-qx.Class.STYLEFLAG_ALIGN_RIGHT = 1;
-qx.Class.STYLEFLAG_BOLD = 2;
-qx.Class.STYLEFLAG_ITALIC = 4;
+qx.Clazz.STYLEFLAG_ALIGN_RIGHT = 1;
+qx.Clazz.STYLEFLAG_BOLD = 2;
+qx.Clazz.STYLEFLAG_ITALIC = 4;
 
 
 

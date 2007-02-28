@@ -151,13 +151,13 @@ qx.Proto.setRowColors = function(colors)
   }
 }
 
-qx.Class.BGCOL_FOCUSED_SELECTED = "#5a8ad3";
-qx.Class.BGCOL_FOCUSED_SELECTED_BLUR = "#b3bac6";
-qx.Class.BGCOL_FOCUSED = "#ddeeff";
-qx.Class.BGCOL_FOCUSED_BLUR = "#dae0e7";
-qx.Class.BGCOL_SELECTED = "#335ea8";
-qx.Class.BGCOL_SELECTED_BLUR = "#989ea8";
-qx.Class.BGCOL_EVEN = "#faf8f3";
-qx.Class.BGCOL_ODD = "white";
-qx.Class.COL_SELECTED = "white";
-qx.Class.COL_NORMAL = "black";
+qx.Clazz.BGCOL_FOCUSED_SELECTED = "#5a8ad3";
+qx.Clazz.BGCOL_FOCUSED_SELECTED_BLUR = "#b3bac6";
+qx.Clazz.BGCOL_FOCUSED = "#ddeeff";
+qx.Clazz.BGCOL_FOCUSED_BLUR = "#dae0e7";
+qx.Clazz.BGCOL_SELECTED = "#335ea8";
+qx.Clazz.BGCOL_SELECTED_BLUR = "#989ea8";
+qx.Clazz.BGCOL_EVEN = "#faf8f3";
+qx.Clazz.BGCOL_ODD = "white";
+qx.Clazz.COL_SELECTED = "white";
+qx.Clazz.COL_NORMAL = "black";

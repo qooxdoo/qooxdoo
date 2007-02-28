@@ -35,7 +35,7 @@ qx.OO.defineClass("qx.locale.Key");
  * @param locale {String} optional locale to be used
  * @return {qx.locale.LocalizedString} localized key name
  */
-qx.Class.getKeyName = function(size, keyIdentifier, locale) {
+qx.Clazz.getKeyName = function(size, keyIdentifier, locale) {
   if (
     size != "short" &&
     size != "full"
@@ -112,5 +112,5 @@ qx.Class.getKeyName = function(size, keyIdentifier, locale) {
   keyNames[Manager.marktr("key_full_Pause")] = "Pause";
   keyNames[Manager.marktr("key_full_Win")] = "Win";
   keyNames[Manager.marktr("key_full_Apps")] = "Apps";
-  qx.Class._keyNames = keyNames;
+  qx.Clazz._keyNames = keyNames;
 }) ();

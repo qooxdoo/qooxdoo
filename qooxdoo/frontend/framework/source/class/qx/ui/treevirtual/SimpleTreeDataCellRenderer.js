@@ -332,12 +332,12 @@ qx.Proto._getIndentSymbol = function(column,
 };
 
 
-qx.Class.MAIN_DIV_STYLE =
+qx.Clazz.MAIN_DIV_STYLE =
   ';overflow:hidden;white-space:nowrap;border-right:1px solid #eeeeee;' +
   'padding-left:2px;padding-right:2px;cursor:default' +
   (qx.core.Client.getInstance().isMshtml() ? '' : ';-moz-user-select:none;');
 
-qx.Class.IMG_START = '<img src="';
-qx.Class.IMG_END = '"/>';
-qx.Class.IMG_TITLE_START = '" title="';
+qx.Clazz.IMG_START = '<img src="';
+qx.Clazz.IMG_END = '"/>';
+qx.Clazz.IMG_TITLE_START = '" title="';
 

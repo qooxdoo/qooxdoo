@@ -42,7 +42,7 @@ qx.OO.defineClass("qx.util.ColorUtil");
  *       <li>'brightness': range 0..100</li>
  *     </ul>
  */
-qx.Class.rgb2hsb = function(vRed, vGreen, vBlue)
+qx.Clazz.rgb2hsb = function(vRed, vGreen, vBlue)
 {
   var vHue, vSaturation, vBrightness;
 
@@ -120,7 +120,7 @@ qx.Class.rgb2hsb = function(vRed, vGreen, vBlue)
  *       <li>'blue': range 0..255</li>
  *     </ul>
  */
-qx.Class.hsb2rgb = function(vHue, vSaturation, vBrightness)
+qx.Clazz.hsb2rgb = function(vHue, vSaturation, vBrightness)
 {
   var i, f, p, q, t, vReturn;
 

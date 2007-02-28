@@ -253,8 +253,8 @@ qx.Proto.dispose = function() {
 }
 
 
-qx.Class._nextId = 1;
-qx.Class._registeredAppenders = {};
+qx.Clazz._nextId = 1;
+qx.Clazz._registeredAppenders = {};
 
 
 /**
@@ -264,7 +264,7 @@ qx.Class._registeredAppenders = {};
  * @param appender {WindowAppender} the WindowAppender to register.
  * @return {Integer} the ID.
  */
-qx.Class.register = function(appender) {
+qx.Clazz.register = function(appender) {
   var WindowAppender = qx.log.WindowAppender;
 
   var id = WindowAppender._nextId++;
@@ -281,6 +281,6 @@ qx.Class.register = function(appender) {
  * @return {WindowAppender} the WindowAppender or null if no
  *     WindowAppender with this ID is registered.
  */
-qx.Class.getAppender = function(id) {
+qx.Clazz.getAppender = function(id) {
   return qx.log.WindowAppender._registeredAppenders[id];
 }

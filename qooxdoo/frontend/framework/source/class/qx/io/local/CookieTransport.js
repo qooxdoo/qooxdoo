@@ -42,7 +42,7 @@ qx.OO.defineClass("qx.io.local.CookieTransport",
 ---------------------------------------------------------------------------
 */
 
-qx.Class.set = function(vName, vValue)
+qx.Clazz.set = function(vName, vValue)
 {
   if (vValue === undefined) {
     return qx.io.local.CookieTransport.del(vName);
@@ -53,36 +53,36 @@ qx.Class.set = function(vName, vValue)
   this._setAll(vAll);
 }
 
-qx.Class.get = function(vName)
+qx.Clazz.get = function(vName)
 {
   var vAll = qx.io.local.CookieTransport._getAll();
 
   return vAll[vName] || "";
 }
 
-qx.Class.del = function(vName)
+qx.Clazz.del = function(vName)
 {
   var vAll = qx.io.local.CookieTransport._getAll();
   delete vAll[vName];
   this._setAll(vAll);
 }
 
-qx.Class.setAll = function(vHash)
+qx.Clazz.setAll = function(vHash)
 {
   var vAll = qx.io.local.CookieTransport._getAll();
   vAll = qx.lang.Object.mergeWith(vAll, vHash);
   qx.io.local.CookieTransport._setAll(vAll);
 }
 
-qx.Class.getAll = function() {
+qx.Clazz.getAll = function() {
   return qx.io.local.CookieTransport._getAll();
 }
 
-qx.Class.replaceAll = function(vHash) {
+qx.Clazz.replaceAll = function(vHash) {
   qx.io.local.CookieTransport._setAll(vHash);
 }
 
-qx.Class.delAll = function() {
+qx.Clazz.delAll = function() {
   qx.io.local.CookieTransport.replaceAll({});
 }
 
@@ -96,7 +96,7 @@ qx.Class.delAll = function() {
 ---------------------------------------------------------------------------
 */
 
-qx.Class._getAll = function()
+qx.Clazz._getAll = function()
 {
   var vHash = {};
   var vCookie, vItems, vItem;
@@ -118,7 +118,7 @@ qx.Class._getAll = function()
   return vHash;
 }
 
-qx.Class._setAll = function(vHash)
+qx.Clazz._setAll = function(vHash)
 {
   var vString = "";
   var vTemp;
@@ -165,13 +165,13 @@ qx.Class._setAll = function(vHash)
   }
 }
 
-qx.Class._setCookie = function(vIndex, vString)
+qx.Clazz._setCookie = function(vIndex, vString)
 {
   // qx.log.Logger.getClassLogger(qx.io.local.CookieTransport).debug("Store: " + vIndex + " = " + vString);
   qx.io.local.CookieApi.set(qx.io.local.CookieTransport.BASENAME + vIndex, vString);
 }
 
-qx.Class._delCookie = function(vIndex)
+qx.Clazz._delCookie = function(vIndex)
 {
   // qx.log.Logger.getClassLogger(qx.io.local.CookieTransport).debug("Delete: " + vIndex);
   qx.io.local.CookieApi.del(qx.io.local.CookieTransport.BASENAME + vIndex);

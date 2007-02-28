@@ -92,7 +92,7 @@ function(machineName)
  * Constants which may be values of the nextState member in the transitionInfo
  * parameter of the Transition constructor.
  */
-qx.Class.StateChange =
+qx.Clazz.StateChange =
 {
   /** When used as a nextState value, means remain in current state */
   CURRENT_STATE   : 1,
@@ -109,7 +109,7 @@ qx.Class.StateChange =
  * Constants for use in the events member of the transitionInfo parameter of
  * the Transition constructor.
  */
-qx.Class.EventHandling =
+qx.Clazz.EventHandling =
 {
   /**
    * This event is handled by this state, but the predicate of a transition
@@ -124,7 +124,7 @@ qx.Class.EventHandling =
 /**
  * Debug bitmask values.
  */
-qx.Class.DebugFlags =
+qx.Clazz.DebugFlags =
 {
   /** Show events */
   EVENTS           : 1,
@@ -1117,7 +1117,7 @@ qx.Settings.setDefault(
  * @param propData
  *   Not used
  */
-qx.Class._commonCheckAutoActions = function(actionType, propValue, propData)
+qx.Clazz._commonCheckAutoActions = function(actionType, propValue, propData)
 {
   // Validate that we received an object property value
   if (typeof(propValue) != "object")

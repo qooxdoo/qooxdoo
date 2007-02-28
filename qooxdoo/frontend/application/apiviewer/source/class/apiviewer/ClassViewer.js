@@ -1562,7 +1562,7 @@ qx.Proto.dispose = function() {
 
 
 /** {Map} The primitive types. These types will not be shown with links. */
-qx.Class.PRIMITIVES = { "var":true, "void":true, "undefined":true, "arguments":true,
+qx.Clazz.PRIMITIVES = { "var":true, "void":true, "undefined":true, "arguments":true,
   "Boolean":true, "String":true, "Float":true, "Double":true,
   "Number":true, "Integer":true, "Error":true,
   "RegExp":true, "Array":true, "Map":true, "Date":true, "Element":true,
@@ -1573,44 +1573,44 @@ qx.Class.PRIMITIVES = { "var":true, "void":true, "undefined":true, "arguments":t
  * {regexp} The regexp for parsing a item name
  * (e.g. "mypackage.MyClass#MY_CONSTANT alternative text").
  */
-qx.Class.ITEM_SPEC_REGEX = /^(([\w\.]+)?(#\w+(\([^\)]*\))?)?)(\s+(.*))?$/;
+qx.Clazz.ITEM_SPEC_REGEX = /^(([\w\.]+)?(#\w+(\([^\)]*\))?)?)(\s+(.*))?$/;
 
 /** {regexp} The regexp that finds the end of a sentence. */
-qx.Class.SENTENCE_END_REGEX = /[^\.].\.(\s|<)/;
+qx.Clazz.SENTENCE_END_REGEX = /[^\.].\.(\s|<)/;
 
 /** {int} The node type of a constructor. */
-qx.Class.NODE_TYPE_CONSTRUCTOR = 1;
+qx.Clazz.NODE_TYPE_CONSTRUCTOR = 1;
 /** {int} The node type of an event. */
-qx.Class.NODE_TYPE_EVENT = 2;
+qx.Clazz.NODE_TYPE_EVENT = 2;
 /** {int} The node type of a property. */
-qx.Class.NODE_TYPE_PROPERTY = 3;
+qx.Clazz.NODE_TYPE_PROPERTY = 3;
 
 /** {int} The node type of a public method. */
-qx.Class.NODE_TYPE_METHOD = 4;
+qx.Clazz.NODE_TYPE_METHOD = 4;
 /** {int} The node type of a static public method. */
-qx.Class.NODE_TYPE_METHOD_STATIC = 5;
+qx.Clazz.NODE_TYPE_METHOD_STATIC = 5;
 /** {int} The node type of a constant. */
-qx.Class.NODE_TYPE_CONSTANT = 6;
+qx.Clazz.NODE_TYPE_CONSTANT = 6;
 
 /** {string} The start tag of a div. */
-qx.Class.DIV_START = '<div>';
+qx.Clazz.DIV_START = '<div>';
 /** {string} The start tag of a div containing an item description. */
-qx.Class.DIV_START_DESC = '<div class="item-desc">';
+qx.Clazz.DIV_START_DESC = '<div class="item-desc">';
 /** {string} The start tag of a div containing the headline of an item detail. */
-qx.Class.DIV_START_DETAIL_HEADLINE = '<div class="item-detail-headline">';
+qx.Clazz.DIV_START_DETAIL_HEADLINE = '<div class="item-detail-headline">';
 /** {string} The start tag of a div containing the text of an item detail. */
-qx.Class.DIV_START_DETAIL_TEXT = '<div class="item-detail-text">';
+qx.Clazz.DIV_START_DETAIL_TEXT = '<div class="item-detail-text">';
 /** {string} The start tag of a div containing the headline of an item error. */
-qx.Class.DIV_START_ERROR_HEADLINE = '<div class="item-detail-error">';
+qx.Clazz.DIV_START_ERROR_HEADLINE = '<div class="item-detail-error">';
 /** {string} The end tag of a div. */
-qx.Class.DIV_END = '</div>';
+qx.Clazz.DIV_END = '</div>';
 
 /** {string} The start tag of a span containing an optional detail. */
-qx.Class.SPAN_START_OPTIONAL = '<span class="item-detail-optional">';
+qx.Clazz.SPAN_START_OPTIONAL = '<span class="item-detail-optional">';
 /** {string} The start tag of a span containing a parameter name. */
-qx.Class.SPAN_START_PARAM_NAME = '<span class="item-detail-param-name">';
+qx.Clazz.SPAN_START_PARAM_NAME = '<span class="item-detail-param-name">';
 /** {string} The end tag of a span. */
-qx.Class.SPAN_END = '</span>';
+qx.Clazz.SPAN_END = '</span>';
 
 
 /**
@@ -1621,7 +1621,7 @@ qx.Class.SPAN_END = '</span>';
  * @param tooltip {String} the tooltip to show.
  * @param styleAttributes {String} the style attributes to add to the image.
  */
-qx.Class.createImageHtml = function(imgUrl, tooltip, styleAttributes) {
+qx.Clazz.createImageHtml = function(imgUrl, tooltip, styleAttributes) {
   if (typeof imgUrl == "string") {
     return '<img src="' + qx.manager.object.AliasManager.getInstance().resolvePath(imgUrl) + '" class="img"'
       + (styleAttributes ? ' style="' + styleAttributes + '"' : "") + '/>';
@@ -1648,7 +1648,7 @@ qx.Class.createImageHtml = function(imgUrl, tooltip, styleAttributes) {
  * @param styleAttributes {String,null} custom CSS style attributes.
  * @return {String} the HTML with the overlay image.
  */
-qx.Class.createOverlayImageHtml
+qx.Clazz.createOverlayImageHtml
   = function(width, height, imgUrlArr, toolTip, styleAttributes)
 {
   var html = '<div style="position:relative;top:0;left:0;width:' + width + 'px;height:' + height + 'px'

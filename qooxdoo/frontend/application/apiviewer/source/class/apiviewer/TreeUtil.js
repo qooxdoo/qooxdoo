@@ -44,7 +44,7 @@ function () {
  * @return {Map} the wanted child or <code>null</code> if <code>docNode</code>
  *         is <code>null</code> or has no such child.
  */
-qx.Class.getChild = function(docNode, childType) {
+qx.Clazz.getChild = function(docNode, childType) {
   if (docNode != null && docNode.children != null) {
     for (var i = 0; i < docNode.children.length; i++) {
       if (docNode.children[i].type == childType) {
@@ -65,7 +65,7 @@ qx.Class.getChild = function(docNode, childType) {
  * @param attributeValue {String} the value of the attribute the wanted child must have.
  * @return {Map} the wanted child or <code>code</code> if there is no such child.
  */
-qx.Class.getChildByAttribute = function(docNode, attributeName, attributeValue) {
+qx.Clazz.getChildByAttribute = function(docNode, attributeName, attributeValue) {
   if (docNode.children != null) {
     for (var i = 0; i < docNode.children.length; i++) {
       var node = docNode.children[i];
@@ -88,7 +88,7 @@ qx.Class.getChildByAttribute = function(docNode, attributeName, attributeValue) 
  * @return {Map} the doc node of the item or <code>null</code> if the class has
  *         no such item.
  */
-qx.Class.getItemDocNode = function(classNode, itemName) {
+qx.Clazz.getItemDocNode = function(classNode, itemName) {
   var TreeUtil = apiviewer.TreeUtil;
 
   // Go through the item lists and check whether one contains the wanted item
@@ -114,7 +114,7 @@ qx.Class.getItemDocNode = function(classNode, itemName) {
  * @param className {String} the name of the class.
  * @return {Map} the doc node of the class.
  */
-qx.Class.getClassDocNode = function(docTree, className) {
+qx.Clazz.getClassDocNode = function(docTree, className) {
   var splits = className.split(".");
   var currNode = docTree;
   for (var i = 0; i < splits.length && currNode != null; i++) {
@@ -141,7 +141,7 @@ qx.Class.getClassDocNode = function(docTree, className) {
  * @return {var} the URL of the icon. May be a string or an array of string
  *         (in case of an overlay icon).
  */
-qx.Class.getIconUrl = function(node, inherited, context) {
+qx.Clazz.getIconUrl = function(node, inherited, context) {
   var constName;
   switch (node.type) {
     case "package":
@@ -206,177 +206,177 @@ qx.Class.getIconUrl = function(node, inherited, context) {
 
 
 /** {string[]} The names of lists containing items. */
-qx.Class.ITEM_LIST_ARR = [ "constants", "properties", "methods-pub", "methods-pub",
+qx.Clazz.ITEM_LIST_ARR = [ "constants", "properties", "methods-pub", "methods-pub",
                         "methods-static-prot", "methods-static-prot" ];
 
 
 /** {string} The URL of the overlay "abstract". */
-qx.Class.OVERLAY_ABSTRACT   = "api/image/overlay_abstract18.gif";
+qx.Clazz.OVERLAY_ABSTRACT   = "api/image/overlay_abstract18.gif";
 /** {string} The URL of the overlay "error". */
-qx.Class.OVERLAY_ERROR      = "api/image/overlay_error18.gif";
+qx.Clazz.OVERLAY_ERROR      = "api/image/overlay_error18.gif";
 /** {string} The URL of the overlay "inherited". */
-qx.Class.OVERLAY_INHERITED  = "api/image/overlay_inherited18.gif";
+qx.Clazz.OVERLAY_INHERITED  = "api/image/overlay_inherited18.gif";
 /** {string} The URL of the overlay "overridden". */
-qx.Class.OVERLAY_OVERRIDDEN = "api/image/overlay_overridden18.gif";
+qx.Clazz.OVERLAY_OVERRIDDEN = "api/image/overlay_overridden18.gif";
 /** {string} The URL of the overlay "static". */
-qx.Class.OVERLAY_STATIC     = "api/image/overlay_static18.gif";
+qx.Clazz.OVERLAY_STATIC     = "api/image/overlay_static18.gif";
 /** {string} The URL of the overlay "warning". */
-qx.Class.OVERLAY_WARN       = "api/image/overlay_warning18.gif";
+qx.Clazz.OVERLAY_WARN       = "api/image/overlay_warning18.gif";
 
 
 /** {string} The icon URL of a package. */
-qx.Class.ICON_PACKAGE      = "api/image/package18.gif";
+qx.Clazz.ICON_PACKAGE      = "api/image/package18.gif";
 /** {string} The icon URL of a package with warning. */
-qx.Class.ICON_PACKAGE_WARN = "api/image/package_warning18.gif";
+qx.Clazz.ICON_PACKAGE_WARN = "api/image/package_warning18.gif";
 
 
 /** {string} The icon URL of a class. */
-qx.Class.ICON_CLASS       = "api/image/class18.gif";
+qx.Clazz.ICON_CLASS       = "api/image/class18.gif";
 /** {string} The icon URL of a class with warning. */
-qx.Class.ICON_CLASS_WARN  = "api/image/class_warning18.gif";
+qx.Clazz.ICON_CLASS_WARN  = "api/image/class_warning18.gif";
 /** {string} The icon URL of a class with error. */
-qx.Class.ICON_CLASS_ERROR = "api/image/class_warning18.gif";
+qx.Clazz.ICON_CLASS_ERROR = "api/image/class_warning18.gif";
 
 /** {string} The icon URL of a static class. */
-qx.Class.ICON_CLASS_STATIC       = "api/image/class_static18.gif";
+qx.Clazz.ICON_CLASS_STATIC       = "api/image/class_static18.gif";
 /** {string} The icon URL of a static class with warning. */
-qx.Class.ICON_CLASS_STATIC_WARN  = "api/image/class_static_warning18.gif";
+qx.Clazz.ICON_CLASS_STATIC_WARN  = "api/image/class_static_warning18.gif";
 /** {string} The icon URL of a static class with error. */
-qx.Class.ICON_CLASS_STATIC_ERROR = "api/image/class_static_warning18.gif";
+qx.Clazz.ICON_CLASS_STATIC_ERROR = "api/image/class_static_warning18.gif";
 
 /** {string} The icon URL of an abstract class. */
-qx.Class.ICON_CLASS_ABSTRACT       = "api/image/class_abstract18.gif";
+qx.Clazz.ICON_CLASS_ABSTRACT       = "api/image/class_abstract18.gif";
 /** {string} The icon URL of an abstract class with warning. */
-qx.Class.ICON_CLASS_ABSTRACT_WARN  = "api/image/class_abstract_warning18.gif";
+qx.Clazz.ICON_CLASS_ABSTRACT_WARN  = "api/image/class_abstract_warning18.gif";
 /** {string} The icon URL of an abstract class with error. */
-qx.Class.ICON_CLASS_ABSTRACT_ERROR = "api/image/class_abstract_warning18.gif";
+qx.Clazz.ICON_CLASS_ABSTRACT_ERROR = "api/image/class_abstract_warning18.gif";
 
 
 /** {string} The icon URL of a property. */
-qx.Class.ICON_PROPERTY       = "api/image/property18.gif";
+qx.Clazz.ICON_PROPERTY       = "api/image/property18.gif";
 /** {string[]} The icon URL of a property with warning. */
-qx.Class.ICON_PROPERTY_WARN  = [ qx.Class.ICON_PROPERTY, qx.Class.OVERLAY_WARN ];
+qx.Clazz.ICON_PROPERTY_WARN  = [ qx.Clazz.ICON_PROPERTY, qx.Clazz.OVERLAY_WARN ];
 /** {string[]} The icon URL of a property with error. */
-qx.Class.ICON_PROPERTY_ERROR = [ qx.Class.ICON_PROPERTY, qx.Class.OVERLAY_ERROR ];
+qx.Clazz.ICON_PROPERTY_ERROR = [ qx.Clazz.ICON_PROPERTY, qx.Clazz.OVERLAY_ERROR ];
 
 /** {string[]} The icon URL of an inherited property. */
-qx.Class.ICON_PROPERTY_INHERITED       = [ qx.Class.ICON_PROPERTY, qx.Class.OVERLAY_INHERITED ];
+qx.Clazz.ICON_PROPERTY_INHERITED       = [ qx.Clazz.ICON_PROPERTY, qx.Clazz.OVERLAY_INHERITED ];
 /** {string[]} The icon URL of an inherited property with warning. */
-qx.Class.ICON_PROPERTY_INHERITED_WARN  = [ qx.Class.ICON_PROPERTY, qx.Class.OVERLAY_INHERITED, qx.Class.OVERLAY_WARN ];
+qx.Clazz.ICON_PROPERTY_INHERITED_WARN  = [ qx.Clazz.ICON_PROPERTY, qx.Clazz.OVERLAY_INHERITED, qx.Clazz.OVERLAY_WARN ];
 /** {string[]} The icon URL of an inherited property with error. */
-qx.Class.ICON_PROPERTY_INHERITED_ERROR = [ qx.Class.ICON_PROPERTY, qx.Class.OVERLAY_INHERITED, qx.Class.OVERLAY_ERROR ];
+qx.Clazz.ICON_PROPERTY_INHERITED_ERROR = [ qx.Clazz.ICON_PROPERTY, qx.Clazz.OVERLAY_INHERITED, qx.Clazz.OVERLAY_ERROR ];
 
 /** {string[]} The icon URL of an overridden property. */
-qx.Class.ICON_PROPERTY_OVERRIDDEN       = [ qx.Class.ICON_PROPERTY, qx.Class.OVERLAY_OVERRIDDEN ];
+qx.Clazz.ICON_PROPERTY_OVERRIDDEN       = [ qx.Clazz.ICON_PROPERTY, qx.Clazz.OVERLAY_OVERRIDDEN ];
 /** {string[]} The icon URL of an overridden property with warning. */
-qx.Class.ICON_PROPERTY_OVERRIDDEN_WARN  = [ qx.Class.ICON_PROPERTY, qx.Class.OVERLAY_OVERRIDDEN, qx.Class.OVERLAY_WARN ];
+qx.Clazz.ICON_PROPERTY_OVERRIDDEN_WARN  = [ qx.Clazz.ICON_PROPERTY, qx.Clazz.OVERLAY_OVERRIDDEN, qx.Clazz.OVERLAY_WARN ];
 /** {string[]} The icon URL of an overridden property with error. */
-qx.Class.ICON_PROPERTY_OVERRIDDEN_ERROR = [ qx.Class.ICON_PROPERTY, qx.Class.OVERLAY_OVERRIDDEN, qx.Class.OVERLAY_ERROR ];
+qx.Clazz.ICON_PROPERTY_OVERRIDDEN_ERROR = [ qx.Clazz.ICON_PROPERTY, qx.Clazz.OVERLAY_OVERRIDDEN, qx.Clazz.OVERLAY_ERROR ];
 
 
 /** {string} The icon URL of an event. */
-qx.Class.ICON_EVENT = "api/image/event18.gif";
+qx.Clazz.ICON_EVENT = "api/image/event18.gif";
 
 /** {string[]} The icon URL of an inherited event. */
-qx.Class.ICON_EVENT_INHERITED = [ qx.Class.ICON_EVENT, qx.Class.OVERLAY_INHERITED ];
+qx.Clazz.ICON_EVENT_INHERITED = [ qx.Clazz.ICON_EVENT, qx.Clazz.OVERLAY_INHERITED ];
 
 
 /** {string} The icon URL of a public method. */
-qx.Class.ICON_METHOD_PUB       = "api/image/method_public18.gif";
+qx.Clazz.ICON_METHOD_PUB       = "api/image/method_public18.gif";
 /** {string[]} The icon URL of a public method with warning. */
-qx.Class.ICON_METHOD_PUB_WARN  = [ qx.Class.ICON_METHOD_PUB, qx.Class.OVERLAY_ERROR ];
+qx.Clazz.ICON_METHOD_PUB_WARN  = [ qx.Clazz.ICON_METHOD_PUB, qx.Clazz.OVERLAY_ERROR ];
 /** {string[]} The icon URL of a public method with error. */
-qx.Class.ICON_METHOD_PUB_ERROR = [ qx.Class.ICON_METHOD_PUB, qx.Class.OVERLAY_ERROR ];
+qx.Clazz.ICON_METHOD_PUB_ERROR = [ qx.Clazz.ICON_METHOD_PUB, qx.Clazz.OVERLAY_ERROR ];
 
 /** {string[]} The icon URL of an inherited public method. */
-qx.Class.ICON_METHOD_PUB_INHERITED       = [ qx.Class.ICON_METHOD_PUB, qx.Class.OVERLAY_INHERITED ];
+qx.Clazz.ICON_METHOD_PUB_INHERITED       = [ qx.Clazz.ICON_METHOD_PUB, qx.Clazz.OVERLAY_INHERITED ];
 /** {string[]} The icon URL of an inherited public method with warning. */
-qx.Class.ICON_METHOD_PUB_INHERITED_WARN  = [ qx.Class.ICON_METHOD_PUB, qx.Class.OVERLAY_INHERITED, qx.Class.OVERLAY_WARN ];
+qx.Clazz.ICON_METHOD_PUB_INHERITED_WARN  = [ qx.Clazz.ICON_METHOD_PUB, qx.Clazz.OVERLAY_INHERITED, qx.Clazz.OVERLAY_WARN ];
 /** {string[]} The icon URL of an inherited public method with error. */
-qx.Class.ICON_METHOD_PUB_INHERITED_ERROR = [ qx.Class.ICON_METHOD_PUB, qx.Class.OVERLAY_INHERITED, qx.Class.OVERLAY_ERROR ];
+qx.Clazz.ICON_METHOD_PUB_INHERITED_ERROR = [ qx.Clazz.ICON_METHOD_PUB, qx.Clazz.OVERLAY_INHERITED, qx.Clazz.OVERLAY_ERROR ];
 
 /** {string[]} The icon URL of an overridden public method. */
-qx.Class.ICON_METHOD_PUB_OVERRIDDEN       = [ qx.Class.ICON_METHOD_PUB, qx.Class.OVERLAY_OVERRIDDEN ];
+qx.Clazz.ICON_METHOD_PUB_OVERRIDDEN       = [ qx.Clazz.ICON_METHOD_PUB, qx.Clazz.OVERLAY_OVERRIDDEN ];
 /** {string[]} The icon URL of an overridden public method with warning. */
-qx.Class.ICON_METHOD_PUB_OVERRIDDEN_WARN  = [ qx.Class.ICON_METHOD_PUB, qx.Class.OVERLAY_OVERRIDDEN, qx.Class.OVERLAY_WARN ];
+qx.Clazz.ICON_METHOD_PUB_OVERRIDDEN_WARN  = [ qx.Clazz.ICON_METHOD_PUB, qx.Clazz.OVERLAY_OVERRIDDEN, qx.Clazz.OVERLAY_WARN ];
 /** {string[]} The icon URL of an overridden public method with error. */
-qx.Class.ICON_METHOD_PUB_OVERRIDDEN_ERROR = [ qx.Class.ICON_METHOD_PUB, qx.Class.OVERLAY_OVERRIDDEN, qx.Class.OVERLAY_ERROR ];
+qx.Clazz.ICON_METHOD_PUB_OVERRIDDEN_ERROR = [ qx.Clazz.ICON_METHOD_PUB, qx.Clazz.OVERLAY_OVERRIDDEN, qx.Clazz.OVERLAY_ERROR ];
 
 /** {string[]} The icon URL of a public static method. */
-qx.Class.ICON_METHOD_PUB_STATIC       = [ qx.Class.ICON_METHOD_PUB, qx.Class.OVERLAY_STATIC ];
+qx.Clazz.ICON_METHOD_PUB_STATIC       = [ qx.Clazz.ICON_METHOD_PUB, qx.Clazz.OVERLAY_STATIC ];
 /** {string[]} The icon URL of a public static method with error. */
-qx.Class.ICON_METHOD_PUB_STATIC_ERROR = [ qx.Class.ICON_METHOD_PUB, qx.Class.OVERLAY_STATIC, qx.Class.OVERLAY_ERROR ];
+qx.Clazz.ICON_METHOD_PUB_STATIC_ERROR = [ qx.Clazz.ICON_METHOD_PUB, qx.Clazz.OVERLAY_STATIC, qx.Clazz.OVERLAY_ERROR ];
 
 /** {string[]} The icon URL of a public abstract method. */
-qx.Class.ICON_METHOD_PUB_ABSTRACT       = [ qx.Class.ICON_METHOD_PUB, qx.Class.OVERLAY_ABSTRACT ];
+qx.Clazz.ICON_METHOD_PUB_ABSTRACT       = [ qx.Clazz.ICON_METHOD_PUB, qx.Clazz.OVERLAY_ABSTRACT ];
 /** {string[]} The icon URL of a public abstract method with warning. */
-qx.Class.ICON_METHOD_PUB_ABSTRACT_WARN  = [ qx.Class.ICON_METHOD_PUB, qx.Class.OVERLAY_ABSTRACT, qx.Class.OVERLAY_WARN ];
+qx.Clazz.ICON_METHOD_PUB_ABSTRACT_WARN  = [ qx.Clazz.ICON_METHOD_PUB, qx.Clazz.OVERLAY_ABSTRACT, qx.Clazz.OVERLAY_WARN ];
 /** {string[]} The icon URL of a public abstract method with error. */
-qx.Class.ICON_METHOD_PUB_ABSTRACT_ERROR = [ qx.Class.ICON_METHOD_PUB, qx.Class.OVERLAY_ABSTRACT, qx.Class.OVERLAY_ERROR ];
+qx.Clazz.ICON_METHOD_PUB_ABSTRACT_ERROR = [ qx.Clazz.ICON_METHOD_PUB, qx.Clazz.OVERLAY_ABSTRACT, qx.Clazz.OVERLAY_ERROR ];
 
 /** {string[]} The icon URL of an overridden public abstract method. */
-qx.Class.ICON_METHOD_PUB_ABSTRACT_OVERRIDDEN       = [ qx.Class.ICON_METHOD_PUB, qx.Class.OVERLAY_ABSTRACT, qx.Class.OVERLAY_OVERRIDDEN ];
+qx.Clazz.ICON_METHOD_PUB_ABSTRACT_OVERRIDDEN       = [ qx.Clazz.ICON_METHOD_PUB, qx.Clazz.OVERLAY_ABSTRACT, qx.Clazz.OVERLAY_OVERRIDDEN ];
 /** {string[]} The icon URL of an overridden public abstract method with warning. */
-qx.Class.ICON_METHOD_PUB_ABSTRACT_OVERRIDDEN_WARN  = [ qx.Class.ICON_METHOD_PUB, qx.Class.OVERLAY_ABSTRACT, qx.Class.OVERLAY_OVERRIDDEN, qx.Class.OVERLAY_WARN ];
+qx.Clazz.ICON_METHOD_PUB_ABSTRACT_OVERRIDDEN_WARN  = [ qx.Clazz.ICON_METHOD_PUB, qx.Clazz.OVERLAY_ABSTRACT, qx.Clazz.OVERLAY_OVERRIDDEN, qx.Clazz.OVERLAY_WARN ];
 /** {string[]} The icon URL of an overridden public abstract method with error. */
-qx.Class.ICON_METHOD_PUB_ABSTRACT_OVERRIDDEN_ERROR = [ qx.Class.ICON_METHOD_PUB, qx.Class.OVERLAY_ABSTRACT, qx.Class.OVERLAY_OVERRIDDEN, qx.Class.OVERLAY_ERROR ];
+qx.Clazz.ICON_METHOD_PUB_ABSTRACT_OVERRIDDEN_ERROR = [ qx.Clazz.ICON_METHOD_PUB, qx.Clazz.OVERLAY_ABSTRACT, qx.Clazz.OVERLAY_OVERRIDDEN, qx.Clazz.OVERLAY_ERROR ];
 
 /** {string[]} The icon URL of an inherited public abstract method. */
-qx.Class.ICON_METHOD_PUB_ABSTRACT_INHERITED       = [ qx.Class.ICON_METHOD_PUB, qx.Class.OVERLAY_ABSTRACT, qx.Class.OVERLAY_INHERITED ];
+qx.Clazz.ICON_METHOD_PUB_ABSTRACT_INHERITED       = [ qx.Clazz.ICON_METHOD_PUB, qx.Clazz.OVERLAY_ABSTRACT, qx.Clazz.OVERLAY_INHERITED ];
 /** {string[]} The icon URL of an inherited public abstract method with warning. */
-qx.Class.ICON_METHOD_PUB_ABSTRACT_INHERITED_WARN  = [ qx.Class.ICON_METHOD_PUB, qx.Class.OVERLAY_ABSTRACT, qx.Class.OVERLAY_INHERITED, qx.Class.OVERLAY_WARN ];
+qx.Clazz.ICON_METHOD_PUB_ABSTRACT_INHERITED_WARN  = [ qx.Clazz.ICON_METHOD_PUB, qx.Clazz.OVERLAY_ABSTRACT, qx.Clazz.OVERLAY_INHERITED, qx.Clazz.OVERLAY_WARN ];
 /** {string[]} The icon URL of an inherited public abstract method with error. */
-qx.Class.ICON_METHOD_PUB_ABSTRACT_INHERITED_ERROR = [ qx.Class.ICON_METHOD_PUB, qx.Class.OVERLAY_ABSTRACT, qx.Class.OVERLAY_INHERITED, qx.Class.OVERLAY_ERROR ];
+qx.Clazz.ICON_METHOD_PUB_ABSTRACT_INHERITED_ERROR = [ qx.Clazz.ICON_METHOD_PUB, qx.Clazz.OVERLAY_ABSTRACT, qx.Clazz.OVERLAY_INHERITED, qx.Clazz.OVERLAY_ERROR ];
 
 
 /** {string} The icon URL of a constructor. */
-qx.Class.ICON_METHOD_PUB_CTOR       = "api/image/constructor18.gif";
+qx.Clazz.ICON_METHOD_PUB_CTOR       = "api/image/constructor18.gif";
 /** {string[]} The icon URL of a constructor with error. */
-qx.Class.ICON_METHOD_PUB_CTOR_ERROR = [ qx.Class.ICON_METHOD_PUB_CTOR, qx.Class.OVERLAY_ERROR ];
+qx.Clazz.ICON_METHOD_PUB_CTOR_ERROR = [ qx.Clazz.ICON_METHOD_PUB_CTOR, qx.Clazz.OVERLAY_ERROR ];
 
 
 /** {string} The icon URL of a protected method. */
-qx.Class.ICON_METHOD_PROT       = "api/image/method_protected18.gif";
+qx.Clazz.ICON_METHOD_PROT       = "api/image/method_protected18.gif";
 /** {string[]} The icon URL of a protected method with warning. */
-qx.Class.ICON_METHOD_PROT_WARN  = [ qx.Class.ICON_METHOD_PROT, qx.Class.OVERLAY_ERROR ];
+qx.Clazz.ICON_METHOD_PROT_WARN  = [ qx.Clazz.ICON_METHOD_PROT, qx.Clazz.OVERLAY_ERROR ];
 /** {string[]} The icon URL of a protected method with error. */
-qx.Class.ICON_METHOD_PROT_ERROR = [ qx.Class.ICON_METHOD_PROT, qx.Class.OVERLAY_ERROR ];
+qx.Clazz.ICON_METHOD_PROT_ERROR = [ qx.Clazz.ICON_METHOD_PROT, qx.Clazz.OVERLAY_ERROR ];
 
 /** {string[]} The icon URL of an inherited protected method. */
-qx.Class.ICON_METHOD_PROT_INHERITED       = [ qx.Class.ICON_METHOD_PROT, qx.Class.OVERLAY_INHERITED ];
+qx.Clazz.ICON_METHOD_PROT_INHERITED       = [ qx.Clazz.ICON_METHOD_PROT, qx.Clazz.OVERLAY_INHERITED ];
 /** {string[]} The icon URL of an inherited protected method with warning. */
-qx.Class.ICON_METHOD_PROT_INHERITED_WARN  = [ qx.Class.ICON_METHOD_PROT, qx.Class.OVERLAY_INHERITED, qx.Class.OVERLAY_WARN ];
+qx.Clazz.ICON_METHOD_PROT_INHERITED_WARN  = [ qx.Clazz.ICON_METHOD_PROT, qx.Clazz.OVERLAY_INHERITED, qx.Clazz.OVERLAY_WARN ];
 /** {string[]} The icon URL of an inherited protected method with error. */
-qx.Class.ICON_METHOD_PROT_INHERITED_ERROR = [ qx.Class.ICON_METHOD_PROT, qx.Class.OVERLAY_INHERITED, qx.Class.OVERLAY_ERROR ];
+qx.Clazz.ICON_METHOD_PROT_INHERITED_ERROR = [ qx.Clazz.ICON_METHOD_PROT, qx.Clazz.OVERLAY_INHERITED, qx.Clazz.OVERLAY_ERROR ];
 
 /** {string[]} The icon URL of an overridden protected method. */
-qx.Class.ICON_METHOD_PROT_OVERRIDDEN       = [ qx.Class.ICON_METHOD_PROT, qx.Class.OVERLAY_OVERRIDDEN ];
+qx.Clazz.ICON_METHOD_PROT_OVERRIDDEN       = [ qx.Clazz.ICON_METHOD_PROT, qx.Clazz.OVERLAY_OVERRIDDEN ];
 /** {string[]} The icon URL of an overridden protected method with warning. */
-qx.Class.ICON_METHOD_PROT_OVERRIDDEN_WARN  = [ qx.Class.ICON_METHOD_PROT, qx.Class.OVERLAY_OVERRIDDEN, qx.Class.OVERLAY_WARN ];
+qx.Clazz.ICON_METHOD_PROT_OVERRIDDEN_WARN  = [ qx.Clazz.ICON_METHOD_PROT, qx.Clazz.OVERLAY_OVERRIDDEN, qx.Clazz.OVERLAY_WARN ];
 /** {string[]} The icon URL of an overridden protected method with error. */
-qx.Class.ICON_METHOD_PROT_OVERRIDDEN_ERROR = [ qx.Class.ICON_METHOD_PROT, qx.Class.OVERLAY_OVERRIDDEN, qx.Class.OVERLAY_ERROR ];
+qx.Clazz.ICON_METHOD_PROT_OVERRIDDEN_ERROR = [ qx.Clazz.ICON_METHOD_PROT, qx.Clazz.OVERLAY_OVERRIDDEN, qx.Clazz.OVERLAY_ERROR ];
 
 /** {string[]} The icon URL of a protected static method. */
-qx.Class.ICON_METHOD_PROT_STATIC       = [ qx.Class.ICON_METHOD_PROT, qx.Class.OVERLAY_STATIC ];
+qx.Clazz.ICON_METHOD_PROT_STATIC       = [ qx.Clazz.ICON_METHOD_PROT, qx.Clazz.OVERLAY_STATIC ];
 /** {string[]} The icon URL of a protected static method with error. */
-qx.Class.ICON_METHOD_PROT_STATIC_ERROR = [ qx.Class.ICON_METHOD_PROT, qx.Class.OVERLAY_STATIC, qx.Class.OVERLAY_ERROR ];
+qx.Clazz.ICON_METHOD_PROT_STATIC_ERROR = [ qx.Clazz.ICON_METHOD_PROT, qx.Clazz.OVERLAY_STATIC, qx.Clazz.OVERLAY_ERROR ];
 
 /** {string[]} The icon URL of an abstract protected method. */
-qx.Class.ICON_METHOD_PROT_ABSTRACT       = [ qx.Class.ICON_METHOD_PROT, qx.Class.OVERLAY_ABSTRACT ];
+qx.Clazz.ICON_METHOD_PROT_ABSTRACT       = [ qx.Clazz.ICON_METHOD_PROT, qx.Clazz.OVERLAY_ABSTRACT ];
 /** {string[]} The icon URL of an abstract protected method with warning. */
-qx.Class.ICON_METHOD_PROT_ABSTRACT_WARN  = [ qx.Class.ICON_METHOD_PROT, qx.Class.OVERLAY_ABSTRACT, qx.Class.OVERLAY_WARN ];
+qx.Clazz.ICON_METHOD_PROT_ABSTRACT_WARN  = [ qx.Clazz.ICON_METHOD_PROT, qx.Clazz.OVERLAY_ABSTRACT, qx.Clazz.OVERLAY_WARN ];
 /** {string[]} The icon URL of an abstract protected method with error. */
-qx.Class.ICON_METHOD_PROT_ABSTRACT_ERROR = [ qx.Class.ICON_METHOD_PROT, qx.Class.OVERLAY_ABSTRACT, qx.Class.OVERLAY_ERROR ];
+qx.Clazz.ICON_METHOD_PROT_ABSTRACT_ERROR = [ qx.Clazz.ICON_METHOD_PROT, qx.Clazz.OVERLAY_ABSTRACT, qx.Clazz.OVERLAY_ERROR ];
 
 /** {string[]} The icon URL of an inherited abstract protected method. */
-qx.Class.ICON_METHOD_PROT_ABSTRACT_INHERITED       = [ qx.Class.ICON_METHOD_PROT, qx.Class.OVERLAY_ABSTRACT, qx.Class.OVERLAY_INHERITED ];
+qx.Clazz.ICON_METHOD_PROT_ABSTRACT_INHERITED       = [ qx.Clazz.ICON_METHOD_PROT, qx.Clazz.OVERLAY_ABSTRACT, qx.Clazz.OVERLAY_INHERITED ];
 /** {string[]} The icon URL of an inherited abstract protected method with warning. */
-qx.Class.ICON_METHOD_PROT_ABSTRACT_INHERITED_WARN  = [ qx.Class.ICON_METHOD_PROT, qx.Class.OVERLAY_ABSTRACT, qx.Class.OVERLAY_INHERITED, qx.Class.OVERLAY_WARN ];
+qx.Clazz.ICON_METHOD_PROT_ABSTRACT_INHERITED_WARN  = [ qx.Clazz.ICON_METHOD_PROT, qx.Clazz.OVERLAY_ABSTRACT, qx.Clazz.OVERLAY_INHERITED, qx.Clazz.OVERLAY_WARN ];
 /** {string[]} The icon URL of an inherited abstract protected method with error. */
-qx.Class.ICON_METHOD_PROT_ABSTRACT_INHERITED_ERROR = [ qx.Class.ICON_METHOD_PROT, qx.Class.OVERLAY_ABSTRACT, qx.Class.OVERLAY_INHERITED, qx.Class.OVERLAY_ERROR ];
+qx.Clazz.ICON_METHOD_PROT_ABSTRACT_INHERITED_ERROR = [ qx.Clazz.ICON_METHOD_PROT, qx.Clazz.OVERLAY_ABSTRACT, qx.Clazz.OVERLAY_INHERITED, qx.Clazz.OVERLAY_ERROR ];
 
 
 /** {string} The icon URL of a constant. */
-qx.Class.ICON_CONSTANT       = "api/image/constant18.gif";
+qx.Clazz.ICON_CONSTANT       = "api/image/constant18.gif";
 /** {string[]} The icon URL of a constant with error. */
-qx.Class.ICON_CONSTANT_ERROR = [ qx.Class.ICON_CONSTANT, qx.Class.OVERLAY_ERROR ];
+qx.Clazz.ICON_CONSTANT_ERROR = [ qx.Clazz.ICON_CONSTANT, qx.Clazz.OVERLAY_ERROR ];

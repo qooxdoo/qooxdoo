@@ -70,9 +70,9 @@ qx.Settings.setDefault("enableDisposerDebug", false);
    Class data, properties and methods
 ************************************************************************ */
 
-qx.Class._availableHashCode = 0;
-qx.Class._db = [];
-qx.Class._disposeAll = false;
+qx.Clazz._availableHashCode = 0;
+qx.Clazz._db = [];
+qx.Clazz._disposeAll = false;
 
 
 /**
@@ -82,7 +82,7 @@ qx.Class._disposeAll = false;
  * @param o {Object} the Object to get the hashcode for
  * @return {Integer} unique identifier for the given object
  */
-qx.Class.toHashCode = function(o)
+qx.Clazz.toHashCode = function(o)
 {
   if(o._hashCode != null) {
     return o._hashCode;
@@ -98,7 +98,7 @@ qx.Class.toHashCode = function(o)
  * Any class that holds resources like links to DOM nodes must overwrite
  * this method and free these resources.
  */
-qx.Class.dispose = function()
+qx.Clazz.dispose = function()
 {
   // var logger = qx.log.Logger.getClassLogger(qx.core.Object);
   // logger.debug("Disposing Application");
@@ -127,7 +127,7 @@ qx.Class.dispose = function()
  *
  * @return {String} summary of allocated objects.
  */
-qx.Class.summary = function()
+qx.Clazz.summary = function()
 {
   var vData = {};
   var vCounter = 0;
@@ -177,7 +177,7 @@ qx.Class.summary = function()
  * @type static
  * @return {Boolean} whether a global dispose is taking place.
  */
-qx.Class.inGlobalDispose = function()
+qx.Clazz.inGlobalDispose = function()
 {
   return qx.core.Object._disposeAll;
 };

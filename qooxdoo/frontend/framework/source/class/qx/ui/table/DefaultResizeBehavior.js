@@ -639,4 +639,4 @@ qx.Proto._extendLastColumn = function(tableColumnModel, event)
 
 
 
-qx.Class.MIN_WIDTH = 10;
+qx.Clazz.MIN_WIDTH = 10;

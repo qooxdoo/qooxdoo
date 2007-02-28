@@ -30,14 +30,14 @@
  */
 qx.OO.defineClass("qx.dev.Pollution");
 
-qx.Class.names =
+qx.Clazz.names =
 {
   "window" : window,
   "document" : document,
   "body" : document.body
 }
 
-qx.Class.ignore =
+qx.Clazz.ignore =
 {
   "window" :
   [
@@ -187,7 +187,7 @@ qx.Class.ignore =
   ]
 }
 
-qx.Class.consoleInfo = function(object)
+qx.Clazz.consoleInfo = function(object)
 {
   var msg = qx.dev.Pollution.getTextList(object || "window");
 
@@ -198,7 +198,7 @@ qx.Class.consoleInfo = function(object)
   }
 }
 
-qx.Class.extract = function(object)
+qx.Clazz.extract = function(object)
 {
   var ext = [];
   var ign = qx.dev.Pollution.ignore[object];
@@ -269,7 +269,7 @@ qx.Class.extract = function(object)
   return ext;
 }
 
-qx.Class.getHtmlTable = function(object)
+qx.Clazz.getHtmlTable = function(object)
 {
   var all = [];
 
@@ -290,7 +290,7 @@ qx.Class.getHtmlTable = function(object)
   return all.join("");
 }
 
-qx.Class.getTextList = function(object)
+qx.Clazz.getTextList = function(object)
 {
   var all = [];
 

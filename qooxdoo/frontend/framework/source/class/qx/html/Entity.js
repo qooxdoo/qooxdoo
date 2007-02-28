@@ -30,7 +30,7 @@ qx.OO.defineClass("qx.html.Entity");
 
 
 /** Mapping of HTML entity names to the corresponding char code */
-qx.Class.TO_CHARCODE = {
+qx.Clazz.TO_CHARCODE = {
   "quot": 34, // " - double-quote
   "amp": 38, // &
   "lt": 60, // <
@@ -319,5 +319,5 @@ qx.Class.TO_CHARCODE = {
 
 
 /** Mapping of char codes to HTML entity names */
-qx.Class.FROM_CHARCODE = qx.lang.Object.invert(qx.Class.TO_CHARCODE);
+qx.Clazz.FROM_CHARCODE = qx.lang.Object.invert(qx.Clazz.TO_CHARCODE);
 

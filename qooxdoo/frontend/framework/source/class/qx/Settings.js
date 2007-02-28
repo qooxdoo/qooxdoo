@@ -93,7 +93,7 @@ qx.Settings.substitute = function(vTemplate)
 */
 
 qx.Settings.getValue = function(vKey) {
-  return qx.Settings.getValueOfClass(qx.Class.classname, vKey);
+  return qx.Settings.getValueOfClass(qx.Clazz.classname, vKey);
 }
 
 qx.Settings.getValueOfClass = function(vClassName, vKey)
@@ -112,7 +112,7 @@ qx.Settings.getValueOfClass = function(vClassName, vKey)
 }
 
 qx.Settings.setDefault = function(vKey, vValue) {
-  return qx.Settings.setDefaultOfClass(qx.Class.classname, vKey, vValue);
+  return qx.Settings.setDefaultOfClass(qx.Clazz.classname, vKey, vValue);
 }
 
 qx.Settings.setDefaultOfClass = function(vClassName, vKey, vValue)
@@ -128,7 +128,7 @@ qx.Settings.setDefaultOfClass = function(vClassName, vKey, vValue)
 }
 
 qx.Settings.setCustom = function(vKey, vValue) {
-  return qx.Settings.setCustomOfClass(qx.Class.classname, vKey, vValue);
+  return qx.Settings.setCustomOfClass(qx.Clazz.classname, vKey, vValue);
 }
 
 qx.Settings.setCustomOfClass = function(vClassName, vKey, vValue)

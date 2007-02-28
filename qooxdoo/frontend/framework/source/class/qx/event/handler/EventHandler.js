@@ -76,20 +76,20 @@ qx.OO.addProperty({ name : "focusRoot", type : "object", instance : "qx.ui.core.
 
 
 
-qx.Class.mouseEventTypes = [ "mouseover", "mousemove", "mouseout", "mousedown", "mouseup", "click", "dblclick", "contextmenu", qx.core.Client.getInstance().isMshtml() ? "mousewheel" : "DOMMouseScroll" ];
-qx.Class.keyEventTypes = [ "keydown", "keypress", "keyup" ];
+qx.Clazz.mouseEventTypes = [ "mouseover", "mousemove", "mouseout", "mousedown", "mouseup", "click", "dblclick", "contextmenu", qx.core.Client.getInstance().isMshtml() ? "mousewheel" : "DOMMouseScroll" ];
+qx.Clazz.keyEventTypes = [ "keydown", "keypress", "keyup" ];
 
 if (qx.core.Client.getInstance().isGecko())
 {
-  qx.Class.dragEventTypes = [ "dragdrop", "dragover", "dragenter", "dragexit", "draggesture" ];
+  qx.Clazz.dragEventTypes = [ "dragdrop", "dragover", "dragenter", "dragexit", "draggesture" ];
 }
 else if (qx.core.Client.getInstance().isMshtml())
 {
-  qx.Class.dragEventTypes = [ "dragend", "dragover", "dragstart", "drag", "dragenter", "dragleave" ];
+  qx.Clazz.dragEventTypes = [ "dragend", "dragover", "dragstart", "drag", "dragenter", "dragleave" ];
 }
 else
 {
-  qx.Class.dragEventTypes = [ "dragstart", "dragdrop", "dragover", "drag", "dragleave", "dragenter", "dragexit", "draggesture" ];
+  qx.Clazz.dragEventTypes = [ "dragstart", "dragdrop", "dragover", "drag", "dragleave", "dragenter", "dragexit", "draggesture" ];
 }
 
 
@@ -303,7 +303,7 @@ qx.Proto.detachEventTypes = function(vEventTypes, vFunctionPointer)
 // If your Mozilla was built with an option `--enable-default-toolkit=gtk2',
 // it can not return the correct event target for DOMMouseScroll.
 
-qx.Class.getOriginalTargetObject = function(vNode)
+qx.Clazz.getOriginalTargetObject = function(vNode)
 {
   // Events on the HTML element, when using absolute locations which
   // are outside the HTML element. Opera does not seem to fire events
@@ -336,7 +336,7 @@ if (qx.core.Client.getInstance().isWebkit())
    * @param vDomEvent {Event}
    * @return {Element} the target node
    */
-  qx.Class.getDomTarget = function(vDomEvent)
+  qx.Clazz.getDomTarget = function(vDomEvent)
   {
     var vNode = vDomEvent.target || vDomEvent.srcElement;
 
@@ -357,7 +357,7 @@ else if (qx.core.Client.getInstance().isMshtml())
    * @param vDomEvent {Event}
    * @return {Element} the target node
    */
-  qx.Class.getDomTarget = function(vDomEvent) {
+  qx.Clazz.getDomTarget = function(vDomEvent) {
     return vDomEvent.target || vDomEvent.srcElement;
   };
 }
@@ -370,13 +370,13 @@ else
    * @param vDomEvent {Event}
    * @return {Element} the target node
    */
-  qx.Class.getDomTarget = function(vDomEvent) {
+  qx.Clazz.getDomTarget = function(vDomEvent) {
     return vDomEvent.target;
   };
 }
 
 
-qx.Class.getOriginalTargetObjectFromEvent = function(vDomEvent, vWindow)
+qx.Clazz.getOriginalTargetObjectFromEvent = function(vDomEvent, vWindow)
 {
   var vNode = qx.event.handler.EventHandler.getDomTarget(vDomEvent);
 
@@ -394,7 +394,7 @@ qx.Class.getOriginalTargetObjectFromEvent = function(vDomEvent, vWindow)
   return qx.event.handler.EventHandler.getOriginalTargetObject(vNode);
 }
 
-qx.Class.getRelatedOriginalTargetObjectFromEvent = function(vDomEvent) {
+qx.Clazz.getRelatedOriginalTargetObjectFromEvent = function(vDomEvent) {
   return qx.event.handler.EventHandler.getOriginalTargetObject(vDomEvent.relatedTarget || (vDomEvent.type == "mouseover" ? vDomEvent.fromElement : vDomEvent.toElement));
 }
 
@@ -404,7 +404,7 @@ qx.Class.getRelatedOriginalTargetObjectFromEvent = function(vDomEvent) {
 
 
 
-qx.Class.getTargetObject = function(vNode, vObject, allowDisabled)
+qx.Clazz.getTargetObject = function(vNode, vObject, allowDisabled)
 {
   if (!vObject)
   {
@@ -438,12 +438,12 @@ qx.Class.getTargetObject = function(vNode, vObject, allowDisabled)
 };
 
 
-qx.Class.getTargetObjectFromEvent = function(vDomEvent) {
+qx.Clazz.getTargetObjectFromEvent = function(vDomEvent) {
   return qx.event.handler.EventHandler.getTargetObject(qx.event.handler.EventHandler.getDomTarget(vDomEvent));
 };
 
 
-qx.Class.getRelatedTargetObjectFromEvent = function(vDomEvent) {
+qx.Clazz.getRelatedTargetObjectFromEvent = function(vDomEvent) {
   var target = vDomEvent.relatedTarget;
   if (!target) {
     if (vDomEvent.type == "mouseover") {
@@ -461,16 +461,16 @@ qx.Class.getRelatedTargetObjectFromEvent = function(vDomEvent) {
  *
  * @param vDomEvent {Element} DOM event object
  */
-qx.Class.stopDomEvent = function(vDomEvent) {};
+qx.Clazz.stopDomEvent = function(vDomEvent) {};
 if (qx.core.Client.getInstance().isMshtml())
 {
-  qx.Class.stopDomEvent = function(vDomEvent) {
+  qx.Clazz.stopDomEvent = function(vDomEvent) {
     vDomEvent.returnValue = false;
   }
 }
 else
 {
-  qx.Class.stopDomEvent = function(vDomEvent)
+  qx.Clazz.stopDomEvent = function(vDomEvent)
   {
     vDomEvent.preventDefault();
     vDomEvent.returnValue = false;
@@ -1179,4 +1179,4 @@ qx.Proto.dispose = function()
 /**
  * Singleton Instance Getter
  */
-qx.Class.getInstance = qx.lang.Function.returnInstance;
+qx.Clazz.getInstance = qx.lang.Function.returnInstance;

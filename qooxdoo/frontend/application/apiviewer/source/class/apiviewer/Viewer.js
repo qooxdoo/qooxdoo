@@ -386,8 +386,8 @@ qx.Proto.showClassByName = function(className) {
 }
 
 
-qx.Class.PACKAGE_TREE = 1;
-qx.Class.INHERITENCE_TREE = 2;
+qx.Clazz.PACKAGE_TREE = 1;
+qx.Clazz.INHERITENCE_TREE = 2;
 
 
 

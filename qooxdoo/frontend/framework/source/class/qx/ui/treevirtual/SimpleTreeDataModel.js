@@ -766,7 +766,7 @@ qx.Proto.getSelectedNodes = function()
 
 
 // We currently support these types of tree nodes
-qx.Class.Type = {};
-qx.Class.Type.LEAF            = 1;
-qx.Class.Type.BRANCH          = 2;
+qx.Clazz.Type = {};
+qx.Clazz.Type.LEAF            = 1;
+qx.Clazz.Type.BRANCH          = 2;
 

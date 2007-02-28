@@ -108,10 +108,10 @@ function()
   this._applyInitialAppearance();
 });
 
-qx.Class.ABSTRACT_CLASS = "qx.ui.core.Widget";
+qx.Clazz.ABSTRACT_CLASS = "qx.ui.core.Widget";
 
 // Will be calculated later (TODO: Move to qx.Dom?)
-qx.Class.SCROLLBAR_SIZE = 16;
+qx.Clazz.SCROLLBAR_SIZE = 16;
 
 
 

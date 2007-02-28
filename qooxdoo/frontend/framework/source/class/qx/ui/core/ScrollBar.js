@@ -259,4 +259,4 @@ qx.Proto.dispose = function() {
  * {@link #mergeEvents} is true (in milliseconds). All scroll events that arrive
  * in shorter time will be merged.
  */
-qx.Class.EVENT_DELAY = 250;
+qx.Clazz.EVENT_DELAY = 250;
