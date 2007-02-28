@@ -122,6 +122,7 @@ qx.Clazz.define("qx.Clazz",
      *       <tr><th>variants</th><td>Map</td><td>Map of settings for this class. Format of the map: TODOC</td></tr>
      *       <tr><th>events</th><td>Map</td><td>Map of events the class fires. The keys are the names of the events and the values are corresponding event type classes.</td></tr>
      *       <tr><th>defer</th><td>Function</td><td>Function that is to be called after at the end of the class declaration that allows access to the statics, members, properties.</td></tr>
+     *       <tr><th>deconstruct</th><td>Function</td><td>The deconstructor of the class.</td></tr>
      *     </table>
      * @return {void}
      * @throws TODOC
