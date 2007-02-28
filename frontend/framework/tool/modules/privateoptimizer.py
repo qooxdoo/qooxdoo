@@ -20,35 +20,35 @@
 
 import tree, mapper
 
-ignore = [ ]
+ignore = []
 
 def patch(node, known, prefix, verbose):
-  if node.type == "identifier":
-    name = node.get("name", False)
+    if node.type == "identifier":
+        name = node.get("name", False)
 
-    if name != None and name.startswith("__") and not name in ignore:
-      if not name in known:
-        known[name] = "__%s%s" % (prefix, len(known))
+        if name != None and name.startswith("__") and not name in ignore:
+            if not name in known:
+                known[name] = "__%s%s" % (prefix, len(known))
 
-      if verbose:
-        print "      - Replace identifier: %s with %s" % (name, known[name])
+            if verbose:
+                print "      - Replace identifier: %s with %s" % (name, known[name])
 
-      node.set("name", known[name])
+            node.set("name", known[name])
 
-  elif node.type == "keyvalue":
-    name = node.get("key", False)
+    elif node.type == "keyvalue":
+        name = node.get("key", False)
 
-    if name != None and name.startswith("__") and not name in ignore:
-      if not name in known:
-        known[name] = "__%s%s" % (prefix, len(known))
+        if name != None and name.startswith("__") and not name in ignore:
+            if not name in known:
+                known[name] = "__%s%s" % (prefix, len(known))
 
-      if verbose:
-        print "      - Replace key: %s with %s" % (name, known[name])
+            if verbose:
+                print "      - Replace key: %s with %s" % (name, known[name])
 
-      node.set("key", known[name])
+            node.set("key", known[name])
 
-  if node.hasChildren():
-    for child in node.children:
-      patch(child, known, prefix, verbose)
+    if node.hasChildren():
+        for child in node.children:
+            patch(child, known, prefix, verbose)
 
-  return len(known)
+    return len(known)

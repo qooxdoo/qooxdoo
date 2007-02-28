@@ -80,20 +80,20 @@ def add (msgid, transtr, fuzzy):
 
 
 def escapeJS(str):
-	str = str.replace('"', '\\"')
-	str = str.replace("'", "\\'")
-	return str
+    str = str.replace('"', '\\"')
+    str = str.replace("'", "\\'")
+    return str
 
 
 def generate(infile, languageCode, namespace):
-	global MESSAGES
-	if namespace != "": namespace += "."
-	if len(languageCode.split("_")) > 1:
-		requireString = "#require(%s%s)" % (namespace, languageCode.split("_")[0])
-	else:
-		requireString = ""
+    global MESSAGES
+    if namespace != "": namespace += "."
+    if len(languageCode.split("_")) > 1:
+    	requireString = "#require(%s%s)" % (namespace, languageCode.split("_")[0])
+    else:
+    	requireString = ""
 
-	output = '''/* ************************************************************************
+    output = '''/* ************************************************************************
 
    qooxdoo - the new era of web development
 
@@ -127,24 +127,24 @@ qx.Locale.define("%s%s",
 {
 ''' % (requireString, infile, namespace, languageCode)
 
-	translations = []
-	normalizedMessages = {}
-	for msg in MESSAGES:
-		keys = msg.split("\0");
-		if len(keys) <= 1:
-			normalizedMessages[msg] = MESSAGES[msg]
-			continue
-		values = MESSAGES[msg].split("\0");
-		for i in range(len(keys)):
-			normalizedMessages[keys[i]] = values[i]
+    translations = []
+    normalizedMessages = {}
+    for msg in MESSAGES:
+    	keys = msg.split("\0");
+    	if len(keys) <= 1:
+    		normalizedMessages[msg] = MESSAGES[msg]
+    		continue
+    	values = MESSAGES[msg].split("\0");
+    	for i in range(len(keys)):
+    		normalizedMessages[keys[i]] = values[i]
 
-	for msg in normalizedMessages:
-		if msg == "": continue
-		translations.append('  "%s": "%s"' % (msg, escapeJS(normalizedMessages[msg])))
-	output += (",\n").join(translations)
-	output += "\n});"
-	#print output
-	return output
+    for msg in normalizedMessages:
+    	if msg == "": continue
+    	translations.append('  "%s": "%s"' % (msg, escapeJS(normalizedMessages[msg])))
+    output += (",\n").join(translations)
+    output += "\n});"
+    #print output
+    return output
 
 
 def make (filename, outdir, namespace):
