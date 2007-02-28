@@ -450,14 +450,19 @@ def cleanupText(text):
     text = text.replace("<br>", "\n")
     text = text.replace("</p>", " ")
 
-    newline = False
-    lines = text.split("\n")
-    text = u""
+    # on single lines strip the content
+    if not "\n" in text:
+        text = text.strip()
 
-    for line in lines:
-        if line == "":
-            if not newline:
-                newline = True
+    else:
+        newline = False
+        lines = text.split("\n")
+        text = u""
+
+        for line in lines:
+            if line == "":
+                if not newline:
+                    newline = True
 
         else:
             if text != "":
@@ -471,6 +476,10 @@ def cleanupText(text):
 
     #print "============= OUTTEXT ========================="
     #print text
+
+    # Process TODOC the same as no text
+    if text == "TODOC":
+        return ""
 
     return text
 

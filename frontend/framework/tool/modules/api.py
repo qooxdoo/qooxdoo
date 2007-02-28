@@ -163,11 +163,11 @@ def handleClassDefinition(docTree, item, variant):
     commentAttributes = comment.parseNode(item)
     classNode = getClassNode(docTree, className, commentAttributes)
     if variant in ["class", "clazz"]:
-        type = getNode(params, "1/keyvalue[@key='type']/value")
+        type = selectNode(params, "1/keyvalue[@key='type']/value")
         classNode.set("type", "class")
     else:
-        classNode.set("type", variant)  
-        
+        classNode.set("type", variant)
+
 
     #print className
 
@@ -224,10 +224,10 @@ def handleClassDefinition(docTree, item, variant):
 
         elif key == "members":
             handleMembers(valueItem, classNode)
-            
+
         elif key == "events":
             handleEvents(valueItem, classNode)
-            
+
 
 def handleMixins(item, classNode):
     mixins = []
@@ -244,7 +244,7 @@ def handleMixins(item, classNode):
         node = tree.Node("mixin")
         node.set("name", mixin)
         classNode.addListChild("mixins", node)
-            
+
 
 def handleInterfaces(item, classNode):
     interfaces = []
@@ -328,7 +328,7 @@ def handleEvents(item, classNode):
                 continue
 
             node = tree.Node("event")
-        
+
             key = keyvalue.get("key")
             value = keyvalue.getFirstChild(True, True).getFirstChild(True, True).get("value")
             try:
@@ -347,7 +347,7 @@ def handleEvents(item, classNode):
             typesNode.addChild(itemNode)
             itemNode.set("type", value)
 
-            classNode.addListChild("events", node)      
+            classNode.addListChild("events", node)
 
 
 ########################################################################################
@@ -824,7 +824,7 @@ def getType(item):
 def getClassNode(docTree, className, commentAttributes = None):
     if commentAttributes == None:
         commentAttributes = {}
-        
+
     splits = className.split(".")
 
     currPackage = docTree
@@ -843,7 +843,7 @@ def getClassNode(docTree, className, commentAttributes = None):
                 childPackage.set("name", split)
                 childPackage.set("fullName", childPackageName)
                 childPackage.set("packageName", childPackageName.replace("." + split, ""))
-                
+
                 currPackage.addListChild("packages", childPackage)
 
             # Update current package
@@ -873,7 +873,7 @@ def getClassNode(docTree, className, commentAttributes = None):
 
                         seeNode = tree.Node("see").set("name", attrib["name"])
                         classNode.addChild(seeNode)
-                
+
                 currPackage.addListChild("classes", classNode)
 
             return classNode
