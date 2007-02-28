@@ -305,7 +305,7 @@ def inForLoop(node):
 
 
 
-def compile(node, enablePretty=True, enableBreaks=False, enableDebug=False):
+def compile(node, opts, enableBreaks=False, enableDebug=False):
     global indent
     global result
     global pretty
@@ -319,7 +319,7 @@ def compile(node, enablePretty=True, enableBreaks=False, enableDebug=False):
 
     indent       = 0
     result       = u""
-    pretty       = enablePretty
+    pretty       = opts.prettyPrint
     debug        = enableDebug
     breaks       = enableBreaks
     afterLine    = False
@@ -328,7 +328,7 @@ def compile(node, enablePretty=True, enableBreaks=False, enableDebug=False):
     afterDivider = False
     afterArea    = False
 
-    if enablePretty:
+    if pretty:
         comment.fill(node)
 
     compileNode(node)
@@ -1523,6 +1523,8 @@ def compileNode(node):
 
 
 def main():
+    global options
+
     parser = optparse.OptionParser()
 
     parser.add_option("-w", "--write", action="store_true", dest="write", default=False, help="Writes file to incoming fileName + EXTENSION.")
@@ -1548,7 +1550,11 @@ def main():
         if options.optimizeVariables:
             variableoptimizer.search(restree, [], 0, 0, "$")
 
-        compiledString = compile(restree, not options.compress)
+        if options.compress:
+            options.prettyPrint = False  # make sure it's set
+        else:
+            options.prettyPrint = True
+        compiledString = compile(restree, options)
         if options.write:
             if compiledString != "" and not compiledString.endswith("\n"):
                 compiledString += "\n"

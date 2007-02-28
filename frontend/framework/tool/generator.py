@@ -117,6 +117,10 @@ def getparser():
     parser.add_option("--obfuscate", action="store_true", dest="obfuscate", default=False, help="Enable obfuscation")
     parser.add_option("--log-level", dest="logLevel", type="string", default="all", help="Define the log level like in qx.log.Logger.")
 
+    # Options for pretty printing
+    parser.add_option("--prettyp-indent-string", action="store_true", dest="prettypIdentString", default="  ", help="String used for indenting source code; escapes possible (e.g. \"\\t\")")
+    #parser.add_option("--prettyp-newline-before-open-curly", action="store_true", dest="prettypOpenCurlyNewlineBefore", default=False, help="Force \"{\" to be on a new line")
+
     # Options for resource copying
     parser.add_option("--enable-resource-filter", action="store_true", dest="enableResourceFilter", default=False, help="Enable filtering of resource files used by classes (based on #embed).")
 
@@ -533,7 +537,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
                 sys.stdout.write(".")
                 sys.stdout.flush()
 
-            prettyFileContent = compiler.compile(loader.getTree(fileDb, fileId, options), True)
+            prettyFileContent = compiler.compile(loader.getTree(fileDb, fileId, options), options)
 
             if not prettyFileContent.endswith("\n"):
                 prettyFileContent += "\n"
@@ -1151,7 +1155,9 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
                 sys.stdout.write(".")
                 sys.stdout.flush()
 
-            compiledFileContent = compiler.compile(loader.getTree(fileDb, fileId, options), False, options.addNewLines, options.enableDebug)
+            if options.prettyPrint:
+                options.prettyPrint = False  # make sure it's disabled
+            compiledFileContent = compiler.compile(loader.getTree(fileDb, fileId, options), options, options.addNewLines, options.enableDebug)
 
             if options.addFileIds:
                 compiledOutput += "\n\n\n/* ID: " + fileId + " */\n" + compiledFileContent + "\n"
