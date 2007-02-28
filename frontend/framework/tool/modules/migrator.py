@@ -268,7 +268,7 @@ def handle(fileList, fileDb, options):
 
                 # If there were any changes, compile the result
                 if patch.patch(fileId, tree):
-                    patchedContent = compiler.compile(tree, True)
+                    patchedContent = compiler.compile(tree, options)
 
             patchedContent = regtool(patchedContent, compiledPatches, True, options)
             patchedContent = regtool(patchedContent, compiledInfos, False, options)

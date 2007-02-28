@@ -494,7 +494,9 @@ class Node:
     
     def toJavascript(self):
         import compiler
-        return compiler.compile(self, True)  
+        if not compiler.options.prettyPrint:
+            compiler.options.prettyPrint = True  # make sure it's set
+        return compiler.compile(self, compiler.options)  
 
 
 def nodeToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n", encoding="utf-8"):
