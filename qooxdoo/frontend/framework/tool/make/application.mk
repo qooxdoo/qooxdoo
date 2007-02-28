@@ -237,7 +237,7 @@ endif
 # This setting obfuscates the code and can help to enforce the privacy of methods.
 #
 ifndef APPLICATION_OPTIMIZE_PRIVATE
-  APPLICATION_OPTIMIZE_PRIVATE = true
+  APPLICATION_OPTIMIZE_PRIVATE = false
 endif
 
 #
@@ -248,7 +248,7 @@ endif
 # of the application
 #
 ifndef APPLICATION_OPTIMIZE_BROWSER
-  APPLICATION_OPTIMIZE_BROWSER = true
+  APPLICATION_OPTIMIZE_BROWSER = false
 endif
 
 #
