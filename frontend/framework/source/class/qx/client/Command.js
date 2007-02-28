@@ -153,7 +153,7 @@ qx.Clazz.define("qx.client.Command",
      *
      * @type member
      * @param vTarget {Object} Object which issued the execute event
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     execute : function(vTarget)
     {
@@ -182,7 +182,7 @@ qx.Clazz.define("qx.client.Command",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      * @throws TODOC
      */
     _modifyShortcut : function(propValue, propOldValue, propData)

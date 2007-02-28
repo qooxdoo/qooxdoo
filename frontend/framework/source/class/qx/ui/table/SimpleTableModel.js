@@ -154,7 +154,7 @@ qx.Clazz.define("qx.ui.table.SimpleTableModel",
      *
      * @type member
      * @param columnIndex {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     isColumnSortable : function(columnIndex) {
       return true;

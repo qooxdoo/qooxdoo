@@ -405,7 +405,7 @@ qx.Clazz.define("qx.ui.embed.Iframe",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyElement : function(propValue, propOldValue, propData)
     {
@@ -479,7 +479,7 @@ qx.Clazz.define("qx.ui.embed.Iframe",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifySource : function(propValue, propOldValue, propData)
     {
@@ -518,7 +518,7 @@ qx.Clazz.define("qx.ui.embed.Iframe",
      * @param propOldValue {var} Previous value
      * @param propName {var} TODOC
      * @param uniqModIds {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      * @throws TODOC
      */
     _modifyFrameName : function(propValue, propOldValue, propName, uniqModIds)

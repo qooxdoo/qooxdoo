@@ -420,7 +420,7 @@ qx.Clazz.define("qx.io.remote.AbstractRemoteTransport",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyState : function(propValue, propOldValue, propData)
     {

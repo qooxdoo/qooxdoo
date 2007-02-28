@@ -299,7 +299,7 @@ qx.Clazz.define("qx.ui.form.ComboBox",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifySelected : function(propValue, propOldValue, propData)
     {
@@ -336,7 +336,7 @@ qx.Clazz.define("qx.ui.form.ComboBox",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyValue : function(propValue, propOldValue, propData)
     {
@@ -382,7 +382,7 @@ qx.Clazz.define("qx.ui.form.ComboBox",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyEditable : function(propValue, propOldValue, propData)
     {
@@ -899,7 +899,7 @@ qx.Clazz.define("qx.ui.form.ComboBox",
      * TODOC
      *
      * @type member
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _visualizeBlur : function()
     {
@@ -946,7 +946,7 @@ qx.Clazz.define("qx.ui.form.ComboBox",
      * TODOC
      *
      * @type member
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _visualizeFocus : function()
     {

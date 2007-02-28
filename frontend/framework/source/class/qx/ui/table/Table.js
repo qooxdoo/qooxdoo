@@ -391,7 +391,7 @@ qx.Clazz.define("qx.ui.table.Table",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifySelectionModel : function(propValue, propOldValue, propData)
     {
@@ -414,7 +414,7 @@ qx.Clazz.define("qx.ui.table.Table",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyTableModel : function(propValue, propOldValue, propData)
     {
@@ -443,7 +443,7 @@ qx.Clazz.define("qx.ui.table.Table",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyTableColumnModel : function(propValue, propOldValue, propData)
     {
@@ -489,7 +489,7 @@ qx.Clazz.define("qx.ui.table.Table",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyStatusBarVisible : function(propValue, propOldValue, propData)
     {
@@ -510,7 +510,7 @@ qx.Clazz.define("qx.ui.table.Table",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyColumnVisibilityButtonVisible : function(propValue, propOldValue, propData)
     {
@@ -527,7 +527,7 @@ qx.Clazz.define("qx.ui.table.Table",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyMetaColumnCounts : function(propValue, propOldValue, propData)
     {
@@ -600,7 +600,7 @@ qx.Clazz.define("qx.ui.table.Table",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyFocusCellOnMouseMove : function(propValue, propOldValue, propData)
     {
@@ -621,7 +621,7 @@ qx.Clazz.define("qx.ui.table.Table",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyKeepFirstVisibleRowComplete : function(propValue, propOldValue, propData)
     {
@@ -642,7 +642,7 @@ qx.Clazz.define("qx.ui.table.Table",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyHeaderCellHeight : function(propValue, propOldValue, propData)
     {

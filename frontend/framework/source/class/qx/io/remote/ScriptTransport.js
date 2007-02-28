@@ -93,7 +93,7 @@ qx.Clazz.define("qx.io.remote.ScriptTransport",
      * TODOC
      *
      * @type static
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     isSupported : function() {
       return true;

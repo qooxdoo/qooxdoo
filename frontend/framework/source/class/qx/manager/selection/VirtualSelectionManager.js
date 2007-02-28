@@ -219,7 +219,7 @@ qx.Clazz.define("qx.manager.selection.VirtualSelectionManager",
      *
      * @type member
      * @param vItem {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     getItemEnabled : function(vItem) {
       return true;

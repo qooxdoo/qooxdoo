@@ -149,7 +149,7 @@ qx.Clazz.define("qx.io.remote.Exchange",
      * @param vImpl {var} TODOC
      * @param vNeeds {var} TODOC
      * @param vResponseType {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     canHandle : function(vImpl, vNeeds, vResponseType)
     {
@@ -553,7 +553,7 @@ qx.Clazz.define("qx.io.remote.Exchange",
      * TODOC
      *
      * @type member
-     * @return {var | boolean} TODOC
+     * @return {var | Boolean} TODOC
      */
     send : function()
     {
@@ -797,7 +797,7 @@ qx.Clazz.define("qx.io.remote.Exchange",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyImplementation : function(propValue, propOldValue, propData)
     {
@@ -847,7 +847,7 @@ qx.Clazz.define("qx.io.remote.Exchange",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyState : function(propValue, propOldValue, propData)
     {

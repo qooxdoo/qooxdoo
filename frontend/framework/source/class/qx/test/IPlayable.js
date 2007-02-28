@@ -12,7 +12,7 @@ qx.Interface.define("qx.test.IPlayable",
      * TODOC
      *
      * @type member
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     play : function() {
       return true;

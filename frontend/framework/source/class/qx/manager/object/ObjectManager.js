@@ -66,7 +66,7 @@ qx.Clazz.define("qx.manager.object.ObjectManager",
      *
      * @type member
      * @param vObject {var} TODOC
-     * @return {void | boolean} TODOC
+     * @return {void | Boolean} TODOC
      */
     add : function(vObject)
     {
@@ -84,7 +84,7 @@ qx.Clazz.define("qx.manager.object.ObjectManager",
      *
      * @type member
      * @param vObject {var} TODOC
-     * @return {void | boolean} TODOC
+     * @return {void | Boolean} TODOC
      */
     remove : function(vObject)
     {

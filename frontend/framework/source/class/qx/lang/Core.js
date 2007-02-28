@@ -341,7 +341,7 @@ if (!Array.prototype.some)
    * @type member
    * @param callback {Function} Function to test for each element.
    * @param obj {Object} Object to use as <code>this</code> when executing <code>callback</code>.
-   * @return {boolean} TODOC
+   * @return {Boolean} TODOC
    */
   Array.prototype.some = function(callback, obj)
   {
@@ -392,7 +392,7 @@ if (!Array.prototype.every)
    * @type member
    * @param callback {Function} Function to test for each element.
    * @param obj {Object} Object to use as <code>this</code> when executing <code>callback</code>.
-   * @return {boolean} TODOC
+   * @return {Boolean} TODOC
    */
   Array.prototype.every = function(callback, obj)
   {

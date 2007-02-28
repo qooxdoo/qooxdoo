@@ -153,7 +153,7 @@ qx.Clazz.define("qx.client.Timer",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyEnabled : function(propValue, propOldValue, propData)
     {

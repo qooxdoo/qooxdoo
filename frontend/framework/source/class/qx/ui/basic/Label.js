@@ -243,7 +243,7 @@ qx.Clazz.define("qx.ui.basic.Label",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyHtml : function(propValue, propOldValue, propData)
     {
@@ -287,7 +287,7 @@ qx.Clazz.define("qx.ui.basic.Label",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyTextAlign : function(propValue, propOldValue, propData)
     {
@@ -303,7 +303,7 @@ qx.Clazz.define("qx.ui.basic.Label",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyMnemonic : function(propValue, propOldValue, propData)
     {
@@ -323,7 +323,7 @@ qx.Clazz.define("qx.ui.basic.Label",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyFont : function(propValue, propOldValue, propData)
     {
@@ -346,7 +346,7 @@ qx.Clazz.define("qx.ui.basic.Label",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyWrap : function(propValue, propOldValue, propData)
     {

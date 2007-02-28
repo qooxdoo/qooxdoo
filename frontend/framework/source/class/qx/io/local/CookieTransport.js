@@ -191,7 +191,7 @@ qx.Clazz.define("qx.io.local.CookieTransport",
      *
      * @type static
      * @param vHash {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _setAll : function(vHash)
     {

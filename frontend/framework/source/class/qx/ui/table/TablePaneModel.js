@@ -133,7 +133,7 @@ qx.Clazz.define("qx.ui.table.TablePaneModel",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyFirstColumnX : function(propValue, propOldValue, propData)
     {
@@ -150,7 +150,7 @@ qx.Clazz.define("qx.ui.table.TablePaneModel",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyMaxColumnCount : function(propValue, propOldValue, propData)
     {

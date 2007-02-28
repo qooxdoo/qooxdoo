@@ -175,7 +175,7 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyAnchorItem : function(propValue, propOldValue, propData)
     {
@@ -198,7 +198,7 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyLeadItem : function(propValue, propOldValue, propData)
     {
@@ -811,7 +811,7 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
      *  to select all items.
      *
      * @type member
-     * @return {void | boolean} TODOC
+     * @return {void | Boolean} TODOC
      */
     _selectAll : function()
     {
@@ -875,7 +875,7 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
      *  to deselect all items.
      *
      * @type member
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _deselectAll : function()
     {
@@ -937,7 +937,7 @@ qx.Clazz.define("qx.manager.selection.SelectionManager",
      * @param vItem1 {var} TODOC
      * @param vItem2 {var} TODOC
      * @param vDeselect {var} TODOC
-     * @return {var | boolean} TODOC
+     * @return {var | Boolean} TODOC
      */
     _selectItemRange : function(vItem1, vItem2, vDeselect)
     {

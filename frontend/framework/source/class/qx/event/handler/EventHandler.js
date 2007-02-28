@@ -393,7 +393,7 @@ qx.Clazz.define("qx.event.handler.EventHandler",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyCaptureWidget : function(propValue, propOldValue, propData)
     {
@@ -416,7 +416,7 @@ qx.Clazz.define("qx.event.handler.EventHandler",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyFocusRoot : function(propValue, propOldValue, propData)
     {
@@ -636,7 +636,7 @@ qx.Clazz.define("qx.event.handler.EventHandler",
      * @param vKeyCode {var} TODOC
      * @param vCharCode {var} TODOC
      * @param vKeyIdentifier {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _onkeyevent_post : function(vDomEvent, vType, vKeyCode, vCharCode, vKeyIdentifier)
     {

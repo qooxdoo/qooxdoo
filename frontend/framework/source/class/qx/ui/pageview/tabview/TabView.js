@@ -104,7 +104,7 @@ qx.Clazz.define("qx.ui.pageview.tabview.TabView",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyAlignTabsToLeft : function(propValue, propOldValue, propData)
     {
@@ -126,7 +126,7 @@ qx.Clazz.define("qx.ui.pageview.tabview.TabView",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyPlaceBarOnTop : function(propValue, propOldValue, propData)
     {
