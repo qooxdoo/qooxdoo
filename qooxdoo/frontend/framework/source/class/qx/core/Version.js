@@ -94,7 +94,7 @@ qx.Clazz.define("qx.core.Version",
       var vVersion = vSplit.shift();
       var vInfos = vSplit.join(" ");
 
-      if (/([0-9]+)\.([0-9]+)(\.([0-9]))?(-([a-z]+))?/.test(vVersion))
+      if (/([0-9]+)\.([0-9]+)(\.([0-9]))?(-([a-z0-9]+))?/.test(vVersion))
       {
         this.major = (RegExp.$1 != "" ? parseInt(RegExp.$1) : 0);
         this.minor = (RegExp.$2 != "" ? parseInt(RegExp.$2) : 0);
