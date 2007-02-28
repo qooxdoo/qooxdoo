@@ -464,15 +464,15 @@ def cleanupText(text):
                 if not newline:
                     newline = True
 
-        else:
-            if text != "":
-                text += "\n"
+            else:
+                if text != "":
+                    text += "\n"
 
-            if newline:
-                text += "\n"
-                newline = False
+                if newline:
+                    text += "\n"
+                    newline = False
 
-            text += line
+                text += line
 
     #print "============= OUTTEXT ========================="
     #print text
