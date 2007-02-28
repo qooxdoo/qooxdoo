@@ -377,7 +377,7 @@ qx.Clazz.define("qx.log.WindowAppender",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyAutoCloseWithErrors : function(propValue, propOldValue, propData)
     {

@@ -606,7 +606,7 @@ qx.Clazz.define("qx.renderer.layout.LayoutImpl",
      * Dispose the layout implmentation and release the associated widget.
      *
      * @type member
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     dispose : function()
     {

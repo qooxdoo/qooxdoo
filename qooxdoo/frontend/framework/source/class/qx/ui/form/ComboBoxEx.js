@@ -482,7 +482,7 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
      *
      * @type member
      * @param index {number} -1 means no selected index
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     setSelectedIndex : function(index)
     {
@@ -539,7 +539,7 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
      *
      * @type member
      * @param propVal {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyShowOnTextField : function(propVal)
     {
@@ -557,7 +557,7 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
      * TODOC
      *
      * @type member
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyMaxVisibleRows : function()
     {
@@ -585,7 +585,7 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
      *
      * @type member
      * @param propVal {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyIdDescriptionSeparator : function(propVal)
     {
@@ -604,7 +604,7 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
      *
      * @type member
      * @param propVal {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyIdColumnVisible : function(propVal)
     {
@@ -619,7 +619,7 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
      *
      * @type member
      * @param propValue {var} Current value
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyEditable : function(propValue) /* , propOldValue, propData */
     {
@@ -637,7 +637,7 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
      *
      * @type member
      * @param propValue {var} Current value
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyValue : function(propValue) /* , propOldValue, propData */
     {
@@ -1500,7 +1500,7 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
      * TODOC
      *
      * @type member
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _visualizeBlur : function()
     {
@@ -1547,7 +1547,7 @@ qx.Clazz.define("qx.ui.form.ComboBoxEx",
      * TODOC
      *
      * @type member
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _visualizeFocus : function()
     {

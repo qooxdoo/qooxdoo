@@ -271,7 +271,7 @@ qx.Clazz.define("qx.ui.menu.Menu",
      * @param vElement {Object} element to test
      * @param vButtonsOnly {boolean ? false} if true, child elements other than buttons
      *                                         will be ignored
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     isSubElement : function(vElement, vButtonsOnly)
     {
@@ -368,7 +368,7 @@ qx.Clazz.define("qx.ui.menu.Menu",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyHoverItem : function(propValue, propOldValue, propData)
     {
@@ -391,7 +391,7 @@ qx.Clazz.define("qx.ui.menu.Menu",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyOpenItem : function(propValue, propOldValue, propData)
     {

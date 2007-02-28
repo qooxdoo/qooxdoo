@@ -299,7 +299,7 @@ qx.Clazz.define("qx.ui.component.ColorPopup",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyValue : function(propValue, propOldValue, propData)
     {

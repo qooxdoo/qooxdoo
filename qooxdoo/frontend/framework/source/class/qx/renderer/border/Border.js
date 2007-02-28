@@ -404,7 +404,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      *
      * @type member
      * @param vWidth {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     setWidth : function(vWidth)
     {
@@ -422,7 +422,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      *
      * @type member
      * @param vStyle {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     setStyle : function(vStyle)
     {
@@ -440,7 +440,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      *
      * @type member
      * @param vColor {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     setColor : function(vColor)
     {
@@ -460,7 +460,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      * @param vWidth {var} TODOC
      * @param vStyle {var} TODOC
      * @param vColor {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     setTop : function(vWidth, vStyle, vColor)
     {
@@ -479,7 +479,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      * @param vWidth {var} TODOC
      * @param vStyle {var} TODOC
      * @param vColor {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     setRight : function(vWidth, vStyle, vColor)
     {
@@ -498,7 +498,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      * @param vWidth {var} TODOC
      * @param vStyle {var} TODOC
      * @param vColor {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     setBottom : function(vWidth, vStyle, vColor)
     {
@@ -517,7 +517,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      * @param vWidth {var} TODOC
      * @param vStyle {var} TODOC
      * @param vColor {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     setLeft : function(vWidth, vStyle, vColor)
     {
@@ -764,7 +764,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyBorderTopProperty : function(propValue, propOldValue, propData)
     {
@@ -786,7 +786,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyBorderRightProperty : function(propValue, propOldValue, propData)
     {
@@ -808,7 +808,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyBorderBottomProperty : function(propValue, propOldValue, propData)
     {
@@ -830,7 +830,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyBorderLeftProperty : function(propValue, propOldValue, propData)
     {
@@ -865,7 +865,7 @@ qx.Clazz.define("qx.renderer.border.Border",
      * TODOC
      *
      * @type member
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _evalUseEnhancedCrossBrowserMode : function()
     {

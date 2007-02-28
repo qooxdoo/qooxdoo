@@ -380,7 +380,7 @@ qx.Clazz.define("qx.ui.splitpane.SplitPane",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyShowKnob : function(propValue, propOldValue, propData)
     {
@@ -396,7 +396,7 @@ qx.Clazz.define("qx.ui.splitpane.SplitPane",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyOrientation : function(propValue, propOldValue, propData)
     {
@@ -501,7 +501,7 @@ qx.Clazz.define("qx.ui.splitpane.SplitPane",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyFirstSize : function(propValue, propOldValue, propData)
     {
@@ -517,7 +517,7 @@ qx.Clazz.define("qx.ui.splitpane.SplitPane",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifySecondSize : function(propValue, propOldValue, propData)
     {
@@ -533,7 +533,7 @@ qx.Clazz.define("qx.ui.splitpane.SplitPane",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifySplitterSize : function(propValue, propOldValue, propData)
     {

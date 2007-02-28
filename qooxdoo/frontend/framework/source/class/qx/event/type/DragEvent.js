@@ -235,7 +235,7 @@ qx.Clazz.define("qx.event.type.DragEvent",
      *          should be away from the mouse cursor in x direction.
      * @param deltaY {int ? 10} the number of pixels the top-left corner of the widget
      *          should be away from the mouse cursor in y direction.
-     * @param autoDisposeWidget {boolean} whether the widget should be disposed when
+     * @param autoDisposeWidget {Boolean} whether the widget should be disposed when
      *          dragging is finished or cancelled.
      * @return {void}
      */

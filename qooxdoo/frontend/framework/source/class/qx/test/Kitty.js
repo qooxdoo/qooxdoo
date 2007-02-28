@@ -72,7 +72,7 @@ qx.Clazz.define("qx.test.Kitty",
      * TODOC
      *
      * @type member
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     hasSoul : function() {
       return true;

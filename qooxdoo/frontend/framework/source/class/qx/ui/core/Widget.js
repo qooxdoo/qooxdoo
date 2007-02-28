@@ -894,7 +894,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @type static
      * @param vIgnoreClasses {var} TODOC
      * @param vInstance {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     getActiveSiblingHelperIgnore : function(vIgnoreClasses, vInstance)
     {
@@ -2395,7 +2395,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param vHint {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _handleDisplayable : function(vHint)
     {
@@ -2729,7 +2729,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyVisibility : function(propValue, propOldValue, propData)
     {
@@ -2937,7 +2937,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyElement : function(propValue, propOldValue, propData)
     {
@@ -2994,7 +2994,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param p {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     addToJobQueue : function(p)
     {
@@ -3377,7 +3377,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _recomputeFlexX : function()
     {
@@ -3399,7 +3399,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _recomputeFlexY : function()
     {
@@ -3429,7 +3429,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _recomputePercentX : function()
     {
@@ -3475,7 +3475,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _recomputePercentY : function()
     {
@@ -5132,7 +5132,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyEnabled : function(propValue, propOldValue, propData)
     {
@@ -5415,7 +5415,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyAppearance : function(propValue, propOldValue, propData)
     {
@@ -5500,7 +5500,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @type member
      * @param propName {var} TODOC
      * @param propValue {var} Current value
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     setHtmlProperty : function(propName, propValue)
     {
@@ -5615,7 +5615,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @type member
      * @param propName {var} TODOC
      * @param propValue {var} Current value
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     setHtmlAttribute : function(propName, propValue)
     {
@@ -5638,7 +5638,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param propName {var} TODOC
-     * @return {void | boolean} TODOC
+     * @return {void | Boolean} TODOC
      */
     removeHtmlAttribute : function(propName)
     {
@@ -5722,7 +5722,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @type member
      * @param propName {var} TODOC
      * @param propValue {var} Current value
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     setStyleProperty : function(propName, propValue)
     {
@@ -5762,7 +5762,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param propName {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     removeStyleProperty : function(propName)
     {
@@ -5859,7 +5859,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     isFocusRoot : function() {
       return false;
@@ -5909,7 +5909,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyFocused : function(propValue, propOldValue, propData)
     {
@@ -5946,7 +5946,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _visualizeBlur : function()
     {
@@ -5969,7 +5969,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _visualizeFocus : function()
     {
@@ -6027,7 +6027,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyCapture : function(propValue, propOldValue, propData)
     {
@@ -6300,7 +6300,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyCursor : function(propValue, propOldValue, propData)
     {
@@ -6503,7 +6503,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @param pv {var} TODOC
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _applyOverflow : function(pn, pv, propValue, propOldValue)
     {
@@ -6589,7 +6589,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyBackgroundColor : function(propValue, propOldValue, propData)
     {
@@ -6618,7 +6618,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyColor : function(propValue, propOldValue, propData)
     {
@@ -6728,7 +6728,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyBorder : function(propValue, propOldValue, propData)
     {
@@ -6879,7 +6879,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyPaddingX : function(propValue, propOldValue, propData)
     {
@@ -6895,7 +6895,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyPaddingY : function(propValue, propOldValue, propData)
     {
@@ -7263,7 +7263,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      *
      * @type member
      * @param vDragCache {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     supportsDrop : function(vDragCache) {
       return true;
@@ -7403,7 +7403,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {void | boolean} TODOC
+     * @return {void | Boolean} TODOC
      */
     _modifyFadeSteps : function(propValue, propOldValue, propData)
     {
@@ -7421,7 +7421,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {void | boolean} TODOC
+     * @return {void | Boolean} TODOC
      */
     _modifyFadeTime : function(propValue, propOldValue, propData)
     {
@@ -7438,7 +7438,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyFadeUnit : function(propValue, propOldValue, propData)
     {
@@ -7454,7 +7454,7 @@ qx.Clazz.define("qx.ui.core.Widget",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyFadeMax : function(propValue, propOldValue, propData)
     {

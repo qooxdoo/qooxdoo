@@ -6,7 +6,7 @@ qx.Interface.define("qx.test.IHumanlike",
      * TODOC
      *
      * @type member
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     hasSoul : function() {
       return true;

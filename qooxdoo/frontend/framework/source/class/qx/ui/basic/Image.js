@@ -249,7 +249,7 @@ qx.Clazz.define("qx.ui.basic.Image",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifySource : function(propValue, propOldValue, propData)
     {
@@ -289,7 +289,7 @@ qx.Clazz.define("qx.ui.basic.Image",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyPreloader : function(propValue, propOldValue, propData)
     {
@@ -340,7 +340,7 @@ qx.Clazz.define("qx.ui.basic.Image",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyLoaded : function(propValue, propOldValue, propData)
     {
@@ -364,7 +364,7 @@ qx.Clazz.define("qx.ui.basic.Image",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyElement : function(propValue, propOldValue, propData)
     {

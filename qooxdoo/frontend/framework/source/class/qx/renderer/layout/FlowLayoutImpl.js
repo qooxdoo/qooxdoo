@@ -191,7 +191,7 @@ qx.Clazz.define("qx.renderer.layout.FlowLayoutImpl",
      *
      * @type member
      * @param vChild {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     updateChildOnInnerWidthChange : function(vChild)
     {
@@ -208,7 +208,7 @@ qx.Clazz.define("qx.renderer.layout.FlowLayoutImpl",
      *
      * @type member
      * @param vChild {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     updateChildOnInnerHeightChange : function(vChild)
     {

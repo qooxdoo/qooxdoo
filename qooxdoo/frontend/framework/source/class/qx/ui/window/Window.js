@@ -691,7 +691,7 @@ qx.Clazz.define("qx.ui.window.Window",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyActive : function(propValue, propOldValue, propData)
     {
@@ -735,7 +735,7 @@ qx.Clazz.define("qx.ui.window.Window",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyModal : function(propValue, propOldValue, propData)
     {
@@ -799,7 +799,7 @@ qx.Clazz.define("qx.ui.window.Window",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyMode : function(propValue, propOldValue, propData)
     {
@@ -837,7 +837,7 @@ qx.Clazz.define("qx.ui.window.Window",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyShowCaption : function(propValue, propOldValue, propData)
     {
@@ -858,7 +858,7 @@ qx.Clazz.define("qx.ui.window.Window",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyShowIcon : function(propValue, propOldValue, propData)
     {
@@ -879,7 +879,7 @@ qx.Clazz.define("qx.ui.window.Window",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyShowStatusbar : function(propValue, propOldValue, propData)
     {
@@ -900,7 +900,7 @@ qx.Clazz.define("qx.ui.window.Window",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyShowClose : function(propValue, propOldValue, propData)
     {
@@ -921,7 +921,7 @@ qx.Clazz.define("qx.ui.window.Window",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyShowMaximize : function(propValue, propOldValue, propData)
     {
@@ -952,7 +952,7 @@ qx.Clazz.define("qx.ui.window.Window",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyShowMinimize : function(propValue, propOldValue, propData)
     {
@@ -970,7 +970,7 @@ qx.Clazz.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _minimizeButtonManager : function()
     {
@@ -984,7 +984,7 @@ qx.Clazz.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _closeButtonManager : function()
     {
@@ -998,7 +998,7 @@ qx.Clazz.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _maximizeButtonManager : function()
     {
@@ -1018,7 +1018,7 @@ qx.Clazz.define("qx.ui.window.Window",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyStatus : function(propValue, propOldValue, propData)
     {
@@ -1077,7 +1077,7 @@ qx.Clazz.define("qx.ui.window.Window",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyCaption : function(propValue, propOldValue, propData)
     {
