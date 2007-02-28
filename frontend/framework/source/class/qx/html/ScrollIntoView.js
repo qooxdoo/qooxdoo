@@ -51,7 +51,7 @@ qx.Clazz.define("qx.html.ScrollIntoView",
      * @type static
      * @param vElement {Element} DOM node to be scrolled into view
      * @param vAlignLeft {Boolean} whether the element should be left aligned
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     scrollX : function(vElement, vAlignLeft)
     {
@@ -125,7 +125,7 @@ qx.Clazz.define("qx.html.ScrollIntoView",
      * @type static
      * @param vElement {Element} DOM node to be scrolled into view
      * @param vAlignTop {Boolean} whether the element should be top aligned
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     scrollY : function(vElement, vAlignTop)
     {

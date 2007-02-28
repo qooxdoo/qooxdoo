@@ -564,7 +564,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyRed : function(propValue, propOldValue, propData)
     {
@@ -605,7 +605,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyGreen : function(propValue, propOldValue, propData)
     {
@@ -646,7 +646,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyBlue : function(propValue, propOldValue, propData)
     {
@@ -695,7 +695,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyHue : function(propValue, propOldValue, propData)
     {
@@ -739,7 +739,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifySaturation : function(propValue, propOldValue, propData)
     {
@@ -783,7 +783,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyBrightness : function(propValue, propOldValue, propData)
     {
@@ -1222,7 +1222,7 @@ qx.Clazz.define("qx.ui.component.ColorSelector",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void | boolean} TODOC
+     * @return {void | Boolean} TODOC
      */
     _onHexFieldChange : function(e)
     {

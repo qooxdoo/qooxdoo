@@ -453,7 +453,7 @@ qx.Clazz.define("qx.ui.embed.Flash",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propName {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifySource : function(propValue, propOldValue, propName)
     {
@@ -469,7 +469,7 @@ qx.Clazz.define("qx.ui.embed.Flash",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyVersion : function(propValue, propOldValue, propData)
     {
@@ -494,7 +494,7 @@ qx.Clazz.define("qx.ui.embed.Flash",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyParam : function(propValue, propOldValue, propData)
     {
@@ -518,7 +518,7 @@ qx.Clazz.define("qx.ui.embed.Flash",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyBackgroundColor : function(propValue, propOldValue, propData)
     {

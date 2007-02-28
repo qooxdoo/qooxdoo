@@ -162,7 +162,7 @@ qx.Clazz.define("qx.event.handler.DragAndDropHandler",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyDestinationWidget : function(propValue, propOldValue, propData)
     {
@@ -866,7 +866,7 @@ qx.Clazz.define("qx.event.handler.DragAndDropHandler",
      *
      * @type member
      * @param vWidget {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     supportsDrop : function(vWidget)
     {
@@ -1014,7 +1014,7 @@ qx.Clazz.define("qx.event.handler.DragAndDropHandler",
      *          should be away from the mouse cursor in x direction.
      * @param deltaY {int ? 10} the number of pixels the top-left corner of the widget
      *          should be away from the mouse cursor in y direction.
-     * @param autoDisposeWidget {boolean} whether the widget should be disposed when
+     * @param autoDisposeWidget {Boolean} whether the widget should be disposed when
      *          dragging is finished or cancelled.
      * @return {void}
      */

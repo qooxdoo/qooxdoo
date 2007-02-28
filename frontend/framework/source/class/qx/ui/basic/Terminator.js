@@ -189,7 +189,7 @@ qx.Clazz.define("qx.ui.basic.Terminator",
      * TODOC
      *
      * @type member
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _isWidthEssential : function()
     {
@@ -221,7 +221,7 @@ qx.Clazz.define("qx.ui.basic.Terminator",
      * TODOC
      *
      * @type member
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _isHeightEssential : function()
     {

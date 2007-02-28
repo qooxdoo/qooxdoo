@@ -346,7 +346,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.Tree",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyUseTreeLines : function(propValue, propOldValue, propData)
     {
@@ -365,7 +365,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.Tree",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyHideNode : function(propValue, propOldValue, propData)
     {
@@ -396,7 +396,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.Tree",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyRootOpenClose : function(propValue, propOldValue, propData)
     {
@@ -433,7 +433,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.Tree",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyExcludeSpecificTreeLines : function(propValue, propOldValue, propData)
     {

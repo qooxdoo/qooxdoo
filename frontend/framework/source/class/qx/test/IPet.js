@@ -13,7 +13,7 @@ qx.Interface.define("qx.test.IPet",
      * TODOC
      *
      * @type member
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     smooch : function() {
       return true;

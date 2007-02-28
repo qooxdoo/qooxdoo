@@ -199,7 +199,7 @@ qx.Clazz.define("qx.manager.object.ImageManager",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyIconTheme : function(propValue, propOldValue, propData)
     {
@@ -215,7 +215,7 @@ qx.Clazz.define("qx.manager.object.ImageManager",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyWidgetTheme : function(propValue, propOldValue, propData)
     {
@@ -286,7 +286,7 @@ qx.Clazz.define("qx.manager.object.ImageManager",
      * TODOC
      *
      * @type member
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _updateImages : function()
     {

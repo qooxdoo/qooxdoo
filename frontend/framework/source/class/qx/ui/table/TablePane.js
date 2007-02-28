@@ -120,7 +120,7 @@ qx.Clazz.define("qx.ui.table.TablePane",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyFirstVisibleRow : function(propValue, propOldValue, propData)
     {
@@ -136,7 +136,7 @@ qx.Clazz.define("qx.ui.table.TablePane",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyVisibleRowCount : function(propValue, propOldValue, propData)
     {

@@ -324,7 +324,7 @@ qx.Clazz.define("qx.ui.menu.Button",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyIcon : function(propValue, propOldValue, propData)
     {
@@ -355,7 +355,7 @@ qx.Clazz.define("qx.ui.menu.Button",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyLabel : function(propValue, propOldValue, propData)
     {
@@ -386,7 +386,7 @@ qx.Clazz.define("qx.ui.menu.Button",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyCommand : function(propValue, propOldValue, propData)
     {
@@ -426,7 +426,7 @@ qx.Clazz.define("qx.ui.menu.Button",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyMenu : function(propValue, propOldValue, propData)
     {

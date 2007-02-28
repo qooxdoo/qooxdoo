@@ -254,7 +254,7 @@ qx.Clazz.define("qx.client.NativeWindow",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propName {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyPosition : function(propValue, propOldValue, propName)
     {
@@ -287,7 +287,7 @@ qx.Clazz.define("qx.client.NativeWindow",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propName {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyDimension : function(propValue, propOldValue, propName)
     {
@@ -320,7 +320,7 @@ qx.Clazz.define("qx.client.NativeWindow",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propName {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyName : function(propValue, propOldValue, propName)
     {
@@ -339,7 +339,7 @@ qx.Clazz.define("qx.client.NativeWindow",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propName {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyUrl : function(propValue, propOldValue, propName)
     {
@@ -359,7 +359,7 @@ qx.Clazz.define("qx.client.NativeWindow",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyOpen : function(propValue, propOldValue, propData)
     {

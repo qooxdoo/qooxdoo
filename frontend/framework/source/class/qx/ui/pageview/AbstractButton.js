@@ -154,7 +154,7 @@ qx.Clazz.define("qx.ui.pageview.AbstractButton",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyManager : function(propValue, propOldValue, propData)
     {
@@ -200,7 +200,7 @@ qx.Clazz.define("qx.ui.pageview.AbstractButton",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyPage : function(propValue, propOldValue, propData)
     {
@@ -225,7 +225,7 @@ qx.Clazz.define("qx.ui.pageview.AbstractButton",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyChecked : function(propValue, propOldValue, propData)
     {
@@ -257,7 +257,7 @@ qx.Clazz.define("qx.ui.pageview.AbstractButton",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyName : function(propValue, propOldValue, propData)
     {

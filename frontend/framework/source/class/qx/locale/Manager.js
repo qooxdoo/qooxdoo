@@ -240,7 +240,7 @@ qx.Clazz.define("qx.locale.Manager",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyLocale : function(propValue, propOldValue, propData)
     {

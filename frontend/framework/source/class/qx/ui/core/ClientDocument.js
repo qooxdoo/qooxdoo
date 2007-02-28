@@ -166,7 +166,7 @@ qx.Clazz.define("qx.ui.core.ClientDocument",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyElement : function(propValue, propOldValue, propData)
     {
@@ -453,7 +453,7 @@ qx.Clazz.define("qx.ui.core.ClientDocument",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyGlobalCursor : function(propValue, propOldValue, propData)
     {

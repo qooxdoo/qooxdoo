@@ -195,7 +195,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.AbstractTreeElement",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyLabel : function(propValue, propOldValue, propData)
     {
@@ -214,7 +214,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.AbstractTreeElement",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifySelected : function(propValue, propOldValue, propData)
     {
@@ -470,7 +470,7 @@ qx.Clazz.define("qx.ui.treefullcontrol.AbstractTreeElement",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyParent : function(propValue, propOldValue, propData)
     {

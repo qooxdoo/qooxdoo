@@ -289,7 +289,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyHorizontalScrollBarVisible : function(propValue, propOldValue, propData)
     {
@@ -321,7 +321,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyVerticalScrollBarVisible : function(propValue, propOldValue, propData)
     {
@@ -349,7 +349,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyTablePaneModel : function(propValue, propOldValue, propData)
     {
@@ -370,7 +370,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyScrollX : function(propValue, propOldValue, propData)
     {
@@ -386,7 +386,7 @@ qx.Clazz.define("qx.ui.table.TablePaneScroller",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyScrollY : function(propValue, propOldValue, propData)
     {

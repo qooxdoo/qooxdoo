@@ -112,7 +112,7 @@ qx.Clazz.define("qx.ui.embed.HtmlEmbed",
      * TODOC
      *
      * @type member
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyHtml : function()
     {
@@ -131,7 +131,7 @@ qx.Clazz.define("qx.ui.embed.HtmlEmbed",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyFont : function(propValue, propOldValue, propData)
     {
@@ -152,7 +152,7 @@ qx.Clazz.define("qx.ui.embed.HtmlEmbed",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyWrap : function(propValue, propOldValue, propData)
     {

@@ -160,7 +160,7 @@ qx.Clazz.define("qx.ui.popup.ToolTip",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyHideInterval : function(propValue, propOldValue, propData)
     {
@@ -176,7 +176,7 @@ qx.Clazz.define("qx.ui.popup.ToolTip",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyShowInterval : function(propValue, propOldValue, propData)
     {
@@ -192,7 +192,7 @@ qx.Clazz.define("qx.ui.popup.ToolTip",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyBoundToWidget : function(propValue, propOldValue, propData)
     {
@@ -335,7 +335,7 @@ qx.Clazz.define("qx.ui.popup.ToolTip",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _onshowtimer : function(e)
     {

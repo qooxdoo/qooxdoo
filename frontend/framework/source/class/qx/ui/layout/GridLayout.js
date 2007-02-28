@@ -214,7 +214,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifyLayout : function(propValue, propOldValue, propData)
     {
@@ -1255,7 +1255,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * @param vStartRow {var} TODOC
      * @param vColLength {var} TODOC
      * @param vRowLength {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     mergeCells : function(vStartCol, vStartRow, vColLength, vRowLength)
     {
@@ -1330,7 +1330,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * @type member
      * @param vCol {var} TODOC
      * @param vRow {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     isSpanStart : function(vCol, vRow)
     {
@@ -1353,7 +1353,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * @type member
      * @param vCol {var} TODOC
      * @param vRow {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     isSpanCell : function(vCol, vRow)
     {
@@ -1376,7 +1376,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * @type member
      * @param vCol {var} TODOC
      * @param vRow {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     isFillCell : function(vCol, vRow)
     {
@@ -1401,7 +1401,7 @@ qx.Clazz.define("qx.ui.layout.GridLayout",
      * @param vStartRow {var} TODOC
      * @param vEndCol {var} TODOC
      * @param vEndRow {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _collidesWithSpans : function(vStartCol, vStartRow, vEndCol, vEndRow)
     {

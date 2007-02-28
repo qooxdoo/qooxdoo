@@ -45,7 +45,7 @@ qx.Clazz.define("qx.html.Form",
      *
      * @type static
      * @param vNode {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     inputFilter : function(vNode)
     {

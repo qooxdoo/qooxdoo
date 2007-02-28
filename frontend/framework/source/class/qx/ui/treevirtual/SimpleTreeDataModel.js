@@ -165,7 +165,7 @@ qx.Clazz.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *
      * @type member
      * @param columnIndex {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     isColumnEditable : function(columnIndex) {
       return false;
@@ -177,7 +177,7 @@ qx.Clazz.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *
      * @type member
      * @param columnIndex {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     isColumnSortable : function(columnIndex) {
       return false;

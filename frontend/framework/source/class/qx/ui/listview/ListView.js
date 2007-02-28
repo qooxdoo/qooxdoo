@@ -368,7 +368,7 @@ qx.Clazz.define("qx.ui.listview.ListView",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifySortBy : function(propValue, propOldValue, propData)
     {

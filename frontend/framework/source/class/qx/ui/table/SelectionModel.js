@@ -112,7 +112,7 @@ qx.Clazz.define("qx.ui.table.SelectionModel",
      *
      * @type member
      * @param selectionMode {var} TODOC
-     * @return {boolean} TODOC
+     * @return {Boolean} TODOC
      */
     _modifySelectionMode : function(selectionMode)
     {
