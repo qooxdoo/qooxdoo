@@ -42,7 +42,7 @@ qx =
    * Bootstrap qx.Class to create myself later
    * This is needed for the API browser etc. to let them detect me
    */
-  Clazz :
+  Class :
   {
     /**
      * TODOC
