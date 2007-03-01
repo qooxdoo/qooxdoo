@@ -92,16 +92,16 @@ qx.Class.define("qx.ui.core.ClientDocument",
 
   events: {
     /** Fired when the window looses the */
-    "windowblur"    : "qx.event.type.Event", 
-    
+    "windowblur"    : "qx.event.type.Event",
+
     /** (Fired by {@link qx.event.handler.EventHandler}) */
     "focus"         : "qx.event.type.Event",
-    
-    /**  Fired when the window gets the focus (Fired by {@link qx.event.handler.EventHandler}) */ 
+
+    /**  Fired when the window gets the focus (Fired by {@link qx.event.handler.EventHandler}) */
     "windowfocus"   : "qx.event.type.Event",
-    
+
     /** Fired when the window has been resized (Fired by {@link qx.event.handler.EventHandler}) */
-    "windowresize"  : "qx.event.type.Event"  
+    "windowresize"  : "qx.event.type.Event"
   },
 
 
@@ -628,10 +628,4 @@ qx.Class.define("qx.ui.core.ClientDocument",
       qx.html.StyleSheet.createElement("html,body{width:100%;height:100%;overflow:hidden;}");
     }
   }
-
 });
-
-
-
-
-
