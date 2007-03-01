@@ -30,6 +30,7 @@
 qx.Class.define("qx.log.Appender",
 {
   extend : qx.log.LogEventProcessor,
+  type : "abstract",
 
 
 

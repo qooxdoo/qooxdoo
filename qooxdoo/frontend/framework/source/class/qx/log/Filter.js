@@ -30,6 +30,7 @@
 qx.Class.define("qx.log.Filter",
 {
   extend : qx.core.Object,
+  type : "abstract",
 
 
 
