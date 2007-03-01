@@ -172,37 +172,19 @@ qx.Class.define("qx.ui.form.RepeatButton",
 
       this._executed = true;
       this.createDispatchEvent("execute");
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {boolean | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return true;
-      }
-
-      if (this._timer)
-      {
-        this._timer.stop();
-        this._timer.dispose();
-        this._timer = null;
-      }
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeObjects("_timer");
   }
 });
