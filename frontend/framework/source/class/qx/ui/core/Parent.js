@@ -35,6 +35,7 @@
 qx.Class.define("qx.ui.core.Parent",
 {
   extend : qx.ui.core.Widget,
+  type : "abstract",
 
 
 
@@ -47,10 +48,6 @@ qx.Class.define("qx.ui.core.Parent",
 
   construct : function()
   {
-    if (this.classname == qx.ui.core.Parent.ABSTRACT_CLASS) {
-      throw new Error("Please omit the usage of qx.ui.core.Parent directly. Choose between any widget which inherits from qx.ui.core.Parent and so comes with a layout implementation!");
-    }
-
     this.base(arguments);
 
     // Contains all children
@@ -59,17 +56,6 @@ qx.Class.define("qx.ui.core.Parent",
     // Create instanceof layout implementation
     this._layoutImpl = this._createLayoutImpl();
   },
-
-
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics : { ABSTRACT_CLASS : "qx.ui.core.Parent" },
 
 
 
