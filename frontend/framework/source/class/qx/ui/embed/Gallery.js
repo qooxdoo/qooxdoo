@@ -21,6 +21,7 @@
 /* ************************************************************************
 
 #embed(qx.static/image/blank.gif)
+#optional(qx.manager.object.ToolTipManager)
 
 ************************************************************************ */
 
@@ -75,6 +76,10 @@ qx.Class.define("qx.ui.embed.Gallery",
   */
 
   events: {
+    /**
+     * Dispatched just before the tooltip is shown. This makes it possible to
+     * control which tooltip is shown.
+     */
     "beforeToolTipAppear"     : "qx.event.type.Event",
     "loadComplete"            : "qx.event.type.Event"
   },
@@ -561,7 +566,7 @@ qx.Class.define("qx.ui.embed.Gallery",
      */
     _onmousemove : function(e)
     {
-      if (qx.Class.isDefined("qx.manager.object.ToolTipManager")) {
+      if (!qx.Class.isDefined("qx.manager.object.ToolTipManager")) {
         return;
       }
 
@@ -591,8 +596,6 @@ qx.Class.define("qx.ui.embed.Gallery",
         var vEventObject = new qx.event.type.MouseEvent("mouseout", e, false, vItem);
         qx.manager.object.ToolTipManager.getInstance().handleMouseOver(vEventObject);
         vEventObject.dispose();
-
-        this.setToolTip(null);
       }
 
       this._lastItem = vItem;
@@ -937,15 +940,6 @@ qx.Class.define("qx.ui.embed.Gallery",
         this._manager.dispose();
         this._manager = null;
       }
-
-      this.removeEventListener("mousedown", this._onmousedown);
-      this.removeEventListener("mouseup", this._onmouseup);
-      this.removeEventListener("mousemove", this._onmousemove);
-
-      this.removeEventListener("click", this._onclick);
-      this.removeEventListener("dblclick", this._ondblclick);
-
-      this.removeEventListener("keypress", this._onkeypress);
 
       return this.base(arguments);
     }
