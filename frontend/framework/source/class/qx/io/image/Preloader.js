@@ -322,39 +322,26 @@ qx.Class.define("qx.io.image.Preloader",
       if (this.hasEventListeners("error")) {
         this.dispatchEvent(new qx.event.type.Event("error"), true);
       }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      if (this._element)
-      {
-        this._element.onload = this._element.onerror = null;
-        this._element.qx_ImagePreloader = null;
-        this._element = null;
-      }
-
-      this._isLoaded = this._isErroneous = this._isPng = false;
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    if (this._element)
+    {
+      this._element.onload = this._element.onerror = null;
+      this._element.qx_ImagePreloader = null;
+    }
+
+    this._disposeFields("_element", "_isLoaded", "_isErroneous", "_isPng");
   }
 });
