@@ -115,15 +115,6 @@ qx.Class.define("qx.ui.core.ClientDocument",
 
   properties :
   {
-    // Init Resize Helper
-    /*
-    if (qx.core.Variant.isSet("qx.client", "gecko"))
-    {
-      var o = this;
-      this._resizeHelper = window.setInterval(function() { o._onresizehelper() }, 100);
-    }
-    */
-
     globalCursor :
     {
       _legacy : true,
@@ -503,22 +494,6 @@ qx.Class.define("qx.ui.core.ClientDocument",
       qx.ui.core.Widget.flushGlobalQueues();
     },
 
-    // This was an idea to allow mozilla more realtime document resize updates
-    // but it seems so, that mozilla stops javascript execution while the user
-    // resize windows. Bad.
-    /*
-    _onwindowresizehelper : function()
-    {
-      // Test for changes
-      var t1 = this._recomputeInnerWidth();
-      var t2 = this._recomputeInnerHeight();
-
-      // Flush queues
-      if (t1 || t2) {
-        qx.ui.core.Widget.flushGlobalQueues();
-      }
-    },
-    */
 
     /**
      * TODOC
@@ -539,51 +514,6 @@ qx.Class.define("qx.ui.core.ClientDocument",
      */
     _computeInnerHeight : function() {
       return this._document.body.offsetHeight;
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      delete this._window;
-      delete this._document;
-      delete this._modalWidgets;
-      delete this._modalNativeWindow;
-
-      this._globalCursorStyleSheet = null;
-
-      if (this._blocker)
-      {
-        this._blocker.dispose();
-        this._blocker = null;
-      }
-
-      /*
-      if (this._resizeHelper)
-      {
-        window.clearInterval(this._resizeHelper);
-        this._resizeHelper = null;
-      }
-      */
-
-      return this.base(arguments);
     }
   },
 
@@ -627,5 +557,19 @@ qx.Class.define("qx.ui.core.ClientDocument",
     if (qx.core.Setting.get("qx.enableApplicationLayout")) {
       qx.html.StyleSheet.createElement("html,body{width:100%;height:100%;overflow:hidden;}");
     }
+  },
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCT
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeObjects("_blocker");
+    this._disposeFields("_window", "_document", "_modalWidgets", "_modalNativeWindow", "_globalCursorStyleSheet");
   }
 });
