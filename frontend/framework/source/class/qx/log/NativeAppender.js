@@ -72,8 +72,11 @@ qx.Class.define("qx.log.NativeAppender",
      * @param evt {Event} TODOC
      * @return {var} TODOC
      */
-    appendLogEvent : function(evt) {
-      return this._appender.appendLogEvent(evt);
+    appendLogEvent : function(evt)
+    {
+      if (this._appender) {
+        return this._appender.appendLogEvent(evt);
+      }
     }
   },
 
