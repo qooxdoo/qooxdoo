@@ -96,8 +96,8 @@
           title : "gohome.png",
           timestamp : Math.random().toString(),
           comment : "Cool Comment",
-          id : "7686191121780974-10682",
-          src : imgPath
+          id : i,
+          src : imgPath,
         });
       };
 
@@ -108,6 +108,10 @@
       gallery.setTop(48);
       gallery.setBottom(48);
       gallery.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
+      gallery.addEventListener("beforeToolTipAppear", function(e) {
+				var entry = gallery.getEntryByNode(e.getData());
+      	gallery.setToolTip(new qx.ui.popup.ToolTip(entry.comment + ": " + entry.timestamp));
+      });
 
       qx.ui.core.ClientDocument.getInstance().add(gallery);
     });
