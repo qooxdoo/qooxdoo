@@ -76,7 +76,6 @@ qx.Class.define("qx.renderer.layout.MenuLayoutImpl",
      *  [08] CHILDREN ADD/REMOVE/MOVE HANDLING
      *  [09] FLUSH LAYOUT QUEUES OF CHILDREN
      *  [10] LAYOUT CHILD
-     *  [11] DISPOSER
      *
      *  Inherits from qx.renderer.layout.VerticalBoxLayoutImpl:
      *  [01] COMPUTE BOX DIMENSIONS FOR AN INDIVIDUAL CHILD
@@ -88,7 +87,6 @@ qx.Class.define("qx.renderer.layout.MenuLayoutImpl",
      *  [08] CHILDREN ADD/REMOVE/MOVE HANDLING
      *  [09] FLUSH LAYOUT QUEUES OF CHILDREN
      *  [10] LAYOUT CHILD
-     *  [11] DISPOSER
      *
      * @type member
      * @param vQueue {var} TODOC

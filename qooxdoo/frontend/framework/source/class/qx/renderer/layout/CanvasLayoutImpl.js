@@ -72,7 +72,6 @@ qx.Class.define("qx.renderer.layout.CanvasLayoutImpl",
      *  [08] CHILDREN ADD/REMOVE/MOVE HANDLING
      *  [09] FLUSH LAYOUT QUEUES OF CHILDREN
      *  [10] LAYOUT CHILD
-     *  [11] DISPOSER
      *
      *  Inherits from qx.renderer.layout.LayoutImpl:
      *  [03] COMPUTE NEEDED DIMENSIONS FOR ALL CHILDREN
@@ -81,7 +80,6 @@ qx.Class.define("qx.renderer.layout.CanvasLayoutImpl",
      *  [07] UPDATE CHILDREN ON JOB QUEUE FLUSH
      *  [08] CHILDREN ADD/REMOVE/MOVE HANDLING
      *  [09] FLUSH LAYOUT QUEUES OF CHILDREN
-     *  [11] DISPOSER
      *
      * @type member
      * @param vChild {var} TODOC

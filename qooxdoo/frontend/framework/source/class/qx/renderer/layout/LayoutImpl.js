@@ -83,7 +83,6 @@ qx.Class.define("qx.renderer.layout.LayoutImpl",
       [08] CHILDREN ADD/REMOVE/MOVE HANDLING
       [09] FLUSH LAYOUT QUEUES OF CHILDREN
       [10] LAYOUT CHILD
-      [11] DISPOSER
     */
 
     /*
@@ -591,32 +590,6 @@ qx.Class.define("qx.renderer.layout.LayoutImpl",
      */
     layoutChild_sizeY_essentialWrapper : function(vChild, vJobs) {
       return vChild._isHeightEssential() ? this.layoutChild_sizeY(vChild, vJobs) : vChild._resetRuntimeHeight();
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      [11] DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Dispose the layout implmentation and release the associated widget.
-     *
-     * @type member
-     * @return {Boolean} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return true;
-      }
-
-      this._widget = null;
-
-      this.base(arguments);
     }
   },
 
@@ -633,6 +606,18 @@ qx.Class.define("qx.renderer.layout.LayoutImpl",
   {
     members.computeChildrenNeededWidth = members.computeChildrenNeededWidth_max;
     members.computeChildrenNeededHeight = members.computeChildrenNeededHeight_max;
-  }
+  },
 
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("_widget");
+  }
 });

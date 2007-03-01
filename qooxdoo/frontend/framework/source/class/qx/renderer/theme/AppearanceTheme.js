@@ -106,7 +106,7 @@ qx.Class.define("qx.renderer.theme.AppearanceTheme",
 
     /**
      * Register an appearance for a given id
-     * 
+     *
      * vData has the following structure:
      * <pre>
      * {
@@ -119,7 +119,7 @@ qx.Class.define("qx.renderer.theme.AppearanceTheme",
      * @type member
      * @param vId {String} id of the apperance (e.g. "button", "label", ...)
      * @param vData {Map} TODOC
-     * @return {void} 
+     * @return {void}
      */
     registerAppearance : function(vId, vData) {
       this._appearances[vId] = vData;
@@ -143,7 +143,7 @@ qx.Class.define("qx.renderer.theme.AppearanceTheme",
      *
      * @type member
      * @param vAppearance {Object} appearance map
-     * @return {void} 
+     * @return {void}
      */
     setupAppearance : function(vAppearance)
     {
@@ -220,32 +220,19 @@ qx.Class.define("qx.renderer.theme.AppearanceTheme",
       {
         return this.error("Missing appearance: " + vId);
       }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Disposer
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      this._appearances = null;
-
-      return qx.core.Object.prototype.dispose.call(this);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("_appearances");
   }
 });

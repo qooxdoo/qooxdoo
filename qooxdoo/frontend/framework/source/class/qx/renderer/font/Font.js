@@ -302,32 +302,19 @@ qx.Class.define("qx.renderer.font.Font",
       vWidget.removeStyleProperty("fontWeight");
       vWidget.removeStyleProperty("fontStyle");
       vWidget.removeStyleProperty("textDecoration");
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {boolean | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return true;
-      }
-
-      delete this._defs;
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("_defs");
   }
 });
