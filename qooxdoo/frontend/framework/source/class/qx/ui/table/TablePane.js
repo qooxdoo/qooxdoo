@@ -636,24 +636,19 @@ qx.Class.define("qx.ui.table.TablePane",
           elem.removeChild(childNodes[y]);
         }
       }
-    },
-
-    // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {boolean | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return true;
-      }
-
-      this._cleanUpRows(0);
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._cleanUpRows(0);
   }
 });
