@@ -1043,73 +1043,22 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
         this._feedbackWidget._applyRuntimeLeft(this._dragCache.pageX + this._feedbackDeltaX);
         this._feedbackWidget._applyRuntimeTop(this._dragCache.pageY + this._feedbackDeltaY);
       }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      // Reset drag cache for next drag and drop session
-      if (this._dragCache)
-      {
-        this._dragCache.currentDropWidget = null;
-        this._dragCache = null;
-      }
-
-      // Cleanup data and actions
-      this._data = null;
-      this._actions = null;
-      this._actionNames = null;
-
-      this._lastDestinationEvent = null;
-
-      if (this._cursors)
-      {
-        if (this._cursors.move)
-        {
-          this._cursors.move.dispose();
-          delete this._cursors.move;
-        }
-
-        if (this._cursors.copy)
-        {
-          this._cursors.copy.dispose();
-          delete this._cursors.copy;
-        }
-
-        if (this._cursors.alias)
-        {
-          this._cursors.alias.dispose();
-          delete this._cursors.alias;
-        }
-
-        if (this._cursors.nodrop)
-        {
-          this._cursors.nodrop.dispose();
-          delete this._cursors.nodrop;
-        }
-
-        this._cursors = null;
-      }
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeDeep("_cursors", 1);
+    this._disposeObjects("_feedbackWidget");
+    this._disposeFields("_dragCache", "_data", "_actions", "_actionNames", "_lastDestinationEvent");
   }
 });

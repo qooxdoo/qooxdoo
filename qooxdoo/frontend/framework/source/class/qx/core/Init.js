@@ -302,36 +302,6 @@ qx.Class.define("qx.core.Init",
 
       // Dispose all qooxdoo objects
       qx.core.Object.dispose();
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Destructor
-     *
-     * @type member
-     * @return {void}
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      if (this._applicationInstance)
-      {
-        this._applicationInstance.dispose();
-        this._applicationInstance = null;
-      }
-
-      this.base(arguments);
     }
   },
 
@@ -348,6 +318,8 @@ qx.Class.define("qx.core.Init",
 
 
 
+
+
   /*
   *****************************************************************************
      DEFER
@@ -358,5 +330,18 @@ qx.Class.define("qx.core.Init",
   {
     // Force direct creation
     statics.getInstance();
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeObjects("_applicationInstance");
   }
 });
