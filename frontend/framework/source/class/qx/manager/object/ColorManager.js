@@ -305,12 +305,6 @@ qx.Class.define("qx.manager.object.ColorManager",
 
   settings :
   {
-    /*
-    ---------------------------------------------------------------------------
-      DEFAULT SETTINGS
-    ---------------------------------------------------------------------------
-    */
-
     "qx.colorTheme" : "qx.theme.color.WindowsRoyale"
   }
 });

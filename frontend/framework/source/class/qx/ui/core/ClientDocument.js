@@ -528,12 +528,6 @@ qx.Class.define("qx.ui.core.ClientDocument",
 
   settings :
   {
-    /*
-    ---------------------------------------------------------------------------
-      DEFAULT SETTINGS
-    ---------------------------------------------------------------------------
-    */
-
     "qx.enableApplicationLayout" : true,
     "qx.boxModelCorrection"      : true
   },

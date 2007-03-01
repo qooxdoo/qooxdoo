@@ -178,12 +178,6 @@ qx.Class.define("qx.manager.object.AppearanceManager",
 
   settings :
   {
-    /*
-    ---------------------------------------------------------------------------
-      DEFAULT SETTINGS
-    ---------------------------------------------------------------------------
-    */
-
     "qx.appearanceTheme" : "qx.theme.appearance.Classic"
   }
 });
