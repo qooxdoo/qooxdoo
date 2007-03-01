@@ -400,39 +400,26 @@ qx.Class.define("qx.client.Command",
       }
 
       return str.join("-");
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Destructor
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      this.__modifier = null;
-      this.__key = null;
-
-      var mgr = qx.event.handler.EventHandler.getInstance();
-
-      if (mgr) {
-        mgr.removeCommand(this);
-      }
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    var mgr = qx.event.handler.EventHandler.getInstance();
+
+    if (mgr) {
+      mgr.removeCommand(this);
+    }
+
+    this._disposeFields("__modifier", "__key");
   }
 });

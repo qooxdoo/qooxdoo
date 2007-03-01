@@ -29,9 +29,6 @@ qx.Class.define("qx.component.AbstractComponent",
   type : "abstract",
   extend : qx.core.Target,
 
-  construct : function() {
-    this.base(arguments);
-  },
 
 
 
@@ -86,22 +83,6 @@ qx.Class.define("qx.component.AbstractComponent",
      * @type member
      * @return {void}
      */
-    terminate : function() {},
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      return this.base(arguments);
-    }
+    terminate : function() {}
   }
 });

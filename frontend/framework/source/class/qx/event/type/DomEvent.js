@@ -260,33 +260,19 @@ qx.Class.define("qx.event.type.DomEvent",
 
         this.base(arguments, vValue);
       }
-    }),
+    })
+  },
 
 
 
 
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      this._valueDomEvent = null;
-      this._valueDomTarget = null;
-
-      return this.base(arguments);
-    }
+  destruct : function() {
+    this._disposeFields("_valueDomEvent", "_valueDomTarget");
   }
 });

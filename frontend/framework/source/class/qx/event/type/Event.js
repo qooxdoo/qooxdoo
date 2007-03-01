@@ -147,35 +147,19 @@ qx.Class.define("qx.event.type.Event",
      */
     stopPropagation : function() {
       this.setPropagationStopped(true);
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      this._valueOriginalTarget = null;
-      this._valueTarget = null;
-      this._valueRelatedTarget = null;
-      this._valueCurrentTarget = null;
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("_valueOriginalTarget", "_valueTarget", "_valueRelatedTarget", "_valueCurrentTarget");
   }
 });

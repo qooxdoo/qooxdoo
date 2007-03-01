@@ -840,6 +840,10 @@ qx.Class.define("qx.Class",
           // Added helper stuff to functions
           if (typeof member === "function")
           {
+            if (key == "dispose" && clazz.classname != "qx.core.Object") {
+              console.warn("Found old-style dispose in: " + clazz.classname);
+            }
+
             // Configure extend (named base here)
             if (superproto[key]) {
               member.base = superproto[key];

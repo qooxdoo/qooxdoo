@@ -24,11 +24,6 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.component.DummyApplication",
-{
-  extend : qx.component.AbstractApplication,
-
-  construct : function() {
-    this.base(arguments);
-  }
+qx.Class.define("qx.component.DummyApplication", {
+  extend : qx.component.AbstractApplication
 });
