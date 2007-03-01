@@ -431,7 +431,21 @@ qx.Class.define("apiviewer.ClassViewer",
         titleHtml += "Static ";
       }
 
-      titleHtml += "Class ";
+      switch (classNode.attributes.type)
+      {
+        case "mixin" :
+          titleHtml += "Mixin ";
+          break;
+          
+        case "interface" : 
+          titleHtml += "Interface ";
+          break;
+
+        default:
+          titleHtml += "Class ";
+          break;
+                        
+      }
       titleHtml += '</span>';
       titleHtml += classNode.attributes.name;
 
