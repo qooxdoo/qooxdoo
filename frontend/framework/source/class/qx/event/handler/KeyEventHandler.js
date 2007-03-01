@@ -579,36 +579,6 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
         qx.event.handler.EventHandler.getInstance()._onkeyevent_post(domEvent, "keypress", keyCode, charCode, keyIdentifier);
         qx.event.handler.EventHandler.getInstance()._onkeyevent_post(domEvent, "keyinput", keyCode, charCode, keyIdentifier);
       }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSE
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Destructor
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      // Detach keyboard events
-      this._detachEvents();
-
-      this._specialCharCodeMap = this._keyCodeToIdentifierMap = this._numpadToCharCode = null;
-      this._identifierToKeyCodeMap = this._lastUpDownType = this._keyCodeFix = null;
-
-      return this.base(arguments);
     }
   },
 
@@ -682,5 +652,22 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
         13    : members._identifierToKeyCode("Enter")
       };
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._detachEvents();
+    this._disposeFields("_specialCharCodeMap", "_keyCodeToIdentifierMap",
+      "_numpadToCharCode", "_identifierToKeyCodeMap", "_lastUpDownType",
+      "_keyCodeFix");
   }
 });
