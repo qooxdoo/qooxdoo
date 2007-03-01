@@ -21,30 +21,8 @@
 
 import sys, string, re, optparse
 import config, tokenizer, filetool, treegenerator, variableoptimizer, comment, tree
-import path
 
 KEY = re.compile("^[A-Za-z0-9_$]+$")
-
-opts = path.Path()  # create a new Path object, to capture various options
-# PRETTYPRINT OPTIONS
-# General
-opts.prettyp.indent.string            = "  "  # could be "\t" or similar
-
-# Curly Braces
-opts.prettyp.openCurly.newline.before = False # Force "{" on new lines
-#opts.prettyp.openCurly.newline.after  = True
-opts.prettyp.openCurly.indent.before  = False # indent before "{"
-#opts.prettyp.openCurly.indent.after   = True  # indent after "{"
-#opts.prettyp.closingCurly.newline.before   = True  # Force "}" on new lines
-
-# Comments
-#opts.prettyp.comments.TODOC           = True  # Insert TODOC block comments
-#opts.prettyp.comments.inline.keepColumn.p   = True # keep inline comments on
-                                                                                                        # their orig. column if possible
-#opts.prettyp.comments.inline.commentPadding = None # string before inline comment
-opts.prettyp.comments.inline.commentPadding = "  " # string before inline comment
-#opts.prettyp.comments.inline.commentCol._1  = 49   # first comment column
-#opts.prettyp.comments.inline.commentCol._2  = 60   # second comment column (add arbit. more)
 
 
 def compileToken(name, compact=False):
@@ -149,7 +127,7 @@ def write(txt=""):
     # add indent (if needed)
     if pretty and result.endswith("\n"):
         #result += (" " * (INDENTSPACES * indent))
-        result += (opts.prettyp.indent.string * indent)
+        result += (options.prettypIndentString * indent)
 
     # append given text
     result += txt
@@ -244,9 +222,9 @@ def commentNode(node):
                 commentIsInline = True
 
         if commentText != "":
-            if opts.prettyp.comments.inline.commentPadding:
+            if options.prettypCommentsInlinePadding:
                 commentText.strip()
-                commentText = opts.prettyp.comments.inline.commentPadding + commentText
+                commentText = options.prettypCommentsInlinePadding + commentText
             else:
                 space()
             ##space()
@@ -316,6 +294,9 @@ def compile(node, opts, enableBreaks=False, enableDebug=False):
     global afterDoc
     global afterDivider
     global afterArea
+    global options
+
+    options = opts
 
     indent       = 0
     result       = u""
@@ -331,7 +312,7 @@ def compile(node, opts, enableBreaks=False, enableDebug=False):
     if pretty:
         comment.fill(node)
 
-    compileNode(node)
+    compileNode(node,opts)
 
     if not result.endswith("\n"):
         result += "\n"
@@ -347,7 +328,7 @@ def compile(node, opts, enableBreaks=False, enableDebug=False):
 
 
 
-def compileNode(node):
+def compileNode(node,optns):
 
     global pretty
     global indent
@@ -433,7 +414,7 @@ def compileNode(node):
                     text = comment.qt2javadoc(text)
 
                 #write(comment.indent(text, INDENTSPACES * indent))
-                write(comment.indent(text, opts.prettyp.indent.string * indent))
+                write(comment.indent(text, optns.prettypIndentString * indent))
 
                 if singleLineBlock:
                     if docComment:
@@ -605,9 +586,9 @@ def compileNode(node):
             # insert a space before and no newline in the case of after comments
             if node.get("connection") == "after":
                 noline()
-                if opts.prettyp.comments.inline.commentPadding:
+                if optns.prettypCommentsInlinePadding:
                     commentText.strip()
-                    commentText = opts.prettyp.comments.inline.commentPadding + commentText
+                    commentText = optns.prettypCommentsInlinePadding + commentText
                 else:
                     space()
                 ##space()
@@ -800,10 +781,10 @@ def compileNode(node):
             if node.hasParent() and node.parent.type == "expression" and node.parent.parent.type == "return":
                 pass
 
-            elif node.isComplex() or opts.prettyp.openCurly.newline.before:
+            elif node.isComplex() or optns.prettypOpenCurlyNewlineBefore:
                 line()
 
-            if opts.prettyp.openCurly.indent.before:
+            if optns.prettypOpenCurlyIndentBefore:
                 plus()
 
         write("{")
@@ -863,12 +844,12 @@ def compileNode(node):
 
     elif node.type == "block":
         if pretty:
-            if node.isComplex() or opts.prettyp.openCurly.newline.before:
+            if node.isComplex() or optns.prettypOpenCurlyNewlineBefore:
                 line()
             else:
                 space()
 
-            if opts.prettyp.openCurly.indent.before:
+            if optns.prettypOpenCurlyIndentBefore:
                 plus()
 
         write("{")
@@ -1081,7 +1062,7 @@ def compileNode(node):
     if node.hasChildren():
         for child in node.children:
             if not node.type in ["commentsBefore", "commentsAfter"]:
-                compileNode(child)
+                compileNode(child,optns)
 
 
 
@@ -1235,7 +1216,7 @@ def compileNode(node):
         write("}")
 
         if pretty:
-                if opts.prettyp.openCurly.indent.before:
+                if optns.prettypOpenCurlyIndentBefore:
                     minus()
 
 
@@ -1257,7 +1238,7 @@ def compileNode(node):
             if pretty:
                 commentNode(node)
                 line()
-                if opts.prettyp.openCurly.indent.before:
+                if optns.prettypOpenCurlyIndentBefore:
                     minus()
 
         # Force a additinal line feed after each switch/try
@@ -1315,7 +1296,7 @@ def compileNode(node):
                 else:
                     line()
 
-            if opts.prettyp.openCurly.indent.before:
+            if optns.prettypOpenCurlyIndentBefore:
                 minus()
 
 
@@ -1382,7 +1363,7 @@ def compileNode(node):
             if pretty:
                 commentNode(node)
                 line()
-                if opts.prettyp.openCurly.indent.before:
+                if optns.prettypOpenCurlyIndentBefore:
                     plus()
 
 
@@ -1532,6 +1513,12 @@ def main():
     parser.add_option("-c", "--compress", action="store_true", dest="compress", help="Enable compression", default=False)
     parser.add_option("--optimize-variables", action="store_true", dest="optimizeVariables", default=False, help="Optimize variables. Reducing size.")
     parser.add_option("--encoding", dest="encoding", default="utf-8", metavar="ENCODING", help="Defines the encoding expected for input files.")
+    # Options for pretty printing
+    parser.add_option("--pretty-print-indent-string", dest="prettypIndentString", default="  ", help="String used for indenting source code; escapes possible (e.g. \"\\t\"; default: \"  \")")
+    parser.add_option("--pretty-print-newline-before-open-curly", action="store_true", dest="prettypOpenCurlyNewlineBefore", default=False, help="Force \"{\" to be on a new line (default: False)")
+    parser.add_option("--pretty-print-indent-before-open-curly", action="store_true", dest="prettypOpenCurlyIndentBefore", default=False, help="Indent \"{\" (default: False)")
+    parser.add_option("--pretty-print-inline-comment-padding", dest="prettypCommentsInlinePadding", default="  ", help="String used between the end of a statement and a trailing inline comment (default: \"  \")")
+
 
     (options, args) = parser.parse_args()
 
