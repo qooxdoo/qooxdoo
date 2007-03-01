@@ -30,6 +30,7 @@
 
 qx.Class.define("qx.ui.treefullcontrol.AbstractTreeElement",
 {
+  type : "abstract",
   extend : qx.ui.layout.BoxLayout,
 
 
@@ -630,53 +631,19 @@ qx.Class.define("qx.ui.treefullcontrol.AbstractTreeElement",
 
       this._indentObject.setHtml(vHtml.join(""));
       this._indentObject.setWidth((vMaxLevel - vMinLevel) * 19);
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {boolean | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return true;
-      }
-
-      if (this._indentObject)
-      {
-        this._indentObject.dispose();
-        this._indentObject = null;
-      }
-
-      if (this._iconObject)
-      {
-        this._iconObject.dispose();
-        this._iconObject = null;
-      }
-
-      if (this._labelObject)
-      {
-        this._labelObject.dispose();
-        this._labelObject = null;
-      }
-
-      this._previousParentFolder = null;
-
-      this.removeEventListener("mousedown", this._onmousedown);
-      this.removeEventListener("mouseup", this._onmouseup);
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeObjects("_indentObject", "_iconObject", "_labelObject", "_previousParentFolder");
   }
 });
