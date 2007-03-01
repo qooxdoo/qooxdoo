@@ -274,32 +274,6 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
         // show next menu
         vNextButton._showMenu(true);
       }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      this.removeEventListener("keypress", this._onkeypress);
-
-      return this.base(arguments);
     }
   }
 });
