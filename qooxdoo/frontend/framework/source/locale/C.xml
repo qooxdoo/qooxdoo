@@ -1077,6 +1077,8 @@
 						</quarterWidth>
 					</quarterContext>
 				</quarters>
+				<am>am</am>
+				<pm>pm</pm>				
 				<eras>
 					<eraNames>
 						<era type="0">Before Christ</era>
