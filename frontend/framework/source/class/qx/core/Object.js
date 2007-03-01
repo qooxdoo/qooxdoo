@@ -595,7 +595,7 @@ qx.Class.define("qx.core.Object",
             if (deep > 0)
             {
               // this.log("- Deep processing item '" + i + "'");
-              this.__disposeObject(entry, deep-1);
+              this.__disposeDeepRecurser(entry, deep-1);
             }
 
             // this.log("- Resetting key (object) '" + key + "'");
@@ -625,7 +625,7 @@ qx.Class.define("qx.core.Object",
             if (deep > 0)
             {
               // this.log("- Deep processing key '" + key + "'");
-              this.__disposeObject(entry, deep-1);
+              this.__disposeDeepRecurser(entry, deep-1);
             }
 
             // this.log("- Resetting key (object) '" + key + "'");
