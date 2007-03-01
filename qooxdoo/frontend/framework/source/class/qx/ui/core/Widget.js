@@ -100,79 +100,79 @@ qx.Class.define("qx.ui.core.Widget",
 
     /** (Fired by {@link qx.event.handler.EventHandler}) */
     "mouseover"       : "qx.event.type.MouseEvent",
-    
-    /** (Fired by {@link qx.event.handler.EventHandler}) */ 
+
+    /** (Fired by {@link qx.event.handler.EventHandler}) */
     "mousemove"       : "qx.event.type.MouseEvent",
-    
+
     /** (Fired by {@link qx.event.handler.EventHandler}) */
     "mouseout"        : "qx.event.type.MouseEvent",
-    
+
     /** (Fired by {@link qx.event.handler.EventHandler}) */
     "mousedown"       : "qx.event.type.MouseEvent",
-    
+
     /** (Fired by {@link qx.event.handler.EventHandler}) */
     "mouseup"         : "qx.event.type.MouseEvent",
-    
+
     /** (Fired by {@link qx.event.handler.EventHandler}) */
     "mousewheel"      : "qx.event.type.MouseEvent",
-    
+
     /** (Fired by {@link qx.event.handler.EventHandler}) */
     "click"           : "qx.event.type.MouseEvent",
-    
+
     /** (Fired by {@link qx.event.handler.EventHandler}) */
     "dblclick"        : "qx.event.type.MouseEvent",
-    
+
     /** (Fired by {@link qx.event.handler.EventHandler}) */
     "contextmenu"     : "qx.event.type.MouseEvent",
-    
+
     /** (Fired by {@link qx.event.handler.EventHandler}) */
     "keydown"         : "qx.event.type.KeyEvent",
-    
+
     /** (Fired by {@link qx.event.handler.EventHandler}) */
     "keypress"        : "qx.event.type.KeyEvent",
-    
+
     /** (Fired by {@link qx.event.handler.EventHandler}) */
     "keyinput"        : "qx.event.type.KeyEvent",
-    
+
     /** (Fired by {@link qx.event.handler.EventHandler}) */
     "keyup"           : "qx.event.type.KeyEvent",
-    
+
     /** (Fired by {@link qx.ui.core.Parent}) */
     "focusout"        : "qx.event.type.FocusEvent",
-    
+
     /** (Fired by {@link qx.ui.core.Parent}) */
     "focusin"         : "qx.event.type.FocusEvent",
-    
+
     /** (Fired by {@link qx.ui.core.Parent}) */
     "blur"            : "qx.event.type.FocusEvent",
-    
+
     /** (Fired by {@link qx.ui.core.Parent}) */
     "focus"           : "qx.event.type.FocusEvent",
-    
+
     /** (Fired by {@link qx.event.handler.DragAndDropHandler}) */
     "dragdrop"        : "qx.event.type.DragEvent",
-    
+
     /** (Fired by {@link qx.event.handler.DragAndDropHandler}) */
     "dragout"         : "qx.event.type.DragEvent",
-    
+
     /** (Fired by {@link qx.event.handler.DragAndDropHandler}) */
     "dragover"        : "qx.event.type.DragEvent",
-    
+
     /** (Fired by {@link qx.event.handler.DragAndDropHandler}) */
     "dragmove"        : "qx.event.type.DragEvent",
-    
+
     /** (Fired by {@link qx.event.handler.DragAndDropHandler}) */
     "dragstart"       : "qx.event.type.DragEvent",
-    
+
     /** (Fired by {@link qx.event.handler.DragAndDropHandler}) */
     "dragend"         : "qx.event.type.DragEvent",
-    
+
     /**
      * Inline event. The event must be enabled using <code>enableInlineEvent("scroll")</code>
      * before it can be used
      */
     "scroll"          : "qx.event.type.Event",
-    
+
     /**
      * Inline event. The event must be enabled using <code>enableInlineEvent("input")</code>
      * before it can be used
@@ -7467,77 +7467,6 @@ qx.Class.define("qx.ui.core.Widget",
     {
       var op = this.getFadeUnit() * this.getFadeCounter() / 100;
       return (op);
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      var vElement = this.getElement();
-
-      if (vElement)
-      {
-        this._removeInlineEvents(vElement);
-
-        delete this._isCreated;
-
-        vElement.qx_Widget = null;
-
-        this._element = null;
-        this._style = null;
-      }
-
-      this._inlineEvents = null;
-      this._element = null;
-      this._style = null;
-      this._borderElement = null;
-      this._borderStyle = null;
-      this._oldParent = null;
-
-      // should be enough to remove the hashTables
-      delete this._styleProperties;
-      delete this._htmlProperties;
-      delete this._htmlAttributes;
-      delete this._states;
-
-      // remove queue content
-      for (var i in this._jobQueue) {
-        delete this._jobQueue[i];
-      }
-
-      delete this._jobQueue;
-
-      for (var i in this._layoutChanges) {
-        delete this._layoutChanges[i];
-      }
-
-      delete this._layoutChanges;
-
-      // dispose the fader
-      if (this._fadeTimer)
-      {
-        this._fadeTimer.dispose();
-        this._fadeTimer = null;
-      }
-
-      return this.base(arguments);
     }
   },
 
@@ -7555,6 +7484,14 @@ qx.Class.define("qx.ui.core.Widget",
     "qx.widgetQueueDebugging" : false
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
 
   defer : function(statics, members)
   {
@@ -7633,11 +7570,34 @@ qx.Class.define("qx.ui.core.Widget",
         };
       }
     }
+  },
 
+
+
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCT
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    var vElement = this.getElement();
+
+    if (vElement)
+    {
+      this._removeInlineEvents(vElement);
+      vElement.qx_Widget = null;
+    }
+
+    this._disposeObjects("_fadeTimer");
+    this._disposeFields("_isCreated", "_inlineEvents", "_element", "_style",
+      "_borderElement", "_borderStyle", "_oldParent", "_styleProperties",
+      "_htmlProperties", "_htmlAttributes", "_states", "_jobQueue",
+      "_layoutChanges");
   }
-
 });
-
-
-
-

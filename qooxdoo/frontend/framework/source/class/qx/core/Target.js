@@ -148,7 +148,6 @@ qx.Class.define("qx.core.Target",
           this.warn("qx.core.Target: addEventListener(" + type + "): '" + func + "' is not a function!");
           return;
         }
-
       }
 
       // If this is the first event of given type, we need to create a subobject
@@ -363,22 +362,8 @@ qx.Class.define("qx.core.Target",
   *****************************************************************************
   */
 
-  destruct : function(obj)
+  destruct : function()
   {
-    if (this.__listeners)
-    {
-      for (var type in this.__listeners)
-      {
-        var listener = this.__listeners[type];
-
-        for (var key in listener) {
-          listener[key] = null;
-        }
-
-        this.__listeners[type] = null;
-      }
-
-      this.__listeners = null;
-    }
+    this._disposeDeep("__listeners", 2);
   }
 });
