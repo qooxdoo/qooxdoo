@@ -73,7 +73,8 @@ qx.Class.define("qx.event.handler.EventHandler",
   *****************************************************************************
   */
 
-  events : {
+  events :
+  {
      /**
       * Fired when an exception was thrown when dispatching the event to the listeners.
       * The event's property "data" holds the exception.
@@ -1275,56 +1276,28 @@ qx.Class.define("qx.event.handler.EventHandler",
     {
       // Send resize event to client document
       qx.ui.core.ClientDocument.getInstance().createDispatchEvent("windowresize");
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSE
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      // Detach mouse events
-      this.detachEvents();
-
-      // Reset functions
-      this.__onmouseevent = this.__ondragevent = this.__onselectevent = null;
-      this.__onwindowblur = this.__onwindowfocus = this.__onwindowresize = null;
-
-      // Cleanup
-      this._lastMouseEventType = null;
-      this._lastMouseDown = null;
-      this._lastMouseEventDate = null;
-
-      this._lastMouseDownDomTarget = null;
-      this._lastMouseDownDispatchTarget = null;
-
-      if (this._commands)
-      {
-        for (var vHash in this._commands)
-        {
-          this._commands[vHash].dispose();
-          delete this._commands[vHash];
-        }
-
-        this._commands = null;
-      }
-
-      this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this.detachEvents();
+
+    this._disposeDeep("_commands", 1);
+
+    this._disposeFields("__onmouseevent", "__ondragevent", "__onselectevent",
+      "__onwindowblur", "__onwindowfocus", "__onwindowresize");
+
+    this._disposeFields("_lastMouseEventType", "_lastMouseDown", "_lastMouseEventDate",
+      "_lastMouseDownDomTarget", "_lastMouseDownDispatchTarget");
   }
 });
