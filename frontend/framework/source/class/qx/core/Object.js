@@ -161,8 +161,16 @@ qx.Class.define("qx.core.Object",
       {
         vObject = qx.core.Object.__db[i];
 
-        if (vObject && vObject.__disposed === false) {
-          vObject.dispose();
+        if (vObject && vObject.__disposed === false)
+        {
+          try
+          {
+            vObject.dispose();
+          }
+          catch(ex)
+          {
+            qx.core.Bootstrap.alert("Could not dispose: " + vObject + ": " + ex);
+          }
         }
       }
 
@@ -204,13 +212,8 @@ qx.Class.define("qx.core.Object",
               }
             }
           }
-        }
-      }
 
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (qx.core.Setting.get("qx.disposerDebugging")) {
-          qx.core.Bootstrap.alert("Disposing qooxdoo done in " + (new Date() - disposeStart) + "ms");
+          qx.core.Bootstrap.alert("Disposing done in " + (new Date() - disposeStart) + "ms");
         }
       }
     },
@@ -500,8 +503,13 @@ qx.Class.define("qx.core.Object",
     },
 
 
-
-    _disposeFields : function()
+    /**
+     * Disconnects given fields from instance.
+     *
+     * @type member
+     * @param varargs {arguments} fields to dispose
+     */
+    _disposeFields : function(varargs)
     {
       var name;
 
@@ -515,7 +523,13 @@ qx.Class.define("qx.core.Object",
 
         if (!this.hasOwnProperty(name))
         {
-          this.warn(this.classname + " has no own field " + name);
+          if (qx.core.Variant.isSet("qx.debug", "on"))
+          {
+            if (qx.core.Setting.get("qx.disposerDebugging")) {
+              qx.core.Bootstrap.alert(this.classname + " has no own field " + name);
+            }
+          }
+
           continue;
         }
 
@@ -523,6 +537,14 @@ qx.Class.define("qx.core.Object",
       }
     },
 
+
+    /**
+     * Disconnects and disposes given objects from instance.
+     * Only works with qx.core.Object based objects e.g. Widgets.
+     *
+     * @type member
+     * @param varargs {arguments} fields to dispose
+     */
     _disposeObjects : function()
     {
       var name;
@@ -537,7 +559,13 @@ qx.Class.define("qx.core.Object",
 
         if (!this.hasOwnProperty(name))
         {
-          this.warn(this.classname + " has no own field " + name);
+          if (qx.core.Variant.isSet("qx.debug", "on"))
+          {
+            if (qx.core.Setting.get("qx.disposerDebugging")) {
+              qx.core.Bootstrap.alert(this.classname + " has no own field " + name);
+            }
+          }
+
           continue;
         }
 
@@ -546,36 +574,68 @@ qx.Class.define("qx.core.Object",
       }
     },
 
+    /**
+     * Disconnects given field deeply from object.
+     *
+     * @type member
+     * @param name {String} field name to dispose
+     * @param deep {Number} how deep to following sub objects. Deep=0 means
+     *   just the object and all its keys. Deep=1 also dispose deletes the
+     *   objects object content.
+     */
     _disposeDeep : function(name, deep)
     {
       var name;
 
-      if (this[name] == null)
-      {
-        // this.warn("Ignore: " + name);
+      if (this[name] == null) {
         return;
       }
 
       if (!this.hasOwnProperty(name))
       {
-        this.warn(this.classname + " has no own field " + name);
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
+          if (qx.core.Setting.get("qx.disposerDebugging")) {
+            qx.core.Bootstrap.alert(this.classname + " has no own field " + name);
+          }
+        }
+
         return;
       }
 
-      // this.log("Dispose Deep: " + name);
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (qx.core.Setting.get("qx.disposerDebugging")) {
+          qx.core.Bootstrap.alert("Dispose Deep: " + name);
+        }
+      }
 
       this.__disposeDeepRecurser(this[name], deep || 0);
       this[name] = null;
-
-      // this.log("Dispose Deep: " + name + " DONE!!!!");
     },
 
 
+    /**
+     * Helper method for _disposeDeep. Do the recursive work.
+     *
+     * @type member
+     * @param obj {Object} object to dispose
+     * @param deep {Number} how deep to following sub objects. Deep=0 means
+     *   just the object and all its keys. Deep=1 also dispose deletes the
+     *   objects object content.
+     */
     __disposeDeepRecurser : function(obj, deep)
     {
       // qooxdoo
       if (obj instanceof qx.core.Object)
       {
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
+          if (qx.core.Setting.get("qx.disposerDebugging")) {
+            qx.core.Bootstrap.alert("Sending dispose to " + obj.classname);
+          }
+        }
+
         obj.dispose();
       }
 
@@ -594,16 +654,34 @@ qx.Class.define("qx.core.Object",
           {
             if (deep > 0)
             {
-              // this.log("- Deep processing item '" + i + "'");
+              if (qx.core.Variant.isSet("qx.debug", "on"))
+              {
+                if (qx.core.Setting.get("qx.disposerDebugging")) {
+                  qx.core.Bootstrap.alert("- Deep processing item '" + i + "'");
+                }
+              }
+
               this.__disposeDeepRecurser(entry, deep-1);
             }
 
-            // this.log("- Resetting key (object) '" + key + "'");
+            if (qx.core.Variant.isSet("qx.debug", "on"))
+            {
+              if (qx.core.Setting.get("qx.disposerDebugging")) {
+                qx.core.Bootstrap.alert("- Resetting key (object) '" + key + "'");
+              }
+            }
+
             obj[i] = null;
           }
           else if (typeof entry == "function")
           {
-            // this.log("- Resetting key (function) '" + key + "'");
+            if (qx.core.Variant.isSet("qx.debug", "on"))
+            {
+              if (qx.core.Setting.get("qx.disposerDebugging")) {
+                qx.core.Bootstrap.alert("- Resetting key (function) '" + key + "'");
+              }
+            }
+
             obj[i] = null;
           }
         }
@@ -624,16 +702,34 @@ qx.Class.define("qx.core.Object",
           {
             if (deep > 0)
             {
-              // this.log("- Deep processing key '" + key + "'");
+              if (qx.core.Variant.isSet("qx.debug", "on"))
+              {
+                if (qx.core.Setting.get("qx.disposerDebugging")) {
+                  qx.core.Bootstrap.alert("- Deep processing key '" + key + "'");
+                }
+              }
+
               this.__disposeDeepRecurser(entry, deep-1);
             }
 
-            // this.log("- Resetting key (object) '" + key + "'");
+            if (qx.core.Variant.isSet("qx.debug", "on"))
+            {
+              if (qx.core.Setting.get("qx.disposerDebugging")) {
+                qx.core.Bootstrap.alert("- Resetting key (object) '" + key + "'");
+              }
+            }
+
             obj[key] = null;
           }
           else if (typeof entry == "function")
           {
-            // this.log("- Resetting key (function) '" + key + "'");
+            if (qx.core.Variant.isSet("qx.debug", "on"))
+            {
+              if (qx.core.Setting.get("qx.disposerDebugging")) {
+                qx.core.Bootstrap.alert("- Resetting key (function) '" + key + "'");
+              }
+            }
+
             obj[key] = null;
           }
         }
@@ -653,8 +749,15 @@ qx.Class.define("qx.core.Object",
         return;
       }
 
-      this.debug("Disposing...");
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (qx.core.Setting.get("qx.disposerDebugging"))
+        {
+          qx.core.Bootstrap.alert("Disposing " + this.classname + "[" + this.toHashCode() + "]");
+        }
+      }
 
+      // Deconstructor support
       var clazz = this.constructor;
 
       while (clazz != qx.core.Object)
@@ -679,10 +782,6 @@ qx.Class.define("qx.core.Object",
 
         clazz = clazz.superclass;
       }
-
-
-
-
 
       // Dispose user data
       if (this._userData)
