@@ -177,5 +177,18 @@ qx.Class.define("qx.client.History",
 
       qx.ui.core.Widget.flushGlobalQueues();
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("__iframe");
   }
 });

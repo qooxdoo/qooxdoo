@@ -265,32 +265,19 @@ qx.Class.define("qx.event.type.DragEvent",
      */
     setCursorPosition : function(deltaX, deltaY) {
       qx.event.handler.DragAndDropHandler.getInstance().setCursorPosition(deltaX, deltaY);
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      this._mouseEvent = null;
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("_mouseEvent");
   }
 });

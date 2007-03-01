@@ -653,7 +653,7 @@ qx.Class.define("qx.core.Object",
         return;
       }
 
-      this.debug("Disposing " + this.classname + "[" + this.toHashCode() + "]");
+      this.debug("Disposing...");
 
       var clazz = this.constructor;
 

@@ -32,10 +32,6 @@ qx.Class.define("qx.component.init.AbstractInitComponent",
   type : "abstract",
   extend : qx.component.AbstractComponent,
 
-  construct : function() {
-    this.base(arguments);
-  },
-
 
 
 

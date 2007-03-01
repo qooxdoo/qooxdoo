@@ -27,9 +27,5 @@
 qx.Class.define("qx.component.AbstractApplication",
 {
   type : "abstract",
-  extend : qx.component.AbstractComponent,
-
-  construct : function() {
-    this.base(arguments);
-  }
+  extend : qx.component.AbstractComponent
 });

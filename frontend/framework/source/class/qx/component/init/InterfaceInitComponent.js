@@ -28,10 +28,6 @@ qx.Class.define("qx.component.init.InterfaceInitComponent",
 {
   extend : qx.component.init.BasicInitComponent,
 
-  construct : function() {
-    this.base(arguments);
-  },
-
 
 
 
@@ -220,32 +216,19 @@ qx.Class.define("qx.component.init.InterfaceInitComponent",
     {
       this.initialize();
       this.main();
-    },
-
-    // Note: finalize will be called through image preloader
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      this._preloadDone = null;
-      this._uiReady = null;
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("_preloadDone", "_uiReady");
   }
 });

@@ -28,10 +28,6 @@ qx.Class.define("qx.component.init.BasicInitComponent",
 {
   extend : qx.component.init.AbstractInitComponent,
 
-  construct : function() {
-    this.base(arguments);
-  },
-
 
 
 

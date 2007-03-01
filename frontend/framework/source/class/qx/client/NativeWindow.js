@@ -795,52 +795,36 @@ qx.Class.define("qx.client.NativeWindow",
         obj._loaded = true;
         obj.createDispatchEvent("load");
       }
-    },
+    }
+  },
 
 
 
 
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
+  destruct : function()
+  {
+    if (this.getDependent()) {
+      this.close();
+    }
+
+    this._disposeObjects("_timer");
+
+    if (this._window)
     {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      if (this.getDependent()) {
-        this.close();
-      }
-
-      if (this._timer)
+      try
       {
-        this._timer.stop();
-        this._timer = null;
+        this._window._native = null;
+        this._window.onload = null;
       }
+      catch(ex) {}
 
-      if (this._window)
-      {
-        try
-        {
-          this._window._native = null;
-          this._window.onload = null;
-        }
-        catch(ex) {}
-
-        this._window = null;
-      }
-
-      return this.base(arguments);
+      this._window = null;
     }
   }
 });

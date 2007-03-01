@@ -29,9 +29,10 @@
  *
  * Convenience functions to use the logging system of qooxdoo.
  */
-qx.Mixin.define("qx.log.MLogging", {
-  members: {
-
+qx.Mixin.define("qx.log.MLogging",
+{
+  members:
+  {
     /**
      * Returns the logger of this class.
      *
@@ -52,7 +53,7 @@ qx.Mixin.define("qx.log.MLogging", {
      * @return {void}
      */
     debug : function(msg, exc) {
-      this.getLogger().debug(msg, this._hashCode, exc);
+      this.getLogger().debug(msg, this.toHashCode(), exc);
     },
 
     /**
@@ -65,7 +66,7 @@ qx.Mixin.define("qx.log.MLogging", {
      * @return {void}
      */
     info : function(msg, exc) {
-      this.getLogger().info(msg, this._hashCode, exc);
+      this.getLogger().info(msg, this.toHashCode(), exc);
     },
 
     /**
@@ -78,7 +79,7 @@ qx.Mixin.define("qx.log.MLogging", {
      * @return {void}
      */
     warn : function(msg, exc) {
-      this.getLogger().warn(msg, this._hashCode, exc);
+      this.getLogger().warn(msg, this.toHashCode(), exc);
     },
 
     /**
@@ -91,8 +92,7 @@ qx.Mixin.define("qx.log.MLogging", {
      * @return {void}
      */
     error : function(msg, exc) {
-      this.getLogger().error(msg, this._hashCode, exc);
+      this.getLogger().error(msg, this.toHashCode(), exc);
     }
   }
 });
-

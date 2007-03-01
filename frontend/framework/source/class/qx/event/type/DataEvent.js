@@ -70,27 +70,11 @@ qx.Class.define("qx.event.type.DataEvent",
 
   /*
   *****************************************************************************
-     MEMBERS
+     DESTRUCTOR
   *****************************************************************************
   */
 
-  members :
-  {
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      this._valueData = null;
-
-      return this.base(arguments);
-    }
+  destruct : function() {
+    this._disposeFields("_valueData");
   }
 });

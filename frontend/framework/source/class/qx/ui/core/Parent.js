@@ -1505,68 +1505,6 @@ qx.Class.define("qx.ui.core.Parent",
         s = t[i];
         this[s] = new Function(qx.ui.core.Parent.prototype._remapStart + s + qx.ui.core.Parent.prototype._remapStop);
       }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      if (this._layoutImpl)
-      {
-        this._layoutImpl.dispose();
-        this._layoutImpl = null;
-      }
-
-      for (var i in this._childrenQueue) {
-        delete this._childrenQueue[i];
-      }
-
-      this._childrenQueue = null;
-      this._remappingChildTable = null;
-      this._remappingChildTarget = null;
-
-      if (this._children)
-      {
-        var chl = this._children.length;
-
-        for (var i=chl-1; i>=0; i--)
-        {
-          this._children[i].dispose();
-          this._children[i] = null;
-        }
-
-        this._children = null;
-      }
-
-      delete this._cachedVisibleChildren;
-
-      // Remove Key Handler
-      if (this.getFocusHandler())
-      {
-        this.removeEventListener("keydown", this._onfocuskeyevent);
-        this.removeEventListener("keypress", this._onfocuskeyevent);
-
-        this.forceFocusHandler(null);
-      }
-
-      return this.base(arguments);
     }
   },
 
@@ -1604,7 +1542,22 @@ qx.Class.define("qx.ui.core.Parent",
         return vRet;
       };
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeDeep("_children", 1);
+    this._disposeObjects("_layoutImpl");
+    this._disposeFields("_childrenQueue", "_childrenQueue", "_remappingChildTable",
+      "_remappingChildTarget", "_cachedVisibleChildren");
   }
 });
-
-
