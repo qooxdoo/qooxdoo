@@ -183,32 +183,19 @@ qx.Class.define("qx.type.Version",
      */
     getRev : function() {
       return this.__rev;
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Destructor
-     *
-     * @type member
-     * @return {void}
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      this.__major = this.__minor = this.__rev = null;
-
-      this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("__major", "__minor", "__rev");
   }
 });

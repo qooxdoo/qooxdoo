@@ -313,6 +313,5 @@ qx.Class.define("qx.util.format.NumberFormat",
 
       return parseFloat(asStr);
     }
-
   }
 });

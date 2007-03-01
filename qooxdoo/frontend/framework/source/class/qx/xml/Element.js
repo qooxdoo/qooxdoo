@@ -49,8 +49,8 @@ qx.Class.define("qx.xml.Element",
      * @param element {Element | Document} The root of the subtree to be serialized. This could be any node, including a Document.
      * @return {String} TODOC
      */
-    serialize : qx.lang.Object.select(window.XMLSerializer ? "hasXMLSerializer" : "noXMLSerializer", {
-
+    serialize : qx.lang.Object.select(window.XMLSerializer ? "hasXMLSerializer" : "noXMLSerializer",
+    {
       "hasXMLSerializer": function(element)
       {
         var element = qx.xml.Document.isDocument(element) ? element.documentElement : element;
@@ -73,8 +73,8 @@ qx.Class.define("qx.xml.Element",
      * @param query {String} XPath query
      * @return {Element} first matching element
      */
-    selectSingleNode : qx.core.Variant.select("qx.client", {
-
+    selectSingleNode : qx.core.Variant.select("qx.client",
+    {
       "default": qx.lang.Object.select(window.XPathEvaluator ? "hasXPath" : "noXPath", {
         "hasXPath": function(element, query)
         {
@@ -103,8 +103,8 @@ qx.Class.define("qx.xml.Element",
      * @param query {String} XPath query
      * @return {Element[]} List of matching elements
      */
-    selectNodes : qx.core.Variant.select("qx.client", {
-
+    selectNodes : qx.core.Variant.select("qx.client",
+    {
       "default": qx.lang.Object.select(window.XPathEvaluator ? "hasXPath" : "noXPath", {
         "hasXPath": function(element, query)
         {
