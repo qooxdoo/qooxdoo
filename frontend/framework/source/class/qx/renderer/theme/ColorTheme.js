@@ -136,7 +136,7 @@ qx.Class.define("qx.renderer.theme.ColorTheme",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     compile : function()
     {
@@ -157,7 +157,7 @@ qx.Class.define("qx.renderer.theme.ColorTheme",
      *
      * @type member
      * @param vName {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _compileValue : function(vName)
     {
@@ -174,33 +174,19 @@ qx.Class.define("qx.renderer.theme.ColorTheme",
      */
     _register : function() {
       return qx.manager.object.ColorManager.getInstance().registerTheme(this);
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void} 
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      delete this._colors;
-      delete this._compiledColors;
-
-      qx.core.Object.prototype.dispose.call(this);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("_colors", "_compiledColors");
   }
 });

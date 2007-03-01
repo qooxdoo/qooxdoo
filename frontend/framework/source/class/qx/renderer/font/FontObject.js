@@ -105,39 +105,19 @@ qx.Class.define("qx.renderer.font.FontObject",
           vCurrent._updateFont(vEdge);
         }
       }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      if (typeof this._dependentObjects === "object")
-      {
-        for (vKey in this._dependentObjects) {
-          delete this._dependentObjects[vKey];
-        }
-
-        delete this._dependentObjects;
-      }
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeDeep("_dependentObjects", 0);
   }
 });

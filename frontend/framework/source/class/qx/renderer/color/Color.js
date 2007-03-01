@@ -760,41 +760,19 @@ qx.Class.define("qx.renderer.color.Color",
       }
 
       return this._value = vInValue;
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {boolean | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return true;
-      }
-
-      delete this._value;
-      delete this._style;
-
-      delete this._red;
-      delete this._green;
-      delete this._blue;
-
-      delete this._isRgbColor;
-      delete this._isHtmlColor;
-      delete this._isThemedColor;
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("_value", "_style", "_red", "_green", "_blue", "_isRgbColor", "_isHtmlColor", "_isThemedColor");
   }
 });

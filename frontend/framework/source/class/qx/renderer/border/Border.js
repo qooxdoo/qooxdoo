@@ -1452,81 +1452,30 @@ qx.Class.define("qx.renderer.border.Border",
         this._defsX.borderLeft = this._generateDefString(vLeftWidth, vLeftStyle, vLeftColor);
         this._needsCompilationLeft = false;
       }
-    }),
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      if (typeof this._defsX === "object")
-      {
-        for (var i in this._defsX) {
-          delete this._defsX[i];
-        }
-      }
-
-      delete this._defsX;
-
-      if (typeof this._defsY === "object")
-      {
-        for (var i in this._defsY) {
-          delete this._defsY[i];
-        }
-      }
-
-      delete this._defsY;
-
-      if (typeof this._enhancedDefsX === "object")
-      {
-        for (var i in this._enhancedDefsX) {
-          delete this._enhancedDefsX[i];
-        }
-      }
-
-      delete this._enhancedDefsX;
-
-      if (typeof this._enhancedDefsY === "object")
-      {
-        for (var i in this._enhancedDefsY) {
-          delete this._enhancedDefsY[i];
-        }
-      }
-
-      delete this._enhancedDefsY;
-
-      delete this._themedEdges;
-
-      return this.base(arguments);
-    }
+    })
   },
 
   defer : qx.core.Variant.select("qx.client",
   {
-    "gecko": function(statics, members)
+    "default" : function() {},
+    "gecko" : function(statics, members)
     {
       // set up alias
       members.applyWidgetX = members.applyWidgetXCommon;
       members.applyWidgetY = members.applyWidgetYCommon;
-    },
-
-    "default": function() {
     }
-  })
+  }),
 
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("_defsX", "_defsY", "_enhancedDefsX", "_enhancedDefsY", "_themedEdges");
+  }
 });

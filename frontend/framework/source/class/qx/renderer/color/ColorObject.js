@@ -107,7 +107,7 @@ qx.Class.define("qx.renderer.color.ColorObject",
      *
      * @type member
      * @param vTheme {var} TODOC
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     _updateTheme : function(vTheme)
@@ -125,7 +125,7 @@ qx.Class.define("qx.renderer.color.ColorObject",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _applyThemedValue : function()
     {
@@ -148,7 +148,7 @@ qx.Class.define("qx.renderer.color.ColorObject",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _syncObjects : function()
     {
@@ -163,7 +163,7 @@ qx.Class.define("qx.renderer.color.ColorObject",
      *
      * @type member
      * @param vValue {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setValue : function(vValue)
     {
@@ -185,7 +185,7 @@ qx.Class.define("qx.renderer.color.ColorObject",
      *
      * @type member
      * @param vObject {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     add : function(vObject) {
       this._dependentObjects[vObject.toHashCode()] = vObject;
@@ -197,43 +197,23 @@ qx.Class.define("qx.renderer.color.ColorObject",
      *
      * @type member
      * @param vObject {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     remove : function(vObject) {
       delete this._dependentObjects[vObject.toHashCode()];
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {boolean | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return true;
-      }
-
-      if (this._dependentObjects)
-      {
-        for (var i in this._dependentObjects) {
-          delete this._dependentObjects[i];
-        }
-
-        delete this._dependentObjects;
-      }
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeDeep("_dependentObjects", 0);
   }
 });
