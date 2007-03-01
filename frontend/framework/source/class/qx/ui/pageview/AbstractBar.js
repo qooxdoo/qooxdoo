@@ -142,38 +142,6 @@ qx.Class.define("qx.ui.pageview.AbstractBar",
      */
     getWheelDelta : function(e) {
       return e.getWheelDelta();
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      if (this._manager)
-      {
-        this._manager.dispose();
-        this._manager = null;
-      }
-
-      this.removeEventListener("mousewheel", this._onmousewheel);
-
-      return this.base(arguments);
     }
   },
 
