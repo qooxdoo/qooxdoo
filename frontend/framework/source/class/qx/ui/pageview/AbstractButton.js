@@ -25,6 +25,7 @@
 
 qx.Class.define("qx.ui.pageview.AbstractButton",
 {
+  type : "abstract",
   extend : qx.ui.basic.Atom,
 
 
@@ -330,43 +331,6 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
      * @param e {Event} TODOC
      * @return {void}
      */
-    _onkeypress : function(e) {},
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-     */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      // ************************************************************************
-      //   MOUSE EVENTS
-      // ************************************************************************
-      this.removeEventListener("mouseover", this._onmouseover);
-      this.removeEventListener("mouseout", this._onmouseout);
-      this.removeEventListener("mousedown", this._onmousedown);
-
-      // ************************************************************************
-      //   KEY EVENTS
-      // ************************************************************************
-      this.removeEventListener("keydown", this._onkeydown);
-      this.removeEventListener("keypress", this._onkeypress);
-
-      return this.base(arguments);
-    }
+    _onkeypress : function(e) {}
   }
 });

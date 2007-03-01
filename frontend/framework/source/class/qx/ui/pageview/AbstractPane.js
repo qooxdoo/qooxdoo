@@ -25,18 +25,6 @@
 
 qx.Class.define("qx.ui.pageview.AbstractPane",
 {
-  extend : qx.ui.layout.CanvasLayout,
-
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function() {
-    this.base(arguments);
-  }
+  type : "abstract",
+  extend : qx.ui.layout.CanvasLayout
 });
