@@ -25,6 +25,7 @@
 
 qx.Class.define("qx.ui.pageview.AbstractPage",
 {
+  type : "abstract",
   extend : qx.ui.layout.CanvasLayout,
 
 

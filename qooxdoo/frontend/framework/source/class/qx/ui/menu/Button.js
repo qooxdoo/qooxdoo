@@ -465,58 +465,19 @@ qx.Class.define("qx.ui.menu.Button",
      */
     _onmouseup : function(e) {
       this.execute();
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      // Dispose children
-      if (this._iconObject)
-      {
-        this._iconObject.dispose();
-        this._iconObject = null;
-      }
-
-      if (this._labelObject)
-      {
-        this._labelObject.dispose();
-        this._labelObject = null;
-      }
-
-      if (this._shortcutObject)
-      {
-        this._shortcutObject.dispose();
-        this._shortcutObject = null;
-      }
-
-      if (this._arrowObject)
-      {
-        this._arrowObject.dispose();
-        this._arrowObject = null;
-      }
-
-      // Remove event listeners
-      this.removeEventListener("mouseup", this._onmouseup);
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeObjects("_iconObject", "_labelObject", "_shortcutObject", "_arrowObject");
   }
 });

@@ -342,39 +342,21 @@ qx.Class.define("qx.ui.listview.Header",
       delete this._resizeTarget;
       delete this._resizeStart;
       delete this._resizeCell;
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      this._cleanupResizing();
-
-      this.removeEventListener("mousemove", this._onmousemove);
-      this.removeEventListener("mousedown", this._onmousedown);
-      this.removeEventListener("mouseup", this._onmouseup);
-      this.removeEventListener("mouseout", this._onmouseout);
-
-      this._columns = null;
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._cleanupResizing();
+    this._columns = null;
   }
 });

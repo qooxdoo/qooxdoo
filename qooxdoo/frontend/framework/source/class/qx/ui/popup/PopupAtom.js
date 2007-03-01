@@ -67,28 +67,19 @@ qx.Class.define("qx.ui.popup.PopupAtom",
      */
     getAtom : function() {
       return this._atom;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      if (this._atom)
-      {
-        this._atom.dispose();
-        this._atom = null;
-      }
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeObjects("_atom");
   }
 });

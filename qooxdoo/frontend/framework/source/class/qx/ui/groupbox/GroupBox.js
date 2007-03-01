@@ -209,42 +209,19 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      */
     getIcon : function() {
       this._legendObject.getIcon();
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {boolean | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return true;
-      }
-
-      if (this._legendObject)
-      {
-        this._legendObject.dispose();
-        this._legendObject = null;
-      }
-
-      if (this._frameObject)
-      {
-        this._frameObject.dispose();
-        this._frameObject = null;
-      }
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeObjects("_legendObject", "_frameObject");
   }
 });

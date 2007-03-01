@@ -309,54 +309,21 @@ qx.Class.define("qx.ui.listview.HeaderCell",
 
       this.setSortOrder(this.getNextSortOrder());
       e.stopPropagation();
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      delete this._config;
-
-      if (this._spacer)
-      {
-        this._spacer.dispose();
-        this._spacer = null;
-      }
-
-      if (this._arrowup)
-      {
-        this._arrowup.dispose();
-        this._arrowup = null;
-      }
-
-      if (this._arrowdown)
-      {
-        this._arrowdown.dispose();
-        this._arrowdown = null;
-      }
-
-      this.removeEventListener("mouseup", this._onmouseup);
-      this.removeEventListener("mouseover", this._onmouseover);
-      this.removeEventListener("mouseout", this._onmouseout);
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeObjects("_spacer", "_arrowup", "_arrowdown");
+    this._disposeFields("_config");
   }
 });

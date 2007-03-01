@@ -521,28 +521,19 @@ qx.Class.define("qx.ui.resizer.Resizer",
 
       // stop event
       e.stopPropagation();
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {boolean | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return true;
-      }
-
-      if (this._frame)
-      {
-        this._frame.dispose();
-        this._frame = null;
-      }
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeObjects("_frame");
   }
 });
