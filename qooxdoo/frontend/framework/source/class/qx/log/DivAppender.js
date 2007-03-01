@@ -255,30 +255,24 @@ qx.Class.define("qx.log.DivAppender",
         this._logElem.firstChild.className = "";
         this._logElem.firstChild.innerHTML = "(" + this._removedMessageCount + " messages removed)";
       }
-    },
-
-    // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {boolean | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return true;
-      }
-
-      if (this._clearBt)
-      {
-        this._clearBt.onclick = null;
-        this._clearBt = null;
-      }
-
-      this._logElem = null;
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    if (this._clearBt) {
+      this._clearBt.onclick = null;
+    }
+
+    this._disposeFields("_clearBt", "_logElem");
   }
 });

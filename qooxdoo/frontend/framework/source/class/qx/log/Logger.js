@@ -176,25 +176,6 @@ qx.Class.define("qx.log.Logger",
   members :
   {
     /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      this._parentLogger = null;
-      this._appenderArr = null;
-
-      return this.base(arguments);
-    },
-
-
-    /**
      * Returns the name of this logger. (Normally a class or package name)
      *
      * @type member
@@ -529,11 +510,24 @@ qx.Class.define("qx.log.Logger",
   *****************************************************************************
   */
 
-  defer : function(statics) {
+  defer : function(statics)
+  {
     statics.ROOT_LOGGER = new statics("root", null);
     statics.ROOT_LOGGER.setMinLevel(qx.core.Setting.get("qx.minLogLevel"));
     statics.ROOT_LOGGER.addAppender(new (qx.Class.getByName(qx.core.Setting.get("qx.logAppender"))));
-  }
+  },
 
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("_parentLogger", "_appenderArr");
+  }
 });
 
