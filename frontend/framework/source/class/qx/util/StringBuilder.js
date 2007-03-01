@@ -141,37 +141,6 @@ qx.Class.define("qx.util.StringBuilder",
 
 
     /**
-     * Destructor
-     *
-     * @type member
-     * @return {void}
-     */
-    dispose : qx.core.Variant.select("qx.client", {
-      "default" : function()
-      {
-        if (this.getDisposed()) {
-          return;
-        }
-
-        this._string = null;
-
-        this.base(arguments);
-      },
-
-      "mshtml" : function()
-      {
-        if (this.getDisposed()) {
-          return;
-        }
-
-        this._array = null;
-
-        this.base(arguments);
-      }
-    }),
-
-
-    /**
      * Returns the contents of the concatenated string
      *
      * @type member
@@ -180,6 +149,18 @@ qx.Class.define("qx.util.StringBuilder",
     toString : function() {
       return this.get();
     }
+  },
 
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("_array", "_string");
   }
 });
