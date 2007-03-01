@@ -25,6 +25,7 @@
 
 qx.Class.define("qx.ui.pageview.AbstractBar",
 {
+  type : "abstract",
   extend : qx.ui.layout.BoxLayout,
 
 
@@ -174,5 +175,18 @@ qx.Class.define("qx.ui.pageview.AbstractBar",
 
       return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeObjects("_manager");
   }
 });

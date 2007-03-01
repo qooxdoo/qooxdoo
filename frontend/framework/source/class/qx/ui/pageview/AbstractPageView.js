@@ -25,6 +25,7 @@
 
 qx.Class.define("qx.ui.pageview.AbstractPageView",
 {
+  type : "abstract",
   extend : qx.ui.layout.BoxLayout,
 
 
@@ -83,42 +84,19 @@ qx.Class.define("qx.ui.pageview.AbstractPageView",
      */
     getBar : function() {
       return this._bar;
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {boolean | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return true;
-      }
-
-      if (this._bar)
-      {
-        this._bar.dispose();
-        this._bar = null;
-      }
-
-      if (this._pane)
-      {
-        this._pane.dispose();
-        this._pane = null;
-      }
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeObjects("_bar", "_pane");
   }
 });

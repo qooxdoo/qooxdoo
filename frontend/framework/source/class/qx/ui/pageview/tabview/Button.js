@@ -279,36 +279,19 @@ qx.Class.define("qx.ui.pageview.tabview.Button",
       this._states.barTop = this.getView().getPlaceBarOnTop();
 
       this.base(arguments);
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-     */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      if (this._closeButtonImage)
-      {
-        this._closeButtonImage.dispose();
-        this._closeButtonImage = null;
-      }
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeObjects("_closeButtonImage");
   }
 });

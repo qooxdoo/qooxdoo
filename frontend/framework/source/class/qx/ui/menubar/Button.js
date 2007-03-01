@@ -24,20 +24,6 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.menubar.Button",
-{
-  extend : qx.ui.toolbar.MenuButton,
-
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function(vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash) {
-    this.base(arguments, vText, vMenu, vIcon, vIconWidth, vIconHeight, vFlash);
-  }
+qx.Class.define("qx.ui.menubar.Button", {
+  extend : qx.ui.toolbar.MenuButton
 });

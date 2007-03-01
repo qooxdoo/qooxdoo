@@ -788,60 +788,21 @@ qx.Class.define("qx.ui.listview.ListViewPane",
       }
 
       this._updateRow(vIndex - vRowStart);
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      // ************************************************************************
-      //   MOUSE EVENT LISTENER
-      // ************************************************************************
-      this.removeEventListener("mousewheel", this._onmousewheel);
-      this.removeEventListener("mouseover", this._onmouseover);
-      this.removeEventListener("mousedown", this._onmousedown);
-      this.removeEventListener("mouseup", this._onmouseup);
-      this.removeEventListener("click", this._onclick);
-      this.removeEventListener("dblclick", this._ondblclick);
-
-      // ************************************************************************
-      //   KEY EVENT LISTENER
-      // ************************************************************************
-      this.removeEventListener("keypress", this._onkeypress);
-
-      // ************************************************************************
-      //   DATA
-      // ************************************************************************
-      delete this._data;
-      delete this._columns;
-
-      // ************************************************************************
-      //   MANAGER
-      // ************************************************************************
-      if (this._manager)
-      {
-        this._manager.dispose();
-        this._manager = null;
-      }
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeObjects("_manager");
+    this._disposeFields("_data", "_columns");
   }
 });

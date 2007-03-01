@@ -105,28 +105,19 @@ qx.Class.define("qx.ui.menu.Separator",
      */
     _onmousedown : function(e) {
       e.stopPropagation();
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {boolean | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return true;
-      }
-
-      if (this._line)
-      {
-        this._line.dispose();
-        this._line = null;
-      }
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeObjects("_line");
   }
 });

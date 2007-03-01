@@ -453,71 +453,21 @@ qx.Class.define("qx.ui.listview.ListView",
         this.updateScrollBar();
         this.updateContent();
       }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      if (this._header)
-      {
-        this._header.dispose();
-        this._header = null;
-      }
-
-      if (this._frame)
-      {
-        this._frame.dispose();
-        this._frame = null;
-      }
-
-      if (this._pane)
-      {
-        this._pane.dispose();
-        this._pane = null;
-      }
-
-      if (this._scroll)
-      {
-        this._scroll.dispose();
-        this._scroll = null;
-      }
-
-      if (this._scrollContent)
-      {
-        this._scrollContent.dispose();
-        this._scrollContent = null;
-      }
-
-      if (this._resizeLine)
-      {
-        this._resizeLine.dispose();
-        this._resizeLine = null;
-      }
-
-      delete this._columns;
-      delete this._data;
-
-      this.removeEventListener("mousedown", this._onmousedown);
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeObjects("_header", "_frame", "_pane", "_scroll", "_scrollContent", "_resizeLine");
+    this._disposeFields("_columns", "_data");
   }
 });

@@ -1198,56 +1198,19 @@ qx.Class.define("qx.ui.menu.Menu",
       }
 
       qx.manager.object.MenuManager.getInstance().update();
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      if (this._layout)
-      {
-        this._layout.dispose();
-        this._layout = null;
-      }
-
-      if (this._openTimer)
-      {
-        this._openTimer.dispose();
-        this._openTimer = null;
-      }
-
-      if (this._closeTimer)
-      {
-        this._closeTimer.dispose();
-        this._closeTimer = null;
-      }
-
-      // Remove event listeners
-      this.removeEventListener("mouseover", this._onmouseover);
-      this.removeEventListener("mousemove", this._onmouseover);
-      this.removeEventListener("mouseout", this._onmouseout);
-
-      this.removeEventListener("keydown", this._onkeydown);
-      this.removeEventListener("keypress", this._onkeypress);
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeObjects("_openTimer", "_closeTimer", "_layout");
   }
 });

@@ -464,33 +464,19 @@ qx.Class.define("qx.ui.popup.Popup",
 
       this.setLeft(left < 0 ? 0 : left);
       this.setTop(top < 0 ? 0 : top);
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      this._showTimeStamp = null;
-      this._hideTimeStamp = null;
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("_showTimeStamp", "_hideTimeStamp");
   }
 });

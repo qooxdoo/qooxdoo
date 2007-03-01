@@ -362,48 +362,19 @@ qx.Class.define("qx.ui.popup.ToolTip",
      */
     _onhidetimer : function(e) {
       return this.hide();
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      this.removeEventListener("mouseover", this._onmouseover);
-      this.removeEventListener("mouseout", this._onmouseover);
-
-      if (this._showTimer)
-      {
-        this._showTimer.removeEventListener("interval", this._onshowtimer, this);
-        this._showTimer.dispose();
-        this._showTimer = null;
-      }
-
-      if (this._hideTimer)
-      {
-        this._hideTimer.removeEventListener("interval", this._onhidetimer, this);
-        this._hideTimer.dispose();
-        this._hideTimer = null;
-      }
-
-      return this.base(arguments);
-
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeObjects("_showTimer", "_hideTimer");
   }
 });
