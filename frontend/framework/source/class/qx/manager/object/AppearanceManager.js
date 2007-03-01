@@ -99,7 +99,7 @@ qx.Class.define("qx.manager.object.AppearanceManager",
      *
      * @type member
      * @param vThemeClass {qx.renderer.theme.AppearanceTheme} TODOC
-     * @return {void} 
+     * @return {void}
      */
     registerAppearanceTheme : function(vThemeClass)
     {
@@ -137,33 +137,6 @@ qx.Class.define("qx.manager.object.AppearanceManager",
       }
 
       return true;
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Disposer
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      // Themes
-      this._appearanceThemes = null;
-
-      return this.base(arguments);
     }
   },
 
@@ -179,5 +152,18 @@ qx.Class.define("qx.manager.object.AppearanceManager",
   settings :
   {
     "qx.appearanceTheme" : "qx.theme.appearance.Classic"
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeDeep("_appearanceThemes", 1);
   }
 });

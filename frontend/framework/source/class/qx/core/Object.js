@@ -564,14 +564,14 @@ qx.Class.define("qx.core.Object",
 
       // this.log("Dispose Deep: " + name);
 
-      this.__disposeObject(this[name], deep || 0);
+      this.__disposeDeepRecurser(this[name], deep || 0);
       this[name] = null;
 
       // this.log("Dispose Deep: " + name + " DONE!!!!");
     },
 
 
-    __disposeObject : function(obj, deep)
+    __disposeDeepRecurser : function(obj, deep)
     {
       // qooxdoo
       if (obj instanceof qx.core.Object)
