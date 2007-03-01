@@ -106,7 +106,7 @@
           title : "gohome.png",
           timestamp : Math.random().toString(),
           comment : "Cool Comment sadas asd dsa asdas dasd asd asdas dasdasdasd sadasdas dsds as",
-          id : "7686191121780974-10682",
+          id : i,
           src : imgPath,
           number : "#" + i
         });
@@ -121,6 +121,11 @@
 
       galleryList.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
       galleryList.setBackgroundColor("white");
+      galleryList.addEventListener("beforeToolTipAppear", function(e) {
+				var entry = galleryList.getEntryByNode(e.getData());
+      	galleryList.setToolTip(new qx.ui.popup.ToolTip(entry.comment + ": " + entry.number));
+      });
+      
 
       qx.ui.core.ClientDocument.getInstance().add(galleryList);
     });

@@ -25,6 +25,7 @@
 ************************************************************************ */
 
 /**
+ * @event beforeToolTipAppear {qx.event.type.Event}
  * @event loadComplete {qx.event.type.Event}
  */
 qx.OO.defineClass("qx.ui.embed.GalleryList", qx.ui.basic.Terminator,
@@ -45,6 +46,7 @@ function(galleryList)
 
   this.addEventListener("mousedown", this._onmousedown);
   this.addEventListener("mouseup", this._onmouseup);
+  this.addEventListener("mousemove", this._onmousemove);
   this.addEventListener("click", this._onclick);
   this.addEventListener("dblclick", this._ondblclick);
   this.addEventListener("keypress", this._onkeypress);
@@ -99,6 +101,38 @@ qx.Proto.removeAll = function()
 }
 
 
+qx.Proto.getPositionById = function(vId)
+{
+  for (var i=0, a=this._list, l=a.length; i<l; i++) {
+    if (a[i].id == vId) {
+      return i;
+    }
+  }
+
+  return -1;
+}
+
+qx.Proto.getEntryById = function(vId) {
+  return this.getEntryByPosition(this.getPositionById(vId));
+}
+
+qx.Proto.getNodeById = function(vId) {
+  return this.getNodeByPosition(this.getPositionById(vId));
+}
+
+qx.Proto.getEntryByPosition = function(vPosition) {
+  return vPosition == -1 ? null : this._list[vPosition];
+}
+
+qx.Proto.getNodeByPosition = function(vPosition) {
+  return vPosition == -1 ? null : this._frame.childNodes[vPosition];
+}
+
+qx.Proto.getEntryByNode = function(vNode) {
+  return this.getEntryById(vNode.id);
+}
+
+
 /*
 ---------------------------------------------------------------------------
   EVENT HANDLER
@@ -121,6 +155,45 @@ qx.Proto._onmouseup = function(e)
   if (vItem) {
     this._manager.handleMouseUp(vItem, e);
   }
+}
+
+qx.Proto._onmousemove = function(e)
+{
+  if (!qx.OO.isAvailable("qx.manager.object.ToolTipManager")) {
+    return;
+  }
+
+  var vItem = this.getListItemTarget(e.getDomTarget());
+
+  if (vItem == this._lastItem) {
+    return;
+  }
+
+  if (this._lastItem)
+  {
+    var vEventObject = new qx.event.type.MouseEvent("mouseout", e, false, this._lastItem);
+    qx.manager.object.ToolTipManager.getInstance().handleMouseOut(vEventObject);
+    vEventObject.dispose();
+  }
+
+  if (vItem)
+  {
+    if (this.hasEventListeners("beforeToolTipAppear")) {
+      this.dispatchEvent(new qx.event.type.DataEvent("beforeToolTipAppear", vItem), true);
+    }
+
+    if (!this.getToolTip()) {
+      return;
+    }
+
+    var vEventObject = new qx.event.type.MouseEvent("mouseout", e, false, vItem);
+    qx.manager.object.ToolTipManager.getInstance().handleMouseOver(vEventObject);
+    vEventObject.dispose();
+
+    this.setToolTip(null);
+  }
+
+  this._lastItem = vItem;
 }
 
 qx.Proto._onclick = function(e)
@@ -395,6 +468,7 @@ qx.Proto.dispose = function()
 
   this.removeEventListener("mousedown", this._onmousedown);
   this.removeEventListener("mouseup", this._onmouseup);
+  this.removeEventListener("mousemove", this._onmousemove);
   this.removeEventListener("click", this._onclick);
   this.removeEventListener("dblclick", this._ondblclick);
   this.removeEventListener("keydown", this._onkeydown);
