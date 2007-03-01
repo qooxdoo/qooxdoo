@@ -266,30 +266,6 @@ qx.Class.define("qx.ui.form.RadioButton",
       if (e.getKeyIdentifier() == "Space") {
         this.setChecked(true);
       }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      return this.base(arguments);
     }
   }
 });

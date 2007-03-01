@@ -272,34 +272,6 @@ qx.Class.define("qx.ui.form.CheckBox",
       if (e.getKeyIdentifier() == "Space") {
         this.toggleChecked();
       }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      this.removeEventListener("click", this._onclick);
-      this.removeEventListener("keydown", this._onkeydown);
-      this.removeEventListener("keyup", this._onkeyup);
-
-      return this.base(arguments);
     }
   }
 });

@@ -853,67 +853,21 @@ qx.Class.define("qx.ui.form.Spinner",
     {
       this._computedIncrementAmount = this.getIncrementAmount();
       this.resetInterval();
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      if (this._textfield)
-      {
-        this._textfield.dispose();
-        this._textfield = null;
-      }
-
-      if (this._buttonlayout)
-      {
-        this._buttonlayout.dispose();
-        this._buttonlayout = null;
-      }
-
-      if (this._upbutton)
-      {
-        this._upbutton.dispose();
-        this._upbutton = null;
-      }
-
-      if (this._downbutton)
-      {
-        this._downbutton.dispose();
-        this._downbutton = null;
-      }
-
-      if (this._timer)
-      {
-        this._timer.stop();
-        this._timer.dispose();
-        this._timer = null;
-      }
-
-      if (this._manager)
-      {
-        this._manager.dispose();
-        this._manager = null;
-      }
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeObjects("_textfield", "_buttonlayout", "_upbutton", "_downbutton",
+      "_timer", "_manager");
   }
 });

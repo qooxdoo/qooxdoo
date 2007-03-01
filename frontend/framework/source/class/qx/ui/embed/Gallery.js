@@ -908,40 +908,21 @@ qx.Class.define("qx.ui.embed.Gallery",
 
         frame.appendChild(comment);
       }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {boolean | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return true;
-      }
-
-      this._list = null;
-      this._protoCell = null;
-      this._frame = null;
-
-      if (this._manager)
-      {
-        this._manager.dispose();
-        this._manager = null;
-      }
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeObjects("_manager");
+    this._disposeFields("_list", "_protoCell", "_frame");
   }
 });

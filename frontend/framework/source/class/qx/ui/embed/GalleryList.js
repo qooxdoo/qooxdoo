@@ -75,7 +75,7 @@ qx.Class.define("qx.ui.embed.GalleryList",
      * Dispatched just before the tooltip is shown. This makes it possible to
      * control which tooltip is shown.
      */
-    "beforeToolTipAppear"     : "qx.event.type.Event",    
+    "beforeToolTipAppear"     : "qx.event.type.Event",
     "loadComplete"            : "qx.event.type.Event"
   },
 
@@ -308,8 +308,8 @@ qx.Class.define("qx.ui.embed.GalleryList",
     getEntryByNode : function(vNode) {
       return this.getEntryById(vNode.id);
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER
@@ -396,37 +396,37 @@ qx.Class.define("qx.ui.embed.GalleryList",
       if (!qx.Class.isDefined("qx.manager.object.ToolTipManager")) {
         return;
       }
-    
+
       var vItem = this.getListItemTarget(e.getDomTarget());
-    
+
       if (vItem == this._lastItem) {
         return;
       }
-    
+
       if (this._lastItem)
       {
         var vEventObject = new qx.event.type.MouseEvent("mouseout", e, false, this._lastItem);
         qx.manager.object.ToolTipManager.getInstance().handleMouseOut(vEventObject);
         vEventObject.dispose();
       }
-    
+
       if (vItem)
       {
         if (this.hasEventListeners("beforeToolTipAppear")) {
         this.dispatchEvent(new qx.event.type.DataEvent("beforeToolTipAppear", vItem), true);
         }
-    
+
         if (!this.getToolTip()) {
         return;
         }
-    
+
         var vEventObject = new qx.event.type.MouseEvent("mouseout", e, false, vItem);
         qx.manager.object.ToolTipManager.getInstance().handleMouseOver(vEventObject);
         vEventObject.dispose();
-    
+
         this.setToolTip(null);
       }
-    
+
       this._lastItem = vItem;
     },
 
@@ -710,39 +710,21 @@ qx.Class.define("qx.ui.embed.GalleryList",
       if (this._processedImages == this._listSize) {
         this.dispatchEvent(new qx.event.type.Event("loadComplete"), true);
       }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {boolean | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return true;
-      }
-
-      this._list = null;
-      this._frame = null;
-
-      if (this._manager)
-      {
-        this._manager.dispose();
-        this._manager = null;
-      }
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeObjects("_manager");
+    this._disposeFields("_list", "_frame");
   }
 });

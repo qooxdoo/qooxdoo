@@ -205,5 +205,4 @@ qx.Class.define("qx.ui.form.InputCheckSymbol",
     members.getInnerWidth = members.getPreferredBoxWidth;
     members.getInnerHeight = members.getPreferredBoxHeight;
   }
-
 });
