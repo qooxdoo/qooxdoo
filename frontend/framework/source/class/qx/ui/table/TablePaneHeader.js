@@ -350,22 +350,6 @@ qx.Class.define("qx.ui.table.TablePaneHeader",
         this.remove(cellWidget);
         cellWidget.dispose();
       }
-    },
-
-    // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {boolean | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return true;
-      }
-
-      return this.base(arguments);
     }
   }
 });
