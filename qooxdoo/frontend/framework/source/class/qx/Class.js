@@ -116,13 +116,13 @@ qx.Class.define("qx.Class",
      *       <tr><th>include</th><td>Mixin | Mixin[]</td><td>Single mixin or array of mixins, which will be merged into the class.</td></tr>
      *       <tr><th>construct</th><td>Function</td><td>The constructor of the class.</td></tr>
      *       <tr><th>statics</th><td>Map</td><td>Map of static members of the class.</td></tr>
-     *       <tr><th>members</th><td>Map</td><td>Map of instance members of the class.</td></tr>
      *       <tr><th>properties</th><td>Map</td><td>Map of property definitions. Format of the map: TODOC</td></tr>
+     *       <tr><th>members</th><td>Map</td><td>Map of instance members of the class.</td></tr>
      *       <tr><th>settings</th><td>Map</td><td>Map of settings for this class. Format of the map: TODOC</td></tr>
      *       <tr><th>variants</th><td>Map</td><td>Map of settings for this class. Format of the map: TODOC</td></tr>
      *       <tr><th>events</th><td>Map</td><td>Map of events the class fires. The keys are the names of the events and the values are corresponding event type classes.</td></tr>
      *       <tr><th>defer</th><td>Function</td><td>Function that is to be called after at the end of the class declaration that allows access to the statics, members, properties.</td></tr>
-     *       <tr><th>deconstruct</th><td>Function</td><td>The deconstructor of the class.</td></tr>
+     *       <tr><th>destruct</th><td>Function</td><td>The destructor of the class.</td></tr>
      *     </table>
      * @return {void}
      * @throws TODOC
@@ -139,18 +139,29 @@ qx.Class.define("qx.Class",
       }
 
       // Create class
-      var clazz = this.__createClass(name, config.type, config.extend, config.construct, config.statics);
+      var clazz = this.__createClass(name, config.type, config.extend, config.construct, config.statics, config.destruct);
 
       // Members, Properties, Events and Mixins are not available in static classes
       if (config.extend)
       {
+        var superclass = config.extend;
+
         // Copy known interfaces and mixins from superclass
-        if (config.extend.$$includes) {
-          clazz.$$includes = qx.lang.Object.copy(config.extend.$$includes);
+        if (superclass.$$includes) {
+          clazz.$$includes = qx.lang.Object.copy(superclass.$$includes);
         }
 
-        if (config.extend.$$implements) {
-          clazz.$$implements = qx.lang.Object.copy(config.extend.$$implements);
+        if (superclass.$$implements) {
+          clazz.$$implements = qx.lang.Object.copy(superclass.$$implements);
+        }
+
+        // Copy property lists (qooxdoo 0.6 properties)
+        if (superclass.$$properties) {
+          clazz.$$properties = qx.lang.Object.copy(superclass.$$properties);
+        }
+
+        if (superclass.$$objectproperties) {
+          clazz.$$objectproperties = qx.lang.Object.copy(superclass.$$objectproperties);
         }
 
         // Attach properties
@@ -492,18 +503,19 @@ qx.Class.define("qx.Class",
     {
       var allowedKeys =
       {
+        "type"       : "string",    // String
         "extend"     : "function",  // Function
         "implement"  : "object",    // Interface | Interface[]
         "include"    : "object",    // Mixin | Mixin[]
         "construct"  : "function",  // Function
-        "type"       : "string",    // String
         "statics"    : "object",    // Map
-        "members"    : "object",    // Map
         "properties" : "object",    // Map
+        "members"    : "object",    // Map
         "settings"   : "object",    // Map
         "variants"   : "object",    // Map
+        "events"     : "object",    // Map
         "defer"      : "function",  // Function
-        "events"      : "object"     // Map
+        "destruct"   : "function"   // Function
       };
 
       for (var key in config)
@@ -578,7 +590,7 @@ qx.Class.define("qx.Class",
      * @param statics {Map} Static methods field
      * @return {Class} The resulting class
      */
-    __createClass : function(name, type, extend, construct, statics)
+    __createClass : function(name, type, extend, construct, statics, destruct)
     {
       var clazz;
 
@@ -646,24 +658,24 @@ qx.Class.define("qx.Class",
         construct.base = clazz.superclass = extend;
 
         /*
-          - Store statics/constructor into constructor/prototype
+          - Store statics/constructor onto constructor/prototype
           - Store correct constructor
           - Store statics onto prototype
         */
         construct.self = clazz.constructor = proto.constructor = clazz;
 
-        // Copy property lists (qooxdoo 0.6 properties)
-        if (extend.$$properties) {
-          clazz.$$properties = qx.lang.Object.copy(extend.$$properties);
+        /*
+          - Store destruct onto statics/constructor
+        */
+        if (destruct)
+        {
+          console.log("Found new-style destructor in: " + name);
+          clazz.destructor = destruct;
         }
 
-        if (extend.$$objectproperties) {
-          clazz.$$objectproperties = qx.lang.Object.copy(extend.$$objectproperties);
-        }
-
+        // Compatibility to qooxdoo 0.6.x
         if (qx.core.Variant.isSet("qx.compatibility", "on"))
         {
-          // Compatibility to qooxdoo 0.6.x
           qx.Clazz = clazz;
           qx.Proto = proto;
           qx.Super = extend;
@@ -671,9 +683,9 @@ qx.Class.define("qx.Class",
       }
       else
       {
+        // Compatibility to qooxdoo 0.6.x
         if (qx.core.Variant.isSet("qx.compatibility", "on"))
         {
-          // Compatibility to qooxdoo 0.6.x
           qx.Clazz = clazz;
           qx.Proto = null;
           qx.Super = null;
