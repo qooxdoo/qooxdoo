@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /** This class represents a selection and manage incoming events for widgets which need selection support. */
-qx.Clazz.define("qx.manager.selection.VirtualSelectionManager",
+qx.Class.define("qx.manager.selection.VirtualSelectionManager",
 {
   extend : qx.manager.selection.SelectionManager,
 

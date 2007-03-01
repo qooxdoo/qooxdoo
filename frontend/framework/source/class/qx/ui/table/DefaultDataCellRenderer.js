@@ -26,7 +26,7 @@
 /**
  * The default data cell renderer.
  */
-qx.Clazz.define("qx.ui.table.DefaultDataCellRenderer",
+qx.Class.define("qx.ui.table.DefaultDataCellRenderer",
 {
   extend : qx.ui.table.AbstractDataCellRenderer,
 

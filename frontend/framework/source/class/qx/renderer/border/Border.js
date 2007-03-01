@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /** Border implementation for qx.ui.core.Widget instances. */
-qx.Clazz.define("qx.renderer.border.Border",
+qx.Class.define("qx.renderer.border.Border",
 {
   extend : qx.core.Object,
 

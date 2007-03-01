@@ -27,7 +27,7 @@
 ************************************************************************ */
 
 /** This singleton manage the global image path (prefix) and allowes themed icons. */
-qx.Clazz.define("qx.manager.object.ImageManager",
+qx.Class.define("qx.manager.object.ImageManager",
 {
   type : "singleton",
   extend : qx.manager.object.ObjectManager,

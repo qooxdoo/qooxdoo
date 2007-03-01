@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.renderer.font.FontObject",
+qx.Class.define("qx.renderer.font.FontObject",
 {
   extend : qx.renderer.font.Font,
 

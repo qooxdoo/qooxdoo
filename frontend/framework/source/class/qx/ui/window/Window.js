@@ -25,7 +25,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.window.Window",
+qx.Class.define("qx.ui.window.Window",
 {
   extend : qx.ui.popup.Popup,
 

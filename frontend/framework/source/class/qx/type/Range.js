@@ -26,7 +26,7 @@
 /**
  * This manager is used by all objects which needs ranges like qx.ui.form.Spinner, ...
  */
-qx.Clazz.define("qx.type.Range",
+qx.Class.define("qx.type.Range",
 {
   extend : qx.core.Target,
 

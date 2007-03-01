@@ -25,7 +25,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.embed.Iframe",
+qx.Class.define("qx.ui.embed.Iframe",
 {
   extend : qx.ui.basic.Terminator,
 

@@ -1,4 +1,4 @@
-qx.Clazz.define("qx.test.Animal",
+qx.Class.define("qx.test.Animal",
 {
   extend : qx.core.Target,
 

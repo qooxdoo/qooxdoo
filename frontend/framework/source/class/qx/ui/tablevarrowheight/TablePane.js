@@ -31,7 +31,7 @@
  * @param paneScroller {TablePaneScroller}
  *   The TablePaneScroller the pane belongs to.
  */
-qx.Clazz.define("qx.ui.tablevarrowheight.TablePane",
+qx.Class.define("qx.ui.tablevarrowheight.TablePane",
 {
   extend : qx.ui.table.TablePane,
 

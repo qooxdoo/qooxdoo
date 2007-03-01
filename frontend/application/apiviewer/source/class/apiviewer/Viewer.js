@@ -31,7 +31,7 @@
 /**
  * The API viewer. Shows the API documentation.
  */
-qx.Clazz.define("apiviewer.Viewer",
+qx.Class.define("apiviewer.Viewer",
 {
   extend : qx.ui.layout.DockLayout,
 

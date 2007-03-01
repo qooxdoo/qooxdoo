@@ -1,4 +1,4 @@
-qx.Clazz.define("qxunit.test.Lang",{ 
+qx.Class.define("qxunit.test.Lang",{ 
 	extend: qxunit.TestCase,
 
 	members : {

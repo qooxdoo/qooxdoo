@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.component.AbstractApplication",
+qx.Class.define("qx.component.AbstractApplication",
 {
   type : "abstract",
   extend : qx.component.AbstractComponent,

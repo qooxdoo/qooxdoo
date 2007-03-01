@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.renderer.color.ColorObject",
+qx.Class.define("qx.renderer.color.ColorObject",
 {
   extend : qx.renderer.color.Color,
 

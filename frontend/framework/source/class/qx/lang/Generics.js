@@ -73,7 +73,7 @@
  * * concat
  * * slice
  */
-qx.Clazz.define("qx.lang.Generics",
+qx.Class.define("qx.lang.Generics",
 {
   statics :
   {

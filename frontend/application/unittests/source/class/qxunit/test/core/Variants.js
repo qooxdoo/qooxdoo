@@ -2,7 +2,7 @@
 #require(qx.core.Client)
 */
 
-qx.Clazz.define("qxunit.test.core.Variants", { 
+qx.Class.define("qxunit.test.core.Variants", { 
 	extend: qxunit.TestCase,
 
 	members : {
@@ -10,7 +10,7 @@ qx.Clazz.define("qxunit.test.core.Variants", {
   	testBrowserAllDefined: function() {
 	    this.debug("test testBrowserAllDefined");
 
-	    qx.Clazz.define("qx.test.Browser1", {
+	    qx.Class.define("qx.test.Browser1", {
 	          extend: Object,
 
 	          construct: function() {},
@@ -42,7 +42,7 @@ qx.Clazz.define("qxunit.test.core.Variants", {
 	  testBrowserOrDefined: function() {
 	    this.debug("test testBrowserOrDefined");
 
-	      qx.Clazz.define("qx.test.Browser2", {
+	      qx.Class.define("qx.test.Browser2", {
 	          extend: Object,
 
 	          construct: function() {},
@@ -62,7 +62,7 @@ qx.Clazz.define("qxunit.test.core.Variants", {
 	  testBrowserOneDefined: function() {
 	    this.debug("test testBrowserOneDefined");
 
-	      qx.Clazz.define("qx.test.Browser3", {
+	      qx.Class.define("qx.test.Browser3", {
 	          extend: Object,
 
 	          construct: function() {},

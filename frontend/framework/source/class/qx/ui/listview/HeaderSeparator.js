@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.listview.HeaderSeparator",
+qx.Class.define("qx.ui.listview.HeaderSeparator",
 {
   extend : qx.ui.basic.Terminator,
 

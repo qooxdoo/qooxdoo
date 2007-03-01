@@ -30,7 +30,7 @@
  * An appender that writes all messages to the best possible target in
  * this client e.g. it uses Firebug in Firefox browsers.
  */
-qx.Clazz.define("qx.log.NativeAppender",
+qx.Class.define("qx.log.NativeAppender",
 {
   extend : qx.log.Appender,
 

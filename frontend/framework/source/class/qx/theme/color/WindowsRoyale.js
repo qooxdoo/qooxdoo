@@ -28,7 +28,7 @@
 /**
  * Windows royale color theme
  */
-qx.Clazz.define("qx.theme.color.WindowsRoyale",
+qx.Class.define("qx.theme.color.WindowsRoyale",
 {
   type : "singleton",
   extend : qx.renderer.theme.ColorTheme,

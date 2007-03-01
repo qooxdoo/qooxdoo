@@ -21,7 +21,7 @@
 /**
  * Crossbrowser operations on DOM Elements
  */
-qx.Clazz.define("qx.dom.Element",
+qx.Class.define("qx.dom.Element",
 {
   statics :
   {

@@ -26,7 +26,7 @@
 /**
  * Optimized version of SuperTextile
  */
-qx.Clazz.define("qx.html.Textile",
+qx.Class.define("qx.html.Textile",
 {
   /*
   *****************************************************************************

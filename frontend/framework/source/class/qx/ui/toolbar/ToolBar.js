@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.toolbar.ToolBar",
+qx.Class.define("qx.ui.toolbar.ToolBar",
 {
   extend : qx.ui.layout.HorizontalBoxLayout,
 

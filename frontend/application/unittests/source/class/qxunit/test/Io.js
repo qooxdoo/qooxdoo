@@ -1,5 +1,5 @@
 
-qx.Clazz.define("qxunit.test.Io",{ 
+qx.Class.define("qxunit.test.Io",{ 
 	extend: qxunit.TestCase,
 
 	members : {

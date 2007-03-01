@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.embed.IconHtmlEmbed",
+qx.Class.define("qx.ui.embed.IconHtmlEmbed",
 {
   extend : qx.ui.embed.HtmlEmbed,
 

@@ -25,7 +25,7 @@
 /**
  * XML Entities
  */
-qx.Clazz.define("qx.xml.Entity",
+qx.Class.define("qx.xml.Entity",
 {
   /*
   *****************************************************************************

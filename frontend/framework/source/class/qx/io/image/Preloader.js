@@ -27,7 +27,7 @@
 /**
  * This is the preloader used from qx.ui.basic.Image instances.
  */
-qx.Clazz.define("qx.io.image.Preloader",
+qx.Class.define("qx.io.image.Preloader",
 {
   extend : qx.core.Target,
 

@@ -49,7 +49,7 @@
  * * Array.every()
  * * String.quote()
  */
-qx.Clazz.define("qx.lang.Core");
+qx.Class.define("qx.lang.Core");
 
 
 /*

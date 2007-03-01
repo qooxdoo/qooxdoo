@@ -38,7 +38,7 @@
  *
  * @param keyCode {Integer}  Additional key of the command interpreted as a keyCode.
  */
-qx.Clazz.define("qx.client.Command",
+qx.Class.define("qx.client.Command",
 {
   extend : qx.core.Target,
 

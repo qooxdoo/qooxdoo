@@ -35,7 +35,7 @@
  *
  * @param vTitle {String?"qooxdoo default appearance"} appearance title
  */
-qx.Clazz.define("qx.theme.appearance.Classic",
+qx.Class.define("qx.theme.appearance.Classic",
 {
   type : "singleton",
   extend : qx.renderer.theme.AppearanceTheme,

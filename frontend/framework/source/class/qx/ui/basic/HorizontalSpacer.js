@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.basic.HorizontalSpacer",
+qx.Class.define("qx.ui.basic.HorizontalSpacer",
 {
   extend : qx.ui.basic.Terminator,
 

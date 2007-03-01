@@ -30,7 +30,7 @@
  *    {@link #DEFAULT_DATE_TIME_FORMAT} is used.
  * @param locale {String} optional locale to be used
  */
-qx.Clazz.define("qx.util.format.DateFormat",
+qx.Class.define("qx.util.format.DateFormat",
 {
   extend : qx.util.format.Format,
 

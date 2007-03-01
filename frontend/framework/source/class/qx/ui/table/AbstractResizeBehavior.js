@@ -27,7 +27,7 @@
  * An abstract resize behavior.  All resize behaviors should extend this
  * class.
  */
-qx.Clazz.define("qx.ui.table.AbstractResizeBehavior",
+qx.Class.define("qx.ui.table.AbstractResizeBehavior",
 {
   extend : qx.core.Object,
 

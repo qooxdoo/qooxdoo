@@ -1,5 +1,5 @@
 
-qx.Clazz.define("qxunit.test.Interface", { 
+qx.Class.define("qxunit.test.Interface", { 
 	extend: qxunit.TestCase,
 
 	members : {
@@ -19,7 +19,7 @@ qx.Clazz.define("qxunit.test.Interface", {
 			}, Error);
 
 			// test correct implementations
-		    qx.Clazz.define("qxunit.Audi", {
+		    qx.Class.define("qxunit.Audi", {
 		        extend: Object,
 		        construct: function() {},
         
@@ -40,7 +40,7 @@ qx.Clazz.define("qxunit.test.Interface", {
 
 			// nothing defined
 			this.assertExceptionDebugOn(function() {
-		        qx.Clazz.define("qxunit.Audi1", {
+		        qx.Class.define("qxunit.Audi1", {
 		            extend: Object,
 		            construct: function() {},
 		            implement: [qxunit.ICar]
@@ -49,7 +49,7 @@ qx.Clazz.define("qxunit.test.Interface", {
 
 			// members not defined
 			this.assertExceptionDebugOn(function() {
-			    qx.Clazz.define("qxunit.Audi2", {
+			    qx.Class.define("qxunit.Audi2", {
 			        extend: Object,
 			        construct: function() {},
 			        implement: [qxunit.ICar],
@@ -64,7 +64,7 @@ qx.Clazz.define("qxunit.test.Interface", {
 		
 			// property not defined
 			this.assertExceptionDebugOn(function() {
-			    qx.Clazz.define("qxunit.Audi4", {
+			    qx.Class.define("qxunit.Audi4", {
 			        extend: Object,
 			        construct: function() {},
 			        implement: [qxunit.ICar],
@@ -96,7 +96,7 @@ qx.Clazz.define("qxunit.test.Interface", {
 				}
 			});
 		
-			qx.Clazz.define("qxunit.Complex", {
+			qx.Class.define("qxunit.Complex", {
 				extend: Object,
 				implement: qxunit.IComplex,
 				construct: function(real, imag) {
@@ -189,7 +189,7 @@ qx.Clazz.define("qxunit.test.Interface", {
 			
 			// all implemented
 			var def = qx.lang.Object.copy(classDef);
-			qx.Clazz.define("qxunit.Implement1", def)
+			qx.Class.define("qxunit.Implement1", def)
 
 			this.assertTrue(qx.Interface.implementsInterface(qxunit.Implement1, qxunit.IAll), "implements IAll");
 			this.assertTrue(qx.Interface.implementsInterface(qxunit.Implement1, qxunit.IMember), "implements IMember");
@@ -201,14 +201,14 @@ qx.Clazz.define("qxunit.test.Interface", {
 			var def = qx.lang.Object.copy(classDef);
 			delete(def.members);
 			this.assertExceptionDebugOn(function() {
-				qx.Clazz.define("qxunit.Implement2", def)
+				qx.Class.define("qxunit.Implement2", def)
 			}, Error, "Implementation of method", "No members defined.");
 			
 			// no properties
 			var def = qx.lang.Object.copy(classDef);
 			delete(def.properties);
 			this.assertExceptionDebugOn(function() {
-				qx.Clazz.define("qxunit.Implement4", def)
+				qx.Class.define("qxunit.Implement4", def)
 			}, Error, new RegExp("property .* is not supported"), "No properties defined.");
 			
 		}

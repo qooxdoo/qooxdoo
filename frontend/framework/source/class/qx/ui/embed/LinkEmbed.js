@@ -23,7 +23,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.embed.LinkEmbed",
+qx.Class.define("qx.ui.embed.LinkEmbed",
 {
   extend : qx.ui.embed.HtmlEmbed,
 

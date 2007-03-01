@@ -27,7 +27,7 @@
  * The default data cell renderer for a virtual tree (columns other than the
  * tree column)
  */
-qx.Clazz.define("qx.ui.treevirtual.DefaultDataCellRenderer",
+qx.Class.define("qx.ui.treevirtual.DefaultDataCellRenderer",
 {
   extend : qx.ui.table.DefaultDataCellRenderer,
 

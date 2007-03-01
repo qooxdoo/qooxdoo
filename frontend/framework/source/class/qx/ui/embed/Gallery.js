@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 
-qx.Clazz.define("qx.ui.embed.Gallery",
+qx.Class.define("qx.ui.embed.Gallery",
 {
   extend : qx.ui.basic.Terminator,
 
@@ -561,7 +561,7 @@ qx.Clazz.define("qx.ui.embed.Gallery",
      */
     _onmousemove : function(e)
     {
-      if (qx.Clazz.isDefined("qx.manager.object.ToolTipManager")) {
+      if (qx.Class.isDefined("qx.manager.object.ToolTipManager")) {
         return;
       }
 

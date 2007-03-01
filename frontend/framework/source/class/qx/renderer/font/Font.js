@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /** Font implementation for qx.ui.core.Widget instances. */
-qx.Clazz.define("qx.renderer.font.Font",
+qx.Class.define("qx.renderer.font.Font",
 {
   extend : qx.core.Object,
 

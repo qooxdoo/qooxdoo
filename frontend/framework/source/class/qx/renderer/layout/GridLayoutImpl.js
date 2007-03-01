@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.renderer.layout.GridLayoutImpl",
+qx.Class.define("qx.renderer.layout.GridLayoutImpl",
 {
   extend : qx.renderer.layout.LayoutImpl,
 

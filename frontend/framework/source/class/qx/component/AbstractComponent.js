@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.component.AbstractComponent",
+qx.Class.define("qx.component.AbstractComponent",
 {
   type : "abstract",
   extend : qx.core.Target,

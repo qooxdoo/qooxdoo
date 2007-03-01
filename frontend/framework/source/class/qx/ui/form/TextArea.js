@@ -27,7 +27,7 @@
 /**
  * @param vValue {String} this string is ddisplayed as the value of the TextArea.
  */
-qx.Clazz.define("qx.ui.form.TextArea",
+qx.Class.define("qx.ui.form.TextArea",
 {
   extend : qx.ui.form.TextField,
 

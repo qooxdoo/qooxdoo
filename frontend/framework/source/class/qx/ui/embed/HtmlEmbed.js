@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.embed.HtmlEmbed",
+qx.Class.define("qx.ui.embed.HtmlEmbed",
 {
   extend : qx.ui.basic.Terminator,
 

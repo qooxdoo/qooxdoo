@@ -30,7 +30,7 @@
  * the right and/or bottom directions.  Child can be e.g. a qx.ui.form.TextArea,
  * qx.ui.table.Table or qx.ui.form.List.  It is an alternative to splitters.
  */
-qx.Clazz.define("qx.ui.resizer.Resizer",
+qx.Class.define("qx.ui.resizer.Resizer",
 {
   extend : qx.ui.layout.CanvasLayout,
 

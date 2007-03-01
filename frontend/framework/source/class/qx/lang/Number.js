@@ -32,7 +32,7 @@
  * by a setting in {@link qx.lang.Prototypes}. This feature is not enabled by
  * default.
  */
-qx.Clazz.define("qx.lang.Number",
+qx.Class.define("qx.lang.Number",
 {
   statics :
   {

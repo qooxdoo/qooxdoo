@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.layout.DockLayout",
+qx.Class.define("qx.ui.layout.DockLayout",
 {
   extend : qx.ui.core.Parent,
 

@@ -30,7 +30,7 @@
  * @param tableModel {qx.ui.table.TableModel, null}
  *   The table model to read the data from.
  */
-qx.Clazz.define("qx.ui.tablevarrowheight.TableVarRowHeight",
+qx.Class.define("qx.ui.tablevarrowheight.TableVarRowHeight",
 {
   extend : qx.ui.table.Table,
 

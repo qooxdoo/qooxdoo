@@ -63,7 +63,7 @@
  * }
  * </pre>
  */
-qx.Clazz.define("qx.ui.treevirtual.SimpleTreeDataModel",
+qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 {
   extend : qx.ui.table.AbstractTableModel,
 

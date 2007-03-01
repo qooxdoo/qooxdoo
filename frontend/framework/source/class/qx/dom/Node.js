@@ -26,7 +26,7 @@
 /**
  * Types of DOM nodes
  */
-qx.Clazz.define("qx.dom.Node",
+qx.Class.define("qx.dom.Node",
 {
   statics :
   {

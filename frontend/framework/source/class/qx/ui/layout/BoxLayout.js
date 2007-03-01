@@ -25,7 +25,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.layout.BoxLayout",
+qx.Class.define("qx.ui.layout.BoxLayout",
 {
   extend : qx.ui.core.Parent,
 

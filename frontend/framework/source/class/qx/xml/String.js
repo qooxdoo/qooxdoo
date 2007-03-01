@@ -25,7 +25,7 @@
 /**
  * Escaping and unescaping of XML strings.
  */
-qx.Clazz.define("qx.xml.String",
+qx.Class.define("qx.xml.String",
 {
   /*
   *****************************************************************************

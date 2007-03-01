@@ -62,7 +62,7 @@
  *                                      the service methods
  *                                      (e.g. "my.pkg.MyService").
  */
-qx.Clazz.define("qx.io.remote.Rpc",
+qx.Class.define("qx.io.remote.Rpc",
 {
   extend : qx.core.Target,
 

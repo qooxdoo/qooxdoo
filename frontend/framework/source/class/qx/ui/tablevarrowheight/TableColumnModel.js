@@ -29,7 +29,7 @@
  *
  * @see qx.ui.table.TableModel
  */
-qx.Clazz.define("qx.ui.tablevarrowheight.TableColumnModel",
+qx.Class.define("qx.ui.tablevarrowheight.TableColumnModel",
 {
   extend : qx.ui.table.TableColumnModel,
 

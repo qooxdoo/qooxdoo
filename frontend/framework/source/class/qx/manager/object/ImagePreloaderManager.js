@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /** This singleton manage all qx.io.image.Preloader instances. */
-qx.Clazz.define("qx.manager.object.ImagePreloaderManager",
+qx.Class.define("qx.manager.object.ImagePreloaderManager",
 {
   type : "singleton",
   extend : qx.manager.object.ObjectManager,

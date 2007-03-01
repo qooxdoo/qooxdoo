@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.core.LegacyProperty",
+qx.Class.define("qx.core.LegacyProperty",
 {
   statics :
   {
@@ -380,9 +380,9 @@ qx.Clazz.define("qx.core.LegacyProperty",
               throw new Error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + config.name + "\" which must be typeof \"" + config.type + "\" but is typeof \"" + typeof newValue + "\"!");
             }
 
-            if (qx.Clazz.getByName(config.instance))
+            if (qx.Class.getByName(config.instance))
             {
-              if (config.hasInstance && !(newValue instanceof qx.Clazz.getByName(config.instance))) {
+              if (config.hasInstance && !(newValue instanceof qx.Class.getByName(config.instance))) {
                 throw new Error("Attention! The value \"" + newValue + "\" is an invalid value for the property \"" + config.name + "\" which must be an instance of \"" + config.instance + "\"!");
               }
             }

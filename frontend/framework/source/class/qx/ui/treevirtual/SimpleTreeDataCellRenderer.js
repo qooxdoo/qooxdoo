@@ -32,7 +32,7 @@
 /**
  * A data cell renderer for the tree column of a simple tree
  */
-qx.Clazz.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
+qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
 {
   extend : qx.ui.table.AbstractDataCellRenderer,
 

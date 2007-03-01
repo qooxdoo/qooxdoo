@@ -28,7 +28,7 @@
 /**
  * Retrieve information about global namespace pollution
  */
-qx.Clazz.define("qx.dev.Pollution",
+qx.Class.define("qx.dev.Pollution",
 {
   /*
   *****************************************************************************

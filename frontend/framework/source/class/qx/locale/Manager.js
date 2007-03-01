@@ -22,7 +22,7 @@
 /**
  * Create a new instance of qx.locale.Manager
  */
-qx.Clazz.define("qx.locale.Manager",
+qx.Class.define("qx.locale.Manager",
 {
   type : "singleton",
   extend : qx.core.Target,

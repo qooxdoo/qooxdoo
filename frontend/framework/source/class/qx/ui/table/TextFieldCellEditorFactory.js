@@ -26,7 +26,7 @@
 /**
  * A cell editor factory creating text fields.
  */
-qx.Clazz.define("qx.ui.table.TextFieldCellEditorFactory",
+qx.Class.define("qx.ui.table.TextFieldCellEditorFactory",
 {
   extend : qx.ui.table.CellEditorFactory,
 

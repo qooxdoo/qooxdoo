@@ -26,7 +26,7 @@
 ************************************************************************ */
 
 
-qx.Clazz.define("qx.ui.pageview.tabview.Button",
+qx.Class.define("qx.ui.pageview.tabview.Button",
 {
   extend : qx.ui.pageview.AbstractButton,
 

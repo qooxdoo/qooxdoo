@@ -28,7 +28,7 @@
  * Processes log events. May be configured with filters in order to specify
  * which log events should be processed.
  */
-qx.Clazz.define("qx.log.LogEventProcessor",
+qx.Class.define("qx.log.LogEventProcessor",
 {
   extend : qx.core.Object,
 

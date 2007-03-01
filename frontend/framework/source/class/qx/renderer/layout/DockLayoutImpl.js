@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.renderer.layout.DockLayoutImpl",
+qx.Class.define("qx.renderer.layout.DockLayoutImpl",
 {
   extend : qx.renderer.layout.LayoutImpl,
 

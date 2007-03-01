@@ -33,7 +33,7 @@
  *
  * @see SelectionModel
  */
-qx.Clazz.define("qx.ui.table.SelectionManager",
+qx.Class.define("qx.ui.table.SelectionManager",
 {
   extend : qx.core.Object,
 

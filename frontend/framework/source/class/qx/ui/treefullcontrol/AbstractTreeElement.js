@@ -28,7 +28,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.treefullcontrol.AbstractTreeElement",
+qx.Class.define("qx.ui.treefullcontrol.AbstractTreeElement",
 {
   extend : qx.ui.layout.BoxLayout,
 

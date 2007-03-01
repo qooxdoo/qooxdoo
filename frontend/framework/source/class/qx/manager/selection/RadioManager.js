@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /** Each instance manage vItems set of radio options: qx.ui.form.RadioButton, qx.ui.toolbar.RadioButton, ... */
-qx.Clazz.define("qx.manager.selection.RadioManager",
+qx.Class.define("qx.manager.selection.RadioManager",
 {
   extend : qx.core.Target,
 

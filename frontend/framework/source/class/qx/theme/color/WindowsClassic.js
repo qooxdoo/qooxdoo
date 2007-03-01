@@ -27,7 +27,7 @@
 /**
  * Windows classic color theme
  */
-qx.Clazz.define("qx.theme.color.WindowsClassic",
+qx.Class.define("qx.theme.color.WindowsClassic",
 {
   type : "singleton",
   extend : qx.renderer.theme.ColorTheme,

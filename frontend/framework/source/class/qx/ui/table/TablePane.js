@@ -30,7 +30,7 @@
  *
  * @param paneScroller {TablePaneScroller} the TablePaneScroller the header belongs to.
  */
-qx.Clazz.define("qx.ui.table.TablePane",
+qx.Class.define("qx.ui.table.TablePane",
 {
   extend : qx.ui.basic.Terminator,
 

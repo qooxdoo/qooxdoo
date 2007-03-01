@@ -27,7 +27,7 @@
 /**
  * Windows luna blue color theme
  */
-qx.Clazz.define("qx.theme.color.WindowsLunaBlue",
+qx.Class.define("qx.theme.color.WindowsLunaBlue",
 {
   type : "singleton",
   extend : qx.renderer.theme.ColorTheme,

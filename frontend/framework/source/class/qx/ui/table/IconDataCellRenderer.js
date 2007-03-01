@@ -28,7 +28,7 @@
 /**
  * A data cell renderer for boolean values.
  */
-qx.Clazz.define("qx.ui.table.IconDataCellRenderer",
+qx.Class.define("qx.ui.table.IconDataCellRenderer",
 {
   extend : qx.ui.table.AbstractDataCellRenderer,
 

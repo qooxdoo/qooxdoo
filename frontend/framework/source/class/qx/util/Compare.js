@@ -26,7 +26,7 @@
 /**
  * Collection of methods to compare two values.
  */
-qx.Clazz.define("qx.util.Compare",
+qx.Class.define("qx.util.Compare",
 {
   /*
   *****************************************************************************

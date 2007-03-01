@@ -29,7 +29,7 @@
  * @param targetProcessor {LogEventProcessor} The log event processor Where to
  *    pass the log events.
  */
-qx.Clazz.define("qx.log.ForwardAppender",
+qx.Class.define("qx.log.ForwardAppender",
 {
   extend : qx.log.Appender,
 

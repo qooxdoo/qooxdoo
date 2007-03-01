@@ -41,7 +41,7 @@
  *   <li> internationalization </li>
  * </ul>
  */
-qx.Clazz.define("qx.core.Object",
+qx.Class.define("qx.core.Object",
 {
   extend : Object,
   include : [ qx.locale.MTranslation, qx.log.MLogging ],

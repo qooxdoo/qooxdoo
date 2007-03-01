@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.Theme",
+qx.Class.define("qx.Theme",
 {
   statics:
   {
@@ -64,7 +64,7 @@ qx.Clazz.define("qx.Theme",
       var theme = config;
 
       // Assign to namespace
-      var basename = qx.Clazz.createNamespace(name, theme);
+      var basename = qx.Class.createNamespace(name, theme);
 
       // Add name and basename to object
       theme.name = name;

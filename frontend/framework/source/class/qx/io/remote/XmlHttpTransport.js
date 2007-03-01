@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.io.remote.XmlHttpTransport",
+qx.Class.define("qx.io.remote.XmlHttpTransport",
 {
   extend : qx.io.remote.AbstractRemoteTransport,
 

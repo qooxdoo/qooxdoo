@@ -33,7 +33,7 @@
  * @param firstSize {String} The size of the left pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
  * @param secondSize {String} The size of the right pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
  */
-qx.Clazz.define("qx.ui.splitpane.HorizontalSplitPane",
+qx.Class.define("qx.ui.splitpane.HorizontalSplitPane",
 {
   extend : qx.ui.splitpane.SplitPane,
 

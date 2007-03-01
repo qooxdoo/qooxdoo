@@ -33,7 +33,7 @@
  * @param machineName {String} The name of this finite state machine
  *
  */
-qx.Clazz.define("qx.util.fsm.FiniteStateMachine",
+qx.Class.define("qx.util.fsm.FiniteStateMachine",
 {
   extend : qx.core.Target,
 

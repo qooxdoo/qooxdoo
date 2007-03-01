@@ -26,7 +26,7 @@
 /**
  * A cell renderer for header cells.
  */
-qx.Clazz.define("qx.ui.table.HeaderCellRenderer",
+qx.Class.define("qx.ui.table.HeaderCellRenderer",
 {
   extend : qx.core.Object,
 

@@ -49,7 +49,7 @@
  * <li>Autocomplete on key input</li>
  * </ul>
  */
-qx.Clazz.define("qx.ui.form.ComboBoxEx",
+qx.Class.define("qx.ui.form.ComboBoxEx",
 {
   extend : qx.ui.layout.HorizontalBoxLayout,
 

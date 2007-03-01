@@ -25,7 +25,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.toolbar.MenuButton",
+qx.Class.define("qx.ui.toolbar.MenuButton",
 {
   extend : qx.ui.toolbar.Button,
 

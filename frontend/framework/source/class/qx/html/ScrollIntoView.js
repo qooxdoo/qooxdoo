@@ -34,7 +34,7 @@
 /**
  * Functions to scroll DOM elements into the visible area of the parent element
  */
-qx.Clazz.define("qx.html.ScrollIntoView",
+qx.Class.define("qx.html.ScrollIntoView",
 {
   /*
   *****************************************************************************

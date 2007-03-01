@@ -24,7 +24,7 @@
 ************************************************************************ */
 
 /** This class allows basic managment of assigned objects. */
-qx.Clazz.define("qx.manager.object.ObjectManager",
+qx.Class.define("qx.manager.object.ObjectManager",
 {
   extend : qx.core.Target,
 

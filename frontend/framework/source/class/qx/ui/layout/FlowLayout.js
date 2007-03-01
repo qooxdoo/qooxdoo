@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.layout.FlowLayout",
+qx.Class.define("qx.ui.layout.FlowLayout",
 {
   extend : qx.ui.core.Parent,
 

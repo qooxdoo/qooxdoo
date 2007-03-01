@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.toolbar.RadioButton",
+qx.Class.define("qx.ui.toolbar.RadioButton",
 {
   extend : qx.ui.toolbar.CheckBox,
 

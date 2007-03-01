@@ -25,7 +25,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.renderer.layout.VerticalBoxLayoutImpl",
+qx.Class.define("qx.renderer.layout.VerticalBoxLayoutImpl",
 {
   extend : qx.renderer.layout.LayoutImpl,
 

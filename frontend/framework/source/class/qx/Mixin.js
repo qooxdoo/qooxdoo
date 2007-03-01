@@ -31,7 +31,7 @@
  * other classes. They are similar to classes but don't support inheritence
  * and don't have a constructor.
  */
-qx.Clazz.define("qx.Mixin",
+qx.Class.define("qx.Mixin",
 {
   statics :
   {
@@ -95,7 +95,7 @@ qx.Clazz.define("qx.Mixin",
       mixin.name = name;
 
       // Assign to namespace
-      mixin.basename = qx.Clazz.createNamespace(name, mixin);
+      mixin.basename = qx.Class.createNamespace(name, mixin);
 
       // Store class reference in global mixin registry
       this.__registry[name] = mixin;

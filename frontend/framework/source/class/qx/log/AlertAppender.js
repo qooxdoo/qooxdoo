@@ -35,7 +35,7 @@
  * window temporarily halts the regular program execution. That way even
  * the dispose process can easily be debugged.
  */
-qx.Clazz.define("qx.log.AlertAppender",
+qx.Class.define("qx.log.AlertAppender",
 {
   extend : qx.log.Appender,
 

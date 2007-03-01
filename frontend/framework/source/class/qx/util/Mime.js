@@ -27,7 +27,7 @@
 /**
  * Mime type constants
  */
-qx.Clazz.define("qx.util.Mime",
+qx.Class.define("qx.util.Mime",
 {
   /*
   *****************************************************************************

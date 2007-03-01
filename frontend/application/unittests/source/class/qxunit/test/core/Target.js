@@ -1,12 +1,12 @@
 
-qx.Clazz.define("qxunit.test.core.Target", {
+qx.Class.define("qxunit.test.core.Target", {
 
 	extend: qxunit.TestCase,
 	
 	members: {
 		testEvents: function() {
 			
-			qx.Clazz.define("qxunit.Event", {
+			qx.Class.define("qxunit.Event", {
 				extend: qx.core.Target,
 				events: {"click": "qx.event.type.Event"}
 			});
