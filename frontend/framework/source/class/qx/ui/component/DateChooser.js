@@ -246,7 +246,7 @@ qx.Class.define("qx.ui.component.DateChooser",
 
   events: {
     /** Fired when a date was selected. The event holds the new selected date in its data property.*/
-    "select"     : "qx.event.type.DataEvent" 
+    "select"     : "qx.event.type.DataEvent"
   },
 
 
@@ -687,63 +687,24 @@ qx.Class.define("qx.ui.component.DateChooser",
           helpDate.setDate(helpDate.getDate() + 1);
         }
       }
-    },
-
-    // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {boolean | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return true;
-      }
-
-      this._lastYearBt.removeEventListener("click", this._onNavButtonClicked, this);
-      this._lastMonthBt.removeEventListener("click", this._onNavButtonClicked, this);
-      this._nextMonthBt.removeEventListener("click", this._onNavButtonClicked, this);
-      this._nextYearBt.removeEventListener("click", this._onNavButtonClicked, this);
-
-      this._lastYearBt.dispose();
-      this._lastMonthBt.dispose();
-      this._nextMonthBt.dispose();
-      this._nextYearBt.dispose();
-
-      this._lastYearBt = null;
-      this._lastMonthBt = null;
-      this._nextMonthBt = null;
-      this._nextYearBt = null;
-
-      this._monthYearLabel.dispose();
-      this._monthYearLabel = null;
-
-      for (var i=0; i<this._weekdayLabelArr.length; i++) {
-        this._weekdayLabelArr[i].dispose();
-      }
-
-      this._weekdayLabelArr = null;
-
-      for (var i=0; i<this._dayLabelArr.length; i++)
-      {
-        this._dayLabelArr[i].dispose();
-        this._dayLabelArr[i].removeEventListener("mousedown", this._onDayClicked, this);
-        this._dayLabelArr[i].removeEventListener("dblclick", this._onDayDblClicked, this);
-      }
-
-      this._dayLabelArr = null;
-
-      for (var i=0; i<this._weekLabelArr.length; i++) {
-        this._weekLabelArr[i].dispose();
-      }
-
-      this._weekLabelArr = null;
-
-      this.removeEventListener("keypress", this._onkeypress);
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeObjects("_lastYearBt", "_lastMonthBt", "_nextMonthBt", "_nextYearBt", "_monthYearLabel");
+
+    this._disposeDeep("_weekdayLabelArr", 1);
+    this._disposeDeep("_dayLabelArr", 1);
+    this._disposeDeep("_weekLabelArr", 1);
   }
 });

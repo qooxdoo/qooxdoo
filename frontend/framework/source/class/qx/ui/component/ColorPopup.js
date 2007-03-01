@@ -475,87 +475,24 @@ qx.Class.define("qx.ui.component.ColorPopup",
      */
     _onBeforeAppear : function(e) {
       this._currentPreview.setBackgroundColor(null);
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      this._tables = null;
-      this._boxes = null;
-
-      if (this._layout)
-      {
-        this._layout.dispose();
-        this._layout = null;
-      }
-
-      if (this._automaticBtn)
-      {
-        this._automaticBtn.dispose();
-        this._automaticBtn = null;
-      }
-
-      if (this._previewBox)
-      {
-        this._previewBox.dispose();
-        this._previewBox = null;
-      }
-
-      if (this._previewLayout)
-      {
-        this._previewLayout.dispose();
-        this._previewLayout = null;
-      }
-
-      if (this._selectedPreview)
-      {
-        this._selectedPreview.dispose();
-        this._selectedPreview = null;
-      }
-
-      if (this._currentPreview)
-      {
-        this._currentPreview.dispose();
-        this._currentPreview = null;
-      }
-
-      if (this._selectorButton)
-      {
-        this._selectorButton.dispose();
-        this._selectorButton = null;
-      }
-
-      if (this._colorSelectorWindow)
-      {
-        this._colorSelectorWindow.dispose();
-        this._colorSelectorWindow = null;
-      }
-
-      if (this._colorSelector)
-      {
-        this._colorSelector.dispose();
-        this._colorSelector = null;
-      }
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeObjects("_layout", "_automaticBtn", "_previewBox", "_previewLayout",
+      "_selectedPreview", "_currentPreview", "_selectorButton", "_colorSelectorWindow",
+      "_colorSelector");
+
+    this._disposeFields("_tables", "_boxes");
   }
 });

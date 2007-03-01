@@ -562,42 +562,19 @@ qx.Class.define("qx.ui.basic.Atom",
     */
 
     // Omit recursive cloning
-    _cloneRecursive : qx.lang.Function.returnTrue,
+    _cloneRecursive : qx.lang.Function.returnTrue
+  },
 
 
 
 
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {boolean | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return true;
-      }
-
-      if (this._iconObject)
-      {
-        this._iconObject.dispose();
-        this._iconObject = null;
-      }
-
-      if (this._labelObject)
-      {
-        this._labelObject.dispose();
-        this._labelObject = null;
-      }
-
-      return this.base(arguments);
-    }
+  destruct : function() {
+    this._disposeObjects("_iconObject", "_labelObject");
   }
 });
