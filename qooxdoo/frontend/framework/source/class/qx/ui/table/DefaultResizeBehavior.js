@@ -690,5 +690,18 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
         tableColumnModel.setColumnWidth(lastCol, newWidth);
       }
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("_resizeColumnData");
   }
 });
