@@ -667,9 +667,7 @@ qx.Class.define("qx.Class",
         /*
           - Store destruct onto statics/constructor
         */
-        if (destruct)
-        {
-          console.log("Found new-style destructor in: " + name);
+        if (destruct) {
           clazz.destructor = destruct;
         }
 
