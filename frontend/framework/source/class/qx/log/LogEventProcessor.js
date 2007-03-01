@@ -31,6 +31,7 @@
 qx.Class.define("qx.log.LogEventProcessor",
 {
   extend : qx.core.Object,
+  type : "abstract",
 
 
 

@@ -38,7 +38,7 @@
 qx.Class.define("qx.ui.core.Widget",
 {
   extend : qx.core.Target,
-
+  type : "abstract",
 
 
 
@@ -50,10 +50,6 @@ qx.Class.define("qx.ui.core.Widget",
 
   construct : function()
   {
-    if (this.classname == qx.ui.core.Widget.ABSTRACT_CLASS) {
-      throw new Error("Please omit the usage of qx.ui.core.Widget directly. Choose between qx.ui.core.Parent and qx.ui.basic.Terminator instead!");
-    }
-
     this.base(arguments, true);
 
     // ************************************************************************
@@ -195,8 +191,6 @@ qx.Class.define("qx.ui.core.Widget",
 
   statics :
   {
-    ABSTRACT_CLASS : "qx.ui.core.Widget",
-
     // Will be calculated later (TODO: Move to qx.html?)
     SCROLLBAR_SIZE : 16,
 
