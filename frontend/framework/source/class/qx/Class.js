@@ -664,7 +664,7 @@ qx.Class.define("qx.Class",
         if (qx.core.Variant.isSet("qx.compatibility", "on"))
         {
           // Compatibility to qooxdoo 0.6.x
-          qx.Class = clazz;
+          qx.Clazz = clazz;
           qx.Proto = proto;
           qx.Super = extend;
         }
@@ -674,7 +674,7 @@ qx.Class.define("qx.Class",
         if (qx.core.Variant.isSet("qx.compatibility", "on"))
         {
           // Compatibility to qooxdoo 0.6.x
-          qx.Class = clazz;
+          qx.Clazz = clazz;
           qx.Proto = null;
           qx.Super = null;
         }
@@ -751,7 +751,7 @@ qx.Class.define("qx.Class",
      * Wrapper for qx.core.LegacyProperty
      *
      * @type static
-     * @param clazz {Clazz} class to add the properties to
+     * @param clazz {Class} class to add the properties to
      * @param propertyName {String} property name
      * @param property {Map} new class style property definitions
      * @return {void}
@@ -912,7 +912,7 @@ qx.Class.define("qx.Class",
      * Include all features of the Mixin into the given class (recursive).
      *
      * @type static
-     * @param clazz {Clazz} A class previously defined where the mixin should be attached.
+     * @param clazz {Class} A class previously defined where the mixin should be attached.
      * @param mixin {Mixin} Include all features of this Mixin
      * @param patch {Boolean} Overwrite existing fields, functions and properties
      */
@@ -936,7 +936,7 @@ qx.Class.define("qx.Class",
      * Attach fields of Mixins (recursively) to a class without assignment.
      *
      * @type static
-     * @param clazz {Clazz} A class previously defined where the mixin should be attached.
+     * @param clazz {Class} A class previously defined where the mixin should be attached.
      * @param mixin {Mixin} Include all features of this Mixin
      * @param patch {Boolean} Overwrite existing fields, functions and properties
      */
