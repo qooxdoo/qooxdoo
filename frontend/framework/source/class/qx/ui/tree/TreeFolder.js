@@ -882,5 +882,18 @@ qx.Class.define("qx.ui.tree.TreeFolder",
 
       return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeObjects("_horizontalLayout", "_containerObject");
   }
 });

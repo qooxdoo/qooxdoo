@@ -25,5 +25,5 @@
 ************************************************************************ */
 
 qx.Class.define("qx.ui.menubar.MenuBar", {
-  extend : qx.ui.toolbar.ToolBar,
+  extend : qx.ui.toolbar.ToolBar
 });
