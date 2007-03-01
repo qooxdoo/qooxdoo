@@ -388,28 +388,20 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
       // this.debug("Setting to value: " + this.getValue());
       this._positionKnob(this.getValue());
-    },
-
-    // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      if (this._scrollContent)
-      {
-        this._scrollContent.dispose();
-        this._scrollContent = null;
-      }
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeObjects("_scrollContent");
   }
 });

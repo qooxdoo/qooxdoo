@@ -261,44 +261,24 @@ qx.Class.define("qx.client.Timer",
       if (this.getEnabled()) {
         this.createDispatchEvent("interval");
       }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      // Stop interval
-      this.stop();
-
-      // Clear handle
-      if (this.__intervalHandler)
-      {
-        window.clearInterval(this.__intervalHandler);
-        this.__intervalHandler = null;
-      }
-
-      // Clear object wrapper function
-      this.__oninterval = null;
-
-      // Call qx.core.Target to do the other dispose work
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    if (this.__intervalHandler) {
+      window.clearInterval(this.__intervalHandler);
+    }
+
+    this._disposeFields("__intervalHandler", "__oninterval");
   }
 });
