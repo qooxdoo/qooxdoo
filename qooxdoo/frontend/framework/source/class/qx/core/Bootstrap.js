@@ -120,7 +120,7 @@ qx.Class.define("qx.core.Bootstrap",
     {
       // Firebug & Firebug light support
       if (window.console && console.log) {
-        console.warn(msg);
+        console.log(msg);
       }
 
       // Other browsers
