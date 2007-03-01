@@ -199,14 +199,25 @@ qx.Class.define("apiviewer.TreeUtil",
           break;
 
         case "class":
-          constName = "ICON_CLASS";
+          switch (node.attributes.type)
+          {
+            case "mixin":
+              constName = "ICON_MIXIN";
+              break;
+            
+            case "interface":
+              constName = "ICON_INTERFACE";
+              break;
+              
+            default:
+              constName = "ICON_CLASS";
+              if (node.attributes.isStatic) {
+                constName += "_STATIC";
+              } else if (node.attributes.isAbstract) {
+                constName += "_ABSTRACT";
+              }
 
-          if (node.attributes.isStatic) {
-            constName += "_STATIC";
-          } else if (node.attributes.isAbstract) {
-            constName += "_ABSTRACT";
           }
-
           break;
 
         case "property":
@@ -322,6 +333,18 @@ qx.Class.define("apiviewer.TreeUtil",
     /** {string} The icon URL of an event. */
     ICON_EVENT : "api/image/event18.gif",
     
+    /** {string} The icon URL of an interface. */
+    ICON_INTERFACE : "api/image/interface18.gif",    
+    
+    /** {string} The icon URL of an interface. */
+    ICON_INTERFACE_WARN : "api/image/interface_warning18.gif",    
+
+    /** {string} The icon URL of an mixin. */
+    ICON_MIXIN : "api/image/mixin18.gif",    
+
+    /** {string} The icon URL of an mixin. */
+    ICON_MIXIN_WARN : "api/image/mixin_warning18.gif",    
+
     /** {string} The icon URL of a public method. */
     ICON_METHOD_PUB : "api/image/method_public18.gif",
 
@@ -351,7 +374,7 @@ qx.Class.define("apiviewer.TreeUtil",
     
     /** {string} The icon URL of an event. */
     statics.ICON_EVENT_ERROR = [statics.ICON_EVENT, statics.OVERLAY_ERROR ];
-
+    
     /** {string[]} The icon URL of a property with warning. */
     statics.ICON_PROPERTY_WARN = [statics.ICON_PROPERTY, statics.OVERLAY_WARN ];
 

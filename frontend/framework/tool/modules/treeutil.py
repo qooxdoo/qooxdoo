@@ -90,17 +90,14 @@ def selectNode(node, path):
                         attribName = match.group(2)
                         attribType = match.group(3)
                         found = False
-
                         if node.hasChildren():
-                          for child in node.children:
-                              if child.type == type:
-                                  if child.get(attribName) == attribType:
-                                      node = child
-                                      found = True
-
+                            for child in node.children:
+                                if child.type == type:
+                                    if child.get(attribName) == attribType:
+                                        node = child
+                                        found = True
                         if not found:
                             return None
-
 
 
                     # attribute
@@ -282,6 +279,9 @@ def isStringLiteral(node):
 
 
 def assembleVariable(variableItem):
+    """
+    Return the full variable name from a variable node"
+    """
     if variableItem.type != "variable":
         raise tree.NodeAccessException("'variableItem' is no variable node", variableItem)
 
