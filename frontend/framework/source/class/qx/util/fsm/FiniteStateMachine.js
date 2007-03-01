@@ -1043,66 +1043,22 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
       }
 
       return true;
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {boolean | var} TODOC
-     */
-    dispose : function()
-    {
-      var e;
-      var s;
-
-      if (this.getDisposed()) {
-        return true;
-      }
-
-      while (this._savedStates.length > 0)
-      {
-        s = this._savedStates.pop();
-        s = null;
-      }
-
-      this._savedStates = null;
-
-      while (this._eventQueue.length > 0)
-      {
-        e = this._eventQueue.pop();
-        e.dispose();
-        e = null;
-      }
-
-      this._eventQueue = null;
-
-      while (this._blockedEvents.length > 0)
-      {
-        e = this._blockedEvents.pop();
-        e.dispose();
-        e = null;
-      }
-
-      for (var s in this._states)
-      {
-        this._states[s].dispose();
-        this._states[s] = null;
-        delete this._states[s];
-      }
-
-      this._states = null;
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeDeep("_eventQueue", 1);
+    this._disposeDeep("_blockedEvents", 1);
+    this._disposeFields("_savedStates", "_states");
   }
 });

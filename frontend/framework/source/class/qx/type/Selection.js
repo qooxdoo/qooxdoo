@@ -185,33 +185,19 @@ qx.Class.define("qx.type.Selection",
      */
     isEmpty : function() {
       return qx.lang.Object.isEmpty(this.__storage);
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Destructor
-     *
-     * @type member
-     * @return {void}
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      this.__storage = null;
-      this.__manager = null;
-
-      this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("__storage", "__manager");
   }
 });
