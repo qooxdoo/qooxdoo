@@ -55,6 +55,7 @@ qx.Class.define("qx.ui.embed.GalleryList",
 
     this.addEventListener("mousedown", this._onmousedown);
     this.addEventListener("mouseup", this._onmouseup);
+    this.addEventListener("mousemove", this._onmousemove);
     this.addEventListener("click", this._onclick);
     this.addEventListener("dblclick", this._ondblclick);
     this.addEventListener("keypress", this._onkeypress);
@@ -70,6 +71,11 @@ qx.Class.define("qx.ui.embed.GalleryList",
   */
 
   events: {
+    /**
+     * Dispatched just before the tooltip is shown. This makes it possible to
+     * control which tooltip is shown.
+     */
+    "beforeToolTipAppear"     : "qx.event.type.Event",    
     "loadComplete"            : "qx.event.type.Event"
   },
 
@@ -224,8 +230,86 @@ qx.Class.define("qx.ui.embed.GalleryList",
     },
 
 
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vId {var} TODOC
+     * @return {var} TODOC
+     */
+    getPositionById : function(vId)
+    {
+      for (var i=0, a=this._list, l=a.length; i<l; i++)
+      {
+        if (a[i].id == vId) {
+          return i;
+        }
+      }
+
+      return -1;
+    },
 
 
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vId {var} TODOC
+     * @return {var} TODOC
+     */
+    getEntryById : function(vId) {
+      return this.getEntryByPosition(this.getPositionById(vId));
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vId {var} TODOC
+     * @return {var} TODOC
+     */
+    getNodeById : function(vId) {
+      return this.getNodeByPosition(this.getPositionById(vId));
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vPosition {var} TODOC
+     * @return {var} TODOC
+     */
+    getEntryByPosition : function(vPosition) {
+      return vPosition == -1 ? null : this._list[vPosition];
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vPosition {var} TODOC
+     * @return {var} TODOC
+     */
+    getNodeByPosition : function(vPosition) {
+      return vPosition == -1 ? null : this._frame.childNodes[vPosition];
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vNode {var} TODOC
+     * @return {var} TODOC
+     */
+    getEntryByNode : function(vNode) {
+      return this.getEntryById(vNode.id);
+    },
+    
+    
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER
@@ -297,6 +381,53 @@ qx.Class.define("qx.ui.embed.GalleryList",
       if (vItem) {
         this._manager.handleDblClick(vItem, e);
       }
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void}
+     */
+    _onmousemove : function(e)
+    {
+      if (!qx.Class.isDefined("qx.manager.object.ToolTipManager")) {
+        return;
+      }
+    
+      var vItem = this.getListItemTarget(e.getDomTarget());
+    
+      if (vItem == this._lastItem) {
+        return;
+      }
+    
+      if (this._lastItem)
+      {
+        var vEventObject = new qx.event.type.MouseEvent("mouseout", e, false, this._lastItem);
+        qx.manager.object.ToolTipManager.getInstance().handleMouseOut(vEventObject);
+        vEventObject.dispose();
+      }
+    
+      if (vItem)
+      {
+        if (this.hasEventListeners("beforeToolTipAppear")) {
+        this.dispatchEvent(new qx.event.type.DataEvent("beforeToolTipAppear", vItem), true);
+        }
+    
+        if (!this.getToolTip()) {
+        return;
+        }
+    
+        var vEventObject = new qx.event.type.MouseEvent("mouseout", e, false, vItem);
+        qx.manager.object.ToolTipManager.getInstance().handleMouseOver(vEventObject);
+        vEventObject.dispose();
+    
+        this.setToolTip(null);
+      }
+    
+      this._lastItem = vItem;
     },
 
 
@@ -610,12 +741,6 @@ qx.Class.define("qx.ui.embed.GalleryList",
         this._manager.dispose();
         this._manager = null;
       }
-
-      this.removeEventListener("mousedown", this._onmousedown);
-      this.removeEventListener("mouseup", this._onmouseup);
-      this.removeEventListener("click", this._onclick);
-      this.removeEventListener("dblclick", this._ondblclick);
-      this.removeEventListener("keydown", this._onkeydown);
 
       return this.base(arguments);
     }
