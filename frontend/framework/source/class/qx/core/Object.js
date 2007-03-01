@@ -144,9 +144,13 @@ qx.Class.define("qx.core.Object",
      */
     dispose : function()
     {
+      if (this._disposed) {
+        return;
+      }
+
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.disposerDebugging"))
+        if (qx.core.Setting.get("qx.disposerDebugLevel") >= 1)
         {
           var disposeStart = new Date;
           qx.core.Bootstrap.alert("Disposing qooxdoo application...");
@@ -169,20 +173,20 @@ qx.Class.define("qx.core.Object",
           }
           catch(ex)
           {
-            qx.core.Bootstrap.alert("Could not dispose: " + vObject + ": " + ex);
+            qx.core.Bootstrap.warn("Could not dispose: " + vObject + ": " + ex);
           }
         }
       }
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.disposerDebugging"))
+        if (qx.core.Setting.get("qx.disposerDebugLevel") >= 1)
         {
           // check dom
           var elems = qx.lang.Array.fromCollection(document.getElementsByTagName("*"));
           elems.push(window, document);
 
-          qx.core.Bootstrap.alert("Disposer: Checking " + elems.length + " elements for object references...");
+          qx.core.Bootstrap.alert("Checking " + elems.length + " elements for object references...");
 
           for (var i=0, l=elems.length; i<l; i++)
           {
@@ -202,13 +206,16 @@ qx.Class.define("qx.core.Object",
                       name = elem[key].classname + "[" + elem[key].toHashCode() + "]";
                     }
 
-                    qx.core.Bootstrap.alert("Disposer: Attribute '" + key + "' references " + name + " in DOM element: " + elem.tagName);
+                    qx.core.Bootstrap.alert("Attribute '" + key + "' references " + name + " in DOM element: " + elem.tagName);
                   }
                 }
               }
               catch(ex)
               {
-                qx.core.Bootstrap.alert("Disposer: Could not access key: " + key);
+                // ignore gecko error
+                if (key != "domConfig") {
+                  qx.core.Bootstrap.warn("Could not access key: " + key);
+                }
               }
             }
           }
@@ -216,6 +223,8 @@ qx.Class.define("qx.core.Object",
           qx.core.Bootstrap.alert("Disposing done in " + (new Date() - disposeStart) + "ms");
         }
       }
+
+      this._disposed = true;
     },
 
 
@@ -525,7 +534,7 @@ qx.Class.define("qx.core.Object",
         {
           if (qx.core.Variant.isSet("qx.debug", "on"))
           {
-            if (qx.core.Setting.get("qx.disposerDebugging")) {
+            if (qx.core.Setting.get("qx.disposerDebugLevel") >= 2) {
               qx.core.Bootstrap.alert(this.classname + " has no own field " + name);
             }
           }
@@ -561,7 +570,7 @@ qx.Class.define("qx.core.Object",
         {
           if (qx.core.Variant.isSet("qx.debug", "on"))
           {
-            if (qx.core.Setting.get("qx.disposerDebugging")) {
+            if (qx.core.Setting.get("qx.disposerDebugLevel") >= 2) {
               qx.core.Bootstrap.alert(this.classname + " has no own field " + name);
             }
           }
@@ -595,7 +604,7 @@ qx.Class.define("qx.core.Object",
       {
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          if (qx.core.Setting.get("qx.disposerDebugging")) {
+          if (qx.core.Setting.get("qx.disposerDebugLevel") >= 2) {
             qx.core.Bootstrap.alert(this.classname + " has no own field " + name);
           }
         }
@@ -605,7 +614,7 @@ qx.Class.define("qx.core.Object",
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.disposerDebugging")) {
+        if (qx.core.Setting.get("qx.disposerDebugLevel") >= 2) {
           qx.core.Bootstrap.alert("Dispose Deep: " + name);
         }
       }
@@ -631,7 +640,7 @@ qx.Class.define("qx.core.Object",
       {
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          if (qx.core.Setting.get("qx.disposerDebugging")) {
+          if (qx.core.Setting.get("qx.disposerDebugLevel") >= 3) {
             qx.core.Bootstrap.alert("Sending dispose to " + obj.classname);
           }
         }
@@ -656,7 +665,7 @@ qx.Class.define("qx.core.Object",
             {
               if (qx.core.Variant.isSet("qx.debug", "on"))
               {
-                if (qx.core.Setting.get("qx.disposerDebugging")) {
+                if (qx.core.Setting.get("qx.disposerDebugLevel") >= 3) {
                   qx.core.Bootstrap.alert("- Deep processing item '" + i + "'");
                 }
               }
@@ -666,7 +675,7 @@ qx.Class.define("qx.core.Object",
 
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
-              if (qx.core.Setting.get("qx.disposerDebugging")) {
+              if (qx.core.Setting.get("qx.disposerDebugLevel") >= 3) {
                 qx.core.Bootstrap.alert("- Resetting key (object) '" + key + "'");
               }
             }
@@ -677,7 +686,7 @@ qx.Class.define("qx.core.Object",
           {
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
-              if (qx.core.Setting.get("qx.disposerDebugging")) {
+              if (qx.core.Setting.get("qx.disposerDebugLevel") >= 3) {
                 qx.core.Bootstrap.alert("- Resetting key (function) '" + key + "'");
               }
             }
@@ -704,7 +713,7 @@ qx.Class.define("qx.core.Object",
             {
               if (qx.core.Variant.isSet("qx.debug", "on"))
               {
-                if (qx.core.Setting.get("qx.disposerDebugging")) {
+                if (qx.core.Setting.get("qx.disposerDebugLevel") >= 3) {
                   qx.core.Bootstrap.alert("- Deep processing key '" + key + "'");
                 }
               }
@@ -714,7 +723,7 @@ qx.Class.define("qx.core.Object",
 
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
-              if (qx.core.Setting.get("qx.disposerDebugging")) {
+              if (qx.core.Setting.get("qx.disposerDebugLevel") >= 3) {
                 qx.core.Bootstrap.alert("- Resetting key (object) '" + key + "'");
               }
             }
@@ -725,7 +734,7 @@ qx.Class.define("qx.core.Object",
           {
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
-              if (qx.core.Setting.get("qx.disposerDebugging")) {
+              if (qx.core.Setting.get("qx.disposerDebugLevel") >= 3) {
                 qx.core.Bootstrap.alert("- Resetting key (function) '" + key + "'");
               }
             }
@@ -751,7 +760,7 @@ qx.Class.define("qx.core.Object",
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.disposerDebugging"))
+        if (qx.core.Setting.get("qx.disposerDebugLevel") >= 2)
         {
           qx.core.Bootstrap.alert("Disposing " + this.classname + "[" + this.toHashCode() + "]");
         }
@@ -813,13 +822,13 @@ qx.Class.define("qx.core.Object",
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.disposerDebugging"))
+        if (qx.core.Setting.get("qx.disposerDebugLevel") >= 1)
         {
           for (var vKey in this)
           {
             if (this[vKey] !== null && typeof this[vKey] === "object" && this.constructor.prototype[vKey] === undefined)
             {
-              qx.core.Bootstrap.alert("Missing destruct definition for '" + vKey + "' in " + this.classname);
+              qx.core.Bootstrap.warn("Missing destruct definition for '" + vKey + "' in " + this.classname);
               delete this[vKey];
             }
           }
@@ -853,5 +862,8 @@ qx.Class.define("qx.core.Object",
   *****************************************************************************
   */
 
-  settings : { "qx.disposerDebugging" : false }
+  settings :
+  {
+    "qx.disposerDebugLevel" : 1
+  }
 });

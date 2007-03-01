@@ -127,6 +127,27 @@ qx.Class.define("qx.core.Bootstrap",
       else {
         alert(msg);
       }
+    },
+
+
+    /**
+     * Boot and unload time debug feature.
+     *
+     * @type static
+     * @param msg {String} The message to print out
+     * @return {void}
+     */
+    warn : function(msg)
+    {
+      // Firebug & Firebug light support
+      if (window.console && console.log) {
+        console.warn(msg);
+      }
+
+      // Other browsers
+      else {
+        alert("WARNING: \n" + msg);
+      }
     }
   }
 });

@@ -76,6 +76,6 @@ qx.Class.define("qx.renderer.border.BorderPresets",
   */
 
   destruct : function() {
-    this._disposeFields("this.black", "white", "none", "inset", "outset", "groove", "ridge", "thinInset", "thinOutset", "verticalDivider", "horizontalDivider", "shadow", "lightShadow", "info");
+    this._disposeFields("black", "white", "none", "inset", "outset", "groove", "ridge", "thinInset", "thinOutset", "verticalDivider", "horizontalDivider", "shadow", "lightShadow", "info");
   }
 });
