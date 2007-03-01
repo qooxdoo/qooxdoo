@@ -39,7 +39,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("showcase.Application",
+qx.Class.define("showcase.Application",
 {
   extend : qx.component.AbstractApplication,
 

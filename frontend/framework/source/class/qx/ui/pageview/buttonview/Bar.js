@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.pageview.buttonview.Bar",
+qx.Class.define("qx.ui.pageview.buttonview.Bar",
 {
   extend : qx.ui.pageview.AbstractBar,
 

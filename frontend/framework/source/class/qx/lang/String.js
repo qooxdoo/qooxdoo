@@ -39,7 +39,7 @@
  * The string/array generics introduced in JavaScript 1.6 are supported by
  * {@link qx.lang.Generics}.
  */
-qx.Clazz.define("qx.lang.String",
+qx.Class.define("qx.lang.String",
 {
   statics :
   {

@@ -37,7 +37,7 @@
  *   An instance of qx.ui.treefullcontrol.TreeRowStructure, defining the
  *   structure of this tree row.
  */
-qx.Clazz.define("qx.ui.treefullcontrol.TreeFolder",
+qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
 {
   extend : qx.ui.treefullcontrol.AbstractTreeElement,
 

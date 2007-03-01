@@ -28,7 +28,7 @@
  *
  * @param paneScroller {TablePaneScroller} the TablePaneScroller the header belongs to.
  */
-qx.Clazz.define("qx.ui.table.TablePaneHeader",
+qx.Class.define("qx.ui.table.TablePaneHeader",
 {
   extend : qx.ui.layout.HorizontalBoxLayout,
 

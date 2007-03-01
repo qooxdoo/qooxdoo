@@ -72,7 +72,7 @@
  * @param vSource {String} Url of the SWF file to embed
  * @param vVersion {String} Flash version of the SWF file
  */
-qx.Clazz.define("qx.ui.embed.Flash",
+qx.Class.define("qx.ui.embed.Flash",
 {
   extend : qx.ui.basic.Terminator,
 

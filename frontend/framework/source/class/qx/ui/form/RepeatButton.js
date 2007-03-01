@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.form.RepeatButton",
+qx.Class.define("qx.ui.form.RepeatButton",
 {
   extend : qx.ui.form.Button,
 

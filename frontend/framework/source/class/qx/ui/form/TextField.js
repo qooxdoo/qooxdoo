@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.form.TextField",
+qx.Class.define("qx.ui.form.TextField",
 {
   extend : qx.ui.basic.Terminator,
 

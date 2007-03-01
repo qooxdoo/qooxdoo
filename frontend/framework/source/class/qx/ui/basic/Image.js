@@ -29,7 +29,7 @@
  * This widget represents an image.
  *
  */
-qx.Clazz.define("qx.ui.basic.Image",
+qx.Class.define("qx.ui.basic.Image",
 {
   extend : qx.ui.basic.Terminator,
 

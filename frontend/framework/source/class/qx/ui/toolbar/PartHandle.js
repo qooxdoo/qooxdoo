@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.toolbar.PartHandle",
+qx.Class.define("qx.ui.toolbar.PartHandle",
 {
   extend : qx.ui.layout.CanvasLayout,
 

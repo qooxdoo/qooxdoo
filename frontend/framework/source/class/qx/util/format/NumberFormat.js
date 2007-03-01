@@ -27,7 +27,7 @@
  *
  * @param locale {String} optional locale to be used
  */
-qx.Clazz.define("qx.util.format.NumberFormat",
+qx.Class.define("qx.util.format.NumberFormat",
 {
   extend : qx.util.format.Format,
   //type : "singleton",

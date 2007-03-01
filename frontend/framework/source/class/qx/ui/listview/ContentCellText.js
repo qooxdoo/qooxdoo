@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.listview.ContentCellText",
+qx.Class.define("qx.ui.listview.ContentCellText",
 {
   extend : qx.ui.embed.TextEmbed,
 

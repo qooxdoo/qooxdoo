@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.menu.Separator",
+qx.Class.define("qx.ui.menu.Separator",
 {
   extend : qx.ui.layout.CanvasLayout,
 

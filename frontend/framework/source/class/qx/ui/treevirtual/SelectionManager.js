@@ -30,7 +30,7 @@
  * This Selection Manager differs from its superclass in that we do not want
  * rows to be selected when moving around with the keyboard.
  */
-qx.Clazz.define("qx.ui.treevirtual.SelectionManager",
+qx.Class.define("qx.ui.treevirtual.SelectionManager",
 {
   extend : qx.ui.table.SelectionManager,
 

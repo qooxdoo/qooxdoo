@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.Interface",
+qx.Class.define("qx.Interface",
 {
   statics :
   {
@@ -113,7 +113,7 @@ qx.Clazz.define("qx.Interface",
       iface.name = name;
 
       // Assign to namespace
-      iface.basename = qx.Clazz.createNamespace(name, iface);
+      iface.basename = qx.Class.createNamespace(name, iface);
 
       // Add to registry
       qx.Interface.__registry[name] = iface;

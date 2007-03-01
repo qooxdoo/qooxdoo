@@ -32,7 +32,7 @@
  *
  * Don't instantiate this class directly.
  */
-qx.Clazz.define("qx.ui.core.Parent",
+qx.Class.define("qx.ui.core.Parent",
 {
   extend : qx.ui.core.Widget,
 
@@ -261,7 +261,7 @@ qx.Clazz.define("qx.ui.core.Parent",
       var vFocusValid = propValue != null;
       var vBlurValid = propOldValue != null;
 
-      if (qx.Clazz.isDefined("qx.manager.object.PopupManager") && vFocusValid)
+      if (qx.Class.isDefined("qx.manager.object.PopupManager") && vFocusValid)
       {
         var vMgr = qx.manager.object.PopupManager.getInstance();
 
@@ -319,7 +319,7 @@ qx.Clazz.define("qx.ui.core.Parent",
 
         propOldValue.dispatchEvent(vEventObject);
 
-        if (qx.Clazz.isDefined("qx.manager.object.ToolTipManager"))
+        if (qx.Class.isDefined("qx.manager.object.ToolTipManager"))
         {
           var vMgr = qx.manager.object.ToolTipManager.getInstance();
 
@@ -346,7 +346,7 @@ qx.Clazz.define("qx.ui.core.Parent",
 
         propValue.dispatchEvent(vEventObject);
 
-        if (qx.Clazz.isDefined("qx.manager.object.ToolTipManager"))
+        if (qx.Class.isDefined("qx.manager.object.ToolTipManager"))
         {
           var vMgr = qx.manager.object.ToolTipManager.getInstance();
 

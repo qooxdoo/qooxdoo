@@ -27,7 +27,7 @@
 /**
  * Methods to get CSS style properties of DOM elements.
  */
-qx.Clazz.define("qx.html.Style",
+qx.Class.define("qx.html.Style",
 {
   /*
   *****************************************************************************

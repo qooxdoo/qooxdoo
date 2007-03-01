@@ -25,7 +25,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.listview.ContentCellImage",
+qx.Class.define("qx.ui.listview.ContentCellImage",
 {
   extend : qx.ui.basic.Image,
 

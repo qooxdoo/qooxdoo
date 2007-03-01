@@ -40,7 +40,7 @@ def getMode(var, classname):
 
         if mode == "Proto":
             return "members"
-        elif mode == "Class":
+        elif mode == "Clazz":
             return "statics"
 
     combined = []
@@ -269,7 +269,7 @@ def patch(id, node):
                         prev = lastIdentifier.getPreviousSibling(False, True)
 
                         if prev.type == "identifier":
-                            if prev.get("name") in ["Clazz", "Class", "Mixin", "Interface"]:
+                            if prev.get("name") in ["Class", "Mixin", "Interface", "Theme", "Locale"]:
                                 print "      - Class is already up-to-date."
                                 return False
 

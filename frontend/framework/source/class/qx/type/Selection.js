@@ -29,7 +29,7 @@
  *
  * @param mgr {Object} a class which implements a getItemHashCode(item) method
  */
-qx.Clazz.define("qx.type.Selection",
+qx.Class.define("qx.type.Selection",
 {
   extend : qx.core.Object,
 

@@ -32,7 +32,7 @@
  * License: LGPL
  * Home: http://www.kde-look.org/content/show.php?content=25668
  */
-qx.Clazz.define("qx.theme.icon.CrystalClear",
+qx.Class.define("qx.theme.icon.CrystalClear",
 {
   type : "singleton",
   extend : qx.renderer.theme.IconTheme,

@@ -25,7 +25,7 @@
 /**
  * Global timer support. Simplifies javascript intervals for objects.
  */
-qx.Clazz.define("qx.client.Timer",
+qx.Class.define("qx.client.Timer",
 {
   extend : qx.core.Target,
 

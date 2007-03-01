@@ -26,7 +26,7 @@
 /**
  * All of the resizing information about a column.
  */
-qx.Clazz.define("qx.ui.table.ResizeBehaviorColumnData",
+qx.Class.define("qx.ui.table.ResizeBehaviorColumnData",
 {
   extend : qx.ui.core.Widget,
 

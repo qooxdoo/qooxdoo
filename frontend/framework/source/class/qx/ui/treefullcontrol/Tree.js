@@ -33,7 +33,7 @@
  * @param treeRowStructure An instance of qx.ui.treefullcontrol.TreeRowStructure,
  *   defining the structure of this tree row.
  */
-qx.Clazz.define("qx.ui.treefullcontrol.Tree",
+qx.Class.define("qx.ui.treefullcontrol.Tree",
 {
   extend : qx.ui.treefullcontrol.TreeFolder,
 

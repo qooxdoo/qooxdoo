@@ -34,7 +34,7 @@
  *
  *  This class should not be used directly by client programmers.
  */
-qx.Clazz.define("qx.io.remote.IframeTransport",
+qx.Class.define("qx.io.remote.IframeTransport",
 {
   extend : qx.io.remote.AbstractRemoteTransport,
 

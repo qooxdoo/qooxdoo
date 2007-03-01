@@ -32,7 +32,7 @@
  *  Version shemes following wikipedia: major.minor[.revision[.build]]
  *  http://en.wikipedia.org/wiki/Software_version
  */
-qx.Clazz.define("qx.core.Client",
+qx.Class.define("qx.core.Client",
 {
 
 

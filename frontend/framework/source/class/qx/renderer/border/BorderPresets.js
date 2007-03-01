@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /** Some common used border styles. */
-qx.Clazz.define("qx.renderer.border.BorderPresets",
+qx.Class.define("qx.renderer.border.BorderPresets",
 {
   type : "singleton",
   extend : qx.core.Object,

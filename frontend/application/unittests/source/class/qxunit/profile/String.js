@@ -1,5 +1,5 @@
 
-qx.Clazz.define("qxunit.profile.String", {
+qx.Class.define("qxunit.profile.String", {
 	extend: qxunit.TestCase,	
 	
 	members: {
@@ -69,7 +69,7 @@ qx.Clazz.define("qxunit.profile.String", {
 		},
 		
 		testSplitOptimize: function() {
-			var strings = qx.lang.Object.getKeys(qx.Clazz.__registry);
+			var strings = qx.lang.Object.getKeys(qx.Class.__registry);
 			var loopCount = 100;
 			var splitter = ".";
 

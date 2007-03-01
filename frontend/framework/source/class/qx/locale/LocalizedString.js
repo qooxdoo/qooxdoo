@@ -28,7 +28,7 @@
  * @param args {Object[]} array of objects, which are inserted into the format string.
  * @param locale {String} optional locale to be used for translation
  */
-qx.Clazz.define("qx.locale.LocalizedString",
+qx.Class.define("qx.locale.LocalizedString",
 {
   extend : qx.core.Object,
 

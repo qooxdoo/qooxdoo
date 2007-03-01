@@ -1,11 +1,11 @@
 
-qx.Clazz.define("qxunit.test.Clazz", {
+qx.Class.define("qxunit.test.Clazz", {
 	extend: qxunit.TestCase,
 	
 	members : {
 	
 		testEmptyClass: function() {
-			qx.Clazz.define("qxunit.Empty", {
+			qx.Class.define("qxunit.Empty", {
 		        extend: Object,
 		        construct: function() {}
 		    });
@@ -16,13 +16,13 @@ qx.Clazz.define("qxunit.test.Clazz", {
 		},
 	
 		testSameNameClasses: function() {
-			qx.Clazz.define("qxunit.Same", {
+			qx.Class.define("qxunit.Same", {
 		        extend: Object,
 		        construct: function() {}
 		    });
 	
 			this.assertExceptionDebugOn(function() {
-			    qx.Clazz.define("qxunit.Same", {
+			    qx.Class.define("qxunit.Same", {
 		        	extend: Object,
 		        	construct: function() {}
 		    	});
@@ -30,7 +30,7 @@ qx.Clazz.define("qxunit.test.Clazz", {
 		},
 
 		testSuperClassCall: function() {
-		    qx.Clazz.define("qxunit.Car", {
+		    qx.Class.define("qxunit.Car", {
 		        extend: qx.core.Object,
         
 		        construct: function (name) {
@@ -58,7 +58,7 @@ qx.Clazz.define("qxunit.test.Clazz", {
 		    this.assertEquals("stop", car.stopEngine());
 		    this.assertEquals("Audi", car.getName());
 
-		    qx.Clazz.define("qxunit.Bmw", {
+		    qx.Class.define("qxunit.Bmw", {
         
 		        extend: qxunit.Car,
         
@@ -96,7 +96,7 @@ qx.Clazz.define("qxunit.test.Clazz", {
 	
 		testAbstract: function() {
 		
-			qx.Clazz.define("qxunit.AbstractCar", {
+			qx.Class.define("qxunit.AbstractCar", {
 				extend: Object,
 				type: "abstract",
 				construct: function(color) {
@@ -113,7 +113,7 @@ qx.Clazz.define("qxunit.test.Clazz", {
 			}, Error, new RegExp("The class .* is abstract"));
 
 			// check if subclasses of abstract classes work
-			qx.Clazz.define("qxunit.ConcreteCar", {
+			qx.Class.define("qxunit.ConcreteCar", {
 				extend: qxunit.AbstractCar,
 				construct: function(color) {
 					arguments.callee.base.apply(this, arguments);
@@ -128,7 +128,7 @@ qx.Clazz.define("qxunit.test.Clazz", {
 	
 		testSingleton: function() {
 
-			qx.Clazz.define("qxunit.Single1", {
+			qx.Class.define("qxunit.Single1", {
 				extend: Object,
 				type: "singleton",
 			
@@ -152,7 +152,7 @@ qx.Clazz.define("qxunit.test.Clazz", {
 		},
 	
 		testSetting: function() {
-			qx.Clazz.define("qxunit.Setting1", {
+			qx.Class.define("qxunit.Setting1", {
 				settings: {
 					"qxunit.juhu": "kinners"
 				}
@@ -165,7 +165,7 @@ qx.Clazz.define("qxunit.test.Clazz", {
 		
 		
 			this.assertExceptionDebugOn(function() {
-				qx.Clazz.define("qxunit.Setting2", {
+				qx.Class.define("qxunit.Setting2", {
 					settings: {
 						"foo.juhu": "kinners"
 					}
@@ -174,7 +174,7 @@ qx.Clazz.define("qxunit.test.Clazz", {
 		},
 	
 		testVariant: function() {
-			qx.Clazz.define("qxunit.Variant1", {
+			qx.Class.define("qxunit.Variant1", {
 				variants: {
 					"qxunit.juhu": {
 						allowedValues: ["kinners", "juhu"],
@@ -189,7 +189,7 @@ qx.Clazz.define("qxunit.test.Clazz", {
 			);
 		
 			this.assertExceptionDebugOn(function() {
-				qx.Clazz.define("qxunit.Variant2", {
+				qx.Class.define("qxunit.Variant2", {
 					variants: {
 						"foo.juhu": {
 							allowedValues: ["kinners", "juhu"],
@@ -202,7 +202,7 @@ qx.Clazz.define("qxunit.test.Clazz", {
 		
 		testDefer: function() {
 			// this is BAD practice, don't code like this!
-			qx.Clazz.define("qxunit.Defer", {
+			qx.Class.define("qxunit.Defer", {
 				extend: qx.core.Object,
 				
 				defer: function(statics, prot, settings) {
@@ -225,7 +225,7 @@ qx.Clazz.define("qxunit.test.Clazz", {
 		
 		__testCaller: function() {
 			
-			qx.Clazz.define("qxunit.CallerSuper", {
+			qx.Class.define("qxunit.CallerSuper", {
 				extend: qx.core.Object,
 				members: {
 					__foo: function() {
@@ -268,7 +268,7 @@ qx.Clazz.define("qxunit.test.Clazz", {
 			}, Error, "Private method", "call private member");
 		
 			// test protected
-			qx.Clazz.define("qxunit.CallerChild", {
+			qx.Class.define("qxunit.CallerChild", {
 				extend: qxunit.CallerSuper,
 				members: {
 					__foo: function() {
@@ -302,7 +302,7 @@ qx.Clazz.define("qxunit.test.Clazz", {
 			});
 			
 			// private/protected should not be part of an interface
-			qx.Clazz.define("qxunit.WrappedPrivate", {
+			qx.Class.define("qxunit.WrappedPrivate", {
 				extend: qx.core.Object,
 				implement: [qxunit.IWrappedPrivate],
 				members: {					
@@ -322,24 +322,24 @@ qx.Clazz.define("qxunit.test.Clazz", {
 		testGetFunctionName: function() {
 			var self = this;
 		
-			qx.Clazz.define("qxunit.FuncName", {
+			qx.Class.define("qxunit.FuncName", {
 				extend: qx.core.Object,
 				construct: function() {
 					this.base(arguments);
-					self.assertEquals("construct", qx.Clazz.getFunctionName(arguments.callee));
+					self.assertEquals("construct", qx.Class.getFunctionName(arguments.callee));
 				},
 				
 				members: {
 					__foo: function() {
-						self.assertEqualsDebugOn("__foo", qx.Clazz.getFunctionName(arguments.callee));						
+						self.assertEqualsDebugOn("__foo", qx.Class.getFunctionName(arguments.callee));						
 					},
 
 					_bar: function() {
-						self.assertEquals("_bar", qx.Clazz.getFunctionName(arguments.callee));						
+						self.assertEquals("_bar", qx.Class.getFunctionName(arguments.callee));						
 					},
 					
 					sayFooBar: function() {
-						self.assertEquals("sayFooBar", qx.Clazz.getFunctionName(arguments.callee));
+						self.assertEquals("sayFooBar", qx.Class.getFunctionName(arguments.callee));
 						this.__foo();
 						this._bar();
 					}
@@ -348,7 +348,7 @@ qx.Clazz.define("qxunit.test.Clazz", {
 			
 			var funcName = new qxunit.FuncName();
 			funcName.sayFooBar();
-			this.assertNull(qx.Clazz.getFunctionName(function() {}));
+			this.assertNull(qx.Class.getFunctionName(function() {}));
 			
 		}
 	}	

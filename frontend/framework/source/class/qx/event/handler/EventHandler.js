@@ -32,7 +32,7 @@
 /**
  * This manager registers and manage all incoming key and mouse events.
  */
-qx.Clazz.define("qx.event.handler.EventHandler",
+qx.Class.define("qx.event.handler.EventHandler",
 {
   type : "singleton",
   extend : qx.core.Target,
@@ -657,7 +657,7 @@ qx.Clazz.define("qx.event.handler.EventHandler",
       {
         case "Escape":
         case "Tab":
-          if (qx.Clazz.isDefined("qx.manager.object.MenuManager")) {
+          if (qx.Class.isDefined("qx.manager.object.MenuManager")) {
             qx.manager.object.MenuManager.getInstance().update(vTarget, vType);
           }
 
@@ -698,7 +698,7 @@ qx.Clazz.define("qx.event.handler.EventHandler",
         vTarget.dispatchEvent(vKeyEventObject);
 
         // Send event to qx.event.handler.DragAndDropHandler
-        if (qx.Clazz.isDefined("qx.event.handler.DragAndDropHandler")) {
+        if (qx.Class.isDefined("qx.event.handler.DragAndDropHandler")) {
           qx.event.handler.DragAndDropHandler.getInstance().handleKeyEvent(vKeyEventObject);
         }
       }
@@ -989,7 +989,7 @@ qx.Clazz.define("qx.event.handler.EventHandler",
           // target is disabled -> Pass the event only to the ToolTipManager
           if (vType == "mouseover")
           {
-            if (qx.Clazz.isDefined("qx.manager.object.ToolTipManager")) {
+            if (qx.Class.isDefined("qx.manager.object.ToolTipManager")) {
               qx.manager.object.ToolTipManager.getInstance().handleMouseOver(vEventObject);
             }
           }
@@ -1036,15 +1036,15 @@ qx.Clazz.define("qx.event.handler.EventHandler",
       switch(vType)
       {
         case "mousedown":
-          if (qx.Clazz.isDefined("qx.manager.object.PopupManager")) {
+          if (qx.Class.isDefined("qx.manager.object.PopupManager")) {
             qx.manager.object.PopupManager.getInstance().update(vTarget);
           }
 
-          if (qx.Clazz.isDefined("qx.manager.object.MenuManager")) {
+          if (qx.Class.isDefined("qx.manager.object.MenuManager")) {
             qx.manager.object.MenuManager.getInstance().update(vTarget, vType);
           }
 
-          if (qx.Clazz.isDefined("qx.manager.object.IframeManager")) {
+          if (qx.Class.isDefined("qx.manager.object.IframeManager")) {
             qx.manager.object.IframeManager.getInstance().handleMouseDown(vEventObject);
           }
 
@@ -1052,25 +1052,25 @@ qx.Clazz.define("qx.event.handler.EventHandler",
 
         case "mouseup":
           // Mouseup event should always hide, independed of target, so don't send a target
-          if (qx.Clazz.isDefined("qx.manager.object.MenuManager")) {
+          if (qx.Class.isDefined("qx.manager.object.MenuManager")) {
             qx.manager.object.MenuManager.getInstance().update(vTarget, vType);
           }
 
-          if (qx.Clazz.isDefined("qx.manager.object.IframeManager")) {
+          if (qx.Class.isDefined("qx.manager.object.IframeManager")) {
             qx.manager.object.IframeManager.getInstance().handleMouseUp(vEventObject);
           }
 
           break;
 
         case "mouseover":
-          if (qx.Clazz.isDefined("qx.manager.object.ToolTipManager")) {
+          if (qx.Class.isDefined("qx.manager.object.ToolTipManager")) {
             qx.manager.object.ToolTipManager.getInstance().handleMouseOver(vEventObject);
           }
 
           break;
 
         case "mouseout":
-          if (qx.Clazz.isDefined("qx.manager.object.ToolTipManager")) {
+          if (qx.Class.isDefined("qx.manager.object.ToolTipManager")) {
             qx.manager.object.ToolTipManager.getInstance().handleMouseOut(vEventObject);
           }
 
@@ -1089,7 +1089,7 @@ qx.Clazz.define("qx.event.handler.EventHandler",
       this._ignoreWindowBlur = vType === "mousedown";
 
       // Send Event Object to Drag&Drop Manager
-      if (qx.Clazz.isDefined("qx.event.handler.DragAndDropHandler") && vTarget) {
+      if (qx.Class.isDefined("qx.event.handler.DragAndDropHandler") && vTarget) {
         qx.event.handler.DragAndDropHandler.getInstance().handleMouseEvent(vEventObject);
       }
     },
@@ -1223,17 +1223,17 @@ qx.Clazz.define("qx.event.handler.EventHandler",
       this.setCaptureWidget(null);
 
       // Hide Popups, Tooltips, ...
-      if (qx.Clazz.isDefined("qx.manager.object.PopupManager")) {
+      if (qx.Class.isDefined("qx.manager.object.PopupManager")) {
         qx.manager.object.PopupManager.getInstance().update();
       }
 
       // Hide Menus
-      if (qx.Clazz.isDefined("qx.manager.object.MenuManager")) {
+      if (qx.Class.isDefined("qx.manager.object.MenuManager")) {
         qx.manager.object.MenuManager.getInstance().update();
       }
 
       // Cancel Drag Operations
-      if (qx.Clazz.isDefined("qx.event.handler.DragAndDropHandler")) {
+      if (qx.Class.isDefined("qx.event.handler.DragAndDropHandler")) {
         qx.event.handler.DragAndDropHandler.getInstance().globalCancelDrag();
       }
 

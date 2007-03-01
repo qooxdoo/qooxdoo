@@ -26,7 +26,7 @@
 /**
  * The default data row renderer.
  */
-qx.Clazz.define("qx.ui.table.DefaultDataRowRenderer",
+qx.Class.define("qx.ui.table.DefaultDataRowRenderer",
 {
   extend : qx.ui.table.DataRowRenderer,
 

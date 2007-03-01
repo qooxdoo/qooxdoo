@@ -32,7 +32,7 @@
  *
  * Includes support for RGB and HSB color areas.
  */
-qx.Clazz.define("qx.ui.component.ColorSelector",
+qx.Class.define("qx.ui.component.ColorSelector",
 {
   extend : qx.ui.layout.VerticalBoxLayout,
 

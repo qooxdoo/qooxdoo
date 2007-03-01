@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.groupbox.GroupBox",
+qx.Class.define("qx.ui.groupbox.GroupBox",
 {
   extend : qx.ui.layout.CanvasLayout,
 

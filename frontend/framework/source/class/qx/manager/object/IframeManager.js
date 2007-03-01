@@ -26,7 +26,7 @@
  * The solution: In order to be able to track mouse events over iframes, this
  * manager will block all iframes during a drag with a glasspane.
  */
-qx.Clazz.define("qx.manager.object.IframeManager",
+qx.Class.define("qx.manager.object.IframeManager",
 {
   type : "singleton",
   extend : qx.manager.object.ObjectManager,

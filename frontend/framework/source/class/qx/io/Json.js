@@ -55,7 +55,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.io.Json",
+qx.Class.define("qx.io.Json",
 {
   statics :
   {

@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /** This singleton manages qx.ui.window.Windows */
-qx.Clazz.define("qx.manager.object.WindowManager",
+qx.Class.define("qx.manager.object.WindowManager",
 {
   extend : qx.manager.object.ObjectManager,
 

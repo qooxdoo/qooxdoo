@@ -17,7 +17,7 @@
 /**
  * Your custom application
  */
-qx.Clazz.define("custom.Application",
+qx.Class.define("custom.Application",
 {
   extend : qx.component.AbstractApplication,
 

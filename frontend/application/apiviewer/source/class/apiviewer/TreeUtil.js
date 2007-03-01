@@ -30,7 +30,7 @@
 /**
  * A util class for handling the documentation tree.
  */
-qx.Clazz.define("apiviewer.TreeUtil",
+qx.Class.define("apiviewer.TreeUtil",
 {
   extend : qx.core.Object,
 

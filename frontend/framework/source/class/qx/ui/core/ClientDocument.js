@@ -33,7 +33,7 @@
  * qx.ui.core.ClientDocument is the parent of all children inside your application. It
  * also handles their resizing and focus navigation.
  */
-qx.Clazz.define("qx.ui.core.ClientDocument",
+qx.Class.define("qx.ui.core.ClientDocument",
 {
   type : "singleton",
   extend : qx.ui.layout.CanvasLayout,
@@ -328,7 +328,7 @@ qx.Clazz.define("qx.ui.core.ClientDocument",
       // this.debug("BLOCK: " + vActiveChild.toHashCode());
       this._getBlocker().show();
 
-      if (qx.Clazz.isDefined("qx.ui.window.Window") && vActiveChild instanceof qx.ui.window.Window)
+      if (qx.Class.isDefined("qx.ui.window.Window") && vActiveChild instanceof qx.ui.window.Window)
       {
         this._modalWidgets.push(vActiveChild);
 
@@ -336,7 +336,7 @@ qx.Clazz.define("qx.ui.core.ClientDocument",
         this._getBlocker().setZIndex(vOrigIndex);
         vActiveChild.setZIndex(vOrigIndex + 1);
       }
-      else if (qx.Clazz.isDefined("qx.client.NativeWindow") && vActiveChild instanceof qx.client.NativeWindow)
+      else if (qx.Class.isDefined("qx.client.NativeWindow") && vActiveChild instanceof qx.client.NativeWindow)
       {
         this._modalNativeWindow = vActiveChild;
         this._getBlocker().setZIndex(1e7);
@@ -356,7 +356,7 @@ qx.Clazz.define("qx.ui.core.ClientDocument",
       // this.debug("RELEASE: " + vActiveChild.toHashCode());
       if (vActiveChild)
       {
-        if (qx.Clazz.isDefined("qx.client.NativeWindow") && vActiveChild instanceof qx.client.NativeWindow) {
+        if (qx.Class.isDefined("qx.client.NativeWindow") && vActiveChild instanceof qx.client.NativeWindow) {
           this._modalNativeWindow = null;
         } else {
           qx.lang.Array.remove(this._modalWidgets, vActiveChild);
@@ -491,7 +491,7 @@ qx.Clazz.define("qx.ui.core.ClientDocument",
     _onwindowresize : function(e)
     {
       // Hide popups, tooltips, ...
-      if (qx.Clazz.isDefined("qx.manager.object.PopupManager")) {
+      if (qx.Class.isDefined("qx.manager.object.PopupManager")) {
         qx.manager.object.PopupManager.getInstance().update();
       }
 

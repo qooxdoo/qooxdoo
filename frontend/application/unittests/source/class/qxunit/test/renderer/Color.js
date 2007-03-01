@@ -1,5 +1,5 @@
 
-qx.Clazz.define("qxunit.test.renderer.Color", { 
+qx.Class.define("qxunit.test.renderer.Color", { 
 	extend: qxunit.TestCase,
 	
 	members : {

@@ -27,7 +27,7 @@
 /**
  * System color theme
  */
-qx.Clazz.define("qx.theme.color.System",
+qx.Class.define("qx.theme.color.System",
 {
   type : "singleton",
   extend : qx.renderer.theme.ColorTheme,

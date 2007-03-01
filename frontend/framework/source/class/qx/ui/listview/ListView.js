@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.listview.ListView",
+qx.Class.define("qx.ui.listview.ListView",
 {
   extend : qx.ui.layout.VerticalBoxLayout,
 

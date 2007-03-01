@@ -33,7 +33,7 @@
  *                             icon
  *
  */
-qx.Clazz.define("qx.ui.table.IconHeaderCellRenderer",
+qx.Class.define("qx.ui.table.IconHeaderCellRenderer",
 {
   extend : qx.ui.table.DefaultHeaderCellRenderer,
 

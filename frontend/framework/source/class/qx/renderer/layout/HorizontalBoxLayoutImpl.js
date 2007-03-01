@@ -25,7 +25,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.renderer.layout.HorizontalBoxLayoutImpl",
+qx.Class.define("qx.renderer.layout.HorizontalBoxLayoutImpl",
 {
   extend : qx.renderer.layout.LayoutImpl,
 

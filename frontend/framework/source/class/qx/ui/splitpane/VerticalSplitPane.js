@@ -33,7 +33,7 @@
  * @param firstSize {String} The size of the top pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
  * @param secondSize {String} The size of the bottom pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
  */
-qx.Clazz.define("qx.ui.splitpane.VerticalSplitPane",
+qx.Class.define("qx.ui.splitpane.VerticalSplitPane",
 {
   extend : qx.ui.splitpane.SplitPane,
 

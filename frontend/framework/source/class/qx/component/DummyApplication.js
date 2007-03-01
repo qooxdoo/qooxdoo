@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.component.DummyApplication",
+qx.Class.define("qx.component.DummyApplication",
 {
   extend : qx.component.AbstractApplication,
 

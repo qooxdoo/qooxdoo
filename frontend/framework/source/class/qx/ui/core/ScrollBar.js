@@ -28,7 +28,7 @@
  * @param horizontal {Boolean ? false} whether the scroll bar should be
  *    horizontal. If false it will be vertical.
  */
-qx.Clazz.define("qx.ui.core.ScrollBar",
+qx.Class.define("qx.ui.core.ScrollBar",
 {
   extend : qx.ui.layout.BoxLayout,
 

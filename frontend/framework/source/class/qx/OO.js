@@ -27,7 +27,7 @@
 
 if (qx.core.Variant.isSet("qx.compatibility", "on"))
 {
-  qx.Clazz.define("qx.OO",
+  qx.Class.define("qx.OO",
   {
     /*
     *****************************************************************************
@@ -51,7 +51,7 @@ if (qx.core.Variant.isSet("qx.compatibility", "on"))
        * define a new qooxdoo class
        * All classes should be defined in this way.
        *
-       * @deprecated Please switch to new qx.Clazz.define ASAP. This will be removed in qooxdoo 0.7
+       * @deprecated Please switch to new qx.Class.define ASAP. This will be removed in qooxdoo 0.7
        * @type static
        * @name defineClass
        * @access public
@@ -127,7 +127,7 @@ if (qx.core.Variant.isSet("qx.compatibility", "on"))
       /**
        * Returns if a class which is created by defineClass is available.
        *
-       * @deprecated Please switch to new qx.Clazz.define ASAP. This will be removed in qooxdoo 0.7
+       * @deprecated Please switch to new qx.Class.define ASAP. This will be removed in qooxdoo 0.7
        * @type static
        * @name isAvailable
        * @access public
@@ -180,7 +180,7 @@ if (qx.core.Variant.isSet("qx.compatibility", "on"))
           //qx.core.Bootstrap.alert(qx.Class.classname + ": Use of old addPropertyGroup implementation for property " + config.name);
         }
 
-        return qx.Clazz.addPropertyGroup(config, qx.Proto);
+        return qx.Class.addPropertyGroup(config, qx.Proto);
       },
 
       /**

@@ -32,7 +32,7 @@
  * the entries was requested by the user (e.g. by clicking on the back button).
  * </p>
  */
-qx.Clazz.define("qx.client.History",
+qx.Class.define("qx.client.History",
 {
   type : "singleton",
   extend : qx.core.Target,

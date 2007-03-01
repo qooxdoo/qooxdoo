@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.component.init.InterfaceInitComponent",
+qx.Class.define("qx.component.init.InterfaceInitComponent",
 {
   extend : qx.component.init.BasicInitComponent,
 

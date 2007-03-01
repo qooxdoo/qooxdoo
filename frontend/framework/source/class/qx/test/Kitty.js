@@ -2,7 +2,7 @@
 #require(qx.test.MFat)
 */
 
-qx.Clazz.define("qx.test.Kitty",
+qx.Class.define("qx.test.Kitty",
 {
   extend : qx.test.Cat,
   implement : [ qx.test.IPet ],

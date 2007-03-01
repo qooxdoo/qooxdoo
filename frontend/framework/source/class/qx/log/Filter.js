@@ -27,7 +27,7 @@
 /**
  * A filter for log events.
  */
-qx.Clazz.define("qx.log.Filter",
+qx.Class.define("qx.log.Filter",
 {
   extend : qx.core.Object,
 

@@ -32,7 +32,7 @@
 ************************************************************************ */
 
 
-qx.Clazz.define("qx.io.remote.Exchange",
+qx.Class.define("qx.io.remote.Exchange",
 {
   extend : qx.core.Target,
 

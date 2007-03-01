@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.listview.HeaderCell",
+qx.Class.define("qx.ui.listview.HeaderCell",
 {
   extend : qx.ui.basic.Atom,
 

@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.renderer.layout.FlowLayoutImpl",
+qx.Class.define("qx.renderer.layout.FlowLayoutImpl",
 {
   extend : qx.renderer.layout.LayoutImpl,
 

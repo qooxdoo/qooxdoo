@@ -22,7 +22,7 @@
 /**
  * Create a new instance of qx.locale.String
  */
-qx.Clazz.define("qx.locale.String",
+qx.Class.define("qx.locale.String",
 {
   /*
   *****************************************************************************

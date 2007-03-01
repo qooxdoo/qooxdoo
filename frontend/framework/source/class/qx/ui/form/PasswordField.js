@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.form.PasswordField",
+qx.Class.define("qx.ui.form.PasswordField",
 {
   extend : qx.ui.form.TextField,
 

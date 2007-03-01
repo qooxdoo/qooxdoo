@@ -25,7 +25,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.layout.VerticalBoxLayout",
+qx.Class.define("qx.ui.layout.VerticalBoxLayout",
 {
   extend : qx.ui.layout.BoxLayout,
 

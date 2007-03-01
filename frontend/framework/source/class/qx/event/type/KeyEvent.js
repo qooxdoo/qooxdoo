@@ -37,7 +37,7 @@
  * @param vCharCode {Integer} char code from the "keypress" event
  * @param vKeyIdentifier {String} the key identifier
  */
-qx.Clazz.define("qx.event.type.KeyEvent",
+qx.Class.define("qx.event.type.KeyEvent",
 {
   extend : qx.event.type.DomEvent,
 

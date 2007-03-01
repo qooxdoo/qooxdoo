@@ -31,7 +31,7 @@
  * @param tableColumnModel {TableColumnModel} The TableColumnModel of which this
  *    model is the proxy.
  */
-qx.Clazz.define("qx.ui.table.TablePaneModel",
+qx.Class.define("qx.ui.table.TablePaneModel",
 {
   extend : qx.core.Target,
 

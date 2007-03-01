@@ -34,7 +34,7 @@
  * Make shure you set the application to your application before the load event is fired:
  * <pre>qx.core.Init.getInstance().setApplication(YourApplication)</pre>
  */
-qx.Clazz.define("qx.core.Init",
+qx.Class.define("qx.core.Init",
 {
   type : "singleton",
   extend : qx.core.Target,
@@ -248,7 +248,7 @@ qx.Clazz.define("qx.core.Init",
       if (qx.core.Variant.isSet("qx.compatibility", "on")) {
         this.debug("loaded " + qx.lang.Object.getLength(qx.OO.classes) + " old classes");
       }
-      this.debug("loaded " + qx.Clazz.getNumber() + " classes");
+      this.debug("loaded " + qx.Class.getNumber() + " classes");
       this.debug("loaded " + qx.Interface.getNumber() + " interfaces");
       this.debug("loaded " + qx.Mixin.getNumber() + " mixins");
       this.debug("loaded " + qx.Locale.getNumber() + " locales");
@@ -266,7 +266,7 @@ qx.Clazz.define("qx.core.Init",
       }
 
       // Init component from settings
-      var clazz = qx.Clazz.getByName(qx.core.Setting.get("qx.initComponent"));
+      var clazz = qx.Class.getByName(qx.core.Setting.get("qx.initComponent"));
       this.setComponent(new clazz(this));
 
       // Send onload

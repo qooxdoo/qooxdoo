@@ -32,7 +32,7 @@
  *
  * @param name {String ? "qx_log"} the name of the log window.
  */
-qx.Clazz.define("qx.log.WindowAppender",
+qx.Class.define("qx.log.WindowAppender",
 {
   extend : qx.log.Appender,
 

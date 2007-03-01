@@ -26,7 +26,7 @@
 /**
  * Create a new instance of qx.nls.Date
  */
-qx.Clazz.define("qx.locale.Key",
+qx.Class.define("qx.locale.Key",
 {
   /*
   *****************************************************************************

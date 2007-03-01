@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.form.RadioButton",
+qx.Class.define("qx.ui.form.RadioButton",
 {
   extend : qx.ui.form.CheckBox,
 

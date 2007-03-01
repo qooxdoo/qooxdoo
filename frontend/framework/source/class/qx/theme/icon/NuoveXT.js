@@ -32,7 +32,7 @@
  * License: GPL & LGPL/EPL
  * Home: http://www.kde-look.org/content/show.php?content=26449
  */
-qx.Clazz.define("qx.theme.icon.NuoveXT",
+qx.Class.define("qx.theme.icon.NuoveXT",
 {
   type : "singleton",
   extend : qx.renderer.theme.IconTheme,

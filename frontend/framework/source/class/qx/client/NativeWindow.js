@@ -23,7 +23,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.client.NativeWindow",
+qx.Class.define("qx.client.NativeWindow",
 {
   extend : qx.core.Target,
 

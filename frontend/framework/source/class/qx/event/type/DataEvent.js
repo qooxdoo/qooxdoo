@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /** Event object for property changes. */
-qx.Clazz.define("qx.event.type.DataEvent",
+qx.Class.define("qx.event.type.DataEvent",
 {
   extend : qx.event.type.Event,
 

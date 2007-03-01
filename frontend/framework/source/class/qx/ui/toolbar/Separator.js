@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.toolbar.Separator",
+qx.Class.define("qx.ui.toolbar.Separator",
 {
   extend : qx.ui.layout.CanvasLayout,
 

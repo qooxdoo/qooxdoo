@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.listview.ContentCellIconHtml",
+qx.Class.define("qx.ui.listview.ContentCellIconHtml",
 {
   extend : qx.ui.embed.IconHtmlEmbed,
 

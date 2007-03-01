@@ -30,7 +30,7 @@
  * @param tableModel {qx.ui.table.TableModel, null}
  *   The table model to read the data from.
  */
-qx.Clazz.define("qx.ui.table.Table",
+qx.Class.define("qx.ui.table.Table",
 {
   extend : qx.ui.layout.VerticalBoxLayout,
 

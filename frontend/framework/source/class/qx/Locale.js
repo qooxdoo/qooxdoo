@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.Locale",
+qx.Class.define("qx.Locale",
 {
   statics:
   {
@@ -48,7 +48,7 @@ qx.Clazz.define("qx.Locale",
     define : function(name, config)
     {
       // Assign to namespace
-      var basename = qx.Clazz.createNamespace(name, config);
+      var basename = qx.Class.createNamespace(name, config);
 
       // Register to manager
       qx.locale.Manager.getInstance().addTranslation(basename, config);

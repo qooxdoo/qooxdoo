@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.basic.Inline",
+qx.Class.define("qx.ui.basic.Inline",
 {
   extend : qx.ui.layout.CanvasLayout,
 

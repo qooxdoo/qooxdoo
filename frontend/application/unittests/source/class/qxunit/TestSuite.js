@@ -1,5 +1,5 @@
 
-qx.Clazz.define("qxunit.TestSuite", {
+qx.Class.define("qxunit.TestSuite", {
 	
 	extend: qx.core.Object,
 	
@@ -42,7 +42,7 @@ qx.Clazz.define("qxunit.TestSuite", {
 				this.addFail("exsitsCheck" + this.__testClassNames.length, "Unkown test class!");
 				return;
 			}
-			if (qx.Clazz.isSubClassOf(clazz, qxunit.TestCase))
+			if (qx.Class.isSubClassOf(clazz, qxunit.TestCase))
 			{
 				var proto = clazz.prototype;
 				var classname = clazz.classname;

@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /** A mouse event instance contains all data for each occured mouse event */
-qx.Clazz.define("qx.event.type.MouseEvent",
+qx.Class.define("qx.event.type.MouseEvent",
 {
   extend : qx.event.type.DomEvent,
 

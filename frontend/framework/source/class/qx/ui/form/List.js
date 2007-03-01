@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.form.List",
+qx.Class.define("qx.ui.form.List",
 {
   extend : qx.ui.layout.VerticalBoxLayout,
 

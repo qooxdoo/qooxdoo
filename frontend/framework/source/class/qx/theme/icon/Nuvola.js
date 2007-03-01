@@ -31,7 +31,7 @@
  * License: LGPL
  * Home: http://www.kde-look.org/content/show.php?content=5358
  */
-qx.Clazz.define("qx.theme.icon.Nuvola",
+qx.Class.define("qx.theme.icon.Nuvola",
 {
   type : "singleton",
   extend : qx.renderer.theme.IconTheme,

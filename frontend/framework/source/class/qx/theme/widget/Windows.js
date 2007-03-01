@@ -29,7 +29,7 @@
 /**
  * Default qooxdoo widget theme
  */
-qx.Clazz.define("qx.theme.widget.Windows",
+qx.Class.define("qx.theme.widget.Windows",
 {
   type : "singleton",
   extend : qx.renderer.theme.WidgetTheme,

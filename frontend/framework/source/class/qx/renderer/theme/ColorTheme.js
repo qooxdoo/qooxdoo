@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.renderer.theme.ColorTheme",
+qx.Class.define("qx.renderer.theme.ColorTheme",
 {
   extend : qx.core.Object,
 

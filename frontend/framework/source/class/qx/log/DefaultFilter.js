@@ -27,7 +27,7 @@
 /**
  * The default filter. Has a minimum level and can be enabled or disabled.
  */
-qx.Clazz.define("qx.log.DefaultFilter",
+qx.Class.define("qx.log.DefaultFilter",
 {
   extend : qx.log.Filter,
 

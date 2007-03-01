@@ -37,7 +37,7 @@
  * So this class seems to be the best compromise to handle
  * string concatenation.</p>
  */
-qx.Clazz.define("qx.util.StringBuilder",
+qx.Class.define("qx.util.StringBuilder",
 {
   extend : qx.core.Object,
 

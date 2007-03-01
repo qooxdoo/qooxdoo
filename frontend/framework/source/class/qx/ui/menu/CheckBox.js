@@ -27,7 +27,7 @@
 ************************************************************************ */
 
 /** A checkbox for the menu system. */
-qx.Clazz.define("qx.ui.menu.CheckBox",
+qx.Class.define("qx.ui.menu.CheckBox",
 {
   extend : qx.ui.menu.Button,
 

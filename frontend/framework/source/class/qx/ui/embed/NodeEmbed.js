@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.embed.NodeEmbed",
+qx.Class.define("qx.ui.embed.NodeEmbed",
 {
   extend : qx.ui.basic.Terminator,
 

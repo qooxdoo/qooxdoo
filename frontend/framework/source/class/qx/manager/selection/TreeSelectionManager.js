@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.manager.selection.TreeSelectionManager",
+qx.Class.define("qx.manager.selection.TreeSelectionManager",
 {
   extend : qx.manager.selection.SelectionManager,
 

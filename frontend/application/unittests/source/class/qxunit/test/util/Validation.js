@@ -1,6 +1,6 @@
 
 
-qx.Clazz.define("qxunit.test.util.Validation", {
+qx.Class.define("qxunit.test.util.Validation", {
 	extend: qxunit.TestCase,
 	
 	members : {

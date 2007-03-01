@@ -26,7 +26,7 @@
 ************************************************************************ */
 
 /** This singleton is used to manager multiple instances of popups and their state. */
-qx.Clazz.define("qx.manager.object.PopupManager",
+qx.Class.define("qx.manager.object.PopupManager",
 {
   type : "singleton",
   extend : qx.manager.object.ObjectManager,
@@ -86,7 +86,7 @@ qx.Clazz.define("qx.manager.object.PopupManager",
           continue;
         }
 
-        if (qx.Clazz.isDefined("qx.ui.popup.ToolTip") && vTarget instanceof qx.ui.popup.ToolTip && !(vPopup instanceof qx.ui.popup.ToolTip)) {
+        if (qx.Class.isDefined("qx.ui.popup.ToolTip") && vTarget instanceof qx.ui.popup.ToolTip && !(vPopup instanceof qx.ui.popup.ToolTip)) {
           continue;
         }
 

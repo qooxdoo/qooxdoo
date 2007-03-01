@@ -25,7 +25,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.renderer.layout.CanvasLayoutImpl",
+qx.Class.define("qx.renderer.layout.CanvasLayoutImpl",
 {
   extend : qx.renderer.layout.LayoutImpl,
 

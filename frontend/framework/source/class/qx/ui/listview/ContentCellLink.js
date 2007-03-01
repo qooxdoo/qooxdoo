@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.listview.ContentCellLink",
+qx.Class.define("qx.ui.listview.ContentCellLink",
 {
   extend : qx.ui.embed.LinkEmbed,
 

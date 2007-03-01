@@ -25,7 +25,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.layout.CanvasLayout",
+qx.Class.define("qx.ui.layout.CanvasLayout",
 {
   extend : qx.ui.core.Parent,
 

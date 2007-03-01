@@ -27,7 +27,7 @@
 ************************************************************************ */
 
 
-qx.Clazz.define("qx.ui.form.Spinner",
+qx.Class.define("qx.ui.form.Spinner",
 {
   extend : qx.ui.layout.HorizontalBoxLayout,
 

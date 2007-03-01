@@ -34,7 +34,7 @@
  * @param vIconHeight {String} derived from qx.ui.form.Button.
  * @param vFlash {String} derived from qx.ui.form.Button.
  */
-qx.Clazz.define("qx.ui.component.DateChooserButton",
+qx.Class.define("qx.ui.component.DateChooserButton",
 {
   extend : qx.ui.form.Button,
 

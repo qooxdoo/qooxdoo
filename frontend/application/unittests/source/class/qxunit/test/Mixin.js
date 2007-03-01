@@ -1,5 +1,5 @@
 
-qx.Clazz.define("qxunit.test.Mixin", {
+qx.Class.define("qxunit.test.Mixin", {
 	extend: qxunit.TestCase,
 
 	members : {
@@ -23,7 +23,7 @@ qx.Clazz.define("qxunit.test.Mixin", {
 				}
 			});
 
-			qx.Clazz.define("qxunit.Mix", {
+			qx.Class.define("qxunit.Mix", {
 				extend: Object,
 				include: qxunit.MMix1,
 				construct: function() {}
@@ -35,7 +35,7 @@ qx.Clazz.define("qxunit.test.Mixin", {
 			this.assertEquals("red", mix.getColor());		
 		
 			this.assertExceptionDebugOn(function() {
-				qx.Clazz.define("qxunit.Mix1", {
+				qx.Class.define("qxunit.Mix1", {
 					extend: Object,
 					include: [qxunit.MMix1, qxunit.MMix2],
 					construct: function() {}
@@ -43,7 +43,7 @@ qx.Clazz.define("qxunit.test.Mixin", {
 			}, Error, "Error in include definition");
 
 			this.assertExceptionDebugOn(function() {
-				qx.Clazz.define("qxunit.Mix2", {
+				qx.Class.define("qxunit.Mix2", {
 					extend: Object,
 					include: qxunit.MMix1,
 					construct: function() {},
@@ -54,7 +54,7 @@ qx.Clazz.define("qxunit.test.Mixin", {
 			}, Error, "Overwriting member");
 
 			this.assertExceptionDebugOn(function() {
-				qx.Clazz.define("qxunit.Mix3", {
+				qx.Class.define("qxunit.Mix3", {
 					extend: Object,
 					include: qxunit.MMix1,
 					construct: function() {},
@@ -65,7 +65,7 @@ qx.Clazz.define("qxunit.test.Mixin", {
 			}, Error, "Overwriting static member");
 
 			this.assertExceptionDebugOn(function() {
-				qx.Clazz.define("qxunit.Mix4", {
+				qx.Class.define("qxunit.Mix4", {
 					extend: Object,
 					include: qxunit.MMix1,
 					construct: function() {},
@@ -89,15 +89,15 @@ qx.Clazz.define("qxunit.test.Mixin", {
 			});
 		
 			// normal usage
-			qx.Clazz.define("qxunit.UseLog1", {
+			qx.Class.define("qxunit.UseLog1", {
 				extend: Object,
 				construct: function() {}
 			});
-			qx.Clazz.include(qxunit.UseLog1, qxunit.MLogger);		
+			qx.Class.include(qxunit.UseLog1, qxunit.MLogger);		
 			this.assertEquals("Juhu", new qxunit.UseLog1().log("Juhu"));
 		
 			// not allowed to overwrite!
-			qx.Clazz.define("qxunit.UseLog2", {
+			qx.Class.define("qxunit.UseLog2", {
 				extend: Object,
 				construct: function() {},
 				members: {
@@ -107,11 +107,11 @@ qx.Clazz.define("qxunit.test.Mixin", {
 		
 
 			this.assertExceptionDebugOn(function() {
-				qx.Clazz.include(qxunit.UseLog2, qxunit.MLogger);
+				qx.Class.include(qxunit.UseLog2, qxunit.MLogger);
 			}, Error, "Overwriting member");
 
 			// allowed to overwrite!
-			qx.Clazz.define("qxunit.UseLog3", {
+			qx.Class.define("qxunit.UseLog3", {
 				extend: Object,
 				construct: function() {},
 				members: {
@@ -120,7 +120,7 @@ qx.Clazz.define("qxunit.test.Mixin", {
 			});
 		
 			this.assertEquals("foo", new qxunit.UseLog3().log("Juhu"));		
-			qx.Clazz.patch(qxunit.UseLog3, qxunit.MLogger);
+			qx.Class.patch(qxunit.UseLog3, qxunit.MLogger);
 			this.assertEquals("Juhu", new qxunit.UseLog3().log("Juhu"));		
 		}	
 	}

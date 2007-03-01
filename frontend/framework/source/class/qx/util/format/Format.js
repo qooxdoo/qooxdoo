@@ -25,7 +25,7 @@
 /**
  * Superclass for formatters and parsers.
  */
-qx.Clazz.define("qx.util.format.Format",
+qx.Class.define("qx.util.format.Format",
 {
   extend : qx.core.Object,
   type : "abstract",

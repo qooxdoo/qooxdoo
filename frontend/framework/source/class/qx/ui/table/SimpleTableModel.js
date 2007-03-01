@@ -26,7 +26,7 @@
 /**
  * A simple table model that provides an API for changing the model data.
  */
-qx.Clazz.define("qx.ui.table.SimpleTableModel",
+qx.Class.define("qx.ui.table.SimpleTableModel",
 {
   extend : qx.ui.table.AbstractTableModel,
 

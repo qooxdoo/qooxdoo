@@ -29,7 +29,7 @@
  * which need selection support.
  *
  */
-qx.Clazz.define("qx.manager.selection.SelectionManager",
+qx.Class.define("qx.manager.selection.SelectionManager",
 {
   extend : qx.core.Target,
 

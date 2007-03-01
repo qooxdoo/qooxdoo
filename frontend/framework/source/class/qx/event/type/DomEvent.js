@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.event.type.DomEvent",
+qx.Class.define("qx.event.type.DomEvent",
 {
   extend : qx.event.type.Event,
 

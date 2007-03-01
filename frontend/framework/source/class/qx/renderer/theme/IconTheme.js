@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.renderer.theme.IconTheme",
+qx.Class.define("qx.renderer.theme.IconTheme",
 {
   extend : qx.core.Object,
 
