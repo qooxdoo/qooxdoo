@@ -1,4 +1,4 @@
-qx.Clazz.define("qx.test.BigKitty",
+qx.Class.define("qx.test.BigKitty",
 {
   extend : qx.test.Kitty,
   statics :

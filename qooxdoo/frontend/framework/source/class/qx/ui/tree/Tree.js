@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.tree.Tree",
+qx.Class.define("qx.ui.tree.Tree",
 {
   extend : qx.ui.tree.TreeFolder,
 

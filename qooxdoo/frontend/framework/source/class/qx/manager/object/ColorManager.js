@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.manager.object.ColorManager",
+qx.Class.define("qx.manager.object.ColorManager",
 {
   type : "singleton",
   extend : qx.manager.object.ObjectManager,

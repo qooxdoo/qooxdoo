@@ -23,7 +23,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.pageview.AbstractBar",
+qx.Class.define("qx.ui.pageview.AbstractBar",
 {
   extend : qx.ui.layout.BoxLayout,
 

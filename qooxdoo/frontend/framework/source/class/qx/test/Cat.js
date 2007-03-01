@@ -1,4 +1,4 @@
-qx.Clazz.define("qx.test.Cat",
+qx.Class.define("qx.test.Cat",
 {
   extend : qx.test.Animal,
 

@@ -33,7 +33,7 @@
  * Home: http://www.kde-look.org/content/show.php?content=31585
  * Comment: Based on nuoveXT by the same author
  */
-qx.Clazz.define("qx.theme.icon.VistaInspirate",
+qx.Class.define("qx.theme.icon.VistaInspirate",
 {
   type : "singleton",
   extend : qx.renderer.theme.IconTheme,

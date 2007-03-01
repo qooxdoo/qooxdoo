@@ -23,7 +23,7 @@
 
  ************************************************************************ */
 
-qx.Clazz.define("qx.ui.pageview.AbstractButton",
+qx.Class.define("qx.ui.pageview.AbstractButton",
 {
   extend : qx.ui.basic.Atom,
 

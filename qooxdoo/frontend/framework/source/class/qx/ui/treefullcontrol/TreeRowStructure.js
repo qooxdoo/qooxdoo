@@ -111,7 +111,7 @@
  * treeRowStructure.addObject(obj, true);
  * </pre>
  */
-qx.Clazz.define("qx.ui.treefullcontrol.TreeRowStructure",
+qx.Class.define("qx.ui.treefullcontrol.TreeRowStructure",
 {
   type : "singleton",
   extend : qx.core.Object,

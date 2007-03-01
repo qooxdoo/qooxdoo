@@ -29,7 +29,7 @@
 /**
  * Helper functions to handle Object as a Hash map.
  */
-qx.Clazz.define("qx.lang.Object",
+qx.Class.define("qx.lang.Object",
 {
   statics :
   {

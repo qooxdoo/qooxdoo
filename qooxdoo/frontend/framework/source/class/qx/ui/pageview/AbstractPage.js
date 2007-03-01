@@ -23,7 +23,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.pageview.AbstractPage",
+qx.Class.define("qx.ui.pageview.AbstractPage",
 {
   extend : qx.ui.layout.CanvasLayout,
 

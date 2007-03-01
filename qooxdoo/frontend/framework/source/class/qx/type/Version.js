@@ -75,7 +75,7 @@
  * @param arrVersion {Array|String} array with three elements defining major,
  *   minor and revision number or an equivalent version string separated by '.'
  */
-qx.Clazz.define("qx.type.Version",
+qx.Class.define("qx.type.Version",
 {
   extend : qx.core.Object,
 

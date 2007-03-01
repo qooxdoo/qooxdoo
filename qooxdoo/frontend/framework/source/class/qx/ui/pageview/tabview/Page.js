@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.pageview.tabview.Page",
+qx.Class.define("qx.ui.pageview.tabview.Page",
 {
   extend : qx.ui.pageview.AbstractPage,
 

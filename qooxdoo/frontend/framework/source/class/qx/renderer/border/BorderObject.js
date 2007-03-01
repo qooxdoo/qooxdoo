@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.renderer.border.BorderObject",
+qx.Class.define("qx.renderer.border.BorderObject",
 {
   extend : qx.renderer.border.Border,
 

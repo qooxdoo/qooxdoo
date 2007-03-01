@@ -54,7 +54,7 @@
  * column width upon each of the events: initial appear, window resize, and
  * column resize. *** TO BE FILLED IN ***
  */
-qx.Clazz.define("qx.ui.table.DefaultResizeBehavior",
+qx.Class.define("qx.ui.table.DefaultResizeBehavior",
 {
   extend : qx.ui.table.AbstractResizeBehavior,
 

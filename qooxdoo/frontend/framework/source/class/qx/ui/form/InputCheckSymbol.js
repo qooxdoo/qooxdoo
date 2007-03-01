@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.form.InputCheckSymbol",
+qx.Class.define("qx.ui.form.InputCheckSymbol",
 {
   extend : qx.ui.basic.Terminator,
 

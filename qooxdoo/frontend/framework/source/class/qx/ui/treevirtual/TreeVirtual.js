@@ -31,7 +31,7 @@
  *          not use this widget yet.
  *
  */
-qx.Clazz.define("qx.ui.treevirtual.TreeVirtual",
+qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 {
   extend : qx.ui.table.Table,
 

@@ -25,7 +25,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.popup.Popup",
+qx.Class.define("qx.ui.popup.Popup",
 {
   extend : qx.ui.layout.CanvasLayout,
 
@@ -365,7 +365,7 @@ qx.Clazz.define("qx.ui.popup.Popup",
     {
       var vPopups = qx.lang.Object.getValues(qx.manager.object.PopupManager.getInstance().getAll());
 
-      if (qx.Clazz.isDefined("qx.manager.object.MenuManager"))
+      if (qx.Class.isDefined("qx.manager.object.MenuManager"))
       {
         var vMenus = qx.lang.Object.getValues(qx.manager.object.MenuManager.getInstance().getAll());
         var vAll = vPopups.concat(vMenus).sort(qx.util.Compare.byZIndex);

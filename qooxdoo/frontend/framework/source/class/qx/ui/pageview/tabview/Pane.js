@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.pageview.tabview.Pane",
+qx.Class.define("qx.ui.pageview.tabview.Pane",
 {
   extend : qx.ui.pageview.AbstractPane,
 

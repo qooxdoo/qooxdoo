@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.pageview.buttonview.Button",
+qx.Class.define("qx.ui.pageview.buttonview.Button",
 {
   extend : qx.ui.pageview.AbstractButton,
 

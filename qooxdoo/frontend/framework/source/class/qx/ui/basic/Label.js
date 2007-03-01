@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.basic.Label",
+qx.Class.define("qx.ui.basic.Label",
 {
   extend : qx.ui.basic.Terminator,
 

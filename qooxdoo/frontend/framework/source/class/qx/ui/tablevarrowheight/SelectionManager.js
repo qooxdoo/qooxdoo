@@ -29,7 +29,7 @@
  *
  * @see SelectionModel
  */
-qx.Clazz.define("qx.ui.tablevarrowheight.SelectionManager",
+qx.Class.define("qx.ui.tablevarrowheight.SelectionManager",
 {
   extend : qx.ui.table.SelectionManager,
 

@@ -28,7 +28,7 @@
 /**
  * Collection of helper methods operatinf on functions.
  */
-qx.Clazz.define("qx.lang.Function",
+qx.Class.define("qx.lang.Function",
 {
   statics :
   {

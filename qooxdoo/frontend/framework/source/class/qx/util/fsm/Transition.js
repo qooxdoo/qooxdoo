@@ -120,7 +120,7 @@
  *     this.getUserData("<propertyName>") during the transition's predicate
  *     and ontransition functions.
  */
-qx.Clazz.define("qx.util.fsm.Transition",
+qx.Class.define("qx.util.fsm.Transition",
 {
   extend : qx.core.Object,
 

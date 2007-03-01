@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /** This widget is the last widget of the current child chain. */
-qx.Clazz.define("qx.ui.basic.Terminator",
+qx.Class.define("qx.ui.basic.Terminator",
 {
   extend : qx.ui.core.Widget,
 

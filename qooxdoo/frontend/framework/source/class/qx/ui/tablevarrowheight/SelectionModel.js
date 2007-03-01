@@ -26,7 +26,7 @@
 /**
  * A selection model.  .
  */
-qx.Clazz.define("qx.ui.tablevarrowheight.SelectionModel",
+qx.Class.define("qx.ui.tablevarrowheight.SelectionModel",
 {
   extend : qx.ui.table.SelectionModel,
 

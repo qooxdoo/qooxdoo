@@ -31,7 +31,7 @@
  * @state {over}
  * @state {pressed}
  */
-qx.Clazz.define("qx.ui.form.Button",
+qx.Class.define("qx.ui.form.Button",
 {
   extend : qx.ui.basic.Atom,
 

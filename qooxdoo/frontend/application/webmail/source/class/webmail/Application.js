@@ -31,7 +31,7 @@
 /**
  * A small example how a webmail application can look and feel using qooxdoo.
  */
-qx.Clazz.define("webmail.Application",
+qx.Class.define("webmail.Application",
 {
   extend : qx.component.AbstractApplication,
 

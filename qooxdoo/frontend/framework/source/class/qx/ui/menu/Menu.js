@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.menu.Menu",
+qx.Class.define("qx.ui.menu.Menu",
 {
   extend : qx.ui.popup.Popup,
 

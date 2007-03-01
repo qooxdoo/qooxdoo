@@ -27,7 +27,7 @@
 /**
  * An appender. Does the actual logging.
  */
-qx.Clazz.define("qx.log.Appender",
+qx.Class.define("qx.log.Appender",
 {
   extend : qx.log.LogEventProcessor,
 

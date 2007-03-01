@@ -29,7 +29,7 @@
  *
  * @param vTitle {String} anme of the appearance
  */
-qx.Clazz.define("qx.renderer.theme.AppearanceTheme",
+qx.Class.define("qx.renderer.theme.AppearanceTheme",
 {
   extend : qx.core.Object,
 

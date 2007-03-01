@@ -24,7 +24,7 @@
 /**
  * A Collection of utility functions to escape and unescape strings.
  */
-qx.Clazz.define("qx.html.Entity",
+qx.Class.define("qx.html.Entity",
 {
   /*
   *****************************************************************************

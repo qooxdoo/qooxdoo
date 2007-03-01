@@ -29,7 +29,7 @@
  * This class provides unified key event handler for Internet Explorer,
  * Firefox, Opera and Safari
  */
-qx.Clazz.define("qx.event.handler.KeyEventHandler",
+qx.Class.define("qx.event.handler.KeyEventHandler",
 {
   type : "singleton",
   extend : qx.core.Target,

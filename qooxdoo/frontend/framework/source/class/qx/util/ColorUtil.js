@@ -26,7 +26,7 @@
 /**
  * Methods to convert colors between ddiffernt color spaces.
  */
-qx.Clazz.define("qx.util.ColorUtil",
+qx.Class.define("qx.util.ColorUtil",
 {
   /*
   *****************************************************************************

@@ -37,7 +37,7 @@
 /**
  * qooxdoo news reader Application class.
  */
-qx.Clazz.define("feedreader.Application",
+qx.Class.define("feedreader.Application",
 {
   extend : qx.component.AbstractApplication,
 

@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.io.image.PreloaderSystem",
+qx.Class.define("qx.io.image.PreloaderSystem",
 {
   extend : qx.core.Target,
 

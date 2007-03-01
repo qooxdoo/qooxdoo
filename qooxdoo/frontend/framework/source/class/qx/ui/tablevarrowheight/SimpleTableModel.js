@@ -26,7 +26,7 @@
 /**
  * A simple table model that provides an API for changing the model data.
  */
-qx.Clazz.define("qx.ui.tablevarrowheight.SimpleTableModel",
+qx.Class.define("qx.ui.tablevarrowheight.SimpleTableModel",
 {
   extend : qx.ui.table.SimpleTableModel,
 

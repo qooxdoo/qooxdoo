@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 
-qx.Clazz.define("qx.io.remote.AbstractRemoteTransport",
+qx.Class.define("qx.io.remote.AbstractRemoteTransport",
 {
   extend : qx.core.Target,
 

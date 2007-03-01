@@ -34,7 +34,7 @@
  *
  * @param flags {Map} map of flags. "flags.strict" sets strict mode.
  */
-qx.Clazz.define("qx.util.GuiBuilder",
+qx.Class.define("qx.util.GuiBuilder",
 {
   extend : qx.core.Target,
 
@@ -287,7 +287,7 @@ qx.Clazz.define("qx.util.GuiBuilder",
         return;
       }
 
-      var classConstructor = qx.Clazz.getByName(className);
+      var classConstructor = qx.Class.getByName(className);
 
       if (!classConstructor) {
         throw this._newError("constructor not found", { className : className });
@@ -388,7 +388,7 @@ qx.Clazz.define("qx.util.GuiBuilder",
       }
 
       // try the widget's superclass
-      var w = qx.Clazz.getByName(className);
+      var w = qx.Class.getByName(className);
 
       if (w && w.superclass && w.superclass.prototype.classname) {
         return this._findPropertyEditor(w.superclass.prototype.classname, propertyName);

@@ -26,7 +26,7 @@
 /**
  * A factory creating widgets to use for editing table cells.
  */
-qx.Clazz.define("qx.ui.table.CellEditorFactory",
+qx.Class.define("qx.ui.table.CellEditorFactory",
 {
   extend : qx.core.Object,
 

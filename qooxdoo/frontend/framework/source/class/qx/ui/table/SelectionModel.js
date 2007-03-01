@@ -26,7 +26,7 @@
 /**
  * A selection model.
  */
-qx.Clazz.define("qx.ui.table.SelectionModel",
+qx.Class.define("qx.ui.table.SelectionModel",
 {
   extend : qx.core.Target,
 

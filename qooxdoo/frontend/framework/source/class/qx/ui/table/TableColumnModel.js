@@ -29,7 +29,7 @@
  *
  * @see qx.ui.table.TableModel
  */
-qx.Clazz.define("qx.ui.table.TableColumnModel",
+qx.Class.define("qx.ui.table.TableColumnModel",
 {
   extend : qx.core.Target,
 

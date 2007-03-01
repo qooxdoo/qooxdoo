@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 
-qx.Clazz.define("qx.ui.embed.GalleryList",
+qx.Class.define("qx.ui.embed.GalleryList",
 {
   extend : qx.ui.basic.Terminator,
 

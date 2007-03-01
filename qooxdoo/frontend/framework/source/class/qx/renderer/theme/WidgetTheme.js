@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.renderer.theme.WidgetTheme",
+qx.Class.define("qx.renderer.theme.WidgetTheme",
 {
   extend : qx.core.Object,
 

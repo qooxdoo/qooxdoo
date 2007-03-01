@@ -30,7 +30,7 @@
  *
  * @see qx.ui.table.TableColumnModel
  */
-qx.Clazz.define("qx.ui.table.ResizeTableColumnModel",
+qx.Class.define("qx.ui.table.ResizeTableColumnModel",
 {
   extend : qx.ui.table.TableColumnModel,
 

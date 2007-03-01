@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 
-qx.Clazz.define("qx.ui.form.ListItem",
+qx.Class.define("qx.ui.form.ListItem",
 {
   extend : qx.ui.basic.Atom,
 

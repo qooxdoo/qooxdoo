@@ -33,7 +33,7 @@
  *
  *  This class should not be used directly by client programmers.
  */
-qx.Clazz.define("qx.io.remote.ScriptTransport",
+qx.Class.define("qx.io.remote.ScriptTransport",
 {
   extend : qx.io.remote.AbstractRemoteTransport,
 

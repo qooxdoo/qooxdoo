@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.popup.PopupAtom",
+qx.Class.define("qx.ui.popup.PopupAtom",
 {
   extend : qx.ui.popup.Popup,
 

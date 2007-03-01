@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.layout.GridLayout",
+qx.Class.define("qx.ui.layout.GridLayout",
 {
   extend : qx.ui.core.Parent,
 

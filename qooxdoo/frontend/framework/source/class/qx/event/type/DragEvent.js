@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /** The event object for drag and drop sessions */
-qx.Clazz.define("qx.event.type.DragEvent",
+qx.Class.define("qx.event.type.DragEvent",
 {
   extend : qx.event.type.MouseEvent,
 

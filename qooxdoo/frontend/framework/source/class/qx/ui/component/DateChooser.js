@@ -29,7 +29,7 @@
  * @param date {Date ? null} The initial date to show. If <code>null</code>
  *        the current day (today) is shown.
  */
-qx.Clazz.define("qx.ui.component.DateChooser",
+qx.Class.define("qx.ui.component.DateChooser",
 {
   extend : qx.ui.layout.BoxLayout,
 

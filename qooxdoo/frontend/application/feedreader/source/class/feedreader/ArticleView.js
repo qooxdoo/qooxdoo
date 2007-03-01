@@ -21,7 +21,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("feedreader.ArticleView",
+qx.Class.define("feedreader.ArticleView",
 {
   extend : qx.ui.basic.Terminator,
 

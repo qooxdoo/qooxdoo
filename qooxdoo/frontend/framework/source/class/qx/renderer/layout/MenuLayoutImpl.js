@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.renderer.layout.MenuLayoutImpl",
+qx.Class.define("qx.renderer.layout.MenuLayoutImpl",
 {
   extend : qx.renderer.layout.VerticalBoxLayoutImpl,
 

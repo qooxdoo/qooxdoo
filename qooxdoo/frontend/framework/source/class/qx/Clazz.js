@@ -31,7 +31,7 @@
  * style of object oriented JavaScript. The define method is used to create
  * all classes.
  *
- * Instances of classes defined with <code>qx.Clazz.define</code> have the
+ * Instances of classes defined with <code>qx.Class.define</code> have the
  * following keys attached to the constructor and the prototype:
  *
  * <table>
@@ -54,7 +54,7 @@
  * }
  * </code></pre>
  */
-qx.Clazz.define("qx.Clazz",
+qx.Class.define("qx.Class",
 {
   statics :
   {
@@ -70,7 +70,7 @@ qx.Clazz.define("qx.Clazz",
      *
      * Example:
      * <pre><code>
-     * qx.Clazz.define("name",
+     * qx.Class.define("name",
      * {
      *   extend : Object, // superclass
      *   implement : [Interfaces],
@@ -228,7 +228,7 @@ qx.Clazz.define("qx.Clazz",
         config.defer(clazz, clazz.prototype,
         {
           add : function(name, config) {
-            qx.Clazz.__addProperty(clazz, name, config);
+            qx.Class.__addProperty(clazz, name, config);
           }
         });
       }
@@ -362,7 +362,7 @@ qx.Clazz.define("qx.Clazz",
         }
       }
 
-      return qx.Clazz.__addMixin(clazz, mixin, false);
+      return qx.Class.__addMixin(clazz, mixin, false);
     },
 
 
@@ -394,7 +394,7 @@ qx.Clazz.define("qx.Clazz",
         }
       }
 
-      return qx.Clazz.__addMixin(clazz, mixin, true);
+      return qx.Class.__addMixin(clazz, mixin, true);
     },
 
 
@@ -1330,7 +1330,7 @@ qx.Clazz.define("qx.Clazz",
           if (caller.context.constructor != clazz)
           {
             if (caller.context) {
-              var from = caller.context.classname + ":" + (qx.Clazz.getFunctionName(caller) || "unknown") + "()";
+              var from = caller.context.classname + ":" + (qx.Class.getFunctionName(caller) || "unknown") + "()";
             } else {
               from = "unknown";
             }
@@ -1374,7 +1374,7 @@ qx.Clazz.define("qx.Clazz",
 
           if (!(caller.context instanceof clazz)) {
             if (caller.context) {
-              var from = caller.context.classname + ":" + (qx.Clazz.getFunctionName(caller) || "unknown") + "()";
+              var from = caller.context.classname + ":" + (qx.Class.getFunctionName(caller) || "unknown") + "()";
             } else {
               from = "unknown";
             }
@@ -1426,7 +1426,7 @@ qx.Clazz.define("qx.Clazz",
           if (!caller.self || caller.self.classname != clazz.classname)
           {
             if (caller.self) {
-              var from = caller.self.classname + ":" + (qx.Clazz.getFunctionName(caller) || "unknown") + "()";
+              var from = caller.self.classname + ":" + (qx.Class.getFunctionName(caller) || "unknown") + "()";
             } else {
               from = "unknown";
             }
@@ -1481,10 +1481,10 @@ qx.Clazz.define("qx.Clazz",
             caller = caller.caller;
           }
 
-          if (!caller || !qx.Clazz.isSubClassOf(caller.self, clazz))
+          if (!caller || !qx.Class.isSubClassOf(caller.self, clazz))
           {
             if (caller.self) {
-              var from = caller.self.classname + ":" + (qx.Clazz.getFunctionName(caller) || "unknown") + "()";
+              var from = caller.self.classname + ":" + (qx.Class.getFunctionName(caller) || "unknown") + "()";
             } else {
               from = "unknown";
             }

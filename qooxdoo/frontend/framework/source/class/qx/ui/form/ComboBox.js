@@ -39,7 +39,7 @@
  * <li>Images and text inside the list</li>
  * </ul>
  */
-qx.Clazz.define("qx.ui.form.ComboBox",
+qx.Class.define("qx.ui.form.ComboBox",
 {
   extend : qx.ui.layout.HorizontalBoxLayout,
 

@@ -42,7 +42,7 @@
  * The generator is able to set a variant and remove all code paths which are not
  * selected by the variant.
  */
-qx.Clazz.define("qx.core.Variant",
+qx.Class.define("qx.core.Variant",
 {
   statics :
   {

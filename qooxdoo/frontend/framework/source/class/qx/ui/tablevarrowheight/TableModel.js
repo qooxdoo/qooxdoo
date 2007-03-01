@@ -26,7 +26,7 @@
 /**
  * The data model of a table.
  */
-qx.Clazz.define("qx.ui.tablevarrowheight.TableModel",
+qx.Class.define("qx.ui.tablevarrowheight.TableModel",
 {
   extend : qx.ui.table.TableModel,
 

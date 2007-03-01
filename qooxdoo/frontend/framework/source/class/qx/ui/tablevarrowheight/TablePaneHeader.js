@@ -29,7 +29,7 @@
  * @param paneScroller {TablePaneScroller}
  *   The TablePaneScroller the header belongs to.
  */
-qx.Clazz.define("qx.ui.tablevarrowheight.TablePaneHeader",
+qx.Class.define("qx.ui.tablevarrowheight.TablePaneHeader",
 {
   extend : qx.ui.table.TablePaneHeader,
 

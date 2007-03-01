@@ -31,7 +31,7 @@
  * are problems with widgets or when the widgets are not yet initialized.
  * </p>
  */
-qx.Clazz.define("qx.log.JsUnitAppender",
+qx.Class.define("qx.log.JsUnitAppender",
 {
   extend : qx.log.Appender,
 

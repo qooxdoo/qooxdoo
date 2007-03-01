@@ -37,7 +37,7 @@
  * @param vIconHeight {Integer?null} desired height of the icon (the icon will be scaled to this size)
  * @param vFlash {qx.ui.embed.Flash?null} optional flash animation for the Atom. Needs valid width and height values.
  */
-qx.Clazz.define("qx.ui.basic.Atom",
+qx.Class.define("qx.ui.basic.Atom",
 {
   extend : qx.ui.layout.BoxLayout,
 
@@ -68,7 +68,7 @@ qx.Clazz.define("qx.ui.basic.Atom",
     this.setLabel(vLabel);
 
     // Simple flash wrapper
-    if (qx.Clazz.isDefined("qx.ui.embed.Flash") && vFlash != null && vIconWidth != null && vIconHeight != null && qx.ui.embed.Flash.getPlayerVersion().getMajor() > 0)
+    if (qx.Class.isDefined("qx.ui.embed.Flash") && vFlash != null && vIconWidth != null && vIconHeight != null && qx.ui.embed.Flash.getPlayerVersion().getMajor() > 0)
     {
       this._flashMode = true;
 
@@ -253,7 +253,7 @@ qx.Clazz.define("qx.ui.basic.Atom",
      */
     _createIcon : function()
     {
-      if (this._flashMode && qx.Clazz.isDefined("qx.ui.embed.Flash")) {
+      if (this._flashMode && qx.Class.isDefined("qx.ui.embed.Flash")) {
         var i = this._iconObject = new qx.ui.embed.Flash(this.getIcon());
       } else {
         var i = this._iconObject = new qx.ui.basic.Image();

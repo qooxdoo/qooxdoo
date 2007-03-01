@@ -25,7 +25,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.dev.TimeTracker",
+qx.Class.define("qx.dev.TimeTracker",
 {
   extend : qx.core.Object,
 

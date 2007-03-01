@@ -38,7 +38,7 @@
  * @param vResponseType {String}
  *   The mime type of the response. Default is text/plain {@link qx.util.Mime}.
  */
-qx.Clazz.define("qx.io.remote.Request",
+qx.Class.define("qx.io.remote.Request",
 {
   extend : qx.core.Target,
 

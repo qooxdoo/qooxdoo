@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.core.Property",
+qx.Class.define("qx.core.Property",
 {
   /*
   *****************************************************************************
@@ -135,7 +135,7 @@ qx.Clazz.define("qx.core.Property",
         // Validation code
         if (config.validation != undefined)
         {
-          if (qx.Clazz.isDefined(config.validation))
+          if (qx.Class.isDefined(config.validation))
           {
             code.add("if(!(newValue instanceof ");
             code.add(config.validation);

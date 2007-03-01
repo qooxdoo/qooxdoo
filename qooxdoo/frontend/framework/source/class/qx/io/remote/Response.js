@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.io.remote.Response",
+qx.Class.define("qx.io.remote.Response",
 {
   extend : qx.core.Target,
 

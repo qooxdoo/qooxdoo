@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.tree.TreeFile",
+qx.Class.define("qx.ui.tree.TreeFile",
 {
   extend : qx.ui.tree.AbstractTreeElement,
 

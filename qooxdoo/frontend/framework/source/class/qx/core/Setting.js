@@ -27,7 +27,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.core.Setting",
+qx.Class.define("qx.core.Setting",
 {
   statics :
   {

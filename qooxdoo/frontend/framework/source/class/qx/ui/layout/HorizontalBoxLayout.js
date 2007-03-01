@@ -25,7 +25,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.layout.HorizontalBoxLayout",
+qx.Class.define("qx.ui.layout.HorizontalBoxLayout",
 {
   extend : qx.ui.layout.BoxLayout,
 

@@ -23,7 +23,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.manager.selection.DomSelectionManager",
+qx.Class.define("qx.manager.selection.DomSelectionManager",
 {
   extend : qx.manager.selection.SelectionManager,
 

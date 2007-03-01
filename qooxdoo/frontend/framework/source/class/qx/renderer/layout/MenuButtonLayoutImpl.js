@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.renderer.layout.MenuButtonLayoutImpl",
+qx.Class.define("qx.renderer.layout.MenuButtonLayoutImpl",
 {
   extend : qx.renderer.layout.HorizontalBoxLayoutImpl,
 

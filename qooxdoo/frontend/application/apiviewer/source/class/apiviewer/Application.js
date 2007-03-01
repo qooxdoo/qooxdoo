@@ -32,7 +32,7 @@
 /**
  * Your custom application
  */
-qx.Clazz.define("apiviewer.Application",
+qx.Class.define("apiviewer.Application",
 {
   extend : qx.component.AbstractApplication,
 

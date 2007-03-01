@@ -2,7 +2,7 @@
 #require qx.locale.data.de_DE
 */
 
-qx.Clazz.define("qxunit.test.util.NumberFormat", {
+qx.Class.define("qxunit.test.util.NumberFormat", {
 	extend: qxunit.TestCase,
 
 	members : {

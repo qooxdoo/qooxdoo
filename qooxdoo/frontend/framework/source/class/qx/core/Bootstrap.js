@@ -39,7 +39,7 @@
 qx =
 {
   /**
-   * Bootstrap qx.Clazz to create myself later
+   * Bootstrap qx.Class to create myself later
    * This is needed for the API browser etc. to let them detect me
    */
   Clazz :
@@ -101,7 +101,7 @@ qx =
 /**
  * Bootstrap helper class
  */
-qx.Clazz.define("qx.core.Bootstrap",
+qx.Class.define("qx.core.Bootstrap",
 {
   statics :
   {

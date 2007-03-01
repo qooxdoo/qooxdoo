@@ -29,7 +29,7 @@
 
 ************************************************************************ */
 
-qx.Clazz.define("qx.ui.listview.ListViewPane",
+qx.Class.define("qx.ui.listview.ListViewPane",
 {
   extend : qx.ui.layout.GridLayout,
 

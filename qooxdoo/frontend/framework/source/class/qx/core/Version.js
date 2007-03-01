@@ -42,7 +42,7 @@
   *  </li>
   * </ul>
  */
-qx.Clazz.define("qx.core.Version",
+qx.Class.define("qx.core.Version",
 {
   /*
   *****************************************************************************

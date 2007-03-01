@@ -27,7 +27,7 @@
  * An abstract data cell renderer that does the basic coloring
  * (borders, selected look, ...).
  */
-qx.Clazz.define("qx.ui.table.AbstractDataCellRenderer",
+qx.Class.define("qx.ui.table.AbstractDataCellRenderer",
 {
   extend : qx.ui.table.DataCellRenderer,
 

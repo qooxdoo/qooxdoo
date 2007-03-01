@@ -1,5 +1,5 @@
 
-qx.Clazz.define("qxunit.profile.Profile", { 
+qx.Class.define("qxunit.profile.Profile", { 
 	extend: qxunit.TestCase,
 
 	members : {
@@ -16,7 +16,7 @@ qx.Clazz.define("qxunit.profile.Profile", {
 			var ex = "test.Empty1_";
 			var d = new Date()
 			for (var i=0; i<loops; i++) {
-				qx.Clazz.define(ex+i, {
+				qx.Class.define(ex+i, {
 			        extend: Object,
 			        construct: function() {}
 			    });
@@ -25,7 +25,7 @@ qx.Clazz.define("qxunit.profile.Profile", {
 
 			console.profile("object create complex");
 			for (var i=0; i<loops; i++) {
-				qx.Clazz.define("qxunit.Empty2_"+i, {
+				qx.Class.define("qxunit.Empty2_"+i, {
 			        extend: qx.core.Object,
 			        construct: function() {},
 					type: "abstract",
@@ -53,7 +53,7 @@ qx.Clazz.define("qxunit.profile.Profile", {
 
 			console.profile("object create complex without properties");
 			for (var i=0; i<loops; i++) {
-					qx.Clazz.define("qxunit.Empty3_"+i, {
+					qx.Class.define("qxunit.Empty3_"+i, {
 			        extend: qx.core.Object,
 			        construct: function() {},
 					type: "abstract",

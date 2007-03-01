@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /** This manages ToolTip instances */
-qx.Clazz.define("qx.manager.object.ToolTipManager",
+qx.Class.define("qx.manager.object.ToolTipManager",
 {
   type : "singleton",
   extend : qx.manager.object.ObjectManager,

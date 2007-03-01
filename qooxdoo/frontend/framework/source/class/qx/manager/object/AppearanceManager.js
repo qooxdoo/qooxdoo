@@ -27,7 +27,7 @@
 /**
  * This singleton manages the current theme
  */
-qx.Clazz.define("qx.manager.object.AppearanceManager",
+qx.Class.define("qx.manager.object.AppearanceManager",
 {
   type : "singleton",
   extend : qx.manager.object.ObjectManager,

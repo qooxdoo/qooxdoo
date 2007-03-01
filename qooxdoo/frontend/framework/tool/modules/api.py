@@ -65,7 +65,7 @@ def createDoc(syntaxTree, docTree = None):
                             # It's a method definition
                             handleMethodDefinitionOld(item, False, currClassNode)
 
-                        elif leftItem.children[1].get("name") == "Class":
+                        elif leftItem.children[1].get("name") == "Clazz":
                             if rightItem.type == "function":
                                 handleMethodDefinitionOld(item, True, currClassNode)
 
@@ -106,7 +106,7 @@ def createDoc(syntaxTree, docTree = None):
                           len(var.children) == 3 and
                           var.children[0].get("name") == "qx" and
                           var.children[1].get("name") in [
-                                                          "Class", "Clazz",
+                                                          "Class",
                                                           "Locale", "Interface",
                                                           "Mixin"
                                                          ] and

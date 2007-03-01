@@ -32,7 +32,7 @@
  * form of an identification string. This type could be the name of a regular dom event like "click" or
  * something self-defined like "ready".
  */
-qx.Clazz.define("qx.core.Target",
+qx.Class.define("qx.core.Target",
 {
   extend : qx.core.Object,
 

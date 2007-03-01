@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /** A color popup */
-qx.Clazz.define("qx.ui.component.ColorPopup",
+qx.Class.define("qx.ui.component.ColorPopup",
 {
   extend : qx.ui.popup.Popup,
 

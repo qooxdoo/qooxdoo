@@ -30,7 +30,7 @@
  *
  * @param table {Table} the table the scroller belongs to.
  */
-qx.Clazz.define("qx.ui.table.TablePaneScroller",
+qx.Class.define("qx.ui.table.TablePaneScroller",
 {
   extend : qx.ui.layout.VerticalBoxLayout,
 

@@ -139,7 +139,7 @@
  *     this.getUserData("<propertyName>") during the state's onentry and
  *     onexit functions.
  */
-qx.Clazz.define("qx.util.fsm.State",
+qx.Class.define("qx.util.fsm.State",
 {
   extend : qx.core.Object,
 

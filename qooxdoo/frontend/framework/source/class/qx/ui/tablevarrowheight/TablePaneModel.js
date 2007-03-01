@@ -31,7 +31,7 @@
  * @param tableColumnModel {TableColumnModel}
  *   The TableColumnModel of which this model is the proxy..
  */
-qx.Clazz.define("qx.ui.tablevarrowheight.TablePaneModel",
+qx.Class.define("qx.ui.tablevarrowheight.TablePaneModel",
 {
   extend : qx.ui.table.TablePaneModel,
 

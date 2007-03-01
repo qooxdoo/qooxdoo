@@ -32,7 +32,7 @@
  * @param divId {String ? "qx_log"} the ID of the div element to write the
  *        messages to.
  */
-qx.Clazz.define("qx.log.DivAppender",
+qx.Class.define("qx.log.DivAppender",
 {
   extend : qx.log.Appender,
 
