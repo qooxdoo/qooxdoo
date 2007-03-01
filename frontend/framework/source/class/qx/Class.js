@@ -838,8 +838,11 @@ qx.Class.define("qx.Class",
           // Added helper stuff to functions
           if (typeof member === "function")
           {
-            if (key == "dispose" && clazz.classname != "qx.core.Object") {
-              console.warn("Found old-style dispose in: " + clazz.classname);
+            if (qx.core.Variant.isSet("qx.debug", "on"))
+            {
+              if (key == "dispose" && clazz.classname != "qx.core.Object") {
+                throw new Error("Found old-style dispose in: " + clazz.classname);
+              }
             }
 
             // Configure extend (named base here)
