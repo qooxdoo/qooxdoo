@@ -69,30 +69,13 @@ qx.Class.define("qx.renderer.border.BorderPresets",
 
 
 
-
   /*
   *****************************************************************************
-     MEMBERS
+     DESTRUCTOR
   *****************************************************************************
   */
 
-  members :
-  {
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      this.black = this.white = this.none = this.inset = this.outset = this.groove = this.ridge = this.thinInset = this.thinOutset = this.verticalDivider = this.horizontalDivider = this.shadow = this.lightShadow = this.info = null;
-
-      return this.base(arguments);
-    }
+  destruct : function() {
+    this._disposeFields("this.black", "white", "none", "inset", "outset", "groove", "ridge", "thinInset", "thinOutset", "verticalDivider", "horizontalDivider", "shadow", "lightShadow", "info");
   }
 });

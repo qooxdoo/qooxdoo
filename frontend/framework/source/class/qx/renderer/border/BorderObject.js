@@ -123,12 +123,6 @@ qx.Class.define("qx.renderer.border.BorderObject",
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      WIDGET CONNECTION
-    ---------------------------------------------------------------------------
-    */
-
     /**
      * TODOC
      *
@@ -173,42 +167,19 @@ qx.Class.define("qx.renderer.border.BorderObject",
           vCurrent._updateBorder(vEdge);
         }
       }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      if (typeof this._dependentObjects === "object")
-      {
-        var vAll = this._dependentObjects;
-
-        for (vKey in vAll) {
-          delete vAll[vKey];
-        }
-
-        vAll = null;
-        delete this._dependentObjects;
-      }
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeDeep("_dependentObjects", 0);
   }
 });

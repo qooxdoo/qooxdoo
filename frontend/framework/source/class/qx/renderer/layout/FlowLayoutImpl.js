@@ -88,14 +88,12 @@ qx.Class.define("qx.renderer.layout.FlowLayoutImpl",
      *  [08] CHILDREN ADD/REMOVE/MOVE HANDLING
      *  [09] FLUSH LAYOUT QUEUES OF CHILDREN
      *  [10] LAYOUT CHILD
-     *  [11] DISPOSER
      *
      *  Inherits from qx.renderer.layout.LayoutImpl:
      *
      *  [01] COMPUTE BOX DIMENSIONS FOR AN INDIVIDUAL CHILD
      *  [02] COMPUTE NEEDED DIMENSIONS FOR AN INDIVIDUAL CHILD
      *  [06] UPDATE LAYOUT ON JOB QUEUE FLUSH
-     *  [11] DISPOSER
      *
      * @type member
      * @return {var} TODOC
