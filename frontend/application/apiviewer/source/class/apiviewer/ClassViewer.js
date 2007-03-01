@@ -467,38 +467,22 @@ qx.Class.define("apiviewer.ClassViewer",
         }
       }
 
-      // Create the class hierarchy
-      classHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Inheritance hierarchy:" + ClassViewer.DIV_END;
-
-      var classHierarchy = [];
-      var currClass = classNode;
-
-      while (currClass != null)
-      {
-        classHierarchy.push(currClass);
-        currClass = this._getClassDocNode(currClass.attributes.superClass);
-      }
-
-      this._currentClassHierarchy = classHierarchy;
-
       // Add the class hierarchy
-      classHtml += ClassViewer.createImageHtml("api/image/class18.gif") + "Object<br/>";
-      var indent = 0;
-
-      for (var i=classHierarchy.length-1; i>=0; i--)
+      switch (classNode.attributes.type)
       {
-        classHtml += ClassViewer.createImageHtml("api/image/nextlevel.gif", null, "margin-left:" + indent + "px") + ClassViewer.createImageHtml(apiviewer.TreeUtil.getIconUrl(classHierarchy[i]));
+        case "mixin" :
+          classHtml += this.__getInterfaceHierarchyHtml(classNode);
+          break;
+          
+        case "interface" : 
+          classHtml += this.__getInterfaceHierarchyHtml(classNode);
+          break;
 
-        if (i != 0) {
-          classHtml += this._createItemLinkHtml(classHierarchy[i].attributes.fullName, null, false);
-        } else {
-          classHtml += classHierarchy[i].attributes.fullName;
-        }
-
-        classHtml += "<br/>";
-        indent += 18;
+        default:
+          classHtml += this.__getClassHierarchyHtml(classNode);
+          break;                        
       }
-
+      
       classHtml += '<br/>';
 
       // Add child classes
@@ -541,6 +525,124 @@ qx.Class.define("apiviewer.ClassViewer",
     },
 
 
+    __getClassHierarchyHtml: function(classNode)
+    {
+      var ClassViewer = apiviewer.ClassViewer;
+      
+      // Create the class hierarchy
+      var classHtml = ClassViewer.DIV_START_DETAIL_HEADLINE + "Inheritance hierarchy:" + ClassViewer.DIV_END;
+
+      var classHierarchy = [];
+      var currClass = classNode;
+
+      while (currClass != null)
+      {
+        classHierarchy.push(currClass);
+        currClass = this._getClassDocNode(currClass.attributes.superClass);
+      }
+
+      classHtml += ClassViewer.createImageHtml("api/image/class18.gif") + "Object<br/>";
+      var indent = 0;
+
+      for (var i=classHierarchy.length-1; i>=0; i--)
+      {
+        classHtml += 
+          ClassViewer.createImageHtml("api/image/nextlevel.gif", null, "margin-left:" + indent + "px") +
+          ClassViewer.createImageHtml(apiviewer.TreeUtil.getIconUrl(classHierarchy[i]));
+
+        if (i != 0) {
+          classHtml += this._createItemLinkHtml(classHierarchy[i].attributes.fullName, null, false);
+        } else {
+          classHtml += classHierarchy[i].attributes.fullName;
+        }
+
+        classHtml += "<br/>";
+        indent += 18;
+      }
+      return classHtml;
+    },
+
+
+    __getInterfaceHierarchyHtml: function(classNode)
+    {
+      var ClassViewer = apiviewer.ClassViewer;
+      
+      // Create the interface hierarchy
+      var self = this;
+      var EMPTY_CELL = ClassViewer.createImageHtml("api/image/blank.gif", null, "width:18px");
+    
+      var generateTree = function(nodes, first)
+      { 
+        var lines = [];
+                
+        for (var i=0; i<nodes.length; i++)
+        {
+          
+          // render line
+          var line = "";          
+          var classNode = nodes[i];
+          if (!first) {
+            if (i == nodes.length-1) {
+              line += ClassViewer.createImageHtml("api/image/nextlevel.gif");
+            } else {
+              line += ClassViewer.createImageHtml("api/image/cross.gif");
+            }
+          } else {
+            line += EMPTY_CELL;
+          }
+           
+          line += ClassViewer.createImageHtml(apiviewer.TreeUtil.getIconUrl(classNode));
+          if (!first) {
+            line += self._createItemLinkHtml(nodes[i].attributes.fullName, null, false);
+          } else {
+            line += nodes[i].attributes.fullName;
+          }                                
+          lines.push(line);
+          
+          // get a list of super interfaces
+          var superInterfaces = [];
+          for (var j=0; j<classNode.children.length; j++)
+          {
+            if (classNode.children[j].type == "superInterfaces") {
+              var superInterfacesNode = classNode.children[j];
+              for (var k=0; k<superInterfacesNode.children.length; k++) {
+                if (superInterfacesNode.children[k].type = "interface") {
+                  superInterfaces.push(self._getClassDocNode(superInterfacesNode.children[k].attributes.name));
+                }
+              }
+            }
+          }
+          
+          // render lines of super interfaces
+          if (superInterfaces.length > 0)
+          {
+            var subLines = generateTree(superInterfaces);
+            for(var k=0; k<subLines.length; k++) {
+              if (i == nodes.length-1) {
+                lines.push(EMPTY_CELL + subLines[k]);
+              } else {
+                lines.push(ClassViewer.createImageHtml("api/image/vline.gif") + subLines[k]);                            
+              }
+            }
+          }
+        }
+        return lines;
+      }
+      
+      for (var j=0; j<classNode.children.length; j++)
+      {
+        if (classNode.children[j].type == "superInterfaces") {
+          var classHtml = ClassViewer.DIV_START_DETAIL_HEADLINE + "Inheritance hierarchy:" + ClassViewer.DIV_END;
+          classHtml += "<div style='line-height:15px'>";
+          classHtml += generateTree([classNode], true).join("<br />\n");
+          classHtml += "</div>";
+          break;
+        }
+      }
+      return classHtml;
+    },
+    
+    
     /**
      * TODOC
      *
