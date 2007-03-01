@@ -37,49 +37,7 @@ qx.Class.define("qx.ui.splitpane.HorizontalSplitPane",
 {
   extend : qx.ui.splitpane.SplitPane,
 
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   construct : function(firstSize, secondSize) {
     this.base(arguments, "horizontal", firstSize, secondSize);
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-  members :
-  {
-    /*
-    ------------------------------------------------------------------------------------
-      DISPOSER
-    ------------------------------------------------------------------------------------
-     */
-
-    /**
-     * Garbage collection
-     *
-     * @type member
-     * @return {boolean | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return true;
-      }
-
-      return this.base(arguments);
-    }
   }
 });

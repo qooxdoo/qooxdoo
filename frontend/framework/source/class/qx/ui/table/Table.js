@@ -1668,59 +1668,22 @@ qx.Class.define("qx.ui.table.Table",
       this.base(arguments);
 
       this._updateScrollBarVisibility();
-    },
-
-    // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {boolean | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return true;
-      }
-
-      if (this._tableModel) {
-        this._tableModel.removeEventListener(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
-      }
-
-      this._columnVisibilityBt.removeEventListener("execute", this._onColumnVisibilityBtExecuted, this);
-      this._columnVisibilityBt.dispose();
-
-      this._cleanupColumnVisibilityMenu();
-
-      this._cleanUpMetaColumns(0);
-
-      var selectionModel = this.getSelectionModel();
-
-      if (selectionModel != null) {
-        selectionModel.removeEventListener("changeSelection", this._onSelectionChanged, this);
-      }
-
-      var tableModel = this.getTableModel();
-
-      if (tableModel != null)
-      {
-        tableModel.removeEventListener(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
-        tableModel.removeEventListener(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
-      }
-
-      var tableColumnModel = this.getTableColumnModel();
-
-      if (tableColumnModel)
-      {
-        tableColumnModel.removeEventListener("visibilityChanged", this._onColVisibilityChanged, this);
-        tableColumnModel.removeEventListener("widthChanged", this._onColWidthChanged, this);
-        tableColumnModel.removeEventListener("orderChanged", this._onColOrderChanged, this);
-      }
-
-      this.removeEventListener("keydown", this._onkeydown);
-      this.removeEventListener("keypress", this._onkeypress);
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._cleanupColumnVisibilityMenu();
+    this._cleanUpMetaColumns(0);
+    this._disposeObjects("_tableModel", "_columnVisibilityBt", "_scrollerParent", "_statusBar");
   }
 });

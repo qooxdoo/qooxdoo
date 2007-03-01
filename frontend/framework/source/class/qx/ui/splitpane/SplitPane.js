@@ -895,78 +895,19 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
       }
 
       return this.constructor.prototype._applyRuntimeTop.call(this, v);
-    },
-
-
-
-
-    /*
-    ------------------------------------------------------------------------------------
-      DISPOSER
-    ------------------------------------------------------------------------------------
-     */
-
-    /**
-     * Garbage collection
-     *
-     * @type member
-     * @return {boolean | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return true;
-      }
-
-      if (this._firstArea)
-      {
-        this._firstArea.dispose();
-        this._firstArea = null;
-      }
-
-      if (this._secondArea)
-      {
-        this._secondArea.dispose();
-        this._secondArea = null;
-      }
-
-      if (this._splitter)
-      {
-        this._splitter.removeEventListener("mousedown", this._onSplitterMouseDownX, this);
-        this._splitter.removeEventListener("mouseup", this._onSplitterMouseMoveX, this);
-        this._splitter.removeEventListener("mousemove", this._onSplitterMouseUpX, this);
-
-        this._splitter.removeEventListener("mousedown", this._onSplitterMouseDownY, this);
-        this._splitter.removeEventListener("mouseup", this._onSplitterMouseMoveY, this);
-        this._splitter.removeEventListener("mousemove", this._onSplitterMouseUpY, this);
-
-        this._splitter.dispose();
-        this._splitter._pane = null;
-        this._splitter = null;
-      }
-
-      if (this._slider)
-      {
-        this._slider.dispose();
-        this._slider._pane = null;
-        this._slider = null;
-      }
-
-      if (this._knob)
-      {
-        this._knob.removeEventListener("mousedown", this._onSplitterMouseDownX, this);
-        this._knob.removeEventListener("mouseup", this._onSplitterMouseMoveX, this);
-        this._knob.removeEventListener("mousemove", this._onSplitterMouseUpX, this);
-
-        this._knob.removeEventListener("mousedown", this._onSplitterMouseDownY, this);
-        this._knob.removeEventListener("mouseup", this._onSplitterMouseMoveY, this);
-        this._knob.removeEventListener("mousemove", this._onSplitterMouseUpY, this);
-
-        this._knob.dispose();
-        this._knob = null;
-      }
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeObjects("_firstArea", "_secondArea", "_splitter", "_slider", "_knob");
   }
 });

@@ -1772,52 +1772,25 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
           qx.ui.core.Widget.flushGlobalQueues();
         }
       }
-    },
-
-    // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {boolean | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return true;
-      }
-
-      if (this.getElement() != null) {
-        this.getElement().onselectstart = null;
-      }
-
-      this._verScrollBar.dispose();
-      this._horScrollBar.dispose();
-      this._header.dispose();
-      this._headerClipper.dispose();
-      this._spacer.dispose();
-      this._top.dispose();
-      this._tablePane.dispose();
-      this._paneClipper.dispose();
-
-      if (this._resizeLine != null) {
-        this._resizeLine.dispose();
-      }
-
-      this.removeEventListener("mousemove", this._onmousemove, this);
-      this.removeEventListener("mousedown", this._onmousedown, this);
-      this.removeEventListener("mouseup", this._onmouseup, this);
-      this.removeEventListener("click", this._onclick, this);
-      this.removeEventListener("dblclick", this._ondblclick, this);
-      this.removeEventListener("mouseout", this._onmouseout, this);
-
-      var tablePaneModel = this.getTablePaneModel();
-
-      if (tablePaneModel != null) {
-        tablePaneModel.removeEventListener("modelChanged", this._onPaneModelChanged, this);
-      }
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    if (this.getElement() != null) {
+      this.getElement().onselectstart = null;
+    }
+
+    this._disposeObjects("_verScrollBar", "_horScrollBar", "_header", "_headerClipper",
+      "_spacer", "_top", "_tablePane", "_paneClipper", "_resizeLine");
   }
 });
