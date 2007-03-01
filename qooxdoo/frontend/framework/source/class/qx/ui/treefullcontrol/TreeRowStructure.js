@@ -329,5 +329,20 @@ qx.Class.define("qx.ui.treefullcontrol.TreeRowStructure",
 
       this._fields.push(vObj);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeDeep("_fields", 1);
+    this._disposeField("_icons");
   }
 });

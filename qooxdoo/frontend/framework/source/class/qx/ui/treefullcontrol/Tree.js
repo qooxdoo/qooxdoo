@@ -721,42 +721,19 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
       {
         return null;
       }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      this.removeEventListener("keydown", this._onkeydown);
-      this.removeEventListener("keypress", this._onkeypress);
-      this.removeEventListener("keyup", this._onkeyup);
-
-      if (this._manager)
-      {
-        this._manager.dispose();
-        this._manager = null;
-      }
-
-      delete this._oldItem;
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeObjects("_manager");
   }
 });

@@ -1808,108 +1808,22 @@ qx.Class.define("qx.ui.window.Window",
       }
 
       return this.getMode() == "maximized" ? this.restore() : this.maximize();
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {boolean | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return true;
-      }
-
-      if (this._layout)
-      {
-        this._layout.dispose();
-        this._layout = null;
-      }
-
-      if (this._frame)
-      {
-        this._frame.dispose();
-        this._frame = null;
-      }
-
-      if (this._captionBar)
-      {
-        this._captionBar.dispose();
-        this._captionBar = null;
-      }
-
-      if (this._captionIcon)
-      {
-        this._captionIcon.dispose();
-        this._captionIcon = null;
-      }
-
-      if (this._captionTitle)
-      {
-        this._captionTitle.dispose();
-        this._captionTitle = null;
-      }
-
-      if (this._captionFlex)
-      {
-        this._captionFlex.dispose();
-        this._captionFlex = null;
-      }
-
-      if (this._closeButton)
-      {
-        this._closeButton.dispose();
-        this._closeButton = null;
-      }
-
-      if (this._minimizeButton)
-      {
-        this._minimizeButton.dispose();
-        this._minimizeButton = null;
-      }
-
-      if (this._maximizeButton)
-      {
-        this._maximizeButton.dispose();
-        this._maximizeButton = null;
-      }
-
-      if (this._restoreButton)
-      {
-        this._restoreButton.dispose();
-        this._restoreButton = null;
-      }
-
-      if (this._pane)
-      {
-        this._pane.dispose();
-        this._pane = null;
-      }
-
-      if (this._statusBar)
-      {
-        this._statusBar.dispose();
-        this._statusBar = null;
-      }
-
-      if (this._statusText)
-      {
-        this._statusText.dispose();
-        this._statusText = null;
-      }
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeObjects("_layout", "_frame", "_captionBar", "_captionIcon",
+      "_captionTitle", "_captionFlex", "_closeButton", "_minimizeButton",
+      "_maximizeButton", "_restoreButton", "_pane", "_statusBar", "_statusText");
   }
 });

@@ -843,44 +843,6 @@ qx.Class.define("qx.ui.tree.TreeFolder",
       for (var i=0, l=ch.length; i<l; i++) {
         ch[i]._updateIndent();
       }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      this.removeEventListener("dblclick", this._ondblclick);
-
-      if (this._horizontalLayout)
-      {
-        this._horizontalLayout.dispose();
-        this._horizontalLayout = null;
-      }
-
-      if (this._containerObject)
-      {
-        this._containerObject.dispose();
-        this._containerObject = null;
-      }
-
-      return this.base(arguments);
     }
   },
 
