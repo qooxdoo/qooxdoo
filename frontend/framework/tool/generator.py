@@ -48,9 +48,9 @@ def getparser():
     parser.add_option("--export-to-file", dest="exportToFile", metavar="FILENAME", help="Store options to FILENAME.")
 
     # Directories (Lists, Match using index)
-    parser.add_option("--class-path", action="extend", dest="classPath", metavar="DIRECTORY", type="string", default=[], help="Define a script input directory.")
+    parser.add_option("--class-path", action="extend", dest="classPath", metavar="DIRECTORY", type="string", default=[], help="Define a class path.")
     parser.add_option("--class-uri", action="extend", dest="classUri", metavar="PATH", type="string", default=[], help="Define a script path for the source version.")
-    parser.add_option("--class-encoding", action="extend", dest="classEncoding", metavar="ENCODING", type="string", default=[], help="Define the encoding for a script input directory.")
+    parser.add_option("--class-encoding", action="extend", dest="classEncoding", metavar="ENCODING", type="string", default=[], help="Define the encoding for a class path.")
     parser.add_option("--resource-input", action="extend", dest="resourceInput", metavar="DIRECTORY", type="string", default=[], help="Define a resource input directory.")
     parser.add_option("--resource-output", action="extend", dest="resourceOutput", metavar="DIRECTORY", type="string", default=[], help="Define a resource output directory.")
 
@@ -118,8 +118,10 @@ def getparser():
     parser.add_option("--log-level", dest="logLevel", type="string", default="all", help="Define the log level like in qx.log.Logger.")
 
     # Options for pretty printing
-    parser.add_option("--prettyp-indent-string", action="store_true", dest="prettypIdentString", default="  ", help="String used for indenting source code; escapes possible (e.g. \"\\t\")")
-    #parser.add_option("--prettyp-newline-before-open-curly", action="store_true", dest="prettypOpenCurlyNewlineBefore", default=False, help="Force \"{\" to be on a new line")
+    parser.add_option("--pretty-print-indent-string", dest="prettypIndentString", default="  ", help="String used for indenting source code; escapes possible (e.g. \"\\t\"; default: \"  \")")
+    parser.add_option("--pretty-print-newline-before-open-curly", action="store_true", dest="prettypOpenCurlyNewlineBefore", default=False, help="Force \"{\" to be on a new line (default: False)")
+    parser.add_option("--pretty-print-indent-before-open-curly", action="store_true", dest="prettypOpenCurlyIndentBefore", default=False, help="Indent \"{\" (default: False)")
+    parser.add_option("--pretty-print-inline-comment-padding", dest="prettypCommentsInlinePadding", default="  ", help="String used between the end of a statement and a trailing inline comment (default: \"  \")")
 
     # Options for resource copying
     parser.add_option("--enable-resource-filter", action="store_true", dest="enableResourceFilter", default=False, help="Enable filtering of resource files used by classes (based on #embed).")
@@ -328,7 +330,7 @@ def load(options):
     if options.classPath == None or len(options.classPath) == 0:
         if len(options.migrationInput) == 0:
             basename = os.path.basename(sys.argv[0])
-            print "You must define at least one script input directory!"
+            print "You must define at least one class path!"
             print "usage: %s [options]" % basename
             print "Try '%s -h' or '%s --help' to show the help message." % (basename, basename)
             sys.exit(1)
