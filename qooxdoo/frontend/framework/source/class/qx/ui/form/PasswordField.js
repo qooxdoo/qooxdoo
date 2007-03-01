@@ -28,19 +28,9 @@ qx.Class.define("qx.ui.form.PasswordField",
 {
   extend : qx.ui.form.TextField,
 
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   construct : function(vText)
   {
     this.base(arguments, vText);
-
     this.setHtmlProperty("type", "password");
   }
 });

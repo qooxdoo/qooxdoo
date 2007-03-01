@@ -712,40 +712,21 @@ qx.Class.define("qx.ui.embed.Flash",
     */
 
     _computePreferredInnerWidth : qx.lang.Function.returnZero,
-    _computePreferredInnerHeight : qx.lang.Function.returnZero,
+    _computePreferredInnerHeight : qx.lang.Function.returnZero
+  },
 
 
 
 
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      delete this._source;
-      delete this._params;
-      delete this._variables;
-
-      if (this._version)
-      {
-        this._version.dispose();
-        this._version = null;
-      }
-
-      this.base(arguments);
-    }
+  destruct : function()
+  {
+    this._disposeObjects("_version");
+    this._disposeFields("_source", "_params", "_variables");
   }
 });

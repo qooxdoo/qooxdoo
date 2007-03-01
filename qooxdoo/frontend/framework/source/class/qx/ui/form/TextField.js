@@ -816,30 +816,6 @@ qx.Class.define("qx.ui.form.TextField",
         el.selectionStart = vStart;
         el.selectionEnd = vEnd;
       }
-    }),
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      this.base(arguments);
-    }
+    })
   }
 });

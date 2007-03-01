@@ -574,40 +574,26 @@ qx.Class.define("qx.ui.embed.Iframe",
     ---------------------------------------------------------------------------
     */
 
-    _isLoaded : false,
+    _isLoaded : false
+  },
 
 
 
 
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSE
-    ---------------------------------------------------------------------------
-    */
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    dispose : function()
+  destruct : function()
+  {
+    if (this._iframeNode)
     {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      this.__onreadystatechange = this.__onload = null;
-
-      if (this._iframeNode)
-      {
-        this._iframeNode.onreadystatechange = null;
-        this._iframeNode.onload = null;
-
-        this._iframeNode = null;
-      }
-
-      this.base(arguments);
+      this._iframeNode.onreadystatechange = null;
+      this._iframeNode.onload = null;
     }
+
+    this._disposeFields("__onreadystatechange", "__onload", "_iframeNode");
   }
 });

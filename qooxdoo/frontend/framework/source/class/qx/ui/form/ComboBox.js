@@ -969,71 +969,29 @@ qx.Class.define("qx.ui.form.ComboBox",
 
       this.addState("focused");
       return true;
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSE
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      if (this._popup)
-      {
-        this._popup.removeEventListener("appear", this._onpopupappear, this);
-
-        if (!qx.core.Object.inGlobalDispose()) {
-          this._popup.setParent(null);
-        }
-
-        // If this is not a page unload, we have to reset the parent. Otherwise,
-        // disposing a ComboBox that was clicked at least once would mean that
-        // the popup is still referenced by the parent. When an application
-        // repeatedly creates and disposes ComboBoxes, this would mean a memleak
-        // (and it would also mess with other things like focus management).
-        this._popup.dispose();
-        this._popup = null;
-      }
-
-      if (this._list)
-      {
-        this._list.dispose();
-        this._list = null;
-      }
-
-      if (this._manager)
-      {
-        this._manager.dispose();
-        this._manager = null;
-      }
-
-      if (this._field)
-      {
-        this._field.dispose();
-        this._field = null;
-      }
-
-      if (this._button)
-      {
-        this._button.dispose();
-        this._button = null;
-      }
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    // If this is not a page unload, we have to reset the parent. Otherwise,
+    // disposing a ComboBox that was clicked at least once would mean that
+    // the popup is still referenced by the parent. When an application
+    // repeatedly creates and disposes ComboBoxes, this would mean a memleak
+    // (and it would also mess with other things like focus management).
+    if (this._popup && !qx.core.Object.inGlobalDispose()) {
+      this._popup.setParent(null);
+    }
+
+    this._disposeObjects("_popup", "_list", "_manager", "_field", "_button");
   }
 });
