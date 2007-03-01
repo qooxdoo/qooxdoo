@@ -477,7 +477,7 @@ ifndef APPLICATION_ADDITIONAL_CLASS_URI
 endif
 
 #
-# Aditional options to pass to the generator call of the source version.
+# Additional options to pass to the generator call of the source version.
 # e.g. "--script-output-encoding=ISO-8859-1"
 #
 ifndef APPLICATION_ADDITIONAL_SOURCE_OPTIONS
@@ -485,7 +485,7 @@ ifndef APPLICATION_ADDITIONAL_SOURCE_OPTIONS
 endif
 
 #
-# Aditional options to pass to the generator call of the build version.
+# Additional options to pass to the generator call of the build version.
 # e.g. "--script-output-encoding=ISO-8859-1"
 #
 ifndef APPLICATION_ADDITIONAL_BUILD_OPTIONS
