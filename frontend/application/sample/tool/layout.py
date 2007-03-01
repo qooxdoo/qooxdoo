@@ -6,8 +6,10 @@ import sys, os, optparse, codecs
 
 
 basic = u"""
+/*
 qx.log.Logger.ROOT_LOGGER.removeAllAppenders();
 qx.log.Logger.ROOT_LOGGER.addAppender(new qx.log.DivAppender("demoDebug"));
+*/
 
 document.write('<div id="demoHead">qooxdoo: <span>The new era of web development</span></div>');
 document.write('<div id="demoFoot">');

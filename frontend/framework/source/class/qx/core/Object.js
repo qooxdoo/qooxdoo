@@ -187,7 +187,14 @@ qx.Class.define("qx.core.Object",
                 if (typeof elem[key] == "object")
                 {
                   if (elem[key] instanceof qx.core.Object || elem[key] instanceof Array) {
-                    qx.core.Bootstrap.alert("Disposer: Found Object under key: " + key);
+
+                    var name = "unknown object";
+
+                    if (elem[key] instanceof qx.core.Object) {
+                      name = elem[key].classname + "[" + elem[key].toHashCode() + "]";
+                    }
+
+                    qx.core.Bootstrap.alert("Disposer: Attribute '" + key + "' references " + name + " in DOM element: " + elem.tagName);
                   }
                 }
               }
@@ -493,6 +500,147 @@ qx.Class.define("qx.core.Object",
     },
 
 
+
+    _disposeFields : function()
+    {
+      var name;
+
+      for (var i=0, l=arguments.length; i<l; i++)
+      {
+        var name = arguments[i]
+
+        if (this[name] == null) {
+          continue;
+        }
+
+        if (!this.hasOwnProperty(name))
+        {
+          this.warn(this.classname + " has no own field " + name);
+          continue;
+        }
+
+        this[name] = null;
+      }
+    },
+
+    _disposeObjects : function()
+    {
+      var name;
+
+      for (var i=0, l=arguments.length; i<l; i++)
+      {
+        var name = arguments[i]
+
+        if (this[name] == null) {
+          continue;
+        }
+
+        if (!this.hasOwnProperty(name))
+        {
+          this.warn(this.classname + " has no own field " + name);
+          continue;
+        }
+
+        this[name].dispose();
+        this[name] = null;
+      }
+    },
+
+    _disposeDeep : function(name, deep)
+    {
+      var name;
+
+      if (this[name] == null)
+      {
+        // this.warn("Ignore: " + name);
+        return;
+      }
+
+      if (!this.hasOwnProperty(name))
+      {
+        this.warn(this.classname + " has no own field " + name);
+        return;
+      }
+
+      // this.log("Dispose Deep: " + name);
+
+      this.__disposeObject(this[name], deep || 0);
+      this[name] = null;
+
+      // this.log("Dispose Deep: " + name + " DONE!!!!");
+    },
+
+
+    __disposeObject : function(obj, deep)
+    {
+      // qooxdoo
+      if (obj instanceof qx.core.Object)
+      {
+        obj.dispose();
+      }
+
+      // Array
+      else if (obj instanceof Array)
+      {
+        for (var i=0, l=obj.length; i<l; i++)
+        {
+          var entry = obj[i];
+
+          if (entry == null) {
+            continue;
+          }
+
+          if (typeof entry == "object")
+          {
+            if (deep > 0)
+            {
+              // this.log("- Deep processing item '" + i + "'");
+              this.__disposeObject(entry, deep-1);
+            }
+
+            // this.log("- Resetting key (object) '" + key + "'");
+            obj[i] = null;
+          }
+          else if (typeof entry == "function")
+          {
+            // this.log("- Resetting key (function) '" + key + "'");
+            obj[i] = null;
+          }
+        }
+      }
+
+      // Map
+      else if (obj instanceof Object)
+      {
+        for (var key in obj)
+        {
+          if (obj[key] == null || !obj.hasOwnProperty(key)) {
+            continue;
+          }
+
+          var entry = obj[key];
+
+          if (typeof entry == "object")
+          {
+            if (deep > 0)
+            {
+              // this.log("- Deep processing key '" + key + "'");
+              this.__disposeObject(entry, deep-1);
+            }
+
+            // this.log("- Resetting key (object) '" + key + "'");
+            obj[key] = null;
+          }
+          else if (typeof entry == "function")
+          {
+            // this.log("- Resetting key (function) '" + key + "'");
+            obj[key] = null;
+          }
+        }
+      }
+    },
+
+
     /**
      * Dispose this object
      *
@@ -505,6 +653,7 @@ qx.Class.define("qx.core.Object",
         return;
       }
 
+      this.debug("Disposing " + this.classname + "[" + this.toHashCode() + "]");
 
       var clazz = this.constructor;
 
@@ -571,7 +720,7 @@ qx.Class.define("qx.core.Object",
           {
             if (this[vKey] !== null && typeof this[vKey] === "object" && this.constructor.prototype[vKey] === undefined)
             {
-              qx.core.Bootstrap.alert("Missing class implementation to dispose: " + vKey);
+              qx.core.Bootstrap.alert("Missing destruct definition for '" + vKey + "' in " + this.classname);
               delete this[vKey];
             }
           }
@@ -587,8 +736,8 @@ qx.Class.define("qx.core.Object",
           delete qx.core.Object.__db[this.__dbKey];
         }
 
-        this._hashCode = null;
-        this.__dbKey = null;
+        // this._hashCode = null;
+        // this.__dbKey = null;
       }
 
       // Mark as disposed
