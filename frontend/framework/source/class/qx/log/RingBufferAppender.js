@@ -181,22 +181,6 @@ qx.Class.define("qx.log.RingBufferAppender",
       }
 
       return string;
-    },
-
-    // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {boolean | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return true;
-      }
-
-      return this.base(arguments);
     }
   }
 });

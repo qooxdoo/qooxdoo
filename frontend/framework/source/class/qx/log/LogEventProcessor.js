@@ -189,24 +189,19 @@ qx.Class.define("qx.log.LogEventProcessor",
      */
     handleLogEvent : function(evt) {
       throw new Error("handleLogEvent is abstract");
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      this._filterArr = null;
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("_filterArr");
   }
 });

@@ -74,28 +74,19 @@ qx.Class.define("qx.log.NativeAppender",
      */
     appendLogEvent : function(evt) {
       return this._appender.appendLogEvent(evt);
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      if (this._appender)
-      {
-        this._appender.dispose();
-        this._appender = null;
-      }
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeObjects("_appender");
   }
 });

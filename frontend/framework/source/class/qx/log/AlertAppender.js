@@ -102,22 +102,6 @@ qx.Class.define("qx.log.AlertAppender",
       }
 
       alert("\n" + text + "\n" + this.formatLogEvent(evt));
-    },
-
-    // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {boolean | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return true;
-      }
-
-      return this.base(arguments);
     }
   }
 });
