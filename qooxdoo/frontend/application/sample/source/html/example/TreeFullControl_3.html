@@ -39,7 +39,7 @@
        * TODO: There should be a mechanism to change a property attribute
        * without having to jump through these hoops.
        */
-      var constructor = qx.OO.classes["qx.ui.treefullcontrol.TreeFolder"];
+      var constructor = qx.Class.getByName("qx.ui.treefullcontrol.TreeFolder");
       qx.Proto = constructor.prototype;
       qx.OO.changeProperty({ name : "alwaysShowPlusMinusSymbol", type : "boolean", defaultValue : true });
 
