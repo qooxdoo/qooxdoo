@@ -29,9 +29,10 @@
  * This mixin contains the methods needed to use the translation features
  * of qooxdoo.
  */
-qx.Mixin.define("qx.locale.MTranslation", {
-  members: {
-
+qx.Mixin.define("qx.locale.MTranslation",
+{
+  members:
+  {
     /**
      * Translate a message
      * Mark the message for translation.
@@ -78,6 +79,5 @@ qx.Mixin.define("qx.locale.MTranslation", {
       var nlsManager = qx.locale.Manager;
       return nlsManager.marktr.apply(nlsManager, arguments);
     }
-
   }
 });
