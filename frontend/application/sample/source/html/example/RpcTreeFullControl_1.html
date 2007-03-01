@@ -109,7 +109,7 @@ qx.core.Init.getInstance().defineMain(
          * (and then stop displaying it if we determine upon open that there
          * are no contents).
          */
-        var constructor = qx.OO.classes["qx.ui.treefullcontrol.TreeFolder"];
+        var constructor = qx.Class.getByName("qx.ui.treefullcontrol.TreeFolder");
         qx.Proto = constructor.prototype;
         qx.OO.changeProperty({
               name : "alwaysShowPlusMinusSymbol",
