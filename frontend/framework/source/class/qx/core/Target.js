@@ -92,12 +92,12 @@ qx.Class.define("qx.core.Target",
      */
     supportsEvent : function(eventName)
     {
+      var clazz = this.constructor;
+
       // old style classes can't be checked
-      if (!this.constructor.base) {
+      if (!clazz.base) {
         return true;
       }
-
-      var clazz = this.constructor;
 
       if (eventName.indexOf("change") == 0)
       {
@@ -352,46 +352,33 @@ qx.Class.define("qx.core.Target",
           parent._dispatchEvent(evt);
         }
       }
-    },
+    }
+  },
 
 
 
+  /*
+  *****************************************************************************
+     DESTRUCT
+  *****************************************************************************
+  */
 
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Destructor.
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
+  destruct : function(obj)
+  {
+    if (this.__listeners)
     {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      if (typeof this.__listeners === "object")
+      for (var type in this.__listeners)
       {
-        for (var type in this.__listeners)
-        {
-          var listener = this.__listeners[type];
+        var listener = this.__listeners[type];
 
-          for (var key in listener) {
-            listener[key] = null;
-          }
-
-          this.__listeners[type] = null;
+        for (var key in listener) {
+          listener[key] = null;
         }
+
+        this.__listeners[type] = null;
       }
 
       this.__listeners = null;
-
-      return this.base(arguments);
     }
   }
 });

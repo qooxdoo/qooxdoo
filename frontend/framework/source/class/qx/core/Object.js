@@ -505,6 +505,36 @@ qx.Class.define("qx.core.Object",
         return;
       }
 
+
+      var clazz = this.constructor;
+
+      while (clazz != qx.core.Object)
+      {
+        if (clazz.destructor)
+        {
+          clazz.destructor.call(this);
+        }
+
+        if (clazz.$$includes)
+        {
+          for (var key in clazz.$$includes)
+          {
+            var mixin = clazz.$$includes[key];
+
+            if (mixin.destructor)
+            {
+              mixin.destructor.call(this);
+            }
+          }
+        }
+
+        clazz = clazz.superclass;
+      }
+
+
+
+
+
       // Dispose user data
       if (this._userData)
       {
