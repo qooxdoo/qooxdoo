@@ -157,39 +157,19 @@ qx.Class.define("qx.manager.object.ObjectManager",
       for (var vHashCode in this._objects) {
         this._objects[vHashCode].setEnabled(false);
       }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      if (this._objects)
-      {
-        for (var i in this._objects) {
-          delete this._objects[i];
-        }
-
-        delete this._objects;
-      }
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeDeep("_objects");
   }
 });

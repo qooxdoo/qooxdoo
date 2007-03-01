@@ -384,44 +384,19 @@ qx.Class.define("qx.manager.selection.RadioManager",
         this.setSelected(this._items[vIndex]);
         this._items[vIndex].setFocused(true);
       }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      this.forceSelected(null);
-
-      if (this._items)
-      {
-        for (var i, vItems=this._items, vLength=vItems.length; i<vLength; i++)
-        {
-          vItems[i].dispose();
-          delete vItems[i];
-        }
-
-        vItems = null;
-        delete this._items;
-      }
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeDeep("_items", 1);
   }
 });

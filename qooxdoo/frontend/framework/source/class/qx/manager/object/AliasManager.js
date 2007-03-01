@@ -215,33 +215,6 @@ qx.Class.define("qx.manager.object.AliasManager",
 
           return vPath;
       }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Disposer
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      this._aliases = null;
-      this._uris = null;
-
-      return this.base(arguments);
     }
   },
 
@@ -254,5 +227,18 @@ qx.Class.define("qx.manager.object.AliasManager",
   *****************************************************************************
   */
 
-  settings : { "qx.resourceUri" : "./resource" }
+  settings : { "qx.resourceUri" : "./resource" },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("_aliases", "_uris");
+  }
 });
