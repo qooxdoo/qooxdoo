@@ -666,8 +666,6 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
   destruct : function()
   {
     this._detachEvents();
-    this._disposeFields("_specialCharCodeMap", "_keyCodeToIdentifierMap",
-      "_numpadToCharCode", "_identifierToKeyCodeMap", "_lastUpDownType",
-      "_keyCodeFix");
+    this._disposeFields("_lastUpDownType");
   }
 });
