@@ -100,7 +100,7 @@ qx.Class.define("qx.manager.object.ColorManager",
      *
      * @type member
      * @param vThemeClass {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     registerColorTheme : function(vThemeClass)
     {
@@ -117,7 +117,7 @@ qx.Class.define("qx.manager.object.ColorManager",
      *
      * @type member
      * @param vId {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setColorThemeById : function(vId) {
       this.setColorTheme(this._colorThemes[vId].getInstance());
@@ -137,7 +137,7 @@ qx.Class.define("qx.manager.object.ColorManager",
      *
      * @type member
      * @param oObject {Object} TODOC
-     * @return {void} 
+     * @return {void}
      */
     add : function(oObject)
     {
@@ -156,7 +156,7 @@ qx.Class.define("qx.manager.object.ColorManager",
      *
      * @type member
      * @param oObject {Object} TODOC
-     * @return {void} 
+     * @return {void}
      */
     remove : function(oObject)
     {
@@ -235,7 +235,7 @@ qx.Class.define("qx.manager.object.ColorManager",
      * @param vParent {var} TODOC
      * @param xCor {var} TODOC
      * @param yCor {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     createThemeList : function(vParent, xCor, yCor)
     {
@@ -257,40 +257,6 @@ qx.Class.define("qx.manager.object.ColorManager",
 
         yCor += 30;
       }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      // Themes
-      this._colorThemes = null;
-
-      // Cleanup dependent objects
-      for (var i in this._dependentObjects) {
-        delete this._dependentObjects[i];
-      }
-
-      delete this._dependentObjects;
-
-      return this.base(arguments);
     }
   },
 
@@ -306,5 +272,20 @@ qx.Class.define("qx.manager.object.ColorManager",
   settings :
   {
     "qx.colorTheme" : "qx.theme.color.WindowsRoyale"
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeDeep("_colorThemes", 1);
+    this._disposeFields("_dependentObjects");
   }
 });

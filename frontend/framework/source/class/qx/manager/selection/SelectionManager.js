@@ -1830,36 +1830,19 @@ qx.Class.define("qx.manager.selection.SelectionManager",
 
       // this.debug("Select: " + nextItem._labelObject.getHtml());
       return nextItem;
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSE
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      if (this._selectedItems)
-      {
-        this._selectedItems.dispose();
-        this._selectedItems = null;
-      }
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeObjects("_selectedItems");
   }
 });

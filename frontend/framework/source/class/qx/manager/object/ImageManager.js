@@ -112,7 +112,7 @@ qx.Class.define("qx.manager.object.ImageManager",
      *
      * @type member
      * @param vThemeClass {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     registerIconTheme : function(vThemeClass)
     {
@@ -129,7 +129,7 @@ qx.Class.define("qx.manager.object.ImageManager",
      *
      * @type member
      * @param vThemeClass {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     registerWidgetTheme : function(vThemeClass)
     {
@@ -146,7 +146,7 @@ qx.Class.define("qx.manager.object.ImageManager",
      *
      * @type member
      * @param vId {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setIconThemeById : function(vId) {
       this.setIconTheme(this._iconThemes[vId].getInstance());
@@ -158,7 +158,7 @@ qx.Class.define("qx.manager.object.ImageManager",
      *
      * @type member
      * @param vId {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setWidgetThemeById : function(vId) {
       this.setWidgetTheme(this._widgetThemes[vId].getInstance());
@@ -177,7 +177,7 @@ qx.Class.define("qx.manager.object.ImageManager",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _onaliaschange : function() {
       this._updateImages();
@@ -322,7 +322,7 @@ qx.Class.define("qx.manager.object.ImageManager",
      * @param vParent {var} TODOC
      * @param xCor {var} TODOC
      * @param yCor {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     createThemeList : function(vParent, xCor, yCor)
     {
@@ -352,44 +352,10 @@ qx.Class.define("qx.manager.object.ImageManager",
      *
      * @type member
      * @param vPath {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     preload : function(vPath) {
       qx.manager.object.ImagePreloaderManager.getInstance().create(qx.manager.object.AliasManager.getInstance().resolvePath(vPath));
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      // Change event connection to AliasManager
-      qx.manager.object.AliasManager.getInstance().removeEventListener("change", this._onaliaschange, this);
-
-      // Delete counter field
-      this._sources = null;
-
-      // Themes
-      this._iconThemes = null;
-      this._widgetThemes = null;
-
-      return this.base(arguments);
     }
   },
 
@@ -409,9 +375,23 @@ qx.Class.define("qx.manager.object.ImageManager",
       chose to receive the qooxdoo code under. For more information, please
       see the LICENSE file in the project's top-level directory.
      */
-
     "qx.iconTheme"   : "qx.theme.icon.Nuvola",
-
     "qx.widgetTheme" : "qx.theme.widget.Windows"
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeDeep("_iconThemes", 1);
+    this._disposeDeep("_widgetThemes", 1);
+    this._disposeFields("_sources");
   }
 });
