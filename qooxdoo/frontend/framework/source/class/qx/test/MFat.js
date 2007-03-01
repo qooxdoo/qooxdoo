@@ -13,12 +13,8 @@ qx.Mixin.define("qx.test.MFat",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
+    // no api doc !!!
+    
     hiss : function() {
       this.debug("BOOOOOAAAAH");
     }

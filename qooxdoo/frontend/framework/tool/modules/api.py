@@ -123,7 +123,10 @@ def createDoc(syntaxTree, docTree = None):
             (line, column) = getLineAndColumnFromSyntaxItem(exc.node)
             file = getFileFromSyntaxItem(exc.node)
             if line != None or file != None:
-                msg = str(exc) + "\n      " + str(file) + ", Line: " + str(line) + ", Column: " + str(column)
+                msg = (
+                    str(exc) + "\n      " + str(file) +
+                    ", Line: " + str(line) + ", Column: " + str(column)
+                )
 
         if msg == "":
             raise exc
@@ -163,8 +166,13 @@ def handleClassDefinition(docTree, item, variant):
     commentAttributes = comment.parseNode(item)
     classNode = getClassNode(docTree, className, commentAttributes)
     if variant in ["class", "clazz"]:
-        type = selectNode(params, "1/keyvalue[@key='type']/value")
         classNode.set("type", "class")
+        type = selectNode(params, "2/keyvalue[@key='type']/value/constant/@value")
+        if type == "singleton":
+            classNode.set("isSingleton", True)
+        elif type == "abstract":
+            classNode.set("isAbstract", True)
+
     else:
         classNode.set("type", variant)
 
