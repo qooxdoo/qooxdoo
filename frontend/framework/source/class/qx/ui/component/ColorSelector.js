@@ -1412,247 +1412,28 @@ qx.Class.define("qx.ui.component.ColorSelector",
       this.setRed(vRed);
       this.setGreen(vGreen);
       this.setBlue(vBlue);
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      if (this._controlBar)
-      {
-        this._controlBar.dispose();
-        this._controlBar = null;
-      }
-
-      if (this._btnbar)
-      {
-        this._btnbar.dispose();
-        this._btnbar = null;
-      }
-
-      if (this._btncancel)
-      {
-        this._btncancel.dispose();
-        this._btncancel = null;
-      }
-
-      if (this._btnok)
-      {
-        this._btnok.dispose();
-        this._btnok = null;
-      }
-
-      if (this._controlPane)
-      {
-        this._controlPane.dispose();
-        this._controlPane = null;
-      }
-
-      if (this._hueSaturationPane)
-      {
-        this._hueSaturationPane.removeEventListener("mousewheel", this._onHueSaturationPaneMouseWheel, this);
-        this._hueSaturationPane.dispose();
-        this._hueSaturationPane = null;
-      }
-
-      if (this._hueSaturationField)
-      {
-        this._hueSaturationField.removeEventListener("mousedown", this._onHueSaturationFieldMouseDown, this);
-        this._hueSaturationField.dispose();
-        this._hueSaturationField = null;
-      }
-
-      if (this._hueSaturationHandle)
-      {
-        this._hueSaturationHandle.removeEventListener("mousedown", this._onHueSaturationHandleMouseDown, this);
-        this._hueSaturationHandle.removeEventListener("mouseup", this._onHueSaturationHandleMouseUp, this);
-        this._hueSaturationHandle.removeEventListener("mousemove", this._onHueSaturationHandleMouseMove, this);
-        this._hueSaturationHandle.dispose();
-        this._hueSaturationHandle = null;
-      }
-
-      if (this._brightnessPane)
-      {
-        this._brightnessPane.removeEventListener("mousewheel", this._onBrightnessPaneMouseWheel, this);
-        this._brightnessPane.dispose();
-        this._brightnessPane = null;
-      }
-
-      if (this._brightnessField)
-      {
-        this._brightnessField.removeEventListener("mousedown", this._onBrightnessFieldMouseDown, this);
-        this._brightnessField.dispose();
-        this._brightnessField = null;
-      }
-
-      if (this._brightnessHandle)
-      {
-        this._brightnessHandle.removeEventListener("mousedown", this._onBrightnessHandleMouseDown, this);
-        this._brightnessHandle.removeEventListener("mouseup", this._onBrightnessHandleMouseUp, this);
-        this._brightnessHandle.removeEventListener("mousemove", this._onBrightnessHandleMouseMove, this);
-        this._brightnessHandle.dispose();
-        this._brightnessHandle = null;
-      }
-
-      if (this._presetFieldSet)
-      {
-        this._presetFieldSet.dispose();
-        this._presetFieldSet = null;
-      }
-
-      if (this._presetGrid)
-      {
-        this._presetGrid.dispose();
-        this._presetGrid = null;
-      }
-
-      this._presetTable = null;
-
-      if (this._inputFieldSet)
-      {
-        this._inputFieldSet.dispose();
-        this._inputFieldSet = null;
-      }
-
-      if (this._inputLayout)
-      {
-        this._inputLayout.dispose();
-        this._inputLayout = null;
-      }
-
-      if (this._previewFieldSet)
-      {
-        this._previewFieldSet.dispose();
-        this._previewFieldSet = null;
-      }
-
-      if (this._previewLayout)
-      {
-        this._previewLayout.dispose();
-        this._previewLayout = null;
-      }
-
-      if (this._hexLayout)
-      {
-        this._hexLayout.dispose();
-        this._hexLayout = null;
-      }
-
-      if (this._hexLabel)
-      {
-        this._hexLabel.dispose();
-        this._hexLabel = null;
-      }
-
-      if (this._hexHelper)
-      {
-        this._hexHelper.dispose();
-        this._hexHelper = null;
-      }
-
-      if (this._hexField)
-      {
-        this._hexField.addEventListener("changeValue", this._onHexFieldChange, this);
-        this._hexField.dispose();
-        this._hexField = null;
-      }
-
-      if (this._rgbSpinLayout)
-      {
-        this._rgbSpinLayout.dispose();
-        this._rgbSpinLayout = null;
-      }
-
-      if (this._rgbSpinLabel)
-      {
-        this._rgbSpinLabel.dispose();
-        this._rgbSpinLabel = null;
-      }
-
-      if (this._rgbSpinRed)
-      {
-        this._rgbSpinRed.removeEventListener("change", this._setRedFromSpinner, this);
-        this._rgbSpinRed.dispose();
-        this._rgbSpinRed = null;
-      }
-
-      if (this._rgbSpinGreen)
-      {
-        this._rgbSpinGreen.removeEventListener("change", this._setGreenFromSpinner, this);
-        this._rgbSpinGreen.dispose();
-        this._rgbSpinGreen = null;
-      }
-
-      if (this._rgbSpinBlue)
-      {
-        this._rgbSpinBlue.removeEventListener("change", this._setBlueFromSpinner, this);
-        this._rgbSpinBlue.dispose();
-        this._rgbSpinBlue = null;
-      }
-
-      if (this._hsbSpinLayout)
-      {
-        this._hsbSpinLayout.dispose();
-        this._hsbSpinLayout = null;
-      }
-
-      if (this._hsbSpinLabel)
-      {
-        this._hsbSpinLabel.dispose();
-        this._hsbSpinLabel = null;
-      }
-
-      if (this._hsbSpinHue)
-      {
-        this._hsbSpinHue.removeEventListener("change", this._setHueFromSpinner, this);
-        this._hsbSpinHue.dispose();
-        this._hsbSpinHue = null;
-      }
-
-      if (this._hsbSpinSaturation)
-      {
-        this._hsbSpinSaturation.removeEventListener("change", this._setSaturationFromSpinner, this);
-        this._hsbSpinSaturation.dispose();
-        this._hsbSpinSaturation = null;
-      }
-
-      if (this._hsbSpinBrightness)
-      {
-        this._hsbSpinBrightness.removeEventListener("change", this._setBrightnessFromSpinner, this);
-        this._hsbSpinBrightness.dispose();
-        this._hsbSpinBrightness = null;
-      }
-
-      if (this._oldColorPreview)
-      {
-        this._oldColorPreview.dispose();
-        this._oldColorPreview = null;
-      }
-
-      if (this._newColorPreview)
-      {
-        this._newColorPreview.dispose();
-        this._newColorPreview = null;
-      }
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeObjects("_controlBar", "_btnbar", "_btncancel", "_btnok", "_controlPane", "_hueSaturationPane",
+      "_hueSaturationField", "_hueSaturationHandle", "_brightnessPane", "_brightnessField",
+      "_brightnessHandle", "_presetFieldSet", "_presetGrid", "_inputFieldSet", "_inputLayout",
+      "_previewFieldSet", "_previewLayout", "_hexLayout", "_hexLabel", "_hexHelper",
+      "_hexField", "_rgbSpinLayout", "_rgbSpinLabel", "_rgbSpinRed", "_rgbSpinGreen",
+      "_rgbSpinBlue", "_hsbSpinLayout", "_hsbSpinLabel", "_hsbSpinHue", "_hsbSpinSaturation",
+      "_hsbSpinBrightness", "_oldColorPreview", "_newColorPreview");
+
+    this._disposeFields("_presetTable");
   }
 });

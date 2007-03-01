@@ -332,44 +332,19 @@ qx.Class.define("qx.ui.component.DateChooserButton",
       target.setValue(this._dateFormat.format(this._chooser.getDate()));
       this._chooserWindow.close();
       target.focus();
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Disposer. Removes all assigned event listeners and disposes the subwidgets.
-     *
-     * @type member
-     * @return {void | call} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      this._dateFormat.dispose();
-      this._dateFormat = null;
-
-      this._chooser.removeEventListener("select", this._chooserSelectHandler);
-      this._chooser.dispose();
-      this._chooser = null;
-
-      this._chooserWindow.removeEventListener("appear", this._chooserWindowAppearHandler);
-      this._chooserWindow.removeEventListener("keydown", this._chooserWindowKeydownHandler);
-      this._chooserWindow.dispose();
-      this._chooserWindow = null;
-
-      this.removeEventListener("execute", this._executeHandler);
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeObjects("_dateFormat", "_chooser", "_chooserWindow");
   }
 });

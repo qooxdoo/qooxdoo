@@ -762,51 +762,7 @@ qx.Class.define("qx.ui.basic.Image",
           this._image.height = vNew;
         }
       }
-    }),
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {boolean | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return true;
-      }
-
-      var vPreloader = this.getPreloader();
-
-      if (vPreloader)
-      {
-        // remove event connection
-        vPreloader.removeEventListener("load", this._onload, this);
-        vPreloader.removeEventListener("error", this._onerror, this);
-
-        this.forcePreloader(null);
-      }
-
-      if (this._image)
-      {
-        // Remove leaking filter attribute before leaving page
-        this._image.style.filter = "";
-        this._image = null;
-      }
-
-      qx.manager.object.ImageManager.getInstance().remove(this);
-
-      return this.base(arguments);
-    }
+    })
   },
 
 
@@ -823,6 +779,28 @@ qx.Class.define("qx.ui.basic.Image",
     if (qx.core.Variant.isSet("qx.client", "mshtml")) {
       members._applyEnabled = members._postApply;
     }
-  }
+  },
 
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    // Remove leaking filter attribute before leaving page
+    if (this._image) {
+      this._image.style.filter = "";
+    }
+
+    // Remove from manager
+    qx.manager.object.ImageManager.getInstance().remove(this);
+
+    // Remove fields
+    this._disposeFields("_image");
+  }
 });
