@@ -519,53 +519,6 @@ qx.Class.define("qx.io.remote.IframeTransport",
           this.warn("No valid responseType specified (" + this.getResponseType() + ")!");
           return null;
       }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {boolean | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return true;
-      }
-
-      if (this._frame)
-      {
-        this._frame.onload = null;
-        this._frame.onreadystatechange = null;
-
-        // Reset source to a blank image for gecko
-        // Otherwise it will switch into a load-without-end behaviour
-        if (qx.core.Variant.isSet("qx.client", "gecko")) {
-          this._frame.src = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
-        }
-
-        // Finally remove element node
-        document.body.removeChild(this._frame);
-
-        this._frame = null;
-      }
-
-      if (this._form)
-      {
-        document.body.removeChild(this._form);
-        this._form = null;
-      }
-
-      return this.base(arguments);
     }
   },
 
@@ -582,5 +535,38 @@ qx.Class.define("qx.io.remote.IframeTransport",
     // basic registration to qx.io.remote.Exchange
     // the real availability check (activeX stuff and so on) follows at the first real request
     qx.io.remote.Exchange.registerType(qx.io.remote.IframeTransport, "qx.io.remote.IframeTransport");
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    if (this._frame)
+    {
+      this._frame.onload = null;
+      this._frame.onreadystatechange = null;
+
+      // Reset source to a blank image for gecko
+      // Otherwise it will switch into a load-without-end behaviour
+      if (qx.core.Variant.isSet("qx.client", "gecko")) {
+        this._frame.src = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
+      }
+
+      // Finally remove element node
+      document.body.removeChild(this._frame);
+    }
+
+    if (this._form) {
+      document.body.removeChild(this._form);
+    }
+
+    this._disposeFields("_frame", "_form");
   }
 });

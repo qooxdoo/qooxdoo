@@ -399,37 +399,6 @@ qx.Class.define("qx.io.remote.ScriptTransport",
           this.warn("No valid responseType specified (" + this.getResponseType() + ")!");
           return null;
       }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {boolean | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return true;
-      }
-
-      if (this._element != null)
-      {
-        delete qx.io.remote.ScriptTransport._instanceRegistry[this._uniqueId];
-        document.body.removeChild(this._element);
-        this._element = null;
-      }
-
-      return this.base(arguments);
     }
   },
 
@@ -446,5 +415,25 @@ qx.Class.define("qx.io.remote.ScriptTransport",
     // basic registration to qx.io.remote.Exchange
     // the real availability check (activeX stuff and so on) follows at the first real request
     qx.io.remote.Exchange.registerType(qx.io.remote.ScriptTransport, "qx.io.remote.ScriptTransport");
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    if (this._element)
+    {
+      delete qx.io.remote.ScriptTransport._instanceRegistry[this._uniqueId];
+      document.body.removeChild(this._element);
+    }
+
+    this._disposeField("_element");
   }
 });
