@@ -278,14 +278,14 @@ def detectDeps(node, optionalDeps, loadtimeDeps, runtimeDeps, fileId, fileDb, in
                 else:
                     assembled = ""
                     break
-            
-                # treat dependencies in defer as requires 
-                if assembled == "qx.Clazz.define":
+
+                # treat dependencies in defer as requires
+                if assembled == "qx.Class.define":
                     if node.parent.type == "operand" and node.parent.parent.type == "call":
                         deferNode = treeutil.selectNode(node, "../../params/2/keyvalue[@key='defer']/value/function/body/block")
                         if deferNode != None:
                             detectDeps(deferNode, optionalDeps, loadtimeDeps, runtimeDeps, fileId, fileDb, False)
-                    
+
 
     elif node.type == "body" and node.parent.type == "function":
         inFunction = True
@@ -672,7 +672,7 @@ def getSortedList(options, fileDb, moduleDb):
 
 
     print "  * Processing dynamic dependencies..."
-    
+
     dynLoad = {}
     for pair in options.addRequire:
         class1 = pair.split(":")[0]
