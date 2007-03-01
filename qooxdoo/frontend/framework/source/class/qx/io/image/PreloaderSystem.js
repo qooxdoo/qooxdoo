@@ -213,38 +213,6 @@ qx.Class.define("qx.io.image.PreloaderSystem",
         // Restart timer for timeout
         this._timer.restart();
       }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {boolean | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return true;
-      }
-
-      this._list = null;
-
-      if (this._timer)
-      {
-        this._timer.dispose();
-        this._timer = null;
-      }
-
-      return this.base(arguments);
     }
   },
 
@@ -257,8 +225,22 @@ qx.Class.define("qx.io.image.PreloaderSystem",
   *****************************************************************************
   */
 
-  settings :
-  {
+  settings : {
     "qx.preloaderTimeout" : 3000
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeObjects("_timer");
+    this._disposeFields("_list");
   }
 });

@@ -776,56 +776,6 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
       }
 
       return true;
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      var vRequest = this.getRequest();
-
-      if (vRequest)
-      {
-        // Should be right,
-        // but is not compatible to mshtml (throws an exception)
-        if (qx.core.Variant.isSet("qx.client", "mshtml")) {}
-
-        // empty to help the generator to optimize this variant
-        else {
-          vRequest.onreadystatechange = null;
-        }
-
-        // Aborting
-        switch(vRequest.readyState)
-        {
-          case 1:
-          case 2:
-          case 3:
-            vRequest.abort();
-        }
-
-        // Cleanup objects
-        this._req = null;
-      }
-
-      return this.base(arguments);
     }
   },
 
@@ -842,5 +792,40 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
     // basic registration to qx.io.remote.Exchange
     // the real availability check (activeX stuff and so on) follows at the first real request
     qx.io.remote.Exchange.registerType(qx.io.remote.XmlHttpTransport, "qx.io.remote.XmlHttpTransport");
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    var vRequest = this.getRequest();
+
+    if (vRequest)
+    {
+      // Should be right,
+      // but is not compatible to mshtml (throws an exception)
+      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+      } else { // empty to help the generator to optimize this variant
+        vRequest.onreadystatechange = null;
+      }
+
+      // Aborting
+      switch(vRequest.readyState)
+      {
+        case 1:
+        case 2:
+        case 3:
+          vRequest.abort();
+      }
+    }
+
+    this._disposeFields("_req");
   }
 });

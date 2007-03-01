@@ -229,23 +229,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
      */
     _remove : function(vTransport)
     {
-      var vRequest = vTransport.getRequest();
-
-      // Destruct event connection between qx.io.remote.Exchange instance and qx.io.remote.Request
-      vTransport.removeEventListener("sending", vRequest._onsending, vRequest);
-      vTransport.removeEventListener("receiving", vRequest._onreceiving, vRequest);
-      vTransport.removeEventListener("completed", vRequest._oncompleted, vRequest);
-      vTransport.removeEventListener("aborted", vRequest._onaborted, vRequest);
-      vTransport.removeEventListener("timeout", vRequest._ontimeout, vRequest);
-      vTransport.removeEventListener("failed", vRequest._onfailed, vRequest);
-
-      // Destruct event connection between qx.io.remote.Exchange and me.
-      vTransport.removeEventListener("sending", this._onsending, this);
-      vTransport.removeEventListener("completed", this._oncompleted, this);
-      vTransport.removeEventListener("aborted", this._oncompleted, this);
-      vTransport.removeEventListener("timeout", this._oncompleted, this);
-      vTransport.removeEventListener("failed", this._oncompleted, this);
-
       // Remove from active transports
       qx.lang.Array.remove(this._active, vTransport);
 
@@ -456,47 +439,22 @@ qx.Class.define("qx.io.remote.RequestQueue",
       } else if (qx.lang.Array.contains(this._queue, vRequest)) {
         qx.lang.Array.remove(this._queue, vRequest);
       }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Disposer
-     *
-     * @type member
-     * @return {boolean | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return true;
-      }
-
-      if (this._active)
-      {
-        for (var i=0, a=this._active, l=a.length; i<l; i++) {
-          this._remove(a[i]);
-        }
-
-        this._active = null;
-      }
-
-      if (this._timer)
-      {
-        this._timer.removeEventListener("interval", this._oninterval, this);
-        this._timer = null;
-      }
-
-      this._queue = null;
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeDeep("_active", 1);
+    this._disposeObjects("_timer");
+    this._disposeFields("_queue");
   }
 });

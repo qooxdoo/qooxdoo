@@ -925,36 +925,21 @@ qx.Class.define("qx.io.remote.Request",
      */
     getSequenceNumber : function() {
       return this._seqNum;
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      this._requestHeaders = null;
-      this._parameters = null;
-      this._formFields = null;
-
-      this.setTransport(null);
-
-      return this.base(arguments);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this.setTransport(null);
+    this._disposeFields("_requestHeaders", "_parameters", "_formFields");
   }
 });

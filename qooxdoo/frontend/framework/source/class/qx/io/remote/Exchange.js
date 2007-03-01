@@ -944,40 +944,6 @@ qx.Class.define("qx.io.remote.Exchange",
       }
 
       return true;
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DISPOSER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      var vImpl = this.getImplementation();
-
-      if (vImpl)
-      {
-        this.setImplementation(null);
-        vImpl.dispose();
-      }
-
-      this.setRequest(null);
-
-      return this.base(arguments);
     }
   },
 
@@ -990,8 +956,29 @@ qx.Class.define("qx.io.remote.Exchange",
   *****************************************************************************
   */
 
-  settings :
-  {
+  settings : {
     "qx.ioRemoteDebug" : false
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    var vImpl = this.getImplementation();
+
+    if (vImpl)
+    {
+      this.setImplementation(null);
+      vImpl.dispose();
+    }
+
+    this.setRequest(null);
   }
 });
