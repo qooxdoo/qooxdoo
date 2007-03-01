@@ -264,5 +264,18 @@ qx.Class.define("qx.ui.table.DefaultDataRowRenderer",
         this._colors[color] = colors[color];
       }
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("_colors");
   }
 });
