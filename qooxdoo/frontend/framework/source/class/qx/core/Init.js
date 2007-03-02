@@ -75,7 +75,7 @@ qx.Class.define("qx.core.Init",
     component :
     {
       type     : "object",
-      instance : "qx.component.init.BasicInitComponent",
+      instance : "qx.component.init.Basic",
       _legacy  : true
     },
 
@@ -314,7 +314,7 @@ qx.Class.define("qx.core.Init",
   *****************************************************************************
   */
 
-  settings : { "qx.initComponent" : "qx.component.init.InterfaceInitComponent" },
+  settings : { "qx.initComponent" : "qx.component.init.Gui" },
 
 
 
