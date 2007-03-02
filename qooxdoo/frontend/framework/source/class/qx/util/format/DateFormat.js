@@ -928,5 +928,18 @@ qx.Class.define("qx.util.format.DateFormat",
         field   : "ms"
       });
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("_format", "_locale", "__formatTree");
   }
 });
