@@ -411,7 +411,7 @@ qx.Class.define("apiviewer.Viewer",
      * TODOC
      *
      * @type member
-     * @param vTreeNode {var} TODOC
+     * @param vTreeNode {qx.ui.tree.AbstractTreeElement} TODOC
      * @return {void}
      */
     _selectTreeNode : function(vTreeNode)
@@ -485,7 +485,7 @@ qx.Class.define("apiviewer.Viewer",
       var treeNode = this._classTreeNodeHash[this._currentTreeType][className];
 
       if (treeNode) {
-        treeNode.setSelected(true);
+        this.updateTreeSelection(treeNode);
       }
       else if (this.getDocTree() == null)
       {
@@ -497,7 +497,39 @@ qx.Class.define("apiviewer.Viewer",
       {
         this.error("Unknown class: " + className);
       }
-    }
+    },
+    
+    
+    /**
+     * Selects a tree node and makes sure it is visible.
+     * 
+     * @param treeNode {qx.ui.tree.AbstractTreeElement} The tree node to select
+     */
+	  updateTreeSelection : function(treeNode)
+	  {
+		  var treeFolder = treeNode;
+		  var parentFolders = [];
+	
+		  // Find all parent folders
+		  while (treeFolder)    
+	    {
+			  treeFolder = treeFolder.getParentFolder();
+		    parentFolders.push(treeFolder);        
+		  };
+	
+		  // Now open all folders, starting at the top
+		  parentFolders.pop();                       
+		  while (parentFolders.length)
+		  {
+		  	 // get last one, and open it.
+		    parentFolders.pop().open();             
+		  }
+		  
+		  // select the node and scrool it into view
+	  	treeNode.setSelected(true);
+		  treeNode.scrollIntoView();
+	  },
+      
   },
 
 
