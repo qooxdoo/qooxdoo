@@ -1057,8 +1057,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
   destruct : function()
   {
-    this._disposeDeep("_eventQueue", 1);
-    this._disposeDeep("_blockedEvents", 1);
+    this._disposeObjectDeep("_eventQueue", 1);
+    this._disposeObjectDeep("_blockedEvents", 1);
     this._disposeFields("_savedStates", "_states");
   }
 });

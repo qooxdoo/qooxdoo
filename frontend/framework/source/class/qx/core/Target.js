@@ -364,6 +364,6 @@ qx.Class.define("qx.core.Target",
 
   destruct : function()
   {
-    this._disposeDeep("__listeners", 2);
+    this._disposeObjectDeep("__listeners", 2);
   }
 });
