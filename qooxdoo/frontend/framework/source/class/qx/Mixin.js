@@ -236,7 +236,7 @@ qx.Class.define("qx.Mixin",
             }
           }
 
-          this.__checkCompatibility.apply(this, config.include);
+          this.checkCompatibility.apply(this, config.include);
         }
         else if (!config.include.isMixin)
         {
@@ -244,7 +244,7 @@ qx.Class.define("qx.Mixin",
         }
         else
         {
-          this.__checkCompatibility(config.include);
+          this.checkCompatibility(config.include);
         }
       }
     },
@@ -345,7 +345,7 @@ qx.Class.define("qx.Mixin",
 
       if (mixin.include)
       {
-        var includes = mixins.isMixin ? [mixins.isMixin] : mixins.isMixin;
+        var includes = mixin.isMixin ? [mixin.isMixin] : mixin.isMixin;
 
         for (var i=0, l=includes.length; i<l; i++) {
           this.__checkCompatibilityRecurser(includes[i], statics, properties, members);
