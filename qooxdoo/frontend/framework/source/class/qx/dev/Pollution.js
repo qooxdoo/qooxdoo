@@ -116,14 +116,14 @@ qx.Class.define("qx.dev.Pollution",
      *     </ul>
      * @return {void}
      */
-    consoleInfo : function(objectName)
+    getInfo : function(objectName)
     {
       var msg = qx.dev.Pollution.getTextList(objectName || "window");
 
       if (msg) {
-        alert("Global namespace is polluted by the following unknown objects:\n\n" + msg);
+        return "Global namespace is polluted by the following unknown objects:\n\n" + msg;
       } else {
-        alert("Global namespace is not polluted by any unknown objects.");
+        return "Global namespace is not polluted by any unknown objects.";
       }
     },
 

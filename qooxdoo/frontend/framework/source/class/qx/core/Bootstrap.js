@@ -25,6 +25,7 @@
 #ignore(auto-use)
 #use(qx.lang.Core)
 #use(qx.lang.Generics)
+#use(qx.core.Log)
 #use(qx.core.Client)
 #use(qx.lang.Object)
 #use(qx.lang.String)
@@ -106,48 +107,6 @@ qx.Class.define("qx.core.Bootstrap",
   statics :
   {
     /** Timestamp of qooxdoo based application startup */
-    LOADSTART : new Date,
-
-
-    /**
-     * Boot and unload time debug feature.
-     *
-     * @type static
-     * @param msg {String} The message to print out
-     * @return {void}
-     */
-    alert : function(msg)
-    {
-      // Firebug & Firebug light support
-      if (window.console && console.log) {
-        console.log(msg);
-      }
-
-      // Other browsers
-      else {
-        alert(msg);
-      }
-    },
-
-
-    /**
-     * Boot and unload time debug feature.
-     *
-     * @type static
-     * @param msg {String} The message to print out
-     * @return {void}
-     */
-    warn : function(msg)
-    {
-      // Firebug & Firebug light support
-      if (window.console && console.log) {
-        console.warn(msg);
-      }
-
-      // Other browsers
-      else {
-        alert("WARNING: \n" + msg);
-      }
-    }
+    LOADSTART : new Date
   }
 });
