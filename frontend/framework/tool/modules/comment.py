@@ -46,7 +46,7 @@ R_BLOCK_COMMENT_TIGHT_END = re.compile("\S+\*/$")
 R_BLOCK_COMMENT_PURE_START = re.compile("^/\*")
 R_BLOCK_COMMENT_PURE_END = re.compile("\*/$")
 
-R_ATTRIBUTE = re.compile(r'[^{]@(\w+)\s*')
+R_ATTRIBUTE = re.compile('[^{]@(\w+)\s*')
 R_JAVADOC_STARS = re.compile(r'^\s*\*')
 
 
@@ -337,6 +337,8 @@ def parseText(intext, format=True):
     pos = 0
 
     while True:
+        # this is neccesary to match ^ at the beginning of a line
+        if pos > 0 and  text[pos-1] == "\n": pos -= 1
         mtch = R_ATTRIBUTE.search(text, pos)
 
         if mtch == None:
@@ -351,7 +353,7 @@ def parseText(intext, format=True):
 
         prevText = text[pos:mtch.start(0)].rstrip()
         pos = mtch.end(0)
-
+        
         if len(attribs) == 0:
             desc["text"] = prevText
         else:
