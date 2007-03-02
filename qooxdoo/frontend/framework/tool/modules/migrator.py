@@ -268,6 +268,8 @@ def handle(fileList, fileDb, options):
 
                 # If there were any changes, compile the result
                 if patch.patch(fileId, tree):
+                    if not options.prettyPrint:
+                        options.prettyPrint = True  # make sure it's set
                     patchedContent = compiler.compile(tree, options)
 
             patchedContent = regtool(patchedContent, compiledPatches, True, options)
