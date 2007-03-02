@@ -60,7 +60,7 @@ qx.Class.define("qx.lang.Array",
      * Convert a (node) collection into an array
      *
      * @type static
-     * @param coll {var} TODOC
+     * @param coll {var} node collection
      * @return {Array} a newly created array (copy) with the content of the node collection.
      */
     fromCollection : function(coll) {

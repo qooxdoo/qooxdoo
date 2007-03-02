@@ -363,7 +363,7 @@ qx.Class.define("qx.core.Object",
      *
      * @type member
      * @param args {arguments} the arguments variable of the calling method
-     * @param varags {var} TODOC
+     * @param varags {var} variable number of arguments passed to the overwritten function
      * @return {var} the return value of the method of the base class.
      */
     base : function(args, varags)
@@ -510,7 +510,7 @@ qx.Class.define("qx.core.Object",
      * @type member
      * @param varargs {arguments} fields to dispose
      */
-    _disposeObjects : function()
+    _disposeObjects : function(varargs)
     {
       var name;
 
@@ -538,6 +538,7 @@ qx.Class.define("qx.core.Object",
         this[name] = null;
       }
     },
+
 
     /**
      * Disconnects and disposes given objects (deeply) from instance.
