@@ -297,8 +297,8 @@ def compile(node, opts, enableBreaks=False, enableDebug=False):
     global options
 
     options = opts
-    #options.prettypIndentString = eval("options.prettypIndentString")  # allow for escapes like "\t"
-                                                                        # NOT WORKING
+    options.prettypIndentString = eval("'" + options.prettypIndentString + "'")
+                                                              # allow for escapes like "\t"
 
     indent       = 0
     result       = u""
@@ -1516,7 +1516,7 @@ def main():
     parser.add_option("--optimize-variables", action="store_true", dest="optimizeVariables", default=False, help="Optimize variables. Reducing size.")
     parser.add_option("--encoding", dest="encoding", default="utf-8", metavar="ENCODING", help="Defines the encoding expected for input files.")
     # Options for pretty printing
-    parser.add_option("--pretty-print-indent-string", dest="prettypIndentString", default="  ", help="String used for indenting source code; no escapes possible (e.g. no \"\\t\"; default: \"  \")")
+    parser.add_option("--pretty-print-indent-string", dest="prettypIndentString", default="  ", help="String used for indenting source code; escapes possible (e.g. \"\\t\"; default: \"  \")")
     parser.add_option("--pretty-print-newline-before-open-curly", action="store_true", dest="prettypOpenCurlyNewlineBefore", default=False, help="Force \"{\" to be on a new line (default: False)")
     parser.add_option("--pretty-print-indent-before-open-curly", action="store_true", dest="prettypOpenCurlyIndentBefore", default=False, help="Indent \"{\" (default: False)")
     parser.add_option("--pretty-print-inline-comment-padding", dest="prettypCommentsInlinePadding", default="  ", help="String used between the end of a statement and a trailing inline comment (default: \"  \")")
