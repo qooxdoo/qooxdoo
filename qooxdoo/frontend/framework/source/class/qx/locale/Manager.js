@@ -32,6 +32,18 @@ function() {
 });
 
 
+qx.Proto.dispose = function()
+{
+  if (this.getDisposed()) {
+    return;
+  }
+
+  this._translationCatalog = null;
+
+  qx.core.Target.prototype.dispose.call(this);
+}
+
+
 /** current locale. locale is an language code like de, de_AT, en, en_GB, fr, ... */
 qx.OO.addProperty({ name: "locale"});
 

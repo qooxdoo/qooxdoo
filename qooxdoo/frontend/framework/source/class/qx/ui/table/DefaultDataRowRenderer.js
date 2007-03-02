@@ -66,6 +66,18 @@ qx.OO.addProperty({ name:"fontFamily", type:"string", allowNull:false, defaultVa
 qx.OO.addProperty({ name:"fontSize", type:"string", allowNull:false, defaultValue:"11px" });
 
 
+qx.Proto.dispose = function()
+{
+  if (this.getDisposed()) {
+    return;
+  }
+
+  this._colors = null;
+
+  qx.util.format.Format.prototype.dispose.call(this);
+}
+
+
 // overridden
 qx.Proto.updateDataRowElement = function(rowInfo, rowElem) {
   rowElem.style.fontFamily = this.getFontFamily();

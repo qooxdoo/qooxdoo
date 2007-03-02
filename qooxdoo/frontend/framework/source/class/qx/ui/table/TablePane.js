@@ -497,6 +497,7 @@ qx.Proto.dispose = function() {
   }
 
   this._cleanUpRows(0);
+  this._paneScroller = null;
 
   return qx.ui.basic.Terminator.prototype.dispose.call(this);
 }

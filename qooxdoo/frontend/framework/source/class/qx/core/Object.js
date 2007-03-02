@@ -100,10 +100,13 @@ qx.Clazz.toHashCode = function(o)
  */
 qx.Clazz.dispose = function()
 {
-  // var logger = qx.log.Logger.getClassLogger(qx.core.Object);
-  // logger.debug("Disposing Application");
+  var debug = qx.Settings.getValueOfClass("qx.core.Object", "enableDisposerDebug") && window.console;
+  if (debug)
+  {
+    console.log("Disposing Application");
+    var vStart = (new Date).valueOf();
+  }
 
-  // var vStart = (new Date).valueOf();
   qx.core.Object._disposeAll = true;
   var vObject;
 
@@ -113,12 +116,28 @@ qx.Clazz.dispose = function()
 
     if (vObject && vObject._disposed === false)
     {
-      // logger.debug("Disposing: " + vObject);
-      vObject.dispose();
+      try
+      {
+        /*
+        if (debug) {
+          console.log("Disposing: " + vObject.classname + "[" + vObject.toHashCode() + "]");
+        }
+        */
+
+        vObject.dispose();
+      }
+      catch(ex)
+      {
+        if (debug) {
+          console.warn("Error while disposing: " + vObject.classname + "[" + vObject.toHashCode() + "]: " + ex.message);
+        }
+      }
     }
   }
 
-  // logger.debug("Done in: " + ((new Date).valueOf() - vStart) + "ms");
+  if (debug) {
+    console.log("Done in: " + ((new Date).valueOf() - vStart) + "ms");
+  }
 }
 
 
@@ -173,7 +192,7 @@ qx.Clazz.summary = function()
 
 /**
  * Returns whether a global dispose (page unload) is currently taking place.
- * 
+ *
  * @type static
  * @return {Boolean} whether a global dispose is taking place.
  */
@@ -539,6 +558,11 @@ qx.Proto.dispose = function()
     return;
   }
 
+  // Mark as disposed
+  this._disposed = true;
+
+  var debug = qx.Settings.getValueOfClass("qx.core.Object", "enableDisposerDebug") && window.console;
+
   // Dispose user data
   if (this._userData)
   {
@@ -562,13 +586,18 @@ qx.Proto.dispose = function()
     this._objectproperties = null;
   }
 
-  if (this.getSetting("enableDisposerDebug"))
+  if (debug)
   {
     for (var vKey in this)
     {
-      if (this[vKey] !== null && typeof this[vKey] === "object")
+      if (this[vKey] !== null && typeof this[vKey] === "object" && this.constructor.prototype[vKey] === undefined)
       {
-        this.debug("Missing class implementation to dispose: " + vKey);
+        var detail = "";
+        if (this.getAppearance) {
+          detail = " (" + this.getAppearance() + ")";
+        }
+
+        console.warn("Missing dispose definition for '" + vKey + "' in " + this.classname + "[" + this.toHashCode() + "]" + detail);
         delete this[vKey];
       }
     }
@@ -601,7 +630,4 @@ qx.Proto.dispose = function()
     this._hashCode = null;
     this._dbKey = null;
   }
-
-  // Mark as disposed
-  this._disposed = true;
 }

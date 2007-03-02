@@ -273,5 +273,7 @@ qx.Proto.dispose = function() {
     return true;
   }
 
+  this._paneScroller = null;
+
   return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
 }

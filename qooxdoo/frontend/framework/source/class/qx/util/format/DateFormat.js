@@ -44,6 +44,18 @@ function(format, locale) {
 });
 
 
+qx.Proto.dispose = function()
+{
+  if (this.getDisposed()) {
+    return;
+  }
+
+  this._formatTree = null;
+
+  qx.util.format.Format.prototype.dispose.call(this);
+}
+
+
 /**
  * Fills a number with leading zeros ("25" -> "0025").
  *

@@ -47,6 +47,18 @@ function()
 });
 
 
+qx.Proto.dispose = function()
+{
+  if (this.getDisposed()) {
+    return;
+  }
+
+  this._columnDataArr = this._overallColumnArr = this._visibleColumnArr = this._colToXPosMap = this._table = null;
+
+  qx.ui.table.TableColumnModel.prototype.dispose.call(this);
+}
+
+
 /*
  * The behavior to use.
  *

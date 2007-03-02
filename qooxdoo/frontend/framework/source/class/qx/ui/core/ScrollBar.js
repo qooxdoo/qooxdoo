@@ -245,10 +245,9 @@ qx.Proto.dispose = function() {
     return;
   }
 
-  if (this._scrollContent) {
-    this._scrollContent.dispose();
-    this._scrollContent = null;
-  }
+  this._scrollContent = null;
+  this._scrollBar = null;
+  this._paneScroller = null;
 
   return qx.ui.layout.BoxLayout.prototype.dispose.call(this);
 }
