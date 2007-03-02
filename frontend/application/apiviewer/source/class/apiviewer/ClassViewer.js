@@ -999,9 +999,10 @@ qx.Class.define("apiviewer.ClassViewer",
         {
           var node = nodeArr[i];
 
-          var fromClassNode = fromClassHash[node.attributes.name] || null;
-
-          if (fromClassNode == null) {
+          // hasOwnProperty because "toString" may be a key of the fromClassHash map
+          if (fromClassHash.hasOwnProperty(node.attributes.name)) {
+            var fromClassNode = fromClassHash[node.attributes.name];
+          } else {
             fromClassNode = this._currentClassDocNode;
           }
           
