@@ -385,7 +385,7 @@ qx.Class.define("apiviewer.ClassViewer",
 
       var html = '<div class="infoPanel"><h2>';
 
-      html += 
+      html +=
         '<img class="openclose" src="' +
         qx.manager.object.AliasManager.getInstance().resolvePath('api/image/' + (isOpen ? 'close.gif' : 'open.gif')) +
         '"' + " onclick=\"document._detailViewer._onShowInfoPanelBodyClicked(" + nodeType + ")\"/> " +
@@ -430,8 +430,8 @@ qx.Class.define("apiviewer.ClassViewer",
           var objectName = "Mixin";
           var subObjectsName = "sub mixins"
           break;
-          
-        case "interface" : 
+
+        case "interface" :
           var objectName = "Interface";
           var subObjectsName = "sub interfaces"
           break;
@@ -440,9 +440,9 @@ qx.Class.define("apiviewer.ClassViewer",
           var objectName = "Class";
           var subObjectsName = "sub classes"
           break;
-                        
+
       }
-      
+
       var titleHtml = "";
 
       titleHtml += '<div class="packageName">' + classNode.attributes.packageName + '</div>';
@@ -481,15 +481,15 @@ qx.Class.define("apiviewer.ClassViewer",
       switch (classNode.attributes.type)
       {
         case "mixin" :
-        case "interface" : 
+        case "interface" :
           classHtml += this.__getHierarchyTreeHtml(classNode);
           break;
 
         default:
           classHtml += this.__getClassHierarchyHtml(classNode);
-          break;                        
+          break;
       }
-      
+
       classHtml += '<br/>';
 
       // Add child classes
@@ -509,23 +509,23 @@ qx.Class.define("apiviewer.ClassViewer",
         if (classNode.attributes[obj])
         {
           classHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + dependentObjects[obj] + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT;
-  
+
           var classNameArr = classNode.attributes[obj].split(",");
-  
+
           for (var i=0; i<classNameArr.length; i++)
           {
             if (i != 0) {
               classHtml += ", ";
             }
-  
+
             classHtml += this._createItemLinkHtml(classNameArr[i], null, true, false);
           }
-  
+
           classHtml += ClassViewer.DIV_END;
           classHtml += '<br/>';
         }
       }
-      
+
       // Add @see attributes
       var ctorList = apiviewer.TreeUtil.getChild(classNode, "constructor");
 
@@ -548,14 +548,14 @@ qx.Class.define("apiviewer.ClassViewer",
 
     /**
      * Generate HTML fragment to display the inheritance hierarchy of a class.
-     * 
+     *
      * @param classNode {map} class node
      * @return {String} HTML fragemnt
      */
     __getClassHierarchyHtml: function(classNode)
     {
       var ClassViewer = apiviewer.ClassViewer;
-      
+
       // Create the class hierarchy
       var classHtml = ClassViewer.DIV_START_DETAIL_HEADLINE + "Inheritance hierarchy:" + ClassViewer.DIV_END;
 
@@ -573,7 +573,7 @@ qx.Class.define("apiviewer.ClassViewer",
 
       for (var i=classHierarchy.length-1; i>=0; i--)
       {
-        classHtml += 
+        classHtml +=
           ClassViewer.createImageHtml("api/image/nextlevel.gif", null, "margin-left:" + indent + "px") +
           ClassViewer.createImageHtml(apiviewer.TreeUtil.getIconUrl(classHierarchy[i]));
 
@@ -592,7 +592,7 @@ qx.Class.define("apiviewer.ClassViewer",
 
     /**
      * Generate HTML fragment to display the inheritance tree of an interface or mixin.
-     * 
+     *
      * @param classNode {map} class node
      * @return {String} HTML fragemnt
      */
@@ -609,26 +609,26 @@ qx.Class.define("apiviewer.ClassViewer",
           superList = "superInterfaces";
           superObject = "interface";
           break;
-        
+
         default:
           return "";
       }
-      
+
       var ClassViewer = apiviewer.ClassViewer;
-      
+
       // Create the interface hierarchy
       var self = this;
       var EMPTY_CELL = ClassViewer.createImageHtml("api/image/blank.gif", null, "width:18px");
-    
+
       var generateTree = function(nodes, first)
-      { 
+      {
         var lines = [];
-                
+
         for (var nodeIndex=0; nodeIndex<nodes.length; nodeIndex++)
         {
-          
+
           // render line
-          var line = "";          
+          var line = "";
           var classNode = nodes[nodeIndex];
           if (!first) {
             if (nodeIndex == nodes.length-1) {
@@ -639,18 +639,18 @@ qx.Class.define("apiviewer.ClassViewer",
           } else {
             line += EMPTY_CELL;
           }
-           
+
           line += ClassViewer.createImageHtml(apiviewer.TreeUtil.getIconUrl(classNode));
           if (!first) {
             line += self._createItemLinkHtml(nodes[nodeIndex].attributes.fullName, null, false);
           } else {
             line += nodes[nodeIndex].attributes.fullName;
-          }                                
+          }
           lines.push(line);
-          
+
           // get a list of super interfaces
           var superInterfaces = [];
-              
+
           var superInterfacesNode = apiviewer.TreeUtil.getChild(classNode, superList);
           if (superInterfacesNode)
           {
@@ -660,7 +660,7 @@ qx.Class.define("apiviewer.ClassViewer",
               }
             }
           }
-          
+
           // render lines of super interfaces
           if (superInterfaces.length > 0)
           {
@@ -669,14 +669,14 @@ qx.Class.define("apiviewer.ClassViewer",
               if (nodeIndex == nodes.length-1) {
                 lines.push(EMPTY_CELL + subLines[i]);
               } else {
-                lines.push(ClassViewer.createImageHtml("api/image/vline.gif") + subLines[i]);                            
+                lines.push(ClassViewer.createImageHtml("api/image/vline.gif") + subLines[i]);
               }
             }
           }
         }
         return lines;
       }
-      
+
       var classHtml = "";
       if (apiviewer.TreeUtil.getChild(classNode, superList)) {
         classHtml = ClassViewer.DIV_START_DETAIL_HEADLINE + "Inheritance hierarchy:" + ClassViewer.DIV_END;
@@ -686,8 +686,8 @@ qx.Class.define("apiviewer.ClassViewer",
       }
       return classHtml;
     },
-    
-    
+
+
     /**
      * TODOC
      *
@@ -783,11 +783,11 @@ qx.Class.define("apiviewer.ClassViewer",
 
     /**
      * Return a list of all nodes of a given type from all mixins of a class
-     */   
+     */
     _addNodesOfTypeFromMixins : function(classNode, nodeType, nodeArr, fromClassHash)
     {
       var typeInfo = this._infoPanelHash[nodeType];
-      
+
       var mixins = classNode.attributes.mixins;
       if (mixins) {
         mixins = mixins.split(",");
@@ -805,7 +805,7 @@ qx.Class.define("apiviewer.ClassViewer",
                 {
                   fromClassHash[name] = mixinNode;
                   nodeArr.push(parentNode.children[i]);
-                }                            
+                }
               }
             }
             // recursive decent
@@ -816,15 +816,15 @@ qx.Class.define("apiviewer.ClassViewer",
               }
             }
           }
-          
+
           var mixinNode = this._getClassDocNode(mixins[mixinIndex]);
           mixinRecurser(mixinNode);
-          
+
         }
       }
     },
-     
-     
+
+
     /**
      * Updates an info panel.
      *
@@ -841,7 +841,7 @@ qx.Class.define("apiviewer.ClassViewer",
       // Get the nodes to show
       var nodeArr = [];
       var fromClassHash = {};
-      
+
       if (this._currentClassDocNode)
       {
         if (
@@ -878,7 +878,7 @@ qx.Class.define("apiviewer.ClassViewer",
 
             var superClassName = currClassNode.attributes.superClass;
             currClassNode = superClassName ? this._getClassDocNode(superClassName) : null;
-          }      
+          }
         }
         else
         {
@@ -888,10 +888,10 @@ qx.Class.define("apiviewer.ClassViewer",
           } else {
             nodeArr = [];
           }
-          this._addNodesOfTypeFromMixins(this._currentClassDocNode, nodeType, nodeArr, fromClassHash);            
-          
+          this._addNodesOfTypeFromMixins(this._currentClassDocNode, nodeType, nodeArr, fromClassHash);
+
         }
-      }   
+      }
 
       if (nodeArr)
       {
@@ -950,7 +950,7 @@ qx.Class.define("apiviewer.ClassViewer",
           }
 
           var info = typeInfo.infoFactory.call(this, node, nodeType, fromClassNode, false);
-          var inherited = 
+          var inherited =
             fromClassNode &&
             (fromClassNode != this._currentClassDocNode) &&
             fromClassNode.attributes.type == "class";
@@ -982,7 +982,7 @@ qx.Class.define("apiviewer.ClassViewer",
           html += '<h3';
 
           if (typeInfo.hasDetailDecider.call(this, node, nodeType, fromClassNode)) {
-            html += 
+            html +=
               " onclick=\"document._detailViewer._onShowItemDetailClicked(" +
               nodeType + ",'" + node.attributes.name + "'" +
               ((fromClassNode != this._currentClassDocNode) ? ",'" +
@@ -1271,7 +1271,7 @@ qx.Class.define("apiviewer.ClassViewer",
         // Add inherited from or overridden from
         if (fromClassNode && fromClassNode != this._currentClassDocNode) {
           if (fromClassNode.attributes.type == "mixin") {
-            info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Included from mixin:" + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT + this._createItemLinkHtml(fromClassNode.attributes.fullName) + ClassViewer.DIV_END;            
+            info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Included from mixin:" + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT + this._createItemLinkHtml(fromClassNode.attributes.fullName) + ClassViewer.DIV_END;
           } else {
             info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Inherited from:" + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT + this._createItemLinkHtml(fromClassNode.attributes.fullName) + ClassViewer.DIV_END;
           }
@@ -1526,7 +1526,7 @@ qx.Class.define("apiviewer.ClassViewer",
         if (fromClassNode && fromClassNode != this._currentClassDocNode) {
           if (fromClassNode.attributes.type == "mixin") {
             info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Included from mixin:" + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT + this._createItemLinkHtml(fromClassNode.attributes.fullName) + ClassViewer.DIV_END;
-          } else {          
+          } else {
             info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Inherited from:" + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT + this._createItemLinkHtml(fromClassNode.attributes.fullName) + ClassViewer.DIV_END;
           }
         } else if (node.attributes.overriddenFrom) {
@@ -2112,35 +2112,22 @@ qx.Class.define("apiviewer.ClassViewer",
           }
         }
       }
-    },
-
-    // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      this._titleElem = null;
-      this._classDescElem = null;
-      this._markedElement = null;
-
-      for (var nodeType in this._infoPanelHash)
-      {
-        this._infoPanelHash[nodeType].infoElem = null;
-        this._infoPanelHash[nodeType].infoTitleElem = null;
-        this._infoPanelHash[nodeType].infoBodyElem = null;
-      }
-
-      document._detailViewer = null;
-
-      return qx.ui.embed.HtmlEmbed.prototype.dispose.call(this);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeObjectDeep("_infoPanelHash", 1);
+    this._disposeFields("_titleElem", "_classDescElem", "_markedElement");
+    document._detailViewer = null;
   }
 });

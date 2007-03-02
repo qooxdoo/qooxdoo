@@ -497,54 +497,6 @@ qx.Class.define("apiviewer.Viewer",
       {
         this.error("Unknown class: " + className);
       }
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      if (this._tree)
-      {
-        this._tree.dispose();
-        this._tree = null;
-      }
-
-      if (this._detailFrame)
-      {
-        this._detailFrame.dispose();
-        this._detailFrame = null;
-      }
-
-      if (this._detailLoader)
-      {
-        this._detailLoader.dispose();
-        this._detailLoader = null;
-      }
-
-      if (this._classViewer)
-      {
-        this._classViewer.dispose();
-        this._classViewer = null;
-      }
-
-      if (this._infoViewer)
-      {
-        this._infoViewer.dispose();
-        this._infoViewer = null;
-      }
-
-      this._classTreeNodeHash = null;
-
-      return qx.ui.layout.HorizontalBoxLayout.prototype.dispose.call(this);
     }
   },
 
@@ -561,5 +513,20 @@ qx.Class.define("apiviewer.Viewer",
   {
     "apiviewer.title"            : "qooxdoo",
     "apiviewer.initialTreeDepth" : 1
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeObjects("_tree", "_detailFrame", "_detailLoader", "_classViewer", "_infoViewer");
+    this._disposeFields("_classTreeNodeHash");
   }
 });
