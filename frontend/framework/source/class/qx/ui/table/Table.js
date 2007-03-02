@@ -707,10 +707,7 @@ qx.Class.define("qx.ui.table.Table",
       {
         for (var i=scrollerArr.length-1; i>=fromMetaColumn; i--)
         {
-          var paneScroller = scrollerArr[i];
-          paneScroller.removeEventListener("changeScrollY", this._onScrollY, this);
-          this._scrollerParent.remove(paneScroller);
-          paneScroller.dispose();
+          scrollerArr[i].dispose();
         }
       }
     },
@@ -1682,8 +1679,7 @@ qx.Class.define("qx.ui.table.Table",
 
   destruct : function()
   {
-    this._cleanupColumnVisibilityMenu();
     this._cleanUpMetaColumns(0);
-    this._disposeObjects("_tableModel", "_columnVisibilityBt", "_scrollerParent", "_statusBar");
+    this._disposeObjects("_selectionManager", "_columnVisibilityMenu", "_tableModel", "_columnVisibilityBt", "_scrollerParent", "_statusBar");
   }
 });

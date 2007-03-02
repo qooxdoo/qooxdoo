@@ -400,8 +400,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    this._disposeObjects("_scrollContent");
+  destruct : function() {
+    this._disposeObjects("_scrollContent", "_scrollBar");
   }
 });
