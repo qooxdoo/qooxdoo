@@ -152,7 +152,7 @@ qx.Class.define("qx.lang.Object",
      * @return {String} String of the keys of the map
      *         The keys are separated by ", "
      */
-    getKeysAsString : function(map, divider)
+    getKeysAsString : function(map)
     {
       var keys = qx.lang.Object.getKeys(map);
       if (keys.length == 0) {
