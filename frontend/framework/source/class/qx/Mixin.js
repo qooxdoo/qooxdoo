@@ -84,6 +84,13 @@ qx.Class.define("qx.Mixin",
         }
 
         var mixin = config;
+
+        // Rename
+        if (config.destruct)
+        {
+          config.destructor =  config.destruct;
+          delete config.destruct;
+        }
       }
       else
       {
@@ -204,10 +211,11 @@ qx.Class.define("qx.Mixin",
     {
       var allowedKeys =
       {
-        "include"    : "object", // Mixin | Mixin[]
-        "statics"    : "object", // Map
-        "members"    : "object", // Map
-        "properties" : "object"  // Map
+        "include"    : "object",  // Mixin | Mixin[]
+        "statics"    : "object",  // Map
+        "members"    : "object",  // Map
+        "properties" : "object",  // Map
+        "destruct"   : "function" // Function
       }
 
       for (var key in config)
