@@ -44,7 +44,7 @@
 qx.Class.define("qx.core.Object",
 {
   extend : Object,
-  include : [ qx.locale.MTranslation, qx.log.MLogging ],
+  include : [ qx.locale.MTranslation, qx.log.MLogging, qx.core.MUserData ],
 
 
 
@@ -434,46 +434,6 @@ qx.Class.define("qx.core.Object",
       return this;
     },
 
-
-    /*
-    ---------------------------------------------------------------------------
-      USER DATA
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Store user defined data inside the object.
-     *
-     * @type member
-     * @param vKey {String} the key
-     * @param vValue {Object} the value of the user data
-     * @return {void}
-     */
-    setUserData : function(vKey, vValue)
-    {
-      if (!this._userData) {
-        this._userData = {};
-      }
-
-      this._userData[vKey] = vValue;
-    },
-
-
-    /**
-     * Load user defined data from the object
-     *
-     * @type member
-     * @param vKey {String} the key
-     * @return {Object} the user data
-     */
-    getUserData : function(vKey)
-    {
-      if (!this._userData) {
-        return null;
-      }
-
-      return this._userData[vKey];
-    },
 
 
     /*
