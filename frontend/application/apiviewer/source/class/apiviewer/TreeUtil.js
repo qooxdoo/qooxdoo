@@ -378,6 +378,9 @@ qx.Class.define("apiviewer.TreeUtil",
     /** {string[]} The icon URL of an inherited event. */
     statics.ICON_EVENT_INHERITED = [statics.ICON_EVENT, statics.OVERLAY_INHERITED ];
     
+    /** {string[]} The icon URL of an inherited event with error. */
+    statics.ICON_EVENT_INHERITED_ERROR = [statics.ICON_EVENT, statics.OVERLAY_INHERITED, statics.OVERLAY_ERROR];    
+    
     /** {string} The icon URL of an event. */
     statics.ICON_EVENT_ERROR = [statics.ICON_EVENT, statics.OVERLAY_ERROR ];
     
