@@ -528,7 +528,7 @@ qx.Class.define("apiviewer.Viewer",
 		  // select the node and scrool it into view
 	  	treeNode.setSelected(true);
 		  treeNode.scrollIntoView();
-	  },
+	  }
       
   },
 
