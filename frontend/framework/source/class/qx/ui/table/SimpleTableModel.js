@@ -493,6 +493,6 @@ qx.Class.define("qx.ui.table.SimpleTableModel",
   */
 
   destruct : function() {
-    this._disposeFields("_rowArr");
+    this._disposeFields("_rowArr", "_editableColArr");
   }
 });

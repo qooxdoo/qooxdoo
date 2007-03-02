@@ -213,7 +213,8 @@ qx.Class.define("qx.core.Object",
               catch(ex)
               {
                 // ignore gecko error
-                if (key != "domConfig") {
+                var allowed = [ "domConfig", "selectionStart", "selectionEnd" ];
+                if (!qx.lang.Array.contains(allowed, key)) {
                   qx.core.Bootstrap.warn("Could not access key: " + key);
                 }
               }
@@ -807,7 +808,7 @@ qx.Class.define("qx.core.Object",
   */
 
   settings : {
-    "qx.disposerDebugLevel" : 1
+    "qx.disposerDebugLevel" : 0
   },
 
 
