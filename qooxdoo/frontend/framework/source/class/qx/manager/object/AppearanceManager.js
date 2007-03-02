@@ -164,6 +164,6 @@ qx.Class.define("qx.manager.object.AppearanceManager",
   */
 
   destruct : function() {
-    this._disposeDeep("_appearanceThemes", 1);
+    this._disposeObjectDeep("_appearanceThemes", 1);
   }
 });

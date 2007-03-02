@@ -1292,7 +1292,7 @@ qx.Class.define("qx.event.handler.EventHandler",
   {
     this.detachEvents();
 
-    this._disposeDeep("_commands", 1);
+    this._disposeObjectDeep("_commands", 1);
 
     this._disposeFields("__onmouseevent", "__ondragevent", "__onselectevent",
       "__onwindowblur", "__onwindowfocus", "__onwindowresize");

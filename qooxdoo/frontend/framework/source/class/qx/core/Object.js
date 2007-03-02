@@ -584,7 +584,8 @@ qx.Class.define("qx.core.Object",
     },
 
     /**
-     * Disconnects given field deeply from object.
+     * Disconnects and disposes given objects (deeply) from instance.
+     * Works with arrays, maps and qooxdoo objects.
      *
      * @type member
      * @param name {String} field name to dispose
@@ -592,7 +593,7 @@ qx.Class.define("qx.core.Object",
      *   just the object and all its keys. Deep=1 also dispose deletes the
      *   objects object content.
      */
-    _disposeDeep : function(name, deep)
+    _disposeObjectDeep : function(name, deep)
     {
       var name;
 
@@ -619,13 +620,13 @@ qx.Class.define("qx.core.Object",
         }
       }
 
-      this.__disposeDeepRecurser(this[name], deep || 0);
+      this.__disposeObjectsDeepRecurser(this[name], deep || 0);
       this[name] = null;
     },
 
 
     /**
-     * Helper method for _disposeDeep. Do the recursive work.
+     * Helper method for _disposeObjectDeep. Do the recursive work.
      *
      * @type member
      * @param obj {Object} object to dispose
@@ -633,7 +634,7 @@ qx.Class.define("qx.core.Object",
      *   just the object and all its keys. Deep=1 also dispose deletes the
      *   objects object content.
      */
-    __disposeDeepRecurser : function(obj, deep)
+    __disposeObjectsDeepRecurser : function(obj, deep)
     {
       // qooxdoo
       if (obj instanceof qx.core.Object)
@@ -670,7 +671,7 @@ qx.Class.define("qx.core.Object",
                 }
               }
 
-              this.__disposeDeepRecurser(entry, deep-1);
+              this.__disposeObjectsDeepRecurser(entry, deep-1);
             }
 
             if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -718,7 +719,7 @@ qx.Class.define("qx.core.Object",
                 }
               }
 
-              this.__disposeDeepRecurser(entry, deep-1);
+              this.__disposeObjectsDeepRecurser(entry, deep-1);
             }
 
             if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -773,10 +774,9 @@ qx.Class.define("qx.core.Object",
       // Deconstructor support
       var clazz = this.constructor;
 
-      while (clazz != qx.core.Object)
+      while (clazz.superclass)
       {
-        if (clazz.destructor)
-        {
+        if (clazz.destructor) {
           clazz.destructor.call(this);
         }
 
@@ -786,70 +786,13 @@ qx.Class.define("qx.core.Object",
           {
             var mixin = clazz.$$includes[key];
 
-            if (mixin.destructor)
-            {
+            if (mixin.destructor) {
               mixin.destructor.call(this);
             }
           }
         }
 
         clazz = clazz.superclass;
-      }
-
-      // Dispose user data
-      if (this._userData)
-      {
-        for (var vKey in this._userData) {
-          this._userData[vKey] = null;
-        }
-
-        this._userData = null;
-      }
-
-      // Disposable properties
-      var disposeProps = this.$$objectproperties;
-
-      // NextGen property stuff
-      this._user_values_ng = null;
-      this._appearance_values_ng = null;
-      this._real_values_ng = null;
-      this._properties_ng = null;
-      this._properties_init_ng = null;
-
-      // Finally cleanup properties
-      if (disposeProps)
-      {
-        for (var name in disposeProps) {
-          this[qx.core.LegacyProperty.getValueName(name)] = null;
-        }
-      }
-
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (qx.core.Setting.get("qx.disposerDebugLevel") >= 1)
-        {
-          for (var vKey in this)
-          {
-            if (this[vKey] !== null && typeof this[vKey] === "object" && this.constructor.prototype[vKey] === undefined)
-            {
-              qx.core.Bootstrap.warn("Missing destruct definition for '" + vKey + "' in " + this.classname);
-              delete this[vKey];
-            }
-          }
-        }
-      }
-
-      // Delete Entry from Object DB
-      if (this.__dbKey != null)
-      {
-        if (qx.core.Object.__disposeAll) {
-          qx.core.Object.__db[this.__dbKey] = null;
-        } else {
-          delete qx.core.Object.__db[this.__dbKey];
-        }
-
-        // this._hashCode = null;
-        // this.__dbKey = null;
       }
     }
   },
@@ -863,8 +806,60 @@ qx.Class.define("qx.core.Object",
   *****************************************************************************
   */
 
-  settings :
-  {
+  settings : {
     "qx.disposerDebugLevel" : 1
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    // Dispose user data
+    this._disposeObjectDeep("_userData", 1);
+
+    // NextGen property stuff
+    this._disposeFields("_user_values_ng", "_appearance_values_ng", "_real_values_ng", "_properties_ng", "_properties_init_ng");
+
+    // Finally cleanup properties
+    var disposeProps = this.$$objectproperties;
+    if (disposeProps)
+    {
+      for (var name in disposeProps) {
+        this[qx.core.LegacyProperty.getValueName(name)] = null;
+      }
+    }
+
+    // Delete Entry from Object DB
+    if (this.__dbKey != null)
+    {
+      if (qx.core.Object.__disposeAll) {
+        qx.core.Object.__db[this.__dbKey] = null;
+      } else {
+        delete qx.core.Object.__db[this.__dbKey];
+      }
+    }
+
+    // Additional checks
+    if (qx.core.Variant.isSet("qx.debug", "on"))
+    {
+      if (qx.core.Setting.get("qx.disposerDebugLevel") >= 1)
+      {
+        for (var vKey in this)
+        {
+          if (this[vKey] !== null && typeof this[vKey] === "object" && this.constructor.prototype[vKey] === undefined)
+          {
+            qx.core.Bootstrap.warn("Missing destruct definition for '" + vKey + "' in " + this.classname);
+            delete this[vKey];
+          }
+        }
+      }
+    }
   }
 });

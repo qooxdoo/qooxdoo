@@ -397,6 +397,6 @@ qx.Class.define("qx.manager.selection.RadioManager",
   */
 
   destruct : function() {
-    this._disposeDeep("_items", 1);
+    this._disposeObjectDeep("_items", 1);
   }
 });

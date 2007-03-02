@@ -390,8 +390,8 @@ qx.Class.define("qx.manager.object.ImageManager",
 
   destruct : function()
   {
-    this._disposeDeep("_iconThemes", 1);
-    this._disposeDeep("_widgetThemes", 1);
+    this._disposeObjectDeep("_iconThemes", 1);
+    this._disposeObjectDeep("_widgetThemes", 1);
     this._disposeFields("_sources");
   }
 });
