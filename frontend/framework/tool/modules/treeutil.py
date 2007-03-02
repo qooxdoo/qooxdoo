@@ -299,3 +299,21 @@ def compileString(jsString):
     Compile a string containing a JavaScript fragment into a syntax tree.
     """
     return treegenerator.createSyntaxTree(tokenizer.parseStream(jsString)).getFirstChild()
+
+
+def variableOrArrayNodeToArray(node):
+    """
+    Normalizes a variable node or an array node containing variables
+    to a python array of the variable names
+    """
+    
+    arr = []
+    if node.type == "array":
+        for child in node.children:
+            if child.type == "variable":
+                arr.append(assembleVariable(child))
+    elif node.type == "variable":
+        arr.append(assembleVariable(node))
+    else:
+        raise tree.NodeAccessException("'node' is no variable or array node", node)
+    return arr
