@@ -29,6 +29,7 @@
  */
 qx.Class.define("qx.ui.table.AbstractResizeBehavior",
 {
+  type : "abstract",
   extend : qx.core.Object,
 
 
@@ -220,5 +221,18 @@ qx.Class.define("qx.ui.table.AbstractResizeBehavior",
         extraWidth : 16
       };
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("_resizeColumnData");
   }
 });

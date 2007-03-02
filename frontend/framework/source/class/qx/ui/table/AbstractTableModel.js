@@ -29,6 +29,7 @@
  */
 qx.Class.define("qx.ui.table.AbstractTableModel",
 {
+  type : "abstract",
   extend : qx.ui.table.TableModel,
 
 
@@ -213,5 +214,18 @@ qx.Class.define("qx.ui.table.AbstractTableModel",
       this._internalChange = false;
       this.setColumnNamesByIndex(columnNameArr);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("_columnIdArr", "_columnNameArr", "_columnIndexMap");
   }
 });

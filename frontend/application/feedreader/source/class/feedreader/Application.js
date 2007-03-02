@@ -617,5 +617,20 @@ qx.Class.define("feedreader.Application",
   *****************************************************************************
   */
 
-  settings : { "feedreader.resourceUri" : "./resource" }
+  settings : {
+    "feedreader.resourceUri" : "./resource"
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeObjects("_blogEntry", "_table", "_tableModel");
+  }
 });

@@ -533,5 +533,20 @@ qx.Class.define("qx.ui.table.TableColumnModel",
         this.dispatchEvent(new qx.event.type.DataEvent("orderChanged", data), true);
       }
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeFields("_overallColumnArr", "_visibleColumnArr",
+      "_columnDataArr", "_colToXPosMap");
   }
 });
