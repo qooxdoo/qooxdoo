@@ -418,7 +418,11 @@ qx.ui.embed.Iframe.initBlocker = function()
   var b = qx.ui.embed.Iframe._blocker = document.createElement("div");
 
   if (qx.core.Client.getInstance().isMshtml()) {
-    b.style.backgroundImage = "url(" + qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif") + ")";
+    // Setting the backgroundImage causes an "insecure elements" warning under SSL
+    // b.style.backgroundImage = "url(" + qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif") + ")";
+
+    b.style.backgroundColor = "white";
+    b.style.filter = "Alpha(Opacity=0)";
   }
 
   b.style.position = "absolute";
