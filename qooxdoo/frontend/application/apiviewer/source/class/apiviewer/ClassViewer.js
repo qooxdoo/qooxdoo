@@ -385,7 +385,12 @@ qx.Class.define("apiviewer.ClassViewer",
 
       var html = '<div class="infoPanel"><h2>';
 
-      html += '<img class="openclose" src="' + qx.manager.object.AliasManager.getInstance().resolvePath('api/image/' + (isOpen ? 'close.gif' : 'open.gif')) + '"' + " onclick=\"document._detailViewer._onShowInfoPanelBodyClicked(" + nodeType + ")\"/> " + '<span ' + " onclick=\"document._detailViewer._onShowInfoPanelBodyClicked(" + nodeType + ")\">" + uppercaseLabelText + '</span>';
+      html += 
+        '<img class="openclose" src="' +
+        qx.manager.object.AliasManager.getInstance().resolvePath('api/image/' + (isOpen ? 'close.gif' : 'open.gif')) +
+        '"' + " onclick=\"document._detailViewer._onShowInfoPanelBodyClicked(" + nodeType + ")\"/> " +
+        '<span ' + " onclick=\"document._detailViewer._onShowInfoPanelBodyClicked(" + nodeType + ")\">" +
+        uppercaseLabelText + '</span>';
 
       html += '</h2><div></div></div>';
 
@@ -419,6 +424,25 @@ qx.Class.define("apiviewer.ClassViewer",
 
       var ClassViewer = apiviewer.ClassViewer;
 
+      switch (classNode.attributes.type)
+      {
+        case "mixin" :
+          var objectName = "Mixin";
+          var subObjectsName = "sub mixins"
+          break;
+          
+        case "interface" : 
+          var objectName = "Interface";
+          var subObjectsName = "sub interfaces"
+          break;
+
+        default:
+          var objectName = "Class";
+          var subObjectsName = "sub classes"
+          break;
+                        
+      }
+      
       var titleHtml = "";
 
       titleHtml += '<div class="packageName">' + classNode.attributes.packageName + '</div>';
@@ -431,22 +455,8 @@ qx.Class.define("apiviewer.ClassViewer",
         titleHtml += "Static ";
       }
 
-      switch (classNode.attributes.type)
-      {
-        case "mixin" :
-          titleHtml += "Mixin ";
-          break;
-          
-        case "interface" : 
-          titleHtml += "Interface ";
-          break;
-
-        default:
-          titleHtml += "Class ";
-          break;
-                        
-      }
-      titleHtml += '</span>';
+      titleHtml += objectName;
+      titleHtml += ' </span>';
       titleHtml += classNode.attributes.name;
 
       this._titleElem.innerHTML = titleHtml;
@@ -471,11 +481,8 @@ qx.Class.define("apiviewer.ClassViewer",
       switch (classNode.attributes.type)
       {
         case "mixin" :
-          classHtml += this.__getInterfaceHierarchyHtml(classNode);
-          break;
-          
         case "interface" : 
-          classHtml += this.__getInterfaceHierarchyHtml(classNode);
+          classHtml += this.__getHierarchyTreeHtml(classNode);
           break;
 
         default:
@@ -486,25 +493,39 @@ qx.Class.define("apiviewer.ClassViewer",
       classHtml += '<br/>';
 
       // Add child classes
-      if (classNode.attributes.childClasses)
-      {
-        classHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Direct subclasses:" + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT;
+      // Add implemented interfaces
+      // Add used mixins
 
-        var classNameArr = classNode.attributes.childClasses.split(",");
-
-        for (var i=0; i<classNameArr.length; i++)
-        {
-          if (i != 0) {
-            classHtml += ", ";
-          }
-
-          classHtml += this._createItemLinkHtml(classNameArr[i], null, true, false);
-        }
-
-        classHtml += ClassViewer.DIV_END;
-        classHtml += '<br/>';
+      var dependentObjects = {
+        childClasses : "Direct " + subObjectsName + ":",
+        interfaces: "Implemented interfaces:",
+        mixins : "Included mixins:",
+        implementations: "Implementations of this interface",
+        includer: "Classes including the mixin"
       }
 
+      for (var obj in dependentObjects)
+      {
+        if (classNode.attributes[obj])
+        {
+          classHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + dependentObjects[obj] + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT;
+  
+          var classNameArr = classNode.attributes[obj].split(",");
+  
+          for (var i=0; i<classNameArr.length; i++)
+          {
+            if (i != 0) {
+              classHtml += ", ";
+            }
+  
+            classHtml += this._createItemLinkHtml(classNameArr[i], null, true, false);
+          }
+  
+          classHtml += ClassViewer.DIV_END;
+          classHtml += '<br/>';
+        }
+      }
+      
       // Add @see attributes
       var ctorList = apiviewer.TreeUtil.getChild(classNode, "constructor");
 
@@ -525,6 +546,12 @@ qx.Class.define("apiviewer.ClassViewer",
     },
 
 
+    /**
+     * Generate HTML fragment to display the inheritance hierarchy of a class.
+     * 
+     * @param classNode {map} class node
+     * @return {String} HTML fragemnt
+     */
     __getClassHierarchyHtml: function(classNode)
     {
       var ClassViewer = apiviewer.ClassViewer;
@@ -563,8 +590,30 @@ qx.Class.define("apiviewer.ClassViewer",
     },
 
 
-    __getInterfaceHierarchyHtml: function(classNode)
+    /**
+     * Generate HTML fragment to display the inheritance tree of an interface or mixin.
+     * 
+     * @param classNode {map} class node
+     * @return {String} HTML fragemnt
+     */
+    __getHierarchyTreeHtml: function(classNode)
     {
+      switch (classNode.attributes.type)
+      {
+        case "mixin":
+          superList = "superMixins";
+          superObject = "mixin";
+          break;
+
+        case "interface":
+          superList = "superInterfaces";
+          superObject = "interface";
+          break;
+        
+        default:
+          return "";
+      }
+      
       var ClassViewer = apiviewer.ClassViewer;
       
       // Create the interface hierarchy
@@ -575,14 +624,14 @@ qx.Class.define("apiviewer.ClassViewer",
       { 
         var lines = [];
                 
-        for (var i=0; i<nodes.length; i++)
+        for (var nodeIndex=0; nodeIndex<nodes.length; nodeIndex++)
         {
           
           // render line
           var line = "";          
-          var classNode = nodes[i];
+          var classNode = nodes[nodeIndex];
           if (!first) {
-            if (i == nodes.length-1) {
+            if (nodeIndex == nodes.length-1) {
               line += ClassViewer.createImageHtml("api/image/nextlevel.gif");
             } else {
               line += ClassViewer.createImageHtml("api/image/cross.gif");
@@ -593,22 +642,21 @@ qx.Class.define("apiviewer.ClassViewer",
            
           line += ClassViewer.createImageHtml(apiviewer.TreeUtil.getIconUrl(classNode));
           if (!first) {
-            line += self._createItemLinkHtml(nodes[i].attributes.fullName, null, false);
+            line += self._createItemLinkHtml(nodes[nodeIndex].attributes.fullName, null, false);
           } else {
-            line += nodes[i].attributes.fullName;
+            line += nodes[nodeIndex].attributes.fullName;
           }                                
           lines.push(line);
           
           // get a list of super interfaces
           var superInterfaces = [];
-          for (var j=0; j<classNode.children.length; j++)
+              
+          var superInterfacesNode = apiviewer.TreeUtil.getChild(classNode, superList);
+          if (superInterfacesNode)
           {
-            if (classNode.children[j].type == "superInterfaces") {
-              var superInterfacesNode = classNode.children[j];
-              for (var k=0; k<superInterfacesNode.children.length; k++) {
-                if (superInterfacesNode.children[k].type = "interface") {
-                  superInterfaces.push(self._getClassDocNode(superInterfacesNode.children[k].attributes.name));
-                }
+            for (var j=0; j<superInterfacesNode.children.length; j++) {
+              if (superInterfacesNode.children[j].type = superObject) {
+                superInterfaces.push(self._getClassDocNode(superInterfacesNode.children[j].attributes.name));
               }
             }
           }
@@ -617,11 +665,11 @@ qx.Class.define("apiviewer.ClassViewer",
           if (superInterfaces.length > 0)
           {
             var subLines = generateTree(superInterfaces);
-            for(var k=0; k<subLines.length; k++) {
-              if (i == nodes.length-1) {
-                lines.push(EMPTY_CELL + subLines[k]);
+            for(var i=0; i<subLines.length; i++) {
+              if (nodeIndex == nodes.length-1) {
+                lines.push(EMPTY_CELL + subLines[i]);
               } else {
-                lines.push(ClassViewer.createImageHtml("api/image/vline.gif") + subLines[k]);                            
+                lines.push(ClassViewer.createImageHtml("api/image/vline.gif") + subLines[i]);                            
               }
             }
           }
@@ -629,15 +677,12 @@ qx.Class.define("apiviewer.ClassViewer",
         return lines;
       }
       
-      for (var j=0; j<classNode.children.length; j++)
-      {
-        if (classNode.children[j].type == "superInterfaces") {
-          var classHtml = ClassViewer.DIV_START_DETAIL_HEADLINE + "Inheritance hierarchy:" + ClassViewer.DIV_END;
-          classHtml += "<div style='line-height:15px'>";
-          classHtml += generateTree([classNode], true).join("<br />\n");
-          classHtml += "</div>";
-          break;
-        }
+      var classHtml = "";
+      if (apiviewer.TreeUtil.getChild(classNode, superList)) {
+        classHtml = ClassViewer.DIV_START_DETAIL_HEADLINE + "Inheritance hierarchy:" + ClassViewer.DIV_END;
+        classHtml += "<div style='line-height:15px'>";
+        classHtml += generateTree([classNode], true).join("<br />\n");
+        classHtml += "</div>";
       }
       return classHtml;
     },
@@ -737,6 +782,50 @@ qx.Class.define("apiviewer.ClassViewer",
 
 
     /**
+     * Return a list of all nodes of a given type from all mixins of a class
+     */   
+    _addNodesOfTypeFromMixins : function(classNode, nodeType, nodeArr, fromClassHash)
+    {
+      var typeInfo = this._infoPanelHash[nodeType];
+      
+      var mixins = classNode.attributes.mixins;
+      if (mixins) {
+        mixins = mixins.split(",");
+        for (var mixinIndex=0; mixinIndex<mixins.length; mixinIndex++)
+        {
+
+          var self = this;
+          var mixinRecurser = function(mixinNode)
+          {
+            var parentNode = apiviewer.TreeUtil.getChild(mixinNode, typeInfo.listName);
+            if (parentNode) {
+              for (var i=0; i<parentNode.children.length; i++) {
+                var name = parentNode.children[i].attributes.name;
+                if (fromClassHash[name] == null)
+                {
+                  fromClassHash[name] = mixinNode;
+                  nodeArr.push(parentNode.children[i]);
+                }                            
+              }
+            }
+            // recursive decent
+            var superClasses = apiviewer.TreeUtil.getChild(mixinNode, "superMixins");
+            if (superClasses) {
+              for (var i=0; i<superClasses.children.length; i++) {
+                mixinRecurser(self._getClassDocNode(superClasses.children[i].attributes.name));
+              }
+            }
+          }
+          
+          var mixinNode = this._getClassDocNode(mixins[mixinIndex]);
+          mixinRecurser(mixinNode);
+          
+        }
+      }
+    },
+     
+     
+    /**
      * Updates an info panel.
      *
      * @type member
@@ -751,15 +840,19 @@ qx.Class.define("apiviewer.ClassViewer",
 
       // Get the nodes to show
       var nodeArr = [];
-      var fromClassHash = null;
-
+      var fromClassHash = {};
+      
       if (this._currentClassDocNode)
       {
-        if (this._showInherited && (nodeType == apiviewer.ClassViewer.NODE_TYPE_EVENT || nodeType == apiviewer.ClassViewer.NODE_TYPE_PROPERTY || nodeType == apiviewer.ClassViewer.NODE_TYPE_METHOD))
+        if (
+          this._showInherited &&
+          (
+            nodeType == apiviewer.ClassViewer.NODE_TYPE_EVENT ||
+            nodeType == apiviewer.ClassViewer.NODE_TYPE_PROPERTY ||
+            nodeType == apiviewer.ClassViewer.NODE_TYPE_METHOD
+          )
+        )
         {
-          fromClassArr = [];
-          fromClassHash = {};
-
           var currClassNode = this._currentClassDocNode;
 
           while (currClassNode != null)
@@ -781,17 +874,24 @@ qx.Class.define("apiviewer.ClassViewer",
                 }
               }
             }
+            this._addNodesOfTypeFromMixins(currClassNode, nodeType, nodeArr, fromClassHash);
 
             var superClassName = currClassNode.attributes.superClass;
             currClassNode = superClassName ? this._getClassDocNode(superClassName) : null;
-          }
+          }      
         }
         else
         {
           var parentNode = apiviewer.TreeUtil.getChild(this._currentClassDocNode, typeInfo.listName);
-          nodeArr = parentNode ? parentNode.children : null;
+          if (parentNode) {
+            nodeArr = qx.lang.Array.copy(parentNode.children);
+          } else {
+            nodeArr = [];
+          }
+          this._addNodesOfTypeFromMixins(this._currentClassDocNode, nodeType, nodeArr, fromClassHash);            
+          
         }
-      }
+      }   
 
       if (nodeArr)
       {
@@ -850,7 +950,10 @@ qx.Class.define("apiviewer.ClassViewer",
           }
 
           var info = typeInfo.infoFactory.call(this, node, nodeType, fromClassNode, false);
-          var inherited = fromClassNode && (fromClassNode != this._currentClassDocNode);
+          var inherited = 
+            fromClassNode &&
+            (fromClassNode != this._currentClassDocNode) &&
+            fromClassNode.attributes.type == "class";
           var iconUrl = apiviewer.TreeUtil.getIconUrl(node, inherited, "_updateInfoPanel");
 
           // Create the title row
@@ -879,7 +982,11 @@ qx.Class.define("apiviewer.ClassViewer",
           html += '<h3';
 
           if (typeInfo.hasDetailDecider.call(this, node, nodeType, fromClassNode)) {
-            html += " onclick=\"document._detailViewer._onShowItemDetailClicked(" + nodeType + ",'" + node.attributes.name + "'" + ((fromClassNode != this._currentClassDocNode) ? ",'" + fromClassNode.attributes.fullName + "'" : "") + ")\">";
+            html += 
+              " onclick=\"document._detailViewer._onShowItemDetailClicked(" +
+              nodeType + ",'" + node.attributes.name + "'" +
+              ((fromClassNode != this._currentClassDocNode) ? ",'" +
+              fromClassNode.attributes.fullName + "'" : "") + ")\">";
           } else {
             html += '>';
           }
@@ -1163,7 +1270,11 @@ qx.Class.define("apiviewer.ClassViewer",
 
         // Add inherited from or overridden from
         if (fromClassNode && fromClassNode != this._currentClassDocNode) {
-          info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Inherited from:" + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT + this._createItemLinkHtml(fromClassNode.attributes.fullName) + ClassViewer.DIV_END;
+          if (fromClassNode.attributes.type == "mixin") {
+            info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Included from mixin:" + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT + this._createItemLinkHtml(fromClassNode.attributes.fullName) + ClassViewer.DIV_END;            
+          } else {
+            info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Inherited from:" + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT + this._createItemLinkHtml(fromClassNode.attributes.fullName) + ClassViewer.DIV_END;
+          }
         } else if (node.attributes.overriddenFrom) {
           info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Overridden from:" + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT + this._createItemLinkHtml(node.attributes.overriddenFrom) + ClassViewer.DIV_END;
         }
@@ -1413,7 +1524,11 @@ qx.Class.define("apiviewer.ClassViewer",
 
         // Add inherited from or overridden from
         if (fromClassNode && fromClassNode != this._currentClassDocNode) {
-          info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Inherited from:" + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT + this._createItemLinkHtml(fromClassNode.attributes.fullName) + ClassViewer.DIV_END;
+          if (fromClassNode.attributes.type == "mixin") {
+            info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Included from mixin:" + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT + this._createItemLinkHtml(fromClassNode.attributes.fullName) + ClassViewer.DIV_END;
+          } else {          
+            info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Inherited from:" + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT + this._createItemLinkHtml(fromClassNode.attributes.fullName) + ClassViewer.DIV_END;
+          }
         } else if (node.attributes.overriddenFrom) {
           info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Overridden from:" + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT + this._createItemLinkHtml(node.attributes.overriddenFrom) + ClassViewer.DIV_END;
         }

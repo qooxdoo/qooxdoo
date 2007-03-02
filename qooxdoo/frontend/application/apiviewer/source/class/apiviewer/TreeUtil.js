@@ -241,7 +241,6 @@ qx.Class.define("apiviewer.TreeUtil",
           } else if (node.attributes.isAbstract) {
             constName += "_ABSTRACT";
           }
-
           break;
 
         case "constant":
@@ -252,6 +251,10 @@ qx.Class.define("apiviewer.TreeUtil",
           throw new Error("Unknown node type: " + node.type);
       }
 
+      if (node.attributes.isMixin) {
+        constName += "_MIXIN";
+      }
+          
       if (inherited) {
         constName += "_INHERITED";
       } else if (node.attributes.overriddenFrom) {
@@ -294,6 +297,9 @@ qx.Class.define("apiviewer.TreeUtil",
     /** {string} The URL of the overlay "warning". */
     OVERLAY_WARN : "api/image/overlay_warning18.gif",
 
+    /** {string} The URL of the overlay "mixin". */
+    OVERLAY_MIXIN : "api/image/overlay_mixin18.gif",
+    
     /** {string} The icon URL of a package. */
     ICON_PACKAGE : "api/image/package18.gif",
 
@@ -398,6 +404,12 @@ qx.Class.define("apiviewer.TreeUtil",
 
     /** {string[]} The icon URL of an overridden property with error. */
     statics.ICON_PROPERTY_OVERRIDDEN_ERROR = [statics.ICON_PROPERTY, statics.OVERLAY_OVERRIDDEN, statics.OVERLAY_ERROR ];
+    
+    /** {string[]} The icon URL of an overridden property from mixin. */
+    statics.ICON_PROPERTY_MIXIN = [statics.ICON_PROPERTY, statics.OVERLAY_MIXIN];
+
+    /** {string[]} The icon URL of an overridden property from mixin with error. */
+    statics.ICON_PROPERTY_MIXIN_ERROR = [statics.ICON_PROPERTY, statics.OVERLAY_MIXIN, statics.OVERLAY_ERROR ];
 
     /** {string[]} The icon URL of a public method with warning. */
     statics.ICON_METHOD_PUB_WARN = [statics.ICON_METHOD_PUB, statics.OVERLAY_ERROR ];
@@ -423,11 +435,23 @@ qx.Class.define("apiviewer.TreeUtil",
     /** {string[]} The icon URL of an overridden public method with error. */
     statics.ICON_METHOD_PUB_OVERRIDDEN_ERROR = [statics.ICON_METHOD_PUB, statics.OVERLAY_OVERRIDDEN, statics.OVERLAY_ERROR ];
 
+    /** {string[]} The icon URL of an overridden public method from a mixin. */
+    statics.ICON_METHOD_PUB_MIXIN = [statics.ICON_METHOD_PUB, statics.OVERLAY_MIXIN];
+    
+    /** {string[]} The icon URL of an overridden public method from a mixin. */
+    statics.ICON_METHOD_PUB_MIXIN_INHERITED = [statics.ICON_METHOD_PUB, statics.OVERLAY_MIXIN, statics.OVERLAY_INHERITED];
+
     /** {string[]} The icon URL of a public static method. */
     statics.ICON_METHOD_PUB_STATIC = [statics.ICON_METHOD_PUB, statics.OVERLAY_STATIC ];
 
     /** {string[]} The icon URL of a public static method with error. */
     statics.ICON_METHOD_PUB_STATIC_ERROR = [statics.ICON_METHOD_PUB, statics.OVERLAY_STATIC, statics.OVERLAY_ERROR ];
+    
+    /** {string[]} The icon URL of a public static method from mixin. */
+    statics.ICON_METHOD_PUB_STATIC_MIXIN = [statics.ICON_METHOD_PUB, statics.OVERLAY_MIXIN ];
+
+    /** {string[]} The icon URL of a public static method from mixin with error. */
+    statics.ICON_METHOD_PUB_STATIC_MIXIN_ERROR = [statics.ICON_METHOD_PUB, statics.OVERLAY_MIXIN, statics.OVERLAY_ERROR ];    
 
     /** {string[]} The icon URL of a public abstract method. */
     statics.ICON_METHOD_PUB_ABSTRACT = [statics.ICON_METHOD_PUB, statics.OVERLAY_ABSTRACT ];

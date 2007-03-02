@@ -155,7 +155,6 @@ def createDoc(syntaxTree, docTree = None):
 
 def handleClassDefinition(docTree, item, variant):
     params = item.getChild("params")
-
     className = params.children[0].get("value")
 
     if len(params.children) > 1:
@@ -180,9 +179,9 @@ def handleClassDefinition(docTree, item, variant):
     #print className
 
     try:
-            children = classMap.children
+        children = classMap.children
     except AttributeError:
-            return
+        return
 
     for keyvalueItem in children:
         key = keyvalueItem.get("key")
@@ -192,34 +191,16 @@ def handleClassDefinition(docTree, item, variant):
 
         if key == "extend":
             if variant in ["class", "clazz"]:
-                superClassName = assembleVariable(valueItem)
-                if superClassName not in [
-                                          "Array", "Boolean", "Date", "Error",
-                                          "Function", "Math", "Number",
-                                          "Object", "RegExp", "String"
-                                         ]:
-                    superClassNode = getClassNode(docTree, superClassName)
-                    childClasses = superClassNode.get("childClasses", False)
-
-                    if childClasses:
-                        childClasses += "," + className
-                    else:
-                        childClasses = className
-
-                    superClassNode.set("childClasses", childClasses)
-                    classNode.set("superClass", superClassName)
+                handleClassExtend(valueItem, classNode, docTree, className)
 
             elif variant == "interface":
-                pass
-
-            elif variant == "mixin":
-                pass
+                handleInterfaceExtend(valueItem, classNode, docTree, className)
 
         elif key == "include":
-            handleMixins(valueItem, classNode)
+            handleMixins(valueItem, classNode, docTree, className)
 
         elif key == "implement":
-            handleInterfaces(valueItem, classNode)
+            handleInterfaces(valueItem, classNode, docTree)
 
         elif key == "init":
             handleConstructor(valueItem, classNode)
@@ -237,38 +218,92 @@ def handleClassDefinition(docTree, item, variant):
             handleEvents(valueItem, classNode)
 
 
-def handleMixins(item, classNode):
-    mixins = []
-    if item.type == "array":
-        for child in item.children:
-            if child.type == "variable":
-                mixins.append(assembleVariable(child))
-    elif item.type == "variable":
-        mixins.append(assembleVariable(item))
+def handleClassExtend(valueItem, classNode, docTree, className):
+    superClassName = assembleVariable(valueItem)
+    if superClassName not in [
+                              "Array", "Boolean", "Date", "Error",
+                              "Function", "Math", "Number",
+                              "Object", "RegExp", "String"
+                             ]:
+        superClassNode = getClassNode(docTree, superClassName)
+        childClasses = superClassNode.get("childClasses", False)
+
+        if childClasses:
+            childClasses += "," + className
+        else:
+            childClasses = className
+
+        superClassNode.set("childClasses", childClasses)
+        classNode.set("superClass", superClassName)
+
+                       
+def handleInterfaceExtend(valueItem, classNode, docTree, className):
+    superInterfaceNames = variableOrArrayNodeToArray(valueItem)
+
+    for superInterface in superInterfaceNames:
+        superInterfaceNode = getClassNode(docTree, superInterface)
+        childInterfaces = superInterfaceNode.get("interfaces", False)
+
+        if childInterfaces:
+            childInterfaces += "," + className
+        else:
+            childInterfaces = className
+    
+        superInterfaceNode.set("childClasses", childInterfaces)
+        
+        node = tree.Node("interface");
+        node.set("name", superInterface)
+        classNode.addListChild("superInterfaces", node)
+        
+        
+def handleMixins(item, classNode, docTree, className):
+    if classNode.get("type") == "mixin":
+        superMixinNames = variableOrArrayNodeToArray(item)
+        for superMixin in superMixinNames:
+            superMixinNode = getClassNode(docTree, superMixin)
+            childMixins = superMixinNode.get("mixins", False)
+    
+            if childMixins:
+                childMixins += "," + className
+            else:
+                childMixins = className
+        
+            superMixinNode.set("childClasses", childMixins)
+            
+            node = tree.Node("interface");
+            node.set("name", superMixin)
+            classNode.addListChild("superMixins", node)
+
     else:
-        raise DocException("Unknown mixin value!", item)
+        mixins = variableOrArrayNodeToArray(item)
+        for mixin in mixins:
+            mixinNode = getClassNode(docTree, mixin)
+            includer = mixinNode.get("includer", False)
+            if includer:
+                includer += "," + className
+            else:
+                includer = className
+            mixinNode.set("includer", includer)
+            
+        classNode.set("mixins", ",".join(mixins))
+    
+        
 
-    for mixin in mixins:
-        node = tree.Node("mixin")
-        node.set("name", mixin)
-        classNode.addListChild("mixins", node)
 
-
-def handleInterfaces(item, classNode):
-    interfaces = []
-    if item.type == "array":
-        for child in item.children:
-            if child.type == "variable":
-                interfaces.append(assembleVariable(child))
-    elif item.type == "variable":
-        interfaces.append(assembleVariable(item))
-    else:
-        raise DocException("Unknown interface value!", item)
-
+def handleInterfaces(item, classNode, docTree):
+    className = classNode.get("fullName")
+    interfaces = variableOrArrayNodeToArray(item)
     for interface in interfaces:
-        node = tree.Node("interface")
-        node.set("name", interface)
-        classNode.addListChild("interfaces", node)
+        interfaceNode = getClassNode(docTree, interface)
+        impl = interfaceNode.get("implementations", False)
+        if impl:
+            impl += "," + className
+        else:
+            impl = className
+        interfaceNode.set("implementations", impl)
+        
+    classNode.set("interfaces", ",".join(interfaces))
+
 
 def handleConstructor(item, classNode):
     #print "  - Found Constructor"
@@ -289,6 +324,8 @@ def handleStatics(item, classNode):
                 node = handleFunction(value, commentAttributes, classNode)
                 node.set("name", key)
                 node.set("isStatic", True)
+                if classNode.get("type") == "mixin":
+                    node.set("isMixin", True)
 
                 classNode.addListChild("methods-static", node)
 
@@ -318,13 +355,11 @@ def handleMembers(item, classNode):
             value = keyvalue.getFirstChild(True, True).getFirstChild(True, True)
             commentAttributes = comment.parseNode(keyvalue)
 
-            # print "  - Found Member: %s = %s" % (key, value.type)
-
-            # Function
             if value.type == "function":
-
                 node = handleFunction(value, commentAttributes, classNode)
                 node.set("name", key)
+                if classNode.get("type") == "mixin":
+                    node.set("isMixin", True)
 
                 classNode.addListChild("methods", node)
 
@@ -500,6 +535,9 @@ def handlePropertyDefinitionOldCommon(item, classNode, propertyName, paramsMap):
                 values += ", "
             values += getValue(arrayItem)
         node.set("possibleValues", values)
+        
+    if classNode.get("type") == "mixin":
+        node.set("isMixin", True)
 
     # If the description has a type specified then take this type
     # (and not the one extracted from the paramsMap)
