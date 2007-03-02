@@ -459,6 +459,8 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
         print "  * Migrate Source Code..."
 
+        if not options.prettyPrint:
+            options.prettyPrint = True  # make sure it's set
         migrator.handle(sortedIncludeList, fileDb, options)
 
         # Return after migration: Ignore other jobs
