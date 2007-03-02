@@ -1,5 +1,7 @@
 qx.Mixin.define("qx.test.MFat",
 {
+	include : qx.test.MMoody,
+	
   members :
   {
     /**
@@ -10,13 +12,6 @@ qx.Mixin.define("qx.test.MFat",
      */
     snore : function() {
       this.debug("CCRRROOOOOOOCCRROOOOO");
-    },
-
-
-    // no api doc !!!
-    
-    hiss : function() {
-      this.debug("BOOOOOAAAAH");
     }
   }
 });
