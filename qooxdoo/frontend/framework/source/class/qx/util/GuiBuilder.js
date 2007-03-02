@@ -370,6 +370,7 @@ qx.Proto._registerDefaultPropertyEditors = function() {
 
 
   this.registerPropertyEditor('qx.ui.menu.Button', 'menu', referencePropertyEditor);
+  this.registerPropertyEditor('qx.ui.toolbar.MenuButton', 'menu', referencePropertyEditor);
   this.registerPropertyEditor('qx.ui.form.RadioButton', 'manager', referencePropertyEditor);
   this.registerPropertyEditor('qx.ui.menu.RadioButton', 'group', referencePropertyEditor);
 
