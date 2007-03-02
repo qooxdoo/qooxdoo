@@ -591,5 +591,18 @@ qx.Class.define("qx.ui.table.SelectionModel",
       allowNull      : false,
       possibleValues : [ statics.NO_SELECTION, statics.SINGLE_SELECTION, statics.SINGLE_INTERVAL_SELECTION, statics.MULTIPLE_INTERVAL_SELECTION ]
     });
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("_selectedRangeArr");
   }
 });

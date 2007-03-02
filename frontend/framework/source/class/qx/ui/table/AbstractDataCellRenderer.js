@@ -29,20 +29,8 @@
  */
 qx.Class.define("qx.ui.table.AbstractDataCellRenderer",
 {
+  type : "abstract",
   extend : qx.ui.table.DataCellRenderer,
-
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function() {
-    this.base(arguments);
-  },
 
 
 

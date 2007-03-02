@@ -855,7 +855,12 @@ qx.Class.define("qx.core.Object",
         {
           if (this[vKey] !== null && typeof this[vKey] === "object" && this.constructor.prototype[vKey] === undefined)
           {
-            qx.core.Bootstrap.warn("Missing destruct definition for '" + vKey + "' in " + this.classname);
+            var detail = "";
+            if (this.getAppearance) {
+              detail = " (" + this.getAppearance() + ")";
+            }
+
+            qx.core.Bootstrap.warn("Missing destruct definition for '" + vKey + "' in " + this.classname + "[" + this.toHashCode() + "]" + detail);
             delete this[vKey];
           }
         }
