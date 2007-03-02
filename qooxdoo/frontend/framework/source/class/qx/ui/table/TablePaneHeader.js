@@ -351,5 +351,18 @@ qx.Class.define("qx.ui.table.TablePaneHeader",
         cellWidget.dispose();
       }
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeObjects("_paneScroller");
   }
 });

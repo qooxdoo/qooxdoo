@@ -5167,7 +5167,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {Boolean} whether the state is set.
      */
     hasState : function(vState) {
-      return this._states[vState] ? true : false;
+      return this._states && this._states[vState] ? true : false;
     },
 
 
@@ -5180,7 +5180,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     addState : function(vState)
     {
-      if (!this._states[vState])
+      if (this._states && !this._states[vState])
       {
         this._states[vState] = true;
 
@@ -5200,7 +5200,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     removeState : function(vState)
     {
-      if (this._states[vState])
+      if (this._states && this._states[vState])
       {
         delete this._states[vState];
 

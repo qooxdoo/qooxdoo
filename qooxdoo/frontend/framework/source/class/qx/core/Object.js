@@ -758,6 +758,10 @@ qx.Class.define("qx.core.Object",
         return;
       }
 
+      // Mark as disposed
+      this.__disposed = true;
+
+      // Debug output
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (qx.core.Setting.get("qx.disposerDebugLevel") >= 2)
@@ -847,9 +851,6 @@ qx.Class.define("qx.core.Object",
         // this._hashCode = null;
         // this.__dbKey = null;
       }
-
-      // Mark as disposed
-      this.__disposed = true;
     }
   },
 

@@ -649,6 +649,6 @@ qx.Class.define("qx.ui.table.TablePane",
   */
 
   destruct : function() {
-    this._cleanUpRows(0);
+    this._disposeObjects("_paneScroller");
   }
 });
