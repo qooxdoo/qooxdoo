@@ -1,5 +1,8 @@
 qx.Interface.define("qx.test.IPlayable",
 {
+
+	extend : [qx.test.IThing],
+	
   statics :
   {
     /** {var} TODOC */
