@@ -83,20 +83,11 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      */
 
     // CREATE SLIDER
-    this._slider = new qx.ui.layout.CanvasLayout;
-    this._slider.setAppearance("splitpane-slider");
-    this._slider.setStyleProperty("fontSize", "0px");
-    this._slider.setStyleProperty("lineHeight", "0px");
-    this._slider.hide();
-    this._slider._pane = this;
+    this._slider = new qx.ui.splitpane.SplitPaneSlider(this);
     this.add(this._slider);
 
     // CREATE SPLITTER
-    this._splitter = new qx.ui.layout.CanvasLayout;
-    this._splitter.setStyleProperty("fontSize", "0px");
-    this._splitter.setStyleProperty("lineHeight", "0px");
-    this._splitter.setAppearance("splitpane-splitter");
-    this._splitter._pane = this;
+    this._splitter = new qx.ui.splitpane.SplitPaneSplitter(this);
 
     // PATCH METHODS
     this._slider._applyRuntimeLeft = this._splitter._applyRuntimeLeft = this._applyRuntimeLeftWrapper;
@@ -907,16 +898,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    if (this._slider) {
-      this._slider._disposeObjects("_pane");
-    }
-
-    if (this._splitter) {
-      this._splitter._disposeObjects("_pane");
-    }
-
+  destruct : function() {
     this._disposeObjects("_box", "_firstArea", "_secondArea", "_splitter", "_slider", "_knob");
   }
 });
