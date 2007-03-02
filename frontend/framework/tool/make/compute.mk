@@ -211,11 +211,11 @@ else
 endif
 
 ifeq ($(APPLICATION_ENABLE_GUI),true)
-  COMPUTED_SOURCE_INCLUDE += --include qx.component.init.InterfaceInitComponent
-  COMPUTED_BUILD_INCLUDE += --include qx.component.init.InterfaceInitComponent
+  COMPUTED_SOURCE_INCLUDE += --include qx.component.init.Gui
+  COMPUTED_BUILD_INCLUDE += --include qx.component.init.Gui
 else
-  COMPUTED_SOURCE_INCLUDE += --include qx.component.init.BasicInitComponent
-  COMPUTED_BUILD_INCLUDE += --include qx.component.init.BasicInitComponent
+  COMPUTED_SOURCE_INCLUDE += --include qx.component.init.Basic
+  COMPUTED_BUILD_INCLUDE += --include qx.component.init.Basic
 endif
 
 ifneq ($(APPLICATION_SOURCE_LOG_APPENDER),)

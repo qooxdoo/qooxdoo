@@ -24,9 +24,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.component.init.InterfaceInitComponent",
+qx.Class.define("qx.component.init.Gui",
 {
-  extend : qx.component.init.BasicInitComponent,
+  extend : qx.component.init.Basic,
 
 
 

@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.component.init.BasicInitComponent",
+qx.Class.define("qx.component.init.Basic",
 {
   extend : qx.component.init.AbstractInitComponent,
 
