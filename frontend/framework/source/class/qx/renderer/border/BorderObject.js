@@ -180,6 +180,6 @@ qx.Class.define("qx.renderer.border.BorderObject",
   */
 
   destruct : function() {
-    this._disposeDeep("_dependentObjects", 0);
+    this._disposeObjectDeep("_dependentObjects", 0);
   }
 });

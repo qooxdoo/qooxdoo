@@ -285,7 +285,7 @@ qx.Class.define("qx.manager.object.ColorManager",
 
   destruct : function()
   {
-    this._disposeDeep("_colorThemes", 1);
+    this._disposeObjectDeep("_colorThemes", 1);
     this._disposeFields("_dependentObjects");
   }
 });

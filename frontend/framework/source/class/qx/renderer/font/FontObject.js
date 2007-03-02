@@ -118,6 +118,6 @@ qx.Class.define("qx.renderer.font.FontObject",
   */
 
   destruct : function() {
-    this._disposeDeep("_dependentObjects", 0);
+    this._disposeObjectDeep("_dependentObjects", 0);
   }
 });
