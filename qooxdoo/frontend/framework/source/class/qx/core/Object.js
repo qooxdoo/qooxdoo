@@ -469,6 +469,67 @@ qx.Class.define("qx.core.Object",
 
 
     /**
+     * Dispose this object
+     *
+     * @type member
+     * @return {void}
+     */
+    dispose : function()
+    {
+      // Check first
+      if (this.__disposed) {
+        return;
+      }
+
+      // Mark as disposed (directly, not at end, to omit recursions)
+      this.__disposed = true;
+
+      // Debug output
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (qx.core.Setting.get("qx.disposerDebugLevel") >= 2) {
+          console.debug("Disposing " + this.classname + "[" + this.toHashCode() + "]");
+        }
+      }
+
+      // Deconstructor support
+      var clazz = this.constructor;
+
+      while (clazz.superclass)
+      {
+        // Processing this class...
+        if (clazz.destructor) {
+          clazz.destructor.call(this);
+        }
+
+        // ...and all included mixins
+        if (clazz.$$includes)
+        {
+          for (var key in clazz.$$includes)
+          {
+            var mixin = clazz.$$includes[key];
+
+            if (mixin.destructor) {
+              mixin.destructor.call(this);
+            }
+          }
+        }
+
+        // Jump up to next super class
+        clazz = clazz.superclass;
+      }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DISPOSER UTILITIES
+    ---------------------------------------------------------------------------
+    */
+
+    /**
      * Disconnects given fields from instance.
      *
      * @type member
@@ -700,56 +761,6 @@ qx.Class.define("qx.core.Object",
             obj[key] = null;
           }
         }
-      }
-    },
-
-
-    /**
-     * Dispose this object
-     *
-     * @type member
-     * @return {void}
-     */
-    dispose : function()
-    {
-      if (this.getDisposed()) {
-        return;
-      }
-
-      // Mark as disposed
-      this.__disposed = true;
-
-      // Debug output
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (qx.core.Setting.get("qx.disposerDebugLevel") >= 2)
-        {
-          console.debug("Disposing " + this.classname + "[" + this.toHashCode() + "]");
-        }
-      }
-
-      // Deconstructor support
-      var clazz = this.constructor;
-
-      while (clazz.superclass)
-      {
-        if (clazz.destructor) {
-          clazz.destructor.call(this);
-        }
-
-        if (clazz.$$includes)
-        {
-          for (var key in clazz.$$includes)
-          {
-            var mixin = clazz.$$includes[key];
-
-            if (mixin.destructor) {
-              mixin.destructor.call(this);
-            }
-          }
-        }
-
-        clazz = clazz.superclass;
       }
     }
   },
