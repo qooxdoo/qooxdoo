@@ -403,8 +403,8 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
      * Checks wether the keyCode represents a non printable key
      *
      * @type member
-     * @param keyCode {String} TODOC
-     * @return {Boolean} TODOC
+     * @param keyCode {String} key code to check.
+     * @return {Boolean} Wether the keyCode represents a non printable key.
      */
     _isNonPrintableKeyCode : function(keyCode) {
       return this._keyCodeToIdentifierMap[keyCode] ? true : false;
@@ -415,8 +415,8 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
      * Check wether the keycode can be reliably detected in keyup/keydown events
      *
      * @type member
-     * @param keyCode {String} TODOC
-     * @return {Boolean} TODOC
+     * @param keyCode {String} key code to check.
+     * @return {Boolean} Wether the keycode can be reliably detected in keyup/keydown events.
      */
     _isIdentifiableKeyCode : function(keyCode)
     {
@@ -492,7 +492,7 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
      * converts a keyboard code to the corresponding identifier
      *
      * @type member
-     * @param keyCode {Integer} TODOC
+     * @param keyCode {Integer} key code
      * @return {String} key identifier
      */
     _keyCodeToIdentifier : function(keyCode)
@@ -518,7 +518,7 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
      * converts a character code to the corresponding identifier
      *
      * @type member
-     * @param charCode {String} TODOC
+     * @param charCode {String} character code
      * @return {String} key identifier
      */
     _charCodeToIdentifier : function(charCode) {
@@ -530,7 +530,7 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
      * converts a key identifier back to a keycode
      *
      * @type member
-     * @param keyIdentifier {String} TODOC
+     * @param keyIdentifier {String} The key identifier to convert
      * @return {Integer} keyboard code
      */
     _identifierToKeyCode : function(keyIdentifier) {
