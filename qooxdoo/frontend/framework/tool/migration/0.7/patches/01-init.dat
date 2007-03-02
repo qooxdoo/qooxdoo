@@ -1,2 +1,3 @@
 \bBasicInitComponent\b=Basic
 \bInterfaceInitComponent\b=Gui
+\bAbstractInitComponent\b=AbstractInit

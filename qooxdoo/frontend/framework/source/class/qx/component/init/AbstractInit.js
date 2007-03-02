@@ -27,7 +27,7 @@
 /**
  * Abstract application initializer
  */
-qx.Class.define("qx.component.init.AbstractInitComponent",
+qx.Class.define("qx.component.init.AbstractInit",
 {
   type : "abstract",
   extend : qx.component.AbstractComponent,
