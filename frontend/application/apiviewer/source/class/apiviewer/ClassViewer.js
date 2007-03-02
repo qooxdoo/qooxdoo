@@ -74,6 +74,7 @@ qx.Class.define("apiviewer.ClassViewer",
       "void"      : true,
       "undefined" : true,
       "arguments" : true,
+      "null"      : true,
       "Boolean"   : true,
       "String"    : true,
       "Float"     : true,
@@ -777,8 +778,55 @@ qx.Class.define("apiviewer.ClassViewer",
       }
     },
 
-    _showProtected : false,
-    _showInherited : false,
+
+    /**
+     * Returns a list of all interfaces the class implements directly.
+     */
+    _getAllInterfaces : function(classNode)
+    {
+      if (!classNode.attributes.interfaces) {
+        return [];
+      }
+      var interfaceNodes = [];
+
+      var self = this;
+      var ifaceRecurser = function(ifaceName) {
+        ifaceNode = self._getClassDocNode(ifaceName);
+        interfaceNodes.push(ifaceNode);
+                
+        var superIfaceNode = apiviewer.TreeUtil.getChild(ifaceNode, "superInterfaces");
+        if (superIfaceNode) {
+          for (var i=0; i<superIfaceNode.children.length; i++) {
+            ifaceRecurser(superIfaceNode.children[i].attributes.name);
+          }
+        }
+      }
+
+      var interfaces = classNode.attributes.interfaces.split(",");
+      for (var i=0; i<interfaces.length; i++) {
+        ifaceRecurser(interfaces[i]);
+      }
+      
+      return interfaceNodes;
+    },
+    
+    
+    /**
+     * Checks whether the node of the given type and name is required by the interface.
+     */
+    _checkInterface : function(ifaceNode, nodeType, name) {
+      var typeInfo = this._infoPanelHash[nodeType];
+      var parentNode = apiviewer.TreeUtil.getChild(ifaceNode, typeInfo.listName);
+      if (parentNode)
+      {
+        for (var i=0; i<parentNode.children.length; i++) {
+          if (parentNode.children[i].attributes.name == name) {
+            return true;
+          }
+        }
+      }
+      return false;
+    },
 
 
     /**
@@ -825,6 +873,10 @@ qx.Class.define("apiviewer.ClassViewer",
     },
 
 
+    _showProtected : false,
+    _showInherited : false,
+         
+     
     /**
      * Updates an info panel.
      *
@@ -841,7 +893,8 @@ qx.Class.define("apiviewer.ClassViewer",
       // Get the nodes to show
       var nodeArr = [];
       var fromClassHash = {};
-
+      var interfaces = [];
+      
       if (this._currentClassDocNode)
       {
         if (
@@ -875,6 +928,7 @@ qx.Class.define("apiviewer.ClassViewer",
               }
             }
             this._addNodesOfTypeFromMixins(currClassNode, nodeType, nodeArr, fromClassHash);
+            qx.lang.Array.append(interfaces, this._getAllInterfaces(this._currentClassDocNode));
 
             var superClassName = currClassNode.attributes.superClass;
             currClassNode = superClassName ? this._getClassDocNode(superClassName) : null;
@@ -882,6 +936,7 @@ qx.Class.define("apiviewer.ClassViewer",
         }
         else
         {
+          var interfaces = this._getAllInterfaces(this._currentClassDocNode);
           var parentNode = apiviewer.TreeUtil.getChild(this._currentClassDocNode, typeInfo.listName);
           if (parentNode) {
             nodeArr = qx.lang.Array.copy(parentNode.children);
@@ -892,6 +947,7 @@ qx.Class.define("apiviewer.ClassViewer",
 
         }
       }
+
 
       if (nodeArr)
       {
@@ -943,15 +999,26 @@ qx.Class.define("apiviewer.ClassViewer",
         {
           var node = nodeArr[i];
 
-          var fromClassNode = fromClassHash ? fromClassHash[node.attributes.name] : null;
+          var fromClassNode = fromClassHash[node.attributes.name] || null;
 
           if (fromClassNode == null) {
             fromClassNode = this._currentClassDocNode;
+          }
+          
+          if (!node.attributes.requiredBy) {
+            var requiredBy = [];        
+            for (var j=0; j<interfaces.length; j++) {
+              if (this._checkInterface(interfaces[j], nodeType, node.attributes.name)) {
+                requiredBy.push(interfaces[j].attributes.fullName);
+              }
+            }
+            node.attributes.requiredBy = requiredBy.join(",");
           }
 
           var info = typeInfo.infoFactory.call(this, node, nodeType, fromClassNode, false);
           var inherited =
             fromClassNode &&
+            fromClassNode.attributes &&
             (fromClassNode != this._currentClassDocNode) &&
             fromClassNode.attributes.type == "class";
           var iconUrl = apiviewer.TreeUtil.getIconUrl(node, inherited, "_updateInfoPanel");
@@ -967,7 +1034,11 @@ qx.Class.define("apiviewer.ClassViewer",
           if (typeInfo.hasDetailDecider.call(this, node, nodeType, fromClassNode))
           {
             // This node has details -> Show the detail button
-            html += '<img src="' + qx.manager.object.AliasManager.getInstance().resolvePath("api/image/open.gif") + '"' + " onclick=\"document._detailViewer._onShowItemDetailClicked(" + nodeType + ",'" + node.attributes.name + "'" + ((fromClassNode != this._currentClassDocNode) ? ",'" + fromClassNode.attributes.fullName + "'" : "") + ")\"/>";
+            html +=
+              '<img src="' + qx.manager.object.AliasManager.getInstance().resolvePath("api/image/open.gif") +
+              '"' + " onclick=\"document._detailViewer._onShowItemDetailClicked(" + nodeType + ",'" +
+              node.attributes.name + "'" + ((fromClassNode != this._currentClassDocNode) ? ",'" +
+              fromClassNode.attributes.fullName + "'" : "") + ")\"/>";
           }
           else
           {
@@ -1279,6 +1350,9 @@ qx.Class.define("apiviewer.ClassViewer",
           info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Overridden from:" + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT + this._createItemLinkHtml(node.attributes.overriddenFrom) + ClassViewer.DIV_END;
         }
 
+        // Add required by interface
+        info.textHtml += this._createInfoRequiredByHtml(node);
+
         // Add @see attributes
         info.textHtml += this._createSeeAlsoHtml(docNode, docClassNode);
 
@@ -1379,11 +1453,16 @@ qx.Class.define("apiviewer.ClassViewer",
       var hasReturn = TreeUtil.getChild(docNode, "return") != null;
       var isOverridden = fromClassNode != this._currentClassDocNode;
 
-      return (fromClassNode != this._currentClassDocNode) // method is inherited
-      || (node.attributes.overriddenFrom != null) // method is overridden
-      || (TreeUtil.getChild(docNode, "params") != null) // method has params
-      || (TreeUtil.getChild(docNode, "return") != null) // method has return value
-      || this._hasSeeAlsoHtml(docNode) || this._hasErrorHtml(docNode) || this._descHasDetails(docNode);
+      return (
+           (fromClassNode != this._currentClassDocNode)       // method is inherited
+        || (node.attributes.overriddenFrom != null)           // method is overridden
+        || (node.attributes.requiredBy)                       // method is required by an interface
+        || (TreeUtil.getChild(docNode, "params") != null)     // method has params
+        || (TreeUtil.getChild(docNode, "return") != null)     // method has return value
+        || this._hasSeeAlsoHtml(docNode)
+        || this._hasErrorHtml(docNode)
+        || this._descHasDetails(docNode)
+      );
     },
 
 
@@ -1525,14 +1604,28 @@ qx.Class.define("apiviewer.ClassViewer",
         // Add inherited from or overridden from
         if (fromClassNode && fromClassNode != this._currentClassDocNode) {
           if (fromClassNode.attributes.type == "mixin") {
-            info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Included from mixin:" + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT + this._createItemLinkHtml(fromClassNode.attributes.fullName) + ClassViewer.DIV_END;
+            info.textHtml += 
+              ClassViewer.DIV_START_DETAIL_HEADLINE + "Included from mixin:" + 
+              ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT + 
+              this._createItemLinkHtml(fromClassNode.attributes.fullName) + ClassViewer.DIV_END;
+              
           } else {
-            info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Inherited from:" + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT + this._createItemLinkHtml(fromClassNode.attributes.fullName) + ClassViewer.DIV_END;
+            info.textHtml += 
+              ClassViewer.DIV_START_DETAIL_HEADLINE + "Inherited from:" +
+              ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT +
+              this._createItemLinkHtml(fromClassNode.attributes.fullName) + ClassViewer.DIV_END;
+              
           }
         } else if (node.attributes.overriddenFrom) {
-          info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Overridden from:" + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT + this._createItemLinkHtml(node.attributes.overriddenFrom) + ClassViewer.DIV_END;
+          info.textHtml += 
+            ClassViewer.DIV_START_DETAIL_HEADLINE + "Overridden from:" + ClassViewer.DIV_END +
+            ClassViewer.DIV_START_DETAIL_TEXT + this._createItemLinkHtml(node.attributes.overriddenFrom) + ClassViewer.DIV_END;
+            
         }
 
+        // Add required by interface
+        info.textHtml += this._createInfoRequiredByHtml(node);
+                
         // Add @see attributes
         info.textHtml += this._createSeeAlsoHtml(docNode, docClassNode);
 
@@ -1710,6 +1803,31 @@ qx.Class.define("apiviewer.ClassViewer",
       }
     },
 
+
+    /**
+     * Creates the HTML showing interfaces requiring this node
+     *
+     * @type member
+     * @param node {Map} the doc node of the item.
+     * @return {String} the HTML.
+     */
+    _createInfoRequiredByHtml : function(node)
+    {
+      var ClassViewer = apiviewer.ClassViewer;
+      var html = "";
+      if (node.attributes.requiredBy) {
+        var requiredBy = node.attributes.requiredBy.split(",");
+        html += ClassViewer.DIV_START_DETAIL_HEADLINE + "Required by:" + ClassViewer.DIV_END;
+        for (var i=0; i<requiredBy.length; i++) {
+          html += 
+            ClassViewer.DIV_START_DETAIL_TEXT +
+            this._createItemLinkHtml(requiredBy[i]) +
+            ClassViewer.DIV_END;            
+        }
+      }
+      return html;
+    },
+    
 
     /**
      * Checks whether a item has &#64;see attributes.
