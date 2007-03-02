@@ -481,5 +481,18 @@ qx.Class.define("qx.ui.table.SimpleTableModel",
 
       return dataArr;
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("_rowArr");
   }
 });

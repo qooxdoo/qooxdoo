@@ -907,7 +907,16 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
   *****************************************************************************
   */
 
-  destruct : function() {
-    this._disposeObjects("_firstArea", "_secondArea", "_splitter", "_slider", "_knob");
+  destruct : function()
+  {
+    if (this._slider) {
+      this._slider._disposeObjects("_pane");
+    }
+
+    if (this._splitter) {
+      this._splitter._disposeObjects("_pane");
+    }
+
+    this._disposeObjects("_box", "_firstArea", "_secondArea", "_splitter", "_slider", "_knob");
   }
 });

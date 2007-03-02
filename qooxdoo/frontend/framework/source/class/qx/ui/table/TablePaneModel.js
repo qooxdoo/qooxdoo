@@ -289,5 +289,18 @@ qx.Class.define("qx.ui.table.TablePaneModel",
 
       return totalWidth;
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeObjects("_tableColumnModel");
   }
 });
