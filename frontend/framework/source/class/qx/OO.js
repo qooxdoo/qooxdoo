@@ -147,7 +147,7 @@ if (qx.core.Variant.isSet("qx.compatibility", "on"))
       addFastProperty : function(config)
       {
         if (qx.core.Variant.isSet("qx.debug", "on")) {
-          //qx.core.Bootstrap.alert(qx.Class.classname + ": Use of old addFastProperty implementation for property " + config.name);
+          //console.debug(qx.Class.classname + ": Use of old addFastProperty implementation for property " + config.name);
         }
 
         return qx.core.LegacyProperty.addFastProperty(config, qx.Proto);
@@ -162,7 +162,7 @@ if (qx.core.Variant.isSet("qx.compatibility", "on"))
       addCachedProperty : function(config)
       {
         if (qx.core.Variant.isSet("qx.debug", "on")) {
-          //qx.core.Bootstrap.alert(qx.Class.classname + ": Use of old addCachedProperty implementation for property " + config.name);
+          //console.debug(qx.Class.classname + ": Use of old addCachedProperty implementation for property " + config.name);
         }
 
         return qx.core.LegacyProperty.addCachedProperty(config, qx.Proto);
@@ -177,7 +177,7 @@ if (qx.core.Variant.isSet("qx.compatibility", "on"))
       addPropertyGroup : function(config)
       {
         if (qx.core.Variant.isSet("qx.debug", "on")) {
-          //qx.core.Bootstrap.alert(qx.Class.classname + ": Use of old addPropertyGroup implementation for property " + config.name);
+          //console.debug(qx.Class.classname + ": Use of old addPropertyGroup implementation for property " + config.name);
         }
 
         return qx.Class.addPropertyGroup(config, qx.Proto);
@@ -192,7 +192,7 @@ if (qx.core.Variant.isSet("qx.compatibility", "on"))
       removeProperty : function(config)
       {
         if (qx.core.Variant.isSet("qx.debug", "on")) {
-          //qx.core.Bootstrap.alert(qx.Class.classname + ": Use of old removeProperty implementation for property " + config.name);
+          //console.debug(qx.Class.classname + ": Use of old removeProperty implementation for property " + config.name);
         }
 
         return qx.core.LegacyProperty.removeProperty(config, qx.Proto);
@@ -207,7 +207,7 @@ if (qx.core.Variant.isSet("qx.compatibility", "on"))
       changeProperty : function(config)
       {
         if (qx.core.Variant.isSet("qx.debug", "on")) {
-          //qx.core.Bootstrap.alert(qx.Class.classname + ": Use of old changeProperty implementation for property " + config.name);
+          //console.debug(qx.Class.classname + ": Use of old changeProperty implementation for property " + config.name);
         }
 
         return qx.core.LegacyProperty.addProperty(config, qx.Proto);
@@ -222,7 +222,7 @@ if (qx.core.Variant.isSet("qx.compatibility", "on"))
       addProperty : function(config)
       {
         if (qx.core.Variant.isSet("qx.debug", "on")) {
-          //qx.core.Bootstrap.alert(qx.Class.classname + ": Use of old addProperty implementation for property " + config.name);
+          //console.debug(qx.Class.classname + ": Use of old addProperty implementation for property " + config.name);
         }
 
         return qx.core.LegacyProperty.addProperty(config, qx.Proto);
