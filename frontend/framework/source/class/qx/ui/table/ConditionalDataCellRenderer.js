@@ -52,7 +52,7 @@ qx.Class.define("qx.ui.table.ConditionalDataCellRenderer",
 
   construct : function(align, color, style, weight)
   {
-    qx.ui.table.DefaultDataCellRenderer.call(this);
+    this.base(arguments);
 
     this.numericAllowed = new Array("==", "!=", ">", "<", ">=", "<=");
     this.betweenAllowed = new Array("between", "!between");
