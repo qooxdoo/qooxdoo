@@ -21,6 +21,8 @@
 /* ************************************************************************
 
 #module(core)
+#optional(qx.Theme)
+#optional(qx.Locale)
 #require(qx.html.EventRegistration)
 
 ************************************************************************ */
@@ -248,11 +250,18 @@ qx.Class.define("qx.core.Init",
       if (qx.core.Variant.isSet("qx.compatibility", "on")) {
         this.debug("loaded " + qx.lang.Object.getLength(qx.OO.classes) + " old classes");
       }
+      
       this.debug("loaded " + qx.Class.getNumber() + " classes");
       this.debug("loaded " + qx.Interface.getNumber() + " interfaces");
       this.debug("loaded " + qx.Mixin.getNumber() + " mixins");
-      this.debug("loaded " + qx.Locale.getNumber() + " locales");
-      this.debug("loaded " + qx.Theme.getNumber() + " themes");
+      
+      if (qx.Locale) {
+        this.debug("loaded " + qx.Locale.getNumber() + " locales");
+      }
+      
+      if (qx.Theme) {
+        this.debug("loaded " + qx.Theme.getNumber() + " themes");
+      }
 
       // Print browser information
       var cl = qx.core.Client.getInstance();
