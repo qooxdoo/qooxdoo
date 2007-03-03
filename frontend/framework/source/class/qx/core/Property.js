@@ -39,30 +39,43 @@ qx.Class.define("qx.core.Property",
     */
 
     /**
-     * Generates a single setter for multiple setters e.g. margin for 
-     * marginLeft, -Right, -Top and -Bottom.
+     * Add new properties:
+     *
+     * In the default mode it generates a setter/getter pair for a named property.
+     *
+     * In the group mode it generates a single setter for multiple setters e.g. 
+     * margin for marginLeft, -Right, -Top and -Bottom.
      *
      * @type static
      * @param config {Map} Configuration map
      * @param proto {Object} Object where the setter should be attached
      * @return {void}
      */
-    addPropertyGroup : function(config, proto)
+    addProperty : function(config, proto)
     {
-      var code = new qx.util.StringBuilder;
+      var upName = qx.lang.String.toFirstUp(config.name);
       
-      code.add("var a=arguments;")
+      if (config.group) 
+      {
+        var code = new qx.util.StringBuilder;
       
-      if (config.mode == "shorthand") {
-        code.add("a=qx.lang.Array.fromShortHand(qx.lang.Array.fromArguments(a));")
+        code.add("var a=arguments;")
+      
+        if (config.mode == "shorthand") {
+          code.add("a=qx.lang.Array.fromShortHand(qx.lang.Array.fromArguments(a));")
+        }
+      
+        for (var i=0, a=config.group, l=a.length; i<l; i++) {
+          code.add("this.set", qx.lang.String.toFirstUp(a[i]), "(a[", i, "]);");        
+        }
+      
+        proto["set" + upName] = new Function(code.toString());
       }
-      
-      for (var i=0, a=config.group, l=a.length; i<l; i++) {
-        code.add("this.set", qx.lang.String.toFirstUp(a[i]), "(a[", i, "]);");        
+      else
+      {
+        throw new Error("New properties are not yet implemented!")        
       }
-      
-      proto["set" + qx.lang.String.toFirstUp(config.name)] = new Function(code.toString());
-    },    
+    },
     
     validation :
     {
