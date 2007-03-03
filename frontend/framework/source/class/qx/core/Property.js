@@ -51,19 +51,15 @@ qx.Class.define("qx.core.Property",
     {
       var code = new qx.util.StringBuilder;
       
-      code.add("var a = arguments;")
+      code.add("var a=arguments;")
       
       if (config.mode == "shorthand") {
-        code.add("a = qx.lang.Array.fromShortHand(qx.lang.Array.fromArguments(a));")
+        code.add("a=qx.lang.Array.fromShortHand(qx.lang.Array.fromArguments(a));")
       }
       
-      code.add("for(var i=0, l=a.length; i<l; i++) {");
-    
       for (var i=0, a=config.group, l=a.length; i<l; i++) {
-        code.add("this.set", qx.lang.String.toFirstUp(a[i]), "(a[i]);");        
+        code.add("this.set", qx.lang.String.toFirstUp(a[i]), "(a[", i, "]);");        
       }
-      
-      code.add("}");
       
       proto["set" + qx.lang.String.toFirstUp(config.name)] = new Function(code.toString());
     },    
