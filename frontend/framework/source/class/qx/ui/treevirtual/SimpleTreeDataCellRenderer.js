@@ -95,11 +95,10 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       getAlias     : "useTreeLines"
     },
 
-    /*
-     * When true, exclude only the first-level tree lines, creating, effectively,
-     * multiple unrelated root nodes.
+    /**
+     * When true, exclude only the first-level tree lines, creating,
+     * effectively, multiple unrelated root nodes.
      */
-
     excludeFirstLevelTreeLines :
     {
       _legacy      : true,
