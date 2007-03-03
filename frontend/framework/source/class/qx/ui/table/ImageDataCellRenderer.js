@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.table.ImageDataCellRenderer",
 
   construct : function(width, height)
   {
-    qx.ui.table.IconDataCellRenderer.call(this);
+    this.base(arguments);
 
     if (width) {
       this._imageWidth = width;
