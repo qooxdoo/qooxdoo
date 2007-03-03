@@ -71,26 +71,6 @@ qx.Class.define("qx.core.Object",
       this.__dbKey = qx.core.Object.__db.length;
       qx.core.Object.__db.push(this);
     }
-
-    // Properties NG
-    // Initialize data field for properties
-    this._user_values_ng = {};
-    this._appearance_values_ng = {};
-    this._real_values_ng = {};
-
-    // Properties NG
-    // Apply default values
-    if (this._properties_init_ng)
-    {
-      for (var i=0, a=this._properties_init_ng, l=a.length; i<l; i++)
-      {
-        var vName = a[i];
-        var vEntry = this._properties_ng[vName];
-
-        // We need to use the current function
-        this["force" + vEntry.upname](vEntry.init);
-      }
-    }
   },
 
 
@@ -387,20 +367,6 @@ qx.Class.define("qx.core.Object",
     self : function(args) {
       return args.callee.self;
     },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES NG
-    ---------------------------------------------------------------------------
-    */
-
-    /** Properties NG */
-    _properties_ng : {},
-
-
-    /** Properties NG */
-    _properties_init_ng : [],
 
 
     /*
@@ -790,14 +756,11 @@ qx.Class.define("qx.core.Object",
 
   destruct : function()
   {
-    // Dispose user data
+    // Cleanup user data
     this._disposeObjectDeep("_userData", 1);
 
-    // NextGen property stuff
-    this._disposeFields("_user_values_ng", "_appearance_values_ng", "_real_values_ng", "_properties_ng", "_properties_init_ng");
-
     // Finally cleanup properties
-    var disposeProps = this.$$objectproperties;
+    var disposeProps = this.$$properties;
     if (disposeProps)
     {
       for (var name in disposeProps) {
