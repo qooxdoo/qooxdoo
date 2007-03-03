@@ -41,9 +41,9 @@
  * @param custom {Map ? null}
  *   A map provided (typically) by subclasses, to override the various
  *   supplemental classes allocated within this constructor.  For normal
- *   usage, this parameter may be omitted.  Each property should be either an
- *   object instance or a function which returns an object instance, as shown
- *   by the defaults listed here:
+ *   usage, this parameter may be omitted.  Each property must be an object
+ *   instance or a function which returns an object instance, as indicated by
+ *   the defaults listed here:
  *
  *   <dl>
  *     <dt>dataModel</dt>
