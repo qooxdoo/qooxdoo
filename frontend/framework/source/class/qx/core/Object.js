@@ -760,11 +760,20 @@ qx.Class.define("qx.core.Object",
     this._disposeObjectDeep("_userData", 1);
 
     // Finally cleanup properties
-    var disposeProps = this.$$properties;
-    if (disposeProps)
+    var clazz = this.constructor;
+    var properties = clazz.$$properties;
+    if (properties)
     {
-      for (var name in disposeProps) {
-        this[qx.core.LegacyProperty.getValueName(name)] = null;
+      for (var name in properties) 
+      {
+        // TODO improve this ugly part
+        if (properties[name].dispose) 
+        {
+          if (properties[name]._legacy)
+          {
+            this[qx.core.LegacyProperty.getValueName(name)] = null;
+          }
+        }
       }
     }
 
