@@ -30,11 +30,16 @@ qx.Class.define("qx.core.LegacyProperty",
 {
   statics :
   {
-    __setter : {},
-    __getter : {},
-    __resetter : {},
-    __values : {},
-
+    /**
+     * Maps function and field names for property names
+     */
+    __cache :
+    {
+      setter : {},
+      getter : {},
+      resetter : {},
+      values : {}      
+    },
 
     /**
      * Converts the property name to the setter name
@@ -44,7 +49,7 @@ qx.Class.define("qx.core.LegacyProperty",
      * @return {String} name of the setter for this property
      */
     getSetterName : function(name) {
-      return this.__setter[name];
+      return this.__cache.setter[name];
     },
 
 
@@ -56,7 +61,7 @@ qx.Class.define("qx.core.LegacyProperty",
      * @return {String} name of the setter for this property
      */
     getGetterName : function(name) {
-      return this.__getter[name];
+      return this.__cache.getter[name];
     },
 
 
@@ -68,7 +73,7 @@ qx.Class.define("qx.core.LegacyProperty",
      * @return {String} name of the setter for this property
      */
     getResetterName : function(name) {
-      return this.__resetter[name];
+      return this.__cache.resetter[name];
     },
 
 
@@ -80,7 +85,7 @@ qx.Class.define("qx.core.LegacyProperty",
      * @return {String} name of the setter for this property
      */
     getValueName : function(name) {
-      return this.__values[name];
+      return this.__cache.values[name];
     },
 
 
@@ -297,12 +302,12 @@ qx.Class.define("qx.core.LegacyProperty",
       var modifyKey = "_modify" + config.implMethod;
       var checkKey = "_check" + config.implMethod;
 
-      if (!qx.core.LegacyProperty.__setter[config.name])
+      if (!qx.core.LegacyProperty.__cache.setter[config.name])
       {
-        qx.core.LegacyProperty.__setter[config.name] = "set" + config.method;
-        qx.core.LegacyProperty.__getter[config.name] = "get" + config.method;
-        qx.core.LegacyProperty.__resetter[config.name] = "reset" + config.method;
-        qx.core.LegacyProperty.__values[config.name] = valueKey;
+        qx.core.LegacyProperty.__cache.setter[config.name] = "set" + config.method;
+        qx.core.LegacyProperty.__cache.getter[config.name] = "get" + config.method;
+        qx.core.LegacyProperty.__cache.resetter[config.name] = "reset" + config.method;
+        qx.core.LegacyProperty.__cache.values[config.name] = valueKey;
       }
 
       // unit detection support

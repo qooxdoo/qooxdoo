@@ -114,10 +114,6 @@ if (qx.core.Variant.isSet("qx.compatibility", "on"))
           if (vSuper.$$properties) {
             qx.Class.$$properties = qx.lang.Object.copy(vSuper.$$properties);
           }
-
-          if (vSuper.$$objectproperties) {
-            qx.Class.$$objectproperties = qx.lang.Object.copy(vSuper.$$objectproperties);
-          }
         }
 
         // Store reference to global classname registry

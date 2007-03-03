@@ -155,13 +155,9 @@ qx.Class.define("qx.Class",
           clazz.$$implements = qx.lang.Object.copy(superclass.$$implements);
         }
 
-        // Copy property lists (qooxdoo 0.6 properties)
+        // Copy property lists
         if (superclass.$$properties) {
           clazz.$$properties = qx.lang.Object.copy(superclass.$$properties);
-        }
-
-        if (superclass.$$objectproperties) {
-          clazz.$$objectproperties = qx.lang.Object.copy(superclass.$$objectproperties);
         }
 
         // Attach properties
@@ -773,44 +769,36 @@ qx.Class.define("qx.Class",
 
       config.name = name;
 
-      if (config._fast) {
-        qx.core.LegacyProperty.addFastProperty(config, proto);
-      } else if (config._cached) {
-        qx.core.LegacyProperty.addCachedProperty(config, proto);
-      } else if (config._legacy) {
-        qx.core.LegacyProperty.addProperty(config, proto);
-      } else if (config.group) {
-        qx.core.Property.addPropertyGroup(config, proto);
-      } else if (qx.core.Variant.isSet("qx.debug", "on")) {
-        throw new Error('Could not handle config definition "' + name + '" in clazz "' + clazz.classname + "'");
+      if (qx.core.Variant.isSet("qx.compatibility", "on"))
+      {
+        if (config._fast) {
+          qx.core.LegacyProperty.addFastProperty(config, proto);
+        } else if (config._cached) {
+          qx.core.LegacyProperty.addCachedProperty(config, proto);
+        } else if (config._legacy) {
+          qx.core.LegacyProperty.addProperty(config, proto);
+        } else {
+          qx.core.Property.addProperty(config, proto);
+        }
+      }
+      else
+      {
+        qx.core.Property.addProperty(config, proto);
       }
 
       // register config
-      if (clazz.$$properties === undefined)
-      {
+      if (clazz.$$properties === undefined) {
         clazz.$$properties = {};
-        clazz.$$objectproperties = {};
       }
 
-      if (clazz.$$properties[name] === undefined)
+      // add config to config list
+      clazz.$$properties[name] = config;
+      
+      // TODO: Remove with qx 0.7 final
+      if (!config.dispose && (config.type == "function" || config.type == "object")) 
       {
-        // add config to config list
-        clazz.$$properties[name] = true;
-
-        // add config to object config list (for disposer)
-        if (config.dispose)
-        {
-          clazz.$$objectproperties[name] = true;
-        }
-        else
-        {
-          switch(config.type)
-          {
-            case "object":
-            case "function":
-              clazz.$$objectproperties[name] = true;
-          }
-        }
+        console.warn("Please enable the dispose property for '" + config.name + "' defined by class '" + clazz.classname + "'");
+        config.dispose = true;
       }
     },
 
