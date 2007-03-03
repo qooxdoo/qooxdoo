@@ -769,19 +769,18 @@ qx.Class.define("qx.Class",
      */
     __addProperty : function(clazz, name, config)
     {
-      var legacy = qx.core.LegacyProperty;
       var proto = clazz.prototype;
 
       config.name = name;
 
       if (config._fast) {
-        legacy.addFastProperty(config, proto);
+        qx.core.LegacyProperty.addFastProperty(config, proto);
       } else if (config._cached) {
-        legacy.addCachedProperty(config, proto);
+        qx.core.LegacyProperty.addCachedProperty(config, proto);
       } else if (config._legacy) {
-        legacy.addProperty(config, proto);
+        qx.core.LegacyProperty.addProperty(config, proto);
       } else if (config.group) {
-        this.addPropertyGroup(config, proto);
+        qx.core.Property.addPropertyGroup(config, proto);
       } else if (qx.core.Variant.isSet("qx.debug", "on")) {
         throw new Error('Could not handle config definition "' + name + '" in clazz "' + clazz.classname + "'");
       }
@@ -1071,42 +1070,6 @@ qx.Class.define("qx.Class",
     },
 
 
-
-    /*
-    ---------------------------------------------------------------------------
-       PROPERTY GROUPS
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Generates a single setter for multiple setters e.g. margin for 
-     * marginLeft, -Right, -Top and -Bottom.
-     *
-     * @type static
-     * @param config {Map} Configuration map
-     * @param proto {Object} Object where the setter should be attached
-     * @return {void}
-     */
-    addPropertyGroup : function(config, proto)
-    {
-      var code = new qx.util.StringBuilder;
-      
-      code.add("var a = arguments;")
-      
-      if (config.mode == "shorthand") {
-        code.add("a = qx.lang.Array.fromShortHand(qx.lang.Array.fromArguments(a))")
-      }
-      
-      code.add("for(var i=0, l=a.length; i<l; i++) {");
-    
-      for (var i=0, a=config.group, l=a.length; i<l; i++) {
-        code.add("this.set", qx.lang.String.toFirstUp(a[i]), "(a[i]);");        
-      }
-      
-      code.add("}");
-      
-      proto["set" + qx.lang.String.toFirstUp(config.name)] = new Function(code.toString());
-    },
 
 
 
