@@ -25,11 +25,50 @@
 
 /**
  * A "virtual" tree
+ * <p>
+ * WARNING: This widget is still in development and the interface to it is
+ *          likely to change.  If you choose to use this widget, be aware that
+ *          you may need to make manual changes in accordance with interface
+ *          changes.
+ * </p>
  *
- * WARNING: This widget is in active development and the interface to it is
- *          very likely to change, possibly on a daily basis, for a while.  Do
- *          not use this widget yet.
+ * @param headings {Array | String}
+ *   An array containing a list of strings, one for each column, representing
+ *   the headings for each column.  As a special case, if only one column is
+ *   to exist, the string representing its heading need not be enclosed in an
+ *   array.
  *
+ * @param custom {Map ? null}
+ *   A map provided (typically) by subclasses, to override the various
+ *   supplemental classes allocated within this constructor.  For normal
+ *   usage, this parameter may be omitted.  Each property should be either an
+ *   object instance or a function which returns an object instance, as shown
+ *   by the defaults listed here:
+ *
+ *   <dl>
+ *     <dt>dataModel</dt>
+ *       <dd>new qx.ui.treevirtual.SimpleTreeDataModel()</dd>
+ *     <dt>treeDataCellRenderer</dt>
+ *       <dd>new qx.ui.treevirtual.SimpleTreeDataCellRenderer()</dd>
+ *     <dt>defaultDataCellRenderer</dt>
+ *       <dd>new qx.ui.treevirtual.DefaultDataCellRenderer()</dd>
+ *     <dt>dataRowRenderer</dt>
+ *       <dd>new qx.ui.treevirtual.SimpleTreeDataRowRenderer()</dd>
+ *     <dt>selectionManager</dt>
+ *       <dd><code><pre>
+ *         function(obj)
+ *         {
+ *           return new qx.ui.treevirtual.SelectionManager(obj);
+ *         }
+ *       </pre></code></dd>
+ *     <dt>tableColumnModel</dt>
+ *       <dd><code><pre>
+ *         function(obj)
+ *         {
+ *           return new qx.ui.table.ResizeTableColumnModel(obj);
+ *         }
+ *       </pre></code></dd>
+ *   </dl>
  */
 qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 {
@@ -44,29 +83,79 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
   *****************************************************************************
   */
 
-  construct : function(headings)
+  construct : function(headings, custom)
   {
-    // Create a table model
-    var tableModel = new qx.ui.treevirtual.SimpleTreeDataModel();
+    //
+    // Allocate default objects if custom objects are not specified
+    //
+    if (! custom)
+    {
+      custom = { };
+    }
+
+    if (custom.treeColumn === undefined)
+    {
+      custom.treeColumn = 0;
+    }
+
+    if (! custom.dataModel)
+    {
+      custom.dataModel =
+        new qx.ui.treevirtual.SimpleTreeDataModel();
+    }
+
+    if (! custom.treeDataCellRenderer)
+    {
+      custom.treeDataCellRenderer =
+        new qx.ui.treevirtual.SimpleTreeDataCellRenderer();
+    }
+
+    if (! custom.defaultDataCellRenderer)
+    {
+      custom.defaultDataCellRenderer =
+        new qx.ui.treevirtual.DefaultDataCellRenderer();
+    }
+
+    if (! custom.dataRowRenderer)
+    {
+      custom.dataRowRenderer =
+        new qx.ui.treevirtual.SimpleTreeDataRowRenderer();
+    }
+
+    if (! custom.selectionManager)
+    {
+      custom.selectionManager =
+        function(obj)
+        {
+          return new qx.ui.treevirtual.SelectionManager(obj);
+        };
+    }
+
+    if (! custom.tableColumnModel)
+    {
+      custom.tableColumnModel =
+        function(obj)
+        {
+          return new qx.ui.table.ResizeTableColumnModel(obj);
+        };
+    }
 
     // Specify the column headings.  We accept a single string (one single
     // column) or an array of strings (one or more columns).
-    if (typeof (headings) == "string") {
+    if (typeof(headings) == "string")
+    {
       headings = [ headings ];
     }
 
-    tableModel.setColumns(headings);
+    custom.dataModel.setColumns(headings);
+    custom.dataModel.setTreeColumn(custom.treeColumn);
 
-    this.setNewSelectionManager(function(obj) {
-      return new qx.ui.treevirtual.SelectionManager(obj);
-    });
-
-    this.setNewTableColumnModel(function(obj) {
-      return new qx.ui.table.ResizeTableColumnModel(obj);
-    });
+    // Specify the selection manager and table column model to use
+    this.setNewSelectionManager(custom.selectionManager);
+    this.setNewTableColumnModel(custom.tableColumnModel);
 
     // Call our superclass constructor
-    this.base(arguments, tableModel);
+    this.base(arguments, custom.dataModel);
 
     // By default, present the column visibility button only if there are
     // multiple columns.
@@ -81,17 +170,18 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
     // Set the data cell render.  We use the SimpleTreeDataCellRenderer for the
     // tree column, and our DefaultDataCellRenderer for all other columns.
-    var stdcr = new qx.ui.treevirtual.SimpleTreeDataCellRenderer();
-    var ddcr = new qx.ui.treevirtual.DefaultDataCellRenderer();
+    var stdcr = custom.treeDataCellRenderer;
+    var ddcr = custom.defaultDataCellRenderer;
     var tcm = this.getTableColumnModel();
     var treeCol = this.getTableModel().getTreeColumn();
 
-    for (var i=0; i<headings.length; i++) {
+    for (var i=0; i<headings.length; i++)
+    {
       tcm.setDataCellRenderer(i, i == treeCol ? stdcr : ddcr);
     }
 
     // Set the data row renderer.
-    this.setDataRowRenderer(new qx.ui.treevirtual.SimpleTreeDataRowRenderer());
+    this.setDataRowRenderer(custom.dataRowRenderer);
 
     // We need our cell renderer called on selection change, to update the icon
     this.setAlwaysUpdateCells(true);
@@ -101,25 +191,25 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
     // Change focus colors.  Make them less obtrusive.
     this.setRowColors(
-    {
-      bgcolFocused     : "#f0f0f0",
-      bgcolFocusedBlur : "#f0f0f0"
-    });
+      {
+        bgcolFocused     : "#f0f0f0",
+        bgcolFocusedBlur : "#f0f0f0"
+      });
 
     // Set the cell focus color
     this.setCellFocusAttributes({ backgroundColor : "lightblue" });
 
     /*
-      // Use this instead, to help determine which does what
-      this.setRowColors(
-        {
-          bgcolFocusedSelected     : "cyan",
-          bgcolFocusedSelectedBlur : "green",
-          bgcolFocused             : "yellow",
-          bgcolFocusedBlur         : "blue",
-          bgcolSelected            : "red",
-          bgcolSelectedBlur        : "pink",
-        });
+    // Use this instead, to help determine which does what
+    this.setRowColors(
+    {
+      bgcolFocusedSelected     : "cyan",
+      bgcolFocusedSelectedBlur : "green",
+      bgcolFocused             : "yellow",
+      bgcolFocusedBlur         : "blue",
+      bgcolSelected            : "red",
+      bgcolSelectedBlur        : "pink",
+    });
     */
 
     // Get the list of pane scrollers
@@ -146,11 +236,12 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
   *****************************************************************************
   */
 
-  events : {
+  events :
+  {
     "treeOpenWithContent" : "qx.event.type.DataEvent",
-    "treeOpenWhileEmpty" : "qx.event.type.DataEvent",
-    "treeClose" : "qx.event.type.DataEvent",
-    "changeSelection" : "qx.event.type.DataEvent"
+    "treeOpenWhileEmpty"  : "qx.event.type.DataEvent",
+    "treeClose"           : "qx.event.type.DataEvent",
+    "changeSelection"     : "qx.event.type.DataEvent"
   },
 
 
@@ -182,10 +273,10 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
     SelectionMode :
     {
-      NONE              : qx.ui.table.SelectionModel.NO_SELECTION,
-      SINGLE            : qx.ui.table.SelectionModel.SINGLE_SELECTION,
-      SINGLE_INTERVAL   : qx.ui.table.SelectionModel.SINGLE_INTERVAL_SELECTION,
-      MULTIPLE_INTERVAL : qx.ui.table.SelectionModel.MULTIPLE_INTERVAL_SELECTION
+      NONE             : qx.ui.table.SelectionModel.NO_SELECTION,
+      SINGLE           : qx.ui.table.SelectionModel.SINGLE_SELECTION,
+      SINGLE_INTERVAL  : qx.ui.table.SelectionModel.SINGLE_INTERVAL_SELECTION,
+      MULTIPLE_INTERVAL: qx.ui.table.SelectionModel.MULTIPLE_INTERVAL_SELECTION
     }
   },
 
@@ -201,8 +292,8 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
   properties :
   {
     /**
-     * Whether a click on the open/close button should also cause selection of the
-     * row.
+     * Whether a click on the open/close button should also cause selection of
+     * the row.
      */
     openCloseClickSelectsRow :
     {
@@ -230,7 +321,8 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * @type member
      * @return {var} TODOC
      */
-    getDataModel : function() {
+    getDataModel : function()
+    {
       return this.getTableModel();
     },
 
@@ -239,7 +331,10 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * Set whether lines linking tree children shall be drawn on the tree.
      *
      * @type member
-     * @param b {Boolean} <i>true</i> if tree lines should be shown; <i>false</i> otherwise.
+     *
+     * @param b {Boolean}
+     *   <i>true</i> if tree lines should be shown; <i>false</i> otherwise.
+     *
      * @return {void}
      */
     setUseTreeLines : function(b)
@@ -250,7 +345,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
       dcr.setUseTreeLines(b);
 
       // Inform the listeners
-      if (stdcm.hasEventListeners(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED))
+      if (stdcm.hasEventListeners("dataChanged"))
       {
         var data =
         {
@@ -260,7 +355,8 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
           lastColumn  : stdcm.getColumnCount() - 1
         };
 
-        stdcm.dispatchEvent(new qx.event.type.DataEvent(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, data), true);
+        stdcm.dispatchEvent(new qx.event.type.DataEvent("dataChanged", data),
+                            true);
       }
     },
 
@@ -269,7 +365,10 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * Get whether lines linking tree children shall be drawn on the tree.
      *
      * @type member
-     * @return {Boolean} <i>true</i> if tree lines are in use; <i>false</i> otherwise.
+     *
+     * @return {Boolean}
+     *   <i>true</i> if tree lines are in use;
+     *   <i>false</i> otherwise.
      */
     getUseTreeLines : function()
     {
@@ -280,12 +379,15 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
 
     /**
-     * Set whether the open/close button should be displayed on a branch, even if
-     * the branch has no children.
+     * Set whether the open/close button should be displayed on a branch,
+     * even if the branch has no children.
      *
      * @type member
-     * @param b {Boolean} <i>true</i> if the open/close button should be shown; <i>false</i>
-     *     otherwise.
+     *
+     * @param b {Boolean}
+     *   <i>true</i> if the open/close button should be shown;
+     *   <i>false</i> otherwise. 
+     *
      * @return {void}
      */
     setAlwaysShowOpenCloseSymbol : function(b)
@@ -296,7 +398,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
       dcr.setAlwaysShowOpenCloseSymbol(b);
 
       // Inform the listeners
-      if (stdcm.hasEventListeners(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED))
+      if (stdcm.hasEventListeners("dataChanged"))
       {
         var data =
         {
@@ -306,18 +408,22 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
           lastColumn  : stdcm.getColumnCount() - 1
         };
 
-        stdcm.dispatchEvent(new qx.event.type.DataEvent(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, data), true);
+        stdcm.dispatchEvent(new qx.event.type.DataEvent("dataChanged", data),
+                            true);
       }
     },
 
 
     /**
-     * Set whether drawing of first-level tree-node lines are disabled even if
-     * drawing of tree lines is enabled.  (See also
+     * Set whether drawing of first-level tree-node lines are disabled even
+     * if drawing of tree lines is enabled.
      *
      * @type member
-     * @param b {Boolean} <i>true</i> if first-level tree lines should be disabled;
-     *     <i>false</i> for normal operation.
+     *
+     * @param b {Boolean}
+     *   <i>true</i> if first-level tree lines should be disabled;
+     *   <i>false</i> for normal operation.
+     *
      * @return {void}
      */
     setExcludeFirstLevelTreeLines : function(b)
@@ -328,7 +434,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
       dcr.setExcludeFirstLevelTreeLines(b);
 
       // Inform the listeners
-      if (stdcm.hasEventListeners(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED))
+      if (stdcm.hasEventListeners("dataChanged"))
       {
         var data =
         {
@@ -338,17 +444,22 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
           lastColumn  : stdcm.getColumnCount() - 1
         };
 
-        stdcm.dispatchEvent(new qx.event.type.DataEvent(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, data), true);
+        stdcm.dispatchEvent(new qx.event.type.DataEvent("dataChanged", data),
+                            true);
       }
     },
 
 
     /**
-     * Get whether drawing of first-level tree lines should be disabled even if
-     * drawing of tree lines is enabled.  (See also {@link #getUseTreeLines})
+     * Get whether drawing of first-level tree lines should be disabled even
+     * if drawing of tree lines is enabled.
+     * (See also {@link #getUseTreeLines})
      *
      * @type member
-     * @return {Boolean} <i>true</i> if tree lines are in use; <i>false</i> otherwise.
+     *
+     * @return {Boolean}
+     *   <i>true</i> if tree lines are in use;
+     *   <i>false</i> otherwise.
      */
     getExcludeFirstLevelTreeLines : function()
     {
@@ -359,11 +470,14 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
 
     /**
-     * Set whether the open/close button should be displayed on a branch, even if
-     * the branch has no children.
+     * Set whether the open/close button should be displayed on a branch,
+     * even if the branch has no children.
      *
      * @type member
-     * @return {Boolean} <i>true</i> if tree lines are in use; <i>false</i> otherwise.
+     *
+     * @return {Boolean}
+     *   <i>true</i> if tree lines are in use;
+     *   <i>false</i> otherwise.
      */
     getAlwaysShowOpenCloseSymbol : function()
     {
@@ -377,7 +491,9 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * Set the selection mode.
      *
      * @type member
-     * @param mode {Integer} The selection mode to be used.  It may be any of:
+     *
+     * @param mode {Integer}
+     *   The selection mode to be used.  It may be any of:
      *     <pre>
      *       qx.ui.treevirtual.SelectionMode.NONE:
      *          Nothing can ever be selected.
@@ -391,9 +507,11 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      *       qx.ui.treevirtual.SelectionMode.MULTIPLE_INTERVAL
      *          Allow any selected items, whether contiguous or not.
      *     </pre>
+     *
      * @return {void}
      */
-    setSelectionMode : function(mode) {
+    setSelectionMode : function(mode)
+    {
       this.getSelectionModel().setSelectionMode(mode);
     },
 
@@ -402,26 +520,35 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * Get the selection mode currently in use.
      *
      * @type member
+     *
      * @param mode {var} TODOC
-     * @return {Integer} One of the values documented in {@link #setSelectionMode}
+     *
+     * @return {Integer}
+     *   One of the values documented in {@link #setSelectionMode}
      */
-    getSelectionMode : function(mode) {
+    getSelectionMode : function(mode)
+    {
       return this.getSelectionModel().getSelectionMode();
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param s {String} TODOC
-     * @return {void}
-     * @throws TODOC
-     */
+      /**
+       * @type member
+       *
+       * @param s {String}
+       *   Overflow mode.  The only allowable mode is "hidden".
+       *
+       * @return {void}
+       *
+       * @throws {Error}
+       *   Error if tree overflow mode is other than "hidden"
+       */
     setOverflow : function(s)
     {
-      if (s != "hidden") {
-        throw new Error("Tree overflow must be hidden.  " + "The internal elements of it will scroll.");
+      if (s != "hidden")
+      {
+        throw new Error("Tree overflow must be hidden.  " +
+                        "The internal elements of it will scroll.");
       }
     },
 
@@ -431,8 +558,11 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * it; if it is closed, open it.
      *
      * @type member
-     * @param node {Object} The object representing the node to have its opened/closed state
-     *     toggled.
+     *
+     * @param node {Object}
+     *   The object representing the node to have its opened/closed state
+     *   toggled.
+     *
      * @return {void}
      */
     toggleOpened : function(node)
@@ -448,18 +578,20 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
         // We're opening.  Are there any children?
         if (node.children.length > 0)
         {
-          // Yup.  If there any listeners, generate a "treeOpenWithContent" event.
+          // Yup.  If there any listeners, generate a "treeOpenWithContent"
+          // event.
           this.createDispatchDataEvent("treeOpenWithContent", node);
         }
         else
         {
-          // No children.  If there are listeners, generate a "treeOpenWhileEmpty"
-          // event.
+          // No children.  If there are listeners, generate a
+          // "treeOpenWhileEmpty" event.
           this.createDispatchDataEvent("treeOpenWhileEmpty", node);
         }
       }
 
-      // Event handler may have modified the opened state.  Check before toggling.
+      // Event handler may have modified the opened state.  Check before
+      // toggling.
       if (!node.bHideOpenClose)
       {
         // It's still boolean.  Toggle the state
@@ -478,8 +610,8 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
         this.getSelectionModel()._clearSelection();
       }
 
-      // Re-render the row data since formerly visible rows may now be invisible,
-      // or vice versa.
+      // Re-render the row data since formerly visible rows may now be
+      // invisible, or vice versa.
       this.getTableModel().setData();
     },
 
@@ -488,13 +620,20 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * Set state attributes of a tree node.
      *
      * @type member
-     * @param nodeId {Integer} The node identifier (returned by addBranch() or addLeaf()) representing
-     *     the node for which attributes are being set.
-     * @param attributes {Map} Map with the node properties to be set.  The map may contain any of the
-     *     properties described in {@link qx.ui.treevirtual.SimpleTreeDataModel}
+     *
+     * @param nodeId {Integer}
+     *   The node identifier (returned by addBranch() or addLeaf())
+     *   representing the node for which attributes are being set.
+     *
+     * @param attributes {Map}
+     *   Map with the node properties to be set.  The map may contain any of
+     *   the properties described in
+     *   {@link qx.ui.treevirtual.SimpleTreeDataModel}
+     *
      * @return {void}
      */
-    setState : function(nodeId, attributes) {
+    setState : function(nodeId, attributes)
+    {
       this.getTableModel().setState(nodeId, attributes);
     },
 
@@ -503,10 +642,11 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * Allow setting the tree row colors.
      *
      * @type member
-     * @param colors {Map} The value of each property in the map is a string containing either a
-     *      number (e.g. "#518ad3") or color name ("white") representing the color
-     *      for that type of display.  The map may contain any or all of the
-     *      following properties:
+     * @param colors {Map}
+     *   The value of each property in the map is a string containing either a
+     *   number (e.g. "#518ad3") or color name ("white") representing the
+     *   color for that type of display.  The map may contain any or all of
+     *   the following properties:
      *      <ul>
      *        <li>bgcolFocusedSelected</li>
      *        <li>bgcolFocusedSelectedBlur</li>
@@ -521,45 +661,51 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      *      </ul>
      * @return {void}
      */
-    setRowColors : function(colors) {
+    setRowColors : function(colors)
+    {
       this.getDataRowRenderer().setRowColors(colors);
     },
 
 
-    /**
-     * Set the attributes used to indicate the cell that has the focus.
-     *
-     * @type member
-     * @param attributes {Map} The set of attributes that the cell focus indicator should have.  This is
-     *     in the format required to call the <i>set()</i> method of a widget, e.g.
-     *
-     *
-     *     { backgroundColor: blue }
-     *
-     *
-     *     If not otherwise specified, the opacity is set to 0.2 so that the cell
-     *     data can be seen "through" the cell focus indicator which overlays it.
-     *
-     *
-     *     For no visible focus indicator, use { backgroundColor : "transparent" }
-     *
-     *
-     *     The focus indicator is a box the size of the cell, which overlays the
-     *     cell itself.  There is no text in the focus indicator itself, so it makes
-     *     no sense to set the color attribute or any other attribute that affects
-     *     fonts.
-     * @return {void}
-     */
+      /**
+       * Set the attributes used to indicate the cell that has the focus.
+       *
+       * @type member
+       *
+       * @param attributes {Map}
+       *   The set of attributes that the cell focus indicator should have.
+       *   This is in the format required to call the <i>set()</i> method of a
+       *   widget, e.g.
+       *
+       *     { backgroundColor: blue }
+       *
+       *   If not otherwise specified, the opacity is set to 0.2 so that the
+       *   cell data can be seen "through" the cell focus indicator which
+       *   overlays it.
+       *
+       *   For no visible focus indicator, use:
+       *
+       *     { backgroundColor : "transparent" }
+       *
+       *   The focus indicator is a box the size of the cell, which overlays
+       *   the cell itself.  There is no text in the focus indicator itself,
+       *   so it makes no sense to set the color attribute or any other
+       *   attribute that affects fonts.
+       *   
+       * @return {void}
+       */
     setCellFocusAttributes : function(attributes)
     {
       // Add an opacity attribute so what's below the focus can be seen
-      if (!attributes.opacity) {
+      if (!attributes.opacity)
+      {
         attributes.opacity = 0.2;
       }
 
       var scrollers = this._getPaneScrollerArr();
 
-      for (var i=0; i<scrollers.length; i++) {
+      for (var i=0; i<scrollers.length; i++)
+      {
         scrollers[i]._focusIndicator.set(attributes);
       }
     },
@@ -572,12 +718,16 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * other keydown events are passed to our superclass.
      *
      * @type member
-     * @param evt {Map} the event.
+     *
+     * @param evt {Map}
+     *   The event.
+     *
      * @return {void}
      */
     _onkeydown : function(evt)
     {
-      if (!this.getEnabled()) {
+      if (!this.getEnabled())
+      {
         return;
       }
 
@@ -599,7 +749,8 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
             var treeCol = dm.getTreeColumn();
             var node = dm.getValue(treeCol, focusedRow);
 
-            if (!node.bHideOpenClose) {
+            if (!node.bHideOpenClose)
+            {
               this.toggleOpened(node);
             }
 
@@ -629,7 +780,10 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
             var node = dm.getValue(treeCol, focusedRow);
 
             // If it's an open branch and open/close is allowed...
-            if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH && !node.bHideOpenClose && node.bOpened)
+            if ((node.type ==
+                 qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH) &&
+                ! node.bHideOpenClose &&
+                node.bOpened)
             {
               // ... then close it
               this.toggleOpened(node);
@@ -651,7 +805,10 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
             var node = dm.getValue(treeCol, focusedRow);
 
             // If it's a closed branch and open/close is allowed...
-            if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH && !node.bHideOpenClose && !node.bOpened)
+            if ((node.type ==
+                 qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH) &&
+                ! node.bHideOpenClose &&
+                ! node.bOpened)
             {
               // ... then open it
               this.toggleOpened(node);
@@ -700,10 +857,13 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
             var node = dm.getValue(treeCol, focusedRow);
 
             // If we're on a branch and open/close is allowed...
-            if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH && !node.bHideOpenClose)
+            if ((node.type ==
+                 qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH) &&
+                ! node.bHideOpenClose)
             {
               // ... then first ensure the branch is open
-              if (!node.bOpened) {
+              if (! node.bOpened)
+              {
                 this.toggleOpened(node);
               }
 
@@ -744,7 +904,8 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      */
     _onkeypress : function(evt)
     {
-      if (!this.getEnabled()) {
+      if (!this.getEnabled())
+      {
         return;
       }
 
@@ -755,7 +916,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
       switch(identifier)
       {
-          // Ignore events we already handled in _onkeydown
+        // Ignore events we already handled in _onkeydown
         case "Left":
         case "Right":
           consumed = true;
@@ -779,7 +940,10 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * Event handler. Called when the selection has changed.
      *
      * @type member
-     * @param evt {Map} the event.
+     *
+     * @param evt {Map}
+     *   The event.
+     *
      * @return {void}
      */
     _onSelectionChanged : function(evt)
@@ -788,7 +952,8 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
       this.getTableModel()._clearSelections();
 
       // If selections are allowed, pass an event to our listeners
-      if (this.getSelectionMode() != qx.ui.treevirtual.TreeVirtual.SelectionMode.NONE)
+      if (this.getSelectionMode() !=
+          qx.ui.treevirtual.TreeVirtual.SelectionMode.NONE)
       {
         var selectedNodes = this._calculateSelectedNodes();
 
@@ -802,17 +967,21 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
 
     /**
-     * Obtain the entire hierarchy of labels from the root down to the specified
-     * node.
+     * Obtain the entire hierarchy of labels from the root down to the
+     * specified node.
      *
      * @type member
-     * @param nodeId {Integer} The node id of the node for which the hierarchy is desired.
-     * @return {Array} The returned array contains one string for each label in the hierarchy of
-     *     the node specified by the parameter.  Element 0 of the array contains the
-     *     label of the root node, element 1 contains the label of the node
-     *     immediately below root in the specified node's hierarchy, etc., down to
-     *     the last element in the array contain the label of the node referenced by
-     *     the parameter.
+     *
+     * @param nodeId {Integer}
+     *   The node id of the node for which the hierarchy is desired.
+     *
+     * @return {Array}
+     *   The returned array contains one string for each label in the
+     *   hierarchy of the node specified by the parameter.  Element 0 of the
+     *   array contains the label of the root node, element 1 contains the
+     *   label of the node immediately below root in the specified node's
+     *   hierarchy, etc., down to the last element in the array contain the
+     *   label of the node referenced by the parameter.
      */
     getHierarchy : function(nodeId)
     {
@@ -822,7 +991,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
       function addHierarchy(nodeId)
       {
         // If we're at the root...
-        if (!nodeId)
+        if (! nodeId)
         {
           // ... then we're done
           return ;
@@ -847,14 +1016,19 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * Get the first child of the specified node.
      *
      * @type member
-     * @param nodeId {Integer} The node id of the node for which the first child is desired.
-     * @return {Integer} The node id of the first child.
+     *
+     * @param nodeId {Integer}
+     *   The node id of the node for which the first child is desired.
+     *
+     * @return {Integer}
+     *   The node id of the first child.
      */
     getFirstChild : function(nodeId)
     {
       var node = this.getTableModel().getData()[nodeId];
 
-      if (node.children.length > 0) {
+      if (node.children.length > 0)
+      {
         return node.children[0];
       }
 
@@ -866,14 +1040,19 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * Get the last child of the specified node.
      *
      * @type member
-     * @param nodeId {Integer} The node id of the node for which the last child is desired.
-     * @return {Integer} The node id of the last child.
+     *
+     * @param nodeId {Integer}
+     *   The node id of the node for which the last child is desired.
+     *
+     * @return {Integer}
+     *   The node id of the last child.
      */
     getLastChild : function(nodeId)
     {
       var node = this.getTableModel().getData()[nodeId];
 
-      if (node.children.length > 0) {
+      if (node.children.length > 0)
+      {
         return node.children[children.length - 1];
       }
 
@@ -885,8 +1064,12 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * Get the next sibling of the specified node.
      *
      * @type member
-     * @param nodeId {Integer} The node id of the node for which the next sibling is desired.
-     * @return {Integer} The node id of the next sibling.
+     *
+     * @param nodeId {Integer}
+     *   The node id of the node for which the next sibling is desired.
+     *
+     * @return {Integer}
+     *   The node id of the next sibling.
      */
     getNextSibling : function(nodeId)
     {
@@ -919,8 +1102,12 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * Get the previous sibling of the specified node.
      *
      * @type member
-     * @param nodeId {Integer} The node id of the node for which the previous sibling is desired.
-     * @return {Integer} The node id of the previous sibling.
+     *
+     * @param nodeId {Integer}
+     *   The node id of the node for which the previous sibling is desired.
+     *
+     * @return {Integer}
+     *   The node id of the previous sibling.
      */
     getPrevSibling : function(nodeId)
     {
@@ -950,16 +1137,18 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
 
     /**
-     * Calculate and return the set of nodes which are currently selected by the
-     * user, on the screen.  In the process of calculating which nodes are
-     * selected, the nodes corresponding to the selected rows on the screen are
-     * marked as selected by setting their <i>bSelected</i> property to true, and
-     * all previously-selected nodes have their <i>bSelected</i> property reset to
-     * false.
+     * Calculate and return the set of nodes which are currently selected by
+     * the user, on the screen.  In the process of calculating which nodes
+     * are selected, the nodes corresponding to the selected rows on the
+     * screen are marked as selected by setting their <i>bSelected</i>
+     * property to true, and all previously-selected nodes have their
+     * <i>bSelected</i> property reset to false.
      *
      * @type member
-     * @return {Array} An array of nodes matching the set of rows which are selected on the
-     *     screen.
+     *
+     * @return {Array}
+     *   An array of nodes matching the set of rows which are selected on the
+     *   screen.
      */
     _calculateSelectedNodes : function()
     {
@@ -969,9 +1158,13 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
       var selectedNodes = [];
       var node;
 
-      for (var i=0; i<selectedRanges.length; i++)
+      for (var i=0;
+           i<selectedRanges.length;
+           i++)
       {
-        for (var j=selectedRanges[i].minIndex; j<=selectedRanges[i].maxIndex; j++)
+        for (var j=selectedRanges[i].minIndex;
+             j<=selectedRanges[i].maxIndex;
+             j++)
         {
           node = stdcm.getValue(stdcm.getTreeColumn(), j);
           stdcm.setState(node.nodeId, { bSelected : true });
@@ -987,9 +1180,12 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * Return the nodes that are currently selected.
      *
      * @type member
-     * @return {Array} An array containing the nodes that are currently selected.
+     *
+     * @return {Array}
+     *   An array containing the nodes that are currently selected.
      */
-    getSelectedNodes : function() {
+    getSelectedNodes : function()
+    {
       return this.getTableModel().getSelectedNodes();
     }
   }
