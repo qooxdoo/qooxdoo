@@ -131,8 +131,23 @@ qx.Class.define("qx.util.Debug",
         // Yup.  Add it to the displayable message.
         message += initialMessage + "\n";
       }
+      
+      if (obj instanceof Array)
+      {
+        message += "Array, length=" + obj.length + ":\n";
+      }
+      else if (typeof(obj) == "object")
+      {
+        var count = 0;
+        for (prop in obj)
+        {
+          count++;
+        }
+        message += "Object, count=" + count + ":\n";
+      }
 
-      message += "------------------------------------------------------------\n";
+      message +=
+        "------------------------------------------------------------\n";
 
       try
       {
@@ -144,7 +159,8 @@ qx.Class.define("qx.util.Debug",
         message += "*** EXCEPTION (" + ex + ") ***\n";
       }
 
-      message += "------------------------------------------------------------\n";
+      message +=
+        "============================================================\n";
 
       // We've compiled the complete message.  Give 'em what they came for!
       logger.debug(message);
