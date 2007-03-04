@@ -116,9 +116,13 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
      * Initializes the column model.
      *
      * @type member
+     *
      * @param numColumns {var} TODOC
-     * @param table {qx.ui.table.Table} The table which this model is used for.  This allows us access to other
-     *     aspects of the table, as the <i>behavior</i> sees fit.
+     *
+     * @param table {qx.ui.table.Table}
+     *   The table which this model is used for.  This allows us access to
+     *   other aspects of the table, as the <i>behavior</i> sees fit.
+     *
      * @return {void}
      */
     init : function(numColumns, table)
@@ -133,19 +137,29 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
       table.addEventListener("appear", this._onappear, this);
 
       // ... when the inner width of the table changes, ...
-      table.addEventListener("tableWidthChanged", this._ontablewidthchanged, this);
+      table.addEventListener("tableWidthChanged",
+                             this._ontablewidthchanged,
+                             this);
 
       // ... when a vertical scroll bar appears or disappears
-      table.addEventListener("verticalScrollBarChanged", this._onverticalscrollbarchanged, this);
+      table.addEventListener("verticalScrollBarChanged",
+                             this._onverticalscrollbarchanged,
+                             this);
 
       // ... when columns are resized, ...
-      this.addEventListener("widthChanged", this._oncolumnwidthchanged, this);
+      this.addEventListener("widthChanged",
+                            this._oncolumnwidthchanged,
+                            this);
 
       // ... and when a column visibility changes.
-      this.addEventListener("visibilityChanged", this._onvisibilitychanged, this);
+      this.addEventListener("visibilityChanged",
+                            this._onvisibilitychanged,
+                            this);
 
       // We want to manipulate the button visibility menu
-      this._table.addEventListener("columnVisibilityMenuCreateEnd", this._addResetColumnWidthButton, this);
+      this._table.addEventListener("columnVisibilityMenuCreateEnd",
+                                   this._addResetColumnWidthButton,
+                                   this);
 
       // Tell the behavior how many columns there are
       this.getBehavior()._setNumColumns(numColumns);
@@ -156,9 +170,12 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
      * Reset the column widths to their "onappear" defaults.
      *
      * @type member
-     * @param event {qx.event.type.DataEvent} The "columnVisibilityMenuCreateEnd" event indicating that the menu is
-     *     being generated.  The data is a map containing propeties <i>table</i> and
-     *     <i>menu</i>.
+     *
+     * @param event {qx.event.type.DataEvent}
+     *   The "columnVisibilityMenuCreateEnd" event indicating that the menu is
+     *   being generated.  The data is a map containing propeties <i>table</i>
+     *   and <i>menu</i>.
+     *
      * @return {void}
      */
     _addResetColumnWidthButton : function(event)
@@ -168,7 +185,8 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
       var o;
 
       var Am = qx.manager.object.AliasManager;
-      var icon = Am.getInstance().resolvePath("icon/16/actions/view-refresh.png");
+      var icon =
+        Am.getInstance().resolvePath("icon/16/actions/view-refresh.png");
 
       // Add a separator between the column names and our reset button
       o = new qx.ui.menu.Separator();
@@ -185,7 +203,10 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
      * Event handler for the "appear" event.
      *
      * @type member
-     * @param event {qx.event.type.Event} The "onappear" event object.
+     *
+     * @param event {qx.event.type.Event}
+     *   The "onappear" event object.
+     *
      * @return {void}
      */
     _onappear : function(event)
@@ -200,17 +221,17 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
       this._bInProgress = true;
       this.debug("onappear");
       this.getBehavior().onAppear(this, event);
-      var _this = this;
 
-      window.setTimeout(function()
-      {
-        if (!_this._table.getDisposed())
-        {
-          _this._table._updateScrollerWidths();
-          _this._table._updateScrollBarVisibility();
-        }
-      },
-      0);
+      qx.client.Timer.once(function()
+                           {
+                             if (!this._table.getDisposed())
+                             {
+                               this._table._updateScrollerWidths();
+                               this._table._updateScrollBarVisibility();
+                             }
+                           },
+                           this,
+                           0);
 
       this._bInProgress = false;
 
@@ -222,7 +243,10 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
      * Event handler for the "tableWidthChanged" event.
      *
      * @type member
-     * @param event {qx.event.type.Event} The "onwidowresize" event object.
+     *
+     * @param event {qx.event.type.Event}
+     *   The "onwindowresize" event object.
+     *
      * @return {void}
      */
     _ontablewidthchanged : function(event)
@@ -231,7 +255,7 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
       if (this._bInProgress || !this._bAppeared)
       {
         // Yup.  Ignore it.
-        return ;
+        return;
       }
 
       this._bInProgress = true;
@@ -245,8 +269,11 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
      * Event handler for the "verticalScrollBarChanged" event.
      *
      * @type member
-     * @param event {qx.event.type.DataEvent} The "verticalScrollBarChanged" event object.  The data is a boolean
-     *     indicating whether a vertical scroll bar is now present.
+     *
+     * @param event {qx.event.type.DataEvent}
+     *   The "verticalScrollBarChanged" event object.  The data is a boolean
+     *   indicating whether a vertical scroll bar is now present.
+     *
      * @return {void}
      */
     _onverticalscrollbarchanged : function(event)
@@ -255,23 +282,23 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
       if (this._bInProgress || !this._bAppeared)
       {
         // Yup.  Ignore it.
-        return ;
+        return;
       }
 
       this._bInProgress = true;
       this.debug("onverticalscrollbarchanged");
       this.getBehavior().onVerticalScrollBarChanged(this, event);
-      var _this = this;
 
-      window.setTimeout(function()
-      {
-        if (!_this._table.getDisposed())
-        {
-          _this._table._updateScrollerWidths();
-          _this._table._updateScrollBarVisibility();
-        }
-      },
-      0);
+      qx.client.Timer.once(function()
+                           {
+                             if (!this._table.getDisposed())
+                             {
+                               this._table._updateScrollerWidths();
+                               this._table._updateScrollBarVisibility();
+                             }
+                           },
+                           this,
+                           0);
 
       this._bInProgress = false;
     },
@@ -281,7 +308,10 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
      * Event handler for the "widthChanged" event.
      *
      * @type member
-     * @param event {qx.event.type.DataEvent} The "widthChanged" event object.
+     *
+     * @param event {qx.event.type.DataEvent}
+     *   The "widthChanged" event object.
+     *
      * @return {void}
      */
     _oncolumnwidthchanged : function(event)
@@ -290,7 +320,7 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
       if (this._bInProgress || !this._bAppeared)
       {
         // Yup.  Ignore it.
-        return ;
+        return;
       }
 
       this._bInProgress = true;
@@ -304,7 +334,10 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
      * Event handler for the "visibilityChanged" event.
      *
      * @type member
-     * @param event {qx.event.type.DataEvent} The "visibilityChanged" event object.
+     *
+     * @param event {qx.event.type.DataEvent}
+     *   The "visibilityChanged" event object.
+     *
      * @return {void}
      */
     _onvisibilitychanged : function(event)
@@ -313,7 +346,7 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
       if (this._bInProgress || !this._bAppeared)
       {
         // Yup.  Ignore it.
-        return ;
+        return;
       }
 
       this._bInProgress = true;

@@ -67,7 +67,8 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
   *****************************************************************************
   */
 
-  construct : function() {
+  construct : function()
+  {
     this.base(arguments);
   },
 
@@ -80,7 +81,10 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
   *****************************************************************************
   */
 
-  statics : { MIN_WIDTH : 10 },
+  statics :
+  {
+    MIN_WIDTH : 10
+  },
 
 
 
@@ -93,17 +97,17 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
 
   properties :
   {
-    /*
+    /**
      * A function to instantiate a resize behavior column data object.
      */
-
     newResizeBehaviorColumnData :
     {
       _legacy : true,
       type : "function",
       setOnlyOnce : true,
 
-      defaultValue : function(obj) {
+      defaultValue : function(obj)
+      {
         return new qx.ui.table.ResizeBehaviorColumnData();
       }
     }
@@ -124,13 +128,19 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
      * Set the width of a column.
      *
      * @type member
+     *
      * @param col {Integer} The column whose width is to be set
-     * @param width {Integer, String} The width of the specified column.  The width may be specified as integer
-     *     number of pixels (e.g. 100), a string representing percentage of the
-     *     inner width of the Table (e.g. "25%"), or a string representing a flex
-     *     width (e.g. "1*").
+     *
+     * @param width {Integer, String}
+     *   The width of the specified column.  The width may be specified as
+     *   integer number of pixels (e.g. 100), a string representing percentage
+     *   of the inner width of the Table (e.g. "25%"), or a string
+     *   representing a flex width (e.g. "1*").
+     *
      * @return {void}
-     * @throws TODOC
+     *
+     * @throws {Error}
+     *   Error is thrown if the provided column number is out of the range.
      */
     setWidth : function(col, width)
     {
@@ -148,15 +158,23 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
      * Set the minimum width of a column.
      *
      * @type member
-     * @param col {Integer} The column whose minimum width is to be set
-     * @param width {Integer} The minimum width of the specified column.
+     *
+     * @param col {Integer}
+     *   The column whose minimum width is to be set
+     *
+     * @param width {Integer}
+     *   The minimum width of the specified column.
+     *
      * @return {void}
-     * @throws TODOC
+     *
+     * @throws {Error}
+     *   Error is thrown if the provided column number is out of the range.
      */
     setMinWidth : function(col, width)
     {
       // Ensure the column is within range
-      if (col >= this._resizeColumnData.length) {
+      if (col >= this._resizeColumnData.length)
+      {
         throw new Error("Column number out of range");
       }
 
@@ -169,10 +187,17 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
      * Set the maximum width of a column.
      *
      * @type member
-     * @param col {Integer} The column whose maximum width is to be set
-     * @param width {Integer} The maximum width of the specified column.
+     *
+     * @param col {Integer}
+     *   The column whose maximum width is to be set
+     *
+     * @param width {Integer}
+     *   The maximum width of the specified column.
+     *
      * @return {void}
-     * @throws TODOC
+     *
+     * @throws {Error}
+     *   Error is thrown if the provided column number is out of the range.
      */
     setMaxWidth : function(col, width)
     {
@@ -187,17 +212,24 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
 
 
     /**
-     * Set any or all of the width, minimum width, and maximum width of a column
-     * in a single call.
+     * Set any or all of the width, minimum width, and maximum width of a
+     * column in a single call.
      *
      * @type member
-     * @param col {var} TODOC
-     * @param map {Map} A map containing any or all of the property names "width", "minWidth",
-     *     and "maxWidth".  The property values are as described for
-     *     {@link #setWidth}, {@link #setMinWidth} and {@link #setMaxWidth}
-     *     respectively.
+     *
+     * @param col {Integer}
+     *   The column whose attributes are to be changed
+     *
+     * @param map {Map}
+     *   A map containing any or all of the property names "width", "minWidth",
+     *   and "maxWidth".  The property values are as described for
+     *   {@link #setWidth}, {@link #setMinWidth} and {@link #setMaxWidth}
+     *   respectively.
+     *
      * @return {void}
-     * @throws TODOC
+     *
+     * @throws {Error}
+     *   Error is thrown if the provided column number is out of the range.
      */
     set : function(col, map)
     {
@@ -224,14 +256,6 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
     },
 
     // overloaded
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param tableColumnModel {var} TODOC
-     * @param event {var} TODOC
-     * @return {void}
-     */
     onAppear : function(tableColumnModel, event)
     {
       // Get the initial available width so we know whether a resize caused an
@@ -243,14 +267,6 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
     },
 
     // overloaded
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param tableColumnModel {var} TODOC
-     * @param event {var} TODOC
-     * @return {void}
-     */
     onTableWidthChanged : function(tableColumnModel, event)
     {
       // Calculate column widths
@@ -258,14 +274,6 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
     },
 
     // overloaded
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param tableColumnModel {var} TODOC
-     * @param event {var} TODOC
-     * @return {void}
-     */
     onVerticalScrollBarChanged : function(tableColumnModel, event)
     {
       // Calculate column widths
@@ -273,14 +281,6 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
     },
 
     // overloaded
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param tableColumnModel {var} TODOC
-     * @param event {var} TODOC
-     * @return {void}
-     */
     onColumnWidthChanged : function(tableColumnModel, event)
     {
       // Extend the next column to fill blank space
@@ -288,14 +288,6 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
     },
 
     // overloaded
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param tableColumnModel {var} TODOC
-     * @param event {var} TODOC
-     * @return {void}
-     */
     onVisibilityChanged : function(tableColumnModel, event)
     {
       // Extend the last column to fill blank space
@@ -303,13 +295,6 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
     },
 
     // overloaded
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param numColumns {var} TODOC
-     * @return {void}
-     */
     _setNumColumns : function(numColumns)
     {
       // Are there now fewer (or the same number of) columns than there were
@@ -331,12 +316,17 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
 
 
     /**
-     * Computes the width of all flexible children (based loosely on the method of
-     * the same name in HorizontalBoxLayoutImpl).
+     * Computes the width of all flexible children (based loosely on the
+     * method of the same name in HorizontalBoxLayoutImpl).
      *
      * @type member
-     * @param tableColumnModel {qx.ui.table.ResizeTableColumnModel} The table column model in use.
-     * @param event {var} The event object.
+     *
+     * @param tableColumnModel {qx.ui.table.ResizeTableColumnModel}
+     *   The table column model in use.
+     *
+     * @param event {qx.event.type.Event}
+     *   The event object.
+     *
      * @return {void}
      */
     _computeColumnsFlexWidth : function(tableColumnModel, event)
@@ -386,10 +376,11 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
         }
         else if (columnData._computedWidthTypePercent)
         {
-          // We can calculate the width of a Percent type right now.  Convert it
-          // to a Flex type that's already calculated (no further calculation
-          // required).
-          columnData._computedWidthPercentValue = Math.round(width * (columnData._computedWidthParsed / 100));
+          // We can calculate the width of a Percent type right now.  Convert
+          // it to a Flex type that's already calculated (no further
+          // calculation required).
+          columnData._computedWidthPercentValue =
+            Math.round(width * (columnData._computedWidthParsed / 100));
           widthUsed += columnData._computedWidthPercentValue;
         }
         else
@@ -412,7 +403,8 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
       var flexibleColumnsLength = flexibleColumns.length;
       var prioritySum = 0;
 
-      for (i=0; i<flexibleColumnsLength; i++) {
+      for (i=0; i<flexibleColumnsLength; i++)
+      {
         prioritySum += flexibleColumns[i]._computedWidthParsed;
       }
 
@@ -426,7 +418,9 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
       // *************************************************************
       bSomethingChanged = true;
 
-      for (flexibleColumnsLength=flexibleColumns.length; bSomethingChanged&&flexibleColumnsLength>0; flexibleColumnsLength=flexibleColumns.length)
+      for (flexibleColumnsLength=flexibleColumns.length;
+           bSomethingChanged&&flexibleColumnsLength>0;
+           flexibleColumnsLength=flexibleColumns.length)
       {
         // Assume nothing will change
         bSomethingChanged = false;
@@ -435,7 +429,9 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
         {
           columnData = flexibleColumns[i];
 
-          computedFlexibleWidth = columnData._computedWidthFlexValue = columnData._computedWidthParsed * partWidth;
+          computedFlexibleWidth =
+            columnData._computedWidthFlexValue =
+            columnData._computedWidthParsed * partWidth;
 
           // If the part is not within its specified min/max range, adjust it.
           var min = columnData.getMinWidthValue();
@@ -464,7 +460,8 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
         }
       }
 
-      // If any flexible columns remain, then allocate the remaining space to them
+      // If any flexible columns remain, then allocate the remaining space to
+      // them.
       if (flexibleColumns.length > 0)
       {
         // Recalculate the priority sum of the remaining flexible columns
@@ -486,8 +483,13 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
           {
             columnData = flexibleColumns[i];
 
-            computedFlexibleWidth = columnData._computedWidthFlexValue = (qx.ui.table.DefaultResizeBehavior.MIN_WIDTH * flexibleColumns[i]._computedWidthParsed);
-            columnData._computedWidthFlexValue = Math.round(computedFlexibleWidth);
+            computedFlexibleWidth =
+              columnData._computedWidthFlexValue =
+              (qx.ui.table.DefaultResizeBehavior.MIN_WIDTH *
+               flexibleColumns[i]._computedWidthParsed);
+            
+            columnData._computedWidthFlexValue =
+              Math.round(computedFlexibleWidth);
             widthUsed += columnData._computedWidthFlexValue;
           }
         }
@@ -498,16 +500,21 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
           {
             columnData = flexibleColumns[i];
 
-            computedFlexibleWidth = columnData._computedWidthFlexValue = columnData._computedWidthParsed * partWidth;
+            computedFlexibleWidth =
+              columnData._computedWidthFlexValue =
+              columnData._computedWidthParsed * partWidth;
 
             // If the computed width is less than our hard-coded minimum...
-            if (computedFlexibleWidth < qx.ui.table.DefaultResizeBehavior.MIN_WIDTH)
+            if (computedFlexibleWidth <
+                qx.ui.table.DefaultResizeBehavior.MIN_WIDTH)
             {
               // ... then use the hard-coded minimum
-              computedFlexibleWidth = qx.ui.table.DefaultResizeBehavior.MIN_WIDTH;
+              computedFlexibleWidth =
+                qx.ui.table.DefaultResizeBehavior.MIN_WIDTH;
             }
 
-            columnData._computedWidthFlexValue = Math.round(computedFlexibleWidth);
+            columnData._computedWidthFlexValue =
+              Math.round(computedFlexibleWidth);
             widthUsed += columnData._computedWidthFlexValue;
           }
         }
@@ -516,7 +523,8 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
       // *************************************************************
       // 5. Fix rounding errors
       // *************************************************************
-      if (columnData != null && widthRemaining > 0) {
+      if (columnData != null && widthRemaining > 0)
+      {
         columnData._computedWidthFlexValue += width - widthUsed;
       }
 
@@ -546,8 +554,8 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
           colWidth = columnData.getWidth();
         }
 
-        // If this is the last column, add any available extra width (where the
-        // vertical scollbar will go if it's not there already)
+        // If this is the last column, add any available extra width (where
+        // the vertical scollbar will go if it's not there already)
         if (i == visibleColumnsLength - 1) {
           colWidth += extraWidth;
         }
@@ -556,25 +564,31 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
         tableColumnModel.setColumnWidth(visibleColumns[i], colWidth);
 
         if (debug) {
-          this.debug("col " + columnData._columnNumber + ": width=" + colWidth);
+          this.debug("col " + columnData._columnNumber +
+                     ": width=" + colWidth);
         }
       }
     },
 
 
     /**
-     * Extend the visible column to right of the column which just changed width,
-     * to fill any available space within the inner width of the table.  This
-     * means that if the sum of the widths of all columns exceeds the inner width
-     * of the table, no change is made.  If, on the other hand, the sum of the
-     * widths of all columns is less than the inner width of the table, the
-     * visible column to the right of the column which just changed width is
-     * extended to take up the width available within the inner width of the
-     * table.
+     * Extend the visible column to right of the column which just changed
+     * width, to fill any available space within the inner width of the table.
+     * This means that if the sum of the widths of all columns exceeds the
+     * inner width of the table, no change is made.  If, on the other hand,
+     * the sum of the widths of all columns is less than the inner width of
+     * the table, the visible column to the right of the column which just
+     * changed width is extended to take up the width available within the
+     * inner width of the table.
      *
      * @type member
-     * @param tableColumnModel {qx.ui.table.ResizeTableColumnModel} The table column model in use.
-     * @param event {var} The event object.
+     *
+     * @param tableColumnModel {qx.ui.table.ResizeTableColumnModel}
+     *   The table column model in use.
+     *
+     * @param event {qx.event.type.DataEvent}
+     *   The event object.
+     *
      * @return {void}
      */
     _extendNextColumn : function(tableColumnModel, event)
@@ -600,13 +614,14 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
         return ;
       }
 
-      // This column became shorter.  See if we no longer take up the full space
-      // that's available to us.
+      // This column became shorter.  See if we no longer take up the full
+      // space that's available to us.
       var i;
       var nextCol;
       var widthUsed = 0;
 
-      for (i=0; i<numColumns; i++) {
+      for (i=0; i<numColumns; i++)
+      {
         widthUsed += tableColumnModel.getColumnWidth(visibleColumns[i]);
       }
 
@@ -627,7 +642,8 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
         {
           // Make the next column take up the available space.
           var oldWidth = tableColumnModel.getColumnWidth(nextCol);
-          var newWidth = (width - (widthUsed - tableColumnModel.getColumnWidth(nextCol)));
+          var newWidth =
+            (width - (widthUsed - tableColumnModel.getColumnWidth(nextCol)));
           tableColumnModel.setColumnWidth(nextCol, newWidth);
         }
       }
@@ -636,16 +652,21 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
 
     /**
      * If a column was just made invisible, extend the last column to fill any
-     * available space within the inner width of the table.  This means that if
-     * the sum of the widths of all columns exceeds the inner width of the table,
-     * no change is made.  If, on the other hand, the sum of the widths of all
-     * columns is less than the inner width of the table, the last column is
-     * extended to take up the width available within the inner width of the
-     * table.
+     * available space within the inner width of the table.  This means that
+     * if the sum of the widths of all columns exceeds the inner width of the
+     * table, no change is made.  If, on the other hand, the sum of the widths
+     * of all columns is less than the inner width of the table, the last
+     * column is extended to take up the width available within the inner
+     * width of the table.
      *
      * @type member
-     * @param tableColumnModel {qx.ui.table.ResizeTableColumnModel} The table column model in use.
-     * @param event {var} The event object.
+     *
+     * @param tableColumnModel {qx.ui.table.ResizeTableColumnModel}
+     *   The table column model in use.
+     *
+     * @param event {qx.event.type.DataEvent}
+     *   The event object.
+     *
      * @return {void}
      */
     _extendLastColumn : function(tableColumnModel, event)
@@ -654,7 +675,8 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
       var data = event.getData();
 
       // If the column just became visible, don't make any width changes
-      if (data.visible) {
+      if (data.visible)
+      {
         return;
       }
 
@@ -674,7 +696,8 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
       var lastCol;
       var widthUsed = 0;
 
-      for (i=0; i<numColumns; i++) {
+      for (i=0; i<numColumns; i++)
+      {
         widthUsed += tableColumnModel.getColumnWidth(visibleColumns[i]);
       }
 
@@ -686,7 +709,8 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
 
         // Make the last column take up the available space.
         var oldWidth = tableColumnModel.getColumnWidth(lastCol);
-        var newWidth = (width - (widthUsed - tableColumnModel.getColumnWidth(lastCol)));
+        var newWidth =
+          (width - (widthUsed - tableColumnModel.getColumnWidth(lastCol)));
         tableColumnModel.setColumnWidth(lastCol, newWidth);
       }
     }
@@ -701,7 +725,8 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct : function()
+  {
     this._disposeFields("_resizeColumnData");
   }
 });
