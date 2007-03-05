@@ -9,9 +9,9 @@
 ************************************************************************ */
 
 /**
- * Your custom application
+ * Your application
  */
-qx.OO.defineClass("custom.Application", qx.component.AbstractApplication, function() {
+qx.OO.defineClass("Application", qx.component.AbstractApplication, function() {
   qx.component.AbstractApplication.call(this);
 });
 
