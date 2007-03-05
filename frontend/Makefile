@@ -205,9 +205,17 @@ exec-quickstart-unix-collect:
 	@echo "  * Generating quickstart build..."
 	@if [ ! -d application/quickstart/build ]; then $(MAKE) -s -C application/quickstart build; fi
 
+	@$(CMD_DIR) $(QUICKSTART_TEMP_UNIX)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart
+
+	@echo "  * Copying info files..."
+	@$(CMD_DIR) $(QUICKSTART_TEMP_UNIX)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart
+	@for FILE in `find ../ -maxdepth 1 -type f -name "[A-Z]*"`; do \
+	  echo "    - `basename $$FILE`"; \
+	  cp -f $$FILE $(QUICKSTART_TEMP_UNIX)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart; \
+	done
+
 	@echo "  * Syncing files..."
-	@$(CMD_DIR) $(QUICKSTART_TEMP_UNIX)/quickstart
-	@$(CMD_SYNC_OFFLINE) application/quickstart/build/* $(QUICKSTART_TEMP_UNIX)/quickstart
+	@$(CMD_SYNC_OFFLINE) application/quickstart/build/* $(QUICKSTART_TEMP_UNIX)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart/quickstart
 
 exec-quickstart-unix-archive:
 	@echo "  * Cleaning up target folders..."
@@ -220,17 +228,25 @@ exec-quickstart-unix-archive:
 	@$(CMD_FIND) $(QUICKSTART_TEMP_UNIX) $(FILES_EXEC) -exec $(CMD_MKEXEC) {} \;
 
 	@echo "  * Building quickstart archive..."
-	@$(CMD_REMOVE) $(QUICKSTART_TEMP_UNIX)/quickstart.tar.gz
-	@cd $(QUICKSTART_TEMP_UNIX); $(CMD_TAR_CREATE) quickstart.tar.gz quickstart
-	@$(CMD_REMOVE) $(QUICKSTART_TEMP_UNIX)/quickstart
+	@$(CMD_REMOVE) $(QUICKSTART_TEMP_UNIX)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.tar.gz
+	@cd $(QUICKSTART_TEMP_UNIX); $(CMD_TAR_CREATE) qooxdoo-$(FRAMEWORK_VERSION)-quickstart.tar.gz qooxdoo-$(FRAMEWORK_VERSION)-quickstart
+	@$(CMD_REMOVE) $(QUICKSTART_TEMP_UNIX)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart
 
 exec-quickstart-dos-collect:
 	@echo "  * Generating quickstart build..."
 	@if [ ! -d application/quickstart/build ]; then $(MAKE) -s -C application/quickstart build; fi
 
+	@$(CMD_DIR) $(QUICKSTART_TEMP_DOS)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart
+
+	@echo "  * Copying info files..."
+	@$(CMD_DIR) $(QUICKSTART_TEMP_DOS)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart
+	@for FILE in `find ../ -maxdepth 1 -type f -name "[A-Z]*"`; do \
+	  echo "    - `basename $$FILE`"; \
+	  cp -f $$FILE $(QUICKSTART_TEMP_DOS)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart; \
+	done
+
 	@echo "  * Syncing files..."
-	@$(CMD_DIR) $(QUICKSTART_TEMP_DOS)/quickstart
-	@$(CMD_SYNC_OFFLINE) application/quickstart/build/* $(QUICKSTART_TEMP_DOS)/quickstart
+	@$(CMD_SYNC_OFFLINE) application/quickstart/build/* $(QUICKSTART_TEMP_DOS)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart/quickstart
 
 exec-quickstart-dos-archive:
 	@echo "  * Cleaning up target folders..."
@@ -243,20 +259,22 @@ exec-quickstart-dos-archive:
 	@$(CMD_FIND) $(QUICKSTART_TEMP_DOS) $(FILES_EXEC) -exec $(CMD_MKEXEC) {} \;
 
 	@echo "  * Building quickstart archive..."
-	@$(CMD_REMOVE) $(QUICKSTART_TEMP_DOS)/quickstart.zip
-	@cd $(QUICKSTART_TEMP_DOS); $(CMD_ZIP_CREATE) quickstart.zip quickstart
-	@$(CMD_REMOVE) $(QUICKSTART_TEMP_DOS)/quickstart
+	@$(CMD_REMOVE) $(QUICKSTART_TEMP_DOS)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip
+	@cd $(QUICKSTART_TEMP_DOS); $(CMD_ZIP_CREATE) qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip qooxdoo-$(FRAMEWORK_VERSION)-quickstart
+	@$(CMD_REMOVE) $(QUICKSTART_TEMP_DOS)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart
 
 exec-quickstart-unix-post:
-	@$(CMD_SYNC_OFFLINE) $(QUICKSTART_TEMP_UNIX)/quickstart.tar.gz application/
+	@echo "  * Copying archive to application folder..."
+	@$(CMD_SYNC_OFFLINE) $(QUICKSTART_TEMP_UNIX)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.tar.gz application/
 	@echo
-	@echo "  * Created application/quickstart.tar.gz"
+	@echo "  * Created application/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.tar.gz"
 	@echo "    Please extract to a location outside this qooxdoo folder."
 
 exec-quickstart-dos-post:
-	@$(CMD_SYNC_OFFLINE) $(QUICKSTART_TEMP_DOS)/quickstart.zip application/
+	@echo "  * Copying archive to application folder..."
+	@$(CMD_SYNC_OFFLINE) $(QUICKSTART_TEMP_DOS)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip application/
 	@echo
-	@echo "  * Created application/quickstart.zip"
+	@echo "  * Created application/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip"
 	@echo "    Please extract to a location outside this qooxdoo folder."
 
 exec-quickstart-unix-clean:
@@ -300,11 +318,19 @@ exec-skeleton-unix: exec-skeleton-unix-collect exec-skeleton-unix-archive
 exec-skeleton-dos: exec-skeleton-dos-collect exec-skeleton-dos-archive
 
 exec-skeleton-unix-collect:
+	@echo "  * Copying info files..."
+	@$(CMD_DIR) $(SKELETON_TEMP_UNIX)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton
+	@for FILE in `find ../ -maxdepth 1 -type f -name "[A-Z]*"`; do \
+	  echo "    - `basename $$FILE`"; \
+	  cp -f $$FILE $(SKELETON_TEMP_UNIX)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton; \
+	done
+
 	@echo "  * Collecting skeleton files..."
+	@$(CMD_DIR) $(SKELETON_TEMP_UNIX)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton
 	@for FILE in $(SKELETON_FILES); do \
     	echo "    - $$FILE"; \
-    	$(CMD_DIR) `dirname $(SKELETON_TEMP_UNIX)/skeleton/$$FILE`; \
-	  	$(CMD_SYNC_OFFLINE) application/skeleton/$$FILE `dirname $(SKELETON_TEMP_UNIX)/skeleton/$$FILE`; \
+    	$(CMD_DIR) `dirname $(SKELETON_TEMP_UNIX)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton/skeleton/$$FILE`; \
+	  	$(CMD_SYNC_OFFLINE) application/skeleton/$$FILE `dirname $(SKELETON_TEMP_UNIX)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton/skeleton/$$FILE`; \
   	done
 
 exec-skeleton-unix-archive:
@@ -318,16 +344,24 @@ exec-skeleton-unix-archive:
 	@$(CMD_FIND) $(SKELETON_TEMP_UNIX) $(FILES_EXEC) -exec $(CMD_MKEXEC) {} \;
 
 	@echo "  * Building skeleton archive..."
-	@$(CMD_REMOVE) $(SKELETON_TEMP_UNIX)/skeleton.tar.gz
-	@cd $(SKELETON_TEMP_UNIX); $(CMD_TAR_CREATE) skeleton.tar.gz skeleton
-	@$(CMD_REMOVE) $(SKELETON_TEMP_UNIX)/skeleton
+	@$(CMD_REMOVE) $(SKELETON_TEMP_UNIX)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton.tar.gz
+	@cd $(SKELETON_TEMP_UNIX); $(CMD_TAR_CREATE) qooxdoo-$(FRAMEWORK_VERSION)-skeleton.tar.gz qooxdoo-$(FRAMEWORK_VERSION)-skeleton
+	@$(CMD_REMOVE) $(SKELETON_TEMP_UNIX)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton
 
 exec-skeleton-dos-collect:
+	@echo "  * Copying info files..."
+	@$(CMD_DIR) $(SKELETON_TEMP_DOS)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton
+	@for FILE in `find ../ -maxdepth 1 -type f -name "[A-Z]*"`; do \
+	  echo "    - `basename $$FILE`"; \
+	  cp -f $$FILE $(SKELETON_TEMP_DOS)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton; \
+	done
+
 	@echo "  * Collecting skeleton files..."
+	@$(CMD_DIR) $(SKELETON_TEMP_DOS)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton
 	@for FILE in $(SKELETON_FILES); do \
     	echo "    - $$FILE"; \
-    	$(CMD_DIR) `dirname $(SKELETON_TEMP_DOS)/skeleton/$$FILE`; \
-	  	$(CMD_SYNC_OFFLINE) application/skeleton/$$FILE `dirname $(SKELETON_TEMP_DOS)/skeleton/$$FILE`; \
+    	$(CMD_DIR) `dirname $(SKELETON_TEMP_DOS)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton/skeleton/$$FILE`; \
+	  	$(CMD_SYNC_OFFLINE) application/skeleton/$$FILE `dirname $(SKELETON_TEMP_DOS)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton/skeleton/$$FILE`; \
   	done
 
 exec-skeleton-dos-archive:
@@ -341,20 +375,22 @@ exec-skeleton-dos-archive:
 	@$(CMD_FIND) $(SKELETON_TEMP_DOS) $(FILES_EXEC) -exec $(CMD_MKEXEC) {} \;
 
 	@echo "  * Building skeleton archive..."
-	@$(CMD_REMOVE) $(SKELETON_TEMP_DOS)/skeleton.zip
-	@cd $(SKELETON_TEMP_DOS); $(CMD_ZIP_CREATE) skeleton.zip skeleton
-	@$(CMD_REMOVE) $(SKELETON_TEMP_DOS)/skeleton
+	@$(CMD_REMOVE) $(SKELETON_TEMP_DOS)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton.zip
+	@cd $(SKELETON_TEMP_DOS); $(CMD_ZIP_CREATE) qooxdoo-$(FRAMEWORK_VERSION)-skeleton.zip qooxdoo-$(FRAMEWORK_VERSION)-skeleton
+	@$(CMD_REMOVE) $(SKELETON_TEMP_DOS)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton
 
 exec-skeleton-unix-post:
-	@$(CMD_SYNC_OFFLINE) $(SKELETON_TEMP_UNIX)/skeleton.tar.gz application/
+	@echo "  * Copying archive to application folder..."
+	@$(CMD_SYNC_OFFLINE) $(SKELETON_TEMP_UNIX)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton.tar.gz application/
 	@echo
-	@echo "  * Created application/skeleton.tar.gz"
+	@echo "  * Created application/qooxdoo-$(FRAMEWORK_VERSION)-skeleton.tar.gz"
 	@echo "    Please extract to a location outside this qooxdoo folder."
 
 exec-skeleton-dos-post:
-	@$(CMD_SYNC_OFFLINE) $(SKELETON_TEMP_DOS)/skeleton.zip application/
+	@echo "  * Copying archive to application folder..."
+	@$(CMD_SYNC_OFFLINE) $(SKELETON_TEMP_DOS)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton.zip application/
 	@echo
-	@echo "  * Created application/skeleton.zip"
+	@echo "  * Created application/qooxdoo-$(FRAMEWORK_VERSION)-skeleton.zip"
 	@echo "    Please extract to a location outside this qooxdoo folder."
 
 exec-skeleton-unix-clean:
@@ -513,11 +549,11 @@ release-sdk-unix:
 	done
 
 	@$(MAKE) -s exec-skeleton-unix
-	@$(CMD_SYNC_OFFLINE) $(SKELETON_TEMP_UNIX)/skeleton.tar.gz $(RELEASE_SDK_UNIX)/frontend/application/
+	@$(CMD_SYNC_OFFLINE) $(SKELETON_TEMP_UNIX)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton.tar.gz $(RELEASE_SDK_UNIX)/frontend/application/
 	@$(MAKE) -s exec-skeleton-unix-clean
 
 	@$(MAKE) -s exec-quickstart-unix
-	@$(CMD_SYNC_OFFLINE) $(QUICKSTART_TEMP_UNIX)/quickstart.tar.gz $(RELEASE_SDK_UNIX)/frontend/application/
+	@$(CMD_SYNC_OFFLINE) $(QUICKSTART_TEMP_UNIX)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.tar.gz $(RELEASE_SDK_UNIX)/frontend/application/
 	@$(MAKE) -s exec-quickstart-unix-clean
 
 	@echo "  * Generating tar archive..."
@@ -552,11 +588,11 @@ release-sdk-dos:
 	done
 
 	@$(MAKE) -s exec-skeleton-dos
-	@$(CMD_SYNC_OFFLINE) $(SKELETON_TEMP_DOS)/skeleton.zip $(RELEASE_SDK_DOS)/frontend/application/
+	@$(CMD_SYNC_OFFLINE) $(SKELETON_TEMP_DOS)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton.zip $(RELEASE_SDK_DOS)/frontend/application/
 	@$(MAKE) -s exec-skeleton-dos-clean
 
 	@$(MAKE) -s exec-quickstart-dos
-	@$(CMD_SYNC_OFFLINE) $(QUICKSTART_TEMP_DOS)/quickstart.zip $(RELEASE_SDK_DOS)/frontend/application/
+	@$(CMD_SYNC_OFFLINE) $(QUICKSTART_TEMP_DOS)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip $(RELEASE_SDK_DOS)/frontend/application/
 	@$(MAKE) -s exec-quickstart-dos-clean
 
 	@echo "  * Generating zip archive..."
