@@ -215,6 +215,8 @@ qx.Class.define("apiviewer.TreeUtil",
                 constName += "_STATIC";
               } else if (node.attributes.isAbstract) {
                 constName += "_ABSTRACT";
+              } else if (node.attributes.isSingleton) {
+                constName += "_SINGLETON";
               }
 
           }
@@ -277,7 +279,11 @@ qx.Class.define("apiviewer.TreeUtil",
     },
 
     /** {string[]} The names of lists containing items. */
-    ITEM_LIST_ARR : [ "constants", "properties", "methods-pub", "methods-pub", "methods-static-prot", "methods-static-prot" ],
+    ITEM_LIST_ARR : [
+      "constants", "properties",
+      "methods", "methods-static",
+      "interfaces", "mixins" 
+    ],
 
     /** {string} The URL of the info icon. */
     ICON_INFO : "api/image/information18.png",
@@ -335,6 +341,15 @@ qx.Class.define("apiviewer.TreeUtil",
 
     /** {string} The icon URL of an abstract class with error. */
     ICON_CLASS_ABSTRACT_ERROR : "api/image/class_abstract_warning18.gif",
+
+    /** {string} The icon URL of an singleton class. */
+    ICON_CLASS_SINGLETON : "api/image/class_singleton18.gif",
+
+    /** {string} The icon URL of an singleton class with warning. */
+    ICON_CLASS_SINGLETON_WARN : "api/image/class_singleton_warning18.gif",
+
+    /** {string} The icon URL of an singleton class with error. */
+    ICON_CLASS_SINGLETON_ERROR : "api/image/class_singleton_warning18.gif",
 
     /** {string} The icon URL of a property. */
     ICON_PROPERTY : "api/image/property18.gif",
