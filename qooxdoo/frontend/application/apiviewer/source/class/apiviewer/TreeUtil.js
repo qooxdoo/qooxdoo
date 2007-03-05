@@ -279,6 +279,9 @@ qx.Class.define("apiviewer.TreeUtil",
     /** {string[]} The names of lists containing items. */
     ITEM_LIST_ARR : [ "constants", "properties", "methods-pub", "methods-pub", "methods-static-prot", "methods-static-prot" ],
 
+    /** {string} The URL of the info icon. */
+    ICON_INFO : "api/image/information18.png",
+
     /** {string} The URL of the overlay "abstract". */
     OVERLAY_ABSTRACT : "api/image/overlay_abstract18.gif",
 
