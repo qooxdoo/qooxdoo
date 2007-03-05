@@ -29,7 +29,7 @@
 /**
  * Shows the class details.
  */
-qx.Class.define("apiviewer.InfoViewer",
+qx.Class.define("apiviewer.PackageViewer",
 {
   extend : qx.ui.embed.HtmlEmbed,
 
@@ -49,10 +49,10 @@ qx.Class.define("apiviewer.InfoViewer",
     this.setOverflow("auto");
     this.setPadding(20);
     this.setEdge(0);
-    this.setHtmlProperty("id", "InfoViewer");
+    this.setHtmlProperty("id", "PackageViewer");
     this.setVisibility(false);
 
-    apiviewer.InfoViewer.instance = this;
+    apiviewer.PackageViewer.instance = this;
   },
 
 
