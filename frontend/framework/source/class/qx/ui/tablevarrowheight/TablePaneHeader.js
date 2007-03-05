@@ -25,9 +25,6 @@
 
 /**
  * Shows the header of a table.
- *
- * @param paneScroller {TablePaneScroller}
- *   The TablePaneScroller the header belongs to.
  */
 qx.Class.define("qx.ui.tablevarrowheight.TablePaneHeader",
 {
@@ -42,6 +39,10 @@ qx.Class.define("qx.ui.tablevarrowheight.TablePaneHeader",
   *****************************************************************************
   */
 
+	/**
+	 * @param paneScroller {TablePaneScroller}
+	 *   The TablePaneScroller the header belongs to.
+	 */
   construct : function(paneScroller) {
     this.base(arguments, paneScroller);
   }

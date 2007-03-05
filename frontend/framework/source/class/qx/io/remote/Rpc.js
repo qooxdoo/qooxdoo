@@ -45,22 +45,6 @@
  * the server-side properties). Beans can also be nested, but be careful to not
  * create circular references! There are no checks to detect these (which would
  * be expensive), so you as the user are responsible for avoiding them.
- *
- * @param url {String}            identifies the url where the service
- *                                      is found.  Note that if the url is to
- *                                      a domain (server) other than where the
- *                                      qooxdoo script came from, i.e. it is
- *                                      cross-domain, then you must also call
- *                                      the setCrossDomain(true) method to
- *                                      enable the ScriptTransport instead of
- *                                      the XmlHttpTransport, since the latter
- *                                      can not handle cross-domain requests.
- *
- * @param serviceName {String}    identifies the service. For the Java
- *                                      implementation, this is the fully
- *                                      qualified name of the class that offers
- *                                      the service methods
- *                                      (e.g. "my.pkg.MyService").
  */
 qx.Class.define("qx.io.remote.Rpc",
 {
@@ -75,6 +59,23 @@ qx.Class.define("qx.io.remote.Rpc",
   *****************************************************************************
   */
 
+  /**
+   * @param url {String}            identifies the url where the service
+   *                                      is found.  Note that if the url is to
+   *                                      a domain (server) other than where the
+   *                                      qooxdoo script came from, i.e. it is
+   *                                      cross-domain, then you must also call
+   *                                      the setCrossDomain(true) method to
+   *                                      enable the ScriptTransport instead of
+   *                                      the XmlHttpTransport, since the latter
+   *                                      can not handle cross-domain requests.
+   *
+   * @param serviceName {String}    identifies the service. For the Java
+   *                                      implementation, this is the fully
+   *                                      qualified name of the class that offers
+   *                                      the service methods
+   *                                      (e.g. "my.pkg.MyService").
+   */
   construct : function(url, serviceName)
   {
     this.base(arguments);

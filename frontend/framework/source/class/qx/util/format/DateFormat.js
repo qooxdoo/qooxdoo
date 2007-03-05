@@ -25,10 +25,6 @@
 
 /**
  * A formatter and parser for dates
- *
- * @param format {String} The format to use. If null, the
- *    {@link #DEFAULT_DATE_TIME_FORMAT} is used.
- * @param locale {String} optional locale to be used
  */
 qx.Class.define("qx.util.format.DateFormat",
 {
@@ -43,6 +39,11 @@ qx.Class.define("qx.util.format.DateFormat",
   *****************************************************************************
   */
 
+  /**
+   * @param format {String} The format to use. If null, the
+   *    {@link #DEFAULT_DATE_TIME_FORMAT} is used.
+   * @param locale {String} optional locale to be used
+   */
   construct : function(format, locale)
   {
     this.base(arguments);

@@ -27,9 +27,6 @@
  * The model of a table pane. This model works as proxy to a {@link
  * TableColumnModel} and manages the visual order of the columns shown in a
  * {@link TablePane}.
- *
- * @param tableColumnModel {TableColumnModel}
- *   The TableColumnModel of which this model is the proxy..
  */
 qx.Class.define("qx.ui.tablevarrowheight.TablePaneModel",
 {
@@ -44,6 +41,10 @@ qx.Class.define("qx.ui.tablevarrowheight.TablePaneModel",
   *****************************************************************************
   */
 
+	/**
+	 * @param tableColumnModel {TableColumnModel}
+	 *   The TableColumnModel of which this model is the proxy.
+	 */
   construct : function(tableColumnModel) {
     this.base(arguments, tableColumnModel);
   },

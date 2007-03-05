@@ -23,20 +23,20 @@
 
 ************************************************************************ */
 
-/**
- *
- * Creates a new instance of a vertical SplitPane.<br /><br />
- *
- * new qx.ui.splitpane.VerticalSplitPane()<br />
- * new qx.ui.splitpane.VerticalSplitPane(firstSize, secondSize)
- *
- * @param firstSize {String} The size of the top pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
- * @param secondSize {String} The size of the bottom pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
- */
+
 qx.Class.define("qx.ui.splitpane.VerticalSplitPane",
 {
   extend : qx.ui.splitpane.SplitPane,
 
+	/**
+	 * Creates a new instance of a vertical SplitPane.<br /><br />
+	 *
+	 * new qx.ui.splitpane.VerticalSplitPane()<br />
+	 * new qx.ui.splitpane.VerticalSplitPane(firstSize, secondSize)
+	 *
+	 * @param firstSize {String} The size of the top pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
+	 * @param secondSize {String} The size of the bottom pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
+	 */
   construct : function(firstSize, secondSize) {
     this.base(arguments, "vertical", firstSize, secondSize);
   }

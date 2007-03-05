@@ -37,6 +37,9 @@ qx.Class.define("qx.ui.basic.Inline",
   *****************************************************************************
   */
 
+	/**
+	 * @param vId {String} id of the DOM element to embed.
+	 */
   construct : function(vId)
   {
     this.base(arguments);

@@ -28,9 +28,6 @@
  *
  * This class does not depend on qooxdoo widgets, so it also works when there
  * are problems with widgets or when the widgets are not yet initialized.
- *
- * @param divId {String ? "qx_log"} the ID of the div element to write the
- *        messages to.
  */
 qx.Class.define("qx.log.DivAppender",
 {
@@ -45,6 +42,10 @@ qx.Class.define("qx.log.DivAppender",
   *****************************************************************************
   */
 
+	/**
+	 * @param divId {String ? "qx_log"} the ID of the div element to write the
+	 *        messages to.
+	 */
   construct : function(divId)
   {
     this.base(arguments);

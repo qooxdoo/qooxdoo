@@ -29,8 +29,6 @@
  * <p>
  * This class does not depend on qooxdoo widgets, so it also works when there
  * are problems with widgets or when the widgets are not yet initialized.
- *
- * @param name {String ? "qx_log"} the name of the log window.
  */
 qx.Class.define("qx.log.WindowAppender",
 {
@@ -45,6 +43,9 @@ qx.Class.define("qx.log.WindowAppender",
   *****************************************************************************
   */
 
+	/**
+	 * @param name {String ? "qx_log"} the name of the log window.
+	 */
   construct : function(name)
   {
     this.base(arguments);

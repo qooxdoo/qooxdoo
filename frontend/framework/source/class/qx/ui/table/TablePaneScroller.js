@@ -27,8 +27,6 @@
  * Shows a whole meta column. This includes a {@link TablePaneHeader},
  * a {@link TablePane} and the needed scroll bars. This class handles the
  * virtual scrolling and does all the mouse event handling.
- *
- * @param table {Table} the table the scroller belongs to.
  */
 qx.Class.define("qx.ui.table.TablePaneScroller",
 {
@@ -43,6 +41,9 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
   *****************************************************************************
   */
 
+	/**
+	 * @param table {Table} the table the scroller belongs to.
+	 */
   construct : function(table)
   {
     this.base(arguments);

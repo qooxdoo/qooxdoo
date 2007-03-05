@@ -32,7 +32,7 @@
 /**
  * Transports requests to a server using an IFRAME.
  *
- *  This class should not be used directly by client programmers.
+ * This class should not be used directly by client programmers.
  */
 qx.Class.define("qx.io.remote.IframeTransport",
 {

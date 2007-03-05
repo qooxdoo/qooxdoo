@@ -25,14 +25,6 @@
 /**
  * A date chooser button widget which can be associated to a widget where the date value is synchronized
  * whith the selected date.
- *
- * @param vTargetWidget {qx.ui.core.Widget} the widget which is the target for the date value selection. The target widget must have a setValue and getValue method.
- * @param vChooserTitle {String} the title of the chooser window. The default value is held in property chooserTitle.
- * @param vButtonLabel {String} the label of the button. The default is null.
- * @param vIcon {String} the icon of the button. The default is 'icon/16/apps/accessories-date.png'.
- * @param vIconWidth {String} derived from qx.ui.form.Button.
- * @param vIconHeight {String} derived from qx.ui.form.Button.
- * @param vFlash {String} derived from qx.ui.form.Button.
  */
 qx.Class.define("qx.ui.component.DateChooserButton",
 {
@@ -47,6 +39,15 @@ qx.Class.define("qx.ui.component.DateChooserButton",
   *****************************************************************************
   */
 
+  /**
+   * @param vTargetWidget {qx.ui.core.Widget} the widget which is the target for the date value selection. The target widget must have a setValue and getValue method.
+   * @param vChooserTitle {String} the title of the chooser window. The default value is held in property chooserTitle.
+   * @param vButtonLabel {String} the label of the button. The default is null.
+   * @param vIcon {String} the icon of the button. The default is 'icon/16/apps/accessories-date.png'.
+   * @param vIconWidth {String} derived from qx.ui.form.Button.
+   * @param vIconHeight {String} derived from qx.ui.form.Button.
+   * @param vFlash {String} derived from qx.ui.form.Button.
+   */
   construct : function(vTargetWidget, vChooserTitle, vButtonLabel, vIcon, vIconWidth, vIconHeight, vFlash)
   {
     if (!vIcon) {

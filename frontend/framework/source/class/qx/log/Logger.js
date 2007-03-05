@@ -26,10 +26,6 @@
 
 /**
  * A logger. Logs messages of one log category.
- *
- * @param name {String} The category name of this logger. (Normally a class or
- *    package name)
- * @param parentLogger {Logger} The parent logger.
  */
 qx.Class.define("qx.log.Logger",
 {
@@ -44,6 +40,11 @@ qx.Class.define("qx.log.Logger",
   *****************************************************************************
   */
 
+  /**
+   * @param name {String} The category name of this logger. (Normally a class or
+   *    package name)
+   * @param parentLogger {Logger} The parent logger.
+   */
   construct : function(name, parentLogger)
   {
     this.base(arguments);

@@ -42,6 +42,11 @@ qx.Class.define("qx.ui.basic.Image",
   *****************************************************************************
   */
 
+  /**
+   * @param vSource {String} URL of the image
+   * @param vWidth {Integer|String ? "auto"} definition of the width of the image
+   * @param vHeight {Integer|String ? "auto"} definition of the height of the image
+   */
   construct : function(vSource, vWidth, vHeight)
   {
     this.base(arguments);

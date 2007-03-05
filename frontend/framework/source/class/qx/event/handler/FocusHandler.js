@@ -26,7 +26,9 @@
 
 ************************************************************************ */
 
-/** This object gets an instance in each focus root and manage the focus handling for it. */
+/**
+ * Each focus root delegates the focus handling to instances of the FocusHandler.
+ */
 qx.Class.define("qx.event.handler.FocusHandler",
 {
   extend : qx.core.Target,
