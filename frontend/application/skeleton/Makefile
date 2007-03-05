@@ -30,7 +30,7 @@
 # b) an absolute path starting at the root of your file system
 # Example: If you put the skeleton folder next to the qooxdoo SDK folder,
 # you can use the following relative path:
-# QOOXDOO_PATH = ../qooxdoo-0.6.5-sdk
+# QOOXDOO_PATH = ../../qooxdoo-0.6.6-sdk
 # Please note that Windows users should always use relative paths.
 # It should end with the last directory. Please omit a trailing slash.
 #
