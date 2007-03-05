@@ -27,29 +27,40 @@
 ************************************************************************ */
 
 /**
- * This class builds the basis for the qooxdoo class system and the qooxdoo
- * style of object oriented JavaScript. The define method is used to create
- * all classes.
+ * This class is one of the most important parts of qooxdoo's
+ * object-oriented features. Its <code>define()</code> method is used to
+ * create all other classes.
  *
- * Instances of classes defined with <code>qx.Class.define</code> have the
- * following keys attached to the constructor and the prototype:
+ * Each instance of a class defined by <code>qx.Class.define</code> has
+ * the following keys attached to the constructor and the prototype:
  *
  * <table>
- * <tr><th>classname</th><td>The fully qualified name of the class (e.g. "qx.ui.core.Widget").</td></tr>
- * <tr><th>basename</th><td>The namspace part of the class name (e.g. "qx.ui.core").</td></tr>
- * <tr><th>superclass</th><td>A pointer to the constructor of the super class.</td></tr>
- * <tr><th>constructor</th><td>A pointer to the constructor of the class.</td></tr>
+ * <tr><th><code>classname</code></th><td>The fully-qualified name of the class (e.g. <code>"qx.ui.core.Widget"</code>).</td></tr>
+ * <tr><th><code>basename</code></th><td>The namespace part of the class name (e.g. <code>"qx.ui.core"</code>).</td></tr>
+ * <tr><th><code>constructor</code></th><td>A reference to the constructor of the class.</td></tr>
+ * <tr><th><code>superclass</code></th><td>A reference to the constructor of the super class.</td></tr>
  * </table>
  *
- * Further each method, which overwrites a method of it's super class, has access to the overwritten
- * method by using the <code>base</code> property which is attached to the method's function object.
- * It can be accessed inside method by the <code>arguments.callee</code> variable:
+ * Each method may access static members of the same class by using
+ * <code>this.self(arguments)</code>:
+ * <pre><code>
+ * statics : { FOO : "bar" },
+ * members: {
+ *   baz: function(x) {
+ *     this.self(arguments).FOO;
+ *     ...
+ *   }
+ * }
+ * </code></pre>
  *
+ * Each overriding method may call the overridden method by using
+ * <code>this.base(arguments [, ...])</code>. This is also true for calling
+ * the superclass' constructor.
  * <pre><code>
  * members: {
- *   ...
- *   foo: function() {
- *     var overWrittenMethod = argument.calle.base;
+ *   foo: function(x) {
+ *     this.base(arguments, x);
+ *     ...
  *   }
  * }
  * </code></pre>
@@ -793,9 +804,9 @@ qx.Class.define("qx.Class",
 
       // add config to config list
       clazz.$$properties[name] = config;
-      
+
       // TODO: Remove with qx 0.7 final
-      if (!config.dispose && (config.type == "function" || config.type == "object")) 
+      if (!config.dispose && (config.type == "function" || config.type == "object"))
       {
         console.warn("Please add dispose=true to property '" + config.name + "' defined by class '" + clazz.classname + "'");
         config.dispose = true;
