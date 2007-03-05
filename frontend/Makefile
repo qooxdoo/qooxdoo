@@ -93,7 +93,8 @@ distclean:
 	@$(MAKE) -s release-distclean
 	@$(MAKE) -s framework-distclean
 
-
+skeleton: skeleton-dos skeleton-unix
+quickstart: quickstart-dos quickstart-unix
 
 
 
@@ -159,6 +160,101 @@ checkout-migration:
 	    --migrate-source --migration-target `echo $(FRAMEWORK_VERSION) | cut -d'-' -f1` \
 	    $${migrate_options}; \
 	 fi;
+
+
+
+
+
+
+################################################################################
+# QUICKSTART TARGETS
+################################################################################
+
+QUICKSTART_TEMP_UNIX = temp-quickstart-unix
+QUICKSTART_TEMP_DOS = temp-quickstart-dos
+
+info-quickstart-unix:
+	@echo
+	@echo "****************************************************************************"
+	@echo "  GENERATING UNIX VERSION OF QUICKSTART"
+	@echo "****************************************************************************"
+
+info-quickstart-dos:
+	@echo
+	@echo "****************************************************************************"
+	@echo "  GENERATING DOS VERSION OF QUICKSTART"
+	@echo "****************************************************************************"
+
+quickstart-unix: info-quickstart-unix exec-quickstart-unix exec-quickstart-unix-post exec-quickstart-unix-clean
+quickstart-dos: info-quickstart-dos exec-quickstart-dos exec-quickstart-dos-post exec-quickstart-dos-clean
+
+exec-quickstart-unix: exec-quickstart-unix-collect exec-quickstart-unix-archive
+exec-quickstart-dos: exec-quickstart-dos-collect exec-quickstart-dos-archive
+
+exec-quickstart-unix-collect:
+	@echo "  * Generating quickstart build..."
+	@if [ ! -d application/quickstart/build ]; then $(MAKE) -C application/quickstart build; fi
+
+	@echo "  * Syncing files..."
+	@$(CMD_DIR) $(QUICKSTART_TEMP_UNIX)/quickstart
+	@$(CMD_SYNC_OFFLINE) application/quickstart/build/* $(QUICKSTART_TEMP_UNIX)/quickstart
+
+exec-quickstart-unix-archive:
+	@echo "  * Cleaning up target folders..."
+	@$(CMD_FIND) $(QUICKSTART_TEMP_UNIX) $(FILES_TEMP) -exec $(CMD_REMOVE) {} \;
+
+	@echo "  * Switching to Unix line endings..."
+	@$(CMD_FIND) $(QUICKSTART_TEMP_UNIX) $(FILES_TEXT) $(CMD_ANY2UNIX)
+
+	@echo "  * Fixing executables..."
+	@$(CMD_FIND) $(QUICKSTART_TEMP_UNIX) $(FILES_EXEC) -exec $(CMD_MKEXEC) {} \;
+
+	@echo "  * Building quickstart archive..."
+	@$(CMD_REMOVE) $(QUICKSTART_TEMP_UNIX)/quickstart.tar.gz
+	@cd $(QUICKSTART_TEMP_UNIX); $(CMD_TAR_CREATE) quickstart.tar.gz quickstart
+	@$(CMD_REMOVE) $(QUICKSTART_TEMP_UNIX)/quickstart
+
+exec-quickstart-dos-collect:
+	@echo "  * Generating quickstart build..."
+	@if [ ! -d application/quickstart/build ]; then $(MAKE) -C application/quickstart build; fi
+
+	@echo "  * Syncing files..."
+	@$(CMD_DIR) $(QUICKSTART_TEMP_DOS)/quickstart
+	@$(CMD_SYNC_OFFLINE) application/quickstart/build/* $(QUICKSTART_TEMP_DOS)/quickstart
+
+exec-quickstart-dos-archive:
+	@echo "  * Cleaning up target folders..."
+	@$(CMD_FIND) $(QUICKSTART_TEMP_DOS) $(FILES_TEMP) -exec $(CMD_REMOVE) {} \;
+
+	@echo "  * Switching to DOS line endings..."
+	@$(CMD_FIND) $(QUICKSTART_TEMP_DOS) $(FILES_TEXT) $(CMD_ANY2DOS)
+
+	@echo "  * Fixing executables..."
+	@$(CMD_FIND) $(QUICKSTART_TEMP_DOS) $(FILES_EXEC) -exec $(CMD_MKEXEC) {} \;
+
+	@echo "  * Building quickstart archive..."
+	@$(CMD_REMOVE) $(QUICKSTART_TEMP_DOS)/quickstart.zip
+	@cd $(QUICKSTART_TEMP_DOS); $(CMD_ZIP_CREATE) quickstart.zip quickstart
+	@$(CMD_REMOVE) $(QUICKSTART_TEMP_DOS)/quickstart
+
+exec-quickstart-unix-post:
+	@$(CMD_SYNC_OFFLINE) $(QUICKSTART_TEMP_UNIX)/quickstart.tar.gz application/
+	@echo
+	@echo "  * Created application/quickstart.tar.gz"
+	@echo "    Please extract to a location outside this qooxdoo folder."
+
+exec-quickstart-dos-post:
+	@$(CMD_SYNC_OFFLINE) $(QUICKSTART_TEMP_DOS)/quickstart.zip application/
+	@echo
+	@echo "  * Created application/quickstart.zip"
+	@echo "    Please extract to a location outside this qooxdoo folder."
+
+exec-quickstart-unix-clean:
+	@$(CMD_REMOVE) $(QUICKSTART_TEMP_UNIX)
+
+exec-quickstart-dos-clean:
+	@$(CMD_REMOVE) $(QUICKSTART_TEMP_DOS)
+
 
 
 

@@ -24,7 +24,9 @@
 ################################################################################
 
 QOOXDOO_PATH = ../../..
-APPLICATION_NAMESPACE = custom
+
+# We wanna have a qx.js :)
+APPLICATION_NAMESPACE = qx
 APPLICATION_FILES = index.html button.png Application.js
 APPLICATION_RESOURCE_FILTER = true
 
