@@ -83,6 +83,14 @@ fix: framework-fix
 	@$(MAKE) -s -C application fix
 
 publish:
+	@echo "  * Preparing index.html..."
+	@$(CMD_DIR) temp/
+	@cat application/index.html | \
+		sed 's/class="local"/class="local hide"/g' | \
+		sed 's/ class="publish"//g' > temp/index.html
+	@echo "  * Syncing index.html..."
+	@$(CMD_SYNC_ONLINE) temp/index.html root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/
+	@$(CMD_REMOVE) temp
 	@$(MAKE) -s -C application publish
 
 clean:
@@ -319,8 +327,8 @@ release-build-unix:
 	done
 	@echo "  * Generating index.html..."
 	@cat application/index.html | \
-		sed 's/class="source"/class="source hide"/g' | \
-		sed 's/class="build"//g' > $(RELEASE_BUILD_UNIX)/frontend/index.html
+		sed 's/class="local"/class="local hide"/g' | \
+		sed 's/ class="publish"//g' > $(RELEASE_BUILD_UNIX)/frontend/index.html
 
 	@echo "  * Switching to Unix line endings..."
 	@$(CMD_FIND) $(RELEASE_BUILD_UNIX) $(FILES_TEXT) $(CMD_ANY2UNIX)
@@ -353,8 +361,8 @@ release-build-dos:
 
 	@echo "  * Generating index.html..."
 	@cat application/index.html | \
-		sed 's/class="source"/class="source hide"/g' | \
-		sed 's/class="build"//g' > $(RELEASE_BUILD_DOS)/frontend/index.html
+		sed 's/class="local"/class="local hide"/g' | \
+		sed 's/ class="publish"//g' > $(RELEASE_BUILD_DOS)/frontend/index.html
 
 	@echo "  * Switching to DOS line endings..."
 	@$(CMD_FIND) $(RELEASE_BUILD_DOS) $(FILES_TEXT) $(CMD_ANY2DOS)
