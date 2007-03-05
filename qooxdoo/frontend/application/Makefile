@@ -19,7 +19,7 @@
 #
 ################################################################################
 
-APPLICATIONS = apiviewer feedreader sample showcase webmail quickstart
+APPLICATIONS = apiviewer feedreader sample showcase webmail quickstart unittests
 
 source:
 	@for APPLICATION in $(APPLICATIONS); do $(MAKE) -s -C $$APPLICATION source || exit 1; done
