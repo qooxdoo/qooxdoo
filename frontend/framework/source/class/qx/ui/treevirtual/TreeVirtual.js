@@ -745,17 +745,22 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
             // Get the data model
             var dm = this.getTableModel();
 
-            // Get the focused node
-            var focusedRow = this.getFocusedRow();
+            var focusedCol = this.getFocusedColumn();
             var treeCol = dm.getTreeColumn();
-            var node = dm.getValue(treeCol, focusedRow);
 
-            if (!node.bHideOpenClose)
+            if (focusedCol == treeCol)
             {
-              this.toggleOpened(node);
-            }
+              // Get the focused node
+              var focusedRow = this.getFocusedRow();
+              var node = dm.getValue(treeCol, focusedRow);
 
-            consumed = true;
+              if (! node.bHideOpenClose)
+              {
+                this.toggleOpened(node);
+              }
+
+              consumed = true;
+            }
             break;
 
           case "Left":
