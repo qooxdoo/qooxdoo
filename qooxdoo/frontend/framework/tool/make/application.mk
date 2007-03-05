@@ -165,7 +165,7 @@ endif
 
 #
 # Whether all JavaScript files of only the files needed by the application
-# should be included into the build version of the program. 
+# should be included into the build version of the program.
 #
 ifndef APPLICATION_COMPLETE_BUILD
   APPLICATION_COMPLETE_BUILD = false
@@ -173,7 +173,7 @@ endif
 
 #
 # Whether all JavaScript files of only the files needed by the application
-# should be included into the source version of the program. 
+# should be included into the source version of the program.
 #
 ifndef APPLICATION_COMPLETE_SOURCE
   APPLICATION_COMPLETE_SOURCE = true
@@ -243,7 +243,7 @@ endif
 #
 # If enabled optimized builds for each supported browser (IE, Firefox, WebKit, Opera)
 # and a generic loader script are generated.
-# 
+#
 # This increases the time to build the application but optimizes both code size and runtime
 # of the application
 #
@@ -266,7 +266,7 @@ endif
 # Remove compatibility for qooxdoo 0.6 style class declarations.
 #
 ifndef APPLICATION_OPTIMIZE_REMOVE_COMPATIBILITY
-  APPLICATION_OPTIMIZE_REMOVE_COMPATIBILITY = true
+  APPLICATION_OPTIMIZE_REMOVE_COMPATIBILITY = false
 endif
 
 #
@@ -481,7 +481,7 @@ endif
 # e.g. "--script-output-encoding=ISO-8859-1"
 #
 ifndef APPLICATION_ADDITIONAL_SOURCE_OPTIONS
-  APPLICATION_ADDITIONAL_SCRIPT_OPTIONS =
+  APPLICATION_ADDITIONAL_SOURCE_OPTIONS =
 endif
 
 #
