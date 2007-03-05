@@ -9,9 +9,9 @@
 ************************************************************************ */
 
 /**
- * Your custom application
+ * Your application
  */
-qx.Class.define("custom.Application",
+qx.Class.define("Application",
 {
   extend : qx.component.AbstractApplication,
 
