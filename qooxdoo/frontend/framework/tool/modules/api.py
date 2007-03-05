@@ -202,7 +202,7 @@ def handleClassDefinition(docTree, item, variant):
         elif key == "implement":
             handleInterfaces(valueItem, classNode, docTree)
 
-        elif key == "init":
+        elif key == "construct":
             handleConstructor(valueItem, classNode)
 
         elif key == "statics":
@@ -216,6 +216,8 @@ def handleClassDefinition(docTree, item, variant):
 
         elif key == "events":
             handleEvents(valueItem, classNode)
+            
+    handleSingleton(classNode, docTree)
 
 
 def handleClassExtend(valueItem, classNode, docTree, className):
@@ -288,7 +290,30 @@ def handleMixins(item, classNode, docTree, className):
         classNode.set("mixins", ",".join(mixins))
     
         
+def handleSingleton(classNode, docTree):
+    if classNode.get("isSingleton", False) == True:
+        className = classNode.get("fullName")
+        functionCode = """/**
+ * Returns a singleton instance of this class. On the first call the class
+ * is instantiated by calling the constructor with no arguments. All following
+ * calls will return this instance.
+ *
+ * This method has been added by setting the "type" key in the class definition
+ * ({@link qx.Class#define}) to "singleton".
+ *
+ * @type static
+ * @return {%s} The singleton instance of this class.
+ */
+function() {}""" % className
+     
+        node = compileString(functionCode)
+        commentAttributes = comment.parseNode(node)
+        docNode = handleFunction(node, commentAttributes, classNode)
 
+        docNode.set("name", "getInstance")
+        docNode.set("isStatic", True)
+        classNode.addListChild("methods-static", docNode)
+    
 
 def handleInterfaces(item, classNode, docTree):
     className = classNode.get("fullName")
@@ -305,9 +330,35 @@ def handleInterfaces(item, classNode, docTree):
     classNode.set("interfaces", ",".join(interfaces))
 
 
-def handleConstructor(item, classNode):
-    #print "  - Found Constructor"
-    pass
+def handleConstructor(ctorItem, classNode):
+    if ctorItem and ctorItem.type == "function":
+        commentAttributes = comment.parseNode(ctorItem.parent.parent)
+        ctor = handleFunction(ctorItem, commentAttributes, classNode)
+        ctor.set("isCtor", True)
+        classNode.addListChild("constructor", ctor)
+
+        # Check for methods defined in the constructor
+        # (for method definition style that supports real private methods)
+        ctorBlock = ctorItem.getChild("body").getChild("block")
+
+        if ctorBlock.hasChildren():
+            for item in ctorBlock.children:
+                if item.type == "assignment":
+                    leftItem = item.getFirstListChild("left")
+                    rightItem = item.getFirstListChild("right")
+
+                    # It's a method definition
+                    if (
+                        leftItem.type == "variable" and
+                        len(leftItem.children) == 2 and
+                        (
+                             leftItem.children[0].get("name") == "this" or
+                             leftItem.children[0].get("name") == "self"
+                        ) and
+                        rightItem.type == "function"
+                    ):
+                        handleMethodDefinitionOld(item, False, classNode)
+
 
 
 def handleStatics(item, classNode):
@@ -317,7 +368,12 @@ def handleStatics(item, classNode):
             value = keyvalue.getFirstChild(True, True).getFirstChild(True, True)
             commentAttributes = comment.parseNode(keyvalue)
 
-            # print "  - Found Static: %s = %s" % (key, value.type)
+            # handle @signature
+            if value.type != "function":
+                for docItem in commentAttributes:
+                    if docItem["category"] == "signature":                        
+                        value = compileString(docItem["text"][3:-4] + "{}")
+                #if value.type == "call": print "\n" + classNode.get("fullName") + " " + key + "\n"
 
             # Function
             if value.type == "function":
@@ -328,21 +384,10 @@ def handleStatics(item, classNode):
                     node.set("isMixin", True)
 
                 classNode.addListChild("methods-static", node)
-
+                
             # Constant
             elif key.isupper():
                 handleConstantDefinition(keyvalue, classNode)
-
-
-def handleProperties(item, classNode):
-    if item.hasChildren():
-        for keyvalue in item.children:
-            key = keyvalue.get("key")
-            value = keyvalue.getFirstChild(True, True).getFirstChild(True, True)
-            # print "  - Found Property: %s" % key
-
-            # TODO: New handling for new properties needed
-            handlePropertyDefinitionOldCommon(keyvalue, classNode, key, value)
 
 
 def handleMembers(item, classNode):
@@ -355,6 +400,13 @@ def handleMembers(item, classNode):
             value = keyvalue.getFirstChild(True, True).getFirstChild(True, True)
             commentAttributes = comment.parseNode(keyvalue)
 
+            # handle @signature
+            if value.type != "function":
+                for docItem in commentAttributes:
+                    if docItem["category"] == "signature":                        
+                        value = compileString(docItem["text"][3:-4] + "{}")
+                #if value.type == "call": print "\n" + classNode.get("fullName") + " " + key + "\n"
+
             if value.type == "function":
                 node = handleFunction(value, commentAttributes, classNode)
                 node.set("name", key)
@@ -362,6 +414,17 @@ def handleMembers(item, classNode):
                     node.set("isMixin", True)
 
                 classNode.addListChild("methods", node)
+                
+
+def handleProperties(item, classNode):
+    if item.hasChildren():
+        for keyvalue in item.children:
+            key = keyvalue.get("key")
+            value = keyvalue.getFirstChild(True, True).getFirstChild(True, True)
+            # print "  - Found Property: %s" % key
+
+            # TODO: New handling for new properties needed
+            handlePropertyDefinitionOldCommon(keyvalue, classNode, key, value)                
 
 
 def handleEvents(item, classNode):
