@@ -383,7 +383,7 @@ release-distclean:
 
 
 
-release: release-sdk release-build
+release: release-sdk release-build release-quickstart
 release-fast: release-build-fast release-sdk-fast
 
 
@@ -551,6 +551,48 @@ release-sdk-dos:
 
 	@echo "  * Generating zip archive..."
 	@cd release/temp/sdk/dos; $(CMD_REMOVE) qooxdoo-$(FRAMEWORK_VERSION)-sdk.zip; $(CMD_ZIP_CREATE) ../../../qooxdoo-$(FRAMEWORK_VERSION)-sdk.zip qooxdoo-$(FRAMEWORK_VERSION)-sdk
+
+
+
+
+
+
+release-quickstart: release-quickstart-info release-quickstart-unix release-quickstart-dos
+
+release-quickstart-info:
+	@echo
+	@echo "****************************************************************************"
+	@echo "  GENERATING QUICKSTART VERSION OF RELEASE $(FRAMEWORK_VERSION)"
+	@echo "****************************************************************************"
+
+release-quickstart-unix:
+	@echo
+	@echo "  SYNCHRONISATION OF QUICKSTART RELEASE (UNIX VERSION)"
+	@echo "----------------------------------------------------------------------------"
+
+	@$(CMD_DIR) release
+	@$(MAKE) -s exec-quickstart-unix
+	@$(CMD_SYNC_OFFLINE) $(QUICKSTART_TEMP_UNIX)/quickstart.tar.gz release/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.tar.gz
+	@$(MAKE) -s exec-quickstart-unix-clean
+
+release-quickstart-dos:
+	@echo
+	@echo "  SYNCHRONISATION OF QUICKSTART RELEASE (UNIX VERSION)"
+	@echo "----------------------------------------------------------------------------"
+
+	@$(CMD_DIR) release
+	@$(MAKE) -s exec-quickstart-dos
+	@$(CMD_SYNC_OFFLINE) $(QUICKSTART_TEMP_DOS)/quickstart.zip release/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip
+	@$(MAKE) -s exec-quickstart-dos-clean
+
+
+
+
+
+
+################################################################################
+# READY TARGET
+################################################################################
 
 ready:
 	@REQUIREMENTS="python make rsync gettext xgettext msginit msgmerge bash tar gzip zip unzip"; \

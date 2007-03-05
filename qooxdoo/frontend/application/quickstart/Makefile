@@ -32,15 +32,13 @@ APPLICATION_API_TITLE = Quickstart
 APPLICATION_FILES = index.html button.png Application.js
 APPLICATION_RESOURCE_FILTER = true
 
-APPLICATION_ADDITIONAL_SOURCE_OPTIONS = --exclude-without-dependencies custom.*,qx.theme.icon.VistaInspirate,qx.theme.icon.NuoveXT,qx.theme.icon.CrystalClear
-APPLICATION_ADDITIONAL_BUILD_OPTIONS = --exclude-without-dependencies custom.*,qx.theme.icon.VistaInspirate,qx.theme.icon.NuoveXT,qx.theme.icon.CrystalClear
+APPLICATION_SOURCE_FLAGS = --exclude-without-dependencies custom.*,qx.theme.icon.VistaInspirate,qx.theme.icon.NuoveXT,qx.theme.icon.CrystalClear
+APPLICATION_BUILD_FLAGS = --exclude-without-dependencies custom.*,qx.theme.icon.VistaInspirate,qx.theme.icon.NuoveXT,qx.theme.icon.CrystalClear
 
 APPLICATION_COMPLETE_SOURCE = true
 APPLICATION_COMPLETE_BUILD = true
 
 APPLICATION_OPTIMIZE_VARIABLES = false
-APPLICATION_OPTIMIZE_REMOVE_DEBUG = false
-APPLICATION_OPTIMIZE_REMOVE_COMPATIBILITY = false
 
 
 
