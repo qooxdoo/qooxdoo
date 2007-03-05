@@ -25,13 +25,6 @@
 #module(ui_core)
 #module(theme_appearance)
 #require(qx.manager.object.AppearanceManager)
-#optional(qx.renderer.color.Color)
-#optional(qx.renderer.color.ColorObject)
-#optional(qx.renderer.border.Border)
-#optional(qx.renderer.border.BorderObject)
-#optional(qx.renderer.font.Font)
-#optional(qx.renderer.font.FontObject)
-#optional(qx.renderer.border.BorderPresets)
 #embed(qx.static/image/dotted_white.gif)
 #embed(qx.static/image/blank.gif)
 
