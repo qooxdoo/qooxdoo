@@ -487,7 +487,7 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
               columnData._computedWidthFlexValue =
               (qx.ui.table.DefaultResizeBehavior.MIN_WIDTH *
                flexibleColumns[i]._computedWidthParsed);
-            
+
             columnData._computedWidthFlexValue =
               Math.round(computedFlexibleWidth);
             widthUsed += columnData._computedWidthFlexValue;

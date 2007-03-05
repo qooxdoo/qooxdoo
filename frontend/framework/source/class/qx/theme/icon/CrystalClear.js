@@ -52,11 +52,11 @@ qx.Class.define("qx.theme.icon.CrystalClear",
 
     this.uri = qx.core.Setting.get("qx.resourceUri") + "/icon/CrystalClear";
   },
-  
+
   defer : function(clazz)
   {
-    qx.manager.object.ImageManager.getInstance().registerIconTheme(clazz);    
+    qx.manager.object.ImageManager.getInstance().registerIconTheme(clazz);
   }
-    
+
 });
 

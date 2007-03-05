@@ -95,10 +95,10 @@ qx.Class.define("qx.theme.color.WindowsLunaGreen",
     },
     qx.renderer.theme.ColorTheme.prototype._colors)
   },
-  
+
   defer : function(clazz)
   {
-    qx.manager.object.ColorManager.getInstance().registerColorTheme(clazz);    
+    qx.manager.object.ColorManager.getInstance().registerColorTheme(clazz);
   }
-  
+
 });

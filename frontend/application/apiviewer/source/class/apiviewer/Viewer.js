@@ -498,38 +498,38 @@ qx.Class.define("apiviewer.Viewer",
         this.error("Unknown class: " + className);
       }
     },
-    
-    
+
+
     /**
      * Selects a tree node and makes sure it is visible.
-     * 
+     *
      * @param treeNode {qx.ui.tree.AbstractTreeElement} The tree node to select
      */
-	  updateTreeSelection : function(treeNode)
-	  {
-		  var treeFolder = treeNode;
-		  var parentFolders = [];
-	
-		  // Find all parent folders
-		  while (treeFolder)    
-	    {
-			  treeFolder = treeFolder.getParentFolder();
-		    parentFolders.push(treeFolder);        
-		  };
-	
-		  // Now open all folders, starting at the top
-		  parentFolders.pop();                       
-		  while (parentFolders.length)
-		  {
-		  	 // get last one, and open it.
-		    parentFolders.pop().open();             
-		  }
-		  
-		  // select the node and scrool it into view
-	  	treeNode.setSelected(true);
-		  treeNode.scrollIntoView();
-	  }
-      
+    updateTreeSelection : function(treeNode)
+    {
+      var treeFolder = treeNode;
+      var parentFolders = [];
+
+      // Find all parent folders
+      while (treeFolder)
+      {
+        treeFolder = treeFolder.getParentFolder();
+        parentFolders.push(treeFolder);
+      };
+
+      // Now open all folders, starting at the top
+      parentFolders.pop();
+      while (parentFolders.length)
+      {
+         // get last one, and open it.
+        parentFolders.pop().open();
+      }
+
+      // select the node and scrool it into view
+      treeNode.setSelected(true);
+      treeNode.scrollIntoView();
+    }
+
   },
 
 

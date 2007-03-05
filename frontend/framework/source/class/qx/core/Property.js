@@ -43,7 +43,7 @@ qx.Class.define("qx.core.Property",
      *
      * In the default mode it generates a setter/getter pair for a named property.
      *
-     * In the group mode it generates a single setter for multiple setters e.g. 
+     * In the group mode it generates a single setter for multiple setters e.g.
      * margin for marginLeft, -Right, -Top and -Bottom.
      *
      * @type static
@@ -54,29 +54,29 @@ qx.Class.define("qx.core.Property",
     addProperty : function(config, proto)
     {
       var upName = qx.lang.String.toFirstUp(config.name);
-      
-      if (config.group) 
+
+      if (config.group)
       {
         var code = new qx.util.StringBuilder;
-      
+
         code.add("var a=arguments;")
-      
+
         if (config.mode == "shorthand") {
           code.add("a=qx.lang.Array.fromShortHand(qx.lang.Array.fromArguments(a));")
         }
-      
+
         for (var i=0, a=config.group, l=a.length; i<l; i++) {
-          code.add("this.set", qx.lang.String.toFirstUp(a[i]), "(a[", i, "]);");        
+          code.add("this.set", qx.lang.String.toFirstUp(a[i]), "(a[", i, "]);");
         }
-      
+
         proto["set" + upName] = new Function(code.toString());
       }
       else
       {
-        throw new Error("New properties are not yet implemented!")        
+        throw new Error("New properties are not yet implemented!")
       }
     },
-    
+
     validation :
     {
       "defined" : 'newValue != undefined',

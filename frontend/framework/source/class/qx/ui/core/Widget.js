@@ -7198,7 +7198,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Scroll the widget into the view.
-     * 
+     *
      * This function works on DOM level and needs the widget to be already rendered.
      * This is true for example in the "appear" event handler of a widget.
      *
@@ -7214,10 +7214,10 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Scroll the widget horizontally into the view.
-     * 
+     *
      * This function works on DOM level and needs the widget to be already rendered.
      * This is true for example in the "appear" event handler of a widget.
-     * 
+     *
      * @type member
      * @param vAlignLeft {Boolean} whether the element should be left aligned
      * @return {Boolean} Whether the element could be scrolled into the view
@@ -7235,7 +7235,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Scroll the widget vertically into the view.
-     * 
+     *
      * This function works on DOM level and needs the widget to be already rendered.
      * This is true for example in the "appear" event handler of a widget.
 

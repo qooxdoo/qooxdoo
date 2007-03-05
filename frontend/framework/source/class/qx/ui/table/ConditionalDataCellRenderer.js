@@ -78,12 +78,12 @@ qx.Class.define("qx.ui.table.ConditionalDataCellRenderer",
     /**
      * The addNumericCondition method is used to add a basic numeric condition to
      * the cell renderer.
-     * 
+     *
      * Note: Passing null is different from passing an empty string in the align,
      * color, style and weight arguments. Null will allow pre-existing formatting
      * to pass through, where an empty string will clear it back to the default
      * formatting set in the constructor.
-     *  
+     *
      *
      * @type member
      * @param condition {String} The type of condition. Accepted strings are "==", "!=", ">", "<", ">=",
@@ -95,7 +95,7 @@ qx.Class.define("qx.ui.table.ConditionalDataCellRenderer",
      * @param weight {String} The weight to format the cell with if the condition matches.
      * @param target {String} The text value of the column to compare against. If this is null,
      *     comparisons will be against the contents of this cell.
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     addNumericCondition : function(condition, value1, align, color, style, weight, target)
@@ -120,12 +120,12 @@ qx.Class.define("qx.ui.table.ConditionalDataCellRenderer",
     /**
      * The addBetweenCondition method is used to add a between condition to the
      * cell renderer.
-     * 
+     *
      * Note: Passing null is different from passing an empty string in the align,
      * color, style and weight arguments. Null will allow pre-existing formatting
      * to pass through, where an empty string will clear it back to the default
      * formatting set in the constructor.
-     *  
+     *
      *
      * @type member
      * @param condition {String} The type of condition. Accepted strings are "between" and "!between".
@@ -137,7 +137,7 @@ qx.Class.define("qx.ui.table.ConditionalDataCellRenderer",
      * @param weight {String} The weight to format the cell with if the condition matches.
      * @param target {String} The text value of the column to compare against. If this is null,
      *     comparisons will be against the contents of this cell.
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     addBetweenCondition : function(condition, value1, value2, align, color, style, weight, target)
@@ -160,12 +160,12 @@ qx.Class.define("qx.ui.table.ConditionalDataCellRenderer",
     /**
      * The addRegex method is used to add a regular expression condition to the
      * cell renderer.
-     * 
+     *
      * Note: Passing null is different from passing an empty string in the align,
      * color, style and weight arguments. Null will allow pre-existing formatting
      * to pass through, where an empty string will clear it back to the default
      * formatting set in the constructor.
-     *  
+     *
      *
      * @type member
      * @param regex {String} The regular expression to match against.
@@ -175,7 +175,7 @@ qx.Class.define("qx.ui.table.ConditionalDataCellRenderer",
      * @param weight {String} The weight to format the cell with if the condition matches.
      * @param target {String} The text value of the column to compare against. If this is null,
      *     comparisons will be against the contents of this cell.
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     addRegex : function(regex, align, color, style, weight, target)
@@ -202,7 +202,7 @@ qx.Class.define("qx.ui.table.ConditionalDataCellRenderer",
      * @type member
      * @param cellInfo {var} TODOC
      * @param cellElement {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     updateDataCellElement : function(cellInfo, cellElement)
     {

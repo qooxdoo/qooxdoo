@@ -53,10 +53,10 @@ qx.Class.define("qx.theme.icon.VistaInspirate",
 
     this.uri = qx.core.Setting.get("qx.resourceUri") + "/icon/VistaInspirate";
   },
-  
+
   defer : function(clazz)
   {
-    qx.manager.object.ImageManager.getInstance().registerIconTheme(clazz);    
+    qx.manager.object.ImageManager.getInstance().registerIconTheme(clazz);
   }
-    
+
 });
