@@ -83,6 +83,14 @@ fix: framework-fix
 	@$(MAKE) -s -C application fix
 
 publish:
+	@echo "  * Preparing index.html..."
+	@$(CMD_DIR) temp/
+	@cat application/index.html | \
+		sed 's/class="local"/class="local hide"/g' | \
+		sed 's/ class="publish"//g' > temp/index.html
+	@echo "  * Syncing index.html..."
+	@$(CMD_SYNC_ONLINE) temp/index.html root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/
+	@$(CMD_REMOVE) temp
 	@$(MAKE) -s -C application publish
 
 clean:
@@ -193,7 +201,7 @@ exec-quickstart-dos: exec-quickstart-dos-collect exec-quickstart-dos-archive
 
 exec-quickstart-unix-collect:
 	@echo "  * Generating quickstart build..."
-	@if [ ! -d application/quickstart/build ]; then $(MAKE) -C application/quickstart build; fi
+	@if [ ! -d application/quickstart/build ]; then $(MAKE) -s -C application/quickstart build; fi
 
 	@echo "  * Syncing files..."
 	@$(CMD_DIR) $(QUICKSTART_TEMP_UNIX)/quickstart
@@ -216,7 +224,7 @@ exec-quickstart-unix-archive:
 
 exec-quickstart-dos-collect:
 	@echo "  * Generating quickstart build..."
-	@if [ ! -d application/quickstart/build ]; then $(MAKE) -C application/quickstart build; fi
+	@if [ ! -d application/quickstart/build ]; then $(MAKE) -s -C application/quickstart build; fi
 
 	@echo "  * Syncing files..."
 	@$(CMD_DIR) $(QUICKSTART_TEMP_DOS)/quickstart
@@ -415,8 +423,8 @@ release-build-unix:
 	done
 	@echo "  * Generating index.html..."
 	@cat application/index.html | \
-		sed 's/class="source"/class="source hide"/g' | \
-		sed 's/class="build"//g' > $(RELEASE_BUILD_UNIX)/frontend/index.html
+		sed 's/class="local"/class="local hide"/g' | \
+		sed 's/ class="publish"//g' > $(RELEASE_BUILD_UNIX)/frontend/index.html
 
 	@echo "  * Switching to Unix line endings..."
 	@$(CMD_FIND) $(RELEASE_BUILD_UNIX) $(FILES_TEXT) $(CMD_ANY2UNIX)
@@ -449,8 +457,8 @@ release-build-dos:
 
 	@echo "  * Generating index.html..."
 	@cat application/index.html | \
-		sed 's/class="source"/class="source hide"/g' | \
-		sed 's/class="build"//g' > $(RELEASE_BUILD_DOS)/frontend/index.html
+		sed 's/class="local"/class="local hide"/g' | \
+		sed 's/ class="publish"//g' > $(RELEASE_BUILD_DOS)/frontend/index.html
 
 	@echo "  * Switching to DOS line endings..."
 	@$(CMD_FIND) $(RELEASE_BUILD_DOS) $(FILES_TEXT) $(CMD_ANY2DOS)
