@@ -83,6 +83,21 @@ qx.Class.define("apiviewer.Application",
 
       // Include CSS file
       qx.html.StyleSheet.includeFile(qx.manager.object.AliasManager.getInstance().resolvePath("api/css/apiviewer.css"));
+      
+      // tweak default appearance
+      var theme =  qx.manager.object.AppearanceManager.getInstance().getAppearanceTheme();
+      theme.registerAppearance("bar-view-page", {
+        initial : function(vTheme)
+        {
+          return {
+            left   : 0,
+            right  : 0,
+            top    : 0,
+            bottom : 0
+          };
+        }
+      });
+      
     },
 
 

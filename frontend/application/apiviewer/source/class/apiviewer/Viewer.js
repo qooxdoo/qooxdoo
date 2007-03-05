@@ -60,20 +60,43 @@ qx.Class.define("apiviewer.Viewer",
     header.setHeight(70);
     this.addTop(header);
 
+    this._buttonView = new qx.ui.pageview.buttonview.ButtonView();
+    this._buttonView.set({
+      width           : "100%",
+      height          : "100%"
+    });
+    var bsb1 = new qx.ui.pageview.buttonview.Button("Packages", apiviewer.TreeUtil.ICON_PACKAGE);
+    bsb1.setShow("icon");
+    var bsb2 = new qx.ui.pageview.buttonview.Button("Legend", apiviewer.TreeUtil.ICON_INFO);
+    bsb2.setShow("icon");
+
+    bsb1.setChecked(true);
+
+    this._buttonView.getBar().add(bsb1, bsb2);
+    
+    var p1 = new qx.ui.pageview.buttonview.Page(bsb1);
+    var p2 = new qx.ui.pageview.buttonview.Page(bsb2);
+    p1.setMargin(0);
+    p1.setPadding(0);
+    this._buttonView.getPane().add(p1, p2);
+
+      
     this._tree = new qx.ui.tree.Tree("API Documentation");
 
-    this._tree.set(
-    {
+    this._tree.set({
       backgroundColor : "white",
       overflow        : "scroll",
       width           : "100%",
       height          : "100%",
-      border          : qx.renderer.border.BorderPresets.getInstance().inset,
+      //border          : qx.renderer.border.BorderPresets.getInstance().inset,
       paddingLeft     : 5,
       paddingTop      : 3
     });
 
     this._tree.getManager().addEventListener("changeSelection", this._onTreeSelectionChange, this);
+
+    p1.add(this._tree);
+    p2.add(new apiviewer.InfoView());
 
     this._detailFrame = new qx.ui.layout.CanvasLayout;
 
@@ -90,7 +113,8 @@ qx.Class.define("apiviewer.Viewer",
     // create vertival splitter
     var mainSplitPane = new qx.ui.splitpane.HorizontalSplitPane(250, "1*");
     mainSplitPane.setLiveResize(true);
-    mainSplitPane.addLeft(this._tree);
+    //mainSplitPane.addLeft(this._tree);
+    mainSplitPane.addLeft(this._buttonView);
     mainSplitPane.addRight(this._detailFrame);
     this.add(mainSplitPane);
 
@@ -103,8 +127,8 @@ qx.Class.define("apiviewer.Viewer",
     this._classViewer = new apiviewer.ClassViewer;
     this._detailFrame.add(this._classViewer);
 
-    this._infoViewer = new apiviewer.InfoViewer;
-    this._detailFrame.add(this._infoViewer);
+    this._packageViewer = new apiviewer.PackageViewer;
+    this._detailFrame.add(this._packageViewer);
 
     this._currentTreeType = apiviewer.Viewer.PACKAGE_TREE;
 
@@ -426,15 +450,15 @@ qx.Class.define("apiviewer.Viewer",
 
       if (vDoc.type == "class")
       {
-        this._infoViewer.setVisibility(false);
+        this._packageViewer.setVisibility(false);
         this._classViewer.showClass(vDoc);
         this._classViewer.setVisibility(true);
       }
       else
       {
         this._classViewer.setVisibility(false);
-        this._infoViewer.showInfo(vDoc);
-        this._infoViewer.setVisibility(true);
+        this._packageViewer.showInfo(vDoc);
+        this._packageViewer.setVisibility(true);
       }
     },
 
@@ -485,7 +509,7 @@ qx.Class.define("apiviewer.Viewer",
       var treeNode = this._classTreeNodeHash[this._currentTreeType][className];
 
       if (treeNode) {
-        this.updateTreeSelection(treeNode);
+        treeNode.setSelected(true);
       }
       else if (this.getDocTree() == null)
       {
@@ -497,37 +521,6 @@ qx.Class.define("apiviewer.Viewer",
       {
         this.error("Unknown class: " + className);
       }
-    },
-
-
-    /**
-     * Selects a tree node and makes sure it is visible.
-     *
-     * @param treeNode {qx.ui.tree.AbstractTreeElement} The tree node to select
-     */
-    updateTreeSelection : function(treeNode)
-    {
-      var treeFolder = treeNode;
-      var parentFolders = [];
-
-      // Find all parent folders
-      while (treeFolder)
-      {
-        treeFolder = treeFolder.getParentFolder();
-        parentFolders.push(treeFolder);
-      };
-
-      // Now open all folders, starting at the top
-      parentFolders.pop();
-      while (parentFolders.length)
-      {
-         // get last one, and open it.
-        parentFolders.pop().open();
-      }
-
-      // select the node and scrool it into view
-      treeNode.setSelected(true);
-      treeNode.scrollIntoView();
     }
 
   },
@@ -558,7 +551,7 @@ qx.Class.define("apiviewer.Viewer",
 
   destruct : function()
   {
-    this._disposeObjects("_tree", "_detailFrame", "_detailLoader", "_classViewer", "_infoViewer");
+    this._disposeObjects("_tree", "_detailFrame", "_detailLoader", "_classViewer", "_packageViewer");
     this._disposeFields("_classTreeNodeHash");
   }
 });
