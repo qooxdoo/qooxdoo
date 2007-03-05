@@ -620,7 +620,7 @@ release-quickstart-unix:
 
 	@$(CMD_DIR) release
 	@$(MAKE) -s exec-quickstart-unix
-	@$(CMD_SYNC_OFFLINE) $(QUICKSTART_TEMP_UNIX)/quickstart.tar.gz release/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.tar.gz
+	@$(CMD_SYNC_OFFLINE) $(QUICKSTART_TEMP_UNIX)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.tar.gz release/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.tar.gz
 	@$(MAKE) -s exec-quickstart-unix-clean
 
 release-quickstart-dos:
@@ -630,7 +630,7 @@ release-quickstart-dos:
 
 	@$(CMD_DIR) release
 	@$(MAKE) -s exec-quickstart-dos
-	@$(CMD_SYNC_OFFLINE) $(QUICKSTART_TEMP_DOS)/quickstart.zip release/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip
+	@$(CMD_SYNC_OFFLINE) $(QUICKSTART_TEMP_DOS)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip release/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip
 	@$(MAKE) -s exec-quickstart-dos-clean
 
 
