@@ -57,7 +57,7 @@ qx.Proto.handleMoveKeyDown = function(index, evt)
 
   case qx.event.type.DomEvent.SHIFT_MASK:
     var anchor = selectionModel.getAnchorSelectionIndex();
-    
+
     if (anchor == -1)
     {
       selectionModel.setSelectionInterval(index, index);

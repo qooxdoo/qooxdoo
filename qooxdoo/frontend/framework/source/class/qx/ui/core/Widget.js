@@ -646,7 +646,7 @@ if (qx.Settings.getValueOfClass("qx.ui.core.Widget", "enableQueueDebug"))
     if (qx.ui.core.Widget._autoFlushTimeout != null) {
       qx.ui.core.Widget._removeAutoFlush();
     }
-    
+
     if (qx.ui.core.Widget._inFlushGlobalQueues || !qx.core.Init.getInstance().getComponent().isUiReady()) {
       return;
     }
@@ -721,7 +721,7 @@ else
     if (qx.ui.core.Widget._autoFlushTimeout != null) {
       qx.ui.core.Widget._removeAutoFlush();
     }
-    
+
     if (qx.ui.core.Widget._inFlushGlobalQueues || !qx.core.Init.getInstance().getComponent().isUiReady()) {
       return;
     }
@@ -2240,7 +2240,7 @@ qx.ui.core.Widget.initApplyMethods = function(proto)
     "left", "right", "top", "bottom", "width", "height",
     "minWidth", "maxWidth", "minHeight", "maxHeight"
   ];
-  
+
   var propertiesUpper = [
     "Left", "Right", "Top", "Bottom", "Width", "Height",
     "MinWidth", "MaxWidth", "MinHeight", "MaxHeight"
@@ -2271,7 +2271,7 @@ qx.ui.core.Widget.initApplyMethods = function(proto)
     // need to use setStyleProperty to keep compatibility with enhanced cross browser borders
     for (var i=0; i<4; i++)
     {
-      proto[applyPadding+propertiesUpper[i]] = new Function(parameter, 
+      proto[applyPadding+propertiesUpper[i]] = new Function(parameter,
         "this.setStyleProperty('padding" + propertiesUpper[i] + "', ((v==null)?0:v)+'px')"
       );
       proto[resetPadding+propertiesUpper[i]] = new Function(
