@@ -25,100 +25,6 @@
 
 /**
  * Create a new possible transition from one state to another.
- *
- * @param transitionName {String}
- *   The name of this transition, used in debug messages.
- *
- * @param transitionInfo {Object}
- *   An object optionally containing any of the following properties:
- *
- *     predicate -
- *       A function which is called to determine whether this transition is
- *       acceptable.  An acceptable transition will cause the transition's
- *       "ontransition" function to be run, the current state's "onexit"
- *       function to be run, and the new state's "onentry" function to be run.
- *
- *       The predicate function's signature is function(fsm, event) and it is
- *       saved in the predicate property of the transition object.  In the
- *       predicate function:
- *
- *         fsm -
- *           The finite state machine object to which this state is attached.
- *
- *         event -
- *           The event that caused a run of the finite state machine
- *
- *       The predicate function should return one of the following three
- *       values:
- *
- *         - true means the transition is acceptable
- *
- *         - false means the transition is not acceptable, and the next
- *           transition (if one exists) should be tried to determine if it is
- *           acceptable
- *
- *         - null means that the transition determined that no further
- *           transitions should be tried.  This might be used when the
- *           transition ascertained that the event is for a target that is not
- *           available in the current state, and the event has called
- *           fsm.queueEvent() to have the event delivered upon state
- *           transition.
- *
- *       It is possible to create a default predicate -- one that will cause a
- *       transition to be acceptable always -- by either not providing a
- *       predicate property, or by explicitely either setting the predicate
- *       property to 'true' or setting it to a function that unconditionally
- *       returns 'true'.  This default transition should, of course, always be
- *       the last transition added to a state, since no transition added after
- *       it will ever be tried.
- *
- *     nextState -
- *       The state to which we transition, if the predicate returns true
- *       (meaning the transition is acceptable).  The value of nextState may
- *       be:
- *
- *         - a string, the state name of the state to transition to
- *
- *         - One of the constants:
- *           - qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE:
- *               Remain in whatever is the current state
- *           - qx.util.fsm.FiniteStateMachine.StateChange.POP_STATE_STACK:
- *               Transition to the state at the top of the saved-state stack,
- *               and remove the top element from the saved-state stack.
- *               Elements are added to the saved-state stack using
- *               fsm.pushState().  It is an error if no state exists on the
- *               saved-state stack.
- *           - qx.util.fsm.FiniteStateMachine.StateChange.TERMINATE:
- *               TBD
- *
- *     autoActionsBeforeOntransition -
- *     autoActionsAfterOntransition -
- *       Automatic actions which take place at the time specified by the
- *       property name.  In all cases, the action takes place immediately
- *       before or after the specified function.
- *
- *       The property value for each of these properties is an object which
- *       describes some number of functions to invoke on a set of specified
- *       objects (typically widgets).
- *
- *       See {@link qx.util.fsm.State} for an example of autoActions.
- *
- *     ontransition -
- *       A function which is called if the predicate function for this
- *       transition returns true.  Its signature is function(fsm, event) and
- *       it is saved in the ontransition property of the transition object.
- *       In the ontransition function:
- *
- *         fsm -
- *           The finite state machine object to which this state is attached.
- *
- *         event -
- *           The event that caused a run of the finite state machine
- *
- *     Additional properties may be provided in transInfo.  They will not be
- *     used by the finite state machine, but will be available via
- *     this.getUserData("<propertyName>") during the transition's predicate
- *     and ontransition functions.
  */
 qx.Class.define("qx.util.fsm.Transition",
 {
@@ -133,6 +39,101 @@ qx.Class.define("qx.util.fsm.Transition",
   *****************************************************************************
   */
 
+	/**
+	 * @param transitionName {String}
+	 *   The name of this transition, used in debug messages.
+	 *
+	 * @param transitionInfo {Object}
+	 *   An object optionally containing any of the following properties:
+	 *
+	 *     predicate -
+	 *       A function which is called to determine whether this transition is
+	 *       acceptable.  An acceptable transition will cause the transition's
+	 *       "ontransition" function to be run, the current state's "onexit"
+	 *       function to be run, and the new state's "onentry" function to be run.
+	 *
+	 *       The predicate function's signature is function(fsm, event) and it is
+	 *       saved in the predicate property of the transition object.  In the
+	 *       predicate function:
+	 *
+	 *         fsm -
+	 *           The finite state machine object to which this state is attached.
+	 *
+	 *         event -
+	 *           The event that caused a run of the finite state machine
+	 *
+	 *       The predicate function should return one of the following three
+	 *       values:
+	 *
+	 *         - true means the transition is acceptable
+	 *
+	 *         - false means the transition is not acceptable, and the next
+	 *           transition (if one exists) should be tried to determine if it is
+	 *           acceptable
+	 *
+	 *         - null means that the transition determined that no further
+	 *           transitions should be tried.  This might be used when the
+	 *           transition ascertained that the event is for a target that is not
+	 *           available in the current state, and the event has called
+	 *           fsm.queueEvent() to have the event delivered upon state
+	 *           transition.
+	 *
+	 *       It is possible to create a default predicate -- one that will cause a
+	 *       transition to be acceptable always -- by either not providing a
+	 *       predicate property, or by explicitely either setting the predicate
+	 *       property to 'true' or setting it to a function that unconditionally
+	 *       returns 'true'.  This default transition should, of course, always be
+	 *       the last transition added to a state, since no transition added after
+	 *       it will ever be tried.
+	 *
+	 *     nextState -
+	 *       The state to which we transition, if the predicate returns true
+	 *       (meaning the transition is acceptable).  The value of nextState may
+	 *       be:
+	 *
+	 *         - a string, the state name of the state to transition to
+	 *
+	 *         - One of the constants:
+	 *           - qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE:
+	 *               Remain in whatever is the current state
+	 *           - qx.util.fsm.FiniteStateMachine.StateChange.POP_STATE_STACK:
+	 *               Transition to the state at the top of the saved-state stack,
+	 *               and remove the top element from the saved-state stack.
+	 *               Elements are added to the saved-state stack using
+	 *               fsm.pushState().  It is an error if no state exists on the
+	 *               saved-state stack.
+	 *           - qx.util.fsm.FiniteStateMachine.StateChange.TERMINATE:
+	 *               TBD
+	 *
+	 *     autoActionsBeforeOntransition -
+	 *     autoActionsAfterOntransition -
+	 *       Automatic actions which take place at the time specified by the
+	 *       property name.  In all cases, the action takes place immediately
+	 *       before or after the specified function.
+	 *
+	 *       The property value for each of these properties is an object which
+	 *       describes some number of functions to invoke on a set of specified
+	 *       objects (typically widgets).
+	 *
+	 *       See {@link qx.util.fsm.State} for an example of autoActions.
+	 *
+	 *     ontransition -
+	 *       A function which is called if the predicate function for this
+	 *       transition returns true.  Its signature is function(fsm, event) and
+	 *       it is saved in the ontransition property of the transition object.
+	 *       In the ontransition function:
+	 *
+	 *         fsm -
+	 *           The finite state machine object to which this state is attached.
+	 *
+	 *         event -
+	 *           The event that caused a run of the finite state machine
+	 *
+	 *     Additional properties may be provided in transInfo.  They will not be
+	 *     used by the finite state machine, but will be available via
+	 *     this.getUserData("<propertyName>") during the transition's predicate
+	 *     and ontransition functions.
+	 */
   construct : function(transitionName, transitionInfo)
   {
     // Call our superclass' constructor

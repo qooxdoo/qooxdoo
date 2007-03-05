@@ -29,9 +29,6 @@
 /**
  * qx.ui.treefullcontrol.Tree objects are tree root nodes but act like
  * TreeFolder.
- *
- * @param treeRowStructure An instance of qx.ui.treefullcontrol.TreeRowStructure,
- *   defining the structure of this tree row.
  */
 qx.Class.define("qx.ui.treefullcontrol.Tree",
 {
@@ -46,6 +43,10 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
   *****************************************************************************
   */
 
+  /**
+   * @param treeRowStructure An instance of qx.ui.treefullcontrol.TreeRowStructure,
+   *    defining the structure of this tree row.
+   */
   construct : function(treeRowStructure)
   {
     this.base(arguments, treeRowStructure);

@@ -43,7 +43,7 @@ qx.Class.define("qx.log.NativeAppender",
   *****************************************************************************
   */
 
-  construct : function(name)
+  construct : function()
   {
     this.base(arguments);
 

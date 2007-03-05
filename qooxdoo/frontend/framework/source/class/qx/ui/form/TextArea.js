@@ -24,9 +24,6 @@
 
 ************************************************************************ */
 
-/**
- * @param vValue {String} this string is ddisplayed as the value of the TextArea.
- */
 qx.Class.define("qx.ui.form.TextArea",
 {
   extend : qx.ui.form.TextField,
@@ -40,6 +37,9 @@ qx.Class.define("qx.ui.form.TextArea",
   *****************************************************************************
   */
 
+	/**
+	 * @param vValue {String} this string is ddisplayed as the value of the TextArea.
+	 */
   construct : function(vValue)
   {
     this.base(arguments, vValue);

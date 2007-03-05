@@ -25,119 +25,6 @@
 
 /**
  * Create a new state which may be added to a finite state machine.
- *
- * @param
- * stateName -
- *   The name of this state.  This is the name which may be referenced in
- *   objects of class qx.util.fsm.Transition, when passing of
- *   the the transition's predicate means transition to this state.
- *
- * @param
- * stateInfo -
- *   An object containing any of the following properties:
- *
- *     onentry -
- *       A function which is called upon entry to the state.  Its signature is
- *       function(fsm, event) and it is saved in the onentry property of the
- *       state object.  (This function is called after the Transition's action
- *       function and after the previous state's onexit function.)
- *
- *       In the onentry function:
- *
- *         fsm -
- *           The finite state machine object to which this state is attached.
- *
- *         event -
- *           The event that caused the finite state machine to run
- *
- *     onexit -
- *       A function which is called upon exit from the state.  Its signature
- *       is function(fsm, event) and it is saved in the onexit property of the
- *       state object.  (This function is called after the Transition's action
- *       function and before the next state's onentry function.)
- *
- *       In the onexit function:
- *
- *         fsm -
- *           The finite state machine object to which this state is attached.
- *
- *         event -
- *           The event that caused the finite state machine to run
- *
- *     autoActionsBeforeOnentry -
- *     autoActionsAfterOnentry -
- *     autoActionsBeforeOnexit -
- *     autoActionsAfterOnexit -
- *       Automatic actions which take place at the time specified by the
- *       property name.  In all cases, the action takes place immediately
- *       before or after the specified function.
- *
- *       The property value for each of these properties is an object which
- *       describes some number of functions to invoke on a set of specified
- *       objects (typically widgets).
- *
- *       An example, using autoActionsBeforeOnentry, might look like this:
- *
- *       "autoActionsBeforeOnentry" :
- *       {
- *         // The name of a function.
- *         "enabled" :
- *         [
- *           {
- *             // The parameter value, thus "setEnabled(true);"
- *             "parameters" : [ true ],
- *
- *             // The function would be called on each object:
- *             //  this.getObject("obj1").setEnabled(true);
- *             //  this.getObject("obj2").setEnabled(true);
- *             "objects" : [ "obj1", "obj2" ],
- *
- *             // And similarly for each object in each specified group.
- *             "groups"  : [ "group1", "group2" ]
- *           }
- *         ],
- *
- *         // The name of another function.
- *         "visible" :
- *         [
- *           {
- *             // The parameter value, thus "setEnabled(true);"
- *             "parameters" : [ false ],
- *
- *             // The function would be called on each object and group, as
- *             // described above.
- *             "objects" : [ "obj3", "obj4" ],
- *             "groups"  : [ "group3", "group4" ]
- *           }
- *         ]
- *       };
- *
- *
- *     events (required) -
- *       A description to the finite state machine of how to handle a
- *       particular event, optionally associated with a specific target object
- *       on which the event was dispatched.  This should be an object
- *       containing one property for each event which is either handled or
- *       blocked.  The property name should be the event name.  The property
- *       value should be one of:
- *
- *         (a) qx.util.fsm.FiniteStateMachine.EventHandling.PREDICATE
- *
- *         (b) qx.util.fsm.FiniteStateMachine.EventHandling.BLOCKED
- *
- *         (c) a string containing the name of an explicit Transition to use
- *
- *         (d) an object where each property name is the Friendly Name of an
- *             object (meaning that this rule applies if both the event and
- *             the event's target object's Friendly Name match), and its
- *             property value is one of (a), (b) or (c), above.
- *
- *       This object is saved in the events property of the state object.
- *
- *     Additional properties may be provided in stateInfo.  They will not be
- *     used by the finite state machine, but will be available via
- *     this.getUserData("<propertyName>") during the state's onentry and
- *     onexit functions.
  */
 qx.Class.define("qx.util.fsm.State",
 {
@@ -152,6 +39,117 @@ qx.Class.define("qx.util.fsm.State",
   *****************************************************************************
   */
 
+	/**
+	 * @param stateName {String}
+	 *   The name of this state.  This is the name which may be referenced in
+	 *   objects of class qx.util.fsm.Transition, when passing of
+	 *   the the transition's predicate means transition to this state.
+	 *
+	 * @param stateInfo {Map}
+	 *   An object containing any of the following properties:
+	 *
+	 *     onentry -
+	 *       A function which is called upon entry to the state.  Its signature is
+	 *       function(fsm, event) and it is saved in the onentry property of the
+	 *       state object.  (This function is called after the Transition's action
+	 *       function and after the previous state's onexit function.)
+	 *
+	 *       In the onentry function:
+	 *
+	 *         fsm -
+	 *           The finite state machine object to which this state is attached.
+	 *
+	 *         event -
+	 *           The event that caused the finite state machine to run
+	 *
+	 *     onexit -
+	 *       A function which is called upon exit from the state.  Its signature
+	 *       is function(fsm, event) and it is saved in the onexit property of the
+	 *       state object.  (This function is called after the Transition's action
+	 *       function and before the next state's onentry function.)
+	 *
+	 *       In the onexit function:
+	 *
+	 *         fsm -
+	 *           The finite state machine object to which this state is attached.
+	 *
+	 *         event -
+	 *           The event that caused the finite state machine to run
+	 *
+	 *     autoActionsBeforeOnentry -
+	 *     autoActionsAfterOnentry -
+	 *     autoActionsBeforeOnexit -
+	 *     autoActionsAfterOnexit -
+	 *       Automatic actions which take place at the time specified by the
+	 *       property name.  In all cases, the action takes place immediately
+	 *       before or after the specified function.
+	 *
+	 *       The property value for each of these properties is an object which
+	 *       describes some number of functions to invoke on a set of specified
+	 *       objects (typically widgets).
+	 *
+	 *       An example, using autoActionsBeforeOnentry, might look like this:
+	 *
+	 *       "autoActionsBeforeOnentry" :
+	 *       {
+	 *         // The name of a function.
+	 *         "enabled" :
+	 *         [
+	 *           {
+	 *             // The parameter value, thus "setEnabled(true);"
+	 *             "parameters" : [ true ],
+	 *
+	 *             // The function would be called on each object:
+	 *             //  this.getObject("obj1").setEnabled(true);
+	 *             //  this.getObject("obj2").setEnabled(true);
+	 *             "objects" : [ "obj1", "obj2" ],
+	 *
+	 *             // And similarly for each object in each specified group.
+	 *             "groups"  : [ "group1", "group2" ]
+	 *           }
+	 *         ],
+	 *
+	 *         // The name of another function.
+	 *         "visible" :
+	 *         [
+	 *           {
+	 *             // The parameter value, thus "setEnabled(true);"
+	 *             "parameters" : [ false ],
+	 *
+	 *             // The function would be called on each object and group, as
+	 *             // described above.
+	 *             "objects" : [ "obj3", "obj4" ],
+	 *             "groups"  : [ "group3", "group4" ]
+	 *           }
+	 *         ]
+	 *       };
+	 *
+	 *     events (required) -
+	 *       A description to the finite state machine of how to handle a
+	 *       particular event, optionally associated with a specific target object
+	 *       on which the event was dispatched.  This should be an object
+	 *       containing one property for each event which is either handled or
+	 *       blocked.  The property name should be the event name.  The property
+	 *       value should be one of:
+	 *
+	 *         (a) qx.util.fsm.FiniteStateMachine.EventHandling.PREDICATE
+	 *
+	 *         (b) qx.util.fsm.FiniteStateMachine.EventHandling.BLOCKED
+	 *
+	 *         (c) a string containing the name of an explicit Transition to use
+	 *
+	 *         (d) an object where each property name is the Friendly Name of an
+	 *             object (meaning that this rule applies if both the event and
+	 *             the event's target object's Friendly Name match), and its
+	 *             property value is one of (a), (b) or (c), above.
+	 *
+	 *       This object is saved in the events property of the state object.
+	 *
+	 *     Additional properties may be provided in stateInfo.  They will not be
+	 *     used by the finite state machine, but will be available via
+	 *     this.getUserData("<propertyName>") during the state's onentry and
+	 *     onexit functions.
+	 */
   construct : function(stateName, stateInfo)
   {
     // Call our superclass' constructor

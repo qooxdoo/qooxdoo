@@ -31,44 +31,6 @@
  *          you may need to make manual changes in accordance with interface
  *          changes.
  * </p>
- *
- * @param headings {Array | String}
- *   An array containing a list of strings, one for each column, representing
- *   the headings for each column.  As a special case, if only one column is
- *   to exist, the string representing its heading need not be enclosed in an
- *   array.
- *
- * @param custom {Map ? null}
- *   A map provided (typically) by subclasses, to override the various
- *   supplemental classes allocated within this constructor.  For normal
- *   usage, this parameter may be omitted.  Each property must be an object
- *   instance or a function which returns an object instance, as indicated by
- *   the defaults listed here:
- *
- *   <dl>
- *     <dt>dataModel</dt>
- *       <dd>new qx.ui.treevirtual.SimpleTreeDataModel()</dd>
- *     <dt>treeDataCellRenderer</dt>
- *       <dd>new qx.ui.treevirtual.SimpleTreeDataCellRenderer()</dd>
- *     <dt>defaultDataCellRenderer</dt>
- *       <dd>new qx.ui.treevirtual.DefaultDataCellRenderer()</dd>
- *     <dt>dataRowRenderer</dt>
- *       <dd>new qx.ui.treevirtual.SimpleTreeDataRowRenderer()</dd>
- *     <dt>selectionManager</dt>
- *       <dd><code><pre>
- *         function(obj)
- *         {
- *           return new qx.ui.treevirtual.SelectionManager(obj);
- *         }
- *       </pre></code></dd>
- *     <dt>tableColumnModel</dt>
- *       <dd><code><pre>
- *         function(obj)
- *         {
- *           return new qx.ui.table.ResizeTableColumnModel(obj);
- *         }
- *       </pre></code></dd>
- *   </dl>
  */
 qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 {
@@ -83,6 +45,45 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
   *****************************************************************************
   */
 
+	/**
+	 * @param headings {Array | String}
+	 *   An array containing a list of strings, one for each column, representing
+	 *   the headings for each column.  As a special case, if only one column is
+	 *   to exist, the string representing its heading need not be enclosed in an
+	 *   array.
+	 *
+	 * @param custom {Map ? null}
+	 *   A map provided (typically) by subclasses, to override the various
+	 *   supplemental classes allocated within this constructor.  For normal
+	 *   usage, this parameter may be omitted.  Each property must be an object
+	 *   instance or a function which returns an object instance, as indicated by
+	 *   the defaults listed here:
+	 *
+	 *   <dl>
+	 *     <dt>dataModel</dt>
+	 *       <dd>new qx.ui.treevirtual.SimpleTreeDataModel()</dd>
+	 *     <dt>treeDataCellRenderer</dt>
+	 *       <dd>new qx.ui.treevirtual.SimpleTreeDataCellRenderer()</dd>
+	 *     <dt>defaultDataCellRenderer</dt>
+	 *       <dd>new qx.ui.treevirtual.DefaultDataCellRenderer()</dd>
+	 *     <dt>dataRowRenderer</dt>
+	 *       <dd>new qx.ui.treevirtual.SimpleTreeDataRowRenderer()</dd>
+	 *     <dt>selectionManager</dt>
+	 *       <dd><code><pre>
+	 *         function(obj)
+	 *         {
+	 *           return new qx.ui.treevirtual.SelectionManager(obj);
+	 *         }
+	 *       </pre></code></dd>
+	 *     <dt>tableColumnModel</dt>
+	 *       <dd><code><pre>
+	 *         function(obj)
+	 *         {
+	 *           return new qx.ui.table.ResizeTableColumnModel(obj);
+	 *         }
+	 *       </pre></code></dd>
+	 *   </dl>
+	 */
   construct : function(headings, custom)
   {
     //

@@ -26,17 +26,6 @@
 
  ************************************************************************ */
 
-/**
- * Creates a new instance of a SplitPane. It allows the user to dynamically resize
- * the areas dropping the border between.
- *
- * new qx.ui.splitpane.SplitPane(orientation)
- * new qx.ui.splitpane.SplitPane(orientation, firstSize, secondSize)
- *
- * @param orientation {String} The orientation of the splitpane control. Allowed values are "horizontal" (default) and "vertical". This is the same type as used in {@link qx.ui.layout.BoxLayout#orientation}.
- * @param firstSize {String} The size of the left (top) pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
- * @param secondSize {String} The size of the right (bottom) pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
- */
 qx.Class.define("qx.ui.splitpane.SplitPane",
 {
   extend : qx.ui.layout.CanvasLayout,
@@ -50,6 +39,17 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
   *****************************************************************************
   */
 
+	/**
+	 * Creates a new instance of a SplitPane. It allows the user to dynamically resize
+	 * the areas dropping the border between.
+	 *
+	 * new qx.ui.splitpane.SplitPane(orientation)
+	 * new qx.ui.splitpane.SplitPane(orientation, firstSize, secondSize)
+	 *
+	 * @param orientation {String} The orientation of the splitpane control. Allowed values are "horizontal" (default) and "vertical". This is the same type as used in {@link qx.ui.layout.BoxLayout#orientation}.
+	 * @param firstSize {String} The size of the left (top) pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
+	 * @param secondSize {String} The size of the right (bottom) pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
+	 */
   construct : function(orientation, firstSize, secondSize)
   {
     this.base(arguments);

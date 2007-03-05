@@ -25,9 +25,6 @@
 
 /**
  * An appender that forwards all log events to a log event processor.
- *
- * @param targetProcessor {LogEventProcessor} The log event processor Where to
- *    pass the log events.
  */
 qx.Class.define("qx.log.ForwardAppender",
 {
@@ -42,6 +39,10 @@ qx.Class.define("qx.log.ForwardAppender",
   *****************************************************************************
   */
 
+	/**
+	 * @param targetProcessor {LogEventProcessor} The log event processor Where to
+	 *    pass the log events.
+	 */
   construct : function(targetProcessor)
   {
     this.base(arguments);

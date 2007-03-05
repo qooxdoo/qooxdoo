@@ -26,17 +26,9 @@
 ************************************************************************ */
 
 /**
- * This contains a command with shortcut.
+ * Commands can be used to globally define keyboard shortcuts.
  *
- * Each command could be assigned to multiple widgets.
- *
- * @param shortcut {String} shortcuts can be composed of optional modifier
- *    keys Control, Alt, Shift, Meta and a non modifier key.
- *    If no non modifier key is specified, the second paramater is evaluated.
- *    The key must be seperated by a <code>+</code> or <code>-</code> character.
- *    Examples: Alt+F1, Control+C, Control+Alt+Enf
- *
- * @param keyCode {Integer}  Additional key of the command interpreted as a keyCode.
+ * Each command can be assigned to multiple widgets.
  */
 qx.Class.define("qx.client.Command",
 {
@@ -60,6 +52,17 @@ qx.Class.define("qx.client.Command",
   *****************************************************************************
   */
 
+  /**
+   * Create a new instance of Command
+   * 
+   * @param shortcut {String} shortcuts can be composed of optional modifier
+   *    keys Control, Alt, Shift, Meta and a non modifier key.
+   *    If no non modifier key is specified, the second paramater is evaluated.
+   *    The key must be seperated by a <code>+</code> or <code>-</code> character.
+   *    Examples: Alt+F1, Control+C, Control+Alt+Enf
+   *
+   * @param keyCode {Integer}  Additional key of the command interpreted as a keyCode.
+   */
   construct : function(shortcut, keyCode)
   {
     this.base(arguments);
