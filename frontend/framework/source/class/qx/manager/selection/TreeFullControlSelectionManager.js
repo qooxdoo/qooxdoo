@@ -56,7 +56,7 @@ qx.Class.define("qx.manager.selection.TreeFullControlSelectionManager",
       MAPPING TO BOUNDED WIDGET
     ---------------------------------------------------------------------------
     */
-    
+
 
     /**
      * TODOC

@@ -51,10 +51,10 @@ qx.Class.define("qx.theme.icon.Nuvola",
 
     this.uri = qx.core.Setting.get("qx.resourceUri") + "/icon/Nuvola";
   },
-  
+
   defer : function(clazz)
   {
-    qx.manager.object.ImageManager.getInstance().registerIconTheme(clazz);    
+    qx.manager.object.ImageManager.getInstance().registerIconTheme(clazz);
   }
-    
+
 });

@@ -1,7 +1,7 @@
 qx.Mixin.define("qx.test.MFat",
 {
-	include : qx.test.MMoody,
-	
+  include : qx.test.MMoody,
+
   members :
   {
     /**

@@ -44,12 +44,12 @@ qx.Class.define("qx.theme.color.System",
   construct : function() {
     qx.renderer.theme.ColorTheme.call(this, "Operating System Default");
   },
-  
+
   defer : function(clazz)
   {
-    qx.manager.object.ColorManager.getInstance().registerColorTheme(clazz);    
+    qx.manager.object.ColorManager.getInstance().registerColorTheme(clazz);
   }
-  
+
 });
 
 

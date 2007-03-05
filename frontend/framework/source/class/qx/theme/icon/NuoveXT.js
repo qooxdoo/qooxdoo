@@ -52,10 +52,10 @@ qx.Class.define("qx.theme.icon.NuoveXT",
 
     this.uri = qx.core.Setting.get("qx.resourceUri") + "/icon/NuoveXT";
   },
-  
+
   defer : function(clazz)
   {
-    qx.manager.object.ImageManager.getInstance().registerIconTheme(clazz);    
+    qx.manager.object.ImageManager.getInstance().registerIconTheme(clazz);
   }
-    
+
 });

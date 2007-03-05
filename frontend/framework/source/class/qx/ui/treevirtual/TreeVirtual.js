@@ -386,7 +386,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      *
      * @param b {Boolean}
      *   <i>true</i> if the open/close button should be shown;
-     *   <i>false</i> otherwise. 
+     *   <i>false</i> otherwise.
      *
      * @return {void}
      */
@@ -691,7 +691,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
        *   the cell itself.  There is no text in the focus indicator itself,
        *   so it makes no sense to set the color attribute or any other
        *   attribute that affects fonts.
-       *   
+       *
        * @return {void}
        */
     setCellFocusAttributes : function(attributes)

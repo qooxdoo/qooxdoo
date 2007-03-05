@@ -38,7 +38,7 @@ qx.Class.define("qx.core.LegacyProperty",
       setter : {},
       getter : {},
       resetter : {},
-      values : {}      
+      values : {}
     },
 
     /**
