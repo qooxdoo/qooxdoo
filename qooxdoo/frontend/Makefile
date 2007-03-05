@@ -514,6 +514,10 @@ release-sdk-unix:
 	@$(CMD_SYNC_OFFLINE) $(SKELETON_TEMP_UNIX)/skeleton.tar.gz $(RELEASE_SDK_UNIX)/frontend/application/
 	@$(MAKE) -s exec-skeleton-unix-clean
 
+	@$(MAKE) -s exec-quickstart-unix
+	@$(CMD_SYNC_OFFLINE) $(QUICKSTART_TEMP_UNIX)/quickstart.tar.gz $(RELEASE_SDK_UNIX)/frontend/application/
+	@$(MAKE) -s exec-quickstart-unix-clean
+
 	@echo "  * Generating tar archive..."
 	@cd release/temp/sdk/unix; $(CMD_REMOVE) qooxdoo-$(FRAMEWORK_VERSION)-sdk.tar.gz; $(CMD_TAR_CREATE) ../../../qooxdoo-$(FRAMEWORK_VERSION)-sdk.tar.gz qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
@@ -548,6 +552,10 @@ release-sdk-dos:
 	@$(MAKE) -s exec-skeleton-dos
 	@$(CMD_SYNC_OFFLINE) $(SKELETON_TEMP_DOS)/skeleton.zip $(RELEASE_SDK_DOS)/frontend/application/
 	@$(MAKE) -s exec-skeleton-dos-clean
+
+	@$(MAKE) -s exec-quickstart-dos
+	@$(CMD_SYNC_OFFLINE) $(QUICKSTART_TEMP_DOS)/quickstart.zip $(RELEASE_SDK_DOS)/frontend/application/
+	@$(MAKE) -s exec-quickstart-dos-clean
 
 	@echo "  * Generating zip archive..."
 	@cd release/temp/sdk/dos; $(CMD_REMOVE) qooxdoo-$(FRAMEWORK_VERSION)-sdk.zip; $(CMD_ZIP_CREATE) ../../../qooxdoo-$(FRAMEWORK_VERSION)-sdk.zip qooxdoo-$(FRAMEWORK_VERSION)-sdk
