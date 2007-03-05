@@ -37,7 +37,11 @@ qx.Class.define("qx.event.type.DataEvent",
      CONSTRUCTOR
   *****************************************************************************
   */
-
+  
+ /**
+  * @param vType {String} the type name of the event
+  * @param vData {Object} additional data which should be passed to the event listener
+  */
   construct : function(vType, vData)
   {
     this.base(arguments, vType);

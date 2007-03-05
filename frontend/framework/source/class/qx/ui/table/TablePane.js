@@ -27,8 +27,6 @@
  * The table pane that shows a certain section from a table. This class handles
  * the display of the data part of a table and is therefore the base for virtual
  * scrolling.
- *
- * @param paneScroller {TablePaneScroller} the TablePaneScroller the header belongs to.
  */
 qx.Class.define("qx.ui.table.TablePane",
 {
@@ -43,6 +41,9 @@ qx.Class.define("qx.ui.table.TablePane",
   *****************************************************************************
   */
 
+  /**
+   * @param paneScroller {TablePaneScroller} the TablePaneScroller the header belongs to.
+   */
   construct : function(paneScroller)
   {
     this.base(arguments);

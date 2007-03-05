@@ -26,8 +26,6 @@
 
 /**
  * Appearance Theme
- *
- * @param vTitle {String} anme of the appearance
  */
 qx.Class.define("qx.renderer.theme.AppearanceTheme",
 {
@@ -42,6 +40,9 @@ qx.Class.define("qx.renderer.theme.AppearanceTheme",
   *****************************************************************************
   */
 
+	/**
+	 * @param vTitle {String} anme of the appearance
+	 */
   construct : function(vTitle)
   {
     qx.core.Object.call(this);

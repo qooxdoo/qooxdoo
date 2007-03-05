@@ -31,8 +31,6 @@
  *          (server-side) solutions for handling XML GUI descriptions.
  *          Please see the qooxdoo homepage for related projects or ask on
  *          the mailing list.
- *
- * @param flags {Map} map of flags. "flags.strict" sets strict mode.
  */
 qx.Class.define("qx.util.GuiBuilder",
 {
@@ -47,6 +45,9 @@ qx.Class.define("qx.util.GuiBuilder",
   *****************************************************************************
   */
 
+  /**
+   * @param flags {Map} map of flags. "flags.strict" sets strict mode.
+   */
   construct : function(flags)
   {
     this.base(arguments);

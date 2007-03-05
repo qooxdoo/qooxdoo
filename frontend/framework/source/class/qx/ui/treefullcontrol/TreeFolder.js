@@ -31,11 +31,6 @@
 /**
  * qx.ui.treefullcontrol.TreeFolder objects are tree rows which may contain
  * sub-trees
- *
- * @param
- * treeRowStructure -
- *   An instance of qx.ui.treefullcontrol.TreeRowStructure, defining the
- *   structure of this tree row.
  */
 qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
 {
@@ -50,6 +45,11 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
   *****************************************************************************
   */
 
+	/**
+	 * @param treeRowStructure {qx.ui.treefullcontrol.TreeRowStructure} An instance
+	 *    of qx.ui.treefullcontrol.TreeRowStructure, defining the
+	 *    structure of this tree row.
+	 */
   construct : function(treeRowStructure)
   {
     this.base(arguments, treeRowStructure);

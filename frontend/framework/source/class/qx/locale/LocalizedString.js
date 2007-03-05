@@ -19,15 +19,6 @@
 
 ************************************************************************ */
 
-/**
- * Create a new instance of qx.locale.LocalizedString
- *
- * @see qx.lang.String.format
- *
- * @param messageId {String} message id (may contain format strings)
- * @param args {Object[]} array of objects, which are inserted into the format string.
- * @param locale {String} optional locale to be used for translation
- */
 qx.Class.define("qx.locale.LocalizedString",
 {
   extend : qx.core.Object,
@@ -41,6 +32,11 @@ qx.Class.define("qx.locale.LocalizedString",
   *****************************************************************************
   */
 
+	/**
+	 * @param messageId {String} message id (may contain format strings) {@link qx.lang.String#format}
+	 * @param args {Object[]} array of objects, which are inserted into the format string.
+	 * @param locale {String} optional locale to be used for translation
+	 */
   construct : function(messageId, args, locale)
   {
     this.base(arguments);

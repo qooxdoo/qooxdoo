@@ -24,8 +24,6 @@
 
 /**
  * A formatter and parser for numbers.
- *
- * @param locale {String} optional locale to be used
  */
 qx.Class.define("qx.util.format.NumberFormat",
 {
@@ -40,6 +38,9 @@ qx.Class.define("qx.util.format.NumberFormat",
   *****************************************************************************
   */
 
+  /**
+   * @param locale {String} optional locale to be used
+   */
   construct : function(locale)
   {
     this.base(arguments);

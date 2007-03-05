@@ -26,9 +26,6 @@
 
 /**
  * A table with variable row height.
- *
- * @param tableModel {qx.ui.table.TableModel, null}
- *   The table model to read the data from.
  */
 qx.Class.define("qx.ui.tablevarrowheight.TableVarRowHeight",
 {
@@ -43,6 +40,10 @@ qx.Class.define("qx.ui.tablevarrowheight.TableVarRowHeight",
   *****************************************************************************
   */
 
+	/**
+	 * @param tableModel {qx.ui.table.TableModel, null}
+	 *   The table model to read the data from.
+	 */
   construct : function(tableModel)
   {
     //

@@ -27,20 +27,21 @@
 
 /**
  * A key event instance contains all data for each occured key event
- *
- * @param vType {String} event type (keydown, keypress, keyinput, keyup)
- * @param vDomEvent {Element} DOM event object
- * @param vDomTarget {Element} target element of the DOM event
- * @param vTarget
- * @param vOriginalTarget
- * @param vKeyCode {Integer} emulated key code for compatibility with older qoodoo applications
- * @param vCharCode {Integer} char code from the "keypress" event
- * @param vKeyIdentifier {String} the key identifier
  */
 qx.Class.define("qx.event.type.KeyEvent",
 {
   extend : qx.event.type.DomEvent,
 
+  /**
+   * @param vType {String} event type (keydown, keypress, keyinput, keyup)
+   * @param vDomEvent {Element} DOM event object
+   * @param vDomTarget {Element} target element of the DOM event
+   * @param vTarget
+   * @param vOriginalTarget
+   * @param vKeyCode {Integer} emulated key code for compatibility with older qoodoo applications
+   * @param vCharCode {Integer} char code from the "keypress" event
+   * @param vKeyIdentifier {String} the key identifier
+   */
   construct : function(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vKeyCode, vCharCode, vKeyIdentifier)
   {
     this.base(arguments, vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget);

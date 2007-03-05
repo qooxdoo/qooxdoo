@@ -68,9 +68,6 @@
  * License:<br/>
  *   MIT: http://www.opensource.org/licenses/mit-license.php<br/>
  *   For more info, please see the corresponding source file.
- *
- * @param vSource {String} Url of the SWF file to embed
- * @param vVersion {String} Flash version of the SWF file
  */
 qx.Class.define("qx.ui.embed.Flash",
 {
@@ -85,6 +82,10 @@ qx.Class.define("qx.ui.embed.Flash",
   *****************************************************************************
   */
 
+  /**
+   * @param vSource {String} Url of the SWF file to embed
+   * @param vVersion {String} Flash version of the SWF file
+   */
   construct : function(vSource, vVersion)
   {
     this.base(arguments);

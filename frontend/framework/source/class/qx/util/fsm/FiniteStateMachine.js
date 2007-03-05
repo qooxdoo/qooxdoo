@@ -29,9 +29,6 @@
  * See {@link qx.util.finitestatemacine.State} for details on creating States,
  * and {@link qx.util.finitestatemacine.Transitions} for details on creating
  * transitions between states.
- *
- * @param machineName {String} The name of this finite state machine
- *
  */
 qx.Class.define("qx.util.fsm.FiniteStateMachine",
 {
@@ -46,6 +43,9 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
   *****************************************************************************
   */
 
+	/**
+	 * @param machineName {String} The name of this finite state machine
+	 */
   construct : function(machineName)
   {
     // Call our superclass' constructor

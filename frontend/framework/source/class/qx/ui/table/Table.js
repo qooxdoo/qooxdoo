@@ -26,9 +26,6 @@
 
 /**
  * A table.
- *
- * @param tableModel {qx.ui.table.TableModel, null}
- *   The table model to read the data from.
  */
 qx.Class.define("qx.ui.table.Table",
 {
@@ -43,6 +40,10 @@ qx.Class.define("qx.ui.table.Table",
   *****************************************************************************
   */
 
+  /**
+   * @param tableModel {qx.ui.table.TableModel, null}
+   *   The table model to read the data from.
+   */
   construct : function(tableModel)
   {
     this.base(arguments);

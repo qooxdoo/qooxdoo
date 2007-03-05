@@ -71,9 +71,6 @@
  * License:<br/>
  *   MIT: http://www.opensource.org/licenses/mit-license.php<br/>
  *   For more info, please see the corresponding source file.
- *
- * @param arrVersion {Array|String} array with three elements defining major,
- *   minor and revision number or an equivalent version string separated by '.'
  */
 qx.Class.define("qx.type.Version",
 {
@@ -88,6 +85,10 @@ qx.Class.define("qx.type.Version",
   *****************************************************************************
   */
 
+  /**
+   * @param arrVersion {Array|String} array with three elements defining major,
+   *   minor and revision number or an equivalent version string separated by '.'
+   */
   construct : function(arrVersion)
   {
     this.base(arguments);

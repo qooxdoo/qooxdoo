@@ -22,21 +22,7 @@
 
 ************************************************************************ */
 
-/**
- * overridden
- *
- * @param align {String}
- *   The default alignment to format the cell with if the condition matches.
- *
- * @param color {String}
- *   The default color to format the cell with if the condition matches.
- *
- * @param style {String}
- *   The default style to format the cell with if the condition matches.
- *
- * @param weight {String}
- *   The default weight to format the cell with if the condition matches.
- */
+
 qx.Class.define("qx.ui.table.ConditionalDataCellRenderer",
 {
   extend : qx.ui.table.DefaultDataCellRenderer,
@@ -50,6 +36,19 @@ qx.Class.define("qx.ui.table.ConditionalDataCellRenderer",
   *****************************************************************************
   */
 
+	/**
+	 * @param align {String}
+	 *   The default alignment to format the cell with if the condition matches.
+	 *
+	 * @param color {String}
+	 *   The default color to format the cell with if the condition matches.
+	 *
+	 * @param style {String}
+	 *   The default style to format the cell with if the condition matches.
+	 *
+	 * @param weight {String}
+	 *   The default weight to format the cell with if the condition matches.
+	 */
   construct : function(align, color, style, weight)
   {
     this.base(arguments);

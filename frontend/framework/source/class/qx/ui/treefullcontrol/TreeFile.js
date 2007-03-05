@@ -29,11 +29,6 @@
 /**
  * qx.ui.treefullcontrol.TreeFile objects are terminal tree rows (i.e. no
  * sub-trees)
- *
- * @param
- * treeRowStructure -
- *   An instance of qx.ui.treefullcontrol.TreeRowStructure, defining the
- *   structure  of this tree row.
  */
 qx.Class.define("qx.ui.treefullcontrol.TreeFile",
 {
@@ -48,6 +43,11 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFile",
   *****************************************************************************
   */
 
+	/**
+	 * @param treeRowStructure {qx.ui.treefullcontrol.TreeRowStructure} An instance
+	 *    of qx.ui.treefullcontrol.TreeRowStructure, defining the
+	 *    structure of this tree row.
+	 */
   construct : function(treeRowStructure) {
     this.base(arguments, treeRowStructure);
   },

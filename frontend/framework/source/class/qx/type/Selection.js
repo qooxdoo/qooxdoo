@@ -26,8 +26,6 @@
 
 /**
  * Helper for qx.manager.selection.SelectionManager, contains data for selections
- *
- * @param mgr {Object} a class which implements a getItemHashCode(item) method
  */
 qx.Class.define("qx.type.Selection",
 {
@@ -42,6 +40,9 @@ qx.Class.define("qx.type.Selection",
   *****************************************************************************
   */
 
+  /**
+   * @param mgr {Object} a class which implements a getItemHashCode(item) method
+   */
   construct : function(mgr)
   {
     this.base(arguments);
