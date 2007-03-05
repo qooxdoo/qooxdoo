@@ -73,7 +73,7 @@ qx.Class.define("qx.core.Property",
       }
       else
       {
-        throw new Error("New properties are not yet implemented!")
+        throw new Error("New properties are not yet implemented! Used by class '" + proto.classname + "': " + config.name);
       }
     },
 

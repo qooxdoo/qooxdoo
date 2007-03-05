@@ -804,13 +804,6 @@ qx.Class.define("qx.Class",
 
       // add config to config list
       clazz.$$properties[name] = config;
-
-      // TODO: Remove with qx 0.7 final
-      if (!config.dispose && (config.type == "function" || config.type == "object"))
-      {
-        console.warn("Please add dispose=true to property '" + config.name + "' defined by class '" + clazz.classname + "'");
-        config.dispose = true;
-      }
     },
 
 

@@ -249,6 +249,11 @@ qx.Class.define("qx.core.LegacyProperty",
         throw new Error("AddProperty: Malformed input parameters: name needed!");
       }
 
+      // Auto-detect dispose properties
+      if (!config.dispose && (config.type == "function" || config.type == "object")) {
+        config.dispose = true;
+      }
+
       config.method = qx.lang.String.toFirstUp(config.name);
       config.implMethod = config.impl ? qx.lang.String.toFirstUp(config.impl) : config.method;
 
