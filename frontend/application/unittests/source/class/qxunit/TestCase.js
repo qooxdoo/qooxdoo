@@ -138,10 +138,10 @@ qx.Class.define("qxunit.TestCase", {
 		})
 	},
 	
-	defer: function(statics, proto) {
+	defer: function(statics, members) {
 		if (window.console) {
-			proto.profile = console.profile;
-			proto.profileEnd = console.profileEnd;
+			members.profile = console.profile;
+			members.profileEnd = console.profileEnd;
 		}
 	}
 });
