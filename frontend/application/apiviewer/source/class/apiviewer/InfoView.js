@@ -83,6 +83,10 @@ qx.Class.define("apiviewer.InfoView",
 					desc: "<h3>Abstract Class</h3>"
 				},
 				{
+					icon: TreeUtil.ICON_CLASS_SINGLETON,
+					desc: "<h3>Singleton Class</h3>"
+				},
+				{
 					icon: TreeUtil.ICON_INTERFACE,
 					desc: "<h3>Interface</h3>"
 				},

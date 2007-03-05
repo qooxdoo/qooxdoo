@@ -197,7 +197,7 @@ qx.Class.define("apiviewer.ClassViewer",
      */
     createOverlayImageHtml : function(width, height, imgUrlArr, toolTip, styleAttributes)
     {
-      var html = '<div style="position:relative;top:0;left:0;width:' + width + 'px;height:' + height + 'px' + ((styleAttributes == null) ? '' : (';' + styleAttributes)) + '">';
+      var html = '<div style="display:inline;padding-right:22px;position:relative;top:0;left:0;width:' + width + 'px;height:' + height + 'px' + ((styleAttributes == null) ? '' : (';' + styleAttributes)) + '">';
 
       for (var i=0; i<imgUrlArr.length; i++)
       {
@@ -454,6 +454,8 @@ qx.Class.define("apiviewer.ClassViewer",
         titleHtml += "Abstract ";
       } else if (classNode.attributes.isStatic) {
         titleHtml += "Static ";
+      } else if (classNode.attributes.isSingleton) {
+        titleHtml += "Singleton ";
       }
 
       titleHtml += objectName;
@@ -2191,7 +2193,25 @@ qx.Class.define("apiviewer.ClassViewer",
           // NOTE: The onclick-handler must be added by HTML code. If it
           //       is added using the DOM element then the href is followed.
           var fullItemName = className + (itemName ? itemName : "");
-          return '<span style="white-space: nowrap;">' + (typeof iconCode != "undefined" ? iconCode : "") + '<a href="' + window.location.protocol + '//' + window.location.pathname + '#' + fullItemName + '" onclick="' + 'document._detailViewer._selectItem(\'' + fullItemName + '\'); return false;"' + ' title="' + fullItemName + '">' + label + '</a></span>';
+          
+          console.log(
+            '<span style="white-space: nowrap;">' +
+            (typeof iconCode != "undefined" ?  iconCode : "") +
+            '<a href="' + window.location.protocol + '//' +
+            window.location.pathname + '#' + fullItemName +
+            '" onclick="' + 'document._detailViewer._selectItem(\'' +
+            fullItemName + '\'); return false;"' + ' title="' +
+            fullItemName + '">' + label + '</a></span>'
+          );
+          return (
+            '<span style="white-space: nowrap;">' +
+            (typeof iconCode != "undefined" ?  iconCode : "") +
+            '<a href="' + window.location.protocol + '//' +
+            window.location.pathname + '#' + fullItemName +
+            '" onclick="' + 'document._detailViewer._selectItem(\'' +
+            fullItemName + '\'); return false;"' + ' title="' +
+            fullItemName + '">' + label + '</a></span>'
+          );
         }
       }
     },
