@@ -96,10 +96,10 @@ qx.Class.define("qx.theme.color.WindowsRoyale",
     },
     qx.renderer.theme.ColorTheme.prototype._colors)
   },
-  
+
   defer : function(clazz)
   {
-    qx.manager.object.ColorManager.getInstance().registerColorTheme(clazz);    
+    qx.manager.object.ColorManager.getInstance().registerColorTheme(clazz);
   }
-  
+
 });

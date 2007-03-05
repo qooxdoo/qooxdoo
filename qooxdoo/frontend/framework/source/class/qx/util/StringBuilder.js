@@ -76,7 +76,7 @@ qx.Class.define("qx.util.StringBuilder",
      * @type member
      * @return {void}
      */
-    clear : qx.core.Variant.select("qx.client", 
+    clear : qx.core.Variant.select("qx.client",
     {
       "default" : function() {
         return this._string;
@@ -94,7 +94,7 @@ qx.Class.define("qx.util.StringBuilder",
      * @type member
      * @return {String} string content
      */
-    get : qx.core.Variant.select("qx.client", 
+    get : qx.core.Variant.select("qx.client",
     {
       "default" : function() {
         return this._string;
@@ -113,7 +113,7 @@ qx.Class.define("qx.util.StringBuilder",
      * @param varargs {String} variable number os strings to be added
      * @return {void}
      */
-    add : qx.core.Variant.select("qx.client", 
+    add : qx.core.Variant.select("qx.client",
     {
       "default" : function() {
         this._string += Array.prototype.join.call(arguments, "");
@@ -132,7 +132,7 @@ qx.Class.define("qx.util.StringBuilder",
      * @type member
      * @return {void}
      */
-    init : qx.core.Variant.select("qx.client", 
+    init : qx.core.Variant.select("qx.client",
     {
       "default" : function() {
         this._string = "";

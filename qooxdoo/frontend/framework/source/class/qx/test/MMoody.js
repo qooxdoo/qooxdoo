@@ -1,11 +1,11 @@
 qx.Mixin.define("qx.test.MMoody",
 {
 
-	properties : 
-	{
-		age: {_legacy: true, type: "string"}
-	},
-	
+  properties :
+  {
+    age: {_legacy: true, type: "string"}
+  },
+
   members :
   {
     /**
@@ -16,13 +16,13 @@ qx.Mixin.define("qx.test.MMoody",
      */
     hiss : function() {
       this.debug("CCCCCCCCCHHHHHH!!");
-    }    
+    }
   },
-  
-  statics : 
+
+  statics :
   {
-  	amIFat: function() { return true; }
+    amIFat: function() { return true; }
   }
 
-  
+
 });

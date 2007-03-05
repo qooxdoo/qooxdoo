@@ -131,7 +131,7 @@ qx.Class.define("qx.util.Debug",
         // Yup.  Add it to the displayable message.
         message += initialMessage + "\n";
       }
-      
+
       if (obj instanceof Array)
       {
         message += "Array, length=" + obj.length + ":\n";

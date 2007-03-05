@@ -1,5 +1,7 @@
 qx.Class.define("qx.test.Animal",
 {
+  type : "abstract",
+
   extend : qx.core.Target,
 
 

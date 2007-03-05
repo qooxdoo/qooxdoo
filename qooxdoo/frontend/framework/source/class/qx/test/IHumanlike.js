@@ -2,7 +2,7 @@ qx.Interface.define("qx.test.IHumanlike",
 {
 
   extend : [qx.test.IThing],
-  
+
   members :
   {
     /**

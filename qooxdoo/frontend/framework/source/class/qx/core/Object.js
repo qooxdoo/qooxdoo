@@ -764,10 +764,10 @@ qx.Class.define("qx.core.Object",
     var properties = clazz.$$properties;
     if (properties)
     {
-      for (var name in properties) 
+      for (var name in properties)
       {
         // TODO improve this ugly part
-        if (properties[name].dispose) 
+        if (properties[name].dispose)
         {
           if (properties[name]._legacy)
           {

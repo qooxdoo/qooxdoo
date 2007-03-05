@@ -49,10 +49,10 @@ qx.Class.define("qx.theme.widget.Windows",
 
     this.uri = qx.core.Setting.get("qx.resourceUri") + "/widget/Windows";
   },
-  
+
   defer : function(clazz)
   {
-    qx.manager.object.ImageManager.getInstance().registerWidgetTheme(clazz);    
+    qx.manager.object.ImageManager.getInstance().registerWidgetTheme(clazz);
   }
-    
+
 });
