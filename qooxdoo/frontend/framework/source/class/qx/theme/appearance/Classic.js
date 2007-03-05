@@ -24,7 +24,6 @@
 
 #module(ui_core)
 #module(theme_appearance)
-#ignore(auto-use)
 #embed(qx.static/image/dotted_white.gif)
 #embed(qx.static/image/blank.gif)
 
