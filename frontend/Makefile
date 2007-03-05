@@ -95,9 +95,11 @@ publish:
 
 clean:
 	@$(MAKE) -s -C application clean
+	@$(CMD_REMOVE) application/*.tar.gz application/*.zip
 
 distclean:
 	@$(MAKE) -s -C application distclean
+	@$(CMD_REMOVE) application/*.tar.gz application/*.zip
 	@$(MAKE) -s release-distclean
 	@$(MAKE) -s framework-distclean
 
@@ -278,7 +280,6 @@ SKELETON_TEMP_UNIX = temp-skeleton-unix
 SKELETON_TEMP_DOS = temp-skeleton-dos
 
 SKELETON_FILES = Makefile source/class source/resource source/index.html
-
 
 info-skeleton-unix:
 	@echo
