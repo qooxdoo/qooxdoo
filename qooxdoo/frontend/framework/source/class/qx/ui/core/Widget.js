@@ -7197,11 +7197,13 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     /**
-     * TODOC
+     * Scroll the widget into the view.
+     * 
+     * This function works on DOM level and needs the widget to be already rendered.
+     * This is true for example in the "appear" event handler of a widget.
      *
      * @type member
-     * @param vAlignTopLeft {var} TODOC
-     * @return {void}
+     * @param vAlignTopLeft {Boolean} Set the alignment. "True" means top left align, "False" means bottom right.
      */
     scrollIntoView : function(vAlignTopLeft)
     {
@@ -7211,15 +7213,19 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
-     * TODOC
-     *
+     * Scroll the widget horizontally into the view.
+     * 
+     * This function works on DOM level and needs the widget to be already rendered.
+     * This is true for example in the "appear" event handler of a widget.
+     * 
      * @type member
-     * @param vAlignLeft {var} TODOC
-     * @return {boolean | var} TODOC
+     * @param vAlignLeft {Boolean} whether the element should be left aligned
+     * @return {Boolean} Whether the element could be scrolled into the view
      */
     scrollIntoViewX : function(vAlignLeft)
     {
       if (!this._isCreated || !this._isDisplayable) {
+        this.warn("The function scrollIntoViewX can only be called after the widget is created!");
         return false;
       }
 
@@ -7228,15 +7234,19 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
-     * TODOC
-     *
+     * Scroll the widget vertically into the view.
+     * 
+     * This function works on DOM level and needs the widget to be already rendered.
+     * This is true for example in the "appear" event handler of a widget.
+
      * @type member
-     * @param vAlignTop {var} TODOC
-     * @return {boolean | var} TODOC
+     * @param vAlignTop {Boolean} whether the element should be top aligned
+     * @return {Boolean} Whether the element could be scrolled into the view
      */
     scrollIntoViewY : function(vAlignTop)
     {
       if (!this._isCreated || !this._isDisplayable) {
+        this.warn("The function scrollIntoViewY can only be called after the widget is created!");
         return false;
       }
 

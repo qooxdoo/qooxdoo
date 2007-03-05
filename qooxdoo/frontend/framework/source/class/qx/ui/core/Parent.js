@@ -459,7 +459,7 @@ qx.Class.define("qx.ui.core.Parent",
      *
      * @type member
      * @param vWidget {qx.ui.core.Widget} The widget which should be checked.
-     * @return {boolean | var} TODOC
+     * @return {Boolean | var} TODOC
      */
     contains : function(vWidget)
     {

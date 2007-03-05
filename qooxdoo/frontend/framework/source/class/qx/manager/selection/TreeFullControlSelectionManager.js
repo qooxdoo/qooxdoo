@@ -26,8 +26,7 @@
 
 qx.Class.define("qx.manager.selection.TreeFullControlSelectionManager",
 {
-  extend : qx.manager.selection.SelectionManager,
-
+  extend : qx.manager.selection.TreeSelectionManager,
 
 
 
@@ -46,35 +45,6 @@ qx.Class.define("qx.manager.selection.TreeFullControlSelectionManager",
 
   /*
   *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-    /** Should multiple selection be allowed? */
-    multiSelection :
-    {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
-    },
-
-
-    /** Enable drag selection? */
-    dragSelection :
-    {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
-    }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
@@ -86,39 +56,7 @@ qx.Class.define("qx.manager.selection.TreeFullControlSelectionManager",
       MAPPING TO BOUNDED WIDGET
     ---------------------------------------------------------------------------
     */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
-    _getFirst : function() {
-      return qx.lang.Array.getFirst(this.getItems());
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
-    _getLast : function() {
-      return qx.lang.Array.getLast(this.getItems());
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
-    getItems : function() {
-      return this.getBoundedWidget().getItems();
-    },
-
+    
 
     /**
      * TODOC
@@ -205,36 +143,11 @@ qx.Class.define("qx.manager.selection.TreeFullControlSelectionManager",
 
 
 
-
     /*
     ---------------------------------------------------------------------------
       MAPPING TO ITEM DIMENSIONS
     ---------------------------------------------------------------------------
     */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vItem {var} TODOC
-     * @return {var} TODOC
-     */
-    getItemTop : function(vItem)
-    {
-      // Alternate method:
-      // return qx.html.Location.getPageBoxTop(vItem.getElement()) - qx.html.Location.getPageInnerTop(this.getBoundedWidget().getElement());
-      var vBoundedWidget = this.getBoundedWidget();
-      var vElement = vItem.getElement();
-      var vOffset = 0;
-
-      while (vElement && vElement.qx_Widget != vBoundedWidget)
-      {
-        vOffset += vElement.offsetTop;
-        vElement = vElement.parentNode;
-      }
-
-      return vOffset;
-    },
 
 
     /**
@@ -268,27 +181,7 @@ qx.Class.define("qx.manager.selection.TreeFullControlSelectionManager",
       } else {
         return vItem.scrollIntoView();
       }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      ITEM STATE MANAGMENT
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vItem {var} TODOC
-     * @param vIsSelected {var} TODOC
-     * @return {void}
-     */
-    renderItemSelectionState : function(vItem, vIsSelected) {
-      vItem.setSelected(vIsSelected);
     }
+
   }
 });
