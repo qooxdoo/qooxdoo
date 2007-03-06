@@ -34,6 +34,9 @@ qx.Class.define("qx.ui.splitpane.VerticalSplitPane",
    * new qx.ui.splitpane.VerticalSplitPane()<br />
    * new qx.ui.splitpane.VerticalSplitPane(firstSize, secondSize)
    *
+   * Please note that the usage of percents may be problematic because you must respect the
+   * divider, too. To create a typical 50,50 split please use flex units instead e.g. "1*", "1*"
+   *
    * @param firstSize {String} The size of the top pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
    * @param secondSize {String} The size of the bottom pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
    */
