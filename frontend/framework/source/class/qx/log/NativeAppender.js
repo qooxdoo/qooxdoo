@@ -47,7 +47,7 @@ qx.Class.define("qx.log.NativeAppender",
   {
     this.base(arguments);
 
-    if (typeof console != 'undefined' && console.debug) {
+    if (typeof console != 'undefined' && console.debug && !console.emu) {
       this._appender = new qx.log.FireBugAppender;
     } else {
       this._appender = new qx.log.WindowAppender;
