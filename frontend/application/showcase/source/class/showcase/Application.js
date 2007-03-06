@@ -2151,7 +2151,8 @@ qx.Class.define("showcase.Application",
       win.set(
       {
         width  : "auto",
-        height : "auto"
+        height : "auto",
+        allowMinimize : false
       });
 
       // Open button
