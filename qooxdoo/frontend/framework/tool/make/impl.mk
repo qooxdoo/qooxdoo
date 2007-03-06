@@ -104,7 +104,7 @@ ifeq ($(APPLICATION_OPTIMIZE_BROWSER),true)
 exec-script-build-opt:
 	@mv $(COMPUTED_BUILD_SCRIPT_NAME) $(COMPUTED_BUILD_SCRIPT_NAME:.js=_all.js)
 
-	$(SILENCE) for BROWSER in gecko mshtml webkit opera; do \
+	$(SILENCE) for BROWSER in $(APPLICATION_INDIVIDUAL_BROWSERS); do \
     $(CMD_GENERATOR) \
       $(COMPUTED_CLASS_PATH) \
       $(COMPUTED_BUILD_SETTING) \
