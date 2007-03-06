@@ -426,9 +426,9 @@ qx.Class.define("apiviewer.TreeUtil",
       statics.ICON_METHOD_PUB,
       statics.ICON_METHOD_PUB_CTOR,
       statics.ICON_METHOD_PROT,
-      statics.ICON_CONSTANT    
-    ],
-    
+      statics.ICON_CONSTANT
+    ];
+
     /** {string[]} The icon URL of an inherited event. */
     statics.ICON_EVENT_INHERITED = [statics.ICON_EVENT, statics.OVERLAY_INHERITED ];
 
