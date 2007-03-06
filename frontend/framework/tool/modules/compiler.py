@@ -1521,8 +1521,8 @@ def main():
     # Options for pretty printing
     parser.add_option("--pretty-print-indent-string", dest="prettypIndentString", default="  ", help="String used for indenting source code; escapes possible (e.g. \"\\t\"; default: \"  \")")
     parser.add_option("--pretty-print-newline-before-open-curly", dest="prettypOpenCurlyNewlineBefore", 
-                      type="choice", choices=('a','A','n','N','m','M'), metavar="[aAnN]", default="m",
-                      help="Defines whether \"{\" will always [aA] or never [nN] be on a new line; the default is mixed behaviour according to complexity of the enclosed block")
+                      type="choice", choices=('a','A','n','N','m','M'), metavar="[aAnNmM]", default="m",
+                      help="Defines whether \"{\" will always [aA] or never [nN] be on a new line; the default is mixed [mM] behaviour according to complexity of the enclosed block")
     parser.add_option("--pretty-print-indent-before-open-curly", action="store_true", dest="prettypOpenCurlyIndentBefore", default=False, help="Indent \"{\" (default: False)")
     parser.add_option("--pretty-print-inline-comment-padding", dest="prettypCommentsInlinePadding", default="  ", help="String used between the end of a statement and a trailing inline comment (default: \"  \")")
 
