@@ -29,7 +29,7 @@
  * after it is loaded.
  * 
  * <p>
- * This class should not be used directly. Better use the ImagePreloaderManager:
+ * This class should not be used directly. Better use {@link qx.manager.object.ImagePreloaderManager}:
  * 
  * <code><pre>
  *   qx.manager.object.ImagePreloaderManager.getInstance().create(imageUrl)
