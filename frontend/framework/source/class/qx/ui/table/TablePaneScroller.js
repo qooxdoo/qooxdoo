@@ -791,7 +791,7 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
             }
           }
         }
-        else if (row != null)
+        else if (row != null && this._getColumnForPageX(pageX) != null)
         {
           // The mouse is over the data -> update the focus
           if (this.getFocusCellOnMouseMove()) {
@@ -858,7 +858,7 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
           }
         }
       }
-      else if (row != null)
+      else if (row != null && this._getColumnForPageX(pageX) != null)
       {
         var selectBeforeFocus = this.getSelectBeforeFocus();
 
@@ -955,7 +955,7 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
         // This is a normal mouse up
         var row = this._getRowForPagePos(evt.getPageX(), evt.getPageY());
 
-        if (row != -1 && row != null) {
+        if (row != -1 && row != null && this._getColumnForPageX(evt.getPageX()) != null) {
           table._getSelectionManager().handleMouseUp(row, evt);
         }
       }
@@ -1004,7 +1004,7 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
           }
         }
       }
-      else if (row != null)
+      else if (row != null && this._getColumnForPageX(evt.getPageX()) != null)
       {
         table._getSelectionManager().handleClick(row, evt);
       }
