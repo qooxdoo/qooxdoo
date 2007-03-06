@@ -25,15 +25,17 @@
 
 QOOXDOO_PATH = ../../..
 
-# We wanna have a qx.js :)
-APPLICATION_NAMESPACE = qx
 APPLICATION_MAKE_TITLE = QUICKSTART
 APPLICATION_API_TITLE = Quickstart
+
 APPLICATION_FILES = index.html button.png Application.js
 APPLICATION_RESOURCE_FILTER = true
 
-APPLICATION_ADDITIONAL_SOURCE_OPTIONS = --exclude-without-dependencies custom.*,qx.theme.icon.VistaInspirate,qx.theme.icon.NuoveXT,qx.theme.icon.CrystalClear
-APPLICATION_ADDITIONAL_BUILD_OPTIONS = --exclude-without-dependencies custom.*,qx.theme.icon.VistaInspirate,qx.theme.icon.NuoveXT,qx.theme.icon.CrystalClear
+# Generate a single JavaScript file
+APPLICATION_SCRIPT_FILENAME = qx.js
+
+APPLICATION_ADDITIONAL_SOURCE_OPTIONS = --exclude-without-dependencies qx.theme.icon.VistaInspirate,qx.theme.icon.NuoveXT,qx.theme.icon.CrystalClear
+APPLICATION_ADDITIONAL_BUILD_OPTIONS = --exclude-without-dependencies qx.theme.icon.VistaInspirate,qx.theme.icon.NuoveXT,qx.theme.icon.CrystalClear
 
 APPLICATION_COMPLETE_SOURCE = true
 APPLICATION_COMPLETE_BUILD = true
