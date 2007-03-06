@@ -44,7 +44,7 @@ qx.Class.define("qx.ui.component.ColorPopup",
 
     this.setPadding(4);
     this.auto();
-    this.setBorder(qx.renderer.border.BorderPresets.getInstance().outset);
+    this.setBorder(qx.renderer.border.BorderPresets.getOutset());
     this.setBackgroundColor("threedface");
 
     this._tables = tables;
@@ -192,7 +192,7 @@ qx.Class.define("qx.ui.component.ColorPopup",
         {
           field = new qx.ui.basic.Terminator;
 
-          field.setBorder(qx.renderer.border.BorderPresets.getInstance().thinInset);
+          field.setBorder(qx.renderer.border.BorderPresets.getThinInset());
           field.setBackgroundColor(table.values[i] || null);
           field.setDimension(this._fieldWidth, this._fieldHeight);
 
@@ -228,11 +228,11 @@ qx.Class.define("qx.ui.component.ColorPopup",
 
       this._layout.add(this._previewBox);
 
-      this._selectedPreview.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
+      this._selectedPreview.setBorder(qx.renderer.border.BorderPresets.getInset());
       this._selectedPreview.setWidth("1*");
       this._selectedPreview.setHeight(24);
 
-      this._currentPreview.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
+      this._currentPreview.setBorder(qx.renderer.border.BorderPresets.getInset());
       this._currentPreview.setWidth("1*");
       this._currentPreview.setHeight(24);
     },
