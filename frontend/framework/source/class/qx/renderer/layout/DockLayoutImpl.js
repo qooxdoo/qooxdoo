@@ -231,7 +231,7 @@ qx.Class.define("qx.renderer.layout.DockLayoutImpl",
     /**
      * Invalidate and recompute things because of job in queue
      * (before the rest of job handling will be executed).
-     * 
+     *
      * @signature function()
      */
     updateSelfOnJobQueueFlush : qx.lang.Function.returnFalse,

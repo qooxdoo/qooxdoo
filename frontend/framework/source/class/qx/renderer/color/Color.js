@@ -426,7 +426,7 @@ qx.Class.define("qx.renderer.color.Color",
      * @signature function()
      */
     add : qx.lang.Function.returnTrue,
-    
+
     /**
      * @signature function()
      */

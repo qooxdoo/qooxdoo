@@ -45,11 +45,11 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
   *****************************************************************************
   */
 
-	/**
-	 * @param treeRowStructure {qx.ui.treefullcontrol.TreeRowStructure} An instance
-	 *    of qx.ui.treefullcontrol.TreeRowStructure, defining the
-	 *    structure of this tree row.
-	 */
+  /**
+   * @param treeRowStructure {qx.ui.treefullcontrol.TreeRowStructure} An instance
+   *    of qx.ui.treefullcontrol.TreeRowStructure, defining the
+   *    structure of this tree row.
+   */
   construct : function(treeRowStructure)
   {
     this.base(arguments, treeRowStructure);

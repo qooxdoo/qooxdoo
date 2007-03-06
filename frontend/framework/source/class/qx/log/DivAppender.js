@@ -42,10 +42,10 @@ qx.Class.define("qx.log.DivAppender",
   *****************************************************************************
   */
 
-	/**
-	 * @param divId {String ? "qx_log"} the ID of the div element to write the
-	 *        messages to.
-	 */
+  /**
+   * @param divId {String ? "qx_log"} the ID of the div element to write the
+   *        messages to.
+   */
   construct : function(divId)
   {
     this.base(arguments);

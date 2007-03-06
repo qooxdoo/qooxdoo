@@ -44,13 +44,13 @@ qx.Class.define("qx.ui.basic.Atom",
   *****************************************************************************
   */
 
-	/**
-	 * @param vLabel {String} label of the atom
-	 * @param vIcon {String?null} Icon of the atom
-	 * @param vIconWidth {Integer?null} desired width of the icon (the icon will be scaled to this size)
-	 * @param vIconHeight {Integer?null} desired height of the icon (the icon will be scaled to this size)
-	 * @param vFlash {qx.ui.embed.Flash?null} optional flash animation for the Atom. Needs valid width and height values.
-	 */
+  /**
+   * @param vLabel {String} label of the atom
+   * @param vIcon {String?null} Icon of the atom
+   * @param vIconWidth {Integer?null} desired width of the icon (the icon will be scaled to this size)
+   * @param vIconHeight {Integer?null} desired height of the icon (the icon will be scaled to this size)
+   * @param vFlash {qx.ui.embed.Flash?null} optional flash animation for the Atom. Needs valid width and height values.
+   */
   construct : function(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)
   {
     this.base(arguments);

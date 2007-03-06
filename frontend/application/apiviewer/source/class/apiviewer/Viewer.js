@@ -75,11 +75,11 @@ qx.Class.define("apiviewer.Viewer",
 
     treeButton.setChecked(true);
     this._buttonView.getBar().add(treeButton, infoButton);
-    
+
     var treePane = new qx.ui.pageview.buttonview.Page(treeButton);
     var infoPane = new qx.ui.pageview.buttonview.Page(infoButton);
     this._buttonView.getPane().add(treePane, infoPane);
-    
+
     // create tree
     this._tree = new qx.ui.tree.Tree("API Documentation");
     this._tree.set({
