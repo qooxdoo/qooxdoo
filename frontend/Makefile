@@ -446,7 +446,7 @@ release-build-unix-collect:
 
 release-build-unix-archive:
 	@echo "  * Synchronizing quickstart..."
-	@$(CMD_SYNC_OFFLINE) application/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.tar.gz $(RELEASE_BUILD_UNIX)/frontend/application/
+	@$(CMD_SYNC_OFFLINE) application/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.tar.gz $(RELEASE_BUILD_UNIX)/frontend/
 
 	@echo "  * Generating tar archive..."
 	@cd release/temp/build/unix; $(CMD_REMOVE) ../../../qooxdoo-$(FRAMEWORK_VERSION)-build.tar.gz; $(CMD_NICE) tar cfzp ../../../qooxdoo-$(FRAMEWORK_VERSION)-build.tar.gz qooxdoo-$(FRAMEWORK_VERSION)-build
@@ -487,7 +487,7 @@ release-build-dos-collect:
 
 release-build-dos-archive:
 	@echo "  * Synchronizing quickstart..."
-	@$(CMD_SYNC_OFFLINE) application/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip $(RELEASE_BUILD_DOS)/frontend/application/
+	@$(CMD_SYNC_OFFLINE) application/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip $(RELEASE_BUILD_DOS)/frontend/
 
 	@echo "  * Generating zip archive..."
 	@cd release/temp/build/dos; $(CMD_REMOVE) ../../../qooxdoo-$(FRAMEWORK_VERSION)-build.zip; $(CMD_NICE) zip -rq ../../../qooxdoo-$(FRAMEWORK_VERSION)-build.zip qooxdoo-$(FRAMEWORK_VERSION)-build
