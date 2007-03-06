@@ -24,14 +24,14 @@
 
 ************************************************************************ */
 
+/**
+ * The image preloader can be used to fill the browser cache with images,
+ * which are needed later. Once all images are pre loaded a "complete"
+ * event is fired.
+ */
 qx.Class.define("qx.io.image.PreloaderSystem",
 {
   extend : qx.core.Target,
-
-  events : {
-    "completed" : "qx.event.type.Event"
-  },
-
 
 
 
@@ -41,15 +41,30 @@ qx.Class.define("qx.io.image.PreloaderSystem",
   *****************************************************************************
   */
 
+  /**
+   * If the callback is provided the preloading starts automatically and the callback
+   * is called on completion of the pre loading. Otherwhise the pre loading has to be
+   * started manually using {@link #start}.
+   *
+   * @param vPreloadList {String[]} list of image URLs to preload
+   * @param vCallBack {Function} callback function. This function gets called after the 
+   *    preloading is completed
+   * @param vCallBackScope {Object?window} scope for the callback function
+   */
   construct : function(vPreloadList, vCallBack, vCallBackScope)
   {
     this.base(arguments);
 
-    this._list = vPreloadList;
+    // internally use a map for the image sources
+    if (vPreloadList instanceof Array) {
+      this._list = qx.lang.Object.fromArray(vPreloadList)
+    } else {
+      this._list = vPreloadList;
+    }
 
     // Create timer
     this._timer = new qx.client.Timer(qx.core.Setting.get("qx.preloaderTimeout"));
-    this._timer.addEventListener("interval", this._oninterval, this);
+    this._timer.addEventListener("interval", this.__oninterval, this);
 
     // If we use the compact syntax, automatically add an event listeners and start the loading process
     if (vCallBack)
@@ -68,6 +83,7 @@ qx.Class.define("qx.io.image.PreloaderSystem",
   */
 
   events: {
+   /** Fired after the pre loading of the images is complete */
    "completed" : "qx.event.type.Event"
   },
 
@@ -94,7 +110,7 @@ qx.Class.define("qx.io.image.PreloaderSystem",
     */
 
     /**
-     * TODOC
+     * Start the preloading
      *
      * @type member
      * @return {void}
@@ -118,8 +134,8 @@ qx.Class.define("qx.io.image.PreloaderSystem",
         {
           vPreloader._origSource = vSource;
 
-          vPreloader.addEventListener("load", this._onload, this);
-          vPreloader.addEventListener("error", this._onerror, this);
+          vPreloader.addEventListener("load", this.__onload, this);
+          vPreloader.addEventListener("error", this.__onerror, this);
         }
       }
 
@@ -140,10 +156,9 @@ qx.Class.define("qx.io.image.PreloaderSystem",
      * TODOC
      *
      * @type member
-     * @param e {Event} TODOC
-     * @return {void}
+     * @param e {Event} Event object
      */
-    _onload : function(e)
+    __onload : function(e)
     {
       delete this._list[e.getTarget()._origSource];
       this._check();
@@ -151,13 +166,12 @@ qx.Class.define("qx.io.image.PreloaderSystem",
 
 
     /**
-     * TODOC
+     * Error handler
      *
      * @type member
-     * @param e {Event} TODOC
-     * @return {void}
+     * @param e {Event} Event object
      */
-    _onerror : function(e)
+    __onerror : function(e)
     {
       delete this._list[e.getTarget()._origSource];
       this._check();
@@ -165,13 +179,12 @@ qx.Class.define("qx.io.image.PreloaderSystem",
 
 
     /**
-     * TODOC
+     * Timer interval handler
      *
      * @type member
-     * @param e {Event} TODOC
-     * @return {void}
+     * @param e {Event} Event object
      */
-    _oninterval : function(e)
+    __oninterval : function(e)
     {
       this.error("Could not preload: " + qx.lang.Object.getKeysAsString(this._list));
 
@@ -191,10 +204,9 @@ qx.Class.define("qx.io.image.PreloaderSystem",
     */
 
     /**
-     * TODOC
+     * Checks whether the pre loading is complete and dispatches the "complete" event.
      *
      * @type member
-     * @return {void}
      */
     _check : function()
     {
@@ -226,6 +238,7 @@ qx.Class.define("qx.io.image.PreloaderSystem",
   */
 
   settings : {
+    /** Timeout for the image pre loader in milliseconds */
     "qx.preloaderTimeout" : 3000
   },
 
