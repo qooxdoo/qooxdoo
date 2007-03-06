@@ -110,6 +110,8 @@ qx.Class.define("qx.core.Log",
       this._frame.style.display = "none";
     },
 
+    emu : true,
+
 
 
 
