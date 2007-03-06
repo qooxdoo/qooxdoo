@@ -23,7 +23,7 @@ import filetool
 
 
 
-DIRINFO = re.compile("dir\n([0-9]+)\nhttps://.*/svnroot/qooxdoo/(\w+)/(\w+)/", re.M | re.S)
+DIRINFO = re.compile("dir\n([0-9]+)\nhttps://.*/svnroot/qooxdoo/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/", re.M | re.S)
 
 
 
