@@ -1128,6 +1128,10 @@ qx.Proto._onwindowmousemove = function(e)
 
   // stop event
   e.stopPropagation();
+
+  // prevent default (IE7 selection stop)
+  // See also bug #311
+  e.preventDefault();
 }
 
 qx.Proto._onwindowclick = function(e)
