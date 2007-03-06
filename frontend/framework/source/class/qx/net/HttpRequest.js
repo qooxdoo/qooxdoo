@@ -48,7 +48,16 @@ qx.Class.define("qx.net.HttpRequest",
         return new XMLHttpRequest;
       },
 
-      "mshtml" : qx.lang.Object.select(window.XMLHttpRequest ? "native" : "activeX",
+      /*
+         IE7's native XmlHttp does not care about trusted zones. To make this
+         work in the localhost scenario, you can use the following registry setting:
+
+          [HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_XMLHTTP_RESPECT_ZONEPOLICY]
+          "Iexplore.exe"=dword:00000001
+
+         We always use activeX if the file served is locally = file protocol.
+      */
+      "mshtml" : qx.lang.Object.select(location.protocol !== "file:" && window.XMLHttpRequest ? "native" : "activeX",
       {
         "native" : function() {
           return new XMLHttpRequest;
