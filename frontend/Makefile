@@ -96,6 +96,7 @@ publish:
 clean:
 	@$(MAKE) -s -C application clean
 	@$(CMD_REMOVE) application/*.tar.gz application/*.zip
+	@$(MAKE) -s release-clean
 
 distclean:
 	@$(MAKE) -s -C application distclean
@@ -126,7 +127,6 @@ framework-distclean:
 	@$(CMD_REMOVE) application/skeleton.zip
 	@$(CMD_FIND) $(FRAMEWORK_PATH) $(FILES_TEMP) -exec $(CMD_REMOVE) {} \;
 	@$(CMD_REMOVE) $(FRAMEWORK_TOOL_PATH)/icon/temp
-
 
 framework-pretty:
 	@echo
@@ -195,16 +195,13 @@ info-quickstart-dos:
 	@echo "  GENERATING DOS VERSION OF QUICKSTART"
 	@echo "****************************************************************************"
 
-quickstart-unix: info-quickstart-unix exec-quickstart-unix exec-quickstart-unix-post exec-quickstart-unix-clean
-quickstart-dos: info-quickstart-dos exec-quickstart-dos exec-quickstart-dos-post exec-quickstart-dos-clean
+quickstart-unix: exec-quickstart-build info-quickstart-unix exec-quickstart-unix-collect exec-quickstart-unix-archive
+quickstart-dos: exec-quickstart-build info-quickstart-dos exec-quickstart-dos-collect exec-quickstart-dos-archive
 
-exec-quickstart-unix: exec-quickstart-unix-collect exec-quickstart-unix-archive
-exec-quickstart-dos: exec-quickstart-dos-collect exec-quickstart-dos-archive
+exec-quickstart-build:
+	@$(MAKE) -s -C application/quickstart build
 
 exec-quickstart-unix-collect:
-	@echo "  * Generating quickstart build..."
-	@if [ ! -d application/quickstart/build ]; then $(MAKE) -s -C application/quickstart build; fi
-
 	@$(CMD_DIR) $(QUICKSTART_TEMP_UNIX)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart
 
 	@echo "  * Copying info files..."
@@ -228,14 +225,15 @@ exec-quickstart-unix-archive:
 	@$(CMD_FIND) $(QUICKSTART_TEMP_UNIX) $(FILES_EXEC) -exec $(CMD_MKEXEC) {} \;
 
 	@echo "  * Building quickstart archive..."
-	@$(CMD_REMOVE) $(QUICKSTART_TEMP_UNIX)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.tar.gz
-	@cd $(QUICKSTART_TEMP_UNIX); $(CMD_TAR_CREATE) qooxdoo-$(FRAMEWORK_VERSION)-quickstart.tar.gz qooxdoo-$(FRAMEWORK_VERSION)-quickstart
-	@$(CMD_REMOVE) $(QUICKSTART_TEMP_UNIX)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart
+	@cd $(QUICKSTART_TEMP_UNIX); $(CMD_REMOVE) ../application/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.tar.gz; $(CMD_TAR_CREATE) ../application/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.tar.gz qooxdoo-$(FRAMEWORK_VERSION)-quickstart
+
+	@echo
+	@echo "  * Cleaning up temporary folder..."
+	@$(CMD_REMOVE) $(QUICKSTART_TEMP_UNIX)
+
+	@echo "  * Created application/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.tar.gz"
 
 exec-quickstart-dos-collect:
-	@echo "  * Generating quickstart build..."
-	@if [ ! -d application/quickstart/build ]; then $(MAKE) -s -C application/quickstart build; fi
-
 	@$(CMD_DIR) $(QUICKSTART_TEMP_DOS)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart
 
 	@echo "  * Copying info files..."
@@ -259,29 +257,13 @@ exec-quickstart-dos-archive:
 	@$(CMD_FIND) $(QUICKSTART_TEMP_DOS) $(FILES_EXEC) -exec $(CMD_MKEXEC) {} \;
 
 	@echo "  * Building quickstart archive..."
-	@$(CMD_REMOVE) $(QUICKSTART_TEMP_DOS)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip
-	@cd $(QUICKSTART_TEMP_DOS); $(CMD_ZIP_CREATE) qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip qooxdoo-$(FRAMEWORK_VERSION)-quickstart
-	@$(CMD_REMOVE) $(QUICKSTART_TEMP_DOS)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart
+	@cd $(QUICKSTART_TEMP_DOS); $(CMD_REMOVE) ../application/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip; $(CMD_ZIP_CREATE) ../application/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip qooxdoo-$(FRAMEWORK_VERSION)-quickstart
 
-exec-quickstart-unix-post:
-	@echo "  * Copying archive to application folder..."
-	@$(CMD_SYNC_OFFLINE) $(QUICKSTART_TEMP_UNIX)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.tar.gz application/
-	@echo
-	@echo "  * Created application/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.tar.gz"
-	@echo "    Please extract to a location outside this qooxdoo folder."
-
-exec-quickstart-dos-post:
-	@echo "  * Copying archive to application folder..."
-	@$(CMD_SYNC_OFFLINE) $(QUICKSTART_TEMP_DOS)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip application/
-	@echo
-	@echo "  * Created application/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip"
-	@echo "    Please extract to a location outside this qooxdoo folder."
-
-exec-quickstart-unix-clean:
-	@$(CMD_REMOVE) $(QUICKSTART_TEMP_UNIX)
-
-exec-quickstart-dos-clean:
+	@echo "  * Cleaning up temporary folder..."
 	@$(CMD_REMOVE) $(QUICKSTART_TEMP_DOS)
+
+	@echo "  * Created application/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip"
+
 
 
 
@@ -311,11 +293,8 @@ info-skeleton-dos:
 	@echo "  GENERATING DOS VERSION OF SKELETON"
 	@echo "****************************************************************************"
 
-skeleton-unix: info-skeleton-unix exec-skeleton-unix exec-skeleton-unix-post exec-skeleton-unix-clean
-skeleton-dos: info-skeleton-dos exec-skeleton-dos exec-skeleton-dos-post exec-skeleton-dos-clean
-
-exec-skeleton-unix: exec-skeleton-unix-collect exec-skeleton-unix-archive
-exec-skeleton-dos: exec-skeleton-dos-collect exec-skeleton-dos-archive
+skeleton-unix: info-skeleton-unix exec-skeleton-unix-collect exec-skeleton-unix-archive
+skeleton-dos: info-skeleton-dos exec-skeleton-dos-collect exec-skeleton-dos-archive
 
 exec-skeleton-unix-collect:
 	@echo "  * Copying info files..."
@@ -344,9 +323,12 @@ exec-skeleton-unix-archive:
 	@$(CMD_FIND) $(SKELETON_TEMP_UNIX) $(FILES_EXEC) -exec $(CMD_MKEXEC) {} \;
 
 	@echo "  * Building skeleton archive..."
-	@$(CMD_REMOVE) $(SKELETON_TEMP_UNIX)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton.tar.gz
-	@cd $(SKELETON_TEMP_UNIX); $(CMD_TAR_CREATE) qooxdoo-$(FRAMEWORK_VERSION)-skeleton.tar.gz qooxdoo-$(FRAMEWORK_VERSION)-skeleton
-	@$(CMD_REMOVE) $(SKELETON_TEMP_UNIX)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton
+	@cd $(SKELETON_TEMP_UNIX); $(CMD_REMOVE) ../application/qooxdoo-$(FRAMEWORK_VERSION)-skeleton.tar.gz; $(CMD_TAR_CREATE) ../application/qooxdoo-$(FRAMEWORK_VERSION)-skeleton.tar.gz qooxdoo-$(FRAMEWORK_VERSION)-skeleton
+
+	@echo "  * Cleaning up temporary folder..."
+	@$(CMD_REMOVE) $(SKELETON_TEMP_UNIX)
+
+	@echo "  * Created application/qooxdoo-$(FRAMEWORK_VERSION)-skeleton.tar.gz"
 
 exec-skeleton-dos-collect:
 	@echo "  * Copying info files..."
@@ -375,29 +357,14 @@ exec-skeleton-dos-archive:
 	@$(CMD_FIND) $(SKELETON_TEMP_DOS) $(FILES_EXEC) -exec $(CMD_MKEXEC) {} \;
 
 	@echo "  * Building skeleton archive..."
-	@$(CMD_REMOVE) $(SKELETON_TEMP_DOS)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton.zip
-	@cd $(SKELETON_TEMP_DOS); $(CMD_ZIP_CREATE) qooxdoo-$(FRAMEWORK_VERSION)-skeleton.zip qooxdoo-$(FRAMEWORK_VERSION)-skeleton
-	@$(CMD_REMOVE) $(SKELETON_TEMP_DOS)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton
+	@cd $(SKELETON_TEMP_DOS); $(CMD_REMOVE) ../application/qooxdoo-$(FRAMEWORK_VERSION)-skeleton.zip; $(CMD_ZIP_CREATE) ../application/qooxdoo-$(FRAMEWORK_VERSION)-skeleton.zip qooxdoo-$(FRAMEWORK_VERSION)-skeleton
 
-exec-skeleton-unix-post:
-	@echo "  * Copying archive to application folder..."
-	@$(CMD_SYNC_OFFLINE) $(SKELETON_TEMP_UNIX)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton.tar.gz application/
-	@echo
-	@echo "  * Created application/qooxdoo-$(FRAMEWORK_VERSION)-skeleton.tar.gz"
-	@echo "    Please extract to a location outside this qooxdoo folder."
-
-exec-skeleton-dos-post:
-	@echo "  * Copying archive to application folder..."
-	@$(CMD_SYNC_OFFLINE) $(SKELETON_TEMP_DOS)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton.zip application/
-	@echo
-	@echo "  * Created application/qooxdoo-$(FRAMEWORK_VERSION)-skeleton.zip"
-	@echo "    Please extract to a location outside this qooxdoo folder."
-
-exec-skeleton-unix-clean:
-	@$(CMD_REMOVE) $(SKELETON_TEMP_UNIX)
-
-exec-skeleton-dos-clean:
+	@echo "  * Cleaning up temporary folder..."
 	@$(CMD_REMOVE) $(SKELETON_TEMP_DOS)
+
+	@echo "  * Created application/qooxdoo-$(FRAMEWORK_VERSION)-skeleton.zip"
+
+
 
 
 
@@ -410,6 +377,14 @@ exec-skeleton-dos-clean:
 # RELEASE TARGETS
 ################################################################################
 
+release-clean:
+	@echo
+	@echo "****************************************************************************"
+	@echo "  CLEANING UP RELEASE"
+	@echo "****************************************************************************"
+	@echo "  * Cleaning up..."
+	@$(CMD_REMOVE) release/temp
+
 release-distclean:
 	@echo
 	@echo "****************************************************************************"
@@ -421,7 +396,7 @@ release-distclean:
 
 
 
-release: release-sdk release-build release-quickstart
+release: release-sdk release-build release-quickstart release-skeleton
 release-fast: release-build-fast release-sdk-fast
 
 
@@ -436,7 +411,10 @@ release-build-info:
 	@echo "  GENERATING BUILD VERSION OF RELEASE $(FRAMEWORK_VERSION)"
 	@echo "****************************************************************************"
 
-release-build-unix:
+release-build-unix: release-build-unix-collect quickstart release-build-unix-archive
+release-build-dos: release-build-dos-collect quickstart release-build-dos-archive
+
+release-build-unix-collect:
 	@echo
 	@echo "  SYNCHRONISATION OF BUILD RELEASE (UNIX VERSION)"
 	@echo "----------------------------------------------------------------------------"
@@ -466,10 +444,17 @@ release-build-unix:
 	@echo "  * Switching to Unix line endings..."
 	@$(CMD_FIND) $(RELEASE_BUILD_UNIX) $(FILES_TEXT) $(CMD_ANY2UNIX)
 
-	@echo "  * Generating tar archive..."
-	@cd release/temp/build/unix; $(CMD_REMOVE) qooxdoo-$(FRAMEWORK_VERSION)-build.tar.gz; $(CMD_NICE) tar cfzp ../../../qooxdoo-$(FRAMEWORK_VERSION)-build.tar.gz qooxdoo-$(FRAMEWORK_VERSION)-build
+release-build-unix-archive:
+	@echo "  * Synchronizing quickstart..."
+	@$(CMD_SYNC_OFFLINE) application/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.tar.gz $(RELEASE_BUILD_UNIX)/frontend/application/
 
-release-build-dos:
+	@echo "  * Generating tar archive..."
+	@cd release/temp/build/unix; $(CMD_REMOVE) ../../../qooxdoo-$(FRAMEWORK_VERSION)-build.tar.gz; $(CMD_NICE) tar cfzp ../../../qooxdoo-$(FRAMEWORK_VERSION)-build.tar.gz qooxdoo-$(FRAMEWORK_VERSION)-build
+
+	@echo "  * Cleaning up..."
+	@rm -rf release/temp
+
+release-build-dos-collect:
 	@echo
 	@echo "  SYNCHRONISATION OF BUILD RELEASE (DOS VERSION)"
 	@echo "----------------------------------------------------------------------------"
@@ -500,9 +485,15 @@ release-build-dos:
 	@echo "  * Switching to DOS line endings..."
 	@$(CMD_FIND) $(RELEASE_BUILD_DOS) $(FILES_TEXT) $(CMD_ANY2DOS)
 
-	@echo "  * Generating zip archive..."
-	@cd release/temp/build/dos; $(CMD_REMOVE) qooxdoo-$(FRAMEWORK_VERSION)-build.zip; $(CMD_NICE) zip -rq ../../../qooxdoo-$(FRAMEWORK_VERSION)-build.zip qooxdoo-$(FRAMEWORK_VERSION)-build
+release-build-dos-archive:
+	@echo "  * Synchronizing quickstart..."
+	@$(CMD_SYNC_OFFLINE) application/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip $(RELEASE_BUILD_DOS)/frontend/application/
 
+	@echo "  * Generating zip archive..."
+	@cd release/temp/build/dos; $(CMD_REMOVE) ../../../qooxdoo-$(FRAMEWORK_VERSION)-build.zip; $(CMD_NICE) zip -rq ../../../qooxdoo-$(FRAMEWORK_VERSION)-build.zip qooxdoo-$(FRAMEWORK_VERSION)-build
+
+	@echo "  * Cleaning up..."
+	@rm -rf release/temp
 
 
 
@@ -520,7 +511,10 @@ release-sdk-info:
 	@echo "  GENERATING SDK VERSION OF RELEASE $(FRAMEWORK_VERSION)"
 	@echo "****************************************************************************"
 
-release-sdk-unix:
+release-sdk-unix: release-sdk-unix-collect skeleton quickstart release-sdk-unix-archive
+release-sdk-dos: release-sdk-dos-collect skeleton quickstart release-sdk-dos-archive
+
+release-sdk-unix-collect:
 	@echo
 	@echo "  SYNCHRONISATION OF SDK RELEASE (UNIX VERSION)"
 	@echo "----------------------------------------------------------------------------"
@@ -548,18 +542,18 @@ release-sdk-unix:
 	  cp -f $$ITEM $(RELEASE_SDK_UNIX)/frontend/$$ITEM; \
 	done
 
-	@$(MAKE) -s exec-skeleton-unix
-	@$(CMD_SYNC_OFFLINE) $(SKELETON_TEMP_UNIX)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton.tar.gz $(RELEASE_SDK_UNIX)/frontend/application/
-	@$(MAKE) -s exec-skeleton-unix-clean
-
-	@$(MAKE) -s exec-quickstart-unix
-	@$(CMD_SYNC_OFFLINE) $(QUICKSTART_TEMP_UNIX)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.tar.gz $(RELEASE_SDK_UNIX)/frontend/application/
-	@$(MAKE) -s exec-quickstart-unix-clean
+release-sdk-unix-archive:
+	@echo "  * Synchronizing quickstart & skeleton..."
+	@$(CMD_SYNC_OFFLINE) application/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.tar.gz $(RELEASE_SDK_UNIX)/frontend/application/
+	@$(CMD_SYNC_OFFLINE) application/qooxdoo-$(FRAMEWORK_VERSION)-skeleton.tar.gz $(RELEASE_SDK_UNIX)/frontend/application/
 
 	@echo "  * Generating tar archive..."
-	@cd release/temp/sdk/unix; $(CMD_REMOVE) qooxdoo-$(FRAMEWORK_VERSION)-sdk.tar.gz; $(CMD_TAR_CREATE) ../../../qooxdoo-$(FRAMEWORK_VERSION)-sdk.tar.gz qooxdoo-$(FRAMEWORK_VERSION)-sdk
+	@cd release/temp/sdk/unix; $(CMD_REMOVE) ../../../qooxdoo-$(FRAMEWORK_VERSION)-sdk.tar.gz; $(CMD_TAR_CREATE) ../../../qooxdoo-$(FRAMEWORK_VERSION)-sdk.tar.gz qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
-release-sdk-dos:
+	@echo "  * Cleaning up..."
+	@rm -rf release/temp
+
+release-sdk-dos-collect:
 	@echo
 	@echo "  SYNCHRONISATION OF SDK RELEASE (DOS VERSION)"
 	@echo "----------------------------------------------------------------------------"
@@ -587,16 +581,16 @@ release-sdk-dos:
 	  cp -f $$ITEM $(RELEASE_SDK_DOS)/frontend/$$ITEM; \
 	done
 
-	@$(MAKE) -s exec-skeleton-dos
-	@$(CMD_SYNC_OFFLINE) $(SKELETON_TEMP_DOS)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton.zip $(RELEASE_SDK_DOS)/frontend/application/
-	@$(MAKE) -s exec-skeleton-dos-clean
-
-	@$(MAKE) -s exec-quickstart-dos
-	@$(CMD_SYNC_OFFLINE) $(QUICKSTART_TEMP_DOS)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip $(RELEASE_SDK_DOS)/frontend/application/
-	@$(MAKE) -s exec-quickstart-dos-clean
+release-sdk-dos-archive:
+	@echo "  * Synchronizing quickstart & skeleton..."
+	@$(CMD_SYNC_OFFLINE) application/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip $(RELEASE_SDK_DOS)/frontend/application/
+	@$(CMD_SYNC_OFFLINE) application/qooxdoo-$(FRAMEWORK_VERSION)-skeleton.zip $(RELEASE_SDK_DOS)/frontend/application/
 
 	@echo "  * Generating zip archive..."
-	@cd release/temp/sdk/dos; $(CMD_REMOVE) qooxdoo-$(FRAMEWORK_VERSION)-sdk.zip; $(CMD_ZIP_CREATE) ../../../qooxdoo-$(FRAMEWORK_VERSION)-sdk.zip qooxdoo-$(FRAMEWORK_VERSION)-sdk
+	@cd release/temp/sdk/dos; $(CMD_REMOVE) ../../../qooxdoo-$(FRAMEWORK_VERSION)-sdk.zip; $(CMD_ZIP_CREATE) ../../../qooxdoo-$(FRAMEWORK_VERSION)-sdk.zip qooxdoo-$(FRAMEWORK_VERSION)-sdk
+
+	@echo "  * Cleaning up..."
+	@rm -rf release/temp
 
 
 
@@ -604,8 +598,7 @@ release-sdk-dos:
 
 
 
-
-release-quickstart: release-quickstart-info release-quickstart-unix release-quickstart-dos
+release-quickstart: quickstart release-quickstart-info release-quickstart-unix release-quickstart-dos
 
 release-quickstart-info:
 	@echo
@@ -618,23 +611,50 @@ release-quickstart-unix:
 	@echo "  SYNCHRONISATION OF QUICKSTART RELEASE (UNIX VERSION)"
 	@echo "----------------------------------------------------------------------------"
 
+	@echo "  * Synchronizing quickstart..."
 	@$(CMD_DIR) release
-	@$(MAKE) -s exec-quickstart-unix
-	@$(CMD_SYNC_OFFLINE) $(QUICKSTART_TEMP_UNIX)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.tar.gz release/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.tar.gz
-	@$(MAKE) -s exec-quickstart-unix-clean
+	@$(CMD_SYNC_OFFLINE) application/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.tar.gz release/
 
 release-quickstart-dos:
 	@echo
 	@echo "  SYNCHRONISATION OF QUICKSTART RELEASE (UNIX VERSION)"
 	@echo "----------------------------------------------------------------------------"
 
+	@echo "  * Synchronizing quickstart..."
 	@$(CMD_DIR) release
-	@$(MAKE) -s exec-quickstart-dos
-	@$(CMD_SYNC_OFFLINE) $(QUICKSTART_TEMP_DOS)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip release/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip
-	@$(MAKE) -s exec-quickstart-dos-clean
+	@$(CMD_SYNC_OFFLINE) application/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip release/
 
 
 
+
+
+
+
+release-skeleton: skeleton release-skeleton-info release-skeleton-unix release-skeleton-dos
+
+release-skeleton-info:
+	@echo
+	@echo "****************************************************************************"
+	@echo "  GENERATING SKELETON VERSION OF RELEASE $(FRAMEWORK_VERSION)"
+	@echo "****************************************************************************"
+
+release-skeleton-unix:
+	@echo
+	@echo "  SYNCHRONISATION OF SKELETON RELEASE (UNIX VERSION)"
+	@echo "----------------------------------------------------------------------------"
+
+	@echo "  * Synchronizing skeleton..."
+	@$(CMD_DIR) release
+	@$(CMD_SYNC_OFFLINE) application/qooxdoo-$(FRAMEWORK_VERSION)-skeleton.tar.gz release/
+
+release-skeleton-dos:
+	@echo
+	@echo "  SYNCHRONISATION OF SKELETON RELEASE (UNIX VERSION)"
+	@echo "----------------------------------------------------------------------------"
+
+	@echo "  * Synchronizing skeleton..."
+	@$(CMD_DIR) release
+	@$(CMD_SYNC_OFFLINE) application/qooxdoo-$(FRAMEWORK_VERSION)-skeleton.zip release/
 
 
 
