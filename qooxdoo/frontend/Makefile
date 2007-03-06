@@ -635,17 +635,18 @@ release-quickstart-dos:
 
 
 ################################################################################
-# READY TARGET
+# CHECKING SYSTEM REQUIREMENTS
 ################################################################################
 
-ready:
+check:
 	@REQUIREMENTS="python make rsync gettext xgettext msginit msgmerge bash tar gzip zip unzip"; \
 	OPTIONALS="wget curl"; \
 	FAILED_REQS=; \
 	FAILED_OPTS=; \
 	echo ;\
-	echo "  CHECKING ENVIRONMENT"; \
-	echo "----------------------------------------------------------------------------"; \
+	echo "****************************************************************************"; \
+	echo "  CHECKING SYSTEM REQUIREMENTS"; \
+	echo "****************************************************************************"; \
 	echo ;\
 	# checking for requirements - remembering any unmet requirement \
 	for REQ in $$REQUIREMENTS; do \
@@ -672,7 +673,7 @@ ready:
 	# check for failed requirments - list all unmet requirements \
 	if [ $$FAILED_REQS ]; then \
 		echo ;\
-		echo "  FOLLOWING REQUIREMENTS FOR QOOXDOO ARE NOT MET:"; \
+		echo "  THE FOLLOWING REQUIRED SOFTWARE COULD NOT BE FOUND:"; \
 		for FAILED_REQ in $$FAILED_REQS; do \
 			case $$FAILED_REQ in \
 				"python" ) \
@@ -742,8 +743,9 @@ ready:
 		for FAILED_OPT in $$FAILED_OPTS; do \
 			case $$FAILED_OPT in \
 				"wget" | "curl" ) \
+    	  echo "----------------------------------------------------------------------------"; \
 				echo ; \
-				echo "  FOLLOWING SOFTWARE PACKAGES ARE OPTIONAL TO INSTALL:"; \
+				echo "  YOU MIGHT WANT TO INSTALL THE FOLLOWING OPTIONAL PACKAGES:"; \
 				echo "    * wget or curl (for downloading additional locale information)"; \
 				;;\
 			esac; \
@@ -752,8 +754,10 @@ ready:
 	\
 	# if all requirements are met output an success message \
 	if [ ! $$FAILED_REQS ]; then \
+	  echo "----------------------------------------------------------------------------"; \
 		echo ;\
-		echo "  ALL REQUIREMENTS FOR QOOXDOO ARE MET"; \
+		echo "  CONGRATULATIONS, ALL REQUIRED PACKAGES FOR QOOXDOO ARE INSTALLED  :-)"; \
+		echo ;\
 	fi; \
 	\
 	exit 0;
