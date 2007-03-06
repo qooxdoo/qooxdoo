@@ -474,6 +474,7 @@ qx.Class.define("qx.ui.basic.Image",
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
      * @return {void}
+     * @signature function(propValue, propOldValue, propData)
      */
     _modifyEnabled : qx.core.Variant.select("qx.client",
     {
@@ -503,6 +504,7 @@ qx.Class.define("qx.ui.basic.Image",
      * @type member
      * @param vSource {var} TODOC
      * @return {void}
+     * @signature function(vSource)
      */
     _updateContent : qx.core.Variant.select("qx.client",
     {
@@ -534,6 +536,7 @@ qx.Class.define("qx.ui.basic.Image",
      *
      * @type member
      * @return {void}
+     * @signature function()
      */
     _resetContent : qx.core.Variant.select("qx.client",
     {
@@ -556,6 +559,7 @@ qx.Class.define("qx.ui.basic.Image",
      *
      * @type member
      * @return {void}
+     * @signature function()
      */
     _applyEnabled : qx.core.Variant.select("qx.client",
     {
@@ -659,6 +663,7 @@ qx.Class.define("qx.ui.basic.Image",
      *
      * @type member
      * @return {void}
+     * @signature function()
      */
     _postApplyDimensions : qx.core.Variant.select("qx.client",
     {
@@ -725,6 +730,7 @@ qx.Class.define("qx.ui.basic.Image",
      * @param vNew {var} TODOC
      * @param vOld {var} TODOC
      * @return {void}
+     * @signature function(vNew, vOld)
      */
     _changeInnerWidth : qx.core.Variant.select("qx.client",
     {
@@ -751,6 +757,7 @@ qx.Class.define("qx.ui.basic.Image",
      * @param vNew {var} TODOC
      * @param vOld {var} TODOC
      * @return {void}
+     * @signature function(vNew, vOld)
      */
     _changeInnerHeight : qx.core.Variant.select("qx.client",
     {

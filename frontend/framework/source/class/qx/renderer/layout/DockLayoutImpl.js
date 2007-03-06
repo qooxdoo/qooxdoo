@@ -228,7 +228,12 @@ qx.Class.define("qx.renderer.layout.DockLayoutImpl",
     ---------------------------------------------------------------------------
     */
 
-    /** Invalidate and recompute things because of job in queue (before the rest of job handling will be executed). */
+    /**
+     * Invalidate and recompute things because of job in queue
+     * (before the rest of job handling will be executed).
+     * 
+     * @signature function()
+     */
     updateSelfOnJobQueueFlush : qx.lang.Function.returnFalse,
 
 
@@ -393,6 +398,7 @@ qx.Class.define("qx.renderer.layout.DockLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @return {void}
+     * @signature function(vChild)
      */
     _applyComputedWidth : qx.core.Variant.select("qx.client",
     {
@@ -431,6 +437,7 @@ qx.Class.define("qx.renderer.layout.DockLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @return {void}
+     * @signature function(vChild)
      */
     _applyComputedHeight : qx.core.Variant.select("qx.client",
     {
@@ -470,6 +477,7 @@ qx.Class.define("qx.renderer.layout.DockLayoutImpl",
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}
+     * @signature function(vChild, vJobs)
      */
     layoutChild_sizeX : qx.core.Variant.select("qx.client",
     {
@@ -497,6 +505,7 @@ qx.Class.define("qx.renderer.layout.DockLayoutImpl",
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}
+     * @signature function(vChild, vJobs)
      */
     layoutChild_sizeY : qx.core.Variant.select("qx.client",
     {
@@ -523,6 +532,7 @@ qx.Class.define("qx.renderer.layout.DockLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @return {void}
+     * @signature function(vChild)
      */
     layoutChild_location_horizontal : qx.core.Variant.select("qx.client",
     {
@@ -544,6 +554,7 @@ qx.Class.define("qx.renderer.layout.DockLayoutImpl",
      * @type member
      * @param vChild {var} TODOC
      * @return {void}
+     * @signature function(vChild)
      */
     layoutChild_location_vertical : qx.core.Variant.select("qx.client",
     {
@@ -566,6 +577,7 @@ qx.Class.define("qx.renderer.layout.DockLayoutImpl",
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}
+     * @signature function(vChild, vJobs)
      */
     layoutChild_location_right : qx.core.Variant.select("qx.client",
     {
@@ -598,6 +610,7 @@ qx.Class.define("qx.renderer.layout.DockLayoutImpl",
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}
+     * @signature function(vChild, vJobs)
      */
     layoutChild_location_bottom : qx.core.Variant.select("qx.client",
     {
@@ -630,6 +643,7 @@ qx.Class.define("qx.renderer.layout.DockLayoutImpl",
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}
+     * @signature function(vChild, vJobs)
      */
     layoutChild_location_default : qx.core.Variant.select("qx.client",
     {

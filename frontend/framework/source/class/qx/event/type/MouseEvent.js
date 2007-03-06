@@ -229,6 +229,7 @@ qx.Class.define("qx.event.type.MouseEvent",
      *
      * @type member
      * @return {var} TODOC
+     * @signature function()
      */
     getPageX : qx.core.Variant.select("qx.client",
     {
@@ -257,6 +258,7 @@ qx.Class.define("qx.event.type.MouseEvent",
      *
      * @type member
      * @return {var} TODOC
+     * @signature function()
      */
     getPageY : qx.core.Variant.select("qx.client",
     {
@@ -288,6 +290,9 @@ qx.Class.define("qx.event.type.MouseEvent",
     ---------------------------------------------------------------------------
     */
 
+		/**
+		 * @signature function()
+		 */
     getClientX : qx.core.Variant.select("qx.client",
     {
       "mshtml|gecko" : function() {
@@ -299,6 +304,9 @@ qx.Class.define("qx.event.type.MouseEvent",
       }
     }),
 
+		/**
+		 * @signature function()
+		 */
     getClientY : qx.core.Variant.select("qx.client",
     {
       "mshtml|gecko" : function() {
@@ -355,6 +363,7 @@ qx.Class.define("qx.event.type.MouseEvent",
      *
      * @type member
      * @return {var} TODOC
+     * @signature function()
      */
     isLeftButtonPressed : qx.core.Variant.select("qx.client",
     {
@@ -454,6 +463,7 @@ qx.Class.define("qx.event.type.MouseEvent",
      *
      * @type member
      * @return {var} TODOC
+     * @signature function()
      */
     _computeWheelDelta : qx.core.Variant.select("qx.client",
     {

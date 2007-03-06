@@ -105,7 +105,11 @@ qx.Class.define("qx.ui.listview.ContentCellImage",
       }
     },
 
-    // Omit dimension setup in list-view
+    /**
+     * Omit dimension setup in list-view
+     *
+     * @signature function()
+     */
     _postApplyDimensions : qx.lang.Function.returnTrue
   }
 });

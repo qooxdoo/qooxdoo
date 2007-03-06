@@ -260,6 +260,9 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
       return vDropTypes;
     },
 
+		/**
+		 * @signature function(e)
+		 */
     getDropTarget : qx.core.Variant.select("qx.client",
     {
       "gecko" : function(e)

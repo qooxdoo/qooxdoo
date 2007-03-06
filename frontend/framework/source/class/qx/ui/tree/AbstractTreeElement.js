@@ -582,6 +582,9 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
       e.stopPropagation();
     },
 
+		/**
+		 * @signature function()
+		 */
     _onmouseup : qx.lang.Function.returnTrue,
 
 

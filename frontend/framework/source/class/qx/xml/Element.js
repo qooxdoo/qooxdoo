@@ -48,6 +48,7 @@ qx.Class.define("qx.xml.Element",
      * @type static
      * @param element {Element | Document} The root of the subtree to be serialized. This could be any node, including a Document.
      * @return {String} TODOC
+     * @signature function(element)
      */
     serialize : qx.lang.Object.select(window.XMLSerializer ? "hasXMLSerializer" : "noXMLSerializer",
     {
@@ -72,6 +73,7 @@ qx.Class.define("qx.xml.Element",
      * @param element {Element | Document} root element for the search
      * @param query {String} XPath query
      * @return {Element} first matching element
+     * @signature function(element, query)
      */
     selectSingleNode : qx.core.Variant.select("qx.client",
     {
@@ -102,6 +104,7 @@ qx.Class.define("qx.xml.Element",
      * @param element {Element | Document} root element for the search
      * @param query {String} XPath query
      * @return {Element[]} List of matching elements
+     * @signature function(element, query)
      */
     selectNodes : qx.core.Variant.select("qx.client",
     {
@@ -142,6 +145,7 @@ qx.Class.define("qx.xml.Element",
      *       for XHTML elements, use the XHTML namespace URI, <tt>http://www.w3.org/1999/xhtml</tt>.
      * @param tagname {String} the tagname to look for
      * @return {Element[]} a list of found elements in the order they appear in the tree.
+     * @signature function(element, namespaceURI, tagname)
      */
     getElementsByTagNameNS : qx.core.Variant.select("qx.client",
     {

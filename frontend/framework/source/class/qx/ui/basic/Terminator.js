@@ -154,6 +154,9 @@ qx.Class.define("qx.ui.basic.Terminator",
       }
     },
 
+		/**
+		 * @signature function()
+		 */
     _postApply : qx.lang.Function.returnTrue,
 
 
@@ -173,7 +176,14 @@ qx.Class.define("qx.ui.basic.Terminator",
       return this.getPreferredBoxHeight();
     },
 
+		/**
+		 * @signature function()
+		 */
     _computePreferredInnerWidth : qx.lang.Function.returnZero,
+    
+    /**
+     * @signature function()
+     */
     _computePreferredInnerHeight : qx.lang.Function.returnZero,
 
 

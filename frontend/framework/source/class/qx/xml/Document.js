@@ -50,6 +50,7 @@ qx.Class.define("qx.xml.Document",
      * @param namespaceUri {String | null ? null} The namespace URI of the document element to create or null.
      * @param qualifiedName {String | null ? null} The qualified name of the document element to be created or null.
      * @return {Document} empty XML document
+     * @signature function(namespaceUri, qualifiedName)
      */
     create : qx.core.Variant.select("qx.client",
     {
@@ -125,6 +126,7 @@ qx.Class.define("qx.xml.Document",
      * @type static
      * @param str {String} the string to be parsed
      * @return {Document} TODO: move to create()
+     * @signature function(str)
      */
     fromString : qx.core.Variant.select("qx.client",
     {
@@ -136,7 +138,7 @@ qx.Class.define("qx.xml.Document",
           return dom;
         },
 
-        "noDomParser": function() {
+        "noDomParser": function(str) {
           throw new Error("This browser does not support xml dom creation from string.");
         }
       }),
