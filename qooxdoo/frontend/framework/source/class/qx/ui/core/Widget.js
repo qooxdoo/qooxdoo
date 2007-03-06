@@ -2206,7 +2206,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Get an array of the current children
-     * 
+     *
      * @signature function()
      */
     getChildren : qx.lang.Function.returnNull,
@@ -2214,7 +2214,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Get the number of children
-     * 
+     *
      * @signature function()
      */
     getChildrenLength : qx.lang.Function.returnZero,
@@ -2230,7 +2230,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Get if the widget has no children
-     * 
+     *
      * @signature function()
      */
     isEmpty : qx.lang.Function.returnTrue,
@@ -2238,7 +2238,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Return the position of the child inside
-     * 
+     *
      * @signature function()
      */
     indexOf : qx.lang.Function.returnNegativeIndex,
@@ -2246,7 +2246,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Test if this widget contains the given widget
-     * 
+     *
      * @signature function()
      */
     contains : qx.lang.Function.returnFalse,
@@ -2262,7 +2262,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Get an array of the current visible children
-     * 
+     *
      * @signature function()
      */
     getVisibleChildren : qx.lang.Function.returnNull,
@@ -2270,7 +2270,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Get the number of children
-     * 
+     *
      * @signature function()
      */
     getVisibleChildrenLength : qx.lang.Function.returnZero,
@@ -2278,7 +2278,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * If this widget has visible children
-     * 
+     *
      * @signature function()
      */
     hasVisibleChildren : qx.lang.Function.returnFalse,
@@ -2286,7 +2286,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Check if there are any visible children inside
-     * 
+     *
      * @signature function()
      */
     isVisibleEmpty : qx.lang.Function.returnTrue,

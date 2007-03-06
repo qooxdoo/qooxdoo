@@ -40,9 +40,9 @@ qx.Class.define("qx.renderer.theme.AppearanceTheme",
   *****************************************************************************
   */
 
-	/**
-	 * @param vTitle {String} anme of the appearance
-	 */
+  /**
+   * @param vTitle {String} anme of the appearance
+   */
   construct : function(vTitle)
   {
     qx.core.Object.call(this);

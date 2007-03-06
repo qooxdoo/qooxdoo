@@ -282,7 +282,7 @@ qx.Class.define("apiviewer.TreeUtil",
     ITEM_LIST_ARR : [
       "constants", "properties",
       "methods", "methods-static",
-      "interfaces", "mixins" 
+      "interfaces", "mixins"
     ],
 
     /** {string} The URL of the info icon. */

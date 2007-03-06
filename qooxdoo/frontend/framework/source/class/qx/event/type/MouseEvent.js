@@ -290,9 +290,9 @@ qx.Class.define("qx.event.type.MouseEvent",
     ---------------------------------------------------------------------------
     */
 
-		/**
-		 * @signature function()
-		 */
+    /**
+     * @signature function()
+     */
     getClientX : qx.core.Variant.select("qx.client",
     {
       "mshtml|gecko" : function() {
@@ -304,9 +304,9 @@ qx.Class.define("qx.event.type.MouseEvent",
       }
     }),
 
-		/**
-		 * @signature function()
-		 */
+    /**
+     * @signature function()
+     */
     getClientY : qx.core.Variant.select("qx.client",
     {
       "mshtml|gecko" : function() {

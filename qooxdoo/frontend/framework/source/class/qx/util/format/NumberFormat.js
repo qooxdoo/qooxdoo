@@ -81,7 +81,7 @@ qx.Class.define("qx.util.format.NumberFormat",
      * Return an instance of NumberFormat
      *
      * @return {qx.util.format.NumberFormat} an instance
-		 * @signature function()
+     * @signature function()
      */
     getInstance : qx.lang.Function.returnInstance
 

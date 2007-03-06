@@ -707,7 +707,7 @@ qx.Class.define("qx.ui.embed.Flash",
      * @signature function()
      */
     _isWidthEssential : qx.lang.Function.returnTrue,
-    
+
     /**
      * @signature function()
      */
@@ -726,7 +726,7 @@ qx.Class.define("qx.ui.embed.Flash",
      * @signature function()
      */
     _computePreferredInnerWidth : qx.lang.Function.returnZero,
-    
+
     /**
      * @signature function()
      */

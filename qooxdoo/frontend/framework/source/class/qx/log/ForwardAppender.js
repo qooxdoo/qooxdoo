@@ -39,10 +39,10 @@ qx.Class.define("qx.log.ForwardAppender",
   *****************************************************************************
   */
 
-	/**
-	 * @param targetProcessor {LogEventProcessor} The log event processor Where to
-	 *    pass the log events.
-	 */
+  /**
+   * @param targetProcessor {LogEventProcessor} The log event processor Where to
+   *    pass the log events.
+   */
   construct : function(targetProcessor)
   {
     this.base(arguments);

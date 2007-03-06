@@ -738,7 +738,7 @@ qx.Class.define("qx.event.handler.EventHandler",
      *  5. mouseup
      *  6. click
      *  7. dblclick
-     * 
+     *
      * @signature function(vDomEvent)
      */
     _onmouseevent : qx.core.Variant.select("qx.client",
@@ -833,7 +833,7 @@ qx.Class.define("qx.event.handler.EventHandler",
      *
      * Opera 9.01: The DOM-targets are different, but the click fires fine. Fires click successfull,
      *   even if the content under the cursor was moved away.
-     * 
+     *
      * @signature function(vDomTarget, vType, vDispatchTarget)
      */
     _onmouseevent_click_fix : qx.core.Variant.select("qx.client",

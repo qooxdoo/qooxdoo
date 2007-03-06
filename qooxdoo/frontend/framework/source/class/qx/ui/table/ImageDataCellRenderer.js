@@ -36,10 +36,10 @@ qx.Class.define("qx.ui.table.ImageDataCellRenderer",
   */
 
 
-	/**
-	 * @param height {int} The height of the image. The default is 11.
-	 * @param width {int} The width of the image. The default is 11.
-	 */
+  /**
+   * @param height {int} The height of the image. The default is 11.
+   * @param width {int} The width of the image. The default is 11.
+   */
   construct : function(width, height)
   {
     this.base(arguments);

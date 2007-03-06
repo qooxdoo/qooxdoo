@@ -391,7 +391,7 @@ qx.Class.define("qx.renderer.border.Border",
      * @signature function()
      */
     addListenerWidget : qx.lang.Function.returnTrue,
-    
+
     /**
      * @signature function()
      */

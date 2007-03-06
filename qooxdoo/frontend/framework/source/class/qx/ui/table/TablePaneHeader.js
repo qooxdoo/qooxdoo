@@ -39,9 +39,9 @@ qx.Class.define("qx.ui.table.TablePaneHeader",
   *****************************************************************************
   */
 
-	/**
-	 * @param paneScroller {TablePaneScroller} the TablePaneScroller the header belongs to.
-	 */
+  /**
+   * @param paneScroller {TablePaneScroller} the TablePaneScroller the header belongs to.
+   */
   construct : function(paneScroller)
   {
     this.base(arguments);
