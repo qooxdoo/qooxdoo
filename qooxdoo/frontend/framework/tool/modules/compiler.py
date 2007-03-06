@@ -783,7 +783,8 @@ def compileNode(node,optns):
             if node.hasParent() and node.parent.type == "expression" and node.parent.parent.type == "return":
                 pass
 
-            elif node.isComplex() or optns.prettypOpenCurlyNewlineBefore:
+            elif ((node.isComplex() and not (optns.prettypOpenCurlyNewlineBefore in "nN"))
+                  or (optns.prettypOpenCurlyNewlineBefore in "aA")):
                 line()
 
             if optns.prettypOpenCurlyIndentBefore:
@@ -846,7 +847,8 @@ def compileNode(node,optns):
 
     elif node.type == "block":
         if pretty:
-            if node.isComplex() or optns.prettypOpenCurlyNewlineBefore:
+            if ((node.isComplex() and not (optns.prettypOpenCurlyNewlineBefore in "nN"))
+                or (optns.prettypOpenCurlyNewlineBefore in "aA")):
                 line()
             else:
                 space()
@@ -1517,7 +1519,9 @@ def main():
     parser.add_option("--encoding", dest="encoding", default="utf-8", metavar="ENCODING", help="Defines the encoding expected for input files.")
     # Options for pretty printing
     parser.add_option("--pretty-print-indent-string", dest="prettypIndentString", default="  ", help="String used for indenting source code; escapes possible (e.g. \"\\t\"; default: \"  \")")
-    parser.add_option("--pretty-print-newline-before-open-curly", action="store_true", dest="prettypOpenCurlyNewlineBefore", default=False, help="Force \"{\" to be on a new line (default: False)")
+    parser.add_option("--pretty-print-newline-before-open-curly", dest="prettypOpenCurlyNewlineBefore", 
+                      type="choice", choices=('a','A','n','N'), metavar="[aAnN]", default="0",
+                      help="Defines whether \"{\" will always [aA] or never [nN] be on a new line; the default is mixed behaviour according to complexity of the enclosed block")
     parser.add_option("--pretty-print-indent-before-open-curly", action="store_true", dest="prettypOpenCurlyIndentBefore", default=False, help="Indent \"{\" (default: False)")
     parser.add_option("--pretty-print-inline-comment-padding", dest="prettypCommentsInlinePadding", default="  ", help="String used between the end of a statement and a trailing inline comment (default: \"  \")")
 
