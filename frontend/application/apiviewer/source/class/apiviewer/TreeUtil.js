@@ -393,6 +393,42 @@ qx.Class.define("apiviewer.TreeUtil",
 
   defer : function(statics, members, properties)
   {
+    /** {string[]} images to preload */
+    statics.PRELOAD_IMAGES = [
+      statics.ICON_INFO,
+      statics.OVERLAY_ABSTRACT,
+      statics.OVERLAY_ERROR,
+      statics.OVERLAY_INHERITED,
+      statics.OVERLAY_OVERRIDDEN,
+      statics.OVERLAY_STATIC,
+      statics.OVERLAY_WARN,
+      statics.OVERLAY_MIXIN,
+      statics.ICON_PACKAGE,
+      statics.ICON_PACKAGE_WARN,
+      statics.ICON_CLASS,
+      statics.ICON_CLASS_WARN,
+      statics.ICON_CLASS_ERROR,
+      statics.ICON_CLASS_STATIC,
+      statics.ICON_CLASS_STATIC_WARN,
+      statics.ICON_CLASS_STATIC_ERROR,
+      statics.ICON_CLASS_ABSTRACT,
+      statics.ICON_CLASS_ABSTRACT_WARN,
+      statics.ICON_CLASS_ABSTRACT_ERROR,
+      statics.ICON_CLASS_SINGLETON,
+      statics.ICON_CLASS_SINGLETON_WARN,
+      statics.ICON_CLASS_SINGLETON_ERROR,
+      statics.ICON_PROPERTY,
+      statics.ICON_EVENT,
+      statics.ICON_INTERFACE,
+      statics.ICON_INTERFACE_WARN,
+      statics.ICON_MIXIN,
+      statics.ICON_MIXIN_WARN,
+      statics.ICON_METHOD_PUB,
+      statics.ICON_METHOD_PUB_CTOR,
+      statics.ICON_METHOD_PROT,
+      statics.ICON_CONSTANT    
+    ],
+    
     /** {string[]} The icon URL of an inherited event. */
     statics.ICON_EVENT_INHERITED = [statics.ICON_EVENT, statics.OVERLAY_INHERITED ];
 

@@ -98,6 +98,10 @@ qx.Class.define("apiviewer.Application",
         }
       });
 
+      // preload images
+      preloader = new qx.io.image.PreloaderSystem(apiviewer.TreeUtil.PRELOAD_IMAGES);
+      preloader.start();      
+      
     },
 
 
@@ -112,7 +116,7 @@ qx.Class.define("apiviewer.Application",
     {
       // Initialize the viewer
       this.viewer = new apiviewer.Viewer;
-      this.viewer.addToDocument();
+      this.viewer.addToDocument();      
     },
 
 

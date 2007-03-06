@@ -1542,7 +1542,9 @@ qx.Class.define("apiviewer.ClassViewer",
       info.titleHtml += '<span class="parenthesis">)</span></span>';
 
       // Add the description
-      if (node.attributes.isCtor) {
+      var descNode = apiviewer.TreeUtil.getChild(docNode, "desc");
+      var hasDescription = descNode && descNode.attributes.text;
+      if (node.attributes.isCtor && !hasDescription) {
         info.textHtml = "Creates a new instance of " + fromClassNode.attributes.name + ".";
       } else {
         info.textHtml = this._createDescHtml(docNode, docClassNode, showDetails);
@@ -2194,15 +2196,6 @@ qx.Class.define("apiviewer.ClassViewer",
           //       is added using the DOM element then the href is followed.
           var fullItemName = className + (itemName ? itemName : "");
 
-          console.log(
-            '<span style="white-space: nowrap;">' +
-            (typeof iconCode != "undefined" ?  iconCode : "") +
-            '<a href="' + window.location.protocol + '//' +
-            window.location.pathname + '#' + fullItemName +
-            '" onclick="' + 'document._detailViewer._selectItem(\'' +
-            fullItemName + '\'); return false;"' + ' title="' +
-            fullItemName + '">' + label + '</a></span>'
-          );
           return (
             '<span style="white-space: nowrap;">' +
             (typeof iconCode != "undefined" ?  iconCode : "") +
