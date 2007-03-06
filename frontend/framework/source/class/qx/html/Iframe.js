@@ -40,6 +40,7 @@ qx.Class.define("qx.html.Iframe",
      * @type static
      * @param vIframe {var} TODOC
      * @return {void}
+     * @signature function(vIframe)
      */
     getWindow : qx.core.Variant.select("qx.client",
     {
@@ -73,6 +74,7 @@ qx.Class.define("qx.html.Iframe",
      * @type static
      * @param vIframe {var} TODOC
      * @return {void}
+     * @signature function(vIframe)
      */
     getDocument : qx.core.Variant.select("qx.client",
     {

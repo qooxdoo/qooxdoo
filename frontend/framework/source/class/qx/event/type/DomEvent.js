@@ -235,6 +235,7 @@ qx.Class.define("qx.event.type.DomEvent",
      * @type member
      * @param vValue {var} TODOC
      * @return {var} TODOC
+     * @signature function(vValue)
      */
     setDefaultPrevented : qx.core.Variant.select("qx.client",
     {

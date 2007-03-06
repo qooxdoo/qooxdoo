@@ -466,6 +466,7 @@ qx.Class.define("qx.renderer.layout.LayoutImpl",
      * @param vChild {qx.ui.core.Widget} child to layout
      * @param vJobs {Set} layout changes to perform
      * @return {void}
+     * @signature function(vChild, vJobs)
      */
     layoutChild_sizeLimitX : qx.core.Variant.select("qx.client",
     {
@@ -497,6 +498,7 @@ qx.Class.define("qx.renderer.layout.LayoutImpl",
      * @param vChild {qx.ui.core.Widget} child to layout
      * @param vJobs {Set} layout changes to perform
      * @return {void}
+     * @signature function(vChild, vJobs)
      */
     layoutChild_sizeLimitY :  qx.core.Variant.select("qx.client",
     {

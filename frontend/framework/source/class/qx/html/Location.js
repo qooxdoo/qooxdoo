@@ -136,6 +136,7 @@ qx.Class.define("qx.html.Location",
      * @type static
      * @param el {Element} TODOC
      * @return {void}
+     * @signature function(el)
      */
     getClientBoxLeft : qx.core.Variant.select("qx.client",
     {
@@ -168,6 +169,7 @@ qx.Class.define("qx.html.Location",
      * @type static
      * @param el {Element} TODOC
      * @return {void}
+     * @signature function(el)
      */
     getClientBoxTop : qx.core.Variant.select("qx.client",
     {
@@ -200,6 +202,7 @@ qx.Class.define("qx.html.Location",
      * @type static
      * @param el {Element} TODOC
      * @return {void}
+     * @signature function(el)
      */
     getClientBoxRight : qx.core.Variant.select("qx.client",
     {
@@ -219,6 +222,7 @@ qx.Class.define("qx.html.Location",
      * @type static
      * @param el {Element} TODOC
      * @return {void}
+     * @signature function(el)
      */
     getClientBoxBottom : qx.core.Variant.select("qx.client",
     {
@@ -238,6 +242,7 @@ qx.Class.define("qx.html.Location",
      * @type static
      * @param el {Element} TODOC
      * @return {void}
+     * @signature function(el)
      */
     getPageBoxLeft : qx.core.Variant.select("qx.client",
     {
@@ -270,6 +275,7 @@ qx.Class.define("qx.html.Location",
      * @type static
      * @param el {Element} TODOC
      * @return {void}
+     * @signature function(el)
      */
     getPageBoxTop : qx.core.Variant.select("qx.client",
     {
@@ -302,6 +308,7 @@ qx.Class.define("qx.html.Location",
      * @type static
      * @param el {Element} TODOC
      * @return {void}
+     * @signature function(el)
      */
     getPageBoxRight : qx.core.Variant.select("qx.client",
     {
@@ -321,6 +328,7 @@ qx.Class.define("qx.html.Location",
      * @type static
      * @param el {Element} TODOC
      * @return {void}
+     * @signature function(el)
      */
     getPageBoxBottom : qx.core.Variant.select("qx.client",
     {
@@ -340,6 +348,7 @@ qx.Class.define("qx.html.Location",
      * @type static
      * @param el {Element} TODOC
      * @return {void}
+     * @signature function(el)
      */
     getClientAreaLeft : qx.core.Variant.select("qx.client",
     {
@@ -360,6 +369,7 @@ qx.Class.define("qx.html.Location",
      * @type static
      * @param el {Element} TODOC
      * @return {void}
+     * @signature function(el)
      */
     getClientAreaTop : qx.core.Variant.select("qx.client",
     {
@@ -404,6 +414,7 @@ qx.Class.define("qx.html.Location",
      * @type static
      * @param el {Element} TODOC
      * @return {void}
+     * @signature function(el)
      */
     getPageAreaLeft : qx.core.Variant.select("qx.client",
     {
@@ -423,6 +434,7 @@ qx.Class.define("qx.html.Location",
      * @type static
      * @param el {Element} TODOC
      * @return {void}
+     * @signature function(el)
      */
     getPageAreaTop : qx.core.Variant.select("qx.client",
     {
@@ -562,6 +574,7 @@ qx.Class.define("qx.html.Location",
      * @type static
      * @param el {Element} TODOC
      * @return {void}
+     * @signature function(el)
      */
     getScreenBoxLeft : qx.core.Variant.select("qx.client",
     {
@@ -598,6 +611,7 @@ qx.Class.define("qx.html.Location",
      * @type static
      * @param el {Element} TODOC
      * @return {void}
+     * @signature function(el)
      */
     getScreenBoxTop : qx.core.Variant.select("qx.client",
     {
@@ -797,6 +811,7 @@ qx.Class.define("qx.html.Location",
      * @type static
      * @param el {Element} TODOC
      * @return {void}
+     * @signature function(el)
      */
     getScreenDocumentLeft : qx.core.Variant.select("qx.client",
     {
@@ -823,6 +838,7 @@ qx.Class.define("qx.html.Location",
      * @type static
      * @param el {Element} TODOC
      * @return {void}
+     * @signature function(el)
      */
     getScreenDocumentTop : qx.core.Variant.select("qx.client",
     {
@@ -842,6 +858,7 @@ qx.Class.define("qx.html.Location",
      * @type static
      * @param el {Element} TODOC
      * @return {void}
+     * @signature function(el)
      */
     getScreenDocumentRight : qx.core.Variant.select("qx.client",
     {
@@ -859,6 +876,7 @@ qx.Class.define("qx.html.Location",
      * @type static
      * @param el {Element} TODOC
      * @return {void}
+     * @signature function(el)
      */
     getScreenDocumentBottom : qx.core.Variant.select("qx.client",
     {

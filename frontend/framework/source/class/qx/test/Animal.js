@@ -6,12 +6,12 @@ qx.Class.define("qx.test.Animal",
 
 
   /**
-   * TODOC
-   *
    * @type constructor
+   * @param name {String} name of the animal
    */
-  construct : function() {
+  construct : function(name) {
     this.base(arguments);
+    this.name = name;
   },
 
   properties : {},

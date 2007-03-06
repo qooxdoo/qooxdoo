@@ -347,6 +347,9 @@ qx.Class.define("qx.ui.embed.Flash",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * @signature function()
+     */
     generateHTML : qx.lang.Object.select(navigator.plugins && navigator.mimeTypes && navigator.mimeTypes.length ? "plugin" : "activeX",
     {
       // Netscape Plugin Architecture
@@ -700,7 +703,14 @@ qx.Class.define("qx.ui.embed.Flash",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * @signature function()
+     */
     _isWidthEssential : qx.lang.Function.returnTrue,
+    
+    /**
+     * @signature function()
+     */
     _isHeightEssential : qx.lang.Function.returnTrue,
 
 
@@ -712,7 +722,14 @@ qx.Class.define("qx.ui.embed.Flash",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * @signature function()
+     */
     _computePreferredInnerWidth : qx.lang.Function.returnZero,
+    
+    /**
+     * @signature function()
+     */
     _computePreferredInnerHeight : qx.lang.Function.returnZero
   },
 

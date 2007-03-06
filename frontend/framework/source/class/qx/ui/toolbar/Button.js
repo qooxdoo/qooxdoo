@@ -81,7 +81,14 @@ qx.Class.define("qx.ui.toolbar.Button",
     ---------------------------------------------------------------------------
     */
 
+		/**
+		 * @signature function()
+		 */
     _onkeydown : qx.lang.Function.returnTrue,
+
+		/**
+		 * @signature function()
+		 */
     _onkeyup   : qx.lang.Function.returnTrue
   }
 });

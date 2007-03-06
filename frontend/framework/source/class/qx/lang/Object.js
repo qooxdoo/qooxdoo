@@ -98,6 +98,7 @@ qx.Class.define("qx.lang.Object",
      * @type static
      * @param map {Object} the map
      * @return {Array} array of the keys of the map
+     * @signature function(map)
      */
     getKeys : qx.core.Variant.select("qx.client",
     {

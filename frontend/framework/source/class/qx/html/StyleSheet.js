@@ -61,6 +61,7 @@ qx.Class.define("qx.html.StyleSheet",
      * @type static
      * @param vCssText {String} optional string of css rules
      * @return {void}
+     * @signature function(vCssText)
      */
     createElement : qx.lang.Object.select(document.createStyleSheet ? "ie4+" : "other",
     {
@@ -114,6 +115,7 @@ qx.Class.define("qx.html.StyleSheet",
      * @param vSelector {String} the selector
      * @param vStyle {String} style rule
      * @return {void}
+     * @signature function(vSheet, vSelector, vStyle)
      */
     addRule : qx.lang.Object.select(document.createStyleSheet ? "ie4+" : "other",
     {
@@ -152,6 +154,7 @@ qx.Class.define("qx.html.StyleSheet",
      * @param vSheet {Object} the Stylesheet
      * @param vSelector {String} the Selector of the rule to remove
      * @return {void}
+     * @signature function(vSheet, vSelector)
      */
     removeRule : qx.lang.Object.select(document.createStyleSheet ? "ie4+" : "other",
     {
@@ -215,6 +218,7 @@ qx.Class.define("qx.html.StyleSheet",
      * @type static
      * @param vSheet {Object} the stylesheet object
      * @return {void}
+     * @signature function(vSheet)
      */
     removeAllRules : qx.lang.Object.select(document.createStyleSheet ? "ie4+" : "other",
     {
@@ -262,6 +266,7 @@ qx.Class.define("qx.html.StyleSheet",
      * @param vSheet {Object} the stylesheet object
      * @param vUrl {String} URL of the external stylesheet file
      * @return {void}
+     * @signature function(vSheet, vUrl)
      */
     addImport : qx.lang.Object.select(document.createStyleSheet ? "ie4+" : "other",
     {
@@ -289,6 +294,7 @@ qx.Class.define("qx.html.StyleSheet",
      * @param vSheet {Object} the stylesheet object
      * @param vUrl {String} URL of the importet CSS file
      * @return {void}
+     * @signature function(vSheet, vUrl)
      */
     removeImport : qx.lang.Object.select(document.createStyleSheet ? "ie4+" : "other",
     {
@@ -326,6 +332,7 @@ qx.Class.define("qx.html.StyleSheet",
      * @type static
      * @param vSheet {Object} the stylesheet object
      * @return {void}
+     * @signature function(vSheet)
      */
     removeAllImports : qx.lang.Object.select(document.createStyleSheet ? "ie4+" : "other",
     {

@@ -40,6 +40,7 @@ qx.Class.define("qx.net.HttpRequest",
      *
      * @type static
      * @return {HttpRequest} TODOC
+     * @signature function()
      */
     create : qx.core.Variant.select("qx.client",
     {

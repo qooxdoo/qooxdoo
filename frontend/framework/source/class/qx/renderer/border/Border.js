@@ -189,6 +189,7 @@ qx.Class.define("qx.renderer.border.Border",
      * @type static
      * @param o {var} TODOC
      * @return {void}
+     * @signature function(o)
      */
     resetBorderX : qx.core.Variant.select("qx.client",
     {
@@ -218,6 +219,7 @@ qx.Class.define("qx.renderer.border.Border",
      * @type static
      * @param o {var} TODOC
      * @return {void}
+     * @signature function(o)
      */
     resetBorderY : qx.core.Variant.select("qx.client",
     {
@@ -385,9 +387,19 @@ qx.Class.define("qx.renderer.border.Border",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * @signature function()
+     */
     addListenerWidget : qx.lang.Function.returnTrue,
+    
+    /**
+     * @signature function()
+     */
     removeListenerWidget : qx.lang.Function.returnTrue,
 
+    /**
+     * @signature function()
+     */
     _sync : qx.lang.Function.returnTrue,
 
 
@@ -542,6 +554,7 @@ qx.Class.define("qx.renderer.border.Border",
      *
      * @type member
      * @return {void}
+     * @signature function()
      */
     _initCache : qx.core.Variant.select("qx.client",
     {
@@ -1061,6 +1074,7 @@ qx.Class.define("qx.renderer.border.Border",
      * @type member
      * @param vObject {var} TODOC
      * @return {void}
+     * @signature function(vObject)
      */
     applyWidgetX : qx.core.Variant.select("qx.client",
     {
@@ -1091,6 +1105,7 @@ qx.Class.define("qx.renderer.border.Border",
      * @type member
      * @param vObject {var} TODOC
      * @return {void}
+     * @signature function(vObject)
      */
     applyWidgetY : qx.core.Variant.select("qx.client",
     {
@@ -1123,6 +1138,7 @@ qx.Class.define("qx.renderer.border.Border",
      * @param vStyle {var} TODOC
      * @param vEdge {var} TODOC
      * @return {void}
+     * @signature function(vWidth, vStyle, vEdge)
      */
     _generateMozColorDefString : qx.core.Variant.select("qx.client",
     {
@@ -1160,6 +1176,7 @@ qx.Class.define("qx.renderer.border.Border",
      *
      * @type member
      * @return {void}
+     * @signature function()
      */
     _compileTop : qx.core.Variant.select("qx.client",
     {
@@ -1235,6 +1252,7 @@ qx.Class.define("qx.renderer.border.Border",
      *
      * @type member
      * @return {void}
+     * @signature function()
      */
     _compileRight : qx.core.Variant.select("qx.client",
     {
@@ -1310,6 +1328,7 @@ qx.Class.define("qx.renderer.border.Border",
      *
      * @type member
      * @return {void}
+     * @signature function()
      */
     _compileBottom : qx.core.Variant.select("qx.client",
     {
@@ -1385,6 +1404,7 @@ qx.Class.define("qx.renderer.border.Border",
      *
      * @type member
      * @return {void}
+     * @signature function()
      */
     _compileLeft : qx.core.Variant.select("qx.client",
     {

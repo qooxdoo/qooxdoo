@@ -562,7 +562,11 @@ qx.Class.define("qx.ui.basic.Atom",
     ---------------------------------------------------------------------------
     */
 
-    // Omit recursive cloning
+    /**
+     * Omit recursive cloning
+     *
+     * @signature function()
+     */
     _cloneRecursive : qx.lang.Function.returnTrue
   },
 

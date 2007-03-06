@@ -63,14 +63,15 @@ qx.Class.define("qx.dom.Element",
      * @type static
      * @param el {Element} DOM element
      * @return {String} The text content of the element
+     * @signature function(el)
      */
     getTextContent : qx.lang.Object.select(qx.core.Client.getInstance().supportsTextContent() ? "textContent" : qx.core.Client.getInstance().supportsInnerText() ? "innerText" : "default",
     {
-      innerText : function(el, val) {
+      innerText : function(el) {
         return el.innerText;
       },
 
-      textContent : function(el, val) {
+      textContent : function(el) {
         return el.textContent;
       },
 
@@ -88,6 +89,7 @@ qx.Class.define("qx.dom.Element",
      * @param el {Element} DOM element
      * @param val {String} the new text content of the element
      * @return {void}
+     * @signature function(el, val)
      */
     setTextContent : qx.lang.Object.select(qx.core.Client.getInstance().supportsTextContent() ? "textContent" : qx.core.Client.getInstance().supportsInnerText() ? "innerText" : "default",
     {

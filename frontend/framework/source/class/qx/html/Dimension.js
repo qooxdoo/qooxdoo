@@ -158,6 +158,7 @@ qx.Class.define("qx.html.Dimension",
      * @type static
      * @param el {Element} TODOC
      * @return {void}
+     * @signature function(el)
      */
     getAreaWidth : qx.core.Variant.select("qx.client",
     {
@@ -194,6 +195,7 @@ qx.Class.define("qx.html.Dimension",
      * @type static
      * @param el {Element} TODOC
      * @return {void}
+     * @signature function(el)
      */
     getAreaHeight : qx.core.Variant.select("qx.client",
     {
@@ -254,6 +256,7 @@ qx.Class.define("qx.html.Dimension",
      * @type static
      * @param el {Element} TODOC
      * @return {void}
+     * @signature function(el)
      */
     getInsetLeft : qx.core.Variant.select("qx.client",
     {
@@ -273,6 +276,7 @@ qx.Class.define("qx.html.Dimension",
      * @type static
      * @param el {Element} TODOC
      * @return {void}
+     * @signature function(el)
      */
     getInsetTop : qx.core.Variant.select("qx.client",
     {
@@ -292,6 +296,7 @@ qx.Class.define("qx.html.Dimension",
      * @type static
      * @param el {Element} TODOC
      * @return {void}
+     * @signature function(el)
      */
     getInsetRight : qx.core.Variant.select("qx.client",
     {
@@ -326,6 +331,7 @@ qx.Class.define("qx.html.Dimension",
      * @type static
      * @param el {Element} TODOC
      * @return {void}
+     * @signature function(el)
      */
     getInsetBottom : qx.core.Variant.select("qx.client",
     {

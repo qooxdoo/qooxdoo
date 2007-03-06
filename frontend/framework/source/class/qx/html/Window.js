@@ -38,6 +38,7 @@ qx.Class.define("qx.html.Window",
      * @type static
      * @param vWindow {window} browser window
      * @return {Integer} the window's inner width
+     * @signature function(vWindow)
      */
     getInnerWidth  : qx.core.Variant.select("qx.client",
     {
@@ -64,6 +65,7 @@ qx.Class.define("qx.html.Window",
      * @type static
      * @param window {window} browser window
      * @return {Integer} the window's inner height
+     * @signature function(vWindow)
      */
     getInnerHeight : qx.core.Variant.select("qx.client",
     {
@@ -90,6 +92,7 @@ qx.Class.define("qx.html.Window",
      * @type static
      * @param window {window} browser window
      * @return {Integer} the window's left scroll position
+     * @signature function(vWindow)
      */
     getScrollLeft  : qx.core.Variant.select("qx.client",
     {
@@ -116,6 +119,7 @@ qx.Class.define("qx.html.Window",
      * @type static
      * @param window {window} browser window
      * @return {Integer} the window's top scroll position
+     * @signature function(vWindow)
      */
     getScrollTop   : qx.core.Variant.select("qx.client",
     {

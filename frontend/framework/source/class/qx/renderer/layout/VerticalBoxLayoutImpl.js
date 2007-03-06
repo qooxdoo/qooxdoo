@@ -761,6 +761,7 @@ qx.Class.define("qx.renderer.layout.VerticalBoxLayoutImpl",
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}
+     * @signature function(vChild, vJobs)
      */
     layoutChild_sizeX : qx.core.Variant.select("qx.client",
     {
@@ -797,6 +798,7 @@ qx.Class.define("qx.renderer.layout.VerticalBoxLayoutImpl",
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}
+     * @signature function(vChild, vJobs)
      */
     layoutChild_sizeY : qx.core.Variant.select("qx.client",
     {

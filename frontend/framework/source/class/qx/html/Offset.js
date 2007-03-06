@@ -47,6 +47,7 @@ qx.Class.define("qx.html.Offset",
      * @type static
      * @param vElement {var} TODOC
      * @return {void}
+     * @signature function(el)
      */
     getLeft : qx.core.Variant.select("qx.client",
     {
@@ -100,6 +101,7 @@ qx.Class.define("qx.html.Offset",
      * @type static
      * @param vElement {var} TODOC
      * @return {void}
+     * @signature function(el)
      */
     getTop  : qx.core.Variant.select("qx.client",
     {
