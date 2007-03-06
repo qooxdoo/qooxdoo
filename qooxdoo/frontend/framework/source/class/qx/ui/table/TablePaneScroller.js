@@ -518,7 +518,7 @@ qx.Proto._onmousemove = function(evt) {
           mouseOverColumn = col;
         }
       }
-    } else if (row != null) {
+    } else if (row != null && this._getColumnForPageX(pageX) != null) {
       // The mouse is over the data -> update the focus
       if (this.getFocusCellOnMouseMove()) {
         this._focusCellAtPagePos(pageX, pageY);
@@ -572,7 +572,7 @@ qx.Proto._onmousedown = function(evt) {
         this.setCapture(true);
       }
     }
-  } else if (row != null) {
+  } else if (row != null && this._getColumnForPageX(pageX) != null) {
     var selectBeforeFocus = this.getSelectBeforeFocus();
 
     if (selectBeforeFocus) {
@@ -653,7 +653,7 @@ qx.Proto._onmouseup = function(evt) {
   } else {
     // This is a normal mouse up
     var row = this._getRowForPagePos(evt.getPageX(), evt.getPageY());
-    if (row != -1 && row != null) {
+    if (row != -1 && row != null && this._getColumnForPageX(evt.getPageX()) != null) {
       table._getSelectionManager().handleMouseUp(row, evt);
     }
   }
@@ -692,7 +692,7 @@ qx.Proto._onclick = function(evt) {
         table.getSelectionModel().clearSelection();
       }
     }
-  } else if (row != null) {
+  } else if (row != null && this._getColumnForPageX(evt.getPageX())) {
     table._getSelectionManager().handleClick(row, evt);
   }
 }
