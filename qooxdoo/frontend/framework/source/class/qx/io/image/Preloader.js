@@ -25,7 +25,16 @@
 ************************************************************************ */
 
 /**
- * This is the preloader used from qx.ui.basic.Image instances.
+ * This class preloads one image and provides information about this image
+ * after it is loaded.
+ * 
+ * <p>
+ * This class should not be used directly. Better use the ImagePreloaderManager:
+ * 
+ * <code><pre>
+ *   qx.manager.object.ImagePreloaderManager.getInstance().create(imageUrl)
+ * </code></pre>
+ * </p>
  */
 qx.Class.define("qx.io.image.Preloader",
 {
@@ -33,7 +42,10 @@ qx.Class.define("qx.io.image.Preloader",
 
   events :
   {
+    /** Dispatched after the images has successfully been loaded */
     "load" : "qx.event.type.Event",
+    
+    /** Dispatched if the image could not be loaded */
     "error" : "qx.event.type.Event"
   },
 
@@ -46,14 +58,17 @@ qx.Class.define("qx.io.image.Preloader",
   *****************************************************************************
   */
 
-  construct : function(vSource)
+	/**
+	 * @param imageUrl {String} URL of the image to pre load
+	 */
+  construct : function(imageUrl)
   {
-    if (qx.manager.object.ImagePreloaderManager.getInstance().has(vSource))
+    if (qx.manager.object.ImagePreloaderManager.getInstance().has(imageUrl))
     {
       this.debug("Reuse qx.io.image.Preloader in old-style!");
       this.debug("Please use qx.manager.object.ImagePreloaderManager.getInstance().create(source) instead!");
 
-      return qx.manager.object.ImagePreloaderManager.getInstance().get(vSource);
+      return qx.manager.object.ImagePreloaderManager.getInstance().get(imageUrl);
     }
 
     this.base(arguments);
@@ -63,34 +78,13 @@ qx.Class.define("qx.io.image.Preloader",
     // Compare this to the bug in qx.ui.basic.Image.
     this._element = new Image;
 
-    // This is needed for wrapping event to the object
-    this._element.qx_ImagePreloader = this;
-
     // Define handler if image events occurs
-    if (qx.core.Variant.isSet("qx.client", "webkit"))
-    {
-      // Webkit as of version 41xxx
-      // does not get the target right. We need to help out a bit
-      // ugly closure!
-      var self = this;
-
-      this._element.onload = function(e) {
-        return self._onload(e);
-      };
-
-      this._element.onerror = function(e) {
-        return self._onerror(e);
-      };
-    }
-    else
-    {
-      this._element.onload = qx.io.image.Preloader.__onload;
-      this._element.onerror = qx.io.image.Preloader.__onerror;
-    }
-
+		this._element.onload = qx.lang.Function.bind(this.__onload, this);
+		this._element.onerror = qx.lang.Function.bind(this.__onerror, this);
+		
     // Set Source
-    this._source = vSource;
-    this._element.src = vSource;
+    this._source = imageUrl;
+    this._element.src = imageUrl;
 
     // Set PNG State
     if (qx.core.Variant.isSet("qx.client", "mshtml")) {
@@ -98,47 +92,6 @@ qx.Class.define("qx.io.image.Preloader",
     }
 
     qx.manager.object.ImagePreloaderManager.getInstance().add(this);
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-    /*
-    ---------------------------------------------------------------------------
-      EVENT MAPPING
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type static
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-    __onload : function(e) {
-      this.qx_ImagePreloader._onload();
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type static
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-    __onerror : function(e) {
-      this.qx_ImagePreloader._onerror();
-    }
   },
 
 
@@ -172,10 +125,10 @@ qx.Class.define("qx.io.image.Preloader",
     */
 
     /**
-     * TODOC
+     * Get the full URI of the image
      *
      * @type member
-     * @return {var} TODOC
+     * @return {String} The URI of the image
      */
     getUri : function() {
       return this._source;
@@ -183,10 +136,10 @@ qx.Class.define("qx.io.image.Preloader",
 
 
     /**
-     * TODOC
+     * Get the full URI of the image
      *
      * @type member
-     * @return {var} TODOC
+     * @return {String} The URI of the image
      */
     getSource : function() {
       return this._source;
@@ -194,10 +147,10 @@ qx.Class.define("qx.io.image.Preloader",
 
 
     /**
-     * TODOC
+     * Check whether the image is already loaded
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Boolean} Whether the image is already loaded
      */
     isLoaded : function() {
       return this._isLoaded;
@@ -205,10 +158,10 @@ qx.Class.define("qx.io.image.Preloader",
 
 
     /**
-     * TODOC
+     * Check whether the loading of the image failed
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Boolean} Whether the loading of the image failed
      */
     isErroneous : function() {
       return this._isErroneous;
@@ -219,21 +172,22 @@ qx.Class.define("qx.io.image.Preloader",
 
 
     /**
-     * TODOC
+     * Check whether the image format if PNG
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Boolean} whether the image format if PNG
      */
     getIsPng : function() {
+      // TODO should be renamedto isPng to be consistent with the rest of the framework.
       return this._isPng;
     },
 
 
     /**
-     * TODOC
+     * Return the width of the image in pixel.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Integer} The width of the image in pixel.
      * @signature function()
      */
     getWidth : qx.core.Variant.select("qx.client",
@@ -249,10 +203,10 @@ qx.Class.define("qx.io.image.Preloader",
 
 
     /**
-     * TODOC
+     * Return the height of the image in pixel.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Integer} The height of the image in pixel.
      * @signature function()
      */
     getHeight : qx.core.Variant.select("qx.client",
@@ -268,12 +222,12 @@ qx.Class.define("qx.io.image.Preloader",
 
 
     /**
-     * TODOC
+     * Load handler
      *
      * @type member
      * @return {void}
      */
-    _onload : function()
+    __onload : function()
     {
       if (this._isLoaded || this._isErroneous) {
         return;
@@ -289,12 +243,12 @@ qx.Class.define("qx.io.image.Preloader",
 
 
     /**
-     * TODOC
+     * Error handler
      *
      * @type member
      * @return {void}
      */
-    _onerror : function()
+    __onerror : function()
     {
       if (this._isLoaded || this._isErroneous) {
         return;
@@ -325,7 +279,6 @@ qx.Class.define("qx.io.image.Preloader",
     if (this._element)
     {
       this._element.onload = this._element.onerror = null;
-      this._element.qx_ImagePreloader = null;
     }
 
     this._disposeFields("_element", "_isLoaded", "_isErroneous", "_isPng");
