@@ -297,7 +297,8 @@ def compile(node, opts, enableBreaks=False, enableDebug=False):
     global options
 
     options = opts
-    options.prettypIndentString = eval("'" + options.prettypIndentString + "'")
+    options.prettypIndentString          = eval("'" + options.prettypIndentString + "'")
+    options.prettypCommentsInlinePadding = eval("'" + options.prettypCommentsInlinePadding + "'")
                                                               # allow for escapes like "\t"
 
     indent       = 0
