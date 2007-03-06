@@ -241,14 +241,22 @@ ifndef APPLICATION_OPTIMIZE_PRIVATE
 endif
 
 #
-# If enabled optimized builds for each supported browser (IE, Firefox, WebKit, Opera)
-# and a generic loader script are generated.
+# If enabled optimized builds for each supported browser given in 
+# APPLICATION_INDIVIDUAL_BROWSERS and a generic loader script are generated.
 #
 # This increases the time to build the application but optimizes both code size and runtime
-# of the application
+# of the application.
 #
 ifndef APPLICATION_OPTIMIZE_BROWSER
   APPLICATION_OPTIMIZE_BROWSER = false
+endif
+
+#
+# Individual browsers that an optimized build is generated for, if 
+# APPLICATION_OPTIMIZE_BROWSER is enabled.
+#
+ifndef APPLICATION_INDIVIDUAL_BROWSERS
+  APPLICATION_INDIVIDUAL_BROWSERS = gecko mshtml opera webkit
 endif
 
 #
@@ -288,6 +296,7 @@ endif
 ifndef APPLICATION_RESOURCE_FILTER
   APPLICATION_RESOURCE_FILTER = false
 endif
+
 
 
 
