@@ -1505,7 +1505,7 @@ qx.Class.define("showcase.Application",
         spacing : 5
       });
 
-      var win = new qx.client.NativeWindow("http://www.google.com");
+      var win = new qx.client.NativeWindow("http://qooxdoo.org");
       win.setDimension(600, 400);
 
       var openBt = new qx.ui.form.Button("Open Native Window", "icon/16/apps/system-users.png");
@@ -1617,7 +1617,7 @@ qx.Class.define("showcase.Application",
 
       fs2.add(vert);
 
-      var tf1 = new qx.ui.form.TextField("http://www.google.com");
+      var tf1 = new qx.ui.form.TextField("http://qooxdoo.org");
       tf1.setWidth(150);
 
       var setUrlBt = new qx.ui.form.Button("Set Url", "icon/16/actions/dialog-ok.png");
