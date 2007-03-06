@@ -78,9 +78,6 @@ qx.Class.define("apiviewer.Application",
       // Define alias for custom resource path
       qx.manager.object.AliasManager.getInstance().add("api", qx.core.Setting.get("apiviewer.resourceUri"));
 
-      // Reduce log level
-      qx.log.Logger.ROOT_LOGGER.setMinLevel(qx.log.Logger.LEVEL_WARN);
-
       // Include CSS file
       qx.html.StyleSheet.includeFile(qx.manager.object.AliasManager.getInstance().resolvePath("api/css/apiviewer.css"));
 
@@ -100,8 +97,8 @@ qx.Class.define("apiviewer.Application",
 
       // preload images
       preloader = new qx.io.image.PreloaderSystem(apiviewer.TreeUtil.PRELOAD_IMAGES);
-      preloader.start();      
-      
+      preloader.start();
+
     },
 
 
@@ -116,7 +113,7 @@ qx.Class.define("apiviewer.Application",
     {
       // Initialize the viewer
       this.viewer = new apiviewer.Viewer;
-      this.viewer.addToDocument();      
+      this.viewer.addToDocument();
     },
 
 
