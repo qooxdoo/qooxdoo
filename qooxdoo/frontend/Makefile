@@ -428,6 +428,7 @@ release-build-unix-collect:
 
 	@echo "  * Synchronizing applications..."
 	@for APPLICATION in $(APPLICATIONS); do \
+	  if [ "$$APPLICATION" == "unittests" ]; then continue; fi; \
 		echo "    - $$APPLICATION"; \
 	  $(CMD_DIR) $(RELEASE_BUILD_UNIX)/frontend/$$APPLICATION; \
 		if [ ! -r application/$$APPLICATION/build ]; then \
@@ -468,6 +469,7 @@ release-build-dos-collect:
 
 	@echo "  * Synchronizing applications..."
 	@for APPLICATION in $(APPLICATIONS); do \
+	  if [ "$$APPLICATION" == "unittests" ]; then continue; fi; \
 		echo "    - $$APPLICATION"; \
 	  $(CMD_DIR) $(RELEASE_BUILD_DOS)/frontend/$$APPLICATION; \
 		if [ ! -r application/$$APPLICATION/build ]; then \
