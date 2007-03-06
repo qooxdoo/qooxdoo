@@ -102,7 +102,7 @@ qx.Class.define("qx.core.Version",
         this.state = typeof RegExp.$6 == "string" ? RegExp.$6 : "";
       }
 
-      if (/(\(r([0-9]+)\))?(\s\[(\w+)\])?/.test(vInfos))
+      if (/(\(r([0-9]+)\))?(\s\[([a-zA-Z0-9_-]+)\])?/.test(vInfos))
       {
         this.svn = (RegExp.$2 != "" ? parseInt(RegExp.$2) : 0);
         this.folder = typeof RegExp.$4 == "string" ? RegExp.$4 : "";
