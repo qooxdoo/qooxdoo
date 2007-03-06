@@ -643,10 +643,10 @@ release-quickstart-dos:
 
 
 ################################################################################
-# READY TARGET
+# CHECKING SYSTEM REQUIREMENTS
 ################################################################################
 
-ready:
+check:
 	@BASE_REQUIREMENTS="python rsync"; \
 	I18N_REQUIREMENTS="gettext xgettext msginit msgmerge"; \
 	EXT_REQUIREMENTS="tar gzip zip unzip"; \
@@ -656,11 +656,12 @@ ready:
 	FAILED_EXT=; \
 	FAILED_OPTS=; \
 	echo ;\
-	echo "  CHECKING ENVIRONMENT"; \
-	echo "----------------------------------------------------------------------------"; \
+	echo "****************************************************************************"; \
+	echo "  CHECKING SYSTEM REQUIREMENTS"; \
+	echo "****************************************************************************"; \
 	echo ;\
 	# checking for base requirements - remembering any unmet requirement \
-	echo "    Checking for basic packages..."; \
+	echo "    Checking for base packages..."; \
 	for REQ in $$BASE_REQUIREMENTS; do \
 		if ! which $$REQ > /dev/null 2>&1; then \
 			FAILED_BASE="$$FAILED_BASE $$REQ"; \
@@ -668,7 +669,7 @@ ready:
 	done; \
 	\
 	# checking for i18n requirements - remembering any unmet requirement \
-	echo "    Checking for i18n packages..."; \
+	echo "    Checking for internationalization packages..."; \
 	for REQ in $$I18N_REQUIREMENTS; do \
 		if ! which $$REQ > /dev/null 2>&1; then \
 			FAILED_I18N="$$FAILED_I18N $$REQ"; \
@@ -695,7 +696,7 @@ ready:
 	# check for failed requirements - list all unmet requirements \
 	if [ "$$FAILED_BASE" ]; then \
 		echo ;\
-		echo "    FOLLOWING BASE PACKAGES ARE MISSING:"; \
+		echo "    THE FOLLOWING BASE PACKAGES ARE MISSING:"; \
 		for FAILED_REQ in $$FAILED_BASE; do \
 			case $$FAILED_REQ in \
 				"python" ) \
@@ -710,7 +711,7 @@ ready:
 	fi; \
 	if [ "$$FAILED_I18N" ]; then \
 		echo ;\
-		echo "    FOLLOWING I18N PACKAGES ARE MISSING:"; \
+		echo "    THE FOLLOWING INTERNATIONALIZATION PACKAGES ARE MISSING:"; \
 		for FAILED_REQ in $$FAILED_I18N; do \
 			case $$FAILED_REQ in \
 				"gettext" ) \
@@ -734,7 +735,7 @@ ready:
 	fi; \
 	if [ "$$FAILED_EXT" ]; then \
 		echo ;\
-		echo "    FOLLOWING EXTENDED PACKAGES ARE MISSING:"; \
+		echo "    THE FOLLOWING EXTENDED PACKAGES ARE MISSING:"; \
 		for FAILED_REQ in $$FAILED_EXT; do \
 			case $$FAILED_REQ in \
 				"tar" ) \
@@ -756,8 +757,10 @@ ready:
 		done; \
 	fi; \
 	if [[ ! "$$FAILED_BASE" && ! "$$FAILED_I18N" && ! "$$FAILED_EXT" ]]; then \
+	  echo "----------------------------------------------------------------------------"; \
 		echo ; \
-		echo "    *** ALL PACKAGES FOR QOOXDOO ARE INSTALLED ***"; \
+		echo "    CONGRATULATIONS, ALL REQUIRED PACKAGES FOR QOOXDOO ARE INSTALLED  :-)"; \
+		echo ; \
 	else \
 		echo ; \
 		echo "    Please take a look at the requirements page at http://qooxdoo.org/documentation/user_manual/requirements"; \
@@ -765,8 +768,9 @@ ready:
 	# list all not installed optional software packages \
 	if [ "$$FAILED_OPTS" ]; then \
 		echo ; \
-		echo "    FOLLOWING PACKAGES ARE OPTIONAL TO INSTALL:"; \
+		echo "    YOU MIGHT WANT TO INSTALL THE FOLLOWING OPTIONAL PACKAGES:"; \
 		echo "      * wget or curl (for downloading additional locale information)"; \
+		echo ; \
 	fi; \
 	\
 	exit 0;
