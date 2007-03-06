@@ -47,7 +47,7 @@ qx.Class.define("qx.io.image.PreloaderSystem",
    * started manually using {@link #start}.
    *
    * @param vPreloadList {String[]} list of image URLs to preload
-   * @param vCallBack {Function} callback function. This function gets called after the 
+   * @param vCallBack {Function} callback function. This function gets called after the
    *    preloading is completed
    * @param vCallBackScope {Object?window} scope for the callback function
    */
