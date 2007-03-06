@@ -383,6 +383,7 @@ qx.Class.define("qx.ui.form.TextField",
      *
      * @type member
      * @return {void}
+     * @signature function()
      */
     _ieFirstInputFix : qx.core.Variant.select("qx.client",
     {
@@ -403,6 +404,7 @@ qx.Class.define("qx.ui.form.TextField",
      *
      * @type member
      * @return {void}
+     * @signature function()
      */
     _afterAppear : qx.core.Variant.select("qx.client",
     {
@@ -493,6 +495,7 @@ qx.Class.define("qx.ui.form.TextField",
      *
      * @type member
      * @return {void}
+     * @signature function()
      */
     _getRange : qx.core.Variant.select("qx.client",
     {
@@ -511,6 +514,7 @@ qx.Class.define("qx.ui.form.TextField",
      *
      * @type member
      * @return {void}
+     * @signature function()
      */
     _getSelectionRange : qx.core.Variant.select("qx.client",
     {
@@ -530,6 +534,7 @@ qx.Class.define("qx.ui.form.TextField",
      * @type member
      * @param vStart {var} TODOC
      * @return {void}
+     * @signature function(vStart)
      */
     setSelectionStart : qx.core.Variant.select("qx.client",
     {
@@ -575,6 +580,7 @@ qx.Class.define("qx.ui.form.TextField",
      *
      * @type member
      * @return {void}
+     * @signature function()
      */
     getSelectionStart : qx.core.Variant.select("qx.client",
     {
@@ -608,6 +614,7 @@ qx.Class.define("qx.ui.form.TextField",
      * @type member
      * @param vLength {var} TODOC
      * @return {void}
+     * @signature function(vLength)
      */
     setSelectionLength : qx.core.Variant.select("qx.client",
     {
@@ -644,6 +651,7 @@ qx.Class.define("qx.ui.form.TextField",
      *
      * @type member
      * @return {void}
+     * @signature function()
      */
     getSelectionLength : qx.core.Variant.select("qx.client",
     {
@@ -676,6 +684,7 @@ qx.Class.define("qx.ui.form.TextField",
      * @type member
      * @param vText {var} TODOC
      * @return {void}
+     * @signature function(vText)
      */
     setSelectionText : qx.core.Variant.select("qx.client",
     {
@@ -734,6 +743,7 @@ qx.Class.define("qx.ui.form.TextField",
      * @type member
      * @param vText {var} TODOC
      * @return {void}
+     * @signature function()
      */
     getSelectionText : qx.core.Variant.select("qx.client",
     {
@@ -764,6 +774,7 @@ qx.Class.define("qx.ui.form.TextField",
      *
      * @type member
      * @return {void}
+     * @signature function()
      */
     selectAll : qx.core.Variant.select("qx.client",
     {
@@ -797,6 +808,7 @@ qx.Class.define("qx.ui.form.TextField",
      * @param vStart {var} TODOC
      * @param vEnd {var} TODOC
      * @return {void}
+     * @signature function(vStart, vEnd)
      */
     selectFromTo : qx.core.Variant.select("qx.client",
     {

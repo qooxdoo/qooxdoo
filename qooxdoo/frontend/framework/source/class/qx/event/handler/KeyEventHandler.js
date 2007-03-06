@@ -74,6 +74,7 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
      *
      * @type member
      * @return {void}
+     * @signature function()
      */
     _attachEvents : function()
     {
@@ -90,6 +91,7 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
      *
      * @type member
      * @return {void}
+     * @signature function()
      */
     _detachEvents : function()
     {
@@ -109,6 +111,9 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * @signature function(domEvent)
+     */
     _onkeyupdown : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(domEvent)
@@ -209,6 +214,9 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
       }
     }),
 
+    /**
+     * @signature function(domEvent)
+     */
     _onkeypress : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(domEvent)

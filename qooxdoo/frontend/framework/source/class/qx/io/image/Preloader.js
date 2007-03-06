@@ -103,22 +103,6 @@ qx.Class.define("qx.io.image.Preloader",
 
 
 
-
-  /*
-  *****************************************************************************
-     EVENTS
-  *****************************************************************************
-  */
-
-  events: {
-   "load" : "qx.event.type.Event",
-   "error" : "qx.event.type.Event"
-  },
-
-
-
-
-
   /*
   *****************************************************************************
      STATICS
@@ -250,6 +234,7 @@ qx.Class.define("qx.io.image.Preloader",
      *
      * @type member
      * @return {var} TODOC
+     * @signature function()
      */
     getWidth : qx.core.Variant.select("qx.client",
     {
@@ -268,6 +253,7 @@ qx.Class.define("qx.io.image.Preloader",
      *
      * @type member
      * @return {var} TODOC
+     * @signature function()
      */
     getHeight : qx.core.Variant.select("qx.client",
     {

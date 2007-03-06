@@ -146,7 +146,14 @@ qx.Class.define("qx.ui.core.ClientDocument",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * @signature function()
+     */
     _modifyParent : qx.lang.Function.returnTrue,
+    
+    /**
+     * @signature function()
+     */
     _modifyVisible : qx.lang.Function.returnTrue,
 
 
@@ -215,6 +222,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
      *
      * @type member
      * @return {var} TODOC
+     * @signature function()
      */
     getParent : qx.lang.Function.returnNull,
 
@@ -224,6 +232,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
      *
      * @type member
      * @return {var} TODOC
+     * @signature function()
      */
     getToolTip : qx.lang.Function.returnNull,
 
@@ -233,6 +242,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
      *
      * @type member
      * @return {Boolean} TODOC
+     * @signature function()
      */
     isMaterialized : qx.lang.Function.returnTrue,
 
@@ -242,6 +252,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
      *
      * @type member
      * @return {Boolean} TODOC
+     * @signature function()
      */
     isSeeable : qx.lang.Function.returnTrue,
 

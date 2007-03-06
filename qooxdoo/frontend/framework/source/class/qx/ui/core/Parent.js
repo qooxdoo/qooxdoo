@@ -1333,6 +1333,9 @@ qx.Class.define("qx.ui.core.Parent",
       delete this._childrenQueue[vChild.toHashCode()];
     },
 
+    /**
+     * @signature function()
+     */
     _layoutPost : qx.lang.Function.returnTrue,
 
 

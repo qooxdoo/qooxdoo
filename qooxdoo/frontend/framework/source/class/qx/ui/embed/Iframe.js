@@ -283,6 +283,9 @@ qx.Class.define("qx.ui.embed.Iframe",
     ---------------------------------------------------------------------------
     */
 
+		/**
+		 * @signature function()
+		 */
     getContentWindow : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function()
@@ -304,6 +307,9 @@ qx.Class.define("qx.ui.embed.Iframe",
       }
     }),
 
+		/**
+		 * @signature function()
+		 */
     getContentDocument : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function()
@@ -333,6 +339,9 @@ qx.Class.define("qx.ui.embed.Iframe",
       }
     }),
 
+		/**
+		 * @signature function()
+		 */
     isLoaded : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function()

@@ -121,7 +121,10 @@ qx.Class.define("qx.Class",
      * @param config {Map ? null} Class definition structure. The configuration map has the following keys:
      *     <table>
      *       <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-     *       <tr><th>type</th><td>String</td><td>Type of the class. Valid types are "abstract", "static" and "singleton"</td></tr>
+     *       <tr><th>type</th><td>String</td><td>
+     *           Type of the class. Valid types are "abstract", "static" and "singleton". If type is set to
+     *           "singleton", the mixin {@link qx.core.MSingleton} is included into the newly created class.
+     *       </td></tr>
      *       <tr><th>extend</th><td>Class</td><td>The super class the current class inherits from.</td></tr>
      *       <tr><th>implement</th><td>Interface | Interface[]</td><td>Single interface or array of interfaces the class implements.</td></tr>
      *       <tr><th>include</th><td>Mixin | Mixin[]</td><td>Single mixin or array of mixins, which will be merged into the class.</td></tr>
@@ -362,7 +365,6 @@ qx.Class.define("qx.Class",
      * @type static
      * @param clazz {Class} A class previously defined where the stuff should be attached.
      * @param mixin {Mixin} Include all features of this Mixin
-     * @return {call} TODOC
      */
     include : function(clazz, mixin)
     {
@@ -380,7 +382,7 @@ qx.Class.define("qx.Class",
         }
       }
 
-      return qx.Class.__addMixin(clazz, mixin, false);
+      qx.Class.__addMixin(clazz, mixin, false);
     },
 
 
@@ -394,7 +396,6 @@ qx.Class.define("qx.Class",
      * @type static
      * @param clazz {Class} A class previously defined where the stuff should be attached.
      * @param mixin {Mixin} Include all features of this Mixin
-     * @return {call} TODOC
      */
     patch : function(clazz, mixin)
     {
@@ -412,7 +413,7 @@ qx.Class.define("qx.Class",
         }
       }
 
-      return qx.Class.__addMixin(clazz, mixin, true);
+      qx.Class.__addMixin(clazz, mixin, true);
     },
 
 
@@ -814,6 +815,7 @@ qx.Class.define("qx.Class",
      * @param clazz {Class} clazz to add members to
      * @param members {Map} The map of members to attach
      * @return {void}
+     * @signature function(clazz, members)
      */
     __addMembers : qx.core.Variant.select("qx.client",
     {

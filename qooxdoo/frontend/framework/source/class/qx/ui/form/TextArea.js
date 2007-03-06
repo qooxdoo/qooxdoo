@@ -92,6 +92,7 @@ qx.Class.define("qx.ui.form.TextArea",
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
      * @return {void}
+     * @signature function(propValue, propOldValue, propData)
      */
     _modifyWrap : qx.core.Variant.select("qx.client",
     {

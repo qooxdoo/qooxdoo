@@ -153,6 +153,7 @@ qx.Class.define("qx.ui.form.InputCheckSymbol",
      *
      * @type member
      * @return {void}
+     * @signature function()
      */
     _afterAppear : qx.core.Variant.select("qx.client",
     {

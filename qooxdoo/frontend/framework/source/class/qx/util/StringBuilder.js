@@ -75,6 +75,7 @@ qx.Class.define("qx.util.StringBuilder",
      *
      * @type member
      * @return {void}
+     * @signature function()
      */
     clear : qx.core.Variant.select("qx.client",
     {
@@ -93,6 +94,7 @@ qx.Class.define("qx.util.StringBuilder",
      *
      * @type member
      * @return {String} string content
+     * @signature function()
      */
     get : qx.core.Variant.select("qx.client",
     {
@@ -110,8 +112,9 @@ qx.Class.define("qx.util.StringBuilder",
      * Append a variable number of string arguments
      *
      * @type member
-     * @param varargs {String} variable number os strings to be added
+     * @param varargs {String} variable number of strings to be added
      * @return {void}
+     * @signature function(varargs)
      */
     add : qx.core.Variant.select("qx.client",
     {
@@ -131,6 +134,7 @@ qx.Class.define("qx.util.StringBuilder",
      *
      * @type member
      * @return {void}
+     * @signature function()
      */
     init : qx.core.Variant.select("qx.client",
     {

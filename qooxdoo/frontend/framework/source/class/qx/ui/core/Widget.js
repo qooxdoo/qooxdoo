@@ -2204,27 +2204,51 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    /** Get an array of the current children */
+    /**
+     * Get an array of the current children
+     * 
+     * @signature function()
+     */
     getChildren : qx.lang.Function.returnNull,
 
 
-    /** Get the number of children */
+    /**
+     * Get the number of children
+     * 
+     * @signature function()
+     */
     getChildrenLength : qx.lang.Function.returnZero,
 
 
-    /** Get if the widget has any children */
+    /**
+     * Get if the widget has any children
+     *
+     * @signature function()
+     */
     hasChildren : qx.lang.Function.returnFalse,
 
 
-    /** Get if the widget has no children */
+    /**
+     * Get if the widget has no children
+     * 
+     * @signature function()
+     */
     isEmpty : qx.lang.Function.returnTrue,
 
 
-    /** Return the position of the child inside */
+    /**
+     * Return the position of the child inside
+     * 
+     * @signature function()
+     */
     indexOf : qx.lang.Function.returnNegativeIndex,
 
 
-    /** Test if this widget contains the given widget */
+    /**
+     * Test if this widget contains the given widget
+     * 
+     * @signature function()
+     */
     contains : qx.lang.Function.returnFalse,
 
 
@@ -2236,19 +2260,35 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    /** Get an array of the current visible children */
+    /**
+     * Get an array of the current visible children
+     * 
+     * @signature function()
+     */
     getVisibleChildren : qx.lang.Function.returnNull,
 
 
-    /** Get the number of children */
+    /**
+     * Get the number of children
+     * 
+     * @signature function()
+     */
     getVisibleChildrenLength : qx.lang.Function.returnZero,
 
 
-    /** If this widget has visible children */
+    /**
+     * If this widget has visible children
+     * 
+     * @signature function()
+     */
     hasVisibleChildren : qx.lang.Function.returnFalse,
 
 
-    /** Check if there are any visible children inside */
+    /**
+     * Check if there are any visible children inside
+     * 
+     * @signature function()
+     */
     isVisibleEmpty : qx.lang.Function.returnTrue,
 
 
@@ -2807,6 +2847,7 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @type member
      * @return {void}
+     * @signature function()
      */
     _createElementForEnhancedBorder : qx.core.Variant.select("qx.client",
     {
@@ -2878,6 +2919,7 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @type member
      * @return {void}
+     * @signature function()
      */
     _getTargetNode : qx.core.Variant.select("qx.client",
     {
@@ -3524,6 +3566,7 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @type member
      * @return {void}
+     * @signature function()
      */
     _recomputeRangeX : qx.core.Variant.select("qx.client",
     {
@@ -3548,6 +3591,7 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @type member
      * @return {void}
+     * @signature function()
      */
     _recomputeRangeY : qx.core.Variant.select("qx.client",
     {
@@ -3580,6 +3624,7 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @type member
      * @return {void}
+     * @signature function()
      */
     _recomputeStretchingX : qx.core.Variant.select("qx.client",
     {
@@ -3612,6 +3657,7 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @type member
      * @return {void}
+     * @signature function()
      */
     _recomputeStretchingY : qx.core.Variant.select("qx.client",
     {
@@ -4699,6 +4745,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param vEventName {var} TODOC
      * @return {void}
+     * @signature function(vEventName)
      */
     enableInlineEvent : qx.core.Variant.select("qx.client",
     {
@@ -4738,6 +4785,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param vEventName {var} TODOC
      * @return {void}
+     * @signature function(vEventName)
      */
     disableInlineEvent : qx.core.Variant.select("qx.client",
     {
@@ -4773,6 +4821,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param vElement {var} TODOC
      * @return {void}
+     * @signature function(vElement)
      */
     _addInlineEvents : qx.core.Variant.select("qx.client",
     {
@@ -4804,6 +4853,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param vElement {var} TODOC
      * @return {void}
+     * @signature function(vElement)
      */
     _removeInlineEvents : qx.core.Variant.select("qx.client",
     {
@@ -5337,6 +5387,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param vStates {var} TODOC
      * @return {void}
+     * @signature function(vStates)
      */
     _applyStateStyleFocus : qx.core.Variant.select("qx.client",
     {
@@ -5518,6 +5569,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param propName {var} TODOC
      * @return {void}
+     * @signature function(propName)
      */
     removeHtmlProperty : qx.core.Variant.select("qx.client",
     {
@@ -6075,6 +6127,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
      * @return {void}
+     * @signature function(propValue, propOldValue, propData)
      */
     _modifyTabIndex : qx.core.Variant.select("qx.client",
     {
@@ -6167,6 +6220,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
      * @return {void}
+     * @signature function(propValue, propOldValue, propData)
      */
     _modifySelectable : qx.core.Variant.select("qx.client",
     {
@@ -6233,6 +6287,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
      * @return {void}
+     * @signature function(propValue, propOldValue, propData)
      */
     _modifyOpacity : qx.core.Variant.select("qx.client",
     {
@@ -6295,6 +6350,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
+     * @signature function(propValue, propOldValue, propData)
      */
     _modifyCursor : function(propValue, propOldValue, propData)
     {
@@ -6408,6 +6464,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
      * @return {void}
+     * @signature function(propValue, propOldValue, propData)
      */
     _modifyOverflow : qx.core.Variant.select("qx.client",
     {
@@ -6554,6 +6611,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
      * @return {void}
+     * @signature function(propValue, propOldValue, propData)
      */
     _modifyHideFocus : qx.core.Variant.select("qx.client",
     {
