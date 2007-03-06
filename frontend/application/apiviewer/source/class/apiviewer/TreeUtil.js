@@ -492,11 +492,14 @@ qx.Class.define("apiviewer.TreeUtil",
     /** {string[]} The icon URL of an overridden public method with error. */
     statics.ICON_METHOD_PUB_OVERRIDDEN_ERROR = [statics.ICON_METHOD_PUB, statics.OVERLAY_OVERRIDDEN, statics.OVERLAY_ERROR ];
 
-    /** {string[]} The icon URL of an overridden public method from a mixin. */
+    /** {string[]} The icon URL of a public method from a mixin. */
     statics.ICON_METHOD_PUB_MIXIN = [statics.ICON_METHOD_PUB, statics.OVERLAY_MIXIN];
 
-    /** {string[]} The icon URL of an overridden public method from a mixin. */
+    /** {string[]} The icon URL of an inherited public method from a mixin. */
     statics.ICON_METHOD_PUB_MIXIN_INHERITED = [statics.ICON_METHOD_PUB, statics.OVERLAY_MIXIN, statics.OVERLAY_INHERITED];
+
+    /** {string[]} The icon URL of an inherited public method from a mixin with error. */
+    statics.ICON_METHOD_PUB_MIXIN_ERROR = [statics.ICON_METHOD_PUB, statics.OVERLAY_MIXIN, statics.OVERLAY_ERROR];
 
     /** {string[]} The icon URL of a public static method. */
     statics.ICON_METHOD_PUB_STATIC = [statics.ICON_METHOD_PUB, statics.OVERLAY_STATIC ];
