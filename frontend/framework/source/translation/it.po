@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo framework\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-01 19:56+0100\n"
+"POT-Creation-Date: 2007-03-06 10:38+0100\n"
 "PO-Revision-Date: 2007-01-06 13:26+0100\n"
 "Last-Translator: Alessandro Sala <alessandro.sala@mclink.net>\n"
 "Language-Team: Italiano <it@li.org>\n"
@@ -271,23 +271,23 @@ msgstr "RGB"
 msgid "HSB"
 msgstr "TSL"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:70
+#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:71
 msgid "Last year"
 msgstr "Anno precedente"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:77
+#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:78
 msgid "Last month"
 msgstr "Mese precedente"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:83
+#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:84
 msgid "Next month"
 msgstr "Mese successivo"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:89
+#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:90
 msgid "Next year"
 msgstr "Anno successivo"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooserButton.js:110
+#: ../../../frontend/framework/source/class/qx/ui/component/DateChooserButton.js:111
 msgid "Choose a date"
 msgstr "Scegli una data"
 
