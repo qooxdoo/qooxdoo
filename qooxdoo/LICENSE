@@ -28,12 +28,12 @@ Therefore, you have to select another icon theme that is compatible to EPL.
 You may do so by switching to another default icon theme:
 in class qx.manager.object.ImageManager, which is declared in file 
 frontend/framework/source/class/qx/manager/object/ImageManager.js, change 
-the following line
-  qx.Settings.setDefault("iconTheme", "qx.theme.icon.Nuvola");
+the following line in the "settings" section:
+  "qx.iconTheme"   : "qx.theme.icon.Nuvola",
 to either
-  qx.Settings.setDefault("iconTheme", "qx.theme.icon.NuoveXT");
+  "qx.iconTheme"   : "qx.theme.icon.NuoveXT",
 or
-  qx.Settings.setDefault("iconTheme", "qx.theme.icon.VistaInspirate");
+  "qx.iconTheme"   : "qx.theme.icon.VistaInspirate",
 or to a custom icon theme that is license-compatible.
 ________________________________________________________________________________
 
