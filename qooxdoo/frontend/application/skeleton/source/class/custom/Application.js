@@ -43,7 +43,7 @@ qx.Proto.initialize = function(e)
 qx.Proto.main = function(e)
 {
   // Create button
-  var button1 = new qx.ui.form.Button("First Button", "custom/image/test.png");
+  var button1 = new qx.ui.form.Button("Welcome to qooxdoo!", "custom/image/test.png");
 
   // Set button location
   button1.setTop(50);
