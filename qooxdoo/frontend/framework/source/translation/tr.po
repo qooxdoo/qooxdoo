@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo framework\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-01 19:56+0100\n"
+"POT-Creation-Date: 2007-03-06 10:38+0100\n"
 "PO-Revision-Date: 2006-12-18 21:14+0200\n"
 "Last-Translator: Fatih Tolga Ata <fatih@diyezon.com>\n"
 "Language-Team:  <fatih@tullab.com>\n"
@@ -270,23 +270,23 @@ msgstr "RGB"
 msgid "HSB"
 msgstr "HSB"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:70
+#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:71
 msgid "Last year"
 msgstr "Geçen yıl"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:77
+#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:78
 msgid "Last month"
 msgstr "Geçen ay"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:83
+#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:84
 msgid "Next month"
 msgstr "Sonraki ay"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:89
+#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:90
 msgid "Next year"
 msgstr "Sonraki yıl"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooserButton.js:110
+#: ../../../frontend/framework/source/class/qx/ui/component/DateChooserButton.js:111
 msgid "Choose a date"
 msgstr "Bir tarih seç"
 
