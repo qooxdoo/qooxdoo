@@ -1526,6 +1526,10 @@ qx.Class.define("qx.ui.window.Window",
 
       // stop event
       e.stopPropagation();
+
+      // prevent default (IE7 selection stop)
+      // See also bug #311
+      e.preventDefault();
     },
 
 
