@@ -96,7 +96,6 @@ qx.Class.define("qx.ui.core.Widget",
     "removeDom"       : "qx.event.type.Event",
     "create"          : "qx.event.type.Event",
     "execute"         : "qx.event.type.Event",
-    "FADE_FINISHED"   : "qx.event.type.DataEvent",
 
     /** (Fired by {@link qx.event.handler.EventHandler}) */
     "mouseover"       : "qx.event.type.MouseEvent",
@@ -1174,20 +1173,8 @@ qx.Class.define("qx.ui.core.Widget",
       document.body.removeChild(t);
 
       qx.ui.core.Widget.initOverflowDone = true;
-    },
+    }
 
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      FADING SUPPORT
-    ---------------------------------------------------------------------------
-    */
-
-    FADE_IN : 'FADE_IN',
-    FADE_OUT : 'FADE_OUT',
-    FADE_FINISHED : 'FADE_FINISHED'
   },
 
 
@@ -2058,75 +2045,8 @@ qx.Class.define("qx.ui.core.Widget",
     {
       _cached      : true,
       defaultValue : false
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      FADING PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
-    /** The amount of steps for the fade. */
-    fadeSteps :
-    {
-      _legacy      : true,
-      type         : "number",
-      allowNull    : false,
-      defaultValue : 10
-    },
-
-
-    /** The duration for the fade. */
-    fadeTime :
-    {
-      _legacy      : true,
-      type         : "number",
-      allowNull    : false,
-      defaultValue : 400
-    },
-
-
-    /** The time between the fade steps. */
-    fadeInterval :
-    {
-      _legacy      : true,
-      type         : "number",
-      allowNull    : false,
-      defaultValue : 40
-    },
-
-
-    /** The current state of a fade in progress. */
-    fadeCounter :
-    {
-      _legacy      : true,
-      type         : "number",
-      allowNull    : false,
-      defaultValue : 0
-    },
-
-
-    /** The amount of oppacity changed on each fade step. */
-    fadeUnit :
-    {
-      _legacy      : true,
-      type         : "number",
-      allowNull    : false,
-      defaultValue : 10
-    },
-
-
-    /** The maximum opacity for a fadeIn. */
-    fadeMax :
-    {
-      _legacy      : true,
-      type         : "number",
-      allowNull    : false,
-      defaultValue : 100
     }
+
   },
 
 
@@ -7329,213 +7249,8 @@ qx.Class.define("qx.ui.core.Widget",
      */
     supportsDrop : function(vDragCache) {
       return true;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vSteps {var} TODOC
-     * @param vTime {var} TODOC
-     * @return {void}
-     */
-    fadeIn : function(vSteps, vTime)
-    {
-      if (vSteps) this.setFadeSteps(vSteps);
-      if (vTime) this.setFadeTime(vTime);
-      this._fadeMode = qx.ui.core.Widget.FADE_IN;
-      var timer = this.getFadeTimer();
-      timer.addEventListener("interval", this._onInterval, this);
-      timer.start();
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vSteps {var} TODOC
-     * @param vTime {var} TODOC
-     * @return {void}
-     */
-    fadeOut : function(vSteps, vTime)
-    {
-      if (vSteps) this.setFadeSteps(vSteps);
-      if (vTime) this.setFadeTime(vTime);
-      this._fadeMode = qx.ui.core.Widget.FADE_OUT;
-      var timer = this.getFadeTimer();
-      timer.addEventListener("interval", this._onInterval, this);
-      timer.start();
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
-    getFadeTimer : function()
-    {
-      if (this._fadeTimer) {
-        this._fadeTimer.setInterval(this.getFadeInterval());
-      } else {
-        this._fadeTimer = new qx.client.Timer(this.getFadeInterval());
-      }
-
-      return this._fadeTimer;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    resetFader : function()
-    {
-      this.setFadeCounter(0);
-
-      if (this.getFadeTimer())
-      {
-        this._fadeTimer.stop();
-        this._fadeTimer.dispose();
-      }
-
-      this._fadeTimer.dispose();
-      this._fadeTimer = null;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-    _onInterval : function(e)
-    {
-      this.getFadeTimer().stop();
-      var counter = this.getFadeCounter();
-
-      switch(this._fadeMode)
-      {
-        case qx.ui.core.Widget.FADE_IN:
-          this.setFadeCounter(++counter);
-
-          if (counter <= this.getFadeSteps())
-          {
-            this.setOpacity(this._computeFadeOpacity());
-            this.getFadeTimer().restart();
-          }
-          else if (this.hasEventListeners(qx.ui.core.Widget.FADE_FINISHED))
-          {
-            this.createDispatchDataEvent(qx.ui.core.Widget.FADE_FINISHED, qx.ui.core.Widget.FADE_IN);
-          }
-
-          break;
-
-        case qx.ui.core.Widget.FADE_OUT:
-          this.setFadeCounter(--counter);
-
-          if (counter >= 0)
-          {
-            this.setOpacity(this._computeFadeOpacity());
-            this.getFadeTimer().restart();
-          }
-          else if (this.hasEventListeners(qx.ui.core.Widget.FADE_FINISHED))
-          {
-            this.createDispatchDataEvent(qx.ui.core.Widget.FADE_FINISHED, qx.ui.core.Widget.FADE_OUT);
-          }
-
-          break;
-      }
-
-      qx.ui.core.Widget.flushGlobalQueues();
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {void | Boolean} TODOC
-     */
-    _modifyFadeSteps : function(propValue, propOldValue, propData)
-    {
-      if (propValue < 1) return;
-      this.setFadeInterval(parseInt(this.getFadeTime() / propValue));
-      this.setFadeUnit(Math.round(this.getFadeMax() / propValue));
-      return true;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {void | Boolean} TODOC
-     */
-    _modifyFadeTime : function(propValue, propOldValue, propData)
-    {
-      if (propValue < 1) return;
-      this.setFadeInterval(parseInt(propValue / this.getFadeSteps()));
-      return true;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
-     */
-    _modifyFadeUnit : function(propValue, propOldValue, propData)
-    {
-      this.setFadeSteps(Math.round(this.getFadeMax() / propValue));
-      return true;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
-     */
-    _modifyFadeMax : function(propValue, propOldValue, propData)
-    {
-      this.setFadeUnit(Math.round(propValue / this.getFadeSteps()));
-      return true;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
-    _computeFadeOpacity : function()
-    {
-      var op = this.getFadeUnit() * this.getFadeCounter() / 100;
-      return (op);
     }
+
   },
 
 
