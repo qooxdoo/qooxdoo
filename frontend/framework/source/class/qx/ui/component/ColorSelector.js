@@ -264,7 +264,7 @@ qx.Class.define("qx.ui.component.ColorSelector",
       this._hueSaturationPane.addEventListener("mousewheel", this._onHueSaturationPaneMouseWheel, this);
 
       this._hueSaturationField = new qx.ui.basic.Image("widget/colorselector/huesaturation-field.jpg");
-      this._hueSaturationField.setBorder(qx.renderer.border.BorderPresets.getInstance().thinInset);
+      this._hueSaturationField.setBorder(qx.renderer.border.BorderPresets.getThinInset());
       this._hueSaturationField.setMargin(5);
       this._hueSaturationField.setParent(this._hueSaturationPane);
 
@@ -296,7 +296,7 @@ qx.Class.define("qx.ui.component.ColorSelector",
       this._brightnessPane.addEventListener("mousewheel", this._onBrightnessPaneMouseWheel, this);
 
       this._brightnessField = new qx.ui.basic.Image("widget/colorselector/brightness-field.jpg");
-      this._brightnessField.setBorder(qx.renderer.border.BorderPresets.getInstance().thinInset);
+      this._brightnessField.setBorder(qx.renderer.border.BorderPresets.getThinInset());
       this._brightnessField.setMargin(5, 7);
       this._brightnessField.setParent(this._brightnessPane);
 
@@ -361,7 +361,7 @@ qx.Class.define("qx.ui.component.ColorSelector",
         for (var j=0; j<10; j++)
         {
           colorField = new qx.ui.basic.Terminator;
-          colorField.setBorder(qx.renderer.border.BorderPresets.getInstance().thinInset);
+          colorField.setBorder(qx.renderer.border.BorderPresets.getThinInset());
           colorField.setBackgroundColor(this._presetTable[i * 10 + j]);
           colorField.addEventListener("mousedown", this._onColorFieldClick, this);
 
@@ -536,13 +536,13 @@ qx.Class.define("qx.ui.component.ColorSelector",
     _createPreviewContent : function()
     {
       this._oldColorPreview = new qx.ui.basic.Terminator;
-      this._oldColorPreview.setBorder(qx.renderer.border.BorderPresets.getInstance().thinInset);
+      this._oldColorPreview.setBorder(qx.renderer.border.BorderPresets.getThinInset());
       this._oldColorPreview.setWidth("1*");
       this._oldColorPreview.setBackgroundImage("static/image/dotted_white.gif");
       this._oldColorPreview.setParent(this._previewLayout);
 
       this._newColorPreview = new qx.ui.basic.Terminator;
-      this._newColorPreview.setBorder(qx.renderer.border.BorderPresets.getInstance().thinInset);
+      this._newColorPreview.setBorder(qx.renderer.border.BorderPresets.getThinInset());
       this._newColorPreview.setWidth("1*");
       this._newColorPreview.setBackgroundColor("white");
       this._newColorPreview.setParent(this._previewLayout);

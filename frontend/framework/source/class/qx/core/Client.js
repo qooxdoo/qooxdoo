@@ -572,6 +572,7 @@ qx.Class.define("qx.core.Client",
     /**
      * Singeleton getter for keep compatibility
      * @deprecated
+     * @return {Client} reference to the static class.
      */
     getInstance: function() {
       return this;

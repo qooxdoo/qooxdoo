@@ -191,7 +191,7 @@ qx.Class.define("qx.theme.appearance.Classic",
           {
             backgroundColor : this.bgcolor,
             color           : this.color,
-            border          : qx.renderer.border.BorderPresets.getInstance().info,
+            border          : qx.renderer.border.BorderPresets.getInfo(),
             paddingTop      : 1,
             paddingRight    : 3,
             paddingBottom   : 2,
@@ -203,7 +203,7 @@ qx.Class.define("qx.theme.appearance.Classic",
       "iframe" :
       {
         initial : function(vTheme) {
-          return { border : qx.renderer.border.BorderPresets.getInstance().inset };
+          return { border : qx.renderer.border.BorderPresets.getInset() };
         }
       },
 
@@ -224,8 +224,8 @@ qx.Class.define("qx.theme.appearance.Classic",
           this.bgcolor_over = new qx.renderer.color.Color("#87BCE5");
           this.bgcolor_left = new qx.renderer.color.Color("#FFF0C9");
 
-          this.border_pressed = qx.renderer.border.BorderPresets.getInstance().inset;
-          this.border_default = qx.renderer.border.BorderPresets.getInstance().outset;
+          this.border_pressed = qx.renderer.border.BorderPresets.getInset();
+          this.border_default = qx.renderer.border.BorderPresets.getOutset();
         },
 
         initial : function(vTheme) {
@@ -275,7 +275,7 @@ qx.Class.define("qx.theme.appearance.Classic",
         initial : function(vTheme)
         {
           return {
-            border          : qx.renderer.border.BorderPresets.getInstance().thinOutset,
+            border          : qx.renderer.border.BorderPresets.getThinOutset(),
             backgroundColor : this.bgcolor,
             height          : "auto"
           };
@@ -305,7 +305,7 @@ qx.Class.define("qx.theme.appearance.Classic",
             left   : 3,
             bottom : 2,
             width  : 4,
-            border : qx.renderer.border.BorderPresets.getInstance().thinOutset
+            border : qx.renderer.border.BorderPresets.getThinOutset()
           };
         }
       },
@@ -354,9 +354,9 @@ qx.Class.define("qx.theme.appearance.Classic",
           this.bgcolor_default = new qx.renderer.color.ColorObject("buttonface");
           this.bgcolor_left = new qx.renderer.color.Color("#FFF0C9");
 
-          this.border_pressed = qx.renderer.border.BorderPresets.getInstance().thinInset;
-          this.border_over = qx.renderer.border.BorderPresets.getInstance().thinOutset;
-          this.border_default = qx.renderer.border.BorderPresets.getInstance().none;
+          this.border_pressed = qx.renderer.border.BorderPresets.getThinInset();
+          this.border_over = qx.renderer.border.BorderPresets.getThinOutset();
+          this.border_default = qx.renderer.border.BorderPresets.getNone();
 
           this.checked_background = "static/image/dotted_white.gif";
         },
@@ -426,7 +426,7 @@ qx.Class.define("qx.theme.appearance.Classic",
         {
           return {
             backgroundColor : this.background,
-            border          : qx.renderer.border.BorderPresets.getInstance().shadow
+            border          : qx.renderer.border.BorderPresets.getShadow()
           };
         }
       },
@@ -620,7 +620,7 @@ qx.Class.define("qx.theme.appearance.Classic",
           }
           else
           {
-            vReturn.border = qx.renderer.border.BorderPresets.getInstance().none;
+            vReturn.border = qx.renderer.border.BorderPresets.getNone();
             vReturn.paddingTop = vReturn.paddingBottom = 4;
             vReturn.paddingRight = vReturn.paddingLeft = 7;
           }
@@ -674,7 +674,7 @@ qx.Class.define("qx.theme.appearance.Classic",
         },
 
         state : function(vTheme, vStates) {
-          return { border : vStates.maximized ? qx.renderer.border.BorderPresets.getInstance().none : qx.renderer.border.BorderPresets.getInstance().outset };
+          return { border : vStates.maximized ? qx.renderer.border.BorderPresets.getNone() : qx.renderer.border.BorderPresets.getOutset() };
         }
       },
 
@@ -713,7 +713,7 @@ qx.Class.define("qx.theme.appearance.Classic",
       "window-resize-frame" :
       {
         initial : function(vTheme) {
-          return { border : qx.renderer.border.BorderPresets.getInstance().shadow };
+          return { border : qx.renderer.border.BorderPresets.getShadow() };
         }
       },
 
@@ -819,7 +819,7 @@ qx.Class.define("qx.theme.appearance.Classic",
         initial : function(vTheme)
         {
           return {
-            border : qx.renderer.border.BorderPresets.getInstance().thinInset,
+            border : qx.renderer.border.BorderPresets.getThinInset(),
             height : "auto"
           };
         }
@@ -851,14 +851,14 @@ qx.Class.define("qx.theme.appearance.Classic",
       "resizer" :
       {
         initial : function(vTheme) {
-          return { border : qx.renderer.border.BorderPresets.getInstance().outset };
+          return { border : qx.renderer.border.BorderPresets.getOutset() };
         }
       },
 
       "resizer-frame" :
       {
         initial : function(vTheme) {
-          return { border : qx.renderer.border.BorderPresets.getInstance().shadow };
+          return { border : qx.renderer.border.BorderPresets.getShadow() };
         }
       },
 
@@ -883,7 +883,7 @@ qx.Class.define("qx.theme.appearance.Classic",
             width           : "auto",
             height          : "auto",
             backgroundColor : this.bgcolor,
-            border          : qx.renderer.border.BorderPresets.getInstance().outset,
+            border          : qx.renderer.border.BorderPresets.getOutset(),
             paddingTop      : 1,
             paddingRight    : 1,
             paddingBottom   : 1,
@@ -985,7 +985,7 @@ qx.Class.define("qx.theme.appearance.Classic",
             right  : 0,
             left   : 0,
             height : "auto",
-            border : qx.renderer.border.BorderPresets.getInstance().verticalDivider
+            border : qx.renderer.border.BorderPresets.getVerticalDivider()
           };
         }
       },
@@ -1009,7 +1009,7 @@ qx.Class.define("qx.theme.appearance.Classic",
         {
           return {
             overflow        : "hidden",
-            border          : qx.renderer.border.BorderPresets.getInstance().thinInset,
+            border          : qx.renderer.border.BorderPresets.getThinInset(),
             backgroundColor : this.bgcolor
           };
         }
@@ -1067,7 +1067,7 @@ qx.Class.define("qx.theme.appearance.Classic",
         {
           return {
             hideFocus     : true,
-            border        : qx.renderer.border.BorderPresets.getInstance().inset,
+            border        : qx.renderer.border.BorderPresets.getInset(),
             paddingTop    : 1,
             paddingRight  : 3,
             paddingBottom : 1,
@@ -1125,7 +1125,7 @@ qx.Class.define("qx.theme.appearance.Classic",
             minWidth        : 40,
             width           : 120,
             height          : "auto",
-            border          : qx.renderer.border.BorderPresets.getInstance().inset,
+            border          : qx.renderer.border.BorderPresets.getInset(),
             backgroundColor : this.bgcolor,
             allowStretchY   : false
           };
@@ -1143,7 +1143,7 @@ qx.Class.define("qx.theme.appearance.Classic",
           return {
             width           : "auto",
             height          : "auto",
-            border          : qx.renderer.border.BorderPresets.getInstance().inset,
+            border          : qx.renderer.border.BorderPresets.getInset(),
             backgroundColor : this.bgcolor,
             allowStretchY   : false
           };
@@ -1191,7 +1191,7 @@ qx.Class.define("qx.theme.appearance.Classic",
           {
             height    : "auto",
             maxHeight : 150,
-            border    : qx.renderer.border.BorderPresets.getInstance().shadow
+            border    : qx.renderer.border.BorderPresets.getShadow()
           });
         }
       },
@@ -1204,7 +1204,7 @@ qx.Class.define("qx.theme.appearance.Classic",
           {
             width  : "auto",
             height : "auto",
-            border : qx.renderer.border.BorderPresets.getInstance().shadow
+            border : qx.renderer.border.BorderPresets.getShadow()
           });
         }
       },
@@ -1219,7 +1219,7 @@ qx.Class.define("qx.theme.appearance.Classic",
         {
           return qx.lang.Object.mergeWith(vTheme.initialFrom("text-field"),
           {
-            border          : qx.renderer.border.BorderPresets.getInstance().none,
+            border          : qx.renderer.border.BorderPresets.getNone(),
             width           : "1*",
             backgroundColor : this.bgcolor
           });
@@ -1236,7 +1236,7 @@ qx.Class.define("qx.theme.appearance.Classic",
         {
           return qx.lang.Object.mergeWith(vTheme.initialFrom("text-field"),
           {
-            border          : qx.renderer.border.BorderPresets.getInstance().none,
+            border          : qx.renderer.border.BorderPresets.getNone(),
             minWidth        : 30,
             width           : 100,
             backgroundColor : this.bgcolor
@@ -1849,7 +1849,7 @@ qx.Class.define("qx.theme.appearance.Classic",
             paddingRight  : 9,
             paddingBottom : 12,
             paddingLeft   : 9,
-            border        : qx.renderer.border.BorderPresets.getInstance().groove
+            border        : qx.renderer.border.BorderPresets.getGroove()
           };
         }
       },
@@ -1899,7 +1899,7 @@ qx.Class.define("qx.theme.appearance.Classic",
           return {
             width           : 60,
             height          : 22,
-            border          : qx.renderer.border.BorderPresets.getInstance().inset,
+            border          : qx.renderer.border.BorderPresets.getInset(),
             backgroundColor : this.bgcolor
           };
         }
@@ -1912,7 +1912,7 @@ qx.Class.define("qx.theme.appearance.Classic",
           return qx.lang.Object.mergeWith(vTheme.initialFrom("text-field"),
           {
             width  : "1*",
-            border : qx.renderer.border.BorderPresets.getInstance().none
+            border : qx.renderer.border.BorderPresets.getNone()
           });
         },
 
@@ -1981,7 +1981,7 @@ qx.Class.define("qx.theme.appearance.Classic",
       "colorselector" :
       {
         setup : function() {
-          this.border = qx.renderer.border.BorderPresets.getInstance().outset;
+          this.border = qx.renderer.border.BorderPresets.getOutset();
         },
 
         initial : function(vTheme)
@@ -2012,8 +2012,8 @@ qx.Class.define("qx.theme.appearance.Classic",
           this.bgcolor_default = new qx.renderer.color.ColorObject("buttonface");
           this.bgcolor_left = new qx.renderer.color.Color("#FFF0C9");
 
-          this.border_pressed = qx.renderer.border.BorderPresets.getInstance().thinInset;
-          this.border_over = qx.renderer.border.BorderPresets.getInstance().thinOutset;
+          this.border_pressed = qx.renderer.border.BorderPresets.getThinInset();
+          this.border_over = qx.renderer.border.BorderPresets.getThinOutset();
           this.border_default = null;
 
           this.checked_background = "static/image/dotted_white.gif";
@@ -2167,7 +2167,7 @@ qx.Class.define("qx.theme.appearance.Classic",
         state : function(vTheme, vStates)
         {
           return {
-            border          : vStates.today ? qx.renderer.border.BorderPresets.getInstance().black : this.transparentBorder,
+            border          : vStates.today ? qx.renderer.border.BorderPresets.getBlack() : this.transparentBorder,
             color           : vStates.selected ? this.selectedColor : (vStates.otherMonth ? this.otherMonthColor : this.color),
             backgroundColor : vStates.selected ? this.selectedBgColor : null
           };
@@ -2277,7 +2277,7 @@ qx.Class.define("qx.theme.appearance.Classic",
         {
           return {
             font          : this.font,
-            border        : qx.renderer.border.BorderPresets.getInstance().none,
+            border        : qx.renderer.border.BorderPresets.getNone(),
             paddingLeft   : 2,
             paddingRight  : 2,
             paddingTop    : 0,
