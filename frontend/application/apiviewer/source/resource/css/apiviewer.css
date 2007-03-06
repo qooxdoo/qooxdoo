@@ -336,3 +336,44 @@
   font-weight: bold;
   font-size: 11px;
 }
+
+
+
+
+
+#Legend{
+  font-size: 11px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: white;
+}
+
+#Legend tr td{
+  border-bottom: 1px solid #ECECEC;
+}
+
+#Legend td,
+#Legend th{
+  font-family: Verdana, "Lucida Grande", "Bitstream Vera Sans", Tahoma, "Lucida Sans Unicode", Arial, sans-serif;
+  font-size: 11px;
+  padding: 6px 8px 6px;
+}
+
+#Legend td.text{
+  vertical-align: top;
+  padding-top: 4px;
+}
+
+#Legend td.icon,
+#Legend td.icon img{
+  vertical-align: top;
+  text-align: center;
+}
+
+#Legend h3{
+  font-family: "Trebuchet MS", "Lucida Grande", Verdana, sans-serif;
+  color: #134275;
+  font-size: 13px;
+  margin: 0 !important;
+}

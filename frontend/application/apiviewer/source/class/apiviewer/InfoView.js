@@ -44,9 +44,9 @@ qx.Class.define("apiviewer.InfoView",
     this.base(arguments);
 
     this.setOverflow("auto");
-    this.setPadding(10);
-    this.setEdge(0);
-    this.setHtmlProperty("id", "ClassViewer");
+    this.setWidth("100%");
+    this.setHeight("100%");
+    this.setBackgroundColor("white");
 
     this.addEventListener("appear", this._showHtml, this);
   },
@@ -140,19 +140,14 @@ qx.Class.define("apiviewer.InfoView",
       ]
 
       var html = new qx.util.StringBuilder();
-      html.add("<table id='DetailFrame' class='info'><tr><td class='icon'>");
+      html.add("<table id='Legend' cellpadding='0' cellspacing='0'>");
 
-      for (var i=0; i<legend.length; i++) {
+      for (var i=0; i<legend.length; i++)
+      {
         var entry = legend[i];
+        html.add("<tr><td class='icon'>");
         html.add(apiviewer.ClassViewer.createImageHtml(entry.icon));
-        html.add("</td><td class='text'>");
-        html.add(entry.desc);
-        html.add("</td></tr>");
-
-        // if not last iteration
-        if (i != legend.length -1) {
-          html.add("<tr><td class='icon'>");
-        }
+        html.add("</td><td class='text'>", entry.desc, "</td></tr>");
       }
 
       html.add("</table>");
@@ -160,5 +155,4 @@ qx.Class.define("apiviewer.InfoView",
       this.setHtml(html.toString());
     }
   }
-
 });
