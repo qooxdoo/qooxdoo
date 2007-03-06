@@ -149,7 +149,7 @@ qx.Proto._afterAppear = function()
     var top    = this.getTop();
     var width  = this.getBoxWidth();
     var height = this.getBoxHeight();
-    
+
     var mouseX = qx.event.type.MouseEvent.getPageX();
     var mouseY = qx.event.type.MouseEvent.getPageY();
 
@@ -170,7 +170,7 @@ qx.Proto._afterAppear = function()
     if (top < restrictToPageTop) {
       top = restrictToPageTop;
     }
-    
+
     // REPAIR: If mousecursor /within/ newly positioned popup, move away.
     // needs checks and tests
     if (left <= mouseX && mouseX <= left+width &&
@@ -180,28 +180,28 @@ qx.Proto._afterAppear = function()
         var deltaYup = deltaYdown - height;
         var deltaXright = mouseX - left;
         var deltaXleft = deltaXright - width;
-        var violationUp = Math.max(0, restrictToPageTop - (top+deltaYup));   
-        var violationDown = Math.max(0, top+height+deltaYdown - (docHeight-restrictToPageBottom));   
-        var violationLeft = Math.max(0, restrictToPageLeft - (left+deltaXleft));   
-        var violationRight = Math.max(0, left+width+deltaXright - (docWidth-restrictToPageRight));   
+        var violationUp = Math.max(0, restrictToPageTop - (top+deltaYup));
+        var violationDown = Math.max(0, top+height+deltaYdown - (docHeight-restrictToPageBottom));
+        var violationLeft = Math.max(0, restrictToPageLeft - (left+deltaXleft));
+        var violationRight = Math.max(0, left+width+deltaXright - (docWidth-restrictToPageRight));
         var possibleMovements = [// (deltaX, deltaY, violation)
             [0, deltaYup,    violationUp], // up
             [0, deltaYdown,  violationDown], // down
             [deltaXleft, 0,  violationLeft], // left
             [deltaXright, 0, violationRight] // right
         ];
-        
+
         possibleMovements.sort(function(a, b){
             // first sort criterion: overlap/clipping - fewer, better
-            // second criterion: combined movements - fewer, better             
+            // second criterion: combined movements - fewer, better
             return a[2]-b[2] || (Math.abs(a[0]) + Math.abs(a[1])) - (Math.abs(b[0]) + Math.abs(b[1]));
         });
-                            
+
         var minimalNonClippingMovement = possibleMovements[0];
         left = left + minimalNonClippingMovement[0];
         top = top + minimalNonClippingMovement[1];
     }
-    
+
     if (left != oldLeft || top != oldTop) {
       var self = this;
       window.setTimeout(function() {

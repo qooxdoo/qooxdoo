@@ -196,9 +196,9 @@ qx.Proto.scrollItemIntoView = function(vItem)
 */
 
 /**
- * Renders the selection state of a tree node. If the node is selected this 
+ * Renders the selection state of a tree node. If the node is selected this
  * method makes sure it is visible.
- * 
+ *
  * @param treeNode {qx.ui.tree.AbstractTreeElement} The tree node to select
  * @param vIsSelected {Boolean} whether the tree node is selected
  */
@@ -206,37 +206,37 @@ qx.Proto.renderItemSelectionState = function(treeNode, isSelected)
 {
   if (isSelected && !treeNode.isSeeable())
   {
-      
-	  var treeFolder = treeNode;
-	  var parentFolders = [];
 
-	  // Find all parent folders
-	  while (treeFolder)    
+    var treeFolder = treeNode;
+    var parentFolders = [];
+
+    // Find all parent folders
+    while (treeFolder)
     {
-		  treeFolder = treeFolder.getParentFolder();
-	    parentFolders.push(treeFolder);        
-	  };
+      treeFolder = treeFolder.getParentFolder();
+      parentFolders.push(treeFolder);
+    };
 
-	  // Now open all folders, starting at the top
-	  parentFolders.pop();                       
-	  while (parentFolders.length)
-	  {
-	  	 // get last one, and open it.
-	    parentFolders.pop().open();             
-	  }
+    // Now open all folders, starting at the top
+    parentFolders.pop();
+    while (parentFolders.length)
+    {
+       // get last one, and open it.
+      parentFolders.pop().open();
+    }
   }
-	
-	if (isSelected) {
-	  // scrool it into view
+
+  if (isSelected) {
+    // scrool it into view
     if (treeNode.isCreated()) {
-   	  this.scrollItemIntoView(treeNode);
+       this.scrollItemIntoView(treeNode);
     } else {
       treeNode.addEventListener("appear", function(e) {
         this.scrollItemIntoView(treeNode);
       }, this);
     }
-	}
-  
+  }
+
   // select it
-  treeNode.setSelected(isSelected);       
+  treeNode.setSelected(isSelected);
 }
