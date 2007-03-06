@@ -48,7 +48,7 @@ RELEASE_BUILD_DOS = release/temp/build/dos/qooxdoo-$(FRAMEWORK_VERSION)-build
 RELEASE_SDK_UNIX = release/temp/sdk/unix/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 RELEASE_SDK_DOS = release/temp/sdk/dos/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
-APPLICATIONS = apiviewer feedreader sample showcase webmail
+APPLICATIONS = apiviewer feedreader sample showcase webmail quickstart unittests
 SDK_COPY = Makefile application/Makefile application/index.html
 
 
