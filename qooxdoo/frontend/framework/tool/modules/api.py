@@ -1045,7 +1045,7 @@ def postWorkClass(docTree, classNode):
 
     # Check whether the class is static
     superClassName = classNode.get("superClass", False)
-    if (superClassName == None or superClassName == "qx.core.Object") \
+    if (superClassName == None) \
         and classNode.getChild("properties", False) == None \
         and classNode.getChild("methods", False) == None:
         # This class is static
