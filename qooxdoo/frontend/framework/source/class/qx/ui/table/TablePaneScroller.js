@@ -692,7 +692,7 @@ qx.Proto._onclick = function(evt) {
         table.getSelectionModel().clearSelection();
       }
     }
-  } else if (row != null && this._getColumnForPageX(evt.getPageX())) {
+  } else if (row != null && this._getColumnForPageX(evt.getPageX()) != null) {
     table._getSelectionManager().handleClick(row, evt);
   }
 }
