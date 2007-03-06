@@ -43,6 +43,9 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
    * Creates a new instance of a SplitPane. It allows the user to dynamically resize
    * the areas dropping the border between.
    *
+   * Please note that the usage of percents may be problematic because you must respect the
+   * divider, too. To create a typical 50,50 split please use flex units instead e.g. "1*", "1*"
+   *
    * new qx.ui.splitpane.SplitPane(orientation)
    * new qx.ui.splitpane.SplitPane(orientation, firstSize, secondSize)
    *
