@@ -26,7 +26,7 @@
 ************************************************************************ */
 
 /**
- * Collection of helper methods operatinf on functions.
+ * Collection of helper methods operating on functions.
  */
 qx.Class.define("qx.lang.Function",
 {
