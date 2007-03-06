@@ -41,10 +41,10 @@ qx.Class.define("qx.ui.tablevarrowheight.TablePaneModel",
   *****************************************************************************
   */
 
-	/**
-	 * @param tableColumnModel {TableColumnModel}
-	 *   The TableColumnModel of which this model is the proxy.
-	 */
+  /**
+   * @param tableColumnModel {TableColumnModel}
+   *   The TableColumnModel of which this model is the proxy.
+   */
   construct : function(tableColumnModel) {
     this.base(arguments, tableColumnModel);
   },

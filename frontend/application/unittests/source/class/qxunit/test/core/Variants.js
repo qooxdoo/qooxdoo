@@ -2,214 +2,214 @@
 #require(qx.core.Client)
 */
 
-qx.Class.define("qxunit.test.core.Variants", { 
-	extend: qxunit.TestCase,
+qx.Class.define("qxunit.test.core.Variants", {
+  extend: qxunit.TestCase,
 
-	members : {
+  members : {
 
-  	testBrowserAllDefined: function() {
-	    this.debug("test testBrowserAllDefined");
+    testBrowserAllDefined: function() {
+      this.debug("test testBrowserAllDefined");
 
-	    qx.Class.define("qx.test.Browser1", {
-	          extend: Object,
+      qx.Class.define("qx.test.Browser1", {
+            extend: Object,
 
-	          construct: function() {},
+            construct: function() {},
 
-	          members: {
-	              getName: qx.core.Variant.select("qx.client", {
-	                  "default": function() { return "unknown browser" },
-	                  "gecko": function() { return "Gecko" },
-	                  "mshtml": function() { return "Internet Explorer" },
-	                  "webkit": function() { return "Webkit" },
-	                  "opera": function() { return "Opera" }
-	              })
-	          }
-	      });
+            members: {
+                getName: qx.core.Variant.select("qx.client", {
+                    "default": function() { return "unknown browser" },
+                    "gecko": function() { return "Gecko" },
+                    "mshtml": function() { return "Internet Explorer" },
+                    "webkit": function() { return "Webkit" },
+                    "opera": function() { return "Opera" }
+                })
+            }
+        });
 
-	      var b = new qx.test.Browser1();
+        var b = new qx.test.Browser1();
 
-	      if (qx.core.Client.getInstance().isGecko()) {
-	          this.assertEquals("Gecko", b.getName());
-	      } else if (qx.core.Client.getInstance().isMshtml()) {
-	          this.assertEquals("Internet Explorer", b.getName());
-	      } else if (qx.core.Client.getInstance().isWebkit()) {
-	          this.assertEquals("Webkit", b.getName());
-	      } else if (qx.core.Client.getInstance().isOpera()) {
-	          this.assertEquals("Opera", b.getName());
-	      }
-	  },
+        if (qx.core.Client.getInstance().isGecko()) {
+            this.assertEquals("Gecko", b.getName());
+        } else if (qx.core.Client.getInstance().isMshtml()) {
+            this.assertEquals("Internet Explorer", b.getName());
+        } else if (qx.core.Client.getInstance().isWebkit()) {
+            this.assertEquals("Webkit", b.getName());
+        } else if (qx.core.Client.getInstance().isOpera()) {
+            this.assertEquals("Opera", b.getName());
+        }
+    },
 
-	  testBrowserOrDefined: function() {
-	    this.debug("test testBrowserOrDefined");
+    testBrowserOrDefined: function() {
+      this.debug("test testBrowserOrDefined");
 
-	      qx.Class.define("qx.test.Browser2", {
-	          extend: Object,
+        qx.Class.define("qx.test.Browser2", {
+            extend: Object,
 
-	          construct: function() {},
+            construct: function() {},
 
-	          members: {
-	              getName: qx.core.Variant.select("qx.client", {
-	                  "default": function() { return "unknown browser" },
-	                  "gecko|mshtml|webkit|opera": function() { return "known browser" }
-	              })
-	          }
-	      });
+            members: {
+                getName: qx.core.Variant.select("qx.client", {
+                    "default": function() { return "unknown browser" },
+                    "gecko|mshtml|webkit|opera": function() { return "known browser" }
+                })
+            }
+        });
 
-	      var b = new qx.test.Browser2();
-	      this.assertEquals("known browser", b.getName());
-	  },
+        var b = new qx.test.Browser2();
+        this.assertEquals("known browser", b.getName());
+    },
 
-	  testBrowserOneDefined: function() {
-	    this.debug("test testBrowserOneDefined");
+    testBrowserOneDefined: function() {
+      this.debug("test testBrowserOneDefined");
 
-	      qx.Class.define("qx.test.Browser3", {
-	          extend: Object,
+        qx.Class.define("qx.test.Browser3", {
+            extend: Object,
 
-	          construct: function() {},
+            construct: function() {},
 
-	          members: {
-	              getName: qx.core.Variant.select("qx.client", {
-	                  "default": function() { return "default browser" },
-	                  "unknown": function() { return "unknown browser" }
-	              })
-	          }
-	      });
+            members: {
+                getName: qx.core.Variant.select("qx.client", {
+                    "default": function() { return "default browser" },
+                    "unknown": function() { return "unknown browser" }
+                })
+            }
+        });
 
-	      var b = new qx.test.Browser3();
-	      this.assertEquals("default browser", b.getName());
-	  },
+        var b = new qx.test.Browser3();
+        this.assertEquals("default browser", b.getName());
+    },
 
-	  testInlineSwitch: function() {
-	    this.debug("test testInlineSwitch");
+    testInlineSwitch: function() {
+      this.debug("test testInlineSwitch");
 
-	    qx.core.Variant.define("test.animal", ["dog", "cat", "snake"], "snake");
-	    this.assertEquals("snake", qx.core.Variant.get("test.animal"));
+      qx.core.Variant.define("test.animal", ["dog", "cat", "snake"], "snake");
+      this.assertEquals("snake", qx.core.Variant.get("test.animal"));
 
-	    var c;
-	    if (qx.core.Variant.isSet("test.animal", "dog|snake")) {
-	      if(qx.core.Variant.isSet("test.animal", "dog")) {
-	        c = "dog"
-	      } else {
-	        c = "snake"
-	      }
-	    } else if (qx.core.Variant.isSet("test.animal", "cat")) {
-	      c = "cat"
-	    } if (qx.core.Variant.isSet("test.animal", "default")) {
-	      c = "snake"
-	    }
-	    this.assertEquals(qx.core.Variant.get("test.animal"), c);
-	  },
+      var c;
+      if (qx.core.Variant.isSet("test.animal", "dog|snake")) {
+        if(qx.core.Variant.isSet("test.animal", "dog")) {
+          c = "dog"
+        } else {
+          c = "snake"
+        }
+      } else if (qx.core.Variant.isSet("test.animal", "cat")) {
+        c = "cat"
+      } if (qx.core.Variant.isSet("test.animal", "default")) {
+        c = "snake"
+      }
+      this.assertEquals(qx.core.Variant.get("test.animal"), c);
+    },
 
-	  testIfWithComment: function() {
-	    this.debug("test testIfWithComment");
+    testIfWithComment: function() {
+      this.debug("test testIfWithComment");
 
-	    var b;
+      var b;
 
-	    /**
-	     *
-	     */
+      /**
+       *
+       */
 
-	    if (qx.core.Variant.isSet("qx.client", "mshtml"))
-	    {
-	      b = "mshtml";
-	    }
-
-
-	    /**
-	     *
-	     */
-
-	    else if (qx.core.Variant.isSet("qx.client", "gecko"))
-	    {
-	      b = "gecko";
-	    }
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        b = "mshtml";
+      }
 
 
-	    /**
-	     *
-	     */
+      /**
+       *
+       */
 
-	    else if (qx.core.Variant.isSet("qx.client", "webkit"))
-	    {
-	      b = "webkit";
-	    }
-
-
-	    /**
-	     *
-	     */
-
-	    else if (qx.core.Variant.isSet("qx.client", "opera"))
-	    {
-	      b = "opera"
-	    }
-	    this.assertEquals(qx.core.Variant.get("qx.client"), b);
+      else if (qx.core.Variant.isSet("qx.client", "gecko"))
+      {
+        b = "gecko";
+      }
 
 
+      /**
+       *
+       */
 
-	    if (qx.core.Variant.isSet("qx.client", "mshtml"))   // The Microsoft style
-	    {
-	      b = "mshtml";
-	    }
-	    else // all other browsers
-	    {
-	      b = "other";
-	    }
-	    if (qx.core.Client.getInstance().isMshtml()) {
-	      this.assertEquals("mshtml", b);
-	    } else {
-	      this.assertEquals("other", b);
-	    }
-	  },
+      else if (qx.core.Variant.isSet("qx.client", "webkit"))
+      {
+        b = "webkit";
+      }
 
-	  testInlineOr: function() {
-	    this.debug("test testInlineOr");
 
-	    var c;
-	    if (qx.core.Variant.isSet("qx.client", "mshtml|opera|webkit|gecko"))
-	    {
-	      c = "all"
-	    } else
-	    {
-	      c = "unknown"
-	    }
-	    this.assertEquals("all", c);
-	  },
+      /**
+       *
+       */
 
-	  testTernary: function() {
-	    var a = qx.core.Variant.isSet("qx.client", "mshtml") ? "mshtml" : "other";
-	    if (qx.core.Client.getInstance().isMshtml()) {
-	      this.assertEquals("mshtml", a);
-	    } else {
-	      this.assertEquals("other", a);
-	    }
-	  },
+      else if (qx.core.Variant.isSet("qx.client", "opera"))
+      {
+        b = "opera"
+      }
+      this.assertEquals(qx.core.Variant.get("qx.client"), b);
 
-	  testScope: function() {
-	    this.assertUndefined(window.abcdef);
-	    if (qx.core.Variant.isSet("qx.client", "mshtml|opera|webkit|gecko")) {
-	      abcdef = "mshtml";
-	      var g;
-	    } else {
-	      var abcdef = "other";
-	      var f = function() { var y};
-	      var g,gh;
-	    }
-	    this.assertUndefined(window.abcdef);
-	  },
 
-	  testVariantInElse: function() {
-	    // this tests a pathological case which cased the generator to produce
-	    // invalid code
-	    var i = 1;
-	    if (true) {
-	      var i = 3;
-	    } else if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-	      debug("");
-	    }
-	    i = 2;
-	    this.assertEquals(2, i);
-	  }
 
-	}
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))   // The Microsoft style
+      {
+        b = "mshtml";
+      }
+      else // all other browsers
+      {
+        b = "other";
+      }
+      if (qx.core.Client.getInstance().isMshtml()) {
+        this.assertEquals("mshtml", b);
+      } else {
+        this.assertEquals("other", b);
+      }
+    },
+
+    testInlineOr: function() {
+      this.debug("test testInlineOr");
+
+      var c;
+      if (qx.core.Variant.isSet("qx.client", "mshtml|opera|webkit|gecko"))
+      {
+        c = "all"
+      } else
+      {
+        c = "unknown"
+      }
+      this.assertEquals("all", c);
+    },
+
+    testTernary: function() {
+      var a = qx.core.Variant.isSet("qx.client", "mshtml") ? "mshtml" : "other";
+      if (qx.core.Client.getInstance().isMshtml()) {
+        this.assertEquals("mshtml", a);
+      } else {
+        this.assertEquals("other", a);
+      }
+    },
+
+    testScope: function() {
+      this.assertUndefined(window.abcdef);
+      if (qx.core.Variant.isSet("qx.client", "mshtml|opera|webkit|gecko")) {
+        abcdef = "mshtml";
+        var g;
+      } else {
+        var abcdef = "other";
+        var f = function() { var y};
+        var g,gh;
+      }
+      this.assertUndefined(window.abcdef);
+    },
+
+    testVariantInElse: function() {
+      // this tests a pathological case which cased the generator to produce
+      // invalid code
+      var i = 1;
+      if (true) {
+        var i = 3;
+      } else if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+        debug("");
+      }
+      i = 2;
+      this.assertEquals(2, i);
+    }
+
+  }
 });

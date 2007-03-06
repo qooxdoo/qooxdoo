@@ -150,7 +150,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
      * @signature function()
      */
     _modifyParent : qx.lang.Function.returnTrue,
-    
+
     /**
      * @signature function()
      */

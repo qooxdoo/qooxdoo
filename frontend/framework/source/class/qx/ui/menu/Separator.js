@@ -91,24 +91,24 @@ qx.Class.define("qx.ui.menu.Separator",
   members :
   {
 
-		/**
-		 * @signature function()
-		 */
+    /**
+     * @signature function()
+     */
     hasIcon : qx.lang.Function.returnFalse,
 
-		/**
-		 * @signature function()
-		 */
+    /**
+     * @signature function()
+     */
     hasLabel : qx.lang.Function.returnFalse,
-    
-		/**
-		 * @signature function()
-		 */
+
+    /**
+     * @signature function()
+     */
     hasShortcut : qx.lang.Function.returnFalse,
 
-		/**
-		 * @signature function()
-		 */
+    /**
+     * @signature function()
+     */
     hasMenu : qx.lang.Function.returnFalse,
 
 

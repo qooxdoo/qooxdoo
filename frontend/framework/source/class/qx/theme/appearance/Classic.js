@@ -46,9 +46,9 @@ qx.Class.define("qx.theme.appearance.Classic",
   *****************************************************************************
   */
 
-	/**
-	 * @param vTitle {String?"qooxdoo default appearance"} appearance title
-	 */
+  /**
+   * @param vTitle {String?"qooxdoo default appearance"} appearance title
+   */
   construct : function(vTitle) {
     qx.renderer.theme.AppearanceTheme.call(this, vTitle || "qooxdoo default appearance");
   },

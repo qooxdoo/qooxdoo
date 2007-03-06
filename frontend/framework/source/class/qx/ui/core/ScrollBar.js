@@ -38,10 +38,10 @@ qx.Class.define("qx.ui.core.ScrollBar",
   *****************************************************************************
   */
 
-	/**
-	 * @param horizontal {Boolean ? false} whether the scroll bar should be
-	 *    horizontal. If false it will be vertical.
-	 */
+  /**
+   * @param horizontal {Boolean ? false} whether the scroll bar should be
+   *    horizontal. If false it will be vertical.
+   */
   construct : function(horizontal)
   {
     this.base(arguments, horizontal ? "horizontal" : "vertical");

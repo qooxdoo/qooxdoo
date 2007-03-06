@@ -43,9 +43,9 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
   *****************************************************************************
   */
 
-	/**
-	 * @param machineName {String} The name of this finite state machine
-	 */
+  /**
+   * @param machineName {String} The name of this finite state machine
+   */
   construct : function(machineName)
   {
     // Call our superclass' constructor

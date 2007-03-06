@@ -54,7 +54,7 @@ qx.Class.define("qx.client.Command",
 
   /**
    * Create a new instance of Command
-   * 
+   *
    * @param shortcut {String} shortcuts can be composed of optional modifier
    *    keys Control, Alt, Shift, Meta and a non modifier key.
    *    If no non modifier key is specified, the second paramater is evaluated.

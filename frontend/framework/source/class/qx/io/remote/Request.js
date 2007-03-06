@@ -41,17 +41,17 @@ qx.Class.define("qx.io.remote.Request",
      CONSTRUCTOR
   *****************************************************************************
   */
-  
-	/**
-	 * @param vUrl {String}
-	 *   Target url to issue the request to.
-	 *
-	 * @param vMethod {String}
-	 *   Determines that type of request to issue (GET or POST). Default is GET.
-	 *
-	 * @param vResponseType {String}
-	 *   The mime type of the response. Default is text/plain {@link qx.util.Mime}.
-	 */
+
+  /**
+   * @param vUrl {String}
+   *   Target url to issue the request to.
+   *
+   * @param vMethod {String}
+   *   Determines that type of request to issue (GET or POST). Default is GET.
+   *
+   * @param vResponseType {String}
+   *   The mime type of the response. Default is text/plain {@link qx.util.Mime}.
+   */
   construct : function(vUrl, vMethod, vResponseType)
   {
     this.base(arguments);

@@ -43,9 +43,9 @@ qx.Class.define("qx.log.WindowAppender",
   *****************************************************************************
   */
 
-	/**
-	 * @param name {String ? "qx_log"} the name of the log window.
-	 */
+  /**
+   * @param name {String ? "qx_log"} the name of the log window.
+   */
   construct : function(name)
   {
     this.base(arguments);
