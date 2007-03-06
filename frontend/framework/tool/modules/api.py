@@ -365,6 +365,11 @@ def handleStatics(item, classNode):
     if item.hasChildren():
         for keyvalue in item.children:
             key = keyvalue.get("key")
+            
+            # ignore private statics
+            if key.startswith("__"):
+                continue
+            
             value = keyvalue.getFirstChild(True, True).getFirstChild(True, True)
             commentAttributes = comment.parseNode(keyvalue)
 
@@ -397,6 +402,11 @@ def handleMembers(item, classNode):
                 continue
 
             key = keyvalue.get("key")
+            
+            # ignore private statics
+            if key.startswith("__"):
+                continue
+            
             value = keyvalue.getFirstChild(True, True).getFirstChild(True, True)
             commentAttributes = comment.parseNode(keyvalue)
 
