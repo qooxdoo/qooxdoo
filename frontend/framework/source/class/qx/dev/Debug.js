@@ -26,7 +26,7 @@
 /**
  * Useful debug capabilities
  */
-qx.Class.define("qx.util.Debug",
+qx.Class.define("qx.dev.Debug",
 {
   /*
   *****************************************************************************
