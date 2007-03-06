@@ -319,15 +319,15 @@ qx.Class.define("qx.lang.Object",
      select: function(key, map) {
        return map[key];
      },
-     
-     
+
+
      /**
       * Convert an array into a map.
-      * 
+      *
       * All elements of the array become keys of the returned map by
       * calling "toString" on the array elements. The values of the
       * map are set to "true"
-      * 
+      *
       * @param array {Array} array to convert
       * @return {Map} the array converted to a map.
       */
@@ -339,6 +339,6 @@ qx.Class.define("qx.lang.Object",
        }
        return obj;
      }
-     
+
   }
 });

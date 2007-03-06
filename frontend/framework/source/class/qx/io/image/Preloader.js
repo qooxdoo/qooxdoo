@@ -27,10 +27,10 @@
 /**
  * This class preloads one image and provides information about this image
  * after it is loaded.
- * 
+ *
  * <p>
  * This class should not be used directly. Better use {@link qx.manager.object.ImagePreloaderManager}:
- * 
+ *
  * <code><pre>
  *   qx.manager.object.ImagePreloaderManager.getInstance().create(imageUrl)
  * </code></pre>
@@ -44,7 +44,7 @@ qx.Class.define("qx.io.image.Preloader",
   {
     /** Dispatched after the images has successfully been loaded */
     "load" : "qx.event.type.Event",
-    
+
     /** Dispatched if the image could not be loaded */
     "error" : "qx.event.type.Event"
   },
@@ -58,9 +58,9 @@ qx.Class.define("qx.io.image.Preloader",
   *****************************************************************************
   */
 
-	/**
-	 * @param imageUrl {String} URL of the image to pre load
-	 */
+  /**
+   * @param imageUrl {String} URL of the image to pre load
+   */
   construct : function(imageUrl)
   {
     if (qx.manager.object.ImagePreloaderManager.getInstance().has(imageUrl))
@@ -79,9 +79,9 @@ qx.Class.define("qx.io.image.Preloader",
     this._element = new Image;
 
     // Define handler if image events occurs
-		this._element.onload = qx.lang.Function.bind(this.__onload, this);
-		this._element.onerror = qx.lang.Function.bind(this.__onerror, this);
-		
+    this._element.onload = qx.lang.Function.bind(this.__onload, this);
+    this._element.onerror = qx.lang.Function.bind(this.__onerror, this);
+
     // Set Source
     this._source = imageUrl;
     this._element.src = imageUrl;
