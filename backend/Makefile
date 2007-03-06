@@ -104,7 +104,12 @@ archive:
 	@echo "  * Generating zip (DOS) archive..."
 	@cd release/temp/dos; rm -f qooxdoo-$(FRAMEWORK_VERSION)-backend.zip; $(CMD_ZIP_CREATE) ../../qooxdoo-$(FRAMEWORK_VERSION)-backend.zip qooxdoo-$(FRAMEWORK_VERSION)-backend
 
+	@echo
+	@echo "  CLEANUP"
+	@echo "----------------------------------------------------------------------------"
 
+	@echo "  * Removing temporary files..."
+	@$(CMD_REMOVE) release/temp
 
 
 
