@@ -18,7 +18,7 @@ qx.OO.defineClass("Application", qx.component.AbstractApplication, function() {
 qx.Proto.main = function(e)
 {
   // Create button
-  var button1 = new qx.ui.form.Button("First Button", "./button.png");
+  var button1 = new qx.ui.form.Button("Welcome to qooxdoo!", "./button.png");
 
   // Set button location
   button1.setTop(50);
