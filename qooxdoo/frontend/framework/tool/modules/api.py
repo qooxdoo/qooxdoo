@@ -38,113 +38,40 @@ class DocException (Exception):
         self.node = syntaxItem
 
 
+def findQxDefine(rootNode):
+    if rootNode.type == "variable":
+        try:
+            variableName = assembleVariable(rootNode)
+        except tree.NodeAccessException:
+            return None
+         
+        if variableName in ["qx.Class.define", "qx.Interface.define", "qx.Mixin.define"]:
+            if rootNode.parent.parent.type == "call" and rootNode.parent.type == "operand":
+                return rootNode.parent.parent
+
+    if rootNode.hasChildren():
+        for child in rootNode.children:
+            foundNode = findQxDefine(child)
+            if foundNode is not None:
+                return foundNode
+    else:
+        return None
+
 
 def createDoc(syntaxTree, docTree = None):
     if not docTree:
         docTree = tree.Node("doctree")
 
-    try:
-        currClassNode = None
-        if not syntaxTree.hasChildren():
-            return docTree
+    defineNode = findQxDefine(syntaxTree)
+    if defineNode != None:     
+        variant = selectNode(defineNode, "operand/variable/2/@name").lower()
+        handleClassDefinition(docTree, defineNode, variant)
 
-        for item in syntaxTree.children:
-            if item.type == "assignment":
-                leftItem = item.getFirstListChild("left")
-                rightItem = item.getFirstListChild("right")
-                if leftItem.type == "variable":
-                    if (
-                        currClassNode and len(leftItem.children) == 3 and
-                        leftItem.children[0].get("name") == "qx"
-                       ):
-
-                        if (
-                            leftItem.children[1].get("name") == "Proto" and
-                            rightItem.type == "function"
-                           ):
-                            # It's a method definition
-                            handleMethodDefinitionOld(item, False, currClassNode)
-
-                        elif leftItem.children[1].get("name") == "Clazz":
-                            if rightItem.type == "function":
-                                handleMethodDefinitionOld(item, True, currClassNode)
-
-                            elif leftItem.children[2].get("name").isupper():
-                                handleConstantDefinition(item, currClassNode)
-
-                    elif (
-                          currClassNode and
-                          assembleVariable(leftItem).startswith(currClassNode.get("fullName"))
-                         ):
-                        # This is definition of the type "mypackage.MyClass.bla = ..."
-                        if rightItem.type == "function":
-                            handleMethodDefinitionOld(item, True, currClassNode)
-
-                        elif leftItem.children[len(leftItem.children) - 1].get("name").isupper():
-                            handleConstantDefinition(item, currClassNode)
-
-            elif item.type == "call":
-                operand = item.getChild("operand", False)
-                if operand:
-                    var = operand.getChild("variable", False)
-
-                    # qooxdoo < 0.7 (DEPRECATED)
-                    if var and len(var.children) == 3 and var.children[0].get("name") == "qx" and var.children[1].get("name") == "OO":
-                        methodName = var.children[2].get("name")
-
-                        if methodName == "defineClass":
-                            currClassNode = handleClassDefinitionOld(docTree, item)
-
-                        elif methodName in ["addProperty", "addFastProperty"]:
-                            # these are private and should be marked if listed, otherwise just hide them (wpbasti)
-                            #or methodName == "addCachedProperty" or methodName == "changeProperty":
-                            handlePropertyDefinitionOld(item, currClassNode)
-
-                    # qooxdoo >= 0.7
-                    elif (
-                          var and
-                          len(var.children) == 3 and
-                          var.children[0].get("name") == "qx" and
-                          var.children[1].get("name") in [
-                                                          "Class",
-                                                          "Locale", "Interface",
-                                                          "Mixin"
-                                                         ] and
-                          var.children[2].get("name") == "define"
-                         ):
-                        currClassNode = handleClassDefinition(docTree, item, var.children[1].get("name").lower())
-
-
-    except DocException:
-        exc = sys.exc_info()[1]
-        msg = ""
-
-        if hasattr(exc, "node"):
-            (line, column) = getLineAndColumnFromSyntaxItem(exc.node)
-            file = getFileFromSyntaxItem(exc.node)
-            if line != None or file != None:
-                msg = (
-                    str(exc) + "\n      " + str(file) +
-                    ", Line: " + str(line) + ", Column: " + str(column)
-                )
-
-        if msg == "":
-            raise exc
-
-        else:
-            print
-            print "    - Failed: %s" % msg
-            sys.exit(1)
-
+    else:
+        # try old style class definition of no new style class could be found
+        docTree = createDocOld(syntaxTree, docTree)
+        
     return docTree
-
-
-
-
-
-
-
-
 
 
 ########################################################################################
@@ -471,6 +398,89 @@ def handleEvents(item, classNode):
 #  COMPATIBLE TO 0.6 STYLE ONLY!
 #
 ########################################################################################
+
+def createDocOld(syntaxTree, docTree = None):
+
+    try:
+        currClassNode = None
+        if not syntaxTree.hasChildren():
+            return docTree
+
+        for item in syntaxTree.children:
+            if item.type == "assignment":
+                leftItem = item.getFirstListChild("left")
+                rightItem = item.getFirstListChild("right")
+                if leftItem.type == "variable":
+                    if (
+                        currClassNode and len(leftItem.children) == 3 and
+                        leftItem.children[0].get("name") == "qx"
+                       ):
+
+                        if (
+                            leftItem.children[1].get("name") == "Proto" and
+                            rightItem.type == "function"
+                           ):
+                            # It's a method definition
+                            handleMethodDefinitionOld(item, False, currClassNode)
+
+                        elif leftItem.children[1].get("name") == "Clazz":
+                            if rightItem.type == "function":
+                                handleMethodDefinitionOld(item, True, currClassNode)
+
+                            elif leftItem.children[2].get("name").isupper():
+                                handleConstantDefinition(item, currClassNode)
+
+                    elif (
+                          currClassNode and
+                          assembleVariable(leftItem).startswith(currClassNode.get("fullName"))
+                         ):
+                        # This is definition of the type "mypackage.MyClass.bla = ..."
+                        if rightItem.type == "function":
+                            handleMethodDefinitionOld(item, True, currClassNode)
+
+                        elif leftItem.children[len(leftItem.children) - 1].get("name").isupper():
+                            handleConstantDefinition(item, currClassNode)
+
+            elif item.type == "call":
+                operand = item.getChild("operand", False)
+                if operand:
+                    var = operand.getChild("variable", False)
+
+                    # qooxdoo < 0.7 (DEPRECATED)
+                    if var and len(var.children) == 3 and var.children[0].get("name") == "qx" and var.children[1].get("name") == "OO":
+                        methodName = var.children[2].get("name")
+
+                        if methodName == "defineClass":
+                            currClassNode = handleClassDefinitionOld(docTree, item)
+
+                        elif methodName in ["addProperty", "addFastProperty"]:
+                            # these are private and should be marked if listed, otherwise just hide them (wpbasti)
+                            #or methodName == "addCachedProperty" or methodName == "changeProperty":
+                            handlePropertyDefinitionOld(item, currClassNode)
+
+    except DocException:
+        exc = sys.exc_info()[1]
+        msg = ""
+
+        if hasattr(exc, "node"):
+            (line, column) = getLineAndColumnFromSyntaxItem(exc.node)
+            file = getFileFromSyntaxItem(exc.node)
+            if line != None or file != None:
+                msg = (
+                    str(exc) + "\n      " + str(file) +
+                    ", Line: " + str(line) + ", Column: " + str(column)
+                )
+
+        if msg == "":
+            raise exc
+
+        else:
+            print
+            print "    - Failed: %s" % msg
+            sys.exit(1)
+
+    return docTree
+
 
 def handleClassDefinitionOld(docTree, item):
     params = item.getChild("params")
@@ -901,34 +911,6 @@ def addError(node, msg, syntaxItem):
 
     node.addListChild("errors", errorNode)
     node.set("hasError", True)
-
-
-
-def getLineAndColumnFromSyntaxItem(syntaxItem):
-    line = None
-    column = None
-
-    while line == None and column == None and syntaxItem:
-        line = syntaxItem.get("line", False)
-        column = syntaxItem.get("column", False)
-
-        if syntaxItem.hasParent():
-            syntaxItem = syntaxItem.parent
-        else:
-            syntaxItem = None
-
-    return line, column
-
-
-def getFileFromSyntaxItem(syntaxItem):
-    file = None
-    while file == None and syntaxItem:
-        file = syntaxItem.get("file", False)
-        if hasattr(syntaxItem, "parent"):
-            syntaxItem = syntaxItem.parent
-        else:
-            syntaxItem = None
-    return file
 
 
 def getType(item):
