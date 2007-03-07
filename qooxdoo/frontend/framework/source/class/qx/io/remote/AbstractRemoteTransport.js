@@ -155,6 +155,14 @@ qx.Class.define("qx.io.remote.AbstractRemoteTransport",
     },
 
 
+    /** Request form fields to send. */
+    formFields :
+    {
+      _legacy : true,
+      type    : "object"
+    },
+
+
     /** Response Type */
     responseType :
     {
