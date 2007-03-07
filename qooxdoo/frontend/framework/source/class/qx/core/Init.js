@@ -77,7 +77,7 @@ qx.Class.define("qx.core.Init",
     component :
     {
       type     : "object",
-      instance : "qx.component.init.Basic",
+      instance : "qx.component.init.AbstractInit",
       _legacy  : true
     },
 
@@ -89,8 +89,9 @@ qx.Class.define("qx.core.Init",
      */
     application :
     {
-      type   : "function",
-      _legacy : true
+      type     : "object",
+      instance : "qx.component.AbstractApplication",
+      _legacy  : true
     }
   },
 
@@ -107,57 +108,6 @@ qx.Class.define("qx.core.Init",
   {
     /*
     ---------------------------------------------------------------------------
-      MODIFIER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
-     */
-    _modifyApplication : function(propValue, propOldValue, propData)
-    {
-      if (propValue) {
-        this._applicationInstance = new propValue;
-      }
-
-      return true;
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      INTERNAL PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Returns an instance of the current qooxdoo Application
-     *
-     * @type member
-     * @return {qx.component.AbstractApplication} instance of the current qooxdoo application
-     */
-    getApplicationInstance : function()
-    {
-      if (!this.getApplication()) {
-        this.setApplication(qx.component.DummyApplication);
-      }
-
-      return this._applicationInstance;
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
       COMPONENT BINDING
     ---------------------------------------------------------------------------
     */
@@ -171,7 +121,7 @@ qx.Class.define("qx.core.Init",
      * @return {void}
      */
     defineInitialize : function(vFunc) {
-      this.getApplicationInstance().initialize = vFunc;
+      this.getApplication().initialize = vFunc;
     },
 
 
@@ -184,7 +134,7 @@ qx.Class.define("qx.core.Init",
      * @return {void}
      */
     defineMain : function(vFunc) {
-      this.getApplicationInstance().main = vFunc;
+      this.getApplication().main = vFunc;
     },
 
 
@@ -197,7 +147,7 @@ qx.Class.define("qx.core.Init",
      * @return {void}
      */
     defineFinalize : function(vFunc) {
-      this.getApplicationInstance().finalize = vFunc;
+      this.getApplication().finalize = vFunc;
     },
 
 
@@ -210,7 +160,7 @@ qx.Class.define("qx.core.Init",
      * @return {void}
      */
     defineClose : function(vFunc) {
-      this.getApplicationInstance().close = vFunc;
+      this.getApplication().close = vFunc;
     },
 
 
@@ -223,7 +173,7 @@ qx.Class.define("qx.core.Init",
      * @return {void}
      */
     defineTerminate : function(vFunc) {
-      this.getApplicationInstance().terminate = vFunc;
+      this.getApplication().terminate = vFunc;
     },
 
 
@@ -267,14 +217,24 @@ qx.Class.define("qx.core.Init",
       var cl = qx.core.Client.getInstance();
       this.debug("client: " + cl.getEngine() + "-" + cl.getMajor() + "." + cl.getMinor() + "/" + cl.getPlatform() + "/" + cl.getLocale());
 
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      // Box model warning
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (!cl.isInQuirksMode()) {
-          this.warn("Wrong box sizing: Please modify the document's DOCTYPE!");
+        if (qx.core.Variant.isSet("qx.client", "mshtml"))
+        {
+          if (!cl.isInQuirksMode()) {
+            this.warn("Wrong box sizing: Please modify the document's DOCTYPE!");
+          }
         }
       }
 
+      // Init application from settings
+      this.debug("use application: " + qx.core.Setting.get("qx.initApplication"));
+      var clazz = qx.Class.getByName(qx.core.Setting.get("qx.initApplication"));
+      this.setApplication(new clazz(this));
+
       // Init component from settings
+      this.debug("use init component: " + qx.core.Setting.get("qx.initComponent"));
       var clazz = qx.Class.getByName(qx.core.Setting.get("qx.initComponent"));
       this.setComponent(new clazz(this));
 
@@ -323,7 +283,11 @@ qx.Class.define("qx.core.Init",
   *****************************************************************************
   */
 
-  settings : { "qx.initComponent" : "qx.component.init.Gui" },
+  settings :
+  {
+    "qx.initComponent" : "qx.component.init.Gui",
+    "qx.initApplication" : "qx.component.DummyApplication"
+  },
 
 
 
@@ -339,18 +303,5 @@ qx.Class.define("qx.core.Init",
   {
     // Force direct creation
     statics.getInstance();
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this._disposeObjects("_applicationInstance");
   }
 });

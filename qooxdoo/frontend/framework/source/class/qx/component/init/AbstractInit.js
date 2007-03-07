@@ -51,7 +51,7 @@ qx.Class.define("qx.component.init.AbstractInit",
      * @return {var} TODOC
      */
     initialize : function(e) {
-      return qx.core.Init.getInstance().getApplicationInstance().initialize(e);
+      return qx.core.Init.getInstance().getApplication().initialize(e);
     },
 
 
@@ -63,7 +63,7 @@ qx.Class.define("qx.component.init.AbstractInit",
      * @return {var} TODOC
      */
     main : function(e) {
-      return qx.core.Init.getInstance().getApplicationInstance().main(e);
+      return qx.core.Init.getInstance().getApplication().main(e);
     },
 
 
@@ -75,7 +75,7 @@ qx.Class.define("qx.component.init.AbstractInit",
      * @return {var} TODOC
      */
     finalize : function(e) {
-      return qx.core.Init.getInstance().getApplicationInstance().finalize(e);
+      return qx.core.Init.getInstance().getApplication().finalize(e);
     },
 
 
@@ -87,7 +87,7 @@ qx.Class.define("qx.component.init.AbstractInit",
      * @return {var} TODOC
      */
     close : function(e) {
-      return qx.core.Init.getInstance().getApplicationInstance().close(e);
+      return qx.core.Init.getInstance().getApplication().close(e);
     },
 
 
@@ -99,7 +99,7 @@ qx.Class.define("qx.component.init.AbstractInit",
      * @return {var} TODOC
      */
     terminate : function(e) {
-      return qx.core.Init.getInstance().getApplicationInstance().terminate(e);
+      return qx.core.Init.getInstance().getApplication().terminate(e);
     }
   }
 });
