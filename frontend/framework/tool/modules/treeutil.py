@@ -317,3 +317,36 @@ def variableOrArrayNodeToArray(node):
     else:
         raise tree.NodeAccessException("'node' is no variable or array node", node)
     return arr
+
+
+def getLineAndColumnFromSyntaxItem(syntaxItem):
+    """
+    Returns a tupel of the line and the column of a tree node.
+    """
+    line = None
+    column = None
+
+    while line == None and column == None and syntaxItem:
+        line = syntaxItem.get("line", False)
+        column = syntaxItem.get("column", False)
+
+        if syntaxItem.hasParent():
+            syntaxItem = syntaxItem.parent
+        else:
+            syntaxItem = None
+
+    return line, column
+
+
+def getFileFromSyntaxItem(syntaxItem):
+    """
+    Returns the file name of a tree node
+    """
+    file = None
+    while file == None and syntaxItem:
+        file = syntaxItem.get("file", False)
+        if hasattr(syntaxItem, "parent"):
+            syntaxItem = syntaxItem.parent
+        else:
+            syntaxItem = None
+    return file
