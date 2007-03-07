@@ -330,12 +330,12 @@ qx.Class.define("feedreader.Application",
       // hide row focus
       var theme = qx.manager.object.AppearanceManager.getInstance().getAppearanceTheme();
 
-      theme.registerAppearance("table-focus-indicator",
+      theme.appearances["table-focus-indicator"] =
       {
-        state : function(vTheme, vStates) {
+        style : function(states) {
           return { border : null };
         }
-      });
+      };
 
       this._table = table;
 
