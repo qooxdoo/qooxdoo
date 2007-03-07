@@ -823,6 +823,7 @@ qx.Class.define("qx.io.remote.Exchange",
         propValue.setPassword(vRequest.getPassword());
 
         propValue.setParameters(vRequest.getParameters());
+        propValue.setParameters(vRequest.getFormFields());
         propValue.setRequestHeaders(vRequest.getRequestHeaders());
         propValue.setData(vRequest.getData());
 
