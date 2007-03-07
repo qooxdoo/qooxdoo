@@ -177,12 +177,12 @@ def noline():
     afterDoc = False
 
 
-def plus():
+def inc_indent():
     global indent
     indent += 1
 
 
-def minus():
+def dec_indent():
     global indent
     indent -= 1
 
@@ -698,7 +698,7 @@ def compileNode(node,optns):
             if not node.isFirstChild() and not node.getPreviousSibling(True).type == "case":
                 sep()
 
-            minus()
+            dec_indent()
             line()
 
         write("case")
@@ -711,7 +711,7 @@ def compileNode(node,optns):
 
     elif node.type == "default":
         if pretty:
-            minus()
+            dec_indent()
 
             # force double new lines
             if not node.getPreviousSibling(True).type == "case":
@@ -721,7 +721,7 @@ def compileNode(node,optns):
         write(":")
 
         if pretty:
-            plus()
+            inc_indent()
             line()
 
 
@@ -787,16 +787,16 @@ def compileNode(node,optns):
             elif ((node.isComplex() and not (optns.prettypOpenCurlyNewlineBefore in "nN"))
                   or (optns.prettypOpenCurlyNewlineBefore in "aA")):
                 line()
-
-            if optns.prettypOpenCurlyIndentBefore:
-                plus()
+                if optns.prettypOpenCurlyIndentBefore:
+                    inc_indent()
 
         write("{")
 
         if pretty:
             if node.isComplex():
                 line()
-                plus()
+                #if not (optns.prettypOpenCurlyNewlineBefore in "nN"):
+                inc_indent()
 
             elif node.hasChildren(True):
                 space()
@@ -851,17 +851,16 @@ def compileNode(node,optns):
             if ((node.isComplex() and not (optns.prettypOpenCurlyNewlineBefore in "nN"))
                 or (optns.prettypOpenCurlyNewlineBefore in "aA")):
                 line()
+                if optns.prettypOpenCurlyIndentBefore:
+                    inc_indent()
             else:
                 space()
-
-            if optns.prettypOpenCurlyIndentBefore:
-                plus()
 
         write("{")
 
         if pretty:
             if node.hasChildren():
-                plus()
+                inc_indent()
                 line()
 
 
@@ -1213,7 +1212,7 @@ def compileNode(node,optns):
         if pretty:
             if node.isComplex():
                 line()
-                minus()
+                dec_indent()
 
             elif node.hasChildren(True):
                 space()
@@ -1221,8 +1220,8 @@ def compileNode(node,optns):
         write("}")
 
         if pretty:
-                if optns.prettypOpenCurlyIndentBefore:
-                    minus()
+                if node.isComplex and optns.prettypOpenCurlyIndentBefore:
+                    dec_indent()
 
 
 
@@ -1234,8 +1233,8 @@ def compileNode(node,optns):
     elif node.type == "switch":
         if node.get("switchType") == "case":
             if pretty:
-                minus()
-                minus()
+                dec_indent()
+                dec_indent()
                 line()
 
             write("}")
@@ -1244,7 +1243,7 @@ def compileNode(node,optns):
                 commentNode(node)
                 line()
                 if optns.prettypOpenCurlyIndentBefore:
-                    minus()
+                    dec_indent()
 
         # Force a additinal line feed after each switch/try
         if pretty and not node.isLastChild():
@@ -1260,7 +1259,7 @@ def compileNode(node,optns):
 
         if pretty:
             commentNode(node)
-            plus()
+            inc_indent()
             line()
 
 
@@ -1276,7 +1275,7 @@ def compileNode(node,optns):
 
     elif node.type == "block":
         if pretty and node.hasChildren():
-            minus()
+            dec_indent()
             line()
 
         write("}")
@@ -1301,8 +1300,8 @@ def compileNode(node,optns):
                 else:
                     line()
 
-            if optns.prettypOpenCurlyIndentBefore:
-                minus()
+            if (optns.prettypOpenCurlyIndentBefore and not (optns.prettypOpenCurlyNewlineBefore in "nN")):
+                dec_indent()
 
 
     #
@@ -1369,14 +1368,14 @@ def compileNode(node,optns):
                 commentNode(node)
                 line()
                 if optns.prettypOpenCurlyIndentBefore:
-                    plus()
+                    inc_indent()
 
 
             write("{")
 
             if pretty:
-                plus()
-                plus()
+                inc_indent()
+                inc_indent()
 
 
     #
