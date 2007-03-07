@@ -26,9 +26,7 @@
 
 ************************************************************************ */
 
-/**
- * This singleton manages the global image path (prefix) and allowes themed icons.
- */
+/** This singleton manage the global image path (prefix) and allowes themed icons. */
 qx.Class.define("qx.manager.object.ImageManager",
 {
   type : "singleton",
@@ -80,15 +78,13 @@ qx.Class.define("qx.manager.object.ImageManager",
     iconTheme :
     {
       _legacy  : true,
-      type     : "object",
-      instance : "qx.renderer.theme.IconTheme"
+      type     : "object"
     },
 
     widgetTheme :
     {
       _legacy  : true,
-      type     : "object",
-      instance : "qx.renderer.theme.WidgetTheme"
+      type     : "object"
     }
   },
 
@@ -118,10 +114,10 @@ qx.Class.define("qx.manager.object.ImageManager",
      */
     registerIconTheme : function(vThemeClass)
     {
-      this._iconThemes[vThemeClass.classname] = vThemeClass;
+      this._iconThemes[vThemeClass.name] = vThemeClass;
 
-      if (vThemeClass.classname == qx.core.Setting.get("qx.iconTheme")) {
-        this.setIconTheme(vThemeClass.getInstance());
+      if (vThemeClass.name == qx.core.Setting.get("qx.iconTheme")) {
+        this.setIconTheme(vThemeClass);
       }
     },
 
@@ -135,10 +131,10 @@ qx.Class.define("qx.manager.object.ImageManager",
      */
     registerWidgetTheme : function(vThemeClass)
     {
-      this._widgetThemes[vThemeClass.classname] = vThemeClass;
+      this._widgetThemes[vThemeClass.name] = vThemeClass;
 
-      if (vThemeClass.classname == qx.core.Setting.get("qx.widgetTheme")) {
-        this.setWidgetTheme(vThemeClass.getInstance());
+      if (vThemeClass.name == qx.core.Setting.get("qx.widgetTheme")) {
+        this.setWidgetTheme(vThemeClass);
       }
     },
 
@@ -151,7 +147,7 @@ qx.Class.define("qx.manager.object.ImageManager",
      * @return {void}
      */
     setIconThemeById : function(vId) {
-      this.setIconTheme(this._iconThemes[vId].getInstance());
+      this.setIconTheme(this._iconThemes[vId]);
     },
 
 
@@ -163,7 +159,7 @@ qx.Class.define("qx.manager.object.ImageManager",
      * @return {void}
      */
     setWidgetThemeById : function(vId) {
-      this.setWidgetTheme(this._widgetThemes[vId].getInstance());
+      this.setWidgetTheme(this._widgetThemes[vId]);
     },
 
 
@@ -201,11 +197,11 @@ qx.Class.define("qx.manager.object.ImageManager",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
+     * @return {boolean} TODOC
      */
     _modifyIconTheme : function(propValue, propOldValue, propData)
     {
-      propValue ? qx.manager.object.AliasManager.getInstance().add("icon", propValue.uri) : qx.manager.object.AliasManager.getInstance().remove("icon");
+      propValue ? qx.manager.object.AliasManager.getInstance().add("icon", propValue.icons.uri) : qx.manager.object.AliasManager.getInstance().remove("icon");
       return true;
     },
 
@@ -217,11 +213,11 @@ qx.Class.define("qx.manager.object.ImageManager",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
+     * @return {boolean} TODOC
      */
     _modifyWidgetTheme : function(propValue, propOldValue, propData)
     {
-      propValue ? qx.manager.object.AliasManager.getInstance().add("widget", propValue.uri) : qx.manager.object.AliasManager.getInstance().remove("widget");
+      propValue ? qx.manager.object.AliasManager.getInstance().add("widget", propValue.widgets.uri) : qx.manager.object.AliasManager.getInstance().remove("widget");
       return true;
     },
 
@@ -288,7 +284,7 @@ qx.Class.define("qx.manager.object.ImageManager",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
+     * @return {boolean} TODOC
      */
     _updateImages : function()
     {
@@ -336,8 +332,8 @@ qx.Class.define("qx.manager.object.ImageManager",
 
       for (var vId in vThemes)
       {
-        var vObj = vThemes[vId].getInstance();
-        var vButton = new qx.ui.form.Button(vPrefix + vObj.getTitle(), vIcon);
+        var vObj = vThemes[vId];
+        var vButton = new qx.ui.form.Button(vPrefix + vObj.title, vIcon);
 
         vButton.setLocation(xCor, yCor);
         vButton.addEventListener(vEvent, new Function("qx.manager.object.ImageManager.getInstance().setIconThemeById('" + vId + "')"));
@@ -377,10 +373,10 @@ qx.Class.define("qx.manager.object.ImageManager",
       chose to receive the qooxdoo code under. For more information, please
       see the LICENSE file in the project's top-level directory.
      */
+
     "qx.iconTheme"   : "qx.theme.icon.Nuvola",
     "qx.widgetTheme" : "qx.theme.widget.Windows"
   },
-
 
 
 
@@ -390,10 +386,7 @@ qx.Class.define("qx.manager.object.ImageManager",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    this._disposeObjectDeep("_iconThemes", 1);
-    this._disposeObjectDeep("_widgetThemes", 1);
-    this._disposeFields("_sources");
+  destruct : function() {
+    this._disposeFields("_sources", "_iconThemes", "_widgetThemes");
   }
 });

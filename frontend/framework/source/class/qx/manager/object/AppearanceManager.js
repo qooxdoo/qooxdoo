@@ -46,7 +46,7 @@ qx.Class.define("qx.manager.object.AppearanceManager",
     this.base(arguments);
 
     // Themes
-    this._appearanceThemes = {};
+    this.__themes = {};
   },
 
 
@@ -71,8 +71,7 @@ qx.Class.define("qx.manager.object.AppearanceManager",
     {
       _legacy   : true,
       type      : "object",
-      allowNull : false,
-      instance  : "qx.renderer.theme.AppearanceTheme"
+      allowNull : false
     }
   },
 
@@ -103,10 +102,10 @@ qx.Class.define("qx.manager.object.AppearanceManager",
      */
     registerAppearanceTheme : function(vThemeClass)
     {
-      this._appearanceThemes[vThemeClass.classname] = vThemeClass;
+      this.__themes[vThemeClass.name] = vThemeClass;
 
-      if (vThemeClass.classname == qx.core.Setting.get("qx.appearanceTheme")) {
-        this.setAppearanceTheme(vThemeClass.getInstance());
+      if (vThemeClass.name == qx.core.Setting.get("qx.appearanceTheme")) {
+        this.setAppearanceTheme(vThemeClass);
       }
     },
 
@@ -126,7 +125,7 @@ qx.Class.define("qx.manager.object.AppearanceManager",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
+     * @return {boolean} TODOC
      */
     _modifyAppearanceTheme : function(propValue, propOldValue, propData)
     {
@@ -136,7 +135,103 @@ qx.Class.define("qx.manager.object.AppearanceManager",
         qx.ui.core.ClientDocument.getInstance()._recursiveAppearanceThemeUpdate(propValue, propOldValue);
       }
 
+      // Reset cache
+      if (propValue) {
+        this.__cache = {};
+      }
+
       return true;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      THEME HELPER
+    ---------------------------------------------------------------------------
+    */
+
+    __cache : {},
+
+
+    /**
+     * Get the result of the "initial" function for a given id
+     *
+     * @type member
+     * @param theme {Object} appearance theme
+     * @param id {String} id of the apperance (e.g. "button", "label", ...)
+     * @return {Map} map of widget properties as returned by the "initial" function
+     */
+    styleFrom : function(id, states) {
+      return this.styleFromTheme(this.getAppearanceTheme(), id, states);
+    },
+
+
+    /**
+     * Get the result of the "state" function for a given id and states
+     *
+     * @type member
+     * @param theme {Object} appearance theme
+     * @param id {String} id of the apperance (e.g. "button", "label", ...)
+     * @param states {Map} hash map defining the set states
+     * @return {Map} map of widget properties as returned by the "state" function
+     */
+    styleFromTheme : function(theme, id, states)
+    {
+      var cache = this.__cache;
+      var entry = theme.appearances[id];
+
+      if (!entry) {
+        throw new Error("Missing appearance entry: " + id);
+      }
+
+      // Fast fallback to super entry
+      if (!entry.style && entry.extend) {
+        return this.styleFromTheme(theme, entry.extend, states);
+      }
+
+      // Creating cache-able ID
+      var helper = [];
+      for (var state in states)
+      {
+        if (states[state]) {
+          helper.push(state);
+        }
+      }
+      helper.sort().unshift(id);
+      var unique = helper.join(":");
+
+      // Using cache if available
+      if (cache[unique] !== undefined) {
+        return cache[unique];
+      }
+
+      // Otherwise "compile" the appearance
+      var ret;
+
+      // This is the place where we really call the appearance theme
+      if (entry.style)
+      {
+        // Executing appearance theme style definition
+        ret = entry.style(states);
+
+        // Fill with data from inheritance
+        if (entry.extend) {
+          qx.lang.Object.carefullyMergeWith(ret, this.styleFromTheme(theme, entry.extend, states));
+        }
+      }
+
+      // Normalize to null (needed for caching)
+      ret = ret || null;
+
+      // Cache new entry
+      cache[unique] = ret;
+
+      // Debug
+      // this.debug("Cached: " + qx.lang.Object.getLength(cache) + " :: " + unique);
+
+      return ret;
     }
   },
 
@@ -149,11 +244,9 @@ qx.Class.define("qx.manager.object.AppearanceManager",
   *****************************************************************************
   */
 
-  settings :
-  {
+  settings : {
     "qx.appearanceTheme" : "qx.theme.appearance.Classic"
   },
-
 
 
 
@@ -164,6 +257,6 @@ qx.Class.define("qx.manager.object.AppearanceManager",
   */
 
   destruct : function() {
-    this._disposeObjectDeep("_appearanceThemes", 1);
+    this._disposeFields("__cache", "__themes");
   }
 });

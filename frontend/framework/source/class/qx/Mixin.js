@@ -211,11 +211,12 @@ qx.Class.define("qx.Mixin",
     {
       var allowedKeys =
       {
-        "include"    : "object",  // Mixin | Mixin[]
-        "statics"    : "object",  // Map
-        "members"    : "object",  // Map
-        "properties" : "object",  // Map
-        "destruct"   : "function" // Function
+        "include"    : "object",   // Mixin | Mixin[]
+        "statics"    : "object",   // Map
+        "members"    : "object",   // Map
+        "properties" : "object",   // Map
+        "destruct"   : "function", // Function
+        "events"     : "object"    // Map
       }
 
       for (var key in config)

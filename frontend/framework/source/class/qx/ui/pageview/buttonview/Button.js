@@ -56,7 +56,7 @@ qx.Class.define("qx.ui.pageview.buttonview.Button",
     {
       _legacy      : true,
       type         : "string",
-      defaultValue : "bar-view-button"
+      defaultValue : "button-view-button"
     }
   },
 
@@ -152,14 +152,17 @@ qx.Class.define("qx.ui.pageview.buttonview.Button",
      * @type member
      * @return {void}
      */
-    _applyStateAppearance : function()
+    _applyAppearance : function()
     {
-      var vPos = this.getView().getBarPosition();
+      if (this.getView())
+      {
+        var vPos = this.getView().getBarPosition();
 
-      this._states.barLeft = vPos === "left";
-      this._states.barRight = vPos === "right";
-      this._states.barTop = vPos === "top";
-      this._states.barBottom = vPos === "bottom";
+        this._states.barLeft = vPos === "left";
+        this._states.barRight = vPos === "right";
+        this._states.barTop = vPos === "top";
+        this._states.barBottom = vPos === "bottom";
+      }
 
       this.base(arguments);
     }
