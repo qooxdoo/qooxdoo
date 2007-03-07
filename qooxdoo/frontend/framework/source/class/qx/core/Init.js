@@ -117,10 +117,16 @@ qx.Class.define("qx.core.Init",
      * Don't use this method directly. Use setApplication instead!
      *
      * @type member
+     * @deprecated
      * @param vFunc {Function} callback function
      * @return {void}
      */
-    defineInitialize : function(vFunc) {
+    defineInitialize : function(vFunc)
+    {
+      if (!this.getApplication()) {
+        this.setApplication(new qx.component.DummyApplication);
+      }
+
       this.getApplication().initialize = vFunc;
     },
 
@@ -130,10 +136,16 @@ qx.Class.define("qx.core.Init",
      * Don't use this method directly. Use setApplication instead!
      *
      * @type member
+     * @deprecated
      * @param vFunc {Function} callback function
      * @return {void}
      */
-    defineMain : function(vFunc) {
+    defineMain : function(vFunc)
+    {
+      if (!this.getApplication()) {
+        this.setApplication(new qx.component.DummyApplication);
+      }
+
       this.getApplication().main = vFunc;
     },
 
@@ -143,10 +155,16 @@ qx.Class.define("qx.core.Init",
      * Don't use this method directly. Use setApplication instead!
      *
      * @type member
+     * @deprecated
      * @param vFunc {Function} callback function
      * @return {void}
      */
-    defineFinalize : function(vFunc) {
+    defineFinalize : function(vFunc)
+    {
+      if (!this.getApplication()) {
+        this.setApplication(new qx.component.DummyApplication);
+      }
+
       this.getApplication().finalize = vFunc;
     },
 
@@ -156,10 +174,16 @@ qx.Class.define("qx.core.Init",
      * Don't use this method directly. Use setApplication instead!
      *
      * @type member
+     * @deprecated
      * @param vFunc {Function} callback function
      * @return {void}
      */
-    defineClose : function(vFunc) {
+    defineClose : function(vFunc)
+    {
+      if (!this.getApplication()) {
+        this.setApplication(new qx.component.DummyApplication);
+      }
+
       this.getApplication().close = vFunc;
     },
 
@@ -169,10 +193,16 @@ qx.Class.define("qx.core.Init",
      * Don't use this method directly. Use setApplication instead!
      *
      * @type member
+     * @deprecated
      * @param vFunc {Function} callback function
      * @return {void}
      */
-    defineTerminate : function(vFunc) {
+    defineTerminate : function(vFunc)
+    {
+      if (!this.getApplication()) {
+        this.setApplication(new qx.component.DummyApplication);
+      }
+
       this.getApplication().terminate = vFunc;
     },
 
@@ -189,7 +219,7 @@ qx.Class.define("qx.core.Init",
      * load event handler
      *
      * @type member
-     * @param e {Object} event
+     * @param e {Event} event
      * @return {var} TODOC
      */
     _onload : function(e)
@@ -229,14 +259,22 @@ qx.Class.define("qx.core.Init",
       }
 
       // Init application from settings
-      this.debug("use application: " + qx.core.Setting.get("qx.initApplication"));
-      var clazz = qx.Class.getByName(qx.core.Setting.get("qx.initApplication"));
-      this.setApplication(new clazz(this));
+      if (!this.getApplication())
+      {
+        var clazz = qx.Class.getByName(qx.core.Setting.get("qx.initApplication"));
+        this.setApplication(new clazz(this));
+      }
 
       // Init component from settings
-      this.debug("use init component: " + qx.core.Setting.get("qx.initComponent"));
-      var clazz = qx.Class.getByName(qx.core.Setting.get("qx.initComponent"));
-      this.setComponent(new clazz(this));
+      if (!this.getComponent())
+      {
+        var clazz = qx.Class.getByName(qx.core.Setting.get("qx.initComponent"));
+        this.setComponent(new clazz(this));
+      }
+
+      // More info
+      this.debug("application: " + this.getApplication().classname);
+      this.debug("init: " + this.getComponent().classname);
 
       // Send onload
       return this.getComponent()._onload(e);
@@ -247,7 +285,7 @@ qx.Class.define("qx.core.Init",
      * beforeunload event handler
      *
      * @type member
-     * @param e {Object} event
+     * @param e {Event} event
      * @return {var} TODOC
      */
     _onbeforeunload : function(e)
@@ -261,7 +299,7 @@ qx.Class.define("qx.core.Init",
      * unload event handler
      *
      * @type member
-     * @param e {Object} event
+     * @param e {Event} event
      * @return {void}
      */
     _onunload : function(e)
