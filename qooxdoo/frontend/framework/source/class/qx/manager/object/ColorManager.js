@@ -73,8 +73,7 @@ qx.Class.define("qx.manager.object.ColorManager",
     {
       _legacy   : true,
       type      : "object",
-      allowNull : false,
-      instance  : "qx.renderer.theme.ColorTheme"
+      allowNull : false
     }
   },
 
@@ -104,10 +103,10 @@ qx.Class.define("qx.manager.object.ColorManager",
      */
     registerColorTheme : function(vThemeClass)
     {
-      this._colorThemes[vThemeClass.classname] = vThemeClass;
+      this._colorThemes[vThemeClass.name] = vThemeClass;
 
-      if (vThemeClass.classname == qx.core.Setting.get("qx.colorTheme")) {
-        this.setColorTheme(vThemeClass.getInstance());
+      if (vThemeClass.name == qx.core.Setting.get("qx.colorTheme")) {
+        this.setColorTheme(vThemeClass);
       }
     },
 
@@ -120,7 +119,7 @@ qx.Class.define("qx.manager.object.ColorManager",
      * @return {void}
      */
     setColorThemeById : function(vId) {
-      this.setColorTheme(this._colorThemes[vId].getInstance());
+      this.setColorTheme(this._colorThemes[vId]);
     },
 
 
@@ -206,17 +205,46 @@ qx.Class.define("qx.manager.object.ColorManager",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
+     * @return {boolean} TODOC
      */
     _modifyColorTheme : function(propValue, propOldValue, propData)
     {
-      propValue.compile();
+      this._compileTheme(propValue);
 
       for (var i in this._dependentObjects) {
         this._dependentObjects[i]._updateTheme(propValue);
       }
 
       return true;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PROTECTED METHODS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void}
+     */
+    _compileTheme : function(theme)
+    {
+      if (theme._compiledColors) {
+        return;
+      }
+
+      var colors = theme.colors;
+      var compiled = theme._compiledColors = {};
+
+      for (var name in qx.renderer.color.Color.themedNames) {
+        compiled[name] = colors[name] ? qx.renderer.color.Color.rgb2style.apply(this, colors[name]) : name;
+      }
     },
 
 
@@ -247,8 +275,8 @@ qx.Class.define("qx.manager.object.ColorManager",
 
       for (var vId in vThemes)
       {
-        var vObj = vThemes[vId].getInstance();
-        var vButton = new qx.ui.form.Button(vPrefix + vObj.getTitle(), vIcon);
+        var vObj = vThemes[vId];
+        var vButton = new qx.ui.form.Button(vPrefix + vObj.title, vIcon);
 
         vButton.setLocation(xCor, yCor);
         vButton.addEventListener(vEvent, new Function("qx.manager.object.ColorManager.getInstance().setColorThemeById('" + vId + "')"));
@@ -269,11 +297,9 @@ qx.Class.define("qx.manager.object.ColorManager",
   *****************************************************************************
   */
 
-  settings :
-  {
+  settings : {
     "qx.colorTheme" : "qx.theme.color.WindowsRoyale"
   },
-
 
 
 
@@ -283,9 +309,7 @@ qx.Class.define("qx.manager.object.ColorManager",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    this._disposeObjectDeep("_colorThemes", 1);
-    this._disposeFields("_dependentObjects");
+  destruct : function() {
+    this._disposeFields("_colorThemes", "_dependentObjects");
   }
 });
