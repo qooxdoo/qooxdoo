@@ -107,6 +107,11 @@ qx.OO.addProperty({ name : "requestHeaders", type: "object" });
 qx.OO.addProperty({ name : "parameters", type: "object" });
 
 /*!
+  Request form fields to send.
+*/
+qx.OO.addProperty({ name : "formFields", type: "object" });
+
+/*!
   Response Type
 */
 qx.OO.addProperty({ name : "responseType", type: "string" });

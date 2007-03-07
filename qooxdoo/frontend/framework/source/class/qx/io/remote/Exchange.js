@@ -580,6 +580,7 @@ qx.Proto._modifyImplementation = function(propValue, propOldValue, propData)
     propValue.setPassword(vRequest.getPassword());
 
     propValue.setParameters(vRequest.getParameters());
+    propValue.setParameters(vRequest.getFormFields());
     propValue.setRequestHeaders(vRequest.getRequestHeaders());
     propValue.setData(vRequest.getData());
 
