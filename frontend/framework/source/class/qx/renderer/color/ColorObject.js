@@ -130,7 +130,7 @@ qx.Class.define("qx.renderer.color.ColorObject",
     _applyThemedValue : function()
     {
       var vTheme = qx.manager.object.ColorManager.getInstance().getColorTheme();
-      var vRgb = vTheme.getValueByName(this._value);
+      var vRgb = vTheme.colors[this._value];
 
       if (vRgb)
       {
@@ -139,7 +139,7 @@ qx.Class.define("qx.renderer.color.ColorObject",
         this._blue = vRgb[2];
       }
 
-      this._style = vTheme.getStyleByName(this._value);
+      this._style = vTheme._compiledColors[this._value];
       this._hex = null;
     },
 

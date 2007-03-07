@@ -271,12 +271,15 @@ qx.Class.define("qx.ui.pageview.tabview.Button",
      * @type member
      * @return {void}
      */
-    _applyStateAppearance : function()
+    _applyAppearance : function()
     {
-      this._states.firstChild = this.isFirstVisibleChild();
-      this._states.lastChild = this.isLastVisibleChild();
-      this._states.alignLeft = this.getView().getAlignTabsToLeft();
-      this._states.barTop = this.getView().getPlaceBarOnTop();
+      if (this.getView())
+      {
+        this._states.firstChild = this.isFirstVisibleChild();
+        this._states.lastChild = this.isLastVisibleChild();
+        this._states.alignLeft = this.getView().getAlignTabsToLeft();
+        this._states.barTop = this.getView().getPlaceBarOnTop();
+      }
 
       this.base(arguments);
     }
