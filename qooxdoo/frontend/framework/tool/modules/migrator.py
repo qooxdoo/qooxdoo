@@ -522,7 +522,7 @@ WARNING: The JavaScript files will be pretty printed. You can customize the
     choice = raw_input("""
 
 WARNING: The migration process will update the files in place. Please make 
-         sure, you have a backup of your project The complete output of the
+         sure, you have a backup of your project. The complete output of the
          migrations process will be logged to '%s'.
          
 Do you want to start the migration now? [no] : """ % LOGFILE)
@@ -548,7 +548,7 @@ Do you want to start the migration now? [no] : """ % LOGFILE)
 
     
     # patch makefile
-    #patchMakefile(options.makefile, MIGRATION_ORDER[-1], options.from_version)
+    patchMakefile(options.makefile, MIGRATION_ORDER[-1], options.from_version)
     
 
 
