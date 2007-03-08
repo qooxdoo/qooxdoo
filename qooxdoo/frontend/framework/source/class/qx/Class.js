@@ -169,11 +169,6 @@ qx.Class.define("qx.Class",
           clazz.$$implements = qx.lang.Object.copy(superclass.$$implements);
         }
 
-        // Copy property lists
-        if (superclass.$$properties) {
-          clazz.$$properties = qx.lang.Object.copy(superclass.$$properties);
-        }
-
         // Attach properties
         if (config.properties)
         {
@@ -436,6 +431,88 @@ qx.Class.define("qx.Class",
       if (clazz.prototype instanceof superClass) {
         return true;
       }
+      return false;
+    },
+
+
+    /**
+     * Returns the property definition of the given property
+     *
+     * @type member
+     * @param clazz {Class} class to check
+     * @param name {String} name of the event to check for
+     * @return {Map|null} whether the object support the given event.
+     */
+    getPropertyDefinition : function(clazz, name)
+    {
+      while (clazz)
+      {
+        if (clazz.$$properties && clazz.$$properties[name]) {
+          return clazz.$$properties[name];
+        }
+
+        clazz = clazz.superclass;
+      }
+
+      return null;
+    },
+
+
+    /**
+     * Whether the class has the given property
+     *
+     * @type member
+     * @param clazz {Class} class to check
+     * @param name {String} name of the event to check for
+     * @return {Boolean} whether the object support the given event.
+     */
+    hasProperty : function(clazz, name) {
+      return this.getPropertyDefinition(clazz, name) ? true : false;
+    },
+
+
+    /**
+     * Whether the class supports the given event type
+     *
+     * @type member
+     * @param clazz {Class} class to check
+     * @param name {String} name of the event to check for
+     * @return {Boolean} whether the object support the given event.
+     */
+    supportsEvent : function(clazz, name)
+    {
+      var clazz = this.constructor;
+
+      // old style classes can't be checked
+      if (qx.core.Variant.isSet("qx.compatibility", "on"))
+      {
+        if (!clazz.base) {
+          return true;
+        }
+      }
+
+      if (name.indexOf("change") == 0)
+      {
+        // Temporary, while property development
+        return true;
+
+        /*
+        var propName = qx.lang.String.toFirstLower(eventName.slice(6));
+        if (clazz.$$properties[propName]) {
+          return true;
+        }
+        */
+      }
+
+      while (clazz.superclass)
+      {
+        if (clazz.$$events && clazz.$$events[name]) {
+          return true;
+        }
+
+        clazz = clazz.superclass;
+      }
+
       return false;
     },
 
@@ -1010,11 +1087,11 @@ qx.Class.define("qx.Class",
         {
           for (var key in properties)
           {
-            if (!clazz.$$properties || !clazz.$$properties[key]) {
-              this.__addProperty(clazz, key, properties[key]);
-            } else {
+            if (this.hasProperty(clazz, key)) {
               throw new Error('Overwriting property "' + key + '" of Class "' + clazz.classname + '" by Mixin "' + mixin.name + '" is not allowed!');
             }
+
+            this.__addProperty(clazz, key, properties[key]);
           }
         }
       }
