@@ -50,7 +50,10 @@ qx.Class.define("qx.util.StringBuilder",
   *****************************************************************************
   */
 
-  construct : function()
+  /**
+   * @param varargs {String} variable number of strings to be added initially
+   */
+  construct : function(varargs)
   {
     this.base(arguments);
 
@@ -148,6 +151,33 @@ qx.Class.define("qx.util.StringBuilder",
     }),
 
 
+    /**
+     * Checks whether the strinb builder instance represents the epty string.
+     *
+     * @return {Boolean} whether the string is empty
+     * @signature function()
+     */
+    isEmpty:  qx.core.Variant.select("qx.client",
+    {
+      "default" : function() {
+        return this._string == "";
+      },
+
+      "mshtml" :function() {
+        if (this._array.length == 0) {
+          return true;
+        }
+        
+        for (var i=0; i< this._array.length; i++) {
+          if (this._array[i] != "") {
+            return false
+          }
+        }
+        return true
+      }
+    }),
+    
+    
     /**
      * Returns the contents of the concatenated string
      *

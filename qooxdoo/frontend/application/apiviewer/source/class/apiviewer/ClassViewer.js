@@ -278,43 +278,43 @@ qx.Class.define("apiviewer.ClassViewer",
 
       this._infoPanelHash = {};
 
-      var html = "";
+      var html = new qx.util.StringBuilder();
 
       // Add title
-      html += '<h1></h1>';
+      html.add('<h1></h1>');
 
       // Add description
-      html += ClassViewer.DIV_START + ClassViewer.DIV_END;
+      html.add(ClassViewer.DIV_START, ClassViewer.DIV_END);
 
-      html += '<div id="ControlFrame">';
-      html += '<input type="checkbox" id="showInherited" onclick="document._detailViewer._onInheritedCheckBoxClick()"/><label for="showInherited">Show Inherited</label>';
-      html += '&#160;';
-      html += '<input type="checkbox" id="showProtected" onclick="document._detailViewer._onProtectedCheckBoxClick()"/><label for="showProtected">Show Protected</label>';
-      html += '</div>';
+      html.add('<div id="ControlFrame">');
+      html.add('<input type="checkbox" id="showInherited" onclick="document._detailViewer._onInheritedCheckBoxClick()"/><label for="showInherited">Show Inherited</label>');
+      html.add('&#160;');
+      html.add('<input type="checkbox" id="showProtected" onclick="document._detailViewer._onProtectedCheckBoxClick()"/><label for="showProtected">Show Protected</label>');
+      html.add('</div>');
 
       // BASICS
       // Add constructor info
-      html += this._createInfoPanel(ClassViewer.NODE_TYPE_CONSTRUCTOR, "constructor", "constructor", this._createMethodInfo, this._methodHasDetails, false, true);
+      html.add(this._createInfoPanel(ClassViewer.NODE_TYPE_CONSTRUCTOR, "constructor", "constructor", this._createMethodInfo, this._methodHasDetails, false, true));
 
       // Add event info
-      html += this._createInfoPanel(ClassViewer.NODE_TYPE_EVENT, "events", "events", this._createEventInfo, this._eventHasDetails, true, true);
+      html.add(this._createInfoPanel(ClassViewer.NODE_TYPE_EVENT, "events", "events", this._createEventInfo, this._eventHasDetails, true, true));
 
       // Add properties info
-      html += this._createInfoPanel(ClassViewer.NODE_TYPE_PROPERTY, "properties", "properties", this._createPropertyInfo, qx.lang.Function.returnTrue, true, true);
+      html.add(this._createInfoPanel(ClassViewer.NODE_TYPE_PROPERTY, "properties", "properties", this._createPropertyInfo, qx.lang.Function.returnTrue, true, true));
 
       // PUBLIC
       // Add methods info
-      html += this._createInfoPanel(ClassViewer.NODE_TYPE_METHOD, "methods", "methods", this._createMethodInfo, this._methodHasDetails, true, true);
+      html.add(this._createInfoPanel(ClassViewer.NODE_TYPE_METHOD, "methods", "methods", this._createMethodInfo, this._methodHasDetails, true, true));
 
       // Add static methods info
-      html += this._createInfoPanel(ClassViewer.NODE_TYPE_METHOD_STATIC, "methods-static", "static methods", this._createMethodInfo, this._methodHasDetails, false, true);
+      html.add(this._createInfoPanel(ClassViewer.NODE_TYPE_METHOD_STATIC, "methods-static", "static methods", this._createMethodInfo, this._methodHasDetails, false, true));
 
       // Add constants info
-      html += this._createInfoPanel(ClassViewer.NODE_TYPE_CONSTANT, "constants", "constants", this._createConstantInfo, this._constantHasDetails, false, true);
+      html.add(this._createInfoPanel(ClassViewer.NODE_TYPE_CONSTANT, "constants", "constants", this._createConstantInfo, this._constantHasDetails, false, true));
 
       // Set the html
       // doc.body.innerHTML = html;
-      this.getElement().innerHTML = html;
+      this.getElement().innerHTML = html.get();
       this._fixLinks(this.getElement());
 
       // Extract the main elements
@@ -384,18 +384,19 @@ qx.Class.define("apiviewer.ClassViewer",
 
       this._infoPanelHash[nodeType] = typeInfo;
 
-      var html = '<div class="infoPanel"><h2>';
+      var html = new qx.util.StringBuilder('<div class="infoPanel"><h2>');
 
-      html +=
-        '<img class="openclose" src="' +
-        qx.manager.object.AliasManager.getInstance().resolvePath('api/image/' + (isOpen ? 'close.gif' : 'open.gif')) +
-        '"' + " onclick=\"document._detailViewer._onShowInfoPanelBodyClicked(" + nodeType + ")\"/> " +
-        '<span ' + " onclick=\"document._detailViewer._onShowInfoPanelBodyClicked(" + nodeType + ")\">" +
-        uppercaseLabelText + '</span>';
+      html.add(
+        '<img class="openclose" src="',
+        qx.manager.object.AliasManager.getInstance().resolvePath('api/image/' + (isOpen ? 'close.gif' : 'open.gif')),
+        '"', " onclick=\"document._detailViewer._onShowInfoPanelBodyClicked(" + nodeType + ")\"/> ",
+        '<span ' + " onclick=\"document._detailViewer._onShowInfoPanelBodyClicked(" + nodeType + ")\">",
+        uppercaseLabelText, '</span>'
+      );
 
-      html += '</h2><div></div></div>';
+      html.add('</h2><div></div></div>');
 
-      return html;
+      return html.get();
     },
 
 
@@ -444,27 +445,27 @@ qx.Class.define("apiviewer.ClassViewer",
 
       }
 
-      var titleHtml = "";
+      var titleHtml = new qx.util.StringBuilder();
 
-      titleHtml += '<div class="packageName">' + classNode.attributes.packageName + '</div>';
+      titleHtml.add('<div class="packageName">', classNode.attributes.packageName, '</div>');
 
-      titleHtml += '<span class="typeInfo">';
+      titleHtml.add('<span class="typeInfo">');
 
       if (classNode.attributes.isAbstract) {
-        titleHtml += "Abstract ";
+        titleHtml.add("Abstract ");
       } else if (classNode.attributes.isStatic) {
-        titleHtml += "Static ";
+        titleHtml.add("Static ");
       } else if (classNode.attributes.isSingleton) {
-        titleHtml += "Singleton ";
+        titleHtml.add("Singleton ");
       }
 
-      titleHtml += objectName;
-      titleHtml += ' </span>';
-      titleHtml += classNode.attributes.name;
+      titleHtml.add(objectName);
+      titleHtml.add(' </span>');
+      titleHtml.add(classNode.attributes.name);
 
-      this._titleElem.innerHTML = titleHtml;
+      this._titleElem.innerHTML = titleHtml.get();
 
-      var classHtml = "";
+      var classHtml = new qx.util.StringBuilder();
 
       // Add the class description
       var descNode = apiviewer.TreeUtil.getChild(classNode, "desc");
@@ -475,8 +476,8 @@ qx.Class.define("apiviewer.ClassViewer",
 
         if (desc != "")
         {
-          classHtml += '<div class="classDescription">' + this._createDescriptionHtml(desc, classNode) + '</div>';
-          classHtml += "<br/>";
+          classHtml.add('<div class="classDescription">', this._createDescriptionHtml(desc, classNode), '</div>');
+          classHtml.add("<br/>");
         }
       }
 
@@ -485,15 +486,15 @@ qx.Class.define("apiviewer.ClassViewer",
       {
         case "mixin" :
         case "interface" :
-          classHtml += this.__getHierarchyTreeHtml(classNode);
+          classHtml.add(this.__getHierarchyTreeHtml(classNode));
           break;
 
         default:
-          classHtml += this.__getClassHierarchyHtml(classNode);
+          classHtml.add(this.__getClassHierarchyHtml(classNode));
           break;
       }
 
-      classHtml += '<br/>';
+      classHtml.add('<br/>');
 
       // Add child classes
       // Add implemented interfaces
@@ -511,21 +512,21 @@ qx.Class.define("apiviewer.ClassViewer",
       {
         if (classNode.attributes[obj])
         {
-          classHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + dependentObjects[obj] + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT;
+          classHtml.add(ClassViewer.DIV_START_DETAIL_HEADLINE, dependentObjects[obj], ClassViewer.DIV_END, ClassViewer.DIV_START_DETAIL_TEXT);
 
           var classNameArr = classNode.attributes[obj].split(",");
 
           for (var i=0; i<classNameArr.length; i++)
           {
             if (i != 0) {
-              classHtml += ", ";
+              classHtml.add(", ");
             }
 
-            classHtml += this._createItemLinkHtml(classNameArr[i], null, true, false);
+            classHtml.add(this._createItemLinkHtml(classNameArr[i], null, true, false));
           }
 
-          classHtml += ClassViewer.DIV_END;
-          classHtml += '<br/>';
+          classHtml.add(ClassViewer.DIV_END);
+          classHtml.add('<br/>');
         }
       }
 
@@ -534,11 +535,11 @@ qx.Class.define("apiviewer.ClassViewer",
 
       if (ctorList)
       {
-        classHtml += this._createSeeAlsoHtml(ctorList.children[0], classNode);
-        classHtml += '<br/>';
+        classHtml.add(this._createSeeAlsoHtml(ctorList.children[0], classNode));
+        classHtml.add('<br/>');
       }
 
-      this._classDescElem.innerHTML = classHtml;
+      this._classDescElem.innerHTML = classHtml.get();
       this._fixLinks(this._classDescElem);
 
       // Refresh the info viewers
@@ -560,7 +561,7 @@ qx.Class.define("apiviewer.ClassViewer",
       var ClassViewer = apiviewer.ClassViewer;
 
       // Create the class hierarchy
-      var classHtml = ClassViewer.DIV_START_DETAIL_HEADLINE + "Inheritance hierarchy:" + ClassViewer.DIV_END;
+      var classHtml = new qx.util.StringBuilder(ClassViewer.DIV_START_DETAIL_HEADLINE, "Inheritance hierarchy:", ClassViewer.DIV_END);
 
       var classHierarchy = [];
       var currClass = classNode;
@@ -571,25 +572,26 @@ qx.Class.define("apiviewer.ClassViewer",
         currClass = this._getClassDocNode(currClass.attributes.superClass);
       }
 
-      classHtml += ClassViewer.createImageHtml("api/image/class18.gif") + "Object<br/>";
+      classHtml.add(ClassViewer.createImageHtml("api/image/class18.gif"), "Object<br/>");
       var indent = 0;
 
       for (var i=classHierarchy.length-1; i>=0; i--)
       {
-        classHtml +=
-          ClassViewer.createImageHtml("api/image/nextlevel.gif", null, "margin-left:" + indent + "px") +
-          ClassViewer.createImageHtml(apiviewer.TreeUtil.getIconUrl(classHierarchy[i]));
+        classHtml.add(
+          ClassViewer.createImageHtml("api/image/nextlevel.gif", null, "margin-left:" + indent + "px"),
+          ClassViewer.createImageHtml(apiviewer.TreeUtil.getIconUrl(classHierarchy[i]))
+        );
 
         if (i != 0) {
-          classHtml += this._createItemLinkHtml(classHierarchy[i].attributes.fullName, null, false);
+          classHtml.add(this._createItemLinkHtml(classHierarchy[i].attributes.fullName, null, false));
         } else {
-          classHtml += classHierarchy[i].attributes.fullName;
+          classHtml.add(classHierarchy[i].attributes.fullName);
         }
 
-        classHtml += "<br/>";
+        classHtml.add("<br/>");
         indent += 18;
       }
-      return classHtml;
+      return classHtml.get();
     },
 
 
@@ -631,25 +633,25 @@ qx.Class.define("apiviewer.ClassViewer",
         {
 
           // render line
-          var line = "";
+          var line = new qx.util.StringBuilder();
           var classNode = nodes[nodeIndex];
           if (!first) {
             if (nodeIndex == nodes.length-1) {
-              line += ClassViewer.createImageHtml("api/image/nextlevel.gif");
+              line.add(ClassViewer.createImageHtml("api/image/nextlevel.gif"));
             } else {
-              line += ClassViewer.createImageHtml("api/image/cross.gif");
+              line.add(ClassViewer.createImageHtml("api/image/cross.gif"));
             }
           } else {
-            line += EMPTY_CELL;
+            line.add(EMPTY_CELL);
           }
 
-          line += ClassViewer.createImageHtml(apiviewer.TreeUtil.getIconUrl(classNode));
+          line.add(ClassViewer.createImageHtml(apiviewer.TreeUtil.getIconUrl(classNode)));
           if (!first) {
-            line += self._createItemLinkHtml(nodes[nodeIndex].attributes.fullName, null, false);
+            line.add(self._createItemLinkHtml(nodes[nodeIndex].attributes.fullName, null, false));
           } else {
-            line += nodes[nodeIndex].attributes.fullName;
+            line.add(nodes[nodeIndex].attributes.fullName);
           }
-          lines.push(line);
+          lines.push(line.get());
 
           // get a list of super interfaces
           var superInterfaces = [];
@@ -680,14 +682,14 @@ qx.Class.define("apiviewer.ClassViewer",
         return lines;
       }
 
-      var classHtml = "";
+      var classHtml = new qx.util.StringBuilder();
       if (apiviewer.TreeUtil.getChild(classNode, superList)) {
-        classHtml = ClassViewer.DIV_START_DETAIL_HEADLINE + "Inheritance hierarchy:" + ClassViewer.DIV_END;
-        classHtml += "<div style='line-height:15px'>";
-        classHtml += generateTree([classNode], true).join("<br />\n");
-        classHtml += "</div>";
+        classHtml.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "Inheritance hierarchy:", ClassViewer.DIV_END);
+        classHtml.add("<div style='line-height:15px'>");
+        classHtml.add(generateTree([classNode], true).join("<br />\n"));
+        classHtml.add("</div>");
       }
-      return classHtml;
+      return classHtml.get();
     },
 
 
@@ -995,7 +997,7 @@ qx.Class.define("apiviewer.ClassViewer",
       // Show the nodes
       if (nodeArr && nodeArr.length > 0)
       {
-        var html = '<table cellspacing="0" cellpadding="0" class="info" width="100%">';
+        var html = new qx.util.StringBuilder('<table cellspacing="0" cellpadding="0" class="info" width="100%">');
 
         for (var i=0; i<nodeArr.length; i++)
         {
@@ -1027,59 +1029,62 @@ qx.Class.define("apiviewer.ClassViewer",
           var iconUrl = apiviewer.TreeUtil.getIconUrl(node, inherited, "_updateInfoPanel");
 
           // Create the title row
-          html += '<tr>';
+          html.add('<tr>');
 
-          html += '<td class="icon">' + ClassViewer.createImageHtml(iconUrl) + '</td>';
-          html += '<td class="type">' + ((info.typeHtml.length != 0) ? (info.typeHtml + "&nbsp;") : "") + '</td>';
+          html.add('<td class="icon">', ClassViewer.createImageHtml(iconUrl), '</td>');
+          html.add('<td class="type">', ((info.typeHtml.length != 0) ? (info.typeHtml + "&nbsp;") : ""), '</td>');
 
-          html += '<td class="toggle">';
+          html.add('<td class="toggle">');
 
           if (typeInfo.hasDetailDecider.call(this, node, nodeType, fromClassNode))
           {
             // This node has details -> Show the detail button
-            html +=
-              '<img src="' + qx.manager.object.AliasManager.getInstance().resolvePath("api/image/open.gif") +
-              '"' + " onclick=\"document._detailViewer._onShowItemDetailClicked(" + nodeType + ",'" +
-              node.attributes.name + "'" + ((fromClassNode != this._currentClassDocNode) ? ",'" +
-              fromClassNode.attributes.fullName + "'" : "") + ")\"/>";
+            html.add(
+              '<img src="', qx.manager.object.AliasManager.getInstance().resolvePath("api/image/open.gif"),
+              '"', " onclick=\"document._detailViewer._onShowItemDetailClicked(", nodeType, ",'",
+              node.attributes.name, "'" ,
+              ((fromClassNode != this._currentClassDocNode) ? ",'" + fromClassNode.attributes.fullName + "'" : ""),
+              ")\"/>"
+            );
           }
           else
           {
-            html += "&#160;";
+            html.add("&#160;");
           }
 
-          html += '</td>';
+          html.add('</td>');
 
-          html += '<td class="text">';
+          html.add('<td class="text">');
 
           // Create headline
-          html += '<h3';
+          html.add('<h3');
 
           if (typeInfo.hasDetailDecider.call(this, node, nodeType, fromClassNode)) {
-            html +=
-              " onclick=\"document._detailViewer._onShowItemDetailClicked(" +
-              nodeType + ",'" + node.attributes.name + "'" +
-              ((fromClassNode != this._currentClassDocNode) ? ",'" +
-              fromClassNode.attributes.fullName + "'" : "") + ")\">";
+            html.add(
+              " onclick=\"document._detailViewer._onShowItemDetailClicked(",
+              nodeType, ",'", node.attributes.name, "'",
+              ((fromClassNode != this._currentClassDocNode) ? ",'" + fromClassNode.attributes.fullName + "'" : ""),
+              ")\">"
+            );
           } else {
-            html += '>';
+            html.add('>');
           }
 
-          html += info.titleHtml;
-          html += '</h3>';
+          html.add(info.titleHtml);
+          html.add('</h3>');
 
           // Create content area
-          html += '<div _itemName="' + nodeArr[i].attributes.name + '">';
-          html += info.textHtml;
-          html += '</div>';
+          html.add('<div _itemName="', nodeArr[i].attributes.name, '">');
+          html.add(info.textHtml);
+          html.add('</div>');
 
-          html += '</td>';
-          html += '</tr>';
+          html.add('</td>');
+          html.add('</tr>');
         }
 
-        html += '</table>';
+        html.add('</table>');
 
-        typeInfo.infoBodyElem.innerHTML = html;
+        typeInfo.infoBodyElem.innerHTML = html.get();
         this._fixLinks(typeInfo.infoBodyElem);
         typeInfo.infoBodyElem.style.display = !typeInfo.isOpen ? "none" : "";
         typeInfo.infoElem.style.display = "";
@@ -1279,8 +1284,6 @@ qx.Class.define("apiviewer.ClassViewer",
     {
       var ClassViewer = apiviewer.ClassViewer;
 
-      var info = {};
-
       var typeInfo = this._infoPanelHash[nodeType];
 
       // Get the property node that holds the documentation
@@ -1295,11 +1298,11 @@ qx.Class.define("apiviewer.ClassViewer",
       }
 
       // Add the title
-      info.typeHtml = this._createTypeHtml(node, fromClassNode, "var");
-      info.titleHtml = node.attributes.name;
+      typeHtml = new qx.util.StringBuilder(this._createTypeHtml(node, fromClassNode, "var"));
+      titleHtml = new qx.util.StringBuilder(node.attributes.name);
 
       // Add the description
-      info.textHtml = this._createDescHtml(docNode, fromClassNode, showDetails);
+      textHtml = new qx.util.StringBuilder(this._createDescHtml(docNode, fromClassNode, showDetails));
 
       if (showDetails)
       {
@@ -1320,49 +1323,79 @@ qx.Class.define("apiviewer.ClassViewer",
 
         if (allowedValue)
         {
-          info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Allowed values:" + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT;
+          textHtml.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "Allowed values:", ClassViewer.DIV_END, ClassViewer.DIV_START_DETAIL_TEXT);
 
           if (node.attributes.allowNull != "false") {
-            info.textHtml += "null, ";
+            textHtml.add("null, ");
           }
 
-          info.textHtml += allowedValue + ClassViewer.DIV_END;
+          textHtml(allowedValue, ClassViewer.DIV_END);
         }
 
         // Add default value
-        info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Default value:" + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT + (node.attributes.defaultValue ? node.attributes.defaultValue : "null") + ClassViewer.DIV_END;
+        textHtml.add(
+          ClassViewer.DIV_START_DETAIL_HEADLINE, "Default value:", ClassViewer.DIV_END,
+          ClassViewer.DIV_START_DETAIL_TEXT,
+          (node.attributes.defaultValue ? node.attributes.defaultValue : "null"),
+          ClassViewer.DIV_END
+        );
 
         // Add get alias
         if (node.attributes.getAlias) {
-          info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Get alias:" + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT + node.attributes.getAlias + ClassViewer.DIV_END;
+          textHtml.add(
+            ClassViewer.DIV_START_DETAIL_HEADLINE, "Get alias:", ClassViewer.DIV_END,
+            ClassViewer.DIV_START_DETAIL_TEXT, node.attributes.getAlias, ClassViewer.DIV_END
+          );
         }
 
         // Add set alias
         if (node.attributes.setAlias) {
-          info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Set alias:" + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT + node.attributes.setAlias + ClassViewer.DIV_END;
+          textHtml.add(
+            ClassViewer.DIV_START_DETAIL_HEADLINE, "Set alias:", ClassViewer.DIV_END,
+            ClassViewer.DIV_START_DETAIL_TEXT, node.attributes.setAlias, ClassViewer.DIV_END
+          );
         }
 
         // Add inherited from or overridden from
         if (fromClassNode && fromClassNode != this._currentClassDocNode) {
           if (fromClassNode.attributes.type == "mixin") {
-            info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Included from mixin:" + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT + this._createItemLinkHtml(fromClassNode.attributes.fullName) + ClassViewer.DIV_END;
+            textHtml.add(
+              ClassViewer.DIV_START_DETAIL_HEADLINE, "Included from mixin:", ClassViewer.DIV_END,
+              ClassViewer.DIV_START_DETAIL_TEXT,
+              this._createItemLinkHtml(fromClassNode.attributes.fullName),
+              ClassViewer.DIV_END
+            );
           } else {
-            info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Inherited from:" + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT + this._createItemLinkHtml(fromClassNode.attributes.fullName) + ClassViewer.DIV_END;
+            textHtml.add(
+              ClassViewer.DIV_START_DETAIL_HEADLINE, "Inherited from:", ClassViewer.DIV_END,
+              ClassViewer.DIV_START_DETAIL_TEXT,
+              this._createItemLinkHtml(fromClassNode.attributes.fullName), ClassViewer.DIV_END
+            );
           }
         } else if (node.attributes.overriddenFrom) {
-          info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Overridden from:" + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT + this._createItemLinkHtml(node.attributes.overriddenFrom) + ClassViewer.DIV_END;
+          textHtml.add(
+            ClassViewer.DIV_START_DETAIL_HEADLINE, "Overridden from:", ClassViewer.DIV_END,
+            ClassViewer.DIV_START_DETAIL_TEXT,
+            this._createItemLinkHtml(node.attributes.overriddenFrom),
+            ClassViewer.DIV_END
+          );
         }
 
         // Add required by interface
-        info.textHtml += this._createInfoRequiredByHtml(node);
+        textHtml.add(this._createInfoRequiredByHtml(node));
 
         // Add @see attributes
-        info.textHtml += this._createSeeAlsoHtml(docNode, docClassNode);
+        textHtml.add(this._createSeeAlsoHtml(docNode, docClassNode));
 
         // Add documentation errors
-        info.textHtml += this._createErrorHtml(docNode, docClassNode);
+        textHtml.add(this._createErrorHtml(docNode, docClassNode));
       }
 
+      var info = {};
+      info.textHtml = textHtml.get()
+      info.typeHtml = typeHtml.get()
+      info.titleHtml = titleHtml.get()      
+      
       return info;
     },
 
@@ -1405,22 +1438,28 @@ qx.Class.define("apiviewer.ClassViewer",
       info.titleHtml = node.attributes.name;
 
       // Add the description
-      info.textHtml = this._createDescHtml(node, fromClassNode, showDetails);
+      textHtml = new qx.util.StringBuilder(this._createDescHtml(node, fromClassNode, showDetails));
 
       if (showDetails)
       {
         // Add inherited from or overridden from
         if (fromClassNode && fromClassNode != this._currentClassDocNode) {
-          info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Inherited from:" + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT + this._createItemLinkHtml(fromClassNode.attributes.fullName) + ClassViewer.DIV_END;
+          textHtml.add(
+            ClassViewer.DIV_START_DETAIL_HEADLINE, "Inherited from:", ClassViewer.DIV_END,
+            ClassViewer.DIV_START_DETAIL_TEXT,
+            this._createItemLinkHtml(fromClassNode.attributes.fullName),
+            ClassViewer.DIV_END
+          );
         }
 
         // Add @see attributes
-        info.textHtml += this._createSeeAlsoHtml(node, fromClassNode);
+        textHtml.add(this._createSeeAlsoHtml(node, fromClassNode));
 
         // Add documentation errors
-        info.textHtml += this._createErrorHtml(node, fromClassNode);
+        textHtml.add(this._createErrorHtml(node, fromClassNode));
       }
 
+      info.textHtml = textHtml.get()
       return info;
     },
 
@@ -1484,8 +1523,6 @@ qx.Class.define("apiviewer.ClassViewer",
       var ClassViewer = apiviewer.ClassViewer;
       var TreeUtil = apiviewer.TreeUtil;
 
-      var info = {};
-
       var typeInfo = this._infoPanelHash[nodeType];
 
       // Get the method node that holds the documentation
@@ -1499,26 +1536,26 @@ qx.Class.define("apiviewer.ClassViewer",
         docNode = TreeUtil.getChildByAttribute(listNode, "name", node.attributes.name);
       }
 
+      typeHtml = new qx.util.StringBuilder();
       if (node.attributes.isAbstract) {
-        info.typeHtml = "abstract ";
-      } else {
-        info.typeHtml = "";
+        typeHtml.add("abstract ")
       }
-
+      
       // Get name, icon and return type
       var returnNode = TreeUtil.getChild(docNode, "return");
 
+      titleHtml = new qx.util.StringBuilder();
       if (node.attributes.isCtor) {
-        info.titleHtml = fromClassNode.attributes.name;
+        titleHtml.add(fromClassNode.attributes.name);
       }
       else
       {
-        info.titleHtml = node.attributes.name;
-        info.typeHtml += this._createTypeHtml(returnNode, fromClassNode, "void");
+        titleHtml.add(node.attributes.name);
+        typeHtml.add(this._createTypeHtml(returnNode, fromClassNode, "void"));
       }
 
       // Add the title (the method signature)
-      info.titleHtml += '<span class="methodSignature"> <span class="parenthesis">(</span>';
+      titleHtml.add('<span class="methodSignature"> <span class="parenthesis">(</span>');
       var paramsNode = TreeUtil.getChild(docNode, "params");
 
       if (paramsNode)
@@ -1528,26 +1565,31 @@ qx.Class.define("apiviewer.ClassViewer",
           var param = paramsNode.children[i];
 
           if (i != 0) {
-            info.titleHtml += '<span class="separator">,</span> ';
+            titleHtml.add('<span class="separator">,</span> ');
           }
 
-          info.titleHtml += '<span class="parameterType">' + this._createTypeHtml(param, fromClassNode, "var") + '</span> <span class="parameterName">' + param.attributes.name + '</span>';
+          titleHtml.add(
+            '<span class="parameterType">', this._createTypeHtml(param, fromClassNode, "var"),
+            '</span> <span class="parameterName">', param.attributes.name, '</span>'
+          );
 
           if (param.attributes.defaultValue) {
-            info.titleHtml += "?";
+            titleHtml.add("?");
           }
         }
       }
 
-      info.titleHtml += '<span class="parenthesis">)</span></span>';
+      titleHtml.add('<span class="parenthesis">)</span></span>');
 
       // Add the description
       var descNode = apiviewer.TreeUtil.getChild(docNode, "desc");
       var hasDescription = descNode && descNode.attributes.text;
+      
+      textHtml = new qx.util.StringBuilder()
       if (node.attributes.isCtor && !hasDescription) {
-        info.textHtml = "Creates a new instance of " + fromClassNode.attributes.name + ".";
+        textHtml.add("Creates a new instance of ", fromClassNode.attributes.name, ".");
       } else {
-        info.textHtml = this._createDescHtml(docNode, docClassNode, showDetails);
+        textHtml.add(this._createDescHtml(docNode, docClassNode, showDetails));
       }
 
       if (showDetails)
@@ -1557,7 +1599,7 @@ qx.Class.define("apiviewer.ClassViewer",
 
         if (paramsNode)
         {
-          info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Parameters:" + ClassViewer.DIV_END;
+          textHtml.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "Parameters:", ClassViewer.DIV_END);
 
           for (var i=0; i<paramsNode.children.length; i++)
           {
@@ -1574,25 +1616,25 @@ qx.Class.define("apiviewer.ClassViewer",
 
             var defaultValue = param.attributes.defaultValue;
 
-            info.textHtml += ClassViewer.DIV_START_DETAIL_TEXT;
+            textHtml.add(ClassViewer.DIV_START_DETAIL_TEXT);
 
             if (defaultValue) {
-              info.textHtml += ClassViewer.SPAN_START_OPTIONAL;
+              textHtml.add(ClassViewer.SPAN_START_OPTIONAL);
             }
 
-            info.textHtml += ClassViewer.SPAN_START_PARAM_NAME + param.attributes.name + ClassViewer.SPAN_END;
+            textHtml.add(ClassViewer.SPAN_START_PARAM_NAME, param.attributes.name, ClassViewer.SPAN_END);
 
             if (defaultValue) {
-              info.textHtml += " (default: " + defaultValue + ") " + ClassViewer.SPAN_END;
+              textHtml.add(" (default: ", defaultValue, ") ", ClassViewer.SPAN_END);
             }
 
             var paramDescNode = TreeUtil.getChild(param, "desc");
 
             if (paramDescNode) {
-              info.textHtml += " " + this._createDescriptionHtml(paramDescNode.attributes.text, docClassNode);
+              textHtml.add(" ", this._createDescriptionHtml(paramDescNode.attributes.text, docClassNode));
             }
 
-            info.textHtml += ClassViewer.DIV_END;
+            textHtml.add(ClassViewer.DIV_END);
           }
         }
 
@@ -1602,42 +1644,55 @@ qx.Class.define("apiviewer.ClassViewer",
           var returnDescNode = TreeUtil.getChild(returnNode, "desc");
 
           if (returnDescNode) {
-            info.textHtml += ClassViewer.DIV_START_DETAIL_HEADLINE + "Returns:" + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT + this._createDescriptionHtml(returnDescNode.attributes.text, docClassNode) + ClassViewer.DIV_END;
+            textHtml.add(
+              ClassViewer.DIV_START_DETAIL_HEADLINE, "Returns:", ClassViewer.DIV_END,
+              ClassViewer.DIV_START_DETAIL_TEXT,
+              this._createDescriptionHtml(returnDescNode.attributes.text, docClassNode),
+              ClassViewer.DIV_END
+            );
           }
         }
 
         // Add inherited from or overridden from
         if (fromClassNode && fromClassNode != this._currentClassDocNode) {
           if (fromClassNode.attributes.type == "mixin") {
-            info.textHtml +=
-              ClassViewer.DIV_START_DETAIL_HEADLINE + "Included from mixin:" +
-              ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT +
-              this._createItemLinkHtml(fromClassNode.attributes.fullName) + ClassViewer.DIV_END;
+            textHtml.add(
+              ClassViewer.DIV_START_DETAIL_HEADLINE, "Included from mixin:",
+              ClassViewer.DIV_END, ClassViewer.DIV_START_DETAIL_TEXT,
+              this._createItemLinkHtml(fromClassNode.attributes.fullName), ClassViewer.DIV_END
+            );
 
           } else {
-            info.textHtml +=
-              ClassViewer.DIV_START_DETAIL_HEADLINE + "Inherited from:" +
-              ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT +
-              this._createItemLinkHtml(fromClassNode.attributes.fullName) + ClassViewer.DIV_END;
+            textHtml.add(
+              ClassViewer.DIV_START_DETAIL_HEADLINE, "Inherited from:",
+              ClassViewer.DIV_END, ClassViewer.DIV_START_DETAIL_TEXT,
+              this._createItemLinkHtml(fromClassNode.attributes.fullName), ClassViewer.DIV_END
+            );
 
           }
         } else if (node.attributes.overriddenFrom) {
-          info.textHtml +=
-            ClassViewer.DIV_START_DETAIL_HEADLINE + "Overridden from:" + ClassViewer.DIV_END +
-            ClassViewer.DIV_START_DETAIL_TEXT + this._createItemLinkHtml(node.attributes.overriddenFrom) + ClassViewer.DIV_END;
+          textHtml.add(
+            ClassViewer.DIV_START_DETAIL_HEADLINE, "Overridden from:", ClassViewer.DIV_END,
+            ClassViewer.DIV_START_DETAIL_TEXT,
+             this._createItemLinkHtml(node.attributes.overriddenFrom), ClassViewer.DIV_END
+           );
 
         }
 
         // Add required by interface
-        info.textHtml += this._createInfoRequiredByHtml(node);
+        textHtml.add(this._createInfoRequiredByHtml(node));
 
         // Add @see attributes
-        info.textHtml += this._createSeeAlsoHtml(docNode, docClassNode);
+        textHtml.add(this._createSeeAlsoHtml(docNode, docClassNode));
 
         // Add documentation errors
-        info.textHtml += this._createErrorHtml(docNode, docClassNode);
+        textHtml.add(this._createErrorHtml(docNode, docClassNode));
       }
 
+      var info = {};      
+      info.titleHtml = titleHtml.get()
+      info.textHtml = textHtml.get()
+      info.typeHtml = typeHtml.get()
       return info;
     },
 
@@ -1802,7 +1857,13 @@ qx.Class.define("apiviewer.ClassViewer",
       this.debug(node.attributes.value);
 
       if (this._hasConstantValueHtml(node)) {
-        return (ClassViewer.DIV_START_DETAIL_HEADLINE + "Value: " + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT + qx.html.String.escape(qx.io.Json.stringify(node.attributes.value)) + ClassViewer.DIV_END);
+        html = new qx.util.StringBuilder(
+          ClassViewer.DIV_START_DETAIL_HEADLINE, "Value: ",
+          ClassViewer.DIV_END, ClassViewer.DIV_START_DETAIL_TEXT,
+          qx.html.String.escape(qx.io.Json.stringify(node.attributes.value)),
+          ClassViewer.DIV_END
+        )
+        return html.get();
       } else {
         return "";
       }
@@ -1819,18 +1880,19 @@ qx.Class.define("apiviewer.ClassViewer",
     _createInfoRequiredByHtml : function(node)
     {
       var ClassViewer = apiviewer.ClassViewer;
-      var html = "";
+      var html = new qx.util.StringBuilder();
       if (node.attributes.requiredBy) {
         var requiredBy = node.attributes.requiredBy.split(",");
-        html += ClassViewer.DIV_START_DETAIL_HEADLINE + "Required by:" + ClassViewer.DIV_END;
+        html.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "Required by:", ClassViewer.DIV_END);
         for (var i=0; i<requiredBy.length; i++) {
-          html +=
-            ClassViewer.DIV_START_DETAIL_TEXT +
-            this._createItemLinkHtml(requiredBy[i]) +
-            ClassViewer.DIV_END;
+          html.add(
+            ClassViewer.DIV_START_DETAIL_TEXT,
+            this._createItemLinkHtml(requiredBy[i]),
+            ClassViewer.DIV_END
+          );
         }
       }
-      return html;
+      return html.get();
     },
 
 
@@ -1862,7 +1924,7 @@ qx.Class.define("apiviewer.ClassViewer",
 
       if (node.children)
       {
-        var seeAlsoHtml = "";
+        var seeAlsoHtml = new qx.util.StringBuilder();
 
         for (var i=0; i<node.children.length; i++)
         {
@@ -1870,17 +1932,21 @@ qx.Class.define("apiviewer.ClassViewer",
           {
             // This is a @see attribute
             if (seeAlsoHtml.length != 0) {
-              seeAlsoHtml += ", ";
+              seeAlsoHtml.add(", ");
             }
 
-            seeAlsoHtml += this._createItemLinkHtml(node.children[i].attributes.name, fromClassNode);
+            seeAlsoHtml.add(this._createItemLinkHtml(node.children[i].attributes.name, fromClassNode));
           }
         }
 
-        if (seeAlsoHtml.length != 0)
+        if (!seeAlsoHtml.isEmpty())
         {
           // We had @see attributes
-          return ClassViewer.DIV_START_DETAIL_HEADLINE + "See also:" + ClassViewer.DIV_END + ClassViewer.DIV_START_DETAIL_TEXT + seeAlsoHtml + ClassViewer.DIV_END;
+          seeAlsoHtml.add(
+            ClassViewer.DIV_START_DETAIL_HEADLINE, "See also:", ClassViewer.DIV_END,
+            ClassViewer.DIV_START_DETAIL_TEXT, seeAlsoHtml, ClassViewer.DIV_END
+          )
+          return seeAlsoHtml.get()
         }
       }
 
@@ -1919,22 +1985,25 @@ qx.Class.define("apiviewer.ClassViewer",
 
       if (errorNode)
       {
-        var html = ClassViewer.DIV_START_ERROR_HEADLINE + "Documentation errors:" + ClassViewer.DIV_END;
+        var html = new qx.util.StringBuilder(
+          ClassViewer.DIV_START_ERROR_HEADLINE, "Documentation errors:", ClassViewer.DIV_END
+        );
+        
         var errArr = errorNode.children;
 
         for (var i=0; i<errArr.length; i++)
         {
-          html += ClassViewer.DIV_START_DETAIL_TEXT + errArr[i].attributes.msg + " <br/>";
-          html += "(";
+          html.add(ClassViewer.DIV_START_DETAIL_TEXT, errArr[i].attributes.msg, " <br/>");
+          html.add("(");
 
           if (fromClassNode && fromClassNode != this._currentClassDocNode) {
-            html += fromClassNode.attributes.fullName + "; ";
+            html.add(fromClassNode.attributes.fullName, "; ");
           }
 
-          html += "Line: " + errArr[i].attributes.line + ", Column:" + errArr[i].attributes.column + ")" + ClassViewer.DIV_END;
+          html.add("Line: ", errArr[i].attributes.line, ", Column:", errArr[i].attributes.column + ")", ClassViewer.DIV_END);
         }
 
-        return html;
+        return html.get();
       }
       else
       {
@@ -1963,7 +2032,7 @@ qx.Class.define("apiviewer.ClassViewer",
       }
 
       var types = [];
-      var typeHtml, typeDimensions, typeName, linkText, dims;
+      var typeDimensions, typeName, linkText, dims;
 
       if (typeNode)
       {
@@ -2003,28 +2072,29 @@ qx.Class.define("apiviewer.ClassViewer",
         }
       }
 
+      var typeHtml = new qx.util.StringBuilder()
       if (types.length == 0) {
-        typeHtml = defaultType;
+        typeHtml.add(defaultType);
       }
       else
       {
-        typeHtml = "";
+        typeHtml.add("");
 
         if (types.length > 1) {
-          typeHtml += "(";
+          typeHtml.add("(");
         }
 
         for (var j=0; j<types.length; j++)
         {
           if (j > 0) {
-            typeHtml += " | ";
+            typeHtml.add(" | ");
           }
 
           typeName = types[j].type;
           typeDimensions = types[j].dimensions;
 
           if (apiviewer.ClassViewer.PRIMITIVES[typeName]) {
-            typeHtml += typeName;
+            typeHtml.add(typeName);
           }
           else
           {
@@ -2039,23 +2109,23 @@ qx.Class.define("apiviewer.ClassViewer",
               }
             }
 
-            typeHtml += this._createItemLinkHtml(linkText, packageBaseClass, false, true);
+            typeHtml.add(this._createItemLinkHtml(linkText, packageBaseClass, false, true));
           }
 
           if (typeDimensions)
           {
             for (var i=0; i<parseInt(typeDimensions); i++) {
-              typeHtml += "[]";
+              typeHtml.add("[]");
             }
           }
         }
 
         if (types.length > 1) {
-          typeHtml += ")";
+          typeHtml.add(")");
         }
       }
 
-      return typeHtml;
+      return typeHtml.get();
     },
 
 
@@ -2072,22 +2142,22 @@ qx.Class.define("apiviewer.ClassViewer",
     {
       var linkRegex = /\{@link([^\}]*)\}/mg;
 
-      var html = "";
+      var html = new qx.util.StringBuilder();
       var hit;
       var lastPos = 0;
 
       while ((hit = linkRegex.exec(description)) != null)
       {
         // Add the text before the link
-        html += description.substring(lastPos, hit.index) + this._createItemLinkHtml(hit[1], packageBaseClass);
+        html.add(description.substring(lastPos, hit.index) + this._createItemLinkHtml(hit[1], packageBaseClass));
 
         lastPos = hit.index + hit[0].length;
       }
 
       // Add the text after the last hit
-      html += description.substring(lastPos, description.length);
+      html.add(description.substring(lastPos, description.length));
 
-      return html;
+      return html.get();
     },
 
 
@@ -2196,15 +2266,16 @@ qx.Class.define("apiviewer.ClassViewer",
           //       is added using the DOM element then the href is followed.
           var fullItemName = className + (itemName ? itemName : "");
 
-          return (
-            '<span style="white-space: nowrap;">' +
-            (typeof iconCode != "undefined" ?  iconCode : "") +
-            '<a href="' + window.location.protocol + '//' +
-            window.location.pathname + '#' + fullItemName +
-            '" onclick="' + 'document._detailViewer._selectItem(\'' +
-            fullItemName + '\'); return false;"' + ' title="' +
-            fullItemName + '">' + label + '</a></span>'
-          );
+          var linkHtml = new qx.util.StringBuilder(
+            '<span style="white-space: nowrap;">',
+            (typeof iconCode != "undefined" ?  iconCode : ""),
+            '<a href="' + window.location.protocol, '//',
+            window.location.pathname, '#', fullItemName,
+            '" onclick="', 'document._detailViewer._selectItem(\'',
+            fullItemName, '\'); return false;"', ' title="',
+            fullItemName, '">', label, '</a></span>'
+          )
+          return linkHtml.get()
         }
       }
     },
