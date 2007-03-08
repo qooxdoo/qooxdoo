@@ -50,7 +50,7 @@ qx.Class.define("qx.ui.embed.IconHtmlEmbed",
       }
 
       if (vIconHeight != null) {
-        this.setIconHeight(vIconWidth);
+        this.setIconHeight(vIconHeight);
       }
     }
   },
