@@ -14,7 +14,14 @@ qx.Class.define("qx.test.Animal",
     this.name = name;
   },
 
-  properties : {},
+  properties :
+  {
+    width : { },
+    height : { },
+    _boxWidth : { },
+    _boxHeight: { }
+
+  },
 
   members :
   {
