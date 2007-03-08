@@ -76,6 +76,7 @@ qx.Class.define("qx.core.Object",
       qx.core.Object.attachProperties(this.constructor);
     }
 
+    // TODO: Really use these names? (a bit static in my opinion)
     this.__userValues = {};
     this.__appearanceValues = {};
   },

@@ -100,28 +100,32 @@ qx.Class.define("qx.core.Property",
       {
         console.debug("Generating property wrappers: " + name + " (" + access + ")");
 
-        var setter = new qx.util.StringBuilder;
         var getter = new qx.util.StringBuilder;
+        var setter = new qx.util.StringBuilder;
+        var resetter = new qx.util.StringBuilder;
 
         getter.add('return qx.core.Property.executeOptimizedGetter(this,',
           clazz.classname, ',"', name, '")');
         setter.add('return qx.core.Property.executeOptimizedSetter(this,',
-          clazz.classname, ',"', name, '","set",newValue)');
+          clazz.classname, ',"', name, '","set",value)');
+        resetter.add('return qx.core.Property.executeOptimizedSetter(this,',
+          clazz.classname, ',"', name, '","reset")');
 
         members[namePrefix + "get" + funcName] = new Function(getter.toString());
-        members[namePrefix + "set" + funcName] = new Function("newValue", setter.toString());
+        members[namePrefix + "set" + funcName] = new Function("value", setter.toString());
+        members[namePrefix + "reset" + funcName] = new Function(resetter.toString());
       }
     },
 
     validation :
     {
-      "defined" : 'newValue != undefined',
-      "null"    : 'newValue === null',
-      "string"  : 'typeof newValue == "string"',
-      "boolean" : 'typeof newValue == "boolean"',
-      "number"  : 'typeof newValue == "number" && !isNaN(newValue)',
-      "object"  : 'newValue != null && typeof newValue == "object"',
-      "array"   : 'newValue instanceof Array'
+      "defined" : 'value != undefined',
+      "null"    : 'value === null',
+      "string"  : 'typeof value == "string"',
+      "boolean" : 'typeof value == "boolean"',
+      "number"  : 'typeof value == "number" && !isNaN(value)',
+      "object"  : 'value != null && typeof value == "object"',
+      "array"   : 'value instanceof Array'
     },
 
     /**
@@ -134,7 +138,7 @@ qx.Class.define("qx.core.Property",
      */
     executeOptimizedGetter : function(instance, clazz, property)
     {
-      console.debug("Finalize getter of " + property + " in class " + clazz.classname);
+      console.debug("Finalize get() of " + property + " in class " + clazz.classname);
 
 
 
@@ -146,6 +150,9 @@ qx.Class.define("qx.core.Property",
       // Including user values
       code.add('if(this.__userValues.', property, '!==undefined)');
       code.add('return this.__userValues.', property, ';');
+
+      // TODO: Appearance value
+      // TODO: Inherited value
 
       // Including code for default value
       code.add('return ', clazz.classname, '.$$properties.', property, '.init');
@@ -176,7 +183,7 @@ qx.Class.define("qx.core.Property",
      */
     executeOptimizedSetter : function(instance, clazz, property, variant, value)
     {
-      console.debug("Finalize setter of " + property + " in class " + clazz.classname);
+      console.debug("Finalize " + variant + "() of " + property + " in class " + clazz.classname);
 
 
 
@@ -187,70 +194,94 @@ qx.Class.define("qx.core.Property",
       var code = new qx.util.StringBuilder;
 
       // Debug output
-      // code.add("this.debug('Property: " + name + ": ' + newValue);");
+      // code.add("this.debug('Property: " + name + ": ' + value);");
       // Validation and value compare should only be used in the real setter
       if (variant === "set")
       {
-        // Read oldValue value
-        code.add("var oldValue=this._user_values_ng.");
-        code.add(property);
-        code.add(";");
-
-        // Check value change
-        code.add("if(oldValue===newValue)return;");
-
         // TODO: Implement check()
         // Validation code
         if (config.validation != undefined)
         {
           if (qx.Class.isDefined(config.validation))
           {
-            code.add("if(!(newValue instanceof ");
-            code.add(config.validation);
-            code.add("))this.error('Invalid value for property ");
-            code.add(property);
-            code.add(": ' + newValue);");
+            code.add('if(!(value instanceof ', config.validation);
+            code.add('))this.error("Invalid value for property ');
+            code.add(property, ': " + value);');
           }
           else if (config.validation in this.validation)
           {
-            code.add("if(!(");
-            code.add(this.validation[config.validation]);
-            code.add("))this.error('Invalid value for property ");
-            code.add(property);
-            code.add(": ' + newValue);");
+            code.add('if(!(', this.validation[config.validation]);
+            code.add('))this.error("Invalid value for property ');
+            code.add(property, ': " + value);');
           }
           else
           {
             this.error("Could not add validation to property " + name + ". Invalid method.");
           }
         }
+
+        // Store value
+        code.add('this.__userValues.', property, '=value;');
+      }
+      else if (variant === "toggle")
+      {
+        // Toggle value
+        code.add('this.__userValues.', property);
+        code.add('=!this.__userValues.', property, ';');
+      }
+      else if (variant === "reset")
+      {
+        // Remove value
+        code.add('delete this.__userValues.' + property, ';');
       }
 
-      if (variant === "toggle")
+
+      // TODO: property setter/modifier
+      // TODO: check for modifications
+      // TODO: event dispatch
+
+
+      code.add('var computed;');
+
+
+      if (!config.inheritable)
       {
-        // Toggle current value
-        code.add("this._user_values_ng.");
-        code.add(property);
-        code.add("=!this._user_values_ng.");
-        code.add(property);
-        code.add(";");
-      }
-      else
-      {
-        // Store new value
-        code.add("this._user_values_ng.");
-        code.add(property);
-        code.add("=newValue;");
+        code.add('if(computed==="inherit")');
+        code.add('this.error("The property ', property, ' does not support inheritance");');
       }
 
-      // TODO: Implement modifier()
-      // TODO: Implement event dispatch
+
+      // TODO: Convert this to code.add statements...
+      /*
+      if (value == "inherit" || (value === undefined && config.inheritable))
+      {
+        var parent = this.getParent();
+
+        while (parent)
+        {
+          value = getParent().getProperty();
+
+          if (value !== "inherit") {
+            break;
+          }
+
+          parent = parent.getParent();
+        }
+      }
+      */
+
+
+
+
+
+
+
 
       // Output generate code
       console.debug("SETTER: " + code);
 
       // Overriding temporary setter
-      clazz.prototype[config.namePrefix + variant + config.funcName] = new Function("newValue", code.toString());
+      clazz.prototype[config.namePrefix + variant + config.funcName] = new Function("value", code.toString());
 
       // Executing new setter
       return instance[config.namePrefix + variant + config.funcName](value);

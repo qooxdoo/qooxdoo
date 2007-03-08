@@ -19,7 +19,8 @@ qx.Class.define("qx.test.Animal",
     width : { init : 100 },
     height : { init : 30 },
     _boxWidth : { },
-    _boxHeight: { }
+    _boxHeight: { },
+    _enabled : { init : "inherit", inheritable : true }
   },
 
   members :
