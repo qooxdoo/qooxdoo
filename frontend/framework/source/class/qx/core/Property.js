@@ -24,12 +24,6 @@
 
 qx.Class.define("qx.core.Property",
 {
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
   statics :
   {
     /*
@@ -51,29 +45,66 @@ qx.Class.define("qx.core.Property",
      * @param proto {Object} Object where the setter should be attached
      * @return {void}
      */
-    addProperty : function(config, proto)
+    addProperty : function(config, members)
     {
-      var upName = qx.lang.String.toFirstUp(config.name);
+      var name = config.name;
+      var prefix;
 
-      if (config.group)
+      if (name.indexOf("__") == 0)
       {
-        var code = new qx.util.StringBuilder;
-
-        code.add("var a=arguments;")
-
-        if (config.mode == "shorthand") {
-          code.add("a=qx.lang.Array.fromShortHand(qx.lang.Array.fromArguments(a));")
-        }
-
-        for (var i=0, a=config.group, l=a.length; i<l; i++) {
-          code.add("this.set", qx.lang.String.toFirstUp(a[i]), "(a[", i, "]);");
-        }
-
-        proto["set" + upName] = new Function(code.toString());
+        access = "private";
+        prefix = "__";
+        name = name.substring(2);
+      }
+      else if (name.indexOf("_") == 0)
+      {
+        access = "protected";
+        prefix = "_";
+        name = name.substring(1);
       }
       else
       {
-        throw new Error("New properties are not yet implemented! Used by class '" + proto.classname + "': " + config.name);
+        access = "public";
+        prefix = "";
+      }
+
+      var func = qx.lang.String.toFirstUp(name);
+
+
+
+
+
+      if (config.group)
+      {
+        var setter = new qx.util.StringBuilder;
+
+        setter.add("var a=arguments;")
+
+        if (config.mode == "shorthand") {
+          setter.add("a=qx.lang.Array.fromShortHand(qx.lang.Array.fromArguments(a));")
+        }
+
+        for (var i=0, a=config.group, l=a.length; i<l; i++)
+        {
+          // TODO: Support private, protected, etc. in setters
+          setter.add("this.set", qx.lang.String.toFirstUp(a[i]), "(a[", i, "]);");
+        }
+
+        members[prefix + "set" + func] = new Function(setter.toString());
+      }
+      else
+      {
+        console.log("Adding new-style property: " + name + " (" + access + ")");
+
+        var setter = new qx.util.StringBuilder;
+        var getter = new qx.util.StringBuilder;
+
+
+
+
+
+        members[prefix + "get" + func] = new Function(getter.toString());
+        members[prefix + "set" + func] = new Function(setter.toString());
       }
     },
 
