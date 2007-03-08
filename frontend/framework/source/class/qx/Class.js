@@ -854,34 +854,27 @@ qx.Class.define("qx.Class",
      */
     __addProperty : function(clazz, name, config)
     {
-      var proto = clazz.prototype;
-
+      // Store name into configuration
       config.name = name;
 
-      if (qx.core.Variant.isSet("qx.compatibility", "on"))
-      {
-        if (config._fast) {
-          qx.core.LegacyProperty.addFastProperty(config, proto);
-        } else if (config._cached) {
-          qx.core.LegacyProperty.addCachedProperty(config, proto);
-        } else if (config._legacy) {
-          qx.core.LegacyProperty.addProperty(config, proto);
-        } else {
-          qx.core.Property.addProperty(config, proto);
-        }
-      }
-      else
-      {
-        qx.core.Property.addProperty(config, proto);
-      }
-
-      // register config
+      // Add config to local registry
       if (clazz.$$properties === undefined) {
         clazz.$$properties = {};
       }
 
-      // add config to config list
       clazz.$$properties[name] = config;
+
+      // Create old style properties
+      if (qx.core.Variant.isSet("qx.compatibility", "on"))
+      {
+        if (config._fast) {
+          qx.core.LegacyProperty.addFastProperty(config, clazz.prototype);
+        } else if (config._cached) {
+          qx.core.LegacyProperty.addCachedProperty(config, clazz.prototype);
+        } else if (config._legacy) {
+          qx.core.LegacyProperty.addProperty(config, clazz.prototype);
+        }
+      }
     },
 
 

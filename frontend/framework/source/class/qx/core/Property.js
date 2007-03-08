@@ -45,8 +45,9 @@ qx.Class.define("qx.core.Property",
      * @param proto {Object} Object where the setter should be attached
      * @return {void}
      */
-    addProperty : function(config, members)
+    attachPropertyMethods : function(clazz, config)
     {
+      var members = clazz.prototype;
       var name = config.name;
       var prefix;
 
@@ -74,8 +75,12 @@ qx.Class.define("qx.core.Property",
 
 
 
+
+
       if (config.group)
       {
+        console.log("Generating property group: " + name + " (" + access + ")");
+
         var setter = new qx.util.StringBuilder;
 
         setter.add("var a=arguments;")
@@ -94,7 +99,7 @@ qx.Class.define("qx.core.Property",
       }
       else
       {
-        console.log("Adding new-style property: " + name + " (" + access + ")");
+        console.log("Generating property wrappers: " + name + " (" + access + ")");
 
         var setter = new qx.util.StringBuilder;
         var getter = new qx.util.StringBuilder;
