@@ -499,6 +499,12 @@ qx.Class.define("qx.ui.core.Parent",
     {
       var vVisible = [];
       var vChildren = this.getChildren();
+
+      if (! vChildren)
+      {
+        return 0;
+      }
+
       var vLength = vChildren.length;
 
       for (var i=0; i<vLength; i++)
