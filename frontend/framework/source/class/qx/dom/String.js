@@ -36,20 +36,20 @@ qx.Class.define("qx.dom.String",
      *
      * @type static
      * @param str {String} string to escape
-     * @param charcodeToEntities {Map} entity to charcode map
+     * @param charCodeToEntities {Map} entity to charcode map
      * @return {var} TODOC
      */
-    escapeEntities : function(str, charcodeToEntities)
+    escapeEntities : function(str, charCodeToEntities)
     {
-      var result = [];
+      var entity, result = [];
 
-      for (var i=0; i<str.length; i++)
+      for (var i=0, l=str.length; i<l; i++)
       {
         var chr = str.charAt(i);
         var code = chr.charCodeAt(0);
 
-        if (charcodeToEntities[code]) {
-          var entity = "&" + charcodeToEntities[code] + ";";
+        if (charCodeToEntities[code]) {
+          entity = "&" + charCodeToEntities[code] + ";";
         }
         else
         {
@@ -92,7 +92,7 @@ qx.Class.define("qx.dom.String",
           {
             if (entity.charAt(1).toUpperCase() == 'X')
             {
-              var code = entity.substring(2);
+              code = entity.substring(2);
 
               // match hex number
               if (code.match(/^[0-9A-Fa-f]+$/gi)) {
@@ -101,7 +101,7 @@ qx.Class.define("qx.dom.String",
             }
             else
             {
-              var code = entity.substring(1);
+              code = entity.substring(1);
 
               // match integer
               if (code.match(/^\d+$/gi)) {
