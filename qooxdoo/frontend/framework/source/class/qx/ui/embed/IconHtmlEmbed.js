@@ -38,7 +38,7 @@ function(vHtml, vIcon, vIconWidth, vIconHeight)
     }
 
     if (vIconHeight != null) {
-      this.setIconHeight(vIconWidth);
+      this.setIconHeight(vIconHeight);
     }
   }
 });
