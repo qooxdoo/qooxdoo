@@ -293,11 +293,9 @@ qx.Class.define("qx.Interface",
       var properties = iface.properties;
       if (properties)
       {
-        var clazzproperties = clazz.$$properties || {};
-
         for (var key in properties)
         {
-          if (!clazzproperties[key]) {
+          if (!qx.Class.hasProperty(clazz, key)) {
             throw new Error('The property "' + key + '" is not supported by Class "' + clazz.classname + '"!');
           }
         }

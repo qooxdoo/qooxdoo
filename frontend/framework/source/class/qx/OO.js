@@ -109,11 +109,6 @@ if (qx.core.Variant.isSet("qx.compatibility", "on"))
 
           qx.Proto.classname = vConstructor.classname = vClassName;
           qx.Proto.constructor = vConstructor;
-
-          // Copy property lists
-          if (vSuper.$$properties) {
-            qx.Class.$$properties = qx.lang.Object.copy(vSuper.$$properties);
-          }
         }
 
         // Store reference to global classname registry

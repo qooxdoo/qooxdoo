@@ -77,49 +77,6 @@ qx.Class.define("qx.core.Target",
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      EVENT CONNECTION
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Whether the objects supports the given event type
-     *
-     * @type member
-     * @param eventName {String} name of the event to check for
-     * @return {Boolean} whether the object support the given event.
-     */
-    supportsEvent : function(eventName)
-    {
-      var clazz = this.constructor;
-
-      // old style classes can't be checked
-      if (!clazz.base) {
-        return true;
-      }
-
-      if (eventName.indexOf("change") == 0)
-      {
-        var propName = qx.lang.String.toFirstLower(eventName.slice(6));
-        if (clazz.$$properties[propName]) {
-          return true;
-        }
-      }
-
-      while (clazz.superclass)
-      {
-        if (clazz.$$events && clazz.$$events[eventName]) {
-          return true;
-        }
-
-        clazz = clazz.superclass;
-      }
-
-      return false;
-    },
-
-
     /**
      * Add event listener to an object.
      *
@@ -138,15 +95,20 @@ qx.Class.define("qx.core.Target",
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (!this.supportsEvent(type)) {
-          //throw new Error("Objects of class '" + this.constructor.classname + "' do not support the event '" + type + "'");
-          this.warn("Objects of class '" + this.constructor.classname + "' do not support the event '" + type + "'");
+        if (typeof type !== "string")
+        {
+          this.warn("addEventListener(" + type + "): '" + type + "' is not a string!");
+          return;
         }
 
         if (typeof func !== "function")
         {
-          this.warn("qx.core.Target: addEventListener(" + type + "): '" + func + "' is not a function!");
+          this.warn("addEventListener(" + type + "): '" + func + "' is not a function!");
           return;
+        }
+
+        if (!qx.Class.supportsEvent(this.constructor, type)) {
+          this.warn("Objects of class '" + this.constructor.classname + "' do not support the event '" + type + "'");
         }
       }
 
