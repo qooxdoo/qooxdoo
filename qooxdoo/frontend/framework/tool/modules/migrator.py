@@ -533,7 +533,7 @@ Do you want to start the migration now? [no] : """ % LOGFILE)
     # start migration
     setupLogging(options.verbose)
     fileLogger = logging.FileHandler(LOGFILE, "w")
-    formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+    formatter = logging.Formatter('%(message)s')
     fileLogger.setFormatter(formatter)
     fileLogger.setLevel(logging.NOTSET)
     logging.getLogger().addHandler(fileLogger)    
