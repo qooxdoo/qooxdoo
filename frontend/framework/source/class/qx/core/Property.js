@@ -226,40 +226,50 @@ qx.Class.define("qx.core.Property",
       else if (variant === "toggle")
       {
         // Toggle value
-        code.add('this.__userValues.', property);
-        code.add('=!this.__userValues.', property, ';');
+        code.add('var value=!this.__userValues.', property, ';');
+
+        // Store value
+        code.add('this.__userValues.', property, '=value;');
       }
       else if (variant === "reset")
       {
+        // TODO: Has someone ever tested the performance impact comparing
+        // "delete something" with something=undefined?
+
         // Remove value
         code.add('delete this.__userValues.' + property, ';');
       }
 
 
-      // TODO: property setter/modifier
-      // TODO: check for modifications
-      // TODO: event dispatch
+      // TODO: Normally we only need this now if:
+      //   * we have children to inform
+      //   * we have events to dispatch
+      //   * we have a setter/modify method to execute
+      // Otherwise invalidation would be maybe enough. Is this really relevant?
 
+      // TODO: read in values
+      // TODO: remove this strings from setter, we need them in appearance etc., too
+      code.add('var computed,appearance,init;');
 
-      code.add('var computed;');
-
+      code.add('if(value!==undefined)computed=value;else ');
+      code.add('if(appearance!==undefined)computed=appearance;else ');
+      code.add('if(init!==undefined)computed=init;');
 
       if (!config.inheritable)
       {
         code.add('if(computed==="inherit")');
-        code.add('this.error("The property ', property, ' does not support inheritance");');
+        code.add('return this.error("The property ', property, ' does not support inheritance");');
       }
-
 
       // TODO: Convert this to code.add statements...
       /*
-      if (value == "inherit" || (value === undefined && config.inheritable))
+      if (computed == "inherit" || (computed === undefined && config.inheritable))
       {
         var parent = this.getParent();
 
         while (parent)
         {
-          value = getParent().getProperty();
+          computed = getParent().getProperty();
 
           if (value !== "inherit") {
             break;
@@ -271,9 +281,15 @@ qx.Class.define("qx.core.Property",
       */
 
 
+      // Check old/new value
+      code.add('if(this.__computedValues.', property, '===computed)return computed;');
+
+      // Store new computed value
+      code.add('this.__computedValues.', property, '=computed;');
 
 
-
+      // TODO: property setter/modifier
+      // TODO: event dispatch
 
 
 

@@ -79,6 +79,7 @@ qx.Class.define("qx.core.Object",
     // TODO: Really use these names? (a bit static in my opinion)
     this.__userValues = {};
     this.__appearanceValues = {};
+    this.__computedValues = {};
   },
 
 
