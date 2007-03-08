@@ -75,6 +75,9 @@ qx.Class.define("qx.core.Object",
     if (!this.constructor.__propertiesCreated) {
       qx.core.Object.attachProperties(this.constructor);
     }
+
+    this.__userValues = {};
+    this.__appearanceValues = {};
   },
 
 
