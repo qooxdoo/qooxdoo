@@ -60,16 +60,20 @@ qx.Class.define("qx.core.Object",
    * Create a new instance
    *
    * @type constructor
-   * @param vAutoDispose {Boolean} whether the object should be automatically disposed
+   * @param autoDispose {Boolean} whether the object should be automatically disposed
    */
-  construct : function(vAutoDispose)
+  construct : function(autoDispose)
   {
     this._hashCode = qx.core.Object.__availableHashCode++;
 
-    if (vAutoDispose !== false)
+    if (autoDispose !== false)
     {
       this.__dbKey = qx.core.Object.__db.length;
       qx.core.Object.__db.push(this);
+    }
+
+    if (!this.constructor.__propertiesCreated) {
+      qx.core.Object.attachProperties(this.constructor);
     }
   },
 
@@ -84,6 +88,35 @@ qx.Class.define("qx.core.Object",
 
   statics :
   {
+    attachProperties : function(clazz)
+    {
+      var properties = clazz.$$properties;
+      var config;
+
+      if (properties)
+      {
+        for (var name in properties)
+        {
+          config = properties[name];
+
+          // Filter old properties and groups
+          if (!config._legacy && !config._fast && !config._cached && !config.group)
+          {
+            console.log("Create initial wrapper methods for property: " + name + " for class: " + clazz.classname);
+
+
+          }
+        }
+      }
+
+      if (clazz.superclass && !clazz.superclass.__propertiesCreated) {
+        this.attachProperties(clazz.superclass);
+      }
+
+      clazz.__propertiesCreated = true;
+    },
+
+
     /** TODOC */
     __availableHashCode : 0,
 
@@ -761,20 +794,25 @@ qx.Class.define("qx.core.Object",
 
     // Finally cleanup properties
     var clazz = this.constructor;
-    var properties = clazz.$$properties;
-    if (properties)
+    while(clazz)
     {
-      for (var name in properties)
+      var properties = clazz.$$properties;
+      if (properties)
       {
-        // TODO improve this ugly part
-        if (properties[name].dispose)
+        for (var name in properties)
         {
-          if (properties[name]._legacy)
+          // TODO improve this ugly part
+          if (properties[name].dispose)
           {
-            this[qx.core.LegacyProperty.getValueName(name)] = null;
+            if (properties[name]._legacy)
+            {
+              this[qx.core.LegacyProperty.getValueName(name)] = null;
+            }
           }
         }
       }
+
+      clazz = clazz.superclass;
     }
 
     // Delete Entry from Object DB
