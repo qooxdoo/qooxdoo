@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
-import sys, os
+import sys
+import os
+import logging
 
 # reconfigure path to import modules from modules subfolder
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "../../modules"))
@@ -91,7 +93,7 @@ def getAndRemovePropertyName(definition):
             keyValue.parent.removeChild(keyValue)
             return name
 
-    print "  * Could not extract property name!"
+    logging.warn("  * Could not extract property name!")
     return None
 
 
@@ -101,7 +103,7 @@ def replaceMapKey(definition, searchKey, replaceKey):
             keyValue.set("key", replaceKey)
             return
 
-    print "  * Could not replace key %s with %s" % (searchKey, replaceKey)
+    logging.warn("  * Could not replace key %s with %s" % (searchKey, replaceKey))
 
 
 
@@ -224,7 +226,7 @@ def patch(id, node):
 
                     elif name == "defineClass":
                         if params.getFirstChild(False, True).get("value") != id:
-                            print "    - The class seems to have a wrong definition!"
+                            logging.warn("    - The class seems to have a wrong definition!")
 
                         # 3 params = name, superclass, constructor
                         # 2 params = name, map
@@ -270,7 +272,7 @@ def patch(id, node):
 
                         if prev.type == "identifier":
                             if prev.get("name") in ["Class", "Mixin", "Interface", "Theme", "Locale"]:
-                                print "      - Class is already up-to-date."
+                                logging.info("      - Class is already up-to-date.")
                                 return False
 
                             elif prev.get("name") == "Setting":
@@ -314,7 +316,7 @@ def patch(id, node):
 
         # Post-Check
         if child.parent == node:
-            # print "      - Could not move element %s at line %s" % (child.type, child.get("line"))
+            logging.warn("      - Could not move element %s at line %s" % (child.type, child.get("line")))
             errorCounter += 1
 
 
@@ -346,11 +348,11 @@ def patch(id, node):
 
 
     if errorCounter > 0:
-        print "      - Could not convert %s elements." % errorCounter
+        logging.info("      - Could not convert %s elements." % errorCounter)
 
     # Debug
-    # print compiler.compile(node)
-    # print tree.nodeToXmlString(node)
+    #print compiler.compile(node)
+    #print tree.nodeToXmlString(node)
 
     # Return Modification
     return True
