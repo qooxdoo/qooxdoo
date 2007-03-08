@@ -388,7 +388,7 @@ def createClassDefineCore(id):
     call.addChild(oper)
     call.addChild(para)
 
-    oper.addChild(createVariable(["qx", "Class", "define"]))
+    oper.addChild(createVariable(["qx", "Clazz", "define"]))
 
     para.addChild(con)
     para.addChild(args)
