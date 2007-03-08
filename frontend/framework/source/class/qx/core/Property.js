@@ -103,15 +103,10 @@ qx.Class.define("qx.core.Property",
         var setter = new qx.util.StringBuilder;
         var getter = new qx.util.StringBuilder;
 
-        getter.add('return qx.core.Property.executeOptimizedGetter(this, ',
-          clazz.classname, ', "', name, '")');
-        setter.add('return qx.core.Property.executeOptimizedSetter(this, ',
-          clazz.classname, ', "', name, '", "set", newValue)');
-
-        /*
-        console.debug("GETTER: " + getter.toString());
-        console.debug("SETTER: " + setter.toString());
-        */
+        getter.add('return qx.core.Property.executeOptimizedGetter(this,',
+          clazz.classname, ',"', name, '")');
+        setter.add('return qx.core.Property.executeOptimizedSetter(this,',
+          clazz.classname, ',"', name, '","set",newValue)');
 
         members[namePrefix + "get" + funcName] = new Function(getter.toString());
         members[namePrefix + "set" + funcName] = new Function("newValue", setter.toString());
@@ -129,9 +124,6 @@ qx.Class.define("qx.core.Property",
       "array"   : 'newValue instanceof Array'
     },
 
-    getterFieldOrder : [ "_user_values_ng", "_appearance_values_ng" ],
-
-
     /**
      * TODOC
      *
@@ -140,35 +132,26 @@ qx.Class.define("qx.core.Property",
      * @param name {var} TODOC
      * @return {call} TODOC
      */
-    executeOptimizedGetter : function(instance, clazz, name)
+    executeOptimizedGetter : function(instance, clazz, property)
     {
-      console.debug("Finalize getter of " + name + " in class " + clazz.classname);
+      console.debug("Finalize getter of " + property + " in class " + clazz.classname);
 
 
 
-      var config = clazz.$$properties[name];
+      var config = clazz.$$properties[property];
 
       // Starting code generation
       var code = new qx.util.StringBuilder;
 
-      // Including user and appearance values
-      for (var i=0, a=this.getterFieldOrder, l=a.length; i<l; i++)
-      {
-        code.add("if(this.");
-        code.add(a[i]);
-        code.add(".");
-        code.add(name);
-        code.add("!==undefined)return this.");
-        code.add(a[i]);
-        code.add(".");
-        code.add(name);
-        code.add(";");
-      }
+      // Including user values
+      code.add('if(this.__userValues.', property, '!==undefined)');
+      code.add('return this.__userValues.', property, ';');
 
       // Including code for default value
-      code.add("return this.$$properties.");
-      code.add(name);
-      code.add(".init");
+      code.add('return ', clazz.classname, '.$$properties.', property, '.init');
+
+
+
 
       // Output generate code
       console.debug("GETTER: " + code.toString());
@@ -191,14 +174,14 @@ qx.Class.define("qx.core.Property",
      * @param value {var} TODOC
      * @return {call} TODOC
      */
-    executeOptimizedSetter : function(instance, clazz, name, variant, value)
+    executeOptimizedSetter : function(instance, clazz, property, variant, value)
     {
-      console.debug("Finalize setter of " + name + " in class " + clazz.classname);
+      console.debug("Finalize setter of " + property + " in class " + clazz.classname);
 
 
 
 
-      var config = clazz.$$properties[name];
+      var config = clazz.$$properties[property];
 
       // Starting code generation
       var code = new qx.util.StringBuilder;
@@ -210,7 +193,7 @@ qx.Class.define("qx.core.Property",
       {
         // Read oldValue value
         code.add("var oldValue=this._user_values_ng.");
-        code.add(name);
+        code.add(property);
         code.add(";");
 
         // Check value change
@@ -225,7 +208,7 @@ qx.Class.define("qx.core.Property",
             code.add("if(!(newValue instanceof ");
             code.add(config.validation);
             code.add("))this.error('Invalid value for property ");
-            code.add(name);
+            code.add(property);
             code.add(": ' + newValue);");
           }
           else if (config.validation in this.validation)
@@ -233,7 +216,7 @@ qx.Class.define("qx.core.Property",
             code.add("if(!(");
             code.add(this.validation[config.validation]);
             code.add("))this.error('Invalid value for property ");
-            code.add(name);
+            code.add(property);
             code.add(": ' + newValue);");
           }
           else
@@ -247,16 +230,16 @@ qx.Class.define("qx.core.Property",
       {
         // Toggle current value
         code.add("this._user_values_ng.");
-        code.add(name);
+        code.add(property);
         code.add("=!this._user_values_ng.");
-        code.add(name);
+        code.add(property);
         code.add(";");
       }
       else
       {
         // Store new value
         code.add("this._user_values_ng.");
-        code.add(name);
+        code.add(property);
         code.add("=newValue;");
       }
 
