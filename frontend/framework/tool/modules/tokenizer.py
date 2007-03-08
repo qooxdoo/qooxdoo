@@ -209,7 +209,13 @@ def parseStream(content, uniqueId=""):
     content = protectEscape(content)
 
     # print "      * searching for patterns..."
-    all = R_ALL.findall(content)
+    try:
+        all = R_ALL.findall(content)
+    except RuntimeError:
+        print "Could not parse file %s" % uniqueId
+        print "Generally this means that there is a syntactial problem with your source-code."
+        print "Please omit the usage of nested comments like '/* foo /* bar */'."
+        sys.exit(1)
 
     # print "      * structuring..."
     for item in all:
@@ -350,7 +356,7 @@ def main():
         else:
             print "Compiling %s => stdout" % fileName
 
-        tokenString = convertTokensToString(parseFile(fileName, "", options.encoding))
+        tokenString = convertTokensToString(parseFile(fileName, fileName, options.encoding))
 
         if options.write:
             filetool.save(fileName + options.extension, tokenString, options.encoding)
