@@ -6,7 +6,7 @@
 #  http://qooxdoo.org
 #
 #  Copyright:
-#    2007 1&1 Internet AG, Germany, http://www.1and1.org
+#    2006-2007 1&1 Internet AG, Germany, http://www.1and1.org
 #
 #  License:
 #    LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -14,6 +14,8 @@
 #    See the LICENSE file in the project's top-level directory for details.
 #
 #  Authors:
+#    * Sebastian Werner (wpbasti)
+#    * Alessandro Sala (asala)
 #    * Thomas Herchenroeder (thron7)
 ################################################################################
 
@@ -41,3 +43,1532 @@
 def output(ast):
     pass
 
+
+import sys, string, re, optparse
+import config, tokenizer, filetool, treegenerator, variableoptimizer, comment, tree
+
+KEY = re.compile("^[A-Za-z0-9_$]+$")
+
+
+def compileToken(name, compact=False):
+    global pretty
+
+
+    if name in ["INC", "DEC", "TYPEOF"]:
+        pass
+
+    elif name in ["INSTANCEOF", "IN"]:
+        space()
+
+    elif not compact and pretty:
+        space()
+
+
+
+    if name == None:
+        write("=")
+
+    elif name in ["TYPEOF", "INSTANCEOF", "IN"]:
+        write(name.lower())
+
+    else:
+        for key in config.JSTOKENS:
+            if config.JSTOKENS[key] == name:
+                write(key)
+
+
+
+    if name in ["INC", "DEC"]:
+        pass
+
+    elif name in ["TYPEOF", "INSTANCEOF", "IN"]:
+        space()
+
+    elif not compact and pretty:
+        space()
+
+
+def space(force=True):
+    global indent
+    global result
+    global pretty
+    global afterLine
+    global afterBreak
+    global afterDoc
+
+    if not force and not pretty:
+        return
+
+    if afterDoc or afterBreak or afterLine or result.endswith(" ") or result.endswith("\n"):
+        return
+
+    result += " "
+
+
+def write(txt=""):
+    global indent
+    global result
+    global pretty
+    global breaks
+    global afterLine
+    global afterBreak
+    global afterDoc
+    global afterDivider
+    global afterArea
+
+    # strip remaining whitespaces
+    if (afterLine or afterBreak or afterDivider or afterArea) and result.endswith(" "):
+        result = result.rstrip()
+
+    if pretty:
+        # handle new line wishes
+        if afterArea:
+            nr = 5
+        elif afterDivider:
+            nr = 5
+        elif afterDoc:
+            nr = 3
+        elif afterBreak:
+            nr = 2
+        elif afterLine:
+            nr = 1
+        else:
+            nr = 0
+
+        while not result.endswith("\n" * nr):
+            result += "\n"
+
+    elif breaks and not result.endswith("\n"):
+        if afterArea or afterDivider or afterDoc or afterBreak or afterLine:
+            result += "\n"
+
+    # reset
+    afterLine = False
+    afterBreak = False
+    afterDoc = False
+    afterDivider = False
+    afterArea = False
+
+    # add indent (if needed)
+    if pretty and result.endswith("\n"):
+        #result += (" " * (INDENTSPACES * indent))
+        result += (options.prettypIndentString * indent)
+
+    # append given text
+    result += txt
+
+
+def area():
+    global afterArea
+    afterArea = True
+
+
+def divide():
+    global afterDivider
+    afterDivider = True
+
+
+def sep():
+    global afterBreak
+    afterBreak = True
+
+
+def doc():
+    global afterDoc
+    afterDoc = True
+
+
+def nosep():
+    global afterBreak
+    afterBreak = False
+
+
+def line():
+    global afterLine
+    afterLine = True
+
+
+def noline():
+    global afterLine
+    global afterBreak
+    global afterDivider
+    global afterArea
+    global afterDoc
+
+    afterLine = False
+    afterBreak = False
+    afterDivider = False
+    afterArea = False
+    afterDoc = False
+
+
+def plus():
+    global indent
+    indent += 1
+
+
+def minus():
+    global indent
+    indent -= 1
+
+
+def semicolon():
+    global result
+    global breaks
+
+    noline()
+
+    if not (result.endswith("\n") or result.endswith(";")):
+        write(";")
+
+        if breaks:
+            result += "\n"
+
+
+def commentNode(node):
+    global pretty
+
+    if not pretty:
+        return
+
+    commentText = ""
+    commentIsInline = False
+
+    comment = node.getChild("commentsAfter", False)
+
+    if comment and not comment.get("inserted", False):
+        for child in comment.children:
+            if not child.isFirstChild():
+                commentText += " "
+
+            commentText += child.get("text")
+
+            if child.get("detail") == "inline":
+                commentIsInline = True
+
+        if commentText != "":
+            if options.prettypCommentsInlinePadding:
+                commentText.strip()
+                commentText = options.prettypCommentsInlinePadding + commentText
+            else:
+                space()
+            ##space()
+            write(commentText)
+
+            if commentIsInline:
+                line()
+            else:
+                space()
+
+            comment.set("inserted", True)
+
+
+
+def postProcessMap(m):
+    if m.get("maxKeyLength", False) != None:
+        return
+
+    maxKeyLength = 0
+    alignValues = True
+
+    if m.hasChildren():
+        for keyvalue in m.children:
+            if keyvalue.type != "keyvalue":
+                continue
+
+            currKeyLength = len(keyvalue.get("key"))
+
+            if keyvalue.get("quote", False) != None:
+                currKeyLength += 2
+
+            if currKeyLength > maxKeyLength:
+                maxKeyLength = currKeyLength
+
+            if alignValues and keyvalue.getChild("value").isComplex():
+                alignValues = False
+
+    m.set("maxKeyLength", maxKeyLength)
+    m.set("alignValues", alignValues)
+
+
+
+
+def inForLoop(node):
+    while node:
+        if node.type in ["first", "second", "third"] and node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
+            return True
+
+        if not node.hasParent():
+            return False
+
+        node = node.parent
+
+    return False
+
+
+
+
+def compile(node, opts, enableBreaks=False, enableDebug=False):
+    global indent
+    global result
+    global pretty
+    global debug
+    global breaks
+    global afterLine
+    global afterBreak
+    global afterDoc
+    global afterDivider
+    global afterArea
+    global options
+
+    options = opts
+    options.prettypIndentString = eval("'" + options.prettypIndentString + "'")
+                                                              # allow for escapes like "\t"
+
+    indent       = 0
+    result       = u""
+    pretty       = opts.prettyPrint
+    debug        = enableDebug
+    breaks       = enableBreaks
+    afterLine    = False
+    afterBreak   = False
+    afterDoc     = False
+    afterDivider = False
+    afterArea    = False
+
+    if pretty:
+        comment.fill(node)
+
+    compileNode(node,opts)
+
+    if not result.endswith("\n"):
+        result += "\n"
+
+    return result
+
+
+
+
+
+
+
+
+
+
+def compileNode(node,optns):
+
+    global pretty
+    global indent
+
+
+
+
+    #####################################################################################################################
+    # Recover styling
+    #####################################################################################################################
+
+    if pretty:
+        # Recover exclicit breaks
+        if node.get("breakBefore", False) and not node.isFirstChild(True):
+            sep()
+
+        # Additional explicit break before complex blocks
+        if node.hasParent() and not node.isFirstChild(True) and node.parent.type in ["block", "file"] and node.isComplex():
+            sep()
+
+
+
+    #####################################################################################################################
+    # Insert comments before
+    #####################################################################################################################
+
+    if pretty:
+        if node.getChild("commentsBefore", False) != None:
+            commentCounter = 0
+            commentsBefore = node.getChild("commentsBefore")
+            isFirst = node.isFirstChild()
+            previous = node.getPreviousSibling(False, True)
+
+            if previous and previous.type in ["case", "default"]:
+                inCase = True
+            else:
+                inCase = False
+
+            inOperation = node.parent.type in ["first", "second", "third"] and node.parent.parent.type == "operation"
+
+            for child in commentsBefore.children:
+                docComment = child.get("detail") in ["javadoc", "qtdoc"]
+                headComment = child.get("detail") == "header"
+                areaComment = child.get("detail") == "area"
+                divComment = child.get("detail") == "divider"
+                blockComment = child.get("detail") ==  "block"
+                singleLineBlock = child.get("detail") != "inline" and child.get("multiline") == False
+
+                if not child.isFirstChild():
+                    pass
+
+                elif inCase:
+                    pass
+
+                elif singleLineBlock:
+                    if child.get("begin"):
+                        sep()
+                    else:
+                        space()
+
+                elif areaComment and not isFirst:
+                    area()
+
+                elif divComment and not isFirst:
+                    divide()
+
+                elif not isFirst:
+                    if docComment:
+                        doc()
+                    else:
+                        sep()
+
+                elif inOperation:
+                    sep()
+
+                elif not headComment:
+                    line()
+
+                # reindenting first
+                text = child.get("text")
+
+                if child.get("detail") == "qtdoc":
+                    text = comment.qt2javadoc(text)
+
+                #write(comment.indent(text, INDENTSPACES * indent))
+                write(comment.indent(text, optns.prettypIndentString * indent))
+
+                if singleLineBlock:
+                    if docComment:
+                        line()
+                    elif child.get("end"):
+                        sep()
+                    else:
+                        space()
+
+                # separator after divider/head comments and after block comments which are not for documentation
+                elif headComment or areaComment or divComment or blockComment:
+                    sep()
+
+                else:
+                    line()
+
+    #####################################################################################################################
+    # Children content
+    #####################################################################################################################
+
+    dispatch = {
+        'accessor'    : ACCESSOR,
+        'array'       : ARRAY,
+        'assignment'  : ASSIGNMENT,
+        'block'       : BLOCK,
+        'break'       : BREAK,
+        'case'        : CASE,
+        'catch'       : CATCH,
+        'comment'     : COMMENT,
+        'constant'    : CONSTANT,
+        'continue'    : CONTINUE,
+        'default'     : DEFAULT,
+        'definition'  : DEFINITION,
+        'definitionList'  : DEFINITIONLIST,
+        'delete'      : DELETE,
+        'elseStatement'        : ELSE,
+        'expression'  : EXPRESSION,
+        'finally'     : FINALLY,
+        'first'       : FIRST,
+        'function'    : FUNCTION,
+        'group'       : GROUP,
+        'identifier'  : IDENTIFIER,
+        'key'         : KEY,
+        'keyvalue'    : KEYVALUE,
+        'left'        : LEFT,
+        'loop'        : LOOP,
+        'map'         : MAP,
+        'instantiation'         : NEW,
+        'OTHER'       : OTHER,
+        'params'      : PARAMS,
+        'return'      : RETURN,
+        'right'       : RIGHT,
+        'second'      : SECOND,
+        'statement'   : STATEMENT,
+        'switch'      : SWITCH,
+        'third'       : THIRD,
+        'throw'       : THROW,
+        'switch'         : TRY,
+        'void'        : VOID,
+    }
+
+    try:
+        (prae,post) = (dispatch[node.type])(node,optns,context)
+    except KeyError:
+        (prae,post) = OTHER(node,optns,context)
+    
+    childBlock = ""
+
+    if node.hasChildren() and (not node.type in ["commentsBefore", "commentsAfter"]):
+        for child in node.children:
+            childBlock += compileNode(child,optns,context)
+    
+    childBlock = indentBlock(childBlock)
+
+    result = prae + childBlock + post
+
+    return result
+
+
+#####################################################################################################################
+# Opening...
+#####################################################################################################################
+
+    #
+def FINALLY():
+    ##################################
+
+    if node.type == "finally":
+        write("finally")
+
+
+    #
+def DELETE():
+    ##################################
+
+    if node.type == "delete":
+        write("delete")
+        space()
+
+
+    #
+def THROW():
+    ##################################
+
+    if node.type == "throw":
+        write("throw")
+        space()
+
+
+    #
+def NEW():
+    ##################################
+
+    if node.type == "instantiation":
+        write("new")
+        space()
+
+
+    #
+def RETURN():
+    ##################################
+
+    if node.type == "return":
+        write("return")
+
+        if node.hasChildren():
+            space()
+
+
+    #
+def DEFINITIONLIST():
+    ##################################
+
+    if node.type == "definitionList":
+        write("var")
+        space()
+
+
+    #
+def BREAK():
+    ##################################
+
+    if node.type == "break":
+        write("break")
+
+        if node.get("label", False):
+            space()
+            write(node.get("label", False))
+
+
+    #
+def CONTINUE():
+    ##################################
+
+    if node.type == "continue":
+        write("continue")
+
+        if node.get("label", False):
+            space()
+            write(node.get("label", False))
+
+
+    #
+def FUNCTION():
+    ##################################
+
+    if node.type == "function":
+        write("function")
+
+        functionName = node.get("name", False)
+        if functionName != None:
+            space()
+            write(functionName)
+    # CLOSE: FUNCTION
+    ##################################
+
+    if node.type == "function":
+        if pretty:
+            commentNode(node)
+
+            if not node.isLastChild() and node.hasParent() and node.parent.type in ["block", "file"]:
+                sep()
+
+
+
+    #
+def IDENTIFIER():
+    ##################################
+
+    if node.type == "identifier":
+        name = node.get("name", False)
+        if name != None:
+            write(name)
+    #
+    # CLOSE: IDENTIFIER
+    ##################################
+
+    if node.type == "identifier":
+        if node.hasParent() and node.parent.type == "variable" and not node.isLastChild(True):
+            write(".")
+        elif node.hasParent() and node.parent.type == "label":
+            write(":")
+
+
+
+
+    #
+def DEFINITION():
+    ##################################
+
+    if node.type == "definition":
+        if node.parent.type != "definitionList":
+            write("var")
+            space()
+
+        write(node.get("identifier"))
+    #
+    # CLOSE: DEFINITION
+    ##################################
+
+    if node.type == "definition":
+        if node.hasParent() and node.parent.type == "definitionList" and not node.isLastChild(True):
+            write(",")
+
+            if pretty:
+                commentNode(node)
+
+                if node.hasComplexChildren():
+                    line()
+                else:
+                    space()
+
+
+
+
+    #
+def CONSTANT():
+    ##################################
+
+    if node.type == "constant":
+        if node.get("constantType") == "string":
+            if node.get("detail") == "singlequotes":
+                write("'")
+            else:
+                write('"')
+
+            write(node.get("value"))
+
+            if node.get("detail") == "singlequotes":
+                write("'")
+            else:
+                write('"')
+
+        else:
+            write(node.get("value"))
+
+
+    #
+def COMMENT():
+    ##################################
+
+    if node.type == "comment":
+        if pretty:
+            commentText = node.get("text")
+            # insert a space before and no newline in the case of after comments
+            if node.get("connection") == "after":
+                noline()
+                if optns.prettypCommentsInlinePadding:
+                    commentText.strip()
+                    commentText = optns.prettypCommentsInlinePadding + commentText
+                else:
+                    space()
+                ##space()
+
+            ##write(node.get("text"))
+            write(commentText)
+
+            # new line after inline comment (for example for syntactical reasons)
+            #if (node.get("detail") == "inline") or (node.get("multiline") == False):
+            if (node.get("detail") == "inline") or (node.get("end") == True):
+                line()
+            else:
+                space()
+
+
+    #
+def RIGHT():
+    ##################################
+
+    if node.type == "right":
+        if node.parent.type == "accessor":
+            write(".")
+
+
+
+
+
+
+    #
+def ASSIGNMENT():
+    ##################################
+
+    if node.type == "assignment":
+        if node.parent.type == "definition":
+            oper = node.get("operator", False)
+
+            # be compact in for-loops
+            compact = inForLoop(node)
+            compileToken(oper, compact)
+
+
+
+
+
+    #
+def KEY():
+    ##################################
+
+    if node.type == "key":
+        if node.parent.type == "accessor":
+            write("[")
+    ##################################
+
+    if node.type == "key":
+        if node.hasParent() and node.parent.type == "accessor":
+            write("]")
+
+
+    #
+def GROUP():
+    ##################################
+
+    if node.type == "group":
+        write("(")
+    #
+    # CLOSE: GROUP
+    ##################################
+
+    elif node.type == "group":
+        if node.getChildrenLength(True) == 1:
+            noline()
+
+        write(")")
+
+
+
+
+    #
+def VOID():
+    ##################################
+
+    if node.type == "void":
+        write("void")
+        write("(")
+    #
+    # CLOSE: VOID
+    ##################################
+
+    elif node.type == "void":
+        if node.getChildrenLength(True) == 1:
+            noline()
+
+        write(")")
+
+
+
+
+    #
+def ARRAY():
+    ##################################
+
+    if node.type == "array":
+        write("[")
+
+        if node.hasChildren(True):
+            space(False)
+    #
+    # CLOSE: ARRAY
+    ##################################
+
+    elif node.type == "array":
+        if node.hasChildren(True):
+            space(False)
+
+        write("]")
+
+
+
+
+    #
+def PARAMS():
+    ##################################
+
+    if node.type == "params":
+        noline()
+        write("(")
+    #
+    # CLOSE: PARAMS
+    ##################################
+
+    elif node.type == "params":
+        write(")")
+
+
+
+    #
+def CASE():
+    ##################################
+
+    if node.type == "case":
+        if pretty:
+            # force double new lines
+            if not node.isFirstChild() and not node.getPreviousSibling(True).type == "case":
+                sep()
+
+            minus()
+            line()
+
+        write("case")
+        space()
+    #
+    # CLOSE: CASE
+    ##################################
+
+    elif node.type == "case":
+        write(":")
+
+        if pretty:
+            commentNode(node)
+            plus()
+            line()
+
+    #
+def DEFAULT():
+    ##################################
+
+    if node.type == "default":
+        if pretty:
+            minus()
+
+            # force double new lines
+            if not node.getPreviousSibling(True).type == "case":
+                sep()
+
+        write("default")
+        write(":")
+
+        if pretty:
+            plus()
+            line()
+
+    #
+def TRY():
+    ##################################
+
+    if node.type == "switch":
+        # Additional new line before each switch/try
+        if not node.isFirstChild(True) and not node.getChild("commentsBefore", False):
+            prev = node.getPreviousSibling(False, True)
+
+            # No separation after case statements
+            if prev != None and prev.type in ["case", "default"]:
+                pass
+            else:
+                sep()
+
+        if node.get("switchType") == "catch":
+            write("try")
+        elif node.get("switchType") == "case":
+            write("switch")
+
+
+    #
+def CATCH():
+    ##################################
+
+    if node.type == "catch":
+        if pretty:
+            # If this statement block or the previous try were not complex, be not complex here, too
+            if not node.getChild("statement").getChild("block").isComplex() and not node.parent.getChild("statement").getChild("block").isComplex():
+                noline()
+                space()
+
+        write("catch")
+
+
+
+
+
+
+
+    #
+def MAP():
+    ##################################
+
+    if node.type == "map":
+        par = node.parent
+
+        if pretty:
+            postProcessMap(node)
+
+        if pretty:
+            # No break before return statement
+            if node.hasParent() and node.parent.type == "expression" and node.parent.parent.type == "return":
+                pass
+
+            elif node.isComplex() or optns.prettypOpenCurlyNewlineBefore:
+                line()
+
+            if optns.prettypOpenCurlyIndentBefore:
+                plus()
+
+        write("{")
+
+        if pretty:
+            if node.isComplex():
+                line()
+                plus()
+
+            elif node.hasChildren(True):
+                space()
+    #
+    # CLOSE: MAP
+    ##################################
+
+    elif node.type == "map":
+        if pretty:
+            if node.isComplex():
+                line()
+                minus()
+
+            elif node.hasChildren(True):
+                space()
+
+        write("}")
+
+        if pretty:
+                if optns.prettypOpenCurlyIndentBefore:
+                    minus()
+
+
+
+
+
+
+    #
+def KEYVALUE():
+    ##################################
+
+    if node.type == "keyvalue":
+        keyString = node.get("key")
+        keyQuote = node.get("quote", False)
+
+        if keyQuote != None:
+            # print "USE QUOTATION"
+            if keyQuote == "doublequotes":
+                keyString = '"' + keyString + '"'
+            else:
+                keyString = "'" + keyString + "'"
+
+        elif keyString in config.JSPROTECTED or not KEY.match(keyString):
+            print "Warning: Auto protect key: %s" % keyString
+            keyString = "\"" + keyString + "\""
+
+        if pretty and not node.isFirstChild(True) and not node.hasChild("commentsBefore") and node.getChild("value").isComplex():
+            sep()
+
+        write(keyString)
+        space(False)
+
+        # Fill with spaces
+        # Do this only if the parent is complex (many entries)
+        # But not if the value itself is complex
+        if pretty and node.parent.isComplex() and node.parent.get("alignValues"):
+            write(" " * (node.parent.get("maxKeyLength") - len(keyString)))
+
+        write(":")
+        space(False)
+    #
+    # CLOSE: KEYVALUE
+    ##################################
+
+    elif node.type == "keyvalue":
+        if node.hasParent() and node.parent.type == "map" and not node.isLastChild(True):
+            noline()
+            write(",")
+
+            if pretty:
+                commentNode(node)
+
+                if node.getChild("value").isComplex():
+                    sep()
+                elif node.parent.isComplex():
+                    line()
+                else:
+                    space()
+
+    #
+def BLOCK():
+    ##################################
+
+    if node.type == "block":
+        if pretty:
+            if node.isComplex() or optns.prettypOpenCurlyNewlineBefore:
+                line()
+            else:
+                space()
+
+            if optns.prettypOpenCurlyIndentBefore:
+                plus()
+
+        write("{")
+
+        if pretty:
+            if node.hasChildren():
+                plus()
+                line()
+    #
+    # CLOSE: BLOCK
+    ##################################
+
+    elif node.type == "block":
+        if pretty and node.hasChildren():
+            minus()
+            line()
+
+        write("}")
+
+        if pretty:
+            commentNode(node)
+
+            if node.hasChildren():
+                # Newline afterwards
+                if node.parent.type == "body" and node.parent.parent.type == "function":
+
+                    # But only when this isn't a function block inside a assignment
+                    if node.parent.parent.parent.type in ["right", "params"]:
+                        pass
+
+                    elif node.parent.parent.parent.type == "value" and node.parent.parent.parent.parent.type == "keyvalue":
+                        pass
+
+                    else:
+                        line()
+
+                else:
+                    line()
+
+            if optns.prettypOpenCurlyIndentBefore:
+                minus()
+
+
+
+
+    #
+def LOOP():
+    ##################################
+
+    if node.type == "loop":
+        # Additional new line before each loop
+        if not node.isFirstChild(True) and not node.getChild("commentsBefore", False):
+            prev = node.getPreviousSibling(False, True)
+
+            # No separation after case statements
+            if prev != None and prev.type in ["case", "default"]:
+                pass
+            elif node.hasChild("elseStatement") or node.getChild("statement").hasBlockChildren():
+                sep()
+            else:
+                line()
+
+        loopType = node.get("loopType")
+
+        if loopType == "IF":
+            write("if")
+            space(False)
+
+        elif loopType == "WHILE":
+            write("while")
+            space(False)
+
+        elif loopType == "FOR":
+            write("for")
+            space(False)
+
+        elif loopType == "DO":
+            write("do")
+            space(False)
+
+        elif loopType == "WITH":
+            write("with")
+            space(False)
+
+        else:
+            print "Warning: Unknown loop type: %s" % loopType
+    #
+    # CLOSE: LOOP
+    ##################################
+
+    elif node.type == "loop":
+        if node.get("loopType") == "DO":
+            semicolon()
+
+        if pretty:
+            commentNode(node)
+
+            # Force a additinal line feed after each loop
+            if not node.isLastChild():
+                if node.hasChild("elseStatement"):
+                    sep()
+                elif node.getChild("statement").hasBlockChildren():
+                    sep()
+                else:
+                    line()
+
+    #
+def ELSE():
+    ##################################
+
+    if node.type == "elseStatement":
+        if node.hasChild("commentsBefore"):
+            pass
+
+        elif pretty:
+            if not node.hasChild("block") and not node.hasChild("loop"):
+                pass
+
+            elif not node.isComplex():
+                noline()
+                space()
+
+        write("else")
+
+        # This is a elseStatement without a block around (a set of {})
+        if not node.hasChild("block"):
+            space()
+
+
+    #
+def EXPRESSION():
+    ##################################
+
+    if node.type == "expression":
+        if node.parent.type == "loop":
+            loopType = node.parent.get("loopType")
+
+            # only do-while loops
+            if loopType == "DO":
+                if pretty:
+                    stmnt = node.parent.getChild("statement")
+                    compact = stmnt.hasChild("block") and not stmnt.getChild("block").isComplex()
+
+                    if compact:
+                        noline()
+                        space()
+
+                write("while")
+
+                if pretty:
+                    space()
+
+            # open expression block of IF/WHILE/DO-WHILE/FOR statements
+            write("(")
+
+        elif node.parent.type == "catch":
+            # open expression block of CATCH statement
+            write("(")
+
+        elif node.parent.type == "switch" and node.parent.get("switchType") == "case":
+            # open expression block of SWITCH statement
+            write("(")
+    #
+    # CLOSE: EXPRESSION
+    ##################################
+
+    elif node.type == "expression":
+        if node.parent.type == "loop":
+            write(")")
+
+            # e.g. a if-construct without a block {}
+            if node.parent.getChild("statement").hasChild("block"):
+                pass
+        
+            elif node.parent.getChild("statement").hasChild("emptyStatement"):
+                pass    
+
+            elif node.parent.type == "loop" and node.parent.get("loopType") == "DO":
+                pass
+
+            else:
+                space(False)
+
+        elif node.parent.type == "catch":
+            write(")")
+
+        elif node.parent.type == "switch" and node.parent.get("switchType") == "case":
+            write(")")
+
+            if pretty:
+                commentNode(node)
+                line()
+                if optns.prettypOpenCurlyIndentBefore:
+                    plus()
+
+
+            write("{")
+
+            if pretty:
+                plus()
+                plus()
+
+
+
+
+    #
+def FIRST():
+    ##################################
+
+    if node.type == "first":
+        # for loop
+        if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
+            write("(")
+
+        # operation
+        elif node.parent.type == "operation":
+            # operation (var a = -1)
+            if node.parent.get("left", False) == True:
+                compileToken(node.parent.get("operator"), True)
+    #
+    # CLOSE: FIRST
+    ##################################
+
+    elif node.type == "first":
+        # for loop
+        if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
+            if node.parent.get("forVariant") == "iter":
+                write(";")
+
+                if node.parent.hasChild("second"):
+                    space(False)
+
+        # operation
+        elif node.parent.type == "operation" and node.parent.get("left", False) != True:
+            oper = node.parent.get("operator")
+
+            # be compact in for loops
+            compact = inForLoop(node)
+            compileToken(oper, compact)
+
+    #
+def SECOND():
+    ##################################
+
+    if node.type == "second":
+        # for loop
+        if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
+            if not node.parent.hasChild("first"):
+                write("(;")
+
+        # operation
+        elif node.parent.type == "operation":
+            if node.isComplex():
+                # (?: hook operation)
+                if node.parent.get("operator") == "HOOK":
+                    sep()
+                else:
+                    line()
+    #
+    # CLOSE: SECOND
+    ##################################
+
+    elif node.type == "second":
+        # for loop
+        if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
+            write(";")
+
+            if node.parent.hasChild("third"):
+                space(False)
+
+        # operation
+        elif node.parent.type == "operation":
+            # (?: hook operation)
+            if node.parent.get("operator") == "HOOK":
+                noline()
+                space(False)
+                write(":")
+                space(False)
+
+
+    #
+def THIRD():
+    ##################################
+
+    if node.type == "third":
+        # for loop
+        if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
+            if not node.parent.hasChild("second"):
+                if node.parent.hasChild("first"):
+                    write(";")
+                    space(False)
+                else:
+                    write("(;;")
+
+        # operation
+        elif node.parent.type == "operation":
+            # (?: hook operation)
+            if node.parent.get("operator") == "HOOK":
+                if node.isComplex():
+                    sep()
+
+
+    #
+def STATEMENT():
+    ##################################
+
+    if node.type == "statement":
+        # for loop
+        if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
+            if node.parent.get("forVariant") == "iter":
+                if not node.parent.hasChild("first") and not node.parent.hasChild("second") and not node.parent.hasChild("third"):
+                    write("(;;");
+
+                elif not node.parent.hasChild("second") and not node.parent.hasChild("third"):
+                    write(";")
+
+            write(")")
+
+            if not node.hasChild("block"):
+                space(False)
+
+
+
+    #####################################################################################################################
+    # Closing node
+    #####################################################################################################################
+
+    #
+def ACCESSOR():
+    ##################################
+
+    if node.type == "accessor":
+        if node.hasParent() and node.parent.type == "variable" and not node.isLastChild(True):
+            write(".")
+
+
+    #
+def LEFT():
+    ##################################
+
+    if node.type == "left":
+        if node.hasParent() and node.parent.type == "assignment":
+            oper = node.parent.get("operator", False)
+
+            # be compact in for-loops
+            compact = inForLoop(node)
+            compileToken(oper, compact)
+
+
+
+
+
+
+    #
+
+
+    #
+def SWITCH():
+    ##################################
+
+    if node.type == "switch":
+        if node.get("switchType") == "case":
+            if pretty:
+                minus()
+                minus()
+                line()
+
+            write("}")
+
+            if pretty:
+                commentNode(node)
+                line()
+                if optns.prettypOpenCurlyIndentBefore:
+                    minus()
+
+        # Force a additinal line feed after each switch/try
+        if pretty and not node.isLastChild():
+            sep()
+
+
+    #
+def OTHER():
+    ##################################
+
+    if node.hasParent() and not node.type in ["comment", "commentsBefore", "commentsAfter"]:
+
+        # Add comma dividers between statements in these parents
+        if node.parent.type in ["array", "params", "statementList"]:
+            if not node.isLastChild(True):
+                write(",")
+
+                if pretty:
+                    commentNode(node)
+
+                    if node.isComplex():
+                        line()
+                    else:
+                        space()
+
+        # Semicolon handling
+        elif node.type in ["group", "block", "assignment", "call", "operation", "definitionList", "return", "break", "continue", "delete", "accessor", "instantiation", "throw", "variable", "emptyStatement"]:
+
+            # Default semicolon handling
+            if node.parent.type in ["block", "file"]:
+                semicolon()
+
+                if pretty:
+                    commentNode(node)
+                    line()
+
+                    if node.isComplex() and not node.isLastChild():
+                        sep()
+
+            # Special handling for switch statements
+            elif node.parent.type == "statement" and node.parent.parent.type == "switch" and node.parent.parent.get("switchType") == "case":
+                semicolon()
+
+                if pretty:
+                    commentNode(node)
+                    line()
+
+                    if node.isComplex() and not node.isLastChild():
+                        sep()
+
+            # Special handling for loops (e.g. if) without blocks {}
+            elif (
+                node.parent.type in ["statement", "elseStatement"] and
+                not node.parent.hasChild("block") and
+                node.parent.parent.type == "loop"
+            ):
+                semicolon()
+
+                if pretty:
+                    commentNode(node)
+                    line()
+
+                    if node.isComplex() and not node.isLastChild():
+                        sep()
+
+
+    #
+    # CLOSE: OTHER
+    ##################################
+
+    if pretty:
+        # Rest of the after comments (not inserted previously)
+        commentNode(node)
+
+
+
+
+
+
+
+
+
+
+
+def main():
+    global options
+
+    parser = optparse.OptionParser()
+
+    parser.add_option("-w", "--write", action="store_true", dest="write", default=False, help="Writes file to incoming fileName + EXTENSION.")
+    parser.add_option("-e", "--extension", dest="extension", metavar="EXTENSION", help="The EXTENSION to use", default="")
+    parser.add_option("-c", "--compress", action="store_true", dest="compress", help="Enable compression", default=False)
+    parser.add_option("--optimize-variables", action="store_true", dest="optimizeVariables", default=False, help="Optimize variables. Reducing size.")
+    parser.add_option("--encoding", dest="encoding", default="utf-8", metavar="ENCODING", help="Defines the encoding expected for input files.")
+    # Options for pretty printing
+    parser.add_option("--pretty-print-indent-string", dest="prettypIndentString", default="  ", help="String used for indenting source code; escapes possible (e.g. \"\\t\"; default: \"  \")")
+    parser.add_option("--pretty-print-newline-before-open-curly", action="store_true", dest="prettypOpenCurlyNewlineBefore", default=False, help="Force \"{\" to be on a new line (default: False)")
+    parser.add_option("--pretty-print-indent-before-open-curly", action="store_true", dest="prettypOpenCurlyIndentBefore", default=False, help="Indent \"{\" (default: False)")
+    parser.add_option("--pretty-print-inline-comment-padding", dest="prettypCommentsInlinePadding", default="  ", help="String used between the end of a statement and a trailing inline comment (default: \"  \")")
+
+
+    (options, args) = parser.parse_args()
+
+    if len(args) == 0:
+        print "Needs one or more arguments (files) to compile!"
+        sys.exit(1)
+
+    for fileName in args:
+        if options.write:
+            print "Compiling %s => %s%s" % (fileName, fileName, options.extension)
+        else:
+            print "Compiling %s => stdout" % fileName
+
+        restree = treegenerator.createSyntaxTree(tokenizer.parseFile(fileName, "", options.encoding))
+
+        if options.optimizeVariables:
+            variableoptimizer.search(restree, [], 0, 0, "$")
+
+        if options.compress:
+            options.prettyPrint = False  # make sure it's set
+        else:
+            options.prettyPrint = True
+        compiledString = compile(restree, options)
+        if options.write:
+            if compiledString != "" and not compiledString.endswith("\n"):
+                compiledString += "\n"
+
+            filetool.save(fileName + options.extension, compiledString)
+
+        else:
+            try:
+                print compiledString
+
+            except UnicodeEncodeError:
+                print "  * Could not encode result to ascii. Use '-w' instead."
+                sys.exit(1)
+
+
+
+if __name__ == '__main__':
+    try:
+        main()
+
+    except KeyboardInterrupt:
+        print
+        print "  * Keyboard Interrupt"
+        sys.exit(1)
