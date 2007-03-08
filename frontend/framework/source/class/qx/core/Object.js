@@ -90,30 +90,28 @@ qx.Class.define("qx.core.Object",
   {
     attachProperties : function(clazz)
     {
-      var properties = clazz.$$properties;
-      var config;
+      var config, properties;
 
-      if (properties)
+      while(clazz && !clazz.__propertiesCreated)
       {
-        for (var name in properties)
+        properties = clazz.$$properties;
+
+        if (properties)
         {
-          config = properties[name];
-
-          // Filter old properties and groups
-          if (!config._legacy && !config._fast && !config._cached && !config.group)
+          for (var name in properties)
           {
-            console.log("Create initial wrapper methods for property: " + name + " for class: " + clazz.classname);
+            config = properties[name];
 
-
+            // Filter old properties and groups
+            if (!config._legacy && !config._fast && !config._cached) {
+              qx.core.Property.attachPropertyMethods(clazz, config);
+            }
           }
         }
-      }
 
-      if (clazz.superclass && !clazz.superclass.__propertiesCreated) {
-        this.attachProperties(clazz.superclass);
+        clazz.__propertiesCreated = true;
+        clazz = clazz.superclass;
       }
-
-      clazz.__propertiesCreated = true;
     },
 
 
