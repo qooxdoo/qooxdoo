@@ -424,11 +424,13 @@ qx.Class.define("qx.renderer.color.Color",
 
     /**
      * @signature function()
+     * @deprecated
      */
     add : qx.lang.Function.returnTrue,
 
     /**
      * @signature function()
+     * @deprecated
      */
     remove : qx.lang.Function.returnTrue,
 
