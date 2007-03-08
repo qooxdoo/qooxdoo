@@ -272,7 +272,7 @@ def patch(id, node):
 
                         if prev.type == "identifier":
                             if prev.get("name") in ["Class", "Mixin", "Interface", "Theme", "Locale"]:
-                                logging.info("      - Class is already up-to-date.")
+                                logging.debug("      - Class is already up-to-date.")
                                 return False
 
                             elif prev.get("name") == "Setting":

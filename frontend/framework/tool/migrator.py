@@ -26,6 +26,9 @@ import shutil
 import logging
 import optparse
 
+# reconfigure path to import own modules from modules subfolder
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "modules"))
+
 import config
 import loader
 import filetool
@@ -35,6 +38,21 @@ import tokenizer
 import optparseext
 import treegenerator
 
+
+
+LOGFILE = "migration.log"
+
+MIGRATION_ORDER = [
+    "0.5.2",
+    "0.6",
+    "0.6.1",
+    "0.6.2",
+    "0.6.3",
+    "0.6.4",
+    "0.6.5",
+    "0.6.6",
+    "0.7"
+]
 
 
 LOGGING_READY = False
@@ -56,21 +74,7 @@ def setupLogging(verbose=False):
     logging.getLogger().addHandler(console)
     logging.getLogger().setLevel(logging.NOTSET)
     LOGGING_READY = True
-
-
-LOGFILE = "migration.log"
-
-MIGRATION_ORDER = [
-    "0.5.2",
-    "0.6",
-    "0.6.1",
-    "0.6.2",
-    "0.6.3",
-    "0.6.4",
-    "0.6.5",
-    "0.6.6",
-    "0.7"
-]
+        
         
 
 def entryCompiler(line):
@@ -93,41 +97,6 @@ def entryCompiler(line):
     repl = repl.replace("----EQUAL----", "=")
 
     return {"expr":re.compile(orig), "orig":orig, "repl":repl}
-
-
-
-
-def regtool(content, regs, patch):
-    for patchEntry in regs:
-        matches = patchEntry["expr"].findall(content)
-        itercontent = content
-        line = 1
-
-        for fragment in matches:
-
-            # Replacing
-            if patch:
-                content = patchEntry["expr"].sub(patchEntry["repl"], content, 1)
-                # Debug
-                logging.debug("      - Replacing pattern '%s' to '%s'" % (patchEntry["orig"],
-                                                                   patchEntry["repl"]))
-            else:
-                # Search for first match position
-                pos = itercontent.find(fragment)
-                pos = patchEntry["expr"].search(itercontent).start()
-        
-                # Update current line
-                line += len((itercontent[:pos] + fragment).split("\n")) - 1
-        
-                # Removing leading part til matching part
-                itercontent = itercontent[pos+len(fragment):]
-        
-                # Debug
-                logging.debug("      - Matches %s in %s" % (patchEntry["orig"], line))
-                logging.info("      - Line %s: %s" % (line, patchEntry["repl"]))
-
-    return content 
-
 
 
 
@@ -155,15 +124,14 @@ def getHtmlList(migrationInput):
     return htmlList
 
 
+
 def getPatchDirectory():
     """
     Returns the directory where the patches are located
     """
-    basePath = os.path.dirname(os.path.abspath(sys.argv[0]))
-    if os.path.basename(sys.argv[0]) == "migrator.py":
-        (basePath, tail) = os.path.split(basePath)
-        
+    basePath = os.path.dirname(os.path.abspath(sys.argv[0]))       
     return os.path.join(basePath, "migration")
+
 
 
 def getNeededUpdates(baseVersion):
@@ -173,8 +141,10 @@ def getNeededUpdates(baseVersion):
     return MIGRATION_ORDER[MIGRATION_ORDER.index(getNormalizedVersion(baseVersion))+1:]
 
 
+
 def getNormalizedVersion(version):
     return version.split("-")[0].strip()
+
 
 
 def isValidVersion(version):
@@ -183,6 +153,7 @@ def isValidVersion(version):
     except ValueError:
         return False
     return True
+
 
 
 def getPatchModulePath(version):
@@ -210,6 +181,7 @@ def getPatchModulePath(version):
                 return os.path.join(root, fileName)
     return None
                 
+  
                   
 def readPatchInfoFiles(baseDir):
     """
@@ -253,18 +225,51 @@ def readPatchInfoFiles(baseDir):
     return compiledPatches
 
 
+
+def regtool(content, regs, patch, filePath):
+    for patchEntry in regs:
+        matches = patchEntry["expr"].findall(content)
+        itercontent = content
+        line = 1
+
+        for fragment in matches:
+
+            # Replacing
+            if patch:
+                content = patchEntry["expr"].sub(patchEntry["repl"], content, 1)
+                # Debug
+                logging.debug("    - %s:%s Replacing pattern '%s' to '%s'" % (
+                    filePath, line, patchEntry["orig"], patchEntry["repl"])
+                )
+            else:
+                # Search for first match position
+                pos = itercontent.find(fragment)
+                pos = patchEntry["expr"].search(itercontent).start()
+        
+                # Update current line
+                line += len((itercontent[:pos] + fragment).split("\n")) - 1
+        
+                # Removing leading part til matching part
+                itercontent = itercontent[pos+len(fragment):]
+        
+                # Debug
+                logging.debug("   - %s:%s: Matches %s in" % (filePath, line, patchEntry["orig"]))
+                logging.info("    - %s:%s: %s" % (filePath, line, patchEntry["repl"]))
+
+    return content 
+
+
+
 def migrateFile(
                 filePath, compiledPatches, compiledInfos,
                 hasPatchModule=False, options=None, encoding="UTF-8"):
-    
-    logging.info("    - Processing file %s" % filePath)
     
     # Read in original content
     fileContent = filetool.read(filePath, encoding)
     
     # apply RE patches
-    patchedContent = regtool(fileContent, compiledPatches, True)
-    patchedContent = regtool(patchedContent, compiledInfos, False)
+    patchedContent = regtool(fileContent, compiledPatches, True, filePath)
+    patchedContent = regtool(patchedContent, compiledInfos, False, filePath)
             
     # Apply patches
     if hasPatchModule:
@@ -279,9 +284,10 @@ def migrateFile(
 
     # Write file
     if patchedContent != fileContent:
-        logging.info("      - Store modifications...")
+        logging.info("    - %s has been modified. Storing modifications ..." % filePath)
         filetool.save(filePath, patchedContent, encoding)    
              
+
 
 def handle(fileList, options, migrationTarget,
            encoding="UTF-8", migrationInput=None, verbose=False):
@@ -293,12 +299,12 @@ def handle(fileList, options, migrationTarget,
   
     htmlList = getHtmlList(migrationInput)
 
-    logging.info("  * Number of script input files: %s" % len(fileList))
-    logging.info("  * Number of HTML input files: %s" % len(htmlList))
-    logging.info("  * Update to version: %s" % migrationTarget)
+    logging.debug("  * Number of script input files: %s" % len(fileList))
+    logging.debug("  * Number of HTML input files: %s" % len(htmlList))
+    logging.debug("  * Update to version: %s" % migrationTarget)
 
 
-    logging.info("  * Searching for patch module...")
+    logging.debug("  * Searching for patch module...")
     importedModule = False
     patchFile = getPatchModulePath(migrationTarget)
     if patchFile is not None:
@@ -310,20 +316,20 @@ def handle(fileList, options, migrationTarget,
 
     confPath = os.path.join(getPatchDirectory(), migrationTarget)
 
-    logging.info("  * Searching for info expression data...")
+    logging.debug("  * Searching for info expression data...")
     compiledInfos = readPatchInfoFiles(os.path.join(confPath, "info"))
-    logging.info("    - Number of infos: %s" % len(compiledInfos))
+    logging.debug("    - Number of infos: %s" % len(compiledInfos))
 
 
-    logging.info("  * Searching for patch expression data...")
+    logging.debug("  * Searching for patch expression data...")
     compiledPatches = readPatchInfoFiles(os.path.join(confPath, "patches"))
-    logging.info("    - Number of patches: %s" % len(compiledPatches))
+    logging.debug("    - Number of patches: %s" % len(compiledPatches))
 
 
 
-    logging.info("")
-    logging.info("  FILE PROCESSING:")
-    logging.info("----------------------------------------------------------------------------")
+    logging.debug("")
+    logging.debug("  FILE PROCESSING:")
+    logging.debug("----------------------------------------------------------------------------")
 
     if len(fileList) > 0:
         logging.info("  * Processing script files:")
@@ -342,6 +348,7 @@ def handle(fileList, options, migrationTarget,
         logging.info("  * Done")
 
 
+
 def patchMakefile(makefilePath, newVersion, oldVersion):
     patchMakefileRe = re.compile("^(\s*QOOXDOO_VERSION\s*=\s*)%s" % oldVersion)
     patchProjectMk = re.compile("\bproject.mk\b")
@@ -358,6 +365,7 @@ def patchMakefile(makefilePath, newVersion, oldVersion):
     inFile.close()
     shutil.move(makefilePath + ".tmp", makefilePath)
     
+
 
 def migrateSingleFile(fileName, options, neededUpdates):
     
@@ -385,6 +393,7 @@ ERROR: The file '%s' could not be found.
             print line,
         #restore file
         shutil.copyfile(fileName + ".migration.bak", fileName)
+ 
     
 
 def main():
@@ -392,31 +401,34 @@ def main():
     parser = optparse.OptionParser(
         "usage: %prog [options]",
         option_class=optparseext.ExtendAction
-   )
+    )
 
-    parser.add_option(
+    migrator_options = optparse.OptionGroup(parser, "Migrator Options")    
+    migrator_options.add_option(
           "-m", "--from-makefile",
           dest="makefile", metavar="MAKEFILE",
           help="Makefile of the skeleton project to migrate (optional)"
     )
-    parser.add_option(
+    migrator_options.add_option(
           "--from-version", dest="from_version",
           metavar="VERSION", default="",
           help="qooxdoo version used for the project e.g. '0.6.3'"
     )
-    parser.add_option(
+    migrator_options.add_option(
           "-i", "--input",
           dest="file", metavar="FILE.js",
           help="Migrate just one JavaScript file. Writes the generated file to STDOUT."
     )
     
-    # options from generator.py
-    parser.add_option(
+    migrator_options.add_option(
           "--class-path",
           action="extend", dest="classPath",
           metavar="DIRECTORY", type="string", default=[],
           help="Define a class path."
     )
+    parser.add_option_group(migrator_options)
+    
+    # options from generator.py
     parser.add_option(
           "-v", "--verbose",
           action="store_true", dest="verbose", default=False,
@@ -426,11 +438,14 @@ def main():
           "--class-encoding",
           action="extend", dest="classEncoding",
           metavar="ENCODING", type="string", default=[],
-          help="Define the encoding for a class path."
+          help="Encoding of the files to migrate."
     )    
 
     # Options for pretty printing
-    compiler.addCommandLineOptions(parser)
+    pp_options = optparse.OptionGroup(parser,"Pretty printer options")
+    compiler.addCommandLineOptions(pp_options)
+    parser.add_option_group(pp_options)
+    
     (options, args) = parser.parse_args()
     
     if options.from_version == "":
