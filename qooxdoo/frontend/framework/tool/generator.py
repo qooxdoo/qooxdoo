@@ -118,12 +118,7 @@ def getparser():
     parser.add_option("--log-level", dest="logLevel", type="string", default="all", help="Define the log level like in qx.log.Logger.")
 
     # Options for pretty printing
-    parser.add_option("--pretty-print-indent-string", dest="prettypIndentString", default="  ", help="String used for indenting source code; escapes possible (e.g. \"\\t\"; default: \"  \")")
-    parser.add_option("--pretty-print-newline-before-open-curly", dest="prettypOpenCurlyNewlineBefore", 
-                      type="choice", choices=('a','A','n','N','m','M'), metavar="[aAnNmM]", default="m",
-                      help="Defines whether \"{\" will always [aA] or never [nN] be on a new line; the default is mixed [mM] behaviour according to complexity of the enclosed block")
-    parser.add_option("--pretty-print-indent-before-open-curly", action="store_true", dest="prettypOpenCurlyIndentBefore", default=False, help="Indent \"{\" (default: False)")
-    parser.add_option("--pretty-print-inline-comment-padding", dest="prettypCommentsInlinePadding", default="  ", help="String used between the end of a statement and a trailing inline comment (default: \"  \")")
+    compiler.addCommandLineOptions(parser)
 
     # Options for resource copying
     parser.add_option("--enable-resource-filter", action="store_true", dest="enableResourceFilter", default=False, help="Enable filtering of resource files used by classes (based on #embed).")
@@ -461,9 +456,9 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
         print "  * Migrate Source Code..."
 
-        if not options.prettyPrint:
-            options.prettyPrint = True  # make sure it's set
-        migrator.handle(sortedIncludeList, fileDb, options)
+        fileList = map(lambda x: fileDb[x]["path"], fileDb.keys())
+        migrator.handle(fileList, options, options.migrationTarget,
+                        options.encoding, options.migrationInput, options.verbose)
 
         # Return after migration: Ignore other jobs
         return

@@ -36,6 +36,7 @@ all: source build api
 
 locales: exec-localization exec-translation
 
+migration: exec-migration
 pretty: info-pretty exec-pretty
 fix: info-fix exec-fix
 
