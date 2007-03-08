@@ -16,7 +16,7 @@ qx.Class.define("qx.test.Animal",
 
   properties :
   {
-    width : { init : 100 },
+    width : { init : 100, appearance : true },
     height : { init : 30 },
     _boxWidth : { },
     _boxHeight: { },
