@@ -75,6 +75,7 @@ qx.Class.define("apiviewer.ClassViewer",
       "undefined" : true,
       "arguments" : true,
       "null"      : true,
+      "call"      : true,
       "Boolean"   : true,
       "String"    : true,
       "Float"     : true,
@@ -683,12 +684,15 @@ qx.Class.define("apiviewer.ClassViewer",
       }
 
       var classHtml = new qx.util.StringBuilder();
-      if (apiviewer.TreeUtil.getChild(classNode, superList)) {
+      
+      if (apiviewer.TreeUtil.getChild(classNode, superList)) 
+      {
         classHtml.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "Inheritance hierarchy:", ClassViewer.DIV_END);
         classHtml.add("<div style='line-height:15px'>");
         classHtml.add(generateTree([classNode], true).join("<br />\n"));
         classHtml.add("</div>");
       }
+      
       return classHtml.get();
     },
 
@@ -942,13 +946,14 @@ qx.Class.define("apiviewer.ClassViewer",
         {
           var interfaces = this._getAllInterfaces(this._currentClassDocNode);
           var parentNode = apiviewer.TreeUtil.getChild(this._currentClassDocNode, typeInfo.listName);
+          
           if (parentNode) {
             nodeArr = qx.lang.Array.copy(parentNode.children);
           } else {
             nodeArr = [];
           }
+          
           this._addNodesOfTypeFromMixins(this._currentClassDocNode, nodeType, nodeArr, fromClassHash);
-
         }
       }
 
@@ -1010,12 +1015,15 @@ qx.Class.define("apiviewer.ClassViewer",
             fromClassNode = this._currentClassDocNode;
           }
 
-          if (!node.attributes.requiredBy) {
+          if (!node.attributes.requiredBy) 
+          {
             var requiredBy = [];
+            
             for (var j=0; j<interfaces.length; j++) {
               if (this._checkInterface(interfaces[j], nodeType, node.attributes.name)) {
                 requiredBy.push(interfaces[j].attributes.fullName);
               }
+            
             }
             node.attributes.requiredBy = requiredBy.join(",");
           }
