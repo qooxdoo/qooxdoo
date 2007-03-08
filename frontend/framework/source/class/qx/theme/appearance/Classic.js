@@ -37,6 +37,10 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
   appearances :
   {
+    "empty" :
+    {
+    },
+
     /*
     ---------------------------------------------------------------------------
       CORE
@@ -105,7 +109,6 @@ qx.Theme.define("qx.theme.appearance.Classic",
       {
         return {
           font : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
-          wrap : false,
           color : states.disabled ? "graytext" : null
         };
       }
@@ -1051,6 +1054,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "treevirtual-focus-indicator" :
     {
+      extend : "empty"
     },
 
 

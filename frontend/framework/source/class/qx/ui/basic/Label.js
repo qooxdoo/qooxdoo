@@ -203,7 +203,7 @@ qx.Class.define("qx.ui.basic.Label",
     {
       _legacy      : true,
       type         : "boolean",
-      defaultValue : true
+      defaultValue : false
     }
   },
 
