@@ -1010,7 +1010,7 @@ def main():
         else:
             print "Generating tree of %s => stdout" % fileName
 
-        restree = createSyntaxTree(tokenizer.parseFile(fileName, "", options.encoding))
+        restree = createSyntaxTree(tokenizer.parseFile(fileName, fileName, options.encoding))
 
         if options.optimizeVariables:
             variableoptimizer.search(restree, [], 0, "$")

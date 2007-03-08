@@ -1531,7 +1531,7 @@ def main():
         if options.write:
             print "Compiling %s => %s%s" % (fileName, fileName, options.extension)
 
-        restree = treegenerator.createSyntaxTree(tokenizer.parseFile(fileName, "", options.encoding))
+        restree = treegenerator.createSyntaxTree(tokenizer.parseFile(fileName, fileName, options.encoding))
 
         if options.optimizeVariables:
             variableoptimizer.search(restree, [], 0, 0, "$")
