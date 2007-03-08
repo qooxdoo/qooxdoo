@@ -1,7 +1,6 @@
 qx.Class.define("qx.test.Animal",
 {
   type : "abstract",
-
   extend : qx.core.Target,
 
 
@@ -17,11 +16,10 @@ qx.Class.define("qx.test.Animal",
 
   properties :
   {
-    width : { },
-    height : { },
+    width : { defaultValue : 100 },
+    height : { defaultValue : 30 },
     _boxWidth : { },
     _boxHeight: { }
-
   },
 
   members :

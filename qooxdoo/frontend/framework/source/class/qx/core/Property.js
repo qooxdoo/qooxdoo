@@ -33,12 +33,7 @@ qx.Class.define("qx.core.Property",
     */
 
     /**
-     * Add new properties:
-     *
-     * In the default mode it generates a setter/getter pair for a named property.
-     *
-     * In the group mode it generates a single setter for multiple setters e.g.
-     * margin for marginLeft, -Right, -Top and -Bottom.
+     * Add property methods (used exclusively from qx.core.Object)
      *
      * @type static
      * @param config {Map} Configuration map
@@ -49,37 +44,39 @@ qx.Class.define("qx.core.Property",
     {
       var members = clazz.prototype;
       var name = config.name;
-      var prefix;
+      var namePrefix;
 
       if (name.indexOf("__") == 0)
       {
         access = "private";
-        prefix = "__";
-        name = name.substring(2);
+        namePrefix = "__";
+        propName = name.substring(2);
       }
       else if (name.indexOf("_") == 0)
       {
         access = "protected";
-        prefix = "_";
-        name = name.substring(1);
+        namePrefix = "_";
+        propName = name.substring(1);
       }
       else
       {
         access = "public";
-        prefix = "";
+        namePrefix = "";
+        propName = name;
       }
 
-      var func = qx.lang.String.toFirstUp(name);
+      var funcName = qx.lang.String.toFirstUp(propName);
 
+      // Complete property configuration
+      config.propName = propName;
+      config.funcName = funcName;
+      config.namePrefix = namePrefix;
+      config.access = access;
 
-
-
-
-
-
+      // Processing property groups
       if (config.group)
       {
-        console.log("Generating property group: " + name + " (" + access + ")");
+        console.debug("Generating property group: " + name + " (" + access + ")");
 
         var setter = new qx.util.StringBuilder;
 
@@ -95,21 +92,29 @@ qx.Class.define("qx.core.Property",
           setter.add("this.set", qx.lang.String.toFirstUp(a[i]), "(a[", i, "]);");
         }
 
-        members[prefix + "set" + func] = new Function(setter.toString());
+        members[namePrefix + "set" + funcName] = new Function(setter.toString());
       }
+
+      // Processing properties
       else
       {
-        console.log("Generating property wrappers: " + name + " (" + access + ")");
+        console.debug("Generating property wrappers: " + name + " (" + access + ")");
 
         var setter = new qx.util.StringBuilder;
         var getter = new qx.util.StringBuilder;
 
+        getter.add('return qx.core.Property.executeOptimizedGetter(this, ',
+          clazz.classname, ', "', name, '")');
+        setter.add('return qx.core.Property.executeOptimizedSetter(this, ',
+          clazz.classname, ', "', name, '", "set", newValue)');
 
+        /*
+        console.debug("GETTER: " + getter.toString());
+        console.debug("SETTER: " + setter.toString());
+        */
 
-
-
-        members[prefix + "get" + func] = new Function(getter.toString());
-        members[prefix + "set" + func] = new Function(setter.toString());
+        members[namePrefix + "get" + funcName] = new Function(getter.toString());
+        members[namePrefix + "set" + funcName] = new Function("newValue", setter.toString());
       }
     },
 
@@ -131,16 +136,17 @@ qx.Class.define("qx.core.Property",
      * TODOC
      *
      * @type static
-     * @param obj {var} TODOC
+     * @param clazz {var} TODOC
      * @param name {var} TODOC
      * @return {call} TODOC
      */
-    generateGetter : function(obj, name)
+    executeOptimizedGetter : function(instance, clazz, name)
     {
-      var config = obj._properties_ng[name];
-      var proto = config.proto;
+      console.debug("Finalize getter of " + name + " in class " + clazz.classname);
 
-      proto.debug("Creating real getter for " + name);
+
+
+      var config = clazz.$$properties[name];
 
       // Starting code generation
       var code = new qx.util.StringBuilder;
@@ -160,20 +166,18 @@ qx.Class.define("qx.core.Property",
       }
 
       // Including code for default value
-      code.add("return this._properties_ng.");
+      code.add("return this.$$properties.");
       code.add(name);
       code.add(".init");
 
       // Output generate code
-      // alert("Code:\n\n" + code);
-      // Generate new function from code
-      var vGetter = new Function("newValue", code.toString());
+      console.debug("GETTER: " + code.toString());
 
       // Overriding temporary setter
-      proto["get" + config.upname] = vGetter;
+      clazz.prototype[config.namePrefix + "get" + config.funcName] = new Function(code.toString());
 
       // Executing new setter
-      return obj["get" + config.upname]();
+      return instance[config.namePrefix + "get" + config.funcName]();
     },
 
 
@@ -181,18 +185,20 @@ qx.Class.define("qx.core.Property",
      * TODOC
      *
      * @type static
-     * @param obj {var} TODOC
+     * @param clazz {var} TODOC
      * @param mode {var} TODOC
      * @param name {var} TODOC
-     * @param vValue {var} TODOC
+     * @param value {var} TODOC
      * @return {call} TODOC
      */
-    generateSetter : function(obj, mode, name, vValue)
+    executeOptimizedSetter : function(instance, clazz, name, variant, value)
     {
-      var config = obj._properties_ng[name];
-      var proto = config.proto;
+      console.debug("Finalize setter of " + name + " in class " + clazz.classname);
 
-      proto.debug("Creating setter for " + mode + "/" + name);
+
+
+
+      var config = clazz.$$properties[name];
 
       // Starting code generation
       var code = new qx.util.StringBuilder;
@@ -200,7 +206,7 @@ qx.Class.define("qx.core.Property",
       // Debug output
       // code.add("this.debug('Property: " + name + ": ' + newValue);");
       // Validation and value compare should only be used in the real setter
-      if (mode === "set")
+      if (variant === "set")
       {
         // Read oldValue value
         code.add("var oldValue=this._user_values_ng.");
@@ -237,7 +243,7 @@ qx.Class.define("qx.core.Property",
         }
       }
 
-      if (mode === "toggle")
+      if (variant === "toggle")
       {
         // Toggle current value
         code.add("this._user_values_ng.");
@@ -255,30 +261,16 @@ qx.Class.define("qx.core.Property",
       }
 
       // TODO: Implement modifier()
-      // Add event dispatcher
-      if (mode === "set")
-      {
-        // Needs to be fired if
-        // * the value was configured (also null is OK) and was reconfigured now (no additional check)
-        // * the value was undefined and is configured now (compare real value with oldValue value first)
-        if (config.fire !== false && proto.createDispatchDataEvent)
-        {
-          code.add("this.createDispatchDataEvent('change");
-          code.add(config.upname);
-          code.add("', newValue, oldValue);");
-        }
-      }
+      // TODO: Implement event dispatch
 
       // Output generate code
-      // alert("Code:\n\n" + code);
-      // Generate new function from code
-      var setter = new Function("newValue", code.toString());
+      console.debug("SETTER: " + code);
 
       // Overriding temporary setter
-      proto[mode + config.upname] = setter;
+      clazz.prototype[config.namePrefix + variant + config.funcName] = new Function("newValue", code.toString());
 
       // Executing new setter
-      return obj[mode + config.upname](vValue);
+      return instance[config.namePrefix + variant + config.funcName](value);
     }
   }
 });
