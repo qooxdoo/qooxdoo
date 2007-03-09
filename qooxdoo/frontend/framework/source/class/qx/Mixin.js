@@ -30,6 +30,8 @@
  * Mixins are collections of code and variables, which can be merged into
  * other classes. They are similar to classes but don't support inheritence
  * and don't have a constructor.
+ * 
+ * To define a new mixin the {@link #define} method is used.
  */
 qx.Class.define("qx.Mixin",
 {
@@ -69,9 +71,16 @@ qx.Class.define("qx.Mixin",
      *   <table>
      *     <tr><th>Name</th><th>Type</th><th>Description</th></tr>
      *     <tr><th>include</th><td>Mixin[]</td><td>Array of mixins, which will be merged into the mixin.</td></tr>
-     *     <tr><th>statics</th><td>Map</td><td>Map of statics of the mixin.</td></tr>
+     *     <tr><th>statics</th><td>Map</td><td>
+     *         Map of statics of the mixin. The statics will not get copied into the target class. They remain
+     *         acceccible from the mixin. This is the same behaviour as statics in Interfaces ({@link qx.Interface#define}).
+     *     </td></tr>
      *     <tr><th>members</th><td>Map</td><td>Map of members of the mixin.</td></tr>
      *     <tr><th>properties</th><td>Map</td><td>Map of property definitions. Format of the map: TODOC</td></tr>
+     *     <tr><th>events</th><td>Map</td><td>
+     *         Map of events the mixin fires. The keys are the names of the events and the values are
+     *         corresponding event type classes.
+     *     </td></tr>
      *   </table>
      */
     define : function(name, config)
@@ -83,12 +92,29 @@ qx.Class.define("qx.Mixin",
           this.__validateConfig(name, config);
         }
 
-        var mixin = config;
+        //var mixin = config;
+
+        // Create Interface from statics
+        var mixin = config.statics ? config.statics : {};
+
+        // Attach configuration
+        if (config.extend) {
+          mixin.include = config.include;
+        }
+        if (config.properties) {
+          mixin.properties = config.properties;
+        }
+        if (config.members) {
+          mixin.members = config.members;
+        }
+        if (config.events) {
+          mixin.events = config.events;
+        }        
 
         // Rename
         if (config.destruct)
         {
-          config.destructor =  config.destruct;
+          mixin.destructor =  config.destruct;
           delete config.destruct;
         }
       }
@@ -216,7 +242,7 @@ qx.Class.define("qx.Mixin",
         "members"    : "object",   // Map
         "properties" : "object",   // Map
         "destruct"   : "function", // Function
-        "events"     : "object"    // Map
+        "events"     : "object"    // Map        
       }
 
       for (var key in config)
@@ -325,15 +351,6 @@ qx.Class.define("qx.Mixin",
      */
     __checkCompatibilityRecurser : function(mixin, statics, properties, members)
     {
-      for (var key in mixin.statics)
-      {
-        if(statics[key]) {
-          throw new Error('Conflict between Mixin "' + mixin.name + '" and "' + statics[key] + '" in static member "' + key + '"!');
-        }
-
-        statics[key] = mixin.name;
-      }
-
       for (var key in mixin.properties)
       {
         if(properties[key]) {
