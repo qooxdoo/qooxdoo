@@ -159,6 +159,9 @@ qx.Class.define("qx.core.Property",
     },
 
 
+    INHERIT : "inherit",
+
+
     /**
      * TODOC
      *
@@ -175,8 +178,12 @@ qx.Class.define("qx.core.Property",
 
       var config = clazz.$$properties[property];
       var code = new qx.util.StringBuilder;
-      var field = variant === "style" ? "this.__styleValues." + property : "this.__userValues." + property;
 
+
+
+
+      // Improve performance of db access
+      code.add('var db=this.__', variant === "style" ? 'styleValues;' : 'userValues;');
 
       // Validate setter and if in debug mode the styler, too
       var enableChecks = false;
@@ -197,7 +204,7 @@ qx.Class.define("qx.core.Property",
       if (enableChecks)
       {
         // Old/new comparision
-        code.add('if(', field, '===value)return value;');
+        code.add('if(', 'db.', property, '===value)return value;');
 
         // Undefined check
         code.add('if(value===undefined)');
@@ -232,20 +239,20 @@ qx.Class.define("qx.core.Property",
         }
 
         // Store value
-        code.add(field, '=value;');
+        code.add('db.', property, '=value;');
       }
       else if (variant === "toggle")
       {
         // Toggle value (Replace eventually incoming value for setter etc.)
-        code.add('value=!(', field, '||false);');
+        code.add('value=!(', 'db.', property, '||false);');
 
         // Store value
-        code.add(field, '=value;');
+        code.add('db.', property, '=value;');
       }
       else if (variant === "reset")
       {
         // Remove value
-        code.add(field, '=value=undefined;');
+        code.add('db.', property, '=value=undefined;');
       }
 
 
@@ -295,15 +302,15 @@ qx.Class.define("qx.core.Property",
       if (config.inheritable === true)
       {
         // Search for inheritance
-        code.add('if(computed==="inherit"||(computed===undefined&&config.inheritable)){');
+        code.add('if(computed===qx.core.Property.INHERIT||(computed===undefined&&config.inheritable)){');
         code.add('var parent=this.getParent();');
-        code.add('while(parent){computed=getParent().compute', property, '();');
-        code.add('if(computed!=="inherit")break;');
+        code.add('while(parent){computed=getParent().compute', config.funcName, '();');
+        code.add('if(computed!==qx.core.Property.INHERIT)break;');
         code.add('parent=parent.getParent();}}');
       }
       else if (enableChecks)
       {
-        code.add('if(computed==="inherit")');
+        code.add('if(computed===qx.core.Property.INHERIT)');
         code.add('return this.error("The property ', property, ' of ');
         code.add(clazz.classname, ' does not support inheritance!");');
       }
