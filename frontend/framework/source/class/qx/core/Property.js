@@ -212,18 +212,18 @@ qx.Class.define("qx.core.Property",
     {
       console.debug("Finalize " + variant + "() of " + property + " in class " + clazz.classname);
 
-      var field = variant === "style" ? "this.__styleValues." + property : "this.__userValues." + property;
       var config = clazz.$$properties[property];
       var code = new qx.util.StringBuilder;
+      var field = variant === "style" ? "this.__styleValues." + property : "this.__userValues." + property;
 
 
-
-      // Simple old/new check
-      code.add('if(', field, '===value)return value;');
 
       // Validation
       if (variant === "set")
       {
+        // Simple old/new check
+        code.add('if(', field, '===value)return value;');
+
         // Validation code
         if (config.check === undefined)
         {
@@ -257,8 +257,8 @@ qx.Class.define("qx.core.Property",
       }
       else if (variant === "toggle")
       {
-        // Toggle value
-        code.add('var value=!', field, ';');
+        // Toggle value (Replace eventually incoming value for setter etc.)
+        code.add('value=!(', field, '||false);');
 
         // Store value
         code.add(field, '=value;');
@@ -336,7 +336,7 @@ qx.Class.define("qx.core.Property",
 
       // Inform user
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        code.add('this.debug("' + property + ' changed: " + old + " => " + value);');
+        code.add('this.debug("' + property + ' changed: " + old + " => " + computed);');
       }
 
       // Execute user configured setter
