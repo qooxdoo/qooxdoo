@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo framework\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-06 10:31+0100\n"
+"POT-Creation-Date: 2007-03-09 21:17+0100\n"
 "PO-Revision-Date: 2006-12-18 14:30+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -268,19 +268,19 @@ msgstr ""
 msgid "HSB"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:71
+#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:86
 msgid "Last year"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:78
+#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:93
 msgid "Last month"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:84
+#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:99
 msgid "Next month"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:90
+#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:105
 msgid "Next year"
 msgstr ""
 
@@ -288,22 +288,22 @@ msgstr ""
 msgid "Choose a date"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/form/ComboBoxEx.js:78
+#: ../../../frontend/framework/source/class/qx/ui/form/ComboBoxEx.js:84
 msgid "Description"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/form/ComboBoxEx.js:78
+#: ../../../frontend/framework/source/class/qx/ui/form/ComboBoxEx.js:84
 msgid "ID"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/form/ComboBoxEx.js:1035
+#: ../../../frontend/framework/source/class/qx/ui/form/ComboBoxEx.js:1041
 msgid "Case sensitive"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/form/ComboBoxEx.js:1084
+#: ../../../frontend/framework/source/class/qx/ui/form/ComboBoxEx.js:1090
 msgid "Search next occurrence"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/form/ComboBoxEx.js:1128
+#: ../../../frontend/framework/source/class/qx/ui/form/ComboBoxEx.js:1134
 msgid "Search items in list"
 msgstr ""
