@@ -28,7 +28,7 @@
 
 /**
  * This class is one of the most important parts of qooxdoo's
- * object-oriented features. Its <code>define()</code> method is used to
+ * object-oriented features. Its {@link #define} method is used to
  * create all other classes.
  *
  * Each instance of a class defined by <code>qx.Class.define</code> has
@@ -42,7 +42,7 @@
  * </table>
  *
  * Each method may access static members of the same class by using
- * <code>this.self(arguments)</code>:
+ * <code>this.self(arguments)</code> ({@link qx.core.Object#self}):
  * <pre><code>
  * statics : { FOO : "bar" },
  * members: {
@@ -54,7 +54,7 @@
  * </code></pre>
  *
  * Each overriding method may call the overridden method by using
- * <code>this.base(arguments [, ...])</code>. This is also true for calling
+ * <code>this.base(arguments [, ...])</code> ({@link qx.core.Object#base}). This is also true for calling
  * the superclass' constructor.
  * <pre><code>
  * members: {
@@ -134,7 +134,10 @@ qx.Class.define("qx.Class",
      *       <tr><th>members</th><td>Map</td><td>Map of instance members of the class.</td></tr>
      *       <tr><th>settings</th><td>Map</td><td>Map of settings for this class. Format of the map: TODOC</td></tr>
      *       <tr><th>variants</th><td>Map</td><td>Map of settings for this class. Format of the map: TODOC</td></tr>
-     *       <tr><th>events</th><td>Map</td><td>Map of events the class fires. The keys are the names of the events and the values are corresponding event type classes.</td></tr>
+     *       <tr><th>events</th><td>Map</td><td>
+     *           Map of events the class fires. The keys are the names of the events and the values are
+     *           corresponding event type classes.
+     *       </td></tr>
      *       <tr><th>defer</th><td>Function</td><td>Function that is to be called after at the end of the class declaration that allows access to the statics, members, properties.</td></tr>
      *       <tr><th>destruct</th><td>Function</td><td>The destructor of the class.</td></tr>
      *     </table>
@@ -481,7 +484,7 @@ qx.Class.define("qx.Class",
      */
     supportsEvent : function(clazz, name)
     {
-      var clazz = this.constructor;
+      var clazz = clazz.constructor;
 
       // old style classes can't be checked
       if (qx.core.Variant.isSet("qx.compatibility", "on"))
@@ -1012,6 +1015,7 @@ qx.Class.define("qx.Class",
       clazz.$$includes[mixin.name] = mixin;
     },
 
+
     /**
      * Attach fields of Mixins (recursively) to a class without assignment.
      *
@@ -1041,28 +1045,23 @@ qx.Class.define("qx.Class",
         }
       }
 
-      // TODO add protection !!!!
-
-      // Attach statics
-      var statics = mixin.statics;
-      if (statics)
-      {
-        if (patch)
-        {
-          for (var key in statics) {
-            clazz[key] = statics[key];
-          }
+      // Attach events
+      var events = mixin.events;
+      if (events) {
+        if (!clazz.$$events) {
+          clazz.$$events = {}
         }
-        else
+        for (var key in events)
         {
-          for (var key in statics)
-          {
-            if (clazz[key] === undefined) {
-              clazz[key] = statics[key];
-            } else {
-              throw new Error('Overwriting static member "' + key + '" of Class "' + clazz.classname + '" by Mixin "' + mixin.name + '" is not allowed!');
-            }
-          }
+          if (
+            clazz.$$events[key] &&
+            clazz.$$events[key] != events[key] &&
+            !patch
+          ) {
+            throw new Error('Overwriting event "' + key + '" of Class "' + clazz.classname + '" by Mixin "' + mixin.name + '" is not allowed!');
+          } else {
+            clazz.$$events[key] = events[key];
+          }          
         }
       }
 
