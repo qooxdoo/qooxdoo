@@ -5212,23 +5212,26 @@ qx.Class.define("qx.ui.core.Widget",
     {
       // HACK: Is there a cleaner way to implement this?
       // Maybe not use the appearance for this, but a simple property and event handler combination?
-      this._applyStateStyleFocus(this._states);
-
-      var vAppearance = this.getAppearance();
-
-      if (vAppearance)
+      if (this._states)
       {
-        try
-        {
-          var r = qx.manager.object.AppearanceManager.getInstance().styleFrom(vAppearance, this._states);
+        this._applyStateStyleFocus(this._states);
 
-          if (r) {
-            this.set(r);
-          }
-        }
-        catch(ex)
+        var vAppearance = this.getAppearance();
+
+        if (vAppearance)
         {
-          this.error("Could not apply state appearance", ex);
+          try
+          {
+            var r = qx.manager.object.AppearanceManager.getInstance().styleFrom(vAppearance, this._states);
+
+            if (r) {
+              this.set(r);
+            }
+          }
+          catch(ex)
+          {
+            this.error("Could not apply state appearance", ex);
+          }
         }
       }
     },
