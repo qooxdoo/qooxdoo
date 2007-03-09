@@ -29,6 +29,9 @@
  * This class acts as a wrapper for other child, and allows it to be resized (not moved), normally in
  * the right and/or bottom directions.  Child can be e.g. a qx.ui.form.TextArea,
  * qx.ui.table.Table or qx.ui.form.List.  It is an alternative to splitters.
+ *
+ * @appearance resizer
+ * @appearance resizer-frame {qx.ui.basic.Terminator}
  */
 qx.Class.define("qx.ui.resizer.Resizer",
 {

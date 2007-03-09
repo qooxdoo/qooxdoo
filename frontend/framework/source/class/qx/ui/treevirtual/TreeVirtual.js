@@ -31,6 +31,8 @@
  *          you may need to make manual changes in accordance with interface
  *          changes.
  * </p>
+ *
+ * @appearance treevirtual-focus-indicator {qx.ui.layout.HorizontalBoxLayout}
  */
 qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 {

@@ -24,7 +24,22 @@
 ************************************************************************ */
 
 /**
- * Shows calendar and allows choosing a date.
+ * Shows a calendar and allows choosing a date.
+ * 
+ * @appearance datechooser-toolbar-button {qx.ui.toolbar.Button}
+ * @appearance datechooser-monthyear {qx.ui.basic.Label}
+ * @appearance datechooser-weekday {qx.ui.basic.Label}
+ * @appearance datechooser-datepane {qx.ui.layout.GridLayout}
+ * @appearance datechooser-weekday {qx.ui.basic.Label}
+ * 
+ * @appearance datechooser-week {qx.ui.layout.GridLayout}
+ * @state header {datechooser-week}
+ * 
+ * @appearance datechooser-day {qx.ui.basic.Label}
+ * @state weekend {datechooser-day}
+ * @state otherMonth {datechooser-day}
+ * @state today {datechooser-day}
+ * @state selected {datechooser-day}
  */
 qx.Class.define("qx.ui.component.DateChooser",
 {

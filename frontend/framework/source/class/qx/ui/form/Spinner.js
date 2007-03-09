@@ -26,7 +26,15 @@
 
 ************************************************************************ */
 
-
+/**
+ * @appearance spinner-field {qx.ui.form.TextField}
+ * 
+ * @appearance spinner-button-up {qx.ui.basic.Image}
+ * @state pressed {spinner-button-up}
+ * 
+ * @appearance spinner-button-down {qx.ui.basic.Image}
+ * @state pressed {spinner-button-down}
+ */
 qx.Class.define("qx.ui.form.Spinner",
 {
   extend : qx.ui.layout.HorizontalBoxLayout,

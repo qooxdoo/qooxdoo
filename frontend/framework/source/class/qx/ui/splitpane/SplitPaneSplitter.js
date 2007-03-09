@@ -25,6 +25,11 @@
 
 ************************************************************************* */
 
+/**
+ * @appearance splitpane-splitter
+ * @state vertical
+ * @state horizontal
+ */
 qx.Class.define("qx.ui.splitpane.SplitPaneSplitter",
 {
   extend : qx.ui.layout.CanvasLayout,

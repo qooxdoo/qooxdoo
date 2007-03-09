@@ -25,6 +25,23 @@
 
 ************************************************************************ */
 
+/**
+ * @state active
+ * @state maximized
+ * 
+ * @appearance window-resize-frame {qx.ui.basic.Terminator}
+ * @appearance window-captionbar-icon {qx.ui.basic.Image}
+ * @appearance window-captionbar-title {qx.ui.basic.Label}
+ * @appearance window-captionbar-minimize-button {qx.ui.form.Button}
+ * @appearance window-captionbar-restore-button {qx.ui.form.Button}
+ * @appearance window-captionbar-maximize-button {qx.ui.form.Button}
+ * @appearance window-captionbar-close-button {qx.ui.form.Button}
+ * @appearance window-statusbar {qx.ui.layout.HorizontalBoxLayout}
+ * @appearance window-statusbar-text {qx.ui.basic.Label}
+ * 
+ * @appearance window-captionbar {qx.ui.layout.HorizontalBoxLayout}
+ * @state active {window-captionbar}
+ */
 qx.Class.define("qx.ui.window.Window",
 {
   extend : qx.ui.popup.Popup,

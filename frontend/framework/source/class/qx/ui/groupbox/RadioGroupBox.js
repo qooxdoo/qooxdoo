@@ -24,6 +24,9 @@
 
 ************************************************************************ */
 
+/**
+ * @appearance radio-button-field-set-legend {qx.ui.form.RadioButton}
+ */
 qx.Class.define("qx.ui.groupbox.RadioGroupBox",
 {
   extend : qx.ui.groupbox.GroupBox,

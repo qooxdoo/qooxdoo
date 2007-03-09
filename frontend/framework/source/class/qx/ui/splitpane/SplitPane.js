@@ -97,9 +97,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
     this._slider._applyRuntimeTop = this._splitter._applyRuntimeTop = this._applyRuntimeTopWrapper;
 
     // CREATE KNOB
-    this._knob = new qx.ui.basic.Image;
-    this._knob.setAppearance("splitpane-knob");
-    this._knob.setVisibility(false);
+    this._knob = qx.ui.splitpane.SplitPaneKnob();
     this.add(this._knob);
 
     // CREATE AREAS

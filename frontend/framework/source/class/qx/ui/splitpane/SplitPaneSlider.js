@@ -25,6 +25,10 @@
 
 ************************************************************************* */
 
+/**
+ * @appearance splitpane-slider
+ * @state dragging
+ */
 qx.Class.define("qx.ui.splitpane.SplitPaneSlider",
 {
   extend : qx.ui.layout.CanvasLayout,
