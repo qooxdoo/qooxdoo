@@ -100,28 +100,49 @@ qx.Class.define("qx.core.Property",
       {
         console.debug("Generating property wrappers: " + name + " (" + access + ")");
 
-        var getter = new qx.util.StringBuilder;
-        var setter = new qx.util.StringBuilder;
-        var resetter = new qx.util.StringBuilder;
-        var toggler = new qx.util.StringBuilder;
+        /**
+         * GETTER
+         */
 
-        getter.add('return qx.core.Property.executeOptimizedGetter(this,',
-          clazz.classname, ',"', name, '")');
-        setter.add('return qx.core.Property.executeOptimizedSetter(this,',
-          clazz.classname, ',"', name, '","set",value)');
-        resetter.add('return qx.core.Property.executeOptimizedSetter(this,',
-          clazz.classname, ',"', name, '","reset")');
-        toggler.add('return qx.core.Property.executeOptimizedSetter(this,',
-          clazz.classname, ',"', name, '","reset")');
+        // Methods used by the user
+        members[namePrefix + "get" + funcName] = function() {
+          return this.__userValues[name];
+        }
 
-        members[namePrefix + "get" + funcName] = new Function(getter.toString());
-        members[namePrefix + "set" + funcName] = new Function("value", setter.toString());
-        members[namePrefix + "reset" + funcName] = new Function(resetter.toString());
-        members[namePrefix + "toggle" + funcName] = new Function(toggler.toString());
+        // Computed getter
+        members[namePrefix + "computed" + funcName] = function() {
+          return this.__computedValues[name];
+        }
+
+        /**
+         * SETTER
+         */
+
+        members[namePrefix + "set" + funcName] = function(value) {
+          qx.core.Property.executeOptimizedSetter(this, clazz, name, "set", value);
+        }
+
+        members[namePrefix + "reset" + funcName] = function() {
+          qx.core.Property.executeOptimizedSetter(this, clazz, name, "reset");
+        }
+
+        if (config.appearance)
+        {
+          members[namePrefix + "style" + funcName] = function(value) {
+            qx.core.Property.executeOptimizedSetter(this, clazz, name, "style", value);
+          }
+        }
+
+        if (config.check === "Boolean")
+        {
+          members[namePrefix + "toggle" + funcName] = function() {
+            qx.core.Property.executeOptimizedSetter(this, clazz, name, "toggle");
+          }
+        }
       }
     },
 
-    validation :
+    check :
     {
       "defined" : 'value != undefined',
       "null"    : 'value === null',
@@ -129,7 +150,8 @@ qx.Class.define("qx.core.Property",
       "Boolean" : 'typeof value == "boolean"',
       "Number"  : 'typeof value == "number" && !isNaN(value)',
       "Object"  : 'value != null && typeof value == "object"',
-      "Array"   : 'value instanceof Array'
+      "Array"   : 'value instanceof Array',
+      "Map"     : 'value !== null && typeof value === "object" && !(value instanceof Array)'
     },
 
     /**
@@ -190,7 +212,7 @@ qx.Class.define("qx.core.Property",
     {
       console.debug("Finalize " + variant + "() of " + property + " in class " + clazz.classname);
 
-      var field = variant === "appearance" ? "this.__appearanceValues." + property : "this.__userValues." + property;
+      var field = variant === "style" ? "this.__styleValues." + property : "this.__userValues." + property;
       var config = clazz.$$properties[property];
       var code = new qx.util.StringBuilder;
 
@@ -203,28 +225,32 @@ qx.Class.define("qx.core.Property",
       if (variant === "set")
       {
         // Validation code
-        if (config.validation != undefined)
+        if (config.check === undefined)
         {
-          if (config.validation in this.validation)
+          code.add('if(value===undefined)');
+        }
+        else
+        {
+          if (config.check in this.check)
           {
-            code.add('if(!(', this.validation[config.validation], '))');
+            code.add('if(!(', this.check[config.check], '))');
           }
-          else if (typeof config.validation === "function")
+          else if (typeof config.check === "function")
           {
             code.add('if(!', clazz.classname, '.$$properties.', property);
-            code.add('.validation.call(this, value))');
+            code.add('.check.call(this, value))');
           }
-          else if (qx.Class.isDefined(config.validation))
+          else if (qx.Class.isDefined(config.check))
           {
-            code.add('if(!(value instanceof ', config.validation, '))');
+            code.add('if(!(value instanceof ', config.check, '))');
           }
           else
           {
-            throw new Error("Could not add validation to property " + name + " of class " + clazz.classname);
+            throw new Error("Could not add check to property " + name + " of class " + clazz.classname);
           }
-
-          code.add('return this.warn("Invalid value for property ', property, ': " + value);');
         }
+
+        code.add('return this.warn("Invalid value for property ', property, ': " + value);');
 
         // Store value
         code.add(field, '=value;');
@@ -244,7 +270,7 @@ qx.Class.define("qx.core.Property",
 
         // Remove value
         // code.add('delete ', field, ';');
-        code.add(field, '=value=undefined');
+        code.add(field, '=value=undefined;');
       }
 
 
@@ -260,7 +286,7 @@ qx.Class.define("qx.core.Property",
       code.add('if(this.__userValues.', property, '!==undefined)computed=this.__userValues.', property, ';');
 
       if (config.appearance === true) {
-        code.add('else if(this.__appearanceValues.', property, '!==undefined)computed=this.__appearanceValues.', property, ';');
+        code.add('else if(this.__styleValues.', property, '!==undefined)computed=this.__styleValues.', property, ';');
       }
 
       if (config.init !== undefined) {
@@ -308,6 +334,11 @@ qx.Class.define("qx.core.Property",
       // Store new computed value
       code.add('this.__computedValues.', property, '=computed;');
 
+      // Inform user
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        code.add('this.debug("' + property + ' changed: " + old + " => " + value);');
+      }
+
       // Execute user configured setter
       if (config.setter)
       {
@@ -333,7 +364,7 @@ qx.Class.define("qx.core.Property",
 
 
       // Output generate code
-      console.debug("SETTER: " + code);
+      console.debug("Code: " + code);
 
       // Overriding temporary setter
       clazz.prototype[config.namePrefix + variant + config.funcName] = new Function("value", code.toString());
