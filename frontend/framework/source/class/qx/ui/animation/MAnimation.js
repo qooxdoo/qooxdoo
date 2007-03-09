@@ -64,7 +64,7 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
     },
 
 
-    /** The duration for the fade. */
+    /** The duration for the fade in milliseconds. */
     fadeTime :
     {
       _legacy      : true,
@@ -135,7 +135,7 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
     {
       if (vSteps) this.setFadeSteps(vSteps);
       if (vTime) this.setFadeTime(vTime);
-      this._fadeMode = qx.ui.core.Widget.FADE_IN;
+      this._fadeMode = qx.ui.animation.MAnimation.FADE_IN;
       var timer = this.getFadeTimer();
       timer.addEventListener("interval", this._onInterval, this);
       timer.start();
@@ -154,7 +154,8 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
     {
       if (vSteps) this.setFadeSteps(vSteps);
       if (vTime) this.setFadeTime(vTime);
-      this._fadeMode = qx.ui.core.Widget.FADE_OUT;
+      this._fadeMode = qx.ui.animation.MAnimation.FADE_OUT;
+      this.setFadeCounter(this.getFadeSteps());
       var timer = this.getFadeTimer();
       timer.addEventListener("interval", this._onInterval, this);
       timer.start();
@@ -214,7 +215,7 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
 
       switch(this._fadeMode)
       {
-        case qx.ui.core.Widget.FADE_IN:
+        case qx.ui.animation.MAnimation.FADE_IN:
           this.setFadeCounter(++counter);
 
           if (counter <= this.getFadeSteps())
@@ -222,14 +223,14 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
             this.setOpacity(this._computeFadeOpacity());
             this.getFadeTimer().restart();
           }
-          else if (this.hasEventListeners(qx.ui.core.Widget.FADE_FINISHED))
+          else if (this.hasEventListeners(qx.ui.animation.MAnimation.FADE_FINISHED))
           {
-            this.createDispatchDataEvent(qx.ui.core.Widget.FADE_FINISHED, qx.ui.core.Widget.FADE_IN);
+            this.createDispatchDataEvent(qx.ui.animation.MAnimation.FADE_FINISHED, qx.ui.animation.MAnimation.FADE_IN);
           }
 
           break;
 
-        case qx.ui.core.Widget.FADE_OUT:
+        case qx.ui.animation.MAnimation.FADE_OUT:
           this.setFadeCounter(--counter);
 
           if (counter >= 0)
@@ -237,15 +238,15 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
             this.setOpacity(this._computeFadeOpacity());
             this.getFadeTimer().restart();
           }
-          else if (this.hasEventListeners(qx.ui.core.Widget.FADE_FINISHED))
+          else if (this.hasEventListeners(qx.ui.animation.MAnimation.FADE_FINISHED))
           {
-            this.createDispatchDataEvent(qx.ui.core.Widget.FADE_FINISHED, qx.ui.core.Widget.FADE_OUT);
+            this.createDispatchDataEvent(qx.ui.animation.MAnimation.FADE_FINISHED, qx.ui.animation.MAnimation.FADE_OUT);
           }
 
           break;
       }
 
-      qx.ui.core.Widget.flushGlobalQueues();
+      //qx.ui.core.Widget.flushGlobalQueues();
     },
 
 
