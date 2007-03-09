@@ -1296,7 +1296,8 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
      */
     startEditing : function()
     {
-      var tableModel = this.getTable().getTableModel();
+      var table = this.getTable();
+      var tableModel = table.getTableModel();
       var col = this._focusedCol;
 
       if (!this.isEditing() && (col != null) && tableModel.isColumnEditable(col))
@@ -1305,7 +1306,7 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
         var xPos = this.getTablePaneModel().getX(col);
         var value = tableModel.getValue(col, row);
 
-        this._cellEditorFactory = this.getTable().getTableColumnModel().getCellEditorFactory(col);
+        this._cellEditorFactory = table.getTableColumnModel().getCellEditorFactory(col);
 
         var cellInfo =
         {
@@ -1315,33 +1316,59 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
           value : value
         };
 
-        this._cellEditor = this._cellEditorFactory.createCellEditor(cellInfo);
+        // Get a cell editor
+        this._cellEditor =
+          this._cellEditorFactory.createCellEditor(cellInfo);
 
-        this._cellEditor.set(
+        // We handle two types of cell editors: the traditional in-place
+        // editor, where the cell editor returned by the factory must fit in
+        // the space of the table cell; and a modal window in which the
+        // editing takes place.
+        if (this._cellEditor instanceof qx.ui.window.Window)
         {
-          width  : "100%",
-          height : "100%"
-        });
+          // It's a window.  Ensure that it's modal
+          this._cellEditor.setModal(true);
 
-        this._focusIndicator.add(this._cellEditor);
-        this._focusIndicator.addState("editing");
+          // Add the cell editor to the document
+          this._cellEditor.addToDocument();
 
-        this._cellEditor.addEventListener("changeFocused", this._onCellEditorFocusChanged, this);
+          // Arrange to be notified when it is closed.
+          this._cellEditor.addEventListener("disappear",
+                                            this._onCellEditorModalWindowClose,
+                                            this);
 
-        // Workaround: Calling focus() directly has no effect
-        var editor = this._cellEditor;
-        var self = this;
-
-        window.setTimeout(function()
+          // Open it now.
+          this._cellEditor.open();
+        }
+        else
         {
-          if (self.getDisposed()) {
-            return;
-          }
+          // The cell editor is a traditional in-place editor.
+          this._cellEditor.set(
+          {
+            width  : "100%",
+            height : "100%"
+          });
 
-          editor.focus();
-        },
-        0);
+          this._focusIndicator.add(this._cellEditor);
+          this._focusIndicator.addState("editing");
+          this._cellEditor.addEventListener("changeFocused",
+                                            this._onCellEditorFocusChanged,
+                                            this);
 
+          // Workaround: Calling focus() directly has no effect
+          qx.client.Timer.once(function()
+                               {
+                                 if (this.getDisposed())
+                                 {
+                                   return;
+                                 }
+                                 
+                                 this._cellEditor.focus();
+                               },
+                               this,
+                               0);
+        }
+        
         return true;
       }
 
@@ -1388,15 +1415,41 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
      */
     cancelEditing : function()
     {
-      if (this.isEditing())
+      if (this.isEditing() && ! this._cellEditor.pendingDispose)
       {
-        this._focusIndicator.remove(this._cellEditor);
-        this._focusIndicator.removeState("editing");
-        this._cellEditor.dispose();
-
-        this._cellEditor.removeEventListener("changeFocused", this._onCellEditorFocusChanged, this);
-        this._cellEditor = null;
-        this._cellEditorFactory = null;
+        if (this._cellEditorIsModalWindow)
+        {
+          // Defer the actual disposing of the cell editor briefly, as there
+          // may be more accesses to it for a short while after we leave this
+          // function.
+          qx.client.Timer.once(function()
+                               {
+                                 var d =
+                                   qx.ui.core.ClientDocument.getInstance();
+                                 d.remove(this._cellEditor);
+                                 this._cellEditor.removeEventListener(
+                                   "disappear",
+                                   _onCellEditorModalWindowClose,
+                                   this);
+                                 this._cellEditor.dispose();
+                                 this._cellEditor = null;
+                                 this._cellEditorFactory = null;
+                               },
+                               this,
+                               0);
+          this._cellEditor.pendingDispose = true;
+        }
+        else
+        {
+          this._focusIndicator.remove(this._cellEditor);
+          this._focusIndicator.removeState("editing");
+          this._cellEditor.removeEventListener("changeFocused",
+                                               this._onCellEditorFocusChanged,
+                                               this);
+          this._cellEditor.dispose();
+          this._cellEditor = null;
+          this._cellEditorFactory = null;
+        }
       }
     },
 
@@ -1413,6 +1466,19 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
       if (!this._cellEditor.getFocused()) {
         this.stopEditing();
       }
+    },
+
+
+    /**
+     * Event handler. Called when the modal window of the cell editor closes.
+     *
+     * @type member
+     * @param evt {Map} the event.
+     * @return {void}
+     */
+    _onCellEditorModalWindowClose : function(evt)
+    {
+      this.stopEditing();
     },
 
 
