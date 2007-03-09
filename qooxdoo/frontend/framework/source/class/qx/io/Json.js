@@ -67,12 +67,26 @@ qx.Class.define("qx.io.Json",
 
     __map :
     {
+      "function"  : "__convertFunction",
       "boolean"   : "__convertBoolean",
       "number"    : "__convertNumber",
       "string"    : "__convertString",
       "object"    : "__convertObject",
       "undefined" : "__convertUndefined"
     },
+
+
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param incoming {var} TODOC
+     * @return {var} TODOC
+     */
+    __convertFunction : function(incoming) {
+      return String(incoming);
+    },
+
 
     /**
      * TODOC
@@ -394,7 +408,6 @@ qx.Class.define("qx.io.Json",
 
       // Start convertion
       var result = this[this.__map[typeof obj]](obj);
-
       if (typeof result != "string") {
         result = null;
       }

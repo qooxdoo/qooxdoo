@@ -79,52 +79,56 @@ qx.Class.define("qxunit.TestCase", {
       this.__assert(expected == found, msg || "", "Expected '"+expected+"' but found '"+found+"'!");
     },
 
+    assertIndentical: function(expected, found, msg) {
+      this.__assert(expected === found, msg || "", "Expected '"+expected+"' (identical) but found '"+found+"'!");
+    },
+
     assertNotUndefined: function(value, msg) {
-      this.__assert(value !== undefined, msg || "", "Expected value not to be undefined but found '"+value+"'!");
+      this.__assert(value !== undefined, msg || "", "Expected value not to be undefined but found "+qx.io.Json.stringify(value)+"!");
     },
 
     assertUndefined: function(value, msg) {
-      this.__assert(value === undefined, msg || "", "Expected value to be undefined but found '"+value+"'!");
+      this.__assert(value === undefined, msg || "", "Expected value to be undefined but found "+qx.io.Json.stringify(value)+"!");
     },
 
     assertNotNull: function(value, msg) {
-      this.__assert(value !== null, msg || "", "Expected value not to be null but found '"+value+"'!");
+      this.__assert(value !== null, msg || "", "Expected value not to be null but found "+qx.io.Json.stringify(value)+"!");
     },
 
     assertNull: function(value, msg) {
-      this.__assert(value === null, msg || "", "Expected value to be null but found '"+value+"'!");
+      this.__assert(value === null, msg || "", "Expected value to be null but found "+qx.io.Json.stringify(value)+"!");
     },
 
     assertFunction: function(value, msg) {
-      this.__assert(typeof value === "function", msg || "", "Expected value to be typeof function but found '"+value+"'!");
+      this.__assert(typeof value === "function", msg || "", "Expected value to be typeof function but found "+qx.io.Json.stringify(value)+"!");
     },
 
     assertString: function(value, msg) {
-      this.__assert(typeof value === "string", msg || "", "Expected value to be typeof string but found '"+value+"'!");
+      this.__assert(typeof value === "string", msg || "", "Expected value to be typeof string but found "+qx.io.Json.stringify(value)+"!");
     },
 
     assertNumber: function(value, msg) {
-      this.__assert(typeof value === "number", msg || "", "Expected value to be typeof number but found '"+value+"'!");
+      this.__assert(typeof value === "number", msg || "", "Expected value to be typeof number but found "+qx.io.Json.stringify(value)+"!");
     },
 
     assertObject: function(value, msg) {
-      this.__assert(typeof value === "object" && value !== null, msg || "", "Expected value to be typeof object but found '"+value+"'!");
+      this.__assert(typeof value === "object" && value !== null, msg || "", "Expected value to be typeof object but found "+qx.io.Json.stringify(value)+"!");
     },
 
     assertArray: function(value, msg) {
-      this.__assert(value instanceof Array, msg || "", "Expected value to be an array but found '"+value+"'!");
+      this.__assert(value instanceof Array, msg || "", "Expected value to be an array but found "+qx.io.Json.stringify(value)+"!");
     },
 
     assertMap: function(value, msg) {
-      this.__assert(typeof value === "object" && !(value instanceof Array) && !(value instanceof qx.core.Object), msg || "", "Expected value to be a map but found '"+value+"'!");
+      this.__assert(typeof value === "object" && !(value instanceof Array) && !(value instanceof qx.core.Object), msg || "", "Expected value to be a map but found "+qx.io.Json.stringify(value)+"!");
     },
 
     assertQxObject: function(value, msg) {
-      this.__assert(value instanceof qx.core.Object, msg || "", "Expected value to be a qooxdoo object but found '"+value+"'!");
+      this.__assert(value instanceof qx.core.Object, msg || "", "Expected value to be a qooxdoo object but found "+qx.io.Json.stringify(value)+"!");
     },
 
     assertQxWidget: function(value, msg) {
-      this.__assert(value instanceof qx.ui.core.Widget, msg || "", "Expected value to be a qooxdoo widget but found '"+value+"'!");
+      this.__assert(value instanceof qx.ui.core.Widget, msg || "", "Expected value to be a qooxdoo widget but found "+qx.io.Json.stringify(value)+"!");
     },
 
     // assertions which are only evaluated if "qx.debug" if "on"
