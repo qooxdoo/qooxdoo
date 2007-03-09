@@ -243,7 +243,8 @@ qx.Class.define("qx.core.Property",
         // "delete something" with something=undefined?
 
         // Remove value
-        code.add('delete ', field, ';');
+        // code.add('delete ', field, ';');
+        code.add(field, '=value=undefined');
       }
 
 
@@ -310,14 +311,20 @@ qx.Class.define("qx.core.Property",
       // Execute user configured setter
       if (config.setter)
       {
-        code.add('if(!', clazz.classname, '.$$properties.', property);
-        code.add('.setter.call(this, computed, old))');
+        code.add('try{');
+        code.add(clazz.classname, '.$$properties.', property);
+        code.add('.setter.call(this, computed, old);');
+        code.add('}catch(ex){this.error("Failed to execute setter of property ');
+        code.add(property, ' defined by class ', clazz.classname, '!", ex);}');
       }
 
       // Fire event
       if (config.event) {
         code.add('this.createDispatchDataEvent("', config.event, '", computed);');
       }
+
+      // Return value
+      code.add('return value;');
 
 
 
