@@ -65,7 +65,7 @@
  */
 qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 {
-  extend : qx.ui.table.AbstractTableModel,
+  extend : qx.ui.table.SimpleTableModel,
 
 
 
@@ -131,70 +131,33 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
   members :
   {
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @abstract
-     * @param editable {var} TODOC
-     * @return {void}
-     * @throws the abstract function warning.
-     */
-    setEditable : function(editable) {
-      throw new Error("Tree columns can not be made editable");
+    setEditable : function(editable)
+    {
+      throw new Error("The 'Tree' column can not be made editable. " +
+                      "If other columns are to be editable, set them so " +
+                      "with setColumnEditable()");
     },
 
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @abstract
-     * @param columnIndex {var} TODOC
-     * @param editable {var} TODOC
-     * @return {void}
-     * @throws the abstract function warning.
-     */
-    setColumnEditable : function(columnIndex, editable) {
-      throw new Error("Tree columns can not be made editable");
+    setColumnEditable : function(columnIndex, editable)
+    {
+      if (columnIndex == this._treeColumn)
+      {
+        throw new Error("Tree columns can not be made editable");
+      }
+      
+      this.base(arguments, columnIndex, editable);
     },
 
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param columnIndex {var} TODOC
-     * @return {Boolean} TODOC
-     */
-    isColumnEditable : function(columnIndex) {
+    isColumnSortable : function(columnIndex)
+    {
       return false;
     },
 
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param columnIndex {var} TODOC
-     * @return {Boolean} TODOC
-     */
-    isColumnSortable : function(columnIndex) {
-      return false;
-    },
-
-    // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @abstract
-     * @param columnIndex {var} TODOC
-     * @param ascending {var} TODOC
-     * @return {void}
-     * @throws the abstract function warning.
-     */
-    sortByColumn : function(columnIndex, ascending) {
+    sortByColumn : function(columnIndex, ascending)
+    {
       throw new Error("Trees can not be sorted by column");
     },
 
@@ -206,7 +169,8 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * @type member
      * @return {Integer} -1, to indicate that the model is not sorted.
      */
-    getSortColumnIndex : function() {
+    getSortColumnIndex : function()
+    {
       return -1;
     },
 
