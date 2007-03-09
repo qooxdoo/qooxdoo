@@ -108,7 +108,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
       style : function(states)
       {
         return {
-          font : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
+          font : '11px "Lucida Grande", "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
           color : states.disabled ? "graytext" : null
         };
       }
@@ -607,7 +607,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
       {
         return {
           cursor      : "default",
-          font        : '11px bold "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
+          font        : '11px bold "Lucida Grande", "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
           marginRight : 2,
           wrap        : false
         };
@@ -871,7 +871,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
           paddingLeft   : 3,
           allowStretchY : false,
           allowStretchX : true,
-          font          : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
+          font          : '11px "Lucida Grande", "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
           width         : "auto",
           height        : "auto",
           color         : states.disabled ? "graytext" : null
@@ -1281,7 +1281,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
           overflow     : "hidden",
           paddingLeft  : 6,
           paddingRight : 6,
-          font         : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif'
+          font         : '11px "Lucida Grande", "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif'
         };
       }
     },
@@ -1688,7 +1688,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
       style : function(states)
       {
         return {
-          font          : '13px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
+          font          : '13px "Lucida Grande", "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
           textAlign     : "center",
           verticalAlign : "middle"
         };
@@ -1715,7 +1715,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
         return {
           border          : border,
-          font            : '11px bold "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
+          font            : '11px bold "Lucida Grande", "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
           textAlign       : "center",
           color           : states.weekend ? "#6285BA" : "window",
           backgroundColor : states.weekend ? "window" : "#6285BA"
@@ -1730,7 +1730,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         return {
           cursor        : "default",
           color         : "windowText",
-          font          : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
+          font          : '11px "Lucida Grande", "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
           textAlign     : "center",
           verticalAlign : "middle",
           selectable    : false,
@@ -1753,7 +1753,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         headerBorder.setBottom(1, "solid", "gray");
 
         return {
-          font        : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
+          font        : '11px "Lucida Grande", "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
           color       : "#6285BA",
           paddingLeft : 2,
           border : states.header ? headerBorder : border
@@ -1778,7 +1778,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         border.setTop(1, "solid", "threedshadow");
 
         return {
-          font         : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
+          font         : '11px "Lucida Grande", "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
           border       : border,
           paddingLeft  : 2,
           paddingRight : 2
@@ -1814,7 +1814,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
       style : function(states)
       {
         return {
-          font          : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
+          font          : '11px "Lucida Grande", "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
           border        : qx.renderer.border.BorderPresets.getInstance().none,
           paddingLeft   : 2,
           paddingRight  : 2,
