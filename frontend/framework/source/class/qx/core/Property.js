@@ -26,11 +26,24 @@ qx.Class.define("qx.core.Property",
 {
   statics :
   {
-    /*
-    ---------------------------------------------------------------------------
-       PROPERTY GROUPS
-    ---------------------------------------------------------------------------
-    */
+    INHERIT : "inherit",
+
+    /**
+     *
+     *
+     */
+    CHECKPRESETS :
+    {
+      "defined" : 'value != undefined',
+      "null"    : 'value === null',
+      "String"  : 'typeof value == "string"',
+      "Boolean" : 'typeof value == "boolean"',
+      "Number"  : 'typeof value == "number" && !isNaN(value)',
+      "Object"  : 'value != null && typeof value == "object"',
+      "Array"   : 'value instanceof Array',
+      "Map"     : 'value !== null && typeof value === "object" && !(value instanceof Array)'
+    },
+
 
     /**
      * Add property methods (used exclusively from qx.core.Object)
@@ -119,47 +132,32 @@ qx.Class.define("qx.core.Property",
          */
 
         members[namePrefix + "set" + funcName] = function(value) {
-          qx.core.Property.executeOptimizedSetter(this, clazz, name, "set", value);
+          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "set", value);
         }
 
         members[namePrefix + "reset" + funcName] = function() {
-          qx.core.Property.executeOptimizedSetter(this, clazz, name, "reset");
+          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "reset");
         }
 
         members[namePrefix + "refresh" + funcName] = function() {
-          qx.core.Property.executeOptimizedSetter(this, clazz, name, "refresh");
+          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "refresh");
         }
 
         if (config.appearance)
         {
           members[namePrefix + "style" + funcName] = function(value) {
-            qx.core.Property.executeOptimizedSetter(this, clazz, name, "style", value);
+            return qx.core.Property.executeOptimizedSetter(this, clazz, name, "style", value);
           }
         }
 
         if (config.check === "Boolean")
         {
           members[namePrefix + "toggle" + funcName] = function() {
-            qx.core.Property.executeOptimizedSetter(this, clazz, name, "toggle");
+            return qx.core.Property.executeOptimizedSetter(this, clazz, name, "toggle");
           }
         }
       }
     },
-
-    check :
-    {
-      "defined" : 'value != undefined',
-      "null"    : 'value === null',
-      "String"  : 'typeof value == "string"',
-      "Boolean" : 'typeof value == "boolean"',
-      "Number"  : 'typeof value == "number" && !isNaN(value)',
-      "Object"  : 'value != null && typeof value == "object"',
-      "Array"   : 'value instanceof Array',
-      "Map"     : 'value !== null && typeof value === "object" && !(value instanceof Array)'
-    },
-
-
-    INHERIT : "inherit",
 
 
     /**
@@ -208,14 +206,14 @@ qx.Class.define("qx.core.Property",
 
         // Undefined check
         code.add('if(value===undefined)');
-        code.add('return this.error("Undefined value for property ', property, ': " + value);');
+        code.add('throw new Error("Undefined value for property ', property, ': " + value);');
 
         // Check value
         if (config.check !== undefined)
         {
-          if (this.check[config.check] !== undefined)
+          if (this.CHECKPRESETS[config.check] !== undefined)
           {
-            code.add('if(!(', this.check[config.check], '))');
+            code.add('if(!(', this.CHECKPRESETS[config.check], '))');
           }
           else if (qx.Class.isDefined(config.check))
           {
@@ -235,7 +233,7 @@ qx.Class.define("qx.core.Property",
             throw new Error("Could not add check to property " + name + " of class " + clazz.classname);
           }
 
-          code.add('return this.error("Invalid value for property ', property, ': " + value);');
+          code.add('throw new Error("Invalid value for property ', property, ': " + value);');
         }
 
         // Store value
@@ -311,7 +309,7 @@ qx.Class.define("qx.core.Property",
       else if (enableChecks)
       {
         code.add('if(computed===qx.core.Property.INHERIT)');
-        code.add('return this.error("The property ', property, ' of ');
+        code.add('throw new Error("The property ', property, ' of ');
         code.add(clazz.classname, ' does not support inheritance!");');
       }
 
@@ -329,7 +327,7 @@ qx.Class.define("qx.core.Property",
 
       // Inform user
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        code.add('this.debug("' + property + ' changed: " + old + " => " + computed);');
+        code.add('this.debug("' + property + ' changed: " + qx.io.Json.stringify(old) + " => " + qx.io.Json.stringify(computed));');
       }
 
       // Execute user configured setter
