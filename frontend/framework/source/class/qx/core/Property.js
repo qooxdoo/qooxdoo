@@ -103,6 +103,7 @@ qx.Class.define("qx.core.Property",
         var getter = new qx.util.StringBuilder;
         var setter = new qx.util.StringBuilder;
         var resetter = new qx.util.StringBuilder;
+        var toggler = new qx.util.StringBuilder;
 
         getter.add('return qx.core.Property.executeOptimizedGetter(this,',
           clazz.classname, ',"', name, '")');
@@ -110,10 +111,13 @@ qx.Class.define("qx.core.Property",
           clazz.classname, ',"', name, '","set",value)');
         resetter.add('return qx.core.Property.executeOptimizedSetter(this,',
           clazz.classname, ',"', name, '","reset")');
+        toggler.add('return qx.core.Property.executeOptimizedSetter(this,',
+          clazz.classname, ',"', name, '","reset")');
 
         members[namePrefix + "get" + funcName] = new Function(getter.toString());
         members[namePrefix + "set" + funcName] = new Function("value", setter.toString());
         members[namePrefix + "reset" + funcName] = new Function(resetter.toString());
+        members[namePrefix + "toggle" + funcName] = new Function(toggler.toString());
       }
     },
 
@@ -121,11 +125,11 @@ qx.Class.define("qx.core.Property",
     {
       "defined" : 'value != undefined',
       "null"    : 'value === null',
-      "string"  : 'typeof value == "string"',
-      "boolean" : 'typeof value == "boolean"',
-      "number"  : 'typeof value == "number" && !isNaN(value)',
-      "object"  : 'value != null && typeof value == "object"',
-      "array"   : 'value instanceof Array'
+      "String"  : 'typeof value == "string"',
+      "Boolean" : 'typeof value == "boolean"',
+      "Number"  : 'typeof value == "number" && !isNaN(value)',
+      "Object"  : 'value != null && typeof value == "object"',
+      "Array"   : 'value instanceof Array'
     },
 
     /**
@@ -139,6 +143,7 @@ qx.Class.define("qx.core.Property",
     executeOptimizedGetter : function(instance, clazz, property)
     {
       console.debug("Finalize get() of " + property + " in class " + clazz.classname);
+
 
 
 
@@ -185,51 +190,52 @@ qx.Class.define("qx.core.Property",
     {
       console.debug("Finalize " + variant + "() of " + property + " in class " + clazz.classname);
 
-
-
-
+      var field = variant === "appearance" ? "this.__appearanceValues." + property : "this.__userValues." + property;
       var config = clazz.$$properties[property];
-
-      // Starting code generation
       var code = new qx.util.StringBuilder;
 
-      // Debug output
-      // code.add("this.debug('Property: " + name + ": ' + value);");
-      // Validation and value compare should only be used in the real setter
+
+
+      // Simple old/new check
+      code.add('if(', field, '===value)return value;');
+
+      // Validation
       if (variant === "set")
       {
-        // TODO: Implement check()
         // Validation code
         if (config.validation != undefined)
         {
-          if (qx.Class.isDefined(config.validation))
+          if (config.validation in this.validation)
           {
-            code.add('if(!(value instanceof ', config.validation);
-            code.add('))this.error("Invalid value for property ');
-            code.add(property, ': " + value);');
+            code.add('if(!(', this.validation[config.validation], '))');
           }
-          else if (config.validation in this.validation)
+          else if (typeof config.validation === "function")
           {
-            code.add('if(!(', this.validation[config.validation]);
-            code.add('))this.error("Invalid value for property ');
-            code.add(property, ': " + value);');
+            code.add('if(!', clazz.classname, '.$$properties.', property);
+            code.add('.validation.call(this, value))');
+          }
+          else if (qx.Class.isDefined(config.validation))
+          {
+            code.add('if(!(value instanceof ', config.validation, '))');
           }
           else
           {
-            this.error("Could not add validation to property " + name + ". Invalid method.");
+            throw new Error("Could not add validation to property " + name + " of class " + clazz.classname);
           }
+
+          code.add('return this.warn("Invalid value for property ', property, ': " + value);');
         }
 
         // Store value
-        code.add('this.__userValues.', property, '=value;');
+        code.add(field, '=value;');
       }
       else if (variant === "toggle")
       {
         // Toggle value
-        code.add('var value=!this.__userValues.', property, ';');
+        code.add('var value=!', field, ';');
 
         // Store value
-        code.add('this.__userValues.', property, '=value;');
+        code.add(field, '=value;');
       }
       else if (variant === "reset")
       {
@@ -237,8 +243,9 @@ qx.Class.define("qx.core.Property",
         // "delete something" with something=undefined?
 
         // Remove value
-        code.add('delete this.__userValues.' + property, ';');
+        code.add('delete ', field, ';');
       }
+
 
 
       // TODO: Normally we only need this now if:
@@ -247,49 +254,74 @@ qx.Class.define("qx.core.Property",
       //   * we have a setter/modify method to execute
       // Otherwise invalidation would be maybe enough. Is this really relevant?
 
-      // TODO: read in values
-      // TODO: remove this strings from setter, we need them in appearance etc., too
-      code.add('var computed,appearance,init;');
+      code.add('var computed;');
 
-      code.add('if(value!==undefined)computed=value;else ');
-      code.add('if(appearance!==undefined)computed=appearance;else ');
-      code.add('if(init!==undefined)computed=init;');
+      code.add('if(this.__userValues.', property, '!==undefined)computed=this.__userValues.', property, ';');
 
-      if (!config.inheritable)
+      if (config.appearance === true) {
+        code.add('else if(this.__appearanceValues.', property, '!==undefined)computed=this.__appearanceValues.', property, ';');
+      }
+
+      if (config.init !== undefined) {
+        code.add('else computed=', clazz.classname, '.$$properties.', property, '.init;');
+      }
+
+      if (config.inheritable === true)
+      {
+        // TODO: Convert this to code.add statements...
+        /*
+        if (computed == "inherit" || (computed === undefined && config.inheritable))
+        {
+          var parent = this.getParent();
+
+          while (parent)
+          {
+            computed = getParent().getProperty();
+
+            if (value !== "inherit") {
+              break;
+            }
+
+            parent = parent.getParent();
+          }
+        }
+        */
+      }
+      else
       {
         code.add('if(computed==="inherit")');
-        code.add('return this.error("The property ', property, ' does not support inheritance");');
+        code.add('return this.error("The property ', property, ' of ');
+        code.add(clazz.classname, ' does not support inheritance!");');
       }
 
-      // TODO: Convert this to code.add statements...
-      /*
-      if (computed == "inherit" || (computed === undefined && config.inheritable))
-      {
-        var parent = this.getParent();
 
-        while (parent)
-        {
-          computed = getParent().getProperty();
 
-          if (value !== "inherit") {
-            break;
-          }
 
-          parent = parent.getParent();
-        }
-      }
-      */
 
+      // Remember old value
+      code.add('var old=this.__computedValues.', property, ';');
 
       // Check old/new value
-      code.add('if(this.__computedValues.', property, '===computed)return computed;');
+      code.add('if(old===computed)return value;');
 
       // Store new computed value
       code.add('this.__computedValues.', property, '=computed;');
 
+      // Execute user configured setter
+      if (config.setter)
+      {
+        code.add('if(!', clazz.classname, '.$$properties.', property);
+        code.add('.setter.call(this, computed, old))');
+      }
 
-      // TODO: property setter/modifier
-      // TODO: event dispatch
+      // Fire event
+      if (config.event) {
+        code.add('this.createDispatchDataEvent("', config.event, '", computed);');
+      }
+
+
+
+
 
 
 
