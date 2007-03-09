@@ -89,7 +89,13 @@ qx.Class.define("qx.core.Property",
       // Processing property groups
       if (config.group)
       {
-        console.debug("Generating property group: " + name + " (" + access + ")");
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
+          if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
+            console.debug("Generating property group: " + name + " (" + access + ")");
+          }
+        }
+
 
         var setter = new qx.util.StringBuilder;
 
@@ -111,7 +117,14 @@ qx.Class.define("qx.core.Property",
       // Processing properties
       else
       {
-        console.debug("Generating property wrappers: " + name + " (" + access + ")");
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
+          if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
+            console.debug("Generating property wrappers: " + name + " (" + access + ")");
+          }
+        }
+
+
 
         /**
          * GETTER
@@ -172,7 +185,14 @@ qx.Class.define("qx.core.Property",
      */
     executeOptimizedSetter : function(instance, clazz, property, variant, value)
     {
-      console.debug("Finalize " + variant + "() of " + property + " in class " + clazz.classname);
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
+          console.debug("Finalize " + variant + "() of " + property + " in class " + clazz.classname);
+        }
+      }
+
+
 
       var config = clazz.$$properties[property];
       var code = new qx.util.StringBuilder;
@@ -326,8 +346,11 @@ qx.Class.define("qx.core.Property",
 
 
       // Inform user
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        code.add('this.debug("' + property + ' changed: " + qx.io.Json.stringify(old) + " => " + qx.io.Json.stringify(computed));');
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (qx.core.Setting.get("qx.propertyDebugLevel") > 0) {
+          code.add('this.debug("' + property + ' changed: " + qx.io.Json.stringify(old) + " => " + qx.io.Json.stringify(computed));');
+        }
       }
 
       // Execute user configured setter
@@ -355,7 +378,12 @@ qx.Class.define("qx.core.Property",
 
 
       // Output generate code
-      console.debug("Code: " + code);
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (qx.core.Setting.get("qx.propertyDebugLevel") > 2) {
+          console.debug("Code: " + code);
+        }
+      }
 
       // Overriding temporary setter
       clazz.prototype[config.namePrefix + variant + config.funcName] = new Function("value", code.toString());
@@ -363,5 +391,10 @@ qx.Class.define("qx.core.Property",
       // Executing new setter
       return instance[config.namePrefix + variant + config.funcName](value);
     }
+  },
+
+  settings :
+  {
+    "qx.propertyDebugLevel" : 0
   }
 });
