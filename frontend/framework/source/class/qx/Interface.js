@@ -24,6 +24,11 @@
 
 ************************************************************************ */
 
+/**
+ * This class is used to define interfaces.
+ * 
+ * To define a new interface the {@link #define} method is used.
+ */
 qx.Class.define("qx.Interface",
 {
   statics :
@@ -39,9 +44,6 @@ qx.Class.define("qx.Interface",
      * main difference is that the function body of functions defined in <code>members</code>
      * and <code>statics</code> are treated as preconditions the the methods
      * implementing the interface. These are typically used for parameter checks.
-     *
-     * Primitive statics written all uppercase are copied into the classes implementing
-     * the interface.
      *
      * For properties only the names are required so the value of the properties
      * can be empty maps.
@@ -75,7 +77,10 @@ qx.Class.define("qx.Interface",
      *     <tr><th>Name</th><th>Type</th><th>Description</th></tr>
      *     <tr><th>extend</th><td>Class</td><td>The interfaces this interface inherits from.</td></tr>
      *     <tr><th>members</th><td>Map</td><td>Map of members of the interface.</td></tr>
-     *     <tr><th>statics</th><td>Map</td><td>Map of statics of the interface.</td></tr>
+     *     <tr><th>statics</th><td>Map</td><td>
+     *         Map of statics of the interface. The statics will not get copied into the target class.
+     *         This is the same behaviour as statics in Mixins ({@link qx.Mixin#define}).
+     *     </td></tr>
      *     <tr><th>properties</th><td>Map</td><td>Map of properties.</td></tr>
      *   </table>
      */
@@ -160,10 +165,14 @@ qx.Class.define("qx.Interface",
 
     /**
      * Whether a given class includes a interface.
+     * 
+     * This function will only return "true" if the interface was defined
+     * in the class declaration (@link qx.Class#define}) using the "implement"
+     * key. 
      *
      * @type static
      * @param clazz {Class|Object} class or instance to check
-     * @param mixin {Mixin} the mixin to check for
+     * @param iface {Interface} the interface to check for
      * @return {Boolean} whether the class includes the mixin.
      */
     hasOwnInterface : function(clazz, iface)
@@ -181,10 +190,15 @@ qx.Class.define("qx.Interface",
     /**
      * Whether a given class includes a interface (recursive).
      *
+     * This function will return "true" if the interface was defined
+     * in the class declaration (@link qx.Class#define}) of the class
+     * or any of its super classes using the "implement"
+     * key. 
+     * 
      * @type static
      * @param clazz {Class|Object} class or instance to check
-     * @param mixin {Mixin} the mixin to check for
-     * @return {Boolean} whether the class includes the mixin.
+     * @param iface {Interface} the interface to check for
+     * @return {Boolean} whether the class includes the interface.
      */
     hasInterface : function(clazz, iface)
     {
@@ -203,12 +217,16 @@ qx.Class.define("qx.Interface",
 
 
     /**
-     * Wether a given class conforms to an interface (included or not)
+     * Wether a given class conforms to an interface.
+     * 
+     * Checks whether all methods defined in the interface are 
+     * implemented in the class. The class does not needs to declare
+     * the interfaces directly.
      *
      * @type static
      * @param clazz {Class|Object} class or instance to check
-     * @param mixin {Mixin} the mixin to check for
-     * @return {Boolean} whether the class includes the mixin.
+     * @param iface {Interface} the interface to check for
+     * @return {Boolean} whether the class includes the interface.
      */
     implementsInterface : function(clazz, iface)
     {
