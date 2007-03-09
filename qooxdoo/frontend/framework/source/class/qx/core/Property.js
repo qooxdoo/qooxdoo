@@ -110,7 +110,7 @@ qx.Class.define("qx.core.Property",
         }
 
         // Computed getter
-        members[namePrefix + "computed" + funcName] = function() {
+        members[namePrefix + "compute" + funcName] = function() {
           return this.__computedValues[name];
         }
 
@@ -154,49 +154,6 @@ qx.Class.define("qx.core.Property",
       "Map"     : 'value !== null && typeof value === "object" && !(value instanceof Array)'
     },
 
-    /**
-     * TODOC
-     *
-     * @type static
-     * @param clazz {var} TODOC
-     * @param name {var} TODOC
-     * @return {call} TODOC
-     */
-    executeOptimizedGetter : function(instance, clazz, property)
-    {
-      console.debug("Finalize get() of " + property + " in class " + clazz.classname);
-
-
-
-
-      var config = clazz.$$properties[property];
-
-      // Starting code generation
-      var code = new qx.util.StringBuilder;
-
-      // Including user values
-      code.add('if(this.__userValues.', property, '!==undefined)');
-      code.add('return this.__userValues.', property, ';');
-
-      // TODO: Appearance value
-      // TODO: Inherited value
-
-      // Including code for default value
-      code.add('return ', clazz.classname, '.$$properties.', property, '.init');
-
-
-
-
-      // Output generate code
-      console.debug("GETTER: " + code.toString());
-
-      // Overriding temporary setter
-      clazz.prototype[config.namePrefix + "get" + config.funcName] = new Function(code.toString());
-
-      // Executing new setter
-      return instance[config.namePrefix + "get" + config.funcName]();
-    },
-
 
     /**
      * TODOC
@@ -217,32 +174,50 @@ qx.Class.define("qx.core.Property",
       var field = variant === "style" ? "this.__styleValues." + property : "this.__userValues." + property;
 
 
+      // Validate setter and if in debug mode the styler, too
+      var validation;
+
+      if (variant == "set")
+      {
+        validation = true;
+      }
+      else if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (variant == "appearance") {
+          validation = true;
+        }
+      }
+
 
       // Validation
-      if (variant === "set")
+      if (variant === "set" || variant == "appearance")
       {
-        // Simple old/new check
+        // Old/new comparision
         code.add('if(', field, '===value)return value;');
 
-        // Validation code
+        // Check value
         if (config.check === undefined)
         {
           code.add('if(value===undefined)');
         }
         else
         {
-          if (config.check in this.check)
+          if (this.check[config.check] !== undefined)
           {
             code.add('if(!(', this.check[config.check], '))');
+          }
+          else if (qx.Class.isDefined(config.check))
+          {
+            code.add('if(!(value instanceof ', config.check, '))');
           }
           else if (typeof config.check === "function")
           {
             code.add('if(!', clazz.classname, '.$$properties.', property);
             code.add('.check.call(this, value))');
           }
-          else if (qx.Class.isDefined(config.check))
+          else if (typeof config.check === "string")
           {
-            code.add('if(!(value instanceof ', config.check, '))');
+            code.add('if(!(', config.check, '))');
           }
           else
           {
@@ -250,7 +225,7 @@ qx.Class.define("qx.core.Property",
           }
         }
 
-        code.add('return this.warn("Invalid value for property ', property, ': " + value);');
+        code.add('return this.error("Invalid value for property ', property, ': " + value);');
 
         // Store value
         code.add(field, '=value;');
@@ -265,11 +240,7 @@ qx.Class.define("qx.core.Property",
       }
       else if (variant === "reset")
       {
-        // TODO: Has someone ever tested the performance impact comparing
-        // "delete something" with something=undefined?
-
         // Remove value
-        // code.add('delete ', field, ';');
         code.add(field, '=value=undefined;');
       }
 
