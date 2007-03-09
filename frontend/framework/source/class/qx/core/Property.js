@@ -126,6 +126,10 @@ qx.Class.define("qx.core.Property",
           qx.core.Property.executeOptimizedSetter(this, clazz, name, "reset");
         }
 
+        members[namePrefix + "refresh" + funcName] = function() {
+          qx.core.Property.executeOptimizedSetter(this, clazz, name, "refresh");
+        }
+
         if (config.appearance)
         {
           members[namePrefix + "style" + funcName] = function(value) {
@@ -175,32 +179,32 @@ qx.Class.define("qx.core.Property",
 
 
       // Validate setter and if in debug mode the styler, too
-      var validation;
+      var enableChecks = false;
 
       if (variant == "set")
       {
-        validation = true;
+        enableChecks = true;
       }
       else if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (variant == "appearance") {
-          validation = true;
+        if (variant == "style") {
+          enableChecks = true;
         }
       }
 
 
-      // Validation
-      if (variant === "set" || variant == "appearance")
+      // Checks
+      if (enableChecks)
       {
         // Old/new comparision
         code.add('if(', field, '===value)return value;');
 
+        // Undefined check
+        code.add('if(value===undefined)');
+        code.add('return this.error("Undefined value for property ', property, ': " + value);');
+
         // Check value
-        if (config.check === undefined)
-        {
-          code.add('if(value===undefined)');
-        }
-        else
+        if (config.check !== undefined)
         {
           if (this.check[config.check] !== undefined)
           {
@@ -223,9 +227,9 @@ qx.Class.define("qx.core.Property",
           {
             throw new Error("Could not add check to property " + name + " of class " + clazz.classname);
           }
-        }
 
-        code.add('return this.error("Invalid value for property ', property, ': " + value);');
+          code.add('return this.error("Invalid value for property ', property, ': " + value);');
+        }
 
         // Store value
         code.add(field, '=value;');
@@ -252,47 +256,57 @@ qx.Class.define("qx.core.Property",
       //   * we have a setter/modify method to execute
       // Otherwise invalidation would be maybe enough. Is this really relevant?
 
-      code.add('var computed;');
 
-      code.add('if(this.__userValues.', property, '!==undefined)computed=this.__userValues.', property, ';');
 
-      if (config.appearance === true) {
-        code.add('else if(this.__styleValues.', property, '!==undefined)computed=this.__styleValues.', property, ';');
+      // Generated "computed" value
+      //
+      // In both variants, set and toggle, the value is always the user value and is
+      // could not be undefined. This way we are sure we can use this value and don't
+      // need a complex logic to find the usable value.
+      //
+      // Otherwise: If there is no appearance support and no initial value, the only
+      // available value is the user value. We can then simply use this value to,
+      // defined or not.
+      if (variant === "set" || variant === "toggle" || (config.appearance !== true && config.init === undefined))
+      {
+        code.add('var computed=value;');
+      }
+      else
+      {
+        code.add('var computed;');
+        code.add('if(this.__userValues.', property, '!==undefined)computed=this.__userValues.', property, ';');
+
+        if (config.appearance === true) {
+          code.add('else if(this.__styleValues.', property, '!==undefined)computed=this.__styleValues.', property, ';');
+        }
+
+        if (config.init !== undefined) {
+          code.add('else computed=', clazz.classname, '.$$properties.', property, '.init;');
+        }
       }
 
-      if (config.init !== undefined) {
-        code.add('else computed=', clazz.classname, '.$$properties.', property, '.init;');
-      }
+
+
+
+
+
+
 
       if (config.inheritable === true)
       {
-        // TODO: Convert this to code.add statements...
-        /*
-        if (computed == "inherit" || (computed === undefined && config.inheritable))
-        {
-          var parent = this.getParent();
-
-          while (parent)
-          {
-            computed = getParent().getProperty();
-
-            if (value !== "inherit") {
-              break;
-            }
-
-            parent = parent.getParent();
-          }
-        }
-        */
+        // Search for inheritance
+        code.add('if(computed==="inherit"||(computed===undefined&&config.inheritable)){');
+        code.add('var parent=this.getParent();');
+        code.add('while(parent){computed=getParent().compute', property, '();');
+        code.add('if(computed!=="inherit")break;');
+        code.add('parent=parent.getParent();}}');
       }
-      else
+      else if (enableChecks)
       {
         code.add('if(computed==="inherit")');
         code.add('return this.error("The property ', property, ' of ');
         code.add(clazz.classname, ' does not support inheritance!");');
       }
-
-
 
 
 
@@ -304,6 +318,7 @@ qx.Class.define("qx.core.Property",
 
       // Store new computed value
       code.add('this.__computedValues.', property, '=computed;');
+
 
       // Inform user
       if (qx.core.Variant.isSet("qx.debug", "on")) {
@@ -325,10 +340,10 @@ qx.Class.define("qx.core.Property",
         code.add('this.createDispatchDataEvent("', config.event, '", computed);');
       }
 
+
+
       // Return value
       code.add('return value;');
-
-
 
 
 
