@@ -150,7 +150,34 @@ qx.Class.define("qx.log.WindowAppender",
       type         : "boolean",
       defaultValue : true,
       allowNull    : false
-    }
+    },
+
+    windowWidth :
+    {
+      _legacy      : true,
+      defaultValue : 600,
+      allowNull    : false
+    },
+
+    windowHeight :
+    {
+      _legacy      : true,
+      defaultValue : 350,
+      allowNull    : false
+    },
+
+    windowLeft :
+    {
+      _legacy      : true,
+      defaultValue : null
+    },
+
+    windowTop :
+    {
+      _legacy      : true,
+      defaultValue : null
+    },
+
   },
 
 
@@ -179,10 +206,18 @@ qx.Class.define("qx.log.WindowAppender",
       }
 
       // Open the logger window
-      var winWidth = 600;
-      var winHeight = 350;
-      var winLeft = window.screen.width - winWidth;
-      var winTop = window.screen.height - winHeight;
+      var winWidth = this.getWindowWidth();
+      var winHeight = this.getWindowHeight();
+      var winLeft = this.getWindowLeft();
+      if (winLeft === null)
+      {
+        winLeft = window.screen.width - winWidth;        
+      }
+      var winTop = this.getWindowTop();
+      if (winTop === null)
+      {
+        winTop = window.screen.height - winHeight;
+      }
       var params = "toolbar=no,scrollbars=yes,resizable=yes," + "width=" + winWidth + ",height=" + winHeight + ",left=" + winLeft + ",top=" + winTop;
 
       // NOTE: In window.open the browser will process the event queue.
