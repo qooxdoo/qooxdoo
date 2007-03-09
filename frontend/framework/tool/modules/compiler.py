@@ -795,8 +795,8 @@ def compileNode(node,optns):
         if pretty:
             if node.isComplex():
                 line()
-                #if not (optns.prettypOpenCurlyNewlineBefore in "nN"):
-                inc_indent()
+                if not optns.prettypAlignBlockWithCurlies:
+                    inc_indent()
 
             elif node.hasChildren(True):
                 space()
@@ -851,17 +851,20 @@ def compileNode(node,optns):
             if ((node.isComplex() and not (optns.prettypOpenCurlyNewlineBefore in "nN"))
                 or (optns.prettypOpenCurlyNewlineBefore in "aA")):
                 line()
+                nl=True
                 if optns.prettypOpenCurlyIndentBefore:
                     inc_indent()
             else:
                 space()
+                nl=False
 
         write("{")
 
         if pretty:
             if node.hasChildren():
-                inc_indent()
                 line()
+                if (not nl) or (nl and not optns.prettypAlignBlockWithCurlies):
+                    inc_indent()
 
 
     #
@@ -1212,7 +1215,8 @@ def compileNode(node,optns):
         if pretty:
             if node.isComplex():
                 line()
-                dec_indent()
+                if not optns.prettypAlignBlockWithCurlies:
+                    dec_indent()
 
             elif node.hasChildren(True):
                 space()
@@ -1275,8 +1279,9 @@ def compileNode(node,optns):
 
     elif node.type == "block":
         if pretty and node.hasChildren():
-            dec_indent()
             line()
+            if not optns.prettypAlignBlockWithCurlies:
+                dec_indent()
 
         write("}")
 
@@ -1300,8 +1305,21 @@ def compileNode(node,optns):
                 else:
                     line()
 
-            if (optns.prettypOpenCurlyIndentBefore and not (optns.prettypOpenCurlyNewlineBefore in "nN")):
-                dec_indent()
+            #if ((optns.prettypOpenCurlyIndentBefore and not (optns.prettypOpenCurlyNewlineBefore in "nN"))
+            #    or optns.prettypAlignBlockWithCurlies):
+            #    dec_indent()
+            # to get the next statement after the block aligned with the parent of the block, you have to
+            # unindent after "}" if:
+            # - the opening "{" was on a new line AND was indented
+            #   OR
+            # - the opending "{" was inline AND align-with-curlies is active
+            if ((node.isComplex()  and not (optns.prettypOpenCurlyNewlineBefore in "nN")) # means: opening "{" on new line
+                or (optns.prettypOpenCurlyNewlineBefore in "aA")):
+                if optns.prettypOpenCurlyIndentBefore:
+                    dec_indent()
+            else :
+                if optns.prettypAlignBlockWithCurlies:
+                    dec_indent()
 
 
     #
@@ -1506,6 +1524,7 @@ def addCommandLineOptions(parser):
                       help="Defines whether \"{\" will always [aA] or never [nN] be on a new line; the default is mixed [mM] behaviour according to complexity of the enclosed block")
     parser.add_option("--pretty-print-indent-before-open-curly", action="store_true", dest="prettypOpenCurlyIndentBefore", default=False, help="Indent \"{\" (default: False)")
     parser.add_option("--pretty-print-inline-comment-padding", dest="prettypCommentsInlinePadding", default="  ", help="String used between the end of a statement and a trailing inline comment (default: \"  \")")
+    parser.add_option("--pretty-print-indent-align-block-with-curlies", action="store_true", dest="prettypAlignBlockWithCurlies", default=False, help="Align a block of code with its surrounding curlies (obviously not with the opening curly when it is not on a new line); use in combination with --pretty-print-indent-before-open-curly, otherwise the result might look weird (default: False)")
 
 
 def main():
