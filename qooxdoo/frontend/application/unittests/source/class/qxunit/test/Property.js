@@ -104,6 +104,99 @@ qx.Class.define("qxunit.test.Property",
       this.assertIndentical(arr, inst.computeArrayProp(), "array property, compute");
 
       this.debug("Done: testBuiltinTypes");
+    },
+
+    testMultiValues : function()
+    {
+      this.debug("Exec: testMultiValues");
+
+      this.assertNotUndefined(qx.core.Property);
+
+      // Check instance
+      var inst = new qxunit.test.PropertyHelper;
+      this.assertNotUndefined(inst, "instance");
+
+
+      // TODO
+
+
+      this.debug("Done: testMultiValues");
+    },
+
+    testPerformance : function()
+    {
+      this.debug("Exec: testPerformance");
+
+      this.assertNotUndefined(qx.core.Property);
+
+      // Check instance
+      var inst = new qxunit.test.PropertyHelper;
+      this.assertNotUndefined(inst, "instance");
+
+      var values = [ "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" ];
+      qx.lang.Array.append(values, values);
+      qx.lang.Array.append(values, values);
+      qx.lang.Array.append(values, values);
+      qx.lang.Array.append(values, values);
+      qx.lang.Array.append(values, values);
+      qx.lang.Array.append(values, values);
+      qx.lang.Array.append(values, values);
+      qx.lang.Array.append(values, values);
+      qx.lang.Array.append(values, values);
+
+      var len = values.length;
+      this.debug("Testing: " + len + " iterations");
+
+
+
+      var d = new Date();
+      for (var i=0; i<len; i++) {
+        inst.setLegacyPure(values[i]);
+      }
+      this.debug("Legacy properties (pure) " + (new Date - d) + "ms");
+
+      var d = new Date();
+      for (var i=0; i<len; i++) {
+        inst.setLegacyString(values[i]);
+      }
+      this.debug("Legacy properties (string) " + (new Date - d) + "ms");
+
+      var d = new Date();
+      for (var i=0; i<len; i++) {
+        inst.setLegacyPure([]);
+      }
+      this.debug("Legacy properties (array) " + (new Date - d) + "ms");
+
+
+
+      var d = new Date();
+      for (var i=0; i<len; i++) {
+        inst.setPublicProp(values[i]);
+      }
+      this.debug("New properties (pure) " + (new Date - d) + "ms");
+
+      var d = new Date();
+      for (var i=0; i<len; i++) {
+        inst.setStringProp(values[i]);
+      }
+      this.debug("New properties (string) " + (new Date - d) + "ms");
+
+      var d = new Date();
+      for (var i=0; i<len; i++) {
+        inst.setArrayProp([]);
+      }
+      this.debug("New properties (array) " + (new Date - d) + "ms");
+
+
+
+      // To keep the debug console...
+      if (qx.core.Client.getInstance().isMshtml()) {
+        confirm("test log");
+      }
+
+
+
+      this.debug("Done: testPerformance");
     }
   }
 });
@@ -114,19 +207,27 @@ qx.Class.define("qxunit.test.PropertyHelper",
 
   properties :
   {
+    // legacy
+    legacyPure      : { _legacy : true },
+    legacyString    : { _legacy : true, type : "string" },
+    legacyArray     : { _legacy : true, type : "object", instance : "Array" },
+
+    // protection
     publicProp      : { },
     _protectedProp  : { },
     __privateProp   : { },
 
+    // types
     stringProp      : { check : "String" },
     booleanProp     : { check : "Boolean" },
     numberProp      : { check : "Number" },
     objectProp      : { check : "Object" },
     arrayProp       : { check : "Array" },
-    mapProp         : { check : "Map" }
+    mapProp         : { check : "Map" },
 
-
-
-
+    // multi values
+    initProp        : { init  : "foo" },
+    appearanceProp  : { appearance : true },
+    fullProp        : { init : 100, appearance : true }
   }
 });
