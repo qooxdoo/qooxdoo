@@ -29,6 +29,9 @@
 /**
  * qx.ui.treefullcontrol.Tree objects are tree root nodes but act like
  * TreeFolder.
+ * 
+ * @appearance tree-icon {qx.ui.basic.Image}
+ * @appearance tree-label {qx.ui.basic.Label}
  */
 qx.Class.define("qx.ui.treefullcontrol.Tree",
 {

@@ -26,6 +26,14 @@
 
 ************************************************************************ */
 
+/**
+ * @appearance tree-container {qx.ui.tree.TreeFolder}
+ * @appearance tree-folder-container {qx.ui.tree.TreeFolder}
+ * @appearance tree {qx.ui.layout.HorizontalBoxLayout}
+ * @appearance tree-folder {qx.ui.layout.HorizontalBoxLayout} 
+ * @appearance tree-folder-icon {qx.ui.basic.Image}
+ * @appearance tree-folder-label {qx.ui.basic.Label}
+ */
 qx.Class.define("qx.ui.tree.TreeFolder",
 {
   extend : qx.ui.tree.AbstractTreeElement,
@@ -39,6 +47,11 @@ qx.Class.define("qx.ui.tree.TreeFolder",
   *****************************************************************************
   */
 
+  /**
+   * @param vLabel {qx.ui.basic.Label}
+   * @param vIcon {qx.ui.basic.Image}
+   * @param vIconSelected
+   */
   construct : function(vLabel, vIcon, vIconSelected)
   {
     this.base(arguments, vLabel, vIcon, vIconSelected);

@@ -28,6 +28,10 @@
 
 ************************************************************************ */
 
+/**
+ * @appearance tree-element-icon {qx.ui.basic.Image}
+ * @appearance tree-element-label {qx.ui.basic.Label}
+ */
 qx.Class.define("qx.ui.treefullcontrol.AbstractTreeElement",
 {
   type : "abstract",

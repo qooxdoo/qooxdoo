@@ -27,6 +27,9 @@
 
 /**
  * The default header cell renderer.
+ *
+ * @appearance table-header-cell {qx.ui.basic.Atom} 
+ * @state mouseover
  */
 qx.Class.define("qx.ui.table.DefaultHeaderCellRenderer",
 {

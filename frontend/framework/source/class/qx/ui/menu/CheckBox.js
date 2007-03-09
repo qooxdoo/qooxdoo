@@ -26,7 +26,11 @@
 
 ************************************************************************ */
 
-/** A checkbox for the menu system. */
+/**
+ * A checkbox for the menu system.
+ *
+ * @state checked Set by {@link #checked}
+ */
 qx.Class.define("qx.ui.menu.CheckBox",
 {
   extend : qx.ui.menu.Button,
