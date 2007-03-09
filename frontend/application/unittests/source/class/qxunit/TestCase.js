@@ -68,11 +68,11 @@ qx.Class.define("qxunit.TestCase", {
     },
 
     assertTrue: function(bool, msg) {
-      this.__assert(bool == true, msg || "", "Called assertTrue with 'false'");
+      this.__assert(bool === true, msg || "", "Called assertTrue with 'false'");
     },
 
     assertFalse: function(bool, msg) {
-      this.__assert(bool == false, msg || "", "Called assertFalse with 'true'");
+      this.__assert(bool === false, msg || "", "Called assertFalse with 'true'");
     },
 
     assertEquals: function(expected, found, msg) {
@@ -80,11 +80,11 @@ qx.Class.define("qxunit.TestCase", {
     },
 
     assertNotUndefined: function(value, msg) {
-      this.__assert(value != undefined, msg || "", "Expected value not to be undefined but found '"+value+"'!");
+      this.__assert(value !== undefined, msg || "", "Expected value not to be undefined but found '"+value+"'!");
     },
 
     assertUndefined: function(value, msg) {
-      this.__assert(value == undefined, msg || "", "Expected value to be undefined but found '"+value+"'!");
+      this.__assert(value === undefined, msg || "", "Expected value to be undefined but found '"+value+"'!");
     },
 
     assertNotNull: function(value, msg) {
@@ -93,6 +93,38 @@ qx.Class.define("qxunit.TestCase", {
 
     assertNull: function(value, msg) {
       this.__assert(value === null, msg || "", "Expected value to be null but found '"+value+"'!");
+    },
+
+    assertFunction: function(value, msg) {
+      this.__assert(typeof value === "function", msg || "", "Expected value to be typeof function but found '"+value+"'!");
+    },
+
+    assertString: function(value, msg) {
+      this.__assert(typeof value === "string", msg || "", "Expected value to be typeof string but found '"+value+"'!");
+    },
+
+    assertNumber: function(value, msg) {
+      this.__assert(typeof value === "number", msg || "", "Expected value to be typeof number but found '"+value+"'!");
+    },
+
+    assertObject: function(value, msg) {
+      this.__assert(typeof value === "object" && value !== null, msg || "", "Expected value to be typeof object but found '"+value+"'!");
+    },
+
+    assertArray: function(value, msg) {
+      this.__assert(value instanceof Array, msg || "", "Expected value to be an array but found '"+value+"'!");
+    },
+
+    assertMap: function(value, msg) {
+      this.__assert(typeof value === "object" && !(value instanceof Array) && !(value instanceof qx.core.Object), msg || "", "Expected value to be a map but found '"+value+"'!");
+    },
+
+    assertQxObject: function(value, msg) {
+      this.__assert(value instanceof qx.core.Object, msg || "", "Expected value to be a qooxdoo object but found '"+value+"'!");
+    },
+
+    assertQxWidget: function(value, msg) {
+      this.__assert(value instanceof qx.ui.core.Widget, msg || "", "Expected value to be a qooxdoo widget but found '"+value+"'!");
     },
 
     // assertions which are only evaluated if "qx.debug" if "on"
