@@ -24,6 +24,9 @@
 
 ************************************************************************ */
 
+/**
+ * @appearance toolbar-part-handle-line {qx.ui.basic.Terminator}
+ */
 qx.Class.define("qx.ui.toolbar.PartHandle",
 {
   extend : qx.ui.layout.CanvasLayout,

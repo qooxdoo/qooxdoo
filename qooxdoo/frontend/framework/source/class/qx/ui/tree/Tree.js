@@ -24,6 +24,10 @@
 
 ************************************************************************ */
 
+/**
+ * @appearance tree-icon {qx.ui.basic.Image}
+ * @appearance tree-label {qx.ui.basic.Label}
+ */
 qx.Class.define("qx.ui.tree.Tree",
 {
   extend : qx.ui.tree.TreeFolder,
@@ -37,6 +41,10 @@ qx.Class.define("qx.ui.tree.Tree",
   *****************************************************************************
   */
 
+  /**
+   * @param vLabel {qx.ui.basic.Label}
+   * @param vIcon {qx.ui.basic.Image}
+   */
   construct : function(vLabel, vIcon, vIconSelected)
   {
     this.base(arguments, vLabel, vIcon, vIconSelected);

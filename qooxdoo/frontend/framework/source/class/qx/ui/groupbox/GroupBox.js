@@ -24,6 +24,10 @@
 
 ************************************************************************ */
 
+/**
+ * @appearance field-set-legend {qx.ui.basic.Atom}
+ * @appearance field-set-frame {qx.ui.layout.CanvasLayout}
+ */
 qx.Class.define("qx.ui.groupbox.GroupBox",
 {
   extend : qx.ui.layout.CanvasLayout,

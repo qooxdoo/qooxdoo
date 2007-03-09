@@ -24,6 +24,9 @@
 
 ************************************************************************ */
 
+/**
+ * @appearance check-box-field-set-legend {qx.ui.form.CheckBox}
+ */
 qx.Class.define("qx.ui.groupbox.CheckGroupBox",
 {
   extend : qx.ui.groupbox.GroupBox,
