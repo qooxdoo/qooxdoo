@@ -1337,7 +1337,7 @@ qx.Class.define("apiviewer.ClassViewer",
             textHtml.add("null, ");
           }
 
-          textHtml(allowedValue, ClassViewer.DIV_END);
+          textHtml.add(allowedValue, ClassViewer.DIV_END);
         }
 
         // Add default value
