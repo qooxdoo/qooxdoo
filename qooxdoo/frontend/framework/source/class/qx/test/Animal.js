@@ -21,12 +21,12 @@ qx.Class.define("qx.test.Animal",
 
     _boxWidth : { },
     _boxHeight: { },
-    _enabled : { init : "inherit", inheritable : true },
-    _target : { validation : "qx.core.Target" },
-    _string : { validation : "String" },
+    _enabled : { init : "inherit", inheritable : true, check : "Boolean" },
+    _target : { check : "qx.core.Target" },
+    _string : { check : "String" },
     _complex :
     {
-      validation : function(value)
+      check : function(value)
       {
         switch(typeof value)
         {
@@ -42,7 +42,7 @@ qx.Class.define("qx.test.Animal",
 
       setter : function(value, old)
       {
-        this.debug("Setter executed with: " + old + " => " + value);
+        this.debug("Setter executed: " + value);
       }
     }
   },
