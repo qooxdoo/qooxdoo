@@ -174,8 +174,10 @@ qx.Class.define("qxunit.TestCase", {
     })
   },
 
-  defer: function(statics, members) {
-    if (window.console) {
+  defer: function(statics, members)
+  {
+    if (window.console)
+    {
       members.profile = console.profile;
       members.profileEnd = console.profileEnd;
     }
