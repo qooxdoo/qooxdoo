@@ -176,7 +176,7 @@ qx.Class.define("qx.log.WindowAppender",
     {
       _legacy      : true,
       defaultValue : null
-    },
+    }
 
   },
 
