@@ -224,6 +224,9 @@ qx.Class.define("qx.core.Client",
 
       this._supportsTextContent = (document.documentElement.textContent !== undefined);
       this._supportsInnerText = (document.documentElement.innerText !== undefined);
+      
+      this._supportsXPath = !!document.evaluate;
+      this._supportsElementExtensions = !!window.HTMLElement;
     },
 
 
