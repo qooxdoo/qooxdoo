@@ -132,9 +132,10 @@ qx.Class.define("qx.lang.Function",
      *
      * @param fcn {Function} function to bind
      * @param self {Object} object, which shuold act as the 'this' variable inside the bound function
+     * @param varargs {arguments} multiple arguments which should be static arguments for the given function
      * @return {Function} the bound function
      */
-    bind: function(fcn, self)
+    bind: function(fcn, self, varargs)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -146,14 +147,62 @@ qx.Class.define("qx.lang.Function",
           throw new Error("Second parameter to bind() needs to be of type object!");
         }
       }
-
-      var boundFunction = function() {
+      
+      // Static arguments
+      var args = Array.prototype.slice.call(arguments, 2);
+      
+      // Create wrapper method
+      function wrap() 
+      {
         fcn.context = self;
-        return fcn.apply(self, arguments);
+        var ret = fcn.apply(self, args.concat(arguments));
+        fcn.context = null;
+        return ret;
       }
-      boundFunction.self = fcn.self ? fcn.self.constructor : self;
-      return boundFunction;
+      
+      // Correcting self
+      wrap.self = fcn.self ? fcn.self.constructor : self;
+      
+      // Return wrapper method
+      return wrap;
     },
+    
+    /**
+     * Bind a function which works as an event listener to an object. Each time 
+     * the bound method is called the 'this' variable is guaranteed to be 'self'.
+     *
+     * @param fcn {Function} function to bind
+     * @param self {Object} object, which shuold act as the 'this' variable inside the bound function
+     * @return {Function} the bound function
+     */
+    bindEvent: function(fcn, self)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (typeof fcn !== "function") {
+          throw new Error("First parameter to bindEvent() needs to be of type function!");
+        }
+
+        if (typeof self !== "object") {
+          throw new Error("Second parameter to bindEvent() needs to be of type object!");
+        }
+      }
+      
+      // Create wrapper method
+      function wrap(event) 
+      {
+        fcn.context = self;
+        var ret = fcn.call(self, event||window.event);
+        fcn.context = null;
+        return ret;
+      }
+      
+      // Correcting self
+      wrap.self = fcn.self ? fcn.self.constructor : self;
+      
+      // Return wrapper method
+      return wrap;
+    },    
 
 
     /**
