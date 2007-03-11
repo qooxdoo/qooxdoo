@@ -148,16 +148,29 @@ qx.Class.define("qx.lang.Function",
         }
       }
       
-      // Static arguments
-      var args = Array.prototype.slice.call(arguments, 2);
-      
       // Create wrapper method
-      function wrap() 
+      if (arguments.length > 2)
       {
-        fcn.context = self;
-        var ret = fcn.apply(self, args.concat(arguments));
-        fcn.context = null;
-        return ret;
+        // Static arguments
+        var args = Array.prototype.slice.call(arguments, 2);
+
+        function wrap() 
+        {
+          fcn.context = self;
+          var ret = fcn.apply(self, args.concat(qx.lang.Array.fromArguments(arguments)));
+          fcn.context = null;
+          return ret;
+        }
+      }
+      else
+      {
+        function wrap() 
+        {
+          fcn.context = self;
+          var ret = fcn.apply(self, arguments);
+          fcn.context = null;
+          return ret;
+        }
       }
       
       // Correcting self
@@ -166,6 +179,7 @@ qx.Class.define("qx.lang.Function",
       // Return wrapper method
       return wrap;
     },
+    
     
     /**
      * Bind a function which works as an event listener to an object. Each time 
