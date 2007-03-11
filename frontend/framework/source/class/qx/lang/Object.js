@@ -124,7 +124,7 @@ qx.Class.define("qx.lang.Object",
       // This is why this checks are needed.
       if (qx.core.Variant.isSet("qx.client", "mshtml")) 
       {
-        for (var i=0, a=this._shadowedKeys; l=a.length; i<l; i++)
+        for (var i=0, a=this._shadowedKeys, l=a.length; i<l; i++)
         {
           if (map.hasOwnProperty(a[i])) {
             arr.push(a[i]);
