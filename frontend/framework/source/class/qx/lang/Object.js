@@ -42,7 +42,7 @@ qx.Class.define("qx.lang.Object",
      */
     isEmpty : function(map)
     {
-      for (var s in map) {
+      for (var key in map) {
         return false;
       }
 
@@ -62,7 +62,7 @@ qx.Class.define("qx.lang.Object",
     {
       var i = 0;
 
-      for (var s in map)
+      for (var key in map)
       {
         if ((++i) >= length) {
           return true;
@@ -84,7 +84,7 @@ qx.Class.define("qx.lang.Object",
     {
       var i = 0;
 
-      for (var s in map) {
+      for (var key in map) {
         i++;
       }
 
@@ -92,57 +92,48 @@ qx.Class.define("qx.lang.Object",
     },
 
 
+    _shadowedKeys : 
+    [
+      "isPrototypeOf",
+      "hasOwnProperty",
+      "toLocaleString",
+      "toString",
+      "valueOf"
+    ],
+       
+        
     /**
      * Get the keys of a map as array as returned by a "for ... in" statement.
+     *
+     * TODO: Rename to keys() like in prototype and python
      *
      * @type static
      * @param map {Object} the map
      * @return {Array} array of the keys of the map
-     * @signature function(map)
      */
-    getKeys : qx.core.Variant.select("qx.client",
+    getKeys : function(map)
     {
-      "mshtml" : function(map)
-      {
-        var r = [];
+      var arr = [];
 
-        for (var s in map) {
-          r.push(s);
-        }
-
-        // IE does not return "shadowed" keys even if they are defined directly
-        // in the object. This is incompatible to the ECMA standard!!
-        // This is why this checks are needed.
-        ieShadowProps =
-        [
-          "isPrototypeOf",
-          "hasOwnProperty",
-          "toLocaleString",
-          "toString",
-          "valueOf"
-        ];
-
-        for (var i=0; i<ieShadowProps.length; i++)
-        {
-          if (map.hasOwnProperty(ieShadowProps[i])) {
-            r.push(ieShadowProps[i]);
-          }
-        }
-
-        return r;
-      },
-
-      "default" : function(map)
-      {
-        var r = [];
-
-        for (var s in map) {
-          r.push(s);
-        }
-
-        return r;
+      for (var key in map) {
+        arr.push(key);
       }
-    }),
+      
+      // IE does not return "shadowed" keys even if they are defined directly
+      // in the object. This is incompatible to the ECMA standard!!
+      // This is why this checks are needed.
+      if (qx.core.Variant.isSet("qx.client", "mshtml")) 
+      {
+        for (var i=0, a=this._shadowedKeys; l=a.length; i<l; i++)
+        {
+          if (map.hasOwnProperty(a[i])) {
+            arr.push(a[i]);
+          }
+        }          
+      }
+
+      return arr;
+    },
 
 
     /**
@@ -167,62 +158,63 @@ qx.Class.define("qx.lang.Object",
     /**
      * Get the values of a map as array
      *
+     * TODO: Rename to values() like in prototype and python
+     *
      * @type static
      * @param map {Object} the map
      * @return {Array} array of the values of the map
      */
     getValues : function(map)
     {
-      var r = [];
+      var arr = [];
 
-      for (var s in map) {
-        r.push(map[s]);
+      for (var key in map) {
+        arr.push(map[key]);
       }
 
-      return r;
+      return arr;
     },
 
 
     /**
-     * Merge two objects.
-     *
-     * If the Objects both have the same key, the value of the second object is taken.
+     * Inserts all keys of the source object into the 
+     * target objects. Attention: The target map gets modified.
      *
      * @type static
-     * @param vObjectA {Object} target object
-     * @param vObjectB {Object} object to be merged
-     * @return {Object} ObjectA with merged values from ObjectB
+     * @param target {Object} target object
+     * @param source {Object} object to be merged
+     * @param overwrite {Boolean ? true} If enabled existing keys will be overwritten
+     * @return {Object} Target with merged values from the source object
      */
-    mergeWith : function(vObjectA, vObjectB)
+    mergeWith : function(target, source, overwrite)
     {
-      for (var vKey in vObjectB) {
-        vObjectA[vKey] = vObjectB[vKey];
+      if (overwrite === undefined) {
+        overwrite = true;
       }
-
-      return vObjectA;
-    },
-
-
-    /**
-     * Merge two objects. Existing values will not be overwritten.
-     *
-     * If the Objects both have the same key, the value of the first object is taken.
-     *
-     * @type static
-     * @param vObjectA {Object} target object
-     * @param vObjectB {Object} object to be merged
-     * @return {Object} vObjectA with merged values from vObjectB
-     */
-    carefullyMergeWith : function(vObjectA, vObjectB)
-    {
-      for (var vKey in vObjectB)
+      
+      for (var key in source) 
       {
-        if (vObjectA[vKey] === undefined) {
-          vObjectA[vKey] = vObjectB[vKey];
+        if (overwrite || target[key] === undefined) {
+          target[key] = source[key];
         }
       }
 
-      return vObjectA;
+      return target;
+    },
+
+
+    /**
+     * Inserts all keys of the source object into the 
+     * target objects.
+     *
+     * @type static
+     * @param target {Object} target object
+     * @param source {Object} object to be merged
+     * @return {Object} target with merged values from source
+     * @deprecated
+     */
+    carefullyMergeWith : function(target, source) {
+      return qx.lang.Object.mergeWith(target, source, false);
     },
 
 
@@ -230,38 +222,40 @@ qx.Class.define("qx.lang.Object",
      * Merge a number of objects.
      *
      * @type static
-     * @param vObjectA {Object} target object
-     * @param varargs {Object} variable number of objects to merged with vObjectA
-     * @return {Object} vObjectA with merged values from the other objects
+     * @param target {Object} target object
+     * @param varargs {Object} variable number of objects to merged with target
+     * @return {Object} target with merged values from the other objects
      */
-    merge : function(vObjectA, varargs)
+    merge : function(target, varargs)
     {
-      var vLength = arguments.length;
+      var len = arguments.length;
 
-      for (var i=1; i<vLength; i++) {
-        qx.lang.Object.mergeWith(vObjectA, arguments[i]);
+      for (var i=1; i<len; i++) {
+        qx.lang.Object.mergeWith(target, arguments[i]);
       }
 
-      return vObjectA;
+      return target;
     },
 
 
     /**
      * Return a copy of an Object
      *
+     * TODO: Rename to clone() like in prototype and python
+     *
      * @type static
-     * @param vObject {Object} Object to copy
+     * @param source {Object} Object to copy
      * @return {Object} copy of vObject
      */
-    copy : function(vObject)
+    copy : function(source)
     {
-      var vCopy = {};
+      var clone = {};
 
-      for (var vKey in vObject) {
-        vCopy[vKey] = vObject[vKey];
+      for (var key in source) {
+        clone[key] = source[key];
       }
 
-      return vCopy;
+      return clone;
     },
 
 
@@ -271,17 +265,15 @@ qx.Class.define("qx.lang.Object",
      * The values will be converted to Strings using the toString methos.
      *
      * @type static
-     * @param vObject {Object} Map to invert
+     * @param map {Object} Map to invert
      * @return {Object} inverted Map
      */
-    invert : function(vObject)
+    invert : function(map)
     {
       var result = {};
 
-      for (var key in vObject)
-      {
-        var value = vObject[key].toString();
-        result[value] = key;
+      for (var key in map) {
+        result[map[key].toString()] = key;
       }
 
       return result;
@@ -299,7 +291,8 @@ qx.Class.define("qx.lang.Object",
      */
      getKeyFromValue: function(obj, value)
      {
-       for (var key in obj) {
+       for (var key in obj) 
+       {
          if (obj[key] === value) {
            return key;
          }
@@ -334,11 +327,12 @@ qx.Class.define("qx.lang.Object",
      fromArray: function(array)
      {
        var obj = {};
+       
        for (var i=0; i<array.length; i++) {
          obj[array[i].toString()] = true;
        }
+       
        return obj;
      }
-
   }
 });
