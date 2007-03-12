@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo framework\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-09 21:17+0100\n"
+"POT-Creation-Date: 2007-03-12 11:22+0100\n"
 "PO-Revision-Date: 2006-12-19 00:49-0500\n"
 "Last-Translator: Camilo Aguilar <camilo.aguilar@gmail.com>\n"
 "Language-Team:  <camilo.aguilar@gmail.com>\n"
@@ -229,7 +229,7 @@ msgid "Automatic"
 msgstr "Automático"
 
 #: ../../../frontend/framework/source/class/qx/ui/component/ColorPopup.js:216
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:401
+#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:403
 msgid "Preview (Old/New)"
 msgstr "Vista previa (viejo/nuevo)"
 
@@ -241,31 +241,31 @@ msgstr "Abrir selector de color"
 msgid "Color Selector"
 msgstr "Selector de color"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:217
+#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:219
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:218
+#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:220
 msgid "OK"
 msgstr "Aceptar"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:331
+#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:333
 msgid "Presets"
 msgstr "Preselecciones"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:382
+#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:384
 msgid "Details"
 msgstr "Detalles"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:436
+#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:438
 msgid "Hex"
 msgstr "Hex"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:466
+#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:468
 msgid "RGB"
 msgstr "RGB"
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:501
+#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:503
 msgid "HSB"
 msgstr "HSB"
 
