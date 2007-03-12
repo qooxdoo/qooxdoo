@@ -24,6 +24,9 @@
 
 ************************************************************************ */
 
+/**
+ * @appearance label
+ */
 qx.Class.define("qx.ui.basic.Label",
 {
   extend : qx.ui.basic.Terminator,

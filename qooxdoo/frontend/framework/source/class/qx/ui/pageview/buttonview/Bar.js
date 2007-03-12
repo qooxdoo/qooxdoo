@@ -24,6 +24,9 @@
 
 ************************************************************************ */
 
+/**
+ * @appearance button-view-bar
+ */
 qx.Class.define("qx.ui.pageview.buttonview.Bar",
 {
   extend : qx.ui.pageview.AbstractBar,

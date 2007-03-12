@@ -27,6 +27,8 @@
  * Shows a whole meta column. This includes a {@link TablePaneHeader},
  * a {@link TablePane} and the needed scroll bars. This class handles the
  * virtual scrolling and does all the mouse event handling.
+ *
+ * @appearance table-focus-indicator {qx.ui.layout.HorizontalBoxLayout}
  */
 qx.Class.define("qx.ui.table.TablePaneScroller",
 {

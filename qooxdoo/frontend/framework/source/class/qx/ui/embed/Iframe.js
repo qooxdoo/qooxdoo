@@ -25,6 +25,9 @@
 
 ************************************************************************ */
 
+/**
+ * @appearance iframe
+ */
 qx.Class.define("qx.ui.embed.Iframe",
 {
   extend : qx.ui.basic.Terminator,

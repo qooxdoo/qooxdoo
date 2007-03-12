@@ -25,6 +25,7 @@
 ************************************************************************ */
 
 /**
+ * @appearance field-set
  * @appearance field-set-legend {qx.ui.basic.Atom}
  * @appearance field-set-frame {qx.ui.layout.CanvasLayout}
  */

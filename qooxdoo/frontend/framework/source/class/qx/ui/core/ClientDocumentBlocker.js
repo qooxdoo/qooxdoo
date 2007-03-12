@@ -26,7 +26,9 @@
 
 /**
  * qx.ui.core.ClientDocumentBlocker blocks the inputs from the user.
- *  This will be used internally to allow better modal dialogs for example.
+ * This will be used internally to allow better modal dialogs for example.
+ *
+ * @appearance blocker
  */
 qx.Class.define("qx.ui.core.ClientDocumentBlocker",
 {

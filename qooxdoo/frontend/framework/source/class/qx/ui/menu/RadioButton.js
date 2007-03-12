@@ -26,6 +26,9 @@
 
 ************************************************************************ */
 
+/**
+ * @appearance menu-radio-button
+ */
 qx.Class.define("qx.ui.menu.RadioButton",
 {
   extend : qx.ui.menu.CheckBox,

@@ -27,9 +27,10 @@
 /**
  * A button.
  *
- * @state {abandoned}
- * @state {over}
- * @state {pressed}
+ * @appearance button
+ * @state abandoned
+ * @state over
+ * @state pressed
  */
 qx.Class.define("qx.ui.form.Button",
 {

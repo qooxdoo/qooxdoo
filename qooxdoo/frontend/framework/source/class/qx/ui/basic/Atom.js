@@ -30,6 +30,8 @@
  *
  * The intended purpose of qx.ui.basic.Atom is to easily align the common icon-text combination in different ways.
  * This is useful for all types of buttons, menuentries, tooltips, ...
+ *
+ * @appearance atom
  */
 qx.Class.define("qx.ui.basic.Atom",
 {

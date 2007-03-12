@@ -24,6 +24,9 @@
 
 ************************************************************************ */
 
+/**
+ * @appearance list
+ */
 qx.Class.define("qx.ui.form.List",
 {
   extend : qx.ui.layout.VerticalBoxLayout,

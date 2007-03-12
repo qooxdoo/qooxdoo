@@ -24,6 +24,9 @@
 
 ************************************************************************ */
 
+/**
+ * @appearance toolbar-button
+ */
 qx.Class.define("qx.ui.toolbar.Button",
 {
   extend : qx.ui.form.Button,

@@ -25,6 +25,9 @@
 
 ************************************************************************ */
 
+/**
+ * @appearance tool-tip
+ */
 qx.Class.define("qx.ui.popup.ToolTip",
 {
   extend : qx.ui.popup.PopupAtom,

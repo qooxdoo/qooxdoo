@@ -39,6 +39,7 @@
  * <li>Images and text inside the list</li>
  * </ul>
  * 
+ * @appearance combo-box
  * @appearance combo-box-list {qx.ui.form.List}
  * @appearance combo-box-popup {qx.ui.popup.Popup}
  * @appearance combo-box-text-field {qx.ui.form.TextField}

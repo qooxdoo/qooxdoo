@@ -29,6 +29,8 @@
  *
  *  qx.ui.pageview.buttonview.ButtonView creates the typical apple-like tabview-replacements which could also
  *  be found in more modern versions of the settings dialog in Mozilla Firefox.
+ *
+ * @appearance button-view
  */
 qx.Class.define("qx.ui.pageview.buttonview.ButtonView",
 {

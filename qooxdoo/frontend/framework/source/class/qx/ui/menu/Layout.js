@@ -24,7 +24,11 @@
 
 ************************************************************************ */
 
-/** A small helper class to create a special layout handler for qx.ui.menu.Menus */
+/**
+ * A small helper class to create a special layout handler for qx.ui.menu.Menus
+ *
+ * @appearance menu-layout
+ */
 qx.Class.define("qx.ui.menu.Layout",
 {
   extend : qx.ui.layout.VerticalBoxLayout,

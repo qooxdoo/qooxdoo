@@ -32,6 +32,8 @@
  *
  * qx.ui.core.ClientDocument is the parent of all children inside your application. It
  * also handles their resizing and focus navigation.
+ * 
+ * @appearance client-document
  */
 qx.Class.define("qx.ui.core.ClientDocument",
 {
