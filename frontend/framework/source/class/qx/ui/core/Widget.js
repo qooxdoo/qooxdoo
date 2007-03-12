@@ -34,14 +34,14 @@
 
 /**
  * This is the main widget, all visible objects in the application extend this.
- * 
+ *
  * @state selected Set by {@link qx.manager.selection.SelectionManager#renderItemSelectionState}
  * @state anchor Set by {@link qx.manager.selection.SelectionManager#renderItemAnchorState}
  * @state lead Set by {@link qx.manager.selection.SelectionManager#renderItemLeadState}
- * 
+ *
  * @state disabled Set by {@link #enabled}
  * @state focused Set by {@link #focused}
- * 
+ *
  */
 qx.Class.define("qx.ui.core.Widget",
 {
@@ -2320,10 +2320,17 @@ qx.Class.define("qx.ui.core.Widget",
         {
           propValue.getChildren().push(this);
         }
+
+        this.debug("Adjusting property prototype to: " + propValue);
+        this.__userValuesMethod.prototype = new propValue.__userValuesMethod;
+        this.__styleValuesMethod.prototype = new propValue.__styleValuesMethod;
       }
       else
       {
         this._hasParent = false;
+
+        this.__userValuesMethod.prototype = null;
+        this.__styleValuesMethod.prototype = null;
       }
 
       return this._handleDisplayable("parent");
