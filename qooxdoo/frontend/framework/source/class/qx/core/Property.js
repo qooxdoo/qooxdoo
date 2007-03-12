@@ -221,12 +221,12 @@ qx.Class.define("qx.core.Property",
       // Checks
       if (enableChecks)
       {
-        // Old/new comparision
-        code.add('if(', 'db.', property, '===value)return value;');
-
         // Undefined check
         code.add('if(value===undefined)');
-        code.add('throw new Error("Undefined value for property ', property, ': " + value);');
+        code.add('this.warn("Undefined value for property ', property, ': " + value); return value;');
+
+        // Old/new comparision
+        code.add('if(', 'db.', property, '===value)return value;');
 
         // Check value
         if (config.check !== undefined)
@@ -253,7 +253,7 @@ qx.Class.define("qx.core.Property",
             throw new Error("Could not add check to property " + name + " of class " + clazz.classname);
           }
 
-          code.add('throw new Error("Invalid value for property ', property, ': " + value);');
+          code.add('this.warn("Invalid value for property ', property, ': " + value); return value;');
         }
 
         // Store value
@@ -329,8 +329,8 @@ qx.Class.define("qx.core.Property",
       else if (enableChecks)
       {
         code.add('if(computed===qx.core.Property.INHERIT)');
-        code.add('throw new Error("The property ', property, ' of ');
-        code.add(clazz.classname, ' does not support inheritance!");');
+        code.add('this.warn("The property ', property, ' of ');
+        code.add(clazz.classname, ' does not support inheritance!"); return value;');
       }
 
 
@@ -349,7 +349,7 @@ qx.Class.define("qx.core.Property",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (qx.core.Setting.get("qx.propertyDebugLevel") > 0) {
-          code.add('this.debug("' + property + ' changed: " + qx.io.Json.stringify(old) + " => " + qx.io.Json.stringify(computed));');
+          code.add('this.debug("' + property + ' changed: " + old + " => " + computed);');
         }
       }
 
@@ -395,6 +395,6 @@ qx.Class.define("qx.core.Property",
 
   settings :
   {
-    "qx.propertyDebugLevel" : 0
+    "qx.propertyDebugLevel" : 3
   }
 });
