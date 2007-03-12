@@ -25,6 +25,9 @@
 
 ************************************************************************ */
 
+/**
+ * @appearance menu-button
+ */
 qx.Class.define("qx.ui.menu.Button",
 {
   extend : qx.ui.layout.HorizontalBoxLayout,

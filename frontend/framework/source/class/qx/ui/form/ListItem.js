@@ -24,7 +24,9 @@
 
 ************************************************************************ */
 
-
+/**
+ * @appearance list-item
+ */
 qx.Class.define("qx.ui.form.ListItem",
 {
   extend : qx.ui.basic.Atom,

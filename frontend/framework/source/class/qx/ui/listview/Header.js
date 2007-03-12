@@ -24,6 +24,9 @@
 
 ************************************************************************ */
 
+/**
+ * @appearance list-view-header
+ */
 qx.Class.define("qx.ui.listview.Header",
 {
   extend : qx.ui.layout.HorizontalBoxLayout,

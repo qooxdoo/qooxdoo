@@ -27,6 +27,8 @@
 ************************************************************************ */
 
 /**
+ * @appearance spinner
+ * 
  * @appearance spinner-field {qx.ui.form.TextField}
  * 
  * @appearance spinner-button-up {qx.ui.basic.Image}

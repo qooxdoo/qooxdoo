@@ -25,6 +25,7 @@
 ************************************************************************ */
 
 /**
+ * @appearance menu-separator
  * @appearance menu-separator-line {qx.ui.basic.Terminator}
  */
 qx.Class.define("qx.ui.menu.Separator",

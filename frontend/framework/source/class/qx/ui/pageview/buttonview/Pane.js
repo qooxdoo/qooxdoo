@@ -24,6 +24,9 @@
 
 ************************************************************************ */
 
+/**
+ * @appearance button-view-pane
+ */
 qx.Class.define("qx.ui.pageview.buttonview.Pane",
 {
   extend : qx.ui.pageview.AbstractPane,

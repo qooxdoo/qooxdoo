@@ -27,6 +27,7 @@
 ************************************************************************ */
 
 /**
+ * @appearance tree-folder
  * @appearance tree-container {qx.ui.tree.TreeFolder}
  * @appearance tree-folder-container {qx.ui.tree.TreeFolder}
  * @appearance tree {qx.ui.layout.HorizontalBoxLayout}

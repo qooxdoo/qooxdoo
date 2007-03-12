@@ -24,6 +24,9 @@
 
 ************************************************************************ */
 
+/**
+ * @appearance text-field
+ */
 qx.Class.define("qx.ui.form.TextField",
 {
   extend : qx.ui.basic.Terminator,

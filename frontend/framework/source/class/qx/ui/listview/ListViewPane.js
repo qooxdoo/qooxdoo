@@ -29,6 +29,9 @@
 
 ************************************************************************ */
 
+/**
+ * @appearance list-view-pane
+ */
 qx.Class.define("qx.ui.listview.ListViewPane",
 {
   extend : qx.ui.layout.GridLayout,

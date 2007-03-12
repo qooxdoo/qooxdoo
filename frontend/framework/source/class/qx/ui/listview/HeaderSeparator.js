@@ -24,6 +24,9 @@
 
 ************************************************************************ */
 
+/**
+ * @appearance list-view-header-separator
+ */
 qx.Class.define("qx.ui.listview.HeaderSeparator",
 {
   extend : qx.ui.basic.Terminator,

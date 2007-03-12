@@ -28,6 +28,7 @@
 /**
  * This widget represents an image.
  *
+ * @appearance image
  */
 qx.Class.define("qx.ui.basic.Image",
 {

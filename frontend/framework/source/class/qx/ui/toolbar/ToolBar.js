@@ -24,6 +24,9 @@
 
 ************************************************************************ */
 
+/**
+ * @appearance toolbar
+ */
 qx.Class.define("qx.ui.toolbar.ToolBar",
 {
   extend : qx.ui.layout.HorizontalBoxLayout,

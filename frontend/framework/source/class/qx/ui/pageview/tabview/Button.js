@@ -25,7 +25,9 @@
 
 ************************************************************************ */
 
-
+/**
+ * @appearance tab-view-button
+ */
 qx.Class.define("qx.ui.pageview.tabview.Button",
 {
   extend : qx.ui.pageview.AbstractButton,
