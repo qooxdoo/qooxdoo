@@ -45,6 +45,25 @@ qx.Class.define("qx.core.Property",
     },
 
 
+    updateParent : function(widget)
+    {
+      var clazz = widget.constructor;
+      var properties = clazz.$$properties;
+      var parent = widget.getParent();
+      var prop, value;
+
+      for (var i=0, l=properties.length; i<l; i++)
+      {
+        prop = properties[i];
+        if (prop.inheritable)
+        {
+          value = parent[prop.namePrefix + "compute" + prop.funcName]();
+          this[prop.namePrefix + "refresh" + prop.funcName](value);
+        }
+      }
+    },
+
+
     /**
      * Add property methods (used exclusively from qx.core.Object)
      *
@@ -152,8 +171,8 @@ qx.Class.define("qx.core.Property",
           return qx.core.Property.executeOptimizedSetter(this, clazz, name, "reset");
         }
 
-        members[namePrefix + "refresh" + funcName] = function() {
-          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "refresh");
+        members[namePrefix + "refresh" + funcName] = function(value) {
+          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "refresh", value);
         }
 
         if (config.appearance)
@@ -223,7 +242,7 @@ qx.Class.define("qx.core.Property",
       {
         // Undefined check
         code.add('if(value===undefined)');
-        code.add('this.warn("Undefined value for property ', property, ': " + value); return value;');
+        code.add('throw new Error("Undefined value for property ', property, ': " + value);');
 
         // Old/new comparision
         code.add('if(', 'db.', property, '===value)return value;');
@@ -253,7 +272,7 @@ qx.Class.define("qx.core.Property",
             throw new Error("Could not add check to property " + name + " of class " + clazz.classname);
           }
 
-          code.add('this.warn("Invalid value for property ', property, ': " + value); return value;');
+          code.add('throw new Error("Invalid value for property ', property, ': " + value);');
         }
 
         // Store value
@@ -292,7 +311,7 @@ qx.Class.define("qx.core.Property",
       // Otherwise: If there is no appearance support and no initial value, the only
       // available value is the user value. We can then simply use this value to,
       // defined or not.
-      if (variant === "set" || variant === "toggle" || (config.appearance !== true && config.init === undefined))
+      if (variant === "set" || variant === "toggle" || (variant !== "refresh" && config.appearance !== true && config.init === undefined))
       {
         code.add('var computed=value;');
       }
@@ -319,21 +338,33 @@ qx.Class.define("qx.core.Property",
 
       if (config.inheritable === true)
       {
-        // Search for inheritance
-        code.add('if(computed===qx.core.Property.INHERIT||(computed===undefined&&config.inheritable)){');
-        code.add('var parent=this.getParent();');
-        code.add('while(parent){computed=getParent().compute', config.funcName, '();');
-        code.add('if(computed!==qx.core.Property.INHERIT)break;');
-        code.add('parent=parent.getParent();}}');
-      }
-      else if (enableChecks)
-      {
-        code.add('if(computed===qx.core.Property.INHERIT)');
-        code.add('this.warn("The property ', property, ' of ');
-        code.add(clazz.classname, ' does not support inheritance!"); return value;');
+        code.add('this.debug("Inheritable");');
+
+        code.add('if(computed===qx.core.Property.INHERIT||computed===undefined){');
+
+        code.add('this.debug("Inheritance active: " + computed);');
+
+        if (variant == "refresh")
+        {
+          code.add('this.debug("Refreshing with: " + value);');
+          code.add('computed=value;');
+        }
+        else
+        {
+          code.add('this.debug("Search parents...");');
+          code.add('var parent=this.getParent();');
+          code.add('while(parent){computed=parent.', config.namePrefix, 'compute', config.funcName, '();');
+          code.add('if(computed!==qx.core.Property.INHERIT&&computed!==undefined)break;');
+          code.add('parent=parent.getParent();}');
+        }
+
+        code.add('}');
       }
 
 
+
+
+      code.add('this.debug("Store ', property, ': " + computed);');
 
       // Remember old value
       code.add('var old=this.__computedValues.', property, ';');
@@ -368,7 +399,13 @@ qx.Class.define("qx.core.Property",
         code.add('this.createDispatchDataEvent("', config.event, '", computed);');
       }
 
-
+      if (config.inheritable === true)
+      {
+        // Refresh children
+        code.add('for(var i=0,a=this.getChildren(),l=a.length;i<l;i++) {');
+        code.add('a[i].', config.namePrefix, 'refresh', config.funcName, '(computed);');
+        code.add('}');
+      }
 
       // Return value
       code.add('return value;');
