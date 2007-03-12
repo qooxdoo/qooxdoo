@@ -32,7 +32,7 @@ qx.Class.define("qx.core.Property",
      *
      *
      */
-    CHECKPRESETS :
+    CHECKS :
     {
       "defined" : 'value != undefined',
       "null"    : 'value === null',
@@ -45,21 +45,47 @@ qx.Class.define("qx.core.Property",
     },
 
 
+    /**
+     * Update widget and all children on parent change
+     */
     updateParent : function(widget)
     {
       var clazz = widget.constructor;
-      var properties = clazz.$$properties;
       var parent = widget.getParent();
-      var prop, value;
+      var properties, config, value;
 
-      for (var i=0, l=properties.length; i<l; i++)
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        prop = properties[i];
-        if (prop.inheritable)
-        {
-          value = parent[prop.namePrefix + "compute" + prop.funcName]();
-          this[prop.namePrefix + "refresh" + prop.funcName](value);
+        if (qx.core.Setting.get("qx.propertyDebugLevel") > 0) {
+          widget.debug("UpdateParent: " + widget);
         }
+      }
+
+      while(clazz)
+      {
+        properties = clazz.$$properties;
+
+        if (properties)
+        {
+          for (name in properties)
+          {
+            config = properties[name];
+            if (config.inheritable)
+            {
+              if (qx.core.Variant.isSet("qx.debug", "on"))
+              {
+                if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
+                  widget.debug("Updating property: " + config.name);
+                }
+              }
+
+              value = parent[config.namePrefix + "compute" + config.funcName]();
+              widget[config.namePrefix + "refresh" + config.funcName](value);
+            }
+          }
+        }
+
+        clazz = clazz.superclass;
       }
     },
 
@@ -171,8 +197,11 @@ qx.Class.define("qx.core.Property",
           return qx.core.Property.executeOptimizedSetter(this, clazz, name, "reset");
         }
 
-        members[namePrefix + "refresh" + funcName] = function(value) {
-          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "refresh", value);
+        if (config.inheritable)
+        {
+          members[namePrefix + "refresh" + funcName] = function(value) {
+            return qx.core.Property.executeOptimizedSetter(this, clazz, name, "refresh", value);
+          }
         }
 
         if (config.appearance)
@@ -237,9 +266,9 @@ qx.Class.define("qx.core.Property",
           // Check value
           if (config.check !== undefined)
           {
-            if (this.CHECKPRESETS[config.check] !== undefined)
+            if (this.CHECKS[config.check] !== undefined)
             {
-              code.add('if(!(', this.CHECKPRESETS[config.check], '))');
+              code.add('if(!(', this.CHECKS[config.check], '))');
             }
             else if (qx.Class.isDefined(config.check))
             {
@@ -370,10 +399,10 @@ qx.Class.define("qx.core.Property",
 
       // [4] STORING COMPUTED VALUE
 
-      // Remember old value
+      // Remember computed old value
       code.add('var old=this.__computedValues.', property, ';');
 
-      // Check old/new value
+      // Compare old/new computed value
       code.add('if(old===computed)return value;');
 
       // Store new computed value
