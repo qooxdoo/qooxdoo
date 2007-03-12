@@ -211,34 +211,19 @@ qx.Class.define("qx.core.Property",
         }
       }
 
-
-
       var config = clazz.$$properties[property];
       var code = new qx.util.StringBuilder;
 
 
 
 
+
+      // [1] CHECKING & STORING INCOMING VALUE
+
       // Improve performance of db access
       code.add('var db=this.__', variant === "style" ? 'styleValues;' : 'userValues;');
 
-      // Validate setter and if in debug mode the styler, too
-      var enableChecks = false;
-
-      if (variant == "set")
-      {
-        enableChecks = true;
-      }
-      else if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (variant == "style") {
-          enableChecks = true;
-        }
-      }
-
-
-      // Checks
-      if (enableChecks)
+      if (variant === "set")
       {
         // Undefined check
         code.add('if(value===undefined)');
@@ -274,89 +259,105 @@ qx.Class.define("qx.core.Property",
 
           code.add('throw new Error("Invalid value for property ', property, ': " + value);');
         }
-
-        // Store value
-        code.add('db.', property, '=value;');
       }
       else if (variant === "toggle")
       {
         // Toggle value (Replace eventually incoming value for setter etc.)
-        code.add('value=!(', 'db.', property, '||false);');
-
-        // Store value
-        code.add('db.', property, '=value;');
+        code.add('value=!', 'db.', property, ';');
       }
       else if (variant === "reset")
       {
         // Remove value
-        code.add('db.', property, '=value=undefined;');
+        code.add('value=undefined;');
+      }
+
+      // Hint: No refresh() here, the value of refresh is the parent value
+      // Hint: No style() here, we do not need validation for appearance stuff
+
+      // Store value
+      // Hint: Not in refresh, it is not my value, but the value of my parent
+      if (variant !== "refresh")
+      {
+        code.add('db.', property, '=value;');
       }
 
 
 
-      // TODO: Normally we only need this now if:
-      //   * we have children to inform
-      //   * we have events to dispatch
-      //   * we have a setter/modify method to execute
-      // Otherwise invalidation would be maybe enough. Is this really relevant?
 
 
+      // [2] GENERATING COMPUTED VALUE
 
-      // Generated "computed" value
-      //
       // In both variants, set and toggle, the value is always the user value and is
       // could not be undefined. This way we are sure we can use this value and don't
       // need a complex logic to find the usable value.
-      //
-      // Otherwise: If there is no appearance support and no initial value, the only
-      // available value is the user value. We can then simply use this value to,
-      // defined or not.
-      if (variant === "set" || variant === "toggle" || (variant !== "refresh" && config.appearance !== true && config.init === undefined))
+
+      // Use complex evaluation for reset, refresh and style
+      if (variant === "refresh" || variant === "reset" || variant === "style")
+      {
+        code.add('var computed;');
+
+        var hasComputeIf = false;
+
+        // Try to use user value when available
+        // Hint: Always undefined in reset variant
+        if (variant !== "reset")
+        {
+          code.add('if(this.__userValues.', property, '!==undefined)');
+          code.add('computed=this.__userValues.', property, ';');
+          hasComputeIf = true;
+        }
+
+        // Try to use appearance value when available
+        if (config.appearance === true)
+        {
+          if (hasComputeIf) {
+            code.add('else ');
+          }
+
+          code.add('if(this.__styleValues.', property, '!==undefined)');
+          code.add('computed=this.__styleValues.', property, ';');
+          hasComputeIf = true;
+        }
+
+        // Try to use initial value when available
+        if (config.init !== undefined)
+        {
+          if (hasComputeIf) {
+            code.add('else ');
+          }
+
+          code.add('computed=', clazz.classname);
+          code.add('.$$properties.', property, '.init;');
+        }
+      }
+
+      // Use simple evaluation for set & toggle
+      else
       {
         code.add('var computed=value;');
       }
-      else
-      {
-        code.add('var computed;');
-        code.add('if(this.__userValues.', property, '!==undefined)computed=this.__userValues.', property, ';');
-
-        if (config.appearance === true) {
-          code.add('else if(this.__styleValues.', property, '!==undefined)computed=this.__styleValues.', property, ';');
-        }
-
-        if (config.init !== undefined) {
-          code.add('else computed=', clazz.classname, '.$$properties.', property, '.init;');
-        }
-      }
 
 
 
 
 
 
-
+      // [3] RESPECTING INHERITANCE
 
       if (config.inheritable === true)
       {
-        code.add('this.debug("Inheritable");');
-
         code.add('if(computed===qx.core.Property.INHERIT||computed===undefined){');
-
-        code.add('this.debug("Inheritance active: " + computed);');
 
         if (variant == "refresh")
         {
-          code.add('this.debug("Refreshing with: " + value);');
           code.add('computed=value;');
         }
-        else
+        else if (variant === "style" || variant === "set" || variant == "reset")
         {
-          code.add('this.debug("Search parents...");');
-          code.add('var parent=this.getParent();');
-          code.add('while(parent){computed=parent.', config.namePrefix, 'compute', config.funcName, '();');
-          code.add('if(computed!==qx.core.Property.INHERIT&&computed!==undefined)break;');
-          code.add('parent=parent.getParent();}');
+          code.add('computed=this.getParent().__computedValues.', property, ';');
         }
+
+        // Hint: No toggle here, toggle only allows true/false and no inherit value
 
         code.add('}');
       }
@@ -364,7 +365,9 @@ qx.Class.define("qx.core.Property",
 
 
 
-      code.add('this.debug("Store ', property, ': " + computed);');
+
+
+      // [4] STORING COMPUTED VALUE
 
       // Remember old value
       code.add('var old=this.__computedValues.', property, ';');
@@ -375,7 +378,6 @@ qx.Class.define("qx.core.Property",
       // Store new computed value
       code.add('this.__computedValues.', property, '=computed;');
 
-
       // Inform user
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -383,6 +385,11 @@ qx.Class.define("qx.core.Property",
           code.add('this.debug("' + property + ' changed: " + old + " => " + computed);');
         }
       }
+
+
+
+
+      // [5] NOTIFYING DEPENDEND OBJECTS
 
       // Execute user configured setter
       if (config.setter)
@@ -399,13 +406,20 @@ qx.Class.define("qx.core.Property",
         code.add('this.createDispatchDataEvent("', config.event, '", computed);');
       }
 
+      // Refresh children
       if (config.inheritable === true)
       {
-        // Refresh children
         code.add('for(var i=0,a=this.getChildren(),l=a.length;i<l;i++) {');
         code.add('a[i].', config.namePrefix, 'refresh', config.funcName, '(computed);');
         code.add('}');
       }
+
+
+
+
+
+
+      // [6] RETURNING WITH ORIGINAL INCOMING VALUE
 
       // Return value
       code.add('return value;');
