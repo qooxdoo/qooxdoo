@@ -236,10 +236,7 @@ qx.Class.define("qxunit.test.PropertyHelper",
     // multi values
     initProp        : { init  : "foo" },
     appearanceProp  : { appearance : true },
-    fullProp        : { init : 100, appearance : true },
-
-    // inhertitance
-    _enabled        : { inheritable : true, check : "Boolean" }
+    fullProp        : { init : 100, appearance : true }
   }
 });
 

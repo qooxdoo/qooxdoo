@@ -223,7 +223,7 @@ qx.Class.define("qx.core.Property",
       // Improve performance of db access
       code.add('var db=this.__', variant === "style" ? 'styleValues;' : 'userValues;');
 
-      if (variant === "set")
+      if (variant === "set" || variant === "style")
       {
         // Undefined check
         code.add('if(value===undefined)');
@@ -232,32 +232,35 @@ qx.Class.define("qx.core.Property",
         // Old/new comparision
         code.add('if(', 'db.', property, '===value)return value;');
 
-        // Check value
-        if (config.check !== undefined)
+        if (variant === "set")
         {
-          if (this.CHECKPRESETS[config.check] !== undefined)
+          // Check value
+          if (config.check !== undefined)
           {
-            code.add('if(!(', this.CHECKPRESETS[config.check], '))');
-          }
-          else if (qx.Class.isDefined(config.check))
-          {
-            code.add('if(!(value instanceof ', config.check, '))');
-          }
-          else if (typeof config.check === "function")
-          {
-            code.add('if(!', clazz.classname, '.$$properties.', property);
-            code.add('.check.call(this, value))');
-          }
-          else if (typeof config.check === "string")
-          {
-            code.add('if(!(', config.check, '))');
-          }
-          else
-          {
-            throw new Error("Could not add check to property " + name + " of class " + clazz.classname);
-          }
+            if (this.CHECKPRESETS[config.check] !== undefined)
+            {
+              code.add('if(!(', this.CHECKPRESETS[config.check], '))');
+            }
+            else if (qx.Class.isDefined(config.check))
+            {
+              code.add('if(!(value instanceof ', config.check, '))');
+            }
+            else if (typeof config.check === "function")
+            {
+              code.add('if(!', clazz.classname, '.$$properties.', property);
+              code.add('.check.call(this, value))');
+            }
+            else if (typeof config.check === "string")
+            {
+              code.add('if(!(', config.check, '))');
+            }
+            else
+            {
+              throw new Error("Could not add check to property " + name + " of class " + clazz.classname);
+            }
 
-          code.add('throw new Error("Invalid value for property ', property, ': " + value);');
+            code.add('throw new Error("Invalid value for property ', property, ': " + value);');
+          }
         }
       }
       else if (variant === "toggle")
@@ -272,12 +275,10 @@ qx.Class.define("qx.core.Property",
       }
 
       // Hint: No refresh() here, the value of refresh is the parent value
-      // Hint: No style() here, we do not need validation for appearance stuff
 
       // Store value
       // Hint: Not in refresh, it is not my value, but the value of my parent
-      if (variant !== "refresh")
-      {
+      if (variant !== "refresh") {
         code.add('db.', property, '=value;');
       }
 
