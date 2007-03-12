@@ -35,19 +35,19 @@ qx.Class.define("qx.test.Layout",
         ch2._setEnabled(false);
         pa._setEnabled(true);
 
-        pa.debug("Parent Enabled?: " + pa._computeEnabled());
-        ch1.debug("Child-1 Enabled?: " + ch1._computeEnabled());
-        ch2.debug("Child-2 Enabled?: " + ch2._computeEnabled());
-        ch3.debug("Child-3 Enabled?: " + ch3._computeEnabled());
+        pa.debug("Parent Enabled?: " + pa._computeEnabled() + " :: should be true");
+        ch1.debug("Child-1 Enabled?: " + ch1._computeEnabled() + " :: should be true");
+        ch2.debug("Child-2 Enabled?: " + ch2._computeEnabled() + " :: should be false");
+        ch3.debug("Child-3 Enabled?: " + ch3._computeEnabled() + " :: should be true");
 
         ch2._resetEnabled();
-        ch2.debug("Child-2 Enabled?: " + ch2._computeEnabled());
+        ch2.debug("Child-2 Enabled?: " + ch2._computeEnabled() + " :: should be true");
 
         ch3._setEnabled(true);
-        ch3.debug("Child-3 Enabled?: " + ch3._computeEnabled());
+        ch3.debug("Child-3 Enabled?: " + ch3._computeEnabled() + " :: should be true");
 
         ch3._setEnabled(false);
-        ch3.debug("Child-3 Enabled?: " + ch3._computeEnabled());
+        ch3.debug("Child-3 Enabled?: " + ch3._computeEnabled() + " :: should be false");
 
       }
       catch(ex)
