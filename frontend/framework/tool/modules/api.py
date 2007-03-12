@@ -90,6 +90,7 @@ def handleClassDefinition(docTree, item, variant):
         classMap = {}
 
     commentAttributes = comment.parseNode(item)
+    
     classNode = getClassNode(docTree, className, commentAttributes)
     if variant in ["class", "clazz"]:
         classNode.set("type", "class")
@@ -102,8 +103,7 @@ def handleClassDefinition(docTree, item, variant):
     else:
         classNode.set("type", variant)
 
-
-    #print className
+    handleAppearance(item, classNode, className, commentAttributes)
 
     try:
         children = classMap.children
@@ -393,6 +393,69 @@ def handleEvents(item, classNode):
             classNode.addListChild("events", node)
 
 
+def handleAppearance(item, classNode, className, commentAttributes):
+    """
+    handles the declaration of appearances and widget states
+    by evaluating the @state and @apprearance attributes
+    """
+    appearances = {}
+    thisAppearance = []
+    classAppearance = None
+    
+    # parse appearances
+    for attrib in commentAttributes:
+        if attrib["category"] == "appearance":
+            appearanceName = attrib["name"]
+            appearances[appearanceName] = attrib
+            if not attrib.has_key("type"):
+                attrib["type"] = className
+            else:
+                attrib["type"] = attrib["type"][0]["type"]
+            if attrib["type"] == className:
+                thisAppearance.append(appearanceName)
+            attrib["states"] = []
+    
+    if len(thisAppearance) > 1:
+        raise DocException("A class can only have one own appearance!", item)
+    thisAppearance = thisAppearance[0]
+    
+    # parse states
+    for attrib in commentAttributes:
+        if attrib["category"] == "state":
+            if not attrib.has_key("type"):
+                if thisAppearance is None:
+                    raise DocException(
+                       "The default state '%s' of the class '%s' is defined but no default appearance is defined" 
+                       % (attrib["name"], className), item
+                    )
+                type = thisAppearance
+            else:
+                type = attrib["type"][0]["type"]
+                
+            appearances[type]["states"].append(attrib)
+    
+    #generate the doc tree nodes
+    if len(appearances) > 0:
+        for name, appearance in appearances.iteritems():
+            appearanceNode = tree.Node("appearance")
+            appearanceNode.set("name", name)
+            appearanceNode.set("type", appearance["type"])
+            
+            if appearance.has_key("text"):
+                appearanceNode.addChild(tree.Node("desc").set("text", appearance["text"]))
+                
+            for state in appearance["states"]:
+                stateNode = tree.Node("state")
+                stateNode.set("name", state["name"])
+                if state.has_key("text"):
+                    stateNode.addChild(tree.Node("desc").set("text", state["text"]))
+                appearanceNode.addListChild("states", stateNode)
+
+            classNode.addListChild("appearances", appearanceNode)
+    
+    
+    
+    
 ########################################################################################
 #
 #  COMPATIBLE TO 0.6 STYLE ONLY!
