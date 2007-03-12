@@ -117,86 +117,94 @@ qx.Class.define("qxunit.test.Property",
       this.assertNotUndefined(inst, "instance");
 
 
+
       // TODO
 
 
       this.debug("Done: testMultiValues");
     },
 
-    testPerformance : function()
+    testInheritance : function()
     {
-      this.debug("Exec: testPerformance");
+      this.debug("Exec: testInheritance");
 
       this.assertNotUndefined(qx.core.Property);
 
-      // Check instance
-      var inst = new qxunit.test.PropertyHelper;
-      this.assertNotUndefined(inst, "instance");
+      var pa = new qxunit.test.Layout;
+      var ch1 = new qxunit.test.Layout;
+      var ch2 = new qxunit.test.Layout;
+      var ch3 = new qxunit.test.Layout;
+      var chh1 = new qxunit.test.Layout;
+      var chh2 = new qxunit.test.Layout;
+      var chh3 = new qxunit.test.Layout;
 
-      var values = [ "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" ];
-      qx.lang.Array.append(values, values);
-      qx.lang.Array.append(values, values);
-      qx.lang.Array.append(values, values);
-      qx.lang.Array.append(values, values);
-      qx.lang.Array.append(values, values);
-      qx.lang.Array.append(values, values);
-      qx.lang.Array.append(values, values);
-      qx.lang.Array.append(values, values);
-      qx.lang.Array.append(values, values);
-
-      var len = values.length;
-      this.debug("Testing: " + len + " iterations");
+      pa.add(ch1, ch2, ch3);
+      ch2.add(chh1, chh2, chh3);
 
 
 
-      var d = new Date();
-      for (var i=0; i<len; i++) {
-        inst.setLegacyPure(values[i]);
-      }
-      this.debug("Legacy properties (pure) " + (new Date - d) + "ms");
 
-      var d = new Date();
-      for (var i=0; i<len; i++) {
-        inst.setLegacyString(values[i]);
-      }
-      this.debug("Legacy properties (string) " + (new Date - d) + "ms");
+      // Simple: Only inheritance, no local values
+      this.assertTrue(pa._setEnabled(true));
+      this.assertTrue(pa._getEnabled());
+      this.assertTrue(pa._computeEnabled());
 
-      var d = new Date();
-      for (var i=0; i<len; i++) {
-        inst.setLegacyPure([]);
-      }
-      this.debug("Legacy properties (array) " + (new Date - d) + "ms");
+      this.assertUndefined(ch1._getEnabled());
+      this.assertTrue(ch1._computeEnabled());
 
+      this.assertUndefined(ch2._getEnabled());
+      this.assertTrue(ch2._computeEnabled());
 
+      this.assertUndefined(ch3._getEnabled());
+      this.assertTrue(ch3._computeEnabled());
 
-      var d = new Date();
-      for (var i=0; i<len; i++) {
-        inst.setPublicProp(values[i]);
-      }
-      this.debug("New properties (pure) " + (new Date - d) + "ms");
+      this.assertUndefined(chh1._getEnabled());
+      this.assertTrue(chh1._computeEnabled());
 
-      var d = new Date();
-      for (var i=0; i<len; i++) {
-        inst.setStringProp(values[i]);
-      }
-      this.debug("New properties (string) " + (new Date - d) + "ms");
+      this.assertUndefined(chh2._getEnabled());
+      this.assertTrue(chh2._computeEnabled());
 
-      var d = new Date();
-      for (var i=0; i<len; i++) {
-        inst.setArrayProp([]);
-      }
-      this.debug("New properties (array) " + (new Date - d) + "ms");
+      this.assertUndefined(chh3._getEnabled());
+      this.assertTrue(chh3._computeEnabled());
 
 
 
-      // To keep the debug console...
-      if (qx.core.Client.getInstance().isMshtml()) {
-        confirm("test log");
-      }
+      // Enabling local value
+      this.assertFalse(ch2._setEnabled(false));
+      this.assertFalse(ch2._getEnabled());
+      this.assertFalse(ch2._computeEnabled());
+
+      this.assertUndefined(chh1._getEnabled());
+      this.assertFalse(chh1._computeEnabled());
+
+      this.assertUndefined(chh2._getEnabled());
+      this.assertFalse(chh2._computeEnabled());
+
+      this.assertUndefined(chh3._getEnabled());
+      this.assertFalse(chh3._computeEnabled());
 
 
 
-      this.debug("Done: testPerformance");
+
+      // Reset local value
+      ch2._resetEnabled();
+
+      this.assertUndefined(ch2._getEnabled());
+      this.assertTrue(ch2._computeEnabled());
+
+      this.assertUndefined(chh1._getEnabled());
+      this.assertTrue(chh1._computeEnabled());
+
+      this.assertUndefined(chh2._getEnabled());
+      this.assertTrue(chh2._computeEnabled());
+
+      this.assertUndefined(chh3._getEnabled());
+      this.assertTrue(chh3._computeEnabled());
+
+
+
+
+      this.debug("Done: testInheritance");
     }
   }
 });
@@ -228,6 +236,23 @@ qx.Class.define("qxunit.test.PropertyHelper",
     // multi values
     initProp        : { init  : "foo" },
     appearanceProp  : { appearance : true },
-    fullProp        : { init : 100, appearance : true }
+    fullProp        : { init : 100, appearance : true },
+
+    // inhertitance
+    _enabled        : { inheritable : true, check : "Boolean" }
+  }
+});
+
+qx.Class.define("qxunit.test.Layout",
+{
+  extend : qx.ui.layout.CanvasLayout,
+
+  properties :
+  {
+    _enabled : { inheritable : true },
+    _width : { inheritable : true, appearance : true },
+    _height : { inheritable : true, appearance : true },
+    _left : { inheritable : true, appearance : true },
+    _top : { inheritable : true, appearance : true }
   }
 });
