@@ -2320,18 +2320,13 @@ qx.Class.define("qx.ui.core.Widget",
         {
           propValue.getChildren().push(this);
         }
-
-        this.debug("Adjusting property prototype to: " + propValue);
-        this.__userValuesMethod.prototype = new propValue.__userValuesMethod;
-        this.__styleValuesMethod.prototype = new propValue.__styleValuesMethod;
       }
       else
       {
         this._hasParent = false;
-
-        this.__userValuesMethod.prototype = null;
-        this.__styleValuesMethod.prototype = null;
       }
+
+      qx.core.Property.updateParent(this);
 
       return this._handleDisplayable("parent");
     },
