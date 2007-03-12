@@ -26,6 +26,9 @@
 
 ************************************************************************ */
 
+/**
+ * @appearance list-view-header-cell
+ */
 qx.Class.define("qx.ui.listview.HeaderCell",
 {
   extend : qx.ui.basic.Atom,

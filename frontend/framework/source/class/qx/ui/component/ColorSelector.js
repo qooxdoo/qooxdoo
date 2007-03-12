@@ -31,6 +31,8 @@
  * A typical color selector as known from native applications.
  *
  * Includes support for RGB and HSB color areas.
+ *
+ * @appearance colorselector
  */
 qx.Class.define("qx.ui.component.ColorSelector",
 {

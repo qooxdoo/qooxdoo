@@ -24,6 +24,9 @@
 
 ************************************************************************ */
 
+/**
+ * @appearance text-area
+ */
 qx.Class.define("qx.ui.form.TextArea",
 {
   extend : qx.ui.form.TextField,

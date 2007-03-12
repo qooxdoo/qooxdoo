@@ -24,6 +24,9 @@
 
 ************************************************************************ */
 
+/**
+ * @appearance tab-view-page
+ */
 qx.Class.define("qx.ui.pageview.tabview.Page",
 {
   extend : qx.ui.pageview.AbstractPage,

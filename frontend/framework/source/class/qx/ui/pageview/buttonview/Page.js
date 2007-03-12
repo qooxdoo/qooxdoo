@@ -24,6 +24,9 @@
 
 ************************************************************************ */
 
+/**
+ * @appearance button-view-page
+ */
 qx.Class.define("qx.ui.pageview.buttonview.Page",
 {
   extend : qx.ui.pageview.AbstractPage,

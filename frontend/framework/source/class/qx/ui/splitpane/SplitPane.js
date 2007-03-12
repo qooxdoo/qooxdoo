@@ -49,6 +49,8 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
    * new qx.ui.splitpane.SplitPane(orientation)
    * new qx.ui.splitpane.SplitPane(orientation, firstSize, secondSize)
    *
+   * @appearance splitpane
+   *
    * @param orientation {String} The orientation of the splitpane control. Allowed values are "horizontal" (default) and "vertical". This is the same type as used in {@link qx.ui.layout.BoxLayout#orientation}.
    * @param firstSize {String} The size of the left (top) pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
    * @param secondSize {String} The size of the right (bottom) pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.

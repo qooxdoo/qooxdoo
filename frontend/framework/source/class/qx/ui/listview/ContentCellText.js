@@ -24,6 +24,9 @@
 
 ************************************************************************ */
 
+/**
+ * @appearance list-view-content-cell-text
+ */
 qx.Class.define("qx.ui.listview.ContentCellText",
 {
   extend : qx.ui.embed.TextEmbed,

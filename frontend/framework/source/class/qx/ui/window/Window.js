@@ -29,6 +29,7 @@
  * @state active
  * @state maximized
  * 
+ * @appearance window
  * @appearance window-resize-frame {qx.ui.basic.Terminator}
  * @appearance window-captionbar-icon {qx.ui.basic.Image}
  * @appearance window-captionbar-title {qx.ui.basic.Label}

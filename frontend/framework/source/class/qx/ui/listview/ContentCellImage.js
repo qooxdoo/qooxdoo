@@ -25,6 +25,9 @@
 
 ************************************************************************ */
 
+/**
+ * @appearance list-view-content-cell-image
+ */
 qx.Class.define("qx.ui.listview.ContentCellImage",
 {
   extend : qx.ui.basic.Image,

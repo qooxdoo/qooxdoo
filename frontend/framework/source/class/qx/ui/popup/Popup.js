@@ -25,6 +25,9 @@
 
 ************************************************************************ */
 
+/**
+ * @appearance popup
+ */
 qx.Class.define("qx.ui.popup.Popup",
 {
   extend : qx.ui.layout.CanvasLayout,

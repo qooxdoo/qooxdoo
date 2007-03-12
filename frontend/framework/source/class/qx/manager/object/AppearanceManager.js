@@ -66,7 +66,7 @@ qx.Class.define("qx.manager.object.AppearanceManager",
     ---------------------------------------------------------------------------
     */
 
-    /** currently used apperance theme */
+    /** currently used appearance theme */
     appearanceTheme :
     {
       _legacy   : true,
@@ -94,7 +94,7 @@ qx.Class.define("qx.manager.object.AppearanceManager",
 
     /**
      * Register an theme class.
-     * The theme is applied if it is the default apperance
+     * The theme is applied if it is the default appearance
      *
      * @type member
      * @param vThemeClass {qx.renderer.theme.AppearanceTheme} TODOC
@@ -160,7 +160,7 @@ qx.Class.define("qx.manager.object.AppearanceManager",
      *
      * @type member
      * @param theme {Object} appearance theme
-     * @param id {String} id of the apperance (e.g. "button", "label", ...)
+     * @param id {String} id of the appearance (e.g. "button", "label", ...)
      * @return {Map} map of widget properties as returned by the "initial" function
      */
     styleFrom : function(id, states) {
@@ -173,7 +173,7 @@ qx.Class.define("qx.manager.object.AppearanceManager",
      *
      * @type member
      * @param theme {Object} appearance theme
-     * @param id {String} id of the apperance (e.g. "button", "label", ...)
+     * @param id {String} id of the appearance (e.g. "button", "label", ...)
      * @param states {Map} hash map defining the set states
      * @return {Map} map of widget properties as returned by the "state" function
      */

@@ -32,6 +32,7 @@
  * qx.ui.treefullcontrol.TreeFolder objects are tree rows which may contain
  * sub-trees
  * 
+ * @appearance tree-folder
  * @appearance tree-container {qx.ui.treefullcontrol.TreeFolder}
  * @appearance tree-folder-container {qx.ui.treefullcontrol.TreeFolder}
  * @appearance tree {qx.ui.layout.HorizontalBoxLayout}
