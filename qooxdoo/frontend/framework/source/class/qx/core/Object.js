@@ -76,9 +76,11 @@ qx.Class.define("qx.core.Object",
       qx.core.Object.attachProperties(this.constructor);
     }
 
-    // TODO: Really use these names? (a bit static in my opinion)
-    this.__userValues = {};
-    this.__styleValues = {};
+    this.__userValuesMethod = function() {};
+    this.__styleValuesMethod = function() {};
+
+    this.__userValues = new this.__userValuesMethod;
+    this.__styleValues = new this.__styleValuesMethod;
     this.__computedValues = {};
   },
 
