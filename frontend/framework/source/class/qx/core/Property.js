@@ -447,6 +447,6 @@ qx.Class.define("qx.core.Property",
 
   settings :
   {
-    "qx.propertyDebugLevel" : 3
+    "qx.propertyDebugLevel" : 1
   }
 });
