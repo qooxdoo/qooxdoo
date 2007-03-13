@@ -35,6 +35,7 @@
 /**
  * This is the main widget, all visible objects in the application extend this.
  *
+ * @appearance widget
  * @state selected Set by {@link qx.manager.selection.SelectionManager#renderItemSelectionState}
  * @state anchor Set by {@link qx.manager.selection.SelectionManager#renderItemAnchorState}
  * @state lead Set by {@link qx.manager.selection.SelectionManager#renderItemLeadState}
@@ -1603,7 +1604,8 @@ qx.Class.define("qx.ui.core.Widget",
     appearance :
     {
       _legacy : true,
-      type    : "string"
+      type    : "string",
+      defaultValue : "widget"
     },
 
 

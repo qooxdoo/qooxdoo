@@ -32,10 +32,7 @@
  * qx.ui.treefullcontrol.TreeFolder objects are tree rows which may contain
  * sub-trees
  * 
- * @appearance tree-folder
- * @appearance tree-container {qx.ui.treefullcontrol.TreeFolder}
- * @appearance tree-folder-container {qx.ui.treefullcontrol.TreeFolder}
- * @appearance tree {qx.ui.layout.HorizontalBoxLayout}
+ * @appearance tree-folder-container
  * @appearance tree-folder {qx.ui.layout.HorizontalBoxLayout}
  * @appearance tree-folder-icon {qx.ui.basic.Image}
  * @appearance tree-folder-label {qx.ui.basic.Label}
@@ -271,7 +268,7 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
      */
     _createChildrenStructure : function()
     {
-      this.setAppearance(this instanceof qx.ui.treefullcontrol.Tree ? "tree-container" : "tree-folder-container");
+      this.setAppearance("tree-folder-container");
 
       if (!this._horizontalLayout)
       {
@@ -282,7 +279,7 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
         this._horizontalLayout.setWidth(null);
         this._horizontalLayout.setParent(this);
         this._horizontalLayout.setAnonymous(true);
-        this._horizontalLayout.setAppearance(this instanceof qx.ui.treefullcontrol.Tree ? "tree" : "tree-folder");
+        this._horizontalLayout.setAppearance("tree-folder");
 
         // Move the row fields into the horizontal layout
         for (var i=0; i<this._treeRowStructureFields.length; i++) {
