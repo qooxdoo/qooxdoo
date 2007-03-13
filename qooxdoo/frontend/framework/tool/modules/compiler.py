@@ -817,7 +817,7 @@ def compileNode(node,optns):
             else:
                 keyString = "'" + keyString + "'"
 
-        elif keyString in config.JSPROTECTED or not KEY.match(keyString):
+        elif keyString in config.JSRESERVED or not KEY.match(keyString):
             print "Warning: Auto protect key: %s" % keyString
             keyString = "\"" + keyString + "\""
 
@@ -1366,9 +1366,9 @@ def compileNode(node,optns):
             # e.g. a if-construct without a block {}
             if node.parent.getChild("statement").hasChild("block"):
                 pass
-        
+
             elif node.parent.getChild("statement").hasChild("emptyStatement"):
-                pass    
+                pass
 
             elif node.parent.type == "loop" and node.parent.get("loopType") == "DO":
                 pass
@@ -1519,7 +1519,7 @@ def compileNode(node,optns):
 
 def addCommandLineOptions(parser):
     parser.add_option("--pretty-print-indent-string", dest="prettypIndentString", default="  ", help="String used for indenting source code; escapes possible (e.g. \"\\t\"; default: \"  \")")
-    parser.add_option("--pretty-print-newline-before-open-curly", dest="prettypOpenCurlyNewlineBefore", 
+    parser.add_option("--pretty-print-newline-before-open-curly", dest="prettypOpenCurlyNewlineBefore",
                       type="choice", choices=('a','A','n','N','m','M'), metavar="[aAnNmM]", default="m",
                       help="Defines whether \"{\" will always [aA] or never [nN] be on a new line; the default is mixed [mM] behaviour according to complexity of the enclosed block")
     parser.add_option("--pretty-print-indent-before-open-curly", action="store_true", dest="prettypOpenCurlyIndentBefore", default=False, help="Indent \"{\" (default: False)")

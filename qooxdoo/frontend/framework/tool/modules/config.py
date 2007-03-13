@@ -143,43 +143,42 @@ JSTOKENS = {
     "/*!" : "DOC_START"
 }
 
-JSPROTECTED = {
+JSRESERVED = {
+    # key words
+    "break" : "BREAK",
+    "case" : "CASE",
+    "catch" : "CATCH",
+    "continue" : "CONTINUE",
+    "default" : "DEFAULT",
+    "delete" : "DELETE",
+    "do" : "DO",
+    "else" : "ELSE",
+    "finally" : "FINALLY",
+    "for" : "FOR",
+    "function" : "FUNCTION",
+    "if" : "IF",
+    "in" : "IN",
+    "instanceof" : "INSTANCEOF",
+    "new" : "NEW",
+    "return" : "RETURN",
+    "switch" : "SWITCH",
+    "this" : "THIS",
+    "throw" : "THROW",
+    "try" : "TRY",
+    "typeof" : "TYPEOF",
+    "var" : "VAR",
+    "void" : "VOID",
+    "while" : "WHILE",
+    "with" : "WITH",
+
+    # null literal
     "null" : "NULL",
-    "Infinity" : "INFINITY",
+
+    # boolean literal
     "true" : "TRUE",
     "false" : "FALSE",
 
-    "this" : "THIS",
-    "var" : "VAR",
-    "new" : "NEW",
-    "prototype" : "PROTOTYPE",
-    "return" : "RETURN",
-    "function" : "FUNCTION",
-
-    "while" : "WHILE",
-    "if" : "IF",
-    "else" : "ELSE",
-    "switch" : "SWITCH",
-    "case" : "CASE",
-    "default" : "DEFAULT",
-    "break" : "BREAK",
-    "continue" : "CONTINUE",
-    "goto" : "GOTO",
-    "do" : "DO",
-    "delete" : "DELETE",
-    "for" : "FOR",
-    "in" : "IN",
-    "with" : "WITH",
-    "try" : "TRY",
-    "catch" : "CATCH",
-    "finally" : "FINALLY",
-    "throw" : "THROW",
-    "instanceof" : "INSTANCEOF",
-    "typeof" : "TYPEOF",
-    "void" : "VOID",
-    "call" : "CALL",
-    "apply" : "APPLY",
-
+    # Future reserved
     "abstract": "FUTURE_RESERVED_WORD",
     "enum": "FUTURE_RESERVED_WORD",
     "int": "FUTURE_RESERVED_WORD",

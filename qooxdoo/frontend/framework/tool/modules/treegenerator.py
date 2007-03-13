@@ -317,7 +317,7 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
         if item and commentsChild != None:
             variable.removeChild(commentsChild)
             item.addChild(commentsChild, 0)
-    elif stream.currIsType("protected", "FUNCTION"):
+    elif stream.currIsType("reserved", "FUNCTION"):
         item = createItemNode("function", stream)
         stream.next(item)
 
@@ -337,7 +337,7 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
             item.addListChild("operand", functionItem)
             readParamList(item, stream)
             item = readObjectOperation(stream, item)
-    elif stream.currIsType("protected", "VOID"):
+    elif stream.currIsType("reserved", "VOID"):
         stream.next(item)
         item = createItemNode("void", stream)
         stream.next(item)
@@ -389,12 +389,12 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
         stream.next(item, True)
         # This is a member accessor (E.g. "bla.blubb")
         item = readObjectOperation(stream, item)
-    elif expressionMode and (stream.currIsType("protected", "TRUE") or stream.currIsType("protected", "FALSE")):
+    elif expressionMode and (stream.currIsType("reserved", "TRUE") or stream.currIsType("reserved", "FALSE")):
         item = createItemNode("constant", stream)
         item.set("constantType", "boolean")
         item.set("value", stream.currSource())
         stream.next(item, True)
-    elif expressionMode and stream.currIsType("protected", "NULL"):
+    elif expressionMode and stream.currIsType("reserved", "NULL"):
         item = createItemNode("constant", stream)
         item.set("constantType", "null")
         item.set("value", stream.currSource())
@@ -409,16 +409,16 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
         item.set("left", True)
         stream.next(item)
         item.addListChild("first", readExpression(stream))
-    elif stream.currIsType("protected", "TYPEOF"):
+    elif stream.currIsType("reserved", "TYPEOF"):
         item = createItemNode("operation", stream)
         item.set("operator", "TYPEOF")
         item.set("left", True)
         stream.next(item)
         item.addListChild("first", readExpression(stream))
-    elif stream.currIsType("protected", "NEW"):
+    elif stream.currIsType("reserved", "NEW"):
         item = readInstantiation(stream)
         item = readObjectOperation(stream, item)
-    elif not expressionMode and stream.currIsType("protected", "VAR"):
+    elif not expressionMode and stream.currIsType("reserved", "VAR"):
         item = createItemNode("definitionList", stream)
         stream.next(item)
         finished = False
@@ -445,34 +445,34 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
 
         stream.comment(item, True)
 
-    elif not expressionMode and stream.currIsType("protected", LOOP_KEYWORDS):
+    elif not expressionMode and stream.currIsType("reserved", LOOP_KEYWORDS):
         item = readLoop(stream)
-    elif not expressionMode and stream.currIsType("protected", "DO"):
+    elif not expressionMode and stream.currIsType("reserved", "DO"):
         item = readDoWhile(stream)
-    elif not expressionMode and stream.currIsType("protected", "SWITCH"):
+    elif not expressionMode and stream.currIsType("reserved", "SWITCH"):
         item = readSwitch(stream)
-    elif not expressionMode and stream.currIsType("protected", "TRY"):
+    elif not expressionMode and stream.currIsType("reserved", "TRY"):
         item = readTryCatch(stream)
     elif not expressionMode and stream.currIsType("token", "LC"):
         item = readBlock(stream)
-    elif not expressionMode and stream.currIsType("protected", "RETURN"):
+    elif not expressionMode and stream.currIsType("reserved", "RETURN"):
         item = createItemNode("return", stream)
         stream.next(item)
         # NOTE: The expression after the return keyword is optional
         if not stream.currIsType("token", "SEMICOLON") and not stream.currIsType("token", "RC"):
             item.addListChild("expression", readExpression(stream))
             stream.comment(item, True)
-    elif not expressionMode and stream.currIsType("protected", "THROW"):
+    elif not expressionMode and stream.currIsType("reserved", "THROW"):
         item = createItemNode("throw", stream)
         stream.next(item)
         item.addListChild("expression", readExpression(stream))
         stream.comment(item, True)
-    elif not expressionMode and stream.currIsType("protected", "DELETE"):
+    elif not expressionMode and stream.currIsType("reserved", "DELETE"):
         item = createItemNode("delete", stream)
         stream.next(item)
         item.addListChild("expression", readExpression(stream))
         stream.comment(item, True)
-    elif not expressionMode and stream.currIsType("protected", "BREAK"):
+    elif not expressionMode and stream.currIsType("reserved", "BREAK"):
         item = createItemNode("break", stream)
         stream.next(item)
         # NOTE: The label after the break keyword is optional
@@ -481,7 +481,7 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
             # As the label is an attribute, we need to put following comments into after
             # to differenciate between comments before and after the label
             stream.next(item, True)
-    elif not expressionMode and stream.currIsType("protected", "CONTINUE"):
+    elif not expressionMode and stream.currIsType("reserved", "CONTINUE"):
         item = createItemNode("continue", stream)
         stream.next(item)
         # NOTE: The label after the continue keyword is optional
@@ -502,7 +502,7 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
             raiseSyntaxException(stream.curr(), expectedDesc)
 
     # check whether this is an operation
-    if stream.currIsType("token", MULTI_TOKEN_OPERATORS) or stream.currIsType("protected", MULTI_PROTECTED_OPERATORS) or (stream.currIsType("token", SINGLE_RIGHT_OPERATORS) and not stream.hadEolBefore()):
+    if stream.currIsType("token", MULTI_TOKEN_OPERATORS) or stream.currIsType("reserved", MULTI_PROTECTED_OPERATORS) or (stream.currIsType("token", SINGLE_RIGHT_OPERATORS) and not stream.hadEolBefore()):
         # its an operation -> We've already parsed the first operand (in item)
         parsedItem = item
 
@@ -569,9 +569,7 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
 def currIsIdentifier (stream, allowThis):
     det = stream.currDetail()
     return stream.currIsType("name") or stream.currIsType("builtin") \
-        or (stream.currIsType("protected") and \
-              (det == "INFINITY" or det == "PROTOTYPE" or det == "CALL" or \
-                det == "APPLY" or (allowThis and det == "THIS")))
+        or (stream.currIsType("reserved") and allowThis and det == "THIS")
 
 
 
@@ -771,7 +769,7 @@ def readArray(stream):
 
 
 def readInstantiation(stream):
-    stream.expectCurrType("protected", "NEW")
+    stream.expectCurrType("reserved", "NEW")
 
     item = createItemNode("instantiation", stream)
     stream.next(item)
@@ -786,7 +784,7 @@ def readInstantiation(stream):
 
 
 def readLoop(stream):
-    stream.expectCurrType("protected", LOOP_KEYWORDS)
+    stream.expectCurrType("reserved", LOOP_KEYWORDS)
 
     loopType = stream.currDetail()
 
@@ -852,7 +850,7 @@ def readLoop(stream):
     stream.next()
     stmnt.addChild(readStatement(stream))
 
-    if loopType == "IF" and stream.currIsType("protected", "ELSE"):
+    if loopType == "IF" and stream.currIsType("reserved", "ELSE"):
         elseStmnt = createItemNode("elseStatement", stream)
         item.addChild(elseStmnt)
         stream.next(elseStmnt)
@@ -863,7 +861,7 @@ def readLoop(stream):
 
 
 def readDoWhile(stream):
-    stream.expectCurrType("protected", "DO")
+    stream.expectCurrType("reserved", "DO")
 
     item = createItemNode("loop", stream)
     item.set("loopType", "DO")
@@ -873,7 +871,7 @@ def readDoWhile(stream):
     item.addChild(stmnt)
     stmnt.addChild(readStatement(stream))
 
-    stream.expectCurrType("protected", "WHILE")
+    stream.expectCurrType("reserved", "WHILE")
     stream.next(item)
 
     stream.expectCurrType("token", "LP")
@@ -891,7 +889,7 @@ def readDoWhile(stream):
 
 
 def readSwitch(stream):
-    stream.expectCurrType("protected", "SWITCH")
+    stream.expectCurrType("reserved", "SWITCH")
 
     item = createItemNode("switch", stream)
     item.set("switchType", "case")
@@ -913,7 +911,7 @@ def readSwitch(stream):
     stream.next(stmnt)
 
     while not stream.currIsType("token", "RC"):
-        if stream.currIsType("protected", "CASE"):
+        if stream.currIsType("reserved", "CASE"):
             caseItem = createItemNode("case", stream)
             stream.next(caseItem)
             caseItem.addListChild("expression", readExpression(stream))
@@ -922,7 +920,7 @@ def readSwitch(stream):
             stream.expectCurrType("token", "COLON")
             stream.next(caseItem, True)
 
-        elif stream.currIsType("protected", "DEFAULT"):
+        elif stream.currIsType("reserved", "DEFAULT"):
             defaultItem = createItemNode("default", stream)
             stmnt.addChild(defaultItem)
             stream.next(defaultItem)
@@ -933,7 +931,7 @@ def readSwitch(stream):
         else:
             raiseSyntaxException(stream.curr(), "case or default")
 
-        while not stream.currIsType("token", "RC") and not stream.currIsType("protected", "CASE") and not stream.currIsType("protected", "DEFAULT"):
+        while not stream.currIsType("token", "RC") and not stream.currIsType("reserved", "CASE") and not stream.currIsType("reserved", "DEFAULT"):
             stmnt.addChild(readStatement(stream))
 
     stream.next(stmnt, True)
@@ -942,7 +940,7 @@ def readSwitch(stream):
 
 
 def readTryCatch(stream):
-    stream.expectCurrType("protected", "TRY")
+    stream.expectCurrType("reserved", "TRY")
 
     item = createItemNode("switch", stream)
     item.set("switchType", "catch")
@@ -950,7 +948,7 @@ def readTryCatch(stream):
 
     item.addListChild("statement", readStatement(stream))
 
-    while stream.currIsType("protected", "CATCH"):
+    while stream.currIsType("reserved", "CATCH"):
         catchItem = createItemNode("catch", stream)
         stream.next(catchItem)
 
@@ -970,7 +968,7 @@ def readTryCatch(stream):
 
         item.addChild(catchItem)
 
-    if stream.currIsType("protected", "FINALLY"):
+    if stream.currIsType("reserved", "FINALLY"):
         finallyItem = createItemNode("finally", stream)
         stream.next(finallyItem)
 
