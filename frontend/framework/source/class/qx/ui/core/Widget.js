@@ -1890,7 +1890,6 @@ qx.Class.define("qx.ui.core.Widget",
     widths : { group : [ "minWidth", "width", "maxWidth" ] },
 
     align : { group : [ "horizontalAlign", "verticalAlign" ] },
-    stretch : { group : [ "stretchX", "stretchY" ] },
 
     clipLocation : { group : [ "clipLeft", "clipTop" ] },
     clipDimension : { group : [ "clipWidth", "clipHeight" ] },
