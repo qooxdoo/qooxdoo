@@ -41,7 +41,6 @@ def search_loop(node, stringMap={}, verbose=False):
 
                 # Don't extract from locales
                 if variableName == "qx.Locale.define":
-                    print "Ignore locale..."
                     return stringMap
 
     if node.type == "constant" and node.get("constantType") == "string":
