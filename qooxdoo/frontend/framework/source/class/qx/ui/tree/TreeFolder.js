@@ -225,7 +225,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
      */
     _createChildrenStructure : function()
     {
-      this.setAppearance("tree-folder-container");
+      this.setAppearance(this instanceof qx.ui.tree.Tree ? "tree-container" : "tree-folder-container");
 
       if (!this._horizontalLayout)
       {
@@ -235,7 +235,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
         this._horizontalLayout.setWidth(null);
         this._horizontalLayout.setParent(this);
         this._horizontalLayout.setAnonymous(true);
-        this._horizontalLayout.setAppearance("tree-folder");
+        this._horizontalLayout.setAppearance(this instanceof qx.ui.tree.Tree ? "tree" : "tree-folder");
 
         this._indentObject.setParent(this._horizontalLayout);
         this._iconObject.setParent(this._horizontalLayout);

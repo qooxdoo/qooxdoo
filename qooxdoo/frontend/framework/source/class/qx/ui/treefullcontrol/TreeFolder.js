@@ -268,7 +268,7 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
      */
     _createChildrenStructure : function()
     {
-      this.setAppearance("tree-folder-container");
+      this.setAppearance(this instanceof qx.ui.treefullcontrol.Tree ? "tree-container" : "tree-folder-container");
 
       if (!this._horizontalLayout)
       {
@@ -279,7 +279,7 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
         this._horizontalLayout.setWidth(null);
         this._horizontalLayout.setParent(this);
         this._horizontalLayout.setAnonymous(true);
-        this._horizontalLayout.setAppearance("tree-folder");
+        this._horizontalLayout.setAppearance(this instanceof qx.ui.treefullcontrol.Tree ? "tree" : "tree-folder");
 
         // Move the row fields into the horizontal layout
         for (var i=0; i<this._treeRowStructureFields.length; i++) {
