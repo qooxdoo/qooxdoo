@@ -194,27 +194,6 @@ qx.Class.define("qx.ui.tree.Tree",
 
     /*
     ---------------------------------------------------------------------------
-      CHILDREN HANDLING
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    _createChildrenStructure : function()
-    {
-      this.base(arguments);
-      this.setAppearance("tree-container");
-      this._horizontalLayout.setAppearance("tree");
-    },
-
-
-
-    /*
-    ---------------------------------------------------------------------------
       QUEUE HANDLING
     ---------------------------------------------------------------------------
     */
