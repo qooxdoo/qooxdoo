@@ -205,6 +205,32 @@ qx.Class.define("qxunit.test.Property",
 
 
       this.debug("Done: testInheritance");
+    },
+
+    testParent : function()
+    {
+      var pa = new qxunit.test.Layout;
+      var ch1 = new qxunit.test.Layout;
+      var ch2 = new qxunit.test.Layout;
+      var ch3 = new qxunit.test.Layout;
+
+      ch1.setParent(pa);
+
+      this.assertTrue(pa._setEnabled(true), "t0-a"); // ch1 gets enabled, too
+      this.assertFalse(ch3._setEnabled(false), "t0-b");
+
+      this.assertTrue(pa._computeEnabled(), "t1-a");
+      this.assertTrue(ch1._computeEnabled(), "t1-b");
+      this.assertUndefined(ch2._computeEnabled(), "t1-c");
+      this.assertFalse(ch3._computeEnabled(), "t1-d");
+
+      ch2.setParent(pa); // make ch2 enabled through inheritance
+      ch3.setParent(pa); // keep ch2 disabled, user value has higher priority
+
+      this.assertTrue(pa._computeEnabled(), "t2-a");
+      this.assertTrue(ch1._computeEnabled(), "t2-b");
+      this.assertTrue(ch2._computeEnabled(), "t2-c");
+      this.assertFalse(ch3._computeEnabled(), "t2-d");
     }
   }
 });
