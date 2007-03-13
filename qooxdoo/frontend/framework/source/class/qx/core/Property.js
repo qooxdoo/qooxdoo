@@ -79,8 +79,7 @@ qx.Class.define("qx.core.Property",
                 }
               }
 
-              value = parent[config.namePrefix + "compute" + config.funcName]();
-              widget[config.namePrefix + "refresh" + config.funcName](value);
+              widget[config.namePrefix + "refresh" + config.funcName](parent.$$computedValues[name]);
             }
           }
         }
@@ -177,12 +176,12 @@ qx.Class.define("qx.core.Property",
 
         // Methods used by the user
         members[namePrefix + "get" + funcName] = function() {
-          return this.__userValues[name];
+          return this.$$userValues[name];
         }
 
         // Computed getter
         members[namePrefix + "compute" + funcName] = function() {
-          return this.__computedValues[name];
+          return this.$$computedValues[name];
         }
 
         /**
@@ -332,8 +331,8 @@ qx.Class.define("qx.core.Property",
         // Hint: Always undefined in reset variant
         if (variant !== "reset")
         {
-          code.add('if(this.__userValues.', property, '!==undefined)');
-          code.add('computed=this.__userValues.', property, ';');
+          code.add('if(this.$$userValues.', property, '!==undefined)');
+          code.add('computed=this.$$userValues.', property, ';');
           hasComputeIf = true;
         }
 
@@ -344,8 +343,8 @@ qx.Class.define("qx.core.Property",
             code.add('else ');
           }
 
-          code.add('if(this.__styleValues.', property, '!==undefined)');
-          code.add('computed=this.__styleValues.', property, ';');
+          code.add('if(this.$$styleValues.', property, '!==undefined)');
+          code.add('computed=this.$$styleValues.', property, ';');
           hasComputeIf = true;
         }
 
@@ -384,7 +383,7 @@ qx.Class.define("qx.core.Property",
         }
         else if (variant === "style" || variant === "set" || variant == "reset")
         {
-          code.add('computed=this.getParent().__computedValues.', property, ';');
+          code.add('computed=this.getParent().$$computedValues.', property, ';');
         }
 
         // Hint: No toggle here, toggle only allows true/false and no inherit value
@@ -400,13 +399,13 @@ qx.Class.define("qx.core.Property",
       // [4] STORING COMPUTED VALUE
 
       // Remember computed old value
-      code.add('var old=this.__computedValues.', property, ';');
+      code.add('var old=this.$$computedValues.', property, ';');
 
       // Compare old/new computed value
       code.add('if(old===computed)return value;');
 
       // Store new computed value
-      code.add('this.__computedValues.', property, '=computed;');
+      code.add('this.$$computedValues.', property, '=computed;');
 
       // Inform user
       if (qx.core.Variant.isSet("qx.debug", "on"))
