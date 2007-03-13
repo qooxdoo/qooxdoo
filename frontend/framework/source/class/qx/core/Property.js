@@ -123,7 +123,7 @@ qx.Class.define("qx.core.Property",
 
             // Filter old properties and groups
             if (!config._legacy && !config._fast && !config._cached) {
-              this.attachPropertyMethods(clazz, config);
+              this.__attachPropertyMethods(clazz, config);
             }
           }
         }
@@ -143,7 +143,7 @@ qx.Class.define("qx.core.Property",
      * @param config {Map} Property configuration
      * @return {void}
      */
-    attachPropertyMethods : function(clazz, config)
+    __attachPropertyMethods : function(clazz, config)
     {
       var members = clazz.prototype;
       var name = config.name;
@@ -467,12 +467,12 @@ qx.Class.define("qx.core.Property",
       // [5] NOTIFYING DEPENDEND OBJECTS
 
       // Execute user configured setter
-      if (config.setter)
+      if (config.apply)
       {
         code.add('try{');
         code.add(clazz.classname, '.$$properties.', property);
-        code.add('.setter.call(this, computed, old);');
-        code.add('}catch(ex){this.error("Failed to execute setter of property ');
+        code.add('.apply.call(this, computed, old);');
+        code.add('}catch(ex){this.error("Failed to execute apply of property ');
         code.add(property, ' defined by class ', clazz.classname, '!", ex);}');
       }
 
@@ -511,10 +511,10 @@ qx.Class.define("qx.core.Property",
         }
       }
 
-      // Overriding temporary setter
+      // Overriding temporary wrapper
       clazz.prototype[config.namePrefix + variant + config.funcName] = new Function("value", code.toString());
 
-      // Executing new setter
+      // Executing new function
       return instance[config.namePrefix + variant + config.funcName](value);
     }
   },
