@@ -416,19 +416,18 @@ def handleAppearance(item, classNode, className, commentAttributes):
             attrib["states"] = []
     
     if len(thisAppearance) > 1:
-        raise DocException("A class can only have one own appearance!", item)
-    thisAppearance = thisAppearance[0]
+        raise DocException("The class '%s' has more than one own appearance!" % className, item)
     
     # parse states
     for attrib in commentAttributes:
         if attrib["category"] == "state":
             if not attrib.has_key("type"):
-                if thisAppearance is None:
+                if thisAppearance == []:
                     raise DocException(
                        "The default state '%s' of the class '%s' is defined but no default appearance is defined" 
                        % (attrib["name"], className), item
                     )
-                type = thisAppearance
+                type = thisAppearance[0]
             else:
                 type = attrib["type"][0]["type"]
                 

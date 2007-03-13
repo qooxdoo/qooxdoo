@@ -51,7 +51,7 @@ R_JAVADOC_STARS = re.compile(r'^\s*\*')
 
 
 
-R_NAMED_TYPE = re.compile(r'^\s*([a-zA-Z0-9_\.#]+)\s*({([^}]+)})?')
+R_NAMED_TYPE = re.compile(r'^\s*([a-zA-Z0-9_\.#-]+)\s*({([^}]+)})?')
 R_SIMPLE_TYPE = re.compile(r'^\s*({([^}]+)})?')
 
 
@@ -368,11 +368,10 @@ def parseText(intext, format=True):
     return attribs
 
 
-
 def parseDetail(attrib, format=True):
     text = attrib["text"]
 
-    if attrib["category"] in ["param", "event", "see"]:
+    if attrib["category"] in ["param", "event", "see", "state", "appearance"]:
         mtch = R_NAMED_TYPE.search(text)
     else:
         mtch = R_SIMPLE_TYPE.search(text)
@@ -380,7 +379,7 @@ def parseDetail(attrib, format=True):
     if mtch:
         text = text[mtch.end(0):]
 
-        if attrib["category"] in ["param", "event", "see"]:
+        if attrib["category"] in ["param", "event", "see", "state", "appearance"]:
             attrib["name"] = mtch.group(1)
             #print ">>> NAME: %s" % mtch.group(1)
             remain = mtch.group(3)
