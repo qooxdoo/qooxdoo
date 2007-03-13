@@ -40,9 +40,9 @@ qx.Class.define("qx.test.Animal",
 
       event : "upps",
 
-      setter : function(value, old)
+      apply : function(value, old)
       {
-        this.debug("Setter executed: " + value);
+        this.debug("Apply executed: " + value);
       }
     }
   },
