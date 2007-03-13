@@ -249,7 +249,7 @@ qx.Class.define("qx.core.Property",
       // [1] CHECKING & STORING INCOMING VALUE
 
       // Improve performance of db access
-      code.add('var db=this.__', variant === "style" ? 'styleValues;' : 'userValues;');
+      code.add('var db=this.$$', variant === "style" ? 'styleValues;' : 'userValues;');
 
       if (variant === "set" || variant === "style")
       {
