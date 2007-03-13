@@ -14,4 +14,4 @@ optimize-private
 add-file-ids
 use-variant = qx.debug:off
 
-include = qx.Clazz
+include = qx.Class
