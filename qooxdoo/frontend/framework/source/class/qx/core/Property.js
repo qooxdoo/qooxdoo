@@ -346,13 +346,6 @@ qx.Class.define("qx.core.Property",
      */
     executeOptimizedSetter : function(instance, clazz, name, variant, value)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
-          console.debug("Finalize " + variant + "() of " + name + " in class " + clazz.classname);
-        }
-      }
-
       var config = clazz.$$properties[name];
       var members = clazz.prototype;
       var code = new qx.util.StringBuilder;
@@ -370,7 +363,7 @@ qx.Class.define("qx.core.Property",
       {
         // Undefined check
         code.add('if(value===undefined)');
-        code.add('throw new Error("Undefined value for property ', name, ': " + value);');
+        code.add('throw new Error("Undefined value for property ', name, '!");');
 
         // Old/new comparision
         code.add('if(', 'db.', name, '===value)return value;');
