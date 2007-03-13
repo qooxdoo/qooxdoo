@@ -27,12 +27,12 @@
 
 /**
  * @state active
- * @state maximized
+ * @state maximized This state is active if the window is maximized
  * 
- * @appearance window
+ * @appearance window The main window object
  * @appearance window-resize-frame {qx.ui.basic.Terminator}
  * @appearance window-captionbar-icon {qx.ui.basic.Image}
- * @appearance window-captionbar-title {qx.ui.basic.Label}
+ * @appearance window-captionbar-title {qx.ui.basic.Label} The label of the caption bar
  * @appearance window-captionbar-minimize-button {qx.ui.form.Button}
  * @appearance window-captionbar-restore-button {qx.ui.form.Button}
  * @appearance window-captionbar-maximize-button {qx.ui.form.Button}
