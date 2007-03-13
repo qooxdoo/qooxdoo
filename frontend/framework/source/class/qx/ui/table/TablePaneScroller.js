@@ -1290,8 +1290,9 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
 
 
     /**
-     * Starts editing the currently focused cell. Does nothing if already editing
-     * or if the column is not editable.
+     * Starts editing the currently focused cell. Does nothing if already
+     * editing, if the column is not editable, or if the cell editor for the
+     * column ascertains that the particular cell is not editable.
      *
      * @type member
      * @return {Boolean} whether editing was started
@@ -1302,13 +1303,16 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
       var tableModel = table.getTableModel();
       var col = this._focusedCol;
 
-      if (!this.isEditing() && (col != null) && tableModel.isColumnEditable(col))
+      if (!this.isEditing() &&
+          (col != null) &&
+          tableModel.isColumnEditable(col))
       {
         var row = this._focusedRow;
         var xPos = this.getTablePaneModel().getX(col);
         var value = tableModel.getValue(col, row);
 
-        this._cellEditorFactory = table.getTableColumnModel().getCellEditorFactory(col);
+        this._cellEditorFactory =
+          table.getTableColumnModel().getCellEditorFactory(col);
 
         var cellInfo =
         {
@@ -1325,8 +1329,15 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
         // We handle two types of cell editors: the traditional in-place
         // editor, where the cell editor returned by the factory must fit in
         // the space of the table cell; and a modal window in which the
-        // editing takes place.
-        if (this._cellEditor instanceof qx.ui.window.Window)
+        // editing takes place.  Additionally, if the cell editor determines
+        // that it does not want to edit the particular cell being requested,
+        // it may return null to indicate that that cell is not editable.
+        if (this._cellEditor === null)
+        {
+          // This cell is not editable even though its column is.
+          return false;
+        }
+        else if (this._cellEditor instanceof qx.ui.window.Window)
         {
           // It's a window.  Ensure that it's modal
           this._cellEditor.setModal(true);
