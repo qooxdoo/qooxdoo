@@ -26,27 +26,37 @@ qx.Class.define("qx.core.Property",
 {
   statics :
   {
+    /**
+     * Inherit value, used to override defaults etc. to force inheritance
+     * even if property value is not undefined (through multi-values)
+     */
     INHERIT : "inherit",
 
+
     /**
-     *
-     *
+     * Built-in checks
+     * The keys could be used in the check of the properties
      */
     CHECKS :
     {
-      "defined" : 'value != undefined',
+      "defined" : 'value !== undefined',
       "null"    : 'value === null',
-      "String"  : 'typeof value == "string"',
-      "Boolean" : 'typeof value == "boolean"',
-      "Number"  : 'typeof value == "number" && !isNaN(value)',
-      "Object"  : 'value != null && typeof value == "object"',
+      "String"  : 'typeof value === "string"',
+      "Boolean" : 'typeof value === "boolean"',
+      "Number"  : 'typeof value === "number" && !isNaN(value)',
+      "Object"  : 'value !== null && typeof value === "object"',
       "Array"   : 'value instanceof Array',
-      "Map"     : 'value !== null && typeof value === "object" && !(value instanceof Array)'
+      "Map"     : 'value !== null && typeof value === "object" && !(value instanceof Array) && !(value instanceof qx.core.Object)'
     },
 
 
     /**
      * Update widget and all children on parent change
+     *
+     * @type static
+     * @internal
+     * @param widget {qx.core.ui.Widget} The widget which parent has changed
+     * @return {void}
      */
     updateParent : function(widget)
     {
@@ -90,11 +100,47 @@ qx.Class.define("qx.core.Property",
 
 
     /**
-     * Add property methods (used exclusively from qx.core.Object)
+     * Attach properties to class prototype
      *
      * @type static
-     * @param config {Map} Configuration map
-     * @param proto {Object} Object where the setter should be attached
+     * @internal
+     * @param clazz {Class} Class to attach properties to
+     * @return {void}
+     */
+    attachProperties : function(clazz)
+    {
+      var config, properties, name;
+
+      while(clazz && !clazz.$$propertiesAttached)
+      {
+        properties = clazz.$$properties;
+
+        if (properties)
+        {
+          for (name in properties)
+          {
+            config = properties[name];
+
+            // Filter old properties and groups
+            if (!config._legacy && !config._fast && !config._cached) {
+              this.attachPropertyMethods(clazz, config);
+            }
+          }
+        }
+
+        clazz.$$propertiesAttached = true;
+        clazz = clazz.superclass;
+      }
+    },
+
+
+    /**
+     * Add property methods
+     *
+     * @type static
+     * @internal
+     * @param clazz {Class} Class to attach properties to
+     * @param config {Map} Property configuration
      * @return {void}
      */
     attachPropertyMethods : function(clazz, config)
@@ -473,8 +519,17 @@ qx.Class.define("qx.core.Property",
     }
   },
 
-  settings :
-  {
+
+
+
+
+  /*
+  *****************************************************************************
+     SETTINGS
+  *****************************************************************************
+  */
+
+  settings : {
     "qx.propertyDebugLevel" : 1
   }
 });
