@@ -39,11 +39,7 @@ qx.Class.define("qx.test.Animal",
       },
 
       event : "upps",
-
-      apply : function(value, old)
-      {
-        this.debug("Apply executed: " + value);
-      }
+      apply : "_applyComplex"
     }
   },
 
@@ -59,6 +55,11 @@ qx.Class.define("qx.test.Animal",
      * @type member
      * @return {void}
      */
-    makeSound : function() {}
+    makeSound : function() {},
+
+
+    _applyComplex : function(value, old) {
+      this.debug("Apply executed: " + value);
+    }
   }
 });

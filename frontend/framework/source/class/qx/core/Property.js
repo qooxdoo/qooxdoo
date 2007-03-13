@@ -195,13 +195,30 @@ qx.Class.define("qx.core.Property",
         code.add("a=qx.lang.Array.fromShortHand(qx.lang.Array.fromArguments(a));")
       }
 
-      for (var i=0, a=config.group, l=a.length; i<l; i++) {
+      for (var i=0, a=config.group, l=a.length; i<l; i++)
+      {
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
+          if (this.$$method.set[a[i]] === undefined)
+          {
+            throw new Error("Missing set method cache entry for: " + a[i]);
+          }
+        }
+
         code.add("this.", this.$$method.set[a[i]], "(a[", i, "]);");
       }
 
       // Attach setter
       this.$$method.set[name] = prefix + "set" + postfix;
       members[this.$$method.set[name]] = new Function(code.toString());
+
+      // Output generate code
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (qx.core.Setting.get("qx.propertyDebugLevel") > 0) {
+          console.debug("Code: " + code);
+        }
+      }
 
       // Dispose string builder
       code.dispose();
@@ -532,8 +549,7 @@ qx.Class.define("qx.core.Property",
       if (config.apply)
       {
         code.add('try{');
-        code.add(clazz.classname, '.$$properties.', name);
-        code.add('.apply.call(this, computed, old);');
+        code.add('this.', config.apply, '(computed, old);');
         code.add('}catch(ex){this.error("Failed to execute apply of property ');
         code.add(name, ' defined by class ', clazz.classname, '!", ex);}');
       }
@@ -574,7 +590,7 @@ qx.Class.define("qx.core.Property",
       // Output generate code
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.propertyDebugLevel") > 2) {
+        if (qx.core.Setting.get("qx.propertyDebugLevel") > 0) {
           console.debug("Code: " + code);
         }
       }
@@ -603,6 +619,6 @@ qx.Class.define("qx.core.Property",
   */
 
   settings : {
-    "qx.propertyDebugLevel" : 0
+    "qx.propertyDebugLevel" : 1
   }
 });
