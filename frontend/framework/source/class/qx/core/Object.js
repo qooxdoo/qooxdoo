@@ -72,13 +72,15 @@ qx.Class.define("qx.core.Object",
       qx.core.Object.__db.push(this);
     }
 
+    this.$$userValues = {};
+    this.$$styleValues = {};
+    this.$$computedValues = {};
+
     if (!this.constructor.$$propertiesAttached) {
       qx.core.Property.attachProperties(this.constructor);
     }
 
-    this.$$userValues = {};
-    this.$$styleValues = {};
-    this.$$computedValues = {};
+    //qx.core.Property.applyInitValues(this);
   },
 
 
