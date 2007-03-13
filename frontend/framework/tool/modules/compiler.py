@@ -1224,7 +1224,14 @@ def compileNode(node,optns):
         write("}")
 
         if pretty:
-                if node.isComplex() and optns.prettypOpenCurlyIndentBefore:
+            #if node.isComplex() and optns.prettypOpenCurlyIndentBefore:
+            #    dec_indent()
+            if node.hasParent() and node.parent.type == "expression" and node.parent.parent.type == "return":
+                pass
+
+            elif ((node.isComplex() and not (optns.prettypOpenCurlyNewlineBefore in "nN")) # means: opening "{" on new line
+                or (optns.prettypOpenCurlyNewlineBefore in "aA")):
+                if optns.prettypOpenCurlyIndentBefore:
                     dec_indent()
 
 
@@ -1305,9 +1312,6 @@ def compileNode(node,optns):
                 else:
                     line()
 
-            #if ((optns.prettypOpenCurlyIndentBefore and not (optns.prettypOpenCurlyNewlineBefore in "nN"))
-            #    or optns.prettypAlignBlockWithCurlies):
-            #    dec_indent()
             # to get the next statement after the block aligned with the parent of the block, you have to
             # unindent after "}" if:
             # - the opening "{" was on a new line AND was indented
