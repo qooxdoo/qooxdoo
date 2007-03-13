@@ -242,14 +242,14 @@ qx.Class.define("qx.core.Property",
           return qx.core.Property.executeOptimizedSetter(this, clazz, name, "reset");
         }
 
-        if (config.inheritable)
+        if (config.inheritable === true)
         {
           members[namePrefix + "refresh" + funcName] = function(value) {
             return qx.core.Property.executeOptimizedSetter(this, clazz, name, "refresh", value);
           }
         }
 
-        if (config.appearance)
+        if (config.appearance !== undefined)
         {
           members[namePrefix + "style" + funcName] = function(value) {
             return qx.core.Property.executeOptimizedSetter(this, clazz, name, "style", value);
@@ -262,19 +262,58 @@ qx.Class.define("qx.core.Property",
             return qx.core.Property.executeOptimizedSetter(this, clazz, name, "toggle");
           }
         }
+
+        if (config.init !== undefined)
+        {
+          members[namePrefix + "init" + funcName] = function() {
+            return qx.core.Property.executeOptimizedSetter(this, clazz, name, "init");
+          }
+        }
       }
     },
 
 
     /**
-     * TODOC
+     * Apply init values
      *
      * @type static
-     * @param clazz {var} TODOC
-     * @param mode {var} TODOC
-     * @param name {var} TODOC
-     * @param value {var} TODOC
-     * @return {call} TODOC
+     * @internal
+     */
+    applyInitValues : function(instance)
+    {
+      var config, properties, name;
+      var clazz = instance.constructor;
+
+      while(clazz)
+      {
+        properties = clazz.$$properties;
+
+        if (properties)
+        {
+          for (name in properties)
+          {
+            config = properties[name];
+
+            if (config.init !== undefined)
+            {
+              console.log("Initialize: " + name);
+              instance[config.namePrefix + "init" + config.funcName]();
+            }
+          }
+        }
+
+        clazz = clazz.superclass;
+      }
+    },
+
+
+    /**
+     * Generates the optimized setter
+     * Supported variants: set, reset, init, refresh, style and toggle
+     *
+     * @type static
+     * @internal
+     * @return {call} Execute return value of apply generated function, generally the incoming value
      */
     executeOptimizedSetter : function(instance, clazz, property, variant, value)
     {
@@ -349,10 +388,11 @@ qx.Class.define("qx.core.Property",
       }
 
       // Hint: No refresh() here, the value of refresh is the parent value
+      // Hint: No init() here, no incoming value
 
       // Store value
       // Hint: Not in refresh, it is not my value, but the value of my parent
-      if (variant !== "refresh") {
+      if (variant !== "refresh" && variant !== "init") {
         code.add('db.', property, '=value;');
       }
 
@@ -366,8 +406,8 @@ qx.Class.define("qx.core.Property",
       // could not be undefined. This way we are sure we can use this value and don't
       // need a complex logic to find the usable value.
 
-      // Use complex evaluation for reset, refresh and style
-      if (variant === "refresh" || variant === "reset" || variant === "style")
+      // Use complex evaluation for reset, refresh, init and style
+      if (variant === "refresh" || variant === "reset" || variant === "init" || variant === "style")
       {
         code.add('var computed;');
 
@@ -419,23 +459,32 @@ qx.Class.define("qx.core.Property",
 
       // [3] RESPECTING INHERITANCE
 
-      if (config.inheritable === true)
+      // Require the parent/children interface
+
+      if (instance.getParent)
       {
-        code.add('if(computed===qx.core.Property.INHERIT||computed===undefined){');
-
-        if (variant == "refresh")
+        if (variant === "refresh" || variant === "style" || variant === "set" || variant == "reset")
         {
-          code.add('computed=value;');
-        }
-        else if (variant === "style" || variant === "set" || variant == "reset")
-        {
-          code.add('computed=this.getParent().$$computedValues.', property, ';');
-        }
+          if (config.inheritable === true)
+          {
+            code.add('if(computed===qx.core.Property.INHERIT||computed===undefined){');
 
-        // Hint: No toggle here, toggle only allows true/false and no inherit value
+            if (variant === "refresh")
+            {
+              code.add('computed=value;');
+            }
+            else
+            {
+              code.add('var pa=this.getParent();if(pa)computed=pa.$$computedValues.', property, ';');
+            }
 
-        code.add('}');
+            code.add('}');
+          }
+        }
       }
+
+      // Hint: No toggle() here, toggle only allows true/false user value and no inherit
+      // Hint: No init() here, init does not need to respect inheritance because there is no parent yet.
 
 
 
@@ -476,17 +525,23 @@ qx.Class.define("qx.core.Property",
         code.add(property, ' defined by class ', clazz.classname, '!", ex);}');
       }
 
-      // Fire event
-      if (config.event) {
-        code.add('this.createDispatchDataEvent("', config.event, '", computed);');
-      }
-
-      // Refresh children
-      if (config.inheritable === true)
+      // Don't fire event and not update children in init().
+      // There is no chance to attach an event listener or add children before.
+      if (variant !== "init")
       {
-        code.add('for(var i=0,a=this.getChildren(),l=a.length;i<l;i++) {');
-        code.add('a[i].', config.namePrefix, 'refresh', config.funcName, '(computed);');
-        code.add('}');
+        // Fire event
+        if (config.event) {
+          code.add('this.createDispatchDataEvent("', config.event, '", computed);');
+        }
+
+        // Refresh children
+        // Require the parent/children interface
+        if (instance.getChildren && config.inheritable === true)
+        {
+          code.add('var a=this.getChildren();if(a)for(var i=0,l=a.length;i<l;i++) {');
+          code.add('a[i].', config.namePrefix, 'refresh', config.funcName, '(computed);');
+          code.add('}');
+        }
       }
 
 
@@ -514,6 +569,9 @@ qx.Class.define("qx.core.Property",
       // Overriding temporary wrapper
       clazz.prototype[config.namePrefix + variant + config.funcName] = new Function("value", code.toString());
 
+      // Disposing string builder
+      code.dispose();
+
       // Executing new function
       return instance[config.namePrefix + variant + config.funcName](value);
     }
@@ -530,6 +588,6 @@ qx.Class.define("qx.core.Property",
   */
 
   settings : {
-    "qx.propertyDebugLevel" : 1
+    "qx.propertyDebugLevel" : 3
   }
 });
