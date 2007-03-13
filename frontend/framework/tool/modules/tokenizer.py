@@ -86,9 +86,9 @@ def parseElement(element):
     global parseLine
     global parseColumn
 
-    if config.JSPROTECTED.has_key(element):
-        # print "PROTECTED: %s" % PROTECTED[content]
-        obj = { "type" : "protected", "detail" : config.JSPROTECTED[element], "source" : element, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId }
+    if config.JSRESERVED.has_key(element):
+        # print "PROTECTED: %s" % JSRESERVED[content]
+        obj = { "type" : "reserved", "detail" : config.JSRESERVED[element], "source" : element, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId }
 
     elif element in config.JSBUILTIN:
         # print "BUILTIN: %s" % content
@@ -98,13 +98,13 @@ def parseElement(element):
         # print "NUMBER: %s" % content
         obj = { "type" : "number", "detail" : "int", "source" : element, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId }
 
-    elif element.startswith("_"):
-        # print "PROTECTED NAME: %s" % content
-        obj = { "type" : "name", "detail" : "protected", "source" : element, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId }
-
     elif element.startswith("__"):
         # print "PRIVATE NAME: %s" % content
         obj = { "type" : "name", "detail" : "private", "source" : element, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId }
+
+    elif element.startswith("_"):
+        # print "PROTECTED NAME: %s" % content
+        obj = { "type" : "name", "detail" : "protected", "source" : element, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId }
 
     elif len(element) > 0:
         # print "PUBLIC NAME: %s" % content
@@ -360,7 +360,7 @@ def main():
 
         if options.write:
             filetool.save(fileName + options.extension, tokenString, options.encoding)
-            
+
         else:
             try:
                 print tokenString
