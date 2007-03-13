@@ -1224,7 +1224,7 @@ def compileNode(node,optns):
         write("}")
 
         if pretty:
-                if node.isComplex and optns.prettypOpenCurlyIndentBefore:
+                if node.isComplex() and optns.prettypOpenCurlyIndentBefore:
                     dec_indent()
 
 
