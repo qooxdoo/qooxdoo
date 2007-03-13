@@ -76,9 +76,9 @@ qx.Class.define("qx.core.Object",
       qx.core.Object.attachProperties(this.constructor);
     }
 
-    this.__userValues = {};
-    this.__styleValues = {};
-    this.__computedValues = {};
+    this.$$userValues = {};
+    this.$$styleValues = {};
+    this.$$computedValues = {};
   },
 
 
