@@ -126,6 +126,19 @@ qx.Class.define("qx.core.Object",
 
 
     /**
+     * Returns the database created, but not yet disposed elements.
+     * Please be sure to not modify the given array!
+     *
+     * @type static
+     * @internal
+     * @return {Array} The database
+     */
+    getDb : function() {
+      return this.__db;
+    },
+
+
+    /**
      * Destructor. This method is called by qooxdoo on object destruction.
      *
      * Any class that holds resources like links to DOM nodes must overwrite
@@ -213,59 +226,6 @@ qx.Class.define("qx.core.Object",
       }
 
       this._disposed = true;
-    },
-
-
-    /**
-     * Summary of allocated objects
-     *
-     * @type static
-     * @return {String} summary of allocated objects.
-     */
-    getSummary : function()
-    {
-      var vData = {};
-      var vCounter = 0;
-      var vObject;
-
-      for (var i=qx.core.Object.__db.length - 1; i>=0; i--)
-      {
-        vObject = qx.core.Object.__db[i];
-
-        if (vObject && vObject.__disposed === false)
-        {
-          if (vData[vObject.classname] == null) {
-            vData[vObject.classname] = 1;
-          } else {
-            vData[vObject.classname]++;
-          }
-
-          vCounter++;
-        }
-      }
-
-      var vArrData = [];
-
-      for (var vClassName in vData)
-      {
-        vArrData.push(
-        {
-          classname : vClassName,
-          number    : vData[vClassName]
-        });
-      }
-
-      vArrData.sort(function(a, b) {
-        return b.number - a.number;
-      });
-
-      var vMsg = "Summary: (" + vCounter + " Objects)\n\n";
-
-      for (var i=0; i<vArrData.length; i++) {
-        vMsg += vArrData[i].number + ": " + vArrData[i].classname + "\n";
-      }
-
-      return vMsg;
     },
 
 
@@ -380,6 +340,8 @@ qx.Class.define("qx.core.Object",
     },
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       COMMON SETTER SUPPORT
@@ -411,6 +373,8 @@ qx.Class.define("qx.core.Object",
 
       return this;
     },
+
+
 
 
 
