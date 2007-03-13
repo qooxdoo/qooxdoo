@@ -72,6 +72,7 @@ qx.Class.define("qx.core.Object",
       qx.core.Object.__db.push(this);
     }
 
+    // Property support
     this.$$userValues = {};
     this.$$styleValues = {};
     this.$$computedValues = {};

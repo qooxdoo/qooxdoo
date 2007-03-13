@@ -50,6 +50,19 @@ qx.Class.define("qx.core.Property",
     },
 
 
+    $$method :
+    {
+      set     : {},
+      get     : {},
+      init    : {},
+      refresh : {},
+      style   : {},
+      compute : {},
+      toggle  : {},
+      reset   : {}
+    },
+
+
     /**
      * Update widget and all children on parent change
      *
@@ -89,7 +102,7 @@ qx.Class.define("qx.core.Property",
                 }
               }
 
-              widget[config.namePrefix + "refresh" + config.funcName](parent.$$computedValues[name]);
+              widget[this.$$method.refresh[name]](parent.$$computedValues[name]);
             }
           }
         }
@@ -110,6 +123,7 @@ qx.Class.define("qx.core.Property",
     attachProperties : function(clazz)
     {
       var config, properties, name;
+      var prefix, postfix;
 
       while(clazz && !clazz.$$propertiesAttached)
       {
@@ -122,8 +136,26 @@ qx.Class.define("qx.core.Property",
             config = properties[name];
 
             // Filter old properties and groups
-            if (!config._legacy && !config._fast && !config._cached) {
-              this.__attachPropertyMethods(clazz, config);
+            if (!config._legacy && !config._fast && !config._cached)
+            {
+              if (name.indexOf("__") == 0)
+              {
+                prefix = "__";
+                postfix = qx.lang.String.toFirstUp(name.substring(2));
+              }
+              else if (name.indexOf("_") == 0)
+              {
+                prefix = "_";
+                postfix = qx.lang.String.toFirstUp(name.substring(1));
+              }
+              else
+              {
+                prefix = "";
+                postfix = qx.lang.String.toFirstUp(name);
+              }
+
+              // Attach methods
+              config.group ? this.__attachGroupMethods(clazz, config, prefix, postfix) : this.__attachPropertyMethods(clazz, config, prefix, postfix);
             }
           }
         }
@@ -135,7 +167,7 @@ qx.Class.define("qx.core.Property",
 
 
     /**
-     * Add property methods
+     * Attach group methods
      *
      * @type static
      * @internal
@@ -143,131 +175,111 @@ qx.Class.define("qx.core.Property",
      * @param config {Map} Property configuration
      * @return {void}
      */
-    __attachPropertyMethods : function(clazz, config)
+    __attachGroupMethods : function(clazz, config, prefix, postfix)
     {
       var members = clazz.prototype;
       var name = config.name;
-      var namePrefix;
 
-      if (name.indexOf("__") == 0)
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        access = "private";
-        namePrefix = "__";
-        propName = name.substring(2);
-      }
-      else if (name.indexOf("_") == 0)
-      {
-        access = "protected";
-        namePrefix = "_";
-        propName = name.substring(1);
-      }
-      else
-      {
-        access = "public";
-        namePrefix = "";
-        propName = name;
+        if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
+          console.debug("Generating property group: " + name);
+        }
       }
 
-      var funcName = qx.lang.String.toFirstUp(propName);
+      var code = new qx.util.StringBuilder;
 
-      // Complete property configuration
-      config.propName = propName;
-      config.funcName = funcName;
-      config.namePrefix = namePrefix;
-      config.access = access;
+      code.add("var a=arguments;")
 
-      // Processing property groups
-      if (config.group)
-      {
-        if (qx.core.Variant.isSet("qx.debug", "on"))
-        {
-          if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
-            console.debug("Generating property group: " + name + " (" + access + ")");
-          }
-        }
-
-
-        var setter = new qx.util.StringBuilder;
-
-        setter.add("var a=arguments;")
-
-        if (config.mode == "shorthand") {
-          setter.add("a=qx.lang.Array.fromShortHand(qx.lang.Array.fromArguments(a));")
-        }
-
-        for (var i=0, a=config.group, l=a.length; i<l; i++)
-        {
-          // TODO: Support private, protected, etc. in setters
-          setter.add("this.set", qx.lang.String.toFirstUp(a[i]), "(a[", i, "]);");
-        }
-
-        members[namePrefix + "set" + funcName] = new Function(setter.toString());
+      if (config.mode == "shorthand") {
+        code.add("a=qx.lang.Array.fromShortHand(qx.lang.Array.fromArguments(a));")
       }
 
-      // Processing properties
-      else
+      for (var i=0, a=config.group, l=a.length; i<l; i++) {
+        code.add("this.", this.$$method.set[a[i]], "(a[", i, "]);");
+      }
+
+      // Attach setter
+      this.$$method.set[name] = prefix + "set" + postfix;
+      members[this.$$method.set[name]] = new Function(code.toString());
+
+      // Dispose string builder
+      code.dispose();
+    },
+
+
+    /**
+     * Attach property methods
+     *
+     * @type static
+     * @internal
+     * @param clazz {Class} Class to attach properties to
+     * @param config {Map} Property configuration
+     * @return {void}
+     */
+    __attachPropertyMethods : function(clazz, config, prefix, postfix)
+    {
+      var members = clazz.prototype;
+      var name = config.name;
+
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Variant.isSet("qx.debug", "on"))
-        {
-          if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
-            console.debug("Generating property wrappers: " + name + " (" + access + ")");
-          }
+        if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
+          console.debug("Generating property wrappers: " + name);
         }
+      }
 
+      var method = this.$$method;
 
+      method.get[name] = prefix + "get" + postfix;
+      members[method.get[name]] = function() {
+        return this.$$userValues[name];
+      }
 
-        /**
-         * GETTER
-         */
+      method.compute[name] = prefix + "compute" + postfix;
+      members[method.compute[name]] = function() {
+        return this.$$computedValues[name];
+      }
 
-        // Methods used by the user
-        members[namePrefix + "get" + funcName] = function() {
-          return this.$$userValues[name];
+      method.set[name] = prefix + "set" + postfix;
+      members[method.set[name]] = function(value) {
+        return qx.core.Property.executeOptimizedSetter(this, clazz, name, "set", value);
+      }
+
+      method.reset[name] = prefix + "reset" + postfix;
+      members[method.reset[name]] = function() {
+        return qx.core.Property.executeOptimizedSetter(this, clazz, name, "reset");
+      }
+
+      if (config.inheritable === true)
+      {
+        method.refresh[name] = prefix + "refresh" + postfix;
+        members[method.refresh[name]] = function(value) {
+          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "refresh", value);
         }
+      }
 
-        // Computed getter
-        members[namePrefix + "compute" + funcName] = function() {
-          return this.$$computedValues[name];
+      if (config.appearance !== undefined)
+      {
+        method.style[name] = prefix + "style" + postfix;
+        members[method.style[name]] = function(value) {
+          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "style", value);
         }
+      }
 
-        /**
-         * SETTER
-         */
-
-        members[namePrefix + "set" + funcName] = function(value) {
-          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "set", value);
+      if (config.check === "Boolean")
+      {
+        method.toggle[name] = prefix + "toggle" + postfix;
+        members[method.toggle[name]] = function() {
+          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "toggle");
         }
+      }
 
-        members[namePrefix + "reset" + funcName] = function() {
-          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "reset");
-        }
-
-        if (config.inheritable === true)
-        {
-          members[namePrefix + "refresh" + funcName] = function(value) {
-            return qx.core.Property.executeOptimizedSetter(this, clazz, name, "refresh", value);
-          }
-        }
-
-        if (config.appearance !== undefined)
-        {
-          members[namePrefix + "style" + funcName] = function(value) {
-            return qx.core.Property.executeOptimizedSetter(this, clazz, name, "style", value);
-          }
-        }
-
-        if (config.check === "Boolean")
-        {
-          members[namePrefix + "toggle" + funcName] = function() {
-            return qx.core.Property.executeOptimizedSetter(this, clazz, name, "toggle");
-          }
-        }
-
-        if (config.init !== undefined)
-        {
-          members[namePrefix + "init" + funcName] = function() {
-            return qx.core.Property.executeOptimizedSetter(this, clazz, name, "init");
-          }
+      if (config.init !== undefined)
+      {
+        method.init[name] = prefix + "init" + postfix;
+        members[method.init[name]] = function() {
+          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "init");
         }
       }
     },
@@ -297,7 +309,7 @@ qx.Class.define("qx.core.Property",
             if (config.init !== undefined)
             {
               console.log("Initialize: " + name);
-              instance[config.namePrefix + "init" + config.funcName]();
+              instance[this.$$names.init[name]]();
             }
           }
         }
@@ -315,16 +327,17 @@ qx.Class.define("qx.core.Property",
      * @internal
      * @return {call} Execute return value of apply generated function, generally the incoming value
      */
-    executeOptimizedSetter : function(instance, clazz, property, variant, value)
+    executeOptimizedSetter : function(instance, clazz, name, variant, value)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
-          console.debug("Finalize " + variant + "() of " + property + " in class " + clazz.classname);
+          console.debug("Finalize " + variant + "() of " + name + " in class " + clazz.classname);
         }
       }
 
-      var config = clazz.$$properties[property];
+      var config = clazz.$$properties[name];
+      var members = clazz.prototype;
       var code = new qx.util.StringBuilder;
 
 
@@ -340,10 +353,10 @@ qx.Class.define("qx.core.Property",
       {
         // Undefined check
         code.add('if(value===undefined)');
-        code.add('throw new Error("Undefined value for property ', property, ': " + value);');
+        code.add('throw new Error("Undefined value for property ', name, ': " + value);');
 
         // Old/new comparision
-        code.add('if(', 'db.', property, '===value)return value;');
+        code.add('if(', 'db.', name, '===value)return value;');
 
         if (variant === "set")
         {
@@ -360,7 +373,7 @@ qx.Class.define("qx.core.Property",
             }
             else if (typeof config.check === "function")
             {
-              code.add('if(!', clazz.classname, '.$$properties.', property);
+              code.add('if(!', clazz.classname, '.$$properties.', name);
               code.add('.check.call(this, value))');
             }
             else if (typeof config.check === "string")
@@ -372,14 +385,14 @@ qx.Class.define("qx.core.Property",
               throw new Error("Could not add check to property " + name + " of class " + clazz.classname);
             }
 
-            code.add('throw new Error("Invalid value for property ', property, ': " + value);');
+            code.add('throw new Error("Invalid value for property ', name, ': " + value);');
           }
         }
       }
       else if (variant === "toggle")
       {
         // Toggle value (Replace eventually incoming value for setter etc.)
-        code.add('value=!', 'db.', property, ';');
+        code.add('value=!', 'db.', name, ';');
       }
       else if (variant === "reset")
       {
@@ -393,7 +406,7 @@ qx.Class.define("qx.core.Property",
       // Store value
       // Hint: Not in refresh, it is not my value, but the value of my parent
       if (variant !== "refresh" && variant !== "init") {
-        code.add('db.', property, '=value;');
+        code.add('db.', name, '=value;');
       }
 
 
@@ -417,8 +430,8 @@ qx.Class.define("qx.core.Property",
         // Hint: Always undefined in reset variant
         if (variant !== "reset")
         {
-          code.add('if(this.$$userValues.', property, '!==undefined)');
-          code.add('computed=this.$$userValues.', property, ';');
+          code.add('if(this.$$userValues.', name, '!==undefined)');
+          code.add('computed=this.$$userValues.', name, ';');
           hasComputeIf = true;
         }
 
@@ -429,8 +442,8 @@ qx.Class.define("qx.core.Property",
             code.add('else ');
           }
 
-          code.add('if(this.$$styleValues.', property, '!==undefined)');
-          code.add('computed=this.$$styleValues.', property, ';');
+          code.add('if(this.$$styleValues.', name, '!==undefined)');
+          code.add('computed=this.$$styleValues.', name, ';');
           hasComputeIf = true;
         }
 
@@ -442,7 +455,7 @@ qx.Class.define("qx.core.Property",
           }
 
           code.add('computed=', clazz.classname);
-          code.add('.$$properties.', property, '.init;');
+          code.add('.$$properties.', name, '.init;');
         }
       }
 
@@ -461,7 +474,7 @@ qx.Class.define("qx.core.Property",
 
       // Require the parent/children interface
 
-      if (instance.getParent)
+      if (members.getParent)
       {
         if (variant === "refresh" || variant === "style" || variant === "set" || variant == "reset")
         {
@@ -475,7 +488,7 @@ qx.Class.define("qx.core.Property",
             }
             else
             {
-              code.add('var pa=this.getParent();if(pa)computed=pa.$$computedValues.', property, ';');
+              code.add('var pa=this.getParent();if(pa)computed=pa.$$computedValues.', name, ';');
             }
 
             code.add('}');
@@ -494,19 +507,19 @@ qx.Class.define("qx.core.Property",
       // [4] STORING COMPUTED VALUE
 
       // Remember computed old value
-      code.add('var old=this.$$computedValues.', property, ';');
+      code.add('var old=this.$$computedValues.', name, ';');
 
       // Compare old/new computed value
       code.add('if(old===computed)return value;');
 
       // Store new computed value
-      code.add('this.$$computedValues.', property, '=computed;');
+      code.add('this.$$computedValues.', name, '=computed;');
 
       // Inform user
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (qx.core.Setting.get("qx.propertyDebugLevel") > 0) {
-          code.add('this.debug("' + property + ' changed: " + old + " => " + computed);');
+          code.add('this.debug("', name, ' changed: " + old + " => " + computed);');
         }
       }
 
@@ -519,10 +532,10 @@ qx.Class.define("qx.core.Property",
       if (config.apply)
       {
         code.add('try{');
-        code.add(clazz.classname, '.$$properties.', property);
+        code.add(clazz.classname, '.$$properties.', name);
         code.add('.apply.call(this, computed, old);');
         code.add('}catch(ex){this.error("Failed to execute apply of property ');
-        code.add(property, ' defined by class ', clazz.classname, '!", ex);}');
+        code.add(name, ' defined by class ', clazz.classname, '!", ex);}');
       }
 
       // Don't fire event and not update children in init().
@@ -536,10 +549,10 @@ qx.Class.define("qx.core.Property",
 
         // Refresh children
         // Require the parent/children interface
-        if (instance.getChildren && config.inheritable === true)
+        if (members.getChildren && config.inheritable === true)
         {
-          code.add('var a=this.getChildren();if(a)for(var i=0,l=a.length;i<l;i++) {');
-          code.add('a[i].', config.namePrefix, 'refresh', config.funcName, '(computed);');
+          code.add('for(var i=0,a=this.getChildren(),l=a.length;i<l;i++){');
+          code.add('a[i].', this.$$method.refresh[name], '(computed);');
           code.add('}');
         }
       }
@@ -566,14 +579,16 @@ qx.Class.define("qx.core.Property",
         }
       }
 
+
+
       // Overriding temporary wrapper
-      clazz.prototype[config.namePrefix + variant + config.funcName] = new Function("value", code.toString());
+      members[this.$$method[variant][name]] = new Function("value", code.toString());
 
       // Disposing string builder
       code.dispose();
 
       // Executing new function
-      return instance[config.namePrefix + variant + config.funcName](value);
+      return instance[this.$$method[variant][name]](value);
     }
   },
 
@@ -588,6 +603,6 @@ qx.Class.define("qx.core.Property",
   */
 
   settings : {
-    "qx.propertyDebugLevel" : 3
+    "qx.propertyDebugLevel" : 0
   }
 });
