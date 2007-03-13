@@ -294,7 +294,7 @@ qx.Class.define("feedreader.Application",
 
       // create table model
       this._tableModel = new qx.ui.table.SimpleTableModel();
-      this._tableModel.setColumnIds([ "title", "author", "date" ]);
+      this._tableModel.setColumnIds([ "title", "author", "date", "id" ]);
 
       this._tableModel.setColumnNamesById(
       {
@@ -318,12 +318,19 @@ qx.Class.define("feedreader.Application",
       table.getTableColumnModel().setColumnWidth(0, 350);
       table.getTableColumnModel().setColumnWidth(1, 200);
       table.getTableColumnModel().setColumnWidth(2, 200);
+      table.getTableColumnModel().setColumnVisible(3, false);
+      
 
       table.getSelectionModel().addEventListener("changeSelection", function(e)
       {
         var selectedEntry = table.getSelectionModel().getAnchorSelectionIndex();
-        var item = this.getFeeds()[this.getSelectedFeed()].items[selectedEntry];
-        this.displayArticle(item);
+        var feedName = this.getSelectedFeed()
+        if (selectedEntry > 0) {
+          var itemId = this._tableModel.getRowData(selectedEntry)[3];
+          this.getFeeds()[feedName].selected = itemId;
+          item = this.getFeeds()[feedName].items[itemId];
+          this.displayArticle(item);
+        }
       },
       this);
 
@@ -501,6 +508,7 @@ qx.Class.define("feedreader.Application",
         item.date = qx.dom.Element.getTextContent(eItem.getElementsByTagName("created")[0] || eItem.getElementsByTagName("published")[0] || eItem.getElementsByTagName("updated")[0] || empty);
         item.content = qx.dom.Element.getTextContent(eItem.getElementsByTagName("content")[0] || empty);
         item.link = eItem.getElementsByTagName("link")[0].getAttribute("href");
+        item.id = i;
         items.push(item);
       }
 
@@ -530,6 +538,7 @@ qx.Class.define("feedreader.Application",
         item.date = qx.dom.Element.getTextContent(eItem.getElementsByTagName("pubDate")[0]);
         item.content = qx.dom.Element.getTextContent(qx.xml.Element.getElementsByTagNameNS(eItem, qx.xml.Namespace.RSS1, "encoded")[0] || empty);
         item.link = qx.dom.Element.getTextContent(eItem.getElementsByTagName("link")[0]);
+        item.id = i;
         items.push(item);
       }
 
