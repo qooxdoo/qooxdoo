@@ -25,6 +25,8 @@
 ************************************************************************ */
 
 /**
+ * @appearance tree-container
+ * @appearance tree {qx.ui.layout.HorizontalBoxLayout}
  * @appearance tree-icon {qx.ui.basic.Image}
  * @appearance tree-label {qx.ui.basic.Label}
  */
@@ -187,6 +189,27 @@ qx.Class.define("qx.ui.tree.Tree",
       return this.getManager().getSelectedItem();
     },
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      CHILDREN HANDLING
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void}
+     */
+    _createChildrenStructure : function()
+    {
+      this.base(arguments);
+      this.setAppearance("tree-container");
+      this._horizontalLayout.setAppearance("tree");
+    },
 
 
 

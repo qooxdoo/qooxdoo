@@ -26,6 +26,8 @@
 
 /**
  * @appearance button-view-button
+ * @state checked Set by {@link #checked}
+ * @state over
  */
 qx.Class.define("qx.ui.pageview.buttonview.Button",
 {
