@@ -13,7 +13,7 @@ document.write('<div id="demoHead">qooxdoo: <span>The new era of web development
 document.write('<div id="demoFoot">');
 document.write('[<a href="javascript:qx.core.Object.dispose();">Dispose Application</a>] &#160;');
 document.write('[<a href="javascript:alert(qx.dev.Pollution.getInfo());">Global Pollution</a>] &#160;');
-document.write('[<a href="javascript:alert(qx.core.Object.getSummary());">Object Summary</a>] &#160;');
+document.write('[<a href="javascript:alert(qx.dev.ObjectSummary.getInfo());">Object Summary</a>] &#160;');
 document.write('</div>');
 document.write('<div id="demoDebug"></div>');
 document.write('<div id="demoFrame">&#160;</div>');
