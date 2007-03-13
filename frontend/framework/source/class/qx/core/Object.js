@@ -72,8 +72,8 @@ qx.Class.define("qx.core.Object",
       qx.core.Object.__db.push(this);
     }
 
-    if (!this.constructor.__propertiesCreated) {
-      qx.core.Object.attachProperties(this.constructor);
+    if (!this.constructor.$$propertiesAttached) {
+      qx.core.Property.attachProperties(this.constructor);
     }
 
     this.$$userValues = {};
@@ -92,33 +92,6 @@ qx.Class.define("qx.core.Object",
 
   statics :
   {
-    attachProperties : function(clazz)
-    {
-      var config, properties;
-
-      while(clazz && !clazz.__propertiesCreated)
-      {
-        properties = clazz.$$properties;
-
-        if (properties)
-        {
-          for (var name in properties)
-          {
-            config = properties[name];
-
-            // Filter old properties and groups
-            if (!config._legacy && !config._fast && !config._cached) {
-              qx.core.Property.attachPropertyMethods(clazz, config);
-            }
-          }
-        }
-
-        clazz.__propertiesCreated = true;
-        clazz = clazz.superclass;
-      }
-    },
-
-
     /** TODOC */
     __availableHashCode : 0,
 
