@@ -44,6 +44,10 @@ qx.Class.define("qxunit.test.Property",
       this.debug("Done: testBasic");
     },
 
+
+
+
+
     testBuiltinTypes : function()
     {
       this.debug("Exec: testBuiltinTypes");
@@ -106,6 +110,10 @@ qx.Class.define("qxunit.test.Property",
       this.debug("Done: testBuiltinTypes");
     },
 
+
+
+
+
     testMultiValues : function()
     {
       this.debug("Exec: testMultiValues");
@@ -124,6 +132,10 @@ qx.Class.define("qxunit.test.Property",
       this.debug("Done: testMultiValues");
     },
 
+
+
+
+
     testInheritance : function()
     {
       this.debug("Exec: testInheritance");
@@ -140,8 +152,6 @@ qx.Class.define("qxunit.test.Property",
 
       pa.add(ch1, ch2, ch3);
       ch2.add(chh1, chh2, chh3);
-
-
 
 
       // Simple: Only inheritance, no local values
@@ -168,7 +178,6 @@ qx.Class.define("qxunit.test.Property",
       this.assertTrue(chh3._computeEnabled());
 
 
-
       // Enabling local value
       this.assertFalse(ch2._setEnabled(false));
       this.assertFalse(ch2._getEnabled());
@@ -182,8 +191,6 @@ qx.Class.define("qxunit.test.Property",
 
       this.assertUndefined(chh3._getEnabled());
       this.assertFalse(chh3._computeEnabled());
-
-
 
 
       // Reset local value
@@ -202,10 +209,12 @@ qx.Class.define("qxunit.test.Property",
       this.assertTrue(chh3._computeEnabled());
 
 
-
-
       this.debug("Done: testInheritance");
     },
+
+
+
+
 
     testParent : function()
     {
