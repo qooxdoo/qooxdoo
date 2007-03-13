@@ -163,7 +163,12 @@ qx.Class.define("qx.manager.object.AppearanceManager",
      * @param id {String} id of the appearance (e.g. "button", "label", ...)
      * @return {Map} map of widget properties as returned by the "initial" function
      */
-    styleFrom : function(id, states) {
+    styleFrom : function(id, states)
+    {
+      if (!this.getAppearanceTheme()) {
+        return;
+      }
+
       return this.styleFromTheme(this.getAppearanceTheme(), id, states);
     },
 
