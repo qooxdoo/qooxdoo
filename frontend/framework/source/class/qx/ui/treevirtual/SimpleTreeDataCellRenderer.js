@@ -66,7 +66,12 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
 
   statics :
   {
-    MAIN_DIV_STYLE  : ';overflow:hidden;white-space:nowrap;border-right:1px solid #eeeeee;' + 'padding-left:2px;padding-right:2px;cursor:default' + (qx.core.Variant.isSet("qx.client", "mshtml") ? '' : ';-moz-user-select:none;'),
+    MAIN_DIV_STYLE  :
+      ';overflow:hidden;white-space:nowrap;border-right:1px solid #eeeeee;' +
+      'padding-left:2px;padding-right:2px;cursor:default' +
+      (qx.core.Variant.isSet("qx.client", "mshtml")
+       ? ''
+       : ';-moz-user-select:none;'),
 
     IMG_START       : '<img src="',
     IMG_END         : '"/>',
@@ -108,8 +113,8 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
 
 
     /**
-     * Set whether the open/close button should be displayed on a branch, even if
-     * the branch has no children.
+     * Set whether the open/close button should be displayed on a branch, even
+     * if the branch has no children.
      */
     alwaysShowOpenCloseSymbol :
     {
@@ -144,7 +149,10 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
 
       // Return the style for the div for the cell.  If there's cell-specific
       // style information provided, append it.
-      var html = cellInfo.style + qx.ui.treevirtual.SimpleTreeDataCellRenderer.MAIN_DIV_STYLE + (node.cellStyle ? node.cellStyle + ";" : "");
+      var html =
+        cellInfo.style +
+        qx.ui.treevirtual.SimpleTreeDataCellRenderer.MAIN_DIV_STYLE +
+        (node.cellStyle ? node.cellStyle + ";" : "");
       return html;
     },
 
@@ -169,8 +177,17 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         var html = Stdcr.IMG_START;
         var Am = qx.manager.object.AliasManager;
 
-        if (qx.core.Client.getInstance().isMshtml() && /\.png$/i.test(urlAndToolTip.url)) {
-          html += this.STATIC_IMAGE_URI + "blank.gif" + '" style="filter:' + "progid:DXImageTransform.Microsoft.AlphaImageLoader(" + "  src='" + Am.getInstance().resolvePath(urlAndToolTip.url) + "',sizingMethod='scale')";
+        if (qx.core.Client.getInstance().isMshtml() &&
+            /\.png$/i.test(urlAndToolTip.url))
+        {
+          html +=
+            this.STATIC_IMAGE_URI +
+            "blank.gif" +
+            '" style="filter:' +
+            "progid:DXImageTransform.Microsoft.AlphaImageLoader(" +
+            "  src='" +
+            Am.getInstance().resolvePath(urlAndToolTip.url) +
+            "',sizingMethod='scale')";
         }
         else
         {
@@ -178,13 +195,21 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
           html += imageUrl + '" style="';
         }
 
-        if (urlAndToolTip.imageWidth && urlAndToolTip.imageHeight) {
-          html += ';width:' + urlAndToolTip.imageWidth + 'px' + ';height:' + urlAndToolTip.imageHeight + 'px';
+        if (urlAndToolTip.imageWidth && urlAndToolTip.imageHeight)
+        {
+          html +=
+            ';width:' +
+            urlAndToolTip.imageWidth +
+            'px' +
+            ';height:' +
+            urlAndToolTip.imageHeight +
+            'px';
         }
 
         var tooltip = urlAndToolTip.tooltip;
 
-        if (tooltip != null) {
+        if (tooltip != null)
+        {
           html += Stdcr.IMG_TITLE_START + tooltip;
         }
 
@@ -193,15 +218,17 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         return html;
       }
 
-      // Generate the indentation.  Obtain icon determination values once rather
-      // than each time through the loop.
+      // Generate the indentation.  Obtain icon determination values once
+      // rather than each time through the loop.
       var bUseTreeLines = this.getUseTreeLines();
       var bExcludeFirstLevelTreeLines = this.getExcludeFirstLevelTreeLines();
       var bAlwaysShowOpenCloseSymbol = this.getAlwaysShowOpenCloseSymbol();
 
       for (var i=0; i<node.level; i++)
       {
-        imageUrl = this._getIndentSymbol(i, node, bUseTreeLines, bAlwaysShowOpenCloseSymbol, bExcludeFirstLevelTreeLines);
+        imageUrl = this._getIndentSymbol(i, node, bUseTreeLines,
+                                         bAlwaysShowOpenCloseSymbol,
+                                         bExcludeFirstLevelTreeLines);
 
         html += addImage(
         {
@@ -216,10 +243,19 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
 
       if (!imageUrl)
       {
-        if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF) {
-          imageUrl = (node.bSelected ? "icon/16/actions/document-open.png" : "icon/16/actions/document-new.png");
-        } else {
-          imageUrl = (node.bSelected ? "icon/16/status/folder-open.png" : "icon/16/places/folder.png");
+        if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF)
+        {
+          imageUrl =
+            (node.bSelected
+             ? "icon/16/actions/document-open.png"
+             : "icon/16/actions/document-new.png");
+        }
+        else
+        {
+          imageUrl =
+            (node.bSelected
+             ? "icon/16/status/folder-open.png"
+             : "icon/16/places/folder.png");
         }
       }
 
@@ -230,56 +266,86 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         imageHeight : 16
       });
 
-      // Add the node's label.  We calculate the "left" property with: each tree
-      // line (indentation) icon is 19 pixels wide; the folder icon is 16 pixels
-      // wide, there are two pixels of padding at the left, and we want 2 pixels
-      // between the folder icon and the label
-      html += '<div style="position:absolute;' + 'left:' + ((node.level * 19) + 16 + 2 + 2) + ';' + 'top:0' + (node.labelStyle ? ";" + node.labelStyle : "") + ';">' + node.label + '</div>';
+      // Add the node's label.  We calculate the "left" property with: each
+      // tree line (indentation) icon is 19 pixels wide; the folder icon is 16
+      // pixels wide, there are two pixels of padding at the left, and we want
+      // 2 pixels between the folder icon and the label
+      html +=
+        '<div style="position:absolute;' +
+        'left:' +
+        ((node.level * 19) + 16 + 2 + 2) +
+        ';' +
+        'top:0' +
+        (node.labelStyle ? ";" + node.labelStyle : "") +
+        ';">' +
+        node.label +
+        '</div>';
 
       return html;
     },
 
 
     /**
-     * Determine the symbol to use for indentation of a tree row, at a particular
-     * column.  The indentation to use may be just white space or may be a tree
-     * line.  Tree lines come in numerous varieties, so the appropriate one is
-     * selected.
+     * Determine the symbol to use for indentation of a tree row, at a
+     * particular column.  The indentation to use may be just white space or
+     * may be a tree line.  Tree lines come in numerous varieties, so the
+     * appropriate one is selected.
      *
      * @type member
-     * @param column {Integer} The column of indentation being requested, zero-relative
-     * @param node {Node} The node being displayed in the row.  The properties of a node are
-     *     described in {@link qx.ui.treevirtual.SimpleTreeDataModel}
-     * @param bUseTreeLines {Boolean} Whether to find an appropriate tree line icon, or simply provide white
-     *     space.
-     * @param bAlwaysShowOpenCloseSymbol {Boolean} Whether to display the open/close icon for a node even if it has no
-     *     children.
-     * @param bExcludeFirstLevelTreeLines {Boolean} If bUseTreeLines is enabled, then further filtering of the left-most tree
-     *     line may be specified here.  If <i>true</i> then the left-most tree line,
-     *     between top-level siblings, will not be displayed.  If <i>false</i>, then
-     *     the left-most tree line wiill be displayed just like all of the other
-     *     tree lines.
+     *
+     * @param column {Integer}
+     *   The column of indentation being requested, zero-relative
+     *
+     * @param node {Node}
+     *   The node being displayed in the row.  The properties of a node are
+     *   described in {@link qx.ui.treevirtual.SimpleTreeDataModel}
+     *
+     * @param bUseTreeLines {Boolean}
+     *   Whether to find an appropriate tree line icon, or simply provide
+     *   white space.
+     *
+     * @param bAlwaysShowOpenCloseSymbol {Boolean}
+     *   Whether to display the open/close icon for a node even if it has no
+     *   children.
+     *
+     * @param bExcludeFirstLevelTreeLines {Boolean}
+     *   If bUseTreeLines is enabled, then further filtering of the left-most
+     *   tree line may be specified here.  If <i>true</i> then the left-most
+     *   tree line, between top-level siblings, will not be displayed.
+     *   If <i>false</i>, then the left-most tree line wiill be displayed
+     *   just like all of the other tree lines.
+     *
      * @return {var} TODOC
      */
-    _getIndentSymbol : function(column, node, bUseTreeLines, bAlwaysShowOpenCloseSymbol, bExcludeFirstLevelTreeLines)
+    _getIndentSymbol : function(column,
+                                node,
+                                bUseTreeLines,
+                                bAlwaysShowOpenCloseSymbol,
+                                bExcludeFirstLevelTreeLines)
     {
       // If we're in column 0 and excludeFirstLevelTreeLines is enabled, then
       // we treat this as if no tree lines were requested.
-      if (column == 0 && bExcludeFirstLevelTreeLines) {
+      if (column == 0 && bExcludeFirstLevelTreeLines)
+      {
         bUseTreeLines = false;
       }
 
       // If we're not on the final column...
       if (column < node.level - 1)
       {
-        // then return either a line or a blank icon, depending on bUseTreeLines
-        return (bUseTreeLines && !node.lastChild[column] ? this.WIDGET_TREE_URI + "line.gif" : this.STATIC_IMAGE_URI + "blank.gif");
+        // then return either a line or a blank icon, depending on
+        // bUseTreeLines
+        return (bUseTreeLines &&
+                (! node.lastChild[column]
+                 ? this.WIDGET_TREE_URI + "line.gif"
+                 : this.STATIC_IMAGE_URI + "blank.gif"));
       }
 
       var bLastChild = node.lastChild[node.lastChild.length - 1];
 
       // Is this a branch node that does not have the open/close button hidden?
-      if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH && !node.bHideOpenClose)
+      if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH &&
+          ! node.bHideOpenClose)
       {
         // Yup.  Determine if this node has any children
         var child = null;
@@ -290,15 +356,17 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
           break;
         }
 
-        // Does this node have any children, or do we always want the open/close
-        // symbol to be shown?
+        // Does this node have any children, or do we always want the
+        // open/close symbol to be shown?
         if (child !== null || bAlwaysShowOpenCloseSymbol)
         {
           // If we're not showing tree lines...
           if (!bUseTreeLines)
           {
             // ... then just use a plus or minus
-            return (node.bOpened ? this.WIDGET_TREE_URI + "minus.gif" : this.WIDGET_TREE_URI + "plus.gif");
+            return (node.bOpened
+                    ? this.WIDGET_TREE_URI + "minus.gif"
+                    : this.WIDGET_TREE_URI + "plus.gif");
           }
 
           // Are we looking at a top-level, first child of its parent?
@@ -308,12 +376,16 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
             if (bLastChild)
             {
               // ... then use no tree lines.
-              return (node.bOpened ? this.WIDGET_TREE_URI + "only_minus.gif" : this.WIDGET_TREE_URI + "only_plus.gif");
+              return (node.bOpened
+                      ? this.WIDGET_TREE_URI + "only_minus.gif"
+                      : this.WIDGET_TREE_URI + "only_plus.gif");
             }
             else
             {
               // otherwise, use descender lines but no ascender.
-              return (node.bOpened ? this.WIDGET_TREE_URI + "start_minus.gif" : this.WIDGET_TREE_URI + "start_plus.gif");
+              return (node.bOpened
+                      ? this.WIDGET_TREE_URI + "start_minus.gif"
+                      : this.WIDGET_TREE_URI + "start_plus.gif");
             }
           }
 
@@ -321,23 +393,36 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
           // parent?
           if (bLastChild)
           {
-            // Yup.   Return an ending plus or minus, or blank if node.bOpened so
-            // indicates.
-            return (node.bOpened ? this.WIDGET_TREE_URI + "end_minus.gif" : this.WIDGET_TREE_URI + "end_plus.gif");
+            // Yup.  Return an ending plus or minus, or blank if node.bOpened
+            // so indicates.
+            return (node.bOpened
+                    ? this.WIDGET_TREE_URI + "end_minus.gif"
+                    : this.WIDGET_TREE_URI + "end_plus.gif");
           }
 
           // Otherwise, return a crossing plus or minus, or a blank if
           // node.bOpened so indicates.
-          return (node.bOpened ? this.WIDGET_TREE_URI + "cross_minus.gif" : this.WIDGET_TREE_URI + "cross_plus.gif");
+          return (node.bOpened
+                  ? this.WIDGET_TREE_URI + "cross_minus.gif"
+                  : this.WIDGET_TREE_URI + "cross_plus.gif");
         }
       }
 
-      // This node does not have any children.  Return an end or cross, if we're
-      // using tree lines.
+      // This node does not have any children.  Return an end or cross, if
+      // we're using tree lines.
       if (bUseTreeLines)
       {
+        // If this is a child of the root node...
+        if (node.parentNodeId == 0)
+        {
+          // then return a blank.
+          return this.STATIC_IMAGE_URI + "blank.gif";
+        }
+
         // If this is a last child, return and ending line; otherwise cross.
-        return (bLastChild ? this.WIDGET_TREE_URI + "end.gif" : this.WIDGET_TREE_URI + "cross.gif");
+        return (bLastChild
+                ? this.WIDGET_TREE_URI + "end.gif"
+                : this.WIDGET_TREE_URI + "cross.gif");
       }
 
       return this.STATIC_IMAGE_URI + "blank.gif";
