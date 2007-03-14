@@ -251,7 +251,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       }
 
       // convert from rowArr to nodeArr, and get the requested node
-this.warn("rowIndex=" + rowIndex + ", treeCol=" + this._treeColumn);
       var node =
         this._nodeArr[this._rowArr[rowIndex][this._treeColumn].nodeId];
 
@@ -271,8 +270,8 @@ this.warn("rowIndex=" + rowIndex + ", treeCol=" + this._treeColumn);
             lastColumn  : columnIndex
           };
 
-          this.dispatchEvent(new qx.event.type.DataEvent("dataChanged",
-                                                         data), true);
+          this.dispatchEvent(new qx.event.type.DataEvent("dataChanged", data),
+                             true);
         }
       }
     },
