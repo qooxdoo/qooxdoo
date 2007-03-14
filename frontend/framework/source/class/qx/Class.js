@@ -857,15 +857,51 @@ qx.Class.define("qx.Class",
      */
     __addProperty : function(clazz, name, config)
     {
+      // Check incoming configuration
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (qx.core.Variant.isSet("qx.compatibility", "on"))
+        {
+          if (!config._legacy && !config._fast && !config._cached && !config.refine && this.hasProperty(clazz, name)) {
+            throw new Error("Class " + clazz.classname + " already has a property: " + name + "!");
+          }
+        }
+        else
+        {
+          if (!config.refine && this.hasProperty(clazz, name)) {
+            throw new Error("Class " + clazz.classname + " already has a property: " + name + "!");
+          }
+        }
+
+        if (config.refine)
+        {
+          for (var key in config)
+          {
+            if (key !== "init" && key !== "refine") {
+              throw new Error("Class " + clazz.classname + " could not refine property: " + name + "! Key: " + key + " could not be refined!");
+            }
+          }
+        }
+      }
+
       // Store name into configuration
       config.name = name;
 
       // Add config to local registry
-      if (clazz.$$properties === undefined) {
-        clazz.$$properties = {};
+      if (!config.refine)
+      {
+        if (clazz.$$properties === undefined) {
+          clazz.$$properties = {};
+        }
+
+        clazz.$$properties[name] = config;
       }
 
-      clazz.$$properties[name] = config;
+      // Store init value to prototype. This makes it possible to
+      // overwrite this value in derived classes.
+      if (config.init !== undefined) {
+        clazz.prototype["$$init" + name] = config.init;
+      }
 
       // Create old style properties
       if (qx.core.Variant.isSet("qx.compatibility", "on"))
@@ -1061,7 +1097,7 @@ qx.Class.define("qx.Class",
             throw new Error('Overwriting event "' + key + '" of Class "' + clazz.classname + '" by Mixin "' + mixin.name + '" is not allowed!');
           } else {
             clazz.$$events[key] = events[key];
-          }          
+          }
         }
       }
 

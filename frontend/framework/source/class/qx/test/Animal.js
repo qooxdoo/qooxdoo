@@ -8,10 +8,17 @@ qx.Class.define("qx.test.Animal",
    * @type constructor
    * @param name {String} name of the animal
    */
-  construct : function(name)
+  construct : function(name, width)
   {
     this.base(arguments);
     this.name = name;
+
+
+
+    //this.initWidth();
+    //this.initHeight();
+
+    this.properties(arguments);
   },
 
   properties :
