@@ -242,6 +242,42 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     },
 
 
+    // overridden
+    setValue : function(columnIndex, rowIndex, value)
+    {
+      if (columnIndex == this._treeColumn)
+      {
+        throw new Error("Can't use setValue() to set tree column data.");
+      }
+
+      // convert from rowArr to nodeArr, and get the requested node
+this.warn("rowIndex=" + rowIndex + ", treeCol=" + this._treeColumn);
+      var node =
+        this._nodeArr[this._rowArr[rowIndex][this._treeColumn].nodeId];
+
+      if (node.columnData[columnIndex] != value)
+      {
+        node.columnData[columnIndex] = value;
+        this.setData();
+
+        // Inform the listeners
+        if (this.hasEventListeners("dataChanged"))
+        {
+          var data =
+          {
+            firstRow    : node.nodeId,
+            lastRow     : node.nodeId,
+            firstColumn : columnIndex,
+            lastColumn  : columnIndex
+          };
+
+          this.dispatchEvent(new qx.event.type.DataEvent("dataChanged",
+                                                         data), true);
+        }
+      }
+    },
+
+
     /**
      * Add a node to the tree.
      *
