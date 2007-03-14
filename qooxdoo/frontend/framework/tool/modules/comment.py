@@ -807,6 +807,11 @@ def fromFunction(func, assignType, name, alternative, old=[]):
 
 
 
+##
+# fill(node) -- look for function definitions in the tree represented by <node>,
+# look for their corresponding comment and amend it, or create it in the first
+# place
+#
 def fill(node):
     if node.type in ["comment", "commentsBefore", "commentsAfter"]:
         return
@@ -894,6 +899,7 @@ def fill(node):
                             if child.get("detail") in ["javadoc", "qtdoc"]:
                                 old = parseText(child.get("text"), False)
                                 commentNode = child
+                                commentNodeIndex = commentsBefore.children.index(child)
                                 break
 
                 else:
@@ -902,6 +908,7 @@ def fill(node):
 
                 # create comment node
                 if commentNode == None:
+                  commentNodeIndex = None
                   commentNode = tree.Node("comment")
                   commentNode.set("detail", "javadoc")
 
@@ -916,7 +923,7 @@ def fill(node):
 
                 commentNode.set("multiline", True)
 
-                commentsBefore.addChild(commentNode)
+                commentsBefore.addChild(commentNode,commentNodeIndex)
 
                 # in case of alternative methods, use the first one, ignore the others
                 target.documentationAdded = True
