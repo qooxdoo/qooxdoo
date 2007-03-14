@@ -357,7 +357,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
       if (bDispose)
       {
         // Yup.  Mark it to be disposed.
-        oldState._needDispose;
+        oldState._bNeedDispose = true;
       }
 
       return oldState;
@@ -810,9 +810,10 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         return true;
       }
 
-      // We might have found a constant (PREDICATE or BLOCKED) or an object with
-      // each property name being the friendly name of a saved object, and the
-      // property value being one of the constants (PREDICATE or BLOCKED).
+      // We might have found a constant (PREDICATE or BLOCKED) or an object
+      // with each property name being the friendly name of a saved object,
+      // and the property value being one of the constants (PREDICATE or
+      // BLOCKED).
       if (typeof (e) == "object")
       {
         // Individual objects are listed.  Ensure target is a saved object
@@ -829,6 +830,20 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         }
 
         action = e[friendly];
+
+        // Do we handle this event type for the widget from which it
+        // originated?
+        if (! action)
+        {
+          // Nope.
+          if (debugEvents)
+          {
+            this.debug(this.getName() + ": Event '" + event.getType() + "'" +
+                       " not handled for target " + friendly + ".  Ignoring.");
+          }
+
+          return true;
+        }
       }
       else
       {
@@ -980,7 +995,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         currentState.getAutoActionsAfterOnexit()(this);
 
         // If this state has been replaced and we're supposed to dispose it...
-        if (currentState._needDispose)
+        if (currentState._bNeedDispose)
         {
           // ... then dispose it now that it's no longer in use
           currentState.dispose();
