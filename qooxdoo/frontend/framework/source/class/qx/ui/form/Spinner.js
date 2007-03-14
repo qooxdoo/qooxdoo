@@ -66,15 +66,14 @@ qx.Class.define("qx.ui.form.Spinner",
     // ************************************************************************
     //   MANAGER
     // ************************************************************************
-    this._manager = new qx.type.Range();
+    this.setManager(new qx.type.Range());
 
     // ************************************************************************
     //   TEXTFIELD
     // ************************************************************************
     this._textfield = new qx.ui.form.TextField;
     this._textfield.setAppearance("spinner-field");
-    this._textfield.setValue(String(this._manager.getValue()));
-
+    this._textfield.setValue(String(this.getManager().getValue()));
     this.add(this._textfield);
 
     // ************************************************************************
@@ -115,7 +114,7 @@ qx.Class.define("qx.ui.form.Spinner",
     this._textfield.addEventListener("blur", this._onblur, this);
     this._upbutton.addEventListener("mousedown", this._onmousedown, this);
     this._downbutton.addEventListener("mousedown", this._onmousedown, this);
-    this._manager.addEventListener("change", this._onchange, this);
+    this.getManager().addEventListener("change", this._onchange, this);
     this._timer.addEventListener("interval", this._oninterval, this);
 
     // ************************************************************************
@@ -132,6 +131,8 @@ qx.Class.define("qx.ui.form.Spinner",
     if (vValue != null) {
       this.setValue(vValue);
     }
+
+    this._checkValue = this.__checkValue;
   },
 
 
@@ -241,6 +242,23 @@ qx.Class.define("qx.ui.form.Spinner",
       _legacy      : true,
       type         : "number",
       defaultValue : 1.01
+    },
+
+    editable :
+    {
+      _legacy      : true,
+      type         : "boolean",
+      defaultValue : true
+    },
+
+    manager :
+    {
+      _legacy      : true
+    },
+
+    checkValueFunction :
+    {
+      _legacy      : true
     }
   },
 
@@ -271,6 +289,68 @@ qx.Class.define("qx.ui.form.Spinner",
     },
 
 
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {Boolean} TODOC
+     */
+    _modifyEditable : function(propValue, propOldValue, propData)
+    {
+      if (this._textfield)
+      {
+        this._textfield.setReadOnly(! propValue);
+      }
+      return true;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {Boolean} TODOC
+     */
+    _modifyManager : function(propValue, propOldValue, propData)
+    {
+      if (propOldValue)
+      {
+        propOldValue.removeEventListener("change", this._onchange, this);
+      }
+
+      if (propValue)
+      {
+        propValue.addEventListener("change", this._onchange, this);
+      }
+
+      if (this._textfield)
+      {
+        this._textfield.setValue(String(propValue.getValue()));
+      }
+      return true;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {Boolean} TODOC
+     */
+    _modifyCheckValueFunction : function(propValue, propOldValue, propData)
+    {
+      this._checkValue = propValue;
+      return true;
+    },
 
 
     /*
@@ -504,7 +584,17 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     _onmousewheel : function(e)
     {
-      this._manager.setValue(this._manager.getValue() + this.getWheelIncrementAmount() * e.getWheelDelta());
+      if (this.getManager().incrementValue)
+      {
+        this.getManager().incrementValue(this.getWheelIncrementAmount() *
+                                         e.getWheelDelta());
+      }
+      else
+      {
+        this.getManager().setValue(this.getManager().getValue() +
+                                   (this.getWheelIncrementAmount() *
+                                    e.getWheelDelta()));
+      }
       this._textfield.selectAll();
     },
 
@@ -538,7 +628,7 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     _onchange : function(e)
     {
-      var vValue = this._manager.getValue();
+      var vValue = this.getManager().getValue();
 
       this._textfield.setValue(String(vValue));
 
@@ -598,7 +688,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * @return {void}
      */
     setValue : function(nValue) {
-      this._manager.setValue(nValue);
+      this.getManager().setValue(nValue);
     },
 
 
@@ -611,7 +701,7 @@ qx.Class.define("qx.ui.form.Spinner",
     getValue : function()
     {
       this._checkValue(true);
-      return this._manager.getValue();
+      return this.getManager().getValue();
     },
 
 
@@ -622,7 +712,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * @return {var} TODOC
      */
     resetValue : function() {
-      return this._manager.resetValue();
+      return this.getManager().resetValue();
     },
 
 
@@ -634,7 +724,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * @return {var} TODOC
      */
     setMax : function(vMax) {
-      return this._manager.setMax(vMax);
+      return this.getManager().setMax(vMax);
     },
 
 
@@ -645,7 +735,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * @return {var} TODOC
      */
     getMax : function() {
-      return this._manager.getMax();
+      return this.getManager().getMax();
     },
 
 
@@ -657,7 +747,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * @return {var} TODOC
      */
     setMin : function(vMin) {
-      return this._manager.setMin(vMin);
+      return this.getManager().setMin(vMin);
     },
 
 
@@ -668,7 +758,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * @return {var} TODOC
      */
     getMin : function() {
-      return this._manager.getMin();
+      return this.getManager().getMin();
     },
 
 
@@ -740,7 +830,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * @param acceptEdit {var} TODOC
      * @return {void}
      */
-    _checkValue : function(acceptEmpty, acceptEdit)
+    __checkValue : function(acceptEmpty, acceptEdit)
     {
       var el = this._textfield.getElement();
 
@@ -794,10 +884,10 @@ qx.Class.define("qx.ui.form.Spinner",
 
         // main check routine
         var doFix = true;
-        var fixedVal = this._manager._checkValue(val);
+        var fixedVal = this.getManager()._checkValue(val);
 
         if (isNaN(fixedVal)) {
-          fixedVal = this._manager.getValue();
+          fixedVal = this.getManager().getValue();
         }
 
         // handle empty string
@@ -825,7 +915,7 @@ qx.Class.define("qx.ui.form.Spinner",
 
         // inform manager
         if (!acceptEdit) {
-          this._manager.setValue(fixedVal);
+          this.getManager().setValue(fixedVal);
         }
       }
     },
@@ -837,8 +927,19 @@ qx.Class.define("qx.ui.form.Spinner",
      * @type member
      * @return {void}
      */
-    _increment : function() {
-      this._manager.setValue(this._manager.getValue() + ((this._intervalIncrease ? 1 : -1) * this._computedIncrementAmount));
+    _increment : function()
+    {
+      if (this.getManager().incrementValue)
+      {
+        this.getManager().incrementValue((this._intervalIncrease ? 1 : -1) *
+                                         this._computedIncrementAmount);
+      }
+      else
+      {
+        this.getManager().setValue(this.getManager().getValue() +
+                                   ((this._intervalIncrease ? 1 : -1) *
+                                    this._computedIncrementAmount));
+      }
     },
 
 
@@ -848,8 +949,18 @@ qx.Class.define("qx.ui.form.Spinner",
      * @type member
      * @return {void}
      */
-    _pageIncrement : function() {
-      this._manager.setValue(this._manager.getValue() + ((this._intervalIncrease ? 1 : -1) * this.getPageIncrementAmount()));
+    _pageIncrement : function()
+    {
+      if (this.getManager().pageIncrementValue)
+      {
+        this.getManager().pageIncrementValue();
+      }
+      else
+      {
+        this.getManager().setValue(this.getManager().getValue() +
+                                   ((this._intervalIncrease ? 1 : -1) *
+                                    this.getPageIncrementAmount()));
+      }
     },
 
 
@@ -878,6 +989,6 @@ qx.Class.define("qx.ui.form.Spinner",
   destruct : function()
   {
     this._disposeObjects("_textfield", "_buttonlayout", "_upbutton", "_downbutton",
-      "_timer", "_manager");
+      "_timer");
   }
 });
