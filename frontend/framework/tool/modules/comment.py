@@ -353,7 +353,7 @@ def parseText(intext, format=True):
 
         prevText = text[pos:mtch.start(0)].rstrip()
         pos = mtch.end(0)
-        
+
         if len(attribs) == 0:
             desc["text"] = prevText
         else:
@@ -883,6 +883,8 @@ def fill(node):
             if not hasattr(target, "documentationAdded") and target.parent.type != "params":
                 old = []
 
+                commentNode = None
+
                 # create commentsBefore
                 if target.hasChild("commentsBefore"):
                     commentsBefore = target.getChild("commentsBefore")
@@ -891,7 +893,7 @@ def fill(node):
                         for child in commentsBefore.children:
                             if child.get("detail") in ["javadoc", "qtdoc"]:
                                 old = parseText(child.get("text"), False)
-                                commentsBefore.removeChild(child)
+                                commentNode = child
                                 break
 
                 else:
@@ -899,7 +901,9 @@ def fill(node):
                     target.addChild(commentsBefore)
 
                 # create comment node
-                commentNode = tree.Node("comment")
+                if commentNode == None:
+                  commentNode = tree.Node("comment")
+                  commentNode.set("detail", "javadoc")
 
                 """
                 if node.type == "function":
@@ -910,7 +914,6 @@ def fill(node):
 
                 commentNode.set("text", fromFunction(node, assignType, name, alternative, old))
 
-                commentNode.set("detail", "javadoc")
                 commentNode.set("multiline", True)
 
                 commentsBefore.addChild(commentNode)
