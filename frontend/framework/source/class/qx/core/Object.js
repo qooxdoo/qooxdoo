@@ -341,6 +341,12 @@ qx.Class.define("qx.core.Object",
 
 
 
+    properties : function(args) {
+      return qx.core.Property.init(args.callee.self, this);
+    },
+
+
+
 
     /*
     ---------------------------------------------------------------------------

@@ -21,6 +21,9 @@ qx.Class.define("qx.test.Kitty",
 
   properties :
   {
+    width : { refine : true, init : 150 },
+    height : { refine : true, init : 50 },
+
     color :
     {
       _legacy      : true,

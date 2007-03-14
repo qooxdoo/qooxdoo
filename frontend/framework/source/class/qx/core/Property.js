@@ -308,30 +308,20 @@ qx.Class.define("qx.core.Property",
      * @type static
      * @internal
      */
-    applyInitValues : function(instance)
+    init : function(clazz, instance)
     {
-      var config, properties, name;
-      var clazz = instance.constructor;
+      var properties = clazz.$$properties;
+      var name;
+      var init = this.$$method.init;
 
-      while(clazz)
+      if (properties)
       {
-        properties = clazz.$$properties;
-
-        if (properties)
+        for (name in properties)
         {
-          for (name in properties)
-          {
-            config = properties[name];
-
-            if (config.init !== undefined)
-            {
-              console.log("Initialize: " + name);
-              instance[this.$$names.init[name]]();
-            }
+          if (properties[name].init !== undefined) {
+            instance[init[name]]();
           }
         }
-
-        clazz = clazz.superclass;
       }
     },
 
@@ -464,8 +454,7 @@ qx.Class.define("qx.core.Property",
             code.add('else ');
           }
 
-          code.add('computed=', clazz.classname);
-          code.add('.$$properties.', name, '.init;');
+          code.add('computed=this.$$init', name, ';');
         }
       }
 
