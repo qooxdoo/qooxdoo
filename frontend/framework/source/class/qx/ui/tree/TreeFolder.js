@@ -29,7 +29,7 @@
 /**
  * @appearance tree-folder-container
  * @appearance tree-folder {qx.ui.layout.HorizontalBoxLayout}
- * @appearance tree-folder {qx.ui.layout.HorizontalBoxLayout} 
+ * @appearance tree-folder {qx.ui.layout.HorizontalBoxLayout}
  * @appearance tree-folder-icon {qx.ui.basic.Image}
  * @appearance tree-folder-label {qx.ui.basic.Label}
  */

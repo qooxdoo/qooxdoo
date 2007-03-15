@@ -26,7 +26,7 @@
 
 /**
  * A table.
- * 
+ *
  * @appearance table-focus-statusbar {qx.ui.basic.Label}
  */
 qx.Class.define("qx.ui.table.Table",

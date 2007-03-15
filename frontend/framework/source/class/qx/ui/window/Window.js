@@ -28,7 +28,7 @@
 /**
  * @state active
  * @state maximized This state is active if the window is maximized
- * 
+ *
  * @appearance window The main window object
  * @appearance window-resize-frame {qx.ui.basic.Terminator}
  * @appearance window-captionbar-icon {qx.ui.basic.Image}
@@ -39,7 +39,7 @@
  * @appearance window-captionbar-close-button {qx.ui.form.Button}
  * @appearance window-statusbar {qx.ui.layout.HorizontalBoxLayout}
  * @appearance window-statusbar-text {qx.ui.basic.Label}
- * 
+ *
  * @appearance window-captionbar {qx.ui.layout.HorizontalBoxLayout}
  * @state active {window-captionbar}
  */

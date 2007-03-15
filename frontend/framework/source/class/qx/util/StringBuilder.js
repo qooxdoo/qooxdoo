@@ -167,7 +167,7 @@ qx.Class.define("qx.util.StringBuilder",
         if (this._array.length == 0) {
           return true;
         }
-        
+
         for (var i=0; i< this._array.length; i++) {
           if (this._array[i] != "") {
             return false
@@ -176,8 +176,8 @@ qx.Class.define("qx.util.StringBuilder",
         return true
       }
     }),
-    
-    
+
+
     /**
      * Returns the contents of the concatenated string
      *
