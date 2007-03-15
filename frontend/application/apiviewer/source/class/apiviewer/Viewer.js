@@ -199,6 +199,22 @@ qx.Class.define("apiviewer.Viewer",
      */
     _modifyDocTree : function(propValue, propOldValue, propData)
     {
+      function addParents(node) {
+        if (!node.children) {
+          return;
+        }
+        for (var i=0; i<node.children.length; i++) {
+          var child = node.children[i];
+          child.parent = node;
+          addParents(child);
+        }
+      }
+
+      var start = new Date();
+      addParents(propValue);
+      var end = new Date();
+      this.debug("Time to add parents: " + (end.getTime() - start.getTime()));
+
       this._updateTree(propValue);
       return true;
     },
@@ -221,21 +237,26 @@ qx.Class.define("apiviewer.Viewer",
       req.addEventListener("completed", function(evt)
       {
         var content = evt.getData().getContent();
-        this.setDocTree(eval("(" + content + ")"));
-
-        qx.ui.core.Widget.flushGlobalQueues();
-
-        // Handle bookmarks
-        if (window.location.hash)
-        {
-          var self = this;
-
-          window.setTimeout(function() {
-            self.selectItem(window.location.hash.substring(1));
-          }, 0);
-        }
-
-        this._detailLoader.setHtml('<h1><div class="please">' + qx.core.Setting.get("apiviewer.title") + '</div>API Documentation</h1>');
+        
+        var start = new Date();
+        var treeData = eval("(" + content + ")");
+        var end = new Date();
+        this.debug("Time to eval tree data: " + (end.getTime() - start.getTime()) + "ms");
+        
+        // give the browser a chance to update its UI before doing more
+        qx.client.Timer.once(function() {
+          this.setDocTree(treeData);
+  
+          // Handle bookmarks
+          if (window.location.hash)
+          {
+            qx.client.Timer.once(function() {
+              this.selectItem(window.location.hash.substring(1));
+            }, this, 0);
+          }
+  
+          this._detailLoader.setHtml('<h1><div class="please">' + qx.core.Setting.get("apiviewer.title") + '</div>API Documentation</h1>');
+        }, this, 0);
       },
       this);
 

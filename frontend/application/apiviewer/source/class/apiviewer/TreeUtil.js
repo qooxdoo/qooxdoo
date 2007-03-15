@@ -175,6 +175,33 @@ qx.Class.define("apiviewer.TreeUtil",
 
       return currNode;
     },
+    
+    
+    /**
+     * Get the documentation nodes of all classes in the inheritance chain
+     * of a class. The first entry in the list is the class itself. The result
+     * will be cached in the 'superClasses' filed of the class node.
+     * 
+     * @param docTree {Map} the documentation tree.
+     * @param classNode {Map} The class node
+     * @return {Map[]} array of super classes of the given class.
+     */
+    getInheritanceChain : function(docTree, classNode)
+    {
+      if (classNode.superClasses) {
+        return classNode.superClasses;
+      }
+      var inheritanceChain = [];
+      var currentClassNode = classNode;
+      while (currentClassNode != null)
+      {
+        inheritanceChain.push(currentClassNode);
+        var superClassName = currentClassNode.attributes.superClass;
+        currentClassNode = superClassName ? this.getClassDocNode(docTree, superClassName) : null;
+      }
+      classNode.superClasses = inheritanceChain;
+      return inheritanceChain;
+    },
 
 
     /**
@@ -183,12 +210,11 @@ qx.Class.define("apiviewer.TreeUtil",
      * @type static
      * @param node {Map} the node to get the icon for.
      * @param inherited {Boolean,false} whether the node was inherited.
-     * @param context {var} TODOC
      * @return {var} the URL of the icon. May be a string or an array of string
      *           (in case of an overlay icon).
      * @throws TODOC
      */
-    getIconUrl : function(node, inherited, context)
+    getIconUrl : function(node, inherited)
     {
       var constName;
 
@@ -248,6 +274,10 @@ qx.Class.define("apiviewer.TreeUtil",
         case "constant":
           constName = "ICON_CONSTANT";
           break;
+          
+        case "appearance":
+          constName = "ICON_CONSTANT";
+          break;          
 
         default:
           throw new Error("Unknown node type: " + node.type);
