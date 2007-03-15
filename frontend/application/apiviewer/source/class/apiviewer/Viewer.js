@@ -213,9 +213,13 @@ qx.Class.define("apiviewer.Viewer",
       var start = new Date();
       addParents(propValue);
       var end = new Date();
-      this.debug("Time to add parents: " + (end.getTime() - start.getTime()));
+      this.debug("Time to add parents: " + (end.getTime() - start.getTime()) + "ms");
 
+      var start = new Date();
       this._updateTree(propValue);
+      var end = new Date();
+      this.debug("Time to update tree: " + (end.getTime() - start.getTime()) + "ms");
+
       return true;
     },
 
@@ -283,7 +287,8 @@ qx.Class.define("apiviewer.Viewer",
       this._tree.removeAll();
       this._tree.add(inheritenceNode, packagesNode);
 
-      // Fille the packages tree (and fill the _topLevelClassNodeArr)
+      var start = new Date();
+      // Fill the packages tree (and fill the _topLevelClassNodeArr)
       this._topLevelClassNodeArr = [];
       this._fillPackageNode(packagesNode, docTree, 0);
 
@@ -291,11 +296,18 @@ qx.Class.define("apiviewer.Viewer",
       this._topLevelClassNodeArr.sort(function(node1, node2) {
         return (node1.attributes.fullName < node2.attributes.fullName) ? -1 : 1;
       });
+      var end = new Date();
+      this.debug("Time to fill the packages tree: " + (end.getTime() - start.getTime()) + "ms");
 
+      /*
+      var start = new Date();
       // Fill the inheritence tree
       for (var i=0; i<this._topLevelClassNodeArr.length; i++) {
         this._createInheritanceNode(inheritenceNode, this._topLevelClassNodeArr[i], docTree);
       }
+      var end = new Date();
+      this.debug("Time to fill the inheritence tree: " + (end.getTime() - start.getTime()) + "ms");
+      */
 
       packagesNode.open();
 
