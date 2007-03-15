@@ -53,6 +53,80 @@ qx.Class.define("qxunit.test.util.DateFormat", {
       var parsedDate = dateFmt.parse(dateStr)
       this.assertEquals(date.getTime(), parsedDate.getTime())
 
+      var date = new Date(2007, 3, 14);
+
+      var formatStr = qx.locale.Date.getDateFormat("short");
+      this.debug("Format string:" + formatStr.toString());
+      var dateFmt = new qx.util.format.DateFormat(formatStr, "fr_FR");
+      dateStr = dateFmt.format(date);
+      this.debug("Formatted Date: " + dateStr);
+
+      var parsedDate = dateFmt.parse(dateStr)
+      this.assertEquals(date.getTime(), parsedDate.getTime())
+
+      var formatStr = qx.locale.Date.getDateFormat("medium");
+      this.debug("Format string:" + formatStr.toString());
+      var dateFmt = new qx.util.format.DateFormat(formatStr, "fr_FR");
+      dateStr = dateFmt.format(date);
+      this.debug("Formatted Date: " + dateStr);
+
+      var parsedDate = dateFmt.parse(dateStr)
+      this.assertEquals(date.getTime(), parsedDate.getTime())
+
+      var formatStr = qx.locale.Date.getDateFormat("long");
+      this.debug("Format string:" + formatStr.toString());
+      var dateFmt = new qx.util.format.DateFormat(formatStr, "fr_FR");
+      dateStr = dateFmt.format(date);
+      this.debug("Formatted Date: " + dateStr);
+
+      var parsedDate = dateFmt.parse(dateStr)
+      this.assertEquals(date.getTime(), parsedDate.getTime())
+
+      var formatStr = qx.locale.Date.getDateFormat("full");
+      this.debug("Format string:" + formatStr.toString());
+      var dateFmt = new qx.util.format.DateFormat(formatStr, "fr_FR");
+      dateStr = dateFmt.format(date);
+      this.debug("Formatted Date: " + dateStr);
+
+      var parsedDate = dateFmt.parse(dateStr)
+      this.assertEquals(date.getTime(), parsedDate.getTime())
+
+
+      var formatStr = qx.locale.Date.getDateFormat("short");
+      this.debug("Format string:" + formatStr.toString());
+      var dateFmt = new qx.util.format.DateFormat(formatStr, "de_DE");
+      dateStr = dateFmt.format(date);
+      this.debug("Formatted Date: " + dateStr);
+
+      var parsedDate = dateFmt.parse(dateStr)
+      this.assertEquals(date.getTime(), parsedDate.getTime())
+
+      var formatStr = qx.locale.Date.getDateFormat("medium");
+      this.debug("Format string:" + formatStr.toString());
+      var dateFmt = new qx.util.format.DateFormat(formatStr, "de_DE");
+      dateStr = dateFmt.format(date);
+      this.debug("Formatted Date: " + dateStr);
+
+      var parsedDate = dateFmt.parse(dateStr)
+      this.assertEquals(date.getTime(), parsedDate.getTime())
+
+      var formatStr = qx.locale.Date.getDateFormat("long");
+      this.debug("Format string:" + formatStr.toString());
+      var dateFmt = new qx.util.format.DateFormat(formatStr, "de_DE");
+      dateStr = dateFmt.format(date);
+      this.debug("Formatted Date: " + dateStr);
+
+      var parsedDate = dateFmt.parse(dateStr)
+      this.assertEquals(date.getTime(), parsedDate.getTime())
+
+      var formatStr = qx.locale.Date.getDateFormat("full");
+      this.debug("Format string:" + formatStr.toString());
+      var dateFmt = new qx.util.format.DateFormat(formatStr, "de_DE");
+      dateStr = dateFmt.format(date);
+      this.debug("Formatted Date: " + dateStr);
+
+      var parsedDate = dateFmt.parse(dateStr)
+      this.assertEquals(date.getTime(), parsedDate.getTime());
     }
 
   }
