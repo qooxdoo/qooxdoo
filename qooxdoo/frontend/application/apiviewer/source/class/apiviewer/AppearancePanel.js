@@ -3,7 +3,82 @@ qx.Class.define("apiviewer.AppearancePanel", {
   extend: apiviewer.InfoPanel,
   
   members : {
+
+    __getAllAppearanceStates: function(apperanceNode)
+    {
+      var TreeUtil = apiviewer.TreeUtil;
+      var states = TreeUtil.getChild(apperanceNode, "states");
+      if (states) {
+        states = qx.lang.Array.copy(states.children);
+      } else {
+        states = [];
+      }
+
+      var type = apperanceNode.attributes.type;
+      var classNode = apperanceNode.parent.parent;
+      var startIndex = 1;
+      if (type != classNode.attributes.fullName) {
+        classNode = apiviewer.ClassViewer.getClassDocNode(type);
+        startIndex = 0;
+      }
+
+      var docTree = apiviewer.Viewer.instance.getDocTree();
+      var classNodes = apiviewer.TreeUtil.getInheritanceChain(docTree, classNode);
+
+      for (var i=startIndex; i<classNodes.length; i++)
+      {
+        classNode = classNodes[i];
+        var appear = TreeUtil.getChild(classNode, "appearances");
+        if (appear)
+        {
+          var classAppearance = TreeUtil.getChildByAttribute(appear, "type", classNode.attributes.fullName);
+          if (classAppearance) {
+            var classStates = TreeUtil.getChild(classAppearance, "states");
+            if (classStates) {
+              qx.lang.Array.append(states, classStates.children);  
+            }
+          }
+        }
+      }
+      return states;
+      
+      
+      qx.dev.Pollution.getInfo();
+         
+    },
+
     
+    /**
+     * Retuns a list of all items to display in the panel
+     */
+    _getPanelItems : function(showInherited, currentClassDocNode)
+    {
+      var TreeUtil = apiviewer.TreeUtil;
+      var appearances = this.base(arguments, showInherited, currentClassDocNode);
+      if (!showInherited) {
+        return appearances;
+      }
+
+      var docTree = apiviewer.Viewer.instance.getDocTree();
+      var classNodes = TreeUtil.getInheritanceChain(docTree, currentClassDocNode);
+      for (var i=0; i<classNodes.length; i++)
+      {
+        classNode = classNodes[i];
+        var appear = TreeUtil.getChild(classNode, "appearances");
+        if (appear)
+        {
+          var classAppearance = TreeUtil.getChildByAttribute(appear, "type", classNode.attributes.fullName);
+          if (classAppearance) {
+            if (classAppearance.attributes.type != currentClassDocNode.attributes.fullName) {
+              appearances.push(classAppearance)
+            }
+            return appearances;
+          }
+        }        
+      }
+    },
+
+        
     /**
      * Creates the HTML showing the information about an appearance.
      *
@@ -19,7 +94,14 @@ qx.Class.define("apiviewer.AppearancePanel", {
       var ClassViewer = apiviewer.ClassViewer;
       var TreeUtil = apiviewer.TreeUtil;
 
-      var titleHtml = node.attributes.name;
+      var nodeName = node.attributes.name;
+      var nodeType = node.attributes.type;
+      var className = currentClassDocNode.attributes.fullName;
+      if (nodeType == className) {
+        var titleHtml = nodeName + " (default appearance of the class)";
+      } else {
+        var titleHtml = nodeName;
+      }
       var typeHtml = apiviewer.InfoPanel.createTypeHtml(node, fromClassNode, "var");
       
       var textHtml = new qx.util.StringBuilder();
@@ -27,21 +109,42 @@ qx.Class.define("apiviewer.AppearancePanel", {
       
       if (showDetails)
       {
-        var statesNode = TreeUtil.getChild(node, "states");
+        var states = this.__getAllAppearanceStates(node);
         
-        if (statesNode)
+        if (states)
         {
           textHtml.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "States:", ClassViewer.DIV_END);
+          textHtml.add("<table>");
           
-          for (var i=0; i<statesNode.children.length; i++) 
+          for (var i=0; i<states.length; i++) 
           {
-            var state = statesNode.children[i];  
+            var state = states[i];  
+             
+            textHtml.add("<tr>");
+            textHtml.add(
+              "<td class='state-name'>",
+              ClassViewer.SPAN_START_PARAM_NAME,
+              state.attributes.name,
+              ClassViewer.SPAN_END,
+              "</td>"
+            );
+            textHtml.add(
+              "<td class='state-text'>",
+              apiviewer.InfoPanel.createDescriptionHtml(state, fromClassNode, true),
+              "</td>"
+            );
+            if (state.parent.parent.attributes.type != className) {
+              textHtml.add(
+                "<td class='state-from-class'>",
+                "(defined at ", apiviewer.InfoPanel.createItemLinkHtml(state.parent.parent.attributes.type), ")",
+                "</td>"
+              );
+            }
             
-            textHtml.add(ClassViewer.DIV_START_DETAIL_TEXT);
-            textHtml.add(ClassViewer.SPAN_START_PARAM_NAME, state.attributes.name, ClassViewer.SPAN_END);            
-            textHtml.add(ClassViewer.DIV_END); 
+            textHtml.add("</tr>");
           }
           
+          textHtml.add("</table>");
           textHtml.add(ClassViewer.DIV_END);
         }
       }
@@ -66,7 +169,7 @@ qx.Class.define("apiviewer.AppearancePanel", {
      */
     itemHasDetails : function(node, fromClassNode, currentClassDocNode)
     {    
-      return apiviewer.TreeUtil.getChild(node, "states") != null
+      return true; //apiviewer.TreeUtil.getChild(node, "states") != null
     }
     
   }
