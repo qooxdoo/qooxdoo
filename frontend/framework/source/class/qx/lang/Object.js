@@ -92,7 +92,7 @@ qx.Class.define("qx.lang.Object",
     },
 
 
-    _shadowedKeys : 
+    _shadowedKeys :
     [
       "isPrototypeOf",
       "hasOwnProperty",
@@ -100,8 +100,8 @@ qx.Class.define("qx.lang.Object",
       "toString",
       "valueOf"
     ],
-       
-        
+
+
     /**
      * Get the keys of a map as array as returned by a "for ... in" statement.
      *
@@ -118,18 +118,18 @@ qx.Class.define("qx.lang.Object",
       for (var key in map) {
         arr.push(key);
       }
-      
+
       // IE does not return "shadowed" keys even if they are defined directly
       // in the object. This is incompatible to the ECMA standard!!
       // This is why this checks are needed.
-      if (qx.core.Variant.isSet("qx.client", "mshtml")) 
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         for (var i=0, a=this._shadowedKeys, l=a.length; i<l; i++)
         {
           if (map.hasOwnProperty(a[i])) {
             arr.push(a[i]);
           }
-        }          
+        }
       }
 
       return arr;
@@ -177,7 +177,7 @@ qx.Class.define("qx.lang.Object",
 
 
     /**
-     * Inserts all keys of the source object into the 
+     * Inserts all keys of the source object into the
      * target objects. Attention: The target map gets modified.
      *
      * @type static
@@ -191,8 +191,8 @@ qx.Class.define("qx.lang.Object",
       if (overwrite === undefined) {
         overwrite = true;
       }
-      
-      for (var key in source) 
+
+      for (var key in source)
       {
         if (overwrite || target[key] === undefined) {
           target[key] = source[key];
@@ -204,7 +204,7 @@ qx.Class.define("qx.lang.Object",
 
 
     /**
-     * Inserts all keys of the source object into the 
+     * Inserts all keys of the source object into the
      * target objects.
      *
      * @type static
@@ -291,7 +291,7 @@ qx.Class.define("qx.lang.Object",
      */
      getKeyFromValue: function(obj, value)
      {
-       for (var key in obj) 
+       for (var key in obj)
        {
          if (obj[key] === value) {
            return key;
@@ -327,11 +327,11 @@ qx.Class.define("qx.lang.Object",
      fromArray: function(array)
      {
        var obj = {};
-       
+
        for (var i=0; i<array.length; i++) {
          obj[array[i].toString()] = true;
        }
-       
+
        return obj;
      }
   }

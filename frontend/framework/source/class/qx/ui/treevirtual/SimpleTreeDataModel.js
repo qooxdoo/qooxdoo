@@ -145,7 +145,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       {
         throw new Error("Tree columns can not be made editable");
       }
-      
+
       this.base(arguments, columnIndex, editable);
     },
 
@@ -318,7 +318,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *
      * @param icon {String}
      *   The relative (subject to alias expansion) or full path of the icon to
-     *   display for this node when it is not a selected node. 
+     *   display for this node when it is not a selected node.
      *
      * @param iconSelected {String}
      *   The relative (subject to alias expansion) or full path of the icon to
@@ -490,7 +490,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * @param nodeId {Integer}
      *   The node id, previously returned by {@link #addLeaf} or
      *   {@link #addBranch}, of the node (and its children) to be pruned from
-     *   the tree. 
+     *   the tree.
      *
      * @param bSelfAlso {Boolean}
      *   If <i>true</i> then remove the node identified by <i>nodeId</i> as

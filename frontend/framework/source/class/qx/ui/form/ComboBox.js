@@ -38,14 +38,14 @@
  * <li>Images inside the list</li>
  * <li>Images and text inside the list</li>
  * </ul>
- * 
+ *
  * @appearance combo-box
  * @appearance combo-box-list {qx.ui.form.List}
  * @appearance combo-box-popup {qx.ui.popup.Popup}
  * @appearance combo-box-text-field {qx.ui.form.TextField}
  * @appearance combo-box-button {qx.ui.basic.Atom}
  * @state pressed {combo-box-button}
- * 
+ *
  */
 qx.Class.define("qx.ui.form.ComboBox",
 {

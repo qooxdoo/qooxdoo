@@ -40,7 +40,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     "empty" :
     {
     },
-    
+
     "widget" :
     {
     },

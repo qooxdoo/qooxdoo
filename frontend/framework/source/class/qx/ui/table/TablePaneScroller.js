@@ -1375,13 +1375,13 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
                                  {
                                    return;
                                  }
-                                 
+
                                  this._cellEditor.focus();
                                },
                                this,
                                0);
         }
-        
+
         return true;
       }
 
