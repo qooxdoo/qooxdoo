@@ -684,15 +684,15 @@ qx.Class.define("apiviewer.ClassViewer",
       }
 
       var classHtml = new qx.util.StringBuilder();
-      
-      if (apiviewer.TreeUtil.getChild(classNode, superList)) 
+
+      if (apiviewer.TreeUtil.getChild(classNode, superList))
       {
         classHtml.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "Inheritance hierarchy:", ClassViewer.DIV_END);
         classHtml.add("<div style='line-height:15px'>");
         classHtml.add(generateTree([classNode], true).join("<br />\n"));
         classHtml.add("</div>");
       }
-      
+
       return classHtml.get();
     },
 
@@ -946,13 +946,13 @@ qx.Class.define("apiviewer.ClassViewer",
         {
           var interfaces = this._getAllInterfaces(this._currentClassDocNode);
           var parentNode = apiviewer.TreeUtil.getChild(this._currentClassDocNode, typeInfo.listName);
-          
+
           if (parentNode) {
             nodeArr = qx.lang.Array.copy(parentNode.children);
           } else {
             nodeArr = [];
           }
-          
+
           this._addNodesOfTypeFromMixins(this._currentClassDocNode, nodeType, nodeArr, fromClassHash);
         }
       }
@@ -1015,15 +1015,15 @@ qx.Class.define("apiviewer.ClassViewer",
             fromClassNode = this._currentClassDocNode;
           }
 
-          if (!node.attributes.requiredBy) 
+          if (!node.attributes.requiredBy)
           {
             var requiredBy = [];
-            
+
             for (var j=0; j<interfaces.length; j++) {
               if (this._checkInterface(interfaces[j], nodeType, node.attributes.name)) {
                 requiredBy.push(interfaces[j].attributes.fullName);
               }
-            
+
             }
             node.attributes.requiredBy = requiredBy.join(",");
           }
@@ -1402,8 +1402,8 @@ qx.Class.define("apiviewer.ClassViewer",
       var info = {};
       info.textHtml = textHtml.get()
       info.typeHtml = typeHtml.get()
-      info.titleHtml = titleHtml.get()      
-      
+      info.titleHtml = titleHtml.get()
+
       return info;
     },
 
@@ -1548,7 +1548,7 @@ qx.Class.define("apiviewer.ClassViewer",
       if (node.attributes.isAbstract) {
         typeHtml.add("abstract ")
       }
-      
+
       // Get name, icon and return type
       var returnNode = TreeUtil.getChild(docNode, "return");
 
@@ -1592,7 +1592,7 @@ qx.Class.define("apiviewer.ClassViewer",
       // Add the description
       var descNode = apiviewer.TreeUtil.getChild(docNode, "desc");
       var hasDescription = descNode && descNode.attributes.text;
-      
+
       textHtml = new qx.util.StringBuilder()
       if (node.attributes.isCtor && !hasDescription) {
         textHtml.add("Creates a new instance of ", fromClassNode.attributes.name, ".");
@@ -1697,7 +1697,7 @@ qx.Class.define("apiviewer.ClassViewer",
         textHtml.add(this._createErrorHtml(docNode, docClassNode));
       }
 
-      var info = {};      
+      var info = {};
       info.titleHtml = titleHtml.get()
       info.textHtml = textHtml.get()
       info.typeHtml = typeHtml.get()
@@ -1996,7 +1996,7 @@ qx.Class.define("apiviewer.ClassViewer",
         var html = new qx.util.StringBuilder(
           ClassViewer.DIV_START_ERROR_HEADLINE, "Documentation errors:", ClassViewer.DIV_END
         );
-        
+
         var errArr = errorNode.children;
 
         for (var i=0; i<errArr.length; i++)
