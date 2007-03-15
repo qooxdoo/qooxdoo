@@ -229,7 +229,7 @@ def parseStream(content, uniqueId=""):
             multiline = comment.isMultiLine(source)
 
             # print "Type:MultiComment"
-            content = parseFragmentLead(content, fragment, tokens)
+            content = parseFragmentLead(content, fragment, tokens)  # sort of intelligent "pop"
 
             atBegin = not hasLeadingContent(tokens)
             if re.compile("^\s*\n").search(content):
