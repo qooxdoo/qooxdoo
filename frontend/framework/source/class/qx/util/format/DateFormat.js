@@ -57,7 +57,7 @@ qx.Class.define("qx.util.format.DateFormat",
     if (format != null) {
       this._format = format.toString();
     } else {
-      this._format = qx.locale.Date.getDateFormat("long", this._locale) + " " + qx.locale.Date.getDateTimeFormat("HHmmss", "HH:mm:ss", locale);
+      this._format = qx.locale.Date.getDateFormat("long", this._locale) + " " + qx.locale.Date.getDateTimeFormat("HHmmss", "HH:mm:ss", this._locale);
     }
   },
 
