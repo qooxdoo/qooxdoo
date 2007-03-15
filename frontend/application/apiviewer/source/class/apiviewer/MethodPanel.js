@@ -31,7 +31,7 @@ qx.Class.define("apiviewer.MethodPanel", {
         docNode = TreeUtil.getChildByAttribute(listNode, "name", node.attributes.name);
       }
 
-      typeHtml = new qx.util.StringBuilder();
+      var typeHtml = new qx.util.StringBuilder();
       if (node.attributes.isAbstract) {
         typeHtml.add("abstract ")
       }
@@ -39,7 +39,7 @@ qx.Class.define("apiviewer.MethodPanel", {
       // Get name, icon and return type
       var returnNode = TreeUtil.getChild(docNode, "return");
 
-      titleHtml = new qx.util.StringBuilder();
+      var titleHtml = new qx.util.StringBuilder();
       if (node.attributes.isCtor) {
         titleHtml.add(fromClassNode.attributes.name);
       }
@@ -80,7 +80,7 @@ qx.Class.define("apiviewer.MethodPanel", {
       var descNode = apiviewer.TreeUtil.getChild(docNode, "desc");
       var hasDescription = descNode && descNode.attributes.text;
       
-      textHtml = new qx.util.StringBuilder()
+      var textHtml = new qx.util.StringBuilder()
       if (node.attributes.isCtor && !hasDescription) {
         textHtml.add("Creates a new instance of ", fromClassNode.attributes.name, ".");
       } else {

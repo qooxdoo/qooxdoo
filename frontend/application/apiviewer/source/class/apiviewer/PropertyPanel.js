@@ -31,11 +31,11 @@ qx.Class.define("apiviewer.PropertyPanel", {
       }
 
       // Add the title
-      typeHtml = new qx.util.StringBuilder(apiviewer.InfoPanel.createTypeHtml(node, fromClassNode, "var"));
-      titleHtml = new qx.util.StringBuilder(node.attributes.name);
+      var typeHtml = new qx.util.StringBuilder(apiviewer.InfoPanel.createTypeHtml(node, fromClassNode, "var"));
+      var titleHtml = new qx.util.StringBuilder(node.attributes.name);
 
       // Add the description
-      textHtml = new qx.util.StringBuilder(apiviewer.InfoPanel.createDescriptionHtml(docNode, fromClassNode, showDetails));
+      var textHtml = new qx.util.StringBuilder(apiviewer.InfoPanel.createDescriptionHtml(docNode, fromClassNode, showDetails));
 
       if (showDetails)
       {

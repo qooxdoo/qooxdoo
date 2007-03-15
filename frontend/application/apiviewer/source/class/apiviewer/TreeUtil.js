@@ -276,7 +276,7 @@ qx.Class.define("apiviewer.TreeUtil",
           break;
           
         case "appearance":
-          constName = "ICON_CONSTANT";
+          constName = "ICON_APPEARANCE";
           break;          
 
         default:
@@ -409,7 +409,10 @@ qx.Class.define("apiviewer.TreeUtil",
     ICON_METHOD_PROT : "api/image/method_protected18.gif",
 
     /** {string} The icon URL of a constant. */
-    ICON_CONSTANT : "api/image/constant18.gif"
+    ICON_CONSTANT : "api/image/constant18.gif",
+    
+    /** {string} The icon URL of an appearance. */
+    ICON_APPEARANCE : "api/image/constant18.gif"
   },
 
 
@@ -623,5 +626,9 @@ qx.Class.define("apiviewer.TreeUtil",
 
     /** {string[]} The icon URL of a constant with error. */
     statics.ICON_CONSTANT_ERROR = [statics.ICON_CONSTANT, statics.OVERLAY_ERROR ];
+
+    /** {string[]} The icon URL of an inherited appearance. */
+    statics.ICON_APPEARANCE_INHERITED = [statics.ICON_CONSTANT, statics.OVERLAY_INHERITED ];
+
   }
 });
