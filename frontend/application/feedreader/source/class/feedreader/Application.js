@@ -319,7 +319,7 @@ qx.Class.define("feedreader.Application",
       table.getTableColumnModel().setColumnWidth(1, 200);
       table.getTableColumnModel().setColumnWidth(2, 200);
       table.getTableColumnModel().setColumnVisible(3, false);
-      
+
 
       table.getSelectionModel().addEventListener("changeSelection", function(e)
       {

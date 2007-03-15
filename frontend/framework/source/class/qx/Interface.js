@@ -26,7 +26,7 @@
 
 /**
  * This class is used to define interfaces.
- * 
+ *
  * To define a new interface the {@link #define} method is used.
  */
 qx.Class.define("qx.Interface",
@@ -165,10 +165,10 @@ qx.Class.define("qx.Interface",
 
     /**
      * Whether a given class includes a interface.
-     * 
+     *
      * This function will only return "true" if the interface was defined
      * in the class declaration (@link qx.Class#define}) using the "implement"
-     * key. 
+     * key.
      *
      * @type static
      * @param clazz {Class|Object} class or instance to check
@@ -193,8 +193,8 @@ qx.Class.define("qx.Interface",
      * This function will return "true" if the interface was defined
      * in the class declaration (@link qx.Class#define}) of the class
      * or any of its super classes using the "implement"
-     * key. 
-     * 
+     * key.
+     *
      * @type static
      * @param clazz {Class|Object} class or instance to check
      * @param iface {Interface} the interface to check for
@@ -218,8 +218,8 @@ qx.Class.define("qx.Interface",
 
     /**
      * Wether a given class conforms to an interface.
-     * 
-     * Checks whether all methods defined in the interface are 
+     *
+     * Checks whether all methods defined in the interface are
      * implemented in the class. The class does not needs to declare
      * the interfaces directly.
      *
