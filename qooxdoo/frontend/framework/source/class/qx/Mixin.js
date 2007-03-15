@@ -30,7 +30,7 @@
  * Mixins are collections of code and variables, which can be merged into
  * other classes. They are similar to classes but don't support inheritence
  * and don't have a constructor.
- * 
+ *
  * To define a new mixin the {@link #define} method is used.
  */
 qx.Class.define("qx.Mixin",
@@ -109,7 +109,7 @@ qx.Class.define("qx.Mixin",
         }
         if (config.events) {
           mixin.events = config.events;
-        }        
+        }
 
         // Rename
         if (config.destruct)
@@ -242,7 +242,7 @@ qx.Class.define("qx.Mixin",
         "members"    : "object",   // Map
         "properties" : "object",   // Map
         "destruct"   : "function", // Function
-        "events"     : "object"    // Map        
+        "events"     : "object"    // Map
       }
 
       for (var key in config)

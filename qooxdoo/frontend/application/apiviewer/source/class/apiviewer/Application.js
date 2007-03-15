@@ -88,7 +88,7 @@ qx.Class.define("apiviewer.Application",
     }
   },
 
-  settings : { 
-    "apiviewer.resourceUri" : "./resource" 
+  settings : {
+    "apiviewer.resourceUri" : "./resource"
   }
 });
