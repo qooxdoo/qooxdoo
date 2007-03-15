@@ -64,8 +64,8 @@ qx.Class.define("qx.ui.component.DateChooserButton",
 
     // create dateFormat instance
     //
-    this._dateFormat = new qx.util.format.DateFormat(qx.locale.Date.getDateFormat("short"));
-    qx.locale.Manager.getInstance().addEventListener("changeLocale", this._changeLocale, this);
+    this._dateFormat = new qx.util.format.DateFormat(qx.locale.Date.getDateFormat(this.getDateFormatSize()));
+    qx.locale.Manager.getInstance().addEventListener("changeLocale", this._changeLocaleHandler, this);
 
     if (vTargetWidget) {
       this.setTargetWidget(vTargetWidget);
@@ -109,6 +109,14 @@ qx.Class.define("qx.ui.component.DateChooserButton",
     {
       _legacy      : true,
       defaultValue : qx.locale.Manager.tr("Choose a date")
+    },
+
+    /** The date format size according to the size parameter in {qx.locale.Date.getDateFormat}. */
+    dateFormatSize :
+    {
+      _legacy      : true,
+      type         : "string",
+      defaultValue : "short"
     }
   },
 
@@ -161,6 +169,22 @@ qx.Class.define("qx.ui.component.DateChooserButton",
     _modifyChooserTitle : function(propValue, propOldValue, propData)
     {
       this._chooserWindow.setCaption(propValue);
+      return true;
+    },
+
+
+    /**
+     * Modifier for property dateFormatSize.
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {Boolean} true if modification succeeded
+     */
+    _modifyDateFormatSize : function(propValue, propOldValue, propData)
+    {
+      this._changeLocale(propValue);
       return true;
     },
 
@@ -223,6 +247,43 @@ qx.Class.define("qx.ui.component.DateChooserButton",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      HELPERS
+    ---------------------------------------------------------------------------
+    */
+
+
+    /**
+     * Change the date format to the current locale with the given size
+     *
+     * @type member
+     * @return {void}
+     */
+    _changeLocale : function(dateFormatSize)
+    {
+      if (qx.util.Validation.isInvalidObject(this.getTargetWidget())) {
+        throw new error("TargetWidget must be set which must be an instance of qx.ui.core.Widget and has setValue and getValue method.");
+      }
+
+      var date = null;
+
+      try {
+        date = this._dateFormat.parse(this.getTargetWidget().getValue());
+      } catch(ex) {}
+
+      this._dateFormat = new qx.util.format.DateFormat(qx.locale.Date.getDateFormat(dateFormatSize));
+
+      if (!date) {
+        return;
+      }
+
+      this._chooser.setDate(date);
+      this.getTargetWidget().setValue(this._dateFormat.format(date));
+    },
+
+
+
 
     /*
     ---------------------------------------------------------------------------
@@ -264,26 +325,9 @@ qx.Class.define("qx.ui.component.DateChooserButton",
      * @return {void}
      * @throws TODOC
      */
-    _changeLocale : function(e)
+    _changeLocaleHandler : function(e)
     {
-      if (qx.util.Validation.isInvalidObject(this.getTargetWidget())) {
-        throw new error("TargetWidget must be set which must be an instance of qx.ui.core.Widget and has setValue and getValue method.");
-      }
-
-      var date = null;
-
-      try {
-        date = this._dateFormat.parse(this.getTargetWidget().getValue());
-      } catch(ex) {}
-
-      this._dateFormat = new qx.util.format.DateFormat(qx.locale.Date.getDateFormat("short"));
-
-      if (!date) {
-        return;
-      }
-
-      this._chooser.setDate(date);
-      this.getTargetWidget().setValue(this._dateFormat.format(date));
+      this._changeLocale(this.getDateFormatSize());
     },
 
 
