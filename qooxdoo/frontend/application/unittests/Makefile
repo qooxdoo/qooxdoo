@@ -31,7 +31,7 @@ APPLICATION_API_TITLE = qxUnit
 #
 APPLICATION_FILES = index.html html
 
-APPLICATION_LOCALES = C de de_DE
+APPLICATION_LOCALES = C de de_DE fr fr_FR
 
 
 
