@@ -64,7 +64,6 @@ qx.Class.define("qx.locale.Date",
      *       Possible values: "abbreviated", "narrow", "wide"
      * @param locale {String} optional locale to be used
      * @return {qx.locale.LocalizedString[]} array of localized day names starting with sunday.
-     * @throws TODOC
      */
     getDayNames : function(length, locale)
     {
