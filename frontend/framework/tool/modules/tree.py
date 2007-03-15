@@ -82,11 +82,11 @@ class Node:
 
     def addChild(self, childNode, index = None):
         if childNode:
-            if not self.hasChildren():
-                self.children = []
-
             if childNode.hasParent():
                 childNode.parent.removeChild(childNode)
+
+            if not self.hasChildren():
+                self.children = []
 
             if index != None:
                 self.children.insert(index, childNode)
