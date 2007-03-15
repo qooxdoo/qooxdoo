@@ -672,9 +672,9 @@ qx.Class.define("qx.util.format.DateFormat",
           // Get the rule for this wildcard
           var wildcardRule;
 
-          for (var ruleIdx=0; ruleIdx<DateFormat._parseRules.length; ruleIdx++)
+          for (var ruleIdx=0; ruleIdx<this._parseRules.length; ruleIdx++)
           {
-            var rule = DateFormat._parseRules[ruleIdx];
+            var rule = this._parseRules[ruleIdx];
 
             if (wildcardChar == rule.pattern.charAt(0) && wildcardSize == rule.pattern.length)
             {
@@ -742,7 +742,7 @@ qx.Class.define("qx.util.format.DateFormat",
         return ;
       }
 
-      DateFormat._parseRules = [];
+      this._parseRules = [];
 
       var yearManipulator = function(dateValues, value)
       {
@@ -821,7 +821,7 @@ qx.Class.define("qx.util.format.DateFormat",
       // Unsupported: w (Week in year), W (Week in month), D (Day in year),
       // F (Day of week in month), z (time zone) reason: no setter in Date class,
       // Z (RFC 822 time zone) reason: no setter in Date class
-      DateFormat._parseRules.push(
+      this._parseRules.push(
       {
         pattern     : "yyyy",
         regex       : "(\\d\\d(\\d\\d)?)",
@@ -829,182 +829,182 @@ qx.Class.define("qx.util.format.DateFormat",
         manipulator : yearManipulator
       });
 
-      DateFormat._parseRules.push(
+      this._parseRules.push(
       {
         pattern     : "yy",
         regex       : "(\\d\\d)",
         manipulator : yearManipulator
       });
 
-      DateFormat._parseRules.push(
+      this._parseRules.push(
       {
         pattern     : "M",
         regex       : "(\\d\\d?)",
         manipulator : monthManipulator
       });
 
-      DateFormat._parseRules.push(
+      this._parseRules.push(
       {
         pattern     : "MM",
         regex       : "(\\d\\d?)",
         manipulator : monthManipulator
       });
 
-      DateFormat._parseRules.push(
+      this._parseRules.push(
       {
         pattern     : "MMM",
         regex       : "(" + shortMonthNames.join("|") + ")",
         manipulator : shortMonthNamesManipulator
       });
 
-      DateFormat._parseRules.push(
+      this._parseRules.push(
       {
         pattern     : "MMMM",
         regex       : "(" + fullMonthNames.join("|") + ")",
         manipulator : fullMonthNamesManipulator
       });
 
-      DateFormat._parseRules.push(
+      this._parseRules.push(
       {
         pattern : "dd",
         regex   : "(\\d\\d?)",
         field   : "day"
       });
 
-      DateFormat._parseRules.push(
+      this._parseRules.push(
       {
         pattern : "d",
         regex   : "(\\d\\d?)",
         field   : "day"
       });
 
-      DateFormat._parseRules.push(
+      this._parseRules.push(
       {
         pattern     : "EE",
         regex       : "(" + narrowDayNames.join("|") + ")",
         manipulator : narrowDayNamesManipulator
       });
 
-      DateFormat._parseRules.push(
+      this._parseRules.push(
       {
         pattern     : "EEE",
         regex       : "(" + abbrDayNames.join("|") + ")",
         manipulator : abbrDayNamesManipulator
       });
 
-      DateFormat._parseRules.push(
+      this._parseRules.push(
       {
         pattern     : "EEEE",
         regex       : "(" + fullDayNames.join("|") + ")",
         manipulator : fullDayNamesManipulator
       });
 
-      DateFormat._parseRules.push(
+      this._parseRules.push(
       {
         pattern     : "a",
         regex       : "(" + DateFormat.AM_MARKER + "|" + DateFormat.PM_MARKER + ")",
         manipulator : ampmManipulator
       });
 
-      DateFormat._parseRules.push(
+      this._parseRules.push(
       {
         pattern : "HH",
         regex   : "(\\d\\d?)",
         field   : "hour"
       });
 
-      DateFormat._parseRules.push(
+      this._parseRules.push(
       {
         pattern : "H",
         regex   : "(\\d\\d?)",
         field   : "hour"
       });
 
-      DateFormat._parseRules.push(
+      this._parseRules.push(
       {
         pattern     : "kk",
         regex       : "(\\d\\d?)",
         manipulator : noZeroHourManipulator
       });
 
-      DateFormat._parseRules.push(
+      this._parseRules.push(
       {
         pattern     : "k",
         regex       : "(\\d\\d?)",
         manipulator : noZeroHourManipulator
       });
 
-      DateFormat._parseRules.push(
+      this._parseRules.push(
       {
         pattern : "KK",
         regex   : "(\\d\\d?)",
         field   : "hour"
       });
 
-      DateFormat._parseRules.push(
+      this._parseRules.push(
       {
         pattern : "K",
         regex   : "(\\d\\d?)",
         field   : "hour"
       });
 
-      DateFormat._parseRules.push(
+      this._parseRules.push(
       {
         pattern     : "hh",
         regex       : "(\\d\\d?)",
         manipulator : noZeroAmPmHourManipulator
       });
 
-      DateFormat._parseRules.push(
+      this._parseRules.push(
       {
         pattern     : "h",
         regex       : "(\\d\\d?)",
         manipulator : noZeroAmPmHourManipulator
       });
 
-      DateFormat._parseRules.push(
+      this._parseRules.push(
       {
         pattern : "mm",
         regex   : "(\\d\\d?)",
         field   : "min"
       });
 
-      DateFormat._parseRules.push(
+      this._parseRules.push(
       {
         pattern : "m",
         regex   : "(\\d\\d?)",
         field   : "min"
       });
 
-      DateFormat._parseRules.push(
+      this._parseRules.push(
       {
         pattern : "ss",
         regex   : "(\\d\\d?)",
         field   : "sec"
       });
 
-      DateFormat._parseRules.push(
+      this._parseRules.push(
       {
         pattern : "s",
         regex   : "(\\d\\d?)",
         field   : "sec"
       });
 
-      DateFormat._parseRules.push(
+      this._parseRules.push(
       {
         pattern : "SSS",
         regex   : "(\\d\\d?\\d?)",
         field   : "ms"
       });
 
-      DateFormat._parseRules.push(
+      this._parseRules.push(
       {
         pattern : "SS",
         regex   : "(\\d\\d?\\d?)",
         field   : "ms"
       });
 
-      DateFormat._parseRules.push(
+      this._parseRules.push(
       {
         pattern : "S",
         regex   : "(\\d\\d?\\d?)",
