@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2006 Visionet GmbH, Germany, http://www.visionet.de
+     2006,2007 Visionet GmbH, Germany, http://www.visionet.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -52,8 +52,8 @@ qx.OO.defineClass("qx.ui.component.DateChooserButton", qx.ui.form.Button, functi
 
   // create dateFormat instance
   //
-  this._dateFormat = new qx.util.format.DateFormat(qx.locale.Date.getDateFormat("short"));
-  qx.locale.Manager.getInstance().addEventListener("changeLocale", this._changeLocale, this);
+  this._dateFormat = new qx.util.format.DateFormat(qx.locale.Date.getDateFormat(this.getDateFormatSize()));
+  qx.locale.Manager.getInstance().addEventListener("changeLocale", this._changeLocaleHandler, this);
 
   if (vTargetWidget) {
     this.setTargetWidget(vTargetWidget);
@@ -91,7 +91,12 @@ qx.OO.addProperty(
   defaultValue : qx.locale.Manager.tr("Choose a date")
 });
 
-
+/** The date format size according to the size parameter in {qx.locale.Date.getDateFormat} */
+qx.OO.addProperty(
+{
+  name         : "dateFormatSize",
+  defaultValue : "short"
+});
 
 
 /*
@@ -138,6 +143,22 @@ qx.Proto._modifyChooserTitle = function(propValue, propOldValue, propData)
   return true;
 };
 
+/**
+ * Modifier for property dateFormatSize.
+ *
+ * @type member
+ * @name _modifyDateFormatSize
+ * @access protected
+ * @param propValue {var} Current value
+ * @param propOldValue {var} Previous value
+ * @param propData {var} Property configuration map
+ * @return {Boolean} true if modification succeeded
+ */
+qx.Proto._modifyDateFormatSize = function(propValue, propOldValue, propData)
+{
+  this._changeLocale(propValue);
+  return true;
+};
 
 
 
@@ -199,6 +220,42 @@ qx.Proto._createChooser = function()
 };
 
 
+/*
+---------------------------------------------------------------------------
+  HELPER
+---------------------------------------------------------------------------
+*/
+
+/**
+ * Change the date format to the given size
+ *
+ * @type member
+ * @name _changeLocale
+ * @access protected
+ * @return {void}
+ */
+qx.Proto._changeLocale = function(dateFormatSize) {
+  if (qx.util.Validation.isInvalidObject(this.getTargetWidget())) {
+    throw new error("TargetWidget must be set which must be an instance of qx.ui.core.Widget and has setValue and getValue method.");
+  }
+
+  var date = null;
+
+  try {
+    date = this._dateFormat.parse(this.getTargetWidget().getValue());
+  } catch(ex) {}
+
+
+  this._dateFormat = new qx.util.format.DateFormat(qx.locale.Date.getDateFormat(dateFormatSize));
+
+  if (!date) {
+    return;
+  }
+
+  this._chooser.setDate(date);
+  this.getTargetWidget().setValue(this._dateFormat.format(date));
+};
+
 
 
 /*
@@ -240,27 +297,11 @@ qx.Proto._executeHandler = function(e)
  *
  * @param e {Event} the received event
  */
-qx.Proto._changeLocale = function(e) {
-  if (qx.util.Validation.isInvalidObject(this.getTargetWidget())) {
-    throw new error("TargetWidget must be set which must be an instance of qx.ui.core.Widget and has setValue and getValue method.");
-  }
-
-  var date = null;
-
-  try {
-    date = this._dateFormat.parse(this.getTargetWidget().getValue());
-  } catch(ex) {}
-
-
-  this._dateFormat = new qx.util.format.DateFormat(qx.locale.Date.getDateFormat("short"));
-
-  if (!date) {
-    return;
-  }
-
-  this._chooser.setDate(date);
-  this.getTargetWidget().setValue(this._dateFormat.format(date));
+qx.Proto._changeLocaleHandler = function(e)
+{
+  this._changeLocale(this.getDateFormatSize())
 };
+
 
 
 /**

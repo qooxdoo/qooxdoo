@@ -35,12 +35,17 @@ qx.OO.defineClass("qx.util.format.DateFormat", qx.util.format.Format,
 function(format, locale) {
   qx.util.format.Format.call(this);
 
+  if (!locale) {
+    this._locale = qx.locale.Manager.getInstance().getLocale();
+  } else {
+    this._locale = locale;
+  }
+
   if (format != null) {
     this._format = format.toString()
   } else {
-    this._format = qx.locale.Date.getDateFormat("long", locale) + " " + qx.locale.Date.getDateTimeFormat("HHmmss", "HH:mm:ss", locale);
+    this._format = qx.locale.Date.getDateFormat("long", this._locale) + " " + qx.locale.Date.getDateTimeFormat("HHmmss", "HH:mm:ss", this._locale);
   }
-  this._locale = locale;
 });
 
 
@@ -433,8 +438,8 @@ qx.Proto._initParseFeed = function() {
 
       // Get the rule for this wildcard
       var wildcardRule;
-      for (var ruleIdx = 0; ruleIdx < DateFormat._parseRules.length; ruleIdx++) {
-        var rule = DateFormat._parseRules[ruleIdx];
+      for (var ruleIdx = 0; ruleIdx < this._parseRules.length; ruleIdx++) {
+        var rule = this._parseRules[ruleIdx];
         if (wildcardChar == rule.pattern.charAt(0) && wildcardSize == rule.pattern.length) {
           // We found the right rule for the wildcard
           wildcardRule = rule;
@@ -477,18 +482,22 @@ qx.Proto._initParseFeed = function() {
 /**
  * Initializes the static parse rules.
  */
-qx.Proto._initParseRules = function() {
+qx.Proto._initParseRules = function()
+{
   var DateFormat = qx.util.format.DateFormat;
 
-  if (DateFormat._parseRules != null) {
+  if (this._parseRules != null)
+  {
     // The parse rules are already initialized
-    return;
+    return ;
   }
 
-  DateFormat._parseRules = [];
+  this._parseRules = [];
 
-  var yearManipulator = function(dateValues, value) {
+  var yearManipulator = function(dateValues, value)
+  {
     value = parseInt(value, 10);
+
     if (value < DateFormat.ASSUME_YEAR_2000_THRESHOLD) {
       value += 2000;
     } else if (value < 100) {
@@ -496,56 +505,262 @@ qx.Proto._initParseRules = function() {
     }
 
     dateValues.year = value;
-  }
+  };
 
   var monthManipulator = function(dateValues, value) {
     dateValues.month = parseInt(value, 10) - 1;
-  }
+  };
 
   var ampmManipulator = function(dateValues, value) {
     dateValues.ispm = (value == DateFormat.PM_MARKER);
-  }
+  };
 
   var noZeroHourManipulator = function(dateValues, value) {
     dateValues.hour = parseInt(value, 10) % 24;
-  }
+  };
 
   var noZeroAmPmHourManipulator = function(dateValues, value) {
     dateValues.hour = parseInt(value, 10) % 12;
+  };
+
+  var shortMonthNames = qx.locale.Date.getMonthNames("abbreviated", this._locale);
+  for (var i=0; i<shortMonthNames.length; i++) {
+    shortMonthNames[i] = qx.lang.String.escapeRegexpChars(shortMonthNames[i].toString());
+  }
+
+  var shortMonthNamesManipulator = function(dateValues, value) {
+    dateValues.month = shortMonthNames.indexOf(value);
+  }
+
+  var fullMonthNames = qx.locale.Date.getMonthNames("wide", this._locale);
+  for (var i=0; i<fullMonthNames.length; i++) {
+    fullMonthNames[i] = qx.lang.String.escapeRegexpChars(fullMonthNames[i].toString());
+  }
+
+  var fullMonthNamesManipulator = function(dateValues, value) {
+    dateValues.month = fullMonthNames.indexOf(value);
+  }
+
+  var narrowDayNames = qx.locale.Date.getDayNames("narrow", this._locale);
+  for (var i=0; i<narrowDayNames.length; i++) {
+    narrowDayNames[i] = qx.lang.String.escapeRegexpChars(narrowDayNames[i].toString());
+  }
+
+  var narrowDayNamesManipulator = function(dateValues, value) {
+    dateValues.month = narrowDayNames.indexOf(value);
+  }
+
+  var abbrDayNames = qx.locale.Date.getDayNames("abbreviated", this._locale);
+  for (var i=0; i<abbrDayNames.length; i++) {
+    abbrDayNames[i] = qx.lang.String.escapeRegexpChars(abbrDayNames[i].toString());
+  }
+
+  var abbrDayNamesManipulator = function(dateValues, value) {
+    dateValues.month = abbrDayNames.indexOf(value);
+  }
+
+  var fullDayNames = qx.locale.Date.getDayNames("wide", this._locale);
+  for (var i=0; i<fullDayNames.length; i++) {
+    fullDayNames[i] = qx.lang.String.escapeRegexpChars(fullDayNames[i].toString());
+  }
+
+  var fullDayNamesManipulator = function(dateValues, value) {
+    dateValues.month = fullDayNames.indexOf(value);
   }
 
   // Unsupported: w (Week in year), W (Week in month), D (Day in year),
   // F (Day of week in month), z (time zone) reason: no setter in Date class,
   // Z (RFC 822 time zone) reason: no setter in Date class
+  this._parseRules.push(
+  {
+    pattern     : "yyyy",
+    regex       : "(\\d\\d(\\d\\d)?)",
+    groups      : 2,
+    manipulator : yearManipulator
+  });
 
-  DateFormat._parseRules.push({ pattern:"yyyy", regex:"(\\d\\d(\\d\\d)?)",
-    groups:2, manipulator:yearManipulator } );
-  DateFormat._parseRules.push({ pattern:"yy",   regex:"(\\d\\d)",  manipulator:yearManipulator } );
-  // TODO: "MMMM", "MMM" (Month names)
-  DateFormat._parseRules.push({ pattern:"M",    regex:"(\\d\\d?)", manipulator:monthManipulator });
-  DateFormat._parseRules.push({ pattern:"MM",   regex:"(\\d\\d?)", manipulator:monthManipulator });
-  DateFormat._parseRules.push({ pattern:"dd",   regex:"(\\d\\d?)", field:"day" });
-  DateFormat._parseRules.push({ pattern:"d",    regex:"(\\d\\d?)", field:"day" });
-  // TODO: "EEEE", "EEE", "EE" (Day in week names)
-  DateFormat._parseRules.push({ pattern:"a",
-    regex:"(" + DateFormat.AM_MARKER + "|" + DateFormat.PM_MARKER + ")",
-    manipulator:ampmManipulator });
-  DateFormat._parseRules.push({ pattern:"HH",   regex:"(\\d\\d?)", field:"hour" });
-  DateFormat._parseRules.push({ pattern:"H",    regex:"(\\d\\d?)", field:"hour" });
-  DateFormat._parseRules.push({ pattern:"kk",   regex:"(\\d\\d?)", manipulator:noZeroHourManipulator });
-  DateFormat._parseRules.push({ pattern:"k",    regex:"(\\d\\d?)", manipulator:noZeroHourManipulator });
-  DateFormat._parseRules.push({ pattern:"KK",   regex:"(\\d\\d?)", field:"hour" });
-  DateFormat._parseRules.push({ pattern:"K",    regex:"(\\d\\d?)", field:"hour" });
-  DateFormat._parseRules.push({ pattern:"hh",   regex:"(\\d\\d?)", manipulator:noZeroAmPmHourManipulator });
-  DateFormat._parseRules.push({ pattern:"h",    regex:"(\\d\\d?)", manipulator:noZeroAmPmHourManipulator });
-  DateFormat._parseRules.push({ pattern:"mm",   regex:"(\\d\\d?)", field:"min" });
-  DateFormat._parseRules.push({ pattern:"m",    regex:"(\\d\\d?)", field:"min" });
-  DateFormat._parseRules.push({ pattern:"ss",   regex:"(\\d\\d?)", field:"sec" });
-  DateFormat._parseRules.push({ pattern:"s",    regex:"(\\d\\d?)", field:"sec" });
-  DateFormat._parseRules.push({ pattern:"SSS",  regex:"(\\d\\d?\\d?)", field:"ms" });
-  DateFormat._parseRules.push({ pattern:"SS",   regex:"(\\d\\d?\\d?)", field:"ms" });
-  DateFormat._parseRules.push({ pattern:"S",    regex:"(\\d\\d?\\d?)", field:"ms" });
-}
+  this._parseRules.push(
+  {
+    pattern     : "yy",
+    regex       : "(\\d\\d)",
+    manipulator : yearManipulator
+  });
+
+  this._parseRules.push(
+  {
+    pattern     : "M",
+    regex       : "(\\d\\d?)",
+    manipulator : monthManipulator
+  });
+
+  this._parseRules.push(
+  {
+    pattern     : "MM",
+    regex       : "(\\d\\d?)",
+    manipulator : monthManipulator
+  });
+
+  this._parseRules.push(
+  {
+    pattern     : "MMM",
+    regex       : "(" + shortMonthNames.join("|") + ")",
+    manipulator : shortMonthNamesManipulator
+  });
+
+  this._parseRules.push(
+  {
+    pattern     : "MMMM",
+    regex       : "(" + fullMonthNames.join("|") + ")",
+    manipulator : fullMonthNamesManipulator
+  });
+
+  this._parseRules.push(
+  {
+    pattern : "dd",
+    regex   : "(\\d\\d?)",
+    field   : "day"
+  });
+
+  this._parseRules.push(
+  {
+    pattern : "d",
+    regex   : "(\\d\\d?)",
+    field   : "day"
+  });
+
+  this._parseRules.push(
+  {
+    pattern     : "EE",
+    regex       : "(" + narrowDayNames.join("|") + ")",
+    manipulator : narrowDayNamesManipulator
+  });
+
+  this._parseRules.push(
+  {
+    pattern     : "EEE",
+    regex       : "(" + abbrDayNames.join("|") + ")",
+    manipulator : abbrDayNamesManipulator
+  });
+
+  this._parseRules.push(
+  {
+    pattern     : "EEEE",
+    regex       : "(" + fullDayNames.join("|") + ")",
+    manipulator : fullDayNamesManipulator
+  });
+
+  this._parseRules.push(
+  {
+    pattern     : "a",
+    regex       : "(" + DateFormat.AM_MARKER + "|" + DateFormat.PM_MARKER + ")",
+    manipulator : ampmManipulator
+  });
+
+  this._parseRules.push(
+  {
+    pattern : "HH",
+    regex   : "(\\d\\d?)",
+    field   : "hour"
+  });
+
+  this._parseRules.push(
+  {
+    pattern : "H",
+    regex   : "(\\d\\d?)",
+    field   : "hour"
+  });
+
+  this._parseRules.push(
+  {
+    pattern     : "kk",
+    regex       : "(\\d\\d?)",
+    manipulator : noZeroHourManipulator
+  });
+
+  this._parseRules.push(
+  {
+    pattern     : "k",
+    regex       : "(\\d\\d?)",
+    manipulator : noZeroHourManipulator
+  });
+
+  this._parseRules.push(
+  {
+    pattern : "KK",
+    regex   : "(\\d\\d?)",
+    field   : "hour"
+  });
+
+  this._parseRules.push(
+  {
+    pattern : "K",
+    regex   : "(\\d\\d?)",
+    field   : "hour"
+  });
+
+  this._parseRules.push(
+  {
+    pattern     : "hh",
+    regex       : "(\\d\\d?)",
+    manipulator : noZeroAmPmHourManipulator
+  });
+
+  this._parseRules.push(
+  {
+    pattern     : "h",
+    regex       : "(\\d\\d?)",
+    manipulator : noZeroAmPmHourManipulator
+  });
+
+  this._parseRules.push(
+  {
+    pattern : "mm",
+    regex   : "(\\d\\d?)",
+    field   : "min"
+  });
+
+  this._parseRules.push(
+  {
+    pattern : "m",
+    regex   : "(\\d\\d?)",
+    field   : "min"
+  });
+
+  this._parseRules.push(
+  {
+    pattern : "ss",
+    regex   : "(\\d\\d?)",
+    field   : "sec"
+  });
+
+  this._parseRules.push(
+  {
+    pattern : "s",
+    regex   : "(\\d\\d?)",
+    field   : "sec"
+  });
+
+  this._parseRules.push(
+  {
+    pattern : "SSS",
+    regex   : "(\\d\\d?\\d?)",
+    field   : "ms"
+  });
+
+  this._parseRules.push(
+  {
+    pattern : "SS",
+    regex   : "(\\d\\d?\\d?)",
+    field   : "ms"
+  });
+
+  this._parseRules.push(
+  {
+    pattern : "S",
+    regex   : "(\\d\\d?\\d?)",
+    field   : "ms"
+  });
+};
 
 
 /**
