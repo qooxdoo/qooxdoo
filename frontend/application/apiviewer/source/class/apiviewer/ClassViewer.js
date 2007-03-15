@@ -873,7 +873,7 @@ qx.Class.define("apiviewer.ClassViewer",
         var imgElem = panel.getInfoTitleElement().getElementsByTagName("img")[0];
         imgElem.src = qx.manager.object.AliasManager.getInstance().resolvePath(panel.getIsOpen() ? 'api/image/close.gif' : 'api/image/open.gif');
 
-        panel._updateInfoPanel(this._showProtected, this._showInherited, this._currentClassDocNode);
+        panel.update(this._showProtected, this._showInherited, this._currentClassDocNode);
       }
       catch(exc)
       {
