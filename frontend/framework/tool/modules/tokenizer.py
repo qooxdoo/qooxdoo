@@ -47,6 +47,11 @@ S_REGEXP_B = "\.(replace)\s*\(\s*\(*\s*" + S_REGEXP + "\s*\)*\s*?,?"
 S_REGEXP_C = "\s*\(*\s*" + S_REGEXP + "\)*\.(test|exec)\s*\(\s*"
 S_REGEXP_D = "(:|=|\?)\s*\(*\s*" + S_REGEXP + "\s*\)*"
 S_REGEXP_ALL = S_REGEXP_A + "|" + S_REGEXP_B + "|" + S_REGEXP_C + "|" + S_REGEXP_D
+#S_REGEXP_ALL = "(?P<REGEXP>" + S_REGEXP_A + "|" + S_REGEXP_B + "|" + S_REGEXP_C + "|" + S_REGEXP_D + ")"
+            # I would rather group only on the top-level expression, and there create a named group
+            # (sub-groups only if in dire need); the named groups provide not only the match, but
+            # also the classification (like "REGEXP"), to be retrieved through mo.groupdict(). this
+            # would allow you to build a tokenizer through regexps entirely.
 
 S_ALL = "(" + comment.S_BLOCK_COMMENT + "|" + comment.S_INLINE_COMMENT + "|" + S_STRING_A + "|" + S_STRING_B + "|" + S_REGEXP_ALL + "|" + S_FLOAT + "|" + S_OPERATORS + ")"
 
@@ -167,6 +172,12 @@ def parsePart(part):
     return tokens
 
 
+##
+# parseFragmentLead -- find starting char POS of pattern match result <fragment>
+#       in source text <content>, process <content>'s prefix up to POS, thereby
+#       building up token array <tokens>,
+#       and return <content> without the processed prefix
+#
 
 def parseFragmentLead(content, fragment, tokens):
     pos = content.find(fragment)
