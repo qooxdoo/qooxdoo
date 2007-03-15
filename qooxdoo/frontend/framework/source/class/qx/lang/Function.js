@@ -147,14 +147,14 @@ qx.Class.define("qx.lang.Function",
           throw new Error("Second parameter to bind() needs to be of type object!");
         }
       }
-      
+
       // Create wrapper method
       if (arguments.length > 2)
       {
         // Static arguments
         var args = Array.prototype.slice.call(arguments, 2);
 
-        function wrap() 
+        function wrap()
         {
           fcn.context = self;
           var ret = fcn.apply(self, args.concat(qx.lang.Array.fromArguments(arguments)));
@@ -164,7 +164,7 @@ qx.Class.define("qx.lang.Function",
       }
       else
       {
-        function wrap() 
+        function wrap()
         {
           fcn.context = self;
           var ret = fcn.apply(self, arguments);
@@ -172,17 +172,17 @@ qx.Class.define("qx.lang.Function",
           return ret;
         }
       }
-      
+
       // Correcting self
       wrap.self = fcn.self ? fcn.self.constructor : self;
-      
+
       // Return wrapper method
       return wrap;
     },
-    
-    
+
+
     /**
-     * Bind a function which works as an event listener to an object. Each time 
+     * Bind a function which works as an event listener to an object. Each time
      * the bound method is called the 'this' variable is guaranteed to be 'self'.
      *
      * @param fcn {Function} function to bind
@@ -201,22 +201,22 @@ qx.Class.define("qx.lang.Function",
           throw new Error("Second parameter to bindEvent() needs to be of type object!");
         }
       }
-      
+
       // Create wrapper method
-      function wrap(event) 
+      function wrap(event)
       {
         fcn.context = self;
         var ret = fcn.call(self, event||window.event);
         fcn.context = null;
         return ret;
       }
-      
+
       // Correcting self
       wrap.self = fcn.self ? fcn.self.constructor : self;
-      
+
       // Return wrapper method
       return wrap;
-    },    
+    },
 
 
     /**

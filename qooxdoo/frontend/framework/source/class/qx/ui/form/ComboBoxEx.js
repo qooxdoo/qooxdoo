@@ -48,7 +48,7 @@
  * <li>Images inside the list</li>
  * <li>Autocomplete on key input</li>
  * </ul>
- * 
+ *
  * @appearance combo-box-ex-list {qx.ui.table.Table}
  * @appearance combo-box-ex-popup {qx.ui.popup.Popup}
  * @appearance combo-box-ex-text-field {qx.ui.form.TextField}

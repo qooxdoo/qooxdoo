@@ -211,7 +211,7 @@ qx.Class.define("qx.log.WindowAppender",
       var winLeft = this.getWindowLeft();
       if (winLeft === null)
       {
-        winLeft = window.screen.width - winWidth;        
+        winLeft = window.screen.width - winWidth;
       }
       var winTop = this.getWindowTop();
       if (winTop === null)

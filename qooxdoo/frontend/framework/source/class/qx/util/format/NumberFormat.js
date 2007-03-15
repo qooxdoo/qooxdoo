@@ -58,7 +58,7 @@ qx.Class.define("qx.util.format.NumberFormat",
 
   statics :
   {
-    
+
     /**
      * Returns an integer number format.
      *
@@ -202,10 +202,10 @@ qx.Class.define("qx.util.format.NumberFormat",
       switch (num) {
         case Infinity:
           return "Infinity";
-          
+
         case -Infinity:
           return "-Infinity";
-          
+
         case NaN:
           return "NaN";
       }
