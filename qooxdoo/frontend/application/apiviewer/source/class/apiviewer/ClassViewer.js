@@ -940,7 +940,7 @@ qx.Class.define("apiviewer.ClassViewer",
       if (itemNode.type == "constant") {
         return this._infoPanelHash[ClassViewer.NODE_TYPE_CONSTANT];
       } else if (itemNode.type == "property") {
-        return ClassViewer.NODE_TYPE_PROPERTY;
+        return this._infoPanelHash[ClassViewer.NODE_TYPE_PROPERTY];
       } else if (itemNode.type == "event") {
         return this._infoPanelHash[ClassViewer.NODE_TYPE_EVENT];
       }

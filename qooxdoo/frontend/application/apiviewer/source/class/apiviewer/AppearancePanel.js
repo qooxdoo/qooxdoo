@@ -105,7 +105,11 @@ qx.Class.define("apiviewer.AppearancePanel", {
       var typeHtml = apiviewer.InfoPanel.createTypeHtml(node, fromClassNode, "var");
       
       var textHtml = new qx.util.StringBuilder();
-      textHtml.add(apiviewer.InfoPanel.createDescriptionHtml(node, fromClassNode, true));
+      textHtml.add(
+        ClassViewer.DIV_START_DESC,
+        apiviewer.InfoPanel.createDescriptionHtml(node, fromClassNode, true),
+        ClassViewer.DIV_END
+      );
       
       if (showDetails)
       {
@@ -114,13 +118,13 @@ qx.Class.define("apiviewer.AppearancePanel", {
         if (states)
         {
           textHtml.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "States:", ClassViewer.DIV_END);
-          textHtml.add("<table>");
+          textHtml.add("<table class='states'>");
           
           for (var i=0; i<states.length; i++) 
           {
             var state = states[i];  
              
-            textHtml.add("<tr>");
+            textHtml.add("<tr class='state'>");
             textHtml.add(
               "<td class='state-name'>",
               ClassViewer.SPAN_START_PARAM_NAME,
@@ -130,18 +134,20 @@ qx.Class.define("apiviewer.AppearancePanel", {
             );
             textHtml.add(
               "<td class='state-text'>",
-              apiviewer.InfoPanel.createDescriptionHtml(state, fromClassNode, true),
-              "</td>"
+              ClassViewer.DIV_START_DESC,
+              apiviewer.InfoPanel.createDescriptionHtml(state, state.parent.parent.parent.parent, true),
+              ClassViewer.DIV_END
             );
             if (state.parent.parent.attributes.type != className) {
+              textHtml.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "Defined at:", ClassViewer.DIV_END);
               textHtml.add(
-                "<td class='state-from-class'>",
-                "(defined at ", apiviewer.InfoPanel.createItemLinkHtml(state.parent.parent.attributes.type), ")",
-                "</td>"
+                ClassViewer.DIV_START_DETAIL_TEXT,
+                apiviewer.InfoPanel.createItemLinkHtml(state.parent.parent.attributes.type),
+                ClassViewer.DIV_END
               );
             }
-            
-            textHtml.add("</tr>");
+                        
+            textHtml.add("</td></tr>");
           }
           
           textHtml.add("</table>");

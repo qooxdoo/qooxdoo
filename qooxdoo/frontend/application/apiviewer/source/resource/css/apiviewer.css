@@ -377,3 +377,13 @@
   font-size: 13px;
   margin: 0 !important;
 }
+
+
+table.states {
+	empty-cells: show;
+}
+
+tr.state td {
+	border-bottom: 1px solid #ECECEC;
+	margin-top: 1px;
+}

@@ -137,8 +137,8 @@ qx.Class.define("apiviewer.Viewer",
 
     apiviewer.Viewer.instance = this;
 
-    qx.client.History.getInstance().init();
-    qx.client.History.getInstance().addEventListener("request", this._onHistoryRequest, this);
+    //qx.client.History.getInstance().init();
+    //qx.client.History.getInstance().addEventListener("request", this._onHistoryRequest, this);
   },
 
 
@@ -260,6 +260,9 @@ qx.Class.define("apiviewer.Viewer",
           }
   
           this._detailLoader.setHtml('<h1><div class="please">' + qx.core.Setting.get("apiviewer.title") + '</div>API Documentation</h1>');
+          
+          this._observeHistory();
+          
         }, this, 0);
       },
       this);
@@ -269,6 +272,21 @@ qx.Class.define("apiviewer.Viewer",
       }, this);
 
       req.send();
+    },
+
+ 
+    _observeHistory : function()
+    {
+      this._hash = window.location.hash.substring(1);
+      this._timer = new qx.client.Timer(30);
+      this._timer.addEventListener("interval", function(e) {
+        var hash = window.location.hash.substring(1);
+        if (hash != this._hash) {
+          this._hash = hash;
+          this.selectItem(hash);
+        }        
+      }, this);
+      this._timer.start();
     },
 
 
@@ -299,7 +317,7 @@ qx.Class.define("apiviewer.Viewer",
       var end = new Date();
       this.debug("Time to fill the packages tree: " + (end.getTime() - start.getTime()) + "ms");
 
-      /*
+     
       var start = new Date();
       // Fill the inheritence tree
       for (var i=0; i<this._topLevelClassNodeArr.length; i++) {
@@ -307,7 +325,7 @@ qx.Class.define("apiviewer.Viewer",
       }
       var end = new Date();
       this.debug("Time to fill the inheritence tree: " + (end.getTime() - start.getTime()) + "ms");
-      */
+
 
       packagesNode.open();
 
@@ -438,7 +456,7 @@ qx.Class.define("apiviewer.Viewer",
       {
         var newTitle = this._titlePrefix + " - class " + treeNode.docNode.attributes.fullName;
 
-        qx.client.History.getInstance().addToHistory(treeNode.docNode.attributes.fullName, newTitle);
+        //qx.client.History.getInstance().addToHistory(treeNode.docNode.attributes.fullName, newTitle);
 
         this._currentTreeType = treeNode.treeType;
 
@@ -536,7 +554,7 @@ qx.Class.define("apiviewer.Viewer",
      */
     showClassByName : function(className)
     {
-      var treeNode = this._classTreeNodeHash[this._currentTreeType][className];
+      var treeNode = this._classTreeNodeHash[this._currentTreeType||apiviewer.Viewer.PACKAGE_TREE][className];
 
       if (treeNode) {
         treeNode.setSelected(true);
