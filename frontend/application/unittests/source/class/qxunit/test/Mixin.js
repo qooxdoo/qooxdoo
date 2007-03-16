@@ -28,7 +28,7 @@ qx.Class.define("qxunit.test.Mixin", {
         include: qxunit.MMix1,
         construct: function() {}
       });
-      this.assertEquals("foo", qxunit.Mix.foo());
+      this.assertEquals("foo", qxunit.MMix1.foo());
       this.assertEquals("bar", new qxunit.Mix().bar());
       var mix = new qxunit.Mix();
       mix.setColor("red");
@@ -53,16 +53,15 @@ qx.Class.define("qxunit.test.Mixin", {
         });
       }, Error, "Overwriting member");
 
-      this.assertExceptionDebugOn(function() {
-        qx.Class.define("qxunit.Mix3", {
-          extend: Object,
-          include: qxunit.MMix1,
-          construct: function() {},
-          statics: {
-            foo: function() { return "foo"; }
-          }
-        });
-      }, Error, "Overwriting static member");
+      // this is allowed
+      qx.Class.define("qxunit.Mix3", {
+        extend: Object,
+        include: qxunit.MMix1,
+        construct: function() {},
+        statics: {
+          foo: function() { return "foo"; }
+        }
+      });
 
       this.assertExceptionDebugOn(function() {
         qx.Class.define("qxunit.Mix4", {
