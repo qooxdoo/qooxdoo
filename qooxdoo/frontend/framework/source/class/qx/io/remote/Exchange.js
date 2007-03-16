@@ -958,7 +958,8 @@ qx.Class.define("qx.io.remote.Exchange",
   */
 
   settings : {
-    "qx.ioRemoteDebug" : false
+    "qx.ioRemoteDebug"       : false,
+    "qx.ioRemoteDebugData"   : false
   },
 
 

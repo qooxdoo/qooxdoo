@@ -491,14 +491,38 @@ qx.Class.define("qx.io.remote.IframeTransport",
       switch(this.getResponseType())
       {
         case qx.util.Mime.TEXT:
+          if (qx.core.Variant.isSet("qx.debug", "on"))
+          {
+            if (qx.core.Setting.get("qx.ioRemoteDebugData"))
+            {
+              this.debug("Response: " + this._responseContent);
+            }
+          }
           return vText;
           break;
 
         case qx.util.Mime.HTML:
-          return this.getIframeHtmlContent();
+          vText = this.getIframeHtmlContent();
+          if (qx.core.Variant.isSet("qx.debug", "on"))
+          {
+            if (qx.core.Setting.get("qx.ioRemoteDebugData"))
+            {
+              this.debug("Response: " + this._responseContent);
+            }
+          }
+          return vText();
           break;
 
         case qx.util.Mime.JSON:
+          vText = this.getIframeHtmlContent();
+          if (qx.core.Variant.isSet("qx.debug", "on"))
+          {
+            if (qx.core.Setting.get("qx.ioRemoteDebugData"))
+            {
+              this.debug("Response: " + this._responseContent);
+            }
+          }
+
           try {
             return vText && vText.length > 0 ? qx.io.Json.parseQx(vText) : null;
           } catch(ex) {
@@ -506,6 +530,15 @@ qx.Class.define("qx.io.remote.IframeTransport",
           }
 
         case qx.util.Mime.JAVASCRIPT:
+          vText = this.getIframeHtmlContent();
+          if (qx.core.Variant.isSet("qx.debug", "on"))
+          {
+            if (qx.core.Setting.get("qx.ioRemoteDebugData"))
+            {
+              this.debug("Response: " + this._responseContent);
+            }
+          }
+
           try {
             return vText && vText.length > 0 ? window.eval(vText) : null;
           } catch(ex) {
@@ -513,7 +546,15 @@ qx.Class.define("qx.io.remote.IframeTransport",
           }
 
         case qx.util.Mime.XML:
-          return this.getIframeDocument();
+          vText = this.getIframeDocument();
+          if (qx.core.Variant.isSet("qx.debug", "on"))
+          {
+            if (qx.core.Setting.get("qx.ioRemoteDebugData"))
+            {
+              this.debug("Response: " + this._responseContent);
+            }
+          }
+          return vText;
 
         default:
           this.warn("No valid responseType specified (" + this.getResponseType() + ")!");

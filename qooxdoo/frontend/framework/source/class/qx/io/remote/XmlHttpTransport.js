@@ -268,6 +268,14 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
       //   Sending data
       // --------------------------------------
       try {
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
+          if (qx.core.Setting.get("qx.ioRemoteDebugData"))
+          {
+            this.debug("Request: " + this.getData());
+          }
+        }
+        
         vRequest.send(this.getData());
       }
       catch(ex)
@@ -683,9 +691,25 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
       {
         case qx.util.Mime.TEXT:
         case qx.util.Mime.HTML:
+          if (qx.core.Variant.isSet("qx.debug", "on"))
+          {
+            if (qx.core.Setting.get("qx.ioRemoteDebugData"))
+            {
+              this.debug("Response: " + vText);
+            }
+          }
+
           return vText;
 
         case qx.util.Mime.JSON:
+          if (qx.core.Variant.isSet("qx.debug", "on"))
+          {
+            if (qx.core.Setting.get("qx.ioRemoteDebugData"))
+            {
+              this.debug("Response: " + vText);
+            }
+          }
+
           try {
             return vText && vText.length > 0 ? qx.io.Json.parseQx(vText) : null;
           }
@@ -696,6 +720,14 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
           }
 
         case qx.util.Mime.JAVASCRIPT:
+          if (qx.core.Variant.isSet("qx.debug", "on"))
+          {
+            if (qx.core.Setting.get("qx.ioRemoteDebugData"))
+            {
+              this.debug("Response: " + vText);
+            }
+          }
+
           try {
             return vText && vText.length > 0 ? window.eval(vText) : null;
           } catch(ex) {
@@ -703,7 +735,17 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
           }
 
         case qx.util.Mime.XML:
-          return this.getResponseXml();
+          vText = this.getResponseXml();
+
+          if (qx.core.Variant.isSet("qx.debug", "on"))
+          {
+            if (qx.core.Setting.get("qx.ioRemoteDebugData"))
+            {
+              this.debug("Response: " + vText);
+            }
+          }
+
+          return vText;
 
         default:
           this.warn("No valid responseType specified (" + this.getResponseType() + ")!");
