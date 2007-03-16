@@ -31,6 +31,21 @@
  * Adds entries to the browser history and fires a "request" event when one of
  * the entries was requested by the user (e.g. by clicking on the back button).
  * </p>
+ *
+ * <p>
+ * Browser history support is currently available for Internet Explorer 6/7,
+ * Firefox, Opera 9 and WebKit. Safari 2 and older are not yet supported.
+ * </p>
+ *
+ * <p>
+ * This module is based on the ideas behind the YUI Browser History Manager
+ * by Julien Lecomte (Yahoo), which is described at
+ * http://yuiblog.com/blog/2007/02/21/browser-history-manager/.
+ *
+ * The Yahoo implementation can be found at http://developer.yahoo.com/yui/history.
+ * The original code is licensed under a BSD license
+ * (http://developer.yahoo.com/yui/license.txt).
+ * </p>
  */
 qx.Class.define("qx.client.History",
 {
@@ -46,12 +61,35 @@ qx.Class.define("qx.client.History",
   *****************************************************************************
   */
 
-  construct : function()
+  /**
+   * @signature function()
+   */
+  construct : qx.core.Variant.select("qx.client",
   {
-    this.base(arguments);
+    "mshtml" : function()
+    {
+      this.base(arguments);
 
-    this.__pageFlag = true;
-  },
+      this._iframe = document.createElement("iframe");
+      this._iframe.style.visibility = "hidden";
+
+      document.body.appendChild(this._iframe);
+      var src = qx.manager.object.AliasManager.getInstance().resolvePath("static/history/historyHelper.html");
+      this._iframe.src = src;
+
+      this._titles = {};
+      this._state = decodeURIComponent(this.__getHash());
+      this.__waitForIFrame(this.__startTimer, this);
+    },
+
+    "default" : function()
+    {
+      this.base(arguments);
+      this._titles = {};
+      this._state = this.__getState();
+      this.__startTimer();
+    }
+  }),
 
 
 
@@ -65,9 +103,31 @@ qx.Class.define("qx.client.History",
   events: {
     /**
      * Fired when the user moved in the history. The data property of the event
-     * holds the command, which was passed to {@link #addToHistory}.
+     * holds the state, which was passed to {@link #addToHistory}.
      */
     "request" : "qx.event.type.DataEvent"
+  },
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    /**
+     * Interval for the timer, which periodically checks the browser history state
+     * in milliseconds.
+     */
+    timeoutInterval :
+    {
+      _legacy: true,
+      type: "number",
+      defaultValue : 100
+    }
   },
 
 
@@ -80,22 +140,14 @@ qx.Class.define("qx.client.History",
 
   members :
   {
+
     /**
-     * Initializes the History. This method has to called by applications using this
-     * class once during initialization. Subsequent calls have no (negative) effect.
-     *
-     * @type member
-     * @return {void}
+     * This function is only there to ensure compatibility with older
+     * qooxdoo versions
+     * @deprecated
      */
     init : function()
     {
-      if (this.__iframe == null)
-      {
-        this.__iframe = document.createElement("iframe");
-        this.__iframe.style.visibility = "hidden";
-
-        document.body.appendChild(this.__iframe);
-      }
     },
 
 
@@ -103,83 +155,165 @@ qx.Class.define("qx.client.History",
      * Adds an entry to the browser history.
      *
      * @type member
-     * @param command {String} a string representing the old state of the
+     * @param state {String} a string representing the state of the
      *          application. This command will be delivered in the data property of
      *          the "request" event.
      * @param newTitle {String ? null} the page title to set after the history entry
      *          is done. This title should represent the new state of the application.
-     * @return {void}
-     * @throws TODOC
      */
-    addToHistory : function(command, newTitle)
+    addToHistory : function(state, newTitle)
     {
-      if (command == this.__currentCommand) {
+      if (newTitle != null) {
         document.title = newTitle;
+        this._titles[state] = newTitle;
       }
-      else
-      {
-        if (this.__iframe == null) {
-          throw new Error("You have to call init first!");
-        }
-
-        this.__pageFlag = !this.__pageFlag;
-        this.__currentCommand = command;
-        this.__newTitle = newTitle;
-
-        // NOTE: We need the command attribute to enforce a loading of the page
-        //       (Otherwise we don't get an onload event).
-        //       The browser will still cache commands loaded once.
-        //       Without the onload-problem anchors would work, too.
-        //       (Anchors would have the advantage that the helper is only loaded once)
-        var src = qx.manager.object.AliasManager.getInstance().resolvePath("static/history/historyHelper.html");
-
-        try {
-          this.__iframe.src = src + "?c=" + command;
-        } catch(ex) {
-          this.error("Could not load file: " + src);
-        }
+      if (state != this._state) {
+        top.location.hash = "#" + encodeURIComponent(state)
+        this.__storeState(state);
       }
     },
 
 
     /**
-     * Event handler. Called when the history helper page was loaded.
+     * Get the current state of the browser history.
      *
-     * @type member
-     * @param location {Map} the location property of the window object of the
-     *          helper page.
-     * @return {void}
+     * @return {String} The current state
      */
-    _onHistoryLoad : function(location)
+    getState : function()
     {
-      try
-      {
-        var equalsPos = location.search.indexOf("=");
-        var command = location.search.substring(equalsPos + 1);
+      return this._state;
+    },
 
-        if (this.__newTitle)
-        {
-          document.title = this.__newTitle;
-          this.__newTitle = null;
-        }
 
-        if (command != this.__currentCommand)
-        {
-          this.__currentCommand = command;
-
-          this.createDispatchDataEvent("request", command);
-        }
+    /**
+     * called on changes to the history using the browser buttons
+     *
+     * @param state {String} new state of the history
+     */
+    __onHistoryLoad : function(state) {
+      this._state = state;
+      this.createDispatchDataEvent("request", state);
+      if (this._titles[state] != null) {
+        document.title = this._titles[state];
       }
-      catch(exc)
-      {
-        this.error("Handling history load failed", exc);
-      }
+    },
 
-      qx.ui.core.Widget.flushGlobalQueues();
-    }
+
+    /**
+     * Starts the timer polling for updates to the history IFrame on IE
+     * or the fragment identifier on other browsers.
+     */
+    __startTimer : function()
+    {
+      this._timer = new qx.client.Timer(this.getTimeoutInterval());
+      this._timer.addEventListener("interval", function(e) {
+        var newHash = this.__getState();
+        if (newHash != this._state) {
+          this.__onHistoryLoad(newHash);
+        }
+      }, this);
+      this._timer.start();
+    },
+
+
+    /**
+     * Returns the fragment identifier of the top window URL
+     *
+     * @return {String} the fragment identifier
+     */
+    __getHash : function()
+    {
+      var href = top.location.href;
+      var idx = href.indexOf( "#" );
+      return idx >= 0 ? href.substring(idx+1) : "";
+    },
+
+
+    /**
+     * Browser dependent function to read the current state of the history
+     *
+     * @return {String} current state of the browser history
+     */
+    __getState : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function()
+      {
+        var doc = this._iframe.contentWindow.document;
+        var elem = doc.getElementById("state");
+        return elem ? decodeURIComponent(elem.innerText) : "";
+      },
+
+      "default" : function()
+      {
+        var href = top.location.href;
+        var idx = href.indexOf( "#" );
+        return decodeURIComponent(this.__getHash());
+      }
+    }),
+
+
+    /**
+     * Save a state into the browser history.
+     *
+     * @param state {String} state to save
+     * @return {Boolean} Whether the state could be saved. This function may
+     *   fail on the Internet Explorer if the hidden IFrame is not yet fully
+     *   loaded.
+     */
+    __storeState : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(state)
+      {
+        var html = '<html><body><div id="state">' + encodeURIComponent(state) + '</div></body></html>';
+        try
+        {
+          var doc = this._iframe.contentWindow.document;
+          doc.open();
+          doc.write(html);
+          doc.close();
+        } catch (e) {
+          return false;
+        }
+        return true;
+      },
+
+      "default" : function(state)
+      {
+        // Opera needs to update the location, after the current thread has
+        // finished to remember the history
+        qx.client.Timer.once(function() {
+          top.location.hash = "#" + encodeURIComponent(state);
+        }, this, 0);
+        return true;
+      }
+    }),
+
+
+    /**
+     * Waits for the IFrame being loaded. Once the IFrame is loaded
+     * the callback is called with the provided context.
+     *
+     * @param callback {Function} This function will be called once the iframe is loaded
+     * @param context {Object?window} The context for the callback.
+     */
+    __waitForIFrame : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(callback, context)
+      {
+        if ( !this._iframe.contentWindow || !this._iframe.contentWindow.document ) {
+            // Check again in 10 msec...
+            qx.client.Timer.once(function() {
+              this.__waitForIFrame(callback, context);
+            }, this, 10);
+            return;
+        }
+        callback.call(context || window);
+      },
+
+      "default" : null
+    })
+
   },
-
-
 
 
   /*
@@ -189,6 +323,7 @@ qx.Class.define("qx.client.History",
   */
 
   destruct : function() {
-    this._disposeFields("__iframe");
+    this._timer.stop();
+    this._disposeFields("_iframe", "_titles", "_timer");
   }
 });
