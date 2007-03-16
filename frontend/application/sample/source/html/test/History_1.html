@@ -26,21 +26,12 @@
 		}
 
     var history = qx.client.History.getInstance();
-  	
-		history.init();
-		history.addEventListener("request", callback);
-		
-		qx.client.Timer.once(function() {
-			history.addToHistory("Juhu1", "Juhu1");
-		}, this, 300);
-		
-    qx.client.Timer.once(function() {
-			history.addToHistory("Juhu2", "Juhu2");
-		}, this, 600);
-		
-		qx.client.Timer.once(function() {
-			history.addToHistory("Juhu3", "Juhu3");
-		}, this, 900);
+
+	history.addEventListener("request", callback);
+
+    history.addToHistory("Juhu1", "Juhu1");
+		history.addToHistory("Juhu2", "Juhu2");
+		history.addToHistory("Juhu3", "Juhu3");
 
     var t1 = new qx.ui.form.TextField();
     t1.set({
@@ -49,7 +40,7 @@
 			height: 20,
 			value: ""
 		});
-		
+
 		var a1 = new qx.ui.basic.Atom("");
 		a1.set({
 			left: 20,
@@ -59,7 +50,7 @@
 			backgroundColor: "orange",
 			border: qx.renderer.border.BorderPresets.getInstance().thinInset
 		});
-		
+
 		var b1 = new qx.ui.form.Button("add to history");
 		b1.set({
 			top: 48,
@@ -68,16 +59,14 @@
 			width: 100
 		});
 		b1.addEventListener("execute", function() {
-			var data = t1.getValue();
+			var data = t1.getComputedValue();
 			if (!data) return;
 			t1.setValue("");
-			qx.client.Timer.once(function() {
-			  history.addToHistory(data, data);
-		  }, this, 100);
+			history.addToHistory(data, data);
 		});
-		
+
 		d.add(t1, a1, b1);
-		
+
   });
   </script>
 </body>

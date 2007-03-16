@@ -137,8 +137,7 @@ qx.Class.define("apiviewer.Viewer",
 
     apiviewer.Viewer.instance = this;
 
-    //qx.client.History.getInstance().init();
-    //qx.client.History.getInstance().addEventListener("request", this._onHistoryRequest, this);
+    qx.client.History.getInstance().addEventListener("request", this._onHistoryRequest, this);
   },
 
 
@@ -241,28 +240,27 @@ qx.Class.define("apiviewer.Viewer",
       req.addEventListener("completed", function(evt)
       {
         var content = evt.getData().getContent();
-        
+
         var start = new Date();
         var treeData = eval("(" + content + ")");
         var end = new Date();
         this.debug("Time to eval tree data: " + (end.getTime() - start.getTime()) + "ms");
-        
+
         // give the browser a chance to update its UI before doing more
         qx.client.Timer.once(function() {
           this.setDocTree(treeData);
-  
+
           // Handle bookmarks
-          if (window.location.hash)
+          var state = qx.client.History.getInstance().getState();
+          if (state)
           {
             qx.client.Timer.once(function() {
-              this.selectItem(window.location.hash.substring(1));
+              this.selectItem(state);
             }, this, 0);
           }
-  
+
           this._detailLoader.setHtml('<h1><div class="please">' + qx.core.Setting.get("apiviewer.title") + '</div>API Documentation</h1>');
-          
-          this._observeHistory();
-          
+
         }, this, 0);
       },
       this);
@@ -272,21 +270,6 @@ qx.Class.define("apiviewer.Viewer",
       }, this);
 
       req.send();
-    },
-
- 
-    _observeHistory : function()
-    {
-      this._hash = window.location.hash.substring(1);
-      this._timer = new qx.client.Timer(30);
-      this._timer.addEventListener("interval", function(e) {
-        var hash = window.location.hash.substring(1);
-        if (hash != this._hash) {
-          this._hash = hash;
-          this.selectItem(hash);
-        }        
-      }, this);
-      this._timer.start();
     },
 
 
@@ -317,7 +300,7 @@ qx.Class.define("apiviewer.Viewer",
       var end = new Date();
       this.debug("Time to fill the packages tree: " + (end.getTime() - start.getTime()) + "ms");
 
-     
+
       var start = new Date();
       // Fill the inheritence tree
       for (var i=0; i<this._topLevelClassNodeArr.length; i++) {
@@ -456,13 +439,11 @@ qx.Class.define("apiviewer.Viewer",
       {
         var newTitle = this._titlePrefix + " - class " + treeNode.docNode.attributes.fullName;
 
-        //qx.client.History.getInstance().addToHistory(treeNode.docNode.attributes.fullName, newTitle);
+        qx.client.History.getInstance().addToHistory(treeNode.docNode.attributes.fullName, newTitle);
 
         this._currentTreeType = treeNode.treeType;
 
         this._selectTreeNode(treeNode);
-
-        window.location.hash = "#" + treeNode.docNode.attributes.fullName;
       }
     },
 
