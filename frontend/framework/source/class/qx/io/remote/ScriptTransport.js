@@ -230,6 +230,14 @@ qx.Class.define("qx.io.remote.ScriptTransport",
       // server for dynamic script tags)
       this._element.src = vUrl;
 
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (qx.core.Setting.get("qx.ioRemoteDebugData"))
+        {
+          this.debug("Request: " + vUrl);
+        }
+      }
+        
       document.body.appendChild(this._element);
     },
 
@@ -393,6 +401,13 @@ qx.Class.define("qx.io.remote.ScriptTransport",
           // server is responsible for using a string as the response
         case qx.util.Mime.JSON:
         case qx.util.Mime.JAVASCRIPT:
+          if (qx.core.Variant.isSet("qx.debug", "on"))
+          {
+            if (qx.core.Setting.get("qx.ioRemoteDebugData"))
+            {
+              this.debug("Response: " + this._responseContent);
+            }
+          }
           return this._responseContent;
 
         default:
