@@ -32,8 +32,13 @@ APPLICATION_COMPLETE_SOURCE = false
 APPLICATION_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$(APPLICATION_NAMESPACE)
 APPLICATION_BUILD_LOG_LEVEL = error
 
+APPLICATION_ADDITIONAL_SOURCE_OPTIONS = --disable-internal-check
+APPLICATION_ADDITIONAL_BUILD_OPTIONS = --disable-internal-check
 
-
+APPLICATION_OPTIMIZE_STRINGS = false
+APPLICATION_OPTIMIZE_VARIABLES = false
+APPLICATION_OPTIMIZE_BASE_CALL = false
+APPLICATION_OPTIMIZE_PRIVATE = false
 
 
 ################################################################################
@@ -61,7 +66,8 @@ source:
 	@$(CMD_GENERATOR) \
 	  --generate-api-documentation \
 	  --api-documentation-json-file $(APPLICATION_SOURCE_PATH)/script/apidata.js \
-	  --class-path $(FRAMEWORK_SOURCE_PATH)/class
+	  --class-path $(FRAMEWORK_SOURCE_PATH)/class \
+	  --include-without-dependencies qx.* --disable-internal-check
 
 build:
 	@$(CMD_GENERATOR) \
