@@ -94,9 +94,15 @@ function(table) {
   this.add(this._top, scrollerBody, this._horScrollBar);
 
   // init event handlers
-  this.addEventListener("mousemove", this._onmousemove, this);
-  this.addEventListener("mousedown", this._onmousedown, this);
-  this.addEventListener("mouseup",   this._onmouseup,   this);
+  this._headerClipper.addEventListener("mousemove", this._onmousemoveHeader, this);
+  this._paneClipper.addEventListener("mousemove", this._onmousemovePane, this);
+
+  this._headerClipper.addEventListener("mousedown", this._onmousedownHeader, this);
+  this._paneClipper.addEventListener("mousedown", this._onmousedownPane, this);
+
+  this._headerClipper.addEventListener("mouseup", this._onmouseupHeader, this);
+  this._paneClipper.addEventListener("mouseup", this._onmouseupPane, this);
+
   this.addEventListener("click",     this._onclick,     this);
   this.addEventListener("dblclick",  this._ondblclick,  this);
   this.addEventListener("mouseout",  this._onmouseout,  this);
@@ -390,11 +396,16 @@ qx.Proto._afterAppear = function() {
  * @param evt {Map} the event.
  */
 qx.Proto._onScrollX = function(evt) {
-  // Workaround: See _updateContent
-  this._header.setLeft(-evt.getData());
+  var scrollLeft = evt.getData();
 
-  this._paneClipper.setScrollLeft(evt.getData());
-  this.setScrollX(evt.getData());
+  // Workaround: See _updateContent
+  this._header.setLeft(-scrollLeft);
+
+  // Cache the scrollLeft value of the paneClipper
+  //
+  this._paneClipper.__scrollLeft = scrollLeft;
+  this._paneClipper.setScrollLeft(scrollLeft);
+  this.setScrollX(scrollLeft);
 }
 
 
@@ -431,20 +442,81 @@ qx.Proto._onmousewheel = function(evt) {
 }
 
 
+
 /**
- * Event handler. Called when the user moved the mouse.
+ * Handles the column resize logic.
+ *
+ * @param pageX {Integer} the current mouse x position.
+ *
+ */
+qx.Proto.__handleResizeColumn = function(pageX) {
+  var table = this.getTable();
+  // We are currently resizing -> Update the position
+  var minColumnWidth = qx.ui.table.TablePaneScroller.MIN_COLUMN_WIDTH;
+  var newWidth = Math.max(minColumnWidth, this._lastResizeWidth + pageX - this._lastResizeMousePageX);
+
+  if (this.getLiveResize()) {
+    var columnModel = table.getTableColumnModel();
+    columnModel.setColumnWidth(this._resizeColumn, newWidth);
+  } else {
+    this._header.setColumnWidth(this._resizeColumn, newWidth);
+
+    var paneModel = this.getTablePaneModel();
+    this._showResizeLine(paneModel.getColumnLeft(this._resizeColumn) + newWidth);
+  }
+
+  this._lastResizeMousePageX += newWidth - this._lastResizeWidth;
+  this._lastResizeWidth = newWidth;
+}
+
+/**
+ * Handles the column move logic.
+ *
+ * @param pageX {Integer} the current mouse x position.
+ *
+ */
+qx.Proto.__handleMoveColumn = function(pageX) {
+  // We are moving a column
+
+  // Check whether we moved outside the click tolerance so we can start
+  // showing the column move feedback
+  // (showing the column move feedback prevents the onclick event)
+  var clickTolerance = qx.ui.table.TablePaneScroller.CLICK_TOLERANCE;
+  if (this._header.isShowingColumnMoveFeedback()
+    || pageX > this._lastMoveMousePageX + clickTolerance
+    || pageX < this._lastMoveMousePageX - clickTolerance)
+  {
+    this._lastMoveColPos += pageX - this._lastMoveMousePageX;
+
+    this._header.showColumnMoveFeedback(this._moveColumn, this._lastMoveColPos);
+
+    // Get the responsible scroller
+    var targetScroller = this._table.getTablePaneScrollerAtPageX(pageX);
+    if (this._lastMoveTargetScroller && this._lastMoveTargetScroller != targetScroller) {
+      this._lastMoveTargetScroller.hideColumnMoveFeedback();
+    }
+    if (targetScroller != null) {
+      this._lastMoveTargetX = targetScroller.showColumnMoveFeedback(pageX);
+    } else {
+      this._lastMoveTargetX = null;
+    }
+
+    this._lastMoveTargetScroller = targetScroller;
+    this._lastMoveMousePageX = pageX;
+  }
+}
+
+/**
+ * Event handler. Called when the user moved the mouse over the header.
  *
  * @param evt {Map} the event.
  */
-qx.Proto._onmousemove = function(evt) {
+qx.Proto._onmousemoveHeader = function(evt) {
   var table = this.getTable();
 
   if (! table.getEnabled()) {
     return;
   }
-
-  var tableModel = table.getTableModel();
-  var columnModel = table.getTableColumnModel();
 
   var useResizeCursor = false;
   var mouseOverColumn = null;
@@ -459,69 +531,21 @@ qx.Proto._onmousemove = function(evt) {
 
   if (this._resizeColumn != null) {
     // We are currently resizing -> Update the position
-    var minColumnWidth = qx.ui.table.TablePaneScroller.MIN_COLUMN_WIDTH;
-    var newWidth = Math.max(minColumnWidth, this._lastResizeWidth + pageX - this._lastResizeMousePageX);
-
-    if (this.getLiveResize()) {
-      columnModel.setColumnWidth(this._resizeColumn, newWidth);
-    } else {
-      this._header.setColumnWidth(this._resizeColumn, newWidth);
-
-      var paneModel = this.getTablePaneModel();
-      this._showResizeLine(paneModel.getColumnLeft(this._resizeColumn) + newWidth);
-    }
-
+    this.__handleResizeColumn(pageX);
     useResizeCursor = true;
-    this._lastResizeMousePageX += newWidth - this._lastResizeWidth;
-    this._lastResizeWidth = newWidth;
   } else if (this._moveColumn != null) {
     // We are moving a column
-
-    // Check whether we moved outside the click tolerance so we can start
-    // showing the column move feedback
-    // (showing the column move feedback prevents the onclick event)
-    var clickTolerance = qx.ui.table.TablePaneScroller.CLICK_TOLERANCE;
-    if (this._header.isShowingColumnMoveFeedback()
-      || pageX > this._lastMoveMousePageX + clickTolerance
-      || pageX < this._lastMoveMousePageX - clickTolerance)
-    {
-      this._lastMoveColPos += pageX - this._lastMoveMousePageX;
-
-      this._header.showColumnMoveFeedback(this._moveColumn, this._lastMoveColPos);
-
-      // Get the responsible scroller
-      var targetScroller = this._table.getTablePaneScrollerAtPageX(pageX);
-      if (this._lastMoveTargetScroller && this._lastMoveTargetScroller != targetScroller) {
-        this._lastMoveTargetScroller.hideColumnMoveFeedback();
-      }
-      if (targetScroller != null) {
-        this._lastMoveTargetX = targetScroller.showColumnMoveFeedback(pageX);
-      } else {
-        this._lastMoveTargetX = null;
-      }
-
-      this._lastMoveTargetScroller = targetScroller;
-      this._lastMoveMousePageX = pageX;
-    }
+    this.__handleMoveColumn(pageX);
   } else {
-    // This is a normal mouse move
-    var row = this._getRowForPagePos(pageX, pageY);
-    if (row == -1) {
-      // The mouse is over the header
-      var resizeCol = this._getResizeColumnForPageX(pageX);
-      if (resizeCol != -1) {
-        // The mouse is over a resize region -> Show the right cursor
-        useResizeCursor = true;
-      } else {
-        var col = this._getColumnForPageX(pageX);
-        if (col != null && tableModel.isColumnSortable(col)) {
-          mouseOverColumn = col;
-        }
-      }
-    } else if (row != null && this._getColumnForPageX(pageX) != null) {
-      // The mouse is over the data -> update the focus
-      if (this.getFocusCellOnMouseMove()) {
-        this._focusCellAtPagePos(pageX, pageY);
+    var resizeCol = this._getResizeColumnForPageX(pageX);
+    if (resizeCol != -1) {
+      // The mouse is over a resize region -> Show the right cursor
+      useResizeCursor = true;
+    } else {
+      var tableModel = table.getTableModel();
+      var col = this._getColumnForPageX(pageX);
+      if (col != null && tableModel.isColumnSortable(col)) {
+        mouseOverColumn = col;
       }
     }
   }
@@ -534,12 +558,61 @@ qx.Proto._onmousemove = function(evt) {
 }
 
 
+
 /**
- * Event handler. Called when the user pressed a mouse button.
+ * Event handler. Called when the user moved the mouse over the pane.
  *
  * @param evt {Map} the event.
  */
-qx.Proto._onmousedown = function(evt) {
+qx.Proto._onmousemovePane = function(evt) {
+  var table = this.getTable();
+
+  if (! table.getEnabled()) {
+    return;
+  }
+
+  var useResizeCursor = false;
+
+  var pageX = evt.getPageX();
+  var pageY = evt.getPageY();
+
+  // Workaround: In onmousewheel the event has wrong coordinates for pageX
+  //       and pageY. So we remember the last move event.
+  this._lastMousePageX = pageX;
+  this._lastMousePageY = pageY;
+
+  if (this._resizeColumn != null) {
+    // We are currently resizing -> Update the position
+    this.__handleResizeColumn(pageX);
+    useResizeCursor = true;
+  } else if (this._moveColumn != null) {
+    // We are moving a column
+    this.__handleMoveColumn(pageX);
+  } else {
+    // This is a normal mouse move
+    var row = this._getRowForPagePos(pageX, pageY);
+    if (row != null && this._getColumnForPageX(pageX) != null) {
+      // The mouse is over the data -> update the focus
+      if (this.getFocusCellOnMouseMove()) {
+        this._focusCellAtPagePos(pageX, pageY);
+      }
+    }
+  }
+
+  // Workaround: Setting the cursor to the right widget doesn't work
+  //this._header.setCursor(useResizeCursor ? "e-resize" : null);
+  this.getTopLevelWidget().setGlobalCursor(useResizeCursor ? qx.ui.table.TablePaneScroller.CURSOR_RESIZE_HORIZONTAL : null);
+
+  this._header.setMouseOverColumn(null);
+}
+
+
+/**
+ * Event handler. Called when the user pressed a mouse button over the header.
+ *
+ * @param evt {Map} the event.
+ */
+qx.Proto._onmousedownHeader = function(evt) {
   var table = this.getTable();
 
   if (! table.getEnabled()) {
@@ -551,28 +624,46 @@ qx.Proto._onmousedown = function(evt) {
 
   var pageX = evt.getPageX();
   var pageY = evt.getPageY();
-  var row = this._getRowForPagePos(pageX, pageY);
-  if (row == -1) {
-    // mouse is in header
-    var resizeCol = this._getResizeColumnForPageX(pageX);
-    if (resizeCol != -1) {
-      // The mouse is over a resize region -> Start resizing
-      this._resizeColumn = resizeCol;
-      this._lastResizeMousePageX = pageX;
-      this._lastResizeWidth = columnModel.getColumnWidth(this._resizeColumn);
-      this.setCapture(true);
-    } else {
-      // The mouse is not in a resize region
-      var col = this._getColumnForPageX(pageX);
-      if (col != null) {
-        // Prepare column moving
-        this._moveColumn = col;
-        this._lastMoveMousePageX = pageX;
-        this._lastMoveColPos = this.getTablePaneModel().getColumnLeft(col);
-        this.setCapture(true);
-      }
+
+  // mouse is in header
+  var resizeCol = this._getResizeColumnForPageX(pageX);
+  if (resizeCol != -1) {
+    // The mouse is over a resize region -> Start resizing
+    this._resizeColumn = resizeCol;
+    this._lastResizeMousePageX = pageX;
+    this._lastResizeWidth = columnModel.getColumnWidth(this._resizeColumn);
+    this._headerClipper.setCapture(true);
+  } else {
+    // The mouse is not in a resize region
+    var col = this._getColumnForPageX(pageX);
+    if (col != null) {
+      // Prepare column moving
+      this._moveColumn = col;
+      this._lastMoveMousePageX = pageX;
+      this._lastMoveColPos = this.getTablePaneModel().getColumnLeft(col);
+      this._headerClipper.setCapture(true);
     }
-  } else if (row != null && this._getColumnForPageX(pageX) != null) {
+  }
+}
+
+
+/**
+ * Event handler. Called when the user pressed a mouse button over the pane
+ *
+ * @param evt {Map} the event.
+ */
+qx.Proto._onmousedownPane = function(evt) {
+  var table = this.getTable();
+
+  if (! table.getEnabled()) {
+    return;
+  }
+
+  var pageX = evt.getPageX();
+  var pageY = evt.getPageY();
+  var row = this._getRowForPagePos(pageX, pageY);
+
+  if (row != null && this._getColumnForPageX(pageX) != null) {
     var selectBeforeFocus = this.getSelectBeforeFocus();
 
     if (selectBeforeFocus) {
@@ -592,11 +683,29 @@ qx.Proto._onmousedown = function(evt) {
 
 
 /**
- * Event handler. Called when the user released a mouse button.
+ * Event handler. Called when the user released a mouse button over the pane
  *
  * @param evt {Map} the event.
  */
-qx.Proto._onmouseup = function(evt) {
+qx.Proto._onmouseupPane = function(evt) {
+  var table = this.getTable();
+
+  if (! table.getEnabled()) {
+    return;
+  }
+
+  var row = this._getRowForPagePos(evt.getPageX(), evt.getPageY());
+  if (row != -1 && row != null && this._getColumnForPageX(evt.getPageX()) != null) {
+    table._getSelectionManager().handleMouseUp(row, evt);
+  }
+}
+
+/**
+ * Event handler. Called when the user released a mouse button over the header
+ *
+ * @param evt {Map} the event.
+ */
+qx.Proto._onmouseupHeader = function(evt) {
   var table = this.getTable();
 
   if (! table.getEnabled()) {
@@ -614,7 +723,7 @@ qx.Proto._onmouseup = function(evt) {
     }
 
     this._resizeColumn = null;
-    this.setCapture(false);
+    this._headerClipper.setCapture(false);
 
     this.getTopLevelWidget().setGlobalCursor(null);
   } else if (this._moveColumn != null) {
@@ -649,13 +758,7 @@ qx.Proto._onmouseup = function(evt) {
 
     this._moveColumn = null;
     this._lastMoveTargetX = null;
-    this.setCapture(false);
-  } else {
-    // This is a normal mouse up
-    var row = this._getRowForPagePos(evt.getPageX(), evt.getPageY());
-    if (row != -1 && row != null && this._getColumnForPageX(evt.getPageX()) != null) {
-      table._getSelectionManager().handleMouseUp(row, evt);
-    }
+    this._headerClipper.setCapture(false);
   }
 }
 
@@ -1263,7 +1366,9 @@ qx.Proto._updateContent = function() {
 
   var rowCount = Math.ceil(paneHeight / rowHeight);
   var paneOffset = 0;
-  if (! this.getTable().getKeepFirstVisibleRowComplete()) {
+  var firstVisibleRowComplete = this.getTable().getKeepFirstVisibleRowComplete();
+
+  if (! firstVisibleRowComplete ) {
     // NOTE: We don't consider paneOffset, because this may cause alternating
     //       adding and deleting of one row when scolling. Instead we add one row
     //       in every case.
@@ -1280,8 +1385,21 @@ qx.Proto._updateContent = function() {
   //       automatically scrolls the header back, when a column is
   //       resized.
   this._header.setLeft(-scrollX);
-  this._paneClipper.setScrollLeft(scrollX);
-  this._paneClipper.setScrollTop(paneOffset);
+
+  // Only scroll left if the scrollLeft value has
+  // changed
+  //
+  if(this._paneClipper.__scrollLeft != scrollX) {
+    this._paneClipper.__scrollLeft = scrollX;
+    this._paneClipper.setScrollLeft(scrollX);
+  }
+
+  // Avoid expensive calls to setScrollTop if
+  // scrolling is not needed
+  //
+  if (! firstVisibleRowComplete ) {
+    this._paneClipper.setScrollTop(paneOffset);
+  }
 
   //this.debug("paneHeight:"+paneHeight+",rowHeight:"+rowHeight+",firstRow:"+firstRow+",rowCount:"+rowCount+",paneOffset:"+paneOffset);
 }
