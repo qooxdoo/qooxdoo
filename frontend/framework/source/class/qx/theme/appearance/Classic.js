@@ -96,7 +96,10 @@ qx.Theme.define("qx.theme.appearance.Classic",
         return {
           cursor                        : "default",
           spacing                       : 4,
-          width                         : "auto",
+          // Do not define width in the appearance until appearance settings
+          // can be easily overridden on a per-widget basis.  This prevented
+          // flex widths from being applied.
+          // width                         : "auto",
           height                        : "auto",
           horizontalChildrenAlign       : "center",
           verticalChildrenAlign         : "middle",
