@@ -778,7 +778,9 @@ qx.Class.define("qx.util.format.DateFormat",
         shortMonthNames[i] = qx.lang.String.escapeRegexpChars(shortMonthNames[i].toString());
       }
 
+      var self = this;
       var shortMonthNamesManipulator = function(dateValues, value) {
+        value = qx.lang.String.escapeRegexpChars(value);
         dateValues.month = shortMonthNames.indexOf(value);
       }
 
@@ -788,6 +790,7 @@ qx.Class.define("qx.util.format.DateFormat",
       }
 
       var fullMonthNamesManipulator = function(dateValues, value) {
+        value = qx.lang.String.escapeRegexpChars(value);
         dateValues.month = fullMonthNames.indexOf(value);
       }
 
@@ -797,6 +800,7 @@ qx.Class.define("qx.util.format.DateFormat",
       }
 
       var narrowDayNamesManipulator = function(dateValues, value) {
+        value = qx.lang.String.escapeRegexpChars(value);
         dateValues.month = narrowDayNames.indexOf(value);
       }
 
@@ -806,6 +810,7 @@ qx.Class.define("qx.util.format.DateFormat",
       }
 
       var abbrDayNamesManipulator = function(dateValues, value) {
+        value = qx.lang.String.escapeRegexpChars(value);
         dateValues.month = abbrDayNames.indexOf(value);
       }
 
@@ -815,6 +820,7 @@ qx.Class.define("qx.util.format.DateFormat",
       }
 
       var fullDayNamesManipulator = function(dateValues, value) {
+        value = qx.lang.String.escapeRegexpChars(value);
         dateValues.month = fullDayNames.indexOf(value);
       }
 
