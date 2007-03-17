@@ -218,7 +218,7 @@ qx.Class.define("qx.ui.table.AbstractResizeBehavior",
       // provide width without scrollbar space; scrollbar space is available
       return {
         width      : width - 20,
-        extraWidth : 16
+        extraWidth : 20
       };
     }
   },
