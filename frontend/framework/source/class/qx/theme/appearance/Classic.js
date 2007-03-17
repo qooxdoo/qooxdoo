@@ -554,6 +554,110 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     /*
     ---------------------------------------------------------------------------
+      RADIO VIEW
+    ---------------------------------------------------------------------------
+    */
+
+    "radio-view" :
+    {
+      style : function(states)
+      {
+        return {
+          backgroundColor : "#FAFBFE",
+          border          : qx.renderer.border.BorderPresets.getInstance().shadow
+        };
+      }
+    },
+
+    "radio-view-pane" :
+    {
+      style : function(states)
+      {
+        return {
+          width  : null,
+          height : "1*"
+        };
+      }
+    },
+
+    "radio-view-page" :
+    {
+      style : function(states)
+      {
+        return {
+          left   : 0,
+          right  : 0,
+          top    : 0,
+          bottom : 0
+        };
+      }
+    },
+
+    "radio-view-bar" :
+    {
+      style : function(states)
+      {
+        var result =
+        {
+          backgroundColor : "#E1EEFF",
+          paddingTop    : 1,
+          paddingRight  : 0,
+          paddingBottom : 1,
+          paddingLeft   : 0,
+          border        : new qx.renderer.border.BorderObject,
+          height        : "auto",
+          width         : null,
+          orientation   : "vertical"
+        };
+
+        result.border.setBottom(1, "solid", "threedshadow");
+
+        return result;
+      }
+    },
+
+    "radio-view-button" :
+    {
+      extend : "atom",
+
+      style : function(states)
+      {
+        var result =
+        {
+          backgroundColor : states.checked ? "#FAFBFE" : null,
+          allowStretchX   : true,
+          allowStretchY   : true,
+          iconPosition : "left"
+        };
+
+        if (states.checked || states.over)
+        {
+          result.border = new qx.renderer.border.Border(1, "solid", "threedshadow");
+          result.border.setLeft(3, "solid", "#FEC83C");
+          result.paddingTop = result.paddingBottom = 2;
+          result.paddingRight = 6;
+          result.paddingLeft = 4;
+        }
+        else
+        {
+          result.border = qx.renderer.border.BorderPresets.getInstance().none;
+          result.paddingTop = result.paddingBottom = 3;
+          result.paddingRight = result.paddingLeft = 7;
+        }
+
+        result.marginTop = result.marginBottom = 0;
+        result.marginRight = result.marginLeft = 1;
+        result.width = "auto";
+
+        return result;
+      }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
       WINDOW
     ---------------------------------------------------------------------------
     */

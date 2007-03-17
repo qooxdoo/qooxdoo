@@ -13,14 +13,13 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Sebastian Werner (wpbasti)
-     * Andreas Ecker (ecker)
+     * Derrell Lipman (derrell)
 
 ************************************************************************ */
 
 /* ************************************************************************
 
-#module(ui_buttonview)
+#module(ui_radioview)
 
 ************************************************************************ */
 
@@ -29,7 +28,7 @@
  * @state checked Set by {@link #checked}
  * @state over
  */
-qx.Class.define("qx.ui.pageview.buttonview.Button",
+qx.Class.define("qx.ui.pageview.radioview.Button",
 {
   extend : qx.ui.pageview.AbstractButton,
 
@@ -42,8 +41,16 @@ qx.Class.define("qx.ui.pageview.buttonview.Button",
   *****************************************************************************
   */
 
-  construct : function(vText, vIcon, vIconWidth, vIconHeight, vFlash) {
+  construct : function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
+  {
     this.base(arguments, vText, vIcon, vIconWidth, vIconHeight, vFlash);
+
+    // Initially, the icon is in its unselected state
+    var oIcon = this.getIconObject();
+    if (oIcon)
+    {
+      this.getIconObject().setOpacity(0.3);
+    }
   },
 
 
@@ -61,7 +68,7 @@ qx.Class.define("qx.ui.pageview.buttonview.Button",
     {
       _legacy      : true,
       type         : "string",
-      defaultValue : "button-view-button"
+      defaultValue : "radio-view-button"
     }
   },
 
@@ -91,56 +98,58 @@ qx.Class.define("qx.ui.pageview.buttonview.Button",
      */
     _onkeypress : function(e)
     {
-      switch(this.getView().getBarPosition())
+      switch(e.getKeyIdentifier())
       {
-        case "top":
-        case "bottom":
-          switch(e.getKeyIdentifier())
-          {
-            case "Left":
-              var vPrevious = true;
-              break;
+      case "Up":
+        var vPrevious = true;
+        break;
 
-            case "Right":
-              var vPrevious = false;
-              break;
+      case "Down":
+        var vPrevious = false;
+        break;
 
-            default:
-              return;
-          }
-
-          break;
-
-        case "left":
-        case "right":
-          switch(e.getKeyIdentifier())
-          {
-            case "Up":
-              var vPrevious = true;
-              break;
-
-            case "Down":
-              var vPrevious = false;
-              break;
-
-            default:
-              return;
-          }
-
-          break;
-
-        default:
-          return;
+      default:
+        return;
       }
 
-      var vChild =
-        (vPrevious
-         ? (this.isFirstChild()
-            ? this.getParent().getLastChild()
-            : this.getPreviousSibling())
-         : (this.isLastChild()
-            ? this.getParent().getFirstChild()
-            : this.getNextSibling()));
+      if (vPrevious)
+      {
+        // Find the previous child which is a subclass of AbstractButton
+        vChild = this;
+        do
+        {
+          // If we're at the first child, ...
+          if (vChild.isFirstChild())
+          {
+            // ... then we have nothing to do.
+            return;
+          }
+
+          // Move to the previous item
+          vChild = vChild.getPreviousSibling();
+          
+          // Ensure that it's a button.  If not, loop again.
+        } while (! (vChild instanceof qx.ui.pageview.AbstractButton));
+      }
+      else
+      {
+        // Find the next child which is a subclass of AbstractButton
+        vChild = this;
+        do
+        {
+          // If we're at the last child, ...
+          if (vChild.isLastChild())
+          {
+            // ... then we have nothing to do.
+            return;
+          }
+
+          // Move to the next item
+          vChild = vChild.getNextSibling();
+          
+          // Ensure that it's a button.  If not, loop again.
+        } while (! (vChild instanceof qx.ui.pageview.AbstractButton));
+      }
 
       // focus next/previous button
       vChild.setFocused(true);
@@ -150,33 +159,33 @@ qx.Class.define("qx.ui.pageview.buttonview.Button",
     },
 
 
-
-
     /*
     ---------------------------------------------------------------------------
-      APPEARANCE ADDITIONS
+      MODIFIER
     ---------------------------------------------------------------------------
-    */
+     */
 
     /**
      * TODOC
      *
      * @type member
-     * @return {void}
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {Boolean} TODOC
      */
-    _applyAppearance : function()
+    _modifyChecked : function(propValue, propOldValue, propData)
     {
-      if (this.getView())
-      {
-        var vPos = this.getView().getBarPosition();
+      this.base(arguments, propValue, propOldValue, propData);
 
-        this._states.barLeft = vPos === "left";
-        this._states.barRight = vPos === "right";
-        this._states.barTop = vPos === "top";
-        this._states.barBottom = vPos === "bottom";
+      // Show the icon only for the checked item
+      var oIcon = this.getIconObject();
+      if (oIcon)
+      {
+        oIcon.setOpacity(propValue ? 1.0 : 0.3);
       }
 
-      this.base(arguments);
+      return true;
     }
   }
 });
