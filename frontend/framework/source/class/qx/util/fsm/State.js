@@ -49,10 +49,10 @@ qx.Class.define("qx.util.fsm.State",
    *   An object containing any of the following properties:
    *
    *     onentry -
-   *       A function which is called upon entry to the state.  Its signature is
-   *       function(fsm, event) and it is saved in the onentry property of the
-   *       state object.  (This function is called after the Transition's action
-   *       function and after the previous state's onexit function.)
+   *       A function which is called upon entry to the state.  Its signature
+   *       is function(fsm, event) and it is saved in the onentry property of
+   *       the state object.  (This function is called after the Transition's
+   *       action function and after the previous state's onexit function.)
    *
    *       In the onentry function:
    *
@@ -64,9 +64,9 @@ qx.Class.define("qx.util.fsm.State",
    *
    *     onexit -
    *       A function which is called upon exit from the state.  Its signature
-   *       is function(fsm, event) and it is saved in the onexit property of the
-   *       state object.  (This function is called after the Transition's action
-   *       function and before the next state's onentry function.)
+   *       is function(fsm, event) and it is saved in the onexit property of
+   *       the state object.  (This function is called after the Transition's
+   *       action function and before the next state's onentry function.)
    *
    *       In the onexit function:
    *
@@ -126,8 +126,8 @@ qx.Class.define("qx.util.fsm.State",
    *
    *     events (required) -
    *       A description to the finite state machine of how to handle a
-   *       particular event, optionally associated with a specific target object
-   *       on which the event was dispatched.  This should be an object
+   *       particular event, optionally associated with a specific target
+   *       object on which the event was dispatched.  This should be an object
    *       containing one property for each event which is either handled or
    *       blocked.  The property name should be the event name.  The property
    *       value should be one of:
@@ -202,7 +202,8 @@ qx.Class.define("qx.util.fsm.State",
           this.setUserData(field, stateInfo[field]);
 
           // Log it in case it was a typo and they intended a built-in field
-          this.debug("State " + stateName + ": " + "Adding user-provided field to state: " + field);
+          this.debug("State " + stateName + ": " +
+                     "Adding user-provided field to state: " + field);
 
           break;
       }
@@ -263,17 +264,26 @@ qx.Class.define("qx.util.fsm.State",
      *     </pre>
      *
      * @type static
-     * @param actionType {String} The name of the action being validated (for debug messages)
-     * @param propValue {Object} The property value which is being validated
-     * @param propData {var} Not used
+     *
+     * @param actionType {String}
+     *   The name of the action being validated (for debug messages)
+     *
+     * @param propValue {Object}
+     *   The property value which is being validated
+     *
+     * @param propData {var}
+     *   Not used
+     *
      * @return {var} TODOC
+     *
      * @throws TODOC
      */
     _commonCheckAutoActions : function(actionType, propValue, propData)
     {
       // Validate that we received an object property value
       if (typeof (propValue) != "object") {
-        throw new Error("Invalid " + actionType + " value: " + typeof (propValue));
+        throw new Error("Invalid " + actionType + " value: " +
+                        typeof (propValue));
       }
 
       // We'll create a function to do the requested actions.  Initialize the
@@ -304,7 +314,9 @@ qx.Class.define("qx.util.fsm.State",
 
         // The function request value should be an object
         if (!functionRequest instanceof Array) {
-          throw new Error("Invalid function request type: " + "expected array, found " + typeof (functionRequest));
+          throw new Error("Invalid function request type: " +
+                          "expected array, found " +
+                          typeof (functionRequest));
         }
 
         // For each function request...
@@ -320,7 +332,9 @@ qx.Class.define("qx.util.fsm.State",
           //   "groups"  : [ "group1", "group2" ],
           // }
           if (typeof (objectAndGroupList) != "object") {
-            throw new Error("Invalid function request parameter type: " + "expected object, found " + typeof (functionRequest[param]));
+            throw new Error("Invalid function request parameter type: " +
+                            "expected object, found " +
+                            typeof (functionRequest[param]));
           }
 
           // Retrieve the parameter list
@@ -336,12 +350,14 @@ qx.Class.define("qx.util.fsm.State",
           {
             // otherwise, ensure we got an array
             if (!params instanceof Array) {
-              throw new Error("Invalid function parameters: " + "expected array, found " + typeof (params));
+              throw new Error("Invalid function parameters: " +
+                              "expected array, found " +
+                              typeof (params));
             }
           }
 
-          // Create the function to call on each object.  The object on which the
-          // function is called will be prepended later.
+          // Create the function to call on each object.  The object on which
+          // the function is called will be prepended later.
           funcFragment = f + "(";
 
           // For each parameter...
@@ -385,14 +401,16 @@ qx.Class.define("qx.util.fsm.State",
           }
           else if (!a instanceof Array)
           {
-            throw new Error("Invalid 'objects' list: expected array, got " + typeof (a));
+            throw new Error("Invalid 'objects' list: expected array, got " +
+                            typeof (a));
           }
 
           for (var j=0; j<a.length; j++)
           {
             // Ensure we got a string
             if (typeof (a[j]) != "string") {
-              throw new Error("Invalid friendly name in 'objects' list: " + a[j]);
+              throw new Error("Invalid friendly name in 'objects' list: " +
+                              a[j]);
             }
 
             func += " fsm.getObject('" + a[j] + "')." + funcFragment + ";";
@@ -406,14 +424,23 @@ qx.Class.define("qx.util.fsm.State",
           if (g)
           {
             // Yup.  Ensure it's an array.
-            if (!g instanceof Array) {
-              throw new Error("Invalid 'groups' list: expected array, got " + typeof (g));
+            if (!g instanceof Array)
+            {
+              throw new Error("Invalid 'groups' list: expected array, got " +
+                              typeof (g));
             }
 
-            for (var groupName in g)
+            for (j=0; j<g.length; j++)
             {
               // Arrange to call the function on each object in each group
-              func += "  var groupObjects = " + "    fsm.getGroupObjects('" + g[groupName] + "');" + "  for (var i = 0; i < groupObjects.length; i++)" + "  {" + "    var objName = groupObjects[i];" + "    fsm.getObject(objName)." + funcFragment + ";" + "  }";
+              func +=
+                "  var groupObjects = " +
+                "    fsm.getGroupObjects('" + g[j] + "');" +
+                "  for (var i = 0; i < groupObjects.length; i++)" +
+                "  {" +
+                "    var objName = groupObjects[i];" +
+                "    fsm.getObject(objName)." + funcFragment + ";" +
+                "  }";
             }
           }
         }
@@ -422,11 +449,9 @@ qx.Class.define("qx.util.fsm.State",
       // Terminate the try block for function invocations
       func += "}" + "catch(e)" + "{" + "  fsm.debug(e);" + "}";
 
-      //  o = new qx.core.Object();
-      //  o.debug("Dynamically created " + actionType + "(fsm) { " + func + " }");
-      // We've now built the entire body of a function that implements calls to
-      // each of the requested automatic actions.  Create and return the function,
-      // which will become the property value.
+      // We've now built the entire body of a function that implements calls
+      // to each of the requested automatic actions.  Create and return the
+      // function, which will become the property value.
       return new Function("fsm", func);
     }
   },
@@ -448,8 +473,9 @@ qx.Class.define("qx.util.fsm.State",
     */
 
     /**
-     * The name of this state.  This name may be used as a Transition's nextState
-     * value, or an explicit next state in the 'events' handling list in a State.
+     * The name of this state.  This name may be used as a Transition's
+     * nextState value, or an explicit next state in the 'events' handling
+     * list in a State.
      */
     name :
     {
@@ -460,9 +486,9 @@ qx.Class.define("qx.util.fsm.State",
 
     /**
      * The onentry function for this state.  This is documented in the
-     * constructor, and is typically provided through the constructor's stateInfo
-     * object, but it is also possible (but highly NOT recommended) to change this
-     * dynamically.
+     * constructor, and is typically provided through the constructor's
+     * stateInfo object, but it is also possible (but highly NOT recommended)
+     * to change this dynamically.
      */
     onentry :
     {
@@ -472,10 +498,10 @@ qx.Class.define("qx.util.fsm.State",
 
 
     /**
-     * The onexit function for this state.  This is documented in the constructor,
-     * and is typically provided through the constructor's stateInfo object, but
-     * it is also possible (but highly NOT recommended) to change this
-     * dynamically.
+     * The onexit function for this state.  This is documented in the
+     * constructor, and is typically provided through the constructor's
+     * stateInfo object, but it is also possible (but highly NOT recommended)
+     * to change this dynamically.
      */
     onexit :
     {
@@ -518,10 +544,11 @@ qx.Class.define("qx.util.fsm.State",
 
 
     /**
-     * Automatic actions to take after return from the state's onentry function.
+     * Automatic actions to take after return from the state's onentry
+     * function.
      *
-     * The value passed to setAutoActionsAfterOnentry() should like something akin
-     * to:
+     * The value passed to setAutoActionsAfterOnentry() should like something
+     * akin to:
      *
      *     "autoActionsAfterOnentry" :
      *     {
@@ -553,8 +580,8 @@ qx.Class.define("qx.util.fsm.State",
     /**
      * Automatic actions to take prior to calling the state's onexit function.
      *
-     * The value passed to setAutoActionsBeforeOnexit() should like something akin
-     * to:
+     * The value passed to setAutoActionsBeforeOnexit() should like something
+     * akin to:
      *
      *     "autoActionsBeforeOnexit" :
      *     {
@@ -584,10 +611,11 @@ qx.Class.define("qx.util.fsm.State",
 
 
     /**
-     * Automatic actions to take after returning from the state's onexit function.
+     * Automatic actions to take after returning from the state's onexit
+     * function.
      *
-     * The value passed to setAutoActionsAfterOnexit() should like something akin
-     * to:
+     * The value passed to setAutoActionsAfterOnexit() should like something
+     * akin to:
      *
      *     "autoActionsBeforeOnexit" :
      *     {
@@ -617,10 +645,10 @@ qx.Class.define("qx.util.fsm.State",
 
 
     /**
-     * The object representing handled and blocked events for this state.  This is
-     * documented in the constructor, and is typically provided through the
-     * constructor's stateInfo object, but it is also possible (but highly NOT
-     * recommended) to change this dynamically.
+     * The object representing handled and blocked events for this state.
+     * This is documented in the constructor, and is typically provided
+     * through the constructor's stateInfo object, but it is also possible
+     * (but highly NOT recommended) to change this dynamically.
      */
     events : { _legacy: true }
   },
@@ -654,7 +682,8 @@ qx.Class.define("qx.util.fsm.State",
     _checkName : function(propValue, propData)
     {
       // Ensure that we got a valid state name
-      if (typeof (propValue) != "string" || propValue.length < 1) {
+      if (typeof (propValue) != "string" || propValue.length < 1)
+      {
         throw new Error("Invalid state name");
       }
 
@@ -753,23 +782,41 @@ qx.Class.define("qx.util.fsm.State",
       {
         var action = propValue[e];
 
-        if (typeof (action) == "number" && action != qx.util.fsm.FiniteStateMachine.EventHandling.PREDICATE && action != qx.util.fsm.FiniteStateMachine.EventHandling.BLOCKED) {
-          throw new Error("Invalid numeric value in events object: " + e + ": " + action);
+        if (typeof (action) == "number" &&
+            action != qx.util.fsm.FiniteStateMachine.EventHandling.PREDICATE &&
+            action != qx.util.fsm.FiniteStateMachine.EventHandling.BLOCKED)
+        {
+          throw new Error("Invalid numeric value in events object: " +
+                          e + ": " + action);
         }
         else if (typeof (action) == "object")
         {
           for (action_e in action)
           {
-            if (typeof (action[action_e]) == "number" && action[action_e] != qx.util.fsm.FiniteStateMachine.EventHandling.PREDICATE && action[action_e] != qx.util.fsm.FiniteStateMachine.EventHandling.BLOCKED) {
-              throw new Error("Invalid numeric value in events object " + "(" + e + "): " + action_e + ": " + action[action_e]);
-            } else if (typeof (action[action_e]) != "string" && typeof (action[action_e]) != "number") {
-              throw new Error("Invalid value in events object " + "(" + e + "): " + action_e + ": " + action[action_e]);
+            if (typeof (action[action_e]) == "number" &&
+                action[action_e] !=
+                  qx.util.fsm.FiniteStateMachine.EventHandling.PREDICATE &&
+                action[action_e] !=
+                  qx.util.fsm.FiniteStateMachine.EventHandling.BLOCKED)
+            {
+              throw new Error("Invalid numeric value in events object " +
+                              "(" + e + "): " +
+                              action_e + ": " +
+                              action[action_e]);
+            }
+            else if (typeof (action[action_e]) != "string" &&
+                     typeof (action[action_e]) != "number")
+            {
+              throw new Error("Invalid value in events object " +
+                              "(" + e + "): " +
+                              action_e + ": " + action[action_e]);
             }
           }
         }
         else if (typeof (action) != "string" && typeof (action) != "number")
         {
-          throw new Error("Invalid value in events object: " + e + ": " + propValue[e]);
+          throw new Error("Invalid value in events object: " +
+                          e + ": " + propValue[e]);
         }
       }
 
@@ -787,7 +834,10 @@ qx.Class.define("qx.util.fsm.State",
      * @return {var} TODOC
      */
     _checkAutoActionsBeforeOnentry : function(propValue, propData) {
-      return qx.util.fsm.State._commonCheckAutoActions("autoActionsBeforeOnentry", propValue, propData);
+      return qx.util.fsm.State._commonCheckAutoActions(
+        "autoActionsBeforeOnentry",
+        propValue,
+        propData);
     },
 
 
@@ -800,7 +850,10 @@ qx.Class.define("qx.util.fsm.State",
      * @return {var} TODOC
      */
     _checkAutoActionsAfterOnentry : function(propValue, propData) {
-      return qx.util.fsm.State._commonCheckAutoActions("autoActionsAfterOnentry", propValue, propData);
+      return qx.util.fsm.State._commonCheckAutoActions(
+        "autoActionsAfterOnentry",
+        propValue,
+        propData);
     },
 
 
@@ -813,7 +866,10 @@ qx.Class.define("qx.util.fsm.State",
      * @return {var} TODOC
      */
     _checkAutoActionsBeforeOnexit : function(propValue, propData) {
-      return qx.util.fsm.State._commonCheckAutoActions("autoActionsBeforeOnexit", propValue, propData);
+      return qx.util.fsm.State._commonCheckAutoActions(
+        "autoActionsBeforeOnexit",
+        propValue,
+        propData);
     },
 
 
@@ -826,7 +882,10 @@ qx.Class.define("qx.util.fsm.State",
      * @return {var} TODOC
      */
     _checkAutoActionsAfterOnexit : function(propValue, propData) {
-      return qx.util.fsm.State._commonCheckAutoActions("autoActionsAfterOnexit", propValue, propData);
+      return qx.util.fsm.State._commonCheckAutoActions(
+        "autoActionsAfterOnexit",
+        propValue,
+        propData);
     },
 
 
@@ -842,16 +901,21 @@ qx.Class.define("qx.util.fsm.State",
      * Add a transition to a state
      *
      * @type member
-     * @param trans {qx.util.fsm.Transition} An object of class qx.util.fsm.Transition representing a
-     *     transition which is to be a part of this state.
+     *
+     * @param trans {qx.util.fsm.Transition}
+     *   An object of class qx.util.fsm.Transition representing a transition
+     *   which is to be a part of this state. 
+     *
      * @return {void}
+     *
      * @throws TODOC
      */
     addTransition : function(trans)
     {
       // Ensure that we got valid transition info
       if (!trans instanceof qx.util.fsm.Transition) {
-        throw new Error("Invalid transition: not an instance of " + "qx.util.fsm.Transition");
+        throw new Error("Invalid transition: not an instance of " +
+                        "qx.util.fsm.Transition");
       }
 
       // Add the new transition object to the state
