@@ -108,8 +108,12 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
     {
       function handleOpenCloseClick(table, index, evt)
       {
+        // Determine the column containing the tree
+        var treeCol = table.getTableModel().getTreeColumn();
+
         // Get the node to which this event applies
-        var node = table.getTableModel().getValue(table.getFocusedColumn(), table.getFocusedRow());
+        var node =
+          table.getTableModel().getValue(treeCol, table.getFocusedRow());
 
         if (!node) {
           return false;
@@ -123,7 +127,6 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
           var columnPositions = tcm._getColToXPosMap();
 
           // Calculate the position of the beginning of the tree column
-          var treeCol = table.getTableModel().getTreeColumn();
           var left = qx.html.Location.getClientBoxLeft(table.getElement());
 
           for (i=0; i<columnPositions[treeCol].visX; i++) {
