@@ -210,15 +210,15 @@ qx.Class.define("qx.ui.table.AbstractResizeBehavior",
       {
         // provide width without scrollbar space; no scrollbar space available
         return {
-          width      : width - 20,
+          width      : width - qx.ui.core.Widget.SCROLLBAR_SIZE,
           extraWidth : 0
         };
       }
 
       // provide width without scrollbar space; scrollbar space is available
       return {
-        width      : width - 20,
-        extraWidth : 20
+        width      : width - qx.ui.core.Widget.SCROLLBAR_SIZE,
+        extraWidth : qx.ui.core.Widget.SCROLLBAR_SIZE
       };
     }
   },
