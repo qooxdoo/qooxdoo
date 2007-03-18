@@ -60,6 +60,12 @@ qx.Class.define("qx.ui.core.Widget",
   construct : function()
   {
     this.base(arguments, true);
+    
+    // Initialize scrollbar size calculation
+    var self = this.self(arguments);
+    if (self.SCROLLBAR_SIZE === null) {
+      self.__initOverflow();
+    }
 
     // ************************************************************************
     //   HTML MAPPING DATA STRUCTURES
@@ -200,7 +206,7 @@ qx.Class.define("qx.ui.core.Widget",
   statics :
   {
     // Will be calculated later (TODO: Move to qx.html?)
-    SCROLLBAR_SIZE : 16,
+    SCROLLBAR_SIZE : null,
 
     /* ************************************************************************
        Class data, properties and methods
@@ -1159,12 +1165,8 @@ qx.Class.define("qx.ui.core.Widget",
      * @type static
      * @return {void}
      */
-    initOverflow : function()
+    __initOverflow : function()
     {
-      if (qx.ui.core.Widget.initOverflowDone) {
-        return;
-      }
-
       var t = document.createElement("div");
       var s = t.style;
 
@@ -1175,13 +1177,9 @@ qx.Class.define("qx.ui.core.Widget",
 
       var c = qx.html.Dimension.getScrollBarSizeRight(t);
 
-      if (c) {
-        qx.ui.core.Widget.SCROLLBAR_SIZE = c;
-      }
+      qx.ui.core.Widget.SCROLLBAR_SIZE = c ? c : 16;
 
       document.body.removeChild(t);
-
-      qx.ui.core.Widget.initOverflowDone = true;
     }
 
   },
@@ -4012,7 +4010,6 @@ qx.Class.define("qx.ui.core.Widget",
       {
         case "scroll":
         case "scrollY":
-          qx.ui.core.Widget.initOverflow();
           fw += qx.ui.core.Widget.SCROLLBAR_SIZE;
           break;
 
@@ -4040,7 +4037,6 @@ qx.Class.define("qx.ui.core.Widget",
       {
         case "scroll":
         case "scrollX":
-          qx.ui.core.Widget.initOverflow();
           fh += qx.ui.core.Widget.SCROLLBAR_SIZE;
           break;
 
