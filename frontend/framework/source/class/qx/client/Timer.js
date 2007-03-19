@@ -23,7 +23,12 @@
 ************************************************************************ */
 
 /**
- * Global timer support. Simplifies javascript intervals for objects.
+ * Global timer support.
+ *
+ * This class can be used to periodically fire an event. This event can be
+ * used to simulate e.g. a background task. The static method
+ * {@link once} is a special case. It will call a function deferred after a
+ * given timeout.
  */
 qx.Class.define("qx.client.Timer",
 {
@@ -38,6 +43,9 @@ qx.Class.define("qx.client.Timer",
   *****************************************************************************
   */
 
+  /**
+   * @param interval {Number} initial interval in milliseconds of the timer.
+   */
   construct : function(interval)
   {
     this.base(arguments);
@@ -61,6 +69,7 @@ qx.Class.define("qx.client.Timer",
   */
 
   events : {
+    /** This event if fired each time the interval time has elapsed */
     "interval" : "qx.event.type.Event"
   },
 
@@ -77,13 +86,12 @@ qx.Class.define("qx.client.Timer",
   statics :
   {
     /**
-     * TODOC
+     * Start a function after a given timeout.
      *
      * @type static
-     * @param func {Function} TODOC
-     * @param obj {Object} TODOC
-     * @param timeout {Number} TODOC
-     * @return {void}
+     * @param func {Function} Function to call
+     * @param obj {Object} context (this), the function is called with
+     * @param timeout {Number} Number of milliseconds to wait before the function is called.
      */
     once : function(func, obj, timeout)
     {
@@ -116,12 +124,31 @@ qx.Class.define("qx.client.Timer",
 
   properties :
   {
+    /**
+     * Time in milliseconds between two callback calls.
+     * This property can be set to modify the interval of
+     * a running timer.
+     */
     interval :
     {
       type         : "number",
       defaultValue : 1000,
       _legacy      : true
+    },
+
+
+    /**
+     * With the enabled property the Timer can be started and suspended.
+     * Setting it to "true" is equivalent to {@link #start}, setting it
+     * to "false" is equivalent to {@link #stop}.
+     */
+    enabled :
+    {
+      _legacy      : true,
+      type         : "boolean",
+      getAlias     : "isEnabled"
     }
+
   },
 
 
@@ -147,13 +174,28 @@ qx.Class.define("qx.client.Timer",
     */
 
     /**
-     * TODOC
+     * Apply the interval of the timer.
      *
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
+     */
+    _modifyEnabled : function(propValue, propOldValue, propData)
+    {
+      if (this.getEnabled()) {
+        this.restart();
+      }
+    },
+
+
+    /**
+     * Apply the enabled state of the timer.
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
      */
     _modifyEnabled : function(propValue, propOldValue, propData)
     {
@@ -180,10 +222,9 @@ qx.Class.define("qx.client.Timer",
     */
 
     /**
-     * TODOC
+     * Start the timer
      *
      * @type member
-     * @return {void}
      */
     start : function() {
       this.setEnabled(true);
@@ -191,11 +232,10 @@ qx.Class.define("qx.client.Timer",
 
 
     /**
-     * TODOC
+     * Start the timer with a giben interval
      *
      * @type member
-     * @param interval {var} TODOC
-     * @return {void}
+     * @param interval {Integer} Time in milliseconds between two callback calls.
      */
     startWith : function(interval)
     {
@@ -205,10 +245,9 @@ qx.Class.define("qx.client.Timer",
 
 
     /**
-     * TODOC
+     * Stop the timer.
      *
      * @type member
-     * @return {void}
      */
     stop : function() {
       this.setEnabled(false);
@@ -216,10 +255,10 @@ qx.Class.define("qx.client.Timer",
 
 
     /**
-     * TODOC
+     * Restart the timer.
+     * This makes it possible to change the interval of a running timer.
      *
      * @type member
-     * @return {void}
      */
     restart : function()
     {
@@ -229,11 +268,10 @@ qx.Class.define("qx.client.Timer",
 
 
     /**
-     * TODOC
+     * Restart the timer. with a given interval.
      *
      * @type member
-     * @param interval {var} TODOC
-     * @return {void}
+     * @param interval {Integer} Time in milliseconds between two callback calls.
      */
     restartWith : function(interval)
     {
@@ -251,10 +289,9 @@ qx.Class.define("qx.client.Timer",
     */
 
     /**
-     * TODOC
+     * timer callback
      *
      * @type member
-     * @return {void}
      */
     _oninterval : function()
     {
