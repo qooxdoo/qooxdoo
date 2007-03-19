@@ -70,6 +70,7 @@ def getparser():
     parser.add_option("--print-modules", action="store_true", dest="printModules", default=False, help="Output known modules. (Debugging)")
     parser.add_option("--print-files-without-modules", action="store_true", dest="printFilesWithoutModules", default=False, help="Output files which have no module connection. (Debugging)")
     parser.add_option("--print-includes", action="store_true", dest="printIncludes", default=False, help="Output sorted file list. (Debugging)")
+    parser.add_option("--print-includes-file", dest="printIncludesFile", default=False, help="Save sorted include list to a file. (Debugging)")
     parser.add_option("--print-dependencies", action="store_true", dest="printDependencies", default=False, help="Output dependencies of files. (Debugging)")
     parser.add_option("--dependencies-graphviz-file", dest="depDotFile", metavar="FILENAME", help="Save dependencies as graphviz dot file. (Debugging)")
 
@@ -406,6 +407,14 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
         print "  * The files will be included in this order:"
         for fileId in sortedIncludeList:
             print "    - %s" % fileId
+
+
+    if options.printIncludesFile:
+        includeFile = open(options.printIncludesFile, "w")
+        for fileId in sortedIncludeList:
+            includeFile.write(fileId + "\n")
+        includeFile.close()
+
 
     if options.printDependencies:
         print
@@ -840,7 +849,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
             else:
                 sys.stdout.write(".")
                 sys.stdout.flush()
-            
+
             obfuscator.patch(loader.getTree(fileDb, fileId, options), identifiers, options.verbose)
 
         if not options.verbose:

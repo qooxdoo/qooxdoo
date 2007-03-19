@@ -93,10 +93,49 @@ exec-script-build:
 	  --compiled-script-file $(COMPUTED_BUILD_SCRIPT_NAME) \
 	  $(APPLICATION_ADDITIONAL_SCRIPT_BUILD_OPTIONS)
 
+exec-script-split:
+	# generate base profile
+	$(SILENCE) $(CMD_GENERATOR) \
+	  $(COMPUTED_CLASS_PATH) \
+    $(COMPUTED_CLASS_URI) \
+	  $(COMPUTED_BUILD_RESOURCE) \
+	  $(COMPUTED_BUILD_SETTING) \
+	  $(COMPUTED_BUILD_VARIANT) \
+	  $(COMPUTED_BUILD_INCLUDE) \
+	  $(COMPUTED_BUILD_OPTIONS) \
+	  --package-id qx \
+	  $(APPLICATION_ADDITIONAL_SCRIPT_BUILD_OPTIONS) \
+	  --export-to-file _qx.dat
+	
+	# generate include file list
+	$(SILENCE) $(CMD_GENERATOR) \
+	  $(COMPUTED_CLASS_PATH) \
+	  $(COMPUTED_BUILD_INCLUDE) \
+	  --package-id qx \
+	  $(APPLICATION_ADDITIONAL_SCRIPT_BUILD_OPTIONS) \
+	  --print-includes-file includes.dat
 
-
-
-
+  # combine base profile and include list
+	@$(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/make/create-profile.py _qx.dat includes.dat > qx.dat
+	@rm _qx.dat includes.dat
+	@mv qx.dat build/script
+	
+	# generate qx.js
+	$(SILENCE) $(CMD_GENERATOR) --from-file build/script/qx.dat
+  
+  # generate application.js
+	$(SILENCE) $(CMD_GENERATOR) \
+	  $(COMPUTED_CLASS_PATH) \
+	  $(COMPUTED_BUILD_RESOURCE) \
+	  $(COMPUTED_BUILD_SETTING) \
+	  $(COMPUTED_BUILD_VARIANT) \
+	  $(COMPUTED_BUILD_INCLUDE) \
+	  $(COMPUTED_BUILD_OPTIONS) \
+	  --exclude 'qx.*' \
+	  --package-id app \
+	  --generate-compiled-script \
+	  --compiled-script-file $(COMPUTED_BUILD_SCRIPT_NAME) \
+	  $(APPLICATION_ADDITIONAL_SCRIPT_BUILD_OPTIONS)	
 
 
 ifeq ($(APPLICATION_OPTIMIZE_BROWSER),true)
