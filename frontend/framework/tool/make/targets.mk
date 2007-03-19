@@ -31,6 +31,7 @@
 
 source: info-source exec-localization exec-translation exec-script-source
 build: info-build exec-localization exec-translation exec-script-build exec-script-build-opt exec-files-build
+exclude-qooxdoo: info-build exec-localization exec-translation exec-script-split exec-files-build
 api: info-api exec-localization exec-translation exec-api-build exec-api-data exec-files-api
 all: source build api
 
