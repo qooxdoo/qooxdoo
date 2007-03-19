@@ -112,6 +112,9 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
     */
 
     /**
+     * Low level handler for "keyup" and "keydown" events
+     *
+     * @param domEvent {Event} DOM event object
      * @signature function(domEvent)
      */
     _onkeyupdown : qx.core.Variant.select("qx.client",
@@ -214,7 +217,11 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
       }
     }),
 
+
     /**
+     * Low level key press handler
+     *
+     * @param domEvent {Event} DOM event object
      * @signature function(domEvent)
      */
     _onkeypress : qx.core.Variant.select("qx.client",
