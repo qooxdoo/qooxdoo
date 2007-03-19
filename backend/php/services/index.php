@@ -381,7 +381,9 @@ $className = "class_" . $serviceComponents[count($serviceComponents) - 1];
 if (! class_exists($className))
 {
     $error->SetError(JsonRpcError_ClassNotFound,
-                     "Service class `$className` not found.");
+                     "Service class `" .
+                     $serviceComponents[count($serviceComponents) - 1] .
+                     "` not found.");
     $error->SendAndExit();
     /* never gets here */
 }
@@ -525,8 +527,10 @@ $method = "method_" . $jsonInput->method;
 if (! method_exists($service, $method))
 {
     $error->SetError(JsonRpcError_MethodNotFound,
-                     "Method `$method` not found " .
-                     "in service class `$className`.");
+                     "Method `" . $jsonInput->method . "` not found " .
+                     "in service class `" .
+                     $serviceComponents[count($serviceComponents) - 1] .
+                     "`.");
     $error->SendAndExit();
     /* never gets here */
 }
