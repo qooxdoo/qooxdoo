@@ -15,6 +15,24 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
+     * Fabian Jakobs (fjakobs)
+
+
+   This class contains code based on the following work:
+
+     YUI Browser History Manager:
+       http://developer.yahoo.com/yui/history
+       Version 2.2.0
+
+     Copyright:
+       (c) 2007, Yahoo! Inc.
+
+     License:
+       BSD: http://developer.yahoo.com/yui/license.txt
+
+     Authors:
+       * Julien Lecomte
+
 
 ************************************************************************ */
 
@@ -183,6 +201,24 @@ qx.Class.define("qx.client.History",
     {
       return this._state;
     },
+
+
+    /**
+     * Navigates back in the browser history.
+     * Simulates a back button click.
+     */
+     navigateBack : function() {
+       qx.client.Timer.once(function() {history.back();}, 0);
+     },
+
+
+    /**
+     * Navigates forward in the browser history.
+     * Simulates a forward button click.
+     */
+     navigateForward : function() {
+       qx.client.Timer.once(function() {history.forward();}, 0);
+     },
 
 
     /**
