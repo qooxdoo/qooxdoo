@@ -222,6 +222,20 @@ qx.Class.define("qx.client.History",
 
 
     /**
+     * Apply the interval of the timer.
+     *
+     * @type member
+     * @param newInterval {Integer} new timeout interval
+     */
+    _modifyTimeoutInterval : function(newInterval)
+    {
+      this._timer.setInterval(newInterval);
+
+      return true;
+    },
+
+
+    /**
      * called on changes to the history using the browser buttons
      *
      * @param state {String} new state of the history
