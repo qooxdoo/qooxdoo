@@ -131,21 +131,8 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
   members :
   {
     // overridden
-    setEditable : function(editable)
-    {
-      throw new Error("The 'Tree' column can not be made editable. " +
-                      "If other columns are to be editable, set them so " +
-                      "with setColumnEditable()");
-    },
-
-    // overridden
     setColumnEditable : function(columnIndex, editable)
     {
-      if (columnIndex == this._treeColumn)
-      {
-        throw new Error("Tree columns can not be made editable");
-      }
-
       this.base(arguments, columnIndex, editable);
     },
 
@@ -247,7 +234,8 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     {
       if (columnIndex == this._treeColumn)
       {
-        throw new Error("Can't use setValue() to set tree column data.");
+        // Ignore requests to ser the tree column data using this method
+        return;
       }
 
       // convert from rowArr to nodeArr, and get the requested node
