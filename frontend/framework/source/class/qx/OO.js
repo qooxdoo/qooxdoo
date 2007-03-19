@@ -120,10 +120,8 @@ if (qx.core.Variant.isSet("qx.compatibility", "on"))
        *
        * @deprecated Please switch to new qx.Class.define ASAP. This will be removed in qooxdoo 0.7
        * @type static
-       * @name isAvailable
-       * @access public
-       * @param vClassName {var} TODOC
-       * @return {var} TODOC
+       * @param vClassName {String} Name of the class to look for
+       * @return {Boolean} Whether the class is available
        */
       isAvailable : function(vClassName) {
         return qx.OO.classes[vClassName] != null;
