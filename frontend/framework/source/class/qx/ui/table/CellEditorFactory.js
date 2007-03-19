@@ -28,7 +28,7 @@
  */
 qx.Class.define("qx.ui.table.CellEditorFactory",
 {
-  extend : qx.core.Object,
+  extend : qx.core.Target,
 
 
 
