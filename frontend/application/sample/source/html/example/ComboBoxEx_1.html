@@ -8,7 +8,7 @@
   <![endif]-->
   <script type="text/javascript" src="../../script/sample.js"></script>
   <script type="text/javascript">
-  
+
 function getTestData() {
 	var testData = [
 		[ '1', 'One' ],
@@ -38,15 +38,25 @@ function getTestData() {
 	return testData;
 }
 
-qx.OO.defineClass('Box', qx.ui.layout.BoxLayout, function() {
-	qx.ui.layout.BoxLayout.apply(this, arguments);
-	this.auto();
+qx.Class.define('Box', {
+  extend: qx.ui.layout.BoxLayout,
+
+  construct: function() {
+		qx.ui.layout.BoxLayout.apply(this, arguments);
+		this.auto();
+	}
 });
 
-qx.OO.defineClass('GroupBox', qx.ui.groupbox.GroupBox, function() {
-	qx.ui.groupbox.GroupBox.apply(this, arguments);
-	this.auto();
+
+qx.Class.define('GroupBox', {
+	extend: qx.ui.groupbox.GroupBox,
+
+	construct: function() {
+		qx.ui.groupbox.GroupBox.apply(this, arguments);
+		this.auto();
+	}
 });
+
 
 qx.core.Init.getInstance().defineMain(function() {
 	// Shortcuts
@@ -55,13 +65,13 @@ qx.core.Init.getInstance().defineMain(function() {
 	var testData = getTestData();
 
 	//###1st row: combo
-	
+
 	combo = new form.ComboBoxEx;
 	var butSize = new form.Button('Size text field to content');
 	butSize.addEventListener('execute', function() {
 		combo.sizeTextFieldToContent();
 	});
-	
+
 	var boxCombo2 = new Box;
 	with (boxCombo2) {
 		setSpacing(10);
@@ -76,27 +86,27 @@ qx.core.Init.getInstance().defineMain(function() {
 	cEd.addEventListener('changeChecked', function() {
 		combo.setEditable(cEd.isChecked());
 	});
-	
+
 	var cEnsure = new form.CheckBox('Ensure something selected');
 	cEnsure.setChecked(combo.getEnsureSomethingSelected());
 	cEnsure.addEventListener('changeChecked', function() {
 		combo.setEnsureSomethingSelected(cEnsure.isChecked());
 	});
-	
+
 	var cAllowSearch = new form.CheckBox('Allow searching');
 	cAllowSearch.setChecked(combo.getAllowSearch());
 	cAllowSearch.addEventListener('changeChecked', function() {
 		combo.setAllowSearch(cAllowSearch.isChecked());
 	});
-	
+
 	var cIdCol = new form.CheckBox('ID column visible');
 	cIdCol.setChecked(combo.isIdColumnVisible());
 	cIdCol.addEventListener('changeChecked', function() {
 		combo.setIdColumnVisible(cIdCol.isChecked());
 	});
-	
+
 	var fieldItems = new form.Spinner(0, 0, testData.length);
-	fieldItems._manager.addEventListener('changeValue', function() {
+	fieldItems.getManager().addEventListener('changeValue', function() {
 		var sel = [], count = fieldItems.getValue();
 		for (var i = 0; i < count; i++) {
 			sel.push(testData[i]);
@@ -104,7 +114,7 @@ qx.core.Init.getInstance().defineMain(function() {
 		combo.setSelection(sel);
 	});
 	fieldItems.setValue(15);
-	
+
 	var boxProp2 = new Box;
 	with (boxProp2) {
 		setSpacing(10);
@@ -120,7 +130,7 @@ qx.core.Init.getInstance().defineMain(function() {
     rb2.setChecked(true);
 	var rb3 = new form.RadioButton('3', '3');
 	var rb4 = new form.RadioButton('4', '4');
-	
+
 	var fieldHeaders = new qx.manager.selection.RadioManager('headers', [ rb1, rb2, rb3, rb4 ]);
 	fieldHeaders.addEventListener("changeSelected", function(e) {
 		var headers = [], count = Number(e.getData().getValue());
@@ -129,7 +139,7 @@ qx.core.Init.getInstance().defineMain(function() {
 		}
 		combo.setColumnHeaders(headers);
     });
-    
+
     var butChangeHeaders = new form.Button('Add * to headers');
     // This tests changing the headers, but not the number of columns
     butChangeHeaders.addEventListener('execute', function() {
@@ -139,7 +149,7 @@ qx.core.Init.getInstance().defineMain(function() {
 		}
 		combo.setColumnHeaders(headers);
     });
-    
+
 	var boxHeaders2 = new Box;
 	with (boxHeaders2) {
 		setSpacing(10);
@@ -147,17 +157,17 @@ qx.core.Init.getInstance().defineMain(function() {
 	}
 	var boxHeaders = new GroupBox('Test headers');
 	boxHeaders.add(boxHeaders2);
-	
+
 	var fieldMaxRows = new form.Spinner(2, combo.getMaxVisibleRows(), 20);
-	fieldMaxRows._manager.addEventListener('changeValue', function() {
+	fieldMaxRows.getManager().addEventListener('changeValue', function() {
 		combo.setMaxVisibleRows(fieldMaxRows.getValue());
 	});
 	var boxMaxRows = new GroupBox('Max. number of visible rows');
 	boxMaxRows.add(fieldMaxRows);
-	
+
 	var boxRow3 = new Box;
 	boxRow3.add(boxHeaders, boxMaxRows);
-	
+
 	//###Test of showOnTextField
 	var rbDesc = new form.RadioButton('Description', 'description');
 	rbDesc.setChecked(true);
@@ -166,7 +176,7 @@ qx.core.Init.getInstance().defineMain(function() {
 	fieldShowOn.addEventListener("changeSelected", function(e) {
 		combo.setShowOnTextField(e.getData().getValue());
     });
-	
+
 	var fieldSeparator = new form.TextField;
 	fieldSeparator.setValue(combo.getIdDescriptionSeparator());
 	fieldSeparator.setWidth(50);
@@ -180,7 +190,7 @@ qx.core.Init.getInstance().defineMain(function() {
 	}
 	var boxShowOn = new GroupBox('Test showOnTextField property');
 	boxShowOn.add(boxShowOn2);
-	
+
 	//###Test of get/setValue
 	var fieldValue = new form.TextField;
 	var butSetValue = new form.Button('Set');
@@ -198,7 +208,7 @@ qx.core.Init.getInstance().defineMain(function() {
 	}
 	var boxVal = new GroupBox('Test value property');
 	boxVal.add(boxVal2);
-	
+
 	//###Main box
 	var vbox = new Box('vertical');
 	with (vbox) {
