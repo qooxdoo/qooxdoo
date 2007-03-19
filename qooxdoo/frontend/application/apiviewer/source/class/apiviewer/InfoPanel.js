@@ -1,8 +1,35 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Til Schneider (til132)
+     * Sebastian Werner (wpbasti)
+     * Andreas Ecker (ecker)
+     * Fabian Jakobs (fjakobs)
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#module(apiviewer)
+
+************************************************************************ */
 
 qx.Class.define("apiviewer.InfoPanel", {
 
   type : "abstract",
-  
+
   extend: qx.core.Object,
 
   /**
@@ -14,7 +41,7 @@ qx.Class.define("apiviewer.InfoPanel", {
    * @param listName {String} the name of the node list in the class doc node where
    *          the items shown by this info panel are stored.
    * @param labelText {String} the label text describing the node type.
-   */  
+   */
   construct: function(nodeType, listName, labelText)
   {
     this.setListName(listName);
@@ -22,28 +49,28 @@ qx.Class.define("apiviewer.InfoPanel", {
     this._nodeType = nodeType;
     this._labelText = labelText;
   },
-  
-  
+
+
   properties :
   {
 
     /** top level DOM node of the panel */
     infoElement : { _legacy: true },
-    
+
     /** DOM node of the title of the panel */
     infoTitleElement : { _legacy: true },
-    
+
     /** DOM node of the body of the panel */
     infoBodyElement : { _legacy: true },
-        
+
     nodeType : { _legacy: true, type: "number"},
     listName : { _legacy: true, type: "string"},
-    
+
     /** whether the info panel is open */
     isOpen : { _legacy: true, type: "boolean", defaultValue: true}
   },
-  
-  
+
+
   statics : {
 
     /**
@@ -55,7 +82,7 @@ qx.Class.define("apiviewer.InfoPanel", {
     /** {regexp} The regexp that finds the end of a sentence. */
     SENTENCE_END_REGEX : /[^\.].\.(\s|<)/,
 
-    
+
     /**
      * Creates HTML that replaces all &#64;link-attributes with links.
      *
@@ -86,8 +113,8 @@ qx.Class.define("apiviewer.InfoPanel", {
 
       return html.get();
     },
-        
-    
+
+
     /**
      * Creates the HTML for a link to an item.
      *
@@ -206,7 +233,7 @@ qx.Class.define("apiviewer.InfoPanel", {
         }
       }
     },
-    
+
 
     /**
      * Creates the HTML showing the &#64;see attributes of an item.
@@ -253,8 +280,8 @@ qx.Class.define("apiviewer.InfoPanel", {
       // Nothing found
       return "";
     },
-    
-    
+
+
     /**
      * Creates the HTML showing the description of an item.
      *
@@ -313,8 +340,8 @@ qx.Class.define("apiviewer.InfoPanel", {
 
       return ret;
     },
-    
-    
+
+
     /**
      * Returns whether the description of an item has details (has more than one
      * sentence).
@@ -337,8 +364,8 @@ qx.Class.define("apiviewer.InfoPanel", {
         return false;
       }
     },
-    
-    
+
+
     /**
      * Checks whether a item has documentation errors.
      *
@@ -351,8 +378,8 @@ qx.Class.define("apiviewer.InfoPanel", {
       var errorNode = apiviewer.TreeUtil.getChild(node, "errors");
       return (errorNode != null);
     },
-    
-    
+
+
     /**
      * Checks whether a item has &#64;see attributes.
      *
@@ -363,8 +390,8 @@ qx.Class.define("apiviewer.InfoPanel", {
     hasSeeAlsoHtml : function(node) {
       return apiviewer.TreeUtil.getChild(node, "see") ? true : false;
     },
-    
-    
+
+
     /**
      * Creates the HTML showing the type of a doc node.
      *
@@ -480,8 +507,8 @@ qx.Class.define("apiviewer.InfoPanel", {
 
       return typeHtml.get();
     },
-    
-    
+
+
     /**
      * Creates the HTML showing the documentation errors of an item.
      *
@@ -502,7 +529,7 @@ qx.Class.define("apiviewer.InfoPanel", {
         var html = new qx.util.StringBuilder(
           ClassViewer.DIV_START_ERROR_HEADLINE, "Documentation errors:", ClassViewer.DIV_END
         );
-        
+
         var errArr = errorNode.children;
 
         for (var i=0; i<errArr.length; i++)
@@ -524,8 +551,8 @@ qx.Class.define("apiviewer.InfoPanel", {
         return "";
       }
     },
-    
-    
+
+
     /**
      * Creates the HTML showing interfaces requiring this node
      *
@@ -549,18 +576,18 @@ qx.Class.define("apiviewer.InfoPanel", {
         }
       }
       return html.get();
-    }    
-        
-        
+    }
+
+
   },
-  
-  
-  members : 
-  {  
-      
+
+
+  members :
+  {
+
     /**
      * Creates the HTML showing the information about a method.
-     * 
+     *
      * This method is abstract. Sub classes must overwrite it.
      *
      * @type member
@@ -572,11 +599,11 @@ qx.Class.define("apiviewer.InfoPanel", {
      * @return {String} the HTML showing the information about the method.
      */
     getItemHtml : function(node, fromClassNode, currentClassDocNode, showDetails) {},
-    
+
 
     /**
      * Checks whether a method has details.
-     * 
+     *
      * This method is abstract. Sub classes must overwrite it.
      *
      * @type member
@@ -588,11 +615,11 @@ qx.Class.define("apiviewer.InfoPanel", {
      * @signature function(node, fromClassNode, currentClassDocNode)
      */
     itemHasDetails : qx.lang.Function.returnTrue,
-    
+
 
     /**
      * Get the HTML fragmet of the info panel
-     * 
+     *
      * @return {String} HTML fragment of the info panel
      */
     getPanelHtml : function() {
@@ -609,13 +636,13 @@ qx.Class.define("apiviewer.InfoPanel", {
 
       html.add('</h2><div></div></div>');
 
-      return html.get();      
+      return html.get();
     },
-    
-    
+
+
     /**
      * Returns a list of all interfaces the class implements directly.
-     * 
+     *
      * @param classNode {Map} The class documentation node to get the interfaces of
      * @param includeSuperClasses {Boolean?false} Whether the interfaces of all
      *   super classes should be returned as well.
@@ -628,21 +655,21 @@ qx.Class.define("apiviewer.InfoPanel", {
       } else {
         classNodes = [classNode];
       }
-      
+
       var interfaceNodes = [];
 
       for (var classIndex=0; classIndex<classNodes.length; classIndex ++)
       {
         var classNode = classNodes[classIndex];
-      
+
         if (!classNode.attributes.interfaces) {
           continue;
         }
-  
+
         var ifaceRecurser = function(ifaceName) {
           ifaceNode = apiviewer.ClassViewer.getClassDocNode(ifaceName);
           interfaceNodes.push(ifaceNode);
-  
+
           var superIfaceNode = apiviewer.TreeUtil.getChild(ifaceNode, "superInterfaces");
           if (superIfaceNode) {
             for (var i=0; i<superIfaceNode.children.length; i++) {
@@ -650,12 +677,12 @@ qx.Class.define("apiviewer.InfoPanel", {
             }
           }
         }
-  
+
         var interfaces = classNode.attributes.interfaces.split(",");
         for (var i=0; i<interfaces.length; i++) {
           ifaceRecurser(interfaces[i]);
         }
-  
+
       }
       return interfaceNodes;
 
@@ -681,7 +708,7 @@ qx.Class.define("apiviewer.InfoPanel", {
 
     /**
      * Return a list of all nodes of panel from all mixins of a class
-     * 
+     *
      * @return {Map[]} list of all nodes of a panel from all mixins of the class
      */
     __addNodesOfTypeFromMixins : function(classNode, nodeArr, fromClassHash)
@@ -731,7 +758,7 @@ qx.Class.define("apiviewer.InfoPanel", {
       if (!currentClassDocNode) {
         return [];
       }
-      
+
       var ClassViewer = apiviewer.ClassViewer;
       var nodeType = this.getNodeType();
 
@@ -739,7 +766,7 @@ qx.Class.define("apiviewer.InfoPanel", {
       var fromClassHash = {};
       var interfaces = [];
       var docTree = apiviewer.Viewer.instance.getDocTree();
-  
+
       // Get the classes to show
       if (
         showInherited &&
@@ -754,7 +781,7 @@ qx.Class.define("apiviewer.InfoPanel", {
       } else {
         classNodes = [currentClassDocNode];
       }
-  
+
       for (var classIndex=0; classIndex<classNodes.length; classIndex ++)
       {
         var currClassNode = classNodes[classIndex];
@@ -777,10 +804,10 @@ qx.Class.define("apiviewer.InfoPanel", {
         }
         this.__addNodesOfTypeFromMixins(currClassNode, nodeArr, fromClassHash);
       }
-     
-      return nodeArr;      
+
+      return nodeArr;
     },
-    
+
 
     /**
      * Updates an info panel.
@@ -790,7 +817,7 @@ qx.Class.define("apiviewer.InfoPanel", {
      */
     update : function(showProtected, showInherited, currentClassDocNode)
     {
-      
+
       var nodeArr = this._getPanelItems(showInherited, currentClassDocNode);
 
       var ClassViewer = apiviewer.ClassViewer;
@@ -851,20 +878,20 @@ qx.Class.define("apiviewer.InfoPanel", {
 
           fromClassNode = node.parent.parent;
 
-          if (!node.attributes.requiredBy && nodeType != apiviewer.ClassViewer.NODE_TYPE_METHOD_STATIC) 
+          if (!node.attributes.requiredBy && nodeType != apiviewer.ClassViewer.NODE_TYPE_METHOD_STATIC)
           {
             var requiredBy = [];
             var interfaces = this.__getAllInterfaces(currentClassDocNode, true);
-            
+
             for (var j=0; j<interfaces.length; j++) {
               if (this.__checkInterface(interfaces[j], node.attributes.name)) {
                 requiredBy.push(interfaces[j].attributes.fullName);
               }
-            
-            }            
+
+            }
             node.attributes.requiredBy = requiredBy.join(",");
           }
-          
+
           var info = this.getItemHtml(node, fromClassNode, currentClassDocNode, false);
           var inherited =
             fromClassNode &&
@@ -938,9 +965,9 @@ qx.Class.define("apiviewer.InfoPanel", {
       {
         this.getInfoElement().style.display = "none";
       }
-    }    
-    
+    }
+
   }
-  
-  
+
+
 });
