@@ -1418,8 +1418,15 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
         }
         else if (this._cellEditor instanceof qx.ui.window.Window)
         {
-          // It's a window.  Ensure that it's modal
+          // It's a window.  Ensure that it's modal.
           this._cellEditor.setModal(true);
+
+          // At least for the time being, we disallow the close button.  It
+          // acts differently than a cellEditor.close(), and invokes a bug
+          // someplace.  Modal window cell editors should provide their own
+          // buttons or means to activate a cellEditor.close() or equivalently
+          // cellEditor.hide().
+          this._cellEditor.setShowClose(false);
 
           // Add the cell editor to the document
           this._cellEditor.addToDocument();
