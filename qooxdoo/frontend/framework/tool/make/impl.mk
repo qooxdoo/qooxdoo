@@ -93,7 +93,7 @@ exec-script-build:
 	  --compiled-script-file $(COMPUTED_BUILD_SCRIPT_NAME) \
 	  $(APPLICATION_ADDITIONAL_SCRIPT_BUILD_OPTIONS)
 
-exec-script-split:
+exec-script-build-split:
 	# generate base profile
 	$(SILENCE) $(CMD_GENERATOR) \
 	  $(COMPUTED_CLASS_PATH) \
@@ -118,6 +118,7 @@ exec-script-split:
   # combine base profile and include list
 	@$(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/make/create-profile.py _qx.dat includes.dat > qx.dat
 	@rm _qx.dat includes.dat
+	@$(CMD_DIR) build/script
 	@mv qx.dat build/script
 	
 	# generate qx.js
