@@ -155,7 +155,6 @@ qx.Class.define("qx.Mixin",
      *
      * @type static
      * @name isDefined
-     * @access public
      * @param name {String} Mixin name to check
      * @return {Boolean} true if Mixin exists
      */

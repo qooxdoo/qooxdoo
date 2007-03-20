@@ -54,7 +54,6 @@ if (qx.core.Variant.isSet("qx.compatibility", "on"))
        * @deprecated Please switch to new qx.Class.define ASAP. This will be removed in qooxdoo 0.7
        * @type static
        * @name defineClass
-       * @access public
        * @param vClassName {String} fully qualified class name (e.g. "qx.ui.form.Button")
        * @param vSuper {Object} super class
        * @param vConstructor {Function} the constructor of the new class
