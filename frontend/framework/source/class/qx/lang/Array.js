@@ -265,6 +265,7 @@ qx.Class.define("qx.lang.Array",
       }
 
       Array.prototype.push.apply(arr, a);
+
       return arr;
     },
 
