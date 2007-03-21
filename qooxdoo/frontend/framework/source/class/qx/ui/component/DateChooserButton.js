@@ -258,7 +258,9 @@ qx.Class.define("qx.ui.component.DateChooserButton",
      * Change the date format to the current locale with the given size
      *
      * @type member
+     * @param dateFormatSize {String} The date format size according to the size parameter in {qx.locale.Date.getDateFormat}
      * @return {void}
+     * @throws exception if the target widget is not instance of qx.ui.core.Widget or does not have setter and getter for property value
      */
     _changeLocale : function(dateFormatSize)
     {
