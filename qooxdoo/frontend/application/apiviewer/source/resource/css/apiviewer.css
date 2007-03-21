@@ -387,3 +387,8 @@ tr.state td {
 	border-bottom: 1px solid #ECECEC;
 	margin-top: 1px;
 }
+
+.item-title-deprecated {
+	text-decoration: line-through;
+	color: #7193b9;
+}

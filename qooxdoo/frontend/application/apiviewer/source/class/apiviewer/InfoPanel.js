@@ -162,13 +162,13 @@ qx.Class.define("apiviewer.InfoPanel", {
           if (className == null || className.length == 0)
           {
             // This is a relative link to a method -> Add the current class
-            className = packageBaseClass.attributes.fullName;
+            className = packageBaseClass.getFullName();
           }
           else if (packageBaseClass && className.indexOf(".") == -1)
           {
             // The class name has no package -> Use the same package as the current class
-            var name = packageBaseClass.attributes.name;
-            var fullName = packageBaseClass.attributes.fullName;
+            var name = packageBaseClass.getName();
+            var fullName = packageBaseClass.getFullName();
             var packageName = fullName.substring(0, fullName.length - name.length);
             className = packageName + className;
           }
@@ -183,7 +183,7 @@ qx.Class.define("apiviewer.InfoPanel", {
           // Add the right icon
           if (useIcon)
           {
-            var classNode = apiviewer.ClassViewer.getClassDocNode(className);
+            var classNode = apiviewer.dao.Class.getClassByName(className);
 
             if (classNode)
             {
@@ -199,7 +199,7 @@ qx.Class.define("apiviewer.InfoPanel", {
                   cleanItemName = qx.lang.String.trim(cleanItemName.substring(0, parenPos));
                 }
 
-                itemNode = apiviewer.TreeUtil.getItemDocNode(classNode, cleanItemName);
+                itemNode = classNode.getItem(cleanItemName);
               }
               else
               {
@@ -209,7 +209,7 @@ qx.Class.define("apiviewer.InfoPanel", {
 
               if (itemNode)
               {
-                var iconUrl = apiviewer.TreeUtil.getIconUrl(itemNode);
+                var iconUrl = apiviewer.TreeUtil.getIconUrl(itemNode.getNode());
                 var iconCode = apiviewer.ClassViewer.createImageHtml(iconUrl);
               }
             }
@@ -243,27 +243,22 @@ qx.Class.define("apiviewer.InfoPanel", {
      * @param fromClassNode {Map} the doc node of the class the item was defined.
      * @return {String} the HTML showing the &#64;see attributes.
      */
-    createSeeAlsoHtml : function(node, fromClassNode)
+    createSeeAlsoHtml : function(node)
     {
       var ClassViewer = apiviewer.ClassViewer;
 
-      var descNode = apiviewer.TreeUtil.getChild(node, "see");
-
-      if (node.children)
+      var see = node.getSee();
+      if (see.length > 0)
       {
         var seeAlsoHtml = new qx.util.StringBuilder();
 
-        for (var i=0; i<node.children.length; i++)
+        for (var i=0; i<see.length; i++)
         {
-          if (node.children[i].type == "see")
-          {
-            // This is a @see attribute
-            if (seeAlsoHtml.length != 0) {
-              seeAlsoHtml.add(", ");
-            }
+           if (seeAlsoHtml.length != 0) {
+             seeAlsoHtml.add(", ");
+           }
 
-            seeAlsoHtml.add(this.createItemLinkHtml(node.children[i].attributes.name, fromClassNode));
-          }
+           seeAlsoHtml.add(this.createItemLinkHtml(see[i].getName(), node.getClass()));
         }
 
         if (!seeAlsoHtml.isEmpty())
@@ -292,19 +287,16 @@ qx.Class.define("apiviewer.InfoPanel", {
      *          only the first sentence of the description will be shown.
      * @return {String} the HTML showing the description.
      */
-    createDescriptionHtml : function(node, fromClassNode, showDetails)
+    createDescriptionHtml : function(node, showDetails)
     {
-      var descNode = apiviewer.TreeUtil.getChild(node, "desc");
+      var desc = node.getDescription();
 
-      if (descNode)
+      if (desc)
       {
-        var desc = descNode.attributes.text;
-
         if (!showDetails) {
           desc = this.__extractFirstSentence(desc);
         }
-
-        return apiviewer.ClassViewer.DIV_START_DESC + this.resolveLinkAttributes(desc, fromClassNode) + apiviewer.ClassViewer.DIV_END;
+        return apiviewer.ClassViewer.DIV_START_DESC + this.resolveLinkAttributes(desc, node.getClass()) + apiviewer.ClassViewer.DIV_END;
       }
       else
       {
@@ -352,43 +344,14 @@ qx.Class.define("apiviewer.InfoPanel", {
      */
     descriptionHasDetails : function(node)
     {
-      var descNode = apiviewer.TreeUtil.getChild(node, "desc");
-
-      if (descNode)
-      {
-        var desc = descNode.attributes.text;
+      var desc = node.getDescription();
+      if (desc) {
         return this.__extractFirstSentence(desc) != desc;
       }
       else
       {
         return false;
       }
-    },
-
-
-    /**
-     * Checks whether a item has documentation errors.
-     *
-     * @type member
-     * @param node {Map} the doc node of the item.
-     * @return {Boolean} whether the item has documentation errors.
-     */
-    hasErrorHtml : function(node)
-    {
-      var errorNode = apiviewer.TreeUtil.getChild(node, "errors");
-      return (errorNode != null);
-    },
-
-
-    /**
-     * Checks whether a item has &#64;see attributes.
-     *
-     * @type member
-     * @param node {Map} the doc node of the item.
-     * @return {Boolean} whether the item has &#64;see attributes.
-     */
-    hasSeeAlsoHtml : function(node) {
-      return apiviewer.TreeUtil.getChild(node, "see") ? true : false;
     },
 
 
@@ -405,8 +368,9 @@ qx.Class.define("apiviewer.InfoPanel", {
      *          (without package).
      * @return {String} the HTML showing the type.
      */
-    createTypeHtml : function(typeNode, packageBaseClass, defaultType, useShortName)
+    createTypeHtml : function(typeNode, defaultType, useShortName)
     {
+
       if (useShortName == null) {
         useShortName = true;
       }
@@ -414,42 +378,8 @@ qx.Class.define("apiviewer.InfoPanel", {
       var types = [];
       var typeDimensions, typeName, linkText, dims;
 
-      if (typeNode)
-      {
-        // read in children
-        if (typeNode.children && apiviewer.TreeUtil.getChild(typeNode, "types"))
-        {
-          for (var i=0, a=apiviewer.TreeUtil.getChild(typeNode, "types").children, l=a.length; i<l; i++)
-          {
-            if (a[i].type == "entry") {
-              types.push(a[i].attributes);
-            }
-          }
-        }
-
-        // read from attributes (alternative)
-        if (types.length == 0 && typeNode.attributes)
-        {
-          typeName = typeNode.attributes.instance ? typeNode.attributes.instance : typeNode.attributes.type;
-
-          if (typeName != undefined)
-          {
-            dims = typeNode.attributes.dimensions;
-
-            if (typeof dims == "number" && dims > 0)
-            {
-              types.push(
-              {
-                "type"       : typeName,
-                "dimensions" : dims
-              });
-            }
-            else
-            {
-              types.push({ "type" : typeName });
-            }
-          }
-        }
+      if (typeNode) {
+        types = typeNode.getTypes();
       }
 
       var typeHtml = new qx.util.StringBuilder()
@@ -458,8 +388,6 @@ qx.Class.define("apiviewer.InfoPanel", {
       }
       else
       {
-        typeHtml.add("");
-
         if (types.length > 1) {
           typeHtml.add("(");
         }
@@ -488,8 +416,7 @@ qx.Class.define("apiviewer.InfoPanel", {
                 linkText += " " + typeName.substring(lastDot + 1);
               }
             }
-
-            typeHtml.add(apiviewer.InfoPanel.createItemLinkHtml(linkText, packageBaseClass, false, true));
+            typeHtml.add(apiviewer.InfoPanel.createItemLinkHtml(linkText, typeNode.getClass(), false, true));
           }
 
           if (typeDimensions)
@@ -522,26 +449,24 @@ qx.Class.define("apiviewer.InfoPanel", {
     {
       var ClassViewer = apiviewer.ClassViewer;
 
-      var errorNode = apiviewer.TreeUtil.getChild(node, "errors");
+      var errors = node.getErrors();
 
-      if (errorNode)
+      if (errors.length > 0)
       {
         var html = new qx.util.StringBuilder(
           ClassViewer.DIV_START_ERROR_HEADLINE, "Documentation errors:", ClassViewer.DIV_END
         );
 
-        var errArr = errorNode.children;
-
-        for (var i=0; i<errArr.length; i++)
+        for (var i=0; i<errors.length; i++)
         {
-          html.add(ClassViewer.DIV_START_DETAIL_TEXT, errArr[i].attributes.msg, " <br/>");
+          html.add(ClassViewer.DIV_START_DETAIL_TEXT, errors[i].attributes.msg, " <br/>");
           html.add("(");
 
           if (fromClassNode && fromClassNode != currentClassDocNode) {
-            html.add(fromClassNode.attributes.fullName, "; ");
+            html.add(fromClassNode.getFullName(), "; ");
           }
 
-          html.add("Line: ", errArr[i].attributes.line, ", Column:", errArr[i].attributes.column + ")", ClassViewer.DIV_END);
+          html.add("Line: ", errors[i].attributes.line, ", Column:", errors[i].attributes.column + ")", ClassViewer.DIV_END);
         }
 
         return html.get();
@@ -564,19 +489,52 @@ qx.Class.define("apiviewer.InfoPanel", {
     {
       var ClassViewer = apiviewer.ClassViewer;
       var html = new qx.util.StringBuilder();
-      if (node.attributes.requiredBy) {
-        var requiredBy = node.attributes.requiredBy.split(",");
+      var requiredBy = node.getRequiredBy();
+      if (requiredBy.length > 0) {
         html.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "Required by:", ClassViewer.DIV_END);
         for (var i=0; i<requiredBy.length; i++) {
           html.add(
             ClassViewer.DIV_START_DETAIL_TEXT,
-            apiviewer.InfoPanel.createItemLinkHtml(requiredBy[i]),
+            apiviewer.InfoPanel.createItemLinkHtml(requiredBy[i].getFullName()),
             ClassViewer.DIV_END
           );
         }
       }
       return html.get();
-    }
+    },
+
+
+    createDeprecatedTitle : function(node, title)
+    {
+      var html = ["<span class='item-title-deprecated'>", "", "</span>"];
+      if (node.isDeprecated()) {
+        html[1] = title;
+        return html.join("");
+      } else {
+        return title;
+      }
+    },
+
+
+    createDeprecationHtml : function(node, itemName)
+    {
+      var ClassViewer = apiviewer.ClassViewer;
+      if (!node.isDeprecated()) {
+        return "";
+      }
+      var html = new qx.util.StringBuilder();
+      html.add(ClassViewer.DIV_START_ERROR_HEADLINE, "Deprecated:", ClassViewer.DIV_END);
+
+      html.add(ClassViewer.DIV_START_DETAIL_TEXT);
+      var desc = node.getDeprecationText();
+      if (desc) {
+        html.add(desc);
+      } else {
+        html.add("This ", itemName, " is deprecated!");
+      }
+      html.add(ClassViewer.DIV_END);
+      return html.get();
+    },
 
 
   },
@@ -622,7 +580,8 @@ qx.Class.define("apiviewer.InfoPanel", {
      *
      * @return {String} HTML fragment of the info panel
      */
-    getPanelHtml : function() {
+    getPanelHtml : function()
+    {
       var uppercaseLabelText = this._labelText.charAt(0).toUpperCase() + this._labelText.substring(1);
 
       var html = new qx.util.StringBuilder('<div class="infoPanel"><h2>');
@@ -641,111 +600,40 @@ qx.Class.define("apiviewer.InfoPanel", {
 
 
     /**
-     * Returns a list of all interfaces the class implements directly.
-     *
-     * @param classNode {Map} The class documentation node to get the interfaces of
-     * @param includeSuperClasses {Boolean?false} Whether the interfaces of all
-     *   super classes should be returned as well.
-     */
-    __getAllInterfaces : function(classNode, includeSuperClasses)
-    {
-      if (includeSuperClasses) {
-        var docTree = apiviewer.Viewer.instance.getDocTree();
-        var classNodes = apiviewer.TreeUtil.getInheritanceChain(docTree, classNode);
-      } else {
-        classNodes = [classNode];
-      }
-
-      var interfaceNodes = [];
-
-      for (var classIndex=0; classIndex<classNodes.length; classIndex ++)
-      {
-        var classNode = classNodes[classIndex];
-
-        if (!classNode.attributes.interfaces) {
-          continue;
-        }
-
-        var ifaceRecurser = function(ifaceName) {
-          ifaceNode = apiviewer.ClassViewer.getClassDocNode(ifaceName);
-          interfaceNodes.push(ifaceNode);
-
-          var superIfaceNode = apiviewer.TreeUtil.getChild(ifaceNode, "superInterfaces");
-          if (superIfaceNode) {
-            for (var i=0; i<superIfaceNode.children.length; i++) {
-              ifaceRecurser(superIfaceNode.children[i].attributes.name);
-            }
-          }
-        }
-
-        var interfaces = classNode.attributes.interfaces.split(",");
-        for (var i=0; i<interfaces.length; i++) {
-          ifaceRecurser(interfaces[i]);
-        }
-
-      }
-      return interfaceNodes;
-
-    },
-
-
-    /**
-     * Checks whether the node of the given type and name is required by the interface.
-     */
-    __checkInterface : function(ifaceNode, name) {
-      var parentNode = apiviewer.TreeUtil.getChild(ifaceNode, this.getListName());
-      if (parentNode)
-      {
-        for (var i=0; i<parentNode.children.length; i++) {
-          if (parentNode.children[i].attributes.name == name) {
-            return true;
-          }
-        }
-      }
-      return false;
-    },
-
-
-    /**
      * Return a list of all nodes of panel from all mixins of a class
      *
      * @return {Map[]} list of all nodes of a panel from all mixins of the class
      */
     __addNodesOfTypeFromMixins : function(classNode, nodeArr, fromClassHash)
     {
-      var mixins = classNode.attributes.mixins;
-      if (mixins) {
-        mixins = mixins.split(",");
-        for (var mixinIndex=0; mixinIndex<mixins.length; mixinIndex++)
-        {
+      var mixins = classNode.getMixins();
+      for (var mixinIndex=0; mixinIndex<mixins.length; mixinIndex++)
+      {
 
-          var self = this;
-          var mixinRecurser = function(mixinNode)
+        var self = this;
+        var mixinRecurser = function(mixinNode)
+        {
+          var items = mixinNode.getItemList(self.getListName());
+          for (var i=0; i<items.length; i++)
           {
-            var parentNode = apiviewer.TreeUtil.getChild(mixinNode, self.getListName());
-            if (parentNode) {
-              for (var i=0; i<parentNode.children.length; i++) {
-                var name = parentNode.children[i].attributes.name;
-                if (fromClassHash[name] == null)
-                {
-                  fromClassHash[name] = mixinNode;
-                  nodeArr.push(parentNode.children[i]);
-                }
-              }
-            }
-            // recursive decent
-            var superClasses = apiviewer.TreeUtil.getChild(mixinNode, "superMixins");
-            if (superClasses) {
-              for (var i=0; i<superClasses.children.length; i++) {
-                mixinRecurser(apiviewer.ClassViewer.getClassDocNode(superClasses.children[i].attributes.name));
-              }
+            var name = items[i].getName();
+            if (fromClassHash[name] == null)
+            {
+              fromClassHash[name] = mixinNode;
+              nodeArr.push(items[i]);
             }
           }
 
-          var mixinNode = apiviewer.ClassViewer.getClassDocNode(mixins[mixinIndex]);
-          mixinRecurser(mixinNode);
-
+          // recursive decent
+          var superClasses = mixinNode.getSuperMixins();
+          for (var i=0; i<superClasses.length; i++) {
+            mixinRecurser(apiviewer.dao.Class.getClassByName(superClasses[i].getName()));
+          }
         }
+
+        var mixinNode = apiviewer.dao.Class.getClassByName(mixins[mixinIndex]);
+        mixinRecurser(mixinNode);
+
       }
     },
 
@@ -764,7 +652,6 @@ qx.Class.define("apiviewer.InfoPanel", {
 
       var nodeArr = [];
       var fromClassHash = {};
-      var interfaces = [];
       var docTree = apiviewer.Viewer.instance.getDocTree();
 
       // Get the classes to show
@@ -777,7 +664,7 @@ qx.Class.define("apiviewer.InfoPanel", {
         )
       )
       {
-        var classNodes = apiviewer.TreeUtil.getInheritanceChain(docTree, currentClassDocNode);
+        var classNodes = currentClassDocNode.getClassHierarchy();
       } else {
         classNodes = [currentClassDocNode];
       }
@@ -785,27 +672,64 @@ qx.Class.define("apiviewer.InfoPanel", {
       for (var classIndex=0; classIndex<classNodes.length; classIndex ++)
       {
         var currClassNode = classNodes[classIndex];
-        var currParentNode = apiviewer.TreeUtil.getChild(currClassNode, this.getListName());
-        var currNodeArr = currParentNode ? currParentNode.children : null;
-
-        if (currNodeArr)
+        var currNodeArr = currClassNode.getItemList(this.getListName());
+        // Add the nodes from this class
+        for (var i=0; i<currNodeArr.length; i++)
         {
-          // Add the nodes from this class
-          for (var i=0; i<currNodeArr.length; i++)
-          {
-            var name = currNodeArr[i].attributes.name;
+          var name = currNodeArr[i].getName();
 
-            if (fromClassHash[name] == null)
-            {
-              fromClassHash[name] = currClassNode;
-              nodeArr.push(currNodeArr[i]);
-            }
+          if (fromClassHash[name] == null)
+          {
+            fromClassHash[name] = currClassNode;
+            nodeArr.push(currNodeArr[i]);
           }
         }
         this.__addNodesOfTypeFromMixins(currClassNode, nodeArr, fromClassHash);
       }
 
       return nodeArr;
+    },
+
+
+    __filterProtectedItems : function(nodeArr)
+    {
+      copyArr = nodeArr.concat();
+
+      for (var i=nodeArr.length-1; i>=0; i--)
+      {
+        var node = nodeArr[i];
+
+        if (nodeArr[i].getName().charAt(0) == "_") {
+          qx.lang.Array.removeAt(copyArr, i);
+        }
+      }
+
+      return copyArr;
+    },
+
+
+    /**
+     * Sorts the nodes in place.
+     */
+    _sortItems : function(nodeArr)
+    {
+      // Sort the nodeArr by name
+      // Move protected methods to the end
+      nodeArr.sort(function(obj1, obj2)
+      {
+        var n1 = obj1.getName();
+        var n2 = obj2.getName();
+        var p1 = n1.charAt(0) == "_";
+        var p2 = n2.charAt(0) == "_";
+        var h1 = n1.charAt(0) == "__";
+        var h2 = n2.charAt(0) == "__";
+
+        if (p1 == p2 && h1 == h2) {
+          return n1.toLowerCase() < n2.toLowerCase() ? -1 : 1;
+        } else {
+          return h1 ? 1 : p1 ? 1 : -1;
+        }
+      });
     },
 
 
@@ -823,48 +747,20 @@ qx.Class.define("apiviewer.InfoPanel", {
       var ClassViewer = apiviewer.ClassViewer;
       var nodeType = this.getNodeType();
 
-      if (nodeArr)
+      if (nodeArr && nodeArr.length > 0)
       {
         // Filter protected
         if (
           nodeType == apiviewer.ClassViewer.NODE_TYPE_METHOD ||
-          nodeType == apiviewer.ClassViewer.NODE_TYPE_METHOD_STATIC
-        )
-        {
-          if (nodeArr.length != 0 && !showProtected)
-          {
-            copyArr = nodeArr.concat();
-
-            for (var i=nodeArr.length-1; i>=0; i--)
-            {
-              var node = nodeArr[i];
-
-              if (nodeArr[i].attributes.name.charAt(0) == "_") {
-                qx.lang.Array.removeAt(copyArr, i);
-              }
-            }
-
-            nodeArr = copyArr;
+          nodeType == apiviewer.ClassViewer.NODE_TYPE_METHOD_STATIC ||
+          nodeType == apiviewer.ClassViewer.NODE_TYPE_PROPERTY
+        ) {
+          if (!showProtected) {
+            nodeArr = this.__filterProtectedItems(nodeArr);
           }
         }
 
-        // Sort the nodeArr by name
-        // Move protected methods to the end
-        nodeArr.sort(function(obj1, obj2)
-        {
-          var n1 = obj1.attributes.name;
-          var n2 = obj2.attributes.name;
-          var p1 = n1.charAt(0) == "_";
-          var p2 = n2.charAt(0) == "_";
-          var h1 = n1.charAt(0) == "__";
-          var h2 = n2.charAt(0) == "__";
-
-          if (p1 == p2 && h1 == h2) {
-            return n1.toLowerCase() < n2.toLowerCase() ? -1 : 1;
-          } else {
-            return h1 ? 1 : p1 ? 1 : -1;
-          }
-        });
+        this._sortItems(nodeArr);
       }
 
       // Show the nodes
@@ -876,29 +772,13 @@ qx.Class.define("apiviewer.InfoPanel", {
         {
           var node = nodeArr[i];
 
-          fromClassNode = node.parent.parent;
-
-          if (!node.attributes.requiredBy && nodeType != apiviewer.ClassViewer.NODE_TYPE_METHOD_STATIC)
-          {
-            var requiredBy = [];
-            var interfaces = this.__getAllInterfaces(currentClassDocNode, true);
-
-            for (var j=0; j<interfaces.length; j++) {
-              if (this.__checkInterface(interfaces[j], node.attributes.name)) {
-                requiredBy.push(interfaces[j].attributes.fullName);
-              }
-
-            }
-            node.attributes.requiredBy = requiredBy.join(",");
-          }
+          fromClassNode = node.getClass();
 
           var info = this.getItemHtml(node, fromClassNode, currentClassDocNode, false);
           var inherited =
-            fromClassNode &&
-            fromClassNode.attributes &&
             (fromClassNode != currentClassDocNode) &&
-            fromClassNode.attributes.type == "class";
-          var iconUrl = apiviewer.TreeUtil.getIconUrl(node, inherited);
+            fromClassNode.getType() == "class";
+          var iconUrl = apiviewer.TreeUtil.getIconUrl(node.getNode(), inherited);
 
           // Create the title row
           html.add('<tr>');
@@ -914,8 +794,8 @@ qx.Class.define("apiviewer.InfoPanel", {
             html.add(
               '<img src="', qx.manager.object.AliasManager.getInstance().resolvePath("api/image/open.gif"),
               '"', " onclick=\"document._detailViewer._onShowItemDetailClicked(", nodeType, ",'",
-              node.attributes.name, "'" ,
-              ((fromClassNode != currentClassDocNode) ? ",'" + fromClassNode.attributes.fullName + "'" : ""),
+              node.getName(), "'" ,
+              ((fromClassNode != currentClassDocNode) ? ",'" + fromClassNode.getFullName() + "'" : ""),
               ")\"/>"
             );
           }
@@ -934,8 +814,8 @@ qx.Class.define("apiviewer.InfoPanel", {
           if (this.itemHasDetails(node, fromClassNode, currentClassDocNode)) {
             html.add(
               " onclick=\"document._detailViewer._onShowItemDetailClicked(",
-              nodeType, ",'", node.attributes.name, "'",
-              ((fromClassNode != currentClassDocNode) ? ",'" + fromClassNode.attributes.fullName + "'" : ""),
+              nodeType, ",'", node.getName(), "'",
+              ((fromClassNode != currentClassDocNode) ? ",'" + fromClassNode.getFullName() + "'" : ""),
               ")\">"
             );
           } else {
@@ -943,10 +823,11 @@ qx.Class.define("apiviewer.InfoPanel", {
           }
 
           html.add(info.titleHtml);
+
           html.add('</h3>');
 
           // Create content area
-          html.add('<div _itemName="', nodeArr[i].attributes.name, '">');
+          html.add('<div _itemName="', nodeArr[i].getName(), '">');
           html.add(info.textHtml);
           html.add('</div>');
 

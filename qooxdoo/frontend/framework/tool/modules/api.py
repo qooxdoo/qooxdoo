@@ -44,7 +44,7 @@ def findQxDefine(rootNode):
             variableName = assembleVariable(rootNode)
         except tree.NodeAccessException:
             return None
-         
+
         if variableName in ["qx.Class.define", "qx.Interface.define", "qx.Mixin.define"]:
             if rootNode.parent.parent.type == "call" and rootNode.parent.type == "operand":
                 return rootNode.parent.parent
@@ -63,14 +63,14 @@ def createDoc(syntaxTree, docTree = None):
         docTree = tree.Node("doctree")
 
     defineNode = findQxDefine(syntaxTree)
-    if defineNode != None:     
+    if defineNode != None:
         variant = selectNode(defineNode, "operand/variable/2/@name").lower()
         handleClassDefinition(docTree, defineNode, variant)
 
     else:
         # try old style class definition of no new style class could be found
         docTree = createDocOld(syntaxTree, docTree)
-        
+
     return docTree
 
 
@@ -90,7 +90,7 @@ def handleClassDefinition(docTree, item, variant):
         classMap = {}
 
     commentAttributes = comment.parseNode(item)
-    
+
     classNode = getClassNode(docTree, className, commentAttributes)
     if variant in ["class", "clazz"]:
         classNode.set("type", "class")
@@ -103,6 +103,7 @@ def handleClassDefinition(docTree, item, variant):
     else:
         classNode.set("type", variant)
 
+    handleDeprecated(classNode, commentAttributes)
     handleAppearance(item, classNode, className, commentAttributes)
 
     try:
@@ -143,7 +144,7 @@ def handleClassDefinition(docTree, item, variant):
 
         elif key == "events":
             handleEvents(valueItem, classNode)
-            
+
     handleSingleton(classNode, docTree)
 
 
@@ -165,7 +166,7 @@ def handleClassExtend(valueItem, classNode, docTree, className):
         superClassNode.set("childClasses", childClasses)
         classNode.set("superClass", superClassName)
 
-                       
+
 def handleInterfaceExtend(valueItem, classNode, docTree, className):
     superInterfaceNames = variableOrArrayNodeToArray(valueItem)
 
@@ -177,28 +178,28 @@ def handleInterfaceExtend(valueItem, classNode, docTree, className):
             childInterfaces += "," + className
         else:
             childInterfaces = className
-    
+
         superInterfaceNode.set("childClasses", childInterfaces)
-        
+
         node = tree.Node("interface");
         node.set("name", superInterface)
         classNode.addListChild("superInterfaces", node)
-        
-        
+
+
 def handleMixins(item, classNode, docTree, className):
     if classNode.get("type") == "mixin":
         superMixinNames = variableOrArrayNodeToArray(item)
         for superMixin in superMixinNames:
             superMixinNode = getClassNode(docTree, superMixin)
             childMixins = superMixinNode.get("mixins", False)
-    
+
             if childMixins:
                 childMixins += "," + className
             else:
                 childMixins = className
-        
+
             superMixinNode.set("childClasses", childMixins)
-            
+
             node = tree.Node("interface");
             node.set("name", superMixin)
             classNode.addListChild("superMixins", node)
@@ -213,10 +214,10 @@ def handleMixins(item, classNode, docTree, className):
             else:
                 includer = className
             mixinNode.set("includer", includer)
-            
+
         classNode.set("mixins", ",".join(mixins))
-    
-        
+
+
 def handleSingleton(classNode, docTree):
     if classNode.get("isSingleton", False) == True:
         className = classNode.get("fullName")
@@ -232,7 +233,7 @@ def handleSingleton(classNode, docTree):
  * @return {%s} The singleton instance of this class.
  */
 function() {}""" % className
-     
+
         node = compileString(functionCode)
         commentAttributes = comment.parseNode(node)
         docNode = handleFunction(node, commentAttributes, classNode)
@@ -240,7 +241,7 @@ function() {}""" % className
         docNode.set("name", "getInstance")
         docNode.set("isStatic", True)
         classNode.addListChild("methods-static", docNode)
-    
+
 
 def handleInterfaces(item, classNode, docTree):
     className = classNode.get("fullName")
@@ -253,7 +254,7 @@ def handleInterfaces(item, classNode, docTree):
         else:
             impl = className
         interfaceNode.set("implementations", impl)
-        
+
     classNode.set("interfaces", ",".join(interfaces))
 
 
@@ -287,25 +288,23 @@ def handleConstructor(ctorItem, classNode):
                         handleMethodDefinitionOld(item, False, classNode)
 
 
-
 def handleStatics(item, classNode):
     if item.hasChildren():
         for keyvalue in item.children:
             key = keyvalue.get("key")
-            
+
 #            # ignore private statics
 #            if key.startswith("__"):
 #                continue
-            
+
             value = keyvalue.getFirstChild(True, True).getFirstChild(True, True)
             commentAttributes = comment.parseNode(keyvalue)
 
             # handle @signature
             if value.type != "function":
                 for docItem in commentAttributes:
-                    if docItem["category"] == "signature":                        
+                    if docItem["category"] == "signature":
                         value = compileString(docItem["text"][3:-4] + "{}")
-                #if value.type == "call": print "\n" + classNode.get("fullName") + " " + key + "\n"
 
             # Function
             if value.type == "function":
@@ -316,7 +315,8 @@ def handleStatics(item, classNode):
                     node.set("isMixin", True)
 
                 classNode.addListChild("methods-static", node)
-                
+
+
             # Constant
             elif key.isupper():
                 handleConstantDefinition(keyvalue, classNode)
@@ -329,20 +329,19 @@ def handleMembers(item, classNode):
                 continue
 
             key = keyvalue.get("key")
-            
+
 #            # ignore private statics
 #            if key.startswith("__"):
 #                continue
-            
+
             value = keyvalue.getFirstChild(True, True).getFirstChild(True, True)
             commentAttributes = comment.parseNode(keyvalue)
 
             # handle @signature
             if value.type != "function":
                 for docItem in commentAttributes:
-                    if docItem["category"] == "signature":                        
+                    if docItem["category"] == "signature":
                         value = compileString(docItem["text"][3:-4] + "{}")
-                #if value.type == "call": print "\n" + classNode.get("fullName") + " " + key + "\n"
 
             if value.type == "function":
                 node = handleFunction(value, commentAttributes, classNode)
@@ -351,7 +350,7 @@ def handleMembers(item, classNode):
                     node.set("isMixin", True)
 
                 classNode.addListChild("methods", node)
-                
+
 
 def handleProperties(item, classNode):
     if item.hasChildren():
@@ -361,7 +360,7 @@ def handleProperties(item, classNode):
             # print "  - Found Property: %s" % key
 
             # TODO: New handling for new properties needed
-            handlePropertyDefinitionOldCommon(keyvalue, classNode, key, value)                
+            handlePropertyDefinitionOldCommon(keyvalue, classNode, key, value)
 
 
 def handleEvents(item, classNode):
@@ -374,9 +373,10 @@ def handleEvents(item, classNode):
 
             key = keyvalue.get("key")
             value = keyvalue.getFirstChild(True, True).getFirstChild(True, True).get("value")
+            commentAttributes = comment.parseNode(keyvalue)
             try:
-                desc = comment.parseNode(keyvalue)[0]["text"]
-            except IndexError, KeyError:
+                desc = commentAttributes[0]["text"]
+            except (IndexError, KeyError):
                 desc = None
                 addError(node, "Documentation is missing.", item)
 
@@ -390,6 +390,8 @@ def handleEvents(item, classNode):
             typesNode.addChild(itemNode)
             itemNode.set("type", value)
 
+            handleDeprecated(node, commentAttributes)
+
             classNode.addListChild("events", node)
 
 
@@ -401,7 +403,7 @@ def handleAppearance(item, classNode, className, commentAttributes):
     appearances = {}
     thisAppearance = []
     classAppearance = None
-    
+
     # parse appearances
     for attrib in commentAttributes:
         if attrib["category"] == "appearance":
@@ -414,35 +416,35 @@ def handleAppearance(item, classNode, className, commentAttributes):
             if attrib["type"] == className:
                 thisAppearance.append(appearanceName)
             attrib["states"] = []
-    
+
     if len(thisAppearance) > 1:
         raise DocException("The class '%s' has more than one own appearance!" % className, item)
-    
+
     # parse states
     for attrib in commentAttributes:
         if attrib["category"] == "state":
             if not attrib.has_key("type"):
                 if thisAppearance == []:
                     raise DocException(
-                       "The default state '%s' of the class '%s' is defined but no default appearance is defined" 
+                       "The default state '%s' of the class '%s' is defined but no default appearance is defined"
                        % (attrib["name"], className), item
                     )
                 type = thisAppearance[0]
             else:
                 type = attrib["type"][0]["type"]
-                
+
             appearances[type]["states"].append(attrib)
-    
+
     #generate the doc tree nodes
     if len(appearances) > 0:
         for name, appearance in appearances.iteritems():
             appearanceNode = tree.Node("appearance")
             appearanceNode.set("name", name)
             appearanceNode.set("type", appearance["type"])
-            
+
             if appearance.has_key("text"):
                 appearanceNode.addChild(tree.Node("desc").set("text", appearance["text"]))
-                
+
             for state in appearance["states"]:
                 stateNode = tree.Node("state")
                 stateNode.set("name", state["name"])
@@ -451,10 +453,19 @@ def handleAppearance(item, classNode, className, commentAttributes):
                 appearanceNode.addListChild("states", stateNode)
 
             classNode.addListChild("appearances", appearanceNode)
-    
-    
-    
-    
+
+
+def handleDeprecated(docNode, commentAttributes):
+    for docItem in commentAttributes:
+        if docItem["category"] == "deprecated":
+            #print docItem
+            deprecatedNode = tree.Node("deprecated")
+            if docItem.has_key("text"):
+                descNode = tree.Node("desc").set("text", docItem["text"])
+                deprecatedNode.addChild(descNode)
+            docNode.addChild(deprecatedNode)
+
+
 ########################################################################################
 #
 #  COMPATIBLE TO 0.6 STYLE ONLY!
@@ -680,7 +691,7 @@ def handlePropertyDefinitionOldCommon(item, classNode, propertyName, paramsMap):
                 values += ", "
             values += getValue(arrayItem)
         node.set("possibleValues", values)
-        
+
     if classNode.get("type") == "mixin":
         node.set("isMixin", True)
 
@@ -688,6 +699,7 @@ def handlePropertyDefinitionOldCommon(item, classNode, propertyName, paramsMap):
     # (and not the one extracted from the paramsMap)
     commentAttributes = comment.parseNode(item)
     addTypeInfo(node, comment.getAttrib(commentAttributes, "description"), item)
+    handleDeprecated(node, commentAttributes)
 
     classNode.addListChild("properties", node)
 
@@ -755,6 +767,7 @@ def handleConstantDefinition(item, classNode):
     description = comment.getAttrib(commentAttributes, "description")
     addTypeInfo(node, description, item)
 
+    handleDeprecated(node, commentAttributes)
     classNode.addListChild("constants", node)
 
 
@@ -787,6 +800,8 @@ def handleFunction(funcItem, commentAttributes, classNode):
     if len(commentAttributes) == 0:
         addError(node, "Documentation is missing.", funcItem)
         return node
+
+    handleDeprecated(node, commentAttributes)
 
     # Read all description, param and return attributes
     for attrib in commentAttributes:

@@ -115,9 +115,9 @@ qx.Class.define("apiviewer.ClassViewer",
 
     /** {int} The node type of a constant. */
     NODE_TYPE_CONSTANT : 6,
-    
+
     /** {int} The node type of a appearance. */
-    NODE_TYPE_APPEARANCE : 7,    
+    NODE_TYPE_APPEARANCE : 7,
 
     /** {string} The start tag of a div. */
     DIV_START : '<div>',
@@ -223,7 +223,7 @@ qx.Class.define("apiviewer.ClassViewer",
 
       return html;
     },
-    
+
 
     /**
      * Gets the doc node of a class using the doc tree of the default Viewer instance.
@@ -241,7 +241,7 @@ qx.Class.define("apiviewer.ClassViewer",
       }
     },
 
-    
+
     /**
      * TODOC
      *
@@ -259,8 +259,8 @@ qx.Class.define("apiviewer.ClassViewer",
           a[i].target = "_blank";
         }
       }
-    }    
-      
+    }
+
   },
 
 
@@ -277,7 +277,7 @@ qx.Class.define("apiviewer.ClassViewer",
 
     _showProtected : false,
     _showInherited : false,
-    
+
     /**
      * Initializes the content of the embedding DIV. Will be called by the
      * HtmlEmbed element initialization routine.
@@ -311,7 +311,7 @@ qx.Class.define("apiviewer.ClassViewer",
       // Add constructor info
       var constructorPanel = new apiviewer.MethodPanel(ClassViewer.NODE_TYPE_CONSTRUCTOR, "constructor", "constructor", false, true);
       this._infoPanelHash[ClassViewer.NODE_TYPE_CONSTRUCTOR] = constructorPanel;
-      html.add(constructorPanel.getPanelHtml());      
+      html.add(constructorPanel.getPanelHtml());
 
       // Add event info
       var eventPanel = new apiviewer.EventPanel(ClassViewer.NODE_TYPE_EVENT, "events", "events", true, true)
@@ -385,6 +385,46 @@ qx.Class.define("apiviewer.ClassViewer",
     },
 
 
+    __getTitleHtml : function(classNode)
+    {
+      var ClassViewer = apiviewer.ClassViewer;
+
+      switch (classNode.getType())
+      {
+        case "mixin" :
+          var objectName = "Mixin";
+          break;
+
+        case "interface" :
+          var objectName = "Interface";
+          break;
+
+        default:
+          var objectName = "Class";
+          break;
+      }
+
+      var titleHtml = new qx.util.StringBuilder();
+
+      titleHtml.add('<div class="packageName">', classNode.getPackageName(), '</div>');
+
+      titleHtml.add('<span class="typeInfo">');
+
+      if (classNode.isAbstract()) {
+        titleHtml.add("Abstract ");
+      } else if (classNode.isStatic()) {
+        titleHtml.add("Static ");
+      } else if (classNode.isSingleton()) {
+        titleHtml.add("Singleton ");
+      }
+
+      titleHtml.add(objectName);
+      titleHtml.add(' </span>');
+      titleHtml.add(apiviewer.InfoPanel.createDeprecatedTitle(classNode, classNode.getName()));
+      return titleHtml.get();
+    },
+
+
     /**
      * Shows the information about a class.
      *
@@ -411,63 +451,37 @@ qx.Class.define("apiviewer.ClassViewer",
 
       var ClassViewer = apiviewer.ClassViewer;
 
-      switch (classNode.attributes.type)
+      this._titleElem.innerHTML = this.__getTitleHtml(classNode);
+
+      switch (classNode.getType())
       {
         case "mixin" :
-          var objectName = "Mixin";
           var subObjectsName = "sub mixins"
           break;
 
         case "interface" :
-          var objectName = "Interface";
           var subObjectsName = "sub interfaces"
           break;
 
         default:
-          var objectName = "Class";
           var subObjectsName = "sub classes"
           break;
 
       }
 
-      var titleHtml = new qx.util.StringBuilder();
-
-      titleHtml.add('<div class="packageName">', classNode.attributes.packageName, '</div>');
-
-      titleHtml.add('<span class="typeInfo">');
-
-      if (classNode.attributes.isAbstract) {
-        titleHtml.add("Abstract ");
-      } else if (classNode.attributes.isStatic) {
-        titleHtml.add("Static ");
-      } else if (classNode.attributes.isSingleton) {
-        titleHtml.add("Singleton ");
-      }
-
-      titleHtml.add(objectName);
-      titleHtml.add(' </span>');
-      titleHtml.add(classNode.attributes.name);
-
-      this._titleElem.innerHTML = titleHtml.get();
-
       var classHtml = new qx.util.StringBuilder();
 
       // Add the class description
-      var descNode = apiviewer.TreeUtil.getChild(classNode, "desc");
+      var desc = classNode.getDescription();
 
-      if (descNode)
+      if (desc != "")
       {
-        var desc = descNode.attributes.text;
-
-        if (desc != "")
-        {
-          classHtml.add('<div class="classDescription">', apiviewer.InfoPanel.resolveLinkAttributes(desc, classNode), '</div>');
-          classHtml.add("<br/>");
-        }
+        classHtml.add('<div class="classDescription">', apiviewer.InfoPanel.resolveLinkAttributes(desc, classNode), '</div>');
+        classHtml.add("<br/>");
       }
 
       // Add the class hierarchy
-      switch (classNode.attributes.type)
+      switch (classNode.getType())
       {
         case "mixin" :
         case "interface" :
@@ -481,48 +495,20 @@ qx.Class.define("apiviewer.ClassViewer",
 
       classHtml.add('<br/>');
 
-      // Add child classes
-      // Add implemented interfaces
-      // Add used mixins
+      classHtml.add(this.__getDependentClassesHtml(classNode.getChildClasses(), "Direct " + subObjectsName + ":"));
+      classHtml.add(this.__getDependentClassesHtml(classNode.getInterfaces(), "Implemented interfaces:"));
+      classHtml.add(this.__getDependentClassesHtml(classNode.getMixins(), "Included mixins:"));
+      classHtml.add(this.__getDependentClassesHtml(classNode.getImplementations(), "Implementations of this interface:"));
+      classHtml.add(this.__getDependentClassesHtml(classNode.getIncluder(), "Classes including this mixin:"));
 
-      var dependentObjects = {
-        childClasses : "Direct " + subObjectsName + ":",
-        interfaces: "Implemented interfaces:",
-        mixins : "Included mixins:",
-        implementations: "Implementations of this interface",
-        includer: "Classes including the mixin"
-      }
-
-      for (var obj in dependentObjects)
+      var construct = classNode.getConstructor();
+      if (construct)
       {
-        if (classNode.attributes[obj])
-        {
-          classHtml.add(ClassViewer.DIV_START_DETAIL_HEADLINE, dependentObjects[obj], ClassViewer.DIV_END, ClassViewer.DIV_START_DETAIL_TEXT);
-
-          var classNameArr = classNode.attributes[obj].split(",");
-
-          for (var i=0; i<classNameArr.length; i++)
-          {
-            if (i != 0) {
-              classHtml.add(", ");
-            }
-
-            classHtml.add(apiviewer.InfoPanel.createItemLinkHtml(classNameArr[i], null, true, false));
-          }
-
-          classHtml.add(ClassViewer.DIV_END);
-          classHtml.add('<br/>');
-        }
-      }
-
-      // Add @see attributes
-      var ctorList = apiviewer.TreeUtil.getChild(classNode, "constructor");
-
-      if (ctorList)
-      {
-        classHtml.add(apiviewer.InfoPanel.createSeeAlsoHtml(ctorList.children[0], classNode));
+        classHtml.add(apiviewer.InfoPanel.createSeeAlsoHtml(construct));
         classHtml.add('<br/>');
       }
+
+      classHtml.add(apiviewer.InfoPanel.createDeprecationHtml(classNode, "class"));
 
       this._classDescElem.innerHTML = classHtml.get();
       apiviewer.ClassViewer.fixLinks(this._classDescElem);
@@ -533,7 +519,33 @@ qx.Class.define("apiviewer.ClassViewer",
       // Scroll to top
       this.getElement().scrollTop = 0;
     },
-    
+
+
+    __getDependentClassesHtml : function(dependentClasses, title)
+    {
+      var ClassViewer = apiviewer.ClassViewer;
+
+      if (dependentClasses.length > 0)
+      {
+        var result = new qx.util.StringBuilder(ClassViewer.DIV_START_DETAIL_HEADLINE, title, ClassViewer.DIV_END, ClassViewer.DIV_START_DETAIL_TEXT);
+
+        for (var i=0; i<dependentClasses.length; i++)
+        {
+          if (i != 0) {
+            result.add(", ");
+          }
+          result.add(apiviewer.InfoPanel.createItemLinkHtml(dependentClasses[i], null, true, false));
+        }
+
+        result.add(ClassViewer.DIV_END);
+        result.add('<br/>');
+        result = result.get();
+      } else {
+        result = "";
+      }
+      return result;
+    },
+
 
     /**
      * Generate HTML fragment to display the inheritance hierarchy of a class.
@@ -548,14 +560,7 @@ qx.Class.define("apiviewer.ClassViewer",
       // Create the class hierarchy
       var classHtml = new qx.util.StringBuilder(ClassViewer.DIV_START_DETAIL_HEADLINE, "Inheritance hierarchy:", ClassViewer.DIV_END);
 
-      var classHierarchy = [];
-      var currClass = classNode;
-
-      while (currClass != null)
-      {
-        classHierarchy.push(currClass);
-        currClass = apiviewer.ClassViewer.getClassDocNode(currClass.attributes.superClass);
-      }
+      var classHierarchy = classNode.getClassHierarchy();
 
       classHtml.add(ClassViewer.createImageHtml("api/image/class18.gif"), "Object<br/>");
       var indent = 0;
@@ -564,13 +569,13 @@ qx.Class.define("apiviewer.ClassViewer",
       {
         classHtml.add(
           ClassViewer.createImageHtml("api/image/nextlevel.gif", null, "margin-left:" + indent + "px"),
-          ClassViewer.createImageHtml(apiviewer.TreeUtil.getIconUrl(classHierarchy[i]))
+          ClassViewer.createImageHtml(apiviewer.TreeUtil.getIconUrl(classHierarchy[i].getNode()))
         );
 
         if (i != 0) {
-          classHtml.add(apiviewer.InfoPanel.createItemLinkHtml(classHierarchy[i].attributes.fullName, null, false));
+          classHtml.add(apiviewer.InfoPanel.createItemLinkHtml(classHierarchy[i].getFullName(), null, false));
         } else {
-          classHtml.add(classHierarchy[i].attributes.fullName);
+          classHtml.add(classHierarchy[i].getFullName());
         }
 
         classHtml.add("<br/>");
@@ -588,20 +593,10 @@ qx.Class.define("apiviewer.ClassViewer",
      */
     __getHierarchyTreeHtml: function(classNode)
     {
-      switch (classNode.attributes.type)
-      {
-        case "mixin":
-          superList = "superMixins";
-          superObject = "mixin";
-          break;
-
-        case "interface":
-          superList = "superInterfaces";
-          superObject = "interface";
-          break;
-
-        default:
-          return "";
+      if (classNode.getType() == "mixin") {
+        var superList = "superMixins";
+      } else {
+        superList = "superInterfaces";
       }
 
       var ClassViewer = apiviewer.ClassViewer;
@@ -629,25 +624,18 @@ qx.Class.define("apiviewer.ClassViewer",
             line.add(EMPTY_CELL);
           }
 
-          line.add(ClassViewer.createImageHtml(apiviewer.TreeUtil.getIconUrl(classNode)));
+          line.add(ClassViewer.createImageHtml(apiviewer.TreeUtil.getIconUrl(classNode.getNode())));
           if (!first) {
-            line.add(apiviewer.InfoPanel.createItemLinkHtml(nodes[nodeIndex].attributes.fullName, null, false));
+            line.add(apiviewer.InfoPanel.createItemLinkHtml(classNode.getFullName(), null, false));
           } else {
-            line.add(nodes[nodeIndex].attributes.fullName);
+            line.add(classNode.getFullName());
           }
           lines.push(line.get());
 
           // get a list of super interfaces
-          var superInterfaces = [];
-
-          var superInterfacesNode = apiviewer.TreeUtil.getChild(classNode, superList);
-          if (superInterfacesNode)
-          {
-            for (var j=0; j<superInterfacesNode.children.length; j++) {
-              if (superInterfacesNode.children[j].type = superObject) {
-                superInterfaces.push(ClassViewer.getClassDocNode(superInterfacesNode.children[j].attributes.name));
-              }
-            }
+          var superInterfaces = qx.lang.Array.clone(classNode.getItemList(superList));
+          for (var j=0; j<superInterfaces.length; j++) {
+            superInterfaces[j] = apiviewer.dao.Class.getClassByName(superInterfaces[j].getName());
           }
 
           // render lines of super interfaces
@@ -667,15 +655,15 @@ qx.Class.define("apiviewer.ClassViewer",
       }
 
       var classHtml = new qx.util.StringBuilder();
-      
-      if (apiviewer.TreeUtil.getChild(classNode, superList)) 
+
+      if(classNode.getItemList(superList).length > 0)
       {
         classHtml.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "Inheritance hierarchy:", ClassViewer.DIV_END);
         classHtml.add("<div style='line-height:15px'>");
         classHtml.add(generateTree([classNode], true).join("<br />\n"));
         classHtml.add("</div>");
       }
-      
+
       return classHtml.get();
     },
 
@@ -738,14 +726,14 @@ qx.Class.define("apiviewer.ClassViewer",
      */
     showItem : function(itemName)
     {
-      var itemNode = apiviewer.TreeUtil.getItemDocNode(this._currentClassDocNode, itemName);
+      var itemNode = this._currentClassDocNode.getItem(itemName);
 
       if (!itemNode) {
         alert("Item '" + itemName + "' not found");
       }
 
       var panel = this._getPanelForItemNode(itemNode);
-      var elem = this._getItemElement(panel, itemNode.attributes.name).parentNode.parentNode;
+      var elem = this._getItemElement(panel, itemNode.getName()).parentNode.parentNode;
 
       // Handle mark
       if (this._markedElement) {
@@ -800,17 +788,10 @@ qx.Class.define("apiviewer.ClassViewer",
         var fromClassNode = this._currentClassDocNode;
 
         if (fromClassName) {
-          fromClassNode = apiviewer.ClassViewer.getClassDocNode(fromClassName);
+          fromClassNode = apiviewer.dao.Class.getClassByName(fromClassName);
         }
 
-        var listNode = apiviewer.TreeUtil.getChild(fromClassNode, panel.getListName());
-        var node;
-
-        if (nodeType == apiviewer.ClassViewer.NODE_TYPE_CONSTRUCTOR) {
-          node = listNode.children[0];
-        } else {
-          node = apiviewer.TreeUtil.getChildByAttribute(listNode, "name", name);
-        }
+        var node = fromClassNode.getItemByListAndName(panel.getListName(), name);
 
         // Update the close/open image
         var opencloseImgElem = textDiv.parentNode.previousSibling.firstChild;
@@ -935,9 +916,10 @@ qx.Class.define("apiviewer.ClassViewer",
      */
     _getPanelForItemNode : function(itemNode)
     {
+      itemNode = itemNode.getNode();
       var ClassViewer = apiviewer.ClassViewer;
 
-      if (itemNode.type == "constant") {
+      if (itemNode.getType == "constant") {
         return this._infoPanelHash[ClassViewer.NODE_TYPE_CONSTANT];
       } else if (itemNode.type == "property") {
         return this._infoPanelHash[ClassViewer.NODE_TYPE_PROPERTY];
