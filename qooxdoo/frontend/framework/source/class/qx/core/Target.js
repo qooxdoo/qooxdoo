@@ -107,8 +107,9 @@ qx.Class.define("qx.core.Target",
           return;
         }
 
-        if (!qx.Class.supportsEvent(this.constructor, type)) {
-          this.warn("Objects of class '" + this.constructor.classname + "' do not support the event '" + type + "'");
+        // Event validation is only available in modern classes
+        if (this.constructor.base && !qx.Class.supportsEvent(this.constructor, type)) {
+          this.warn("Objects of class‚ '" + this.constructor.classname + "' do not support the event '" + type + "'");
         }
       }
 

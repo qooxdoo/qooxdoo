@@ -524,17 +524,11 @@ qx.Class.define("qx.core.LegacyProperty",
             try
             {
               var r = this[modifyKey](newValue, oldValue, config);
-
-              if (!r)
-              {
-                var valueStr = new String(newValue).substring(0, 50);
-                return this.error("Setting property \"" + config.name + "\" to \"" + valueStr + "\" failed without exception (" + r + ")", new Error());
-              }
             }
             catch(ex)
             {
               var valueStr = new String(newValue).substring(0, 50);
-              return this.error("Setting property \"" + config.name + "\" to \"" + valueStr + "\" failed with exception", ex);
+              this.error("Setting property \"" + config.name + "\" to \"" + valueStr + "\" failed with exception", ex);
             }
           }
 

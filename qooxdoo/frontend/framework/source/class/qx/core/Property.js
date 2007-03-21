@@ -311,8 +311,8 @@ qx.Class.define("qx.core.Property",
     init : function(clazz, instance)
     {
       var properties = clazz.$$properties;
-      var name;
       var init = this.$$method.init;
+      var name;
 
       if (properties)
       {

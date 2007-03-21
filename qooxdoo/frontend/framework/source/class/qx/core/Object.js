@@ -80,8 +80,6 @@ qx.Class.define("qx.core.Object",
     if (!this.constructor.$$propertiesAttached) {
       qx.core.Property.attachProperties(this.constructor);
     }
-
-    //qx.core.Property.applyInitValues(this);
   },
 
 
@@ -235,8 +233,7 @@ qx.Class.define("qx.core.Object",
      * @type static
      * @return {Boolean} whether a global dispose is taking place.
      */
-    inGlobalDispose : function()
-    {
+    inGlobalDispose : function() {
       return qx.core.Object.__disposeAll;
     }
   },
@@ -320,7 +317,7 @@ qx.Class.define("qx.core.Object",
      */
     base : function(args, varags)
     {
-      if (arguments.length == 1) {
+      if (arguments.length === 1) {
         return args.callee.base.call(this);
       } else {
         return args.callee.base.apply(this, Array.prototype.slice.call(arguments, 1));
@@ -340,14 +337,6 @@ qx.Class.define("qx.core.Object",
     },
 
 
-
-    properties : function(args) {
-      return qx.core.Property.init(args.callee.self, this);
-    },
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       COMMON SETTER SUPPORT
@@ -356,6 +345,7 @@ qx.Class.define("qx.core.Object",
 
     /**
      * Sets multiple properties at once by using a property list
+     * TODO: Update to support new properties, too
      *
      * @type member
      * @param data {Map} a map of property values. The key is the name of the property.
@@ -446,21 +436,8 @@ qx.Class.define("qx.core.Object",
       while (clazz.superclass)
       {
         // Processing this class...
-        if (clazz.destructor) {
-          clazz.destructor.call(this);
-        }
-
-        // ...and all included mixins
-        if (clazz.$$includes)
-        {
-          for (var key in clazz.$$includes)
-          {
-            var mixin = clazz.$$includes[key];
-
-            if (mixin.destructor) {
-              mixin.destructor.call(this);
-            }
-          }
+        if (clazz.$$destruct) {
+          clazz.$$destruct.call(this);
         }
 
         // Jump up to next super class
