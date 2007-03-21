@@ -98,13 +98,13 @@ qx.Class.define("qx.Interface",
 
         // Attach configuration
         if (config.extend) {
-          iface.$$extend = config.extend instanceof Array ? config.extend : [config.extend];
+          iface.$$extends = config.extend instanceof Array ? config.extend : [config.extend];
         }
-        
+
         if (config.properties) {
           iface.$$properties = config.properties;
         }
-        
+
         if (config.members) {
           iface.$$members = config.members;
         }
@@ -164,6 +164,32 @@ qx.Class.define("qx.Interface",
 
 
     /**
+     * Generates a list of all interfaces given plus all the
+     * interfaces these extends plus... (deep)
+     *
+     * @param ifaces {Interface[] ? []} List of interfaces
+     * @returns {Array} List of all interfaces
+     */
+    flatten : function(ifaces)
+    {
+      if (ifaces) {
+        return [];
+      }
+
+      var list = ifaces;
+
+      for (var i=0, la=ifaces.length; i<la; i++)
+      {
+        if (ifaces[i].$$extends) {
+          list.push.apply(this.flatten(ifaces[i].$$extends));
+        }
+      }
+
+      return list;
+    },
+
+
+    /**
      * Checks if a interface is implemented by a class
      *
      * @type static
@@ -172,14 +198,14 @@ qx.Class.define("qx.Interface",
      * @param wrap {Boolean ? false} wrap functions required by interface to check parameters etc.
      * @return {void}
      */
-    assertInterface : function(clazz, iface, wrap)
+    assert : function(clazz, iface, wrap)
     {
       // Check extends, recursive
-      var extend = iface.$$extend;
+      var extend = iface.$$extends;
       if (extend)
       {
         for (var i=0, l=extend.length; i<l; i++) {
-          this.assertInterface(clazz, extend[i], wrap);
+          this.assert(clazz, extend[i], wrap);
         }
       }
 
@@ -230,6 +256,8 @@ qx.Class.define("qx.Interface",
 
 
 
+
+
     /*
     ---------------------------------------------------------------------------
        PRIVATE FUNCTIONS AND DATA
@@ -262,12 +290,12 @@ qx.Class.define("qx.Interface",
 
         return origFunction.apply(this, arguments);
       }
-      
+
       origFunction.wrapper = wrappedFunction;
-      
+
       return wrappedFunction;
     },
-    
+
 
     /**
      * Validates incoming configuration and checks keys and values
@@ -302,17 +330,17 @@ qx.Class.define("qx.Interface",
         if (config.extend)
         {
           var extend = config.extend;
-          
+
           if (!(config.extend instanceof Array)) {
             config.extend = [config.extend];
           }
-          
+
           for (var i=0, l=extend.length; i<l; i++)
           {
             if (extend[i] == null) {
               throw new Error("Extends of interfaces must be interfaces. The extend number '" + i+1 + "' in interface '" + name + "' is undefined/null!");
             }
-            
+
             if (extend[i].$$type !== "Interface") {
               throw new Error("Extends of interfaces must be interfaces. The extend number '" + i+1 + "' in interface '" + name + "' is not an interface!");
             }
