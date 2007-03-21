@@ -129,6 +129,9 @@ qx.Class.define("qx.Mixin",
       mixin.$$type = "Mixin";
       mixin.name = name;
 
+      // Attach toString
+      mixin.toString = this.$$toString;
+
       // Assign to namespace
       mixin.basename = qx.Class.createNamespace(name, mixin);
 
@@ -154,6 +157,18 @@ qx.Class.define("qx.Mixin",
       for (var i=0, l=mixins.length; i<l; i++) {
         this.__checkCompatibilityRecurser(mixins[i], events, properties, members);
       }
+    },
+
+
+    /**
+     * This method will be attached to all mixins to return
+     * a nice identifier for them.
+     *
+     * @internal
+     * @return {String} The mixin identifier
+     */
+    $$toString : function() {
+      return "[Mixin " + this.name + "]";
     },
 
 

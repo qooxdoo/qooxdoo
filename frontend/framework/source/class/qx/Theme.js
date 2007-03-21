@@ -63,13 +63,15 @@ qx.Class.define("qx.Theme",
       // Create alias
       var theme = config;
 
-      // Assign to namespace
-      var basename = qx.Class.createNamespace(name, theme);
-
       // Add name and basename to object
+      theme.$$type = "Theme";
       theme.name = name;
-      theme.basename = basename;
-      theme.isTheme = true;
+
+      // Attach toString
+      theme.toString = this.$$toString;
+
+      // Assign to namespace
+      theme.basename = qx.Class.createNamespace(name, theme);;
 
       // Register to managers
       if (theme.appearances) {
@@ -163,6 +165,18 @@ qx.Class.define("qx.Theme",
      */
     getNumber : function() {
       return qx.lang.Object.getLength(this.__registry);
+    },
+
+
+    /**
+     * This method will be attached to all themes to return
+     * a nice identifier for them.
+     *
+     * @internal
+     * @return {String} The interface identifier
+     */
+    $$toString : function() {
+      return "[Theme " + this.name + "]";
     },
 
 
