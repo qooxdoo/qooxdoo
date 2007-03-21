@@ -98,13 +98,15 @@ qx.Class.define("qx.Interface",
 
         // Attach configuration
         if (config.extend) {
-          iface.extend = config.extend;
+          iface.$$extend = config.extend instanceof Array ? config.extend : [config.extend];
         }
+        
         if (config.properties) {
-          iface.properties = config.properties;
+          iface.$$properties = config.properties;
         }
+        
         if (config.members) {
-          iface.members = config.members;
+          iface.$$members = config.members;
         }
       }
       else
@@ -113,11 +115,9 @@ qx.Class.define("qx.Interface",
         var iface = {};
       }
 
-      // Add basics
-      iface.isInterface = true;
+      // Basics
+      iface.$$type = "Interface";
       iface.name = name;
-
-      // Assign to namespace
       iface.basename = qx.Class.createNamespace(name, iface);
 
       // Add to registry
@@ -164,91 +164,6 @@ qx.Class.define("qx.Interface",
 
 
     /**
-     * Whether a given class includes a interface.
-     *
-     * This function will only return "true" if the interface was defined
-     * in the class declaration (@link qx.Class#define}) using the "implement"
-     * key.
-     *
-     * @type static
-     * @param clazz {Class|Object} class or instance to check
-     * @param iface {Interface} the interface to check for
-     * @return {Boolean} whether the class includes the mixin.
-     */
-    hasOwnInterface : function(clazz, iface)
-    {
-      var clazz = clazz.constructor || clazz;
-
-      if (!clazz.$$implements) {
-        return false;
-      }
-
-      return clazz.$$implements[iface.name] ? true : false;
-    },
-
-
-    /**
-     * Whether a given class includes a interface (recursive).
-     *
-     * This function will return "true" if the interface was defined
-     * in the class declaration (@link qx.Class#define}) of the class
-     * or any of its super classes using the "implement"
-     * key.
-     *
-     * @type static
-     * @param clazz {Class|Object} class or instance to check
-     * @param iface {Interface} the interface to check for
-     * @return {Boolean} whether the class includes the interface.
-     */
-    hasInterface : function(clazz, iface)
-    {
-      var clazz = clazz.constructor || clazz;
-
-      if (!clazz.$$implements) {
-        return false;
-      }
-
-      if (this.__hasInterfaceRecurser(clazz.$$implements, iface)) {
-        return true;
-      }
-
-      return false;
-    },
-
-
-    /**
-     * Wether a given class conforms to an interface.
-     *
-     * Checks whether all methods defined in the interface are
-     * implemented in the class. The class does not needs to declare
-     * the interfaces directly.
-     *
-     * @type static
-     * @param clazz {Class|Object} class or instance to check
-     * @param iface {Interface} the interface to check for
-     * @return {Boolean} whether the class includes the interface.
-     */
-    implementsInterface : function(clazz, iface)
-    {
-      var clazz = clazz.constructor || clazz;
-
-      if (this.hasInterface(clazz, iface)) {
-        return true;
-      }
-
-      try
-      {
-        this.assertInterface(clazz, iface);
-        return true;
-      }
-      catch(ex)
-      {
-        return false;
-      }
-    },
-
-
-    /**
      * Checks if a interface is implemented by a class
      *
      * @type static
@@ -260,23 +175,16 @@ qx.Class.define("qx.Interface",
     assertInterface : function(clazz, iface, wrap)
     {
       // Check extends, recursive
-      var extend = iface.extend;
+      var extend = iface.$$extend;
       if (extend)
       {
-        if (extend.isInterface)
-        {
-          this.assertInterface(clazz, extend, wrap);
-        }
-        else
-        {
-          for (var i=0, l=extend.length; i<l; i++) {
-            this.assertInterface(clazz, extend[i], wrap);
-          }
+        for (var i=0, l=extend.length; i<l; i++) {
+          this.assertInterface(clazz, extend[i], wrap);
         }
       }
 
       // Validate members
-      var members = iface.members;
+      var members = iface.$$members;
       if (members)
       {
         var proto = clazz.prototype;
@@ -308,7 +216,7 @@ qx.Class.define("qx.Interface",
       }
 
       // Validate properties
-      var properties = iface.properties;
+      var properties = iface.$$properties;
       if (properties)
       {
         for (var key in properties)
@@ -346,7 +254,7 @@ qx.Class.define("qx.Interface",
      */
     __wrapInterfaceMember : function(ifaceName, origFunction, functionName, preCondition)
     {
-      wrappedFunction = function()
+      function wrappedFunction()
       {
         if (!preCondition.apply(this, arguments)) {
           throw new Error('Pre condition of method "' + functionName + '" defined by "' + ifaceName + '" failed.');
@@ -354,44 +262,12 @@ qx.Class.define("qx.Interface",
 
         return origFunction.apply(this, arguments);
       }
+      
       origFunction.wrapper = wrappedFunction;
+      
       return wrappedFunction;
     },
-
-    /**
-     * Checks if an interface given exists somewhere in this class
-     * including inheritance of the interfaces.
-     *
-     * @param map {Map} Map of known interface names
-     * @param iface {Interface} Interface to check (recursively)
-     * @return {Boolean} true if the interface is defined by this map
-     */
-    __hasInterfaceRecurser : function(map, iface)
-    {
-      if (map[iface.name]) {
-        return true;
-      }
-
-      var extend = iface.extend;
-      if (extend)
-      {
-        if (extend.isInterface) {
-          return this.__hasInterfaceRecurser(map, extend);
-        }
-        else
-        {
-          for (var i=0, l=extend.length; i<l; i++)
-          {
-            if (this.__hasInterfaceRecurser(map, extend[i])) {
-              return true;
-            }
-          }
-        }
-      }
-
-      return false;
-    },
-
+    
 
     /**
      * Validates incoming configuration and checks keys and values
@@ -423,12 +299,22 @@ qx.Class.define("qx.Interface",
         }
 
         // Check extends
-        if (config.extend && config.extend instanceof Array)
+        if (config.extend)
         {
-          for (var i=0; i<config.extend.length; i++)
+          var extend = config.extend;
+          
+          if (!(config.extend instanceof Array)) {
+            config.extend = [config.extend];
+          }
+          
+          for (var i=0, l=extend.length; i<l; i++)
           {
-            if (!config.extend[i]) {
-              throw new Error("The extend number '" + i+1 + "' in interface '" + name + "' is undefined!");
+            if (extend[i] == null) {
+              throw new Error("Extends of interfaces must be interfaces. The extend number '" + i+1 + "' in interface '" + name + "' is undefined/null!");
+            }
+            
+            if (extend[i].$$type !== "Interface") {
+              throw new Error("Extends of interfaces must be interfaces. The extend number '" + i+1 + "' in interface '" + name + "' is not an interface!");
             }
           }
         }

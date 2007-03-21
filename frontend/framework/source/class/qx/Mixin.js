@@ -92,30 +92,32 @@ qx.Class.define("qx.Mixin",
           this.__validateConfig(name, config);
         }
 
-        //var mixin = config;
-
         // Create Interface from statics
         var mixin = config.statics ? config.statics : {};
 
         // Attach configuration
-        if (config.extend) {
-          mixin.include = config.include;
+        if (config.construct) {
+          mixin.$$construct = config.construct;
         }
+                
+        if (config.include) {
+          mixin.$$include = config.include instanceof Array ? config.include : [config.include];
+        }
+        
         if (config.properties) {
-          mixin.properties = config.properties;
+          mixin.$$properties = config.properties;
         }
+        
         if (config.members) {
-          mixin.members = config.members;
+          mixin.$$members = config.members;
         }
+        
         if (config.events) {
-          mixin.events = config.events;
+          mixin.$$events = config.events;
         }
-
-        // Rename
-        if (config.destruct)
-        {
-          mixin.destructor =  config.destruct;
-          delete config.destruct;
+        
+        if (config.destruct) {
+          mixin.$$destruct = config.destruct;
         }
       }
       else
@@ -124,7 +126,7 @@ qx.Class.define("qx.Mixin",
       }
 
       // Add basics
-      mixin.isMixin = true;
+      mixin.$$type = "Mixin";
       mixin.name = name;
 
       // Assign to namespace
@@ -138,6 +140,23 @@ qx.Class.define("qx.Mixin",
     },
 
 
+    /**
+     * Check compatiblity between Mixins (including their includes)
+     *
+     * @param mixins {Mixin[]} An Array of Mixins
+     */
+    checkCompatibility : function(mixins)
+    {
+      var properties = {};
+      var members = {};
+      var events = {};
+
+      for (var i=0, l=mixins.length; i<l; i++) {
+        this.__checkCompatibilityRecurser(mixins[i], events, properties, members);
+      }
+    },
+    
+    
     /**
      * Returns a Mixin by name
      *
@@ -174,48 +193,6 @@ qx.Class.define("qx.Mixin",
     },
 
 
-    /**
-     * Whether a given class includes a mixin.
-     *
-     * @type static
-     * @param clazz {Class} class to check
-     * @param mixin {Mixin} the mixin to check for
-     * @return {Boolean} whether the class includes the mixin.
-     */
-    hasOwnMixin: function(clazz, mixin)
-    {
-      if (!clazz.$$includes) {
-        return false;
-      }
-
-      return clazz.$$includes[mixin.name] ? true : false;
-    },
-
-
-    /**
-     * Whether a given class includes a mixin (recursive).
-     *
-     * @type static
-     * @param clazz {Class} class to check
-     * @param mixin {Mixin} the mixin to check for
-     * @return {Boolean} whether the class includes the mixin.
-     */
-    hasMixin: function(clazz, mixin)
-    {
-      if (!clazz.$$includes) {
-        return false;
-      }
-
-      if (this.__hasMixinRecurser(clazz.$$includes, mixin)) {
-        return true;
-      }
-
-      return false;
-    },
-
-
-
-
     /*
     ---------------------------------------------------------------------------
        PRIVATE FUNCTIONS AND DATA
@@ -241,6 +218,7 @@ qx.Class.define("qx.Mixin",
         "members"    : "object",   // Map
         "properties" : "object",   // Map
         "destruct"   : "function", // Function
+        "construct"  : "function", // Function
         "events"     : "object"    // Map
       }
 
@@ -261,95 +239,48 @@ qx.Class.define("qx.Mixin",
 
       if (config.include)
       {
-        if (config.include instanceof Array)
+        var include = config.include;
+        
+        if (!(include instanceof Array)) {
+          include = [include];
+        }
+        
+        for (var i=0, l=include.length; i<l; i++)
         {
-          for (var i=0; i<config.include.length; i++)
-          {
-            if (!config.include[i].isMixin) {
-              throw new Error("Includes of Mixins must be Mixins. Include number '" + i + "' in mixin '"+name + "'is not a Mixin!");
-            }
+          if (include[i] == null) {
+            throw new Error("Includes of mixins must be mixins. The include number '" + (i+1) + "' in mixin '" + name + "'is undefined/null!");
           }
 
-          this.checkCompatibility.apply(this, config.include);
-        }
-        else if (!config.include.isMixin)
-        {
-          throw new Error("Includes of Mixins must be Mixins. The include in Mixin '" + name + "' is not a Mixin!");
-        }
-        else
-        {
-          this.checkCompatibility(config.include);
-        }
-      }
-    },
-
-
-    /**
-     * Checks if a mixin given exists somewhere in this class including
-     * the included mixins (recursively).
-     *
-     * @param map {Map} Map of known mixin names
-     * @param mixin {Mixin} Mixin to check (recursively)
-     * @return {Boolean} true if the mixin is defined by this map
-     */
-    __hasMixinRecurser : function(map, mixin)
-    {
-      if (map[mixin.name]) {
-        return true;
-      }
-
-      var include = mixin.include;
-      if (extend)
-      {
-        if (extend.isMixin) {
-          return this.__hasMixinRecurser(map, extend);
-        }
-        else
-        {
-          for (var i=0, l=extend.length; i<l; i++)
-          {
-            if (this.__hasMixinRecurser(map, extend[i])) {
-              return true;
-            }
+          if (include[i].$$type !== "Mixin") {
+            throw new Error("Includes of mixins must be mixins. The include number '" + (i+1) + "' in mixin '" + name + "'is not a mixin!");
           }
         }
-      }
 
-      return false;
-    },
-
-
-    /**
-     * Check compatiblity between Mixins (including their includes)
-     *
-     * @param mixins {Mixin | Mixin[]} A single Mixin or an Array of Mixins
-     */
-    checkCompatibility : function(mixins)
-    {
-      var statics = {};
-      var properties = {};
-      var members = {};
-
-      if (mixins.isMixin) {
-        mixins = [mixins];
-      }
-
-      for (var i=0, l=mixins.length; i<l; i++) {
-        this.__checkCompatibilityRecurser(mixins[i], statics, properties, members);
+        this.checkCompatibility(include);
       }
     },
+    
 
     /**
      * Check compatiblity between Mixins
      *
      * @param mixin {Mixin} the mixin to test
-     * @param statics {Map} successive build Map of already found static fields
+     * @param events {Map} successive build Map of already found events
      * @param properties {Map} successive build Map of already found properties
      * @param members {Map} successive build Map of already found members
      * @see checkCompatibility
      */
-    __checkCompatibilityRecurser : function(mixin, statics, properties, members)
+    __checkCompatibilityRecurser : function(mixin, events, properties, members)
     {
+      for (var key in mixin.events)
+      {
+        if(events[key]) {
+          throw new Error('Conflict between Mixin "' + mixin.name + '" and "' + events[key] + '" in member "' + key + '"!');
+        }
+
+        events[key] = mixin.name;
+      }
+      
       for (var key in mixin.properties)
       {
         if(properties[key]) {
@@ -370,11 +301,9 @@ qx.Class.define("qx.Mixin",
 
       if (mixin.include)
       {
-        var includes = mixin.isMixin ? [mixin.isMixin] : mixin.isMixin;
-
-        for (var i=0, l=includes.length; i<l; i++) {
-          this.__checkCompatibilityRecurser(includes[i], statics, properties, members);
-        }
+        for (var i=0, a=mixin.$$include, l=a.length; i<l; i++) {
+          this.__checkCompatibilityRecurser(a[i], events, properties, members);
+        }    
       }
     }
   }
