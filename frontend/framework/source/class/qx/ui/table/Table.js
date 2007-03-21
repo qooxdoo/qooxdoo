@@ -64,6 +64,9 @@ qx.Class.define("qx.ui.table.Table",
     this._columnVisibilityBt = new qx.ui.toolbar.Button(null, "widget/table/selectColumnOrder.png");
     this._columnVisibilityBt.addEventListener("execute", this._onColumnVisibilityBtExecuted, this);
 
+    // Allocate a default data row renderer
+    this.setDataRowRenderer(new qx.ui.table.DefaultDataRowRenderer());
+    
     // Create the models
     this._selectionManager = this.getNewSelectionManager()(this);
     this.setSelectionModel(this.getNewSelectionModel()(this));
@@ -251,8 +254,7 @@ qx.Class.define("qx.ui.table.Table",
       _legacy      : true,
       type         : "object",
       instance     : "qx.ui.table.DataRowRenderer",
-      defaultValue : new qx.ui.table.DefaultDataRowRenderer(),
-      allowNull    : false
+      defaultValue : null
     },
 
 
@@ -653,6 +655,27 @@ qx.Class.define("qx.ui.table.Table",
 
       for (var i=0; i<scrollerArr.length; i++) {
         scrollerArr[i].getHeader().setHeight(propValue);
+      }
+
+      return true;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {Boolean} TODOC
+     */
+    _modifyDataRowRenderer : function(propValue, propOldValue, propData)
+    {
+      if (propOldValue != null)
+      {
+        propOldValue.dispose();
+        propOldValue = null;
       }
 
       return true;
