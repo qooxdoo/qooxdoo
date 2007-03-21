@@ -534,7 +534,7 @@ qx.Class.define("apiviewer.InfoPanel", {
       }
       html.add(ClassViewer.DIV_END);
       return html.get();
-    },
+    }
 
 
   },
