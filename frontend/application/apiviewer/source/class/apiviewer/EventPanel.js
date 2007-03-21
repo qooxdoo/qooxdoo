@@ -44,8 +44,8 @@ qx.Class.define("apiviewer.EventPanel", {
       return (
         (fromClassNode != currentClassDocNode) // event is inherited
         || (
-          apiviewer.InfoPanel.hasSeeAlsoHtml(node) ||
-          apiviewer.InfoPanel.hasErrorHtml(node) ||
+          node.getSee().length > 0 ||
+          node.getErrors().length > 0 ||
           apiviewer.InfoPanel.descriptionHasDetails(node)
           )
         );
@@ -64,16 +64,17 @@ qx.Class.define("apiviewer.EventPanel", {
      */
     getItemHtml : function(node, fromClassNode, currentClassDocNode, showDetails)
     {
+      fromClassNode = node.getClass();
       var ClassViewer = apiviewer.ClassViewer;
 
       var info = {};
 
       // Add the title
-      info.typeHtml = apiviewer.InfoPanel.createTypeHtml(node, fromClassNode, "var");
-      info.titleHtml = node.attributes.name;
+      info.typeHtml = apiviewer.InfoPanel.createTypeHtml(node, "var");
+      info.titleHtml = apiviewer.InfoPanel.createDeprecatedTitle(node, node.getName());
 
       // Add the description
-      textHtml = new qx.util.StringBuilder(apiviewer.InfoPanel.createDescriptionHtml(node, fromClassNode, showDetails));
+      textHtml = new qx.util.StringBuilder(apiviewer.InfoPanel.createDescriptionHtml(node, showDetails));
 
       if (showDetails)
       {
@@ -82,16 +83,15 @@ qx.Class.define("apiviewer.EventPanel", {
           textHtml.add(
             ClassViewer.DIV_START_DETAIL_HEADLINE, "Inherited from:", ClassViewer.DIV_END,
             ClassViewer.DIV_START_DETAIL_TEXT,
-            apiviewer.InfoPanel.createItemLinkHtml(fromClassNode.attributes.fullName),
+            apiviewer.InfoPanel.createItemLinkHtml(fromClassNode.getFullName()),
             ClassViewer.DIV_END
           );
         }
 
-        // Add @see attributes
-        textHtml.add(apiviewer.InfoPanel.createSeeAlsoHtml(node, fromClassNode));
+        textHtml.add(apiviewer.InfoPanel.createSeeAlsoHtml(node));
+        textHtml.add(apiviewer.InfoPanel.createErrorHtml(node, fromClassNode, currentClassDocNode));
+        textHtml.add(apiviewer.InfoPanel.createDeprecationHtml(node, "event"));
 
-        // Add documentation errors
-        textHtml.add(apiviewer.InfoPanel.createErrorHtml(node, fromClassNode));
       }
 
       info.textHtml = textHtml.get()

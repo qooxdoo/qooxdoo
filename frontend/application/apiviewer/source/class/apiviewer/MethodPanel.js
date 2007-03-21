@@ -32,6 +32,57 @@ qx.Class.define("apiviewer.MethodPanel", {
 
   members : {
 
+    getTitleHtml : function(method)
+    {
+      if (method.isConstructor()) {
+        var title = method.getClass().getName();
+      } else {
+        title = method.getName();
+      }
+      var titleHtml = new qx.util.StringBuilder(apiviewer.InfoPanel.createDeprecatedTitle(method, title));
+
+      // Add the title (the method signature)
+      titleHtml.add('<span class="methodSignature"> <span class="parenthesis">(</span>');
+
+      var params = method.getParams();
+      for (var i=0; i<params.length; i++)
+      {
+        var param = params[i];
+
+        if (i != 0) {
+          titleHtml.add('<span class="separator">,</span> ');
+        }
+
+        titleHtml.add(
+          '<span class="parameterType">', apiviewer.InfoPanel.createTypeHtml(param, "var"),
+          '</span> <span class="parameterName">', param.getName(), '</span>'
+        );
+
+        if (param.getDefaultValue()) {
+          titleHtml.add("?");
+        }
+      }
+
+      titleHtml.add('<span class="parenthesis">)</span></span>');
+      return titleHtml.get()
+    },
+
+
+    getTypeHtml : function(method)
+    {
+      var typeHtml = new qx.util.StringBuilder();
+      if (method.isAbstract()) {
+        typeHtml.add("abstract ")
+      }
+
+      if (!method.isConstructor()) {
+        typeHtml.add(apiviewer.InfoPanel.createTypeHtml(method.getReturn(), "void"));
+      }
+
+      return typeHtml.get();
+    },
+
+
     /**
      * Creates the HTML showing the information about a method.
      *
@@ -42,92 +93,36 @@ qx.Class.define("apiviewer.MethodPanel", {
      * @param showDetails {Boolean} whether to show the details.
      * @return {String} the HTML showing the information about the method.
      */
-    getItemHtml : function(node, fromClassNode, currentClassDocNode, showDetails)
+    getItemHtml : function(method, fromClassNode, currentClassDocNode, showDetails)
     {
       var ClassViewer = apiviewer.ClassViewer;
       var TreeUtil = apiviewer.TreeUtil;
 
-      // Get the method node that holds the documentation
-      var docClassNode = fromClassNode;
-      var docNode = node;
-
-      if (node.attributes.docFrom)
-      {
-        docClassNode = apiviewer.ClassViewer.getClassDocNode(node.attributes.docFrom);
-        var listNode = TreeUtil.getChild(docClassNode, this.getListName());
-        docNode = TreeUtil.getChildByAttribute(listNode, "name", node.attributes.name);
-      }
-
-      var typeHtml = new qx.util.StringBuilder();
-      if (node.attributes.isAbstract) {
-        typeHtml.add("abstract ")
-      }
-
-      // Get name, icon and return type
-      var returnNode = TreeUtil.getChild(docNode, "return");
-
-      var titleHtml = new qx.util.StringBuilder();
-      if (node.attributes.isCtor) {
-        titleHtml.add(fromClassNode.attributes.name);
-      }
-      else
-      {
-        titleHtml.add(node.attributes.name);
-        typeHtml.add(apiviewer.InfoPanel.createTypeHtml(returnNode, fromClassNode, "void"));
-      }
-
-      // Add the title (the method signature)
-      titleHtml.add('<span class="methodSignature"> <span class="parenthesis">(</span>');
-      var paramsNode = TreeUtil.getChild(docNode, "params");
-
-      if (paramsNode)
-      {
-        for (var i=0; i<paramsNode.children.length; i++)
-        {
-          var param = paramsNode.children[i];
-
-          if (i != 0) {
-            titleHtml.add('<span class="separator">,</span> ');
-          }
-
-          titleHtml.add(
-            '<span class="parameterType">', apiviewer.InfoPanel.createTypeHtml(param, fromClassNode, "var"),
-            '</span> <span class="parameterName">', param.attributes.name, '</span>'
-          );
-
-          if (param.attributes.defaultValue) {
-            titleHtml.add("?");
-          }
-        }
-      }
-
-      titleHtml.add('<span class="parenthesis">)</span></span>');
+      var docClass = method.getClass();
+      var docClassNode = docClass.getNode();
 
       // Add the description
-      var descNode = apiviewer.TreeUtil.getChild(docNode, "desc");
-      var hasDescription = descNode && descNode.attributes.text;
-
       var textHtml = new qx.util.StringBuilder()
-      if (node.attributes.isCtor && !hasDescription) {
-        textHtml.add("Creates a new instance of ", fromClassNode.attributes.name, ".");
+      if (method.isConstructor() && !method.getDescription()) {
+        textHtml.add("Creates a new instance of ", docClass.getName(), ".");
       } else {
-        textHtml.add(apiviewer.InfoPanel.createDescriptionHtml(docNode, docClassNode, showDetails));
+        textHtml.add(apiviewer.InfoPanel.createDescriptionHtml(method, showDetails));
       }
 
       if (showDetails)
       {
         // Add Parameters
-        var paramsNode = TreeUtil.getChild(docNode, "params");
+        var params = method.getParams();
 
-        if (paramsNode)
+        if (params.length > 0)
         {
           textHtml.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "Parameters:", ClassViewer.DIV_END);
 
-          for (var i=0; i<paramsNode.children.length; i++)
+          for (var i=0; i<params.length; i++)
           {
-            var param = paramsNode.children[i];
-            var paramType = param.attributes.type ? param.attributes.type : "var";
-            var dims = param.attributes.arrayDimensions;
+            var param = params[i];
+            var paramType = param.getType() ? param.getType() : "var";
+            var dims = param.getArrayDimensions();
 
             if (dims)
             {
@@ -136,7 +131,7 @@ qx.Class.define("apiviewer.MethodPanel", {
               }
             }
 
-            var defaultValue = param.attributes.defaultValue;
+            var defaultValue = param.getDefaultValue();
 
             textHtml.add(ClassViewer.DIV_START_DETAIL_TEXT);
 
@@ -144,16 +139,16 @@ qx.Class.define("apiviewer.MethodPanel", {
               textHtml.add(ClassViewer.SPAN_START_OPTIONAL);
             }
 
-            textHtml.add(ClassViewer.SPAN_START_PARAM_NAME, param.attributes.name, ClassViewer.SPAN_END);
+            textHtml.add(ClassViewer.SPAN_START_PARAM_NAME, param.getName(), ClassViewer.SPAN_END);
 
             if (defaultValue) {
               textHtml.add(" (default: ", defaultValue, ") ", ClassViewer.SPAN_END);
             }
 
-            var paramDescNode = TreeUtil.getChild(param, "desc");
+            var desc = param.getDescription();
 
-            if (paramDescNode) {
-              textHtml.add(" ", apiviewer.InfoPanel.resolveLinkAttributes(paramDescNode.attributes.text, docClassNode));
+            if (desc) {
+              textHtml.add(" ", apiviewer.InfoPanel.resolveLinkAttributes(desc, docClass));
             }
 
             textHtml.add(ClassViewer.DIV_END);
@@ -161,6 +156,7 @@ qx.Class.define("apiviewer.MethodPanel", {
         }
 
         // Add return value
+        var returnNode = method.getReturn()
         if (returnNode)
         {
           var returnDescNode = TreeUtil.getChild(returnNode, "desc");
@@ -169,52 +165,55 @@ qx.Class.define("apiviewer.MethodPanel", {
             textHtml.add(
               ClassViewer.DIV_START_DETAIL_HEADLINE, "Returns:", ClassViewer.DIV_END,
               ClassViewer.DIV_START_DETAIL_TEXT,
-              apiviewer.InfoPanel.resolveLinkAttributes(returnDescNode.attributes.text, docClassNode),
+              apiviewer.InfoPanel.resolveLinkAttributes(returnDescNode.attributes.text, docClass),
               ClassViewer.DIV_END
             );
           }
         }
 
         // Add inherited from or overridden from
-        if (fromClassNode && fromClassNode != currentClassDocNode) {
-          if (fromClassNode.attributes.type == "mixin") {
+        if (docClass && docClass != currentClassDocNode) {
+          if (docClass.getType() == "mixin") {
             textHtml.add(
               ClassViewer.DIV_START_DETAIL_HEADLINE, "Included from mixin:",
               ClassViewer.DIV_END, ClassViewer.DIV_START_DETAIL_TEXT,
-              apiviewer.InfoPanel.createItemLinkHtml(fromClassNode.attributes.fullName), ClassViewer.DIV_END
+              apiviewer.InfoPanel.createItemLinkHtml(docClass.getFullName()), ClassViewer.DIV_END
             );
 
           } else {
             textHtml.add(
               ClassViewer.DIV_START_DETAIL_HEADLINE, "Inherited from:",
               ClassViewer.DIV_END, ClassViewer.DIV_START_DETAIL_TEXT,
-              apiviewer.InfoPanel.createItemLinkHtml(fromClassNode.attributes.fullName), ClassViewer.DIV_END
+              apiviewer.InfoPanel.createItemLinkHtml(docClass.getFullName()), ClassViewer.DIV_END
             );
 
           }
-        } else if (node.attributes.overriddenFrom) {
+        } else if (method.getOverriddenFrom()) {
           textHtml.add(
             ClassViewer.DIV_START_DETAIL_HEADLINE, "Overridden from:", ClassViewer.DIV_END,
             ClassViewer.DIV_START_DETAIL_TEXT,
-             apiviewer.InfoPanel.createItemLinkHtml(node.attributes.overriddenFrom), ClassViewer.DIV_END
+             apiviewer.InfoPanel.createItemLinkHtml(method.getOverriddenFrom().getFullName()), ClassViewer.DIV_END
            );
 
         }
 
         // Add required by interface
-        textHtml.add(apiviewer.InfoPanel.createInfoRequiredByHtml(node));
+        textHtml.add(apiviewer.InfoPanel.createInfoRequiredByHtml(method));
 
         // Add @see attributes
-        textHtml.add(apiviewer.InfoPanel.createSeeAlsoHtml(docNode, docClassNode));
+        textHtml.add(apiviewer.InfoPanel.createSeeAlsoHtml(method));
 
         // Add documentation errors
-        textHtml.add(apiviewer.InfoPanel.createErrorHtml(docNode, docClassNode));
+        textHtml.add(apiviewer.InfoPanel.createErrorHtml(method, docClass, currentClassDocNode));
+
+        textHtml.add(apiviewer.InfoPanel.createDeprecationHtml(method, "function"));
+
       }
 
       var info = {};
-      info.titleHtml = titleHtml.get()
-      info.textHtml = textHtml.get()
-      info.typeHtml = typeHtml.get()
+      info.titleHtml = this.getTitleHtml(method);
+      info.textHtml = textHtml.get();
+      info.typeHtml = this.getTypeHtml(method);
       return info;
     },
 
@@ -233,29 +232,22 @@ qx.Class.define("apiviewer.MethodPanel", {
       var TreeUtil = apiviewer.TreeUtil;
 
       // Get the method node that holds the documentation
-      var docClassNode = fromClassNode;
-      var docNode = node;
-
-      if (node.attributes.docFrom)
-      {
-        docClassNode = apiviewer.ClassViewer.getClassDocNode(node.attributes.docFrom);
-        var listNode = TreeUtil.getChild(docClassNode, this.getListName());
-        docNode = TreeUtil.getChildByAttribute(listNode, "name", node.attributes.name);
-      }
+      var docNode = node.getDocNode();
 
       // Check whether there are details
       var hasParams = TreeUtil.getChild(docNode, "params") != null;
       var hasReturn = TreeUtil.getChild(docNode, "return") != null;
-      var isOverridden = fromClassNode != currentClassDocNode;
+      var isOverridden = (fromClassNode != currentClassDocNode);
 
       return (
            isOverridden                                       // method is inherited
-        || (node.attributes.overriddenFrom != null)           // method is overridden
-        || (node.attributes.requiredBy)                       // method is required by an interface
+        || (node.getOverriddenFrom() != null)                 // method is overridden
+        || (node.getRequiredBy().length > 0)                  // method is required by an interface
         || hasParams                                          // method has params
         || hasReturn                                          // method has return value
-        || apiviewer.InfoPanel.hasSeeAlsoHtml(docNode)
-        || apiviewer.InfoPanel.hasErrorHtml(docNode)
+        || node.getSee().length > 0
+        || node.getErrors().length > 0
+        || node.isDeprecated()
         || apiviewer.InfoPanel.descriptionHasDetails(docNode)
       );
     }

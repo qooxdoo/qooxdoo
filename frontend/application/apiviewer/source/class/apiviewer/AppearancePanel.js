@@ -41,45 +41,35 @@ qx.Class.define("apiviewer.AppearancePanel", {
      */
     __getAllAppearanceStates: function(apperanceNode)
     {
-      var TreeUtil = apiviewer.TreeUtil;
-      var states = TreeUtil.getChild(apperanceNode, "states");
-      if (states) {
-        states = qx.lang.Array.copy(states.children);
+      var states = apperanceNode.getStates();
+      if (states.length > 0) {
+        var result = qx.lang.Array.copy(states);
       } else {
-        states = [];
+        result = [];
       }
 
-      var type = apperanceNode.attributes.type;
-      var classNode = apperanceNode.parent.parent;
+      var type = apperanceNode.getType();
+      var classNode = apperanceNode.getClass();
       var startIndex = 1;
-      if (type != classNode.attributes.fullName) {
-        classNode = apiviewer.ClassViewer.getClassDocNode(type);
+      if (type != classNode) {
+        classNode = type;
         startIndex = 0;
       }
 
-      var docTree = apiviewer.Viewer.instance.getDocTree();
-      var classNodes = apiviewer.TreeUtil.getInheritanceChain(docTree, classNode);
+      var classNodes = classNode.getClassHierarchy();
 
       for (var i=startIndex; i<classNodes.length; i++)
       {
         classNode = classNodes[i];
-        var appear = TreeUtil.getChild(classNode, "appearances");
-        if (appear)
-        {
-          var classAppearance = TreeUtil.getChildByAttribute(appear, "type", classNode.attributes.fullName);
-          if (classAppearance) {
-            var classStates = TreeUtil.getChild(classAppearance, "states");
-            if (classStates) {
-              qx.lang.Array.append(states, classStates.children);
-            }
+        var classAppearance = classNode.getClassAppearance();
+        if (classAppearance) {
+          var classStates = classAppearance.getStates();
+          if (classStates) {
+            qx.lang.Array.append(result, classStates);
           }
         }
       }
-      return states;
-
-
-      qx.dev.Pollution.getInfo();
-
+      return result;
     },
 
 
@@ -94,22 +84,18 @@ qx.Class.define("apiviewer.AppearancePanel", {
       if (!showInherited) {
         return appearances;
       }
+      currentClassDocNode = currentClassDocNode;
 
-      var docTree = apiviewer.Viewer.instance.getDocTree();
-      var classNodes = TreeUtil.getInheritanceChain(docTree, currentClassDocNode);
+      var classNodes = currentClassDocNode.getClassHierarchy();
       for (var i=0; i<classNodes.length; i++)
       {
         classNode = classNodes[i];
-        var appear = TreeUtil.getChild(classNode, "appearances");
-        if (appear)
-        {
-          var classAppearance = TreeUtil.getChildByAttribute(appear, "type", classNode.attributes.fullName);
-          if (classAppearance) {
-            if (classAppearance.attributes.type != currentClassDocNode.attributes.fullName) {
-              appearances.push(classAppearance)
-            }
-            return appearances;
+        var classAppearance = classNode.getClassAppearance();
+        if (classAppearance) {
+          if (classAppearance.getType() != currentClassDocNode) {
+            appearances.push(classAppearance)
           }
+          return appearances;
         }
       }
     },
@@ -130,20 +116,19 @@ qx.Class.define("apiviewer.AppearancePanel", {
       var ClassViewer = apiviewer.ClassViewer;
       var TreeUtil = apiviewer.TreeUtil;
 
-      var nodeName = node.attributes.name;
-      var nodeType = node.attributes.type;
-      var className = currentClassDocNode.attributes.fullName;
-      if (nodeType == className) {
+
+      var nodeName = node.getName();
+      if (node.getType() == node.getClass()) {
         var titleHtml = nodeName + " (default appearance of the class)";
       } else {
         var titleHtml = nodeName;
       }
-      var typeHtml = apiviewer.InfoPanel.createTypeHtml(node, fromClassNode, "var");
+      var typeHtml = apiviewer.InfoPanel.createTypeHtml(node, "var");
 
       var textHtml = new qx.util.StringBuilder();
       textHtml.add(
         ClassViewer.DIV_START_DESC,
-        apiviewer.InfoPanel.createDescriptionHtml(node, fromClassNode, true),
+        apiviewer.InfoPanel.createDescriptionHtml(node, true),
         ClassViewer.DIV_END
       );
 
@@ -151,7 +136,7 @@ qx.Class.define("apiviewer.AppearancePanel", {
       {
         var states = this.__getAllAppearanceStates(node);
 
-        if (states)
+        if (states.length > 0)
         {
           textHtml.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "States:", ClassViewer.DIV_END);
           textHtml.add("<table class='states'>");
@@ -164,21 +149,22 @@ qx.Class.define("apiviewer.AppearancePanel", {
             textHtml.add(
               "<td class='state-name'>",
               ClassViewer.SPAN_START_PARAM_NAME,
-              state.attributes.name,
+              state.getName(),
               ClassViewer.SPAN_END,
               "</td>"
             );
             textHtml.add(
               "<td class='state-text'>",
               ClassViewer.DIV_START_DESC,
-              apiviewer.InfoPanel.createDescriptionHtml(state, state.parent.parent.parent.parent, true),
+              apiviewer.InfoPanel.createDescriptionHtml(state, true),
               ClassViewer.DIV_END
             );
-            if (state.parent.parent.attributes.type != className) {
+            var appearance = state.getAppearance();
+            if (appearance.getType() != node.getClass()) {
               textHtml.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "Defined at:", ClassViewer.DIV_END);
               textHtml.add(
                 ClassViewer.DIV_START_DETAIL_TEXT,
-                apiviewer.InfoPanel.createItemLinkHtml(state.parent.parent.attributes.type),
+                apiviewer.InfoPanel.createItemLinkHtml(appearance.getType().getFullName()),
                 ClassViewer.DIV_END
               );
             }
@@ -211,7 +197,7 @@ qx.Class.define("apiviewer.AppearancePanel", {
      */
     itemHasDetails : function(node, fromClassNode, currentClassDocNode)
     {
-      return true; //apiviewer.TreeUtil.getChild(node, "states") != null
+      return this.__getAllAppearanceStates().length > 0;
     }
 
   }
