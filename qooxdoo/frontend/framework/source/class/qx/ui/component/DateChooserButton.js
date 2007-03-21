@@ -232,7 +232,9 @@ qx.Proto._createChooser = function()
  * @type member
  * @name _changeLocale
  * @access protected
+ * @param dateFormatSize {String} The date format size according to the size parameter in {qx.locale.Date.getDateFormat}
  * @return {void}
+ * @throws exception if the target widget is not instance of qx.ui.core.Widget or does not have setter and getter for property value
  */
 qx.Proto._changeLocale = function(dateFormatSize) {
   if (qx.util.Validation.isInvalidObject(this.getTargetWidget())) {
