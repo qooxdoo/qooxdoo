@@ -115,9 +115,14 @@ qx.Class.define("qx.Interface",
         var iface = {};
       }
 
-      // Basics
+      // Add Basics
       iface.$$type = "Interface";
       iface.name = name;
+
+      // Attach toString
+      iface.toString = this.$$toString;
+
+      // Assign to namespace
       iface.basename = qx.Class.createNamespace(name, iface);
 
       // Add to registry
@@ -252,6 +257,18 @@ qx.Class.define("qx.Interface",
           }
         }
       }
+    },
+
+
+    /**
+     * This method will be attached to all interface to return
+     * a nice identifier for them.
+     *
+     * @internal
+     * @return {String} The interface identifier
+     */
+    $$toString : function() {
+      return "[Interface " + this.name + "]";
     },
 
 

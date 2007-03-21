@@ -28,12 +28,6 @@
  */
 qx.Class.define("qx.dev.Debug",
 {
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
   statics :
   {
     /**
@@ -164,6 +158,55 @@ qx.Class.define("qx.dev.Debug",
 
       // We've compiled the complete message.  Give 'em what they came for!
       logger.debug(message);
+    },
+
+
+    /**
+     * Get the name of a member/static function or constructor defined using the new style class definition.
+     * If the function could not be found <code>null</code> is returned.
+     *
+     * This function uses a linear search, so don't use it in performance critical
+     * code.
+     *
+     * @param func {Function} member function to get the name of.
+     * @param functionType {String?"all"} Where to look for the function. Possible values are "members", "statics", "constructor", "all"
+     * @return {String|null} Name of the function (null if not found).
+     */
+    getFunctionName: function(func, functionType)
+    {
+      var clazz = func.self;
+      if (!clazz) {
+        return null;
+      }
+
+      // unwrap
+      while(func.wrapper) {
+        func = func.wrapper;
+      }
+
+      switch (functionType)
+      {
+        case "construct":
+          return func == clazz ? "construct" : null;
+
+        case "members":
+          return qx.lang.Object.getKeyFromValue(clazz, func);
+
+        case "statics":
+          return qx.lang.Object.getKeyFromValue(clazz.prototype, func);
+
+        default:
+          // constructor
+          if (func == clazz) {
+            return "construct";
+          }
+
+          return (
+            qx.lang.Object.getKeyFromValue(clazz.prototype, func) ||
+            qx.lang.Object.getKeyFromValue(clazz, func) ||
+            null
+          );
+      }
     }
   }
 });

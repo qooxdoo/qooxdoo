@@ -143,7 +143,6 @@ qx.Class.define("qx.locale.Manager",
 
   properties :
   {
-
     /** current locale. locale is an language code like de, de_AT, en, en_GB, fr, ... */
     locale : { _legacy : true }
   },
@@ -273,6 +272,19 @@ qx.Class.define("qx.locale.Manager",
       {
         this._translationCatalog[languageCode] = translationMap;
       }
+    },
+
+
+    /**
+     * Extract language code from class name and add a translation to the translation manager
+     *
+     * @type member
+     * @param classname {String} class name of a translation
+     * @param translationMap {Map} mapping of message identifiers (english text) to the target language
+     * @return {void}
+     */
+    addTranslationFromClass : function(classname, translationMap) {
+      this.addTranslation(name.substring(name.lastIndexOf(".")+1), translationMap);
     },
 
 
