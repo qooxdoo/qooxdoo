@@ -1,23 +1,23 @@
 
 qx.Class.define("apiviewer.ConstantPanel", {
-  
+
   extend: apiviewer.InfoPanel,
-  
+
   members : {
-    
+
     /**
      * Checks whether a constant has details.
      *
      * @type member
      * @param node {Map} the doc node of the constant.
      * @param fromClassNode {Map} the doc node of the class the constant was defined.
-     * @param currentClassDocNode {Map} the doc node of the currently displayed class     
+     * @param currentClassDocNode {Map} the doc node of the currently displayed class
      * @return {Boolean} whether the constant has details.
      */
     itemHasDetails : function(node, fromClassNode, currentClassDocNode) {
       return (
-        apiviewer.InfoPanel.hasSeeAlsoHtml(node) ||
-        apiviewer.InfoPanel.hasErrorHtml(node) ||
+        node.getSee().length > 0 ||
+        node.getErrors().length > 0 ||
         apiviewer.InfoPanel.descriptionHasDetails(node) ||
         this.__hasConstantValueHtml(node)
       );
@@ -39,26 +39,23 @@ qx.Class.define("apiviewer.ConstantPanel", {
       var info = {};
 
       // Add the title
-      info.typeHtml = apiviewer.InfoPanel.createTypeHtml(node, fromClassNode, "var");
-      info.titleHtml = node.attributes.name;
+      info.typeHtml = apiviewer.InfoPanel.createTypeHtml(node, "var");
+      info.titleHtml = apiviewer.InfoPanel.createDeprecatedTitle(node, node.getName());
 
       // Add the description
-      info.textHtml = apiviewer.InfoPanel.createDescriptionHtml(node, fromClassNode, showDetails);
+      info.textHtml = apiviewer.InfoPanel.createDescriptionHtml(node, showDetails);
 
       if (showDetails)
       {
         info.textHtml += this.__createConstantValueHtml(node, fromClassNode);
-
-        // Add @see attributes
-        info.textHtml += apiviewer.InfoPanel.createSeeAlsoHtml(node, fromClassNode);
-
-        // Add documentation errors
+        info.textHtml += apiviewer.InfoPanel.createSeeAlsoHtml(node);
         info.textHtml += apiviewer.InfoPanel.createErrorHtml(node, fromClassNode);
+        info.textHtml += apiviewer.InfoPanel.createDeprecationHtml(node, "constant");
       }
 
       return info;
     },
-    
+
 
     /**
      * Checks whether a constant value is provided
@@ -68,7 +65,7 @@ qx.Class.define("apiviewer.ConstantPanel", {
      * @return {Boolean} whether the constant provides a value
      */
     __hasConstantValueHtml : function(node) {
-      return node.attributes.value ? true : false;
+      return node.getValue() ? true : false;
     },
 
 
@@ -83,21 +80,19 @@ qx.Class.define("apiviewer.ConstantPanel", {
     __createConstantValueHtml : function(node, fromClassNode)
     {
       var ClassViewer = apiviewer.ClassViewer;
-      this.debug(node.attributes.value);
-
       if (this.__hasConstantValueHtml(node)) {
         html = new qx.util.StringBuilder(
           ClassViewer.DIV_START_DETAIL_HEADLINE, "Value: ",
           ClassViewer.DIV_END, ClassViewer.DIV_START_DETAIL_TEXT,
-          qx.html.String.escape(qx.io.Json.stringify(node.attributes.value)),
+          qx.html.String.escape(qx.io.Json.stringify(node.getValue())),
           ClassViewer.DIV_END
         )
         return html.get();
       } else {
         return "";
       }
-    }        
-        
+    }
+
   }
-  
+
 });
