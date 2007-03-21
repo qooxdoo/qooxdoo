@@ -51,8 +51,9 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
     // column sizes.  Track when we're resizing.
     this._bInProgress = false;
 
-    // Track when the table has appeared.  We want to ignore resize events until
-    // then since we won't be able to determine the available width anyway.
+    // Track when the table has appeared.  We want to ignore resize events
+    // until then since we won't be able to determine the available width
+    // anyway.
     this._bAppeared = false;
   },
 
@@ -79,7 +80,8 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
     {
       _legacy      : true,
       type         : "object",
-      defaultValue : new qx.ui.table.DefaultResizeBehavior()
+      instance     : "qx.ui.table.AbstractResizeBehavior",
+      defaultValue : null
     }
   },
 
@@ -106,6 +108,12 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
      */
     _modifyBehavior : function(propValue, propOldValue, propData)
     {
+      if (propOldValue != null)
+      {
+        propOldValue.dispose();
+        propOldValue = null;
+      }
+
       // Tell the new behavior how many columns there are
       this.getBehavior()._setNumColumns(this._columnDataArr.length);
       return true;
@@ -129,6 +137,12 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
     {
       // Call our superclass
       this.base(arguments, numColumns);
+
+      // Set the initial resize behavior
+      if (this.getBehavior() == null)
+      {
+        this.setBehavior(new qx.ui.table.DefaultResizeBehavior());
+      }
 
       // Save the table so we can get at its features, as necessary.
       this._table = table;
