@@ -97,7 +97,7 @@ qx.Class.define("qx.Mixin",
 
         // Attach configuration
         if (config.construct) {
-          mixin.$$construct = config.construct;
+          mixin.$$constructor = config.construct;
         }
 
         if (config.include) {
@@ -117,7 +117,7 @@ qx.Class.define("qx.Mixin",
         }
 
         if (config.destruct) {
-          mixin.$$destruct = config.destruct;
+          mixin.$$destructor = config.destruct;
         }
       }
       else
@@ -138,7 +138,7 @@ qx.Class.define("qx.Mixin",
       // Store class reference in global mixin registry
       this.__registry[name] = mixin;
 
-      // Return final Mixin
+      // Return final mixin
       return mixin;
     },
 
@@ -146,34 +146,74 @@ qx.Class.define("qx.Mixin",
     /**
      * Check compatiblity between Mixins (including their includes)
      *
-     * @param mixins {Mixin[]} An Array of Mixins
+     * @param mixins {Mixin[]} an array of mixins
+     * @throws an exception when there is a conflict between the mixins
      */
     checkCompatibility : function(mixins)
     {
+      var list = this.flatten(mixins);
+      var len = list.length;
+
+      if (len < 2) {
+        return true;
+      }
+
       var properties = {};
       var members = {};
       var events = {};
+      var mixin;
 
-      for (var i=0, l=mixins.length; i<l; i++) {
-        this.__checkCompatibilityRecurser(mixins[i], events, properties, members);
+      for (var i=0; i<len; i++)
+      {
+        mixin = list[i];
+
+        for (var key in mixin.events)
+        {
+          if(events[key]) {
+            throw new Error('Conflict between mixin "' + mixin.name + '" and "' + events[key] + '" in member "' + key + '"!');
+          }
+
+          events[key] = mixin.name;
+        }
+
+        for (var key in mixin.properties)
+        {
+          if(properties[key]) {
+            throw new Error('Conflict between mixin "' + mixin.name + '" and "' + properties[key] + '" in property "' + key + '"!');
+          }
+
+          properties[key] = mixin.name;
+        }
+
+        for (var key in mixin.members)
+        {
+          if(members[key]) {
+            throw new Error('Conflict between mixin "' + mixin.name + '" and "' + members[key] + '" in member "' + key + '"!');
+          }
+
+          members[key] = mixin.name;
+        }
       }
+
+      return true;
     },
 
 
     /**
-     * This method will be attached to all mixins to return
-     * a nice identifier for them.
+     * Checks if a class is compatible to the given mixin (no conflicts)
      *
-     * @internal
-     * @return {String} The mixin identifier
+     * @param mixin {Mixin} mixin to check
+     * @param clazz {Class} class to check
+     * @throws an exception when the given mixin is incompatible to the class
+     * @return {Boolean} true if the mixin is compatible to the given class
      */
-    $$toString : function() {
-      return "[Mixin " + this.name + "]";
+    isCompatible : function(mixin, clazz) {
+      return qx.Mixin.checkCompatibility([mixin].push.apply(qx.Class.getMixins(clazz)));
     },
 
 
     /**
-     * Returns a Mixin by name
+     * Returns a mixin by name
      *
      * @type static
      * @param name {String} class name to resolve
@@ -185,12 +225,12 @@ qx.Class.define("qx.Mixin",
 
 
     /**
-     * Determine if Mixin exists
+     * Determine if mixin exists
      *
      * @type static
      * @name isDefined
-     * @param name {String} Mixin name to check
-     * @return {Boolean} true if Mixin exists
+     * @param name {String} mixin name to check
+     * @return {Boolean} true if mixin exists
      */
     isDefined : function(name) {
       return arguments.callee.self.getByName(name) !== undefined;
@@ -223,7 +263,7 @@ qx.Class.define("qx.Mixin",
 
       var list = mixins;
 
-      for (var i=0, la=mixins.length; i<la; i++)
+      for (var i=0, l=mixins.length; i<l; i++)
       {
         if (mixins[i].$$includes) {
           list.push.apply(this.flatten(mixins[i].$$includes));
@@ -239,12 +279,25 @@ qx.Class.define("qx.Mixin",
 
     /*
     ---------------------------------------------------------------------------
-       PRIVATE FUNCTIONS AND DATA
+       PRIVATE/INTERNAL API
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * This method will be attached to all mixins to return
+     * a nice identifier for them.
+     *
+     * @internal
+     * @return {String} The mixin identifier
+     */
+    $$toString : function() {
+      return "[Mixin " + this.name + "]";
+    },
+
+
     /** Registers all defined Mixins */
     __registry : {},
+
 
     /**
      * Validates incoming configuration and checks keys and values
@@ -301,53 +354,6 @@ qx.Class.define("qx.Mixin",
         }
 
         this.checkCompatibility(include);
-      }
-    },
-
-
-    /**
-     * Check compatiblity between Mixins
-     *
-     * @param mixin {Mixin} the mixin to test
-     * @param events {Map} successive build Map of already found events
-     * @param properties {Map} successive build Map of already found properties
-     * @param members {Map} successive build Map of already found members
-     * @see checkCompatibility
-     */
-    __checkCompatibilityRecurser : function(mixin, events, properties, members)
-    {
-      for (var key in mixin.events)
-      {
-        if(events[key]) {
-          throw new Error('Conflict between Mixin "' + mixin.name + '" and "' + events[key] + '" in member "' + key + '"!');
-        }
-
-        events[key] = mixin.name;
-      }
-
-      for (var key in mixin.properties)
-      {
-        if(properties[key]) {
-          throw new Error('Conflict between Mixin "' + mixin.name + '" and "' + properties[key] + '" in property "' + key + '"!');
-        }
-
-        properties[key] = mixin.name;
-      }
-
-      for (var key in mixin.members)
-      {
-        if(members[key]) {
-          throw new Error('Conflict between Mixin "' + mixin.name + '" and "' + members[key] + '" in member "' + key + '"!');
-        }
-
-        members[key] = mixin.name;
-      }
-
-      if (mixin.include)
-      {
-        for (var i=0, a=mixin.$$includes, l=a.length; i<l; i++) {
-          this.__checkCompatibilityRecurser(a[i], events, properties, members);
-        }
       }
     }
   }

@@ -183,7 +183,7 @@ qx.Class.define("qx.Interface",
 
       var list = ifaces;
 
-      for (var i=0, la=ifaces.length; i<la; i++)
+      for (var i=0, l=ifaces.length; i<l; i++)
       {
         if (ifaces[i].$$extends) {
           list.push.apply(this.flatten(ifaces[i].$$extends));
@@ -260,6 +260,15 @@ qx.Class.define("qx.Interface",
     },
 
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+       PRIVATE/INTERNAL API
+    ---------------------------------------------------------------------------
+    */
+
     /**
      * This method will be attached to all interface to return
      * a nice identifier for them.
@@ -271,15 +280,6 @@ qx.Class.define("qx.Interface",
       return "[Interface " + this.name + "]";
     },
 
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-       PRIVATE FUNCTIONS AND DATA
-    ---------------------------------------------------------------------------
-    */
 
     /** Registry of all defined interfaces */
     __registry : {},

@@ -436,8 +436,8 @@ qx.Class.define("qx.core.Object",
       while (clazz.superclass)
       {
         // Processing this class...
-        if (clazz.$$destruct) {
-          clazz.$$destruct.call(this);
+        if (clazz.$$destructor) {
+          clazz.$$destructor.call(this);
         }
 
         // Jump up to next super class
