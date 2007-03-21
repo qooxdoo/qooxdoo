@@ -22,7 +22,7 @@
 #<h2>Module Description</h2>
 #<pre>
 # NAME
-#  <module>.py -- module short description
+#  module.py -- module short description
 #
 # SYNTAX
 #  module.py --help
