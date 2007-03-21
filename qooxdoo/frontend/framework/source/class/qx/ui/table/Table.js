@@ -69,6 +69,9 @@ function(tableModel) {
   this._columnVisibilityBt = new qx.ui.toolbar.Button(null, "widget/table/selectColumnOrder.png");
   this._columnVisibilityBt.addEventListener("execute", this._onColumnVisibilityBtExecuted, this);
 
+  // Allocate a default data row renderer
+  this.setDataRowRenderer(new qx.ui.table.DefaultDataRowRenderer());
+
   // Create the models
   this._selectionManager = this.getNewSelectionManager()(this);
   this.setSelectionModel(this.getNewSelectionModel()(this));
@@ -145,7 +148,7 @@ qx.OO.addProperty({ name:"alwaysUpdateCells", type:"boolean", defaultValue:false
 qx.OO.addProperty({ name:"headerCellHeight", type:"number", defaultValue:16, allowNull:false });
 
 /** The renderer to use for styling the rows. */
-qx.OO.addProperty({ name:"dataRowRenderer", type:"object", instance:"qx.ui.table.DataRowRenderer", defaultValue:qx.Clazz.DEFAULT_DATA_ROW_RENDERER, allowNull:false });
+qx.OO.addProperty({ name:"dataRowRenderer", type:"object", instance:"qx.ui.table.DataRowRenderer", defaultValue:null });
 
 /**
  * A function to instantiate a selection manager.  this allows subclasses of
@@ -458,6 +461,25 @@ qx.Proto._modifyHeaderCellHeight = function(propValue, propOldValue, propData) {
   }
   return true;
 };
+
+/**
+* TODOC
+*
+* @type member
+* @param propValue {var} Current value
+* @param propOldValue {var} Previous value
+* @param propData {var} Property configuration map
+* @return {Boolean} TODOC
+*/
+qx.Proto._modifyDataRowRenderer = function(propValue, propOldValue, propData)
+{
+  if (propOldValue != null)
+  {
+     propOldValue.dispose();
+     propOldValue = null;
+  }
+  return true;
+}
 
 /**
  * Returns the selection manager.

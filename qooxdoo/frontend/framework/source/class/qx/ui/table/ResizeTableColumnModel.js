@@ -70,12 +70,18 @@ qx.OO.addProperty(
   {
     name         : "behavior",
     type         : "object",
-    defaultValue : new qx.ui.table.DefaultResizeBehavior()
+    instance     : "qx.ui.table.AbstractResizeBehavior",
+    defaultValue : null
   });
 
 // Behavior modifier
 qx.Proto._modifyBehavior = function(propValue, propOldValue, propData)
 {
+  if (propOldValue != null)
+  {
+    propOldValue.dispose();
+    propOldValue = null;
+  }
   // Tell the new behavior how many columns there are
   this.getBehavior()._setNumColumns(this._columnDataArr.length);
   return true;
@@ -96,6 +102,12 @@ qx.Proto.init = function(numColumns, table)
 {
   // Call our superclass
   qx.ui.table.TableColumnModel.prototype.init.call(this, numColumns);
+
+  // Set the initial resize behavior
+  if (this.getBehavior() == null)
+  {
+    this.setBehavior(new qx.ui.table.DefaultResizeBehavior());
+  }
 
   // Save the table so we can get at its features, as necessary.
   this._table = table;
