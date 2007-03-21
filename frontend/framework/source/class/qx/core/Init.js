@@ -22,7 +22,7 @@
 
 #module(core)
 #optional(qx.Theme)
-#optional(qx.Locale)
+#optional(qx.locale.Manager)
 #require(qx.html.EventRegistration)
 
 ************************************************************************ */
@@ -235,12 +235,12 @@ qx.Class.define("qx.core.Init",
       this.debug("loaded " + qx.Interface.getNumber() + " interfaces");
       this.debug("loaded " + qx.Mixin.getNumber() + " mixins");
 
-      if (qx.Locale) {
-        this.debug("loaded " + qx.Locale.getNumber() + " locales");
-      }
-
       if (qx.Theme) {
         this.debug("loaded " + qx.Theme.getNumber() + " themes");
+      }
+
+      if (qx.locale && qx.locale.Manager) {
+        this.debug("loaded " + qx.locale.Manager.getInstance().getAvailableLocales().length + " locales");
       }
 
       // Print browser information

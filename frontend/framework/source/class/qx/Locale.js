@@ -45,55 +45,8 @@ qx.Class.define("qx.Locale",
      * @param config {Map} config structure
      * @return {void}
      */
-    define : function(name, config)
-    {
-      // Assign to namespace
-      var basename = qx.Class.createNamespace(name, config);
-
-      // Register to manager
-      qx.locale.Manager.getInstance().addTranslation(basename, config);
-
-      // Store class reference in global class registry
-      this.__registry[name] = config;
-    },
-
-
-    /**
-     * Returns a locale by name
-     *
-     * @type static
-     * @param name {String} locale name to check
-     * @return {Object ? void} locale object
-     */
-    getByName : function(name) {
-      return this.__registry[name];
-    },
-
-
-    /**
-     * Determine if locale exists
-     *
-     * @type static
-     * @param name {String} locale name to check
-     * @return {Boolean} true if locale exists
-     */
-    isDefined : function(name) {
-      return this.getByName(name) !== undefined;
-    },
-
-
-    /**
-     * Determine the number of locales which are defined
-     *
-     * @type static
-     * @return {Number} the number of classes
-     */
-    getNumber : function() {
-      return qx.lang.Object.getLength(this.__registry);
-    },
-
-
-    /** {var} TODOC */
-    __registry : {}
+    define : function(name, config) {
+      qx.locale.Manager.getInstance().addTranslationFromClass(name, config);
+    }
   }
 });
