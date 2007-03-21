@@ -99,23 +99,23 @@ qx.Class.define("qx.Mixin",
         if (config.construct) {
           mixin.$$construct = config.construct;
         }
-                
+
         if (config.include) {
-          mixin.$$include = config.include instanceof Array ? config.include : [config.include];
+          mixin.$$includes = config.include instanceof Array ? config.include : [config.include];
         }
-        
+
         if (config.properties) {
           mixin.$$properties = config.properties;
         }
-        
+
         if (config.members) {
           mixin.$$members = config.members;
         }
-        
+
         if (config.events) {
           mixin.$$events = config.events;
         }
-        
+
         if (config.destruct) {
           mixin.$$destruct = config.destruct;
         }
@@ -155,8 +155,8 @@ qx.Class.define("qx.Mixin",
         this.__checkCompatibilityRecurser(mixins[i], events, properties, members);
       }
     },
-    
-    
+
+
     /**
      * Returns a Mixin by name
      *
@@ -191,6 +191,35 @@ qx.Class.define("qx.Mixin",
     getNumber : function() {
       return qx.lang.Object.getLength(this.__registry);
     },
+
+
+    /**
+     * Generates a list of all mixins given plus all the
+     * mixins these includes plus... (deep)
+     *
+     * @param mixins {Mixin[] ? []} List of mixins
+     * @returns {Array} List of all mixins
+     */
+    flatten : function(mixins)
+    {
+      if (!mixins) {
+        return [];
+      }
+
+      var list = mixins;
+
+      for (var i=0, la=mixins.length; i<la; i++)
+      {
+        if (mixins[i].$$includes) {
+          list.push.apply(this.flatten(mixins[i].$$includes));
+        }
+      }
+
+      return list;
+    },
+
+
+
 
 
     /*
@@ -240,11 +269,11 @@ qx.Class.define("qx.Mixin",
       if (config.include)
       {
         var include = config.include;
-        
+
         if (!(include instanceof Array)) {
           include = [include];
         }
-        
+
         for (var i=0, l=include.length; i<l; i++)
         {
           if (include[i] == null) {
@@ -259,7 +288,7 @@ qx.Class.define("qx.Mixin",
         this.checkCompatibility(include);
       }
     },
-    
+
 
     /**
      * Check compatiblity between Mixins
@@ -280,7 +309,7 @@ qx.Class.define("qx.Mixin",
 
         events[key] = mixin.name;
       }
-      
+
       for (var key in mixin.properties)
       {
         if(properties[key]) {
@@ -301,9 +330,9 @@ qx.Class.define("qx.Mixin",
 
       if (mixin.include)
       {
-        for (var i=0, a=mixin.$$include, l=a.length; i<l; i++) {
+        for (var i=0, a=mixin.$$includes, l=a.length; i<l; i++) {
           this.__checkCompatibilityRecurser(a[i], events, properties, members);
-        }    
+        }
       }
     }
   }

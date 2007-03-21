@@ -264,7 +264,7 @@ qx.Class.define("qx.Class",
       {
         var inheritedImplements = config.extend.$$implements;
         for (var key in inheritedImplements) {
-          qx.Interface.assertInterface(clazz, inheritedImplements[key], false);
+          qx.Interface.assert(clazz, inheritedImplements[key], false);
         }
       }
     },
@@ -432,6 +432,8 @@ qx.Class.define("qx.Class",
      * Returns the property definition of the given property. Returns null
      * if the property does not exist.
      *
+     * TODO: Correctly support refined properties?
+     *
      * @type member
      * @param clazz {Class} class to check
      * @param name {String} name of the event to check for
@@ -518,6 +520,40 @@ qx.Class.define("qx.Class",
 
 
     /**
+     * Returns the class or one of its superclasses which contains the
+     * implements declaration for the given interface. Returns null
+     * if the interface is not specified anywhere.
+     *
+     * @param clazz {Class} Class to look for the interface
+     * @param iface {Interface} Interface to look for
+     * @return {Class | null} The class which has the implements definition for this interface
+     */
+    findMixin : function(clazz, iface)
+    {
+      var impl, i, l;
+
+      while (clazz)
+      {
+        if (clazz.$$implements)
+        {
+          impl = qx.Mixin.flatten(clazz.$$includes);
+
+          for (i=0, l=impl.length; i<l; i++)
+          {
+            if (impl[i] === iface) {
+              return clazz;
+            }
+          }
+        }
+
+        clazz = clazz.superclass;
+      }
+
+      return null;
+    },
+
+
+    /**
      * Whether a given class includes a mixin (recursive).
      *
      * @type static
@@ -525,9 +561,8 @@ qx.Class.define("qx.Class",
      * @param mixin {Mixin} the mixin to check for
      * @return {Boolean} whether the class includes the mixin.
      */
-    hasMixin: function(clazz, mixin)
-    {
-      // TODO
+    hasMixin: function(clazz, mixin) {
+      return !!this.findMixin(clazz, mixin);
     },
 
 
@@ -549,6 +584,40 @@ qx.Class.define("qx.Class",
 
 
     /**
+     * Returns the class or one of its superclasses which contains the
+     * implements declaration for the given interface. Returns null
+     * if the interface is not specified anywhere.
+     *
+     * @param clazz {Class} Class to look for the interface
+     * @param iface {Interface} Interface to look for
+     * @return {Class | null} The class which has the implements definition for this interface
+     */
+    findInterface : function(clazz, iface)
+    {
+      var impl, i, l;
+
+      while (clazz)
+      {
+        if (clazz.$$implements)
+        {
+          impl = qx.Interface.flatten(clazz.$$implements);
+
+          for (i=0, l=impl.length; i<l; i++)
+          {
+            if (impl[i] === iface) {
+              return clazz;
+            }
+          }
+        }
+
+        clazz = clazz.superclass;
+      }
+
+      return null;
+    },
+
+
+    /**
      * Whether a given class includes a interface (recursive).
      *
      * This function will return "true" if the interface was defined
@@ -561,9 +630,8 @@ qx.Class.define("qx.Class",
      * @param iface {Interface} the interface to check for
      * @return {Boolean} whether the class includes the interface.
      */
-    hasInterface : function(clazz, iface)
-    {
-      // TODO
+    hasInterface : function(clazz, iface) {
+      return !!this.findInterface(clazz, iface);
     },
 
 
@@ -587,7 +655,7 @@ qx.Class.define("qx.Class",
 
       try
       {
-        this.assertInterface(clazz, iface);
+        qx.Interface.assert(clazz, iface, false);
         return true;
       }
       catch(ex) {}
@@ -1053,24 +1121,23 @@ qx.Class.define("qx.Class",
      */
     __addInterface : function(clazz, iface)
     {
-      if (!clazz || !iface) {
-        throw new Error("Incomple parameters!")
-      }
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (!clazz || !iface) {
+          throw new Error("Incomple parameters!")
+        }
 
-      if (!clazz.$$implements)
-      {
-        clazz.$$implements = {};
-      }
-      else if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
         if (this.hasInterface(clazz, iface)) {
           throw new Error('Interface "' + iface.name + '" is already used by Class "' + clazz.classname + '"!');
         }
+
+        // Check interface
+        qx.Interface.assert(clazz, iface, true);
       }
 
-      // Check properties and members
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        qx.Interface.assertInterface(clazz, iface, true);
+      // Create storage field
+      if (!clazz.$$implements) {
+        clazz.$$implements = {};
       }
 
       // Save interface
@@ -1088,23 +1155,24 @@ qx.Class.define("qx.Class",
      */
     __addMixin : function(clazz, mixin, patch)
     {
-      if (!clazz || !mixin) {
-        throw new Error("Incomple parameters!")
-      }
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (!clazz || !mixin) {
+          throw new Error("Incomple parameters!")
+        }
 
-      if (!clazz.$$includes)
-      {
-        clazz.$$includes = {};
-      }
-      else if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
         if (this.hasMixin(clazz, mixin)) {
           throw new Error('Mixin "' + mixin.name + '" is already included into Class "' + clazz.classname + '"!');
         }
       }
 
-      // Attach statics, properties and members
+      // Attach content
       this.__attachMixinContent(clazz, mixin, patch);
+
+      // Create storage field
+      if (!clazz.$$includes) {
+        clazz.$$includes = {};
+      }
 
       // Save Mixin
       clazz.$$includes[mixin.name] = mixin;
@@ -1125,7 +1193,7 @@ qx.Class.define("qx.Class",
       var proto = clazz.prototype;
 
       // Attach includes, recursive
-      var includes = mixin.include;
+      var includes = mixin.$$includes;
       if (includes)
       {
         for (var i=0, l=includes.length; i<l; i++) {
@@ -1240,7 +1308,7 @@ qx.Class.define("qx.Class",
       }
 
       if (type != null && type === "singleton") {
-        wrapper.getInstance = qx.Class.getInstance;
+        wrapper.getInstance = this.getInstance;
       }
 
       construct.wrapper = wrapper;
