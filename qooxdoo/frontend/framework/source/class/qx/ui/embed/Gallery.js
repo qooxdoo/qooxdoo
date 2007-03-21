@@ -250,7 +250,10 @@ qx.Class.define("qx.ui.embed.Gallery",
       this._list = vGalleryList;
 
       var el = this.getElement();
-      el.replaceChild(this.createView(), el.firstChild);
+      if (el)
+      {
+        el.replaceChild(this.createView(), el.firstChild);
+      }
     },
 
 
