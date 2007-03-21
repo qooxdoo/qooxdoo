@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.Locale",
+qx.Class.define("qx.locale.Locale",
 {
   statics:
   {
@@ -33,7 +33,7 @@ qx.Class.define("qx.Locale",
      *
      * Example:
      * <pre><code>
-     * qx.Locale.define("name",
+     * qx.locale.Locale.define("name",
      * {
      *   "msgId": "msgText",
      *   ...

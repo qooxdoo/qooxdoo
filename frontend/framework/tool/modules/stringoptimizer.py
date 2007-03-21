@@ -40,7 +40,7 @@ def search_loop(node, stringMap={}, verbose=False):
                     variableName = None
 
                 # Don't extract from locales
-                if variableName == "qx.Locale.define":
+                if variableName == "qx.locale.Locale.define":
                     return stringMap
 
     if node.type == "constant" and node.get("constantType") == "string":
