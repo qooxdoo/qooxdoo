@@ -28,6 +28,12 @@ qx.Class.define("qx.Theme",
 {
   statics:
   {
+    /*
+    ---------------------------------------------------------------------------
+       PUBLIC API
+    ---------------------------------------------------------------------------
+    */
+
     /**
      * Theme config
      *
@@ -96,44 +102,6 @@ qx.Class.define("qx.Theme",
 
 
     /**
-     * Validates incoming configuration and checks keys and values
-     *
-     * @type static
-     * @param name {String} The name of the class
-     * @param config {Map} Configuration map
-     * @return {void}
-     * @throws TODOC
-     */
-    __validateConfig : function(name, config)
-    {
-      var allowedKeys =
-      {
-        "title"       : "string",    // String
-        "extend"      : "object",    // Theme-Object
-        "colors"      : "object",    // Map
-        "icons"       : "object",    // Map
-        "widgets"     : "object",    // Map
-        "appearances" : "object"     // Map
-      };
-
-      for (var key in config)
-      {
-        if (!allowedKeys[key]) {
-          throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
-        }
-
-        if (config[key] == null) {
-          throw new Error('Invalid key "' + key + '" in class "' + name + '"! The value is undefined/null!');
-        }
-
-        if (typeof config[key] !== allowedKeys[key]) {
-          throw new Error('Invalid type of key "' + key + '" in class "' + name + '"! The type of the key must be "' + allowedKeys[key] + '"!');
-        }
-      }
-    },
-
-
-    /**
      * Returns a theme by name
      *
      * @type static
@@ -168,6 +136,14 @@ qx.Class.define("qx.Theme",
     },
 
 
+
+
+    /*
+    ---------------------------------------------------------------------------
+       PRIVATE/INTERNAL API
+    ---------------------------------------------------------------------------
+    */
+
     /**
      * This method will be attached to all themes to return
      * a nice identifier for them.
@@ -181,6 +157,44 @@ qx.Class.define("qx.Theme",
 
 
     /** {var} TODOC */
-    __registry : {}
+    __registry : {},
+
+
+    /**
+     * Validates incoming configuration and checks keys and values
+     *
+     * @type static
+     * @param name {String} The name of the class
+     * @param config {Map} Configuration map
+     * @return {void}
+     * @throws TODOC
+     */
+    __validateConfig : function(name, config)
+    {
+      var allowedKeys =
+      {
+        "title"       : "string",    // String
+        "extend"      : "object",    // Theme-Object
+        "colors"      : "object",    // Map
+        "icons"       : "object",    // Map
+        "widgets"     : "object",    // Map
+        "appearances" : "object"     // Map
+      };
+
+      for (var key in config)
+      {
+        if (!allowedKeys[key]) {
+          throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
+        }
+
+        if (config[key] == null) {
+          throw new Error('Invalid key "' + key + '" in class "' + name + '"! The value is undefined/null!');
+        }
+
+        if (typeof config[key] !== allowedKeys[key]) {
+          throw new Error('Invalid type of key "' + key + '" in class "' + name + '"! The type of the key must be "' + allowedKeys[key] + '"!');
+        }
+      }
+    }
   }
 });

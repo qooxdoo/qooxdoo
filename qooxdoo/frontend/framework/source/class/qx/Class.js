@@ -356,18 +356,8 @@ qx.Class.define("qx.Class",
      */
     include : function(clazz, mixin)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        // Build a pseudo temporary mixin array and check for compatibility of all
-        if (clazz.$$includes)
-        {
-          var temp = [mixin];
-          for (var key in clazz.$$includes) {
-            temp.push(clazz.$$includes[key]);
-          }
-
-          qx.Mixin.checkCompatibility(temp);
-        }
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.Mixin.isCompatible(mixin, clazz);
       }
 
       qx.Class.__addMixin(clazz, mixin, false);
@@ -379,7 +369,7 @@ qx.Class.define("qx.Class",
      * which are already defined in the target clazz. Existing stuff gets overwritten. Please
      * be aware that this functionality is not the preferred way.
      *
-     * <b>WARNING</b>: You can damage working Classes and features.
+     * <b>WARNING</b>: You can damage working classes and features.
      *
      * @type static
      * @param clazz {Class} A class previously defined where the stuff should be attached.
@@ -387,18 +377,8 @@ qx.Class.define("qx.Class",
      */
     patch : function(clazz, mixin)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        // Build a pseudo temporary mixin array and check for compatibility of all
-        if (clazz.$$includes)
-        {
-          var temp = [mixin];
-          for (var key in clazz.$$includes) {
-            temp.push(clazz.$$includes[key]);
-          }
-
-          qx.Mixin.checkCompatibility(temp);
-        }
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.Mixin.isCompatible(mixin, clazz);
       }
 
       qx.Class.__addMixin(clazz, mixin, true);
@@ -418,12 +398,15 @@ qx.Class.define("qx.Class",
       if (!clazz) {
         return false;
       }
+
       if (clazz == superClass) {
         return true;
       }
+
       if (clazz.prototype instanceof superClass) {
         return true;
       }
+
       return false;
     },
 
@@ -515,32 +498,32 @@ qx.Class.define("qx.Class",
      * @return {Boolean} whether the class includes the mixin.
      */
     hasOwnMixin: function(clazz, mixin) {
-      return clazz.$$includes && clazz.$$includes[mixin.name] ? true : false;
+      return clazz.$$includes && clazz.$$includes.indexOf(mixin) !== -1;
     },
 
 
     /**
      * Returns the class or one of its superclasses which contains the
-     * implements declaration for the given interface. Returns null
-     * if the interface is not specified anywhere.
+     * includes declaration for the given mixin. Returns null
+     * if the mixin is not specified anywhere.
      *
-     * @param clazz {Class} Class to look for the interface
-     * @param iface {Interface} Interface to look for
-     * @return {Class | null} The class which has the implements definition for this interface
+     * @param clazz {Class} class to look for the mixin
+     * @param mixin {Mixin} mixin to look for
+     * @return {Class | null} The class which has the includes definition for this mixin
      */
-    findMixin : function(clazz, iface)
+    findMixin : function(clazz, mixin)
     {
       var impl, i, l;
 
       while (clazz)
       {
-        if (clazz.$$implements)
+        if (clazz.$$includes)
         {
           impl = qx.Mixin.flatten(clazz.$$includes);
 
           for (i=0, l=impl.length; i<l; i++)
           {
-            if (impl[i] === iface) {
+            if (impl[i] === mixin) {
               return clazz;
             }
           }
@@ -550,6 +533,29 @@ qx.Class.define("qx.Class",
       }
 
       return null;
+    },
+
+
+    /**
+     * Returns a list of all mixins used by a class.
+     *
+     * @param clazz {Class} class which should be inspected
+     * @return {Mixin[]} array of mixins this class uses
+     */
+    getMixins : function(clazz)
+    {
+      var list = [];
+
+      while (clazz)
+      {
+        if (clazz.$$includes) {
+          list.push.apply(list, qx.Mixin.flatten(clazz.$$includes));
+        }
+
+        clazz = clazz.superclass;
+      }
+
+      return list;
     },
 
 
@@ -579,7 +585,7 @@ qx.Class.define("qx.Class",
      * @return {Boolean} whether the class includes the mixin.
      */
     hasOwnInterface : function(clazz, iface) {
-      return clazz.$$implements && clazz.$$implements[iface.name] ? true : false;
+      return clazz.$$implements && clazz.$$implements.indexOf(iface) !== -1;
     },
 
 
@@ -588,9 +594,9 @@ qx.Class.define("qx.Class",
      * implements declaration for the given interface. Returns null
      * if the interface is not specified anywhere.
      *
-     * @param clazz {Class} Class to look for the interface
-     * @param iface {Interface} Interface to look for
-     * @return {Class | null} The class which has the implements definition for this interface
+     * @param clazz {Class} class to look for the interface
+     * @param iface {Interface} interface to look for
+     * @return {Class | null} the class which has the implements definition for this interface
      */
     findInterface : function(clazz, iface)
     {
@@ -614,6 +620,29 @@ qx.Class.define("qx.Class",
       }
 
       return null;
+    },
+
+
+    /**
+     * Returns a list of all mixins used by a class.
+     *
+     * @param clazz {Class} class which should be inspected
+     * @return {Mixin[]} array of mixins this class uses
+     */
+    getInterfaces : function(clazz)
+    {
+      var list = [];
+
+      while (clazz)
+      {
+        if (clazz.$$implements) {
+          list.push.apply(list, qx.Interface.flatten(clazz.$$implements));
+        }
+
+        clazz = clazz.superclass;
+      }
+
+      return list;
     },
 
 
@@ -828,7 +857,9 @@ qx.Class.define("qx.Class",
       clazz.basename = basename;
 
       // Attach toString
-      clazz.toString = this.$$toString;
+      if (!clazz.hasOwnProperty("toString")) {
+        clazz.toString = this.$$toString;
+      }
 
       if (extend)
       {
@@ -864,7 +895,7 @@ qx.Class.define("qx.Class",
           - Store destruct onto statics/constructor
         */
         if (destruct) {
-          clazz.$$destruct = destruct;
+          clazz.$$destructor = destruct;
         }
 
         // Compatibility to qooxdoo 0.6.6
@@ -1103,13 +1134,12 @@ qx.Class.define("qx.Class",
         qx.Interface.assert(clazz, iface, true);
       }
 
-      // Create storage field
+      // Store interface reference
       if (!clazz.$$implements) {
-        clazz.$$implements = {};
+        clazz.$$implements = [iface];
+      } else {
+        clazz.$$implements.push(iface);
       }
-
-      // Save interface
-      clazz.$$implements[iface.name] = iface;
     },
 
 
@@ -1137,13 +1167,12 @@ qx.Class.define("qx.Class",
       // Attach content
       this.__attachMixinContent(clazz, mixin, patch);
 
-      // Create storage field
+      // Store mixin reference
       if (!clazz.$$includes) {
-        clazz.$$includes = {};
+        clazz.$$includes = [mixin];
+      } else {
+        clazz.$$includes.push(mixin);
       }
-
-      // Save Mixin
-      clazz.$$includes[mixin.name] = mixin;
     },
 
 
