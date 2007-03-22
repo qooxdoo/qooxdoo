@@ -1020,18 +1020,21 @@ qx.Class.define("qx.Class",
 
 
     /**
-     * Wrapper for qx.core.LegacyProperty
+     * Attach properties to classes
      *
      * @type static
      * @param clazz {Class} class to add the properties to
-     * @param propertyName {String} property name
-     * @param property {Map} new class style property definitions
-     * @return {void}
-     * @throws TODOC
+     * @param properties {Map} map of properties
+     * @param patch {Boolean ? false} Overwrite property with the limitations of a property
+               which means you are able to refine but not to replace (esp. for new properties)
      */
     __addProperties : function(clazz, properties, patch)
     {
       var config;
+
+      if (patch === undefined) {
+        patch = false;
+      }
 
       for (var name in properties)
       {
@@ -1040,26 +1043,30 @@ qx.Class.define("qx.Class",
         // Check incoming configuration
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          if (qx.core.Variant.isSet("qx.compatibility", "on"))
-          {
-            if (!config._legacy && !config._fast && !config._cached && !config.refine && this.hasProperty(clazz, name)) {
-              throw new Error("Class " + clazz.classname + " already has a property: " + name + "!");
-            }
-          }
-          else
-          {
-            if (!config.refine && this.hasProperty(clazz, name)) {
-              throw new Error("Class " + clazz.classname + " already has a property: " + name + "!");
-            }
+          var has = this.hasProperty(clazz, name);
+
+          if (!has && config.refine) {
+            throw new Error("Could not refine non-existend property: " + name + "!");
           }
 
-          if (config.refine)
+          if (has && !patch) {
+            throw new Error("Class " + clazz.classname + " already has a property: " + name + "!");
+          }
+
+          if (has && patch)
           {
-            for (var key in config)
+            if (config.refine)
             {
-              if (key !== "init" && key !== "refine") {
-                throw new Error("Class " + clazz.classname + " could not refine property: " + name + "! Key: " + key + " could not be refined!");
+              for (var key in config)
+              {
+                if (key !== "init" && key !== "refine") {
+                  throw new Error("Class " + clazz.classname + " could not refine property: " + name + "! Key: " + key + " could not be refined!");
+                }
               }
+            }
+            else if (!(config._legacy || config._fast || config._cached)) // qx 0.6 compatibility
+            {
+              throw new Error("Could not refine property without a refine:true flag in the property definition!");
             }
           }
         }
@@ -1084,15 +1091,12 @@ qx.Class.define("qx.Class",
         }
 
         // Create old style properties
-        if (qx.core.Variant.isSet("qx.compatibility", "on"))
-        {
-          if (config._fast) {
-            qx.core.LegacyProperty.addFastProperty(config, clazz.prototype);
-          } else if (config._cached) {
-            qx.core.LegacyProperty.addCachedProperty(config, clazz.prototype);
-          } else if (config._legacy) {
-            qx.core.LegacyProperty.addProperty(config, clazz.prototype);
-          }
+        if (config._fast) {
+          qx.core.LegacyProperty.addFastProperty(config, clazz.prototype);
+        } else if (config._cached) {
+          qx.core.LegacyProperty.addCachedProperty(config, clazz.prototype);
+        } else if (config._legacy) {
+          qx.core.LegacyProperty.addProperty(config, clazz.prototype);
         }
       }
     },
@@ -1168,10 +1172,10 @@ qx.Class.define("qx.Class",
       }
 
       // Store interface reference
-      if (!clazz.$$implements) {
-        clazz.$$implements = [iface];
-      } else {
+      if (clazz.$$implements) {
         clazz.$$implements.push(iface);
+      } else {
+        clazz.$$implements = [iface];
       }
     },
 
@@ -1198,55 +1202,34 @@ qx.Class.define("qx.Class",
       }
 
       // Attach content
-      this.__attachMixinContent(clazz, mixin, patch);
+      var list = qx.Mixin.flatten([mixin]);
+      var entry;
 
-      // Store mixin reference
-      if (!clazz.$$includes) {
-        clazz.$$includes = [mixin];
-      } else {
-        clazz.$$includes.push(mixin);
-      }
-    },
-
-
-    /**
-     * Attach fields of Mixins (recursively) to a class without assignment.
-     *
-     * @type static
-     * @param clazz {Class} A class previously defined where the mixin should be attached.
-     * @param mixin {Mixin} Include all features of this Mixin
-     * @param patch {Boolean} Overwrite existing fields, functions and properties
-     */
-    __attachMixinContent : function(clazz, mixin, patch)
-    {
-      var superclazz = clazz.superclass;
-      var proto = clazz.prototype;
-
-      // Attach includes, recursive
-      var includes = mixin.$$includes;
-      if (includes)
+      for (var i=0, l=list.length; i<l; i++)
       {
-        for (var i=0, l=includes.length; i<l; i++) {
-          this.__attachMixinContent(clazz, includes[i], patch);
+        entry = list[i];
+
+        // Attach events
+        if (entry.$$events) {
+          this.__addEvents(clazz, entry.$$events, patch);
+        }
+
+        // Attach properties (Properties are already readonly themselve, no patch handling needed)
+        if (entry.$$properties) {
+          this.__addProperties(clazz, entry.$$properties, patch);
+        }
+
+        // Attach members (Respect patch setting, but dont apply base variables)
+        if (entry.$$members) {
+          this.__addMembers(clazz, entry.$$members, patch, false);
         }
       }
 
-      // Attach events
-      var events = mixin.$$events;
-      if (events) {
-        this.__addEvents(clazz, events, patch);
-      }
-
-      // Attach properties (Properties are already readonly themselve, no patch handling needed)
-      var properties = mixin.$$properties;
-      if (properties) {
-        this.__addProperties(clazz, properties, patch);
-      }
-
-      // Attach members (Respect patch setting, but dont apply base variables)
-      var members = mixin.$$members;
-      if (members) {
-        this.__addMembers(clazz, members, patch, false);
+      // Store mixin reference
+      if (clazz.$$includes) {
+        clazz.$$includes.push(mixin);
+      } else {
+        clazz.$$includes = [mixin];
       }
     },
 
