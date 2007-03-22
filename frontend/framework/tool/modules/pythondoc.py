@@ -1009,11 +1009,15 @@ class CompactHTML:
 
         zone = self.options.has_key("zone")
 
-        if zone:
-            filename = joinext(file, ".txt")
+        if type(file) is str:
+            if zone:
+                filename = joinext(file, ".txt")
+            else:
+                filename = joinext(file, ".html")
+            self.file = open(filename, "w")
         else:
-            filename = joinext(file, ".html")
-        self.file = open(filename, "w")
+            self.file = file   # it's a file handle
+            filename = ""
 
         if zone:
             # generate zone document
@@ -1150,6 +1154,7 @@ if __name__ == "__main__":
     prefix = None
     docstring = 0
     output_xml = 0
+    output_html = 0
     output_handler = CompactHTML
     output_options = {}
 
