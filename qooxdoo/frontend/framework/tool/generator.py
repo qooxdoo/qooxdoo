@@ -465,9 +465,8 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
         print "  * Migrate Source Code..."
 
-        fileList = map(lambda x: fileDb[x]["path"], fileDb.keys())
-        migrator.handle(fileList, options, options.migrationTarget,
-                        options.encoding, options.migrationInput, options.verbose)
+        migrator.handle(fileDb, options, options.migrationTarget,
+                        options.migrationInput, options.verbose)
 
         # Return after migration: Ignore other jobs
         return

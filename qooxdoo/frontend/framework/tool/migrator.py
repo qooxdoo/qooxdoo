@@ -61,7 +61,7 @@ def setupLogging(verbose=False):
     global LOGGING_READY
     if LOGGING_READY:
         return
-    
+
     # define a Handler which writes INFO messages or higher to the sys.stdout
     console = logging.StreamHandler(sys.stdout)
     if verbose:
@@ -74,8 +74,8 @@ def setupLogging(verbose=False):
     logging.getLogger().addHandler(console)
     logging.getLogger().setLevel(logging.NOTSET)
     LOGGING_READY = True
-        
-        
+
+
 
 def entryCompiler(line):
     # protect escaped equal symbols
@@ -102,7 +102,7 @@ def entryCompiler(line):
 
 def getHtmlList(migrationInput):
     """
-    scans an array of directories for HTML files and returns the full 
+    scans an array of directories for HTML files and returns the full
     file names of the found HTML files as array
     """
     htmlList = []
@@ -129,7 +129,7 @@ def getPatchDirectory():
     """
     Returns the directory where the patches are located
     """
-    basePath = os.path.dirname(os.path.abspath(sys.argv[0]))       
+    basePath = os.path.dirname(os.path.abspath(sys.argv[0]))
     return os.path.join(basePath, "migration")
 
 
@@ -180,9 +180,9 @@ def getPatchModulePath(version):
             if fileName == "patch.py":
                 return os.path.join(root, fileName)
     return None
-                
-  
-                  
+
+
+
 def readPatchInfoFiles(baseDir):
     """
     Reads all patch/info files from a directory and compiles the containing
@@ -191,7 +191,7 @@ def readPatchInfoFiles(baseDir):
     """
     patchList = []
     emptyLine = re.compile("^\s*$")
-    
+
     for root, dirs, files in os.walk(baseDir):
 
         # Filter ignored directories
@@ -245,32 +245,32 @@ def regtool(content, regs, patch, filePath):
                 # Search for first match position
                 pos = itercontent.find(fragment)
                 pos = patchEntry["expr"].search(itercontent).start()
-        
+
                 # Update current line
                 line += len((itercontent[:pos] + fragment).split("\n")) - 1
-        
+
                 # Removing leading part til matching part
                 itercontent = itercontent[pos+len(fragment):]
-        
+
                 # Debug
                 logging.debug("   - %s:%s: Matches %s in" % (filePath, line, patchEntry["orig"]))
                 logging.info("    - %s:%s: %s" % (filePath, line, patchEntry["repl"]))
 
-    return content 
+    return content
 
 
 
 def migrateFile(
                 filePath, compiledPatches, compiledInfos,
                 hasPatchModule=False, options=None, encoding="UTF-8"):
-    
+
     # Read in original content
     fileContent = filetool.read(filePath, encoding)
-    
+
     # apply RE patches
     patchedContent = regtool(fileContent, compiledPatches, True, filePath)
     patchedContent = regtool(patchedContent, compiledInfos, False, filePath)
-            
+
     # Apply patches
     if hasPatchModule:
         fileId = loader.extractFileContentId(fileContent);
@@ -285,18 +285,23 @@ def migrateFile(
     # Write file
     if patchedContent != fileContent:
         logging.info("    - %s has been modified. Storing modifications ..." % filePath)
-        filetool.save(filePath, patchedContent, encoding)    
-             
+        filetool.save(filePath, patchedContent, encoding)
 
 
-def handle(fileList, options, migrationTarget,
-           encoding="UTF-8", migrationInput=None, verbose=False):
-    
+def handle(fileDb, options, migrationTarget, migrationInput=None, verbose=False):
+    fileList = [fileDb[x]["path"] for x in fileDb.keys()]
+    encodings = [fileDb[x]["encoding"] for x in fileDb.keys()]
+    migrate(fileList, options, migrationTarget, encodings, migrationInput, verbose)
+
+
+def migrate(fileList, options, migrationTarget,
+           encodings, migrationInput=None, verbose=False):
+
     if migrationInput is None:
         migrationInput = []
-  
-    setupLogging(verbose)   
-  
+
+    setupLogging(verbose)
+
     htmlList = getHtmlList(migrationInput)
 
     logging.debug("  * Number of script input files: %s" % len(fileList))
@@ -333,11 +338,13 @@ def handle(fileList, options, migrationTarget,
 
     if len(fileList) > 0:
         logging.info("  * Processing script files:")
+        i = 0
         for filePath in fileList:
             migrateFile(filePath, compiledPatches, compiledInfos,
                         importedModule, options=options,
-                        encoding=encoding)
-            
+                        encoding=encodings[i])
+            i += 1
+
         logging.info("  * Done")
 
 
@@ -364,46 +371,46 @@ def patchMakefile(makefilePath, newVersion, oldVersion):
     outFile.close()
     inFile.close()
     shutil.move(makefilePath + ".tmp", makefilePath)
-    
+
 
 
 def migrateSingleFile(fileName, options, neededUpdates):
-    
+
     if not os.path.isfile(fileName):
         print """
 ERROR: The file '%s' could not be found.
 """ % fileName
         sys.exit(1)
-    
+
     #turn off logging
     setupLogging()
     #logging.getLogger().setLevel(logging.NOTSET)
     logging.disable(logging.ERROR)
-    
+
 
     #backup file
     shutil.copyfile(fileName, fileName + ".migration.bak")
-    
+
     try:
         for version in neededUpdates:
-            handle([fileName], options, getNormalizedVersion(version))
+            migrate([fileName], options, getNormalizedVersion(version), ["utf-8"])
     finally:
         # print migrated file
         for line in open(fileName):
             print line,
         #restore file
         shutil.copyfile(fileName + ".migration.bak", fileName)
- 
-    
+
+
 
 def main():
-    
+
     parser = optparse.OptionParser(
         "usage: %prog [options]",
         option_class=optparseext.ExtendAction
     )
 
-    migrator_options = optparse.OptionGroup(parser, "Migrator Options")    
+    migrator_options = optparse.OptionGroup(parser, "Migrator Options")
     migrator_options.add_option(
           "-m", "--from-makefile",
           dest="makefile", metavar="MAKEFILE",
@@ -419,7 +426,7 @@ def main():
           dest="file", metavar="FILE.js",
           help="Migrate just one JavaScript file. Writes the generated file to STDOUT."
     )
-    
+
     migrator_options.add_option(
           "--class-path",
           action="extend", dest="classPath",
@@ -427,32 +434,32 @@ def main():
           help="Define a class path."
     )
     parser.add_option_group(migrator_options)
-    
+
     # options from generator.py
     parser.add_option(
           "-v", "--verbose",
           action="store_true", dest="verbose", default=False,
           help="Verbose output mode."
-    )    
+    )
     parser.add_option(
           "--class-encoding",
           action="extend", dest="classEncoding",
           metavar="ENCODING", type="string", default=[],
           help="Encoding of the files to migrate."
-    )    
+    )
 
     # Options for pretty printing
     pp_options = optparse.OptionGroup(parser,"Pretty printer options")
     compiler.addCommandLineOptions(pp_options)
     parser.add_option_group(pp_options)
-    
+
     (options, args) = parser.parse_args()
-    
+
     if options.from_version == "":
         if options.makefile:
             print """
 WARNING: The qooxdoo version, this project uses is unknown.
-            
+
 Please set the variable QOOXDOO_VERSION in your Makefile to the qooxdoo
 version this project currently uses.
 
@@ -464,22 +471,22 @@ QOOXDOO_VERSION = 0.6.4
             print """
 ERROR: Please specify the qooxdoo version you migrate from using '--from-version'!
 """
-        
+
         sys.exit(1)
 
     if not isValidVersion(options.from_version):
         print "\nERROR: The version '%s' is not a valid version string!\n" % options.from_version
         sys.exit(1)
-        
-    
+
+
     if MIGRATION_ORDER[-1] == getNormalizedVersion(options.from_version):
         print "\n Nothing to do. Your application is up to date!\n"
         sys.exit()
-        
+
     # to migrate a single file extract the class path
     if options.classPath == [] and options.file:
         options.classPath = [os.path.dirname(os.path.abspath(options.file))]
-    
+
     if options.classPath == []:
         print """
 ERROR: The class path is empty. Please specify the class pass using the
@@ -487,7 +494,7 @@ ERROR: The class path is empty. Please specify the class pass using the
 """
         sys.exit(0)
 
-   
+
     neededUpdates = getNeededUpdates(options.from_version)
 
     # check whether tree bases modifications will be used
@@ -496,7 +503,7 @@ ERROR: The class path is empty. Please specify the class pass using the
         if getPatchModulePath(version) is not None:
             hasPatchModule = True
             break
-           
+
     # set options for the loader and migrator
     options.classUri = []
     options.resourceInput = []
@@ -509,15 +516,15 @@ ERROR: The class path is empty. Please specify the class pass using the
     if options.file:
         migrateSingleFile(options.file, options, neededUpdates)
         sys.exit(0)
-        
+
     # build file database
     fileDb = {}
     listIndex = 0
     for path in options.classPath:
         loader.indexSingleScriptInput(path, listIndex, options, fileDb)
         listIndex += 1
-        
-            
+
+
     print"""
 MIGRATION SUMMARY:
 
@@ -526,22 +533,22 @@ Upgrade path:              %s
 
 Affected Classes:
     %s""" % (options.from_version, " -> ".join(neededUpdates), "\n    ".join(fileDb.keys()))
-    
+
     if hasPatchModule:
         print """
 WARNING: The JavaScript files will be pretty printed. You can customize the
          pretty printer using the PRETTY_PRINT_OPTIONS variable in your
          Makefile. You can find a complete list of pretty printing options
          at http://qooxdoo.org/documentation/articles/code_style."""
-         
+
     choice = raw_input("""
 
-WARNING: The migration process will update the files in place. Please make 
+WARNING: The migration process will update the files in place. Please make
          sure, you have a backup of your project. The complete output of the
-         migrations process will be logged to '%s'.
-         
+         migration process will be logged to '%s'.
+
 Do you want to start the migration now? [no] : """ % LOGFILE)
-    
+
     if not choice.lower() in ["j", "y", "yes"]:
         sys.exit()
 
@@ -551,20 +558,25 @@ Do you want to start the migration now? [no] : """ % LOGFILE)
     formatter = logging.Formatter('%(message)s')
     fileLogger.setFormatter(formatter)
     fileLogger.setLevel(logging.NOTSET)
-    logging.getLogger().addHandler(fileLogger)    
-    
+    logging.getLogger().addHandler(fileLogger)
+
     for version in neededUpdates:
         logging.info("")
         logging.info("UPGRADE TO %s" % (version))
         logging.info("----------------------------------------------------------------------------")
-     
-        fileList = map(lambda x: fileDb[x]["path"], fileDb.keys())
-        handle(fileList, options, getNormalizedVersion(version), verbose=options.verbose)
 
-    
+        handle(fileDb, options, getNormalizedVersion(version), verbose=options.verbose)
+
+
     # patch makefile
     patchMakefile(options.makefile, MIGRATION_ORDER[-1], options.from_version)
-    
+
+    print """
+
+The complete output of the migration process has been logged to the file '%s'.
+
+""" % LOGFILE
+
 
 
 ######################################################################
