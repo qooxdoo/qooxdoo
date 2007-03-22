@@ -105,6 +105,10 @@ qx.Class.define("qx.core.Object",
     __disposeAll : false,
 
 
+    /** Internal type */
+    $$type : "Object",
+
+
     /**
      * Returns an unique identifier for the given object. If such an identifier
      * does not yet exist, create it.
