@@ -47,9 +47,9 @@ qx.Class.define("apiviewer.ConstantPanel", {
 
       if (showDetails)
       {
-        info.textHtml += this.__createConstantValueHtml(node, fromClassNode);
+        info.textHtml += this.__createConstantValueHtml(node);
         info.textHtml += apiviewer.InfoPanel.createSeeAlsoHtml(node);
-        info.textHtml += apiviewer.InfoPanel.createErrorHtml(node, fromClassNode);
+        info.textHtml += apiviewer.InfoPanel.createErrorHtml(node, currentClassDocNode);
         info.textHtml += apiviewer.InfoPanel.createDeprecationHtml(node, "constant");
       }
 
@@ -77,7 +77,7 @@ qx.Class.define("apiviewer.ConstantPanel", {
      * @param fromClassNode {Map} the doc node of the class the item was defined.
      * @return {String} the HTML showing the value of the constant
      */
-    __createConstantValueHtml : function(node, fromClassNode)
+    __createConstantValueHtml : function(node)
     {
       var ClassViewer = apiviewer.ClassViewer;
       if (this.__hasConstantValueHtml(node)) {

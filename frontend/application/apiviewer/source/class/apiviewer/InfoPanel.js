@@ -277,6 +277,67 @@ qx.Class.define("apiviewer.InfoPanel", {
     },
 
 
+    createInheritedFromHtml : function(node, currentClassDocNode)
+    {
+     var ClassViewer = apiviewer.ClassViewer;
+     if (node.getClass() != currentClassDocNode)
+     {
+       var html = new qx.util.StringBuilder(
+         ClassViewer.DIV_START_DETAIL_HEADLINE, "Inherited from:", ClassViewer.DIV_END,
+         ClassViewer.DIV_START_DETAIL_TEXT,
+         apiviewer.InfoPanel.createItemLinkHtml(node.getClass().getFullName()),
+         ClassViewer.DIV_END
+       );
+       return html.get();
+     }
+     else
+     {
+       return "";
+     }
+    },
+
+
+    createOverwriddenFromHtml : function(node)
+    {
+      var ClassViewer = apiviewer.ClassViewer;
+      if (node.getOverriddenFrom())
+      {
+        var html = new qx.util.StringBuilder(
+          ClassViewer.DIV_START_DETAIL_HEADLINE, "Overridden from:", ClassViewer.DIV_END,
+          ClassViewer.DIV_START_DETAIL_TEXT,
+          apiviewer.InfoPanel.createItemLinkHtml(node.getOverriddenFrom().getFullName()),
+          ClassViewer.DIV_END
+        );
+        return html.get();
+      }
+      else
+      {
+        return "";
+      }
+    },
+
+
+    createIncludedFromHtml : function(node, currentClassDocNode)
+    {
+      var ClassViewer = apiviewer.ClassViewer;
+      if (node.getClass() != currentClassDocNode)
+      {
+        if (node.getClass().getType() == "mixin") {
+          var html = new qx.util.StringBuilder(
+            ClassViewer.DIV_START_DETAIL_HEADLINE, "Included from mixin:", ClassViewer.DIV_END,
+            ClassViewer.DIV_START_DETAIL_TEXT,
+            apiviewer.InfoPanel.createItemLinkHtml(node.getClass().getFullName()),
+            ClassViewer.DIV_END
+          );
+          return html.get();
+        }
+      }
+      else
+      {
+        return "";
+      }
+    },
+
     /**
      * Creates the HTML showing the description of an item.
      *
@@ -289,7 +350,7 @@ qx.Class.define("apiviewer.InfoPanel", {
      */
     createDescriptionHtml : function(node, showDetails)
     {
-      var desc = node.getDescription();
+      var desc = node.getDocNode().getDescription();
 
       if (desc)
       {
@@ -344,7 +405,7 @@ qx.Class.define("apiviewer.InfoPanel", {
      */
     descriptionHasDetails : function(node)
     {
-      var desc = node.getDescription();
+      var desc = node.getDocNode().getDescription();
       if (desc) {
         return this.__extractFirstSentence(desc) != desc;
       }
@@ -445,11 +506,14 @@ qx.Class.define("apiviewer.InfoPanel", {
      * @param currentClassDocNode {Map} the doc node of the currently displayed class
      * @return {String} the HTML showing the documentation errors.
      */
-    createErrorHtml : function(node, fromClassNode, currentClassDocNode)
+    createErrorHtml : function(node, currentClassDocNode)
     {
       var ClassViewer = apiviewer.ClassViewer;
+      var fromClassNode = node.getClass();
+      docNode = node.getDocNode();
 
-      var errors = node.getErrors();
+
+      var errors = docNode.getErrors();
 
       if (errors.length > 0)
       {
@@ -462,7 +526,7 @@ qx.Class.define("apiviewer.InfoPanel", {
           html.add(ClassViewer.DIV_START_DETAIL_TEXT, errors[i].attributes.msg, " <br/>");
           html.add("(");
 
-          if (fromClassNode && fromClassNode != currentClassDocNode) {
+          if (fromClassNode != currentClassDocNode) {
             html.add(fromClassNode.getFullName(), "; ");
           }
 

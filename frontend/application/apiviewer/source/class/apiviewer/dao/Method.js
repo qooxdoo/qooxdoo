@@ -82,7 +82,7 @@ qx.Class.define("apiviewer.dao.Method",
           this._params = this._createNodeList(node, apiviewer.dao.Param, this.getClass());
           break;
         case "return":
-          this._return = new apiviewer.dao.Param(node, this);
+          this._return = new apiviewer.dao.ClassItem(node, this.getClass());
           break;
         default:
           return this.base(arguments, node);

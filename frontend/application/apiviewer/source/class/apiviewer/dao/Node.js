@@ -83,7 +83,6 @@ qx.Class.define("apiviewer.dao.Node", {
     {
       switch (childNode.type) {
         case "deprecated":
-          console.log(childNode);
           this._deprecated = childNode.children ? childNode.children[0].attributes.text || "" : "";
           break;
         default:

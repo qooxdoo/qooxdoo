@@ -30,9 +30,9 @@ qx.Class.define("apiviewer.dao.ClassItem",
 
   construct : function(classDocNode, parentClass, listName)
   {
-    this.base(arguments, classDocNode);
     this._class = parentClass;
     this._listName = listName;
+    this.base(arguments, classDocNode);
   },
 
   members :
@@ -85,14 +85,17 @@ qx.Class.define("apiviewer.dao.ClassItem",
 
     getDocNode : function()
     {
+      if (this._itemDocNode) {
+        return this._itemDocNode;
+      }
       var docClass = apiviewer.dao.Class.getClassByName(this._docNode.attributes.docFrom);
       if (docClass) {
         var listNode = apiviewer.TreeUtil.getChild(docClass.getNode(), this._listName);
-        docNode = apiviewer.TreeUtil.getChildByAttribute(listNode, "name", this.getName());
-        return docNode.cls || this;
-      } else {
-        return this;
+        var itemDocNode = apiviewer.TreeUtil.getChildByAttribute(listNode, "name", this.getName());
+        this._itemDocNode = itemDocNode.cls;
       }
+      this._itemDocNode = this._itemDocNode || this;
+      return this._itemDocNode;
     },
 
 

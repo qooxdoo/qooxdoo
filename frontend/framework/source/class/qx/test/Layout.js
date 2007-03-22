@@ -1,11 +1,26 @@
+/**
+ * @deprecated
+ */
 qx.Class.define("qx.test.Layout",
 {
   extend : qx.ui.layout.CanvasLayout,
 
+  events :
+  {
+    /**
+     * @deprecated don't use me.
+     **/
+    "click" : "Event"
+  },
+
   properties :
   {
     _enabled : { inheritable : true },
-    _width : { inheritable : true, appearance : true },
+
+    /**
+     * @deprecated
+     */
+    width : { inheritable : true, appearance : true },
     _height : { inheritable : true, appearance : true },
     _left : { inheritable : true, appearance : true },
     _top : { inheritable : true, appearance : true }
@@ -14,11 +29,27 @@ qx.Class.define("qx.test.Layout",
 
   members : {
 
+    /**
+     * @deprecated
+     * @return {Integer} Juhu
+     */
+    foo : function() {
+
+    }
   },
 
 
   statics :
   {
+
+    /**
+     * @deprecated please use bar!
+     */
+    FOO : 12,
+
+    /**
+     * @deprecated use test2 instead.
+     */
     test1 : function()
     {
       var pa = new qx.test.Layout;

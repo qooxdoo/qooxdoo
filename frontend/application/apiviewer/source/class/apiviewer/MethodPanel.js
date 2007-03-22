@@ -76,7 +76,7 @@ qx.Class.define("apiviewer.MethodPanel", {
       }
 
       if (!method.isConstructor()) {
-        typeHtml.add(apiviewer.InfoPanel.createTypeHtml(method.getReturn(), "void"));
+        typeHtml.add(apiviewer.InfoPanel.createTypeHtml(method.getDocNode().getReturn(), "void"));
       }
 
       return typeHtml.get();
@@ -99,7 +99,6 @@ qx.Class.define("apiviewer.MethodPanel", {
       var TreeUtil = apiviewer.TreeUtil;
 
       var docClass = method.getClass();
-      var docClassNode = docClass.getNode();
 
       // Add the description
       var textHtml = new qx.util.StringBuilder()
@@ -112,7 +111,7 @@ qx.Class.define("apiviewer.MethodPanel", {
       if (showDetails)
       {
         // Add Parameters
-        var params = method.getParams();
+        var params = method.getDocNode().getParams();
 
         if (params.length > 0)
         {
@@ -156,58 +155,27 @@ qx.Class.define("apiviewer.MethodPanel", {
         }
 
         // Add return value
-        var returnNode = method.getReturn()
+        var returnNode = method.getDocNode().getReturn()
         if (returnNode)
         {
-          var returnDescNode = TreeUtil.getChild(returnNode, "desc");
-
-          if (returnDescNode) {
+          var desc = returnNode.getDescription();
+          if (desc) {
             textHtml.add(
               ClassViewer.DIV_START_DETAIL_HEADLINE, "Returns:", ClassViewer.DIV_END,
               ClassViewer.DIV_START_DETAIL_TEXT,
-              apiviewer.InfoPanel.resolveLinkAttributes(returnDescNode.attributes.text, docClass),
+              apiviewer.InfoPanel.resolveLinkAttributes(desc, docClass),
               ClassViewer.DIV_END
             );
           }
         }
 
-        // Add inherited from or overridden from
-        if (docClass && docClass != currentClassDocNode) {
-          if (docClass.getType() == "mixin") {
-            textHtml.add(
-              ClassViewer.DIV_START_DETAIL_HEADLINE, "Included from mixin:",
-              ClassViewer.DIV_END, ClassViewer.DIV_START_DETAIL_TEXT,
-              apiviewer.InfoPanel.createItemLinkHtml(docClass.getFullName()), ClassViewer.DIV_END
-            );
-
-          } else {
-            textHtml.add(
-              ClassViewer.DIV_START_DETAIL_HEADLINE, "Inherited from:",
-              ClassViewer.DIV_END, ClassViewer.DIV_START_DETAIL_TEXT,
-              apiviewer.InfoPanel.createItemLinkHtml(docClass.getFullName()), ClassViewer.DIV_END
-            );
-
-          }
-        } else if (method.getOverriddenFrom()) {
-          textHtml.add(
-            ClassViewer.DIV_START_DETAIL_HEADLINE, "Overridden from:", ClassViewer.DIV_END,
-            ClassViewer.DIV_START_DETAIL_TEXT,
-             apiviewer.InfoPanel.createItemLinkHtml(method.getOverriddenFrom().getFullName()), ClassViewer.DIV_END
-           );
-
-        }
-
-        // Add required by interface
+        textHtml.add(apiviewer.InfoPanel.createIncludedFromHtml(method, currentClassDocNode));
+        textHtml.add(apiviewer.InfoPanel.createOverwriddenFromHtml(method));
+        textHtml.add(apiviewer.InfoPanel.createInheritedFromHtml(method, currentClassDocNode));
         textHtml.add(apiviewer.InfoPanel.createInfoRequiredByHtml(method));
-
-        // Add @see attributes
         textHtml.add(apiviewer.InfoPanel.createSeeAlsoHtml(method));
-
-        // Add documentation errors
-        textHtml.add(apiviewer.InfoPanel.createErrorHtml(method, docClass, currentClassDocNode));
-
+        textHtml.add(apiviewer.InfoPanel.createErrorHtml(method, currentClassDocNode));
         textHtml.add(apiviewer.InfoPanel.createDeprecationHtml(method, "function"));
-
       }
 
       var info = {};
