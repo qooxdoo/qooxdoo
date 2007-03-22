@@ -135,7 +135,7 @@ qx.Class.define("qx.Interface",
       iface.name = name;
 
       // Attach toString
-      iface.toString = this.$$toString;
+      iface.toString = this.genericToString;
 
       // Assign to namespace
       iface.basename = qx.Class.createNamespace(name, iface);
@@ -301,7 +301,7 @@ qx.Class.define("qx.Interface",
      * @internal
      * @return {String} The interface identifier
      */
-    $$toString : function() {
+    genericToString : function() {
       return "[Interface " + this.name + "]";
     },
 

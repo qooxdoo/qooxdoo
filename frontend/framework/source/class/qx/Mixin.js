@@ -135,7 +135,7 @@ qx.Class.define("qx.Mixin",
       mixin.name = name;
 
       // Attach toString
-      mixin.toString = this.$$toString;
+      mixin.toString = this.genericToString;
 
       // Assign to namespace
       mixin.basename = qx.Class.createNamespace(name, mixin);
@@ -295,7 +295,7 @@ qx.Class.define("qx.Mixin",
      * @internal
      * @return {String} The mixin identifier
      */
-    $$toString : function() {
+    genericToString : function() {
       return "[Mixin " + this.name + "]";
     },
 
