@@ -284,7 +284,7 @@ qx.Class.define("qx.locale.Manager",
      * @return {void}
      */
     addTranslationFromClass : function(classname, translationMap) {
-      this.addTranslation(name.substring(name.lastIndexOf(".")+1), translationMap);
+      this.addTranslation(classname.substring(classname.lastIndexOf(".")+1), translationMap);
     },
 
 
