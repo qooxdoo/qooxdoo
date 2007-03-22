@@ -150,6 +150,20 @@ qx.Class.define("qx.Class",
         var config = {};
       }
 
+      // Normalize include and implement to arrays
+      if (config.include && !(config.include instanceof Array)) {
+        config.include = [config.include];
+      }
+
+      if (config.implement && !(config.implement instanceof Array)) {
+        config.implement = [config.implement];
+      }
+
+      // Normalize type
+      if (config.type == null) {
+        config.type = config.extend ? "normal" : "static";
+      }
+
       // Validate incoming data
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.__validateConfig(name, config);
@@ -713,6 +727,15 @@ qx.Class.define("qx.Class",
     },
 
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+       PRIVATE/INTERNAL BASICS
+    ---------------------------------------------------------------------------
+    */
+
     /**
      * This method will be attached to all class to return
      * a nice identifier for them.
@@ -724,17 +747,6 @@ qx.Class.define("qx.Class",
       return "[Class " + this.classname + "]";
     },
 
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-       PRIVATE BASICS
-    ---------------------------------------------------------------------------
-    */
 
     /** Stores all defined classes */
     __registry : {},
@@ -751,12 +763,18 @@ qx.Class.define("qx.Class",
      */
     __validateConfig : function(name, config)
     {
+      // Validate type
+      if (config.type && !(config.type === "normal" || config.type === "static" || config.type === "abstract" || config.type === "singleton")) {
+        throw new Error('Invalid type "' + config.type + '" definition for class "' + name + '"!');
+      }
+
+      // Verify keys
       var allowedKeys =
       {
         "type"       : "string",    // String
         "extend"     : "function",  // Function
-        "implement"  : "object",    // Interface | Interface[]
-        "include"    : "object",    // Mixin | Mixin[]
+        "implement"  : "object",    // Interface[]
+        "include"    : "object",    // Mixin[]
         "construct"  : "function",  // Function
         "statics"    : "object",    // Map
         "properties" : "object",    // Map
@@ -768,9 +786,20 @@ qx.Class.define("qx.Class",
         "destruct"   : "function"   // Function
       };
 
+      var staticAllowedKeys =
+      {
+        "type" : "string",
+        "statics" : "object",
+        "settings" : "object",
+        "variants" : "object",
+        "defer" : "object"
+      };
+
       for (var key in config)
       {
-        if (!allowedKeys[key]) {
+        if (config.type === "static" && !staticAllowedKeys[key]) {
+          throw new Error('The configuration key "' + key + '" in static class "' + name + '" is not allowed!');
+        } else if (!allowedKeys[key]) {
           throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
         }
 
@@ -783,22 +812,54 @@ qx.Class.define("qx.Class",
         }
       }
 
-      if (!config.extend)
+      // Validate maps
+      var maps = [ "statics", "properties", "members", "settings", "variants", "events" ];
+      for (var i=0, l=maps.length; i<l; i++)
       {
-        if (config.construct) {
-          throw new Error('Superclass is undefined, but Constructor was given for class: "' + name + '"!');
+        var key = maps[i];
+
+        if (config[key] && (config[key] instanceof Array || config[key] instanceof RegExp || config[key] instanceof Date || config[key].classname !== undefined)) {
+          throw new Error('Invalid key "' + key + '" in class "' + name + '"! The value needs to be a map!');
         }
       }
 
-      if (!config.extend && (config.members || config.properties || config.mixins)) {
-        throw new Error('Members, Properties and Mixins are not allowed for static class: "' + name + '"!');
+      // Validate include definition
+      if (config.include)
+      {
+        if (config.include instanceof Array)
+        {
+          for (var i=0, a=config.include, l=a.length; i<l; i++)
+          {
+            if (a[i].$$type !== "Mixin") {
+              throw new Error('The include defintion in class "' + name + '" contains a invalid mixin at position ' + i + ': ' + a[i]);
+            }
+          }
+        }
+        else
+        {
+          throw new Error('Invalid include definition in class "' + name + '"! Only mixins and arrays of mixins are allowed!');
+        }
       }
 
-      if (config.type && !(config.type == "static" || config.type == "abstract" || config.type == "singleton")) {
-        throw new Error('Invalid type "' + type + '" definition for class "' + name + '"!');
+      // Validate implement definition
+      if (config.implement)
+      {
+        if (config.implement instanceof Array)
+        {
+          for (var i=0, a=config.implement, l=a.length; i<l; i++)
+          {
+            if (a[i].$$type !== "Interface") {
+              throw new Error('The implement defintion in class "' + name + '" contains a invalid interface at position ' + i + ': ' + a[i]);
+            }
+          }
+        }
+        else
+        {
+          throw new Error('Invalid implement definition in class "' + name + '"! Only interfaces and arrays of interfaces are allowed!');
+        }
       }
 
-      // Check Mixin compatiblity
+      // Check mixin compatibility
       if (config.include)
       {
         try {
@@ -825,7 +886,7 @@ qx.Class.define("qx.Class",
     {
       var clazz;
 
-      if (!extend || type === "static")
+      if (type === "static")
       {
         // Create empty/non-empty class
         clazz = statics || {};
@@ -833,7 +894,7 @@ qx.Class.define("qx.Class",
       else
       {
         // create default constructor
-        if (construct === undefined) {
+        if (construct == null) {
           construct = this.__createDefaultConstructor();
         }
 
@@ -890,31 +951,19 @@ qx.Class.define("qx.Class",
           - Store statics onto prototype
         */
         construct.self = clazz.constructor = proto.constructor = clazz;
-
-        /*
-          - Store destruct onto statics/constructor
-        */
-        if (destruct) {
-          clazz.$$destructor = destruct;
-        }
-
-        // Compatibility to qooxdoo 0.6.6
-        if (qx.core.Variant.isSet("qx.compatibility", "on"))
-        {
-          qx.Clazz = clazz;
-          qx.Proto = proto;
-          qx.Super = extend;
-        }
       }
-      else
+
+      // Store destruct onto statics/constructor
+      if (destruct) {
+        clazz.$$destructor = destruct;
+      }
+
+      // Compatibility to qooxdoo 0.6.6
+      if (qx.core.Variant.isSet("qx.compatibility", "on"))
       {
-        // Compatibility to qooxdoo 0.6.6
-        if (qx.core.Variant.isSet("qx.compatibility", "on"))
-        {
-          qx.Clazz = clazz;
-          qx.Proto = null;
-          qx.Super = null;
-        }
+        qx.Clazz = clazz;
+        qx.Proto = proto || null;
+        qx.Super = extend || null;
       }
 
       // Store class reference in global class registry
