@@ -54,9 +54,10 @@ qx.Class.define("qx.Interface",
      * {
      *   extend: [SuperInterfaces],
      *
-     *   statics: {
+     *   statics:
+     *   {
      *     PI : 3.14,
-     *     staticMethod: function(z) { return typeof(z) == "string"; }
+     *     staticMethod: function(z) { return typeof z == "string"; }
      *   },
      *
      *   properties: {"color": {}, "name": {} },
@@ -66,6 +67,11 @@ qx.Class.define("qx.Interface",
      *     meth1: function() { return true; },
      *     meth2: function(a, b) { return arguments.length == 2; },
      *     meth3: function(c) { return qx.Interface.hasInterface(c, qx.some.IInterface); }
+     *   },
+     *
+     *   events :
+     *   {
+     *     keydown : qx.event.type.KeyEvent
      *   }
      * });
      * </pre>
@@ -88,6 +94,11 @@ qx.Class.define("qx.Interface",
     {
       if (config)
       {
+        // Normalize include
+        if (config.extend && !(config.extend instanceof Array)) {
+          config.extend = [config.extend];
+        }
+
         // Validate incoming data
         if (qx.core.Variant.isSet("qx.debug", "on")) {
           this.__validateConfig(name, config);
@@ -98,7 +109,7 @@ qx.Class.define("qx.Interface",
 
         // Attach configuration
         if (config.extend) {
-          iface.$$extends = config.extend instanceof Array ? config.extend : [config.extend];
+          iface.$$extends = config.extend;
         }
 
         if (config.properties) {
@@ -107,6 +118,10 @@ qx.Class.define("qx.Interface",
 
         if (config.members) {
           iface.$$members = config.members;
+        }
+
+        if (config.events) {
+          iface.$$events = config.events;
         }
       }
       else
@@ -247,13 +262,23 @@ qx.Class.define("qx.Interface",
       }
 
       // Validate properties
-      var properties = iface.$$properties;
-      if (properties)
+      if (iface.$$properties)
       {
-        for (var key in properties)
+        for (var key in iface.$$properties)
         {
           if (!qx.Class.hasProperty(clazz, key)) {
             throw new Error('The property "' + key + '" is not supported by Class "' + clazz.classname + '"!');
+          }
+        }
+      }
+
+      // Validate events
+      if (iface.$$events)
+      {
+        for (var key in iface.$$events)
+        {
+          if (!qx.Class.supportsEvent(clazz, key)) {
+            throw new Error('The event "' + key + '" is not supported by Class "' + clazz.classname + '"!');
           }
         }
       }
@@ -324,13 +349,15 @@ qx.Class.define("qx.Interface",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
+        // Validate keys
         var allowedKeys =
         {
-          "extend"     : 1, // Interface | Interface[]
-          "statics"    : 1, // Map
-          "members"    : 1, // Map
-          "properties" : 1  // Map
-        }
+          "extend"     : "object", // Interface | Interface[]
+          "statics"    : "object", // Map
+          "members"    : "object", // Map
+          "properties" : "object", // Map
+          "events"     : "object"  // Map
+        };
 
         for (var key in config)
         {
@@ -341,30 +368,39 @@ qx.Class.define("qx.Interface",
           if (config[key] == null) {
             throw new Error("Invalid key '" + key + "' in interface '" + name + "'! The value is undefined/null!");
           }
+
+          if (typeof config[key] !== allowedKeys[key]) {
+            throw new Error('Invalid type of key "' + key + '" in interface "' + name + '"! The type of the key must be "' + allowedKeys[key] + '"!');
+          }
         }
 
-        // Check extends
+        // Validate maps
+        var maps = [ "statics", "members", "properties", "events" ];
+        for (var i=0, l=maps.length; i<l; i++)
+        {
+          var key = maps[i];
+
+          if (config[key] !== undefined && (config[key] instanceof Array || config[key] instanceof RegExp || config[key] instanceof Date || config[key].classname !== undefined)) {
+            throw new Error('Invalid key "' + key + '" in interface "' + name + '"! The value needs to be a map!');
+          }
+        }
+
+        // Validate extends
         if (config.extend)
         {
-          var extend = config.extend;
-
-          if (!(config.extend instanceof Array)) {
-            config.extend = [config.extend];
-          }
-
-          for (var i=0, l=extend.length; i<l; i++)
+          for (var i=0, a=config.extend, l=a.length; i<l; i++)
           {
-            if (extend[i] == null) {
+            if (a[i] == null) {
               throw new Error("Extends of interfaces must be interfaces. The extend number '" + i+1 + "' in interface '" + name + "' is undefined/null!");
             }
 
-            if (extend[i].$$type !== "Interface") {
+            if (a[i].$$type !== "Interface") {
               throw new Error("Extends of interfaces must be interfaces. The extend number '" + i+1 + "' in interface '" + name + "' is not an interface!");
             }
           }
         }
 
-        // Check statics
+        // Validate statics
         if (config.statics)
         {
           for (var key in config.statics)
