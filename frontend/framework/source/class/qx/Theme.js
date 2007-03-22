@@ -171,10 +171,11 @@ qx.Class.define("qx.Theme",
      */
     __validateConfig : function(name, config)
     {
+      // Validate keys
       var allowedKeys =
       {
         "title"       : "string",    // String
-        "extend"      : "object",    // Theme-Object
+        "extend"      : "object",    // Theme
         "colors"      : "object",    // Map
         "icons"       : "object",    // Map
         "widgets"     : "object",    // Map
@@ -194,6 +195,22 @@ qx.Class.define("qx.Theme",
         if (typeof config[key] !== allowedKeys[key]) {
           throw new Error('Invalid type of key "' + key + '" in class "' + name + '"! The type of the key must be "' + allowedKeys[key] + '"!');
         }
+      }
+
+      // Validate maps
+      var maps = [ "colors", "icons", "widgets", "appearances" ];
+      for (var i=0, l=maps.length; i<l; i++)
+      {
+        var key = maps[i];
+
+        if (config[key] !== undefined && (config[key] instanceof Array || config[key] instanceof RegExp || config[key] instanceof Date || config[key].classname !== undefined)) {
+          throw new Error('Invalid key "' + key + '" in theme "' + name + '"! The value needs to be a map!');
+        }
+      }
+
+      // Validate extend
+      if (config.extend && config.extend.$$type !== "Theme") {
+        throw new Error('Invalid extend in theme "' + name + '": ' + config.extend);
       }
     }
   }
