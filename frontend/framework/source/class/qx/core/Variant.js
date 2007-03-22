@@ -53,10 +53,10 @@ qx.Class.define("qx.core.Variant",
     /**
      * Define a variant
      *
-     * @param key {string} An Unique key for the variant. The key must be prefixed with a
+     * @param key {String} An Unique key for the variant. The key must be prefixed with a
      *   namespace identifier (e.g. <code>"qx.debug"</code>)
-     * @param allowedValues {string[]} An array of all allowed values for this variant.
-     * @param defaultValue {string} Default value for the variant. Must be one of the values
+     * @param allowedValues {String[]} An array of all allowed values for this variant.
+     * @param defaultValue {String} Default value for the variant. Must be one of the values
      *   defined in <code>defaultValues</code>.
      */
     define : function(key, allowedValues, defaultValue)

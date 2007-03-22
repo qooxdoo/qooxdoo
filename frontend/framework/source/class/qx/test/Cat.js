@@ -63,10 +63,12 @@ qx.Class.define("qx.test.Cat",
      * This is the documentation for the makeSound function
      *
      * @type member
-     * @return {void}
+     * @param foo {String} foooo
+     * @return {Boolean} always true
      */
-    makeSound : function() {
+    makeSound : function(foo) {
       this.debug("MEOW! MEOW!");
+      return true;
     },
 
 

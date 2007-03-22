@@ -39,12 +39,9 @@ qx.Class.define("qx.test.Kitty",
 
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
+     * @param foo {Integer} nix besonderes
      */
-    makeSound : function() {
+    makeSound : function(foo) {
       this.debug("RRRRRRRRRRH!");
     },
 
