@@ -25,7 +25,7 @@ extract_cldr.py
 import os
 import sys
 import getopt
-import ElementTree
+from elementtree import ElementTree
 
 help_message = '''
 The help message goes here.
