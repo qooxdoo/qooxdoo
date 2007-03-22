@@ -151,9 +151,11 @@ qx.Class.define("qx.core.Object",
      */
     dispose : function()
     {
-      if (this._disposed) {
+      if (this.__disposed) {
         return;
       }
+
+      this.__disposed = true;
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -165,7 +167,6 @@ qx.Class.define("qx.core.Object",
       }
 
       // var vStart = (new Date).valueOf();
-      qx.core.Object.__disposeAll = true;
       var vObject;
 
       for (var i=qx.core.Object.__db.length - 1; i>=0; i--)
@@ -226,8 +227,6 @@ qx.Class.define("qx.core.Object",
           console.debug("Disposing done in " + (new Date() - disposeStart) + "ms");
         }
       }
-
-      this._disposed = true;
     },
 
 
@@ -238,7 +237,7 @@ qx.Class.define("qx.core.Object",
      * @return {Boolean} whether a global dispose is taking place.
      */
     inGlobalDispose : function() {
-      return qx.core.Object.__disposeAll;
+      return qx.core.Object.__disposed;
     }
   },
 
@@ -365,6 +364,7 @@ qx.Class.define("qx.core.Object",
       for (var prop in data)
       {
         try {
+          // TODO: Support new qx.core.Property
           this[qx.core.LegacyProperty.getSetterName(prop)](data[prop]);
         } catch(ex) {
           this.error("Setter of property '" + prop + "' returned with an error", ex);
@@ -434,14 +434,25 @@ qx.Class.define("qx.core.Object",
         }
       }
 
-      // Deconstructor support
+      // Deconstructor support for classes
       var clazz = this.constructor;
+      var mixins;
 
       while (clazz.superclass)
       {
         // Processing this class...
         if (clazz.$$destructor) {
           clazz.$$destructor.call(this);
+        }
+
+        // Destructor support for mixins
+        mixins = qx.Mixin.flatten(clazz.$$includes);
+
+        for (var i=0, l=mixins.length; i<l; i++)
+        {
+          if (mixins[i].$$destructor) {
+            mixins[i].$$destructor.call(this);
+          }
         }
 
         // Jump up to next super class
