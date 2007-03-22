@@ -1,5 +1,10 @@
 qx.Mixin.define("qx.test.MMoody",
 {
+  construct : function() {
+    this.debug("Constructing mixin: qx.test.MMoody");
+  },
+
+  include : qx.test.MEmpty,
 
   properties :
   {
@@ -22,7 +27,9 @@ qx.Mixin.define("qx.test.MMoody",
   statics :
   {
     amIFat: function() { return true; }
+  },
+
+  destruct : function() {
+    this.debug("Destructing mixin: qx.test.MMoody");
   }
-
-
 });

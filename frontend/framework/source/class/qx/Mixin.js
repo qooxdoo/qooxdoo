@@ -266,12 +266,15 @@ qx.Class.define("qx.Mixin",
         return [];
       }
 
-      var list = mixins;
+      // console.log("Flatten: " + mixins);
+
+      // we need to create a copy and not to modify the existing array
+      var list = mixins.concat();
 
       for (var i=0, l=mixins.length; i<l; i++)
       {
         if (mixins[i].$$includes) {
-          list.push.apply(this.flatten(mixins[i].$$includes));
+          list.push.apply(list, this.flatten(mixins[i].$$includes));
         }
       }
 

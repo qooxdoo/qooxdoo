@@ -907,7 +907,7 @@ qx.Class.define("qx.Class",
         }
 
         // Wrap constructor to handle mixin constructors and property initialization
-        clazz = this.__wrapConstructor(name, type, construct);
+        clazz = this.__wrapConstructor(construct, name, type);
 
         // Copy statics
         if (statics)
@@ -1184,11 +1184,11 @@ qx.Class.define("qx.Class",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (!clazz || !iface) {
-          throw new Error("Incomple parameters!")
+          throw new Error("Incomplete parameters!")
         }
 
         if (this.hasInterface(clazz, iface)) {
-          throw new Error('Interface "' + iface.name + '" is already used by Class "' + clazz.classname + '"!');
+          throw new Error('Interface "' + iface.name + '" is already used by Class "' + clazz.classname + '" by class: ' + this.findMixin(clazz, mixin).classname + '!');
         }
 
         // Check interface
@@ -1217,11 +1217,11 @@ qx.Class.define("qx.Class",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (!clazz || !mixin) {
-          throw new Error("Incomple parameters!")
+          throw new Error("Incomplete parameters!")
         }
 
         if (this.hasMixin(clazz, mixin)) {
-          throw new Error('Mixin "' + mixin.name + '" is already included into Class "' + clazz.classname + '"!');
+          throw new Error('Mixin "' + mixin.name + '" is already included into Class "' + clazz.classname + '" by class: ' + this.findMixin(clazz, mixin).classname + '!');
         }
       }
 
@@ -1297,14 +1297,16 @@ qx.Class.define("qx.Class",
 
     /**
      *
-     * @param className {String} fully qualified class name of the constructor.
-     * @param type {String} the user specified class type
      * @param construct {Fuction} the original constructor
+     * @param name {String} name of the class
+     * @param type {String} the user specified class type
      */
-    __wrapConstructor : function(className, type, construct)
+    __wrapConstructor : function(construct, name, type)
     {
       function wrapper()
       {
+        var clazz = arguments.callee;
+
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           if (type == null)
@@ -1313,14 +1315,14 @@ qx.Class.define("qx.Class",
           }
           else if (type === "abstract")
           {
-            if (this.classname == arguments.callee.$$abstract) {
-              throw new Error("The class '" + className + "' is abstract! It is not possible to instantiate it.");
+            if (this.classname == clazz.$$abstract) {
+              alert("The class '" + clazz.classname + "' is abstract! It is not possible to instantiate it.");
             }
           }
           else if (type === "singleton")
           {
-            if (!arguments.callee.$$allowconstruct) {
-              throw new Error("The class '" + className + "' is a singleton! It is not possible to instantiate it directly. Use the static 'getInstance' method instead.");
+            if (!clazz.$$allowconstruct) {
+              alert("The class '" + clazz.classname + "' is a singleton! It is not possible to instantiate it directly. Use the static 'getInstance' method instead.");
             }
           }
         }
@@ -1329,10 +1331,22 @@ qx.Class.define("qx.Class",
         var instance = construct.apply(this, arguments);
 
         // Initialize local mixins
-        // qx.Class.constructMixins(clazz, this);
+        if (clazz.$$includes)
+        {
+          var mixins = qx.Mixin.flatten(clazz.$$includes);
+
+          for (var i=0, l=mixins.length; i<l; i++)
+          {
+            if (mixins[i].$$constructor) {
+              mixins[i].$$constructor.call(this);
+            }
+          }
+        }
 
         // Initialize local properties
-        qx.core.Property.init(qx.Class.getByName(className), this);
+        if (clazz.$$properties) {
+          qx.core.Property.init(clazz, this);
+        }
 
         return instance;
       }
@@ -1340,7 +1354,7 @@ qx.Class.define("qx.Class",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (type != null && type === "abstract") {
-          wrapper.$$abstract = className;
+          wrapper.$$abstract = name;
         }
       }
 
