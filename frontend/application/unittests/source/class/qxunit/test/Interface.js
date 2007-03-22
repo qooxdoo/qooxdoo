@@ -84,7 +84,7 @@ qx.Class.define("qxunit.test.Interface", {
           add: function(a) {
             return (
               arguments.length == 1 &&
-              qx.Class.implementsInterface(a, qxunit.IComplex)
+              qx.Class.implementsInterface(a.constructor, qxunit.IComplex)
             );
           },
           setReal: function(r) {
@@ -131,27 +131,27 @@ qx.Class.define("qxunit.test.Interface", {
       // invalid usage
       this.assertExceptionDebugOn(function() {
         a.add(b,b);
-      }, Error, "Pre condition of method");
+      }, Error, "Pre condition of method", "a");
 
       this.assertExceptionDebugOn(function() {
         a.setReal()
-      }, Error, "Pre condition of method");
+      }, Error, "Pre condition of method", "b");
 
       this.assertExceptionDebugOn(function() {
         a.setReal(1,2)
-      }, Error, "Pre condition of method");
+      }, Error, "Pre condition of method", "c");
 
       this.assertExceptionDebugOn(function() {
         a.setReal("Juhu");
-      }, Error, "Pre condition of method");
+      }, Error, "Pre condition of method", "d");
 
       this.assertExceptionDebugOn(function() {
         a.abs({});
-      }, Error, "Pre condition of method");
+      }, Error, "Pre condition of method", "e");
 
       this.assertExceptionDebugOn(function() {
         a.add("Juhu");
-      }, Error, "Pre condition of method");
+      }, Error, "Pre condition of method", "f");
     },
 
     testIncludes: function() {
