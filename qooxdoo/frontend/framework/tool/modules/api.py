@@ -104,6 +104,7 @@ def handleClassDefinition(docTree, item, variant):
         classNode.set("type", variant)
 
     handleDeprecated(classNode, commentAttributes)
+    handleInternal(classNode, commentAttributes)
     handleAppearance(item, classNode, className, commentAttributes)
 
     try:
@@ -391,6 +392,7 @@ def handleEvents(item, classNode):
             itemNode.set("type", value)
 
             handleDeprecated(node, commentAttributes)
+            handleInternal(node, commentAttributes)
 
             classNode.addListChild("events", node)
 
@@ -458,13 +460,17 @@ def handleAppearance(item, classNode, className, commentAttributes):
 def handleDeprecated(docNode, commentAttributes):
     for docItem in commentAttributes:
         if docItem["category"] == "deprecated":
-            #print docItem
             deprecatedNode = tree.Node("deprecated")
             if docItem.has_key("text"):
                 descNode = tree.Node("desc").set("text", docItem["text"])
                 deprecatedNode.addChild(descNode)
             docNode.addChild(deprecatedNode)
 
+
+def handleInternal(docNode, commentAttributes):
+    for docItem in commentAttributes:
+        if docItem["category"] == "deprecated":
+            docNode.set("isInternal", True)
 
 ########################################################################################
 #
@@ -700,6 +706,7 @@ def handlePropertyDefinitionOldCommon(item, classNode, propertyName, paramsMap):
     commentAttributes = comment.parseNode(item)
     addTypeInfo(node, comment.getAttrib(commentAttributes, "description"), item)
     handleDeprecated(node, commentAttributes)
+    handleInternal(node, commentAttributes)
 
     classNode.addListChild("properties", node)
 
@@ -768,6 +775,7 @@ def handleConstantDefinition(item, classNode):
     addTypeInfo(node, description, item)
 
     handleDeprecated(node, commentAttributes)
+    handleInternal(node, commentAttributes)
     classNode.addListChild("constants", node)
 
 
@@ -802,6 +810,7 @@ def handleFunction(funcItem, commentAttributes, classNode):
         return node
 
     handleDeprecated(node, commentAttributes)
+    handleInternal(node, commentAttributes)
 
     # Read all description, param and return attributes
     for attrib in commentAttributes:
