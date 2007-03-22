@@ -160,8 +160,8 @@ qx.Class.define("qx.Class",
       }
 
       // Normalize type
-      if (config.type == null) {
-        config.type = config.extend ? "normal" : "static";
+      if (!config.extend) {
+        config.type = "static";
       }
 
       // Validate incoming data
@@ -170,7 +170,7 @@ qx.Class.define("qx.Class",
       }
 
       // Create class
-      var clazz = this.__createClass(name, config.type, config.extend, config.construct, config.statics, config.destruct);
+      var clazz = this.__createClass(name, config.type, config.extend, config.statics, config.construct, config.destruct);
 
       // Members, Properties, Events and Mixins are not available in static classes
       if (config.extend)
@@ -195,15 +195,8 @@ qx.Class.define("qx.Class",
         // Must be the last here to detect conflicts
         if (config.include)
         {
-          if (config.include instanceof Array)
-          {
-            for (var i=0, l=config.include.length; i<l; i++) {
-              this.__addMixin(clazz, config.include[i], false);
-            }
-          }
-          else
-          {
-            this.__addMixin(clazz, config.include, false);
+          for (var i=0, l=config.include.length; i<l; i++) {
+            this.__addMixin(clazz, config.include[i], false);
           }
         }
       }
@@ -211,15 +204,7 @@ qx.Class.define("qx.Class",
       // Process settings
       if (config.settings)
       {
-        for (var key in config.settings)
-        {
-          if (qx.core.Variant.isSet("qx.debug", "on"))
-          {
-            if (key.substr(0, key.indexOf(".")) != clazz.classname.substr(0, clazz.classname.indexOf("."))) {
-              throw new Error('Forbidden setting "' + key + '" found in "' + clazz.classname + '". It is forbidden to define a default setting for an external namespace!');
-            }
-          }
-
+        for (var key in config.settings) {
           qx.core.Setting.define(key, config.settings[key]);
         }
       }
@@ -227,15 +212,7 @@ qx.Class.define("qx.Class",
       // Process variants
       if (config.variants)
       {
-        for (var key in config.variants)
-        {
-          if (qx.core.Variant.isSet("qx.debug", "on"))
-          {
-            if (key.substr(0, key.indexOf(".")) != clazz.classname.substr(0, clazz.classname.indexOf("."))) {
-              throw new Error('Forbidden variant "' + key + '" found in "' + clazz.classname + '". It is forbidden to define a variant for an external namespace!');
-            }
-          }
-
+        for (var key in config.variants) {
           qx.core.Variant.define(key, config.variants[key].allowedValues, config.variants[key].defaultValue);
         }
       }
@@ -258,27 +235,11 @@ qx.Class.define("qx.Class",
         });
       }
 
-      // Interfaces are available in all types of classes
+      // Interface support for non-static classes
       if (config.implement)
       {
-        if (config.implement instanceof Array)
-        {
-          for (var i=0, l=config.implement.length; i<l; i++) {
-            this.__addInterface(clazz, config.implement[i]);
-          }
-        }
-        else
-        {
-          this.__addInterface(clazz, config.implement);
-        }
-      }
-
-      // Verify inherited interfaces
-      if (config.extend && config.extend.$$implements)
-      {
-        var inheritedImplements = config.extend.$$implements;
-        for (var key in inheritedImplements) {
-          qx.Interface.assert(clazz, inheritedImplements[key], false);
+        for (var i=0, l=config.implement.length; i<l; i++) {
+          this.__addInterface(clazz, config.implement[i]);
         }
       }
     },
@@ -764,11 +725,11 @@ qx.Class.define("qx.Class",
     __validateConfig : function(name, config)
     {
       // Validate type
-      if (config.type && !(config.type === "normal" || config.type === "static" || config.type === "abstract" || config.type === "singleton")) {
+      if (config.type && !(config.type === "static" || config.type === "abstract" || config.type === "singleton")) {
         throw new Error('Invalid type "' + config.type + '" definition for class "' + name + '"!');
       }
 
-      // Verify keys
+      // Validate keys and values (simple first analysis)
       var allowedKeys =
       {
         "type"       : "string",    // String
@@ -788,11 +749,11 @@ qx.Class.define("qx.Class",
 
       var staticAllowedKeys =
       {
-        "type" : "string",
-        "statics" : "object",
-        "settings" : "object",
-        "variants" : "object",
-        "defer" : "object"
+        "type"       : "string",    // String
+        "statics"    : "object",    // Map
+        "settings"   : "object",    // Map
+        "variants"   : "object",    // Map
+        "defer"      : "object"     // Function
       };
 
       for (var key in config)
@@ -818,7 +779,7 @@ qx.Class.define("qx.Class",
       {
         var key = maps[i];
 
-        if (config[key] && (config[key] instanceof Array || config[key] instanceof RegExp || config[key] instanceof Date || config[key].classname !== undefined)) {
+        if (config[key] !== undefined && (config[key] instanceof Array || config[key] instanceof RegExp || config[key] instanceof Date || config[key].classname !== undefined)) {
           throw new Error('Invalid key "' + key + '" in class "' + name + '"! The value needs to be a map!');
         }
       }
@@ -868,6 +829,28 @@ qx.Class.define("qx.Class",
           throw new Error('Error in include definition of class "' + name + '"! ' + ex.message);
         }
       }
+
+      // Validate settings
+      if (config.settings)
+      {
+        for (var key in config.settings)
+        {
+          if (key.substr(0, key.indexOf(".")) != name.substr(0, name.indexOf("."))) {
+            throw new Error('Forbidden setting "' + key + '" found in "' + name + '". It is forbidden to define a default setting for an external namespace!');
+          }
+        }
+      }
+
+      // Validate variants
+      if (config.variants)
+      {
+        for (var key in config.variants)
+        {
+          if (key.substr(0, key.indexOf(".")) != name.substr(0, name.indexOf("."))) {
+            throw new Error('Forbidden variant "' + key + '" found in "' + name + '". It is forbidden to define a variant for an external namespace!');
+          }
+        }
+      }
     },
 
 
@@ -878,23 +861,24 @@ qx.Class.define("qx.Class",
      * @param name {String} Full name of the class
      * @param type {String} type of the class.
      * @param extend {clazz} Superclass to inherit from
-     * @param construct {Function} Constructor of the new class
      * @param statics {Map} Static methods field
+     * @param construct {Function} Constructor of the new class
+     * @param destruct {Function} Destructor of the new class
      * @return {Class} The resulting class
      */
-    __createClass : function(name, type, extend, construct, statics, destruct)
+    __createClass : function(name, type, extend, statics, construct, destruct)
     {
       var clazz;
 
-      if (type === "static")
+      if (!extend)
       {
         // Create empty/non-empty class
         clazz = statics || {};
       }
       else
       {
-        // create default constructor
-        if (construct == null) {
+        // Create default constructor
+        if (!construct) {
           construct = this.__createDefaultConstructor();
         }
 
@@ -951,11 +935,11 @@ qx.Class.define("qx.Class",
           - Store statics onto prototype
         */
         construct.self = clazz.constructor = proto.constructor = clazz;
-      }
 
-      // Store destruct onto statics/constructor
-      if (destruct) {
-        clazz.$$destructor = destruct;
+        // Store destruct onto class
+        if (destruct) {
+          clazz.$$destructor = destruct;
+        }
       }
 
       // Compatibility to qooxdoo 0.6.6
