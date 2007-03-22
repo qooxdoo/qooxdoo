@@ -65,7 +65,6 @@ qx.Class.define("apiviewer.EventPanel", {
     getItemHtml : function(node, fromClassNode, currentClassDocNode, showDetails)
     {
       fromClassNode = node.getClass();
-      var ClassViewer = apiviewer.ClassViewer;
 
       var info = {};
 
@@ -78,18 +77,9 @@ qx.Class.define("apiviewer.EventPanel", {
 
       if (showDetails)
       {
-        // Add inherited from or overridden from
-        if (fromClassNode && fromClassNode != currentClassDocNode) {
-          textHtml.add(
-            ClassViewer.DIV_START_DETAIL_HEADLINE, "Inherited from:", ClassViewer.DIV_END,
-            ClassViewer.DIV_START_DETAIL_TEXT,
-            apiviewer.InfoPanel.createItemLinkHtml(fromClassNode.getFullName()),
-            ClassViewer.DIV_END
-          );
-        }
-
+        textHtml.add(apiviewer.InfoPanel.createInheritedFromHtml(node, currentClassDocNode));
         textHtml.add(apiviewer.InfoPanel.createSeeAlsoHtml(node));
-        textHtml.add(apiviewer.InfoPanel.createErrorHtml(node, fromClassNode, currentClassDocNode));
+        textHtml.add(apiviewer.InfoPanel.createErrorHtml(node, currentClassDocNode));
         textHtml.add(apiviewer.InfoPanel.createDeprecationHtml(node, "event"));
 
       }

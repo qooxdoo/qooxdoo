@@ -34,11 +34,6 @@ qx.Class.define("apiviewer.dao.Param", {
 
   members : {
 
-    getClass : function()
-    {
-      return this.base(arguments).getClass();
-    },
-
     getTypes : function()
     {
       var result = [];

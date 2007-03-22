@@ -848,6 +848,9 @@ def handleFunction(funcItem, commentAttributes, classNode):
             if not paramNode.getChild("desc", False):
                 addError(node, "Parameter <span class='item-detail-param-name'>%s</span> is not documented." % paramNode.get("name"), funcItem)
 
+    if not node.hasChild("desc"):
+        addError(node, "Documentation is missing.", funcItem)
+
     return node
 
 
@@ -1177,6 +1180,13 @@ def removePropertyModifiers(classNode):
             classNode.removeChild(methodsList)
 
 
+def itemHasAnyDocs(node):
+    if node.getChild("desc", False) != None:
+        return True
+    for child in node.children:
+        if child.type != "errors":
+            return True
+    return False
 
 def postWorkItemList(docTree, classNode, listName, overridable):
     """Does the post work for a list of properties or methods."""
@@ -1195,7 +1205,7 @@ def postWorkItemList(docTree, classNode, listName, overridable):
             if overridable:
                 superClassName = classNode.get("superClass", False)
                 overriddenFound = False
-                docFound = (itemNode.getChild("desc", False) != None)
+                docFound = itemHasAnyDocs(itemNode)
                 while superClassName and (not overriddenFound or not docFound):
                     superClassNode = getClassNode(docTree, superClassName)
                     superItemNode = superClassNode.getListChildByAttribute(listName, "name", name, False)
@@ -1209,11 +1219,13 @@ def postWorkItemList(docTree, classNode, listName, overridable):
                             if paramsMatch(itemNode, superItemNode):
                                 # The parameters match -> We can use the documentation of the super class
                                 itemNode.set("docFrom", superClassName)
-                                docFound = (superItemNode.getChild("desc", False) != None)
+                                docFound = itemHasAnyDocs(superItemNode)
 
                                 # Remove previously recorded documentation errors from the item
                                 # (Any documentation errors will be recorded in the super class)
                                 removeErrors(itemNode)
+                            else:
+                                docFound = True;
                         if not overriddenFound:
                             # This super class has the item defined -> Add a overridden attribute
                             itemNode.set("overriddenFrom", superClassName)
@@ -1230,8 +1242,8 @@ def postWorkItemList(docTree, classNode, listName, overridable):
 
 
 def paramsMatch(methodNode1, methodNode2):
-    params1 = methodNode1.getChild("params1", False)
-    params2 = methodNode1.getChild("params2", False)
+    params1 = methodNode1.getChild("params", False)
+    params2 = methodNode2.getChild("params", False)
 
     if params1 == None or params2 == None:
         # One method has no parameters -> The params match if both are None

@@ -197,7 +197,7 @@ qx.Class.define("apiviewer.AppearancePanel", {
      */
     itemHasDetails : function(node, fromClassNode, currentClassDocNode)
     {
-      return this.__getAllAppearanceStates().length > 0;
+      return this.__getAllAppearanceStates(node).length > 0;
     }
 
   }

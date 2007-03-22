@@ -85,7 +85,7 @@ qx.Class.define("apiviewer.dao.Class",
 
     getDescription : function()
     {
-      return this._desc;
+      return this._desc || "";
     },
 
     getType : function()
@@ -111,11 +111,6 @@ qx.Class.define("apiviewer.dao.Class",
     getSee : function()
     {
       return this._see;
-    },
-
-    getDescription : function()
-    {
-      return this._desc;
     },
 
     getSuperClass : function()
