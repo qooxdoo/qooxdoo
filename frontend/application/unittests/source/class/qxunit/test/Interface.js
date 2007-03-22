@@ -84,7 +84,7 @@ qx.Class.define("qxunit.test.Interface", {
           add: function(a) {
             return (
               arguments.length == 1 &&
-              qx.Interface.implementsInterface(a, qxunit.IComplex)
+              qx.Class.implementsInterface(a, qxunit.IComplex)
             );
           },
           setReal: function(r) {
@@ -191,11 +191,11 @@ qx.Class.define("qxunit.test.Interface", {
       var def = qx.lang.Object.copy(classDef);
       qx.Class.define("qxunit.Implement1", def)
 
-      this.assertTrue(qx.Interface.implementsInterface(qxunit.Implement1, qxunit.IAll), "implements IAll");
-      this.assertTrue(qx.Interface.implementsInterface(qxunit.Implement1, qxunit.IMember), "implements IMember");
-      this.assertTrue(qx.Interface.implementsInterface(qxunit.Implement1, qxunit.IProperties), "implements IProperties");
+      this.assertTrue(qx.Class.implementsInterface(qxunit.Implement1, qxunit.IAll), "implements IAll");
+      this.assertTrue(qx.Class.implementsInterface(qxunit.Implement1, qxunit.IMember), "implements IMember");
+      this.assertTrue(qx.Class.implementsInterface(qxunit.Implement1, qxunit.IProperties), "implements IProperties");
 
-      this.assertFalse(qx.Interface.implementsInterface(qxunit.Implement1, qxunit.IOther), "not implements IOther");
+      this.assertFalse(qx.Class.implementsInterface(qxunit.Implement1, qxunit.IOther), "not implements IOther");
 
       // no members
       var def = qx.lang.Object.copy(classDef);
