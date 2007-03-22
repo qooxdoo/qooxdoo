@@ -14,11 +14,6 @@ qx.Class.define("qx.test.Animal",
     this.name = name;
 
 
-
-    //this.initWidth();
-    //this.initHeight();
-
-    this.properties(arguments);
   },
 
   properties :
