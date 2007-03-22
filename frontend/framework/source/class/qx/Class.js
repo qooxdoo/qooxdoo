@@ -413,6 +413,30 @@ qx.Class.define("qx.Class",
 
 
     /**
+     * Returns the class or one of its superclasses which contains the
+     * property declaration for the given property. Returns null
+     * if the property is not specified anywhere.
+     *
+     * @param clazz {Class} class to look for the property
+     * @param name {String} name of the property
+     * @return {Class | null} The class which has the includes definition for this mixin
+     */
+    findProperty : function(clazz, name)
+    {
+      while (clazz)
+      {
+        if (clazz.$$properties && clazz.$$properties[name]) {
+          return clazz;
+        }
+
+        clazz = clazz.superclass;
+      }
+
+      return null;
+    },
+
+
+    /**
      * Whether the class has the given property
      *
      * @type member
@@ -704,7 +728,7 @@ qx.Class.define("qx.Class",
      * @internal
      * @return {String} The class identifier
      */
-    $$toString : function() {
+    genericToString : function() {
       return "[Class " + this.classname + "]";
     },
 
@@ -903,7 +927,7 @@ qx.Class.define("qx.Class",
 
       // Attach toString
       if (!clazz.hasOwnProperty("toString")) {
-        clazz.toString = this.$$toString;
+        clazz.toString = this.genericToString;
       }
 
       if (extend)
@@ -1066,7 +1090,7 @@ qx.Class.define("qx.Class",
             }
             else if (!(config._legacy || config._fast || config._cached)) // qx 0.6 compatibility
             {
-              throw new Error("Could not refine property without a refine:true flag in the property definition!");
+              throw new Error('Could not refine property "' + name + '" without a "refine" flag in the property definition! This class: ' + clazz.classname + ', original class: ' + this.findProperty(clazz, name).classname + '.');
             }
           }
         }

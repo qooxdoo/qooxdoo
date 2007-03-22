@@ -74,7 +74,7 @@ qx.Class.define("qx.Theme",
       theme.name = name;
 
       // Attach toString
-      theme.toString = this.$$toString;
+      theme.toString = this.genericToString;
 
       // Assign to namespace
       theme.basename = qx.Class.createNamespace(name, theme);;
@@ -151,7 +151,7 @@ qx.Class.define("qx.Theme",
      * @internal
      * @return {String} The interface identifier
      */
-    $$toString : function() {
+    genericToString : function() {
       return "[Theme " + this.name + "]";
     },
 
