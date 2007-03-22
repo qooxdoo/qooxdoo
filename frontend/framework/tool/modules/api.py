@@ -1183,9 +1183,10 @@ def removePropertyModifiers(classNode):
 def itemHasAnyDocs(node):
     if node.getChild("desc", False) != None:
         return True
-    for child in node.children:
-        if child.type != "errors":
-            return True
+    if node.hasChildren():
+        for child in node.children:
+            if child.type != "errors":
+                return True
     return False
 
 def postWorkItemList(docTree, classNode, listName, overridable):
