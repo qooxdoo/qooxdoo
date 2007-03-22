@@ -40,7 +40,7 @@ qx.Class.define("qxunit.test.Mixin", {
           include: [qxunit.MMix1, qxunit.MMix2],
           construct: function() {}
         });
-      }, Error, "Error in include definition");
+      }, Error, "Overwriting member", "t1");
 
       this.assertExceptionDebugOn(function() {
         qx.Class.define("qxunit.Mix2", {
@@ -51,7 +51,7 @@ qx.Class.define("qxunit.test.Mixin", {
             bar: function() { return "bar"; }
           }
         });
-      }, Error, "Overwriting member");
+      }, Error, "Overwriting member", "t2");
 
       // this is allowed
       qx.Class.define("qxunit.Mix3", {
@@ -72,8 +72,7 @@ qx.Class.define("qxunit.test.Mixin", {
             color: { _legacy: true }
           }
         });
-      }, Error, "Overwriting property");
-
+      }, Error, "already has a property", "t3");
     },
 
 

@@ -326,20 +326,20 @@ qx.Class.define("qxunit.test.Clazz", {
         extend: qx.core.Object,
         construct: function() {
           this.base(arguments);
-          self.assertEquals("construct", qx.Class.getFunctionName(arguments.callee));
+          self.assertEquals("construct", qx.dev.Debug.getFunctionName(arguments.callee));
         },
 
         members: {
           __foo: function() {
-            self.assertEqualsDebugOn("__foo", qx.Class.getFunctionName(arguments.callee));
+            self.assertEqualsDebugOn("__foo", qx.dev.Debug.getFunctionName(arguments.callee));
           },
 
           _bar: function() {
-            self.assertEquals("_bar", qx.Class.getFunctionName(arguments.callee));
+            self.assertEquals("_bar", qx.dev.Debug.getFunctionName(arguments.callee));
           },
 
           sayFooBar: function() {
-            self.assertEquals("sayFooBar", qx.Class.getFunctionName(arguments.callee));
+            self.assertEquals("sayFooBar", qx.dev.Debug.getFunctionName(arguments.callee));
             this.__foo();
             this._bar();
           }
@@ -348,7 +348,7 @@ qx.Class.define("qxunit.test.Clazz", {
 
       var funcName = new qxunit.FuncName();
       funcName.sayFooBar();
-      this.assertNull(qx.Class.getFunctionName(function() {}));
+      this.assertNull(qx.dev.Debug.getFunctionName(function() {}));
 
     }
   }
