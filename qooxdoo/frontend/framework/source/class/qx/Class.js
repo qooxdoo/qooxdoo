@@ -746,136 +746,141 @@ qx.Class.define("qx.Class",
      * @return {void}
      * @throws TODOC
      */
-    __validateConfig : function(name, config)
+    __validateConfig : qx.core.Variant.select("qx.debug",
     {
-      // Validate type
-      if (config.type && !(config.type === "static" || config.type === "abstract" || config.type === "singleton")) {
-        throw new Error('Invalid type "' + config.type + '" definition for class "' + name + '"!');
-      }
-
-      // Validate keys and values (simple first analysis)
-      var allowedKeys =
+      "on": function(name, config)
       {
-        "type"       : "string",    // String
-        "extend"     : "function",  // Function
-        "implement"  : "object",    // Interface[]
-        "include"    : "object",    // Mixin[]
-        "construct"  : "function",  // Function
-        "statics"    : "object",    // Map
-        "properties" : "object",    // Map
-        "members"    : "object",    // Map
-        "settings"   : "object",    // Map
-        "variants"   : "object",    // Map
-        "events"     : "object",    // Map
-        "defer"      : "function",  // Function
-        "destruct"   : "function"   // Function
-      };
-
-      var staticAllowedKeys =
-      {
-        "type"       : "string",    // String
-        "statics"    : "object",    // Map
-        "settings"   : "object",    // Map
-        "variants"   : "object",    // Map
-        "defer"      : "object"     // Function
-      };
-
-      for (var key in config)
-      {
-        if (config.type === "static" && !staticAllowedKeys[key]) {
-          throw new Error('The configuration key "' + key + '" in static class "' + name + '" is not allowed!');
-        } else if (!allowedKeys[key]) {
-          throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
+        // Validate type
+        if (config.type && !(config.type === "static" || config.type === "abstract" || config.type === "singleton")) {
+          throw new Error('Invalid type "' + config.type + '" definition for class "' + name + '"!');
         }
 
-        if (config[key] == null) {
-          throw new Error('Invalid key "' + key + '" in class "' + name + '"! The value is undefined/null!');
-        }
-
-        if (typeof config[key] !== allowedKeys[key]) {
-          throw new Error('Invalid type of key "' + key + '" in class "' + name + '"! The type of the key must be "' + allowedKeys[key] + '"!');
-        }
-      }
-
-      // Validate maps
-      var maps = [ "statics", "properties", "members", "settings", "variants", "events" ];
-      for (var i=0, l=maps.length; i<l; i++)
-      {
-        var key = maps[i];
-
-        if (config[key] !== undefined && (config[key] instanceof Array || config[key] instanceof RegExp || config[key] instanceof Date || config[key].classname !== undefined)) {
-          throw new Error('Invalid key "' + key + '" in class "' + name + '"! The value needs to be a map!');
-        }
-      }
-
-      // Validate include definition
-      if (config.include)
-      {
-        if (config.include instanceof Array)
+        // Validate keys and values (simple first analysis)
+        var allowedKeys =
         {
-          for (var i=0, a=config.include, l=a.length; i<l; i++)
+          "type"       : "string",    // String
+          "extend"     : "function",  // Function
+          "implement"  : "object",    // Interface[]
+          "include"    : "object",    // Mixin[]
+          "construct"  : "function",  // Function
+          "statics"    : "object",    // Map
+          "properties" : "object",    // Map
+          "members"    : "object",    // Map
+          "settings"   : "object",    // Map
+          "variants"   : "object",    // Map
+          "events"     : "object",    // Map
+          "defer"      : "function",  // Function
+          "destruct"   : "function"   // Function
+        };
+
+        var staticAllowedKeys =
+        {
+          "type"       : "string",    // String
+          "statics"    : "object",    // Map
+          "settings"   : "object",    // Map
+          "variants"   : "object",    // Map
+          "defer"      : "object"     // Function
+        };
+
+        for (var key in config)
+        {
+          if (config.type === "static" && !staticAllowedKeys[key]) {
+            throw new Error('The configuration key "' + key + '" in static class "' + name + '" is not allowed!');
+          } else if (!allowedKeys[key]) {
+            throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
+          }
+
+          if (config[key] == null) {
+            throw new Error('Invalid key "' + key + '" in class "' + name + '"! The value is undefined/null!');
+          }
+
+          if (typeof config[key] !== allowedKeys[key]) {
+            throw new Error('Invalid type of key "' + key + '" in class "' + name + '"! The type of the key must be "' + allowedKeys[key] + '"!');
+          }
+        }
+
+        // Validate maps
+        var maps = [ "statics", "properties", "members", "settings", "variants", "events" ];
+        for (var i=0, l=maps.length; i<l; i++)
+        {
+          var key = maps[i];
+
+          if (config[key] !== undefined && (config[key] instanceof Array || config[key] instanceof RegExp || config[key] instanceof Date || config[key].classname !== undefined)) {
+            throw new Error('Invalid key "' + key + '" in class "' + name + '"! The value needs to be a map!');
+          }
+        }
+
+        // Validate include definition
+        if (config.include)
+        {
+          if (config.include instanceof Array)
           {
-            if (a[i].$$type !== "Mixin") {
-              throw new Error('The include defintion in class "' + name + '" contains a invalid mixin at position ' + i + ': ' + a[i]);
+            for (var i=0, a=config.include, l=a.length; i<l; i++)
+            {
+              if (a[i].$$type !== "Mixin") {
+                throw new Error('The include defintion in class "' + name + '" contains a invalid mixin at position ' + i + ': ' + a[i]);
+              }
+            }
+          }
+          else
+          {
+            throw new Error('Invalid include definition in class "' + name + '"! Only mixins and arrays of mixins are allowed!');
+          }
+        }
+
+        // Validate implement definition
+        if (config.implement)
+        {
+          if (config.implement instanceof Array)
+          {
+            for (var i=0, a=config.implement, l=a.length; i<l; i++)
+            {
+              if (a[i].$$type !== "Interface") {
+                throw new Error('The implement defintion in class "' + name + '" contains a invalid interface at position ' + i + ': ' + a[i]);
+              }
+            }
+          }
+          else
+          {
+            throw new Error('Invalid implement definition in class "' + name + '"! Only interfaces and arrays of interfaces are allowed!');
+          }
+        }
+
+        // Check mixin compatibility
+        if (config.include)
+        {
+          try {
+            qx.Mixin.checkCompatibility(config.include);
+          } catch(ex) {
+            throw new Error('Error in include definition of class "' + name + '"! ' + ex.message);
+          }
+        }
+
+        // Validate settings
+        if (config.settings)
+        {
+          for (var key in config.settings)
+          {
+            if (key.substr(0, key.indexOf(".")) != name.substr(0, name.indexOf("."))) {
+              throw new Error('Forbidden setting "' + key + '" found in "' + name + '". It is forbidden to define a default setting for an external namespace!');
             }
           }
         }
-        else
-        {
-          throw new Error('Invalid include definition in class "' + name + '"! Only mixins and arrays of mixins are allowed!');
-        }
-      }
 
-      // Validate implement definition
-      if (config.implement)
-      {
-        if (config.implement instanceof Array)
+        // Validate variants
+        if (config.variants)
         {
-          for (var i=0, a=config.implement, l=a.length; i<l; i++)
+          for (var key in config.variants)
           {
-            if (a[i].$$type !== "Interface") {
-              throw new Error('The implement defintion in class "' + name + '" contains a invalid interface at position ' + i + ': ' + a[i]);
+            if (key.substr(0, key.indexOf(".")) != name.substr(0, name.indexOf("."))) {
+              throw new Error('Forbidden variant "' + key + '" found in "' + name + '". It is forbidden to define a variant for an external namespace!');
             }
           }
         }
-        else
-        {
-          throw new Error('Invalid implement definition in class "' + name + '"! Only interfaces and arrays of interfaces are allowed!');
-        }
-      }
+      },
 
-      // Check mixin compatibility
-      if (config.include)
-      {
-        try {
-          qx.Mixin.checkCompatibility(config.include);
-        } catch(ex) {
-          throw new Error('Error in include definition of class "' + name + '"! ' + ex.message);
-        }
-      }
-
-      // Validate settings
-      if (config.settings)
-      {
-        for (var key in config.settings)
-        {
-          if (key.substr(0, key.indexOf(".")) != name.substr(0, name.indexOf("."))) {
-            throw new Error('Forbidden setting "' + key + '" found in "' + name + '". It is forbidden to define a default setting for an external namespace!');
-          }
-        }
-      }
-
-      // Validate variants
-      if (config.variants)
-      {
-        for (var key in config.variants)
-        {
-          if (key.substr(0, key.indexOf(".")) != name.substr(0, name.indexOf("."))) {
-            throw new Error('Forbidden variant "' + key + '" found in "' + name + '". It is forbidden to define a variant for an external namespace!');
-          }
-        }
-      }
-    },
+      "default" : function() {}
+    }),
 
 
     /**
