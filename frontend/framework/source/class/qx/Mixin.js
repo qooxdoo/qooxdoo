@@ -212,8 +212,10 @@ qx.Class.define("qx.Mixin",
      * @throws an exception when the given mixin is incompatible to the class
      * @return {Boolean} true if the mixin is compatible to the given class
      */
-    isCompatible : function(mixin, clazz) {
-      return qx.Mixin.checkCompatibility([mixin].push.apply(qx.Class.getMixins(clazz)));
+    isCompatible : function(mixin, clazz)
+    {
+      var list = [mixin];
+      return qx.Mixin.checkCompatibility(list.push.apply(list, qx.Class.getMixins(clazz)));
     },
 
 
