@@ -446,12 +446,15 @@ qx.Class.define("qx.core.Object",
         }
 
         // Destructor support for mixins
-        mixins = qx.Mixin.flatten(clazz.$$includes);
-
-        for (var i=0, l=mixins.length; i<l; i++)
+        if (clazz.$$includes)
         {
-          if (mixins[i].$$destructor) {
-            mixins[i].$$destructor.call(this);
+          mixins = clazz.$$flatIncludes;
+
+          for (var i=0, l=mixins.length; i<l; i++)
+          {
+            if (mixins[i].$$destructor) {
+              mixins[i].$$destructor.call(this);
+            }
           }
         }
 
