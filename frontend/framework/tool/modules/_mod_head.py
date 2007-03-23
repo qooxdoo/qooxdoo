@@ -42,8 +42,3 @@
 #</pre>
 ##
 
-##
-# This comment provides documentation for the following
-# variable.
-
-variable = value
