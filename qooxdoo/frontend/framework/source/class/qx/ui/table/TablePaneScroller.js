@@ -103,8 +103,11 @@ function(table) {
   this._headerClipper.addEventListener("mouseup", this._onmouseupHeader, this);
   this._paneClipper.addEventListener("mouseup", this._onmouseupPane, this);
 
-  this.addEventListener("click",     this._onclick,     this);
-  this.addEventListener("dblclick",  this._ondblclick,  this);
+  this._headerClipper.addEventListener("click", this._onclickHeader, this);
+  this._paneClipper.addEventListener("click", this._onclickPane, this);
+
+  this._paneClipper.addEventListener("dblclick",  this._ondblclickPane,  this);
+
   this.addEventListener("mouseout",  this._onmouseout,  this);
 });
 
@@ -764,11 +767,42 @@ qx.Proto._onmouseupHeader = function(evt) {
 
 
 /**
- * Event handler. Called when the user clicked a mouse button.
+ * Event handler. Called when the user clicked a mouse button over the header.
  *
  * @param evt {Map} the event.
  */
-qx.Proto._onclick = function(evt) {
+qx.Proto._onclickHeader = function(evt) {
+  var table = this.getTable();
+
+  if (! table.getEnabled()) {
+    return;
+  }
+
+  var tableModel = table.getTableModel();
+
+  var pageX = evt.getPageX();
+
+  var resizeCol = this._getResizeColumnForPageX(pageX);
+  if (resizeCol == -1) {
+    // mouse is not in a resize region
+    var col = this._getColumnForPageX(pageX);
+    if (col != null && tableModel.isColumnSortable(col)) {
+      // Sort that column
+      var sortCol = tableModel.getSortColumnIndex();
+      var ascending = (col != sortCol) ? true : !tableModel.isSortAscending();
+
+      tableModel.sortByColumn(col, ascending);
+      table.getSelectionModel().clearSelection();
+    }
+  }
+}
+
+/**
+ * Event handler. Called when the user clicked a mouse button over the pane.
+ *
+ * @param evt {Map} the event.
+ */
+qx.Proto._onclickPane = function(evt) {
   var table = this.getTable();
 
   if (! table.getEnabled()) {
@@ -780,33 +814,18 @@ qx.Proto._onclick = function(evt) {
   var pageX = evt.getPageX();
   var pageY = evt.getPageY();
   var row = this._getRowForPagePos(pageX, pageY);
-  if (row == -1) {
-    // mouse is in header
-    var resizeCol = this._getResizeColumnForPageX(pageX);
-    if (resizeCol == -1) {
-      // mouse is not in a resize region
-      var col = this._getColumnForPageX(pageX);
-      if (col != null && tableModel.isColumnSortable(col)) {
-        // Sort that column
-        var sortCol = tableModel.getSortColumnIndex();
-        var ascending = (col != sortCol) ? true : !tableModel.isSortAscending();
-
-        tableModel.sortByColumn(col, ascending);
-        table.getSelectionModel().clearSelection();
-      }
-    }
-  } else if (row != null && this._getColumnForPageX(evt.getPageX()) != null) {
+  if (row != null && this._getColumnForPageX(pageX) != null) {
     table._getSelectionManager().handleClick(row, evt);
   }
 }
 
 
 /**
- * Event handler. Called when the user double clicked a mouse button.
+ * Event handler. Called when the user double clicked a mouse button over the pane.
  *
  * @param evt {Map} the event.
  */
-qx.Proto._ondblclick = function(evt) {
+qx.Proto._ondblclickPane = function(evt) {
   if (! this.isEditing()) {
     this._focusCellAtPagePos(evt.getPageX(), evt.getPageY());
     this.startEditing();
@@ -872,7 +891,9 @@ qx.Proto._showResizeLine = function(x) {
  * Hides the resize line.
  */
 qx.Proto._hideResizeLine = function() {
-  this._resizeLine.setStyleProperty("visibility", "hidden");
+  if(this._resizeLine) {
+    this._resizeLine.setStyleProperty("visibility", "hidden");
+  }
 }
 
 
