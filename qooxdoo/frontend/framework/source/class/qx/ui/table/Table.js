@@ -31,6 +31,72 @@
  * @param tableModel {qx.ui.table.TableModel, null}
  *   The table model to read the data from.
  *
+ *
+ * @param custom {Map ? null}
+ *   A map provided to override the various supplemental classes allocated
+ *   within this constructor.  Each property must be a function which
+ *   returns an object instance, as indicated by shown the defaults listed
+ *   here:
+ *
+ *   <dl>
+ *     <dt>selectionManager</dt>
+ *       <dd><code><pre>
+ *         function(obj)
+ *         {
+ *           return new qx.ui.table.SelectionManager(obj);
+ *         }
+ *       </pre></code></dd>
+ *     <dt>selectionModel</dt>
+ *       <dd><code><pre>
+ *         function(obj)
+ *         {
+ *           return new qx.ui.table.SelectionModel(obj);
+ *         }
+ *       </pre></code></dd>
+ *     <dt>tableColumnModel</dt>
+ *       <dd><code><pre>
+ *         function(obj)
+ *         {
+ *           return new qx.ui.table.TableColumnModel(obj);
+ *         }
+ *       </pre></code></dd>
+ *     <dt>tablePaneModel</dt>
+ *       <dd><code><pre>
+ *         function(obj)
+ *         {
+ *           return new qx.ui.table.TablePaneModel(obj);
+ *         }
+ *       </pre></code></dd>
+ *     <dt>tablePane</dt>
+ *       <dd><code><pre>
+ *         function(obj)
+ *         {
+ *           return new qx.ui.table.TablePane(obj);
+ *         }
+ *       </pre></code></dd>
+ *     <dt>tablePaneHeader</dt>
+ *       <dd><code><pre>
+ *         function(obj)
+ *         {
+ *           return new qx.ui.table.TablePaneHeader(obj);
+ *         }
+ *       </pre></code></dd>
+ *     <dt>tablePaneScroller</dt>
+ *       <dd><code><pre>
+ *         function(obj)
+ *         {
+ *           return new qx.ui.table.TablePaneScroller(obj);
+ *         }
+ *       </pre></code></dd>
+ *     <dt>tablePaneModel</dt>
+ *       <dd><code><pre>
+ *         function(obj)
+ *         {
+ *           return new qx.ui.table.TablePaneModel(obj);
+ *         }
+ *       </pre></code></dd>
+ *   </dl>
+ *
  * @event columnVisibilityMenuCreateStart {qx.event.type.DataEvent}
  *   Dispatched before adding the column list to the column visibility menu.
  *   The event data is a map with two properties: table and menu.  Listeners
@@ -52,8 +118,51 @@
  *   boolean indicating whether a vertical scrollbar is now being used.
  */
 qx.OO.defineClass("qx.ui.table.Table", qx.ui.layout.VerticalBoxLayout,
-function(tableModel) {
+function(tableModel, custom) {
   qx.ui.layout.VerticalBoxLayout.call(this);
+
+  //
+  // Use default objects if custom objects are not specified
+  //
+  if (! custom)
+  {
+    custom = { };
+  }
+
+  if (custom.selectionManager)
+  {
+    this.setNewSelectionManager(custom.selectionManager);
+  }
+
+  if (custom.selectionModel)
+  {
+    this.setNewSelectionModel(custom.selectionModel);
+  }
+
+  if (custom.tableColumnModel)
+  {
+    this.setNewTableColumnModel(custom.tableColumnModel);
+  }
+
+  if (custom.tablePane)
+  {
+    this.setNewTablePane(custom.tablePane);
+  }
+
+  if (custom.tablePaneHeader)
+  {
+    this.setNewTablePaneHeader(custom.tablePaneHeader);
+  }
+
+  if (custom.tablePaneScroller)
+  {
+    this.setNewTablePaneScroller(custom.tablePaneScroller);
+  }
+
+  if (custom.tablePaneModel)
+  {
+    this.setNewTablePaneModel(custom.tablePaneModel);
+  }
 
   // Create the child widgets
   this._scrollerParent = new qx.ui.layout.HorizontalBoxLayout;
