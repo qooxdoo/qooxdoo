@@ -83,6 +83,8 @@ def selectNode(node, path):
                                 i += 1
                         if not found:
                             return None
+                        else:
+                            continue
 
                     match = re_attributeNode.match(part)
                     if match:
@@ -111,6 +113,21 @@ def selectNode(node, path):
             return None
 
     return node
+
+
+def getDefinitions(node, definitions=None):
+  if definitions == None:
+    definitions = []
+
+  if node.type == "definition":
+    definitions.append(node)
+
+  if node.hasChildren():
+    for child in node.children:
+      if child.type != "function":
+        definitions = getDefinitions(child, definitions)
+
+  return definitions
 
 
 def findVariablePrefix(node, namePrefix, varNodes=None):
@@ -207,22 +224,18 @@ def inlineIfStatement(ifNode, conditionValue):
 
     if ifNode.getChild("elseStatement", False):
         if conditionValue:
-            log("Information", "Remove else case,", ifNode)
             reovedDefinitions = getDefinitions(ifNode.getChild("elseStatement"))
             newDefinitions = getDefinitions(ifNode.getChild("statement"))
             replacement = ifNode.getChild("statement").children
         else:
-            log("Information", "Remove if case", ifNode)
             reovedDefinitions = getDefinitions(ifNode.getChild("statement"))
             newDefinitions = getDefinitions(ifNode.getChild("elseStatement"))
             replacement = ifNode.getChild("elseStatement").children
     else:
         if conditionValue:
-            log("Information", "Remove else case", ifNode)
             newDefinitions = getDefinitions(ifNode.getChild("statement"))
             replacement = ifNode.getChild("statement").children
         else:
-            log("Information", "Remove if case", ifNode)
             reovedDefinitions = getDefinitions(ifNode.getChild("statement"))
 
     newDefinitions = map(lambda x: x.get("identifier"), newDefinitions)
@@ -239,7 +252,6 @@ def inlineIfStatement(ifNode, conditionValue):
                 del definition.children
             defList.addChild(definition)
         replacement.append(defList)
-        log("Information", "Generating var statements.", ifNode)
 
     if replacement != []:
         replaceChildWithNodes(ifNode.parent, ifNode, replacement)
@@ -306,7 +318,7 @@ def variableOrArrayNodeToArray(node):
     Normalizes a variable node or an array node containing variables
     to a python array of the variable names
     """
-    
+
     arr = []
     if node.type == "array":
         for child in node.children:
