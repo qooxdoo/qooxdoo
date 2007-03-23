@@ -319,11 +319,11 @@ def inForLoop(node):
 
 
 
-def compile(node, opts, enableBreaks=False, enableDebug=False):
+def compile(node, opts, enableBreaks=False, verbose=False):
     global indent
     #global result
     global pretty
-    global debug
+    global verbose
     global breaks
     global afterLine
     global afterBreak
@@ -339,7 +339,7 @@ def compile(node, opts, enableBreaks=False, enableDebug=False):
     indent       = 0
     result       = u""
     pretty       = opts.prettyPrint
-    debug        = enableDebug
+    verbose      = verbose
     breaks       = enableBreaks
     afterLine    = False
     afterBreak   = False
@@ -477,13 +477,13 @@ def compileNode(node,optns,context={}):
         (pre,post) = (dispatch[node.type])(node,optns,context)
     except KeyError:
         (pre,post) = OTHER(node,optns,context)
-    
+
     childBlock = ""
 
     if node.hasChildren() and (not node.type in ["commentsBefore", "commentsAfter"]):
         for child in node.children:
             childBlock += compileNode(child,optns,context)
-    
+
     childBlock = indentBlock(childBlock)
 
     result = pre + childBlock + post
@@ -573,7 +573,7 @@ def BREAK(node,optns,context):
             #space()
             #write(node.get("label", False))
             s=space() + node.get("label", False)
-            
+
         return ("break" % s, "")
 
 
@@ -1295,9 +1295,9 @@ def EXPRESSION(node,optns,context):
             # e.g. a if-construct without a block {}
             if node.parent.getChild("statement").hasChild("block"):
                 pass
-        
+
             elif node.parent.getChild("statement").hasChild("emptyStatement"):
-                pass    
+                pass
 
             elif node.parent.type == "loop" and node.parent.get("loopType") == "DO":
                 pass
