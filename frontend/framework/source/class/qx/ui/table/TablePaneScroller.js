@@ -129,8 +129,11 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
     this._headerClipper.addEventListener("mouseup", this._onmouseupHeader, this);
     this._paneClipper.addEventListener("mouseup", this._onmouseupPane, this);
 
-    this.addEventListener("click", this._onclick, this);
-    this.addEventListener("dblclick", this._ondblclick, this);
+    this._headerClipper.addEventListener("click", this._onclickHeader, this);
+    this._paneClipper.addEventListener("click", this._onclickPane, this);
+
+    this._paneClipper.addEventListener("dblclick", this._ondblclickPane, this);
+
     this.addEventListener("mouseout", this._onmouseout, this);
   },
 
@@ -1044,13 +1047,52 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
 
 
     /**
-     * Event handler. Called when the user clicked a mouse button.
+     * Event handler. Called when the user clicked a mouse button over the header.
      *
      * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
-    _onclick : function(evt)
+    _onclickHeader : function(evt)
+    {
+      var table = this.getTable();
+
+      if (!table.getEnabled()) {
+        return;
+      }
+
+      var tableModel = table.getTableModel();
+
+      var pageX = evt.getPageX();
+
+      var resizeCol = this._getResizeColumnForPageX(pageX);
+
+      if (resizeCol == -1)
+      {
+        // mouse is not in a resize region
+        var col = this._getColumnForPageX(pageX);
+
+        if (col != null && tableModel.isColumnSortable(col))
+        {
+          // Sort that column
+          var sortCol = tableModel.getSortColumnIndex();
+          var ascending = (col != sortCol) ? true : !tableModel.isSortAscending();
+
+          tableModel.sortByColumn(col, ascending);
+          table.getSelectionModel().clearSelection();
+        }
+      }
+    },
+
+
+    /**
+     * Event handler. Called when the user clicked a mouse button over the pane.
+     *
+     * @type member
+     * @param evt {Map} the event.
+     * @return {void}
+     */
+    _onclickPane : function(evt)
     {
       var table = this.getTable();
 
@@ -1064,28 +1106,7 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
       var pageY = evt.getPageY();
       var row = this._getRowForPagePos(pageX, pageY);
 
-      if (row == -1)
-      {
-        // mouse is in header
-        var resizeCol = this._getResizeColumnForPageX(pageX);
-
-        if (resizeCol == -1)
-        {
-          // mouse is not in a resize region
-          var col = this._getColumnForPageX(pageX);
-
-          if (col != null && tableModel.isColumnSortable(col))
-          {
-            // Sort that column
-            var sortCol = tableModel.getSortColumnIndex();
-            var ascending = (col != sortCol) ? true : !tableModel.isSortAscending();
-
-            tableModel.sortByColumn(col, ascending);
-            table.getSelectionModel().clearSelection();
-          }
-        }
-      }
-      else if (row != null && this._getColumnForPageX(evt.getPageX()) != null)
+      if (row != null && this._getColumnForPageX(pageX) != null)
       {
         table._getSelectionManager().handleClick(row, evt);
       }
@@ -1093,13 +1114,13 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
 
 
     /**
-     * Event handler. Called when the user double clicked a mouse button.
+     * Event handler. Called when the user double clicked a mouse button over the pane.
      *
      * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
-    _ondblclick : function(evt)
+    _ondblclickPane : function(evt)
     {
       if (!this.isEditing())
       {
@@ -1178,7 +1199,9 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
      * @return {void}
      */
     _hideResizeLine : function() {
-      this._resizeLine.setStyleProperty("visibility", "hidden");
+      if(this._resizeLine) {
+        this._resizeLine.setStyleProperty("visibility", "hidden");
+      }
     },
 
 
