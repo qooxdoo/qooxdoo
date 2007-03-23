@@ -200,6 +200,19 @@ def semicolon():
             result += "\n"
 
 
+def comma():
+    global result
+    global breaks
+
+    noline()
+
+    if not (result.endswith("\n") or result.endswith(",")):
+        write(",")
+
+        if breaks:
+            result += "\n"
+
+
 def commentNode(node):
     global pretty
 
@@ -1110,7 +1123,7 @@ def compileNode(node,optns):
     elif node.type == "keyvalue":
         if node.hasParent() and node.parent.type == "map" and not node.isLastChild(True):
             noline()
-            write(",")
+            comma()
 
             if pretty:
                 commentNode(node)
@@ -1129,7 +1142,7 @@ def compileNode(node,optns):
 
     elif node.type == "definition":
         if node.hasParent() and node.parent.type == "definitionList" and not node.isLastChild(True):
-            write(",")
+            comma()
 
             if pretty:
                 commentNode(node)
@@ -1460,7 +1473,7 @@ def compileNode(node,optns):
         # Add comma dividers between statements in these parents
         if node.parent.type in ["array", "params", "statementList"]:
             if not node.isLastChild(True):
-                write(",")
+                comma()
 
                 if pretty:
                     commentNode(node)
