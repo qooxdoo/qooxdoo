@@ -96,7 +96,6 @@ def getparser():
     # General options
     parser.add_option("-q", "--quiet", action="store_false", dest="verbose", default=False, help="Quiet output mode.")
     parser.add_option("-v", "--verbose", action="store_true", dest="verbose", help="Verbose output mode.")
-    parser.add_option("-d", "--debug", action="store_true", dest="enableDebug", help="Enable debug mode.")
     parser.add_option("--version", dest="version", default="0.0", metavar="VERSION", help="Version number of qooxdoo")
     parser.add_option("--package-id", dest="packageId", default="", metavar="ID", help="Defines a package ID (required for string optimization etc.)")
     parser.add_option("--disable-internal-check", action="store_true", dest="disableInternalCheck", default=False, help="Disable check of modifications to internal files.")
@@ -739,7 +738,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
                 sys.stdout.write(".")
                 sys.stdout.flush()
 
-            counter += variableoptimizer.search(loader.getTree(fileDb, fileId, options), [], 0, 0, "$", skipPrefix = options.optimizeVariablesSkipPrefix, debug = options.enableDebug)
+            counter += variableoptimizer.search(loader.getTree(fileDb, fileId, options), [], 0, 0, "$", skipPrefix = options.optimizeVariablesSkipPrefix, verbose = options.verbose)
 
         if not options.verbose:
             print
@@ -1166,7 +1165,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
             if options.prettyPrint:
                 options.prettyPrint = False  # make sure it's disabled
-            compiledFileContent = compiler.compile(loader.getTree(fileDb, fileId, options), options, options.addNewLines, options.enableDebug)
+            compiledFileContent = compiler.compile(loader.getTree(fileDb, fileId, options), options, options.addNewLines, options.verbose)
 
             if options.addFileIds:
                 compiledOutput += "\n\n\n/* ID: " + fileId + " */\n" + compiledFileContent + "\n"

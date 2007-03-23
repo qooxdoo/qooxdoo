@@ -24,7 +24,7 @@ import tree, mapper
 def skip(name, prefix):
     return len(prefix) > 0 and name[:len(prefix)] == prefix
 
-def search(node, found, counter, level=0, prefix="$", skipPrefix="", register=False, debug=False):
+def search(node, found, counter, level=0, prefix="$", skipPrefix="", register=False, verbose=False):
     if node.type == "function":
         if register:
             name = node.get("name", False)
@@ -35,7 +35,7 @@ def search(node, found, counter, level=0, prefix="$", skipPrefix="", register=Fa
         foundLen = len(found)
         register = True
 
-        if debug:
+        if verbose:
             print "\n%s<scope line='%s'>" % (("  " * level), node.get("line"))
 
     # e.g. func(name1, name2);
@@ -63,31 +63,31 @@ def search(node, found, counter, level=0, prefix="$", skipPrefix="", register=Fa
     if node.hasChildren():
         if node.type == "function":
             for child in node.children:
-                counter += search(child, found, 0, level+1, prefix, skipPrefix, register, debug)
+                counter += search(child, found, 0, level+1, prefix, skipPrefix, register, verbose)
 
         else:
             for child in node.children:
-                counter += search(child, found, 0, level, prefix, skipPrefix, register, debug)
+                counter += search(child, found, 0, level, prefix, skipPrefix, register, verbose)
 
     # Function closed
     if node.type == "function":
 
         # Debug
-        if debug:
+        if verbose:
             for item in found:
                 print "  %s<item>%s</item>" % (("  " * level), item)
             print "%s</scope>" % ("  " * level)
 
         # Iterate over content
         # Replace variables in current scope
-        counter += update(node, found, 0, prefix, skipPrefix, debug)
+        counter += update(node, found, 0, prefix, skipPrefix, verbose)
         del found[foundLen:]
 
     return counter
 
 
 
-def update(node, found, counter, prefix="$", skipPrefix="", debug=False):
+def update(node, found, counter, prefix="$", skipPrefix="", verbose=False):
     # Handle all identifiers
     if node.type == "identifier":
 
@@ -115,7 +115,7 @@ def update(node, found, counter, prefix="$", skipPrefix="", debug=False):
                 node.set("name", replName)
                 counter += 1
 
-                if debug:
+                if verbose:
                     print "  - Replaced '%s' with '%s'" % (idenName, replName)
 
     # Handle variable definition
@@ -127,7 +127,7 @@ def update(node, found, counter, prefix="$", skipPrefix="", debug=False):
             node.set("identifier", replName)
             counter += 1
 
-            if debug:
+            if verbose:
                 print "  - Replaced '%s' with '%s'" % (idenName, replName)
 
     # Handle function definition
@@ -139,12 +139,12 @@ def update(node, found, counter, prefix="$", skipPrefix="", debug=False):
             node.set("name", replName)
             counter += 1
 
-            if debug:
+            if verbose:
                 print "  - Replaced '%s' with '%s'" % (idenName, replName)
 
     # Iterate over children
     if node.hasChildren():
         for child in node.children:
-            counter += update(child, found, 0, prefix, skipPrefix, debug)
+            counter += update(child, found, 0, prefix, skipPrefix, verbose)
 
     return counter
