@@ -314,61 +314,66 @@ qx.Class.define("qx.Mixin",
      * @param name {String} The name of the class
      * @param config {Map} Configuration map
      */
-    __validateConfig : function(name, config)
+    __validateConfig : qx.core.Variant.select("qx.debug",
     {
-      var allowedKeys =
+      "on": function(name, config)
       {
-        "include"    : "object",   // Mixin | Mixin[]
-        "statics"    : "object",   // Map
-        "members"    : "object",   // Map
-        "properties" : "object",   // Map
-        "events"     : "object",   // Map
-        "destruct"   : "function", // Function
-        "construct"  : "function"  // Function
-      };
-
-      for (var key in config)
-      {
-        if (!allowedKeys[key]) {
-          throw new Error('The configuration key "' + key + '" in mixin "' + name + '" is not allowed!');
-        }
-
-        if (config[key] == null) {
-          throw new Error('Invalid key "' + key + '" in mixin "' + name + '"! The value is undefined/null!');
-        }
-
-        if (typeof config[key] !== allowedKeys[key]) {
-          throw new Error('Invalid type of key "' + key + '" in mixin "' + name + '"! The type of the key must be "' + allowedKeys[key] + '"!');
-        }
-      }
-
-      // Validate maps
-      var maps = [ "statics", "members", "properties", "events" ];
-      for (var i=0, l=maps.length; i<l; i++)
-      {
-        var key = maps[i];
-
-        if (config[key] !== undefined && (config[key] instanceof Array || config[key] instanceof RegExp || config[key] instanceof Date || config[key].classname !== undefined)) {
-          throw new Error('Invalid key "' + key + '" in mixin "' + name + '"! The value needs to be a map!');
-        }
-      }
-
-      // Validate includes
-      if (config.include)
-      {
-        for (var i=0, a=config.include, l=a.length; i<l; i++)
+        var allowedKeys =
         {
-          if (a[i] == null) {
-            throw new Error("Includes of mixins must be mixins. The include number '" + (i+1) + "' in mixin '" + name + "'is undefined/null!");
+          "include"    : "object",   // Mixin | Mixin[]
+          "statics"    : "object",   // Map
+          "members"    : "object",   // Map
+          "properties" : "object",   // Map
+          "events"     : "object",   // Map
+          "destruct"   : "function", // Function
+          "construct"  : "function"  // Function
+        };
+
+        for (var key in config)
+        {
+          if (!allowedKeys[key]) {
+            throw new Error('The configuration key "' + key + '" in mixin "' + name + '" is not allowed!');
           }
 
-          if (a[i].$$type !== "Mixin") {
-            throw new Error("Includes of mixins must be mixins. The include number '" + (i+1) + "' in mixin '" + name + "'is not a mixin!");
+          if (config[key] == null) {
+            throw new Error('Invalid key "' + key + '" in mixin "' + name + '"! The value is undefined/null!');
+          }
+
+          if (typeof config[key] !== allowedKeys[key]) {
+            throw new Error('Invalid type of key "' + key + '" in mixin "' + name + '"! The type of the key must be "' + allowedKeys[key] + '"!');
           }
         }
 
-        this.checkCompatibility(config.include);
-      }
-    }
+        // Validate maps
+        var maps = [ "statics", "members", "properties", "events" ];
+        for (var i=0, l=maps.length; i<l; i++)
+        {
+          var key = maps[i];
+
+          if (config[key] !== undefined && (config[key] instanceof Array || config[key] instanceof RegExp || config[key] instanceof Date || config[key].classname !== undefined)) {
+            throw new Error('Invalid key "' + key + '" in mixin "' + name + '"! The value needs to be a map!');
+          }
+        }
+
+        // Validate includes
+        if (config.include)
+        {
+          for (var i=0, a=config.include, l=a.length; i<l; i++)
+          {
+            if (a[i] == null) {
+              throw new Error("Includes of mixins must be mixins. The include number '" + (i+1) + "' in mixin '" + name + "'is undefined/null!");
+            }
+
+            if (a[i].$$type !== "Mixin") {
+              throw new Error("Includes of mixins must be mixins. The include number '" + (i+1) + "' in mixin '" + name + "'is not a mixin!");
+            }
+          }
+
+          this.checkCompatibility(config.include);
+        }
+      },
+
+      "default" : function() {}
+    })
   }
 });

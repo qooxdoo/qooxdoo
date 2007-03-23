@@ -327,21 +327,26 @@ qx.Class.define("qx.Interface",
      *   Otherwhise an exception is thrown.
      * @return {Function} wrapped function
      */
-    __wrapInterfaceMember : function(iface, origFunction, functionName, preCondition)
+    __wrapInterfaceMember : qx.core.Variant.select("qx.debug",
     {
-      function wrappedFunction()
+      "on": function(iface, origFunction, functionName, preCondition)
       {
-        if (!preCondition.apply(this, arguments)) {
-          throw new Error('Pre condition of method "' + functionName + '" defined by "' + iface.name + '" failed.');
+        function wrappedFunction()
+        {
+          if (!preCondition.apply(this, arguments)) {
+            throw new Error('Pre condition of method "' + functionName + '" defined by "' + iface.name + '" failed.');
+          }
+
+          return origFunction.apply(this, arguments);
         }
 
-        return origFunction.apply(this, arguments);
-      }
+        origFunction.wrapper = wrappedFunction;
 
-      origFunction.wrapper = wrappedFunction;
+        return wrappedFunction;
+      },
 
-      return wrappedFunction;
-    },
+      "default" : function() {}
+    }),
 
 
     /**
@@ -350,83 +355,88 @@ qx.Class.define("qx.Interface",
      * @param name {String} The name of the class
      * @param config {Map} Configuration map
      */
-    __validateConfig : function(name, config)
+    __validateConfig : qx.core.Variant.select("qx.debug",
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      "on": function(name, config)
       {
-        // Validate keys
-        var allowedKeys =
+        if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          "extend"     : "object", // Interface | Interface[]
-          "statics"    : "object", // Map
-          "members"    : "object", // Map
-          "properties" : "object", // Map
-          "events"     : "object"  // Map
-        };
-
-        for (var key in config)
-        {
-          if (!allowedKeys[key]) {
-            throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
-          }
-
-          if (config[key] == null) {
-            throw new Error("Invalid key '" + key + "' in interface '" + name + "'! The value is undefined/null!");
-          }
-
-          if (typeof config[key] !== allowedKeys[key]) {
-            throw new Error('Invalid type of key "' + key + '" in interface "' + name + '"! The type of the key must be "' + allowedKeys[key] + '"!');
-          }
-        }
-
-        // Validate maps
-        var maps = [ "statics", "members", "properties", "events" ];
-        for (var i=0, l=maps.length; i<l; i++)
-        {
-          var key = maps[i];
-
-          if (config[key] !== undefined && (config[key] instanceof Array || config[key] instanceof RegExp || config[key] instanceof Date || config[key].classname !== undefined)) {
-            throw new Error('Invalid key "' + key + '" in interface "' + name + '"! The value needs to be a map!');
-          }
-        }
-
-        // Validate extends
-        if (config.extend)
-        {
-          for (var i=0, a=config.extend, l=a.length; i<l; i++)
+          // Validate keys
+          var allowedKeys =
           {
-            if (a[i] == null) {
-              throw new Error("Extends of interfaces must be interfaces. The extend number '" + i+1 + "' in interface '" + name + "' is undefined/null!");
+            "extend"     : "object", // Interface | Interface[]
+            "statics"    : "object", // Map
+            "members"    : "object", // Map
+            "properties" : "object", // Map
+            "events"     : "object"  // Map
+          };
+
+          for (var key in config)
+          {
+            if (!allowedKeys[key]) {
+              throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
             }
 
-            if (a[i].$$type !== "Interface") {
-              throw new Error("Extends of interfaces must be interfaces. The extend number '" + i+1 + "' in interface '" + name + "' is not an interface!");
+            if (config[key] == null) {
+              throw new Error("Invalid key '" + key + "' in interface '" + name + "'! The value is undefined/null!");
+            }
+
+            if (typeof config[key] !== allowedKeys[key]) {
+              throw new Error('Invalid type of key "' + key + '" in interface "' + name + '"! The type of the key must be "' + allowedKeys[key] + '"!');
             }
           }
-        }
 
-        // Validate statics
-        if (config.statics)
-        {
-          for (var key in config.statics)
+          // Validate maps
+          var maps = [ "statics", "members", "properties", "events" ];
+          for (var i=0, l=maps.length; i<l; i++)
           {
-            if (key.toUpperCase() !== key) {
-              throw new Error('Invalid key "' + key + '" in interface "' + name + '"! Static constants must be all uppercase.');
-            }
+            var key = maps[i];
 
-            switch(typeof config.statics[key])
+            if (config[key] !== undefined && (config[key] instanceof Array || config[key] instanceof RegExp || config[key] instanceof Date || config[key].classname !== undefined)) {
+              throw new Error('Invalid key "' + key + '" in interface "' + name + '"! The value needs to be a map!');
+            }
+          }
+
+          // Validate extends
+          if (config.extend)
+          {
+            for (var i=0, a=config.extend, l=a.length; i<l; i++)
             {
-              case "boolean":
-              case "string":
-              case "number":
-                break;
+              if (a[i] == null) {
+                throw new Error("Extends of interfaces must be interfaces. The extend number '" + i+1 + "' in interface '" + name + "' is undefined/null!");
+              }
 
-              default:
-                throw new Error('Invalid key "' + key + '" in interface "' + name + '"! Static constants must be all of a primitive type.')
+              if (a[i].$$type !== "Interface") {
+                throw new Error("Extends of interfaces must be interfaces. The extend number '" + i+1 + "' in interface '" + name + "' is not an interface!");
+              }
+            }
+          }
+
+          // Validate statics
+          if (config.statics)
+          {
+            for (var key in config.statics)
+            {
+              if (key.toUpperCase() !== key) {
+                throw new Error('Invalid key "' + key + '" in interface "' + name + '"! Static constants must be all uppercase.');
+              }
+
+              switch(typeof config.statics[key])
+              {
+                case "boolean":
+                case "string":
+                case "number":
+                  break;
+
+                default:
+                  throw new Error('Invalid key "' + key + '" in interface "' + name + '"! Static constants must be all of a primitive type.')
+              }
             }
           }
         }
-      }
-    }
+      },
+
+      "default" : function() {}
+    })
   }
 });
