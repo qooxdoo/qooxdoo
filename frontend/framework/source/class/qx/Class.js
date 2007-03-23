@@ -917,7 +917,11 @@ qx.Class.define("qx.Class",
         // Copy statics
         if (statics)
         {
-          for (var key in statics) {
+          var key;
+
+          for (var i=0, a=qx.lang.Object.getKeys(statics), l=a.length; i<l; i++)
+          {
+            key = a[i];
             clazz[key] = statics[key];
           }
         }
@@ -1145,12 +1149,12 @@ qx.Class.define("qx.Class",
     {
       var superproto = clazz.superclass.prototype;
       var proto = clazz.prototype;
-      var key, members;
+      var key, member;
 
       for (var i=0, a=qx.lang.Object.getKeys(members), l=a.length; i<l; i++)
       {
-        var key = a[i];
-        var member = members[key];
+        key = a[i];
+        member = members[key];
 
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {

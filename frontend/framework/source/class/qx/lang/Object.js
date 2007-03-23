@@ -23,6 +23,7 @@
 #module(core)
 #ignore(auto-require)
 #require(qx.core.Client)
+#require(qx.core.Variant)
 
 ************************************************************************ */
 
@@ -111,29 +112,39 @@ qx.Class.define("qx.lang.Object",
      * @param map {Object} the map
      * @return {Array} array of the keys of the map
      */
-    getKeys : function(map)
+    getKeys : qx.core.Variant.select("qx.client",
     {
-      var arr = [];
-
-      for (var key in map) {
-        arr.push(key);
-      }
-
-      // IE does not return "shadowed" keys even if they are defined directly
-      // in the object. This is incompatible to the ECMA standard!!
-      // This is why this checks are needed.
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      "mshtml" : function(map)
       {
+        var arr = [];
+        for (var key in map) {
+          arr.push(key);
+        }
+
+        // IE does not return "shadowed" keys even if they are defined directly
+        // in the object. This is incompatible to the ECMA standard!!
+        // This is why this checks are needed.
         for (var i=0, a=this._shadowedKeys, l=a.length; i<l; i++)
         {
           if (map.hasOwnProperty(a[i])) {
             arr.push(a[i]);
           }
         }
-      }
 
-      return arr;
-    },
+        return arr;
+      },
+
+      "default" : function(map)
+      {
+        var arr = [];
+
+        for (var key in map) {
+          arr.push(key);
+        }
+
+        return arr;
+      }
+    }),
 
 
     /**
