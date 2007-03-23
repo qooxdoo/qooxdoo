@@ -79,7 +79,7 @@ qx.Class.define("qx.core.Property",
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.propertyDebugLevel") > 0) {
+        if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
           widget.debug("UpdateParent: " + widget);
         }
       }
@@ -97,7 +97,7 @@ qx.Class.define("qx.core.Property",
             {
               if (qx.core.Variant.isSet("qx.debug", "on"))
               {
-                if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
+                if (qx.core.Setting.get("qx.propertyDebugLevel") > 2) {
                   widget.debug("Updating property: " + config.name);
                 }
               }
