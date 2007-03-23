@@ -49,7 +49,7 @@ def search_loop(node, stringMap={}, verbose=False):
             pvalue = node.get("value")
             if isinstance(pvalue, unicode):
                 pvalue = pvalue.encode("utf-8")
-            print "    - Found: %s" % pvalue
+            print "      - Found: '%s'" % pvalue
 
         if node.get("detail") == "singlequotes":
             quote = "'"
@@ -89,7 +89,7 @@ def check(node, verbose=False):
         for ch in all:
             if ch.get("name", False) in ["debug", "info", "warn", "error", "fatal", "Error", "alert"]:
                 if verbose:
-                    print "    - Ignore output statement at line: %s" % ch.get("line")
+                    print "      - Ignore output statement at line: %s" % ch.get("line")
                 return False
 
     # Try to find all constant assignments (ns.UPPER = string)
@@ -103,14 +103,14 @@ def check(node, verbose=False):
 
                 if last.type == "identifier" and last.get("name").isupper():
                     if verbose:
-                        print "    - Ignore constant assignment at line: %s" % last.get("line")
+                        print "      - Ignore constant assignment at line: %s" % last.get("line")
                     return False
 
     # Try to find all constant assignments from Maps ({ UPPER : string })
     elif node.type == "keyvalue":
         if node.get("key").isupper():
             if verbose:
-                print "    - Ignore constant key value at line: %s" % node.get("line")
+                print "      - Ignore constant key value at line: %s" % node.get("line")
             return False
 
     return True
