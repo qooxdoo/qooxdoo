@@ -83,19 +83,19 @@ if (qx.core.Variant.isSet("qx.compatibility", "on"))
             throw new Error("SuperClass is undefined, but constructor was given for class: " + vClassName);
           }
 
-          qx.Class = vTempObject[vSplitName[i]] = {};
+          qx.Clazz = vTempObject[vSplitName[i]] = {};
           qx.Proto = null;
           qx.Super = null;
         }
         else if (typeof vConstructor === "undefined")
         {
-          qx.Class = vTempObject[vSplitName[i]] = vSuper;
+          qx.Clazz = vTempObject[vSplitName[i]] = vSuper;
           qx.Proto = null;
           qx.Super = vSuper;
         }
         else
         {
-          qx.Class = vTempObject[vSplitName[i]] = vConstructor;
+          qx.Clazz = vTempObject[vSplitName[i]] = vConstructor;
 
           // build helper function
           // this omits the initial constructor call while inherit properties
