@@ -518,11 +518,11 @@ qx.Class.define("qx.Class",
       {
         if (clazz.$$includes)
         {
-          impl = qx.Mixin.flatten(clazz.$$includes);
+          list = clazz.$$flatIncludes;
 
-          for (i=0, l=impl.length; i<l; i++)
+          for (i=0, l=list.length; i<l; i++)
           {
-            if (impl[i] === mixin) {
+            if (list[i] === mixin) {
               return clazz;
             }
           }
@@ -548,7 +548,7 @@ qx.Class.define("qx.Class",
       while (clazz)
       {
         if (clazz.$$includes) {
-          list.push.apply(list, qx.Mixin.flatten(clazz.$$includes));
+          list.push.apply(list, clazz.$$flatIncludes);
         }
 
         clazz = clazz.superclass;
@@ -605,11 +605,11 @@ qx.Class.define("qx.Class",
       {
         if (clazz.$$implements)
         {
-          impl = qx.Interface.flatten(clazz.$$implements);
+          list = clazz.$$flatImplements;
 
-          for (i=0, l=impl.length; i<l; i++)
+          for (i=0, l=list.length; i<l; i++)
           {
-            if (impl[i] === iface) {
+            if (list[i] === iface) {
               return clazz;
             }
           }
@@ -635,7 +635,7 @@ qx.Class.define("qx.Class",
       while (clazz)
       {
         if (clazz.$$implements) {
-          list.push.apply(list, qx.Interface.flatten(clazz.$$implements));
+          list.push.apply(list, clazz.$$flatImplements);
         }
 
         clazz = clazz.superclass;
@@ -1187,7 +1187,10 @@ qx.Class.define("qx.Class",
           throw new Error("Incomplete parameters!")
         }
 
-        if (this.hasInterface(clazz, iface)) {
+        // This differs from mixins, we only check if the interface is already
+        // directly used by this class. It is allowed however, to have an interface
+        // included multiple times by extends in the interfaces etc.
+        if (this.hasOwnInterface(clazz, iface)) {
           throw new Error('Interface "' + iface.name + '" is already used by Class "' + clazz.classname + '" by class: ' + this.findMixin(clazz, mixin).classname + '!');
         }
 
@@ -1196,10 +1199,16 @@ qx.Class.define("qx.Class",
       }
 
       // Store interface reference
-      if (clazz.$$implements) {
+      var list = qx.Interface.flatten([iface]);
+      if (clazz.$$implements)
+      {
         clazz.$$implements.push(iface);
-      } else {
+        clazz.$$flatImplements.push.apply(list);
+      }
+      else
+      {
         clazz.$$implements = [iface];
+        clazz.$$flatImplements = list;
       }
     },
 
@@ -1250,10 +1259,15 @@ qx.Class.define("qx.Class",
       }
 
       // Store mixin reference
-      if (clazz.$$includes) {
+      if (clazz.$$includes)
+      {
         clazz.$$includes.push(mixin);
-      } else {
+        clazz.$$flatIncludes.push.apply(list);
+      }
+      else
+      {
         clazz.$$includes = [mixin];
+        clazz.$$flatIncludes = list;
       }
     },
 
@@ -1333,7 +1347,7 @@ qx.Class.define("qx.Class",
         // Initialize local mixins
         if (clazz.$$includes)
         {
-          var mixins = qx.Mixin.flatten(clazz.$$includes);
+          var mixins = clazz.$$flatIncludes;
 
           for (var i=0, l=mixins.length; i<l; i++)
           {

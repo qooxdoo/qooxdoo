@@ -192,11 +192,9 @@ qx.Class.define("qx.Interface",
      */
     flatten : function(ifaces)
     {
-      if (ifaces) {
+      if (!ifaces) {
         return [];
       }
-
-      // console.log("Flatten: " + ifaces);
 
       // we need to create a copy and not to modify the existing array
       var list = ifaces.concat();
@@ -207,6 +205,8 @@ qx.Class.define("qx.Interface",
           list.push.apply(list, this.flatten(ifaces[i].$$extends));
         }
       }
+
+      // console.log("Flatten: " + ifaces + " => " + list);
 
       return list;
     },
