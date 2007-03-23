@@ -283,11 +283,11 @@ def inForLoop(node):
 
 
 
-def compile(node, opts, enableBreaks=False, enableDebug=False):
+def compile(node, opts, enableBreaks=False, enableVerbose=False):
     global indent
     global result
     global pretty
-    global debug
+    global verbose
     global breaks
     global afterLine
     global afterBreak
@@ -304,7 +304,7 @@ def compile(node, opts, enableBreaks=False, enableDebug=False):
     indent       = 0
     result       = u""
     pretty       = opts.prettyPrint
-    debug        = enableDebug
+    verbose      = enableVerbose
     breaks       = enableBreaks
     afterLine    = False
     afterBreak   = False
