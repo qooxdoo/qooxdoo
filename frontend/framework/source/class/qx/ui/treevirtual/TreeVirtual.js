@@ -153,12 +153,8 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     custom.dataModel.setColumns(headings);
     custom.dataModel.setTreeColumn(custom.treeColumn);
 
-    // Specify the selection manager and table column model to use
-    this.setNewSelectionManager(custom.selectionManager);
-    this.setNewTableColumnModel(custom.tableColumnModel);
-
     // Call our superclass constructor
-    this.base(arguments, custom.dataModel);
+    this.base(arguments, custom.dataModel, custom);
 
     // By default, present the column visibility button only if there are
     // multiple columns.
