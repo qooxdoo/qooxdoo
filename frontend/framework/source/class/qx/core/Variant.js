@@ -23,6 +23,7 @@
 
 #module(core)
 #require(qx.core.Bootstrap)
+#require(qx.lang.Array)
 #ignore(auto-require)
 #ignore(auto-use)
 
