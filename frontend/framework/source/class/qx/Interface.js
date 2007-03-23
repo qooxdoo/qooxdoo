@@ -223,15 +223,6 @@ qx.Class.define("qx.Interface",
      */
     assert : function(clazz, iface, wrap)
     {
-      // Check extends, recursive
-      var extend = iface.$$extends;
-      if (extend)
-      {
-        for (var i=0, l=extend.length; i<l; i++) {
-          this.assert(clazz, extend[i], wrap);
-        }
-      }
-
       // Validate members
       var members = iface.$$members;
       if (members)
@@ -243,11 +234,13 @@ qx.Class.define("qx.Interface",
           if (typeof members[key] === "function")
           {
             if (typeof proto[key] !== "function") {
-              throw new Error('Implementation of method "' + key + '" is missing in Class "' + clazz.classname + '" required by interface "' + iface.name + '"');
+              throw new Error('Implementation of method "' + key + '" is missing in class "' + clazz.classname + '" required by interface "' + iface.name + '"');
             }
 
-            if (wrap === true) {
-              proto[key] = this.__wrapInterfaceMember(iface.name, proto[key], key, members[key]);
+            // Only wrap members if the interface was not applied yet which could be easily
+            // checked by the recursive hasInterface method.
+            if (wrap === true && !qx.Class.hasInterface(clazz, iface)) {
+              proto[key] = this.__wrapInterfaceMember(iface, proto[key], key, members[key]);
             }
           }
           else
@@ -257,7 +250,7 @@ qx.Class.define("qx.Interface",
             if (typeof proto[key] === undefined)
             {
               if (typeof proto[key] !== "function") {
-                throw new Error('Implementation of member "' + key + '" is missing in Class "' + clazz.classname + '" required by interface "' + iface.name + '"');
+                throw new Error('Implementation of member "' + key + '" is missing in class "' + clazz.classname + '" required by interface "' + iface.name + '"');
               }
             }
           }
@@ -283,6 +276,15 @@ qx.Class.define("qx.Interface",
           if (!qx.Class.supportsEvent(clazz, key)) {
             throw new Error('The event "' + key + '" is not supported by Class "' + clazz.classname + '"!');
           }
+        }
+      }
+
+      // Validate extends, recursive
+      var extend = iface.$$extends;
+      if (extend)
+      {
+        for (var i=0, l=extend.length; i<l; i++) {
+          this.assert(clazz, extend[i], wrap);
         }
       }
     },
@@ -325,12 +327,12 @@ qx.Class.define("qx.Interface",
      *   Otherwhise an exception is thrown.
      * @return {Function} wrapped function
      */
-    __wrapInterfaceMember : function(ifaceName, origFunction, functionName, preCondition)
+    __wrapInterfaceMember : function(iface, origFunction, functionName, preCondition)
     {
       function wrappedFunction()
       {
         if (!preCondition.apply(this, arguments)) {
-          throw new Error('Pre condition of method "' + functionName + '" defined by "' + ifaceName + '" failed.');
+          throw new Error('Pre condition of method "' + functionName + '" defined by "' + iface.name + '" failed.');
         }
 
         return origFunction.apply(this, arguments);
