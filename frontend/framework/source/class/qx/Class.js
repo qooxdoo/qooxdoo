@@ -512,7 +512,7 @@ qx.Class.define("qx.Class",
      */
     findMixin : function(clazz, mixin)
     {
-      var impl, i, l;
+      var list, i, l;
 
       while (clazz)
       {
@@ -599,7 +599,7 @@ qx.Class.define("qx.Class",
      */
     findInterface : function(clazz, iface)
     {
-      var impl, i, l;
+      var list, i, l;
 
       while (clazz)
       {
@@ -1194,7 +1194,7 @@ qx.Class.define("qx.Class",
           throw new Error('Interface "' + iface.name + '" is already used by Class "' + clazz.classname + '" by class: ' + this.findMixin(clazz, mixin).classname + '!');
         }
 
-        // Check interface
+        // Check interface and wrap members
         qx.Interface.assert(clazz, iface, true);
       }
 
