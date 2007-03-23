@@ -13,33 +13,6 @@
 <body>
   <script type="text/javascript" src="../../script/layout.js"></script>
 
-  <script type="text/javascript">
-    // No overwrite detection
-    qx.Clazz.createNamespace = function(name, object)
-    {
-      var splits = name.split(".");
-      var len = splits.length;
-      var parent = window;
-      var part = splits[0];
-
-      for (var i=0, l=len-1; i<l; i++)
-      {
-        if (!parent[part]) {
-          parent[part] = {};
-        }
-
-        parent = parent[part];
-        part = splits[i + 1];
-      }
-
-      // store object
-      parent[part] = object;
-
-      // return last part name (e.g. classname)
-      return part;
-    };
-  </script>
-
   <div id="demoDescription">
     Tests new OO Layer performance
   </div>
@@ -139,7 +112,7 @@
 
   function testQooxdoo07()
   {
-    qx.Clazz.define("qx07Animal",
+    qx.Class.define("qx07Animal",
     {
       extend : Object,
       construct : function(name) {
@@ -156,7 +129,7 @@
       }
     });
 
-    qx.Clazz.define("qx07Cat",
+    qx.Class.define("qx07Cat",
     {
       extend : qx07Animal,
       construct : function(name) {
@@ -170,7 +143,7 @@
       }
     });
 
-    qx.Clazz.define("qx07Lion",
+    qx.Class.define("qx07Lion",
     {
       extend : qx07Cat,
       construct : function(name) {
@@ -181,14 +154,14 @@
 
   qx.core.Init.getInstance().defineMain(function()
   {
-    var btn = new qx.ui.form.Button("Run");
-    btn.setLocation(100, 100);
-    btn.addToDocument();
+    var loops = 1000;
 
-    btn.addEventListener("execute", function(e)
+    var btn1 = new qx.ui.form.Button("Run all");
+    btn1.setLocation(100, 100);
+    btn1.addToDocument();
+
+    btn1.addEventListener("execute", function(e)
     {
-      loops = 1000;
-
       Animal = Cat = Lion = null;
       var start = new Date;
       for (var i=0; i<loops; i++) {
@@ -217,6 +190,64 @@
       }
       this.debug("qx 0.7: " + ((new Date)-start) + "ms");
     });
+
+    var btn2 = new qx.ui.form.Button("Run nitobi");
+    btn2.setLocation(100, 140);
+    btn2.addToDocument();
+
+    btn2.addEventListener("execute", function(e)
+    {
+      Animal = Cat = Lion = null;
+      var start = new Date;
+      for (var i=0; i<loops; i++) {
+        testNitobi();
+      }
+      this.debug("Nitobi: " + ((new Date)-start) + "ms");
+    });
+
+    var btn3 = new qx.ui.form.Button("Run base");
+    btn3.setLocation(200, 140);
+    btn3.addToDocument();
+
+    btn3.addEventListener("execute", function(e)
+    {
+      Animal = Cat = Lion = null;
+      var start = new Date;
+      for (var i=0; i<loops; i++) {
+        testBase();
+      }
+      this.debug("Base: " + ((new Date)-start) + "ms");
+    });
+
+    var btn4 = new qx.ui.form.Button("Run qx 0.6");
+    btn4.setLocation(300, 140);
+    btn4.addToDocument();
+
+    btn4.addEventListener("execute", function(e)
+    {
+      Animal = Cat = Lion = null;
+      var start = new Date;
+      for (var i=0; i<loops; i++) {
+        testQooxdoo06();
+      }
+      this.debug("qx 0.6: " + ((new Date)-start) + "ms");
+    });
+
+    var btn5 = new qx.ui.form.Button("Run qx 0.7");
+    btn5.setLocation(400, 140);
+    btn5.addToDocument();
+
+    btn5.addEventListener("execute", function(e)
+    {
+      Animal = Cat = Lion = null;
+      var start = new Date;
+      for (var i=0; i<loops; i++) {
+        testQooxdoo07();
+      }
+      this.debug("qx 0.7: " + ((new Date)-start) + "ms");
+    });
+
+
   });
   </script>
 </body>
