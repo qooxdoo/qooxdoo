@@ -469,7 +469,7 @@ def handleDeprecated(docNode, commentAttributes):
 
 def handleInternal(docNode, commentAttributes):
     for docItem in commentAttributes:
-        if docItem["category"] == "deprecated":
+        if docItem["category"] == "internal":
             docNode.set("isInternal", True)
 
 ########################################################################################
