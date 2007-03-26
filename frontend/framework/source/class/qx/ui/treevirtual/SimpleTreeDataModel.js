@@ -23,7 +23,7 @@
 
 ************************************************************************ */
 
-/*
+/**
  * A simple tree data model used as the table model
  *
  * The object structure of a single node of the tree is:
