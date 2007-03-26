@@ -19,6 +19,26 @@
 #
 ################################################################################
 
+##
+#<h2>Module Description</h2>
+#<pre>
+# NAME
+#  tokenizer.py -- create tokens from JavaScript source code
+#
+# SYNTAX
+#  tokenizer.py --help
+#
+#  or
+#
+#  import tokenizer
+#  result = tokenizer.parseStream(string, id)
+#
+# DESCRIPTION
+#  The module tokenizer.py creates JSON-style tokens from JavaScript source code.
+#
+#</pre>
+##
+
 import sys, string, re, optparse
 import config, filetool, comment
 
@@ -204,6 +224,10 @@ def hasLeadingContent(tokens):
 
 
 
+##
+# Main parsing routine, in that it qualifies tokens from the stream (operators,
+# nums, strings, ...)
+#
 def parseStream(content, uniqueId=""):
     # make global variables available
     global parseLine
@@ -234,6 +258,7 @@ def parseStream(content, uniqueId=""):
 
         # print "Found: '%s'" % fragment
 
+        # Handle block comment
         if comment.R_BLOCK_COMMENT.match(fragment):
             source = recoverEscape(fragment)
             format = comment.getFormat(source)
@@ -266,6 +291,7 @@ def parseStream(content, uniqueId=""):
             tokens.append({ "type" : "comment", "detail" : format, "multiline" : multiline, "connection" : connection, "source" : source, "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn, "begin" : atBegin, "end" : atEnd })
             parseLine += len(fragment.split("\n")) - 1
 
+        # Handle inline comment
         elif comment.R_INLINE_COMMENT.match(fragment):
             # print "Type:SingleComment"
             source = recoverEscape(fragment)
@@ -283,6 +309,7 @@ def parseStream(content, uniqueId=""):
 
             tokens.append({ "type" : "comment", "detail" : "inline", "multiline" : False, "connection" : connection, "source" : source, "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn, "begin" : atBegin, "end" : atEnd })
 
+        # Handle string
         elif R_STRING_A.match(fragment):
             # print "Type:StringA: %s" % fragment
             content = parseFragmentLead(content, fragment, tokens)
@@ -290,6 +317,7 @@ def parseStream(content, uniqueId=""):
             tokens.append({ "type" : "string", "detail" : "singlequotes", "source" : source.replace("\\\n",""), "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn })
             parseLine += source.count("\\\n");
 
+        # Handle string
         elif R_STRING_B.match(fragment):
             # print "Type:StringB: %s" % fragment
             content = parseFragmentLead(content, fragment, tokens)
@@ -297,16 +325,19 @@ def parseStream(content, uniqueId=""):
             tokens.append({ "type" : "string", "detail" : "doublequotes", "source" : source.replace("\\\n",""), "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn })
             parseLine += source.count("\\\n");
 
+        # Handle float num
         elif R_FLOAT.match(fragment):
             # print "Type:Float: %s" % fragment
             content = parseFragmentLead(content, fragment, tokens)
             tokens.append({ "type" : "number", "detail" : "float", "source" : fragment, "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn })
 
+        # Handle operator
         elif R_OPERATORS.match(fragment):
             # print "Type:Operator: %s" % fragment
             content = parseFragmentLead(content, fragment, tokens)
             tokens.append({ "type" : "token", "detail" : config.JSTOKENS[fragment], "source" : fragment, "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn })
 
+        # Handle everything else
         else:
             fragresult = R_REGEXP.search(fragment)
 
