@@ -208,18 +208,9 @@ class TokenStream:
             token = self.tokens[pos]
 
             if token["type"] == "comment" and token["connection"] == "after" and (not token.has_key("inserted") or not token["inserted"]):
-                commentNode = tree.Node("comment")
-                commentNode.set("line", token["line"])
-                commentNode.set("column", token["column"])
-                commentNode.set("text", token["source"])
-                commentNode.set("detail", token["detail"])
-                commentNode.set("multiline", token["multiline"])
-                commentNode.set("connection", token["connection"])
-                commentNode.set("begin", token["begin"])
-                commentNode.set("end", token["end"])
 
+                commentNode = createCommentNode(token)
                 token["inserted"] = True
-
                 if after:
                     item.addListChild("commentsAfter", commentNode)
                 else:
