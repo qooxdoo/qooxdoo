@@ -41,10 +41,6 @@ qx.Class.define("qxunit.test.Property",
       this.debug("Done: testBasic");
     },
 
-
-
-
-
     testBuiltinTypes : function()
     {
       this.debug("Exec: testBuiltinTypes");
@@ -115,7 +111,6 @@ qx.Class.define("qxunit.test.Property",
       pa.add(ch1, ch2, ch3);
       ch2.add(chh1, chh2, chh3);
 
-
       // Simple: Only inheritance, no local values
       this.assertTrue(pa._setEnabled(true), "a1");
       this.assertTrue(pa._getEnabled(), "a2");
@@ -126,7 +121,6 @@ qx.Class.define("qxunit.test.Property",
       this.assertTrue(chh2._getEnabled(), "a7");
       this.assertTrue(chh3._getEnabled(), "a8");
 
-
       // Enabling local value
       this.assertFalse(ch2._setEnabled(false), "b1");
       this.assertFalse(ch2._getEnabled(), "b2");
@@ -134,14 +128,12 @@ qx.Class.define("qxunit.test.Property",
       this.assertFalse(chh2._getEnabled(), "b4");
       this.assertFalse(chh3._getEnabled(), "b5");
 
-
       // Reset local value
       this.assertUndefined(ch2._resetEnabled(), "c1");
       this.assertTrue(ch2._getEnabled(), "c2");
       this.assertTrue(chh1._getEnabled(), "c3");
       this.assertTrue(chh2._getEnabled(), "c4");
       this.assertTrue(chh3._getEnabled(), "c5");
-
 
       this.debug("Done: testInheritance");
     },
@@ -153,6 +145,11 @@ qx.Class.define("qxunit.test.Property",
       var ch2 = new qxunit.test.Layout;
       var ch3 = new qxunit.test.Layout;
 
+      this.assertIdentical(pa._getEnabled(), "inherit", "d1");
+      this.assertIdentical(ch1._getEnabled(), "inherit", "d2");
+      this.assertIdentical(ch2._getEnabled(), "inherit", "d3");
+      this.assertIdentical(ch3._getEnabled(), "inherit", "d4");
+
       ch1.setParent(pa);
 
       this.assertTrue(pa._setEnabled(true), "a1"); // ch1 gets enabled, too
@@ -160,7 +157,7 @@ qx.Class.define("qxunit.test.Property",
 
       this.assertTrue(pa._getEnabled(), "b1");
       this.assertTrue(ch1._getEnabled(), "b2");
-      this.assertUndefined(ch2._getEnabled(), "b3");
+      this.assertIdentical(ch2._getEnabled(), "inherit", "b3");
       this.assertFalse(ch3._getEnabled(), "b4");
 
       ch2.setParent(pa); // make ch2 enabled through inheritance
@@ -182,7 +179,6 @@ qx.Class.define("qxunit.test.Property",
       var inst = new qxunit.test.PropertyHelper;
       this.assertNotUndefined(inst, "instance");
 
-
       // Check init value
       this.assertIdentical(inst.getInitProp(), "foo", "a1");
       this.assertIdentical(inst.setInitProp("hello"), "hello", "a2");
@@ -190,9 +186,36 @@ qx.Class.define("qxunit.test.Property",
       this.assertIdentical(inst.resetInitProp(), undefined, "a4");
       this.assertIdentical(inst.getInitProp(), "foo", "a5");
 
+      // Check null value
+      this.assertIdentical(inst.getNullProp(), "bar", "b1");
+      this.assertIdentical(inst.setNullProp("hello"), "hello", "b2");
+      this.assertIdentical(inst.getNullProp(), "hello", "b3");
+      this.assertIdentical(inst.setNullProp(null), null, "b4");
+      this.assertIdentical(inst.getNullProp(), null, "b5");
+      this.assertIdentical(inst.resetNullProp(), undefined, "b6");
+      this.assertIdentical(inst.getNullProp(), "bar", "b7");
+
+      // No prop
+      this.assertIdentical(inst.getNoProp(), null, "c1");
 
 
       this.debug("Done: testMultiValues");
+    },
+
+    testInvalidPropertyDef : function()
+    {
+      this.assertException(function()
+      {
+        qx.Class.define("qxunit." + Math.round(Math.random()*100000),
+        {
+          extend : Object,
+          properties : { invalid1 : {} }
+        });
+      }, Error, new RegExp('is not nullable but does not have an init value'), "a1");
+
+
+
+
     }
   }
 });
@@ -209,21 +232,23 @@ qx.Class.define("qxunit.test.PropertyHelper",
     legacyArray     : { _legacy : true, type : "object", instance : "Array" },
 
     // protection
-    publicProp      : { },
-    _protectedProp  : { },
-    __privateProp   : { },
+    publicProp      : { nullable : true },
+    _protectedProp  : { nullable : true },
+    __privateProp   : { nullable : true },
 
     // types
-    stringProp      : { check : "String" },
-    booleanProp     : { check : "Boolean" },
-    numberProp      : { check : "Number" },
-    objectProp      : { check : "Object" },
-    arrayProp       : { check : "Array" },
-    mapProp         : { check : "Map" },
+    stringProp      : { check : "String", nullable : true },
+    booleanProp     : { check : "Boolean", nullable : true },
+    numberProp      : { check : "Number", nullable : true },
+    objectProp      : { check : "Object", nullable : true },
+    arrayProp       : { check : "Array", nullable : true },
+    mapProp         : { check : "Map", nullable : true },
 
     // multi values
-    initProp        : { init  : "foo" },
-    appearanceProp  : { appearance : true },
+    noProp          : { check : "String", nullable : true },
+    initProp        : { init : "foo" },
+    nullProp        : { init : "bar", nullable : true },
+    appearanceProp  : { appearance : true, nullable : true },
     fullProp        : { init : 100, appearance : true }
   }
 });
