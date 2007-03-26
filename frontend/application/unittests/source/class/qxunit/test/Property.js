@@ -56,73 +56,47 @@ qx.Class.define("qxunit.test.Property",
       this.assertNotUndefined(inst, "instance");
 
       // Type checks: String
-      this.assertIndentical("Hello", inst.setStringProp("Hello"), "string property, set");
-      this.assertIndentical("Hello", inst.getStringProp(), "string property, get");
+      this.assertIdentical("Hello", inst.setStringProp("Hello"), "string property, set");
+      this.assertIdentical("Hello", inst.getStringProp(), "string property, get");
 
       // Type checks: Boolean, true
-      this.assertIndentical(true, inst.setBooleanProp(true), "boolean property, set");
-      this.assertIndentical(true, inst.getBooleanProp(), "boolean property, get");
+      this.assertIdentical(true, inst.setBooleanProp(true), "boolean property, set");
+      this.assertIdentical(true, inst.getBooleanProp(), "boolean property, get");
 
       // Type checks: Boolean, false
-      this.assertIndentical(false, inst.setBooleanProp(false), "boolean property, set");
-      this.assertIndentical(false, inst.getBooleanProp(), "boolean property, get");
+      this.assertIdentical(false, inst.setBooleanProp(false), "boolean property, set");
+      this.assertIdentical(false, inst.getBooleanProp(), "boolean property, get");
 
       // Type checks: Number, int
-      this.assertIndentical(3, inst.setNumberProp(3), "number property, set");
-      this.assertIndentical(3, inst.getNumberProp(), "number property, get");
+      this.assertIdentical(3, inst.setNumberProp(3), "number property, set");
+      this.assertIdentical(3, inst.getNumberProp(), "number property, get");
 
       // Type checks: Number, float
-      this.assertIndentical(3.14, inst.setNumberProp(3.14), "number property, set");
-      this.assertIndentical(3.14, inst.getNumberProp(), "number property, get");
+      this.assertIdentical(3.14, inst.setNumberProp(3.14), "number property, set");
+      this.assertIdentical(3.14, inst.getNumberProp(), "number property, get");
 
       // Type checks: Object, inline
       var obj = {};
-      this.assertIndentical(obj, inst.setObjectProp(obj), "object property, set");
-      this.assertIndentical(obj, inst.getObjectProp(), "object property, get");
+      this.assertIdentical(obj, inst.setObjectProp(obj), "object property, set");
+      this.assertIdentical(obj, inst.getObjectProp(), "object property, get");
 
       // Type checks: Object, new
       var obj = new Object;
-      this.assertIndentical(obj, inst.setObjectProp(obj), "object property, set");
-      this.assertIndentical(obj, inst.getObjectProp(), "object property, get");
+      this.assertIdentical(obj, inst.setObjectProp(obj), "object property, set");
+      this.assertIdentical(obj, inst.getObjectProp(), "object property, get");
 
       // Type checks: Array, inline
       var arr = [];
-      this.assertIndentical(arr, inst.setArrayProp(arr), "array property, set");
-      this.assertIndentical(arr, inst.getArrayProp(), "array property, get");
+      this.assertIdentical(arr, inst.setArrayProp(arr), "array property, set");
+      this.assertIdentical(arr, inst.getArrayProp(), "array property, get");
 
       // Type checks: Array, new
       var arr = new Array;
-      this.assertIndentical(arr, inst.setArrayProp(arr), "array property, set");
-      this.assertIndentical(arr, inst.getArrayProp(), "array property, get");
+      this.assertIdentical(arr, inst.setArrayProp(arr), "array property, set");
+      this.assertIdentical(arr, inst.getArrayProp(), "array property, get");
 
       this.debug("Done: testBuiltinTypes");
     },
-
-
-
-
-
-    testMultiValues : function()
-    {
-      this.debug("Exec: testMultiValues");
-
-      this.assertNotUndefined(qx.core.Property);
-
-      // Check instance
-      var inst = new qxunit.test.PropertyHelper;
-      this.assertNotUndefined(inst, "instance");
-
-
-
-      // TODO
-
-
-      this.debug("Done: testMultiValues");
-    },
-
-
-
-
 
     testInheritance : function()
     {
@@ -172,10 +146,6 @@ qx.Class.define("qxunit.test.Property",
       this.debug("Done: testInheritance");
     },
 
-
-
-
-
     testParent : function()
     {
       var pa = new qxunit.test.Layout;
@@ -185,21 +155,44 @@ qx.Class.define("qxunit.test.Property",
 
       ch1.setParent(pa);
 
-      this.assertTrue(pa._setEnabled(true), "t0-a"); // ch1 gets enabled, too
-      this.assertFalse(ch3._setEnabled(false), "t0-b");
+      this.assertTrue(pa._setEnabled(true), "a1"); // ch1 gets enabled, too
+      this.assertFalse(ch3._setEnabled(false), "a2");
 
-      this.assertTrue(pa._getEnabled(), "t1-a");
-      this.assertTrue(ch1._getEnabled(), "t1-b");
-      this.assertUndefined(ch2._getEnabled(), "t1-c");
-      this.assertFalse(ch3._getEnabled(), "t1-d");
+      this.assertTrue(pa._getEnabled(), "b1");
+      this.assertTrue(ch1._getEnabled(), "b2");
+      this.assertUndefined(ch2._getEnabled(), "b3");
+      this.assertFalse(ch3._getEnabled(), "b4");
 
       ch2.setParent(pa); // make ch2 enabled through inheritance
       ch3.setParent(pa); // keep ch2 disabled, user value has higher priority
 
-      this.assertTrue(pa._getEnabled(), "t2-a");
-      this.assertTrue(ch1._getEnabled(), "t2-b");
-      this.assertTrue(ch2._getEnabled(), "t2-c");
-      this.assertFalse(ch3._getEnabled(), "t2-d");
+      this.assertTrue(pa._getEnabled(), "c1");
+      this.assertTrue(ch1._getEnabled(), "c2");
+      this.assertTrue(ch2._getEnabled(), "c3");
+      this.assertFalse(ch3._getEnabled(), "c4");
+    },
+
+    testMultiValues : function()
+    {
+      this.debug("Exec: testMultiValues");
+
+      this.assertNotUndefined(qx.core.Property);
+
+      // Check instance
+      var inst = new qxunit.test.PropertyHelper;
+      this.assertNotUndefined(inst, "instance");
+
+
+      // Check init value
+      this.assertIdentical(inst.getInitProp(), "foo", "a1");
+      this.assertIdentical(inst.setInitProp("hello"), "hello", "a2");
+      this.assertIdentical(inst.getInitProp(), "hello", "a3");
+      this.assertIdentical(inst.resetInitProp(), undefined, "a4");
+      this.assertIdentical(inst.getInitProp(), "foo", "a5");
+
+
+
+      this.debug("Done: testMultiValues");
     }
   }
 });
