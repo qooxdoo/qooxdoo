@@ -250,11 +250,6 @@ qx.Class.define("qx.core.Property",
 
       method.get[name] = prefix + "get" + postfix;
       members[method.get[name]] = function() {
-        return this.$$userValues[name];
-      }
-
-      method.compute[name] = prefix + "compute" + postfix;
-      members[method.compute[name]] = function() {
         return this.$$computedValues[name];
       }
 
