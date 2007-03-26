@@ -60,6 +60,9 @@ ASSIGN_OPERATORS = ["ASSIGN", "ASSIGN_ADD", "ASSIGN_SUB", "ASSIGN_MUL", \
 LOOP_KEYWORDS = ["WHILE", "IF", "FOR", "WITH"]
 
 
+##                                                                              
+# Represents the tokens of a file as a stream.
+#                                                                               
 class TokenStream:
     def __init__ (self, tokens):
         self.tokens = tokens
@@ -114,6 +117,14 @@ class TokenStream:
         # NOTE: the last token is end of file
         return self.parsepos >= len(self.tokens) - 1
 
+    ##                                                                              
+    # Iterator that returns the next token. Also takes special care if the next
+    # token is a comment.
+    #                                                                               
+    # @param     item     a tree.Node item (might be used to attach comment nodes)
+    # @param     after    ??
+    # @return             tokenizer.token - the next (non-comment) token or the EOF token
+    #
     def next (self, item=None, after=False):
         length = len(self.tokens)
         self.eolBefore = False
@@ -125,6 +136,7 @@ class TokenStream:
 
             token = self.tokens[self.parsepos]
 
+            # EOL treatment
             if token["type"] == "eol":
                 if self.eolBefore:
                     self.breakBefore = True
@@ -133,21 +145,17 @@ class TokenStream:
                 # ignore end of line
                 pass
 
+            #
+            # Special treatment of comments
+            #
             elif token["type"] == "comment":
                 # After current item
                 if token["connection"] == "after":
                     if not token.has_key("inserted") or not token["inserted"]:
                         if item:
-                            commentNode = tree.Node("comment")
-                            commentNode.set("line", token["line"])
-                            commentNode.set("column", token["column"])
-                            commentNode.set("text", token["source"])
-                            commentNode.set("detail", token["detail"])
-                            commentNode.set("multiline", token["multiline"])
-                            commentNode.set("connection", token["connection"])
-                            commentNode.set("begin", token["begin"])
-                            commentNode.set("end", token["end"])
-
+                            # Generating new tree node
+                            commentNode = createCommentNode(token)
+                            # Attach the new node to current position in tree
                             if after:
                                 item.addListChild("commentsAfter", commentNode)
                             else:
@@ -162,20 +170,12 @@ class TokenStream:
                             pass
 
                 # Documentation and Block comments of next item
-                else:
-                    if not self.commentsBefore:
-                        self.commentsBefore = []
+                else:  # token["connection"] != "after"
+                    if not self.commentsBefore: self.commentsBefore = []
 
-                    commentNode = tree.Node("comment")
-                    commentNode.set("line", token["line"])
-                    commentNode.set("column", token["column"])
-                    commentNode.set("text", token["source"])
-                    commentNode.set("detail", token["detail"])
-                    commentNode.set("multiline", token["multiline"])
-                    commentNode.set("connection", token["connection"])
-                    commentNode.set("begin", token["begin"])
-                    commentNode.set("end", token["end"])
-
+                    # Generating new tree node
+                    commentNode = createCommentNode(token)
+                    # Store the new node with this generator (TokenStream) instance
                     self.commentsBefore.append(commentNode)
 
                     self.eolBefore = False
@@ -192,9 +192,11 @@ class TokenStream:
         else:
             return token
 
-    # alternative to use, when we want to check if the next token
+    ##
+    # Alternative to use, when we want to check if the next token
     # is a comment, but are not able to use next() because if there is
     # no comment we want to leave in our position
+    #
     def comment (self, item, after=False):
         length = len(self.tokens)
 
@@ -257,6 +259,24 @@ def createItemNode(type, stream):
             node.addListChild("commentsBefore", comment)
 
     return node
+
+##
+# Creates a new comment tree node from token
+#
+def createCommentNode(token):
+    commentNode = tree.Node("comment")
+    commentNode.set("line", token["line"])
+    commentNode.set("column", token["column"])
+    commentNode.set("text", token["source"])
+    commentNode.set("detail", token["detail"])
+    commentNode.set("multiline", token["multiline"])
+    commentNode.set("connection", token["connection"])
+    commentNode.set("begin", token["begin"])
+    commentNode.set("end", token["end"])
+
+    return commentNode
+
+
 
 
 
@@ -707,6 +727,13 @@ def readParamList (node, stream):
     stream.next(params, True)
 
 
+##                                                                              
+# Parses a block of source code. Most work is delegated to stream.next() and
+# readStatement(). Handles opening and closing "{}".
+#                                                                               
+# @param     stream   TokenStream to parse
+# @return             tokenizer.token - next item after the closing "}"
+#
 def readBlock(stream):
     stream.expectCurrType("token", "LC")
     item = createItemNode("block", stream)
