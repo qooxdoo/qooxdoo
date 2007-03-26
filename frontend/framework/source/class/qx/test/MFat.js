@@ -1,7 +1,7 @@
 qx.Mixin.define("qx.test.MFat",
 {
   construct : function() {
-    this.debug("Constructing mixin: qx.test.MFat");
+    // this.debug("Constructing mixin: qx.test.MFat");
   },
 
   include : qx.test.MMoody,

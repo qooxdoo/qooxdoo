@@ -55,6 +55,7 @@ qx.Class.define("qx.core.Property",
       set     : {},
       get     : {},
       init    : {},
+      prepare : {},
       refresh : {},
       style   : {},
       compute : {},
@@ -93,16 +94,19 @@ qx.Class.define("qx.core.Property",
           for (name in properties)
           {
             config = properties[name];
+
             if (config.inheritable)
             {
+              value = parent["__computed$" + name];
+
               if (qx.core.Variant.isSet("qx.debug", "on"))
               {
                 if (qx.core.Setting.get("qx.propertyDebugLevel") > 2) {
-                  widget.debug("Updating property: " + config.name);
+                  widget.debug("Updating property: " + config.name + " to '" + value + "'");
                 }
               }
 
-              widget[this.$$method.refresh[name]](parent.$$computedValues[name]);
+              widget[this.$$method.refresh[name]](value);
             }
           }
         }
@@ -120,49 +124,50 @@ qx.Class.define("qx.core.Property",
      * @param clazz {Class} Class to attach properties to
      * @return {void}
      */
-    attachProperties : function(clazz)
+    attach : function(clazz)
     {
-      var config, properties, name;
-      var prefix, postfix;
-
-      while(clazz && !clazz.$$propertiesAttached)
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        properties = clazz.$$properties;
+        if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
+          console.debug("Generating property wrappers: " + name);
+        }
+      }
 
-        if (properties)
+      var config, name, prefix, postfix;
+      var properties = clazz.$$properties;
+
+      if (properties)
+      {
+        for (name in properties)
         {
-          for (name in properties)
+          config = properties[name];
+
+          // Filter old properties and groups
+          if (!config._legacy && !config._fast && !config._cached)
           {
-            config = properties[name];
-
-            // Filter old properties and groups
-            if (!config._legacy && !config._fast && !config._cached)
+            if (name.indexOf("__") == 0)
             {
-              if (name.indexOf("__") == 0)
-              {
-                prefix = "__";
-                postfix = qx.lang.String.toFirstUp(name.substring(2));
-              }
-              else if (name.indexOf("_") == 0)
-              {
-                prefix = "_";
-                postfix = qx.lang.String.toFirstUp(name.substring(1));
-              }
-              else
-              {
-                prefix = "";
-                postfix = qx.lang.String.toFirstUp(name);
-              }
-
-              // Attach methods
-              config.group ? this.__attachGroupMethods(clazz, config, prefix, postfix) : this.__attachPropertyMethods(clazz, config, prefix, postfix);
+              prefix = "__";
+              postfix = qx.lang.String.toFirstUp(name.substring(2));
             }
+            else if (name.indexOf("_") == 0)
+            {
+              prefix = "_";
+              postfix = qx.lang.String.toFirstUp(name.substring(1));
+            }
+            else
+            {
+              prefix = "";
+              postfix = qx.lang.String.toFirstUp(name);
+            }
+
+            // Attach methods
+            config.group ? this.__attachGroupMethods(clazz, config, prefix, postfix) : this.__attachPropertyMethods(clazz, config, prefix, postfix);
           }
         }
-
-        clazz.$$propertiesAttached = true;
-        clazz = clazz.superclass;
       }
+
+      clazz.$$propertiesAttached = true;
     },
 
 
@@ -249,9 +254,7 @@ qx.Class.define("qx.core.Property",
       var method = this.$$method;
 
       method.get[name] = prefix + "get" + postfix;
-      members[method.get[name]] = function() {
-        return this.$$computedValues[name];
-      }
+      members[method.get[name]] = new Function("return this.__computed$" + name + ";");
 
       method.set[name] = prefix + "set" + postfix;
       members[method.set[name]] = function(value) {
@@ -294,6 +297,13 @@ qx.Class.define("qx.core.Property",
           return qx.core.Property.executeOptimizedSetter(this, clazz, name, "init");
         }
       }
+      else if (config.inheritable || config.nullable)
+      {
+        method.prepare[name] = prefix + "prepare" + postfix;
+        members[method.prepare[name]] = function() {
+          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "prepare");
+        }
+      }
     },
 
 
@@ -307,14 +317,11 @@ qx.Class.define("qx.core.Property",
     {
       var properties = clazz.$$properties;
       var init = this.$$method.init;
+      var prepare = this.$$method.prepare;
       var name, config;
 
       if (properties)
       {
-        if (!instance.$$computedValues) {
-          instance.$$computedValues = {};
-        }
-
         for (name in properties)
         {
           config = properties[name];
@@ -323,13 +330,9 @@ qx.Class.define("qx.core.Property",
           {
             instance[init[name]]();
           }
-          else if (config.inheritable === true)
+          else if (config.inheritable || config.nullable)
           {
-            instance.$$computedValues[name] = qx.core.Property.INHERIT;
-          }
-          else if (config.nullable === true)
-          {
-            instance.$$computedValues[name] = null;
+            instance[prepare[name]]();
           }
         }
       }
@@ -350,80 +353,82 @@ qx.Class.define("qx.core.Property",
       var members = clazz.prototype;
       var code = new qx.util.StringBuilder;
 
+      var userKey = "this.__user$" + name;
+      var styleKey = "this.__style$" + name;
+      var computedKey = "this.__computed$" + name;
+      var computedBase = ".__computed$" + name;
+      var initKey = "this.__init$" + name;
+      var storeKey = variant === "style" ? styleKey : userKey;
+
 
 
 
 
       // [1] CHECKING & STORING INCOMING VALUE
 
-      // Improve performance of db access
-      code.add('var db=this.$$', variant === "style" ? 'styleValues;' : 'userValues;');
-
-      if (variant === "set" || variant === "style")
+      // Hint: No refresh() here, the value of refresh is the parent value
+      // Hint: No init() or prepare() here, no incoming value
+      if (variant === "set" || variant === "reset" || variant === "style" || variant === "toggle")
       {
-        // Undefined check
-        code.add('if(value===undefined)');
-        code.add('throw new Error("Undefined value for property ', name, ' is not allowed!");');
-
-        // Null check
-        if (!config.nullable)
+        if (variant === "set" || variant === "style")
         {
-          code.add('if(value===null)');
-          code.add('throw new Error("Null value for property ', name, ' is not allowed!");');
-        }
+          // Undefined check
+          code.add('if(value===undefined)');
+          code.add('throw new Error("Undefined value for property ', name, ' is not allowed!");');
 
-        // Old/new comparision
-        code.add('if(', 'db.', name, '===value)return value;');
-
-        if (variant === "set")
-        {
-          // Check value
-          if (config.check !== undefined)
+          // Null check
+          if (!config.nullable)
           {
-            if (this.CHECKS[config.check] !== undefined)
-            {
-              code.add('if(!(', this.CHECKS[config.check], '))');
-            }
-            else if (qx.Class.isDefined(config.check))
-            {
-              code.add('if(!(value instanceof ', config.check, '))');
-            }
-            else if (typeof config.check === "function")
-            {
-              code.add('if(!', clazz.classname, '.$$properties.', name);
-              code.add('.check.call(this, value))');
-            }
-            else if (typeof config.check === "string")
-            {
-              code.add('if(!(', config.check, '))');
-            }
-            else
-            {
-              throw new Error("Could not add check to property " + name + " of class " + clazz.classname);
-            }
+            code.add('if(value===null)');
+            code.add('throw new Error("Null value for property ', name, ' is not allowed!");');
+          }
 
-            code.add('throw new Error("Invalid value for property ', name, ': " + value);');
+          // Old/new comparision
+          code.add('if(', storeKey, '===value)return value;');
+
+          if (variant === "set")
+          {
+            // Check value
+            if (config.check !== undefined)
+            {
+              if (this.CHECKS[config.check] !== undefined)
+              {
+                code.add('if(!(', this.CHECKS[config.check], '))');
+              }
+              else if (qx.Class.isDefined(config.check))
+              {
+                code.add('if(!(value instanceof ', config.check, '))');
+              }
+              else if (typeof config.check === "function")
+              {
+                code.add('if(!', clazz.classname, '.$$properties.', name);
+                code.add('.check.call(this, value))');
+              }
+              else if (typeof config.check === "string")
+              {
+                code.add('if(!(', config.check, '))');
+              }
+              else
+              {
+                throw new Error("Could not add check to property " + name + " of class " + clazz.classname);
+              }
+
+              code.add('throw new Error("Invalid value for property ', name, ': " + value);');
+            }
           }
         }
-      }
-      else if (variant === "toggle")
-      {
-        // Toggle value (Replace eventually incoming value for setter etc.)
-        code.add('value=!', 'db.', name, ';');
-      }
-      else if (variant === "reset")
-      {
-        // Remove value
-        code.add('value=undefined;');
-      }
+        else if (variant === "toggle")
+        {
+          // Toggle value (Replace eventually incoming value for setter etc.)
+          code.add('value=!', storeKey, ';');
+        }
+        else if (variant === "reset")
+        {
+          // Remove value
+          code.add('value=undefined;');
+        }
 
-      // Hint: No refresh() here, the value of refresh is the parent value
-      // Hint: No init() here, no incoming value
-
-      // Store value
-      // Hint: Not in refresh, it is not my value, but the value of my parent
-      if (variant !== "refresh" && variant !== "init") {
-        code.add('db.', name, '=value;');
+        code.add(storeKey, '=value;');
       }
 
 
@@ -436,8 +441,24 @@ qx.Class.define("qx.core.Property",
       // could not be undefined. This way we are sure we can use this value and don't
       // need a complex logic to find the usable value.
 
-      // Use complex evaluation for reset, refresh, init and style
-      if (variant === "refresh" || variant === "reset" || variant === "init" || variant === "style")
+      // Use complex evaluation for init and prepare
+      if (variant === "init" || variant === "prepare")
+      {
+        code.add('if(', userKey, '!==undefined)return;');
+
+        if (config.appearance === true) {
+          code.add('else if(', styleKey, '!==undefined)return;');
+        }
+
+        if (config.init !== undefined) {
+          code.add('else{var computed=', initKey, ';}');
+        } else {
+          code.add('var computed;');
+        }
+      }
+
+      // Use complex evaluation for reset, refresh and style
+      else if (variant === "refresh" || variant === "reset" || variant === "style")
       {
         code.add('var computed;');
 
@@ -447,8 +468,8 @@ qx.Class.define("qx.core.Property",
         // Hint: Always undefined in reset variant
         if (variant !== "reset")
         {
-          code.add('if(this.$$userValues.', name, '!==undefined)');
-          code.add('computed=this.$$userValues.', name, ';');
+          code.add('if(', userKey, '!==undefined)');
+          code.add('computed=', userKey, ';');
           hasComputeIf = true;
         }
 
@@ -459,8 +480,8 @@ qx.Class.define("qx.core.Property",
             code.add('else ');
           }
 
-          code.add('if(this.$$styleValues.', name, '!==undefined)');
-          code.add('computed=this.$$styleValues.', name, ';');
+          code.add('if(', styleKey, '!==undefined)');
+          code.add('computed=', styleKey, ';');
           hasComputeIf = true;
         }
 
@@ -471,11 +492,11 @@ qx.Class.define("qx.core.Property",
             code.add('else ');
           }
 
-          code.add('computed=this.$$init', name, ';');
+          code.add('computed=', initKey, ';');
         }
       }
 
-      // Use simple evaluation for set & toggle
+      // Use simple evaluation for set and toggle
       else
       {
         code.add('var computed=value;');
@@ -490,30 +511,27 @@ qx.Class.define("qx.core.Property",
 
       // Require the parent/children interface
 
-      if (members.getParent)
+      if (members.getParent && config.inheritable === true)
       {
         if (variant === "refresh" || variant === "style" || variant === "set" || variant == "reset")
         {
-          if (config.inheritable === true)
+          code.add('if(computed===qx.core.Property.INHERIT||computed===undefined){');
+
+          if (variant === "refresh")
           {
-            code.add('if(computed===qx.core.Property.INHERIT||computed===undefined){');
-
-            if (variant === "refresh")
-            {
-              code.add('computed=value;');
-            }
-            else
-            {
-              code.add('var pa=this.getParent();if(pa)computed=pa.$$computedValues.', name, ';');
-            }
-
-            code.add('}');
+            code.add('computed=value;');
           }
+          else
+          {
+            code.add('var pa=this.getParent();if(pa)computed=pa', computedBase, ';');
+          }
+
+          code.add('}');
         }
       }
 
       // Hint: No toggle() here, toggle only allows true/false user value and no inherit
-      // Hint: No init() here, init does not need to respect inheritance because there is no parent yet.
+      // Hint: No init() or prepare() here, they do not need to respect inheritance because there is no parent yet.
 
 
 
@@ -538,22 +556,32 @@ qx.Class.define("qx.core.Property",
 
       // [5] STORING COMPUTED VALUE
 
-      // Remember computed old value
-      code.add('var old=this.$$computedValues.', name, ';');
-
-      // Compare old/new computed value
-      code.add('if(old===computed)return value;');
-
-      // Store new computed value
-      code.add('this.$$computedValues.', name, '=computed;');
-
-      // Inform user
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if (variant !== "init" && variant !== "prepare")
       {
-        if (qx.core.Setting.get("qx.propertyDebugLevel") > 0) {
-          code.add('this.debug("', name, ' changed: " + old + " => " + computed);');
+        // Remember computed old value
+        code.add('var old=', computedKey, ';');
+
+        // Normalize 'undefined' to 'null'
+        // Could only be undefined in cases when the setter was never executed before
+        // Because of this we can do the following old/new check in an else case to optimize performance
+        code.add('if(old===undefined)old=null;');
+
+        // Compare old/new computed value
+        code.add('else if(old===computed)return value;');
+
+        // Inform user
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
+          if (qx.core.Setting.get("qx.propertyDebugLevel") > 0) {
+            code.add('this.debug("', name, ' changed: " + old + " => " + computed + " [' + variant + ']");');
+          }
         }
       }
+
+      // Store new computed value
+      code.add(computedKey, '=computed;');
+
+
 
 
 
@@ -561,30 +589,33 @@ qx.Class.define("qx.core.Property",
       // [6] NOTIFYING DEPENDEND OBJECTS
 
       // Execute user configured setter
-      if (config.apply)
+      if (variant !== "prepare")
       {
-        code.add('try{');
-        code.add('this.', config.apply, '(computed, old);');
-        code.add('}catch(ex){this.error("Failed to execute apply of property ');
-        code.add(name, ' defined by class ', clazz.classname, '!", ex);}');
-      }
-
-      // Don't fire event and not update children in init().
-      // There is no chance to attach an event listener or add children before.
-      if (variant !== "init")
-      {
-        // Fire event
-        if (config.event) {
-          code.add('this.createDispatchDataEvent("', config.event, '", computed);');
+        if (config.apply)
+        {
+          code.add('try{');
+          code.add('this.', config.apply, '(computed, old);');
+          code.add('}catch(ex){this.error("Failed to execute apply of property ');
+          code.add(name, ' defined by class ', clazz.classname, '!", ex);}');
         }
 
-        // Refresh children
-        // Require the parent/children interface
-        if (members.getChildren && config.inheritable === true)
+        // Don't fire event and not update children in init().
+        // There is no chance to attach an event listener or add children before.
+        if (variant !== "init")
         {
-          code.add('for(var i=0,a=this.getChildren(),l=a.length;i<l;i++){');
-          code.add('a[i].', this.$$method.refresh[name], '(computed);');
-          code.add('}');
+          // Fire event
+          if (config.event) {
+            code.add('this.createDispatchDataEvent("', config.event, '", computed);');
+          }
+
+          // Refresh children
+          // Require the parent/children interface
+          if (members.getChildren && config.inheritable === true)
+          {
+            code.add('for(var i=0,a=this.getChildren(),l=a.length;i<l;i++){');
+            code.add('a[i].', this.$$method.refresh[name], '(computed);');
+            code.add('}');
+          }
         }
       }
 
@@ -596,7 +627,9 @@ qx.Class.define("qx.core.Property",
       // [7] RETURNING WITH ORIGINAL INCOMING VALUE
 
       // Return value
-      code.add('return value;');
+      if (variant !== "init" && variant !== "prepare") {
+        code.add('return value;');
+      }
 
 
 
@@ -606,9 +639,12 @@ qx.Class.define("qx.core.Property",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (qx.core.Setting.get("qx.propertyDebugLevel") > 0) {
-          console.debug("Code: " + code);
+          console.debug("Code[" + this.$$method[variant][name] + "]: " + code);
         }
       }
+
+
+
 
 
 
