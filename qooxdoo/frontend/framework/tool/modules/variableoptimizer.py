@@ -96,22 +96,11 @@ def update(node, found, prefix="$", skipPrefix="", debug=False):
     if node.parent.type == "variable":
       isVariableMember = True
 
-      # look if any of the parent nodes is of type accessor
-      shouldPatch = True
-      parent = node.parent.parent
-      while parent:
-        if parent.type == "accessor":
-          shouldPatch = False
-          break
-        elif parent.type in ["key", "block", "statement", "elseStatement", "function"]:
-          shouldPatch = True
-          break
-        if parent.hasParent():
-          parent = parent.parent
-        else:
-          parent = None
+    # catch corner case: a().b(); var b;
+    if varParent.type == "operand" and varParent.parent.type == "call" and varParent.parent.parent.type == "right" and varParent.parent.parent.parent.type == "accessor":
+        varParent = varParent.parent.parent
 
-      if shouldPatch:
+    if not (varParent.type == "right" and varParent.parent.type == "accessor"):
         isFirstChild = node.parent.getFirstChild(True, True) == node
 
     elif node.parent.type == "identifier" and node.parent.parent.type == "accessor":
