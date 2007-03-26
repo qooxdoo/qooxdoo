@@ -79,7 +79,7 @@ qx.Class.define("qxunit.TestCase", {
       this.__assert(expected == found, msg || "", "Expected '"+expected+"' but found '"+found+"'!");
     },
 
-    assertIndentical: function(expected, found, msg) {
+    assertIdentical: function(expected, found, msg) {
       this.__assert(expected === found, msg || "", "Expected '"+expected+"' (identical) but found '"+found+"'!");
     },
 
