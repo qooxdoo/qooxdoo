@@ -307,14 +307,29 @@ qx.Class.define("qx.core.Property",
     {
       var properties = clazz.$$properties;
       var init = this.$$method.init;
-      var name;
+      var name, config;
 
       if (properties)
       {
+        if (!instance.$$computedValues) {
+          instance.$$computedValues = {};
+        }
+
         for (name in properties)
         {
-          if (properties[name].init !== undefined) {
+          config = properties[name];
+
+          if (config.init !== undefined)
+          {
             instance[init[name]]();
+          }
+          else if (config.inheritable === true)
+          {
+            instance.$$computedValues[name] = qx.core.Property.INHERIT;
+          }
+          else if (config.nullable === true)
+          {
+            instance.$$computedValues[name] = null;
           }
         }
       }
@@ -348,7 +363,14 @@ qx.Class.define("qx.core.Property",
       {
         // Undefined check
         code.add('if(value===undefined)');
-        code.add('throw new Error("Undefined value for property ', name, '!");');
+        code.add('throw new Error("Undefined value for property ', name, ' is not allowed!");');
+
+        // Null check
+        if (!config.nullable)
+        {
+          code.add('if(value===null)');
+          code.add('throw new Error("Null value for property ', name, ' is not allowed!");');
+        }
 
         // Old/new comparision
         code.add('if(', 'db.', name, '===value)return value;');
@@ -499,8 +521,16 @@ qx.Class.define("qx.core.Property",
 
       // [4] NORMALIZING UNDEFINED
 
-      // Normalize 'undefined' to 'null'
-      code.add('if(computed===undefined)computed=null;');
+      if (config.inheritable === true)
+      {
+        // Normalize 'undefined' to 'inherit' in inheritable properties
+        code.add('if(computed===undefined)computed=qx.core.Property.INHERIT;');
+      }
+      else
+      {
+        // Normalize 'undefined' to 'null'
+        code.add('if(computed===undefined)computed=null;');
+      }
 
 
 

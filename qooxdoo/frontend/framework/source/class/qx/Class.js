@@ -1077,6 +1077,7 @@ qx.Class.define("qx.Class",
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           var has = this.hasProperty(clazz, name);
+          var compat = config._legacy || config._fast || config._cached;
 
           if (!has && config.refine) {
             throw new Error("Could not refine non-existend property: " + name + "!");
@@ -1097,10 +1098,14 @@ qx.Class.define("qx.Class",
                 }
               }
             }
-            else if (!(config._legacy || config._fast || config._cached)) // qx 0.6 compatibility
+            else if (!compat) // qx 0.6 compatibility
             {
               throw new Error('Could not refine property "' + name + '" without a "refine" flag in the property definition! This class: ' + clazz.classname + ', original class: ' + this.findProperty(clazz, name).classname + '.');
             }
+          }
+
+          if (!compat && !config.group && !config.inheritable && !config.nullable && config.init === undefined) {
+            throw new Error("Property: " + name + " of class: " + clazz.classname + " is not nullable but does not have an init value!");
           }
         }
 

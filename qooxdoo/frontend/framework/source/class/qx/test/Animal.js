@@ -21,11 +21,11 @@ qx.Class.define("qx.test.Animal",
     width : { init : 100, appearance : true },
     height : { init : 30, appearance : true },
 
-    _boxWidth : { },
-    _boxHeight: { },
-    _enabled : { init : "inherit", inheritable : true, check : "Boolean" },
-    _target : { check : "qx.core.Target" },
-    _string : { check : "String" },
+    _boxWidth : { nullable : true },
+    _boxHeight: { nullable : true },
+    _enabled : { init : "inherit", inheritable : true, check : "Boolean", nullable : true },
+    _target : { check : "qx.core.Target", nullable : true },
+    _string : { check : "String", init : "" },
     _complex :
     {
       check : function(value)
@@ -41,7 +41,8 @@ qx.Class.define("qx.test.Animal",
       },
 
       event : "upps",
-      apply : "_applyComplex"
+      apply : "_applyComplex",
+      nullable : true
     }
   },
 

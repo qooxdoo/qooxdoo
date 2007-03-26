@@ -73,9 +73,17 @@ qx.Class.define("qx.core.Object",
     }
 
     // Property support
-    this.$$userValues = {};
-    this.$$styleValues = {};
-    this.$$computedValues = {};
+    if (!this.$$userValues) {
+      this.$$userValues = {};
+    }
+
+    if (!this.$$styleValues) {
+      this.$$styleValues = {};
+    }
+
+    if (!this.$$computedValues) {
+      this.$$computedValues = {};
+    }
 
     if (!this.constructor.$$propertiesAttached) {
       qx.core.Property.attachProperties(this.constructor);
