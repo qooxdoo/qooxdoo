@@ -497,8 +497,16 @@ qx.Class.define("qx.core.Property",
 
 
 
+      // [4] NORMALIZING UNDEFINED
 
-      // [4] STORING COMPUTED VALUE
+      // Normalize 'undefined' to 'null'
+      code.add('if(computed===undefined)computed=null;');
+
+
+
+
+
+      // [5] STORING COMPUTED VALUE
 
       // Remember computed old value
       code.add('var old=this.$$computedValues.', name, ';');
@@ -520,7 +528,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [5] NOTIFYING DEPENDEND OBJECTS
+      // [6] NOTIFYING DEPENDEND OBJECTS
 
       // Execute user configured setter
       if (config.apply)
@@ -555,7 +563,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [6] RETURNING WITH ORIGINAL INCOMING VALUE
+      // [7] RETURNING WITH ORIGINAL INCOMING VALUE
 
       // Return value
       code.add('return value;');
