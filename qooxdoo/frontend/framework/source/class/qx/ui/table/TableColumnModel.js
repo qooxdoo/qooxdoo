@@ -60,7 +60,7 @@
  *        <li>toOverXPos: The new overall x position of the column.</li>
  *        </ul>
  *
- * @see com.ptvag.webcomponent.ui.table.TableModel
+ * @see qx.ui.table.TableModel
  */
 qx.OO.defineClass("qx.ui.table.TableColumnModel", qx.core.Target,
 function() {
