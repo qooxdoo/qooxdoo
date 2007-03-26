@@ -97,18 +97,21 @@ def update(node, found, prefix="$", skipPrefix="", debug=False):
       isVariableMember = True
 
       # look if any of the parent nodes is of type accessor
-      hasAccessorParent = False
+      shouldPatch = True
       parent = node.parent.parent
       while parent:
         if parent.type == "accessor":
-          hasAccessorParent = True
+          shouldPatch = False
+          break
+        elif parent.type in ["key", "block", "statement", "elseStatement", "function"]:
+          shouldPatch = True
           break
         if parent.hasParent():
           parent = parent.parent
         else:
           parent = None
 
-      if not hasAccessorParent:
+      if shouldPatch:
         isFirstChild = node.parent.getFirstChild(True, True) == node
 
     elif node.parent.type == "identifier" and node.parent.parent.type == "accessor":
