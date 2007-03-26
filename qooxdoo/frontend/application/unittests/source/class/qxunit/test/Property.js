@@ -18,7 +18,6 @@ qx.Class.define("qxunit.test.Property",
       this.assertFunction(inst.setPublicProp, "public setter");
       this.assertFunction(inst.getPublicProp, "public getter");
       this.assertFunction(inst.resetPublicProp, "public reset");
-      this.assertFunction(inst.computePublicProp, "public compute");
       this.assertUndefined(inst.togglePublicProp, "public toggler");
       this.assertUndefined(inst.stylePublicProp, "public style");
 
@@ -26,7 +25,6 @@ qx.Class.define("qxunit.test.Property",
       this.assertFunction(inst._setProtectedProp, "protected setter");
       this.assertFunction(inst._getProtectedProp, "protected getter");
       this.assertFunction(inst._resetProtectedProp, "protected reset");
-      this.assertFunction(inst._computeProtectedProp, "protected compute");
       this.assertUndefined(inst._toggleProtectedProp, "protected toggler");
       this.assertUndefined(inst._styleProtectedProp, "protected style");
 
@@ -34,7 +32,6 @@ qx.Class.define("qxunit.test.Property",
       this.assertFunction(inst.__setPrivateProp, "private setter");
       this.assertFunction(inst.__getPrivateProp, "private getter");
       this.assertFunction(inst.__resetPrivateProp, "private reset");
-      this.assertFunction(inst.__computePrivateProp, "private compute");
       this.assertUndefined(inst.__togglePrivateProp, "private toggler");
       this.assertUndefined(inst.__stylePrivateProp, "private style");
 
@@ -61,51 +58,42 @@ qx.Class.define("qxunit.test.Property",
       // Type checks: String
       this.assertIndentical("Hello", inst.setStringProp("Hello"), "string property, set");
       this.assertIndentical("Hello", inst.getStringProp(), "string property, get");
-      this.assertIndentical("Hello", inst.computeStringProp(), "string property, compute");
 
       // Type checks: Boolean, true
       this.assertIndentical(true, inst.setBooleanProp(true), "boolean property, set");
       this.assertIndentical(true, inst.getBooleanProp(), "boolean property, get");
-      this.assertIndentical(true, inst.computeBooleanProp(), "boolean property, compute");
 
       // Type checks: Boolean, false
       this.assertIndentical(false, inst.setBooleanProp(false), "boolean property, set");
       this.assertIndentical(false, inst.getBooleanProp(), "boolean property, get");
-      this.assertIndentical(false, inst.computeBooleanProp(), "boolean property, compute");
 
       // Type checks: Number, int
       this.assertIndentical(3, inst.setNumberProp(3), "number property, set");
       this.assertIndentical(3, inst.getNumberProp(), "number property, get");
-      this.assertIndentical(3, inst.computeNumberProp(), "number property, compute");
 
       // Type checks: Number, float
       this.assertIndentical(3.14, inst.setNumberProp(3.14), "number property, set");
       this.assertIndentical(3.14, inst.getNumberProp(), "number property, get");
-      this.assertIndentical(3.14, inst.computeNumberProp(), "number property, compute");
 
       // Type checks: Object, inline
       var obj = {};
       this.assertIndentical(obj, inst.setObjectProp(obj), "object property, set");
       this.assertIndentical(obj, inst.getObjectProp(), "object property, get");
-      this.assertIndentical(obj, inst.computeObjectProp(), "object property, compute");
 
       // Type checks: Object, new
       var obj = new Object;
       this.assertIndentical(obj, inst.setObjectProp(obj), "object property, set");
       this.assertIndentical(obj, inst.getObjectProp(), "object property, get");
-      this.assertIndentical(obj, inst.computeObjectProp(), "object property, compute");
 
       // Type checks: Array, inline
       var arr = [];
       this.assertIndentical(arr, inst.setArrayProp(arr), "array property, set");
       this.assertIndentical(arr, inst.getArrayProp(), "array property, get");
-      this.assertIndentical(arr, inst.computeArrayProp(), "array property, compute");
 
       // Type checks: Array, new
       var arr = new Array;
       this.assertIndentical(arr, inst.setArrayProp(arr), "array property, set");
       this.assertIndentical(arr, inst.getArrayProp(), "array property, get");
-      this.assertIndentical(arr, inst.computeArrayProp(), "array property, compute");
 
       this.debug("Done: testBuiltinTypes");
     },
@@ -155,58 +143,30 @@ qx.Class.define("qxunit.test.Property",
 
 
       // Simple: Only inheritance, no local values
-      this.assertTrue(pa._setEnabled(true));
-      this.assertTrue(pa._getEnabled());
-      this.assertTrue(pa._computeEnabled());
-
-      this.assertUndefined(ch1._getEnabled());
-      this.assertTrue(ch1._computeEnabled());
-
-      this.assertUndefined(ch2._getEnabled());
-      this.assertTrue(ch2._computeEnabled());
-
-      this.assertUndefined(ch3._getEnabled());
-      this.assertTrue(ch3._computeEnabled());
-
-      this.assertUndefined(chh1._getEnabled());
-      this.assertTrue(chh1._computeEnabled());
-
-      this.assertUndefined(chh2._getEnabled());
-      this.assertTrue(chh2._computeEnabled());
-
-      this.assertUndefined(chh3._getEnabled());
-      this.assertTrue(chh3._computeEnabled());
+      this.assertTrue(pa._setEnabled(true), "a1");
+      this.assertTrue(pa._getEnabled(), "a2");
+      this.assertTrue(ch1._getEnabled(), "a3");
+      this.assertTrue(ch2._getEnabled(), "a4");
+      this.assertTrue(ch3._getEnabled(), "a5");
+      this.assertTrue(chh1._getEnabled(), "a6");
+      this.assertTrue(chh2._getEnabled(), "a7");
+      this.assertTrue(chh3._getEnabled(), "a8");
 
 
       // Enabling local value
-      this.assertFalse(ch2._setEnabled(false));
-      this.assertFalse(ch2._getEnabled());
-      this.assertFalse(ch2._computeEnabled());
-
-      this.assertUndefined(chh1._getEnabled());
-      this.assertFalse(chh1._computeEnabled());
-
-      this.assertUndefined(chh2._getEnabled());
-      this.assertFalse(chh2._computeEnabled());
-
-      this.assertUndefined(chh3._getEnabled());
-      this.assertFalse(chh3._computeEnabled());
+      this.assertFalse(ch2._setEnabled(false), "b1");
+      this.assertFalse(ch2._getEnabled(), "b2");
+      this.assertFalse(chh1._getEnabled(), "b3");
+      this.assertFalse(chh2._getEnabled(), "b4");
+      this.assertFalse(chh3._getEnabled(), "b5");
 
 
       // Reset local value
-      ch2._resetEnabled();
-
-      this.assertUndefined(ch2._getEnabled());
-      this.assertTrue(ch2._computeEnabled());
-
-      this.assertUndefined(chh1._getEnabled());
-      this.assertTrue(chh1._computeEnabled());
-
-      this.assertUndefined(chh2._getEnabled());
-      this.assertTrue(chh2._computeEnabled());
-
-      this.assertUndefined(chh3._getEnabled());
-      this.assertTrue(chh3._computeEnabled());
+      this.assertUndefined(ch2._resetEnabled(), "c1");
+      this.assertTrue(ch2._getEnabled(), "c2");
+      this.assertTrue(chh1._getEnabled(), "c3");
+      this.assertTrue(chh2._getEnabled(), "c4");
+      this.assertTrue(chh3._getEnabled(), "c5");
 
 
       this.debug("Done: testInheritance");
@@ -228,18 +188,18 @@ qx.Class.define("qxunit.test.Property",
       this.assertTrue(pa._setEnabled(true), "t0-a"); // ch1 gets enabled, too
       this.assertFalse(ch3._setEnabled(false), "t0-b");
 
-      this.assertTrue(pa._computeEnabled(), "t1-a");
-      this.assertTrue(ch1._computeEnabled(), "t1-b");
-      this.assertUndefined(ch2._computeEnabled(), "t1-c");
-      this.assertFalse(ch3._computeEnabled(), "t1-d");
+      this.assertTrue(pa._getEnabled(), "t1-a");
+      this.assertTrue(ch1._getEnabled(), "t1-b");
+      this.assertUndefined(ch2._getEnabled(), "t1-c");
+      this.assertFalse(ch3._getEnabled(), "t1-d");
 
       ch2.setParent(pa); // make ch2 enabled through inheritance
       ch3.setParent(pa); // keep ch2 disabled, user value has higher priority
 
-      this.assertTrue(pa._computeEnabled(), "t2-a");
-      this.assertTrue(ch1._computeEnabled(), "t2-b");
-      this.assertTrue(ch2._computeEnabled(), "t2-c");
-      this.assertFalse(ch3._computeEnabled(), "t2-d");
+      this.assertTrue(pa._getEnabled(), "t2-a");
+      this.assertTrue(ch1._getEnabled(), "t2-b");
+      this.assertTrue(ch2._getEnabled(), "t2-c");
+      this.assertFalse(ch3._getEnabled(), "t2-d");
     }
   }
 });
