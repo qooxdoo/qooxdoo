@@ -71,23 +71,6 @@ qx.Class.define("qx.core.Object",
       this.__dbKey = qx.core.Object.__db.length;
       qx.core.Object.__db.push(this);
     }
-
-    // Property support
-    if (!this.$$userValues) {
-      this.$$userValues = {};
-    }
-
-    if (!this.$$styleValues) {
-      this.$$styleValues = {};
-    }
-
-    if (!this.$$computedValues) {
-      this.$$computedValues = {};
-    }
-
-    if (!this.constructor.$$propertiesAttached) {
-      qx.core.Property.attachProperties(this.constructor);
-    }
   },
 
 

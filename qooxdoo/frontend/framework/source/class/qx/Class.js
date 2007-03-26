@@ -1125,7 +1125,7 @@ qx.Class.define("qx.Class",
         // Store init value to prototype. This makes it possible to
         // overwrite this value in derived classes.
         if (config.init !== undefined) {
-          clazz.prototype["$$init" + name] = config.init;
+          clazz.prototype["__init$" + name] = config.init;
         }
 
         // Create old style properties
@@ -1337,6 +1337,10 @@ qx.Class.define("qx.Class",
 
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
+          if (!(this instanceof clazz)) {
+            throw new Error("Plase initialize " + clazz.classname + " objects using the 'new' keyword!");
+          }
+
           if (type == null)
           {
             // pass
@@ -1357,6 +1361,11 @@ qx.Class.define("qx.Class",
 
         // Execute default constructor
         var instance = construct.apply(this, arguments);
+
+        // Attach local properties
+        if (!clazz.$$propertiesAttached) {
+          qx.core.Property.attach(clazz);
+        }
 
         // Initialize local mixins
         if (clazz.$$includes)

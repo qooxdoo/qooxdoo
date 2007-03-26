@@ -12,7 +12,7 @@ qx.Class.define("qx.test.Cat",
   {
     this.base(arguments);
 
-    this.debug("Static property: " + arguments.callee.self.static_prop1);
+    // this.debug("Static property: " + arguments.callee.self.static_prop1);
   },
 
   statics :
