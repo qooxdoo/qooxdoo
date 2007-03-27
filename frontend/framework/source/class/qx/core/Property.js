@@ -410,7 +410,7 @@ qx.Class.define("qx.core.Property",
                 config.checkMap = qx.lang.Object.fromArray(config.check);
 
                 code.add(clazz.classname, '.$$properties.', name);
-                code.add('.checkMap[value]!==undefined');
+                code.add('.checkMap[value]===undefined');
               }
               else
               {
