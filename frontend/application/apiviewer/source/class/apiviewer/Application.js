@@ -70,6 +70,7 @@ qx.Class.define("apiviewer.Application",
     {
       // Initialize the viewer
       this.viewer = new apiviewer.Viewer;
+      this.controller = new apiviewer.Controller(this.viewer);
       this.viewer.addToDocument();
     },
 
@@ -84,7 +85,7 @@ qx.Class.define("apiviewer.Application",
     finalize : function(e)
     {
       // Finally load the data
-      this.viewer.load("script/apidata.js");
+      this.controller.load("script/apidata.js");
     }
   },
 

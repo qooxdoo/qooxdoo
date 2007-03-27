@@ -39,7 +39,7 @@ qx.Class.define("apiviewer.MethodPanel", {
       } else {
         title = method.getName();
       }
-      var titleHtml = new qx.util.StringBuilder(apiviewer.InfoPanel.createDeprecatedTitle(method, title));
+      var titleHtml = new qx.util.StringBuilder(apiviewer.InfoPanel.setTitleClass(method, title));
 
       // Add the title (the method signature)
       titleHtml.add('<span class="methodSignature"> <span class="parenthesis">(</span>');
@@ -88,15 +88,13 @@ qx.Class.define("apiviewer.MethodPanel", {
      *
      * @type member
      * @param node {Map} the doc node of the method.
-     * @param fromClassNode {Map} the doc node of the class the method was defined.
      * @param currentClassDocNode {Map} the doc node of the currently displayed class
      * @param showDetails {Boolean} whether to show the details.
      * @return {String} the HTML showing the information about the method.
      */
-    getItemHtml : function(method, fromClassNode, currentClassDocNode, showDetails)
+    getItemHtml : function(method, currentClassDocNode, showDetails)
     {
       var ClassViewer = apiviewer.ClassViewer;
-      var TreeUtil = apiviewer.TreeUtil;
 
       var docClass = method.getClass();
 
@@ -169,6 +167,7 @@ qx.Class.define("apiviewer.MethodPanel", {
           }
         }
 
+        textHtml.add(apiviewer.InfoPanel.createAccessHtml(method));
         textHtml.add(apiviewer.InfoPanel.createIncludedFromHtml(method, currentClassDocNode));
         textHtml.add(apiviewer.InfoPanel.createOverwriddenFromHtml(method));
         textHtml.add(apiviewer.InfoPanel.createInheritedFromHtml(method, currentClassDocNode));
@@ -191,32 +190,24 @@ qx.Class.define("apiviewer.MethodPanel", {
      *
      * @type member
      * @param node {Map} the doc node of the method.
-     * @param fromClassNode {Map} the doc node of the class the method was defined.
      * @param currentClassDocNode {Map} the doc node of the currently displayed class
      * @return {Boolean} whether the method has details.
      */
-    itemHasDetails : function(node, fromClassNode, currentClassDocNode)
+    itemHasDetails : function(node, currentClassDocNode)
     {
-      var TreeUtil = apiviewer.TreeUtil;
-
       // Get the method node that holds the documentation
       var docNode = node.getDocNode();
-
-      // Check whether there are details
-      var hasParams = TreeUtil.getChild(docNode, "params") != null;
-      var hasReturn = TreeUtil.getChild(docNode, "return") != null;
-      var isOverridden = (fromClassNode != currentClassDocNode);
-
+      var hasReturn = docNode.getReturn() && docNode.getReturn().getDescription();
       return (
-           isOverridden                                       // method is inherited
-        || (node.getOverriddenFrom() != null)                 // method is overridden
-        || (node.getRequiredBy().length > 0)                  // method is required by an interface
-        || hasParams                                          // method has params
-        || hasReturn                                          // method has return value
-        || node.getSee().length > 0
-        || node.getErrors().length > 0
-        || node.isDeprecated()
-        || apiviewer.InfoPanel.descriptionHasDetails(docNode)
+        node.getClass() != currentClassDocNode ||  // method is inherited
+        node.getOverriddenFrom() != null ||
+        node.getRequiredBy().length > 0 ||
+        docNode.getParams().length > 0 ||
+        hasReturn ||
+        node.getSee().length > 0 ||
+        node.getErrors().length > 0 ||
+        node.isDeprecated() ||
+        apiviewer.InfoPanel.descriptionHasDetails(docNode)
       );
     }
 

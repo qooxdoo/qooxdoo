@@ -225,7 +225,7 @@ qx.Class.define("apiviewer.InfoPanel", {
             (typeof iconCode != "undefined" ?  iconCode : ""),
             '<a href="' + window.location.protocol, '//',
             window.location.pathname, '#', fullItemName,
-            '" onclick="', 'document._detailViewer._selectItem(\'',
+            '" onclick="', 'apiviewer.ClassViewer.instance._onSelectItem(\'',
             fullItemName, '\'); return false;"', ' title="',
             fullItemName, '">', label, '</a></span>'
           )
@@ -240,7 +240,6 @@ qx.Class.define("apiviewer.InfoPanel", {
      *
      * @type member
      * @param node {Map} the doc node of the item.
-     * @param fromClassNode {Map} the doc node of the class the item was defined.
      * @return {String} the HTML showing the &#64;see attributes.
      */
     createSeeAlsoHtml : function(node)
@@ -280,12 +279,15 @@ qx.Class.define("apiviewer.InfoPanel", {
     createInheritedFromHtml : function(node, currentClassDocNode)
     {
      var ClassViewer = apiviewer.ClassViewer;
-     if (node.getClass() != currentClassDocNode)
+     if (
+       node.getClass().getType() != "mixin" &&
+       node.getClass() != currentClassDocNode
+       )
      {
        var html = new qx.util.StringBuilder(
          ClassViewer.DIV_START_DETAIL_HEADLINE, "Inherited from:", ClassViewer.DIV_END,
          ClassViewer.DIV_START_DETAIL_TEXT,
-         apiviewer.InfoPanel.createItemLinkHtml(node.getClass().getFullName()),
+         apiviewer.InfoPanel.createItemLinkHtml(node.getClass().getFullName()+"#"+node.getName()),
          ClassViewer.DIV_END
        );
        return html.get();
@@ -305,7 +307,7 @@ qx.Class.define("apiviewer.InfoPanel", {
         var html = new qx.util.StringBuilder(
           ClassViewer.DIV_START_DETAIL_HEADLINE, "Overridden from:", ClassViewer.DIV_END,
           ClassViewer.DIV_START_DETAIL_TEXT,
-          apiviewer.InfoPanel.createItemLinkHtml(node.getOverriddenFrom().getFullName()),
+          apiviewer.InfoPanel.createItemLinkHtml(node.getOverriddenFrom().getFullName()+"#"+node.getName()),
           ClassViewer.DIV_END
         );
         return html.get();
@@ -326,7 +328,7 @@ qx.Class.define("apiviewer.InfoPanel", {
           var html = new qx.util.StringBuilder(
             ClassViewer.DIV_START_DETAIL_HEADLINE, "Included from mixin:", ClassViewer.DIV_END,
             ClassViewer.DIV_START_DETAIL_TEXT,
-            apiviewer.InfoPanel.createItemLinkHtml(node.getClass().getFullName()),
+            apiviewer.InfoPanel.createItemLinkHtml(node.getClass().getFullName()+"#"+node.getName()),
             ClassViewer.DIV_END
           );
           return html.get();
@@ -343,7 +345,6 @@ qx.Class.define("apiviewer.InfoPanel", {
      *
      * @type member
      * @param node {Map} the doc node of the item.
-     * @param fromClassNode {Map} the doc node of the class the item was defined.
      * @param showDetails {Boolean} whether to show details. If <code>false</code>
      *          only the first sentence of the description will be shown.
      * @return {String} the HTML showing the description.
@@ -502,16 +503,13 @@ qx.Class.define("apiviewer.InfoPanel", {
      *
      * @type member
      * @param node {Map} the doc node of the item.
-     * @param fromClassNode {Map} the doc node of the class the item was defined.
      * @param currentClassDocNode {Map} the doc node of the currently displayed class
      * @return {String} the HTML showing the documentation errors.
      */
     createErrorHtml : function(node, currentClassDocNode)
     {
       var ClassViewer = apiviewer.ClassViewer;
-      var fromClassNode = node.getClass();
       docNode = node.getDocNode();
-
 
       var errors = docNode.getErrors();
 
@@ -526,8 +524,8 @@ qx.Class.define("apiviewer.InfoPanel", {
           html.add(ClassViewer.DIV_START_DETAIL_TEXT, errors[i].attributes.msg, " <br/>");
           html.add("(");
 
-          if (fromClassNode != currentClassDocNode) {
-            html.add(fromClassNode.getFullName(), "; ");
+          if (node.getClass() != currentClassDocNode) {
+            html.add(node.getClass().getFullName(), "; ");
           }
 
           html.add("Line: ", errors[i].attributes.line, ", Column:", errors[i].attributes.column + ")", ClassViewer.DIV_END);
@@ -559,7 +557,7 @@ qx.Class.define("apiviewer.InfoPanel", {
         for (var i=0; i<requiredBy.length; i++) {
           html.add(
             ClassViewer.DIV_START_DETAIL_TEXT,
-            apiviewer.InfoPanel.createItemLinkHtml(requiredBy[i].getFullName()),
+            apiviewer.InfoPanel.createItemLinkHtml(requiredBy[i].getFullName()+"#"+node.getName()),
             ClassViewer.DIV_END
           );
         }
@@ -568,24 +566,40 @@ qx.Class.define("apiviewer.InfoPanel", {
     },
 
 
-    createDeprecatedTitle : function(node, title)
+    setTitleClass : function(node, title)
     {
-      var html = ["<span class='item-title-deprecated'>", "", "</span>"];
+      var html = ["<span class='","","'>", title, "</span>"];
+      html[1] = this.getItemCssClasses(node);
+      return html.join("");
+    },
+
+
+    getItemCssClasses : function(node)
+    {
+      var cssClasses = [];
       if (node.isDeprecated()) {
-        html[1] = title;
-        return html.join("");
-      } else {
-        return title;
+        cssClasses.push("item-deprecated");
       }
+      if (node.isPrivate()) {
+        cssClasses.push("item-private");
+      }
+      if (node.isInternal()) {
+        cssClasses.push("item-internal");
+      }
+      if (node.isProtected()) {
+        cssClasses.push("item-protected");
+      }
+      return cssClasses.join(" ");
     },
 
 
     createDeprecationHtml : function(node, itemName)
     {
-      var ClassViewer = apiviewer.ClassViewer;
       if (!node.isDeprecated()) {
         return "";
       }
+
+      var ClassViewer = apiviewer.ClassViewer;
       var html = new qx.util.StringBuilder();
       html.add(ClassViewer.DIV_START_ERROR_HEADLINE, "Deprecated:", ClassViewer.DIV_END);
 
@@ -598,8 +612,33 @@ qx.Class.define("apiviewer.InfoPanel", {
       }
       html.add(ClassViewer.DIV_END);
       return html.get();
-    }
+    },
 
+
+    createAccessHtml : function(node)
+    {
+      if (node.isPublic()) {
+        return "";
+      }
+
+      var ClassViewer = apiviewer.ClassViewer;
+      var html = new qx.util.StringBuilder();
+      html.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "Access:", ClassViewer.DIV_END);
+      html.add(ClassViewer.DIV_START_DETAIL_TEXT);
+      var access = [];
+      if (node.isPrivate()) {
+        access.push("private");
+      }
+      if (node.isInternal()) {
+        access.push("internal");
+      }
+      if (node.isProtected()) {
+        access.push("protected");
+      }
+      html.add(access.join(" "));
+      html.add(ClassViewer.DIV_END);
+      return html.get();
+    }
 
   },
 
@@ -615,12 +654,11 @@ qx.Class.define("apiviewer.InfoPanel", {
      * @type member
      * @abstract
      * @param node {Map} the doc node of the method.
-     * @param fromClassNode {Map} the doc node of the class the method was defined.
      * @param currentClassDocNode {Map} the doc node of the currently displayed class
      * @param showDetails {Boolean} whether to show the details.
      * @return {String} the HTML showing the information about the method.
      */
-    getItemHtml : function(node, fromClassNode, currentClassDocNode, showDetails) {},
+    getItemHtml : function(node, currentClassDocNode, showDetails) {},
 
 
     /**
@@ -631,10 +669,9 @@ qx.Class.define("apiviewer.InfoPanel", {
      * @type member
      * @abstract
      * @param node {Map} the doc node of the method.
-     * @param fromClassNode {Map} the doc node of the class the method was defined.
      * @param currentClassDocNode {Map} the doc node of the currently displayed class
      * @return {Boolean} whether the method has details.
-     * @signature function(node, fromClassNode, currentClassDocNode)
+     * @signature function(node, currentClassDocNode)
      */
     itemHasDetails : qx.lang.Function.returnTrue,
 
@@ -716,7 +753,6 @@ qx.Class.define("apiviewer.InfoPanel", {
 
       var nodeArr = [];
       var fromClassHash = {};
-      var docTree = apiviewer.Viewer.instance.getDocTree();
 
       // Get the classes to show
       if (
@@ -755,16 +791,26 @@ qx.Class.define("apiviewer.InfoPanel", {
     },
 
 
-    __filterProtectedItems : function(nodeArr)
+    __filterItems : function(nodeArr, showProtected, showPrivate)
     {
-      copyArr = nodeArr.concat();
+      if (showProtected && showPrivate) {
+        return nodeArr;
+      }
 
+      copyArr = nodeArr.concat();
       for (var i=nodeArr.length-1; i>=0; i--)
       {
         var node = nodeArr[i];
-
-        if (nodeArr[i].getName().charAt(0) == "_") {
+        if (node.isPrivate() && !showPrivate) {
           qx.lang.Array.removeAt(copyArr, i);
+        }
+
+        if (node.isProtected() && !showProtected) {
+          qx.lang.Array.removeAt(copyArr, i);
+        }
+
+        if (node.isInternal() && !showPrivate) {
+            qx.lang.Array.removeAt(copyArr, i);
         }
       }
 
@@ -803,7 +849,7 @@ qx.Class.define("apiviewer.InfoPanel", {
      * @type member
      * @return {void}
      */
-    update : function(showProtected, showInherited, currentClassDocNode)
+    update : function(showProtected, showInherited, showPrivate, currentClassDocNode)
     {
 
       var nodeArr = this._getPanelItems(showInherited, currentClassDocNode);
@@ -813,24 +859,16 @@ qx.Class.define("apiviewer.InfoPanel", {
 
       if (nodeArr && nodeArr.length > 0)
       {
-        // Filter protected
-        if (
-          nodeType == apiviewer.ClassViewer.NODE_TYPE_METHOD ||
-          nodeType == apiviewer.ClassViewer.NODE_TYPE_METHOD_STATIC ||
-          nodeType == apiviewer.ClassViewer.NODE_TYPE_PROPERTY
-        ) {
-          if (!showProtected) {
-            nodeArr = this.__filterProtectedItems(nodeArr);
-          }
-        }
-
+        nodeArr = this.__filterItems(nodeArr, showProtected, showPrivate);
         this._sortItems(nodeArr);
       }
 
       // Show the nodes
       if (nodeArr && nodeArr.length > 0)
       {
-        var html = new qx.util.StringBuilder('<table cellspacing="0" cellpadding="0" class="info" width="100%">');
+        var html = new qx.util.StringBuilder(
+          '<table cellspacing="0" cellpadding="0" class="info" width="100%">'
+        );
 
         for (var i=0; i<nodeArr.length; i++)
         {
@@ -838,21 +876,20 @@ qx.Class.define("apiviewer.InfoPanel", {
 
           fromClassNode = node.getClass();
 
-          var info = this.getItemHtml(node, fromClassNode, currentClassDocNode, false);
+          var info = this.getItemHtml(node, currentClassDocNode, false);
           var inherited =
             (fromClassNode != currentClassDocNode) &&
             fromClassNode.getType() == "class";
           var iconUrl = apiviewer.TreeUtil.getIconUrl(node.getNode(), inherited);
 
           // Create the title row
-          html.add('<tr>');
-
+          html.add('<tr class="', apiviewer.InfoPanel.getItemCssClasses(node), '">');
           html.add('<td class="icon">', ClassViewer.createImageHtml(iconUrl), '</td>');
           html.add('<td class="type">', ((info.typeHtml.length != 0) ? (info.typeHtml + "&nbsp;") : ""), '</td>');
 
           html.add('<td class="toggle">');
 
-          if (this.itemHasDetails(node, fromClassNode, currentClassDocNode))
+          if (this.itemHasDetails(node, currentClassDocNode))
           {
             // This node has details -> Show the detail button
             html.add(
@@ -875,7 +912,7 @@ qx.Class.define("apiviewer.InfoPanel", {
           // Create headline
           html.add('<h3');
 
-          if (this.itemHasDetails(node, fromClassNode, currentClassDocNode)) {
+          if (this.itemHasDetails(node, currentClassDocNode)) {
             html.add(
               " onclick=\"document._detailViewer._onShowItemDetailClicked(",
               nodeType, ",'", node.getName(), "'",
