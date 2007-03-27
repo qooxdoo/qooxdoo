@@ -26,9 +26,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("apiviewer.EventPanel", {
+qx.Class.define("apiviewer.ui.panels.EventPanel", {
 
-  extend: apiviewer.InfoPanel,
+  extend: apiviewer.ui.panels.InfoPanel,
 
   members : {
     /**
@@ -44,7 +44,7 @@ qx.Class.define("apiviewer.EventPanel", {
         node.getClass() != currentClassDocNode || // event is inherited
         node.getSee().length > 0 ||
         node.getErrors().length > 0 ||
-        apiviewer.InfoPanel.descriptionHasDetails(node)
+        apiviewer.ui.panels.InfoPanel.descriptionHasDetails(node)
       );
     },
 
@@ -63,18 +63,18 @@ qx.Class.define("apiviewer.EventPanel", {
       var info = {};
 
       // Add the title
-      info.typeHtml = apiviewer.InfoPanel.createTypeHtml(node, "var");
-      info.titleHtml = apiviewer.InfoPanel.setTitleClass(node, node.getName());
+      info.typeHtml = apiviewer.ui.panels.InfoPanel.createTypeHtml(node, "var");
+      info.titleHtml = apiviewer.ui.panels.InfoPanel.setTitleClass(node, node.getName());
 
       // Add the description
-      textHtml = new qx.util.StringBuilder(apiviewer.InfoPanel.createDescriptionHtml(node, showDetails));
+      textHtml = new qx.util.StringBuilder(apiviewer.ui.panels.InfoPanel.createDescriptionHtml(node, showDetails));
 
       if (showDetails)
       {
-        textHtml.add(apiviewer.InfoPanel.createInheritedFromHtml(node, currentClassDocNode));
-        textHtml.add(apiviewer.InfoPanel.createSeeAlsoHtml(node));
-        textHtml.add(apiviewer.InfoPanel.createErrorHtml(node, currentClassDocNode));
-        textHtml.add(apiviewer.InfoPanel.createDeprecationHtml(node, "event"));
+        textHtml.add(apiviewer.ui.panels.InfoPanel.createInheritedFromHtml(node, currentClassDocNode));
+        textHtml.add(apiviewer.ui.panels.InfoPanel.createSeeAlsoHtml(node));
+        textHtml.add(apiviewer.ui.panels.InfoPanel.createErrorHtml(node, currentClassDocNode));
+        textHtml.add(apiviewer.ui.panels.InfoPanel.createDeprecationHtml(node, "event"));
 
       }
 
