@@ -184,7 +184,7 @@
 }
 
 #ClassViewer table.info tr {
-  background: #FBFFEF;
+  background: #F3FFD1;
 }
 
 #ClassViewer table.info tr.marked {
@@ -388,7 +388,14 @@ tr.state td {
 	margin-top: 1px;
 }
 
-.item-title-deprecated {
+span.item-deprecated {
 	text-decoration: line-through;
 	color: #7193b9;
 }
+
+
+tr.item-private,
+tr.item-internal {
+	background: #F6efe2 !important;
+}
+

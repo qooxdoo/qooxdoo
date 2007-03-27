@@ -29,7 +29,10 @@
 ************************************************************************ */
 
 /**
- * The API viewer. Shows the API documentation.
+ * The GUI definition of the API viewer.
+ *
+ * The connections between the GUI components are established in
+ * the {@link Controller}.
  */
 qx.Class.define("apiviewer.Viewer",
 {
@@ -43,139 +46,36 @@ qx.Class.define("apiviewer.Viewer",
      CONSTRUCTOR
   *****************************************************************************
   */
-
   construct : function()
   {
     qx.ui.layout.DockLayout.call(this);
-
     this.setEdge(0);
 
-    this._titlePrefix = qx.core.Setting.get("apiviewer.title") + " API Documentation";
-    document.title = this._titlePrefix;
+    this._subWidgets = {};
 
-    // create header
-    var header = new qx.ui.embed.HtmlEmbed("<h1>" + "<span>" + qx.core.Setting.get("apiviewer.title") + "</span>" + " API Documentation" + "</h1>" + "<div id='qxversion'>qooxdoo " + qx.core.Version.toString() + "</div>");
-    header.setHtmlProperty("id", "header");
-    header.setStyleProperty("background", "#134275 url(" + qx.manager.object.AliasManager.getInstance().resolvePath("api/image/colorstrip.gif") + ") top left repeat-x");
-    header.setHeight(70);
-    this.addTop(header);
+    this.addTop(this.__createHeader());
+    var tree = new apiviewer.PackageTree();
+    this.__registerWidget(tree, "tree");
 
-    // create button view
-    this._buttonView = new qx.ui.pageview.buttonview.ButtonView();
-    this._buttonView.set({
-      width           : "100%",
-      height          : "100%"
-    });
-    var treeButton = new qx.ui.pageview.buttonview.Button("Packages", apiviewer.TreeUtil.ICON_PACKAGE);
-    treeButton.setShow("icon");
-    treeButton.setToolTip( new qx.ui.popup.ToolTip("Packages"));
-    var infoButton = new qx.ui.pageview.buttonview.Button("Legend", apiviewer.TreeUtil.ICON_INFO);
-    infoButton.setShow("icon");
-    infoButton.setToolTip( new qx.ui.popup.ToolTip("Information"));
+    var buttonView = this.__createButtonView(
+      tree,
+      new apiviewer.InfoView()
+    );
 
-    treeButton.setChecked(true);
-    this._buttonView.getBar().add(treeButton, infoButton);
+    var mainFrame = this.__createMainFrame(
+      this.__createToolbar(),
+      this.__createDetailFrame()
+    );
 
-    var treePane = new qx.ui.pageview.buttonview.Page(treeButton);
-    var infoPane = new qx.ui.pageview.buttonview.Page(infoButton);
-    this._buttonView.getPane().add(treePane, infoPane);
-
-    // create tree
-    this._tree = new qx.ui.tree.Tree("API Documentation");
-    this._tree.set({
-      backgroundColor : "white",
-      overflow        : "scroll",
-      width           : "100%",
-      height          : "100%",
-      paddingLeft     : 5,
-      paddingTop      : 3
-    });
-    this._tree.getManager().addEventListener("changeSelection", this._onTreeSelectionChange, this);
-
-    // fill button view panes
-    treePane.add(this._tree);
-    infoPane.add(new apiviewer.InfoView());
-
-
-    this._detailFrame = new qx.ui.layout.CanvasLayout;
-    this._detailFrame.set(
-    {
-      width           : "100%",
-      height          : "100%",
-      backgroundColor : "white",
-      border          : qx.renderer.border.BorderPresets.getInstance().inset
-    });
-
-    this._detailFrame.setHtmlProperty("id", "DetailFrame");
-
-    // create vertival splitter
-    var mainSplitPane = new qx.ui.splitpane.HorizontalSplitPane(250, "1*");
-    mainSplitPane.setLiveResize(true);
-    mainSplitPane.addLeft(this._buttonView);
-    mainSplitPane.addRight(this._detailFrame);
-    this.add(mainSplitPane);
-
-    this._detailLoader = new qx.ui.embed.HtmlEmbed('<h1><div class="please">please wait</div>Loading data...</h1>');
-    this._detailLoader.setHtmlProperty("id", "DetailLoader");
-    this._detailLoader.setMarginLeft(20);
-    this._detailLoader.setMarginTop(20);
-    this._detailFrame.add(this._detailLoader);
-
-    this._classViewer = new apiviewer.ClassViewer;
-    this._detailFrame.add(this._classViewer);
-
-    this._packageViewer = new apiviewer.PackageViewer;
-    this._detailFrame.add(this._packageViewer);
-
-    this._currentTreeType = apiviewer.Viewer.PACKAGE_TREE;
-
-    // Workaround: Since navigating in qx.ui.tree.Tree doesn't work, we've to
-    //             maintain a hash that keeps the tree nodes for class names
-    this._classTreeNodeHash = {};
-    this._classTreeNodeHash[apiviewer.Viewer.PACKAGE_TREE] = {};
-    this._classTreeNodeHash[apiviewer.Viewer.INHERITENCE_TREE] = {};
+    this.add(
+      this.__createVerticalSplitter(
+        buttonView,
+        mainFrame
+      )
+    );
 
     apiviewer.Viewer.instance = this;
-
-    qx.client.History.getInstance().addEventListener("request", this._onHistoryRequest, this);
   },
-
-
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-    PACKAGE_TREE     : 1,
-    INHERITENCE_TREE : 2
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-
-    /** The documentation tree to show. */
-    docTree :
-    {
-      _legacy : true,
-      type    : "object"
-    }
-  },
-
-
 
 
   /*
@@ -186,339 +86,198 @@ qx.Class.define("apiviewer.Viewer",
 
   members :
   {
-    // property checker
+
     /**
-     * TODOC
+     * Create the header widget
      *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
+     * @return {qx.ui.embed.HtmlEmbed} The header widget
      */
-    _modifyDocTree : function(propValue, propOldValue, propData)
+    __createHeader : function()
     {
-      var start = new Date();
-      var rootPackage = new apiviewer.dao.Package(propValue);
-      var end = new Date();
-      this.debug("Time to build data tree: " + (end.getTime() - start.getTime()) + "ms");
-
-      var start = new Date();
-      this._updateTree(rootPackage);
-      var end = new Date();
-      this.debug("Time to update tree: " + (end.getTime() - start.getTime()) + "ms");
-
-      return true;
+      var header = new qx.ui.embed.HtmlEmbed(
+        "<h1>" +
+        "<span>" + qx.core.Setting.get("apiviewer.title") + "</span>" +
+        " API Documentation" +
+        "</h1>" +
+        "<div id='qxversion'>qooxdoo " + qx.core.Version.toString() + "</div>"
+      );
+      header.setHtmlProperty("id", "header");
+      header.setStyleProperty(
+        "background",
+        "#134275 url(" +
+        qx.manager.object.AliasManager.getInstance().resolvePath("api/image/colorstrip.gif") +
+        ") top left repeat-x"
+      );
+      header.setHeight(70);
+      return header;
     },
 
 
     /**
-     * Loads the API doc tree from a URL. The URL must point to a JSON encoded
-     * doc tree.
+     * Creates the button view widget on the left
      *
-     * @type member
-     * @param url {String} the URL.
-     * @return {void}
+     * @param treeWidget {qx.ui.core.Widget} The widget for the "tree" pane
+     * @param infoWidget {qx.ui.core.Widget} The widget for the "legend" pane
+     * @return {qx.ui.pageview.buttonview.ButtonView} The configured button view widget
      */
-    load : function(url)
+    __createButtonView : function(treeWidget, infoWidget)
     {
-      var req = new qx.io.remote.Request(url);
 
-      req.setTimeout(180000);
+      var buttonView = new qx.ui.pageview.buttonview.ButtonView();
+      buttonView.set({
+        width           : "100%",
+        height          : "100%"
+      });
+      var treeButton = new qx.ui.pageview.buttonview.Button("Packages", apiviewer.TreeUtil.ICON_PACKAGE);
+      treeButton.setShow("icon");
+      treeButton.setToolTip( new qx.ui.popup.ToolTip("Packages"));
+      var infoButton = new qx.ui.pageview.buttonview.Button("Legend", apiviewer.TreeUtil.ICON_INFO);
+      infoButton.setShow("icon");
+      infoButton.setToolTip( new qx.ui.popup.ToolTip("Information"));
 
-      req.addEventListener("completed", function(evt)
+      treeButton.setChecked(true);
+      buttonView.getBar().add(treeButton, infoButton);
+
+      var treePane = new qx.ui.pageview.buttonview.Page(treeButton);
+      var infoPane = new qx.ui.pageview.buttonview.Page(infoButton);
+      buttonView.getPane().add(treePane, infoPane);
+
+      treePane.add(treeWidget);
+      infoPane.add(infoWidget);
+
+      return buttonView;
+    },
+
+
+    __createToolbar : function()
+    {
+
+      var self = this;
+      function createButton(text, icon, clazz, checked, id)
       {
-        var content = evt.getData().getContent();
+        if (!clazz) {
+          clazz = qx.ui.toolbar.Button;
+        }
+        var button = new clazz(text, "icon/22/actions/" + icon + ".png");
+        if (checked) {
+          button.setChecked(true);
+        }
 
-        var start = new Date();
-        var treeData = eval("(" + content + ")");
-        var end = new Date();
-        this.debug("Time to eval tree data: " + (end.getTime() - start.getTime()) + "ms");
+        self.__registerWidget(button, id);
+        return button;
+      }
 
-        // give the browser a chance to update its UI before doing more
-        qx.client.Timer.once(function() {
-          this.setDocTree(treeData);
+      var toolbar = new qx.ui.toolbar.ToolBar;
+      toolbar.setHorizontalChildrenAlign("right");
 
-          // Handle bookmarks
-          var state = qx.client.History.getInstance().getState();
-          if (state)
-          {
-            qx.client.Timer.once(function() {
-              this.selectItem(state);
-            }, this, 0);
-          }
+      var part = new qx.ui.toolbar.Part;
+      part.setHeight(28);
+      toolbar.add(part);
 
-          this._detailLoader.setHtml('<h1><div class="please">' + qx.core.Setting.get("apiviewer.title") + '</div>API Documentation</h1>');
+      part.add(createButton("Show Inherited", "", qx.ui.toolbar.CheckBox, false, "btn_inherited"));
+      part.add(createButton("Show Protected", "", qx.ui.toolbar.CheckBox, false, "btn_protected"));
+      part.add(createButton("Show Private", "", qx.ui.toolbar.CheckBox, false, "btn_private"));
 
-        }, this, 0);
-      },
-      this);
-
-      req.addEventListener("failed", function(evt) {
-        this.error("Couldn't load file: " + url);
-      }, this);
-
-      req.send();
+      return toolbar;
     },
 
 
     /**
-     * Updates the tree on the left.
+     * Create the detail Frame and adds the Class-, Package and Loader-views to it.
      *
-     * @type member
-     * @param docTree {Map} the documentation tree to use for updating.
-     * @return {void}
+     * @return {qx.ui.layout.CanvasLayout} The detail Frame
      */
-    _updateTree : function(docTree)
+    __createDetailFrame : function()
     {
-      var inheritenceNode = new qx.ui.tree.TreeFolder("Inheritence hierarchy");
-      var packagesNode = new qx.ui.tree.TreeFolder("Packages");
-
-      this._tree.removeAll();
-      this._tree.add(inheritenceNode, packagesNode);
-
-      var start = new Date();
-      // Fill the packages tree
-      this._fillPackageNode(packagesNode, docTree, 0);
-      var end = new Date();
-      this.debug("Time to fill the packages tree: " + (end.getTime() - start.getTime()) + "ms");
-
-      var start = new Date();
-      // fill the _topLevelClassNodeArr
-      this._topLevelClassNodeArr = apiviewer.dao.Class.getAllTopLevelClasses();
-
-      // Sort the _topLevelClassNodeArr
-      this._topLevelClassNodeArr.sort(function(node1, node2) {
-        return (node1.getFullName() < node2.getFullName()) ? -1 : 1;
+      detailFrame = new qx.ui.layout.CanvasLayout;
+      detailFrame.set(
+      {
+        width           : "100%",
+        height          : "1*",
+        backgroundColor : "white",
+        border          : qx.renderer.border.BorderPresets.getInstance().inset
       });
 
-      // Fill the inheritence tree
-      for (var i=0; i<this._topLevelClassNodeArr.length; i++) {
-        this._createInheritanceNode(inheritenceNode, this._topLevelClassNodeArr[i]);
-      }
-      var end = new Date();
-      this.debug("Time to fill the inheritence tree: " + (end.getTime() - start.getTime()) + "ms");
+      detailFrame.setHtmlProperty("id", "DetailFrame");
 
-      packagesNode.open();
+      this._detailLoader = new qx.ui.embed.HtmlEmbed('<h1><div class="please">please wait</div>Loading data...</h1>');
+      this._detailLoader.setHtmlProperty("id", "DetailLoader");
+      this._detailLoader.setMarginLeft(20);
+      this._detailLoader.setMarginTop(20);
+      detailFrame.add(this._detailLoader);
+      this.__registerWidget(this._detailLoader, "detail_loader");
 
-      if (this._wantedClassName)
-      {
-        this.showClassByName(this._wantedClassName);
-        this._wantedClassName = null;
-      }
+      this._classViewer = new apiviewer.ClassViewer;
+      detailFrame.add(this._classViewer);
+      this.__registerWidget(this._classViewer, "class_viewer");
+
+      this._packageViewer = new apiviewer.PackageViewer;
+      detailFrame.add(this._packageViewer);
+      this.__registerWidget(this._packageViewer, "package_viewer");
+
+      return detailFrame;
     },
 
 
     /**
-     * Fills a package tree node with tree nodes for the sub packages and classes.
+     * Creates the main frame at the right
      *
-     * @type member
-     * @param treeNode {qx.ui.tree.TreeFolder} the package tree node.
-     * @param docNode {Map} the documentation node of the package.
-     * @param depth {var} TODOC
-     * @return {void}
+     * @param {qx.ui.toolbar.ToolBar} Toolbar of the main frame
+     * @param {qx.ui.core.Widget} the detail widget
+     * @return {qx.ui.layout.VerticalBoxLayout} the main frame
      */
-    _fillPackageNode : function(treeNode, docNode, depth)
+    __createMainFrame : function(toolbar, detailFrame)
     {
-      var ApiViewer = apiviewer.Viewer;
-      var TreeUtil = apiviewer.TreeUtil;
+      var mainFrame = new qx.ui.layout.VerticalBoxLayout();
+      mainFrame.set({
+        width           : "100%",
+        height          : "100%"
+      });
 
-      var packagesDoc = docNode.getPackages();
-      for (var i=0; i<packagesDoc.length; i++)
-      {
-        var packageDoc = packagesDoc[i];
-        var iconUrl = TreeUtil.getIconUrl(packageDoc.getNode());
-        var packageTreeNode = new qx.ui.tree.TreeFolder(packageDoc.getName(), iconUrl);
-        packageTreeNode.docNode = packageDoc;
-        treeNode.add(packageTreeNode);
-
-        this._fillPackageNode(packageTreeNode, packageDoc, depth + 1);
-
-        // Open the package node if it has child packages
-        if (depth < qx.core.Setting.get("apiviewer.initialTreeDepth") && packageDoc.getPackages().length > 0) {
-          packageTreeNode.open();
-        }
-
-        // Register the tree node
-        this._classTreeNodeHash[ApiViewer.PACKAGE_TREE][packageDoc.getFullName()] = packageTreeNode;
-      }
-
-      var classesDoc = docNode.getClasses();
-      for (var i=0; i<classesDoc.length; i++)
-      {
-        var classDoc = classesDoc[i];
-        var iconUrl = TreeUtil.getIconUrl(classDoc.getNode());
-        var classTreeNode = new qx.ui.tree.TreeFolder(classDoc.getName(), iconUrl);
-        classTreeNode.docNode = classDoc;
-        classTreeNode.treeType = ApiViewer.PACKAGE_TREE;
-        treeNode.add(classTreeNode);
-
-        // Register the tree node
-        this._classTreeNodeHash[ApiViewer.PACKAGE_TREE][classDoc.getFullName()] = classTreeNode;
-      }
+      mainFrame.add(toolbar, detailFrame);
+      return mainFrame;
     },
 
 
     /**
-     * Creates the tree node for a class containing class nodes for all its child
-     * classes.
+     * Creates the vertival splitter and populates the split panes
      *
-     * @type member
-     * @param parentTreeNode {var} TODOC
-     * @param classDocNode {Map} the documentation node of the class.
-     * @param docTree {Map} the documentation tree.
-     * @return {void}
+     * @param leftWidget {qx.ui.core.Widget} the widget on the left of the splitter
+     * @param rightWidget {qx.ui.core.Widget} the widget on the right of the splitter
+     * @return {qx.ui.splitpane.HorizontalSplitPane} the split pane
      */
-    _createInheritanceNode : function(parentTreeNode, classDocNode)
+    __createVerticalSplitter : function(leftWidget, rightWidget)
     {
-      var ApiViewer = apiviewer.Viewer;
-      var TreeUtil = apiviewer.TreeUtil;
-
-      // Create the tree node
-      var iconUrl = TreeUtil.getIconUrl(classDocNode.getNode());
-      var classTreeNode = new qx.ui.tree.TreeFolder(classDocNode.getFullName(), iconUrl);
-      classTreeNode.docNode = classDocNode;
-      classTreeNode.treeType = ApiViewer.INHERITENCE_TREE;
-      parentTreeNode.add(classTreeNode);
-
-      // Register the tree node
-      this._classTreeNodeHash[ApiViewer.INHERITENCE_TREE][classDocNode.getFullName()] = classTreeNode;
-
-      var childClassNameArr = classDocNode.getChildClasses();
-      for (var i=0; i<childClassNameArr.length; i++)
-      {
-        var childClassDocNode = apiviewer.dao.Class.getClassByName(childClassNameArr[i]);
-        this._createInheritanceNode(classTreeNode, childClassDocNode);
-      }
+      var mainSplitPane = new qx.ui.splitpane.HorizontalSplitPane(250, "1*");
+      mainSplitPane.setLiveResize(true);
+      mainSplitPane.addLeft(leftWidget);
+      mainSplitPane.addRight(rightWidget);
+      return mainSplitPane;
     },
 
 
     /**
-     * Event handler. Called when the tree selection has changed.
+     * Registers a widget under the given widget id to be used with
+     * {@link #getWidgetById}.
      *
-     * @type member
-     * @param evt {Map} the event.
-     * @return {void}
+     * @param widget {qx.ui.core.Widget} the widget to register
+     * @param id {String} the id of the widget.
      */
-    _onTreeSelectionChange : function(evt)
+    __registerWidget : function(widget, id)
     {
-      var treeNode = evt.getData()[0];
-
-      if (treeNode && treeNode.docNode)
-      {
-        var newTitle = this._titlePrefix + " - class " + treeNode.docNode.getFullName();
-
-        qx.client.History.getInstance().addToHistory(treeNode.docNode.getFullName(), newTitle);
-
-        this._currentTreeType = treeNode.treeType;
-
-        this._selectTreeNode(treeNode);
-      }
+      this._subWidgets[id] = widget;
     },
 
 
     /**
-     * TODOC
+     * Returns the widget registered under the given id by {@link #__registerWidget}
      *
-     * @type member
-     * @param evt {Event} TODOC
-     * @return {void}
+     * @param {String} the id of the widget
+     * @return {qx.ui.core.Widget} the widget.
      */
-    _onHistoryRequest : function(evt) {
-      this.showClassByName(evt.getData());
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vTreeNode {qx.ui.tree.AbstractTreeElement} TODOC
-     * @return {void}
-     */
-    _selectTreeNode : function(vTreeNode)
+    getWidgetById : function(id)
     {
-      if (!(vTreeNode && vTreeNode.docNode)) {
-        this.error("Invalid tree node: " + vTreeNode);
-      }
-
-      var vDoc = vTreeNode.docNode;
-
-      this._detailLoader.setVisibility(false);
-
-      if (vDoc instanceof apiviewer.dao.Class)
-      {
-        this._packageViewer.setVisibility(false);
-        this._classViewer.showClass(vDoc);
-        this._classViewer.setVisibility(true);
-      }
-      else
-      {
-        this._classViewer.setVisibility(false);
-        this._packageViewer.showInfo(vDoc);
-        this._packageViewer.setVisibility(true);
-      }
-    },
-
-
-    /**
-     * Selects an item (class, property, method or constant).
-     *
-     * @type member
-     * @param fullItemName {String} the full name of the item to select.
-     *          (e.g. "qx.mypackage.MyClass" or "qx.mypackage.MyClass#myProperty")
-     * @return {void}
-     */
-    selectItem : function(fullItemName)
-    {
-      var className = fullItemName;
-      var itemName = null;
-      var hashPos = fullItemName.indexOf("#");
-
-      if (hashPos != -1)
-      {
-        className = fullItemName.substring(0, hashPos);
-        itemName = fullItemName.substring(hashPos + 1);
-
-        var parenPos = itemName.indexOf("(");
-
-        if (parenPos != -1) {
-          itemName = qx.lang.String.trim(itemName.substring(0, parenPos));
-        }
-      }
-
-      this.showClassByName(className);
-
-      if (itemName) {
-        this._classViewer.showItem(itemName);
-      }
-    },
-
-
-    /**
-     * Shows a certain class.
-     *
-     * @type member
-     * @param className {String} the name of the class to show.
-     * @return {void}
-     */
-    showClassByName : function(className)
-    {
-      var treeNode = this._classTreeNodeHash[this._currentTreeType||apiviewer.Viewer.PACKAGE_TREE][className];
-
-      if (treeNode) {
-        treeNode.setSelected(true);
-      }
-      else if (this.getDocTree() == null)
-      {
-        // The doc tree has not been loaded yet
-        // -> Remeber the wanted class and show when loading is done
-        this._wantedClassName = className;
-      }
-      else
-      {
-        this.error("Unknown class: " + className);
-      }
+      return this._subWidgets[id];
     }
 
   },
@@ -549,7 +308,7 @@ qx.Class.define("apiviewer.Viewer",
 
   destruct : function()
   {
-    this._disposeObjects("_tree", "_detailFrame", "_detailLoader", "_classViewer", "_packageViewer");
+    this._disposeObjects("_tree", "_detailLoader", "_classViewer", "_packageViewer");
     this._disposeFields("_classTreeNodeHash");
   }
 });

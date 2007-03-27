@@ -63,6 +63,33 @@ qx.Class.define("apiviewer.dao.Node", {
       return typeof(this._deprecated) == "string" ? true : false;
     },
 
+    isInternal : function()
+    {
+      return this._docNode.attributes.isInternal || false;
+    },
+
+    isPrivate : function()
+    {
+      return this.getName().substring(0,2) == "__";
+    },
+
+    isProtected : function()
+    {
+      return (
+        this.getName().charAt(0) == "_" &&
+        this.getName().charAt(1) != "_"
+      );
+    },
+
+    isPublic : function()
+    {
+      return (
+        !this.isPrivate() &&
+        !this.isProtected() &&
+        !this.isInternal()
+      );
+    },
+
     _createNodeList : function (node, ctor, clazz, arg)
     {
       if (ctor) {

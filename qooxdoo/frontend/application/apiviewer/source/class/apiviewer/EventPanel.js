@@ -36,19 +36,16 @@ qx.Class.define("apiviewer.EventPanel", {
      *
      * @type member
      * @param node {Map} the doc node of the event.
-     * @param fromClassNode {Map} the doc node of the class the event was defined.
      * @param currentClassDocNode {Map} the doc node of the currently displayed class
      * @return {Boolean} whether the event has details.
      */
-    itemHasDetails : function(node, fromClassNode, currentClassDocNode) {
+    itemHasDetails : function(node, currentClassDocNode) {
       return (
-        (fromClassNode != currentClassDocNode) // event is inherited
-        || (
-          node.getSee().length > 0 ||
-          node.getErrors().length > 0 ||
-          apiviewer.InfoPanel.descriptionHasDetails(node)
-          )
-        );
+        node.getClass() != currentClassDocNode || // event is inherited
+        node.getSee().length > 0 ||
+        node.getErrors().length > 0 ||
+        apiviewer.InfoPanel.descriptionHasDetails(node)
+      );
     },
 
 
@@ -57,20 +54,17 @@ qx.Class.define("apiviewer.EventPanel", {
      *
      * @type member
      * @param node {Map} the doc node of the event.
-     * @param fromClassNode {Map} the doc node of the class the event was defined.
      * @param currentClassDocNode {Map} the doc node of the currently displayed class
      * @param showDetails {Boolean} whether to show the details.
      * @return {String} the HTML showing the information about the event.
      */
-    getItemHtml : function(node, fromClassNode, currentClassDocNode, showDetails)
+    getItemHtml : function(node, currentClassDocNode, showDetails)
     {
-      fromClassNode = node.getClass();
-
       var info = {};
 
       // Add the title
       info.typeHtml = apiviewer.InfoPanel.createTypeHtml(node, "var");
-      info.titleHtml = apiviewer.InfoPanel.createDeprecatedTitle(node, node.getName());
+      info.titleHtml = apiviewer.InfoPanel.setTitleClass(node, node.getName());
 
       // Add the description
       textHtml = new qx.util.StringBuilder(apiviewer.InfoPanel.createDescriptionHtml(node, showDetails));

@@ -79,7 +79,6 @@ qx.Class.define("apiviewer.AppearancePanel", {
      */
     _getPanelItems : function(showInherited, currentClassDocNode)
     {
-      var TreeUtil = apiviewer.TreeUtil;
       var appearances = this.base(arguments, showInherited, currentClassDocNode);
       if (!showInherited) {
         return appearances;
@@ -106,16 +105,13 @@ qx.Class.define("apiviewer.AppearancePanel", {
      *
      * @type member
      * @param node {Map} the doc node of the property.
-     * @param fromClassNode {Map} the doc node of the class the property was defined.
      * @param currentClassDocNode {Map} the doc node of the currently displayed class
      * @param showDetails {Boolean} whether to show the details.
      * @return {String} the HTML showing the information about the property.
      */
-    getItemHtml : function(node, fromClassNode, currentClassDocNode, showDetails)
+    getItemHtml : function(node, currentClassDocNode, showDetails)
     {
       var ClassViewer = apiviewer.ClassViewer;
-      var TreeUtil = apiviewer.TreeUtil;
-
 
       var nodeName = node.getName();
       if (node.getType() == node.getClass()) {
@@ -191,11 +187,10 @@ qx.Class.define("apiviewer.AppearancePanel", {
      *
      * @type member
      * @param node {Map} the doc node of the method.
-     * @param fromClassNode {Map} the doc node of the class the method was defined.
      * @param currentClassDocNode {Map} the doc node of the currently displayed class
      * @return {Boolean} whether the method has details.
      */
-    itemHasDetails : function(node, fromClassNode, currentClassDocNode)
+    itemHasDetails : function(node, currentClassDocNode)
     {
       return this.__getAllAppearanceStates(node).length > 0;
     }
