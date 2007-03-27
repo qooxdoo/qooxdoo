@@ -62,6 +62,10 @@ qx.Class.define("apiviewer.InfoView",
 
   members :
   {
+
+    /**
+     * Generate the HTML for the legend.
+     */
     _showHtml : function()
     {
       var TreeUtil = apiviewer.TreeUtil;

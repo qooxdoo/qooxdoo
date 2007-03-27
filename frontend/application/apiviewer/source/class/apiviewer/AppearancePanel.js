@@ -73,10 +73,6 @@ qx.Class.define("apiviewer.AppearancePanel", {
     },
 
 
-    /**
-     * Retuns a list of all items to display in the panel
-     * This method overwrited the default behaviour of the InfoPanel class.
-     */
     _getPanelItems : function(showInherited, currentClassDocNode)
     {
       var appearances = this.base(arguments, showInherited, currentClassDocNode);

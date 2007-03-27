@@ -149,16 +149,21 @@ qx.Class.define("apiviewer.Viewer",
     },
 
 
+   /**
+     * Creates the tool bar
+     *
+     * @return {qx.ui.toolbar.ToolBar} The configured tool bar
+     */
     __createToolbar : function()
     {
 
       var self = this;
-      function createButton(text, icon, clazz, checked, id)
+      function createButton(text, clazz, checked, id)
       {
         if (!clazz) {
           clazz = qx.ui.toolbar.Button;
         }
-        var button = new clazz(text, "icon/22/actions/" + icon + ".png");
+        var button = new clazz(text);
         if (checked) {
           button.setChecked(true);
         }
@@ -174,9 +179,9 @@ qx.Class.define("apiviewer.Viewer",
       part.setHeight(28);
       toolbar.add(part);
 
-      part.add(createButton("Show Inherited", "", qx.ui.toolbar.CheckBox, false, "btn_inherited"));
-      part.add(createButton("Show Protected", "", qx.ui.toolbar.CheckBox, false, "btn_protected"));
-      part.add(createButton("Show Private", "", qx.ui.toolbar.CheckBox, false, "btn_private"));
+      part.add(createButton("Show Inherited", qx.ui.toolbar.CheckBox, false, "btn_inherited"));
+      part.add(createButton("Show Protected", qx.ui.toolbar.CheckBox, false, "btn_protected"));
+      part.add(createButton("Show Private", qx.ui.toolbar.CheckBox, false, "btn_private"));
 
       return toolbar;
     },
@@ -222,8 +227,8 @@ qx.Class.define("apiviewer.Viewer",
     /**
      * Creates the main frame at the right
      *
-     * @param {qx.ui.toolbar.ToolBar} Toolbar of the main frame
-     * @param {qx.ui.core.Widget} the detail widget
+     * @param toolbar {qx.ui.toolbar.ToolBar} Toolbar of the main frame
+     * @param detailFrame {qx.ui.core.Widget} the detail widget
      * @return {qx.ui.layout.VerticalBoxLayout} the main frame
      */
     __createMainFrame : function(toolbar, detailFrame)
@@ -272,7 +277,7 @@ qx.Class.define("apiviewer.Viewer",
     /**
      * Returns the widget registered under the given id by {@link #__registerWidget}
      *
-     * @param {String} the id of the widget
+     * @param id {String} the id of the widget
      * @return {qx.ui.core.Widget} the widget.
      */
     getWidgetById : function(id)

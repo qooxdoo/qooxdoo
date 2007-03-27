@@ -23,11 +23,16 @@
 
 ************************************************************************ */
 
-
+/**
+ * This class wraps the access to documentation nodes.
+ */
 qx.Class.define("apiviewer.dao.Node", {
 
   extend : qx.core.Object,
 
+  /**
+   * @param classDocNode {Map} documentation node
+   */
   construct : function(classDocNode)
   {
     this._docNode = classDocNode;
@@ -48,31 +53,66 @@ qx.Class.define("apiviewer.dao.Node", {
   members :
   {
 
+    /**
+     * Return the internal JSON representation of the node
+     *
+     * @return {Map} the JSON doc node of thie node.
+     */
     getNode : function()
     {
       return this._docNode;
     },
 
+
+    /**
+     * Get the text of the deprecation message.
+     *
+     * @return {String} the deprecation message.
+     */
     getDeprecationText : function()
     {
       return this._deprecated || "";
     },
 
+
+    /**
+     * Get whether the node is deprecated.
+     *
+     * @return {Boolean} whether the node is deprecated.
+     */
     isDeprecated : function()
     {
       return typeof(this._deprecated) == "string" ? true : false;
     },
 
+
+    /**
+     * Get whether the node is internal.
+     *
+     * @return {Boolean} whether the node is internal.
+     */
     isInternal : function()
     {
       return this._docNode.attributes.isInternal || false;
     },
 
+
+    /**
+     * Get whether the node is private.
+     *
+     * @return {Boolean} whether the node is private.
+     */
     isPrivate : function()
     {
       return this.getName().substring(0,2) == "__";
     },
 
+
+    /**
+     * Get whether the node is protected.
+     *
+     * @return {Boolean} whether the node is protected.
+     */
     isProtected : function()
     {
       return (
@@ -81,6 +121,12 @@ qx.Class.define("apiviewer.dao.Node", {
       );
     },
 
+
+    /**
+     * Get whether the node is public.
+     *
+     * @return {Boolean} whether the node is public.
+     */
     isPublic : function()
     {
       return (
@@ -90,6 +136,18 @@ qx.Class.define("apiviewer.dao.Node", {
       );
     },
 
+
+    /**
+     * Convert a node list into an array of class item instances.
+     *
+     * @param node {Map} JSON parent node
+     * @param ctor {Function} constructor of an item class. The first parameter to the constructor
+     *      are the child nodes of the node.
+     * @param clazz {apiviewer.dao.Class} the class the items belong to. This will be
+     *      passed as the second argument to the constructor.
+     * @param arg {var} optional third argument passed into the constructor.
+     * @return {Object[]} Array of instances of the constructor.
+     */
     _createNodeList : function (node, ctor, clazz, arg)
     {
       if (ctor) {
@@ -103,9 +161,21 @@ qx.Class.define("apiviewer.dao.Node", {
       }
     },
 
+
+    /**
+     * Initialize all internal fields. This method will be called by the constructor before
+     * the child nodes are parsed.
+     */
     _initializeFields : function() {
     },
 
+
+    /**
+     * Try to parse a child node of the JSON base node.
+     *
+     * @param childNode {Map} a child node of the base JSON node.
+     * @return {Boolean} Whether the node was parsed successfully.
+     */
     _addChildNode : function(childNode)
     {
       switch (childNode.type) {
