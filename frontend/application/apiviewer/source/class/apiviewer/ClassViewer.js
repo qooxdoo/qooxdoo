@@ -58,6 +58,42 @@ qx.Class.define("apiviewer.ClassViewer",
 
   /*
   *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events :
+  {
+    /** This event if dispatched if one of the internal links is clicked */
+    "classLinkClicked" : "qx.event.type.DataEvent"
+  },
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    /** whether to display inherited items */
+    showInherited : { _legacy: true, type: "boolean", defaultValue: false },
+
+    /** whether to display protected items */
+    showProtected : { _legacy: true, type: "boolean", defaultValue: false },
+
+    /** whether to display private and internal items */
+    showPrivate : { _legacy: true, type: "boolean", defaultValue: false },
+
+    /** The class to display */
+    classNode : { check : "apiviewer.dao.Class", apply : "showClass", nullable: true}
+  },
+
+
+
+  /*
+  *****************************************************************************
      STATICS
   *****************************************************************************
   */
@@ -148,14 +184,14 @@ qx.Class.define("apiviewer.ClassViewer",
 
 
     /**
-     * Creates the HTML showing an image.
+     * Creates the HTML showing an image. Optionally with overlays
      *
      * @type static
-     * @param imgUrl {var} the URL of the image. May be a string or an array of
+     * @param imgUrl {String|String[]} the URL of the image. May be a string or an array of
      *          strings (for overlay images).
      * @param tooltip {String} the tooltip to show.
      * @param styleAttributes {String} the style attributes to add to the image.
-     * @return {var} TODOC
+     * @return {String} HTML fragment for the image
      */
     createImageHtml : function(imgUrl, tooltip, styleAttributes)
     {
@@ -184,8 +220,8 @@ qx.Class.define("apiviewer.ClassViewer",
      * @param height {Integer} the height of the images.
      * @param imgUrlArr {String[]} the URLs of the images. The last image will be
      *          painted on top.
-     * @param toolTip {String,null} the tooltip of the icon.
-     * @param styleAttributes {String,null} custom CSS style attributes.
+     * @param toolTip {String?null} the tooltip of the icon.
+     * @param styleAttributes {String?null} custom CSS style attributes.
      * @return {String} the HTML with the overlay image.
      */
     createOverlayImageHtml : function(width, height, imgUrlArr, toolTip, styleAttributes)
@@ -226,28 +262,10 @@ qx.Class.define("apiviewer.ClassViewer",
 
 
     /**
-     * Gets the doc node of a class using the doc tree of the default Viewer instance.
+     * Change the target of all external links inside the given element to open in a new browser window.
      *
      * @type member
-     * @param className {String} the name of the class.
-     * @return {Map} the doc node of the class.
-     */
-    getClassDocNode : function(className)
-    {
-      if (className) {
-        return apiviewer.TreeUtil.getClassDocNode(apiviewer.Viewer.instance.getDocTree(), className);
-      } else {
-        return null;
-      }
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param el {Element} TODOC
-     * @return {void}
+     * @param el {Element} Root element
      */
     fixLinks : function(el)
     {
@@ -275,8 +293,26 @@ qx.Class.define("apiviewer.ClassViewer",
   members :
   {
 
-    _showProtected : false,
-    _showInherited : false,
+    _modifyShowInherited : function(value)
+    {
+      this._updateInfoViewers();
+      return true;
+    },
+
+
+    _modifyShowProtected : function(value)
+    {
+      this._updateInfoViewers();
+      return true;
+    },
+
+
+    _modifyShowPrivate : function(value)
+    {
+      this._updateInfoViewers();
+      return true;
+    },
+
 
     /**
      * Initializes the content of the embedding DIV. Will be called by the
@@ -301,13 +337,6 @@ qx.Class.define("apiviewer.ClassViewer",
       // Add description
       html.add(ClassViewer.DIV_START, ClassViewer.DIV_END);
 
-      html.add('<div id="ControlFrame">');
-      html.add('<input type="checkbox" id="showInherited" onclick="document._detailViewer._onInheritedCheckBoxClick()"/><label for="showInherited">Show Inherited</label>');
-      html.add('&#160;');
-      html.add('<input type="checkbox" id="showProtected" onclick="document._detailViewer._onProtectedCheckBoxClick()"/><label for="showProtected">Show Protected</label>');
-      html.add('</div>');
-
-      // BASICS
       // Add constructor info
       var constructorPanel = new apiviewer.MethodPanel(ClassViewer.NODE_TYPE_CONSTRUCTOR, "constructor", "constructor", false, true);
       this._infoPanelHash[ClassViewer.NODE_TYPE_CONSTRUCTOR] = constructorPanel;
@@ -323,7 +352,6 @@ qx.Class.define("apiviewer.ClassViewer",
       this._infoPanelHash[ClassViewer.NODE_TYPE_PROPERTY] = propPanel;
       html.add(propPanel.getPanelHtml());
 
-      // PUBLIC
       // Add methods info
       var memberPanel = new apiviewer.MethodPanel(ClassViewer.NODE_TYPE_METHOD, "methods", "methods", true, true);
       this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD] = memberPanel;
@@ -345,9 +373,7 @@ qx.Class.define("apiviewer.ClassViewer",
       html.add(appearPanel.getPanelHtml());
 
 
-
       // Set the html
-      // doc.body.innerHTML = html;
       this.getElement().innerHTML = html.get();
       apiviewer.ClassViewer.fixLinks(this.getElement());
 
@@ -357,13 +383,13 @@ qx.Class.define("apiviewer.ClassViewer",
       this._classDescElem = divArr[1];
       this._controlFrame = divArr[2];
 
-      this._infoPanelHash[ClassViewer.NODE_TYPE_CONSTRUCTOR].setInfoElement(divArr[3]);
-      this._infoPanelHash[ClassViewer.NODE_TYPE_EVENT].setInfoElement(divArr[4]);
-      this._infoPanelHash[ClassViewer.NODE_TYPE_PROPERTY].setInfoElement(divArr[5]);
-      this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD].setInfoElement(divArr[6]);
-      this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD_STATIC].setInfoElement(divArr[7]);
-      this._infoPanelHash[ClassViewer.NODE_TYPE_CONSTANT].setInfoElement(divArr[8]);
-      this._infoPanelHash[ClassViewer.NODE_TYPE_APPEARANCE].setInfoElement(divArr[9]);
+      this._infoPanelHash[ClassViewer.NODE_TYPE_CONSTRUCTOR].setInfoElement(divArr[2]);
+      this._infoPanelHash[ClassViewer.NODE_TYPE_EVENT].setInfoElement(divArr[3]);
+      this._infoPanelHash[ClassViewer.NODE_TYPE_PROPERTY].setInfoElement(divArr[4]);
+      this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD].setInfoElement(divArr[5]);
+      this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD_STATIC].setInfoElement(divArr[6]);
+      this._infoPanelHash[ClassViewer.NODE_TYPE_CONSTANT].setInfoElement(divArr[7]);
+      this._infoPanelHash[ClassViewer.NODE_TYPE_APPEARANCE].setInfoElement(divArr[8]);
 
       // Get the child elements
       for (var nodeType in this._infoPanelHash)
@@ -371,16 +397,6 @@ qx.Class.define("apiviewer.ClassViewer",
         var panel = this._infoPanelHash[nodeType];
         panel.setInfoTitleElement(panel.getInfoElement().firstChild);
         panel.setInfoBodyElement(panel.getInfoElement().lastChild);
-      }
-
-      // Update the view
-      if (this._currentClassDocNode)
-      {
-        // NOTE: We have to set this._currentClassDocNode to null beore, because
-        //       otherwise showClass thinks, there's nothing to do
-        var classDocNode = this._currentClassDocNode;
-        this._currentClassDocNode = null;
-        this.showClass(classDocNode);
       }
     },
 
@@ -420,7 +436,7 @@ qx.Class.define("apiviewer.ClassViewer",
 
       titleHtml.add(objectName);
       titleHtml.add(' </span>');
-      titleHtml.add(apiviewer.InfoPanel.createDeprecatedTitle(classNode, classNode.getName()));
+      titleHtml.add(apiviewer.InfoPanel.setTitleClass(classNode, classNode.getName()));
       return titleHtml.get();
     },
 
@@ -434,14 +450,6 @@ qx.Class.define("apiviewer.ClassViewer",
      */
     showClass : function(classNode)
     {
-      if (this._currentClassDocNode == classNode)
-      {
-        // Nothing to do
-        return ;
-      }
-
-      this._currentClassDocNode = classNode;
-
       if (!this._titleElem)
       {
         // _initContentDocument was not called yet
@@ -678,42 +686,13 @@ qx.Class.define("apiviewer.ClassViewer",
     {
       for (var nodeType in this._infoPanelHash) {
        var panel = this._infoPanelHash[nodeType];
-        panel.update(this._showProtected, this._showInherited, this._currentClassDocNode);
+        panel.update(
+          this.getShowProtected(),
+          this.getShowInherited(),
+          this.getShowPrivate(),
+          this.getClassNode()
+        );
       }
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param classNode {var} TODOC
-     * @return {void}
-     */
-    showInfo : function(classNode)
-    {
-      if (this._currentClassDocNode == classNode)
-      {
-        // Nothing to do
-        return ;
-      }
-
-      this._currentClassDocNode = classNode;
-
-      if (!this._titleElem)
-      {
-        // _initContentDocument was not called yet
-        // -> Do nothing, the class will be shown in _initContentDocument.
-        return ;
-      }
-
-      var ClassViewer = apiviewer.ClassViewer;
-
-      this._titleElem.innerHTML = "Info View";
-      this._classDescElem.innerHTML = "";
-
-      // Scroll to top
-      this.getElement().scrollTop = 0;
     },
 
 
@@ -726,7 +705,7 @@ qx.Class.define("apiviewer.ClassViewer",
      */
     showItem : function(itemName)
     {
-      var itemNode = this._currentClassDocNode.getItem(itemName);
+      var itemNode = this.getClassNode().getItem(itemName);
 
       if (!itemNode) {
         alert("Item '" + itemName + "' not found");
@@ -785,20 +764,18 @@ qx.Class.define("apiviewer.ClassViewer",
         var showDetails = textDiv._showDetails ? !textDiv._showDetails : true;
         textDiv._showDetails = showDetails;
 
-        var fromClassNode = this._currentClassDocNode;
-
         if (fromClassName) {
-          fromClassNode = apiviewer.dao.Class.getClassByName(fromClassName);
+          this.getClassNode() = apiviewer.dao.Class.getClassByName(fromClassName);
         }
 
-        var node = fromClassNode.getItemByListAndName(panel.getListName(), name);
+        var node = this.getClassNode().getItemByListAndName(panel.getListName(), name);
 
         // Update the close/open image
         var opencloseImgElem = textDiv.parentNode.previousSibling.firstChild;
         opencloseImgElem.src = qx.manager.object.AliasManager.getInstance().resolvePath(showDetails ? 'api/image/close.gif' : 'api/image/open.gif');
 
         // Update content
-        var info = panel.getItemHtml(node, fromClassNode, this._currentClassDocNode, showDetails);
+        var info = panel.getItemHtml(node, this.getClassNode(), showDetails);
         textDiv.innerHTML = info.textHtml;
         apiviewer.ClassViewer.fixLinks(textDiv);
       }
@@ -806,32 +783,6 @@ qx.Class.define("apiviewer.ClassViewer",
       {
         this.error("Toggling item details failed", exc);
       }
-    },
-
-
-    /**
-     * Event handler. Called when the user clicked on the "show inherited ..." checkbox.
-     *
-     * @type member
-     * @return {void}
-     */
-    _onInheritedCheckBoxClick : function()
-    {
-      this._showInherited = document.getElementById("showInherited").checked;
-      this._updateInfoViewers();
-    },
-
-
-    /**
-     * Event handler. Called when the user clicked on the "show protected ..." checkbox.
-     *
-     * @type member
-     * @return {void}
-     */
-    _onProtectedCheckBoxClick : function()
-    {
-      this._showProtected = document.getElementById("showProtected").checked;
-      this._updateInfoViewers();
     },
 
 
@@ -854,7 +805,7 @@ qx.Class.define("apiviewer.ClassViewer",
         var imgElem = panel.getInfoTitleElement().getElementsByTagName("img")[0];
         imgElem.src = qx.manager.object.AliasManager.getInstance().resolvePath(panel.getIsOpen() ? 'api/image/close.gif' : 'api/image/open.gif');
 
-        panel.update(this._showProtected, this._showInherited, this._currentClassDocNode);
+        panel.update(this._showProtected, this._showInherited, this.getClassNode());
       }
       catch(exc)
       {
@@ -894,16 +845,9 @@ qx.Class.define("apiviewer.ClassViewer",
      * @return {void}
      * @see ApiViewer#selectItem
      */
-    _selectItem : function(itemName)
+    _onSelectItem : function(itemName)
     {
-      try
-      {
-        apiviewer.Viewer.instance.selectItem(itemName);
-      }
-      catch(exc)
-      {
-        this.error("Selecting item '" + itemName + "' failed", exc);
-      }
+      this.createDispatchDataEvent("classLinkClicked", itemName);
     },
 
 

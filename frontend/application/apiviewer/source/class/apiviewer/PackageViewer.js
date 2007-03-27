@@ -27,7 +27,7 @@
 ************************************************************************ */
 
 /**
- * Shows the class details.
+ * Shows the package details.
  */
 qx.Class.define("apiviewer.PackageViewer",
 {

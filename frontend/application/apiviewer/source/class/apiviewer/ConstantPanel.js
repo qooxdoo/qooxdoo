@@ -10,11 +10,10 @@ qx.Class.define("apiviewer.ConstantPanel", {
      *
      * @type member
      * @param node {Map} the doc node of the constant.
-     * @param fromClassNode {Map} the doc node of the class the constant was defined.
      * @param currentClassDocNode {Map} the doc node of the currently displayed class
      * @return {Boolean} whether the constant has details.
      */
-    itemHasDetails : function(node, fromClassNode, currentClassDocNode) {
+    itemHasDetails : function(node, currentClassDocNode) {
       return (
         node.getSee().length > 0 ||
         node.getErrors().length > 0 ||
@@ -29,18 +28,17 @@ qx.Class.define("apiviewer.ConstantPanel", {
      *
      * @type member
      * @param node {Map} the doc node of the constant.
-     * @param fromClassNode {Map} the doc node of the class the constant was defined.
      * @param currentClassDocNode {Map} the doc node of the currently displayed class
      * @param showDetails {Boolean} whether to show the details.
      * @return {String} the HTML showing the information about the constant.
      */
-    getItemHtml : function(node, fromClassNode, currentClassDocNode, showDetails)
+    getItemHtml : function(node, currentClassDocNode, showDetails)
     {
       var info = {};
 
       // Add the title
       info.typeHtml = apiviewer.InfoPanel.createTypeHtml(node, "var");
-      info.titleHtml = apiviewer.InfoPanel.createDeprecatedTitle(node, node.getName());
+      info.titleHtml = apiviewer.InfoPanel.setTitleClass(node, node.getName());
 
       // Add the description
       info.textHtml = apiviewer.InfoPanel.createDescriptionHtml(node, showDetails);
@@ -74,7 +72,6 @@ qx.Class.define("apiviewer.ConstantPanel", {
      *
      * @type member
      * @param node {Map} the doc node of the item.
-     * @param fromClassNode {Map} the doc node of the class the item was defined.
      * @return {String} the HTML showing the value of the constant
      */
     __createConstantValueHtml : function(node)

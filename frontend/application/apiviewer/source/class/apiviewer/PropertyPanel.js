@@ -37,12 +37,11 @@ qx.Class.define("apiviewer.PropertyPanel", {
      *
      * @type member
      * @param node {Map} the doc node of the property.
-     * @param fromClassNode {Map} the doc node of the class the property was defined.
      * @param currentClassDocNode {Map} the doc node of the currently displayed class
      * @param showDetails {Boolean} whether to show the details.
      * @return {String} the HTML showing the information about the property.
      */
-    getItemHtml : function(node, fromClassNode, currentClassDocNode, showDetails)
+    getItemHtml : function(node, currentClassDocNode, showDetails)
     {
       var ClassViewer = apiviewer.ClassViewer;
 
@@ -51,7 +50,7 @@ qx.Class.define("apiviewer.PropertyPanel", {
 
       // Add the title
       var typeHtml = apiviewer.InfoPanel.createTypeHtml(node, "var");
-      var titleHtml = apiviewer.InfoPanel.createDeprecatedTitle(node, node.getName());
+      var titleHtml = apiviewer.InfoPanel.setTitleClass(node, node.getName());
 
       // Add the description
       var textHtml = new qx.util.StringBuilder(apiviewer.InfoPanel.createDescriptionHtml(node, showDetails));

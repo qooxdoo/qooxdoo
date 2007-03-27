@@ -189,7 +189,12 @@ qx.Class.define("apiviewer.dao.Class",
     },
 
     /* COMPLEX FUNCTIONS */
-
+    /**
+     * Get the documentation nodes of all classes in the inheritance chain
+     * of a class. The first entry in the list is the class itself.
+     *
+     * @return {apiviewer.dao.Class[]} array of super classes of the given class.
+     */
     getClassHierarchy : function()
     {
       var result = [];
@@ -283,7 +288,6 @@ qx.Class.define("apiviewer.dao.Class",
     getAllInterfaces : function(includeSuperClasses)
     {
       if (includeSuperClasses) {
-        var docTree = apiviewer.Viewer.instance.getDocTree();
         var classNodes = this.getClassHierarchy();
       } else {
         classNodes = [this];

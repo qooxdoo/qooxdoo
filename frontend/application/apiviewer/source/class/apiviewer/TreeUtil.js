@@ -111,100 +111,6 @@ qx.Class.define("apiviewer.TreeUtil",
 
 
     /**
-     * Searches the doc node of a item. Only use this method if you don't know the
-     * type of the item.
-     *
-     * @type static
-     * @param classNode {Map} the class node the item belongs to.
-     * @param itemName {String} the name of the item to search.
-     * @return {Map} the doc node of the item or <code>null</code> if the class has
-     *           no such item.
-     */
-    getItemDocNode : function(classNode, itemName)
-    {
-      var TreeUtil = apiviewer.TreeUtil;
-
-      // Go through the item lists and check whether one contains the wanted item
-      for (var i=0; i<TreeUtil.ITEM_LIST_ARR.length; i++)
-      {
-        var listNode = TreeUtil.getChild(classNode, TreeUtil.ITEM_LIST_ARR[i]);
-
-        if (listNode)
-        {
-          var itemNode = TreeUtil.getChildByAttribute(listNode, "name", itemName);
-
-          if (itemNode) {
-            return itemNode;
-          }
-        }
-      }
-
-      // Nothing found
-      return null;
-    },
-
-
-    /**
-     * Gets the doc node of a class.
-     *
-     * @type static
-     * @param docTree {Map} the documentation tree.
-     * @param className {String} the name of the class.
-     * @return {Map} the doc node of the class.
-     */
-    getClassDocNode : function(docTree, className)
-    {
-      var splits = className.split(".");
-      var currNode = docTree;
-
-      for (var i=0; i<splits.length&&currNode!=null; i++)
-      {
-        if (i < splits.length - 1)
-        {
-          // The current name is a package name
-          var packages = this.getChild(currNode, "packages");
-          currNode = packages ? this.getChildByAttribute(packages, "name", splits[i]) : null;
-        }
-        else
-        {
-          // The current name is a class name
-          var classes = this.getChild(currNode, "classes");
-          currNode = classes ? this.getChildByAttribute(classes, "name", splits[i]) : null;
-        }
-      }
-
-      return currNode;
-    },
-    
-    
-    /**
-     * Get the documentation nodes of all classes in the inheritance chain
-     * of a class. The first entry in the list is the class itself. The result
-     * will be cached in the 'superClasses' filed of the class node.
-     * 
-     * @param docTree {Map} the documentation tree.
-     * @param classNode {Map} The class node
-     * @return {Map[]} array of super classes of the given class.
-     */
-    getInheritanceChain : function(docTree, classNode)
-    {
-      if (classNode.superClasses) {
-        return classNode.superClasses;
-      }
-      var inheritanceChain = [];
-      var currentClassNode = classNode;
-      while (currentClassNode != null)
-      {
-        inheritanceChain.push(currentClassNode);
-        var superClassName = currentClassNode.attributes.superClass;
-        currentClassNode = superClassName ? this.getClassDocNode(docTree, superClassName) : null;
-      }
-      classNode.superClasses = inheritanceChain;
-      return inheritanceChain;
-    },
-
-
-    /**
      * Gets the icon URL of a doc node.
      *
      * @type static
@@ -274,10 +180,10 @@ qx.Class.define("apiviewer.TreeUtil",
         case "constant":
           constName = "ICON_CONSTANT";
           break;
-          
+
         case "appearance":
           constName = "ICON_APPEARANCE";
-          break;          
+          break;
 
         default:
           throw new Error("Unknown node type: " + node.type);
@@ -410,7 +316,7 @@ qx.Class.define("apiviewer.TreeUtil",
 
     /** {string} The icon URL of a constant. */
     ICON_CONSTANT : "api/image/constant18.gif",
-    
+
     /** {string} The icon URL of an appearance. */
     ICON_APPEARANCE : "api/image/constant18.gif"
   },
