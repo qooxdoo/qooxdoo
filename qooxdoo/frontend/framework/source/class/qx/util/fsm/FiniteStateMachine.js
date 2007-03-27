@@ -81,9 +81,9 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     // friendly name of the object.
     this._hashToFriendly = {};
 
-    // Friendly names can be added to groups, for easy manipulation of enabling
-    // and disabling groups of widgets.  Track which friendly names are in which
-    // group.
+    // Friendly names can be added to groups, for easy manipulation of
+    // enabling and disabling groups of widgets.  Track which friendly names
+    // are in which group.
     this._groupToFriendly = {};
 
     // We also need to be able to map back from friendly name to the groups it
@@ -118,7 +118,9 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
       /** When used as a nextState value, means remain in current state */
       CURRENT_STATE   : 1,
 
-      /** When used as a nextState value, means go to most-recently pushed state */
+      /**
+       * When used as a nextState value, means go to most-recently pushed state
+       */
       POP_STATE_STACK : 2,
 
       /** When used as a nextState value, means terminate this state machine */
@@ -127,8 +129,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
 
     /**
-     * Constants for use in the events member of the transitionInfo parameter of
-     * the Transition constructor.
+     * Constants for use in the events member of the transitionInfo parameter
+     * of the Transition constructor.
      */
     EventHandling :
     {
@@ -210,10 +212,10 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
 
     /**
-     * The previous state of the finite state machine, i.e. the state from which
-     * we most recently transitioned.  Note that this could be the same as the
-     * current state if a successful transition brought us back to the same
-     * state.
+     * The previous state of the finite state machine, i.e. the state from
+     * which we most recently transitioned.  Note that this could be the same
+     * as the current state if a successful transition brought us back to the
+     * same state.
      */
     previousState :
     {
@@ -223,9 +225,9 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
 
     /**
-     * The state to which we will be transitioning.  This property is valid only
-     * during a Transition's ontransition function and a State's onexit function.
-     * At all other times, it is null.
+     * The state to which we will be transitioning.  This property is valid
+     * only during a Transition's ontransition function and a State's onexit
+     * function.  At all other times, it is null.
      */
     nextState :
     {
@@ -235,11 +237,11 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
 
     /**
-     * The maximum number of states which may pushed onto the state-stack.  It is
-     * generally a poor idea to have very many states saved on a stack.  Following
-     * program logic becomes very difficult, and the code can be highly
-     * unmaintainable.  The default should be more than adequate.  You've been
-     * warned.
+     * The maximum number of states which may pushed onto the state-stack.  It
+     * is generally a poor idea to have very many states saved on a stack.
+     * Following program logic becomes very difficult, and the code can be
+     * highly unmaintainable.  The default should be more than adequate.
+     * You've been warned.
      */
     maxSavedStates :
     {
@@ -252,8 +254,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     /**
      * Debug flags, composed of the bitmask values in {@link #DebugFlags}.
      *
-     * Set the debug flags from the application by or-ing together bits, akin to
-     * this:
+     * Set the debug flags from the application by or-ing together bits, akin
+     * to this:
      *
      * var FSM = qx.util.fsm.FiniteStateMachine;
      * fsm.setDebugFlags(FSM.DebugFlags.EVENTS |
@@ -264,7 +266,12 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     debugFlags :
     {
       type         : "number",
-      defaultValue : 7, // (qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS | qx.util.fsm.FiniteStateMachine.DebugFlags.TRANSITIONS | qx.util.fsm.FiniteStateMachine.DebugFlags.OBJECT_NOT_FOUND),
+
+      // Default:
+      // (qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS |
+      //  qx.util.fsm.FiniteStateMachine.DebugFlags.TRANSITIONS |
+      //  qx.util.fsm.FiniteStateMachine.DebugFlags.OBJECT_NOT_FOUND)
+      defaultValue : 7,
       _legacy      : true
     }
   },
@@ -296,16 +303,21 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      * Add a state to the finite state machine.
      *
      * @type member
-     * @param state {qx.util.fsm.State} An object of class qx.util.fsm.State representing a state
-     *     which is to be a part of this finite state machine.
+     *
+     * @param state {qx.util.fsm.State}
+     *   An object of class qx.util.fsm.State representing a state which is to
+     *   be a part of this finite state machine.
+     *
      * @return {void}
+     *
      * @throws TODOC
      */
     addState : function(state)
     {
       // Ensure that we got valid state info
       if (!state instanceof qx.util.fsm.State) {
-        throw new Error("Invalid state: not an instance of " + "qx.util.fsm.State");
+        throw new Error("Invalid state: not an instance of " +
+                        "qx.util.fsm.State");
       }
 
       // Retrieve the name of this state
@@ -322,26 +334,34 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
 
     /**
-     * Replace a state in the finite state machine.  This is useful if initially
-     * "dummy" states are created which load the real state table for a series of
-     * operations (and possibly also load the gui associated with the new states
-     * at the same time).  Having portions of the finite state machine and their
-     * associated gui pages loaded at run time can help prevent long delays at
-     * application start-up time.
+     * Replace a state in the finite state machine.  This is useful if
+     * initially "dummy" states are created which load the real state table
+     * for a series of operations (and possibly also load the gui associated
+     * with the new states at the same time).  Having portions of the finite
+     * state machine and their associated gui pages loaded at run time can
+     * help prevent long delays at application start-up time.
      *
      * @type member
-     * @param state {qx.util.fsm.State} An object of class qx.util.fsm.State representing a state
-     *     which is to be a part of this finite state machine.
-     * @param bDispose {Boolean} If <i>true</i>, then dispose the old state object.  If <i>false</i>, the
-     *     old state object is returned for disposing by the caller.
-     * @return {Object} The old state object if it was not disposed; otherwise null.
+     *
+     * @param state {qx.util.fsm.State}
+     *   An object of class qx.util.fsm.State representing a state which is to
+     *   be a part of this finite state machine.
+     *
+     * @param bDispose {Boolean}
+     *   If <i>true</i>, then dispose the old state object.  If <i>false</i>,
+     *   the old state object is returned for disposing by the caller.
+     *
+     * @return {Object}
+     *   The old state object if it was not disposed; otherwise null.
+     *
      * @throws TODOC
      */
     replaceState : function(state, bDispose)
     {
       // Ensure that we got valid state info
       if (!state instanceof qx.util.fsm.State) {
-        throw new Error("Invalid state: not an instance of " + "qx.util.fsm.State");
+        throw new Error("Invalid state: not an instance of " +
+                        "qx.util.fsm.State");
       }
 
       // Retrieve the name of this state
@@ -369,9 +389,16 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      * transitions, to the finite state machine.
      *
      * @type member
-     * @param friendlyName {String} The friendly name to used for access to the object being added.
-     * @param obj {Object} The object to associate with the specified friendly name
-     * @param groupNames {Array} An optional list of group names of which this object is a member.
+     *
+     * @param friendlyName {String}
+     *   The friendly name to used for access to the object being added.
+     *
+     * @param obj {Object}
+     *   The object to associate with the specified friendly name
+     *
+     * @param groupNames {Array}
+     *   An optional list of group names of which this object is a member.
+     *
      * @return {void}
      */
     addObject : function(friendlyName, obj, groupNames)
@@ -387,7 +414,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
       }
 
       // Allow either a single group name or an array of group names.  If the
-      // former, we convert it to the latter to make the subsequent code simpler.
+      // former, we convert it to the latter to make the subsequent code
+      // simpler.
       if (typeof (groupNames) == "string") {
         groupNames = [ groupNames ];
       }
@@ -414,7 +442,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
           this._friendlyToGroups[friendlyName] = [];
         }
 
-        // Append this group name to the list of groups this friendly name is in
+        // Append this group name to the list of groups this friendly name is
+        // in
         this._friendlyToGroups[friendlyName] = this._friendlyToGroups[friendlyName].concat(groupNames);
       }
     },
@@ -424,8 +453,11 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      * Remove an object which had previously been added by {@link #addObject}.
      *
      * @type member
-     * @param friendlyName {String} The friendly name associated with an object, specifying which object is
-     *     to be removed.
+     *
+     * @param friendlyName {String}
+     *   The friendly name associated with an object, specifying which object
+     *   is to be removed.
+     *
      * @return {void}
      */
     removeObject : function(friendlyName)
@@ -454,9 +486,13 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      * Friendly Name.
      *
      * @type member
-     * @param friendlyName {String} The friendly name of the object to be retrieved.
-     * @return {Object} The object which has the specified friendly name, or undefined if no
-     *     object has been associated with that name.
+     *
+     * @param friendlyName {String}
+     *   The friendly name of the object to be retrieved.
+     *
+     * @return {Object}
+     *   The object which has the specified friendly name, or undefined if no
+     *   object has been associated with that name.
      */
     getObject : function(friendlyName) {
       return this._friendlyToObject[friendlyName];
@@ -467,9 +503,13 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      * Get the friendly name of an object.
      *
      * @type member
-     * @param obj {Object} The object for which the friendly name is desired
-     * @return {String} If the object has been previously registered via {@link #addObject}, then
-     *     the friendly name of the object is returned; otherwise, null.
+     *
+     * @param obj {Object}
+     *   The object for which the friendly name is desired
+     *
+     * @return {String}
+     *   If the object has been previously registered via {@link #addObject},
+     *   then the friendly name of the object is returned; otherwise, null.
      */
     getFriendlyName : function(obj)
     {
@@ -479,13 +519,17 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
 
     /**
-     * Retrieve the list of objects which have registered, via {@link addObject} as
-     * being members of the specified group.
+     * Retrieve the list of objects which have registered, via {@link
+     * addObject} as being members of the specified group.
      *
      * @type member
-     * @param groupName {String} The name of the group for which the member list is desired.
-     * @return {Array} An array containing the friendly names of any objects which are members
-     *     of the specified group.  The resultant array may be empty.
+     *
+     * @param groupName {String}
+     *   The name of the group for which the member list is desired.
+     *
+     * @return {Array}
+     *   An array containing the friendly names of any objects which are
+     *   members of the specified group.  The resultant array may be empty.
      */
     getGroupObjects : function(groupName)
     {
@@ -513,16 +557,19 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         var obj = this.getObject(friendlyName);
         this.debug(friendlyName + " => " + hash);
         this.debug("  " + hash + " => " + this._hashToFriendly[hash]);
-        this.debug("  " + friendlyName + " => " + this.getObject(friendlyName));
-        this.debug("  " + this.getObject(friendlyName) + " => " + this.getFriendlyName(obj));
+        this.debug("  " +
+                   friendlyName + " => " + this.getObject(friendlyName));
+        this.debug("  " +
+                   this.getObject(friendlyName) + " => " +
+                   this.getFriendlyName(obj));
       }
     },
 
 
     /**
-     * Start (or restart, after it has terminated) the finite state machine from
-     * the starting state.  The starting state is defined as the first state added
-     * to the finite state machine.
+     * Start (or restart, after it has terminated) the finite state machine
+     * from the starting state.  The starting state is defined as the first
+     * state added to the finite state machine.
      *
      * @type member
      * @return {void}
@@ -532,7 +579,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     {
       var stateName;
 
-      // Set the start state to be the first state which was added to the machine
+      // Set the start state to be the first state which was added to the
+      // machine
       for (stateName in this._states)
       {
         this.setState(stateName);
@@ -545,7 +593,9 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         throw new Error("Machine started with no available states");
       }
 
-      var debugFunctions = (this.getDebugFlags() & qx.util.fsm.FiniteStateMachine.DebugFlags.FUNCTION_DETAIL);
+      var debugFunctions =
+        (this.getDebugFlags() &
+         qx.util.fsm.FiniteStateMachine.DebugFlags.FUNCTION_DETAIL);
 
       // Run the actionsBeforeOnentry actions for the initial state
       if (debugFunctions) {
@@ -572,19 +622,26 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
     /**
      * Save the current or previous state on the saved-state stack.  A future
-     * transition can then provide, as its nextState value, the class constant:
+     * transition can then provide, as its nextState value, the class
+     * constant:
      *
      *   qx.util.fsm.FiniteStateMachine.StateChange.POP_STATE_STACK
      *
      * which will cause the next state to be whatever is at the top of the
-     * saved-state stack, and remove that top element from the saved-state stack.
+     * saved-state stack, and remove that top element from the saved-state
+     * stack.
      *
      * @type member
-     * @param bCurrent {Boolean} When <i>true</i>, then push the current state onto the stack.  This might
-     *     be used in a transition, before the state has changed.  When
-     *     <i>false</i>, then push the previous state onto the stack.  This might be
-     *     used in an on entry function to save the previous state to return to.
+     *
+     * @param bCurrent {Boolean}
+     *   When <i>true</i>, then push the current state onto the stack.  This
+     *   might be used in a transition, before the state has changed.  When
+     *   <i>false</i>, then push the previous state onto the stack.  This
+     *   might be used in an on entry function to save the previous state to
+     *   return to.
+     *
      * @return {void}
+     *
      * @throws TODOC
      */
     pushState : function(bCurrent)
@@ -610,11 +667,14 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
 
     /**
-     * Add the specified event to a list of events to be passed to the next state
-     * following state transition.
+     * Add the specified event to a list of events to be passed to the next
+     * state following state transition.
      *
      * @type member
-     * @param event {qx.event.type.Event} The event to add to the event queue for processing after state change.
+     *
+     * @param event {qx.event.type.Event}
+     *   The event to add to the event queue for processing after state change.
+     *
      * @return {void}
      */
     postponeEvent : function(event)
@@ -648,10 +708,15 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      * Enqueue an event for processing
      *
      * @type member
-     * @param event {qx.event.type.Event} The event to be enqueued
-     * @param bAddAtHead {Boolean} If <i>true</i>, put the event at the head of the queue for immediate
-     *     processing.  If <i>false</i>, place the event at the tail of the queue so
-     *     that it receives in-order processing.
+     *
+     * @param event {qx.event.type.Event}
+     *   The event to be enqueued
+     *
+     * @param bAddAtHead {Boolean}
+     *   If <i>true</i>, put the event at the head of the queue for immediate
+     *   processing.  If <i>false</i>, place the event at the tail of the
+     *   queue so that it receives in-order processing.
+     *
      * @return {void}
      */
     enqueueEvent : function(event, bAddAtHead)
@@ -668,7 +733,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         this._eventQueue.unshift(event);
       }
 
-      if (this.getDebugFlags() & qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS)
+      if (this.getDebugFlags() &
+          qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS)
       {
         if (bAddAtHead) {
           this.debug(this.getName() + ": Pushed event: " + event.getType());
@@ -690,9 +756,9 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     {
       // Events are enqueued upon receipt.  Some events are then processed
       // immediately; other events get processed later.  We need to allow the
-      // event dispatcher to free the source event upon our return, so we'll clone
-      // it and enqueue our clone.  The source event can then be disposed upon our
-      // return.
+      // event dispatcher to free the source event upon our return, so we'll
+      // clone it and enqueue our clone.  The source event can then be
+      // disposed upon our return.
       var e = this.copyEvent(event);
 
       // Enqueue the new event on the tail of the queue
@@ -711,7 +777,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      */
     __processEvents : function()
     {
-      // eventListener() can potentially be called while we're processing events
+      // eventListener() can potentially be called while we're processing
+      // events
       if (this._eventProcessingInProgress)
       {
         // We were processing already, so don't process concurrently.
@@ -745,12 +812,17 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      * Run the finite state machine to process a single event.
      *
      * @type member
-     * @param event {qx.event.type.Event} An event that has been dispatched.  The event may be handled (if the
-     *     current state handles this event type), queued (if the current state
-     *     blocks this event type), or discarded (if the current state neither
-     *     handles nor blocks this event type).
-     * @return {Boolean} Whether the event should be disposed.  If it was blocked, we've pushed it
-     *     back onto the event queue, and it should not be disposed.
+     *
+     * @param event {qx.event.type.Event}
+     *   An event that has been dispatched.  The event may be handled (if the
+     *   current state handles this event type), queued (if the current state
+     *   blocks this event type), or discarded (if the current state neither
+     *   handles nor blocks this event type).
+     *
+     * @return {Boolean}
+     *   Whether the event should be disposed.  If it was blocked, we've
+     *   pushed it back onto the event queue, and it should not be disposed.
+     *
      * @throws TODOC
      */
     __run : function(event)
@@ -779,12 +851,17 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
       var debugFlags = this.getDebugFlags();
 
       // Allow slightly faster access to determine if debug is enableda
-      var debugEvents = debugFlags & qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS;
-      var debugTransitions = debugFlags & qx.util.fsm.FiniteStateMachine.DebugFlags.TRANSITIONS;
-      var debugFunctions = debugFlags & qx.util.fsm.FiniteStateMachine.DebugFlags.FUNCTION_DETAIL;
-      var debugObjectNotFound = debugFlags & qx.util.fsm.FiniteStateMachine.DebugFlags.OBJECT_NOT_FOUND;
+      var debugEvents =
+        debugFlags & qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS;
+      var debugTransitions =
+        debugFlags & qx.util.fsm.FiniteStateMachine.DebugFlags.TRANSITIONS;
+      var debugFunctions =
+        debugFlags & qx.util.fsm.FiniteStateMachine.DebugFlags.FUNCTION_DETAIL;
+      var debugObjectNotFound =
+        debugFlags & qx.util.fsm.FiniteStateMachine.DebugFlags.OBJECT_NOT_FOUND;
 
-      if (debugEvents) {
+      if (debugEvents)
+      {
         this.debug(this.getName() + ": Process event: " + event.getType());
       }
 
@@ -803,8 +880,10 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
       // See if we actually found this event type
       if (!e)
       {
-        if (debugEvents) {
-          this.debug(this.getName() + ": Event '" + event.getType() + "'" + " not handled.  Ignoring.");
+        if (debugEvents)
+        {
+          this.debug(this.getName() + ": Event '" + event.getType() + "'" +
+                     " not handled.  Ignoring.");
         }
 
         return true;
@@ -823,7 +902,9 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         {
           // Nope, it doesn't seem so.  Just discard it.
           if (debugObjectNotFound) {
-            this.debug(this.getName() + ": Could not find friendly name for '" + event.getType() + "' on '" + event.getTarget() + "'");
+            this.debug(this.getName() +
+                       ": Could not find friendly name for '" +
+                       event.getType() + "' on '" + event.getTarget() + "'");
           }
 
           return true;
@@ -858,8 +939,10 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
         case qx.util.fsm.FiniteStateMachine.EventHandling.BLOCKED:
           // This event is blocked.  Enqueue it for later, and get outta here.
-          if (debugEvents) {
-            this.debug(this.getName() + ": Event '" + event.getType() + "'" + " blocked.  Re-queuing.");
+          if (debugEvents)
+          {
+            this.debug(this.getName() + ": Event '" + event.getType() + "'" +
+                       " blocked.  Re-queuing.");
           }
 
           this._blockedEvents.unshift(event);
@@ -872,7 +955,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
             // Yup!  Ensure that it exists
             if (transitions[action])
             {
-              // Yup.  Create a transitions object containing only this transition.
+              // Yup.  Create a transitions object containing only this
+              // transition.
               var trans = transitions[action];
               transitions = {};
               transitions[action] = trans;
@@ -886,8 +970,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
           }
       }
 
-      // We handle the event.  Try each transition in turn until we find one that
-      // is acceptable.
+      // We handle the event.  Try each transition in turn until we find one
+      // that is acceptable.
       for (var t in transitions)
       {
         var trans = transitions[t];
@@ -908,7 +992,9 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
             return true;
 
           default:
-            throw new Error("Transition " + thisState + ":" + t + " returned a value other than true, false, or null.");
+            throw new Error("Transition " + thisState + ":" + t +
+                            " returned a value other than " +
+                            "true, false, or null.");
         }
 
         // We think we can transition to the next state.  Set next state.
@@ -918,7 +1004,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         {
           // We found a literal state name.  Ensure it exists.
           if (!nextState in this._states) {
-            throw new Error("Attempt to transition to nonexistent state " + nextState);
+            throw new Error("Attempt to transition to nonexistent state " +
+                            nextState);
           }
 
           // It exists.  Track it being the next state.
@@ -938,7 +1025,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
             case qx.util.fsm.FiniteStateMachine.StateChange.POP_STATE_STACK:
               // Switch to the state at the top of the state stack.
               if (this._savedStates.length == 0) {
-                throw new Error("Attempt to transition to POP_STATE_STACK " + "while state stack is empty.");
+                throw new Error("Attempt to transition to POP_STATE_STACK " +
+                                "while state stack is empty.");
               }
 
               // Pop the state stack to retrieve the state to transition to
@@ -954,28 +1042,32 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
         // Run the actionsBeforeOntransition actions for this transition
         if (debugFunctions) {
-          this.debug(this.getName() + "#" + thisState + "#" + t + "#autoActionsBeforeOntransition");
+          this.debug(this.getName() + "#" + thisState + "#" + t +
+                     "#autoActionsBeforeOntransition");
         }
 
         trans.getAutoActionsBeforeOntransition()(this);
 
         // Run the 'ontransition' function
         if (debugFunctions) {
-          this.debug(this.getName() + "#" + thisState + "#" + t + "#ontransition");
+          this.debug(this.getName() + "#" + thisState + "#" + t +
+                     "#ontransition");
         }
 
         trans.getOntransition()(this, event);
 
         // Run the autoActionsAfterOntransition actions for this transition
         if (debugFunctions) {
-          this.debug(this.getName() + "#" + thisState + "#" + t + "#autoActionsAfterOntransition");
+          this.debug(this.getName() + "#" + thisState + "#" + t +
+                     "#autoActionsAfterOntransition");
         }
 
         trans.getAutoActionsAfterOntransition()(this);
 
         // Run the autoActionsBeforeOnexit actions for the old state
         if (debugFunctions) {
-          this.debug(this.getName() + "#" + thisState + "#autoActionsBeforeOnexit");
+          this.debug(this.getName() + "#" + thisState +
+                     "#autoActionsBeforeOnexit");
         }
 
         currentState.getAutoActionsBeforeOnexit()(this);
@@ -989,7 +1081,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
         // Run the autoActionsAfterOnexit actions for the old state
         if (debugFunctions) {
-          this.debug(this.getName() + "#" + thisState + "#autoActionsAfterOnexit");
+          this.debug(this.getName() + "#" + thisState +
+                     "#autoActionsAfterOnexit");
         }
 
         currentState.getAutoActionsAfterOnexit()(this);
@@ -1014,7 +1107,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
         // Run the autoActionsBeforeOnentry actions for the new state
         if (debugFunctions) {
-          this.debug(this.getName() + "#" + thisState + "#autoActionsBeforeOnentry");
+          this.debug(this.getName() + "#" + thisState +
+                     "#autoActionsBeforeOnentry");
         }
 
         currentState.getAutoActionsBeforeOnentry()(this);
@@ -1028,7 +1122,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
         // Run the autoActionsAfterOnentry actions for the new state
         if (debugFunctions) {
-          this.debug(this.getName() + "#" + thisState + "#autoActionsAfterOnentry");
+          this.debug(this.getName() + "#" + thisState +
+                     "#autoActionsAfterOnentry");
         }
 
         currentState.getAutoActionsAfterOnentry()(this);
@@ -1046,7 +1141,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         qx.ui.core.Widget.flushGlobalQueues();
 
         if (debugTransitions) {
-          this.debug(this.getName() + "#" + prevState + " => " + this.getName() + "#" + thisState);
+          this.debug(this.getName() + "#" + prevState + " => " +
+                     this.getName() + "#" + thisState);
         }
 
         // See ya!
