@@ -331,11 +331,12 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
      */
     _computeColumnsFlexWidth : function(tableColumnModel, event)
     {
-      // Semi-permanent configuration settings
-      var debug = true;
-
-      if (debug) {
-        this.debug("computeColumnsFlexWidth");
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (qx.core.Setting.get("qx.tableResizeDebug"))
+        {
+          this.debug("computeColumnsFlexWidth");
+        }
       }
 
       var visibleColumns = tableColumnModel._visibleColumnArr;
@@ -390,11 +391,15 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
         }
       }
 
-      if (debug)
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        this.debug("Width: " + widthUsed + "/" + width);
-        this.debug("Flexible Count: " + flexibleColumns.length);
+        if (qx.core.Setting.get("qx.tableResizeDebug"))
+        {
+          this.debug("Width: " + widthUsed + "/" + width);
+          this.debug("Flexible Count: " + flexibleColumns.length);
+        }
       }
+
 
       // *************************************************************
       // 2. Compute the sum of all flexible column widths
@@ -563,9 +568,13 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
         // Now that we've calculated the width, set it.
         tableColumnModel.setColumnWidth(visibleColumns[i], colWidth);
 
-        if (debug) {
-          this.debug("col " + columnData._columnNumber +
-                     ": width=" + colWidth);
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
+          if (qx.core.Setting.get("qx.tableResizeDebug"))
+          {
+            this.debug("col " + columnData._columnNumber +
+                       ": width=" + colWidth);
+          }
         }
       }
     },
