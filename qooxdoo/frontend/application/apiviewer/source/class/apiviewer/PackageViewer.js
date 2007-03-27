@@ -67,11 +67,10 @@ qx.Class.define("apiviewer.PackageViewer",
   members :
   {
     /**
-     * TODOC
+     * Shows information about a package
      *
      * @type member
-     * @param classNode {var} TODOC
-     * @return {void}
+     * @param classNode {apiviewer.dao.Package} package to display
      */
     showInfo : function(classNode)
     {

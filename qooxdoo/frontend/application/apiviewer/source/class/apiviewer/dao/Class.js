@@ -24,14 +24,20 @@
 ************************************************************************ */
 
 
+/**
+ * This Class wraps the access to the documentation data of classes.
+ */
 qx.Class.define("apiviewer.dao.Class",
 {
   extend : apiviewer.dao.Node,
 
+  /**
+   * @param classDocNode {Map} class documentation node
+   */
   construct : function(classDocNode)
   {
     this.base(arguments, classDocNode);
-    this.self(arguments).registerClass(this);
+    this.self(arguments).__registerClass(this);
   },
 
 
@@ -40,7 +46,12 @@ qx.Class.define("apiviewer.dao.Class",
     _class_registry : {},
     _top_level_classes : [],
 
-    registerClass : function(cls)
+    /**
+     * Register a class to to be used by {@link #getClassByName}.
+     *
+     * @param cls {apiviewer.dao.Class} The class to register.
+     */
+    __registerClass : function(cls)
     {
       this._class_registry[cls.getFullName()] = cls;
       if (!cls._docNode.attributes.superClass) {
@@ -48,11 +59,25 @@ qx.Class.define("apiviewer.dao.Class",
       }
     },
 
+
+    /**
+     * Get a class documentation by the class name.
+     *
+     * @param className {String} name of the class
+     * @return {apiviewer.dao.Class} The class documentation
+     */
     getClassByName : function(className)
     {
       return this._class_registry[className];
     },
 
+
+    /**
+     * Get a list of all top level classes. Top level classes are classes
+     * without super class.
+     *
+     * @return {apiviewer.dao.Class[]} List of top level classes.
+     */
     getAllTopLevelClasses : function()
     {
       return this._top_level_classes;
@@ -63,126 +88,279 @@ qx.Class.define("apiviewer.dao.Class",
 
   members :
   {
+
+    /**
+     * Get the name of the class.
+     *
+     * @return {String} name of the class
+     */
     getName : function()
     {
       return this._docNode.attributes.name;
     },
 
+
+    /**
+     * Return the class
+     *
+     * @return {apiviewer.dao.Class} the class.
+     */
     getClass : function()
     {
       return this;
     },
 
+
+    /**
+     * Get the full name of the class, including the package name.
+     *
+     * @return {String} full name of the class
+     */
     getFullName : function()
     {
       return this._docNode.attributes.fullName || "";
     },
 
+
+    /**
+     * Get the package name of the class.
+     *
+     * @return {String} package name of the class
+     */
     getPackageName : function()
     {
       return this._docNode.attributes.packageName || "";
     },
 
+
+    /**
+     * Get class description
+     *
+     * @return {String} class description
+     */
     getDescription : function()
     {
       return this._desc || "";
     },
 
+
+    /**
+     * Get type of the class. Valid types are "class", "interface" and "mixin".
+     *
+     * @return {String} The type of the class. Valid types are "class", "interface" and "mixin".
+     */
     getType : function()
     {
       return this._docNode.attributes.type || "class";
     },
 
+
+    /**
+     * Get whether the class is abstract.
+     *
+     * @return {Boolean} Whether the class is abstract.
+     */
     isAbstract : function()
     {
       return this._docNode.attributes.isAbstract || false;
     },
 
+
+    /**
+     * Get whether the class is a static class.
+     *
+     * @return {Boolean} Whether the class is static.
+     */
     isStatic : function()
     {
       return this._docNode.attributes.isStatic || false;
     },
 
+
+    /**
+     * Get whether the class is a singleton.
+     *
+     * @return {Boolean} Whether the class is a singleton.
+     */
     isSingleton : function()
     {
       return this._docNode.attributes.isSingleton || false;
     },
 
+
+    /**
+     * Get all references declared using the "see" attribute.
+     *
+     * @return {String[]} A list of all references declared using the "see" attribute.
+     */
     getSee : function()
     {
       return this._see;
     },
 
+
+    /**
+     * Get the super class of the class.
+     *
+     * @return {apiviewer.dao.Class} The super class of the class.
+     */
     getSuperClass : function()
     {
       return this.self(arguments).getClassByName(this._docNode.attributes.superClass);
     },
 
+
+    /**
+     * Get the dircet child classes of the class.
+     *
+     * @return {apiviewer.dao.Class[]} A list of direct child classes of the class.
+     */
     getChildClasses : function()
     {
       return this._docNode.attributes.childClasses ? this._docNode.attributes.childClasses.split(",") : [];
     },
 
+
+    /**
+     * Get all interfaces declared at the class declaration.
+     *
+     * @return {apiviewer.dao.Class[]} All interfaces declared at the class declaration.
+     */
     getInterfaces : function()
     {
       return this._docNode.attributes.interfaces ? this._docNode.attributes.interfaces.split(",") : [];
     },
 
+
+    /**
+     * Get all mixins declared at the class declaration.
+     *
+     * @return {apiviewer.dao.Class[]} All mixins declared at the class declaration.
+     */
     getMixins : function()
     {
       return this._docNode.attributes.mixins ? this._docNode.attributes.mixins.split(",") : [];
     },
 
+
+    /**
+     * Get all implementations of this interface.
+     * (Only for interfaces)
+     *
+     * @return {apiviewer.dao.Class[]} All implementations of this interface.
+     */
     getImplementations : function()
     {
       return this._docNode.attributes.implementations ? this._docNode.attributes.implementations.split(",") : [];
     },
 
+
+    /**
+     * Get all classes including this mixin.
+     * (Only for mixins)
+     *
+     * @return {apiviewer.dao.Class[]} All classes including this mixin.
+     */
     getIncluder : function()
     {
       return this._docNode.attributes.includer ? this._docNode.attributes.includer.split(",") : [];
     },
 
+    /**
+     * Get the constructor of the class.
+     *
+     * @return {apiviewer.dao.Method} The constructor of the class.
+     */
     getConstructor : function()
     {
       return this._constructor;
     },
 
+
+    /**
+     * Get the members of the class.
+     *
+     * @return {apiviewer.dao.Method[]} The members of the class.
+     */
     getMembers : function()
     {
       return this._members;
     },
 
+
+    /**
+     * Get the statics of the class.
+     *
+     * @return {apiviewer.dao.Method[]} The statics of the class.
+     */
     getStatics : function()
     {
       return this._statics;
     },
 
+
+    /**
+     * Get the events of the class.
+     *
+     * @return {apiviewer.dao.Event[]} The events of the class.
+     */
     getEvents : function()
     {
       return this._events;
     },
 
+
+    /**
+     * Get the properties of the class.
+     *
+     * @return {apiviewer.dao.Property[]} The properties of the class.
+     */
     getProperties : function()
     {
       return this._properties;
     },
 
+
+    /**
+     * Get the constants of the class.
+     *
+     * @return {apiviewer.dao.Constant[]} The constants of the class.
+     */
     getConstants : function()
     {
       return this._constants;
     },
 
+
+    /**
+     * Get the appearances of the class.
+     *
+     * @return {apiviewer.dao.Appearance[]} The appearances of the class.
+     */
     getAppearances : function()
     {
       return this._appearances;
     },
 
+
+    /**
+     * Get all super interfaces.
+     * (Only for interfaces)
+     *
+     * @return {apiviewer.dao.Class[]} All super interfaces.
+     */
     getSuperInterfaces : function()
     {
       return this._superInterfaces;
     },
 
+
+    /**
+     * Get all super mixins.
+     * (Only for mixins)
+     *
+     * @return {apiviewer.dao.Class[]} All super mixins.
+     */
     getSuperMixins : function()
     {
       return this._superMixins;
@@ -207,6 +385,12 @@ qx.Class.define("apiviewer.dao.Class",
     },
 
 
+    /**
+     * Return a class item matching the given name.
+     *
+     * @param itemName {String} name of the class item
+     * @return {apiviewer.dao.ClassItem} the class item.
+     */
     getItem : function(itemName)
     {
       var itemListNames = [
@@ -232,6 +416,23 @@ qx.Class.define("apiviewer.dao.Class",
     },
 
 
+    /**
+     * Get an array of class items matching the given list name. Known list names are:
+     * <ul>
+     *   <li>events</li>
+     *   <li>constructor</li>
+     *   <li>properties</li>
+     *   <li>methods</li>
+     *   <li>methods-static</li>
+     *   <li>constants</li>
+     *   <li>appearances</li>
+     *   <li>superInterfaces</li>
+     *   <li>superMixins</li>
+     * </li>
+     *
+     * @param listName {String} name of the item list
+     * @return {apiviewer.dao.ClassItem[]} item list
+     */
     getItemList : function(listName)
     {
       var methodMap = {
@@ -253,6 +454,14 @@ qx.Class.define("apiviewer.dao.Class",
     },
 
 
+    /**
+     * Get a class item by the item list name and the item name.
+     * Valid item list names aer documented at {@link #getItemList}.
+     * .
+     * @param listName {String} name of the item list.
+     * @param itemName {String} name of the class item.
+     * @return {apiviewer.dao.ClassItem} the matching class item.
+     */
     getItemByListAndName : function(listName, itemName)
     {
       var list = this.getItemList(listName);
@@ -265,6 +474,11 @@ qx.Class.define("apiviewer.dao.Class",
     },
 
 
+    /**
+     * Get the dafault appearance of the class
+     *
+     * @return {Appearance} the default appearance of the class.
+     */
     getClassAppearance : function()
     {
       for (var i=0; i<this._appearances.length; i++)
@@ -281,7 +495,6 @@ qx.Class.define("apiviewer.dao.Class",
     /**
      * Returns a list of all interfaces the class implements directly.
      *
-     * @param classNode {Map} The class documentation node to get the interfaces of
      * @param includeSuperClasses {Boolean?false} Whether the interfaces of all
      *   super classes should be returned as well.
      */
@@ -316,6 +529,42 @@ qx.Class.define("apiviewer.dao.Class",
 
       }
       return interfaceNodes;
+    },
+
+
+    /**
+     * Return a list of all class items of from all mixins of a class
+     *
+     * @param itemName {String} name if the item list. e.g. "constants", "methods-static", "methods", ...
+     * @return {apiviewer.dao.ClassItem[]} list of all class items of a panel from all mixins of the class
+     */
+    getNodesOfTypeFromMixins : function(itemName)
+    {
+      var mixins = this.getMixins();
+      var classItems = []
+      for (var mixinIndex=0; mixinIndex<mixins.length; mixinIndex++)
+      {
+
+        var self = this;
+        var mixinRecurser = function(mixinNode)
+        {
+          var items = mixinNode.getItemList(itemName);
+          for (var i=0; i<items.length; i++) {
+            classItems.push(items[i]);
+          }
+
+          // recursive decent
+          var superClasses = mixinNode.getSuperMixins();
+          for (var i=0; i<superClasses.length; i++) {
+            mixinRecurser(apiviewer.dao.Class.getClassByName(superClasses[i].getName()));
+          }
+        }
+
+        var mixinNode = apiviewer.dao.Class.getClassByName(mixins[mixinIndex]);
+        mixinRecurser(mixinNode);
+
+      }
+      return classItems;
     },
 
 

@@ -23,11 +23,18 @@
 
 ************************************************************************ */
 
-
+/**
+ * This Class wraps the access to the documentation data of a class item.
+ */
 qx.Class.define("apiviewer.dao.ClassItem",
 {
   extend : apiviewer.dao.Node,
 
+  /**
+   * @param classDocNode {Map} class documentation node
+   * @param parentClass {apiviewer.dao.Class} reference to the class this item belongs to
+   * @param listName {String} name of the list in the JSON structure of the class
+   */
   construct : function(classDocNode, parentClass, listName)
   {
     this._class = parentClass;
@@ -37,26 +44,56 @@ qx.Class.define("apiviewer.dao.ClassItem",
 
   members :
   {
+
+    /**
+     * Get the class, this item belongs to
+     *
+     * @return {apiviewer.dao.Class} the class this item belongs to
+     */
     getClass : function()
     {
       return this._class;
     },
 
+
+    /**
+     * Get the name of the item.
+     *
+     * @return {String} name of the item
+     */
     getName : function()
     {
       return this._docNode.attributes.name;
     },
 
+
+    /**
+     * Get a list of errors of this item.
+     *
+     * @return {Map[]} errors of this item.
+     */
     getErrors : function()
     {
       return this._errors;
     },
 
+
+    /**
+     * Get class description
+     *
+     * @return {String} class description
+     */
     getDescription : function()
     {
       return this._desc || "";
     },
 
+
+    /**
+     * Get the types of the item.
+     *
+     * @return {Map[]} Array of types of the item. A type has the keys 'type' and 'dimensions'.
+     */
     getTypes : function()
     {
       var result = [];
@@ -72,17 +109,35 @@ qx.Class.define("apiviewer.dao.ClassItem",
       return result;
     },
 
+
+    /**
+     * Get all references declared using the "see" attribute.
+     *
+     * @return {String[]} A list of all references declared using the "see" attribute.
+     */
     getSee : function()
     {
       return this._see;
     },
 
+
+    /**
+     * If the item is overwridden from one of the super classes, get the item, which is overwridden.
+     *
+     * @return {ClassItem} the overwridden class item
+     */
     getOverriddenFrom : function()
     {
       return apiviewer.dao.Class.getClassByName(this._docNode.attributes.overriddenFrom);
     },
 
 
+    /**
+     * Get the node, which contains the documentation for this node. Overridden properties
+     * and methods may refer to the overridden item for documentation.
+     *
+     * @return {ClassItem} The node, which contains the documentation for this node.
+     */
     getDocNode : function()
     {
       if (this._itemDocNode) {
@@ -100,7 +155,10 @@ qx.Class.define("apiviewer.dao.ClassItem",
 
 
     /**
-     * Checks whether the node is required by the interface.
+     * Checks whether the node is required by the given interface.
+     *
+     * @param ifaceNode {apiviewer.dao.Class} interface to check for
+     * @return {Boolean} whether the item is required by the interface.
      */
     isRequiredByInterface : function(ifaceNode) {
       var parentNode = apiviewer.TreeUtil.getChild(ifaceNode.getNode(), this._listName);
@@ -112,6 +170,11 @@ qx.Class.define("apiviewer.dao.ClassItem",
     },
 
 
+    /**
+     * Get the interface this item is required by.
+     *
+     * @return {apiviewer.dao.Class} The interface this item is required by.
+     */
     getRequiredBy : function()
     {
       if (this._requiredBy) {
@@ -140,23 +203,23 @@ qx.Class.define("apiviewer.dao.ClassItem",
     },
 
 
-    _addChildNode : function(node)
+    _addChildNode : function(childNode)
     {
-      switch (node.type) {
+      switch (childNode.type) {
         case "errors":
-          this._errors = this._createNodeList(node);
+          this._errors = this._createNodeList(childNode);
           break;
         case "desc":
-          this._desc = node.attributes.text || "";
+          this._desc = childNode.attributes.text || "";
           break;
         case "see":
-          this._see.push(node.attributes.name);
+          this._see.push(childNode.attributes.name);
           break;
         case "types":
-          this._types = this._createNodeList(node);
+          this._types = this._createNodeList(childNode);
           break;
         default:
-          return this.base(arguments, node);
+          return this.base(arguments, childNode);
       }
       return true;
     }

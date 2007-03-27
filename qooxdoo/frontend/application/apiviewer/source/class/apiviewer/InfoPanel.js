@@ -36,7 +36,6 @@ qx.Class.define("apiviewer.InfoPanel", {
    * Creates an info panel. An info panel shows the information about one item
    * type (e.g. for public methods).
    *
-   * @param viewer {ClassViewer} class viewer, which embeds the info panel
    * @param nodeType {Integer} the node type to create the info panel for.
    * @param listName {String} the name of the node list in the class doc node where
    *          the items shown by this info panel are stored.
@@ -63,7 +62,10 @@ qx.Class.define("apiviewer.InfoPanel", {
     /** DOM node of the body of the panel */
     infoBodyElement : { _legacy: true },
 
+    /** The type code of the panel. One of the constants NODE_TYPE_* defined in {@link ClassViewer} */
     nodeType : { _legacy: true, type: "number"},
+
+    /** The name of the list containing the items in the tree data structure */
     listName : { _legacy: true, type: "string"},
 
     /** whether the info panel is open */
@@ -88,9 +90,9 @@ qx.Class.define("apiviewer.InfoPanel", {
      *
      * @type member
      * @param description {String} the description.
-     * @param packageBaseClass {Map,null} the doc node of the class to use for
+     * @param packageBaseClass {apiviewer.dao.Class?null} the doc node of the class to use for
      *          auto-adding packages.
-     * @return {var} TODOC
+     * @return {String} HTML fragment
      */
     resolveLinkAttributes : function(description, packageBaseClass)
     {
@@ -121,12 +123,12 @@ qx.Class.define("apiviewer.InfoPanel", {
      * @type member
      * @param linkText {String} the link text
      *          (e.g. "mypackage.MyClass#myMethod alt text")
-     * @param packageBaseClass {Map,null} the doc node of the class to use when
+     * @param packageBaseClass {apiviewer.dao.Class?null} the doc node of the class to use when
      *          auto-adding the package to a class name having no package specified.
      *          If null, no automatic package addition is done.
-     * @param useIcon {Boolean,true} whether to add an icon to the link.
-     * @param useShortName {Boolean,false} whether to use the short name.
-     * @return {var} TODOC
+     * @param useIcon {Boolean?true} whether to add an icon to the link.
+     * @param useShortName {Boolean?false} whether to use the short name.
+     * @return {String} HTML fragment of the link
      */
     createItemLinkHtml : function(linkText, packageBaseClass, useIcon, useShortName)
     {
@@ -239,7 +241,7 @@ qx.Class.define("apiviewer.InfoPanel", {
      * Creates the HTML showing the &#64;see attributes of an item.
      *
      * @type member
-     * @param node {Map} the doc node of the item.
+     * @param node {apiviewer.dao.ClassItem} the doc node of the item.
      * @return {String} the HTML showing the &#64;see attributes.
      */
     createSeeAlsoHtml : function(node)
@@ -276,6 +278,13 @@ qx.Class.define("apiviewer.InfoPanel", {
     },
 
 
+    /**
+     * Creates the HTML showing information about inheritance
+     *
+     * @param node {apiviewer.dao.ClassItem} item to get the information from
+     * @param currentClassDocNode {apiviewer.dao.Class} the current class shown in the class viewer
+     * @return {String} HTML fragment
+     */
     createInheritedFromHtml : function(node, currentClassDocNode)
     {
      var ClassViewer = apiviewer.ClassViewer;
@@ -299,6 +308,12 @@ qx.Class.define("apiviewer.InfoPanel", {
     },
 
 
+    /**
+     * Creates the HTML showing whether the item is overwridden
+     *
+     * @param node {apiviewer.dao.ClassItem} item to get the the information from
+     * @return {String} HTML fragment
+     */
     createOverwriddenFromHtml : function(node)
     {
       var ClassViewer = apiviewer.ClassViewer;
@@ -319,6 +334,13 @@ qx.Class.define("apiviewer.InfoPanel", {
     },
 
 
+    /**
+     * Creates the HTML showing whether the item is included from a mixin
+     *
+     * @param node {apiviewer.dao.ClassItem} item to get the the information from
+     * @param currentClassDocNode {apiviewer.dao.Class} the current class shown in the class viewer
+     * @return {String} HTML fragment
+     */
     createIncludedFromHtml : function(node, currentClassDocNode)
     {
       var ClassViewer = apiviewer.ClassViewer;
@@ -344,7 +366,7 @@ qx.Class.define("apiviewer.InfoPanel", {
      * Creates the HTML showing the description of an item.
      *
      * @type member
-     * @param node {Map} the doc node of the item.
+     * @param node {apiviewer.dao.Node} the doc node of the item.
      * @param showDetails {Boolean} whether to show details. If <code>false</code>
      *          only the first sentence of the description will be shown.
      * @return {String} the HTML showing the description.
@@ -401,7 +423,7 @@ qx.Class.define("apiviewer.InfoPanel", {
      * sentence).
      *
      * @type member
-     * @param node {Map} the doc node of the item.
+     * @param node {apiviewer.dao.Node} the doc node of the item.
      * @return {Boolean} whether the description of an item has details.
      */
     descriptionHasDetails : function(node)
@@ -421,9 +443,7 @@ qx.Class.define("apiviewer.InfoPanel", {
      * Creates the HTML showing the type of a doc node.
      *
      * @type member
-     * @param typeNode {Map} the doc node to show the type for.
-     * @param packageBaseClass {Map} the doc node of the class <code>typeNode</code>
-     *          belongs to.
+     * @param typeNode {apiviewer.dao.ClassItem} the doc node to show the type for.
      * @param defaultType {String} the type name to use if <code>typeNode</code> is
      *          <code>null</code> or defines no type.
      * @param useShortName {Boolean,true} whether to use short class names
@@ -502,7 +522,7 @@ qx.Class.define("apiviewer.InfoPanel", {
      * Creates the HTML showing the documentation errors of an item.
      *
      * @type member
-     * @param node {Map} the doc node of the item.
+     * @param node {apiviewer.dao.Node} the doc node of the item.
      * @param currentClassDocNode {Map} the doc node of the currently displayed class
      * @return {String} the HTML showing the documentation errors.
      */
@@ -541,58 +561,13 @@ qx.Class.define("apiviewer.InfoPanel", {
 
 
     /**
-     * Creates the HTML showing interfaces requiring this node
+     * Creates the HTML showing whether the item is deprecated
      *
      * @type member
-     * @param node {Map} the doc node of the item.
-     * @return {String} the HTML.
+     * @param node {apiviewer.dao.ClassItem} the doc node of the item.
+     * @param itemName {String} type of the item, e.g. "method", "property", "constant", ...
+     * @return {String} the HTML fragment.
      */
-    createInfoRequiredByHtml : function(node)
-    {
-      var ClassViewer = apiviewer.ClassViewer;
-      var html = new qx.util.StringBuilder();
-      var requiredBy = node.getRequiredBy();
-      if (requiredBy.length > 0) {
-        html.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "Required by:", ClassViewer.DIV_END);
-        for (var i=0; i<requiredBy.length; i++) {
-          html.add(
-            ClassViewer.DIV_START_DETAIL_TEXT,
-            apiviewer.InfoPanel.createItemLinkHtml(requiredBy[i].getFullName()+"#"+node.getName()),
-            ClassViewer.DIV_END
-          );
-        }
-      }
-      return html.get();
-    },
-
-
-    setTitleClass : function(node, title)
-    {
-      var html = ["<span class='","","'>", title, "</span>"];
-      html[1] = this.getItemCssClasses(node);
-      return html.join("");
-    },
-
-
-    getItemCssClasses : function(node)
-    {
-      var cssClasses = [];
-      if (node.isDeprecated()) {
-        cssClasses.push("item-deprecated");
-      }
-      if (node.isPrivate()) {
-        cssClasses.push("item-private");
-      }
-      if (node.isInternal()) {
-        cssClasses.push("item-internal");
-      }
-      if (node.isProtected()) {
-        cssClasses.push("item-protected");
-      }
-      return cssClasses.join(" ");
-    },
-
-
     createDeprecationHtml : function(node, itemName)
     {
       if (!node.isDeprecated()) {
@@ -615,6 +590,13 @@ qx.Class.define("apiviewer.InfoPanel", {
     },
 
 
+    /**
+     * Creates the HTML showing the access protection for a class item.
+     *
+     * @type member
+     * @param node {apiviewer.dao.ClassItem} the doc node of the item.
+     * @return {String} the HTML fragment.
+     */
     createAccessHtml : function(node)
     {
       if (node.isPublic()) {
@@ -638,6 +620,73 @@ qx.Class.define("apiviewer.InfoPanel", {
       html.add(access.join(" "));
       html.add(ClassViewer.DIV_END);
       return html.get();
+    },
+
+
+    /**
+     * Creates the HTML showing interfaces requiring this node
+     *
+     * @type member
+     * @param node {apiviewer.dao.ClassItem} the doc node of the item.
+     * @return {String} the HTML.
+     */
+    createInfoRequiredByHtml : function(node)
+    {
+      var ClassViewer = apiviewer.ClassViewer;
+      var html = new qx.util.StringBuilder();
+      var requiredBy = node.getRequiredBy();
+      if (requiredBy.length > 0) {
+        html.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "Required by:", ClassViewer.DIV_END);
+        for (var i=0; i<requiredBy.length; i++) {
+          html.add(
+            ClassViewer.DIV_START_DETAIL_TEXT,
+            apiviewer.InfoPanel.createItemLinkHtml(requiredBy[i].getFullName()+"#"+node.getName()),
+            ClassViewer.DIV_END
+          );
+        }
+      }
+      return html.get();
+    },
+
+
+    /**
+     * Wraps a HTML fragment with a "span" element with CSS classes for
+     * the item.
+     *
+     * @param node {apiviewer.dao.Class} class doc node
+     * @param title {String} original title
+     * @return {String} HMTL fragment
+     */
+    setTitleClass : function(node, title)
+    {
+      var html = ["<span class='","","'>", title, "</span>"];
+      html[1] = this.getItemCssClasses(node);
+      return html.join("");
+    },
+
+
+    /**
+     * Gets CSS classes for a class item
+     *
+     * @param node {apiviewer.dao.Class} class doc node
+     * @return {String} CSS classes separated by " "
+     */
+    getItemCssClasses : function(node)
+    {
+      var cssClasses = [];
+      if (node.isDeprecated()) {
+        cssClasses.push("item-deprecated");
+      }
+      if (node.isPrivate()) {
+        cssClasses.push("item-private");
+      }
+      if (node.isInternal()) {
+        cssClasses.push("item-internal");
+      }
+      if (node.isProtected()) {
+        cssClasses.push("item-protected");
+      }
+      return cssClasses.join(" ");
     }
 
   },
@@ -647,14 +696,13 @@ qx.Class.define("apiviewer.InfoPanel", {
   {
 
     /**
-     * Creates the HTML showing the information about a method.
-     *
+     * Creates the HTML showing the information about a class item.
      * This method is abstract. Sub classes must overwrite it.
      *
      * @type member
      * @abstract
-     * @param node {Map} the doc node of the method.
-     * @param currentClassDocNode {Map} the doc node of the currently displayed class
+     * @param node {apiviewer.dao.ClassItem} the doc node of the item.
+     * @param currentClassDocNode {apiviewer.dao.Class} the doc node of the currently displayed class
      * @param showDetails {Boolean} whether to show the details.
      * @return {String} the HTML showing the information about the method.
      */
@@ -662,15 +710,14 @@ qx.Class.define("apiviewer.InfoPanel", {
 
 
     /**
-     * Checks whether a method has details.
-     *
+     * Checks whether a class item has details.
      * This method is abstract. Sub classes must overwrite it.
      *
      * @type member
      * @abstract
-     * @param node {Map} the doc node of the method.
-     * @param currentClassDocNode {Map} the doc node of the currently displayed class
-     * @return {Boolean} whether the method has details.
+     * @param node {apiviewer.dao.ClassItem} the doc node of the item.
+     * @param currentClassDocNode {apiviewer.dao.Class} the doc node of the currently displayed class
+     * @return {Boolean} whether the class item has details.
      * @signature function(node, currentClassDocNode)
      */
     itemHasDetails : qx.lang.Function.returnTrue,
@@ -701,46 +748,11 @@ qx.Class.define("apiviewer.InfoPanel", {
 
 
     /**
-     * Return a list of all nodes of panel from all mixins of a class
-     *
-     * @return {Map[]} list of all nodes of a panel from all mixins of the class
-     */
-    __addNodesOfTypeFromMixins : function(classNode, nodeArr, fromClassHash)
-    {
-      var mixins = classNode.getMixins();
-      for (var mixinIndex=0; mixinIndex<mixins.length; mixinIndex++)
-      {
-
-        var self = this;
-        var mixinRecurser = function(mixinNode)
-        {
-          var items = mixinNode.getItemList(self.getListName());
-          for (var i=0; i<items.length; i++)
-          {
-            var name = items[i].getName();
-            if (fromClassHash[name] == null)
-            {
-              fromClassHash[name] = mixinNode;
-              nodeArr.push(items[i]);
-            }
-          }
-
-          // recursive decent
-          var superClasses = mixinNode.getSuperMixins();
-          for (var i=0; i<superClasses.length; i++) {
-            mixinRecurser(apiviewer.dao.Class.getClassByName(superClasses[i].getName()));
-          }
-        }
-
-        var mixinNode = apiviewer.dao.Class.getClassByName(mixins[mixinIndex]);
-        mixinRecurser(mixinNode);
-
-      }
-    },
-
-
-    /**
      * Retuns a list of all items to display in the panel
+     *
+     * @param showInherited {Boolean} whether to show inherited items
+     * @param currentClassDocNode {apiviewer.dao.Class} the currently displayed class
+     * @return {apiviewer.dao.ClassItem[]} list of all items to display in the panel
      */
     _getPanelItems : function(showInherited, currentClassDocNode)
     {
@@ -773,24 +785,37 @@ qx.Class.define("apiviewer.InfoPanel", {
       {
         var currClassNode = classNodes[classIndex];
         var currNodeArr = currClassNode.getItemList(this.getListName());
+        if (
+          nodeType == apiviewer.ClassViewer.NODE_TYPE_EVENT ||
+          nodeType == apiviewer.ClassViewer.NODE_TYPE_PROPERTY ||
+          nodeType == apiviewer.ClassViewer.NODE_TYPE_METHOD
+        ) {
+          qx.lang.Array.append(currNodeArr, currClassNode.getNodesOfTypeFromMixins(this.getListName()));
+        }
         // Add the nodes from this class
         for (var i=0; i<currNodeArr.length; i++)
         {
           var name = currNodeArr[i].getName();
-
-          if (fromClassHash[name] == null)
+          if (!fromClassHash[name])
           {
             fromClassHash[name] = currClassNode;
             nodeArr.push(currNodeArr[i]);
           }
         }
-        this.__addNodesOfTypeFromMixins(currClassNode, nodeArr, fromClassHash);
       }
 
       return nodeArr;
     },
 
 
+    /**
+     * Filter the item list to display only the desired items.
+     *
+     * @param nodeArr {apiviewer.dao.ClassItem[]} array of class items
+     * @param showProtected {Boolean} whether to show protected items
+     * @param showPrivate {Boolean} whether to show private items
+     * @return {apiviewer.dao.ClassItem[]} filtered list of items
+     */
     __filterItems : function(nodeArr, showProtected, showPrivate)
     {
       if (showProtected && showPrivate) {
@@ -820,6 +845,8 @@ qx.Class.define("apiviewer.InfoPanel", {
 
     /**
      * Sorts the nodes in place.
+     *
+     * @param nodeArr {apiviewer.dao.ClassItem[]} array of class items
      */
     _sortItems : function(nodeArr)
     {
@@ -846,12 +873,13 @@ qx.Class.define("apiviewer.InfoPanel", {
     /**
      * Updates an info panel.
      *
-     * @type member
-     * @return {void}
+     * @param showProtected {Boolean} whether to show protected items
+     * @param showInherited {Boolean} whether to show inherited items
+     * @param showPrivate {Boolean} whether to show private items
+     * @param currentClassDocNode {apiviewer.dao.Class} the currently displayed class
      */
     update : function(showProtected, showInherited, showPrivate, currentClassDocNode)
     {
-
       var nodeArr = this._getPanelItems(showInherited, currentClassDocNode);
 
       var ClassViewer = apiviewer.ClassViewer;

@@ -39,7 +39,7 @@ qx.Class.define("apiviewer.dao.Method",
     getName : function()
     {
       if (this.isConstructor()) {
-        return "constructor"
+        return "construct"
       } else {
         return this._docNode.attributes.name;
       }

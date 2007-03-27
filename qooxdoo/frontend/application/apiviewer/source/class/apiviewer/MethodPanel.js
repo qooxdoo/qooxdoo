@@ -32,6 +32,13 @@ qx.Class.define("apiviewer.MethodPanel", {
 
   members : {
 
+
+    /**
+     * Get the title HTML for a method
+     *
+     * @param method {apiviewer.dao.Method} The method doc node.
+     * @return {String} The HTML fragment of the title.
+     */
     getTitleHtml : function(method)
     {
       if (method.isConstructor()) {
@@ -68,6 +75,12 @@ qx.Class.define("apiviewer.MethodPanel", {
     },
 
 
+    /**
+     * Get the type HTML for a method
+     *
+     * @param method {apiviewer.dao.Method} The method doc node.
+     * @return {String} The HTML fragment of the type.
+     */
     getTypeHtml : function(method)
     {
       var typeHtml = new qx.util.StringBuilder();
@@ -87,8 +100,8 @@ qx.Class.define("apiviewer.MethodPanel", {
      * Creates the HTML showing the information about a method.
      *
      * @type member
-     * @param node {Map} the doc node of the method.
-     * @param currentClassDocNode {Map} the doc node of the currently displayed class
+     * @param method {apiviewer.dao.Method} the doc node of the method.
+     * @param currentClassDocNode {apiviewer.dao.Class} the doc node of the currently displayed class
      * @param showDetails {Boolean} whether to show the details.
      * @return {String} the HTML showing the information about the method.
      */

@@ -319,7 +319,6 @@ qx.Class.define("apiviewer.ClassViewer",
      * HtmlEmbed element initialization routine.
      *
      * @type member
-     * @return {void}
      */
     _syncHtml : function()
     {
@@ -381,7 +380,6 @@ qx.Class.define("apiviewer.ClassViewer",
       var divArr = this.getElement().childNodes;
       this._titleElem = divArr[0];
       this._classDescElem = divArr[1];
-      this._controlFrame = divArr[2];
 
       this._infoPanelHash[ClassViewer.NODE_TYPE_CONSTRUCTOR].setInfoElement(divArr[2]);
       this._infoPanelHash[ClassViewer.NODE_TYPE_EVENT].setInfoElement(divArr[3]);
@@ -401,6 +399,13 @@ qx.Class.define("apiviewer.ClassViewer",
     },
 
 
+    /**
+     * Returns the HTML fragment for the title
+     *
+     * @type member
+     * @param classNode {apiviewer.dao.Class} the class documentation node for the title
+     * @return {String} HTML fragment of the title
+     */
     __getTitleHtml : function(classNode)
     {
       var ClassViewer = apiviewer.ClassViewer;
@@ -445,8 +450,7 @@ qx.Class.define("apiviewer.ClassViewer",
      * Shows the information about a class.
      *
      * @type member
-     * @param classNode {Map} the doc node of the class to show.
-     * @return {void}
+     * @param classNode {apiviewer.dao.Class} the doc node of the class to show.
      */
     showClass : function(classNode)
     {
@@ -529,6 +533,14 @@ qx.Class.define("apiviewer.ClassViewer",
     },
 
 
+    /**
+     * Create a HTML fragment containing information of dependent classes
+     * like implemented interfaces, included mixins, direct sub classes, ...
+     *
+     * @param dependentClasses {apiviewer.dao.Class[]} array of dependent classes
+     * @param title {String} headline
+     * @return {String} HTML Fragement
+     */
     __getDependentClassesHtml : function(dependentClasses, title)
     {
       var ClassViewer = apiviewer.ClassViewer;
@@ -558,7 +570,7 @@ qx.Class.define("apiviewer.ClassViewer",
     /**
      * Generate HTML fragment to display the inheritance hierarchy of a class.
      *
-     * @param classNode {map} class node
+     * @param classNode {apiviewer.dao.Class} class node
      * @return {String} HTML fragemnt
      */
     __getClassHierarchyHtml: function(classNode)
@@ -596,7 +608,7 @@ qx.Class.define("apiviewer.ClassViewer",
     /**
      * Generate HTML fragment to display the inheritance tree of an interface or mixin.
      *
-     * @param classNode {map} class node
+     * @param classNode {apiviewer.dao.Class} class node
      * @return {String} HTML fragemnt
      */
     __getHierarchyTreeHtml: function(classNode)
@@ -677,10 +689,9 @@ qx.Class.define("apiviewer.ClassViewer",
 
 
     /**
-     * TODOC
+     * Updates all info panels
      *
      * @type member
-     * @return {void}
      */
     _updateInfoViewers : function()
     {
@@ -701,7 +712,6 @@ qx.Class.define("apiviewer.ClassViewer",
      *
      * @type member
      * @param itemName {String} the name of the item to highlight.
-     * @return {void}
      */
     showItem : function(itemName)
     {
@@ -747,8 +757,6 @@ qx.Class.define("apiviewer.ClassViewer",
      * @param name {String} the name of the item.
      * @param fromClassName {String} the name of the class the item the item was
      *          defined in.
-     * @return {void}
-     * @throws TODOC
      */
     _onShowItemDetailClicked : function(nodeType, name, fromClassName)
     {
@@ -765,10 +773,12 @@ qx.Class.define("apiviewer.ClassViewer",
         textDiv._showDetails = showDetails;
 
         if (fromClassName) {
-          this.getClassNode() = apiviewer.dao.Class.getClassByName(fromClassName);
+          var fromClassNode = apiviewer.dao.Class.getClassByName(fromClassName);
+        } else {
+          fromClassNode = this.getClassNode();
         }
 
-        var node = this.getClassNode().getItemByListAndName(panel.getListName(), name);
+        var node = fromClassNode.getItemByListAndName(panel.getListName(), name);
 
         // Update the close/open image
         var opencloseImgElem = textDiv.parentNode.previousSibling.firstChild;
@@ -793,7 +803,6 @@ qx.Class.define("apiviewer.ClassViewer",
      * @type member
      * @param nodeType {Integer} the node type of which the show/hide-body-button was
      *          clicked.
-     * @return {void}
      */
     _onShowInfoPanelBodyClicked : function(nodeType)
     {
@@ -805,7 +814,12 @@ qx.Class.define("apiviewer.ClassViewer",
         var imgElem = panel.getInfoTitleElement().getElementsByTagName("img")[0];
         imgElem.src = qx.manager.object.AliasManager.getInstance().resolvePath(panel.getIsOpen() ? 'api/image/close.gif' : 'api/image/open.gif');
 
-        panel.update(this._showProtected, this._showInherited, this.getClassNode());
+        panel.update(
+          this.getShowProtected(),
+          this.getShowInherited(),
+          this.getShowPrivate(),
+          this.getClassNode()
+        );
       }
       catch(exc)
       {
@@ -838,12 +852,13 @@ qx.Class.define("apiviewer.ClassViewer",
 
 
     /**
-     * Selects an item.
+     * Callback for internal links to other classes/items.
+     * This code is called directly from the generated HTML of the
+     * class viewer.
      *
      * @type member
      * @param itemName {String} the name of the item.
-     * @return {void}
-     * @see ApiViewer#selectItem
+     * @see Controller#selectItem
      */
     _onSelectItem : function(itemName)
     {
@@ -855,7 +870,7 @@ qx.Class.define("apiviewer.ClassViewer",
      * Gets the node panel for a doc node.
      *
      * @type member
-     * @param itemNode {Map} the doc node of the item.
+     * @param itemNode {apiviewer.dao.Class} the doc node of the item.
      * @return {InfoPanel} the item's info panel instance
      */
     _getPanelForItemNode : function(itemNode)
