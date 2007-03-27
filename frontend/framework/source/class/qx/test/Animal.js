@@ -40,10 +40,19 @@ qx.Class.define("qx.test.Animal",
         return false;
       },
 
+      init : 10,
+
       event : "upps",
       apply : "_applyComplex",
       nullable : true
-    }
+    },
+
+
+    test1 : { _legacy : true },
+    test2 : { nullable : true },
+
+    test3 : { _legacy : true, type : "number" },
+    test4 : { check : "Number", nullable : true }
   },
 
   members :
@@ -62,7 +71,7 @@ qx.Class.define("qx.test.Animal",
 
 
     _applyComplex : function(value, old) {
-      this.debug("Apply executed: " + value);
+      //this.debug("Apply executed: " + value);
     }
   }
 });
