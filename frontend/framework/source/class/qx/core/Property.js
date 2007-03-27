@@ -48,6 +48,14 @@ qx.Class.define("qx.core.Property",
     },
 
 
+    DISPOSE :
+    {
+      "Object"  : true,
+      "Array"   : true,
+      "Map"     : true
+    },
+
+
     $$method :
     {
       get     : {},
@@ -158,6 +166,11 @@ qx.Class.define("qx.core.Property",
             {
               prefix = "";
               postfix = qx.lang.String.toFirstUp(name);
+            }
+
+            // Fill dispose value
+            if (config.dispose === undefined && this.DISPOSE[config.check]) {
+              config.dispose = true;
             }
 
             // Attach methods
