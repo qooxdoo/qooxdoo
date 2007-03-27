@@ -26,7 +26,7 @@
 /**
  * Shows the info pane.
  */
-qx.Class.define("apiviewer.InfoView",
+qx.Class.define("apiviewer.ui.InfoView",
 {
   extend : qx.ui.embed.HtmlEmbed,
 

@@ -29,7 +29,7 @@
 /**
  * Your custom application
  */
-qx.Class.define("apiviewer.PackageTree",
+qx.Class.define("apiviewer.ui.PackageTree",
 {
   extend : qx.ui.tree.Tree,
 

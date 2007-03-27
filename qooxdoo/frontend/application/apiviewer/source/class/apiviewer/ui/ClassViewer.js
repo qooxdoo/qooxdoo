@@ -29,7 +29,7 @@
 /**
  * Shows the class details.
  */
-qx.Class.define("apiviewer.ClassViewer",
+qx.Class.define("apiviewer.ui.ClassViewer",
 {
   extend : qx.ui.embed.HtmlEmbed,
 
