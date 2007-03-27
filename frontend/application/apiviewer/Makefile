@@ -67,7 +67,7 @@ source:
 	  --generate-api-documentation \
 	  --api-documentation-json-file $(APPLICATION_SOURCE_PATH)/script/apidata.js \
 	  --class-path $(FRAMEWORK_SOURCE_PATH)/class \
-	  --include-without-dependencies qx.test.* --disable-internal-check
+	  --include-without-dependencies qx.* --disable-internal-check
 
 build:
 	@$(CMD_GENERATOR) \
