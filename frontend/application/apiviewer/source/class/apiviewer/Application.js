@@ -30,7 +30,7 @@
 ************************************************************************ */
 
 /**
- * Your custom application
+ * The main application class.
  */
 qx.Class.define("apiviewer.Application",
 {
@@ -38,14 +38,8 @@ qx.Class.define("apiviewer.Application",
 
   members :
   {
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-    initialize : function(e)
+
+    initialize : function()
     {
       // Define alias for custom resource path
       qx.manager.object.AliasManager.getInstance().add("api", qx.core.Setting.get("apiviewer.resourceUri"));
@@ -59,14 +53,7 @@ qx.Class.define("apiviewer.Application",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-    main : function(e)
+    main : function()
     {
       // Initialize the viewer
       this.viewer = new apiviewer.Viewer;
@@ -75,14 +62,7 @@ qx.Class.define("apiviewer.Application",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-    finalize : function(e)
+    finalize : function()
     {
       // Finally load the data
       this.controller.load("script/apidata.js");

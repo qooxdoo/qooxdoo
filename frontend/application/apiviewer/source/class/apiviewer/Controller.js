@@ -28,6 +28,7 @@
 
 /**
  * Implements the dynamic behaviour of the API viewer.
+ * The GUI is defined in {@link Viewer}.
  */
 qx.Class.define("apiviewer.Controller",
 {
@@ -43,7 +44,7 @@ qx.Class.define("apiviewer.Controller",
   */
 
   /**
-   * @param classViewer {ClassViewer}
+   * @param widgetRegistry {Viewer} the GUI
    */
   construct : function(widgetRegistry)
   {
@@ -65,7 +66,6 @@ qx.Class.define("apiviewer.Controller",
 
     this._history = qx.client.History.getInstance();
     this.__bindHistory();
-
   },
 
 
@@ -78,7 +78,6 @@ qx.Class.define("apiviewer.Controller",
      *
      * @type member
      * @param url {String} the URL.
-     * @return {void}
      */
     load : function(url)
     {
@@ -126,6 +125,9 @@ qx.Class.define("apiviewer.Controller",
     },
 
 
+    /**
+     * binds the events of the class viewer
+     */
     __bindClassViewer : function()
     {
       this._classViewer.addEventListener("classLinkClicked", function(e) {
@@ -141,6 +143,9 @@ qx.Class.define("apiviewer.Controller",
     },
 
 
+    /**
+     * binds the selection event of the package tree.
+     */
     __bindTree : function()
     {
       this._tree.getManager().addEventListener("changeSelection", function(evt) {
@@ -148,13 +153,16 @@ qx.Class.define("apiviewer.Controller",
         if (treeNode && treeNode.docNode)
         {
           this.__updateHistory(treeNode.docNode.getFullName());
-          this.__selectTreeNode(treeNode);
+          this.__selectClass(treeNode.docNode);
         }
       }, this);
 
     },
 
 
+    /**
+     * binds the actions of the toolbar buttons.
+     */
     __bindToolbar : function()
     {
       var btn_inherited = this._widgetRegistry.getWidgetById("btn_inherited");
@@ -174,6 +182,9 @@ qx.Class.define("apiviewer.Controller",
     },
 
 
+    /**
+     * bind history events
+     */
     __bindHistory : function()
     {
       this._history.addEventListener("request", function(evt) {
@@ -183,13 +194,9 @@ qx.Class.define("apiviewer.Controller",
 
 
     /**
-     * TODOC
+     * Loads the documentation tree.
      *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
+     * @param docTree {apiviewer.dao.Package} root node of the documentation tree
      */
     __setDocTree : function(docTree)
     {
@@ -207,6 +214,11 @@ qx.Class.define("apiviewer.Controller",
     },
 
 
+    /**
+     * Push the class to the browser history
+     *
+     * @param className {String} name of the class
+     */
     __updateHistory : function(className)
     {
       var newTitle = this._titlePrefix + " - class " + className;
@@ -215,32 +227,25 @@ qx.Class.define("apiviewer.Controller",
 
 
     /**
-     * TODOC
+     * Display information about a class
      *
      * @type member
-     * @param vTreeNode {qx.ui.tree.AbstractTreeElement} TODOC
-     * @return {void}
+     * @param classNode {apiviewer.dao.Class} class node to display
      */
-    __selectTreeNode : function(vTreeNode)
+    __selectClass : function(classNode)
     {
-      if (!(vTreeNode && vTreeNode.docNode)) {
-        this.error("Invalid tree node: " + vTreeNode);
-      }
-
-      var vDoc = vTreeNode.docNode;
-
       this._detailLoader.setVisibility(false);
 
-      if (vDoc instanceof apiviewer.dao.Class)
+      if (classNode instanceof apiviewer.dao.Class)
       {
         this._packageViewer.setVisibility(false);
-        this._classViewer.setClassNode(vDoc);
+        this._classViewer.setClassNode(classNode);
         this._classViewer.setVisibility(true);
       }
       else
       {
         this._classViewer.setVisibility(false);
-        this._packageViewer.showInfo(vDoc);
+        this._packageViewer.showInfo(classNode);
         this._packageViewer.setVisibility(true);
       }
     },
@@ -252,7 +257,6 @@ qx.Class.define("apiviewer.Controller",
      * @type member
      * @param fullItemName {String} the full name of the item to select.
      *          (e.g. "qx.mypackage.MyClass" or "qx.mypackage.MyClass#myProperty")
-     * @return {void}
      */
     __selectItem : function(fullItemName)
     {

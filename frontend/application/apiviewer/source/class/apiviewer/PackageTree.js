@@ -96,6 +96,7 @@ qx.Class.define("apiviewer.PackageTree",
      */
     setTreeData : function(docTree)
     {
+      this._docTree = docTree;
       var inheritenceNode = new qx.ui.tree.TreeFolder("Inheritence hierarchy");
       var packagesNode = new qx.ui.tree.TreeFolder("Packages");
 
@@ -104,7 +105,7 @@ qx.Class.define("apiviewer.PackageTree",
 
       var start = new Date();
       // Fill the packages tree
-      this._fillPackageNode(packagesNode, docTree, 0);
+      this.__fillPackageNode(packagesNode, docTree, 0);
       var end = new Date();
       this.debug("Time to fill the packages tree: " + (end.getTime() - start.getTime()) + "ms");
 
@@ -119,7 +120,7 @@ qx.Class.define("apiviewer.PackageTree",
 
       // Fill the inheritence tree
       for (var i=0; i<this._topLevelClassNodeArr.length; i++) {
-        this._createInheritanceNode(inheritenceNode, this._topLevelClassNodeArr[i]);
+        this.__createInheritanceNode(inheritenceNode, this._topLevelClassNodeArr[i]);
       }
       var end = new Date();
       this.debug("Time to fill the inheritence tree: " + (end.getTime() - start.getTime()) + "ms");
@@ -134,12 +135,6 @@ qx.Class.define("apiviewer.PackageTree",
     },
 
 
-    __getTreeNodeByName : function(className)
-    {
-      return this._classTreeNodeHash[this._currentTreeType||apiviewer.PackageTree.PACKAGE_TREE][className];
-    },
-
-
     /**
      * Selects a certain class.
      *
@@ -149,12 +144,12 @@ qx.Class.define("apiviewer.PackageTree",
      */
     selectTreeNodeByClassName : function(className)
     {
-      var treeNode = this.__getTreeNodeByName(className);
+      var treeNode = this._classTreeNodeHash[this._currentTreeType||apiviewer.PackageTree.PACKAGE_TREE][className];
 
       if (treeNode) {
         treeNode.setSelected(true);
       }
-      else if (this.getDocTree() == null)
+      else if (this._docTree == null)
       {
         // The doc tree has not been loaded yet
         // -> Remeber the wanted class and show when loading is done
@@ -173,11 +168,10 @@ qx.Class.define("apiviewer.PackageTree",
      *
      * @type member
      * @param treeNode {qx.ui.tree.TreeFolder} the package tree node.
-     * @param docNode {Map} the documentation node of the package.
-     * @param depth {var} TODOC
-     * @return {void}
+     * @param docNode {apiviewer.dao.Package} the documentation node of the package.
+     * @param depth {var} current depth in the tree
      */
-    _fillPackageNode : function(treeNode, docNode, depth)
+    __fillPackageNode : function(treeNode, docNode, depth)
     {
       var PackageTree = apiviewer.PackageTree;
 
@@ -190,7 +184,7 @@ qx.Class.define("apiviewer.PackageTree",
         packageTreeNode.docNode = packageDoc;
         treeNode.add(packageTreeNode);
 
-        this._fillPackageNode(packageTreeNode, packageDoc, depth + 1);
+        this.__fillPackageNode(packageTreeNode, packageDoc, depth + 1);
 
         // Open the package node if it has child packages
         if (depth < qx.core.Setting.get("apiviewer.initialTreeDepth") && packageDoc.getPackages().length > 0) {
@@ -222,12 +216,10 @@ qx.Class.define("apiviewer.PackageTree",
      * classes.
      *
      * @type member
-     * @param parentTreeNode {var} TODOC
-     * @param classDocNode {Map} the documentation node of the class.
-     * @param docTree {Map} the documentation tree.
-     * @return {void}
+     * @param parentTreeNode {qx.ui.tree.TreeFolder} the parent tree node of the current sub tree
+     * @param classDocNode {apiviewer.dao.Package} the documentation node of the class.
      */
-    _createInheritanceNode : function(parentTreeNode, classDocNode)
+    __createInheritanceNode : function(parentTreeNode, classDocNode)
     {
       var PackageTree = apiviewer.PackageTree;
 
@@ -245,7 +237,6 @@ qx.Class.define("apiviewer.PackageTree",
       for (var i=0; i<childClassNameArr.length; i++)
       {
         var childClassDocNode = apiviewer.dao.Class.getClassByName(childClassNameArr[i]);
-        this._createInheritanceNode(classTreeNode, childClassDocNode);
       }
     }
 
