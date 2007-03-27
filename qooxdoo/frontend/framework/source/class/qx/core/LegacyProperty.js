@@ -232,7 +232,7 @@ qx.Class.define("qx.core.LegacyProperty",
       }
 
       // Auto-detect dispose properties
-      if (!config.dispose && (config.type == "function" || config.type == "object")) {
+      if (config.dispose === undefined && (config.type == "function" || config.type == "object")) {
         config.dispose = true;
       }
 
