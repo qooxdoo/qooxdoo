@@ -517,8 +517,9 @@ qx.Class.define("qx.core.Property",
           }
           else
           {
-            // __computed$parent is a faster replacement for getParent()
-            code.add('var pa=this.__computed$parent;if(pa)computed=pa', computedBase, ';');
+            // TODO: when "parent" is a new style property we can replace
+            // getParent with the faster __computed$parent
+            code.add('var pa=this.getParent();if(pa)computed=pa', computedBase, ';');
           }
 
           code.add('}');
