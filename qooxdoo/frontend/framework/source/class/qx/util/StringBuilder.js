@@ -83,7 +83,7 @@ qx.Class.define("qx.util.StringBuilder",
     clear : qx.core.Variant.select("qx.client",
     {
       "default" : function() {
-        return this._string;
+        this._string = "";
       },
 
       "mshtml" : function()  {
