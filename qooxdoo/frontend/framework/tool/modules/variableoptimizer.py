@@ -97,11 +97,11 @@ def update(node, found, prefix="$", skipPrefix="", debug=False):
       isVariableMember = True
       varParent = node.parent.parent
 
-    # catch corner case: a().b(); var b;
-    if varParent.type == "operand" and varParent.parent.type == "call" and varParent.parent.parent.type == "right" and varParent.parent.parent.parent.type == "accessor":
-        varParent = varParent.parent.parent
+      # catch corner case: a().b(); var b;
+      if varParent.type == "operand" and varParent.parent.type == "call" and varParent.parent.parent.type == "right" and varParent.parent.parent.parent.type == "accessor":
+          varParent = varParent.parent.parent
 
-    if not (varParent.type == "right" and varParent.parent.type == "accessor"):
+      if not (varParent.type == "right" and varParent.parent.type == "accessor"):
         isFirstChild = node.parent.getFirstChild(True, True) == node
 
     elif node.parent.type == "identifier" and node.parent.parent.type == "accessor":
