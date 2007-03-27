@@ -174,20 +174,15 @@ qx.Class.define("qx.ui.table.AbstractResizeBehavior",
       throw new Error("onVisibilityChanged is abstract");
     },
 
-    /*
+    /**
      * Determine the inner width available to columns in the table.
      *
+     * @type member
      * @param tableColumnModel {qx.ui.table.ResizeTableColumnModel}
      *   The table column model in use.
-     *
-     */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param tableColumnModel {var} TODOC
-     * @return {Map} TODOC
+     * @return {Map} 
+     *   {'width'} Provide width without scrollbar space; scrollbar space is available
+     *   {'extraWidth'} qx.ui.core.Widget.SCROLLBAR_SIZE
      */
     _getAvailableWidth : function(tableColumnModel)
     {
