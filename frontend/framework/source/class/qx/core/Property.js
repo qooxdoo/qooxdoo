@@ -52,15 +52,15 @@ qx.Class.define("qx.core.Property",
 
     $$method :
     {
-      set     : {},
       get     : {},
+      set     : {},
+      reset   : {},
       init    : {},
       prepare : {},
       refresh : {},
       style   : {},
       compute : {},
-      toggle  : {},
-      reset   : {}
+      toggle  : {}
     },
 
 
@@ -204,8 +204,7 @@ qx.Class.define("qx.core.Property",
       {
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          if (this.$$method.set[a[i]] === undefined)
-          {
+          if (this.$$method.set[a[i]] === undefined) {
             throw new Error("Missing set method cache entry for: " + a[i]);
           }
         }
@@ -216,14 +215,6 @@ qx.Class.define("qx.core.Property",
       // Attach setter
       this.$$method.set[name] = prefix + "set" + postfix;
       members[this.$$method.set[name]] = new Function(code.toString());
-
-      // Output generate code
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (qx.core.Setting.get("qx.propertyDebugLevel") > 0) {
-          console.debug("Code: " + code);
-        }
-      }
 
       // Dispose string builder
       code.dispose();
@@ -266,6 +257,21 @@ qx.Class.define("qx.core.Property",
         return qx.core.Property.executeOptimizedSetter(this, clazz, name, "reset");
       }
 
+      if (config.init !== undefined)
+      {
+        method.init[name] = prefix + "init" + postfix;
+        members[method.init[name]] = function() {
+          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "init");
+        }
+      }
+      else if (config.inheritable || config.nullable)
+      {
+        method.prepare[name] = prefix + "prepare" + postfix;
+        members[method.prepare[name]] = function() {
+          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "prepare");
+        }
+      }
+
       if (config.inheritable === true)
       {
         method.refresh[name] = prefix + "refresh" + postfix;
@@ -287,21 +293,6 @@ qx.Class.define("qx.core.Property",
         method.toggle[name] = prefix + "toggle" + postfix;
         members[method.toggle[name]] = function() {
           return qx.core.Property.executeOptimizedSetter(this, clazz, name, "toggle");
-        }
-      }
-
-      if (config.init !== undefined)
-      {
-        method.init[name] = prefix + "init" + postfix;
-        members[method.init[name]] = function() {
-          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "init");
-        }
-      }
-      else if (config.inheritable || config.nullable)
-      {
-        method.prepare[name] = prefix + "prepare" + postfix;
-        members[method.prepare[name]] = function() {
-          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "prepare");
         }
       }
     },
@@ -358,6 +349,7 @@ qx.Class.define("qx.core.Property",
       var computedKey = "this.__computed$" + name;
       var computedBase = ".__computed$" + name;
       var initKey = "this.__init$" + name;
+
       var storeKey = variant === "style" ? styleKey : userKey;
 
 
@@ -635,18 +627,14 @@ qx.Class.define("qx.core.Property",
 
 
 
+
       // Output generate code
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.propertyDebugLevel") > 0) {
+        if (qx.core.Setting.get("qx.propertyDebugLevel") > -1) {
           console.debug("Code[" + this.$$method[variant][name] + "]: " + code);
         }
       }
-
-
-
-
-
 
       // Overriding temporary wrapper
       members[this.$$method[variant][name]] = new Function("value", code.toString());
