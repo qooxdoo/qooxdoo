@@ -300,50 +300,61 @@ qx.Class.define("qx.lang.Object",
      * @param value {var} Value to look for
      * @return {String|null} Name of the key (null if not found).
      */
-     getKeyFromValue: function(obj, value)
-     {
-       for (var key in obj)
-       {
-         if (obj[key] === value) {
-           return key;
-         }
-       }
+    getKeyFromValue: function(obj, value)
+    {
+      for (var key in obj)
+      {
+        if (obj[key] === value) {
+          return key;
+        }
+      }
 
-       return null;
-     },
-
-
-     /**
-      * Selects the value with the given key from the map.
-      *
-      * @param key {String} name of the key to get the value from
-      * @param map {Object} map to get the value from
-      * @return {var} value for the given key from the map
-      */
-     select: function(key, map) {
-       return map[key];
-     },
+      return null;
+    },
 
 
-     /**
-      * Convert an array into a map.
-      *
-      * All elements of the array become keys of the returned map by
-      * calling "toString" on the array elements. The values of the
-      * map are set to "true"
-      *
-      * @param array {Array} array to convert
-      * @return {Map} the array converted to a map.
-      */
-     fromArray: function(array)
-     {
-       var obj = {};
+    /**
+    * Selects the value with the given key from the map.
+    *
+    * @param key {String} name of the key to get the value from
+    * @param map {Object} map to get the value from
+    * @return {var} value for the given key from the map
+    */
+    select: function(key, map) {
+      return map[key];
+    },
 
-       for (var i=0; i<array.length; i++) {
-         obj[array[i].toString()] = true;
-       }
 
-       return obj;
-     }
+    /**
+    * Convert an array into a map.
+    *
+    * All elements of the array become keys of the returned map by
+    * calling "toString" on the array elements. The values of the
+    * map are set to "true"
+    *
+    * @param array {Array} array to convert
+    * @return {Map} the array converted to a map.
+    */
+    fromArray: function(array)
+    {
+      var obj = {};
+
+      for (var i=0, l=array.length; i<l; i++)
+      {
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
+          switch(typeof array[i])
+          {
+            case "object":
+            case "function":
+              throw new Error("Could not convert complex objects like " + array[i] + " to map syntax");
+          }
+        }
+
+        obj[array[i].toString()] = true;
+      }
+
+      return obj;
+    }
   }
 });
