@@ -23,7 +23,7 @@ qx.Class.define("qx.test.Animal",
 
     _boxWidth : { nullable : true },
     _boxHeight: { nullable : true },
-    _enabled : { init : "inherit", inheritable : true, check : "Boolean", nullable : true },
+    _enabled : { init : "inherit", inheritable : true, check : "Boolean" },
     _target : { check : "qx.core.Target", nullable : true },
     _string : { check : "String", init : "" },
     _complex :
