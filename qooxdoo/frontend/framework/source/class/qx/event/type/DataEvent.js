@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-/** Event object for property changes. */
+/** Event object for data transfers. */
 qx.Class.define("qx.event.type.DataEvent",
 {
   extend : qx.event.type.Event,
@@ -40,7 +40,7 @@ qx.Class.define("qx.event.type.DataEvent",
 
  /**
   * @param vType {String} the type name of the event
-  * @param vData {Object} additional data which should be passed to the event listener
+  * @param vData {var} additional data which should be passed to the event listener
   */
   construct : function(vType, vData)
   {
