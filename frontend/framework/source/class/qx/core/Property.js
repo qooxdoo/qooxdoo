@@ -59,6 +59,7 @@ qx.Class.define("qx.core.Property",
       prepare : {},
       refresh : {},
       style   : {},
+      unstyle : {},
       compute : {},
       toggle  : {}
     },
@@ -290,6 +291,11 @@ qx.Class.define("qx.core.Property",
         members[method.style[name]] = function(value) {
           return qx.core.Property.executeOptimizedSetter(this, clazz, name, "style", value);
         }
+
+        method.unstyle[name] = prefix + "unstyle" + postfix;
+        members[method.unstyle[name]] = function(value) {
+          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "unstyle", value);
+        }
       }
 
       if (config.check === "Boolean")
@@ -360,6 +366,12 @@ qx.Class.define("qx.core.Property",
 
 
 
+      // Smart caching
+
+      var storeOwnValue = variant === "set" || variant === "reset" || variant === "style" || variant === "unstyle" || variant === "toggle";
+
+
+
 
 
 
@@ -367,9 +379,9 @@ qx.Class.define("qx.core.Property",
 
       // Hint: No refresh() here, the value of refresh is the parent value
       // Hint: No init() or prepare() here, no incoming value
-      if (variant === "set" || variant === "reset" || variant === "style" || variant === "toggle")
+      if (storeOwnValue)
       {
-        var storeKey = variant === "style" ? styleKey : userKey;
+        var storeKey = variant === "style" || variant === "unstyle" ? styleKey : userKey;
 
         if (variant === "set" || variant === "style")
         {
@@ -433,7 +445,7 @@ qx.Class.define("qx.core.Property",
           // Toggle value (Replace eventually incoming value for setter etc.)
           code.add('value=!', computedKey, ';');
         }
-        else if (variant === "reset")
+        else if (variant === "reset" || variant === "unstyle")
         {
           // Remove value
           code.add('value=undefined;');
@@ -469,7 +481,7 @@ qx.Class.define("qx.core.Property",
       }
 
       // Use complex evaluation for reset, refresh and style
-      else if (variant === "refresh" || variant === "reset" || variant === "style")
+      else if (variant === "refresh" || variant === "reset" || variant === "style" || variant === "unstyle")
       {
         code.add('var computed;');
 
@@ -524,7 +536,7 @@ qx.Class.define("qx.core.Property",
 
       if (members.getParent && config.inheritable === true)
       {
-        if (variant === "refresh" || variant === "style" || variant === "set" || variant == "reset")
+        if (variant === "set" || variant == "reset" || variant === "refresh" || variant === "style" || variant === "unstyle")
         {
           code.add('if(computed===qx.core.Property.INHERIT||computed===undefined){');
 
@@ -649,7 +661,7 @@ qx.Class.define("qx.core.Property",
       // [7] RETURNING WITH ORIGINAL INCOMING VALUE
 
       // Return value
-      if (variant !== "init" && variant !== "prepare") {
+      if (variant !== "init" && variant !== "prepare" && variant !== "reset" && variant !== "unstyle") {
         code.add('return value;');
       }
 
