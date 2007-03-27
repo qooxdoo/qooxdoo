@@ -95,6 +95,7 @@ def update(node, found, prefix="$", skipPrefix="", debug=False):
 
     if node.parent.type == "variable":
       isVariableMember = True
+      varParent = node.parent.parent
 
     # catch corner case: a().b(); var b;
     if varParent.type == "operand" and varParent.parent.type == "call" and varParent.parent.parent.type == "right" and varParent.parent.parent.parent.type == "accessor":
