@@ -728,7 +728,10 @@ qx.Class.define("qx.core.Object",
 
     // Finally cleanup properties
     var clazz = this.constructor;
+    var impl = qx.core.Property;
+    var implLegacy = qx.core.LegacyProperty;
     var config;
+
     while(clazz)
     {
       var properties = clazz.$$properties;
@@ -738,18 +741,18 @@ qx.Class.define("qx.core.Object",
         {
           config = properties[name];
 
-          if (properties[name].dispose)
+          if (config.dispose)
           {
-            if (properties[name]._legacy)
+            if (config._legacy)
             {
-              this[qx.core.LegacyProperty.$$values[name]] = null;
+              this[implLegacy.$$values[name]] = null;
             }
             else
             {
-              // TODO: Unoptimal string concat
-              this[qx.core.Property.USER_PREFIX+name] = null;
-              this[qx.core.Property.STYLE_PREFIX+name] = null;
-              this[qx.core.Property.COMPUTED_PREFIX+name] = null;
+              // TODO: suboptimal string concat
+              this[impl.USER_PREFIX+name] = null;
+              this[impl.STYLE_PREFIX+name] = null;
+              this[impl.COMPUTED_PREFIX+name] = null;
             }
           }
         }
