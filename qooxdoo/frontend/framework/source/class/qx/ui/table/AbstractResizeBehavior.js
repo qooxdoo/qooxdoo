@@ -152,7 +152,7 @@ qx.Proto.onVisibilityChanged = function(tableColumnModel, event)
 };
 
 
-/*
+/**
  * Determine the inner width available to columns in the table.
  *
  * @param tableColumnModel {qx.ui.table.ResizeTableColumnModel}
