@@ -417,7 +417,7 @@ qx.Class.define("qx.core.Property",
                 throw new Error("Could not add check to property " + name + " of class " + clazz.classname);
               }
 
-              code.add('throw new Error("Invalid value for property ', name, ': " + value);');
+              code.add(')throw new Error("Invalid value for property ', name, ': " + value);');
             }
           }
         }
