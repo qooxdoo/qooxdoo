@@ -71,18 +71,6 @@ qx.Class.define("qx.core.LegacyProperty",
     },
 
 
-    /**
-     * Converts the property name to the value name
-     *
-     * @type static
-     * @param name {String} name of a property
-     * @return {String} name of the setter for this property
-     */
-    getValueName : function(name) {
-      return this.$$values[name];
-    },
-
-
     /*
     ---------------------------------------------------------------------------
       OBJECT PROPERTY EXTENSION
@@ -307,10 +295,6 @@ qx.Class.define("qx.core.LegacyProperty",
         method.set[config.name] = "set" + config.method;
         method.get[config.name] = "get" + config.method;
         method.reset[config.name] = "reset" + config.method;
-      }
-
-      if (!qx.core.LegacyProperty.$$values[config.name]) {
-        qx.core.LegacyProperty.$$values[config.name] = valueKey;
       }
 
       // unit detection support
