@@ -233,7 +233,15 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
       }
 
       this._bInProgress = true;
-      this.debug("onappear");
+
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (qx.core.Setting.get("qx.tableResizeDebug"))
+        {
+          this.debug("onappear");
+        }
+      }
+
       this.getBehavior().onAppear(this, event);
 
       qx.client.Timer.once(function()
@@ -273,7 +281,15 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
       }
 
       this._bInProgress = true;
-      this.debug("ontablewidthchanged");
+
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (qx.core.Setting.get("qx.tableResizeDebug"))
+        {
+          this.debug("ontablewidthchanged");
+        }
+      }
+
       this.getBehavior().onTableWidthChanged(this, event);
       this._bInProgress = false;
     },
@@ -300,7 +316,15 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
       }
 
       this._bInProgress = true;
-      this.debug("onverticalscrollbarchanged");
+
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (qx.core.Setting.get("qx.tableResizeDebug"))
+        {
+          this.debug("onverticalscrollbarchanged");
+        }
+      }
+
       this.getBehavior().onVerticalScrollBarChanged(this, event);
 
       qx.client.Timer.once(function()
@@ -338,7 +362,15 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
       }
 
       this._bInProgress = true;
-      this.debug("oncolumnwidthchanged");
+
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (qx.core.Setting.get("qx.tableResizeDebug"))
+        {
+          this.debug("oncolumnwidthchanged");
+        }
+      }
+
       this.getBehavior().onColumnWidthChanged(this, event);
       this._bInProgress = false;
     },
@@ -364,9 +396,22 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
       }
 
       this._bInProgress = true;
-      this.debug("onvisibilitychanged");
+
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (qx.core.Setting.get("qx.tableResizeDebug"))
+        {
+          this.debug("onvisibilitychanged");
+        }
+      }
+
       this.getBehavior().onVisibilityChanged(this, event);
       this._bInProgress = false;
     }
+  },
+
+  settings :
+  {
+    "qx.tableResizeDebug" : false
   }
 });
