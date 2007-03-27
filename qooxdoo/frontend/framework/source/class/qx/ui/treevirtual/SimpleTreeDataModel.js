@@ -234,7 +234,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     {
       if (columnIndex == this._treeColumn)
       {
-        // Ignore requests to ser the tree column data using this method
+        // Ignore requests to set the tree column data using this method
         return;
       }
 
