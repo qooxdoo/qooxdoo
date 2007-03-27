@@ -54,12 +54,12 @@ qx.Class.define("apiviewer.Viewer",
     this._subWidgets = {};
 
     this.addTop(this.__createHeader());
-    var tree = new apiviewer.PackageTree();
+    var tree = new apiviewer.ui.PackageTree();
     this.__registerWidget(tree, "tree");
 
     var buttonView = this.__createButtonView(
       tree,
-      new apiviewer.InfoView()
+      new apiviewer.ui.InfoView()
     );
 
     var mainFrame = this.__createMainFrame(
@@ -212,11 +212,11 @@ qx.Class.define("apiviewer.Viewer",
       detailFrame.add(this._detailLoader);
       this.__registerWidget(this._detailLoader, "detail_loader");
 
-      this._classViewer = new apiviewer.ClassViewer;
+      this._classViewer = new apiviewer.ui.ClassViewer;
       detailFrame.add(this._classViewer);
       this.__registerWidget(this._classViewer, "class_viewer");
 
-      this._packageViewer = new apiviewer.PackageViewer;
+      this._packageViewer = new apiviewer.ui.PackageViewer;
       detailFrame.add(this._packageViewer);
       this.__registerWidget(this._packageViewer, "package_viewer");
 

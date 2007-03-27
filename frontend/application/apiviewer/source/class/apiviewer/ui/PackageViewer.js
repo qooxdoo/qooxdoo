@@ -29,7 +29,7 @@
 /**
  * Shows the package details.
  */
-qx.Class.define("apiviewer.PackageViewer",
+qx.Class.define("apiviewer.ui.PackageViewer",
 {
   extend : qx.ui.embed.HtmlEmbed,
 
