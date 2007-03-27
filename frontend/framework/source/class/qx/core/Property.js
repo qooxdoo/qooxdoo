@@ -43,7 +43,7 @@ qx.Class.define("qx.core.Property",
       "null"    : 'value === null',
       "String"  : 'typeof value === "string"',
       "Boolean" : 'typeof value === "boolean"',
-      "Number"  : 'typeof value === "number" && !isNaN(value)',
+      "Number"  : '!isNaN(value)',
       "Object"  : 'value !== null && typeof value === "object"',
       "Array"   : 'value instanceof Array',
       "Map"     : 'value !== null && typeof value === "object" && !(value instanceof Array) && !(value instanceof qx.core.Object)'
@@ -385,22 +385,32 @@ qx.Class.define("qx.core.Property",
             // Check value
             if (config.check !== undefined)
             {
+              code.add('if(');
+
               if (this.CHECKS[config.check] !== undefined)
               {
-                code.add('if(!(', this.CHECKS[config.check], '))');
+                code.add('!(', this.CHECKS[config.check], ')');
               }
               else if (qx.Class.isDefined(config.check))
               {
-                code.add('if(!(value instanceof ', config.check, '))');
+                code.add('!(value instanceof ', config.check, ')');
               }
               else if (typeof config.check === "function")
               {
-                code.add('if(!', clazz.classname, '.$$properties.', name);
-                code.add('.check.call(this, value))');
+                code.add('!', clazz.classname, '.$$properties.', name);
+                code.add('.check.call(this, value)');
               }
               else if (typeof config.check === "string")
               {
-                code.add('if(!(', config.check, '))');
+                code.add('!(', config.check, ')');
+              }
+              else if (config.check instanceof Array)
+              {
+                // reconfigure for faster access trough map usage
+                config.checkMap = qx.lang.Object.fromArray(config.check);
+
+                code.add(clazz.classname, '.$$properties.', name);
+                code.add('.checkMap[value]!==undefined');
               }
               else
               {
