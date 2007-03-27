@@ -280,7 +280,7 @@ qx.Class.define("qx.core.Property",
         }
       }
 
-      if (config.appearance !== undefined)
+      if (config.appearance === true)
       {
         method.style[name] = prefix + "style" + postfix;
         members[method.style[name]] = function(value) {
@@ -350,7 +350,7 @@ qx.Class.define("qx.core.Property",
       var computedBase = ".__computed$" + name;
       var initKey = "this.__init$" + name;
 
-      var storeKey = variant === "style" ? styleKey : userKey;
+
 
 
 
@@ -362,24 +362,26 @@ qx.Class.define("qx.core.Property",
       // Hint: No init() or prepare() here, no incoming value
       if (variant === "set" || variant === "reset" || variant === "style" || variant === "toggle")
       {
+        var storeKey = variant === "style" ? styleKey : userKey;
+
         if (variant === "set" || variant === "style")
         {
-          // Undefined check
-          code.add('if(value===undefined)');
-          code.add('throw new Error("Undefined value for property ', name, ' is not allowed!");');
-
-          // Null check
-          if (!config.nullable)
-          {
-            code.add('if(value===null)');
-            code.add('throw new Error("Null value for property ', name, ' is not allowed!");');
-          }
-
           // Old/new comparision
           code.add('if(', storeKey, '===value)return value;');
 
-          if (variant === "set")
+          if (variant === "set" || (qx.core.Variant.isSet("qx.debug", "on") && variant === "style"))
           {
+            // Undefined check
+            code.add('if(value===undefined)');
+            code.add('throw new Error("Undefined value for property ', name, ' is not allowed!");');
+
+            // Null check
+            if (!config.nullable)
+            {
+              code.add('if(value===null)');
+              code.add('throw new Error("Null value for property ', name, ' is not allowed!");');
+            }
+
             // Check value
             if (config.check !== undefined)
             {
@@ -412,7 +414,7 @@ qx.Class.define("qx.core.Property",
         else if (variant === "toggle")
         {
           // Toggle value (Replace eventually incoming value for setter etc.)
-          code.add('value=!', storeKey, ';');
+          code.add('value=!', computedKey, ';');
         }
         else if (variant === "reset")
         {
@@ -515,7 +517,8 @@ qx.Class.define("qx.core.Property",
           }
           else
           {
-            code.add('var pa=this.getParent();if(pa)computed=pa', computedBase, ';');
+            // __computed$parent is a faster replacement for getParent()
+            code.add('var pa=this.__computed$parent;if(pa)computed=pa', computedBase, ';');
           }
 
           code.add('}');
@@ -585,21 +588,30 @@ qx.Class.define("qx.core.Property",
       {
         if (config.apply)
         {
-          code.add('try{');
-          code.add('this.', config.apply, '(computed, old);');
-          code.add('}catch(ex){this.error("Failed to execute apply of property ');
-          code.add(name, ' defined by class ', clazz.classname, '!", ex);}');
+          if (!(variant === "init" && config.applyInit === false))
+          {
+            if (variant === "init")
+            {
+              code.add('this.', config.apply, '(computed, null);');
+            }
+            else
+            {
+              code.add('this.', config.apply, '(computed, old);');
+            }
+          }
+        }
+
+        // Fire event
+        if (config.event)
+        {
+          code.add('if(this.hasEventListeners("', config.event, '"))');
+          code.add('this.dispatchEvent(new qx.event.type.ChangeEvent("', config.event, '", computed, old), true);');
         }
 
         // Don't fire event and not update children in init().
         // There is no chance to attach an event listener or add children before.
         if (variant !== "init")
         {
-          // Fire event
-          if (config.event) {
-            code.add('this.createDispatchDataEvent("', config.event, '", computed);');
-          }
-
           // Refresh children
           // Require the parent/children interface
           if (members.getChildren && config.inheritable === true)

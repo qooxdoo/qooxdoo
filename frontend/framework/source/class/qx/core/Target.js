@@ -220,6 +220,23 @@ qx.Class.define("qx.core.Target",
     },
 
 
+    /**
+     * Checks if the event is registered. If so it creates an event object and dispatches it.
+     *
+     * @type member
+     * @param type {String} name of the event type
+     * @param value {Object} property value attached to the event object
+     * @param old {Object} old property value attached to the event object
+     * @return {void}
+     */
+    createDispatchChangeEvent : function(type, value, old)
+    {
+      if (this.hasEventListeners(type)) {
+        this.dispatchEvent(new qx.event.type.ChangeEvent(type, value, old), true);
+      }
+    },
+
+
 
 
     /*
