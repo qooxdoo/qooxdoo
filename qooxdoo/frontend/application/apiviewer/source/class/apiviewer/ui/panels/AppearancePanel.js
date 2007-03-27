@@ -26,9 +26,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("apiviewer.AppearancePanel", {
+qx.Class.define("apiviewer.ui.panels.AppearancePanel", {
 
-  extend: apiviewer.InfoPanel,
+  extend: apiviewer.ui.panels.InfoPanel,
 
   members : {
 
@@ -115,12 +115,12 @@ qx.Class.define("apiviewer.AppearancePanel", {
       } else {
         var titleHtml = nodeName;
       }
-      var typeHtml = apiviewer.InfoPanel.createTypeHtml(node, "var");
+      var typeHtml = apiviewer.ui.panels.InfoPanel.createTypeHtml(node, "var");
 
       var textHtml = new qx.util.StringBuilder();
       textHtml.add(
         ClassViewer.DIV_START_DESC,
-        apiviewer.InfoPanel.createDescriptionHtml(node, true),
+        apiviewer.ui.panels.InfoPanel.createDescriptionHtml(node, true),
         ClassViewer.DIV_END
       );
 
@@ -148,7 +148,7 @@ qx.Class.define("apiviewer.AppearancePanel", {
             textHtml.add(
               "<td class='state-text'>",
               ClassViewer.DIV_START_DESC,
-              apiviewer.InfoPanel.createDescriptionHtml(state, true),
+              apiviewer.ui.panels.InfoPanel.createDescriptionHtml(state, true),
               ClassViewer.DIV_END
             );
             var appearance = state.getAppearance();
@@ -156,7 +156,7 @@ qx.Class.define("apiviewer.AppearancePanel", {
               textHtml.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "Defined at:", ClassViewer.DIV_END);
               textHtml.add(
                 ClassViewer.DIV_START_DETAIL_TEXT,
-                apiviewer.InfoPanel.createItemLinkHtml(appearance.getType().getFullName()),
+                apiviewer.ui.panels.InfoPanel.createItemLinkHtml(appearance.getType().getFullName()),
                 ClassViewer.DIV_END
               );
             }

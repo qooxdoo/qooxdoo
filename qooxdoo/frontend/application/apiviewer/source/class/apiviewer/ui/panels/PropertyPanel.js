@@ -26,9 +26,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("apiviewer.PropertyPanel", {
+qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
 
-  extend: apiviewer.InfoPanel,
+  extend: apiviewer.ui.panels.InfoPanel,
 
   members : {
 
@@ -49,11 +49,11 @@ qx.Class.define("apiviewer.PropertyPanel", {
       var docNode = node.getDocNode();
 
       // Add the title
-      var typeHtml = apiviewer.InfoPanel.createTypeHtml(node, "var");
-      var titleHtml = apiviewer.InfoPanel.setTitleClass(node, node.getName());
+      var typeHtml = apiviewer.ui.panels.InfoPanel.createTypeHtml(node, "var");
+      var titleHtml = apiviewer.ui.panels.InfoPanel.setTitleClass(node, node.getName());
 
       // Add the description
-      var textHtml = new qx.util.StringBuilder(apiviewer.InfoPanel.createDescriptionHtml(node, showDetails));
+      var textHtml = new qx.util.StringBuilder(apiviewer.ui.panels.InfoPanel.createDescriptionHtml(node, showDetails));
 
       if (showDetails)
       {
@@ -108,13 +108,13 @@ qx.Class.define("apiviewer.PropertyPanel", {
         }
 
 
-        textHtml.add(apiviewer.InfoPanel.createIncludedFromHtml(node, currentClassDocNode));
-        textHtml.add(apiviewer.InfoPanel.createOverwriddenFromHtml(node));
-        textHtml.add(apiviewer.InfoPanel.createInheritedFromHtml(node, currentClassDocNode));
-        textHtml.add(apiviewer.InfoPanel.createInfoRequiredByHtml(node));
-        textHtml.add(apiviewer.InfoPanel.createSeeAlsoHtml(docNode));
-        textHtml.add(apiviewer.InfoPanel.createErrorHtml(node, currentClassDocNode));
-        textHtml.add(apiviewer.InfoPanel.createDeprecationHtml(docNode, "property"));
+        textHtml.add(apiviewer.ui.panels.InfoPanel.createIncludedFromHtml(node, currentClassDocNode));
+        textHtml.add(apiviewer.ui.panels.InfoPanel.createOverwriddenFromHtml(node));
+        textHtml.add(apiviewer.ui.panels.InfoPanel.createInheritedFromHtml(node, currentClassDocNode));
+        textHtml.add(apiviewer.ui.panels.InfoPanel.createInfoRequiredByHtml(node));
+        textHtml.add(apiviewer.ui.panels.InfoPanel.createSeeAlsoHtml(docNode));
+        textHtml.add(apiviewer.ui.panels.InfoPanel.createErrorHtml(node, currentClassDocNode));
+        textHtml.add(apiviewer.ui.panels.InfoPanel.createDeprecationHtml(docNode, "property"));
       }
 
       var info = {};
