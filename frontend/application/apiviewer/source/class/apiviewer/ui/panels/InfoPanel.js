@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("apiviewer.InfoPanel", {
+qx.Class.define("apiviewer.ui.panels.InfoPanel", {
 
   type : "abstract",
 
@@ -296,7 +296,7 @@ qx.Class.define("apiviewer.InfoPanel", {
        var html = new qx.util.StringBuilder(
          ClassViewer.DIV_START_DETAIL_HEADLINE, "Inherited from:", ClassViewer.DIV_END,
          ClassViewer.DIV_START_DETAIL_TEXT,
-         apiviewer.InfoPanel.createItemLinkHtml(node.getClass().getFullName()+"#"+node.getName()),
+         apiviewer.ui.panels.InfoPanel.createItemLinkHtml(node.getClass().getFullName()+"#"+node.getName()),
          ClassViewer.DIV_END
        );
        return html.get();
@@ -322,7 +322,7 @@ qx.Class.define("apiviewer.InfoPanel", {
         var html = new qx.util.StringBuilder(
           ClassViewer.DIV_START_DETAIL_HEADLINE, "Overridden from:", ClassViewer.DIV_END,
           ClassViewer.DIV_START_DETAIL_TEXT,
-          apiviewer.InfoPanel.createItemLinkHtml(node.getOverriddenFrom().getFullName()+"#"+node.getName()),
+          apiviewer.ui.panels.InfoPanel.createItemLinkHtml(node.getOverriddenFrom().getFullName()+"#"+node.getName()),
           ClassViewer.DIV_END
         );
         return html.get();
@@ -350,7 +350,7 @@ qx.Class.define("apiviewer.InfoPanel", {
           var html = new qx.util.StringBuilder(
             ClassViewer.DIV_START_DETAIL_HEADLINE, "Included from mixin:", ClassViewer.DIV_END,
             ClassViewer.DIV_START_DETAIL_TEXT,
-            apiviewer.InfoPanel.createItemLinkHtml(node.getClass().getFullName()+"#"+node.getName()),
+            apiviewer.ui.panels.InfoPanel.createItemLinkHtml(node.getClass().getFullName()+"#"+node.getName()),
             ClassViewer.DIV_END
           );
           return html.get();
@@ -498,7 +498,7 @@ qx.Class.define("apiviewer.InfoPanel", {
                 linkText += " " + typeName.substring(lastDot + 1);
               }
             }
-            typeHtml.add(apiviewer.InfoPanel.createItemLinkHtml(linkText, typeNode.getClass(), false, true));
+            typeHtml.add(apiviewer.ui.panels.InfoPanel.createItemLinkHtml(linkText, typeNode.getClass(), false, true));
           }
 
           if (typeDimensions)
@@ -640,7 +640,7 @@ qx.Class.define("apiviewer.InfoPanel", {
         for (var i=0; i<requiredBy.length; i++) {
           html.add(
             ClassViewer.DIV_START_DETAIL_TEXT,
-            apiviewer.InfoPanel.createItemLinkHtml(requiredBy[i].getFullName()+"#"+node.getName()),
+            apiviewer.ui.panels.InfoPanel.createItemLinkHtml(requiredBy[i].getFullName()+"#"+node.getName()),
             ClassViewer.DIV_END
           );
         }
@@ -911,7 +911,7 @@ qx.Class.define("apiviewer.InfoPanel", {
           var iconUrl = apiviewer.TreeUtil.getIconUrl(node.getNode(), inherited);
 
           // Create the title row
-          html.add('<tr class="', apiviewer.InfoPanel.getItemCssClasses(node), '">');
+          html.add('<tr class="', apiviewer.ui.panels.InfoPanel.getItemCssClasses(node), '">');
           html.add('<td class="icon">', ClassViewer.createImageHtml(iconUrl), '</td>');
           html.add('<td class="type">', ((info.typeHtml.length != 0) ? (info.typeHtml + "&nbsp;") : ""), '</td>');
 

@@ -1,7 +1,7 @@
 
-qx.Class.define("apiviewer.ConstantPanel", {
+qx.Class.define("apiviewer.ui.panels.ConstantPanel", {
 
-  extend: apiviewer.InfoPanel,
+  extend: apiviewer.ui.panels.InfoPanel,
 
   members : {
 
@@ -17,7 +17,7 @@ qx.Class.define("apiviewer.ConstantPanel", {
       return (
         node.getSee().length > 0 ||
         node.getErrors().length > 0 ||
-        apiviewer.InfoPanel.descriptionHasDetails(node) ||
+        apiviewer.ui.panels.InfoPanel.descriptionHasDetails(node) ||
         this.__hasConstantValueHtml(node)
       );
     },
@@ -37,18 +37,18 @@ qx.Class.define("apiviewer.ConstantPanel", {
       var info = {};
 
       // Add the title
-      info.typeHtml = apiviewer.InfoPanel.createTypeHtml(node, "var");
-      info.titleHtml = apiviewer.InfoPanel.setTitleClass(node, node.getName());
+      info.typeHtml = apiviewer.ui.panels.InfoPanel.createTypeHtml(node, "var");
+      info.titleHtml = apiviewer.ui.panels.InfoPanel.setTitleClass(node, node.getName());
 
       // Add the description
-      info.textHtml = apiviewer.InfoPanel.createDescriptionHtml(node, showDetails);
+      info.textHtml = apiviewer.ui.panels.InfoPanel.createDescriptionHtml(node, showDetails);
 
       if (showDetails)
       {
         info.textHtml += this.__createConstantValueHtml(node);
-        info.textHtml += apiviewer.InfoPanel.createSeeAlsoHtml(node);
-        info.textHtml += apiviewer.InfoPanel.createErrorHtml(node, currentClassDocNode);
-        info.textHtml += apiviewer.InfoPanel.createDeprecationHtml(node, "constant");
+        info.textHtml += apiviewer.ui.panels.InfoPanel.createSeeAlsoHtml(node);
+        info.textHtml += apiviewer.ui.panels.InfoPanel.createErrorHtml(node, currentClassDocNode);
+        info.textHtml += apiviewer.ui.panels.InfoPanel.createDeprecationHtml(node, "constant");
       }
 
       return info;

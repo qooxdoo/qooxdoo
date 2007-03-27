@@ -337,37 +337,37 @@ qx.Class.define("apiviewer.ClassViewer",
       html.add(ClassViewer.DIV_START, ClassViewer.DIV_END);
 
       // Add constructor info
-      var constructorPanel = new apiviewer.MethodPanel(ClassViewer.NODE_TYPE_CONSTRUCTOR, "constructor", "constructor", false, true);
+      var constructorPanel = new apiviewer.ui.panels.MethodPanel(ClassViewer.NODE_TYPE_CONSTRUCTOR, "constructor", "constructor", false, true);
       this._infoPanelHash[ClassViewer.NODE_TYPE_CONSTRUCTOR] = constructorPanel;
       html.add(constructorPanel.getPanelHtml());
 
       // Add event info
-      var eventPanel = new apiviewer.EventPanel(ClassViewer.NODE_TYPE_EVENT, "events", "events", true, true)
+      var eventPanel = new apiviewer.ui.panels.EventPanel(ClassViewer.NODE_TYPE_EVENT, "events", "events", true, true)
       this._infoPanelHash[ClassViewer.NODE_TYPE_EVENT] = eventPanel;
       html.add(eventPanel.getPanelHtml());
 
       // Add properties info
-      var propPanel = new apiviewer.PropertyPanel(ClassViewer.NODE_TYPE_PROPERTY, "properties", "properties", true, true);
+      var propPanel = new apiviewer.ui.panels.PropertyPanel(ClassViewer.NODE_TYPE_PROPERTY, "properties", "properties", true, true);
       this._infoPanelHash[ClassViewer.NODE_TYPE_PROPERTY] = propPanel;
       html.add(propPanel.getPanelHtml());
 
       // Add methods info
-      var memberPanel = new apiviewer.MethodPanel(ClassViewer.NODE_TYPE_METHOD, "methods", "methods", true, true);
+      var memberPanel = new apiviewer.ui.panels.MethodPanel(ClassViewer.NODE_TYPE_METHOD, "methods", "methods", true, true);
       this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD] = memberPanel;
       html.add(memberPanel.getPanelHtml());
 
       // Add static methods info
-      var staticsPanel = new apiviewer.MethodPanel(ClassViewer.NODE_TYPE_METHOD_STATIC, "methods-static", "static methods", false, true);
+      var staticsPanel = new apiviewer.ui.panels.MethodPanel(ClassViewer.NODE_TYPE_METHOD_STATIC, "methods-static", "static methods", false, true);
       this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD_STATIC] = staticsPanel;
       html.add(staticsPanel.getPanelHtml());
 
       // Add constants info
-      var constantsPanel = new apiviewer.ConstantPanel(ClassViewer.NODE_TYPE_CONSTANT, "constants", "constants", false, true);
+      var constantsPanel = new apiviewer.ui.panels.ConstantPanel(ClassViewer.NODE_TYPE_CONSTANT, "constants", "constants", false, true);
       this._infoPanelHash[ClassViewer.NODE_TYPE_CONSTANT] = constantsPanel;
       html.add(constantsPanel.getPanelHtml());
 
       // Add constants info
-      var appearPanel = new apiviewer.AppearancePanel(ClassViewer.NODE_TYPE_APPEARANCE, "appearances", "appearances", false, true);
+      var appearPanel = new apiviewer.ui.panels.AppearancePanel(ClassViewer.NODE_TYPE_APPEARANCE, "appearances", "appearances", false, true);
       this._infoPanelHash[ClassViewer.NODE_TYPE_APPEARANCE] = appearPanel;
       html.add(appearPanel.getPanelHtml());
 
@@ -441,7 +441,7 @@ qx.Class.define("apiviewer.ClassViewer",
 
       titleHtml.add(objectName);
       titleHtml.add(' </span>');
-      titleHtml.add(apiviewer.InfoPanel.setTitleClass(classNode, classNode.getName()));
+      titleHtml.add(apiviewer.ui.panels.InfoPanel.setTitleClass(classNode, classNode.getName()));
       return titleHtml.get();
     },
 
@@ -488,7 +488,7 @@ qx.Class.define("apiviewer.ClassViewer",
 
       if (desc != "")
       {
-        classHtml.add('<div class="classDescription">', apiviewer.InfoPanel.resolveLinkAttributes(desc, classNode), '</div>');
+        classHtml.add('<div class="classDescription">', apiviewer.ui.panels.InfoPanel.resolveLinkAttributes(desc, classNode), '</div>');
         classHtml.add("<br/>");
       }
 
@@ -516,11 +516,11 @@ qx.Class.define("apiviewer.ClassViewer",
       var construct = classNode.getConstructor();
       if (construct)
       {
-        classHtml.add(apiviewer.InfoPanel.createSeeAlsoHtml(construct));
+        classHtml.add(apiviewer.ui.panels.InfoPanel.createSeeAlsoHtml(construct));
         classHtml.add('<br/>');
       }
 
-      classHtml.add(apiviewer.InfoPanel.createDeprecationHtml(classNode, "class"));
+      classHtml.add(apiviewer.ui.panels.InfoPanel.createDeprecationHtml(classNode, "class"));
 
       this._classDescElem.innerHTML = classHtml.get();
       apiviewer.ClassViewer.fixLinks(this._classDescElem);
@@ -554,7 +554,7 @@ qx.Class.define("apiviewer.ClassViewer",
           if (i != 0) {
             result.add(", ");
           }
-          result.add(apiviewer.InfoPanel.createItemLinkHtml(dependentClasses[i], null, true, false));
+          result.add(apiviewer.ui.panels.InfoPanel.createItemLinkHtml(dependentClasses[i], null, true, false));
         }
 
         result.add(ClassViewer.DIV_END);
@@ -593,7 +593,7 @@ qx.Class.define("apiviewer.ClassViewer",
         );
 
         if (i != 0) {
-          classHtml.add(apiviewer.InfoPanel.createItemLinkHtml(classHierarchy[i].getFullName(), null, false));
+          classHtml.add(apiviewer.ui.panels.InfoPanel.createItemLinkHtml(classHierarchy[i].getFullName(), null, false));
         } else {
           classHtml.add(classHierarchy[i].getFullName());
         }
@@ -646,7 +646,7 @@ qx.Class.define("apiviewer.ClassViewer",
 
           line.add(ClassViewer.createImageHtml(apiviewer.TreeUtil.getIconUrl(classNode.getNode())));
           if (!first) {
-            line.add(apiviewer.InfoPanel.createItemLinkHtml(classNode.getFullName(), null, false));
+            line.add(apiviewer.ui.panels.InfoPanel.createItemLinkHtml(classNode.getFullName(), null, false));
           } else {
             line.add(classNode.getFullName());
           }
