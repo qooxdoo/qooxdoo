@@ -39,8 +39,6 @@ qx.Class.define("qx.core.Property",
      */
     CHECKS :
     {
-      "defined" : 'value !== undefined',
-      "null"    : 'value === null',
       "String"  : 'typeof value === "string"',
       "Boolean" : 'typeof value === "boolean"',
       "Number"  : '!isNaN(value)',
@@ -339,6 +337,10 @@ qx.Class.define("qx.core.Property",
       }
     },
 
+    USER_PREFIX : "__user$",
+    STYLE_PREFIX : "__style$",
+    COMPUTED_PREFIX : "__computed$",
+    INIT_PREFIX : "__init$",
 
     /**
      * Generates the optimized setter
