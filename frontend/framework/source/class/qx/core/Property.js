@@ -192,7 +192,11 @@ qx.Class.define("qx.core.Property",
         }
       }
 
-      var code = new qx.util.StringBuilder;
+      var code = this.$$code;
+
+      if (!code) {
+        code = this.$$code = new qx.util.StringBuilder;
+      }
 
       code.add("var a=arguments;")
 
@@ -216,8 +220,8 @@ qx.Class.define("qx.core.Property",
       this.$$method.set[name] = prefix + "set" + postfix;
       members[this.$$method.set[name]] = new Function(code.toString());
 
-      // Dispose string builder
-      code.dispose();
+      // Clearing string builder
+      code.clear();
     },
 
 
@@ -342,7 +346,6 @@ qx.Class.define("qx.core.Property",
     {
       var config = clazz.$$properties[name];
       var members = clazz.prototype;
-      var code = new qx.util.StringBuilder;
 
       var userKey = "this.__user$" + name;
       var styleKey = "this.__style$" + name;
@@ -350,6 +353,10 @@ qx.Class.define("qx.core.Property",
       var computedBase = ".__computed$" + name;
       var initKey = "this.__init$" + name;
 
+      var code = this.$$code;
+      if (!code) {
+        code = this.$$code = new qx.util.StringBuilder;
+      }
 
 
 
@@ -662,8 +669,8 @@ qx.Class.define("qx.core.Property",
       // Overriding temporary wrapper
       members[this.$$method[variant][name]] = new Function("value", code.toString());
 
-      // Disposing string builder
-      code.dispose();
+      // Clearing string builder
+      code.clear();
 
       // Executing new function
       return instance[this.$$method[variant][name]](value);
