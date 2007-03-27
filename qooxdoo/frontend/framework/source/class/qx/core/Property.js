@@ -248,7 +248,7 @@ qx.Class.define("qx.core.Property",
       var method = this.$$method;
 
       method.get[name] = prefix + "get" + postfix;
-      members[method.get[name]] = new Function("return this.__computed$" + name + ";");
+      members[method.get[name]] = new Function("return this." + this.COMPUTED_PREFIX + name);
 
       method.set[name] = prefix + "set" + postfix;
       members[method.set[name]] = function(value) {
@@ -355,23 +355,10 @@ qx.Class.define("qx.core.Property",
       var config = clazz.$$properties[name];
       var members = clazz.prototype;
 
-      var userKey = "this.__user$" + name;
-      var styleKey = "this.__style$" + name;
-      var computedKey = "this.__computed$" + name;
-      var computedBase = ".__computed$" + name;
-      var initKey = "this.__init$" + name;
-
       var code = this.$$code;
       if (!code) {
         code = this.$$code = new qx.util.StringBuilder;
       }
-
-
-
-      // Smart caching
-
-      var storeOwnValue = variant === "set" || variant === "reset" || variant === "style" || variant === "unstyle" || variant === "toggle";
-
 
 
 
@@ -381,14 +368,14 @@ qx.Class.define("qx.core.Property",
 
       // Hint: No refresh() here, the value of refresh is the parent value
       // Hint: No init() or prepare() here, no incoming value
-      if (storeOwnValue)
+      if (variant === "set" || variant === "reset" || variant === "style" || variant === "unstyle" || variant === "toggle")
       {
-        var storeKey = variant === "style" || variant === "unstyle" ? styleKey : userKey;
+        var storePrefix = variant === "style" || variant === "unstyle" ? this.STYLE_PREFIX : this.USER_PREFIX;
 
         if (variant === "set" || variant === "style")
         {
           // Old/new comparision
-          code.add('if(', storeKey, '===value)return value;');
+          code.add('if(this.', storePrefix, name, '===value)return value;');
 
           if (variant === "set" || (qx.core.Variant.isSet("qx.debug", "on") && variant === "style"))
           {
@@ -445,7 +432,7 @@ qx.Class.define("qx.core.Property",
         else if (variant === "toggle")
         {
           // Toggle value (Replace eventually incoming value for setter etc.)
-          code.add('value=!', computedKey, ';');
+          code.add('value=!this.', this.COMPUTED_PREFIX, name, ';');
         }
         else if (variant === "reset" || variant === "unstyle")
         {
@@ -453,7 +440,7 @@ qx.Class.define("qx.core.Property",
           code.add('value=undefined;');
         }
 
-        code.add(storeKey, '=value;');
+        code.add('this.', storePrefix, name, '=value;');
       }
 
 
@@ -469,14 +456,14 @@ qx.Class.define("qx.core.Property",
       // Use complex evaluation for init and prepare
       if (variant === "init" || variant === "prepare")
       {
-        code.add('if(', userKey, '!==undefined)return;');
+        code.add('if(this.', this.USER_PREFIX, name, '!==undefined)return;');
 
         if (config.appearance === true) {
-          code.add('else if(', styleKey, '!==undefined)return;');
+          code.add('else if(this.', this.STYLE_PREFIX, name, '!==undefined)return;');
         }
 
         if (config.init !== undefined) {
-          code.add('else{var computed=', initKey, ';}');
+          code.add('else{var computed=this.', this.INIT_PREFIX, name, ';}');
         } else {
           code.add('var computed;');
         }
@@ -493,8 +480,8 @@ qx.Class.define("qx.core.Property",
         // Hint: Always undefined in reset variant
         if (variant !== "reset")
         {
-          code.add('if(', userKey, '!==undefined)');
-          code.add('computed=', userKey, ';');
+          code.add('if(this.', this.USER_PREFIX, name, '!==undefined)');
+          code.add('computed=this.', this.USER_PREFIX, name, ';');
           hasComputeIf = true;
         }
 
@@ -505,8 +492,8 @@ qx.Class.define("qx.core.Property",
             code.add('else ');
           }
 
-          code.add('if(', styleKey, '!==undefined)');
-          code.add('computed=', styleKey, ';');
+          code.add('if(this.', this.STYLE_PREFIX, name, '!==undefined)');
+          code.add('computed=this.', this.STYLE_PREFIX, name, ';');
           hasComputeIf = true;
         }
 
@@ -517,7 +504,7 @@ qx.Class.define("qx.core.Property",
             code.add('else ');
           }
 
-          code.add('computed=', initKey, ';');
+          code.add('computed=this.', this.INIT_PREFIX, name, ';');
         }
       }
 
@@ -550,7 +537,7 @@ qx.Class.define("qx.core.Property",
           {
             // TODO: when "parent" is a new style property we can replace
             // getParent with the faster __computed$parent
-            code.add('var pa=this.getParent();if(pa)computed=pa', computedBase, ';');
+            code.add('var pa=this.getParent();if(pa)computed=pa.', this.COMPUTED_PREFIX, name, ';');
           }
 
           code.add('}');
@@ -586,7 +573,7 @@ qx.Class.define("qx.core.Property",
       if (variant !== "init" && variant !== "prepare")
       {
         // Remember computed old value
-        code.add('var old=', computedKey, ';');
+        code.add('var old=this.', this.COMPUTED_PREFIX, name, ';');
 
         // Normalize 'undefined' to 'null'
         // Could only be undefined in cases when the setter was never executed before
@@ -606,7 +593,7 @@ qx.Class.define("qx.core.Property",
       }
 
       // Store new computed value
-      code.add(computedKey, '=computed;');
+      code.add('this.', this.COMPUTED_PREFIX, name, '=computed;');
 
 
 
