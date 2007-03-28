@@ -126,13 +126,42 @@
     });
     buttonBar.add(button);
 
-    var checkBox = new qx.ui.form.CheckBox("keepFirstVisibleRowComplete", null, null, table.getKeepFirstVisibleRowComplete());
-    checkBox.setToolTip(new qx.ui.popup.ToolTip("Whether the the first visible row should be rendered completely when scrolling."));
-    checkBox.addEventListener("changeChecked", function(evt) {
-      table.setKeepFirstVisibleRowComplete(checkBox.getChecked());
-      this.info("Set keepFirstVisibleRowComplete to: " + checkBox.getChecked());
-    });
+    var checkBox =
+      new qx.ui.form.CheckBox("keepFirstVisibleRowComplete",
+                              null, null,
+                              table.getKeepFirstVisibleRowComplete());
+    checkBox.setToolTip(new qx.ui.popup.ToolTip(
+                          "Whether the the first visible row should " +
+                          "be rendered completely when scrolling."));
+    checkBox.addEventListener(
+      "changeChecked",
+      function(evt)
+      {
+        table.setKeepFirstVisibleRowComplete(this.getChecked());
+        this.info("Set keepFirstVisibleRowComplete to: " +
+                  this.getChecked());
+      },
+      checkBox);
     buttonBar.add(checkBox);
+
+    var tcm = table.getTableColumnModel();
+    
+    var checkBox =
+      new qx.ui.form.CheckBox("Show ID column",
+                              null, null,
+                              tcm.isColumnVisible(0));
+    checkBox.setToolTip(new qx.ui.popup.ToolTip(
+                          "Whether the the ID column should be shown."));
+    checkBox.addEventListener(
+      "changeChecked",
+      function(evt)
+      {
+        tcm.setColumnVisible(0, ! tcm.isColumnVisible(0));
+        this.info("Set ID column visibility to: " + tcm.isColumnVisible(0));
+      },
+      checkBox);
+    buttonBar.add(checkBox);
+
 
     d.add(main);
   });
