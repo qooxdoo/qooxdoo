@@ -51,8 +51,6 @@ qx.Class.define("apiviewer.ui.PackageViewer",
     this.setEdge(0);
     this.setHtmlProperty("id", "PackageViewer");
     this.setVisibility(false);
-
-    apiviewer.PackageViewer.instance = this;
   },
 
 
