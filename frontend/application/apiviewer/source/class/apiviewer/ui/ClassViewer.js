@@ -52,7 +52,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     this.setHtmlProperty("id", "ClassViewer");
     this.setVisibility(false);
 
-    apiviewer.ClassViewer.instance = this;
+    apiviewer.ui.ClassViewer.instance = this;
   },
 
 
@@ -206,7 +206,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
           styleAttributes = "vertical-align:top";
         }
 
-        return apiviewer.ClassViewer.createOverlayImageHtml(18, 18, imgUrl, tooltip, styleAttributes);
+        return apiviewer.ui.ClassViewer.createOverlayImageHtml(18, 18, imgUrl, tooltip, styleAttributes);
       }
     },
 
@@ -322,7 +322,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
      */
     _syncHtml : function()
     {
-      var ClassViewer = apiviewer.ClassViewer;
+      var ClassViewer = apiviewer.ui.ClassViewer;
 
       document._detailViewer = this;
 
@@ -374,7 +374,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
 
       // Set the html
       this.getElement().innerHTML = html.get();
-      apiviewer.ClassViewer.fixLinks(this.getElement());
+      ClassViewer.fixLinks(this.getElement());
 
       // Extract the main elements
       var divArr = this.getElement().childNodes;
@@ -408,8 +408,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
      */
     __getTitleHtml : function(classNode)
     {
-      var ClassViewer = apiviewer.ClassViewer;
-
       switch (classNode.getType())
       {
         case "mixin" :
@@ -460,8 +458,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
         // -> Do nothing, the class will be shown in _initContentDocument.
         return ;
       }
-
-      var ClassViewer = apiviewer.ClassViewer;
 
       this._titleElem.innerHTML = this.__getTitleHtml(classNode);
 
@@ -523,7 +519,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       classHtml.add(apiviewer.ui.panels.InfoPanel.createDeprecationHtml(classNode, "class"));
 
       this._classDescElem.innerHTML = classHtml.get();
-      apiviewer.ClassViewer.fixLinks(this._classDescElem);
+      apiviewer.ui.ClassViewer.fixLinks(this._classDescElem);
 
       // Refresh the info viewers
       this._updateInfoViewers();
@@ -543,7 +539,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
      */
     __getDependentClassesHtml : function(dependentClasses, title)
     {
-      var ClassViewer = apiviewer.ClassViewer;
+      var ClassViewer = apiviewer.ui.ClassViewer;
 
       if (dependentClasses.length > 0)
       {
@@ -575,7 +571,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
      */
     __getClassHierarchyHtml: function(classNode)
     {
-      var ClassViewer = apiviewer.ClassViewer;
+      var ClassViewer = apiviewer.ui.ClassViewer;
 
       // Create the class hierarchy
       var classHtml = new qx.util.StringBuilder(ClassViewer.DIV_START_DETAIL_HEADLINE, "Inheritance hierarchy:", ClassViewer.DIV_END);
@@ -619,7 +615,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
         superList = "superInterfaces";
       }
 
-      var ClassViewer = apiviewer.ClassViewer;
+      var ClassViewer = apiviewer.ui.ClassViewer;
 
       // Create the interface hierarchy
       var EMPTY_CELL = ClassViewer.createImageHtml("api/image/blank.gif", null, "width:18px");
@@ -787,7 +783,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
         // Update content
         var info = panel.getItemHtml(node, this.getClassNode(), showDetails);
         textDiv.innerHTML = info.textHtml;
-        apiviewer.ClassViewer.fixLinks(textDiv);
+        apiviewer.ui.ClassViewer.fixLinks(textDiv);
       }
       catch(exc)
       {
@@ -876,7 +872,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     _getPanelForItemNode : function(itemNode)
     {
       itemNode = itemNode.getNode();
-      var ClassViewer = apiviewer.ClassViewer;
+      var ClassViewer = apiviewer.ui.ClassViewer;
 
       if (itemNode.getType == "constant") {
         return this._infoPanelHash[ClassViewer.NODE_TYPE_CONSTANT];

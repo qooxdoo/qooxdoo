@@ -43,7 +43,7 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
      */
     getItemHtml : function(node, currentClassDocNode, showDetails)
     {
-      var ClassViewer = apiviewer.ClassViewer;
+      var ClassViewer = apiviewer.ui.ClassViewer;
 
       // Get the property node that holds the documentation
       var docNode = node.getDocNode();

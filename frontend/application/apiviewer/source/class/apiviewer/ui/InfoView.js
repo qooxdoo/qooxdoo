@@ -150,7 +150,7 @@ qx.Class.define("apiviewer.ui.InfoView",
       {
         var entry = legend[i];
         html.add("<tr><td class='icon'>");
-        html.add(apiviewer.ClassViewer.createImageHtml(entry.icon));
+        html.add(apiviewer.ui.ClassViewer.createImageHtml(entry.icon));
         html.add("</td><td class='text'>", entry.desc, "</td></tr>");
       }
 

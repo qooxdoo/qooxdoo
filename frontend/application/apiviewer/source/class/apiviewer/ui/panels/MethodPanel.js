@@ -107,7 +107,7 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel", {
      */
     getItemHtml : function(method, currentClassDocNode, showDetails)
     {
-      var ClassViewer = apiviewer.ClassViewer;
+      var ClassViewer = apiviewer.ui.ClassViewer;
 
       var docClass = method.getClass();
 
