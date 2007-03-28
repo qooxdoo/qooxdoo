@@ -244,7 +244,92 @@ qx.Class.define("qx.ui.popup.ToolTip",
 
       this._stopHideTimer();
     },
+    
+    
+    /**
+     * TODOC
+     * 
+     * @type member
+     * @return {void}
+     */
+    _afterAppear : function()
+    {
+      this.base(arguments);
+      
+      if (this.getRestrictToPageOnOpen()) {
+        var doc = qx.ui.core.ClientDocument.getInstance();
+        var docWidth = doc.getClientWidth();
+        var docHeight = doc.getClientHeight();
+        var restrictToPageLeft   = parseInt(this._restrictToPageLeft);
+        var restrictToPageRight  = parseInt(this._restrictToPageRight);
+        var restrictToPageTop    = parseInt(this._restrictToPageTop);
+        var restrictToPageBottom = parseInt(this._restrictToPageBottom);
+        var left   = (this._wantedLeft == null) ? this.getLeft() : this._wantedLeft;
+        var top    = this.getTop();
+        var width  = this.getBoxWidth();
+        var height = this.getBoxHeight();
+    
+        var mouseX = qx.event.type.MouseEvent.getPageX();
+        var mouseY = qx.event.type.MouseEvent.getPageY();
+    
+        var oldLeft = this.getLeft();
+        var oldTop = top;
+        
+        // NOTE: We check right and bottom first, because top and left should have
+        //       priority, when both sides are violated.
+        if (left + width > docWidth - restrictToPageRight) {
+          left = docWidth - restrictToPageRight - width;
+        }
+        if (top + height > docHeight - restrictToPageBottom) {
+          top = docHeight - restrictToPageBottom - height;
+        }
+        if (left < restrictToPageLeft) {
+          left = restrictToPageLeft;
+        }
+        if (top < restrictToPageTop) {
+          top = restrictToPageTop;
+        }
 
+        // REPAIR: If mousecursor /within/ newly positioned popup, move away.
+        if (left <= mouseX && mouseX <= left+width &&
+            top <= mouseY && mouseY <= top+height){
+            // compute possible movements in all four directions
+            var deltaYdown = mouseY - top;
+            var deltaYup = deltaYdown - height;
+            var deltaXright = mouseX - left;
+            var deltaXleft = deltaXright - width;
+            var violationUp = Math.max(0, restrictToPageTop - (top+deltaYup));
+            var violationDown = Math.max(0, top+height+deltaYdown - (docHeight-restrictToPageBottom));
+            var violationLeft = Math.max(0, restrictToPageLeft - (left+deltaXleft));
+            var violationRight = Math.max(0, left+width+deltaXright - (docWidth-restrictToPageRight));
+            var possibleMovements = [// (deltaX, deltaY, violation)
+                [0, deltaYup,    violationUp], // up
+                [0, deltaYdown,  violationDown], // down
+                [deltaXleft, 0,  violationLeft], // left
+                [deltaXright, 0, violationRight] // right
+            ];
+    
+            possibleMovements.sort(function(a, b){
+                // first sort criterion: overlap/clipping - fewer, better
+                // second criterion: combined movements - fewer, better
+                return a[2]-b[2] || (Math.abs(a[0]) + Math.abs(a[1])) - (Math.abs(b[0]) + Math.abs(b[1]));
+            });
+    
+            var minimalNonClippingMovement = possibleMovements[0];
+            left = left + minimalNonClippingMovement[0];
+            top = top + minimalNonClippingMovement[1];
+        }
+    
+        if (left != oldLeft || top != oldTop) {
+          var self = this;
+          window.setTimeout(function() {
+            self.setLeft(left);
+            self.setTop(top);
+            qx.ui.core.Widget.flushGlobalQueues();
+          }, 0);
+        }
+      }
+    },
 
 
 
