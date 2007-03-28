@@ -150,8 +150,13 @@ def processVariantIsSet(callNode, variantMap):
             replaceChildWithNodes(ifcondition.parent.parent, ifcondition.parent, repleacement.children)
 
         else:
-            log("Warning", "Only processing qx.core.Variant.isSet directly inside of an if condition. Ignoring this occurrence.", secondParam)
-            return False
+            variantValue = secondParam.get("value")
+            constantNode = tree.Node("constant")
+            constantNode.set("value", str(__variantMatchKey(variantValue, variantMap, variantGroup)))
+            constantNode.set("constantType", "boolean")
+            constantNode.set("line", callNode.get("line"))
+            callNode.parent.replaceChild(callNode, constantNode)
+            #log("Warning", "Only processing qx.core.Variant.isSet directly inside of an if condition. Ignoring this occurrence.", secondParam)
 
         return True
 
