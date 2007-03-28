@@ -3,14 +3,14 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Qooxdoo Test</title>
+    <title>qooxdoo Test</title>
     <meta name="author" content="">
     <link rel="stylesheet" type="text/css" href="../../jsunit/css/jsUnitStyle.css">
     <script language="JavaScript" type="text/javascript" src="../script/qxunit.js"></script>
     <script language="JavaScript" type="text/javascript">
 
     (function() {
-        
+
         var params = window.location.search;
         var className = params.match(/[\?&]testclass=([A-Za-z0-9_\.]+)/);
         if (className) {
@@ -22,7 +22,7 @@
         var suite = new qxunit.TestSuite();
         suite.add(className);
         suite.addPollutionCheck();
-        
+
         if (window.top.jsUnitTestSuite) {
             suite.exportToJsUnit();
         } else {
@@ -35,14 +35,14 @@
                 alert(e);
             }
         }
-        
+
     }) ();
-    
+
     </script>
     </head>
 
     <body>
-    <h1>Qooxdoo Test</h1>
+    <h1>qooxdoo Test</h1>
 
     <p></p>
     </body>
