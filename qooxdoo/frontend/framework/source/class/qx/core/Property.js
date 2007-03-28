@@ -50,10 +50,16 @@ qx.Class.define("qx.core.Property",
 
     DISPOSE :
     {
-      "Object"  : true,
-      "Array"   : true,
-      "Map"     : true
+      "Object" : true,
+      "Array"  : true,
+      "Map"    : true
     },
+
+
+    USER_PREFIX : "__user$",
+    STYLE_PREFIX : "__style$",
+    COMPUTED_PREFIX : "__computed$",
+    INIT_PREFIX : "__init$",
 
 
     $$method :
@@ -62,11 +68,9 @@ qx.Class.define("qx.core.Property",
       set     : {},
       reset   : {},
       init    : {},
-      prepare : {},
       refresh : {},
       style   : {},
       unstyle : {},
-      compute : {},
       toggle  : {}
     },
 
@@ -261,7 +265,9 @@ qx.Class.define("qx.core.Property",
       var method = this.$$method;
 
       method.get[name] = prefix + "get" + postfix;
-      members[method.get[name]] = new Function("return this." + this.COMPUTED_PREFIX + name);
+      members[method.get[name]] = function() {
+        return qx.core.Property.executeOptimizedGetter(this, clazz, name, "get");
+      }
 
       method.set[name] = prefix + "set" + postfix;
       members[method.set[name]] = function(value) {
@@ -273,19 +279,9 @@ qx.Class.define("qx.core.Property",
         return qx.core.Property.executeOptimizedSetter(this, clazz, name, "reset");
       }
 
-      if (config.init !== undefined)
-      {
-        method.init[name] = prefix + "init" + postfix;
-        members[method.init[name]] = function() {
-          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "init");
-        }
-      }
-      else if (config.inheritable || config.nullable)
-      {
-        method.prepare[name] = prefix + "prepare" + postfix;
-        members[method.prepare[name]] = function() {
-          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "prepare");
-        }
+      method.init[name] = prefix + "init" + postfix;
+      members[method.init[name]] = function(value) {
+        return qx.core.Property.executeOptimizedSetter(this, clazz, name, "init", value);
       }
 
       if (config.inheritable === true)
@@ -319,49 +315,70 @@ qx.Class.define("qx.core.Property",
     },
 
 
+    __unwrapFunctionFromCode : function(instance, members, name, variant, code, value)
+    {
+      // Output generate code
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
+          console.debug("Code[" + this.$$method[variant][name] + "]: " + code);
+        }
+      }
+
+      // Overriding temporary wrapper
+      members[this.$$method[variant][name]] = new Function("value", code.toString());
+
+      // Clearing string builder
+      code.clear();
+
+      // Executing new function
+      return instance[this.$$method[variant][name]](value);
+    },
+
+
     /**
-     * Apply init values
+     * Generates the optimized getter
+     * Supported variants: get
      *
      * @type static
      * @internal
+     * @return {var} Execute return value of apply generated function, generally the incoming value
      */
-    init : function(clazz, instance)
+    executeOptimizedGetter : function(instance, clazz, name, variant)
     {
-      var properties = clazz.$$properties;
-      var init = this.$$method.init;
-      var prepare = this.$$method.prepare;
-      var name, config;
+      var config = clazz.$$properties[name];
+      var members = clazz.prototype;
 
-      if (properties)
-      {
-        for (name in properties)
-        {
-          config = properties[name];
-
-          if (config.init !== undefined)
-          {
-            instance[init[name]]();
-          }
-          else if (config.inheritable || config.nullable)
-          {
-            instance[prepare[name]]();
-          }
-        }
+      var code = this.$$code;
+      if (!code) {
+        code = this.$$code = new qx.util.StringBuilder;
       }
+
+      code.add('if(this.', this.COMPUTED_PREFIX, name, '===undefined)');
+
+      if (config.init !== undefined) {
+        code.add('return this.', this.INIT_PREFIX, name, ';');
+      } else if (config.inheritable) {
+        code.add('return qx.core.Property.INHERIT;');
+      } else if (config.nullable) {
+        code.add('return null;');
+      } else {
+        code.add('throw new Error("Property ', name, ' of an instance of ', clazz.classname, ' is not (yet) ready!");');
+      }
+
+      code.add('return this.', this.COMPUTED_PREFIX, name, ';');
+
+      return this.__unwrapFunctionFromCode(instance, members, name, variant, code);
     },
 
-    USER_PREFIX : "__user$",
-    STYLE_PREFIX : "__style$",
-    COMPUTED_PREFIX : "__computed$",
-    INIT_PREFIX : "__init$",
 
     /**
      * Generates the optimized setter
-     * Supported variants: set, reset, init, refresh, style and toggle
+     * Supported variants: set, reset, init, refresh, style, unstyle, toggle
      *
      * @type static
      * @internal
-     * @return {call} Execute return value of apply generated function, generally the incoming value
+     * @return {var} Execute return value of apply generated function, generally the incoming value
      */
     executeOptimizedSetter : function(instance, clazz, name, variant, value)
     {
@@ -380,22 +397,35 @@ qx.Class.define("qx.core.Property",
       // [1] CHECKING & STORING INCOMING VALUE
 
       // Hint: No refresh() here, the value of refresh is the parent value
-      // Hint: No init() or prepare() here, no incoming value
-      if (variant === "set" || variant === "reset" || variant === "style" || variant === "unstyle" || variant === "toggle")
+      if (variant === "set" || variant === "reset" || variant === "style" || variant === "unstyle" || variant === "toggle" || (variant === "init" && config.init === undefined))
       {
-        var storePrefix = variant === "style" || variant === "unstyle" ? this.STYLE_PREFIX : this.USER_PREFIX;
-
-        if (variant === "set" || variant === "style")
+        if (variant === "style" || variant === "unstyle")
         {
+          var storePrefix = this.STYLE_PREFIX;
+        }
+        else if (variant === "init")
+        {
+          var storePrefix = this.INIT_PREFIX;
+        }
+        else
+        {
+          var storePrefix = this.USER_PREFIX
+        }
+
+        if (variant === "set" || variant === "style" || variant === "init")
+        {
+          // Undefined check
+          // Must be above the comparision between old and new, because otherwise previously unset
+          // values get not detected and will be quitely ignored which is a bad behavior.
+          code.add('if(value===undefined)');
+          code.add('throw new Error("Undefined value for property ', name, ' is not allowed!");');
+
           // Old/new comparision
           code.add('if(this.', storePrefix, name, '===value)return value;');
 
-          if (variant === "set" || (qx.core.Variant.isSet("qx.debug", "on") && variant === "style"))
+          // Enable checks in setter and in style and init method if debugging is enabled
+          if (variant === "set" || (qx.core.Variant.isSet("qx.debug", "on") && (variant === "style" || variant === "init")))
           {
-            // Undefined check
-            code.add('if(value===undefined)');
-            code.add('throw new Error("Undefined value for property ', name, ' is not allowed!");');
-
             // Null check
             if (!config.nullable)
             {
@@ -455,6 +485,12 @@ qx.Class.define("qx.core.Property",
 
         code.add('this.', storePrefix, name, '=value;');
       }
+      else if (variant === "init" && qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        // Additional debugging to block values for init() functions
+        // which have a init value defined at property level
+        code.add('if(value!==undefined)throw new Error("You are not able to change the init value of the property ', name,  ' by using ', this.$$method[variant][name], '()!");');
+      }
 
 
 
@@ -464,26 +500,10 @@ qx.Class.define("qx.core.Property",
 
       // In both variants, set and toggle, the value is always the user value and is
       // could not be undefined. This way we are sure we can use this value and don't
-      // need a complex logic to find the usable value.
-
-      // Use complex evaluation for init and prepare
-      if (variant === "init" || variant === "prepare")
-      {
-        code.add('if(this.', this.USER_PREFIX, name, '!==undefined)return;');
-
-        if (config.appearance === true) {
-          code.add('else if(this.', this.STYLE_PREFIX, name, '!==undefined)return;');
-        }
-
-        if (config.init !== undefined) {
-          code.add('else{var computed=this.', this.INIT_PREFIX, name, ';}');
-        } else {
-          code.add('var computed;');
-        }
-      }
+      // need a complex logic to find the usable value. (See else case)
 
       // Use complex evaluation for reset, refresh and style
-      else if (variant === "refresh" || variant === "reset" || variant === "style" || variant === "unstyle")
+      if (variant === "refresh" || variant === "reset" || variant === "style" || variant === "unstyle" || variant === "init")
       {
         code.add('var computed;');
 
@@ -511,14 +531,14 @@ qx.Class.define("qx.core.Property",
         }
 
         // Try to use initial value when available
-        if (config.init !== undefined)
-        {
-          if (hasComputeIf) {
-            code.add('else ');
-          }
-
-          code.add('computed=this.', this.INIT_PREFIX, name, ';');
+        // Hint: This may also be available even if not defined at declaration time
+        // because of the possibility to set the init value of properties
+        // without init value at construction time (for complex values like arrays etc.)
+        if (hasComputeIf) {
+          code.add('else ');
         }
+
+        code.add('computed=this.', this.INIT_PREFIX, name, ';');
       }
 
       // Use simple evaluation for set and toggle
@@ -538,7 +558,7 @@ qx.Class.define("qx.core.Property",
 
       if (members.getParent && config.inheritable === true)
       {
-        if (variant === "set" || variant == "reset" || variant === "refresh" || variant === "style" || variant === "unstyle")
+        if (variant === "set" || variant == "reset" || variant === "refresh" || variant === "style" || variant === "unstyle" || variant === "init")
         {
           code.add('if(computed===qx.core.Property.INHERIT||computed===undefined){');
 
@@ -555,10 +575,10 @@ qx.Class.define("qx.core.Property",
 
           code.add('}');
         }
+
+        // Hint: No toggle() here, toggle only allows true/false user value and no inherit
       }
 
-      // Hint: No toggle() here, toggle only allows true/false user value and no inherit
-      // Hint: No init() or prepare() here, they do not need to respect inheritance because there is no parent yet.
 
 
 
@@ -583,25 +603,22 @@ qx.Class.define("qx.core.Property",
 
       // [5] STORING COMPUTED VALUE
 
-      if (variant !== "init" && variant !== "prepare")
+      // Remember computed old value
+      code.add('var old=this.', this.COMPUTED_PREFIX, name, ';');
+
+      // Normalize 'undefined' to 'null'
+      // Could only be undefined in cases when the setter was never executed before
+      // Because of this we can do the following old/new check in an else case to optimize performance
+      code.add('if(old===undefined)old=null;');
+
+      // Compare old/new computed value
+      code.add('else if(old===computed)return value;');
+
+      // Inform user
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        // Remember computed old value
-        code.add('var old=this.', this.COMPUTED_PREFIX, name, ';');
-
-        // Normalize 'undefined' to 'null'
-        // Could only be undefined in cases when the setter was never executed before
-        // Because of this we can do the following old/new check in an else case to optimize performance
-        code.add('if(old===undefined)old=null;');
-
-        // Compare old/new computed value
-        code.add('else if(old===computed)return value;');
-
-        // Inform user
-        if (qx.core.Variant.isSet("qx.debug", "on"))
-        {
-          if (qx.core.Setting.get("qx.propertyDebugLevel") > 0) {
-            code.add('this.debug("', name, ' changed: " + old + " => " + computed + " [' + variant + ']");');
-          }
+        if (qx.core.Setting.get("qx.propertyDebugLevel") > 0) {
+          code.add('this.debug("', name, ' changed: " + old + " => " + computed + " [' + variant + ']");');
         }
       }
 
@@ -616,43 +633,38 @@ qx.Class.define("qx.core.Property",
       // [6] NOTIFYING DEPENDEND OBJECTS
 
       // Execute user configured setter
-      if (variant !== "prepare")
+      if (config.apply)
       {
-        if (config.apply)
+        if (!(variant === "init" && config.applyInit === false))
         {
-          if (!(variant === "init" && config.applyInit === false))
+          if (variant === "init")
           {
-            if (variant === "init")
-            {
-              code.add('this.', config.apply, '(computed, null);');
-            }
-            else
-            {
-              code.add('this.', config.apply, '(computed, old);');
-            }
+            code.add('this.', config.apply, '(computed, null);');
+          }
+          else
+          {
+            code.add('this.', config.apply, '(computed, old);');
           }
         }
+      }
 
-        // Fire event
-        if (config.event)
-        {
-          code.add('if(this.hasEventListeners("', config.event, '"))');
-          code.add('this.dispatchEvent(new qx.event.type.ChangeEvent("', config.event, '", computed, old), true);');
-        }
+      // Fire event
+      if (config.event)
+      {
+        code.add('if(this.hasEventListeners("', config.event, '"))');
+        code.add('this.dispatchEvent(new qx.event.type.ChangeEvent("', config.event, '", computed, old), true);');
+      }
 
-        // Don't fire event and not update children in init().
-        // There is no chance to attach an event listener or add children before.
-        if (variant !== "init")
-        {
-          // Refresh children
-          // Require the parent/children interface
-          if (members.getChildren && config.inheritable === true)
-          {
-            code.add('for(var i=0,a=this.getChildren(),l=a.length;i<l;i++){');
-            code.add('a[i].', this.$$method.refresh[name], '(computed);');
-            code.add('}');
-          }
-        }
+      // Don't fire event and not update children in init().
+      // There is no chance to attach an event listener or add children before.
+
+      // Refresh children
+      // Require the parent/children interface
+      if (members.getChildren && config.inheritable === true)
+      {
+        code.add('for(var i=0,a=this.getChildren(),l=a.length;i<l;i++){');
+        code.add('a[i].', this.$$method.refresh[name], '(computed);');
+        code.add('}');
       }
 
 
@@ -663,7 +675,7 @@ qx.Class.define("qx.core.Property",
       // [7] RETURNING WITH ORIGINAL INCOMING VALUE
 
       // Return value
-      if (variant !== "init" && variant !== "prepare" && variant !== "reset" && variant !== "unstyle") {
+      if (variant !== "reset" && variant !== "unstyle") {
         code.add('return value;');
       }
 
@@ -672,22 +684,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // Output generate code
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (qx.core.Setting.get("qx.propertyDebugLevel") > -1) {
-          console.debug("Code[" + this.$$method[variant][name] + "]: " + code);
-        }
-      }
-
-      // Overriding temporary wrapper
-      members[this.$$method[variant][name]] = new Function("value", code.toString());
-
-      // Clearing string builder
-      code.clear();
-
-      // Executing new function
-      return instance[this.$$method[variant][name]](value);
+      return this.__unwrapFunctionFromCode(instance, members, name, variant, code, value);
     }
   },
 
