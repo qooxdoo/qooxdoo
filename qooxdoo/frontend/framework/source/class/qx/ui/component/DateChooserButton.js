@@ -21,6 +21,7 @@
 
 #require(qx.ui.component.DateChooser)
 #require(qx.util.format.DateFormat)
+#embed(qx.icontheme/16/apps/accessories-date.png)
 
 ************************************************************************ */
 
