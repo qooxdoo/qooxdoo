@@ -59,17 +59,39 @@ def findQxDefine(rootNode):
 
 
 def createDoc(syntaxTree, docTree = None):
-    if not docTree:
-        docTree = tree.Node("doctree")
+    try:
+        if not docTree:
+            docTree = tree.Node("doctree")
 
-    defineNode = findQxDefine(syntaxTree)
-    if defineNode != None:
-        variant = selectNode(defineNode, "operand/variable/2/@name").lower()
-        handleClassDefinition(docTree, defineNode, variant)
+        defineNode = findQxDefine(syntaxTree)
+        if defineNode != None:
+            variant = selectNode(defineNode, "operand/variable/2/@name").lower()
+            handleClassDefinition(docTree, defineNode, variant)
 
-    else:
-        # try old style class definition of no new style class could be found
-        docTree = createDocOld(syntaxTree, docTree)
+        else:
+            # try old style class definition of no new style class could be found
+            docTree = createDocOld(syntaxTree, docTree)
+
+    except DocException:
+        exc = sys.exc_info()[1]
+        msg = ""
+
+        if hasattr(exc, "node"):
+            (line, column) = getLineAndColumnFromSyntaxItem(exc.node)
+            file = getFileFromSyntaxItem(exc.node)
+            if line != None or file != None:
+                msg = (
+                    str(exc) + "\n      " + str(file) +
+                    ", Line: " + str(line) + ", Column: " + str(column)
+                )
+
+        if msg == "":
+            raise exc
+
+        else:
+            print
+            print "    - Failed: %s" % msg
+            sys.exit(1)
 
     return docTree
 
@@ -263,6 +285,7 @@ def handleConstructor(ctorItem, classNode):
     if ctorItem and ctorItem.type == "function":
         commentAttributes = comment.parseNode(ctorItem.parent.parent)
         ctor = handleFunction(ctorItem, commentAttributes, classNode)
+        removeErrors(ctor)
         ctor.set("isCtor", True)
         classNode.addListChild("constructor", ctor)
 
@@ -734,6 +757,7 @@ def handleMethodDefinitionOld(item, isStatic, classNode):
         listName += "-static"
 
     classNode.addListChild(listName, node)
+    return node
 
 
 
@@ -1194,7 +1218,11 @@ def itemHasAnyDocs(node):
         return True
     if node.hasChildren():
         for child in node.children:
-            if child.type != "errors":
+            if child.type == "params":
+                for param in child.children:
+                    if param.getChild("desc", False) != None:
+                        return True
+            elif child.type != "errors":
                 return True
     return False
 
