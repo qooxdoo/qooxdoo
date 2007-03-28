@@ -210,7 +210,7 @@ def handleInterfaceExtend(valueItem, classNode, docTree, className):
 
 
 def handleMixins(item, classNode, docTree, className):
-    if classNode.get("type") == "mixin":
+    if classNode.get("type", False) == "mixin":
         superMixinNames = variableOrArrayNodeToArray(item)
         for superMixin in superMixinNames:
             superMixinNode = getClassNode(docTree, superMixin)
@@ -335,7 +335,7 @@ def handleStatics(item, classNode):
                 node = handleFunction(value, commentAttributes, classNode)
                 node.set("name", key)
                 node.set("isStatic", True)
-                if classNode.get("type") == "mixin":
+                if classNode.get("type", False) == "mixin":
                     node.set("isMixin", True)
 
                 classNode.addListChild("methods-static", node)
@@ -370,7 +370,7 @@ def handleMembers(item, classNode):
             if value.type == "function":
                 node = handleFunction(value, commentAttributes, classNode)
                 node.set("name", key)
-                if classNode.get("type") == "mixin":
+                if classNode.get("type", False) == "mixin":
                     node.set("isMixin", True)
 
                 classNode.addListChild("methods", node)
@@ -721,7 +721,7 @@ def handlePropertyDefinitionOldCommon(item, classNode, propertyName, paramsMap):
             values += getValue(arrayItem)
         node.set("possibleValues", values)
 
-    if classNode.get("type") == "mixin":
+    if classNode.get("type", False) == "mixin":
         node.set("isMixin", True)
 
     # If the description has a type specified then take this type
