@@ -73,8 +73,6 @@ qx.Class.define("apiviewer.Viewer",
         mainFrame
       )
     );
-
-    apiviewer.Viewer.instance = this;
   },
 
 

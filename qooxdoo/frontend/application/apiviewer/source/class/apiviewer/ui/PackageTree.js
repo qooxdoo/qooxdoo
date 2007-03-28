@@ -27,7 +27,7 @@
 ************************************************************************ */
 
 /**
- * Your custom application
+ * The package tree.
  */
 qx.Class.define("apiviewer.ui.PackageTree",
 {
@@ -47,13 +47,13 @@ qx.Class.define("apiviewer.ui.PackageTree",
       paddingTop      : 3
     });
 
-    this._currentTreeType = apiviewer.PackageTree.PACKAGE_TREE;
+    this._currentTreeType = apiviewer.ui.PackageTree.PACKAGE_TREE;
 
     // Workaround: Since navigating in qx.ui.tree.Tree doesn't work, we've to
     //             maintain a hash that keeps the tree nodes for class names
     this._classTreeNodeHash = {};
-    this._classTreeNodeHash[apiviewer.PackageTree.PACKAGE_TREE] = {};
-    this._classTreeNodeHash[apiviewer.PackageTree.INHERITENCE_TREE] = {};
+    this._classTreeNodeHash[apiviewer.ui.PackageTree.PACKAGE_TREE] = {};
+    this._classTreeNodeHash[apiviewer.ui.PackageTree.INHERITENCE_TREE] = {};
 
     this.getManager().addEventListener("changeSelection", function(e) {
       var treeNode = e.getData()[0];
@@ -144,7 +144,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
      */
     selectTreeNodeByClassName : function(className)
     {
-      var treeNode = this._classTreeNodeHash[this._currentTreeType||apiviewer.PackageTree.PACKAGE_TREE][className];
+      var treeNode = this._classTreeNodeHash[this._currentTreeType||apiviewer.ui.PackageTree.PACKAGE_TREE][className];
 
       if (treeNode) {
         treeNode.setSelected(true);
@@ -173,7 +173,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
      */
     __fillPackageNode : function(treeNode, docNode, depth)
     {
-      var PackageTree = apiviewer.PackageTree;
+      var PackageTree = apiviewer.ui.PackageTree;
 
       var packagesDoc = docNode.getPackages();
       for (var i=0; i<packagesDoc.length; i++)
@@ -221,7 +221,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
      */
     __createInheritanceNode : function(parentTreeNode, classDocNode)
     {
-      var PackageTree = apiviewer.PackageTree;
+      var PackageTree = apiviewer.ui.PackageTree;
 
       // Create the tree node
       var iconUrl = apiviewer.TreeUtil.getIconUrl(classDocNode.getNode());
