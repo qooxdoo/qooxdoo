@@ -1365,7 +1365,7 @@ qx.Class.define("qx.Class",
         }
 
         // Execute default constructor
-        var instance = construct.apply(this, arguments);
+        var retval = construct.apply(this, arguments);
 
         // Initialize local mixins
         if (clazz.$$includes)
@@ -1380,12 +1380,7 @@ qx.Class.define("qx.Class",
           }
         }
 
-        // Initialize local properties
-        if (clazz.$$properties) {
-          qx.core.Property.init(clazz, this);
-        }
-
-        return instance;
+        return retval;
       }
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
