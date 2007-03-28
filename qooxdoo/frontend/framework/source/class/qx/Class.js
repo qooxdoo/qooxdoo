@@ -1359,13 +1359,13 @@ qx.Class.define("qx.Class",
           }
         }
 
-        // Execute default constructor
-        var instance = construct.apply(this, arguments);
-
         // Attach local properties
         if (!clazz.$$propertiesAttached) {
           qx.core.Property.attach(clazz);
         }
+
+        // Execute default constructor
+        var instance = construct.apply(this, arguments);
 
         // Initialize local mixins
         if (clazz.$$includes)
