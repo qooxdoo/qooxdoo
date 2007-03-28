@@ -1380,6 +1380,10 @@ qx.Class.define("qx.Class",
           }
         }
 
+        if (this.classname === name) {
+          this.$$initialized = true;
+        }
+
         return retval;
       }
 

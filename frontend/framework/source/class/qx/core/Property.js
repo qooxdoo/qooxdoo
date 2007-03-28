@@ -392,9 +392,16 @@ qx.Class.define("qx.core.Property",
 
 
 
+      // [1] PRE CONDITIONS
+
+      if (variant === "init") {
+        code.add('if(this.$$initialized)throw new Error("Could not change or apply init value after constructing phase!");');
+      }
 
 
-      // [1] CHECKING & STORING INCOMING VALUE
+
+
+      // [2] CHECKING & STORING INCOMING VALUE
 
       // Hint: No refresh() here, the value of refresh is the parent value
       if (variant === "set" || variant === "reset" || variant === "style" || variant === "unstyle" || variant === "toggle" || (variant === "init" && config.init === undefined))
@@ -496,7 +503,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [2] GENERATING COMPUTED VALUE
+      // [3] GENERATING COMPUTED VALUE
 
       // In both variants, set and toggle, the value is always the user value and is
       // could not be undefined. This way we are sure we can use this value and don't
@@ -552,7 +559,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [3] RESPECTING INHERITANCE
+      // [4] RESPECTING INHERITANCE
 
       // Require the parent/children interface
 
@@ -584,7 +591,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [4] NORMALIZING UNDEFINED
+      // [5] NORMALIZING UNDEFINED
 
       if (config.inheritable === true)
       {
@@ -601,7 +608,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [5] STORING COMPUTED VALUE
+      // [6] STORING COMPUTED VALUE
 
       // Remember computed old value
       code.add('var old=this.', this.COMPUTED_PREFIX, name, ';');
@@ -630,7 +637,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [6] NOTIFYING DEPENDEND OBJECTS
+      // [7] NOTIFYING DEPENDEND OBJECTS
 
       // Execute user configured setter
       if (config.apply)
@@ -672,7 +679,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [7] RETURNING WITH ORIGINAL INCOMING VALUE
+      // [8] RETURNING WITH ORIGINAL INCOMING VALUE
 
       // Return value
       if (variant !== "reset" && variant !== "unstyle") {
