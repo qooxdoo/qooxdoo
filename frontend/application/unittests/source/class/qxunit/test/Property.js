@@ -195,9 +195,16 @@ qx.Class.define("qxunit.test.Property",
       this.assertIdentical(inst.resetNullProp(), undefined, "b6");
       this.assertIdentical(inst.getNullProp(), "bar", "b7");
 
+      // Check appearance value
+      this.assertIdentical(inst.styleAppearanceProp("black"), "black", "c1");
+      this.assertIdentical(inst.getAppearanceProp(), "black", "c2");
+      this.assertIdentical(inst.setAppearanceProp("white"), "white", "c3");
+      this.assertIdentical(inst.getAppearanceProp(), "white", "c4");
+      this.assertIdentical(inst.resetAppearanceProp(), undefined, "c5");
+      this.assertIdentical(inst.getAppearanceProp(), "black", "c6");
+
       // No prop
       this.assertIdentical(inst.getNoProp(), null, "c1");
-
 
       this.debug("Done: testMultiValues");
     },
