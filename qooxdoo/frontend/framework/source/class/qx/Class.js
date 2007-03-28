@@ -1331,75 +1331,56 @@ qx.Class.define("qx.Class",
      */
     __wrapConstructor : function(construct, name, type)
     {
-      function wrapper()
-      {
-        var clazz = arguments.callee;
+      var code = [];
 
-        if (qx.core.Variant.isSet("qx.debug", "on"))
-        {
-          if (!(this instanceof clazz)) {
-            throw new Error("Plase initialize " + clazz.classname + " objects using the 'new' keyword!");
-          }
-
-          if (type == null)
-          {
-            // pass
-          }
-          else if (type === "abstract")
-          {
-            if (this.classname == clazz.$$abstract) {
-              alert("The class '" + clazz.classname + "' is abstract! It is not possible to instantiate it.");
-            }
-          }
-          else if (type === "singleton")
-          {
-            if (!clazz.$$allowconstruct) {
-              alert("The class '" + clazz.classname + "' is a singleton! It is not possible to instantiate it directly. Use the static 'getInstance' method instead.");
-            }
-          }
-        }
-
-        // Attach local properties
-        if (!clazz.$$propertiesAttached) {
-          qx.core.Property.attach(clazz);
-        }
-
-        // Execute default constructor
-        var retval = construct.apply(this, arguments);
-
-        // Initialize local mixins
-        if (clazz.$$includes)
-        {
-          var mixins = clazz.$$flatIncludes;
-
-          for (var i=0, l=mixins.length; i<l; i++)
-          {
-            if (mixins[i].$$constructor) {
-              mixins[i].$$constructor.call(this);
-            }
-          }
-        }
-
-        if (this.classname === name) {
-          this.$$initialized = true;
-        }
-
-        return retval;
-      }
+      // We can access the class/statics using arguments.callee
+      code.push('var clazz=arguments.callee;');
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (type != null && type === "abstract") {
-          wrapper.$$abstract = name;
+        // new keyword check
+        code.push('if(!(this instanceof clazz))throw new Error("Plase initialize ', name, ' objects using the new keyword!");');
+
+        // add abstract and singleton checks
+        if (type === "abstract") {
+          code.push('if(this.classname===', name, '.classname)throw new Error("The class ', name, ' is abstract! It is not possible to instantiate it.");');
+        } else if (type === "singleton") {
+          code.push('if(!clazz.$$allowconstruct)throw new Error("The class ', name, ' is a singleton! It is not possible to instantiate it directly. Use the static getInstance() method instead.");');
         }
       }
 
-      if (type != null && type === "singleton") {
+      // Attach local properties
+      code.push('if(!clazz.$$propertiesAttached)qx.core.Property.attach(clazz);');
+
+      // Execute default constructor
+      code.push('var retval=clazz.$$original.apply(this,arguments);');
+
+      // Initialize local mixins
+      code.push('if(clazz.$$includes){var mixins=clazz.$$flatIncludes;');
+      code.push('for(var i=0,l=mixins.length;i<l;i++){');
+      code.push('if(mixins[i].$$constructor){mixins[i].$$constructor.call(this);}}}');
+
+      // Mark instance as initialized
+      code.push('if(this.classname===', name, '.classname)this.$$initialized=true;');
+
+      // Return optional return value
+      code.push('return retval;');
+
+      // Parse code as function
+      var wrapper = new Function(code.join(""));
+
+      // Add singleton getInstance()
+      if (type === "singleton") {
         wrapper.getInstance = this.getInstance;
       }
 
+      // Store original constructor
+      wrapper.$$original = construct;
+
+      // Store wrapper into constructor (needed for base calls etc.)
       construct.wrapper = wrapper;
 
+      // Return generated wrapper
       return wrapper;
     }
   }
