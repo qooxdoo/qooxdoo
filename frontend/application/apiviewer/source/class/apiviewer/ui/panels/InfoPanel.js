@@ -852,17 +852,35 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
       // Move protected methods to the end
       nodeArr.sort(function(obj1, obj2)
       {
-        var n1 = obj1.getName();
-        var n2 = obj2.getName();
-        var p1 = n1.charAt(0) == "_";
-        var p2 = n2.charAt(0) == "_";
-        var h1 = n1.charAt(0) == "__";
-        var h2 = n2.charAt(0) == "__";
+        sum1 = 0;
+        if (obj1.isInternal()) {
+          sum1 += 4;
+        }
+        if (obj1.isPrivate()) {
+          sum1 += 2;
+        }
+        if (obj1.isProtected()) {
+          sum1 += 1;
+        }
 
-        if (p1 == p2 && h1 == h2) {
-          return n1.toLowerCase() < n2.toLowerCase() ? -1 : 1;
-        } else {
-          return h1 ? 1 : p1 ? 1 : -1;
+        sum2 = 0;
+        if (obj2.isInternal()) {
+          sum2 += 4;
+        }
+        if (obj2.isPrivate()) {
+          sum2 += 2;
+        }
+        if (obj2.isProtected()) {
+          sum2 += 1;
+        }
+
+        if (sum1 == sum2)
+        {
+          return obj1.getName().toLowerCase() < obj2.getName().toLowerCase() ? -1 : 1;
+        }
+        else
+        {
+          return sum1 - sum2;
         }
       });
     },
