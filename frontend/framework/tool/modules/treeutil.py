@@ -202,9 +202,10 @@ def mapNodeToMap(mapNode):
         raise tree.NodeAccessException("Expected a map node!", mapNode)
 
     keys = {}
-    for child in mapNode.children:
-        if child.type == "keyvalue":
-            keys[child.get("key")] = child.getChild("value")
+    if mapNode.hasChildren():
+        for child in mapNode.children:
+            if child.type == "keyvalue":
+                keys[child.get("key")] = child.getChild("value")
 
     return keys
 
