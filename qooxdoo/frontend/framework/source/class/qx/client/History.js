@@ -45,25 +45,19 @@
 /**
  * A helper for using the browser history in JavaScript Applications without
  * reloading the main page.
- * <p>
+ *
  * Adds entries to the browser history and fires a "request" event when one of
  * the entries was requested by the user (e.g. by clicking on the back button).
- * </p>
  *
- * <p>
  * Browser history support is currently available for Internet Explorer 6/7,
  * Firefox, Opera 9 and WebKit. Safari 2 and older are not yet supported.
- * </p>
  *
- * <p>
  * This module is based on the ideas behind the YUI Browser History Manager
  * by Julien Lecomte (Yahoo), which is described at
- * http://yuiblog.com/blog/2007/02/21/browser-history-manager/.
- *
- * The Yahoo implementation can be found at http://developer.yahoo.com/yui/history.
+ * http://yuiblog.com/blog/2007/02/21/browser-history-manager/. The Yahoo
+ * implementation can be found at http://developer.yahoo.com/yui/history.
  * The original code is licensed under a BSD license
  * (http://developer.yahoo.com/yui/license.txt).
- * </p>
  */
 qx.Class.define("qx.client.History",
 {
