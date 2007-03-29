@@ -214,8 +214,9 @@ qx.Class.define("qx.Mixin",
      */
     isCompatible : function(mixin, clazz)
     {
-      var list = [mixin];
-      return qx.Mixin.checkCompatibility(list.push.apply(list, qx.Class.getMixins(clazz)));
+      var list = qx.Class.getMixins(clazz);
+      list.push(mixin);
+      return qx.Mixin.checkCompatibility(list);
     },
 
 
