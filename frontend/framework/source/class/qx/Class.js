@@ -1103,10 +1103,6 @@ qx.Class.define("qx.Class",
               throw new Error('Could not refine property "' + name + '" without a "refine" flag in the property definition! This class: ' + clazz.classname + ', original class: ' + this.findProperty(clazz, name).classname + '.');
             }
           }
-
-          if (!compat && !config.group && !config.inheritable && !config.nullable && config.init === undefined) {
-            throw new Error("Property: " + name + " of class: " + clazz.classname + " is not nullable but does not have an init value!");
-          }
         }
 
         // Store name into configuration

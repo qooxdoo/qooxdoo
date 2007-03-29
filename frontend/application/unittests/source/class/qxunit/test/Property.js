@@ -207,22 +207,6 @@ qx.Class.define("qxunit.test.Property",
       this.assertIdentical(inst.getNoProp(), null, "c1");
 
       this.debug("Done: testMultiValues");
-    },
-
-    testInvalidPropertyDef : function()
-    {
-      this.assertException(function()
-      {
-        qx.Class.define("qxunit." + Math.round(Math.random()*100000),
-        {
-          extend : Object,
-          properties : { invalid1 : {} }
-        });
-      }, Error, new RegExp('is not nullable but does not have an init value'), "a1");
-
-
-
-
     }
   }
 });
