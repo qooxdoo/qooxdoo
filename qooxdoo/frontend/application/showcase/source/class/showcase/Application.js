@@ -94,6 +94,7 @@ qx.Class.define("showcase.Application",
       this._createPage(barView, "List", "icon/32/actions/view-pane-detailed.png", this._createListDemo(), "threedface");
       this._createPage(barView, "ListView", "icon/32/actions/view-pane-icon.png", this._createListViewDemo(), "threedface");
       this._createPage(barView, "Table", "icon/32/actions/view-pane-column.png", this._createTableDemo(), "threedface", true);
+      this._createPage(barView, "SplitPane", "icon/32/actions/view-pane-text.png", this._createSplitPaneDemo(), "threedface", true);
       this._createPage(barView, "Localization", "icon/32/apps/accessories-archiver.png", this._createLocalizationDemo(), "threedface");
       this._createPage(barView, "Native Window", "icon/32/devices/video-display.png", this._createNativeWindowDemo(), "threedface");
       this._createPage(barView, "Internal Window", "icon/32/apps/preferences-desktop-theme.png", this._createInternalWindowDemo(), null, true);
@@ -1206,6 +1207,92 @@ qx.Class.define("showcase.Application",
 
       return table;
     },
+    
+    
+    /**
+     * TODOC
+     * 
+     * @type member
+     * @return {var} TODOC
+     */
+     _createSplitPaneDemo : function()
+     {
+       var main = new qx.ui.layout.CanvasLayout();
+       
+       main.set(
+       {
+         width         : "auto",
+         height        : "auto",
+         paddingLeft   : 10,
+         paddingTop    : 10,
+         paddingBottom : 10,
+         paddingRight  : 10
+       });
+       
+       /* setup the splitpane */
+       var splitpane = new qx.ui.splitpane.HorizontalSplitPane(150, "1*");
+       splitpane.set(
+       {
+          top           : 0,
+          left          : 0,
+          paddingTop    : 4,
+          paddingLeft   : 4,
+          paddingRight  : 4,
+          paddingBottom : 4,
+          width         : "100%",
+          height        : "100%",
+          border        : qx.renderer.border.BorderPresets.getBlack(),
+          showKnob      : true
+       });
+       splitpane.getLeftArea().setPaddingRight(4);
+       main.add(splitpane);
+       
+       
+       /* setup the list of urls - left widget */
+       var list = new qx.ui.form.List();
+       list.set(
+       {
+          top          : 0,
+          left         : 0,
+          width        : "100%",
+          height       : "auto"
+       });
+       
+       list.getManager().addEventListener("changeSelection", function(e){
+          var urlToLoad = e.getData()[0].getValue();
+          iframe.setSource(urlToLoad);
+       });
+       
+       list.addEventListener("appear", function(e){
+         this.getManager().setSelectedItem(this.getManager().getFirst());
+       });
+       
+       var listItems = [ { text : "qooxdoo", value : "http://www.qooxdoo.org" },
+                         { text : "Ajaxian", value : "http://www.ajaxian.com" },
+                         { text : "Mozilla Developer News", value : "http://developer.mozilla.org/devnews" },
+                         { text : "IE Blog", value : "http://blogs.msdn.com/ie/default.aspx" },
+                         { text : "Surfin Safari", value : "http://webkit.org/blog" }];
+       
+       for (var i=0, j=listItems.length; i<j; i++)
+       {
+         var newListItem = new qx.ui.form.ListItem(listItems[i].text, null, listItems[i].value);
+         list.add(newListItem);
+       };
+       
+       /* setup the iframe - right widget */
+       var iframe = new qx.ui.embed.Iframe(listItems[0].value);
+       iframe.set({
+          top         : 0,
+          left        : 0,
+          width       : "100%",
+          height      : "100%" 
+       });       
+       
+       splitpane.addLeft(list);
+       splitpane.addRight(iframe);
+       
+       return main;
+     },
 
 
     /**
