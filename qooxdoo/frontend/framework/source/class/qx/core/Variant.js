@@ -51,6 +51,12 @@ qx.Class.define("qx.core.Variant",
     __variants : {},
 
 
+    /** Pseudo function as replacement for isSet() which will only be handled by the optimizer */
+    compilerIsSet : function() {
+      return true;
+    },
+
+
     /**
      * Define a variant
      *
@@ -62,18 +68,25 @@ qx.Class.define("qx.core.Variant",
      */
     define : function(key, allowedValues, defaultValue)
     {
-      if (!this.__isValidArray(allowedValues)) {
-        throw new Error('Allowed values of variant "' + key + '" must be defined!');
-      }
+      if (qx.core.Variant.compilerIsSet("qx.debug", "on"))
+      {
+        if (!this.__isValidArray(allowedValues)) {
+          throw new Error('Allowed values of variant "' + key + '" must be defined!');
+        }
 
-      if (defaultValue == undefined) {
-        throw new Error('Default value of variant "' + key + '" must be defined!');
+        if (defaultValue == undefined) {
+          throw new Error('Default value of variant "' + key + '" must be defined!');
+        }
       }
 
       if (!this.__variants[key]) {
         this.__variants[key] = {};
-      } else if (this.__variants[key].defaultValue !== undefined) {
-        throw new Error('Variant "' + key + '" is already defined!');
+      }
+      else if (qx.core.Variant.compilerIsSet("qx.debug", "on"))
+      {
+        if (this.__variants[key].defaultValue !== undefined) {
+          throw new Error('Variant "' + key + '" is already defined!');
+        }
       }
 
       this.__variants[key].allowedValues = allowedValues;
@@ -91,12 +104,15 @@ qx.Class.define("qx.core.Variant",
     {
       var data = this.__variants[key];
 
-      if (data === undefined) {
-        throw new Error('Variant "' + key + '" is not defined.');
-      }
+      if (qx.core.Variant.compilerIsSet("qx.debug", "on"))
+      {
+        if (data === undefined) {
+          throw new Error('Variant "' + key + '" is not defined.');
+        }
 
-      if (data.defaultValue === undefined) {
-        throw new Error('Variant "' + key + '" is not supported by API.');
+        if (data.defaultValue === undefined) {
+          throw new Error('Variant "' + key + '" is not supported by API.');
+        }
       }
 
       return data.value || data.defaultValue;
@@ -112,8 +128,11 @@ qx.Class.define("qx.core.Variant",
       {
         for (var key in qxvariants)
         {
-          if ((key.split(".")).length !== 2) {
-            throw new Error('Malformed settings key "' + key + '". Must be following the schema "namespace.key".');
+          if (qx.core.Variant.compilerIsSet("qx.debug", "on"))
+          {
+            if ((key.split(".")).length !== 2) {
+              throw new Error('Malformed settings key "' + key + '". Must be following the schema "namespace.key".');
+            }
           }
 
           if (!this.__variants[key]) {
@@ -151,14 +170,17 @@ qx.Class.define("qx.core.Variant",
      */
     select : function(key, variantFunctionMap)
     {
-      // WARINING: all changes to this function must be duplicated in the generator!!
-      // modules/variantoptimizer.py (processVariantSelect)
-      if (!this.__isValidObject(this.__variants[key])) {
-        throw new Error("Variant \"" + key + "\" is not defined");
-      }
+      if (qx.core.Variant.compilerIsSet("qx.debug", "on"))
+      {
+        // WARINING: all changes to this function must be duplicated in the generator!!
+        // modules/variantoptimizer.py (processVariantSelect)
+        if (!this.__isValidObject(this.__variants[key])) {
+          throw new Error("Variant \"" + key + "\" is not defined");
+        }
 
-      if (!this.__isValidObject(variantFunctionMap)) {
-        throw new Error("the second parameter must be a map!");
+        if (!this.__isValidObject(variantFunctionMap)) {
+          throw new Error("the second parameter must be a map!");
+        }
       }
 
       for (var variant in variantFunctionMap)
@@ -172,9 +194,12 @@ qx.Class.define("qx.core.Variant",
         return variantFunctionMap["default"];
       }
 
-      throw new Error('No match for variant "' + key +
-        '" in variants [' + qx.lang.Object.getKeysAsString(variantFunctionMap) +
-        '] found, and no default ("default") given');
+      if (qx.core.Variant.compilerIsSet("qx.debug", "on"))
+      {
+        throw new Error('No match for variant "' + key +
+          '" in variants [' + qx.lang.Object.getKeysAsString(variantFunctionMap) +
+          '] found, and no default ("default") given');
+      }
     },
 
 
@@ -271,7 +296,7 @@ qx.Class.define("qx.core.Variant",
      */
     __arrayContains : function(arr, obj)
     {
-      for (var i=0; i<arr.length; i++)
+      for (var i=0, l=arr.length; i<l; i++)
       {
         if (arr[i] == obj) {
           return true;

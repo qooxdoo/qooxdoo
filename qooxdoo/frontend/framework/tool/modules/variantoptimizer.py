@@ -56,6 +56,8 @@ def search(node, variantMap, fileId="", verb=False):
             modified = processVariantSelect(selectNode(variant, "../.."), variantMap) or modified
         elif variantMethod == "isSet":
             modified = processVariantIsSet(selectNode(variant, "../.."), variantMap) or modified
+        elif variantMethod == "compilerIsSet":
+            modified = processVariantIsSet(selectNode(variant, "../.."), variantMap) or modified
 
     return modified
 
