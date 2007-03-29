@@ -731,19 +731,8 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       elem.className = "marked";
       this._markedElement = elem;
 
-      // Scroll the element visible
-      var top = qx.html.Location.getPageBoxTop(elem);
-      var height = elem.offsetHeight;
-
-      var doc = this.getElement();
-      var scrollTop = doc.scrollTop;
-      var clientHeight = doc.offsetHeight;
-
-      if (scrollTop > top) {
-        doc.scrollTop = top;
-      } else if (scrollTop < top + height - clientHeight) {
-        doc.scrollTop = top + height - clientHeight;
-      }
+      qx.html.ScrollIntoView.scrollX(elem);
+      qx.html.ScrollIntoView.scrollY(elem);
     },
 
 

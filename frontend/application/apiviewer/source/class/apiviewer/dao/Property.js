@@ -107,9 +107,20 @@ qx.Class.define("apiviewer.dao.Property", {
       return this._docNode.attributes.type;
     },
 
-    getAllowNull : function()
+    getEvent : function()
     {
-      return this._docNode.attributes.allowNull;
+      return this._docNode.attributes.event;
+    },
+
+
+    getApplyMethod : function()
+    {
+      return this._docNode.attributes.apply;
+    },
+
+    isNullable : function()
+    {
+      return this._docNode.attributes.allowNull || false;
     },
 
     getDefaultValue : function()
@@ -125,6 +136,16 @@ qx.Class.define("apiviewer.dao.Property", {
     getSetAlias : function()
     {
       return this._docNode.attributes.setAlias;
+    },
+
+    isInheritable : function()
+    {
+      return this._docNode.attributes.inheritable || false;
+    },
+
+    isAppearance : function()
+    {
+      return this._docNode.attributes.appearance || false;
     }
 
   }

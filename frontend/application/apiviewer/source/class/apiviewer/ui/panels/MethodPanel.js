@@ -180,6 +180,17 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel", {
           }
         }
 
+        if (method.getApply()) {
+          textHtml.add(
+            ClassViewer.DIV_START_DETAIL_HEADLINE, "Apply method of property:", ClassViewer.DIV_END,
+            ClassViewer.DIV_START_DETAIL_TEXT,
+            apiviewer.ui.panels.InfoPanel.createItemLinkHtml(
+              "#"+method.getApply(), method.getClass(), true, true
+            ),
+            ClassViewer.DIV_END
+          );
+        }
+
         textHtml.add(apiviewer.ui.panels.InfoPanel.createAccessHtml(method));
         textHtml.add(apiviewer.ui.panels.InfoPanel.createIncludedFromHtml(method, currentClassDocNode));
         textHtml.add(apiviewer.ui.panels.InfoPanel.createOverwriddenFromHtml(method));
@@ -220,6 +231,7 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel", {
         node.getSee().length > 0 ||
         node.getErrors().length > 0 ||
         node.isDeprecated() ||
+        node.getApply() ||
         apiviewer.ui.panels.InfoPanel.descriptionHasDetails(docNode)
       );
     }
