@@ -725,6 +725,10 @@ qx.Class.define("qx.ui.window.Window",
 
         this.removeState("active");
         this._captionBar.removeState("active");
+        this._minimizeButton.removeState("active");
+        this._restoreButton.removeState("active");
+        this._maximizeButton.removeState("active");
+        this._closeButton.removeState("active");
       }
       else
       {
@@ -740,6 +744,10 @@ qx.Class.define("qx.ui.window.Window",
 
         this.addState("active");
         this._captionBar.addState("active");
+        this._minimizeButton.addState("active");
+        this._restoreButton.addState("active");
+        this._maximizeButton.addState("active");
+        this._closeButton.addState("active");
       }
 
       return true;
