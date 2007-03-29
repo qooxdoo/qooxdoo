@@ -211,7 +211,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
 
               if (itemNode)
               {
-                var iconUrl = apiviewer.TreeUtil.getIconUrl(itemNode.getNode());
+                var iconUrl = apiviewer.TreeUtil.getIconUrl(itemNode);
                 var iconCode = apiviewer.ui.ClassViewer.createImageHtml(iconUrl);
               }
             }
@@ -906,7 +906,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
           var inherited =
             (fromClassNode != currentClassDocNode) &&
             fromClassNode.getType() == "class";
-          var iconUrl = apiviewer.TreeUtil.getIconUrl(node.getNode(), inherited);
+          var iconUrl = apiviewer.TreeUtil.getIconUrl(node, inherited);
 
           // Create the title row
           html.add('<tr class="', apiviewer.ui.panels.InfoPanel.getItemCssClasses(node), '">');
