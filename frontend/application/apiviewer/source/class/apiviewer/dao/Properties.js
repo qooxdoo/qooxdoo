@@ -24,7 +24,7 @@
 ************************************************************************ */
 
 
-qx.Class.define("apiviewer.dao.Properties", {
+qx.Class.define("apiviewer.dao.Property", {
   extend : apiviewer.dao.ClassItem,
 
   construct : function(classDocNode, parentClass, listName)
@@ -44,8 +44,43 @@ qx.Class.define("apiviewer.dao.Properties", {
           dimensions : attributes.dimensions
         });
       }
+
+      // new style classes
+      if (attributes.check) {
+        if (
+          apiviewer.dao.Class.getClassByName(attributes.check) ||
+          apiviewer.ui.ClassViewer.PRIMITIVES[attributes.check]
+        ) {
+          result.push({
+            type : attributes.check
+          });
+        }
+      }
       return result;
     },
+
+
+    /**
+     * Returns the check attribute of the property definition if
+     * the check attribute does not define an internal type or a
+     * class. In this case use {@link #getTypes}.
+     *
+     * @return {String} the contents of the check attribute.
+     */
+    getCheck : function()
+    {
+      var attributes = this.getDocNode()._docNode.attributes;
+      if (
+        attributes.check &&
+        !apiviewer.dao.Class.getClassByName(attributes.check) &&
+        !apiviewer.ui.ClassViewer.PRIMITIVES[attributes.check]
+        ) {
+        return attributes.check;
+      } else {
+        return "";
+      }
+    },
+
 
     getClassname : function()
     {

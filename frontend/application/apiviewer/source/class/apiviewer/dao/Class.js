@@ -599,7 +599,7 @@ qx.Class.define("apiviewer.dao.Class",
           this._events = this._createNodeList(childNode, apiviewer.dao.Event, this, childNode.type);
           break;
         case "properties" :
-          this._properties = this._createNodeList(childNode, apiviewer.dao.Properties, this, childNode.type);
+          this._properties = this._createNodeList(childNode, apiviewer.dao.Property, this, childNode.type);
           break;
         case "constants" :
           this._constants = this._createNodeList(childNode, apiviewer.dao.Constant, this, childNode.type);
