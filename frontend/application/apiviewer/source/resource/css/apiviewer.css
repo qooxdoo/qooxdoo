@@ -1,3 +1,5 @@
+*{padding:0;margin:0}
+
 #header {
   margin: 0px;
   padding: 0px;
@@ -29,6 +31,12 @@
   margin: 0;
   padding: 0;
 }
+
+
+
+
+
+
 
 #DetailFrame,
 #DetailFrame td,
@@ -84,6 +92,10 @@
   vertical-align: middle;
 }
 
+#DetailFrame ul{
+  margin-left: 20px;
+}
+
 #DetailFrame a:link,
 #DetailFrame a:visited{
   color: #134275;
@@ -130,22 +142,34 @@
 
 #ClassViewer div.classDescription{
   font-size: 12px;
-
-  background: #F3FFD1;
-  border: 1px solid #F3FFD1;
-
-  -moz-border-radius: 5px;
-  padding: 12px;
-  padding-top: 4px;
-  padding-bottom: 4px;
-
-  width: 650px;
+  line-height: 160%;
 	overflow: auto;
+	background: #F3FFD1;
+	margin-bottom: 30px;
+	border: 1px solid #F3FFD1;
+  -moz-border-radius-topright: 20px;
+  padding: 2px 20px;
 }
 
 #ClassViewer div.classDescription p{
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin-top: 14px;
+  margin-bottom: 14px;
+}
+
+#ClassViewer div.classDescription table td,
+#ClassViewer div.classDescription table th{
+  text-align: left;
+  font-size: 12px;
+  padding: 2px 4px;
+}
+
+#ClassViewer div.classDescription table th{
+  font-weight: bold;
+}
+
+#ClassViewer div.classDescription pre,
+#ClassViewer div.classDescription code{
+  background: #FAFFED;
 }
 
 #ClassViewer div.packageName{
@@ -158,6 +182,7 @@
   color: #83B300;
   font-weight: normal;
 }
+
 
 
 
@@ -184,16 +209,16 @@
 }
 
 #ClassViewer table.info tr {
-  background: #F3FFD1;
+  background: #F9FBF9;
 }
 
 #ClassViewer table.info tr.marked {
-  background: #DEFF83;
+  background: #F3FFD1;
 }
 
 #ClassViewer table.info tr td,
 #ClassViewer div.empty-info-body {
-  border-top: 1px solid #ECECEC;
+  border-top: 3px solid #fff;
 }
 
 #ClassViewer table.info tr td{
@@ -279,9 +304,12 @@
 
 
 
+
+
 #ClassViewer div.item-detail-headline {
   font-weight: bold;
   color: #1D65B3;
+  margin-top: 6px;
 }
 
 #ClassViewer div.item-detail-text {
@@ -301,18 +329,37 @@
   font-style: italic;
 }
 
+
+
+
+
+#ClassViewer .tree-headline{
+  color: #134275;
+  font-size: 14px;
+  margin-top: 26px;
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+
+
+
+
+
+
 #ClassViewer code,
 #ClassViewer pre{
   font-family: Consolas, "Bitstream Vera Sans Mono", "Courier New", monospace;
+  font-size: 12px;
   background: #FFF;
   padding: 1px;
+  border: 1px solid #ECECEC;
 }
 
 #ClassViewer pre{
   overflow: auto;
   padding: 4px 8px;
-  margin-top: 8px;
-  margin-bottom: 8px;
+  margin-top: 14px;
+  margin-bottom: 14px;
 }
 
 #ClassViewer b,
@@ -336,6 +383,8 @@
   font-weight: bold;
   font-size: 11px;
 }
+
+
 
 
 
@@ -379,6 +428,12 @@
 }
 
 
+
+
+
+
+
+
 table.states {
 	empty-cells: show;
 }
@@ -393,9 +448,12 @@ span.item-deprecated {
 	color: #7193b9;
 }
 
+tr.item-protected{
+  background: #FFFAED !important;
+}
 
 tr.item-private,
 tr.item-internal {
-	background: #F6efe2 !important;
+	background: #FFF3F4 !important;
 }
 

@@ -162,11 +162,14 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     /** {string} The start tag of a div containing an item description. */
     DIV_START_DESC : '<div class="item-desc">',
 
-    /** {string} The start tag of a div containing the headline of an item detail. */
+    /** {string} The start tag of a div containing the headline of an item headline. */
     DIV_START_DETAIL_HEADLINE : '<div class="item-detail-headline">',
 
     /** {string} The start tag of a div containing the text of an item detail. */
     DIV_START_DETAIL_TEXT : '<div class="item-detail-text">',
+
+    /** {string} The start tag of a div containing the text of a tree headline. */
+    DIV_START_TREE_HEADLINE : '<div class="tree-headline">',
 
     /** {string} The start tag of a div containing the headline of an item error. */
     DIV_START_ERROR_HEADLINE : '<div class="item-detail-error">',
@@ -475,7 +478,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
         default:
           var subObjectsName = "sub classes"
           break;
-
       }
 
       var classHtml = new qx.util.StringBuilder();
@@ -483,10 +485,8 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       // Add the class description
       var desc = classNode.getDescription();
 
-      if (desc != "")
-      {
+      if (desc != "") {
         classHtml.add('<div class="classDescription">', apiviewer.ui.panels.InfoPanel.resolveLinkAttributes(desc, classNode), '</div>');
-        classHtml.add("<br/>");
       }
 
       // Add the class hierarchy
@@ -502,8 +502,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
           break;
       }
 
-      classHtml.add('<br/>');
-
       classHtml.add(this.__getDependentClassesHtml(classNode.getChildClasses(), "Direct " + subObjectsName + ":"));
       classHtml.add(this.__getDependentClassesHtml(classNode.getInterfaces(), "Implemented interfaces:"));
       classHtml.add(this.__getDependentClassesHtml(classNode.getMixins(), "Included mixins:"));
@@ -511,13 +509,12 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       classHtml.add(this.__getDependentClassesHtml(classNode.getIncluder(), "Classes including this mixin:"));
 
       var construct = classNode.getConstructor();
-      if (construct)
-      {
+      if (construct) {
         classHtml.add(apiviewer.ui.panels.InfoPanel.createSeeAlsoHtml(construct));
-        classHtml.add('<br/>');
       }
 
       classHtml.add(apiviewer.ui.panels.InfoPanel.createDeprecationHtml(classNode, "class"));
+      classHtml.add('<br/><br/>');
 
       this._classDescElem.innerHTML = classHtml.get();
       apiviewer.ui.ClassViewer.fixLinks(this._classDescElem);
@@ -546,7 +543,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
 
       if (dependentClasses.length > 0)
       {
-        var result = new qx.util.StringBuilder(ClassViewer.DIV_START_DETAIL_HEADLINE, title, ClassViewer.DIV_END, ClassViewer.DIV_START_DETAIL_TEXT);
+        var result = new qx.util.StringBuilder(ClassViewer.DIV_START_TREE_HEADLINE, title, ClassViewer.DIV_END);
 
         for (var i=0; i<dependentClasses.length; i++)
         {
@@ -556,8 +553,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
           result.add(apiviewer.ui.panels.InfoPanel.createItemLinkHtml(dependentClasses[i], null, true, false));
         }
 
-        result.add(ClassViewer.DIV_END);
-        result.add('<br/>');
         result = result.get();
       } else {
         result = "";
@@ -577,7 +572,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       var ClassViewer = apiviewer.ui.ClassViewer;
 
       // Create the class hierarchy
-      var classHtml = new qx.util.StringBuilder(ClassViewer.DIV_START_DETAIL_HEADLINE, "Inheritance hierarchy:", ClassViewer.DIV_END);
+      var classHtml = new qx.util.StringBuilder(ClassViewer.DIV_START_TREE_HEADLINE, "Inheritance hierarchy:", ClassViewer.DIV_END);
 
       var classHierarchy = classNode.getClassHierarchy();
 
@@ -586,6 +581,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
 
       for (var i=classHierarchy.length-1; i>=0; i--)
       {
+        classHtml.add(ClassViewer.DIV_START);
         classHtml.add(
           ClassViewer.createImageHtml("api/image/nextlevel.gif", null, "margin-left:" + indent + "px"),
           ClassViewer.createImageHtml(apiviewer.TreeUtil.getIconUrl(classHierarchy[i]))
@@ -597,8 +593,8 @@ qx.Class.define("apiviewer.ui.ClassViewer",
           classHtml.add(classHierarchy[i].getFullName());
         }
 
-        classHtml.add("<br/>");
         indent += 18;
+        classHtml.add(ClassViewer.DIV_END);
       }
       return classHtml.get();
     },
@@ -677,10 +673,8 @@ qx.Class.define("apiviewer.ui.ClassViewer",
 
       if(classNode.getItemList(superList).length > 0)
       {
-        classHtml.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "Inheritance hierarchy:", ClassViewer.DIV_END);
-        classHtml.add("<div style='line-height:15px'>");
+        classHtml.add(ClassViewer.DIV_START_TREE_HEADLINE, "Inheritance hierarchy:", ClassViewer.DIV_END);
         classHtml.add(generateTree([classNode], true).join("<br />\n"));
-        classHtml.add("</div>");
       }
 
       return classHtml.get();
