@@ -62,9 +62,9 @@ qx.Class.define("qx.core.Property",
       "Window"    : 'value != null && window.document',
       "Event"     : 'value != null && value.type !== undefined',
 
-      "Class"     : 'value != null && value.$$type === "Class"'
-      "Mixin"     : 'value != null && value.$$type === "Mixin"'
-      "Interface" : 'value != null && value.$$type === "Interface"'
+      "Class"     : 'value != null && value.$$type === "Class"',
+      "Mixin"     : 'value != null && value.$$type === "Mixin"',
+      "Interface" : 'value != null && value.$$type === "Interface"',
       "Theme"     : 'value != null && value.$$type === "Theme"'
     },
 
