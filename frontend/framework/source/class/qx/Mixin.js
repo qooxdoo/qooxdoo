@@ -21,6 +21,7 @@
 /* ************************************************************************
 
 #module(core)
+#module(oo)
 
 ************************************************************************ */
 
@@ -310,6 +311,24 @@ qx.Class.define("qx.Mixin",
     __registry : {},
 
 
+    /** {Map} allowed keys in mixin definition */
+    __allowedKeys : qx.core.Variant.select("qx.debug",
+    {
+      "on":
+      {
+        "include"    : "object",   // Mixin | Mixin[]
+        "statics"    : "object",   // Map
+        "members"    : "object",   // Map
+        "properties" : "object",   // Map
+        "events"     : "object",   // Map
+        "destruct"   : "function", // Function
+        "construct"  : "function"  // Function
+      },
+
+      "default" : null
+    }),
+
+
     /**
      * Validates incoming configuration and checks keys and values
      *
@@ -321,20 +340,11 @@ qx.Class.define("qx.Mixin",
     {
       "on": function(name, config)
       {
-        var allowedKeys =
-        {
-          "include"    : "object",   // Mixin | Mixin[]
-          "statics"    : "object",   // Map
-          "members"    : "object",   // Map
-          "properties" : "object",   // Map
-          "events"     : "object",   // Map
-          "destruct"   : "function", // Function
-          "construct"  : "function"  // Function
-        };
-
+        // Validate keys
+        var allowed = this.__allowedKeys;
         for (var key in config)
         {
-          if (!allowedKeys[key]) {
+          if (!allowed[key]) {
             throw new Error('The configuration key "' + key + '" in mixin "' + name + '" is not allowed!');
           }
 
@@ -342,8 +352,8 @@ qx.Class.define("qx.Mixin",
             throw new Error('Invalid key "' + key + '" in mixin "' + name + '"! The value is undefined/null!');
           }
 
-          if (typeof config[key] !== allowedKeys[key]) {
-            throw new Error('Invalid type of key "' + key + '" in mixin "' + name + '"! The type of the key must be "' + allowedKeys[key] + '"!');
+          if (allowed[key] !== null && typeof config[key] !== allowed[key]) {
+            throw new Error('Invalid type of key "' + key + '" in mixin "' + name + '"! The type of the key must be "' + allowed[key] + '"!');
           }
         }
 

@@ -21,6 +21,7 @@
 /* ************************************************************************
 
 #module(core)
+#module(oo)
 
 ************************************************************************ */
 
@@ -349,6 +350,22 @@ qx.Class.define("qx.Interface",
     }),
 
 
+    /** {Map} allowed keys in interface definition */
+    __allowedKeys : qx.core.Variant.select("qx.debug",
+    {
+      "on":
+      {
+        "extend"     : "object", // Interface | Interface[]
+        "statics"    : "object", // Map
+        "members"    : "object", // Map
+        "properties" : "object", // Map
+        "events"     : "object"  // Map
+      },
+
+      "default" : null
+    }),
+
+
     /**
      * Validates incoming configuration and checks keys and values
      *
@@ -362,18 +379,11 @@ qx.Class.define("qx.Interface",
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           // Validate keys
-          var allowedKeys =
-          {
-            "extend"     : "object", // Interface | Interface[]
-            "statics"    : "object", // Map
-            "members"    : "object", // Map
-            "properties" : "object", // Map
-            "events"     : "object"  // Map
-          };
+          var allowed = this.__allowedKeys;
 
           for (var key in config)
           {
-            if (!allowedKeys[key]) {
+            if (allowed[key] === undefined) {
               throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
             }
 
@@ -381,8 +391,8 @@ qx.Class.define("qx.Interface",
               throw new Error("Invalid key '" + key + "' in interface '" + name + "'! The value is undefined/null!");
             }
 
-            if (typeof config[key] !== allowedKeys[key]) {
-              throw new Error('Invalid type of key "' + key + '" in interface "' + name + '"! The type of the key must be "' + allowedKeys[key] + '"!');
+            if (allowed[key] !== null && typeof config[key] !== allowed[key]) {
+              throw new Error('Invalid type of key "' + key + '" in interface "' + name + '"! The type of the key must be "' + allowed[key] + '"!');
             }
           }
 
