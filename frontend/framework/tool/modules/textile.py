@@ -33,10 +33,10 @@ Parts of the documentation and some of the regular expressions are (c) Brad
 Choate, http://bradchoate.com/. Thanks, Brad!
 """
 __license__ = """
-Redistribution and use in source and binary forms, with or without 
+Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
 
-* Redistributions of source code must retain the above copyright notice, 
+* Redistributions of source code must retain the above copyright notice,
   this list of conditions and the following disclaimer.
 
 * Redistributions in binary form must reproduce the above copyright notice,
@@ -48,14 +48,14 @@ modification, are permitted provided that the following conditions are met:
   prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
-ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE 
-LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
-CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
-SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
-INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
-CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 """
@@ -106,8 +106,8 @@ __history__ = """
   footnote to the reference link. Escaped '<' and '>' in the self-
   generated documentation.
 2.0.9 - 2004/10/04 - RAFA - In images, if ALT is not defined, add an
-  empty attribute. Added "LaTeX" style open/close quotes. Fixed a bug 
-  where the acronym definition was being formatted with inline rules. 
+  empty attribute. Added "LaTeX" style open/close quotes. Fixed a bug
+  where the acronym definition was being formatted with inline rules.
   Handle "broken" lines correctly, removing the <br /> from inside
   split HTML tags.
 2.0.10 - 2004/10/06 - RAFA, LO - Escape all non-escaped ampersands.
@@ -152,7 +152,7 @@ DEBUGLEVEL = 0
 # a small compensation for writing PyTextile. It's commented
 # off as default.
 #amazon_associate_id = 'bomtempo-21'
-amazon_associate_id = None 
+amazon_associate_id = None
 
 #AMAZON = 'www.amazon.co.uk'
 AMAZON = 'www.amazon.com'
@@ -179,7 +179,7 @@ def _in_tag(text, tag):
         text = text.split('</%s' % tag, 1)[0]
 
     text = text.strip().replace('\r\n', '\n')
-    
+
     return text
 
 
@@ -201,7 +201,7 @@ try:
         """
         # Fix line continuations.
         code = preg_replace(r' \\\n', ' \\\\\n', code)
-        
+
         code_in  = StringIO(code)
         code_out = StringIO()
 
@@ -224,7 +224,7 @@ except ImportError:
 try:
     # This is mxTidy.
     from mx.Tidy import Tidy
-    
+
     def _tidy1(text):
         """mxTidy's XHTML validator.
 
@@ -252,7 +252,7 @@ except ImportError:
 
     except ImportError:
         _tidy = None
-    
+
 
 # This is good for debugging.
 def _debug(s, level=1):
@@ -285,7 +285,7 @@ parameters = {
                     )                               #
                     (?![^\s]*(?:\([\w#]+\)))        # must happen once
                  ''',
-           
+
     # Language.
     'lang':     r'''(?:\[[\w-]+\])                  # [lang]
                     (?![^\s]*(?:\[.*?\]))           # must happen once
@@ -300,7 +300,7 @@ parameters = {
 res = {
     # Punctuation.
     'punct': r'''[\!"#\$%&'()\*\+,\-\./:;<=>\?@\[\\\]\^_`{\|}\~]''',
-        
+
     # URL regular expression.
     'url':   r'''(?=[a-zA-Z0-9./#])                         # Must start correctly
                  (?:                                        # Match the leading part (proto://hostname, or just hostname)
@@ -310,7 +310,7 @@ res = {
                          \w+                                #         username
                          (?::\w+)?                          #         optional :password
                          @                                  #         @
-                     )?                                     # 
+                     )?                                     #
                      [-\w]+(?:\.\w[-\w]*)+                  #     hostname (sub.example.com)
                  |                                          #
                      (?:mailto:)?                           #     Optional mailto:
@@ -349,7 +349,7 @@ res = {
 
 
     # Block attributes.
-    'battr': r'''(?P<parameters>                            # 
+    'battr': r'''(?P<parameters>                            #
                      (?: %(align)s                          # alignment
                      |   %(classid)s                        # class and/or id
                      |   %(padding)s                        # padding tags
@@ -360,7 +360,7 @@ res = {
               ''' % parameters,
 
     # (Un)ordered list attributes.
-    'olattr': r'''(?P<olparameters>                         # 
+    'olattr': r'''(?P<olparameters>                         #
                       (?: %(align)s                         # alignment
                       | ((?:\(\#[\w]+\))                    # (#id)
                           |                                 #
@@ -375,7 +375,7 @@ res = {
               ''' % parameters,
 
     # List item attributes.
-    'liattr': r'''(?P<liparameters>                         # 
+    'liattr': r'''(?P<liparameters>                         #
                       (?: %(align)s                         # alignment
                       |   %(classid)s                       # class and/or id
                       |   %(padding)s                       # padding tags
@@ -409,7 +409,7 @@ res = {
                      (?:                                    #
                      (?: [<>]+                              # horizontal alignment tags
                          (?![^\s]*(?:[<>])))                #     (must happen once)
-                     |                                      # 
+                     |                                      #
                      (?: [\-\^~]+                           # vertical alignment tags
                          (?![^\s]*(?:[\-\^~])))             #     (must happen once)
                      | %(classid)s                          # class and/or id
@@ -426,7 +426,7 @@ res = {
                       (?:                                   # or
                           (?:([\d]+)%?w\s([\d]+)%?h)        #     10h 20w
                           |                                 #     or
-                          (?:([\d]+)%?h\s([\d]+)%?w)        #     20w 10h 
+                          (?:([\d]+)%?h\s([\d]+)%?w)        #     20w 10h
                       )                                     #
                   )?                                        #
                ''',
@@ -469,7 +469,7 @@ def preg_replace(pattern, replacement, text):
             counter += 1
 
         return rc
-        
+
     p = re.compile(pattern)
     _debug(pattern)
 
@@ -503,10 +503,10 @@ def html_replace(pattern, replacement, text):
 class _BaseHTMLProcessor(sgmllib.SGMLParser):
     elements_no_end_tag = ['area', 'base', 'basefont', 'br', 'col', 'frame', 'hr',
       'img', 'input', 'isindex', 'link', 'meta', 'param']
-    
+
     def __init__(self):
         sgmllib.SGMLParser.__init__(self)
-    
+
     def reset(self):
         self.pieces = []
         sgmllib.SGMLParser.reset(self)
@@ -516,7 +516,7 @@ class _BaseHTMLProcessor(sgmllib.SGMLParser):
         attrs = [(k.lower(), sgmllib.charref.sub(lambda m: unichr(int(m.groups()[0])), v).strip()) for k, v in attrs]
         attrs = [(k, k in ('rel', 'type') and v.lower() or v) for k, v in attrs]
         return attrs
-    
+
     def unknown_starttag(self, tag, attrs):
         # called for each start tag
         # attrs is a list of (attr, value) tuples
@@ -526,7 +526,7 @@ class _BaseHTMLProcessor(sgmllib.SGMLParser):
             self.pieces.append("<%(tag)s%(strattrs)s />" % locals())
         else:
             self.pieces.append("<%(tag)s%(strattrs)s>" % locals())
-        
+
     def unknown_endtag(self, tag):
         # called for each end tag, e.g. for </pre>, tag will be "pre"
         # Reconstruct the original end tag.
@@ -591,20 +591,20 @@ class _HTMLSanitizer(_BaseHTMLProcessor):
       'rel', 'rev', 'rows', 'rowspan', 'rules', 'scope', 'selected', 'shape', 'size',
       'span', 'src', 'start', 'summary', 'tabindex', 'target', 'title', 'type',
       'usemap', 'valign', 'value', 'vspace', 'width']
-    
-    unacceptable_elements_with_end_tag = ['script', 'applet'] 
-    
+
+    unacceptable_elements_with_end_tag = ['script', 'applet']
+
     # This if for MathML.
     mathml_elements = ['math', 'mi', 'mn', 'mo', 'mrow', 'msup']
     mathml_attributes = ['mode', 'xmlns']
 
     acceptable_elements = acceptable_elements + mathml_elements
     acceptable_attributes = acceptable_attributes + mathml_attributes
-                  
+
     def reset(self):
         _BaseHTMLProcessor.reset(self)
         self.unacceptablestack = 0
-        
+
     def unknown_starttag(self, tag, attrs):
         if not tag in self.acceptable_elements:
             if tag in self.unacceptable_elements_with_end_tag:
@@ -639,7 +639,7 @@ class Textiler:
     """
     def __init__(self, text=''):
         """Instantiate the class, passing the text to be formatted.
-            
+
         Here we pre-process the text and collect all the link
         lookups for later.
         """
@@ -670,7 +670,7 @@ class Textiler:
                                 \s                       # whitespace
                                 (?P<text>.*)             # text
                              ''' % self.res, self.paragraph),
-   
+
                            # Pre-formatted text.
                            (r'''^pre                     # Pre signature
                                 %(battr)s                # Pre attributes
@@ -679,7 +679,7 @@ class Textiler:
                                 \s                       # whitespace
                                 (?P<text>.*)             # text
                              ''' % self.res, self.pre),
-   
+
                            # Block code.
                            (r'''^bc                      # Blockcode signature
                                 %(battr)s                # Blockcode attributes
@@ -688,7 +688,7 @@ class Textiler:
                                 \s                       # whitespace
                                 (?P<text>.*)             # text
                              ''' % self.res, self.bc),
-   
+
                            # Blockquote.
                            (r'''^bq                      # Blockquote signature
                                 %(battr)s                # Blockquote attributes
@@ -703,7 +703,7 @@ class Textiler:
                                 \s                       # whitespace
                                 (?P<text>.*)             # text
                              ''' % self.res, self.blockquote),
-   
+
                            # Header.
                            (r'''^h                       # Header signature
                                 (?P<header>\d)           # Header number
@@ -713,7 +713,7 @@ class Textiler:
                                 \s                       # whitespace
                                 (?P<text>.*)             # text
                              ''' % self.res, self.header),
-   
+
                            # Footnote.
                            (r'''^fn                      # Footnote signature
                                 (?P<footnote>[\d]+)      # Footnote number
@@ -722,7 +722,7 @@ class Textiler:
                                 \s                       # whitespace
                                 (?P<text>.*)             # text
                              ''', self.footnote),
-   
+
                            # Definition list.
                            (r'''^dl                      # Definition list signature
                                 %(battr)s                # Definition list attributes
@@ -731,7 +731,7 @@ class Textiler:
                                 \s                       # whitespace
                                 (?P<text>.*)             # text
                              ''' % self.res, self.dl),
-                           
+
                            # Ordered list (attributes to first <li>).
                            (r'''^%(olattr)s              # Ordered list attributes
                                 \#                       # Ordered list signature
@@ -740,7 +740,7 @@ class Textiler:
                                 \s                       # whitespace
                                 (?P<text>.*)             # text
                              ''' % self.res, self.ol),
-   
+
                            # Unordered list (attributes to first <li>).
                            (r'''^%(olattr)s              # Unrdered list attributes
                                 \*                       # Unordered list signature
@@ -749,21 +749,21 @@ class Textiler:
                                 \s                       # whitespace
                                 (?P<text>.*)             # text
                              ''' % self.res, self.ul),
-   
+
                            # Escaped text.
                            (r'''^==?(?P<text>.*?)(==)?$  # Escaped text
                              ''', self.escape),
 
                            (r'''^(?P<text><.*)$          # XHTML tag
                              ''', self.escape),
-   
+
                            # itex code.
                            (r'''^(?P<text>               # itex code
                                 \\\[                     # starts with \[
                                 .*?                      # complicated mathematical equations go here
                                 \\\])                    # ends with \]
                              ''', self.itex),
-   
+
                            # Tables.
                            (r'''^table                   # Table signature
                                 %(tattr)s                # Table attributes
@@ -772,13 +772,13 @@ class Textiler:
                                 \s                       # whitespace
                                 (?P<text>.*)             # text
                              ''' % self.res, self.table),
-                           
+
                            # Simple tables.
                            (r'''^(?P<text>
                                 \|
                                 .*)
                              ''', self.table),
-   
+
                            # About.
                            (r'''^(?P<text>tell\sme\sabout\stextile\.)$''', self.about),
                           ]
@@ -788,16 +788,16 @@ class Textiler:
         regexps = re.compile(r'''^<pre>?(?P<text>.*?)</pre>?$''', re.VERBOSE | re.DOTALL | re.M)
         counter = 0
         self.protectedPres = []
-        
+
         for item in regexps.findall(text):
           text = text.replace(item, "[[[[[REPL%s]]]]]" % counter, 1)
-          self.protectedPres.append(item)    
-          counter += 1  
-          
+          self.protectedPres.append(item)
+          counter += 1
+
         #if len(self.protectedPres) > 0:
-        #  print ">>>> PREPROCESSED: %s items" % len(self.protectedPres)  
-          
-        return text    
+        #  print ">>>> PREPROCESSED: %s items" % len(self.protectedPres)
+
+        return text
 
 
     def preprocess(self):
@@ -808,6 +808,10 @@ class Textiler:
         # Remove whitespace.
         self.text = self.text.strip()
 
+        # Normalize pre/code
+        self.text = self.text.replace("<pre><code>", "<pre>")
+        self.text = self.text.replace("</code></pre>", "</pre>")
+
         # Zap carriage returns.
         self.text = self.text.replace("\r\n", "\n")
         self.text = self.text.replace("\r", "\n")
@@ -817,25 +821,25 @@ class Textiler:
 
         # Minor sanitizing.
         self.text = self.sanitize(self.text)
-        
+
 
     def postprocess(self, text):
         counter = 0
-        
+
         #if len(self.protectedPres) > 0:
         #  print ">>>> POSTPROCESS: %s items" % len(self.protectedPres)
-      
+
         for entry in self.protectedPres:
-          text = text.replace("[[[[[REPL%s]]]]]" % counter, entry, 1)        
+          text = text.replace("[[[[[REPL%s]]]]]" % counter, entry, 1)
           counter += 1
-        
+
         return text
-        
+
 
     def grab_links(self):
         """Grab link lookups.
 
-        Check the text for link lookups, store them in a 
+        Check the text for link lookups, store them in a
         dictionary, and clean them up.
         """
         # Grab links like this: '[id]example.com'
@@ -881,7 +885,7 @@ class Textiler:
         # Convert to desired output.
         text = unicode(text, encoding)
         text = text.encode(output, 'xmlcharrefreplace')
-        
+
         # Postprocess
         text = self.postprocess(text)
 
@@ -954,7 +958,7 @@ class Textiler:
         =p. Now we're back to a regular paragraph.
 
         p. Becomes:
-        
+
         pre.. <blockquote>
         <p>This is paragraph one of a block quote.</p>
 
@@ -970,7 +974,7 @@ class Textiler:
         [ll]:A language identifier (for a "lang" attribute).
         (class) or (#id) or (class#id):For CSS(Cascading Style Sheets) class and id attributes.
         &gt;, &lt;, =, &lt;&gt;:Modifier characters for alignment. Right-justification, left-justification, centered, and full-justification. The paragraph will also receive the class names "right", "left", "center" and "justify", respectively.
-        ( (one or more):Adds padding on the left. 1em per "(" character is applied. When combined with the align-left or align-right modifier, it makes the block float. 
+        ( (one or more):Adds padding on the left. 1em per "(" character is applied. When combined with the align-left or align-right modifier, it makes the block float.
         ) (one or more):Adds padding on the right. 1em per ")" character is applied. When combined with the align-left or align-right modifier, it makes the block float.
 
         Here's an overloaded example:
@@ -986,8 +990,8 @@ class Textiler:
         clear = None
 
         extending  = 0
-        
-        
+
+
 
         # We capture the \n's because they are important inside "pre..".
         blocks = re.split(r'''((\n\s*){2,})''', self.text)
@@ -1016,10 +1020,10 @@ class Textiler:
                         # an extended <pre> without matching an ordered list.
                         if extending and not captures.get('dot', None):
                             output[-1][1]['text'] += block
-                            break 
+                            break
                         elif captures.has_key('dot'):
                             del captures['dot']
-                            
+
                         # If a signature matches, we are not extending a block.
                         extending = 0
 
@@ -1027,7 +1031,7 @@ class Textiler:
                         if captures.has_key('extend'):
                             extending = captures['extend']
                             del captures['extend']
-                            
+
                         # Apply head_offset.
                         if captures.has_key('header'):
                             captures['header'] = int(captures['header']) + self.head_offset
@@ -1048,7 +1052,7 @@ class Textiler:
                         output[-1][1]['text'] += block
                     elif block.strip():
                         output.append([self.paragraph, {'text': block}])
-    
+
         return output
 
 
@@ -1065,7 +1069,7 @@ class Textiler:
             p>(class#id){color:red}[en]. Paragraph.
 
         or:
-            
+
             p{color:red}[en](class#id)>. Paragraph.
 
         will have its parameters parsed to:
@@ -1084,7 +1088,7 @@ class Textiler:
                 return {}
 
         output = {}
-        
+
         # Match class from (class) or (class#id).
         m = re.search(r'''\((?P<class>[\w]+(\s[\w]+)*)(\#[\w]+)?\)''', parameters)
         if m: output['class'] = m.group('class')
@@ -1110,14 +1114,14 @@ class Textiler:
         if clear:
             output['style'] = output.get('style', '') + clear
 
-        # Remove classes, ids, langs and styles. This makes the 
+        # Remove classes, ids, langs and styles. This makes the
         # regular expression for the positioning much easier.
         parameters = preg_replace(r'''\([\#\w\s]+\)''', '', parameters)
         parameters = preg_replace(r'''\[[\w-]+\]''', '', parameters)
         parameters = preg_replace(r'''{[\w:;#%-]+}''', '', parameters)
 
         style = []
-        
+
         # Count the left indentation.
         l_indent = parameters.count('(')
         if l_indent: style.append('padding-left:%dem;' % l_indent)
@@ -1140,7 +1144,7 @@ class Textiler:
                 for _align, _style, _class in alignments:
                     if parameters.count(_align):
                         style.append(_style)
-                        
+
                         # Append a class name related to the alignment.
                         output['class'] = output.get('class', '') + _class
                         break
@@ -1158,7 +1162,7 @@ class Textiler:
             for _align, _style, in align:
                 if parameters.count(_align):
                     output['align'] = _style
-            
+
             # Vertical alignment.
             for _align, _style, in valign:
                 if parameters.count(_align):
@@ -1201,13 +1205,13 @@ class Textiler:
         if output.has_key('class'):
             output['class'] = output['class'].strip()
 
-        return output 
-        
+        return output
+
 
     def build_open_tag(self, tag, attributes={}, single=0):
         """Build the open tag with specified attributes.
 
-        This function is used by all block builders to 
+        This function is used by all block builders to
         generate the opening tags with the attributes of
         the block.
         """
@@ -1229,17 +1233,17 @@ class Textiler:
     def paragraph(self, text, parameters=None, attributes=None, clear=None):
         """Process a paragraph.
 
-        This function processes the paragraphs, enclosing the text in a 
+        This function processes the paragraphs, enclosing the text in a
         <p> tag and breaking lines with <br />. Paragraphs are formatted
         with all the inline rules.
 
         ---
         h1. Paragraph
-        
+
         This is how you write a paragraph:
 
         pre. p. This is a paragraph, although a short one.
-        
+
         Since the paragraph is the default block, you can safely omit its
         signature ([@p@]). Simply write:
 
@@ -1255,7 +1259,7 @@ class Textiler:
         """
         # Split the lines.
         lines = re.split('\n{2,}', text)
-        
+
         # Get the attributes.
         attributes = attributes or self.parse_params(parameters, clear)
 
@@ -1264,7 +1268,7 @@ class Textiler:
             if line:
                 # Clean the line.
                 line = line.strip()
-                 
+
                 # Build the tag.
                 open_tag = self.build_open_tag('p', attributes)
                 close_tag = '</p>'
@@ -1272,7 +1276,7 @@ class Textiler:
                 # Pop the id because it must be unique.
                 if attributes.has_key('id'): del attributes['id']
 
-                # Break lines. 
+                # Break lines.
                 # line = preg_replace(r'(<br />|\n)+', '<br />\n', line)
 
                 # Remove <br /> from inside broken HTML tags.
@@ -1307,7 +1311,7 @@ class Textiler:
 
         pre. pre. This text is pre-formatted.
         Nothing interesting happens inside here...
-        
+
         Will become:
 
         pre. <pre>
@@ -1350,11 +1354,11 @@ class Textiler:
         into HTML(HyperText Markup Language) entities automatically.
 
         Text in a "bc" code is _not processed_ with the inline rules.
-        
+
         If you have "Twisted":http://www.twistedmatrix.com/ installed,
         Textile can automatically colorize your Python code if you
         specify its language as "Python":
-        
+
         pre. bc[python]. from twisted.python import htmlizer
 
         This will become:
@@ -1505,8 +1509,8 @@ class Textiler:
             # The citation should be on the last line.
             text = text.split('\n')
             if text[-1].startswith('-- '):
-                attributes['cite'] = text.pop()[3:]    
-        
+                attributes['cite'] = text.pop()[3:]
+
             text = '\n'.join(text)
 
         # Build the tag.
@@ -1518,14 +1522,14 @@ class Textiler:
         # the paragraph instead of applying it to the
         # blockquote tag?
         text = self.paragraph(text)
-        
+
         return open_tag + text + close_tag
 
 
     def header(self, text, parameters=None, header=1, clear=None):
         """Process a header.
 
-        The header number is captured by the regular 
+        The header number is captured by the regular
         expression and lives in header. If head_offset is
         set, it is adjusted accordingly.
 
@@ -1614,7 +1618,7 @@ class Textiler:
 
         This function build the list item of an (un)ordered list. It
         works by peeking at the next list item, and searching for a
-        multi-list. If a multi-list is found, it is processed and 
+        multi-list. If a multi-list is found, it is processed and
         appended inside the list item tags, as it should be.
         """
         lines = []
@@ -1636,9 +1640,9 @@ class Textiler:
                 liparameters = ''
 
             liattributes = liattributes or self.parse_params(liparameters)
-            
+
             # Build the item tag.
-            open_tag_li = self.build_open_tag('li', liattributes) 
+            open_tag_li = self.build_open_tag('li', liattributes)
 
             # Reset the attributes, which should be applied
             # only to the first <li>.
@@ -1679,7 +1683,7 @@ class Textiler:
                         else:
                             items.insert(0, n_item)
                             break
-                        
+
                     inlist = self.ol('\n'.join(inlist), olparameters=olparameters)
                     item = item + '\n' + inlist + '\n'
 
@@ -1715,7 +1719,7 @@ class Textiler:
         """Build an ordered list.
 
         This function basically just sets the <ol></ol> with the
-        right attributes, and then pass everything inside to 
+        right attributes, and then pass everything inside to
         _build_li, which does the real tough recursive job.
 
         ---
@@ -1736,7 +1740,7 @@ class Textiler:
         </ol>
 
         If you want a list to "break" an extended block, you should
-        add a period after the hash. This is useful for writing 
+        add a period after the hash. This is useful for writing
         Python code:
 
         pre.. bc[python].. #!/usr/bin/env python
@@ -1826,7 +1830,7 @@ class Textiler:
         """Build an unordered list.
 
         This function basically just sets the <ul></ul> with the
-        right attributes, and then pass everything inside to 
+        right attributes, and then pass everything inside to
         _build_li, which does the real tough recursive job.
 
         ---
@@ -1866,7 +1870,7 @@ class Textiler:
         text = self.build_li(items, liattributes)
 
         return open_tag + text + close_tag
-    
+
 
     def table(self, text, parameters=None, clear=None):
         """Build a table.
@@ -1917,20 +1921,20 @@ class Textiler:
 
         The allowed modifiers are:
 
-        dl. {style rule}:A CSS(Cascading Style Sheets) style rule. 
-        (class) or (#id) or (class#id):A CSS(Cascading Style Sheets) class and/or id attribute. 
-        ( (one or more):Adds 1em of padding to the left for each '(' character. 
-        ) (one or more):Adds 1em of padding to the right for each ')' character. 
-        &lt;:Aligns to the left (floats to left for tables if combined with the ')' modifier). 
-        &gt;:Aligns to the right (floats to right for tables if combined with the '(' modifier). 
-        =:Aligns to center (sets left, right margins to 'auto' for tables). 
-        &lt;&gt;:For cells only. Justifies text. 
-        ^:For rows and cells only. Aligns to the top. 
-        ~ (tilde):For rows and cells only. Aligns to the bottom. 
-        _ (underscore):Can be applied to a table row or cell to indicate a header row or cell. 
-        \\2 or \\3 or \\4, etc.:Used within cells to indicate a colspan of 2, 3, 4, etc. columns. When you see "\\", think "push forward". 
-        /2 or /3 or /4, etc.:Used within cells to indicate a rowspan of 2, 3, 4, etc. rows. When you see "/", think "push downward". 
-        
+        dl. {style rule}:A CSS(Cascading Style Sheets) style rule.
+        (class) or (#id) or (class#id):A CSS(Cascading Style Sheets) class and/or id attribute.
+        ( (one or more):Adds 1em of padding to the left for each '(' character.
+        ) (one or more):Adds 1em of padding to the right for each ')' character.
+        &lt;:Aligns to the left (floats to left for tables if combined with the ')' modifier).
+        &gt;:Aligns to the right (floats to right for tables if combined with the '(' modifier).
+        =:Aligns to center (sets left, right margins to 'auto' for tables).
+        &lt;&gt;:For cells only. Justifies text.
+        ^:For rows and cells only. Aligns to the top.
+        ~ (tilde):For rows and cells only. Aligns to the bottom.
+        _ (underscore):Can be applied to a table row or cell to indicate a header row or cell.
+        \\2 or \\3 or \\4, etc.:Used within cells to indicate a colspan of 2, 3, 4, etc. columns. When you see "\\", think "push forward".
+        /2 or /3 or /4, etc.:Used within cells to indicate a rowspan of 2, 3, 4, etc. rows. When you see "/", think "push downward".
+
         When a cell is identified as a header cell and an alignment is
         specified, that becomes the default alignment for cells below it.
         You can always override this behavior by specifying an alignment
@@ -1962,7 +1966,7 @@ class Textiler:
                 td_tag = 'th'
             else:
                 td_tag = 'td'
-                
+
             col = 0
             for cell in columns[:-1]:
                 p = re.compile(r'''(?:%(tattr)s\.\s)?(?P<text>.*)''' % self.res, re.VERBOSE)
@@ -2036,7 +2040,7 @@ class Textiler:
         """Convert itex to MathML.
 
         If the itex2mml binary is set, we use it to convert the
-        itex to MathML. Otherwise, the text is unprocessed and 
+        itex to MathML. Otherwise, the text is unprocessed and
         return as is.
 
         ---
@@ -2120,7 +2124,7 @@ class Textiler:
             for line in doc:
                 line = line.strip()
                 lines.append(line)
-                
+
             doc = '\n'.join(lines)
             about.append(textile(doc, head_offset=self.head_offset+offset))
 
@@ -2173,7 +2177,7 @@ class Textiler:
             caps_definition = ''.join(re.findall('[A-Z\d]+', definition))
             if caps_acronym and caps_acronym == caps_definition:
                 text = text.replace('%s(%s)' % (acronym, definition), '<acronym title="%s">%s</acronym>' % (definition, acronym))
-        
+
         text = html_replace(r'''(^|\s)([A-Z]{3,})\b(?!\()''', r'''\1<span class="caps">\2</span>''', text)
 
         return text
@@ -2182,7 +2186,7 @@ class Textiler:
     def footnotes(self, text):
         """Add titles to footnotes references.
 
-        This function searches for footnotes references like this [1], and 
+        This function searches for footnotes references like this [1], and
         adds a title to the link containing the first paragraph of the
         footnote.
         """
@@ -2463,7 +2467,7 @@ class Textiler:
                           \w+                                 #         username
                           (?::\w+)?                           #         optional :password
                           @                                   #         @
-                      )?                                      # 
+                      )?                                      #
                       [-\w]+(?:\.\w[-\w]*)+                   #     hostname (sub.example.com)
                   )                                           #
                   (?::\d+)?                                   # Optional port number
@@ -2521,38 +2525,38 @@ class Textiler:
         ---
         h1. Quick tags
 
-        Quick tags allow you to format your text, making it bold, 
+        Quick tags allow you to format your text, making it bold,
         emphasized or small, for example. The quick tags operators
         include:
 
         dl. ==*strong*==:Translates into @<strong>strong</strong>@.
-        ==_emphasis_==:Translates into @<em>emphasis</em>@. 
-        ==**bold**==:Translates into @<b>bold</b>@. 
-        ==__italics__==:Translates into @<i>italics</i>@. 
-        ==++bigger++==:Translates into @<big>bigger</big>@. 
-        ==--smaller--==:Translates into: @<small>smaller</small>@. 
-        ==-deleted text-==:Translates into @<del>deleted text</del>@. 
-        ==+inserted text+==:Translates into @<ins>inserted text</ins>@. 
-        ==^superscript^==:Translates into @<sup>superscript</sup>@. 
-        ==~subscript~==:Translates into @<sub>subscript</sub>@. 
-        ==%span%==:Translates into @<span>span</span>@. 
-        ==@code@==:Translates into @<code>code</code>@. 
-        
+        ==_emphasis_==:Translates into @<em>emphasis</em>@.
+        ==**bold**==:Translates into @<b>bold</b>@.
+        ==__italics__==:Translates into @<i>italics</i>@.
+        ==++bigger++==:Translates into @<big>bigger</big>@.
+        ==--smaller--==:Translates into: @<small>smaller</small>@.
+        ==-deleted text-==:Translates into @<del>deleted text</del>@.
+        ==+inserted text+==:Translates into @<ins>inserted text</ins>@.
+        ==^superscript^==:Translates into @<sup>superscript</sup>@.
+        ==~subscript~==:Translates into @<sub>subscript</sub>@.
+        ==%span%==:Translates into @<span>span</span>@.
+        ==@code@==:Translates into @<code>code</code>@.
+
         Note that within a "==@==...==@==" section, @<@ and @>@ are
-        translated into HTML entities automatically. 
+        translated into HTML entities automatically.
 
         Inline formatting operators accept the following modifiers:
 
-        dl. {style rule}:A CSS(Cascading Style Sheets) style rule. 
-        [ll]:A language identifier (for a "lang" attribute). 
-        (class) or (#id) or (class#id):For CSS(Cascading Style Sheets) class and id attributes. 
+        dl. {style rule}:A CSS(Cascading Style Sheets) style rule.
+        [ll]:A language identifier (for a "lang" attribute).
+        (class) or (#id) or (class#id):For CSS(Cascading Style Sheets) class and id attributes.
         """
         # itex2mml.
         text = re.sub('\$(.*?)\$', lambda m: self.itex(m.group()), text)
 
         # Add span tags to upper-case words which don't have a description.
         #text = preg_replace(r'''(^|\s)([A-Z]{3,})\b(?!\()''', r'''\1<span class="caps">\2</span>''', text)
-        
+
         # Quick tags.
         qtags = [('**', 'b',      {'qf': '(?<!\*)\*\*(?!\*)', 'cls': '\*'}),
                  ('__', 'i',      {'qf': '(?<!_)__(?!_)', 'cls': '_'}),
@@ -2587,12 +2591,12 @@ class Textiler:
                                %(qattr)s                    # attributes
                                (?P<text>[^%(cls)s\s].*?)    # text
                                (?<=\S)                      # non-whitespace
-                               %(qf)s                       # 
+                               %(qf)s                       #
                                (?:                          #
                                    $                        # End of string
                                    |                        #
                                    (?P<post>[\]}])          # Surrounded by ] or }
-                                   |                        # 
+                                   |                        #
                                    (?=%(punct)s{1,2}|\s)    # punctuation
                                 )                           #
                              ''' % self.res, re.VERBOSE)
@@ -2601,14 +2605,14 @@ class Textiler:
                 c = m.groupdict('')
 
                 attributes = self.parse_params(c['parameters'])
-                open_tag  = self.build_open_tag(htmltag, attributes) 
+                open_tag  = self.build_open_tag(htmltag, attributes)
                 close_tag = '</%s>' % htmltag
 
                 # Replace < and > inside <code></code>.
                 if htmltag == 'code':
                     c['text'] = c['text'].replace('<', '&lt;')
                     c['text'] = c['text'].replace('>', '&gt;')
-         
+
                 return open_tag + c['text'] + close_tag
 
             text = p.sub(_replace, text)
@@ -2657,18 +2661,18 @@ class Textiler:
         pre. !(class#id)^image.jpg!
 
         Allowed modifiers include:
-        
-        dl. &lt;:Align the image to the left (causes the image to float if CSS options are enabled). 
-        &gt;:Align the image to the right (causes the image to float if CSS options are enabled). 
-        - (dash):Aligns the image to the middle. 
-        ^:Aligns the image to the top. 
-        ~ (tilde):Aligns the image to the bottom. 
-        {style rule}:Applies a CSS style rule to the image. 
-        (class) or (#id) or (class#id):Applies a CSS class and/or id to the image. 
-        ( (one or more):Pads 1em on the left for each '(' character. 
-        ) (one or more):Pads 1em on the right for each ')' character. 
 
-        Images receive the class "top" when using top alignment, "bottom" 
+        dl. &lt;:Align the image to the left (causes the image to float if CSS options are enabled).
+        &gt;:Align the image to the right (causes the image to float if CSS options are enabled).
+        - (dash):Aligns the image to the middle.
+        ^:Aligns the image to the top.
+        ~ (tilde):Aligns the image to the bottom.
+        {style rule}:Applies a CSS style rule to the image.
+        (class) or (#id) or (class#id):Applies a CSS class and/or id to the image.
+        ( (one or more):Pads 1em on the left for each '(' character.
+        ) (one or more):Pads 1em on the right for each ')' character.
+
+        Images receive the class "top" when using top alignment, "bottom"
         for bottom alignment and "middle" for middle alignment.
         """
         # Compile the beast.
@@ -2686,7 +2690,7 @@ class Textiler:
                            \!               # Closing !
                            (                # Optional link
                                :            #    starts with ':'
-                               (?P<link>    #    
+                               (?P<link>    #
                                %(url)s      #    link HREF
                                )            #
                            )?               #
@@ -2709,7 +2713,7 @@ class Textiler:
             tag = self.image(attributes)
 
             text = text.replace(m.group(), tag)
-        
+
         return text
 
 
@@ -2834,7 +2838,7 @@ class Textiler:
                 # Look for smart search.
                 if self.searches.has_key(proto):
                     link = self.searches[proto] % query
-                
+
                 # Fix URL.
                 attributes['href'] = preg_replace('&(?!(#|amp))', '&amp;', link)
 
@@ -2851,7 +2855,7 @@ class Textiler:
     def format(self, text):
         """Text formatting.
 
-        This function basically defines the order on which the 
+        This function basically defines the order on which the
         formatting is applied.
         """
         text = self.qtags(text)
@@ -2870,7 +2874,7 @@ class Textiler:
         taking care to avoid the escaped parts.
 
         ---
-        h1. Inline 
+        h1. Inline
 
         Inline formatting is applied within a block of text.
         """
@@ -2887,11 +2891,11 @@ class Textiler:
                     line = line[2:-2]
 
                 lines.append(line)
-            
+
             text = ''.join(lines)
 
         return text
-            
+
 
 def textile(text, **args):
     """This is Textile.
@@ -2899,7 +2903,7 @@ def textile(text, **args):
     Generates XHTML from a simple markup developed by Dean Allen.
 
     This function should be called like this:
-    
+
         textile(text, head_offset=0, validate=0, sanitize=0,
                 encoding='latin-1', output='ASCII')
     """
