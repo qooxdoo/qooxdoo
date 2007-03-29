@@ -62,7 +62,6 @@ qx.Class.define("apiviewer.ui.panels.EventPanel", {
     {
       var info = {};
 
-      // Add the title
       info.typeHtml = apiviewer.ui.panels.InfoPanel.createTypeHtml(node, "var");
       info.titleHtml = apiviewer.ui.panels.InfoPanel.setTitleClass(node, node.getName());
 
