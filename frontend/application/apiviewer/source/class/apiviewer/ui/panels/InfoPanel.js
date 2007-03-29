@@ -876,7 +876,18 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
 
         if (sum1 == sum2)
         {
-          return obj1.getName().toLowerCase() < obj2.getName().toLowerCase() ? -1 : 1;
+          var name1 = obj1.getName();
+          var name2 = obj2.getName();
+
+          if (obj1.getFromProperty && obj1.getFromProperty()) {
+            var name1 = obj1.getFromProperty().getName();
+          }
+
+          if (obj2.getFromProperty && obj2.getFromProperty()) {
+            var name2 = obj2.getFromProperty().getName();
+          }
+
+          return name1.toLowerCase() < name2.toLowerCase() ? -1 : 1;
         }
         else
         {
@@ -929,7 +940,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
           // Create the title row
           html.add('<tr class="', apiviewer.ui.panels.InfoPanel.getItemCssClasses(node), '">');
           html.add('<td class="icon">', ClassViewer.createImageHtml(iconUrl), '</td>');
-          html.add('<td class="type">', ((info.typeHtml.length != 0) ? (info.typeHtml + "&nbsp;") : ""), '</td>');
+          html.add('<td class="type">', ((info.typeHtml) ? (info.typeHtml + "&nbsp;") : "&nbsp;"), '</td>');
 
           html.add('<td class="toggle">');
 

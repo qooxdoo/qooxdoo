@@ -57,6 +57,25 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
 
       if (showDetails)
       {
+        // add attributes
+        var attributes = [];
+        if (node.isNullable()) {
+          attributes.push("Nullable");
+        }
+        if (node.isInheritable()) {
+          attributes.push("Inheritable");
+        }
+        if (node.isAppearance()) {
+          attributes.push("Appearance");
+        }
+
+        if (attributes.length > 0)
+        {
+          textHtml.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "Property attributes:", ClassViewer.DIV_END, ClassViewer.DIV_START_DETAIL_TEXT);
+          textHtml.add(attributes.join(", "));
+          textHtml.add(allowedValue, ClassViewer.DIV_END);
+        }
+
         // Add allowed values
         var allowedValue = null;
 
@@ -75,7 +94,7 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
         if (allowedValue)
         {
           textHtml.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "Allowed values:", ClassViewer.DIV_END, ClassViewer.DIV_START_DETAIL_TEXT);
-          if (node.getAllowNull() != "false") {
+          if (node.isNullable()) {
             textHtml.add("null, ");
           }
           textHtml.add(allowedValue, ClassViewer.DIV_END);
@@ -91,7 +110,6 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
             ClassViewer.DIV_END
           );
         }
-
 
         // Add default value
         textHtml.add(
@@ -117,6 +135,29 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
           );
         }
 
+        // add event
+        if (node.getEvent()) {
+          textHtml.add(
+            ClassViewer.DIV_START_DETAIL_HEADLINE, "Change event:", ClassViewer.DIV_END,
+            ClassViewer.DIV_START_DETAIL_TEXT,
+            apiviewer.ui.panels.InfoPanel.createItemLinkHtml(
+              "#"+node.getEvent(), node.getClass(), true, true
+            ),
+            ClassViewer.DIV_END
+          );
+        }
+
+        // add apply method
+        if (node.getApplyMethod()) {
+          textHtml.add(
+            ClassViewer.DIV_START_DETAIL_HEADLINE, "Apply method:", ClassViewer.DIV_END,
+            ClassViewer.DIV_START_DETAIL_TEXT,
+            apiviewer.ui.panels.InfoPanel.createItemLinkHtml(
+              "#"+node.getApplyMethod(), node.getClass(), true, true
+            ),
+            ClassViewer.DIV_END
+          );
+        }
 
         textHtml.add(apiviewer.ui.panels.InfoPanel.createIncludedFromHtml(node, currentClassDocNode));
         textHtml.add(apiviewer.ui.panels.InfoPanel.createOverwriddenFromHtml(node));

@@ -376,6 +376,67 @@ def handleMembers(item, classNode):
                 classNode.addListChild("methods", node)
 
 
+def generatePropertyMethods(propertyName, classNode, addToggle=False):
+
+    if propertyName[:2] == "__":
+        access = "__"
+        name = propertyName[2:]
+    elif propertyName[:1] == "_":
+        access = "_"
+        name = propertyName[1:]
+    else:
+        access = ""
+        name = propertyName
+    name = name[0].upper() + name[1:]
+
+    propData = {
+        access + "set" + name : """/**
+ * Sets the property {@link #%s}.
+ *
+ * @param value {var} New value of the property.
+ */
+ function (value) {}; """ % propertyName,
+
+       access + "get" + name : """/**
+ * Gets the value of the property {@link #%s}.
+ *
+ * @return {var} New value of the property.
+ */
+ function () {}; """ % propertyName,
+
+       access + "reset" + name : """/**
+ * Resets the value of the property {@link #%s}.
+ * Sets the value back to the init value. If the value doesn't have an
+ * init value but is inheritable the value will be set to the inherited
+ * value of the parent.
+ */
+ function () {}; """ % propertyName,
+
+       access + "init" + name : """/**
+ * Calles the apply method and dispatches the change event of the property {@link #%s}
+ * with the properties' default value. This function can only be called from the constructor
+ * of a class.
+ */
+ function () {}; """ % propertyName,
+
+    }
+
+    if addToggle:
+       propData[access + "toggle" + name] = """/**
+ * Toggles the value of the boolean property {@link #%s}.
+ */
+ function () {}; """ % propertyName
+
+    for funcName in propData.keys():
+        functionCode = propData[funcName]
+        node = compileString(functionCode)
+        commentAttributes = comment.parseNode(node)
+        docNode = handleFunction(node, commentAttributes, classNode)
+        docNode.set("name", funcName)
+        docNode.set("fromProperty", propertyName)
+        classNode.addListChild("methods", docNode)
+
+
 def handleProperties(item, classNode):
     if item.hasChildren():
         for keyvalue in item.children:
@@ -413,8 +474,20 @@ def handleProperties(item, classNode):
                 node.set("apply", propDefinition["apply"].getChild("constant").get("value"))
 
             if propDefinition.has_key("event"):
-                node.set("event", propDefinition["event"].getChild("constant").get("value"))
+                eventName = propDefinition["event"].getChild("constant").get("value")
+                node.set("event", eventName)
+                event = tree.Node("event")
+                event.set("name", eventName)
+                event.addChild(tree.Node("desc").set("text", "Fired on change of the property {@link #%s}." % propName))
 
+                typesNode = tree.Node("types")
+                event.addChild(typesNode)
+                itemNode = tree.Node("entry")
+                typesNode.addChild(itemNode)
+                itemNode.set("type", "qx.event.type.ChangeEvent")
+                classNode.addListChild("events", event)
+
+            createToggle = False
             if propDefinition.has_key("check"):
                 check = propDefinition["check"].getFirstChild()
                 if check.type == "array":
@@ -424,6 +497,8 @@ def handleProperties(item, classNode):
                     node.set("check", "Custom check function.")
                 elif check.type == "constant":
                     node.set("check", check.get("value"))
+                    if check.get("value") == "Boolean":
+                        createToggle = True
                 else:
                     raise DocException("Unknown check value", check)
 
@@ -438,6 +513,8 @@ def handleProperties(item, classNode):
             handleInternal(node, commentAttributes)
 
             classNode.addListChild("properties", node)
+
+            generatePropertyMethods(propName, classNode, createToggle)
 
 
 def handleEvents(item, classNode):
@@ -461,6 +538,7 @@ def handleEvents(item, classNode):
                 node.addChild(tree.Node("desc").set("text", desc))
 
             node.set("name", key)
+
             typesNode = tree.Node("types")
             node.addChild(typesNode)
             itemNode = tree.Node("entry")
@@ -1245,6 +1323,15 @@ def removePropertyModifiers(classNode):
     methodsList = classNode.getChild("methods", False)
     if propertiesList and methodsList:
         for propNode in propertiesList.children:
+
+            # for new properties mark the apply method
+            if propNode.get("oldProperty", False) != True:
+                if propNode.get("apply", False) != None:
+                    applyMethod = methodsList.getChildByAttribute("name", propNode.get("apply"), False)
+                    if applyMethod != None:
+                        applyMethod.set("apply", propNode.get("name"))
+                continue
+
             name = propNode.get("name")
             upperName = name[0].upper() + name[1:]
 

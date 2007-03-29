@@ -27,15 +27,21 @@
 qx.Class.define("apiviewer.dao.Param", {
   extend : apiviewer.dao.ClassItem,
 
-  construct : function(classDocNode, parentClass, listName)
+  construct : function(classDocNode, parentClass, method)
   {
-    this.base(arguments, classDocNode, parentClass, listName);
+    this.base(arguments, classDocNode, parentClass);
+    this._method = method;
   },
 
   members : {
 
     getTypes : function()
     {
+      var fromProperty = this.getMethod().getFromProperty();
+      if (fromProperty) {
+        return fromProperty.getTypes();
+      }
+
       var result = [];
       var attributes = this.getDocNode()._docNode.attributes;
       if (attributes.type) {
@@ -45,6 +51,10 @@ qx.Class.define("apiviewer.dao.Param", {
         });
       }
       return result;
+    },
+
+    getMethod : function() {
+      return this._method;
     },
 
     getArrayDimensions : function()
