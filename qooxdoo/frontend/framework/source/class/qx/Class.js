@@ -21,6 +21,7 @@
 /* ************************************************************************
 
 #module(core)
+#module(oo)
 #require(qx.core.Bootstrap)
 #require(qx.core.Setting)
 
@@ -737,6 +738,46 @@ qx.Class.define("qx.Class",
     __registry : {},
 
 
+    /** {Map} allowed keys in class definition */
+    __allowedKeys : qx.core.Variant.select("qx.debug",
+    {
+      "on":
+      {
+        "type"       : "string",    // String
+        "extend"     : "function",  // Function
+        "implement"  : "object",    // Interface[]
+        "include"    : "object",    // Mixin[]
+        "construct"  : "function",  // Function
+        "statics"    : "object",    // Map
+        "properties" : "object",    // Map
+        "members"    : "object",    // Map
+        "settings"   : "object",    // Map
+        "variants"   : "object",    // Map
+        "events"     : "object",    // Map
+        "defer"      : "function",  // Function
+        "destruct"   : "function"   // Function
+      },
+
+      "default" : null
+    }),
+
+
+    /** {Map} allowed keys in static class definition */
+    __staticAllowedKeys : qx.core.Variant.select("qx.debug",
+    {
+      "on":
+      {
+        "type"       : "string",    // String
+        "statics"    : "object",    // Map
+        "settings"   : "object",    // Map
+        "variants"   : "object",    // Map
+        "defer"      : "function"   // Function
+      },
+
+      "default" : null
+    }),
+
+
     /**
      * Validates incoming configuration and checks keys and values
      *
@@ -755,38 +796,11 @@ qx.Class.define("qx.Class",
           throw new Error('Invalid type "' + config.type + '" definition for class "' + name + '"!');
         }
 
-        // Validate keys and values (simple first analysis)
-        var allowedKeys =
-        {
-          "type"       : "string",    // String
-          "extend"     : "function",  // Function
-          "implement"  : "object",    // Interface[]
-          "include"    : "object",    // Mixin[]
-          "construct"  : "function",  // Function
-          "statics"    : "object",    // Map
-          "properties" : "object",    // Map
-          "members"    : "object",    // Map
-          "settings"   : "object",    // Map
-          "variants"   : "object",    // Map
-          "events"     : "object",    // Map
-          "defer"      : "function",  // Function
-          "destruct"   : "function"   // Function
-        };
-
-        var staticAllowedKeys =
-        {
-          "type"       : "string",    // String
-          "statics"    : "object",    // Map
-          "settings"   : "object",    // Map
-          "variants"   : "object",    // Map
-          "defer"      : "object"     // Function
-        };
-
+        // Validate keys
+        var allowed = config.type === "static" ? this.__staticAllowedKeys : this.__allowedKeys;
         for (var key in config)
         {
-          if (config.type === "static" && !staticAllowedKeys[key]) {
-            throw new Error('The configuration key "' + key + '" in static class "' + name + '" is not allowed!');
-          } else if (!allowedKeys[key]) {
+          if (!allowed[key]) {
             throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
           }
 
@@ -794,8 +808,8 @@ qx.Class.define("qx.Class",
             throw new Error('Invalid key "' + key + '" in class "' + name + '"! The value is undefined/null!');
           }
 
-          if (typeof config[key] !== allowedKeys[key]) {
-            throw new Error('Invalid type of key "' + key + '" in class "' + name + '"! The type of the key must be "' + allowedKeys[key] + '"!');
+          if (typeof config[key] !== allowed[key]) {
+            throw new Error('Invalid type of key "' + key + '" in class "' + name + '"! The type of the key must be "' + allowed[key] + '"!');
           }
         }
 
@@ -1108,39 +1122,73 @@ qx.Class.define("qx.Class",
       }
     },
 
-    __validateProperty : function(clazz, name, config, patch)
+    /**
+     *
+     * @param clazz {Class} class to add property to
+     * @param name {String} name of the property
+     * @param config {Map} configuration map
+     * @param patch {Boolean ? false} enable refine/patch?
+     */
+    __validateProperty : qx.core.Variant.select("qx.debug",
     {
-      var has = this.hasProperty(clazz, name);
-      var compat = config._legacy || config._fast || config._cached;
-
-      if (!has && config.refine) {
-        throw new Error("Could not refine non-existend property: " + name + "!");
-      }
-
-      if (has && !patch) {
-        throw new Error("Class " + clazz.classname + " already has a property: " + name + "!");
-      }
-
-      if (has && patch && !compat)
+      "on": function(clazz, name, config, patch)
       {
-        if (!config.refine) {
-          throw new Error('Could not refine property "' + name + '" without a "refine" flag in the property definition! This class: ' + clazz.classname + ', original class: ' + this.findProperty(clazz, name).classname + '.');
+        var has = this.hasProperty(clazz, name);
+        var compat = config._legacy || config._fast || config._cached;
+
+        if (!has && config.refine) {
+          throw new Error("Could not refine non-existend property: " + name + "!");
         }
 
-        for (var key in config)
+        if (has && !patch) {
+          throw new Error("Class " + clazz.classname + " already has a property: " + name + "!");
+        }
+
+        if (has && patch && !compat)
         {
-          if (key !== "init" && key !== "refine") {
-            throw new Error("Class " + clazz.classname + " could not refine property: " + name + "! Key: " + key + " could not be refined!");
+          if (!config.refine) {
+            throw new Error('Could not refine property "' + name + '" without a "refine" flag in the property definition! This class: ' + clazz.classname + ', original class: ' + this.findProperty(clazz, name).classname + '.');
+          }
+
+          for (var key in config)
+          {
+            if (key !== "init" && key !== "refine") {
+              throw new Error("Class " + clazz.classname + " could not refine property: " + name + "! Key: " + key + " could not be refined!");
+            }
           }
         }
-      }
 
-      for (var key in config)
-      {
+        if (compat) {
+          return;
+        }
 
+        // Check 0.7 keys
+        var allowed = config.group ? qx.core.Property.$$allowedGroupKeys : qx.core.Property.$$allowedKeys;
+        for (var key in config)
+        {
+          if (allowed[key] === undefined) {
+            throw new Error('The configuration key "' + key + '" of property "' + name + '" in class "' + clazz.classname + '" is not allowed!');
+          }
 
-      }
-    },
+          if (config[key] == null) {
+            throw new Error('Invalid key "' + key + '" of property "' + name + '" in class "' + clazz.classname + '"! The value is undefined/null!');
+          }
+
+          if (allowed[key] !== null && typeof config[key] !== allowed[key]) {
+            throw new Error('Invalid type of key "' + key + '" of property "' + name + '" in class "' + clazz.classname + '"! The type of the key must be "' + allowed[key] + '"!');
+          }
+        }
+
+        if (config.check != null)
+        {
+          if (!(typeof config.check == "string" ||config.check instanceof Array || config.check instanceof Function)) {
+            throw new Error('Invalid check definition in of property "' + name + '" in class "' + clazz.classname + '"! Needs to be a String, Array or Function.');
+          }
+        }
+      },
+
+      "default" : null
+    }),
 
 
     /**

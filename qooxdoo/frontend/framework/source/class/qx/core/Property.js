@@ -134,12 +134,24 @@ qx.Class.define("qx.core.Property",
      *
      * @internal
      */
-    __allowedKeys :
+    $$allowedKeys :
     {
-      name        : "string",
-      inheritable : "boolean",
-      nullable    : "boolean",
-      refine      : "boolean"
+      name        : "string",   // String
+      inheritable : "boolean",  // Boolean
+      nullable    : "boolean",  // Boolean
+      refine      : "boolean",  // Boolean
+      appearance  : "boolean",  // Boolean
+      init        : null,       // var
+      check       : null,       // Array, String, Function
+      event       : "string",   // String
+      apply       : "string"    // String
+    },
+
+    $$allowedGroupKeys :
+    {
+      name  : "string", // String
+      group : "object", // Array
+      mode  : "string"  // String
     },
 
 
