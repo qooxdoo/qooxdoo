@@ -79,8 +79,6 @@ qx.Class.define("apiviewer.ui.panels.AppearancePanel", {
       if (!showInherited) {
         return appearances;
       }
-      currentClassDocNode = currentClassDocNode;
-
       var classNodes = currentClassDocNode.getClassHierarchy();
       for (var i=0; i<classNodes.length; i++)
       {

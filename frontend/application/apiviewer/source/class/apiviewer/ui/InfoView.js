@@ -71,73 +71,85 @@ qx.Class.define("apiviewer.ui.InfoView",
       var TreeUtil = apiviewer.TreeUtil;
       var legend = [
         {
-          icon: TreeUtil.ICON_PACKAGE,
+          icon: "ICON_PACKAGE",
           desc: "<h3>Package</h3>"
         },
         {
-          icon: TreeUtil.ICON_CLASS,
+          icon: "ICON_CLASS",
           desc: "<h3>Class</h3>"
         },
         {
-          icon: TreeUtil.ICON_CLASS_STATIC,
+          icon: "ICON_CLASS_STATIC",
           desc: "<h3>Static Class</h3>"
         },
         {
-          icon: TreeUtil.ICON_CLASS_ABSTRACT,
+          icon: "ICON_CLASS_ABSTRACT",
           desc: "<h3>Abstract Class</h3>"
         },
         {
-          icon: TreeUtil.ICON_CLASS_SINGLETON,
+          icon: "ICON_CLASS_SINGLETON",
           desc: "<h3>Singleton Class</h3>"
         },
         {
-          icon: TreeUtil.ICON_INTERFACE,
+          icon: "ICON_INTERFACE",
           desc: "<h3>Interface</h3>"
         },
         {
-          icon: TreeUtil.ICON_MIXIN,
+          icon: "ICON_MIXIN",
           desc: "<h3>Mixin</h3>"
         },
         {
-          icon: TreeUtil.ICON_METHOD_PUB,
+          icon: "ICON_METHOD_PUB",
           desc: "<h3>Public Method</h3>"
         },
         {
-          icon: TreeUtil.ICON_METHOD_PROT,
+          icon: "ICON_METHOD_PROT",
           desc: "<h3>Protected Method</h3>"
         },
         {
-          icon: TreeUtil.ICON_PROPERTY,
-          desc: "<h3>Property</h3>"
+          icon: "ICON_METHOD_PRIV",
+          desc: "<h3>Private Method</h3>"
         },
         {
-          icon: TreeUtil.ICON_EVENT,
+          icon: "ICON_PROPERTY_PUB",
+          desc: "<h3>Public Property</h3>"
+        },
+        {
+          icon: "ICON_PROPERTY_PROT",
+          desc: "<h3>Pritected Property</h3>"
+        },
+        {
+          icon: "ICON_PROPERTY_PRIV",
+          desc: "<h3>Private Property</h3>"
+        },
+        {
+          icon: "ICON_EVENT",
           desc: "<h3>Event</h3>"
         },
         {
-          icon: TreeUtil.ICON_CONSTANT,
+          icon: "ICON_CONSTANT",
           desc: "<h3>Constant</h3>"
         },
 
 
         {
-          icon: TreeUtil.OVERLAY_WARN,
+          icon: "OVERLAY_WARN",
           desc: "Package/Class/Mixin/Interface is not fully documented"
         },
         {
-          icon: TreeUtil.OVERLAY_ERROR,
+          icon: "OVERLAY_ERROR",
           desc: "Method/Property/Event is not fully documented"
         },
         {
-          icon: TreeUtil.OVERLAY_MIXIN,
+          icon: "OVERLAY_MIXIN",
           desc: "Method/Property is included from a mixin"
         },
         {
-          icon: TreeUtil.OVERLAY_INHERITED,
+          icon: "OVERLAY_INHERITED",
           desc: "Method/Property/Event is inherited from one of the super classes"
         },
         {
-          icon: TreeUtil.OVERLAY_OVERRIDDEN,
+          icon: "OVERLAY_OVERRIDDEN",
           desc: "Method/Property overwrites the Method/Property of the super class"
         }
 
@@ -150,7 +162,9 @@ qx.Class.define("apiviewer.ui.InfoView",
       {
         var entry = legend[i];
         html.add("<tr><td class='icon'>");
-        html.add(apiviewer.ui.ClassViewer.createImageHtml(entry.icon));
+        html.add(apiviewer.ui.ClassViewer.createImageHtml(
+          apiviewer.TreeUtil.iconNameToIconPath(entry.icon)
+        ));
         html.add("</td><td class='text'>", entry.desc, "</td></tr>");
       }
 

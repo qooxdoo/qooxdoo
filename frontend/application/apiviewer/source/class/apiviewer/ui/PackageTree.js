@@ -179,7 +179,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
       for (var i=0; i<packagesDoc.length; i++)
       {
         var packageDoc = packagesDoc[i];
-        var iconUrl = apiviewer.TreeUtil.getIconUrl(packageDoc.getNode());
+        var iconUrl = apiviewer.TreeUtil.getIconUrl(packageDoc);
         var packageTreeNode = new qx.ui.tree.TreeFolder(packageDoc.getName(), iconUrl);
         packageTreeNode.docNode = packageDoc;
         treeNode.add(packageTreeNode);
@@ -199,7 +199,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
       for (var i=0; i<classesDoc.length; i++)
       {
         var classDoc = classesDoc[i];
-        var iconUrl = apiviewer.TreeUtil.getIconUrl(classDoc.getNode());
+        var iconUrl = apiviewer.TreeUtil.getIconUrl(classDoc);
         var classTreeNode = new qx.ui.tree.TreeFolder(classDoc.getName(), iconUrl);
         classTreeNode.docNode = classDoc;
         classTreeNode.treeType = PackageTree.PACKAGE_TREE;
@@ -224,7 +224,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
       var PackageTree = apiviewer.ui.PackageTree;
 
       // Create the tree node
-      var iconUrl = apiviewer.TreeUtil.getIconUrl(classDocNode.getNode());
+      var iconUrl = apiviewer.TreeUtil.getIconUrl(classDocNode);
       var classTreeNode = new qx.ui.tree.TreeFolder(classDocNode.getFullName(), iconUrl);
       classTreeNode.docNode = classDocNode;
       classTreeNode.treeType = PackageTree.INHERITENCE_TREE;

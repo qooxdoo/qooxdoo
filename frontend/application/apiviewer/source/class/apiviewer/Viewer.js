@@ -156,14 +156,18 @@ qx.Class.define("apiviewer.Viewer",
     {
 
       var self = this;
-      function createButton(text, clazz, checked, id)
+      function createButton(text, clazz, icon, tooltip, checked, id)
       {
         if (!clazz) {
           clazz = qx.ui.toolbar.Button;
         }
-        var button = new clazz(text);
+        var button = new clazz(text, icon);
         if (checked) {
           button.setChecked(true);
+        }
+
+        if (tooltip) {
+          button.setToolTip( new qx.ui.popup.ToolTip(tooltip));
         }
 
         self.__registerWidget(button, id);
@@ -171,15 +175,43 @@ qx.Class.define("apiviewer.Viewer",
       }
 
       var toolbar = new qx.ui.toolbar.ToolBar;
-      toolbar.setHorizontalChildrenAlign("right");
+
+      // TODO: this is a hack to override the appearance. Once the new properties are
+      // TODO: implemented this is hopefully no longer needed.
+      toolbar.setAppearance("empty");
+      toolbar.set({
+        horizontalChildrenAlign : "right",
+        backgroundColor : "threedface",
+        height : 30
+      });
 
       var part = new qx.ui.toolbar.Part;
-      part.setHeight(28);
       toolbar.add(part);
 
-      part.add(createButton("Show Inherited", qx.ui.toolbar.CheckBox, false, "btn_inherited"));
-      part.add(createButton("Show Protected", qx.ui.toolbar.CheckBox, false, "btn_protected"));
-      part.add(createButton("Show Private", qx.ui.toolbar.CheckBox, false, "btn_private"));
+      part.add(createButton(
+        "Inherited",
+        qx.ui.toolbar.CheckBox,
+        apiviewer.TreeUtil.iconNameToIconPath("ICON_METHOD_PUB_INHERITED"),
+        "Show inherited items.",
+        false,
+        "btn_inherited"
+      ));
+      part.add(createButton(
+        "Protected",
+        qx.ui.toolbar.CheckBox,
+        apiviewer.TreeUtil.iconNameToIconPath("ICON_METHOD_PROT"),
+        "Show protected items.",
+        false,
+        "btn_protected"
+      ));
+      part.add(createButton(
+        "Private",
+        qx.ui.toolbar.CheckBox,
+        apiviewer.TreeUtil.iconNameToIconPath("ICON_METHOD_PRIV"),
+        "Show private and internal items.",
+        false,
+        "btn_private"
+      ));
 
       return toolbar;
     },
