@@ -125,7 +125,7 @@ qx.Class.define("apiviewer.dao.Node", {
     /**
      * Get whether the node is public.
      *
-     * @return {Boolean} whether the node is public.
+     * @return {Boolean} Whether the node is public.
      */
     isPublic : function()
     {
@@ -135,6 +135,17 @@ qx.Class.define("apiviewer.dao.Node", {
         !this.isInternal()
       );
     },
+
+
+    /**
+     * Get whether the node has a warning.
+     *
+     * @return {Boolean} whether the node has a warning.
+     */
+     hasWarning : function()
+     {
+       return this._docNode.attributes.hasWarning || false;
+     },
 
 
     /**

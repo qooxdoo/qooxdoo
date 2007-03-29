@@ -122,104 +122,144 @@ qx.Class.define("apiviewer.TreeUtil",
      */
     getIconUrl : function(node, inherited)
     {
+      //var node = node.getNode();
       var constName;
+      var dao = apiviewer.dao;
 
-      switch(node.type)
+      if (node instanceof dao.Package)
       {
-        case "package":
-          constName = "ICON_PACKAGE";
-          break;
+        constName = "ICON_PACKAGE";
+      }
+      else if (node instanceof dao.Class)
+      {
+        switch (node.getType())
+        {
+          case "mixin":
+            constName = "ICON_MIXIN";
+            break;
 
-        case "class":
-          switch (node.attributes.type)
-          {
-            case "mixin":
-              constName = "ICON_MIXIN";
-              break;
+          case "interface":
+            constName = "ICON_INTERFACE";
+            break;
 
-            case "interface":
-              constName = "ICON_INTERFACE";
-              break;
+          default:
+            constName = "ICON_CLASS";
+            if (node.isStatic()) {
+              constName += "_STATIC";
+            } else if (node.isAbstract()) {
+              constName += "_ABSTRACT";
+            } else if (node.isSingleton()) {
+              constName += "_SINGLETON";
+            }
+        }
+      }
+      else if (node instanceof dao.Properties)
+      {
+        constName = "ICON_PROPERTY";
+        if (node.isPublic()) {
+          constName += "_PUB";
+        } else if (node.isProtected()) {
+          constName += "_PROT";
+        } else if (node.isPrivate() || node.isInternal()) {
+          constName += "_PRIV";
+        }
+      }
+      else if (node instanceof dao.Event)
+      {
+        constName = "ICON_EVENT";
+      }
+      else if (node instanceof dao.Method)
+      {
+        constName = "ICON_METHOD";
+        if (node.isPublic()) {
+          constName += "_PUB";
+        } else if (node.isProtected()) {
+          constName += "_PROT";
+        } else if (node.isPrivate() || node.isInternal()) {
+          constName += "_PRIV";
+        }
 
-            default:
-              constName = "ICON_CLASS";
-              if (node.attributes.isStatic) {
-                constName += "_STATIC";
-              } else if (node.attributes.isAbstract) {
-                constName += "_ABSTRACT";
-              } else if (node.attributes.isSingleton) {
-                constName += "_SINGLETON";
-              }
-
-          }
-          break;
-
-        case "property":
-          constName = "ICON_PROPERTY";
-          break;
-
-        case "event":
-          constName = "ICON_EVENT";
-          break;
-
-        case "method":
-          var isCtor = node.attributes.name == null;
-          var isPublic = isCtor || (node.attributes.name.charAt(0) != "_");
-
-          constName = "ICON_METHOD" + (isPublic ? "_PUB" : "_PROT");
-
-          if (isCtor) {
-            constName += "_CTOR";
-          } else if (node.attributes.isStatic) {
-            constName += "_STATIC";
-          } else if (node.attributes.isAbstract) {
-            constName += "_ABSTRACT";
-          }
-          break;
-
-        case "constant":
-          constName = "ICON_CONSTANT";
-          break;
-
-        case "appearance":
-          constName = "ICON_APPEARANCE";
-          break;
-
-        default:
-          throw new Error("Unknown node type: " + node.type);
+        if (node.isConstructor()) {
+          constName += "_CTOR";
+        } else if (node.isStatic()) {
+          constName += "_STATIC";
+        } else if (node.isAbstract()) {
+          constName += "_ABSTRACT";
+        }
+      }
+      else if (node instanceof dao.Constant)
+      {
+        constName = "ICON_CONSTANT";
+      }
+      else if (node instanceof dao.Appearance)
+      {
+        constName = "ICON_APPEARANCE";
+      }
+      else
+      {
+        throw new Error("Unknown node type: " + node.type);
       }
 
+      /*
       if (node.attributes.isMixin) {
         constName += "_MIXIN";
       }
+      */
 
-      if (inherited) {
-        constName += "_INHERITED";
-      } else if (node.attributes.overriddenFrom) {
-        constName += "_OVERRIDDEN";
+      if (node instanceof dao.ClassItem)
+      {
+        if (inherited) {
+          constName += "_INHERITED";
+        } else if (node.getOverriddenFrom && node.getOverriddenFrom()) {
+          constName += "_OVERRIDDEN";
+        }
+
+        if (node.getErrors().length > 0) {
+          constName += "_ERROR";
+        }
       }
 
-      if (node.attributes.hasError) {
-        constName += "_ERROR";
-      } else if (node.attributes.hasWarning) {
+      if (node.hasWarning()) {
         constName += "_WARN";
       }
 
-      var iconUrl = apiviewer.TreeUtil[constName];
+      return apiviewer.TreeUtil.iconNameToIconPath(constName);
+    },
 
-      if (iconUrl == null) {
-        throw new Error("Unknown img constant: " + constName);
+
+    iconNameToIconPath : function(iconName)
+    {
+      var iconUrl = apiviewer.TreeUtil[iconName];
+
+      if (!iconUrl) {
+        var iconParts = iconName.split("_");
+        var itemName = iconParts[0] + "_" + iconParts[1];
+        if (
+          iconParts[2] == "PUB" ||
+          iconParts[2] == "PROT" ||
+          iconParts[2] == "PRIV"
+        ) {
+          itemName += "_" +iconParts[2];
+          var startIndex = 3;
+        } else {
+          startIndex = 2;
+        }
+        iconUrl = [apiviewer.TreeUtil[itemName]];
+        if (iconUrl[0] == null) {
+          throw new Error("Unknown img constant: " + itemName);
+        }
+        for(var i=startIndex; i<iconParts.length; i++) {
+          var iconPart = apiviewer.TreeUtil["OVERLAY_" + iconParts[i]];
+          if (iconPart == null) {
+            throw new Error("Unknown img constant: " + iconParts[i]);
+          }
+          iconUrl.push(iconPart);
+        }
+
       }
-
       return iconUrl;
     },
 
-    /** {string[]} The names of lists containing items. */
-    ITEM_LIST_ARR : [
-      "constants", "properties",
-      "methods", "methods-static",
-      "interfaces", "mixins"
-    ],
 
     /** {string} The URL of the info icon. */
     ICON_INFO : "api/image/information18.png",
@@ -288,7 +328,13 @@ qx.Class.define("apiviewer.TreeUtil",
     ICON_CLASS_SINGLETON_ERROR : "api/image/class_singleton_warning18.gif",
 
     /** {string} The icon URL of a property. */
-    ICON_PROPERTY : "api/image/property18.gif",
+    ICON_PROPERTY_PUB : "api/image/property18.gif",
+
+    /** {string} The icon URL of a protected property. */
+    ICON_PROPERTY_PROT : "api/image/property_protected18.gif",
+
+    /** {string} The icon URL of a private property. */
+    ICON_PROPERTY_PRIV : "api/image/property_private18.gif",
 
     /** {string} The icon URL of an event. */
     ICON_EVENT : "api/image/event18.gif",
@@ -308,11 +354,17 @@ qx.Class.define("apiviewer.TreeUtil",
     /** {string} The icon URL of a public method. */
     ICON_METHOD_PUB : "api/image/method_public18.gif",
 
+    /** {string} The icon URL of a public inherited method. */
+    ICON_METHOD_PUB_INHERITED : "api/image/method_public_inherited18.gif",
+
     /** {string} The icon URL of a constructor. */
     ICON_METHOD_PUB_CTOR : "api/image/constructor18.gif",
 
     /** {string} The icon URL of a protected method. */
     ICON_METHOD_PROT : "api/image/method_protected18.gif",
+
+    /** {string} The icon URL of a protected method. */
+    ICON_METHOD_PRIV : "api/image/method_private18.gif",
 
     /** {string} The icon URL of a constant. */
     ICON_CONSTANT : "api/image/constant18.gif",
@@ -320,8 +372,6 @@ qx.Class.define("apiviewer.TreeUtil",
     /** {string} The icon URL of an appearance. */
     ICON_APPEARANCE : "api/image/constant18.gif"
   },
-
-
 
 
   /*
@@ -356,185 +406,19 @@ qx.Class.define("apiviewer.TreeUtil",
       statics.ICON_CLASS_SINGLETON,
       statics.ICON_CLASS_SINGLETON_WARN,
       statics.ICON_CLASS_SINGLETON_ERROR,
-      statics.ICON_PROPERTY,
+      statics.ICON_PROPERTY_PUB,
+      statics.ICON_PROPERTY_PROT,
+      statics.ICON_PROPERTY_PRIV,
       statics.ICON_EVENT,
       statics.ICON_INTERFACE,
       statics.ICON_INTERFACE_WARN,
       statics.ICON_MIXIN,
       statics.ICON_MIXIN_WARN,
       statics.ICON_METHOD_PUB,
+      statics.ICON_METHOD_PUB_INHERITED,
       statics.ICON_METHOD_PUB_CTOR,
       statics.ICON_METHOD_PROT,
       statics.ICON_CONSTANT
     ];
-
-    /** {string[]} The icon URL of an inherited event. */
-    statics.ICON_EVENT_INHERITED = [statics.ICON_EVENT, statics.OVERLAY_INHERITED ];
-
-    /** {string[]} The icon URL of an inherited event with error. */
-    statics.ICON_EVENT_INHERITED_ERROR = [statics.ICON_EVENT, statics.OVERLAY_INHERITED, statics.OVERLAY_ERROR];
-
-    /** {string} The icon URL of an event. */
-    statics.ICON_EVENT_ERROR = [statics.ICON_EVENT, statics.OVERLAY_ERROR ];
-
-    /** {string[]} The icon URL of a property with warning. */
-    statics.ICON_PROPERTY_WARN = [statics.ICON_PROPERTY, statics.OVERLAY_WARN ];
-
-    /** {string[]} The icon URL of a property with error. */
-    statics.ICON_PROPERTY_ERROR = [statics.ICON_PROPERTY, statics.OVERLAY_ERROR ];
-
-    /** {string[]} The icon URL of an inherited property. */
-    statics.ICON_PROPERTY_INHERITED = [statics.ICON_PROPERTY, statics.OVERLAY_INHERITED ];
-
-    /** {string[]} The icon URL of an inherited property with warning. */
-    statics.ICON_PROPERTY_INHERITED_WARN = [statics.ICON_PROPERTY, statics.OVERLAY_INHERITED, statics.OVERLAY_WARN ];
-
-    /** {string[]} The icon URL of an inherited property with error. */
-    statics.ICON_PROPERTY_INHERITED_ERROR = [statics.ICON_PROPERTY, statics.OVERLAY_INHERITED, statics.OVERLAY_ERROR ];
-
-    /** {string[]} The icon URL of an overridden property. */
-    statics.ICON_PROPERTY_OVERRIDDEN = [statics.ICON_PROPERTY, statics.OVERLAY_OVERRIDDEN ];
-
-    /** {string[]} The icon URL of an overridden property with warning. */
-    statics.ICON_PROPERTY_OVERRIDDEN_WARN = [statics.ICON_PROPERTY, statics.OVERLAY_OVERRIDDEN, statics.OVERLAY_WARN ];
-
-    /** {string[]} The icon URL of an overridden property with error. */
-    statics.ICON_PROPERTY_OVERRIDDEN_ERROR = [statics.ICON_PROPERTY, statics.OVERLAY_OVERRIDDEN, statics.OVERLAY_ERROR ];
-
-    /** {string[]} The icon URL of an overridden property from mixin. */
-    statics.ICON_PROPERTY_MIXIN = [statics.ICON_PROPERTY, statics.OVERLAY_MIXIN];
-
-    /** {string[]} The icon URL of an overridden property from mixin with error. */
-    statics.ICON_PROPERTY_MIXIN_ERROR = [statics.ICON_PROPERTY, statics.OVERLAY_MIXIN, statics.OVERLAY_ERROR ];
-
-    /** {string[]} The icon URL of a public method with warning. */
-    statics.ICON_METHOD_PUB_WARN = [statics.ICON_METHOD_PUB, statics.OVERLAY_ERROR ];
-
-    /** {string[]} The icon URL of a public method with error. */
-    statics.ICON_METHOD_PUB_ERROR = [statics.ICON_METHOD_PUB, statics.OVERLAY_ERROR ];
-
-    /** {string[]} The icon URL of an inherited public method. */
-    statics.ICON_METHOD_PUB_INHERITED = [statics.ICON_METHOD_PUB, statics.OVERLAY_INHERITED ];
-
-    /** {string[]} The icon URL of an inherited public method with warning. */
-    statics.ICON_METHOD_PUB_INHERITED_WARN = [statics.ICON_METHOD_PUB, statics.OVERLAY_INHERITED, statics.OVERLAY_WARN ];
-
-    /** {string[]} The icon URL of an inherited public method with error. */
-    statics.ICON_METHOD_PUB_INHERITED_ERROR = [statics.ICON_METHOD_PUB, statics.OVERLAY_INHERITED, statics.OVERLAY_ERROR ];
-
-    /** {string[]} The icon URL of an overridden public method. */
-    statics.ICON_METHOD_PUB_OVERRIDDEN = [statics.ICON_METHOD_PUB, statics.OVERLAY_OVERRIDDEN ];
-
-    /** {string[]} The icon URL of an overridden public method with warning. */
-    statics.ICON_METHOD_PUB_OVERRIDDEN_WARN = [statics.ICON_METHOD_PUB, statics.OVERLAY_OVERRIDDEN, statics.OVERLAY_WARN ];
-
-    /** {string[]} The icon URL of an overridden public method with error. */
-    statics.ICON_METHOD_PUB_OVERRIDDEN_ERROR = [statics.ICON_METHOD_PUB, statics.OVERLAY_OVERRIDDEN, statics.OVERLAY_ERROR ];
-
-    /** {string[]} The icon URL of a public method from a mixin. */
-    statics.ICON_METHOD_PUB_MIXIN = [statics.ICON_METHOD_PUB, statics.OVERLAY_MIXIN];
-
-    /** {string[]} The icon URL of an inherited public method from a mixin. */
-    statics.ICON_METHOD_PUB_MIXIN_INHERITED = [statics.ICON_METHOD_PUB, statics.OVERLAY_MIXIN, statics.OVERLAY_INHERITED];
-
-    /** {string[]} The icon URL of an inherited public method from a mixin with error. */
-    statics.ICON_METHOD_PUB_MIXIN_ERROR = [statics.ICON_METHOD_PUB, statics.OVERLAY_MIXIN, statics.OVERLAY_ERROR];
-
-    /** {string[]} The icon URL of a public static method. */
-    statics.ICON_METHOD_PUB_STATIC = [statics.ICON_METHOD_PUB, statics.OVERLAY_STATIC ];
-
-    /** {string[]} The icon URL of a public static method with error. */
-    statics.ICON_METHOD_PUB_STATIC_ERROR = [statics.ICON_METHOD_PUB, statics.OVERLAY_STATIC, statics.OVERLAY_ERROR ];
-
-    /** {string[]} The icon URL of a public static method from mixin. */
-    statics.ICON_METHOD_PUB_STATIC_MIXIN = [statics.ICON_METHOD_PUB, statics.OVERLAY_MIXIN ];
-
-    /** {string[]} The icon URL of a public static method from mixin with error. */
-    statics.ICON_METHOD_PUB_STATIC_MIXIN_ERROR = [statics.ICON_METHOD_PUB, statics.OVERLAY_MIXIN, statics.OVERLAY_ERROR ];
-
-    /** {string[]} The icon URL of a public abstract method. */
-    statics.ICON_METHOD_PUB_ABSTRACT = [statics.ICON_METHOD_PUB, statics.OVERLAY_ABSTRACT ];
-
-    /** {string[]} The icon URL of a public abstract method with warning. */
-    statics.ICON_METHOD_PUB_ABSTRACT_WARN = [statics.ICON_METHOD_PUB, statics.OVERLAY_ABSTRACT, statics.OVERLAY_WARN ];
-
-    /** {string[]} The icon URL of a public abstract method with error. */
-    statics.ICON_METHOD_PUB_ABSTRACT_ERROR = [statics.ICON_METHOD_PUB, statics.OVERLAY_ABSTRACT, statics.OVERLAY_ERROR ];
-
-    /** {string[]} The icon URL of an overridden public abstract method. */
-    statics.ICON_METHOD_PUB_ABSTRACT_OVERRIDDEN = [statics.ICON_METHOD_PUB, statics.OVERLAY_ABSTRACT, statics.OVERLAY_OVERRIDDEN ];
-
-    /** {string[]} The icon URL of an overridden public abstract method with warning. */
-    statics.ICON_METHOD_PUB_ABSTRACT_OVERRIDDEN_WARN = [statics.ICON_METHOD_PUB, statics.OVERLAY_ABSTRACT, statics.OVERLAY_OVERRIDDEN, statics.OVERLAY_WARN ];
-
-    /** {string[]} The icon URL of an overridden public abstract method with error. */
-    statics.ICON_METHOD_PUB_ABSTRACT_OVERRIDDEN_ERROR = [statics.ICON_METHOD_PUB, statics.OVERLAY_ABSTRACT, statics.OVERLAY_OVERRIDDEN, statics.OVERLAY_ERROR ];
-
-    /** {string[]} The icon URL of an inherited public abstract method. */
-    statics.ICON_METHOD_PUB_ABSTRACT_INHERITED = [statics.ICON_METHOD_PUB, statics.OVERLAY_ABSTRACT, statics.OVERLAY_INHERITED ];
-
-    /** {string[]} The icon URL of an inherited public abstract method with warning. */
-    statics.ICON_METHOD_PUB_ABSTRACT_INHERITED_WARN = [statics.ICON_METHOD_PUB, statics.OVERLAY_ABSTRACT, statics.OVERLAY_INHERITED, statics.OVERLAY_WARN ];
-
-    /** {string[]} The icon URL of an inherited public abstract method with error. */
-    statics.ICON_METHOD_PUB_ABSTRACT_INHERITED_ERROR = [statics.ICON_METHOD_PUB, statics.OVERLAY_ABSTRACT, statics.OVERLAY_INHERITED, statics.OVERLAY_ERROR ];
-
-    /** {string[]} The icon URL of a constructor with error. */
-    statics.ICON_METHOD_PUB_CTOR_ERROR = [statics.ICON_METHOD_PUB_CTOR, statics.OVERLAY_ERROR ];
-
-    /** {string[]} The icon URL of a protected method with warning. */
-    statics.ICON_METHOD_PROT_WARN = [statics.ICON_METHOD_PROT, statics.OVERLAY_ERROR ];
-
-    /** {string[]} The icon URL of a protected method with error. */
-    statics.ICON_METHOD_PROT_ERROR = [statics.ICON_METHOD_PROT, statics.OVERLAY_ERROR ];
-
-    /** {string[]} The icon URL of an inherited protected method. */
-    statics.ICON_METHOD_PROT_INHERITED = [statics.ICON_METHOD_PROT, statics.OVERLAY_INHERITED ];
-
-    /** {string[]} The icon URL of an inherited protected method with warning. */
-    statics.ICON_METHOD_PROT_INHERITED_WARN = [statics.ICON_METHOD_PROT, statics.OVERLAY_INHERITED, statics.OVERLAY_WARN ];
-
-    /** {string[]} The icon URL of an inherited protected method with error. */
-    statics.ICON_METHOD_PROT_INHERITED_ERROR = [statics.ICON_METHOD_PROT, statics.OVERLAY_INHERITED, statics.OVERLAY_ERROR ];
-
-    /** {string[]} The icon URL of an overridden protected method. */
-    statics.ICON_METHOD_PROT_OVERRIDDEN = [statics.ICON_METHOD_PROT, statics.OVERLAY_OVERRIDDEN ];
-
-    /** {string[]} The icon URL of an overridden protected method with warning. */
-    statics.ICON_METHOD_PROT_OVERRIDDEN_WARN = [statics.ICON_METHOD_PROT, statics.OVERLAY_OVERRIDDEN, statics.OVERLAY_WARN ];
-
-    /** {string[]} The icon URL of an overridden protected method with error. */
-    statics.ICON_METHOD_PROT_OVERRIDDEN_ERROR = [statics.ICON_METHOD_PROT, statics.OVERLAY_OVERRIDDEN, statics.OVERLAY_ERROR ];
-
-    /** {string[]} The icon URL of a protected static method. */
-    statics.ICON_METHOD_PROT_STATIC = [statics.ICON_METHOD_PROT, statics.OVERLAY_STATIC ];
-
-    /** {string[]} The icon URL of a protected static method with error. */
-    statics.ICON_METHOD_PROT_STATIC_ERROR = [statics.ICON_METHOD_PROT, statics.OVERLAY_STATIC, statics.OVERLAY_ERROR ];
-
-    /** {string[]} The icon URL of an abstract protected method. */
-    statics.ICON_METHOD_PROT_ABSTRACT = [statics.ICON_METHOD_PROT, statics.OVERLAY_ABSTRACT ];
-
-    /** {string[]} The icon URL of an abstract protected method with warning. */
-    statics.ICON_METHOD_PROT_ABSTRACT_WARN = [statics.ICON_METHOD_PROT, statics.OVERLAY_ABSTRACT, statics.OVERLAY_WARN ];
-
-    /** {string[]} The icon URL of an abstract protected method with error. */
-    statics.ICON_METHOD_PROT_ABSTRACT_ERROR = [statics.ICON_METHOD_PROT, statics.OVERLAY_ABSTRACT, statics.OVERLAY_ERROR ];
-
-    /** {string[]} The icon URL of an inherited abstract protected method. */
-    statics.ICON_METHOD_PROT_ABSTRACT_INHERITED = [statics.ICON_METHOD_PROT, statics.OVERLAY_ABSTRACT, statics.OVERLAY_INHERITED ];
-
-    /** {string[]} The icon URL of an inherited abstract protected method with warning. */
-    statics.ICON_METHOD_PROT_ABSTRACT_INHERITED_WARN = [statics.ICON_METHOD_PROT, statics.OVERLAY_ABSTRACT, statics.OVERLAY_INHERITED, statics.OVERLAY_WARN ];
-
-    /** {string[]} The icon URL of an inherited abstract protected method with error. */
-    statics.ICON_METHOD_PROT_ABSTRACT_INHERITED_ERROR = [statics.ICON_METHOD_PROT, statics.OVERLAY_ABSTRACT, statics.OVERLAY_INHERITED, statics.OVERLAY_ERROR ];
-
-    /** {string[]} The icon URL of a constant with error. */
-    statics.ICON_CONSTANT_ERROR = [statics.ICON_CONSTANT, statics.OVERLAY_ERROR ];
-
-    /** {string[]} The icon URL of an inherited appearance. */
-    statics.ICON_APPEARANCE_INHERITED = [statics.ICON_CONSTANT, statics.OVERLAY_INHERITED ];
-
   }
 });

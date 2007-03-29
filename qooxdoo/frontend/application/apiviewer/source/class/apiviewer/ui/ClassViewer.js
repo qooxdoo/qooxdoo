@@ -51,6 +51,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     this.setEdge(0);
     this.setHtmlProperty("id", "ClassViewer");
     this.setVisibility(false);
+    this.setClassNode(new apiviewer.dao.Class({}));
 
     apiviewer.ui.ClassViewer.instance = this;
   },
@@ -87,7 +88,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     showPrivate : { _legacy: true, type: "boolean", defaultValue: false },
 
     /** The class to display */
-    classNode : { check : "apiviewer.dao.Class", apply : "showClass", nullable: true}
+    classNode : { _legacy: true}
   },
 
 
@@ -450,13 +451,13 @@ qx.Class.define("apiviewer.ui.ClassViewer",
      * @type member
      * @param classNode {apiviewer.dao.Class} the doc node of the class to show.
      */
-    showClass : function(classNode)
+    _modifyClassNode : function(classNode)
     {
       if (!this._titleElem)
       {
         // _initContentDocument was not called yet
         // -> Do nothing, the class will be shown in _initContentDocument.
-        return ;
+        return true;
       }
 
       this._titleElem.innerHTML = this.__getTitleHtml(classNode);
@@ -526,6 +527,8 @@ qx.Class.define("apiviewer.ui.ClassViewer",
 
       // Scroll to top
       this.getElement().scrollTop = 0;
+
+      return true;
     },
 
 
@@ -585,7 +588,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       {
         classHtml.add(
           ClassViewer.createImageHtml("api/image/nextlevel.gif", null, "margin-left:" + indent + "px"),
-          ClassViewer.createImageHtml(apiviewer.TreeUtil.getIconUrl(classHierarchy[i].getNode()))
+          ClassViewer.createImageHtml(apiviewer.TreeUtil.getIconUrl(classHierarchy[i]))
         );
 
         if (i != 0) {
@@ -640,7 +643,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
             line.add(EMPTY_CELL);
           }
 
-          line.add(ClassViewer.createImageHtml(apiviewer.TreeUtil.getIconUrl(classNode.getNode())));
+          line.add(ClassViewer.createImageHtml(apiviewer.TreeUtil.getIconUrl(classNode)));
           if (!first) {
             line.add(apiviewer.ui.panels.InfoPanel.createItemLinkHtml(classNode.getFullName(), null, false));
           } else {
