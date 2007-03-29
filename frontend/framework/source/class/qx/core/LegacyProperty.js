@@ -31,11 +31,6 @@ qx.Class.define("qx.core.LegacyProperty",
   statics :
   {
     /**
-     * Maps value field name for property names
-     */
-    $$values : {},
-
-    /**
      * Converts the property name to the setter name
      *
      * @type static
@@ -283,7 +278,10 @@ qx.Class.define("qx.core.LegacyProperty",
       // register global uppercase name
       this["PROPERTY_" + config.up] = config.name;
 
-      var valueKey = "_value" + config.method;
+      // new style keys (compatible to qx.core.Property)
+      var valueKey = qx.core.Property.$$store.user[config.name] = "__user$" + config.name;
+
+      // old style keys
       var evalKey = "_eval" + config.method;
       var changeKey = "change" + config.method;
       var modifyKey = "_modify" + config.implMethod;
