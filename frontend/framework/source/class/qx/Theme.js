@@ -22,6 +22,9 @@
 
 #module(core)
 #module(oo)
+#optional(qx.manager.object.AppearanceManager)
+#optional(qx.manager.object.ColorManager)
+#optional(qx.manager.object.ImageManager)
 
 ************************************************************************ */
 

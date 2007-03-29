@@ -22,6 +22,7 @@
 /* ************************************************************************
 
 #module(core)
+#optional(qx.locale.Manager)
 
 ************************************************************************ */
 
@@ -45,7 +46,11 @@ qx.Mixin.define("qx.locale.MTranslation",
     tr : function(messageId, varargs)
     {
       var nlsManager = qx.locale.Manager;
-      return nlsManager.tr.apply(nlsManager, arguments);
+      if (nlsManager) {
+        return nlsManager.tr.apply(nlsManager, arguments);
+      }
+
+      throw new Error("To enable localization please include qx.locale.Manager into your build!");
     },
 
     /**
@@ -64,7 +69,11 @@ qx.Mixin.define("qx.locale.MTranslation",
     trn : function(singularMessageId, pluralMessageId, count, varargs)
     {
       var nlsManager = qx.locale.Manager;
-      return nlsManager.trn.apply(nlsManager, arguments);
+      if (nlsManager) {
+        return nlsManager.trn.apply(nlsManager, arguments);
+      }
+
+      throw new Error("To enable localization please include qx.locale.Manager into your build!");
     },
 
     /**
@@ -77,7 +86,11 @@ qx.Mixin.define("qx.locale.MTranslation",
     marktr : function(messageId)
     {
       var nlsManager = qx.locale.Manager;
-      return nlsManager.marktr.apply(nlsManager, arguments);
+      if (nlsManager) {
+        return nlsManager.marktr.apply(nlsManager, arguments);
+      }
+
+      throw new Error("To enable localization please include qx.locale.Manager into your build!");
     }
   }
 });
