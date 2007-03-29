@@ -11,9 +11,10 @@ compiled-script-file = oo.js
 optimize-strings
 optimize-variables
 optimize-private
-add-file-ids
 use-variant = qx.debug:off
 use-variant = qx.compatibility:off
-print-dependencies
-
 include = oo
+
+# add-new-lines
+# print-dependencies
+# add-file-ids
