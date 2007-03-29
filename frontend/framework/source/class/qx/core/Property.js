@@ -110,7 +110,7 @@ qx.Class.define("qx.core.Property",
       var parent = widget.getParent();
       var store = this.$$store.computed;
       var refresh = this.$$method.refresh;
-      var properties, config, value;
+      var properties;
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -129,16 +129,14 @@ qx.Class.define("qx.core.Property",
           {
             if (properties[name].inheritable)
             {
-              value = parent[store[name]];
-
               if (qx.core.Variant.isSet("qx.debug", "on"))
               {
                 if (qx.core.Setting.get("qx.propertyDebugLevel") > 2) {
-                  widget.debug("Updating property: " + name + " to '" + value + "'");
+                  widget.debug("Updating property: " + name + " to '" + parent[store[name]] + "'");
                 }
               }
 
-              widget[refresh[name]](value);
+              widget[refresh[name]](parent[store[name]]);
             }
           }
         }
