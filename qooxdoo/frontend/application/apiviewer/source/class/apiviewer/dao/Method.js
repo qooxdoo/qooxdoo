@@ -70,6 +70,16 @@ qx.Class.define("apiviewer.dao.Method",
       return this._return;
     },
 
+    getApply : function()
+    {
+      return this._docNode.attributes.apply;
+    },
+
+    getFromProperty : function()
+    {
+      return this.getClass().getItemByListAndName("properties", this._docNode.attributes.fromProperty);
+    },
+
     _initializeFields : function() {
       this.base(arguments);
       this._params = [];
@@ -79,10 +89,10 @@ qx.Class.define("apiviewer.dao.Method",
     {
       switch (node.type) {
         case "params":
-          this._params = this._createNodeList(node, apiviewer.dao.Param, this.getClass());
+          this._params = this._createNodeList(node, apiviewer.dao.Param, this.getClass(), this);
           break;
         case "return":
-          this._return = new apiviewer.dao.ClassItem(node, this.getClass());
+          this._return = new apiviewer.dao.Param(node, this.getClass(), this);
           break;
         default:
           return this.base(arguments, node);

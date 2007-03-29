@@ -38,18 +38,28 @@ qx.Class.define("apiviewer.dao.Event", {
       return apiviewer.dao.Class.getClassByName(this._type);
     },
 
+    getTypes : function () {
+      if (this._type) {
+        return [{
+          type: this._type
+        }]
+      } else {
+        return null;
+      }
+    },
+
     _initializeFields : function() {
       this.base(arguments);
     },
 
-    _addChildNode : function(node)
+    _addChildNode : function(childNode)
     {
-      switch (node.type) {
+      switch (childNode.type) {
         case "types":
-          this._type = node.children[0];
+          this._type = childNode.children[0].attributes.type;
           break;
         default:
-          return this.base(arguments, node);
+          return this.base(arguments, childNode);
       }
       return true;
     }
