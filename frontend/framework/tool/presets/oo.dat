@@ -13,5 +13,7 @@ optimize-variables
 optimize-private
 add-file-ids
 use-variant = qx.debug:off
+use-variant = qx.compatibility:off
+print-dependencies
 
-include = qx.Class
+include = oo

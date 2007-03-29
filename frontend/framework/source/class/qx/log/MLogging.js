@@ -21,6 +21,7 @@
 /* ************************************************************************
 
 #module(core)
+#optional(qx.log.Logger)
 
 ************************************************************************ */
 
@@ -39,8 +40,13 @@ qx.Mixin.define("qx.log.MLogging",
      * @type member
      * @return {qx.log.Logger} the logger of this class.
      */
-    getLogger : function() {
-      return qx.log.Logger.getClassLogger(this.constructor);
+    getLogger : function()
+    {
+      if (qx.log.Logger) {
+        return qx.log.Logger.getClassLogger(this.constructor);
+      }
+
+      throw new Error("To enable logging please include qx.log.Logger into your build!");
     },
 
     /**
