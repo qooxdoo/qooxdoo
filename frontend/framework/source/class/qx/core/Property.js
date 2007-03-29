@@ -27,17 +27,12 @@ qx.Class.define("qx.core.Property",
   statics :
   {
     /**
-     * Inherit value, used to override defaults etc. to force inheritance
-     * even if property value is not undefined (through multi-values)
-     */
-    INHERIT : "inherit",
-
-
-    /**
      * Built-in checks
      * The keys could be used in the check of the properties
+     *
+     * @internal
      */
-    CHECKS :
+    __checks :
     {
       "Boolean"   : 'typeof value === "boolean"',
       "String"    : 'typeof value === "string"',
@@ -55,7 +50,7 @@ qx.Class.define("qx.core.Property",
       "Map"       : 'value !== null && typeof value === "object" && !(value instanceof Array) && !(value instanceof qx.core.Object)',
 
       "Function"  : 'value instanceof Function',
-      "Date"      : 'value instanceof Data',
+      "Date"      : 'value instanceof Date',
       "Node"      : 'value != null && value.nodeType !== undefined',
       "Element"   : 'value != null && value.nodeType === 1',
       "Document"  : 'value != null && value.nodeType === 9',
@@ -68,13 +63,45 @@ qx.Class.define("qx.core.Property",
       "Theme"     : 'value != null && value.$$type === "Theme"'
     },
 
-    DISPOSE :
+
+    /**
+     * Contains types from {@link #__checks} list which need to be disposed
+     *
+     * @internal
+     */
+    __dispose :
     {
-      "Object" : true,
-      "Array"  : true,
-      "Map"    : true
+      "Object"    : true,
+      "Array"     : true,
+      "Map"       : true,
+      "Function"  : true,
+      "Date"      : true,
+      "Node"      : true,
+      "Element"   : true,
+      "Document"  : true,
+      "Window"    : true,
+      "Event"     : true,
+      "Class"     : true,
+      "Mixin"     : true,
+      "Interface" : true,
+      "Theme"     : true
     },
 
+
+    /**
+     * Inherit value, used to override defaults etc. to force inheritance
+     * even if property value is not undefined (through multi-values)
+     *
+     * @internal
+     */
+    $$inherit : "inherit",
+
+
+    /**
+     * Caching field names for each property created
+     *
+     * @internal
+     */
     $$store :
     {
       user     : {},
@@ -83,6 +110,12 @@ qx.Class.define("qx.core.Property",
       init     : {}
     },
 
+
+    /**
+     * Caching function names for each property created
+     *
+     * @internal
+     */
     $$method :
     {
       get     : {},
@@ -97,14 +130,28 @@ qx.Class.define("qx.core.Property",
 
 
     /**
-     * Update widget and all children on parent change
+     * Supported keys for property defintions
+     *
+     * @internal
+     */
+    __allowedKeys :
+    {
+      name        : "string",
+      inheritable : "boolean",
+      nullable    : "boolean",
+      refine      : "boolean"
+    },
+
+
+    /**
+     * Refreshes widget whose parent has changed (including the children)
      *
      * @type static
      * @internal
-     * @param widget {qx.core.ui.Widget} The widget which parent has changed
+     * @param widget {qx.core.ui.Widget} the widget
      * @return {void}
      */
-    updateParent : function(widget)
+    refresh : function(widget)
     {
       var clazz = widget.constructor;
       var parent = widget.getParent();
@@ -115,7 +162,7 @@ qx.Class.define("qx.core.Property",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
-          widget.debug("UpdateParent: " + widget);
+          widget.debug("Update widget: " + widget);
         }
       }
 
@@ -192,7 +239,7 @@ qx.Class.define("qx.core.Property",
             }
 
             // Fill dispose value
-            if (config.dispose === undefined && this.DISPOSE[config.check]) {
+            if (config.dispose === undefined && this.__dispose[config.check]) {
               config.dispose = true;
             }
 
@@ -340,6 +387,20 @@ qx.Class.define("qx.core.Property",
     },
 
 
+    /**
+     * Compiles a string builder object to a function, executes the function and
+     * returns the return value.
+     *
+     * @type static
+     * @internal
+     * @param instance {Object} Instance which have called the original method
+     * @param members {Object} Prototype members map where the new function should be stored
+     * @param name {String} Name of the property
+     * @param variant {String} Function variant e.g. get, set, reset, ...
+     * @param code {qx.util.StringBuilder} string builder instance which contains the code
+     * @param value {var ? null} Optional value to call function with
+     * @return {var} Return value of the generated function
+     */
     __unwrapFunctionFromCode : function(instance, members, name, variant, code, value)
     {
       // Output generate code
@@ -367,6 +428,10 @@ qx.Class.define("qx.core.Property",
      *
      * @type static
      * @internal
+     * @param instance {Object} the instance which calls the method
+     * @param clazz {Class} the class which originally defined the property
+     * @param name {String} name of the property
+     * @param variant {String} Method variant.
      * @return {var} Execute return value of apply generated function, generally the incoming value
      */
     executeOptimizedGetter : function(instance, clazz, name, variant)
@@ -384,7 +449,7 @@ qx.Class.define("qx.core.Property",
       if (config.init !== undefined) {
         code.add('return this.', this.$$store.init[name], ';');
       } else if (config.inheritable) {
-        code.add('return qx.core.Property.INHERIT;');
+        code.add('return qx.core.Property.$$inherit;');
       } else if (config.nullable) {
         code.add('return null;');
       } else {
@@ -403,6 +468,11 @@ qx.Class.define("qx.core.Property",
      *
      * @type static
      * @internal
+     * @param instance {Object} the instance which calls the method
+     * @param clazz {Class} the class which originally defined the property
+     * @param name {String} name of the property
+     * @param variant {String} Method variant.
+     * @param value {var ? null} Optional value to send to newly created method
      * @return {var} Execute return value of apply generated function, generally the incoming value
      */
     executeOptimizedSetter : function(instance, clazz, name, variant, value)
@@ -465,9 +535,9 @@ qx.Class.define("qx.core.Property",
             {
               code.add('if(');
 
-              if (this.CHECKS[config.check] !== undefined)
+              if (this.__checks[config.check] !== undefined)
               {
-                code.add('!(', this.CHECKS[config.check], ')');
+                code.add('!(', this.__checks[config.check], ')');
               }
               else if (qx.Class.isDefined(config.check))
               {
@@ -587,7 +657,7 @@ qx.Class.define("qx.core.Property",
       {
         if (variant === "set" || variant == "reset" || variant === "refresh" || variant === "style" || variant === "unstyle" || variant === "init")
         {
-          code.add('if(computed===qx.core.Property.INHERIT||computed===undefined){');
+          code.add('if(computed===qx.core.Property.$$inherit||computed===undefined){');
 
           if (variant === "refresh")
           {
@@ -616,7 +686,7 @@ qx.Class.define("qx.core.Property",
       if (config.inheritable === true)
       {
         // Normalize 'undefined' to 'inherit' in inheritable properties
-        code.add('if(computed===undefined)computed=qx.core.Property.INHERIT;');
+        code.add('if(computed===undefined)computed=qx.core.Property.$$inherit;');
       }
       else
       {
