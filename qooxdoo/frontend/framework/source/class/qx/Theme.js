@@ -225,7 +225,7 @@ qx.Class.define("qx.Theme",
         }
       },
 
-      "default" : function() {},
+      "default" : function() {}
     })
   }
 });
