@@ -1074,35 +1074,8 @@ qx.Class.define("qx.Class",
         config = properties[name];
 
         // Check incoming configuration
-        if (qx.core.Variant.isSet("qx.debug", "on"))
-        {
-          var has = this.hasProperty(clazz, name);
-          var compat = config._legacy || config._fast || config._cached;
-
-          if (!has && config.refine) {
-            throw new Error("Could not refine non-existend property: " + name + "!");
-          }
-
-          if (has && !patch) {
-            throw new Error("Class " + clazz.classname + " already has a property: " + name + "!");
-          }
-
-          if (has && patch)
-          {
-            if (config.refine)
-            {
-              for (var key in config)
-              {
-                if (key !== "init" && key !== "refine") {
-                  throw new Error("Class " + clazz.classname + " could not refine property: " + name + "! Key: " + key + " could not be refined!");
-                }
-              }
-            }
-            else if (!compat) // qx 0.6 compatibility
-            {
-              throw new Error('Could not refine property "' + name + '" without a "refine" flag in the property definition! This class: ' + clazz.classname + ', original class: ' + this.findProperty(clazz, name).classname + '.');
-            }
-          }
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          this.__validateProperty(clazz, name, config, patch);
         }
 
         // Store name into configuration
@@ -1132,6 +1105,40 @@ qx.Class.define("qx.Class",
         } else if (config._legacy) {
           qx.core.LegacyProperty.addProperty(config, clazz.prototype);
         }
+      }
+    },
+
+    __validateProperty : function(clazz, name, config, patch)
+    {
+      var has = this.hasProperty(clazz, name);
+      var compat = config._legacy || config._fast || config._cached;
+
+      if (!has && config.refine) {
+        throw new Error("Could not refine non-existend property: " + name + "!");
+      }
+
+      if (has && !patch) {
+        throw new Error("Class " + clazz.classname + " already has a property: " + name + "!");
+      }
+
+      if (has && patch && !compat)
+      {
+        if (!config.refine) {
+          throw new Error('Could not refine property "' + name + '" without a "refine" flag in the property definition! This class: ' + clazz.classname + ', original class: ' + this.findProperty(clazz, name).classname + '.');
+        }
+
+        for (var key in config)
+        {
+          if (key !== "init" && key !== "refine") {
+            throw new Error("Class " + clazz.classname + " could not refine property: " + name + "! Key: " + key + " could not be refined!");
+          }
+        }
+      }
+
+      for (var key in config)
+      {
+
+
       }
     },
 
