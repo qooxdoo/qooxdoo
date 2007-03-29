@@ -21,6 +21,7 @@
 /* ************************************************************************
 
 #module(core)
+#module(oo)
 
 ************************************************************************ */
 
@@ -160,6 +161,23 @@ qx.Class.define("qx.Theme",
     __registry : {},
 
 
+    /** {Map} allowed keys in theme definition */
+    __allowedKeys :qx.core.Variant.select("qx.debug",
+    {
+      "on":
+      {
+        "title"       : "string", // String
+        "extend"      : "object", // Theme
+        "colors"      : "object", // Map
+        "icons"       : "object", // Map
+        "widgets"     : "object", // Map
+        "appearances" : "object"  // Map
+      },
+
+      "default" : null
+    }),
+
+
     /**
      * Validates incoming configuration and checks keys and values
      *
@@ -169,49 +187,45 @@ qx.Class.define("qx.Theme",
      * @return {void}
      * @throws TODOC
      */
-    __validateConfig : function(name, config)
+    __validateConfig : qx.core.Variant.select("qx.debug",
     {
-      // Validate keys
-      var allowedKeys =
+      "on": function(name, config)
       {
-        "title"       : "string",    // String
-        "extend"      : "object",    // Theme
-        "colors"      : "object",    // Map
-        "icons"       : "object",    // Map
-        "widgets"     : "object",    // Map
-        "appearances" : "object"     // Map
-      };
+        var allowed = this.__allowedKeys;
 
-      for (var key in config)
-      {
-        if (!allowedKeys[key]) {
-          throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
+        for (var key in config)
+        {
+          if (allowed[key] === undefined) {
+            throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
+          }
+
+          if (config[key] == null) {
+            throw new Error('Invalid key "' + key + '" in class "' + name + '"! The value is undefined/null!');
+          }
+
+          if (allowed[key] !== null && typeof config[key] !== allowed[key]) {
+            throw new Error('Invalid type of key "' + key + '" in class "' + name + '"! The type of the key must be "' + allowed[key] + '"!');
+          }
         }
 
-        if (config[key] == null) {
-          throw new Error('Invalid key "' + key + '" in class "' + name + '"! The value is undefined/null!');
+        // Validate maps
+        var maps = [ "colors", "icons", "widgets", "appearances" ];
+        for (var i=0, l=maps.length; i<l; i++)
+        {
+          var key = maps[i];
+
+          if (config[key] !== undefined && (config[key] instanceof Array || config[key] instanceof RegExp || config[key] instanceof Date || config[key].classname !== undefined)) {
+            throw new Error('Invalid key "' + key + '" in theme "' + name + '"! The value needs to be a map!');
+          }
         }
 
-        if (typeof config[key] !== allowedKeys[key]) {
-          throw new Error('Invalid type of key "' + key + '" in class "' + name + '"! The type of the key must be "' + allowedKeys[key] + '"!');
+        // Validate extend
+        if (config.extend && config.extend.$$type !== "Theme") {
+          throw new Error('Invalid extend in theme "' + name + '": ' + config.extend);
         }
-      }
+      },
 
-      // Validate maps
-      var maps = [ "colors", "icons", "widgets", "appearances" ];
-      for (var i=0, l=maps.length; i<l; i++)
-      {
-        var key = maps[i];
-
-        if (config[key] !== undefined && (config[key] instanceof Array || config[key] instanceof RegExp || config[key] instanceof Date || config[key].classname !== undefined)) {
-          throw new Error('Invalid key "' + key + '" in theme "' + name + '"! The value needs to be a map!');
-        }
-      }
-
-      // Validate extend
-      if (config.extend && config.extend.$$type !== "Theme") {
-        throw new Error('Invalid extend in theme "' + name + '": ' + config.extend);
-      }
-    }
+      "default" : function() {},
+    })
   }
 });
