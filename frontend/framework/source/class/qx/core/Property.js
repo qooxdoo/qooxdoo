@@ -39,12 +39,33 @@ qx.Class.define("qx.core.Property",
      */
     CHECKS :
     {
-      "String"  : 'typeof value === "string"',
-      "Boolean" : 'typeof value === "boolean"',
-      "Number"  : '!isNaN(value)',
-      "Object"  : 'value !== null && typeof value === "object"',
-      "Array"   : 'value instanceof Array',
-      "Map"     : 'value !== null && typeof value === "object" && !(value instanceof Array) && !(value instanceof qx.core.Object)'
+      "Boolean"   : 'typeof value === "boolean"',
+      "String"    : 'typeof value === "string"',
+
+      "Number"    : '!isNaN(value)',
+      "Integer"   : '!isNaN(value) && value%1 == 0',
+      "Float"     : '!isNaN(value)',
+      "Double"    : '!isNaN(value)',
+
+      "Error"     : 'value instanceof Error',
+      "RegExp"    : 'value instanceof RegExp',
+
+      "Object"    : 'value !== null && typeof value === "object"',
+      "Array"     : 'value instanceof Array',
+      "Map"       : 'value !== null && typeof value === "object" && !(value instanceof Array) && !(value instanceof qx.core.Object)',
+
+      "Function"  : 'value instanceof Function',
+      "Date"      : 'value instanceof Data',
+      "Node"      : 'value != null && value.nodeType !== undefined',
+      "Element"   : 'value != null && value.nodeType === 1',
+      "Document"  : 'value != null && value.nodeType === 9',
+      "Window"    : 'value != null && window.document',
+      "Event"     : 'value != null && value.type !== undefined',
+
+      "Class"     : 'value != null && value.$$type === "Class"'
+      "Mixin"     : 'value != null && value.$$type === "Mixin"'
+      "Interface" : 'value != null && value.$$type === "Interface"'
+      "Theme"     : 'value != null && value.$$type === "Theme"'
     },
 
     DISPOSE :
