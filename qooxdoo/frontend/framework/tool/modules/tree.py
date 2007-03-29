@@ -491,12 +491,14 @@ class Node:
 
     def toJson(self, prefix = "", childPrefix = "  ", newLine="\n"):
         return nodeToJsonString(self, prefix, childPrefix, newLine)
-    
+
     def toJavascript(self):
         import compiler
-        if not compiler.options.prettyPrint:
-            compiler.options.prettyPrint = True  # make sure it's set
-        return compiler.compile(self, compiler.options)  
+        def options(): pass
+        options.prettyPrint =  True
+        options.prettypIndentString = "  "
+        options.prettypCommentsInlinePadding = "  "
+        return compiler.compile(self, options)
 
 
 def nodeToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n", encoding="utf-8"):
