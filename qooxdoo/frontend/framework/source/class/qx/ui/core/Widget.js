@@ -60,7 +60,7 @@ qx.Class.define("qx.ui.core.Widget",
   construct : function()
   {
     this.base(arguments, true);
-    
+
     // Initialize scrollbar size calculation
     var self = this.self(arguments);
     if (self.SCROLLBAR_SIZE === null) {
@@ -2325,7 +2325,7 @@ qx.Class.define("qx.ui.core.Widget",
         this._hasParent = false;
       }
 
-      qx.core.Property.updateParent(this);
+      qx.core.Property.refresh(this);
 
       return this._handleDisplayable("parent");
     },
