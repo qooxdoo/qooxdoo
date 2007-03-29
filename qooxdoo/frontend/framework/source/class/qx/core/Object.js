@@ -420,7 +420,7 @@ qx.Class.define("qx.core.Object",
       // Debug output
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.disposerDebugLevel") >= 2) {
+        if (qx.core.Setting.get("qx.disposerDebugLevel") > 1) {
           console.debug("Disposing " + this.classname + "[" + this.toHashCode() + "]");
         }
       }
@@ -485,7 +485,7 @@ qx.Class.define("qx.core.Object",
         {
           if (qx.core.Variant.isSet("qx.debug", "on"))
           {
-            if (qx.core.Setting.get("qx.disposerDebugLevel") >= 2) {
+            if (qx.core.Setting.get("qx.disposerDebugLevel") > 1) {
               console.debug(this.classname + " has no own field " + name);
             }
           }
@@ -521,7 +521,7 @@ qx.Class.define("qx.core.Object",
         {
           if (qx.core.Variant.isSet("qx.debug", "on"))
           {
-            if (qx.core.Setting.get("qx.disposerDebugLevel") >= 2) {
+            if (qx.core.Setting.get("qx.disposerDebugLevel") > 1) {
               console.debug(this.classname + " has no own field " + name);
             }
           }
@@ -557,7 +557,7 @@ qx.Class.define("qx.core.Object",
       {
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          if (qx.core.Setting.get("qx.disposerDebugLevel") >= 2) {
+          if (qx.core.Setting.get("qx.disposerDebugLevel") > 1) {
             console.debug(this.classname + " has no own field " + name);
           }
         }
@@ -567,7 +567,7 @@ qx.Class.define("qx.core.Object",
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.core.Setting.get("qx.disposerDebugLevel") >= 2) {
+        if (qx.core.Setting.get("qx.disposerDebugLevel") > 1) {
           console.debug("Dispose Deep: " + name);
         }
       }
@@ -593,7 +593,7 @@ qx.Class.define("qx.core.Object",
       {
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          if (qx.core.Setting.get("qx.disposerDebugLevel") >= 3) {
+          if (qx.core.Setting.get("qx.disposerDebugLevel") > 2) {
             console.debug("Sending dispose to " + obj.classname);
           }
         }
@@ -618,7 +618,7 @@ qx.Class.define("qx.core.Object",
             {
               if (qx.core.Variant.isSet("qx.debug", "on"))
               {
-                if (qx.core.Setting.get("qx.disposerDebugLevel") >= 3) {
+                if (qx.core.Setting.get("qx.disposerDebugLevel") > 2) {
                   console.debug("- Deep processing item '" + i + "'");
                 }
               }
@@ -628,7 +628,7 @@ qx.Class.define("qx.core.Object",
 
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
-              if (qx.core.Setting.get("qx.disposerDebugLevel") >= 3) {
+              if (qx.core.Setting.get("qx.disposerDebugLevel") > 2) {
                 console.debug("- Resetting key (object) '" + key + "'");
               }
             }
@@ -639,7 +639,7 @@ qx.Class.define("qx.core.Object",
           {
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
-              if (qx.core.Setting.get("qx.disposerDebugLevel") >= 3) {
+              if (qx.core.Setting.get("qx.disposerDebugLevel") > 2) {
                 console.debug("- Resetting key (function) '" + key + "'");
               }
             }
@@ -666,7 +666,7 @@ qx.Class.define("qx.core.Object",
             {
               if (qx.core.Variant.isSet("qx.debug", "on"))
               {
-                if (qx.core.Setting.get("qx.disposerDebugLevel") >= 3) {
+                if (qx.core.Setting.get("qx.disposerDebugLevel") > 2) {
                   console.debug("- Deep processing key '" + key + "'");
                 }
               }
@@ -676,7 +676,7 @@ qx.Class.define("qx.core.Object",
 
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
-              if (qx.core.Setting.get("qx.disposerDebugLevel") >= 3) {
+              if (qx.core.Setting.get("qx.disposerDebugLevel") > 2) {
                 console.debug("- Resetting key (object) '" + key + "'");
               }
             }
@@ -687,7 +687,7 @@ qx.Class.define("qx.core.Object",
           {
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
-              if (qx.core.Setting.get("qx.disposerDebugLevel") >= 3) {
+              if (qx.core.Setting.get("qx.disposerDebugLevel") > 2) {
                 console.debug("- Resetting key (function) '" + key + "'");
               }
             }
@@ -726,34 +726,24 @@ qx.Class.define("qx.core.Object",
     // Cleanup user data
     this._disposeObjectDeep("_userData", 1);
 
-    // Finally cleanup properties
+    // Cleanup properties
     var clazz = this.constructor;
-    var impl = qx.core.Property;
-    var implLegacy = qx.core.LegacyProperty;
-    var config;
+    var properties;
+    var store = qx.core.Property.$$store;
+    var storeUser = store.user;
+    var storeStyle = store.style;
+    var storeComputed = store.computed;
+    var storeInit = store.init;
 
     while(clazz)
     {
-      var properties = clazz.$$properties;
+      properties = clazz.$$properties;
       if (properties)
       {
         for (var name in properties)
         {
-          config = properties[name];
-
-          if (config.dispose)
-          {
-            if (config._legacy)
-            {
-              this[implLegacy.$$values[name]] = null;
-            }
-            else
-            {
-              // TODO: suboptimal string concat
-              this[impl.USER_PREFIX+name] = null;
-              this[impl.STYLE_PREFIX+name] = null;
-              this[impl.COMPUTED_PREFIX+name] = null;
-            }
+          if (properties[name].dispose) {
+            this[storeUser[name]] = this[storeStyle[name]] = this[storeComputed[name]] = this[storeInit[name]] = undefined;
           }
         }
       }
@@ -774,7 +764,7 @@ qx.Class.define("qx.core.Object",
     // Additional checks
     if (qx.core.Variant.isSet("qx.debug", "on"))
     {
-      if (qx.core.Setting.get("qx.disposerDebugLevel") >= 1)
+      if (qx.core.Setting.get("qx.disposerDebugLevel") > 0)
       {
         for (var vKey in this)
         {
