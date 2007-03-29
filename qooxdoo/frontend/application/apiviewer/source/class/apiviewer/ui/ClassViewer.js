@@ -110,28 +110,34 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       "undefined" : true,
       "arguments" : true,
       "null"      : true,
-      "call"      : true,
+
       "Boolean"   : true,
       "String"    : true,
-      "Float"     : true,
-      "Double"    : true,
+
       "Number"    : true,
       "Integer"   : true,
+      "Float"     : true,
+      "Double"    : true,
+
       "Error"     : true,
       "RegExp"    : true,
+
+      "Object"    : true,
       "Array"     : true,
       "Map"       : true,
+
+      "Function"  : true,
       "Date"      : true,
+      "Node"      : true,
       "Element"   : true,
       "Document"  : true,
       "Window"    : true,
-      "Node"      : true,
-      "Function"  : true,
-      "Object"    : true,
       "Event"     : true,
+
       "Class"     : true,
       "Mixin"     : true,
-      "Interface" : true
+      "Interface" : true,
+      "Theme"     : true
     },
 
 
