@@ -153,7 +153,7 @@ qx.Class.define("apiviewer.TreeUtil",
             }
         }
       }
-      else if (node instanceof dao.Properties)
+      else if (node instanceof dao.Property)
       {
         constName = "ICON_PROPERTY";
         if (node.isPublic()) {

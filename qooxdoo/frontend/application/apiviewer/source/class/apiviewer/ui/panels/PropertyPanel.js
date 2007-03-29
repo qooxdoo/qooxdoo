@@ -75,13 +75,23 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
         if (allowedValue)
         {
           textHtml.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "Allowed values:", ClassViewer.DIV_END, ClassViewer.DIV_START_DETAIL_TEXT);
-
           if (node.getAllowNull() != "false") {
             textHtml.add("null, ");
           }
-
           textHtml.add(allowedValue, ClassViewer.DIV_END);
         }
+
+        // Add check
+        if (node.getCheck())
+        {
+          textHtml.add(
+            ClassViewer.DIV_START_DETAIL_HEADLINE, "Check:", ClassViewer.DIV_END,
+            ClassViewer.DIV_START_DETAIL_TEXT,
+            node.getCheck(),
+            ClassViewer.DIV_END
+          );
+        }
+
 
         // Add default value
         textHtml.add(
