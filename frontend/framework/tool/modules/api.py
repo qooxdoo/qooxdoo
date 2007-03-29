@@ -379,12 +379,65 @@ def handleMembers(item, classNode):
 def handleProperties(item, classNode):
     if item.hasChildren():
         for keyvalue in item.children:
-            key = keyvalue.get("key")
+            propName = keyvalue.get("key")
             value = keyvalue.getFirstChild(True, True).getFirstChild(True, True)
             # print "  - Found Property: %s" % key
 
-            # TODO: New handling for new properties needed
-            handlePropertyDefinitionOldCommon(keyvalue, classNode, key, value)
+            if value.type != "map":
+                continue
+
+            propDefinition = mapNodeToMap(value)
+            #print propName, propDefinition
+
+            # handle old style properties
+            if propDefinition.has_key("_legacy") or propDefinition.has_key("_fast") or propDefinition.has_key("_cached"):
+                handlePropertyDefinitionOldCommon(keyvalue, classNode, propName, value)
+                continue
+
+            node = tree.Node("property")
+            node.set("name", propName)
+
+            if propDefinition.has_key("init"):
+                node.set("defaultValue", getValue(propDefinition["init"].getFirstChild()))
+
+            if propDefinition.has_key("nullable"):
+                node.set("allowNull", propDefinition["nullable"].getChild("constant").get("value"))
+
+            if propDefinition.has_key("inheritable"):
+                node.set("inheritable", propDefinition["inheritable"].getChild("constant").get("value"))
+
+            if propDefinition.has_key("appearance"):
+                node.set("appearance", propDefinition["appearance"].getChild("constant").get("value"))
+
+            if propDefinition.has_key("apply"):
+                node.set("apply", propDefinition["apply"].getChild("constant").get("value"))
+
+            if propDefinition.has_key("event"):
+                node.set("event", propDefinition["event"].getChild("constant").get("value"))
+
+            if propDefinition.has_key("check"):
+                check = propDefinition["check"].getFirstChild()
+                if check.type == "array":
+                    values = [getValue(arrayItem) for arrayItem in check.children]
+                    node.set("possibleValues", ", ".join(values))
+                elif check.type == "function":
+                    node.set("check", "Custom check function.")
+                elif check.type == "constant":
+                    node.set("check", check.get("value"))
+                else:
+                    raise DocException("Unknown check value", check)
+
+            if classNode.get("type", False) == "mixin":
+                node.set("isMixin", True)
+
+            # If the description has a type specified then take this type
+            # (and not the one extracted from the paramsMap)
+            commentAttributes = comment.parseNode(keyvalue)
+            addTypeInfo(node, comment.getAttrib(commentAttributes, "description"), item)
+            handleDeprecated(node, commentAttributes)
+            handleInternal(node, commentAttributes)
+
+            classNode.addListChild("properties", node)
 
 
 def handleEvents(item, classNode):
@@ -678,6 +731,7 @@ def handlePropertyDefinitionOld(item, classNode):
 def handlePropertyDefinitionOldCommon(item, classNode, propertyName, paramsMap):
     node = tree.Node("property")
     node.set("name", propertyName)
+    node.set("oldProperty", True)
 
     propType = paramsMap.getChildByAttribute("key", "type", False)
     if propType:
@@ -997,9 +1051,6 @@ def addEventNode(classNode, classItem, commentAttrib):
         for item in commentAttrib["type"]:
             itemNode = tree.Node("entry")
             typesNode.addChild(itemNode)
-
-            print item
-
             itemNode.set("type", item["type"])
 
             if item["dimensions"] != 0:
