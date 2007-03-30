@@ -20,7 +20,7 @@ qx.Class.define("qx.test.Layout",
     /**
      * @deprecated
      */
-    _width : { inheritable : true, appearance : true },
+    width12: { inheritable : true, appearance : true },
     _height : { inheritable : true, appearance : true },
     _left : { inheritable : true, appearance : true },
     _top : { inheritable : true, appearance : true }
@@ -35,7 +35,9 @@ qx.Class.define("qx.test.Layout",
      */
     foo : function() {
 
-    }
+    },
+
+    __bar : function() {}
   },
 
 

@@ -121,8 +121,8 @@ qx.Class.define("qx.io.remote.Rpc",
   statics :
   {
     /**
-       Origins of errors
-    */
+     * Origins of errors
+     */
     origin :
     {
       server      : 1,
@@ -133,8 +133,8 @@ qx.Class.define("qx.io.remote.Rpc",
 
 
     /**
-       Locally-detected errors
-    */
+     *  Locally-detected errors
+     */
     localError :
     {
       timeout : 1,
@@ -193,9 +193,7 @@ qx.Class.define("qx.io.remote.Rpc",
     ---------------------------------------------------------------------------
     */
 
-    /**
-      The timeout for asynchronous calls in milliseconds.
-     */
+    /** The timeout for asynchronous calls in milliseconds. */
     timeout :
     {
       _legacy : true,
@@ -220,9 +218,7 @@ qx.Class.define("qx.io.remote.Rpc",
     },
 
 
-    /**
-      The URL at which the service is located.
-    */
+    /** The URL at which the service is located. */
     url :
     {
       _legacy      : true,
@@ -231,9 +227,7 @@ qx.Class.define("qx.io.remote.Rpc",
     },
 
 
-    /**
-      The service name.
-    */
+    /** The service name.  */
     serviceName :
     {
       _legacy      : true,
@@ -306,8 +300,6 @@ qx.Class.define("qx.io.remote.Rpc",
       CORE METHODS
     ---------------------------------------------------------------------------
     */
-
-    /* callType: 0 = sync, 1 = async with handler, 2 = async event listeners */
 
     /**
      * Internal RPC call method

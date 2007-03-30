@@ -4,7 +4,7 @@ qx.Interface.define("qx.test.IPet",
 
   properties :
   {
-    "color" : true
+    "color" : {}
   },
 
   members :

@@ -4,7 +4,7 @@ qx.Class.define("qx.test.Lion",
 
 
   /**
-   * TODOC
+   * Lion constructor
    *
    * @type constructor
    */
