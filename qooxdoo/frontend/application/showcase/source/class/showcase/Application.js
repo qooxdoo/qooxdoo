@@ -69,6 +69,30 @@ qx.Class.define("showcase.Application",
   {
     /**
      * TODOC
+     * 
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void}
+     */
+     initialize : function(e)
+     {
+       var useExtTheme = window.location.search.indexOf("?theme=ext");
+
+       if (useExtTheme != -1)
+       {
+        // set Ext appearance theme
+        qx.manager.object.AppearanceManager.getInstance().setAppearanceTheme(qx.theme.appearance.Ext);
+  
+        // set Ext color theme
+        qx.manager.object.ColorManager.getInstance().setColorTheme(qx.theme.appearance.Ext);
+  
+        // set Ext widget theme
+        qx.manager.object.ImageManager.getInstance().setWidgetTheme(qx.theme.appearance.Ext);
+      }
+     },
+    
+    /**
+     * TODOC
      *
      * @type member
      * @param e {Event} TODOC
@@ -224,7 +248,7 @@ qx.Class.define("showcase.Application",
       gl.add(label6, 0, 4);
 
       gl.add(new qx.ui.form.TextArea, 1, 4);
-
+      
       var input7 = new qx.ui.form.Button("Submit", "icon/16/actions/dialog-ok.png");
       input7.setHorizontalAlign("right");
       gl.add(input7, 1, 5);
@@ -2225,7 +2249,33 @@ qx.Class.define("showcase.Application",
 
       hor.add(can);
       qx.manager.object.ColorManager.getInstance().createThemeList(can, 0, 0);
+      
+      var vbl = new qx.ui.layout.VerticalBoxLayout;
+      
+      vbl.set(
+      {
+        width  : "auto",
+        height : "auto"
+      });
+      
+      var nativeWindow = new qx.client.NativeWindow;
+      nativeWindow.set({
+        width        : 1000,
+        height       : 800,
+        showLocation : true,
+        url          : window.location.href + "?theme=ext"
+      });
+      
+      var extThemeButton = new qx.ui.form.Button("Open Ext-Theme", "icon/16/actions/format-color.png");
+      extThemeButton.addEventListener("execute", function(e){
+        nativeWindow.open();
+      });
+      var extThemeText = new qx.ui.basic.Label("Please press the button to switch to the Ext-theme.<br/>At the moment it is necessary to reload the showcase.<br/>Switching appearances-themes will soon be available at runtime.");
+      vbl.add(extThemeButton, extThemeText);
 
+      hor.add(vbl);
+      
+      
       // Put the window in lower right corner
       win.set(
       {
