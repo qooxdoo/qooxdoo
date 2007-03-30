@@ -47,9 +47,10 @@ qx.Class.define("qx.test.Kitty",
 
 
     /**
-     * TODOC
+     * See also {@link #makeSound}
      *
      * @type member
+     * @internal
      * @return {void}
      */
     smooch : function() {

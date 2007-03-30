@@ -42,7 +42,11 @@ QOOXDOO_PATH = PLEASE_DEFINE_QOOXDOO_PATH
 #
 APPLICATION_NAMESPACE = custom
 
-
+#
+# Files that will be copied from the source directory into the build
+# directory (space separated list). The default list is empty.
+#
+APPLICATION_FILES = index.html
 
 
 

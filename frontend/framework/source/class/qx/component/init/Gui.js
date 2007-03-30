@@ -67,13 +67,7 @@ qx.Class.define("qx.component.init.Gui",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    initialize : function()
+    initialize : function(e)
     {
       // Force creation of event handler
       qx.event.handler.EventHandler.getInstance();
@@ -88,13 +82,7 @@ qx.Class.define("qx.component.init.Gui",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    main : function()
+    main : function(e)
     {
       // Start real main process
       var start = (new Date).valueOf();
@@ -106,13 +94,7 @@ qx.Class.define("qx.component.init.Gui",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    finalize : function()
+    finalize : function(e)
     {
       var start = (new Date).valueOf();
 
@@ -131,13 +113,7 @@ qx.Class.define("qx.component.init.Gui",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    close : function()
+    close : function(e)
     {
       var start = (new Date).valueOf();
       this.base(arguments);
@@ -146,13 +122,7 @@ qx.Class.define("qx.component.init.Gui",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    terminate : function()
+    terminate : function(e)
     {
       var start = (new Date).valueOf();
       this.base(arguments);
@@ -169,12 +139,6 @@ qx.Class.define("qx.component.init.Gui",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
     preload : function()
     {
       if (!this._preloadDone)
@@ -186,12 +150,6 @@ qx.Class.define("qx.component.init.Gui",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
     _printPreloadComplete : function() {
       this.debug("preloading complete");
     },
@@ -205,13 +163,6 @@ qx.Class.define("qx.component.init.Gui",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
-     */
     _onload : function(e)
     {
       this.initialize();
