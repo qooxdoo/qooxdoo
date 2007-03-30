@@ -196,7 +196,6 @@ qx.Class.define("apiviewer.dao.ClassItem",
 
     _initializeFields : function() {
       this.base(arguments);
-      this._params = [];
       this._see = [];
       this._errors = [];
       this._types = [];
