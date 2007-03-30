@@ -347,7 +347,8 @@ qx.Class.define("qx.lang.Object",
           {
             case "object":
             case "function":
-              throw new Error("Could not convert complex objects like " + array[i] + " to map syntax");
+            case "undefined":
+              throw new Error("Could not convert complex objects like " + array[i] + " at array index "+ i +" to map syntax");
           }
         }
 

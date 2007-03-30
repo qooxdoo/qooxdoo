@@ -25,13 +25,16 @@
 			a1.setLabel("History event: " + e.getData());
 		}
 
-    var history = qx.client.History.getInstance();
+    var hist = qx.client.History.getInstance();
 
-	history.addEventListener("request", callback);
+    hist.addEventListener("request", callback);
 
-    history.addToHistory("Juhu1", "Juhu1");
-		history.addToHistory("Juhu2", "Juhu2");
-		history.addToHistory("Juhu3", "Juhu3");
+    hist.addToHistory("Juhu1", "Juhu1");
+		hist.addToHistory("Juhu2", "Juhu2");
+		hist.addToHistory("Juhu3", "Juhu3");
+
+	  //qx.client.Timer.once(function() {history.back();}, 0);
+	  hist.navigateBack();
 
     var t1 = new qx.ui.form.TextField();
     t1.set({
@@ -62,7 +65,7 @@
 			var data = t1.getComputedValue();
 			if (!data) return;
 			t1.setValue("");
-			history.addToHistory(data, data);
+			hist.addToHistory(data, data);
 		});
 
 		d.add(t1, a1, b1);
