@@ -759,6 +759,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
       // event dispatcher to free the source event upon our return, so we'll
       // clone it and enqueue our clone.  The source event can then be
       // disposed upon our return.
+
       var e = this.copyEvent(event);
 
       // Enqueue the new event on the tail of the queue
