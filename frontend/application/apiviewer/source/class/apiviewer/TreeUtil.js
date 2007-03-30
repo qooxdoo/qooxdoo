@@ -170,18 +170,20 @@ qx.Class.define("apiviewer.TreeUtil",
       }
       else if (node instanceof dao.Method)
       {
-        constName = "ICON_METHOD";
-        if (node.isPublic()) {
-          constName += "_PUB";
-        } else if (node.isProtected()) {
-          constName += "_PROT";
-        } else if (node.isPrivate() || node.isInternal()) {
-          constName += "_PRIV";
+        if (node.isConstructor()) {
+          var constName = "ICON_CTOR";
+        } else {
+          constName = "ICON_METHOD";
+          if (node.isPublic()) {
+            constName += "_PUB";
+          } else if (node.isProtected()) {
+            constName += "_PROT";
+          } else if (node.isPrivate() || node.isInternal()) {
+            constName += "_PRIV";
+          }
         }
 
-        if (node.isConstructor()) {
-          constName += "_CTOR";
-        } else if (node.isStatic()) {
+        if (node.isStatic()) {
           constName += "_STATIC";
         } else if (node.isAbstract()) {
           constName += "_ABSTRACT";
@@ -251,6 +253,7 @@ qx.Class.define("apiviewer.TreeUtil",
         for(var i=startIndex; i<iconParts.length; i++) {
           var iconPart = apiviewer.TreeUtil["OVERLAY_" + iconParts[i]];
           if (iconPart == null) {
+            debugger;
             throw new Error("Unknown img constant: " + iconParts[i]);
           }
           iconUrl.push(iconPart);
@@ -358,7 +361,7 @@ qx.Class.define("apiviewer.TreeUtil",
     ICON_METHOD_PUB_INHERITED : "api/image/method_public_inherited18.gif",
 
     /** {string} The icon URL of a constructor. */
-    ICON_METHOD_PUB_CTOR : "api/image/constructor18.gif",
+    ICON_CTOR : "api/image/constructor18.gif",
 
     /** {string} The icon URL of a protected method. */
     ICON_METHOD_PROT : "api/image/method_protected18.gif",
@@ -416,7 +419,7 @@ qx.Class.define("apiviewer.TreeUtil",
       statics.ICON_MIXIN_WARN,
       statics.ICON_METHOD_PUB,
       statics.ICON_METHOD_PUB_INHERITED,
-      statics.ICON_METHOD_PUB_CTOR,
+      statics.ICON_CTOR,
       statics.ICON_METHOD_PROT,
       statics.ICON_CONSTANT
     ];

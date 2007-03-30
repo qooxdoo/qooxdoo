@@ -879,6 +879,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
           var name1 = obj1.getName();
           var name2 = obj2.getName();
 
+          /*
           if (obj1.getFromProperty && obj1.getFromProperty()) {
             var name1 = obj1.getFromProperty().getName();
           }
@@ -886,7 +887,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
           if (obj2.getFromProperty && obj2.getFromProperty()) {
             var name2 = obj2.getFromProperty().getName();
           }
-
+          */
           return name1.toLowerCase() < name2.toLowerCase() ? -1 : 1;
         }
         else

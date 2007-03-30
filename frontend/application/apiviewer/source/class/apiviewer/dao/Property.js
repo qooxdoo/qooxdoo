@@ -146,6 +146,11 @@ qx.Class.define("apiviewer.dao.Property", {
     isAppearance : function()
     {
       return this._docNode.attributes.appearance || false;
+    },
+
+    isOldProperty : function()
+    {
+      return this._docNode.attributes.oldProperty || false;
     }
 
   }

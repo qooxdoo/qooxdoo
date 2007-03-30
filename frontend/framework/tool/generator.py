@@ -738,7 +738,12 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
                 sys.stdout.write(".")
                 sys.stdout.flush()
 
-            counter += variableoptimizer.search(loader.getTree(fileDb, fileId, options), [], 0, 0, "$", skipPrefix = options.optimizeVariablesSkipPrefix, verbose = options.verbose)
+            counter += variableoptimizer.search(
+                loader.getTree(fileDb, fileId, options),
+                [], 0, 0, "$",
+                skipPrefix = options.optimizeVariablesSkipPrefix,
+                verbose = options.verbose
+            )
 
         if not options.verbose:
             print
