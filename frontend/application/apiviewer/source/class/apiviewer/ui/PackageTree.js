@@ -103,12 +103,10 @@ qx.Class.define("apiviewer.ui.PackageTree",
       this.removeAll();
       this.add(inheritenceNode, packagesNode);
 
-      var start = new Date();
       // Fill the packages tree
       this.__fillPackageNode(packagesNode, docTree, 0);
-      var end = new Date();
-      this.debug("Time to fill the packages tree: " + (end.getTime() - start.getTime()) + "ms");
 
+      /*
       var start = new Date();
       // fill the _topLevelClassNodeArr
       this._topLevelClassNodeArr = apiviewer.dao.Class.getAllTopLevelClasses();
@@ -124,6 +122,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
       }
       var end = new Date();
       this.debug("Time to fill the inheritence tree: " + (end.getTime() - start.getTime()) + "ms");
+      */
 
       packagesNode.open();
 
@@ -144,25 +143,55 @@ qx.Class.define("apiviewer.ui.PackageTree",
      */
     selectTreeNodeByClassName : function(className)
     {
-      var treeNode =
-        this._classTreeNodeHash[this._currentTreeType ||
-        apiviewer.ui.PackageTree.PACKAGE_TREE][className];
-
-      if (treeNode) {
-        treeNode.setSelected(true);
-      }
-      else if (this._docTree == null)
+      if (this._docTree == null)
       {
         // The doc tree has not been loaded yet
         // -> Remeber the wanted class and show when loading is done
         this._wantedClassName = className;
+        return;
       }
-      else
-      {
-        this.error("Unknown class: " + className);
-      }
+      var nameParts = className.split(".");
+      var packageName = nameParts[0];
+      var i = 0;
+      do {
+        var treeNode =
+          this._classTreeNodeHash[this._currentTreeType || apiviewer.ui.PackageTree.PACKAGE_TREE][packageName];
+
+        if (!treeNode){
+          this.error("Unknown class: " + className);
+          return;
+        }
+
+        if (!treeNode.loaded) {
+          treeNode.setOpen(true);
+        }
+        i++;
+        packageName += "." + nameParts[i];
+      } while (i<nameParts.length);
+
+      treeNode.setSelected(true);
     },
 
+
+    /**
+     * Create a callback which loads the child nodes of a tree folder
+     *
+     * @type member
+     * @param packageTreeNode {qx.ui.tree.TreeFolder} the package tree folder.
+     * @param packageDoc {apiviewer.dao.Package} the documentation node of the package.
+     * @param depth {var} current depth in the tree
+     * @return {Function} the opener callback function
+     */
+    __getPackageNodeOpener : function (packageTreeNode, packageDoc, depth) {
+      var self = this;
+      return function() {
+        if (!packageTreeNode.loaded)
+        {
+          self.__fillPackageNode(packageTreeNode, packageDoc, depth + 1);
+          packageTreeNode.setAlwaysShowPlusMinusSymbol(false);
+        }
+      }
+    },
 
 
     /**
@@ -175,6 +204,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
      */
     __fillPackageNode : function(treeNode, docNode, depth)
     {
+      treeNode.loaded = true;
       var PackageTree = apiviewer.ui.PackageTree;
 
       var packagesDoc = docNode.getPackages();
@@ -183,10 +213,12 @@ qx.Class.define("apiviewer.ui.PackageTree",
         var packageDoc = packagesDoc[i];
         var iconUrl = apiviewer.TreeUtil.getIconUrl(packageDoc);
         var packageTreeNode = new qx.ui.tree.TreeFolder(packageDoc.getName(), iconUrl);
+        packageTreeNode.setAlwaysShowPlusMinusSymbol(true);
         packageTreeNode.docNode = packageDoc;
         treeNode.add(packageTreeNode);
 
-        this.__fillPackageNode(packageTreeNode, packageDoc, depth + 1);
+        // defer adding of child nodes
+        packageTreeNode.addEventListener("changeOpen", this.__getPackageNodeOpener(packageTreeNode, packageDoc, depth + 1), this);
 
         // Open the package node if it has child packages
         if (depth < qx.core.Setting.get("apiviewer.initialTreeDepth") && packageDoc.getPackages().length > 0) {
@@ -236,11 +268,27 @@ qx.Class.define("apiviewer.ui.PackageTree",
       this._classTreeNodeHash[PackageTree.INHERITENCE_TREE][classDocNode.getFullName()] = classTreeNode;
 
       var childClassNameArr = classDocNode.getChildClasses();
-      for (var i=0; i<childClassNameArr.length; i++)
-      {
-        var childClassDocNode = apiviewer.dao.Class.getClassByName(childClassNameArr[i]);
-        this.__createInheritanceNode(classTreeNode, childClassDocNode);
+      if (childClassNameArr.length < 0) {
+        return;
       }
+
+      classTreeNode.setAlwaysShowPlusMinusSymbol(true);
+
+      // defer adding of child nodes
+      classTreeNode.addEventListener("changeOpen", function() {
+        if (!classTreeNode.loaded)
+        {
+          for (var i=0; i<childClassNameArr.length; i++)
+          {
+            var childClassDocNode = apiviewer.dao.Class.getClassByName(childClassNameArr[i]);
+            this.__createInheritanceNode(classTreeNode, childClassDocNode);
+          }
+          classTreeNode.setAlwaysShowPlusMinusSymbol(false);
+          classTreeNode.loaded = true;
+        }
+      }, this);
+
+
     }
 
   }

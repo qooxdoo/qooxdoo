@@ -62,12 +62,24 @@ qx.Class.define("apiviewer.dao.Method",
 
     getParams : function()
     {
-      return this._params;
+      if (this._params != null) {
+        return this._params;
+      } else {
+        var paramsNode = apiviewer.TreeUtil.getChild(this.getNode(), "params");
+        this._params = paramsNode ? this._createNodeList(paramsNode, apiviewer.dao.Param, this.getClass(), this) : [];
+        return this._params;
+      }
     },
 
     getReturn : function()
     {
-      return this._return;
+      if (this._return != null) {
+        return this._return;
+      } else {
+        var returnNode = apiviewer.TreeUtil.getChild(this.getNode(), "return");
+        this._return = returnNode ? new apiviewer.dao.Param(returnNode, this.getClass(), this) : "";
+        return this._return;
+      }
     },
 
     getApply : function()
@@ -80,19 +92,11 @@ qx.Class.define("apiviewer.dao.Method",
       return this.getClass().getItemByListAndName("properties", this._docNode.attributes.fromProperty);
     },
 
-    _initializeFields : function() {
-      this.base(arguments);
-      this._params = [];
-    },
-
     _addChildNode : function(node)
     {
       switch (node.type) {
         case "params":
-          this._params = this._createNodeList(node, apiviewer.dao.Param, this.getClass(), this);
-          break;
         case "return":
-          this._return = new apiviewer.dao.Param(node, this.getClass(), this);
           break;
         default:
           return this.base(arguments, node);

@@ -53,13 +53,7 @@ qx.Class.define("apiviewer.dao.Appearance", {
 
     getStates : function()
     {
-      return this._states;
-    },
-
-    _initializeFields : function()
-    {
-      this.base(arguments);
-      this._states = [];
+      return this._states || [];
     },
 
     _addChildNode : function(node)
