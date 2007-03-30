@@ -32,6 +32,76 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
 
   members : {
 
+    __createGeneratedMethodsHtml : function(node, currentClassDocNode) {
+        if (node.isOldProperty()) {
+          return "";
+        }
+
+        if (node.isPrivate()) {
+          var access = "__";
+          var name = node.getName().substring(2);
+        } else if (node.isProtected()) {
+          access = "_";
+          name = node.getName().substring(1);
+        } else {
+          access = "";
+          name = node.getName();
+        }
+        name = qx.lang.String.toFirstUp(name);
+
+        var generatedMethods = [
+          "{@link #" + access + "set" + name + "}</td><td> Set the property value.",
+          "{@link #" + access + "get" + name + "}</td><td> Get the property value.",
+          "{@link #" + access + "reset" + name + "}</td><td> Reset the property value.",
+          "{@link #" + access + "init" + name + "}</td><td> Call apply method with the init value."
+        ];
+        if (node.getType() == "Boolean") {
+          generatedMethods.push(access + "toggle" + name + "</td><td> Toggle the property value.");
+        }
+
+        var ClassViewer = apiviewer.ui.ClassViewer;
+        var textHtml = new qx.util.StringBuilder();
+        textHtml.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "Generated methods:", ClassViewer.DIV_END, ClassViewer.DIV_START_DETAIL_TEXT);
+        textHtml.add("<table><tr><td>");
+        textHtml.add(generatedMethods.join("</td></tr><tr><td>"));
+        textHtml.add("</td></tr></table>");
+        textHtml.add(ClassViewer.DIV_END);
+        return apiviewer.ui.panels.InfoPanel.resolveLinkAttributes(textHtml.get(), currentClassDocNode);
+    },
+
+
+    __createAttributesHtml : function(node)
+    {
+      var attributes = [];
+      if (node.isNullable()) {
+        attributes.push("This property allows 'null' values");
+      }
+      if (node.isInheritable()) {
+        attributes.push("The property value can be inherited from a parent object.");
+      }
+      if (node.isAppearance()) {
+        attributes.push("The property value can be set using appearances.");
+      }
+
+      if (attributes.length > 0)
+      {
+        var ClassViewer = apiviewer.ui.ClassViewer;
+        var textHtml = new qx.util.StringBuilder();
+        textHtml.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "Property attributes:", ClassViewer.DIV_END, ClassViewer.DIV_START_DETAIL_TEXT);
+        textHtml.add("<ul><li>");
+        textHtml.add(attributes.join("</li><li>"));
+        textHtml.add("</li></ul>");
+        textHtml.add(ClassViewer.DIV_END);
+        return textHtml.get();
+      }
+      else
+      {
+        return "";
+      }
+    },
+
+
+
     /**
      * Creates the HTML showing the information about a property.
      *
@@ -57,24 +127,6 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
 
       if (showDetails)
       {
-        // add attributes
-        var attributes = [];
-        if (node.isNullable()) {
-          attributes.push("Nullable");
-        }
-        if (node.isInheritable()) {
-          attributes.push("Inheritable");
-        }
-        if (node.isAppearance()) {
-          attributes.push("Appearance");
-        }
-
-        if (attributes.length > 0)
-        {
-          textHtml.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "Property attributes:", ClassViewer.DIV_END, ClassViewer.DIV_START_DETAIL_TEXT);
-          textHtml.add(attributes.join(", "));
-          textHtml.add(allowedValue, ClassViewer.DIV_END);
-        }
 
         // Add allowed values
         var allowedValue = null;
@@ -159,6 +211,8 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
           );
         }
 
+        textHtml.add(this.__createAttributesHtml(node));
+        textHtml.add(this.__createGeneratedMethodsHtml(node, currentClassDocNode));
         textHtml.add(apiviewer.ui.panels.InfoPanel.createIncludedFromHtml(node, currentClassDocNode));
         textHtml.add(apiviewer.ui.panels.InfoPanel.createOverwriddenFromHtml(node));
         textHtml.add(apiviewer.ui.panels.InfoPanel.createInheritedFromHtml(node, currentClassDocNode));
