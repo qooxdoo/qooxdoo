@@ -251,7 +251,7 @@ qx.Class.define("qx.core.Property",
             }
 
             // Fill dispose value
-            if (config.dispose === undefined && this.__dispose[config.check]) {
+            if (config.dispose === undefined && (this.__dispose[config.check] || qx.Class.isDefined(config.check))) {
               config.dispose = true;
             }
 
