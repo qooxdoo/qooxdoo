@@ -1,10 +1,4 @@
 ##                                                                              
-# Some nice short description of Foo
+# Some nice short description of class Foo
 #                                                                               
-# @param a Number of foos to bar
-class Foo(a):
-    
-    ##
-    # This comment provides documentation for the following
-    # variable.
-    variable = value
+# @param Super The super-class of Foo
