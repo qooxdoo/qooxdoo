@@ -77,7 +77,8 @@ qx.Class.define("qx.xml.Element",
      */
     selectSingleNode : qx.core.Variant.select("qx.client",
     {
-      "default": qx.lang.Object.select(window.XPathEvaluator ? "hasXPath" : "noXPath", {
+      "default": qx.lang.Object.select(window.XPathEvaluator ? "hasXPath" : "noXPath",
+      {
         "hasXPath": function(element, query)
         {
           var xpe = new XPathEvaluator();
@@ -87,11 +88,9 @@ qx.Class.define("qx.xml.Element",
         "noXPath": function() {
           throw new Error("The browser does not support 'window.XPathEvaluator'");
         }
-
       }),
 
-      "mshtml|opera": function(element, query)
-      {
+      "mshtml|opera": function(element, query) {
         return element.selectSingleNode(query);
       }
     }),
@@ -108,7 +107,8 @@ qx.Class.define("qx.xml.Element",
      */
     selectNodes : qx.core.Variant.select("qx.client",
     {
-      "default": qx.lang.Object.select(window.XPathEvaluator ? "hasXPath" : "noXPath", {
+      "default": qx.lang.Object.select(window.XPathEvaluator ? "hasXPath" : "noXPath",
+      {
         "hasXPath": function(element, query)
         {
           var xpe = new XPathEvaluator();
@@ -125,11 +125,9 @@ qx.Class.define("qx.xml.Element",
         "noXPath": function() {
           throw new Error("The browser does not support 'window.XPathEvaluator'");
         }
-
       }),
 
-      "mshtml|opera": function(element, query)
-      {
+      "mshtml|opera": function(element, query) {
         return element.selectNodes(query);;
       }
     }),
