@@ -53,6 +53,7 @@ qx.Class.define("apiviewer.dao.Class",
      */
     __registerClass : function(cls)
     {
+      if (!cls.getFullName()) return;
       this._class_registry[cls.getFullName()] = cls;
       if (!cls._docNode.attributes.superClass) {
         this._top_level_classes.push(cls);
@@ -273,7 +274,13 @@ qx.Class.define("apiviewer.dao.Class",
      */
     getConstructor : function()
     {
-      return this._constructor;
+      if (this._constructor != null) {
+        return this._constructor;
+      } else {
+        var node = apiviewer.TreeUtil.getChild(this.getNode(), "constructor");
+        this._constructor = node ? new apiviewer.dao.Method(node.children[0], this, node.type) : "";
+        return this._constructor;
+      }
     },
 
 
@@ -284,7 +291,13 @@ qx.Class.define("apiviewer.dao.Class",
      */
     getMembers : function()
     {
-      return this._members;
+      if (this._members != null) {
+        return this._members;
+      } else {
+        var node = apiviewer.TreeUtil.getChild(this.getNode(), "methods");
+        this._members = node ? this._createNodeList(node, apiviewer.dao.Method, this, node.type) : [];
+        return this._members;
+      }
     },
 
 
@@ -295,7 +308,13 @@ qx.Class.define("apiviewer.dao.Class",
      */
     getStatics : function()
     {
-      return this._statics;
+      if (this._statics != null) {
+        return this._statics;
+      } else {
+        var node = apiviewer.TreeUtil.getChild(this.getNode(), "methods-static");
+        this._statics = node ? this._createNodeList(node, apiviewer.dao.Method, this, node.type) : [];
+        return this._statics;
+      }
     },
 
 
@@ -306,7 +325,13 @@ qx.Class.define("apiviewer.dao.Class",
      */
     getEvents : function()
     {
-      return this._events;
+      if (this._events != null) {
+        return this._events;
+      } else {
+        var node = apiviewer.TreeUtil.getChild(this.getNode(), "events");
+        this._events = node ? this._createNodeList(node, apiviewer.dao.Event, this, node.type) : [];
+        return this._events;
+      }
     },
 
 
@@ -317,7 +342,13 @@ qx.Class.define("apiviewer.dao.Class",
      */
     getProperties : function()
     {
-      return this._properties;
+      if (this._properties != null) {
+        return this._properties;
+      } else {
+        var node = apiviewer.TreeUtil.getChild(this.getNode(), "properties");
+        this._properties = node ? this._createNodeList(node, apiviewer.dao.Property, this, node.type) : [];
+        return this._properties;
+      }
     },
 
 
@@ -328,7 +359,13 @@ qx.Class.define("apiviewer.dao.Class",
      */
     getConstants : function()
     {
-      return this._constants;
+      if (this._constants != null) {
+        return this._constants;
+      } else {
+        var node = apiviewer.TreeUtil.getChild(this.getNode(), "constants");
+        this._constants = node ? this._createNodeList(node, apiviewer.dao.Constant, this, node.type) : [];
+        return this._constants;
+      }
     },
 
 
@@ -339,7 +376,13 @@ qx.Class.define("apiviewer.dao.Class",
      */
     getAppearances : function()
     {
-      return this._appearances;
+      if (this._appearances != null) {
+        return this._appearances;
+      } else {
+        var node = apiviewer.TreeUtil.getChild(this.getNode(), "appearances");
+        this._appearances = node ? this._createNodeList(node, apiviewer.dao.Appearance, this, node.type) : [];
+        return this._appearances;
+      }
     },
 
 
@@ -394,17 +437,17 @@ qx.Class.define("apiviewer.dao.Class",
     getItem : function(itemName)
     {
       var itemListNames = [
-        "_members",
-        "_statics",
-        "_events",
-        "_properties",
-        "_constants",
-        "_appearances"
+        "getMembers",
+        "getStatics",
+        "getEvents",
+        "getProperties",
+        "getConstants",
+        "getAppearances"
       ];
 
       for (var i=0; i<itemListNames.length; i++)
       {
-        var list = this[itemListNames[i]];
+        var list = this[itemListNames[i]]();
         for (var j=0; j<list.length; j++)
         {
           if (itemName == list[j].getName()) {
@@ -436,20 +479,20 @@ qx.Class.define("apiviewer.dao.Class",
     getItemList : function(listName)
     {
       var methodMap = {
-        "events" : "_events",
-        "constructor": "_constructor",
-        "properties" : "_properties",
-        "methods" : "_members",
-        "methods-static" : "_statics",
-        "constants" : "_constants",
-        "appearances" : "_appearances",
-        "superInterfaces" : "_superInterfaces",
-        "superMixins" : "_superMixins"
+        "events" : "getEvents",
+        "constructor": "getConstructor",
+        "properties" : "getProperties",
+        "methods" : "getMembers",
+        "methods-static" : "getStatics",
+        "constants" : "getConstants",
+        "appearances" : "getAppearances",
+        "superInterfaces" : "getSuperInterfaces",
+        "superMixins" : "getSuperMixins"
       };
       if (listName == "constructor") {
         return this.getConstructor() ? [this.getConstructor()] : [];
       } else {
-        return this[methodMap[listName]];
+        return this[methodMap[listName]]();
       }
     },
 
@@ -481,11 +524,12 @@ qx.Class.define("apiviewer.dao.Class",
      */
     getClassAppearance : function()
     {
-      for (var i=0; i<this._appearances.length; i++)
+      var appearances = this.getAppearances();
+      for (var i=0; i<appearances.length; i++)
       {
-        if (this._appearances[i].getType() == this)
+        if (appearances[i].getType() == this)
         {
-          return this._appearances[i];
+          return appearances[i];
         }
       }
       return null;
@@ -570,12 +614,6 @@ qx.Class.define("apiviewer.dao.Class",
 
     _initializeFields : function()
     {
-      this._members = [];
-      this._statics =  [];
-      this._events =  [];
-      this._properties = [];
-      this._constants = [];
-      this._appearances = [];
       this._desc = "";
       this._see = [];
       this._superInterfaces = [];
@@ -587,25 +625,12 @@ qx.Class.define("apiviewer.dao.Class",
     {
       switch (childNode.type) {
         case "constructor" :
-          this._constructor = new apiviewer.dao.Method(childNode.children[0], this, childNode.type);
-          break;
         case "methods" :
-          this._members = this._createNodeList(childNode, apiviewer.dao.Method, this, childNode.type);
-          break;
         case "methods-static" :
-          this._statics = this._createNodeList(childNode, apiviewer.dao.Method, this, childNode.type);
-          break;
         case "events" :
-          this._events = this._createNodeList(childNode, apiviewer.dao.Event, this, childNode.type);
-          break;
         case "properties" :
-          this._properties = this._createNodeList(childNode, apiviewer.dao.Property, this, childNode.type);
-          break;
         case "constants" :
-          this._constants = this._createNodeList(childNode, apiviewer.dao.Constant, this, childNode.type);
-          break;
         case "appearances" :
-          this._appearances = this._createNodeList(childNode, apiviewer.dao.Appearance, this, childNode.type);
           break;
         case "superInterfaces" :
           this._superInterfaces = this._createNodeList(childNode, apiviewer.dao.ClassItem, this, childNode.type);
