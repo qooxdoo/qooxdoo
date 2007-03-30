@@ -545,6 +545,11 @@ qx.Class.define("qx.core.Property",
             // Check value
             if (config.check !== undefined)
             {
+              // Inheritable properties always accept "inherit" as value
+              if (config.inhertiable) {
+                code.add('if(value!==qx.core.Property.$$inherit)');
+              }
+
               code.add('if(');
 
               if (this.__checks[config.check] !== undefined)
