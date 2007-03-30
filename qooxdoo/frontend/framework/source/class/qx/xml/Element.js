@@ -70,10 +70,10 @@ else
 if (window.XPathEvaluator)
 {
   qx.Clazz.selectSingleNode = function(element, query) {
-    if(!qx.xml.Element.__xpe) {
-      qx.xml.Element.__xpe = new XPathEvaluator();
+    if(!this.__xpe) {
+      this.__xpe = new XPathEvaluator();
     }
-    var xpe = qx.xml.Element.__xpe;
+    var xpe = this.__xpe;
     return xpe.evaluate(query, element, xpe.createNSResolver(element), XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
   };
 }
@@ -97,10 +97,10 @@ else if(qx.core.Client.getInstance().isMshtml() || document.selectSingleNode) //
 if (window.XPathEvaluator)
 {
   qx.Clazz.selectNodes = function(element, query) {
-    if(!qx.xml.Element.__xpe) {
-      qx.xml.Element.__xpe = new XPathEvaluator();
+    if(!this.__xpe) {
+      this.__xpe = new XPathEvaluator();
     }
-    var xpe = qx.xml.Element.__xpe;
+    var xpe = this.__xpe;
     var result = xpe.evaluate(query, element, xpe.createNSResolver(element), XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
     var nodes = [];
 
