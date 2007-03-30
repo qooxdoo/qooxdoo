@@ -123,7 +123,8 @@ class TokenStream:
     #                                                                               
     # @param     item     a tree.Node item (might be used to attach comment nodes)
     # @param     after    ??
-    # @return             tokenizer.token - the next (non-comment) token or the EOF token
+    # @return             the next (non-comment) token or the EOF token
+    # @defreturn          tokenizer.token
     #
     def next (self, item=None, after=False):
         length = len(self.tokens)
@@ -720,10 +721,10 @@ def readParamList (node, stream):
 
 ##                                                                              
 # Parses a block of source code. Most work is delegated to stream.next() and
-# readStatement(). Handles opening and closing "{}".
+# readStatement(). Handles opening and closing \"{}\".
 #                                                                               
 # @param     stream   TokenStream to parse
-# @return             tokenizer.token - next item after the closing "}"
+# @return             tokenizer.token - next item after the closing \"}\"
 #
 def readBlock(stream):
     stream.expectCurrType("token", "LC")
