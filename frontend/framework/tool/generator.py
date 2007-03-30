@@ -1110,7 +1110,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
                 print "  * Missing class URI definition for class path %s." % fileDb[fileId]["classPath"]
                 sys.exit(1)
 
-            scriptBlocks += '<script type="text/javascript" src="%s%s"></script>' % (os.path.join(fileDb[fileId]["classUri"], fileDb[fileId]["pathId"].replace(".", os.sep)), config.JSEXT)
+            scriptBlocks += '<script type="text/javascript" src="%s%s"></script>' % (os.path.join(fileDb[fileId]["classUri"], fileDb[fileId]["pathId"].replace(".", '/')), config.JSEXT)
             scriptBlocks += sourceLineFeed
 
         # Writing includer
