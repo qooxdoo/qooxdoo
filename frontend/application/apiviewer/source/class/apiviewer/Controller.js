@@ -87,6 +87,9 @@ qx.Class.define("apiviewer.Controller",
 
       req.addEventListener("completed", function(evt)
       {
+        var loadEnd = new Date();
+        this.debug("Time to load data from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
+
         var content = evt.getData().getContent();
 
         var start = new Date();
@@ -114,13 +117,13 @@ qx.Class.define("apiviewer.Controller",
           );
 
         }, this, 0);
-      },
-      this);
+      }, this);
 
       req.addEventListener("failed", function(evt) {
         this.error("Couldn't load file: " + url);
       }, this);
 
+      var loadStart = new Date();
       req.send();
     },
 

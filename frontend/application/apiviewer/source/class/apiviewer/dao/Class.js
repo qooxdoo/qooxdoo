@@ -276,11 +276,30 @@ qx.Class.define("apiviewer.dao.Class",
     {
       if (this._constructor != null) {
         return this._constructor;
-      } else {
-        var node = apiviewer.TreeUtil.getChild(this.getNode(), "constructor");
-        this._constructor = node ? new apiviewer.dao.Method(node.children[0], this, node.type) : "";
-        return this._constructor;
       }
+
+      var node = apiviewer.TreeUtil.getChild(this.getNode(), "constructor");
+      if (node)
+      {
+        this._constructor = new apiviewer.dao.Method(node.children[0], this, node.type);
+      }
+      else
+      {
+        this._constructor = "";
+        var superClass = this.getSuperClass();
+        while (superClass)
+        {
+          var superConstructor = superClass.getConstructor();
+          if (superConstructor)
+          {
+            var node = superConstructor.getNode();
+            this._constructor = new apiviewer.dao.Method(node, this, "constructor");
+            break;
+          }
+          superClass = superClass.getSuperClass();
+        }
+      }
+      return this._constructor;
     },
 
 
