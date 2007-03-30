@@ -19,6 +19,34 @@
 #
 ################################################################################
 
+##
+#<h2>Module Description</h2>
+#<pre>
+# NAME
+#  tree.py -- providing a tree data structure
+#
+# SYNTAX
+#  tree.py --help
+#
+#  or
+#
+#  import tree
+#  result = tree.Node()
+#
+#  creates a new tree node
+#
+# DESCRIPTION
+#  The main provision by this module is the Node class. This lets you create
+#  arbitrary trees made out of linked nodes (parent - child relation).
+#
+#</pre>
+##
+
+
+##                                                                              
+# Some nice short description of Foo
+#                                                                               
+# @param a Number of foos to bar
 class NodeAccessException (Exception):
     def __init__ (self, msg, node):
         Exception.__init__(self, msg)

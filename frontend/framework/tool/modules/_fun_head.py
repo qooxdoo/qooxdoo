@@ -6,7 +6,8 @@
 # @keyparam  b        Describe a keyword parameter
 # @def       foo(name)    # overwrites auto-generated function signature
 # @param     name     Describe aliased parameter
-# @return             The return type
+# @return             Description of the things returned
+# @defreturn          The return type
 # @exception IOError  The error it throws
 #
 def foo(a,b):
