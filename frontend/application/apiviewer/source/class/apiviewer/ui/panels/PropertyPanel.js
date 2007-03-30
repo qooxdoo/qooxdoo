@@ -131,8 +131,15 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
         // Add allowed values
         var allowedValue = null;
 
-        if (node.getPossibleValues()) {
-          allowedValue = node.getPossibleValues();
+        possibleValues = node.getPossibleValues()
+        if (possibleValues) {
+          if (node.isNullable()) {
+            possibleValues += ", null";
+          }
+          allowedValue =
+            "<span class='item-detail-param-name'>" +
+            possibleValues.split(", ").join("</span>, <span class='item-detail-param-name'>") +
+            "</span>";
         } else if (node.getClassname()) {
           allowedValue = "instances of " + node.getClassname();
         } else if (node.getInstance()) {
@@ -146,9 +153,6 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
         if (allowedValue)
         {
           textHtml.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "Allowed values:", ClassViewer.DIV_END, ClassViewer.DIV_START_DETAIL_TEXT);
-          if (node.isNullable()) {
-            textHtml.add("null, ");
-          }
           textHtml.add(allowedValue, ClassViewer.DIV_END);
         }
 
@@ -167,7 +171,9 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
         textHtml.add(
           ClassViewer.DIV_START_DETAIL_HEADLINE, "Default value:", ClassViewer.DIV_END,
           ClassViewer.DIV_START_DETAIL_TEXT,
+          '<span class="item-detail-param-name">',
           (node.getDefaultValue() ? node.getDefaultValue() : "null"),
+          '</span>',
           ClassViewer.DIV_END
         );
 
