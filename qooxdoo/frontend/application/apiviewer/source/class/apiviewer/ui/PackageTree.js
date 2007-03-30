@@ -144,7 +144,9 @@ qx.Class.define("apiviewer.ui.PackageTree",
      */
     selectTreeNodeByClassName : function(className)
     {
-      var treeNode = this._classTreeNodeHash[this._currentTreeType||apiviewer.ui.PackageTree.PACKAGE_TREE][className];
+      var treeNode =
+        this._classTreeNodeHash[this._currentTreeType ||
+        apiviewer.ui.PackageTree.PACKAGE_TREE][className];
 
       if (treeNode) {
         treeNode.setSelected(true);
@@ -237,6 +239,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
       for (var i=0; i<childClassNameArr.length; i++)
       {
         var childClassDocNode = apiviewer.dao.Class.getClassByName(childClassNameArr[i]);
+        this.__createInheritanceNode(classTreeNode, childClassDocNode);
       }
     }
 
