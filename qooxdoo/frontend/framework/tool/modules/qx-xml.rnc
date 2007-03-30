@@ -128,4 +128,4 @@ attlist.event &=
   attribute name { text },
   attribute hasError { "true" | "false" }?
 function |= notAllowed
-start = doctree
+start = package

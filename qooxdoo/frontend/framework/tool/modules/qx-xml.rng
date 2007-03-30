@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Doctree -->
 <grammar xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <!-- Doctree -->
   <define name="doctree">
     <element name="doctree">
       <ref name="attlist.doctree"/>
@@ -559,8 +559,6 @@
     <notAllowed/>
   </define>
   <start>
-    <choice>
-      <ref name="doctree"/>
-    </choice>
+    <ref name="package"/>
   </start>
 </grammar>
