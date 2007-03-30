@@ -5252,11 +5252,8 @@ qx.Class.define("qx.ui.core.Widget",
       {
         var vAppearanceManager = qx.manager.object.AppearanceManager.getInstance();
 
-        var vOldAppearanceThemeObject = vAppearanceManager.getThemeById(vOldAppearanceTheme);
-        var vNewAppearanceThemeObject = vAppearanceManager.getThemeById(vNewAppearanceTheme);
-
-        var vOldAppearanceProperties = vAppearanceManager.styleFromTheme(vOldAppearanceThemeObject, vAppearance);
-        var vNewAppearanceProperties = vAppearanceManager.styleFromTheme(vNewAppearanceThemeObject, vAppearance);
+        var vOldAppearanceProperties = vAppearanceManager.styleFromTheme(vOldAppearanceTheme, vAppearance);
+        var vNewAppearanceProperties = vAppearanceManager.styleFromTheme(vNewAppearanceTheme, vAppearance);
 
         for (var vProp in vOldAppearanceProperties)
         {
