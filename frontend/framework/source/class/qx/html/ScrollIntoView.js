@@ -111,7 +111,7 @@ qx.Class.define("qx.html.ScrollIntoView",
           break;
         }
 
-        vParent = vParent.parentNode;
+        vParent = vParent.offsetParent;
       }
 
       return true;
@@ -185,7 +185,7 @@ qx.Class.define("qx.html.ScrollIntoView",
           break;
         }
 
-        vParent = vParent.parentNode;
+        vParent = vParent.offsetParent;
       }
 
       return true;
