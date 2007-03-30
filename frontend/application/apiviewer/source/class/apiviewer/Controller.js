@@ -137,7 +137,7 @@ qx.Class.define("apiviewer.Controller",
         }
         catch(exc)
         {
-          this.error("Selecting item '" + itemName + "' failed", exc);
+          this.error("Selecting item '" + e.getData() + "' failed", exc);
         }
       }, this);
     },
