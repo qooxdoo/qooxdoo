@@ -1459,6 +1459,13 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
                                             this._onCellEditorModalWindowClose,
                                             this);
 
+          // If there's a pre-open function defined for the table...
+          var f = table.getModalCellEditorPreOpenFunction();
+          if (f != null)
+          {
+            f(this._cellEditor, cellInfo);
+          }
+
           // Open it now.
           this._cellEditor.open();
         }
