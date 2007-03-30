@@ -368,6 +368,29 @@ qx.Class.define("qx.ui.table.Table",
 
 
     /**
+     * A function to call when before modal cell editor is opened.
+     *
+     * @signature function(cellEditor, cellInfo)
+     *
+     * @param cellEditor {qx.ui.window.Window}
+     *   The modal window which has been created for this cell editor
+     *
+     * @param cellInfo {Map}
+     *   Information about the cell for which this cell editor was created.
+     *   It contains the following properties:
+     *       col, row, xPos, value
+     *
+     * @return {void}
+     */
+    modalCellEditorPreOpenFunction :
+    {
+      _legacy      : true,
+      type         : "function",
+      defaultValue : null
+    },
+
+
+    /**
      * A function to instantiate a selection manager.  this allows subclasses of
      * Table to subclass this internal class.  To take effect, this property must
      * be set before calling the Table constructor.
