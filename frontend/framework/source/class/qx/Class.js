@@ -77,8 +77,8 @@ qx.Class.define("qx.Class",
     */
 
     /**
-     * Define a new class using the qooxdoo class system. This sets up the namespace for the class and
-     * constructs the class from the definition map.
+     * Define a new class using the qooxdoo class system. This sets up the 
+     * namespace for the class and generates the class from the definition map.
      *
      * Example:
      * <pre><code>
@@ -100,25 +100,25 @@ qx.Class.define("qx.Class",
      *   properties:
      *   {
      *     "tabIndexOld": { type: "number", defaultValue : -1, _legacy : true }
-     *     "tabIndex": { type: "number", init : -1 }
+     *     "tabIndex": { check: "Number", init : -1 }
      *   },
      *
      *   members:
      *   {
-     *     publicProperty: "foo",
+     *     publicField: "foo",
      *     publicMethod: function() {},
      *
-     *     _protectedProperty: "bar",
+     *     _protectedField: "bar",
      *     _protectedMethod: function() {},
      *
-     *     __privateProperty: "baz",
+     *     __privateField: "baz",
      *     __privateMethod: function() {}
      *   }
      * });
      * </code></pre>
      *
      * @type static
-     * @param name {String} class name
+     * @param name {String} Name of the class
      * @param config {Map ? null} Class definition structure. The configuration map has the following keys:
      *     <table>
      *       <tr><th>Name</th><th>Type</th><th>Description</th></tr>
@@ -151,11 +151,12 @@ qx.Class.define("qx.Class",
         var config = {};
       }
 
-      // Normalize include and implement to arrays
+      // Normalize include to array
       if (config.include && !(config.include instanceof Array)) {
         config.include = [config.include];
       }
 
+      // Normalize implement to array
       if (config.implement && !(config.implement instanceof Array)) {
         config.implement = [config.implement];
       }
@@ -170,10 +171,10 @@ qx.Class.define("qx.Class",
         this.__validateConfig(name, config);
       }
 
-      // Create class
+      // Create the class
       var clazz = this.__createClass(name, config.type, config.extend, config.statics, config.construct, config.destruct);
 
-      // Members, Properties, Events and Mixins are not available in static classes
+      // Members, properties, events and mixins are only allowed for non-static classes
       if (config.extend)
       {
         var superclass = config.extend;
@@ -188,11 +189,12 @@ qx.Class.define("qx.Class",
           this.__addMembers(clazz, config.members, true, true);
         }
 
-        // Process Events
+        // Process events
         if (config.events) {
           this.__addEvents(clazz, config.events, true);
         }
 
+        // Include mixins.
         // Must be the last here to detect conflicts
         if (config.include)
         {
@@ -247,12 +249,12 @@ qx.Class.define("qx.Class",
 
 
     /**
-     * Creates a given namespace and assigns the given object to the last part.
+     * Creates a namespace and assigns the given object to it.
      *
      * @type static
-     * @param name {String} The namespace including the last (class) name
-     * @param object {Object} The data to attach to the namespace
-     * @return {Object} last part of the namespace (e.g. classname)
+     * @param name {String} The complete namespace including the last (class) name
+     * @param object {Object} The object to attach to the namespace
+     * @return {Object} last part of the namespace (i.e. classname)
      * @throws TODOC
      */
     createNamespace : function(name, object)
@@ -281,13 +283,13 @@ qx.Class.define("qx.Class",
       // store object
       parent[part] = object;
 
-      // return last part name (e.g. classname)
+      // return last part name (i.e. classname)
       return part;
     },
 
 
     /**
-     * Determine if class exists
+     * Whether the given class exists
      *
      * @type static
      * @param name {String} class name to check
@@ -299,18 +301,18 @@ qx.Class.define("qx.Class",
 
 
     /**
-     * Determine the number of classes which are defined
+     * Determine the total number of classes
      *
      * @type static
-     * @return {Number} the number of classes
+     * @return {Number} the total number of classes
      */
-    getNumber : function() {
+    getTotalNumber : function() {
       return qx.lang.Object.getLength(this.__registry);
     },
 
 
     /**
-     * Returns a Class by name
+     * Find a class by its name
      *
      * @type static
      * @param name {String} class name to resolve
@@ -322,13 +324,13 @@ qx.Class.define("qx.Class",
 
 
     /**
-     * Include all features of the Mixin into the given clazz. The Mixin must not include
-     * any functions or properties which are already available. This is only possible using
-     * the hackier patch method.
+     * Include all features of the given mixin into the class. The mixin must 
+     * not include any methods or properties that are already available in the
+     * class. This would only be possible using the {@link #patch} method.
      *
      * @type static
-     * @param clazz {Class} A class previously defined where the stuff should be attached.
-     * @param mixin {Mixin} Include all features of this Mixin
+     * @param clazz {Class} An existing class which should be modified by including the mixin.
+     * @param mixin {Mixin} The mixin to be included.
      */
     include : function(clazz, mixin)
     {
@@ -341,15 +343,18 @@ qx.Class.define("qx.Class",
 
 
     /**
-     * Include all features of the Mixin into the given clazz. The Mixin can include features
-     * which are already defined in the target clazz. Existing stuff gets overwritten. Please
-     * be aware that this functionality is not the preferred way.
+     * Include all features of the given mixin into the class. The mixin may
+     * include features which are already defined in the target class. Existing 
+     * features of equal name will be overwritten. 
+     * Please keep in mind that this functionality is not intented for regular
+     * use, but as a formalized way (and a last resort) in order to patch 
+     * existing classes.
      *
-     * <b>WARNING</b>: You can damage working classes and features.
+     * <b>WARNING</b>: You may break working classes and features.
      *
      * @type static
-     * @param clazz {Class} A class previously defined where the stuff should be attached.
-     * @param mixin {Mixin} Include all features of this Mixin
+     * @param clazz {Class} An existing class which should be modified by including the mixin.
+     * @param mixin {Mixin} The mixin to be included.
      */
     patch : function(clazz, mixin)
     {
@@ -362,12 +367,13 @@ qx.Class.define("qx.Class",
 
 
     /**
-     * Check whether clazz is a sub class of vSuperClass
+     * Whether a class is a direct or indirect sub class of another class,
+     * or both classes coincide.
      *
      * @type static
      * @param clazz {Class} the class to check.
-     * @param superClass {Class} super class
-     * @return {Boolean} whether clazz is a sub class of vSuperClass.
+     * @param superClass {Class} the potential super class
+     * @return {Boolean} whether clazz is a sub class of superClass.
      */
     isSubClassOf : function(clazz, superClass)
     {
@@ -388,7 +394,7 @@ qx.Class.define("qx.Class",
 
 
     /**
-     * Returns the property definition of the given property. Returns null
+     * Returns the definition of the given property. Returns null
      * if the property does not exist.
      *
      * TODO: Correctly support refined properties?
@@ -415,14 +421,14 @@ qx.Class.define("qx.Class",
 
     /**
      * Returns the class or one of its superclasses which contains the
-     * property declaration for the given property. Returns null
+     * declaration for the given property in its class definition. Returns null
      * if the property is not specified anywhere.
      *
      * @param clazz {Class} class to look for the property
      * @param name {String} name of the property
-     * @return {Class | null} The class which has the includes definition for this mixin
+     * @return {Class | null} The class which includes the property
      */
-    findProperty : function(clazz, name)
+    getByProperty : function(clazz, name)
     {
       while (clazz)
       {
@@ -438,12 +444,12 @@ qx.Class.define("qx.Class",
 
 
     /**
-     * Whether the class has the given property
+     * Whether a class has the given property
      *
      * @type member
      * @param clazz {Class} class to check
-     * @param name {String} name of the event to check for
-     * @return {Boolean} whether the object support the given event.
+     * @param name {String} name of the property to check for
+     * @return {Boolean} whether the class includes the given property.
      */
     hasProperty : function(clazz, name) {
       return !!this.getPropertyDefinition(clazz, name);
@@ -456,8 +462,8 @@ qx.Class.define("qx.Class",
      *
      * @type member
      * @param clazz {Class} class to check
-     * @param name {String} name of the event to check for
-     * @return {Map|null} whether the object support the given event.
+     * @param name {String} name of the event
+     * @return {Map|null} Event type of the given event.
      */
     getEventType : function(clazz, name)
     {
@@ -477,12 +483,12 @@ qx.Class.define("qx.Class",
 
 
     /**
-     * Whether the class supports the given event type
+     * Whether a class supports the given event type
      *
      * @type member
      * @param clazz {Class} class to check
      * @param name {String} name of the event to check for
-     * @return {Boolean} whether the object support the given event.
+     * @return {Boolean} whether the class supports the given event.
      */
     supportsEvent : function(clazz, name) {
       return !!this.getEventType(clazz, name);
@@ -490,12 +496,12 @@ qx.Class.define("qx.Class",
 
 
     /**
-     * Whether a given class includes a mixin.
+     * Whether a class directly includes a mixin.
      *
      * @type static
      * @param clazz {Class} class to check
      * @param mixin {Mixin} the mixin to check for
-     * @return {Boolean} whether the class includes the mixin.
+     * @return {Boolean} whether the class includes the mixin directly.
      */
     hasOwnMixin: function(clazz, mixin) {
       return clazz.$$includes && clazz.$$includes.indexOf(mixin) !== -1;
@@ -504,14 +510,14 @@ qx.Class.define("qx.Class",
 
     /**
      * Returns the class or one of its superclasses which contains the
-     * includes declaration for the given mixin. Returns null
-     * if the mixin is not specified anywhere.
+     * declaration for the given mixin. Returns null if the mixin is not 
+     * specified anywhere.
      *
      * @param clazz {Class} class to look for the mixin
      * @param mixin {Mixin} mixin to look for
-     * @return {Class | null} The class which has the includes definition for this mixin
+     * @return {Class | null} The class which directly includes the given mixin
      */
-    findMixin : function(clazz, mixin)
+    getByMixin : function(clazz, mixin)
     {
       var list, i, l;
 
@@ -537,7 +543,7 @@ qx.Class.define("qx.Class",
 
 
     /**
-     * Returns a list of all mixins used by a class.
+     * Returns a list of all mixins available in a given class.
      *
      * @param clazz {Class} class which should be inspected
      * @return {Mixin[]} array of mixins this class uses
@@ -560,7 +566,7 @@ qx.Class.define("qx.Class",
 
 
     /**
-     * Whether a given class includes a mixin (recursive).
+     * Whether a given class or any of its superclasses includes a given mixin.
      *
      * @type static
      * @param clazz {Class} class to check
@@ -568,12 +574,12 @@ qx.Class.define("qx.Class",
      * @return {Boolean} whether the class includes the mixin.
      */
     hasMixin: function(clazz, mixin) {
-      return !!this.findMixin(clazz, mixin);
+      return !!this.getByMixin(clazz, mixin);
     },
 
 
     /**
-     * Whether a given class includes a interface.
+     * Whether a given class directly includes a interface.
      *
      * This function will only return "true" if the interface was defined
      * in the class declaration (@link qx.Class#define}) using the "implement"
@@ -582,7 +588,7 @@ qx.Class.define("qx.Class",
      * @type static
      * @param clazz {Class} class or instance to check
      * @param iface {Interface} the interface to check for
-     * @return {Boolean} whether the class includes the mixin.
+     * @return {Boolean} whether the class includes the mixin directly.
      */
     hasOwnInterface : function(clazz, iface) {
       return clazz.$$implements && clazz.$$implements.indexOf(iface) !== -1;
@@ -591,14 +597,14 @@ qx.Class.define("qx.Class",
 
     /**
      * Returns the class or one of its superclasses which contains the
-     * implements declaration for the given interface. Returns null
-     * if the interface is not specified anywhere.
+     * declaration of the given interface. Returns null if the interface is not 
+     * specified anywhere.
      *
      * @param clazz {Class} class to look for the interface
      * @param iface {Interface} interface to look for
-     * @return {Class | null} the class which has the implements definition for this interface
+     * @return {Class | null} the class which directly implements the given interface
      */
-    findInterface : function(clazz, iface)
+    getByInterface : function(clazz, iface)
     {
       var list, i, l;
 
@@ -624,7 +630,7 @@ qx.Class.define("qx.Class",
 
 
     /**
-     * Returns a list of all mixins used by a class.
+     * Returns a list of all mixins available in a class.
      *
      * @param clazz {Class} class which should be inspected
      * @return {Mixin[]} array of mixins this class uses
@@ -647,7 +653,7 @@ qx.Class.define("qx.Class",
 
 
     /**
-     * Whether a given class includes a interface (recursive).
+     * Whether a given class or any of its superclasses includes a given interface.
      *
      * This function will return "true" if the interface was defined
      * in the class declaration (@link qx.Class#define}) of the class
@@ -660,21 +666,21 @@ qx.Class.define("qx.Class",
      * @return {Boolean} whether the class includes the interface.
      */
     hasInterface : function(clazz, iface) {
-      return !!this.findInterface(clazz, iface);
+      return !!this.getByInterface(clazz, iface);
     },
 
 
     /**
-     * Wether a given class conforms to an interface.
+     * Whether a given class conforms to an interface.
      *
      * Checks whether all methods defined in the interface are
-     * implemented in the class. The class does not needs to declare
-     * the interfaces directly.
+     * implemented in the class. The class does not need to implement
+     * the interface explicitly.
      *
      * @type static
      * @param clazz {Class} class to check
      * @param iface {Interface} the interface to check for
-     * @return {Boolean} whether the class includes the interface.
+     * @return {Boolean} whether the class conforms to the interface.
      */
     implementsInterface : function(clazz, iface)
     {
@@ -694,7 +700,7 @@ qx.Class.define("qx.Class",
 
 
     /**
-     * Helper to handle singletons
+     * Helper method to handle singletons
      *
      * @type static
      * @internal
@@ -723,7 +729,7 @@ qx.Class.define("qx.Class",
     */
 
     /**
-     * This method will be attached to all class to return
+     * This method will be attached to all classes to return
      * a nice identifier for them.
      *
      * @internal
@@ -738,7 +744,7 @@ qx.Class.define("qx.Class",
     __registry : {},
 
 
-    /** {Map} allowed keys in class definition */
+    /** {Map} allowed keys in non-static class definition */
     __allowedKeys : qx.core.Variant.select("qx.debug",
     {
       "on":
@@ -779,7 +785,7 @@ qx.Class.define("qx.Class",
 
 
     /**
-     * Validates incoming configuration and checks keys and values
+     * Validates an incoming configuration and checks for proper keys and values
      *
      * @type static
      * @param name {String} The name of the class
@@ -902,12 +908,12 @@ qx.Class.define("qx.Class",
      *
      * @type static
      * @param name {String} Full name of the class
-     * @param type {String} type of the class.
-     * @param extend {clazz} Superclass to inherit from
-     * @param statics {Map} Static methods field
-     * @param construct {Function} Constructor of the new class
-     * @param destruct {Function} Destructor of the new class
-     * @return {Class} The resulting class
+     * @param type {String} type of the class, i.e. "static", "abstract" or "singleton"
+     * @param extend {Class} Superclass to inherit from
+     * @param statics {Map} Static methods or fields
+     * @param construct {Function} Constructor of the class
+     * @param destruct {Function} Destructor of the class
+     * @return {Class} The generated class
      */
     __createClass : function(name, type, extend, statics, construct, destruct)
     {
@@ -1016,7 +1022,7 @@ qx.Class.define("qx.Class",
     */
 
     /**
-     * Attach events to the clazz
+     * Attach events to the class
      *
      * @param clazz {Class} class to add the events to
      * @param events {Map} map of event names the class fires.
@@ -1147,7 +1153,7 @@ qx.Class.define("qx.Class",
         if (has && patch && !compat)
         {
           if (!config.refine) {
-            throw new Error('Could not refine property "' + name + '" without a "refine" flag in the property definition! This class: ' + clazz.classname + ', original class: ' + this.findProperty(clazz, name).classname + '.');
+            throw new Error('Could not refine property "' + name + '" without a "refine" flag in the property definition! This class: ' + clazz.classname + ', original class: ' + this.getByProperty(clazz, name).classname + '.');
           }
 
           for (var key in config)
@@ -1256,7 +1262,7 @@ qx.Class.define("qx.Class",
         // directly used by this class. It is allowed however, to have an interface
         // included multiple times by extends in the interfaces etc.
         if (this.hasOwnInterface(clazz, iface)) {
-          throw new Error('Interface "' + iface.name + '" is already used by Class "' + clazz.classname + '" by class: ' + this.findMixin(clazz, mixin).classname + '!');
+          throw new Error('Interface "' + iface.name + '" is already used by Class "' + clazz.classname + '" by class: ' + this.getByMixin(clazz, mixin).classname + '!');
         }
 
         // Check interface and wrap members
@@ -1295,7 +1301,7 @@ qx.Class.define("qx.Class",
         }
 
         if (this.hasMixin(clazz, mixin)) {
-          throw new Error('Mixin "' + mixin.name + '" is already included into Class "' + clazz.classname + '" by class: ' + this.findMixin(clazz, mixin).classname + '!');
+          throw new Error('Mixin "' + mixin.name + '" is already included into Class "' + clazz.classname + '" by class: ' + this.getByMixin(clazz, mixin).classname + '!');
         }
       }
 

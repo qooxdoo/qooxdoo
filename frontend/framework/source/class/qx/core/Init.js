@@ -231,12 +231,12 @@ qx.Class.define("qx.core.Init",
         this.debug("loaded " + qx.lang.Object.getLength(qx.OO.classes) + " old classes");
       }
 
-      this.debug("loaded " + qx.Class.getNumber() + " classes");
-      this.debug("loaded " + qx.Interface.getNumber() + " interfaces");
-      this.debug("loaded " + qx.Mixin.getNumber() + " mixins");
+      this.debug("loaded " + qx.Class.getTotalNumber() + " classes");
+      this.debug("loaded " + qx.Interface.getTotalNumber() + " interfaces");
+      this.debug("loaded " + qx.Mixin.getTotalNumber() + " mixins");
 
       if (qx.Theme) {
-        this.debug("loaded " + qx.Theme.getNumber() + " themes");
+        this.debug("loaded " + qx.Theme.getTotalNumber() + " themes");
       }
 
       if (qx.locale && qx.locale.Manager) {
