@@ -135,7 +135,7 @@ qx.Class.define("qx.Theme",
      * @type static
      * @return {Number} the number of classes
      */
-    getNumber : function() {
+    getTotalNumber : function() {
       return qx.lang.Object.getLength(this.__registry);
     },
 
