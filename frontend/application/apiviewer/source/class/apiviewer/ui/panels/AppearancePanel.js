@@ -152,7 +152,7 @@ qx.Class.define("apiviewer.ui.panels.AppearancePanel", {
             var desc = state.getDocNode().getDescription();
 
             if (desc) {
-              textHtml.add(" ", apiviewer.ui.panels.InfoPanel.resolveLinkAttributes(desc, node.getClass()));
+              textHtml.add(" ", apiviewer.ui.panels.InfoPanel.resolveLinkAttributes(desc, state.getClass()));
             }
 
             textHtml.add("</p></div>");

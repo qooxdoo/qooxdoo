@@ -40,9 +40,8 @@
  * @state anchor Set by {@link qx.manager.selection.SelectionManager#renderItemAnchorState}
  * @state lead Set by {@link qx.manager.selection.SelectionManager#renderItemLeadState}
  *
- * @state disabled Set by {@link #enabled}
+ * @state disabled Set by {@link qx.core.Object#enabled}
  * @state focused Set by {@link #focused}
- *
  */
 qx.Class.define("qx.ui.core.Widget",
 {
