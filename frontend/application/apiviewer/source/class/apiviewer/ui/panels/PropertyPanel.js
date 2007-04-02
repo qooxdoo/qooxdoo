@@ -55,8 +55,11 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
           "{@link #" + access + "reset" + name + "}</td><td> Reset the property value.",
           "{@link #" + access + "init" + name + "}</td><td> Call apply method with the init value."
         ];
+
+        console.log("Name: " + node.getName() + " :: " + node.getType())
+
         if (node.getType() == "Boolean") {
-          generatedMethods.push(access + "toggle" + name + "</td><td> Toggle the property value.");
+          generatedMethods.push("{@link #" + access + "toggle" + name + "}</td><td> Toggle the property value.");
         }
 
         var ClassViewer = apiviewer.ui.ClassViewer;
