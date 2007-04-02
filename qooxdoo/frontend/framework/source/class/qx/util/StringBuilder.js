@@ -188,18 +188,5 @@ qx.Class.define("qx.util.StringBuilder",
     toString : function() {
       return this.get();
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this._disposeFields("_array", "_string");
   }
 });
