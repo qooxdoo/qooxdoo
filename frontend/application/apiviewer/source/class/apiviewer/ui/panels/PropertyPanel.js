@@ -64,11 +64,11 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
 
         var ClassViewer = apiviewer.ui.ClassViewer;
         var textHtml = new qx.util.StringBuilder();
-        textHtml.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "Generated methods:", ClassViewer.DIV_END, ClassViewer.DIV_START_DETAIL_TEXT);
+        textHtml.add('<div class="item-detail-headline">', "Generated methods:", '</div>', '<div class="item-detail-text">');
         textHtml.add("<table><tr><td>");
         textHtml.add(generatedMethods.join("</td></tr><tr><td>"));
         textHtml.add("</td></tr></table>");
-        textHtml.add(ClassViewer.DIV_END);
+        textHtml.add('</div>');
         return apiviewer.ui.panels.InfoPanel.resolveLinkAttributes(textHtml.get(), currentClassDocNode);
     },
 
@@ -90,11 +90,11 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
       {
         var ClassViewer = apiviewer.ui.ClassViewer;
         var textHtml = new qx.util.StringBuilder();
-        textHtml.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "Property attributes:", ClassViewer.DIV_END, ClassViewer.DIV_START_DETAIL_TEXT);
+        textHtml.add('<div class="item-detail-headline">', "Property attributes:", '</div>', '<div class="item-detail-text">');
         textHtml.add("<ul><li>");
         textHtml.add(attributes.join("</li><li>"));
         textHtml.add("</li></ul>");
-        textHtml.add(ClassViewer.DIV_END);
+        textHtml.add('</div>');
         return textHtml.get();
       }
       else
@@ -155,68 +155,68 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
 
         if (allowedValue)
         {
-          textHtml.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "Allowed values:", ClassViewer.DIV_END, ClassViewer.DIV_START_DETAIL_TEXT);
-          textHtml.add(allowedValue, ClassViewer.DIV_END);
+          textHtml.add('<div class="item-detail-headline">', "Allowed values:", '</div>', '<div class="item-detail-text">');
+          textHtml.add(allowedValue, '</div>');
         }
 
         // Add check
         if (node.getCheck())
         {
           textHtml.add(
-            ClassViewer.DIV_START_DETAIL_HEADLINE, "Check:", ClassViewer.DIV_END,
-            ClassViewer.DIV_START_DETAIL_TEXT,
+            '<div class="item-detail-headline">', "Check:", '</div>',
+            '<div class="item-detail-text">',
             node.getCheck(),
-            ClassViewer.DIV_END
+            '</div>'
           );
         }
 
         // Add default value
         textHtml.add(
-          ClassViewer.DIV_START_DETAIL_HEADLINE, "Default value:", ClassViewer.DIV_END,
-          ClassViewer.DIV_START_DETAIL_TEXT,
+          '<div class="item-detail-headline">', "Default value:", '</div>',
+          '<div class="item-detail-text">',
           '<code>',
           (node.getDefaultValue() ? node.getDefaultValue() : "null"),
           '</code>',
-          ClassViewer.DIV_END
+          '</div>'
         );
 
         // Add get alias
         if (node.getGetAlias()) {
           textHtml.add(
-            ClassViewer.DIV_START_DETAIL_HEADLINE, "Get alias:", ClassViewer.DIV_END,
-            ClassViewer.DIV_START_DETAIL_TEXT, node.getGetAlias(), ClassViewer.DIV_END
+            '<div class="item-detail-headline">', "Get alias:", '</div>',
+            '<div class="item-detail-text">', node.getGetAlias(), '</div>'
           );
         }
 
         // Add set alias
         if (node.getSetAlias()) {
           textHtml.add(
-            ClassViewer.DIV_START_DETAIL_HEADLINE, "Set alias:", ClassViewer.DIV_END,
-            ClassViewer.DIV_START_DETAIL_TEXT, node.getSetAlias(), ClassViewer.DIV_END
+            '<div class="item-detail-headline">', "Set alias:", '</div>',
+            '<div class="item-detail-text">', node.getSetAlias(), '</div>'
           );
         }
 
         // add event
         if (node.getEvent()) {
           textHtml.add(
-            ClassViewer.DIV_START_DETAIL_HEADLINE, "Change event:", ClassViewer.DIV_END,
-            ClassViewer.DIV_START_DETAIL_TEXT,
+            '<div class="item-detail-headline">', "Change event:", '</div>',
+            '<div class="item-detail-text">',
             apiviewer.ui.panels.InfoPanel.createItemLinkHtml(
               "#"+node.getEvent(), node.getClass(), true, true
             ),
-            ClassViewer.DIV_END
+            '</div>'
           );
         }
 
         // add apply method
         if (node.getApplyMethod()) {
           textHtml.add(
-            ClassViewer.DIV_START_DETAIL_HEADLINE, "Apply method:", ClassViewer.DIV_END,
-            ClassViewer.DIV_START_DETAIL_TEXT,
+            '<div class="item-detail-headline">', "Apply method:", '</div>',
+            '<div class="item-detail-text">',
             apiviewer.ui.panels.InfoPanel.createItemLinkHtml(
               "#"+node.getApplyMethod(), node.getClass(), true, true
             ),
-            ClassViewer.DIV_END
+            '</div>'
           );
         }
 

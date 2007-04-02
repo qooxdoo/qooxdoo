@@ -141,53 +141,26 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     },
 
 
-    /** {int} The node type of a constructor. */
+    /** {Integer} The node type of a constructor. */
     NODE_TYPE_CONSTRUCTOR : 1,
 
-    /** {int} The node type of an event. */
+    /** {Integer} The node type of an event. */
     NODE_TYPE_EVENT : 2,
 
-    /** {int} The node type of a property. */
+    /** {Integer} The node type of a property. */
     NODE_TYPE_PROPERTY : 3,
 
-    /** {int} The node type of a public method. */
+    /** {Integer} The node type of a public method. */
     NODE_TYPE_METHOD : 4,
 
-    /** {int} The node type of a static public method. */
+    /** {Integer} The node type of a static public method. */
     NODE_TYPE_METHOD_STATIC : 5,
 
-    /** {int} The node type of a constant. */
+    /** {Integer} The node type of a constant. */
     NODE_TYPE_CONSTANT : 6,
 
-    /** {int} The node type of a appearance. */
+    /** {Integer} The node type of a appearance. */
     NODE_TYPE_APPEARANCE : 7,
-
-    /** {string} The start tag of a div. */
-    DIV_START : '<div>',
-
-    /** {string} The start tag of a div containing an item description. */
-    DIV_START_DESC : '<div class="item-desc">',
-
-    /** {string} The start tag of a div containing the headline of an item headline. */
-    DIV_START_DETAIL_HEADLINE : '<div class="item-detail-headline">',
-
-    /** {string} The start tag of a div containing the text of an item detail. */
-    DIV_START_DETAIL_TEXT : '<div class="item-detail-text">',
-
-    /** {string} The start tag of a div containing the headline of an item error. */
-    DIV_START_ERROR_HEADLINE : '<div class="item-detail-error">',
-
-    /** {string} The end tag of a div. */
-    DIV_END : '</div>',
-
-    /** {string} The start tag of a span containing an optional detail. */
-    SPAN_START_OPTIONAL : '<span class="item-detail-optional">',
-
-    /** {string} The start tag of a span containing a parameter name. */
-    SPAN_START_PARAM_NAME : '<span class="item-detail-param-name">',
-
-    /** {string} The end tag of a span. */
-    SPAN_END : '</span>',
 
 
     /**
@@ -341,7 +314,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       html.add('<h1></h1>');
 
       // Add description
-      html.add(ClassViewer.DIV_START, ClassViewer.DIV_END);
+      html.add('<div>', '</div>');
 
       // Add constructor info
       var constructorPanel = new apiviewer.ui.panels.MethodPanel(ClassViewer.NODE_TYPE_CONSTRUCTOR, "constructor", "constructor", false, true);
@@ -583,7 +556,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
 
       for (var i=classHierarchy.length-1; i>=0; i--)
       {
-        classHtml.add(ClassViewer.DIV_START);
+        classHtml.add('<div>');
         classHtml.add(
           ClassViewer.createImageHtml("api/image/nextlevel.gif", null, "margin-left:" + indent + "px"),
           ClassViewer.createImageHtml(apiviewer.TreeUtil.getIconUrl(classHierarchy[i]))
@@ -596,7 +569,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
         }
 
         indent += 18;
-        classHtml.add(ClassViewer.DIV_END);
+        classHtml.add('</div>');
       }
       return classHtml.get();
     },

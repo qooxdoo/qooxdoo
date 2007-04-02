@@ -266,8 +266,8 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
         {
           // We had @see attributes
           seeAlsoHtml.add(
-            ClassViewer.DIV_START_DETAIL_HEADLINE, "See also:", ClassViewer.DIV_END,
-            ClassViewer.DIV_START_DETAIL_TEXT, seeAlsoHtml, ClassViewer.DIV_END
+            '<div class="item-detail-headline">', "See also:", '</div>',
+            '<div class="item-detail-text">', seeAlsoHtml, '</div>'
           )
           return seeAlsoHtml.get()
         }
@@ -294,10 +294,10 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
        )
      {
        var html = new qx.util.StringBuilder(
-         ClassViewer.DIV_START_DETAIL_HEADLINE, "Inherited from:", ClassViewer.DIV_END,
-         ClassViewer.DIV_START_DETAIL_TEXT,
+         '<div class="item-detail-headline">', "Inherited from:", '</div>',
+         '<div class="item-detail-text">',
          apiviewer.ui.panels.InfoPanel.createItemLinkHtml(node.getClass().getFullName()+"#"+node.getName()),
-         ClassViewer.DIV_END
+         '</div>'
        );
        return html.get();
      }
@@ -320,10 +320,10 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
       if (node.getOverriddenFrom())
       {
         var html = new qx.util.StringBuilder(
-          ClassViewer.DIV_START_DETAIL_HEADLINE, "Overridden from:", ClassViewer.DIV_END,
-          ClassViewer.DIV_START_DETAIL_TEXT,
+          '<div class="item-detail-headline">', "Overridden from:", '</div>',
+          '<div class="item-detail-text">',
           apiviewer.ui.panels.InfoPanel.createItemLinkHtml(node.getOverriddenFrom().getFullName()+"#"+node.getName()),
-          ClassViewer.DIV_END
+          '</div>'
         );
         return html.get();
       }
@@ -348,10 +348,10 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
       {
         if (node.getClass().getType() == "mixin") {
           var html = new qx.util.StringBuilder(
-            ClassViewer.DIV_START_DETAIL_HEADLINE, "Included from mixin:", ClassViewer.DIV_END,
-            ClassViewer.DIV_START_DETAIL_TEXT,
+            '<div class="item-detail-headline">', "Included from mixin:", '</div>',
+            '<div class="item-detail-text">',
             apiviewer.ui.panels.InfoPanel.createItemLinkHtml(node.getClass().getFullName()+"#"+node.getName()),
-            ClassViewer.DIV_END
+            '</div>'
           );
           return html.get();
         }
@@ -380,7 +380,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
         if (!showDetails) {
           desc = this.__extractFirstSentence(desc);
         }
-        return apiviewer.ui.ClassViewer.DIV_START_DESC + this.resolveLinkAttributes(desc, node.getClass()) + apiviewer.ui.ClassViewer.DIV_END;
+        return '<div class="item-desc">' + this.resolveLinkAttributes(desc, node.getClass()) + '</div>';
       }
       else
       {
@@ -536,19 +536,19 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
       if (errors.length > 0)
       {
         var html = new qx.util.StringBuilder(
-          ClassViewer.DIV_START_ERROR_HEADLINE, "Documentation errors:", ClassViewer.DIV_END
+          '<div class="item-detail-error">', "Documentation errors:", '</div>'
         );
 
         for (var i=0; i<errors.length; i++)
         {
-          html.add(ClassViewer.DIV_START_DETAIL_TEXT, errors[i].attributes.msg, " <br/>");
+          html.add('<div class="item-detail-text">', errors[i].attributes.msg, " <br/>");
           html.add("(");
 
           if (node.getClass() != currentClassDocNode) {
             html.add(node.getClass().getFullName(), "; ");
           }
 
-          html.add("Line: ", errors[i].attributes.line, ", Column:", errors[i].attributes.column + ")", ClassViewer.DIV_END);
+          html.add("Line: ", errors[i].attributes.line, ", Column:", errors[i].attributes.column + ")", '</div>');
         }
 
         return html.get();
@@ -576,16 +576,16 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
 
       var ClassViewer = apiviewer.ui.ClassViewer;
       var html = new qx.util.StringBuilder();
-      html.add(ClassViewer.DIV_START_ERROR_HEADLINE, "Deprecated:", ClassViewer.DIV_END);
+      html.add('<div class="item-detail-error">', "Deprecated:", '</div>');
 
-      html.add(ClassViewer.DIV_START_DETAIL_TEXT);
+      html.add('<div class="item-detail-text">');
       var desc = node.getDeprecationText();
       if (desc) {
         html.add(desc);
       } else {
         html.add("This ", itemName, " is deprecated!");
       }
-      html.add(ClassViewer.DIV_END);
+      html.add('</div>');
       return html.get();
     },
 
@@ -605,8 +605,8 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
 
       var ClassViewer = apiviewer.ui.ClassViewer;
       var html = new qx.util.StringBuilder();
-      html.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "Access:", ClassViewer.DIV_END);
-      html.add(ClassViewer.DIV_START_DETAIL_TEXT);
+      html.add('<div class="item-detail-headline">', "Access:", '</div>');
+      html.add('<div class="item-detail-text">');
       var access = [];
       if (node.isPrivate()) {
         access.push("private");
@@ -618,7 +618,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
         access.push("protected");
       }
       html.add(access.join(" "));
-      html.add(ClassViewer.DIV_END);
+      html.add('</div>');
       return html.get();
     },
 
@@ -636,12 +636,12 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
       var html = new qx.util.StringBuilder();
       var requiredBy = node.getRequiredBy();
       if (requiredBy.length > 0) {
-        html.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "Required by:", ClassViewer.DIV_END);
+        html.add('<div class="item-detail-headline">', "Required by:", '</div>');
         for (var i=0; i<requiredBy.length; i++) {
           html.add(
-            ClassViewer.DIV_START_DETAIL_TEXT,
+            '<div class="item-detail-text">',
             apiviewer.ui.panels.InfoPanel.createItemLinkHtml(requiredBy[i].getFullName()+"#"+node.getName()),
-            ClassViewer.DIV_END
+            '</div>'
           );
         }
       }

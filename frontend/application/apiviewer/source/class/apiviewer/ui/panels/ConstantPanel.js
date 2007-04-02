@@ -79,10 +79,10 @@ qx.Class.define("apiviewer.ui.panels.ConstantPanel", {
       var ClassViewer = apiviewer.ui.ClassViewer;
       if (this.__hasConstantValueHtml(node)) {
         html = new qx.util.StringBuilder(
-          ClassViewer.DIV_START_DETAIL_HEADLINE, "Value: ",
-          ClassViewer.DIV_END, ClassViewer.DIV_START_DETAIL_TEXT,
+          '<div class="item-detail-headline">', "Value: ",
+          '</div>', '<div class="item-detail-text">',
           qx.html.String.escape(qx.io.Json.stringify(node.getValue())),
-          ClassViewer.DIV_END
+          '</div>'
         )
         return html.get();
       } else {

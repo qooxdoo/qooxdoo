@@ -117,9 +117,9 @@ qx.Class.define("apiviewer.ui.panels.AppearancePanel", {
 
       var textHtml = new qx.util.StringBuilder();
       textHtml.add(
-        ClassViewer.DIV_START_DESC,
+        '<div class="item-desc">',
         apiviewer.ui.panels.InfoPanel.createDescriptionHtml(node, true),
-        ClassViewer.DIV_END
+        '</div>'
       );
 
       if (showDetails)
@@ -128,7 +128,7 @@ qx.Class.define("apiviewer.ui.panels.AppearancePanel", {
 
         if (states.length > 0)
         {
-          textHtml.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "States:", ClassViewer.DIV_END);
+          textHtml.add('<div class="item-detail-headline">', "States:", '</div>');
 
           for (var i=0; i<states.length; i++)
           {
@@ -158,7 +158,7 @@ qx.Class.define("apiviewer.ui.panels.AppearancePanel", {
             textHtml.add("</p></div>");
           }
 
-          textHtml.add(ClassViewer.DIV_END);
+          textHtml.add('</div>');
         }
       }
 
