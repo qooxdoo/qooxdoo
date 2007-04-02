@@ -61,11 +61,6 @@ qx.Class.define("qx.ui.basic.Atom",
       this.setOrientation("horizontal");
     }
 
-    // Width should be automatically determined.  (This can't go in the
-    // appearance until such time as appearance settings can be easily
-    // overridden on a per-widget basis.)
-    this.setWidth("auto");
-
     // Prohibit selection
     this.setSelectable(false);
 
